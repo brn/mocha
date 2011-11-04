@@ -3,6 +3,7 @@
 *.log
 *.dep
 *.status
+*.deps
 Makefile
 config.h
 stamp-h1

@@ -132,21 +132,6 @@
     <ClCompile Include="..\..\..\src\xml_setting_info.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\tinyxml\tinystr.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tinyxml\tinyxml.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlerror.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlparser.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tinyxml\xmltest.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ast_state.h">
@@ -336,12 +321,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\yylex.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\tinyxml\tinystr.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\tinyxml\tinyxml.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
