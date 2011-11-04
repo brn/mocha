@@ -1,0 +1,8 @@
+*.o
+*.gch
+*.log
+*.dep
+*.status
+Makefile
+config.h
+stamp-h1

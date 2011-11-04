@@ -1,0 +1,73 @@
+#include <string.h>
+#include <boost/unordered_map.hpp>
+#include "compiler_starter.h"
+#include "thread.h"
+#include "handle.h"
+#include "file_observer.h"
+#include "xml_setting_info.h"
+
+namespace mocha {
+
+class FileObserver::FileUpdater : public IUpdater {
+  friend class FileObserver;
+ public :
+  void Update( watch_traits::Modify* trait ) {
+    const char* filename = trait->filename;
+    if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
+      Mutex* mutex = mutex_list_[ filename ].get();
+      MutexLock lock( (*mutex) );
+      Thread thread;
+      const char* name = filename;
+      char* hname = new char[ strlen( name ) + 1 ];
+      strcpy( hname , name );
+      if ( !thread.Create ( CompilerStarter::ThreadRunner , hname ) ) {
+        fprintf ( stderr,"thread create fail." );
+      }
+      thread.Join();
+    }
+  }
+  void Update( watch_traits::DeleteSelf* trait ) {
+    const char* filename = trait->filename;
+    if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
+      Mutex* mutex = mutex_list_[ filename ].get();
+      MutexLock lock( (*mutex) );
+      List::iterator ret = mutex_list_.find( filename );
+      if ( mutex_list_.end() != ret ) {
+        mutex_list_.erase( ret );
+      }
+    }
+  }
+ private :
+  typedef boost::unordered_map<std::string,Handle<Mutex> > List;
+  List mutex_list_;
+};
+
+FileObserver::FileObserver() : file_updater_( new FileUpdater ) {}
+
+void FileObserver::Run() {
+  Initialize_();
+  Thread thread;
+  if ( !thread.Create( FileObserver::ThreadRunner_ , &file_watcher_ ) ) {
+    Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
+  } else {
+    thread.Detach();
+  }
+}
+
+void* FileObserver::ThreadRunner_ ( void* arg ) {
+  FileWatcher* watcher = reinterpret_cast<FileWatcher*>( arg );
+  watcher->Start();
+}
+
+void FileObserver::Initialize_() {
+  XMLSettingInfo::IterateFileList<FileObserver>( &FileObserver::RegistFile_ , this );
+}
+
+void FileObserver::RegistFile_( const char* filename ) {
+  printf( "regist %s\n" ,filename );
+  Handle<Mutex> handle( new Mutex() );
+  file_updater_->mutex_list_[filename] = handle;
+  file_watcher_.AddWatch( filename , file_updater_.Get() , FileWatcher::kModify );
+}
+
+}

@@ -1,0 +1,3 @@
+#! /bin/sh
+make
+mkdir -p bin && mkdir -p bin/linux/ && mv src/mocha bin/linux/mocha > /dev/null 2>&1

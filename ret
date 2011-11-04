@@ -1,0 +1,438 @@
+log : Parse
+log : ParseStart_
+dir path = /home/brn/.mocha
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+include
+log : ProcessIncludeNode_
+log : include xml file = /var/samba/back/mocha/include.xml
+log : Parse
+log : GetPath_
+relative path = /var/samba/back/mocha/include.xml
+current = /var/samba/back/mocha
+real path = /var/samba/back/mocha/include.xml
+full path = /var/samba/back/mocha/include.xml
+log : ParseStart_
+dir path = /var/samba/back/mocha
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/./sample//short.js
+file name = /var/samba/back/mocha/sample/short.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/./sample//short3.js
+file name = /var/samba/back/mocha/sample/short3.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+log : ProcessIncludeNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : Read_
+log : ProcessNode_
+include
+log : ProcessIncludeNode_
+log : include xml file = /var/samba/back/mocha/test/mains/include.xml
+log : Parse
+log : GetPath_
+relative path = /var/samba/back/mocha/test/mains/include.xml
+current = /var/samba/back/mocha
+real path = /var/samba/back/mocha/test/mains/include.xml
+full path = /var/samba/back/mocha/test/mains/include.xml
+log : ParseStart_
+dir path = /var/samba/back/mocha/test/mains
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/test/mains/.//./pr_main.js
+file name = /var/samba/back/mocha/test/mains/pr_main.js
+deploy path is /var/samba/back/mocha/test/mains/.//./../deploy/
+log : ProcessFileNode_ end
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/test/mains/.//./ab_main.js
+file name = /var/samba/back/mocha/test/mains/ab_main.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+log : ProcessIncludeNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+regist /home/brn/.mocha/setting.xml
+regist /var/samba/back/mocha/include.xml
+regist /var/samba/back/mocha/test/mains/include.xml
+regist :/var/samba/back/mocha/sample/short.js
+regist :/var/samba/back/mocha/sample/short3.js
+regist :/var/samba/back/mocha/test/mains/pr_main.js
+regist :/var/samba/back/mocha/test/mains/ab_main.js
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:24:08 2011
+ Fri Nov  4 04:24:08 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ Wed Nov  2 00:01:26 2011
+
+149 /var/samba/back/mocha/test/mains/ab_main.js Tue May 31 11:25:37 2011
+ Tue May 31 11:25:37 2011
+
+557 /var/samba/back/mocha/test/mains/pr_main.js Fri Nov  4 03:30:09 2011
+ Fri Nov  4 03:30:09 2011
+
+83 /var/samba/back/mocha/sample/short3.js Tue Nov  1 23:48:57 2011
+ Tue Nov  1 23:48:57 2011
+
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:24:08 2011
+ Fri Nov  4 04:24:08 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ Wed Nov  2 00:01:26 2011
+
+149 /var/samba/back/mocha/test/mains/ab_main.js Tue May 31 11:25:37 2011
+ Tue May 31 11:25:37 2011
+
+557 /var/samba/back/mocha/test/mains/pr_main.js Fri Nov  4 03:30:09 2011
+ Fri Nov  4 03:30:09 2011
+
+83 /var/samba/back/mocha/sample/short3.js Tue Nov  1 23:48:57 2011
+ Tue Nov  1 23:48:57 2011
+
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:24:08 2011
+ Fri Nov  4 04:24:08 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ Wed Nov  2 00:01:26 2011
+
+149 /var/samba/back/mocha/test/mains/ab_main.js Tue May 31 11:25:37 2011
+ Tue May 31 11:25:37 2011
+
+557 /var/samba/back/mocha/test/mains/pr_main.js Fri Nov  4 03:30:09 2011
+ Fri Nov  4 03:30:09 2011
+
+83 /var/samba/back/mocha/sample/short3.js Tue Nov  1 23:48:57 2011
+ Tue Nov  1 23:48:57 2011
+
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:24:08 2011
+ Fri Nov  4 04:24:08 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ Wed Nov  2 00:01:26 2011
+
+149 /var/samba/back/mocha/test/mains/ab_main.js Tue May 31 11:25:37 2011
+ Tue May 31 11:25:37 2011
+
+557 /var/samba/back/mocha/test/mains/pr_main.js Fri Nov  4 03:30:09 2011
+ Fri Nov  4 03:30:09 2011
+
+83 /var/samba/back/mocha/sample/short3.js Tue Nov  1 23:48:57 2011
+ Tue Nov  1 23:48:57 2011
+
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:25:22 2011
+ Fri Nov  4 04:24:08 2011
+
+log : Parse
+log : GetPath_
+
+log : ParseStart_
+dir path = /home/brn/.mocha
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+include
+log : ProcessIncludeNode_
+log : include xml file = /var/samba/back/mocha/include.xml
+log : Parse
+log : GetPath_
+relative path = /var/samba/back/mocha/include.xml
+current = /var/samba/back/mocha
+real path = /var/samba/back/mocha/include.xml
+full path = /var/samba/back/mocha/include.xml
+log : ParseStart_
+dir path = /var/samba/back/mocha
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/./sample//short.js
+file name = /var/samba/back/mocha/sample/short.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/./sample//short3.js
+file name = /var/samba/back/mocha/sample/short3.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+log : ProcessIncludeNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : Read_
+log : ProcessNode_
+include
+log : ProcessIncludeNode_
+log : include xml file = /var/samba/back/mocha/test/mains/include.xml
+log : Parse
+log : GetPath_
+relative path = /var/samba/back/mocha/test/mains/include.xml
+current = /var/samba/back/mocha
+real path = /var/samba/back/mocha/test/mains/include.xml
+full path = /var/samba/back/mocha/test/mains/include.xml
+log : ParseStart_
+dir path = /var/samba/back/mocha/test/mains
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/test/mains/.//./pr_main.js
+file name = /var/samba/back/mocha/test/mains/pr_main.js
+deploy path is /var/samba/back/mocha/test/mains/.//./../deploy/
+log : ProcessFileNode_ end
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/test/mains/.//./ab_main.js
+file name = /var/samba/back/mocha/test/mains/ab_main.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+log : ProcessIncludeNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+regist /home/brn/.mocha/setting.xml
+regist /var/samba/back/mocha/include.xml
+regist /var/samba/back/mocha/test/mains/include.xml
+regist :/var/samba/back/mocha/sample/short.js
+regist :/var/samba/back/mocha/sample/short3.js
+regist :/var/samba/back/mocha/test/mains/pr_main.js
+regist :/var/samba/back/mocha/test/mains/ab_main.js
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ Wed Nov  2 00:01:26 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+149 /var/samba/back/mocha/test/mains/ab_main.js Tue May 31 11:25:37 2011
+ Tue May 31 11:25:37 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:25:22 2011
+ Fri Nov  4 04:25:22 2011
+
+557 /var/samba/back/mocha/test/mains/pr_main.js Fri Nov  4 03:30:09 2011
+ Fri Nov  4 03:30:09 2011
+
+83 /var/samba/back/mocha/sample/short3.js Tue Nov  1 23:48:57 2011
+ Tue Nov  1 23:48:57 2011
+
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ Wed Nov  2 00:01:26 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:25:22 2011
+ Fri Nov  4 04:25:22 2011
+
+149 /var/samba/back/mocha/test/mains/ab_main.js Tue May 31 11:25:37 2011
+ Tue May 31 11:25:37 2011
+
+557 /var/samba/back/mocha/test/mains/pr_main.js Fri Nov  4 03:30:09 2011
+ Fri Nov  4 03:30:09 2011
+
+83 /var/samba/back/mocha/sample/short3.js Tue Nov  1 23:48:57 2011
+ Tue Nov  1 23:48:57 2011
+
+/home/brn/.mocha/setting.xml Thu Nov  3 09:32:12 2011
+ Thu Nov  3 09:32:12 2011
+
+/var/samba/back/mocha/include.xml Wed Nov  2 05:59:19 2011
+ Wed Nov  2 05:59:19 2011
+
+/var/samba/back/mocha/test/mains/include.xml Fri Nov  4 04:25:24 2011
+ Fri Nov  4 04:25:22 2011
+
+174 /var/samba/back/mocha/sample/short.js Wed Nov  2 00:01:26 2011
+ ` Nov  2 00:01:26 2011
+
+log : Parse
+log : GetPath_
+
+log : ParseStart_
+dir path = /home/brn/.mocha
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+include
+log : ProcessIncludeNode_
+log : include xml file = /var/samba/back/mocha/include.xml
+log : Parse
+log : GetPath_
+relative path = /var/samba/back/mocha/include.xml
+current = /var/samba/back/mocha
+real path = /var/samba/back/mocha/include.xml
+full path = /var/samba/back/mocha/include.xml
+log : ParseStart_
+dir path = /var/samba/back/mocha
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/./sample//short.js
+file name = /var/samba/back/mocha/sample/short.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : Read_
+log : ProcessNode_
+dir
+log : ProcessDirNode_
+log : ProcessFileNode_
+watch file name = /var/samba/back/mocha/./sample//short3.js
+file name = /var/samba/back/mocha/sample/short3.js
+log : ProcessFileNode_ end
+log : ProcessDirNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ProcessSettingNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : ParseStart_ end
+log : Parse end
+log : ProcessIncludeNode_ end
+log : ProcessNode_ end
+log : Read_ end
+log : Read_
+log : ProcessNode_
+include
+log : ProcessIncludeNode_
+log : include xml file = /var/samba/back/mocha/test/mains/include.xml
+log : Parse
+log : GetPath_
+relative path = /var/samba/back/mocha/test/mains/include.xml
+current = /var/samba/back/mocha
+real path = /var/samba/back/mocha/test/mains/include.xml
+full path = /var/samba/back/mocha/test/mains/include.xml
+log : ParseStart_
+dir path = /var/samba/back/mocha/test/mains
+log : Read_
+log : ProcessNode_
+settings
+log : ProcessSettingNode_
+log : Read_
+log : ProcessNode_

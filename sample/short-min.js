@@ -1,0 +1,1 @@
+(function () {var _LINE_=0;window.onerror=function (error){try{throw new SyntaxError(error + ' in : ' + _LINE_)}catch(e){throw (e.description)?e.description : e.message;}};(function () {throw new Error('Undefined reference to the Function::main in module main.')})();})();
