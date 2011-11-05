@@ -4,6 +4,14 @@
 *.dep
 *.status
 *.deps
+*.obj
+*.tlog
+*.pdb
+*.ilk
+*.idb
+*.user
+*.lastbuildstate
+*.manifest
 Makefile
 config.h
 stamp-h1
