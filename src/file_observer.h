@@ -1,7 +1,7 @@
 #ifndef mocha_file_observer_h_
 #define mocha_file_observer_h_
 
-
+#include "useconfig.h"
 #include "scoped_ptr.h"
 #include "file_watcher.h"
 

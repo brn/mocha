@@ -31,7 +31,7 @@ class XMLReader {
   void ProcessModuleOption_( const char* filename , const char* module );
   void ProcessFilePath_( const char* filename );
   
-  ScopedList<char> scoped_char_;
+  ScopedStrList scoped_char_;
 
   static const char setting_[];
   static const char file_[];

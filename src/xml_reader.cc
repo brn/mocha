@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include "ptr_release.h"
 #include "xml_reader.h"
 #include "file_system.h"
 #include "file_io.h"
@@ -88,7 +87,7 @@ const char* XMLReader::GetPath_( const char* path , bool is_reparse ) {
     printf( "full path = %s\n" ,fullpath.get() );
     char* result = new char[ ( strlen( fullpath.get() ) + 1 ) ];
     strcpy( result , fullpath.get() );
-    INCLUDE_LIST.push_back( scoped_char_.Retain( result , ptr_release::ReleaseArray ) );
+    INCLUDE_LIST.push_back( scoped_char_.Retain( result ) );
     return result;
   }
   END(GetPath_);
@@ -184,7 +183,7 @@ void XMLReader::ProcessFilePath_( const char* filename ) {
   strcpy( insertion_name , filename );
   printf ( "file name = %s\n" , insertion_name );
   //Manage heaped ptr.
-  scoped_char_.Retain( insertion_name , ptr_release::ReleaseArray );
+  scoped_char_.Retain( insertion_name );
   FILE_LIST.push_back( insertion_name );
 }
 

@@ -58,12 +58,12 @@ grammar.tab.o: grammar.tab.cc /usr/include/stdio.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/sys/types.h /usr/include/sys/select.h \
  /usr/include/bits/select.h /usr/include/bits/sigset.h \
- /usr/include/sys/sysmacros.h /usr/include/alloca.h refcount.h \
- refcount_base.h uncopyable.h ptr_handle.h ptr_handle_base.h \
- ptr_deleter.h static.h ptr_traits.h setting.h scoped_ptr.h \
- /usr/include/c++/4.4/stdexcept ptr_release.h bootstrap.h ast_type.h \
+ /usr/include/sys/sysmacros.h /usr/include/alloca.h \
+ /usr/include/c++/4.4/stdexcept refcount.h refcount_base.h uncopyable.h \
+ ptr_handle.h ptr_handle_base.h ptr_deleter.h static.h ptr_traits.h \
+ scoped_ptr.h useconfig.h config.h scoped_ptr-impl.h ast_type.h \
  /usr/include/c++/4.4/utility /usr/include/c++/4.4/bits/stl_relops.h \
- ivisitor.h ast_visitor.h yylex.h scope.h useconfig.h config.h \
+ ivisitor.h ast_visitor.h yylex.h scope.h \
  /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map_fwd.hpp \
@@ -293,9 +293,9 @@ grammar.tab.o: grammar.tab.cc /usr/include/stdio.h \
  compiler.h compiler_starter.h managed_handle.h \
  /usr/include/c++/4.4/vector /usr/include/c++/4.4/bits/stl_vector.h \
  /usr/include/c++/4.4/bits/stl_bvector.h \
- /usr/include/c++/4.4/bits/vector.tcc file_system.h pwd.h file_watcher.h \
- virtual_directory.h grammar.tab.hh /usr/include/c++/4.4/iostream \
- stack.hh /usr/include/c++/4.4/deque \
+ /usr/include/c++/4.4/bits/vector.tcc ptr_release.h file_system.h pwd.h \
+ file_watcher.h virtual_directory.h grammar.tab.hh \
+ /usr/include/c++/4.4/iostream stack.hh /usr/include/c++/4.4/deque \
  /usr/include/c++/4.4/bits/stl_deque.h \
  /usr/include/c++/4.4/bits/deque.tcc location.hh position.hh
 
@@ -497,6 +497,8 @@ handle.h:
 
 /usr/include/alloca.h:
 
+/usr/include/c++/4.4/stdexcept:
+
 refcount.h:
 
 refcount_base.h:
@@ -513,15 +515,13 @@ static.h:
 
 ptr_traits.h:
 
-setting.h:
-
 scoped_ptr.h:
 
-/usr/include/c++/4.4/stdexcept:
+useconfig.h:
 
-ptr_release.h:
+config.h:
 
-bootstrap.h:
+scoped_ptr-impl.h:
 
 ast_type.h:
 
@@ -536,10 +536,6 @@ ast_visitor.h:
 yylex.h:
 
 scope.h:
-
-useconfig.h:
-
-config.h:
 
 /usr/include/boost/unordered_map.hpp:
 
@@ -1060,6 +1056,8 @@ managed_handle.h:
 /usr/include/c++/4.4/bits/stl_bvector.h:
 
 /usr/include/c++/4.4/bits/vector.tcc:
+
+ptr_release.h:
 
 file_system.h:
 

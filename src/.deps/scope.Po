@@ -288,9 +288,11 @@ scope.o: scope.cc /usr/include/c++/4.4/string \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp scoped_ptr.h uncopyable.h \
- ptr_release.h managed.h define.h thread.h platform.h platform_linux.h \
- /usr/include/sys/stat.h /usr/include/bits/stat.h static.h \
- managed_handle.h scoped_list.h
+ ptr_deleter.h static.h ptr_handle.h ptr_handle_base.h handle.h \
+ refcount.h refcount_base.h ptr_traits.h scoped_ptr-impl.h managed.h \
+ define.h thread.h platform.h platform_linux.h /usr/include/sys/stat.h \
+ /usr/include/bits/stat.h managed_handle.h ptr_release.h scoped_list.h \
+ scoped_list-impl.h
 
 /usr/include/c++/4.4/string:
 
@@ -998,7 +1000,23 @@ scoped_ptr.h:
 
 uncopyable.h:
 
-ptr_release.h:
+ptr_deleter.h:
+
+static.h:
+
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+handle.h:
+
+refcount.h:
+
+refcount_base.h:
+
+ptr_traits.h:
+
+scoped_ptr-impl.h:
 
 managed.h:
 
@@ -1014,8 +1032,10 @@ platform_linux.h:
 
 /usr/include/bits/stat.h:
 
-static.h:
-
 managed_handle.h:
 
+ptr_release.h:
+
 scoped_list.h:
+
+scoped_list-impl.h:

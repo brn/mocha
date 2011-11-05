@@ -3,6 +3,7 @@
 #define AstVisitor_h
 
 #include <string>
+#include "useconfig.h"
 #include "ivisitor.h"
 
 namespace mocha{

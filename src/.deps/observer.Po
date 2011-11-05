@@ -3,23 +3,33 @@ observer.o: observer.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-32.h \
  /usr/lib/gcc/i686-linux-gnu/4.4.5/include/stddef.h \
- /usr/include/xlocale.h thread.h platform.h platform_linux.h \
- /usr/include/pthread.h /usr/include/endian.h /usr/include/bits/endian.h \
- /usr/include/bits/byteswap.h /usr/include/sched.h \
- /usr/include/bits/types.h /usr/include/bits/typesizes.h \
- /usr/include/time.h /usr/include/bits/sched.h /usr/include/bits/time.h \
+ /usr/include/xlocale.h thread.h useconfig.h config.h platform.h \
+ platform_linux.h /usr/include/pthread.h /usr/include/endian.h \
+ /usr/include/bits/endian.h /usr/include/bits/byteswap.h \
+ /usr/include/sched.h /usr/include/bits/types.h \
+ /usr/include/bits/typesizes.h /usr/include/time.h \
+ /usr/include/bits/sched.h /usr/include/bits/time.h \
  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
  /usr/include/bits/environments.h /usr/include/bits/confname.h \
- /usr/include/getopt.h useconfig.h config.h /usr/include/sys/stat.h \
- /usr/include/bits/stat.h /usr/include/sys/types.h \
- /usr/include/sys/select.h /usr/include/bits/select.h \
- /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h static.h \
- /usr/include/c++/4.4/cstddef \
+ /usr/include/getopt.h /usr/include/sys/stat.h /usr/include/bits/stat.h \
+ /usr/include/sys/types.h /usr/include/sys/select.h \
+ /usr/include/bits/select.h /usr/include/bits/sigset.h \
+ /usr/include/sys/sysmacros.h static.h /usr/include/c++/4.4/cstddef \
  /usr/include/c++/4.4/i686-linux-gnu/bits/c++config.h \
  /usr/include/c++/4.4/i686-linux-gnu/bits/os_defines.h \
- /usr/include/c++/4.4/i686-linux-gnu/bits/cpu_defines.h observer.h \
- /usr/include/c++/4.4/list /usr/include/c++/4.4/bits/stl_algobase.h \
+ /usr/include/c++/4.4/i686-linux-gnu/bits/cpu_defines.h scoped_ptr.h \
+ uncopyable.h ptr_deleter.h /usr/include/stdlib.h \
+ /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+ /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/i686-linux-gnu/4.4.5/include/stdarg.h \
+ /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+ ptr_handle.h ptr_handle_base.h handle.h /usr/include/c++/4.4/stdexcept \
+ /usr/include/c++/4.4/exception /usr/include/c++/4.4/string \
+ /usr/include/c++/4.4/bits/stringfwd.h \
+ /usr/include/c++/4.4/bits/char_traits.h \
+ /usr/include/c++/4.4/bits/stl_algobase.h \
  /usr/include/c++/4.4/bits/functexcept.h \
  /usr/include/c++/4.4/exception_defines.h \
  /usr/include/c++/4.4/bits/cpp_type_traits.h \
@@ -30,11 +40,29 @@ observer.o: observer.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/c++/4.4/bits/stl_iterator_base_types.h \
  /usr/include/c++/4.4/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/4.4/bits/stl_iterator.h \
- /usr/include/c++/4.4/debug/debug.h /usr/include/c++/4.4/bits/allocator.h \
+ /usr/include/c++/4.4/debug/debug.h /usr/include/c++/4.4/bits/postypes.h \
+ /usr/include/c++/4.4/cwchar /usr/include/bits/wchar.h \
+ /usr/include/c++/4.4/bits/allocator.h \
  /usr/include/c++/4.4/i686-linux-gnu/bits/c++allocator.h \
  /usr/include/c++/4.4/ext/new_allocator.h /usr/include/c++/4.4/new \
- /usr/include/c++/4.4/exception /usr/include/c++/4.4/bits/stl_list.h \
- /usr/include/c++/4.4/initializer_list /usr/include/c++/4.4/bits/list.tcc \
+ /usr/include/c++/4.4/bits/localefwd.h \
+ /usr/include/c++/4.4/i686-linux-gnu/bits/c++locale.h \
+ /usr/include/c++/4.4/clocale /usr/include/locale.h \
+ /usr/include/bits/locale.h /usr/include/c++/4.4/iosfwd \
+ /usr/include/c++/4.4/cctype /usr/include/ctype.h \
+ /usr/include/c++/4.4/bits/ostream_insert.h \
+ /usr/include/c++/4.4/cxxabi-forced.h \
+ /usr/include/c++/4.4/bits/stl_function.h \
+ /usr/include/c++/4.4/backward/binders.h \
+ /usr/include/c++/4.4/bits/basic_string.h \
+ /usr/include/c++/4.4/ext/atomicity.h \
+ /usr/include/c++/4.4/i686-linux-gnu/bits/gthr.h \
+ /usr/include/c++/4.4/i686-linux-gnu/bits/gthr-default.h \
+ /usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h \
+ /usr/include/c++/4.4/initializer_list \
+ /usr/include/c++/4.4/bits/basic_string.tcc refcount.h refcount_base.h \
+ ptr_traits.h scoped_ptr-impl.h observer.h /usr/include/c++/4.4/list \
+ /usr/include/c++/4.4/bits/stl_list.h /usr/include/c++/4.4/bits/list.tcc \
  /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map_fwd.hpp \
@@ -47,17 +75,14 @@ observer.o: observer.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/boost/config/stdlib/libstdcpp3.hpp \
  /usr/include/boost/config/select_platform_config.hpp \
  /usr/include/boost/config/platform/linux.hpp \
- /usr/include/c++/4.4/cstdlib /usr/include/stdlib.h \
- /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
- /usr/include/alloca.h /usr/include/boost/config/posix_features.hpp \
+ /usr/include/c++/4.4/cstdlib \
+ /usr/include/boost/config/posix_features.hpp \
  /usr/include/boost/config/suffix.hpp /usr/include/c++/4.4/memory \
  /usr/include/c++/4.4/bits/stl_construct.h \
  /usr/include/c++/4.4/bits/stl_uninitialized.h \
  /usr/include/c++/4.4/bits/stl_tempbuf.h \
  /usr/include/c++/4.4/bits/stl_raw_storage_iter.h \
  /usr/include/c++/4.4/backward/auto_ptr.h /usr/include/c++/4.4/functional \
- /usr/include/c++/4.4/bits/stl_function.h \
- /usr/include/c++/4.4/backward/binders.h \
  /usr/include/boost/functional/hash_fwd.hpp \
  /usr/include/boost/functional/hash/hash_fwd.hpp \
  /usr/include/boost/detail/workaround.hpp \
@@ -75,37 +100,17 @@ observer.o: observer.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/boost/limits.hpp /usr/include/c++/4.4/limits \
  /usr/include/boost/integer/static_log2.hpp \
  /usr/include/boost/cstdint.hpp /usr/include/stdint.h \
- /usr/include/bits/wchar.h /usr/include/boost/assert.hpp \
- /usr/include/assert.h \
+ /usr/include/boost/assert.hpp /usr/include/assert.h \
  /usr/include/boost/functional/hash/detail/hash_float_generic.hpp \
- /usr/include/c++/4.4/string /usr/include/c++/4.4/bits/stringfwd.h \
- /usr/include/c++/4.4/bits/char_traits.h \
- /usr/include/c++/4.4/bits/postypes.h /usr/include/c++/4.4/cwchar \
- /usr/include/wchar.h /usr/include/stdio.h \
- /usr/lib/gcc/i686-linux-gnu/4.4.5/include/stdarg.h \
- /usr/include/c++/4.4/bits/localefwd.h \
- /usr/include/c++/4.4/i686-linux-gnu/bits/c++locale.h \
- /usr/include/c++/4.4/clocale /usr/include/locale.h \
- /usr/include/bits/locale.h /usr/include/c++/4.4/iosfwd \
- /usr/include/c++/4.4/cctype /usr/include/ctype.h \
- /usr/include/c++/4.4/bits/ostream_insert.h \
- /usr/include/c++/4.4/cxxabi-forced.h \
- /usr/include/c++/4.4/bits/basic_string.h \
- /usr/include/c++/4.4/ext/atomicity.h \
- /usr/include/c++/4.4/i686-linux-gnu/bits/gthr.h \
- /usr/include/c++/4.4/i686-linux-gnu/bits/gthr-default.h \
- /usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h \
- /usr/include/c++/4.4/bits/basic_string.tcc \
  /usr/include/boost/functional/hash/extensions.hpp \
  /usr/include/boost/detail/container_fwd.hpp \
  /usr/include/boost/unordered/detail/hash_table.hpp \
  /usr/include/boost/unordered/detail/config.hpp \
  /usr/include/c++/4.4/algorithm /usr/include/c++/4.4/bits/stl_algo.h \
  /usr/include/c++/4.4/bits/algorithmfwd.h \
- /usr/include/c++/4.4/bits/stl_heap.h /usr/include/c++/4.4/stdexcept \
- /usr/include/boost/iterator.hpp /usr/include/c++/4.4/iterator \
- /usr/include/c++/4.4/ostream /usr/include/c++/4.4/ios \
- /usr/include/c++/4.4/bits/ios_base.h \
+ /usr/include/c++/4.4/bits/stl_heap.h /usr/include/boost/iterator.hpp \
+ /usr/include/c++/4.4/iterator /usr/include/c++/4.4/ostream \
+ /usr/include/c++/4.4/ios /usr/include/c++/4.4/bits/ios_base.h \
  /usr/include/c++/4.4/bits/locale_classes.h \
  /usr/include/c++/4.4/bits/locale_classes.tcc \
  /usr/include/c++/4.4/streambuf /usr/include/c++/4.4/bits/streambuf.tcc \
@@ -283,11 +288,7 @@ observer.o: observer.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/boost/unordered/detail/hash_table_impl.hpp \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
- /usr/include/boost/utility/enable_if.hpp handle.h /usr/include/libio.h \
- /usr/include/_G_config.h /usr/include/bits/stdio_lim.h \
- /usr/include/bits/sys_errlist.h refcount.h refcount_base.h uncopyable.h \
- ptr_handle.h ptr_handle_base.h ptr_deleter.h ptr_traits.h setting.h \
- scoped_ptr.h ptr_release.h bootstrap.h file_io.h
+ /usr/include/boost/utility/enable_if.hpp file_io.h
 
 /usr/include/string.h:
 
@@ -308,6 +309,10 @@ observer.o: observer.cc /usr/include/string.h /usr/include/features.h \
 /usr/include/xlocale.h:
 
 thread.h:
+
+useconfig.h:
+
+config.h:
 
 platform.h:
 
@@ -347,10 +352,6 @@ platform_linux.h:
 
 /usr/include/getopt.h:
 
-useconfig.h:
-
-config.h:
-
 /usr/include/sys/stat.h:
 
 /usr/include/bits/stat.h:
@@ -375,9 +376,49 @@ static.h:
 
 /usr/include/c++/4.4/i686-linux-gnu/bits/cpu_defines.h:
 
-observer.h:
+scoped_ptr.h:
 
-/usr/include/c++/4.4/list:
+uncopyable.h:
+
+ptr_deleter.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/bits/waitflags.h:
+
+/usr/include/bits/waitstatus.h:
+
+/usr/include/alloca.h:
+
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.4.5/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+handle.h:
+
+/usr/include/c++/4.4/stdexcept:
+
+/usr/include/c++/4.4/exception:
+
+/usr/include/c++/4.4/string:
+
+/usr/include/c++/4.4/bits/stringfwd.h:
+
+/usr/include/c++/4.4/bits/char_traits.h:
 
 /usr/include/c++/4.4/bits/stl_algobase.h:
 
@@ -405,6 +446,12 @@ observer.h:
 
 /usr/include/c++/4.4/debug/debug.h:
 
+/usr/include/c++/4.4/bits/postypes.h:
+
+/usr/include/c++/4.4/cwchar:
+
+/usr/include/bits/wchar.h:
+
 /usr/include/c++/4.4/bits/allocator.h:
 
 /usr/include/c++/4.4/i686-linux-gnu/bits/c++allocator.h:
@@ -413,11 +460,57 @@ observer.h:
 
 /usr/include/c++/4.4/new:
 
-/usr/include/c++/4.4/exception:
+/usr/include/c++/4.4/bits/localefwd.h:
 
-/usr/include/c++/4.4/bits/stl_list.h:
+/usr/include/c++/4.4/i686-linux-gnu/bits/c++locale.h:
+
+/usr/include/c++/4.4/clocale:
+
+/usr/include/locale.h:
+
+/usr/include/bits/locale.h:
+
+/usr/include/c++/4.4/iosfwd:
+
+/usr/include/c++/4.4/cctype:
+
+/usr/include/ctype.h:
+
+/usr/include/c++/4.4/bits/ostream_insert.h:
+
+/usr/include/c++/4.4/cxxabi-forced.h:
+
+/usr/include/c++/4.4/bits/stl_function.h:
+
+/usr/include/c++/4.4/backward/binders.h:
+
+/usr/include/c++/4.4/bits/basic_string.h:
+
+/usr/include/c++/4.4/ext/atomicity.h:
+
+/usr/include/c++/4.4/i686-linux-gnu/bits/gthr.h:
+
+/usr/include/c++/4.4/i686-linux-gnu/bits/gthr-default.h:
+
+/usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h:
 
 /usr/include/c++/4.4/initializer_list:
+
+/usr/include/c++/4.4/bits/basic_string.tcc:
+
+refcount.h:
+
+refcount_base.h:
+
+ptr_traits.h:
+
+scoped_ptr-impl.h:
+
+observer.h:
+
+/usr/include/c++/4.4/list:
+
+/usr/include/c++/4.4/bits/stl_list.h:
 
 /usr/include/c++/4.4/bits/list.tcc:
 
@@ -451,14 +544,6 @@ observer.h:
 
 /usr/include/c++/4.4/cstdlib:
 
-/usr/include/stdlib.h:
-
-/usr/include/bits/waitflags.h:
-
-/usr/include/bits/waitstatus.h:
-
-/usr/include/alloca.h:
-
 /usr/include/boost/config/posix_features.hpp:
 
 /usr/include/boost/config/suffix.hpp:
@@ -476,10 +561,6 @@ observer.h:
 /usr/include/c++/4.4/backward/auto_ptr.h:
 
 /usr/include/c++/4.4/functional:
-
-/usr/include/c++/4.4/bits/stl_function.h:
-
-/usr/include/c++/4.4/backward/binders.h:
 
 /usr/include/boost/functional/hash_fwd.hpp:
 
@@ -529,61 +610,11 @@ observer.h:
 
 /usr/include/stdint.h:
 
-/usr/include/bits/wchar.h:
-
 /usr/include/boost/assert.hpp:
 
 /usr/include/assert.h:
 
 /usr/include/boost/functional/hash/detail/hash_float_generic.hpp:
-
-/usr/include/c++/4.4/string:
-
-/usr/include/c++/4.4/bits/stringfwd.h:
-
-/usr/include/c++/4.4/bits/char_traits.h:
-
-/usr/include/c++/4.4/bits/postypes.h:
-
-/usr/include/c++/4.4/cwchar:
-
-/usr/include/wchar.h:
-
-/usr/include/stdio.h:
-
-/usr/lib/gcc/i686-linux-gnu/4.4.5/include/stdarg.h:
-
-/usr/include/c++/4.4/bits/localefwd.h:
-
-/usr/include/c++/4.4/i686-linux-gnu/bits/c++locale.h:
-
-/usr/include/c++/4.4/clocale:
-
-/usr/include/locale.h:
-
-/usr/include/bits/locale.h:
-
-/usr/include/c++/4.4/iosfwd:
-
-/usr/include/c++/4.4/cctype:
-
-/usr/include/ctype.h:
-
-/usr/include/c++/4.4/bits/ostream_insert.h:
-
-/usr/include/c++/4.4/cxxabi-forced.h:
-
-/usr/include/c++/4.4/bits/basic_string.h:
-
-/usr/include/c++/4.4/ext/atomicity.h:
-
-/usr/include/c++/4.4/i686-linux-gnu/bits/gthr.h:
-
-/usr/include/c++/4.4/i686-linux-gnu/bits/gthr-default.h:
-
-/usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h:
-
-/usr/include/c++/4.4/bits/basic_string.tcc:
 
 /usr/include/boost/functional/hash/extensions.hpp:
 
@@ -600,8 +631,6 @@ observer.h:
 /usr/include/c++/4.4/bits/algorithmfwd.h:
 
 /usr/include/c++/4.4/bits/stl_heap.h:
-
-/usr/include/c++/4.4/stdexcept:
 
 /usr/include/boost/iterator.hpp:
 
@@ -986,37 +1015,5 @@ observer.h:
 /usr/include/boost/type_traits/is_class.hpp:
 
 /usr/include/boost/utility/enable_if.hpp:
-
-handle.h:
-
-/usr/include/libio.h:
-
-/usr/include/_G_config.h:
-
-/usr/include/bits/stdio_lim.h:
-
-/usr/include/bits/sys_errlist.h:
-
-refcount.h:
-
-refcount_base.h:
-
-uncopyable.h:
-
-ptr_handle.h:
-
-ptr_handle_base.h:
-
-ptr_deleter.h:
-
-ptr_traits.h:
-
-setting.h:
-
-scoped_ptr.h:
-
-ptr_release.h:
-
-bootstrap.h:
 
 file_io.h:

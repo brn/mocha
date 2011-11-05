@@ -1,26 +1,18 @@
 /* src/config.h.  Generated from config.h.in by configure.  */
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
-
-/* Define to 1 if you have the <boost/bind.hpp> header file. */
-#define HAVE_BOOST_BIND_HPP 1
-
-/* Define to 1 if you have the <boost/thread.hpp> header file. */
-#define HAVE_BOOST_THREAD_HPP 1
-
+#pragma warning(disable:4624)
+#define __func__ __FILE__
 /* Define to 1 if you have the <boost/unordered_map.hpp> header file. */
 #define HAVE_BOOST_UNORDERED_MAP_HPP 1
+
+/* Define to 1 if you have the <direct.h> header file. */
+#define HAVE_DIRECT_H 1
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
 
-/* Define to 1 if you have the `getcwd' function. */
-#define HAVE_GETCWD 1
-
-/* Define to 1 if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES_H 1
-
-/* Define to 1 if you have the <libintl.h> header file. */
-#define HAVE_LIBINTL_H 1
+/* Define to 1 if you have the <io.h> header file. */
+#define HAVE_IO_H 1
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
@@ -48,8 +40,11 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
-/* Define to 1 if you have the <sys/file.h> header file. */
-#define HAVE_SYS_FILE_H 1
+/* Define to 1 if you have struct stat */
+#define HAVE_STRUCT__STAT 1
+
+/* Define to 1 if you have the <sys/locking.h> header file. */
+#define HAVE_SYS_LOCKING_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -57,11 +52,49 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
+/* Define to 1 if you have the <time.h> header file. */
+#define HAVE_TIME_H 1
+
 /* Define to 1 if you have the <windows.h> header file. */
 #define HAVE_WINDOWS_H 1
 
+/* Define to 1 if you have the `write' function. */
+#define HAVE__WRITE 1
+
 /* Define to 1 if the system has the type `_Bool'. */
 /* #undef HAVE__BOOL */
+
+/* Define to 1 if you have the `_close' function. */
+#define HAVE__CLOSE 1
+
+/* Define to 1 if you have the `_creat' function. */
+#define HAVE__CREAT 1
+
+/* Define to 1 if you have the `_ctime64' function. */
+#define HAVE__CTIME64 1
+
+/* Define to 1 if you have the `_fullpath' function. */
+#define HAVE__FULLPATH 1
+
+/* Define to 1 if you have the `_locking' function. */
+#define HAVE__LOCKING 1
+
+/* Define to 1 if you have the `_mkdir' function. */
+#define HAVE__MKDIR 1
+
+/* Define to 1 if you have the `_open' function. */
+#define HAVE__OPEN 1
+
+/* Define to 1 if you have the `_read' function. */
+#define HAVE__READ 1
+
+/* Define to 1 if you have the `_stat' function. */
+#define HAVE__STAT 1
+
+/* Define to 1 if you have the `_write' function. */
+#define HAVE__WRITE 1
+
+#define HAVE__EXECV 1
 
 /* Name of package */
 #define PACKAGE "mocha"

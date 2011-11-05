@@ -51,16 +51,16 @@ bootstrap.o: bootstrap.cc /usr/include/stdio.h /usr/include/features.h \
  /usr/include/getopt.h \
  /usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h \
  /usr/include/c++/4.4/initializer_list \
- /usr/include/c++/4.4/bits/basic_string.tcc bootstrap.h static.h \
- file_system.h pwd.h handle.h /usr/include/stdlib.h \
+ /usr/include/c++/4.4/bits/basic_string.tcc useconfig.h config.h \
+ bootstrap.h static.h file_system.h pwd.h handle.h /usr/include/stdlib.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/sys/types.h /usr/include/sys/select.h \
  /usr/include/bits/select.h /usr/include/bits/sigset.h \
- /usr/include/sys/sysmacros.h /usr/include/alloca.h refcount.h \
- refcount_base.h uncopyable.h ptr_handle.h ptr_handle_base.h \
- ptr_deleter.h ptr_traits.h setting.h scoped_ptr.h \
- /usr/include/c++/4.4/stdexcept ptr_release.h file_watcher.h file_io.h \
- useconfig.h config.h /usr/include/boost/unordered_map.hpp \
+ /usr/include/sys/sysmacros.h /usr/include/alloca.h \
+ /usr/include/c++/4.4/stdexcept refcount.h refcount_base.h uncopyable.h \
+ ptr_handle.h ptr_handle_base.h ptr_deleter.h ptr_traits.h file_watcher.h \
+ scoped_ptr.h scoped_ptr-impl.h file_io.h \
+ /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map_fwd.hpp \
  /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
@@ -287,7 +287,7 @@ bootstrap.o: bootstrap.cc /usr/include/stdio.h /usr/include/features.h \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp thread.h platform.h \
  platform_linux.h /usr/include/sys/stat.h /usr/include/bits/stat.h \
- mocha.h commandline_options.h options.h /usr/include/string.h
+ mocha.h setting.h commandline_options.h options.h /usr/include/string.h
 
 /usr/include/stdio.h:
 
@@ -447,6 +447,10 @@ bootstrap.o: bootstrap.cc /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/c++/4.4/bits/basic_string.tcc:
 
+useconfig.h:
+
+config.h:
+
 bootstrap.h:
 
 static.h:
@@ -475,6 +479,8 @@ handle.h:
 
 /usr/include/alloca.h:
 
+/usr/include/c++/4.4/stdexcept:
+
 refcount.h:
 
 refcount_base.h:
@@ -489,21 +495,13 @@ ptr_deleter.h:
 
 ptr_traits.h:
 
-setting.h:
+file_watcher.h:
 
 scoped_ptr.h:
 
-/usr/include/c++/4.4/stdexcept:
-
-ptr_release.h:
-
-file_watcher.h:
+scoped_ptr-impl.h:
 
 file_io.h:
-
-useconfig.h:
-
-config.h:
 
 /usr/include/boost/unordered_map.hpp:
 
@@ -1018,6 +1016,8 @@ platform_linux.h:
 /usr/include/bits/stat.h:
 
 mocha.h:
+
+setting.h:
 
 commandline_options.h:
 

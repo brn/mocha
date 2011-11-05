@@ -339,7 +339,8 @@ class Scanner : private Uncopyable {
   STR tokenStack_;
   STR tmp_stack_;
   STR source_;
-  CSTIter it_;
+  int index_;
+  int max_;
   long int line_;
   //! return LINE_BREAK token or not.
   bool isLt_;

@@ -23,7 +23,7 @@ namespace mocha {
      *@constructor
      *No Arguments constructor.
      */
-    inline explicit RefCount () :
+    inline RefCount () :
       RefCountBase ( 0 ) ,
       is_free_called_ ( false ),
       ptr_handle_ ( 0 ) {};
@@ -46,6 +46,17 @@ namespace mocha {
       RefCountBase ( 1 ) ,
       is_free_called_ ( false ),
       ptr_handle_ ( new PtrHandleDeleter<T,Deleter> ( target , deleter ) ) {};
+
+
+    /*
+     *@constructor
+     *Covert constructor.
+     */
+    inline explicit RefCount ( PtrHandleBase* base ) : 
+      RefCountBase ( 1 ) ,
+      is_free_called_ ( false ),
+      ptr_handle_ ( base ) {};
+    
     
     /*
      *@destructor

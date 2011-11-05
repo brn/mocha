@@ -22,6 +22,10 @@
 
 #ifdef _WIN32
 #define HOME "HOMEPATH"
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
+#define chmod(name,permiss) _chmod(name,permiss)
 #else
 #define HOME "HOME"
 #endif
@@ -97,7 +101,7 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
 
 StrHandle FileSystem::GetUserHomeDir() {
 #ifdef _WIN32
-  return mocha::ReplaceBackSlash( getenv( HOME ) );
+  return GetAbsolutePath( getenv( HOME ) );
 #else
   char* ret = new char[ MAXPATHLEN ];
   strcpy( ret , getenv( HOME ) );
@@ -112,13 +116,13 @@ StrHandle FileSystem::GetAbsolutePath( const char* path ) {
   char* ret = new char[ MAXPATHLEN ];
   realpath( path , ret );
   printf( "current = %s\nreal path = %s\n" , pwd().get(), ret );
+  StrHandle handle( ret );
+  return handle;
 #elif HAVE__FULLPATH
   char tmp_buf[ MAXPATHLEN ];
   _fullpath( tmp_buf , path , MAXPATHLEN );
   return mocha::ReplaceBackSlash( tmp_buf );
 #endif
-  StrHandle handle( ret );
-  return handle;
 }
 
 
@@ -162,17 +166,15 @@ void FileSystem::Chdir ( const char* path ) {
 }
 
 bool FileSystem::Mkdir( const char* path , int permiss ) {
-  mocha::Mkdir( path , permiss );
+  return mocha::Mkdir( path , permiss );
 }
 
-int FileSystem::Chmod( const char* path , int permiss ) {
+bool FileSystem::Chmod( const char* path , int permiss ) {
   if ( FileIO::isExist( path ) ) {
     chmod( path , permiss );
+    return true;
   }
+  return false;
 }
 
-int FileSystem::IsDirExist ( const char* path ) {
-
-#undef HOME  
-
-}
+#undef HOME

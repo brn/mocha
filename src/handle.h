@@ -11,10 +11,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdexcept>
 #include "refcount.h"
 #include "ptr_deleter.h"
 #include "ptr_traits.h"
-#include "setting.h"
 
 namespace mocha {
 
@@ -64,6 +64,12 @@ namespace mocha {
       ptr ( ptr ),
       rc ( new RefCount<Class> ( ptr , deleter ) ) ,
       isbase ( type ){};
+
+    template <typename Class>
+    inline Handle ( Class *ptr , PtrHandleBase* base ) :
+        ptr ( ptr ),
+        rc ( new RefCount<T> ( base ) ) ,
+        isbase ( 0 ){};
     
     /**
      *@constructor
@@ -104,17 +110,14 @@ namespace mocha {
      *Delay initialize.
      */
     template <typename Class>
-    inline void operator () ( Class *ptr ) {      
-      if ( rc == 0 ) {
-        this->ptr = ptr;
-        rc = ( isbase == 0 )?
+    inline void operator () ( Class *ptr ) {
+      CheckInit_( "mocha::Handle is already initilized." , false );
+      this->ptr = ptr;
+      rc = ( isbase == 0 )?
           new RefCount <Class> ( ptr ,  PtrDeleter<Class>::deleter ):
           ( isbase == 1 )?
           new RefCount <Class> ( ptr , PtrDeleter<Class>::deleterArray ):
           new RefCount <Class> ( ptr , PtrDeleter<Class>::freePtr );
-      }else{
-        Setting::GetInstance()->LogError( "mocha::Handle is already initilized." );
-      }
     }
 
     /**
@@ -123,12 +126,9 @@ namespace mocha {
      */
     template <typename Class , typename Deleter>
     inline void operator () ( Class *ptr , Deleter deleter ) {
-      if ( rc == 0 ) {
-        this->ptr = ptr;
-        rc = new RefCount <Class> ( ptr ,  deleter );
-      }else{
-        Setting::GetInstance()->LogError( "mocha::Handle is already initilized." );
-      }
+      CheckInit_( "mocha::Handle is already initilized." , false );
+      this->ptr = ptr;
+      rc = new RefCount <Class> ( ptr ,  deleter );
     }
     
     /**
@@ -155,12 +155,9 @@ namespace mocha {
      *@public
      *Dereference pointer.
      */
-    inline PtrType operator * () const {      
-      if ( rc != 0 ) {
-        return *( ptr );
-      }else{
-        Setting::GetInstance()->LogError( "mocha::Handle::operator * called before initilized." );
-      }
+    inline PtrType operator * () const {
+      CheckInit_( "mocha::Handle::operator * called before initilized." );
+      return *( ptr );
     }
     
     /**
@@ -168,11 +165,8 @@ namespace mocha {
      *Get raw pointer.
      */
     inline T* get () const {
-      if ( rc != 0 ) {
-        return ptr;
-      }
-      Setting::GetInstance()->LogError( "mocha::Handle::get called before initilized." );
-      return 0;
+      CheckInit_( "mocha::Handle::get called before initilized." );
+      return ptr;
     }
 
     inline void unwatch () const {
@@ -186,12 +180,8 @@ namespace mocha {
      *Memeber operator.
      */
     inline T* operator -> () const {
-      if ( rc != 0 ) {
-        return ptr;
-      }else{
-        Setting::GetInstance()->LogError( "mocha::Handle::operator -> called before initilized." );
-      }
-      return 0;
+      CheckInit_( "mocha::Handle::operator -> called before initilized." );
+      return ptr;
     }
 
     inline bool operator == ( T* target ) const {
@@ -214,6 +204,14 @@ namespace mocha {
     
   private:
 
+    inline void CheckInit_( const char* message , bool is_before_init_ = true ) const {
+      if ( is_before_init_ && rc == 0 ) {
+        throw std::runtime_error( message );
+      } else if ( !is_before_init_ && rc != 0 ) {
+        throw std::runtime_error( message );
+      }
+    }
+    
     /**
      *@private
      *This class not has the property of pointer.
@@ -266,10 +264,10 @@ namespace mocha {
     {}
   };
 
-  typedef ArrayHandle<char> StrHandle;
-  typedef ArrayHandle<wchar_t> WStrHandle;
-  typedef AllocaterHandle<char> CStrHandle;
-  typedef AllocaterHandle<wchar_t> WCStrHandle;
+  typedef ArrayHandle<const char> StrHandle;
+  typedef ArrayHandle<const wchar_t> WStrHandle;
+  typedef AllocaterHandle<const char> CStrHandle;
+  typedef AllocaterHandle<const wchar_t> WCStrHandle;
 
 };
 

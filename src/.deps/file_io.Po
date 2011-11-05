@@ -284,11 +284,11 @@ file_io.o: file_io.cc file_io.h useconfig.h config.h /usr/include/stdio.h \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp handle.h refcount.h \
  refcount_base.h uncopyable.h ptr_handle.h ptr_handle_base.h \
- ptr_deleter.h static.h ptr_traits.h setting.h scoped_ptr.h ptr_release.h \
- bootstrap.h thread.h platform.h platform_linux.h /usr/include/sys/stat.h \
- /usr/include/bits/stat.h /usr/include/fcntl.h /usr/include/bits/fcntl.h \
+ ptr_deleter.h static.h ptr_traits.h thread.h platform.h platform_linux.h \
+ /usr/include/sys/stat.h /usr/include/bits/stat.h scoped_ptr.h \
+ scoped_ptr-impl.h /usr/include/fcntl.h /usr/include/bits/fcntl.h \
  /usr/include/bits/uio.h /usr/include/sys/file.h /usr/include/string.h \
- stat.h
+ stat.h setting.h bootstrap.h
 
 file_io.h:
 
@@ -994,14 +994,6 @@ static.h:
 
 ptr_traits.h:
 
-setting.h:
-
-scoped_ptr.h:
-
-ptr_release.h:
-
-bootstrap.h:
-
 thread.h:
 
 platform.h:
@@ -1011,6 +1003,10 @@ platform_linux.h:
 /usr/include/sys/stat.h:
 
 /usr/include/bits/stat.h:
+
+scoped_ptr.h:
+
+scoped_ptr-impl.h:
 
 /usr/include/fcntl.h:
 
@@ -1023,3 +1019,7 @@ platform_linux.h:
 /usr/include/string.h:
 
 stat.h:
+
+setting.h:
+
+bootstrap.h:

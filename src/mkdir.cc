@@ -13,7 +13,7 @@
 #include "static.h"
 
 #ifdef _WIN32
-#define MKDIR(path) mkdir(path)
+#define MKDIR(path) _mkdir(path)
 #else
 #define MKDIR(path) mkdir(path,0777)
 #endif
@@ -43,6 +43,10 @@ bool Mkdir( const char* path , int permiss ) {
         if ( i == 0 ) {
           FileSystem::Chdir( "/" );
         } else {
+          if ( tmp[ count - 1 ] == ':' ) {
+            tmp[ count ] = '/';
+            count++;
+          } 
           tmp[ count ] = '\0';
           Stat st( tmp );
           if ( !st.IsExist() || !st.IsDir() ) {

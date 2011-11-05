@@ -55,11 +55,10 @@ internal.o: internal.cc internal.h /usr/include/c++/4.4/string \
  /usr/include/sys/select.h /usr/include/bits/select.h \
  /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h \
  /usr/include/alloca.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h refcount.h \
- refcount_base.h uncopyable.h ptr_handle.h ptr_handle_base.h \
- ptr_deleter.h static.h ptr_traits.h setting.h scoped_ptr.h \
- /usr/include/c++/4.4/stdexcept ptr_release.h bootstrap.h define.h \
- scope.h useconfig.h config.h /usr/include/c++/4.4/list \
+ /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+ /usr/include/c++/4.4/stdexcept refcount.h refcount_base.h uncopyable.h \
+ ptr_handle.h ptr_handle_base.h ptr_deleter.h static.h ptr_traits.h \
+ define.h scope.h useconfig.h config.h /usr/include/c++/4.4/list \
  /usr/include/c++/4.4/bits/stl_list.h /usr/include/c++/4.4/bits/list.tcc \
  /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
@@ -286,11 +285,12 @@ internal.o: internal.cc internal.h /usr/include/c++/4.4/string \
  /usr/include/boost/unordered/detail/hash_table_impl.hpp \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
- /usr/include/boost/utility/enable_if.hpp managed.h thread.h platform.h \
- platform_linux.h /usr/include/sys/stat.h /usr/include/bits/stat.h \
- codegen.h file_io.h parser_tracer.h parser_connector.h ast_type.h \
- ivisitor.h ast_visitor.h scanner.h scanner_state.h file_system.h pwd.h \
- file_watcher.h compiler.h compiler_starter.h codegen_visitor.h \
+ /usr/include/boost/utility/enable_if.hpp scoped_ptr.h scoped_ptr-impl.h \
+ managed.h thread.h platform.h platform_linux.h /usr/include/sys/stat.h \
+ /usr/include/bits/stat.h codegen.h file_io.h parser_tracer.h \
+ parser_connector.h ast_type.h ivisitor.h ast_visitor.h scanner.h \
+ scanner_state.h file_system.h pwd.h file_watcher.h compiler.h \
+ compiler_starter.h codegen_visitor.h setting.h bootstrap.h \
  virtual_directory.h
 
 internal.h:
@@ -473,6 +473,8 @@ handle.h:
 
 /usr/include/bits/sys_errlist.h:
 
+/usr/include/c++/4.4/stdexcept:
+
 refcount.h:
 
 refcount_base.h:
@@ -488,16 +490,6 @@ ptr_deleter.h:
 static.h:
 
 ptr_traits.h:
-
-setting.h:
-
-scoped_ptr.h:
-
-/usr/include/c++/4.4/stdexcept:
-
-ptr_release.h:
-
-bootstrap.h:
 
 define.h:
 
@@ -1015,6 +1007,10 @@ config.h:
 
 /usr/include/boost/utility/enable_if.hpp:
 
+scoped_ptr.h:
+
+scoped_ptr-impl.h:
+
 managed.h:
 
 thread.h:
@@ -1056,5 +1052,9 @@ compiler.h:
 compiler_starter.h:
 
 codegen_visitor.h:
+
+setting.h:
+
+bootstrap.h:
 
 virtual_directory.h:

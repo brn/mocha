@@ -1,5 +1,5 @@
 bin_PROGRAMS = mocha
-AM_CFLAGS = -Wall -g -O0 -DYYDEBUG
+AM_CFLAGS = -Wall -g -O0 -DYYDEBUG -DHAVE_PTHREAD
 AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \
@@ -74,7 +74,9 @@ scanner_state.h\
 scope.cc\
 scope.h\
 scoped_ptr.h\
+scoped_ptr-impl.h\
 scoped_list.h\
+scoped_list-impl.h\
 setting.h\
 setting.cc\
 static.h\

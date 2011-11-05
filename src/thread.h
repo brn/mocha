@@ -1,9 +1,15 @@
 #ifndef mocha_thread_h_
 #define mocha_thread_h_
+#include "useconfig.h"
 #include "platform.h"
 #include "static.h"
+#include "scoped_ptr.h"
 
 namespace mocha {
+#define PTR_IMPL                                \
+  class PtrImpl;\
+  ScopedPtr<PtrImpl> implementation_
+
 class Thread{
  public :
   typedef void* (*pThreadStartFunc) ( void* param );
@@ -17,8 +23,7 @@ class Thread{
   bool IsJoinable ();
   static ThreadId GetThreadId ();
  private :
-  Thread_t thread_t_;
-  ThreadAttr_t thread_attr_t_;
+  PTR_IMPL;
 };
 
 class MutexLock;
@@ -27,9 +32,7 @@ class Mutex{
  public :
   Mutex ();
  private :
-  Mutex_t mutex_t_;
-  ThreadId thread_id_;
-  bool unlocked_;
+  PTR_IMPL;
 };
 
 class MutexLock {
@@ -40,17 +43,6 @@ class MutexLock {
  private :
   Mutex* mutex_;
   bool unlocked_;
-};
-
-class MutexCond {
- public :
-  MutexCond ();
-  ~MutexCond ();
-  void Lock ();
-  void Unlock ();
-  void Wait ();
- private :
-  static Mutex_t mutex_t_;
 };
 
 class ThreadLocalStorageKey;
@@ -69,12 +61,11 @@ class ThreadLocalStorageKey {
   ThreadLocalStorageKey ();
   void DeleteKey();
  private :
-  ThreadLocalStorageKey_t local_key_t_;
-  bool is_init_;
+  PTR_IMPL;
 };
 
 }
-
+#undef PTR_IMPL
 #endif
 
 

@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <list>
+#include "useconfig.h"
 #include "define.h"
 #include "ivisitor.h"
 #include "managed.h"

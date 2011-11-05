@@ -58,7 +58,7 @@ ast_type.o: ast_type.cc /usr/include/math.h /usr/include/features.h \
  /usr/include/c++/4.4/bits/basic_string.tcc /usr/include/c++/4.4/utility \
  /usr/include/c++/4.4/bits/stl_relops.h /usr/include/c++/4.4/list \
  /usr/include/c++/4.4/bits/stl_list.h /usr/include/c++/4.4/bits/list.tcc \
- define.h ivisitor.h managed.h scope.h useconfig.h config.h \
+ useconfig.h config.h define.h ivisitor.h managed.h scope.h \
  /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map_fwd.hpp \
@@ -285,8 +285,10 @@ ast_type.o: ast_type.cc /usr/include/math.h /usr/include/features.h \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp scoped_ptr.h uncopyable.h \
- ptr_release.h thread.h platform.h platform_linux.h \
- /usr/include/sys/stat.h /usr/include/bits/stat.h static.h
+ ptr_deleter.h static.h ptr_handle.h ptr_handle_base.h handle.h \
+ refcount.h refcount_base.h ptr_traits.h scoped_ptr-impl.h thread.h \
+ platform.h platform_linux.h /usr/include/sys/stat.h \
+ /usr/include/bits/stat.h
 
 /usr/include/math.h:
 
@@ -476,6 +478,10 @@ ast_type.h:
 
 /usr/include/c++/4.4/bits/list.tcc:
 
+useconfig.h:
+
+config.h:
+
 define.h:
 
 ivisitor.h:
@@ -483,10 +489,6 @@ ivisitor.h:
 managed.h:
 
 scope.h:
-
-useconfig.h:
-
-config.h:
 
 /usr/include/boost/unordered_map.hpp:
 
@@ -992,7 +994,23 @@ scoped_ptr.h:
 
 uncopyable.h:
 
-ptr_release.h:
+ptr_deleter.h:
+
+static.h:
+
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+handle.h:
+
+refcount.h:
+
+refcount_base.h:
+
+ptr_traits.h:
+
+scoped_ptr-impl.h:
 
 thread.h:
 
@@ -1003,5 +1021,3 @@ platform_linux.h:
 /usr/include/sys/stat.h:
 
 /usr/include/bits/stat.h:
-
-static.h:

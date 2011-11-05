@@ -1,0 +1,86 @@
+#ifndef mocha_file_watcher-win-inl_h_
+#define mocha_file_watcher-win-inl_h_
+#include <windows.h>
+#include <boost/unordered_map.hpp>
+#include "file_system.h"
+#include "file_watcher.h"
+#define SETTINGS Setting::GetInstance()
+#define GET_MASK(mask) ( type & mask ) == mask
+
+namespace mocha {
+
+namespace watcher_helper {
+DWORD GetMask() {
+  DWORD mask = 0;
+  if ( GET_MASK( FileWatcher::kModify ) ) {
+    mask |= FILE_NOTIFY_CHANGE_LAST_WRITE;
+  }
+  if ( GET_MASK( FileWatcher::kAttrib ) ) {
+    mask |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+  }
+  return mask;
+}
+}
+
+class WatcherContainer {
+ public :
+ private :
+  std::string date_;
+  const char* filename_;
+};
+
+class FileWatcher::PtrImpl {
+ public :
+  PtrImpl() {}
+  ~PtrImpl(){}
+  void AddWatch( const char* path , IUpdater *updater , int type ) {
+    Regist_( path , updater , type );
+  }
+
+  void UnWatch( const char* path ) {
+    
+  }
+
+  void UnWatchAll( const char* path , IUpdater *updater , int type ) {
+    
+  }
+
+  void Stop( const char* path , IUpdater *updater , int type ) {
+    
+  }
+
+  void Start() {
+    ProcessNotification_()
+  }
+
+ private :
+  typedef std::string DirEntry;
+  typedef std::string FileEntry;
+  typedef Handle<WatcherContainer> WatcherHandle;
+  typedef boost::unordered_map<DirEntry, WatcherHandle> WatchList;
+
+  void Regist_( const char* path , IUpdater *updater , int type ) {
+    StrHandle handle = FileSystem::GetPathInfo( path );
+    const char* dir_path = handle.get();
+    Stat stat( dir_path );
+    if ( stat.IsExist() && stat.IsDir() ) {
+      AddToWatchList_( path , dir_path , updater , watcher_helper::GetMask( type ) );
+    }
+  }
+
+  void AddToWatchList_( const char* path , const char* dir_path , IUpdater *updater , DWORD mask ) {
+    HANDLE dir_ent = FindFirstChangeNotification( dir_path , false , mask );
+    Handle watcher_handle( new WatcherContainer( path , dir_path , updater , type , dir_ent ) );
+    watch_list_[ dir_path ] = watcher_handle;
+  }
+
+  void ProcessNotification_() {
+    
+  }
+
+  WatchList watch_list_;
+};
+
+}
+
+#endif

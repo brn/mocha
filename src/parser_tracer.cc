@@ -10,6 +10,7 @@ using namespace mocha;
 
 ParserTracer::ParserTracer ( const char* filename ) :
   parser_flags_ ( 0 ),
+  parser_state_( 0 ),
   errorLine_ ( 0 ),
   filename_( filename )
 {};  

@@ -1,5 +1,8 @@
 #include "stat.h"
 #include "useconfig.h"
+#ifdef HAVE_TIME_H
+#include <time.h>
+#endif
 #ifdef HAVE_SYS_STAT_H
   #include <sys/stat.h>
 #endif
@@ -44,8 +47,6 @@ class Stat::PtrImpl {
   inline int STGId() { return fstat_->st_gid; }
   inline int STRDev() { return fstat_->st_rdev; }
   inline int STSize() { return fstat_->st_size; }
-  inline int STBlkSize() { return fstat_->st_blksize; }
-  inline int STBlocks() { return fstat_->st_blocks; }
   inline const char* STATime() { return CTIME(&(fstat_->st_atime)); }
   inline const char* STMTime() { return CTIME(&(fstat_->st_mtime)); }
   inline const char* STCTime() { return CTIME(&(fstat_->st_ctime)); }
@@ -67,8 +68,6 @@ int Stat::UId() { return implementation_->STUId(); }
 int Stat::GId() { return implementation_->STGId(); }
 int Stat::RDev() {return implementation_->STRDev(); }
 int Stat::Size() { return implementation_->STSize(); }
-int Stat::BlkSize() { return implementation_->STBlkSize(); }
-int Stat::Blocks() { return implementation_->STBlocks(); }
 const char* Stat::ATime() { return implementation_->STATime(); }
 const char* Stat::MTime() { return implementation_->STMTime(); }
 const char* Stat::CTime() { return implementation_->STCTime(); }

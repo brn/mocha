@@ -1,7 +1,7 @@
 #ifndef mocha_bootstrap_h_
 #define mocha_bootstrap_h_
-
 #include <string>
+#include "useconfig.h"
 #include "static.h"
 
 namespace mocha {

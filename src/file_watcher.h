@@ -64,5 +64,4 @@ class FileWatcher {
 };
 
 }
-
 #endif

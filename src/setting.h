@@ -1,7 +1,6 @@
 #ifndef mocha_setting_h_
 #define mocha_setting_h_
 
-#include <string>
 #include "scoped_ptr.h"
 #include "bootstrap.h"
 
@@ -15,6 +14,7 @@ class Setting {
   const char* GetXMLPath();
   const char* GetModulePath();
   const char* GetLogPath();
+  const char* GetTimeStr();
   void Close();
   void LogNoDate( const char* str , ... );
   void Log( const char* str , ... );

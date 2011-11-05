@@ -42,17 +42,16 @@ using namespace yy;
 
 #define CHECK_LT                                                        \
   if ( isLt_ &&                                                         \
-       ( type_ == ParserImplementation::token::RETURN ||                \
-         type_ == ParserImplementation::token::BREAK ||                 \
-         type_ == ParserImplementation::token::CONTINUE ||              \
-         type_ == ParserImplementation::token::THROW ) ) {              \
+       ( type_ == ParserImplementation::token::JS_RETURN ||                \
+         type_ == ParserImplementation::token::JS_BREAK ||                 \
+         type_ == ParserImplementation::token::JS_CONTINUE ||              \
+         type_ == ParserImplementation::token::JS_THROW ) ) {              \
     BackChar_ ();                                                       \
-    type_ = ParserImplementation::token::LINE_BREAK;                    \
+    type_ = ParserImplementation::token::JS_LINE_BREAK;                    \
     UNSET_LINE_BREAK;                                                               \
     return 0;                                                           \
   } else if ( end_of_block_ == false &&                                 \
               type_ != ';' &&                                           \
-              type_ != '}' &&                                           \
               type_ != '{' &&                                           \
               !tracer_->GetState ( ParserTracer::kObjectLiteralEnd ) && \
               ch == '}' ) {                                             \
@@ -60,7 +59,7 @@ using namespace yy;
     type_ = ';';                                                        \
     end_of_block_ = true;                                               \
     tokenStack_ += ';';                                                 \
-    tracer_->SetState( ParserTracer::kObjectLiteralEnd );               \
+    tracer_->EndState( ParserTracer::kObjectLiteralEnd );               \
     return &tokenStack_[0];                                             \
   } else if ( end_of_block_ == true ) {                                 \
     end_of_block_ = false;                                              \
@@ -74,7 +73,6 @@ using namespace yy;
 
 
 
-
 Scanner::Scanner ( const char* source , ParserTracer* tracer ) :  
   line_ ( 1 ),
   isLt_ ( false ),
@@ -83,7 +81,8 @@ Scanner::Scanner ( const char* source , ParserTracer* tracer ) :
   type_ ( 0 ),
   tracer_ ( tracer ) {
   source_ = source;
-  it_ = source_.begin ();
+  index_ = 0;
+  max_ = source_.size();
 };
   
 Scanner::~Scanner (){};
@@ -102,7 +101,7 @@ char* Scanner::GetToken () {
 
     if ( IsIdentStart_ ( ch ) ) {
       CaseIdent_ ( ch );
-      if ( type_ == ParserImplementation::token::LINE_BREAK ) { return 0; }
+      if ( type_ == ParserImplementation::token::JS_LINE_BREAK ) { return 0; }
       tracer_->EndState( ParserTracer::kCallExpEnd );
       RETURN_TOKEN;
     } else if ( isdigit ( ch ) ) {
@@ -125,7 +124,7 @@ char* Scanner::GetToken () {
       tracer_->EndState( ParserTracer::kCallExpEnd );
       CaseNotSingleOperator_ ( ch );
       
-      if ( ParserImplementation::token::LINE_BREAK == type_ ) {
+      if ( ParserImplementation::token::JS_LINE_BREAK == type_ ) {
         return 0;
       }
       RETURN_TOKEN;
@@ -255,18 +254,18 @@ inline bool Scanner::IsNotSingleOperator_ ( char ch ) const {
 
 inline char Scanner::GetChar_ () {
   if ( IsEof_ () ) {
-    ++it_;
+    index_++;
     return 0;
   } else {
-    char ret = (*it_);
-    ++it_;
+    char ret = source_.at( index_ );
+    index_++;
     return ret;
   }
 }
 
 inline void Scanner::BackChar_ ( int len ) {
   for ( int i = 0; i < len; i++ ) {
-    --it_;
+    index_--;
   }
 }
 
@@ -301,36 +300,35 @@ inline void Scanner::SkipComment_ () {
 }
 
 inline bool Scanner::IsEof_ () const {
-  return ( it_ == source_.end () ||
-           it_ > source_.end () )? true : false;
+  return index_ >= max_;
 }
 
 inline void Scanner::SetNumericAfter_ () {
-  if ( type_ == ParserImplementation::token::EQ ||
-       type_ == ParserImplementation::token::EQUAL ||
-       type_ == ParserImplementation::token::LOGICAL_OR ||
-       type_ == ParserImplementation::token::OR_LET ||
-       type_ == ParserImplementation::token::NOT_LET ||
-       type_ == ParserImplementation::token::GRATER_EQUAL ||
-       type_ == ParserImplementation::token::EQUAL ||
-       type_ == ParserImplementation::token::LESS_EQUAL ||
-       type_ == ParserImplementation::token::AND_LET ||
-       type_ == ParserImplementation::token::LOGICAL_AND ||
-       type_ == ParserImplementation::token::NOT_EQUAL ||
-       type_ == ParserImplementation::token::RETURN ||
-       type_ == ParserImplementation::token::INCREMENT ||
-       type_ == ParserImplementation::token::DECREMENT ||
-       type_ == ParserImplementation::token::MUL_LET ||
-       type_ == ParserImplementation::token::DIV_LET ||
-       type_ == ParserImplementation::token::MOD_LET ||
-       type_ == ParserImplementation::token::ADD_LET ||
-       type_ == ParserImplementation::token::SUB_LET ||
-       type_ == ParserImplementation::token::SHIFT_LEFT ||
-       type_ == ParserImplementation::token::SHIFT_LEFT_LET ||
-       type_ == ParserImplementation::token::SHIFT_RIGHT ||
-       type_ == ParserImplementation::token::SHIFT_RIGHT_LET ||
-       type_ == ParserImplementation::token::U_SHIFT_RIGHT ||
-       type_ == ParserImplementation::token::U_SHIFT_RIGHT_LET ||
+  if ( type_ == ParserImplementation::token::JS_EQ ||
+       type_ == ParserImplementation::token::JS_EQUAL ||
+       type_ == ParserImplementation::token::JS_LOGICAL_OR ||
+       type_ == ParserImplementation::token::JS_OR_LET ||
+       type_ == ParserImplementation::token::JS_NOT_LET ||
+       type_ == ParserImplementation::token::JS_GRATER_EQUAL ||
+       type_ == ParserImplementation::token::JS_EQUAL ||
+       type_ == ParserImplementation::token::JS_LESS_EQUAL ||
+       type_ == ParserImplementation::token::JS_AND_LET ||
+       type_ == ParserImplementation::token::JS_LOGICAL_AND ||
+       type_ == ParserImplementation::token::JS_NOT_EQUAL ||
+       type_ == ParserImplementation::token::JS_RETURN ||
+       type_ == ParserImplementation::token::JS_INCREMENT ||
+       type_ == ParserImplementation::token::JS_DECREMENT ||
+       type_ == ParserImplementation::token::JS_MUL_LET ||
+       type_ == ParserImplementation::token::JS_DIV_LET ||
+       type_ == ParserImplementation::token::JS_MOD_LET ||
+       type_ == ParserImplementation::token::JS_ADD_LET ||
+       type_ == ParserImplementation::token::JS_SUB_LET ||
+       type_ == ParserImplementation::token::JS_SHIFT_LEFT ||
+       type_ == ParserImplementation::token::JS_SHIFT_LEFT_LET ||
+       type_ == ParserImplementation::token::JS_SHIFT_RIGHT ||
+       type_ == ParserImplementation::token::JS_SHIFT_RIGHT_LET ||
+       type_ == ParserImplementation::token::JS_U_SHIFT_RIGHT ||
+       type_ == ParserImplementation::token::JS_U_SHIFT_RIGHT_LET ||
        type_ == '{' ||
        type_ == '(' ||
        type_ == '*' ||
@@ -348,18 +346,18 @@ inline void Scanner::SetNumericAfter_ () {
 }
 
 inline void Scanner::SetRegExpAfter_ () {
-  if ( type_ == ParserImplementation::token::EQ ||
-       type_ == ParserImplementation::token::EQUAL ||
-       type_ == ParserImplementation::token::LOGICAL_OR ||
-       type_ == ParserImplementation::token::OR_LET ||
-       type_ == ParserImplementation::token::NOT_LET ||
-       type_ == ParserImplementation::token::GRATER_EQUAL ||
-       type_ == ParserImplementation::token::EQUAL ||
-       type_ == ParserImplementation::token::LESS_EQUAL ||
-       type_ == ParserImplementation::token::AND_LET ||
-       type_ == ParserImplementation::token::LOGICAL_AND ||
-       type_ == ParserImplementation::token::NOT_EQUAL ||
-       type_ == ParserImplementation::token::RETURN ||
+  if ( type_ == ParserImplementation::token::JS_EQ ||
+       type_ == ParserImplementation::token::JS_EQUAL ||
+       type_ == ParserImplementation::token::JS_LOGICAL_OR ||
+       type_ == ParserImplementation::token::JS_OR_LET ||
+       type_ == ParserImplementation::token::JS_NOT_LET ||
+       type_ == ParserImplementation::token::JS_GRATER_EQUAL ||
+       type_ == ParserImplementation::token::JS_EQUAL ||
+       type_ == ParserImplementation::token::JS_LESS_EQUAL ||
+       type_ == ParserImplementation::token::JS_AND_LET ||
+       type_ == ParserImplementation::token::JS_LOGICAL_AND ||
+       type_ == ParserImplementation::token::JS_NOT_EQUAL ||
+       type_ == ParserImplementation::token::JS_RETURN ||
        type_ == '}' ||
        type_ == '|' ||
        type_ == '{' ||
@@ -392,24 +390,24 @@ inline void Scanner::CaseIdent_ ( char ch ) {
   BackChar_ ();
   type_ = JsToken::getType ( tokenStack_.c_str () );
   
-  if ( type_ == ParserImplementation::token::IDENTIFIER ||
-       type_ == ParserImplementation::token::DELETE ||
-       type_ == ParserImplementation::token::TYPEOF ||
-       type_ == ParserImplementation::token::VOID ||
-       type_ == ParserImplementation::token::IF ||
-       type_ == ParserImplementation::token::WHILE ||
-       type_ == ParserImplementation::token::FOR ||
-       type_ == ParserImplementation::token::DO ||
-       type_ == ParserImplementation::token::SWITCH ||
-       type_ == ParserImplementation::token::TRY ||
-       type_ == ParserImplementation::token::THROW ||
-       type_ == ParserImplementation::token::FUNCTION ||
-       type_ == ParserImplementation::token::CONTINUE ||
-       type_ == ParserImplementation::token::BREAK ||
-       type_ == ParserImplementation::token::VAR ) {
+  if ( type_ == ParserImplementation::token::JS_IDENTIFIER ||
+       type_ == ParserImplementation::token::JS_DELETE ||
+       type_ == ParserImplementation::token::JS_TYPEOF ||
+       type_ == ParserImplementation::token::JS_VOID ||
+       type_ == ParserImplementation::token::JS_IF ||
+       type_ == ParserImplementation::token::JS_WHILE ||
+       type_ == ParserImplementation::token::JS_FOR ||
+       type_ == ParserImplementation::token::JS_DO ||
+       type_ == ParserImplementation::token::JS_SWITCH ||
+       type_ == ParserImplementation::token::JS_TRY ||
+       type_ == ParserImplementation::token::JS_THROW ||
+       type_ == ParserImplementation::token::JS_FUNCTION ||
+       type_ == ParserImplementation::token::JS_CONTINUE ||
+       type_ == ParserImplementation::token::JS_BREAK ||
+       type_ == ParserImplementation::token::JS_VAR ) {
     if ( last_type != ';' &&
          isLt_ == true &&
-         ( last_type == ParserImplementation::token::IDENTIFIER ||
+         ( last_type == ParserImplementation::token::JS_IDENTIFIER ||
            last_type == ']' ) ){
       use_tmp_ = true;
       tmp_stack_ = &tokenStack_[0];
@@ -443,7 +441,7 @@ inline void Scanner::CaseDigit_ ( char ch ) {
     BackChar_ ();
   }
 
-  type_ = ParserImplementation::token::NUMERIC_LITERAL;
+  type_ = ParserImplementation::token::JS_NUMERIC_LITERAL;
 }
 
 inline void Scanner::CaseDigitFloat_ ( char ch ) {
@@ -701,7 +699,7 @@ inline void Scanner::CaseStringLiteral_ ( char ch ) {
 
   }
   
-  type_ = ParserImplementation::token::STRING_LITERAL;
+  type_ = ParserImplementation::token::JS_STRING_LITERAL;
 
 }
 
@@ -748,7 +746,7 @@ inline void Scanner::CaseAddAndSub_ ( char ch ) {
       
       BackChar_ ( 2 );
       UNSET_LINE_BREAK;
-      type_ = ParserImplementation::token::LINE_BREAK;
+      type_ = ParserImplementation::token::JS_LINE_BREAK;
       return;
     
     }
@@ -839,7 +837,7 @@ inline void Scanner::CaseRegExpFlag_ ( char ch ) {
   }
                 
   state_.Reset ();
-  type_ = ParserImplementation::token::REGEXP_LITERAL;
+  type_ = ParserImplementation::token::JS_REGEXP_LITERAL;
 
 }
 

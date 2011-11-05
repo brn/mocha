@@ -5,6 +5,7 @@
 #include "handle.h"
 #include "file_observer.h"
 #include "xml_setting_info.h"
+#include "setting.h"
 
 namespace mocha {
 
@@ -57,6 +58,7 @@ void FileObserver::Run() {
 void* FileObserver::ThreadRunner_ ( void* arg ) {
   FileWatcher* watcher = reinterpret_cast<FileWatcher*>( arg );
   watcher->Start();
+  return 0;
 }
 
 void FileObserver::Initialize_() {

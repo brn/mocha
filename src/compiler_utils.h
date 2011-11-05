@@ -1,6 +1,6 @@
 #ifndef mocha_compiler_utils_h_
 #define mocha_compiler_utils_h_
-
+#include "useconfig.h"
 #include "handle.h"
 
 namespace mocha {

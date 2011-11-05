@@ -81,9 +81,6 @@
     <ClCompile Include="..\..\..\src\mocha.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\observer.cc">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\observer_runner.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -130,6 +127,24 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\xml_setting_info.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\file_watcher-impl.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\thread-win-impl.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tinyxml\tinystr.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tinyxml\tinyxml.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlerror.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlparser.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -213,9 +228,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\observer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\observer_runner.h">
@@ -323,18 +335,24 @@
     <ClInclude Include="..\..\..\src\yylex.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\tinyxml\tinystr.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\tinyxml\tinyxml.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\src\grammar.tab.hh">
-      <Filter>ヘッダー ファイル</Filter>
-    </None>
     <None Include="..\..\..\src\location.hh">
       <Filter>ヘッダー ファイル</Filter>
     </None>
-    <None Include="..\..\..\src\position.hh">
+    <None Include="..\..\..\src\stack.hh">
       <Filter>ヘッダー ファイル</Filter>
     </None>
-    <None Include="..\..\..\src\stack.hh">
+    <None Include="..\..\..\src\grammar.tab.hh">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="..\..\..\src\position.hh">
       <Filter>ヘッダー ファイル</Filter>
     </None>
   </ItemGroup>

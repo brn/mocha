@@ -286,9 +286,10 @@ xml_setting_info.o: xml_setting_info.cc xml_setting_info.h \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp tinyxml/tinyxml.h \
  /usr/include/string.h tinyxml/tinystr.h scoped_list.h uncopyable.h \
- ptr_release.h bootstrap.h handle.h refcount.h refcount_base.h \
- ptr_handle.h ptr_handle_base.h ptr_deleter.h ptr_traits.h setting.h \
- scoped_ptr.h xml_setting_info-inl.h file_system.h pwd.h file_watcher.h
+ ptr_handle.h ptr_handle_base.h ptr_deleter.h scoped_list-impl.h \
+ bootstrap.h useconfig.h config.h handle.h refcount.h refcount_base.h \
+ ptr_traits.h xml_setting_info-inl.h setting.h scoped_ptr.h \
+ scoped_ptr-impl.h file_system.h pwd.h file_watcher.h
 
 xml_setting_info.h:
 
@@ -992,9 +993,19 @@ scoped_list.h:
 
 uncopyable.h:
 
-ptr_release.h:
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+ptr_deleter.h:
+
+scoped_list-impl.h:
 
 bootstrap.h:
+
+useconfig.h:
+
+config.h:
 
 handle.h:
 
@@ -1002,19 +1013,15 @@ refcount.h:
 
 refcount_base.h:
 
-ptr_handle.h:
-
-ptr_handle_base.h:
-
-ptr_deleter.h:
-
 ptr_traits.h:
+
+xml_setting_info-inl.h:
 
 setting.h:
 
 scoped_ptr.h:
 
-xml_setting_info-inl.h:
+scoped_ptr-impl.h:
 
 file_system.h:
 

@@ -103,111 +103,111 @@
 %lex-param	 { mocha::ParserConnector* connector }
 
 %left ','
-%right ADD_LET AND_LET DIV_LET MOD_LET MUL_LET NOT_LET OR_LET SHIFT_LEFT_LET SHIFT_RIGHT_LET SUB_LET U_SHIFT_RIGHT_LET
+%right JS_ADD_LET JS_AND_LET JS_DIV_LET JS_MOD_LET JS_MUL_LET JS_NOT_LET JS_OR_LET JS_SHIFT_LEFT_LET JS_SHIFT_RIGHT_LET JS_SUB_LET JS_U_SHIFT_RIGHT_LET
 %right '?'
-%right LOGICAL_OR
-%left LOGICAL_AND
+%right JS_LOGICAL_OR
+%left JS_LOGICAL_AND
 %left '|'
 %left '^'
 %left '&'
-%left EQ EQUAL NOT_EQUAL NOT_EQ
-%left '>' '<' GREATER_EQUAL LESS_EQUAL IN INSTANCEOF
-%left SHIFT_LEFT SHIFT_RIGHT U_SHIFT_RIGHT U_SHIFT_LEFT
+%left JS_EQ JS_EQUAL JS_NOT_EQUAL JS_NOT_EQ
+%left '>' '<' JS_GREATER_EQUAL JS_LESS_EQUAL JS_IN JS_INSTANCEOF
+%left JS_SHIFT_LEFT JS_SHIFT_RIGHT JS_U_SHIFT_RIGHT JS_U_SHIFT_LEFT
 %left '+' '-'
 %left '*' '/' '%'
-%right '!' '~' INCREMENT DECREMENT TYPEOF VOID DELETE
-%left '(' NEW
+%right '!' '~' JS_INCREMENT JS_DECREMENT JS_TYPEOF JS_VOID JS_DELETE
+%left '(' JS_NEW
 %left '[' '.'
 
-%token <info> ABSTRACT
-%token <info> ADD_LET
-%token <info> AND_LET
-%token <info> BOOLEAN
-%token <info> BREAK
-%token <info> BYTE
-%token <info> CASE
-%token <info> CATCH
-%token <info> CHAR
-%token <info> CLASS
-%token <info> CONST
-%token <info> CONTINUE
-%token <info> DEBUGGER
-%token <info> DECREMENT
-%token <info> DEFAULT
-%token <info> DELETE
-%token <info> DIV_LET
-%token <info> DO
-%token <info> DOUBLE
-%token <info> ELSE
-%token <info> ENUM
-%token <info> EQ
-%token <info> EQUAL
-%token <info> EXPORT
-%token <info> EXTENDS
-%token <info> FALSE
-%token <info> FINAL
-%token <info> FINALLY
-%token <info> FLOAT
-%token <info> FOR
-%token <info> FUNCTION
-%token <info> GOTO
-%token <info> GRATER_EQUAL
-%token <info> IDENTIFIER
-%token <info> IF
-%token <info> IMPLEMENTS
-%token <info> IMPORT
-%token <info> IN
-%token <info> INCREMENT
-%token <info> INSTANCEOF
-%token <info> INT
-%token <info> INTERFACE
-%token <info> LESS_EQUAL
-%token <info> LOGICAL_AND
-%token <info> LOGICAL_OR
-%token <info> LONG
-%token <info> MOD_LET
-%token <info> MUL_LET
-%token <info> NATIVE
-%token <info> NEW
-%token <info> NOT_EQ
-%token <info> NOT_EQUAL
-%token <info> NOT_LET
-%token <info> K_NULL
-%token <info> NUMERIC_LITERAL
-%token <info> OR_LET
-%token <info> PRIVATE
-%token <info> PACKAGE_RESERVED
-%token <info> PROTECTED
-%token <info> PUBLIC
-%token <info> REGEXP_LITERAL
-%token <info> RETURN
-%token <info> SHIFT_LEFT
-%token <info> SHIFT_LEFT_LET
-%token <info> SHIFT_RIGHT
-%token <info> SHIFT_RIGHT_LET
-%token <info> SHORT
-%token <info> STATIC
-%token <info> STRING_LITERAL
-%token <info> SUB_LET
-%token <info> SUPER
-%token <info> SWITCH
-%token <info> SYNCHRONIZED
-%token <info> THIS
-%token <info> THROW
-%token <info> THROWS
-%token <info> TRANSIENT
-%token <info> TRUE
-%token <info> TRY
-%token <info> TYPEOF
-%token <info> U_SHIFT_RIGHT
-%token <info> U_SHIFT_RIGHT_LET
-%token <info> VAR
-%token <info> VOID
-%token <info> VOLATILE
-%token <info> WHILE
-%token <info> WITH
-%token <info> TERMINATE
-%token <line> LINE_BREAK
+%token <info> JS_ABSTRACT
+%token <info> JS_ADD_LET
+%token <info> JS_AND_LET
+%token <info> JS_BOOLEAN
+%token <info> JS_BREAK
+%token <info> JS_BYTE
+%token <info> JS_CASE
+%token <info> JS_CATCH
+%token <info> JS_CHAR
+%token <info> JS_CLASS
+%token <info> JS_CONST
+%token <info> JS_CONTINUE
+%token <info> JS_DEBUGGER
+%token <info> JS_DECREMENT
+%token <info> JS_DEFAULT
+%token <info> JS_DELETE
+%token <info> JS_DIV_LET
+%token <info> JS_DO
+%token <info> JS_DOUBLE
+%token <info> JS_ELSE
+%token <info> JS_ENUM
+%token <info> JS_EQ
+%token <info> JS_EQUAL
+%token <info> JS_EXPORT
+%token <info> JS_EXTENDS
+%token <info> JS_FALSE
+%token <info> JS_FINAL
+%token <info> JS_FINALLY
+%token <info> JS_FLOAT
+%token <info> JS_FOR
+%token <info> JS_FUNCTION
+%token <info> JS_GOTO
+%token <info> JS_GRATER_EQUAL
+%token <info> JS_IDENTIFIER
+%token <info> JS_IF
+%token <info> JS_IMPLEMENTS
+%token <info> JS_IMPORT
+%token <info> JS_IN
+%token <info> JS_INCREMENT
+%token <info> JS_INSTANCEOF
+%token <info> JS_INT
+%token <info> JS_INTERFACE
+%token <info> JS_LESS_EQUAL
+%token <info> JS_LOGICAL_AND
+%token <info> JS_LOGICAL_OR
+%token <info> JS_LONG
+%token <info> JS_MOD_LET
+%token <info> JS_MUL_LET
+%token <info> JS_NATIVE
+%token <info> JS_NEW
+%token <info> JS_NOT_EQ
+%token <info> JS_NOT_EQUAL
+%token <info> JS_NOT_LET
+%token <info> JS_K_NULL
+%token <info> JS_NUMERIC_LITERAL
+%token <info> JS_OR_LET
+%token <info> JS_PRIVATE
+%token <info> JS_PACKAGE_RESERVED
+%token <info> JS_PROTECTED
+%token <info> JS_PUBLIC
+%token <info> JS_REGEXP_LITERAL
+%token <info> JS_RETURN
+%token <info> JS_SHIFT_LEFT
+%token <info> JS_SHIFT_LEFT_LET
+%token <info> JS_SHIFT_RIGHT
+%token <info> JS_SHIFT_RIGHT_LET
+%token <info> JS_SHORT
+%token <info> JS_STATIC
+%token <info> JS_STRING_LITERAL
+%token <info> JS_SUB_LET
+%token <info> JS_SUPER
+%token <info> JS_SWITCH
+%token <info> JS_SYNCHRONIZED
+%token <info> JS_THIS
+%token <info> JS_THROW
+%token <info> JS_THROWS
+%token <info> JS_TRANSIENT
+%token <info> JS_TRUE
+%token <info> JS_TRY
+%token <info> JS_TYPEOF
+%token <info> JS_U_SHIFT_RIGHT
+%token <info> JS_U_SHIFT_RIGHT_LET
+%token <info> JS_VAR
+%token <info> JS_VOID
+%token <info> JS_VOLATILE
+%token <info> JS_WHILE
+%token <info> JS_WITH
+%token <info> JS_TERMINATE
+%token <line> JS_LINE_BREAK
 
 %type <ast> program
 %type <fn> function_declaration
@@ -308,7 +308,7 @@ program
 
 
 function_declaration
-: FUNCTION IDENTIFIER '('
+: JS_FUNCTION JS_IDENTIFIER '('
   {
     tracer->SetState( ParserTracer::kFunction );
     const char* ident = $2->getValue ();
@@ -329,7 +329,7 @@ function_declaration
 ;
 
 function_expression
-: FUNCTION identifier__opt '('
+: JS_FUNCTION identifier__opt '('
   {
     tracer->SetState( ParserTracer::kFunction );
     scope->Insert ( $2 );
@@ -348,7 +348,7 @@ function_expression
 ;
 
 formal_parameter_list
-: IDENTIFIER
+: JS_IDENTIFIER
   {
     const char* ident = $1->getValue ();
     //scope->Insert ( ident );
@@ -356,7 +356,7 @@ formal_parameter_list
     arg->Args ( ident );
     $$ = arg;
   }
-| formal_parameter_list ',' IDENTIFIER
+| formal_parameter_list ',' JS_IDENTIFIER
   {
     const char* ident = $3->getValue ();
     //scope->Insert ( ident );
@@ -403,7 +403,7 @@ formal_parameter_list__opt
 
 identifier__opt
 : { $$ = ""; }
-| IDENTIFIER
+| JS_IDENTIFIER
   {
     $$ = $1->getValue ();
   }
@@ -513,7 +513,7 @@ statement_list
 
 
 variable_statement
-: VAR variable_declaration_list
+: JS_VAR variable_declaration_list
   {
     EXPECT_TERMINATOR;
   }
@@ -523,7 +523,7 @@ variable_statement
     $2->Terminate();
     $$ = $2;
   }
-| CONST variable_declaration_list
+| JS_CONST variable_declaration_list
   {
     EXPECT_TERMINATOR;
   }
@@ -564,7 +564,7 @@ variable_declaration_list_no_in
 ;
 
 variable_declaration
-: IDENTIFIER initialiser__opt
+: JS_IDENTIFIER initialiser__opt
   {
     const char* ident = $1->getValue ();
     VariableDeclaration *var = ManagedHandle::Retain ( new VariableDeclaration ( ident ) );
@@ -575,7 +575,7 @@ variable_declaration
 ;
 
 variable_declaration_no_in
-: IDENTIFIER initialiser_no_in__opt
+: JS_IDENTIFIER initialiser_no_in__opt
   {
     const char* ident = $1->getValue ();
     VariableDeclaration *var = ManagedHandle::Retain ( new VariableDeclaration ( ident ) );
@@ -597,8 +597,8 @@ array_left_hand_side
 ;
 
 element_list_left_hand_side
-: IDENTIFIER
-| element_list_left_hand_side ',' IDENTIFIER
+: JS_IDENTIFIER
+| element_list_left_hand_side ',' JS_IDENTIFIER
 ;
 
 object_left_hand_side
@@ -606,9 +606,9 @@ object_left_hand_side
 ;
 
 object_member_left_hand_side
-: IDENTIFIER ':' IDENTIFIER
-| IDENTIFIER
-| object_member_left_hand_side ',' IDENTIFIER
+: JS_IDENTIFIER ':' JS_IDENTIFIER
+| JS_IDENTIFIER
+| object_member_left_hand_side ',' JS_IDENTIFIER
 ;
 
 initialiser
@@ -633,7 +633,7 @@ expression_statement
 ;
 
 if_statement
-: IF '(' expression ')' statement ELSE statement 
+: JS_IF '(' expression ')' statement JS_ELSE statement 
   {
     IFStmt *ret = ManagedHandle::Retain<IFStmt> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -642,7 +642,7 @@ if_statement
     ret->Else ( $7 );
     $$ = ret;
   }
-| IF '(' expression ')' statement
+| JS_IF '(' expression ')' statement
   {
     IFStmt *ret = ManagedHandle::Retain<IFStmt> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -653,7 +653,7 @@ if_statement
 ;
 
 iteration_statement
-: DO statement WHILE '(' expression ')' {EXPECT_TERMINATOR;} terminator
+: JS_DO statement JS_WHILE '(' expression ')' {EXPECT_TERMINATOR;} terminator
   {
     DoWhile *ret = ManagedHandle::Retain<DoWhile> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -662,7 +662,7 @@ iteration_statement
     Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
     $$ = it;
   }
-| WHILE '(' expression ')' statement
+| JS_WHILE '(' expression ')' statement
   {
     While *ret = ManagedHandle::Retain<While> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -671,7 +671,7 @@ iteration_statement
     Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
     $$ = it;
   }
-| FOR '(' expression_no_in__opt ';' expression__opt ';' expression__opt ')' statement
+| JS_FOR '(' expression_no_in__opt ';' expression__opt ';' expression__opt ')' statement
   {
     For *ret = ManagedHandle::Retain<For> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -682,7 +682,7 @@ iteration_statement
     Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
     $$ = it;
   }
-| FOR '(' VAR variable_declaration_list_no_in ';' expression__opt ';' expression__opt ')' statement
+| JS_FOR '(' JS_VAR variable_declaration_list_no_in ';' expression__opt ';' expression__opt ')' statement
   {
     For *ret = ManagedHandle::Retain<For> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -694,7 +694,7 @@ iteration_statement
     Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
     $$ = it;
   }
-| FOR '(' left_hand_side_expression IN expression ')' statement
+| JS_FOR '(' left_hand_side_expression JS_IN expression ')' statement
   {
     ForIn *ret = ManagedHandle::Retain<ForIn> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -704,7 +704,7 @@ iteration_statement
     Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
     $$ = it;
   }
-| FOR '(' VAR variable_declaration_no_in IN expression ')' statement
+| JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
   {
     ForIn *ret = ManagedHandle::Retain<ForIn> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -718,7 +718,7 @@ iteration_statement
 ;
 
 continue_statement
-: CONTINUE identifier__opt {EXPECT_TERMINATOR;} terminator
+: JS_CONTINUE identifier__opt {EXPECT_TERMINATOR;} terminator
   {
     if ( strlen ( $2 ) > 0 ) {
       scope->InsertLabel ( $2 );
@@ -730,7 +730,7 @@ continue_statement
 ;
 
 break_statement
-: BREAK identifier__opt {EXPECT_TERMINATOR;} terminator
+: JS_BREAK identifier__opt {EXPECT_TERMINATOR;} terminator
   {
     if ( strlen ( $2 ) > 0 ) {
       scope->InsertLabel ( $2 );
@@ -742,7 +742,7 @@ break_statement
 ;
 
 return_statement
-: RETURN expression__opt {EXPECT_TERMINATOR;} terminator
+: JS_RETURN expression__opt {EXPECT_TERMINATOR;} terminator
   {
     Return *ret = ManagedHandle::Retain<Return> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -753,7 +753,7 @@ return_statement
 ;
 
 with_statement
-: WITH '(' expression ')' statement
+: JS_WITH '(' expression ')' statement
   {
     With *ret = ManagedHandle::Retain<With> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -764,7 +764,7 @@ with_statement
 ;
 
 switch_statement
-: SWITCH '(' expression ')' case_block
+: JS_SWITCH '(' expression ')' case_block
   {
     Switch *ret = ManagedHandle::Retain<Switch> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -802,7 +802,7 @@ case_clauses
 ;
 
 case_clause
-: CASE expression ':' statement_list__opt
+: JS_CASE expression ':' statement_list__opt
   {
     CaseClause *ret = ManagedHandle::Retain<CaseClause> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -813,7 +813,7 @@ case_clause
 ;
 
 default_clause
-: DEFAULT ':' statement_list__opt
+: JS_DEFAULT ':' statement_list__opt
   {
     DefaultClause *ret = ManagedHandle::Retain<DefaultClause> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -823,7 +823,7 @@ default_clause
 ;
 
 labelled_statement
-: IDENTIFIER ':' statement
+: JS_IDENTIFIER ':' statement
   {
     const char* ident = $1->getValue ();
     scope->InsertLabel ( ident );
@@ -835,7 +835,7 @@ labelled_statement
 ;
 
 throw_statement
-: THROW expression {EXPECT_TERMINATOR;} terminator
+: JS_THROW expression {EXPECT_TERMINATOR;} terminator
   {
     Throw *ret = ManagedHandle::Retain<Throw> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -845,7 +845,7 @@ throw_statement
 ;
 
 try_statement
-: TRY block catch
+: JS_TRY block catch
   {
     Try *ret = ManagedHandle::Retain<Try> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -853,7 +853,7 @@ try_statement
     ret->CatchBody ( $3 );
     $$ = ret;
   }
-| TRY block finally
+| JS_TRY block finally
   {
     Try *ret = ManagedHandle::Retain<Try> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -861,7 +861,7 @@ try_statement
     ret->FinallyBody ( $3 );
     $$ = ret;
   }
-| TRY block catch finally
+| JS_TRY block catch finally
   {
     Try *ret = ManagedHandle::Retain<Try> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -873,7 +873,7 @@ try_statement
 ;
 
 catch
-: CATCH '(' IDENTIFIER ')' block
+: JS_CATCH '(' JS_IDENTIFIER ')' block
   {
     Catch *ret = ManagedHandle::Retain ( new Catch ( $3->getValue () ) );
     ret->LineNumber ( $1->getLineNumber () );
@@ -883,7 +883,7 @@ catch
 ;
 
 finally
-: FINALLY block
+: JS_FINALLY block
   {
     Finally *ret = ManagedHandle::Retain<Finally> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -915,44 +915,44 @@ case_clauses__opt
 literal
 : null_literal { $$ = $1; }
 | boolean_literal { $$ = $1; }
-| NUMERIC_LITERAL
+| JS_NUMERIC_LITERAL
   {
     $$ = ManagedHandle::Retain ( new NumberLiteral ( $1->getValue () ) );
   }
-| STRING_LITERAL
+| JS_STRING_LITERAL
   {
     $$ = ManagedHandle::Retain ( new StringLiteral ( $1->getValue () ) );
   }
-| REGEXP_LITERAL
+| JS_REGEXP_LITERAL
   {
     $$ = ManagedHandle::Retain ( new RegExpLiteral ( $1->getValue () ) );
   }
 ;
 
 null_literal
-: K_NULL
+: JS_K_NULL
   {
     $$ = ManagedHandle::Retain<NullLiteral> ();
   }
 ;
 
 boolean_literal
-: TRUE
+: JS_TRUE
   {
     $$ = ManagedHandle::Retain ( new BooleanLiteral ( $1->getValue () ) );
   }
-| FALSE
+| JS_FALSE
   {
     $$ = ManagedHandle::Retain ( new BooleanLiteral ( $1->getValue () ) );
   }
 ;
 
 primary_expression
-: THIS 
+: JS_THIS 
   { 
     $$ = ManagedHandle::Retain<This> ();
   }
-| IDENTIFIER
+| JS_IDENTIFIER
   {
     //scope->Update ( $1->getValue () );
     $$ = ManagedHandle::Retain ( new Identifier ( $1->getValue () ) );
@@ -1012,12 +1012,13 @@ object_literal
   {
     ObjectLiteral *ret = ManagedHandle::Retain ( new ObjectLiteral ( $2 ) );
     $$ = ret;
-    tracer->SetState( ParserTracer::kObjectLiteralEnd );
   }
 ;
 
 property_name_and_value_list__opt
-: { $$ = ManagedHandle::Retain<Empty>(); }
+: { 
+    $$ = ManagedHandle::Retain<Empty>();
+  }
 | property_name_and_value_list
   {
     $$ = $1;
@@ -1039,21 +1040,24 @@ property_name_and_value_list
 ;
 
 property_name
-: IDENTIFIER
+: JS_IDENTIFIER
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     const char* ident = $1->getValue ();
     //Scope::InsertGlobalSymbol ( ident );
     PropertyName* property = ManagedHandle::Retain ( new PropertyName ( ident ) );
     $$ = property;
   }
-| STRING_LITERAL
-  { 
+| JS_STRING_LITERAL
+  {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     const char* ident = $1->getValue ();
     PropertyName* property = ManagedHandle::Retain ( new PropertyName ( ident ) );
     $$ = property;
   }
-| NUMERIC_LITERAL
+| JS_NUMERIC_LITERAL
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     const char* ident = $1->getValue ();
     PropertyName* property = ManagedHandle::Retain ( new PropertyName ( ident ) );
     $$ = property;
@@ -1074,7 +1078,7 @@ member_expression
     ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , $1 , $3 ) );
     $$ = ret;
   }
-| member_expression '.' IDENTIFIER
+| member_expression '.' JS_IDENTIFIER
   {
     const char* ident = $3->getValue ();
     //Scope::InsertGlobalSymbol ( ident );
@@ -1082,7 +1086,7 @@ member_expression
     DotAccessor* ret = ManagedHandle::Retain ( new DotAccessor ( Constant::kDot , $1 , lit ) );
     $$ = ret;
   }
-| NEW member_expression arguments
+| JS_NEW member_expression arguments
   {
     NewCallAccessor* ret = ManagedHandle::Retain ( new NewCallAccessor ( Constant::kNew , $2 , $3 ) );
     $$ = ret;
@@ -1092,7 +1096,7 @@ member_expression
 
 new_expression
 : member_expression { $$ = $1; }
-| NEW new_expression
+| JS_NEW new_expression
   {
     NewAccessor* ret = ManagedHandle::Retain ( new NewAccessor ( Constant::kNew , $2 , ManagedHandle::Retain<Empty>() ) );
     $$ = ret;
@@ -1151,7 +1155,7 @@ call_expression
     ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , $1 , $3 ) );
     $$ = ret;
   }
-| call_expression '.' IDENTIFIER
+| call_expression '.' JS_IDENTIFIER
   {
     Identifier *lit = ManagedHandle::Retain ( new Identifier ( $3->getValue () ) );
     DotAccessor* ret = ManagedHandle::Retain ( new DotAccessor ( Constant::kDot , $1 , lit ) );
@@ -1188,12 +1192,12 @@ postfix_expression
   {
     $$ = $1;
   }
-| left_hand_side_expression INCREMENT
+| left_hand_side_expression JS_INCREMENT
   {
     PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( Constant::kAdd , $1, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
   }
-| left_hand_side_expression DECREMENT
+| left_hand_side_expression JS_DECREMENT
   {
     PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( Constant::kSub , $1, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
@@ -1202,27 +1206,27 @@ postfix_expression
 
 unary_expression
 : postfix_expression { $$ = $1; }
-| DELETE unary_expression
+| JS_DELETE unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kDelete , $2, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
   }
-| VOID unary_expression
+| JS_VOID unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kVoid , $2, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
   }
-| TYPEOF unary_expression
+| JS_TYPEOF unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kTypeof , $2, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
   }
-| INCREMENT unary_expression
+| JS_INCREMENT unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kAdd , $2, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
   }
-| DECREMENT unary_expression
+| JS_DECREMENT unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kSub , $2, ManagedHandle::Retain<Empty> () ) );
     $$ = ret;
@@ -1279,15 +1283,15 @@ additive_expression
 
 shift_expression
 : additive_expression { $$ = $1; }
-| shift_expression SHIFT_LEFT additive_expression
+| shift_expression JS_SHIFT_LEFT additive_expression
   {
     TREE_REDUCE(ShiftExp,$1,Constant::kShiftLeft,$3,$$);
   }
-| shift_expression SHIFT_RIGHT additive_expression
+| shift_expression JS_SHIFT_RIGHT additive_expression
   {
     TREE_REDUCE(ShiftExp,$1,Constant::kShiftRight,$3,$$);
   }
-| shift_expression U_SHIFT_RIGHT additive_expression
+| shift_expression JS_U_SHIFT_RIGHT additive_expression
   {
     TREE_REDUCE(ShiftExp,$1,Constant::kUShiftRight,$3,$$);
   }
@@ -1303,19 +1307,19 @@ relational_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kGreater,$3,$$);
   }
-| relational_expression LESS_EQUAL shift_expression
+| relational_expression JS_LESS_EQUAL shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kLessEq,$3,$$);
   }
-| relational_expression GRATER_EQUAL shift_expression
+| relational_expression JS_GRATER_EQUAL shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kGreaterEq,$3,$$);
   }
-| relational_expression INSTANCEOF shift_expression
+| relational_expression JS_INSTANCEOF shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kInstanceof,$3,$$);
   }
-| relational_expression IN shift_expression
+| relational_expression JS_IN shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kIn,$3,$$);
   }
@@ -1331,15 +1335,15 @@ relational_expression_no_in
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kGreater,$3,$$);
   }
-| relational_expression_no_in LESS_EQUAL shift_expression
+| relational_expression_no_in JS_LESS_EQUAL shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kLessEq,$3,$$);
   }
-| relational_expression_no_in GRATER_EQUAL shift_expression
+| relational_expression_no_in JS_GRATER_EQUAL shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kGreaterEq,$3,$$);
   }
-| relational_expression_no_in INSTANCEOF shift_expression
+| relational_expression_no_in JS_INSTANCEOF shift_expression
   {
     TREE_REDUCE(RelationalExp,$1,Constant::kInstanceof,$3,$$);
   }
@@ -1347,19 +1351,19 @@ relational_expression_no_in
 
 equality_expression
 : relational_expression { $$ = $1; }
-| equality_expression EQUAL relational_expression
+| equality_expression JS_EQUAL relational_expression
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
   }
-| equality_expression NOT_EQUAL relational_expression
+| equality_expression JS_NOT_EQUAL relational_expression
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
   }
-| equality_expression EQ relational_expression
+| equality_expression JS_EQ relational_expression
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
   }
-| equality_expression NOT_EQ relational_expression
+| equality_expression JS_NOT_EQ relational_expression
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
   }
@@ -1367,19 +1371,19 @@ equality_expression
 
 equality_expression_no_in
 : relational_expression_no_in { $$ = $1; }
-| equality_expression_no_in EQUAL relational_expression_no_in
+| equality_expression_no_in JS_EQUAL relational_expression_no_in
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
   }
-| equality_expression_no_in NOT_EQUAL relational_expression_no_in
+| equality_expression_no_in JS_NOT_EQUAL relational_expression_no_in
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
   }
-| equality_expression_no_in EQ relational_expression_no_in
+| equality_expression_no_in JS_EQ relational_expression_no_in
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
   }
-| equality_expression_no_in NOT_EQ relational_expression_no_in
+| equality_expression_no_in JS_NOT_EQ relational_expression_no_in
   {
     TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
   }
@@ -1435,7 +1439,7 @@ bitwise_or_expression_no_in
 
 logical_and_expression
 : bitwise_or_expression { $$ = $1; }
-| logical_and_expression LOGICAL_AND bitwise_or_expression
+| logical_and_expression JS_LOGICAL_AND bitwise_or_expression
   {
     TREE_REDUCE(LogicalANDExp,$1,Constant::kLogicalAND,$3,$$);
   }
@@ -1443,7 +1447,7 @@ logical_and_expression
 
 logical_and_expression_no_in
 : bitwise_or_expression_no_in { $$ = $1; }
-| logical_and_expression_no_in LOGICAL_AND bitwise_or_expression_no_in
+| logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in
   {
     TREE_REDUCE(LogicalANDExp,$1,Constant::kLogicalAND,$3,$$);
   }
@@ -1451,7 +1455,7 @@ logical_and_expression_no_in
 
 logical_or_expression
 : logical_and_expression {$$ = $1; }
-| logical_or_expression LOGICAL_OR logical_and_expression
+| logical_or_expression JS_LOGICAL_OR logical_and_expression
   {
     TREE_REDUCE(LogicalORExp,$1,Constant::kLogicalOR,$3,$$);
   }
@@ -1459,7 +1463,7 @@ logical_or_expression
 
 logical_or_expression_no_in
 : logical_and_expression_no_in { $$ =$1; }
-| logical_or_expression_no_in LOGICAL_OR logical_and_expression_no_in
+| logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in
   {
     TREE_REDUCE(LogicalORExp,$1,Constant::kLogicalOR,$3,$$);
   }
@@ -1510,17 +1514,17 @@ assignment_expression_no_in
 
 assignment_operator
 :  '=' { $$ = Constant::kAssign; }
-|  MUL_LET { $$ = Constant::kMulLet; }
-|  DIV_LET { $$ = Constant::kDivLet; }
-|  MOD_LET { $$ = Constant::kModLet; }
-|  ADD_LET { $$ = Constant::kAddLet; }
-|  SUB_LET { $$ = Constant::kSubLet; }
-|  SHIFT_LEFT_LET { $$ = Constant::kLShiftLet; }
-|  SHIFT_RIGHT_LET { $$ = Constant::kRShiftLet; }
-|  U_SHIFT_RIGHT_LET { $$ = Constant::kURShiftLet; }
-|  AND_LET { $$ = Constant::kANDLet; }
-|  NOT_LET { $$ = Constant::kNotLet; }
-|  OR_LET { $$ = Constant::kORLet; }
+|  JS_MUL_LET { $$ = Constant::kMulLet; }
+|  JS_DIV_LET { $$ = Constant::kDivLet; }
+|  JS_MOD_LET { $$ = Constant::kModLet; }
+|  JS_ADD_LET { $$ = Constant::kAddLet; }
+|  JS_SUB_LET { $$ = Constant::kSubLet; }
+|  JS_SHIFT_LEFT_LET { $$ = Constant::kLShiftLet; }
+|  JS_SHIFT_RIGHT_LET { $$ = Constant::kRShiftLet; }
+|  JS_U_SHIFT_RIGHT_LET { $$ = Constant::kURShiftLet; }
+|  JS_AND_LET { $$ = Constant::kANDLet; }
+|  JS_NOT_LET { $$ = Constant::kNotLet; }
+|  JS_OR_LET { $$ = Constant::kORLet; }
 ;
 
 expression
@@ -1568,7 +1572,7 @@ elision__opt
 
 terminator
 : ';' {$<num>$ = ';';}
-| LINE_BREAK {$<num>$ = ';';tracer->SetLineBreakFlag ( false );}
+| JS_LINE_BREAK {$<num>$ = ';';tracer->SetLineBreakFlag ( false );}
 | {
     tracer->SetSemicolonFlag ( true );
     if ( yychar != 0 ) {

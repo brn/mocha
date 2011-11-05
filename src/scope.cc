@@ -35,7 +35,7 @@ struct Scope::NameIndex {
  private :
   typedef boost::unordered_map<const char*,int> ContractionTable;
   inline const char* CreateChar_ ( const string& str ) {
-    char *ret = char_handle_.Retain ( new char [ str.size () + 1 ] , ptr_release::ReleaseArray<char> );
+    char *ret = char_handle_.Retain ( new char [ str.size () + 1 ] );
     strcpy ( ret, str.c_str () );
     return ret;
   }
@@ -93,7 +93,7 @@ struct Scope::NameIndex {
   int size_;
   static char table_[];
   enum { kMax = 53,kMaxAfter = 62 };
-  ScopedList<char> char_handle_;
+  ScopedArrayList<char> char_handle_;
 };
 
 char Scope::NameIndex::table_ [] = {

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string>
+#include "useconfig.h"
 #include "bootstrap.h"
 #include "file_system.h"
 #include "file_io.h"
@@ -7,6 +8,11 @@
 #include "setting.h"
 #include "handle.h"
 #include "commandline_options.h"
+
+#ifdef HAVE__EXECV
+#include <process.h>
+#define execv(path,argv) _execv(path,argv)
+#endif
 
 const char* CreateXML() {
   return
@@ -72,7 +78,10 @@ void CreateLog() {
       fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
     }
   } else {
-    if ( mocha::FileIO::Open( path , "r" , mocha::FileIO::P_ReadOnly )->getSize() > 10485760 ) {
+    if ( mocha::FileIO::Open( path , "r" , mocha::FileIO::P_ReadOnly )->getSize() > 524288 ) {
+      char tmp[ 1000 ];
+      sprintf( tmp , "%s-%s\n" , path , mocha::Setting::GetInstance()->GetTimeStr() );
+      rename( path , tmp );
       goto CREATE;
     }
     mocha::Setting::GetInstance()->SetLogFileHandle();

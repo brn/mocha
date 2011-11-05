@@ -34,6 +34,7 @@
 #include <string>
 #include "handle.h"
 #include "stat.h"
+#include "setting.h"
 
 #define SET_FLAG( flags , num )                         \
   flags = ( ( (flags) | FileIO::Flags [ (num) ] ) );    \

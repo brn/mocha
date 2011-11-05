@@ -45,7 +45,7 @@ namespace mocha{
     }
 
     inline void SetState ( ParserState state ) { parser_state_ |= state; }
-    inline JPM_PURE const bool GetState ( ParserState state ) const { return ( parser_state_ & state) == state; }
+    inline bool GetState ( ParserState state ) const { return ( parser_state_ & state) == state; }
     inline void EndState ( ParserState state ) { parser_state_ = ( parser_state_ & ~state ); }
 
     

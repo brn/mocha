@@ -23,7 +23,7 @@ void XMLObserver::Run() {
   Setting::GetInstance()->Log( "new thread start." );
   Thread thread;
   if ( !thread.Create( XMLObserver::ThreadRunner_ , &file_watcher_ ) ) {
-    Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
+    Setting::GetInstance()->LogFatal( "in XMLObserver::XMLObserver thread create fail." );
   } else {
     thread.Join();
   }
@@ -32,6 +32,7 @@ void XMLObserver::Run() {
 void* XMLObserver::ThreadRunner_( void* arg ) {
   FileWatcher* watcher = reinterpret_cast<FileWatcher*>( arg );
   watcher->Start();
+  return 0;
 }
 
 void XMLObserver::RegistFile_( const char* filename ) {

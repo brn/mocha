@@ -25,8 +25,6 @@ class Stat{
   int GId();
   int RDev();
   int Size();
-  int BlkSize();
-  int Blocks();
   const char* ATime();
   const char* MTime();
   const char* CTime();

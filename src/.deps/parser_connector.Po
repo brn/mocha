@@ -34,10 +34,8 @@ parser_connector.o: parser_connector.cc /usr/include/stdio.h \
  /usr/include/sys/select.h /usr/include/bits/select.h \
  /usr/include/bits/sigset.h /usr/include/bits/time.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
- /usr/include/alloca.h refcount.h refcount_base.h uncopyable.h \
- ptr_handle.h ptr_handle_base.h ptr_deleter.h static.h ptr_traits.h \
- setting.h /usr/include/c++/4.4/string \
- /usr/include/c++/4.4/bits/stringfwd.h \
+ /usr/include/alloca.h /usr/include/c++/4.4/stdexcept \
+ /usr/include/c++/4.4/string /usr/include/c++/4.4/bits/stringfwd.h \
  /usr/include/c++/4.4/bits/char_traits.h \
  /usr/include/c++/4.4/bits/postypes.h /usr/include/c++/4.4/cwchar \
  /usr/include/bits/wchar.h /usr/include/c++/4.4/bits/localefwd.h \
@@ -58,10 +56,11 @@ parser_connector.o: parser_connector.cc /usr/include/stdio.h \
  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
  /usr/include/bits/confname.h /usr/include/getopt.h \
  /usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h \
- /usr/include/c++/4.4/bits/basic_string.tcc scoped_ptr.h \
- /usr/include/c++/4.4/stdexcept ptr_release.h bootstrap.h scanner.h \
- scanner_state.h define.h parser_tracer.h /usr/include/stdint.h scope.h \
- useconfig.h config.h /usr/include/boost/unordered_map.hpp \
+ /usr/include/c++/4.4/bits/basic_string.tcc refcount.h refcount_base.h \
+ uncopyable.h ptr_handle.h ptr_handle_base.h ptr_deleter.h static.h \
+ ptr_traits.h scoped_ptr.h useconfig.h config.h scoped_ptr-impl.h \
+ scanner.h scanner_state.h define.h parser_tracer.h /usr/include/stdint.h \
+ scope.h /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map_fwd.hpp \
  /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
@@ -295,7 +294,7 @@ parser_connector.o: parser_connector.cc /usr/include/stdio.h \
  managed_handle.h /usr/include/c++/4.4/vector \
  /usr/include/c++/4.4/bits/stl_vector.h \
  /usr/include/c++/4.4/bits/stl_bvector.h \
- /usr/include/c++/4.4/bits/vector.tcc
+ /usr/include/c++/4.4/bits/vector.tcc ptr_release.h
 
 /usr/include/stdio.h:
 
@@ -417,23 +416,7 @@ handle.h:
 
 /usr/include/alloca.h:
 
-refcount.h:
-
-refcount_base.h:
-
-uncopyable.h:
-
-ptr_handle.h:
-
-ptr_handle_base.h:
-
-ptr_deleter.h:
-
-static.h:
-
-ptr_traits.h:
-
-setting.h:
+/usr/include/c++/4.4/stdexcept:
 
 /usr/include/c++/4.4/string:
 
@@ -501,13 +484,29 @@ setting.h:
 
 /usr/include/c++/4.4/bits/basic_string.tcc:
 
+refcount.h:
+
+refcount_base.h:
+
+uncopyable.h:
+
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+ptr_deleter.h:
+
+static.h:
+
+ptr_traits.h:
+
 scoped_ptr.h:
 
-/usr/include/c++/4.4/stdexcept:
+useconfig.h:
 
-ptr_release.h:
+config.h:
 
-bootstrap.h:
+scoped_ptr-impl.h:
 
 scanner.h:
 
@@ -520,10 +519,6 @@ parser_tracer.h:
 /usr/include/stdint.h:
 
 scope.h:
-
-useconfig.h:
-
-config.h:
 
 /usr/include/boost/unordered_map.hpp:
 
@@ -1068,3 +1063,5 @@ managed_handle.h:
 /usr/include/c++/4.4/bits/stl_bvector.h:
 
 /usr/include/c++/4.4/bits/vector.tcc:
+
+ptr_release.h:

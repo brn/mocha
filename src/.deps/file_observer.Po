@@ -280,17 +280,17 @@ file_observer.o: file_observer.cc /usr/include/string.h \
  /usr/include/boost/unordered/detail/hash_table_impl.hpp \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
- /usr/include/boost/utility/enable_if.hpp compiler_starter.h thread.h \
- platform.h platform_linux.h useconfig.h config.h /usr/include/sys/stat.h \
- /usr/include/bits/stat.h static.h handle.h /usr/include/libio.h \
- /usr/include/_G_config.h /usr/include/bits/stdio_lim.h \
- /usr/include/bits/sys_errlist.h refcount.h refcount_base.h uncopyable.h \
- ptr_handle.h ptr_handle_base.h ptr_deleter.h ptr_traits.h setting.h \
- scoped_ptr.h ptr_release.h bootstrap.h file_observer.h file_watcher.h \
+ /usr/include/boost/utility/enable_if.hpp compiler_starter.h useconfig.h \
+ config.h thread.h platform.h platform_linux.h /usr/include/sys/stat.h \
+ /usr/include/bits/stat.h static.h scoped_ptr.h uncopyable.h \
+ ptr_deleter.h /usr/include/libio.h /usr/include/_G_config.h \
+ /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+ ptr_handle.h ptr_handle_base.h handle.h refcount.h refcount_base.h \
+ ptr_traits.h scoped_ptr-impl.h file_observer.h file_watcher.h \
  xml_setting_info.h /usr/include/c++/4.4/list \
  /usr/include/c++/4.4/bits/stl_list.h /usr/include/c++/4.4/bits/list.tcc \
  xml_reader.h tinyxml/tinyxml.h tinyxml/tinystr.h scoped_list.h \
- xml_setting_info-inl.h
+ scoped_list-impl.h bootstrap.h xml_setting_info-inl.h setting.h
 
 /usr/include/string.h:
 
@@ -968,15 +968,15 @@ file_observer.o: file_observer.cc /usr/include/string.h \
 
 compiler_starter.h:
 
+useconfig.h:
+
+config.h:
+
 thread.h:
 
 platform.h:
 
 platform_linux.h:
-
-useconfig.h:
-
-config.h:
 
 /usr/include/sys/stat.h:
 
@@ -984,7 +984,11 @@ config.h:
 
 static.h:
 
-handle.h:
+scoped_ptr.h:
+
+uncopyable.h:
+
+ptr_deleter.h:
 
 /usr/include/libio.h:
 
@@ -994,27 +998,19 @@ handle.h:
 
 /usr/include/bits/sys_errlist.h:
 
-refcount.h:
-
-refcount_base.h:
-
-uncopyable.h:
-
 ptr_handle.h:
 
 ptr_handle_base.h:
 
-ptr_deleter.h:
+handle.h:
+
+refcount.h:
+
+refcount_base.h:
 
 ptr_traits.h:
 
-setting.h:
-
-scoped_ptr.h:
-
-ptr_release.h:
-
-bootstrap.h:
+scoped_ptr-impl.h:
 
 file_observer.h:
 
@@ -1036,4 +1032,10 @@ tinyxml/tinystr.h:
 
 scoped_list.h:
 
+scoped_list-impl.h:
+
+bootstrap.h:
+
 xml_setting_info-inl.h:
+
+setting.h:

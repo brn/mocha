@@ -67,14 +67,9 @@ xml_reader.o: xml_reader.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/c++/4.4/bits/locale_facets.tcc \
  /usr/include/c++/4.4/bits/basic_ios.tcc \
  /usr/include/c++/4.4/bits/ostream.tcc /usr/include/c++/4.4/istream \
- /usr/include/c++/4.4/bits/istream.tcc ptr_release.h \
- /usr/include/stdlib.h /usr/include/bits/waitflags.h \
- /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
- /usr/include/sys/select.h /usr/include/bits/select.h \
- /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h \
- /usr/include/alloca.h xml_reader.h /usr/include/c++/4.4/list \
- /usr/include/c++/4.4/bits/stl_list.h /usr/include/c++/4.4/bits/list.tcc \
- /usr/include/boost/unordered_map.hpp \
+ /usr/include/c++/4.4/bits/istream.tcc xml_reader.h \
+ /usr/include/c++/4.4/list /usr/include/c++/4.4/bits/stl_list.h \
+ /usr/include/c++/4.4/bits/list.tcc /usr/include/boost/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map.hpp \
  /usr/include/boost/unordered/unordered_map_fwd.hpp \
  /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
@@ -86,7 +81,11 @@ xml_reader.o: xml_reader.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/boost/config/stdlib/libstdcpp3.hpp \
  /usr/include/boost/config/select_platform_config.hpp \
  /usr/include/boost/config/platform/linux.hpp \
- /usr/include/c++/4.4/cstdlib \
+ /usr/include/c++/4.4/cstdlib /usr/include/stdlib.h \
+ /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+ /usr/include/sys/types.h /usr/include/sys/select.h \
+ /usr/include/bits/select.h /usr/include/bits/sigset.h \
+ /usr/include/sys/sysmacros.h /usr/include/alloca.h \
  /usr/include/boost/config/posix_features.hpp \
  /usr/include/boost/config/suffix.hpp /usr/include/c++/4.4/memory \
  /usr/include/c++/4.4/bits/stl_construct.h \
@@ -286,11 +285,12 @@ xml_reader.o: xml_reader.cc /usr/include/string.h /usr/include/features.h \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp tinyxml/tinyxml.h \
- tinyxml/tinystr.h scoped_list.h uncopyable.h bootstrap.h static.h \
- file_system.h pwd.h handle.h refcount.h refcount_base.h ptr_handle.h \
- ptr_handle_base.h ptr_deleter.h ptr_traits.h setting.h scoped_ptr.h \
- file_watcher.h file_io.h useconfig.h config.h thread.h platform.h \
- platform_linux.h /usr/include/sys/stat.h /usr/include/bits/stat.h \
+ tinyxml/tinystr.h scoped_list.h uncopyable.h ptr_handle.h \
+ ptr_handle_base.h ptr_deleter.h static.h scoped_list-impl.h bootstrap.h \
+ useconfig.h config.h file_system.h pwd.h handle.h refcount.h \
+ refcount_base.h ptr_traits.h file_watcher.h scoped_ptr.h \
+ scoped_ptr-impl.h file_io.h thread.h platform.h platform_linux.h \
+ /usr/include/sys/stat.h /usr/include/bits/stat.h setting.h \
  xml_setting_info.h xml_setting_info-inl.h
 
 /usr/include/string.h:
@@ -493,26 +493,6 @@ xml_reader.o: xml_reader.cc /usr/include/string.h /usr/include/features.h \
 
 /usr/include/c++/4.4/bits/istream.tcc:
 
-ptr_release.h:
-
-/usr/include/stdlib.h:
-
-/usr/include/bits/waitflags.h:
-
-/usr/include/bits/waitstatus.h:
-
-/usr/include/sys/types.h:
-
-/usr/include/sys/select.h:
-
-/usr/include/bits/select.h:
-
-/usr/include/bits/sigset.h:
-
-/usr/include/sys/sysmacros.h:
-
-/usr/include/alloca.h:
-
 xml_reader.h:
 
 /usr/include/c++/4.4/list:
@@ -550,6 +530,24 @@ xml_reader.h:
 /usr/include/boost/config/platform/linux.hpp:
 
 /usr/include/c++/4.4/cstdlib:
+
+/usr/include/stdlib.h:
+
+/usr/include/bits/waitflags.h:
+
+/usr/include/bits/waitstatus.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/bits/select.h:
+
+/usr/include/bits/sigset.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/alloca.h:
 
 /usr/include/boost/config/posix_features.hpp:
 
@@ -995,9 +993,21 @@ scoped_list.h:
 
 uncopyable.h:
 
-bootstrap.h:
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+ptr_deleter.h:
 
 static.h:
+
+scoped_list-impl.h:
+
+bootstrap.h:
+
+useconfig.h:
+
+config.h:
 
 file_system.h:
 
@@ -1009,25 +1019,15 @@ refcount.h:
 
 refcount_base.h:
 
-ptr_handle.h:
-
-ptr_handle_base.h:
-
-ptr_deleter.h:
-
 ptr_traits.h:
-
-setting.h:
-
-scoped_ptr.h:
 
 file_watcher.h:
 
+scoped_ptr.h:
+
+scoped_ptr-impl.h:
+
 file_io.h:
-
-useconfig.h:
-
-config.h:
 
 thread.h:
 
@@ -1038,6 +1038,8 @@ platform_linux.h:
 /usr/include/sys/stat.h:
 
 /usr/include/bits/stat.h:
+
+setting.h:
 
 xml_setting_info.h:
 

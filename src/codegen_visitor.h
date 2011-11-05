@@ -2,6 +2,7 @@
 #define mocha_codegen_visitor_h_
 
 #include <string>
+#include "useconfig.h"
 #include "ivisitor.h"
 
 namespace mocha {

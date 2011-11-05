@@ -285,10 +285,12 @@ ast_visitor.o: ast_visitor.cc /usr/include/string.h \
  /usr/include/boost/unordered/detail/move.hpp \
  /usr/include/boost/type_traits/is_class.hpp \
  /usr/include/boost/utility/enable_if.hpp scoped_ptr.h uncopyable.h \
- ptr_release.h managed.h define.h thread.h platform.h platform_linux.h \
- /usr/include/sys/stat.h /usr/include/bits/stat.h static.h ast_type.h \
- ivisitor.h ast_visitor.h ast_state.h /usr/include/c++/4.4/queue \
- /usr/include/c++/4.4/deque /usr/include/c++/4.4/bits/stl_deque.h \
+ ptr_deleter.h static.h ptr_handle.h ptr_handle_base.h handle.h \
+ refcount.h refcount_base.h ptr_traits.h scoped_ptr-impl.h managed.h \
+ define.h thread.h platform.h platform_linux.h /usr/include/sys/stat.h \
+ /usr/include/bits/stat.h ast_type.h ivisitor.h ast_visitor.h ast_state.h \
+ /usr/include/c++/4.4/queue /usr/include/c++/4.4/deque \
+ /usr/include/c++/4.4/bits/stl_deque.h \
  /usr/include/c++/4.4/bits/deque.tcc /usr/include/c++/4.4/vector \
  /usr/include/c++/4.4/bits/stl_vector.h \
  /usr/include/c++/4.4/bits/stl_bvector.h \
@@ -993,7 +995,23 @@ scoped_ptr.h:
 
 uncopyable.h:
 
-ptr_release.h:
+ptr_deleter.h:
+
+static.h:
+
+ptr_handle.h:
+
+ptr_handle_base.h:
+
+handle.h:
+
+refcount.h:
+
+refcount_base.h:
+
+ptr_traits.h:
+
+scoped_ptr-impl.h:
 
 managed.h:
 
@@ -1008,8 +1026,6 @@ platform_linux.h:
 /usr/include/sys/stat.h:
 
 /usr/include/bits/stat.h:
-
-static.h:
 
 ast_type.h:
 

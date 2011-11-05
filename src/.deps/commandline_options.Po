@@ -1,8 +1,8 @@
 commandline_options.o: commandline_options.cc commandline_options.h \
- options.h /usr/include/string.h /usr/include/features.h \
- /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
- /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
- /usr/include/gnu/stubs-32.h \
+ useconfig.h config.h options.h /usr/include/string.h \
+ /usr/include/features.h /usr/include/bits/predefs.h \
+ /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
+ /usr/include/gnu/stubs.h /usr/include/gnu/stubs-32.h \
  /usr/lib/gcc/i686-linux-gnu/4.4.5/include/stddef.h \
  /usr/include/xlocale.h /usr/include/stdint.h /usr/include/bits/wchar.h \
  /usr/include/c++/4.4/string \
@@ -57,12 +57,16 @@ commandline_options.o: commandline_options.cc commandline_options.h \
  /usr/include/sys/select.h /usr/include/bits/select.h \
  /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h \
  /usr/include/alloca.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h refcount.h \
- refcount_base.h uncopyable.h ptr_handle.h ptr_handle_base.h \
- ptr_deleter.h static.h ptr_traits.h setting.h scoped_ptr.h \
- /usr/include/c++/4.4/stdexcept ptr_release.h bootstrap.h
+ /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+ /usr/include/c++/4.4/stdexcept refcount.h refcount_base.h uncopyable.h \
+ ptr_handle.h ptr_handle_base.h ptr_deleter.h static.h ptr_traits.h \
+ setting.h scoped_ptr.h scoped_ptr-impl.h bootstrap.h
 
 commandline_options.h:
+
+useconfig.h:
+
+config.h:
 
 options.h:
 
@@ -248,6 +252,8 @@ handle.h:
 
 /usr/include/bits/sys_errlist.h:
 
+/usr/include/c++/4.4/stdexcept:
+
 refcount.h:
 
 refcount_base.h:
@@ -268,8 +274,6 @@ setting.h:
 
 scoped_ptr.h:
 
-/usr/include/c++/4.4/stdexcept:
-
-ptr_release.h:
+scoped_ptr-impl.h:
 
 bootstrap.h:

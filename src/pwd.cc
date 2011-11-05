@@ -1,10 +1,10 @@
-
-#include "pwd.h"
-#ifdef _WIN32
-#include "win32api.h"
+#include "useconfig.h"
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
 #else
 #include <unistd.h>
 #endif
+#include "pwd.h"
 
 using namespace mocha;
 
@@ -25,22 +25,22 @@ StrHandle mocha::ReplaceBackSlash( const char* path ) {
 
 StrHandle mocha::GetCwd () {
 
-#ifdef _WIN32  
+#ifdef HAVE_WINDOWS_H
   char buf[ GW_BUF_SIZE ];
   DWORD isSuccess = GetCurrentDirectory ( sizeof ( buf ) , buf );
   
   if ( !isSuccess ) {
-    throw "GetCwd fail.";
+    fprintf( stderr , "GetCwd fail." );
   }
 
-  return ReplaceBackSlash( buf );
+  return ReplaceBackSlash( buf );  const char* filename_;
 
 #else
 
   char *buf = new char [ GW_BUF_SIZE ];
   char* dir = getcwd ( buf , sizeof ( char ) * GW_BUF_SIZE );
   if ( !dir ) {
-    throw "GetCwd fail.";
+    fprintf( stderr , "GetCwd fail." );
   };
 
   StrHandle path ( buf );

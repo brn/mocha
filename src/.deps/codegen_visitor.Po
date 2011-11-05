@@ -54,8 +54,8 @@ codegen_visitor.o: codegen_visitor.cc /usr/include/string.h \
  /usr/include/bits/environments.h /usr/include/bits/confname.h \
  /usr/include/getopt.h \
  /usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h \
- /usr/include/c++/4.4/bits/basic_string.tcc define.h ivisitor.h managed.h \
- codegen_visitor.h
+ /usr/include/c++/4.4/bits/basic_string.tcc useconfig.h config.h define.h \
+ ivisitor.h managed.h codegen_visitor.h
 
 /usr/include/string.h:
 
@@ -232,6 +232,10 @@ ast_type.h:
 /usr/include/c++/4.4/i686-linux-gnu/bits/atomic_word.h:
 
 /usr/include/c++/4.4/bits/basic_string.tcc:
+
+useconfig.h:
+
+config.h:
 
 define.h:
 

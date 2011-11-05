@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
+#include <string>
 #include "setting.h"
 #include "file_system.h"
 #include "file_io.h"
@@ -15,6 +16,7 @@ class Setting::PtrImpl {
   void Log( const char* str , const char* type , bool is_date ) {
     MutexLock lock( mutex );
     std::string tmp;
+    SetTime_();
     if ( is_date ) {
       tmp = ::asctime( date );
       tmp.erase( tmp.size() - 1 , tmp.size() );
@@ -25,6 +27,14 @@ class Setting::PtrImpl {
     tmp += str;
     tmp += "\n";
     file_handle->write( tmp.c_str() );
+  }
+
+  const char* GetTimeStr() {
+    SetTime_();
+    char tmp[ 500 ];
+    sprintf( tmp , "%d%d%d%d" , date->tm_year + 1900 , date->tm_mon , date->tm_mday , date->tm_hour );
+    time_str_ = tmp;
+    return time_str_.c_str();
   }
   
   time_t timer;
@@ -39,6 +49,13 @@ class Setting::PtrImpl {
   static const char error[];
   static const char fatal[];
   static Mutex mutex;
+
+ private :
+  void SetTime_() {
+    ::time( &timer );
+    date = ::localtime( &timer );
+  }
+  std::string time_str_;
 };
 
 const char Setting::PtrImpl::info[] = { "info" };
@@ -58,6 +75,7 @@ const char* Setting::GetBasePath() { return implementation_->base_dir.c_str(); }
 const char* Setting::GetXMLPath() { return implementation_->xml_path.c_str(); }
 const char* Setting::GetModulePath() { return implementation_->module_path.c_str(); }
 const char* Setting::GetLogPath() { return implementation_->log_path.c_str(); }
+const char* Setting::GetTimeStr() { return implementation_->GetTimeStr(); }
 void Setting::Close(){ implementation_->file_handle->close(); }
 
 void Setting::LogNoDate( const char* format , ... ) {
@@ -101,8 +119,6 @@ void Setting::LogFatal( const char* format , ... )  {
 
 Setting::Setting() {
   implementation_( new PtrImpl() );
-  ::time( &( implementation_->timer ) );
-  implementation_->date = localtime( &( implementation_->timer ) );
   implementation_->base_dir = FileSystem::GetUserHomeDir().get();
   implementation_->base_dir += "/.mocha/";
   implementation_->xml_path = implementation_->base_dir;

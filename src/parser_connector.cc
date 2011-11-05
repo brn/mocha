@@ -58,7 +58,7 @@ class ParserConnector::Implementation {
     int type = parent_->scanner->GetType ();
     int line = parent_->scanner->GetLineNumber ();
     
-    if ( ret == 0 && type == yy::ParserImplementation::token::LINE_BREAK ) {
+    if ( ret == 0 && type == yy::ParserImplementation::token::JS_LINE_BREAK ) {
       Linebreak_ ( yylval , line );
     } else if ( ret == 0 ) {
       return 0;

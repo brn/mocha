@@ -1,6 +1,6 @@
 (function(){
   var __global_exports = {};
-  __global_exports["/var/samba/back/mocha/test/jspp-modules/EventDelegator.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/EventDelegator.js"] = (function(){
     var exports = {};
     Class("EventDelegator")(function (self, privates) {
       var events = {
@@ -238,7 +238,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/jspp-modules/Notificator.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/Notificator.js"] = (function(){
     var exports = {};
     Class("Notificator")(function (self, privates) {
       var shift = Array.prototype.shift;
@@ -297,7 +297,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/jspp-modules/Mutex.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/Mutex.js"] = (function(){
     var exports = {};
     Class("Mutex")(function (self, privates) {
       self.__init__ = Mutex_new;
@@ -329,7 +329,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/jspp-modules/Request.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/Request.js"] = (function(){
     var exports = {};
     var Notificator = __global_exports["./Notificator"].Notificator,
         Mutex = __global_exports["./Mutex"].Mutex;
@@ -469,7 +469,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/3rd-modules/Info.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/3rd-modules/Info.js"] = (function(){
     var exports = {};
     var Request = __global_exports["Request"].Request;
     Class("Info")(function (self, privates) {
@@ -482,6 +482,7 @@
             privateVar.tried++;
             send(req, privateVar);
           }
+          
         });
         req.send({
           url : "src/info.json",
@@ -505,7 +506,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/3rd-modules/RollController.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/3rd-modules/RollController.js"] = (function(){
     var exports = {};
     var EventDelegator = __global_exports["EventDelegator"].EventDelegator,
         Info = __global_exports["./Info"].Info;
@@ -690,7 +691,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/3rd-modules/Base.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/3rd-modules/Base.js"] = (function(){
     var exports = {};
     Class("Base")(function (self, privates) {
       self.__static__.init = function () {
@@ -704,7 +705,7 @@
     
     return exports;
   })();
-  __global_exports["/var/samba/back/mocha/test/mains/pr_main.js"] = (function(){
+  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/mains/pr_main.js"] = (function(){
     var exports = {};
     var RollController = __global_exports["../3rd-modules/RollController"].RollController,
         Base = __global_exports["../3rd-modules/Base"].Base,
@@ -721,6 +722,7 @@
       });
     }
     exports.main = main;
+    var x = 100;
     
     return exports;
   })();
