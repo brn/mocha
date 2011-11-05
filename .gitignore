@@ -12,6 +12,12 @@
 *.user
 *.lastbuildstate
 *.manifest
+src/.deps/
+src/vs/mocha/mocha/Debug/
+src/vs/mocha/mocha/Release/
+src/vs/mocha/Debug/
+src/vs/mocha/ipch/
+
 Makefile
 config.h
 stamp-h1
