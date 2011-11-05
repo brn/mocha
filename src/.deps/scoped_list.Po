@@ -1,1 +1,0 @@
-scoped_list.o: scoped_list.cc
