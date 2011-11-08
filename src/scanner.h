@@ -336,9 +336,9 @@ class Scanner : private Uncopyable {
   ScannerState state_;
     
   //! Token buffer.
-  STR tokenStack_;
-  STR tmp_stack_;
-  STR source_;
+  std::string tokenStack_;
+  std::string tmp_stack_;
+  std::string source_;
   int index_;
   int max_;
   long int line_;

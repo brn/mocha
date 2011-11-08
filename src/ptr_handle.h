@@ -2,46 +2,36 @@
 #ifndef mocha_ptr_handle_h_
 #define mocha_ptr_handle_h_
 
+#include <stdio.h>
 #include "ptr_handle_base.h"
 #include "ptr_deleter.h"
-#include <stdio.h>
-namespace mocha {
-  template <typename T , typename Deleter>
-  class PtrHandleDeleter : public PtrHandleBase {
-  private :
-    T *ptr;
-    Deleter deleter;
-  public:
-    inline explicit PtrHandleDeleter ( T* ptr , Deleter deleter ) : ptr ( ptr ) , deleter ( deleter ) {};
-    inline T* get () {
-      return ptr;
-    }
-    inline void dispose () {
-      if ( ptr != 0 ) {
-        deleter ( ptr );
-        ptr = 0;
-      }
-    }
-  };
 
-  template <typename T>
-  class PtrHandle : public PtrHandleBase {
-  private :
-    T *ptr;
-  public:
-    inline explicit PtrHandle ( T* ptr ) : ptr ( ptr ) {};
-    inline T* get () {
-      return ptr;
-    }
-    inline void dispose () {
-      if ( ptr != 0 ) {
-        PtrDeleter<T>::deleter ( ptr );
-        ptr = 0;
-      }
-    }
-  };
+namespace mocha {
+
+template <typename T , typename Deleter>
+class PtrHandleDeleter : public PtrHandleBase {
+ public :
+  inline explicit PtrHandleDeleter( T* ptr , Deleter deleter );
+  inline T* Get();
+  inline void Dispose();
+ private :
+  T *ptr_;
+  Deleter deleter_;
+};
+
+template <typename T>
+class PtrHandle : public PtrHandleBase {
+ public :
+  inline explicit PtrHandle( T* ptr );
+  inline T* Get();
+  inline void Dispose();
+ private :
+  T *ptr_;
+};
 
 }
+
+#include "ptr_handle-impl.h"
 
 #endif
 

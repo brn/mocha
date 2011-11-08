@@ -7,17 +7,12 @@
 #if defined __GNUC__
 #define JPM_CONST __attribute__((const))
 #define JPM_PURE __attribute__ ((pure))
+#define JPM_INLINE __attribute__((flatten))
 #else
 #define JPM_CONST
 #define JPM_PURE
+#define JPM_INLINE
 #endif
-
-namespace mocha {
-
-  typedef std::string::const_iterator CSTIter;
-  typedef std::string STR;
-
-}
 
 #endif
 

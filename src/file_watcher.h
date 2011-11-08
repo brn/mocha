@@ -58,9 +58,10 @@ class FileWatcher {
   void UnWatchAll();
   void Stop();
   void Start();
+  void Exit();
  private :
   class PtrImpl;
-  ScopedPtr<PtrImpl> implementation_;
+  PtrImpl* implementation_;
 };
 
 }

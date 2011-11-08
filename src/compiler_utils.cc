@@ -14,7 +14,7 @@ namespace mocha{
 StrHandle CompilerUtils::CreateJsPath( const char* filename , const char* module_path_key ) {
   std::string tmp;
   if ( !CheckIsModule( filename ) ) {
-    tmp += VirtualDirectory::GetInstance()->GetRealPath( filename ).get();
+    tmp += VirtualDirectory::GetInstance()->GetRealPath( filename ).Get();
     tmp += JS_EXTENSION;
   } else {
     tmp = XMLSettingInfo::GetModuleDirPath( module_path_key );
@@ -27,7 +27,7 @@ StrHandle CompilerUtils::CreateJsPath( const char* filename , const char* module
 
 Handle<PathInfo> CompilerUtils::ChangeDir( const char* js_path ) {
   Handle<PathInfo> path_info = FileSystem::GetPathInfo( js_path );
-  VirtualDirectory::GetInstance()->Chdir( path_info->GetDirPath() );
+  VirtualDirectory::GetInstance()->Chdir( path_info->GetDirPath().Get() );
   return path_info;
 }
 

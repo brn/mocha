@@ -1124,9 +1124,13 @@ call_expression
             js_path.erase( js_path.size() - 1 , js_path.size() );
             StrHandle current = VirtualDirectory::GetInstance()->GetCurrentDir();
             compiler->Load ( js_path.c_str() );
-            VirtualDirectory::GetInstance()->Chdir( current.get() );
+            VirtualDirectory::GetInstance()->Chdir( current.Get() );
+            std::string mkey = "\"";
+            mkey += VirtualDirectory::GetInstance()->GetModuleKey();
+            mkey += "\"";
+            StringLiteral* key = ManagedHandle::Retain( new StringLiteral( mkey.c_str() ) );
             Identifier *accessor = ManagedHandle::Retain( new Identifier( "__global_exports" ) );
-            ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , accessor , $2 ) );
+            ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , accessor , key ) );
             $$ = ret;
           } else {
             goto NORMAL_FN_CALL;

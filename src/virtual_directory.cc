@@ -17,7 +17,7 @@ VirtualDirectory* VirtualDirectory::GetInstance() {
 
 void VirtualDirectory::Chdir( const char* path ) {
   StrHandle handle = FileSystem::NormalizePath( path );
-  current_dir_ = handle.get();
+  current_dir_ = handle.Get();
 }
 
 StrHandle VirtualDirectory::GetCurrentDir() {
@@ -33,6 +33,14 @@ StrHandle VirtualDirectory::GetRealPath( const char* path ) {
   tmp += path;
   printf( "before process -> %s\n" , tmp.c_str() );
   return FileSystem::NormalizePath( tmp.c_str() );
+}
+
+void VirtualDirectory::SetModuleKey( const char* path ) {
+  module_key_ = path;
+}
+
+const char* VirtualDirectory::GetModuleKey() {
+  return module_key_.c_str();
 }
 
 void VirtualDirectory::Destructor_( void* ptr ) {

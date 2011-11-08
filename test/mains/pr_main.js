@@ -22,4 +22,3 @@ function main () {
 }
 
 exports.main = main;
-var x = 100;

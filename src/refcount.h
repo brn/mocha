@@ -7,91 +7,58 @@
 
 
 namespace mocha {
-  /**
-   *@class
-   *@extends
-   *RefCountBase
-   *@description
-   *Manage reference count and pointer.
+/**
+ *@class
+ *@extends
+ *RefCountBase
+ *@description
+ *Manage reference count and pointer.
+ */
+template <typename T>
+class RefCount : public RefCountBase {
+    
+ public:
+    
+  /*
+   *@constructor
+   *Normal constructor.
    */
-  template <typename T>
-  class RefCount : public RefCountBase {
+  inline explicit RefCount ( T *target );
     
-  public:
-    
-    /*
-     *@constructor
-     *No Arguments constructor.
-     */
-    inline RefCount () :
-      RefCountBase ( 0 ) ,
-      is_free_called_ ( false ),
-      ptr_handle_ ( 0 ) {};
-    
-    /*
-     *@constructor
-     *Normal constructor.
-     */
-    inline explicit RefCount ( T *target ) : 
-      RefCountBase ( 1 ) ,
-      is_free_called_ ( false ),
-      ptr_handle_ ( new PtrHandle<T> ( target ) ) {};
-    
-    /*
-     *@constructor
-     *Has deleter constructor.
-     */
-    template <typename Deleter>
-    inline RefCount ( T *target , Deleter deleter  ) :
-      RefCountBase ( 1 ) ,
-      is_free_called_ ( false ),
-      ptr_handle_ ( new PtrHandleDeleter<T,Deleter> ( target , deleter ) ) {};
+  /*
+   *@constructor
+   *Has deleter constructor.
+   */
+  template <typename Deleter>
+  inline RefCount ( T *target , Deleter deleter  );
 
 
-    /*
-     *@constructor
-     *Covert constructor.
-     */
-    inline explicit RefCount ( PtrHandleBase* base ) : 
-      RefCountBase ( 1 ) ,
-      is_free_called_ ( false ),
-      ptr_handle_ ( base ) {};
-    
-    
-    /*
-     *@destructor
-     *Normal destructor.
-     */
-    inline ~RefCount () {
-      
-      if ( ptr_handle_ != 0 ) {
-        //destruct pointer.
-        if ( is_free_called_ == false ) {
-          ptr_handle_->dispose ();
-        }
-        delete ptr_handle_;
-        ptr_handle_ = 0;
-      }
-      
-    };
+  /*
+   *@constructor
+   *Covert constructor.
+   */
+  inline explicit RefCount ( PtrHandleBase* base );
+  
+  /*
+   *@destructor
+   *Normal destructor.
+   */
+  inline ~RefCount ();
 
-    inline void free () {
-      is_free_called_ = true;
-    }
-
-  private:
+ private :
     
-    bool is_free_called_;
-    /**
-     *@private
-     *@description
-     *This pointer type is RefPtrBase,
-     *but real type is upcast pointer of RefPtr or RefPtrDeleter.
-     */
-    PtrHandleBase *ptr_handle_;
+  /**
+   *@private
+   *@description
+   *This pointer type is RefPtrBase,
+   *but real type is upcast pointer of RefPtr or RefPtrDeleter.
+   */
+  PtrHandleBase *ptr_handle_;
     
-  };
+};
 }
+
+#include "refcount-impl.h"
 
 #endif
 

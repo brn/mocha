@@ -6,19 +6,12 @@ template <typename T>
 inline ScopedList<T>::ScopedList(){}
 
 template <typename T>
-ScopedList<T>::~ScopedList () {
-  typename List_::iterator begin = list_.begin ();
-  typename List_::iterator end = list_.end ();
-  while ( begin != end ) {
-    (*begin)->dispose();
-    ++begin;
-  }
-}
+ScopedList<T>::~ScopedList () {}
 
 template <typename T>
 template <typename Class , typename Deleter>
 inline T* ScopedList<T>::Retain ( Class* ptr, Deleter deleter ) {
-  return RegistToList_( new PtrHandleDeleter<Class , Deleter>( ptr , deleter ) , ptr );
+  return RegistToList_( Handle<Class>( ptr , deleter ) , ptr );
 }
 
 template <typename T>
@@ -32,7 +25,7 @@ inline T* ScopedList<T>::Retain ( Deleter deleter ) {
 template <typename T>
 template <typename Class>
 inline T* ScopedList<T>::Retain( Class* ptr ) {
-  return RegistToList_( new PtrHandle<Class>( ptr ) , ptr );
+  return RegistToList_( Handle<Class>( ptr ) , ptr );
 }
 
 template <typename T>
@@ -43,8 +36,8 @@ inline T* ScopedList<T>::Retain() {
 }
 
 template <typename T>
-inline T* ScopedList<T>::RegistToList_( PtrHandleBase *base , T* ptr ) {
-    list_.push_back ( base );
+inline T* ScopedList<T>::RegistToList_( Handle<T> handle , T* ptr ) {
+    list_.push_back ( handle );
     return ptr;
 }
 
@@ -54,8 +47,7 @@ inline ScopedArrayList<T>::ScopedArrayList() : ScopedList<T>(){}
 template <typename T>
 template <typename Class>
 inline T* ScopedArrayList<T>::Retain( Class* ptr ) {
-  return ScopedList<T>::Retain( ptr , PtrDeleter<Class>::deleterArray );
-  return ptr;
+  return ScopedList<T>::Retain( ptr , PtrDeleter<Class>::DeleteArray );
 }
 
 
@@ -65,7 +57,7 @@ inline ScopedAllocaterList<T>::ScopedAllocaterList() : ScopedList<T>(){}
 template <typename T>
 template <typename Class>
 inline T* ScopedAllocaterList<T>::Retain( Class* ptr ) {
-  return ScopedList<T>::Retain( ptr , PtrDeleter<Class>::freePtr );
+  return ScopedList<T>::Retain( ptr , PtrDeleter<Class>::Free );
 }
 
 }

@@ -50,6 +50,7 @@ namespace mocha {
  *Implementation of pimpl idiom.
  */
 class Compiler::PtrImpl {
+  friend class Compiler;
 public :
 
   PtrImpl( Compiler* compiler , const char* main_file_path ) :
@@ -75,11 +76,11 @@ public :
     StrHandle js_path = CompilerUtils::CreateJsPath( filename , main_file_path_.c_str() );
 
     //Check is module already loaded or not.
-    if ( IsAlreadyLoaded_( js_path.get() ) ) {
+    if ( IsAlreadyLoaded_( js_path.Get() ) ) {
       //Change current directory to loaded js file directory.
-      Handle<PathInfo> path_info = CompilerUtils::ChangeDir( js_path.get() );
+      Handle<PathInfo> path_info = CompilerUtils::ChangeDir( js_path.Get() );
       //Set loaded file to hash.
-      SetPath_( js_path.get() );
+      SetPath_( js_path.Get() );
       CallInternal_( path_info , Internal::kNofatal );
     }
   }
@@ -89,18 +90,18 @@ public :
     //Current directory -> main js file path.
     //Get file name of main js file.
     char tmp[ 1000 ];
-    sprintf( tmp , "%s/%s" , path_info_->GetDirPath() , path_info_->GetFileName() );
+    sprintf( tmp , "%s/%s" , path_info_->GetDirPath().Get() , path_info_->GetFileName().Get() );
 
     //Get deploy path of -cmp.js file.
     StrHandle handle = XMLSettingInfo::GetDeployPath( tmp );
     
-    Handle<File> ret = FileIO::Open ( handle.get(),
+    Handle<File> ret = FileIO::Open ( handle.Get(),
                                       "rwn",
                                       FileIO::P_ReadWrite );
-    Setting::GetInstance()->Log( "deploy to %s" , handle.get() );
+    Setting::GetInstance()->Log( "deploy to %s" , handle.Get() );
     //Set permission to rw for all.
-    FileSystem::Chmod( handle.get() , 0777 );
-    ret->write ( script );
+    FileSystem::Chmod( handle.Get() , 0777 );
+    ret->Write ( script );
   }
 
 private :
@@ -168,6 +169,9 @@ void Compiler::Compile () {
   implementation_->Compile();
 }
 
+Handle<PathInfo> Compiler::GetMainPathInfo () {
+  return implementation_->path_info_;
+}
 
 void Compiler::Destructor_( void* ptr ) {
   Compiler *compiler = reinterpret_cast<Compiler*>( ptr );

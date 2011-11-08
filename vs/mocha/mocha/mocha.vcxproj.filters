@@ -102,9 +102,6 @@
     <ClCompile Include="..\..\..\src\scope.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\scoped_list.cc">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\setting.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -145,6 +142,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\tinyxml\tinyxmlparser.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\char_allocator.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -339,6 +339,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\tinyxml\tinyxml.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\char_allocator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,11 +20,14 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef Compiler_h
-#define Compiler_h
+#ifndef mocha_compiler_h_
+#define mocha_compiler_h_
 
+#include "uncopyable.h"
 #include "thread.h"
 #include "scoped_ptr.h"
+#include "handle.h"
+#include "file_system.h"
 #include "compiler_starter.h"
 
 namespace mocha {
@@ -37,7 +40,7 @@ namespace mocha {
  * This class called by MochaMain.
  * @see MochaMain::CompileStart_
  */
-class Compiler {
+class Compiler : private Uncopyable {
   friend class CompilerStarter;
  public :
 
@@ -60,6 +63,13 @@ class Compiler {
    * This rule borrow from node.js.
    */
   void Load ( const char* filename );
+
+  /**
+   * @public
+   * @returns {Handle<PathInfo>}
+   * Get PathInfo of main file path.
+   */
+  Handle<PathInfo> GetMainPathInfo();
  private :
   
   /**

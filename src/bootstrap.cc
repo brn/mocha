@@ -54,11 +54,11 @@ void CreateDir() {
 void CreateSetting() {
   CreateDir();
   const char* path = mocha::Setting::GetInstance()->GetXMLPath();
-  if ( !mocha::FileIO::isExist( path ) ) {
+  if ( !mocha::FileIO::IsExist( path ) ) {
     mocha::Handle<mocha::File> file = mocha::FileIO::Open( path , "rwn" , mocha::FileIO::P_ReadWrite );
-    if ( file->isSuccess() ) {
+    if ( file->IsSuccess() ) {
       mocha::FileSystem::Chmod( path , 0777 );
-      file->write( CreateXML() );
+      file->Write( CreateXML() );
     } else {
       fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
     }
@@ -68,7 +68,7 @@ void CreateSetting() {
 void CreateLog() {
   CreateSetting();
   const char* path = mocha::Setting::GetInstance()->GetLogPath();
-  if ( !mocha::FileIO::isExist( path ) ) {
+  if ( !mocha::FileIO::IsExist( path ) ) {
  CREATE :
     int ret = mocha::FileIO::CreateFile( path , 0777 );
     if ( ret != -1 ) {
@@ -78,7 +78,7 @@ void CreateLog() {
       fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
     }
   } else {
-    if ( mocha::FileIO::Open( path , "r" , mocha::FileIO::P_ReadOnly )->getSize() > 524288 ) {
+    if ( mocha::FileIO::Open( path , "r" , mocha::FileIO::P_ReadOnly )->GetSize() > 524288 ) {
       char tmp[ 1000 ];
       sprintf( tmp , "%s-%s\n" , path , mocha::Setting::GetInstance()->GetTimeStr() );
       rename( path , tmp );
@@ -94,11 +94,12 @@ void Bootstrap::Initialize( int argc , char** argv ) {
   CreateLog();
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
-  self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).get();
+  self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).Get();
   Options *options = CommandLineOptions::GetInstance();
   options->AnalyzeOption( argc , argv );
   Mocha mocha( options );
   mocha.Run();
+  delete Setting::instance_;
 }
 
 void Bootstrap::Reboot() {

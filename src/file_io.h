@@ -8,6 +8,7 @@
 #include <boost/unordered_map.hpp>
 #include "handle.h"
 #include "thread.h"
+#include "char_allocator.h"
 
 #define RAW_IO_BUF_SIZE 1000
 
@@ -25,9 +26,9 @@ class File {
 
   unsigned int openType;
 
-  inline char* allocate ( size_t size );
+  inline char* Allocate ( size_t size );
 
-  inline char* reallocate ( char* buffer , size_t size );
+  inline char* Reallocate ( char* buffer , size_t size );
     
   std::string path_;
 
@@ -42,21 +43,22 @@ class File {
   ~File ();
   File& operator = ( const File& file );
 
-  void close ();
+  void Close ();
 
-  CStrHandle getFileContents ();
+  CStrHandle GetFileContents ();
+  void GetFileContents( std::string& str );
 
-  int write ( const char* buf );
+  int Write ( const char* buf );
 
-  int readSync ( char *buf , size_t size );
+  int ReadSync ( char *buf , size_t size );
 
-  bool isSuccess ();
+  bool IsSuccess ();
 
-  StrHandle getDate ( DateType type = kUpdate );
+  StrHandle GetDate ( DateType type = kUpdate );
 
-  long int getSize ();
+  long int GetSize ();
 
-  const char* getFileName ();
+  const char* GetFileName ();
 
 };
 
@@ -82,7 +84,7 @@ class FileIO {
     New = 7
   };
     
-  inline static void getPermiss ( unsigned int *permiss , int access );
+  inline static void GetPermiss ( unsigned int *permiss , int access );
 
   FileIO () {};
   FileIO ( const FileIO& io ) {};
@@ -98,7 +100,7 @@ class FileIO {
   
   static Handle<File> Open ( const char* path , const char* mode , int access = 0 );
   
-  static bool isExist ( const char* path );
+  static bool IsExist ( const char* path );
 
   static int CreateFile ( const char* filename , int access = 0 );
   static void CloseAll();

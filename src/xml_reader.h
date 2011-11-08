@@ -18,8 +18,8 @@ class XMLReader {
   
  private :
   static bool CheckIgnoreOption_( TiXmlElement *elem );
-  const char* GetFullPath_( const char* path , bool is_reparse );
-  const char* GetPath_( const char* path , bool is_reparse );
+  void GetFullPath_( const char* path , std::string& buf );
+  void GetPath_( const char* path , std::string& buf );
   void ParseStart_( const char* path );
   void SwitchProcessor_( TiXmlNode* node , XMLInfo* info );
   void ProcessNode_( TiXmlElement *elem , XMLInfo* info );
@@ -28,6 +28,7 @@ class XMLReader {
   void ProcessDirNode_( TiXmlElement *elem , XMLInfo* info );
   void ProcessIncludeNode_( TiXmlElement *elem , XMLInfo* info );
   void ProcessDeployOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
+  void ProcessCompileOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
   void ProcessModuleOption_( const char* filename , const char* module );
   void ProcessFilePath_( const char* filename );
   
@@ -41,6 +42,7 @@ class XMLReader {
   static const char module_[];
   static const char ignore_[];
   static const char deploy_[];
+  static const char options_[];
 };
 }
 #undef IS_IGNORE

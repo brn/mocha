@@ -7,14 +7,18 @@
 #include "file_io.h"
 #include "setting.h"
 #include "xml_setting_info.h"
+#include "options.h"
+#include "char_allocator.h"
 
 #define BEGIN(name) printf( "log : %s\n" , #name )
 #define END(name) printf( "log : %s end\n" , #name )
 #define IS_DEF(str) str && strlen(str) > 0
+#define ITERATOR(name) begin = name.begin(),end = name.end()
 #define MODULE_LIST XMLSettingInfo::module_list_
 #define INCLUDE_LIST XMLSettingInfo::include_list_
 #define DEPLOY_LIST XMLSettingInfo::deploy_list_
 #define FILE_LIST XMLSettingInfo::file_list_
+#define COMPILE_OPTION XMLSettingInfo::compile_option_
 #define SETTINGS Setting::GetInstance()
 #define IS_IGNORE(name) name && strlen(name) > 0 && strcmp( name , "true" ) == 0
 
@@ -29,20 +33,23 @@ class XMLInfo {
   const char* path_;
 };
 
-XMLReader::~XMLReader() {}
+XMLReader::~XMLReader() {
+  END("XMLReader");
+}
 
 void XMLReader::Parse( const char* path , bool is_reparse ) {
   BEGIN(Parse);
+  std::string fullpath;
   //Get absolute path of xml file.
-  const char* fullpath = GetFullPath_( path , is_reparse );
+  GetFullPath_( path , fullpath );
   /*
    *If xml file is exit, start parse,
    *if not exist ignore this file and logging.
    */
-  if ( FileIO::isExist( fullpath ) ) {
-    ParseStart_( fullpath );
+  if ( FileIO::IsExist( fullpath.c_str() ) ) {
+    ParseStart_( fullpath.c_str() );
   } else {
-    SETTINGS->LogError( "%s no such file." , fullpath );
+    SETTINGS->LogError( "%s no such file." , fullpath.c_str() );
   }
   END(Parse);
 }
@@ -56,40 +63,31 @@ bool XMLReader::CheckIgnoreOption_( TiXmlElement *elem ) {
   return false;
 }
 
-const char* XMLReader::GetFullPath_( const char* path , bool is_reparse ) {
+void XMLReader::GetFullPath_( const char* path , std::string& buf ) {
   /*
    *If path is default setting.xml,push include list to setting.xml path,
    *and return default path.
    *If path is not default setting.xml, get absolute path of xml path.
    */
   if ( strcmp( path , SETTINGS->GetXMLPath() ) == 0 ) {
-    INCLUDE_LIST.push_back( SETTINGS->GetXMLPath() );
-    return SETTINGS->GetXMLPath();
+    buf = SETTINGS->GetXMLPath();
+    INCLUDE_LIST.push_back( buf );
   } else {
-    return GetPath_( path , is_reparse );
+    return GetPath_( path , buf );
   }
 }
 
 
-const char* XMLReader::GetPath_( const char* path , bool is_reparse ) {
+void XMLReader::GetPath_( const char* path , std::string& buf ) {
   BEGIN(GetPath_);
   /*
-   *If parse first time, get full file path.
-   *If reparse mode, return default setting.xml path. 
+   *Get full file path.
    */
-  if ( is_reparse ) {
-    printf ( "%s\n" , path );
-    INCLUDE_LIST.push_back( Setting::GetInstance()->GetXMLPath() );
-    return SETTINGS->GetXMLPath();
-  } else {
-    printf( "relative path = %s\n" , path );
-    StrHandle fullpath = FileSystem::GetAbsolutePath( path );
-    printf( "full path = %s\n" ,fullpath.get() );
-    char* result = new char[ ( strlen( fullpath.get() ) + 1 ) ];
-    strcpy( result , fullpath.get() );
-    INCLUDE_LIST.push_back( scoped_char_.Retain( result ) );
-    return result;
-  }
+  printf( "relative path = %s\n" , path );
+  StrHandle fullpath = FileSystem::GetAbsolutePath( path );
+  printf( "full path = %s %p\n" ,fullpath.Get() , fullpath.Get() );
+  buf = fullpath.Get();
+  INCLUDE_LIST.push_back( buf );
   END(GetPath_);
 }
 
@@ -101,8 +99,8 @@ void XMLReader::ParseStart_( const char* path ) {
   xml_document.LoadFile( path );
   TiXmlElement* elem = xml_document.RootElement();
   Handle<PathInfo> path_info = FileSystem::GetPathInfo( path );
-  printf( "dir path = %s\n" , path_info->GetDirPath() );
-  XMLInfo info( path_info->GetDirPath() );
+  printf( "dir path = %s\n" , path_info->GetDirPath().Get() );
+  XMLInfo info( path_info->GetDirPath().Get() );
   SwitchProcessor_( elem , &info );
   END(ParseStart_);
 }
@@ -157,10 +155,10 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
     printf( "watch file name = %s\n" , filename_buf );
 
     StrHandle handle = FileSystem::NormalizePath( filename_buf );
-    const char* normalized_path = handle.get();
+    const char* normalized_path = handle.Get();
 
     //If file exist.
-    if ( FileIO::isExist( normalized_path ) ) {
+    if ( FileIO::IsExist( normalized_path ) ) {
       if ( IS_DEF( module ) ) {
         sprintf( module_buf , "%s/%s" , info->GetPath() , module );
         //Processing <file module="..." /> attr.
@@ -170,8 +168,9 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
       ProcessFilePath_( normalized_path );
       //Processing <file deploy="..." /> attr.
       ProcessDeployOption_( elem , normalized_path , dir , info );
+      ProcessCompileOption_( elem , normalized_path , dir , info );
     } else {
-      Setting::GetInstance()->LogError( "%s no such file." , handle.get() );
+      Setting::GetInstance()->LogError( "%s no such file." , handle.Get() );
     }
   }
   END(ProcessFileNode_);
@@ -179,19 +178,14 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
 
 
 void XMLReader::ProcessFilePath_( const char* filename ) {
-  char* insertion_name = new char[ strlen( filename ) + 1 ];
-  strcpy( insertion_name , filename );
-  printf ( "file name = %s\n" , insertion_name );
-  //Manage heaped ptr.
-  scoped_char_.Retain( insertion_name );
-  FILE_LIST.push_back( insertion_name );
+  FILE_LIST.push_back( filename );
 }
 
 
 void XMLReader::ProcessModuleOption_( const char* filename , const char* module ) {
   StrHandle module_handle = FileSystem::NormalizePath( module );
   if ( MODULE_LIST.find( filename ) == MODULE_LIST.end() ) {
-    MODULE_LIST[ filename ] = module_handle.get();
+    MODULE_LIST[ filename ] = module_handle.Get();
   }
 }
 
@@ -201,9 +195,43 @@ void XMLReader::ProcessDeployOption_( TiXmlElement *elem , const char* filename 
   if ( IS_DEF( deploy_path ) ) {
     char buf[ 1000 ];
     sprintf( buf , "%s/%s/%s" , info->GetPath() , dir , deploy_path );
-    printf( "deploy path is %s\n" , buf );
     StrHandle handle = FileSystem::NormalizePath( buf );
-    DEPLOY_LIST[ filename ] = handle.get();
+    DEPLOY_LIST[ filename ] = handle.Get();
+  }
+}
+
+
+void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo *info ) {
+  const char* compile_option = elem->Attribute( options_ );
+  if ( IS_DEF( compile_option ) ) {
+    std::vector<char*> array;
+    array.push_back( "" );
+    int len = strlen( compile_option );
+    int raw = 1;
+    std::string buf;
+    ScopedStrList scoped_list;
+    for ( int i = 0; i < len; ++i ) {
+      buf += compile_option[ i ];
+      if ( ( compile_option[ i ] == ' ' || ( i == ( len - 1 ) ) ) &&
+           buf.find_first_not_of( ' ' , 0 ) != std::string::npos ) {
+
+        if ( buf[ buf.size() - 1 ] == ' ' ) {
+          buf.erase( buf.size() - 1 , buf.size() );
+        }
+        char* ret = new char[ buf.size() + 1 ];
+        strcpy( ret , buf.c_str() );
+        scoped_list.Retain( ret );
+        array.push_back( ret );
+        printf("options is %s\n" , buf.c_str() );
+        buf.clear();
+        raw++;
+      }
+    }
+    if ( raw > 1 ) {
+      Options *option = new Options();
+      option->AnalyzeOption( raw , array );
+      COMPILE_OPTION[ filename ] = Handle<Options>( option );
+    }
   }
 }
 
@@ -257,4 +285,5 @@ const char XMLReader::path_[] = { "path" };
 const char XMLReader::module_[] = { "module" };
 const char XMLReader::ignore_[] = { "ignore" };
 const char XMLReader::deploy_[] = { "deploy" };
+const char XMLReader::options_[] = { "options" };
 }

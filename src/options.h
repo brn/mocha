@@ -25,6 +25,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <string>
+#include <vector>
 #include "handle.h"
 #include "setting.h"
 
@@ -34,6 +35,24 @@ class Options {
   Options(){}
   ~Options(){}
   inline void AnalyzeOption ( int argc , char** argv ) {
+    AnalyzeOption_<char**>( argc , argv );
+  }
+  inline void AnalyzeOption ( int argc , std::vector<char*> argv ) {
+    AnalyzeOption_<std::vector<char*> >( argc , argv );
+  }
+  inline StrHandle GetPath () {
+    return path_;
+  }
+  inline bool IsCommandLineCompile() { return ( options_ & 1 )  == 1; }
+  inline bool IsWatchFile() { return ( options_ & 2 )  == 2; }
+  inline bool IsWatchXML() { return ( options_ & 4 ) == 4; }
+  inline bool IsPrettyPrint() { return ( options_ & 8 ) == 8; }
+  inline bool IsEmbedLine() { return ( options_ & 16 ) == 16; }
+  inline bool IsShowHelp() { return ( options_ & 32 ) == 32; }
+  inline bool IsPath() { return ( options_ & 64 ) == 64; }
+ private :
+  template <typename T>
+  void AnalyzeOption_( int argc , T argv ) {
     if ( argc == 1 ) {
       OptionNotEnough_( "mocha" );
     }
@@ -73,17 +92,6 @@ class Options {
       OptionNotEnough_( "-c/--compile" );
     }
   }
-  inline StrHandle GetPath () {
-    return path_;
-  }
-  inline bool IsCommandLineCompile() { return ( options_ & 1 )  == 1; }
-  inline bool IsWatchFile() { return ( options_ & 2 )  == 2; }
-  inline bool IsWatchXML() { return ( options_ & 4 ) == 4; }
-  inline bool IsPrettyPrint() { return ( options_ & 8 ) == 8; }
-  inline bool IsEmbedLine() { return ( options_ & 16 ) == 16; }
-  inline bool IsShowHelp() { return ( options_ & 32 ) == 32; }
-  inline bool IsPath() { return ( options_ & 64 ) == 64; }
- private :
   void MatchOptions_ ( char arg , const char* argv ) {
     switch( arg ) {
       case 'c' :

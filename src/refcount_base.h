@@ -1,35 +1,28 @@
 
-#ifndef RefCountBase_h
-#define RefCountBase_h
+#ifndef mocha_refcount_base_h_
+#define mocha_refcount_base_h_
 #include "uncopyable.h"
-
+#include "define.h"
 namespace mocha {
 
   class RefCountBase : private Uncopyable {
   public :
-    RefCountBase ( int num = 0 ) : count ( num ) {};
+    RefCountBase ( int num = 0 ) : count_( num ) {};
     virtual ~RefCountBase (){};
-    virtual void free () = 0;
-    inline void add () {
-      count ++;
-    }
-    
-    inline void release () {
-      
-      if ( count != 0 ) {
-        count --;
+    inline void Add() { count_++; };
+    inline void Release() {
+      if ( count_ != 0 ) {
+        count_--;
       }
-
-      if ( count == 0 ) {
+      if ( count_ == 0 ) {
         delete this;
       }
-      
     };
-  protected:
-    unsigned int count;
+  private :
+    unsigned int count_;
   };
-
 };
+
 
 #endif
 

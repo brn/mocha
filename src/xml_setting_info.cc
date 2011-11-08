@@ -11,6 +11,7 @@ void XMLSettingInfo::EraseData() {
   include_list_.clear();
   module_list_.clear();
   deploy_list_.clear();
+  compile_option_.clear();
 }
 
 const char* XMLSettingInfo::GetModuleDirPath( const char* filename ) {
@@ -32,7 +33,7 @@ StrHandle XMLSettingInfo::GetDeployPath( const char* filename ) {
       FileSystem::Mkdir( ret , 0777 );
       Handle<PathInfo> path_info = FileSystem::GetPathInfo( filename );
       char tmp[ 1000 ];
-      sprintf( tmp , "%s/%s" , ret , GetCmpPath_( path_info->GetFileName() ).get() );
+      sprintf( tmp , "%s/%s" , ret , GetCmpPath_( path_info->GetFileName().Get() ).Get() );
       char* result = new char[ strlen( tmp ) + 1 ];
       strcpy( result , tmp );
       StrHandle handle( result );
@@ -40,6 +41,15 @@ StrHandle XMLSettingInfo::GetDeployPath( const char* filename ) {
     } else {
       return GetCmpPath_( filename );
     }
+  }
+}
+
+Options* XMLSettingInfo::GetCompileOption( const char* path ) {
+  OptionHash::iterator begin = compile_option_.find( path );
+  if ( begin != compile_option_.end() ) {
+    return (*begin).second.Get();
+  } else {
+    return &empty_option_;
   }
 }
 
@@ -57,5 +67,8 @@ XMLSettingInfo::List XMLSettingInfo::file_list_;
 XMLSettingInfo::List XMLSettingInfo::include_list_;
 XMLSettingInfo::Hash XMLSettingInfo::module_list_; 
 XMLSettingInfo::Hash XMLSettingInfo::deploy_list_;
+XMLSettingInfo::OptionHash XMLSettingInfo::compile_option_;
+Options XMLSettingInfo::empty_option_;
+
 
 }

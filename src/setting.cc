@@ -26,7 +26,7 @@ class Setting::PtrImpl {
     }
     tmp += str;
     tmp += "\n";
-    file_handle->write( tmp.c_str() );
+    file_handle->Write( tmp.c_str() );
   }
 
   const char* GetTimeStr() {
@@ -71,12 +71,13 @@ Setting* Setting::GetInstance() {
   return instance_;
 }
 
+
 const char* Setting::GetBasePath() { return implementation_->base_dir.c_str(); }
 const char* Setting::GetXMLPath() { return implementation_->xml_path.c_str(); }
 const char* Setting::GetModulePath() { return implementation_->module_path.c_str(); }
 const char* Setting::GetLogPath() { return implementation_->log_path.c_str(); }
 const char* Setting::GetTimeStr() { return implementation_->GetTimeStr(); }
-void Setting::Close(){ implementation_->file_handle->close(); }
+void Setting::Close(){ implementation_->file_handle->Close(); }
 
 void Setting::LogNoDate( const char* format , ... ) {
   char buffer[ 1000 ];
@@ -119,7 +120,7 @@ void Setting::LogFatal( const char* format , ... )  {
 
 Setting::Setting() {
   implementation_( new PtrImpl() );
-  implementation_->base_dir = FileSystem::GetUserHomeDir().get();
+  implementation_->base_dir = FileSystem::GetUserHomeDir().Get();
   implementation_->base_dir += "/.mocha/";
   implementation_->xml_path = implementation_->base_dir;
   implementation_->xml_path += "setting.xml";

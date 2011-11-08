@@ -19,6 +19,7 @@
 #include "useconfig.h"
 #include "stat.h"
 #include "mkdir.h"
+#include "char_allocator.h"
 
 #ifdef _WIN32
 #define HOME "HOMEPATH"
@@ -34,33 +35,67 @@
 #define MAXPATHLEN 1028
 #endif
 
+#ifdef HAVE_REALPATH
+#define FULL_PATH( path , tmp ) realpath( path , tmp )
+#elif HAVE__FULLPATH
+#define FULL_PATH( path , tmp ) _fullpath( tmp , path , MAXPATHLEN )
+#endif
+
 using namespace mocha;
 
+PathInfo::PathInfo( const char* path ) :
+    raw_path_( path ) , filepath_( GetFileNameFromPath_( path ) ) , dir_( GetDirectoryFromPath_( path ) ){}
+
+const char* PathInfo::GetDirectoryFromPath_( const char* path ) {
+  int index = strlen( path );
+  std::string tmp = path;
+  bool is_slashed = false;
+  while ( index-- ) {
+    if ( is_slashed ) {
+      break;
+    }
+    if ( path[ index ] == '/' ) {
+      is_slashed = true;
+    }
+  }
+  tmp.erase( index + 1 , tmp.size() );
+  char* ret = new char[ tmp.size() + 1 ];
+  strcpy( ret , tmp.c_str() );
+  return ret;
+}
+
+const char* PathInfo::GetFileNameFromPath_( const char* path ) {
+  std::string tmp;
+  const char* ptr = strrchr( path , '/' );
+  if ( ptr ) {
+    tmp = ( ptr + 1 );
+  }
+  char* ret = new char[ tmp.size() + 1 ];
+  strcpy( ret, tmp.c_str() );
+  return ret;
+}
+
 StrHandle FileSystem::pwd () {
-
   return GetCwd ();
-
 }
 
 Handle<PathInfo> FileSystem::GetPathInfo( const char* path ) {
-  const char* dir = GetDirectoryFromPath_( path );
-  const char* file = GetFileNameFromPath_( path );
   char* raw_path = new char[ strlen( path ) + 1 ];
   strcpy( raw_path , path );
-  Handle<PathInfo> handle( new PathInfo( file , dir , raw_path ) );
+  Handle<PathInfo> handle( new PathInfo( raw_path ) );
   return handle;
 }
 
 StrHandle FileSystem::NormalizePath( const char* path ) {
   std::string tmp = path;
   while ( 1 ) {
-    int pos = tmp.find( "../" , 0 );
+    unsigned pos = tmp.find( "../" , 0 );
     if ( pos == std::string::npos ) {
-      int pos = tmp.find( "./" , 0 );
+      unsigned pos = tmp.find( "./" , 0 );
       if ( pos != std::string::npos ) {
         tmp.erase( pos , 2 );
       } else {
-        int pos = tmp.find( "//" , 0 );
+        unsigned pos = tmp.find( "//" , 0 );
         if ( pos != std::string::npos ) {
           tmp.erase( pos , 1 );
         } else {
@@ -68,7 +103,6 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
         }
       }
     } else {
-      int cache = pos;
       int count = 0;
       int matched = 0;
       bool has_ch = false;
@@ -91,10 +125,7 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
   if ( tmp[ tmp.size() - 1 ] == '/' ) {
     tmp.erase( tmp.size() - 1 , tmp.size() );
   }
-  char* ret = new char[ tmp.size() + 1 ];
-  strcpy( ret , tmp.c_str() );
-  StrHandle handle( ret );
-  return handle;
+  return StrHandle( utils::CharAlloc( tmp.c_str() ) );
 }
 
 
@@ -103,57 +134,20 @@ StrHandle FileSystem::GetUserHomeDir() {
 #ifdef _WIN32
   return GetAbsolutePath( getenv( HOME ) );
 #else
-  char* ret = new char[ MAXPATHLEN ];
-  strcpy( ret , getenv( HOME ) );
-  StrHandle handle( ret );
-  return handle;
+  char* ret = utils::CharAlloc( getenv( HOME ) );
+  return StrHandle( ret );
 #endif
 }
 
 
 StrHandle FileSystem::GetAbsolutePath( const char* path ) {
-#ifdef HAVE_REALPATH
-  char* ret = new char[ MAXPATHLEN ];
-  realpath( path , ret );
-  printf( "current = %s\nreal path = %s\n" , pwd().get(), ret );
-  StrHandle handle( ret );
-  return handle;
-#elif HAVE__FULLPATH
-  char tmp_buf[ MAXPATHLEN ];
-  _fullpath( tmp_buf , path , MAXPATHLEN );
-  return mocha::ReplaceBackSlash( tmp_buf );
-#endif
+  char tmp[ MAXPATHLEN ];
+  FULL_PATH( path , tmp );
+  char* ret = utils::CharAlloc( tmp );
+  return StrHandle( ret );
 }
 
 
-const char* FileSystem::GetDirectoryFromPath_( const char* path ) {
-  int index = strlen( path );
-  std::string tmp = path;
-  bool is_slashed = false;
-  while ( index-- ) {
-    if ( is_slashed ) {
-      break;
-    }
-    if ( path[ index ] == '/' ) {
-      is_slashed = true;
-    }
-  }
-  tmp.erase( index + 1 , tmp.size() );
-  char* ret = new char[ tmp.size() + 1 ];
-  strcpy( ret , tmp.c_str() );
-  return ret;
-}
-
-const char* FileSystem::GetFileNameFromPath_( const char* path ) {
-  std::string tmp;
-  const char* ptr = strrchr( path , '/' );
-  if ( ptr ) {
-    tmp = ( ptr + 1 );
-  }
-  char* ret = new char[ tmp.size() + 1 ];
-  strcpy( ret, tmp.c_str() );
-  return ret;
-}
 
 void FileSystem::Chdir ( const char* path ) {
 
@@ -170,7 +164,7 @@ bool FileSystem::Mkdir( const char* path , int permiss ) {
 }
 
 bool FileSystem::Chmod( const char* path , int permiss ) {
-  if ( FileIO::isExist( path ) ) {
+  if ( FileIO::IsExist( path ) ) {
     chmod( path , permiss );
     return true;
   }

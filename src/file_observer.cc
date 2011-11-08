@@ -15,7 +15,7 @@ class FileObserver::FileUpdater : public IUpdater {
   void Update( watch_traits::Modify* trait ) {
     const char* filename = trait->filename;
     if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
-      Mutex* mutex = mutex_list_[ filename ].get();
+      Mutex* mutex = mutex_list_[ filename ].Get();
       MutexLock lock( (*mutex) );
       Thread thread;
       const char* name = filename;
@@ -30,7 +30,7 @@ class FileObserver::FileUpdater : public IUpdater {
   void Update( watch_traits::DeleteSelf* trait ) {
     const char* filename = trait->filename;
     if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
-      Mutex* mutex = mutex_list_[ filename ].get();
+      Mutex* mutex = mutex_list_[ filename ].Get();
       MutexLock lock( (*mutex) );
       List::iterator ret = mutex_list_.find( filename );
       if ( mutex_list_.end() != ret ) {
@@ -53,6 +53,10 @@ void FileObserver::Run() {
   } else {
     thread.Detach();
   }
+}
+
+void FileObserver::Exit() {
+  file_watcher_.Exit();
 }
 
 void* FileObserver::ThreadRunner_ ( void* arg ) {

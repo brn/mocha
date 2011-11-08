@@ -47,7 +47,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_mocha_OBJECTS = ast_type.$(OBJEXT) ast_visitor.$(OBJEXT) \
-	bootstrap.$(OBJEXT) codegen.$(OBJEXT) \
+	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) codegen.$(OBJEXT) \
 	codegen_visitor.$(OBJEXT) compiler.$(OBJEXT) \
 	compile_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
 	compiler_utils.$(OBJEXT) commandline_options.$(OBJEXT) \
@@ -185,6 +185,8 @@ ast_visitor.cc\
 ast_visitor.h\
 bootstrap.h\
 bootstrap.cc\
+char_allocator.h\
+char_allocator.cc\
 codegen.cc\
 codegen.h\
 codegen_visitor.h\
@@ -385,6 +387,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_type.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bootstrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/char_allocator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codegen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codegen_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/commandline_options.Po@am__quote@

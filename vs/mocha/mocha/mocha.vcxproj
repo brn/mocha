@@ -71,6 +71,7 @@
     <ClCompile Include="..\..\..\src\ast_type.cc" />
     <ClCompile Include="..\..\..\src\ast_visitor.cc" />
     <ClCompile Include="..\..\..\src\bootstrap.cc" />
+    <ClCompile Include="..\..\..\src\char_allocator.cc" />
     <ClCompile Include="..\..\..\src\codegen.cc" />
     <ClCompile Include="..\..\..\src\codegen_visitor.cc" />
     <ClCompile Include="..\..\..\src\commandline_options.cc" />
@@ -98,7 +99,6 @@
     <ClCompile Include="..\..\..\src\scanner.cc" />
     <ClCompile Include="..\..\..\src\scanner_state.cc" />
     <ClCompile Include="..\..\..\src\scope.cc" />
-    <ClCompile Include="..\..\..\src\scoped_list.cc" />
     <ClCompile Include="..\..\..\src\setting.cc" />
     <ClCompile Include="..\..\..\src\stat.cc" />
     <ClCompile Include="..\..\..\src\thread-win-impl.cc" />
@@ -118,6 +118,7 @@
     <ClInclude Include="..\..\..\src\ast_type.h" />
     <ClInclude Include="..\..\..\src\ast_visitor.h" />
     <ClInclude Include="..\..\..\src\bootstrap.h" />
+    <ClInclude Include="..\..\..\src\char_allocator.h" />
     <ClInclude Include="..\..\..\src\codegen.h" />
     <ClInclude Include="..\..\..\src\codegen_visitor.h" />
     <ClInclude Include="..\..\..\src\commandline_options.h" />

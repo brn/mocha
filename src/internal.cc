@@ -1,4 +1,5 @@
 
+#include <string.h>
 #include "internal.h"
 #include "handle.h"
 #include "scope.h"
@@ -19,25 +20,7 @@ namespace mocha {
 
 #define FILE_EXIST file_exist_ = true
 #define FILE_NOT_EXIST file_exist_ = false
-#define OPEN_ERROR                                                      \
-  error_ = "try{throw new SyntaxError(\"";                              \
-  error_ += path_info_->GetFileIdentifier();                            \
-  error_ += " No such file or directory";                               \
-  error_ += "\")}catch(e){throw new Error(e);};";                       \
-  codegen_->Write ( &error_ [ 0 ] )
-
-#define SYNTAX_ERROR                                                    \
-  std::string str;                                                      \
-  char line [100];                                                      \
-  sprintf ( line , "%ld" , tracer.GetErrorLine () );                   \
-  str = "try{throw new SyntaxError( \"";                                \
-  str += tracer.GetErrorMessage ();                                    \
-  str += " in file ";                                                   \
-  str += file_->getFileName ();                                         \
-  str += " line : ";                                                    \
-  str += line;                                                          \
-  str += "\" )}catch(e){throw new Error(e);};"; \
-  codegen_->Write ( &str [ 0 ] )
+  
 
 Internal::Internal ( Handle<PathInfo> path_info ,
                           Compiler* compiler,
@@ -58,41 +41,65 @@ void Internal::Parse ( ErrorLevel level ) {
     if ( file_exist_ ) {
       ParseStart_ ();
     } else {
-      Setting::GetInstance()->LogError( "%s No such file or directory.\n",
-                                        file_->getFileName() );
+      Setting::GetInstance()->LogError( "%s/%s No such file or directory.\n",
+                                        path_info_->GetDirPath().Get(),
+                                        path_info_->GetFileName().Get() );
     }
   } else {
-    Setting::GetInstance()->LogFatal( "%s No such file or directory.\n",
-                                      file_->getFileName() );
+    Setting::GetInstance()->LogFatal( "%s/%s No such file or directory.\n",
+                                      path_info_->GetDirPath().Get(),
+                                      path_info_->GetFileName().Get() );
   }
 }
 
 inline void Internal::LoadFile_ () {
-  std::string tmp = path_info_->GetDirPath();
-  tmp += "/";
-  tmp += path_info_->GetFileName();
-  const char* path = tmp.c_str();
+  char path[ 1000 ];
+  sprintf( path , "%s/%s",
+           path_info_->GetDirPath().Get(),
+           path_info_->GetFileName().Get() );
   printf ( "path is %s\n" , path );
-  printf("%s\n",path_info_->GetDirPath());
-  printf("%s\n",path_info_->GetFileName());
+  printf("%s\n",path_info_->GetDirPath().Get());
+  printf("%s\n",path_info_->GetFileName().Get());
   //Check is file exist.
-  if ( mocha::FileIO::isExist ( path ) ) {
+  if ( mocha::FileIO::IsExist ( path ) ) {
     file_ = mocha::FileIO::Open ( path , "r" );
     //Set bool to true.
     FILE_EXIST;
   } else {
     //Write error message to result.
-    OPEN_ERROR;
+    OpenError_();
     //Set bool to false.
     FILE_NOT_EXIST;
   }
 }
 
+
+
+void GetModuleKey( std::string& buf , const char* path , const char* filename ) {
+  std::string tmp;
+  for ( int i = 0,len = strlen( path ); i < len; i++ ) {
+    if ( path[ i ] == '/' ) {
+      tmp += "$/";
+    }
+  }
+  tmp += filename;
+  buf += tmp;
+  VirtualDirectory::GetInstance()->SetModuleKey( tmp.c_str() );
+}
+
+
+
 inline void Internal::ParseStart_ () {
-  mocha::CStrHandle handle = file_->getFileContents ();
-  printf("%s\n" , file_->getDate().get());
-  mocha::ParserTracer tracer( path_info_->GetFileIdentifier() );
-  mocha::Scanner scanner ( handle.get () , &tracer );
+  std::string buf;
+  buf += "__global_exports[\"";
+  GetModuleKey( buf , path_info_->GetDirPath().Get(), path_info_->GetFileName().Get() );
+  buf += "\"] = ";
+  buf += "(function(){var exports={};";
+  file_->GetFileContents( buf );
+  buf += "return exports;})();";
+  printf("%s\n" , file_->GetDate().Get());
+  mocha::ParserTracer tracer( path_info_->GetFileIdentifier().Get() );
+  mocha::Scanner scanner ( buf.c_str() , &tracer );
   mocha::ParserConnector parser ( compiler_,
                                 &scanner,
                                 &tracer,
@@ -109,11 +116,35 @@ inline void Internal::ParseStart_ () {
   if ( !tracer.IsSyntaxError () ) {
     //ast_root->Accept ( &visitor );
   } else {
-    SYNTAX_ERROR;
-    printf( "%s\n",file_->getFileName() );
+    SyntaxError_( tracer );
     Setting::GetInstance()->Log( "syntax error found in file %s.",
-                                 file_->getFileName() );
+                                 file_->GetFileName() );
   }
+}
+
+inline void Internal::OpenError_() {
+  char tmp[ 2000 ];
+  sprintf( tmp ,
+           "try{\n"
+           "  throw new SyntaxError(\"%s No such file or directory\")\n"
+           "}catch(e){\n"
+           "  throw new Error(e);\n"
+           "};" , path_info_->GetFileIdentifier().Get() );
+  codegen_->Write ( tmp );
+}
+
+inline void Internal::SyntaxError_( const ParserTracer& tracer ) {
+  char tmp[ 2000 ];
+  sprintf( tmp ,
+           "try{\n"
+           "  throw new SyntaxError(\"%s in file %s at : %s\")\n"
+           "}catch(e){\n"
+           "  throw new Error(e);\n"
+           "};",
+           tracer.GetErrorMessage(),
+           file_->GetFileName(),
+           tracer.GetErrorLine () );
+  codegen_->Write ( tmp );
 }
 
 }

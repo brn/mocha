@@ -71,26 +71,7 @@ VISITOR_IMPL( AstRoot ) {
 }
 
 VISITOR_IMPL( RootBlock ) {
-  WRITE("__global_exports[\"");
-  WRITE(ast_node->Path());
-  WRITE("\"] = ");
-  WRITE( "(function(){" );
-  BREAK;
-  ADD_INDENT;
-  INDENT;
-  WRITE("var exports = {};");
-  BREAK;
-  INDENT;
   ACCEPT( ast_node->Root() );
-  BREAK;
-  INDENT;
-  WRITE( "return exports;" );
-  BREAK;
-  REM_INDENT(2);
-  INDENT;
-  WRITE("})();");
-  BREAK;
-  INDENT;
 }
 
 

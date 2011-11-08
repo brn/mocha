@@ -106,7 +106,6 @@ class FileWatcher::PtrImpl {
   }
   void AddWatch( const char* path , IUpdater* updater , int type ) {
     Stat stat( path );
-    printf( "add %s %d\n", path , stat.IsExist() );
     if ( stat.IsExist() ) {
       inotify_helper_::InotifyMask mask = inotify_helper_::GetWatchType( type );
       int wd = inotify_add_watch( fd_ , path , mask );
@@ -154,6 +153,7 @@ class FileWatcher::PtrImpl {
   
   void Regist_( const char* path , IUpdater* updater , int type , int wd ) {
     Handle<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
+    printf("watch %s\n" , path);
     watch_list_[ wd ] = handle;
   }
 
@@ -223,7 +223,7 @@ class FileWatcher::PtrImpl {
       char* name = GET(begin)->name;
       WatchList::iterator find = watch_list_.find( wd );
       if ( find != watch_list_.end() && !(GET(begin)->mask & IN_ISDIR) ) {
-        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , GET(find).second.get() );
+        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , GET(find).second.Get() );
       }
       ++begin;
     }

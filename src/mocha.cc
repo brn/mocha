@@ -37,6 +37,7 @@ namespace mocha {
 class Mocha::PtrImpl {
  public :
   PtrImpl( ICommandLineRunner* runner ) : runner_( runner ){}
+  ~PtrImpl() { delete runner_; }
   ICommandLineRunner* GetRunner() {
     return runner_;
   }

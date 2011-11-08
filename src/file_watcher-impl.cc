@@ -71,6 +71,10 @@ class FileWatcher::PtrImpl {
     ProcessNotification_();
   }
 
+  inline void End() {
+    is_end_ = true;
+  }
+
  private :
   typedef std::string FileEntry;
   typedef Handle<WatcherContainer> WatcherHandle;
@@ -101,7 +105,7 @@ class FileWatcher::PtrImpl {
   void WatchFile_() {
     WatchList::iterator ITERATOR(watch_list_);
     while ( begin != end ) {
-      WatcherContainer* container = (*begin).second.get();
+      WatcherContainer* container = (*begin).second.Get();
       const char* filename = container->GetFileName();
       const char* date = container->GetDate();
       Stat stat( filename );

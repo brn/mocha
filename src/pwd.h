@@ -10,7 +10,7 @@ namespace mocha {
 #ifdef _WIN32
 StrHandle ReplaceBackSlash( const char* path );
 #endif
-StrHandle GetCwd ();
+StrHandle GetCwd();
 };
 
 #endif

@@ -35,6 +35,7 @@
 #include "handle.h"
 #include "stat.h"
 #include "setting.h"
+#include "char_allocator.h"
 
 #define SET_FLAG( flags , num )                         \
   flags = ( ( (flags) | FileIO::Flags [ (num) ] ) );    \
@@ -105,11 +106,11 @@ using namespace std;
     REPORT_ERROR( "Stream is not opened." );    \
   }
 
-inline char* File::allocate ( size_t size ) {
+inline char* File::Allocate ( size_t size ) {
   return reinterpret_cast<char*> ( malloc ( size ) );
 }
 
-inline char* File::reallocate ( char* buffer , size_t size ) {
+inline char* File::Reallocate ( char* buffer , size_t size ) {
   return reinterpret_cast<char*> ( realloc ( buffer , size ) );
 }
 
@@ -140,7 +141,7 @@ File::File ( const File& file ) {
 
 File::~File () {
   if ( opened ) {
-    this->close ();
+    this->Close ();
     delete fstat;
   }
 };
@@ -152,7 +153,7 @@ File& File::operator = ( const File& file ) {
   return *this;
 }
 
-void File::close () {
+void File::Close () {
   if ( isLocked == true ) {
     LOCK_FILE ( fd , UN_LOCK );
   }
@@ -163,32 +164,44 @@ void File::close () {
   }
 };
 
-CStrHandle File::getFileContents () {
+CStrHandle File::GetFileContents () {
   ENSURE_STREAM_OPENED;
+  char* buffer = Allocate ( sizeof ( char ) * RAW_IO_BUF_SIZE );
   char tmp [ RAW_IO_BUF_SIZE ];
-  char *buffer = allocate ( sizeof ( char ) * RAW_IO_BUF_SIZE );
   int chSize = sizeof ( char );
   int size = chSize * RAW_IO_BUF_SIZE;
-  int	readSize;
-  int	currentSize = 0;
+  int readSize = 0;
+  int currentSize = 0;
 
   while ( ( readSize = READ_STREAM ( fd , tmp , size - chSize ) ) > 0 ) {
     if ( currentSize > 0 ) {
-      buffer = reallocate ( buffer , ( currentSize + readSize + chSize ) );
+      buffer = Reallocate ( buffer , ( currentSize + readSize + chSize ) );
     }
     tmp [ readSize ] = '\0';
     strcpy ( buffer + currentSize , tmp );
     currentSize += readSize;
   }
-  CStrHandle handle ( buffer );
-  return handle;
+  return CStrHandle( buffer );
 }
 
-const char* File::getFileName () {
+void File::GetFileContents( std::string& str ) {
+  ENSURE_STREAM_OPENED;
+  char tmp [ RAW_IO_BUF_SIZE ];
+  int chSize = sizeof ( char );
+  int size = chSize * RAW_IO_BUF_SIZE;
+  int readSize = 0;
+  
+  while ( ( readSize = READ_STREAM ( fd , tmp , size - chSize ) ) > 0 ) {
+    tmp [ readSize ] = '\0';
+    str += tmp;
+  }
+}
+
+const char* File::GetFileName () {
   return path_.c_str ();
 }
 
-int File::write ( const char* buf ) {
+int File::Write ( const char* buf ) {
   ENSURE_STREAM_OPENED;
   ENSURE_WRITABLE;
 
@@ -206,33 +219,31 @@ int File::write ( const char* buf ) {
   return 0;
 };
 
-int File::readSync ( char *buf , size_t size ) {
+int File::ReadSync ( char *buf , size_t size ) {
   ENSURE_STREAM_OPENED;
   return READ_STREAM ( fd , buf , size );
 };
 
-bool File::isSuccess () {
+bool File::IsSuccess () {
   return ( fd == -1 )? false : true;
 }
 
-StrHandle File::getDate ( DateType type ) {
+StrHandle File::GetDate ( DateType type ) {
   string str;
   if ( type == kUpdate ) {
     str = fstat->MTime();
   } else if ( type == kCreate ) {
     str = fstat->CTime();
   }
-  char* ret = new char [ str.length () + 1 ];
-  strcpy ( ret , str.c_str () );
-  StrHandle handle ( ret );
-  return handle;
+  char* ret = utils::CharAlloc( str.c_str() );
+  return StrHandle( ret );
 }
 
-long int File::getSize () {
+long int File::GetSize () {
   return fstat->Size();
 }
 
-inline void FileIO::getPermiss ( unsigned int *permiss , int access ) {
+inline void FileIO::GetPermiss ( unsigned int *permiss , int access ) {
   if ( access == 3 ) {
     SET_PERMISS ( *permiss , 1 )
         SET_PERMISS ( *permiss , 2 );
@@ -293,7 +304,7 @@ Handle<File> FileIO::Open ( const char* path , const char* mode , int access ) {
     SET_FLAG ( flag , Binary );
   }
 
-  getPermiss ( &permiss , access );
+  GetPermiss ( &permiss , access );
   int fd = OPEN_STREAM ( path , flag , permiss );
   FileIO::fd_list_[fd] = fd;
   Handle<File> file_ (  new File ( fd , path , readType , fstat_ , isNeedLock ) );
@@ -302,11 +313,11 @@ Handle<File> FileIO::Open ( const char* path , const char* mode , int access ) {
 
 int FileIO::CreateFile ( const char* filename , int access ) {
   unsigned int permiss = 0;
-  getPermiss ( &permiss , access );
+  GetPermiss ( &permiss , access );
   return CREATE_FILE ( filename , permiss );
 }
 
-bool FileIO::isExist ( const char* path ) { 
+bool FileIO::IsExist ( const char* path ) { 
   Stat fs( path );
   return fs.IsExist();
 }

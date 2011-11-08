@@ -23,7 +23,7 @@ class Setting {
   void SetLogFileHandle();
  private :
   Setting();
-  ~Setting();
+  ~Setting(){};
   class PtrImpl;
   ScopedPtr<PtrImpl> implementation_;
   static Setting* instance_;

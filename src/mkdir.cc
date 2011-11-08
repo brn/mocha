@@ -51,7 +51,7 @@ bool Mkdir( const char* path , int permiss ) {
           Stat st( tmp );
           if ( !st.IsExist() || !st.IsDir() ) {
             if ( -1 == MKDIR( tmp ) ) {
-              FileSystem::Chdir( handle.get() );
+              FileSystem::Chdir( handle.Get() );
               return false;
             }
             FileSystem::Chmod( tmp , permiss );
@@ -67,7 +67,7 @@ bool Mkdir( const char* path , int permiss ) {
         count++;
       }
     }
-    FileSystem::Chdir( handle.get() );
+    FileSystem::Chdir( handle.Get() );
     return true;
   }
   return false;

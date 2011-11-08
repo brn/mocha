@@ -11,6 +11,7 @@ class FileObserver {
   FileObserver ();
   ~FileObserver() {}
   void Run();
+  void Exit();
  private :
   void RegistFile_( const char* filename );
   static void* ThreadRunner_( void *arg );

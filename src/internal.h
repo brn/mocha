@@ -37,6 +37,8 @@ class Internal {
  private :
   inline void LoadFile_ ();
   inline void ParseStart_ ();
+  inline void OpenError_();
+  inline void SyntaxError_( const ParserTracer& );
   bool file_exist_;
   std::string error_;
   Compiler* compiler_;

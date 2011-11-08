@@ -40,4 +40,11 @@ void FileWatcher::Start() {
   implementation_->Start();
 }
 
+void FileWatcher::Exit() {
+  implementation_->Stop();
+  implementation_->End();
+  implementation_->UnWatchAll();
+  delete implementation_;
+}
+
 }

@@ -10,19 +10,19 @@ namespace mocha {
 
 class PathInfo {
  public :
-  PathInfo( const char* filepath , const char* dir , const char* raw_path ) :
-      filepath_( filepath ), dir_( dir ), raw_path_( raw_path ){}
-  inline const char* GetDirPath() { return dir_.Get(); }
-  inline const char* GetFileName() { return filepath_.Get(); }
-  inline const char* GetFileIdentifier() { return raw_path_.Get(); }
+  PathInfo( const char* path );
+  inline StrHandle GetDirPath() { return dir_; }
+  inline StrHandle GetFileName() { return filepath_; }
+  inline StrHandle GetFileIdentifier() { return raw_path_; }
  private :
-  ScopedStr filepath_;
-  ScopedStr dir_;
-  ScopedStr raw_path_;
+  const char* GetDirectoryFromPath_( const char* path );
+  const char* GetFileNameFromPath_( const char* );
+  StrHandle filepath_;
+  StrHandle dir_;
+  StrHandle raw_path_;
 };
 
 class FileSystem {
-
  public :
   static StrHandle pwd ();
   static Handle<PathInfo> GetPathInfo( const char* path );
@@ -36,8 +36,6 @@ class FileSystem {
   static bool Mkdir( const char* path , int permiss );
  private :
   static std::string module_dir_;
-  static const char* GetDirectoryFromPath_( const char* path );
-  static const char* GetFileNameFromPath_( const char* );
 };
 
 }

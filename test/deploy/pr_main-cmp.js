@@ -722,7 +722,6 @@
       });
     }
     exports.main = main;
-    var x = 100;
     
     return exports;
   })();

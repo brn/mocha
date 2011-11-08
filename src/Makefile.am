@@ -10,6 +10,8 @@ ast_visitor.cc\
 ast_visitor.h\
 bootstrap.h\
 bootstrap.cc\
+char_allocator.h\
+char_allocator.cc\
 codegen.cc\
 codegen.h\
 codegen_visitor.h\
