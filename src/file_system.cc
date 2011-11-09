@@ -89,13 +89,13 @@ Handle<PathInfo> FileSystem::GetPathInfo( const char* path ) {
 StrHandle FileSystem::NormalizePath( const char* path ) {
   std::string tmp = path;
   while ( 1 ) {
-    unsigned pos = tmp.find( "../" , 0 );
+    int pos = tmp.find( "../" , 0 );
     if ( pos == std::string::npos ) {
-      unsigned pos = tmp.find( "./" , 0 );
+      int pos = tmp.find( "./" , 0 );
       if ( pos != std::string::npos ) {
         tmp.erase( pos , 2 );
       } else {
-        unsigned pos = tmp.find( "//" , 0 );
+        int pos = tmp.find( "//" , 0 );
         if ( pos != std::string::npos ) {
           tmp.erase( pos , 1 );
         } else {

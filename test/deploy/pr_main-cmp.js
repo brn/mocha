@@ -1,6 +1,6 @@
 (function(){
   var __global_exports = {};
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/EventDelegator.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/EventDelegator.js"] = (function () {
     var exports = {};
     Class("EventDelegator")(function (self, privates) {
       var events = {
@@ -235,10 +235,9 @@
         });
       };
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/Notificator.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/Notificator.js"] = (function () {
     var exports = {};
     Class("Notificator")(function (self, privates) {
       var shift = Array.prototype.shift;
@@ -294,10 +293,9 @@
         observer.updateByKey(privates(this)._subjectId, arguments);
       };
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/Mutex.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/Mutex.js"] = (function () {
     var exports = {};
     Class("Mutex")(function (self, privates) {
       self.__init__ = Mutex_new;
@@ -326,13 +324,12 @@
         return privates(this)._scoped_lock;
       }
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/jspp-modules/Request.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/Request.js"] = (function () {
     var exports = {};
-    var Notificator = __global_exports["./Notificator"].Notificator,
-        Mutex = __global_exports["./Mutex"].Mutex;
+    var Notificator = __global_exports["$/$/$/$/$/$/$/Notificator.js"].Notificator,
+        Mutex = __global_exports["$/$/$/$/$/$/$/Mutex.js"].Mutex;
     Class("Request", Mutex)(function (self, privates) {
       var rxml = /xml/i,
           rjson = /json/i,
@@ -466,12 +463,11 @@
         }
       }
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/3rd-modules/Info.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/Info.js"] = (function () {
     var exports = {};
-    var Request = __global_exports["Request"].Request;
+    var Request = __global_exports["$/$/$/$/$/$/$/Mutex.js"].Request;
     Class("Info")(function (self, privates) {
       function send(req, privateVar) {
         req.addListener("complete", function (data) {
@@ -503,13 +499,12 @@
         return privates(this).info;
       };
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/3rd-modules/RollController.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/RollController.js"] = (function () {
     var exports = {};
-    var EventDelegator = __global_exports["EventDelegator"].EventDelegator,
-        Info = __global_exports["./Info"].Info;
+    var EventDelegator = __global_exports["$/$/$/$/$/$/$/EventDelegator.js"].EventDelegator,
+        Info = __global_exports["$/$/$/$/$/$/$/Mutex.js"].Info;
     Class("RollController")(function (self, privates) {
       var LIST_SIZE = 440,
           LARGE_SIZE = 490,
@@ -688,10 +683,9 @@
         }
       };
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/3rd-modules/Base.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/Base.js"] = (function () {
     var exports = {};
     Class("Base")(function (self, privates) {
       self.__static__.init = function () {
@@ -702,14 +696,13 @@
         });
       };
     });
-    
     return exports;
   })();
-  __global_exports["C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/mains/pr_main.js"] = (function(){
+  __global_exports["$/$/$/$/$/$/$/pr_main.js"] = (function () {
     var exports = {};
-    var RollController = __global_exports["../3rd-modules/RollController"].RollController,
-        Base = __global_exports["../3rd-modules/Base"].Base,
-        Info = __global_exports["../3rd-modules/Info"].Info;
+    var RollController = __global_exports["$/$/$/$/$/$/$/Mutex.js"].RollController,
+        Base = __global_exports["$/$/$/$/$/$/$/Base.js"].Base,
+        Info = __global_exports["$/$/$/$/$/$/$/Base.js"].Info;
     function main() {
       Info();
       ready(function () {
@@ -722,7 +715,6 @@
       });
     }
     exports.main = main;
-    
     return exports;
   })();
 })();

@@ -84,7 +84,7 @@ void ManagedHandle::Allocate_ () {
   }
 }
 
-inline PtrCollector* ManagedHandle::GetPool_ () {
+PtrCollector* ManagedHandle::GetPool_ () {
   return reinterpret_cast<PtrCollector*> ( ThreadLocalStorage::Get ( &key_ ) );
 }
 
