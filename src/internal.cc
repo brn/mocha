@@ -123,24 +123,24 @@ inline void Internal::ParseStart_ () {
 }
 
 inline void Internal::OpenError_() {
-  char tmp[ 2000 ];
+  char tmp[ 10000 ];
   sprintf( tmp ,
            "try{\n"
            "  throw new SyntaxError(\"%s No such file or directory\")\n"
            "}catch(e){\n"
            "  throw new Error(e);\n"
-           "};" , path_info_->GetFileIdentifier().Get() );
+           "}\n;" , path_info_->GetFileIdentifier().Get() );
   codegen_->Write ( tmp );
 }
 
 inline void Internal::SyntaxError_( const ParserTracer& tracer ) {
-  char tmp[ 2000 ];
+  char tmp[ 10000 ];
   sprintf( tmp ,
            "try{\n"
-           "  throw new SyntaxError(\"%s in file %s at : %s\")\n"
+           "  throw new SyntaxError(\"%s in file %s at : %ld\")\n"
            "}catch(e){\n"
            "  throw new Error(e);\n"
-           "};",
+           "}\n;",
            tracer.GetErrorMessage(),
            file_->GetFileName(),
            tracer.GetErrorLine () );

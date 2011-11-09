@@ -131,6 +131,11 @@ namespace yy {
   mocha::SourceBlock *source_block;
   mocha::Constant::ConstantType consts;
   mocha::PropertyName *property;
+  mocha::DestructuringAssignment *dsta;
+  mocha::DestructuringObjectMember* dstom;
+  mocha::DestructuringObject *dsto;
+  mocha::ElementLHS* elhs;
+  bool opt;
   const char* ident;
   int num;
   long int line;
@@ -138,7 +143,7 @@ namespace yy {
 
 
 /* Line 35 of lalr1.cc  */
-#line 142 "grammar.tab.hh"
+#line 147 "grammar.tab.hh"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -424,7 +429,7 @@ namespace yy {
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 428 "grammar.tab.hh"
+#line 433 "grammar.tab.hh"
 
 
 

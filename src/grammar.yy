@@ -83,6 +83,11 @@
   mocha::SourceBlock *source_block;
   mocha::Constant::ConstantType consts;
   mocha::PropertyName *property;
+  mocha::DestructuringAssignment *dsta;
+  mocha::DestructuringObjectMember* dstom;
+  mocha::DestructuringObject *dsto;
+  mocha::ElementLHS* elhs;
+  bool opt;
   const char* ident;
   int num;
   long int line;
@@ -93,6 +98,7 @@
 %expect 4
 %defines
 %language "c++"
+%glr-parser
 %skeleton "lalr1.cc"
 %define "parser_class_name" "ParserImplementation"
 %parse-param { mocha::Compiler* compiler }
@@ -225,8 +231,11 @@
 %type <varsList> variable_statement
 %type <varsList> variable_declaration_list
 %type <varsList> variable_declaration_list_no_in
-%type <vars> variable_declaration
-%type <vars> variable_declaration_no_in
+%type <ast> variable_declaration
+%type <ast> variable_declaration_no_in
+%type <ast> destructuring_assignment_left_hand_side
+%type <ast> object_left_hand_side
+%type <dsto> object_member_left_hand_side_list 
 %type <ast> initialiser
 %type <ast> initialiser_no_in
 %type <exp_stmt> expression_statement
@@ -294,7 +303,7 @@
 %type <exp> expression_no_in
 %type <exp> expression_no_in__opt
 %type <exp> expression__opt
-
+%type <opt> elision__opt
 %%
 
 program
@@ -350,15 +359,26 @@ function_expression
 formal_parameter_list
 : JS_IDENTIFIER
   {
-    const char* ident = $1->getValue ();
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
     //scope->Insert ( ident );
     FormalParameter *arg = ManagedHandle::Retain <FormalParameter>();
     arg->Args ( ident );
     $$ = arg;
   }
+| destructuring_assignment_left_hand_side
+  {
+    FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
+    arg->Args ( $1 );
+    $$ = arg;
+  }
+| formal_parameter_list ',' destructuring_assignment_left_hand_side
+  {
+    $1->Args ( $3 );
+    $$ = $1;
+  }
 | formal_parameter_list ',' JS_IDENTIFIER
   {
-    const char* ident = $3->getValue ();
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
     //scope->Insert ( ident );
     $1->Args ( ident );
     $$ = $1;
@@ -572,6 +592,12 @@ variable_declaration
     var->Value ( $2 );
     $$ = var;
   }
+| destructuring_assignment_left_hand_side initialiser
+  {
+    DestructuringAssignment* dsta = ManagedHandle::Retain( new DestructuringAssignment( $1 ) );
+    dsta->Value( $2 );
+    $$ = dsta;
+  }
 ;
 
 variable_declaration_no_in
@@ -583,33 +609,69 @@ variable_declaration_no_in
     var->Value ( $2 );
     $$ = var;
   }
+| destructuring_assignment_left_hand_side initialiser_no_in
+  {
+    DestructuringAssignment* dsta = ManagedHandle::Retain( new DestructuringAssignment( $1 ) );
+    dsta->Value( $2 );
+    $$ = dsta;
+  }
+;
+ 
+
+destructuring_assignment_left_hand_side
+: array_literal { $$ = $1; }
+| object_left_hand_side { $$ = $1; }
 ;
 
-destructive_assignment_left_hand_side
-: array_left_hand_side
-| object_left_hand_side
-;
-
-array_left_hand_side
-: '[' elision__opt ']'
-| '[' element_list_left_hand_side ']'
-| '[' element_list_left_hand_side ',' elision__opt ']'
-;
-
-element_list_left_hand_side
-: JS_IDENTIFIER
-| element_list_left_hand_side ',' JS_IDENTIFIER
-;
 
 object_left_hand_side
-: '{' object_member_left_hand_side '}'
+: '{' { tracer->SetState( ParserTracer::kObjectLiteralEnd ); } object_member_left_hand_side_list '}' { $$ = $3; }
 ;
 
-object_member_left_hand_side
-: JS_IDENTIFIER ':' JS_IDENTIFIER
-| JS_IDENTIFIER
-| object_member_left_hand_side ',' JS_IDENTIFIER
-;
+
+object_member_left_hand_side_list
+: JS_IDENTIFIER
+  {
+    DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
+    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
+    mem->Left( 0 );
+    mem->Right( ident );
+    dsto->List( mem );
+    $$ = dsto;
+  }
+| property_name ':' JS_IDENTIFIER
+  {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
+    DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
+    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
+    mem->Left( $1 );
+    mem->Right( ident );
+    dsto->List( mem );
+    $$ = dsto;
+  }
+  
+| object_member_left_hand_side_list ',' property_name ':' JS_IDENTIFIER
+  {
+    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $5->getValue() ) );
+    mem->Left( $3 );
+    mem->Right( ident );
+    $1->List( mem );
+    $$ = $1;
+  }
+
+| object_member_left_hand_side_list ',' JS_IDENTIFIER
+  {
+    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
+    mem->Left( 0 );
+    mem->Right( ident );
+    $1->List( mem );
+    $$ = $1;
+  }
+
 
 initialiser
 : '=' assignment_expression { $$ = $2; }
@@ -1505,6 +1567,7 @@ assignment_expression
   }
 ;
 
+
 assignment_expression_no_in
 : conditional_expression_no_in
   {
@@ -1515,6 +1578,8 @@ assignment_expression_no_in
     $$ = ManagedHandle::Retain ( new Assign ( $2 , $1 , $3 ) );
   }
 ;
+
+
 
 assignment_operator
 :  '=' { $$ = Constant::kAssign; }
@@ -1570,8 +1635,8 @@ expression__opt
 ;
 
 elision__opt
-: 
-| elision
+: { $$ = false; }
+| elision { $$ = true; }
 ;
 
 terminator

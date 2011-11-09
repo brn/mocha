@@ -76,6 +76,10 @@ FORWARD_DECL(RegExpLiteral);
 FORWARD_DECL(BooleanLiteral);
 FORWARD_DECL(UndefinedLiteral);
 FORWARD_DECL(Identifier);
+FORWARD_DECL(DestructuringAssignment);
+FORWARD_DECL(DestructuringObject);
+FORWARD_DECL(DestructuringObjectMember);
+FORWARD_DECL(DestructuringArray);
 #undef FORWARD_DECL
 
 #define DECL_VISITOR(type) void operator () ( type* ast )
@@ -143,6 +147,10 @@ class AstVisitor : public IVisitor {
   DECL_VISITOR(Catch);
   DECL_VISITOR(Finally);
   DECL_VISITOR(ConstantLiteral);
+  inline DECL_VISITOR(DestructuringAssignment){};
+  inline DECL_VISITOR(DestructuringObject){};
+  inline DECL_VISITOR(DestructuringObjectMember){};
+  inline DECL_VISITOR(DestructuringArray){};
   //DECL_VISITOR(Name);
 #undef DECL_VISITOR
  private:

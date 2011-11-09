@@ -367,12 +367,12 @@ VISITOR_IMPL(Function){
 
 VISITOR_IMPL(FormalParameter){
   if ( ast_node->Argc () > 0 ) {
-    list<const char*> args = ast_node->Args ();
-    list<const char*>::iterator it = args.begin ();
-    list<const char*>::iterator end = args.end ();
+    list<AstTypeBase*> args = ast_node->Args ();
+    list<AstTypeBase*>::iterator it = args.begin ();
+    list<AstTypeBase*>::iterator end = args.end ();
     while ( it != end ) {
       //Set arguments to indexed array and hash map.
-      WRITE_ITER(it);
+      ACCEPT_ITER(it);
       ++it;
       if ( it != end ) {
         WRITE(',');

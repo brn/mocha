@@ -199,6 +199,10 @@ FORWARD_DECL(BooleanLiteral);
 FORWARD_DECL(UndefinedLiteral);
 FORWARD_DECL(Identifier);
 FORWARD_DECL(PropertyName);
+FORWARD_DECL(DestructuringAssignment);
+FORWARD_DECL(DestructuringObject);
+FORWARD_DECL(DestructuringObjectMember);
+FORWARD_DECL(DestructuringArray);
 #undef FORWARD_DECL
 
 class AstVisitor;
@@ -221,6 +225,8 @@ class AstTypeBase : public Managed {
   inline virtual Tree* CastToTree () { return 0; }
   inline virtual ConstantLiteral* CastToLiteral () { return 0; }
   inline virtual Block* CastToBlock () { return 0; }
+  inline virtual ArrayLiteral* CastToArrayLiteral() { return 0; }
+  inline virtual DestructuringAssignment* CastToArrayDsta() { return 0; }
   inline virtual JPM_CONST bool IsPrimitive () const { return is_primitive_; }
   void Print () { printf ( "  %s\n" , name_ ); }
   const char* GetName() { return name_; };
@@ -466,12 +472,12 @@ public :
   inline ~FormalParameter () {};
     
   inline int Argc () const { return list_.size (); };
-  DECL_GET_SET_LIST( Args , const char* , list_ );
+  DECL_GET_SET_LIST( Args , AstTypeBase* , list_ );
   DECL_ACCEPT(FormalParameter);
   
 private:
   int argc_;
-  std::list<const char*> list_;
+  std::list<AstTypeBase*> list_;
 };
 
 EXTENDS_BASE(VariableDeclaration) {
@@ -630,6 +636,7 @@ public:
   inline JPM_CONST virtual bool IsPrimary () const { return true; }
   DECL_GET_SET( Value , AstTypeBase* , val_ );
   DECL_ACCEPT(ArrayLiteral);
+  inline virtual ArrayLiteral* CastToArrayLiteral() { return this; }
 private:
   AstTypeBase* val_;
 };
@@ -991,6 +998,57 @@ public:
   DECL_ACCEPT(Finally);
 private :
   AstTypeBase* body_;
+};
+
+EXTENDS_BASE(DestructuringAssignment) {
+public :
+  DestructuringAssignment( AstTypeBase* assign_type ) : assign_type_( assign_type ){}
+  ~DestructuringAssignment(){}
+  DECL_GET_SET(Value , AstTypeBase* , value_);
+  DECL_ACCEPT(DestructuringAssignment);
+  inline virtual DestructuringAssignment* CastToDsta() { return this; }
+private :
+  AstTypeBase* value_;
+  AstTypeBase* assign_type_;
+};
+
+EXTENDS_BASE(ElementLHS) {
+public :
+  ElementLHS(){}
+  ~ElementLHS(){}
+  DECL_GET_SET_LIST( List , Identifier* , list_ );
+private :
+  std::list<Identifier*> list_;
+};
+
+EXTENDS_BASE(DestructuringArray) {
+public :
+  DestructuringArray(){}
+  ~DestructuringArray(){}
+  DECL_GET_SET( Value , ElementLHS* , value_ );
+  DECL_ACCEPT(DestructuringArray);
+private :
+  ElementLHS* value_;
+};
+
+EXTENDS_BASE( DestructuringObjectMember ) {
+ public :
+  DECL_GET_SET( Left , AstTypeBase* , left_ );
+  DECL_GET_SET( Right , Identifier* , right_ );
+  DECL_ACCEPT(DestructuringObjectMember);
+ private :
+  AstTypeBase* left_;
+  Identifier* right_;
+};
+
+EXTENDS_BASE(DestructuringObject) {
+public :
+  DestructuringObject(){}
+  ~DestructuringObject(){}
+  DECL_GET_SET_LIST( List , DestructuringObjectMember* , list_ );
+  DECL_ACCEPT(DestructuringObject);
+private :
+  std::list<DestructuringObjectMember*> list_;
 };
 
 }
