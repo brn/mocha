@@ -97,7 +97,8 @@ int JsToken::keywordToken_ [] = {
   ParserImplementation::token::JS_VOID,
   ParserImplementation::token::JS_VOLATILE,
   ParserImplementation::token::JS_WHILE,
-  ParserImplementation::token::JS_WITH
+  ParserImplementation::token::JS_WITH,
+  ParserImplementation::token::JS_SHORTER_FUNCTION
 };
 
 char JsToken::keywordsList_ [] [ 20 ] = {  
@@ -159,13 +160,14 @@ char JsToken::keywordsList_ [] [ 20 ] = {
   "void" ,
   "volatile" ,
   "while" ,
-  "with"
+  "with",
+  "fun"
 };
 
 char JsToken::operators_ [] = {
   
   '[' , ']' , '{' , '}' , '(' , ')' , '*' , '/' , '+' , '-' , '%' , '^' , '&' , '!' , '|' , '~' ,
-  '?' , ',' , '<' , '>' , '.' , ';' , '=' , '\'' , '"' , ':'
+  '?' , ',' , '<' , '>' , '.' , ';' , '=' , '\'' , '"' , ':' , '#'
 
 };
 
@@ -177,7 +179,7 @@ int JsToken::operatorToken_ [] = {
   ParserImplementation::token::JS_DIV_LET , ParserImplementation::token::JS_MOD_LET , ParserImplementation::token::JS_MUL_LET , ParserImplementation::token::JS_LOGICAL_AND,
   ParserImplementation::token::JS_LOGICAL_OR , ParserImplementation::token::JS_SHIFT_LEFT_LET , ParserImplementation::token::JS_SHIFT_RIGHT_LET,
   ParserImplementation::token::JS_U_SHIFT_RIGHT_LET , ParserImplementation::token::JS_NOT_LET , ParserImplementation::token::JS_NOT_EQ , ParserImplementation::token::JS_AND_LET,
-  ParserImplementation::token::JS_LOGICAL_OR
+  ParserImplementation::token::JS_LOGICAL_OR , ParserImplementation::token::JS_ARROW
 
 };
 
@@ -185,7 +187,7 @@ char JsToken::combineOperators_ [][ 20 ] = {
 
    "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,
    "!==", ">>>" , "+=" , "-=" , "/=" , "%=" , "*=" , "&&" , "||" , "<<=",
-   ">>=" , ">>>=" , "^=" , "|==" , "&=" , "|="
+   ">>=" , ">>>=" , "^=" , "|==" , "&=" , "|=" , "->"
   
 };
 

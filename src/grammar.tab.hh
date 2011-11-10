@@ -38,7 +38,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 35 of lalr1.cc  */
-#line 39 "src/grammar.yy"
+#line 39 "grammar.yy"
 
 #include "ast_type.h"
   namespace mocha {
@@ -96,7 +96,7 @@ namespace yy {
     {
 
 /* Line 35 of lalr1.cc  */
-#line 52 "src/grammar.yy"
+#line 52 "grammar.yy"
 
   mocha::TokenInfo *info;
   mocha::AstTree *ast_tree;
@@ -245,7 +245,9 @@ namespace yy {
      JS_WHILE = 345,
      JS_WITH = 346,
      JS_TERMINATE = 347,
-     JS_LINE_BREAK = 348
+     JS_LINE_BREAK = 348,
+     JS_ARROW = 349,
+     JS_SHORTER_FUNCTION = 350
    };
 
     };
@@ -337,7 +339,7 @@ namespace yy {
     /// For a state, default reduction number.
     /// Unless\a  yytable_ specifies something else to do.
     /// Zero means the default is an error.
-    static const unsigned char yydefact_[];
+    static const unsigned short int yydefact_[];
 
     static const short int yypgoto_[];
     static const short int yydefgoto_[];
@@ -429,7 +431,7 @@ namespace yy {
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 433 "grammar.tab.hh"
+#line 435 "grammar.tab.hh"
 
 
 

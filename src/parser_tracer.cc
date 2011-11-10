@@ -9,6 +9,8 @@ using namespace mocha;
 #define RESET_INCLUDE parser_flags_ & 0xF7
 
 ParserTracer::ParserTracer ( const char* filename ) :
+    l_brace_( false ),
+    r_brace_( false ),
   parser_flags_ ( 0 ),
   parser_state_( 0 ),
   errorLine_ ( 0 ),

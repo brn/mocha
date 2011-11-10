@@ -47,7 +47,10 @@ namespace mocha{
     inline void SetState ( ParserState state ) { parser_state_ |= state; }
     inline bool GetState ( ParserState state ) const { return ( parser_state_ & state) == state; }
     inline void EndState ( ParserState state ) { parser_state_ = ( parser_state_ & ~state ); }
-
+    inline void ExpectLBrace() { l_brace_ = true; }
+    inline bool IsExpectLBrace() { return l_brace_; }
+    inline void ExpectRBrace() { r_brace_ = true; }
+    inline bool IsExpectRBrace() { return r_brace_; }
     
     void LineNumber ( long int num );
     
@@ -76,6 +79,8 @@ namespace mocha{
     inline const char* GetPath() { return filename_; }
     
   private:
+    bool l_brace_;
+    bool r_brace_;
     uint8_t parser_flags_;
     uint8_t parser_state_;
     uint32_t block_literal_stack_;

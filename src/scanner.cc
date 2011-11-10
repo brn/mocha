@@ -229,7 +229,8 @@ inline bool Scanner::IsSingleOperator_ ( char ch ) const {
        ch == '.' || 
        ch == ':' ||
        ch == ';' ||
-       ch == '?' ) {
+       ch == '?' ||
+       ch == '#' ) {
     return true;
   }
   return false;
@@ -752,7 +753,8 @@ inline void Scanner::CaseAddAndSub_ ( char ch ) {
     }
     
     tokenStack_ += next;
-  
+  } else if ( ch == '-' && next == '>' ) {
+    tokenStack_ += next;
   } else {
     
     BackChar_ ();

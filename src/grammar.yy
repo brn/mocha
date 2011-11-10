@@ -95,10 +95,8 @@
 
 // Bison
 %error-verbose
-%expect 4
 %defines
 %language "c++"
-%glr-parser
 %skeleton "lalr1.cc"
 %define "parser_class_name" "ParserImplementation"
 %parse-param { mocha::Compiler* compiler }
@@ -214,6 +212,8 @@
 %token <info> JS_WITH
 %token <info> JS_TERMINATE
 %token <line> JS_LINE_BREAK
+%token <info> JS_ARROW
+%token <info> JS_SHORTER_FUNCTION
 
 %type <ast> program
 %type <fn> function_declaration
@@ -304,6 +304,9 @@
 %type <exp> expression_no_in__opt
 %type <exp> expression__opt
 %type <opt> elision__opt
+%type <fn> arrow_function_expression
+%type <fn> arrow_function_expression_no_args
+%type <ast> function_body_expression
 %%
 
 program
@@ -354,6 +357,33 @@ function_expression
     scope = scope->Escape ();
     $$ = fn;
   }
+| arrow_function_expression
+| arrow_function_expression_no_args
+;
+
+arrow_function_expression
+: JS_SHORTER_FUNCTION '(' formal_parameter_list__opt ')' function_body_expression
+  {
+    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    fn->Argv ( $3 );
+    fn->Body ( $5 );
+    fn->FnScope ( scope );
+    $$ = fn;
+  }
+;
+
+arrow_function_expression_no_args
+: JS_SHORTER_FUNCTION function_body_expression
+  {
+    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    fn->Body ( $2 );
+    fn->FnScope ( scope );
+    $$ = fn;
+  }
+;
+
+function_body_expression
+: JS_ARROW { fprintf( stderr , "l need.\n" ); } '{' function_body '}' { $$ = $4; }
 ;
 
 formal_parameter_list
@@ -386,8 +416,8 @@ formal_parameter_list
 ;
 
 function_body
-: { $$ = ManagedHandle::Retain<Empty> (); }
-| source_elements { $$ = $1; }
+: { fprintf( stderr , "r need.\n" );$$ = ManagedHandle::Retain<Empty> (); }
+| source_elements { fprintf( stderr , "r need.\n" );$$ = $1; }
 ;
 
 source_elements

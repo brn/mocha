@@ -67,6 +67,16 @@ class ParserConnector::Implementation {
     }
     return type;
   }
+
+  inline int GetLBrace( TokenValue yylval ) {
+    yylval->info = 0;
+    return '{';
+  }
+
+  inline int GetRBrace( TokenValue yylval ) {
+    yylval->info = 0;
+    return '}';
+  }
   
  private :
   inline void Linebreak_ ( TokenValue yylval , int line ) {
@@ -78,6 +88,7 @@ class ParserConnector::Implementation {
   inline void GetToken_ ( TokenValue yylval , const char* ret , int type , int line ) {
     if ( type < 200 ) {
       NotTokenType_ ( yylval , line );
+      printf( "%c\n" , type );
     } else {
       TokenType_ ( yylval , ret , type , line );
     }
@@ -123,6 +134,10 @@ int mocha::ParserConnector::InvokeScanner ( void* yylval_ ) {
   Implementation::TokenValue yylval = reinterpret_cast<Implementation::TokenValue> ( yylval_ );
   if ( tracer->GetSemicolonFlag () ) { 
     return implementation_->InsertSemicolon ( yylval );
+  } else if ( tracer->IsExpectLBrace() ) {
+    return implementation_->GetLBrace( yylval );
+  } else if ( tracer->IsExpectRBrace() ) {
+    return implementation_->GetRBrace( yylval );
   } else if ( tracer->GetRollBackFlag () ) {
     return implementation_->Rollback ( yylval );
   } else {
