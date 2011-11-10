@@ -219,7 +219,9 @@
 %type <fn> function_declaration
 %type <fn> function_expression
 %type <farg> formal_parameter_list
+%type <farg> formal_parameter_list_no_sep
 %type <ast> formal_parameter_list__opt
+%type <ast> formal_parameter_list__opt_no_sep
 %type <ast> function_body
 %type <ast_tree> source_elements
 %type <source_block> source_element
@@ -305,7 +307,6 @@
 %type <exp> expression__opt
 %type <opt> elision__opt
 %type <fn> arrow_function_expression
-%type <fn> arrow_function_expression_no_args
 %type <ast> function_body_expression
 %%
 
@@ -358,32 +359,21 @@ function_expression
     $$ = fn;
   }
 | arrow_function_expression
-| arrow_function_expression_no_args
 ;
 
 arrow_function_expression
-: JS_SHORTER_FUNCTION '(' formal_parameter_list__opt ')' function_body_expression
+: JS_SHORTER_FUNCTION formal_parameter_list__opt_no_sep function_body_expression
   {
     Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Argv ( $3 );
-    fn->Body ( $5 );
-    fn->FnScope ( scope );
-    $$ = fn;
-  }
-;
-
-arrow_function_expression_no_args
-: JS_SHORTER_FUNCTION function_body_expression
-  {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Body ( $2 );
+    fn->Argv ( $2 );
+    fn->Body ( $3 );
     fn->FnScope ( scope );
     $$ = fn;
   }
 ;
 
 function_body_expression
-: JS_ARROW { fprintf( stderr , "l need.\n" ); } '{' function_body '}' { $$ = $4; }
+: JS_ARROW '{' function_body '}' { $$ = $3; }
 ;
 
 formal_parameter_list
@@ -415,9 +405,38 @@ formal_parameter_list
   }
 ;
 
+formal_parameter_list_no_sep
+: JS_IDENTIFIER
+  {
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
+    //scope->Insert ( ident );
+    FormalParameter *arg = ManagedHandle::Retain <FormalParameter>();
+    arg->Args ( ident );
+    $$ = arg;
+  }
+| destructuring_assignment_left_hand_side
+  {
+    FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
+    arg->Args ( $1 );
+    $$ = arg;
+  }
+| formal_parameter_list destructuring_assignment_left_hand_side
+  {
+    $1->Args ( $2 );
+    $$ = $1;
+  }
+| formal_parameter_list JS_IDENTIFIER
+  {
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $2->getValue() ) );
+    //scope->Insert ( ident );
+    $1->Args ( ident );
+    $$ = $1;
+  }
+;
+
 function_body
-: { fprintf( stderr , "r need.\n" );$$ = ManagedHandle::Retain<Empty> (); }
-| source_elements { fprintf( stderr , "r need.\n" );$$ = $1; }
+: { $$ = ManagedHandle::Retain<Empty> (); }
+| source_elements { $$ = $1; }
 ;
 
 source_elements
@@ -446,6 +465,14 @@ source_element
 formal_parameter_list__opt
 : { $$ = ManagedHandle::Retain<Empty> (); }
 | formal_parameter_list
+  {
+    $$ = $1;
+  }
+;
+
+formal_parameter_list__opt_no_sep
+: { $$ = ManagedHandle::Retain<Empty> (); }
+| formal_parameter_list_no_sep
   {
     $$ = $1;
   }
