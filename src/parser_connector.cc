@@ -22,134 +22,45 @@
 
 #include <stdio.h>
 #include "parser_connector.h"
-#include "scanner.h"
 #include "parser_tracer.h"
 #include "scope.h"
 #include "ast_type.h"
 #include "grammar.tab.hh"
 #include "token_info.h"
-#include "managed_handle.h"
+#include "queue_scanner.h"
 
 namespace mocha {
-class ParserConnector::Implementation {
- public :
-  typedef yy::ParserImplementation::semantic_type* TokenValue;
-  explicit Implementation ( ParserConnector* parent ) : isLine_ ( false ) , parent_ ( parent ) {};
-
-  inline int InsertSemicolon ( TokenValue yylval ) {
-    parent_->tracer->SetSemicolonFlag ( false );
-    yylval->info = 0;
-    return ';';
-  }
-  
-  inline int Rollback ( TokenValue yylval ) {
-    parent_->tracer->SetRollBackFlag ( false );
-    if ( isLine_ ) {
-      yylval->line = line_;
-      yylval->info = 0;
-    } else {
-      yylval->info = &(info_);
-    }
-    return type_;
-  }
-  
-  inline int GetToken ( TokenValue yylval ) {
-    const char *ret = parent_->scanner->GetToken ();
-    int type = parent_->scanner->GetType ();
-    int line = parent_->scanner->GetLineNumber ();
-    
-    if ( ret == 0 && type == yy::ParserImplementation::token::JS_LINE_BREAK ) {
-      Linebreak_ ( yylval , line );
-    } else if ( ret == 0 ) {
-      return 0;
-    } else {
-      GetToken_ ( yylval , ret , type , line );
-    }
-    return type;
-  }
-
-  inline int GetLBrace( TokenValue yylval ) {
-    yylval->info = 0;
-    return '{';
-  }
-
-  inline int GetRBrace( TokenValue yylval ) {
-    yylval->info = 0;
-    return '}';
-  }
-  
- private :
-  inline void Linebreak_ ( TokenValue yylval , int line ) {
-    yylval->line = line;
-    yylval->info = 0;
-    parent_->tracer->SetLineBreakFlag ( true );
-  }
-
-  inline void GetToken_ ( TokenValue yylval , const char* ret , int type , int line ) {
-    if ( type < 200 ) {
-      NotTokenType_ ( yylval , line );
-      printf( "%c\n" , type );
-    } else {
-      TokenType_ ( yylval , ret , type , line );
-    }
-    type_ = type;
-  }
-
-  inline void NotTokenType_ ( TokenValue yylval , int line ) {
-    yylval->line = line;
-    yylval->info = 0;
-    line_ = line;
-    isLine_ = true;
-  }
-
-  inline void TokenType_ ( TokenValue yylval , const char* ret , int type , int line ) {
-    yylval->info = new TokenInfo ( ret , type , line );
-    ManagedHandle::Retain ( yylval->info );
-    info_ = (*yylval->info);
-    isLine_ = false;
-  }
-  
-  TokenInfo info_;
-  long int line_;
-  bool isLine_;
-  int type_;
-  ParserConnector* parent_;
-};
-
-mocha::ParserConnector::ParserConnector ( Compiler *compiler,
-                                        Scanner *scanner,
-                                        ParserTracer* tracer ,
-                                        AstRoot* ast_root,
-                                        Scope* scope ) :
-    compiler_ ( compiler ) , scanner ( scanner ) , tracer ( tracer ),
-    ast_root_ ( ast_root ) , scope ( scope )
-{
-  implementation_ ( new Implementation ( this ) );
+ParserConnector::ParserConnector ( Compiler *compiler,
+                                          ParserTracer* tracer ,
+                                          AstRoot* ast_root,
+                                          const std::string& source ) :
+    line_( 0 ) , is_end_( false ), compiler_ ( compiler ) , tracer ( tracer ),
+    ast_root_ ( ast_root ) , scanner_( new QueueScanner( source ) ){
+  scanner_->CollectToken();
 }
 
-mocha::ParserConnector::~ParserConnector () {};
+ParserConnector::~ParserConnector () {};
 
 
-int mocha::ParserConnector::InvokeScanner ( void* yylval_ ) {
-  Implementation::TokenValue yylval = reinterpret_cast<Implementation::TokenValue> ( yylval_ );
-  if ( tracer->GetSemicolonFlag () ) { 
-    return implementation_->InsertSemicolon ( yylval );
-  } else if ( tracer->IsExpectLBrace() ) {
-    return implementation_->GetLBrace( yylval );
-  } else if ( tracer->IsExpectRBrace() ) {
-    return implementation_->GetRBrace( yylval );
-  } else if ( tracer->GetRollBackFlag () ) {
-    return implementation_->Rollback ( yylval );
-  } else {
-    return implementation_->GetToken ( yylval );
+int ParserConnector::InvokeScanner ( void* yylval_ , int yystate ) {
+  printf( "state %d\n" ,yystate );
+  if ( is_end_ ) return 0;
+  yy::ParserImplementation::semantic_type* yylval = reinterpret_cast<yy::ParserImplementation::semantic_type*> ( yylval_ );
+  const TokenInfo* info = scanner_->GetToken( yystate );
+  if ( info->getType() == 0 ) {
+    is_end_ = true;
+    return 0;
   }
+  line_ = info->getLineNumber();
+  yylval->info = info;
+  return info->getType();
 }
 
-int mocha::ParserConnector::ParseStart () {
-  yy::ParserImplementation parser ( compiler_ , this , tracer , ast_root_ , scope );
-  return parser.parse ();  
+int ParserConnector::ParseStart () {
+  yy::ParserImplementation parser ( compiler_ , this , tracer , ast_root_ );
+  return parser.parse ();
 }
 
-long int ParserConnector::GetLineNumber () { return scanner->GetLineNumber (); }
+long int ParserConnector::GetLineNumber () { return line_; }
 
 }

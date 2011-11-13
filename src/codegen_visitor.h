@@ -72,10 +72,14 @@ FORWARD_DECL(RegExpLiteral);
 FORWARD_DECL(BooleanLiteral);
 FORWARD_DECL(UndefinedLiteral);
 FORWARD_DECL(Identifier);
+FORWARD_DECL(LetStmt);
+FORWARD_DECL(ArrayComprehensions);
+FORWARD_DECL(FormalParameterRest);
+FORWARD_DECL(Spread);
+FORWARD_DECL(ForEach);
+FORWARD_DECL(Module);
+FORWARD_DECL(ExportStmt);
 FORWARD_DECL(DestructuringAssignment);
-FORWARD_DECL(DestructuringObject);
-FORWARD_DECL(DestructuringObjectMember);
-FORWARD_DECL(DestructuringArray);
 #undef FORWARD_DECL
 
 #define DECL_VISITOR(type) void operator () ( type* ast )
@@ -146,10 +150,14 @@ class CodegenVisitor : public IVisitor {
   DECL_VISITOR(Catch);
   DECL_VISITOR(Finally);
   DECL_VISITOR(ConstantLiteral);
+  inline DECL_VISITOR(LetStmt){};
+  inline DECL_VISITOR(ArrayComprehensions){};
+  inline DECL_VISITOR(FormalParameterRest){};
+  inline DECL_VISITOR(Spread){};
+  inline DECL_VISITOR(ForEach){};
+  inline DECL_VISITOR(Module){};
+  inline DECL_VISITOR(ExportStmt){};
   inline DECL_VISITOR(DestructuringAssignment){};
-  inline DECL_VISITOR(DestructuringObject){};
-  inline DECL_VISITOR(DestructuringObjectMember){};
-  inline DECL_VISITOR(DestructuringArray){};
   inline const char* GetCode() { return &result_[ 0 ]; }
   inline void Write( const char* str ) { result_ += str; }
  private :

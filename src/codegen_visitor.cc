@@ -76,15 +76,18 @@ VISITOR_IMPL( RootBlock ) {
 
 
 VISITOR_IMPL(AstTree) {
-  std::list<SourceBlock*> list = ast_node->List ();
-  std::list<SourceBlock*>::iterator it = list.begin ();
-  std::list<SourceBlock*>::iterator end = list.end ();
+  SourceBlock* source_block = ast_node->Head();
   
-  while ( it != end ) {
-    ACCEPT_ITER(it);
+  while ( 1 ) {
+    printf( "%d\n" , source_block->Type() );
+    ACCEPT(source_block);
     BREAK;
     INDENT;
-    it++;
+    if ( source_block->HasNext() ) {
+      source_block = source_block->Next();
+    } else {
+      break;
+    }
   }
 }
 
@@ -367,12 +370,12 @@ VISITOR_IMPL(Function){
 
 VISITOR_IMPL(FormalParameter){
   if ( ast_node->Argc () > 0 ) {
-    list<AstTypeBase*> args = ast_node->Args ();
-    list<AstTypeBase*>::iterator it = args.begin ();
-    list<AstTypeBase*>::iterator end = args.end ();
+    list<FormalParameterSet*> args = ast_node->Args ();
+    list<FormalParameterSet*>::iterator it = args.begin ();
+    list<FormalParameterSet*>::iterator end = args.end ();
     while ( it != end ) {
       //Set arguments to indexed array and hash map.
-      ACCEPT_ITER(it);
+      ACCEPT((*it)->Param());
       ++it;
       if ( it != end ) {
         WRITE(',');

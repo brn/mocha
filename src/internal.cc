@@ -9,7 +9,6 @@
 #include "parser_connector.h"
 #include "ast_type.h"
 #include "ast_visitor.h"
-#include "scanner.h"
 #include "file_system.h"
 #include "compiler.h"
 #include "codegen_visitor.h"
@@ -75,46 +74,23 @@ inline void Internal::LoadFile_ () {
 
 
 
-void GetModuleKey( std::string& buf , const char* path , const char* filename ) {
-  std::string tmp;
-  for ( int i = 0,len = strlen( path ); i < len; i++ ) {
-    if ( path[ i ] == '/' ) {
-      tmp += "$/";
-    }
-  }
-  tmp += filename;
-  buf += tmp;
-  VirtualDirectory::GetInstance()->SetModuleKey( tmp.c_str() );
-}
-
-
-
 inline void Internal::ParseStart_ () {
   std::string buf;
-  buf += "__global_exports[\"";
-  GetModuleKey( buf , path_info_->GetDirPath().Get(), path_info_->GetFileName().Get() );
-  buf += "\"] = ";
-  buf += "(function(){var exports={};";
   file_->GetFileContents( buf );
-  buf += "return exports;})();";
-  printf("%s\n" , file_->GetDate().Get());
   mocha::ParserTracer tracer( path_info_->GetFileIdentifier().Get() );
-  mocha::Scanner scanner ( buf.c_str() , &tracer );
   mocha::ParserConnector parser ( compiler_,
-                                &scanner,
-                                &tracer,
-                                ast_root_,
-                                scope_ );
+                                  &tracer,
+                                  ast_root_,
+                                  buf );
   scope_ = scope_->GetGlobal ();
   parser.ParseStart ();
   
-  /**mocha::AstVisitor visitor ( scope_,
-                            codegen_,
-                            tracer.GetModuleName (),
-                            filename_.c_str () );
-  **/
+  mocha::AstVisitor visitor ( scope_,
+                              tracer.GetModuleName (),
+                              file_->GetFileName() );
+  
   if ( !tracer.IsSyntaxError () ) {
-    //ast_root->Accept ( &visitor );
+    ast_root_->Accept ( &visitor );
   } else {
     SyntaxError_( tracer );
     Setting::GetInstance()->Log( "syntax error found in file %s.",

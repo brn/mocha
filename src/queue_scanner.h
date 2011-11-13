@@ -1,0 +1,22 @@
+#ifndef mocha_stack_scanner_h_
+#define mocha_stack_scanner_h_
+
+#include "scoped_ptr.h"
+
+namespace mocha {
+class TokenInfo;
+class QueueScanner {
+ public :
+  QueueScanner( const std::string& source );
+  ~QueueScanner();
+  void CollectToken();
+  const TokenInfo* GetToken( int yystate );
+ private :
+  class Scanner;
+  class TokenGetter;
+  ScopedPtr<Scanner> scanner_;
+  ScopedPtr<TokenGetter> token_getter_;
+};
+}
+
+#endif

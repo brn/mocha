@@ -6,7 +6,7 @@
 
 using namespace yy;
 using namespace mocha;
-
+#define TOKEN ParserImplementation::token
 
 JsToken::JsToken (){};  
 
@@ -33,72 +33,74 @@ int JsToken::getType ( const char* token , bool isOperator ) {
         return keywordToken_ [ i ];        
       }      
     }
-    return ParserImplementation::token::JS_IDENTIFIER;
+    return TOKEN::JS_IDENTIFIER;
   }
   return 0;  
 }
 
 int JsToken::keywordToken_ [] = {
-  ParserImplementation::token::JS_ABSTRACT,
-  ParserImplementation::token::JS_BOOLEAN,
-  ParserImplementation::token::JS_BREAK,
-  ParserImplementation::token::JS_BYTE,
-  ParserImplementation::token::JS_CASE, 
-  ParserImplementation::token::JS_CATCH,
-  ParserImplementation::token::JS_CHAR,
-  ParserImplementation::token::JS_CLASS,
-  ParserImplementation::token::JS_CONST,
-  ParserImplementation::token::JS_CONTINUE,
-  ParserImplementation::token::JS_DEBUGGER,
-  ParserImplementation::token::JS_DEFAULT,
-  ParserImplementation::token::JS_DELETE,
-  ParserImplementation::token::JS_DO,
-  ParserImplementation::token::JS_DOUBLE,
-  ParserImplementation::token::JS_ELSE,
-  ParserImplementation::token::JS_ENUM,
-  ParserImplementation::token::JS_EXPORT,
-  ParserImplementation::token::JS_EXTENDS,
-  ParserImplementation::token::JS_FALSE,
-  ParserImplementation::token::JS_FINAL,
-  ParserImplementation::token::JS_FINALLY,
-  ParserImplementation::token::JS_FLOAT,
-  ParserImplementation::token::JS_FOR,
-  ParserImplementation::token::JS_FUNCTION,
-  ParserImplementation::token::JS_GOTO,
-  ParserImplementation::token::JS_IF,
-  ParserImplementation::token::JS_IMPLEMENTS,
-  ParserImplementation::token::JS_IMPORT,
-  ParserImplementation::token::JS_IN,
-  ParserImplementation::token::JS_INSTANCEOF,
-  ParserImplementation::token::JS_INT,
-  ParserImplementation::token::JS_INTERFACE,
-  ParserImplementation::token::JS_LONG,
-  ParserImplementation::token::JS_NATIVE,
-  ParserImplementation::token::JS_NEW,
-  ParserImplementation::token::JS_K_NULL,
-  ParserImplementation::token::JS_PACKAGE_RESERVED,
-  ParserImplementation::token::JS_PRIVATE,
-  ParserImplementation::token::JS_PROTECTED,
-  ParserImplementation::token::JS_PUBLIC,
-  ParserImplementation::token::JS_RETURN,
-  ParserImplementation::token::JS_SHORT,
-  ParserImplementation::token::JS_STATIC,
-  ParserImplementation::token::JS_SUPER,
-  ParserImplementation::token::JS_SWITCH,
-  ParserImplementation::token::JS_SYNCHRONIZED,
-  ParserImplementation::token::JS_THIS,
-  ParserImplementation::token::JS_THROW,
-  ParserImplementation::token::JS_THROWS,
-  ParserImplementation::token::JS_TRANSIENT,
-  ParserImplementation::token::JS_TRUE,
-  ParserImplementation::token::JS_TRY,
-  ParserImplementation::token::JS_TYPEOF,
-  ParserImplementation::token::JS_VAR,
-  ParserImplementation::token::JS_VOID,
-  ParserImplementation::token::JS_VOLATILE,
-  ParserImplementation::token::JS_WHILE,
-  ParserImplementation::token::JS_WITH,
-  ParserImplementation::token::JS_SHORTER_FUNCTION
+  TOKEN::JS_ABSTRACT,
+  TOKEN::JS_BOOLEAN,
+  TOKEN::JS_BREAK,
+  TOKEN::JS_BYTE,
+  TOKEN::JS_CASE, 
+  TOKEN::JS_CATCH,
+  TOKEN::JS_CHAR,
+  TOKEN::JS_CLASS,
+  TOKEN::JS_CONST,
+  TOKEN::JS_CONTINUE,
+  TOKEN::JS_DEBUGGER,
+  TOKEN::JS_DEFAULT,
+  TOKEN::JS_DELETE,
+  TOKEN::JS_DO,
+  TOKEN::JS_DOUBLE,
+  TOKEN::JS_ELSE,
+  TOKEN::JS_ENUM,
+  TOKEN::JS_EXPORT,
+  TOKEN::JS_EXTENDS,
+  TOKEN::JS_FALSE,
+  TOKEN::JS_FINAL,
+  TOKEN::JS_FINALLY,
+  TOKEN::JS_FLOAT,
+  TOKEN::JS_FOR,
+  TOKEN::JS_FUNCTION,
+  TOKEN::JS_GOTO,
+  TOKEN::JS_IF,
+  TOKEN::JS_IMPLEMENTS,
+  TOKEN::JS_IMPORT,
+  TOKEN::JS_IN,
+  TOKEN::JS_INSTANCEOF,
+  TOKEN::JS_INT,
+  TOKEN::JS_INTERFACE,
+  TOKEN::JS_LET,
+  TOKEN::JS_LONG,
+  TOKEN::JS_MODULE,
+  TOKEN::JS_NATIVE,
+  TOKEN::JS_NEW,
+  TOKEN::JS_K_NULL,
+  TOKEN::JS_PACKAGE_RESERVED,
+  TOKEN::JS_PRIVATE,
+  TOKEN::JS_PROTECTED,
+  TOKEN::JS_PUBLIC,
+  TOKEN::JS_RETURN,
+  TOKEN::JS_SHORT,
+  TOKEN::JS_STATIC,
+  TOKEN::JS_SUPER,
+  TOKEN::JS_SWITCH,
+  TOKEN::JS_SYNCHRONIZED,
+  TOKEN::JS_THIS,
+  TOKEN::JS_THROW,
+  TOKEN::JS_THROWS,
+  TOKEN::JS_TRANSIENT,
+  TOKEN::JS_TRUE,
+  TOKEN::JS_TRY,
+  TOKEN::JS_TYPEOF,
+  TOKEN::JS_VAR,
+  TOKEN::JS_VOID,
+  TOKEN::JS_VOLATILE,
+  TOKEN::JS_WHILE,
+  TOKEN::JS_WITH,
+  TOKEN::JS_EACH
 };
 
 char JsToken::keywordsList_ [] [ 20 ] = {  
@@ -135,8 +137,10 @@ char JsToken::keywordsList_ [] [ 20 ] = {
   "instanceof" ,
   "int" ,
   "interface" ,
+  "let",
   "long" ,
-  "native" ,
+  "module",
+  "native",
   "new" ,
   "null" ,
   "package" ,
@@ -161,7 +165,7 @@ char JsToken::keywordsList_ [] [ 20 ] = {
   "volatile" ,
   "while" ,
   "with",
-  "fun"
+  "each"
 };
 
 char JsToken::operators_ [] = {
@@ -173,13 +177,13 @@ char JsToken::operators_ [] = {
 
 int JsToken::operatorToken_ [] = {
 
-  ParserImplementation::token::JS_INCREMENT , ParserImplementation::token::JS_DECREMENT , ParserImplementation::token::JS_EQUAL , ParserImplementation::token::JS_SHIFT_LEFT,
-  ParserImplementation::token::JS_SHIFT_RIGHT , ParserImplementation::token::JS_LESS_EQUAL , ParserImplementation::token::JS_GRATER_EQUAL , ParserImplementation::token::JS_EQ,
-  ParserImplementation::token::JS_NOT_EQUAL , ParserImplementation::token::JS_NOT_EQ , ParserImplementation::token::JS_U_SHIFT_RIGHT , ParserImplementation::token::JS_ADD_LET , ParserImplementation::token::JS_SUB_LET,
-  ParserImplementation::token::JS_DIV_LET , ParserImplementation::token::JS_MOD_LET , ParserImplementation::token::JS_MUL_LET , ParserImplementation::token::JS_LOGICAL_AND,
-  ParserImplementation::token::JS_LOGICAL_OR , ParserImplementation::token::JS_SHIFT_LEFT_LET , ParserImplementation::token::JS_SHIFT_RIGHT_LET,
-  ParserImplementation::token::JS_U_SHIFT_RIGHT_LET , ParserImplementation::token::JS_NOT_LET , ParserImplementation::token::JS_NOT_EQ , ParserImplementation::token::JS_AND_LET,
-  ParserImplementation::token::JS_LOGICAL_OR , ParserImplementation::token::JS_ARROW
+  TOKEN::JS_INCREMENT , TOKEN::JS_DECREMENT , TOKEN::JS_EQUAL , TOKEN::JS_SHIFT_LEFT,
+  TOKEN::JS_SHIFT_RIGHT , TOKEN::JS_LESS_EQUAL , TOKEN::JS_GRATER_EQUAL , TOKEN::JS_EQ,
+  TOKEN::JS_NOT_EQUAL , TOKEN::JS_NOT_EQ , TOKEN::JS_U_SHIFT_RIGHT , TOKEN::JS_ADD_LET , TOKEN::JS_SUB_LET,
+  TOKEN::JS_DIV_LET , TOKEN::JS_MOD_LET , TOKEN::JS_MUL_LET , TOKEN::JS_LOGICAL_AND,
+  TOKEN::JS_LOGICAL_OR , TOKEN::JS_SHIFT_LEFT_LET , TOKEN::JS_SHIFT_RIGHT_LET,
+  TOKEN::JS_U_SHIFT_RIGHT_LET , TOKEN::JS_NOT_LET , TOKEN::JS_NOT_EQ , TOKEN::JS_AND_LET,
+  TOKEN::JS_LOGICAL_OR , TOKEN::JS_FUNCTION_GLYPH , TOKEN::JS_FUNCTION_GLYPH_WITH_CONTEXT
 
 };
 
@@ -187,7 +191,7 @@ char JsToken::combineOperators_ [][ 20 ] = {
 
    "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,
    "!==", ">>>" , "+=" , "-=" , "/=" , "%=" , "*=" , "&&" , "||" , "<<=",
-   ">>=" , ">>>=" , "^=" , "|==" , "&=" , "|=" , "->"
+   ">>=" , ">>>=" , "^=" , "|==" , "&=" , "|=" , "->" , "=>"
   
 };
 

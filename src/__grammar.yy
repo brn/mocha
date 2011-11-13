@@ -16,7 +16,7 @@
 #include "virtual_directory.h"
   using namespace std;
   using namespace mocha;
-  
+
 #define TREE_REDUCE(type,_1,_2,_3,_4)                               \
   Tree *tmp = _3->CastToTree ();                                    \
   type *ret = ManagedHandle::Retain ( new type ( _2 , _1, _3 ) );     \
@@ -222,8 +222,8 @@
 %token <info> JS_FUNCTION_IDENTIFIER
 %token <info> JS_PARAM_BEGIN
 %token <info> JS_PARAM_END
-%token <info> JS_DSTA_BEGIN
-%token <info> JS_DSTA_END
+%token <info> JS_DARRAY_BEGIN
+%token <info> JS_DARRAY_END
 %token <info> JS_DOBJECT_BEGIN
 %token <info> JS_DOBJECT_END
 %token <info> JS_FORMAL_PARAMETER_IDENT
@@ -231,8 +231,8 @@
 %token <info> JS_EACH
 %token <info> JS_PARAMETER_REST
 %token <info> JS_MODULE
-%token <info> JS_EXP_CLOSURE_BEGIN 
-%token <info> JS_EXP_CLOSURE_END
+%token <info> JS_SHORTER_FUNCTION_BLOCK_BEGIN
+%token <info> JS_SHORTER_FUNCTION_BLOCK_END
 
 %type <ast> program
 %type <fn> function_declaration
@@ -242,12 +242,8 @@
 %type <ast> function_body
 %type <ast_tree> source_elements
 %type <source_block> source_element
-%type <ast_tree> source_elements_for_function
-%type <source_block> source_element_for_function
 %type <ident> identifier__opt
 %type <source_block> statement
-%type <source_block> statement_no_block
-%type <source_block> statement_with_block
 %type <empty> empty_statement
 %type <blk> block
 %type <stmtlist> statement_list
@@ -328,6 +324,7 @@
 %type <exp> expression__opt
 %type <opt> elision__opt
 %type <fn> arrow_function_expression
+%type <ast> function_body_expression
 %type <elhs> array_left_hand_element_list
 %type <dstarr> array_left_hand_side
 %type <ast> formal_parameter_rest
@@ -356,7 +353,7 @@ program
  *function Example () {...}
  */
 function_declaration
-: JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
+: JS_FUNCTION JS_FUNCTION_IDENTIFIER JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain ( new Function ( $2->getValue() ) );
     fn->Argv ( $4 );
@@ -369,7 +366,7 @@ function_declaration
  *const Example () { ... }
  *ES6 proporsal.
  */
-| JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
+| JS_CONST JS_FORMAL_PARAMETER_IDENT JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain ( new Function ( $2->getValue() ) );
     fn->Const( true );
@@ -381,7 +378,7 @@ function_declaration
 
 
 function_expression
-: JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' '{' function_body '}'
+: JS_FUNCTION identifier__opt JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain ( new Function ( $2 ) );
     fn->Argv ( $4 );
@@ -402,43 +399,17 @@ function_expression
  *ES6 proporsal.
  */
 arrow_function_expression
-: JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
+: JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END function_body_expression
   {
     Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
     fn->Argv ( $2 );
-    fn->Body ( $6 );
+    fn->Body ( $4 );
     $$ = fn;
   }
-| JS_FUNCTION_GLYPH '{' function_body '}'
+| function_body_expression
   {
     Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Body ( $3 );
-    $$ = fn;
-  }
-| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
-  {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Argv ( $2 );
-    fn->Body ( $6 );
-    $$ = fn;
-  }
-| JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
-  {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Body ( $3 );
-    $$ = fn;
-  }
-| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
-  {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Argv ( $2 );
-    fn->Body ( $6 );
-    $$ = fn;
-  }
-| JS_FUNCTION_GLYPH_WITH_CONTEXT JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
-  {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
-    fn->Body ( $3 );
+    fn->Body ( $1 );
     $$ = fn;
   }
 ;
@@ -446,6 +417,12 @@ arrow_function_expression
 /*
  *[->|=>] [{] body [}]
  */
+function_body_expression
+: JS_FUNCTION_GLYPH JS_SHORTER_FUNCTION_BLOCK_BEGIN function_body JS_SHORTER_FUNCTION_BLOCK_END { $$ = $3; }
+| JS_FUNCTION_GLYPH_WITH_CONTEXT JS_SHORTER_FUNCTION_BLOCK_BEGIN  function_body JS_SHORTER_FUNCTION_BLOCK_END { $$ = $3; }
+| JS_FUNCTION_GLYPH source_element { $$ = $2; }
+| JS_FUNCTION_GLYPH_WITH_CONTEXT source_element { $$ = $2; }
+;
 
 /*
  *Arguments
@@ -457,8 +434,8 @@ formal_parameter_list
  *ES6 default parameter.
  *ES6 proporsal.
  */
-: JS_IDENTIFIER initialiser__opt
-{printf( "%s\n" , $1->getValue() );
+: JS_FORMAL_PARAMETER_IDENT initialiser__opt
+  {
     Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
     FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( ident , $2 ) );
     FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
@@ -479,17 +456,16 @@ formal_parameter_list
     $$ = arg;
   }
 
-| formal_parameter_list ',' JS_IDENTIFIER initialiser__opt
-  {printf( "%s\n" , $3->getValue() );
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
-    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( ident , $4 ) );
-    $1->Args ( set );
-    $$ = $1;
-  }
-
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
     FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( $3 , $4 ) );
+    $1->Args ( set );
+    $$ = $1;
+  }
+| formal_parameter_list ',' JS_FORMAL_PARAMETER_IDENT initialiser__opt
+  {
+    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
+    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( ident , $4 ) );
     $1->Args ( set );
     $$ = $1;
   }
@@ -508,7 +484,7 @@ formal_parameter_list
  *ES6 proporsal rest parameter.
  */
 formal_parameter_rest
-: JS_PARAMETER_REST JS_IDENTIFIER
+: JS_PARAMETER_REST JS_FORMAL_PARAMETER_IDENT
   {
     FormalParameterRest* rest = ManagedHandle::Retain( new FormalParameterRest( $2->getValue() ) );
     $$ = rest;
@@ -532,48 +508,25 @@ arguments_spread
 
 function_body
 : { $$ = ManagedHandle::Retain<Empty> (); }
-| source_elements_for_function { $$ = $1; }
+| source_elements { $$ = $1; }
 ;
 
 source_elements
 : source_element
   {
     AstTree *ret = ManagedHandle::Retain<AstTree> ();
-    ret->AddBlock ( $1 );
+    ret->List ( $1 );
     $$ = ret;
   }
 | source_elements source_element
   {
-    $1->AddBlock ( $2 );
-    $$ = $1;
-  }
-;
-
-source_elements_for_function
-: source_element_for_function
-  {
-    AstTree *ret = ManagedHandle::Retain<AstTree> ();
-    ret->AddBlock ( $1 );
-    $$ = ret;
-  }
-| source_elements source_element_for_function
-  {
-    $1->AddBlock ( $2 );
+    $1->List ( $2 );
     $$ = $1;
   }
 ;
 
 source_element
 : statement { $$ = $1; }
-| function_declaration
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
-  }
-;
-
-source_element_for_function
-: statement_with_block { $$ = $1; }
 | function_declaration
   { 
     SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
@@ -598,7 +551,11 @@ identifier__opt
 ;
 
 statement
-: statement_with_block { $$ = $1; }
+: block
+  { 
+    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
+    $$ = blocks;
+  }
 | module_block
   { 
     SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
@@ -609,19 +566,7 @@ statement
     SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
     $$ = blocks;
   }
-;
-
-statement_with_block
-: block
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
-  }
-| statement_no_block { $$ = $1; }
-;
-
-statement_no_block
-: variable_statement
+| variable_statement
   { 
     SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
     $$ = blocks;
@@ -710,11 +655,10 @@ block
 
 
 module_block
-: JS_MODULE JS_IDENTIFIER statement
+: JS_MODULE JS_IDENTIFIER statement terminator
   {
     Module* module = ManagedHandle::Retain( new Module( $2->getValue() ) );
     module->Body( $3 );
-    $$ = module;
   }
 ;
 
@@ -724,13 +668,11 @@ export_statement
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
     exports->Value( $2 );
-    $$ = exports;
   }
 | JS_EXPORT function_declaration
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
     exports->Value( $2 );
-    $$ = exports;
   }
 ;
 
@@ -839,7 +781,7 @@ variable_declaration_list_no_in
 ;
 
 variable_declaration
-: JS_IDENTIFIER initialiser__opt
+: JS_FORMAL_PARAMETER_IDENT initialiser__opt
   {
     const char* ident = $1->getValue ();
     VariableDeclaration *var = ManagedHandle::Retain ( new VariableDeclaration ( ident ) );
@@ -855,7 +797,7 @@ variable_declaration
 ;
 
 variable_declaration_no_in
-: JS_IDENTIFIER initialiser_no_in__opt
+: JS_FORMAL_PARAMETER_IDENT initialiser_no_in__opt
   {
     const char* ident = $1->getValue ();
     VariableDeclaration *var = ManagedHandle::Retain ( new VariableDeclaration ( ident ) );
@@ -871,7 +813,7 @@ variable_declaration_no_in
  
 
 destructuring_assignment_left_hand_side
-: array_literal/*array_left_hand_side*/
+: array_left_hand_side
   {
     DestructuringAssignment *dsta = ManagedHandle::Retain<DestructuringAssignment>();
     dsta->Data( $1 );
@@ -887,20 +829,20 @@ destructuring_assignment_left_hand_side
 
 
 array_left_hand_side
-: '[' elision__opt ']'
+: JS_DARRAY_BEGIN elision__opt JS_DARRAY_END
   {
     DestructuringArray *ret = ManagedHandle::Retain<DestructuringArray>();
     ElementLHS* els = ManagedHandle::Retain<ElementLHS>();
     ret->Value ( els );
     $$ = ret;
   }
-| '[' array_left_hand_element_list ']'
+| JS_DARRAY_BEGIN array_left_hand_element_list JS_DARRAY_END
   {
     DestructuringArray *ret = ManagedHandle::Retain<DestructuringArray>();
     ret->Value ( $2 );
     $$ = ret;
   }
-| '[' array_left_hand_element_list ',' elision__opt ']'
+| JS_DARRAY_BEGIN array_left_hand_element_list ',' elision__opt JS_DARRAY_END
   {
     DestructuringArray *ret = ManagedHandle::Retain<DestructuringArray>();
     ret->Value ( $2 );
@@ -909,7 +851,7 @@ array_left_hand_side
 ;
 
 array_left_hand_element_list
-: elision__opt JS_IDENTIFIER
+: elision__opt JS_FORMAL_PARAMETER_IDENT
   {
     ElementLHS *ret = ManagedHandle::Retain<ElementLHS> ();
     if ( $1 ) {
@@ -928,7 +870,7 @@ array_left_hand_element_list
     ret->List( $2 );
     $$ = ret;
   }
-| array_left_hand_element_list ',' elision__opt JS_IDENTIFIER
+| array_left_hand_element_list ',' elision__opt JS_FORMAL_PARAMETER_IDENT
   {
     if ( $3 ) {
       $1->List( ManagedHandle::Retain<Empty>() );
@@ -956,12 +898,12 @@ array_left_hand_element_list
 ;
 
 object_left_hand_side
-: '{' object_member_left_hand_side_list '}' { $$ = $2; }
+: JS_DOBJECT_BEGIN object_member_left_hand_side_list JS_DOBJECT_END { $$ = $2; }
 ;
 
 
 object_member_left_hand_side_list
-:  JS_IDENTIFIER
+:  JS_FORMAL_PARAMETER_IDENT
   {
     DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
     DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
@@ -971,7 +913,7 @@ object_member_left_hand_side_list
     dsto->List( mem );
     $$ = dsto;
   }
-| property_name ':' JS_IDENTIFIER
+| property_name ':' JS_FORMAL_PARAMETER_IDENT
   {
     DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
     DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
@@ -992,7 +934,7 @@ object_member_left_hand_side_list
     $$ = dsto;
   }
   
-| object_member_left_hand_side_list ',' property_name ':' JS_IDENTIFIER
+| object_member_left_hand_side_list ',' property_name ':' JS_FORMAL_PARAMETER_IDENT
   {
     DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
     Identifier* ident = ManagedHandle::Retain( new Identifier( $5->getValue() ) );
@@ -1002,7 +944,7 @@ object_member_left_hand_side_list
     $$ = $1;
   }
 
-| object_member_left_hand_side_list ',' JS_IDENTIFIER
+| object_member_left_hand_side_list ',' JS_FORMAL_PARAMETER_IDENT
   {
     DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
     Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
@@ -1064,7 +1006,7 @@ if_statement
 ;
 
 iteration_statement
-: JS_DO statement JS_WHILE '(' expression ')' terminator
+: JS_DO statement JS_WHILE '(' expression ')' {EXPECT_TERMINATOR;} terminator
   {
     DoWhile *ret = ManagedHandle::Retain<DoWhile> ();
     ret->LineNumber ( $1->getLineNumber () );
@@ -1983,6 +1925,11 @@ assignment_expression
     Assign *ret = ManagedHandle::Retain ( new Assign ( $2 , $1 , $3 ) );
     $$ = ret;
   }
+| array_left_hand_side assignment_operator assignment_expression
+  {
+    Assign *ret = ManagedHandle::Retain ( new Assign ( $2 , $1 , $3 ) );
+    $$ = ret;
+  }
 ;
 
 
@@ -2059,12 +2006,24 @@ elision__opt
 
 terminator
 : ';' {$<num>$ = ';';}
-| JS_LINE_BREAK {$<num>$ = ';';}
+| JS_LINE_BREAK {$<num>$ = ';';tracer->SetLineBreakFlag ( false );}
+| {
+    tracer->SetSemicolonFlag ( true );
+    if ( yychar != 0 ) {
+      tracer->SetRollBackFlag ( true );
+    }
+  } error{yyclearin;yyerrok;} ';'
 ;
 
 %%
 
 void yy::ParserImplementation::error (const location_type& loc, const std::string& msg) {
-  tracer->SyntaxError ( connector->GetLineNumber () , msg.c_str () );
+	
+  bool isSem = tracer->GetSemicolonFlag ();
+  bool isline = tracer->GetLineBreakFlag ();
+  
+  if ( !isSem && !isline ) {
+    tracer->SyntaxError ( connector->GetLineNumber () , msg.c_str () );
+  }
 }
 

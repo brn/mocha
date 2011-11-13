@@ -23,7 +23,7 @@
 #ifndef _DRIVER_H_
 #define _DRIVER_H_
 
-#include <list>
+#include <string>
 #include "handle.h"
 #include "scoped_ptr.h"
 
@@ -36,6 +36,7 @@ class Scope;
 class AstPtr;
 class AstRoot;
 class TokenInfo;
+class QueueScanner;
 
 /**
  * @class
@@ -54,10 +55,9 @@ class ParserConnector {
    * @param {Scope*} scope -> Scope instance.
    */
   ParserConnector ( Compiler *compiler,
-                    Scanner *scanner,
                     ParserTracer* tracer ,
                     AstRoot* ast_root,
-                    Scope* scope );
+                    const std::string& source );
   
   ~ParserConnector ();
 
@@ -66,7 +66,7 @@ class ParserConnector {
    * @param {void*} yylval -> Type erasured args. real type is ParserImplementation::semantic_type*
    * Run mocha::Scanner::GetToken().
    */
-  int InvokeScanner ( void* yylval );
+  int InvokeScanner ( void* yylval , int yystate );
 
   /**
    * @public
@@ -76,27 +76,19 @@ class ParserConnector {
 
   /**
    * @public
-   * Set semicolon insertion flag.
-   */
-  void ExpectSemiColon ();
-
-  /**
-   * @public
    * Get current token linenumber.
    */
   long int GetLineNumber ();
 
  private :
-    
+  long int line_;
+  bool is_end_;
   Compiler* compiler_;
-  Scanner* scanner;
   ParserTracer *tracer;
   Scope* scope;
   AstRoot* ast_root_;
   //pimpl idiom.
-  class Implementation;
-  ScopedPtr<Implementation> implementation_;
-  AstPtr* ast_ptr_;
+  ScopedPtr<QueueScanner> scanner_;
   
 };
 

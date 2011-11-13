@@ -5,14 +5,16 @@
 
 extern int yylex( void* yylval,
                   void* yyloc,
-                  mocha::ParserConnector* connector )
+                  mocha::ParserConnector* connector,
+                  int yystate )
 {
-  return connector->InvokeScanner ( yylval );
+  return connector->InvokeScanner ( yylval , yystate );
 }
 
 extern int yylex( void* yylval,
-                  mocha::ParserConnector* connector )
+                  mocha::ParserConnector* connector,
+                  int yystate )
 {
-  return connector->InvokeScanner (  yylval );
+  return connector->InvokeScanner (  yylval , yystate );
 }
 #endif

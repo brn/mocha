@@ -57,9 +57,10 @@ am_mocha_OBJECTS = ast_type.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
 	mkdir.$(OBJEXT) observer.$(OBJEXT) observer_runner.$(OBJEXT) \
 	parser_connector.$(OBJEXT) parser_tracer.$(OBJEXT) \
-	scanner.$(OBJEXT) scanner_state.$(OBJEXT) scope.$(OBJEXT) \
-	setting.$(OBJEXT) stat.$(OBJEXT) thread.$(OBJEXT) \
-	tinyxml.$(OBJEXT) tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
+	queue_scanner.$(OBJEXT) scanner.$(OBJEXT) \
+	scanner_state.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
+	stat.$(OBJEXT) thread.$(OBJEXT) tinyxml.$(OBJEXT) \
+	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
 	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
 	virtual_directory.$(OBJEXT) grammar.tab.$(OBJEXT) \
 	xml_observer.$(OBJEXT) xml_reader.$(OBJEXT) \
@@ -242,6 +243,8 @@ ptr_deleter.h\
 ptr_handle.h\
 ptr_handle_base.h\
 ptr_traits.h\
+queue_scanner.h\
+queue_scanner.cc\
 ref_count.h\
 ref_count_base.h\
 scanner.cc\
@@ -412,6 +415,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_connector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue_scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scanner_state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scope.Po@am__quote@

@@ -38,7 +38,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 35 of lalr1.cc  */
-#line 39 "grammar.yy"
+#line 37 "grammar.yy"
 
 #include "ast_type.h"
   namespace mocha {
@@ -96,9 +96,9 @@ namespace yy {
     {
 
 /* Line 35 of lalr1.cc  */
-#line 52 "grammar.yy"
+#line 50 "grammar.yy"
 
-  mocha::TokenInfo *info;
+  const mocha::TokenInfo *info;
   mocha::AstTree *ast_tree;
   mocha::AstTypeBase* ast;
   mocha::StmtList* stmtlist;
@@ -132,9 +132,15 @@ namespace yy {
   mocha::Constant::ConstantType consts;
   mocha::PropertyName *property;
   mocha::DestructuringAssignment *dsta;
+  mocha::DestructuringArray* dstarr;
   mocha::DestructuringObjectMember* dstom;
   mocha::DestructuringObject *dsto;
   mocha::ElementLHS* elhs;
+  mocha::ArrayComprehensions *array_comp;
+  mocha::Module *module;
+  mocha::ExportStmt *exports;
+  mocha::LetStmt *let;
+  mocha::ArrayComprehensions *array_cmp;
   bool opt;
   const char* ident;
   int num;
@@ -143,7 +149,7 @@ namespace yy {
 
 
 /* Line 35 of lalr1.cc  */
-#line 147 "grammar.tab.hh"
+#line 153 "grammar.tab.hh"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -209,45 +215,60 @@ namespace yy {
      JS_FINALLY = 309,
      JS_FLOAT = 310,
      JS_FOR = 311,
-     JS_FUNCTION = 312,
-     JS_GOTO = 313,
-     JS_GRATER_EQUAL = 314,
-     JS_IDENTIFIER = 315,
-     JS_IF = 316,
-     JS_IMPLEMENTS = 317,
-     JS_IMPORT = 318,
-     JS_INT = 319,
-     JS_INTERFACE = 320,
-     JS_LONG = 321,
-     JS_NATIVE = 322,
-     JS_K_NULL = 323,
-     JS_NUMERIC_LITERAL = 324,
-     JS_PRIVATE = 325,
-     JS_PACKAGE_RESERVED = 326,
-     JS_PROTECTED = 327,
-     JS_PUBLIC = 328,
-     JS_REGEXP_LITERAL = 329,
-     JS_RETURN = 330,
-     JS_SHORT = 331,
-     JS_STATIC = 332,
-     JS_STRING_LITERAL = 333,
-     JS_SUPER = 334,
-     JS_SWITCH = 335,
-     JS_SYNCHRONIZED = 336,
-     JS_THIS = 337,
-     JS_THROW = 338,
-     JS_THROWS = 339,
-     JS_TRANSIENT = 340,
-     JS_TRUE = 341,
-     JS_TRY = 342,
-     JS_VAR = 343,
-     JS_VOLATILE = 344,
-     JS_WHILE = 345,
-     JS_WITH = 346,
-     JS_TERMINATE = 347,
-     JS_LINE_BREAK = 348,
-     JS_ARROW = 349,
-     JS_SHORTER_FUNCTION = 350
+     JS_COMP_FOR = 312,
+     JS_FUNCTION = 313,
+     JS_GOTO = 314,
+     JS_GRATER_EQUAL = 315,
+     JS_IDENTIFIER = 316,
+     JS_IF = 317,
+     JS_IMPLEMENTS = 318,
+     JS_IMPORT = 319,
+     JS_INT = 320,
+     JS_INTERFACE = 321,
+     JS_LONG = 322,
+     JS_NATIVE = 323,
+     JS_K_NULL = 324,
+     JS_NUMERIC_LITERAL = 325,
+     JS_PRIVATE = 326,
+     JS_PACKAGE_RESERVED = 327,
+     JS_PROTECTED = 328,
+     JS_PUBLIC = 329,
+     JS_REGEXP_LITERAL = 330,
+     JS_RETURN = 331,
+     JS_SHORT = 332,
+     JS_STATIC = 333,
+     JS_STRING_LITERAL = 334,
+     JS_SUPER = 335,
+     JS_SWITCH = 336,
+     JS_SYNCHRONIZED = 337,
+     JS_THIS = 338,
+     JS_THROW = 339,
+     JS_THROWS = 340,
+     JS_TRANSIENT = 341,
+     JS_TRUE = 342,
+     JS_TRY = 343,
+     JS_VAR = 344,
+     JS_VOLATILE = 345,
+     JS_WHILE = 346,
+     JS_WITH = 347,
+     JS_TERMINATE = 348,
+     JS_LINE_BREAK = 349,
+     JS_FUNCTION_GLYPH = 350,
+     JS_FUNCTION_GLYPH_WITH_CONTEXT = 351,
+     JS_FUNCTION_IDENTIFIER = 352,
+     JS_PARAM_BEGIN = 353,
+     JS_PARAM_END = 354,
+     JS_DSTA_BEGIN = 355,
+     JS_DSTA_END = 356,
+     JS_DOBJECT_BEGIN = 357,
+     JS_DOBJECT_END = 358,
+     JS_FORMAL_PARAMETER_IDENT = 359,
+     JS_LET = 360,
+     JS_EACH = 361,
+     JS_PARAMETER_REST = 362,
+     JS_MODULE = 363,
+     JS_EXP_CLOSURE_BEGIN = 364,
+     JS_EXP_CLOSURE_END = 365
    };
 
     };
@@ -255,7 +276,7 @@ namespace yy {
     typedef token::yytokentype token_type;
 
     /// Build a parser object.
-    ParserImplementation (mocha::Compiler* compiler_yyarg, mocha::ParserConnector* connector_yyarg, mocha::ParserTracer *tracer_yyarg, mocha::AstRoot* ast_root_yyarg, mocha::Scope* scope_yyarg);
+    ParserImplementation (mocha::Compiler* compiler_yyarg, mocha::ParserConnector* connector_yyarg, mocha::ParserTracer *tracer_yyarg, mocha::AstRoot* ast_root_yyarg);
     virtual ~ParserImplementation ();
 
     /// Parse.
@@ -425,13 +446,12 @@ namespace yy {
     mocha::ParserConnector* connector;
     mocha::ParserTracer *tracer;
     mocha::AstRoot* ast_root;
-    mocha::Scope* scope;
   };
 
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 435 "grammar.tab.hh"
+#line 455 "grammar.tab.hh"
 
 
 

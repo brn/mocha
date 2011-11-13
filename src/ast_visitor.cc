@@ -8,9 +8,11 @@
 #include "ast_visitor.h"
 #include "ast_state.h"
 #include "codegen.h"
+#include "managed_handle.h"
 
-using namespace std;
-using namespace mocha;
+namespace mocha {
+
+#define ITERATOR(name) begin=name.begin(),end=name.end()
 
 #define VISITOR_IMPL(type) void AstVisitor::operator () ( type* ast_node )
 
@@ -22,112 +24,37 @@ using namespace mocha;
   if ( (*iter) != 0 )                           \
     (*iter)->Accept(this)
 
-#define WRITE(str)                              \
-  if ( str != 0 &&                              \
-       strlen (str) > 0 ) {                     \
-    codegen_->Write ( str );                    \
-  }
 
 #define PRINT_NODE_NAME                                         \
   printf( "%s|__%s\n" , indent_.c_str() , ast_node->GetName() )
 
-#define WRITE_TOSTRING(num,fmt)                 \
-  char str [ 100 ];                             \
-  sprintf ( str , fmt , num );                  \
-  if ( str != 0 &&                              \
-       strlen (str) > 0 ) {                     \
-    codegen_->Write ( &str[0] );                \
-  }
 
-#define WRITE_LINE(ast)                           \
-  if ( ( state_->State () == AstState::None ||    \
-         state_->State () == AstState::Block ) && \
-       ast->LineNumber () > 0 ){                  \
-    codegen_->WriteLine ( ast->LineNumber () );   \
-  }
-
-#define VOLATILE "__volatile__"
-#define FUNCTION "function "
-#define INDENT "  "
 
 AstVisitor::AstVisitor ( Scope* scope,
-                         Codegen* codegen,
                          const char* modulename,
                          const char* filename ) :
+    tmp_index_(0),
     module_name_ ( modulename ),
     filename_ ( filename ),
-    scope_ ( scope ),
-    codegen_ ( codegen ),
-    state_ ( new AstState () ) {
-  
-  if ( strcmp ( module_name_ , "main" ) == 0 ) {
-    state_->DeclMain ();
-  }
-  
-};
+    scope_ ( scope ) {};
 
-#define IS_STATE(ast_state,type) ast_state->Is( AstState::type )
+AstVisitor::~AstVisitor () {}
 
-#define IS_COND_EXP( ast_state )                                         \
-  ( IS_STATE(ast_state,kIfCond) || IS_STATE(ast_state,kDoCond) ||       \
-    IS_STATE(ast_state,kWhileCond) || IS_STATE(ast_state,AstState::kForCond) || \
-    IS_STATE(ast_state,kWithParent) || IS_STATE(ast_state,kSwitchCond) || \
-    IS_STATE(ast_state,kCaseCond) )? true : false
-
-#define IS_VALUE_EXP( ast_state )\
-  ( IS_STATE(ast_state,kReturn) || IS_STATE(ast_state,kThrow) )? true : false
-
-#define IS_CALL( ast_state )                    \
-  ( IS_STATE(ast_state,kCallAccessor) || IS_STATE(ast_state,kNewCallAccessor) )? true : false
-
-AstVisitor::~AstVisitor () {
-  delete state_;
+VISITOR_IMPL( AstRoot ) {
+  AstTypeBase* root = ast_node->Tree().back();
+  root->Accept(this);
 }
 
-typedef AstTypeBase* Base;
-typedef list<AstTypeBase*> BaseList;
-typedef list<AstTypeBase*>::iterator BaseIter;
-typedef list<pair<const char* , AstTypeBase*> > BaseMap;
-typedef list<pair<const char* , AstTypeBase*> >::iterator BaseMapIter;
-
-
-void AstVisitor::setScope ( Scope* scope ){};
-
-void AstVisitor::BeginClosure () {
-  if ( strlen(module_name_) > 0 &&
-       !state_->IsMain () ) {
-    WRITE("var ");
-    WRITE(module_name_);
-    WRITE("=");
-  }
-  WRITE("(function () {");
-  if ( !state_->IsMain () ) {
-    WRITE("var exports={};");
-  }
-}
-
-void AstVisitor::EndClosure () {
-  if ( state_->IsMain () ) {
-    const char* main_fn_name = state_->GetMainFunctionName ();
-    if ( main_fn_name == 0 ) {
-      WRITE( "throw new Error('Undefined reference to the Function::main in module main.')" );
-    } else {
-      WRITE(main_fn_name);
-      WRITE("();");
-    }
-    WRITE("})();");
-  } else {
-    WRITE("return exports;})();");
-  }
+VISITOR_IMPL( RootBlock ) {
+  ACCEPT( ast_node->Root() );
 }
 
 VISITOR_IMPL(AstTree) {
-  std::list<SourceBlock*> list = ast_node->List ();
-  std::list<SourceBlock*>::iterator it = list.begin ();
-  std::list<SourceBlock*>::iterator end = list.end ();
+  SourceBlock* source_block = ast_node->Head()->Next();
+  root_block_ = source_block;
+  current_block_ = source_block;
   PRINT_NODE_NAME;
-  while ( it != end ) {
-    SourceBlock* source_block = (*it);
+  while ( 1 ) {
     switch ( source_block->Type () ) {
       case SourceBlock::kBlock :
         printf ( "%sBlock Block\n" , indent_.c_str() );
@@ -171,12 +98,74 @@ VISITOR_IMPL(AstTree) {
       case SourceBlock::kFunction :
         printf ( "%sFunction Block\n" , indent_.c_str() );
         break;
+      case SourceBlock::kModule :
+        printf ( "%sModule Block\n" , indent_.c_str() );
+        break;
     }
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT_ITER(it);
-    it++;
-    indent_ = last;
+    ACCEPT(current_block_);
+    if ( current_block_->HasNext() ) {
+      current_block_ = current_block_->Next();
+    } else {
+      break;
+    }
+  }
+
+  source_block = ast_node->Head();
+  while ( 1 ) {
+    switch ( source_block->Type () ) {
+      case SourceBlock::kBlock :
+        printf ( "%sBlock Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kVariableDeclarationList :
+        printf ( "%sVariableDeclarationList Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kExpression :
+        printf ( "%sExpression Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kIFStmt :
+        printf ( "%sIFStmt Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kIteration :
+        printf ( "%sIteration Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kContinue :
+        printf ( "%sContinue Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kBreak :
+        printf ( "%sBreak Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kReturn :
+        printf ( "%sReturn Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kWith :
+        printf ( "%sWith Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kLabel :
+        printf ( "%sLabel Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kSwitch :
+        printf ( "%sSwitch Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kThrow :
+        printf ( "%sThrow Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kTry :
+        printf ( "%sTry Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kFunction :
+        printf ( "%sFunction Block\n" , indent_.c_str() );
+        break;
+      case SourceBlock::kModule :
+        printf ( "%sModule Block\n" , indent_.c_str() );
+        break;
+        
+    }
+    current_block_ = source_block;
+    if ( source_block->HasNext() ) {
+      source_block = source_block->Next();
+    } else {
+      break;
+    }
   }
 }
 
@@ -196,431 +185,285 @@ VISITOR_IMPL(UnaryExp) {
     throw std::runtime_error("");
   } else {
   *///current_state_->State( AstState::kUnary );
-  std::string last = indent_;
-  indent_ += INDENT;
-    ACCEPT(ast_node->Left());
-    indent_ = last;
+
+  ACCEPT(ast_node->Left());
+
     //current_state_->Pop();
     //}
 }
 
 VISITOR_IMPL(ArrayAccessor) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left ();
-  Base right = ast_node->Right ();
+  AstTypeBase* left = ast_node->Left ();
+  AstTypeBase* right = ast_node->Right ();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  //state_->State( AstState::kArrayAccessor );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
 
-  //state_->State( AstState::kArrayAccessExp );
-  indent_ += INDENT;
+  ACCEPT(left);
+
   ACCEPT(right);
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(DotAccessor) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kMemberAccess );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
 
-  //state_->State( AstState::kMemberAccess );
-  indent_ += INDENT;
+  ACCEPT(left);
+
   ACCEPT(right);
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(NewCallAccessor) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left ();
-  Base right = ast_node->Right ();
+  AstTypeBase* left = ast_node->Left ();
+  AstTypeBase* right = ast_node->Right ();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kNewCall );
-  std::string last = indent_;
-  indent_ += INDENT;
+
   ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
-  indent_ += INDENT;
+
   ACCEPT(right);
-  indent_ = last;
 }
 
 VISITOR_IMPL(NewAccessor) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left ();
-  Base right = ast_node->Right ();
+  AstTypeBase* left = ast_node->Left ();
+  AstTypeBase* right = ast_node->Right ();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kNewCall );
-  std::string last = indent_;
-  indent_ += INDENT;
+
   ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
-  indent_ += INDENT;
+
   ACCEPT(right);
-  indent_ = last;
+
 }
 
 
 VISITOR_IMPL(CallAccessor) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kCallAccessor );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
 
-  indent_ += INDENT;
+  ACCEPT(left);
+
   ACCEPT(right);
-  indent_ = last;
+
 }
 
 
 VISITOR_IMPL(PostfixExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kPostFix );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
+  ACCEPT( left );
+
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(MultiplicativeExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kMultiPlicative );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
+  ACCEPT( left );
+
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(AdditiveExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
-  
-  //state_->State( AstState::kAdditive );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
+  ACCEPT( left );
+
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(ShiftExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kShiftExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(RelationalExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kRelationalExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(EqualityExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kEquality );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(BitwiseANDExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kBitwiseANDExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(BitwiseXORExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kBitwiseXORExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(BitwiseORExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kBitwiseORExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(LogicalANDExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kLogicalANDExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(LogicalORExp) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
 
-  //state_->State( AstState::kLogicalORExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( left );
-  indent_ = last;
 
-  indent_ += INDENT;
   ACCEPT( right );
-  indent_ = last;
-  //state_->Pop();
+
 }
 
 
 VISITOR_IMPL(ConditionalExp) {
   PRINT_NODE_NAME;
-  Base exp = ast_node->Exp ();
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* exp = ast_node->Exp ();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( exp ) );
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
   
-  //state_->State( AstState::kConditionalCondExp );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT(exp);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kConditionalLeftExp );
-  indent_ += INDENT;
+  
   ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kConditionalRightExp );
-  indent_ += INDENT;
+  
   ACCEPT(right);
-  indent_ = last;
-  //state_->Pop();
+  
 }
 
 
 VISITOR_IMPL(Assign) {
   PRINT_NODE_NAME;
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
+  AstTypeBase* left = ast_node->Left();
+  AstTypeBase* right = ast_node->Right();
   assert( AstUtil::IsValidAst( left ) );
   assert( AstUtil::IsValidAst( right ) );
   
-  //state_->State( AstState::kAssignLeftSide );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT(left);
-  indent_ = last;
-  //state_->Pop();
-  
-  //state_->State( AstState::kAssignRightSide );
-  indent_ += INDENT;
   ACCEPT(right);
-  indent_ = last;
-  //state_->Pop();
 }
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  Base args = ast_node->Argv ();
+  AstTypeBase* args = ast_node->Argv ();
   const char* ident = ast_node->Ident ();
-  Base body = ast_node->Body ();
-  scope_ = ast_node->FnScope ();
-  /*Node* function_node = ManagedHandle::Retain( new Node( ident , Node::kFunction ) );
-  function_node->AddScope( scope_ );
-  //Is inner Function decl?
-  if ( state_->Match( AstState::kFunction ) ) {
-    //Set inner Function to parent.
-    current_node_->Scope()->GetFunctionNode()->SetAttr( Scope::kInnerFunctionDecl );
-  }
-
-  current_node_->Next( function_node );
-  current_node_ = function_node;
-  */
-  //state_->State( AstState::kFormalParameter );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase* body = ast_node->Body ();
   ACCEPT(args);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstStaet::kFunctionBody );
-  indent_ += INDENT;
   ACCEPT(body);
-  indent_ = last;
-  scope_ = scope_->Escape ();
-  //state_->Pop ();
 };
 
 
 VISITOR_IMPL(FormalParameter){
   PRINT_NODE_NAME;
   if ( ast_node->Argc () > 0 ) {
-    list<AstTypeBase*> args = ast_node->Args ();
-    list<AstTypeBase*>::iterator it = args.begin ();
-    list<AstTypeBase*>::iterator end = args.end ();
-    while ( it != end ) {
+    std::list<FormalParameterSet*> args = ast_node->Args ();
+    std::list<FormalParameterSet*>::iterator ITERATOR(args);
+    while ( begin != end ) {
       //Set arguments to indexed array and hash map.
-      ACCEPT_ITER(it);
+      ACCEPT(((*begin)->Param()));
       //Node* node = ManagedHandle::Retain( new Node( ident , Node::kArgs ) );
       //current_node_->Next( node );
       //current_node_ = node;
-      ++it;
+      ++begin;
     }
   }
 }
@@ -628,108 +471,62 @@ VISITOR_IMPL(FormalParameter){
 
 VISITOR_IMPL(VariableDeclaration){
   PRINT_NODE_NAME;
-  Base ast = ast_node->Value ();
+  AstTypeBase* ast = ast_node->Value ();
   const char* name = ast_node->Name ();
-  /*Node* node;
-
-  if ( value->IsEmpty() ) {
-    node = ManagedHandle::Retain( new Node( name , Node::kDecl ) );
-  } else {
-    node = ManagedHandle::Retain( new Node( name , Node::kInitialiser ) );
-  }
-
-  current_node_->Next( node );
-  current_node_ = node;
-  */
-  //state_->State( AstState::kDecl );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT(ast_node->Value());
-  indent_ = last;
-  //state_->Pop();
 }
 
 VISITOR_IMPL(VariableDeclarationList) {
   PRINT_NODE_NAME;
-  BaseIter it = ast_node->List ().begin ();
-  BaseIter end = ast_node->List ().end ();
-  while ( it != end ) {
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT_ITER(it);
-    indent_ = last;
-    it++;
+  AstList::iterator ITERATOR( ast_node->List());
+  while ( begin != end ) {
+    ACCEPT_ITER(begin);
+    ++begin;
   }
 }
 
 VISITOR_IMPL(StmtList) {
   PRINT_NODE_NAME;
-  BaseList l = ast_node->List ();
-  BaseIter it = l.begin ();
-  BaseIter end = l.end ();
-  while ( it != end ) {
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT_ITER(it);
-    indent_ = last;
-    it++;
+  AstList list = ast_node->List ();
+  AstList::iterator ITERATOR(list);
+  while ( begin != end ) {
+    ACCEPT_ITER(begin);
+    ++begin;
   }
 }
 
 
 VISITOR_IMPL(ArrayLiteral){
   PRINT_NODE_NAME;
-  //state_->State( AstState::kArrayLiteral );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT(ast_node->Value());
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(ObjectLiteral){
   PRINT_NODE_NAME;
-  //state_->State( kObjectLiteral );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT(ast_node->Value());
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(ElementList){
   PRINT_NODE_NAME;
-  BaseList list = ast_node->Value ();
-  BaseIter it = list.begin ();
-  BaseIter end = list.end ();  
-  while ( it != end ) {
-    ACCEPT_ITER(it);
-    it++;
+  AstList list = ast_node->Value ();
+  AstList::iterator ITERATOR(list);
+  while ( begin != end ) {
+    ACCEPT_ITER(begin);
+    begin++;
   }
 }
 
 
 VISITOR_IMPL(ObjectMember){
   PRINT_NODE_NAME;
-  ObjectMember::MemberList m = ast_node->Value ();
-  ObjectMember::MemberList::iterator it = m.begin ();
-  ObjectMember::MemberList::iterator end = m.end ();
-  while ( it != end ) {
-    //state_->State( AstState::kPropertyName );
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT((*it).first);
-    indent_ = last;
-    //state_->Pop();
-    
-    //state_->State( AstState::kPropertyValue );
-    indent_ += INDENT;
-    ACCEPT((*it).second);
-    indent_ = last;
-    //state_->Pop();
-    it++;
+  ObjectMember::MemberList member_list = ast_node->Value ();
+  ObjectMember::MemberList::iterator ITERATOR( member_list );
+  while ( begin != end ) {
+    ACCEPT((*begin).first);
+    ACCEPT((*begin).second);
+    begin++;
   }
 }
 
@@ -737,29 +534,19 @@ VISITOR_IMPL(ObjectMember){
 VISITOR_IMPL(Arguments){
   PRINT_NODE_NAME;
   //state_->State( AstState::kArguments );
-  BaseList list = ast_node->Value ();
-  BaseIter it = list.begin ();
-  BaseIter end = list.end ();
+  AstList list = ast_node->Value ();
+  AstList::iterator ITERATOR(list);
 
-  while ( it != end ) {
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT_ITER(it);
-    indent_ = last;
-    it++;
+  while ( begin != end ) {
+    ACCEPT_ITER(begin);
+    ++begin;
   }
-  //state_->Pop();
 }
 
 VISITOR_IMPL(Block) {
   PRINT_NODE_NAME;
-  Base value = ast_node->Value();
-  //state_->State ( AstState::Block );
-  std::string last = indent_;
-  indent_ += INDENT;
-  ACCEPT( value );
-  indent_ = last;
-  //state_->Pop ();
+  AstTypeBase *value = ast_node->Value();
+  ACCEPT( value );  
 };
 
 
@@ -767,22 +554,14 @@ VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   Expression* exp = ast_node->Exp();
   assert( AstUtil::IsValidAst( exp ) );
-
-  //Set current state to Expression statement.
-  //state_->State( AstState::kExpressionStmt );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( exp );
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(Expression){
   PRINT_NODE_NAME;
-  BaseList list = ast_node->List ();
-  BaseIter it = list.begin ();
-  BaseIter end = list.end ();
+  AstList list = ast_node->List ();
+  AstList::iterator ITERATOR(list);
   bool isparen = ast_node->Paren ();
   
   /*if ( isparen ) {
@@ -790,12 +569,9 @@ VISITOR_IMPL(Expression){
   } else {
     state_->State( AstState::kExpression );
     }*/
-  while ( it != end ) {
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT_ITER(it);
-    indent_ = last;
-    it++;
+  while ( begin != end ) {
+    ACCEPT_ITER(begin);
+    begin++;
   }
   //state_->Pop();
 }
@@ -804,362 +580,157 @@ VISITOR_IMPL(Expression){
 VISITOR_IMPL(IFStmt){
   PRINT_NODE_NAME;
 
-  Base then_exp = ast_node->Then();
-  Base block_body = ast_node->Body();
-  Base else_block = ast_node->Else();
-
-  //state_->State( AstState::kIfCond );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *then_exp = ast_node->Then();
+  AstTypeBase *block_body = ast_node->Body();
+  AstTypeBase *else_block = ast_node->Else();
+  
   ACCEPT(then_exp);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kIfBody );
-  indent_ += INDENT;
   ACCEPT(block_body);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kElse );
-  indent_ += INDENT;
   ACCEPT(else_block);
-  indent_ = last;
-  //state_->Pop();
+  
 }
 
 
 
 VISITOR_IMPL(DoWhile) {
   PRINT_NODE_NAME;
-  Base body_block = ast_node->Body();
-  Base cond_exp = ast_node->Condition();
-
-  //state_->State( AstState::kDoWhileBlock );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *body_block = ast_node->Body();
+  AstTypeBase *cond_exp = ast_node->Condition();
+  
   ACCEPT(body_block);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kDoWhileCond );
-  indent_ += INDENT;
   ACCEPT(cond_exp);
-  indent_ = last;
-  //state_->Pop();
+  
 }
 
 
 VISITOR_IMPL(While) {
   PRINT_NODE_NAME;
-  Base cond_exp = ast_node->Condition();
-  Base body_block = ast_node->Body();
+  AstTypeBase *cond_exp = ast_node->Condition();
+  AstTypeBase *body_block = ast_node->Body();
   
-  //state_->State( AstState::kWhileCond );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT(cond_exp);
-  indent_ = last;
-  //state_->Pop();
-  
-  //state_->State( AstState::kWhileBlock );
-  indent_ += INDENT;
   ACCEPT( body_block );
-  indent_ = last;
-  //state_->Pop();
 }
 
 VISITOR_IMPL(For) {
   PRINT_NODE_NAME;
-  Base index_exp = ast_node->Index();
-  Base cond_exp = ast_node->Condition();
-  Base incr_exp = ast_node->Increment();
-  Base body_block = ast_node->Body();
+  AstTypeBase* index_exp = ast_node->Index();
+  AstTypeBase* cond_exp = ast_node->Condition();
+  AstTypeBase* incr_exp = ast_node->Increment();
+  AstTypeBase* body_block = ast_node->Body();
   
-  
-  //state_->State( AstState::kForIndex );
-  std::string last = indent_;
-  indent_ += INDENT;
   ACCEPT( index_exp );
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kForCondition );
-  indent_ += INDENT;
   ACCEPT( cond_exp );
-  indent_ = last;
-  //state_->Pop();
-
-  //current_stae_->State( AstState::kForIncr );
-  indent_ += INDENT;
   ACCEPT( incr_exp );
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kForBody );
-  indent_ += INDENT;
   ACCEPT(body_block);
-  indent_ = last;
-  //state_->Pop ();
 }
 
 VISITOR_IMPL(ForIn) {
   PRINT_NODE_NAME;
-  Base item_exp = ast_node->Item();
-  Base target_exp = ast_node->Target();
-  Base body_block = ast_node->Body();
-  
-  //state_->State( AstState::kForInItem );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase* item_exp = ast_node->Item();
+  AstTypeBase* target_exp = ast_node->Target();
+  AstTypeBase* body_block = ast_node->Body();
   ACCEPT( item_exp );
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kForInTarget );
-  indent_ += INDENT;
   ACCEPT( target_exp );
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kForInBody );
-  indent_ += INDENT;
   ACCEPT(body_block);
-  indent_ = last;
-  //state_->Pop ();
 }
 
 
 VISITOR_IMPL(Continue) {
   PRINT_NODE_NAME;
-  //Base ident = ast_node->Ident();
-  /*Node* continue_node = ManagedHandle::Retain( new Node( "continue" , Node::kContinue ) );
-  current_node_->Next( continue_node );
-  current_node_ = continue_node;
-*/
-  //state_->State( AstState::kContinue );
-  //ACCEPT(ident);
-  //state_->Pop();
 }
 
 VISITOR_IMPL(Break) {
   PRINT_NODE_NAME;
-  //Base ident = ast_node->Ident();
-  /*Node* break_node = ManagedHandle( new Node( "break" , Node::kBreak ) );
-  current_node_->Next( break_node );
-  current_node_ = break_node;
-  */
-  //state_->State( AstState::kBreak );
-  //ACCEPT(ident);
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(Return) {
   PRINT_NODE_NAME;
-  Base exp = ast_node->Expression();
-  /*Node* return_node = ManagedHandle( new Node( "return" , Node::kReturn ) );
-  current_node_->Next( return_node );
-  current_node_ = return_node;
-  */
-  //state_->State( AstState::kReturn );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *exp = ast_node->Expression();
   ACCEPT(exp);
-  indent_ = last;
-  //state_->Pop();
 }
 
 VISITOR_IMPL(With) {
   PRINT_NODE_NAME;
-  Base exp = ast_node->Expression();
-  Base body = ast_node->Body();
-  /*Node* with_node = ManagedHandle::Retain( new Node( "with" , Node::kWith ) );
-
-  current_node_->Next( with_node );
-  current_node_ = with_node;
-  */
-  //state_->State( AstState::kWithParent );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *exp = ast_node->Expression();
+  AstTypeBase *body = ast_node->Body();
   ACCEPT(exp);
-  indent_ = last;
-  //state_->Pop();
-  
-  //state_->State( AstState::WithBody );
-  indent_ += INDENT;
   ACCEPT(body);
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(Switch) {
   PRINT_NODE_NAME;
-  Base exp = ast_node->Expression();
-  Base case_block = ast_node->CaseBlock();
-  //Node* switch_node = ManagedHandle::Retain( new Node( "switch" , Node::kSwitch ) );
-  //current_node_->Next( switch_node );
-  //current_node_ = switch_node;
-  
-  //state_->State( AstState::kSwitchCond );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *exp = ast_node->Expression();
+  AstTypeBase *case_block = ast_node->CaseBlock();
   ACCEPT(exp);
-  indent_ = last;
-  //state_->Pop();
-  indent_ += INDENT;
   ACCEPT(case_block);
-  indent_ = last;
 }
 
 VISITOR_IMPL(CaseClauses) {
   PRINT_NODE_NAME;
-  BaseList list = ast_node->List ();
-  BaseIter it = list.begin();
-  BaseIter end = list.end ();
-
-  while ( it != end ) {
-    std::string last = indent_;
-    indent_ += INDENT;
-    ACCEPT_ITER(it);
-    indent_ = last;
-    it++;
+  AstList list = ast_node->List ();
+  AstList::iterator ITERATOR(list);
+  while ( begin != end ) {
+    ACCEPT_ITER(begin);
+    ++begin;
   }
 }
 
 VISITOR_IMPL(CaseClause) {
   PRINT_NODE_NAME;
-  Base exp = ast_node->Expression();
-  Base body = ast_node->Body();
-  //Node* case_node = ManagedHandle::Retain( new Node( "case" , Node::kCase ) );
-  //current_node_->Next( case_node );
-  //current_node_ = case_node;
-  
-  //state_->State( AstState::kCaseCond );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *exp = ast_node->Expression();
+  AstTypeBase *body = ast_node->Body();
   ACCEPT(exp);
-  indent_ = last;
-  //state_->Pop();
-
-  //state_->State( AstState::kCaseBody );
-  indent_ += INDENT;
   ACCEPT(body);
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 
 VISITOR_IMPL(DefaultClause) {
   PRINT_NODE_NAME;
-  Base body = ast_node->Body();
-  //Node* default_node = ManagedHandle::Retain( new Node( "default" , Node::kDefault ) );
-  //current_node_->Next( default_node );
-  //current_node_ = default_node;
-  
-  //state_->State( AstState::kDefault );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *body = ast_node->Body();
   ACCEPT(body);
-  indent_ = last;
-  //state_->Pop();
 }
 
 VISITOR_IMPL(Label) {
   PRINT_NODE_NAME;
-  //Base ident = ast_node->Ident();
-  Base stmt = ast_node->Body();
-  
-  //state_->State( AstState::kLabelName );
-  //ACCEPT(ident);
-  //state_->Pop();
-  
-  //state_->State( AstState::kLabel );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *stmt = ast_node->Body();
   ACCEPT(stmt);
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(Throw) {
   PRINT_NODE_NAME;
-  Base exp = ast_node->Expression();
-  //Node* throw_node = ManagedHandle::Retain( new Node( "throw" , Node::kThrow ) );
-  //current_node_->Next( throw_node );
-  //current_node_ = throw_node;
-  
-  //state_->State( AstState::kThrow );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *exp = ast_node->Expression();
   ACCEPT(exp);
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(Try) {
   PRINT_NODE_NAME;
-  Base try_body = ast_node->Body();
-  Base catch_body = ast_node->CatchBody ();
-  Base finally_body = ast_node->FinallyBody ();
-  //Node* try_node = ManagedHandle::Retain( new Node( "try" , Node::kTry ) );
-  //current_node_->Next( try_node );
-  //current_node_ = try_node;
-  
-  //state_->State( AstState::kTryBody );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *try_body = ast_node->Body();
+  AstTypeBase *catch_body = ast_node->CatchBody ();
+  AstTypeBase *finally_body = ast_node->FinallyBody ();
   ACCEPT( try_body );
-  indent_ = last;
-  //state_->Pop();
-  indent_ += INDENT;
   ACCEPT( catch_body );
-  indent_ = last;
-
-  indent_ += INDENT;
   ACCEPT( finally_body );
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 
 VISITOR_IMPL(Catch){
   PRINT_NODE_NAME;
-  //Base ident = ast_node->Ident();
-  Base body_block = ast_node->Body();
-  //Node* catch_node = ManagedHandle::Retain( new Node( "catch" , Node::kCatch ) );
-  //current_node_->Next( catch_node );
-  //current_node_ = catch_node;
-  
-  ////state_->State( AstState::kErrorIdent );
-  //ACCEPT(ident);
-  //state_->Pop();
-  
-  ////state_->State( AstState::kCatchBody );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *body_block = ast_node->Body();
   ACCEPT(body_block);
-  indent_ = last;
-  //state_->Pop();
 }
 
 
 VISITOR_IMPL(Finally) {
   PRINT_NODE_NAME;
-  Base block = ast_node->Block();
-  //  Node* finally_block = ManagedHandle::Retain( new Node( "finally" , Node::kFinally ) );
-
-  ////state_->State( AstState::kFinally );
-  std::string last = indent_;
-  indent_ += INDENT;
+  AstTypeBase *block = ast_node->Block();
   ACCEPT(block);
-  indent_ = last;
-  //state_->Pop();
 }
 
 
@@ -1212,6 +783,235 @@ VISITOR_IMPL(ConstantLiteral) {
 }
 
 
+
+VISITOR_IMPL(LetStmt) {
+}
+
+VISITOR_IMPL(ArrayComprehensions) {
+}
+
+VISITOR_IMPL(FormalParameterRest) {
+}
+
+VISITOR_IMPL(Spread) {
+}
+
+VISITOR_IMPL(ForEach) {
+}
+
+VISITOR_IMPL(Module) {
+  VariableDeclarationList *vars = ManagedHandle::Retain<VariableDeclarationList>();
+  ExpressionStmt *exp = CreateModule_( ast_node->Body() );
+  VariableDeclaration *var = CreateVariableDecl_( ast_node->Name() , exp->Exp() );
+  printf( "%s\n" , var->Name() );
+  vars->List( var );
+  ReplaceBlock_<VariableDeclarationList>( current_block_ , vars );
+}
+
+VISITOR_IMPL(ExportStmt) {
+  ExpressionStmt* stmt = CreateExport_( ast_node->Value() );
+  ReplaceBlock_<ExpressionStmt>( current_block_ , stmt );
+}
+
+VISITOR_IMPL( DestructuringAssignment ) {
+  CreateDstAssignment_( ast_node , ast_node->Value() );
+}
+
+ExpressionStmt* AstVisitor::CreateModule_( AstTypeBase* body ) {
+  Block *blk = body->CastToBlock();
+  if ( AstUtil::IsValidAst( blk ) ) {
+    StmtList* stmt_list = blk->Value()->CastToStmtList();
+    if ( AstUtil::IsValidAst( stmt_list ) ) {
+      VariableDeclarationList *vars = ManagedHandle::Retain<VariableDeclarationList>();
+      VariableDeclaration* var = ManagedHandle::Retain( new VariableDeclaration( "__export__" ) );
+      ObjectMember* member = ManagedHandle::Retain<ObjectMember>();
+      ObjectLiteral* literal = ManagedHandle::Retain( new ObjectLiteral( member ) );
+      vars->List( var );
+      var->Value( literal );
+      AstList list = stmt_list->List();
+      list.push_front( vars );
+      return CreateAnonymousFunctionCall_( stmt_list );
+    }
+  } else {
+    StmtList* stmt_list = ManagedHandle::Retain<StmtList>();
+    VariableDeclarationList *vars = ManagedHandle::Retain<VariableDeclarationList>();
+    VariableDeclaration* var = ManagedHandle::Retain( new VariableDeclaration( "__export__" ) );
+    ObjectMember* member = ManagedHandle::Retain<ObjectMember>();
+    ObjectLiteral* literal = ManagedHandle::Retain( new ObjectLiteral( member ) );
+    vars->List( var );
+    var->Value( literal );
+    stmt_list->List( vars );
+    stmt_list->List( body );
+    return CreateAnonymousFunctionCall_( stmt_list );
+  }
+  
+}
+
+ExpressionStmt* AstVisitor::CreateAnonymousFunctionCall_( AstTypeBase* body ) {
+  ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+  Expression *exp = ManagedHandle::Retain<Expression>();
+  Expression *ret = ManagedHandle::Retain<Expression>();
+  Function *fn = ManagedHandle::Retain( new Function( "" ) );
+  Block *blk = body->CastToBlock();
+  if ( AstUtil::IsValidAst( blk ) ) {
+    body = blk->Value();
+  }
+  fn->Body( body );
+  fn->Argv( ManagedHandle::Retain<Empty>() );
+  exp->List( fn );
+  exp->Paren();
+  ret->Paren();
+  CallAccessor* call = ManagedHandle::Retain( new CallAccessor( Constant::kCall , exp , ManagedHandle::Retain<Empty>() ) );
+  ret->List( call );
+  stmt->Exp( ret );
+  return stmt;
+}
+
+ExpressionStmt* AstVisitor::CreateExport_( AstTypeBase* ast_node ) {
+  Identifier* exports = ManagedHandle::Retain( new Identifier( "__export__" ) );
+  VariableDeclaration *var = ast_node->CastToVariableDecl();
+  Function* fn = ast_node->CastToFunction();
+  Identifier* name;
+  if ( AstUtil::IsValidAst( var ) ) {
+    name = ManagedHandle::Retain( new Identifier( var->Name() ) );
+  } else if ( AstUtil::IsValidAst( fn ) ) {
+    name = ManagedHandle::Retain( new Identifier( fn->Ident() ) );
+  }
+  DotAccessor* accessor = ManagedHandle::Retain( new DotAccessor( Constant::kDot , exports , name ) );
+  ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+  Expression* exp = ManagedHandle::Retain<Expression>();
+  Assign* assign = ManagedHandle::Retain( new Assign( Constant::kAssign , accessor , var->Value() ) );
+  exp->List( assign );
+  stmt->Exp( exp );
+  return stmt;
+}
+
+
+template <typename T>
+void AstVisitor::InsertBlock_( SourceBlock* rep_block , T* node , int type ) {
+  SourceBlock* block = ManagedHandle::Retain( new SourceBlock( node ) );
+  if ( type == kPrev ) {
+    if ( rep_block->HasPrev() ) {
+      rep_block->Prev()->Next( block );
+    }
+    rep_block->Prev( block );
+    block->Next( rep_block );
+    current_block_ = block;
+  } else if ( type == kNext ) {
+    if ( rep_block->HasNext() ) {
+      rep_block->Next()->Prev( block );
+    }
+    rep_block->Next( block );
+    block->Prev( rep_block );
+    current_block_ = block;
+  }
+}
+
+
+template <typename T>
+void AstVisitor::ReplaceBlock_( SourceBlock* rep_block , T* node , int type ) {
+  InsertBlock_<T>( rep_block , node , type );
+  if ( type == kPrev ) {
+    current_block_->Next( rep_block->Next() );
+    if ( rep_block->HasNext() ) {
+      rep_block->Next()->Prev( current_block_ );
+    }
+    rep_block->Prev( 0 );
+  } else if ( type == kNext ) {
+    current_block_->Prev( rep_block->Prev() );
+    if ( rep_block->HasPrev() ) {
+      rep_block->Prev()->Next( current_block_ );
+    }
+    rep_block->Next( 0 );
+  }
+}
+
+
+VariableDeclaration* AstVisitor::CreateVariableDecl_( const char* ident , AstTypeBase* opt_val ) {
+  VariableDeclaration* var = ManagedHandle::Retain( new VariableDeclaration( ident ) );
+  if ( AstUtil::IsValidAst( opt_val ) ) {
+    var->Value( opt_val );
+  } else {
+    var->Value( ManagedHandle::Retain<Empty>() );
+  }
+  return var;
+}
+
+
+ArrayAccessor* AstVisitor::CreateArrayAccessor_( AstTypeBase* exp , AstTypeBase* access ) {
+  return ManagedHandle::Retain( new ArrayAccessor( Constant::kBracket , exp , access ) );
+}
+
+NumberLiteral* AstVisitor::CreateNumberLiteral_( int num ) {
+  char tmp[ 500 ];
+  sprintf( tmp , "%d" , num );
+  NumberLiteral* num_lit = ManagedHandle::Retain( new NumberLiteral( tmp ) );
+  return num_lit;
+}
+
+
+void AstVisitor::CreateRecrusivDstAccessor_( AstTypeBase* node_base , AstTypeBase* exp , VariableDeclarationList *vars ) {
+  DestructuringArray* array = node_base->CastToDstArray();
+  DestructuringObject* object = node_base->CastToDstObject();
+  if ( AstUtil::IsValidAst( array ) ) {
+    AstList list = array->Value()->List();
+    AstList::iterator ITERATOR( list );
+    int count = 0;
+    ArrayAccessor* result;
+    while ( begin != end ) {
+      NumberLiteral* num_lit = CreateNumberLiteral_( count );
+      ArrayAccessor* array_accessor = CreateArrayAccessor_( exp , num_lit );
+      CreateRecrusivDstAccessor_( (*begin) , array_accessor , vars );
+      ConstantLiteral* literal = (*begin)->CastToLiteral();
+      if ( AstUtil::IsValidAst( literal ) ) {
+        Identifier* name = literal->CastToIdentifier();
+        if ( AstUtil::IsValidAst( name ) ) {
+          VariableDeclaration* decl = CreateVariableDecl_( name->Value() , array_accessor );
+          vars->List( decl );
+        }
+      }
+      count++;
+      ++begin;
+    }
+  } else if ( AstUtil::IsValidAst( object ) ) {
+    DstoMemList list = object->List();
+    DstoMemList::iterator ITERATOR( list );
+    while ( begin != end ) {
+      ArrayAccessor* array_accessor = CreateArrayAccessor_( exp , (*begin)->Left() );
+      CreateRecrusivDstAccessor_( (*begin) , array_accessor , vars );
+      ConstantLiteral* literal = (*begin)->Right()->CastToLiteral();
+      if ( AstUtil::IsValidAst( literal ) ) {
+        Identifier* name = literal->CastToIdentifier();
+        if ( AstUtil::IsValidAst( name ) ) {
+          VariableDeclaration* decl = CreateVariableDecl_( name->Value() , array_accessor );
+          vars->List( decl );
+        }
+      }
+      ++begin;
+    }
+  }
+}
+
+void AstVisitor::CreateDstAssignment_( AstTypeBase* ast , AstTypeBase* value ) {
+  VariableDeclarationList* vars = ManagedHandle::Retain<VariableDeclarationList>();
+  VariableDeclaration* tmp_ref = CreateVariableDecl_( CreateTmpIdent_() , value );
+  Identifier* name = ManagedHandle::Retain( new Identifier( tmp_ref->Name() ) );
+  vars->List( tmp_ref );
+
+  CreateRecrusivDstAccessor_( ast , name , vars );
+  InsertBlock_<VariableDeclarationList>( current_block_ , vars );
+}
+
+const char* AstVisitor::CreateTmpIdent_() {
+  char tmp[100];
+  sprintf( tmp , "__tmp__%d" , tmp_index_ );
+  tmp_index_++;
+  char* ret = new char[ strlen( tmp ) + 1 ];
+  strcpy( ret , tmp );
+  char_handle_.Retain( ret );
+  return ret;
+}
+
 /*VISITOR_IMPL(Name) {
 SymbolSet* symbol_set = scope_->Find ( ident );
   if ( !symbol_set->IsEmpty () ) {
@@ -1223,3 +1023,4 @@ SymbolSet* symbol_set = scope_->Find ( ident );
 }
 */
 
+}

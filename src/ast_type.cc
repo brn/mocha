@@ -72,13 +72,22 @@ AstRoot::AstRoot () : tree_ ( 0 ) {}
 ///////////////////
 // class AstTree //
 ///////////////////
-AstTree::AstTree () : Base ( "AstTree" ){};
+AstTree::AstTree () :
+    Base ( "AstTree" ) , empty_handle_( new Empty() ) , block_handle_( new SourceBlock( empty_handle_.Get() ) ){
+  head_ = block_handle_.Get();
+  current_ = head_;
+};
 
+void AstTree::AddBlock( SourceBlock* block )  {
+  block->bprev_ = current_;
+  current_->bnext_ = block;
+  current_ = block;
+}
 
 ///////////////////////
 // class SourceBlock //
 ///////////////////////
-#define CONSTRUCT(type) SourceBlock::SourceBlock ( type* ast ) : block_ ( ast ) , type_ ( k##type ) {}
+#define CONSTRUCT(type) SourceBlock::SourceBlock ( type* ast ) : bnext_( 0 ), bprev_( 0 ), block_ ( ast ) , type_ ( k##type ) {}
 
 CONSTRUCT(Block);
 CONSTRUCT(VariableDeclarationList);
@@ -96,6 +105,9 @@ CONSTRUCT(Throw);
 CONSTRUCT(Try);
 CONSTRUCT(Empty);
 CONSTRUCT(Function);
+CONSTRUCT(Module);
+CONSTRUCT(ExportStmt);
+CONSTRUCT(LetStmt);
 
 #undef CONSTRUCT
 
@@ -166,7 +178,7 @@ EXTENDS_TREE_CONSTRUCTOR( Assign , Constant::ConstantType );
 // class Function //
 ////////////////////
 Function::Function ( const char* ident ) :
-  Base ( "Function" ) , argv_ ( 0 ) , ident_ ( ident ) , body_ ( 0 ), scope_ ( 0 ){};
+    Base ( "Function" ) , is_const_( false ) , argv_ ( 0 ) , ident_ ( ident ) , body_ ( 0 ), scope_ ( 0 ){};
 
 
 ///////////////////////////
@@ -178,7 +190,7 @@ FormalParameter::FormalParameter () : Base ( "FormalParameter" ) , argc_ ( 0 ) {
 // class VariableDeclaration //
 ///////////////////////////////
 VariableDeclaration::VariableDeclaration ( const char* ident ) :
-    Base ( "VariableDeclaration" ) , name_ ( ident ) , val_ ( 0 ) {};
+    Base ( "VariableDeclaration" ) , val_ ( 0 ) { name_ = ident; };
 
 
 ///////////////////////////////////
@@ -266,7 +278,7 @@ CONSTRUCT(For);
 CONSTRUCT(ForIn);
 CONSTRUCT(While);
 CONSTRUCT(DoWhile);
-
+CONSTRUCT(ForEach);
 #undef CONSTRUCT
 
 ///////////////

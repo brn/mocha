@@ -67,6 +67,8 @@ ptr_deleter.h\
 ptr_handle.h\
 ptr_handle_base.h\
 ptr_traits.h\
+queue_scanner.h\
+queue_scanner.cc\
 ref_count.h\
 ref_count_base.h\
 scanner.cc\

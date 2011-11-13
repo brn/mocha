@@ -68,10 +68,14 @@ FORWARD_DECL(RegExpLiteral);
 FORWARD_DECL(BooleanLiteral);
 FORWARD_DECL(UndefinedLiteral);
 FORWARD_DECL(Identifier);
+FORWARD_DECL(LetStmt);
+FORWARD_DECL(ArrayComprehensions);
+FORWARD_DECL(FormalParameterRest);
+FORWARD_DECL(Spread);
+FORWARD_DECL(ForEach);
+FORWARD_DECL(Module);
+FORWARD_DECL(ExportStmt);
 FORWARD_DECL(DestructuringAssignment);
-FORWARD_DECL(DestructuringObject);
-FORWARD_DECL(DestructuringObjectMember);
-FORWARD_DECL(DestructuringArray);
 #undef FORWARD_DECL
 
 #define DECL_VISITOR(type) virtual void operator () ( type* ast ) = 0
@@ -133,9 +137,13 @@ class IVisitor {
   DECL_VISITOR(Finally);
   DECL_VISITOR(ConstantLiteral);
   DECL_VISITOR(DestructuringAssignment);
-  DECL_VISITOR(DestructuringObject);
-  DECL_VISITOR(DestructuringObjectMember);
-  DECL_VISITOR(DestructuringArray);
+  DECL_VISITOR(LetStmt);
+  DECL_VISITOR(ArrayComprehensions);
+  DECL_VISITOR(FormalParameterRest);
+  DECL_VISITOR(Spread);
+  DECL_VISITOR(ForEach);
+  DECL_VISITOR(Module);
+  DECL_VISITOR(ExportStmt);
 };
 
 }

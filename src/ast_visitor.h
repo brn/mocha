@@ -5,6 +5,7 @@
 #include <string>
 #include "useconfig.h"
 #include "ivisitor.h"
+#include "scoped_list.h"
 
 namespace mocha{
   
@@ -76,10 +77,14 @@ FORWARD_DECL(RegExpLiteral);
 FORWARD_DECL(BooleanLiteral);
 FORWARD_DECL(UndefinedLiteral);
 FORWARD_DECL(Identifier);
+FORWARD_DECL(LetStmt);
+FORWARD_DECL(ArrayComprehensions);
+FORWARD_DECL(FormalParameterRest);
+FORWARD_DECL(Spread);
+FORWARD_DECL(ForEach);
+FORWARD_DECL(Module);
+FORWARD_DECL(ExportStmt);
 FORWARD_DECL(DestructuringAssignment);
-FORWARD_DECL(DestructuringObject);
-FORWARD_DECL(DestructuringObjectMember);
-FORWARD_DECL(DestructuringArray);
 #undef FORWARD_DECL
 
 #define DECL_VISITOR(type) void operator () ( type* ast )
@@ -88,13 +93,11 @@ class AstVisitor : public IVisitor {
  public :
     
   AstVisitor ( Scope* scope,
-               Codegen* codegen,
                const char* modulename,
                const char* filename );
   ~AstVisitor ();
-  void BeginClosure ();
-  void EndClosure ();
-  void setScope ( Scope* scope );
+  DECL_VISITOR(AstRoot);
+  DECL_VISITOR(RootBlock);
   DECL_VISITOR(AstTree);
   DECL_VISITOR(UnaryExp);
   DECL_VISITOR(ArrayAccessor);
@@ -147,24 +150,53 @@ class AstVisitor : public IVisitor {
   DECL_VISITOR(Catch);
   DECL_VISITOR(Finally);
   DECL_VISITOR(ConstantLiteral);
-  inline DECL_VISITOR(DestructuringAssignment){};
-  inline DECL_VISITOR(DestructuringObject){};
-  inline DECL_VISITOR(DestructuringObjectMember){};
-  inline DECL_VISITOR(DestructuringArray){};
+  DECL_VISITOR(LetStmt);
+  DECL_VISITOR(ArrayComprehensions);
+  DECL_VISITOR(FormalParameterRest);
+  DECL_VISITOR(Spread);
+  DECL_VISITOR(ForEach);
+  DECL_VISITOR(Module);
+  DECL_VISITOR(ExportStmt);
+  DECL_VISITOR(DestructuringAssignment);
   //DECL_VISITOR(Name);
 #undef DECL_VISITOR
  private:
-    
+  enum {
+    kPrev,
+    kNext
+  };
+  typedef std::list<AstTypeBase*> AstList;
+  typedef std::list<SourceBlock*> BlockList;
+  typedef std::list<Identifier*> IdentifierList;
+  typedef std::list<DestructuringObjectMember*> DstoMemList;
+
+  ExpressionStmt* CreateModule_( AstTypeBase* body );
+  ExpressionStmt* CreateAnonymousFunctionCall_( AstTypeBase* body );
+  ExpressionStmt* CreateExport_( AstTypeBase* exp );
+  template<typename T>
+  void InsertBlock_( SourceBlock* block , T* node , int type = kPrev );
+
+  template<typename T>
+  void ReplaceBlock_( SourceBlock* block , T* node , int type = kPrev );
+  VariableDeclaration* CreateVariableDecl_( const char* ident , AstTypeBase* opt_val );
+  ArrayAccessor* CreateArrayAccessor_( AstTypeBase* exp , AstTypeBase* access );
+  NumberLiteral* CreateNumberLiteral_( int num );
+  void CreateRecrusivDstAccessor_( AstTypeBase* node_base , AstTypeBase* exp , VariableDeclarationList *vars );
+  void CreateDstAssignment_( AstTypeBase* ast , AstTypeBase* value );
+  const char* CreateTmpIdent_();
+
+  int tmp_index_;
   const char* symbol;
   const char* module_name_;
   const char* filename_;
+  ScopedStrList char_handle_;
   Scope* scope_;
   Scope* global_;
   Codegen* codegen_;
-  AstState *state_;
   ParserTracer* tracer_;
   std::string indent_;
-    
+  SourceBlock* root_block_;
+  SourceBlock* current_block_;
 };
 
 }

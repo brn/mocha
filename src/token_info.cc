@@ -36,9 +36,11 @@ int TokenInfo::getLineNumber () const {
   return line_;
 }
 
-int TokenInfo::getType () const {
-  
+int TokenInfo::getType () const {  
   return type_;
-  
+}
+
+void TokenInfo::SetType ( int type ) {  
+  type_ = type;
 }
 

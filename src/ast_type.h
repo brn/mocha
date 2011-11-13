@@ -10,6 +10,7 @@
 #include "define.h"
 #include "ivisitor.h"
 #include "managed.h"
+#include "scoped_ptr.h"
 
 //Macro that declare Accept virtual member function.
 //Function Accept call each Ast visitro function that
@@ -169,6 +170,8 @@ FORWARD_DECL(Empty);
 FORWARD_DECL(Function);
 FORWARD_DECL(For);
 FORWARD_DECL(ForIn);
+FORWARD_DECL(FormalParameter);
+FORWARD_DECL(FormalParameterSet);
 FORWARD_DECL(While);
 FORWARD_DECL(DoWhile);
 FORWARD_DECL(ArrayAccessor);
@@ -199,6 +202,13 @@ FORWARD_DECL(BooleanLiteral);
 FORWARD_DECL(UndefinedLiteral);
 FORWARD_DECL(Identifier);
 FORWARD_DECL(PropertyName);
+FORWARD_DECL(LetStmt);
+FORWARD_DECL(ArrayComprehensions);
+FORWARD_DECL(FormalParameterRest);
+FORWARD_DECL(Spread);
+FORWARD_DECL(ForEach);
+FORWARD_DECL(Module);
+FORWARD_DECL(ExportStmt);
 FORWARD_DECL(DestructuringAssignment);
 FORWARD_DECL(DestructuringObject);
 FORWARD_DECL(DestructuringObjectMember);
@@ -226,7 +236,11 @@ class AstTypeBase : public Managed {
   inline virtual ConstantLiteral* CastToLiteral () { return 0; }
   inline virtual Block* CastToBlock () { return 0; }
   inline virtual ArrayLiteral* CastToArrayLiteral() { return 0; }
-  inline virtual DestructuringAssignment* CastToArrayDsta() { return 0; }
+  inline virtual DestructuringArray* CastToDstArray() { return 0; }
+  inline virtual DestructuringObject* CastToDstObject() { return 0; }
+  inline virtual StmtList* CastToStmtList(){ return 0; }
+  inline virtual VariableDeclaration* CastToVariableDecl() { return 0; }
+  inline virtual Function* CastToFunction() { return 0; }
   inline virtual JPM_CONST bool IsPrimitive () const { return is_primitive_; }
   void Print () { printf ( "  %s\n" , name_ ); }
   const char* GetName() { return name_; };
@@ -253,6 +267,7 @@ private :
 };
 
 EXTENDS_BASE(SourceBlock) {
+  friend class AstTree;
 public :
 #define DECL_CONSTRUCTOR(type) explicit SourceBlock ( type* ast )
 
@@ -272,6 +287,10 @@ public :
   DECL_CONSTRUCTOR(Try);
   DECL_CONSTRUCTOR(Empty);
   DECL_CONSTRUCTOR(Function);
+  DECL_CONSTRUCTOR(Module);
+  DECL_CONSTRUCTOR(ExportStmt);
+  DECL_CONSTRUCTOR(LetStmt);
+  
     
 #undef DECL_CONSTRUCTOR
   DECL_CONST_GET( Type , int , type_ );
@@ -291,10 +310,22 @@ public :
     kThrow,
     kTry,
     kEmpty,
-    kFunction
+    kFunction,
+    kModule,
+    kExportStmt,
+    kLetStmt
   };
   inline ~SourceBlock (){};
   inline virtual void Accept ( IVisitor* visitor ) { block_->Accept(visitor); }
+  inline bool HasNext() { return bnext_ != 0; }
+  inline bool HasPrev() { return bprev_ != 0; }
+  inline SourceBlock* Next() { return bnext_; }
+  inline SourceBlock* Prev() { return bprev_; }
+  inline void Next( SourceBlock* block ) { bnext_ = block; }
+  inline void Prev( SourceBlock* block ) { bprev_ = block; }
+protected :
+  SourceBlock* bnext_;
+  SourceBlock* bprev_;
 private:
   AstTypeBase* block_;
   int type_;
@@ -316,11 +347,14 @@ EXTENDS_BASE(AstTree) {
 public :
   AstTree ();
   inline ~AstTree (){};
-    
-  DECL_GET_SET_LIST( List , SourceBlock* , tree_ );
+  void AddBlock( SourceBlock* block );
+  DECL_GET( Head , SourceBlock* , head_ );
   DECL_ACCEPT( AstTree );
 private:
-  std::list<SourceBlock*> tree_;
+  ScopedPtr<Empty> empty_handle_;
+  ScopedPtr<SourceBlock> block_handle_;
+  SourceBlock* head_;
+  SourceBlock* current_;
 };
   
 EXTENDS_BASE(Empty) {
@@ -454,16 +488,43 @@ public :
   DECL_GET_SET( Argv , pBase , argv_ );
   DECL_GET( Ident , const char* , ident_ );
   DECL_GET_SET( Body , pBase , body_ );
+  DECL_GET_SET( Const , bool , is_const_ );
   DECL_GET_SET( FnScope , Scope* ,scope_ );
     
   DECL_ACCEPT( Function );
-  
+  inline virtual Function* CastToFunction() { return this; }
 private:
+  bool is_const_;
   AstTypeBase* argv_;
   const char* ident_;
   AstTypeBase* body_;
   Scope* scope_;
 
+};
+
+EXTENDS_BASE(FormalParameterSet) {
+public :
+  FormalParameterSet( AstTypeBase* param , AstTypeBase* initiliser ){}
+  ~FormalParameterSet(){};
+  DECL_GET( Param , AstTypeBase* , param_ );
+  DECL_GET( Initiliser , AstTypeBase* , initiliser_ );
+  inline void Accept( IVisitor* visitor ){}
+private :
+  AstTypeBase* param_;
+  AstTypeBase* initiliser_;
+};
+
+EXTENDS_BASE(FormalParameterRest) {
+public :
+  FormalParameterRest( const char* ident ) {
+    name_ = ident;
+  }
+  ~FormalParameterRest(){};
+  DECL_GET( Name , const char* , name_.c_str() );
+  DECL_SET( Name , const char* , name_ );
+  inline void Accept( IVisitor* visitor ){}
+private :
+  std::string name_;
 };
 
 EXTENDS_BASE(FormalParameter) {
@@ -472,38 +533,84 @@ public :
   inline ~FormalParameter () {};
     
   inline int Argc () const { return list_.size (); };
-  DECL_GET_SET_LIST( Args , AstTypeBase* , list_ );
+  DECL_GET_SET_LIST( Args , FormalParameterSet* , list_ );
   DECL_ACCEPT(FormalParameter);
   
 private:
   int argc_;
-  std::list<AstTypeBase*> list_;
+  std::list<FormalParameterSet*> list_;
 };
+
+
+EXTENDS_BASE(Module) {
+public :
+  Module( const char* name ) {
+    name_ = name;
+  }
+  DECL_GET( Name , const char* , name_.c_str() );
+  DECL_SET( Name , const char* , name_ );
+  DECL_GET_SET( Body , AstTypeBase* , body_ );
+  DECL_ACCEPT(Module);
+private :
+  std::string name_;
+  AstTypeBase* body_;
+};
+
+EXTENDS_BASE(ExportStmt) {
+public :
+  ExportStmt(){}
+  ~ExportStmt(){}
+  DECL_GET_SET( Value , AstTypeBase* , value_ );
+  DECL_ACCEPT(ExportStmt);
+private :
+  AstTypeBase* value_;
+};
+
 
 EXTENDS_BASE(VariableDeclaration) {
 public :
   VariableDeclaration ( const char* ident );
   inline ~VariableDeclaration () {};
-    
-  DECL_GET( Name , const char* , name_ );
+  inline virtual VariableDeclaration* CastToVariableDecl() { return this; }
+  DECL_GET( Name , const char* , name_.c_str() );
   DECL_GET_SET( Value , AstTypeBase* , val_ );
   DECL_ACCEPT(VariableDeclaration);
 private:
-  const char* name_;
+  std::string name_;
   AstTypeBase* val_;
+};
+
+EXTENDS_BASE( LetStmt ) {
+public :
+  LetStmt(){}
+  ~LetStmt(){}
+  DECL_GET_SET( Exp , Arguments* , exp_ );
+  DECL_GET_SET( Body , AstTypeBase* , body_ );
+  DECL_ACCEPT(LetStmt);
+private :
+  Arguments* exp_;
+  AstTypeBase* body_;
 };
 
   
 EXTENDS_BASE(VariableDeclarationList) {
 public:
+  enum {
+    kNormal,
+    kConst,
+    kLet
+  };
   VariableDeclarationList ();
   inline ~VariableDeclarationList (){};
-    
+  DECL_GET_SET( Type , int , type_ );
   DECL_GET_SET_LIST( List , AstTypeBase* , list_ );
   DECL_ACCEPT(VariableDeclarationList);
 private:
+  int type_;
   std::list<AstTypeBase*> list_;
 };
+
+
 
   
   
@@ -511,7 +618,7 @@ EXTENDS_BASE(StmtList) {
 public:
   StmtList ();
   inline ~StmtList () {};
-    
+  inline virtual StmtList* CastToStmtList() { return this; }
   DECL_GET_SET_LIST( List , AstTypeBase* , list_ );
   DECL_ACCEPT(StmtList);
 private:
@@ -642,6 +749,21 @@ private:
 };
 
 
+EXTENDS_BASE(ArrayComprehensions) {
+public:
+  ArrayComprehensions () {};
+  inline ~ArrayComprehensions () {};
+  DECL_GET_SET( Exp , AstTypeBase* , exp_ );
+  DECL_GET_SET( Iteration , AstTypeBase* , iter_ );
+  DECL_GET_SET( OptIf , AstTypeBase* , opt_if_ );
+  DECL_ACCEPT(ArrayComprehensions);
+  inline virtual ArrayComprehensions* CastToArrayComprehensions() { return this; }
+private:
+  AstTypeBase* exp_;
+  AstTypeBase* iter_;
+  AstTypeBase* opt_if_;
+};
+
   
 EXTENDS_BASE(ElementList) {
 public :
@@ -672,6 +794,17 @@ private:
 };
 
 
+EXTENDS_BASE(Spread) {
+public :
+  Spread( const char* name ) {
+    name_ = name;
+  }
+  DECL_GET(Name , const char* , name_.c_str());
+  DECL_SET(Name , const char* , name_);
+  DECL_ACCEPT(Spread);
+private :
+  std::string name_;
+};
 
 EXTENDS_BASE(Arguments) {
 public :
@@ -684,7 +817,7 @@ public :
 private:
   std::list<AstTypeBase*> list_;
 };
-  
+
   
   
 EXTENDS_BASE(Expression) {
@@ -769,6 +902,7 @@ public :
   DECL_CONSTRUCTOR(While);
   DECL_CONSTRUCTOR(ForIn);
   DECL_CONSTRUCTOR(DoWhile);
+  DECL_CONSTRUCTOR(ForEach);
 
 #undef DECL_CONSTRUCTOR
   inline ~Iteration () {};
@@ -816,7 +950,25 @@ private:
   AstTypeBase* body_;
   bool is_var_decl_;
 };
-  
+
+
+EXTENDS_BASE(ForEach) {
+public :
+  ForEach (){};
+  inline ~ForEach () {};
+    
+  DECL_GET_SET( Item , AstTypeBase* , item_ );
+  DECL_GET_SET( Target , AstTypeBase* , target_ );
+  DECL_GET_SET( VariableDecl , bool , is_var_decl_ );
+  DECL_GET_SET( Body , AstTypeBase* , body_ );
+    
+  DECL_ACCEPT(ForEach);
+private:
+  AstTypeBase* item_;
+  AstTypeBase* target_;
+  AstTypeBase* body_;
+  bool is_var_decl_;
+};
   
   
 EXTENDS_BASE(Continue) {
@@ -1000,25 +1152,27 @@ private :
   AstTypeBase* body_;
 };
 
-EXTENDS_BASE(DestructuringAssignment) {
-public :
-  DestructuringAssignment( AstTypeBase* assign_type ) : assign_type_( assign_type ){}
-  ~DestructuringAssignment(){}
-  DECL_GET_SET(Value , AstTypeBase* , value_);
-  DECL_ACCEPT(DestructuringAssignment);
-  inline virtual DestructuringAssignment* CastToDsta() { return this; }
-private :
-  AstTypeBase* value_;
-  AstTypeBase* assign_type_;
-};
 
 EXTENDS_BASE(ElementLHS) {
 public :
   ElementLHS(){}
   ~ElementLHS(){}
-  DECL_GET_SET_LIST( List , Identifier* , list_ );
+  DECL_GET_SET_LIST( List , AstTypeBase* , list_ );
+  inline void Accept( IVisitor* visitor ){}
 private :
-  std::list<Identifier*> list_;
+  std::list<AstTypeBase*> list_;
+};
+
+EXTENDS_BASE(DestructuringAssignment) {
+public :
+  DestructuringAssignment(){}
+  ~DestructuringAssignment(){}
+  DECL_GET_SET( Data , AstTypeBase* , data_ );
+  DECL_GET_SET( Value , AstTypeBase* , value_ );
+  DECL_ACCEPT(DestructuringAssignment);
+private :
+  AstTypeBase* data_;
+  AstTypeBase* value_;
 };
 
 EXTENDS_BASE(DestructuringArray) {
@@ -1026,7 +1180,8 @@ public :
   DestructuringArray(){}
   ~DestructuringArray(){}
   DECL_GET_SET( Value , ElementLHS* , value_ );
-  DECL_ACCEPT(DestructuringArray);
+  inline virtual DestructuringArray* CastToDstArray() { return this; }
+  inline void Accept( IVisitor* visitor ){}
 private :
   ElementLHS* value_;
 };
@@ -1034,11 +1189,11 @@ private :
 EXTENDS_BASE( DestructuringObjectMember ) {
  public :
   DECL_GET_SET( Left , AstTypeBase* , left_ );
-  DECL_GET_SET( Right , Identifier* , right_ );
-  DECL_ACCEPT(DestructuringObjectMember);
+  DECL_GET_SET( Right , AstTypeBase* , right_ );
+  inline void Accept( IVisitor* visitor ){}
  private :
   AstTypeBase* left_;
-  Identifier* right_;
+  AstTypeBase* right_;
 };
 
 EXTENDS_BASE(DestructuringObject) {
@@ -1046,7 +1201,8 @@ public :
   DestructuringObject(){}
   ~DestructuringObject(){}
   DECL_GET_SET_LIST( List , DestructuringObjectMember* , list_ );
-  DECL_ACCEPT(DestructuringObject);
+  inline virtual DestructuringObject* CastToDstObject() { return this; }
+  inline void Accept( IVisitor* visitor ){}
 private :
   std::list<DestructuringObjectMember*> list_;
 };

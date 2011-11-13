@@ -14,6 +14,7 @@ class TokenInfo : public Managed {
   ~TokenInfo ();
   const char* getValue () const;
   int getType () const;
+  void SetType( int type );
   int getLineNumber () const;
     
  private:
