@@ -823,6 +823,10 @@ VISITOR_IMPL(ExportStmt) {
 VISITOR_IMPL( DestructuringAssignment ) {
   CreateDstAssignment_( ast_node , ast_node->Value() );
 }
+/**
+ExpressionStmt* AstVisitor::CreateExporter() {
+  
+}*/
 
 ExpressionStmt* AstVisitor::CreateModule_( AstTypeBase* body ) {
   Block *blk = body->CastToBlock();

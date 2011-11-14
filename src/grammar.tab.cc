@@ -535,7 +535,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 406 "grammar.yy"
     {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Argv ( (yysemantic_stack_[(7) - (2)].farg) );
     fn->Body ( (yysemantic_stack_[(7) - (6)].ast) );
     (yyval.fn) = fn;
@@ -547,7 +547,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 413 "grammar.yy"
     {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Body ( (yysemantic_stack_[(4) - (3)].ast) );
     (yyval.fn) = fn;
   }
@@ -558,7 +558,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 419 "grammar.yy"
     {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Argv ( (yysemantic_stack_[(7) - (2)].farg) );
     fn->Body ( (yysemantic_stack_[(7) - (6)].ast) );
     (yyval.fn) = fn;
@@ -570,7 +570,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 426 "grammar.yy"
     {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Body ( (yysemantic_stack_[(4) - (3)].ast) );
     (yyval.fn) = fn;
   }
@@ -581,7 +581,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 432 "grammar.yy"
     {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Argv ( (yysemantic_stack_[(7) - (2)].farg) );
     fn->Body ( (yysemantic_stack_[(7) - (6)].source_block) );
     (yyval.fn) = fn;
@@ -593,7 +593,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 439 "grammar.yy"
     {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Body ( (yysemantic_stack_[(4) - (3)].source_block) );
     (yyval.fn) = fn;
   }

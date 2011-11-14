@@ -404,40 +404,40 @@ function_expression
 arrow_function_expression
 : JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Argv ( $2 );
     fn->Body ( $6 );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Body ( $3 );
     $$ = fn;
   }
 | JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Argv ( $2 );
     fn->Body ( $6 );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Body ( $3 );
     $$ = fn;
   }
 | JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Argv ( $2 );
     fn->Body ( $6 );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH_WITH_CONTEXT JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( 0 ) );
+    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
     fn->Body ( $3 );
     $$ = fn;
   }
