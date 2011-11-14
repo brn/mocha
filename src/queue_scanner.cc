@@ -853,219 +853,134 @@ class QueueScanner::Scanner {
 
 class QueueScanner::TokenGetter {
  public :
-  TokenGetter( QueueScanner::Scanner::TokenQueue& queue ) : last_type_(0),queue_( queue ) , state_( 0 ) {
+
+  TokenGetter( QueueScanner::Scanner::TokenQueue& queue ) :
+      last_type_(0) , is_incrementable_( true ), has_line_break_( false ),
+      queue_( queue ) , semicolon_( new TokenInfo( ";" , ';' , 0 ) ) {
     it_ = queue_.begin();
   }
   const TokenInfo* GetToken( int yystate ) {
-    TokenInfo* info = SwitchState_( yystate );
+    printf( "state %d  " , last_type_ );
+    has_line_break_ = false;
+    is_incrementable_ = true;
+    TokenInfo* info = SwitchState_();
     //TokenInfo* info =(*it_);
-    ++it_;
+    if ( is_incrementable_ ) {
+      ++it_;
+    }
+
+    int type = info->getType();
+    if ( type > 200 && type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END ) {
+      printf( "%s %d\n" , info->getValue() , info->getType() );
+    } else {
+      if ( type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END )
+      printf( "%c %d\n" , info->getType() , info->getType() );
+      else if ( type == TOKEN::JS_PARAM_BEGIN )
+        printf( "(\n" );
+      else if ( type == TOKEN::JS_PARAM_END )
+        printf( ")\n" );
+    }
+    return info;
+  }
+  
+ private :
+  enum {
+  };
+  
+  TokenInfo* SwitchState_() {
+    if ( last_type_ == 0 ) {
+      return NormalState_();
+    } else if ( last_type_ == '}' ) {
+      return AfterCloseBrace_();
+    }
+    return MaybeSemicolon_();
+  }
+
+  TokenInfo* NormalState_() {
+    SkipLineBreak_();
+    TokenInfo* info = (*it_);
     last_type_ = info->getType();
     return info;
   }
- private :
-  enum {
-    kNone = 0,
 
-    //Search . JS_FUNCTION_IDENTIFIER from grammar.output.
-    //function . Example() {...}
-    kFunctionDeclIdentBeg = 23,
-    kFunctionDeclIdentBeg2 = 132,
-
-    //Search JS_CONST . , JS_VAR . and JS_LET . from grammar.output. 
-    //
-    //var . x = 2;
-    //const . Example (){...}
-    kVariableDeclBeg1 = 17,//JS_CONST
-    kVariableDeclBeg2 = 130,//JS_CONST
-    kVariableDeclBeg3 = 133,//JS_LET
-    kVariableDeclBeg4 = 44,//JS_LET
-    kVariableDeclBeg5 = 36,//JS_VAR
-    kVariableDeclBeg6 = 250,//JS_VAR
-    kVariableDeclBeg7 = 378,//JS_VAR
-    kVariableDeclBeg8 = 245,//,variable_declaration
-    kVariableDeclBeg9 = 425,//,variable_declaration_no_in
-    
-
-    /**
-     *function_declaration: JS_CONST JS_FORMAL_PARAMETER_IDENT . JS_PARAM_BEGIN
-     *formal_parameter_list__opt JS_PARAM_END '{' function_body '}'
-     *
-     *variable_declaration: JS_FORMAL_PARAMETER_IDENT . initialiser__opt
-     */
-    kVariableDeclEndORParamBegin = 123,
-
-    //Search . initiliser , . initiliser__opt , . initiliser__opt and . initialiser_no_in__opt from grammar.output
-    //var x . = 2;
-    kVariableDeclEnd1 = 126,//initiliser
-    kVariableDeclEnd2 = 148,//initiliser__opt
-    kVariableDeclEnd3 = 291,//initiliser__opt
-    kVariableDeclEnd4 = 294,//initiliser
-    kVariableDeclEnd5 = 355,//initiliser_no_in__opt
-    kVariableDeclEnd6 = 358,
-
-    //. JS_EXP_CLOSURE_BEGIN
-    //( x , y )-> . {...}
-    kArrowFunctionExpBlockBegin = 40,
-    
-    //. JS_EXP_CLOSURE_BEGIN
-    //( x, y )=> . {...}
-    KArrowFunctionExpWBlockBegin = 41,
-
-    /*
-     *function_declaration: JS_FUNCTION JS_FUNCTION_IDENTIFIER . JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END '{' function_body '}'
-     */
-    kFormalParameterBegin1 = 138,
-    kFormalParameterBegin2 = 139,
-
-    /*
-     *function_declaration: JS_CONST JS_FORMAL_PARAMETER_IDENT JS_PARAM_BEGIN formal_parameter_list__opt . JS_PARAM_END '{' function_body '}'
-     *function_declaration: JS_FUNCTION JS_FUNCTION_IDENTIFIER JS_PARAM_BEGIN formal_parameter_list__opt . JS_PARAM_END '{' function_body '}'
-     *function_expression: JS_FUNCTION identifier__opt JS_PARAM_BEGIN formal_parameter_list__opt . JS_PARAM_END '{' function_body '}'
-     */
-    kFormalParameterEnd1 = 157,
-    kFormalParameterEnd2 = 350,
-    kFormalParameterEnd3 = 380,
-    kFormalParameterEnd4 = 381,
-
-    //current state.
-    kFormalParameter = 1,
-    kVarDecl = 2,
-
-    //Search . terminator from grammar.output.
-    kTerminate1 = 98,
-    kTerminate2 = 124,
-    kTerminate3 = 143,
-    kTerminate4 = 149,
-    kTerminate5 = 161,
-    kTerminate6 = 235,
-    kTerminate7 = 246,
-    kTerminate8 = 270,
-    kTerminate9 = 485
-  };
-  
-  TokenInfo* SwitchState_( int yystate ) {
-    switch ( yystate ) {
-      /*
-      case kFunctionDeclIdentBeg :
-      case kFunctionDeclIdentBeg2 :
-        return RewriteType_( TOKEN::JS_IDENTIFIER , TOKEN::JS_FUNCTION_IDENTIFIER );
-        
-      case kVariableDeclBeg1 :
-      case kVariableDeclBeg2 :
-      case kVariableDeclBeg3 :
-      case kVariableDeclBeg4 :
-      case kVariableDeclBeg5 :
-      case kVariableDeclBeg6 :
-      case kVariableDeclBeg7 :
-      case kVariableDeclBeg8 :
-      case kVariableDeclBeg9 :
-        state_.push_back( kVarDecl );
-        return MatchState_();
-
-      case kVariableDeclEnd2 :
-      case kVariableDeclEnd3 :
-      case kVariableDeclEnd4 :
-      case kVariableDeclEnd5 :
-      case kVariableDeclEnd6 :
-        state_.pop_back();
-        SkipLineBreak_();
-        return (*it_);
-
-      case kArrowFunctionExpBlockBegin :
-      case KArrowFunctionExpWBlockBegin :
-        return RewriteType_( '{' , TOKEN::JS_EXP_CLOSURE_BEGIN );
-        
-
-      case kFormalParameterBegin1 :
-      case kFormalParameterBegin2 :
-        state_.push_back( kFormalParameter );
-        return RewriteType_( '(' , TOKEN::JS_PARAM_BEGIN );
-
-      case kVariableDeclEndORParamBegin :
-        state_.pop_back();
-        state_.push_back( kFormalParameter );
-        return RewriteType_( '(' , TOKEN::JS_PARAM_BEGIN );
-
-      case kFormalParameterEnd1 :
-      case kFormalParameterEnd2 :
-      case kFormalParameterEnd3 :
-        state_.pop_back();
-        return RewriteType_( ')' , TOKEN::JS_PARAM_END );*/
-
-      /**case kTerminate1 :
-      case kTerminate2 :
-      case kTerminate3 :
-      case kTerminate4 :
-      case kTerminate5 :
-      case kTerminate6 :
-      case kTerminate7 :
-      case kTerminate8 :
-      case kTerminate9 :
-      case 396 :
-      case 399 :
-      case 535 :
-      case 536 :
-      case 359 :*/
-      case 9999 :
-        return (*it_);
-        
-      default :
-        return MatchState_();
-    }
-  }
-
-  TokenInfo* RewriteType_( int type , int type2 ) {
+  TokenInfo* AfterCloseBrace_() {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
-    if ( info->getType() == type ) {
-      info->SetType( type2 );
+    int type = info->getType();
+    if ( type != ')' && type != ',' && type != '=' ) {
+      return SemicolonInsertion_();
     }
-    
+    last_type_ = type;
     return info;
+  }
+  
+  TokenInfo* MaybeSemicolon_() {
+    SkipLineBreak_();
+    TokenInfo* info = (*it_);
+    int type = info->getType();
+    if ( last_type_ == ';' ) {
+      last_type_ = type;
+      return info;
+    } else if ( type == TOKEN::JS_INCREMENT || type == TOKEN::JS_DECREMENT ) {
+      if ( has_line_break_ ) {
+        return SemicolonInsertion_();
+      }
+      last_type_ = type;
+      return info;
+    } else if ( last_type_ == TOKEN::JS_INCREMENT || last_type_ == TOKEN::JS_DECREMENT ) {
+      if ( has_line_break_ ) {
+        return SemicolonInsertion_();
+      }
+      last_type_ = type;
+      return info;
+    } else if ( last_type_ == TOKEN::JS_IDENTIFIER && type == TOKEN::JS_IDENTIFIER ) {
+      if ( has_line_break_ ) {
+        return SemicolonInsertion_();
+      }
+      last_type_ = type;
+      return info;
+    } else if ( type == '}' ) {
+      if ( last_type_ != ';' ) {
+        return SemicolonInsertion_();
+      }
+      last_type_ = type;
+      return info;
+    } else if ( type == TOKEN::JS_IF || type == TOKEN::JS_WHILE ||
+                type == TOKEN::JS_WITH || type == TOKEN::JS_FOR ||
+                type == TOKEN::JS_MODULE || type == TOKEN::JS_EXPORT ||
+                type == TOKEN::JS_LET || type == TOKEN::JS_CONST ||
+                type == TOKEN::JS_VAR || type == TOKEN::JS_CONTINUE ||
+                type == TOKEN::JS_RETURN || type == TOKEN::JS_BREAK ||
+                type == TOKEN::JS_SWITCH || type == TOKEN::JS_THROW ||
+                type == TOKEN::JS_TRY ) {
+      return SemicolonInsertion_();
+    } else if ( last_type_ == ')' && type == TOKEN::JS_IDENTIFIER ) {
+      return SemicolonInsertion_(); 
+    }
+    last_type_ = type;
+    return info;
+  }
+
+  TokenInfo* SemicolonInsertion_() {
+    is_incrementable_ = false;
+    last_type_ = ';';
+    return semicolon_.Get();
   }
 
   void SkipLineBreak_() {
     TokenInfo* info = (*it_);
-    while ( info->getType() == TOKEN::JS_LINE_BREAK && it_ != queue_.end() ) {
+    if ( info->getType() == TOKEN::JS_LINE_BREAK ) {
+      has_line_break_ = true;
       ++it_;
-      info = (*it_);
     }
   }
-  
-  TokenInfo* MatchState_() {
-    int state = ( state_.size() > 0 )? state_.back() : 0;
-    switch ( state ) {
-      case kFormalParameter :
-      case kVarDecl :
-        return CaseFormalParameter_();
-      default :
-        SkipLineBreak_();
-        return (*it_);
-    }
-  }
-  
-  TokenInfo* CaseFormalParameter_() {
-    SkipLineBreak_();
-    TokenInfo* info = (*it_);
-    int type = info->getType();
-    switch ( type ) {
-      case '[' :
-        info->SetType( TOKEN::JS_DSTA_BEGIN );
-        break;
-      case ']' :
-        info->SetType( TOKEN::JS_DSTA_END );
-        break;
-      case TOKEN::JS_IDENTIFIER :
-        info->SetType( TOKEN::JS_FORMAL_PARAMETER_IDENT );
-        break;
-    }
-    return info;
-  }
+
   int last_type_;
-  std::list<int> state_;
+  bool is_incrementable_;
+  bool has_line_break_;
+  ScopedPtr<TokenInfo> semicolon_;
   QueueScanner::Scanner::TokenQueue& queue_;
-  QueueScanner::Scanner::TokenQueue::const_iterator it_;
+  QueueScanner::Scanner::TokenQueue::iterator it_;
 };
 
 
@@ -1080,11 +995,6 @@ void QueueScanner::CollectToken() {
 
 const TokenInfo* QueueScanner::GetToken( int yystate ) {
   const TokenInfo* info =  token_getter_->GetToken( yystate );
-  if ( info->getType() > 200 ) {
-    printf( "%s %d state %d\n" , info->getValue() , info->getType() , yystate );
-  } else {
-    printf( "%c %d state %d\n" , info->getType() , info->getType() , yystate );
-  }
   return info;
 }
 

@@ -363,19 +363,19 @@ VISITOR_IMPL(Function){
   INDENT;
   ACCEPT(body);
   REM_INDENT(2);
-  result_.erase( result_.size() - 2 , result_.size() );
+  //result_.erase( result_.size() - 2 , result_.size() );
   WRITE('}');
 };
 
 
 VISITOR_IMPL(FormalParameter){
   if ( ast_node->Argc () > 0 ) {
-    list<FormalParameterSet*> args = ast_node->Args ();
-    list<FormalParameterSet*>::iterator it = args.begin ();
-    list<FormalParameterSet*>::iterator end = args.end ();
+    list<FormalParameterSet> args = ast_node->Args ();
+    list<FormalParameterSet>::iterator it = args.begin ();
+    list<FormalParameterSet>::iterator end = args.end ();
     while ( it != end ) {
       //Set arguments to indexed array and hash map.
-      ACCEPT((*it)->Param());
+      (*it).Param()->Accept(this);
       ++it;
       if ( it != end ) {
         WRITE(',');

@@ -315,6 +315,7 @@ public :
     kExportStmt,
     kLetStmt
   };
+  inline AstTypeBase* Value() {return block_; }
   inline ~SourceBlock (){};
   inline virtual void Accept ( IVisitor* visitor ) { block_->Accept(visitor); }
   inline bool HasNext() { return bnext_ != 0; }
@@ -486,7 +487,7 @@ public :
   inline ~Function () {};
     
   DECL_GET_SET( Argv , pBase , argv_ );
-  DECL_GET( Ident , const char* , ident_ );
+  DECL_GET( Ident , const char* , ident_.c_str() );
   DECL_GET_SET( Body , pBase , body_ );
   DECL_GET_SET( Const , bool , is_const_ );
   DECL_GET_SET( FnScope , Scope* ,scope_ );
@@ -496,22 +497,21 @@ public :
 private:
   bool is_const_;
   AstTypeBase* argv_;
-  const char* ident_;
+  std::string ident_;
   AstTypeBase* body_;
   Scope* scope_;
 
 };
 
-EXTENDS_BASE(FormalParameterSet) {
+class FormalParameterSet {
 public :
-  FormalParameterSet( AstTypeBase* param , AstTypeBase* initiliser ){}
+  FormalParameterSet( AstTypeBase* param , AstTypeBase* initialiser ) : param_( param ) , initialiser_( initialiser ){}
   ~FormalParameterSet(){};
   DECL_GET( Param , AstTypeBase* , param_ );
-  DECL_GET( Initiliser , AstTypeBase* , initiliser_ );
-  inline void Accept( IVisitor* visitor ){}
+  DECL_GET( Initiliser , AstTypeBase* , initialiser_ );
 private :
   AstTypeBase* param_;
-  AstTypeBase* initiliser_;
+  AstTypeBase* initialiser_;
 };
 
 EXTENDS_BASE(FormalParameterRest) {
@@ -533,12 +533,16 @@ public :
   inline ~FormalParameter () {};
     
   inline int Argc () const { return list_.size (); };
-  DECL_GET_SET_LIST( Args , FormalParameterSet* , list_ );
+  inline void Args( AstTypeBase* left , AstTypeBase* initialiser ) {
+    FormalParameterSet set( left , initialiser );
+    list_.push_back( set );
+  }
+  inline std::list<FormalParameterSet>& Args() { return list_; }
   DECL_ACCEPT(FormalParameter);
   
 private:
   int argc_;
-  std::list<FormalParameterSet*> list_;
+  std::list<FormalParameterSet> list_;
 };
 
 

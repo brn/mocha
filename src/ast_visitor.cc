@@ -455,11 +455,11 @@ VISITOR_IMPL(Function){
 VISITOR_IMPL(FormalParameter){
   PRINT_NODE_NAME;
   if ( ast_node->Argc () > 0 ) {
-    std::list<FormalParameterSet*> args = ast_node->Args ();
-    std::list<FormalParameterSet*>::iterator ITERATOR(args);
+    std::list<FormalParameterSet> args = ast_node->Args ();
+    std::list<FormalParameterSet>::iterator ITERATOR(args);
     while ( begin != end ) {
       //Set arguments to indexed array and hash map.
-      ACCEPT(((*begin)->Param()));
+      (*begin).Param()->Accept(this);
       //Node* node = ManagedHandle::Retain( new Node( ident , Node::kArgs ) );
       //current_node_->Next( node );
       //current_node_ = node;
@@ -800,12 +800,19 @@ VISITOR_IMPL(ForEach) {
 }
 
 VISITOR_IMPL(Module) {
+  AstTypeBase* body = ast_node->Body();
+  SourceBlock* source_block = reinterpret_cast<SourceBlock*>( body );
+  Block* blk = source_block->Value()->CastToBlock();
+  if ( AstUtil::IsValidAst( blk ) ) {
+    body = blk->Value();
+  }
   VariableDeclarationList *vars = ManagedHandle::Retain<VariableDeclarationList>();
-  ExpressionStmt *exp = CreateModule_( ast_node->Body() );
+  ExpressionStmt *exp = CreateModule_( body );
   VariableDeclaration *var = CreateVariableDecl_( ast_node->Name() , exp->Exp() );
   printf( "%s\n" , var->Name() );
   vars->List( var );
   ReplaceBlock_<VariableDeclarationList>( current_block_ , vars );
+  ACCEPT(ast_node->Body());
 }
 
 VISITOR_IMPL(ExportStmt) {
@@ -859,8 +866,7 @@ ExpressionStmt* AstVisitor::CreateAnonymousFunctionCall_( AstTypeBase* body ) {
   fn->Body( body );
   fn->Argv( ManagedHandle::Retain<Empty>() );
   exp->List( fn );
-  exp->Paren();
-  ret->Paren();
+  exp->Paren( true );
   CallAccessor* call = ManagedHandle::Retain( new CallAccessor( Constant::kCall , exp , ManagedHandle::Retain<Empty>() ) );
   ret->List( call );
   stmt->Exp( ret );

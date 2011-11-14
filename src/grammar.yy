@@ -458,11 +458,10 @@ formal_parameter_list
  *ES6 proporsal.
  */
 : JS_IDENTIFIER initialiser__opt
-{printf( "%s\n" , $1->getValue() );
+  {
     Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
-    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( ident , $2 ) );
     FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
-    arg->Args ( set );
+    arg->Args ( ident , $2 );
     $$ = arg;
   }
 
@@ -474,31 +473,27 @@ formal_parameter_list
 | destructuring_assignment_left_hand_side initialiser__opt
   {
     FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
-    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( $1 , $2 ) );
-    arg->Args ( set );
+    arg->Args ( $1 , $2 );
     $$ = arg;
   }
 
 | formal_parameter_list ',' JS_IDENTIFIER initialiser__opt
-  {printf( "%s\n" , $3->getValue() );
+  {
     Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
-    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( ident , $4 ) );
-    $1->Args ( set );
+    $1->Args ( ident , $4 );
     $$ = $1;
   }
 
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
-    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( $3 , $4 ) );
-    $1->Args ( set );
+    $1->Args ( $3 , $4 );
     $$ = $1;
   }
 
 | formal_parameter_list ',' formal_parameter_rest
   {
     Empty* empty = ManagedHandle::Retain<Empty>();
-    FormalParameterSet* set = ManagedHandle::Retain( new FormalParameterSet( $3 , empty ) );
-    $1->Args ( set );
+    $1->Args ( $3 , empty );
     $$ = $1;
   }
 ;
@@ -720,7 +715,7 @@ module_block
 
 
 export_statement
-: JS_EXPORT variable_statement
+: JS_EXPORT variable_declaration terminator
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
     exports->Value( $2 );
@@ -956,7 +951,7 @@ array_left_hand_element_list
 ;
 
 object_left_hand_side
-: '{' object_member_left_hand_side_list '}' { $$ = $2; }
+: '{' object_member_left_hand_side_list ';' '}' { $$ = $2; }
 ;
 
 
@@ -1483,7 +1478,7 @@ array_comprehension_if__opt
 ;
 
 object_literal
-: '{' property_name_and_value_list__opt '}' 
+: '{' property_name_and_value_list__opt ';' '}' 
   {
     ObjectLiteral *ret = ManagedHandle::Retain ( new ObjectLiteral ( $2 ) );
     $$ = ret;

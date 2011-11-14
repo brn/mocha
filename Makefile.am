@@ -6,3 +6,6 @@ mocha:
 
 parser:
 	cd src && bison -r state -dv grammar.yy && cd ../
+
+core :
+	./build
