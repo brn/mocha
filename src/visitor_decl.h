@@ -1,13 +1,7 @@
-#ifndef mocha_visitor_base_h_
-#define mocha_visitor_base_h_
-#include "ast_foward_decl.h"
+#ifndef mocha_visitor_decl_h_
+#define mocha_visitor_decl_h_
 
-namespace mocha {
-
-#define DECL_VISITOR(type) virtual void Accept##type( type* ast ) = 0
-
-class IVisitor {
- public :
+#define DECL_VISITOR(type) void Accept##type ( type* ast )
   DECL_VISITOR(AstRoot);
   DECL_VISITOR(FileRoot);
   DECL_VISITOR(Statement);
@@ -40,8 +34,6 @@ class IVisitor {
   DECL_VISITOR(ConditionalExp);
   DECL_VISITOR(AssignmentExp);
   DECL_VISITOR(ValueNode);
-};
-
-}
 #undef DECL_VISITOR
+
 #endif

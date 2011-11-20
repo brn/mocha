@@ -5,17 +5,19 @@
 
 namespace mocha {
 class TokenInfo;
+class ParserTracer;
 class QueueScanner {
  public :
-  QueueScanner( const std::string& source );
+  QueueScanner( const std::string& source , ParserTracer *tracer );
   ~QueueScanner();
   void CollectToken();
-  const TokenInfo* GetToken( int yystate );
+  TokenInfo* GetToken( int yystate );
  private :
   class Scanner;
   class TokenGetter;
   ScopedPtr<Scanner> scanner_;
   ScopedPtr<TokenGetter> token_getter_;
+  ParserTracer* tracer_;
 };
 }
 

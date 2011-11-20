@@ -3,888 +3,590 @@
 #include <assert.h>
 #include <list>
 #include <utility>
-#include "ast_type.h"
+#include "scope.h"
+#include "token_info.h"
 #include "codegen_visitor.h"
+#include "managed_handle.h"
+#include "ast.h"
+#include "grammar.tab.hh"
+#include "codewriter.h"
 
-using namespace std;
-using namespace mocha;
+namespace mocha {
 
-#define VISITOR_IMPL(type) void CodegenVisitor::operator () ( type* ast_node )
+#define TOKEN yy::ParserImplementation::token
+#define VISITOR_IMPL(type) void CodegenVisitor::Accept##type( type* ast_node )
 
 #define ACCEPT( ast )                           \
   if ( ast != 0 )                               \
     ast->Accept(this)
 
-#define ACCEPT_ITER(iter)                       \
-  if ( (*iter) != 0 )                           \
-    (*iter)->Accept(this)
-
-#define WRITE(str)                              \
-    Write_ ( str );                             \
-
-#define WRITE_ITER(iter)                        \
-  {const char* ret = (*iter);                   \
-  if ( ret != 0 &&                              \
-       strlen (ret) > 0 ) {                     \
-    Write_ ( ret );                             \
-  }}
-
-#define WRITE_LINE(ast)                           \
-  if ( ast->LineNumber () > 0 ){                  \
-    WriteLine ( ast->LineNumber () );             \
-  }
-
-#define INDENT "  "
-#define BREAK result_ += '\n'
-#define INDENT result_ += indent_
-#define ADD_INDENT indent_ += indent_spaces_
-#define ADD_INDENT_OF(str) indent_ += str
-#define SPACE result_ += ' '
-#define REM_INDENT(num) indent_.erase( indent_.size() - num , indent_.size() )
-
-typedef AstTypeBase* Base;
-typedef list<AstTypeBase*> BaseList;
-typedef list<AstTypeBase*>::iterator BaseIter;
-typedef list<pair<const char* , AstTypeBase*> > BaseMap;
-typedef list<pair<const char* , AstTypeBase*> >::iterator BaseMapIter;
+#define PRINT_NODE_NAME ast_node->Print();
 
 
-CodegenVisitor::CodegenVisitor () {
-  WRITE("(function(){");
-  BREAK;
-  ADD_INDENT;
-  INDENT;
-  WRITE("var __global_exports = {};");
-  BREAK;
-  INDENT;
-}
+CodegenVisitor::CodegenVisitor() : writer_( new CodeWriter( true , true ) ){}
+
 
 VISITOR_IMPL( AstRoot ) {
-  std::list<AstTypeBase*>::iterator begin = ast_node->Tree().begin();
-  std::list<AstTypeBase*>::iterator end = ast_node->Tree().end();
-  while ( begin != end ) {
-    (*begin)->Accept ( this );
-    ++begin;
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
   }
-  result_.erase( result_.size() - 2 , result_.size() );
-  WRITE("})();");
 }
 
-VISITOR_IMPL( RootBlock ) {
-  ACCEPT( ast_node->Root() );
+VISITOR_IMPL( FileRoot ) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 
-VISITOR_IMPL(AstTree) {
-  SourceBlock* source_block = ast_node->Head();
+VISITOR_IMPL( BlockStmt ) {
+  writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , buffer_ );
+  AstNode* node_list = ast_node->FirstChild();
+  if ( !node_list->IsEmpty() ) {
+    NodeIterator iterator = ast_node->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+  }
+  writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , buffer_ );
+}
+
+VISITOR_IMPL( ModuleStmt ) {
+  writer_->ModuleBeginProccessor( ast_node->Name()->Symbol()->GetToken() , buffer_ );
+  AstNode* maybeBlock = ast_node->FirstChild();
+  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
+    maybeBlock->FirstChild()->Accept( this );
+  } else {
+    maybeBlock->Accept( this );
+  }
+  writer_->ModuleEndProccessor( buffer_ );
+}
+
+VISITOR_IMPL( ExportStmt ) {
+  AstNode *node = ast_node->FirstChild();
+  writer_->Write( "__export__." , buffer_ );
+  if ( node->NodeType() == AstNode::kFunction ) {
+    Function* fn = reinterpret_cast<Function*>( node );
+    writer_->Write( fn->Name()->CastToValue()->Symbol()->GetToken() , buffer_ );
+    writer_->WriteOp( '=' , 0 , buffer_ );
+    fn->Accept( this );
+  } else if ( node->NodeType() == AstNode::kValueNode ) {
+    ValueNode *value = node->CastToValue();
+    VarInitialiserProccessor_( value );
+    if ( value->FirstChild()->IsEmpty() ) {
+      writer_->WriteOp( '=' , 0 , buffer_ );
+      writer_->Write( value->Symbol()->GetToken() , buffer_ );
+    }
+  }
+}
+
+VISITOR_IMPL( Statement ) {}
+
+
+VISITOR_IMPL(StatementList) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
+}
+
+
+void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  printf( "%d\n" , ast_node->ChildLength() );
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    if ( !item->IsEmpty() ) {
+      item->Accept( this );
+      if ( iterator.HasNext() ) {
+        writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+      } else if ( CurrentState_() != CodeWriter::kFunctionEndBrace ) {
+        writer_->WriteOp( ';' , CodeWriter::kVarsEnd , buffer_ );
+      }
+    }
+  }
+}
+
+
+VISITOR_IMPL(VariableStmt) {
+  writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+  VarListProcessor_( ast_node );
+}
+
+VISITOR_IMPL(LetStmt) {}
+
+
+VISITOR_IMPL(ExpressionStmt) {
+  ast_node->FirstChild()->Accept( this );
+  writer_->WriteOp( ';' , 0 , buffer_ );
+}
+
+
+VISITOR_IMPL(IFStmt) {
+  writer_->WriteOp( TOKEN::JS_IF , 0 , buffer_ );
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  ast_node->Exp()->Accept( this );
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  ast_node->Then()->Accept( this );
+  AstNode* maybeElse = ast_node->Else();
+  if ( !maybeElse->IsEmpty() ) {
+    writer_->WriteOp( TOKEN::JS_ELSE , 0 , buffer_ );
+    maybeElse->Accept( this );
+  }
+}
+
+
+VISITOR_IMPL(IterationStmt) {
+  switch ( ast_node->NodeType() ) {
+    case AstNode::kFor : //Fall Through
+    case AstNode::kForWithVar :
+      ForProccessor_( ast_node );
+      break;
+
+    case AstNode::kForIn :
+    case AstNode::kForInWithVar :
+      ForInProccessor_( ast_node );
+      break;
+
+    case AstNode::kDoWhile :
+      DoWhileProccessor_( ast_node );
+      break;
+
+    case AstNode::kWhile :
+      WhileProccessor_( ast_node );
+      break;
+  }
+}
+
+
+void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
+  AstNode* exp = ast_node->Exp();
+  writer_->WriteOp( TOKEN::JS_FOR , 0 , buffer_ );
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
+    writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+  }
+  AstNode* index_exp = exp->FirstChild();
+  AstNode* cond_exp = index_exp->NextSibling();
+  AstNode* incr_exp = cond_exp->NextSibling();
+
+  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
+    VarListProcessor_( index_exp );
+  } else {
+    index_exp->Accept( this );
+  }
+  buffer_ += ';';
+  cond_exp->Accept( this );
+  buffer_ += ';';
+  incr_exp->Accept( this );
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  ast_node->FirstChild()->Accept( this );
+}
+
+void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
+  AstNode* exp = ast_node->Exp()->FirstChild();
+  writer_->WriteOp( TOKEN::JS_FOR , 0 , buffer_ );
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
+    writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+  }
+  AstNode* index_exp = exp->FirstChild();
+  AstNode* target_exp = index_exp->NextSibling();
+
+  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
+    VarInitialiserProccessor_( index_exp->CastToValue() );
+  } else {
+    index_exp->Accept( this );
+  }
   
-  while ( 1 ) {
-    printf( "%d\n" , source_block->Type() );
-    ACCEPT(source_block);
-    BREAK;
-    INDENT;
-    if ( source_block->HasNext() ) {
-      source_block = source_block->Next();
+  writer_->WriteOp( TOKEN::JS_IN , 0 , buffer_ );
+  target_exp->Accept( this );
+  
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  ast_node->FirstChild()->Accept( this );
+}
+
+
+void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
+  AstNode* exp = ast_node->Exp()->FirstChild();
+  writer_->WriteOp( TOKEN::JS_WHILE , 0 , buffer_ );
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  exp->Accept( this );
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  ast_node->FirstChild()->Accept( this );
+}
+
+
+void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
+  AstNode* exp = ast_node->Exp()->FirstChild();
+  writer_->WriteOp( TOKEN::JS_DO , 0 , buffer_ );
+  ast_node->FirstChild()->Accept( this );
+  writer_->WriteOp( TOKEN::JS_WHILE , 0 , buffer_ );
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  exp->Accept( this );
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  writer_->WriteOp( ';' , 0 , buffer_ );
+}
+
+
+void CodegenVisitor::JumpStmt_( AstNode* ast_node , int type ) {
+  writer_->WriteOp( type , 0 , buffer_ );
+  AstNode* identifer = ast_node->FirstChild();
+  if ( !identifer->IsEmpty() ) {
+    ValueNode* value = identifer->CastToValue();
+    writer_->Write( value->Symbol()->GetToken() , buffer_ );
+  }
+  writer_->WriteOp( ';' , 0 , buffer_ );
+}
+
+
+VISITOR_IMPL( ContinueStmt ) {
+  JumpStmt_( ast_node , TOKEN::JS_CONTINUE );
+}
+
+VISITOR_IMPL( BreakStmt ) {
+  JumpStmt_( ast_node , TOKEN::JS_BREAK );
+}
+
+VISITOR_IMPL( ReturnStmt ) {
+  writer_->WriteOp( TOKEN::JS_RETURN , 0 , buffer_ );
+  AstNode* identifer = ast_node->FirstChild();
+  identifer->Accept( this );
+  writer_->WriteOp( ';' , 0 , buffer_ );
+}
+
+
+VISITOR_IMPL( WithStmt ) {
+  writer_->WriteOp( TOKEN::JS_WITH , 0 , buffer_ );
+  ast_node->Exp()->Accept( this );
+  ast_node->FirstChild()->Accept( this );
+}
+
+VISITOR_IMPL( SwitchStmt ) {
+  writer_->WriteOp( TOKEN::JS_SWITCH , 0 , buffer_ );
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  ast_node->Exp()->Accept( this );
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
+  AstNode* list = ast_node->Exp()->FirstChild();
+  while ( list ) {
+    NodeIterator iterator = list->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+    if ( list->HasNext() ) {
+      list = list->NextSibling();
     } else {
       break;
     }
   }
+  writer_->WriteOp( '}' , CodeWriter::kFunctionEndBrace , buffer_ );
+  writer_->WriteOp( ';' , 0 , buffer_ );
 }
 
-VISITOR_IMPL(UnaryExp) {  
-  Constant::ConstantType op = ast_node->Operand();
-  WRITE(Constant::GetConstant( op ));
-  ACCEPT(ast_node->Left());
-}
-
-VISITOR_IMPL(ArrayAccessor) {  
-  Base left = ast_node->Left ();
-  Base right = ast_node->Right ();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  ACCEPT(left);
-  WRITE("[");
-  ACCEPT(right);
-  WRITE("]");
-}
-
-
-VISITOR_IMPL(DotAccessor) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  ACCEPT(left);
-  WRITE(".");
-  ACCEPT(right);
-}
-
-
-VISITOR_IMPL(NewCallAccessor) {
-  Base left = ast_node->Left ();
-  Base right = ast_node->Right ();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  Arguments *arg = reinterpret_cast<Arguments*>( right );
-  int size = arg->Value().size();
-  if ( size == 0 ) {
-    WRITE('(');
-  }
-  WRITE("new ");
-  ACCEPT(left);
-  if ( size == 0 ) {
-    WRITE(')');
+VISITOR_IMPL( CaseClause ) {
+  AstNode* exp = ast_node->Exp();
+  if ( !exp->IsEmpty() ) {
+    writer_->WriteOp( TOKEN::JS_CASE , 0 , buffer_ );
+    exp->Accept( this );
   } else {
-    WRITE("(");
-    ACCEPT(right);
-    WRITE(")");
+    writer_->WriteOp( TOKEN::JS_DEFAULT , 0 , buffer_ );
+  }
+  writer_->WriteOp( ':' , 0 , buffer_ );
+  AstNode *node = ast_node->FirstChild();
+  node->Accept( this );
+}
+
+
+VISITOR_IMPL( LabelledStmt ) {
+  AstNode* symbol = ast_node->FirstChild();
+  AstNode* statement = symbol->NextSibling();
+  writer_->Write( symbol->CastToValue()->Symbol()->GetToken() , buffer_ );
+  writer_->WriteOp( ':' , 0 , buffer_ );
+  statement->Accept( this );
+}
+
+
+VISITOR_IMPL( ThrowStmt ) {
+  writer_->WriteOp( TOKEN::JS_THROW , 0 , buffer_ );
+  ast_node->Exp()->Accept( this );
+  writer_->WriteOp( ';' , 0 , buffer_ );
+}
+
+
+VISITOR_IMPL(TryStmt) {
+  writer_->WriteOp( TOKEN::JS_TRY , 0 , buffer_ );
+  ast_node->FirstChild()->Accept( this );
+  AstNode* catch_block = ast_node->Catch();
+  AstNode* finally_block = ast_node->Finally();
+
+  if ( !catch_block->IsEmpty() ) {
+    writer_->WriteOp( TOKEN::JS_CATCH , 0 , buffer_ );
+    writer_->WriteOp( '(' , 0 , buffer_ );
+    writer_->Write( catch_block->CastToValue()->Symbol()->GetToken() , buffer_ );
+    writer_->WriteOp( ')',  0 , buffer_ );
+    catch_block->FirstChild()->Accept( this );
+  }
+
+  if ( !finally_block->IsEmpty() ) {
+    writer_->WriteOp( TOKEN::JS_FINALLY , 0 , buffer_ );
+    finally_block->FirstChild()->Accept( this );
   }
 }
 
-VISITOR_IMPL(NewAccessor) {
-  Base left = ast_node->Left ();
-  Base right = ast_node->Right ();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  WRITE("new ");
-  ACCEPT(left);
-  ACCEPT(right);
+
+void CodegenVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
+  exp->Callable()->Accept( this );
+  writer_->WriteOp( '[' , 0 , buffer_ );
+  BeginState_( CodeWriter::kArgs );
+  exp->Args()->Accept( this );
+  EndLastState_();
+  writer_->WriteOp( ']' , 0 , buffer_ );
 }
 
 
-VISITOR_IMPL(CallAccessor) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  ACCEPT(left);
-  WRITE("(");
-  ACCEPT(right);
-  WRITE(")");
+void CodegenVisitor::DotAccessorProccessor_( CallExp* exp ) {
+  exp->Callable()->Accept( this );
+  writer_->WriteOp( '.' , 0 , buffer_ );
+  exp->Args()->Accept( this );
+}
+
+void CodegenVisitor::NewCallProccessor_( CallExp* exp ) {
+  AstNode* args = exp->Args();
+  if ( args->IsEmpty() ) {
+    buffer_ += '(';
+  }
+  writer_->WriteOp( TOKEN::JS_NEW , 0 , buffer_ );
+  exp->Callable()->Accept( this );
+
+  if ( args->IsEmpty() ) {
+    buffer_ += ')';
+  } else {
+    writer_->WriteOp( '(' , 0 , buffer_ );
+    NodeIterator iterator = exp->Args()->ChildNodes();
+    BeginState_( CodeWriter::kArgs );
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+    EndLastState_();
+    writer_->WriteOp( ')' , 0 , buffer_ );
+  }
+}
+
+void CodegenVisitor::NormalFunctionCall_( CallExp* exp ) {
+  AstNode* args = exp->Args();
+  exp->Callable()->Accept( this );
+  if ( args->IsEmpty() ) {
+    writer_->Write( "()" , buffer_ );
+  } else {
+    BeginState_( CodeWriter::kArgs );
+    writer_->WriteOp( '(' , 0 , buffer_ );
+    NodeIterator iterator = args->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+      if ( iterator.HasNext() ) {
+        buffer_ += ',';
+      }
+    }
+    EndLastState_();
+    writer_->WriteOp( ')' , 0 , buffer_ );
+  }
+}
+
+
+VISITOR_IMPL( CallExp ) {
+  switch ( ast_node->CallType() ) {
+    case CallExp::kNormal :
+      NormalFunctionCall_( ast_node );
+      break;
+
+    case CallExp::kDot :
+      DotAccessorProccessor_( ast_node );
+      break;
+
+    case CallExp::kNew :
+      NewCallProccessor_( ast_node );
+      break;
+
+    case CallExp::kBracket :
+      ArrayAccessorProccessor_( ast_node );
+      break;
+  }
+}
+
+
+VISITOR_IMPL(NewExp) {
+  writer_->WriteOp( TOKEN::JS_NEW , 0 , buffer_ );
+  ast_node->Constructor()->Accept( this );
 }
 
 
 VISITOR_IMPL(PostfixExp) {
-  Base left = ast_node->Left();
-  assert( AstUtil::IsValidAst( left ) );
-  ACCEPT( left );
-  WRITE(Constant::GetConstant( ast_node->Operand() ));
+  ast_node->Exp()->Accept( this );
+  writer_->WriteOp( ast_node->PostType() , 0 , buffer_ );
 }
 
 
-VISITOR_IMPL(MultiplicativeExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  ACCEPT( left );
-  SPACE;
-  WRITE(Constant::GetConstant(ast_node->Operand()));
-  SPACE;
-  ACCEPT( right );
+VISITOR_IMPL(UnaryExp) {
+  writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
+  ast_node->Exp()->Accept( this );
 }
 
 
-VISITOR_IMPL(AdditiveExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE(Constant::GetConstant( ast_node->Operand() ));
-  SPACE;
-  ACCEPT( right );
+VISITOR_IMPL(BinaryExp) {
+  ast_node->Left()->Accept( this );
+  writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
+  ast_node->Right()->Accept( this );
 }
 
 
-VISITOR_IMPL(ShiftExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE(Constant::GetConstant( ast_node->Operand() ));
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(RelationalExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(EqualityExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(BitwiseANDExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-
-  ACCEPT( left );
-  SPACE; 
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(BitwiseXORExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-
-  ACCEPT( left );
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(BitwiseORExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(LogicalANDExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
-}
-
-
-VISITOR_IMPL(LogicalORExp) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  
-  ACCEPT( left );
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT( right );
+VISITOR_IMPL( CompareExp ) {
+  ast_node->Left()->Accept( this );
+  writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
+  ast_node->Right()->Accept( this );
 }
 
 
 VISITOR_IMPL(ConditionalExp) {
-  Base exp = ast_node->Exp ();
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( exp ) );
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
-  ACCEPT(exp);
-  WRITE("?");
-  SPACE;
-  ACCEPT(left);
-  SPACE;
-  WRITE(":");
-  SPACE;
-  ACCEPT(right);
+  writer_->WriteOp( '(' , 0 , buffer_ );
+  ast_node->Cond()->Accept( this );
+  writer_->WriteOp( ')' , 0 , buffer_ );
+  writer_->WriteOp( '?' , 0 , buffer_ );
+  ast_node->True()->Accept( this );
+  writer_->WriteOp( ':' , 0 , buffer_ );
+  ast_node->False()->Accept( this );
 }
 
 
-VISITOR_IMPL(Assign) {
-  Base left = ast_node->Left();
-  Base right = ast_node->Right();
-  assert( AstUtil::IsValidAst( left ) );
-  assert( AstUtil::IsValidAst( right ) );
+VISITOR_IMPL(AssignmentExp) {
+  ast_node->Left()->Accept( this );
+  writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
+  ast_node->Right()->Accept( this );
+}
 
-  ACCEPT(left);
-  SPACE;
-  WRITE( Constant::GetConstant( ast_node->Operand() ) );
-  SPACE;
-  ACCEPT(right);
+
+VISITOR_IMPL(Expression) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 VISITOR_IMPL(Function){
-  Base args = ast_node->Argv ();
-  const char* ident = ast_node->Ident ();
-  Base body = ast_node->Body ();
-  if ( ident ) {
-    WRITE("function ");
-  } else {
-    WRITE("function");
-    SPACE;
+  writer_->WriteOp( TOKEN::JS_FUNCTION , 0 , buffer_ );
+  if ( !ast_node->Name()->IsEmpty() ) {
+    writer_->Write( ast_node->Name()->CastToValue()->Symbol()->GetToken() , buffer_ );
   }
-  WRITE(ident);
-  WRITE('(');
-  ACCEPT(args);
-  WRITE(')');
-  SPACE;
-  WRITE('{');
-  BREAK;
-  ADD_INDENT;
-  INDENT;
-  ACCEPT(body);
-  REM_INDENT(2);
-  //result_.erase( result_.size() - 2 , result_.size() );
-  WRITE('}');
+  if ( ast_node->Argv()->IsEmpty() ) {
+    buffer_ += "()";
+  } else {
+    writer_->WriteOp( '(' , 0 , buffer_ );
+    NodeIterator iterator = ast_node->Argv()->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+    writer_->WriteOp( ')' , 0 , buffer_ );
+  }
+  writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
+  {
+    NodeIterator iterator = ast_node->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+  }
+  int state = CurrentState_();
+  state = ( state == CodeWriter::kArgs )? state : CodeWriter::kFunctionEndBrace;
+  writer_->WriteOp( '}' , state , buffer_ );
 };
 
 
-VISITOR_IMPL(FormalParameter){
-  if ( ast_node->Argc () > 0 ) {
-    list<FormalParameterSet> args = ast_node->Args ();
-    list<FormalParameterSet>::iterator it = args.begin ();
-    list<FormalParameterSet>::iterator end = args.end ();
-    while ( it != end ) {
-      //Set arguments to indexed array and hash map.
-      (*it).Param()->Accept(this);
-      ++it;
-      if ( it != end ) {
-        WRITE(',');
-        SPACE;
+void CodegenVisitor::ArrayProccessor_( ValueNode* ast_node ) {
+  writer_->WriteOp( '[' , 0 , buffer_ );
+  AstNode* list_child = ast_node->FirstChild();
+  while ( list_child ) {
+    if ( list_child->IsEmpty() ) {
+      buffer_ += ',';
+    } else {
+      NodeIterator iter = list_child->ChildNodes();
+      while ( iter.HasNext() ) {
+        AstNode* element = iter.Next();
+        if ( element->IsEmpty() ) {
+          buffer_ += ',';
+        } else {
+          element->Accept( this );
+        }
+      }
+      if ( list_child->HasNext() ) {
+        list_child = list_child->NextSibling();
+      } else {
+        break;
       }
     }
   }
 }
 
 
-VISITOR_IMPL(VariableDeclaration){
-  Base ast = ast_node->Value ();
-  const char* name = ast_node->Name ();
-  Base value = ast_node->Value();
-  WRITE(name);
-  if ( !value->IsEmptyNode() ) {
-    SPACE;
-    WRITE('=');
-    SPACE;
-    ACCEPT(ast_node->Value());
-  }
-}
-
-VISITOR_IMPL(VariableDeclarationList) {
-  BaseIter it = ast_node->List ().begin ();
-  BaseIter end = ast_node->List ().end ();
-  WRITE("var ");
-  ADD_INDENT_OF("    ");
-  while ( it != end ) {
-    ACCEPT_ITER(it);
-    it++;
-    if ( it != end ) {
-      WRITE(',');
-      if ( State_() != kForCond ) {
-        BREAK;
-        INDENT;
-      }
-    }
-  }
-  if ( ast_node->IsTerminate() || State_() == kForCond ) {
-    REM_INDENT(4);
-    if ( State_() != kForCond ) {
-      WRITE(';');
-    }
-  }
-}
-
-VISITOR_IMPL(StmtList) {
-  BaseList l = ast_node->List ();
-  BaseIter it = l.begin ();
-  BaseIter end = l.end ();
-  while ( it != end ) {
-    ACCEPT_ITER(it);
-    it++;
-    if ( it != end ) {
-      BREAK;
-      INDENT;
-    }
-  }
-}
-
-
-VISITOR_IMPL(ArrayLiteral){
-  WRITE('[');
-  SPACE;
-  ACCEPT(ast_node->Value());
-  SPACE;
-  WRITE(']');
-}
-
-
-VISITOR_IMPL(ObjectLiteral){
-  WRITE('{');
-  ACCEPT(ast_node->Value());
-  WRITE('}');
-}
-
-
-VISITOR_IMPL(ElementList){
-  BaseList list = ast_node->Value ();
-  BaseIter it = list.begin ();
-  BaseIter end = list.end ();  
-  while ( it != end ) {
-    ACCEPT_ITER(it);
-    it++;
-    if ( it != end ) {
-      WRITE( ',' );
-      SPACE;
-    }
-  }
-}
-
-
-VISITOR_IMPL(ObjectMember){
-  ObjectMember::MemberList m = ast_node->Value ();
-  ObjectMember::MemberList::iterator it = m.begin ();
-  ObjectMember::MemberList::iterator end = m.end ();
-  ADD_INDENT;
-  while ( it != end ) {
-    BREAK;
-    INDENT;
-    ACCEPT((*it).first);
-    SPACE;
-    WRITE(':');
-    SPACE;
-    ACCEPT((*it).second);
-    ++it;
-    if ( it != end ) {
-      WRITE(',');
-    } else {
-      REM_INDENT(2);
-      BREAK;
-      INDENT;
-    }
-  }
-}
-
-
-VISITOR_IMPL(Arguments){
-  BaseList list = ast_node->Value ();
-  BaseIter it = list.begin ();
-  BaseIter end = list.end ();
-
-  while ( it != end ) {
-    ACCEPT_ITER(it);
-    it++;
-    if ( it != end ) {
-      WRITE( ',' );
-      SPACE;
-    }
-  }
-}
-
-VISITOR_IMPL(Block) {
-  Base value = ast_node->Value();
-  SPACE;
-  WRITE('{');
-  BREAK;
-  ADD_INDENT;
-  INDENT;
-  ACCEPT( value );
-  BREAK;
-  REM_INDENT(2);
-  INDENT;
-  WRITE('}');
-};
-
-
-VISITOR_IMPL(ExpressionStmt) {
-  Expression* exp = ast_node->Exp();
-  assert( AstUtil::IsValidAst( exp ) );
-  ACCEPT( exp );
-  WRITE(';');
-}
-
-
-VISITOR_IMPL(Expression){
-  BaseList list = ast_node->List ();
-  BaseIter it = list.begin ();
-  BaseIter end = list.end ();
-  bool isparen = ast_node->Paren ();
-  
-  if ( isparen ) {
-    WRITE( '(' );
-  }
-  while ( it != end ) {
-    
-    ACCEPT_ITER(it);
-    it++;
-    if ( it != end ) {
-      WRITE(',');
-      SPACE;
-    }
-  }
-  if ( isparen ) {
-    WRITE( ')' );
-  }
-}
-
-
-VISITOR_IMPL(IFStmt){
-  Base then_exp = ast_node->Then();
-  Base block_body = ast_node->Body();
-  Base else_block = ast_node->Else();
-
-  WRITE( "if" );
-  SPACE;
-  WRITE( '(' );
-  ACCEPT(then_exp);
-  WRITE( ')' );
-  SourceBlock* body = reinterpret_cast<SourceBlock*>( block_body );
-  if ( body->Type() != SourceBlock::kBlock ) {
-    BREAK;
-    ADD_INDENT;
-    INDENT;
-    ACCEPT(block_body);
-    result_.erase( result_.size() - 2 , result_.size() );
+void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
+  AstNode* element_list = ast_node->Node();
+  if ( element_list->IsEmpty() ) {
+    buffer_ += "{}";
   } else {
-    ACCEPT(block_body);
-  }
-  
-  if ( AstUtil::IsValidAst( else_block ) ) {
-    SPACE;
-    State_( kElse );
-    SourceBlock* block = reinterpret_cast<SourceBlock*>( else_block );
-    if ( block->Type() != SourceBlock::kBlock && block->Type() != SourceBlock::kIFStmt ) {
-      WRITE( "else" );
-      BREAK;
-      ADD_INDENT;
-      INDENT;
-      ACCEPT(else_block);
-      REM_INDENT(2);
-    } else if ( block->Type() == SourceBlock::kIFStmt ) {
-      WRITE( "else " );
-      ACCEPT(else_block);
-    } else {
-      WRITE( "else" );
-      ACCEPT(else_block);
+    writer_->WriteOp( '{' , CodeWriter::kArgs , buffer_ );
+    NodeIterator iterator = element_list->ChildNodes();
+    while ( iterator.HasNext() ) {
+      AstNode* element = iterator.Next();
+      element->Accept( this );
+      element->FirstChild()->Accept( this );
     }
-    State_( kNone );
+    writer_->WriteOp( '}' , CodeWriter::kArgs , buffer_ );
   }
 }
 
 
-
-VISITOR_IMPL(DoWhile) {
-  Base body_block = ast_node->Body();
-  Base cond_exp = ast_node->Condition();
-
-  WRITE( "do" );
-  ACCEPT(body_block);
-  WRITE( "while" );
-  SPACE;
-  WRITE( '(' );
-  ACCEPT(cond_exp);
-  WRITE( ')' );
-  WRITE( ';' );
-}
-
-
-VISITOR_IMPL(While) {
-  Base cond_exp = ast_node->Condition();
-  Base body_block = ast_node->Body();
-
-  WRITE( "while" );
-  SPACE;
-  WRITE( '(' );
-  ACCEPT(cond_exp);
-  WRITE( ')' );
-  ACCEPT( body_block );
-}
-
-VISITOR_IMPL(For) {
-  Base index_exp = ast_node->Index();
-  Base cond_exp = ast_node->Condition();
-  Base incr_exp = ast_node->Increment();
-  Base body_block = ast_node->Body();
-  
-  WRITE( "for" );
-  SPACE;
-  WRITE( '(' );
-  State_( kForCond );
-  ACCEPT( index_exp );
-  State_( kNone );
-  WRITE( ';' );
-  SPACE;
-
-  ACCEPT( cond_exp );
-  WRITE( ';' );
-  SPACE;
-
-  ACCEPT( incr_exp );
-  WRITE( ')' );
-  ACCEPT(body_block);
-}
-
-VISITOR_IMPL(ForIn) {
-  Base item_exp = ast_node->Item();
-  Base target_exp = ast_node->Target();
-  Base body_block = ast_node->Body();
-
-  WRITE( "for" );
-  SPACE;
-  WRITE( '(' );
-  State_( kForCond );
-  ACCEPT( item_exp );
-  State_( kNone );
-  WRITE( " in " );
-  ACCEPT( target_exp );
-  WRITE( ')' )
-  ACCEPT(body_block);
-}
-
-
-VISITOR_IMPL(Continue) {
-  const char* ident = ast_node->Ident();
-  bool has_ident = ident && strlen( ident ) > 0;
-  if ( has_ident ) {
-    WRITE( "continue " );
-  } else {
-    WRITE( "continue;" );
+void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
+  if ( ast_node->ValueType() == ValueNode::kVariable ) {
+    writer_->Write( ast_node->Symbol()->GetToken() ,  buffer_ );
   }
-  WRITE(ident);
-  if ( has_ident ) {
-    WRITE(';');
-  }
-}
-
-VISITOR_IMPL(Break) {
-  const char* ident = ast_node->Ident();
-  bool has_ident = ident && strlen( ident ) > 0;
-  if ( has_ident ) {
-    WRITE( "break " );
-  } else {
-    WRITE( "break;" );
-  }
-  WRITE(ident);
-  if ( has_ident ) {
-    WRITE( ';' );
+  AstNode* initialiser = ast_node->FirstChild();
+  if ( !initialiser->IsEmpty() ) {
+    writer_->WriteOp( '=' , 0 , buffer_ );
+    initialiser->Accept( this );
   }
 }
 
 
-VISITOR_IMPL(Return) {
-  Base exp = ast_node->Expression();
-  if ( exp->IsEmptyNode() ) {
-    WRITE( "return" );
-  } else {
-    WRITE( "return " );
-  }
-  ACCEPT(exp);
-  WRITE( ';' );
-}
+VISITOR_IMPL( ValueNode ) {
+  switch ( ast_node->ValueType() ) {
+    case ValueNode::kArray :
+      ArrayProccessor_( ast_node );
+      break;
 
-VISITOR_IMPL(With) {
-  Base exp = ast_node->Expression();
-  Base body = ast_node->Body();
+    case ValueNode::kObject :
+      ObjectProccessor_( ast_node );
+      break;
 
-  WRITE( "with" );
-  SPACE;
-  WRITE( '(' );
-  ACCEPT(exp);
-  WRITE( ')' );
-  ACCEPT(body);
-}
-
-
-VISITOR_IMPL(Switch) {
-  Base exp = ast_node->Expression();
-  Base case_block = ast_node->CaseBlock();
-
-  WRITE( "switch" );
-  SPACE;
-  WRITE( '(' );
-  ACCEPT(exp);
-  WRITE( ')' );
-  ACCEPT(case_block);
-}
-
-VISITOR_IMPL(CaseClauses) {
-  BaseList list = ast_node->List ();
-  BaseIter it = list.begin();
-  BaseIter end = list.end ();
-  SPACE;
-  WRITE( '{' );
-  BREAK;
-  ADD_INDENT;
-  INDENT;
-  while ( it != end ) {
-    ACCEPT_ITER(it);
-    it++;
-  }
-  REM_INDENT(2);
-  BREAK;
-  INDENT;
-  WRITE('}');
-}
-
-VISITOR_IMPL(CaseClause) {
-  Base exp = ast_node->Expression();
-  Base body = ast_node->Body();
-
-  WRITE( "case " );
-  ACCEPT(exp);
-  SPACE;
-  WRITE( ':' );
-  BREAK;
-  StmtList* list = reinterpret_cast<StmtList*>( body );
-  if ( list->List().begin() != list->List().end() ) {
-    ADD_INDENT;
-    INDENT;
-    ACCEPT(body);
-    REM_INDENT(2);
-  } else {
-    INDENT;
+    case ValueNode::kVariable :
+      VarInitialiserProccessor_( ast_node );
+      break;
+      
+    default :
+      writer_->Write( ast_node->Symbol()->GetToken() , buffer_ );
   }
 }
 
-
-
-VISITOR_IMPL(DefaultClause) {
-  Base body = ast_node->Body();
-
-  WRITE( "default" );
-  SPACE;
-  WRITE( ':' );
-  BREAK;
-  ADD_INDENT;
-  INDENT;
-  ACCEPT(body);
-  REM_INDENT(2);
+void CodegenVisitor::BeginState_( int state ) {
+  state_.push_back( state );
 }
 
-VISITOR_IMPL(Label) {
-  const char* ident = ast_node->Ident();
-  Base stmt = ast_node->Body();
-
-  WRITE( ident );
-  SPACE;
-  WRITE( ':' );
-  SPACE;
-  ACCEPT(stmt);
+void CodegenVisitor::EndLastState_() {
+  state_.pop_back();
 }
 
-
-VISITOR_IMPL(Throw) {
-  Base exp = ast_node->Expression();
-  WRITE( "throw " );
-  ACCEPT(exp);
-  WRITE( ';' );
+int CodegenVisitor::CurrentState_() {
+  return ( state_.size() > 0 )? state_.back() : 0;
 }
 
-
-VISITOR_IMPL(Try) {
-  Base try_body = ast_node->Body();
-  Base catch_body = ast_node->CatchBody ();
-  Base finally_body = ast_node->FinallyBody ();
-
-  WRITE("try");
-  SPACE;
-  ACCEPT( try_body );
-  if ( AstUtil::IsValidAst( catch_body ) ) {
-    ACCEPT( catch_body );
-  }
-  if ( AstUtil::IsValidAst( finally_body ) ) {
-    ACCEPT( finally_body );
-  }
 }
 
-
-
-VISITOR_IMPL(Catch){
-  const char* ident = ast_node->Ident();
-  Base body_block = ast_node->Body();
-  WRITE( "catch" );
-  SPACE;
-  WRITE( '(' );
-  WRITE( ident );
-  WRITE( ')' );
-  ACCEPT(body_block);
-}
-
-
-VISITOR_IMPL(Finally) {
-  WRITE( "finally " );
-  ACCEPT(ast_node->Block());
-}
-
-
-VISITOR_IMPL(ConstantLiteral) {
-  This* this_literal = ast_node->CastToThis ();
-  StringLiteral* string_literal = ast_node->CastToStringLiteral ();
-  BooleanLiteral* boolean_literal = ast_node->CastToBooleanLiteral ();
-  RegExpLiteral* regexp_literal = ast_node->CastToRegExpLiteral ();
-  NullLiteral* null_literal = ast_node->CastToNullLiteral ();
-  UndefinedLiteral* undefined_literal = ast_node->CastToUndefinedLiteral ();
-  Identifier* ident_literal = ast_node->CastToIdentifier ();
-  PropertyName* property_name = ast_node->CastToPropertyName ();
-  WRITE( ast_node->Value () );
-  /**
-  if ( AstUtil::IsValidAst( this_literal ) ) {
-    WRITE("this");
-  } else if ( AstUtil::IsValidAst( string_literal ) ) {
-    WRITE( string_literal->Value() );
-  } else if ( AstUtil::IsValidAst( boolean_literal ) ) {
-    WRITE( boolean_literal->Value() );
-  } else if ( AstUtil::IsValidAst( regexp_literal ) ) {
-    WRITE( regexp_literal->Value() );
-  } else if ( AstUtil::IsValidAst( null_literal ) ) {
-    WRITE( null_literal->Value() );
-  } else if ( AstUtil::IsValidAst( undefined_literal ) ) {
-    WRITE( undefined_literal->Value() );
-  } else if ( AstUtil::IsValidAst( ident_literal ) ) {
-    WRITE(ident_literal->Value());
-  } else if ( AstUtil::IsValidAst( property_name ) ) {
-    WRITE(property_name->Value());
-  } else {
-    WRITE( ast_node->Value () );
-    }**/
-}
-
-void CodegenVisitor::Write_( const char* str ) {
-  if ( str && strlen( str ) > 0 ) {
-    result_ += str;
-  }
-}
-
-void CodegenVisitor::Write_( char str ) {
-  result_ += str;
-}
-
-const char CodegenVisitor::indent_spaces_[] = { "  " };

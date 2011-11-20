@@ -32,7 +32,7 @@
 #include "handle.h"
 #include "file_io.h"
 #include "managed_handle.h"
-#include "ast_type.h"
+#include "ast.h"
 #include "codegen_visitor.h"
 #include "file_system.h"
 #include "xml_reader.h"

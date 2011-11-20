@@ -4,8 +4,9 @@ AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \
 ast_state.h\
-ast_type.cc\
-ast_type.h\
+ast_foward_decl.h\
+ast.h\
+ast.cc\
 ast_visitor.cc\
 ast_visitor.h\
 bootstrap.h\
@@ -16,6 +17,8 @@ codegen.cc\
 codegen.h\
 codegen_visitor.h\
 codegen_visitor.cc\
+codewriter.h\
+codewriter.cc\
 cmmandline_options.h\
 compiler.cc\
 compiler.h\

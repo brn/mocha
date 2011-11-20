@@ -7,7 +7,7 @@
 #include "file_io.h"
 #include "parser_tracer.h"
 #include "parser_connector.h"
-#include "ast_type.h"
+#include "ast.h"
 #include "ast_visitor.h"
 #include "file_system.h"
 #include "compiler.h"
@@ -77,21 +77,25 @@ inline void Internal::LoadFile_ () {
 inline void Internal::ParseStart_ () {
   std::string buf;
   file_->GetFileContents( buf );
+  AstRoot root;
   mocha::ParserTracer tracer( path_info_->GetFileIdentifier().Get() );
   mocha::ParserConnector parser ( compiler_,
                                   &tracer,
-                                  ast_root_,
+                                  &root,
                                   buf );
   scope_ = scope_->GetGlobal ();
   parser.ParseStart ();
   
   mocha::AstVisitor visitor ( scope_,
+                              compiler_,
                               tracer.GetModuleName (),
                               file_->GetFileName() );
   
   if ( !tracer.IsSyntaxError () ) {
-    ast_root_->Accept ( &visitor );
+    ast_root_->AddChild( root.FirstChild() );
+    root.Accept ( &visitor );
   } else {
+    printf( "Error occured.\n" );
     SyntaxError_( tracer );
     Setting::GetInstance()->Log( "syntax error found in file %s.",
                                  file_->GetFileName() );
@@ -107,6 +111,7 @@ inline void Internal::OpenError_() {
            "  throw new Error(e);\n"
            "}\n;" , path_info_->GetFileIdentifier().Get() );
   codegen_->Write ( tmp );
+  printf( "%s\n" , tmp );
 }
 
 inline void Internal::SyntaxError_( const ParserTracer& tracer ) {
@@ -121,6 +126,7 @@ inline void Internal::SyntaxError_( const ParserTracer& tracer ) {
            file_->GetFileName(),
            tracer.GetErrorLine () );
   codegen_->Write ( tmp );
+  printf( "%s\n" , tmp );
 }
 
 }

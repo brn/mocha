@@ -8,19 +8,25 @@ namespace mocha {
 class TokenInfo : public Managed {
     
  public:
-  TokenInfo ();
-  TokenInfo ( const char* val , int type , int line );
+  TokenInfo();
+  TokenInfo( const char* val , int type , int line );
   TokenInfo& operator = ( const TokenInfo& info );
-  ~TokenInfo ();
-  const char* getValue () const;
-  int getType () const;
+  ~TokenInfo();
+  const char* GetToken() const;
+  int GetType() const;
   void SetType( int type );
-  int getLineNumber () const;
+  int GetLineNumber() const;
+  void Const() { is_const_ = true; }
+  bool IsConst() { return is_const_; }
+  void Let() { is_let_ = true; }
+  bool IsLet() { return is_let_; }
     
  private:
   int type_;
   int line_;
-  std::string value_;
+  bool is_const_;
+  bool is_let_;
+  std::string token_;
 
 };
 

@@ -162,15 +162,16 @@ class ManagedHandle {
   static int AssignId();
   
   template <typename T>
-  inline static T* Retain ( T* ptr , PtrCollector::ReleaseCallback callback = Release ) throw () {
+  inline static T* Retain ( T* ptr , PtrCollector::ReleaseCallback callback = Release ) {
     MutexLock mutex_lock ( mutex_ );
     return Retain_<T> ( ptr , callback );
   }
   
   template <typename T>
-  inline static T* Retain ( PtrCollector::ReleaseCallback callback = Release ) throw () {
+  inline static T* Retain ( PtrCollector::ReleaseCallback callback = Release ) {
     MutexLock mutex_lock ( mutex_ );
-    return Retain_<T> ( new T() , callback );
+    T* ptr = new T;
+    return Retain_<T> ( ptr , callback );
   }
 
   inline static void Renounce ( Managed* ptr ) { ptr->id_--; }

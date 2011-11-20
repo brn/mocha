@@ -46,16 +46,17 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_mocha_OBJECTS = ast_type.$(OBJEXT) ast_visitor.$(OBJEXT) \
+am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) codegen.$(OBJEXT) \
-	codegen_visitor.$(OBJEXT) compiler.$(OBJEXT) \
-	compile_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
-	compiler_utils.$(OBJEXT) commandline_options.$(OBJEXT) \
-	file_io.$(OBJEXT) file_observer.$(OBJEXT) \
-	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
-	help_runner.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
-	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
-	mkdir.$(OBJEXT) observer.$(OBJEXT) observer_runner.$(OBJEXT) \
+	codegen_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
+	compiler.$(OBJEXT) compile_runner.$(OBJEXT) \
+	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
+	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
+	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
+	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
+	internal.$(OBJEXT) mocha.$(OBJEXT) js_token.$(OBJEXT) \
+	main.$(OBJEXT) managed_handle.$(OBJEXT) mkdir.$(OBJEXT) \
+	observer.$(OBJEXT) observer_runner.$(OBJEXT) \
 	parser_connector.$(OBJEXT) parser_tracer.$(OBJEXT) \
 	queue_scanner.$(OBJEXT) scanner.$(OBJEXT) \
 	scanner_state.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
@@ -180,8 +181,9 @@ AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \
 ast_state.h\
-ast_type.cc\
-ast_type.h\
+ast_foward_decl.h\
+ast.h\
+ast.cc\
 ast_visitor.cc\
 ast_visitor.h\
 bootstrap.h\
@@ -192,6 +194,8 @@ codegen.cc\
 codegen.h\
 codegen_visitor.h\
 codegen_visitor.cc\
+codewriter.h\
+codewriter.cc\
 cmmandline_options.h\
 compiler.cc\
 compiler.h\
@@ -387,12 +391,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_type.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/char_allocator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codegen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codegen_visitor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codewriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/commandline_options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compile_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler.Po@am__quote@

@@ -38,9 +38,9 @@
 /* "%code requires" blocks.  */
 
 /* Line 35 of lalr1.cc  */
-#line 37 "grammar.yy"
+#line 34 "grammar.yy"
 
-#include "ast_type.h"
+#include "ast.h"
   namespace mocha {
   class Compiler;
   class AstTypeBase;
@@ -96,60 +96,49 @@ namespace yy {
     {
 
 /* Line 35 of lalr1.cc  */
-#line 50 "grammar.yy"
+#line 47 "grammar.yy"
 
-  const mocha::TokenInfo *info;
-  mocha::AstTree *ast_tree;
-  mocha::AstTypeBase* ast;
-  mocha::StmtList* stmtlist;
-  mocha::Function *fn;
-  mocha::FormalParameter *farg;
-  mocha::VariableDeclaration *vars;
-  mocha::VariableDeclarationList *varsList;
-  mocha::CaseClauses *ccs;
-  mocha::CaseClause *cc;
-  mocha::DefaultClause *dc;
-  mocha::ArrayLiteral *array;
-  mocha::ElementList *elem;
-  mocha::ObjectLiteral *obj;
-  mocha::ObjectMember *mem;
-  mocha::Arguments *args;
-  mocha::Expression *exp;
-  mocha::ExpressionStmt *exp_stmt;
-  mocha::Block *blk;
-  mocha::Empty *empty;
-  mocha::Iteration *it;
-  mocha::IFStmt* if_stmt;
-  mocha::Continue* continue_stmt;
-  mocha::Break* break_stmt;
-  mocha::Return* return_stmt;
-  mocha::With *with_stmt;
-  mocha::Label *label_stmt;
-  mocha::Switch *switch_stmt;
-  mocha::Throw *throw_stmt;
-  mocha::Try *try_stmt;
-  mocha::SourceBlock *source_block;
-  mocha::Constant::ConstantType consts;
-  mocha::PropertyName *property;
-  mocha::DestructuringAssignment *dsta;
-  mocha::DestructuringArray* dstarr;
-  mocha::DestructuringObjectMember* dstom;
-  mocha::DestructuringObject *dsto;
-  mocha::ElementLHS* elhs;
-  mocha::ArrayComprehensions *array_comp;
-  mocha::Module *module;
-  mocha::ExportStmt *exports;
-  mocha::LetStmt *let;
-  mocha::ArrayComprehensions *array_cmp;
+  mocha::TokenInfo *info;
+  mocha::AstNode *ast;
+  mocha::FileRoot *file_root;
+  mocha::Statement *statement;
+  mocha::StatementList* statement_list;
+  mocha::Expression *expression;
+  mocha::ValueNode *value_node;
+  mocha::CaseClause *case_clause;
+  mocha::NodeList* node_list;
+  mocha::BlockStmt* block;
+  mocha::ModuleStmt *module_stmt;
+  mocha::ExportStmt* export_stmt;
+  mocha::VariableStmt *variable_stmt;
+  mocha::LetStmt *let_stmt;
+  mocha::ExpressionStmt *expression_stmt;
+  mocha::IFStmt *if_stmt;
+  mocha::IterationStmt *iteration_stmt;
+  mocha::ContinueStmt *continue_stmt;
+  mocha::ReturnStmt *return_stmt;
+  mocha::BreakStmt *break_stmt;
+  mocha::WithStmt *with_stmt;
+  mocha::LabelledStmt *labelled_stmt;
+  mocha::SwitchStmt *switch_stmt;
+  mocha::ThrowStmt *throw_stmt;
+  mocha::TryStmt *try_stmt;
+  mocha::Function *function;
+  mocha::CallExp *call_exp;
+  mocha::NewExp *new_exp;
+  mocha::PostfixExp *postfix;
+  mocha::UnaryExp *unary_exp;
+  mocha::BinaryExp *binary_exp;
+  mocha::CompareExp *compare_exp;
+  mocha::ConditionalExp *conditional;
+  mocha::AssignmentExp *assignment;
   bool opt;
-  const char* ident;
   int num;
-  long int line;
 
 
 
 /* Line 35 of lalr1.cc  */
-#line 153 "grammar.tab.hh"
+#line 142 "grammar.tab.hh"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -451,7 +440,7 @@ namespace yy {
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 455 "grammar.tab.hh"
+#line 444 "grammar.tab.hh"
 
 
 

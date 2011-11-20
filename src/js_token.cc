@@ -1,7 +1,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "js_token.h"
-#include "ast_type.h"
 #include "grammar.tab.hh"
 
 using namespace yy;

@@ -7,36 +7,30 @@
 using namespace mocha;
 
 TokenInfo::TokenInfo () : Managed () {};
-TokenInfo::TokenInfo ( const char* val , int type , int line )
-    : Managed (), type_ ( type ), line_ ( line )
+TokenInfo::TokenInfo ( const char* token , int type , int line )
+    : Managed (), type_ ( type ), line_ ( line ) , is_const_( false ), is_let_( false )
 {
-
-  value_ = val;
-
+  token_ = token;
 };
 
 TokenInfo& TokenInfo::operator =  ( const TokenInfo& info ) {
-
   type_ = info.type_;
   line_ = info.line_;
-  value_ = info.value_.c_str ();
+  token_ = info.token_;
   return (*this);
-  
 }
 
 TokenInfo::~TokenInfo () {}
 
-const char* TokenInfo::getValue () const {
-  
-  return value_.c_str();
-  
+const char* TokenInfo::GetToken () const {
+  return token_.c_str();
 }
 
-int TokenInfo::getLineNumber () const {
+int TokenInfo::GetLineNumber () const {
   return line_;
 }
 
-int TokenInfo::getType () const {  
+int TokenInfo::GetType () const {  
   return type_;
 }
 

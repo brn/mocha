@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <list>
+#include <deque>
 #include <string>
 #include "js_token.h"
 #include "token_info.h"
@@ -7,6 +7,7 @@
 #include "queue_scanner.h"
 #include "scoped_list.h"
 #include "managed_handle.h"
+#include "parser_tracer.h"
 
 #define TOKEN yy::ParserImplementation::token
 #define ITERATOR(name) begin=name.begin(),end=name.end()
@@ -16,7 +17,7 @@ namespace mocha {
 
 class QueueScanner::Scanner {
  public :
-  typedef std::list<TokenInfo*> TokenQueue;
+  typedef std::deque<TokenInfo*> TokenQueue;
   Scanner( const std::string& source ) :
       index_( 0 ), line_(0) , is_rest_( false ) , is_numeric_after_( false ),
       is_regexp_after_( false ), source_( source ) {
@@ -594,15 +595,15 @@ class QueueScanner::Scanner {
     if ( token_queue_.size() > 0 ) {
       TokenQueue::reverse_iterator RITERATOR(token_queue_);
       int paren_count = 0;
-      while ( ( *begin )->getType() == TOKEN::JS_LINE_BREAK ) {
+      while ( ( *begin )->GetType() == TOKEN::JS_LINE_BREAK ) {
         ++begin;
       }
-      if ( (*begin)->getType() == ')' ) {
+      if ( (*begin)->GetType() == ')' ) {
         paren_count = 1;
         ( *begin )->SetType( TOKEN::JS_PARAM_END );
         while ( paren_count > 0 && begin != end ) {
           TokenInfo *info = ( *begin );
-          int type = info->getType();
+          int type = info->GetType();
           switch ( type ) {
             case ')' :
               paren_count++;
@@ -730,7 +731,7 @@ class QueueScanner::Scanner {
 
 
   inline void SetNumericAfter_ () {
-    int type = ( token_queue_.size() > 0 )? token_queue_.back()->getType() : 0;
+    int type = ( token_queue_.size() > 0 )? token_queue_.back()->GetType() : 0;
     if ( type == TOKEN::JS_EQ ||
          type == TOKEN::JS_EQUAL ||
          type == TOKEN::JS_LOGICAL_OR ||
@@ -774,7 +775,7 @@ class QueueScanner::Scanner {
 
 
   inline void SetRegExpAfter_ () {
-    int type = ( token_queue_.size() > 0 )? token_queue_.back()->getType() : 0;
+    int type = ( token_queue_.size() > 0 )? token_queue_.back()->GetType() : 0;
     if ( type == TOKEN::JS_EQ ||
          type == TOKEN::JS_EQUAL ||
          type == TOKEN::JS_LOGICAL_OR ||
@@ -854,12 +855,12 @@ class QueueScanner::Scanner {
 class QueueScanner::TokenGetter {
  public :
 
-  TokenGetter( QueueScanner::Scanner::TokenQueue& queue ) :
+  TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
       last_type_(0) , is_incrementable_( true ), has_line_break_( false ),
-      queue_( queue ) , semicolon_( new TokenInfo( ";" , ';' , 0 ) ) {
+      queue_( queue ) , tracer_( tracer ) , semicolon_( new TokenInfo( "" , ';' , 0 ) ) {
     it_ = queue_.begin();
   }
-  const TokenInfo* GetToken( int yystate ) {
+  TokenInfo* GetToken( int yystate ) {
     printf( "state %d  " , last_type_ );
     has_line_break_ = false;
     is_incrementable_ = true;
@@ -869,12 +870,12 @@ class QueueScanner::TokenGetter {
       ++it_;
     }
 
-    int type = info->getType();
+    int type = info->GetType();
     if ( type > 200 && type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END ) {
-      printf( "%s %d\n" , info->getValue() , info->getType() );
+      printf( "%s %d\n" , info->GetToken() , info->GetType() );
     } else {
       if ( type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END )
-      printf( "%c %d\n" , info->getType() , info->getType() );
+      printf( "%c %d\n" , info->GetType() , info->GetType() );
       else if ( type == TOKEN::JS_PARAM_BEGIN )
         printf( "(\n" );
       else if ( type == TOKEN::JS_PARAM_END )
@@ -899,14 +900,14 @@ class QueueScanner::TokenGetter {
   TokenInfo* NormalState_() {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
-    last_type_ = info->getType();
+    last_type_ = info->GetType();
     return info;
   }
 
   TokenInfo* AfterCloseBrace_() {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
-    int type = info->getType();
+    int type = info->GetType();
     if ( type != ')' && type != ',' && type != '=' ) {
       return SemicolonInsertion_();
     }
@@ -917,8 +918,8 @@ class QueueScanner::TokenGetter {
   TokenInfo* MaybeSemicolon_() {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
-    int type = info->getType();
-    if ( last_type_ == ';' ) {
+    int type = info->GetType();
+    if ( last_type_ == ';' || last_type_ == '{' || last_type_ == '(' ) {
       last_type_ = type;
       return info;
     } else if ( type == TOKEN::JS_INCREMENT || type == TOKEN::JS_DECREMENT ) {
@@ -940,11 +941,17 @@ class QueueScanner::TokenGetter {
       last_type_ = type;
       return info;
     } else if ( type == '}' ) {
-      if ( last_type_ != ';' ) {
-        return SemicolonInsertion_();
+      if ( tracer_->GetState( ParserTracer::kObjectLiteralEnd ) ) {
+        tracer_->EndState( ParserTracer::kObjectLiteralEnd );
+        last_type_ = type;
+        return info;
+      } else {
+        if ( last_type_ != ';' ) {
+          return SemicolonInsertion_();
+        }
+        last_type_ = type;
+        return info;
       }
-      last_type_ = type;
-      return info;
     } else if ( type == TOKEN::JS_IF || type == TOKEN::JS_WHILE ||
                 type == TOKEN::JS_WITH || type == TOKEN::JS_FOR ||
                 type == TOKEN::JS_MODULE || type == TOKEN::JS_EXPORT ||
@@ -969,7 +976,7 @@ class QueueScanner::TokenGetter {
 
   void SkipLineBreak_() {
     TokenInfo* info = (*it_);
-    if ( info->getType() == TOKEN::JS_LINE_BREAK ) {
+    if ( info->GetType() == TOKEN::JS_LINE_BREAK ) {
       has_line_break_ = true;
       ++it_;
     }
@@ -979,22 +986,23 @@ class QueueScanner::TokenGetter {
   bool is_incrementable_;
   bool has_line_break_;
   ScopedPtr<TokenInfo> semicolon_;
+  ParserTracer *tracer_;
   QueueScanner::Scanner::TokenQueue& queue_;
   QueueScanner::Scanner::TokenQueue::iterator it_;
 };
 
 
-QueueScanner::QueueScanner( const std::string& source ) :
-    scanner_( new Scanner( source ) ) {}
+QueueScanner::QueueScanner( const std::string& source , ParserTracer *tracer ) :
+    scanner_( new Scanner( source ) ) , tracer_( tracer ) {}
 QueueScanner::~QueueScanner(){}
 
 void QueueScanner::CollectToken() {
   scanner_->CollectToken();
-  token_getter_( new TokenGetter( scanner_->GetQueue() ) );
+  token_getter_( new TokenGetter( scanner_->GetQueue() , tracer_ ) );
 }
 
-const TokenInfo* QueueScanner::GetToken( int yystate ) {
-  const TokenInfo* info =  token_getter_->GetToken( yystate );
+TokenInfo* QueueScanner::GetToken( int yystate ) {
+  TokenInfo* info =  token_getter_->GetToken( yystate );
   return info;
 }
 

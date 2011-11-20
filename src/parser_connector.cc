@@ -24,7 +24,7 @@
 #include "parser_connector.h"
 #include "parser_tracer.h"
 #include "scope.h"
-#include "ast_type.h"
+#include "ast.h"
 #include "grammar.tab.hh"
 #include "token_info.h"
 #include "queue_scanner.h"
@@ -35,7 +35,7 @@ ParserConnector::ParserConnector ( Compiler *compiler,
                                           AstRoot* ast_root,
                                           const std::string& source ) :
     line_( 0 ) , is_end_( false ), compiler_ ( compiler ) , tracer ( tracer ),
-    ast_root_ ( ast_root ) , scanner_( new QueueScanner( source ) ){
+    ast_root_ ( ast_root ) , scanner_( new QueueScanner( source , tracer ) ){
   scanner_->CollectToken();
 }
 
@@ -46,14 +46,14 @@ int ParserConnector::InvokeScanner ( void* yylval_ , int yystate ) {
   printf( "state %d\n" ,yystate );
   if ( is_end_ ) return 0;
   yy::ParserImplementation::semantic_type* yylval = reinterpret_cast<yy::ParserImplementation::semantic_type*> ( yylval_ );
-  const TokenInfo* info = scanner_->GetToken( yystate );
-  if ( info->getType() == 0 ) {
+  TokenInfo* info = scanner_->GetToken( yystate );
+  if ( info->GetType() == 0 ) {
     is_end_ = true;
     return 0;
   }
-  line_ = info->getLineNumber();
+  line_ = info->GetLineNumber();
   yylval->info = info;
-  return info->getType();
+  return info->GetType();
 }
 
 int ParserConnector::ParseStart () {

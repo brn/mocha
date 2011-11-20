@@ -6,36 +6,33 @@
 #include "token_info.h"
 #include "parser_tracer.h"
 #include "parser_connector.h"
-#include "ast_type.h"
+#include "ast.h"
 #include "ast_visitor.h"
 #include "yylex.h"
 #include "handle.h"
 #include "compiler.h"
 #include "managed_handle.h"
-#include "file_system.h"
-#include "virtual_directory.h"
+
   using namespace std;
   using namespace mocha;
-  
-#define TREE_REDUCE(type,_1,_2,_3,_4)                               \
-  Tree *tmp = _3->CastToTree ();                                    \
-  type *ret = ManagedHandle::Retain ( new type ( _2 , _1, _3 ) );     \
-  if ( AstUtil::IsValidAst<Tree> ( tmp ) ) {                        \
-    if ( !AstUtil::IsValidAst<type> ( tmp->CastTo##type () ) ) {    \
-      ret->Prior ( Tree::kRight );                                  \
-    }                                                               \
-  } else if ( _1->IsPrimary () ) {                                  \
-    ret->Prior ( Tree::kLeft );                                     \
-  } else if ( _3->IsPrimary ()  ) {                                 \
-    ret->Prior ( Tree::kRight );                                    \
-  }                                                                 \
-  _4 = ret
 
-#define EXPECT_TERMINATOR
-  %}
+#define BINARY_ACTION(type,_1,_3,_4)                                 \
+  BinaryExp* binary = ManagedHandle::Retain( new BinaryExp( type , _1 , _3 ) ); \
+  _4 = binary;                                                          \
+
+#define COMPARE_ACTION(type,_1,_3,_4)                                   \
+  CompareExp* compare = ManagedHandle::Retain( new CompareExp( type , _1 , _3 ) ); \
+  _4 = compare;                                                         \
+
+  Empty* GetEmptyNode() {
+    static Empty empty;
+    return &empty;
+  }
+  
+%}
 
 %code requires {
-#include "ast_type.h"
+#include "ast.h"
   namespace mocha {
   class Compiler;
   class AstTypeBase;
@@ -48,53 +45,42 @@
 }
 
 %union{
-  const mocha::TokenInfo *info;
-  mocha::AstTree *ast_tree;
-  mocha::AstTypeBase* ast;
-  mocha::StmtList* stmtlist;
-  mocha::Function *fn;
-  mocha::FormalParameter *farg;
-  mocha::VariableDeclaration *vars;
-  mocha::VariableDeclarationList *varsList;
-  mocha::CaseClauses *ccs;
-  mocha::CaseClause *cc;
-  mocha::DefaultClause *dc;
-  mocha::ArrayLiteral *array;
-  mocha::ElementList *elem;
-  mocha::ObjectLiteral *obj;
-  mocha::ObjectMember *mem;
-  mocha::Arguments *args;
-  mocha::Expression *exp;
-  mocha::ExpressionStmt *exp_stmt;
-  mocha::Block *blk;
-  mocha::Empty *empty;
-  mocha::Iteration *it;
-  mocha::IFStmt* if_stmt;
-  mocha::Continue* continue_stmt;
-  mocha::Break* break_stmt;
-  mocha::Return* return_stmt;
-  mocha::With *with_stmt;
-  mocha::Label *label_stmt;
-  mocha::Switch *switch_stmt;
-  mocha::Throw *throw_stmt;
-  mocha::Try *try_stmt;
-  mocha::SourceBlock *source_block;
-  mocha::Constant::ConstantType consts;
-  mocha::PropertyName *property;
-  mocha::DestructuringAssignment *dsta;
-  mocha::DestructuringArray* dstarr;
-  mocha::DestructuringObjectMember* dstom;
-  mocha::DestructuringObject *dsto;
-  mocha::ElementLHS* elhs;
-  mocha::ArrayComprehensions *array_comp;
-  mocha::Module *module;
-  mocha::ExportStmt *exports;
-  mocha::LetStmt *let;
-  mocha::ArrayComprehensions *array_cmp;
+  mocha::TokenInfo *info;
+  mocha::AstNode *ast;
+  mocha::FileRoot *file_root;
+  mocha::Statement *statement;
+  mocha::StatementList* statement_list;
+  mocha::Expression *expression;
+  mocha::ValueNode *value_node;
+  mocha::CaseClause *case_clause;
+  mocha::NodeList* node_list;
+  mocha::BlockStmt* block;
+  mocha::ModuleStmt *module_stmt;
+  mocha::ExportStmt* export_stmt;
+  mocha::VariableStmt *variable_stmt;
+  mocha::LetStmt *let_stmt;
+  mocha::ExpressionStmt *expression_stmt;
+  mocha::IFStmt *if_stmt;
+  mocha::IterationStmt *iteration_stmt;
+  mocha::ContinueStmt *continue_stmt;
+  mocha::ReturnStmt *return_stmt;
+  mocha::BreakStmt *break_stmt;
+  mocha::WithStmt *with_stmt;
+  mocha::LabelledStmt *labelled_stmt;
+  mocha::SwitchStmt *switch_stmt;
+  mocha::ThrowStmt *throw_stmt;
+  mocha::TryStmt *try_stmt;
+  mocha::Function *function;
+  mocha::CallExp *call_exp;
+  mocha::NewExp *new_exp;
+  mocha::PostfixExp *postfix;
+  mocha::UnaryExp *unary_exp;
+  mocha::BinaryExp *binary_exp;
+  mocha::CompareExp *compare_exp;
+  mocha::ConditionalExp *conditional;
+  mocha::AssignmentExp *assignment;
   bool opt;
-  const char* ident;
   int num;
-  long int line;
 } 
 
 // Bison
@@ -235,68 +221,68 @@
 %token <info> JS_EXP_CLOSURE_END
 
 %type <ast> program
-%type <fn> function_declaration
-%type <fn> function_expression
-%type <farg> formal_parameter_list
+%type <function> function_declaration
+%type <function> function_expression
+%type <node_list> formal_parameter_list
 %type <ast> formal_parameter_list__opt
-%type <ast> function_body
-%type <ast_tree> source_elements
-%type <source_block> source_element
-%type <ast_tree> source_elements_for_function
-%type <source_block> source_element_for_function
-%type <ident> identifier__opt
-%type <source_block> statement
-%type <source_block> statement_no_block
-%type <source_block> statement_with_block
-%type <empty> empty_statement
-%type <blk> block
-%type <stmtlist> statement_list
-%type <varsList> variable_statement
-%type <varsList> variable_declaration_list
-%type <varsList> variable_declaration_list_no_in
-%type <ast> variable_declaration
-%type <ast> variable_declaration_no_in
-%type <dsta> destructuring_assignment_left_hand_side
-%type <ast> object_left_hand_side
-%type <dsto> object_member_left_hand_side_list 
+%type <node_list> function_body
+%type <node_list> source_elements
+%type <ast> source_element
+%type <node_list> source_elements_for_function
+%type <ast> source_element_for_function
+%type <ast> identifier__opt
+%type <ast> statement
+%type <ast> statement_no_block
+%type <ast> statement_with_block
+%type <ast> empty_statement
+%type <block> block
+%type <ast> statement_list
+%type <variable_stmt> variable_statement
+%type <node_list> variable_declaration_list
+%type <node_list> variable_declaration_list_no_in
+%type <value_node> variable_declaration
+%type <value_node> variable_declaration_no_in
+%type <ast> destructuring_assignment_left_hand_side
+%type <value_node> object_left_hand_side
+%type <node_list> object_member_left_hand_side_list 
 %type <ast> initialiser
 %type <ast> initialiser_no_in
-%type <exp_stmt> expression_statement
+%type <expression_stmt> expression_statement
 %type <if_stmt> if_statement
-%type <it> iteration_statement
+%type <iteration_stmt> iteration_statement
 %type <continue_stmt> continue_statement
 %type <break_stmt> break_statement
 %type <return_stmt> return_statement
 %type <with_stmt> with_statement
 %type <switch_stmt> switch_statement
 %type <ast> case_block
-%type <ccs> case_clauses
-%type <cc> case_clause
-%type <dc> default_clause
-%type <label_stmt> labelled_statement
+%type <ast> case_clauses
+%type <case_clause> case_clause
+%type <case_clause> default_clause
+%type <labelled_stmt> labelled_statement
 %type <throw_stmt> throw_statement
 %type <try_stmt> try_statement
 %type <ast> catch
 %type <ast> finally
-%type <stmtlist> statement_list__opt
+%type <ast> statement_list__opt
 %type <ast> initialiser__opt
 %type <ast> initialiser_no_in__opt
-%type <ccs> case_clauses__opt
+%type <ast> case_clauses__opt
 %type <ast> literal
 %type <ast> null_literal
 %type <ast> boolean_literal
 %type <ast> primary_expression
-%type <array> array_literal
-%type <elem> element_list
-%type <obj> object_literal
+%type <ast> array_literal
+%type <node_list> element_list
+%type <ast> object_literal
 %type <ast> property_name_and_value_list__opt
-%type <mem> property_name_and_value_list
-%type <property> property_name
+%type <ast> property_name_and_value_list
+%type <value_node> property_name
 %type <ast> member_expression
 %type <ast> new_expression
 %type <ast> call_expression
-%type <args> arguments
-%type <args> argument_list
+%type <ast> arguments
+%type <node_list> argument_list
 %type <ast> left_hand_side_expression
 %type <ast> postfix_expression
 %type <ast> unary_expression
@@ -321,23 +307,21 @@
 %type <ast> conditional_expression_no_in
 %type <ast> assignment_expression
 %type <ast> assignment_expression_no_in
-%type <consts> assignment_operator
-%type <exp> expression
-%type <exp> expression_no_in
-%type <exp> expression_no_in__opt
-%type <exp> expression__opt
+%type <num> assignment_operator
+%type <expression> expression
+%type <expression> expression_no_in
+%type <ast> expression_no_in__opt
+%type <ast> expression__opt
 %type <opt> elision__opt
-%type <fn> arrow_function_expression
-%type <elhs> array_left_hand_element_list
-%type <dstarr> array_left_hand_side
+%type <function> arrow_function_expression
 %type <ast> formal_parameter_rest
 %type <ast> arguments_spread
-%type <let> let_statement
-%type <args> let_assignment_list
+%type <let_stmt> let_statement
+%type <ast> let_assignment_list
 %type <ast> let_assignment_expression
-%type <module> module_block
-%type <exports> export_statement
-%type <array_cmp> array_comprehensions
+%type <module_stmt> module_block
+%type <export_stmt> export_statement
+%type <ast> array_comprehensions
 %type <ast> array_comprehension_iteration
 %type <ast> array_comprehension_if__opt
 %%
@@ -345,9 +329,10 @@
 program
 : {yydebug_ = 0;} source_elements
   {
-    RootBlock* root = ManagedHandle::Retain( new RootBlock( tracer->GetPath() ) );
-    root->Root( $2 );
-    ast_root->Tree ( root );
+    FileRoot* root = ManagedHandle::Retain<FileRoot>();
+    root->FileName( tracer->GetPath());
+    root->Append( $2 );
+    ast_root->AddChild( root );
   }
 ;
 
@@ -358,9 +343,12 @@ program
 function_declaration
 : JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( $2->getValue() ) );
+    Function *fn = ManagedHandle::Retain<Function>();
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    fn->Name( value );
     fn->Argv ( $4 );
-    fn->Body ( $7 );
+    fn->Append( $7 );
     $$ = fn;
   }
 
@@ -371,10 +359,13 @@ function_declaration
  */
 | JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( $2->getValue() ) );
-    fn->Const( true );
+    Function *fn = ManagedHandle::Retain<Function>();
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    fn->Name( value );
+    fn->Const();
     fn->Argv ( $4 );
-    fn->Body ( $7 );
+    fn->Append( $7 );
     $$ = fn;
   }
 ;
@@ -383,9 +374,10 @@ function_declaration
 function_expression
 : JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( $2 ) );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( $2 );
     fn->Argv ( $4 );
-    fn->Body ( $7 );
+    fn->Append( $7 );
     $$ = fn;
   }
 
@@ -404,41 +396,50 @@ function_expression
 arrow_function_expression
 : JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
-    fn->Argv ( $2 );
-    fn->Body ( $6 );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( GetEmptyNode() );
+    fn->Argv( $2 );
+    fn->Append( $6 );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
-    fn->Body ( $3 );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( GetEmptyNode() );
+    fn->Argv( GetEmptyNode() );
+    fn->Append( $3 );
     $$ = fn;
   }
 | JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
-    fn->Argv ( $2 );
-    fn->Body ( $6 );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( GetEmptyNode() );
+    fn->Argv( $2 );
+    fn->Append( $6 );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
-    fn->Body ( $3 );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( GetEmptyNode() );
+    fn->Argv( GetEmptyNode() );
+    fn->Append( $3 );
     $$ = fn;
   }
 | JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
-    fn->Argv ( $2 );
-    fn->Body ( $6 );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( GetEmptyNode() );
+    fn->Argv( $2 );
+    fn->AddChild( $6 );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH_WITH_CONTEXT JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
   {
-    Function *fn = ManagedHandle::Retain ( new Function ( "" ) );
-    fn->Body ( $3 );
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Name( GetEmptyNode() );
+    fn->Argv( GetEmptyNode() );
+    fn->AddChild( $3 );
     $$ = fn;
   }
 ;
@@ -459,10 +460,12 @@ formal_parameter_list
  */
 : JS_IDENTIFIER initialiser__opt
   {
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
-    FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
-    arg->Args ( ident , $2 );
-    $$ = arg;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->AddChild( $2 );
+    value->Symbol( $1 );
+    list->AddChild( value );
+    $$ = list;
   }
 
 /*
@@ -472,28 +475,37 @@ formal_parameter_list
  */
 | destructuring_assignment_left_hand_side initialiser__opt
   {
-    FormalParameter *arg = ManagedHandle::Retain<FormalParameter>();
-    arg->Args ( $1 , $2 );
-    $$ = arg;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->AddChild( $2 );
+    value->Node( $1 );
+    list->AddChild( value );
+    $$ = list;
   }
 
 | formal_parameter_list ',' JS_IDENTIFIER initialiser__opt
   {
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
-    $1->Args ( ident , $4 );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->AddChild( $4 );
+    value->Symbol( $3 );
+    $1->AddChild( value );
     $$ = $1;
   }
 
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
-    $1->Args ( $3 , $4 );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->AddChild( $4 );
+    value->Node( $3 );
+    $1->AddChild( value );
     $$ = $1;
   }
 
 | formal_parameter_list ',' formal_parameter_rest
   {
-    Empty* empty = ManagedHandle::Retain<Empty>();
-    $1->Args ( $3 , empty );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
+    value->Node( $3 );
+    $1->AddChild( value );
     $$ = $1;
   }
 ;
@@ -505,8 +517,9 @@ formal_parameter_list
 formal_parameter_rest
 : JS_PARAMETER_REST JS_IDENTIFIER
   {
-    FormalParameterRest* rest = ManagedHandle::Retain( new FormalParameterRest( $2->getValue() ) );
-    $$ = rest;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    $$ = value;
   }
 ;
 
@@ -520,26 +533,27 @@ formal_parameter_rest
 arguments_spread
 : JS_PARAMETER_REST JS_IDENTIFIER
   {
-    Spread* spread = ManagedHandle::Retain( new Spread( $2->getValue() ) );
-    $$ = spread;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kSpread ) );
+    value->Symbol( $2 );
+    $$ = value;
   }
 ;
 
 function_body
-: { $$ = ManagedHandle::Retain<Empty> (); }
+: { $$ = ManagedHandle::Retain<NodeList>(); }
 | source_elements_for_function { $$ = $1; }
 ;
 
 source_elements
 : source_element
   {
-    AstTree *ret = ManagedHandle::Retain<AstTree> ();
-    ret->AddBlock ( $1 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
   }
 | source_elements source_element
   {
-    $1->AddBlock ( $2 );
+    $1->AddChild( $2 );
     $$ = $1;
   }
 ;
@@ -547,13 +561,13 @@ source_elements
 source_elements_for_function
 : source_element_for_function
   {
-    AstTree *ret = ManagedHandle::Retain<AstTree> ();
-    ret->AddBlock ( $1 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
   }
-| source_elements source_element_for_function
+| source_elements_for_function source_element_for_function
   {
-    $1->AddBlock ( $2 );
+    $1->AddChild( $2 );
     $$ = $1;
   }
 ;
@@ -562,8 +576,9 @@ source_element
 : statement { $$ = $1; }
 | function_declaration
   { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->AddChild( $1 );
+    $$ = stmt;
   }
 ;
 
@@ -571,13 +586,14 @@ source_element_for_function
 : statement_with_block { $$ = $1; }
 | function_declaration
   { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->AddChild( $1 );
+    $$ = stmt;
   }
 ;
 
 formal_parameter_list__opt
-: { $$ = ManagedHandle::Retain<Empty> (); }
+: { $$ = GetEmptyNode(); }
 | formal_parameter_list
   {
     $$ = $1;
@@ -585,120 +601,121 @@ formal_parameter_list__opt
 ;
 
 identifier__opt
-: { $$ = ""; }
+: { $$ = GetEmptyNode(); }
 | JS_IDENTIFIER
   {
-    $$ = $1->getValue ();
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 ;
 
 statement
 : statement_with_block { $$ = $1; }
 | module_block
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("module block \n");
+    $$ = $1;
   }
 | export_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("export statement \n");
+    $$ = $1;
   }
 ;
 
 statement_with_block
 : block
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("block statement \n");
+    $$ = $1;
   }
 | statement_no_block { $$ = $1; }
 ;
 
 statement_no_block
 : variable_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("var statement \n");
+    $$ = $1;
   }
 | let_statement
   { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+    $$ = $1;
   }
 | empty_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("empty statement \n");
+    $$ = $1;
   }
 | expression_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("exp statement \n");
+    $$ = $1;
   }
 | if_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("if statement \n");
+    $$ = $1;
   }
 | iteration_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("iter statement \n");
+    $$ = $1;
   }
 | continue_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("cont statement \n");
+    $$ = $1;
   }
 | break_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("break statement \n");
+    $$ = $1;
   }
 | return_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("return statement \n");
+    $$ = $1;
   }
 | with_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("with statement \n");
+    $$ = $1;
   }
 | labelled_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("label statement \n");
+    $$ = $1;
   }
 | switch_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("switch statement \n");
+    $$ = $1;
   }
 | throw_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("throw statement \n");
+    $$ = $1;
   }
 | try_statement
-  { 
-    SourceBlock *blocks = ManagedHandle::Retain( new SourceBlock ( $1 ) );
-    $$ = blocks;
+  {
+    printf("try statement \n");
+    $$ = $1;
   }
 ;
 
 block
 : '{' '}'
   {
-    Block *block = ManagedHandle::Retain<Block> ();
-    block->Value ( ManagedHandle::Retain<Empty> () );
+    BlockStmt *block = ManagedHandle::Retain<BlockStmt>();
+    block->AddChild( GetEmptyNode() );
     $$ = block;
   }
 | '{' statement_list '}'
   {
-    Block *block = ManagedHandle::Retain<Block> ();
-    block->Value ( $2 );
+    BlockStmt *block = ManagedHandle::Retain<BlockStmt>();
+    block->AddChild( $2 ); 
     $$ = block;
   }
 ;
@@ -707,8 +724,11 @@ block
 module_block
 : JS_MODULE JS_IDENTIFIER statement
   {
-    Module* module = ManagedHandle::Retain( new Module( $2->getValue() ) );
-    module->Body( $3 );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    ModuleStmt* module = ManagedHandle::Retain<ModuleStmt>();
+    module->Name( value );
+    module->AddChild( $3 );
     $$ = module;
   }
 ;
@@ -718,13 +738,13 @@ export_statement
 : JS_EXPORT variable_declaration terminator
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
-    exports->Value( $2 );
+    exports->AddChild( $2 );
     $$ = exports;
   }
 | JS_EXPORT function_declaration
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
-    exports->Value( $2 );
+    exports->AddChild( $2 );
     $$ = exports;
   }
 ;
@@ -733,13 +753,15 @@ export_statement
 statement_list
 : statement
   {
-    StmtList *ret = ManagedHandle::Retain<StmtList> ();
-    ret->List ( $1 );
-    $$ = ret;
+    StatementList* list = ManagedHandle::Retain<StatementList>();
+    if ( !$1->IsEmpty() ) {
+      list->AddChild( $1 );
+    }
+    $$ = list;
   }
 | statement_list statement
   {
-    $1->List ( $2 );
+    $1->AddChild( $2 );
     $$ = $1;
   }
 ;
@@ -748,24 +770,24 @@ statement_list
 variable_statement
 : JS_VAR variable_declaration_list terminator
   {
-    $2->LineNumber ( $1->getLineNumber () );
-    $2->Terminate();
-    $2->Type( VariableDeclarationList::kNormal );
-    $$ = $2;
+    VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
+    var->VarType( VariableStmt::kNormal );
+    var->Append( $2 );
+    $$ = var;
   }
 | JS_CONST variable_declaration_list terminator
   {
-    $2->LineNumber ( $1->getLineNumber () );
-    $2->Terminate();
-    $2->Type( VariableDeclarationList::kConst );
-    $$ = $2;
+    VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
+    var->VarType( VariableStmt::kConst );
+    var->Append( $2 );
+    $$ = var;
   }
 | JS_LET variable_declaration_list terminator
   {
-    $2->LineNumber ( $1->getLineNumber () );
-    $2->Terminate();
-    $2->Type( VariableDeclarationList::kLet );
-    $$ = $2;
+    VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
+    var->VarType( VariableStmt::kLet );
+    var->Append( $2 );
+    $$ = var;
   }
 ;
 
@@ -774,47 +796,54 @@ let_statement
   {
     LetStmt* let = ManagedHandle::Retain<LetStmt>();
     let->Exp( $3 );
-    let->Body( $5 );
+    let->AddChild( $5 );
     $$ = let;
   }
 
 let_assignment_list
 : let_assignment_expression
   {
-    Arguments* arg = ManagedHandle::Retain<Arguments>();
-    arg->Value( $1 );
-    $$ = arg;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
   }
 | let_assignment_list ',' let_assignment_expression
   {
-    $1->Value( $3 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 
 let_assignment_expression
 : JS_IDENTIFIER initialiser__opt
   {
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
-    Assign *assign = ManagedHandle::Retain ( new Assign( Constant::kAssign , ident , $2 ) );
-    $$ = assign;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+    value->Symbol( $1 );
+    value->AddChild( $2 );
+    $$ = value;
   }
 | destructuring_assignment_left_hand_side initialiser
   {
-    Assign *assign = ManagedHandle::Retain ( new Assign( Constant::kAssign , $1 , $2 ) );
-    $$ = assign;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Node( $1 );
+    value->AddChild( $2 );
+    $$ = value;
   }
 ; 
 
 variable_declaration_list
 : variable_declaration 
   {
-    VariableDeclarationList *ret = ManagedHandle::Retain<VariableDeclarationList> ();
-    ret->List ( $1 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( !$1->IsEmpty() ) {
+      list->AddChild( $1 );
+    }
+    $$ = list;
   }
 | variable_declaration_list ',' variable_declaration
   {
-    $1->List ( $3 );
+    if ( !$3->IsEmpty() ) {
+      $1->AddChild( $3 );
+    }
     $$ = $1;
   }
 ;
@@ -822,13 +851,13 @@ variable_declaration_list
 variable_declaration_list_no_in
 : variable_declaration_no_in
   {
-    VariableDeclarationList *ret = ManagedHandle::Retain<VariableDeclarationList> ();
-    ret->List ( $1 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
   }
 | variable_declaration_list_no_in ',' variable_declaration_no_in
   {
-    $1->List ( $3 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 ;
@@ -836,31 +865,34 @@ variable_declaration_list_no_in
 variable_declaration
 : JS_IDENTIFIER initialiser__opt
   {
-    const char* ident = $1->getValue ();
-    VariableDeclaration *var = ManagedHandle::Retain ( new VariableDeclaration ( ident ) );
-    var->Value ( $2 );
-    $$ = var;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+    node->Symbol( $1 );
+    node->AddChild( $2 );
+    $$ = node;
   }
 | destructuring_assignment_left_hand_side initialiser
   {
-    $1->Data( $1 );
-    $1->Value( $2 );
-    $$ = $1;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    node->Node( $1 );
+    node->AddChild( $2 );
+    $$ = node;
   }
 ;
 
 variable_declaration_no_in
 : JS_IDENTIFIER initialiser_no_in__opt
   {
-    const char* ident = $1->getValue ();
-    VariableDeclaration *var = ManagedHandle::Retain ( new VariableDeclaration ( ident ) );
-    var->Value ( $2 );
-    $$ = var;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+    node->Symbol( $1 );
+    node->AddChild( $2 );
+    $$ = node;
   }
 | destructuring_assignment_left_hand_side initialiser_no_in
   {
-    $1->Value( $2 );
-    $$ = $1;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Node( $1 );
+    node->AddChild( $2 );
+    $$ = node;
   }
 ;
  
@@ -868,150 +900,73 @@ variable_declaration_no_in
 destructuring_assignment_left_hand_side
 : array_literal/*array_left_hand_side*/
   {
-    DestructuringAssignment *dsta = ManagedHandle::Retain<DestructuringAssignment>();
-    dsta->Data( $1 );
-    $$ = dsta;
+    $$ = $1;
   }
 | object_left_hand_side
   {
-    DestructuringAssignment *dsta = ManagedHandle::Retain<DestructuringAssignment>();
-    dsta->Data( $1 );
-    $$ = dsta;
-  }
-;
-
-
-array_left_hand_side
-: '[' elision__opt ']'
-  {
-    DestructuringArray *ret = ManagedHandle::Retain<DestructuringArray>();
-    ElementLHS* els = ManagedHandle::Retain<ElementLHS>();
-    ret->Value ( els );
-    $$ = ret;
-  }
-| '[' array_left_hand_element_list ']'
-  {
-    DestructuringArray *ret = ManagedHandle::Retain<DestructuringArray>();
-    ret->Value ( $2 );
-    $$ = ret;
-  }
-| '[' array_left_hand_element_list ',' elision__opt ']'
-  {
-    DestructuringArray *ret = ManagedHandle::Retain<DestructuringArray>();
-    ret->Value ( $2 );
-    $$ = ret;
-  }
-;
-
-array_left_hand_element_list
-: elision__opt JS_IDENTIFIER
-  {
-    ElementLHS *ret = ManagedHandle::Retain<ElementLHS> ();
-    if ( $1 ) {
-      ret->List( ManagedHandle::Retain<Empty>() );
-    }
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $2->getValue() ) );
-    ret->List( ident );
-    $$ = ret;
-  }
-| elision__opt destructuring_assignment_left_hand_side
-  {
-    ElementLHS *ret = ManagedHandle::Retain<ElementLHS> ();
-    if ( $1 ) {
-      ret->List( ManagedHandle::Retain<Empty>() );
-    }
-    ret->List( $2 );
-    $$ = ret;
-  }
-| array_left_hand_element_list ',' elision__opt JS_IDENTIFIER
-  {
-    if ( $3 ) {
-      $1->List( ManagedHandle::Retain<Empty>() );
-    }
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $4->getValue() ) );
-    $1->List( ident );
-    $$ = $1;
-  }
-| array_left_hand_element_list ',' elision__opt destructuring_assignment_left_hand_side
-  {
-    if ( $3 ) {
-      $1->List( ManagedHandle::Retain<Empty>() );
-    }
-    $1->List( $4 );
-    $$ = $1;
-  }
-| array_left_hand_element_list ',' elision__opt formal_parameter_rest
-  {
-    if ( $3 ) {
-      $1->List( ManagedHandle::Retain<Empty>() );
-    }
-    $1->List( $4 );
     $$ = $1;
   }
 ;
 
 object_left_hand_side
-: '{' object_member_left_hand_side_list ';' '}' { $$ = $2; }
+: '{' object_member_left_hand_side_list ';' '}'
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->AddChild( $2->FirstChild() );
+    $$ = value;
+  }
 ;
 
 
 object_member_left_hand_side_list
 :  JS_IDENTIFIER
   {
-    DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
-    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $1->getValue() ) );
-    mem->Left( ident );
-    mem->Right( ident );
-    dsto->List( mem );
-    $$ = dsto;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Symbol( $1 );
+    list->AddChild( node );
+    $$ = list;
   }
 | property_name ':' JS_IDENTIFIER
   {
-    DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
-    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
-    mem->Left( $1 );
-    mem->Right( ident );
-    dsto->List( mem );
-    $$ = dsto;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Symbol( $3 );
+    $1->AddChild( node );
+    list->AddChild( $1 );
+    $$ = list;
   }
 
 | property_name ':' destructuring_assignment_left_hand_side
   {
-    DestructuringObject* dsto = ManagedHandle::Retain<DestructuringObject>();
-    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
-    mem->Left( $1 );
-    mem->Right( $3 );
-    dsto->List( mem );
-    $$ = dsto;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    node->Node( $3 );
+    $1->AddChild( node );
+    list->AddChild( $1 );
+    $$ = list;
   }
   
 | object_member_left_hand_side_list ',' property_name ':' JS_IDENTIFIER
   {
-    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $5->getValue() ) );
-    mem->Left( $3 );
-    mem->Right( ident );
-    $1->List( mem );
+    $1->AddChild( $3 );
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Symbol( $5 );
+    $3->AddChild( node );
     $$ = $1;
   }
 
 | object_member_left_hand_side_list ',' JS_IDENTIFIER
   {
-    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
-    Identifier* ident = ManagedHandle::Retain( new Identifier( $3->getValue() ) );
-    mem->Left( ident );
-    mem->Right( ident );
-    $1->List( mem );
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Symbol( $3 );
+    $1->AddChild( node );
     $$ = $1;
   }
 | object_member_left_hand_side_list ',' property_name ':' destructuring_assignment_left_hand_side
   {
-    DestructuringObjectMember* mem = ManagedHandle::Retain<DestructuringObjectMember>();
-    mem->Left( $3 );
-    mem->Right( $5 );
-    $1->List( mem );
+    $1->AddChild( $3 );
+    $3->AddChild( $5 );
     $$ = $1;
   }
 ;
@@ -1026,150 +981,138 @@ initialiser_no_in
 ;
 
 empty_statement
-: terminator { $$ = ManagedHandle::Retain<Empty> (); }
+: terminator { $$ = GetEmptyNode(); }
 ;
 
 expression_statement
 : expression terminator
   {
-    ExpressionStmt *exp_stmt = ManagedHandle::Retain<ExpressionStmt>();
-    exp_stmt->Exp( $1 );
-    $$ = exp_stmt;
+    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->AddChild( $1 );
+    $$ = stmt;
   }
 ;
 
 if_statement
 : JS_IF '(' expression ')' statement JS_ELSE statement 
   {
-    IFStmt *ret = ManagedHandle::Retain<IFStmt> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Then ( $3 );
-    ret->Body ( $5 );
-    ret->Else ( $7 );
-    $$ = ret;
+    IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
+    stmt->Exp( $3 );
+    stmt->Then( $5 );
+    stmt->Else( $7 );
   }
 | JS_IF '(' expression ')' statement
   {
-    IFStmt *ret = ManagedHandle::Retain<IFStmt> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Then ( $3 );
-    ret->Body ( $5 );
-    $$ = ret;
+    IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
+    stmt->Exp( $3 );
+    stmt->Then( $5 );
+    stmt->Else( GetEmptyNode() );
   }
 ;
 
 iteration_statement
 : JS_DO statement JS_WHILE '(' expression ')' terminator
   {
-    DoWhile *ret = ManagedHandle::Retain<DoWhile> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $2 );
-    ret->Condition ( $5 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kDoWhile ) );
+    iter->Exp( $5 );
+    iter->AddChild( $2 );
+    $$ = iter;
   }
 | JS_WHILE '(' expression ')' statement
   {
-    While *ret = ManagedHandle::Retain<While> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Condition ( $3 );
-    ret->Body ( $5 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kWhile ) );
+    iter->Exp( $3 );
+    iter->AddChild( $5 );
+    $$ = iter;
   }
 | JS_FOR '(' expression_no_in__opt ';' expression__opt ';' expression__opt ')' statement
   {
-    For *ret = ManagedHandle::Retain<For> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Index ( $3 );
-    ret->Condition ( $5 );
-    ret->Increment ( $7 );
-    ret->Body ( $9 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kFor ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $3 );
+    list->AddChild( $5 );
+    list->AddChild( $7 );
+    iter->Exp( list );
+    iter->AddChild( $9 );
+    $$ = iter;
   }
 | JS_FOR '(' JS_VAR variable_declaration_list_no_in ';' expression__opt ';' expression__opt ')' statement
   {
-    For *ret = ManagedHandle::Retain<For> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Index ( $4 );
-    ret->Condition ( $6 );
-    ret->Increment ( $8 );
-    ret->Body ( $10 );
-    ret->VariableDecl ( true );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForWithVar ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $4 );
+    list->AddChild( $6 );
+    list->AddChild( $8 );
+    iter->Exp( list );
+    iter->AddChild( $10 );
+    $$ = iter;
   }
 | JS_FOR '(' left_hand_side_expression JS_IN expression ')' statement
   {
-    ForIn *ret = ManagedHandle::Retain<ForIn> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Item ( $3 );
-    ret->Target ( $5 );
-    ret->Body ( $7 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForIn ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $3 );
+    list->AddChild( $5 );
+    iter->Exp( list );
+    iter->AddChild( $7 );
+    $$ = iter;
   }
 | JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
   {
-    ForIn *ret = ManagedHandle::Retain<ForIn> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Item ( $4 );
-    ret->Target ( $6 );
-    ret->Body ( $8 );
-    ret->VariableDecl ( true );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForInWithVar ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $4 );
+    list->AddChild( $6 );
+    iter->Exp( list );
+    iter->AddChild( $8 );
+    $$ = iter;
   }
 
 | JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')' statement
   {
-    ForEach *ret = ManagedHandle::Retain<ForEach> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Item ( $4 );
-    ret->Target ( $6 );
-    ret->Body ( $8 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForEach ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $4 );
+    list->AddChild( $6 );
+    iter->Exp( list );
+    iter->AddChild( $8 );
+    $$ = iter;
   }
 | JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
   {
-    ForEach *ret = ManagedHandle::Retain<ForEach> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Item ( $5 );
-    ret->Target ( $7 );
-    ret->Body ( $9 );
-    ret->VariableDecl ( true );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForEachWithVar ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $5 );
+    list->AddChild( $7 );
+    iter->Exp( list );
+    iter->AddChild( $9 );
+    $$ = iter;
   }
 ;
 
 continue_statement
-: JS_CONTINUE identifier__opt {EXPECT_TERMINATOR;} terminator
+: JS_CONTINUE identifier__opt terminator
   {
-    Continue *ret = ManagedHandle::Retain ( new Continue ( $2 ) );
-    ret->LineNumber ( $1->getLineNumber () );
-    $$ = ret;
+    ContinueStmt *cont = ManagedHandle::Retain<ContinueStmt>();
+    cont->AddChild( $2 );
+    $$ = cont;
   }
 ;
 
 break_statement
-: JS_BREAK identifier__opt {EXPECT_TERMINATOR;} terminator
+: JS_BREAK identifier__opt terminator
   {
-    Break *ret = ManagedHandle::Retain ( new Break ( $2 ) );
-    ret->LineNumber ( $1->getLineNumber () );
-    $$ = ret;
+    BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+    break_stmt->AddChild( $2 );
+    $$ = break_stmt;
   }
 ;
 
 return_statement
 : JS_RETURN expression__opt terminator
   {
-    Return *ret = ManagedHandle::Retain<Return> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Expression ( $2 );
-    $2->Terminate ();
+    ReturnStmt *ret = ManagedHandle::Retain<ReturnStmt>();
+    ret->AddChild( $2 );
     $$ = ret;
   }
 ;
@@ -1177,22 +1120,20 @@ return_statement
 with_statement
 : JS_WITH '(' expression ')' statement
   {
-    With *ret = ManagedHandle::Retain<With> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Expression ( $3 );
-    ret->Body ( $5 );
-    $$ = ret;
+    WithStmt *with_stmt = ManagedHandle::Retain<WithStmt>();
+    with_stmt->Exp( $3 );
+    with_stmt->AddChild( $5 );
+    $$ = with_stmt;
   }
 ;
 
 switch_statement
 : JS_SWITCH '(' expression ')' case_block
   {
-    Switch *ret = ManagedHandle::Retain<Switch> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Expression ( $3 );
-    ret->CaseBlock ( $5 );
-    $$ = ret;
+    SwitchStmt *switch_stmt = ManagedHandle::Retain<SwitchStmt>();
+    switch_stmt->Exp( $3 );
+    switch_stmt->AddChild( $5 );
+    $$ = switch_stmt;
   }
 ;
 
@@ -1203,22 +1144,22 @@ case_block
   }
 | '{' case_clauses__opt default_clause case_clauses__opt '}'
   {
-    $2->List ( $3 );
-    $2->List ( $4 );
+    $2->After( $3 );
+    $3->After( $4 );
     $$ = $2;
   }
 ;
 
 case_clauses
 : case_clause
-  { 
-    CaseClauses *ret = ManagedHandle::Retain<CaseClauses>();
-    ret->List ( $1 );
-    $$ = ret;
+  {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = $1;
   }
 | case_clauses case_clause
   {
-    $1->List ( $2 );
+    $1->AddChild( $2 );
     $$ = $1;
   }
 ;
@@ -1226,110 +1167,104 @@ case_clauses
 case_clause
 : JS_CASE expression ':' statement_list__opt
   {
-    CaseClause *ret = ManagedHandle::Retain<CaseClause> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Expression ( $2 );
-    ret->Body ( $4 );
-    $$ = ret;
+    CaseClause *clause = ManagedHandle::Retain<CaseClause> ();
+    clause->Exp( $2 );
+    clause->AddChild( $4 );
+    $$ = clause;
   }
 ;
 
 default_clause
 : JS_DEFAULT ':' statement_list__opt
   {
-    DefaultClause *ret = ManagedHandle::Retain<DefaultClause> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $3 );
-    $$ = ret;
+    CaseClause *clause = ManagedHandle::Retain<CaseClause> ();
+    clause->Exp( GetEmptyNode() );
+    clause->AddChild( $3 );
+    $$ = clause;
   }
 ;
 
 labelled_statement
 : JS_IDENTIFIER ':' statement
   {
-    const char* ident = $1->getValue ();
-    Label *ret = ManagedHandle::Retain ( new Label ( ident ) );
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $3 );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    LabelledStmt *label = ManagedHandle::Retain<LabelledStmt>();
+    label->AddChild( value );
+    label->AddChild( $3 );
+    $$ = label;
   }
 ;
 
 throw_statement
-: JS_THROW expression {EXPECT_TERMINATOR;} terminator
+: JS_THROW expression terminator
   {
-    Throw *ret = ManagedHandle::Retain<Throw> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Expression ( $2 );
-    $$ = ret;
+    ThrowStmt* throw_stmt = ManagedHandle::Retain<ThrowStmt>();
+    throw_stmt->Exp( $2 );
+    $$ = throw_stmt;
   }
 ;
 
 try_statement
 : JS_TRY block catch
   {
-    Try *ret = ManagedHandle::Retain<Try> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $2 );
-    ret->CatchBody ( $3 );
-    $$ = ret;
+    TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
+    try_stmt->AddChild( $2 );
+    try_stmt->Catch( $3 );
+    try_stmt->Finally( GetEmptyNode() );
+    $$ = try_stmt;
   }
 | JS_TRY block finally
   {
-    Try *ret = ManagedHandle::Retain<Try> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $2 );
-    ret->FinallyBody ( $3 );
-    $$ = ret;
+    TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
+    try_stmt->AddChild( $2 );
+    try_stmt->Catch( GetEmptyNode() );
+    try_stmt->Finally( $3 );
+    $$ = try_stmt;
   }
 | JS_TRY block catch finally
   {
-    Try *ret = ManagedHandle::Retain<Try> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $2 );
-    ret->CatchBody ( $3 );
-    ret->FinallyBody ( $4 );
-    $$ = ret;
+    TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
+    try_stmt->AddChild( $2 );
+    try_stmt->Catch( $3 );
+    try_stmt->Finally( $4 );
+    $$ = try_stmt;
   }
 ;
 
 catch
 : JS_CATCH '(' JS_IDENTIFIER ')' block
   {
-    Catch *ret = ManagedHandle::Retain ( new Catch ( $3->getValue () ) );
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Body ( $5 );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $3 );
+    value->AddChild( $5 );
   }
 ;
 
 finally
 : JS_FINALLY block
   {
-    Finally *ret = ManagedHandle::Retain<Finally> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Block ( $2 );
-    $$ = ret;
+    $$ = $2;
   }
 ;
 
 statement_list__opt
-: { $$ = ManagedHandle::Retain<StmtList> (); }
+: { $$ = GetEmptyNode(); }
 | statement_list { $$ = $1; }
 ;
 
 initialiser__opt
-: { $$ = ManagedHandle::Retain<Empty>(); }
+: { $$ = GetEmptyNode(); }
 | initialiser { $$ = $1; }
 ;
 
 initialiser_no_in__opt
-: { $$ = ManagedHandle::Retain<Empty>(); }
+: { $$ = GetEmptyNode(); }
 | initialiser_no_in { $$ = $1; }
 ;
 
 case_clauses__opt
-: { $$ = ManagedHandle::Retain<CaseClauses> (); }
+: { $$ = GetEmptyNode(); }
 | case_clauses { $$ = $1; }
 ;
 
@@ -1338,52 +1273,67 @@ literal
 | boolean_literal { $$ = $1; }
 | JS_NUMERIC_LITERAL
   {
-    $$ = ManagedHandle::Retain ( new NumberLiteral ( $1->getValue () ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 | JS_STRING_LITERAL
   {
-    $$ = ManagedHandle::Retain ( new StringLiteral ( $1->getValue () ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 | JS_REGEXP_LITERAL
   {
-    $$ = ManagedHandle::Retain ( new RegExpLiteral ( $1->getValue () ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRegExp ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 ;
 
 null_literal
 : JS_K_NULL
   {
-    $$ = ManagedHandle::Retain<NullLiteral> ();
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNull ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 ;
 
 boolean_literal
 : JS_TRUE
   {
-    $$ = ManagedHandle::Retain ( new BooleanLiteral ( $1->getValue () ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kTrue ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 | JS_FALSE
   {
-    $$ = ManagedHandle::Retain ( new BooleanLiteral ( $1->getValue () ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kFalse ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 ;
 
 primary_expression
 : JS_THIS 
   { 
-    $$ = ManagedHandle::Retain<This> ();
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kThis ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 | JS_IDENTIFIER
   {
-    //scope->Update ( $1->getValue () );
-    $$ = ManagedHandle::Retain ( new Identifier ( $1->getValue () ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    $$ = value;
   }
 | literal { $$ = $1; }
 | array_literal { $$ = $1; }
 | object_literal { $$ = $1; }
 | '(' expression ')' 
   {
-    $2->Paren ( true );
+    $2->Paren ();
     $$ = $2;
   }
 ;
@@ -1391,47 +1341,59 @@ primary_expression
 array_literal
 : '[' elision__opt ']'
   {
-    ArrayLiteral *ret = ManagedHandle::Retain<ArrayLiteral> ();
-    ret->Value ( ManagedHandle::Retain<Empty> () );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+    if ( $2 ) {
+      value->AddChild( GetEmptyNode() );
+      value->AddChild( GetEmptyNode() );
+    }
+    $$ = value;
   }
 | '[' element_list ']'
   {
-    ArrayLiteral *ret = ManagedHandle::Retain<ArrayLiteral> ();
-    ret->Value ( $2 );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+    value->AddChild( $2 );
+    $$ = value;
   }
 | '[' element_list ',' elision__opt ']'
   {
-    ArrayLiteral *ret = ManagedHandle::Retain<ArrayLiteral> ();
-    ret->Value ( $2 );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+    value->AddChild( $2 );
+    if ( $4 ) {
+      value->AddChild( GetEmptyNode() );
+    }
+    $$ = value;
   }
 | '[' element_list array_comprehensions ']'
   {
-    ArrayLiteral *ret = ManagedHandle::Retain<ArrayLiteral> ();
-    $3->Exp( $2 );
-    ret->Value ( $3 );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArrayComp ) );
+    value->AddChild( $2 );
+    value->AddChild( $3 );
+    $$ = value;
   }
 ;
 
 element_list
 : elision__opt assignment_expression
   {
-    ElementList *ret = ManagedHandle::Retain<ElementList> ();
-    ret->Value ( $2 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( $1 ) {
+      list->AddChild( GetEmptyNode() );
+    }
+    list->AddChild( $2 );
+    $$ = list;
   }
 | element_list ',' elision__opt assignment_expression
   {
-    $1->Value ( $4 );
+    if ( $3 ) {
+      $1->AddChild( GetEmptyNode() );
+    }
+    $1->AddChild( $4 );
     $$ = $1;
   }
 ;
 
 elision
-: ','
+: ',' 
 | elision ','
 ;
 
@@ -1439,55 +1401,50 @@ elision
 array_comprehensions
 : array_comprehension_iteration array_comprehension_if__opt
   {
-    ArrayComprehensions* comp = ManagedHandle::Retain<ArrayComprehensions>();
-    comp->Iteration( $1 );
-    comp->OptIf( $2 );
+    $1->After( $2 );
+    $$ = $1;
   }
 ;
 
 array_comprehension_iteration
 : JS_FOR '(' left_hand_side_expression JS_IN expression ')'
   {
-    ForIn *ret = ManagedHandle::Retain<ForIn> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Item ( $3 );
-    ret->Target ( $5 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt *for_in = ManagedHandle::Retain( new IterationStmt( AstNode::kForIn ) );
+    for_in->Exp( $3 );
+    $3->After( $5 );
+    $$ = for_in;
   }
 | JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')'
   {
-    ForEach *ret = ManagedHandle::Retain<ForEach> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Item ( $4 );
-    ret->Target ( $6 );
-    Iteration *it = ManagedHandle::Retain( new Iteration ( ret ) );
-    $$ = it;
+    IterationStmt *for_each = ManagedHandle::Retain( new IterationStmt( AstNode::kForEach ) );
+    for_each->Exp( $4 );
+    $4->After( $6 );
+    $$ = for_each;
   }
 ;
 
 array_comprehension_if__opt
-: { $$ = ManagedHandle::Retain<Empty>(); }
+: { $$ = GetEmptyNode(); }
 | JS_IF '(' expression ')'
   {
-    IFStmt *ret = ManagedHandle::Retain<IFStmt> ();
-    ret->LineNumber ( $1->getLineNumber () );
-    ret->Then ( $3 );
-    $$ = ret;
+    IFStmt *if_stmt = ManagedHandle::Retain<IFStmt> ();
+    if_stmt->Exp( $3 );
+    $$ = if_stmt;
   }
 ;
 
 object_literal
-: '{' property_name_and_value_list__opt ';' '}' 
+: '{' property_name_and_value_list__opt '}' 
   {
-    ObjectLiteral *ret = ManagedHandle::Retain ( new ObjectLiteral ( $2 ) );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+    value->Node( $2 );
+    $$ = value;
   }
 ;
 
 property_name_and_value_list__opt
 : { 
-    $$ = ManagedHandle::Retain<Empty>();
+    $$ = GetEmptyNode();
   }
 | property_name_and_value_list
   {
@@ -1498,13 +1455,16 @@ property_name_and_value_list__opt
 property_name_and_value_list
 : property_name ':' assignment_expression
   {
-    ObjectMember *ret = ManagedHandle::Retain<ObjectMember> ();
-    ret->Value ( $1 , $3 );
-    $$ = ret;
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $1->AddChild( $3 );
+    $$ = list;
   }
 | property_name_and_value_list ',' property_name ':' assignment_expression
   {
-    $1->Value ( $3 , $5 );
+    $1->AddChild( $3 );
+    $3->AddChild( $5 );
     $$ = $1;
   }
 ;
@@ -1512,22 +1472,21 @@ property_name_and_value_list
 property_name
 : JS_IDENTIFIER
   {
-    const char* ident = $1->getValue ();
-    //Scope::InsertGlobalSymbol ( ident );
-    PropertyName* property = ManagedHandle::Retain ( new PropertyName ( ident ) );
-    $$ = property;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Symbol( $1 );
+    $$ = node;
   }
 | JS_STRING_LITERAL
   {
-    const char* ident = $1->getValue ();
-    PropertyName* property = ManagedHandle::Retain ( new PropertyName ( ident ) );
-    $$ = property;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+    node->Symbol( $1 );
+    $$ = node;
   }
 | JS_NUMERIC_LITERAL
   {
-    const char* ident = $1->getValue ();
-    PropertyName* property = ManagedHandle::Retain ( new PropertyName ( ident ) );
-    $$ = property;
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+    node->Symbol( $1 );
+    $$ = node;
   }
 ;
 
@@ -1542,21 +1501,41 @@ member_expression
   }
 | member_expression '[' expression ']'
   {
-    ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , $1 , $3 ) );
-    $$ = ret;
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+    exp->Callable( $1 );
+    exp->Args( $3 );
+    exp->Depth( depth );
+    $$ = exp;
   }
 | member_expression '.' JS_IDENTIFIER
   {
-    const char* ident = $3->getValue ();
-    //Scope::InsertGlobalSymbol ( ident );
-    PropertyName *lit = ManagedHandle::Retain ( new PropertyName ( ident ) );
-    DotAccessor* ret = ManagedHandle::Retain ( new DotAccessor ( Constant::kDot , $1 , lit ) );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
+    }
+    value->Symbol( $3 );
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
+    exp->Callable( $1 );
+    exp->Args( value );
+    exp->Depth( depth );
+    $$ = exp;
   }
 | JS_NEW member_expression arguments
   {
-    NewCallAccessor* ret = ManagedHandle::Retain ( new NewCallAccessor ( Constant::kNew , $2 , $3 ) );
-    $$ = ret;
+    int depth = 0;
+    if ( $2->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $2 )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNew ) );
+    exp->Callable( $2 );
+    exp->Args( $3 );
+    exp->Depth( depth );
+    $$ = exp;
   }
 ;
 
@@ -1564,7 +1543,8 @@ new_expression
 : member_expression { $$ = $1; }
 | JS_NEW new_expression
   {
-    NewAccessor* ret = ManagedHandle::Retain ( new NewAccessor ( Constant::kNew , $2 , ManagedHandle::Retain<Empty>() ) );
+    NewExp* ret = ManagedHandle::Retain<NewExp>();
+    ret->Constructor( $2 );
     $$ = ret;
   }
 ;
@@ -1572,91 +1552,82 @@ new_expression
 call_expression
 : member_expression arguments
   {
-    ConstantLiteral *literal = $1->CastToLiteral();
-    Identifier *ident;
-    if ( AstUtil::IsValidAst( literal ) ) {
-      ident = literal->CastToIdentifier();
-      if ( AstUtil::IsValidAst( ident ) ) {
-        const char* value = ident->Value();
-        if ( value && strcmp( value , "require" ) == 0 ) {
-          std::list<AstTypeBase*>::iterator begin = $2->Value().begin();
-          if ( begin == $2->Value().end() ) {
-            goto NORMAL_FN_CALL;
-          }
-          ConstantLiteral *literal = (*begin)->CastToLiteral();
-          if ( AstUtil::IsValidAst( literal ) && AstUtil::IsValidAst( literal->CastToStringLiteral() ) ) {
-            std::string js_path = literal->CastToStringLiteral()->Value();
-            js_path.erase( 0 , 1 );
-            js_path.erase( js_path.size() - 1 , js_path.size() );
-            StrHandle current = VirtualDirectory::GetInstance()->GetCurrentDir();
-            compiler->Load ( js_path.c_str() );
-            VirtualDirectory::GetInstance()->Chdir( current.Get() );
-            std::string mkey = "\"";
-            mkey += VirtualDirectory::GetInstance()->GetModuleKey();
-            mkey += "\"";
-            StringLiteral* key = ManagedHandle::Retain( new StringLiteral( mkey.c_str() ) );
-            Identifier *accessor = ManagedHandle::Retain( new Identifier( "__global_exports" ) );
-            ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , accessor , key ) );
-            $$ = ret;
-          } else {
-            goto NORMAL_FN_CALL;
-          }
-        } else {
-          goto NORMAL_FN_CALL;
-        }
-      } else {
-        goto NORMAL_FN_CALL;
-      }
-    } else {
-   NORMAL_FN_CALL :
-      CallAccessor* ret = ManagedHandle::Retain ( new CallAccessor ( Constant::kCall , $1 , $2 ) );
-      $$ = ret;
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
     }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+    exp->Callable( $1 );
+    exp->Args( $2 );
+    exp->Depth( depth );
+    $$ = exp;
   }
 | call_expression arguments
   {
-    CallAccessor* ret = ManagedHandle::Retain ( new CallAccessor ( Constant::kCall , $1 , $2 ) );
-    $$ = ret;
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+    exp->Callable( $1 );
+    exp->Args( $2 );
+    exp->Depth( depth );
+    $$ = exp;
   }
 | call_expression '[' expression ']'
   {
-    ArrayAccessor* ret = ManagedHandle::Retain ( new ArrayAccessor ( Constant::kBracket , $1 , $3 ) );
-    $$ = ret;
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+    exp->Callable( $1 );
+    exp->Args( $3 );
+    exp->Depth( depth );
+    $$ = exp;
   }
 | call_expression '.' JS_IDENTIFIER
   {
-    Identifier *lit = ManagedHandle::Retain ( new Identifier ( $3->getValue () ) );
-    DotAccessor* ret = ManagedHandle::Retain ( new DotAccessor ( Constant::kDot , $1 , lit ) );
-    $$ = ret;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
+    }
+    value->Symbol( $3 );
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
+    exp->Callable( $1 );
+    exp->Args( value );
+    exp->Depth( depth );
+    $$ = exp;
   }
 ;
 
 arguments
-: '(' ')' { $$ = ManagedHandle::Retain<Arguments> (); }
+: '(' ')' { $$ = GetEmptyNode(); }
 | '(' argument_list ')' { $$ = $2; }
 ;
 
 argument_list
 : assignment_expression
   {
-    Arguments *ret = ManagedHandle::Retain<Arguments> ();
-    ret->Value ( $1 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
   }
 | arguments_spread
   {
-    Arguments *ret = ManagedHandle::Retain<Arguments> ();
-    ret->Value ( $1 );
-    $$ = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
   }
 | argument_list ',' assignment_expression
   {
-    $1->Value ( $3 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 | argument_list ',' arguments_spread
   {
-    $1->Value ( $3 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 ;
@@ -1673,12 +1644,14 @@ postfix_expression
   }
 | left_hand_side_expression JS_INCREMENT
   {
-    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( Constant::kAdd , $1, ManagedHandle::Retain<Empty> () ) );
+    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( $2->GetType() ) );
+    ret->Exp( $1 );
     $$ = ret;
   }
 | left_hand_side_expression JS_DECREMENT
   {
-    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( Constant::kSub , $1, ManagedHandle::Retain<Empty> () ) );
+    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( $2->GetType() ) );
+    ret->Exp( $1 );
     $$ = ret;
   }
 ;
@@ -1687,47 +1660,56 @@ unary_expression
 : postfix_expression { $$ = $1; }
 | JS_DELETE unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kDelete , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | JS_VOID unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kVoid , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | JS_TYPEOF unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kTypeof , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | JS_INCREMENT unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kAdd , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | JS_DECREMENT unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kSub , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | '+' unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kPlus , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '+' ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | '-' unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kMinus , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '-' ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | '~' unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kNOR , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '~' ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 | '!' unary_expression
   {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( Constant::kNot , $2, ManagedHandle::Retain<Empty> () ) );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '!' ) );
+    ret->Exp( $2 );
     $$ = ret;
   }
 ;
@@ -1736,15 +1718,15 @@ multiplicative_expression
 : unary_expression { $$ = $1; }
 | multiplicative_expression '*' unary_expression
   {
-    TREE_REDUCE(MultiplicativeExp,$1,Constant::kMul,$3,$$);
+    BINARY_ACTION('*',$1,$3,$$);
   }
 | multiplicative_expression '/' unary_expression
   {
-    TREE_REDUCE(MultiplicativeExp,$1,Constant::kDiv,$3,$$);
+    BINARY_ACTION('/',$1,$3,$$);
   }
 | multiplicative_expression '%' unary_expression
   {
-    TREE_REDUCE(MultiplicativeExp,$1,Constant::kMod,$3,$$);
+    BINARY_ACTION('%',$1,$3,$$);
   }
 ;
 
@@ -1752,11 +1734,11 @@ additive_expression
 : multiplicative_expression { $$ = $1; }
 | additive_expression '+' multiplicative_expression
   {
-    TREE_REDUCE(AdditiveExp,$1,Constant::kPlus,$3,$$);
+    BINARY_ACTION('+',$1,$3,$$);
   }
 | additive_expression '-' multiplicative_expression
   {
-    TREE_REDUCE(AdditiveExp,$1,Constant::kPlus,$3,$$);
+    BINARY_ACTION('-',$1,$3,$$);
   }
 ;
 
@@ -1764,15 +1746,15 @@ shift_expression
 : additive_expression { $$ = $1; }
 | shift_expression JS_SHIFT_LEFT additive_expression
   {
-    TREE_REDUCE(ShiftExp,$1,Constant::kShiftLeft,$3,$$);
+    BINARY_ACTION($2->GetType(),$1,$3,$$);
   }
 | shift_expression JS_SHIFT_RIGHT additive_expression
   {
-    TREE_REDUCE(ShiftExp,$1,Constant::kShiftRight,$3,$$);
+    BINARY_ACTION($2->GetType(),$1,$3,$$);
   }
 | shift_expression JS_U_SHIFT_RIGHT additive_expression
   {
-    TREE_REDUCE(ShiftExp,$1,Constant::kUShiftRight,$3,$$);
+    BINARY_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1780,27 +1762,27 @@ relational_expression
 : shift_expression { $$ = $1; }
 | relational_expression '<' shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kLess,$3,$$);
+    COMPARE_ACTION('<',$1,$3,$$);
   }
 | relational_expression '>' shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kGreater,$3,$$);
+    COMPARE_ACTION('>',$1,$3,$$);
   }
 | relational_expression JS_LESS_EQUAL shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kLessEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | relational_expression JS_GRATER_EQUAL shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kGreaterEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | relational_expression JS_INSTANCEOF shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kInstanceof,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | relational_expression JS_IN shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kIn,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1808,23 +1790,23 @@ relational_expression_no_in
 : shift_expression { $$ = $1; }
 | relational_expression_no_in '<' shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kLess,$3,$$);
+    COMPARE_ACTION('<',$1,$3,$$);
   }
 | relational_expression_no_in '>' shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kGreater,$3,$$);
+    COMPARE_ACTION('>',$1,$3,$$);
   }
 | relational_expression_no_in JS_LESS_EQUAL shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kLessEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | relational_expression_no_in JS_GRATER_EQUAL shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kGreaterEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | relational_expression_no_in JS_INSTANCEOF shift_expression
   {
-    TREE_REDUCE(RelationalExp,$1,Constant::kInstanceof,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1832,19 +1814,19 @@ equality_expression
 : relational_expression { $$ = $1; }
 | equality_expression JS_EQUAL relational_expression
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | equality_expression JS_NOT_EQUAL relational_expression
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | equality_expression JS_EQ relational_expression
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | equality_expression JS_NOT_EQ relational_expression
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1852,19 +1834,19 @@ equality_expression_no_in
 : relational_expression_no_in { $$ = $1; }
 | equality_expression_no_in JS_EQUAL relational_expression_no_in
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | equality_expression_no_in JS_NOT_EQUAL relational_expression_no_in
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | equality_expression_no_in JS_EQ relational_expression_no_in
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 | equality_expression_no_in JS_NOT_EQ relational_expression_no_in
   {
-    TREE_REDUCE(EqualityExp,$1,Constant::kNotEq,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1872,7 +1854,7 @@ bitwise_and_expression
 : equality_expression { $$ = $1; }
 | bitwise_and_expression '&' equality_expression
   {
-    TREE_REDUCE(BitwiseANDExp,$1,Constant::kAND,$3,$$);
+    BINARY_ACTION('&',$1,$3,$$);
   }
 ;
 
@@ -1880,7 +1862,7 @@ bitwise_and_expression_no_in
 : equality_expression_no_in { $$ = $1; }
 | bitwise_and_expression_no_in '&' equality_expression_no_in
   {
-    TREE_REDUCE(BitwiseANDExp,$1,Constant::kAND,$3,$$);
+    BINARY_ACTION('&',$1,$3,$$);
   }
 ;
 
@@ -1888,7 +1870,7 @@ bitwise_xor_expression
 : bitwise_and_expression { $$ = $1; }
 | bitwise_xor_expression '^' bitwise_and_expression
   {
-    TREE_REDUCE(BitwiseXORExp,$1,Constant::kXOR,$3,$$);
+    BINARY_ACTION('^',$1,$3,$$);
   }
 ;
 
@@ -1896,7 +1878,7 @@ bitwise_xor_expression_no_in
 : bitwise_and_expression_no_in { $$ = $1;}
 | bitwise_xor_expression_no_in '^' bitwise_and_expression_no_in
   {
-    TREE_REDUCE(BitwiseXORExp,$1,Constant::kXOR,$3,$$);
+    BINARY_ACTION('^',$1,$3,$$);
   }
 ;
 
@@ -1904,7 +1886,7 @@ bitwise_or_expression
 : bitwise_xor_expression { $$ = $1; }
 | bitwise_or_expression '|' bitwise_xor_expression
   {
-    TREE_REDUCE(BitwiseORExp,$1,Constant::kOR,$3,$$);
+    BINARY_ACTION('|',$1,$3,$$);
   }
 ;
 
@@ -1912,7 +1894,7 @@ bitwise_or_expression_no_in
 : bitwise_xor_expression_no_in { $$ = $1; }
 | bitwise_or_expression_no_in '|' bitwise_xor_expression_no_in
   {
-    TREE_REDUCE(BitwiseORExp,$1,Constant::kOR,$3,$$);
+    BINARY_ACTION('|',$1,$3,$$);
   }
 ;
 
@@ -1920,7 +1902,7 @@ logical_and_expression
 : bitwise_or_expression { $$ = $1; }
 | logical_and_expression JS_LOGICAL_AND bitwise_or_expression
   {
-    TREE_REDUCE(LogicalANDExp,$1,Constant::kLogicalAND,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1928,7 +1910,7 @@ logical_and_expression_no_in
 : bitwise_or_expression_no_in { $$ = $1; }
 | logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in
   {
-    TREE_REDUCE(LogicalANDExp,$1,Constant::kLogicalAND,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1936,7 +1918,7 @@ logical_or_expression
 : logical_and_expression {$$ = $1; }
 | logical_or_expression JS_LOGICAL_OR logical_and_expression
   {
-    TREE_REDUCE(LogicalORExp,$1,Constant::kLogicalOR,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1944,7 +1926,7 @@ logical_or_expression_no_in
 : logical_and_expression_no_in { $$ =$1; }
 | logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in
   {
-    TREE_REDUCE(LogicalORExp,$1,Constant::kLogicalOR,$3,$$);
+    COMPARE_ACTION($2->GetType(),$1,$3,$$);
   }
 ;
 
@@ -1953,7 +1935,6 @@ conditional_expression
 | logical_or_expression '?' assignment_expression ':' assignment_expression
   {
     ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( $1 , $3 , $5 ) );
-    ret->Prior ( Tree::kExp );
     $$ = ret;
   }
 ;
@@ -1963,7 +1944,6 @@ conditional_expression_no_in
 | logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in
   {
     ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( $1 , $3 , $5 ) );
-    ret->Prior ( Tree::kExp );
     $$ = ret;
   }
 ;
@@ -1975,7 +1955,7 @@ assignment_expression
   }
 | left_hand_side_expression assignment_operator assignment_expression
   {
-    Assign *ret = ManagedHandle::Retain ( new Assign ( $2 , $1 , $3 ) );
+    AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( $2 , $1 , $3 ) );
     $$ = ret;
   }
 ;
@@ -1988,37 +1968,38 @@ assignment_expression_no_in
   }
 | left_hand_side_expression assignment_operator assignment_expression_no_in
   {
-    $$ = ManagedHandle::Retain ( new Assign ( $2 , $1 , $3 ) );
+    AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( $2 , $1 , $3 ) );
+    $$ = ret;
   }
 ;
 
 
 
 assignment_operator
-:  '=' { $$ = Constant::kAssign; }
-|  JS_MUL_LET { $$ = Constant::kMulLet; }
-|  JS_DIV_LET { $$ = Constant::kDivLet; }
-|  JS_MOD_LET { $$ = Constant::kModLet; }
-|  JS_ADD_LET { $$ = Constant::kAddLet; }
-|  JS_SUB_LET { $$ = Constant::kSubLet; }
-|  JS_SHIFT_LEFT_LET { $$ = Constant::kLShiftLet; }
-|  JS_SHIFT_RIGHT_LET { $$ = Constant::kRShiftLet; }
-|  JS_U_SHIFT_RIGHT_LET { $$ = Constant::kURShiftLet; }
-|  JS_AND_LET { $$ = Constant::kANDLet; }
-|  JS_NOT_LET { $$ = Constant::kNotLet; }
-|  JS_OR_LET { $$ = Constant::kORLet; }
+:  '=' { $$ = '='; }
+|  JS_MUL_LET { $$ = $1->GetType(); }
+|  JS_DIV_LET { $$ = $1->GetType(); }
+|  JS_MOD_LET { $$ = $1->GetType(); }
+|  JS_ADD_LET { $$ = $1->GetType(); }
+|  JS_SUB_LET { $$ = $1->GetType(); }
+|  JS_SHIFT_LEFT_LET { $$ = $1->GetType(); }
+|  JS_SHIFT_RIGHT_LET { $$ = $1->GetType(); }
+|  JS_U_SHIFT_RIGHT_LET { $$ = $1->GetType(); }
+|  JS_AND_LET { $$ = $1->GetType(); }
+|  JS_NOT_LET { $$ = $1->GetType(); }
+|  JS_OR_LET { $$ = $1->GetType(); }
 ;
 
 expression
 : assignment_expression
-  { 
-    Expression *exp = ManagedHandle::Retain<Expression> ();
-    exp->List ( $1 );
+  {
+    Expression *exp = ManagedHandle::Retain<Expression>();
+    exp->AddChild( $1 );
     $$ = exp;
   }
 | expression ',' assignment_expression
   {
-    $1->List ( $3 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 ;
@@ -2027,23 +2008,23 @@ expression_no_in
 : assignment_expression_no_in
   { 
     Expression *exp = ManagedHandle::Retain<Expression> ();
-    exp->List ( $1 );
+    exp->AddChild( $1 );
     $$ = exp;
   }
 | expression_no_in ',' assignment_expression_no_in
   {
-    $1->List ( $3 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 ;
 
 expression_no_in__opt
-: { $$ = ManagedHandle::Retain<Expression> (); }
+: { $$ = GetEmptyNode(); }
 | expression_no_in { $$ = $1; }
 ;
 
 expression__opt
-: { $$ = ManagedHandle::Retain<Expression> (); }
+: { $$ = GetEmptyNode(); }
 | expression { $$ = $1; }
 ;
 
