@@ -196,6 +196,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         buffer += "function ";
         break;
 
+      case TOKEN::JS_RETURN :
+        buffer += "return ";
+        break;
+        
       case TOKEN::JS_IF :
         buffer += "if ";
         break;
@@ -218,7 +222,7 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
         
       default :
-        if ( op > 300 ) {
+        if ( op > 200 ) {
           char tmp[500];
           sprintf( tmp , " %s " , JsToken::GetOperatorFromNumber( op ) );
           buffer += tmp;

@@ -22,6 +22,21 @@ void AstNode::AddChild( AstNode* node ) {
   child_length_++;
 }
 
+void AstNode::InsertBefore( AstNode* node ) {
+  if ( first_child_ == 0 ) {
+    first_child_ = node;
+    last_child_ = node;
+    node->next_sibling_ = 0;
+    node->prev_sibling_ = 0;
+  } else {
+    first_child_->prev_sibling_ = node;
+    node->next_sibling_ = first_child_;
+    first_child_ = node;
+    node->prev_sibling_ = 0;
+  }
+  child_length_++;
+}
+
 void AstNode::Append( NodeList* node ) {
   if ( node ) {
     NodeIterator iterator = node->ChildNodes();

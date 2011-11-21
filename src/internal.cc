@@ -92,8 +92,8 @@ inline void Internal::ParseStart_ () {
                               file_->GetFileName() );
   
   if ( !tracer.IsSyntaxError () ) {
-    ast_root_->AddChild( root.FirstChild() );
     root.Accept ( &visitor );
+    ast_root_->AddChild( root.FirstChild() );
   } else {
     printf( "Error occured.\n" );
     SyntaxError_( tracer );

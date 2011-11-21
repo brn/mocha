@@ -468,9 +468,15 @@ VISITOR_IMPL(AssignmentExp) {
 
 
 VISITOR_IMPL(Expression) {
+  if ( ast_node->IsParen() ) {
+    writer_->WriteOp( '(' , 0 , buffer_ );
+  }
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
+  }
+  if ( ast_node->IsParen() ) {
+    writer_->WriteOp( ')' , 0 , buffer_ );
   }
 }
 
@@ -538,7 +544,11 @@ void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
       element->Accept( this );
+      writer_->WriteOp( ':' , 0 , buffer_ );
       element->FirstChild()->Accept( this );
+      if ( iterator.HasNext() ) {
+        writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+      }
     }
     writer_->WriteOp( '}' , CodeWriter::kArgs , buffer_ );
   }

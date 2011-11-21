@@ -332,7 +332,7 @@ program
     FileRoot* root = ManagedHandle::Retain<FileRoot>();
     root->FileName( tracer->GetPath());
     root->Append( $2 );
-    ast_root->AddChild( root );
+    ast_root->InsertBefore( root );
   }
 ;
 
@@ -1000,6 +1000,7 @@ if_statement
     stmt->Exp( $3 );
     stmt->Then( $5 );
     stmt->Else( $7 );
+    $$ = stmt;
   }
 | JS_IF '(' expression ')' statement
   {
@@ -1007,6 +1008,7 @@ if_statement
     stmt->Exp( $3 );
     stmt->Then( $5 );
     stmt->Else( GetEmptyNode() );
+    $$ = stmt;
   }
 ;
 
@@ -1443,10 +1445,11 @@ object_literal
 ;
 
 property_name_and_value_list__opt
-: { 
-    $$ = GetEmptyNode();
-  }
-| property_name_and_value_list
+:
+{
+  $$ = GetEmptyNode();
+}
+| property_name_and_value_list ';'
   {
     $$ = $1;
   }
@@ -1463,6 +1466,7 @@ property_name_and_value_list
   }
 | property_name_and_value_list ',' property_name ':' assignment_expression
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     $1->AddChild( $3 );
     $3->AddChild( $5 );
     $$ = $1;

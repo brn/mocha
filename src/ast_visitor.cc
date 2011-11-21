@@ -34,7 +34,7 @@ AstVisitor::~AstVisitor () {}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
-  AstNode* root = ast_node->LastChild();
+  AstNode* root = ast_node->FirstChild();
   if ( root ) {
     root->Accept( this );
   }

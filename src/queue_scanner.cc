@@ -32,6 +32,7 @@ class QueueScanner::Scanner {
     while ( !IsEof_() ) {
       Skip_();
       if ( is_line_break_ ) {
+        printf( "set line break %d\n" , line_ );
         PushBack_( TOKEN::JS_LINE_BREAK );
         is_line_break_ = false;
       }
@@ -108,23 +109,22 @@ class QueueScanner::Scanner {
   void Skip_() {
     char ch = GetChar_();
     char next = GetChar_ ();
-    bool isbreak = false;
-
+    bool isbreak = IsBreak_ ( ch );
     //Check that token is whitespace or line break.
-    if ( IsWhiteSpace_ ( ch ) ||
-         ( isbreak = IsBreak_ ( ch ) ) ) {
+    if ( IsWhiteSpace_ ( ch ) || isbreak ) {
       //Add line number.
       if ( isbreak ) {
         is_line_break_ = true;
         line_++;
       }
       isbreak = false;
-
+      
       //Loop while whitespace or linebreak is continue.
       while ( IsWhiteSpace_ ( next ) ||
               ( isbreak = IsBreak_ ( next ) ) ) {
         if ( isbreak ) {
           line_++;
+          is_line_break_ = true;
           isbreak = false;
         }
         next = GetChar_ ();
@@ -193,6 +193,7 @@ class QueueScanner::Scanner {
       } else {
         if ( ch == '\n' ) {
           line_++;
+          is_line_break_ = true;
         }
         BackChar_ ();
       }
@@ -209,6 +210,7 @@ class QueueScanner::Scanner {
       ch = GetChar_ ();
       if ( ch == '\n' ) {
         line_++;
+        is_line_break_ = true;
         return;
       }    
     }
@@ -857,20 +859,23 @@ class QueueScanner::TokenGetter {
 
   TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
       last_type_(0) , is_incrementable_( true ), has_line_break_( false ),
-      queue_( queue ) , tracer_( tracer ) , semicolon_( new TokenInfo( "" , ';' , 0 ) ) {
+      queue_( queue ) , tracer_( tracer ) {
     it_ = queue_.begin();
   }
   TokenInfo* GetToken( int yystate ) {
+    if ( last_type_ == -100 ) {
+      return ManagedHandle::Retain( new TokenInfo( "" , 0 , 0 ) );
+    }
     printf( "state %d  " , last_type_ );
     has_line_break_ = false;
     is_incrementable_ = true;
     TokenInfo* info = SwitchState_();
+    int type = info->GetType();
     //TokenInfo* info =(*it_);
     if ( is_incrementable_ ) {
       ++it_;
     }
 
-    int type = info->GetType();
     if ( type > 200 && type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END ) {
       printf( "%s %d\n" , info->GetToken() , info->GetType() );
     } else {
@@ -881,12 +886,34 @@ class QueueScanner::TokenGetter {
       else if ( type == TOKEN::JS_PARAM_END )
         printf( ")\n" );
     }
+
+    if ( type == 0 && last_type_ != ';' ) {
+      last_type_ = -100;
+      return ManagedHandle::Retain( new TokenInfo( "" , ';' , 0 ) );
+    }
+    
     return info;
   }
   
  private :
   enum {
+    kLiteral = 22
   };
+
+  bool IsLiteral_( int type ) {
+    switch ( type ) {
+      case TOKEN::JS_IDENTIFIER :
+      case TOKEN::JS_STRING_LITERAL :
+      case TOKEN::JS_NUMERIC_LITERAL :
+      case TOKEN::JS_REGEXP_LITERAL :
+      case TOKEN::JS_THIS :
+      case TOKEN::JS_K_NULL :
+      case TOKEN::JS_TRUE :
+      case TOKEN::JS_FALSE :
+        return true;
+    }
+    return false;
+  }
   
   TokenInfo* SwitchState_() {
     if ( last_type_ == 0 ) {
@@ -908,17 +935,23 @@ class QueueScanner::TokenGetter {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
     int type = info->GetType();
-    if ( type != ')' && type != ',' && type != '=' ) {
+    printf( "type is %c\n" , type );
+    if ( type != ')' && type != ',' && type != '=' && type != '.' && type != ':' &&
+         type != TOKEN::JS_ELSE && type != TOKEN::JS_CATCH && type != TOKEN::JS_FINALLY &&
+         type != TOKEN::JS_WHILE ) {
       return SemicolonInsertion_();
+    } else {
+      last_type_ = type;
+      return info;
     }
-    last_type_ = type;
-    return info;
   }
   
   TokenInfo* MaybeSemicolon_() {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
     int type = info->GetType();
+    bool is_literal = IsLiteral_( type );
+    bool is_last_literal = IsLiteral_( last_type_ );
     if ( last_type_ == ';' || last_type_ == '{' || last_type_ == '(' ) {
       last_type_ = type;
       return info;
@@ -934,24 +967,21 @@ class QueueScanner::TokenGetter {
       }
       last_type_ = type;
       return info;
-    } else if ( last_type_ == TOKEN::JS_IDENTIFIER && type == TOKEN::JS_IDENTIFIER ) {
+    } else if ( ( is_last_literal && is_literal ) ||
+                ( is_last_literal && ( type == '[' || type == '{' || type == '(' ) ) ||
+                ( ( last_type_ == ']' || last_type_ == '}' || last_type_ == ')' ) && is_literal )) {
+      printf( "is line break %d\n" , has_line_break_ );
       if ( has_line_break_ ) {
         return SemicolonInsertion_();
       }
       last_type_ = type;
       return info;
-    } else if ( type == '}' ) {
-      if ( tracer_->GetState( ParserTracer::kObjectLiteralEnd ) ) {
-        tracer_->EndState( ParserTracer::kObjectLiteralEnd );
-        last_type_ = type;
-        return info;
-      } else {
-        if ( last_type_ != ';' ) {
-          return SemicolonInsertion_();
-        }
-        last_type_ = type;
-        return info;
+    } else if ( type == '}' && last_type_ != '{' ) {
+      if ( last_type_ != ';' ) {
+        return SemicolonInsertion_();
       }
+      last_type_ = type;
+      return info;
     } else if ( type == TOKEN::JS_IF || type == TOKEN::JS_WHILE ||
                 type == TOKEN::JS_WITH || type == TOKEN::JS_FOR ||
                 type == TOKEN::JS_MODULE || type == TOKEN::JS_EXPORT ||
@@ -961,7 +991,7 @@ class QueueScanner::TokenGetter {
                 type == TOKEN::JS_SWITCH || type == TOKEN::JS_THROW ||
                 type == TOKEN::JS_TRY ) {
       return SemicolonInsertion_();
-    } else if ( last_type_ == ')' && type == TOKEN::JS_IDENTIFIER ) {
+    } else if ( last_type_ == ')' && is_literal ) {
       return SemicolonInsertion_(); 
     }
     last_type_ = type;
@@ -971,21 +1001,21 @@ class QueueScanner::TokenGetter {
   TokenInfo* SemicolonInsertion_() {
     is_incrementable_ = false;
     last_type_ = ';';
-    return semicolon_.Get();
+    return ManagedHandle::Retain( new TokenInfo( "" , ';' , (*it_)->GetLineNumber() ) );
   }
 
   void SkipLineBreak_() {
     TokenInfo* info = (*it_);
-    if ( info->GetType() == TOKEN::JS_LINE_BREAK ) {
+    while ( info->GetType() == TOKEN::JS_LINE_BREAK ) {
       has_line_break_ = true;
       ++it_;
+      info = (*it_);
     }
   }
 
   int last_type_;
   bool is_incrementable_;
   bool has_line_break_;
-  ScopedPtr<TokenInfo> semicolon_;
   ParserTracer *tracer_;
   QueueScanner::Scanner::TokenQueue& queue_;
   QueueScanner::Scanner::TokenQueue::iterator it_;

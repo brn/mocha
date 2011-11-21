@@ -37,6 +37,14 @@ int JsToken::getType ( const char* token , bool isOperator ) {
   return 0;  
 }
 
+const char* JsToken::GetOperatorFromNumber( int id ) {
+  for ( int i = 0; i < combineOperatorsLength_; i++ ) {        
+    if ( id == operatorToken_[ i ] ) {
+      return combineOperators_[ i ];          
+    }
+  };
+}
+
 int JsToken::keywordToken_ [] = {
   TOKEN::JS_ABSTRACT,
   TOKEN::JS_BOOLEAN,

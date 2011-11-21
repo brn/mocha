@@ -90,6 +90,7 @@ class AstNode : public Managed {
   void Append( NodeList* node );
   inline NodeIterator ChildNodes() { return NodeIterator( first_child_ ); }
   void AddChild( AstNode* node );
+  void InsertBefore( AstNode* node );
   void ReplaceWith( AstNode* node );
   inline int ChildLength() const { return child_length_; }
   inline int NodeType() const { return type_; }
@@ -383,8 +384,8 @@ class CaseClause : public AstNode {
 
 class Expression : public AstNode {
  public :
-  inline Expression() : AstNode( AstNode::kExpression , "Expression" ){};
-  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ){};
+  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) , paren_( false ){};
+  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) , paren_( false ){};
   virtual inline ~Expression(){};
   inline void Paren() { paren_ = true; };
   inline bool IsParen() { return paren_; };

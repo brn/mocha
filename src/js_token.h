@@ -8,7 +8,7 @@ namespace mocha{
   public:
     JsToken ();
     static int getType ( const char* token , bool isOperator = false );
-    static const char* GetOperatorFromNumber( int id ) { return combineOperators_[ id ]; }
+    static const char* GetOperatorFromNumber( int id );
     
   private :
     static char operators_[];
