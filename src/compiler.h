@@ -62,7 +62,7 @@ class Compiler : private Uncopyable {
    * if path is only '<filename>', that file is treat as module.
    * This rule borrow from node.js.
    */
-  void Load ( const char* filename );
+  StrHandle Load ( const char* filename );
 
   /**
    * @public

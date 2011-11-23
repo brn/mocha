@@ -78,6 +78,7 @@ class AstNode : public Managed {
   virtual inline ~AstNode(){};
   inline bool HasParent() { return parent_ != 0; };
   inline AstNode* ParentNode() { return parent_; };
+  inline void ParentNode( AstNode* node ) { parent_ = node; }
   inline AstNode* FirstChild() { return first_child_; };
   inline AstNode* LastChild() { return last_child_; };
   inline AstNode* NextSibling() { return next_sibling_; };
@@ -92,6 +93,7 @@ class AstNode : public Managed {
   void AddChild( AstNode* node );
   void InsertBefore( AstNode* node );
   void ReplaceWith( AstNode* node );
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   inline int ChildLength() const { return child_length_; }
   inline int NodeType() const { return type_; }
   inline void Accept( IVisitor* visitor ) { NVIAccept_( visitor ); };
@@ -99,12 +101,15 @@ class AstNode : public Managed {
   virtual Expression* CastToExpression() { return 0; };
   virtual ValueNode* CastToValue() { return 0; };
   inline void PrintNodeName() { printf( "%s\n" , name_ ); }
+  inline void Line( long line ) { line_ = line; }
+  inline long Line() { return line_; }
   inline const char* GetName() { return name_; }
   virtual inline bool IsEmpty(){ return false; }
  private :
   virtual NVI_ACCEPTOR_DECL = 0;
   int type_;
   int child_length_;
+  long line_;
   const char* name_;
   AstNode* parent_;
   AstNode* first_child_;
@@ -398,7 +403,16 @@ class Expression : public AstNode {
 
 class Function : public Expression {
  public :
-  inline Function() : Expression( NAME_PARAMETER( Function ) ) , is_const_( false ) , name_( 0 ) , argv_( 0 ){};
+  enum {
+    kNormal,
+    kShorten
+  };
+  enum {
+    kGlobal,
+    kThis
+  };
+  inline Function() : Expression( NAME_PARAMETER( Function ) ),
+                      fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ) , name_( 0 ) , argv_( 0 ){};
   inline ~Function(){};
   inline void Name( AstNode* name ){ name_ = name; };
   inline AstNode* Name(){ return name_; };
@@ -407,7 +421,13 @@ class Function : public Expression {
   inline int Argc() const { return argv_->ChildLength(); }
   inline void Const() { is_const_ = true; }
   inline bool IsConst() const { return is_const_; }
+  inline int FunctionType() { return fn_type_; }
+  inline void FunctionType( int type ) { fn_type_ = type; }
+  inline int ContextType() { return context_; }
+  inline void ContextType( int type ) { context_ = type; }
  private :
+  int fn_type_;
+  int context_;
   bool is_const_;
   AstNode* name_;
   AstNode* argv_;
@@ -425,9 +445,9 @@ class CallExp : public Expression {
   };
   inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ){};
   inline ~CallExp() {};
-  inline void Callable( AstNode* node ){ callable_ = node; };
+  inline void Callable( AstNode* node ){ callable_ = node;node->ParentNode( this ); };
   inline AstNode* Callable() { return callable_; };
-  inline void Args( AstNode* node ) { args_ = node; };
+  inline void Args( AstNode* node ) { args_ = node;node->ParentNode( this ); };
   inline AstNode* Args() { return args_; };
   inline int CallType() { return call_type_; }
   inline void Depth( int depth ) { depth_ = depth; }

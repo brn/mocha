@@ -22,7 +22,7 @@ class CodeWriter::WriterBase {
 
 class PrettyPrinter : public CodeWriter::WriterBase {
  public :
-  PrettyPrinter() : last_op_( 0 ) {}
+  PrettyPrinter( bool is_line ) : is_line_( is_line ) , last_op_( 0 ) {}
   void Write( const char* code , std::string& buffer ) {
     buffer += code;
   }
@@ -32,6 +32,15 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         buffer += " {\n";
         indent_ += default_indent_;
         buffer += indent_.c_str();
+        break;
+
+      case CodeWriter::kSwitchEndBrace :
+        {
+          EraseIndent( indent_ , 4 );
+          char tmp[500];
+          sprintf( tmp , "\n%s}" , indent_.c_str() );
+          buffer += tmp;
+        }
         break;
         
       case CodeWriter::kBlockEndBrace : //Fall Through
@@ -84,7 +93,9 @@ class PrettyPrinter : public CodeWriter::WriterBase {
   void CommonOperandWriter_( int op , int state , std::string& buffer ) {
     switch ( op ) {
       case ';' :
-        if ( state == CodeWriter::kVarsEnd ) {
+        if ( state == CodeWriter::kFor ) {
+          buffer += ";";
+        } else if ( state == CodeWriter::kVarsEnd ) {
           buffer += ";\n";
           EraseIndent( indent_ , 4 );
           buffer += indent_.c_str();
@@ -94,6 +105,17 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         }
         break;
 
+      case ':' :
+        if ( state == CodeWriter::kCase ) {
+          indent_ += default_indent_;
+          buffer += " :";
+          buffer += '\n';
+          buffer += indent_.c_str();
+        } else {
+          buffer += " : ";
+        }
+        break;
+        
       case ',' :
         if ( state == CodeWriter::kVarsComma ) {
           buffer += ",\n";
@@ -122,13 +144,18 @@ class PrettyPrinter : public CodeWriter::WriterBase {
       case '{' :
         buffer += "{\n";
         indent_ += default_indent_;
+        buffer += indent_.c_str();
         break;
 
       case '}' :
         EraseIndent( indent_ , 2 );
         buffer += '\n';
         buffer += indent_;
-        buffer += "};\n";
+        if ( state == CodeWriter::kElseBlockEnd ) {
+          buffer += "}\n";
+        } else {
+          buffer += "};\n";
+        }
         buffer += indent_;
         break;
         
@@ -140,6 +167,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         }
         break;
 
+      case TOKEN::JS_BREAK :
+        buffer += "break";
+        break;
+        
       case TOKEN::JS_INSTANCEOF :
         buffer += " instanceof ";
         break;
@@ -157,6 +188,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_CASE :
+        if ( last_op_ != '{' ) {
+          EraseIndent( buffer , 2 );
+          EraseIndent( indent_ , 2 );
+        }
         buffer += "case ";
         break;
 
@@ -169,7 +204,11 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_DEFAULT :
-        buffer += "default ";
+        if ( last_op_ != '{' ) {
+          EraseIndent( buffer , 2 );
+          EraseIndent( indent_ , 2 );
+        }
+        buffer += "default";
         break;
 
       case TOKEN::JS_DELETE :
@@ -212,13 +251,21 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         buffer += "with ";
         break;
 
+      case TOKEN::JS_SWITCH :
+        buffer += "switch ";
+        break;
+
+      case TOKEN::JS_THROW :
+        buffer += "throw ";
+        break;
+        
       case TOKEN::JS_WHILE :
         buffer += "while ";
         break;
 
       case TOKEN::JS_VAR :
         buffer += "var ";
-        indent_ += "    ";
+        indent_ += ( state == CodeWriter::kFor )? "" : "    ";
         break;
         
       default :
@@ -228,12 +275,17 @@ class PrettyPrinter : public CodeWriter::WriterBase {
           buffer += tmp;
         } else {
           char tmp[500];
-          sprintf( tmp , " %c " , op );
+          if ( op == '=' ) {
+            sprintf( tmp , " %c " , op );
+          } else {
+            sprintf( tmp , "%c" , op );
+          }
           buffer += tmp;
         }
     }
   }
 
+  bool is_line_;
   int last_op_;
   static const char default_indent_[];
   std::string indent_;
@@ -242,7 +294,7 @@ class PrettyPrinter : public CodeWriter::WriterBase {
 
 class CompressWriter : public CodeWriter::WriterBase {
  public :
-  CompressWriter(){}
+  CompressWriter( bool is_line ) : is_line_( is_line ){}
   void Write( const char* code , std::string& buffer ) {
     buffer += code;
   }
@@ -349,6 +401,8 @@ class CompressWriter : public CodeWriter::WriterBase {
         }
     }
   }
+ private :
+  bool is_line_;
 };
 
 const char PrettyPrinter::default_indent_[] = {"  "};
@@ -356,13 +410,59 @@ const char PrettyPrinter::default_indent_[] = {"  "};
 CodeWriter::CodeWriter( bool is_pretty_print , bool is_line ) :
     is_pretty_print_( is_pretty_print ) , is_line_( is_line ) {
   if ( is_pretty_print ) {
-    base_ = new PrettyPrinter();
+    base_ = new PrettyPrinter( is_line );
   } else {
-    base_ = new CompressWriter();
+    base_ = new CompressWriter( is_line );
   }
 }
 CodeWriter::~CodeWriter() {
   delete base_;
+}
+
+void CodeWriter::InsertDebugSymbol( std::string& buffer ) {
+  if ( is_line_ ) {
+    buffer += "var __FILE__ = ''";
+    base_->WriteOp( ';' , 0 , buffer );
+    buffer += "var __LINE__ = 0";
+    base_->WriteOp( ';' , 0 , buffer );
+    buffer += "window.onerror=function( err ){try{"
+        "throw new SyntaxError(err + ' in ' +  __FILE__ + ' at : ' + __LINE__ )"
+        "}catch(e){"
+        "  throw new Error(e);"
+        "}}";
+    base_->WriteOp( ';' , 0 , buffer );
+  }
+}
+
+void CodeWriter::InitializeFileName( const char* file , std::string& buffer ) {
+  if ( is_line_ ) {
+    buffer += "var __backup__";
+    base_->WriteOp( '=' , 0 , buffer );
+    buffer += '"';
+    buffer += file;
+    buffer += '"';
+    base_->WriteOp( ';' , 0 , buffer );
+  }
+}
+
+void CodeWriter::SetFileName( std::string& buffer ) {
+  if ( is_line_ ) {
+    buffer += "__FILE__";
+    base_->WriteOp( '=' , 0 , buffer );
+    buffer += "__backup__";
+    base_->WriteOp( ';' , 0 , buffer );
+  }
+}
+
+void CodeWriter::SetLine( long line , std::string& buffer ) {
+  if ( is_line_ ) {
+    char tmp[50];
+    sprintf( tmp , "%ld" , line );
+    buffer += "__LINE__";
+    base_->WriteOp( '=' , 0 , buffer );
+    buffer += tmp;
+    base_->WriteOp( ';' , 0 , buffer );
+  }
 }
 
 void CodeWriter::Write( const char* code , std::string& buffer ) {
@@ -373,18 +473,24 @@ void CodeWriter::WriteOp( int op, int state , std::string& buffer ) {
   base_->WriteOp( op , state , buffer );
 }
 
-void CodeWriter::ModuleBeginProccessor( const char* name , std::string& buffer ) {
+void CodeWriter::ModuleBeginProccessor( const char* key , const char* name , std::string& buffer ) {
   if ( is_pretty_print_ ) {
     char tmp_buf[ 500 ];
-    sprintf( tmp_buf , "%s = (function ()" , name );
-    base_->WriteOp( TOKEN::JS_VAR , 0 , buffer );
+    char key_buf[ 500 ];
+    sprintf( key_buf , "__global_export__[%s] = {}" , key );
+    buffer += key_buf;
+    base_->WriteOp( ';' , 0 , buffer );
+    sprintf( tmp_buf , "__global_export__[%s]['%s'] = (function ()" , key , name );
     buffer += tmp_buf;
     base_->WriteOp( '{', kFunctionBeginBrace , buffer );
     buffer += "var __export__ = {}";
     base_->WriteOp( ';' , 0 , buffer );
   } else {
     char tmp_buf[ 500 ];
-    sprintf( tmp_buf , "var %s=(function(){" , name );
+    char key_buf[ 500 ];
+    sprintf( key_buf , "__global_export__[%s]={};" , key );
+    buffer += key_buf;
+    sprintf( tmp_buf , "__global_export__[%s]['%s']=(function(){", key , name );
     buffer += tmp_buf;
     buffer += "var __export__={};";
   }
@@ -392,13 +498,14 @@ void CodeWriter::ModuleBeginProccessor( const char* name , std::string& buffer )
 
 void CodeWriter::ModuleEndProccessor( std::string& buffer ) {
   if ( is_pretty_print_ ) {
-    buffer += "return __export__;";
+    buffer += "return __export__";
+    base_->WriteOp( ';' , 0 , buffer );
     base_->WriteOp( '}' , kArgs , buffer );
-    buffer += ")";
+    buffer += ")()";
     base_->WriteOp( ';' , 0 , buffer );
   } else {
     buffer += "return __export__;";
-    buffer += "});";
+    buffer += "})();";
   }
 }
 

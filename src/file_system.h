@@ -29,6 +29,7 @@ class FileSystem {
   static StrHandle NormalizePath( const char* path );
   static void Chdir ( const char* path );
   static bool Chmod( const char* pass , int permiss );
+  static StrHandle GetModuleKey( const char* );
   static void SetModuleDir( const char* path );
   inline static const char* GetModuleDir(){ return module_dir_.c_str(); }
   static StrHandle GetUserHomeDir();

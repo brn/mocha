@@ -11,11 +11,13 @@
 #include "ast.h"
 #include "token_info.h"
 #include "compiler.h"
+#include "grammar.tab.hh"
+#include "virtual_directory.h"
 
 namespace mocha {
 
 #define VISITOR_IMPL(type) void AstVisitor::Accept##type( type* ast_node )
-
+#define TOKEN yy::ParserImplementation::token
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
 
 
@@ -205,7 +207,22 @@ void AstVisitor::RequireProccessor_( CallExp* ast_node ) {
       std::string js_path = info->GetToken();
       js_path.erase( 0 , 1 );
       js_path.erase( js_path.size() - 1 , js_path.size() );
-      compiler_->Load( js_path.c_str() );
+      StrHandle current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
+      StrHandle real_path = compiler_->Load( js_path.c_str() );
+      VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
+      ValueNode* exporter_value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+      ValueNode* key_value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+      exporter_value->Line( ast_node->Line() );
+      TokenInfo* exporter = ManagedHandle::Retain( new TokenInfo( "__global_export__" , TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
+      StrHandle key_str = FileSystem::GetModuleKey( real_path.Get() );
+      TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
+      exporter_value->Symbol( exporter );
+      key_value->Symbol( key );
+      CallExp *module_accessor = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+      module_accessor->Callable( exporter_value );
+      module_accessor->Args( key_value );
+      module_accessor->Depth( 0 );
+      ast_node->ParentNode()->ReplaceChild( ast_node ,  module_accessor );      
     }
   }
 }

@@ -14,7 +14,9 @@ namespace mocha{
       kNone = 0,
       kObjectLiteralEnd = 1,
       kCallExpEnd = 2,
-      kFunction = 4
+      kFunction = 4,
+      kClosureEnd = 8,
+      kNoSemicolon = 16
     } ParserState;
     
     explicit ParserTracer ( const char* filename_ );

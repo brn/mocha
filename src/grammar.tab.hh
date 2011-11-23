@@ -38,7 +38,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 35 of lalr1.cc  */
-#line 34 "grammar.yy"
+#line 35 "grammar.yy"
 
 #include "ast.h"
   namespace mocha {
@@ -96,7 +96,7 @@ namespace yy {
     {
 
 /* Line 35 of lalr1.cc  */
-#line 47 "grammar.yy"
+#line 48 "grammar.yy"
 
   mocha::TokenInfo *info;
   mocha::AstNode *ast;

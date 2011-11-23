@@ -33,9 +33,13 @@ class CodegenVisitor : public IVisitor {
   void BeginState_( int state );
   void EndLastState_();
   int CurrentState_();
+  bool MatchState_( int state );
+
+  bool is_line_;
   std::vector<int> state_;
   std::string buffer_;
   ScopedPtr<CodeWriter> writer_;
+  FileRoot* current_root_;
 };
 }
 

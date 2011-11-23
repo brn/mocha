@@ -18,15 +18,16 @@
 
 #define BINARY_ACTION(type,_1,_3,_4)                                 \
   BinaryExp* binary = ManagedHandle::Retain( new BinaryExp( type , _1 , _3 ) ); \
+  binary->Line( connector->GetLineNumber() );                           \
   _4 = binary;                                                          \
 
 #define COMPARE_ACTION(type,_1,_3,_4)                                   \
   CompareExp* compare = ManagedHandle::Retain( new CompareExp( type , _1 , _3 ) ); \
+  compare->Line( connector->GetLineNumber() );                           \
   _4 = compare;                                                         \
 
   Empty* GetEmptyNode() {
-    static Empty empty;
-    return &empty;
+    return ManagedHandle::Retain<Empty>();
   }
   
 %}
@@ -226,6 +227,7 @@
 %type <node_list> formal_parameter_list
 %type <ast> formal_parameter_list__opt
 %type <node_list> function_body
+%type <ast> shorten_function_body
 %type <node_list> source_elements
 %type <ast> source_element
 %type <node_list> source_elements_for_function
@@ -256,7 +258,7 @@
 %type <with_stmt> with_statement
 %type <switch_stmt> switch_statement
 %type <ast> case_block
-%type <ast> case_clauses
+%type <node_list> case_clauses
 %type <case_clause> case_clause
 %type <case_clause> default_clause
 %type <labelled_stmt> labelled_statement
@@ -267,7 +269,7 @@
 %type <ast> statement_list__opt
 %type <ast> initialiser__opt
 %type <ast> initialiser_no_in__opt
-%type <ast> case_clauses__opt
+%type <node_list> case_clauses__opt
 %type <ast> literal
 %type <ast> null_literal
 %type <ast> boolean_literal
@@ -344,6 +346,7 @@ function_declaration
 : JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $2 );
     fn->Name( value );
@@ -360,6 +363,7 @@ function_declaration
 | JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $2 );
     fn->Name( value );
@@ -375,6 +379,7 @@ function_expression
 : JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( $2 );
     fn->Argv ( $4 );
     fn->Append( $7 );
@@ -397,6 +402,7 @@ arrow_function_expression
 : JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
     fn->Append( $6 );
@@ -405,6 +411,7 @@ arrow_function_expression
 | JS_FUNCTION_GLYPH '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( GetEmptyNode() );
     fn->Argv( GetEmptyNode() );
     fn->Append( $3 );
@@ -413,34 +420,72 @@ arrow_function_expression
 | JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
     fn->Append( $6 );
+    fn->ContextType( Function::kThis );
     $$ = fn;
   }
 | JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( GetEmptyNode() );
     fn->Argv( GetEmptyNode() );
     fn->Append( $3 );
+    fn->ContextType( Function::kThis );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
+| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH shorten_function_body
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
-    fn->AddChild( $6 );
+    fn->AddChild( $5 );
+    fn->FunctionType( Function::kShorten );
     $$ = fn;
   }
-| JS_FUNCTION_GLYPH_WITH_CONTEXT JS_EXP_CLOSURE_BEGIN statement_no_block JS_EXP_CLOSURE_END
+| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body
   {
     Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
+    fn->Name( GetEmptyNode() );
+    fn->Argv( $2 );
+    fn->AddChild( $5 );
+    fn->FunctionType( Function::kShorten );
+    fn->ContextType( Function::kThis );
+    $$ = fn;
+  }
+| JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
     fn->Name( GetEmptyNode() );
     fn->Argv( GetEmptyNode() );
-    fn->AddChild( $3 );
+    fn->AddChild( $2 );
+    fn->FunctionType( Function::kShorten );
+    fn->ContextType( Function::kThis );
     $$ = fn;
+  }
+| JS_FUNCTION_GLYPH shorten_function_body
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
+    fn->Name( GetEmptyNode() );
+    fn->Argv( GetEmptyNode() );
+    fn->AddChild( $2 );
+    fn->FunctionType( Function::kShorten );
+    $$ = fn;
+  }
+;
+
+
+shorten_function_body
+: JS_EXP_CLOSURE_BEGIN assignment_expression
+  {
+    $$ = $2;
   }
 ;
 
@@ -462,6 +507,7 @@ formal_parameter_list
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( $1->GetLineNumber() );
     value->AddChild( $2 );
     value->Symbol( $1 );
     list->AddChild( value );
@@ -477,6 +523,7 @@ formal_parameter_list
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Line( $1->Line() );
     value->AddChild( $2 );
     value->Node( $1 );
     list->AddChild( value );
@@ -486,6 +533,7 @@ formal_parameter_list
 | formal_parameter_list ',' JS_IDENTIFIER initialiser__opt
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Line( $3->GetLineNumber() );
     value->AddChild( $4 );
     value->Symbol( $3 );
     $1->AddChild( value );
@@ -495,6 +543,7 @@ formal_parameter_list
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Line( $3->Line() );
     value->AddChild( $4 );
     value->Node( $3 );
     $1->AddChild( value );
@@ -504,6 +553,7 @@ formal_parameter_list
 | formal_parameter_list ',' formal_parameter_rest
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
+    value->Line( connector->GetLineNumber() );
     value->Node( $3 );
     $1->AddChild( value );
     $$ = $1;
@@ -518,6 +568,7 @@ formal_parameter_rest
 : JS_PARAMETER_REST JS_IDENTIFIER
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $2 );
     $$ = value;
   }
@@ -534,6 +585,7 @@ arguments_spread
 : JS_PARAMETER_REST JS_IDENTIFIER
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kSpread ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $2 );
     $$ = value;
   }
@@ -548,12 +600,16 @@ source_elements
 : source_element
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    list->AddChild( $1 );
+    if ( !$1->IsEmpty() ) {
+      list->AddChild( $1 );
+    }
     $$ = list;
   }
 | source_elements source_element
   {
-    $1->AddChild( $2 );
+    if ( !$2->IsEmpty() ) {
+      $1->AddChild( $2 );
+    }
     $$ = $1;
   }
 ;
@@ -562,12 +618,16 @@ source_elements_for_function
 : source_element_for_function
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    list->AddChild( $1 );
+    if ( !$1->IsEmpty() ) {
+      list->AddChild( $1 );
+    }
     $$ = list;
   }
 | source_elements_for_function source_element_for_function
   {
-    $1->AddChild( $2 );
+    if ( !$2->IsEmpty() ) {
+      $1->AddChild( $2 );
+    }
     $$ = $1;
   }
 ;
@@ -577,6 +637,7 @@ source_element
 | function_declaration
   { 
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->Line( $1->Line() );
     stmt->AddChild( $1 );
     $$ = stmt;
   }
@@ -587,6 +648,7 @@ source_element_for_function
 | function_declaration
   { 
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->Line( $1->Line() );
     stmt->AddChild( $1 );
     $$ = stmt;
   }
@@ -709,13 +771,15 @@ block
 : '{' '}'
   {
     BlockStmt *block = ManagedHandle::Retain<BlockStmt>();
+    block->Line( connector->GetLineNumber() );
     block->AddChild( GetEmptyNode() );
     $$ = block;
   }
 | '{' statement_list '}'
   {
     BlockStmt *block = ManagedHandle::Retain<BlockStmt>();
-    block->AddChild( $2 ); 
+    block->Line( $2->Line() );
+    block->AddChild( $2 );
     $$ = block;
   }
 ;
@@ -727,7 +791,9 @@ module_block
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $2 );
     ModuleStmt* module = ManagedHandle::Retain<ModuleStmt>();
+    module->Line( $1->GetLineNumber() );
     module->Name( value );
+    printf( "child length = %d\n" , $3->ChildLength() );
     module->AddChild( $3 );
     $$ = module;
   }
@@ -738,12 +804,14 @@ export_statement
 : JS_EXPORT variable_declaration terminator
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
+    exports->Line( $1->GetLineNumber() );
     exports->AddChild( $2 );
     $$ = exports;
   }
 | JS_EXPORT function_declaration
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
+    exports->Line( $1->GetLineNumber() );
     exports->AddChild( $2 );
     $$ = exports;
   }
@@ -761,7 +829,9 @@ statement_list
   }
 | statement_list statement
   {
-    $1->AddChild( $2 );
+    if ( !$2->IsEmpty() ) {
+      $1->AddChild( $2 );
+    }
     $$ = $1;
   }
 ;
@@ -771,6 +841,7 @@ variable_statement
 : JS_VAR variable_declaration_list terminator
   {
     VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
+    var->Line( $1->GetLineNumber() );
     var->VarType( VariableStmt::kNormal );
     var->Append( $2 );
     $$ = var;
@@ -778,6 +849,7 @@ variable_statement
 | JS_CONST variable_declaration_list terminator
   {
     VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
+    var->Line( $1->GetLineNumber() );
     var->VarType( VariableStmt::kConst );
     var->Append( $2 );
     $$ = var;
@@ -785,6 +857,7 @@ variable_statement
 | JS_LET variable_declaration_list terminator
   {
     VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
+    var->Line( $1->GetLineNumber() );
     var->VarType( VariableStmt::kLet );
     var->Append( $2 );
     $$ = var;
@@ -795,6 +868,7 @@ let_statement
 : JS_LET '(' let_assignment_list ')' statement
   {
     LetStmt* let = ManagedHandle::Retain<LetStmt>();
+    let->Line( $1->GetLineNumber() );
     let->Exp( $3 );
     let->AddChild( $5 );
     $$ = let;
@@ -817,6 +891,7 @@ let_assignment_expression
 : JS_IDENTIFIER initialiser__opt
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     value->AddChild( $2 );
     $$ = value;
@@ -824,6 +899,7 @@ let_assignment_expression
 | destructuring_assignment_left_hand_side initialiser
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Line( $1->Line() );
     value->Node( $1 );
     value->AddChild( $2 );
     $$ = value;
@@ -866,6 +942,7 @@ variable_declaration
 : JS_IDENTIFIER initialiser__opt
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+    node->Line( $1->GetLineNumber() );
     node->Symbol( $1 );
     node->AddChild( $2 );
     $$ = node;
@@ -883,6 +960,7 @@ variable_declaration_no_in
 : JS_IDENTIFIER initialiser_no_in__opt
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+    node->Line( $1->GetLineNumber() );
     node->Symbol( $1 );
     node->AddChild( $2 );
     $$ = node;
@@ -912,6 +990,7 @@ object_left_hand_side
 : '{' object_member_left_hand_side_list ';' '}'
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Line( $2->Line() );
     value->AddChild( $2->FirstChild() );
     $$ = value;
   }
@@ -924,6 +1003,7 @@ object_member_left_hand_side_list
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $1 );
+    list->Line( $1->GetLineNumber() );
     list->AddChild( node );
     $$ = list;
   }
@@ -933,6 +1013,7 @@ object_member_left_hand_side_list
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $3 );
     $1->AddChild( node );
+    list->Line( $1->Line() );
     list->AddChild( $1 );
     $$ = list;
   }
@@ -943,6 +1024,7 @@ object_member_left_hand_side_list
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     node->Node( $3 );
     $1->AddChild( node );
+    list->Line( $1->Line() );
     list->AddChild( $1 );
     $$ = list;
   }
@@ -988,6 +1070,7 @@ expression_statement
 : expression terminator
   {
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->Line( $1->Line() );
     stmt->AddChild( $1 );
     $$ = stmt;
   }
@@ -997,6 +1080,7 @@ if_statement
 : JS_IF '(' expression ')' statement JS_ELSE statement 
   {
     IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
+    stmt->Line( $1->GetLineNumber() );
     stmt->Exp( $3 );
     stmt->Then( $5 );
     stmt->Else( $7 );
@@ -1005,6 +1089,7 @@ if_statement
 | JS_IF '(' expression ')' statement
   {
     IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
+    stmt->Line( $1->GetLineNumber() );
     stmt->Exp( $3 );
     stmt->Then( $5 );
     stmt->Else( GetEmptyNode() );
@@ -1016,6 +1101,7 @@ iteration_statement
 : JS_DO statement JS_WHILE '(' expression ')' terminator
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kDoWhile ) );
+    iter->Line( $1->GetLineNumber() );
     iter->Exp( $5 );
     iter->AddChild( $2 );
     $$ = iter;
@@ -1023,6 +1109,7 @@ iteration_statement
 | JS_WHILE '(' expression ')' statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kWhile ) );
+    iter->Line( $1->GetLineNumber() );
     iter->Exp( $3 );
     iter->AddChild( $5 );
     $$ = iter;
@@ -1031,6 +1118,7 @@ iteration_statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kFor ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
     list->AddChild( $3 );
     list->AddChild( $5 );
     list->AddChild( $7 );
@@ -1042,6 +1130,7 @@ iteration_statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
     list->AddChild( $4 );
     list->AddChild( $6 );
     list->AddChild( $8 );
@@ -1053,6 +1142,7 @@ iteration_statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForIn ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
     list->AddChild( $3 );
     list->AddChild( $5 );
     iter->Exp( list );
@@ -1063,6 +1153,7 @@ iteration_statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForInWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
     list->AddChild( $4 );
     list->AddChild( $6 );
     iter->Exp( list );
@@ -1074,6 +1165,7 @@ iteration_statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForEach ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
     list->AddChild( $4 );
     list->AddChild( $6 );
     iter->Exp( list );
@@ -1084,6 +1176,7 @@ iteration_statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForEachWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
     list->AddChild( $5 );
     list->AddChild( $7 );
     iter->Exp( list );
@@ -1096,6 +1189,7 @@ continue_statement
 : JS_CONTINUE identifier__opt terminator
   {
     ContinueStmt *cont = ManagedHandle::Retain<ContinueStmt>();
+    cont->Line( $1->GetLineNumber() );
     cont->AddChild( $2 );
     $$ = cont;
   }
@@ -1105,6 +1199,7 @@ break_statement
 : JS_BREAK identifier__opt terminator
   {
     BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+    break_stmt->Line( $1->GetLineNumber() );
     break_stmt->AddChild( $2 );
     $$ = break_stmt;
   }
@@ -1114,6 +1209,7 @@ return_statement
 : JS_RETURN expression__opt terminator
   {
     ReturnStmt *ret = ManagedHandle::Retain<ReturnStmt>();
+    ret->Line( $1->GetLineNumber() );
     ret->AddChild( $2 );
     $$ = ret;
   }
@@ -1123,6 +1219,7 @@ with_statement
 : JS_WITH '(' expression ')' statement
   {
     WithStmt *with_stmt = ManagedHandle::Retain<WithStmt>();
+    with_stmt->Line( $1->GetLineNumber() );
     with_stmt->Exp( $3 );
     with_stmt->AddChild( $5 );
     $$ = with_stmt;
@@ -1133,6 +1230,7 @@ switch_statement
 : JS_SWITCH '(' expression ')' case_block
   {
     SwitchStmt *switch_stmt = ManagedHandle::Retain<SwitchStmt>();
+    switch_stmt->Line( $1->GetLineNumber() );
     switch_stmt->Exp( $3 );
     switch_stmt->AddChild( $5 );
     $$ = switch_stmt;
@@ -1146,8 +1244,8 @@ case_block
   }
 | '{' case_clauses__opt default_clause case_clauses__opt '}'
   {
-    $2->After( $3 );
-    $3->After( $4 );
+    $2->AddChild( $3 );
+    $2->Append( $4 );    
     $$ = $2;
   }
 ;
@@ -1157,7 +1255,7 @@ case_clauses
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( $1 );
-    $$ = $1;
+    $$ = list;
   }
 | case_clauses case_clause
   {
@@ -1170,6 +1268,7 @@ case_clause
 : JS_CASE expression ':' statement_list__opt
   {
     CaseClause *clause = ManagedHandle::Retain<CaseClause> ();
+    clause->Line( $1->GetLineNumber() );
     clause->Exp( $2 );
     clause->AddChild( $4 );
     $$ = clause;
@@ -1180,6 +1279,7 @@ default_clause
 : JS_DEFAULT ':' statement_list__opt
   {
     CaseClause *clause = ManagedHandle::Retain<CaseClause> ();
+    clause->Line( $1->GetLineNumber() );
     clause->Exp( GetEmptyNode() );
     clause->AddChild( $3 );
     $$ = clause;
@@ -1191,6 +1291,7 @@ labelled_statement
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $1 );
+    value->Line( $1->GetLineNumber() );
     LabelledStmt *label = ManagedHandle::Retain<LabelledStmt>();
     label->AddChild( value );
     label->AddChild( $3 );
@@ -1202,6 +1303,7 @@ throw_statement
 : JS_THROW expression terminator
   {
     ThrowStmt* throw_stmt = ManagedHandle::Retain<ThrowStmt>();
+    throw_stmt->Line( $1->GetLineNumber() );
     throw_stmt->Exp( $2 );
     $$ = throw_stmt;
   }
@@ -1211,6 +1313,7 @@ try_statement
 : JS_TRY block catch
   {
     TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
+    try_stmt->Line( $1->GetLineNumber() );
     try_stmt->AddChild( $2 );
     try_stmt->Catch( $3 );
     try_stmt->Finally( GetEmptyNode() );
@@ -1219,6 +1322,7 @@ try_statement
 | JS_TRY block finally
   {
     TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
+    try_stmt->Line( $1->GetLineNumber() );
     try_stmt->AddChild( $2 );
     try_stmt->Catch( GetEmptyNode() );
     try_stmt->Finally( $3 );
@@ -1227,6 +1331,7 @@ try_statement
 | JS_TRY block catch finally
   {
     TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
+    try_stmt->Line( $1->GetLineNumber() );
     try_stmt->AddChild( $2 );
     try_stmt->Catch( $3 );
     try_stmt->Finally( $4 );
@@ -1238,14 +1343,17 @@ catch
 : JS_CATCH '(' JS_IDENTIFIER ')' block
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $3 );
     value->AddChild( $5 );
+    $$ = value;
   }
 ;
 
 finally
 : JS_FINALLY block
   {
+    $2->Line( $1->GetLineNumber() );
     $$ = $2;
   }
 ;
@@ -1266,7 +1374,7 @@ initialiser_no_in__opt
 ;
 
 case_clauses__opt
-: { $$ = GetEmptyNode(); }
+: { $$ = ManagedHandle::Retain<NodeList>(); }
 | case_clauses { $$ = $1; }
 ;
 
@@ -1276,18 +1384,21 @@ literal
 | JS_NUMERIC_LITERAL
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
 | JS_STRING_LITERAL
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
 | JS_REGEXP_LITERAL
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRegExp ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
@@ -1297,6 +1408,7 @@ null_literal
 : JS_K_NULL
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNull ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
@@ -1306,12 +1418,14 @@ boolean_literal
 : JS_TRUE
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kTrue ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
 | JS_FALSE
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kFalse ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
@@ -1321,12 +1435,14 @@ primary_expression
 : JS_THIS 
   { 
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kThis ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
 | JS_IDENTIFIER
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( $1->GetLineNumber() );
     value->Symbol( $1 );
     $$ = value;
   }
@@ -1348,11 +1464,13 @@ array_literal
       value->AddChild( GetEmptyNode() );
       value->AddChild( GetEmptyNode() );
     }
+    value->Line( connector->GetLineNumber() );
     $$ = value;
   }
 | '[' element_list ']'
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+    value->Line( $2->Line() );
     value->AddChild( $2 );
     $$ = value;
   }
@@ -1360,6 +1478,7 @@ array_literal
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
     value->AddChild( $2 );
+    value->Line( $2->Line() );
     if ( $4 ) {
       value->AddChild( GetEmptyNode() );
     }
@@ -1369,6 +1488,7 @@ array_literal
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArrayComp ) );
     value->AddChild( $2 );
+    value->Line( $2->Line() );
     value->AddChild( $3 );
     $$ = value;
   }
@@ -1381,6 +1501,7 @@ element_list
     if ( $1 ) {
       list->AddChild( GetEmptyNode() );
     }
+    list->Line( $2->Line() );
     list->AddChild( $2 );
     $$ = list;
   }
@@ -1440,6 +1561,11 @@ object_literal
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
     value->Node( $2 );
+    if ( !$2->IsEmpty() ) {
+      value->Line( $2->Line() );
+    } else {
+      value->Line( connector->GetLineNumber() );
+    }
     $$ = value;
   }
 ;
@@ -1461,6 +1587,7 @@ property_name_and_value_list
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( $1 );
+    list->Line( $1->Line() );
     $1->AddChild( $3 );
     $$ = list;
   }
@@ -1477,18 +1604,21 @@ property_name
 : JS_IDENTIFIER
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Line( $1->GetLineNumber() );
     node->Symbol( $1 );
     $$ = node;
   }
 | JS_STRING_LITERAL
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+    node->Line( $1->GetLineNumber() );
     node->Symbol( $1 );
     $$ = node;
   }
 | JS_NUMERIC_LITERAL
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+    node->Line( $1->GetLineNumber() );
     node->Symbol( $1 );
     $$ = node;
   }
@@ -1510,6 +1640,7 @@ member_expression
       depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
     }
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+    exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( $3 );
     exp->Depth( depth );
@@ -1524,6 +1655,7 @@ member_expression
     }
     value->Symbol( $3 );
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
+    exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( value );
     exp->Depth( depth );
@@ -1536,6 +1668,7 @@ member_expression
       depth = reinterpret_cast<CallExp*>( $2 )->Depth() + 1;
     }
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNew ) );
+    exp->Line( $1->GetLineNumber() );
     exp->Callable( $2 );
     exp->Args( $3 );
     exp->Depth( depth );
@@ -1548,6 +1681,7 @@ new_expression
 | JS_NEW new_expression
   {
     NewExp* ret = ManagedHandle::Retain<NewExp>();
+    ret->Line( $1->GetLineNumber() );
     ret->Constructor( $2 );
     $$ = ret;
   }
@@ -1561,6 +1695,7 @@ call_expression
       depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
     }
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+    exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( $2 );
     exp->Depth( depth );
@@ -1573,6 +1708,7 @@ call_expression
       depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
     }
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+    exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( $2 );
     exp->Depth( depth );
@@ -1585,6 +1721,7 @@ call_expression
       depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
     }
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+    exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( $3 );
     exp->Depth( depth );
@@ -1599,6 +1736,7 @@ call_expression
     }
     value->Symbol( $3 );
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
+    exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( value );
     exp->Depth( depth );
@@ -1649,12 +1787,14 @@ postfix_expression
 | left_hand_side_expression JS_INCREMENT
   {
     PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( $2->GetType() ) );
+    ret->Line( $1->Line() );
     ret->Exp( $1 );
     $$ = ret;
   }
 | left_hand_side_expression JS_DECREMENT
   {
     PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( $2->GetType() ) );
+    ret->Line( $1->Line() );
     ret->Exp( $1 );
     $$ = ret;
   }
@@ -1665,54 +1805,63 @@ unary_expression
 | JS_DELETE unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Line( $1->GetLineNumber() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | JS_VOID unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Line( $1->GetLineNumber() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | JS_TYPEOF unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Line( $1->GetLineNumber() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | JS_INCREMENT unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Line( $1->GetLineNumber() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | JS_DECREMENT unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( $1->GetType() ) );
+    ret->Line( $1->GetLineNumber() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | '+' unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '+' ) );
+    ret->Line( $2->Line() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | '-' unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '-' ) );
+    ret->Line( $2->Line() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | '~' unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '~' ) );
+    ret->Line( $2->Line() );
     ret->Exp( $2 );
     $$ = ret;
   }
 | '!' unary_expression
   {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '!' ) );
+    ret->Line( $2->Line() );
     ret->Exp( $2 );
     $$ = ret;
   }
@@ -1939,6 +2088,7 @@ conditional_expression
 | logical_or_expression '?' assignment_expression ':' assignment_expression
   {
     ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( $1 , $3 , $5 ) );
+    ret->Line( $1->Line() );
     $$ = ret;
   }
 ;
@@ -1948,6 +2098,7 @@ conditional_expression_no_in
 | logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in
   {
     ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( $1 , $3 , $5 ) );
+    ret->Line( $1->Line() );
     $$ = ret;
   }
 ;
@@ -1960,6 +2111,7 @@ assignment_expression
 | left_hand_side_expression assignment_operator assignment_expression
   {
     AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( $2 , $1 , $3 ) );
+    ret->Line( $1->Line() );
     $$ = ret;
   }
 ;
@@ -1973,6 +2125,7 @@ assignment_expression_no_in
 | left_hand_side_expression assignment_operator assignment_expression_no_in
   {
     AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( $2 , $1 , $3 ) );
+    ret->Line( $1->Line() );
     $$ = ret;
   }
 ;
@@ -1998,6 +2151,7 @@ expression
 : assignment_expression
   {
     Expression *exp = ManagedHandle::Retain<Expression>();
+    exp->Line( $1->Line() );
     exp->AddChild( $1 );
     $$ = exp;
   }
@@ -2012,6 +2166,7 @@ expression_no_in
 : assignment_expression_no_in
   { 
     Expression *exp = ManagedHandle::Retain<Expression> ();
+    exp->Line( $1->Line() );
     exp->AddChild( $1 );
     $$ = exp;
   }

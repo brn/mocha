@@ -398,6 +398,7 @@ class QueueScanner::Scanner {
         break;
       }
     }
+    PushBack_( token_str_.c_str() , TOKEN::JS_NUMERIC_LITERAL );
   }
   
   
@@ -689,8 +690,9 @@ class QueueScanner::Scanner {
     char next = GetChar_ ();
     if ( next == '=' ) {
       token_str_ += next;
+    } else {
+      BackChar_ ();
     }
-    BackChar_ ();
     PushBack_( token_str_.c_str() ,  JsToken::getType ( token_str_.c_str () , true ) );
   }
 
@@ -790,6 +792,18 @@ class QueueScanner::Scanner {
          type == TOKEN::JS_LOGICAL_AND ||
          type == TOKEN::JS_NOT_EQUAL ||
          type == TOKEN::JS_RETURN ||
+         type == TOKEN::JS_ADD_LET ||
+         type == TOKEN::JS_SUB_LET ||
+         type == TOKEN::JS_DIV_LET ||
+         type == TOKEN::JS_MUL_LET ||
+         type == TOKEN::JS_MOD_LET ||
+         type == TOKEN::JS_SHIFT_LEFT ||
+         type == TOKEN::JS_SHIFT_RIGHT ||
+         type == TOKEN::JS_U_SHIFT_LEFT ||
+         type == TOKEN::JS_U_SHIFT_RIGHT ||
+         type == TOKEN::JS_SHIFT_LEFT_LET ||
+         type == TOKEN::JS_U_SHIFT_RIGHT_LET ||
+         type == TOKEN::JS_SHIFT_RIGHT_LET ||
          type == '}' ||
          type == '|' ||
          type == '{' ||
@@ -802,7 +816,13 @@ class QueueScanner::Scanner {
          type == ',' ||
          type == '(' ||
          type == '&' ||
-         type == '!' ) {
+         type == '!' ||
+         type == '+' ||
+         type == '-' ||
+         type == '/' ||
+         type == '%' ||
+         type == '*' ||
+         type == '~' ) {
       is_regexp_after_ = true;
     } else {
       is_regexp_after_ = false;
@@ -817,6 +837,11 @@ class QueueScanner::Scanner {
    */
   inline void PushBack_( const char* ctoken , int opt_type = 0 ) {
     int type = ( opt_type == 0 )? JsToken::getType( ctoken ) : opt_type;
+    if ( type == TOKEN::JS_EACH ) {
+      if ( token_queue_.size() > 0 && token_queue_.back()->GetType() != TOKEN::JS_FOR ) {
+        type = TOKEN::JS_IDENTIFIER;
+      }
+    }
     DoPushBack_( ctoken , type );
   }
 
@@ -858,7 +883,8 @@ class QueueScanner::TokenGetter {
  public :
 
   TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
-      last_type_(0) , is_incrementable_( true ), has_line_break_( false ),
+      last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ),
+      mode_( 0 ) , is_incrementable_( true ), has_line_break_( false ),
       queue_( queue ) , tracer_( tracer ) {
     it_ = queue_.begin();
   }
@@ -876,6 +902,31 @@ class QueueScanner::TokenGetter {
       ++it_;
     }
 
+    if ( type == TOKEN::JS_FOR || type == TOKEN::JS_EACH || type == TOKEN::JS_WHILE || type == TOKEN::JS_IF ) {
+      opt_block_ = 1;
+    }
+
+    if ( opt_block_ == -1 ) {
+      opt_block_ = 0;
+    }
+
+    if ( type == TOKEN::JS_ELSE ) {
+      opt_block_ = -1;
+    }
+    
+    if ( opt_block_ == 1 ) {
+      if ( type == '(' ) {
+        opt_block_paren_count_++;
+      } else if ( type == ')' ) {
+        opt_block_paren_count_--;
+        if ( opt_block_paren_count_ == 0 ) {
+          opt_block_ = -1;
+        }
+      }
+    }
+
+    printf( "opt_block %d\n" , opt_block_ );
+    
     if ( type > 200 && type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END ) {
       printf( "%s %d\n" , info->GetToken() , info->GetType() );
     } else {
@@ -918,6 +969,17 @@ class QueueScanner::TokenGetter {
   TokenInfo* SwitchState_() {
     if ( last_type_ == 0 ) {
       return NormalState_();
+    } else if ( last_type_ == TOKEN::JS_FUNCTION_GLYPH || last_type_ == TOKEN::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+      SkipLineBreak_();
+      TokenInfo* info = (*it_);
+      int type = info->GetType();
+      if ( type != '{' ) {
+        info = ManagedHandle::Retain( new TokenInfo( "{" , TOKEN::JS_EXP_CLOSURE_BEGIN , info->GetLineNumber() ) );
+        //mode_ = TOKEN::JS_EXP_CLOSURE_BEGIN;
+        is_incrementable_ = false;
+      }
+      last_type_ = '{';
+      return info;
     } else if ( last_type_ == '}' ) {
       return AfterCloseBrace_();
     }
@@ -936,7 +998,7 @@ class QueueScanner::TokenGetter {
     TokenInfo* info = (*it_);
     int type = info->GetType();
     printf( "type is %c\n" , type );
-    if ( type != ')' && type != ',' && type != '=' && type != '.' && type != ':' &&
+    if ( type != '(' && type != ')' && type != ',' && type != '=' && type != '.' && type != ':' &&
          type != TOKEN::JS_ELSE && type != TOKEN::JS_CATCH && type != TOKEN::JS_FINALLY &&
          type != TOKEN::JS_WHILE ) {
       return SemicolonInsertion_();
@@ -962,7 +1024,7 @@ class QueueScanner::TokenGetter {
       last_type_ = type;
       return info;
     } else if ( last_type_ == TOKEN::JS_INCREMENT || last_type_ == TOKEN::JS_DECREMENT ) {
-      if ( has_line_break_ ) {
+      if ( has_line_break_ || type == '}' ) {
         return SemicolonInsertion_();
       }
       last_type_ = type;
@@ -982,18 +1044,20 @@ class QueueScanner::TokenGetter {
       }
       last_type_ = type;
       return info;
-    } else if ( type == TOKEN::JS_IF || type == TOKEN::JS_WHILE ||
-                type == TOKEN::JS_WITH || type == TOKEN::JS_FOR ||
-                type == TOKEN::JS_MODULE || type == TOKEN::JS_EXPORT ||
-                type == TOKEN::JS_LET || type == TOKEN::JS_CONST ||
-                type == TOKEN::JS_VAR || type == TOKEN::JS_CONTINUE ||
-                type == TOKEN::JS_RETURN || type == TOKEN::JS_BREAK ||
-                type == TOKEN::JS_SWITCH || type == TOKEN::JS_THROW ||
-                type == TOKEN::JS_TRY ) {
+    } else if ( opt_block_ != -1 &&
+                ( type == TOKEN::JS_IF || type == TOKEN::JS_WHILE ||
+                  type == TOKEN::JS_WITH || type == TOKEN::JS_FOR ||
+                  type == TOKEN::JS_MODULE || type == TOKEN::JS_EXPORT ||
+                  type == TOKEN::JS_LET || type == TOKEN::JS_CONST ||
+                  type == TOKEN::JS_VAR || type == TOKEN::JS_CONTINUE ||
+                  type == TOKEN::JS_RETURN || type == TOKEN::JS_BREAK ||
+                  type == TOKEN::JS_SWITCH || type == TOKEN::JS_THROW ||
+                  type == TOKEN::JS_TRY ) ) {
       return SemicolonInsertion_();
     } else if ( last_type_ == ')' && is_literal ) {
       return SemicolonInsertion_(); 
     }
+    tracer_->EndState( ParserTracer::kNoSemicolon );
     last_type_ = type;
     return info;
   }
@@ -1014,6 +1078,9 @@ class QueueScanner::TokenGetter {
   }
 
   int last_type_;
+  int opt_block_;
+  int opt_block_paren_count_;
+  int mode_;
   bool is_incrementable_;
   bool has_line_break_;
   ParserTracer *tracer_;

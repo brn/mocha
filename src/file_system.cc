@@ -147,7 +147,35 @@ StrHandle FileSystem::GetAbsolutePath( const char* path ) {
   return StrHandle( ret );
 }
 
-
+StrHandle FileSystem::GetModuleKey( const char* path ) {
+  int len = strlen( path );
+  long ret = 1;
+  std::string tmp_str = "'{";
+  for ( int i = 0; i < len; i++ ) {
+    if ( path[ i ] == '/' ) {
+      ret += ( static_cast<int>( path[i] ) * i );
+      char tmp[100];
+      sprintf( tmp , "%ld-" , ret );
+      tmp_str += tmp;
+      ret = 1;
+    } else {
+      if ( path[ i ] != 0 ) {
+        ret = static_cast<int>( path[i] ) << ret;
+      } else {
+        ret = 2 * ret;
+      }
+      if ( ret < 0 ) {
+        ret *= -1;
+      }
+    }
+  }
+  Handle<PathInfo> path_info = GetPathInfo( path );
+  tmp_str += path_info->GetFileName().Get();
+  tmp_str += "}'";
+  char *result = new char[ tmp_str.size() + 1 ];
+  strcpy( result , tmp_str.c_str() );
+  return StrHandle( result );
+}
 
 void FileSystem::Chdir ( const char* path ) {
 

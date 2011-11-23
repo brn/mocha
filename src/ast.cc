@@ -11,6 +11,7 @@ void AstNode::AddChild( AstNode* node ) {
   if ( first_child_ == 0 ) {
     first_child_ = node;
     last_child_ = node;
+    node->parent_ = this;
     node->next_sibling_ = 0;
     node->prev_sibling_ = 0;
   } else {
@@ -18,6 +19,7 @@ void AstNode::AddChild( AstNode* node ) {
     node->prev_sibling_ = last_child_;
     last_child_ = node;
     node->next_sibling_ = 0;
+    node->parent_ = this;
   }
   child_length_++;
 }
@@ -28,11 +30,13 @@ void AstNode::InsertBefore( AstNode* node ) {
     last_child_ = node;
     node->next_sibling_ = 0;
     node->prev_sibling_ = 0;
+    node->parent_ = this;
   } else {
     first_child_->prev_sibling_ = node;
     node->next_sibling_ = first_child_;
     first_child_ = node;
     node->prev_sibling_ = 0;
+    node->parent_ = this;
   }
   child_length_++;
 }
@@ -65,5 +69,17 @@ void AstNode::ReplaceWith( AstNode* node ) {
   node->child_length_ = child_length_;
 }
 
+
+void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( first_child_ ) {
+    if ( old_node == first_child_ ) {
+      first_child_ = new_node;
+    }
+    if ( old_node == last_child_ ) {
+      last_child_ = new_node;
+    }
+    old_node->ReplaceWith( new_node );
+  }
+}
 
 }

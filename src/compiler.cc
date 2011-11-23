@@ -68,7 +68,7 @@ public :
     Write_ ( codegen_.GetCode() );
   }
 
-  inline void Load( const char* filename ) {
+  inline StrHandle Load( const char* filename ) {
     //Create javascript path from filename.
     //It's like this,
     //"./example" -> "<current absolute path>/example.js" or
@@ -83,6 +83,7 @@ public :
       SetPath_( js_path.Get() );
       CallInternal_( path_info , Internal::kNofatal );
     }
+    return js_path;
   }
 
   
@@ -179,8 +180,8 @@ void Compiler::Destructor_( void* ptr ) {
 }
 
 
-void Compiler::Load ( const char* filename ) {
-  implementation_->Load( filename );
+StrHandle Compiler::Load ( const char* filename ) {
+  return implementation_->Load( filename );
 }
 
 ThreadLocalStorageKey Compiler::local_key_( Compiler::Destructor_ );
