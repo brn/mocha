@@ -306,13 +306,13 @@ class CompressWriter : public CodeWriter::WriterBase {
   void CommonOperandWriter_( int op , int state , std::string& buffer ) {
     switch ( op ) {
       case TOKEN::JS_NEW :
-        if ( state == CodeWriter::kNewNoArgsBegin ) {
-          buffer += "(new ";
-        } else {
-          buffer += "new ";
-        }
+        buffer += "new ";
         break;
 
+      case TOKEN::JS_BREAK :
+        buffer += "break";
+        break;
+        
       case TOKEN::JS_INSTANCEOF :
         buffer += " instanceof ";
         break;
@@ -334,7 +334,7 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_CATCH :
-        buffer += "catch";
+        buffer += " catch";
         break;
 
       case TOKEN::JS_CONTINUE :
@@ -342,7 +342,7 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_DEFAULT :
-        buffer += "default ";
+        buffer += "default";
         break;
 
       case TOKEN::JS_DELETE :
@@ -350,54 +350,62 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_DO :
-        buffer += "do";
+        buffer += "do ";
         break;
 
       case TOKEN::JS_ELSE :
-        buffer += "else";
+        buffer += " else ";
         break;
 
       case TOKEN::JS_FINALLY :
-        buffer += "finally";
+        buffer += " finally ";
         break;
 
       case TOKEN::JS_FOR :
-        buffer += "for";
+        buffer += "for ";
         break;
 
       case TOKEN::JS_FUNCTION :
-        buffer += "function";
+        buffer += "function ";
         break;
 
+      case TOKEN::JS_RETURN :
+        buffer += "return ";
+        break;
+        
       case TOKEN::JS_IF :
-        buffer += "if";
+        buffer += "if ";
         break;
 
       case TOKEN::JS_TRY :
-        buffer += "try";
+        buffer += "try ";
         break;
 
       case TOKEN::JS_WITH :
-        buffer += "with";
+        buffer += "with ";
         break;
 
+      case TOKEN::JS_SWITCH :
+        buffer += "switch ";
+        break;
+
+      case TOKEN::JS_THROW :
+        buffer += "throw ";
+        break;
+        
       case TOKEN::JS_WHILE :
-        buffer += "while";
+        buffer += "while ";
         break;
 
       case TOKEN::JS_VAR :
-        buffer += "var";
+        buffer += "var ";
         break;
         
       default :
-        if ( op > 300 ) {
-          char tmp[500];
-          sprintf( tmp , "%s" , JsToken::GetOperatorFromNumber( op ) );
-          buffer += tmp;
+        if ( op > 200 ) {
+          buffer += JsToken::GetOperatorFromNumber( op );
         } else {
-          char tmp[500];
-          sprintf( tmp , "%c" , op );
-          buffer += tmp;
+          buffer += op;
         }
     }
   }
@@ -437,6 +445,8 @@ void CodeWriter::InsertDebugSymbol( std::string& buffer ) {
 void CodeWriter::InitializeFileName( const char* file , std::string& buffer ) {
   if ( is_line_ ) {
     buffer += "var __backup__";
+    base_->WriteOp( '=' , 0 , buffer );
+    buffer += "__FILE__";
     base_->WriteOp( '=' , 0 , buffer );
     buffer += '"';
     buffer += file;

@@ -16,7 +16,7 @@ namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void CodegenVisitor::Accept##type( type* ast_node )
-
+#define ITERATOR(name) begin = name.begin(),end = name.end()
 #define ACCEPT( ast )                           \
   if ( ast != 0 )                               \
     ast->Accept(this)
@@ -24,7 +24,8 @@ namespace mocha {
 #define PRINT_NODE_NAME ast_node->Print();
 
 
-CodegenVisitor::CodegenVisitor() : is_line_( false ) , writer_( new CodeWriter( true , false ) ){}
+CodegenVisitor::CodegenVisitor( Options* option ) :
+    tmp_index_( 0 ),is_line_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsEmbedLine() ) ){}
 
 
 VISITOR_IMPL( AstRoot ) {
@@ -129,7 +130,34 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
-      item->Accept( this );
+      ValueNode* value = item->CastToValue();
+      if ( value && value->ValueType() == ValueNode::kDst ) {
+        item->Accept( this );
+        buffer_ += tmp_ref_;
+        AstNode* initialiser = item->FirstChild();
+        if ( !initialiser->IsEmpty() ) {
+          writer_->WriteOp( '=' , 0 , buffer_ );
+          initialiser->Accept( this );
+          writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+        }
+        std::vector<std::string>::iterator ITERATOR( dst_code_ );
+        while ( begin != end ) {
+          buffer_ += (*begin);
+          ++begin;
+          if ( begin != end ) {
+            if ( CurrentState_() == CodeWriter::kFor ) {
+              buffer_ += ',';
+            } else {
+              writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+            }
+          }
+        }
+        tmp_ref_.clear();
+        dst_code_.clear();
+        dst_accessor_.clear();
+      } else {
+        item->Accept( this );
+      }
       if ( iterator.HasNext() ) {
         if ( CurrentState_() == CodeWriter::kFor ) {
           buffer_ += ',';
@@ -166,7 +194,9 @@ VISITOR_IMPL(ExpressionStmt) {
 
 
 VISITOR_IMPL(IFStmt) {
-  writer_->SetLine( ast_node->Line() , buffer_ );
+  if ( !MatchState_( TOKEN::JS_ELSE ) ) {
+    writer_->SetLine( ast_node->Line() , buffer_ );
+  }
   writer_->WriteOp( TOKEN::JS_IF , 0 , buffer_ );
   writer_->WriteOp( '(' , 0 , buffer_ );
   ast_node->Exp()->Accept( this );
@@ -196,6 +226,7 @@ VISITOR_IMPL(IFStmt) {
   
   if ( !maybeElse->IsEmpty() ) {
     writer_->WriteOp( TOKEN::JS_ELSE , 0 , buffer_ );
+    BeginState_( TOKEN::JS_ELSE );
     if ( maybeElse->NodeType() == AstNode::kBlockStmt ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , buffer_ );
       maybeElse->FirstChild()->Accept( this );
@@ -209,6 +240,7 @@ VISITOR_IMPL(IFStmt) {
         writer_->WriteOp( '}' , CodeWriter::kElseBlockEnd , buffer_ );
       }
     }
+    EndLastState_();
   }
 }
 
@@ -761,6 +793,154 @@ void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
 }
 
 
+void CodegenVisitor::CreateDstAssignment_( const char* name ) {
+  std::string tmp = name;
+  std::string last;
+  std::vector<std::string>::iterator ITERATOR( dst_accessor_ );
+  writer_->WriteOp( '=' , 0 , tmp );
+  writer_->WriteOp( '(' , 0 , tmp );
+  while ( begin != end ) {
+    last += (*begin);
+    tmp += tmp_ref_;
+    tmp += last;
+    ++begin;
+    if ( begin != end ) {
+      writer_->WriteOp( TOKEN::JS_LOGICAL_AND , 0 , tmp );
+    }
+  }
+  writer_->WriteOp( ')' , 0 , tmp );
+  writer_->WriteOp( '?' , 0 , tmp );
+  tmp += tmp_ref_;
+  tmp += last;
+  writer_->WriteOp( ':' , 0 , tmp );
+  tmp += "undefined";
+  dst_code_.push_back( tmp );
+}
+
+
+void CodegenVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
+  AstNode* list_child = ast_node->FirstChild();
+  int index = 0;
+  while ( list_child ) {
+    if ( !list_child->IsEmpty() ) {
+      NodeIterator iter = list_child->ChildNodes();
+      while ( iter.HasNext() ) {
+        AstNode* element = iter.Next();
+        if ( !element->IsEmpty() ) {
+          if ( element->NodeType() == AstNode::kValueNode ) {
+            ValueNode* elem = element->CastToValue();
+            char tmp[ 100 ];
+            sprintf( tmp , "[%d]" , index );
+            dst_accessor_.push_back( tmp );
+            if ( elem->ValueType() == ValueNode::kIdentifier ) {
+              CreateDstAssignment_( elem->Symbol()->GetToken() );
+            } else if ( elem->ValueType() == ValueNode::kDst ) {
+              DstObjectProcessor_( elem , ( depth + 1 ) );
+            } else if ( elem->ValueType() == ValueNode::kArray ) {
+              DstArrayProccessor_( elem , ( depth + 1 ) );
+            }
+          }
+        }
+        if ( iter.HasNext() ) {
+          index++;
+        }
+      }
+      if ( list_child->HasNext() ) {
+        list_child = list_child->NextSibling();
+      } else {
+        break;
+      }
+    }
+  }
+  if ( depth == 0 ) {
+    dst_accessor_.clear();
+  }
+}
+
+
+void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
+  TokenInfo* info = ast_node->Symbol();
+  switch( info->GetType() ) {
+    case TOKEN::JS_IDENTIFIER :
+      {
+        char tmp[ strlen( info->GetToken() ) + 2 ];
+        sprintf( tmp , ".%s" , info->GetToken() );
+        dst_accessor_.push_back( tmp );
+      }
+      break;
+
+    case TOKEN::JS_NUMERIC_LITERAL :
+    case TOKEN::JS_STRING_LITERAL :
+      {
+        char tmp[ strlen( info->GetToken() ) + 2 ];
+        sprintf( tmp , "[%s]" , info->GetToken() );
+        dst_accessor_.push_back( tmp );
+      }
+      break;
+      
+  }
+}
+
+
+void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
+  NodeIterator iterator = ast_node->Node()->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* node = iterator.Next();
+    ValueNode* value = node->CastToValue();
+    if ( value ) {
+      switch ( value->ValueType() ) {
+        case ValueNode::kIdentifier :
+          if ( value->ChildLength() > 0 ) {
+            DstMemberProccessor_( value );
+            AstNode* child_node = value->FirstChild();
+            ValueNode* prop = child_node->CastToValue();
+            if ( prop ) {
+              CreateDstAssignment_( prop->Symbol()->GetToken() );
+            }
+          } else {
+            TokenInfo *info = value->Symbol();
+            const char* name = info->GetToken();
+            char tmp[ strlen( name ) + 2 ];
+            sprintf( tmp , ".%s" , name );
+            printf( "%s\n" , name );
+            dst_accessor_.push_back( tmp );
+            CreateDstAssignment_( name );
+          }
+          break;
+
+        case ValueNode::kDst :
+          DstMemberProccessor_( value );
+          AstNode* child_node = value->FirstChild();
+          ValueNode* value = child_node->CastToValue();
+          if ( value ) {
+            if ( value->ValueType() == ValueNode::kArray ) {
+              DstArrayProccessor_( ast_node , ( depth + 1 ) );
+            } else {
+              DstObjectProcessor_( ast_node , ( depth + 1 ) );
+            }
+          }
+      }
+    }
+    if ( depth == 0 ) {
+      dst_accessor_.clear();
+    }
+  }
+}
+
+
+void CodegenVisitor::DstProcessor_( ValueNode* ast_node ) {
+  char tmp[ 20 ];
+  sprintf( tmp , "__tmp__%d" , tmp_index_ );
+  tmp_ref_ = tmp;
+  tmp_index_++;
+  if ( ast_node->ValueType() == ValueNode::kArray ) {
+    DstArrayProccessor_( ast_node , 0 );
+  } else {
+    DstObjectProcessor_( ast_node , 0 );
+  }
+}
+
+
 VISITOR_IMPL( ValueNode ) {
   switch ( ast_node->ValueType() ) {
     case ValueNode::kArray :
@@ -773,6 +953,10 @@ VISITOR_IMPL( ValueNode ) {
 
     case ValueNode::kVariable :
       VarInitialiserProccessor_( ast_node );
+      break;
+
+    case ValueNode::kDst :
+      DstProcessor_( ast_node );
       break;
       
     default :

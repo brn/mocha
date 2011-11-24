@@ -37,7 +37,7 @@
 
 /* "%code requires" blocks.  */
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 35 "grammar.yy"
 
 #include "ast.h"
@@ -53,7 +53,7 @@
 
 
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 58 "grammar.tab.hh"
 
 
@@ -83,7 +83,7 @@
 
 namespace yy {
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 88 "grammar.tab.hh"
 
   /// A Bison parser.
@@ -95,7 +95,7 @@ namespace yy {
     union semantic_type
     {
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 48 "grammar.yy"
 
   mocha::TokenInfo *info;
@@ -137,7 +137,7 @@ namespace yy {
 
 
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 142 "grammar.tab.hh"
     };
 #else
@@ -439,7 +439,7 @@ namespace yy {
 
 } // yy
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 444 "grammar.tab.hh"
 
 

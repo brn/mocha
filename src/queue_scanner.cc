@@ -1083,6 +1083,11 @@ void QueueScanner::CollectToken() {
 
 TokenInfo* QueueScanner::GetToken( int yystate ) {
   TokenInfo* info =  token_getter_->GetToken( yystate );
+  if ( info->GetType() > 200 ) {
+  printf( "%s\n" , info->GetToken() );
+  } else {
+    printf( "%c\n" , info->GetType() );
+  }
   return info;
 }
 

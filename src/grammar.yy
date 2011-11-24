@@ -935,7 +935,7 @@ variable_declaration_list_no_in
   {
     $1->AddChild( $3 );
     $$ = $1;
-  }
+  } 
 ;
 
 variable_declaration
@@ -978,7 +978,10 @@ variable_declaration_no_in
 destructuring_assignment_left_hand_side
 : array_literal/*array_left_hand_side*/
   {
-    $$ = $1;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->Line( $1->Line() );
+    value->AddChild( $1 );
+    $$ = value;
   }
 | object_left_hand_side
   {
@@ -991,7 +994,7 @@ object_left_hand_side
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     value->Line( $2->Line() );
-    value->AddChild( $2->FirstChild() );
+    value->Append( $2 );
     $$ = value;
   }
 ;
@@ -1000,6 +1003,7 @@ object_left_hand_side
 object_member_left_hand_side_list
 :  JS_IDENTIFIER
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $1 );
@@ -1009,6 +1013,7 @@ object_member_left_hand_side_list
   }
 | property_name ':' JS_IDENTIFIER
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $3 );
@@ -1020,6 +1025,7 @@ object_member_left_hand_side_list
 
 | property_name ':' destructuring_assignment_left_hand_side
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     node->Node( $3 );
@@ -1031,6 +1037,7 @@ object_member_left_hand_side_list
   
 | object_member_left_hand_side_list ',' property_name ':' JS_IDENTIFIER
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     $1->AddChild( $3 );
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $5 );
@@ -1040,6 +1047,7 @@ object_member_left_hand_side_list
 
 | object_member_left_hand_side_list ',' JS_IDENTIFIER
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $3 );
     $1->AddChild( node );
@@ -1047,6 +1055,7 @@ object_member_left_hand_side_list
   }
 | object_member_left_hand_side_list ',' property_name ':' destructuring_assignment_left_hand_side
   {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
     $1->AddChild( $3 );
     $3->AddChild( $5 );
     $$ = $1;

@@ -54,7 +54,7 @@ class Compiler::PtrImpl {
 public :
 
   PtrImpl( Compiler* compiler , const char* main_file_path ) :
-      compiler_( compiler ) {
+      compiler_( compiler ) , codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ) {
     main_file_path_ = main_file_path;
     SetPath_( main_file_path );
     //Change direcotry to main js path.
@@ -64,8 +64,8 @@ public :
 
   inline void Compile() {
     CallInternal_( path_info_ , Internal::kFatal );
-    ast_root_.Accept( &codegen_ );
-    Write_ ( codegen_.GetCode() );
+    ast_root_.Accept( codegen_.Get() );
+    Write_ ( codegen_->GetCode() );
   }
 
   inline StrHandle Load( const char* filename ) {
@@ -125,7 +125,7 @@ private :
 
   
   inline void CallInternal_( Handle<PathInfo> path_info , Internal::ErrorLevel error_level ) {
-    Internal internal ( path_info , compiler_ , &scope_ , &codegen_ , &ast_root_ );
+    Internal internal ( path_info , compiler_ , &scope_ , codegen_.Get() , &ast_root_ );
     internal.Parse ( error_level );
   }
 
@@ -135,8 +135,8 @@ private :
   Compiler *compiler_;
   Scope scope_;
   AstRoot ast_root_;
-  CodegenVisitor codegen_;
   Handle<PathInfo> path_info_;
+  ScopedPtr<CodegenVisitor> codegen_;
 };
 
 

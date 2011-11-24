@@ -230,6 +230,7 @@ void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename
     if ( raw > 1 ) {
       Options *option = new Options();
       option->AnalyzeOption( raw , array );
+      printf( "%d\n" , option->IsPrettyPrint() );
       COMPILE_OPTION[ filename ] = Handle<Options>( option );
     }
   }

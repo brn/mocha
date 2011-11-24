@@ -620,6 +620,7 @@ class ValueNode : public AstNode {
     kRegExp,
     kThis,
     kIdentifier,
+    kPropertyName,
     kVariable,
     kArray,
     kArrayComp,
