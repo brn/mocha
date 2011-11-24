@@ -43,7 +43,6 @@ ParserConnector::~ParserConnector () {};
 
 
 int ParserConnector::InvokeScanner ( void* yylval_ , int yystate ) {
-  printf( "state %d\n" ,yystate );
   if ( is_end_ ) return 0;
   yy::ParserImplementation::semantic_type* yylval = reinterpret_cast<yy::ParserImplementation::semantic_type*> ( yylval_ );
   TokenInfo* info = scanner_->GetToken( yystate );

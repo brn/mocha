@@ -911,7 +911,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 678 "grammar.yy"
     {
-    printf("module block \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].module_stmt);
   }
     break;
@@ -921,7 +921,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 683 "grammar.yy"
     {
-    printf("export statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].export_stmt);
   }
     break;
@@ -931,7 +931,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 691 "grammar.yy"
     {
-    printf("block statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].block);
   }
     break;
@@ -948,7 +948,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 700 "grammar.yy"
     {
-    printf("var statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].variable_stmt);
   }
     break;
@@ -967,7 +967,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 709 "grammar.yy"
     {
-    printf("empty statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
     break;
@@ -977,7 +977,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 714 "grammar.yy"
     {
-    printf("exp statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression_stmt);
   }
     break;
@@ -987,7 +987,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 719 "grammar.yy"
     {
-    printf("if statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].if_stmt);
   }
     break;
@@ -997,7 +997,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 724 "grammar.yy"
     {
-    printf("iter statement \n");
+    
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].iteration_stmt);
   }
     break;
@@ -1007,7 +1007,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 729 "grammar.yy"
     {
-    printf("cont statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].continue_stmt);
   }
     break;
@@ -1017,7 +1017,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 734 "grammar.yy"
     {
-    printf("break statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].break_stmt);
   }
     break;
@@ -1027,7 +1027,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 739 "grammar.yy"
     {
-    printf("return statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].return_stmt);
   }
     break;
@@ -1037,7 +1037,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 744 "grammar.yy"
     {
-    printf("with statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].with_stmt);
   }
     break;
@@ -1047,7 +1047,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 749 "grammar.yy"
     {
-    printf("label statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].labelled_stmt);
   }
     break;
@@ -1057,7 +1057,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 754 "grammar.yy"
     {
-    printf("switch statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].switch_stmt);
   }
     break;
@@ -1067,7 +1067,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 759 "grammar.yy"
     {
-    printf("throw statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].throw_stmt);
   }
     break;
@@ -1077,7 +1077,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 764 "grammar.yy"
     {
-    printf("try statement \n");
+
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].try_stmt);
   }
     break;
@@ -1116,7 +1116,7 @@ namespace yy {
     ModuleStmt* module = ManagedHandle::Retain<ModuleStmt>();
     module->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
     module->Name( value );
-    printf( "child length = %d\n" , (yysemantic_stack_[(3) - (3)].ast)->ChildLength() );
+
     module->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.module_stmt) = module;
   }

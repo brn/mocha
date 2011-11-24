@@ -20,9 +20,17 @@ namespace mocha {
 class WatcherContainer {
  public :
   WatcherContainer( const char* path , IUpdater* updater , int type ) :
-      type_( type ) , filename_( path ) , updater_( updater ) {
+      type_( type ) ,  updater_( updater ) {
+    filename_ = path;
     Stat stat( path );
     date_ = stat.MTime();
+  }
+  WatcherContainer(){}
+  WatcherContainer( const WatcherContainer& container ) {
+    type_ = container.type_;
+    filename_ = container.filename_;
+    date_ = container.date_;
+    updater_ = container.updater_;
   }
   inline const char* GetDate() { return date_.c_str(); }
   inline void SetDate( const char* date ) { date_ = date; }
@@ -77,8 +85,7 @@ class FileWatcher::PtrImpl {
 
  private :
   typedef std::string FileEntry;
-  typedef Handle<WatcherContainer> WatcherHandle;
-  typedef boost::unordered_map<FileEntry, WatcherHandle> WatchList;
+  typedef boost::unordered_map<FileEntry, WatcherContainer> WatchList;
 
   inline void Regist_( const char* path , IUpdater *updater , int type ) {
     Stat stat( path );
@@ -88,8 +95,8 @@ class FileWatcher::PtrImpl {
   }
 
   inline void AddToWatchList_( const char* path , IUpdater *updater , int type ) {
-    WatcherHandle watcher_handle( new WatcherContainer( path ,  updater , type ) );
-    watch_list_[ path ] = watcher_handle;
+    WatcherContainer watcherContainer( path ,  updater , type );
+    watch_list_[ path ] = watcherContainer;
   }
 
   inline void ProcessNotification_() {
@@ -104,13 +111,14 @@ class FileWatcher::PtrImpl {
 
   void WatchFile_() {
     WatchList::iterator ITERATOR(watch_list_);
-    while ( begin != end ) {
-      WatcherContainer* container = (*begin).second.Get();
+    int len = watch_list_.size(),count = 0;
+    while ( begin != end && count < len ) {
+      WatcherContainer* container = &((*begin).second);
       const char* filename = container->GetFileName();
       const char* date = container->GetDate();
       Stat stat( filename );
+      const char* last_date = stat.MTime();
       if ( stat.IsExist() ) {
-        const char* last_date = stat.MTime();
         if ( strcmp( date , last_date ) != 0 ) {
           container->SetDate( last_date );
           watch_traits::Modify modify( filename );
@@ -121,6 +129,7 @@ class FileWatcher::PtrImpl {
         container->GetUpdater()->Update( &missing );
       }
       ++begin;
+      count++;
     }
   }
 

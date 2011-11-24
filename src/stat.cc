@@ -24,9 +24,9 @@
 #endif
 
 #ifdef HAVE__CTIME64
-#define CTIME(str) ::_ctime64(str)
+#define CTIME(str,buf) ::_ctime64_r(str,buf)
 #elif HAVE_CTIME
-#define CTIME(str) ::ctime(str)
+#define CTIME(str,buf) ::ctime_r(str,buf)
 #endif
 
 #define MODE ( fstat_->st_mode & S_IFMT )
@@ -47,15 +47,27 @@ class Stat::PtrImpl {
   inline int STGId() { return fstat_->st_gid; }
   inline int STRDev() { return fstat_->st_rdev; }
   inline int STSize() { return fstat_->st_size; }
-  inline const char* STATime() { return CTIME(&(fstat_->st_atime)); }
-  inline const char* STMTime() { return CTIME(&(fstat_->st_mtime)); }
-  inline const char* STCTime() { return CTIME(&(fstat_->st_ctime)); }
+  inline const char* STATime() {
+    CTIME(&(fstat_->st_atime),atime_);
+    return atime_;
+  }
+  inline const char* STMTime() {
+    CTIME(&(fstat_->st_mtime),mtime_);
+    return mtime_;
+  }
+  inline const char* STCTime() {
+    CTIME(&(fstat_->st_ctime),ctime_);
+    return ctime_;
+  }
   inline bool ISDir() { return MODE == S_IFDIR; }
   inline bool ISReg() { return MODE == S_IFREG; }
   inline bool ISChr() { return MODE == S_IFCHR; }
  private :
   bool is_exist_;
   const char* path_;
+  char atime_[200];
+  char mtime_[200];
+  char ctime_[200];
   STAT *fstat_;
 };
 

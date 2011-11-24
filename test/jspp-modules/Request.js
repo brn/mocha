@@ -7,13 +7,13 @@ var Notificator = require ( "./Notificator" ).Notificator,
 *@arguments Mutex
 */
 Class( "Request" , Mutex )
-  (function ( self , privates ) {
+  (fun self privates -> {
   
-    var rxml = /xml/i,
+    let rxml = /xml/i,
         rjson = /json/i,
         rget = /get/i,
         rpost = /post/i,
-        NOOP = function(){};
+        NOOP = fun->{};
     
     self.__init__ = Request_new;
     self.send = Request_send;
@@ -24,11 +24,11 @@ Class( "Request" , Mutex )
     /**
     *@constructor
     */
-    function Request_new () {
-      this.__super__ ();
-      privates ( this , {
-        ioNotificator : Notificator (),
-        connectionObject : JSPP_XMLHttpRequest ()
+    let Request_new = fun-> {
+      @.__super__();
+      privates ( @ , {
+        ioNotificator : new Notificator(),
+        connectionObject : new JSPP_XMLHttpRequest()
       } )
       
       
@@ -43,10 +43,10 @@ Class( "Request" , Mutex )
     *@param { Function }
     *Regist callback function.
     */
-    function Request_addListener ( name , fn ) {
-      var privateVar = privates ( this );
-      privateVar [ name ] = true;
-      privateVar.ioNotificator.connect ( name , fn );
+    let Request_addListener = fun -> name fn {
+      var privateVar = privates @;
+      privateVar[ name ] = true;
+      privateVar.ioNotificator.connect name fn;
     }
     
     /**
@@ -54,11 +54,11 @@ Class( "Request" , Mutex )
     *Send a request to server.
     *Each request treat as queue.
     */
-    function Request_send ( obj ) {
-      var privateVar = privates ( this )
+    let Request_send = fun-> obj {
+      var privateVar = privates @;
       
-      if( this.isLocked () ){
-        return this.wait( obj )
+      if( this.isLocked() ) {
+        return this.wait obj;
       }
       
       var req         =   privateVar.connectionObject,
@@ -79,22 +79,22 @@ Class( "Request" , Mutex )
       }
       
       if( "onprogress" in req && privateVar.progress ){
-        req.onprogress = function( e ){
-          privateVar.ioNotificator.notifyForKey ( "progress" , e.position , e.totalSize , ( e.position / e.totalSize ) * 100 )
-        }.bind( this )
+        req.onprogress = fun e => @ {
+          privateVar.ioNotificator.notifyForKey "progress" e.position e.totalSize ( e.position / e.totalSize ) * 100;
+        }
       }
       
       if( "onload" in req && privateVar.complete ){
-        req.onload = function( e ){
+        req.onload = fun e => @ {
           req.onload = null
           callbackHelper.call( this , obj , req )
         }.bind( this )
         
         if( "onerror" in req ){
-          req.onerror = function(){
+          req.onerror = fun e => @ {
             req.onerror = NOOP;
             callHelper.call ( this , obj , req )
-          }.bind( this )
+          }
         }
         
       }else if( privateVar.complete ){
@@ -126,8 +126,8 @@ Class( "Request" , Mutex )
     /**
     *Abort request.
     */
-    function abort () {
-      var privateVar = privates ( this );
+    let abort = fun -> {
+      let privateVar = privates @;
       privateVar.connectionObject.abort();
       privateVar.mutexQueue.length = 0;
     }
@@ -135,8 +135,8 @@ Class( "Request" , Mutex )
     /**
     *Abort request and delete XMLHttpRequest object and empty queue.
     */
-    function dispose () {
-      var privateVar = privates ( this );
+    let dispose = fun-> {
+      let privateVar = privates @;
       privateVar.connectionObject.abort();
       privateVar.connectionObject = null;
       privateVar.mutexQueue.length = 0;
@@ -146,31 +146,31 @@ Class( "Request" , Mutex )
     *@param {Object|String} parameter.
     *Seriallize javascript object to url parameter.
     */
-    function serializeHelper ( param ) {
+    let serializeHelper = fun param -> {
       
-      var type = typeof param,
+      let type = typeof param,
           param_arr,
           tp,
           tv,
           param_str = "";
           
       if( type === "string" ){
-        param_arr = param.split( "&" );
-        for( var i=0,len=param_arr.length; i < len; ++i ){
-          tp = param_arr[ i ].split( "=" );
+        param_arr = param.split "&";
+        for( let i = 0,len = param_arr.length; i < len; ++i ){
+          tp = param_arr[ i ].split "=";
           if( tp[ 1 ] ){
-            tv = encodeURIComponent( tp[ 1 ] )
+            tv = encodeURIComponent tp[ 1 ];
           }else{
             tv = "";
           }
           param_str += "&" + tp[ 0 ] + "=" + tv;
         }
-        return param_str.slice( 1 , param_str.length );
+        return param_str.slice 1 param_str.length;
       }else if( type === "object" ){
-        for( var i in param ){
-          param_str += "&" + i + "=" + encodeURIComponent( param[i] );
+        for( let i in param ){
+          param_str += "&" + i + "=" + encodeURIComponent param[i];
         }
-        return param_str.slice( 1 , param_str.length );
+        return param_str.slice 1 , param_str.length;
       }
     }
     
@@ -179,9 +179,9 @@ Class( "Request" , Mutex )
     *@param XMLHttpRequest
     *Run each callback function.
     */
-    function callbackHelper ( obj , req ) {
+    let callbackHelper = fun obj req -> {
       if( req.status === 200 ){
-        var privateVar = privates ( this );
+        var privateVar = privates this;
         if( obj.name ){
           privateVar.ioNotificator.notifyForKey ( obj.name , ( !obj.dataType )? req.responseText : 
                                                                                ( rxml.test( obj.dataType ) )? req.responseXML :

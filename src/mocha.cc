@@ -55,6 +55,8 @@ Mocha::Mocha ( Options* options ) {
   } else if ( options->IsWatchXML() ) {
     runner = new ObserverRunner( options );
     Setting::GetInstance()->Log( "start watching xml mode." );
+  } else {
+    runner = new HelpRunner( options );
   }
   implementation_( new PtrImpl( runner ) );
 }

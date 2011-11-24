@@ -13,9 +13,9 @@ class XMLObserver::XMLUpdater : public IUpdater {
  public :
   void Update( watch_traits::Modify* traits ) {
     //exit(1);
-    file_watcher_.Exit();
-    file_observer_.Exit();
-    XMLSettingInfo::EraseData();
+    //file_watcher_.Exit();
+    //file_observer_.Exit();
+    //XMLSettingInfo::EraseData();
     Bootstrap::Reboot();
   }
   FileObserver* GetObserver() { return &file_observer_; }
@@ -44,6 +44,7 @@ void* XMLObserver::ThreadRunner_( void* arg ) {
 }
 
 void XMLObserver::RegistFile_( const char* filename ) {
+  printf( "xml regist %s\n" ,filename );
   xml_updater_->GetWatcher()->AddWatch( filename , xml_updater_.Get() , FileWatcher::kModify );
 }
 
@@ -53,8 +54,8 @@ void XMLObserver::Initialize_( const char* path ) {
   reader.Parse( path );
   Setting::GetInstance()->Log( "xml parse end." );
   Setting::GetInstance()->Log( "start file observing." );
-  xml_updater_->GetObserver()->Run();
   XMLSettingInfo::IterateIncludeList<XMLObserver>( &XMLObserver::RegistFile_ , this );
+  xml_updater_->GetObserver()->Run();
 }
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
     <dir path="./" module="../jspp-modules">
+	<file path="./ecma262-5th-compatible-devel.js" deploy="./../deploy/" options="-P -L" />
 	<file path="./pr_main.js" deploy="./../deploy/" options="-P -L" />
 	<file path="./test.js" deploy="./../deploy/" options="-P -L" />
 	<file ignore="true" path="./ab_main.js" />

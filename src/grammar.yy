@@ -676,12 +676,12 @@ statement
 : statement_with_block { $$ = $1; }
 | module_block
   {
-    printf("module block \n");
+    
     $$ = $1;
   }
 | export_statement
   {
-    printf("export statement \n");
+    
     $$ = $1;
   }
 ;
@@ -689,7 +689,7 @@ statement
 statement_with_block
 : block
   {
-    printf("block statement \n");
+    
     $$ = $1;
   }
 | statement_no_block { $$ = $1; }
@@ -698,7 +698,7 @@ statement_with_block
 statement_no_block
 : variable_statement
   {
-    printf("var statement \n");
+    
     $$ = $1;
   }
 | let_statement
@@ -707,62 +707,62 @@ statement_no_block
   }
 | empty_statement
   {
-    printf("empty statement \n");
+    
     $$ = $1;
   }
 | expression_statement
   {
-    printf("exp statement \n");
+    
     $$ = $1;
   }
 | if_statement
   {
-    printf("if statement \n");
+    
     $$ = $1;
   }
 | iteration_statement
   {
-    printf("iter statement \n");
+    
     $$ = $1;
   }
 | continue_statement
   {
-    printf("cont statement \n");
+
     $$ = $1;
   }
 | break_statement
   {
-    printf("break statement \n");
+
     $$ = $1;
   }
 | return_statement
   {
-    printf("return statement \n");
+
     $$ = $1;
   }
 | with_statement
   {
-    printf("with statement \n");
+
     $$ = $1;
   }
 | labelled_statement
   {
-    printf("label statement \n");
+
     $$ = $1;
   }
 | switch_statement
   {
-    printf("switch statement \n");
+
     $$ = $1;
   }
 | throw_statement
   {
-    printf("throw statement \n");
+
     $$ = $1;
   }
 | try_statement
   {
-    printf("try statement \n");
+
     $$ = $1;
   }
 ;
@@ -793,7 +793,7 @@ module_block
     ModuleStmt* module = ManagedHandle::Retain<ModuleStmt>();
     module->Line( $1->GetLineNumber() );
     module->Name( value );
-    printf( "child length = %d\n" , $3->ChildLength() );
+
     module->AddChild( $3 );
     $$ = module;
   }

@@ -32,7 +32,6 @@ class QueueScanner::Scanner {
     while ( !IsEof_() ) {
       Skip_();
       if ( is_line_break_ ) {
-        printf( "set line break %d\n" , line_ );
         PushBack_( TOKEN::JS_LINE_BREAK );
         is_line_break_ = false;
       }
@@ -892,7 +891,6 @@ class QueueScanner::TokenGetter {
     if ( last_type_ == -100 ) {
       return ManagedHandle::Retain( new TokenInfo( "" , 0 , 0 ) );
     }
-    printf( "state %d  " , last_type_ );
     has_line_break_ = false;
     is_incrementable_ = true;
     TokenInfo* info = SwitchState_();
@@ -923,19 +921,6 @@ class QueueScanner::TokenGetter {
           opt_block_ = -1;
         }
       }
-    }
-
-    printf( "opt_block %d\n" , opt_block_ );
-    
-    if ( type > 200 && type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END ) {
-      printf( "%s %d\n" , info->GetToken() , info->GetType() );
-    } else {
-      if ( type != TOKEN::JS_PARAM_BEGIN && type != TOKEN::JS_PARAM_END )
-      printf( "%c %d\n" , info->GetType() , info->GetType() );
-      else if ( type == TOKEN::JS_PARAM_BEGIN )
-        printf( "(\n" );
-      else if ( type == TOKEN::JS_PARAM_END )
-        printf( ")\n" );
     }
 
     if ( type == 0 && last_type_ != ';' ) {
@@ -997,7 +982,6 @@ class QueueScanner::TokenGetter {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
     int type = info->GetType();
-    printf( "type is %c\n" , type );
     if ( type != '(' && type != ')' && type != ',' && type != '=' && type != '.' && type != ':' &&
          type != TOKEN::JS_ELSE && type != TOKEN::JS_CATCH && type != TOKEN::JS_FINALLY &&
          type != TOKEN::JS_WHILE ) {
@@ -1032,7 +1016,6 @@ class QueueScanner::TokenGetter {
     } else if ( ( is_last_literal && is_literal ) ||
                 ( is_last_literal && ( type == '[' || type == '{' || type == '(' ) ) ||
                 ( ( last_type_ == ']' || last_type_ == '}' || last_type_ == ')' ) && is_literal )) {
-      printf( "is line break %d\n" , has_line_break_ );
       if ( has_line_break_ ) {
         return SemicolonInsertion_();
       }

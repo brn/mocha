@@ -4,21 +4,21 @@ var RollController = require ( "../3rd-modules/RollController" ).RollController,
     Info = require ( "../3rd-modules/Info" ).Info;
 
 
-function main () {
+const main = fun ->{
   
-  Info ();
+        Info ();
   
-  ready( function () {
-    Base.init ();
-    
-    var controller = RollController (),
-        prev = $( "#prev" ),
-        next = $( "#next" );
-    
-    prev.bind ( "click" , controller.prev.bind ( controller ) );
-    next.bind ( "click" , controller.next.bind ( controller ) );
-    
-  })
-}
+        ready( fun->{
+          Base.init ();
+          
+          let controller = RollController(),
+              prev = $( "#prev" ),
+              next = $( "#next" );
+          
+          prev.bind ( "click" , controller.prev.bind ( controller ) );
+          next.bind ( "click" , controller.next.bind ( controller ) );
+          
+        })
+      }
 
 exports.main = main;
