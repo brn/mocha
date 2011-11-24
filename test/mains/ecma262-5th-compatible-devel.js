@@ -284,10 +284,16 @@ if ( !Array.isArray ) {
 
 
 module ext {
+  
   let Objects = {
         extend : ( source , dest ) -> {
           for ( var i in source ) {
             dest[ i ] = source [ i ];
+          }
+        },
+        each : ( dest , fn ) -> {
+          for ( var i in dest ) {
+            fn.call( dest[ i ], dest[ i ] , i , dest );
           }
         }
       }

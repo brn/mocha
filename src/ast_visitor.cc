@@ -222,7 +222,12 @@ void AstVisitor::RequireProccessor_( CallExp* ast_node ) {
       module_accessor->Callable( exporter_value );
       module_accessor->Args( key_value );
       module_accessor->Depth( 0 );
-      ast_node->ParentNode()->ReplaceChild( ast_node ,  module_accessor );      
+      AstNode* parent = ast_node->ParentNode();
+      if ( parent->NodeType() == AstNode::kCallExp ) {
+        reinterpret_cast<CallExp*>( parent )->Callable( module_accessor );
+      } else {
+        parent->ReplaceChild( ast_node , module_accessor );
+      }
     }
   }
 }
@@ -235,7 +240,7 @@ VISITOR_IMPL( CallExp ) {
   AstNode* arg_list = ast_node->Args();
   int call_type = ast_node->CallType();
 
-  if ( call_type == CallExp::kNormal && ast_node->Depth() == 0 ) {
+  if ( call_type == CallExp::kNormal ) {
     AstNode* name = ast_node->Callable();
     ValueNode* value_node = name->CastToValue();
     if ( value_node != 0 && value_node->ValueType() == ValueNode::kIdentifier ) {

@@ -270,6 +270,11 @@
               for ( var i in source ){
                 dest[i] = source[i];
               };
+            },
+            each : function ( dest,fn ) {
+              for ( var i in dest ){
+                fn.call( dest[i],dest[i],i,dest );
+              };
             }
           };
       __export__.Objects = Objects;

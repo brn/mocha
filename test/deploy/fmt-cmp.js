@@ -14,13 +14,4 @@
       return __export__;
     })();
   })();
-  (function() {
-    var fmt = __global_export__['{1-397-1092-205522212-1695-1977-60819523-2512-fmt.js}'].fmt;
-    function main() {
-      fmt( "${hello} ${world}", {
-        hello : "hello",
-        world : "world"
-      });
-    };
-  })();
 })();

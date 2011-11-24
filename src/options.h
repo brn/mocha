@@ -125,7 +125,7 @@ class Options {
   void EmbedLine_() { options_ |= 16; }
   void ShowHelp_() { options_ |= 32; }
   void HasPath_() { options_ |= 64; }
-  int8_t options_;
+  int64_t options_;
   StrHandle path_;
 };
 
