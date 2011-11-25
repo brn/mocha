@@ -126,6 +126,11 @@ VISITOR_IMPL( ExportStmt ) {
 }
 
 
+VISITOR_IMPL( ImportStmt ) {
+  PRINT_NODE_NAME;
+}
+
+
 
 VISITOR_IMPL( Statement ) {}
 

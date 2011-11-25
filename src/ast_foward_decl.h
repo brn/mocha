@@ -13,6 +13,7 @@ FOWARD_DECL(StatementList);
 FOWARD_DECL(BlockStmt);
 FOWARD_DECL(ModuleStmt);
 FOWARD_DECL(ExportStmt);
+FOWARD_DECL(ImportStmt);
 FOWARD_DECL(VariableStmt);
 FOWARD_DECL(LetStmt);
 FOWARD_DECL(ExpressionStmt);

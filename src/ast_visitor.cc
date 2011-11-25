@@ -67,7 +67,10 @@ VISITOR_IMPL( ExportStmt ) {
   ast_node->FirstChild()->Accept( this );
 }
 
-
+VISITOR_IMPL( ImportStmt ) {
+  PRINT_NODE_NAME;
+  ast_node->FirstChild()->Accept( this );
+}
 
 VISITOR_IMPL( Statement ) {
   PRINT_NODE_NAME;

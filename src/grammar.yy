@@ -220,6 +220,7 @@
 %token <info> JS_MODULE
 %token <info> JS_EXP_CLOSURE_BEGIN 
 %token <info> JS_EXP_CLOSURE_END
+%token <info> JS_FROM 
 
 %type <ast> program
 %type <function> function_declaration
@@ -328,6 +329,7 @@
 %type <ast> array_comprehensions
 %type <ast> array_comprehension_iteration
 %type <ast> array_comprehension_if__opt
+%type <ast> import_statement
 %%
 
 program
@@ -817,6 +819,24 @@ export_statement
   }
 ;
 
+
+import_statement
+: JS_IMPORT primary_expression JS_FROM assignment_expression terminator
+{
+  ImportStmt* stmt = ManagedHandle::Retain<ImportStmt>();
+  stmt->AddChild( $2 );
+  stmt->AddChild( $4 );
+  stmt->Line( $1->GetLineNumber() );
+  $$ = stmt;
+}
+| JS_IMPORT destructuring_assignment_left_hand_side JS_FROM assignment_expression terminator
+{
+  ImportStmt* stmt = ManagedHandle::Retain<ImportStmt>();
+  stmt->AddChild( $2 );
+  stmt->AddChild( $4 );
+  stmt->Line( $1->GetLineNumber() );
+  $$ = stmt;
+}
 
 statement_list
 : statement

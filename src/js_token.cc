@@ -107,7 +107,8 @@ int JsToken::keywordToken_ [] = {
   TOKEN::JS_VOLATILE,
   TOKEN::JS_WHILE,
   TOKEN::JS_WITH,
-  TOKEN::JS_EACH
+  TOKEN::JS_EACH,
+  TOKEN::JS_FROM
 };
 
 char JsToken::keywordsList_ [] [ 20 ] = {  
@@ -172,7 +173,8 @@ char JsToken::keywordsList_ [] [ 20 ] = {
   "volatile" ,
   "while" ,
   "with",
-  "each"
+  "each",
+  "from"
 };
 
 char JsToken::operators_ [] = {

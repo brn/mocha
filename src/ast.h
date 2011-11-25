@@ -43,6 +43,7 @@ class AstNode : public Managed {
     kBlockStmt,
     kModuleStmt,
     kExportStmt,
+    kImportStmt,
     kVariableStmt,
     kLetStmt,
     kExpressionStmt,
@@ -215,6 +216,14 @@ class ExportStmt : public Statement {
   CALL_ACCEPTOR( ExportStmt );
 };
 
+
+class ImportStmt : public Statement {
+ public :
+  inline ImportStmt() : Statement( NAME_PARAMETER( ImportStmt ) ){}
+  inline ~ImportStmt(){};
+ private :
+  CALL_ACCEPTOR( ImportStmt );
+}
 
 
 class VariableStmt : public Statement {
