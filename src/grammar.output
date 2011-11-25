@@ -42,6 +42,7 @@ Terminals unused in grammar
    JS_EXP_CLOSURE_END
 
 
+State 44 conflicts: 1 shift/reduce
 State 45 conflicts: 1 shift/reduce
 State 78 conflicts: 3 shift/reduce
 State 80 conflicts: 3 shift/reduce
@@ -149,7 +150,7 @@ Grammar
    56 block: '{' '}'
    57      | '{' statement_list '}'
 
-   58 module_block: JS_MODULE JS_IDENTIFIER statement
+   58 module_block: JS_MODULE identifier__opt statement
 
    59 export_statement: JS_EXPORT variable_declaration terminator
    60                 | JS_EXPORT function_declaration
@@ -559,8 +560,8 @@ JS_COMP_FOR (312)
 JS_FUNCTION (313) 3 5
 JS_GOTO (314)
 JS_GRATER_EQUAL (315) 217 224
-JS_IDENTIFIER (316) 3 4 16 18 21 22 36 58 69 75 77 84 86 89 90 92 93
-    120 125 144 167 173 180
+JS_IDENTIFIER (316) 3 4 16 18 21 22 36 69 75 77 84 86 89 90 92 93 120
+    125 144 167 173 180
 JS_IF (317) 99 100 161
 JS_IMPLEMENTS (318)
 JS_IMPORT (319)
@@ -647,7 +648,7 @@ source_element_for_function (149)
 formal_parameter_list__opt (150)
     on left: 33 34, on right: 3 4 5
 identifier__opt (151)
-    on left: 35 36, on right: 5 109 110
+    on left: 35 36, on right: 5 58 109 110
 statement (152)
     on left: 37 38 39, on right: 29 58 61 62 66 99 100 101 102 103
     104 105 106 107 108 112 120
@@ -1973,9 +1974,14 @@ state 43
 
 state 44
 
-   58 module_block: JS_MODULE . JS_IDENTIFIER statement
+   58 module_block: JS_MODULE . identifier__opt statement
 
-    JS_IDENTIFIER  shift, and go to state 161
+    JS_IDENTIFIER  shift, and go to state 118
+
+    JS_IDENTIFIER  [reduce using rule 35 (identifier__opt)]
+    $default       reduce using rule 35 (identifier__opt)
+
+    identifier__opt  go to state 161
 
 
 state 45
@@ -4023,7 +4029,7 @@ state 160
 
 state 161
 
-   58 module_block: JS_MODULE JS_IDENTIFIER . statement
+   58 module_block: JS_MODULE identifier__opt . statement
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6808,7 +6814,7 @@ state 295
 
 state 296
 
-   58 module_block: JS_MODULE JS_IDENTIFIER statement .
+   58 module_block: JS_MODULE identifier__opt statement .
 
     $default  reduce using rule 58 (module_block)
 

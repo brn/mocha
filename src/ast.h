@@ -198,10 +198,10 @@ class ModuleStmt : public Statement {
  public :
   inline ModuleStmt() : Statement( NAME_PARAMETER(ModuleStmt) ){};
   inline ~ModuleStmt() {};
-  inline void Name( ValueNode* name ) { name_ = name; }
-  inline ValueNode* Name() const { return name_; }
+  inline void Name( AstNode* name ) { name_ = name; }
+  inline AstNode* Name() const { return name_; }
  private :
-  ValueNode* name_;
+  AstNode* name_;
   CALL_ACCEPTOR( ModuleStmt );
 };
 

@@ -1,4 +1,4 @@
-module fmt {
+module {
   export fmt = ( format , args )-> {
     for ( var i in args ) {
       let reg = new RegExp( ( "\\$\\{" + i + "\\}" ) , "g" );

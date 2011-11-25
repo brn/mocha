@@ -35,5 +35,9 @@
         y = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[1] )?__tmp__0.fmt[1].y[1] : undefined,
         z = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[2] )?__tmp__0.fmt[1].y[2] : undefined,
         json = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[3] && __tmp__0.fmt[1].y[3]["@ok"] )?__tmp__0.fmt[1].y[3]["@ok"] : undefined;
+    __LINE__ = 2;
+    var __tmp__1 = location,
+        href = ( __tmp__1.href )?__tmp__1.href : undefined,
+        protocol = ( __tmp__1.protocol )?__tmp__1.protocol : undefined;
   })();
 })();

@@ -22,7 +22,9 @@ class CodeWriter {
     kCase,
     kNewNoArgsBegin,
     kNewNoArgsEnd,
-    kElseBlockEnd
+    kElseBlockEnd,
+    kNamedModule,
+    kAnonymousModule
   };
   CodeWriter( bool is_pretty_print , bool is_line );
   ~CodeWriter();
@@ -33,7 +35,9 @@ class CodeWriter {
   void SetFileName( std::string& buffer );
   void SetLine( long line ,  std::string& buffer );
   void ModuleBeginProccessor( const char* key , const char* name , std::string& buffer );
+  void AnonymousModuleBeginProccessor( const char* key , std::string& buffer );
   void ModuleEndProccessor( std::string& buffer );
+  void AnonymousModuleEndProccessor( std::string& buffer );
   class WriterBase;
  private :
   bool is_pretty_print_;

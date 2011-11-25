@@ -788,13 +788,11 @@ block
 
 
 module_block
-: JS_MODULE JS_IDENTIFIER statement
+: JS_MODULE identifier__opt statement
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-    value->Symbol( $2 );
     ModuleStmt* module = ManagedHandle::Retain<ModuleStmt>();
     module->Line( $1->GetLineNumber() );
-    module->Name( value );
+    module->Name( $2 );
 
     module->AddChild( $3 );
     $$ = module;

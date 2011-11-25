@@ -506,6 +506,31 @@ void CodeWriter::ModuleBeginProccessor( const char* key , const char* name , std
   }
 }
 
+
+void CodeWriter::AnonymousModuleBeginProccessor( const char* key , std::string& buffer ) {
+  if ( is_pretty_print_ ) {
+    char key_buf[ 500 ];
+    sprintf( key_buf , "__global_export__[%s] = {}" , key );
+    buffer += key_buf;
+    base_->WriteOp( ';' , 0 , buffer );
+    buffer += "(function ()";
+    base_->WriteOp( '{', kFunctionBeginBrace , buffer );
+    buffer += "var __export__ = __global_export__[";
+    buffer += key;
+    buffer += ']';
+    base_->WriteOp( ';' , 0 , buffer );
+  } else {
+    char key_buf[ 500 ];
+    sprintf( key_buf , "__global_export__[%s]={};" , key );
+    buffer += key_buf;
+    buffer += "(function(){";
+    buffer += "var __export__=__global_export__[";
+    buffer += key;
+    buffer += '];';
+  }
+}
+
+
 void CodeWriter::ModuleEndProccessor( std::string& buffer ) {
   if ( is_pretty_print_ ) {
     buffer += "return __export__";
@@ -515,6 +540,16 @@ void CodeWriter::ModuleEndProccessor( std::string& buffer ) {
     base_->WriteOp( ';' , 0 , buffer );
   } else {
     buffer += "return __export__;";
+    buffer += "})();";
+  }
+}
+
+void CodeWriter::AnonymousModuleEndProccessor( std::string& buffer ) {
+  if ( is_pretty_print_ ) {
+    base_->WriteOp( '}' , kArgs , buffer );
+    buffer += ")()";
+    base_->WriteOp( ';' , 0 , buffer );
+  } else {
     buffer += "})();";
   }
 }

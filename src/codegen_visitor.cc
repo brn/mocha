@@ -80,7 +80,13 @@ VISITOR_IMPL( BlockStmt ) {
 VISITOR_IMPL( ModuleStmt ) {
   PRINT_NODE_NAME;
   StrHandle key = FileSystem::GetModuleKey( current_root_->FileName() );
-  writer_->ModuleBeginProccessor( key.Get() , ast_node->Name()->Symbol()->GetToken() , buffer_ );
+  AstNode* name = ast_node->Name();
+  bool is_anony = name->IsEmpty();
+  if ( !is_anony ) {
+    writer_->ModuleBeginProccessor( key.Get() , name->CastToValue()->Symbol()->GetToken() , buffer_ );
+  } else {
+    writer_->AnonymousModuleBeginProccessor( key.Get() , buffer_ );
+  }
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* maybeBlock = ast_node->FirstChild();
   printf( "module child type = %d\n" , maybeBlock->NodeType() );
@@ -89,7 +95,11 @@ VISITOR_IMPL( ModuleStmt ) {
   } else {
     maybeBlock->Accept( this );
   }
-  writer_->ModuleEndProccessor( buffer_ );
+  if ( !is_anony ) {
+    writer_->ModuleEndProccessor( buffer_ );
+  } else {
+    writer_->AnonymousModuleEndProccessor( buffer_ );
+  }
 }
 
 
