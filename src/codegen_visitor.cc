@@ -17,11 +17,11 @@ namespace mocha {
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void CodegenVisitor::Accept##type( type* ast_node )
 #define ITERATOR(name) begin = name.begin(),end = name.end()
+#define PRINT_NODE_NAME ast_node->PrintNodeName()
 #define ACCEPT( ast )                           \
   if ( ast != 0 )                               \
     ast->Accept(this)
 
-#define PRINT_NODE_NAME ast_node->Print();
 
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
@@ -29,6 +29,7 @@ CodegenVisitor::CodegenVisitor( Options* option ) :
 
 
 VISITOR_IMPL( AstRoot ) {
+  PRINT_NODE_NAME;
   buffer_ += "(function()";
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
   writer_->InsertDebugSymbol( buffer_ );
@@ -45,6 +46,7 @@ VISITOR_IMPL( AstRoot ) {
 
 
 VISITOR_IMPL( FileRoot ) {
+  PRINT_NODE_NAME;
   buffer_ += "(function()";
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
   writer_->InitializeFileName( ast_node->FileName() , buffer_ );
@@ -60,6 +62,7 @@ VISITOR_IMPL( FileRoot ) {
 
 
 VISITOR_IMPL( BlockStmt ) {
+  PRINT_NODE_NAME;
   writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , buffer_ );
   AstNode* node_list = ast_node->FirstChild();
   if ( !node_list->IsEmpty() ) {
@@ -75,6 +78,7 @@ VISITOR_IMPL( BlockStmt ) {
 
 
 VISITOR_IMPL( ModuleStmt ) {
+  PRINT_NODE_NAME;
   StrHandle key = FileSystem::GetModuleKey( current_root_->FileName() );
   writer_->ModuleBeginProccessor( key.Get() , ast_node->Name()->Symbol()->GetToken() , buffer_ );
   writer_->SetLine( ast_node->Line() , buffer_ );
@@ -91,6 +95,7 @@ VISITOR_IMPL( ModuleStmt ) {
 
 
 VISITOR_IMPL( ExportStmt ) {
+  PRINT_NODE_NAME;
   AstNode *node = ast_node->FirstChild();
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->Write( "__export__." , buffer_ );
@@ -116,6 +121,7 @@ VISITOR_IMPL( Statement ) {}
 
 
 VISITOR_IMPL(StatementList) {
+  PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* statement = iterator.Next();
@@ -125,6 +131,7 @@ VISITOR_IMPL(StatementList) {
 
 
 void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
+  PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
   printf( "%d\n" , ast_node->ChildLength() );
   while ( iterator.HasNext() ) {
@@ -138,7 +145,11 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
         if ( !initialiser->IsEmpty() ) {
           writer_->WriteOp( '=' , 0 , buffer_ );
           initialiser->Accept( this );
-          writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+          if ( CurrentState_() == CodeWriter::kFor ) {
+            buffer_ += ',';
+          } else {
+            writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+          }
         }
         std::vector<std::string>::iterator ITERATOR( dst_code_ );
         while ( begin != end ) {
@@ -176,6 +187,7 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
 
 
 VISITOR_IMPL(VariableStmt) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
   VarListProcessor_( ast_node );
@@ -187,6 +199,7 @@ VISITOR_IMPL(LetStmt) {}
 
 
 VISITOR_IMPL(ExpressionStmt) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   ast_node->FirstChild()->Accept( this );
   writer_->WriteOp( ';' , 0 , buffer_ );
@@ -194,6 +207,7 @@ VISITOR_IMPL(ExpressionStmt) {
 
 
 VISITOR_IMPL(IFStmt) {
+  PRINT_NODE_NAME;
   if ( !MatchState_( TOKEN::JS_ELSE ) ) {
     writer_->SetLine( ast_node->Line() , buffer_ );
   }
@@ -246,6 +260,7 @@ VISITOR_IMPL(IFStmt) {
 
 
 VISITOR_IMPL(IterationStmt) {
+  PRINT_NODE_NAME;
   switch ( ast_node->NodeType() ) {
     case AstNode::kFor : //Fall Through
     case AstNode::kForWithVar :
@@ -269,6 +284,7 @@ VISITOR_IMPL(IterationStmt) {
 
 
 void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* exp = ast_node->Exp();
   writer_->WriteOp( TOKEN::JS_FOR , 0 , buffer_ );
@@ -314,6 +330,7 @@ void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
 }
 
 void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* exp = ast_node->Exp();
   writer_->WriteOp( TOKEN::JS_FOR , 0 , buffer_ );
@@ -352,6 +369,7 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
 
 
 void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* exp = ast_node->Exp()->FirstChild();
   writer_->WriteOp( TOKEN::JS_WHILE , 0 , buffer_ );
@@ -376,6 +394,7 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
 
 
 void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* exp = ast_node->Exp()->FirstChild();
   writer_->WriteOp( TOKEN::JS_DO , 0 , buffer_ );
@@ -402,6 +421,7 @@ void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
 
 
 void CodegenVisitor::JumpStmt_( AstNode* ast_node , int type ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->WriteOp( type , 0 , buffer_ );
   AstNode* identifer = ast_node->FirstChild();
@@ -414,14 +434,17 @@ void CodegenVisitor::JumpStmt_( AstNode* ast_node , int type ) {
 
 
 VISITOR_IMPL( ContinueStmt ) {
+  PRINT_NODE_NAME;
   JumpStmt_( ast_node , TOKEN::JS_CONTINUE );
 }
 
 VISITOR_IMPL( BreakStmt ) {
+  PRINT_NODE_NAME;
   JumpStmt_( ast_node , TOKEN::JS_BREAK );
 }
 
 VISITOR_IMPL( ReturnStmt ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->WriteOp( TOKEN::JS_RETURN , 0 , buffer_ );
   AstNode* identifer = ast_node->FirstChild();
@@ -431,6 +454,7 @@ VISITOR_IMPL( ReturnStmt ) {
 
 
 VISITOR_IMPL( WithStmt ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->WriteOp( TOKEN::JS_WITH , 0 , buffer_ );
   ast_node->Exp()->Accept( this );
@@ -451,6 +475,7 @@ VISITOR_IMPL( WithStmt ) {
 }
 
 VISITOR_IMPL( SwitchStmt ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->WriteOp( TOKEN::JS_SWITCH , 0 , buffer_ );
   writer_->WriteOp( '(' , 0 , buffer_ );
@@ -466,6 +491,7 @@ VISITOR_IMPL( SwitchStmt ) {
 }
 
 VISITOR_IMPL( CaseClause ) {
+  PRINT_NODE_NAME;
   AstNode* exp = ast_node->Exp();
   if ( !exp->IsEmpty() ) {
     writer_->WriteOp( TOKEN::JS_CASE , 0 , buffer_ );
@@ -481,6 +507,7 @@ VISITOR_IMPL( CaseClause ) {
 
 
 VISITOR_IMPL( LabelledStmt ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* symbol = ast_node->FirstChild();
   AstNode* statement = symbol->NextSibling();
@@ -491,6 +518,7 @@ VISITOR_IMPL( LabelledStmt ) {
 
 
 VISITOR_IMPL( ThrowStmt ) {
+  PRINT_NODE_NAME;
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->WriteOp( TOKEN::JS_THROW , 0 , buffer_ );
   ast_node->Exp()->Accept( this );
@@ -499,6 +527,7 @@ VISITOR_IMPL( ThrowStmt ) {
 
 
 VISITOR_IMPL(TryStmt) {
+  PRINT_NODE_NAME;
   writer_->WriteOp( TOKEN::JS_TRY , 0 , buffer_ );
   AstNode* try_block = ast_node->FirstChild();
   writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , buffer_ );
@@ -592,6 +621,7 @@ void CodegenVisitor::NormalFunctionCall_( CallExp* exp ) {
 
 
 VISITOR_IMPL( CallExp ) {
+  PRINT_NODE_NAME;
   switch ( ast_node->CallType() ) {
     case CallExp::kNormal :
       NormalFunctionCall_( ast_node );
@@ -613,24 +643,28 @@ VISITOR_IMPL( CallExp ) {
 
 
 VISITOR_IMPL(NewExp) {
+  PRINT_NODE_NAME;
   writer_->WriteOp( TOKEN::JS_NEW , 0 , buffer_ );
   ast_node->Constructor()->Accept( this );
 }
 
 
 VISITOR_IMPL(PostfixExp) {
+  PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
   writer_->WriteOp( ast_node->PostType() , 0 , buffer_ );
 }
 
 
 VISITOR_IMPL(UnaryExp) {
+  PRINT_NODE_NAME;
   writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
   ast_node->Exp()->Accept( this );
 }
 
 
 VISITOR_IMPL(BinaryExp) {
+  PRINT_NODE_NAME;
   ast_node->Left()->Accept( this );
   writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
   ast_node->Right()->Accept( this );
@@ -638,6 +672,7 @@ VISITOR_IMPL(BinaryExp) {
 
 
 VISITOR_IMPL( CompareExp ) {
+  PRINT_NODE_NAME;
   ast_node->Left()->Accept( this );
   writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
   ast_node->Right()->Accept( this );
@@ -645,6 +680,7 @@ VISITOR_IMPL( CompareExp ) {
 
 
 VISITOR_IMPL(ConditionalExp) {
+  PRINT_NODE_NAME;
   writer_->WriteOp( '(' , 0 , buffer_ );
   ast_node->Cond()->Accept( this );
   writer_->WriteOp( ')' , 0 , buffer_ );
@@ -656,6 +692,7 @@ VISITOR_IMPL(ConditionalExp) {
 
 
 VISITOR_IMPL(AssignmentExp) {
+  PRINT_NODE_NAME;
   ast_node->Left()->Accept( this );
   writer_->WriteOp( ast_node->Op() , 0 , buffer_ );
   ast_node->Right()->Accept( this );
@@ -663,6 +700,7 @@ VISITOR_IMPL(AssignmentExp) {
 
 
 VISITOR_IMPL(Expression) {
+  PRINT_NODE_NAME;
   if ( ast_node->IsParen() ) {
     BeginState_( CodeWriter::kParenExp );
     writer_->WriteOp( '(' , 0 , buffer_ );
@@ -681,6 +719,7 @@ VISITOR_IMPL(Expression) {
 }
 
 VISITOR_IMPL(Function){
+  PRINT_NODE_NAME;
   writer_->WriteOp( TOKEN::JS_FUNCTION , 0 , buffer_ );
   if ( !ast_node->Name()->IsEmpty() ) {
     writer_->Write( ast_node->Name()->CastToValue()->Symbol()->GetToken() , buffer_ );
@@ -733,6 +772,7 @@ VISITOR_IMPL(Function){
 
 
 void CodegenVisitor::ArrayProccessor_( ValueNode* ast_node ) {
+  PRINT_NODE_NAME;
   writer_->WriteOp( '[' , 0 , buffer_ );
   AstNode* list_child = ast_node->FirstChild();
   while ( list_child ) {
@@ -761,6 +801,7 @@ void CodegenVisitor::ArrayProccessor_( ValueNode* ast_node ) {
 
 
 void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
+  PRINT_NODE_NAME;
   AstNode* element_list = ast_node->Node();
   if ( element_list->IsEmpty() ) {
     buffer_ += "{}";
@@ -782,6 +823,7 @@ void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
 
 
 void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
+  PRINT_NODE_NAME;
   if ( ast_node->ValueType() == ValueNode::kVariable ) {
     writer_->Write( ast_node->Symbol()->GetToken() ,  buffer_ );
   }
@@ -819,6 +861,7 @@ void CodegenVisitor::CreateDstAssignment_( const char* name ) {
 
 
 void CodegenVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
+  PRINT_NODE_NAME;
   AstNode* list_child = ast_node->FirstChild();
   int index = 0;
   while ( list_child ) {
@@ -859,6 +902,7 @@ void CodegenVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
 
 
 void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
+  PRINT_NODE_NAME;
   TokenInfo* info = ast_node->Symbol();
   switch( info->GetType() ) {
     case TOKEN::JS_IDENTIFIER :
@@ -883,19 +927,28 @@ void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
 
 
 void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
+  PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->Node()->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* node = iterator.Next();
     ValueNode* value = node->CastToValue();
     if ( value ) {
       switch ( value->ValueType() ) {
+        case ValueNode::kNumeric :
+        case ValueNode::kString :
         case ValueNode::kIdentifier :
           if ( value->ChildLength() > 0 ) {
             DstMemberProccessor_( value );
             AstNode* child_node = value->FirstChild();
             ValueNode* prop = child_node->CastToValue();
             if ( prop ) {
-              CreateDstAssignment_( prop->Symbol()->GetToken() );
+              if ( prop->ValueType() == ValueNode::kDst ) {
+                DstObjectProcessor_( prop , ( depth + 1 ) );
+              } else if ( prop->ValueType() == ValueNode::kArray ) {
+                DstArrayProccessor_( prop , ( depth + 1 ) );
+              } else {
+                CreateDstAssignment_( prop->Symbol()->GetToken() );
+              }
             }
           } else {
             TokenInfo *info = value->Symbol();

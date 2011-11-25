@@ -703,7 +703,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 534 "grammar.yy"
     {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Line( (yysemantic_stack_[(4) - (3)].info)->GetLineNumber() );
     value->AddChild( (yysemantic_stack_[(4) - (4)].ast) );
     value->Symbol( (yysemantic_stack_[(4) - (3)].info) );

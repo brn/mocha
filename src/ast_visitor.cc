@@ -346,7 +346,10 @@ VISITOR_IMPL( ValueNode ) {
     printf( "symbol %s\n" , ast_node->Symbol()->GetToken() );
   } else if ( ast_node->ValueType() == ValueNode::kThis ) {
      printf( "symbol this\n" );
+  } else {
+    printf( "%d\n" , ast_node->ValueType() );
   }
 }
 }
 
+#undef PRINT_NODE_NAME

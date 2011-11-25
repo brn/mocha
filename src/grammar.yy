@@ -532,7 +532,7 @@ formal_parameter_list
 
 | formal_parameter_list ',' JS_IDENTIFIER initialiser__opt
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Line( $3->GetLineNumber() );
     value->AddChild( $4 );
     value->Symbol( $3 );
