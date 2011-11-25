@@ -276,6 +276,8 @@
 %type <ast> primary_expression
 %type <ast> array_literal
 %type <node_list> element_list
+%type <ast> array_left_hand_side
+%type <node_list> array_left_hand_side_list
 %type <ast> object_literal
 %type <ast> property_name_and_value_list__opt
 %type <ast> property_name_and_value_list
@@ -976,15 +978,85 @@ variable_declaration_no_in
  
 
 destructuring_assignment_left_hand_side
-: array_literal/*array_left_hand_side*/
+: array_left_hand_side
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-    value->Line( $1->Line() );
-    value->AddChild( $1 );
-    $$ = value;
+    $$ = $1;
   }
 | object_left_hand_side
   {
+    $$ = $1;
+  }
+;
+
+array_left_hand_side
+: '[' elision__opt ']'
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
+    if ( $2 ) {
+      value->AddChild( GetEmptyNode() );
+      value->AddChild( GetEmptyNode() );
+    }
+    value->Line( connector->GetLineNumber() );
+    $$ = value;
+  }
+| '[' array_left_hand_side_list ']'
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
+    value->Line( $2->Line() );
+    value->AddChild( $2 );
+    $$ = value;
+  }
+| '[' array_left_hand_side_list ',' elision__opt ']'
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
+    value->AddChild( $2 );
+    value->Line( $2->Line() );
+    if ( $4 ) {
+      value->AddChild( GetEmptyNode() );
+    }
+    $$ = value;
+  }
+;
+
+array_left_hand_side_list
+: elision__opt JS_IDENTIFIER
+  {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( $1 ) {
+      list->AddChild( GetEmptyNode() );
+    }
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    list->Line( $2->GetLineNumber() );
+    list->AddChild( value );
+    $$ = list;
+  }
+| elision__opt destructuring_assignment_left_hand_side
+  {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( $1 ) {
+      list->AddChild( GetEmptyNode() );
+    }
+    list->Line( $2->Line() );
+    list->AddChild( $2 );
+    $$ = list;
+  }
+| array_left_hand_side_list ',' elision__opt JS_IDENTIFIER
+  {
+    if ( $3 ) {
+      $1->AddChild( GetEmptyNode() );
+    }
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $4 );
+    $1->AddChild( value );
+    $$ = $1;
+  }
+| array_left_hand_side_list ',' elision__opt destructuring_assignment_left_hand_side
+  {
+    if ( $3 ) {
+      $1->AddChild( GetEmptyNode() );
+    }
+    $1->AddChild( $4 );
     $$ = $1;
   }
 ;
@@ -1027,9 +1099,7 @@ object_member_left_hand_side_list
   {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-    node->Node( $3 );
-    $1->AddChild( node );
+    $1->AddChild( $3 );
     list->Line( $1->Line() );
     list->AddChild( $1 );
     $$ = list;

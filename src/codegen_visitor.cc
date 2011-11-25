@@ -138,7 +138,7 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
       ValueNode* value = item->CastToValue();
-      if ( value && value->ValueType() == ValueNode::kDst ) {
+      if ( value && value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) {
         item->Accept( this );
         buffer_ += tmp_ref_;
         AstNode* initialiser = item->FirstChild();
@@ -877,9 +877,10 @@ void CodegenVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
             dst_accessor_.push_back( tmp );
             if ( elem->ValueType() == ValueNode::kIdentifier ) {
               CreateDstAssignment_( elem->Symbol()->GetToken() );
+              dst_accessor_.pop_back();
             } else if ( elem->ValueType() == ValueNode::kDst ) {
               DstObjectProcessor_( elem , ( depth + 1 ) );
-            } else if ( elem->ValueType() == ValueNode::kArray ) {
+            } else if ( elem->ValueType() == ValueNode::kDstArray ) {
               DstArrayProccessor_( elem , ( depth + 1 ) );
             }
           }
@@ -928,7 +929,8 @@ void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
 
 void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
   PRINT_NODE_NAME;
-  NodeIterator iterator = ast_node->Node()->ChildNodes();
+  AstNode* child = ast_node->Node();
+  NodeIterator iterator = ( child )? child->ChildNodes() : ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* node = iterator.Next();
     ValueNode* value = node->CastToValue();
@@ -944,7 +946,7 @@ void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
             if ( prop ) {
               if ( prop->ValueType() == ValueNode::kDst ) {
                 DstObjectProcessor_( prop , ( depth + 1 ) );
-              } else if ( prop->ValueType() == ValueNode::kArray ) {
+              } else if ( prop->ValueType() == ValueNode::kDstArray ) {
                 DstArrayProccessor_( prop , ( depth + 1 ) );
               } else {
                 CreateDstAssignment_( prop->Symbol()->GetToken() );
@@ -962,11 +964,12 @@ void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
           break;
 
         case ValueNode::kDst :
+        case ValueNode::kDstArray :
           DstMemberProccessor_( value );
           AstNode* child_node = value->FirstChild();
           ValueNode* value = child_node->CastToValue();
           if ( value ) {
-            if ( value->ValueType() == ValueNode::kArray ) {
+            if ( value->ValueType() == ValueNode::kDstArray ) {
               DstArrayProccessor_( ast_node , ( depth + 1 ) );
             } else {
               DstObjectProcessor_( ast_node , ( depth + 1 ) );
@@ -997,18 +1000,23 @@ void CodegenVisitor::DstProcessor_( ValueNode* ast_node ) {
 VISITOR_IMPL( ValueNode ) {
   switch ( ast_node->ValueType() ) {
     case ValueNode::kArray :
+      printf( "Array\n" );
       ArrayProccessor_( ast_node );
       break;
 
     case ValueNode::kObject :
+      printf( "Object\n" );
       ObjectProccessor_( ast_node );
       break;
 
     case ValueNode::kVariable :
+      printf( "var\n" );
       VarInitialiserProccessor_( ast_node );
       break;
 
     case ValueNode::kDst :
+    case ValueNode::kDstArray :
+      printf( "Dst\n" );
       DstProcessor_( ast_node );
       break;
       

@@ -626,6 +626,7 @@ class ValueNode : public AstNode {
     kArrayComp,
     kObject,
     kDst,
+    kDstArray,
     kSpread,
     kRest
   };

@@ -30,6 +30,10 @@
     var __backup__ = __FILE__ = "/Users/aono_taketoshi/github/mocha/mocha/test/mains/test.js";
     __LINE__ = 1;
     var __tmp__0 = __global_export__['{1-397-1092-205522212-1695-1977-60819523-2512-fmt.js}'],
-        x = ( __tmp__0.fmt && __tmp__0.fmt.fmt && __tmp__0.fmt.fmt["xfd"] )?__tmp__0.fmt.fmt["xfd"] : undefined;
+        x = ( __tmp__0.fmt && __tmp__0.fmt[0] )?__tmp__0.fmt[0] : undefined,
+        x = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[0] )?__tmp__0.fmt[1].y[0] : undefined,
+        y = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[1] )?__tmp__0.fmt[1].y[1] : undefined,
+        z = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[2] )?__tmp__0.fmt[1].y[2] : undefined,
+        json = ( __tmp__0.fmt && __tmp__0.fmt[1] && __tmp__0.fmt[1].y && __tmp__0.fmt[1].y[3] && __tmp__0.fmt[1].y[3]["@ok"] )?__tmp__0.fmt[1].y[3]["@ok"] : undefined;
   })();
 })();

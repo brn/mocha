@@ -983,6 +983,7 @@ class QueueScanner::TokenGetter {
     TokenInfo* info = (*it_);
     int type = info->GetType();
     if ( type != '(' && type != ')' && type != ',' && type != '=' && type != '.' && type != ':' &&
+         type != ']' &&
          type != TOKEN::JS_ELSE && type != TOKEN::JS_CATCH && type != TOKEN::JS_FINALLY &&
          type != TOKEN::JS_WHILE ) {
       return SemicolonInsertion_();

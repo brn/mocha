@@ -1,2 +1,2 @@
 
-var {fmt : {fmt:{"xfd" : x}}} = require( "./fmt" );
+var {fmt : [x,{y:[x,y,z,{"@ok" :json }]}]} = require( "./fmt" );

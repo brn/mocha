@@ -469,14 +469,14 @@ namespace yy {
 	  case 2:
 
 /* Line 690 of lalr1.cc  */
-#line 332 "grammar.yy"
+#line 334 "grammar.yy"
     {yydebug_ = 0;}
     break;
 
   case 3:
 
 /* Line 690 of lalr1.cc  */
-#line 333 "grammar.yy"
+#line 335 "grammar.yy"
     {
     FileRoot* root = ManagedHandle::Retain<FileRoot>();
     root->FileName( tracer->GetPath());
@@ -488,7 +488,7 @@ namespace yy {
   case 4:
 
 /* Line 690 of lalr1.cc  */
-#line 347 "grammar.yy"
+#line 349 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(8) - (1)].info)->GetLineNumber() );
@@ -504,7 +504,7 @@ namespace yy {
   case 5:
 
 /* Line 690 of lalr1.cc  */
-#line 364 "grammar.yy"
+#line 366 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(8) - (1)].info)->GetLineNumber() );
@@ -521,7 +521,7 @@ namespace yy {
   case 6:
 
 /* Line 690 of lalr1.cc  */
-#line 380 "grammar.yy"
+#line 382 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(8) - (1)].info)->GetLineNumber() );
@@ -535,14 +535,14 @@ namespace yy {
   case 7:
 
 /* Line 690 of lalr1.cc  */
-#line 389 "grammar.yy"
+#line 391 "grammar.yy"
     { (yyval.function) = (yysemantic_stack_[(1) - (1)].function); }
     break;
 
   case 8:
 
 /* Line 690 of lalr1.cc  */
-#line 403 "grammar.yy"
+#line 405 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(7) - (1)].info)->GetLineNumber() );
@@ -556,7 +556,7 @@ namespace yy {
   case 9:
 
 /* Line 690 of lalr1.cc  */
-#line 412 "grammar.yy"
+#line 414 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(4) - (1)].info)->GetLineNumber() );
@@ -570,7 +570,7 @@ namespace yy {
   case 10:
 
 /* Line 690 of lalr1.cc  */
-#line 421 "grammar.yy"
+#line 423 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(7) - (1)].info)->GetLineNumber() );
@@ -585,7 +585,7 @@ namespace yy {
   case 11:
 
 /* Line 690 of lalr1.cc  */
-#line 431 "grammar.yy"
+#line 433 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(4) - (1)].info)->GetLineNumber() );
@@ -600,7 +600,7 @@ namespace yy {
   case 12:
 
 /* Line 690 of lalr1.cc  */
-#line 441 "grammar.yy"
+#line 443 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -615,7 +615,7 @@ namespace yy {
   case 13:
 
 /* Line 690 of lalr1.cc  */
-#line 451 "grammar.yy"
+#line 453 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -631,7 +631,7 @@ namespace yy {
   case 14:
 
 /* Line 690 of lalr1.cc  */
-#line 462 "grammar.yy"
+#line 464 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -647,7 +647,7 @@ namespace yy {
   case 15:
 
 /* Line 690 of lalr1.cc  */
-#line 473 "grammar.yy"
+#line 475 "grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -662,7 +662,7 @@ namespace yy {
   case 16:
 
 /* Line 690 of lalr1.cc  */
-#line 487 "grammar.yy"
+#line 489 "grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(2) - (2)].ast);
   }
@@ -671,7 +671,7 @@ namespace yy {
   case 17:
 
 /* Line 690 of lalr1.cc  */
-#line 507 "grammar.yy"
+#line 509 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -686,7 +686,7 @@ namespace yy {
   case 18:
 
 /* Line 690 of lalr1.cc  */
-#line 523 "grammar.yy"
+#line 525 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
@@ -701,7 +701,7 @@ namespace yy {
   case 19:
 
 /* Line 690 of lalr1.cc  */
-#line 534 "grammar.yy"
+#line 536 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Line( (yysemantic_stack_[(4) - (3)].info)->GetLineNumber() );
@@ -715,7 +715,7 @@ namespace yy {
   case 20:
 
 /* Line 690 of lalr1.cc  */
-#line 544 "grammar.yy"
+#line 546 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     value->Line( (yysemantic_stack_[(4) - (3)].ast)->Line() );
@@ -729,7 +729,7 @@ namespace yy {
   case 21:
 
 /* Line 690 of lalr1.cc  */
-#line 554 "grammar.yy"
+#line 556 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
     value->Line( connector->GetLineNumber() );
@@ -742,7 +742,7 @@ namespace yy {
   case 22:
 
 /* Line 690 of lalr1.cc  */
-#line 569 "grammar.yy"
+#line 571 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -754,7 +754,7 @@ namespace yy {
   case 23:
 
 /* Line 690 of lalr1.cc  */
-#line 586 "grammar.yy"
+#line 588 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kSpread ) );
     value->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -766,21 +766,21 @@ namespace yy {
   case 24:
 
 /* Line 690 of lalr1.cc  */
-#line 595 "grammar.yy"
+#line 597 "grammar.yy"
     { (yyval.node_list) = ManagedHandle::Retain<NodeList>(); }
     break;
 
   case 25:
 
 /* Line 690 of lalr1.cc  */
-#line 596 "grammar.yy"
+#line 598 "grammar.yy"
     { (yyval.node_list) = (yysemantic_stack_[(1) - (1)].node_list); }
     break;
 
   case 26:
 
 /* Line 690 of lalr1.cc  */
-#line 601 "grammar.yy"
+#line 603 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     if ( !(yysemantic_stack_[(1) - (1)].ast)->IsEmpty() ) {
@@ -793,7 +793,7 @@ namespace yy {
   case 27:
 
 /* Line 690 of lalr1.cc  */
-#line 609 "grammar.yy"
+#line 611 "grammar.yy"
     {
     if ( !(yysemantic_stack_[(2) - (2)].ast)->IsEmpty() ) {
       (yysemantic_stack_[(2) - (1)].node_list)->AddChild( (yysemantic_stack_[(2) - (2)].ast) );
@@ -805,7 +805,7 @@ namespace yy {
   case 28:
 
 /* Line 690 of lalr1.cc  */
-#line 619 "grammar.yy"
+#line 621 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     if ( !(yysemantic_stack_[(1) - (1)].ast)->IsEmpty() ) {
@@ -818,7 +818,7 @@ namespace yy {
   case 29:
 
 /* Line 690 of lalr1.cc  */
-#line 627 "grammar.yy"
+#line 629 "grammar.yy"
     {
     if ( !(yysemantic_stack_[(2) - (2)].ast)->IsEmpty() ) {
       (yysemantic_stack_[(2) - (1)].node_list)->AddChild( (yysemantic_stack_[(2) - (2)].ast) );
@@ -830,14 +830,14 @@ namespace yy {
   case 30:
 
 /* Line 690 of lalr1.cc  */
-#line 636 "grammar.yy"
+#line 638 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 31:
 
 /* Line 690 of lalr1.cc  */
-#line 638 "grammar.yy"
+#line 640 "grammar.yy"
     { 
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
     stmt->Line( (yysemantic_stack_[(1) - (1)].function)->Line() );
@@ -849,14 +849,14 @@ namespace yy {
   case 32:
 
 /* Line 690 of lalr1.cc  */
-#line 647 "grammar.yy"
+#line 649 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 33:
 
 /* Line 690 of lalr1.cc  */
-#line 649 "grammar.yy"
+#line 651 "grammar.yy"
     { 
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
     stmt->Line( (yysemantic_stack_[(1) - (1)].function)->Line() );
@@ -868,14 +868,14 @@ namespace yy {
   case 34:
 
 /* Line 690 of lalr1.cc  */
-#line 658 "grammar.yy"
+#line 660 "grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 35:
 
 /* Line 690 of lalr1.cc  */
-#line 660 "grammar.yy"
+#line 662 "grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].node_list);
   }
@@ -884,14 +884,14 @@ namespace yy {
   case 36:
 
 /* Line 690 of lalr1.cc  */
-#line 666 "grammar.yy"
+#line 668 "grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 37:
 
 /* Line 690 of lalr1.cc  */
-#line 668 "grammar.yy"
+#line 670 "grammar.yy"
     {
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
@@ -902,14 +902,14 @@ namespace yy {
   case 38:
 
 /* Line 690 of lalr1.cc  */
-#line 676 "grammar.yy"
+#line 678 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 39:
 
 /* Line 690 of lalr1.cc  */
-#line 678 "grammar.yy"
+#line 680 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].module_stmt);
@@ -919,7 +919,7 @@ namespace yy {
   case 40:
 
 /* Line 690 of lalr1.cc  */
-#line 683 "grammar.yy"
+#line 685 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].export_stmt);
@@ -929,7 +929,7 @@ namespace yy {
   case 41:
 
 /* Line 690 of lalr1.cc  */
-#line 691 "grammar.yy"
+#line 693 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].block);
@@ -939,14 +939,14 @@ namespace yy {
   case 42:
 
 /* Line 690 of lalr1.cc  */
-#line 695 "grammar.yy"
+#line 697 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 43:
 
 /* Line 690 of lalr1.cc  */
-#line 700 "grammar.yy"
+#line 702 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].variable_stmt);
@@ -956,7 +956,7 @@ namespace yy {
   case 44:
 
 /* Line 690 of lalr1.cc  */
-#line 705 "grammar.yy"
+#line 707 "grammar.yy"
     { 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].let_stmt);
   }
@@ -965,7 +965,7 @@ namespace yy {
   case 45:
 
 /* Line 690 of lalr1.cc  */
-#line 709 "grammar.yy"
+#line 711 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
@@ -975,7 +975,7 @@ namespace yy {
   case 46:
 
 /* Line 690 of lalr1.cc  */
-#line 714 "grammar.yy"
+#line 716 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression_stmt);
@@ -985,7 +985,7 @@ namespace yy {
   case 47:
 
 /* Line 690 of lalr1.cc  */
-#line 719 "grammar.yy"
+#line 721 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].if_stmt);
@@ -995,7 +995,7 @@ namespace yy {
   case 48:
 
 /* Line 690 of lalr1.cc  */
-#line 724 "grammar.yy"
+#line 726 "grammar.yy"
     {
     
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].iteration_stmt);
@@ -1005,7 +1005,7 @@ namespace yy {
   case 49:
 
 /* Line 690 of lalr1.cc  */
-#line 729 "grammar.yy"
+#line 731 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].continue_stmt);
@@ -1015,7 +1015,7 @@ namespace yy {
   case 50:
 
 /* Line 690 of lalr1.cc  */
-#line 734 "grammar.yy"
+#line 736 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].break_stmt);
@@ -1025,7 +1025,7 @@ namespace yy {
   case 51:
 
 /* Line 690 of lalr1.cc  */
-#line 739 "grammar.yy"
+#line 741 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].return_stmt);
@@ -1035,7 +1035,7 @@ namespace yy {
   case 52:
 
 /* Line 690 of lalr1.cc  */
-#line 744 "grammar.yy"
+#line 746 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].with_stmt);
@@ -1045,7 +1045,7 @@ namespace yy {
   case 53:
 
 /* Line 690 of lalr1.cc  */
-#line 749 "grammar.yy"
+#line 751 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].labelled_stmt);
@@ -1055,7 +1055,7 @@ namespace yy {
   case 54:
 
 /* Line 690 of lalr1.cc  */
-#line 754 "grammar.yy"
+#line 756 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].switch_stmt);
@@ -1065,7 +1065,7 @@ namespace yy {
   case 55:
 
 /* Line 690 of lalr1.cc  */
-#line 759 "grammar.yy"
+#line 761 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].throw_stmt);
@@ -1075,7 +1075,7 @@ namespace yy {
   case 56:
 
 /* Line 690 of lalr1.cc  */
-#line 764 "grammar.yy"
+#line 766 "grammar.yy"
     {
 
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].try_stmt);
@@ -1085,7 +1085,7 @@ namespace yy {
   case 57:
 
 /* Line 690 of lalr1.cc  */
-#line 772 "grammar.yy"
+#line 774 "grammar.yy"
     {
     BlockStmt *block = ManagedHandle::Retain<BlockStmt>();
     block->Line( connector->GetLineNumber() );
@@ -1097,7 +1097,7 @@ namespace yy {
   case 58:
 
 /* Line 690 of lalr1.cc  */
-#line 779 "grammar.yy"
+#line 781 "grammar.yy"
     {
     BlockStmt *block = ManagedHandle::Retain<BlockStmt>();
     block->Line( (yysemantic_stack_[(3) - (2)].ast)->Line() );
@@ -1109,7 +1109,7 @@ namespace yy {
   case 59:
 
 /* Line 690 of lalr1.cc  */
-#line 790 "grammar.yy"
+#line 792 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( (yysemantic_stack_[(3) - (2)].info) );
@@ -1125,7 +1125,7 @@ namespace yy {
   case 60:
 
 /* Line 690 of lalr1.cc  */
-#line 805 "grammar.yy"
+#line 807 "grammar.yy"
     {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
     exports->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1137,7 +1137,7 @@ namespace yy {
   case 61:
 
 /* Line 690 of lalr1.cc  */
-#line 812 "grammar.yy"
+#line 814 "grammar.yy"
     {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
     exports->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -1149,7 +1149,7 @@ namespace yy {
   case 62:
 
 /* Line 690 of lalr1.cc  */
-#line 823 "grammar.yy"
+#line 825 "grammar.yy"
     {
     StatementList* list = ManagedHandle::Retain<StatementList>();
     if ( !(yysemantic_stack_[(1) - (1)].ast)->IsEmpty() ) {
@@ -1162,7 +1162,7 @@ namespace yy {
   case 63:
 
 /* Line 690 of lalr1.cc  */
-#line 831 "grammar.yy"
+#line 833 "grammar.yy"
     {
     if ( !(yysemantic_stack_[(2) - (2)].ast)->IsEmpty() ) {
       (yysemantic_stack_[(2) - (1)].ast)->AddChild( (yysemantic_stack_[(2) - (2)].ast) );
@@ -1174,7 +1174,7 @@ namespace yy {
   case 64:
 
 /* Line 690 of lalr1.cc  */
-#line 842 "grammar.yy"
+#line 844 "grammar.yy"
     {
     VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
     var->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1187,7 +1187,7 @@ namespace yy {
   case 65:
 
 /* Line 690 of lalr1.cc  */
-#line 850 "grammar.yy"
+#line 852 "grammar.yy"
     {
     VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
     var->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1200,7 +1200,7 @@ namespace yy {
   case 66:
 
 /* Line 690 of lalr1.cc  */
-#line 858 "grammar.yy"
+#line 860 "grammar.yy"
     {
     VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
     var->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1213,7 +1213,7 @@ namespace yy {
   case 67:
 
 /* Line 690 of lalr1.cc  */
-#line 869 "grammar.yy"
+#line 871 "grammar.yy"
     {
     LetStmt* let = ManagedHandle::Retain<LetStmt>();
     let->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -1226,7 +1226,7 @@ namespace yy {
   case 68:
 
 /* Line 690 of lalr1.cc  */
-#line 879 "grammar.yy"
+#line 881 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
@@ -1237,7 +1237,7 @@ namespace yy {
   case 69:
 
 /* Line 690 of lalr1.cc  */
-#line 885 "grammar.yy"
+#line 887 "grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].ast)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.ast) = (yysemantic_stack_[(3) - (1)].ast);
@@ -1247,7 +1247,7 @@ namespace yy {
   case 70:
 
 /* Line 690 of lalr1.cc  */
-#line 892 "grammar.yy"
+#line 894 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     value->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -1260,7 +1260,7 @@ namespace yy {
   case 71:
 
 /* Line 690 of lalr1.cc  */
-#line 900 "grammar.yy"
+#line 902 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     value->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
@@ -1273,7 +1273,7 @@ namespace yy {
   case 72:
 
 /* Line 690 of lalr1.cc  */
-#line 911 "grammar.yy"
+#line 913 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     if ( !(yysemantic_stack_[(1) - (1)].value_node)->IsEmpty() ) {
@@ -1286,7 +1286,7 @@ namespace yy {
   case 73:
 
 /* Line 690 of lalr1.cc  */
-#line 919 "grammar.yy"
+#line 921 "grammar.yy"
     {
     if ( !(yysemantic_stack_[(3) - (3)].value_node)->IsEmpty() ) {
       (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].value_node) );
@@ -1298,7 +1298,7 @@ namespace yy {
   case 74:
 
 /* Line 690 of lalr1.cc  */
-#line 929 "grammar.yy"
+#line 931 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( (yysemantic_stack_[(1) - (1)].value_node) );
@@ -1309,7 +1309,7 @@ namespace yy {
   case 75:
 
 /* Line 690 of lalr1.cc  */
-#line 935 "grammar.yy"
+#line 937 "grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].value_node) );
     (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
@@ -1319,7 +1319,7 @@ namespace yy {
   case 76:
 
 /* Line 690 of lalr1.cc  */
-#line 943 "grammar.yy"
+#line 945 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     node->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -1332,7 +1332,7 @@ namespace yy {
   case 77:
 
 /* Line 690 of lalr1.cc  */
-#line 951 "grammar.yy"
+#line 953 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     node->Node( (yysemantic_stack_[(2) - (1)].ast) );
@@ -1344,7 +1344,7 @@ namespace yy {
   case 78:
 
 /* Line 690 of lalr1.cc  */
-#line 961 "grammar.yy"
+#line 963 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     node->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -1357,7 +1357,7 @@ namespace yy {
   case 79:
 
 /* Line 690 of lalr1.cc  */
-#line 969 "grammar.yy"
+#line 971 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Node( (yysemantic_stack_[(2) - (1)].ast) );
@@ -1369,19 +1369,16 @@ namespace yy {
   case 80:
 
 /* Line 690 of lalr1.cc  */
-#line 980 "grammar.yy"
+#line 982 "grammar.yy"
     {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].ast)->Line() );
-    value->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
-    (yyval.ast) = value;
+    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
     break;
 
   case 81:
 
 /* Line 690 of lalr1.cc  */
-#line 987 "grammar.yy"
+#line 986 "grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].value_node);
   }
@@ -1390,7 +1387,109 @@ namespace yy {
   case 82:
 
 /* Line 690 of lalr1.cc  */
-#line 994 "grammar.yy"
+#line 993 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
+    if ( (yysemantic_stack_[(3) - (2)].opt) ) {
+      value->AddChild( GetEmptyNode() );
+      value->AddChild( GetEmptyNode() );
+    }
+    value->Line( connector->GetLineNumber() );
+    (yyval.ast) = value;
+  }
+    break;
+
+  case 83:
+
+/* Line 690 of lalr1.cc  */
+#line 1003 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
+    value->Line( (yysemantic_stack_[(3) - (2)].node_list)->Line() );
+    value->AddChild( (yysemantic_stack_[(3) - (2)].node_list) );
+    (yyval.ast) = value;
+  }
+    break;
+
+  case 84:
+
+/* Line 690 of lalr1.cc  */
+#line 1010 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
+    value->AddChild( (yysemantic_stack_[(5) - (2)].node_list) );
+    value->Line( (yysemantic_stack_[(5) - (2)].node_list)->Line() );
+    if ( (yysemantic_stack_[(5) - (4)].opt) ) {
+      value->AddChild( GetEmptyNode() );
+    }
+    (yyval.ast) = value;
+  }
+    break;
+
+  case 85:
+
+/* Line 690 of lalr1.cc  */
+#line 1023 "grammar.yy"
+    {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( (yysemantic_stack_[(2) - (1)].opt) ) {
+      list->AddChild( GetEmptyNode() );
+    }
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( (yysemantic_stack_[(2) - (2)].info) );
+    list->Line( (yysemantic_stack_[(2) - (2)].info)->GetLineNumber() );
+    list->AddChild( value );
+    (yyval.node_list) = list;
+  }
+    break;
+
+  case 86:
+
+/* Line 690 of lalr1.cc  */
+#line 1035 "grammar.yy"
+    {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( (yysemantic_stack_[(2) - (1)].opt) ) {
+      list->AddChild( GetEmptyNode() );
+    }
+    list->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    list->AddChild( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.node_list) = list;
+  }
+    break;
+
+  case 87:
+
+/* Line 690 of lalr1.cc  */
+#line 1045 "grammar.yy"
+    {
+    if ( (yysemantic_stack_[(4) - (3)].opt) ) {
+      (yysemantic_stack_[(4) - (1)].node_list)->AddChild( GetEmptyNode() );
+    }
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( (yysemantic_stack_[(4) - (4)].info) );
+    (yysemantic_stack_[(4) - (1)].node_list)->AddChild( value );
+    (yyval.node_list) = (yysemantic_stack_[(4) - (1)].node_list);
+  }
+    break;
+
+  case 88:
+
+/* Line 690 of lalr1.cc  */
+#line 1055 "grammar.yy"
+    {
+    if ( (yysemantic_stack_[(4) - (3)].opt) ) {
+      (yysemantic_stack_[(4) - (1)].node_list)->AddChild( GetEmptyNode() );
+    }
+    (yysemantic_stack_[(4) - (1)].node_list)->AddChild( (yysemantic_stack_[(4) - (4)].ast) );
+    (yyval.node_list) = (yysemantic_stack_[(4) - (1)].node_list);
+  }
+    break;
+
+  case 89:
+
+/* Line 690 of lalr1.cc  */
+#line 1066 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     value->Line( (yysemantic_stack_[(4) - (2)].node_list)->Line() );
@@ -1399,10 +1498,10 @@ namespace yy {
   }
     break;
 
-  case 83:
+  case 90:
 
 /* Line 690 of lalr1.cc  */
-#line 1005 "grammar.yy"
+#line 1077 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1414,10 +1513,10 @@ namespace yy {
   }
     break;
 
-  case 84:
+  case 91:
 
 /* Line 690 of lalr1.cc  */
-#line 1015 "grammar.yy"
+#line 1087 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1430,26 +1529,24 @@ namespace yy {
   }
     break;
 
-  case 85:
+  case 92:
 
 /* Line 690 of lalr1.cc  */
-#line 1027 "grammar.yy"
+#line 1099 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-    node->Node( (yysemantic_stack_[(3) - (3)].ast) );
-    (yysemantic_stack_[(3) - (1)].value_node)->AddChild( node );
+    (yysemantic_stack_[(3) - (1)].value_node)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     list->Line( (yysemantic_stack_[(3) - (1)].value_node)->Line() );
     list->AddChild( (yysemantic_stack_[(3) - (1)].value_node) );
     (yyval.node_list) = list;
   }
     break;
 
-  case 86:
+  case 93:
 
 /* Line 690 of lalr1.cc  */
-#line 1039 "grammar.yy"
+#line 1109 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     (yysemantic_stack_[(5) - (1)].node_list)->AddChild( (yysemantic_stack_[(5) - (3)].value_node) );
@@ -1460,10 +1557,10 @@ namespace yy {
   }
     break;
 
-  case 87:
+  case 94:
 
 /* Line 690 of lalr1.cc  */
-#line 1049 "grammar.yy"
+#line 1119 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -1473,10 +1570,10 @@ namespace yy {
   }
     break;
 
-  case 88:
+  case 95:
 
 /* Line 690 of lalr1.cc  */
-#line 1057 "grammar.yy"
+#line 1127 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     (yysemantic_stack_[(5) - (1)].node_list)->AddChild( (yysemantic_stack_[(5) - (3)].value_node) );
@@ -1485,31 +1582,31 @@ namespace yy {
   }
     break;
 
-  case 89:
+  case 96:
 
 /* Line 690 of lalr1.cc  */
-#line 1067 "grammar.yy"
+#line 1137 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(2) - (2)].ast); }
     break;
 
-  case 90:
+  case 97:
 
 /* Line 690 of lalr1.cc  */
-#line 1071 "grammar.yy"
+#line 1141 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(2) - (2)].ast); }
     break;
 
-  case 91:
+  case 98:
 
 /* Line 690 of lalr1.cc  */
-#line 1075 "grammar.yy"
+#line 1145 "grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
-  case 92:
+  case 99:
 
 /* Line 690 of lalr1.cc  */
-#line 1080 "grammar.yy"
+#line 1150 "grammar.yy"
     {
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
     stmt->Line( (yysemantic_stack_[(2) - (1)].expression)->Line() );
@@ -1518,10 +1615,10 @@ namespace yy {
   }
     break;
 
-  case 93:
+  case 100:
 
 /* Line 690 of lalr1.cc  */
-#line 1090 "grammar.yy"
+#line 1160 "grammar.yy"
     {
     IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
     stmt->Line( (yysemantic_stack_[(7) - (1)].info)->GetLineNumber() );
@@ -1532,10 +1629,10 @@ namespace yy {
   }
     break;
 
-  case 94:
+  case 101:
 
 /* Line 690 of lalr1.cc  */
-#line 1099 "grammar.yy"
+#line 1169 "grammar.yy"
     {
     IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
     stmt->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -1546,10 +1643,10 @@ namespace yy {
   }
     break;
 
-  case 95:
+  case 102:
 
 /* Line 690 of lalr1.cc  */
-#line 1111 "grammar.yy"
+#line 1181 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kDoWhile ) );
     iter->Line( (yysemantic_stack_[(7) - (1)].info)->GetLineNumber() );
@@ -1559,10 +1656,10 @@ namespace yy {
   }
     break;
 
-  case 96:
+  case 103:
 
 /* Line 690 of lalr1.cc  */
-#line 1119 "grammar.yy"
+#line 1189 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kWhile ) );
     iter->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -1572,10 +1669,10 @@ namespace yy {
   }
     break;
 
-  case 97:
+  case 104:
 
 /* Line 690 of lalr1.cc  */
-#line 1127 "grammar.yy"
+#line 1197 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kFor ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1589,10 +1686,10 @@ namespace yy {
   }
     break;
 
-  case 98:
+  case 105:
 
 /* Line 690 of lalr1.cc  */
-#line 1139 "grammar.yy"
+#line 1209 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1606,10 +1703,10 @@ namespace yy {
   }
     break;
 
-  case 99:
+  case 106:
 
 /* Line 690 of lalr1.cc  */
-#line 1151 "grammar.yy"
+#line 1221 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForIn ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1622,10 +1719,10 @@ namespace yy {
   }
     break;
 
-  case 100:
+  case 107:
 
 /* Line 690 of lalr1.cc  */
-#line 1162 "grammar.yy"
+#line 1232 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForInWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1638,10 +1735,10 @@ namespace yy {
   }
     break;
 
-  case 101:
+  case 108:
 
 /* Line 690 of lalr1.cc  */
-#line 1174 "grammar.yy"
+#line 1244 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForEach ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1654,10 +1751,10 @@ namespace yy {
   }
     break;
 
-  case 102:
+  case 109:
 
 /* Line 690 of lalr1.cc  */
-#line 1185 "grammar.yy"
+#line 1255 "grammar.yy"
     {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForEachWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1670,10 +1767,10 @@ namespace yy {
   }
     break;
 
-  case 103:
+  case 110:
 
 /* Line 690 of lalr1.cc  */
-#line 1199 "grammar.yy"
+#line 1269 "grammar.yy"
     {
     ContinueStmt *cont = ManagedHandle::Retain<ContinueStmt>();
     cont->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1682,10 +1779,10 @@ namespace yy {
   }
     break;
 
-  case 104:
+  case 111:
 
 /* Line 690 of lalr1.cc  */
-#line 1209 "grammar.yy"
+#line 1279 "grammar.yy"
     {
     BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
     break_stmt->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1694,10 +1791,10 @@ namespace yy {
   }
     break;
 
-  case 105:
+  case 112:
 
 /* Line 690 of lalr1.cc  */
-#line 1219 "grammar.yy"
+#line 1289 "grammar.yy"
     {
     ReturnStmt *ret = ManagedHandle::Retain<ReturnStmt>();
     ret->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1706,10 +1803,10 @@ namespace yy {
   }
     break;
 
-  case 106:
+  case 113:
 
 /* Line 690 of lalr1.cc  */
-#line 1229 "grammar.yy"
+#line 1299 "grammar.yy"
     {
     WithStmt *with_stmt = ManagedHandle::Retain<WithStmt>();
     with_stmt->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -1719,10 +1816,10 @@ namespace yy {
   }
     break;
 
-  case 107:
+  case 114:
 
 /* Line 690 of lalr1.cc  */
-#line 1240 "grammar.yy"
+#line 1310 "grammar.yy"
     {
     SwitchStmt *switch_stmt = ManagedHandle::Retain<SwitchStmt>();
     switch_stmt->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -1732,19 +1829,19 @@ namespace yy {
   }
     break;
 
-  case 108:
+  case 115:
 
 /* Line 690 of lalr1.cc  */
-#line 1251 "grammar.yy"
+#line 1321 "grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(3) - (2)].node_list);
   }
     break;
 
-  case 109:
+  case 116:
 
 /* Line 690 of lalr1.cc  */
-#line 1255 "grammar.yy"
+#line 1325 "grammar.yy"
     {
     (yysemantic_stack_[(5) - (2)].node_list)->AddChild( (yysemantic_stack_[(5) - (3)].case_clause) );
     (yysemantic_stack_[(5) - (2)].node_list)->Append( (yysemantic_stack_[(5) - (4)].node_list) );    
@@ -1752,10 +1849,10 @@ namespace yy {
   }
     break;
 
-  case 110:
+  case 117:
 
 /* Line 690 of lalr1.cc  */
-#line 1264 "grammar.yy"
+#line 1334 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( (yysemantic_stack_[(1) - (1)].case_clause) );
@@ -1763,20 +1860,20 @@ namespace yy {
   }
     break;
 
-  case 111:
+  case 118:
 
 /* Line 690 of lalr1.cc  */
-#line 1270 "grammar.yy"
+#line 1340 "grammar.yy"
     {
     (yysemantic_stack_[(2) - (1)].node_list)->AddChild( (yysemantic_stack_[(2) - (2)].case_clause) );
     (yyval.node_list) = (yysemantic_stack_[(2) - (1)].node_list);
   }
     break;
 
-  case 112:
+  case 119:
 
 /* Line 690 of lalr1.cc  */
-#line 1278 "grammar.yy"
+#line 1348 "grammar.yy"
     {
     CaseClause *clause = ManagedHandle::Retain<CaseClause> ();
     clause->Line( (yysemantic_stack_[(4) - (1)].info)->GetLineNumber() );
@@ -1786,10 +1883,10 @@ namespace yy {
   }
     break;
 
-  case 113:
+  case 120:
 
 /* Line 690 of lalr1.cc  */
-#line 1289 "grammar.yy"
+#line 1359 "grammar.yy"
     {
     CaseClause *clause = ManagedHandle::Retain<CaseClause> ();
     clause->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1799,10 +1896,10 @@ namespace yy {
   }
     break;
 
-  case 114:
+  case 121:
 
 /* Line 690 of lalr1.cc  */
-#line 1300 "grammar.yy"
+#line 1370 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( (yysemantic_stack_[(3) - (1)].info) );
@@ -1814,10 +1911,10 @@ namespace yy {
   }
     break;
 
-  case 115:
+  case 122:
 
 /* Line 690 of lalr1.cc  */
-#line 1313 "grammar.yy"
+#line 1383 "grammar.yy"
     {
     ThrowStmt* throw_stmt = ManagedHandle::Retain<ThrowStmt>();
     throw_stmt->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1826,10 +1923,10 @@ namespace yy {
   }
     break;
 
-  case 116:
+  case 123:
 
 /* Line 690 of lalr1.cc  */
-#line 1323 "grammar.yy"
+#line 1393 "grammar.yy"
     {
     TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
     try_stmt->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1840,10 +1937,10 @@ namespace yy {
   }
     break;
 
-  case 117:
+  case 124:
 
 /* Line 690 of lalr1.cc  */
-#line 1332 "grammar.yy"
+#line 1402 "grammar.yy"
     {
     TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
     try_stmt->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -1854,10 +1951,10 @@ namespace yy {
   }
     break;
 
-  case 118:
+  case 125:
 
 /* Line 690 of lalr1.cc  */
-#line 1341 "grammar.yy"
+#line 1411 "grammar.yy"
     {
     TryStmt* try_stmt = ManagedHandle::Retain<TryStmt>();
     try_stmt->Line( (yysemantic_stack_[(4) - (1)].info)->GetLineNumber() );
@@ -1868,10 +1965,10 @@ namespace yy {
   }
     break;
 
-  case 119:
+  case 126:
 
 /* Line 690 of lalr1.cc  */
-#line 1353 "grammar.yy"
+#line 1423 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Line( (yysemantic_stack_[(5) - (1)].info)->GetLineNumber() );
@@ -1881,176 +1978,92 @@ namespace yy {
   }
     break;
 
-  case 120:
+  case 127:
 
 /* Line 690 of lalr1.cc  */
-#line 1364 "grammar.yy"
+#line 1434 "grammar.yy"
     {
     (yysemantic_stack_[(2) - (2)].block)->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
     (yyval.ast) = (yysemantic_stack_[(2) - (2)].block);
   }
     break;
 
-  case 121:
-
-/* Line 690 of lalr1.cc  */
-#line 1371 "grammar.yy"
-    { (yyval.ast) = GetEmptyNode(); }
-    break;
-
-  case 122:
-
-/* Line 690 of lalr1.cc  */
-#line 1372 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 123:
-
-/* Line 690 of lalr1.cc  */
-#line 1376 "grammar.yy"
-    { (yyval.ast) = GetEmptyNode(); }
-    break;
-
-  case 124:
-
-/* Line 690 of lalr1.cc  */
-#line 1377 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 125:
-
-/* Line 690 of lalr1.cc  */
-#line 1381 "grammar.yy"
-    { (yyval.ast) = GetEmptyNode(); }
-    break;
-
-  case 126:
-
-/* Line 690 of lalr1.cc  */
-#line 1382 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 127:
-
-/* Line 690 of lalr1.cc  */
-#line 1386 "grammar.yy"
-    { (yyval.node_list) = ManagedHandle::Retain<NodeList>(); }
-    break;
-
   case 128:
 
 /* Line 690 of lalr1.cc  */
-#line 1387 "grammar.yy"
-    { (yyval.node_list) = (yysemantic_stack_[(1) - (1)].node_list); }
+#line 1441 "grammar.yy"
+    { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 129:
 
 /* Line 690 of lalr1.cc  */
-#line 1391 "grammar.yy"
+#line 1442 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 130:
 
 /* Line 690 of lalr1.cc  */
-#line 1392 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1446 "grammar.yy"
+    { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 131:
 
 /* Line 690 of lalr1.cc  */
-#line 1394 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1447 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 132:
 
 /* Line 690 of lalr1.cc  */
-#line 1401 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1451 "grammar.yy"
+    { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 133:
 
 /* Line 690 of lalr1.cc  */
-#line 1408 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRegExp ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1452 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 134:
 
 /* Line 690 of lalr1.cc  */
-#line 1418 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNull ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1456 "grammar.yy"
+    { (yyval.node_list) = ManagedHandle::Retain<NodeList>(); }
     break;
 
   case 135:
 
 /* Line 690 of lalr1.cc  */
-#line 1428 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kTrue ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1457 "grammar.yy"
+    { (yyval.node_list) = (yysemantic_stack_[(1) - (1)].node_list); }
     break;
 
   case 136:
 
 /* Line 690 of lalr1.cc  */
-#line 1435 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kFalse ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1461 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 137:
 
 /* Line 690 of lalr1.cc  */
-#line 1445 "grammar.yy"
-    { 
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kThis ) );
-    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
-    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
-    (yyval.ast) = value;
-  }
+#line 1462 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 138:
 
 /* Line 690 of lalr1.cc  */
-#line 1452 "grammar.yy"
+#line 1464 "grammar.yy"
     {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
     value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
     value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
     (yyval.ast) = value;
@@ -2060,38 +2073,122 @@ namespace yy {
   case 139:
 
 /* Line 690 of lalr1.cc  */
-#line 1458 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1471 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
+  }
     break;
 
   case 140:
 
 /* Line 690 of lalr1.cc  */
-#line 1459 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1478 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRegExp ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
+  }
     break;
 
   case 141:
 
 /* Line 690 of lalr1.cc  */
-#line 1460 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1488 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kNull ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
+  }
     break;
 
   case 142:
 
 /* Line 690 of lalr1.cc  */
-#line 1462 "grammar.yy"
+#line 1498 "grammar.yy"
     {
-    (yysemantic_stack_[(3) - (2)].expression)->Paren ();
-    (yyval.ast) = (yysemantic_stack_[(3) - (2)].expression);
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kTrue ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
   }
     break;
 
   case 143:
 
 /* Line 690 of lalr1.cc  */
-#line 1470 "grammar.yy"
+#line 1505 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kFalse ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
+  }
+    break;
+
+  case 144:
+
+/* Line 690 of lalr1.cc  */
+#line 1515 "grammar.yy"
+    { 
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kThis ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
+  }
+    break;
+
+  case 145:
+
+/* Line 690 of lalr1.cc  */
+#line 1522 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    value->Symbol( (yysemantic_stack_[(1) - (1)].info) );
+    (yyval.ast) = value;
+  }
+    break;
+
+  case 146:
+
+/* Line 690 of lalr1.cc  */
+#line 1528 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
+  case 147:
+
+/* Line 690 of lalr1.cc  */
+#line 1529 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
+  case 148:
+
+/* Line 690 of lalr1.cc  */
+#line 1530 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
+  case 149:
+
+/* Line 690 of lalr1.cc  */
+#line 1532 "grammar.yy"
+    {
+    (yysemantic_stack_[(3) - (2)].expression)->Paren ();
+    (yyval.ast) = (yysemantic_stack_[(3) - (2)].expression);
+  }
+    break;
+
+  case 150:
+
+/* Line 690 of lalr1.cc  */
+#line 1540 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
     if ( (yysemantic_stack_[(3) - (2)].opt) ) {
@@ -2103,10 +2200,10 @@ namespace yy {
   }
     break;
 
-  case 144:
+  case 151:
 
 /* Line 690 of lalr1.cc  */
-#line 1480 "grammar.yy"
+#line 1550 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
     value->Line( (yysemantic_stack_[(3) - (2)].node_list)->Line() );
@@ -2115,10 +2212,10 @@ namespace yy {
   }
     break;
 
-  case 145:
+  case 152:
 
 /* Line 690 of lalr1.cc  */
-#line 1487 "grammar.yy"
+#line 1557 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
     value->AddChild( (yysemantic_stack_[(5) - (2)].node_list) );
@@ -2130,10 +2227,10 @@ namespace yy {
   }
     break;
 
-  case 146:
+  case 153:
 
 /* Line 690 of lalr1.cc  */
-#line 1497 "grammar.yy"
+#line 1567 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArrayComp ) );
     value->AddChild( (yysemantic_stack_[(4) - (2)].node_list) );
@@ -2143,10 +2240,10 @@ namespace yy {
   }
     break;
 
-  case 147:
+  case 154:
 
 /* Line 690 of lalr1.cc  */
-#line 1508 "grammar.yy"
+#line 1578 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     if ( (yysemantic_stack_[(2) - (1)].opt) ) {
@@ -2158,10 +2255,10 @@ namespace yy {
   }
     break;
 
-  case 148:
+  case 155:
 
 /* Line 690 of lalr1.cc  */
-#line 1518 "grammar.yy"
+#line 1588 "grammar.yy"
     {
     if ( (yysemantic_stack_[(4) - (3)].opt) ) {
       (yysemantic_stack_[(4) - (1)].node_list)->AddChild( GetEmptyNode() );
@@ -2171,20 +2268,20 @@ namespace yy {
   }
     break;
 
-  case 151:
+  case 158:
 
 /* Line 690 of lalr1.cc  */
-#line 1535 "grammar.yy"
+#line 1605 "grammar.yy"
     {
     (yysemantic_stack_[(2) - (1)].ast)->After( (yysemantic_stack_[(2) - (2)].ast) );
     (yyval.ast) = (yysemantic_stack_[(2) - (1)].ast);
   }
     break;
 
-  case 152:
+  case 159:
 
 /* Line 690 of lalr1.cc  */
-#line 1543 "grammar.yy"
+#line 1613 "grammar.yy"
     {
     IterationStmt *for_in = ManagedHandle::Retain( new IterationStmt( AstNode::kForIn ) );
     for_in->Exp( (yysemantic_stack_[(6) - (3)].ast) );
@@ -2193,10 +2290,10 @@ namespace yy {
   }
     break;
 
-  case 153:
+  case 160:
 
 /* Line 690 of lalr1.cc  */
-#line 1550 "grammar.yy"
+#line 1620 "grammar.yy"
     {
     IterationStmt *for_each = ManagedHandle::Retain( new IterationStmt( AstNode::kForEach ) );
     for_each->Exp( (yysemantic_stack_[(7) - (4)].ast) );
@@ -2205,17 +2302,17 @@ namespace yy {
   }
     break;
 
-  case 154:
+  case 161:
 
 /* Line 690 of lalr1.cc  */
-#line 1559 "grammar.yy"
+#line 1629 "grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
-  case 155:
+  case 162:
 
 /* Line 690 of lalr1.cc  */
-#line 1561 "grammar.yy"
+#line 1631 "grammar.yy"
     {
     IFStmt *if_stmt = ManagedHandle::Retain<IFStmt> ();
     if_stmt->Exp( (yysemantic_stack_[(4) - (3)].expression) );
@@ -2223,10 +2320,10 @@ namespace yy {
   }
     break;
 
-  case 156:
+  case 163:
 
 /* Line 690 of lalr1.cc  */
-#line 1570 "grammar.yy"
+#line 1640 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
     value->Node( (yysemantic_stack_[(3) - (2)].ast) );
@@ -2239,28 +2336,28 @@ namespace yy {
   }
     break;
 
-  case 157:
+  case 164:
 
 /* Line 690 of lalr1.cc  */
-#line 1584 "grammar.yy"
+#line 1654 "grammar.yy"
     {
   (yyval.ast) = GetEmptyNode();
 }
     break;
 
-  case 158:
+  case 165:
 
 /* Line 690 of lalr1.cc  */
-#line 1588 "grammar.yy"
+#line 1658 "grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(2) - (1)].ast);
   }
     break;
 
-  case 159:
+  case 166:
 
 /* Line 690 of lalr1.cc  */
-#line 1595 "grammar.yy"
+#line 1665 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -2271,10 +2368,10 @@ namespace yy {
   }
     break;
 
-  case 160:
+  case 167:
 
 /* Line 690 of lalr1.cc  */
-#line 1604 "grammar.yy"
+#line 1674 "grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     (yysemantic_stack_[(5) - (1)].ast)->AddChild( (yysemantic_stack_[(5) - (3)].value_node) );
@@ -2283,10 +2380,10 @@ namespace yy {
   }
     break;
 
-  case 161:
+  case 168:
 
 /* Line 690 of lalr1.cc  */
-#line 1614 "grammar.yy"
+#line 1684 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
@@ -2295,10 +2392,10 @@ namespace yy {
   }
     break;
 
-  case 162:
+  case 169:
 
 /* Line 690 of lalr1.cc  */
-#line 1621 "grammar.yy"
+#line 1691 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
@@ -2307,10 +2404,10 @@ namespace yy {
   }
     break;
 
-  case 163:
+  case 170:
 
 /* Line 690 of lalr1.cc  */
-#line 1628 "grammar.yy"
+#line 1698 "grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
@@ -2319,139 +2416,28 @@ namespace yy {
   }
     break;
 
-  case 164:
-
-/* Line 690 of lalr1.cc  */
-#line 1638 "grammar.yy"
-    {
-    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
-  }
-    break;
-
-  case 165:
-
-/* Line 690 of lalr1.cc  */
-#line 1642 "grammar.yy"
-    {
-    (yyval.ast) = (yysemantic_stack_[(1) - (1)].function);
-  }
-    break;
-
-  case 166:
-
-/* Line 690 of lalr1.cc  */
-#line 1646 "grammar.yy"
-    {
-    int depth = 0;
-    if ( (yysemantic_stack_[(4) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
-      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(4) - (1)].ast) )->Depth() + 1;
-    }
-    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
-    exp->Line( (yysemantic_stack_[(4) - (1)].ast)->Line() );
-    exp->Callable( (yysemantic_stack_[(4) - (1)].ast) );
-    exp->Args( (yysemantic_stack_[(4) - (3)].expression) );
-    exp->Depth( depth );
-    (yyval.ast) = exp;
-  }
-    break;
-
-  case 167:
-
-/* Line 690 of lalr1.cc  */
-#line 1659 "grammar.yy"
-    {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-    int depth = 0;
-    if ( (yysemantic_stack_[(3) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
-      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(3) - (1)].ast) )->Depth() + 1;
-    }
-    value->Symbol( (yysemantic_stack_[(3) - (3)].info) );
-    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
-    exp->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
-    exp->Callable( (yysemantic_stack_[(3) - (1)].ast) );
-    exp->Args( value );
-    exp->Depth( depth );
-    (yyval.ast) = exp;
-  }
-    break;
-
-  case 168:
-
-/* Line 690 of lalr1.cc  */
-#line 1674 "grammar.yy"
-    {
-    int depth = 0;
-    if ( (yysemantic_stack_[(3) - (2)].ast)->NodeType() == AstNode::kCallExp ) {
-      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(3) - (2)].ast) )->Depth() + 1;
-    }
-    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNew ) );
-    exp->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
-    exp->Callable( (yysemantic_stack_[(3) - (2)].ast) );
-    exp->Args( (yysemantic_stack_[(3) - (3)].ast) );
-    exp->Depth( depth );
-    (yyval.ast) = exp;
-  }
-    break;
-
-  case 169:
-
-/* Line 690 of lalr1.cc  */
-#line 1689 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 170:
-
-/* Line 690 of lalr1.cc  */
-#line 1691 "grammar.yy"
-    {
-    NewExp* ret = ManagedHandle::Retain<NewExp>();
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Constructor( (yysemantic_stack_[(2) - (2)].ast) );
-    (yyval.ast) = ret;
-  }
-    break;
-
   case 171:
 
 /* Line 690 of lalr1.cc  */
-#line 1701 "grammar.yy"
+#line 1708 "grammar.yy"
     {
-    int depth = 0;
-    if ( (yysemantic_stack_[(2) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
-      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(2) - (1)].ast) )->Depth() + 1;
-    }
-    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
-    exp->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
-    exp->Callable( (yysemantic_stack_[(2) - (1)].ast) );
-    exp->Args( (yysemantic_stack_[(2) - (2)].ast) );
-    exp->Depth( depth );
-    (yyval.ast) = exp;
+    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
     break;
 
   case 172:
 
 /* Line 690 of lalr1.cc  */
-#line 1714 "grammar.yy"
+#line 1712 "grammar.yy"
     {
-    int depth = 0;
-    if ( (yysemantic_stack_[(2) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
-      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(2) - (1)].ast) )->Depth() + 1;
-    }
-    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
-    exp->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
-    exp->Callable( (yysemantic_stack_[(2) - (1)].ast) );
-    exp->Args( (yysemantic_stack_[(2) - (2)].ast) );
-    exp->Depth( depth );
-    (yyval.ast) = exp;
+    (yyval.ast) = (yysemantic_stack_[(1) - (1)].function);
   }
     break;
 
   case 173:
 
 /* Line 690 of lalr1.cc  */
-#line 1727 "grammar.yy"
+#line 1716 "grammar.yy"
     {
     int depth = 0;
     if ( (yysemantic_stack_[(4) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
@@ -2469,7 +2455,7 @@ namespace yy {
   case 174:
 
 /* Line 690 of lalr1.cc  */
-#line 1740 "grammar.yy"
+#line 1729 "grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     int depth = 0;
@@ -2489,32 +2475,132 @@ namespace yy {
   case 175:
 
 /* Line 690 of lalr1.cc  */
-#line 1757 "grammar.yy"
-    { (yyval.ast) = GetEmptyNode(); }
+#line 1744 "grammar.yy"
+    {
+    int depth = 0;
+    if ( (yysemantic_stack_[(3) - (2)].ast)->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(3) - (2)].ast) )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNew ) );
+    exp->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
+    exp->Callable( (yysemantic_stack_[(3) - (2)].ast) );
+    exp->Args( (yysemantic_stack_[(3) - (3)].ast) );
+    exp->Depth( depth );
+    (yyval.ast) = exp;
+  }
     break;
 
   case 176:
 
 /* Line 690 of lalr1.cc  */
-#line 1758 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(3) - (2)].node_list); }
+#line 1759 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 177:
 
 /* Line 690 of lalr1.cc  */
-#line 1763 "grammar.yy"
+#line 1761 "grammar.yy"
     {
-    NodeList* list = ManagedHandle::Retain<NodeList>();
-    list->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
-    (yyval.node_list) = list;
+    NewExp* ret = ManagedHandle::Retain<NewExp>();
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
+    ret->Constructor( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
   }
     break;
 
   case 178:
 
 /* Line 690 of lalr1.cc  */
-#line 1769 "grammar.yy"
+#line 1771 "grammar.yy"
+    {
+    int depth = 0;
+    if ( (yysemantic_stack_[(2) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(2) - (1)].ast) )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+    exp->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
+    exp->Callable( (yysemantic_stack_[(2) - (1)].ast) );
+    exp->Args( (yysemantic_stack_[(2) - (2)].ast) );
+    exp->Depth( depth );
+    (yyval.ast) = exp;
+  }
+    break;
+
+  case 179:
+
+/* Line 690 of lalr1.cc  */
+#line 1784 "grammar.yy"
+    {
+    int depth = 0;
+    if ( (yysemantic_stack_[(2) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(2) - (1)].ast) )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+    exp->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
+    exp->Callable( (yysemantic_stack_[(2) - (1)].ast) );
+    exp->Args( (yysemantic_stack_[(2) - (2)].ast) );
+    exp->Depth( depth );
+    (yyval.ast) = exp;
+  }
+    break;
+
+  case 180:
+
+/* Line 690 of lalr1.cc  */
+#line 1797 "grammar.yy"
+    {
+    int depth = 0;
+    if ( (yysemantic_stack_[(4) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(4) - (1)].ast) )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+    exp->Line( (yysemantic_stack_[(4) - (1)].ast)->Line() );
+    exp->Callable( (yysemantic_stack_[(4) - (1)].ast) );
+    exp->Args( (yysemantic_stack_[(4) - (3)].expression) );
+    exp->Depth( depth );
+    (yyval.ast) = exp;
+  }
+    break;
+
+  case 181:
+
+/* Line 690 of lalr1.cc  */
+#line 1810 "grammar.yy"
+    {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    int depth = 0;
+    if ( (yysemantic_stack_[(3) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(3) - (1)].ast) )->Depth() + 1;
+    }
+    value->Symbol( (yysemantic_stack_[(3) - (3)].info) );
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
+    exp->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
+    exp->Callable( (yysemantic_stack_[(3) - (1)].ast) );
+    exp->Args( value );
+    exp->Depth( depth );
+    (yyval.ast) = exp;
+  }
+    break;
+
+  case 182:
+
+/* Line 690 of lalr1.cc  */
+#line 1827 "grammar.yy"
+    { (yyval.ast) = GetEmptyNode(); }
+    break;
+
+  case 183:
+
+/* Line 690 of lalr1.cc  */
+#line 1828 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(3) - (2)].node_list); }
+    break;
+
+  case 184:
+
+/* Line 690 of lalr1.cc  */
+#line 1833 "grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
@@ -2522,136 +2608,68 @@ namespace yy {
   }
     break;
 
-  case 179:
-
-/* Line 690 of lalr1.cc  */
-#line 1775 "grammar.yy"
-    {
-    (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
-    (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
-  }
-    break;
-
-  case 180:
-
-/* Line 690 of lalr1.cc  */
-#line 1780 "grammar.yy"
-    {
-    (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
-    (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
-  }
-    break;
-
-  case 181:
-
-/* Line 690 of lalr1.cc  */
-#line 1787 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 182:
-
-/* Line 690 of lalr1.cc  */
-#line 1788 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 183:
-
-/* Line 690 of lalr1.cc  */
-#line 1793 "grammar.yy"
-    {
-    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
-  }
-    break;
-
-  case 184:
-
-/* Line 690 of lalr1.cc  */
-#line 1797 "grammar.yy"
-    {
-    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( (yysemantic_stack_[(2) - (2)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
-    ret->Exp( (yysemantic_stack_[(2) - (1)].ast) );
-    (yyval.ast) = ret;
-  }
-    break;
-
   case 185:
 
 /* Line 690 of lalr1.cc  */
-#line 1804 "grammar.yy"
+#line 1839 "grammar.yy"
     {
-    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( (yysemantic_stack_[(2) - (2)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
-    ret->Exp( (yysemantic_stack_[(2) - (1)].ast) );
-    (yyval.ast) = ret;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
+    (yyval.node_list) = list;
   }
     break;
 
   case 186:
 
 /* Line 690 of lalr1.cc  */
-#line 1813 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1845 "grammar.yy"
+    {
+    (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
+    (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
+  }
     break;
 
   case 187:
 
 /* Line 690 of lalr1.cc  */
-#line 1815 "grammar.yy"
+#line 1850 "grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
-    (yyval.ast) = ret;
+    (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
+    (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
   }
     break;
 
   case 188:
 
 /* Line 690 of lalr1.cc  */
-#line 1822 "grammar.yy"
-    {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
-    (yyval.ast) = ret;
-  }
+#line 1857 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 189:
 
 /* Line 690 of lalr1.cc  */
-#line 1829 "grammar.yy"
-    {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
-    (yyval.ast) = ret;
-  }
+#line 1858 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 190:
 
 /* Line 690 of lalr1.cc  */
-#line 1836 "grammar.yy"
+#line 1863 "grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
-    (yyval.ast) = ret;
+    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
     break;
 
   case 191:
 
 /* Line 690 of lalr1.cc  */
-#line 1843 "grammar.yy"
+#line 1867 "grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( (yysemantic_stack_[(2) - (2)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (1)].ast) );
     (yyval.ast) = ret;
   }
     break;
@@ -2659,11 +2677,11 @@ namespace yy {
   case 192:
 
 /* Line 690 of lalr1.cc  */
-#line 1850 "grammar.yy"
+#line 1874 "grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '+' ) );
-    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( (yysemantic_stack_[(2) - (2)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (1)].ast) );
     (yyval.ast) = ret;
   }
     break;
@@ -2671,22 +2689,17 @@ namespace yy {
   case 193:
 
 /* Line 690 of lalr1.cc  */
-#line 1857 "grammar.yy"
-    {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '-' ) );
-    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
-    (yyval.ast) = ret;
-  }
+#line 1883 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 194:
 
 /* Line 690 of lalr1.cc  */
-#line 1864 "grammar.yy"
+#line 1885 "grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '~' ) );
-    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
     ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
     (yyval.ast) = ret;
   }
@@ -2695,10 +2708,10 @@ namespace yy {
   case 195:
 
 /* Line 690 of lalr1.cc  */
-#line 1871 "grammar.yy"
+#line 1892 "grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '!' ) );
-    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
     ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
     (yyval.ast) = ret;
   }
@@ -2707,168 +2720,191 @@ namespace yy {
   case 196:
 
 /* Line 690 of lalr1.cc  */
-#line 1880 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1899 "grammar.yy"
+    {
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
+  }
     break;
 
   case 197:
 
 /* Line 690 of lalr1.cc  */
-#line 1882 "grammar.yy"
+#line 1906 "grammar.yy"
     {
-    BINARY_ACTION('*',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
   }
     break;
 
   case 198:
 
 /* Line 690 of lalr1.cc  */
-#line 1886 "grammar.yy"
+#line 1913 "grammar.yy"
     {
-    BINARY_ACTION('/',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
   }
     break;
 
   case 199:
 
 /* Line 690 of lalr1.cc  */
-#line 1890 "grammar.yy"
+#line 1920 "grammar.yy"
     {
-    BINARY_ACTION('%',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '+' ) );
+    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
   }
     break;
 
   case 200:
 
 /* Line 690 of lalr1.cc  */
-#line 1896 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 1927 "grammar.yy"
+    {
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '-' ) );
+    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
+  }
     break;
 
   case 201:
 
 /* Line 690 of lalr1.cc  */
-#line 1898 "grammar.yy"
+#line 1934 "grammar.yy"
     {
-    BINARY_ACTION('+',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '~' ) );
+    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
   }
     break;
 
   case 202:
 
 /* Line 690 of lalr1.cc  */
-#line 1902 "grammar.yy"
+#line 1941 "grammar.yy"
     {
-    BINARY_ACTION('-',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '!' ) );
+    ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
   }
     break;
 
   case 203:
 
 /* Line 690 of lalr1.cc  */
-#line 1908 "grammar.yy"
+#line 1950 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 204:
 
 /* Line 690 of lalr1.cc  */
-#line 1910 "grammar.yy"
+#line 1952 "grammar.yy"
     {
-    BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION('*',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 205:
 
 /* Line 690 of lalr1.cc  */
-#line 1914 "grammar.yy"
+#line 1956 "grammar.yy"
     {
-    BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION('/',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 206:
 
 /* Line 690 of lalr1.cc  */
-#line 1918 "grammar.yy"
+#line 1960 "grammar.yy"
     {
-    BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION('%',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 207:
 
 /* Line 690 of lalr1.cc  */
-#line 1924 "grammar.yy"
+#line 1966 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 208:
 
 /* Line 690 of lalr1.cc  */
-#line 1926 "grammar.yy"
+#line 1968 "grammar.yy"
     {
-    COMPARE_ACTION('<',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION('+',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 209:
 
 /* Line 690 of lalr1.cc  */
-#line 1930 "grammar.yy"
+#line 1972 "grammar.yy"
     {
-    COMPARE_ACTION('>',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION('-',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 210:
 
 /* Line 690 of lalr1.cc  */
-#line 1934 "grammar.yy"
-    {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 1978 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 211:
 
 /* Line 690 of lalr1.cc  */
-#line 1938 "grammar.yy"
+#line 1980 "grammar.yy"
     {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 212:
 
 /* Line 690 of lalr1.cc  */
-#line 1942 "grammar.yy"
+#line 1984 "grammar.yy"
     {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 213:
 
 /* Line 690 of lalr1.cc  */
-#line 1946 "grammar.yy"
+#line 1988 "grammar.yy"
     {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 214:
 
 /* Line 690 of lalr1.cc  */
-#line 1952 "grammar.yy"
+#line 1994 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 215:
 
 /* Line 690 of lalr1.cc  */
-#line 1954 "grammar.yy"
+#line 1996 "grammar.yy"
     {
     COMPARE_ACTION('<',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2877,7 +2913,7 @@ namespace yy {
   case 216:
 
 /* Line 690 of lalr1.cc  */
-#line 1958 "grammar.yy"
+#line 2000 "grammar.yy"
     {
     COMPARE_ACTION('>',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2886,7 +2922,7 @@ namespace yy {
   case 217:
 
 /* Line 690 of lalr1.cc  */
-#line 1962 "grammar.yy"
+#line 2004 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2895,7 +2931,7 @@ namespace yy {
   case 218:
 
 /* Line 690 of lalr1.cc  */
-#line 1966 "grammar.yy"
+#line 2008 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2904,7 +2940,7 @@ namespace yy {
   case 219:
 
 /* Line 690 of lalr1.cc  */
-#line 1970 "grammar.yy"
+#line 2012 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2913,41 +2949,41 @@ namespace yy {
   case 220:
 
 /* Line 690 of lalr1.cc  */
-#line 1976 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 221:
-
-/* Line 690 of lalr1.cc  */
-#line 1978 "grammar.yy"
+#line 2016 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
+  case 221:
+
+/* Line 690 of lalr1.cc  */
+#line 2022 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
   case 222:
 
 /* Line 690 of lalr1.cc  */
-#line 1982 "grammar.yy"
+#line 2024 "grammar.yy"
     {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    COMPARE_ACTION('<',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 223:
 
 /* Line 690 of lalr1.cc  */
-#line 1986 "grammar.yy"
+#line 2028 "grammar.yy"
     {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    COMPARE_ACTION('>',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 224:
 
 /* Line 690 of lalr1.cc  */
-#line 1990 "grammar.yy"
+#line 2032 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2956,14 +2992,16 @@ namespace yy {
   case 225:
 
 /* Line 690 of lalr1.cc  */
-#line 1996 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2036 "grammar.yy"
+    {
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 226:
 
 /* Line 690 of lalr1.cc  */
-#line 1998 "grammar.yy"
+#line 2040 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2972,16 +3010,14 @@ namespace yy {
   case 227:
 
 /* Line 690 of lalr1.cc  */
-#line 2002 "grammar.yy"
-    {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2046 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 228:
 
 /* Line 690 of lalr1.cc  */
-#line 2006 "grammar.yy"
+#line 2048 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2990,7 +3026,7 @@ namespace yy {
   case 229:
 
 /* Line 690 of lalr1.cc  */
-#line 2010 "grammar.yy"
+#line 2052 "grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -2999,232 +3035,273 @@ namespace yy {
   case 230:
 
 /* Line 690 of lalr1.cc  */
-#line 2016 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2056 "grammar.yy"
+    {
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 231:
 
 /* Line 690 of lalr1.cc  */
-#line 2018 "grammar.yy"
+#line 2060 "grammar.yy"
     {
-    BINARY_ACTION('&',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 232:
 
 /* Line 690 of lalr1.cc  */
-#line 2024 "grammar.yy"
+#line 2066 "grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 233:
 
 /* Line 690 of lalr1.cc  */
-#line 2026 "grammar.yy"
+#line 2068 "grammar.yy"
     {
-    BINARY_ACTION('&',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 234:
 
 /* Line 690 of lalr1.cc  */
-#line 2032 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2072 "grammar.yy"
+    {
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 235:
 
 /* Line 690 of lalr1.cc  */
-#line 2034 "grammar.yy"
+#line 2076 "grammar.yy"
     {
-    BINARY_ACTION('^',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 236:
 
 /* Line 690 of lalr1.cc  */
-#line 2040 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);}
+#line 2080 "grammar.yy"
+    {
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 237:
 
 /* Line 690 of lalr1.cc  */
-#line 2042 "grammar.yy"
-    {
-    BINARY_ACTION('^',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2086 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 238:
 
 /* Line 690 of lalr1.cc  */
-#line 2048 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2088 "grammar.yy"
+    {
+    BINARY_ACTION('&',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 239:
 
 /* Line 690 of lalr1.cc  */
-#line 2050 "grammar.yy"
-    {
-    BINARY_ACTION('|',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2094 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 240:
 
 /* Line 690 of lalr1.cc  */
-#line 2056 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2096 "grammar.yy"
+    {
+    BINARY_ACTION('&',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 241:
 
 /* Line 690 of lalr1.cc  */
-#line 2058 "grammar.yy"
-    {
-    BINARY_ACTION('|',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2102 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 242:
 
 /* Line 690 of lalr1.cc  */
-#line 2064 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2104 "grammar.yy"
+    {
+    BINARY_ACTION('^',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 243:
 
 /* Line 690 of lalr1.cc  */
-#line 2066 "grammar.yy"
-    {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2110 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);}
     break;
 
   case 244:
 
 /* Line 690 of lalr1.cc  */
-#line 2072 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2112 "grammar.yy"
+    {
+    BINARY_ACTION('^',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 245:
 
 /* Line 690 of lalr1.cc  */
-#line 2074 "grammar.yy"
-    {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2118 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 246:
 
 /* Line 690 of lalr1.cc  */
-#line 2080 "grammar.yy"
-    {(yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2120 "grammar.yy"
+    {
+    BINARY_ACTION('|',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 247:
 
 /* Line 690 of lalr1.cc  */
-#line 2082 "grammar.yy"
-    {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2126 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 248:
 
 /* Line 690 of lalr1.cc  */
-#line 2088 "grammar.yy"
-    { (yyval.ast) =(yysemantic_stack_[(1) - (1)].ast); }
+#line 2128 "grammar.yy"
+    {
+    BINARY_ACTION('|',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 249:
 
 /* Line 690 of lalr1.cc  */
-#line 2090 "grammar.yy"
-    {
-    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
-  }
+#line 2134 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 250:
 
 /* Line 690 of lalr1.cc  */
-#line 2096 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2136 "grammar.yy"
+    {
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 251:
 
 /* Line 690 of lalr1.cc  */
-#line 2098 "grammar.yy"
-    {
-    ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( (yysemantic_stack_[(5) - (1)].ast) , (yysemantic_stack_[(5) - (3)].ast) , (yysemantic_stack_[(5) - (5)].ast) ) );
-    ret->Line( (yysemantic_stack_[(5) - (1)].ast)->Line() );
-    (yyval.ast) = ret;
-  }
+#line 2142 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 252:
 
 /* Line 690 of lalr1.cc  */
-#line 2106 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+#line 2144 "grammar.yy"
+    {
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
+  }
     break;
 
   case 253:
 
 /* Line 690 of lalr1.cc  */
-#line 2108 "grammar.yy"
-    {
-    ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( (yysemantic_stack_[(5) - (1)].ast) , (yysemantic_stack_[(5) - (3)].ast) , (yysemantic_stack_[(5) - (5)].ast) ) );
-    ret->Line( (yysemantic_stack_[(5) - (1)].ast)->Line() );
-    (yyval.ast) = ret;
-  }
+#line 2150 "grammar.yy"
+    {(yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 254:
 
 /* Line 690 of lalr1.cc  */
-#line 2117 "grammar.yy"
+#line 2152 "grammar.yy"
     {
-    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 255:
 
 /* Line 690 of lalr1.cc  */
-#line 2121 "grammar.yy"
-    {
-    AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( (yysemantic_stack_[(3) - (2)].num) , (yysemantic_stack_[(3) - (1)].ast) , (yysemantic_stack_[(3) - (3)].ast) ) );
-    ret->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
-    (yyval.ast) = ret;
-  }
+#line 2158 "grammar.yy"
+    { (yyval.ast) =(yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 256:
 
 /* Line 690 of lalr1.cc  */
-#line 2131 "grammar.yy"
+#line 2160 "grammar.yy"
     {
-    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
+    COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
     break;
 
   case 257:
 
 /* Line 690 of lalr1.cc  */
-#line 2135 "grammar.yy"
+#line 2166 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
+  case 258:
+
+/* Line 690 of lalr1.cc  */
+#line 2168 "grammar.yy"
+    {
+    ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( (yysemantic_stack_[(5) - (1)].ast) , (yysemantic_stack_[(5) - (3)].ast) , (yysemantic_stack_[(5) - (5)].ast) ) );
+    ret->Line( (yysemantic_stack_[(5) - (1)].ast)->Line() );
+    (yyval.ast) = ret;
+  }
+    break;
+
+  case 259:
+
+/* Line 690 of lalr1.cc  */
+#line 2176 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
+  case 260:
+
+/* Line 690 of lalr1.cc  */
+#line 2178 "grammar.yy"
+    {
+    ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( (yysemantic_stack_[(5) - (1)].ast) , (yysemantic_stack_[(5) - (3)].ast) , (yysemantic_stack_[(5) - (5)].ast) ) );
+    ret->Line( (yysemantic_stack_[(5) - (1)].ast)->Line() );
+    (yyval.ast) = ret;
+  }
+    break;
+
+  case 261:
+
+/* Line 690 of lalr1.cc  */
+#line 2187 "grammar.yy"
+    {
+    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
+  }
+    break;
+
+  case 262:
+
+/* Line 690 of lalr1.cc  */
+#line 2191 "grammar.yy"
     {
     AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( (yysemantic_stack_[(3) - (2)].num) , (yysemantic_stack_[(3) - (1)].ast) , (yysemantic_stack_[(3) - (3)].ast) ) );
     ret->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
@@ -3232,94 +3309,114 @@ namespace yy {
   }
     break;
 
-  case 258:
-
-/* Line 690 of lalr1.cc  */
-#line 2145 "grammar.yy"
-    { (yyval.num) = '='; }
-    break;
-
-  case 259:
-
-/* Line 690 of lalr1.cc  */
-#line 2146 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
-    break;
-
-  case 260:
-
-/* Line 690 of lalr1.cc  */
-#line 2147 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
-    break;
-
-  case 261:
-
-/* Line 690 of lalr1.cc  */
-#line 2148 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
-    break;
-
-  case 262:
-
-/* Line 690 of lalr1.cc  */
-#line 2149 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
-    break;
-
   case 263:
 
 /* Line 690 of lalr1.cc  */
-#line 2150 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+#line 2201 "grammar.yy"
+    {
+    (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
+  }
     break;
 
   case 264:
 
 /* Line 690 of lalr1.cc  */
-#line 2151 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+#line 2205 "grammar.yy"
+    {
+    AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( (yysemantic_stack_[(3) - (2)].num) , (yysemantic_stack_[(3) - (1)].ast) , (yysemantic_stack_[(3) - (3)].ast) ) );
+    ret->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
+    (yyval.ast) = ret;
+  }
     break;
 
   case 265:
 
 /* Line 690 of lalr1.cc  */
-#line 2152 "grammar.yy"
-    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+#line 2215 "grammar.yy"
+    { (yyval.num) = '='; }
     break;
 
   case 266:
 
 /* Line 690 of lalr1.cc  */
-#line 2153 "grammar.yy"
+#line 2216 "grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 267:
 
 /* Line 690 of lalr1.cc  */
-#line 2154 "grammar.yy"
+#line 2217 "grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 268:
 
 /* Line 690 of lalr1.cc  */
-#line 2155 "grammar.yy"
+#line 2218 "grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 269:
 
 /* Line 690 of lalr1.cc  */
-#line 2156 "grammar.yy"
+#line 2219 "grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 270:
 
 /* Line 690 of lalr1.cc  */
-#line 2161 "grammar.yy"
+#line 2220 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 271:
+
+/* Line 690 of lalr1.cc  */
+#line 2221 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 272:
+
+/* Line 690 of lalr1.cc  */
+#line 2222 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 273:
+
+/* Line 690 of lalr1.cc  */
+#line 2223 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 274:
+
+/* Line 690 of lalr1.cc  */
+#line 2224 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 275:
+
+/* Line 690 of lalr1.cc  */
+#line 2225 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 276:
+
+/* Line 690 of lalr1.cc  */
+#line 2226 "grammar.yy"
+    { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
+    break;
+
+  case 277:
+
+/* Line 690 of lalr1.cc  */
+#line 2231 "grammar.yy"
     {
     Expression *exp = ManagedHandle::Retain<Expression>();
     exp->Line( (yysemantic_stack_[(1) - (1)].ast)->Line() );
@@ -3328,20 +3425,20 @@ namespace yy {
   }
     break;
 
-  case 271:
+  case 278:
 
 /* Line 690 of lalr1.cc  */
-#line 2168 "grammar.yy"
+#line 2238 "grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].expression)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.expression) = (yysemantic_stack_[(3) - (1)].expression);
   }
     break;
 
-  case 272:
+  case 279:
 
 /* Line 690 of lalr1.cc  */
-#line 2176 "grammar.yy"
+#line 2246 "grammar.yy"
     { 
     Expression *exp = ManagedHandle::Retain<Expression> ();
     exp->Line( (yysemantic_stack_[(1) - (1)].ast)->Line() );
@@ -3350,76 +3447,76 @@ namespace yy {
   }
     break;
 
-  case 273:
+  case 280:
 
 /* Line 690 of lalr1.cc  */
-#line 2183 "grammar.yy"
+#line 2253 "grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].expression)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.expression) = (yysemantic_stack_[(3) - (1)].expression);
   }
     break;
 
-  case 274:
-
-/* Line 690 of lalr1.cc  */
-#line 2190 "grammar.yy"
-    { (yyval.ast) = GetEmptyNode(); }
-    break;
-
-  case 275:
-
-/* Line 690 of lalr1.cc  */
-#line 2191 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression); }
-    break;
-
-  case 276:
-
-/* Line 690 of lalr1.cc  */
-#line 2195 "grammar.yy"
-    { (yyval.ast) = GetEmptyNode(); }
-    break;
-
-  case 277:
-
-/* Line 690 of lalr1.cc  */
-#line 2196 "grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression); }
-    break;
-
-  case 278:
-
-/* Line 690 of lalr1.cc  */
-#line 2200 "grammar.yy"
-    { (yyval.opt) = false; }
-    break;
-
-  case 279:
-
-/* Line 690 of lalr1.cc  */
-#line 2201 "grammar.yy"
-    { (yyval.opt) = true; }
-    break;
-
-  case 280:
-
-/* Line 690 of lalr1.cc  */
-#line 2205 "grammar.yy"
-    {(yyval.num) = ';';}
-    break;
-
   case 281:
 
 /* Line 690 of lalr1.cc  */
-#line 2206 "grammar.yy"
+#line 2260 "grammar.yy"
+    { (yyval.ast) = GetEmptyNode(); }
+    break;
+
+  case 282:
+
+/* Line 690 of lalr1.cc  */
+#line 2261 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression); }
+    break;
+
+  case 283:
+
+/* Line 690 of lalr1.cc  */
+#line 2265 "grammar.yy"
+    { (yyval.ast) = GetEmptyNode(); }
+    break;
+
+  case 284:
+
+/* Line 690 of lalr1.cc  */
+#line 2266 "grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression); }
+    break;
+
+  case 285:
+
+/* Line 690 of lalr1.cc  */
+#line 2270 "grammar.yy"
+    { (yyval.opt) = false; }
+    break;
+
+  case 286:
+
+/* Line 690 of lalr1.cc  */
+#line 2271 "grammar.yy"
+    { (yyval.opt) = true; }
+    break;
+
+  case 287:
+
+/* Line 690 of lalr1.cc  */
+#line 2275 "grammar.yy"
+    {(yyval.num) = ';';}
+    break;
+
+  case 288:
+
+/* Line 690 of lalr1.cc  */
+#line 2276 "grammar.yy"
     {(yyval.num) = ';';}
     break;
 
 
 
 /* Line 690 of lalr1.cc  */
-#line 3423 "grammar.tab.cc"
+#line 3520 "grammar.tab.cc"
 	default:
           break;
       }
@@ -3693,64 +3790,66 @@ namespace yy {
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-  const short int ParserImplementation::yypact_ninf_ = -344;
+  const short int ParserImplementation::yypact_ninf_ = -357;
   const short int
   ParserImplementation::yypact_[] =
   {
-      -344,    39,   973,  -344,  1519,  1519,  1519,  1519,  1519,  1519,
-    1519,  1519,  1519,  1519,  1593,    47,   -17,    79,   -17,  1065,
-     173,  -344,    -6,    -5,   -27,    77,  -344,  -344,  -344,  1519,
-    -344,    95,  -344,  1519,  -344,    30,   113,   120,   126,  -344,
-     -47,     3,   153,    71,   110,   697,  -344,  -344,  -344,  -344,
-     973,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,
-    -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,
-    -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,   167,  -344,
-     243,    80,  -344,  -344,   261,   292,   339,   286,   346,   107,
-     160,   176,   182,    84,  -344,  -344,    19,  -344,   -17,  -344,
-     114,   232,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,
-    -344,    15,   167,  -344,  -344,    10,   206,   507,  -344,   -73,
-     -18,   128,    22,  -344,    88,  -344,  -344,   -73,   113,   115,
-     148,   155,    88,  -344,   -73,  1339,   189,   194,   196,  1065,
-    1519,   244,   -73,  1519,    19,   789,    45,    22,  1519,  1519,
-    1519,  1157,  -344,  1157,  -344,    88,     7,    88,   162,    22,
-    1065,   -27,   118,   151,  -344,  -344,   881,   150,    20,   172,
-    -344,  1249,  1519,   238,  -344,  1519,   240,  -344,  -344,  -344,
-    -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,
-    -344,  -344,  1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,
-    1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,
-    1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,  -344,  -344,
-    -344,  -344,  -344,  -344,    47,    29,  -344,   111,   227,  -344,
-    -344,  -344,  -344,   153,  1519,  -344,  -344,   191,    23,   199,
-     113,  -344,  -344,  -344,   274,   298,   194,  -344,   197,   500,
-     339,   327,   354,   329,   328,   337,   341,   318,  -344,  -344,
-     388,   266,  1543,   153,   153,  -344,    32,  -344,    33,  -344,
-     351,    30,   330,  -344,  -344,    37,    40,  -344,  -344,   270,
-    1157,  -344,  -344,   272,  -344,    96,   228,  -344,    88,    41,
-    -344,    88,  -344,  -344,  -344,  -344,  -344,   114,  -344,  1519,
-     325,  -344,  -344,    42,  -344,    12,  -344,    13,  -344,  -344,
-    -344,  -344,  -344,   261,   261,   292,   292,   292,   339,   339,
-     339,   339,   339,   339,   286,   286,   286,   286,   346,   107,
-     160,   176,   273,   182,  -344,   602,  1593,   359,  -344,   361,
-    -344,   406,   282,  -344,   242,   283,   203,  -344,  1519,   299,
-      24,   403,   299,  1519,  1519,  1519,  1519,  1519,  1519,  1519,
-    1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,  1519,
-    1519,  1519,   197,   408,   334,   335,  1065,   336,   378,  -344,
-    -344,  1065,  1065,  -344,  -344,  -344,    88,   386,  -344,    88,
-      64,    78,  -344,   162,  1065,  -344,   340,  -344,  -344,  1429,
-    -344,  -344,  -344,  1519,  -344,  -344,   438,  1593,  1519,   342,
-     191,   345,  -344,  -344,  -344,    43,  1519,  -344,  -344,   197,
-    1519,  1519,  -344,    44,    80,  -344,   339,   339,   339,   339,
-     339,   327,   327,   327,   327,   354,   329,   328,   337,   347,
-     341,  -344,   352,   440,  1519,   344,   349,   417,   430,  -344,
-     358,  -344,  -344,  -344,  -344,  -344,  1157,  -344,  1157,  -344,
-    -344,  -344,  1519,  -344,  -344,  -344,  1519,   459,    48,  1157,
-     230,   -73,  -344,  -344,   357,    49,  1065,  1519,  1519,  1519,
-      50,  1157,  1157,  1065,  1519,   430,  -344,   -32,    30,   362,
-     363,  -344,    52,  1519,  -344,   364,  -344,  -344,  -344,  1519,
-    1065,  -344,  -344,   367,    53,  1065,   366,   370,  -344,    16,
-    -344,   365,  -344,   430,  -344,  -344,  -344,  -344,    57,  -344,
-     373,  -344,  1065,  1065,  -344,  -344,  -344,  1065,  1065,   372,
-    -344,  1065,  -344,  -344,  1065,  -344,  -344,  -344,  -344
+      -357,    76,   813,  -357,  1552,  1552,  1552,  1552,  1552,  1552,
+    1552,  1552,  1552,  1552,  1626,    35,   -52,     7,   -52,   908,
+      68,  -357,   -12,     0,   -29,    67,  -357,  -357,  -357,  1552,
+    -357,    78,  -357,  1552,  -357,     4,   170,   106,   114,  -357,
+     -46,    23,   200,    53,   111,   519,  -357,  -357,  -357,  -357,
+     813,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,
+    -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,
+    -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,    74,  -357,
+     185,   512,  -357,  -357,    49,   151,   161,   312,   285,   125,
+     193,   199,   204,   303,  -357,  -357,    18,  -357,   -52,  -357,
+      32,   278,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,
+    -357,    38,    74,  -357,  -357,     8,   221,  1098,  -357,   -48,
+      35,   -28,   150,    19,  -357,   102,  -357,  -357,   -48,   170,
+     130,   162,   167,   102,  -357,   -48,  1372,   205,   237,   247,
+     908,  1552,   318,   -48,  1552,    18,   617,    47,    19,  1552,
+    1552,  1552,  1003,  -357,  1003,  -357,   102,    26,   102,   227,
+      19,   908,   -29,   182,   194,  -357,  -357,   715,   216,    22,
+     220,  -357,  1282,  1552,   252,  -357,  1552,   279,  -357,  -357,
+    -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,
+    -357,  -357,  -357,  1552,  1552,  1552,  1552,  1552,  1552,  1552,
+    1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,
+    1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  -357,
+    -357,  -357,  -357,  -357,  -357,    35,    -8,  -357,   230,   287,
+    -357,  -357,  -357,  -357,    27,    59,   200,  1552,  -357,  -357,
+     248,    24,   253,   170,  -357,  -357,  -357,   338,   343,   237,
+    -357,   233,   197,   161,   342,   311,   372,   374,   376,   378,
+     329,  -357,  -357,   393,   266,  1576,   200,   200,  -357,    40,
+    -357,    41,  -357,   358,     4,   335,  -357,  -357,    42,    43,
+    -357,  -357,   280,  1003,  -357,  -357,   281,  -357,   169,   238,
+    -357,   102,    44,  -357,   102,  -357,  -357,  -357,  -357,  -357,
+      32,  -357,  1552,   330,  -357,  -357,    48,  -357,    29,  -357,
+      31,  -357,  -357,  -357,  -357,  -357,    49,    49,   151,   151,
+     151,   161,   161,   161,   161,   161,   161,   312,   312,   312,
+     312,   285,   125,   193,   199,   276,   204,  -357,  1190,  1626,
+     365,  -357,   366,  -357,    35,  -357,  -357,  -357,  -357,   411,
+     288,  -357,   214,   309,   234,  -357,  1552,   283,    25,   387,
+     283,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,
+    1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,  1552,
+     233,   390,   313,   314,   908,   334,   362,  -357,  -357,   908,
+     908,  -357,  -357,  -357,   102,   386,  -357,   102,    87,   187,
+    -357,   227,   908,  -357,   310,  -357,  -357,  1462,  -357,  -357,
+    -357,  1552,  -357,  -357,   437,  1626,  1552,   166,   339,   248,
+     336,  -357,  -357,  -357,    50,  1552,  -357,  -357,   233,  1552,
+    1552,  -357,    51,   512,  -357,   161,   161,   161,   161,   161,
+     342,   342,   342,   342,   311,   372,   374,   376,   337,   378,
+    -357,   340,   443,  1552,   344,   345,   412,   421,  -357,   350,
+    -357,  -357,  -357,  -357,  -357,  1003,  -357,  1003,  -357,  -357,
+    -357,  1552,  -357,  -357,  -357,  1552,   451,    52,  -357,  -357,
+    -357,  1003,   236,   -48,  -357,  -357,   348,    55,   908,  1552,
+    1552,  1552,    57,  1003,  1003,   908,  1552,   421,  -357,    54,
+       4,   353,   354,  -357,    72,  1552,  -357,   359,  -357,  -357,
+    -357,  1552,   908,  -357,  -357,   360,    95,   908,   361,   364,
+    -357,    15,  -357,   357,  -357,   421,  -357,  -357,  -357,  -357,
+      98,  -357,   367,  -357,   908,   908,  -357,  -357,  -357,   908,
+     908,   368,  -357,   908,  -357,  -357,   908,  -357,  -357,  -357,
+    -357
   };
 
   /* YYDEFACT[S] -- default reduction number in state S.  Performed when
@@ -3760,204 +3859,192 @@ namespace yy {
   ParserImplementation::yydefact_[] =
   {
          2,     0,     0,     1,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,   278,    36,     0,    36,     0,
-       0,   136,     0,    36,   138,     0,   134,   131,   133,   276,
-     132,     0,   137,     0,   135,     0,     0,     0,     0,   281,
-       0,     0,     0,     0,     0,     0,   280,    31,   165,     7,
+       0,     0,     0,     0,     0,   285,    36,     0,    36,     0,
+       0,   143,     0,    36,   145,     0,   141,   138,   140,   283,
+     139,     0,   144,     0,   142,     0,     0,     0,     0,   288,
+       0,     0,     0,     0,     0,     0,   287,    31,   172,     7,
        3,    26,    30,    38,    42,    41,    39,    40,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    54,    53,
-      55,    56,   139,   129,   130,   164,   140,   141,   169,   181,
-     182,   183,   186,   196,   200,   203,   207,   220,   230,   234,
-     238,   242,   246,   250,   254,   270,     0,    91,    36,   138,
-     157,   183,   192,   193,   195,   194,   187,   188,   189,   191,
-     190,     0,   169,   170,   149,     0,   279,     0,    37,     0,
-     123,     0,     0,    72,     0,    81,    80,     0,     0,     0,
-       0,     0,   123,    61,     0,   274,     0,     0,     0,     0,
-       0,   277,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    24,    15,    24,    14,   123,     0,   123,     0,     0,
-       0,   138,   131,   132,    57,    62,     0,     0,     0,     0,
-      27,     0,     0,     0,   171,     0,     0,   172,   266,   263,
-     265,   264,   269,   268,   259,   261,   260,   267,   262,   185,
-     184,   258,     0,     0,     0,     0,     0,     0,     0,     0,
+      55,    56,   146,   136,   137,   171,   147,   148,   176,   188,
+     189,   190,   193,   203,   207,   210,   214,   227,   237,   241,
+     245,   249,   253,   257,   261,   277,     0,    98,    36,   145,
+     164,   190,   199,   200,   202,   201,   194,   195,   196,   198,
+     197,     0,   176,   177,   156,     0,   286,     0,    37,     0,
+     285,   130,     0,     0,    72,     0,    80,    81,     0,     0,
+       0,     0,     0,   130,    61,     0,   281,     0,     0,     0,
+       0,     0,   284,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,    24,    15,    24,    14,   130,     0,   130,     0,
+       0,     0,   145,   138,   139,    57,    62,     0,     0,     0,
+       0,    27,     0,     0,     0,   178,     0,     0,   179,   273,
+     270,   272,   271,   276,   275,   266,   268,   267,   274,   269,
+     192,   191,   265,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    92,   161,
-     163,   162,   142,   168,   278,     0,   144,     0,   154,   150,
-     143,   147,   104,    34,     0,   124,    76,    83,     0,     0,
-       0,    65,    77,   103,     0,     0,     0,    60,     0,   183,
-     214,   225,   232,   236,   240,   244,   248,   252,   256,   272,
-     275,     0,     0,    34,    34,   114,     0,   105,     0,   115,
-       0,     0,   116,   117,    64,     0,     0,    16,    33,     0,
-      25,    28,    32,     0,    17,     0,     0,    18,   123,     0,
-      68,     0,    66,    59,    58,    63,   156,     0,   158,     0,
-       0,   175,   178,     0,   177,     0,   167,     0,   174,   255,
-     197,   198,   199,   201,   202,   206,   205,   204,   209,   208,
-     212,   213,   210,   211,   224,   222,   221,   223,   231,   235,
-     239,   243,     0,   247,   271,     0,     0,     0,   146,     0,
-     151,    35,     0,    89,     0,     0,     0,    73,     0,   125,
-       0,    74,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    99,
+     168,   170,   169,   149,   175,   285,     0,   151,     0,   161,
+     157,   150,   154,   111,     0,     0,    34,     0,   131,    76,
+      90,     0,     0,     0,    65,    77,   110,     0,     0,     0,
+      60,     0,   190,   221,   232,   239,   243,   247,   251,   255,
+     259,   263,   279,   282,     0,     0,    34,    34,   121,     0,
+     112,     0,   122,     0,     0,   123,   124,    64,     0,     0,
+      16,    33,     0,    25,    28,    32,     0,    17,     0,     0,
+      18,   130,     0,    68,     0,    66,    59,    58,    63,   163,
+       0,   165,     0,     0,   182,   185,     0,   184,     0,   174,
+       0,   181,   262,   204,   205,   206,   208,   209,   213,   212,
+     211,   216,   215,   219,   220,   217,   218,   231,   229,   228,
+     230,   238,   242,   246,   250,     0,   254,   278,     0,     0,
+       0,   153,     0,   158,   285,    83,    85,    82,    86,    35,
+       0,    96,     0,     0,     0,    73,     0,   132,     0,    74,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,   276,     0,     0,     0,     0,     0,     0,     0,   120,
-     118,     0,     0,     9,    29,    11,   123,     0,    21,   123,
-       0,     0,    70,     0,     0,    71,     0,   159,    23,     0,
-     176,   166,   173,     0,   145,   148,     0,     0,     0,     0,
-      87,     0,    82,    84,    85,     0,     0,   126,    78,     0,
-     276,     0,    79,     0,   183,   257,   216,   215,   219,   217,
-     218,   229,   227,   226,   228,   233,   237,   241,   245,     0,
-     249,   273,     0,     0,     0,     0,     0,    94,   127,   107,
-       0,    96,   106,    19,    22,    20,    24,    12,    24,    13,
-      69,    67,     0,   180,   179,   251,     0,     0,     0,    24,
-       0,     0,    90,    75,     0,     0,     0,     0,   276,     0,
-       0,    24,    24,     0,     0,   128,   110,     0,     0,     0,
-       0,   160,     0,     0,   155,     0,    86,    88,    95,   276,
-       0,    99,   253,     0,     0,     0,     0,     0,    93,     0,
-     111,     0,   108,   127,   119,     8,    10,   152,     0,     5,
-       0,   100,     0,     0,   101,     4,     6,   121,   121,     0,
-     153,     0,    97,   102,   122,   112,   113,   109,    98
+       0,     0,     0,     0,     0,     0,     0,     0,     0,   283,
+       0,     0,     0,     0,     0,     0,     0,   127,   125,     0,
+       0,     9,    29,    11,   130,     0,    21,   130,     0,     0,
+      70,     0,     0,    71,     0,   166,    23,     0,   183,   173,
+     180,     0,   152,   155,     0,     0,     0,     0,     0,    94,
+       0,    89,    91,    92,     0,     0,   133,    78,     0,   283,
+       0,    79,     0,   190,   264,   223,   222,   226,   224,   225,
+     236,   234,   233,   235,   240,   244,   248,   252,     0,   256,
+     280,     0,     0,     0,     0,     0,   101,   134,   114,     0,
+     103,   113,    19,    22,    20,    24,    12,    24,    13,    69,
+      67,     0,   187,   186,   258,     0,     0,     0,    87,    84,
+      88,    24,     0,     0,    97,    75,     0,     0,     0,     0,
+     283,     0,     0,    24,    24,     0,     0,   135,   117,     0,
+       0,     0,     0,   167,     0,     0,   162,     0,    93,    95,
+     102,   283,     0,   106,   260,     0,     0,     0,     0,     0,
+     100,     0,   118,     0,   115,   134,   126,     8,    10,   159,
+       0,     5,     0,   107,     0,     0,   108,     4,     6,   128,
+     128,     0,   160,     0,   104,   109,   129,   119,   120,   116,
+     105
   };
 
   /* YYPGOTO[NTERM-NUM].  */
   const short int
   ParserImplementation::yypgoto_[] =
   {
-      -344,  -344,  -344,   185,  -344,  -344,   -40,   447,  -344,    92,
-    -121,  -344,  -344,   465,   236,   101,   168,    -2,  -139,  -344,
-     -33,  -344,  -344,  -146,  -344,  -344,  -344,   124,    59,  -344,
-     -11,  -339,   -36,  -344,  -344,  -116,   166,  -344,  -344,  -344,
-    -344,  -344,  -344,  -344,  -344,  -344,  -344,  -344,    34,  -344,
-    -344,  -344,  -344,  -344,   250,    -4,  -152,  -344,    14,  -344,
-    -344,  -344,  -344,    61,  -344,  -344,  -344,  -344,  -344,  -344,
-    -344,  -344,  -114,   509,   511,  -344,   -49,  -344,    60,  -344,
-     102,   188,   195,    83,   180,    98,   315,   169,   322,   165,
-     323,   174,   321,   171,   343,   170,  -344,  -344,  -344,  -344,
-     -96,  -172,   460,    -9,  -344,  -344,  -343,   320,   -85
+      -357,  -357,  -357,   172,  -357,  -357,   -40,   450,  -357,    90,
+    -145,  -357,  -357,   449,   217,   110,   157,    -2,  -139,  -357,
+     -33,  -357,  -357,  -161,  -357,  -357,  -357,   100,    77,  -357,
+      -4,  -349,   -37,  -357,  -357,  -357,  -357,  -117,   143,  -357,
+    -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,
+       9,  -357,  -357,  -357,  -357,  -357,   229,   -35,  -144,  -357,
+     -18,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,  -357,
+    -357,  -357,  -357,  -357,  -119,   494,   497,  -357,    -3,  -357,
+      60,  -357,    85,   186,   103,    84,   164,    33,   300,   141,
+     301,   154,   315,   156,   316,   153,   317,   158,  -357,  -357,
+    -357,  -357,  -111,  -326,   455,    -9,  -357,  -357,  -356,  -113,
+     -86
   };
 
   /* YYDEFGOTO[NTERM-NUM].  */
   const short int
   ParserImplementation::yydefgoto_[] =
   {
-        -1,     1,     2,   278,    48,    49,   152,   341,   388,   302,
-     279,    50,   280,    51,   281,   342,   138,   165,    53,    54,
-      55,    56,    57,   166,    58,    59,   289,   290,   122,   350,
-     123,   351,   124,   125,   238,   235,   417,    60,    61,    62,
-      63,    64,    65,    66,    67,    68,   449,   485,   486,   513,
-      69,    70,    71,   272,   273,   535,   236,   418,   487,    72,
-      73,    74,    75,    76,   115,   116,   227,   228,   340,    77,
-     167,   168,   169,    78,    79,    80,   174,   303,    81,    82,
-      83,    84,    85,    86,    87,   251,    88,   252,    89,   253,
-      90,   254,    91,   255,    92,   256,    93,   257,    94,   258,
-      95,   259,   354,    96,   260,   261,   142,   117,    97
+        -1,     1,     2,   281,    48,    49,   153,   349,   396,   305,
+     282,    50,   283,    51,   284,   350,   139,   166,    53,    54,
+      55,    56,    57,   167,    58,    59,   292,   293,   123,   358,
+     124,   359,   125,   126,   234,   127,   241,   238,   426,    60,
+      61,    62,    63,    64,    65,    66,    67,    68,   458,   497,
+     498,   525,    69,    70,    71,   275,   276,   547,   239,   427,
+     499,    72,    73,    74,    75,    76,   115,   116,   228,   229,
+     343,    77,   168,   169,   170,    78,    79,    80,   175,   306,
+      81,    82,    83,    84,    85,    86,    87,   254,    88,   255,
+      89,   256,    90,   257,    91,   258,    92,   259,    93,   260,
+      94,   261,    95,   262,   362,    96,   263,   264,   143,   117,
+      97
   };
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
      number is the opposite.  If YYTABLE_NINF_, syntax error.  */
-  const short int ParserImplementation::yytable_ninf_ = -164;
+  const short int ParserImplementation::yytable_ninf_ = -171;
   const short int
   ParserImplementation::yytable_[] =
   {
-        52,   154,   146,   284,   111,   287,   157,   239,   242,   134,
-     285,   218,   282,   224,   282,   217,   217,   129,   217,   217,
-     141,   231,   217,   297,   144,   240,   344,   419,   442,   233,
-     511,   177,   283,   443,   232,   217,   217,   241,    39,     3,
-     217,   135,   243,   217,   393,   399,   217,   217,    52,   247,
-     114,   217,   217,   217,   277,   217,   217,   267,    46,   269,
-     217,   118,   274,   223,   101,   101,   101,   101,   101,   101,
-     101,   101,   101,   137,   292,   304,   336,   474,   126,   150,
-     473,   126,   151,   225,   178,   179,   180,   181,   182,   183,
-     184,   185,   186,   187,   188,   147,   309,   126,   512,   215,
-     216,   270,   159,   126,   126,   139,   102,   103,   104,   105,
-     106,   107,   108,   109,   110,   234,   271,   136,   158,   332,
-      15,   334,   291,   286,   140,   189,   190,   211,    15,   150,
-      39,   266,   153,    39,   268,   503,   392,   265,   343,   275,
-     276,   282,   143,   222,   226,    15,   401,   402,   527,   132,
-      46,   298,   337,    46,   345,   420,   520,   120,   293,   145,
-     376,   377,    15,   305,   295,   381,   307,   148,   382,   394,
-     400,   471,   476,   149,   386,   395,   494,   500,   505,   212,
-     517,   523,   425,   396,   119,   530,   127,    47,   160,   126,
-     150,   132,   219,   456,   213,   249,   439,   157,   441,   214,
-     121,   220,    15,   397,   150,   133,   237,   458,   121,   229,
-     221,    15,   352,   191,   171,   220,   172,   173,   250,   126,
-     387,   234,    15,   244,   221,   121,   245,   157,   157,   347,
-     411,   155,   130,   246,   453,    47,   262,   455,   379,   405,
-     288,   263,   121,   264,   472,   338,    15,   217,   131,   389,
-    -163,   132,    15,   101,   101,   101,   101,   101,   101,   101,
+        52,   155,   147,   242,   111,   158,   232,   235,   245,   286,
+     219,   225,   287,   285,   290,   285,   135,   130,   218,   236,
+     142,   218,   243,   451,   145,   300,   118,   352,   428,   288,
+     344,   452,   218,   233,   218,   136,   434,   244,   114,   339,
+     280,   218,   246,   218,   218,   218,   218,   401,    52,   250,
+     448,   407,   450,   218,   218,   218,   120,   270,   218,   272,
+     218,   307,   277,    39,   101,   101,   101,   101,   101,   101,
+     101,   101,   101,   486,   295,   218,     3,   178,   138,   485,
+     151,   226,   312,   152,    46,   121,   194,   195,   196,   102,
+     103,   104,   105,   106,   107,   108,   109,   110,   218,   484,
+     159,   218,   120,   273,   140,   335,   237,   337,   120,   224,
+     220,   137,   338,   148,   141,   340,   523,   120,   274,   221,
+     160,   172,   294,   173,   174,   144,   351,   131,   222,    39,
+      39,   133,   269,   146,   515,   271,   122,   346,   268,   227,
+     278,   279,   289,   132,   285,   212,   133,   400,   539,   151,
+      46,    46,   154,   149,   301,   532,   353,   429,   345,   296,
+     409,   150,   410,   514,   308,   298,   223,   310,   384,   385,
+     389,   390,   402,   119,    47,   128,   408,   403,   483,   488,
+     506,   404,   122,   512,   524,   517,   197,   198,   122,   161,
+     347,   405,   134,   199,   200,   201,   252,   122,   348,   158,
+     529,   179,   180,   181,   182,   183,   184,   185,   186,   187,
+     188,   189,   213,   151,   360,   120,   465,   214,   120,   120,
+     253,   215,    47,   535,   230,   361,   542,   413,   240,   158,
+     158,   417,   172,   420,   176,   177,   237,   221,   247,   355,
+     248,   387,   190,   191,   478,   249,   222,   394,   133,   120,
+     462,   397,   265,   464,   101,   101,   101,   101,   101,   101,
      101,   101,   101,   101,   101,   101,   101,   101,   101,   101,
-     101,   101,   101,   101,   101,   349,   101,   189,   190,    15,
-     296,   413,   121,  -162,   318,   319,   320,   321,   322,   323,
-     171,   121,   175,   176,   126,   310,   311,   312,   193,   194,
-     195,   126,   121,   464,   299,   502,   339,   465,   496,   126,
-     414,   201,   202,   203,   204,   205,   306,   282,   308,   282,
-     410,   348,   373,  -161,   126,   126,   121,   196,   197,   220,
-     282,   346,   121,   368,   369,   489,   352,   490,   221,   415,
-     390,   391,   282,   282,   423,   233,   126,   365,   495,   364,
-     457,   459,   355,   356,   357,   366,   358,   291,   367,   121,
-     506,   507,   141,   206,   374,   375,   491,   207,   208,   209,
-     210,   198,   199,   200,   447,   360,   361,   362,   363,   451,
-     452,   534,   534,   352,   313,   314,   498,   324,   325,   326,
-     327,   370,   461,   315,   316,   317,   406,   371,   378,   468,
-     383,   271,   385,   398,   359,   403,   407,   126,   408,   285,
-     409,   141,   475,   412,   424,   101,   101,   101,   101,   101,
-     101,   101,   101,   101,   101,   101,   101,   101,   424,   101,
-     424,   421,   416,   126,   497,   480,   444,   250,   426,   427,
-     428,   429,   430,   250,   250,   250,   250,   250,   250,   250,
-     250,   250,   250,   250,   126,   514,   450,   492,   431,   432,
-     433,   434,   445,   446,   454,   448,   466,   467,   479,   141,
-     504,   469,   462,   481,   501,   509,   424,   470,   482,   477,
-     126,   508,   483,   478,   518,   484,   488,   493,   499,   156,
-     141,   463,   515,   516,   519,   522,   525,   528,   521,   250,
-     526,   531,   537,   524,   178,   179,   180,   181,   182,   183,
-     184,   185,   186,   187,   188,   170,   384,   460,   422,   510,
-     532,   533,   380,   112,   536,   113,   328,   529,   353,   538,
-     436,   126,   295,   435,   329,   331,   330,   424,   438,   440,
-     437,   192,     4,     5,   335,   189,   190,     6,     7,     8,
-       9,    10,    11,    12,    13,    14,    15,     0,     0,   333,
-     250,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    21,     0,     0,     0,
-       0,     0,    98,     0,     0,    99,     0,     0,     0,     0,
-       0,     0,     0,    26,    27,     0,     0,     0,     0,    28,
-       0,     0,     0,    30,     0,     0,     0,    32,     0,     0,
-       0,    34,     0,     0,     0,     0,     0,     0,     0,    40,
-      41,     0,    42,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,   191,     0,     0,   100,     4,     5,     0,
-       0,   230,     6,     7,     8,     9,    10,    11,    12,    13,
-      14,    15,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    21,     0,     0,     0,     0,     0,    98,     0,     0,
-      99,     0,     0,     0,     0,     0,     0,     0,    26,    27,
-       0,     0,     0,     0,    28,     0,     0,     0,    30,     0,
-       0,     0,    32,     0,     0,     0,    34,     0,     0,     0,
-       0,     0,     0,     0,    40,    41,     0,    42,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,   100,     4,     5,     0,     0,   404,     6,     7,     8,
-       9,    10,    11,    12,    13,    14,    15,     0,     0,     0,
-      16,     0,     0,     0,     0,     0,   128,    18,     0,     0,
-      19,     0,     0,     0,    20,     0,    21,     0,     0,     0,
-      22,     0,    98,     0,     0,   161,    25,     0,     0,     0,
-       0,     0,     0,    26,   162,     0,     0,     0,     0,    28,
-      29,     0,     0,   163,     0,    31,     0,    32,    33,     0,
-       0,    34,    35,    36,     0,    37,    38,     0,    39,    40,
-      41,     0,    42,     0,     0,     0,     0,     0,     0,    43,
-       0,     0,    44,     0,     4,     5,    45,   164,    46,     6,
+     101,   101,   101,   101,   101,   101,   120,   101,   156,   313,
+     314,   315,   120,   120,   266,   120,   321,   322,   323,   324,
+     325,   326,   419,   395,   267,   122,   473,   479,   122,   122,
+     474,   221,   318,   319,   320,   291,   208,   209,   210,   211,
+     222,   357,   422,   151,   508,  -170,   467,   423,   216,   217,
+     501,   218,   502,   190,   191,   381,   285,  -169,   285,   122,
+     309,   192,   368,   369,   370,   371,   507,   202,   203,   204,
+     205,   206,   285,   360,   376,   377,   299,   424,   518,   519,
+     398,   399,   432,   302,   285,   285,   122,   311,   466,   468,
+     503,   341,   122,   122,   294,   122,   342,   363,   364,   365,
+     142,   366,   327,   328,   329,   330,   382,   383,   546,   546,
+     480,  -168,   456,   316,   317,   356,   354,   460,   461,   207,
+     236,   360,   372,   373,   374,   375,   378,   510,   379,   414,
+     470,   440,   441,   442,   443,   386,   274,   477,   406,   411,
+     391,   393,   415,   416,   288,   430,   418,   425,   453,   367,
+     142,   487,   433,   101,   101,   101,   101,   101,   101,   101,
+     101,   101,   101,   101,   101,   101,   433,   101,   433,   421,
+     459,   454,   455,   471,   492,   509,   253,   435,   436,   437,
+     438,   439,   253,   253,   253,   253,   253,   253,   253,   253,
+     253,   253,   253,   457,   463,   475,   504,   526,   481,   482,
+     489,   491,   490,   493,   494,   476,   496,   495,   500,   505,
+     511,   142,   516,   527,   528,   433,   513,   521,   534,   531,
+     540,   537,   157,   520,   538,   543,   530,   472,   549,   171,
+     392,   469,   142,   431,   388,   548,   522,   541,   112,   253,
+     533,   113,   331,   444,   332,   536,   179,   180,   181,   182,
+     183,   184,   185,   186,   187,   188,   189,   445,   447,   333,
+     446,   334,   544,   545,   336,   449,   193,     0,     0,     0,
+       0,   550,     0,     0,   298,     0,     0,     0,     0,   433,
+       0,     0,     0,     0,     4,     5,     0,   190,   191,     6,
        7,     8,     9,    10,    11,    12,    13,    14,    15,     0,
-       0,     0,    16,     0,     0,     0,     0,     0,   128,    18,
+       0,     0,    16,   253,     0,     0,     0,     0,   129,    18,
        0,     0,    19,     0,     0,     0,    20,     0,    21,     0,
-       0,     0,    22,     0,    98,     0,     0,    24,    25,     0,
-       0,     0,     0,     0,     0,    26,    27,     0,     0,     0,
-       0,    28,    29,     0,     0,    30,     0,    31,     0,    32,
+       0,     0,    22,     0,    98,     0,     0,   162,    25,     0,
+       0,     0,     0,     0,     0,    26,   163,     0,     0,     0,
+       0,    28,    29,     0,     0,   164,     0,    31,     0,    32,
       33,     0,     0,    34,    35,    36,     0,    37,    38,     0,
       39,    40,    41,     0,    42,     0,     0,     0,     0,     0,
-       0,    43,     0,     0,    44,     0,     4,     5,    45,   164,
-      46,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,     0,     0,     0,    16,     0,     0,     0,     0,     0,
-     128,    18,     0,     0,    19,     0,     0,     0,    20,     0,
-      21,     0,     0,     0,    22,     0,    98,     0,     0,    24,
-      25,     0,     0,     0,     0,     0,     0,    26,    27,     0,
-       0,     0,     0,    28,    29,     0,     0,    30,     0,    31,
-       0,    32,    33,     0,     0,    34,    35,    36,     0,    37,
-      38,     0,    39,    40,    41,     0,    42,     0,     0,     0,
-       0,     0,     0,    43,     0,     0,    44,     0,     4,     5,
-      45,   294,    46,     6,     7,     8,     9,    10,    11,    12,
+       0,    43,     0,     0,    44,     0,   192,     0,    45,   165,
+       0,    46,     4,     5,     0,     0,     0,     6,     7,     8,
+       9,    10,    11,    12,    13,    14,    15,     0,     0,     0,
+      16,     0,     0,     0,     0,     0,   129,    18,     0,     0,
+      19,     0,     0,     0,    20,     0,    21,     0,     0,     0,
+      22,     0,    98,     0,     0,    24,    25,     0,     0,     0,
+       0,     0,     0,    26,    27,     0,     0,     0,     0,    28,
+      29,     0,     0,    30,     0,    31,     0,    32,    33,     0,
+       0,    34,    35,    36,     0,    37,    38,     0,    39,    40,
+      41,     0,    42,     0,     0,     0,     0,     0,     0,    43,
+       0,     0,    44,     0,     0,     0,    45,   165,     0,    46,
+       4,     5,     0,     0,     0,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,     0,     0,     0,    16,     0,
+       0,     0,     0,     0,   129,    18,     0,     0,    19,     0,
+       0,     0,    20,     0,    21,     0,     0,     0,    22,     0,
+      98,     0,     0,    24,    25,     0,     0,     0,     0,     0,
+       0,    26,    27,     0,     0,     0,     0,    28,    29,     0,
+       0,    30,     0,    31,     0,    32,    33,     0,     0,    34,
+      35,    36,     0,    37,    38,     0,    39,    40,    41,     0,
+      42,     0,     0,     0,     0,     0,     0,    43,     0,     0,
+      44,     0,     0,     0,    45,   297,     0,    46,     4,     5,
+       0,     0,     0,     6,     7,     8,     9,    10,    11,    12,
       13,    14,    15,     0,     0,     0,    16,     0,     0,     0,
        0,     0,    17,    18,     0,     0,    19,     0,     0,     0,
       20,     0,    21,     0,     0,     0,    22,     0,    23,     0,
@@ -3966,149 +4053,160 @@ namespace yy {
        0,    31,     0,    32,    33,     0,     0,    34,    35,    36,
        0,    37,    38,     0,    39,    40,    41,     0,    42,     0,
        0,     0,     0,     0,     0,    43,     0,     0,    44,     0,
-       4,     5,    45,     0,    46,     6,     7,     8,     9,    10,
-      11,    12,    13,    14,    15,     0,     0,     0,    16,     0,
-       0,     0,     0,     0,   128,    18,     0,     0,    19,     0,
-       0,     0,    20,     0,    21,     0,     0,     0,    22,     0,
-      98,     0,     0,    24,    25,     0,     0,     0,     0,     0,
-       0,    26,    27,     0,     0,     0,     0,    28,    29,     0,
-       0,    30,     0,    31,     0,    32,    33,     0,     0,    34,
-      35,    36,     0,    37,    38,     0,    39,    40,    41,     0,
-      42,     0,     0,     0,     0,     0,     0,    43,     0,     0,
-      44,     0,     4,     5,    45,     0,    46,     6,     7,     8,
-       9,    10,    11,    12,    13,    14,    15,     0,     0,     0,
-      16,     0,     0,     0,     0,     0,    17,    18,     0,     0,
-      19,     0,     0,     0,     0,     0,    21,     0,     0,     0,
-      22,     0,    23,     0,     0,    24,    25,     0,     0,     0,
-       0,     0,     0,    26,    27,     0,     0,     0,     0,    28,
-      29,     0,     0,    30,     0,    31,     0,    32,    33,     0,
-       0,    34,    35,    36,     0,    37,    38,     0,    39,    40,
-      41,     0,    42,     0,     0,     0,     0,     0,     0,    43,
-       0,     0,     0,     0,     4,     5,    45,     0,    46,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,     0,
+       0,     0,    45,     4,     5,    46,     0,     0,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,     0,     0,
+       0,    16,     0,     0,     0,     0,     0,   129,    18,     0,
+       0,    19,     0,     0,     0,    20,     0,    21,     0,     0,
+       0,    22,     0,    98,     0,     0,    24,    25,     0,     0,
+       0,     0,     0,     0,    26,    27,     0,     0,     0,     0,
+      28,    29,     0,     0,    30,     0,    31,     0,    32,    33,
+       0,     0,    34,    35,    36,     0,    37,    38,     0,    39,
+      40,    41,     0,    42,     0,     0,     0,     0,     0,     0,
+      43,     0,     0,    44,     0,     0,     0,    45,     4,     5,
+      46,     0,     0,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    15,     0,     0,     0,    16,     0,     0,     0,
+       0,     0,    17,    18,     0,     0,    19,     0,     0,     0,
+       0,     0,    21,     0,     0,     0,    22,     0,    23,     0,
+       0,    24,    25,     0,     0,     0,     0,     0,     0,    26,
+      27,     0,     0,     0,     0,    28,    29,     0,     0,    30,
+       0,    31,     0,    32,    33,     0,     0,    34,    35,    36,
+       0,    37,    38,     0,    39,    40,    41,     0,    42,     0,
+       0,     0,     0,     0,     0,    43,     0,     0,     0,     0,
+       0,     0,    45,     4,     5,    46,     0,     0,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    21,     0,
-       0,     0,     0,     0,    98,     0,     0,    99,     0,     0,
-       0,     0,     0,     0,     0,    26,    27,     0,     0,     0,
-       0,    28,     0,     0,     0,    30,     0,     0,     0,    32,
-       0,     0,     0,    34,     0,     0,     0,     0,     0,     0,
-       0,    40,    41,     0,    42,     0,     0,     0,     0,     0,
-       0,     0,     0,   300,     4,     5,     0,   301,   100,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,     0,
+       0,     0,     0,     0,     0,     0,     0,    21,     0,     0,
+       0,     0,     0,    98,     0,     0,    99,     0,     0,     0,
+       0,     0,     0,     0,    26,    27,     0,     0,     0,     0,
+      28,     0,     0,     0,    30,     0,     0,     0,    32,     0,
+       0,     0,    34,     0,     0,     0,     0,     0,     0,     0,
+      40,    41,     0,    42,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     4,     5,   100,     0,   231,
+       6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    21,     0,
-       0,     0,     0,     0,    98,     0,     0,    99,     0,     0,
-       0,     0,     0,     0,     0,    26,    27,     0,     0,     0,
-       0,    28,     0,     0,     0,    30,     0,     0,     0,    32,
-       0,     0,     0,    34,     0,   248,     0,     0,     0,     0,
-       0,    40,    41,     0,    42,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     4,     5,     0,     0,   100,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    21,
+       0,     0,     0,     0,     0,    98,     0,     0,    99,     0,
+       0,     0,     0,     0,     0,     0,    26,    27,     0,     0,
+       0,     0,    28,     0,     0,     0,    30,     0,     0,     0,
+      32,     0,     0,     0,    34,     0,     0,     0,     0,     0,
+       0,     0,    40,    41,     0,    42,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     4,     5,   100,
+       0,   412,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    21,     0,
-       0,     0,     0,     0,    98,     0,     0,    99,     0,     0,
-       0,     0,     0,     0,     0,    26,    27,     0,     0,     0,
-       0,    28,     0,     0,     0,    30,     0,     0,     0,    32,
-       0,     0,     0,    34,     0,     0,     0,     0,     0,     0,
-       0,    40,    41,     0,    42,     0,     0,     0,     0,     0,
-       0,     0,     0,   300,     4,     5,     0,     0,   100,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,     0,
+       0,    21,     0,     0,     0,     0,     0,    98,     0,     0,
+      99,     0,     0,     0,     0,     0,     0,     0,    26,    27,
+       0,     0,     0,     0,    28,     0,     0,     0,    30,     0,
+       0,     0,    32,     0,     0,     0,    34,     0,     0,     0,
+       0,     0,     0,     0,    40,    41,     0,    42,     0,     0,
+       0,     0,     0,     0,     0,     0,   303,     4,     5,     0,
+     304,   100,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    21,     0,
-      13,    14,    15,     0,    98,     0,     0,    99,     0,     0,
-       0,     0,     0,     0,     0,    26,    27,     0,     0,     0,
-       0,    28,    21,     0,     0,    30,     0,     0,    98,    32,
-       0,    99,     0,    34,     0,     0,     0,     0,     0,    26,
-      27,    40,    41,     0,    42,    28,     0,     0,     0,    30,
-      13,    14,    15,    32,     0,     0,     0,    34,   100,   372,
-       0,     0,     0,     0,     0,    40,    41,     0,    42,     0,
-       0,     0,    21,     0,     0,     0,     0,     0,    98,     0,
-       0,    99,   100,     0,     0,     0,     0,     0,     0,    26,
-      27,     0,     0,     0,     0,    28,     0,     0,     0,    30,
-       0,     0,     0,    32,     0,     0,     0,    34,     0,     0,
-       0,     0,     0,     0,     0,    40,    41,     0,    42,     0,
+       0,    21,     0,     0,     0,     0,     0,    98,     0,     0,
+      99,     0,     0,     0,     0,     0,     0,     0,    26,    27,
+       0,     0,     0,     0,    28,     0,     0,     0,    30,     0,
+       0,     0,    32,     0,     0,     0,    34,     0,   251,     0,
+       0,     0,     0,     0,    40,    41,     0,    42,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     4,     5,     0,
+       0,   100,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,   100
+       0,    21,     0,     0,     0,     0,     0,    98,     0,     0,
+      99,     0,     0,     0,     0,     0,     0,     0,    26,    27,
+       0,     0,     0,     0,    28,     0,     0,     0,    30,     0,
+       0,     0,    32,     0,     0,     0,    34,     0,     0,     0,
+       0,     0,     0,     0,    40,    41,     0,    42,     0,     0,
+       0,     0,     0,     0,     0,     0,   303,     4,     5,     0,
+       0,   100,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    21,     0,    13,    14,    15,     0,    98,     0,     0,
+      99,     0,     0,     0,     0,     0,     0,     0,    26,    27,
+       0,     0,     0,     0,    28,    21,     0,     0,    30,     0,
+       0,    98,    32,     0,    99,     0,    34,     0,     0,     0,
+       0,     0,    26,    27,    40,    41,     0,    42,    28,     0,
+       0,     0,    30,    13,    14,    15,    32,     0,     0,     0,
+      34,   100,   380,     0,     0,     0,     0,     0,    40,    41,
+       0,    42,     0,     0,     0,    21,     0,     0,     0,     0,
+       0,    98,     0,     0,    99,   100,     0,     0,     0,     0,
+       0,     0,    26,    27,     0,     0,     0,     0,    28,     0,
+       0,     0,    30,     0,     0,     0,    32,     0,     0,     0,
+      34,     0,     0,     0,     0,     0,     0,     0,    40,    41,
+       0,    42,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,   100
   };
 
   /* YYCHECK.  */
   const short int
   ParserImplementation::yycheck_[] =
   {
-         2,    41,    35,   155,    13,   157,    42,   121,   124,    20,
-       3,    96,   151,     3,   153,     3,     3,    19,     3,     3,
-      29,   117,     3,     3,    33,     3,     3,     3,   371,    47,
-      62,    80,   153,   372,   119,     3,     3,   122,   111,     0,
-       3,    47,   127,     3,     3,     3,     3,     3,    50,   134,
-       3,     3,     3,     3,   150,     3,     3,   142,   131,   144,
-       3,    78,   147,   112,     4,     5,     6,     7,     8,     9,
-      10,    11,    12,    78,   159,   171,    47,   420,    17,   126,
-     419,    20,   129,    73,     4,     5,     6,     7,     8,     9,
-      10,    11,    12,    13,    14,    36,   192,    36,   130,    15,
-      16,    56,    43,    42,    43,   132,     4,     5,     6,     7,
-       8,     9,    10,    11,    12,   133,    71,   123,    47,   215,
-      49,   217,   158,   116,    47,    45,    46,    20,    49,   126,
-     111,   140,   129,   111,   143,   478,   288,   139,   234,   148,
-     149,   280,    47,   128,   134,    49,   134,   134,   132,    78,
-     131,   131,   123,   131,   131,   131,   499,    78,   160,   129,
-     128,   128,    49,   172,   166,   128,   175,    47,   128,   128,
-     128,   128,   128,    47,    78,   291,   128,   128,   128,    19,
-     128,   128,   354,   297,    16,   128,    18,     2,    78,   128,
-     126,    78,    78,   129,    18,   135,   368,   233,   370,    17,
-     129,    87,    49,   299,   126,    20,    78,   129,   129,     3,
-      96,    49,   248,   133,    47,    87,    49,    50,   135,   158,
-     124,   133,    49,   108,    96,   129,    78,   263,   264,   240,
-     344,    78,    59,    78,   386,    50,    47,   389,   271,   335,
-      78,    47,   129,    47,   416,   134,    49,     3,    75,   285,
-     132,    78,    49,   193,   194,   195,   196,   197,   198,   199,
+         2,    41,    35,   122,    13,    42,   117,   120,   125,   154,
+      96,     3,   156,   152,   158,   154,    20,    19,     3,    47,
+      29,     3,     3,   379,    33,     3,    78,     3,     3,     3,
+       3,   380,     3,   119,     3,    47,   362,   123,     3,    47,
+     151,     3,   128,     3,     3,     3,     3,     3,    50,   135,
+     376,     3,   378,     3,     3,     3,    49,   143,     3,   145,
+       3,   172,   148,   111,     4,     5,     6,     7,     8,     9,
+      10,    11,    12,   429,   160,     3,     0,    80,    78,   428,
+     126,    73,   193,   129,   132,    78,    37,    38,    39,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,     3,   425,
+      47,     3,    49,    56,   133,   216,   134,   218,    49,   112,
+      78,   123,   225,    36,    47,   123,    62,    49,    71,    87,
+      43,    47,   159,    49,    50,    47,   237,    59,    96,   111,
+     111,    78,   141,   129,   490,   144,   129,    78,   140,   131,
+     149,   150,   116,    75,   283,    20,    78,   291,   133,   126,
+     132,   132,   129,    47,   132,   511,   132,   132,   131,   161,
+     131,    47,   131,   489,   173,   167,   128,   176,   128,   128,
+     128,   128,   128,    16,     2,    18,   128,   294,   128,   128,
+     128,   300,   129,   128,   130,   128,    35,    36,   129,    78,
+     131,   302,    20,    32,    33,    34,   136,   129,   235,   236,
+     128,     4,     5,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    19,   126,   251,    49,   129,    18,    49,    49,
+     136,    17,    50,   128,     3,    28,   128,   338,    78,   266,
+     267,   344,    47,   352,    49,    50,   134,    87,   108,   243,
+      78,   274,    45,    46,    78,    78,    96,    78,    78,    49,
+     394,   288,    47,   397,   194,   195,   196,   197,   198,   199,
      200,   201,   202,   203,   204,   205,   206,   207,   208,   209,
-     210,   211,   212,   213,   214,    78,   216,    45,    46,    49,
-     130,    78,   129,   132,   201,   202,   203,   204,   205,   206,
-      47,   129,    49,    50,   233,   193,   194,   195,    37,    38,
-      39,   240,   129,   399,   132,   477,    79,   403,    78,   248,
-     346,    25,    26,    27,    28,    29,    78,   456,    78,   458,
-      78,    47,   262,   132,   263,   264,   129,    35,    36,    87,
-     469,   132,   129,    15,    16,   456,   372,   458,    96,   348,
-     112,   113,   481,   482,   353,    47,   285,    19,   469,    20,
-     390,   391,    25,    26,    27,    18,    29,   393,    17,   129,
-     481,   482,   371,    77,   263,   264,   462,    21,    22,    23,
-      24,    32,    33,    34,   376,    21,    22,    23,    24,   381,
-     382,   527,   528,   419,   196,   197,   471,   207,   208,   209,
-     210,     3,   394,   198,   199,   200,   336,   131,    47,   408,
-     130,    71,   130,    78,    77,   132,    47,   346,    47,     3,
-     128,   420,   421,   130,   354,   355,   356,   357,   358,   359,
-     360,   361,   362,   363,   364,   365,   366,   367,   368,   369,
-     370,    28,   133,   372,   470,   444,    28,   354,   355,   356,
-     357,   358,   359,   360,   361,   362,   363,   364,   365,   366,
-     367,   368,   369,   370,   393,   488,    78,   466,   360,   361,
-     362,   363,   128,   128,    78,   129,    28,   407,    28,   478,
-     479,   129,   132,   129,   476,   484,   416,   132,   129,   132,
-     419,   483,    65,   131,   493,    55,   128,    28,   131,    42,
-     499,   399,   130,   130,   130,   128,   130,   132,   500,   416,
-     130,   128,   130,   505,     4,     5,     6,     7,     8,     9,
-      10,    11,    12,    13,    14,    50,   280,   393,   352,   485,
-     522,   523,   272,    14,   528,    14,   211,   513,    28,   531,
-     365,   470,   534,   364,   212,   214,   213,   477,   367,   369,
-     366,    81,    35,    36,   224,    45,    46,    40,    41,    42,
-      43,    44,    45,    46,    47,    48,    49,    -1,    -1,   216,
-     477,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,    -1,    -1,
-      -1,    -1,    75,    -1,    -1,    78,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    86,    87,    -1,    -1,    -1,    -1,    92,
-      -1,    -1,    -1,    96,    -1,    -1,    -1,   100,    -1,    -1,
-      -1,   104,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   112,
-     113,    -1,   115,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,   133,    -1,    -1,   129,    35,    36,    -1,
-      -1,   134,    40,    41,    42,    43,    44,    45,    46,    47,
-      48,    49,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    69,    -1,    -1,    -1,    -1,    -1,    75,    -1,    -1,
-      78,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    86,    87,
-      -1,    -1,    -1,    -1,    92,    -1,    -1,    -1,    96,    -1,
-      -1,    -1,   100,    -1,    -1,    -1,   104,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,   112,   113,    -1,   115,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,   129,    35,    36,    -1,    -1,   134,    40,    41,    42,
+     210,   211,   212,   213,   214,   215,    49,   217,    78,   194,
+     195,   196,    49,    49,    47,    49,   202,   203,   204,   205,
+     206,   207,    78,   124,    47,   129,   407,   131,   129,   129,
+     411,    87,   199,   200,   201,    78,    21,    22,    23,    24,
+      96,    78,    78,   126,    78,   133,   129,   354,    15,    16,
+     465,     3,   467,    45,    46,   265,   465,   133,   467,   129,
+      78,   134,    21,    22,    23,    24,   481,    25,    26,    27,
+      28,    29,   481,   380,    15,    16,   130,   356,   493,   494,
+     112,   113,   361,   133,   493,   494,   129,    78,   398,   399,
+     471,   131,   129,   129,   401,   129,    79,    25,    26,    27,
+     379,    29,   208,   209,   210,   211,   266,   267,   539,   540,
+     417,   133,   384,   197,   198,    47,   133,   389,   390,    77,
+      47,   428,    20,    19,    18,    17,     3,   483,   132,   339,
+     402,   368,   369,   370,   371,    47,    71,   416,    78,   133,
+     130,   130,    47,    47,     3,    28,   128,   134,    28,    77,
+     429,   430,   362,   363,   364,   365,   366,   367,   368,   369,
+     370,   371,   372,   373,   374,   375,   376,   377,   378,   130,
+      78,   128,   128,   133,   453,   482,   362,   363,   364,   365,
+     366,   367,   368,   369,   370,   371,   372,   373,   374,   375,
+     376,   377,   378,   129,    78,    28,   475,   500,   129,   133,
+     133,    28,   132,   129,   129,   415,    55,    65,   128,    28,
+     132,   490,   491,   130,   130,   425,   488,   496,   128,   130,
+     133,   130,    42,   495,   130,   128,   505,   407,   130,    50,
+     283,   401,   511,   360,   275,   540,   497,   525,    14,   425,
+     512,    14,   212,   372,   213,   517,     4,     5,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,   373,   375,   214,
+     374,   215,   534,   535,   217,   377,    81,    -1,    -1,    -1,
+      -1,   543,    -1,    -1,   546,    -1,    -1,    -1,    -1,   489,
+      -1,    -1,    -1,    -1,    35,    36,    -1,    45,    46,    40,
+      41,    42,    43,    44,    45,    46,    47,    48,    49,    -1,
+      -1,    -1,    53,   489,    -1,    -1,    -1,    -1,    59,    60,
+      -1,    -1,    63,    -1,    -1,    -1,    67,    -1,    69,    -1,
+      -1,    -1,    73,    -1,    75,    -1,    -1,    78,    79,    -1,
+      -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,
+      -1,    92,    93,    -1,    -1,    96,    -1,    98,    -1,   100,
+     101,    -1,    -1,   104,   105,   106,    -1,   108,   109,    -1,
+     111,   112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,
+      -1,   122,    -1,    -1,   125,    -1,   134,    -1,   129,   130,
+      -1,   132,    35,    36,    -1,    -1,    -1,    40,    41,    42,
       43,    44,    45,    46,    47,    48,    49,    -1,    -1,    -1,
       53,    -1,    -1,    -1,    -1,    -1,    59,    60,    -1,    -1,
       63,    -1,    -1,    -1,    67,    -1,    69,    -1,    -1,    -1,
@@ -4117,35 +4215,8 @@ namespace yy {
       93,    -1,    -1,    96,    -1,    98,    -1,   100,   101,    -1,
       -1,   104,   105,   106,    -1,   108,   109,    -1,   111,   112,
      113,    -1,   115,    -1,    -1,    -1,    -1,    -1,    -1,   122,
-      -1,    -1,   125,    -1,    35,    36,   129,   130,   131,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    -1,
-      -1,    -1,    53,    -1,    -1,    -1,    -1,    -1,    59,    60,
-      -1,    -1,    63,    -1,    -1,    -1,    67,    -1,    69,    -1,
-      -1,    -1,    73,    -1,    75,    -1,    -1,    78,    79,    -1,
-      -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,
-      -1,    92,    93,    -1,    -1,    96,    -1,    98,    -1,   100,
-     101,    -1,    -1,   104,   105,   106,    -1,   108,   109,    -1,
-     111,   112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,
-      -1,   122,    -1,    -1,   125,    -1,    35,    36,   129,   130,
-     131,    40,    41,    42,    43,    44,    45,    46,    47,    48,
-      49,    -1,    -1,    -1,    53,    -1,    -1,    -1,    -1,    -1,
-      59,    60,    -1,    -1,    63,    -1,    -1,    -1,    67,    -1,
-      69,    -1,    -1,    -1,    73,    -1,    75,    -1,    -1,    78,
-      79,    -1,    -1,    -1,    -1,    -1,    -1,    86,    87,    -1,
-      -1,    -1,    -1,    92,    93,    -1,    -1,    96,    -1,    98,
-      -1,   100,   101,    -1,    -1,   104,   105,   106,    -1,   108,
-     109,    -1,   111,   112,   113,    -1,   115,    -1,    -1,    -1,
-      -1,    -1,    -1,   122,    -1,    -1,   125,    -1,    35,    36,
-     129,   130,   131,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    -1,    -1,    -1,    53,    -1,    -1,    -1,
-      -1,    -1,    59,    60,    -1,    -1,    63,    -1,    -1,    -1,
-      67,    -1,    69,    -1,    -1,    -1,    73,    -1,    75,    -1,
-      -1,    78,    79,    -1,    -1,    -1,    -1,    -1,    -1,    86,
-      87,    -1,    -1,    -1,    -1,    92,    93,    -1,    -1,    96,
-      -1,    98,    -1,   100,   101,    -1,    -1,   104,   105,   106,
-      -1,   108,   109,    -1,   111,   112,   113,    -1,   115,    -1,
-      -1,    -1,    -1,    -1,    -1,   122,    -1,    -1,   125,    -1,
-      35,    36,   129,    -1,   131,    40,    41,    42,    43,    44,
+      -1,    -1,   125,    -1,    -1,    -1,   129,   130,    -1,   132,
+      35,    36,    -1,    -1,    -1,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    -1,    -1,    -1,    53,    -1,
       -1,    -1,    -1,    -1,    59,    60,    -1,    -1,    63,    -1,
       -1,    -1,    67,    -1,    69,    -1,    -1,    -1,    73,    -1,
@@ -4154,60 +4225,98 @@ namespace yy {
       -1,    96,    -1,    98,    -1,   100,   101,    -1,    -1,   104,
      105,   106,    -1,   108,   109,    -1,   111,   112,   113,    -1,
      115,    -1,    -1,    -1,    -1,    -1,    -1,   122,    -1,    -1,
-     125,    -1,    35,    36,   129,    -1,   131,    40,    41,    42,
-      43,    44,    45,    46,    47,    48,    49,    -1,    -1,    -1,
-      53,    -1,    -1,    -1,    -1,    -1,    59,    60,    -1,    -1,
-      63,    -1,    -1,    -1,    -1,    -1,    69,    -1,    -1,    -1,
-      73,    -1,    75,    -1,    -1,    78,    79,    -1,    -1,    -1,
-      -1,    -1,    -1,    86,    87,    -1,    -1,    -1,    -1,    92,
-      93,    -1,    -1,    96,    -1,    98,    -1,   100,   101,    -1,
-      -1,   104,   105,   106,    -1,   108,   109,    -1,   111,   112,
-     113,    -1,   115,    -1,    -1,    -1,    -1,    -1,    -1,   122,
-      -1,    -1,    -1,    -1,    35,    36,   129,    -1,   131,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    -1,
+     125,    -1,    -1,    -1,   129,   130,    -1,   132,    35,    36,
+      -1,    -1,    -1,    40,    41,    42,    43,    44,    45,    46,
+      47,    48,    49,    -1,    -1,    -1,    53,    -1,    -1,    -1,
+      -1,    -1,    59,    60,    -1,    -1,    63,    -1,    -1,    -1,
+      67,    -1,    69,    -1,    -1,    -1,    73,    -1,    75,    -1,
+      -1,    78,    79,    -1,    -1,    -1,    -1,    -1,    -1,    86,
+      87,    -1,    -1,    -1,    -1,    92,    93,    -1,    -1,    96,
+      -1,    98,    -1,   100,   101,    -1,    -1,   104,   105,   106,
+      -1,   108,   109,    -1,   111,   112,   113,    -1,   115,    -1,
+      -1,    -1,    -1,    -1,    -1,   122,    -1,    -1,   125,    -1,
+      -1,    -1,   129,    35,    36,   132,    -1,    -1,    40,    41,
+      42,    43,    44,    45,    46,    47,    48,    49,    -1,    -1,
+      -1,    53,    -1,    -1,    -1,    -1,    -1,    59,    60,    -1,
+      -1,    63,    -1,    -1,    -1,    67,    -1,    69,    -1,    -1,
+      -1,    73,    -1,    75,    -1,    -1,    78,    79,    -1,    -1,
+      -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,    -1,
+      92,    93,    -1,    -1,    96,    -1,    98,    -1,   100,   101,
+      -1,    -1,   104,   105,   106,    -1,   108,   109,    -1,   111,
+     112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,    -1,
+     122,    -1,    -1,   125,    -1,    -1,    -1,   129,    35,    36,
+     132,    -1,    -1,    40,    41,    42,    43,    44,    45,    46,
+      47,    48,    49,    -1,    -1,    -1,    53,    -1,    -1,    -1,
+      -1,    -1,    59,    60,    -1,    -1,    63,    -1,    -1,    -1,
+      -1,    -1,    69,    -1,    -1,    -1,    73,    -1,    75,    -1,
+      -1,    78,    79,    -1,    -1,    -1,    -1,    -1,    -1,    86,
+      87,    -1,    -1,    -1,    -1,    92,    93,    -1,    -1,    96,
+      -1,    98,    -1,   100,   101,    -1,    -1,   104,   105,   106,
+      -1,   108,   109,    -1,   111,   112,   113,    -1,   115,    -1,
+      -1,    -1,    -1,    -1,    -1,   122,    -1,    -1,    -1,    -1,
+      -1,    -1,   129,    35,    36,   132,    -1,    -1,    40,    41,
+      42,    43,    44,    45,    46,    47,    48,    49,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,
-      -1,    -1,    -1,    -1,    75,    -1,    -1,    78,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,
-      -1,    92,    -1,    -1,    -1,    96,    -1,    -1,    -1,   100,
-      -1,    -1,    -1,   104,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,   112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,   124,    35,    36,    -1,   128,   129,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,    -1,
+      -1,    -1,    -1,    75,    -1,    -1,    78,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,    -1,
+      92,    -1,    -1,    -1,    96,    -1,    -1,    -1,   100,    -1,
+      -1,    -1,   104,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+     112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    35,    36,   129,    -1,   131,
+      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,
-      -1,    -1,    -1,    -1,    75,    -1,    -1,    78,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,
-      -1,    92,    -1,    -1,    -1,    96,    -1,    -1,    -1,   100,
-      -1,    -1,    -1,   104,    -1,   106,    -1,    -1,    -1,    -1,
-      -1,   112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    35,    36,    -1,    -1,   129,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,
+      -1,    -1,    -1,    -1,    -1,    75,    -1,    -1,    78,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,
+      -1,    -1,    92,    -1,    -1,    -1,    96,    -1,    -1,    -1,
+     100,    -1,    -1,    -1,   104,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,   112,   113,    -1,   115,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    35,    36,   129,
+      -1,   131,    40,    41,    42,    43,    44,    45,    46,    47,
+      48,    49,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,
-      -1,    -1,    -1,    -1,    75,    -1,    -1,    78,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,
-      -1,    92,    -1,    -1,    -1,    96,    -1,    -1,    -1,   100,
-      -1,    -1,    -1,   104,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,   112,   113,    -1,   115,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,   124,    35,    36,    -1,    -1,   129,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    -1,
+      -1,    69,    -1,    -1,    -1,    -1,    -1,    75,    -1,    -1,
+      78,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    86,    87,
+      -1,    -1,    -1,    -1,    92,    -1,    -1,    -1,    96,    -1,
+      -1,    -1,   100,    -1,    -1,    -1,   104,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,   112,   113,    -1,   115,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,   124,    35,    36,    -1,
+     128,   129,    40,    41,    42,    43,    44,    45,    46,    47,
+      48,    49,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,
-      47,    48,    49,    -1,    75,    -1,    -1,    78,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    86,    87,    -1,    -1,    -1,
-      -1,    92,    69,    -1,    -1,    96,    -1,    -1,    75,   100,
-      -1,    78,    -1,   104,    -1,    -1,    -1,    -1,    -1,    86,
-      87,   112,   113,    -1,   115,    92,    -1,    -1,    -1,    96,
-      47,    48,    49,   100,    -1,    -1,    -1,   104,   129,   106,
-      -1,    -1,    -1,    -1,    -1,   112,   113,    -1,   115,    -1,
-      -1,    -1,    69,    -1,    -1,    -1,    -1,    -1,    75,    -1,
-      -1,    78,   129,    -1,    -1,    -1,    -1,    -1,    -1,    86,
-      87,    -1,    -1,    -1,    -1,    92,    -1,    -1,    -1,    96,
-      -1,    -1,    -1,   100,    -1,    -1,    -1,   104,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,   112,   113,    -1,   115,    -1,
+      -1,    69,    -1,    -1,    -1,    -1,    -1,    75,    -1,    -1,
+      78,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    86,    87,
+      -1,    -1,    -1,    -1,    92,    -1,    -1,    -1,    96,    -1,
+      -1,    -1,   100,    -1,    -1,    -1,   104,    -1,   106,    -1,
+      -1,    -1,    -1,    -1,   112,   113,    -1,   115,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    35,    36,    -1,
+      -1,   129,    40,    41,    42,    43,    44,    45,    46,    47,
+      48,    49,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,   129
+      -1,    69,    -1,    -1,    -1,    -1,    -1,    75,    -1,    -1,
+      78,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    86,    87,
+      -1,    -1,    -1,    -1,    92,    -1,    -1,    -1,    96,    -1,
+      -1,    -1,   100,    -1,    -1,    -1,   104,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,   112,   113,    -1,   115,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,   124,    35,    36,    -1,
+      -1,   129,    40,    41,    42,    43,    44,    45,    46,    47,
+      48,    49,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    69,    -1,    47,    48,    49,    -1,    75,    -1,    -1,
+      78,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    86,    87,
+      -1,    -1,    -1,    -1,    92,    69,    -1,    -1,    96,    -1,
+      -1,    75,   100,    -1,    78,    -1,   104,    -1,    -1,    -1,
+      -1,    -1,    86,    87,   112,   113,    -1,   115,    92,    -1,
+      -1,    -1,    96,    47,    48,    49,   100,    -1,    -1,    -1,
+     104,   129,   106,    -1,    -1,    -1,    -1,    -1,   112,   113,
+      -1,   115,    -1,    -1,    -1,    69,    -1,    -1,    -1,    -1,
+      -1,    75,    -1,    -1,    78,   129,    -1,    -1,    -1,    -1,
+      -1,    -1,    86,    87,    -1,    -1,    -1,    -1,    92,    -1,
+      -1,    -1,    96,    -1,    -1,    -1,   100,    -1,    -1,    -1,
+     104,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   112,   113,
+      -1,   115,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,   129
   };
 
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
@@ -4219,56 +4328,58 @@ namespace yy {
       44,    45,    46,    47,    48,    49,    53,    59,    60,    63,
       67,    69,    73,    75,    78,    79,    86,    87,    92,    93,
       96,    98,   100,   101,   104,   105,   106,   108,   109,   111,
-     112,   113,   115,   122,   125,   129,   131,   138,   139,   140,
+     112,   113,   115,   122,   125,   129,   132,   138,   139,   140,
      146,   148,   152,   153,   154,   155,   156,   157,   159,   160,
-     172,   173,   174,   175,   176,   177,   178,   179,   180,   185,
-     186,   187,   194,   195,   196,   197,   198,   204,   208,   209,
-     210,   213,   214,   215,   216,   217,   218,   219,   221,   223,
-     225,   227,   229,   231,   233,   235,   238,   243,    75,    78,
-     129,   213,   215,   215,   215,   215,   215,   215,   215,   215,
-     215,   238,   208,   209,     3,   199,   200,   242,    78,   151,
-      78,   129,   163,   165,   167,   168,   198,   151,    59,   152,
-      59,    75,    78,   138,   165,    47,   123,    78,   151,   132,
-      47,   238,   241,    47,   238,   129,   155,   163,    47,    47,
-     126,   129,   141,   129,   141,    78,   142,   167,    47,   163,
-      78,    78,    87,    96,   130,   152,   158,   205,   206,   207,
-     148,    47,    49,    50,   211,    49,    50,   211,     4,     5,
-       6,     7,     8,     9,    10,    11,    12,    13,    14,    45,
-      46,   133,   237,    37,    38,    39,    35,    36,    32,    33,
-      34,    25,    26,    27,    28,    29,    77,    21,    22,    23,
-      24,    20,    19,    18,    17,    15,    16,     3,   243,    78,
-      87,    96,   128,   211,     3,    73,   134,   201,   202,     3,
-     134,   235,   243,    47,   133,   170,   191,    78,   169,   207,
-       3,   243,   170,   243,   108,    78,    78,   243,   106,   213,
-     218,   220,   222,   224,   226,   228,   230,   232,   234,   236,
-     239,   240,    47,    47,    47,   152,   238,   243,   238,   243,
-      56,    71,   188,   189,   243,   238,   238,   235,   138,   145,
-     147,   149,   153,   145,   191,     3,   116,   191,    78,   161,
-     162,   167,   243,   152,   130,   152,   130,     3,   131,   132,
-     124,   128,   144,   212,   235,   238,    78,   238,    78,   235,
-     215,   215,   215,   216,   216,   217,   217,   217,   218,   218,
-     218,   218,   218,   218,   219,   219,   219,   219,   221,   223,
-     225,   227,   235,   229,   235,   242,    47,   123,   134,    79,
-     203,   142,   150,   235,     3,   131,   132,   165,    47,    78,
-     164,   166,   167,    28,   237,    25,    26,    27,    29,    77,
-      21,    22,    23,    24,    20,    19,    18,    17,    15,    16,
-       3,   131,   106,   213,   150,   150,   128,   128,    47,   155,
-     189,   128,   128,   130,   149,   130,    78,   124,   143,   167,
-     112,   113,   191,     3,   128,   170,   207,   235,    78,     3,
-     128,   134,   134,   132,   134,   235,   213,    47,    47,   128,
-      78,   207,   130,    78,   167,   238,   133,   171,   192,     3,
-     131,    28,   171,   238,   213,   236,   218,   218,   218,   218,
-     218,   220,   220,   220,   220,   222,   224,   226,   228,   236,
-     230,   236,   241,   166,    28,   128,   128,   152,   129,   181,
-      78,   152,   152,   191,    78,   191,   129,   141,   129,   141,
-     162,   152,   132,   144,   235,   235,    28,   213,   238,   129,
-     132,   128,   236,   166,   241,   238,   128,   132,   131,    28,
-     238,   129,   129,    65,    55,   182,   183,   193,   128,   145,
-     145,   235,   238,    28,   128,   145,    78,   167,   243,   131,
-     128,   152,   236,   241,   238,   128,   145,   145,   152,   238,
-     183,    62,   130,   184,   155,   130,   130,   128,   238,   130,
-     241,   152,   128,   128,   152,   130,   130,   132,   132,   193,
-     128,   128,   152,   152,   158,   190,   190,   130,   152
+     174,   175,   176,   177,   178,   179,   180,   181,   182,   187,
+     188,   189,   196,   197,   198,   199,   200,   206,   210,   211,
+     212,   215,   216,   217,   218,   219,   220,   221,   223,   225,
+     227,   229,   231,   233,   235,   237,   240,   245,    75,    78,
+     129,   215,   217,   217,   217,   217,   217,   217,   217,   217,
+     217,   240,   210,   211,     3,   201,   202,   244,    78,   151,
+      49,    78,   129,   163,   165,   167,   168,   170,   151,    59,
+     152,    59,    75,    78,   138,   165,    47,   123,    78,   151,
+     133,    47,   240,   243,    47,   240,   129,   155,   163,    47,
+      47,   126,   129,   141,   129,   141,    78,   142,   167,    47,
+     163,    78,    78,    87,    96,   130,   152,   158,   207,   208,
+     209,   148,    47,    49,    50,   213,    49,    50,   213,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      45,    46,   134,   239,    37,    38,    39,    35,    36,    32,
+      33,    34,    25,    26,    27,    28,    29,    77,    21,    22,
+      23,    24,    20,    19,    18,    17,    15,    16,     3,   245,
+      78,    87,    96,   128,   213,     3,    73,   131,   203,   204,
+       3,   131,   237,   245,   169,   244,    47,   134,   172,   193,
+      78,   171,   209,     3,   245,   172,   245,   108,    78,    78,
+     245,   106,   215,   220,   222,   224,   226,   228,   230,   232,
+     234,   236,   238,   241,   242,    47,    47,    47,   152,   240,
+     245,   240,   245,    56,    71,   190,   191,   245,   240,   240,
+     237,   138,   145,   147,   149,   153,   145,   193,     3,   116,
+     193,    78,   161,   162,   167,   245,   152,   130,   152,   130,
+       3,   132,   133,   124,   128,   144,   214,   237,   240,    78,
+     240,    78,   237,   217,   217,   217,   218,   218,   219,   219,
+     219,   220,   220,   220,   220,   220,   220,   221,   221,   221,
+     221,   223,   225,   227,   229,   237,   231,   237,   244,    47,
+     123,   131,    79,   205,     3,   131,    78,   131,   167,   142,
+     150,   237,     3,   132,   133,   165,    47,    78,   164,   166,
+     167,    28,   239,    25,    26,    27,    29,    77,    21,    22,
+      23,    24,    20,    19,    18,    17,    15,    16,     3,   132,
+     106,   215,   150,   150,   128,   128,    47,   155,   191,   128,
+     128,   130,   149,   130,    78,   124,   143,   167,   112,   113,
+     193,     3,   128,   172,   209,   237,    78,     3,   128,   131,
+     131,   133,   131,   237,   215,    47,    47,   244,   128,    78,
+     209,   130,    78,   167,   240,   134,   173,   194,     3,   132,
+      28,   173,   240,   215,   238,   220,   220,   220,   220,   220,
+     222,   222,   222,   222,   224,   226,   228,   230,   238,   232,
+     238,   243,   166,    28,   128,   128,   152,   129,   183,    78,
+     152,   152,   193,    78,   193,   129,   141,   129,   141,   162,
+     152,   133,   144,   237,   237,    28,   215,   240,    78,   131,
+     167,   129,   133,   128,   238,   166,   243,   240,   128,   133,
+     132,    28,   240,   129,   129,    65,    55,   184,   185,   195,
+     128,   145,   145,   237,   240,    28,   128,   145,    78,   167,
+     245,   132,   128,   152,   238,   243,   240,   128,   145,   145,
+     152,   240,   185,    62,   130,   186,   155,   130,   130,   128,
+     240,   130,   243,   152,   128,   128,   152,   130,   130,   133,
+     133,   195,   128,   128,   152,   152,   158,   192,   192,   130,
+     152
   };
 
 #if YYDEBUG
@@ -4290,7 +4401,7 @@ namespace yy {
      338,   339,   340,   341,   342,   343,   344,   345,   346,   347,
      348,   349,   350,   351,   352,   353,   354,   355,   356,   357,
      358,   359,   360,   361,   362,   363,   364,   365,    41,   123,
-     125,    59,    58,    61,    93
+     125,    93,    59,    58,    61
   };
 #endif
 
@@ -4306,27 +4417,27 @@ namespace yy {
      154,   154,   154,   154,   154,   154,   154,   155,   155,   156,
      157,   157,   158,   158,   159,   159,   159,   160,   161,   161,
      162,   162,   163,   163,   164,   164,   165,   165,   166,   166,
-     167,   167,   168,   169,   169,   169,   169,   169,   169,   170,
-     171,   172,   173,   174,   174,   175,   175,   175,   175,   175,
-     175,   175,   175,   176,   177,   178,   179,   180,   181,   181,
-     182,   182,   183,   184,   185,   186,   187,   187,   187,   188,
-     189,   190,   190,   191,   191,   192,   192,   193,   193,   194,
-     194,   194,   194,   194,   195,   196,   196,   197,   197,   197,
-     197,   197,   197,   198,   198,   198,   198,   199,   199,   200,
-     200,   201,   202,   202,   203,   203,   204,   205,   205,   206,
-     206,   207,   207,   207,   208,   208,   208,   208,   208,   209,
-     209,   210,   210,   210,   210,   211,   211,   212,   212,   212,
-     212,   213,   213,   214,   214,   214,   215,   215,   215,   215,
-     215,   215,   215,   215,   215,   215,   216,   216,   216,   216,
+     167,   167,   168,   168,   168,   169,   169,   169,   169,   170,
+     171,   171,   171,   171,   171,   171,   172,   173,   174,   175,
+     176,   176,   177,   177,   177,   177,   177,   177,   177,   177,
+     178,   179,   180,   181,   182,   183,   183,   184,   184,   185,
+     186,   187,   188,   189,   189,   189,   190,   191,   192,   192,
+     193,   193,   194,   194,   195,   195,   196,   196,   196,   196,
+     196,   197,   198,   198,   199,   199,   199,   199,   199,   199,
+     200,   200,   200,   200,   201,   201,   202,   202,   203,   204,
+     204,   205,   205,   206,   207,   207,   208,   208,   209,   209,
+     209,   210,   210,   210,   210,   210,   211,   211,   212,   212,
+     212,   212,   213,   213,   214,   214,   214,   214,   215,   215,
+     216,   216,   216,   217,   217,   217,   217,   217,   217,   217,
      217,   217,   217,   218,   218,   218,   218,   219,   219,   219,
-     219,   219,   219,   219,   220,   220,   220,   220,   220,   220,
-     221,   221,   221,   221,   221,   222,   222,   222,   222,   222,
-     223,   223,   224,   224,   225,   225,   226,   226,   227,   227,
-     228,   228,   229,   229,   230,   230,   231,   231,   232,   232,
-     233,   233,   234,   234,   235,   235,   236,   236,   237,   237,
-     237,   237,   237,   237,   237,   237,   237,   237,   237,   237,
-     238,   238,   239,   239,   240,   240,   241,   241,   242,   242,
-     243,   243
+     220,   220,   220,   220,   221,   221,   221,   221,   221,   221,
+     221,   222,   222,   222,   222,   222,   222,   223,   223,   223,
+     223,   223,   224,   224,   224,   224,   224,   225,   225,   226,
+     226,   227,   227,   228,   228,   229,   229,   230,   230,   231,
+     231,   232,   232,   233,   233,   234,   234,   235,   235,   236,
+     236,   237,   237,   238,   238,   239,   239,   239,   239,   239,
+     239,   239,   239,   239,   239,   239,   239,   240,   240,   241,
+     241,   242,   242,   243,   243,   244,   244,   245,   245
   };
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -4341,27 +4452,27 @@ namespace yy {
        1,     1,     1,     1,     1,     1,     1,     2,     3,     3,
        3,     2,     1,     2,     3,     3,     3,     5,     1,     3,
        2,     2,     1,     3,     1,     3,     2,     2,     2,     2,
-       1,     1,     4,     1,     3,     3,     5,     3,     5,     2,
-       2,     1,     2,     7,     5,     7,     5,     9,    10,     7,
-       8,     8,     9,     3,     3,     3,     5,     5,     3,     5,
-       1,     2,     4,     3,     3,     3,     3,     3,     4,     5,
-       2,     0,     1,     0,     1,     0,     1,     0,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     3,     3,     3,     5,     4,     2,     4,     1,
-       2,     2,     6,     7,     0,     4,     3,     0,     2,     3,
-       5,     1,     1,     1,     1,     1,     4,     3,     3,     1,
-       2,     2,     2,     4,     3,     2,     3,     1,     1,     3,
-       3,     1,     1,     1,     2,     2,     1,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     3,     3,     3,
-       1,     3,     3,     1,     3,     3,     3,     1,     3,     3,
-       3,     3,     3,     3,     1,     3,     3,     3,     3,     3,
-       1,     3,     3,     3,     3,     1,     3,     3,     3,     3,
-       1,     3,     1,     3,     1,     3,     1,     3,     1,     3,
-       1,     3,     1,     3,     1,     3,     1,     3,     1,     3,
-       1,     5,     1,     5,     1,     3,     1,     3,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     3,     1,     3,     0,     1,     0,     1,     0,     1,
-       1,     1
+       1,     1,     3,     3,     5,     2,     2,     4,     4,     4,
+       1,     3,     3,     5,     3,     5,     2,     2,     1,     2,
+       7,     5,     7,     5,     9,    10,     7,     8,     8,     9,
+       3,     3,     3,     5,     5,     3,     5,     1,     2,     4,
+       3,     3,     3,     3,     3,     4,     5,     2,     0,     1,
+       0,     1,     0,     1,     0,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     3,
+       3,     3,     5,     4,     2,     4,     1,     2,     2,     6,
+       7,     0,     4,     3,     0,     2,     3,     5,     1,     1,
+       1,     1,     1,     4,     3,     3,     1,     2,     2,     2,
+       4,     3,     2,     3,     1,     1,     3,     3,     1,     1,
+       1,     2,     2,     1,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     1,     3,     3,     3,     1,     3,     3,
+       1,     3,     3,     3,     1,     3,     3,     3,     3,     3,
+       3,     1,     3,     3,     3,     3,     3,     1,     3,     3,
+       3,     3,     1,     3,     3,     3,     3,     1,     3,     1,
+       3,     1,     3,     1,     3,     1,     3,     1,     3,     1,
+       3,     1,     3,     1,     3,     1,     3,     1,     5,     1,
+       5,     1,     3,     1,     3,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     3,     1,
+       3,     0,     1,     0,     1,     0,     1,     1,     1
   };
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
@@ -4396,8 +4507,8 @@ namespace yy {
   "JS_PARAM_BEGIN", "JS_PARAM_END", "JS_DSTA_BEGIN", "JS_DSTA_END",
   "JS_DOBJECT_BEGIN", "JS_DOBJECT_END", "JS_FORMAL_PARAMETER_IDENT",
   "JS_LET", "JS_EACH", "JS_PARAMETER_REST", "JS_MODULE",
-  "JS_EXP_CLOSURE_BEGIN", "JS_EXP_CLOSURE_END", "')'", "'{'", "'}'", "';'",
-  "':'", "'='", "']'", "$accept", "program", "$@1", "function_declaration",
+  "JS_EXP_CLOSURE_BEGIN", "JS_EXP_CLOSURE_END", "')'", "'{'", "'}'", "']'",
+  "';'", "':'", "'='", "$accept", "program", "$@1", "function_declaration",
   "function_expression", "arrow_function_expression",
   "shorten_function_body", "formal_parameter_list",
   "formal_parameter_rest", "arguments_spread", "function_body",
@@ -4409,7 +4520,8 @@ namespace yy {
   "let_assignment_list", "let_assignment_expression",
   "variable_declaration_list", "variable_declaration_list_no_in",
   "variable_declaration", "variable_declaration_no_in",
-  "destructuring_assignment_left_hand_side", "object_left_hand_side",
+  "destructuring_assignment_left_hand_side", "array_left_hand_side",
+  "array_left_hand_side_list", "object_left_hand_side",
   "object_member_left_hand_side_list", "initialiser", "initialiser_no_in",
   "empty_statement", "expression_statement", "if_statement",
   "iteration_statement", "continue_statement", "break_statement",
@@ -4453,92 +4565,95 @@ namespace yy {
      142,   116,   113,   129,   145,   130,    -1,   113,   129,   145,
      130,    -1,   115,   142,   116,   112,   141,    -1,   115,   142,
      116,   113,   141,    -1,   113,   141,    -1,   112,   141,    -1,
-     126,   235,    -1,    78,   191,    -1,   167,   191,    -1,   142,
-       3,    78,   191,    -1,   142,     3,   167,   191,    -1,   142,
+     126,   237,    -1,    78,   193,    -1,   167,   193,    -1,   142,
+       3,    78,   193,    -1,   142,     3,   167,   193,    -1,   142,
        3,   143,    -1,   124,    78,    -1,   124,    78,    -1,    -1,
      147,    -1,   148,    -1,   146,   148,    -1,   149,    -1,   147,
      149,    -1,   152,    -1,   138,    -1,   153,    -1,   138,    -1,
       -1,   142,    -1,    -1,    78,    -1,   153,    -1,   156,    -1,
      157,    -1,   155,    -1,   154,    -1,   159,    -1,   160,    -1,
-     172,    -1,   173,    -1,   174,    -1,   175,    -1,   176,    -1,
-     177,    -1,   178,    -1,   179,    -1,   185,    -1,   180,    -1,
-     186,    -1,   187,    -1,   129,   130,    -1,   129,   158,   130,
-      -1,   125,    78,   152,    -1,    67,   165,   243,    -1,    67,
-     138,    -1,   152,    -1,   158,   152,    -1,   106,   163,   243,
-      -1,    59,   163,   243,    -1,   122,   163,   243,    -1,   122,
+     174,    -1,   175,    -1,   176,    -1,   177,    -1,   178,    -1,
+     179,    -1,   180,    -1,   181,    -1,   187,    -1,   182,    -1,
+     188,    -1,   189,    -1,   129,   130,    -1,   129,   158,   130,
+      -1,   125,    78,   152,    -1,    67,   165,   245,    -1,    67,
+     138,    -1,   152,    -1,   158,   152,    -1,   106,   163,   245,
+      -1,    59,   163,   245,    -1,   122,   163,   245,    -1,   122,
       47,   161,   128,   152,    -1,   162,    -1,   161,     3,   162,
-      -1,    78,   191,    -1,   167,   170,    -1,   165,    -1,   163,
+      -1,    78,   193,    -1,   167,   172,    -1,   165,    -1,   163,
        3,   165,    -1,   166,    -1,   164,     3,   166,    -1,    78,
-     191,    -1,   167,   170,    -1,    78,   192,    -1,   167,   171,
-      -1,   198,    -1,   168,    -1,   129,   169,   131,   130,    -1,
-      78,    -1,   207,   132,    78,    -1,   207,   132,   167,    -1,
-     169,     3,   207,   132,    78,    -1,   169,     3,    78,    -1,
-     169,     3,   207,   132,   167,    -1,   133,   235,    -1,   133,
-     236,    -1,   243,    -1,   238,   243,    -1,    79,    47,   238,
-     128,   152,    65,   152,    -1,    79,    47,   238,   128,   152,
-      -1,    63,   152,   108,    47,   238,   128,   243,    -1,   108,
-      47,   238,   128,   152,    -1,    73,    47,   240,   131,   241,
-     131,   241,   128,   152,    -1,    73,    47,   106,   164,   131,
-     241,   131,   241,   128,   152,    -1,    73,    47,   213,    28,
-     238,   128,   152,    -1,    73,    47,   106,   166,    28,   238,
-     128,   152,    -1,    73,   123,    47,   213,    28,   238,   128,
-     152,    -1,    73,   123,    47,   106,   166,    28,   238,   128,
-     152,    -1,    60,   151,   243,    -1,    53,   151,   243,    -1,
-      93,   241,   243,    -1,   109,    47,   238,   128,   152,    -1,
-      98,    47,   238,   128,   181,    -1,   129,   193,   130,    -1,
-     129,   193,   184,   193,   130,    -1,   183,    -1,   182,   183,
-      -1,    55,   238,   132,   190,    -1,    62,   132,   190,    -1,
-      78,   132,   152,    -1,   101,   238,   243,    -1,   105,   155,
-     188,    -1,   105,   155,   189,    -1,   105,   155,   188,   189,
+     193,    -1,   167,   172,    -1,    78,   194,    -1,   167,   173,
+      -1,   168,    -1,   170,    -1,    49,   244,   131,    -1,    49,
+     169,   131,    -1,    49,   169,     3,   244,   131,    -1,   244,
+      78,    -1,   244,   167,    -1,   169,     3,   244,    78,    -1,
+     169,     3,   244,   167,    -1,   129,   171,   132,   130,    -1,
+      78,    -1,   209,   133,    78,    -1,   209,   133,   167,    -1,
+     171,     3,   209,   133,    78,    -1,   171,     3,    78,    -1,
+     171,     3,   209,   133,   167,    -1,   134,   237,    -1,   134,
+     238,    -1,   245,    -1,   240,   245,    -1,    79,    47,   240,
+     128,   152,    65,   152,    -1,    79,    47,   240,   128,   152,
+      -1,    63,   152,   108,    47,   240,   128,   245,    -1,   108,
+      47,   240,   128,   152,    -1,    73,    47,   242,   132,   243,
+     132,   243,   128,   152,    -1,    73,    47,   106,   164,   132,
+     243,   132,   243,   128,   152,    -1,    73,    47,   215,    28,
+     240,   128,   152,    -1,    73,    47,   106,   166,    28,   240,
+     128,   152,    -1,    73,   123,    47,   215,    28,   240,   128,
+     152,    -1,    73,   123,    47,   106,   166,    28,   240,   128,
+     152,    -1,    60,   151,   245,    -1,    53,   151,   245,    -1,
+      93,   243,   245,    -1,   109,    47,   240,   128,   152,    -1,
+      98,    47,   240,   128,   183,    -1,   129,   195,   130,    -1,
+     129,   195,   186,   195,   130,    -1,   185,    -1,   184,   185,
+      -1,    55,   240,   133,   192,    -1,    62,   133,   192,    -1,
+      78,   133,   152,    -1,   101,   240,   245,    -1,   105,   155,
+     190,    -1,   105,   155,   191,    -1,   105,   155,   190,   191,
       -1,    56,    47,    78,   128,   155,    -1,    71,   155,    -1,
-      -1,   158,    -1,    -1,   170,    -1,    -1,   171,    -1,    -1,
-     182,    -1,   195,    -1,   196,    -1,    87,    -1,    96,    -1,
+      -1,   158,    -1,    -1,   172,    -1,    -1,   173,    -1,    -1,
+     184,    -1,   197,    -1,   198,    -1,    87,    -1,    96,    -1,
       92,    -1,    86,    -1,   104,    -1,    69,    -1,   100,    -1,
-      78,    -1,   194,    -1,   198,    -1,   204,    -1,    47,   238,
-     128,    -1,    49,   242,   134,    -1,    49,   199,   134,    -1,
-      49,   199,     3,   242,   134,    -1,    49,   199,   201,   134,
-      -1,   242,   235,    -1,   199,     3,   242,   235,    -1,     3,
-      -1,   200,     3,    -1,   202,   203,    -1,    73,    47,   213,
-      28,   238,   128,    -1,    73,   123,    47,   213,    28,   238,
-     128,    -1,    -1,    79,    47,   238,   128,    -1,   129,   205,
-     130,    -1,    -1,   206,   131,    -1,   207,   132,   235,    -1,
-     206,     3,   207,   132,   235,    -1,    78,    -1,    96,    -1,
-      87,    -1,   197,    -1,   139,    -1,   208,    49,   238,   134,
-      -1,   208,    50,    78,    -1,    48,   208,   211,    -1,   208,
-      -1,    48,   209,    -1,   208,   211,    -1,   210,   211,    -1,
-     210,    49,   238,   134,    -1,   210,    50,    78,    -1,    47,
-     128,    -1,    47,   212,   128,    -1,   235,    -1,   144,    -1,
-     212,     3,   235,    -1,   212,     3,   144,    -1,   209,    -1,
-     210,    -1,   213,    -1,   213,    46,    -1,   213,    45,    -1,
-     214,    -1,    42,   215,    -1,    43,   215,    -1,    44,   215,
-      -1,    46,   215,    -1,    45,   215,    -1,    35,   215,    -1,
-      36,   215,    -1,    41,   215,    -1,    40,   215,    -1,   215,
-      -1,   216,    37,   215,    -1,   216,    38,   215,    -1,   216,
-      39,   215,    -1,   216,    -1,   217,    35,   216,    -1,   217,
-      36,   216,    -1,   217,    -1,   218,    34,   217,    -1,   218,
-      33,   217,    -1,   218,    32,   217,    -1,   218,    -1,   219,
-      26,   218,    -1,   219,    25,   218,    -1,   219,    29,   218,
-      -1,   219,    77,   218,    -1,   219,    27,   218,    -1,   219,
-      28,   218,    -1,   218,    -1,   220,    26,   218,    -1,   220,
-      25,   218,    -1,   220,    29,   218,    -1,   220,    77,   218,
-      -1,   220,    27,   218,    -1,   219,    -1,   221,    23,   219,
-      -1,   221,    22,   219,    -1,   221,    24,   219,    -1,   221,
-      21,   219,    -1,   220,    -1,   222,    23,   220,    -1,   222,
-      22,   220,    -1,   222,    24,   220,    -1,   222,    21,   220,
-      -1,   221,    -1,   223,    20,   221,    -1,   222,    -1,   224,
-      20,   222,    -1,   223,    -1,   225,    19,   223,    -1,   224,
-      -1,   226,    19,   224,    -1,   225,    -1,   227,    18,   225,
-      -1,   226,    -1,   228,    18,   226,    -1,   227,    -1,   229,
-      17,   227,    -1,   228,    -1,   230,    17,   228,    -1,   229,
-      -1,   231,    16,   229,    -1,   230,    -1,   232,    16,   230,
-      -1,   231,    -1,   231,    15,   235,   132,   235,    -1,   232,
-      -1,   232,    15,   236,   132,   236,    -1,   233,    -1,   213,
-     237,   235,    -1,   234,    -1,   213,   237,   236,    -1,   133,
+      78,    -1,   196,    -1,   200,    -1,   206,    -1,    47,   240,
+     128,    -1,    49,   244,   131,    -1,    49,   201,   131,    -1,
+      49,   201,     3,   244,   131,    -1,    49,   201,   203,   131,
+      -1,   244,   237,    -1,   201,     3,   244,   237,    -1,     3,
+      -1,   202,     3,    -1,   204,   205,    -1,    73,    47,   215,
+      28,   240,   128,    -1,    73,   123,    47,   215,    28,   240,
+     128,    -1,    -1,    79,    47,   240,   128,    -1,   129,   207,
+     130,    -1,    -1,   208,   132,    -1,   209,   133,   237,    -1,
+     208,     3,   209,   133,   237,    -1,    78,    -1,    96,    -1,
+      87,    -1,   199,    -1,   139,    -1,   210,    49,   240,   131,
+      -1,   210,    50,    78,    -1,    48,   210,   213,    -1,   210,
+      -1,    48,   211,    -1,   210,   213,    -1,   212,   213,    -1,
+     212,    49,   240,   131,    -1,   212,    50,    78,    -1,    47,
+     128,    -1,    47,   214,   128,    -1,   237,    -1,   144,    -1,
+     214,     3,   237,    -1,   214,     3,   144,    -1,   211,    -1,
+     212,    -1,   215,    -1,   215,    46,    -1,   215,    45,    -1,
+     216,    -1,    42,   217,    -1,    43,   217,    -1,    44,   217,
+      -1,    46,   217,    -1,    45,   217,    -1,    35,   217,    -1,
+      36,   217,    -1,    41,   217,    -1,    40,   217,    -1,   217,
+      -1,   218,    37,   217,    -1,   218,    38,   217,    -1,   218,
+      39,   217,    -1,   218,    -1,   219,    35,   218,    -1,   219,
+      36,   218,    -1,   219,    -1,   220,    34,   219,    -1,   220,
+      33,   219,    -1,   220,    32,   219,    -1,   220,    -1,   221,
+      26,   220,    -1,   221,    25,   220,    -1,   221,    29,   220,
+      -1,   221,    77,   220,    -1,   221,    27,   220,    -1,   221,
+      28,   220,    -1,   220,    -1,   222,    26,   220,    -1,   222,
+      25,   220,    -1,   222,    29,   220,    -1,   222,    77,   220,
+      -1,   222,    27,   220,    -1,   221,    -1,   223,    23,   221,
+      -1,   223,    22,   221,    -1,   223,    24,   221,    -1,   223,
+      21,   221,    -1,   222,    -1,   224,    23,   222,    -1,   224,
+      22,   222,    -1,   224,    24,   222,    -1,   224,    21,   222,
+      -1,   223,    -1,   225,    20,   223,    -1,   224,    -1,   226,
+      20,   224,    -1,   225,    -1,   227,    19,   225,    -1,   226,
+      -1,   228,    19,   226,    -1,   227,    -1,   229,    18,   227,
+      -1,   228,    -1,   230,    18,   228,    -1,   229,    -1,   231,
+      17,   229,    -1,   230,    -1,   232,    17,   230,    -1,   231,
+      -1,   233,    16,   231,    -1,   232,    -1,   234,    16,   232,
+      -1,   233,    -1,   233,    15,   237,   133,   237,    -1,   234,
+      -1,   234,    15,   238,   133,   238,    -1,   235,    -1,   215,
+     239,   237,    -1,   236,    -1,   215,   239,   238,    -1,   134,
       -1,    10,    -1,    12,    -1,    11,    -1,    14,    -1,     5,
       -1,     7,    -1,     6,    -1,     4,    -1,    13,    -1,     9,
-      -1,     8,    -1,   235,    -1,   238,     3,   235,    -1,   236,
-      -1,   239,     3,   236,    -1,    -1,   239,    -1,    -1,   238,
-      -1,    -1,   200,    -1,   131,    -1,   111,    -1
+      -1,     8,    -1,   237,    -1,   240,     3,   237,    -1,   238,
+      -1,   241,     3,   238,    -1,    -1,   241,    -1,    -1,   240,
+      -1,    -1,   202,    -1,   132,    -1,   111,    -1
   };
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
@@ -4554,62 +4669,62 @@ namespace yy {
      160,   162,   164,   166,   168,   170,   172,   174,   177,   181,
      185,   189,   192,   194,   197,   201,   205,   209,   215,   217,
      221,   224,   227,   229,   233,   235,   239,   242,   245,   248,
-     251,   253,   255,   260,   262,   266,   270,   276,   280,   286,
-     289,   292,   294,   297,   305,   311,   319,   325,   335,   346,
-     354,   363,   372,   382,   386,   390,   394,   400,   406,   410,
-     416,   418,   421,   426,   430,   434,   438,   442,   446,   451,
-     457,   460,   461,   463,   464,   466,   467,   469,   470,   472,
-     474,   476,   478,   480,   482,   484,   486,   488,   490,   492,
-     494,   496,   498,   502,   506,   510,   516,   521,   524,   529,
-     531,   534,   537,   544,   552,   553,   558,   562,   563,   566,
-     570,   576,   578,   580,   582,   584,   586,   591,   595,   599,
-     601,   604,   607,   610,   615,   619,   622,   626,   628,   630,
-     634,   638,   640,   642,   644,   647,   650,   652,   655,   658,
-     661,   664,   667,   670,   673,   676,   679,   681,   685,   689,
-     693,   695,   699,   703,   705,   709,   713,   717,   719,   723,
-     727,   731,   735,   739,   743,   745,   749,   753,   757,   761,
-     765,   767,   771,   775,   779,   783,   785,   789,   793,   797,
-     801,   803,   807,   809,   813,   815,   819,   821,   825,   827,
-     831,   833,   837,   839,   843,   845,   849,   851,   855,   857,
-     861,   863,   869,   871,   877,   879,   883,   885,   889,   891,
-     893,   895,   897,   899,   901,   903,   905,   907,   909,   911,
-     913,   915,   919,   921,   925,   926,   928,   929,   931,   932,
-     934,   936
+     251,   253,   255,   259,   263,   269,   272,   275,   280,   285,
+     290,   292,   296,   300,   306,   310,   316,   319,   322,   324,
+     327,   335,   341,   349,   355,   365,   376,   384,   393,   402,
+     412,   416,   420,   424,   430,   436,   440,   446,   448,   451,
+     456,   460,   464,   468,   472,   476,   481,   487,   490,   491,
+     493,   494,   496,   497,   499,   500,   502,   504,   506,   508,
+     510,   512,   514,   516,   518,   520,   522,   524,   526,   528,
+     532,   536,   540,   546,   551,   554,   559,   561,   564,   567,
+     574,   582,   583,   588,   592,   593,   596,   600,   606,   608,
+     610,   612,   614,   616,   621,   625,   629,   631,   634,   637,
+     640,   645,   649,   652,   656,   658,   660,   664,   668,   670,
+     672,   674,   677,   680,   682,   685,   688,   691,   694,   697,
+     700,   703,   706,   709,   711,   715,   719,   723,   725,   729,
+     733,   735,   739,   743,   747,   749,   753,   757,   761,   765,
+     769,   773,   775,   779,   783,   787,   791,   795,   797,   801,
+     805,   809,   813,   815,   819,   823,   827,   831,   833,   837,
+     839,   843,   845,   849,   851,   855,   857,   861,   863,   867,
+     869,   873,   875,   879,   881,   885,   887,   891,   893,   899,
+     901,   907,   909,   913,   915,   919,   921,   923,   925,   927,
+     929,   931,   933,   935,   937,   939,   941,   943,   945,   949,
+     951,   955,   956,   958,   959,   961,   962,   964,   966
   };
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
   const unsigned short int
   ParserImplementation::yyrline_[] =
   {
-         0,   332,   332,   332,   346,   363,   379,   389,   402,   411,
-     420,   430,   440,   450,   461,   472,   486,   506,   522,   533,
-     543,   553,   568,   585,   595,   596,   600,   608,   618,   626,
-     636,   637,   647,   648,   658,   659,   666,   667,   676,   677,
-     682,   690,   695,   699,   704,   708,   713,   718,   723,   728,
-     733,   738,   743,   748,   753,   758,   763,   771,   778,   789,
-     804,   811,   822,   830,   841,   849,   857,   868,   878,   884,
-     891,   899,   910,   918,   928,   934,   942,   950,   960,   968,
-     979,   986,   993,  1004,  1014,  1026,  1038,  1048,  1056,  1067,
-    1071,  1075,  1079,  1089,  1098,  1110,  1118,  1126,  1138,  1150,
-    1161,  1173,  1184,  1198,  1208,  1218,  1228,  1239,  1250,  1254,
-    1263,  1269,  1277,  1288,  1299,  1312,  1322,  1331,  1340,  1352,
-    1363,  1371,  1372,  1376,  1377,  1381,  1382,  1386,  1387,  1391,
-    1392,  1393,  1400,  1407,  1417,  1427,  1434,  1444,  1451,  1458,
-    1459,  1460,  1461,  1469,  1479,  1486,  1496,  1507,  1517,  1528,
-    1529,  1534,  1542,  1549,  1559,  1560,  1569,  1584,  1587,  1594,
-    1603,  1613,  1620,  1627,  1637,  1641,  1645,  1658,  1673,  1689,
-    1690,  1700,  1713,  1726,  1739,  1757,  1758,  1762,  1768,  1774,
-    1779,  1787,  1788,  1792,  1796,  1803,  1813,  1814,  1821,  1828,
-    1835,  1842,  1849,  1856,  1863,  1870,  1880,  1881,  1885,  1889,
-    1896,  1897,  1901,  1908,  1909,  1913,  1917,  1924,  1925,  1929,
-    1933,  1937,  1941,  1945,  1952,  1953,  1957,  1961,  1965,  1969,
-    1976,  1977,  1981,  1985,  1989,  1996,  1997,  2001,  2005,  2009,
-    2016,  2017,  2024,  2025,  2032,  2033,  2040,  2041,  2048,  2049,
-    2056,  2057,  2064,  2065,  2072,  2073,  2080,  2081,  2088,  2089,
-    2096,  2097,  2106,  2107,  2116,  2120,  2130,  2134,  2145,  2146,
-    2147,  2148,  2149,  2150,  2151,  2152,  2153,  2154,  2155,  2156,
-    2160,  2167,  2175,  2182,  2190,  2191,  2195,  2196,  2200,  2201,
-    2205,  2206
+         0,   334,   334,   334,   348,   365,   381,   391,   404,   413,
+     422,   432,   442,   452,   463,   474,   488,   508,   524,   535,
+     545,   555,   570,   587,   597,   598,   602,   610,   620,   628,
+     638,   639,   649,   650,   660,   661,   668,   669,   678,   679,
+     684,   692,   697,   701,   706,   710,   715,   720,   725,   730,
+     735,   740,   745,   750,   755,   760,   765,   773,   780,   791,
+     806,   813,   824,   832,   843,   851,   859,   870,   880,   886,
+     893,   901,   912,   920,   930,   936,   944,   952,   962,   970,
+     981,   985,   992,  1002,  1009,  1022,  1034,  1044,  1054,  1065,
+    1076,  1086,  1098,  1108,  1118,  1126,  1137,  1141,  1145,  1149,
+    1159,  1168,  1180,  1188,  1196,  1208,  1220,  1231,  1243,  1254,
+    1268,  1278,  1288,  1298,  1309,  1320,  1324,  1333,  1339,  1347,
+    1358,  1369,  1382,  1392,  1401,  1410,  1422,  1433,  1441,  1442,
+    1446,  1447,  1451,  1452,  1456,  1457,  1461,  1462,  1463,  1470,
+    1477,  1487,  1497,  1504,  1514,  1521,  1528,  1529,  1530,  1531,
+    1539,  1549,  1556,  1566,  1577,  1587,  1598,  1599,  1604,  1612,
+    1619,  1629,  1630,  1639,  1654,  1657,  1664,  1673,  1683,  1690,
+    1697,  1707,  1711,  1715,  1728,  1743,  1759,  1760,  1770,  1783,
+    1796,  1809,  1827,  1828,  1832,  1838,  1844,  1849,  1857,  1858,
+    1862,  1866,  1873,  1883,  1884,  1891,  1898,  1905,  1912,  1919,
+    1926,  1933,  1940,  1950,  1951,  1955,  1959,  1966,  1967,  1971,
+    1978,  1979,  1983,  1987,  1994,  1995,  1999,  2003,  2007,  2011,
+    2015,  2022,  2023,  2027,  2031,  2035,  2039,  2046,  2047,  2051,
+    2055,  2059,  2066,  2067,  2071,  2075,  2079,  2086,  2087,  2094,
+    2095,  2102,  2103,  2110,  2111,  2118,  2119,  2126,  2127,  2134,
+    2135,  2142,  2143,  2150,  2151,  2158,  2159,  2166,  2167,  2176,
+    2177,  2186,  2190,  2200,  2204,  2215,  2216,  2217,  2218,  2219,
+    2220,  2221,  2222,  2223,  2224,  2225,  2226,  2230,  2237,  2245,
+    2252,  2260,  2261,  2265,  2266,  2270,  2271,  2275,  2276
   };
 
   // Print the state stack on the debug stream.
@@ -4654,11 +4769,11 @@ namespace yy {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,    40,     2,     2,     2,    39,    20,     2,
       47,   128,    37,    35,     3,    36,    50,    38,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,   132,   131,
-      26,   133,    25,    15,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,   133,   132,
+      26,   134,    25,    15,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,    49,     2,   134,    19,     2,     2,     2,     2,     2,
+       2,    49,     2,   131,    19,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,   129,    18,   130,    41,     2,     2,     2,
@@ -4694,8 +4809,8 @@ namespace yy {
   }
 
   const int ParserImplementation::yyeof_ = 0;
-  const int ParserImplementation::yylast_ = 1722;
-  const int ParserImplementation::yynnts_ = 109;
+  const int ParserImplementation::yylast_ = 1755;
+  const int ParserImplementation::yynnts_ = 111;
   const int ParserImplementation::yyempty_ = -2;
   const int ParserImplementation::yyfinal_ = 3;
   const int ParserImplementation::yyterror_ = 1;
@@ -4709,11 +4824,11 @@ namespace yy {
 } // yy
 
 /* Line 1136 of lalr1.cc  */
-#line 4713 "grammar.tab.cc"
+#line 4828 "grammar.tab.cc"
 
 
 /* Line 1138 of lalr1.cc  */
-#line 2209 "grammar.yy"
+#line 2279 "grammar.yy"
 
 
 void yy::ParserImplementation::error (const location_type& loc, const std::string& msg) {
