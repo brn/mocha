@@ -24,7 +24,8 @@ class CodeWriter {
     kNewNoArgsEnd,
     kElseBlockEnd,
     kNamedModule,
-    kAnonymousModule
+    kAnonymousModule,
+    kExpSp
   };
   CodeWriter( bool is_pretty_print , bool is_line );
   ~CodeWriter();

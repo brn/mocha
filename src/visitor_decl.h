@@ -9,6 +9,7 @@
   DECL_VISITOR(BlockStmt);
   DECL_VISITOR(ModuleStmt);
   DECL_VISITOR(ExportStmt);
+  DECL_VISITOR(ImportStmt);
   DECL_VISITOR(VariableStmt);
   DECL_VISITOR(LetStmt);
   DECL_VISITOR(ExpressionStmt);

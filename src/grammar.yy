@@ -15,7 +15,6 @@
 
   using namespace std;
   using namespace mocha;
-
 #define BINARY_ACTION(type,_1,_3,_4)                                 \
   BinaryExp* binary = ManagedHandle::Retain( new BinaryExp( type , _1 , _3 ) ); \
   binary->Line( connector->GetLineNumber() );                           \
@@ -113,6 +112,7 @@
 %right '!' '~' JS_INCREMENT JS_DECREMENT JS_TYPEOF JS_VOID JS_DELETE
 %left '(' JS_NEW
 %left '[' '.'
+%left BRACKET
 
 %token <info> JS_ABSTRACT
 %token <info> JS_ADD_LET
@@ -209,8 +209,6 @@
 %token <info> JS_FUNCTION_IDENTIFIER
 %token <info> JS_PARAM_BEGIN
 %token <info> JS_PARAM_END
-%token <info> JS_DSTA_BEGIN
-%token <info> JS_DSTA_END
 %token <info> JS_DOBJECT_BEGIN
 %token <info> JS_DOBJECT_END
 %token <info> JS_FORMAL_PARAMETER_IDENT
@@ -220,7 +218,11 @@
 %token <info> JS_MODULE
 %token <info> JS_EXP_CLOSURE_BEGIN 
 %token <info> JS_EXP_CLOSURE_END
-%token <info> JS_FROM 
+%token <info> JS_FROM
+%token <info> JS_DSTA_BEGIN
+%token <info> JS_DSTO_BEGIN
+%token <info> JS_DSTA_END
+%token <info> JS_DSTO_END
 
 %type <ast> program
 %type <function> function_declaration
@@ -330,10 +332,11 @@
 %type <ast> array_comprehension_iteration
 %type <ast> array_comprehension_if__opt
 %type <ast> import_statement
+%type <ast> import_expression
 %%
 
 program
-: {yydebug_ = 0;} source_elements
+: {int yydebug_ = 0;} source_elements
   {
     FileRoot* root = ManagedHandle::Retain<FileRoot>();
     root->FileName( tracer->GetPath());
@@ -769,6 +772,10 @@ statement_no_block
 
     $$ = $1;
   }
+| import_statement
+  {
+    $$ = $1;
+  }
 ;
 
 block
@@ -821,22 +828,82 @@ export_statement
 
 
 import_statement
-: JS_IMPORT primary_expression JS_FROM assignment_expression terminator
+: JS_IMPORT JS_IDENTIFIER JS_FROM import_expression terminator
 {
-  ImportStmt* stmt = ManagedHandle::Retain<ImportStmt>();
-  stmt->AddChild( $2 );
-  stmt->AddChild( $4 );
+  ValueNode* node = $4->FirstChild()->CastToValue();
+  int type;
+  if ( node && node->ValueType() == ValueNode::kString ) {
+    type = ImportStmt::kFile;
+  } else {
+    type = ImportStmt::kModule;
+  }
+  ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+  value->Symbol( $2 );
+  ImportStmt* stmt = ManagedHandle::Retain( new ImportStmt( ImportStmt::kVar , type ) );
+  stmt->Exp( value );
+  stmt->From( $4 );
   stmt->Line( $1->GetLineNumber() );
   $$ = stmt;
 }
-| JS_IMPORT destructuring_assignment_left_hand_side JS_FROM assignment_expression terminator
+| JS_IMPORT destructuring_assignment_left_hand_side JS_FROM import_expression terminator
 {
-  ImportStmt* stmt = ManagedHandle::Retain<ImportStmt>();
-  stmt->AddChild( $2 );
-  stmt->AddChild( $4 );
+  ValueNode* node = $4->FirstChild()->CastToValue();
+  int type;
+  if ( node && node->ValueType() == ValueNode::kString ) {
+    type = ImportStmt::kFile;
+  } else {
+    type = ImportStmt::kModule;
+  }
+  ImportStmt* stmt = ManagedHandle::Retain( new ImportStmt( ImportStmt::kDst , type ) );
+  stmt->Exp( $2 );
+  stmt->From( $4 );
   stmt->Line( $1->GetLineNumber() );
   $$ = stmt;
 }
+| JS_IMPORT JS_STRING_LITERAL JS_FROM import_expression terminator
+{
+  ValueNode* node = $4->FirstChild()->CastToValue();
+  int type;
+  if ( node && node->ValueType() == ValueNode::kString ) {
+    type = ImportStmt::kFile;
+  } else {
+    type = ImportStmt::kModule;
+  }
+  ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+  value->Symbol( $2 );
+  ImportStmt* stmt = ManagedHandle::Retain( new ImportStmt( ImportStmt::kAll , type ) );
+  stmt->Exp( value );
+  stmt->From( $4 );
+  stmt->Line( $1->GetLineNumber() );
+  $$ = stmt;
+}
+;
+
+import_expression
+: JS_STRING_LITERAL
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
+    value->Symbol( $1 );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( value );
+    $$ = list;
+  }
+| JS_IDENTIFIER
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( value );
+    $$ = list;
+  }
+| import_expression '.' JS_IDENTIFIER
+  {
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $3 );
+    $1->AddChild( value );
+    $$ = $1;
+  }
+;
 
 statement_list
 : statement
@@ -967,7 +1034,7 @@ variable_declaration
     node->AddChild( $2 );
     $$ = node;
   }
-| destructuring_assignment_left_hand_side initialiser
+| destructuring_assignment_left_hand_side initialiser__opt
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     node->Node( $1 );
@@ -985,15 +1052,15 @@ variable_declaration_no_in
     node->AddChild( $2 );
     $$ = node;
   }
-| destructuring_assignment_left_hand_side initialiser_no_in
+| destructuring_assignment_left_hand_side initialiser_no_in__opt
   {
-    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     node->Node( $1 );
     node->AddChild( $2 );
     $$ = node;
   }
 ;
- 
+
 
 destructuring_assignment_left_hand_side
 : array_left_hand_side
@@ -1007,7 +1074,7 @@ destructuring_assignment_left_hand_side
 ;
 
 array_left_hand_side
-: '[' elision__opt ']'
+: JS_DSTA_BEGIN elision__opt JS_DSTA_END
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
     if ( $2 ) {
@@ -1017,14 +1084,14 @@ array_left_hand_side
     value->Line( connector->GetLineNumber() );
     $$ = value;
   }
-| '[' array_left_hand_side_list ']'
+| JS_DSTA_BEGIN array_left_hand_side_list JS_DSTA_END
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
     value->Line( $2->Line() );
     value->AddChild( $2 );
     $$ = value;
   }
-| '[' array_left_hand_side_list ',' elision__opt ']'
+| JS_DSTA_BEGIN array_left_hand_side_list ',' elision__opt JS_DSTA_END
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
     value->AddChild( $2 );
@@ -1080,11 +1147,11 @@ array_left_hand_side_list
 ;
 
 object_left_hand_side
-: '{' object_member_left_hand_side_list ';' '}'
+: JS_DSTO_BEGIN object_member_left_hand_side_list JS_DSTO_END
   {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
     value->Line( $2->Line() );
-    value->Append( $2 );
+    value->Node( $2 );
     $$ = value;
   }
 ;
@@ -1874,6 +1941,8 @@ argument_list
 left_hand_side_expression
 : new_expression { $$ = $1; }
 | call_expression { $$ = $1; }
+| array_left_hand_side { $$ = $1; }
+| object_left_hand_side { $$ = $1; }
 ;
 
 postfix_expression

@@ -36,6 +36,8 @@ class CodegenVisitor : public IVisitor {
   void DstObjectProcessor_( ValueNode* ast_node , int depth );
   void DstMemberProccessor_( ValueNode* ast_node );
   void CreateDstAssignment_( const char* name );
+  void DstCodeProccessor_();
+  void ResetDstArray_();
   void BeginState_( int state );
   void EndLastState_();
   int CurrentState_();
@@ -43,6 +45,7 @@ class CodegenVisitor : public IVisitor {
 
   int tmp_index_;
   bool is_line_;
+  bool has_dst_;
   std::vector<int> state_;
   std::vector<std::string> dst_code_;
   std::vector<std::string> dst_accessor_;

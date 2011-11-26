@@ -28,7 +28,7 @@ class AstVisitor : public IVisitor {
   
  private:
   inline void GetTmpVar_( char* buf ) { sprintf( buf , "__tmp__%d" , tmp_index_ );tmp_index_++;  }
-  void RequireProccessor_( CallExp *node );
+  void ImportProccessor_( ImportStmt *node );
   int tmp_index_;
   const char* symbol;
   const char* module_name_;

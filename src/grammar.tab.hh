@@ -37,8 +37,8 @@
 
 /* "%code requires" blocks.  */
 
-/* Line 282 of lalr1.cc  */
-#line 35 "grammar.yy"
+/* Line 35 of lalr1.cc  */
+#line 34 "grammar.yy"
 
 #include "ast.h"
   namespace mocha {
@@ -53,7 +53,7 @@
 
 
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 58 "grammar.tab.hh"
 
 
@@ -83,7 +83,7 @@
 
 namespace yy {
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 88 "grammar.tab.hh"
 
   /// A Bison parser.
@@ -95,8 +95,8 @@ namespace yy {
     union semantic_type
     {
 
-/* Line 282 of lalr1.cc  */
-#line 48 "grammar.yy"
+/* Line 35 of lalr1.cc  */
+#line 47 "grammar.yy"
 
   mocha::TokenInfo *info;
   mocha::AstNode *ast;
@@ -137,7 +137,7 @@ namespace yy {
 
 
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 142 "grammar.tab.hh"
     };
 #else
@@ -181,83 +181,87 @@ namespace yy {
      JS_DECREMENT = 286,
      JS_INCREMENT = 287,
      JS_NEW = 288,
-     JS_ABSTRACT = 289,
-     JS_BOOLEAN = 290,
-     JS_BREAK = 291,
-     JS_BYTE = 292,
-     JS_CASE = 293,
-     JS_CATCH = 294,
-     JS_CHAR = 295,
-     JS_CLASS = 296,
-     JS_CONST = 297,
-     JS_CONTINUE = 298,
-     JS_DEBUGGER = 299,
-     JS_DEFAULT = 300,
-     JS_DO = 301,
-     JS_DOUBLE = 302,
-     JS_ELSE = 303,
-     JS_ENUM = 304,
-     JS_EXPORT = 305,
-     JS_EXTENDS = 306,
-     JS_FALSE = 307,
-     JS_FINAL = 308,
-     JS_FINALLY = 309,
-     JS_FLOAT = 310,
-     JS_FOR = 311,
-     JS_COMP_FOR = 312,
-     JS_FUNCTION = 313,
-     JS_GOTO = 314,
-     JS_GRATER_EQUAL = 315,
-     JS_IDENTIFIER = 316,
-     JS_IF = 317,
-     JS_IMPLEMENTS = 318,
-     JS_IMPORT = 319,
-     JS_INT = 320,
-     JS_INTERFACE = 321,
-     JS_LONG = 322,
-     JS_NATIVE = 323,
-     JS_K_NULL = 324,
-     JS_NUMERIC_LITERAL = 325,
-     JS_PRIVATE = 326,
-     JS_PACKAGE_RESERVED = 327,
-     JS_PROTECTED = 328,
-     JS_PUBLIC = 329,
-     JS_REGEXP_LITERAL = 330,
-     JS_RETURN = 331,
-     JS_SHORT = 332,
-     JS_STATIC = 333,
-     JS_STRING_LITERAL = 334,
-     JS_SUPER = 335,
-     JS_SWITCH = 336,
-     JS_SYNCHRONIZED = 337,
-     JS_THIS = 338,
-     JS_THROW = 339,
-     JS_THROWS = 340,
-     JS_TRANSIENT = 341,
-     JS_TRUE = 342,
-     JS_TRY = 343,
-     JS_VAR = 344,
-     JS_VOLATILE = 345,
-     JS_WHILE = 346,
-     JS_WITH = 347,
-     JS_TERMINATE = 348,
-     JS_LINE_BREAK = 349,
-     JS_FUNCTION_GLYPH = 350,
-     JS_FUNCTION_GLYPH_WITH_CONTEXT = 351,
-     JS_FUNCTION_IDENTIFIER = 352,
-     JS_PARAM_BEGIN = 353,
-     JS_PARAM_END = 354,
-     JS_DSTA_BEGIN = 355,
-     JS_DSTA_END = 356,
-     JS_DOBJECT_BEGIN = 357,
-     JS_DOBJECT_END = 358,
-     JS_FORMAL_PARAMETER_IDENT = 359,
-     JS_LET = 360,
-     JS_EACH = 361,
-     JS_PARAMETER_REST = 362,
-     JS_MODULE = 363,
-     JS_EXP_CLOSURE_BEGIN = 364,
-     JS_EXP_CLOSURE_END = 365
+     BRACKET = 289,
+     JS_ABSTRACT = 290,
+     JS_BOOLEAN = 291,
+     JS_BREAK = 292,
+     JS_BYTE = 293,
+     JS_CASE = 294,
+     JS_CATCH = 295,
+     JS_CHAR = 296,
+     JS_CLASS = 297,
+     JS_CONST = 298,
+     JS_CONTINUE = 299,
+     JS_DEBUGGER = 300,
+     JS_DEFAULT = 301,
+     JS_DO = 302,
+     JS_DOUBLE = 303,
+     JS_ELSE = 304,
+     JS_ENUM = 305,
+     JS_EXPORT = 306,
+     JS_EXTENDS = 307,
+     JS_FALSE = 308,
+     JS_FINAL = 309,
+     JS_FINALLY = 310,
+     JS_FLOAT = 311,
+     JS_FOR = 312,
+     JS_COMP_FOR = 313,
+     JS_FUNCTION = 314,
+     JS_GOTO = 315,
+     JS_GRATER_EQUAL = 316,
+     JS_IDENTIFIER = 317,
+     JS_IF = 318,
+     JS_IMPLEMENTS = 319,
+     JS_IMPORT = 320,
+     JS_INT = 321,
+     JS_INTERFACE = 322,
+     JS_LONG = 323,
+     JS_NATIVE = 324,
+     JS_K_NULL = 325,
+     JS_NUMERIC_LITERAL = 326,
+     JS_PRIVATE = 327,
+     JS_PACKAGE_RESERVED = 328,
+     JS_PROTECTED = 329,
+     JS_PUBLIC = 330,
+     JS_REGEXP_LITERAL = 331,
+     JS_RETURN = 332,
+     JS_SHORT = 333,
+     JS_STATIC = 334,
+     JS_STRING_LITERAL = 335,
+     JS_SUPER = 336,
+     JS_SWITCH = 337,
+     JS_SYNCHRONIZED = 338,
+     JS_THIS = 339,
+     JS_THROW = 340,
+     JS_THROWS = 341,
+     JS_TRANSIENT = 342,
+     JS_TRUE = 343,
+     JS_TRY = 344,
+     JS_VAR = 345,
+     JS_VOLATILE = 346,
+     JS_WHILE = 347,
+     JS_WITH = 348,
+     JS_TERMINATE = 349,
+     JS_LINE_BREAK = 350,
+     JS_FUNCTION_GLYPH = 351,
+     JS_FUNCTION_GLYPH_WITH_CONTEXT = 352,
+     JS_FUNCTION_IDENTIFIER = 353,
+     JS_PARAM_BEGIN = 354,
+     JS_PARAM_END = 355,
+     JS_DOBJECT_BEGIN = 356,
+     JS_DOBJECT_END = 357,
+     JS_FORMAL_PARAMETER_IDENT = 358,
+     JS_LET = 359,
+     JS_EACH = 360,
+     JS_PARAMETER_REST = 361,
+     JS_MODULE = 362,
+     JS_EXP_CLOSURE_BEGIN = 363,
+     JS_EXP_CLOSURE_END = 364,
+     JS_FROM = 365,
+     JS_DSTA_BEGIN = 366,
+     JS_DSTO_BEGIN = 367,
+     JS_DSTA_END = 368,
+     JS_DSTO_END = 369
    };
 
     };
@@ -439,8 +443,8 @@ namespace yy {
 
 } // yy
 
-/* Line 282 of lalr1.cc  */
-#line 444 "grammar.tab.hh"
+/* Line 35 of lalr1.cc  */
+#line 448 "grammar.tab.hh"
 
 
 

@@ -15,6 +15,7 @@ class TokenInfo : public Managed {
   const char* GetToken() const;
   int GetType() const;
   void SetType( int type );
+  void SetToken( const char* token ) { token_ = token; }
   int GetLineNumber() const;
   void Const() { is_const_ = true; }
   bool IsConst() { return is_const_; }

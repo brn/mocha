@@ -526,7 +526,7 @@ void CodeWriter::AnonymousModuleBeginProccessor( const char* key , std::string& 
     buffer += "(function(){";
     buffer += "var __export__=__global_export__[";
     buffer += key;
-    buffer += '];';
+    buffer += "];";
   }
 }
 

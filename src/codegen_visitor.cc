@@ -25,7 +25,7 @@ namespace mocha {
 
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
-    tmp_index_( 0 ),is_line_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsEmbedLine() ) ){}
+    tmp_index_( 0 ),is_line_( false ) , has_dst_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsEmbedLine() ) ){}
 
 
 VISITOR_IMPL( AstRoot ) {
@@ -33,7 +33,14 @@ VISITOR_IMPL( AstRoot ) {
   buffer_ += "(function()";
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
   writer_->InsertDebugSymbol( buffer_ );
-  buffer_ += "var __global_export__ = {}";
+  writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+  buffer_ += "__global_export__";
+  writer_->WriteOp( '=' , 0 , buffer_ );
+  buffer_ += "{}";
+  writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+  buffer_ += "__MC_tmp__";
+  writer_->WriteOp( '=' , 0 , buffer_ );
+  buffer_ += "undefined";
   writer_->WriteOp( ';' , 0 , buffer_ );
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
@@ -126,8 +133,50 @@ VISITOR_IMPL( ExportStmt ) {
 }
 
 
+
 VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
+  int var_type = ast_node->VarType();
+  if ( var_type == ImportStmt::kVar ) {
+    writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+    buffer_ += ast_node->Exp()->CastToValue()->Symbol()->GetToken();
+    writer_->WriteOp( '=' , 0 , buffer_ );
+  } else if ( var_type == ImportStmt::kDst ) {
+    writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+    ast_node->Exp()->Accept( this );
+    writer_->WriteOp( '=' , 0 , buffer_ );
+  }
+
+  
+  if ( ast_node->ModType() == ImportStmt::kFile ) {
+    buffer_ += "__global_export__";
+    writer_->WriteOp( '[' , 0 , buffer_ );
+    buffer_ += ast_node->ModKey()->GetToken();
+    writer_->WriteOp( ']' , 0 , buffer_ );
+  } else {
+    buffer_ += "__export__";
+  }
+
+  NodeIterator iterator = ast_node->From()->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* node = iterator.Next();
+    ValueNode* value = node->CastToValue();
+    if ( value && value->ValueType() == ValueNode::kIdentifier ) {
+      buffer_ += '.';
+      buffer_ += value->Symbol()->GetToken();
+    }
+  }
+
+  if ( var_type == ImportStmt::kDst ) {
+    if ( dst_code_.size() > 0 ) {
+      writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+      DstCodeProccessor_();
+    }
+    dst_accessor_.clear();
+    dst_code_.clear();
+    tmp_ref_.clear();
+  }
+  writer_->WriteOp( ';' , CodeWriter::kVarsEnd , buffer_ );
 }
 
 
@@ -153,9 +202,8 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
       ValueNode* value = item->CastToValue();
-      if ( value && value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) {
-        item->Accept( this );
-        buffer_ += tmp_ref_;
+      if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
+        item->CastToValue()->Node()->Accept( this );
         AstNode* initialiser = item->FirstChild();
         if ( !initialiser->IsEmpty() ) {
           writer_->WriteOp( '=' , 0 , buffer_ );
@@ -284,6 +332,8 @@ VISITOR_IMPL(IterationStmt) {
 
     case AstNode::kForIn :
     case AstNode::kForInWithVar :
+    case AstNode::kForEach :
+    case AstNode::kForEachWithVar :
       ForInProccessor_( ast_node );
       break;
 
@@ -346,20 +396,35 @@ void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
 
 void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
+  bool is_dst = false;
+  int for_in_type = ast_node->NodeType();
+  bool is_each = ast_node->NodeType() == AstNode::kForEachWithVar;
   writer_->SetLine( ast_node->Line() , buffer_ );
   AstNode* exp = ast_node->Exp();
   writer_->WriteOp( TOKEN::JS_FOR , 0 , buffer_ );
   writer_->WriteOp( '(' , 0 , buffer_ );
-  if ( ast_node->NodeType() == AstNode::kForInWithVar ) {
+  if ( for_in_type == AstNode::kForInWithVar || for_in_type == AstNode::kForEachWithVar ) {
     writer_->WriteOp( TOKEN::JS_VAR , CodeWriter::kFor , buffer_ );
   }
   AstNode* index_exp = exp->FirstChild();
   AstNode* target_exp = index_exp->NextSibling();
-
-  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
-    VarInitialiserProccessor_( index_exp->CastToValue() );
+  
+  if ( for_in_type == AstNode::kForInWithVar || for_in_type == AstNode::kForEachWithVar ) {
+    ValueNode* var = index_exp->CastToValue();
+    if ( var ) {
+      if ( var->ValueType() == ValueNode::kDst ) {
+        is_dst = true;
+        var->Node()->Accept( this );
+      } else {
+        VarInitialiserProccessor_( index_exp->CastToValue() );
+      }
+    }
   } else {
     index_exp->Accept( this );
+    if ( has_dst_ == true ) {
+      is_dst = true;
+      has_dst_ = false;
+    }
   }
   
   writer_->WriteOp( TOKEN::JS_IN , 0 , buffer_ );
@@ -369,18 +434,65 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
 
   AstNode* maybeBlock = ast_node->FirstChild();
   if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
-    ast_node->FirstChild()->Accept( this );
-  } else {
-    if ( is_line_ ) {
+    if ( is_dst ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , buffer_ );
+      if ( is_each ) {
+        buffer_ += tmp_ref_;
+        writer_->WriteOp( '=' , 0 , buffer_ );
+        target_exp->Accept( this );
+        writer_->WriteOp( '[' , 0 , buffer_ );
+        buffer_ += tmp_ref_;
+        writer_->WriteOp( ']' , 0 , buffer_ );
+        writer_->WriteOp( ';' , 0 , buffer_ );
+      }
+      writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+      DstCodeProccessor_();
+      writer_->WriteOp( ';' , CodeWriter::kVarsEnd , buffer_ );
+      ast_node->FirstChild()->FirstChild()->Accept( this );
+      writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , buffer_ );
+      writer_->WriteOp( ';' , 0 , buffer_ );
+    } else {
+      if ( is_line_ || is_each ) {
+        goto NO_BLOCK;
+      }
+      ast_node->FirstChild()->Accept( this );
     }
-    ast_node->FirstChild()->Accept( this );
-    if ( is_line_ ) {
+  } else {
+ NO_BLOCK :
+    if ( is_line_ || is_dst || is_each ) {
+      writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , buffer_ );
+      if ( is_dst ) {
+        writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+        if ( is_each ) {
+          buffer_ += tmp_ref_;
+          writer_->WriteOp( '=' , 0 , buffer_ );
+          target_exp->Accept( this );
+          writer_->WriteOp( ';' , 0 , buffer_ );
+        }
+        DstCodeProccessor_();
+        writer_->WriteOp( ';' , CodeWriter::kVarsEnd , buffer_ );
+      } else if ( is_each ) {
+        index_exp->Accept( this );
+        writer_->WriteOp( '=' , 0 , buffer_ );
+        target_exp->Accept( this );
+        writer_->WriteOp( '[' , 0 , buffer_ );
+        index_exp->Accept( this );
+        writer_->WriteOp( ']' , 0 , buffer_ );
+        writer_->WriteOp( ';' , 0 , buffer_ );
+      }
+    }
+    if ( ast_node->FirstChild()->NodeType() == AstNode::kBlockStmt ) {
+      ast_node->FirstChild()->FirstChild()->Accept( this );
+    } else {
+      ast_node->FirstChild()->Accept( this );
+    }
+    if ( is_line_ || is_dst || is_each ) {
       writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , buffer_ );
       writer_->WriteOp( ';' , 0 , buffer_ );
     }
   }
 }
+
 
 
 void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
@@ -580,6 +692,7 @@ void CodegenVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
   exp->Args()->Accept( this );
   EndLastState_();
   writer_->WriteOp( ']' , 0 , buffer_ );
+  ResetDstArray_();
 }
 
 
@@ -612,6 +725,7 @@ void CodegenVisitor::NewCallProccessor_( CallExp* exp ) {
     EndLastState_();
     writer_->WriteOp( ')' , 0 , buffer_ );
   }
+  ResetDstArray_();
 }
 
 void CodegenVisitor::NormalFunctionCall_( CallExp* exp ) {
@@ -632,6 +746,7 @@ void CodegenVisitor::NormalFunctionCall_( CallExp* exp ) {
     EndLastState_();
     writer_->WriteOp( ')' , 0 , buffer_ );
   }
+  ResetDstArray_();
 }
 
 
@@ -764,11 +879,8 @@ VISITOR_IMPL(Function){
       }
     }
   } else if ( ast_node->FunctionType() == Function::kShorten ) {
-    buffer_ += "var __tmp__";
-    writer_->WriteOp( '=' , 0 , buffer_ );
+    buffer_ += "return ";
     ast_node->FirstChild()->Accept( this );
-    writer_->WriteOp( ';' , 0 , buffer_ );
-    buffer_ += "return __tmp__";
     writer_->WriteOp( ';' , 0 , buffer_ );
   }
   int state = CurrentState_();
@@ -840,7 +952,8 @@ void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
 void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
   PRINT_NODE_NAME;
   if ( ast_node->ValueType() == ValueNode::kVariable ) {
-    writer_->Write( ast_node->Symbol()->GetToken() ,  buffer_ );
+    const char* ident = ast_node->Symbol()->GetToken();
+    writer_->Write( ident ,  buffer_ );
   }
   AstNode* initialiser = ast_node->FirstChild();
   if ( !initialiser->IsEmpty() ) {
@@ -853,22 +966,86 @@ void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
 void CodegenVisitor::CreateDstAssignment_( const char* name ) {
   std::string tmp = name;
   std::string last;
+  std::string char_at_tmp_ret;
   std::vector<std::string>::iterator ITERATOR( dst_accessor_ );
   writer_->WriteOp( '=' , 0 , tmp );
   writer_->WriteOp( '(' , 0 , tmp );
+  bool is_char_at = false;
+  bool is_char_at_last = false;
   while ( begin != end ) {
-    last += (*begin);
-    tmp += tmp_ref_;
-    tmp += last;
+    if ( (*begin)[0] == '[' && isdigit( (*begin)[1] ) ) {
+      std::string tmp_accessor = (*begin);
+      writer_->WriteOp( '(' , 0 , tmp );
+      if ( !is_char_at ) {
+        char_at_tmp_ret += "__MC_tmp__";
+      }
+      tmp += char_at_tmp_ret;
+      writer_->WriteOp( '=' , 0 , tmp );
+      tmp_index_++;
+      writer_->WriteOp( '(' , 0 , tmp );
+      tmp += ( is_char_at )? char_at_tmp_ret : tmp_ref_;
+      if ( !is_char_at_last ) {
+        tmp += last;
+      }
+      tmp += (*begin);
+      writer_->WriteOp( TOKEN::JS_LOGICAL_OR , 0 , tmp );
+      writer_->WriteOp( '(' , 0 , tmp );
+      tmp += ( is_char_at )? char_at_tmp_ret : tmp_ref_;
+      if ( !is_char_at_last ) {
+        tmp += last;
+      }
+      tmp += ".charAt";
+      writer_->WriteOp( TOKEN::JS_LOGICAL_AND , 0 , tmp );
+      tmp += ( is_char_at )? char_at_tmp_ret : tmp_ref_;
+      if ( !is_char_at_last ) {
+        tmp += last;
+      }
+      tmp += ".charAt";
+      writer_->WriteOp( '(' , 0 , tmp );
+      tmp_accessor.erase( 0 , 1 );
+      tmp_accessor.erase( tmp_accessor.size() - 1 , tmp_accessor.size() );
+      tmp += tmp_accessor;
+      writer_->WriteOp( ')' , 0 , tmp );
+      writer_->WriteOp( ')' , 0 , tmp );
+      writer_->WriteOp( ')' , 0 , tmp );
+      writer_->WriteOp( ')' , 0 , tmp );
+      is_char_at = true;
+      is_char_at_last = true;
+    } else {
+      if ( !is_char_at ) {
+        tmp += tmp_ref_;
+      } else {
+        tmp += char_at_tmp_ret;
+      }
+
+      if ( !is_char_at_last ) {
+        last += (*begin);
+        tmp += last;
+      } else {
+        last = (*begin);
+        tmp += (*begin);
+      }
+      is_char_at_last = false;
+    }
     ++begin;
     if ( begin != end ) {
       writer_->WriteOp( TOKEN::JS_LOGICAL_AND , 0 , tmp );
     }
   }
+  
   writer_->WriteOp( ')' , 0 , tmp );
   writer_->WriteOp( '?' , 0 , tmp );
-  tmp += tmp_ref_;
-  tmp += last;
+
+  if ( !is_char_at ) {
+    tmp += tmp_ref_;
+  } else {
+    tmp += char_at_tmp_ret;
+  }
+
+  if ( !is_char_at_last ) {
+    tmp += last;
+  }
+  
   writer_->WriteOp( ':' , 0 , tmp );
   tmp += "undefined";
   dst_code_.push_back( tmp );
@@ -913,6 +1090,8 @@ void CodegenVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
   }
   if ( depth == 0 ) {
     dst_accessor_.clear();
+  } else {
+    dst_accessor_.pop_back();
   }
 }
 
@@ -945,7 +1124,12 @@ void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
 void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
   PRINT_NODE_NAME;
   AstNode* child = ast_node->Node();
-  NodeIterator iterator = ( child )? child->ChildNodes() : ast_node->ChildNodes();
+  int value_type = ast_node->ValueType();
+  printf( "child length = %d %d\n" , ast_node->ChildLength() , depth );
+  NodeIterator iterator = ( child && ( value_type == ValueNode::kDst || value_type == ValueNode::kDstArray ) && child->ChildLength() > 0 )?
+      child->ChildNodes() :
+      ast_node->ChildNodes();
+  
   while ( iterator.HasNext() ) {
     AstNode* node = iterator.Next();
     ValueNode* value = node->CastToValue();
@@ -994,6 +1178,8 @@ void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
     }
     if ( depth == 0 ) {
       dst_accessor_.clear();
+    } else {
+      dst_accessor_.pop_back();
     }
   }
 }
@@ -1004,11 +1190,32 @@ void CodegenVisitor::DstProcessor_( ValueNode* ast_node ) {
   sprintf( tmp , "__tmp__%d" , tmp_index_ );
   tmp_ref_ = tmp;
   tmp_index_++;
-  if ( ast_node->ValueType() == ValueNode::kArray ) {
+  buffer_ += tmp_ref_.c_str();
+  if ( ast_node->ValueType() == ValueNode::kDstArray ) {
     DstArrayProccessor_( ast_node , 0 );
   } else {
     DstObjectProcessor_( ast_node , 0 );
   }
+}
+
+
+void CodegenVisitor::DstCodeProccessor_() {
+  std::vector<std::string>::iterator ITERATOR( dst_code_ );
+  while ( begin != end ) {
+    buffer_ += (*begin);
+    ++begin;
+    if ( begin != end ) {
+      writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+    }
+  }
+  ResetDstArray_();
+}
+
+void CodegenVisitor::ResetDstArray_() {
+  has_dst_ = false;
+  dst_code_.clear();
+  dst_accessor_.clear();
+  tmp_ref_.clear();
 }
 
 
@@ -1032,6 +1239,7 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kDst :
     case ValueNode::kDstArray :
       printf( "Dst\n" );
+      has_dst_ = true;
       DstProcessor_( ast_node );
       break;
       
@@ -1062,6 +1270,7 @@ bool CodegenVisitor::MatchState_( int state ) {
   }
   return false;
 }
+
 
 }
 

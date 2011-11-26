@@ -219,11 +219,35 @@ class ExportStmt : public Statement {
 
 class ImportStmt : public Statement {
  public :
-  inline ImportStmt() : Statement( NAME_PARAMETER( ImportStmt ) ){}
+  enum {
+    kFile,
+    kModule
+  };
+  enum {
+    kVar,
+    kDst,
+    kAll
+  };
+  inline ImportStmt( int var_type , int mod_type ) :
+      Statement( NAME_PARAMETER( ImportStmt ) ),
+      var_type_( var_type ) , mod_type_( mod_type ){}
   inline ~ImportStmt(){};
+  inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
+  inline AstNode* Exp() { return exp_; }
+  inline void From( AstNode* from ) { from_ = from;from->ParentNode( this ); }
+  inline AstNode* From() { return from_; }
+  inline void ModKey( TokenInfo* key ) { key_ = key; }
+  inline TokenInfo* ModKey() { return key_; }
+  inline int VarType() { return var_type_; }
+  inline int ModType() { return mod_type_; }
  private :
+  int var_type_;
+  int mod_type_;
+  AstNode* exp_;
+  AstNode* from_;
+  TokenInfo* key_;
   CALL_ACCEPTOR( ImportStmt );
-}
+};
 
 
 class VariableStmt : public Statement {
@@ -639,7 +663,8 @@ class ValueNode : public AstNode {
     kSpread,
     kRest
   };
-  inline ValueNode( int type ) : AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ){};
+  inline ValueNode( int type ) :
+      AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ){};
   inline ~ValueNode() {};
   inline int ValueType() const { return value_type_; };
   inline void Symbol( TokenInfo* value ) { value_ = value; };

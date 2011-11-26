@@ -69,8 +69,39 @@ VISITOR_IMPL( ExportStmt ) {
 
 VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ImportProccessor_( ast_node );
 }
+
+
+void AstVisitor::ImportProccessor_( ImportStmt* ast_node ) {
+  AstNode* from = ast_node->From();
+  AstNode* file = from->FirstChild();
+  ValueNode* value = file->CastToValue();
+
+  if ( value && value->ValueType() == ValueNode::kString ) {
+    //Create path from js string literal.
+    TokenInfo* info = value->Symbol();
+    std::string js_path = info->GetToken();
+    js_path.erase( 0 , 1 );
+    //"path to file" -> path to file
+    js_path.erase( js_path.size() - 1 , js_path.size() );
+    
+    StrHandle current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
+    //Get full path of module.
+    StrHandle real_path = compiler_->Load( js_path.c_str() );
+
+    //Set virtual dir to current context dir.
+    VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
+
+    //Get module uuid key.
+    StrHandle key_str = FileSystem::GetModuleKey( real_path.Get() );
+    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
+
+    //Reserve module key string for later code generation.
+    ast_node->ModKey( key );
+  }
+}
+
 
 VISITOR_IMPL( Statement ) {
   PRINT_NODE_NAME;
@@ -200,42 +231,6 @@ VISITOR_IMPL(TryStmt) {
 }
 
 
-void AstVisitor::RequireProccessor_( CallExp* ast_node ) {
-  AstNode* js_filepath_node = ast_node->Args();
-  if ( !js_filepath_node->IsEmpty() ) {
-    js_filepath_node = js_filepath_node->FirstChild();
-    ValueNode* value = js_filepath_node->CastToValue();
-    if ( value && value->ValueType() == ValueNode::kString ) {
-      TokenInfo* info = value->Symbol();
-      std::string js_path = info->GetToken();
-      js_path.erase( 0 , 1 );
-      js_path.erase( js_path.size() - 1 , js_path.size() );
-      StrHandle current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
-      StrHandle real_path = compiler_->Load( js_path.c_str() );
-      VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
-      ValueNode* exporter_value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-      ValueNode* key_value = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
-      exporter_value->Line( ast_node->Line() );
-      TokenInfo* exporter = ManagedHandle::Retain( new TokenInfo( "__global_export__" , TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
-      StrHandle key_str = FileSystem::GetModuleKey( real_path.Get() );
-      TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
-      exporter_value->Symbol( exporter );
-      key_value->Symbol( key );
-      CallExp *module_accessor = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
-      module_accessor->Callable( exporter_value );
-      module_accessor->Args( key_value );
-      module_accessor->Depth( 0 );
-      AstNode* parent = ast_node->ParentNode();
-      if ( parent->NodeType() == AstNode::kCallExp ) {
-        reinterpret_cast<CallExp*>( parent )->Callable( module_accessor );
-      } else {
-        parent->ReplaceChild( ast_node , module_accessor );
-      }
-    }
-  }
-}
-
-
 VISITOR_IMPL( CallExp ) {
   PRINT_NODE_NAME;
   
@@ -243,28 +238,12 @@ VISITOR_IMPL( CallExp ) {
   AstNode* arg_list = ast_node->Args();
   int call_type = ast_node->CallType();
 
-  if ( call_type == CallExp::kNormal ) {
-    AstNode* name = ast_node->Callable();
-    ValueNode* value_node = name->CastToValue();
-    if ( value_node != 0 && value_node->ValueType() == ValueNode::kIdentifier ) {
-      const char* name = value_node->Symbol()->GetToken();
-      if ( strcmp( name , "require" ) == 0 ) {
-        RequireProccessor_( ast_node );
-      } else {
-        goto NORMAL_FN_CALL;
-      }
-    } else {
-      goto NORMAL_FN_CALL;
-    }
-  } else {
-    if ( call_type == CallExp::kDot || call_type == CallExp::kBracket ) {
-      arg_list->Accept( this );
-    } else if ( !arg_list->IsEmpty() ) {
-   NORMAL_FN_CALL :
-      NodeIterator iterator = arg_list->ChildNodes();
-      while ( iterator.HasNext() ) {
-        iterator.Next()->Accept( this );
-      }
+  if ( call_type == CallExp::kDot || call_type == CallExp::kBracket ) {
+    arg_list->Accept( this );
+  } else if ( !arg_list->IsEmpty() ) {
+    NodeIterator iterator = arg_list->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
     }
   }
 }
