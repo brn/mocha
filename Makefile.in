@@ -658,7 +658,7 @@ mocha:
 	./build
 
 parser:
-	cd src && bison -r state -dv grammar.yy && cd ../
+	cd src && bison -r state -dv -o grammar/grammar.tab.cc grammar/grammar.yy && cd ../
 
 core :
 	./build
