@@ -10,8 +10,8 @@
 #include <options/setting.h>
 #include <options/options.h>
 
-#define BEGIN(name) printf( "log : %s\n" , #name )
-#define END(name) printf( "log : %s end\n" , #name )
+#define BEGIN(name) //printf( "log : %s\n" , #name )
+#define END(name) //printf( "log : %s end\n" , #name )
 #define IS_DEF(str) str && strlen(str) > 0
 #define ITERATOR(name) begin = name.begin(),end = name.end()
 #define MODULE_LIST XMLSettingInfo::module_list_
@@ -83,9 +83,7 @@ void XMLReader::GetPath_( const char* path , std::string& buf ) {
   /*
    *Get full file path.
    */
-  printf( "relative path = %s\n" , path );
   StrHandle fullpath = FileSystem::GetAbsolutePath( path );
-  printf( "full path = %s %p\n" ,fullpath.Get() , fullpath.Get() );
   buf = fullpath.Get();
   INCLUDE_LIST.push_back( buf );
   END(GetPath_);
@@ -99,7 +97,6 @@ void XMLReader::ParseStart_( const char* path ) {
   xml_document.LoadFile( path );
   TiXmlElement* elem = xml_document.RootElement();
   Handle<PathInfo> path_info = FileSystem::GetPathInfo( path );
-  printf( "dir path = %s\n" , path_info->GetDirPath().Get() );
   XMLInfo info( path_info->GetDirPath().Get() );
   SwitchProcessor_( elem , &info );
   END(ParseStart_);
@@ -127,7 +124,6 @@ void XMLReader::SwitchProcessor_( TiXmlNode* node , XMLInfo* info ) {
 
 void XMLReader::ProcessNode_( TiXmlElement *elem , XMLInfo* info ) {
   BEGIN(ProcessNode_);
-  printf ( "%s\n" , elem->Value() );
   if ( strcmp( elem->Value() , setting_ ) == 0 ) {
     ProcessSettingNode_( elem , info );
   } else if ( strcmp( elem->Value() , dir_ ) == 0 ) {
@@ -152,7 +148,6 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
     char filename_buf[500];
     char module_buf[500];
     sprintf( filename_buf, "%s/%s/%s" , info->GetPath() , dir , filename );
-    printf( "watch file name = %s\n" , filename_buf );
 
     StrHandle handle = FileSystem::NormalizePath( filename_buf );
     const char* normalized_path = handle.Get();
@@ -222,7 +217,6 @@ void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename
         strcpy( ret , buf.c_str() );
         scoped_list.Retain( ret );
         array.push_back( ret );
-        printf("options is %s\n" , buf.c_str() );
         buf.clear();
         raw++;
       }
@@ -230,7 +224,6 @@ void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename
     if ( raw > 1 ) {
       Options *option = new Options();
       option->AnalyzeOption( raw , array );
-      printf( "%d\n" , option->IsPrettyPrint() );
       COMPILE_OPTION[ filename ] = Handle<Options>( option );
     }
   }
@@ -272,7 +265,6 @@ void XMLReader::ProcessIncludeNode_( TiXmlElement *elem , XMLInfo* info ) {
   if ( CheckIgnoreOption_( elem ) ) {
     return;
   }
-  printf ( "log : include xml file = %s\n" , path_attr );
   Parse( path_attr );
   END(ProcessIncludeNode_);
 }

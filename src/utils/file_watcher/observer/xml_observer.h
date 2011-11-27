@@ -10,9 +10,10 @@ namespace mocha {
 class XMLObserver {
  public :
   XMLObserver();
-  ~XMLObserver() {}
+  ~XMLObserver();
   void Run();
   inline FileObserver& GetFileObserver(){ return file_observer_; }
+  void Restart();
  private :
   static void* ThreadRunner_( void* arg );
   inline void Initialize_( const char* path );
@@ -20,7 +21,7 @@ class XMLObserver {
   FileWatcher file_watcher_;
   FileObserver file_observer_;
   class XMLUpdater;
-  ScopedPtr<XMLUpdater> xml_updater_;
+  XMLUpdater* xml_updater_;
 };
 
 }

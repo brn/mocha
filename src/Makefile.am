@@ -43,6 +43,8 @@ utils/smart_pointer/ref_count/handle.h\
 bootstrap/runners/help_runner.h\
 bootstrap/runners/help_runner.cc\
 bootstrap/runners/icommandline_runner.h\
+bootstrap/interactions/interaction.h\
+bootstrap/interactions/interaction.cc\
 compiler/internal.cc\
 compiler/internal.h\
 mch/mocha.cc\

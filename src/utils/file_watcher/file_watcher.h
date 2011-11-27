@@ -37,8 +37,9 @@ class IUpdater {
 
 class FileWatcher {
  public :
+  typedef void ( *EndCallBack ) ( void *arg );
   FileWatcher();
-  inline ~FileWatcher(){};
+  ~FileWatcher();
   enum {
     kAccess = 0x00000001,
     kModify = 0x00000002,
@@ -59,6 +60,7 @@ class FileWatcher {
   void Stop();
   void Start();
   void Exit();
+  void Exit( EndCallBack fn , void* arg );
  private :
   class PtrImpl;
   PtrImpl* implementation_;

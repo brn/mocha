@@ -32,7 +32,7 @@
 namespace mocha {
 class Options {
  public :
-  Options(){}
+  Options() : options_( 0 ){}
   ~Options(){}
   inline void AnalyzeOption ( int argc , char** argv ) {
     AnalyzeOption_<char**>( argc , argv );

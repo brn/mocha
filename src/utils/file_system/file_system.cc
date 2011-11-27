@@ -131,7 +131,10 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
 
 StrHandle FileSystem::GetUserHomeDir() {
 #ifdef _WIN32
-  return GetAbsolutePath( getenv( HOME ) );
+  std::string drive = getenv( "HOMEDRIVE" );
+  std::string home = getenv( HOME );
+  drive += home;
+  return GetAbsolutePath( drive.c_str() );
 #else
   char* ret = utils::CharAlloc( getenv( HOME ) );
   return StrHandle( ret );

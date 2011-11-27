@@ -1103,7 +1103,7 @@ void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
   switch( info->GetType() ) {
     case TOKEN::JS_IDENTIFIER :
       {
-        char tmp[ strlen( info->GetToken() ) + 2 ];
+        char tmp[ 100 ];
         sprintf( tmp , ".%s" , info->GetToken() );
         dst_accessor_.push_back( tmp );
       }
@@ -1112,7 +1112,7 @@ void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
     case TOKEN::JS_NUMERIC_LITERAL :
     case TOKEN::JS_STRING_LITERAL :
       {
-        char tmp[ strlen( info->GetToken() ) + 2 ];
+        char tmp[ 100 ];
         sprintf( tmp , "[%s]" , info->GetToken() );
         dst_accessor_.push_back( tmp );
       }
@@ -1155,7 +1155,7 @@ void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
           } else {
             TokenInfo *info = value->Symbol();
             const char* name = info->GetToken();
-            char tmp[ strlen( name ) + 2 ];
+            char tmp[ 100 ];
             sprintf( tmp , ".%s" , name );
             printf( "%s\n" , name );
             dst_accessor_.push_back( tmp );

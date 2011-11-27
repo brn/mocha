@@ -10,6 +10,129 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\ast\ast.h" />
+    <ClInclude Include="..\..\..\src\ast\ast_foward_decl.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\ast_visitor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\codegen_visitor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\ivisitor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\codewriter.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\visitor_decl.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\bootstrap.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\interactions\interaction.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\runners\compile_runner.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\runners\help_runner.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\runners\icommandline_runner.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\runners\observer_runner.h" />
+    <ClInclude Include="..\..\..\src\compiler\binding\parser_connector.h" />
+    <ClInclude Include="..\..\..\src\compiler\binding\parser_tracer.h" />
+    <ClInclude Include="..\..\..\src\compiler\binding\yylex.h" />
+    <ClInclude Include="..\..\..\src\compiler\compiler.h" />
+    <ClInclude Include="..\..\..\src\compiler\internal.h" />
+    <ClInclude Include="..\..\..\src\compiler\scanner\queue_scanner.h" />
+    <ClInclude Include="..\..\..\src\compiler\scopes\scope.h" />
+    <ClInclude Include="..\..\..\src\compiler\tokens\js_token.h" />
+    <ClInclude Include="..\..\..\src\compiler\tokens\token_info.h" />
+    <ClInclude Include="..\..\..\src\compiler\utils\compiler_starter.h" />
+    <ClInclude Include="..\..\..\src\compiler\utils\compiler_utils.h" />
+    <ClInclude Include="..\..\..\src\define.h" />
+    <ClInclude Include="..\..\..\src\mch\mocha.h" />
+    <ClInclude Include="..\..\..\src\options\commandline\commandline_options.h" />
+    <ClInclude Include="..\..\..\src\options\options.h" />
+    <ClInclude Include="..\..\..\src\options\setting.h" />
+    <ClInclude Include="..\..\..\src\options\xml_options.h" />
+    <ClInclude Include="..\..\..\src\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\..\src\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\..\..\src\unconfig.h" />
+    <ClInclude Include="..\..\..\src\useconfig.h" />
+    <ClInclude Include="..\..\..\src\utils\char_allocator.h" />
+    <ClInclude Include="..\..\..\src\utils\class_traits\static.h" />
+    <ClInclude Include="..\..\..\src\utils\class_traits\uncopyable.h" />
+    <ClInclude Include="..\..\..\src\utils\file_system\file_system.h" />
+    <ClInclude Include="..\..\..\src\utils\file_system\mkdir.h" />
+    <ClInclude Include="..\..\..\src\utils\file_system\pwd.h" />
+    <ClInclude Include="..\..\..\src\utils\file_system\stat.h" />
+    <ClInclude Include="..\..\..\src\utils\file_system\virtual_directory.h" />
+    <ClInclude Include="..\..\..\src\utils\file_watcher\file_watcher.h" />
+    <ClInclude Include="..\..\..\src\utils\file_watcher\observer\file_observer.h" />
+    <ClInclude Include="..\..\..\src\utils\file_watcher\observer\xml_observer.h" />
+    <ClInclude Include="..\..\..\src\utils\io\file_io.h" />
+    <ClInclude Include="..\..\..\src\utils\pool\managed.h" />
+    <ClInclude Include="..\..\..\src\utils\pool\managed_handle.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\common\ptr_deleter.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\common\ptr_handle-impl.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\common\ptr_handle.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\common\ptr_handle_base.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\common\ptr_traits.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\ref_count\handle-impl.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\ref_count\handle.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\ref_count\refcount-impl.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\ref_count\refcount.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\ref_count\refcount_base.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\scope\scoped_list-impl.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\scope\scoped_list.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\scope\scoped_ptr-impl.h" />
+    <ClInclude Include="..\..\..\src\utils\smart_pointer\scope\scoped_ptr.h" />
+    <ClInclude Include="..\..\..\src\utils\thread\platform.h" />
+    <ClInclude Include="..\..\..\src\utils\thread\platform_linux.h" />
+    <ClInclude Include="..\..\..\src\utils\thread\platform_win.h" />
+    <ClInclude Include="..\..\..\src\utils\thread\thread.h" />
+    <ClInclude Include="..\..\..\src\utils\xml\xml_reader.h" />
+    <ClInclude Include="..\..\..\src\utils\xml\xml_setting_info-inl.h" />
+    <ClInclude Include="..\..\..\src\utils\xml\xml_setting_info.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\grammar\grammar.tab.hh" />
+    <None Include="..\..\..\src\grammar\location.hh" />
+    <None Include="..\..\..\src\grammar\position.hh" />
+    <None Include="..\..\..\src\grammar\stack.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\ast\ast.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\ast_visitor.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\codegen_visitor.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\codewriter.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\bootstrap.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\interactions\interaction.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\runners\compile_runner.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\runners\help_runner.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\runners\observer_runner.cc" />
+    <ClCompile Include="..\..\..\src\compiler\binding\parser_connector.cc" />
+    <ClCompile Include="..\..\..\src\compiler\binding\parser_tracer.cc" />
+    <ClCompile Include="..\..\..\src\compiler\compiler.cc" />
+    <ClCompile Include="..\..\..\src\compiler\internal.cc" />
+    <ClCompile Include="..\..\..\src\compiler\scanner\queue_scanner.cc" />
+    <ClCompile Include="..\..\..\src\compiler\scopes\scope.cc" />
+    <ClCompile Include="..\..\..\src\compiler\tokens\js_token.cc" />
+    <ClCompile Include="..\..\..\src\compiler\tokens\token_info.cc" />
+    <ClCompile Include="..\..\..\src\compiler\utils\compiler_starter.cc" />
+    <ClCompile Include="..\..\..\src\compiler\utils\compiler_utils.cc" />
+    <ClCompile Include="..\..\..\src\grammar\grammar.tab.cc" />
+    <ClCompile Include="..\..\..\src\mch\main.cc" />
+    <ClCompile Include="..\..\..\src\mch\mocha.cc" />
+    <ClCompile Include="..\..\..\src\options\commandline\commandline_options.cc" />
+    <ClCompile Include="..\..\..\src\options\setting.cc" />
+    <ClCompile Include="..\..\..\src\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\..\src\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\..\src\utils\char_allocator.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_system\file_system.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_system\mkdir.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_system\pwd.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_system\stat.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_system\virtual_directory.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_watcher\file_watcher-impl.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_watcher\file_watcher.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_watcher\observer\file_observer.cc" />
+    <ClCompile Include="..\..\..\src\utils\file_watcher\observer\xml_observer.cc" />
+    <ClCompile Include="..\..\..\src\utils\io\file_io.cc" />
+    <ClCompile Include="..\..\..\src\utils\pool\managed_handle.cc" />
+    <ClCompile Include="..\..\..\src\utils\thread\thread-win-impl.cc" />
+    <ClCompile Include="..\..\..\src\utils\thread\thread.cc" />
+    <ClCompile Include="..\..\..\src\utils\xml\xml_reader.cc" />
+    <ClCompile Include="..\..\..\src\utils\xml\xml_setting_info.cc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{89F46501-FE00-4D01-AE21-DBAB35F6939E}</ProjectGuid>
     <RootNamespace>mocha</RootNamespace>
@@ -38,15 +161,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\bin\win32\debug\</OutDir>
+    <IncludePath>Y:\mocha\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\bin\win32\release\</OutDir>
+    <IncludePath>Y:\mocha\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -67,125 +193,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\src\ast_type.cc" />
-    <ClCompile Include="..\..\..\src\ast_visitor.cc" />
-    <ClCompile Include="..\..\..\src\bootstrap.cc" />
-    <ClCompile Include="..\..\..\src\char_allocator.cc" />
-    <ClCompile Include="..\..\..\src\codegen.cc" />
-    <ClCompile Include="..\..\..\src\codegen_visitor.cc" />
-    <ClCompile Include="..\..\..\src\commandline_options.cc" />
-    <ClCompile Include="..\..\..\src\compiler.cc" />
-    <ClCompile Include="..\..\..\src\compiler_starter.cc" />
-    <ClCompile Include="..\..\..\src\compiler_utils.cc" />
-    <ClCompile Include="..\..\..\src\compile_runner.cc" />
-    <ClCompile Include="..\..\..\src\file_io.cc" />
-    <ClCompile Include="..\..\..\src\file_observer.cc" />
-    <ClCompile Include="..\..\..\src\file_system.cc" />
-    <ClCompile Include="..\..\..\src\file_watcher-impl.cc" />
-    <ClCompile Include="..\..\..\src\file_watcher.cc" />
-    <ClCompile Include="..\..\..\src\grammar.tab.cc" />
-    <ClCompile Include="..\..\..\src\help_runner.cc" />
-    <ClCompile Include="..\..\..\src\internal.cc" />
-    <ClCompile Include="..\..\..\src\js_token.cc" />
-    <ClCompile Include="..\..\..\src\main.cc" />
-    <ClCompile Include="..\..\..\src\managed_handle.cc" />
-    <ClCompile Include="..\..\..\src\mkdir.cc" />
-    <ClCompile Include="..\..\..\src\mocha.cc" />
-    <ClCompile Include="..\..\..\src\observer_runner.cc" />
-    <ClCompile Include="..\..\..\src\parser_connector.cc" />
-    <ClCompile Include="..\..\..\src\parser_tracer.cc" />
-    <ClCompile Include="..\..\..\src\pwd.cc" />
-    <ClCompile Include="..\..\..\src\scanner.cc" />
-    <ClCompile Include="..\..\..\src\scanner_state.cc" />
-    <ClCompile Include="..\..\..\src\scope.cc" />
-    <ClCompile Include="..\..\..\src\setting.cc" />
-    <ClCompile Include="..\..\..\src\stat.cc" />
-    <ClCompile Include="..\..\..\src\thread-win-impl.cc" />
-    <ClCompile Include="..\..\..\src\thread.cc" />
-    <ClCompile Include="..\..\..\src\tinyxml\tinystr.cpp" />
-    <ClCompile Include="..\..\..\src\tinyxml\tinyxml.cpp" />
-    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlerror.cpp" />
-    <ClCompile Include="..\..\..\src\tinyxml\tinyxmlparser.cpp" />
-    <ClCompile Include="..\..\..\src\token_info.cc" />
-    <ClCompile Include="..\..\..\src\virtual_directory.cc" />
-    <ClCompile Include="..\..\..\src\xml_observer.cc" />
-    <ClCompile Include="..\..\..\src\xml_reader.cc" />
-    <ClCompile Include="..\..\..\src\xml_setting_info.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\src\ast_state.h" />
-    <ClInclude Include="..\..\..\src\ast_type.h" />
-    <ClInclude Include="..\..\..\src\ast_visitor.h" />
-    <ClInclude Include="..\..\..\src\bootstrap.h" />
-    <ClInclude Include="..\..\..\src\char_allocator.h" />
-    <ClInclude Include="..\..\..\src\codegen.h" />
-    <ClInclude Include="..\..\..\src\codegen_visitor.h" />
-    <ClInclude Include="..\..\..\src\commandline_options.h" />
-    <ClInclude Include="..\..\..\src\compiler.h" />
-    <ClInclude Include="..\..\..\src\compiler_starter.h" />
-    <ClInclude Include="..\..\..\src\compiler_utils.h" />
-    <ClInclude Include="..\..\..\src\compile_runner.h" />
-    <ClInclude Include="..\..\..\src\config.h" />
-    <ClInclude Include="..\..\..\src\define.h" />
-    <ClInclude Include="..\..\..\src\file_io.h" />
-    <ClInclude Include="..\..\..\src\file_observer.h" />
-    <ClInclude Include="..\..\..\src\file_system.h" />
-    <ClInclude Include="..\..\..\src\file_watcher.h" />
-    <ClInclude Include="..\..\..\src\handle.h" />
-    <ClInclude Include="..\..\..\src\help_runner.h" />
-    <ClInclude Include="..\..\..\src\icommandline_runner.h" />
-    <ClInclude Include="..\..\..\src\internal.h" />
-    <ClInclude Include="..\..\..\src\ivisitor.h" />
-    <ClInclude Include="..\..\..\src\js_token.h" />
-    <ClInclude Include="..\..\..\src\managed.h" />
-    <ClInclude Include="..\..\..\src\managed_handle.h" />
-    <ClInclude Include="..\..\..\src\mkdir.h" />
-    <ClInclude Include="..\..\..\src\mocha.h" />
-    <ClInclude Include="..\..\..\src\observer_runner.h" />
-    <ClInclude Include="..\..\..\src\options.h" />
-    <ClInclude Include="..\..\..\src\parser_connector.h" />
-    <ClInclude Include="..\..\..\src\parser_tracer.h" />
-    <ClInclude Include="..\..\..\src\platform.h" />
-    <ClInclude Include="..\..\..\src\platform_linux.h" />
-    <ClInclude Include="..\..\..\src\platform_win.h" />
-    <ClInclude Include="..\..\..\src\ptr_deleter.h" />
-    <ClInclude Include="..\..\..\src\ptr_handle.h" />
-    <ClInclude Include="..\..\..\src\ptr_handle_base.h" />
-    <ClInclude Include="..\..\..\src\ptr_release.h" />
-    <ClInclude Include="..\..\..\src\ptr_traits.h" />
-    <ClInclude Include="..\..\..\src\pwd.h" />
-    <ClInclude Include="..\..\..\src\refcount.h" />
-    <ClInclude Include="..\..\..\src\refcount_base.h" />
-    <ClInclude Include="..\..\..\src\scanner.h" />
-    <ClInclude Include="..\..\..\src\scanner_state.h" />
-    <ClInclude Include="..\..\..\src\scope.h" />
-    <ClInclude Include="..\..\..\src\scoped_list.h" />
-    <ClInclude Include="..\..\..\src\scoped_ptr.h" />
-    <ClInclude Include="..\..\..\src\setting.h" />
-    <ClInclude Include="..\..\..\src\stat.h" />
-    <ClInclude Include="..\..\..\src\static.h" />
-    <ClInclude Include="..\..\..\src\thread.h" />
-    <ClInclude Include="..\..\..\src\tinyxml\tinystr.h" />
-    <ClInclude Include="..\..\..\src\tinyxml\tinyxml.h" />
-    <ClInclude Include="..\..\..\src\token_info.h" />
-    <ClInclude Include="..\..\..\src\unconfig.h" />
-    <ClInclude Include="..\..\..\src\uncopyable.h" />
-    <ClInclude Include="..\..\..\src\useconfig.h" />
-    <ClInclude Include="..\..\..\src\virtual_directory.h" />
-    <ClInclude Include="..\..\..\src\xml_observer.h" />
-    <ClInclude Include="..\..\..\src\xml_options.h" />
-    <ClInclude Include="..\..\..\src\xml_reader.h" />
-    <ClInclude Include="..\..\..\src\xml_setting_info-inl.h" />
-    <ClInclude Include="..\..\..\src\xml_setting_info.h" />
-    <ClInclude Include="..\..\..\src\yylex.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\src\grammar.tab.hh" />
-    <None Include="..\..\..\src\location.hh" />
-    <None Include="..\..\..\src\position.hh" />
-    <None Include="..\..\..\src\stack.hh" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

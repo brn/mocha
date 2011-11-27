@@ -25,7 +25,7 @@
 #endif
 
 #ifdef HAVE__CTIME64
-#define CTIME(str,buf) ::_ctime64_r(str,buf)
+#define CTIME(str,buf) ::_ctime64_s(buf,200,str)
 #elif HAVE_CTIME
 #define CTIME(str,buf) ::ctime_r(str,buf)
 #endif

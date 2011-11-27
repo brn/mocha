@@ -20,6 +20,10 @@ namespace mocha {
 FileWatcher::FileWatcher() :
     implementation_( new PtrImpl() ) {}
 
+FileWatcher::~FileWatcher() {
+  delete implementation_;
+}
+
 void FileWatcher::AddWatch( const char* path , IUpdater* updater , int type ) {
   implementation_->AddWatch( path , updater , type );
 }
@@ -40,11 +44,14 @@ void FileWatcher::Start() {
   implementation_->Start();
 }
 
+void FileWatcher::Exit( EndCallBack fn , void* arg ) {
+  implementation_->End( fn , arg );
+  //implementation_->UnWatchAll();
+}
+
 void FileWatcher::Exit() {
-  implementation_->Stop();
   implementation_->End();
-  implementation_->UnWatchAll();
-  delete implementation_;
+  //implementation_->UnWatchAll();
 }
 
 }

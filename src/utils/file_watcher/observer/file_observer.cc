@@ -55,8 +55,8 @@ void FileObserver::Run() {
   }
 }
 
-void FileObserver::Exit() {
-  file_watcher_.Exit();
+void FileObserver::Exit( FileWatcher::EndCallBack fn , void* arg ) {
+  file_watcher_.Exit( fn , arg );
 }
 
 void* FileObserver::ThreadRunner_ ( void* arg ) {
@@ -70,7 +70,6 @@ void FileObserver::Initialize_() {
 }
 
 void FileObserver::RegistFile_( const char* filename ) {
-  printf( "regist %s\n" ,filename );
   Handle<Mutex> handle( new Mutex() );
   file_updater_->mutex_list_[filename] = handle;
   file_watcher_.AddWatch( filename , file_updater_.Get() , FileWatcher::kModify );

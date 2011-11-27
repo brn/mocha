@@ -4,6 +4,7 @@
 #include <vector>
 #include <boost/unordered_map.hpp>
 #include <utils/file_watcher/file_watcher.h>
+#include <utils/smart_pointer/common/ptr_handle.h>
 
 #define SETTINGS Setting::GetInstance()
 namespace mocha {
@@ -92,10 +93,51 @@ class WatcherContainer {
   IUpdater* updater_;
 };
 
+template<typename T>
+class PtrContainer {
+ public :
+  PtrContainer() : base_( 0 ) , ptr_( 0 ){}
+  
+  template <typename Class>
+  explicit PtrContainer( Class* c ) : base_( new PtrHandle<Class>( c ) ) , ptr_( c ) {}
+
+  template <typename Class , typename Deleter>
+  PtrContainer( Class* c , Deleter deleter ) : base_( new PtrHandleDeleter<Class,Deleter>( c , deleter ) ) , ptr_( c ){}
+
+  ~PtrContainer() {
+    if ( ptr_ && base_ ) {
+      base_->Dispose();
+    }
+  }
+  PtrContainer( const PtrContainer& cont ) : base_( cont.base_ ) , ptr_ ( cont.ptr_ ) {
+    PtrContainer &un_cont = const_cast<PtrContainer&>( cont );
+    un_cont.ptr_ = 0;
+  }
+
+  const PtrContainer<T>& operator = ( const PtrContainer& cont ) {
+    base_ = cont.base_;
+    ptr_ = cont.ptr_;
+    PtrContainer &un_cont = const_cast<PtrContainer&>( cont );
+    un_cont.ptr_ = 0;
+    return (*this);
+  }
+  
+  T* operator -> () {
+    return ptr_;
+  }
+  T* Get() {
+    return ptr_;
+  }
+ private :
+  PtrHandleBase* base_;
+  T* ptr_;
+};
+
+
 class FileWatcher::PtrImpl {
  public :
   PtrImpl() :
-      fd_( inotify_helper_::OpenInotifyFD_() ) , is_watch_( true ) , is_end_( false ) {}
+      fd_( inotify_helper_::OpenInotifyFD_() ) , is_watch_( true ) , is_end_( false ) , is_call_back_( false ) {}
   ~PtrImpl () {
     if ( is_end_ ) {
       is_end_ = true;
@@ -140,7 +182,15 @@ class FileWatcher::PtrImpl {
   }
 
   void End() {
+    is_watch_ = false;
     is_end_ = true;
+  }
+
+  void End( FileWatcher::EndCallBack fn , void* arg ) {
+    fn_ = fn;
+    is_call_back_ = true;
+    arg_ = arg;
+    End();
   }
 
   void Start() {
@@ -148,12 +198,11 @@ class FileWatcher::PtrImpl {
   }
   
  private :
-  typedef std::vector<Handle<inotify_event> > EventArray;
-  typedef boost::unordered_map<int,Handle<WatcherContainer> > WatchList;
+  typedef std::vector<PtrContainer<inotify_event> > EventArray;
+  typedef boost::unordered_map<int,PtrContainer<WatcherContainer> > WatchList;
   
   void Regist_( const char* path , IUpdater* updater , int type , int wd ) {
-    Handle<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
-    printf("watch %s\n" , path);
+    PtrContainer<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
     watch_list_[ wd ] = handle;
   }
 
@@ -171,24 +220,31 @@ class FileWatcher::PtrImpl {
           if ( read_event > 0 ) {
             ProcessEvent_();
           }
-          array_.clear();
         }
       } else {
         sleep(1);
       }
+    }
+    if ( is_call_back_ ) {
+      fn_( arg_ );
     }
   }
 
 
   int CheckEvent_() {
     fd_set rfds;
+    time_t now_time;
+    timeval waitval;
+    waitval.tv_sec  = 0;
+    waitval.tv_usec = 500;
     FD_ZERO(&rfds);
     FD_SET( fd_ , &rfds );
-    return ::select( FD_SETSIZE , &rfds , NULL , NULL , NULL );
+    return ::select( FD_SETSIZE , &rfds , NULL , NULL , &waitval );
   }
 
 
   int ReadInotifyEvents_() {
+    array_.clear();
     char buffer[ 16384 ];
     size_t buffer_i = 0;
     inotify_event *pevent;
@@ -206,7 +262,7 @@ class FileWatcher::PtrImpl {
       q_event_size = offsetof( inotify_event , name ) + pevent->len;
       inotify_event* ret = new inotify_event;
       memcpy( ret , pevent , event_size );
-      Handle<inotify_event> handle( ret );
+      PtrContainer<inotify_event> handle( ret );
       array_.push_back( handle );
       buffer_i += event_size;
       count++;
@@ -218,7 +274,8 @@ class FileWatcher::PtrImpl {
   void ProcessEvent_() {
     EventArray::iterator ITERATOR(array_,begin,end);
     ITERATOR_LOOP( begin , end ) {
-      int wd = GET(begin)->wd;
+      PtrContainer<inotify_event> &cont = (*begin);
+      int wd = cont->wd;
       WatchList::iterator find = watch_list_.find( wd );
       if ( find != watch_list_.end() && !(GET(begin)->mask & IN_ISDIR) ) {
         SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , GET(find).second.Get() );
@@ -270,6 +327,9 @@ class FileWatcher::PtrImpl {
   int fd_;
   bool is_watch_;
   bool is_end_;
+  bool is_call_back_;
+  void* arg_;
+  FileWatcher::EndCallBack fn_;
   WatchList watch_list_;
   EventArray array_;
   IUpdater* updater_;

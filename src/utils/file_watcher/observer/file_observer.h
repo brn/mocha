@@ -11,7 +11,7 @@ class FileObserver {
   FileObserver ();
   ~FileObserver() {}
   void Run();
-  void Exit();
+  void Exit( FileWatcher::EndCallBack fn , void* arg );
  private :
   void RegistFile_( const char* filename );
   static void* ThreadRunner_( void *arg );

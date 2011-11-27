@@ -11,43 +11,56 @@ namespace mocha {
 
 class XMLObserver::XMLUpdater : public IUpdater {
  public :
+  XMLUpdater( XMLObserver* observer ) : observer_( observer ), file_watcher_( new FileWatcher ) {}
+  ~XMLUpdater() {
+    if ( file_watcher_ != 0 ) {
+      delete file_watcher_;
+    }
+  }
   void Update( watch_traits::Modify* traits ) {
     //exit(1);
-    //file_watcher_.Exit();
-    //file_observer_.Exit();
-    //XMLSettingInfo::EraseData();
-    Bootstrap::Reboot();
+    file_watcher_->Exit( EndXML_ , this );
+    //Bootstrap::Reboot();
   }
   FileObserver* GetObserver() { return &file_observer_; }
-  FileWatcher* GetWatcher() { return &file_watcher_; }
+  FileWatcher* GetWatcher() { return file_watcher_; }
  private :
-  FileWatcher file_watcher_;
+  static void EndXML_( void* arg ) {
+    XMLObserver::XMLUpdater* updater = reinterpret_cast<XMLObserver::XMLUpdater*>( arg );
+    updater->file_observer_.Exit( EndFile_ , arg );
+  }
+  static void EndFile_( void* arg ) {
+    XMLObserver::XMLUpdater* updater = reinterpret_cast<XMLObserver::XMLUpdater*>( arg );
+    delete updater->file_watcher_;
+    updater->file_watcher_ = 0;
+    updater->observer_->Restart();
+  }
   FileObserver file_observer_;
+  FileWatcher* file_watcher_;
+  XMLObserver* observer_;
 };
 
-XMLObserver::XMLObserver() : xml_updater_( new XMLUpdater ) { Initialize_( Setting::GetInstance()->GetXMLPath() ); }
-
+XMLObserver::XMLObserver() : xml_updater_( new XMLUpdater( this ) ) { Initialize_( Setting::GetInstance()->GetXMLPath() ); }
+XMLObserver::~XMLObserver() {
+  delete xml_updater_;
+}
 void XMLObserver::Run() {
   Setting::GetInstance()->Log( "new thread start." );
   Thread thread;
   if ( !thread.Create( XMLObserver::ThreadRunner_ , xml_updater_->GetWatcher() ) ) {
     Setting::GetInstance()->LogFatal( "in XMLObserver::XMLObserver thread create fail." );
   } else {
+    //thread.Exit();
     thread.Detach();
- BEGIN :
-    char buf[20];
-    fprintf( stderr , "mocha > " );
-    scanf( "%19[^\n]%*[^\n]", buf );
-    getchar();
-    fflush(stdin);
-    if ( strcmp( buf , "exit" ) == 0 ) {
-      exit( 0 );
-    } else if ( strcmp( buf , "reboot" ) == 0 ) {
-      Bootstrap::Reboot();
-    }
-    goto BEGIN;
-    //thread.Join();
   }
+}
+
+void XMLObserver::Restart() {
+  delete xml_updater_;
+  xml_updater_ = new XMLUpdater( this );
+  XMLSettingInfo::EraseData();
+  Initialize_( Setting::GetInstance()->GetXMLPath() );
+  Run();
 }
 
 void* XMLObserver::ThreadRunner_( void* arg ) {
@@ -57,8 +70,7 @@ void* XMLObserver::ThreadRunner_( void* arg ) {
 }
 
 void XMLObserver::RegistFile_( const char* filename ) {
-  printf( "xml regist %s\n" ,filename );
-  xml_updater_->GetWatcher()->AddWatch( filename , xml_updater_.Get() , FileWatcher::kModify );
+  xml_updater_->GetWatcher()->AddWatch( filename , xml_updater_ , FileWatcher::kModify );
 }
 
 void XMLObserver::Initialize_( const char* path ) {

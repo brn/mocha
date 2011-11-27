@@ -54,16 +54,17 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
 	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
 	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
-	internal.$(OBJEXT) mocha.$(OBJEXT) js_token.$(OBJEXT) \
-	main.$(OBJEXT) managed_handle.$(OBJEXT) mkdir.$(OBJEXT) \
-	observer_runner.$(OBJEXT) parser_connector.$(OBJEXT) \
-	parser_tracer.$(OBJEXT) queue_scanner.$(OBJEXT) \
-	scope.$(OBJEXT) setting.$(OBJEXT) stat.$(OBJEXT) \
-	thread.$(OBJEXT) tinyxml.$(OBJEXT) tinystr.$(OBJEXT) \
-	tinyxmlparser.$(OBJEXT) tinyxmlerror.$(OBJEXT) \
-	token_info.$(OBJEXT) virtual_directory.$(OBJEXT) \
-	grammar.tab.$(OBJEXT) xml_observer.$(OBJEXT) \
-	xml_reader.$(OBJEXT) xml_setting_info.$(OBJEXT)
+	interaction.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
+	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
+	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
+	parser_connector.$(OBJEXT) parser_tracer.$(OBJEXT) \
+	queue_scanner.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
+	stat.$(OBJEXT) thread.$(OBJEXT) tinyxml.$(OBJEXT) \
+	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
+	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
+	virtual_directory.$(OBJEXT) grammar.tab.$(OBJEXT) \
+	xml_observer.$(OBJEXT) xml_reader.$(OBJEXT) \
+	xml_setting_info.$(OBJEXT)
 mocha_OBJECTS = $(am_mocha_OBJECTS)
 mocha_LDADD = $(LDADD)
 mocha_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(mocha_LDFLAGS) \
@@ -218,6 +219,8 @@ utils/smart_pointer/ref_count/handle.h\
 bootstrap/runners/help_runner.h\
 bootstrap/runners/help_runner.cc\
 bootstrap/runners/icommandline_runner.h\
+bootstrap/interactions/interaction.h\
+bootstrap/interactions/interaction.cc\
 compiler/internal.cc\
 compiler/internal.h\
 mch/mocha.cc\
@@ -396,6 +399,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_watcher.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/grammar.tab.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/help_runner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/internal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/js_token.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
@@ -672,6 +676,20 @@ help_runner.obj: bootstrap/runners/help_runner.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/help_runner.cc' object='help_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o help_runner.obj `if test -f 'bootstrap/runners/help_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/help_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/help_runner.cc'; fi`
+
+interaction.o: bootstrap/interactions/interaction.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.o -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.o `test -f 'bootstrap/interactions/interaction.cc' || echo '$(srcdir)/'`bootstrap/interactions/interaction.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interaction.Tpo $(DEPDIR)/interaction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/interaction.cc' object='interaction.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.o `test -f 'bootstrap/interactions/interaction.cc' || echo '$(srcdir)/'`bootstrap/interactions/interaction.cc
+
+interaction.obj: bootstrap/interactions/interaction.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.obj -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.obj `if test -f 'bootstrap/interactions/interaction.cc'; then $(CYGPATH_W) 'bootstrap/interactions/interaction.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/interaction.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interaction.Tpo $(DEPDIR)/interaction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/interaction.cc' object='interaction.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.obj `if test -f 'bootstrap/interactions/interaction.cc'; then $(CYGPATH_W) 'bootstrap/interactions/interaction.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/interaction.cc'; fi`
 
 internal.o: compiler/internal.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT internal.o -MD -MP -MF $(DEPDIR)/internal.Tpo -c -o internal.o `test -f 'compiler/internal.cc' || echo '$(srcdir)/'`compiler/internal.cc

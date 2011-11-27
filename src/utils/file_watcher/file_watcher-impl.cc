@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <boost/unordered_map.hpp>
 #include <utils/file_system/file_system.h>
-#include <utils/file_system/file_watcher.h>
+#include <utils/file_watcher/file_watcher.h>
 #include <utils/file_system/stat.h>
 #define SETTINGS Setting::GetInstance()
 #define GET_MASK(mask) ( type & mask ) == mask
@@ -45,7 +45,7 @@ class WatcherContainer {
 
 class FileWatcher::PtrImpl {
  public :
-  inline PtrImpl() : is_stop_( false ) , is_end_( false ) {}
+  inline PtrImpl() : is_stop_( false ) , is_end_( false ) , is_call_back_( false ) {}
   inline ~PtrImpl(){
     is_stop_ = true;
     is_end_ = true;
@@ -80,7 +80,15 @@ class FileWatcher::PtrImpl {
   }
 
   inline void End() {
+    is_stop_ = true;
     is_end_ = true;
+  }
+  
+  inline void End( FileWatcher::EndCallBack fn , void* arg ) {
+    is_call_back_ = true;
+    arg_ = arg;
+	fn_ = fn;
+    End();
   }
 
  private :
@@ -105,6 +113,9 @@ class FileWatcher::PtrImpl {
         WatchFile_();
       }
       sleep(1);
+    }
+    if ( is_call_back_ ) {
+      fn_( arg_ );
     }
   }
 
@@ -137,6 +148,9 @@ class FileWatcher::PtrImpl {
 
   bool is_stop_;
   bool is_end_;
+  bool is_call_back_;
+  void* arg_;
+  FileWatcher::EndCallBack fn_;
   WatchList watch_list_;
 };
 
