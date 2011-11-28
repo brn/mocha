@@ -15,7 +15,6 @@ void HelpRunner::Run() {
            "-P/--PrettyPrint  Compile file as aligned format.\n"
            "-L/--Line         Embed _LINE_ property in compiled file.\n"
            "--help            Show help.\n");
-  exit(0);
 }
 
 }

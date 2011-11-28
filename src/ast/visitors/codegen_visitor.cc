@@ -26,7 +26,7 @@ namespace mocha {
 
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
-    tmp_index_( 0 ),is_line_( false ) , has_dst_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsEmbedLine() ) ){}
+    tmp_index_( 0 ),is_line_( false ) , has_dst_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ){}
 
 
 VISITOR_IMPL( AstRoot ) {

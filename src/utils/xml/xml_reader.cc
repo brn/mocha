@@ -199,31 +199,23 @@ void XMLReader::ProcessDeployOption_( TiXmlElement *elem , const char* filename 
 void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo *info ) {
   const char* compile_option = elem->Attribute( options_ );
   if ( IS_DEF( compile_option ) ) {
-    std::vector<char*> array;
-    array.push_back( 0 );
     int len = strlen( compile_option );
-    int raw = 1;
     std::string buf;
     ScopedStrList scoped_list;
-    for ( int i = 0; i < len; ++i ) {
-      buf += compile_option[ i ];
-      if ( ( compile_option[ i ] == ' ' || ( i == ( len - 1 ) ) ) &&
-           buf.find_first_not_of( ' ' , 0 ) != std::string::npos ) {
-
-        if ( buf[ buf.size() - 1 ] == ' ' ) {
-          buf.erase( buf.size() - 1 , buf.size() );
-        }
-        char* ret = new char[ buf.size() + 1 ];
-        strcpy( ret , buf.c_str() );
-        scoped_list.Retain( ret );
-        array.push_back( ret );
-        buf.clear();
-        raw++;
-      }
-    }
-    if ( raw > 1 ) {
+    if ( len > 0 ) {
       Options *option = new Options();
-      option->AnalyzeOption( raw , array );
+      for ( int i = 0; i < len; ++i ) {
+        buf += compile_option[ i ];
+        if ( ( compile_option[ i ] == ' ' || ( i == ( len - 1 ) ) ) &&
+             buf.find_first_not_of( ' ' , 0 ) != std::string::npos ) {
+
+          if ( buf[ buf.size() - 1 ] == ' ' ) {
+            buf.erase( buf.size() - 1 , buf.size() );
+          }
+          option->AnalyzeOption( buf.c_str() );
+          buf.clear();
+        }
+      }
       COMPILE_OPTION[ filename ] = Handle<Options>( option );
     }
   }

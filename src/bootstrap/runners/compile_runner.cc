@@ -6,7 +6,7 @@ namespace mocha {
 CompileRunner::CompileRunner( Options *options ) : ICommandLineRunner( options ) {}
 
 void CompileRunner::Run() {
-  CompilerStarter::StartCompile( options_->GetPath().Get() );
+  CompilerStarter::StartCompile( options_->GetPath() );
 }
 
 }

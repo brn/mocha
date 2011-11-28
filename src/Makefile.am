@@ -23,6 +23,10 @@ compiler/compiler.cc\
 compiler/compiler.h\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
+bootstrap/runners/list_runner.h\
+bootstrap/runners/list_runner.cc\
+bootstrap/runners/error_runner.h\
+bootstrap/runners/error_runner.cc\
 compiler/utils/compiler_starter.h\
 compiler/utils/compiler_starter.cc\
 compiler/utils/compiler_utils.h\
@@ -45,6 +49,10 @@ bootstrap/runners/help_runner.cc\
 bootstrap/runners/icommandline_runner.h\
 bootstrap/interactions/interaction.h\
 bootstrap/interactions/interaction.cc\
+bootstrap/interactions/commands.h\
+bootstrap/interactions/commands.cc\
+bootstrap/interactions/commands_analyzer.h\
+bootstrap/interactions/commands_analyzer.cc\
 compiler/internal.cc\
 compiler/internal.h\
 mch/mocha.cc\

@@ -14,10 +14,13 @@ class XMLObserver {
   void Run();
   inline FileObserver& GetFileObserver(){ return file_observer_; }
   void Restart();
+  void Exit();
  private :
   static void* ThreadRunner_( void* arg );
   inline void Initialize_( const char* path );
   inline void RegistFile_( const char* file );
+  inline void Erase_();
+  
   FileWatcher file_watcher_;
   FileObserver file_observer_;
   class XMLUpdater;

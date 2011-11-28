@@ -24,45 +24,16 @@
 #include <list>
 #include <useconfig.h>
 #include <mch/mocha.h>
-#include <compiler/compiler.h>
-#include <utils/thread/thread.h>
-#include <bootstrap/runners/icommandline_runner.h>
-#include <bootstrap/runners/help_runner.h>
-#include <bootstrap/runners/compile_runner.h>
-#include <bootstrap/runners/observer_runner.h>
-#include <utils/file_system/file_system.h>
-#include <options/setting.h>
+
 namespace mocha {
 
 class Mocha::PtrImpl {
- public :
-  PtrImpl( ICommandLineRunner* runner ) : runner_( runner ){}
-  ~PtrImpl() { delete runner_; }
-  ICommandLineRunner* GetRunner() {
-    return runner_;
-  }
- private :
-  ICommandLineRunner* runner_;
 };
 
 Mocha::Mocha ( Options* options ) {
-  ICommandLineRunner *runner;
-  if ( options->IsShowHelp() ) {
-    runner = new HelpRunner( options );
-  } else if ( options->IsCommandLineCompile() && options->IsPath() ) {
-    runner = new CompileRunner( options );
-    Setting::GetInstance()->Log( "start commandline compile mode." );
-  } else if ( options->IsWatchXML() ) {
-    runner = new ObserverRunner( options );
-    Setting::GetInstance()->Log( "start watching xml mode." );
-  } else {
-    runner = new HelpRunner( options );
-  }
-  implementation_( new PtrImpl( runner ) );
 }
 
 void Mocha::Run() {
-  implementation_->GetRunner()->Run();
 }
 
 }

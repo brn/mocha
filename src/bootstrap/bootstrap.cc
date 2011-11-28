@@ -8,6 +8,7 @@
 #include <options/setting.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <options/commandline/commandline_options.h>
+#include <bootstrap/interactions/interaction.h>
 
 #ifdef HAVE__EXECV
 #include <process.h>
@@ -91,10 +92,7 @@ void Bootstrap::Initialize( int argc , char** argv ) {
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
   self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).Get();
-  Options *options = CommandLineOptions::GetInstance();
-  options->AnalyzeOption( argc , argv );
-  Mocha mocha( options );
-  mocha.Run();
+  Interaction::Begin();
   delete Setting::instance_;
 }
 
