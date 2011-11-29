@@ -228,6 +228,8 @@
 %type <function> function_declaration
 %type <function> function_expression
 %type <node_list> formal_parameter_list
+%type <node_list> formal_parameter_list_with_rest
+%type <ast> formal_parameter_rest__opt
 %type <ast> formal_parameter_list__opt
 %type <node_list> function_body
 %type <ast> shorten_function_body
@@ -406,7 +408,7 @@ function_expression
  *ES6 proporsal.
  */
 arrow_function_expression
-: JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
+: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( $1->GetLineNumber() );
@@ -424,7 +426,7 @@ arrow_function_expression
     fn->Append( $3 );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
+| JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( $1->GetLineNumber() );
@@ -444,7 +446,7 @@ arrow_function_expression
     fn->ContextType( Function::kThis );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH shorten_function_body
+| JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH shorten_function_body
   {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( $1->GetLineNumber() );
@@ -454,7 +456,7 @@ arrow_function_expression
     fn->FunctionType( Function::kShorten );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body
+| JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body
   {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( $1->GetLineNumber() );
@@ -499,6 +501,19 @@ shorten_function_body
 /*
  *[->|=>] [{] body [}]
  */
+
+formal_parameter_list_with_rest
+: formal_parameter_list { $$ = $1; }
+| formal_parameter_list ',' formal_parameter_rest__opt
+  {
+    if ( !$3->IsEmpty() ) {
+      ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
+      value->Line( connector->GetLineNumber() );
+      value->Node( $3 );
+      $1->AddChild( value );
+    }
+    $$ = $1;
+  }
 
 /*
  *Arguments
@@ -556,16 +571,14 @@ formal_parameter_list
     $1->AddChild( value );
     $$ = $1;
   }
-
-| formal_parameter_list ',' formal_parameter_rest
-  {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
-    value->Line( connector->GetLineNumber() );
-    value->Node( $3 );
-    $1->AddChild( value );
-    $$ = $1;
-  }
 ;
+
+
+formal_parameter_rest__opt
+: { $$ = ManagedHandle::Retain<Empty>(); }
+| formal_parameter_rest { $$ = $1; }
+
+
 
 /*
  *function Example(x,...y){...}
@@ -663,7 +676,7 @@ source_element_for_function
 
 formal_parameter_list__opt
 : { $$ = GetEmptyNode(); }
-| formal_parameter_list
+| formal_parameter_list_with_rest
   {
     $$ = $1;
   }

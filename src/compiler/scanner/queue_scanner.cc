@@ -1010,7 +1010,7 @@ class QueueScanner::TokenGetter {
  public :
 
   TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
-      last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ),
+      last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ), function_paren_count_( 0 ),
       mode_( 0 ) , import_stmt_( false ), is_incrementable_( true ), has_line_break_( false ),
       tracer_( tracer ) , queue_( queue ) {
     it_ = queue_.begin();
@@ -1036,6 +1036,35 @@ class QueueScanner::TokenGetter {
         last_type_ = TOKEN::JS_IDENTIFIER;
         info->SetType( TOKEN::JS_IDENTIFIER );
       }
+    } else if ( type == TOKEN::JS_FUNCTION || type == TOKEN::JS_PARAM_BEGIN ) {
+      mode_ = kFunction;
+    } else if ( mode_ == kFunction ) {
+      if ( type == '(' ) {
+        function_paren_count_++;
+      } else if ( type == ')' ) {
+        function_paren_count_--;
+        if ( function_paren_count_ == 0 ) {
+          mode_ = 0;
+        }
+      } else if ( type == TOKEN::JS_PARAM_END ) {
+        mode_ = 0;
+      } else {
+        switch ( type ) {
+          case '{' :
+            info->SetType( TOKEN::JS_DSTO_BEGIN );
+            break;
+          case '}' :
+            info->SetType( TOKEN::JS_DSTO_END );
+            break;
+          case '[' :
+            info->SetType( TOKEN::JS_DSTA_BEGIN );
+            break;
+          case ']' :
+            info->SetType( TOKEN::JS_DSTA_END );
+            break;
+        }
+      }
+      last_type_ = info->GetType();
     }
     
     if ( type == TOKEN::JS_FOR || type == TOKEN::JS_EACH || type == TOKEN::JS_WHILE || type == TOKEN::JS_IF ) {
@@ -1075,7 +1104,8 @@ class QueueScanner::TokenGetter {
   
  private :
   enum {
-    kLiteral = 22
+    kLiteral = 22,
+    kFunction = 44
   };
 
   bool IsLiteral_( int type ) {
@@ -1168,7 +1198,7 @@ class QueueScanner::TokenGetter {
       }
       last_type_ = type;
       return info;
-    } else if ( type == '}' && last_type_ != '{' ) {
+    } else if ( type == '}' && last_type_ != '{' && mode_ != kFunction ) {
       if ( last_type_ != ';' ) {
         return SemicolonInsertion_();
       }
@@ -1210,6 +1240,7 @@ class QueueScanner::TokenGetter {
   int last_type_;
   int opt_block_;
   int opt_block_paren_count_;
+  int function_paren_count_;
   int mode_;
   bool import_stmt_;
   bool is_incrementable_;

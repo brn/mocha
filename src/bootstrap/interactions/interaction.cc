@@ -12,7 +12,6 @@ BEGIN :
   scanf( "%499[^\n]%*[^\n]", buf );
   getchar();
   fflush(stdin);
-  fprintf( stderr , "\n" );
   commands_.Exec( buf );
   goto BEGIN;
 }

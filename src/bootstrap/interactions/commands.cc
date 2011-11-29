@@ -7,15 +7,15 @@ void Commands::Exec( const char* buf ) {
   CommandsAnalyzer analyzer;
   Handle<ICommandLineRunner> runner = analyzer.Analyze( buf );
   if ( runner->CastToObserver() != 0 ) {
-    if ( !is_observe_running_ ) {
+    if ( !is_observe_running_ && !CommandLineOptions::GetInstance()->IsStopObserving() ) {
       is_observe_running_ = true;
       runner->Run();
-    } else {
-      if ( CommandLineOptions::GetInstance()->IsStopObserving() ) {
+    } else if ( CommandLineOptions::GetInstance()->IsStopObserving() ) {
+      if ( is_observe_running_ ) {
         runner->CastToObserver()->Exit();
         is_observe_running_ = false;
       } else {
-        fprintf( stderr , "observer is now running.\n" );
+        fprintf( stderr , "observer is not running.\n" );
       }
     }
   } else if ( runner->CastToList() != 0 ) {

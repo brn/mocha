@@ -1,5 +1,5 @@
 bin_PROGRAMS = mocha
-AM_CFLAGS = -Wall -g -O3 -DHAVE_PTHREAD
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD
 AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \
