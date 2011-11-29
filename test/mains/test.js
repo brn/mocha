@@ -1,4 +1,4 @@
-//import jqeury from "../jspp-lib/jquery-devel";
+import jqeury from "../jspp-lib/jquery-devel";
 import {fmt} from "./fmt";
 
 var {href} = location;

@@ -14,9 +14,7 @@ class XMLObserver::XMLUpdater : public IUpdater {
   XMLUpdater( XMLObserver* observer ) : observer_( observer ) {}
   ~XMLUpdater() {}
   void Update( watch_traits::Modify* traits ) {
-    //exit(1);
     file_watcher_.Exit( RestartXMLWatcher_ , this );
-    //Bootstrap::Reboot();
   }
   void Die() {
     file_watcher_.Exit( DieXMLWatcher_ , this );
