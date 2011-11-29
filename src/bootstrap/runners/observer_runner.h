@@ -10,9 +10,6 @@ class ObserverRunner : public ICommandLineRunner {
   void Run();
   void Exit();
   virtual ObserverRunner* CastToObserver() { return this; }
- private :
-  class PtrImpl;
-  ScopedPtr<PtrImpl> pimpl_;
 };
 }
 

@@ -11,19 +11,19 @@ namespace mocha {
 
 class XMLObserver::XMLUpdater : public IUpdater {
  public :
-  XMLUpdater( XMLObserver* observer ) : observer_( observer ), file_watcher_( new FileWatcher ) {}
+  XMLUpdater( XMLObserver* observer ) : observer_( observer ) {}
   ~XMLUpdater() {}
   void Update( watch_traits::Modify* traits ) {
     //exit(1);
-    file_watcher_->Exit( RestartXMLWatcher_ , this );
+    file_watcher_.Exit( RestartXMLWatcher_ , this );
     //Bootstrap::Reboot();
   }
   void Die() {
-    file_watcher_->Exit( DieXMLWatcher_ , this );
+    file_watcher_.Exit( DieXMLWatcher_ , this );
   }
 
   FileObserver* GetObserver() { return &file_observer_; }
-  FileWatcher* GetWatcher() { return file_watcher_; }
+  FileWatcher* GetWatcher() { return &file_watcher_; }
 
  private :
 
@@ -39,26 +39,28 @@ class XMLObserver::XMLUpdater : public IUpdater {
   
   static void RestartFileWatcher_( void* arg ) {
     XMLObserver::XMLUpdater* updater = reinterpret_cast<XMLObserver::XMLUpdater*>( arg );
-    delete updater->file_watcher_;
-    updater->file_watcher_ = 0;
+    updater->file_watcher_.UnWatchAll();
+    XMLSettingInfo::EraseData();
     updater->observer_->Restart();
   }
   
   static void DieFileWatcher_( void* arg ) {
     XMLObserver::XMLUpdater* updater = reinterpret_cast<XMLObserver::XMLUpdater*>( arg );
-    delete updater->file_watcher_;
-    updater->file_watcher_ = 0;
+    updater->file_watcher_.UnWatchAll();
     XMLSettingInfo::EraseData();
+    updater->observer_->Die();
   }
 
   FileObserver file_observer_;
-  FileWatcher* file_watcher_;
+  FileWatcher file_watcher_;
   XMLObserver* observer_;
 };
 
-XMLObserver::XMLObserver() : xml_updater_( new XMLUpdater( this ) ) { Initialize_( Setting::GetInstance()->GetXMLPath() ); }
+XMLObserver::XMLObserver() {}
 XMLObserver::~XMLObserver() {}
 void XMLObserver::Run() {
+  xml_updater_ = new XMLUpdater( this );
+  Initialize_( Setting::GetInstance()->GetXMLPath() );
   Setting::GetInstance()->Log( "new thread start." );
   Thread thread;
   if ( !thread.Create( XMLObserver::ThreadRunner_ , xml_updater_->GetWatcher() ) ) {
@@ -71,10 +73,11 @@ void XMLObserver::Run() {
 
 void XMLObserver::Restart() {
   delete xml_updater_;
-  xml_updater_ = new XMLUpdater( this );
-  XMLSettingInfo::EraseData();
-  Initialize_( Setting::GetInstance()->GetXMLPath() );
   Run();
+}
+
+void XMLObserver::Die() {
+  delete xml_updater_;
 }
 
 void* XMLObserver::ThreadRunner_( void* arg ) {
@@ -85,7 +88,6 @@ void* XMLObserver::ThreadRunner_( void* arg ) {
 
 void XMLObserver::Exit() {
   xml_updater_->Die();
-  delete xml_updater_;
 }
 
 

@@ -15,6 +15,7 @@ class XMLObserver {
   inline FileObserver& GetFileObserver(){ return file_observer_; }
   void Restart();
   void Exit();
+  void Die();
  private :
   static void* ThreadRunner_( void* arg );
   inline void Initialize_( const char* path );

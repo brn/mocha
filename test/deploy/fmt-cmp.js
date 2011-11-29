@@ -2,7 +2,8 @@
   var __FILE__ = '';
   var __LINE__ = 0;
   window.onerror=function( err ){try{throw new SyntaxError(err + ' in ' +  __FILE__ + ' at : ' + __LINE__ )}catch(e){  throw new Error(e);}};
-  var __global_export__ = {};
+  var __global_export__ = {},
+      __MC_tmp__ = undefined;
   (function() {
     var __backup__ = __FILE__ = "/Users/aono_taketoshi/github/mocha/mocha/test/mains/fmt.js";
     __global_export__['{1-397-1092-205522212-1695-1977-60819523-2512-fmt.js}'] = {};

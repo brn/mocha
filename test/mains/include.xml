@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
     <dir path="./" module="../jspp-modules">
 	<file path="./ecma262-5th-compatible-devel.js" deploy="./../deploy/" options="-P -L" />
