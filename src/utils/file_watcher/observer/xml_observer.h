@@ -16,12 +16,14 @@ class XMLObserver {
   void Restart();
   void Exit();
   void Die();
+  bool IsEnd();
  private :
   static void* ThreadRunner_( void* arg );
   inline void Initialize_( const char* path );
   inline void RegistFile_( const char* file );
   inline void Erase_();
-  
+
+  bool is_end_;
   FileWatcher file_watcher_;
   FileObserver file_observer_;
   class XMLUpdater;
