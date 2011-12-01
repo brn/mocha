@@ -10,6 +10,20 @@
 
 namespace mocha {
 class CodeWriter;
+class DstCodeContainer {
+ public :
+  void Push( std::string *code ) { code_.push_back( (*code) ); }
+  inline void SetRef( int id ) {
+    char tmp[ 100 ];
+    sprintf( tmp , "__tmp__%d" , id );
+    tmp_ref_ = tmp;
+  }
+  inline const char* GetRef() { return tmp_ref_.c_str(); }
+  inline std::vector<std::string>& GetCodeList() { return code_; }
+ private :
+  std::string tmp_ref_;
+  std::vector<std::string> code_;
+};
 class CodegenVisitor : public IVisitor {
  public :
   CodegenVisitor( Options* option );
@@ -49,6 +63,7 @@ class CodegenVisitor : public IVisitor {
   std::vector<int> state_;
   std::vector<std::string> dst_code_;
   std::vector<std::string> dst_accessor_;
+  std::vector<Handle<DstCodeContainer> >dst_code_list_;
   std::string buffer_;
   std::string tmp_ref_;
   ScopedPtr<CodeWriter> writer_;

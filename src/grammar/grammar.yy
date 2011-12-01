@@ -249,7 +249,7 @@
 %type <node_list> variable_declaration_list_no_in
 %type <value_node> variable_declaration
 %type <value_node> variable_declaration_no_in
-%type <ast> destructuring_assignment_left_hand_side
+%type <value_node> destructuring_assignment_left_hand_side
 %type <value_node> object_left_hand_side
 %type <node_list> object_member_left_hand_side_list 
 %type <ast> initialiser
@@ -281,7 +281,7 @@
 %type <ast> primary_expression
 %type <ast> array_literal
 %type <node_list> element_list
-%type <ast> array_left_hand_side
+%type <value_node> array_left_hand_side
 %type <node_list> array_left_hand_side_list
 %type <ast> object_literal
 %type <ast> property_name_and_value_list__opt
@@ -507,10 +507,7 @@ formal_parameter_list_with_rest
 | formal_parameter_list ',' formal_parameter_rest__opt
   {
     if ( !$3->IsEmpty() ) {
-      ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
-      value->Line( connector->GetLineNumber() );
-      value->Node( $3 );
-      $1->AddChild( value );
+      $1->AddChild( $3 );
     }
     $$ = $1;
   }
@@ -544,11 +541,8 @@ formal_parameter_list
 | destructuring_assignment_left_hand_side initialiser__opt
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-    value->Line( $1->Line() );
-    value->AddChild( $2 );
-    value->Node( $1 );
-    list->AddChild( value );
+    $1->Node( $2 );
+    list->AddChild( $1 );
     $$ = list;
   }
 
@@ -564,11 +558,8 @@ formal_parameter_list
 
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-    value->Line( $3->Line() );
-    value->AddChild( $4 );
-    value->Node( $3 );
-    $1->AddChild( value );
+    $3->Node( $3 );
+    $1->AddChild( $1 );
     $$ = $1;
   }
 ;

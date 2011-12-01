@@ -230,6 +230,7 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
         tmp_ref_.clear();
         dst_code_.clear();
         dst_accessor_.clear();
+        dst_code_list_.clear();
       } else {
         item->Accept( this );
       }
@@ -869,6 +870,12 @@ VISITOR_IMPL(Function){
     writer_->WriteOp( ')' , 0 , buffer_ );
   }
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
+  if ( has_dst_ ) {
+    writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+    DstCodeProccessor_();
+    has_dst_ = false;
+    writer_->WriteOp( ';' , CodeWriter::kVarsEnd , buffer_ );
+  }
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->SetFileName( buffer_ );
   if ( ast_node->FunctionType() == Function::kNormal ) {
@@ -1049,6 +1056,8 @@ void CodegenVisitor::CreateDstAssignment_( const char* name ) {
   
   writer_->WriteOp( ':' , 0 , tmp );
   tmp += "undefined";
+  dst_code_list_.back()->Push( &tmp );
+  printf( "size = %d\n" , dst_code_list_.back()->GetCodeList().size() );
   dst_code_.push_back( tmp );
 }
 
@@ -1188,6 +1197,9 @@ void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
 
 void CodegenVisitor::DstProcessor_( ValueNode* ast_node ) {
   char tmp[ 20 ];
+  Handle<DstCodeContainer> container( new DstCodeContainer );
+  container->SetRef( tmp_index_ );
+  dst_code_list_.push_back( container );
   sprintf( tmp , "__tmp__%d" , tmp_index_ );
   tmp_ref_ = tmp;
   tmp_index_++;
@@ -1201,13 +1213,21 @@ void CodegenVisitor::DstProcessor_( ValueNode* ast_node ) {
 
 
 void CodegenVisitor::DstCodeProccessor_() {
-  std::vector<std::string>::iterator ITERATOR( dst_code_ );
+  std::vector<Handle<DstCodeContainer> >::iterator ITERATOR( dst_code_list_ );
+  printf( "dst size %d\n" , dst_code_list_.size() );
   while ( begin != end ) {
-    buffer_ += (*begin);
-    ++begin;
-    if ( begin != end ) {
-      writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+    std::vector<std::string> codes = (*begin)->GetCodeList();
+    std::vector<std::string>::iterator code_begin = codes.begin();
+    std::vector<std::string>::iterator code_end = codes.end();
+    printf( "dst size %d\n" , codes.size() );
+    while ( code_begin != code_end ) {
+      buffer_ += (*code_begin);
+      ++code_begin;
+      if ( code_begin != code_end ) {
+        writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+      }
     }
+    ++begin;
   }
   ResetDstArray_();
 }
@@ -1216,6 +1236,7 @@ void CodegenVisitor::ResetDstArray_() {
   has_dst_ = false;
   dst_code_.clear();
   dst_accessor_.clear();
+  dst_code_list_.clear();
   tmp_ref_.clear();
 }
 

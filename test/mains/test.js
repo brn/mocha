@@ -1,8 +1,9 @@
 //import jqeury from "../jspp-lib/jquery-devel";
 //import {fmt} from "./fmt";
-let x = ({x,y},{m,m:{s}},...x)-> {
+var {x,y} = {x:200};
+let x = ({x,y},{m,m:{s}})-> {
     }
-var {href} = location;
+/**var {href} = location;
 
 const message = """
 the message
