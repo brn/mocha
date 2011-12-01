@@ -541,7 +541,7 @@ formal_parameter_list
 | destructuring_assignment_left_hand_side initialiser__opt
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    $1->Node( $2 );
+    $1->AddChild( $2 );
     list->AddChild( $1 );
     $$ = list;
   }
@@ -558,8 +558,8 @@ formal_parameter_list
 
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
-    $3->Node( $3 );
-    $1->AddChild( $1 );
+    $3->AddChild( $4 );
+    $1->AddChild( $3 );
     $$ = $1;
   }
 ;
@@ -578,7 +578,7 @@ formal_parameter_rest__opt
 formal_parameter_rest
 : JS_PARAMETER_REST JS_IDENTIFIER
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
     value->Line( $1->GetLineNumber() );
     value->Symbol( $2 );
     $$ = value;

@@ -707,7 +707,7 @@ namespace yy {
 #line 542 "grammar/grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    (yysemantic_stack_[(2) - (1)].value_node)->Node( (yysemantic_stack_[(2) - (2)].ast) );
+    (yysemantic_stack_[(2) - (1)].value_node)->AddChild( (yysemantic_stack_[(2) - (2)].ast) );
     list->AddChild( (yysemantic_stack_[(2) - (1)].value_node) );
     (yyval.node_list) = list;
   }
@@ -732,8 +732,8 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 560 "grammar/grammar.yy"
     {
-    (yysemantic_stack_[(4) - (3)].value_node)->Node( (yysemantic_stack_[(4) - (3)].value_node) );
-    (yysemantic_stack_[(4) - (1)].node_list)->AddChild( (yysemantic_stack_[(4) - (1)].node_list) );
+    (yysemantic_stack_[(4) - (3)].value_node)->AddChild( (yysemantic_stack_[(4) - (4)].ast) );
+    (yysemantic_stack_[(4) - (1)].node_list)->AddChild( (yysemantic_stack_[(4) - (3)].value_node) );
     (yyval.node_list) = (yysemantic_stack_[(4) - (1)].node_list);
   }
     break;
@@ -757,7 +757,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 580 "grammar/grammar.yy"
     {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
     value->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
     value->Symbol( (yysemantic_stack_[(2) - (2)].info) );
     (yyval.ast) = value;

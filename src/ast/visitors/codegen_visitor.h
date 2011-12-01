@@ -60,12 +60,15 @@ class CodegenVisitor : public IVisitor {
   int tmp_index_;
   bool is_line_;
   bool has_dst_;
+  bool has_rest_;
   std::vector<int> state_;
   std::vector<std::string> dst_code_;
   std::vector<std::string> dst_accessor_;
   std::vector<Handle<DstCodeContainer> >dst_code_list_;
   std::string buffer_;
   std::string tmp_ref_;
+  std::string rest_ref_;
+  std::string rest_name_;
   ScopedPtr<CodeWriter> writer_;
   FileRoot* current_root_;
 };

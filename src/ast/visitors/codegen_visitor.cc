@@ -26,7 +26,7 @@ namespace mocha {
 
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
-    tmp_index_( 0 ),is_line_( false ) , has_dst_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ){}
+    tmp_index_( 0 ),is_line_( false ) , has_dst_( false ) , has_rest_( false ) , writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ){}
 
 
 VISITOR_IMPL( AstRoot ) {
@@ -852,6 +852,7 @@ VISITOR_IMPL(Expression) {
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
+  bool has_dst;
   writer_->WriteOp( TOKEN::JS_FUNCTION , 0 , buffer_ );
   if ( !ast_node->Name()->IsEmpty() ) {
     writer_->Write( ast_node->Name()->CastToValue()->Symbol()->GetToken() , buffer_ );
@@ -867,14 +868,48 @@ VISITOR_IMPL(Function){
         buffer_ += ',';
       }
     }
+    if ( has_rest_ ) {
+      buffer_.erase( buffer_.size() - 1 , buffer_.size() );
+    }
     writer_->WriteOp( ')' , 0 , buffer_ );
   }
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , buffer_ );
   if ( has_dst_ ) {
     writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
     DstCodeProccessor_();
-    has_dst_ = false;
+    has_dst = true;
+  }
+  int child_length = ast_node->Argv()->ChildLength();
+  if ( has_rest_ ) {
+    char tmp[20];
+    sprintf( tmp , "%d" , ( ( child_length > 0 )? child_length - 1 : 0 ) );
+    if ( has_dst ) {
+      writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+    } else {
+      writer_->WriteOp( TOKEN::JS_VAR , 0 , buffer_ );
+    }
+    buffer_ += rest_name_;
+    writer_->WriteOp( '=' , 0 , buffer_ );
+    writer_->WriteOp( '(' , 0 , buffer_ );
+    buffer_ += "arguments.length";
+    writer_->WriteOp( '>' , 0 , buffer_ );
+    buffer_ += tmp;
+    writer_->WriteOp( ')' , 0 , buffer_ );
+    writer_->WriteOp( '?' , 0 , buffer_ );
+    buffer_ += "Array.prototype.slice.call";
+    writer_->WriteOp( '(' , 0 , buffer_ );
+    buffer_ += "arguments";
+    if ( child_length  > 0 ) {
+      buffer_ += ',';
+      buffer_ += tmp;
+    }
+    writer_->WriteOp( ')' , 0 , buffer_ );
+    writer_->WriteOp( ':' , 0 , buffer_ );
+    buffer_ += "[]";
+  }
+  if ( has_rest_ || has_dst_ ) {
     writer_->WriteOp( ';' , CodeWriter::kVarsEnd , buffer_ );
+    has_rest_ = false;
   }
   writer_->SetLine( ast_node->Line() , buffer_ );
   writer_->SetFileName( buffer_ );
@@ -1136,7 +1171,7 @@ void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
   AstNode* child = ast_node->Node();
   int value_type = ast_node->ValueType();
   printf( "child length = %d %d\n" , ast_node->ChildLength() , depth );
-  NodeIterator iterator = ( child && ( value_type == ValueNode::kDst || value_type == ValueNode::kDstArray ) && child->ChildLength() > 0 )?
+  NodeIterator iterator = ( child && ( value_type == ValueNode::kDst || value_type == ValueNode::kDstArray ) && child->ChildLength() > 0 && !child->IsEmpty() )?
       child->ChildNodes() :
       ast_node->ChildNodes();
   
@@ -1228,6 +1263,9 @@ void CodegenVisitor::DstCodeProccessor_() {
       }
     }
     ++begin;
+    if ( begin != end ) {
+      writer_->WriteOp( ',' , CodeWriter::kVarsComma , buffer_ );
+    }
   }
   ResetDstArray_();
 }
@@ -1263,6 +1301,12 @@ VISITOR_IMPL( ValueNode ) {
       printf( "Dst\n" );
       has_dst_ = true;
       DstProcessor_( ast_node );
+      break;
+
+    case ValueNode::kRest :
+      printf( "Rest\n" );
+      has_rest_ = true;
+      rest_name_ = ast_node->Symbol()->GetToken();
       break;
       
     default :

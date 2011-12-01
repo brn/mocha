@@ -1,7 +1,7 @@
 //import jqeury from "../jspp-lib/jquery-devel";
 //import {fmt} from "./fmt";
 var {x,y} = {x:200};
-let x = ({x,y},{m,m:{s}})-> {
+let x = ({x,y},{m,z:{s}},...rest)-> {
     }
 /**var {href} = location;
 
