@@ -654,7 +654,7 @@ class QueueScanner::Scanner {
           TokenInfo *info = ( *begin );
           int type = info->GetType();
           if ( type != TOKEN::JS_IDENTIFIER && type != TOKEN::JS_STRING_LITERAL && type != TOKEN::JS_NUMERIC_LITERAL &&
-               type != TOKEN::JS_REST &&
+               type != TOKEN::JS_PARAMETER_REST &&
                type != ':' && type != ')' && type != '(' && type != '}' && type != '{' && type != ']' &&
                type != '[' && type != ',' ) {
             return;

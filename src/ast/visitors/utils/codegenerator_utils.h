@@ -49,40 +49,6 @@ class CodeStream : private Uncopyable {
   std::list<CodeBuffer*> buffer_list_;
 };
 
-
-class GeneratorUtil : private Uncopyable {
- public :
-  inline GeneratorUtil( CodeStream* stream , CodeWriter* writer , GeneratorState* state ) :
-      tmp_vars_index_( 0 ),  state_( state ),
-      class_ref_( 0 ) , stream_( stream ),
-      writer_( writer );
-  inline ~GeneratorUtil(){};
-  inline int GetTmpIndex() {
-    int ret = tmp_vars_index_;
-    tmp_vars_index_++;
-    return ret;
-  };
-
-  inline void SetClassRef( Class* class_node ) {
-    class_ref_ = class_node;
-  }
-
-  inline Class* GetClassRef() {
-    return class_ref_;
-  }
-  
-  inline CodeStream* GetStream() { return stream_; }
-  inline CodeWriter* GetWriter() { return writer_; }
-  
- private :
-  int tmp_vars_index_;
-  GeneratorState* state_;
-  Class* class_ref_;
-  ScopedPtr<CodeStream> stream_;
-  ScopedPtr<CodeWriter> writer_;
-}
-
-
 }
 
 #endif

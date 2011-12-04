@@ -1,5 +1,5 @@
 import {fmt} from "./fmt"
-var [x,...y] = [0,1,2,3]
+
 class Monster {
     // The contextual keyword "constructor" followed by an argument
   // list and a body defines the body of the class’s constructor
