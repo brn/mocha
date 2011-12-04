@@ -6,14 +6,16 @@
 namespace mocha {
 
 void Interaction::Begin () {
-BEGIN :
-  char buf[500];
-  fprintf( stderr , "mocha > " );
-  scanf( "%499[^\n]%*[^\n]", buf );
-  getchar();
-  fflush(stdin);
-  commands_.Exec( buf );
-  goto BEGIN;
+  while (true) {
+    char buffer[500];
+    printf("mocha > ");
+    char* str = fgets(buffer, 500, stdin);
+    int len = strlen( str );
+    if ( len > 1 ) {
+      str[ len - 1 ] = '\0';
+      commands_.Exec( buffer );
+    }
+  }
 }
 
 Commands Interaction::commands_;

@@ -79,6 +79,8 @@
   mocha::CompareExp *compare_exp;
   mocha::ConditionalExp *conditional;
   mocha::AssignmentExp *assignment;
+  mocha::Class* cls;
+  mocha::ClassProperties* prop;
   bool opt;
   int num;
 } 
@@ -95,7 +97,7 @@
 %parse-param { mocha::AstRoot* ast_root}
 %lex-param	 { mocha::ParserConnector* connector }
 %lex-param {int yystate}
-
+%expect 61
 %left ','
 %right JS_ADD_LET JS_AND_LET JS_DIV_LET JS_MOD_LET JS_MUL_LET JS_NOT_LET JS_OR_LET JS_SHIFT_LEFT_LET JS_SHIFT_RIGHT_LET JS_SUB_LET JS_U_SHIFT_RIGHT_LET
 %right '?'
@@ -223,6 +225,10 @@
 %token <info> JS_DSTO_BEGIN
 %token <info> JS_DSTA_END
 %token <info> JS_DSTO_END
+%token <info> JS_CONSTRUCTOR
+%token <info> JS_GET
+%token <info> JS_SET
+%token <info> JS_PROTOTYPE
 
 %type <ast> program
 %type <function> function_declaration
@@ -232,9 +238,12 @@
 %type <ast> formal_parameter_rest__opt
 %type <ast> formal_parameter_list__opt
 %type <node_list> function_body
+%type <node_list> constructor_function_body
 %type <ast> shorten_function_body
 %type <node_list> source_elements
 %type <ast> source_element
+%type <node_list> source_elements_for_constructor
+%type <ast> source_element_for_constructor
 %type <node_list> source_elements_for_function
 %type <ast> source_element_for_function
 %type <ast> identifier__opt
@@ -335,6 +344,20 @@
 %type <ast> array_comprehension_if__opt
 %type <ast> import_statement
 %type <ast> import_expression
+%type <cls> class_initialiser
+%type <opt> class_adjective__opt
+%type <ast> inherit_declaration__opt
+%type <info> inherit_declaration
+%type <ast> class_body__opt
+%type <ast> class_body
+%type <prop> class_element_list
+%type <ast> class_element
+%type <ast> constructor_definition
+%type <ast> prototype_property_definition
+%type <ast> class_property_definition
+%type <ast> instance_property_definition
+%type <ast> private_property_definition
+%type <ast> exportable_definition
 %%
 
 program
@@ -346,6 +369,216 @@ program
     ast_root->InsertBefore( root );
   }
 ;
+
+
+class_initialiser
+: class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt '}'
+  {
+    Class* cls = ManagedHandle::Retain( new Class( $4 , $1 ) );
+    cls->Name( $3 );
+    cls->Body( $6 );
+    $$ = cls;
+  }
+;
+
+
+class_adjective__opt
+: { $$ = false; }
+| JS_CONST { $$ = true; }
+;
+
+
+inherit_declaration__opt
+: { $$ = ManagedHandle::Retain<Empty>(); }
+| inherit_declaration member_expression
+  {
+    ClassExpandar* expandar;
+    if ( $1->GetType() == yy::ParserImplementation::token::JS_PROTOTYPE ) {
+      expandar = ManagedHandle::Retain( new ClassExpandar( ClassExpandar::kPrototype ) );
+    } else {
+      expandar = ManagedHandle::Retain( new ClassExpandar( ClassExpandar::kExtends ) );
+    }
+    $$ = expandar;
+  }
+;
+
+
+inherit_declaration
+: JS_EXTENDS { $$ = $1; }
+| JS_PROTOTYPE { $$ = $1; }
+;
+
+
+class_body__opt
+: { $$ = ManagedHandle::Retain<Empty>(); }
+| class_body { $$ = $1; }
+;
+
+class_body
+: class_element_list { $$ = $1; }
+;
+
+
+class_element_list
+: class_element
+  {
+    ClassProperties* list = ManagedHandle::Retain<ClassProperties>();
+    if ( !$1->IsEmpty() ) {
+#define TYPE( name )                            \
+      case ClassMember::k##name :               \
+        list->name( $1 );                       \
+        break
+
+      ClassMember* mem = reinterpret_cast<ClassMember*>( $1 );
+      switch ( mem->Attr() ) {
+        TYPE(Private);
+        TYPE(Public);
+        TYPE(Static);
+        TYPE(Prototype);
+        TYPE(Constructor);
+      }
+#undef TYPE
+    }
+    $$ = list;
+  }
+| class_element_list class_element
+  {
+    if ( !$2->IsEmpty() ) {
+#define TYPE( name )                            \
+      case ClassMember::k##name :               \
+        $1->name( $2 );                         \
+        break
+
+      ClassMember* mem = reinterpret_cast<ClassMember*>( $2 );
+      switch ( mem->Attr() ) {
+        TYPE(Private);
+        TYPE(Public);
+        TYPE(Static);
+        TYPE(Prototype);
+        TYPE(Constructor);
+      }
+#undef TYPE
+    }
+    $$ = $1;
+  }
+;
+
+
+class_element
+: constructor_definition
+  {
+    ClassMember* member = ManagedHandle::Retain( new ClassMember( ClassMember::kConstructor ) );
+    member->AddChild( $1 );
+    $$ = member;
+  }
+| empty_statement { $$ = $1; }
+| prototype_property_definition { $$ = $1;}
+| class_property_definition { $$ = $1; }
+| instance_property_definition { $$ = $1; }
+| private_property_definition { $$ = $1; }
+;
+
+
+constructor_definition
+: JS_CONSTRUCTOR '(' formal_parameter_list__opt ')' '{' constructor_function_body '}'
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    fn->Name( value );
+    fn->Argv ( $3 );
+    fn->Append( $6 );
+    $$ = fn;
+  }
+;
+
+
+prototype_property_definition
+: exportable_definition terminator
+  {
+    ClassMember* member = ManagedHandle::Retain( new ClassMember( ClassMember::kPrototype ) );
+    member->AddChild( $1 );
+    $$ = member;
+  }
+;
+
+
+class_property_definition
+: JS_STATIC exportable_definition terminator
+  {
+    ClassMember* member = ManagedHandle::Retain( new ClassMember( ClassMember::kStatic ) );
+    member->AddChild( $2 );
+    $$ = member;
+  }
+;
+
+
+instance_property_definition
+: JS_PUBLIC exportable_definition terminator
+  {
+    ClassMember* member = ManagedHandle::Retain( new ClassMember( ClassMember::kPublic ) );
+    member->AddChild( $2 );
+    $$ = member;
+  }
+;
+
+private_property_definition
+: JS_PRIVATE exportable_definition terminator
+  {
+    ClassMember* member = ManagedHandle::Retain( new ClassMember( ClassMember::kPrivate ) );
+    member->AddChild( $2 );
+    $$ = member;
+  }
+;
+
+
+exportable_definition
+: variable_declaration_list { $$ = $1; }
+| JS_CONST variable_declaration_list
+  {
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kConstant ) );
+    val->Node( $2 );
+    $$ = val;
+  }
+| class_initialiser { $$ = $1; }
+| JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    fn->Name( value );
+    fn->Argv ( $3 );
+    fn->Append( $6 );
+    $$ = fn;
+  }
+| JS_GET JS_IDENTIFIER '(' ')' '{' function_body '}'
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Attr( Function::kGet );
+    fn->Line( $1->GetLineNumber() );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    fn->Name( value );
+    fn->Argv ( ManagedHandle::Retain<Empty>() );
+    fn->Append( $6 );
+    $$ = fn;
+  }
+| JS_SET JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Attr( Function::kSet );
+    fn->Line( $1->GetLineNumber() );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $2 );
+    fn->Name( value );
+    fn->Argv ( $4 );
+    fn->Append( $7 );
+    $$ = fn;
+  }
+;
+
 
 /*
  *In case of
@@ -602,6 +835,11 @@ arguments_spread
   }
 ;
 
+constructor_function_body
+: { $$ = ManagedHandle::Retain<NodeList>(); }
+| source_elements_for_constructor { $$ = $1; }
+;
+
 function_body
 : { $$ = ManagedHandle::Retain<NodeList>(); }
 | source_elements_for_function { $$ = $1; }
@@ -624,6 +862,26 @@ source_elements
     $$ = $1;
   }
 ;
+
+
+source_elements_for_constructor
+: source_element_for_constructor
+  {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( !$1->IsEmpty() ) {
+      list->AddChild( $1 );
+    }
+    $$ = list;
+  }
+| source_elements_for_constructor source_element_for_constructor
+  {
+    if ( !$2->IsEmpty() ) {
+      $1->AddChild( $2 );
+    }
+    $$ = $1;
+  }
+;
+
 
 source_elements_for_function
 : source_element_for_function
@@ -653,6 +911,21 @@ source_element
     $$ = stmt;
   }
 ;
+
+
+source_element_for_constructor
+: statement_with_block { $$ = $1; }
+| function_declaration
+  { 
+    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->Line( $1->Line() );
+    stmt->AddChild( $1 );
+    $$ = stmt;
+  }
+| instance_property_definition { $$ = $1; }
+| private_property_definition { $$ = $1; }
+;
+
 
 source_element_for_function
 : statement_with_block { $$ = $1; }
@@ -1026,7 +1299,7 @@ variable_declaration_list_no_in
   {
     $1->AddChild( $3 );
     $$ = $1;
-  } 
+  }
 ;
 
 variable_declaration
@@ -1239,6 +1512,10 @@ expression_statement
   {
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
     stmt->Line( $1->Line() );
+    if ( $1->FirstChild()->NodeType() == AstNode::kClass ) {
+      Class* cls = reinterpret_cast<Class*>( $1->FirstChild() );
+      cls->Decl( true );
+    }
     stmt->AddChild( $1 );
     $$ = stmt;
   }
@@ -1799,6 +2076,11 @@ member_expression
   }
 | function_expression
   {
+    $$ = $1;
+  }
+| class_initialiser
+  {
+    $1->Decl( false );
     $$ = $1;
   }
 | member_expression '[' expression ']'

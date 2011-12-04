@@ -7,9 +7,11 @@
 #include <ast/visitors/ivisitor.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <options/options.h>
+#include <ast/visitors/utils/codegenerator_utils.h>
 
 namespace mocha {
 class CodeWriter;
+class NodeIterator;
 class DstCodeContainer {
  public :
   void Push( std::string *code ) { code_.push_back( (*code) ); }
@@ -29,8 +31,8 @@ class CodegenVisitor : public IVisitor {
   CodegenVisitor( Options* option );
   ~CodegenVisitor(){};
 #include <ast/visitors/visitor_decl.h>
-  inline void Write( const char* code ) { buffer_ += code; }
-  inline const char* GetCode() { return buffer_.c_str(); }
+  inline void Write( const char* code ) { stream_->Write( code ); }
+  inline const char* GetCode() { return stream_->Get()->GetData(); }
  private :
   void ForProccessor_( IterationStmt* iter );
   void ForInProccessor_( IterationStmt* iter );
@@ -51,6 +53,9 @@ class CodegenVisitor : public IVisitor {
   void DstMemberProccessor_( ValueNode* ast_node );
   void CreateDstAssignment_( const char* name );
   void DstCodeProccessor_();
+  void InstanceMemberProccessor( NodeIterator& iterator , bool is_private );
+  void PrototypeMemberProccessor( NodeIterator& iterator , AstNode* name_node , bool is_private );
+  void StaticMemberProccessor( NodeIterator& iterator , AstNode* node );
   void ResetDstArray_();
   void BeginState_( int state );
   void EndLastState_();
@@ -65,12 +70,14 @@ class CodegenVisitor : public IVisitor {
   std::vector<std::string> dst_code_;
   std::vector<std::string> dst_accessor_;
   std::vector<Handle<DstCodeContainer> >dst_code_list_;
-  std::string buffer_;
   std::string tmp_ref_;
   std::string rest_ref_;
   std::string rest_name_;
+  CodeBuffer default_buffer_;
+  ScopedPtr<CodeStream> stream_;
   ScopedPtr<CodeWriter> writer_;
   FileRoot* current_root_;
+  Class* current_class_;
 };
 }
 

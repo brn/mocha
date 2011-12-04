@@ -65,6 +65,10 @@ class AstNode : public Managed {
     kForEachWithVar,
     kWhile,
     kDoWhile,
+    kClass,
+    kClassProperties,
+    kClassExpandar,
+    kClassMember,
     kFunction,
     kCallExp,
     kNewExp,
@@ -434,12 +438,99 @@ class Expression : public AstNode {
 };
 
 
+class Class : public Expression {
+ public :
+  Class( AstNode* expandar , bool is_const ) :
+      Expression( NAME_PARAMETER( Class ) ) , is_const_( is_const ),
+      is_decl_( true ), expandar_( expandar ){}
+  Class( Empty* empty ) : Expression( NAME_PARAMETER( Class ) ) , expandar_( empty ){}
+  ~Class(){}
+  void Decl( bool is ) { is_decl_ = is; }
+  bool Decl() { return is_decl_; }
+  bool Const() { return is_const_; }
+  void Name( AstNode* name ) { name_ = name; }
+  AstNode* Name() { return name_; }
+  AstNode* Expandar() { return expandar_; }
+  void Body( AstNode* body ) {
+    body->ParentNode( this );
+    body_ = body;
+  }
+  AstNode* Body() { return body_; }
+ private :
+  CALL_ACCEPTOR( Class );
+  bool is_const_;
+  bool is_decl_;
+  AstNode* name_;
+  AstNode* body_;
+  AstNode* expandar_;
+};
+
+class ClassProperties : public AstNode {
+ public :
+  ClassProperties() : AstNode( NAME_PARAMETER( ClassProperties ) ) , constructor_( 0 ){};
+  ~ClassProperties(){};
+  void Public( AstNode* pb ) { public_.AddChild( pb ); }
+  void Private( AstNode* pv ) { private_.AddChild( pv ); }
+  void Static( AstNode* st ) { static_.AddChild( st ); }
+  void Prototype( AstNode* pt ) { prototype_.AddChild( pt ); }
+  AstNode* Public() { return &public_; }
+  AstNode* Private() { return &private_; }
+  AstNode* Static() { return &static_; }
+  AstNode* Prototype() { return &prototype_; }
+  void Constructor( AstNode* constructor ) { constructor_ = constructor; }
+  AstNode* Constructor() { return constructor_; }
+ private :
+  CALL_ACCEPTOR(ClassProperties);
+  NodeList public_;
+  NodeList private_;
+  NodeList static_;
+  NodeList prototype_;
+  AstNode* constructor_;
+};
+
+class ClassExpandar : public AstNode {
+ public :
+  typedef enum {
+    kExtends,
+    kPrototype
+  } ExpandAttr;
+  ClassExpandar( ExpandAttr attr ) : AstNode( NAME_PARAMETER( ClassExpandar ) ) , attr_( attr ){};
+  ~ClassExpandar(){};
+  ExpandAttr Type() { return attr_; }
+ private :
+  CALL_ACCEPTOR( ClassExpandar );
+  ExpandAttr attr_;
+};
+
+
+class ClassMember : public AstNode {
+ public :
+  typedef enum {
+    kPrivate,
+    kPublic,
+    kPrototype,
+    kStatic,
+    kConstructor
+  } MemberAttr;
+  ClassMember( MemberAttr attr ) : AstNode( NAME_PARAMETER( ClassMember ) ) , attr_( attr ){}
+  ~ClassMember(){}
+  MemberAttr Attr() { return attr_; }
+ private :
+  CALL_ACCEPTOR( ClassMember );
+  MemberAttr attr_;
+};
+
+
 class Function : public Expression {
  public :
   enum {
     kNormal,
-    kShorten
+    kShorten,
   };
+  typedef enum {
+    kGet = 1,
+    kSet = 2
+  } FnAttr;
   enum {
     kGlobal,
     kThis
@@ -454,6 +545,8 @@ class Function : public Expression {
   inline int Argc() const { return argv_->ChildLength(); }
   inline void Const() { is_const_ = true; }
   inline bool IsConst() const { return is_const_; }
+  inline void Attr( FnAttr attr ) { fn_attr_ |= attr; }
+  inline bool IsAttr( FnAttr attr ) { return ( fn_attr_ & attr ) == attr; }
   inline int FunctionType() { return fn_type_; }
   inline void FunctionType( int type ) { fn_type_ = type; }
   inline int ContextType() { return context_; }
@@ -461,6 +554,7 @@ class Function : public Expression {
  private :
   int fn_type_;
   int context_;
+  int fn_attr_;
   bool is_const_;
   AstNode* name_;
   AstNode* argv_;
@@ -661,6 +755,7 @@ class ValueNode : public AstNode {
     kDst,
     kDstArray,
     kSpread,
+    kConstant,
     kRest
   };
   inline ValueNode( int type ) :

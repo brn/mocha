@@ -132,13 +132,15 @@ namespace yy {
   mocha::CompareExp *compare_exp;
   mocha::ConditionalExp *conditional;
   mocha::AssignmentExp *assignment;
+  mocha::Class* cls;
+  mocha::ClassProperties* prop;
   bool opt;
   int num;
 
 
 
 /* Line 35 of lalr1.cc  */
-#line 142 "grammar/grammar.tab.hh"
+#line 144 "grammar/grammar.tab.hh"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -261,7 +263,11 @@ namespace yy {
      JS_DSTA_BEGIN = 366,
      JS_DSTO_BEGIN = 367,
      JS_DSTA_END = 368,
-     JS_DSTO_END = 369
+     JS_DSTO_END = 369,
+     JS_CONSTRUCTOR = 370,
+     JS_GET = 371,
+     JS_SET = 372,
+     JS_PROTOTYPE = 373
    };
 
     };
@@ -369,10 +375,10 @@ namespace yy {
     static const short int yycheck_[];
 
     /// For a state, its accessing symbol.
-    static const unsigned char yystos_[];
+    static const unsigned short int yystos_[];
 
     /// For a rule, its LHS.
-    static const unsigned char yyr1_[];
+    static const unsigned short int yyr1_[];
     /// For a rule, its RHS length.
     static const unsigned char yyr2_[];
 
@@ -444,7 +450,7 @@ namespace yy {
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 448 "grammar/grammar.tab.hh"
+#line 454 "grammar/grammar.tab.hh"
 
 
 

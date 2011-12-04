@@ -3,6 +3,7 @@
 
 #include <string>
 #include <ast/ast_foward_decl.h>
+#include <ast/visitors/utils/codegenerator_utils.h>
 
 namespace mocha {
 class CodeWriter {
@@ -25,20 +26,20 @@ class CodeWriter {
     kElseBlockEnd,
     kNamedModule,
     kAnonymousModule,
-    kExpSp
+    kExpSp,
   };
   CodeWriter( bool is_pretty_print , bool is_line );
   ~CodeWriter();
-  void Write( const char* code , std::string& buffer );
-  void WriteOp( int op , int state , std::string& buffer );
-  void InsertDebugSymbol( std::string& buffer );
-  void InitializeFileName( const char* file , std::string& buffer );
-  void SetFileName( std::string& buffer );
-  void SetLine( long line ,  std::string& buffer );
-  void ModuleBeginProccessor( const char* key , const char* name , std::string& buffer );
-  void AnonymousModuleBeginProccessor( const char* key , std::string& buffer );
-  void ModuleEndProccessor( std::string& buffer );
-  void AnonymousModuleEndProccessor( std::string& buffer );
+  void Write( const char* code , CodeStream* stream_ );
+  void WriteOp( int op , int state , CodeStream* stream_ );
+  void InsertDebugSymbol( CodeStream* stream_ );
+  void InitializeFileName( const char* file , CodeStream* stream_ );
+  void SetFileName( CodeStream* stream_ );
+  void SetLine( long line , CodeStream* stream_ );
+  void ModuleBeginProccessor( const char* key , const char* name , CodeStream* stream_ );
+  void AnonymousModuleBeginProccessor( const char* key , CodeStream* stream_ );
+  void ModuleEndProccessor( CodeStream* stream_ );
+  void AnonymousModuleEndProccessor( CodeStream* stream_ );
   class WriterBase;
  private :
   bool is_pretty_print_;

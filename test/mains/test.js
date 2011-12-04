@@ -1,29 +1,46 @@
-//import jqeury from "../jspp-lib/jquery-devel";
-//import {fmt} from "./fmt";
-var {x,y} = {x:200};
-let x = ({x,y},{m,z:{s}},...rest)-> {
+import {fmt} from "./fmt"
+var [x,...y] = [0,1,2,3]
+class Monster {
+    // The contextual keyword "constructor" followed by an argument
+  // list and a body defines the body of the class’s constructor
+  // function. public and private declarations in the constructor
+  // declare and initialize per-instance properties. Assignments
+  // such as "this.foo = bar;" also set public properties.
+  constructor(name, health) {
+    public name = name;
+    private health = health;
+  }
+  
+    // An identifier followed by an argument list and body defines a
+  // method. A “method” here is simply a function property on some
+  // object.
+  attack(target) {
+    log('The monster attacks ' + target);
+  };
+  
+    // The contextual keyword "get" followed by an identifier and
+  // a curly body defines a getter in the same way that "get"
+  // defines one in an object literal.
+  private isAlive() {
+    return @health > 0;
+  }
+  
+    // Likewise, "set" can be used to define setters.
+  private health(value) {
+    if (value < 0) {
+      throw new Error('Health must be non-negative.')
     }
-/**var {href} = location;
-
-const message = """
-the message
- to
- you
-"""
-let m = (x,y,z)->cosole.log(arguments);
-let x = {
-      age : 15,
-      name : "aono",
-      addr : [ "japan" , "tokyo", "setagaya" , 322401 , { dataType : ["za","ba","da"] } ]
-    }
-let {age,name,addr : [country,city,ward,zip,{dataType:[[ztype],[btype],[dtype]]}]} = x;
-console.log(age,name,country,city,ward,zip,ztype,btype,dtype);
-for each( var {i} in obj ) { console.log( i ) }
-/**for ( var {protocol} = location,i = 0; i < 10; ++i ) {
+    @health = value
+  }
+  
+    // After a "public" modifier,
+  // an identifier optionally followed by "=" and an expression
+  // declares a prototype property and initializes it to the value
+  // of that expression. 
+  public numAttacks = 0;
+  
+    // After a "public" modifier,
+  // the keyword "const" followed by an identifier and an
+  // initializer declares a constant prototype property.
+  public const attackMessage = 'The monster hits you!';
 }
-for ( var [{href,protocol}] in location ) {
-}
-console.log( fmt( "current url is ${href}" , { href : href }) );
-*/
-
-

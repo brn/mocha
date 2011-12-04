@@ -68,6 +68,9 @@ VISITOR_IMPL( ExportStmt ) {
 VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
   ImportProccessor_( ast_node );
+  if ( ast_node->VarType() == ImportStmt::kDst ) {
+    ast_node->Exp()->Accept( this );
+  }
 }
 
 
@@ -116,6 +119,27 @@ VISITOR_IMPL(StatementList) {
 }
 
 
+void AstVisitor::VarListProcessor_( AstNode* ast_node ) {
+  PRINT_NODE_NAME;
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    if ( !item->IsEmpty() ) {
+      ValueNode* value = item->CastToValue();
+      if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
+        item->CastToValue()->Node()->Accept( this );
+        AstNode* initialiser = item->FirstChild();
+        if ( !initialiser->IsEmpty() ) {
+          initialiser->Accept( this );
+        }
+      } else {
+        item->Accept( this );
+      }
+    }
+  }
+}
+
+
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
@@ -142,8 +166,9 @@ VISITOR_IMPL(ExpressionStmt) {
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  ast_node->Then()->Accept( this );
+  AstNode* maybeBlock = ast_node->Then();
   AstNode* maybeElse = ast_node->Else();
+  ast_node->Then()->Accept( this );
   if ( !maybeElse->IsEmpty() ) {
     maybeElse->Accept( this );
   }
@@ -155,6 +180,7 @@ VISITOR_IMPL(IterationStmt) {
   ast_node->Exp()->Accept( this );
   ast_node->FirstChild()->Accept( this );
 }
+
 
 VISITOR_IMPL( ContinueStmt ) {
   PRINT_NODE_NAME;
@@ -176,24 +202,16 @@ VISITOR_IMPL( WithStmt ) {
   PRINT_NODE_NAME;
   AstNode* exp = ast_node->Exp();
   exp->Accept( this );
-  exp->FirstChild()->Accept( this );
+  ast_node->FirstChild()->Accept( this );
 }
 
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
   AstNode* exp = ast_node->Exp();
   exp->Accept( this );
-  AstNode* list = exp->FirstChild();
-  while ( list ) {
-    NodeIterator iterator = list->ChildNodes();
-    while ( iterator.HasNext() ) {
-      iterator.Next()->Accept( this );
-    }
-    if ( list->HasNext() ) {
-      list = list->NextSibling();
-    } else {
-      break;
-    }
+  NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
   }
 }
 
@@ -300,6 +318,18 @@ VISITOR_IMPL(Expression) {
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
+}
+
+VISITOR_IMPL(Class) {
+}
+
+VISITOR_IMPL(ClassProperties) {
+}
+
+VISITOR_IMPL(ClassExpandar) {
+}
+
+VISITOR_IMPL(ClassMember) {
 }
 
 VISITOR_IMPL(Function){

@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 #include <deque>
 #include <string>
 #include <compiler/scanner/queue_scanner.h>
@@ -653,6 +654,7 @@ class QueueScanner::Scanner {
           TokenInfo *info = ( *begin );
           int type = info->GetType();
           if ( type != TOKEN::JS_IDENTIFIER && type != TOKEN::JS_STRING_LITERAL && type != TOKEN::JS_NUMERIC_LITERAL &&
+               type != TOKEN::JS_REST &&
                type != ':' && type != ')' && type != '(' && type != '}' && type != '{' && type != ']' &&
                type != '[' && type != ',' ) {
             return;
@@ -978,6 +980,18 @@ class QueueScanner::Scanner {
    * Call DoPushBack_ with set type to arguments.
    */
   inline void PushBack_( int ch ) {
+    if ( ch == '(' && token_queue_.size() >= 2 ) {
+      TokenQueue::reverse_iterator begin = token_queue_.rbegin();
+      --begin;
+      --begin;
+      if ( (*begin)->GetType() == TOKEN::JS_IDENTIFIER ) {
+        if ( strcmp( (*begin)->GetToken() , "get" ) == 0 ) {
+          (*begin)->SetType( TOKEN::JS_GET );
+        } else if ( strcmp( (*begin)->GetToken() , "set" ) == 0 ) {
+          (*begin)->SetType( TOKEN::JS_SET );
+        }
+      }
+    }
     DoPushBack_( "" , ch );
   }
 
@@ -1010,8 +1024,9 @@ class QueueScanner::TokenGetter {
  public :
 
   TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
-      last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ), function_paren_count_( 0 ),
-      mode_( 0 ) , import_stmt_( false ), is_incrementable_( true ), has_line_break_( false ),
+      last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ),
+      function_paren_count_( 0 ) , class_paren_count_( 0 ) , mode_( 0 ) , is_in_class_( false ),
+      import_stmt_( false ),is_incrementable_( true ), has_line_break_( false ),
       tracer_( tracer ) , queue_( queue ) {
     it_ = queue_.begin();
   }
@@ -1028,6 +1043,21 @@ class QueueScanner::TokenGetter {
       ++it_;
     }
 
+    if ( is_in_class_ &&
+         class_paren_count_ == 1 &&
+         type == TOKEN::JS_IDENTIFIER &&
+         strcmp( info->GetToken() , "constructor" ) == 0 ) {
+      
+      info->SetType( TOKEN::JS_CONSTRUCTOR );
+
+    } else if ( is_in_class_ &&
+                class_paren_count_ == 1 &&
+                type == TOKEN::JS_IDENTIFIER &&
+                strcmp( info->GetToken() , "prototype" ) == 0 &&
+                ( last_type_ == TOKEN::JS_IDENTIFIER || last_type_ == TOKEN::JS_CLASS ) ) {
+      info->SetType( TOKEN::JS_PROTOTYPE );
+    }
+      
     if ( type == TOKEN::JS_FROM ) {
       if (  import_stmt_ ) {
         last_type_ = type;
@@ -1104,8 +1134,8 @@ class QueueScanner::TokenGetter {
   
  private :
   enum {
-    kLiteral = 22,
-    kFunction = 44
+    kLiteral = 1,
+    kFunction = 2
   };
 
   bool IsLiteral_( int type ) {
@@ -1147,6 +1177,9 @@ class QueueScanner::TokenGetter {
     SkipLineBreak_();
     TokenInfo* info = (*it_);
     last_type_ = info->GetType();
+    if ( info->GetType() == TOKEN::JS_CLASS ) {
+      return MaybeSemicolon_();
+    }
     return info;
   }
 
@@ -1171,7 +1204,23 @@ class QueueScanner::TokenGetter {
     int type = info->GetType();
     bool is_literal = IsLiteral_( type );
     bool is_last_literal = IsLiteral_( last_type_ );
-    if ( type == TOKEN::JS_DSTO_END || type == TOKEN::JS_DSTA_END ) {
+    if ( type == TOKEN::JS_CLASS ) {
+      if ( last_type_ != ';' && last_type_ != TOKEN::JS_CONST ) {
+        return SemicolonInsertion_();
+      }
+      is_in_class_ = true;
+      last_type_ = type;
+      return info;
+    } else if ( type == TOKEN::JS_CONST && ( last_type_ == TOKEN::JS_PRIVATE || last_type_ == TOKEN::JS_PUBLIC ) ) {
+      return NormalState_();
+    } else if ( type == '{' && is_in_class_ ) {
+      if ( type == '{' ) {
+        class_paren_count_++;
+      }
+      is_in_class_ = true;
+      last_type_ = type;
+      return info;
+    } else if ( type == TOKEN::JS_DSTO_END || type == TOKEN::JS_DSTA_END ) {
       last_type_ = type;
       return info;
     } else if ( last_type_ == ';' || last_type_ == '{' || last_type_ == '(' ||
@@ -1202,6 +1251,14 @@ class QueueScanner::TokenGetter {
       if ( last_type_ != ';' ) {
         return SemicolonInsertion_();
       }
+
+      if ( is_in_class_ ) {
+        class_paren_count_--;
+        if ( class_paren_count_ == 0 ) {
+          is_in_class_ = false;
+        }
+      }
+      
       last_type_ = type;
       return info;
     } else if ( opt_block_ != -1 &&
@@ -1241,7 +1298,9 @@ class QueueScanner::TokenGetter {
   int opt_block_;
   int opt_block_paren_count_;
   int function_paren_count_;
+  int class_paren_count_;
   int mode_;
+  bool is_in_class_;
   bool import_stmt_;
   bool is_incrementable_;
   bool has_line_break_;
