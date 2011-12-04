@@ -53,7 +53,6 @@ class CodegenVisitor : public IVisitor {
   void DstMemberProccessor_( ValueNode* ast_node );
   void CreateDstAssignment_( const char* name );
   void DstCodeProccessor_();
-  void InstanceMemberProccessor( NodeIterator& iterator , bool is_private );
   void PrototypeMemberProccessor( NodeIterator& iterator , AstNode* name_node , bool is_private );
   void StaticMemberProccessor( NodeIterator& iterator , AstNode* node );
   void ResetDstArray_();
