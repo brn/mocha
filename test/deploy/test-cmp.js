@@ -5,6 +5,7 @@
     __global_export__['{1-302-567-849-60818395-1384-fmt.js}'] = {};
     (function () {
       var __export__ = __global_export__['{1-302-567-849-60818395-1384-fmt.js}'];
+      var __MC_local_export__ = {};
       __export__.fmt = function ( format,args ) {
         for ( var i in args ){
           var reg = new RegExp( ( "\\$\\{"+i+"\\}" ) , "g" );
@@ -12,11 +13,17 @@
         };
         return format;
       };
+      return __MC_local_export__;
     })();
   })();
   (function() {
     var __tmp__0 = __global_export__['{1-302-567-849-60818395-1384-fmt.js}'],
         fmt = ( __tmp__0.fmt )?__tmp__0.fmt : undefined;
+    var x = function () {
+          .__MC_init_.apply( this , arguments );
+          __MC_Runtime_.__fix( this );
+        };
+    var m = 0;
     function Monster() {
       Monster.__MC_init_.apply( this , arguments );
       __MC_Runtime_.__fix( this );

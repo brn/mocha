@@ -41,7 +41,7 @@ void AstNode::InsertBefore( AstNode* node ) {
   child_length_++;
 }
 
-void AstNode::Append( NodeList* node ) {
+void AstNode::Append( AstNode* node ) {
   if ( node ) {
     NodeIterator iterator = node->ChildNodes();
     while ( iterator.HasNext() ) {
@@ -62,16 +62,21 @@ AstNode* NodeIterator::Item() {
 
 void AstNode::ReplaceWith( AstNode* node ) {
   node->parent_ = parent_;
-  node->first_child_ = first_child_;
-  node->last_child_ = last_child_;
   node->next_sibling_ = next_sibling_;
   node->prev_sibling_ = prev_sibling_;
-  node->child_length_ = child_length_;
+  if ( next_sibling_ ) {
+    next_sibling_->prev_sibling_ = node;
+  }
+  if ( prev_sibling_ ) {
+    prev_sibling_->next_sibling_ = node;
+  }
 }
 
 
 void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
   if ( first_child_ ) {
+    bool is_first = false;;
+    bool is_last = false;
     if ( old_node == first_child_ ) {
       first_child_ = new_node;
     }

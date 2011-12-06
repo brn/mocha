@@ -97,7 +97,7 @@
 %parse-param { mocha::AstRoot* ast_root}
 %lex-param	 { mocha::ParserConnector* connector }
 %lex-param {int yystate}
-%expect 61
+%expect 62
 %left ','
 %right JS_ADD_LET JS_AND_LET JS_DIV_LET JS_MOD_LET JS_MUL_LET JS_NOT_LET JS_OR_LET JS_SHIFT_LEFT_LET JS_SHIFT_RIGHT_LET JS_SUB_LET JS_U_SHIFT_RIGHT_LET
 %right '?'
@@ -1087,20 +1087,14 @@ module_block
 
 
 export_statement
-: JS_EXPORT variable_declaration terminator
+: JS_EXPORT exportable_definition
   {
     ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
     exports->Line( $1->GetLineNumber() );
     exports->AddChild( $2 );
     $$ = exports;
   }
-| JS_EXPORT function_declaration
-  {
-    ExportStmt *exports = ManagedHandle::Retain<ExportStmt>();
-    exports->Line( $1->GetLineNumber() );
-    exports->AddChild( $2 );
-    $$ = exports;
-  }
+
 ;
 
 

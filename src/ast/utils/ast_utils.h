@@ -4,17 +4,24 @@
 #include <ast/ast_foward_decl.h>
 
 namespace mocha {
+
 class AstUtils : private Static {
  public :
-  enum {
-    kAppend,
-    kAdd
-  };
-  static ValueNode* CreateVariable( TokenInfo* symbol , AstNode* value );
-  static CallExp* CreateAnonymousFunctionCall( AstNode* body, int is_append = kAppend );
-  static CallExp* CreateDotAccessor( AstNode* name , AstNode* prop );
-  static AssignmentExp* CreateAssignment( AstNode* left , AstNode* right );
-  static Empty* GetEmptyNode();
+  static Function* CreateFunctionDecl( AstNode* name , AstNode* argv , AstNode* body );
+  static CallExp* CreateArrayAccessor( AstNode* callable , AstNode* args );
+  static CallExp* CreateDotAccessor( AstNode* callable , AstNode* args );
+  static ValueNode* CreateNameNode( const char* name , int type , long line , bool is_empty = false );
+  static AssignmentExp* CreateAssignment( int type , AstNode* lhs , AstNode* rhs );
+  static ValueNode* CreateObjectLiteral( AstNode* body );
+  static ExpressionStmt* CreateAnonymousFnCall( Function *fn , AstNode* args );
+  static ExpressionStmt* CreateExpStmt( AstNode* node );
+  static VariableStmt* CreateVarStmt( NodeList* list  );
+  static ValueNode* CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs );
+  static ReturnStmt* CreateReturnStmt( AstNode* exp );
+  static const char* GetGloablExportSymbol();
+  static const char* GetLocalExportSymbol();
+  static const char* GetGlobalAliasSymbol();
+  static CallExp* CreateGlobalExportNode( AstNode* ast_node , const char* filename );
 };
 }
 

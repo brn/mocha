@@ -8,7 +8,7 @@ namespace mocha {
 void Interaction::Begin () {
   while (true) {
     char buffer[500];
-    printf("mocha > ");
+    fprintf( stderr , "mocha > " );
     char* str = fgets(buffer, 500, stdin);
     int len = strlen( str );
     if ( len > 1 ) {

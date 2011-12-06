@@ -1043,6 +1043,16 @@ class QueueScanner::TokenGetter {
       ++it_;
     }
 
+    if ( type == '}' ) {
+      if ( is_in_class_ ) {
+        class_paren_count_--;
+        if ( class_paren_count_ == 0 ) {
+          is_in_class_ = false;
+        }
+      }
+    }
+    
+    printf( "is in class%d brace %d\n" , is_in_class_ , class_paren_count_ );
     if ( is_in_class_ &&
          class_paren_count_ == 1 &&
          type == TOKEN::JS_IDENTIFIER &&
@@ -1204,8 +1214,9 @@ class QueueScanner::TokenGetter {
     int type = info->GetType();
     bool is_literal = IsLiteral_( type );
     bool is_last_literal = IsLiteral_( last_type_ );
+    
     if ( type == TOKEN::JS_CLASS ) {
-      if ( last_type_ != ';' && last_type_ != TOKEN::JS_CONST ) {
+      if ( ( last_type_ == ']' || last_type_ == '}' || last_type_ == ')' || is_last_literal ) ) {
         return SemicolonInsertion_();
       }
       is_in_class_ = true;
@@ -1250,13 +1261,6 @@ class QueueScanner::TokenGetter {
     } else if ( type == '}' && last_type_ != '{' && mode_ != kFunction ) {
       if ( last_type_ != ';' ) {
         return SemicolonInsertion_();
-      }
-
-      if ( is_in_class_ ) {
-        class_paren_count_--;
-        if ( class_paren_count_ == 0 ) {
-          is_in_class_ = false;
-        }
       }
       
       last_type_ = type;

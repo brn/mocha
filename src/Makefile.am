@@ -11,6 +11,8 @@ ast/ast.h\
 ast/ast.cc\
 ast/visitors/ast_visitor.cc\
 ast/visitors/ast_visitor.h\
+ast/utils/ast_utils.h\
+ast/utils/ast_utils.cc\
 bootstrap/bootstrap.h\
 bootstrap/bootstrap.cc\
 utils/char_allocator.h\

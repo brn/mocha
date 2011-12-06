@@ -112,6 +112,11 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         }
         break;
 
+      case '\n' :
+        stream->Write( "\n" );
+        stream->Write( indent_.c_str() );
+        break;
+        
       case ':' :
         if ( state == CodeWriter::kCase ) {
           indent_ += default_indent_;

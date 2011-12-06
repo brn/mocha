@@ -93,7 +93,7 @@ class AstNode : public Managed {
   inline bool HasChild() { return first_child_ != 0; }
   inline void After( AstNode* node ) { next_sibling_ = node;node->prev_sibling_ = this; };
   inline void Before( AstNode* node ) { prev_sibling_ = node;node->next_sibling_ = this; };
-  void Append( NodeList* node );
+  void Append( AstNode* node );
   inline NodeIterator ChildNodes() { return NodeIterator( first_child_ ); }
   void AddChild( AstNode* node );
   void InsertBefore( AstNode* node );

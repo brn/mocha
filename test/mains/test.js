@@ -1,5 +1,7 @@
-import {fmt} from "./fmt"
-
+import {fmt} from "./fmt";
+/*import {jQuery} from "../jspp-lib/jquery-devel"*/
+var x = class {x,y}
+var m =0;
 class Monster {
     // The contextual keyword "constructor" followed by an argument
   // list and a body defines the body of the class’s constructor
