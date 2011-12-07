@@ -18,6 +18,7 @@ namespace mocha {
 #define VISITOR_IMPL(type) void AstVisitor::Accept##type( type* ast_node )
 #define TOKEN yy::ParserImplementation::token
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
+#define REGIST(node) current_stmt_ = node
 
 
 AstVisitor::AstVisitor ( Scope* scope,
@@ -25,8 +26,11 @@ AstVisitor::AstVisitor ( Scope* scope,
                          const char* modulename,
                          const char* filename ) :
     tmp_index_(0),
+    is_dst_injection_( false ),
     module_name_ ( modulename ),
     filename_ ( filename ),
+    current_stmt_( 0 ),
+    dsta_exp_( ManagedHandle::Retain<DstaExtractedExpressions>() ),
     scope_ ( scope ),
     compiler_( compiler ){};
 
@@ -52,12 +56,13 @@ VISITOR_IMPL( FileRoot ) {
 
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
 }
 
 VISITOR_IMPL( ModuleStmt ) {
   PRINT_NODE_NAME;
-  
+  REGIST(ast_node);
   AstNode* body = ast_node->FirstChild();
   AstNode* name = ast_node->Name();
 
@@ -118,8 +123,10 @@ VISITOR_IMPL( ModuleStmt ) {
 
 VISITOR_IMPL( ExportStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   AstNode* node = ast_node->FirstChild();
   node->Accept( this );
+  
   if ( node->NodeType() == AstNode::kFunction ) {
     Function* fn = reinterpret_cast<Function*>( node );
     ValueNode* name = fn->Name()->CastToValue();
@@ -129,7 +136,9 @@ VISITOR_IMPL( ExportStmt ) {
     AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , fn );
     ExpressionStmt* exp_stmt_node = AstUtils::CreateExpStmt( assign );
     ast_node->ParentNode()->ReplaceChild( ast_node , exp_stmt_node );
+
   } else if ( node->NodeType() == AstNode::kNodeList ) {
+
     NodeIterator iterator = node->ChildNodes();
     bool is_replaced = false;
     while ( iterator.HasNext() ) {
@@ -157,6 +166,7 @@ VISITOR_IMPL( ExportStmt ) {
 
 VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ImportProccessor_( ast_node );
   if ( ast_node->VarType() == ImportStmt::kDst ) {
     ast_node->Exp()->Accept( this );
@@ -196,12 +206,13 @@ void AstVisitor::ImportProccessor_( ImportStmt* ast_node ) {
 
 VISITOR_IMPL( Statement ) {
   PRINT_NODE_NAME;
-  
+  REGIST(ast_node);
 }
 
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
@@ -232,22 +243,26 @@ void AstVisitor::VarListProcessor_( AstNode* ast_node ) {
 
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   VarListProcessor_( ast_node );
 }
 
 VISITOR_IMPL(LetStmt) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
 }
 
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
 }
 
 
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->Exp()->Accept( this );
   AstNode* maybeBlock = ast_node->Then();
   AstNode* maybeElse = ast_node->Else();
@@ -260,6 +275,7 @@ VISITOR_IMPL(IFStmt) {
 
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   switch ( ast_node->NodeType() ) {
     case AstNode::kFor : //Fall Through
     case AstNode::kForWithVar :
@@ -345,22 +361,26 @@ void AstVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
 
 VISITOR_IMPL( ContinueStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
 }
 
 VISITOR_IMPL( BreakStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
 }
 
 VISITOR_IMPL( ReturnStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
 }
 
 
 VISITOR_IMPL( WithStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   AstNode* exp = ast_node->Exp();
   exp->Accept( this );
   ast_node->FirstChild()->Accept( this );
@@ -368,6 +388,7 @@ VISITOR_IMPL( WithStmt ) {
 
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   AstNode* exp = ast_node->Exp();
   exp->Accept( this );
   NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
@@ -387,6 +408,7 @@ VISITOR_IMPL( CaseClause ) {
 
 VISITOR_IMPL( LabelledStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   AstNode* symbol = ast_node->FirstChild();
   AstNode* statement = symbol->NextSibling();
   symbol->Accept( this );
@@ -396,12 +418,14 @@ VISITOR_IMPL( LabelledStmt ) {
 
 VISITOR_IMPL( ThrowStmt ) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->Exp()->Accept( this );
 }
 
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
   ast_node->Catch()->Accept( this );
   ast_node->Finally()->Accept( this );
@@ -522,6 +546,7 @@ VISITOR_IMPL(Expression) {
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
+  REGIST(ast_node);
   ast_node->Body()->Accept( this );
   ast_node->Name()->Accept( this );
 }
@@ -622,7 +647,7 @@ void AstVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
 }
 
 
-void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
+void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , DstaTree* tree , int depth ) {
   PRINT_NODE_NAME;
   AstNode* list_child = ast_node->FirstChild();
   int index = 0;
@@ -635,11 +660,24 @@ void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
           if ( element->NodeType() == AstNode::kValueNode ) {
             ValueNode* elem = element->CastToValue();
             if ( elem->ValueType() == ValueNode::kIdentifier ) {
-              //CreateDstAssignment_( elem->Symbol()->GetToken() );
+              tree->Symbol( elem );
+              char tmp_index[ 10 ];
+              sprintf( tmp_index , "%d" , index );
+              TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
+              ValueNode* accessor_index = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+              accessor_index->Symbol( info );
+              CallExp* exp;
+              if ( tree->ChildLength() > 0 ) {
+                exp = AstUtils::CreateArrayAccessor( tree->FirstChild() , accessor_index );
+              } else {
+                exp = AstUtils::CreateArrayAccessor( tree->Refs() , accessor_index );
+              }
+              tree->AddChild( exp );
+              dsta_exp_->AddChild( tree );
             } else if ( elem->ValueType() == ValueNode::kDst ) {
-              DstObjectProcessor_( elem , ( depth + 1 ) );
+              DstObjectProcessor_( elem , tree , ( depth + 1 ) );
             } else if ( elem->ValueType() == ValueNode::kDstArray ) {
-              DstArrayProccessor_( elem , ( depth + 1 ) );
+              DstArrayProccessor_( elem , tree , ( depth + 1 ) );
             }
           }
         }
@@ -657,32 +695,40 @@ void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
 }
 
 
-void AstVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
+void AstVisitor::DstMemberProccessor_( ValueNode* ast_node , DstaTree* tree ) {
   PRINT_NODE_NAME;
   TokenInfo* info = ast_node->Symbol();
-  /**switch( info->GetType() ) {
+  switch( info->GetType() ) {
     case TOKEN::JS_IDENTIFIER :
       {
-        char tmp[ 100 ];
-        sprintf( tmp , ".%s" , info->GetToken() );
-        dst_accessor_.push_back( tmp );
+        if ( tree->ChildLength() > 0 ) {
+          CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->FirstChild() , ast_node );
+          tree->AddChild( dot_accessor );
+        } else {
+          CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->Refs() , ast_node );
+          tree->AddChild( dot_accessor );
+        }
       }
       break;
 
     case TOKEN::JS_NUMERIC_LITERAL :
     case TOKEN::JS_STRING_LITERAL :
       {
-        char tmp[ 100 ];
-        sprintf( tmp , "[%s]" , info->GetToken() );
-        dst_accessor_.push_back( tmp );
+        if ( tree->ChildLength() > 0 ) {
+          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->FirstChild() , ast_node );
+          tree->AddChild( arr_accessor );
+        } else {
+          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->Refs() , ast_node );
+          tree->AddChild( arr_accessor );
+        }
       }
       break;
       
-      }*/
+  }
 }
 
 
-void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
+void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int depth ) {
   PRINT_NODE_NAME;
   AstNode* child = ast_node->Node();
   int value_type = ast_node->ValueType();
@@ -699,39 +745,36 @@ void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
         case ValueNode::kString :
         case ValueNode::kIdentifier :
           if ( value->ChildLength() > 0 ) {
-            DstMemberProccessor_( value );
+            DstMemberProccessor_( value , tree );
             AstNode* child_node = value->FirstChild();
             ValueNode* prop = child_node->CastToValue();
             if ( prop ) {
               if ( prop->ValueType() == ValueNode::kDst ) {
-                DstObjectProcessor_( prop , ( depth + 1 ) );
+                DstObjectProcessor_( prop , tree , ( depth + 1 ) );
               } else if ( prop->ValueType() == ValueNode::kDstArray ) {
-                DstArrayProccessor_( prop , ( depth + 1 ) );
+                DstArrayProccessor_( prop , tree , ( depth + 1 ) );
               } else {
-                //CreateDstAssignment_( prop->Symbol()->GetToken() );
+                tree->Symbol( prop );
+                dsta_exp_->AddChild( tree );
               }
             }
           } else {
-            /*TokenInfo *info = value->Symbol();
-            const char* name = info->GetToken();
-            char tmp[ 100 ];
-            sprintf( tmp , ".%s" , name );
-            printf( "%s\n" , name );
-            dst_accessor_.push_back( tmp );
-            CreateDstAssignment_( name );*/
+            tree->Symbol( value );
+            DstMemberProccessor_( value , tree );
+            dsta_exp_->AddChild( tree );
           }
           break;
 
         case ValueNode::kDst :
         case ValueNode::kDstArray :
-          DstMemberProccessor_( value );
+          DstMemberProccessor_( value , tree );
           AstNode* child_node = value->FirstChild();
           ValueNode* value = child_node->CastToValue();
           if ( value ) {
             if ( value->ValueType() == ValueNode::kDstArray ) {
-              DstArrayProccessor_( ast_node , ( depth + 1 ) );
+              DstArrayProccessor_( ast_node , tree , ( depth + 1 ) );
             } else {
-              DstObjectProcessor_( ast_node , ( depth + 1 ) );
+              DstObjectProcessor_( ast_node , tree , ( depth + 1 ) );
             }
           }
       }
@@ -741,10 +784,16 @@ void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
 
 
 void AstVisitor::DstProcessor_( ValueNode* ast_node ) {
+  char buf[50];
+  const char *tmp_ref = AstUtils::CreateTmpRef( buf , tmp_index_ );
+  ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
+  DstaTree* tree = ManagedHandle::Retain<DstaTree>();
+  tree->Refs( value );
+  tmp_index_++;
   if ( ast_node->ValueType() == ValueNode::kDstArray ) {
-    DstArrayProccessor_( ast_node , 0 );
+    DstArrayProccessor_( ast_node , tree , 0 );
   } else {
-    DstObjectProcessor_( ast_node , 0 );
+    DstObjectProcessor_( ast_node , tree , 0 );
   }
 }
 
@@ -770,6 +819,7 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kDst :
     case ValueNode::kDstArray :
       printf( "Dst\n" );
+      is_dst_injection_ = true;
       DstProcessor_( ast_node );
       break;
 

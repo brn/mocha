@@ -77,7 +77,9 @@ class AstNode : public Managed {
     kBinaryExp,
     kCompareExp,
     kConditionalExp,
-    kAssignmentExp
+    kAssignmentExp,
+    kDstaTree,
+    kDstaExtractedExpressions
   };
   AstNode( int type , const char* name );
   virtual inline ~AstNode(){};
@@ -109,9 +111,16 @@ class AstNode : public Managed {
   inline void Line( long line ) { line_ = line; }
   inline long Line() { return line_; }
   inline const char* GetName() { return name_; }
+  inline void RemoveAllChild() {
+    first_child_->parent_ = 0;
+    first_child_ = 0;
+    last_child_->parent_ = 0;
+    last_child_ = 0;
+    child_length_ = 0;
+  }
   virtual inline bool IsEmpty(){ return false; }
  private :
-  virtual NVI_ACCEPTOR_DECL = 0;
+  virtual NVI_ACCEPTOR_DECL{};
   int type_;
   int child_length_;
   long line_;
@@ -776,6 +785,24 @@ class ValueNode : public AstNode {
   CALL_ACCEPTOR( ValueNode );
 };
 
+class DstaTree : public AstNode {
+ public :
+  DstaTree() : AstNode( NAME_PARAMETER( DstaTree ) ){};
+  ~DstaTree(){};
+  void Symbol( ValueNode* name_node ) { symbol_ = name_node; }
+  void Refs( ValueNode* tmp_name_node ) { refs_ = tmp_name_node; }
+  ValueNode* Symbol() { return symbol_; }
+  ValueNode* Refs() { return refs_; }
+ private :
+  ValueNode* symbol_;
+  ValueNode* refs_;
+};
+
+class DstaExtractedExpressions : public AstNode {
+ public :
+  DstaExtractedExpressions() : AstNode( NAME_PARAMETER( DstaExtractedExpressions ) ){};
+  ~DstaExtractedExpressions(){}
+};
 
 }
 

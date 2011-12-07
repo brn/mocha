@@ -21,8 +21,10 @@ class AstUtils : private Static {
   static const char* GetGloablExportSymbol();
   static const char* GetLocalExportSymbol();
   static const char* GetGlobalAliasSymbol();
+  static const char* CreateTmpRef( char* buf , int index );
   static CallExp* CreateGlobalExportNode( AstNode* ast_node , const char* filename );
 };
+
 }
 
 #endif

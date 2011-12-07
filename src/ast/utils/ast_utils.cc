@@ -98,6 +98,7 @@ ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp ) {
 static const char global_export[] = { "__MC_global_export__" };
 static const char global_alias[] = { "__MC_global_alias__" };
 static const char local_export[] = { "__MC_local_export__" };
+static const char local_tmp[] = { "__MC_local_tmp__" };
 
 const char* AstUtils::GetGloablExportSymbol() {
   return global_export;
@@ -109,6 +110,11 @@ const char* AstUtils::GetLocalExportSymbol() {
 
 const char* AstUtils::GetGlobalAliasSymbol() {
   return global_alias;
+}
+
+const char* AstUtils::CreateTmpRef( char* buf , int index ) {
+  sprintf( buf , "%s%d", local_tmp , index );
+  return buf;
 }
 
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filename ) {
