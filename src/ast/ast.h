@@ -770,6 +770,7 @@ class ValueNode : public AstNode {
   inline ValueNode( int type ) :
       AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ){};
   inline ~ValueNode() {};
+  inline void ValueType( int value_type ) { vlaue_type_ = value_type; }
   inline int ValueType() const { return value_type_; };
   inline void Symbol( TokenInfo* value ) { value_ = value; };
   inline TokenInfo* Symbol() const { return value_; };

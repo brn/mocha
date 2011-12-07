@@ -245,6 +245,20 @@ VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   VarListProcessor_( ast_node );
+  if ( is_dst_injection_ ) {
+    if ( dsta_exp_->ChildLength() > 1 ) {
+      NodeIterator iterator = dsta_exp_->ChildNodes();
+      AstNode* last_exp;
+      while ( iterator->HasNext() ) {
+        AstNode* item = iterator.Next();
+        AstNode* next = iterator.Next();
+        if ( next ) {
+          
+        }
+      }
+    }
+  } else {
+  }
 }
 
 VISITOR_IMPL(LetStmt) {
@@ -795,6 +809,8 @@ void AstVisitor::DstProcessor_( ValueNode* ast_node ) {
   } else {
     DstObjectProcessor_( ast_node , tree , 0 );
   }
+  ast_node->ValueType( ValueNode::kIdentifier );
+  ast_node->Symbol( value );
 }
 
 
