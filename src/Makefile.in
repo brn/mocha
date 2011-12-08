@@ -47,6 +47,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
+	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
 	ast_utils.$(OBJEXT) bootstrap.$(OBJEXT) \
 	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) \
@@ -189,6 +190,10 @@ ast/ast.h\
 ast/ast.cc\
 ast/visitors/ast_visitor.cc\
 ast/visitors/ast_visitor.h\
+ast/visitors/utils/visitor_info.h\
+ast/visitors/utils/visitor_info.cc\
+ast/visitors/utils/processors/dsta_processor.h\
+ast/visitors/utils/processors/dsta_processor.cc\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
 bootstrap/bootstrap.h\
@@ -408,6 +413,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_starter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dsta_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_observer.Po@am__quote@
@@ -438,6 +444,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlparser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/virtual_directory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/visitor_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_observer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_reader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_setting_info.Po@am__quote@
@@ -483,6 +490,34 @@ ast_visitor.obj: ast/visitors/ast_visitor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/ast_visitor.cc' object='ast_visitor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_visitor.obj `if test -f 'ast/visitors/ast_visitor.cc'; then $(CYGPATH_W) 'ast/visitors/ast_visitor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/ast_visitor.cc'; fi`
+
+visitor_info.o: ast/visitors/utils/visitor_info.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT visitor_info.o -MD -MP -MF $(DEPDIR)/visitor_info.Tpo -c -o visitor_info.o `test -f 'ast/visitors/utils/visitor_info.cc' || echo '$(srcdir)/'`ast/visitors/utils/visitor_info.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/visitor_info.Tpo $(DEPDIR)/visitor_info.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/visitor_info.cc' object='visitor_info.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o visitor_info.o `test -f 'ast/visitors/utils/visitor_info.cc' || echo '$(srcdir)/'`ast/visitors/utils/visitor_info.cc
+
+visitor_info.obj: ast/visitors/utils/visitor_info.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT visitor_info.obj -MD -MP -MF $(DEPDIR)/visitor_info.Tpo -c -o visitor_info.obj `if test -f 'ast/visitors/utils/visitor_info.cc'; then $(CYGPATH_W) 'ast/visitors/utils/visitor_info.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/visitor_info.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/visitor_info.Tpo $(DEPDIR)/visitor_info.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/visitor_info.cc' object='visitor_info.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o visitor_info.obj `if test -f 'ast/visitors/utils/visitor_info.cc'; then $(CYGPATH_W) 'ast/visitors/utils/visitor_info.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/visitor_info.cc'; fi`
+
+dsta_processor.o: ast/visitors/utils/processors/dsta_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT dsta_processor.o -MD -MP -MF $(DEPDIR)/dsta_processor.Tpo -c -o dsta_processor.o `test -f 'ast/visitors/utils/processors/dsta_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/dsta_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/dsta_processor.Tpo $(DEPDIR)/dsta_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/dsta_processor.cc' object='dsta_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o dsta_processor.o `test -f 'ast/visitors/utils/processors/dsta_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/dsta_processor.cc
+
+dsta_processor.obj: ast/visitors/utils/processors/dsta_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT dsta_processor.obj -MD -MP -MF $(DEPDIR)/dsta_processor.Tpo -c -o dsta_processor.obj `if test -f 'ast/visitors/utils/processors/dsta_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/dsta_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/dsta_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/dsta_processor.Tpo $(DEPDIR)/dsta_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/dsta_processor.cc' object='dsta_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o dsta_processor.obj `if test -f 'ast/visitors/utils/processors/dsta_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/dsta_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/dsta_processor.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc

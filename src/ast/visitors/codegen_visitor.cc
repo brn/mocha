@@ -439,66 +439,7 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   target_exp->Accept( this );
   
   writer_->WriteOp( ')' , 0 , stream_.Get() );
-
-  AstNode* maybeBlock = ast_node->FirstChild();
-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
-    if ( is_dst ) {
-      writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-      if ( is_each ) {
-        stream_->Write( tmp_ref_ );
-        writer_->WriteOp( '=' , 0 , stream_.Get() );
-        target_exp->Accept( this );
-        writer_->WriteOp( '[' , 0 , stream_.Get() );
-        stream_->Write( tmp_ref_ );
-        writer_->WriteOp( ']' , 0 , stream_.Get() );
-        writer_->WriteOp( ';' , 0 , stream_.Get() );
-      }
-      writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-      DstCodeProccessor_();
-      writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
-      ast_node->FirstChild()->FirstChild()->Accept( this );
-      writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
-      writer_->WriteOp( ';' , 0 , stream_.Get() );
-    } else {
-      if ( is_line_ || is_each ) {
-        goto NO_BLOCK;
-      }
-      ast_node->FirstChild()->Accept( this );
-    }
-  } else {
- NO_BLOCK :
-    if ( is_line_ || is_dst || is_each ) {
-      writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-      if ( is_dst ) {
-        writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-        if ( is_each ) {
-          stream_->Write( tmp_ref_ );
-          writer_->WriteOp( '=' , 0 , stream_.Get() );
-          target_exp->Accept( this );
-          writer_->WriteOp( ';' , 0 , stream_.Get() );
-        }
-        DstCodeProccessor_();
-        writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
-      } else if ( is_each ) {
-        index_exp->Accept( this );
-        writer_->WriteOp( '=' , 0 , stream_.Get() );
-        target_exp->Accept( this );
-        writer_->WriteOp( '[' , 0 , stream_.Get() );
-        index_exp->Accept( this );
-        writer_->WriteOp( ']' , 0 , stream_.Get() );
-        writer_->WriteOp( ';' , 0 , stream_.Get() );
-      }
-    }
-    if ( ast_node->FirstChild()->NodeType() == AstNode::kBlockStmt ) {
-      ast_node->FirstChild()->FirstChild()->Accept( this );
-    } else {
-      ast_node->FirstChild()->Accept( this );
-    }
-    if ( is_line_ || is_dst || is_each ) {
-      writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
-      writer_->WriteOp( ';' , 0 , stream_.Get() );
-    }
-  }
+  ast_node->FirstChild()->Accept( this );
 }
 
 

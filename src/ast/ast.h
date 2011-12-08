@@ -22,6 +22,17 @@ class NodeIterator{
   AstNode* node_;
 };
 
+class ReverseNodeIterator{
+ public :
+  ReverseNodeIterator( AstNode* node ) : node_( node ){}
+  ~ReverseNodeIterator(){}
+  bool HasNext() { return ( node_ != 0 )? true : false; }
+  AstNode* Next();
+  AstNode* Item();
+ private :
+  AstNode* node_;
+};
+
 /**
  * @class
  * Base class of Ast.
@@ -97,8 +108,11 @@ class AstNode : public Managed {
   inline void Before( AstNode* node ) { prev_sibling_ = node;node->next_sibling_ = this; };
   void Append( AstNode* node );
   inline NodeIterator ChildNodes() { return NodeIterator( first_child_ ); }
+  inline ReverseNodeIterator ReverseChildNodes() { return ReverseNodeIterator( last_child_ ); }
   void AddChild( AstNode* node );
   void InsertBefore( AstNode* node );
+  void InsertBefore( AstNode* insert , AstNode* target );
+  void InsertAfter( AstNode* insert , AstNode* target );
   void RemoveChild( AstNode* node );
   void ReplaceWith( AstNode* node );
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
@@ -108,15 +122,20 @@ class AstNode : public Managed {
   virtual Statement* CastToStatement() { return 0; };
   virtual Expression* CastToExpression() { return 0; };
   virtual ValueNode* CastToValue() { return 0; };
+  virtual DstaTree* CastToDstaTree() { return 0; }
   inline void PrintNodeName() { printf( "%s\n" , name_ ); }
   inline void Line( long line ) { line_ = line; }
   inline long Line() { return line_; }
   inline const char* GetName() { return name_; }
   inline virtual AstNode* Clone() { return 0; };
   inline void RemoveAllChild() {
-    first_child_->parent_ = 0;
+    if ( first_child_ ) {
+      first_child_->parent_ = 0;
+    }
     first_child_ = 0;
-    last_child_->parent_ = 0;
+    if ( last_child_ ) {
+      last_child_->parent_ = 0;
+    }
     last_child_ = 0;
     child_length_ = 0;
   }
@@ -134,13 +153,13 @@ class AstNode : public Managed {
   AstNode* prev_sibling_;
 };
 
-#define CLONE( name ) AstNode* Clone() { return new name(); }
+#define CLONE( name ) AstNode* Clone();
 
 class NodeList : public AstNode {
  public :
   inline NodeList() : AstNode( AstNode::kNodeList , "NodeList" ){}
   inline ~NodeList(){}
-  inline CLONE( NodeList );
+  CLONE( NodeList );
  private :
   inline virtual void NVIAccept_( IVisitor* visitor ) {}
 };
@@ -149,7 +168,7 @@ class Empty : public AstNode {
  public :
   Empty() : AstNode( AstNode::kEmpty , "Empty" ){}
   inline bool IsEmpty(){ return true; }
-  inline CLONE( Empty );
+  CLONE( Empty );
  private :
   inline void NVIAccept_( IVisitor* visitor ){}
 };
@@ -158,7 +177,7 @@ class AstRoot : public AstNode {
  public :
   inline AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" ) {}
   inline ~AstRoot(){};
-  inline CLONE( AstRoot );
+  CLONE( AstRoot );
  private :
   CALL_ACCEPTOR(AstRoot);
 };
@@ -174,7 +193,7 @@ class FileRoot : public AstNode {
   inline ~FileRoot(){};
   inline void FileName( const char* filepath ) { filepath_ = filepath; }
   inline const char* FileName() { return filepath_.c_str(); }
-  inline CLONE( FileRoot );
+  CLONE( FileRoot );
  private :
   std::string filepath_;
   CALL_ACCEPTOR( FileRoot );
@@ -190,7 +209,6 @@ class Statement : public AstNode {
   Statement( int type , const char* name ) : AstNode( type , name ) {};
   virtual inline ~Statement() {};
   inline Statement* CastToStatement() { return this; }
-  inline CLONE( Statement );
  private :
   inline Statement() : AstNode( AstNode::kStatement , "Statement" ){}
   virtual NVI_ACCEPTOR_DECL=0;
@@ -201,7 +219,7 @@ class StatementList : public AstNode {
  public :
   inline StatementList() : AstNode( AstNode::kStatementList , "StatementList" ){}
   inline ~StatementList(){}
-  inline CLONE( StatementList );
+  CLONE( StatementList );
  private :
   CALL_ACCEPTOR(StatementList);
 };
@@ -213,7 +231,7 @@ class BlockStmt : public Statement {
  public :
   inline BlockStmt() : Statement( NAME_PARAMETER(BlockStmt) ){};
   inline ~BlockStmt() {};
-  inline CLONE( BlockStmt );
+  CLONE( BlockStmt );
  private :
   CALL_ACCEPTOR( BlockStmt );
 };
@@ -221,10 +239,11 @@ class BlockStmt : public Statement {
 
 class ModuleStmt : public Statement {
  public :
-  inline ModuleStmt() : Statement( NAME_PARAMETER(ModuleStmt) ){};
+  inline ModuleStmt() : Statement( NAME_PARAMETER(ModuleStmt) ) , name_( 0 ){};
   inline ~ModuleStmt() {};
   inline void Name( AstNode* name ) { name_ = name; }
   inline AstNode* Name() const { return name_; }
+  CLONE(ModuleStmt);
  private :
   AstNode* name_;
   CALL_ACCEPTOR( ModuleStmt );
@@ -236,6 +255,7 @@ class ExportStmt : public Statement {
  public :
   inline ExportStmt() : Statement( NAME_PARAMETER(ExportStmt) ){};
   inline ~ExportStmt() {};
+  CLONE(ExportStmt);
  private :
   CALL_ACCEPTOR( ExportStmt );
 };
@@ -254,7 +274,7 @@ class ImportStmt : public Statement {
   };
   inline ImportStmt( int var_type , int mod_type ) :
       Statement( NAME_PARAMETER( ImportStmt ) ),
-      var_type_( var_type ) , mod_type_( mod_type ){}
+      var_type_( var_type ) , mod_type_( mod_type ) , exp_( 0 ) , from_( 0 ),key_( 0 ){}
   inline ~ImportStmt(){};
   inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
@@ -264,6 +284,7 @@ class ImportStmt : public Statement {
   inline TokenInfo* ModKey() { return key_; }
   inline int VarType() { return var_type_; }
   inline int ModType() { return mod_type_; }
+  CLONE(ImportStmt);
  private :
   int var_type_;
   int mod_type_;
@@ -285,7 +306,7 @@ class VariableStmt : public Statement {
   inline ~VariableStmt(){};
   inline void VarType( int type ){ var_type_ = type; };
   inline int VarType() { return var_type_; };
-  inline CLONE( VariableStmt );
+  CLONE( VariableStmt );
  private :
   int var_type_;
   CALL_ACCEPTOR( VariableStmt );
@@ -294,11 +315,11 @@ class VariableStmt : public Statement {
 
 class LetStmt : public Statement {
  public :
-  inline LetStmt() : Statement( NAME_PARAMETER(LetStmt) ) {}
+  inline LetStmt() : Statement( NAME_PARAMETER(LetStmt) ) , exp_( 0 ) {}
   inline ~LetStmt(){}
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( LetStmt );
+  CLONE( LetStmt );
  private :
   AstNode* exp_;
   CALL_ACCEPTOR( LetStmt );
@@ -309,7 +330,7 @@ class ExpressionStmt : public Statement {
  public :
   inline ExpressionStmt() : Statement( AstNode::kExpressionStmt , "ExpressionStmt" ) {};
   inline ~ExpressionStmt(){};
-  inline CLONE( ExpressionStmt );
+  CLONE( ExpressionStmt );
  private :
   CALL_ACCEPTOR( ExpressionStmt );
 };
@@ -317,7 +338,7 @@ class ExpressionStmt : public Statement {
 
 class IFStmt : public Statement {
  public :
-  inline IFStmt() : Statement( NAME_PARAMETER(IFStmt) ) , exp_( 0 ){};
+  inline IFStmt() : Statement( NAME_PARAMETER(IFStmt) ) , exp_( 0 ) , then_( 0 ), else_( 0 ){};
   inline ~IFStmt() {};
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
@@ -325,7 +346,7 @@ class IFStmt : public Statement {
   inline AstNode* Then() { return then_; }
   inline void Else( AstNode* els ) { else_ = els; }
   inline AstNode* Else() { return else_; }
-  inline CLONE( IFStmt );
+  CLONE( IFStmt );
  private :
   AstNode* exp_;
   AstNode* then_;
@@ -336,11 +357,11 @@ class IFStmt : public Statement {
 
 class IterationStmt : public Statement {
  public :
-  inline IterationStmt( int type ) : Statement( type , "IterationStmt" ){};
+  inline IterationStmt( int type ) : Statement( type , "IterationStmt" ) , exp_( 0 ){};
   inline ~IterationStmt(){};
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( IterationStmt );
+  CLONE( IterationStmt );
  private:
   AstNode* exp_;
   CALL_ACCEPTOR( IterationStmt );
@@ -351,7 +372,7 @@ class ContinueStmt : public Statement {
  public :
   inline ContinueStmt() : Statement( NAME_PARAMETER(ContinueStmt) ){};
   inline ~ContinueStmt() {};
-  inline CLONE( ContinueStmt );
+  CLONE( ContinueStmt );
  private :
   CALL_ACCEPTOR( ContinueStmt );
 };
@@ -362,7 +383,7 @@ class BreakStmt : public Statement {
  public :
   inline BreakStmt() : Statement( NAME_PARAMETER(BreakStmt) ) {};
   inline ~BreakStmt() {};
-  inline CLONE( BreakStmt );
+  CLONE( BreakStmt );
  private :
   CALL_ACCEPTOR( BreakStmt );
 };
@@ -373,7 +394,7 @@ class ReturnStmt : public Statement {
  public :
   inline ReturnStmt() : Statement( NAME_PARAMETER(ReturnStmt) ){};
   inline ~ReturnStmt() {};
-  inline CLONE( ReturnStmt );
+  CLONE( ReturnStmt );
  private :
   CALL_ACCEPTOR( ReturnStmt );
 };
@@ -381,11 +402,11 @@ class ReturnStmt : public Statement {
 
 class WithStmt : public Statement {
  public :
-  inline WithStmt() : Statement( NAME_PARAMETER(WithStmt) ){};
+  inline WithStmt() : Statement( NAME_PARAMETER(WithStmt) ) , exp_( 0 ){};
   inline ~WithStmt(){};
   inline void Exp( AstNode* node ) { exp_ = node; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( WithStmt );
+  CLONE( WithStmt );
  private :
   AstNode* exp_;
   CALL_ACCEPTOR( WithStmt );
@@ -396,7 +417,7 @@ class LabelledStmt : public Statement {
  public :
   inline LabelledStmt() : Statement( NAME_PARAMETER(LabelledStmt) ){};
   inline ~LabelledStmt() {};
-  inline CLONE( LabelledStmt );
+  CLONE( LabelledStmt );
  private :
   CALL_ACCEPTOR( LabelledStmt );
 };
@@ -405,11 +426,11 @@ class LabelledStmt : public Statement {
 
 class SwitchStmt : public Statement {
  public :
-  inline SwitchStmt() : Statement( NAME_PARAMETER(SwitchStmt) ){};
+  inline SwitchStmt() : Statement( NAME_PARAMETER(SwitchStmt) ) , exp_( 0 ){};
   inline ~SwitchStmt() {};
   inline void Exp( AstNode* node ) { exp_ = node; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( SwitchStmt );
+  CLONE( SwitchStmt );
  private :
   AstNode* exp_;
   CALL_ACCEPTOR( SwitchStmt );
@@ -419,11 +440,11 @@ class SwitchStmt : public Statement {
 
 class ThrowStmt : public Statement {
  public :
-  inline ThrowStmt() : Statement( NAME_PARAMETER(ThrowStmt) ){};
+  inline ThrowStmt() : Statement( NAME_PARAMETER(ThrowStmt) ) , exp_( 0 ){};
   inline ~ThrowStmt(){};
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( ThrowStmt );
+  CLONE( ThrowStmt );
  private :
   AstNode* exp_;
   CALL_ACCEPTOR( ThrowStmt );
@@ -432,13 +453,13 @@ class ThrowStmt : public Statement {
 
 class TryStmt : public Statement {
  public :
-  inline TryStmt() : Statement( NAME_PARAMETER(TryStmt) ){};
+  inline TryStmt() : Statement( NAME_PARAMETER(TryStmt) ) , catch_( 0 ) , finally_( 0 ){};
   inline ~TryStmt(){};
   inline void Catch( AstNode* catch_stmt ) { catch_ = catch_stmt; }
   inline AstNode* Catch() { return catch_; }
   inline void Finally( AstNode* finally_stmt ) { finally_ = finally_stmt; }
   inline AstNode* Finally() { return finally_; }
-  inline CLONE( TryStmt );
+  CLONE( TryStmt );
  private :
   AstNode* catch_;
   AstNode* finally_;
@@ -447,11 +468,11 @@ class TryStmt : public Statement {
 
 class CaseClause : public AstNode {
  public :
-  inline CaseClause() : AstNode( AstNode::kCase , "CaseClause" ){}
+  inline CaseClause() : AstNode( AstNode::kCase , "CaseClause" ) , exp_( 0 ){}
   inline ~CaseClause(){}
   inline void Exp( AstNode* node ) { exp_ = node; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( CaseClause );
+  CLONE( CaseClause );
  private :
   AstNode* exp_;
   CALL_ACCEPTOR( CaseClause );
@@ -466,7 +487,7 @@ class Expression : public AstNode {
   inline void Paren() { paren_ = true; };
   inline bool IsParen() { return paren_; };
   inline Expression* CastToExpression() { return this; }
-  inline CLONE( Expression );
+  virtual CLONE( Expression );
  private :
   bool paren_;
   virtual CALL_ACCEPTOR( Expression );
@@ -477,7 +498,7 @@ class Class : public Expression {
  public :
   Class( AstNode* expandar , bool is_const ) :
       Expression( NAME_PARAMETER( Class ) ) , is_const_( is_const ),
-      is_decl_( true ), expandar_( expandar ){}
+      is_decl_( true ) ,name_( 0 ),body_( 0 ), expandar_( expandar ){}
   Class( Empty* empty ) : Expression( NAME_PARAMETER( Class ) ) , expandar_( empty ){}
   ~Class(){}
   void Decl( bool is ) { is_decl_ = is; }
@@ -491,7 +512,7 @@ class Class : public Expression {
     body_ = body;
   }
   AstNode* Body() { return body_; }
-  inline CLONE( Class );
+  CLONE( Class );
  private :
   CALL_ACCEPTOR( Class );
   bool is_const_;
@@ -503,7 +524,7 @@ class Class : public Expression {
 
 class ClassProperties : public AstNode {
  public :
-  ClassProperties() : AstNode( NAME_PARAMETER( ClassProperties ) ) , constructor_( 0 ){};
+  ClassProperties() : AstNode( NAME_PARAMETER( ClassProperties ) ),constructor_( 0 ){};
   ~ClassProperties(){};
   void Public( AstNode* pb ) { public_.AddChild( pb ); }
   void Private( AstNode* pv ) { private_.AddChild( pv ); }
@@ -515,7 +536,7 @@ class ClassProperties : public AstNode {
   AstNode* Prototype() { return &prototype_; }
   void Constructor( AstNode* constructor ) { constructor_ = constructor; }
   AstNode* Constructor() { return constructor_; }
-  inline CLONE( ClassProperties );
+  CLONE( ClassProperties );
  private :
   CALL_ACCEPTOR(ClassProperties);
   NodeList public_;
@@ -534,7 +555,7 @@ class ClassExpandar : public AstNode {
   ClassExpandar( ExpandAttr attr ) : AstNode( NAME_PARAMETER( ClassExpandar ) ) , attr_( attr ){};
   ~ClassExpandar(){};
   ExpandAttr Type() { return attr_; }
-  inline CLONE( ClassExpandar );
+  CLONE( ClassExpandar );
  private :
   CALL_ACCEPTOR( ClassExpandar );
   ExpandAttr attr_;
@@ -553,7 +574,7 @@ class ClassMember : public AstNode {
   ClassMember( MemberAttr attr ) : AstNode( NAME_PARAMETER( ClassMember ) ) , attr_( attr ){}
   ~ClassMember(){}
   MemberAttr Attr() { return attr_; }
-  inline CLONE( ClassMember );
+  CLONE( ClassMember );
  private :
   CALL_ACCEPTOR( ClassMember );
   MemberAttr attr_;
@@ -590,7 +611,7 @@ class Function : public Expression {
   inline void FunctionType( int type ) { fn_type_ = type; }
   inline int ContextType() { return context_; }
   inline void ContextType( int type ) { context_ = type; }
-  inline CLONE( Function );
+  CLONE( Function );
  private :
   int fn_type_;
   int context_;
@@ -610,7 +631,8 @@ class CallExp : public Expression {
     kDot,
     kNew
   };
-  inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ){};
+  inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ),
+                               callable_( 0 ) , args_( 0 ){};
   inline ~CallExp() {};
   inline void Callable( AstNode* node ){ callable_ = node;node->ParentNode( this ); };
   inline AstNode* Callable() { return callable_; };
@@ -619,13 +641,7 @@ class CallExp : public Expression {
   inline int CallType() { return call_type_; }
   inline void Depth( int depth ) { depth_ = depth; }
   inline int Depth() { return depth_; }
-  inline AstNode* Clone() {
-    CallExp* ret = new CallExp();
-    ret->call_type_ = call_type_;
-    ret->depth_ = depth_;
-    ret->callable_ = ManagedHandle::Retain( callable_->Clone() );
-    ret->args_ = ManagedHandle::Retain( args_->Clone() );
-  }
+  CLONE(CallExp);
  private :
   int call_type_;
   int depth_;
@@ -637,11 +653,11 @@ class CallExp : public Expression {
 
 class NewExp : public Expression {
  public :
-  inline NewExp() : Expression( NAME_PARAMETER( NewExp ) ){};
+  inline NewExp() : Expression( NAME_PARAMETER( NewExp ) ) , constructor_( 0 ){};
   inline ~NewExp(){};
   inline void Constructor( AstNode* node ) { constructor_ = node; };
   inline AstNode* Constructor() { return constructor_; };
-  inline CLONE( NewExp );
+  CLONE( NewExp );
  private :
   AstNode* constructor_;
   CALL_ACCEPTOR( NewExp );
@@ -655,12 +671,12 @@ class PostfixExp : public Expression {
     kIncrement,
     kDecrement
   };
-  inline PostfixExp( int type ) : Expression( NAME_PARAMETER( PostfixExp ) ) , post_type_( type ){};
+  inline PostfixExp( int type ) : Expression( NAME_PARAMETER( PostfixExp ) ) , post_type_( type ) , exp_( 0 ){};
   inline ~PostfixExp(){};
   inline int PostType() { return post_type_; };
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
-  inline CLONE( PostfixExp );
+  CLONE( PostfixExp );
  private :
   int post_type_;
   AstNode* exp_;
@@ -681,12 +697,12 @@ class UnaryExp : public Expression {
     kComp,
     kNot
   };
-  inline UnaryExp( int op ) : Expression( NAME_PARAMETER( UnaryExp ) ) , op_( op ){};
+  inline UnaryExp( int op ) : Expression( NAME_PARAMETER( UnaryExp ) ) , op_( op ) , exp_( 0 ){};
   inline ~UnaryExp() {};
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
   inline int Op() { return op_; };
-  inline CLONE( UnaryExp );
+  CLONE( UnaryExp );
  private :
   int op_;
   AstNode* exp_;
@@ -714,7 +730,7 @@ class BinaryExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
-  inline CLONE( BinaryExp );
+  CLONE( BinaryExp );
  private :
   int op_;
   AstNode* left_;
@@ -744,7 +760,7 @@ class CompareExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
-  inline CLONE( CompareExp );
+  CLONE( CompareExp );
  private :
   int op_;
   AstNode* left_;
@@ -762,7 +778,7 @@ class ConditionalExp : public Expression {
   inline AstNode* True() { return case_true_; };
   inline AstNode* False() { return case_false_; };
   inline AstNode* Cond() { return cond_; };
-  inline CLONE( ConditionalExp );
+  CLONE( ConditionalExp );
  private :
   AstNode* cond_;
   AstNode* case_true_;
@@ -780,7 +796,7 @@ class AssignmentExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
-  inline CLONE( AssignmentExp );
+  CLONE( AssignmentExp );
  private :
   int op_;
   AstNode* left_;
@@ -813,7 +829,7 @@ class ValueNode : public AstNode {
     kRest
   };
   inline ValueNode( int type ) :
-      AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ){};
+      AstNode( AstNode::kValueNode , "ValueNode" ) , value_( 0 ) , node_( 0 ) , value_type_( type ){};
   inline ~ValueNode() {};
   inline void ValueType( int value_type ) { value_type_ = value_type; }
   inline int ValueType() const { return value_type_; };
@@ -822,62 +838,35 @@ class ValueNode : public AstNode {
   inline void Node( AstNode* node ) { node_ = node; };
   inline AstNode* Node() const { return node_; };
   inline ValueNode* CastToValue() { return this; }
-  inline AstNode* Clone() {
-    AstNode* ret = new ValueNode( value_type_ );
-    switch ( value_type_ ) {
-      case kNull :
-      case kTrue :
-      case kFalse :
-      case kNumeric :
-      case kString :
-      case kRegExp :
-      case kThis : 
-      case kIdentifier :
-      case kPropertyName :
-      case kVariable :
-        
-      case kArray :
-      case kArrayComp :
-      case kObject :
-      case kDst :
-      case kDstArray :
-      case kSpread :
-      case kConstant :
-      case kRest :
-    }
-    ret->value_ = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType() , value->GetLine() ) );
-    ret->node_ = node_->Clone();
-    return ret;
-  }
+  CLONE( ValueNode );
  private :
   int value_type_;
-  union {
-    TokenInfo* value_;
-    AstNode* node_;
-  };
+  TokenInfo* value_;
+  AstNode* node_;
   CALL_ACCEPTOR( ValueNode );
 };
 
 class DstaTree : public AstNode {
  public :
-  DstaTree() : AstNode( NAME_PARAMETER( DstaTree ) ){};
+  DstaTree() : AstNode( NAME_PARAMETER( DstaTree ) ) , symbol_( 0 ){};
   ~DstaTree(){};
   void Symbol( ValueNode* name_node ) { symbol_ = name_node; }
   ValueNode* Symbol() { return symbol_; }
-  inline CLONE( DstaTree );
+  inline DstaTree* CastToDstaTree() { return this; }
+  CLONE( DstaTree );
  private :
   ValueNode* symbol_;
 };
 
 class DstaExtractedExpressions : public AstNode {
  public :
-  DstaExtractedExpressions() : AstNode( NAME_PARAMETER( DstaExtractedExpressions ) ){};
+  DstaExtractedExpressions() : AstNode( NAME_PARAMETER( DstaExtractedExpressions ) ) {};
   ~DstaExtractedExpressions(){}
-  ValueNode* Refs() { return refs_; }
-  void Refs( ValueNode* tmp_name_node ) { refs_ = tmp_name_node; }
-  inline CLONE( DstaExtractedExpressions );
+  NodeList* Refs() { return &refs_; }
+  void Refs( ValueNode* tmp_name_node ) { refs_.AddChild( tmp_name_node ); }
+  CLONE( DstaExtractedExpressions );
  private :
-  ValueNode* refs_;
+  NodeList refs_;
 };
 
 }

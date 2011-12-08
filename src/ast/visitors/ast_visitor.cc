@@ -11,6 +11,8 @@
 #include <utils/file_system/virtual_directory.h>
 #include <utils/pool/managed_handle.h>
 #include <ast/utils/ast_utils.h>
+#include <ast/visitors/utils/visitor_info.h>
+#include <ast/visitors/utils/processors/dsta_processor.h>
 #include <grammar/grammar.tab.hh>
 
 namespace mocha {
@@ -18,21 +20,14 @@ namespace mocha {
 #define VISITOR_IMPL(type) void AstVisitor::Accept##type( type* ast_node )
 #define TOKEN yy::ParserImplementation::token
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
-#define REGIST(node) current_stmt_ = node
+#define REGIST(node) visitor_info_->SetCurrentStmt( node )
 
 
-AstVisitor::AstVisitor ( Scope* scope,
-                         Compiler* compiler,
-                         const char* modulename,
-                         const char* filename ) :
-    tmp_index_(0),
-    is_dst_injection_( false ),
-    module_name_ ( modulename ),
-    filename_ ( filename ),
-    current_stmt_( 0 ),
-    dsta_exp_( ManagedHandle::Retain<DstaExtractedExpressions>() ),
-    scope_ ( scope ),
-    compiler_( compiler ){};
+AstVisitor::AstVisitor( Scope* scope , Compiler* compiler , const char* modulename,
+                        const char* filename ) :
+    visitor_info_( new VisitorInfo( scope , compiler ,
+                                    ManagedHandle::Retain<DstaExtractedExpressions>() , modulename , filename ) ),
+    dsta_proc_( new DstaProcessor( visitor_info_.Get() ) ) {}
 
 AstVisitor::~AstVisitor () {}
 
@@ -189,7 +184,7 @@ void AstVisitor::ImportProccessor_( ImportStmt* ast_node ) {
     
     StrHandle current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
     //Get full path of module.
-    StrHandle real_path = compiler_->Load( js_path.c_str() );
+    StrHandle real_path = visitor_info_->GetCompiler()->Load( js_path.c_str() );
 
     //Set virtual dir to current context dir.
     VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
@@ -249,50 +244,9 @@ VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   VarListProcessor_( ast_node );
-  if ( is_dst_injection_ ) {
-    NodeIterator iterator = dsta_exp_->ChildNodes();
-    AstNode* last_exp = 0;
-    while ( iterator.HasNext() ) {
-      AstNode* node_list = iterator.Next();
-      NodeIterator list = node_list->ChildNodes();
-      printf( "child length %d\n",node_list->ChildLength() );
-      while ( list.HasNext() ) {
-        AstNode *first = list.Next();
-        NodeIterator exps = first->ChildNodes();
-        if ( first->ChildLength() > 1 ) {
-          while ( exps.HasNext() ) {
-            AstNode* item = exps.Next();
-            if ( !last_exp ) {
-              AstNode* next = exps.Next();
-              last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , item , next ) );
-            } else {
-              last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , last_exp , item ) );
-            }
-          }
-          ValueNode* undefined = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-          TokenInfo* undef_info = ManagedHandle::Retain( new TokenInfo( "undefined" , TOKEN::JS_IDENTIFIER , 0 ) );
-          undefined->Symbol( undef_info );
-          ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( last_exp , first->LastChild() , undefined ) );
-          ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
-          DstaTree* tree = reinterpret_cast<DstaTree*>( first );
-          var->Symbol( tree->Symbol()->Symbol() );
-          var->AddChild( cond );
-          ast_node->AddChild( var );
-        } else {
-          ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
-          DstaTree* tree = reinterpret_cast<DstaTree*>( first );
-          printf( "symbol %s\n" , tree->Symbol()->Symbol()->GetToken() );
-          var->Symbol( tree->Symbol()->Symbol() );
-          var->AddChild( first->FirstChild() );
-          ast_node->AddChild( var );
-        }
-      }
-    }
-  }
-  NodeIterator iterator = ast_node->ChildNodes();
-  while ( iterator.HasNext() ) {
-    AstNode* item = iterator.Next();
-    printf( "%s %d\n" , item->GetName() , item->CastToValue()->ValueType() );
+  if ( visitor_info_->IsDstaInjection() ) {
+    NodeList* list = dsta_proc_->CreateDstaExtractedVarStmt();
+    ast_node->Append( list );
   }
 }
 
@@ -306,6 +260,22 @@ VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
+  if ( visitor_info_->IsDstaInjection() ) {
+    NodeIterator iterator = visitor_info_->GetDstaExtr()->Refs()->ChildNodes();
+    NodeList* var_list = ManagedHandle::Retain<NodeList>();
+    while ( iterator.HasNext() ) {
+      ValueNode* node = AstUtils::CreateVarInitiliser( iterator.Next()->CastToValue()->Symbol() , ManagedHandle::Retain<Empty>() );
+      var_list->AddChild( node );
+    }
+    VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_list );
+    ast_node->ParentNode()->InsertBefore( var_stmt , ast_node );
+    NodeList* list = dsta_proc_->CreateDstaExtractedAssignment();
+    Expression* exp = ManagedHandle::Retain<Expression>();
+    exp->Append( list );
+    exp->Paren();
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
+    ast_node->ParentNode()->InsertAfter( stmt , ast_node );
+  }
 }
 
 
@@ -385,10 +355,36 @@ void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();
   AstNode* target_exp = index_exp->NextSibling();
-  exp->Accept( this );
   index_exp->Accept( this );
   target_exp->Accept( this );
+  bool is_dst = visitor_info_->IsDstaInjection();
   ast_node->FirstChild()->Accept( this );
+  if ( ast_node->NodeType() == AstNode::kForEach || ast_node->NodeType() == AstNode::kForEachWithVar ) {
+    ExpressionStmt* stmt;
+    if ( ast_node->NodeType() == AstNode::kForEachWithVar ) {
+      ValueNode *value = index_exp->Clone()->CastToValue();
+      value->ValueType( ValueNode::kIdentifier );
+      CallExp* call = AstUtils::CreateArrayAccessor( target_exp->Clone() , value );
+      AssignmentExp* exp = AstUtils::CreateAssignment( '=' , index_exp->Clone() , call );
+      stmt = AstUtils::CreateExpStmt( exp );
+    } else {
+      CallExp* call = AstUtils::CreateArrayAccessor( target_exp->Clone() , index_exp->Clone() );
+      AssignmentExp* exp = AstUtils::CreateAssignment( '=' , index_exp->Clone() , call );
+      stmt = AstUtils::CreateExpStmt( exp );
+    }
+    AstNode* body = ast_node->FirstChild();
+    if ( body->NodeType() != AstNode::kBlockStmt ) {
+      ast_node->RemoveAllChild();
+      StatementList* list = ManagedHandle::Retain<StatementList>();
+      list->AddChild( stmt );
+      list->AddChild( body );
+      BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+      block->AddChild( list );
+      ast_node->AddChild( block );
+    } else {
+      body->InsertBefore( stmt );
+    }
+  }
 }
 
 
@@ -641,9 +637,19 @@ VISITOR_IMPL(Function){
       iterator.Next()->Accept( this );
     }
   }
+
+  bool is_dst = visitor_info_->IsDstaInjection();
+  visitor_info_->SetDstaInjection( false );
+  
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
+  }
+  
+  if ( is_dst ) {
+    NodeList *list = dsta_proc_->CreateDstaExtractedVarStmt();
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
+    ast_node->InsertBefore( var_stmt );
   }
 };
 
@@ -696,219 +702,6 @@ void AstVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
 }
 
 
-void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , DstaTree* tree , int depth ) {
-  PRINT_NODE_NAME;
-  AstNode* list_child = ast_node->FirstChild();
-  int index = 0;
-  while ( list_child ) {
-    if ( !list_child->IsEmpty() ) {
-      NodeIterator iter = list_child->ChildNodes();
-      while ( iter.HasNext() ) {
-        AstNode* element = iter.Next();
-        if ( !element->IsEmpty() ) {
-          if ( element->NodeType() == AstNode::kValueNode ) {
-            ValueNode* elem = element->CastToValue();
-            if ( elem->ValueType() == ValueNode::kIdentifier ) {
-              char tmp_index[ 10 ];
-              sprintf( tmp_index , "%d" , index );
-              TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
-              ValueNode* accessor_index = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
-              accessor_index->Symbol( info );
-              CallExp* exp;
-              if ( tree->ChildLength() > 0 ) {
-                exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
-              } else {
-                exp = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , accessor_index );
-              }
-              tree->Symbol( elem );
-              tree->AddChild( exp );
-              dsta_exp_->LastChild()->AddChild( tree );
-              if ( depth == 0 ) {
-                tree = ManagedHandle::Retain<DstaTree>();
-              } else {
-                tree = ManagedHandle::Retain<DstaTree>();
-                NodeIterator iter = tree->ChildNodes();
-                while ( iter.HasNext() ) {
-                  
-                  tree->AddChild( iter )
-                }
-              }
-            } else if ( elem->ValueType() == ValueNode::kDst ) {
-              char tmp_index[ 10 ];
-              sprintf( tmp_index , "%d" , index );
-              TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
-              ValueNode* accessor_index = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
-              accessor_index->Symbol( info );
-              CallExp* exp;
-              if ( tree->ChildLength() > 0 ) {
-                exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
-              } else {
-                exp = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , accessor_index );
-              }
-              tree->AddChild( exp );
-              DstObjectProcessor_( elem , tree , ( depth + 1 ) );
-              if ( depth == 0 ) {
-                tree = ManagedHandle::Retain<DstaTree>();
-              } else {
-                tree->RemoveChild( tree->LastChild() );
-              }
-            } else if ( elem->ValueType() == ValueNode::kDstArray ) {
-              char tmp_index[ 10 ];
-              sprintf( tmp_index , "%d" , index );
-              TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
-              ValueNode* accessor_index = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
-              accessor_index->Symbol( info );
-              CallExp* exp;
-              if ( tree->ChildLength() > 0 ) {
-                exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
-              } else {
-                exp = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , accessor_index );
-              }
-              tree->AddChild( exp );
-              DstArrayProccessor_( elem , tree , ( depth + 1 ) );
-              if ( depth == 0 ) {
-                tree = ManagedHandle::Retain<DstaTree>();
-              } else {
-                tree->RemoveChild( tree->LastChild() );
-              }
-            }
-          }
-        }
-        if ( iter.HasNext() ) {
-          index++;
-        }
-      }
-      if ( list_child->HasNext() ) {
-        list_child = list_child->NextSibling();
-      } else {
-        break;
-      }
-    }
-  }
-}
-
-
-void AstVisitor::DstMemberProccessor_( ValueNode* ast_node , DstaTree* tree ) {
-  PRINT_NODE_NAME;
-  TokenInfo* info = ast_node->Symbol();
-  switch( info->GetType() ) {
-    case TOKEN::JS_IDENTIFIER :
-      {
-        if ( tree->ChildLength() > 0 ) {
-          CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->LastChild() , ast_node );
-          tree->AddChild( dot_accessor );
-        } else {
-          CallExp* dot_accessor = AstUtils::CreateDotAccessor( dsta_exp_->Refs() , ast_node );
-          tree->AddChild( dot_accessor );
-        }
-      }
-      break;
-
-    case TOKEN::JS_NUMERIC_LITERAL :
-    case TOKEN::JS_STRING_LITERAL :
-      {
-        if ( tree->ChildLength() > 0 ) {
-          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->LastChild() , ast_node );
-          tree->AddChild( arr_accessor );
-        } else {
-          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , ast_node );
-          tree->AddChild( arr_accessor );
-        }
-      }
-      break;
-      
-  }
-}
-
-
-void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int depth ) {
-  PRINT_NODE_NAME;
-  AstNode* child = ast_node->Node();
-  int value_type = ast_node->ValueType();
-  NodeIterator iterator = ( child && ( value_type == ValueNode::kDst || value_type == ValueNode::kDstArray ) && child->ChildLength() > 0 && !child->IsEmpty() )?
-      child->ChildNodes() :
-      ast_node->ChildNodes();
-  
-  while ( iterator.HasNext() ) {
-    AstNode* node = iterator.Next();
-    ValueNode* value = node->CastToValue();
-    if ( value ) {
-      switch ( value->ValueType() ) {
-        case ValueNode::kNumeric :
-        case ValueNode::kString :
-        case ValueNode::kIdentifier :
-          if ( value->ChildLength() > 0 ) {
-            DstMemberProccessor_( value , tree );
-            AstNode* child_node = value->FirstChild();
-            ValueNode* prop = child_node->CastToValue();
-            if ( prop ) {
-              if ( prop->ValueType() == ValueNode::kDst ) {
-                DstObjectProcessor_( prop , tree , ( depth + 1 ) );
-              } else if ( prop->ValueType() == ValueNode::kDstArray ) {
-                DstArrayProccessor_( prop , tree , ( depth + 1 ) );
-              } else {
-                tree->Symbol( prop );
-                dsta_exp_->LastChild()->AddChild( tree );
-                if ( depth == 0 ) {
-                  tree = ManagedHandle::Retain<DstaTree>();
-                } else {
-                  tree->RemoveChild( tree->LastChild() );
-                }
-              }
-            }
-          } else {
-            tree->Symbol( value );
-            DstMemberProccessor_( value , tree );
-            dsta_exp_->LastChild()->AddChild( tree );
-            if ( depth == 0 ) {
-              tree = ManagedHandle::Retain<DstaTree>();
-            } else {
-              tree->RemoveChild( tree->LastChild() );
-            }
-          }
-          break;
-
-        case ValueNode::kDst :
-        case ValueNode::kDstArray :
-          DstMemberProccessor_( value , tree );
-          AstNode* child_node = value->FirstChild();
-          ValueNode* value = child_node->CastToValue();
-          if ( value ) {
-            if ( value->ValueType() == ValueNode::kDstArray ) {
-              DstArrayProccessor_( ast_node , tree , ( depth + 1 ) );
-            } else {
-              DstObjectProcessor_( ast_node , tree , ( depth + 1 ) );
-            }
-          }
-          if ( depth == 0 ) {
-            tree = ManagedHandle::Retain<DstaTree>();
-          } else {
-            tree->RemoveChild( tree->LastChild() );
-          }
-          break;
-      }
-    }
-  }
-}
-
-
-void AstVisitor::DstProcessor_( ValueNode* ast_node ) {
-  char buf[50];
-  const char *tmp_ref = AstUtils::CreateTmpRef( buf , tmp_index_ );
-  ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
-  DstaTree* tree = ManagedHandle::Retain<DstaTree>();
-  dsta_exp_->AddChild( ManagedHandle::Retain<NodeList>() );
-  dsta_exp_->Refs( value );
-  tmp_index_++;
-  if ( ast_node->ValueType() == ValueNode::kDstArray ) {
-    DstArrayProccessor_( ast_node , tree , 0 );
-  } else {
-    DstObjectProcessor_( ast_node , tree , 0 );
-  }
-  ast_node->ValueType( ValueNode::kIdentifier );
-  ast_node->Symbol( value->Symbol() );
-}
-
 
 VISITOR_IMPL( ValueNode ) {
   PRINT_NODE_NAME;
@@ -931,8 +724,7 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kDst :
     case ValueNode::kDstArray :
       printf( "Dst\n" );
-      is_dst_injection_ = true;
-      DstProcessor_( ast_node );
+      dsta_proc_->ProcessNode( ast_node );
       break;
 
     case ValueNode::kRest :

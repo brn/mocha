@@ -5,15 +5,14 @@
 #include <string>
 #include <useconfig.h>
 #include <ast/visitors/ivisitor.h>
-#include <utils/smart_pointer/scope/scoped_list.h>
+#include <utils/smart_pointer/scope/scoped_ptr.h>
 
 namespace mocha{
   
 class Scope;
-class Codegen;
-class AstState;
-class ParserTracer;
 class Compiler;
+class VisitorInfo;
+class DstaProcessor;
 
 class AstVisitor : public IVisitor {
  public :
@@ -27,7 +26,6 @@ class AstVisitor : public IVisitor {
 #include <ast/visitors/visitor_decl.h>
   
  private:
-  inline void GetTmpVar_( char* buf ) { sprintf( buf , "__tmp__%d" , tmp_index_ );tmp_index_++;  }
   void ImportProccessor_( ImportStmt *node );
   void ForProccessor_( IterationStmt* iter );
   void ForInProccessor_( IterationStmt* iter );
@@ -42,22 +40,9 @@ class AstVisitor : public IVisitor {
   void ArrayProccessor_( ValueNode* ast_node );
   void ObjectProccessor_( ValueNode* ast_node );
   void VarInitialiserProccessor_( ValueNode* ast_node );
-  void DstProcessor_( ValueNode* ast_node );
-  void DstArrayProccessor_( ValueNode* ast_node , DstaTree* tree , int depth );
-  void DstObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int depth );
-  void DstMemberProccessor_( ValueNode* ast_node , DstaTree* tree );
-  int tmp_index_;
-  bool is_dst_injection_;
-  const char* symbol;
-  const char* module_name_;
-  const char* filename_;
-  AstNode* current_stmt_;
-  DstaExtractedExpressions* dsta_exp_;
-  ScopedStrList char_handle_;
-  Scope* scope_;
-  Scope* global_;
-  Compiler* compiler_;
-  ParserTracer* tracer_;
+  
+  ScopedPtr<VisitorInfo> visitor_info_;
+  ScopedPtr<DstaProcessor> dsta_proc_;
 };
 
 }
