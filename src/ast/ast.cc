@@ -60,6 +60,43 @@ AstNode* NodeIterator::Item() {
   return node_;
 }
 
+void AstNode::RemoveChild( AstNode* node ) {
+  AstNode* match_ptr;
+  NodeIterator iterator = ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    if ( item == node ) {
+      match_ptr = item;
+    }
+  }
+  if ( match_ptr ) {
+
+    if ( match_ptr->next_sibling_ ) {
+      match_ptr->next_sibling_->prev_sibling_ = match_ptr->prev_sibling_;
+    }
+    if ( match_ptr->prev_sibling_ ) {
+      match_ptr->prev_sibling_->next_sibling_ = match_ptr->next_sibling_;
+    }
+    
+    if ( first_child_ == match_ptr ) {
+      if ( match_ptr->next_sibling_ ) {
+        first_child_ = match_ptr->next_sibling_;
+      } else {
+        first_child_ = 0;
+      }
+    }
+
+    if ( last_child_ == match_ptr ) {
+      if ( match_ptr->prev_sibling_ ) {
+        last_child_ = match_ptr->prev_sibling_;
+      } else {
+        last_child_ = 0;
+      }
+    }
+    
+  }
+}
+
 void AstNode::ReplaceWith( AstNode* node ) {
   node->parent_ = parent_;
   node->next_sibling_ = next_sibling_;

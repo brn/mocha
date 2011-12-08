@@ -228,7 +228,11 @@ void AstVisitor::VarListProcessor_( AstNode* ast_node ) {
     if ( !item->IsEmpty() ) {
       ValueNode* value = item->CastToValue();
       if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
-        item->CastToValue()->Node()->Accept( this );
+        ValueNode* dst_node = item->CastToValue();
+        dst_node->Node()->Accept( this );
+        printf( "type %s\n" ,dst_node->Node()->CastToValue()->Symbol()->GetToken() );
+        dst_node->ValueType( ValueNode::kVariable );
+        dst_node->Symbol( dst_node->Node()->CastToValue()->Symbol() );
         AstNode* initialiser = item->FirstChild();
         if ( !initialiser->IsEmpty() ) {
           initialiser->Accept( this );
@@ -249,35 +253,46 @@ VISITOR_IMPL(VariableStmt) {
     NodeIterator iterator = dsta_exp_->ChildNodes();
     AstNode* last_exp = 0;
     while ( iterator.HasNext() ) {
-      AstNode *first = iterator.Next();
-      NodeIterator exps = first->ChildNodes();
-      if ( first->ChildLength() > 1 ) {
-        while ( exps.HasNext() ) {
-          AstNode* item = exps.Next();
-          if ( !last_exp ) {
-            AstNode* next = exps.Next();
-            last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , item , next ) );
-          } else {
-            last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , last_exp , item ) );
+      AstNode* node_list = iterator.Next();
+      NodeIterator list = node_list->ChildNodes();
+      printf( "child length %d\n",node_list->ChildLength() );
+      while ( list.HasNext() ) {
+        AstNode *first = list.Next();
+        NodeIterator exps = first->ChildNodes();
+        if ( first->ChildLength() > 1 ) {
+          while ( exps.HasNext() ) {
+            AstNode* item = exps.Next();
+            if ( !last_exp ) {
+              AstNode* next = exps.Next();
+              last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , item , next ) );
+            } else {
+              last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , last_exp , item ) );
+            }
           }
+          ValueNode* undefined = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+          TokenInfo* undef_info = ManagedHandle::Retain( new TokenInfo( "undefined" , TOKEN::JS_IDENTIFIER , 0 ) );
+          undefined->Symbol( undef_info );
+          ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( last_exp , first->LastChild() , undefined ) );
+          ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+          DstaTree* tree = reinterpret_cast<DstaTree*>( first );
+          var->Symbol( tree->Symbol()->Symbol() );
+          var->AddChild( cond );
+          ast_node->AddChild( var );
+        } else {
+          ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+          DstaTree* tree = reinterpret_cast<DstaTree*>( first );
+          printf( "symbol %s\n" , tree->Symbol()->Symbol()->GetToken() );
+          var->Symbol( tree->Symbol()->Symbol() );
+          var->AddChild( first->FirstChild() );
+          ast_node->AddChild( var );
         }
-        ValueNode* undefined = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-        TokenInfo* undef_info = ManagedHandle::Retain( new TokenInfo( "undefined" , TOKEN::JS_IDENTIFIER , 0 ) );
-        undefined->Symbol( undef_info );
-        ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( last_exp , first->LastChild() , undefined ) );
-        ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
-        DstaTree* tree = reinterpret_cast<DstaTree*>( first->LastChild() );
-        var->Symbol( tree->Symbol()->Symbol() );
-        var->AddChild( cond );
-        ast_node->AddChild( var );
-      } else {
-        ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
-        DstaTree* tree = reinterpret_cast<DstaTree*>( first->FirstChild() );
-        var->Symbol( tree->Symbol()->Symbol() );
-        var->AddChild( tree->FirstChild() );
-        ast_node->AddChild( var );
       }
     }
+  }
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    printf( "%s %d\n" , item->GetName() , item->CastToValue()->ValueType() );
   }
 }
 
@@ -694,7 +709,6 @@ void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , DstaTree* tree , int
           if ( element->NodeType() == AstNode::kValueNode ) {
             ValueNode* elem = element->CastToValue();
             if ( elem->ValueType() == ValueNode::kIdentifier ) {
-              tree->Symbol( elem );
               char tmp_index[ 10 ];
               sprintf( tmp_index , "%d" , index );
               TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
@@ -702,16 +716,61 @@ void AstVisitor::DstArrayProccessor_( ValueNode* ast_node , DstaTree* tree , int
               accessor_index->Symbol( info );
               CallExp* exp;
               if ( tree->ChildLength() > 0 ) {
-                exp = AstUtils::CreateArrayAccessor( tree->FirstChild() , accessor_index );
+                exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
               } else {
-                exp = AstUtils::CreateArrayAccessor( tree->Refs() , accessor_index );
+                exp = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , accessor_index );
+              }
+              tree->Symbol( elem );
+              tree->AddChild( exp );
+              dsta_exp_->LastChild()->AddChild( tree );
+              if ( depth == 0 ) {
+                tree = ManagedHandle::Retain<DstaTree>();
+              } else {
+                tree = ManagedHandle::Retain<DstaTree>();
+                NodeIterator iter = tree->ChildNodes();
+                while ( iter.HasNext() ) {
+                  
+                  tree->AddChild( iter )
+                }
+              }
+            } else if ( elem->ValueType() == ValueNode::kDst ) {
+              char tmp_index[ 10 ];
+              sprintf( tmp_index , "%d" , index );
+              TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
+              ValueNode* accessor_index = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+              accessor_index->Symbol( info );
+              CallExp* exp;
+              if ( tree->ChildLength() > 0 ) {
+                exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
+              } else {
+                exp = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , accessor_index );
               }
               tree->AddChild( exp );
-              dsta_exp_->AddChild( tree );
-            } else if ( elem->ValueType() == ValueNode::kDst ) {
               DstObjectProcessor_( elem , tree , ( depth + 1 ) );
+              if ( depth == 0 ) {
+                tree = ManagedHandle::Retain<DstaTree>();
+              } else {
+                tree->RemoveChild( tree->LastChild() );
+              }
             } else if ( elem->ValueType() == ValueNode::kDstArray ) {
+              char tmp_index[ 10 ];
+              sprintf( tmp_index , "%d" , index );
+              TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
+              ValueNode* accessor_index = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
+              accessor_index->Symbol( info );
+              CallExp* exp;
+              if ( tree->ChildLength() > 0 ) {
+                exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
+              } else {
+                exp = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , accessor_index );
+              }
+              tree->AddChild( exp );
               DstArrayProccessor_( elem , tree , ( depth + 1 ) );
+              if ( depth == 0 ) {
+                tree = ManagedHandle::Retain<DstaTree>();
+              } else {
+                tree->RemoveChild( tree->LastChild() );
+              }
             }
           }
         }
@@ -736,10 +795,10 @@ void AstVisitor::DstMemberProccessor_( ValueNode* ast_node , DstaTree* tree ) {
     case TOKEN::JS_IDENTIFIER :
       {
         if ( tree->ChildLength() > 0 ) {
-          CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->FirstChild() , ast_node );
+          CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->LastChild() , ast_node );
           tree->AddChild( dot_accessor );
         } else {
-          CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->Refs() , ast_node );
+          CallExp* dot_accessor = AstUtils::CreateDotAccessor( dsta_exp_->Refs() , ast_node );
           tree->AddChild( dot_accessor );
         }
       }
@@ -749,10 +808,10 @@ void AstVisitor::DstMemberProccessor_( ValueNode* ast_node , DstaTree* tree ) {
     case TOKEN::JS_STRING_LITERAL :
       {
         if ( tree->ChildLength() > 0 ) {
-          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->FirstChild() , ast_node );
+          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->LastChild() , ast_node );
           tree->AddChild( arr_accessor );
         } else {
-          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->Refs() , ast_node );
+          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( dsta_exp_->Refs() , ast_node );
           tree->AddChild( arr_accessor );
         }
       }
@@ -789,13 +848,23 @@ void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int
                 DstArrayProccessor_( prop , tree , ( depth + 1 ) );
               } else {
                 tree->Symbol( prop );
-                dsta_exp_->AddChild( tree );
+                dsta_exp_->LastChild()->AddChild( tree );
+                if ( depth == 0 ) {
+                  tree = ManagedHandle::Retain<DstaTree>();
+                } else {
+                  tree->RemoveChild( tree->LastChild() );
+                }
               }
             }
           } else {
             tree->Symbol( value );
             DstMemberProccessor_( value , tree );
-            dsta_exp_->AddChild( tree );
+            dsta_exp_->LastChild()->AddChild( tree );
+            if ( depth == 0 ) {
+              tree = ManagedHandle::Retain<DstaTree>();
+            } else {
+              tree->RemoveChild( tree->LastChild() );
+            }
           }
           break;
 
@@ -811,6 +880,12 @@ void AstVisitor::DstObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int
               DstObjectProcessor_( ast_node , tree , ( depth + 1 ) );
             }
           }
+          if ( depth == 0 ) {
+            tree = ManagedHandle::Retain<DstaTree>();
+          } else {
+            tree->RemoveChild( tree->LastChild() );
+          }
+          break;
       }
     }
   }
@@ -822,7 +897,8 @@ void AstVisitor::DstProcessor_( ValueNode* ast_node ) {
   const char *tmp_ref = AstUtils::CreateTmpRef( buf , tmp_index_ );
   ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
   DstaTree* tree = ManagedHandle::Retain<DstaTree>();
-  tree->Refs( value );
+  dsta_exp_->AddChild( ManagedHandle::Retain<NodeList>() );
+  dsta_exp_->Refs( value );
   tmp_index_++;
   if ( ast_node->ValueType() == ValueNode::kDstArray ) {
     DstArrayProccessor_( ast_node , tree , 0 );
