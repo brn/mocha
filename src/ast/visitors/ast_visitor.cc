@@ -246,18 +246,38 @@ VISITOR_IMPL(VariableStmt) {
   REGIST(ast_node);
   VarListProcessor_( ast_node );
   if ( is_dst_injection_ ) {
-    if ( dsta_exp_->ChildLength() > 1 ) {
-      NodeIterator iterator = dsta_exp_->ChildNodes();
-      AstNode* last_exp;
-      while ( iterator->HasNext() ) {
-        AstNode* item = iterator.Next();
-        AstNode* next = iterator.Next();
-        if ( next ) {
-          
+    NodeIterator iterator = dsta_exp_->ChildNodes();
+    AstNode* last_exp = 0;
+    while ( iterator.HasNext() ) {
+      AstNode *first = iterator.Next();
+      NodeIterator exps = first->ChildNodes();
+      if ( first->ChildLength() > 1 ) {
+        while ( exps.HasNext() ) {
+          AstNode* item = exps.Next();
+          if ( !last_exp ) {
+            AstNode* next = exps.Next();
+            last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , item , next ) );
+          } else {
+            last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , last_exp , item ) );
+          }
         }
+        ValueNode* undefined = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+        TokenInfo* undef_info = ManagedHandle::Retain( new TokenInfo( "undefined" , TOKEN::JS_IDENTIFIER , 0 ) );
+        undefined->Symbol( undef_info );
+        ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( last_exp , first->LastChild() , undefined ) );
+        ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+        DstaTree* tree = reinterpret_cast<DstaTree*>( first->LastChild() );
+        var->Symbol( tree->Symbol()->Symbol() );
+        var->AddChild( cond );
+        ast_node->AddChild( var );
+      } else {
+        ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+        DstaTree* tree = reinterpret_cast<DstaTree*>( first->FirstChild() );
+        var->Symbol( tree->Symbol()->Symbol() );
+        var->AddChild( tree->FirstChild() );
+        ast_node->AddChild( var );
       }
     }
-  } else {
   }
 }
 
@@ -810,7 +830,7 @@ void AstVisitor::DstProcessor_( ValueNode* ast_node ) {
     DstObjectProcessor_( ast_node , tree , 0 );
   }
   ast_node->ValueType( ValueNode::kIdentifier );
-  ast_node->Symbol( value );
+  ast_node->Symbol( value->Symbol() );
 }
 
 
