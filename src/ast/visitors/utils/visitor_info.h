@@ -18,15 +18,21 @@ class VisitorInfo {
   inline Compiler* GetCompiler() { return compiler_; };
   inline void SetDstaInjection( bool is ) { is_dst_injection_ = is; }
   inline bool IsDstaInjection() { return is_dst_injection_; }
+  inline void SetRestInjection( bool is ) { is_rest_injection_ = is; }
+  inline bool IsRestInjection() { return is_rest_injection_; }
   inline DstaExtractedExpressions* GetDstaExtr() { return dsta_exp_; }
+  inline void* SetRestExp( TokenInfo* info ) { rest_exp_ = info; }
+  inline TokenInfo* GetRestExp() { return rest_exp_; }
   inline void SetCurrentStmt( AstNode* stmt ) { current_stmt_ = stmt; }
   inline AstNode* GetCurrentStmt() { return current_stmt_; }
  private :
   int tmp_index_;
   bool is_dst_injection_;
+  bool is_rest_injection_;
   const char* module_name_;
   const char* file_name_;
   DstaExtractedExpressions* dsta_exp_;
+  TokenInfo* rest_exp_;
   Scope *scope_;
   Compiler *compiler_;
   AstNode* current_stmt_;

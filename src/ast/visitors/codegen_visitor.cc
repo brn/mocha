@@ -26,8 +26,7 @@ namespace mocha {
 
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
-    tmp_index_( 0 ),is_line_( false ),
-    has_dst_( false ),has_rest_( false ),
+    tmp_index_( 0 ),is_line_( false ),has_rest_( false ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ),
     current_class_ ( 0 ){}
@@ -91,94 +90,18 @@ VISITOR_IMPL( BlockStmt ) {
 
 VISITOR_IMPL( ModuleStmt ) {
   PRINT_NODE_NAME;
-  StrHandle key = FileSystem::GetModuleKey( current_root_->FileName() );
-  AstNode* name = ast_node->Name();
-  bool is_anony = name->IsEmpty();
-  if ( !is_anony ) {
-    writer_->ModuleBeginProccessor( key.Get() , name->CastToValue()->Symbol()->GetToken() , stream_.Get() );
-  } else {
-    writer_->AnonymousModuleBeginProccessor( key.Get() , stream_.Get() );
-  }
-  writer_->SetLine( ast_node->Line() , stream_.Get() );
-  AstNode* maybeBlock = ast_node->FirstChild();
-  printf( "module child type = %d\n" , maybeBlock->NodeType() );
-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
-    maybeBlock->FirstChild()->Accept( this );
-  } else {
-    maybeBlock->Accept( this );
-  }
-  if ( !is_anony ) {
-    writer_->ModuleEndProccessor( stream_.Get() );
-  } else {
-    writer_->AnonymousModuleEndProccessor( stream_.Get() );
-  }
 }
 
 
 
 VISITOR_IMPL( ExportStmt ) {
   PRINT_NODE_NAME;
-  AstNode *node = ast_node->FirstChild();
-  writer_->SetLine( ast_node->Line() , stream_.Get() );
-  writer_->Write( "__export__." , stream_.Get() );
-  if ( node->NodeType() == AstNode::kFunction ) {
-    Function* fn = reinterpret_cast<Function*>( node );
-    writer_->Write( fn->Name()->CastToValue()->Symbol()->GetToken() , stream_.Get() );
-    writer_->WriteOp( '=' , 0 , stream_.Get() );
-    fn->Accept( this );
-  } else if ( node->NodeType() == AstNode::kValueNode ) {
-    ValueNode *value = node->CastToValue();
-    VarInitialiserProccessor_( value );
-    if ( value->FirstChild()->IsEmpty() ) {
-      writer_->WriteOp( '=' , 0 , stream_.Get() );
-      writer_->Write( value->Symbol()->GetToken() , stream_.Get() );
-    }
-  }
-  writer_->WriteOp( ';' , 0 , stream_.Get() );
 }
 
 
 
 VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
-  int var_type = ast_node->VarType();
-  if ( var_type == ImportStmt::kVar ) {
-    writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-    stream_->Write( ast_node->Exp()->CastToValue()->Symbol()->GetToken() );
-    writer_->WriteOp( '=' , 0 , stream_.Get() );
-  } else if ( var_type == ImportStmt::kDst ) {
-    writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-    ast_node->Exp()->Accept( this );
-    writer_->WriteOp( '=' , 0 , stream_.Get() );
-  }
-
-  
-  if ( ast_node->ModType() == ImportStmt::kFile ) {
-    stream_->Write( "__global_export__" );
-    writer_->WriteOp( '[' , 0 , stream_.Get() );
-    stream_->Write( ast_node->ModKey()->GetToken() );
-    writer_->WriteOp( ']' , 0 , stream_.Get() );
-  } else {
-    stream_->Write( "__export__" );
-  }
-
-  NodeIterator iterator = ast_node->From()->ChildNodes();
-  while ( iterator.HasNext() ) {
-    AstNode* node = iterator.Next();
-    ValueNode* value = node->CastToValue();
-    if ( value && value->ValueType() == ValueNode::kIdentifier ) {
-      stream_->Write( '.' );
-      stream_->Write( value->Symbol()->GetToken() );
-    }
-  }
-
-  if ( var_type == ImportStmt::kDst ) {
-    if ( dst_code_list_.size() > 0 ) {
-      writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-      DstCodeProccessor_();
-    }
-  }
-  writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
 }
 
 
@@ -204,22 +127,7 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
       ValueNode* value = item->CastToValue();
-      if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
-        item->CastToValue()->Node()->Accept( this );
-        AstNode* initialiser = item->FirstChild();
-        if ( !initialiser->IsEmpty() ) {
-          writer_->WriteOp( '=' , 0 , stream_.Get() );
-          initialiser->Accept( this );
-          if ( CurrentState_() == CodeWriter::kFor ) {
-            stream_->Write( ',' );
-          } else {
-            writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-          }
-        }
-        DstCodeProccessor_();
-      } else {
-        item->Accept( this );
-      }
+      item->Accept( this );
       if ( iterator.HasNext() ) {
         if ( CurrentState_() == CodeWriter::kFor ) {
           stream_->Write( ',' );
@@ -251,29 +159,9 @@ VISITOR_IMPL(LetStmt) {}
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
-  CodeBuffer tmp_buffer_;
-  stream_->SwitchBuffer( &tmp_buffer_ );
   writer_->SetLine( ast_node->Line() , stream_.Get() );
   ast_node->FirstChild()->Accept( this );
   writer_->WriteOp( ';' , 0 , stream_.Get() );
-  stream_->SwitchBuffer();
-  if ( has_dst_ ) {
-    std::vector<Handle<DstCodeContainer> >::iterator ITERATOR( dst_code_list_ );
-    writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-    while ( begin != end ) {
-      stream_->Write( (*begin)->GetRef() );
-      ++begin;
-      if ( begin != end ) {
-        writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-      }
-    }
-    writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
-    stream_->Write( tmp_buffer_.GetData() );
-    DstCodeProccessor_();
-    writer_->WriteOp( ';' , 0 , stream_.Get() );
-  } else {
-    stream_->Write( tmp_buffer_.GetData() );
-  }
 }
 
 
@@ -420,19 +308,10 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   if ( for_in_type == AstNode::kForInWithVar || for_in_type == AstNode::kForEachWithVar ) {
     ValueNode* var = index_exp->CastToValue();
     if ( var ) {
-      if ( var->ValueType() == ValueNode::kDst ) {
-        is_dst = true;
-        var->Node()->Accept( this );
-      } else {
-        VarInitialiserProccessor_( index_exp->CastToValue() );
-      }
+      VarInitialiserProccessor_( index_exp->CastToValue() ); 
     }
   } else {
     index_exp->Accept( this );
-    if ( has_dst_ == true ) {
-      is_dst = true;
-      has_dst_ = false;
-    }
   }
   
   writer_->WriteOp( TOKEN::JS_IN , 0 , stream_.Get() );
@@ -457,15 +336,13 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
 
   AstNode* maybeBlock = ast_node->FirstChild();
   
-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt && !has_dst_ ) {
+  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
     ast_node->FirstChild()->Accept( this );
   } else {
     if ( is_line_ ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
     }
-    if ( has_dst_ ) {
-      DstCodeProccessor_();
-    }
+    
     ast_node->FirstChild()->Accept( this );
     if ( is_line_ ) {
       writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
@@ -477,33 +354,15 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
 
 void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
-  CodeBuffer tmp_buffer_;
-  stream_->SwitchBuffer( &tmp_buffer_ );
+  
   AstNode* exp = ast_node->Exp()->FirstChild();
   AstNode* maybeBlock = ast_node->FirstChild();
 
-  writer_->WriteOp( TOKEN::JS_WHILE , 0 , stream_.Get() );
-  writer_->WriteOp( '(' , 0 , stream_.Get() );
-  exp->Accept( this );
-  writer_->WriteOp( ')' , 0 , stream_.Get() );
-  writer_->WriteOp( ';' , 0 , stream_.Get() );
-
-  stream_->SwitchBuffer( &default_buffer_ );
-  
-  if ( has_dst_ ) {
-    writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-    stream_->Write( tmp_ref_ );
-    writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
-  }
 
   writer_->SetLine( ast_node->Line() , stream_.Get() );
   writer_->WriteOp( TOKEN::JS_DO , 0 , stream_.Get() );
-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt || has_dst_ ) {
+  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
     writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-    if ( has_dst_ ) {
-      DstCodeProccessor_();
-      writer_->WriteOp( ';' , 0 , stream_.Get() );
-    }
     if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
       maybeBlock->FirstChild()->Accept( this );
     } else {
@@ -519,8 +378,12 @@ void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
       writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
     }
   }
-  
-  stream_->Write( tmp_buffer_.GetData() );
+
+  writer_->WriteOp( TOKEN::JS_WHILE , 0 , stream_.Get() );
+  writer_->WriteOp( '(' , 0 , stream_.Get() );
+  exp->Accept( this );
+  writer_->WriteOp( ')' , 0 , stream_.Get() );
+  writer_->WriteOp( ';' , 0 , stream_.Get() );
 }
 
 
@@ -669,7 +532,6 @@ void CodegenVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
   exp->Args()->Accept( this );
   EndLastState_();
   writer_->WriteOp( ']' , 0 , stream_.Get() );
-  ResetDstArray_();
 }
 
 
@@ -702,7 +564,6 @@ void CodegenVisitor::NewCallProccessor_( CallExp* exp ) {
     EndLastState_();
     writer_->WriteOp( ')' , 0 , stream_.Get() );
   }
-  ResetDstArray_();
 }
 
 void CodegenVisitor::NormalFunctionCall_( CallExp* exp ) {
@@ -723,7 +584,6 @@ void CodegenVisitor::NormalFunctionCall_( CallExp* exp ) {
     EndLastState_();
     writer_->WriteOp( ')' , 0 , stream_.Get() );
   }
-  ResetDstArray_();
 }
 
 
@@ -1133,7 +993,6 @@ VISITOR_IMPL(ClassMember) {
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  bool has_dst;
   writer_->WriteOp( TOKEN::JS_FUNCTION , 0 , stream_.Get() );
   if ( !ast_node->Name()->IsEmpty() ) {
     writer_->Write( ast_node->Name()->CastToValue()->Symbol()->GetToken() , stream_.Get() );
@@ -1149,49 +1008,11 @@ VISITOR_IMPL(Function){
         stream_->Write( ',' );
       }
     }
-    if ( has_rest_ ) {
-      stream_->Erase( stream_->Size() - 1 , stream_->Size() );
-    }
     writer_->WriteOp( ')' , 0 , stream_.Get() );
   }
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
-  if ( has_dst_ ) {
-    writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-    DstCodeProccessor_();
-    has_dst = true;
-  }
   int child_length = ast_node->Argv()->ChildLength();
-  if ( has_rest_ ) {
-    char tmp[20];
-    sprintf( tmp , "%d" , ( ( child_length > 0 )? child_length - 1 : 0 ) );
-    if ( has_dst ) {
-      writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-    } else {
-      writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-    }
-    stream_->Write( rest_name_ );
-    writer_->WriteOp( '=' , 0 , stream_.Get() );
-    writer_->WriteOp( '(' , 0 , stream_.Get() );
-    stream_->Write( "arguments.length" );
-    writer_->WriteOp( '>' , 0 , stream_.Get() );
-    stream_->Write( tmp );
-    writer_->WriteOp( ')' , 0 , stream_.Get() );
-    writer_->WriteOp( '?' , 0 , stream_.Get() );
-    stream_->Write( "Array.prototype.slice.call" );
-    writer_->WriteOp( '(' , 0 , stream_.Get() );
-    stream_->Write( "arguments" );
-    if ( child_length  > 0 ) {
-      stream_->Write( ',' );
-      stream_->Write( tmp );
-    }
-    writer_->WriteOp( ')' , 0 , stream_.Get() );
-    writer_->WriteOp( ':' , 0 , stream_.Get() );
-    stream_->Write( "[]" );
-  }
-  if ( has_rest_ || has_dst_ ) {
-    writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
-    has_rest_ = false;
-  }
+  
   writer_->SetLine( ast_node->Line() , stream_.Get() );
   writer_->SetFileName( stream_.Get() );
   if ( ast_node->FunctionType() == Function::kNormal ) {
@@ -1287,285 +1108,6 @@ void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
 }
 
 
-void CodegenVisitor::CreateDstAssignment_( const char* name ) {
-  CodeBuffer tmp_buffer_;
-  std::string last;
-  std::string char_at_tmp_ret;
-  std::vector<std::string>::iterator ITERATOR( dst_accessor_ );
-  stream_->SwitchBuffer( &tmp_buffer_ );
-  stream_->Write( name );
-  writer_->WriteOp( '=' , 0 , stream_.Get() );
-  writer_->WriteOp( '(' , 0 , stream_.Get() );
-  bool is_char_at = false;
-  bool is_char_at_last = false;
-  while ( begin != end ) {
-    if ( (*begin)[0] == '[' && isdigit( (*begin)[1] ) ) {
-      std::string tmp_accessor = (*begin);
-      writer_->WriteOp( '(' , 0 , stream_.Get() );
-      if ( !is_char_at ) {
-        char_at_tmp_ret += "__MC_tmp__";
-      }
-      stream_->Write( char_at_tmp_ret );
-      writer_->WriteOp( '=' , 0 , stream_.Get() );
-      writer_->WriteOp( '(' , 0 , stream_.Get() );
-      stream_->Write( ( is_char_at )? char_at_tmp_ret : tmp_ref_ );
-      if ( !is_char_at_last ) {
-        stream_->Write( last );
-      }
-      stream_->Write( (*begin) );
-      writer_->WriteOp( TOKEN::JS_LOGICAL_OR , 0 , stream_.Get() );
-      writer_->WriteOp( '(' , 0 , stream_.Get() );
-      stream_->Write( ( is_char_at )? char_at_tmp_ret : tmp_ref_ );
-      if ( !is_char_at_last ) {
-        stream_->Write( last );
-      }
-      stream_->Write( ".charAt" );
-      writer_->WriteOp( TOKEN::JS_LOGICAL_AND , 0 , stream_.Get() );
-      stream_->Write( ( is_char_at )? char_at_tmp_ret : tmp_ref_ );
-      if ( !is_char_at_last ) {
-        stream_->Write( last );
-      }
-      stream_->Write( ".charAt" );
-      writer_->WriteOp( '(' , 0 , stream_.Get() );
-      tmp_accessor.erase( 0 , 1 );
-      tmp_accessor.erase( tmp_accessor.size() - 1 , tmp_accessor.size() );
-      stream_->Write( tmp_accessor );
-      writer_->WriteOp( ')' , 0 , stream_.Get() );
-      writer_->WriteOp( ')' , 0 , stream_.Get() );
-      writer_->WriteOp( ')' , 0 , stream_.Get() );
-      writer_->WriteOp( ')' , 0 , stream_.Get() );
-      is_char_at = true;
-      is_char_at_last = true;
-    } else {
-      if ( !is_char_at ) {
-        stream_->Write( tmp_ref_ );
-      } else {
-        stream_->Write( char_at_tmp_ret );
-      }
-
-      if ( !is_char_at_last ) {
-        last += (*begin);
-        stream_->Write( last );
-      } else {
-        last = (*begin);
-        stream_->Write( (*begin) );
-      }
-      is_char_at_last = false;
-    }
-    ++begin;
-    if ( begin != end ) {
-      writer_->WriteOp( TOKEN::JS_LOGICAL_AND , 0 , stream_.Get() );
-    }
-  }
-  
-  writer_->WriteOp( ')' , 0 , stream_.Get() );
-  writer_->WriteOp( '?' , 0 , stream_.Get() );
-
-  if ( !is_char_at ) {
-    stream_->Write( tmp_ref_ );
-  } else {
-    stream_->Write( char_at_tmp_ret );
-  }
-
-  if ( !is_char_at_last ) {
-    stream_->Write( last );
-  }
-  
-  writer_->WriteOp( ':' , 0 , stream_.Get() );
-  stream_->Write( "undefined" );
-  std::string ret = stream_->Get()->GetData();
-  dst_code_list_.back()->Push( &ret );
-  printf( "size = %d, %s\n" , dst_code_list_.back()->GetCodeList().size() , name );
-  stream_->SwitchBuffer();
-}
-
-
-void CodegenVisitor::DstArrayProccessor_( ValueNode* ast_node , int depth ) {
-  PRINT_NODE_NAME;
-  AstNode* list_child = ast_node->FirstChild();
-  int index = 0;
-  while ( list_child ) {
-    if ( !list_child->IsEmpty() ) {
-      NodeIterator iter = list_child->ChildNodes();
-      while ( iter.HasNext() ) {
-        AstNode* element = iter.Next();
-        if ( !element->IsEmpty() ) {
-          if ( element->NodeType() == AstNode::kValueNode ) {
-            ValueNode* elem = element->CastToValue();
-            char tmp[ 100 ];
-            sprintf( tmp , "[%d]" , index );
-            dst_accessor_.push_back( tmp );
-            if ( elem->ValueType() == ValueNode::kIdentifier ) {
-              CreateDstAssignment_( elem->Symbol()->GetToken() );
-              dst_accessor_.pop_back();
-            } else if ( elem->ValueType() == ValueNode::kDst ) {
-              DstObjectProcessor_( elem , ( depth + 1 ) );
-            } else if ( elem->ValueType() == ValueNode::kDstArray ) {
-              DstArrayProccessor_( elem , ( depth + 1 ) );
-            }
-          }
-        }
-        if ( iter.HasNext() ) {
-          index++;
-        }
-      }
-      if ( list_child->HasNext() ) {
-        list_child = list_child->NextSibling();
-      } else {
-        break;
-      }
-    }
-  }
-  if ( depth == 0 ) {
-    dst_accessor_.clear();
-  } else {
-    dst_accessor_.pop_back();
-  }
-}
-
-
-void CodegenVisitor::DstMemberProccessor_( ValueNode* ast_node ) {
-  PRINT_NODE_NAME;
-  TokenInfo* info = ast_node->Symbol();
-  switch( info->GetType() ) {
-    case TOKEN::JS_IDENTIFIER :
-      {
-        char tmp[ 100 ];
-        sprintf( tmp , ".%s" , info->GetToken() );
-        dst_accessor_.push_back( tmp );
-      }
-      break;
-
-    case TOKEN::JS_NUMERIC_LITERAL :
-    case TOKEN::JS_STRING_LITERAL :
-      {
-        char tmp[ 100 ];
-        sprintf( tmp , "[%s]" , info->GetToken() );
-        dst_accessor_.push_back( tmp );
-      }
-      break;
-      
-  }
-}
-
-
-void CodegenVisitor::DstObjectProcessor_( ValueNode* ast_node , int depth ) {
-  PRINT_NODE_NAME;
-  AstNode* child = ast_node->Node();
-  int value_type = ast_node->ValueType();
-  printf( "child length = %d %d\n" , ast_node->ChildLength() , depth );
-  NodeIterator iterator = ( child && ( value_type == ValueNode::kDst || value_type == ValueNode::kDstArray ) && child->ChildLength() > 0 && !child->IsEmpty() )?
-      child->ChildNodes() :
-      ast_node->ChildNodes();
-  
-  while ( iterator.HasNext() ) {
-    AstNode* node = iterator.Next();
-    ValueNode* value = node->CastToValue();
-    if ( value ) {
-      switch ( value->ValueType() ) {
-        case ValueNode::kNumeric :
-        case ValueNode::kString :
-        case ValueNode::kIdentifier :
-          if ( value->ChildLength() > 0 ) {
-            DstMemberProccessor_( value );
-            AstNode* child_node = value->FirstChild();
-            ValueNode* prop = child_node->CastToValue();
-            if ( prop ) {
-              if ( prop->ValueType() == ValueNode::kDst ) {
-                DstObjectProcessor_( prop , ( depth + 1 ) );
-              } else if ( prop->ValueType() == ValueNode::kDstArray ) {
-                DstArrayProccessor_( prop , ( depth + 1 ) );
-              } else {
-                CreateDstAssignment_( prop->Symbol()->GetToken() );
-              }
-            }
-          } else {
-            TokenInfo *info = value->Symbol();
-            const char* name = info->GetToken();
-            char tmp[ 100 ];
-            sprintf( tmp , ".%s" , name );
-            printf( "%s\n" , name );
-            dst_accessor_.push_back( tmp );
-            CreateDstAssignment_( name );
-          }
-          break;
-
-        case ValueNode::kDst :
-        case ValueNode::kDstArray :
-          DstMemberProccessor_( value );
-          AstNode* child_node = value->FirstChild();
-          ValueNode* value = child_node->CastToValue();
-          if ( value ) {
-            if ( value->ValueType() == ValueNode::kDstArray ) {
-              DstArrayProccessor_( ast_node , ( depth + 1 ) );
-            } else {
-              DstObjectProcessor_( ast_node , ( depth + 1 ) );
-            }
-          }
-      }
-    }
-    if ( depth == 0 ) {
-      dst_accessor_.clear();
-    } else {
-      dst_accessor_.pop_back();
-    }
-  }
-}
-
-
-void CodegenVisitor::DstProcessor_( ValueNode* ast_node ) {
-  char tmp[ 20 ];
-  Handle<DstCodeContainer> container( new DstCodeContainer );
-  container->SetRef( tmp_index_ );
-  dst_code_list_.push_back( container );
-  sprintf( tmp , "__tmp__%d" , tmp_index_ );
-  tmp_ref_ = tmp;
-  tmp_index_++;
-  stream_->Write( tmp_ref_.c_str() );
-  if ( ast_node->ValueType() == ValueNode::kDstArray ) {
-    DstArrayProccessor_( ast_node , 0 );
-  } else {
-    DstObjectProcessor_( ast_node , 0 );
-  }
-}
-
-
-void CodegenVisitor::DstCodeProccessor_() {
-  std::vector<Handle<DstCodeContainer> >::iterator ITERATOR( dst_code_list_ );
-  printf( "dst size %d\n" , dst_code_list_.size() );
-  while ( begin != end ) {
-    std::vector<std::string> codes = (*begin)->GetCodeList();
-    std::vector<std::string>::iterator code_begin = codes.begin();
-    std::vector<std::string>::iterator code_end = codes.end();
-    printf( "dst size %d\n" , codes.size() );
-    while ( code_begin != code_end ) {
-      stream_->Write( (*code_begin) );
-      ++code_begin;
-      if ( code_begin != code_end ) {
-        if ( CurrentState_() == CodeWriter::kFor ) {
-          stream_->Write( ',' );
-        } else {
-          writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-        }
-      }
-    }
-    ++begin;
-    if ( begin != end ) {
-      writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-    }
-  }
-  ResetDstArray_();
-}
-
-void CodegenVisitor::ResetDstArray_() {
-  has_dst_ = false;
-  dst_code_.clear();
-  dst_accessor_.clear();
-  dst_code_list_.clear();
-  tmp_ref_.clear();
-}
-
-
 VISITOR_IMPL( ValueNode ) {
   switch ( ast_node->ValueType() ) {
     case ValueNode::kArray :
@@ -1586,13 +1128,10 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kDst :
     case ValueNode::kDstArray :
       printf( "Dst\n" );
-      has_dst_ = true;
-      DstProcessor_( ast_node );
       break;
 
     case ValueNode::kRest :
       printf( "Rest\n" );
-      has_rest_ = true;
       rest_name_ = ast_node->Symbol()->GetToken();
       break;
       

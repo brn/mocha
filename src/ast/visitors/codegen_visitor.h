@@ -47,15 +47,8 @@ class CodegenVisitor : public IVisitor {
   void ArrayProccessor_( ValueNode* ast_node );
   void ObjectProccessor_( ValueNode* ast_node );
   void VarInitialiserProccessor_( ValueNode* ast_node );
-  void DstProcessor_( ValueNode* ast_node );
-  void DstArrayProccessor_( ValueNode* ast_node , int depth );
-  void DstObjectProcessor_( ValueNode* ast_node , int depth );
-  void DstMemberProccessor_( ValueNode* ast_node );
-  void CreateDstAssignment_( const char* name );
-  void DstCodeProccessor_();
   void PrototypeMemberProccessor( NodeIterator& iterator , AstNode* name_node , bool is_private );
   void StaticMemberProccessor( NodeIterator& iterator , AstNode* node );
-  void ResetDstArray_();
   void BeginState_( int state );
   void EndLastState_();
   int CurrentState_();
@@ -63,13 +56,8 @@ class CodegenVisitor : public IVisitor {
 
   int tmp_index_;
   bool is_line_;
-  bool has_dst_;
   bool has_rest_;
   std::vector<int> state_;
-  std::vector<std::string> dst_code_;
-  std::vector<std::string> dst_accessor_;
-  std::vector<Handle<DstCodeContainer> >dst_code_list_;
-  std::string tmp_ref_;
   std::string rest_ref_;
   std::string rest_name_;
   CodeBuffer default_buffer_;

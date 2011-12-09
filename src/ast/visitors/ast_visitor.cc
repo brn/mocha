@@ -163,8 +163,42 @@ VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ImportProccessor_( ast_node );
+
+  ast_node->Exp()->Accept( this );
+  
+  ValueNode *name = AstUtils::CreateNameNode( ast_node->ModKey()->GetToken() , TOKEN::JS_STRING_LITERAL , ast_node->Line() );
+  ValueNode *global = AstUtils::CreateNameNode( AstUtils::GetGloablExportSymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+  CallExp* exp = AstUtils::CreateArrayAccessor( global , name );
+  if ( ast_node->From()->ChildLength() > 1 ) {
+    NodeIterator iter = ast_node->From()->ChildNodes();
+    iter.Next();
+    while ( iter.HasNext() ) {
+      ValueNode* item = iter.Next()->CastToValue();
+      if ( !item->IsEmpty() ) {
+        if ( item->ValueType() == ValueNode::kString ) {
+          exp = AstUtils::CreateArrayAccessor( exp , item );
+        } else {
+          exp = AstUtils::CreateDotAccessor( exp , item );
+        }
+      }
+    }
+  }
+  
   if ( ast_node->VarType() == ImportStmt::kDst ) {
-    ast_node->Exp()->Accept( this );
+    if ( visitor_info_->IsDstaInjection() ) {
+      ValueNode* value = AstUtils::CreateVarInitiliser( ast_node->Exp()->CastToValue()->Symbol() , exp );
+      NodeList* list = ManagedHandle::Retain<NodeList>();
+      list->AddChild( value );
+      list->Append( dsta_proc_->CreateDstaExtractedVarStmt() );
+      VariableStmt* stmt = AstUtils::CreateVarStmt( list );
+      ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
+    }
+  } else {
+    ValueNode* value = AstUtils::CreateVarInitiliser( ast_node->Exp()->CastToValue()->Symbol() , exp );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( value );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( list );
+    ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
   }
 }
 
@@ -631,7 +665,9 @@ VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
   ast_node->Name()->Accept( this );
   AstNode* argv = ast_node->Argv();
+  int argc = 0;
   if ( !argv->IsEmpty() ) {
+    argc = argv->ChildLength();
     NodeIterator iterator = argv->ChildNodes();
     while ( iterator.HasNext() ) {
       iterator.Next()->Accept( this );
@@ -639,18 +675,48 @@ VISITOR_IMPL(Function){
   }
 
   bool is_dst = visitor_info_->IsDstaInjection();
+  bool is_rest = visitor_info_->IsRestInjection();
   visitor_info_->SetDstaInjection( false );
+  visitor_info_->SetRestInjection( false );
   
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  
+
+  VariableStmt* dsta_stmt = 0;
+  VariableStmt* rest_stmt = 0;
   if ( is_dst ) {
     NodeList *list = dsta_proc_->CreateDstaExtractedVarStmt();
-    VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
-    ast_node->InsertBefore( var_stmt );
+    dsta_stmt = AstUtils::CreateVarStmt( list );
   }
+  
+  if ( is_rest ) {
+    ValueNode* rhs = AstUtils::CreateNameNode( AstUtils::GetArgumentsSymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    char num[50];
+    sprintf( num , "%d" , argc - 1 );
+    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() );
+    ValueNode* to_array = AstUtils::CreateNameNode( AstUtils::GetToArraySymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    list->AddChild( rhs );
+    list->AddChild( arg );
+    CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
+    CallExp* std_to_array = AstUtils::CreateStdMod( nrm );
+    ValueNode* var_node = AstUtils::CreateVarInitiliser( visitor_info_->GetRestExp() , std_to_array );
+    NodeList* var_list = ManagedHandle::Retain<NodeList>();
+    var_list->AddChild( var_node );
+    rest_stmt = AstUtils::CreateVarStmt( var_list );
+  }
+
+  if ( dsta_stmt && rest_stmt ) {
+    dsta_stmt->AddChild( rest_stmt->FirstChild() );
+    ast_node->InsertBefore( dsta_stmt );
+  } else if ( dsta_stmt ) {
+    ast_node->InsertBefore( dsta_stmt );
+  } else if ( rest_stmt ) {
+    ast_node->InsertBefore( rest_stmt );
+  }
+  
 };
 
 
@@ -727,9 +793,13 @@ VISITOR_IMPL( ValueNode ) {
       dsta_proc_->ProcessNode( ast_node );
       break;
 
-    case ValueNode::kRest :
+    case ValueNode::kRest : {
       printf( "Rest\n" );
-      //ast_node->Accept( this );
+      visitor_info_->SetRestInjection( true );
+      ast_node->ValueType( ValueNode::kIdentifier );
+      ast_node->ParentNode()->RemoveChild( ast_node );
+      visitor_info_->SetRestExp( ast_node->Symbol() );
+    }
       break;
       
     default :
