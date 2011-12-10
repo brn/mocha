@@ -8,10 +8,10 @@
   }
   export x,y,z;
  };*/
-
+import {ext:{Objects}} from "./ecma262-5th-compatible-devel";
 var {a:[{z:[name , test]},yt,{x}]} = [200,2,2];
 
-var x = ({x,g:[z,yg]},[aaa,bbb])->{return x*y*z;}
+var x = ({x,g:[z,yg]},[aaa,bbb],...rest)->{return x*y*z;}
 
 [x,y,z] = [100,200,300];
 

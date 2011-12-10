@@ -27,26 +27,16 @@ class CodeBuffer : private Uncopyable {
 
 class CodeStream : private Uncopyable {
  public :
-  CodeStream( CodeBuffer* buffer ) {
-    buffer_list_.push_back( buffer );
-  };
+  CodeStream( CodeBuffer* buffer ) : buffer_( buffer ){};
   ~CodeStream(){};
-  inline void Write( const char* str ) { buffer_list_.back()->Write( str ); }
-  inline void Write( char str ) { buffer_list_.back()->Write( str ); }
-  inline void Write( const std::string& str ) { buffer_list_.back()->Write( str ); }
-  inline void Erase( size_t beg , size_t end ) { buffer_list_.back()->Erase( beg , end ); }
-  inline size_t Size() { return buffer_list_.back()->Size(); }
-  inline const CodeBuffer* Get() { return buffer_list_.back(); }
-  inline void SwitchBuffer( CodeBuffer *buffer ) {
-    buffer_list_.push_back( buffer );
-  }
-  inline void SwitchBuffer() {
-    if ( buffer_list_.size() > 1 ) {
-      buffer_list_.pop_back();
-    }
-  }
+  inline void Write( const char* str ) { buffer_->Write( str ); }
+  inline void Write( char str ) { buffer_->Write( str ); }
+  inline void Write( const std::string& str ) { buffer_->Write( str ); }
+  inline void Erase( size_t beg , size_t end ) { buffer_->Erase( beg , end ); }
+  inline size_t Size() { return buffer_->Size(); }
+  inline const CodeBuffer* Get() { return buffer_; }
  private :
-  std::list<CodeBuffer*> buffer_list_;
+  CodeBuffer* buffer_;
 };
 
 }

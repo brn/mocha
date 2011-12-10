@@ -30,6 +30,13 @@ CallExp* AstUtils::CreateDotAccessor( AstNode* callable , AstNode* args ) {
   return exp;
 }
 
+CallExp* AstUtils::CreateNormalAccessor( AstNode* callable , AstNode* args ) {
+  CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+  exp->Callable( callable );
+  exp->Args( args );
+  return exp;
+}
+
 ValueNode* AstUtils::CreateNameNode( const char* name , int type , long line , bool is_empty ) {
   TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , type , line ) );
   ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -99,6 +106,15 @@ static const char global_export[] = { "__MC_global_export__" };
 static const char global_alias[] = { "__MC_global_alias__" };
 static const char local_export[] = { "__MC_local_export__" };
 static const char local_tmp[] = { "__MC_local_tmp__" };
+static const char to_array[] = { "__MC_toArray__" };
+static const char mc_std[] = { "__std" };
+static const char arguments[] = { "arguments" };
+
+CallExp* AstUtils::CreateStdMod( AstNode* member ) {
+  ValueNode* value = CreateNameNode( mc_std , TOKEN::JS_IDENTIFIER , 0 );
+  CallExp* exp = CreateDotAccessor( value , member );
+  return exp;
+}
 
 const char* AstUtils::GetGloablExportSymbol() {
   return global_export;
@@ -110,6 +126,14 @@ const char* AstUtils::GetLocalExportSymbol() {
 
 const char* AstUtils::GetGlobalAliasSymbol() {
   return global_alias;
+}
+
+const char* AstUtils::GetToArraySymbol() {
+  return to_array;
+}
+
+const char* AstUtils::GetArgumentsSymbol() {
+  return arguments;
 }
 
 const char* AstUtils::CreateTmpRef( char* buf , int index ) {
