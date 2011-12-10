@@ -1,0 +1,968 @@
+diff --git a/src/ast/ast.h b/src/ast/ast.h
+index bfdaaa2..fe597e8 100755
+--- a/src/ast/ast.h
++++ b/src/ast/ast.h
+@@ -206,16 +206,12 @@ class FileRoot : public AstNode {
+  */
+ class Statement : public AstNode {
+  public :
+-  Statement( int type , const char* name ) : AstNode( type , name ) , dsta_exp_( 0 ) {};
++  Statement( int type , const char* name ) : AstNode( type , name ) {};
+   virtual inline ~Statement() {};
+   inline Statement* CastToStatement() { return this; }
+-  inline void SetDsta( AstNode* tree ) { dsta_exp_ = tree;}
+-  inline bool HasDsta() { return dsta_exp_ != 0; }
+-  inline DstaExtractedExpressions* GetDsta() { return dsta_exp_; }
+  private :
+   inline Statement() : AstNode( AstNode::kStatement , "Statement" ){}
+   virtual NVI_ACCEPTOR_DECL=0;
+-  DstaExtractedExpressions *dsta_exp_;
+ };
+ 
+ 
+diff --git a/src/ast/visitors/ast_visitor.cc b/src/ast/visitors/ast_visitor.cc
+index 1baf693..8656ca9 100755
+--- a/src/ast/visitors/ast_visitor.cc
++++ b/src/ast/visitors/ast_visitor.cc
+@@ -27,7 +27,7 @@ AstVisitor::AstVisitor( Scope* scope , Compiler* compiler , const char* modulena
+                         const char* filename ) :
+     visitor_info_( new VisitorInfo( scope , compiler ,
+                                     ManagedHandle::Retain<DstaExtractedExpressions>() , modulename , filename ) ),
+-    factory_info_( this , scope , visitor_info_ ){}
++    dsta_proc_( new DstaProcessor( visitor_info_.Get() ) ) {}
+ 
+ AstVisitor::~AstVisitor () {}
+ 
+@@ -244,8 +244,8 @@ VISITOR_IMPL(VariableStmt) {
+   PRINT_NODE_NAME;
+   REGIST(ast_node);
+   VarListProcessor_( ast_node );
+-  if ( ast_node->HasDsta() ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt( ast_node );
++  if ( visitor_info_->IsDstaInjection() ) {
++    NodeList* list = dsta_proc_->CreateDstaExtractedVarStmt();
+     ast_node->Append( list );
+   }
+ }
+@@ -260,8 +260,8 @@ VISITOR_IMPL(ExpressionStmt) {
+   PRINT_NODE_NAME;
+   REGIST(ast_node);
+   ast_node->FirstChild()->Accept( this );
+-  if ( ast_node->HasDsta() ) {
+-    NodeIterator iterator = ast_node->GetDsta()->Refs()->ChildNodes();
++  if ( visitor_info_->IsDstaInjection() ) {
++    NodeIterator iterator = visitor_info_->GetDstaExtr()->Refs()->ChildNodes();
+     NodeList* var_list = ManagedHandle::Retain<NodeList>();
+     while ( iterator.HasNext() ) {
+       ValueNode* node = AstUtils::CreateVarInitiliser( iterator.Next()->CastToValue()->Symbol() , ManagedHandle::Retain<Empty>() );
+@@ -269,7 +269,7 @@ VISITOR_IMPL(ExpressionStmt) {
+     }
+     VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_list );
+     ast_node->ParentNode()->InsertBefore( var_stmt , ast_node );
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment( ast_node );
++    NodeList* list = dsta_proc_->CreateDstaExtractedAssignment();
+     Expression* exp = ManagedHandle::Retain<Expression>();
+     exp->Append( list );
+     exp->Paren();
+@@ -298,31 +298,55 @@ VISITOR_IMPL(IterationStmt) {
+   switch ( ast_node->NodeType() ) {
+     case AstNode::kFor : //Fall Through
+     case AstNode::kForWithVar :
+-      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessForNode( ast_node );
++      ForProccessor_( ast_node );
+       break;
+ 
+     case AstNode::kForIn :
+     case AstNode::kForInWithVar :
+-      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessForInNode( ast_node );
+-      break;
+     case AstNode::kForEach :
+     case AstNode::kForEachWithVar :
+-      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessForEachNode( ast_node );
++      ForInProccessor_( ast_node );
+       break;
+ 
+     case AstNode::kDoWhile :
+-      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessDoWhileNode( ast_node );
++      DoWhileProccessor_( ast_node );
+       break;
+ 
+     case AstNode::kWhile :
+-      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessWhileNode( ast_node );
++      WhileProccessor_( ast_node );
+       break;
+   }
+ }
+ 
+ 
+ void AstVisitor::ForProccessor_( IterationStmt* ast_node ) {
++  PRINT_NODE_NAME;
++  AstNode* exp = ast_node->Exp();
++  AstNode* index_exp = exp->FirstChild();
++  AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
++  AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
++
++  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
++    VarListProcessor_( index_exp );
++  } else {
++    index_exp->Accept( this );
++  }
+   
++  if ( cond_exp ) {
++    cond_exp->Accept( this );
++  }
++  
++  if ( incr_exp ) {
++    incr_exp->Accept( this );
++  }
++  
++
++  AstNode* maybeBlock = ast_node->FirstChild();
++  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
++    ast_node->FirstChild()->Accept( this );
++  } else {
++    ast_node->FirstChild()->Accept( this );
++  }
+ }
+ 
+ void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
+@@ -331,34 +355,9 @@ void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
+   AstNode* exp = ast_node->Exp();
+   AstNode* index_exp = exp->FirstChild();
+   AstNode* target_exp = index_exp->NextSibling();
+-  ValueNode* mayBeDsta = index_exp->CastToValue();
+-  bool is_dst = false;
+-  if ( mayBeDsta && mayBeDsta->ValueType() == ValueNode::kDst ) {
+-    is_dst = true;
+-    if ( ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForEachWithVar ) {
+-      index_exp = index_exp->CastToValue()->Node();
+-    }
+-  }
+   index_exp->Accept( this );
+-  if ( is_dst && ( ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForEachWithVar ) ) {
+-    ValueNode* node = mayBeDsta->Node()->CastToValue();
+-    node->ValueType( ValueNode::kVariable );
+-    exp->ReplaceChild( exp->FirstChild() , node );
+-    node->AddChild( ManagedHandle::Retain<Empty>() );
+-  } else {
+-    is_dst = ast_node->HasDsta();
+-  }
+-  visitor_info_->SetDstaInjection( false );
+-  AstNode* dsta_stmt = 0;
+-  if ( is_dst && ( ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForEachWithVar ) ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt( ast_node );
+-    dsta_stmt = AstUtils::CreateVarStmt( list );
+-  } else if ( is_dst && ( ast_node->NodeType() == AstNode::kForIn || ast_node->NodeType() == AstNode::kForEach ) ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment( ast_node );
+-    dsta_stmt = AstUtils::CreateExpStmt( list );
+-  }
+-  
+   target_exp->Accept( this );
++  bool is_dst = visitor_info_->IsDstaInjection();
+   ast_node->FirstChild()->Accept( this );
+   if ( ast_node->NodeType() == AstNode::kForEach || ast_node->NodeType() == AstNode::kForEachWithVar ) {
+     ExpressionStmt* stmt;
+@@ -378,17 +377,11 @@ void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
+       ast_node->RemoveAllChild();
+       StatementList* list = ManagedHandle::Retain<StatementList>();
+       list->AddChild( stmt );
+-      if ( is_dst ) {
+-        list->AddChild( dsta_stmt );
+-      }
+       list->AddChild( body );
+       BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+       block->AddChild( list );
+       ast_node->AddChild( block );
+     } else {
+-      if ( is_dst ) {
+-        body->InsertBefore( dsta_stmt );
+-      }
+       body->InsertBefore( stmt );
+     }
+   }
+@@ -636,25 +629,25 @@ VISITOR_IMPL(ClassMember) {
+ 
+ VISITOR_IMPL(Function){
+   PRINT_NODE_NAME;
+-  Statement* stmt = ManagedHandle::Retain<Statement>();
+-  REGIST(stmt);
+   ast_node->Name()->Accept( this );
+   AstNode* argv = ast_node->Argv();
+-  bool is_dst = false;
+   if ( !argv->IsEmpty() ) {
+     NodeIterator iterator = argv->ChildNodes();
+     while ( iterator.HasNext() ) {
+       iterator.Next()->Accept( this );
+     }
+   }
++
++  bool is_dst = visitor_info_->IsDstaInjection();
++  visitor_info_->SetDstaInjection( false );
+   
+   NodeIterator iterator = ast_node->ChildNodes();
+   while ( iterator.HasNext() ) {
+     iterator.Next()->Accept( this );
+   }
+   
+-  if ( stmt->HasDsta() ) {
+-    NodeList *list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt( stmt );
++  if ( is_dst ) {
++    NodeList *list = dsta_proc_->CreateDstaExtractedVarStmt();
+     VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
+     ast_node->InsertBefore( var_stmt );
+   }
+@@ -731,7 +724,7 @@ VISITOR_IMPL( ValueNode ) {
+     case ValueNode::kDst :
+     case ValueNode::kDstArray :
+       printf( "Dst\n" );
+-      ProcessorFactory::Create<DstaProcessor>( factory_info_ )->ProcessNode( ast_node );
++      dsta_proc_->ProcessNode( ast_node );
+       break;
+ 
+     case ValueNode::kRest :
+diff --git a/src/ast/visitors/ast_visitor.h b/src/ast/visitors/ast_visitor.h
+index e691d77..e0acf0f 100755
+--- a/src/ast/visitors/ast_visitor.h
++++ b/src/ast/visitors/ast_visitor.h
+@@ -12,7 +12,8 @@ namespace mocha{
+ class Scope;
+ class Compiler;
+ class VisitorInfo;
+-class ProcessorFactory;
++class DstaProcessor;
++
+ class AstVisitor : public IVisitor {
+  public :
+     
+@@ -41,7 +42,7 @@ class AstVisitor : public IVisitor {
+   void VarInitialiserProccessor_( ValueNode* ast_node );
+   
+   ScopedPtr<VisitorInfo> visitor_info_;
+-  ScopedPtr<FactoryInfo> factory_info_;
++  ScopedPtr<DstaProcessor> dsta_proc_;
+ };
+ 
+ }
+diff --git a/src/ast/visitors/codegen_visitor.cc b/src/ast/visitors/codegen_visitor.cc
+index 028e7ad..a2ef37f 100755
+--- a/src/ast/visitors/codegen_visitor.cc
++++ b/src/ast/visitors/codegen_visitor.cc
+@@ -420,7 +420,12 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
+   if ( for_in_type == AstNode::kForInWithVar || for_in_type == AstNode::kForEachWithVar ) {
+     ValueNode* var = index_exp->CastToValue();
+     if ( var ) {
+-      VarInitialiserProccessor_( index_exp->CastToValue() );
++      if ( var->ValueType() == ValueNode::kDst ) {
++        is_dst = true;
++        var->Node()->Accept( this );
++      } else {
++        VarInitialiserProccessor_( index_exp->CastToValue() );
++      }
+     }
+   } else {
+     index_exp->Accept( this );
+diff --git a/src/ast/visitors/utils/processors/dsta_processor.cc b/src/ast/visitors/utils/processors/dsta_processor.cc
+index d86a794..348f09a 100755
+--- a/src/ast/visitors/utils/processors/dsta_processor.cc
++++ b/src/ast/visitors/utils/processors/dsta_processor.cc
+@@ -9,23 +9,14 @@
+ 
+ namespace mocha {
+ 
+-DstaProcessor* DstaProcessor::GetInstance( AstVisitor* visitor , Scope* scope , VisitorInfo* info , FactoryInfo *f_info ) {
+-  return ProcessorUtil::GetInstance<DstaProcessor>( visitor , scope , info , f_info );
+-}
+-
+-DstaProcessor::DstaProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* visitor_info , FactoryInfo *f_info )
+-    : visitor_( visitor ) , scope_( scope ) , visitor_info_( visitor_info ) , factory_info_( f_info ) {};
+-
+ void DstaProcessor::ProcessNode( ValueNode* ast_node ) {
+   char buf[50];
+   visitor_info_->SetDstaInjection( true );
+   const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info_->GetTmpIndex() );
+   ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
+   DstaTree* tree = ManagedHandle::Retain<DstaTree>();
+-  visitor_info_->GetCurrentStmt()->SetDsta( ManagedHandle::Retain<DstaExtractedExpressions>() );
+-  visitor_info_->GetCurrentStmt()->GetDsta()->AddChild( ManagedHandle::Retain<NodeList>() );
+-  visitor_info_->GetCurrentStmt()->GetDsta()->Refs( value );
+-  AstNode* node = ast_node->Node();
++  visitor_info_->GetDstaExtr()->AddChild( ManagedHandle::Retain<NodeList>() );
++  visitor_info_->GetDstaExtr()->Refs( value );
+   if ( ast_node->ValueType() == ValueNode::kDstArray ) {
+     ArrayProcessor_( ast_node , tree , 0 );
+   } else {
+@@ -35,22 +26,9 @@ void DstaProcessor::ProcessNode( ValueNode* ast_node ) {
+   ast_node->Symbol( value->Symbol() );
+ }
+ 
+-VariableStmt* DstaProcessor::CreateTmpVarDecl( Statement* stmt ) {
+-  DstaExtractedExpressions* dsta_extr = stmt->GetDsta();
+-  NodeList* list = dsta_extr->Refs();
+-  NodeIterator iterator = list->ChildNodes();
+-  NodeList* var_list;
+-  while ( iterator.HasNext() ) {
+-    ValueNode* value = iterator.Next()->CastToValue()->Clone();
+-    value->ValueType( ValueNode::kVariable );
+-    var_list->AddChild( value );    
+-  }
+-  return AstUtils::CreateVarStmt( var_list );
+-}
+-
+-NodeList* DstaProcessor::CreateDstaExtractedVarStmt( Statement* stmt ) {
++NodeList* DstaProcessor::CreateDstaExtractedVarStmt() {
+   NodeList* result = ManagedHandle::Retain<NodeList>();
+-  NodeIterator iterator = stmt->GetDsta()->ChildNodes();
++  NodeIterator iterator = visitor_info_->GetDstaExtr()->ChildNodes();
+   while ( iterator.HasNext() ) {
+     AstNode* node_list = iterator.Next();
+     NodeIterator list = node_list->ChildNodes();
+@@ -87,12 +65,15 @@ NodeList* DstaProcessor::CreateDstaExtractedVarStmt( Statement* stmt ) {
+       }
+     }
+   }
++  visitor_info_->SetDstaInjection( false );
++  visitor_info_->GetDstaExtr()->RemoveAllChild();
++  visitor_info_->GetDstaExtr()->Refs()->RemoveAllChild();
+   return result;
+ }
+ 
+-NodeList* DstaProcessor::CreateDstaExtractedAssignment( Statement* stmt ) {
++NodeList* DstaProcessor::CreateDstaExtractedAssignment() {
+   NodeList* result = ManagedHandle::Retain<NodeList>();
+-  NodeIterator iterator = stmt->GetDsta()->ChildNodes();
++  NodeIterator iterator = visitor_info_->GetDstaExtr()->ChildNodes();
+   while ( iterator.HasNext() ) {
+     AstNode* node_list = iterator.Next();
+     NodeIterator list = node_list->ChildNodes();
+@@ -124,6 +105,8 @@ NodeList* DstaProcessor::CreateDstaExtractedAssignment( Statement* stmt ) {
+       }
+     }
+   }
++  visitor_info_->SetDstaInjection( false );
++  visitor_info_->GetDstaExtr()->RemoveAllChild();
+   return result;
+ }
+ 
+@@ -163,14 +146,14 @@ void DstaProcessor::ObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int
+                 ArrayProcessor_( prop , tree , ( depth + 1 ) );
+               } else {
+                 tree->Symbol( prop );
+-                visitor_info_->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
++                visitor_info_->GetDstaExtr()->LastChild()->AddChild( tree );
+                 UPDATE_TREE;
+               }
+             }
+           } else {
+             tree->Symbol( value );
+             MemberProcessor_( value , tree );
+-            visitor_info_->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
++            visitor_info_->GetDstaExtr()->LastChild()->AddChild( tree );
+             UPDATE_TREE;
+           }
+           break;
+@@ -205,7 +188,7 @@ void DstaProcessor::MemberProcessor_( ValueNode* ast_node , DstaTree* tree ) {
+           CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->LastChild() , ast_node );
+           tree->AddChild( dot_accessor );
+         } else {
+-          CallExp* dot_accessor = AstUtils::CreateDotAccessor( visitor_info_->GetCurrentStmt()->GetDsta()->Refs()->LastChild() , ast_node );
++          CallExp* dot_accessor = AstUtils::CreateDotAccessor( visitor_info_->GetDstaExtr()->Refs()->LastChild() , ast_node );
+           tree->AddChild( dot_accessor );
+         }
+       }
+@@ -218,7 +201,7 @@ void DstaProcessor::MemberProcessor_( ValueNode* ast_node , DstaTree* tree ) {
+           CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->LastChild() , ast_node );
+           tree->AddChild( arr_accessor );
+         } else {
+-          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( visitor_info_->GetCurrentStmt()->GetDsta()->Refs()->LastChild() , ast_node );
++          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( visitor_info_->GetDstaExtr()->Refs()->LastChild() , ast_node );
+           tree->AddChild( arr_accessor );
+         }
+       }
+@@ -240,7 +223,7 @@ inline void ArrayHelper( ValueNode* ast_node , VisitorInfo* visitor_info , DstaT
+   if ( tree->ChildLength() > 0 ) {
+     exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
+   } else {
+-    exp = AstUtils::CreateArrayAccessor( visitor_info_->GetCurrentStmt()->GetDsta()->Refs()->LastChild() , accessor_index );
++    exp = AstUtils::CreateArrayAccessor( visitor_info->GetDstaExtr()->Refs()->LastChild() , accessor_index );
+   }
+   if ( symbol ) {
+     tree->Symbol( symbol );
+@@ -263,7 +246,7 @@ void DstaProcessor::ArrayProcessor_( ValueNode* ast_node , DstaTree* tree , int
+             ValueNode* elem = element->CastToValue();
+             if ( elem->ValueType() == ValueNode::kIdentifier ) {
+               ArrayHelper( ast_node , visitor_info_ , tree , index , elem );
+-              visitor_info_->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
++              visitor_info_->GetDstaExtr()->LastChild()->AddChild( tree );
+               UPDATE_TREE;
+             } else if ( elem->ValueType() == ValueNode::kDst ) {
+               ArrayHelper( ast_node , visitor_info_ , tree , index , 0 );
+diff --git a/src/ast/visitors/utils/processors/dsta_processor.h b/src/ast/visitors/utils/processors/dsta_processor.h
+index b92d97b..a93d1f9 100755
+--- a/src/ast/visitors/utils/processors/dsta_processor.h
++++ b/src/ast/visitors/utils/processors/dsta_processor.h
+@@ -1,35 +1,24 @@
+ #ifndef mocha_dsta_processor_h_
+ #define mocha_dsta_processor_h_
+ 
+-#include <utils/class_traits/uncopyable.h>
+ #include <ast/ast_foward_decl.h>
+-#include <ast/visitors/utils/processors/processor_util.h>
+ 
+ namespace mocha {
+ 
+ class VisitorInfo;
+-class Scope;
+-class AstVisitor;
+-class FactoryInfo;
+-class DstaProcessor : public ProcessorBase {
++
++class DstaProcessor {
+  public :
+-  static DstaProcessor* GetInstance( AstVisitor* , Scope* , VisitorInfo* , FactoryInfo* );
++  inline DstaProcessor( VisitorInfo* visitor_info ) : visitor_info_( visitor_info ) {};
+   inline ~DstaProcessor(){};
+   void ProcessNode( ValueNode* ast_node );
+   NodeList* CreateDstaExtractedVarStmt();
+   NodeList* CreateDstaExtractedAssignment();
+-  VariableStmt* CreateTmpVarDecl();
+  private :
+-  DstaProcessor( AstVisitor* , Scope*, VisitorInfo* ,FactoryInfo* );
+-  
+   void ArrayProcessor_( ValueNode* ast_node , DstaTree* tree , int depth );
+   void ObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int depth );
+   void MemberProcessor_( ValueNode* ast_node , DstaTree* tree );
+-
+-  AstVisitor *visitor_;
+-  Scope *scope_;
+-  VisitorInfo *visitor_info_;
+-  FactoryInfo *factory_info_;
++  VisitorInfo* visitor_info_;
+ };
+ 
+ }
+diff --git a/src/ast/visitors/utils/processors/iteration_processor.cc b/src/ast/visitors/utils/processors/iteration_processor.cc
+deleted file mode 100755
+index 0f24949..0000000
+--- a/src/ast/visitors/utils/processors/iteration_processor.cc
++++ /dev/null
+@@ -1,200 +0,0 @@
+-#include <ast/ast.h>
+-#include <ast/visitors/utils/visitor_info.h>
+-#include <ast/visitors/utils/processors/iteration_processor.h>
+-#include <compiler/scopes/scope.h>
+-#include <ast/visitors/utils/processors/processor_factory.h>
+-
+-namespace mocha {
+-
+-IterationProcessor* IterationProcessor::GetInstance( AstVisitor *visitor , Scope* scope , VisitorInfo* info , FactoryInfo* f_info ) {
+-  return ProcessorUtil::GetInstance<IterationProcessor>( visitor , scope , info , f_info );
+-}
+-
+-IterationProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* info , FactoryInfo* f_info ) : visitor_( visitor ) , scope_( scope ) , visitor_info_( info ) , factory_info_( f_info ){}
+-~IterationProcessor(){}
+-
+-void IterationProcessor::ProccessForNode( IterationStmt* ast_node ) {
+-  bool is_dst = false;
+-  AstNode* exp = ast_node->Exp();
+-  AstNode* index_exp = exp->FirstChild();
+-  AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
+-  AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
+-
+-  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
+-    ProcessorFactory::Create<VariableProcessor>( factory_info_ )->ProcessVarList( ast_node );
+-  } else {
+-    index_exp->Accept( visitor_ );
+-  }
+-  
+-  if ( cond_exp ) {
+-    cond_exp->Accept( visitor_ );
+-  }
+-  
+-  if ( incr_exp ) {
+-    incr_exp->Accept( visitor_ );
+-  }
+-  
+-
+-  AstNode* maybeBlock = ast_node->FirstChild();
+-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
+-    ast_node->FirstChild()->Accept( visitor_ );
+-  } else {
+-    ast_node->FirstChild()->Accept( visitor_ );
+-  } 
+-}
+-
+-void IterationProcessor::ProcessForInNode( IterationStmt* ast_node ) {
+-  bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar;
+-  AstNode* exp = ast_node->Exp();
+-  AstNode* index_exp = exp->FirstChild();
+-  AstNode* target_exp = index_exp->NextSibling();
+-  ValueNode* mayBeDsta = index_exp->CastToValue();
+-  bool is_dst = false;
+-  if ( mayBeDsta && mayBeDsta->ValueType() == ValueNode::kDst ) {
+-    is_dst = true;
+-    if ( has_variable ) {
+-      index_exp = index_exp->CastToValue()->Node();
+-    }
+-  }
+-  index_exp->Accept( this );
+-  
+-  if ( is_dst && has_variable ) {
+-    ValueNode* node = mayBeDsta->Node()->CastToValue();
+-    node->ValueType( ValueNode::kVariable );
+-    exp->ReplaceChild( exp->FirstChild() , node );
+-    node->AddChild( ManagedHandle::Retain<Empty>() );
+-  } else {
+-    is_dst = ast_node->HasDsta();
+-  }
+-  
+-  visitor_info_->SetDstaInjection( false );
+-
+-  AstNode* dsta_stmt = 0;
+-  if ( is_dst && has_variable ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt();
+-    dsta_stmt = AstUtils::CreateVarStmt( list );
+-  } else if ( is_dst && !has_variable ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment();
+-    dsta_stmt = AstUtils::CreateExpStmt( list );
+-  }
+-  
+-  target_exp->Accept( this );
+-  ast_node->FirstChild()->Accept( this );
+-  
+-  AstNode* body = ast_node->FirstChild();
+-  if ( is_dst && body->NodeType() != AstNode::kBlockStmt ) {
+-    ast_node->RemoveAllChild();
+-    StatementList* list = ManagedHandle::Retain<StatementList>();
+-    list->AddChild( dsta_stmt );
+-    list->AddChild( body );
+-    BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+-    block->AddChild( list );
+-    ast_node->AddChild( block );
+-  } else if ( is_dst ) {
+-    body->InsertBefore( dsta_stmt );
+-  }
+-}
+-
+-void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node ) {
+-  bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar;
+-  AstNode* exp = ast_node->Exp();
+-  AstNode* index_exp = exp->FirstChild();
+-  AstNode* target_exp = index_exp->NextSibling();
+-  ValueNode* mayBeDsta = index_exp->CastToValue();
+-  bool is_dst = false;
+-  
+-  if ( mayBeDsta && mayBeDsta->ValueType() == ValueNode::kDst ) {
+-    is_dst = true;
+-    if ( ast_node->NodeType() == AstNode::kForEachWithVar ) {
+-      index_exp = index_exp->CastToValue()->Node();
+-    }
+-  }
+-  
+-  index_exp->Accept( this );
+-
+-  if ( is_dst && has_variable ) {
+-    ValueNode* node = mayBeDsta->Node()->CastToValue();
+-    node->ValueType( ValueNode::kVariable );
+-    exp->ReplaceChild( exp->FirstChild() , node );
+-    node->AddChild( ManagedHandle::Retain<Empty>() );
+-  } else {
+-    is_dst = ast_node->HasDsta();
+-  }
+-  visitor_info_->SetDstaInjection( false );
+-  
+-  AstNode* dsta_stmt = 0;
+-  if ( is_dst && has_variable ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt();
+-    dsta_stmt = AstUtils::CreateVarStmt( list );
+-  } else if ( is_dst && !has_variable ) {
+-    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment();
+-    dsta_stmt = AstUtils::CreateExpStmt( list );
+-  }
+-  
+-  target_exp->Accept( this );
+-  ast_node->FirstChild()->Accept( this );
+-  ExpressionStmt* stmt;
+-  if ( has_variable ) {
+-    ValueNode *value = index_exp->Clone()->CastToValue();
+-    value->ValueType( ValueNode::kIdentifier );
+-    CallExp* call = AstUtils::CreateArrayAccessor( target_exp->Clone() , value );
+-    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , index_exp->Clone() , call );
+-    stmt = AstUtils::CreateExpStmt( exp );
+-  } else {
+-    CallExp* call = AstUtils::CreateArrayAccessor( target_exp->Clone() , index_exp->Clone() );
+-    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , index_exp->Clone() , call );
+-    stmt = AstUtils::CreateExpStmt( exp );
+-  }
+-  AstNode* body = ast_node->FirstChild();
+-  if ( body->NodeType() != AstNode::kBlockStmt ) {
+-    ast_node->RemoveAllChild();
+-    StatementList* list = ManagedHandle::Retain<StatementList>();
+-    list->AddChild( stmt );
+-    if ( is_dst ) {
+-      list->AddChild( dsta_stmt );
+-    }
+-    list->AddChild( body );
+-    BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+-    block->AddChild( list );
+-    ast_node->AddChild( block );
+-  } else {
+-    if ( is_dst ) {
+-      body->InsertBefore( dsta_stmt );
+-    }
+-    body->InsertBefore( stmt );
+-  }
+-}
+-
+-void IterationProcessor::ProcessWhileNode( IterationStmt *ast_node ) {
+-  bool is_dst = false;
+-  NodeList* dsta_list = 0;
+-  VariableStmt* var_stmt = 0;
+-  ast_node->Exp()->Accept( visitor_ );
+-  if ( ( is_dst = ast_node->HasDsta() ) {
+-    var_stmt = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateTmpVarDecl();
+-    dsta_list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment();
+-  }
+-  AstNode* body = ast_node->FirstChild();
+-  body->Accept( visitor_ );
+-
+-  if ( is_dst ) {
+-    Expression* exp = ManagedHandle::Retain<Expression>();
+-    exp->AddChild( dsta_list );
+-    exp->Paren();
+-    ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+-    stmt->AddChild( exp )
+-    if ( body->NodeType() == AstNode::kBlockStmt ) {
+-      body->InsertBefore( stmt );
+-    } else {
+-      BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+-      block->AddChild( stmt );
+-      body->ParentNode()->ReplaceChild( body , block );
+-      block->AddChild( body );
+-    }
+-    ast_node->ParentNode()->InsertBefore( var_stmt , ast_node );
+-  }
+-}
+-
+-}
+-
+-}
+diff --git a/src/ast/visitors/utils/processors/iteration_processor.h b/src/ast/visitors/utils/processors/iteration_processor.h
+deleted file mode 100755
+index 14a58d9..0000000
+--- a/src/ast/visitors/utils/processors/iteration_processor.h
++++ /dev/null
+@@ -1,35 +0,0 @@
+-#ifnedf mocha_iteration_processor_h_
+-#define mocha_iteration_processor_h_
+-
+-#include <utils/class_traits/uncopyable.h>
+-#include <utils/thread/thread.h>
+-#include <ast/ast_foward_decl.h>
+-#include <ast/visitors/utils/processors/processor_util.h>
+-
+-namespace mocha : public ProcessorBase {
+-class AstVisitor;
+-class Scope;
+-class VisitorInfo;
+-class FactoryInfo;
+-class IterationProcessor {
+- public :
+-  static IterationProcessor* GetInstance( AstVisitor* , Scope* , VisitorInfo* , FactoryInfo* );
+-  ~IterationProcessor();
+-  void ProcessForNode( IterationStmt* ast_node );
+-  void ProcessForInNode( IterationStmt* ast_node );
+-  void ProcessForEachNode( IterationStmt* ast_node );
+-  void ProcessWhileNode( IterationStmt* ast_node );
+-  void ProcessDoWhileNode( IterationStmt* ast_node );
+- private :
+-  IterationProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* info );
+-
+-  static ThreadLocalStorageKey local_key_;
+-  static Mutex mutex_;
+-  AstVisitor* visitor_;
+-  Scope* scope_;
+-  VisitorInfo* visitor_info_;
+-  FactoryInfo* factory_info_;
+-};
+-}
+-
+-#endif
+diff --git a/src/ast/visitors/utils/processors/processor_factory.cc b/src/ast/visitors/utils/processors/processor_factory.cc
+deleted file mode 100755
+index 182eb97..0000000
+--- a/src/ast/visitors/utils/processors/processor_factory.cc
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#include <ast/visitors/utils/processors/processor_factory.h>
+-
+-namespace mocha {
+-ProcessorFactory::ProcessorFactory( AstVisitor* visitor , Scope* scope , VisitorInfo* info ) :
+-    visitor_( visitor ) , scope_( scope ) , info_( info ){}
+-}
+diff --git a/src/ast/visitors/utils/processors/processor_factory.h b/src/ast/visitors/utils/processors/processor_factory.h
+deleted file mode 100755
+index 9e3f1fb..0000000
+--- a/src/ast/visitors/utils/processors/processor_factory.h
++++ /dev/null
+@@ -1,33 +0,0 @@
+-#ifndef mocha_processor_factory_h_
+-#define mocha_processor_factory_h_
+-
+-namespace mocha {
+-class AstVisitor;
+-class Scope;
+-class VisitorInfo;
+-
+-class ProcessorFactory;
+-class FactoryInfo {
+-  friend class ProcessorFactory;
+- public :
+-  FactoryInfo( visitor , scope , info );
+- private :
+-  AstVisitor *visitor_;
+-  Scope *scope_;
+-  VisitorInfo *info_;
+-};
+-
+-class ProcessorFactory : private Static {
+- public :
+-  template <typename T>
+-  static T* Create( FactoryInfo *info ) {
+-    return T::GetInstance( info->visitor_ , info->scope_ , info->info_ , info );
+-  }
+- private :
+-  AstVisitor *visitor_;
+-  Scope *scope_;
+-  VisitorInfo *info_;
+-};
+-}
+-
+-#endif
+diff --git a/src/ast/visitors/utils/processors/processor_util.cc b/src/ast/visitors/utils/processors/processor_util.cc
+deleted file mode 100755
+index b5d0d0e..0000000
+--- a/src/ast/visitors/utils/processors/processor_util.cc
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#include <ast/visitors/utils/processors/processor_util.h>
+-namespace mocha {
+-void ProcessorUtil::Destructor_( void* data ) {
+-  ProcessorBase* processor = reinterpret_cast<ProcessorBase*>( data );
+-  delete data;
+-}
+-ThreadLocalStorageKey ProcessorUtil::local_key_( ProcessorUtil::Destructor_ );
+-}
+diff --git a/src/ast/visitors/utils/processors/processor_util.h b/src/ast/visitors/utils/processors/processor_util.h
+deleted file mode 100755
+index 3e2243e..0000000
+--- a/src/ast/visitors/utils/processors/processor_util.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#ifndef mocha_processor_util_h_
+-#define mocha_processor_util_h_
+-#include <utils/class_traits/uncopyable.h>
+-#include <utils/thread/thread.h>
+-namespace mocha{
+-class AstVisitor;
+-class Scope;
+-class VisitorInfo;
+-class ProcessorBase : private Uncopyable{
+- public :
+-  virtual ~IProcessor();
+-}
+-
+-class ProcessorUtil {
+- public :
+-  template <typename T>
+-  T* GetInstance( AstVisitor* visitor , Scope* scope , VisitorInfo* info ) {
+-    T* proc = reinterpret_cast<T*>( ThreadLocalStorage::Get( local_key_ ) );
+-    if ( proc == NULL ) {
+-      proc = new T( visitor , scope , info );
+-      ThreadLocalStorage::Set( local_key_ , proc );
+-    }
+-    return proc;
+-  }
+- private :
+-  static void* Destructor_( void* );
+-  
+-  static ThreadLocalStorage local_key_;
+-};
+-}
+-
+-#endif
+diff --git a/src/ast/visitors/utils/processors/variable_processor.cc b/src/ast/visitors/utils/processors/variable_processor.cc
+deleted file mode 100755
+index 0c38e07..0000000
+--- a/src/ast/visitors/utils/processors/variable_processor.cc
++++ /dev/null
+@@ -1,47 +0,0 @@
+-#include <ast/visitors/utils/processors/variable_processor.h>
+-#include <ast/ast.h>
+-namespace mocha {
+-
+-VariableProcessor* VariableProcessor::GetInstance( AstVisitor* visitor , Scope* scope , VisitorInfo* info ) {
+-  return ProcessorUtil::GetInstance<VariableProcessor>( visitor , scope , info );
+-}
+-
+-VariableProcessor::VariableProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* info ) :
+-    visitor_( visitor ) , scope_( scope ) , visitor_info_( info ) {}
+-
+-
+-void ProcessVarList( AstNode* ast_node ) {
+-  NodeIterator iterator = ast_node->ChildNodes();
+-  while ( iterator.HasNext() ) {
+-    AstNode* item = iterator.Next();
+-    if ( !item->IsEmpty() ) {
+-      ValueNode* value = item->CastToValue();
+-      if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
+-        ValueNode* dst_node = item->CastToValue();
+-        dst_node->Node()->Accept( visitor_ );
+-        printf( "type %s\n" ,dst_node->Node()->CastToValue()->Symbol()->GetToken() );
+-        dst_node->ValueType( ValueNode::kVariable );
+-        dst_node->Symbol( dst_node->Node()->CastToValue()->Symbol() );
+-        AstNode* initialiser = item->FirstChild();
+-        if ( !initialiser->IsEmpty() ) {
+-          initialiser->Accept( visitor_ );
+-        }
+-      } else {
+-        item->Accept( visitor_ );
+-      }
+-    }
+-  }
+-}
+-
+-
+-void ProcessVarInitialiser( AstNode* ast_node ) {
+-  if ( ast_node->ValueType() == ValueNode::kVariable ) {
+-    //ast_node->Symbol()->Accept( this );
+-  }
+-  AstNode* initialiser = ast_node->FirstChild();
+-  if ( !initialiser->IsEmpty() ) {
+-    initialiser->Accept( visitor_ );
+-  }  
+-}
+-
+-}
+diff --git a/src/ast/visitors/utils/processors/variable_processor.h b/src/ast/visitors/utils/processors/variable_processor.h
+deleted file mode 100755
+index 4c1f16c..0000000
+--- a/src/ast/visitors/utils/processors/variable_processor.h
++++ /dev/null
+@@ -1,25 +0,0 @@
+-#infdef mocha_variable_processor_h_
+-#define mocha_variable_processor_h_
+-#include <ast/ast_foward_decl.h>
+-#include <ast/visitors/utils/processors/processor_util.h>
+-
+-namespace mocha {
+-class AstVisitor;
+-class Scope;
+-class VisitorInfo;
+-class FactoryInfo;
+-class VariableProcessor : public ProcessorBase {
+- public :
+-  VariableProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* info , FactoryInfo* f_info );
+-  ~VariableProcessor(){}
+-  void ProcessVarList( AstNode* ast_node );
+-  void ProcessVarInitialiser( AstNode* ast_node );
+- private :
+-  AstVisitor *visitor_;
+-  Scope *scope_;
+-  VisitorInfo *visitor_info_;
+-  FactoryInfo *factory_info_;
+-};
+-}
+-
+-#endif
+diff --git a/src/ast/visitors/utils/visitor_info.cc b/src/ast/visitors/utils/visitor_info.cc
+index 71b4101..731360f 100755
+--- a/src/ast/visitors/utils/visitor_info.cc
++++ b/src/ast/visitors/utils/visitor_info.cc
+@@ -1,5 +1,4 @@
+ #include <ast/visitors/utils/visitor_info.h>
+-#include <ast/visitors/utils/processors/dsta_processor.h>
+ namespace mocha {
+ 
+ VisitorInfo::VisitorInfo( Scope* scope , Compiler *compiler,
+diff --git a/src/ast/visitors/utils/visitor_info.h b/src/ast/visitors/utils/visitor_info.h
+index 99ce9f2..8f752af 100755
+--- a/src/ast/visitors/utils/visitor_info.h
++++ b/src/ast/visitors/utils/visitor_info.h
+@@ -1,12 +1,11 @@
+ #ifndef mocha_visitor_info_h_
+ #define mocha_visitor_info_h_
+-#include <utils/smart_pointer/scope/scoped_ptr.h>
++
+ #include <ast/ast_foward_decl.h>
+ 
+ namespace mocha {
+ class Scope;
+ class Compiler;
+-
+ class VisitorInfo {
+  public :
+   VisitorInfo( Scope* scope , Compiler *compiler ,
+@@ -20,10 +19,8 @@ class VisitorInfo {
+   inline void SetDstaInjection( bool is ) { is_dst_injection_ = is; }
+   inline bool IsDstaInjection() { return is_dst_injection_; }
+   inline DstaExtractedExpressions* GetDstaExtr() { return dsta_exp_; }
+-  inline void SetCurrentStmt( Statement* stmt ) { current_stmt_ = stmt; }
+-  inline Statement* GetCurrentStmt() { return current_stmt_; }
+-  static DstaTag Dsta;
+-  static IterationTag Iteration;
++  inline void SetCurrentStmt( AstNode* stmt ) { current_stmt_ = stmt; }
++  inline AstNode* GetCurrentStmt() { return current_stmt_; }
+  private :
+   int tmp_index_;
+   bool is_dst_injection_;
+@@ -32,7 +29,7 @@ class VisitorInfo {
+   DstaExtractedExpressions* dsta_exp_;
+   Scope *scope_;
+   Compiler *compiler_;
+-  Statement* current_stmt_;
++  AstNode* current_stmt_;
+ };
+ }
+ 
+diff --git a/test/deploy/fmt-cmp.js b/test/deploy/fmt-cmp.js
+index fdfc096..032b6d8 100755
+--- a/test/deploy/fmt-cmp.js
++++ b/test/deploy/fmt-cmp.js
+@@ -18,11 +18,9 @@
+     var __MC_local_tmp__3;
+     __MC_local_tmp__3 = [100,200,300];
+     ( x = __MC_local_tmp__3[0] , y = __MC_local_tmp__3[1] , z = __MC_local_tmp__3[2] );
+-    var __MC_local_tmp__4 = 200,
+-        m = __MC_local_tmp__4.m;
+-    for ( var __MC_local_tmp__5 in obj ){
+-      __MC_local_tmp__5 = obj[__MC_local_tmp__5];
+-      var x = __MC_local_tmp__5.x;
++    var m = 200;
++    for ( var x in obj ){
++      x = obj[x];
+       console.log( x );
+     };
+   })();
+diff --git a/test/mains/fmt.js b/test/mains/fmt.js
+index cf12b3d..b8fd60a 100755
+--- a/test/mains/fmt.js
++++ b/test/mains/fmt.js
+@@ -8,15 +8,14 @@
+   }
+   export x,y,z;
+  };*/
+-
+ var {a:[{z:[name , test]},yt,{x}]} = [200,2,2];
+ 
+ var x = ({x,g:[z,yg]},[aaa,bbb])->{return x*y*z;}
+ 
+ [x,y,z] = [100,200,300];
+ 
+-var {m} = 200;
++var m = 200;
+ 
+-for each( var {x} in obj ) {
++for each( var x in obj ) {
+   console.log(x);
+ }
+\ No newline at end of file
