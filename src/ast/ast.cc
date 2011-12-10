@@ -54,7 +54,7 @@ void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
 
   if ( !is_insert ) {
     insert->prev_sibling_ = target->prev_sibling_;
-    insert->prev_sibling_->next_sibling_ = insert;
+    target->prev_sibling_->next_sibling_ = insert;
     target->prev_sibling_ = insert;
     insert->next_sibling_ = target;
   }
@@ -112,7 +112,7 @@ AstNode* ReverseNodeIterator::Item() {
 }
 
 void AstNode::RemoveChild( AstNode* node ) {
-  AstNode* match_ptr;
+  AstNode* match_ptr = 0;
   NodeIterator iterator = ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
@@ -163,8 +163,6 @@ void AstNode::ReplaceWith( AstNode* node ) {
 
 void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
   if ( first_child_ ) {
-    bool is_first = false;;
-    bool is_last = false;
     if ( old_node == first_child_ ) {
       first_child_ = new_node;
     }
@@ -179,7 +177,7 @@ template <typename T , typename T2>
 inline T2* CopyChildren( T* dest , T2* source ) {
   NodeIterator iter = source->ChildNodes();
   while ( iter.HasNext() ) {
-    dest->AddChild( ManagedHandle::Retain( iter.Next()->Clone() ) );
+    dest->AddChild( iter.Next()->Clone() );
   }
   return dest;
 }
@@ -426,7 +424,7 @@ AstNode* ValueNode::Clone() {
     case kVariable :
     case kRest :
       if ( value_ ) {
-        ret->value_ = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType() , value_->GetLineNumber() ) );
+        ret->value_ = value_;
       } else if ( node_ ) {
         ret->node_ = node_->Clone();
       }

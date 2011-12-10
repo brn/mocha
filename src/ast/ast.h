@@ -141,7 +141,7 @@ class AstNode : public Managed {
   }
   virtual inline bool IsEmpty(){ return false; }
  private :
-  virtual NVI_ACCEPTOR_DECL{};
+  inline virtual NVI_ACCEPTOR_DECL{};
   int type_;
   int child_length_;
   long line_;
@@ -206,15 +206,20 @@ class FileRoot : public AstNode {
  */
 class Statement : public AstNode {
  public :
-  Statement( int type , const char* name ) : AstNode( type , name ) , dsta_exp_( 0 ) {};
+  inline Statement() : AstNode( AstNode::kStatement , "Statement" ) , has_dsta_( false ) , dsta_exp_( 0 ){}
+  Statement( int type , const char* name ) : AstNode( type , name ) , has_dsta_( false ) , dsta_exp_( 0 ) {};
   virtual inline ~Statement() {};
   inline Statement* CastToStatement() { return this; }
-  inline void SetDsta( AstNode* tree ) { dsta_exp_ = tree;}
-  inline bool HasDsta() { return dsta_exp_ != 0; }
+  inline void SetDsta( DstaExtractedExpressions* tree ) {
+    dsta_exp_ = tree;
+    has_dsta_ = true;
+  }
+  inline bool HasDsta() { return has_dsta_; }
   inline DstaExtractedExpressions* GetDsta() { return dsta_exp_; }
+  inline void ResetDsta();
  private :
-  inline Statement() : AstNode( AstNode::kStatement , "Statement" ){}
-  virtual NVI_ACCEPTOR_DECL=0;
+  virtual NVI_ACCEPTOR_DECL{};
+  bool has_dsta_;
   DstaExtractedExpressions *dsta_exp_;
 };
 
@@ -344,11 +349,11 @@ class IFStmt : public Statement {
  public :
   inline IFStmt() : Statement( NAME_PARAMETER(IFStmt) ) , exp_( 0 ) , then_( 0 ), else_( 0 ){};
   inline ~IFStmt() {};
-  inline void Exp( AstNode* exp ) { exp_ = exp; }
+  inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
-  inline void Then( AstNode* node ) { then_ = node; }
+  inline void Then( AstNode* node ) { then_ = node;node->ParentNode( this ); }
   inline AstNode* Then() { return then_; }
-  inline void Else( AstNode* els ) { else_ = els; }
+  inline void Else( AstNode* els ) { else_ = els;els->ParentNode( this ); }
   inline AstNode* Else() { return else_; }
   CLONE( IFStmt );
  private :
@@ -833,7 +838,7 @@ class ValueNode : public AstNode {
     kRest
   };
   inline ValueNode( int type ) :
-      AstNode( AstNode::kValueNode , "ValueNode" ) , value_( 0 ) , node_( 0 ) , value_type_( type ){};
+      AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
   inline ~ValueNode() {};
   inline void ValueType( int value_type ) { value_type_ = value_type; }
   inline int ValueType() const { return value_type_; };
@@ -872,6 +877,12 @@ class DstaExtractedExpressions : public AstNode {
  private :
   NodeList refs_;
 };
+
+void Statement::ResetDsta()  {
+  has_dsta_ = false;
+  dsta_exp_->RemoveAllChild();
+  dsta_exp_->Refs()->RemoveAllChild();
+}
 
 }
 

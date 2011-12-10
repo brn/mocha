@@ -12,7 +12,7 @@ namespace mocha{
 class Scope;
 class Compiler;
 class VisitorInfo;
-class ProcessorFactory;
+class ProcessorInfo;
 class AstVisitor : public IVisitor {
  public :
     
@@ -26,11 +26,6 @@ class AstVisitor : public IVisitor {
   
  private:
   void ImportProccessor_( ImportStmt *node );
-  void ForProccessor_( IterationStmt* iter );
-  void ForInProccessor_( IterationStmt* iter );
-  void DoWhileProccessor_( IterationStmt* iter );
-  void WhileProccessor_( IterationStmt* iter );
-  void VarListProcessor_( AstNode* ast_node );
   void JumpStmt_( AstNode* ast_node , int type );
   void ArrayAccessorProccessor_( CallExp* exp );
   void DotAccessorProccessor_( CallExp* exp );
@@ -38,10 +33,9 @@ class AstVisitor : public IVisitor {
   void NormalFunctionCall_( CallExp* exp );
   void ArrayProccessor_( ValueNode* ast_node );
   void ObjectProccessor_( ValueNode* ast_node );
-  void VarInitialiserProccessor_( ValueNode* ast_node );
   
   ScopedPtr<VisitorInfo> visitor_info_;
-  ScopedPtr<FactoryInfo> factory_info_;
+  ScopedPtr<ProcessorInfo> proc_info_;
 };
 
 }

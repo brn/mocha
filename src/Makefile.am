@@ -15,6 +15,11 @@ ast/visitors/utils/visitor_info.h\
 ast/visitors/utils/visitor_info.cc\
 ast/visitors/utils/processors/dsta_processor.h\
 ast/visitors/utils/processors/dsta_processor.cc\
+ast/visitors/utils/processors/iteration_processor.h\
+ast/visitors/utils/processors/iteration_processor.cc\
+ast/visitors/utils/processors/variable_processor.h\
+ast/visitors/utils/processors/variable_processor.cc\
+ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
 bootstrap/bootstrap.h\

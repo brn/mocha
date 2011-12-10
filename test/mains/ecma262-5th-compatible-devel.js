@@ -11,7 +11,7 @@
 
 //String.prototype拡張
 if( !String.prototype.trim ){
-  String.prototype.trim = -> this.replace( String.prototype.trim.rtrim , "" );
+  String.prototype.trim = ->({x}) = this.replace( String.prototype.trim.rtrim , "" );
   String.prototype.trim.rtrim = /^\s*|\s*$/g;
 }
 
@@ -285,18 +285,7 @@ if ( !Array.isArray ) {
 
 module ext {
   
-  let Objects = {
-        extend : ( source , dest ) -> {
-          for ( var i in source ) {
-            dest[ i ] = source [ i ];
-          }
-        },
-        each : ( dest , fn ) -> {
-          for ( var i in dest ) {
-            fn.call( dest[ i ], dest[ i ] , i , dest );
-          }
-        }
-      }
+  let Objects = {}
   
   export Objects;
 }

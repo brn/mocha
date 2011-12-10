@@ -1,46 +1,41 @@
 #include <ast/visitors/utils/processors/variable_processor.h>
+#include <ast/visitors/utils/processors/processor_info.h>
+#include <ast/visitors/ivisitor.h>
 #include <ast/ast.h>
+#include <compiler/tokens/token_info.h>
 namespace mocha {
 
-VariableProcessor* VariableProcessor::GetInstance( AstVisitor* visitor , Scope* scope , VisitorInfo* info ) {
-  return ProcessorUtil::GetInstance<VariableProcessor>( visitor , scope , info );
-}
-
-VariableProcessor::VariableProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* info ) :
-    visitor_( visitor ) , scope_( scope ) , visitor_info_( info ) {}
-
-
-void ProcessVarList( AstNode* ast_node ) {
+void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info ) {
+  IVisitor* visitor = info->GetVisitor();
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
       ValueNode* value = item->CastToValue();
       if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
-        ValueNode* dst_node = item->CastToValue();
-        dst_node->Node()->Accept( visitor_ );
-        printf( "type %s\n" ,dst_node->Node()->CastToValue()->Symbol()->GetToken() );
-        dst_node->ValueType( ValueNode::kVariable );
-        dst_node->Symbol( dst_node->Node()->CastToValue()->Symbol() );
+        value->Node()->Accept( visitor );
+        printf( "type %s\n" ,value->Node()->CastToValue()->Symbol()->GetToken() );
+        value->ValueType( ValueNode::kVariable );
+        value->Symbol( value->Node()->CastToValue()->Symbol() );
         AstNode* initialiser = item->FirstChild();
         if ( !initialiser->IsEmpty() ) {
-          initialiser->Accept( visitor_ );
+          initialiser->Accept( visitor );
         }
       } else {
-        item->Accept( visitor_ );
+        item->Accept( visitor );
       }
     }
   }
 }
 
 
-void ProcessVarInitialiser( AstNode* ast_node ) {
+void VariableProcessor::ProcessVarInitialiser( ValueNode* ast_node , ProcessorInfo* info ) {
   if ( ast_node->ValueType() == ValueNode::kVariable ) {
     //ast_node->Symbol()->Accept( this );
   }
   AstNode* initialiser = ast_node->FirstChild();
   if ( !initialiser->IsEmpty() ) {
-    initialiser->Accept( visitor_ );
+    initialiser->Accept( info->GetVisitor() );
   }  
 }
 

@@ -2222,7 +2222,7 @@ left_hand_side_expression
 : new_expression { $$ = $1; }
 | call_expression { $$ = $1; }
 | array_left_hand_side { $$ = $1; }
-| object_left_hand_side { $$ = $1; }
+| '(' object_left_hand_side ')' { $$ = $2; }
 ;
 
 postfix_expression

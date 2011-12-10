@@ -292,9 +292,7 @@ void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
 
 void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
-  bool is_dst = false;
   int for_in_type = ast_node->NodeType();
-  bool is_each = ast_node->NodeType() == AstNode::kForEachWithVar;
   writer_->SetLine( ast_node->Line() , stream_.Get() );
   AstNode* exp = ast_node->Exp();
   writer_->WriteOp( TOKEN::JS_FOR , 0 , stream_.Get() );
@@ -1011,22 +1009,15 @@ VISITOR_IMPL(Function){
     writer_->WriteOp( ')' , 0 , stream_.Get() );
   }
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
-  int child_length = ast_node->Argv()->ChildLength();
   
   writer_->SetLine( ast_node->Line() , stream_.Get() );
   writer_->SetFileName( stream_.Get() );
-  if ( ast_node->FunctionType() == Function::kNormal ) {
-    NodeIterator iterator = ast_node->ChildNodes();
-    while ( iterator.HasNext() ) {
-      AstNode* node = iterator.Next();
-      if ( !node->IsEmpty() ) {
-        node->Accept( this );
-      }
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* node = iterator.Next();
+    if ( !node->IsEmpty() ) {
+      node->Accept( this );
     }
-  } else if ( ast_node->FunctionType() == Function::kShorten ) {
-    stream_->Write( "return " );
-    ast_node->FirstChild()->Accept( this );
-    writer_->WriteOp( ';' , 0 , stream_.Get() );
   }
   int state = CurrentState_();
   if ( ast_node->ContextType() == Function::kGlobal ) {

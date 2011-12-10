@@ -48,6 +48,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
+	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
 	ast_utils.$(OBJEXT) bootstrap.$(OBJEXT) \
 	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) \
@@ -194,6 +195,11 @@ ast/visitors/utils/visitor_info.h\
 ast/visitors/utils/visitor_info.cc\
 ast/visitors/utils/processors/dsta_processor.h\
 ast/visitors/utils/processors/dsta_processor.cc\
+ast/visitors/utils/processors/iteration_processor.h\
+ast/visitors/utils/processors/iteration_processor.cc\
+ast/visitors/utils/processors/variable_processor.h\
+ast/visitors/utils/processors/variable_processor.cc\
+ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
 bootstrap/bootstrap.h\
@@ -423,6 +429,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/help_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/internal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iteration_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/js_token.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
@@ -443,6 +450,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlerror.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlparser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_info.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/variable_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/virtual_directory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/visitor_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_observer.Po@am__quote@
@@ -518,6 +526,34 @@ dsta_processor.obj: ast/visitors/utils/processors/dsta_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/dsta_processor.cc' object='dsta_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o dsta_processor.obj `if test -f 'ast/visitors/utils/processors/dsta_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/dsta_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/dsta_processor.cc'; fi`
+
+iteration_processor.o: ast/visitors/utils/processors/iteration_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT iteration_processor.o -MD -MP -MF $(DEPDIR)/iteration_processor.Tpo -c -o iteration_processor.o `test -f 'ast/visitors/utils/processors/iteration_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/iteration_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/iteration_processor.Tpo $(DEPDIR)/iteration_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/iteration_processor.cc' object='iteration_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o iteration_processor.o `test -f 'ast/visitors/utils/processors/iteration_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/iteration_processor.cc
+
+iteration_processor.obj: ast/visitors/utils/processors/iteration_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT iteration_processor.obj -MD -MP -MF $(DEPDIR)/iteration_processor.Tpo -c -o iteration_processor.obj `if test -f 'ast/visitors/utils/processors/iteration_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/iteration_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/iteration_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/iteration_processor.Tpo $(DEPDIR)/iteration_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/iteration_processor.cc' object='iteration_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o iteration_processor.obj `if test -f 'ast/visitors/utils/processors/iteration_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/iteration_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/iteration_processor.cc'; fi`
+
+variable_processor.o: ast/visitors/utils/processors/variable_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT variable_processor.o -MD -MP -MF $(DEPDIR)/variable_processor.Tpo -c -o variable_processor.o `test -f 'ast/visitors/utils/processors/variable_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/variable_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/variable_processor.Tpo $(DEPDIR)/variable_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/variable_processor.cc' object='variable_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o variable_processor.o `test -f 'ast/visitors/utils/processors/variable_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/variable_processor.cc
+
+variable_processor.obj: ast/visitors/utils/processors/variable_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT variable_processor.obj -MD -MP -MF $(DEPDIR)/variable_processor.Tpo -c -o variable_processor.obj `if test -f 'ast/visitors/utils/processors/variable_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/variable_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/variable_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/variable_processor.Tpo $(DEPDIR)/variable_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/variable_processor.cc' object='variable_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o variable_processor.obj `if test -f 'ast/visitors/utils/processors/variable_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/variable_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/variable_processor.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc

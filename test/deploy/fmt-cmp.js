@@ -1,22 +1,20 @@
-/**module {
-  export fmt ( format , args ) {
-    for ( var i in args ) {
-      let reg = new RegExp( ( "\\$\\{" + i + "\\}" ) , "g" );
-      format = format.replace( reg , args[ i ] );
-    }
-    return format;
-  }
-  export x,y,z;
- };*/
-import {ext:{Objects}} from "./ecma262-5th-compatible-devel";
-var {a:[{z:[name , test]},yt,{x}]} = [200,2,2];
-
-var x = ({x,g:[z,yg]},[aaa,bbb],...rest)->{return x*y*z;}
-
-[x,y,z] = [100,200,300];
-
-var {m} = 200;
-
-for each( var {x} in obj ) {
-  console.log(x);
-}
+(function() {
+  var __global_export__ = {},
+      __MC_tmp__ = undefined;
+  (function() {
+    switch ( ( __MC_local_tmp__0 = [1,2,5,6] ) ) {
+      default :
+        ( x = __MC_local_tmp__0[0] , yn = __MC_local_tmp__0[1] , z = __MC_local_tmp__0[2] );
+        
+    };
+    var __MC_local_tmp__1,
+        __MC_local_tmp__2;
+    if ( ( __MC_local_tmp__1 = [1,2,4] ) ){
+      ( x = __MC_local_tmp__1[0] , y = __MC_local_tmp__1[1] , z = __MC_local_tmp__1[2] );
+      console.log( x,y,z );
+    } else if ( ( __MC_local_tmp__2 = [1,2,5] ) ){
+      ( a = __MC_local_tmp__2[0] , b = __MC_local_tmp__2[1] , c = __MC_local_tmp__2[2] );
+      console.log( a,b,c );
+    };
+  })();
+})();

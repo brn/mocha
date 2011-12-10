@@ -22,10 +22,10 @@ class VisitorInfo {
   inline void SetRestInjection( bool is ) { is_rest_injection_ = is; }
   inline bool IsRestInjection() { return is_rest_injection_; }
   inline DstaExtractedExpressions* GetDstaExtr() { return dsta_exp_; }
-  inline void* SetRestExp( TokenInfo* info ) { rest_exp_ = info; }
+  inline void SetRestExp( TokenInfo* info ) { rest_exp_ = info; }
   inline TokenInfo* GetRestExp() { return rest_exp_; }
-  inline void SetCurrentStmt( AstNode* stmt ) { current_stmt_ = stmt; }
-  inline AstNode* GetCurrentStmt() { return current_stmt_; }
+  inline void SetCurrentStmt( Statement* stmt ) { current_stmt_ = stmt; }
+  inline Statement* GetCurrentStmt() { return current_stmt_; }
  private :
   int tmp_index_;
   bool is_dst_injection_;

@@ -9,7 +9,7 @@ TokenInfo::TokenInfo () : Managed () {};
 TokenInfo::TokenInfo ( const char* token , int type , int line )
     : Managed (), type_ ( type ), line_ ( line ) , is_const_( false ), is_let_( false )
 {
-  token_ = token;
+  token_.assign( token );
 };
 
 TokenInfo& TokenInfo::operator =  ( const TokenInfo& info ) {

@@ -1,10 +1,11 @@
 (function() {
-  var __global_export__ = {};
+  var __global_export__ = {},
+      __MC_tmp__ = undefined;
   (function() {
     if ( !String.prototype.trim ){
       String.prototype.trim = function () {
-        var __tmp__ = this.replace( String.prototype.trim.rtrim,"" );
-        return __tmp__;
+        return return this.replace( String.prototype.trim.rtrim,"" );
+        ;
       };
       String.prototype.trim.rtrim = /^\s*|\s*$/g;
     };
@@ -191,14 +192,14 @@
     };
     if ( !Date.prototype.toJSON ){
       Date.prototype.toJSON = function () {
-        var __tmp__ = '"'+this.getUTCFullYear()+'-'+"0"+( this.getUTCMonth()+1 )+'-'+"0"+( this.getUTCDate()-1 )+'T'+this.getUTCHours()+':'+this.getMinutes()+':'+this.getSeconds()+'.'+this.getUTCMilliseconds()+'"';
-        return __tmp__;
+        return return '"'+this.getUTCFullYear()+'-'+"0"+( this.getUTCMonth()+1 )+'-'+"0"+( this.getUTCDate()-1 )+'T'+this.getUTCHours()+':'+this.getMinutes()+':'+this.getSeconds()+'.'+this.getUTCMilliseconds()+'"';
+        ;
       };
     };
     if ( !Date.now ){
       Date.now = function () {
-        var __tmp__ = +(new Date);
-        return __tmp__;
+        return return +(new Date);
+        ;
       };
     };
     if ( !Object.keys ){
@@ -215,20 +216,20 @@
     };
     if ( !Object.preventExtensions ){
       Object.preventExtensions = function ( o ) {
-        var __tmp__ = o;
-        return __tmp__;
+        return return o;
+        ;
       };
     };
     if ( !Object.seal ){
       Object.seal = function ( o ) {
-        var __tmp__ = o;
-        return __tmp__;
+        return return o;
+        ;
       };
     };
     if ( !Object.freeze ){
       Object.freeze = function ( o ) {
-        var __tmp__ = o;
-        return __tmp__;
+        return return o;
+        ;
       };
     };
     var hasRealEcma5 = ( function () {
@@ -262,23 +263,11 @@
         return ( ( arr ) )?Object.prototype.toString.call( arr ) === arrayString : false;
       };
     };
-    __global_export__['{1-397-1092-205522212-1695-1977-60819523-2512-ecma262-5th-compatible-devel.js}'] = {};
-    __global_export__['{1-397-1092-205522212-1695-1977-60819523-2512-ecma262-5th-compatible-devel.js}']['ext'] = (function () {
-      var __export__ = {};
-      var Objects =  {
-            extend : function ( source,dest ) {
-              for ( var i in source ){
-                dest[i] = source[i];
-              };
-            },
-            each : function ( dest,fn ) {
-              for ( var i in dest ){
-                fn.call( dest[i],dest[i],i,dest );
-              };
-            }
-          };
-      __export__.Objects = Objects;
-      return __export__;
+    __MC_global_alias__.ext = ( function ext() {
+      var __MC_local_export__ = {};
+      var Objects = {};
+      __MC_local_export__.Objects = Objects;
+      return __MC_local_export__;
     })();
   })();
 })();

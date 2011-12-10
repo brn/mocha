@@ -31,13 +31,16 @@
 #endif
 
 #ifndef MAXPATHLEN
-#define MAXPATHLEN 1028
+#define MAXPATHLEN 10000
+#else
+#undef MAXPATHLEN
+#define MAXPATHLEN 10000
 #endif
 
 #ifdef HAVE_REALPATH
-#define FULL_PATH( path , tmp ) realpath( path , tmp )
+#define FULL_PATH( path , tmp ) tmp = realpath( path , NULL )
 #elif HAVE__FULLPATH
-#define FULL_PATH( path , tmp ) _fullpath( tmp , path , MAXPATHLEN )
+#define FULL_PATH( path , tmp ) tmp = _fullpath( NULL , path , 0 )
 #endif
 
 using namespace mocha;
@@ -143,9 +146,10 @@ StrHandle FileSystem::GetUserHomeDir() {
 
 
 StrHandle FileSystem::GetAbsolutePath( const char* path ) {
-  char tmp[ MAXPATHLEN ];
+  char *tmp;
   FULL_PATH( path , tmp );
   char* ret = utils::CharAlloc( tmp );
+  free( tmp );
   return StrHandle( ret );
 }
 
