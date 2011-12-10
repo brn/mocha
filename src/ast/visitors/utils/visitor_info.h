@@ -1,11 +1,12 @@
 #ifndef mocha_visitor_info_h_
 #define mocha_visitor_info_h_
-
+#include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <ast/ast_foward_decl.h>
 
 namespace mocha {
 class Scope;
 class Compiler;
+
 class VisitorInfo {
  public :
   VisitorInfo( Scope* scope , Compiler *compiler ,
@@ -19,8 +20,10 @@ class VisitorInfo {
   inline void SetDstaInjection( bool is ) { is_dst_injection_ = is; }
   inline bool IsDstaInjection() { return is_dst_injection_; }
   inline DstaExtractedExpressions* GetDstaExtr() { return dsta_exp_; }
-  inline void SetCurrentStmt( AstNode* stmt ) { current_stmt_ = stmt; }
-  inline AstNode* GetCurrentStmt() { return current_stmt_; }
+  inline void SetCurrentStmt( Statement* stmt ) { current_stmt_ = stmt; }
+  inline Statement* GetCurrentStmt() { return current_stmt_; }
+  static DstaTag Dsta;
+  static IterationTag Iteration;
  private :
   int tmp_index_;
   bool is_dst_injection_;
@@ -29,7 +32,7 @@ class VisitorInfo {
   DstaExtractedExpressions* dsta_exp_;
   Scope *scope_;
   Compiler *compiler_;
-  AstNode* current_stmt_;
+  Statement* current_stmt_;
 };
 }
 

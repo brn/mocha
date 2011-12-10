@@ -1,4 +1,5 @@
 #include <ast/visitors/utils/visitor_info.h>
+#include <ast/visitors/utils/processors/dsta_processor.h>
 namespace mocha {
 
 VisitorInfo::VisitorInfo( Scope* scope , Compiler *compiler,

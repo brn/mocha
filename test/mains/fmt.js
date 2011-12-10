@@ -8,14 +8,15 @@
   }
   export x,y,z;
  };*/
+
 var {a:[{z:[name , test]},yt,{x}]} = [200,2,2];
 
 var x = ({x,g:[z,yg]},[aaa,bbb])->{return x*y*z;}
 
 [x,y,z] = [100,200,300];
 
-var m = 200;
+var {m} = 200;
 
-for each( var x in obj ) {
+for each( var {x} in obj ) {
   console.log(x);
 }

@@ -27,7 +27,7 @@ AstVisitor::AstVisitor( Scope* scope , Compiler* compiler , const char* modulena
                         const char* filename ) :
     visitor_info_( new VisitorInfo( scope , compiler ,
                                     ManagedHandle::Retain<DstaExtractedExpressions>() , modulename , filename ) ),
-    dsta_proc_( new DstaProcessor( visitor_info_.Get() ) ) {}
+    factory_info_( this , scope , visitor_info_ ){}
 
 AstVisitor::~AstVisitor () {}
 
@@ -244,8 +244,8 @@ VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   VarListProcessor_( ast_node );
-  if ( visitor_info_->IsDstaInjection() ) {
-    NodeList* list = dsta_proc_->CreateDstaExtractedVarStmt();
+  if ( ast_node->HasDsta() ) {
+    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt( ast_node );
     ast_node->Append( list );
   }
 }
@@ -260,8 +260,8 @@ VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
-  if ( visitor_info_->IsDstaInjection() ) {
-    NodeIterator iterator = visitor_info_->GetDstaExtr()->Refs()->ChildNodes();
+  if ( ast_node->HasDsta() ) {
+    NodeIterator iterator = ast_node->GetDsta()->Refs()->ChildNodes();
     NodeList* var_list = ManagedHandle::Retain<NodeList>();
     while ( iterator.HasNext() ) {
       ValueNode* node = AstUtils::CreateVarInitiliser( iterator.Next()->CastToValue()->Symbol() , ManagedHandle::Retain<Empty>() );
@@ -269,7 +269,7 @@ VISITOR_IMPL(ExpressionStmt) {
     }
     VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_list );
     ast_node->ParentNode()->InsertBefore( var_stmt , ast_node );
-    NodeList* list = dsta_proc_->CreateDstaExtractedAssignment();
+    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment( ast_node );
     Expression* exp = ManagedHandle::Retain<Expression>();
     exp->Append( list );
     exp->Paren();
@@ -298,55 +298,31 @@ VISITOR_IMPL(IterationStmt) {
   switch ( ast_node->NodeType() ) {
     case AstNode::kFor : //Fall Through
     case AstNode::kForWithVar :
-      ForProccessor_( ast_node );
+      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessForNode( ast_node );
       break;
 
     case AstNode::kForIn :
     case AstNode::kForInWithVar :
+      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessForInNode( ast_node );
+      break;
     case AstNode::kForEach :
     case AstNode::kForEachWithVar :
-      ForInProccessor_( ast_node );
+      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessForEachNode( ast_node );
       break;
 
     case AstNode::kDoWhile :
-      DoWhileProccessor_( ast_node );
+      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessDoWhileNode( ast_node );
       break;
 
     case AstNode::kWhile :
-      WhileProccessor_( ast_node );
+      ProcessorFactory::Create<IterationProcessor>( factory_info_ )->ProcessWhileNode( ast_node );
       break;
   }
 }
 
 
 void AstVisitor::ForProccessor_( IterationStmt* ast_node ) {
-  PRINT_NODE_NAME;
-  AstNode* exp = ast_node->Exp();
-  AstNode* index_exp = exp->FirstChild();
-  AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
-  AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
-
-  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
-    VarListProcessor_( index_exp );
-  } else {
-    index_exp->Accept( this );
-  }
   
-  if ( cond_exp ) {
-    cond_exp->Accept( this );
-  }
-  
-  if ( incr_exp ) {
-    incr_exp->Accept( this );
-  }
-  
-
-  AstNode* maybeBlock = ast_node->FirstChild();
-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
-    ast_node->FirstChild()->Accept( this );
-  } else {
-    ast_node->FirstChild()->Accept( this );
-  }
 }
 
 void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
@@ -355,9 +331,34 @@ void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();
   AstNode* target_exp = index_exp->NextSibling();
+  ValueNode* mayBeDsta = index_exp->CastToValue();
+  bool is_dst = false;
+  if ( mayBeDsta && mayBeDsta->ValueType() == ValueNode::kDst ) {
+    is_dst = true;
+    if ( ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForEachWithVar ) {
+      index_exp = index_exp->CastToValue()->Node();
+    }
+  }
   index_exp->Accept( this );
+  if ( is_dst && ( ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForEachWithVar ) ) {
+    ValueNode* node = mayBeDsta->Node()->CastToValue();
+    node->ValueType( ValueNode::kVariable );
+    exp->ReplaceChild( exp->FirstChild() , node );
+    node->AddChild( ManagedHandle::Retain<Empty>() );
+  } else {
+    is_dst = ast_node->HasDsta();
+  }
+  visitor_info_->SetDstaInjection( false );
+  AstNode* dsta_stmt = 0;
+  if ( is_dst && ( ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForEachWithVar ) ) {
+    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt( ast_node );
+    dsta_stmt = AstUtils::CreateVarStmt( list );
+  } else if ( is_dst && ( ast_node->NodeType() == AstNode::kForIn || ast_node->NodeType() == AstNode::kForEach ) ) {
+    NodeList* list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedAssignment( ast_node );
+    dsta_stmt = AstUtils::CreateExpStmt( list );
+  }
+  
   target_exp->Accept( this );
-  bool is_dst = visitor_info_->IsDstaInjection();
   ast_node->FirstChild()->Accept( this );
   if ( ast_node->NodeType() == AstNode::kForEach || ast_node->NodeType() == AstNode::kForEachWithVar ) {
     ExpressionStmt* stmt;
@@ -377,11 +378,17 @@ void AstVisitor::ForInProccessor_( IterationStmt* ast_node ) {
       ast_node->RemoveAllChild();
       StatementList* list = ManagedHandle::Retain<StatementList>();
       list->AddChild( stmt );
+      if ( is_dst ) {
+        list->AddChild( dsta_stmt );
+      }
       list->AddChild( body );
       BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
       block->AddChild( list );
       ast_node->AddChild( block );
     } else {
+      if ( is_dst ) {
+        body->InsertBefore( dsta_stmt );
+      }
       body->InsertBefore( stmt );
     }
   }
@@ -629,25 +636,25 @@ VISITOR_IMPL(ClassMember) {
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
+  Statement* stmt = ManagedHandle::Retain<Statement>();
+  REGIST(stmt);
   ast_node->Name()->Accept( this );
   AstNode* argv = ast_node->Argv();
+  bool is_dst = false;
   if ( !argv->IsEmpty() ) {
     NodeIterator iterator = argv->ChildNodes();
     while ( iterator.HasNext() ) {
       iterator.Next()->Accept( this );
     }
   }
-
-  bool is_dst = visitor_info_->IsDstaInjection();
-  visitor_info_->SetDstaInjection( false );
   
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
   
-  if ( is_dst ) {
-    NodeList *list = dsta_proc_->CreateDstaExtractedVarStmt();
+  if ( stmt->HasDsta() ) {
+    NodeList *list = ProcessorFactory::Create<DstaProcessor>( factory_info_ )->CreateDstaExtractedVarStmt( stmt );
     VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
     ast_node->InsertBefore( var_stmt );
   }
@@ -724,7 +731,7 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kDst :
     case ValueNode::kDstArray :
       printf( "Dst\n" );
-      dsta_proc_->ProcessNode( ast_node );
+      ProcessorFactory::Create<DstaProcessor>( factory_info_ )->ProcessNode( ast_node );
       break;
 
     case ValueNode::kRest :

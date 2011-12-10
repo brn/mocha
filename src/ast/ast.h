@@ -206,12 +206,16 @@ class FileRoot : public AstNode {
  */
 class Statement : public AstNode {
  public :
-  Statement( int type , const char* name ) : AstNode( type , name ) {};
+  Statement( int type , const char* name ) : AstNode( type , name ) , dsta_exp_( 0 ) {};
   virtual inline ~Statement() {};
   inline Statement* CastToStatement() { return this; }
+  inline void SetDsta( AstNode* tree ) { dsta_exp_ = tree;}
+  inline bool HasDsta() { return dsta_exp_ != 0; }
+  inline DstaExtractedExpressions* GetDsta() { return dsta_exp_; }
  private :
   inline Statement() : AstNode( AstNode::kStatement , "Statement" ){}
   virtual NVI_ACCEPTOR_DECL=0;
+  DstaExtractedExpressions *dsta_exp_;
 };
 
 

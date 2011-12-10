@@ -420,12 +420,7 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   if ( for_in_type == AstNode::kForInWithVar || for_in_type == AstNode::kForEachWithVar ) {
     ValueNode* var = index_exp->CastToValue();
     if ( var ) {
-      if ( var->ValueType() == ValueNode::kDst ) {
-        is_dst = true;
-        var->Node()->Accept( this );
-      } else {
-        VarInitialiserProccessor_( index_exp->CastToValue() );
-      }
+      VarInitialiserProccessor_( index_exp->CastToValue() );
     }
   } else {
     index_exp->Accept( this );

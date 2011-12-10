@@ -9,14 +9,23 @@
 
 namespace mocha {
 
+DstaProcessor* DstaProcessor::GetInstance( AstVisitor* visitor , Scope* scope , VisitorInfo* info , FactoryInfo *f_info ) {
+  return ProcessorUtil::GetInstance<DstaProcessor>( visitor , scope , info , f_info );
+}
+
+DstaProcessor::DstaProcessor( AstVisitor* visitor , Scope* scope , VisitorInfo* visitor_info , FactoryInfo *f_info )
+    : visitor_( visitor ) , scope_( scope ) , visitor_info_( visitor_info ) , factory_info_( f_info ) {};
+
 void DstaProcessor::ProcessNode( ValueNode* ast_node ) {
   char buf[50];
   visitor_info_->SetDstaInjection( true );
   const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info_->GetTmpIndex() );
   ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
   DstaTree* tree = ManagedHandle::Retain<DstaTree>();
-  visitor_info_->GetDstaExtr()->AddChild( ManagedHandle::Retain<NodeList>() );
-  visitor_info_->GetDstaExtr()->Refs( value );
+  visitor_info_->GetCurrentStmt()->SetDsta( ManagedHandle::Retain<DstaExtractedExpressions>() );
+  visitor_info_->GetCurrentStmt()->GetDsta()->AddChild( ManagedHandle::Retain<NodeList>() );
+  visitor_info_->GetCurrentStmt()->GetDsta()->Refs( value );
+  AstNode* node = ast_node->Node();
   if ( ast_node->ValueType() == ValueNode::kDstArray ) {
     ArrayProcessor_( ast_node , tree , 0 );
   } else {
@@ -26,9 +35,22 @@ void DstaProcessor::ProcessNode( ValueNode* ast_node ) {
   ast_node->Symbol( value->Symbol() );
 }
 
-NodeList* DstaProcessor::CreateDstaExtractedVarStmt() {
+VariableStmt* DstaProcessor::CreateTmpVarDecl( Statement* stmt ) {
+  DstaExtractedExpressions* dsta_extr = stmt->GetDsta();
+  NodeList* list = dsta_extr->Refs();
+  NodeIterator iterator = list->ChildNodes();
+  NodeList* var_list;
+  while ( iterator.HasNext() ) {
+    ValueNode* value = iterator.Next()->CastToValue()->Clone();
+    value->ValueType( ValueNode::kVariable );
+    var_list->AddChild( value );    
+  }
+  return AstUtils::CreateVarStmt( var_list );
+}
+
+NodeList* DstaProcessor::CreateDstaExtractedVarStmt( Statement* stmt ) {
   NodeList* result = ManagedHandle::Retain<NodeList>();
-  NodeIterator iterator = visitor_info_->GetDstaExtr()->ChildNodes();
+  NodeIterator iterator = stmt->GetDsta()->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* node_list = iterator.Next();
     NodeIterator list = node_list->ChildNodes();
@@ -65,15 +87,12 @@ NodeList* DstaProcessor::CreateDstaExtractedVarStmt() {
       }
     }
   }
-  visitor_info_->SetDstaInjection( false );
-  visitor_info_->GetDstaExtr()->RemoveAllChild();
-  visitor_info_->GetDstaExtr()->Refs()->RemoveAllChild();
   return result;
 }
 
-NodeList* DstaProcessor::CreateDstaExtractedAssignment() {
+NodeList* DstaProcessor::CreateDstaExtractedAssignment( Statement* stmt ) {
   NodeList* result = ManagedHandle::Retain<NodeList>();
-  NodeIterator iterator = visitor_info_->GetDstaExtr()->ChildNodes();
+  NodeIterator iterator = stmt->GetDsta()->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* node_list = iterator.Next();
     NodeIterator list = node_list->ChildNodes();
@@ -105,8 +124,6 @@ NodeList* DstaProcessor::CreateDstaExtractedAssignment() {
       }
     }
   }
-  visitor_info_->SetDstaInjection( false );
-  visitor_info_->GetDstaExtr()->RemoveAllChild();
   return result;
 }
 
@@ -146,14 +163,14 @@ void DstaProcessor::ObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int
                 ArrayProcessor_( prop , tree , ( depth + 1 ) );
               } else {
                 tree->Symbol( prop );
-                visitor_info_->GetDstaExtr()->LastChild()->AddChild( tree );
+                visitor_info_->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
                 UPDATE_TREE;
               }
             }
           } else {
             tree->Symbol( value );
             MemberProcessor_( value , tree );
-            visitor_info_->GetDstaExtr()->LastChild()->AddChild( tree );
+            visitor_info_->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
             UPDATE_TREE;
           }
           break;
@@ -188,7 +205,7 @@ void DstaProcessor::MemberProcessor_( ValueNode* ast_node , DstaTree* tree ) {
           CallExp* dot_accessor = AstUtils::CreateDotAccessor( tree->LastChild() , ast_node );
           tree->AddChild( dot_accessor );
         } else {
-          CallExp* dot_accessor = AstUtils::CreateDotAccessor( visitor_info_->GetDstaExtr()->Refs()->LastChild() , ast_node );
+          CallExp* dot_accessor = AstUtils::CreateDotAccessor( visitor_info_->GetCurrentStmt()->GetDsta()->Refs()->LastChild() , ast_node );
           tree->AddChild( dot_accessor );
         }
       }
@@ -201,7 +218,7 @@ void DstaProcessor::MemberProcessor_( ValueNode* ast_node , DstaTree* tree ) {
           CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->LastChild() , ast_node );
           tree->AddChild( arr_accessor );
         } else {
-          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( visitor_info_->GetDstaExtr()->Refs()->LastChild() , ast_node );
+          CallExp* arr_accessor = AstUtils::CreateArrayAccessor( visitor_info_->GetCurrentStmt()->GetDsta()->Refs()->LastChild() , ast_node );
           tree->AddChild( arr_accessor );
         }
       }
@@ -223,7 +240,7 @@ inline void ArrayHelper( ValueNode* ast_node , VisitorInfo* visitor_info , DstaT
   if ( tree->ChildLength() > 0 ) {
     exp = AstUtils::CreateArrayAccessor( tree->LastChild() , accessor_index );
   } else {
-    exp = AstUtils::CreateArrayAccessor( visitor_info->GetDstaExtr()->Refs()->LastChild() , accessor_index );
+    exp = AstUtils::CreateArrayAccessor( visitor_info_->GetCurrentStmt()->GetDsta()->Refs()->LastChild() , accessor_index );
   }
   if ( symbol ) {
     tree->Symbol( symbol );
@@ -246,7 +263,7 @@ void DstaProcessor::ArrayProcessor_( ValueNode* ast_node , DstaTree* tree , int 
             ValueNode* elem = element->CastToValue();
             if ( elem->ValueType() == ValueNode::kIdentifier ) {
               ArrayHelper( ast_node , visitor_info_ , tree , index , elem );
-              visitor_info_->GetDstaExtr()->LastChild()->AddChild( tree );
+              visitor_info_->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
               UPDATE_TREE;
             } else if ( elem->ValueType() == ValueNode::kDst ) {
               ArrayHelper( ast_node , visitor_info_ , tree , index , 0 );

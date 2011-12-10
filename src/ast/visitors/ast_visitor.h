@@ -12,8 +12,7 @@ namespace mocha{
 class Scope;
 class Compiler;
 class VisitorInfo;
-class DstaProcessor;
-
+class ProcessorFactory;
 class AstVisitor : public IVisitor {
  public :
     
@@ -42,7 +41,7 @@ class AstVisitor : public IVisitor {
   void VarInitialiserProccessor_( ValueNode* ast_node );
   
   ScopedPtr<VisitorInfo> visitor_info_;
-  ScopedPtr<DstaProcessor> dsta_proc_;
+  ScopedPtr<FactoryInfo> factory_info_;
 };
 
 }

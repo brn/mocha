@@ -18,9 +18,11 @@
     var __MC_local_tmp__3;
     __MC_local_tmp__3 = [100,200,300];
     ( x = __MC_local_tmp__3[0] , y = __MC_local_tmp__3[1] , z = __MC_local_tmp__3[2] );
-    var m = 200;
-    for ( var x in obj ){
-      x = obj[x];
+    var __MC_local_tmp__4 = 200,
+        m = __MC_local_tmp__4.m;
+    for ( var __MC_local_tmp__5 in obj ){
+      __MC_local_tmp__5 = obj[__MC_local_tmp__5];
+      var x = __MC_local_tmp__5.x;
       console.log( x );
     };
   })();
