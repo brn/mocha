@@ -42,6 +42,7 @@ class Setting::PtrImpl {
   std::string base_dir;
   std::string xml_path;
   std::string module_path;
+  std::string runtime_path;
   std::string log_path;
   Handle<File> file_handle;
   
@@ -75,6 +76,8 @@ Setting* Setting::GetInstance() {
 const char* Setting::GetBasePath() { return implementation_->base_dir.c_str(); }
 const char* Setting::GetXMLPath() { return implementation_->xml_path.c_str(); }
 const char* Setting::GetModulePath() { return implementation_->module_path.c_str(); }
+const char* Setting::GetRuntimePath() { return implementation_->runtime_path.c_str(); }
+const char* Setting::GetRuntimeFile() { return implementation_->runtime_file.c_str(); }
 const char* Setting::GetLogPath() { return implementation_->log_path.c_str(); }
 const char* Setting::GetTimeStr() { return implementation_->GetTimeStr(); }
 void Setting::Close(){ implementation_->file_handle->Close(); }
@@ -126,6 +129,10 @@ Setting::Setting() {
   implementation_->xml_path += "setting.xml";
   implementation_->module_path = implementation_->base_dir;
   implementation_->module_path += "module/";
+  implementation_->runtime_path = Implementation_->module_path;
+  implementation_->runtime_path += "runtime/";
+  implementation_->runtime_file = Implementation_->runtime_path;
+  implementation_->runtime_file += "mocha_runtime.js";
   implementation_->log_path = implementation_->base_dir;
   implementation_->log_path += "mocha.log";
 }

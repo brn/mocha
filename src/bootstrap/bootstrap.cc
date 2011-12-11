@@ -31,41 +31,28 @@ void BeginLog() {
   mocha::Setting::GetInstance()->LogNoDate( data );
 }
 
-void CreateMochaDir() {
-  const char* path = mocha::Setting::GetInstance()->GetBasePath();
-  if ( !mocha::FileSystem::Mkdir( path , 0777 ) ) {
-    fprintf( stderr , "Can not create directory %s mocha boot failed." , path );
-    exit(2);
-  }
-}
-
-void CreateDir() {
-  CreateMochaDir();
-  const char* path = mocha::Setting::GetInstance()->GetModulePath();
-  if ( !mocha::FileSystem::Mkdir( path , 0777 ) ) {
-    fprintf( stderr , "Can not create directory %s mocha boot failed." , path );
-    exit(2);
-  }
-}
-
-void CreateSetting() {
-  CreateDir();
+void LoadSetting() {
   const char* path = mocha::Setting::GetInstance()->GetXMLPath();
-  if ( !mocha::FileIO::IsExist( path ) ) {
-    mocha::Handle<mocha::File> file = mocha::FileIO::Open( path , "rwn" , mocha::FileIO::P_ReadWrite );
+  if ( mocha::FileIO::IsExist( path ) ) {
+    mocha::Handle<mocha::File> file = mocha::FileIO::Open( path , "rw" , mocha::FileIO::P_ReadWrite );
     if ( file->IsSuccess() ) {
       mocha::FileSystem::Chmod( path , 0777 );
       file->Write( CreateXML() );
     } else {
       fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
     }
+  } else {
+    fprintf( stderr , "Error can not find watch.xml. Run install.js first." );
+    exit(1);
   }
 }
 
-void CreateLog() {
-  CreateSetting();
+void LoadLog() {
+  LoadSetting();
   const char* path = mocha::Setting::GetInstance()->GetLogPath();
   if ( !mocha::FileIO::IsExist( path ) ) {
+    fprintf( stderr , "Error can not find mocha.log. Run install.js first." );
+    exit(1);
  CREATE :
     int ret = mocha::FileIO::CreateFile( path , 0777 );
     if ( ret != -1 ) {
@@ -88,7 +75,7 @@ void CreateLog() {
 namespace mocha {
 void Bootstrap::Initialize( int argc , char** argv ) {
   Setting::instance_ = new Setting();
-  CreateLog();
+  LoadLog();
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
   self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).Get();

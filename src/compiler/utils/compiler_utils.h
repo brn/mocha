@@ -9,6 +9,7 @@ class CompilerUtils {
  public :
   static StrHandle CreateJsPath( const char* filename , const char* module_path_key );
   static Handle<PathInfo> ChangeDir( const char* js_path );
+  static Handle<PathInfo> GetRuntimePathInfo();
 };
 }
 

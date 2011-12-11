@@ -13,6 +13,8 @@ class Setting {
   const char* GetBasePath();
   const char* GetXMLPath();
   const char* GetModulePath();
+  const char* GetRuntimePath();
+  const char* GetRuntimeFile();
   const char* GetLogPath();
   const char* GetTimeStr();
   void Close();

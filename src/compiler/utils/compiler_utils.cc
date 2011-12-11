@@ -31,4 +31,9 @@ Handle<PathInfo> CompilerUtils::ChangeDir( const char* js_path ) {
   return path_info;
 }
 
+Handle<PathInfo> CompilerUtils::GetRuntimePathInfo() {
+  Handle<PathInfo> path_info = FileSystem::GetPathInfo( Setting::GetRuntimePath() );
+  return path_info;
+}
+
 }

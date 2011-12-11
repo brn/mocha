@@ -46,6 +46,7 @@ class VisitorInfo : private Uncopyable{
   int tmp_index_;
   bool is_dst_injection_;
   bool is_rest_injection_;
+  bool is_runtime_;
   int64_t is_in_module_;
   const char* main_file_path_;
   const char* file_name_;
