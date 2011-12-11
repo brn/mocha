@@ -24,7 +24,8 @@ class Internal {
     kFatal,
     kNofatal
   } ErrorLevel;
-  Internal ( Handle<PathInfo> path_info,
+  Internal ( const char* main_file_path,
+             Handle<PathInfo> path_info,
              Compiler *compiler,
              Scope *scope,
              CodegenVisitor *codegen,
@@ -39,6 +40,8 @@ class Internal {
   inline void ParseStart_ ();
   inline void OpenError_();
   inline void SyntaxError_( const ParserTracer& );
+
+  const char* main_file_path_;
   bool file_exist_;
   std::string error_;
   Compiler* compiler_;

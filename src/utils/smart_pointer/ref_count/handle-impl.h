@@ -36,6 +36,11 @@ inline Handle<T>::~Handle () {
 }
 
 template <typename T>
+inline bool Handle<T>::Contain() {
+  return ptr_ != 0;
+}
+
+template <typename T>
 template <typename Class>
 inline void Handle<T>::operator () ( Class *ptr ) {
   CheckInit_();

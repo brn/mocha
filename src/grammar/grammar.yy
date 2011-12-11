@@ -229,6 +229,7 @@
 %token <info> JS_GET
 %token <info> JS_SET
 %token <info> JS_PROTOTYPE
+%token <info> MOCHA_VERSIONOF
 
 %type <ast> program
 %type <function> function_declaration
@@ -358,6 +359,7 @@
 %type <ast> instance_property_definition
 %type <ast> private_property_definition
 %type <ast> exportable_definition
+%type <ast> version_statement
 %%
 
 program
@@ -579,6 +581,14 @@ exportable_definition
   }
 ;
 
+version_statement
+: MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' '{' statement_list__opt '}'
+  {
+    VersionStmt* stmt = ManagedHandle::Retain( new VersionStmt( $3 ) );
+    stmt->AddChild( $6 );
+    $$ = stmt;
+  }
+;
 
 /*
  *In case of
@@ -1050,6 +1060,10 @@ statement_no_block
     $$ = $1;
   }
 | import_statement
+  {
+    $$ = $1;
+  }
+| version_statement
   {
     $$ = $1;
   }

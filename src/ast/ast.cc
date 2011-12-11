@@ -193,6 +193,13 @@ NORMAL_CLONE(Empty);
 NORMAL_CLONE(AstRoot);
 NORMAL_CLONE(FileRoot);
 NORMAL_CLONE(StatementList);
+
+AstNode* VersionStmt::Clone() {
+  TokenInfo *info = new TokenInfo( ver_->GetToken() , ver_->GetType() , ver_->GetLineNumber() );
+  VersionStmt* stmt = ManagedHandle::Retain( new VersionStmt( info ) );
+  return CopyChildren( stmt , this );
+}
+
 NORMAL_CLONE(BlockStmt);
 NORMAL_CLONE(ModuleStmt);
 NORMAL_CLONE(ExportStmt);

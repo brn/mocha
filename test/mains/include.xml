@@ -4,6 +4,6 @@
 	<file path="./ecma262-5th-compatible-devel.js" deploy="./../deploy/" options="-P -L" />
 	<file path="./pr_main.js" deploy="./../deploy/" options="-P -L" />
 	<file path="./test.js" deploy="./../deploy/" options="-P -L" />
-	<file path="./fmt.js" deploy="./../deploy/" options="-P -L" />
+	<file path="./fmt.js" deploy="./../deploy/" options="-P -L" version="test debug" />
     </dir>
 </settings>

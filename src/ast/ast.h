@@ -47,7 +47,7 @@ class AstNode : public Managed {
     kFileRoot,
     kStatement,
     kStatementList,
-    kExpression,
+    kVersionStmt,    kExpression,
     kValueNode,
     kCase,
     kNodeList,
@@ -865,6 +865,17 @@ class DstaTree : public AstNode {
   CLONE( DstaTree );
  private :
   ValueNode* symbol_;
+};
+
+class VersionStmt : public Statement {
+ public :
+  VersionStmt( TokenInfo* info ) : Statement( NAME_PARAMETER( VersionStmt ) ) , ver_( info ){};
+  ~VersionStmt() {}
+  TokenInfo* Ver() { return ver_; }
+  CLONE( VersionStmt );
+ private :
+  CALL_ACCEPTOR(VersionStmt);
+  TokenInfo *ver_;
 };
 
 class DstaExtractedExpressions : public AstNode {

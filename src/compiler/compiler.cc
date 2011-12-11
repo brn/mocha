@@ -124,7 +124,7 @@ private :
 
   
   inline void CallInternal_( Handle<PathInfo> path_info , Internal::ErrorLevel error_level ) {
-    Internal internal ( path_info , compiler_ , &scope_ , codegen_.Get() , &ast_root_ );
+    Internal internal ( main_file_path_.c_str() , path_info , compiler_ , &scope_ , codegen_.Get() , &ast_root_ );
     internal.Parse ( error_level );
   }
 

@@ -49,15 +49,16 @@ PROGRAMS = $(bin_PROGRAMS)
 am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
 	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
-	ast_utils.$(OBJEXT) bootstrap.$(OBJEXT) \
-	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
-	codewriter.$(OBJEXT) compiler.$(OBJEXT) \
-	compile_runner.$(OBJEXT) list_runner.$(OBJEXT) \
-	error_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
-	compiler_utils.$(OBJEXT) commandline_options.$(OBJEXT) \
-	file_io.$(OBJEXT) file_observer.$(OBJEXT) \
-	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
-	help_runner.$(OBJEXT) interaction.$(OBJEXT) commands.$(OBJEXT) \
+	class_processor.$(OBJEXT) ast_utils.$(OBJEXT) \
+	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
+	codegen_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
+	compiler.$(OBJEXT) compile_runner.$(OBJEXT) \
+	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
+	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
+	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
+	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
+	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
+	interaction.$(OBJEXT) commands.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
 	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
 	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
@@ -67,7 +68,7 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
 	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
 	virtual_directory.$(OBJEXT) grammar.tab.$(OBJEXT) \
-	xml_observer.$(OBJEXT) xml_reader.$(OBJEXT) \
+	xml_observer.$(OBJEXT) versions.$(OBJEXT) xml_reader.$(OBJEXT) \
 	xml_setting_info.$(OBJEXT)
 mocha_OBJECTS = $(am_mocha_OBJECTS)
 mocha_LDADD = $(LDADD)
@@ -199,6 +200,8 @@ ast/visitors/utils/processors/iteration_processor.h\
 ast/visitors/utils/processors/iteration_processor.cc\
 ast/visitors/utils/processors/variable_processor.h\
 ast/visitors/utils/processors/variable_processor.cc\
+ast/visitors/utils/processors/class_processor.cc\
+ast/visitors/utils/processors/class_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
@@ -299,6 +302,8 @@ grammar/grammar.tab.hh\
 grammar/grammar.tab.cc\
 utils/file_watcher/observer/xml_observer.h\
 utils/file_watcher/observer/xml_observer.cc\
+utils/xml/versions.h\
+utils/xml/versions.cc\
 utils/xml/xml_reader.h\
 utils/xml/xml_reader.cc\
 utils/xml/xml_setting_info.h\
@@ -410,6 +415,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/char_allocator.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/class_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codegen_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codewriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/commandline_options.Po@am__quote@
@@ -451,6 +457,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlparser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/variable_processor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/virtual_directory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/visitor_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_observer.Po@am__quote@
@@ -554,6 +561,20 @@ variable_processor.obj: ast/visitors/utils/processors/variable_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/variable_processor.cc' object='variable_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o variable_processor.obj `if test -f 'ast/visitors/utils/processors/variable_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/variable_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/variable_processor.cc'; fi`
+
+class_processor.o: ast/visitors/utils/processors/class_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT class_processor.o -MD -MP -MF $(DEPDIR)/class_processor.Tpo -c -o class_processor.o `test -f 'ast/visitors/utils/processors/class_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/class_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/class_processor.Tpo $(DEPDIR)/class_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/class_processor.cc' object='class_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o class_processor.o `test -f 'ast/visitors/utils/processors/class_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/class_processor.cc
+
+class_processor.obj: ast/visitors/utils/processors/class_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT class_processor.obj -MD -MP -MF $(DEPDIR)/class_processor.Tpo -c -o class_processor.obj `if test -f 'ast/visitors/utils/processors/class_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/class_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/class_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/class_processor.Tpo $(DEPDIR)/class_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/class_processor.cc' object='class_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o class_processor.obj `if test -f 'ast/visitors/utils/processors/class_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/class_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/class_processor.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc
@@ -1156,6 +1177,20 @@ xml_observer.obj: utils/file_watcher/observer/xml_observer.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/observer/xml_observer.cc' object='xml_observer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_observer.obj `if test -f 'utils/file_watcher/observer/xml_observer.cc'; then $(CYGPATH_W) 'utils/file_watcher/observer/xml_observer.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/observer/xml_observer.cc'; fi`
+
+versions.o: utils/xml/versions.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT versions.o -MD -MP -MF $(DEPDIR)/versions.Tpo -c -o versions.o `test -f 'utils/xml/versions.cc' || echo '$(srcdir)/'`utils/xml/versions.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/versions.Tpo $(DEPDIR)/versions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/versions.cc' object='versions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o versions.o `test -f 'utils/xml/versions.cc' || echo '$(srcdir)/'`utils/xml/versions.cc
+
+versions.obj: utils/xml/versions.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT versions.obj -MD -MP -MF $(DEPDIR)/versions.Tpo -c -o versions.obj `if test -f 'utils/xml/versions.cc'; then $(CYGPATH_W) 'utils/xml/versions.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/versions.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/versions.Tpo $(DEPDIR)/versions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/versions.cc' object='versions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o versions.obj `if test -f 'utils/xml/versions.cc'; then $(CYGPATH_W) 'utils/xml/versions.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/versions.cc'; fi`
 
 xml_reader.o: utils/xml/xml_reader.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_reader.o -MD -MP -MF $(DEPDIR)/xml_reader.Tpo -c -o xml_reader.o `test -f 'utils/xml/xml_reader.cc' || echo '$(srcdir)/'`utils/xml/xml_reader.cc

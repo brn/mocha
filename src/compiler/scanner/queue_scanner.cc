@@ -20,7 +20,7 @@ class QueueScanner::Scanner {
  public :
   typedef std::deque<TokenInfo*> TokenQueue;
   Scanner( const std::string& source ) :
-      index_( 0 ), line_(0) , is_rest_( false ) , is_numeric_after_( false ),
+      index_( 0 ), line_(0) , is_line_break_( false ), is_rest_( false ) , is_numeric_after_( false ),
       is_regexp_after_( false ), source_( source ) {
     max_ = source_.size();
   }
@@ -1222,7 +1222,8 @@ class QueueScanner::TokenGetter {
       is_in_class_ = true;
       last_type_ = type;
       return info;
-    } else if ( type == TOKEN::JS_CONST && ( last_type_ == TOKEN::JS_PRIVATE || last_type_ == TOKEN::JS_PUBLIC ) ) {
+    } else if ( type == TOKEN::JS_CONST && ( last_type_ == TOKEN::JS_PRIVATE || last_type_ == TOKEN::JS_PUBLIC ||
+                                             last_type_ == TOKEN::JS_EXPORT ) ) {
       return NormalState_();
     } else if ( type == '{' && is_in_class_ ) {
       if ( type == '{' ) {

@@ -5,6 +5,7 @@
 #include <utils/class_traits/static.h>
 #include <utils/xml/xml_reader.h>
 #include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/xml/versions.h>
 #include <options/options.h>
 
 #define CALL_BACK void( T::*fn )( const char* )
@@ -18,6 +19,7 @@ class XMLSettingInfo : private Static {
   static const char* GetModuleDirPath( const char* filename );
   static StrHandle GetDeployPath( const char* filename );
   static Options* GetCompileOption( const char* filename );
+  static Version* GetVersion( const char* filename );
   template<typename T>
   inline static void IterateFileList( CALL_BACK , T* thisObject );
   template<typename T>
@@ -25,6 +27,7 @@ class XMLSettingInfo : private Static {
  private :
   typedef boost::unordered_map<std::string,std::string> Hash;
   typedef boost::unordered_map<std::string,Handle<Options> > OptionHash;
+  typedef boost::unordered_map<std::string,Handle<Version> > VersionHash;
   typedef std::list<std::string> List;
   template<typename T>
   inline static void Iterate_( CALL_BACK , T* thisObject , const List& list );
@@ -35,6 +38,7 @@ class XMLSettingInfo : private Static {
   static Hash deploy_list_;
   static OptionHash compile_option_;
   static Options empty_option_;
+  static VersionHash versions_;
 };
 }
 

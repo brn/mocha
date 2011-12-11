@@ -6,6 +6,7 @@
 #include <utils/file_system/file_system.h>
 #include <utils/io/file_io.h>
 #include <utils/xml/xml_setting_info.h>
+#include <utils/xml/versions.h>
 #include <utils/char_allocator.h>
 #include <options/setting.h>
 #include <options/options.h>
@@ -19,6 +20,7 @@
 #define DEPLOY_LIST XMLSettingInfo::deploy_list_
 #define FILE_LIST XMLSettingInfo::file_list_
 #define COMPILE_OPTION XMLSettingInfo::compile_option_
+#define VERSIONS XMLSettingInfo::versions_
 #define SETTINGS Setting::GetInstance()
 #define IS_IGNORE(name) name && strlen(name) > 0 && strcmp( name , "true" ) == 0
 
@@ -164,6 +166,7 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
       //Processing <file deploy="..." /> attr.
       ProcessDeployOption_( elem , normalized_path , dir , info );
       ProcessCompileOption_( elem , normalized_path , dir , info );
+      ProcessVersion_( elem , normalized_path , dir , info );
     } else {
       Setting::GetInstance()->LogError( "%s no such file." , handle.Get() );
     }
@@ -174,6 +177,8 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
 
 void XMLReader::ProcessFilePath_( const char* filename ) {
   FILE_LIST.push_back( filename );
+  Handle<Version> handle( new Version );
+  VERSIONS.insert( std::pair<const char*,Handle<Version> >( filename , handle ) );
 }
 
 
@@ -221,6 +226,26 @@ void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename
   }
 }
 
+void XMLReader::ProcessVersion_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo *info ) {
+  const char* version_attr = elem->Attribute( version_ );
+  if ( IS_DEF( version_attr ) ) {
+    std::string tmp;
+    Version* version = XMLSettingInfo::GetVersion( filename );
+    if ( version ) {
+      for ( int i = 0;version_attr[ i ];i++ ) {
+        if ( version_attr[ i ] == ' ' && tmp.size() > 0 ) {
+          version->Add( tmp.c_str() );
+          tmp.clear();
+        } else {
+          tmp += version_attr[ i ];
+        }
+      }
+      if ( tmp.size() > 0 ) {
+        version->Add( tmp.c_str() );
+      }
+    }
+  }
+}
 
 void XMLReader::ProcessSettingNode_( TiXmlElement *elem , XMLInfo* info ) {
   BEGIN(ProcessSettingNode_);
@@ -271,4 +296,5 @@ const char XMLReader::module_[] = { "module" };
 const char XMLReader::ignore_[] = { "ignore" };
 const char XMLReader::deploy_[] = { "deploy" };
 const char XMLReader::options_[] = { "options" };
+const char XMLReader::version_[] = { "version" };
 }

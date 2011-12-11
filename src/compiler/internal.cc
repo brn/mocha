@@ -20,18 +20,20 @@ namespace mocha {
 #define FILE_NOT_EXIST file_exist_ = false
   
 
-Internal::Internal ( Handle<PathInfo> path_info ,
-                          Compiler* compiler,
-                          Scope *scope,
-                          CodegenVisitor *codegen,
-                          AstRoot* ast_root ) :
-  file_exist_ ( false ),
-  compiler_ ( compiler ),
-  scope_ ( scope ),
-  ast_root_( ast_root ),
-  codegen_ ( codegen ),
-  path_info_( path_info )
-{}
+Internal::Internal ( const char* main_file_path,
+                     Handle<PathInfo> path_info ,
+                     Compiler* compiler,
+                     Scope *scope,
+                     CodegenVisitor *codegen,
+                     AstRoot* ast_root ) :
+
+    main_file_path_( main_file_path ),
+    file_exist_ ( false ),
+    compiler_ ( compiler ),
+    scope_ ( scope ),
+    ast_root_( ast_root ),
+    codegen_ ( codegen ),
+    path_info_( path_info ){}
 
 void Internal::Parse ( ErrorLevel level ) {
   LoadFile_ ();
@@ -87,7 +89,7 @@ inline void Internal::ParseStart_ () {
   
   mocha::AstVisitor visitor ( scope_,
                               compiler_,
-                              tracer.GetModuleName (),
+                              main_file_path_,
                               file_->GetFileName() );
   
   if ( !tracer.IsSyntaxError () ) {

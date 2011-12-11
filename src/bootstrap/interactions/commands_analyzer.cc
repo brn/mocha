@@ -1,3 +1,4 @@
+#include <bootstrap/interactions/interaction.h>
 #include <bootstrap/interactions/commands_analyzer.h>
 #include <bootstrap/runners/icommandline_runner.h>
 #include <bootstrap/runners/help_runner.h>
@@ -30,6 +31,9 @@ Handle<ICommandLineRunner> CommandsAnalyzer::Analyze( const char* buf ) {
   }
   if ( state_ == kS_Begin ) {
     AnalyzeEachToken_( options );
+  }
+  if ( state_ == kS_Exit ) {
+    return Handle<ICommandLineRunner>();
   }
   switch ( state_ ) {
     case kS_Compile :
@@ -66,7 +70,8 @@ void CommandsAnalyzer::AnalyzeEachToken_( Options* option ) {
     if ( strcmp( token , COMPILE ) == 0 ) {
       state_ = kS_Compile;
     } else if ( strcmp( token , EXIT ) == 0 ) {
-      exit(0);
+      Interaction::End();
+      state_ = kS_Exit;
     } else if ( strcmp( token , OBSERVE ) == 0 ) {
       state_ = kS_Observe;
     } else if ( strcmp( token , UNOBSERVE ) == 0 ) {

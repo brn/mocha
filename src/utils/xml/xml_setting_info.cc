@@ -12,6 +12,7 @@ void XMLSettingInfo::EraseData() {
   module_list_.clear();
   deploy_list_.clear();
   compile_option_.clear();
+  versions_.clear();
 }
 
 const char* XMLSettingInfo::GetModuleDirPath( const char* filename ) {
@@ -63,11 +64,21 @@ StrHandle XMLSettingInfo::GetCmpPath_( const char* path ) {
   return handle;
 }
 
+Version* XMLSettingInfo::GetVersion( const char* filename ) {
+  VersionHash::iterator begin = versions_.find( filename );
+  if ( begin == versions_.end() ) {
+    return 0;
+  } else {
+    return begin->second.Get();
+  }
+}
+
 XMLSettingInfo::List XMLSettingInfo::file_list_;   
 XMLSettingInfo::List XMLSettingInfo::include_list_;
 XMLSettingInfo::Hash XMLSettingInfo::module_list_; 
 XMLSettingInfo::Hash XMLSettingInfo::deploy_list_;
 XMLSettingInfo::OptionHash XMLSettingInfo::compile_option_;
+XMLSettingInfo::VersionHash XMLSettingInfo::versions_;
 Options XMLSettingInfo::empty_option_;
 
 

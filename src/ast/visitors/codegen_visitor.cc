@@ -108,6 +108,7 @@ VISITOR_IMPL( ImportStmt ) {
 
 VISITOR_IMPL( Statement ) {}
 
+VISITOR_IMPL( VersionStmt ) {}
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
@@ -685,219 +686,16 @@ VISITOR_IMPL(Expression) {
 
 
 void CodegenVisitor::PrototypeMemberProccessor( NodeIterator& iterator , AstNode* name , bool is_private ) {
-  while ( iterator.HasNext() ) {
-    AstNode* node = iterator.Next()->FirstChild();
-    ValueNode* val = node->CastToValue();
-    if ( node->NodeType() == AstNode::kNodeList ) {
-      NodeIterator iter = node->ChildNodes();
-      while ( iter.HasNext() ) {
-        AstNode* item = iter.Next();
-        if ( !is_private ) {
-          name->Accept( this );
-          stream_->Write( ".prototype." );
-          item->Accept( this );
-          writer_->WriteOp( ';' , 0 , stream_.Get() );
-        } else {
-          stream_->Write( "__MC_Runtime_.__class_prop_def" );
-          writer_->WriteOp( '(' , 0 , stream_.Get() );
-          stream_->Write( "this" );
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          stream_->Write( '"' );
-          stream_->Write( item->CastToValue()->Symbol()->GetToken() );
-          stream_->Write( '"' );
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          if ( item->ChildLength() > 0 && !item->FirstChild()->IsEmpty() ) {
-            item->FirstChild()->Accept( this );
-          } else {
-            stream_->Write( "undefined" );
-          }
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          if ( is_private ) {
-            stream_->Write( "true" );
-          } else {
-            stream_->Write( "false" );
-          }
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          stream_->Write( "false" );
-          writer_->WriteOp( ')' , 0 , stream_.Get() );
-          writer_->WriteOp( ';' , 0 , stream_.Get() );
-        }
-      }
-    } else if ( val && val->ValueType() == ValueNode::kConstant ) {
-      NodeIterator iter = val->Node()->ChildNodes();
-      while ( iter.HasNext() ) {
-        ValueNode* item = iter.Next()->CastToValue();
-        if ( item ) {
-          stream_->Write( "__MC_Runtime_.__proto_member_def" );
-          writer_->WriteOp( '(' , 0 , stream_.Get() );
-          name->Accept( this );
-          stream_->Write( ".prototype" );
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          if ( item->ValueType() == ValueNode::kVariable ) {
-            stream_->Write( '"' );
-            stream_->Write( item->Symbol()->GetToken() );
-            stream_->Write( '"' );
-            writer_->WriteOp( ',' , 0 , stream_.Get() );
-            if ( item->ChildLength() > 0 && !item->FirstChild()->IsEmpty() ) {
-              item->FirstChild()->Accept( this );
-            } else {
-              stream_->Write( "undefined" );
-            }
-          }
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          if ( is_private ) {
-            stream_->Write( "true" );
-          } else {
-            stream_->Write( "false" );
-          }
-          writer_->WriteOp( ',' , 0 , stream_.Get() );
-          stream_->Write( "true" );
-          writer_->WriteOp( ')' , 0 , stream_.Get() );
-          writer_->WriteOp( ';' , 0 , stream_.Get() );
-        }
-      }
-    } else if ( node->NodeType() == AstNode::kFunction ) {
-      if ( !is_private ) {
-        name->Accept( this );
-        stream_->Write( ".prototype." );
-        Function *fn = reinterpret_cast<Function*>( node );
-        fn->Name()->Accept( this );
-        writer_->WriteOp( '=' , 0 , stream_.Get() );
-        fn->Accept( this );
-      } else {
-        stream_->Write( "__MC_Runtime_.__proto_member_def_" );
-        writer_->WriteOp( '(' , 0 , stream_.Get() );
-        name->Accept( this );
-        stream_->Write( ".prototype." );
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        Function *fn = reinterpret_cast<Function*>( node );
-        writer_->WriteOp( '"' , 0 , stream_.Get() );
-        fn->Name()->Accept( this );
-        writer_->WriteOp( '"' , 0 , stream_.Get() );
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        fn->Accept( this );
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        if ( is_private ) {
-          stream_->Write( "true" );
-        } else {
-          stream_->Write( "false" );
-        }
-        writer_->WriteOp( ')' , 0 , stream_.Get() );
-      }
-      writer_->WriteOp( ';' , 0 , stream_.Get() );
-    }
-  }
 }
 
 
 void CodegenVisitor::StaticMemberProccessor( NodeIterator& iterator , AstNode* name ) {
-  while ( iterator.HasNext() ) {
-    AstNode* node = iterator.Next()->FirstChild();
-    ValueNode* val = node->CastToValue();
-    if ( node->NodeType() == AstNode::kNodeList ) {
-      NodeIterator iter = node->ChildNodes();
-      while ( iter.HasNext() ) {
-        name->Accept( this );
-        stream_->Write( "." );
-        iter.Next()->Accept( this );
-        writer_->WriteOp( ';' , 0 , stream_.Get() );
-      }
-    } else if ( val && val->ValueType() == ValueNode::kConstant ) {
-      NodeIterator iter = val->Node()->ChildNodes();
-      while ( iter.HasNext() ) {
-        name->Accept( this );
-        stream_->Write( "." );
-        iter.Next()->Accept( this );
-        writer_->WriteOp( ';' , 0 , stream_.Get() );
-      }
-    } else if ( node->NodeType() == AstNode::kFunction ) {
-      name->Accept( this );
-      stream_->Write( "." );
-      Function *fn = reinterpret_cast<Function*>( node );
-      fn->Name()->Accept( this );
-      writer_->WriteOp( '=' , 0 , stream_.Get() );
-      node->Accept( this );
-      writer_->WriteOp( ';' , 0 , stream_.Get() );
-    }
-  } 
 }
 
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
-  current_class_ = ast_node;
-  bool is_decl = ast_node->Decl();
-  AstNode* body = ast_node->Body();
-  ClassProperties* prop = reinterpret_cast<ClassProperties*>( body );
-  AstNode* constructor = prop->Constructor();
-  printf( "decl = %d\n" , is_decl );
-  writer_->WriteOp( TOKEN::JS_FUNCTION , 0 , stream_.Get() );
-  ast_node->Name()->Accept( this );
-  stream_->Write( "()" );
-  writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
-
-  if ( constructor ) {
-    Function* fn = reinterpret_cast<Function*>( prop->Constructor() );
-    fn->Accept( this );
-  }
-
-  ast_node->Name()->Accept( this );
-  stream_->Write( ".__MC_init_.apply" );
-  writer_->WriteOp( '(' , 0 , stream_.Get() );
-  stream_->Write( "this" );
-  writer_->WriteOp( ',' , 0 , stream_.Get() );
-  stream_->Write( "arguments" );
-  writer_->WriteOp( ')' , 0 , stream_.Get() );
-  writer_->WriteOp( ';' , 0 , stream_.Get() );
-  stream_->Write( "__MC_Runtime_.__fix" );
-  writer_->WriteOp( '(' , 0 , stream_.Get() );
-  stream_->Write( "this" );
-  writer_->WriteOp( ')' , 0 , stream_.Get() );
-  writer_->WriteOp( ';' , 0 , stream_.Get() );
-  writer_->WriteOp( '}' , CodeWriter::kFunctionEndBrace , stream_.Get() );
-  if ( is_decl ) {
-    writer_->WriteOp( ';' , 0 , stream_.Get() );
-    stream_->Write( "__MC_Runtime_.__unenum(" );
-    ast_node->Name()->Accept( this );
-    writer_->WriteOp( ',' , 0 , stream_.Get() );
-    stream_->Write( "'__MC_init_'" );
-    writer_->WriteOp( ',' , 0 , stream_.Get() );
-    if ( constructor ) {
-      constructor->FirstChild()->Accept( this );
-    } else {
-      stream_->Write( "__MC_Runtime_.__noop" );
-    }
-    writer_->WriteOp( ')' , 0 , stream_.Get() );
-    writer_->WriteOp( ';' , 0 , stream_.Get() );
-
-    AstNode* node = prop->Prototype();
-    if ( node->ChildLength() > 0 ) {
-      NodeIterator pr_iterator = node->ChildNodes();
-      PrototypeMemberProccessor( pr_iterator , ast_node->Name() , false );
-    }
-
-    node = prop->Public();
-    if ( node->ChildLength() > 0 ) {
-      NodeIterator pb_iterator = node->ChildNodes();
-      PrototypeMemberProccessor( pb_iterator , ast_node->Name() , false );
-    }
-
-    node = prop->Private();
-    if ( node->ChildLength() > 0 ) {
-      NodeIterator pv_iterator = node->ChildNodes();
-      PrototypeMemberProccessor( pv_iterator , ast_node->Name() , true );
-    }
-
-    node = prop->Static();
-    if ( node->ChildLength() > 0 ) {
-      NodeIterator st_iterator = node->ChildNodes();
-      StaticMemberProccessor( st_iterator , ast_node->Name() );
-    }
-    
-  }
-  if ( !body->IsEmpty() ) {
-    body->Accept( this );
-  }
+  ast_node->FirstChild()->Accept( this );
 }
 
 VISITOR_IMPL(ClassProperties) {
@@ -910,82 +708,6 @@ VISITOR_IMPL(ClassExpandar) {
 
 VISITOR_IMPL(ClassMember) {
   PRINT_NODE_NAME;
-  AstNode* node = ast_node->FirstChild();
-  ValueNode* maybeConstant = ast_node->CastToValue();
-  if ( node->NodeType() == AstNode::kNodeList ) {
-    NodeIterator iterator = node->ChildNodes();
-    while ( iterator.HasNext() ) {
-      AstNode* maybeValue = iterator.Next();
-      if ( !maybeValue->IsEmpty() ) {
-        ValueNode *val = maybeValue->CastToValue();
-        if ( val ) {
-          if ( ast_node->Attr() == ClassMember::kPublic ) {
-            stream_->Write( "this." );
-            if ( val->ValueType() == ValueNode::kVariable ) {
-              stream_->Write( val->Symbol()->GetToken() );
-              if ( !val->FirstChild()->IsEmpty() ) {
-                writer_->WriteOp( '=' , 0 , stream_.Get() );
-                val->FirstChild()->Accept( this );
-              }
-            }
-            writer_->WriteOp( ';' , 0 , stream_.Get() );
-          } else {
-            stream_->Write( "__MC_Runtime_.__inst_prop_def" );
-            writer_->WriteOp( '(' , 0 , stream_.Get() );
-            stream_->Write( "this" );
-            writer_->WriteOp( ',' , 0 , stream_.Get() );
-            if ( val->ValueType() == ValueNode::kVariable ) {
-              stream_->Write( '"' );
-              stream_->Write( val->Symbol()->GetToken() );
-              stream_->Write( '"' );
-              writer_->WriteOp( ',' , 0 , stream_.Get() );
-              if ( !val->FirstChild()->IsEmpty() ) {
-                val->FirstChild()->Accept( this );
-              } else {
-                stream_->Write( "undefined" );
-              }
-            }
-            writer_->WriteOp( ',' , 0 , stream_.Get() );
-            stream_->Write( "true" );
-            writer_->WriteOp( ',' , 0 , stream_.Get() );
-            stream_->Write( "true" );
-            writer_->WriteOp( ')' , 0 , stream_.Get() );
-            writer_->WriteOp( ';' , 0 , stream_.Get() );
-          }
-        }
-      }
-    }
-  } else if ( maybeConstant && maybeConstant->ValueType() == ValueNode::kConstant ) {
-    NodeIterator iter = maybeConstant->Node()->ChildNodes();
-    while ( iter.HasNext() ) {
-      ValueNode* item = iter.Next()->CastToValue();
-      if ( item ) {
-        stream_->Write( "__MC_Runtime_.__inst_prop_def" );
-        writer_->WriteOp( '(' , 0 , stream_.Get() );
-        stream_->Write( "this" );
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        stream_->Write( '"' );
-        item->Accept( this );
-        stream_->Write( '"' );
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        if ( item->ChildLength() > 0 && !item->FirstChild()->IsEmpty() ) {
-          item->FirstChild()->Accept( this );
-        } else {
-          stream_->Write( "undefined" );
-        }
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        if ( ast_node->Attr() == ClassMember::kPrivate ) {
-          stream_->Write( "true" );
-        } else {
-          stream_->Write( "false" );
-        }
-        writer_->WriteOp( ',' , 0 , stream_.Get() );
-        stream_->Write( "true" );
-        writer_->WriteOp( ')' , 0 , stream_.Get() );
-        writer_->WriteOp( ';' , 0 , stream_.Get() );
-      }
-    }
-  } 
 }
 
 

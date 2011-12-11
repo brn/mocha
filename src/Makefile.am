@@ -19,6 +19,8 @@ ast/visitors/utils/processors/iteration_processor.h\
 ast/visitors/utils/processors/iteration_processor.cc\
 ast/visitors/utils/processors/variable_processor.h\
 ast/visitors/utils/processors/variable_processor.cc\
+ast/visitors/utils/processors/class_processor.cc\
+ast/visitors/utils/processors/class_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
@@ -119,6 +121,8 @@ grammar/grammar.tab.hh\
 grammar/grammar.tab.cc\
 utils/file_watcher/observer/xml_observer.h\
 utils/file_watcher/observer/xml_observer.cc\
+utils/xml/versions.h\
+utils/xml/versions.cc\
 utils/xml/xml_reader.h\
 utils/xml/xml_reader.cc\
 utils/xml/xml_setting_info.h\

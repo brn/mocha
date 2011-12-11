@@ -15,7 +15,9 @@
 #include <ast/visitors/utils/processors/dsta_processor.h>
 #include <ast/visitors/utils/processors/iteration_processor.h>
 #include <ast/visitors/utils/processors/variable_processor.h>
+#include <ast/visitors/utils/processors/class_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
+#include <utils/xml/xml_setting_info.h>
 #include <grammar/grammar.tab.hh>
 
 namespace mocha {
@@ -27,10 +29,10 @@ namespace mocha {
 #define REGIST(node) visitor_info_->SetCurrentStmt( node )
 
 
-AstVisitor::AstVisitor( Scope* scope , Compiler* compiler , const char* modulename,
+AstVisitor::AstVisitor( Scope* scope , Compiler* compiler , const char* main_file_path,
                         const char* filename ) :
     visitor_info_( new VisitorInfo( scope , compiler ,
-                                    ManagedHandle::Retain<DstaExtractedExpressions>() , modulename , filename ) ),
+                                    ManagedHandle::Retain<DstaExtractedExpressions>() , main_file_path , filename ) ),
     proc_info_( new ProcessorInfo( this , scope , visitor_info_.Get() ) ){}
 
 AstVisitor::~AstVisitor () {}
@@ -53,6 +55,21 @@ VISITOR_IMPL( FileRoot ) {
 }
 
 
+VISITOR_IMPL( VersionStmt ) {
+  PRINT_NODE_NAME;
+  REGIST(ast_node);
+  const char* ver = ast_node->Ver()->GetToken();
+  if ( visitor_info_->HasVersion( ver ) ) {
+    Function *fn_node = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
+                                                      ManagedHandle::Retain<Empty>() , ast_node->FirstChild() );
+    ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
+    ast_node->ParentNode()->ReplaceChild( ast_node , an_stmt_node );
+  } else {
+    ast_node->ParentNode()->RemoveChild( ast_node );
+  }
+}
+
+
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
@@ -64,7 +81,7 @@ VISITOR_IMPL( ModuleStmt ) {
   REGIST(ast_node);
   AstNode* body = ast_node->FirstChild();
   AstNode* name = ast_node->Name();
-
+  
   if ( body->NodeType() == AstNode::kBlockStmt ) {
     //Get block inner node.
     body = body->FirstChild();
@@ -81,7 +98,9 @@ VISITOR_IMPL( ModuleStmt ) {
    */
   Function *fn_node = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , body );
   ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
+  visitor_info_->EnterModuel();
   body->Accept( this );
+  visitor_info_->EscapeModuel();
   //For anonymous module.
   if ( !name->IsEmpty() ) {
     /*
@@ -89,7 +108,12 @@ VISITOR_IMPL( ModuleStmt ) {
      * all export properties are directly add to global export symbol.
      * Like this -> __MC_global_alias__.<name> = ...;
      */
-    ValueNode* alias = AstUtils::CreateNameNode( AstUtils::GetGlobalAliasSymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    ValueNode* alias;
+    if ( visitor_info_->IsInModules() ) {
+      alias = AstUtils::CreateNameNode( AstUtils::GetLocalExportSymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    } else {
+      alias = AstUtils::CreateNameNode( AstUtils::GetGlobalAliasSymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    }
     CallExp* dot_accessor = AstUtils::CreateDotAccessor( alias , name );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , dot_accessor , an_stmt_node->FirstChild() );
     ExpressionStmt* exp_stmt =  AstUtils::CreateExpStmt( exp );
@@ -124,6 +148,10 @@ VISITOR_IMPL( ExportStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   AstNode* node = ast_node->FirstChild();
+  ValueNode* name_node = node->CastToValue();
+  if ( name_node && name_node->ValueType() == ValueNode::kConstant ) {
+    node = name_node->Node();
+  }
   node->Accept( this );
   
   if ( node->NodeType() == AstNode::kFunction ) {
@@ -139,7 +167,9 @@ VISITOR_IMPL( ExportStmt ) {
   } else if ( node->NodeType() == AstNode::kNodeList ) {
 
     NodeIterator iterator = node->ChildNodes();
-    bool is_replaced = false;
+    VariableStmt* var_stmt = ManagedHandle::Retain<VariableStmt>();
+    Expression* exp = ManagedHandle::Retain<Expression>();
+    exp->Paren();
     while ( iterator.HasNext() ) {
       AstNode *item = iterator.Next();
       TokenInfo *name_info = item->CastToValue()->Symbol();
@@ -149,15 +179,23 @@ VISITOR_IMPL( ExportStmt ) {
       AssignmentExp* assign;
       if ( !item->FirstChild()->IsEmpty() ) {
         assign = AstUtils::CreateAssignment( '=' , export_prop , item->FirstChild() );
+        ValueNode *val = AstUtils::CreateVarInitiliser( name->Symbol() , assign );
+        var_stmt->AddChild( val);
       } else {
         assign = AstUtils::CreateAssignment( '=' , export_prop , name );
+        exp->AddChild( assign );
       }
-      ExpressionStmt* exp_stmt_node = AstUtils::CreateExpStmt( assign );
-      if ( !is_replaced ) {
-        ast_node->ParentNode()->ReplaceChild( ast_node , exp_stmt_node );
-        is_replaced = true;
+    }
+    if ( var_stmt->ChildLength() > 0 ) {
+      ast_node->ParentNode()->ReplaceChild( ast_node , var_stmt );
+    }
+    if ( exp->ChildLength() > 0 ) {
+      ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+      stmt->AddChild( exp );
+      if ( var_stmt->ChildLength() > 0 ) {
+        ast_node->ParentNode()->InsertBefore( stmt , var_stmt );
       } else {
-        ast_node->ParentNode()->AddChild( exp_stmt_node );
+        ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
       }
     }
   }
@@ -623,8 +661,10 @@ VISITOR_IMPL(Expression) {
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
-  ast_node->Body()->Accept( this );
-  ast_node->Name()->Accept( this );
+  Statement *tmp_stmt = ManagedHandle::Retain<Statement>();
+  REGIST(tmp_stmt);
+  ClassProcessor *cls = ManagedHandle::Retain( new ClassProcessor( proc_info_.Get() , ast_node , tmp_stmt ) );
+  cls->ProcessNode();
 }
 
 VISITOR_IMPL(ClassProperties) {
@@ -712,7 +752,7 @@ VISITOR_IMPL(Function){
     list->AddChild( rhs );
     list->AddChild( arg );
     CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
-    CallExp* std_to_array = AstUtils::CreateStdMod( nrm );
+    CallExp* std_to_array = AstUtils::CreateRuntimeMod( nrm );
     ValueNode* var_node = AstUtils::CreateVarInitiliser( visitor_info_->GetRestExp() , std_to_array );
     NodeList* var_list = ManagedHandle::Retain<NodeList>();
     var_list->AddChild( var_node );

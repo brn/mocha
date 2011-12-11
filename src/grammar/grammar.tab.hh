@@ -267,7 +267,8 @@ namespace yy {
      JS_CONSTRUCTOR = 370,
      JS_GET = 371,
      JS_SET = 372,
-     JS_PROTOTYPE = 373
+     JS_PROTOTYPE = 373,
+     MOCHA_VERSIONOF = 374
    };
 
     };
@@ -450,7 +451,7 @@ namespace yy {
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 454 "grammar/grammar.tab.hh"
+#line 455 "grammar/grammar.tab.hh"
 
 
 

@@ -109,7 +109,8 @@ int JsToken::keywordToken_ [] = {
   TOKEN::JS_WHILE,
   TOKEN::JS_WITH,
   TOKEN::JS_EACH,
-  TOKEN::JS_FROM
+  TOKEN::JS_FROM,
+  TOKEN::MOCHA_VERSIONOF
 };
 
 char JsToken::keywordsList_ [] [ 20 ] = {  
@@ -175,7 +176,8 @@ char JsToken::keywordsList_ [] [ 20 ] = {
   "while" ,
   "with",
   "each",
-  "from"
+  "from",
+  "versionof"
 };
 
 char JsToken::operators_ [] = {

@@ -74,6 +74,8 @@ namespace mocha {
      */
     inline ~Handle ();
 
+    inline bool Contain();
+    
     /**
      *@public
      *Delay initialize.
