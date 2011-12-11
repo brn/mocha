@@ -131,7 +131,7 @@ private :
 
   inline void LoadRuntime_() {
     Handle<PathInfo> info = CompilerUtils::GetRuntimePathInfo();
-    CallInternal_( path_info , Internal::kFatal );
+    CallInternal_( info , Internal::kFatal );
   }
 
   

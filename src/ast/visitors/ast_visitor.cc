@@ -52,13 +52,6 @@ VISITOR_IMPL( FileRoot ) {
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  Function *fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
-                                               ManagedHandle::Retain<Empty>() , ast_node );
-  ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
-  FileRoot* root = ManagedHandle::Retain<FileRoot>();
-  root->FileName( ast_node->FileName() );
-  root->AddChild( stmt );
-  ast_node->ParentNode()->ReplaceChild( ast_node , root );
 }
 
 

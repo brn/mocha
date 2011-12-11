@@ -33,17 +33,15 @@ void BeginLog() {
 
 void LoadSetting() {
   const char* path = mocha::Setting::GetInstance()->GetXMLPath();
-  if ( mocha::FileIO::IsExist( path ) ) {
+  if ( !mocha::FileIO::IsExist( path ) ) {
     mocha::Handle<mocha::File> file = mocha::FileIO::Open( path , "rw" , mocha::FileIO::P_ReadWrite );
     if ( file->IsSuccess() ) {
       mocha::FileSystem::Chmod( path , 0777 );
       file->Write( CreateXML() );
     } else {
-      fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
+      fprintf( stderr , "Error can not find watch.xml. Run install.js first.\n" );
+      exit(1);
     }
-  } else {
-    fprintf( stderr , "Error can not find watch.xml. Run install.js first." );
-    exit(1);
   }
 }
 

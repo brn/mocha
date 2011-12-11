@@ -43,6 +43,7 @@ class Setting::PtrImpl {
   std::string xml_path;
   std::string module_path;
   std::string runtime_path;
+  std::string runtime_file;
   std::string log_path;
   Handle<File> file_handle;
   
@@ -126,12 +127,12 @@ Setting::Setting() {
   implementation_->base_dir = FileSystem::GetUserHomeDir().Get();
   implementation_->base_dir += "/.mocha/";
   implementation_->xml_path = implementation_->base_dir;
-  implementation_->xml_path += "setting.xml";
+  implementation_->xml_path += "watch.xml";
   implementation_->module_path = implementation_->base_dir;
   implementation_->module_path += "module/";
-  implementation_->runtime_path = Implementation_->module_path;
+  implementation_->runtime_path = implementation_->module_path;
   implementation_->runtime_path += "runtime/";
-  implementation_->runtime_file = Implementation_->runtime_path;
+  implementation_->runtime_file = implementation_->runtime_path;
   implementation_->runtime_file += "mocha_runtime.js";
   implementation_->log_path = implementation_->base_dir;
   implementation_->log_path += "mocha.log";

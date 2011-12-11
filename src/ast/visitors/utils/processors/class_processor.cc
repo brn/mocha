@@ -82,9 +82,9 @@ inline CallExp* CreateHiddenCall( const char* name , AstNode* val , Class* class
 }
 
 
-inline void Finish( Class* class_ , AstNode* closure_ ) {
+inline void Finish( const char* name , Class* class_ , AstNode* closure_ ) {
   if ( class_->Decl() ) {
-    TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name_.c_str() , TOKEN::JS_IDENTIFIER , class_->Line() ) );
+    TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , TOKEN::JS_IDENTIFIER , class_->Line() ) );
     ValueNode* vars = AstUtils::CreateVarInitiliser( info , closure_->FirstChild() );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( vars );
@@ -129,7 +129,7 @@ void ClassProcessor::ProcessNode() {
   ProcessBody_( body );
   ReturnStmt* ret = AstUtils::CreateReturnStmt( name->Clone() );
   closure_body_->AddChild( ret );
-  Finish( class_ , closure_ );
+  Finish( name_.c_str() , class_ , closure_ );
 }
 
 
