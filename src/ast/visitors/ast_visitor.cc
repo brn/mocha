@@ -59,6 +59,7 @@ VISITOR_IMPL( VersionStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   const char* ver = ast_node->Ver()->GetToken();
+  ast_node->FirstChild()->Accept( this );
   if ( visitor_info_->HasVersion( ver ) ) {
     Function *fn_node = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
                                                       ManagedHandle::Retain<Empty>() , ast_node->FirstChild() );
@@ -571,7 +572,7 @@ void AstVisitor::NewCallProccessor_( CallExp* exp ) {
 }
 
 void AstVisitor::NormalFunctionCall_( CallExp* exp ) {
-  AstNode* args = exp->Args();
+  AstNode* args = exp->Args();  
   exp->Callable()->Accept( this );
   if ( !args->IsEmpty() ) {
     NodeIterator iterator = args->ChildNodes();

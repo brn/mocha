@@ -17,7 +17,7 @@ void Version::Add( const char* ver ) {
 }
 
 bool Version::Get( const char* ver ) {
-  return container_.find( ver ) != container_.end();
+  return ( strcmp( ver , none ) == 0 )? false : container_.find( ver ) != container_.end();
 }
 
 void Version::Debug() {
