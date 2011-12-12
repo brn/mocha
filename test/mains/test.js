@@ -1,4 +1,4 @@
-import {fmt} from "./fmt";
+//import {fmt} from "./fmt";
 /*import {jQuery} from "../jspp-lib/jquery-devel"*/
 
 class Monster {
