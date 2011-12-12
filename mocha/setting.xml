@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<settings>
-    <include path="C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/include.xml" />
-    <include ignore="true" path="C:/Users/game/Pictures/Documents/My Dropbox/Public/mocha/test/mains/include.xml" />
-</settings>
