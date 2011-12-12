@@ -11,11 +11,6 @@
 
 namespace mocha {
 
-
-MemberAttr::MemberAttr( int type , AstNode* node ) : Managed() , attr_( type ) , node_( node ){} 
-
-
-
 inline CallExp* CreateHiddenMember( NodeList* args , long line ) {
   ValueNode* hidden = AstUtils::CreateNameNode( AstUtils::GetHiddenSymbol() , TOKEN::JS_IDENTIFIER , line );
   CallExp* mod = AstUtils::CreateRuntimeMod( hidden );
@@ -38,7 +33,7 @@ inline CallExp* CreateTypeIdIntializer( long line ) {
   NodeList* list = ManagedHandle::Retain<NodeList>();
   ValueNode* this_node = CreateThisNode( line );
   char buf[50];
-  sprintf( buf , "'%s'" , AstUtils::GetInstanceIdSymbol() );
+  sprintf( buf , "'%s'" , AstUtils::GetTypeIdSymbol() );
   ValueNode* instance_str = AstUtils::CreateNameNode( buf , TOKEN::JS_STRING_LITERAL , line );
   ValueNode* instance_sym = AstUtils::CreateNameNode( AstUtils::GetInstanceIdSymbol() , TOKEN::JS_IDENTIFIER , line );
   UnaryExp* exp = ManagedHandle::Retain( new UnaryExp( TOKEN::JS_INCREMENT ) );
@@ -63,7 +58,7 @@ inline CallExp* CreateConstructorInitializer( long line ) {
 }
 
 
-inline CallExp* CreateHiddenCall( const char* name , AstNode* val , Class* class_ ) {
+inline CallExp* CreateHiddenCall( const char* name , AstNode* val , Class* class_ , bool is_const ) {
   ValueNode* hidden_call_sym = AstUtils::CreateNameNode( AstUtils::GetHiddenCallSymbol() , TOKEN::JS_IDENTIFIER , class_->Line() );
   NodeList *list = ManagedHandle::Retain<NodeList>();
   char tmp[50];
@@ -76,6 +71,8 @@ inline CallExp* CreateHiddenCall( const char* name , AstNode* val , Class* class
   list->AddChild( accessor_node );
   list->AddChild( name_sym );
   list->AddChild( val );
+  ValueNode* true_node = AstUtils::CreateNameNode( ( ( is_const )? "true" : "false" ) , TOKEN::JS_TRUE , class_->Line() );
+  list->AddChild( true_node );
   CallExp* hidden_call = AstUtils::CreateNormalAccessor( hidden_call_sym , list );
   CallExp* exp = AstUtils::CreateRuntimeMod( hidden_call );
   return exp;
@@ -212,17 +209,17 @@ void ClassProcessor::ProcessEachMember_( AstNode* node , bool is_prototype , boo
       
     case AstNode::kValueNode : {
       AstNode* child_node = node->CastToValue()->Node();
-      ProcessVariable_( child_node , is_prototype , is_private , is_instance );
+      ProcessVariable_( child_node , is_prototype , is_private , is_instance , true );
     }
       break;
       
     case AstNode::kNodeList : {
-      ProcessVariable_( node , is_prototype , is_private , is_instance );
+      ProcessVariable_( node , is_prototype , is_private , is_instance , false );
     }
   }
 }
 
-inline void ClassProcessor::ProcessVariable_( AstNode* node , bool is_prototype , bool is_private ,bool is_instance ) {
+inline void ClassProcessor::ProcessVariable_( AstNode* node , bool is_prototype , bool is_private ,bool is_instance , bool is_const ) {
   NodeIterator iterator = node->Clone()->ChildNodes();
   if ( is_private && is_prototype ) {
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -272,7 +269,7 @@ inline void ClassProcessor::ProcessVariable_( AstNode* node , bool is_prototype 
                                                                 TOKEN::JS_IDENTIFIER , node->Line() ) : lhs;
             AstNode* result = 0;
             if ( is_instance ) {
-              result = CreateHiddenCall( value->Symbol()->GetToken() , lhs , class_ );
+              result = CreateHiddenCall( value->Symbol()->GetToken() , lhs , class_ , is_const );
             } else {
               ValueNode* name_node = AstUtils::CreateNameNode( table,
                                                                TOKEN::JS_IDENTIFIER , node->Line() );

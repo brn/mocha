@@ -1,4 +1,6 @@
+#include <string.h>
 #include <utils/xml/versions.h>
+
 
 
 namespace mocha {

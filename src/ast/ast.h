@@ -47,7 +47,8 @@ class AstNode : public Managed {
     kFileRoot,
     kStatement,
     kStatementList,
-    kVersionStmt,    kExpression,
+    kVersionStmt,
+    kExpression,
     kValueNode,
     kCase,
     kNodeList,
@@ -161,7 +162,7 @@ class NodeList : public AstNode {
   inline ~NodeList(){}
   CLONE( NodeList );
  private :
-  inline virtual void NVIAccept_( IVisitor* visitor ) {}
+  CALL_ACCEPTOR(NodeList);
 };
 
 class Empty : public AstNode {

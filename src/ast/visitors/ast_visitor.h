@@ -16,10 +16,8 @@ class ProcessorInfo;
 class AstVisitor : public IVisitor {
  public :
     
-  AstVisitor ( Scope* scope,
-               Compiler* compiler,
-               const char* modulename,
-               const char* filename );
+  AstVisitor ( bool is_runtime , Scope* scope , Compiler* compiler,
+               const char* modulename , const char* filename );
   ~AstVisitor ();
 
 #include <ast/visitors/visitor_decl.h>

@@ -63,7 +63,7 @@ public :
 
   inline void Compile() {
     LoadRuntime_();
-    CallInternal_( path_info_ , Internal::kFatal );
+    CallInternal_( path_info_ , Internal::kFatal , false );
     ast_root_.Accept( codegen_.Get() );
     Write_ ( codegen_->GetCode() );
   }
@@ -81,7 +81,7 @@ public :
       Handle<PathInfo> path_info = CompilerUtils::ChangeDir( js_path.Get() );
       //Set loaded file to hash.
       SetPath_( js_path.Get() );
-      CallInternal_( path_info , Internal::kNofatal );
+      CallInternal_( path_info , Internal::kNofatal , false );
     }
     return js_path;
   }
@@ -124,14 +124,15 @@ private :
 
 
   
-  inline void CallInternal_( Handle<PathInfo> path_info , Internal::ErrorLevel error_level ) {
-    Internal internal ( main_file_path_.c_str() , path_info , compiler_ , &scope_ , codegen_.Get() , &ast_root_ );
-    internal.Parse ( error_level );
+  inline void CallInternal_( Handle<PathInfo> path_info , Internal::ErrorLevel error_level , bool is_runtime ) {
+    Internal internal( main_file_path_.c_str() , is_runtime ,
+                       path_info , compiler_ , &scope_ , codegen_.Get() , &ast_root_ );
+    internal.Parse( error_level );
   }
 
   inline void LoadRuntime_() {
     Handle<PathInfo> info = CompilerUtils::GetRuntimePathInfo();
-    CallInternal_( info , Internal::kFatal );
+    CallInternal_( info , Internal::kFatal , true );
   }
 
   

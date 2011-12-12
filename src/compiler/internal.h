@@ -25,6 +25,7 @@ class Internal {
     kNofatal
   } ErrorLevel;
   Internal ( const char* main_file_path,
+             bool is_runtime,
              Handle<PathInfo> path_info,
              Compiler *compiler,
              Scope *scope,
@@ -33,7 +34,7 @@ class Internal {
 
   inline ~Internal () {};
 
-  void Parse( ErrorLevel level = kFatal );
+  void Parse( ErrorLevel level );
     
  private :
   inline void LoadFile_ ();
@@ -42,6 +43,7 @@ class Internal {
   inline void SyntaxError_( const ParserTracer& );
 
   const char* main_file_path_;
+  bool is_runtime_;
   bool file_exist_;
   std::string error_;
   Compiler* compiler_;

@@ -21,6 +21,7 @@ namespace mocha {
   
 
 Internal::Internal ( const char* main_file_path,
+                     bool is_runtime,
                      Handle<PathInfo> path_info ,
                      Compiler* compiler,
                      Scope *scope,
@@ -28,6 +29,7 @@ Internal::Internal ( const char* main_file_path,
                      AstRoot* ast_root ) :
 
     main_file_path_( main_file_path ),
+    is_runtime_( is_runtime ),
     file_exist_ ( false ),
     compiler_ ( compiler ),
     scope_ ( scope ),
@@ -57,9 +59,7 @@ inline void Internal::LoadFile_ () {
   sprintf( path , "%s/%s",
            path_info_->GetDirPath().Get(),
            path_info_->GetFileName().Get() );
-  printf ( "path is %s\n" , path );
-  printf("%s\n",path_info_->GetDirPath().Get());
-  printf("%s\n",path_info_->GetFileName().Get());
+  
   //Check is file exist.
   if ( mocha::FileIO::IsExist ( path ) ) {
     file_ = mocha::FileIO::Open ( path , "r" );
@@ -87,10 +87,8 @@ inline void Internal::ParseStart_ () {
   scope_ = scope_->GetGlobal ();
   parser.ParseStart ();
   
-  mocha::AstVisitor visitor ( scope_,
-                              compiler_,
-                              main_file_path_,
-                              file_->GetFileName() );
+  mocha::AstVisitor visitor ( is_runtime_ , scope_ , compiler_,
+                              main_file_path_ , file_->GetFileName() );
   
   if ( !tracer.IsSyntaxError () ) {
     root.Accept ( &visitor );

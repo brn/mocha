@@ -11,6 +11,7 @@ class IVisitor {
   DECL_VISITOR(AstRoot);
   DECL_VISITOR(FileRoot);
   DECL_VISITOR(Statement);
+  DECL_VISITOR(NodeList);
   DECL_VISITOR(StatementList);
   DECL_VISITOR(VersionStmt);
   DECL_VISITOR(BlockStmt);

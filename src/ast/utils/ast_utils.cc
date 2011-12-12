@@ -117,22 +117,22 @@ ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp ) {
   return return_stmt;
 }
 
-static const char global_export[] = { "__MC_global_export__" };
-static const char global_alias[] = { "__MC_global_alias__" };
-static const char local_export[] = { "__MC_local_export__" };
-static const char local_tmp[] = { "__MC_local_tmp__" };
-static const char to_array[] = { "__MC_to_array__" };
-static const char mc_runtime[] = { "__MC_runtime__" };
+static const char global_export[] = { "_mochaGlobalExport" };
+static const char global_alias[] = { "_mochaGlobalAlias" };
+static const char local_export[] = { "_mochaLocalExport" };
+static const char local_tmp[] = { "_localTmp" };
+static const char to_array[] = { "toArray" };
+static const char mc_runtime[] = { "Runtime" };
 static const char arguments[] = { "arguments" };
 static const char undefined[] = {"undefined"};
-static const char class_table[] = {"__MC_class_table_"};
-static const char hidden[] = { "__hidden" };
+static const char class_table[] = {"_mochaClassTable"};
+static const char hidden[] = { "createUnenumProp" };
 static const char constructor[] = {"constructor"};
 static const char this_sym[] = {"this"};
 static const char typeid_sym[] = {"__typeid__"};
-static const char instance_id[] = {"__MC_instance_id_"};
-static const char instance_table[] = {"__MC_instance_table_"};
-static const char hidden_call[] = {"__hide_prop"};
+static const char instance_id[] = {"_mochaInstanceId"};
+static const char instance_table[] = {"_mochaInstanceTable"};
+static const char hidden_call[] = {"createPrivateProp"};
 static const char apply_sym[] = {"apply"};
 
 CallExp* AstUtils::CreateRuntimeMod( AstNode* member ) {

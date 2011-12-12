@@ -14,7 +14,7 @@ class ClassProcessor;
 typedef std::list<ClassProcessor*> ClassList;
 class VisitorInfo : private Uncopyable{
  public :
-  VisitorInfo( Scope* scope , Compiler *compiler ,
+  VisitorInfo( bool is_runtime , Scope* scope , Compiler *compiler ,
                DstaExtractedExpressions* dsta_exp , const char* main_file_path , const char* file_name );
   ~VisitorInfo(){};
   inline int GetTmpIndex() { int ret = tmp_index_;tmp_index_++;return ret; };
@@ -31,6 +31,7 @@ class VisitorInfo : private Uncopyable{
   inline TokenInfo* GetRestExp() { return rest_exp_; }
   inline void SetCurrentStmt( Statement* stmt ) { current_stmt_ = stmt; }
   inline Statement* GetCurrentStmt() { return current_stmt_; }
+  inline bool IsRuntime() { return is_runtime_; }
   inline bool HasVersion( const char* ver ) {
     if ( version_ ) {
       return version_->Get( ver );
@@ -40,6 +41,9 @@ class VisitorInfo : private Uncopyable{
   inline bool IsInModules() { return is_in_module_ > 1; }
   inline void EscapeModuel() { if ( is_in_module_ > 1 ){ is_in_module_ >>= 1; } }
   inline void EnterModuel() { is_in_module_ <<= 1; }
+  inline void EnterClass() { is_in_class_ = true; }
+  inline void EscapeClass() { is_in_class_ = false; }
+  inline bool IsInClass() { return is_in_class_; }
   inline void AddClass( ClassProcessor* proc ) { class_list_.push_back( proc ); }
   inline const ClassList& GetClassList() { return class_list_; }
  private :
@@ -47,6 +51,7 @@ class VisitorInfo : private Uncopyable{
   bool is_dst_injection_;
   bool is_rest_injection_;
   bool is_runtime_;
+  bool is_in_class_;
   int64_t is_in_module_;
   const char* main_file_path_;
   const char* file_name_;

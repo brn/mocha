@@ -58,17 +58,20 @@ VISITOR_IMPL( AstRoot ) {
 
 VISITOR_IMPL( FileRoot ) {
   PRINT_NODE_NAME;
-  stream_->Write( "(function()" );
-  writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
   writer_->InitializeFileName( ast_node->FileName() , stream_.Get() );
   current_root_ = ast_node;
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  writer_->WriteOp( '}' , CodeWriter::kArgs , stream_.Get() );
-  stream_->Write( ")()" );
-  writer_->WriteOp( ';' , 0 , stream_.Get() );
+}
+
+
+VISITOR_IMPL( NodeList ) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 
