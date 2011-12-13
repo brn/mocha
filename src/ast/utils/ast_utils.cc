@@ -1,6 +1,7 @@
 #include <ast/utils/ast_utils.h>
 #include <ast/ast.h>
 #include <compiler/tokens/token_info.h>
+#include <compiler/tokens/symbol_list.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
 #include <grammar/grammar.tab.hh>
@@ -117,94 +118,49 @@ ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp ) {
   return return_stmt;
 }
 
-static const char global_export[] = { "_mochaGlobalExport" };
-static const char global_alias[] = { "_mochaGlobalAlias" };
-static const char local_export[] = { "_mochaLocalExport" };
-static const char local_tmp[] = { "_localTmp" };
-static const char to_array[] = { "toArray" };
-static const char mc_runtime[] = { "Runtime" };
-static const char arguments[] = { "arguments" };
-static const char undefined[] = {"undefined"};
-static const char class_table[] = {"_mochaClassTable"};
-static const char hidden[] = { "createUnenumProp" };
-static const char constructor[] = {"constructor"};
-static const char this_sym[] = {"this"};
-static const char typeid_sym[] = {"__typeid__"};
-static const char instance_id[] = {"_mochaInstanceId"};
-static const char instance_table[] = {"_mochaInstanceTable"};
-static const char hidden_call[] = {"createPrivateProp"};
-static const char apply_sym[] = {"apply"};
+
+CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value ) {
+  ValueNode* constant = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstant ),
+                                                  TOKEN::JS_IDENTIFIER , lhs->Line() );
+  ValueNode* prop_str = prop->CastToValue();
+  AstNode* property = prop;
+  if ( prop_str && prop_str->ValueType() == ValueNode::kIdentifier ) {
+    char tmp[50];
+    sprintf( tmp , "'%s'" , prop_str->Symbol()->GetToken() );
+    property = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , prop_str->Line() );
+  }
+  NodeList* args = ManagedHandle::Retain<NodeList>();
+  args->AddChild( lhs );
+  args->AddChild( property );
+  args->AddChild( value );
+  CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( constant );
+  return AstUtils::CreateNormalAccessor( runtime_accessor , args );
+}
+
+
+CallExp* AstUtils::CreatePrototypeNode( AstNode* lhs ) {
+  ValueNode* prototype = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrototype ),
+                                                   TOKEN::JS_IDENTIFIER , lhs->Line() );
+  return AstUtils::CreateDotAccessor( lhs , prototype );
+}
+
 
 CallExp* AstUtils::CreateRuntimeMod( AstNode* member ) {
-  ValueNode* value = CreateNameNode( mc_runtime , TOKEN::JS_IDENTIFIER , 0 );
+  ValueNode* value = CreateNameNode( SymbolList::GetSymbol( SymbolList::kRuntime ),
+                                     TOKEN::JS_IDENTIFIER , 0 );
   CallExp* exp = CreateDotAccessor( value , member );
   return exp;
 }
 
-const char* AstUtils::GetGloablExportSymbol() {
-  return global_export;
-}
-
-const char* AstUtils::GetLocalExportSymbol() {
-  return local_export;
-}
-
-const char* AstUtils::GetGlobalAliasSymbol() {
-  return global_alias;
-}
-
-const char* AstUtils::GetToArraySymbol() {
-  return to_array;
-}
-
-const char* AstUtils::GetArgumentsSymbol() {
-  return arguments;
-}
-
-const char* AstUtils::GetUndefinedSymbol() {
-  return undefined;
-}
-
-const char* AstUtils::GetClassTableSymbol() {
-  return class_table;
-}
-
-const char* AstUtils::GetHiddenCallSymbol() {
-  return hidden_call;
-}
-
-const char* AstUtils::GetHiddenSymbol() {
-  return hidden;
-}
-
-const char* AstUtils::GetConstructorSymbol() {
-  return constructor;
-}
-
-const char* AstUtils::GetThisSymbol() {
-  return this_sym;
-}
-
-const char* AstUtils::GetTypeIdSymbol() {
-  return typeid_sym;
-}
-
-const char* AstUtils::GetInstanceIdSymbol() {
-  return instance_id;
-}
-
-const char* AstUtils::GetApplySym() {
-  return apply_sym;
-}
-
 const char* AstUtils::CreateTmpRef( char* buf , int index ) {
-  sprintf( buf , "%s%d", local_tmp , index );
+  sprintf( buf , "%s%d", SymbolList::GetSymbol( SymbolList::kLocalTmp ) , index );
   return buf;
 }
 
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filename ) {
   StrHandle key = FileSystem::GetModuleKey( filename );
-  ValueNode* value = AstUtils::CreateNameNode( AstUtils::GetGloablExportSymbol() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+  ValueNode* value = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
+                                               TOKEN::JS_IDENTIFIER , ast_node->Line() );
   ValueNode* name = AstUtils::CreateNameNode( key.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
   CallExp* arr = AstUtils::CreateArrayAccessor( value , name );
   return arr;

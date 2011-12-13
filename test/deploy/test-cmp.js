@@ -265,6 +265,30 @@
         };
         var instanceProp = {},
             slice = Array.prototype.slice;
+        _mochaGlobalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
+          if ( !( id in instance_prop ) ){
+            instance_prop[id] = {};
+          };
+          Object.defineProperty( instance_prop[id],prop, {
+            enumerable : true,
+            configurable : isConst,
+            writable : isConst,
+            value : value
+          });
+        };
+        _mochaGlobalExport.getPrivateProp = function getPrivateProp( id,prop ) {
+          if ( id in _mochaInstanceProp ){
+            return _mochaInstanceProp[id];
+          } else {
+            try {
+              throw new TypeError( prop+"is not defined." );
+            } catch( e ){
+              throw new Error( e );
+            };
+            
+          }
+          
+        };
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
@@ -274,7 +298,7 @@
               });
             };
         var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+              return Object.defineProp( obj,prop, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
@@ -288,12 +312,11 @@
       })();
   ( function () {
     var Monster = ( function () {
-          var x = 0;
-          var _MochaPrivateHolder = function () {
+          var _mochaPrivateHolder = function () {
                 
               };
           function Monster() {
-            Runtime.createUnenumProp( this,'__private__',new _MochaPrivateHolder );
+            Runtime.createUnenumProp( this,'__private__',new _mochaPrivateHolder );
             Monster.constructor.apply( this,arguments );
           };
           Runtime.createUnenumProp( Monster,'constructor',function constructor( name,health ) {
@@ -302,20 +325,22 @@
             Runtime.constant( this.__private__,'_tmpName',name );
           });
           Monster.prototype.numAttacks = 0;
-          Monster.prototype.attackMessage = 'The monster hits you!';
-          _MochaPrivateHolder.prototype.isAlive = function isAlive() {
+          Runtime.constant( Monster.prototype,'attackMessage','The monster hits you!' );
+          _mochaPrivateHolder.prototype.isAlive = function isAlive() {
             return this._health>0;
           };
-          _MochaPrivateHolder.prototype.health = function health( value ) {
+          _mochaPrivateHolder.prototype.x = 0;
+          _mochaPrivateHolder.prototype.health = function health( value ) {
             if ( value<0 ){
               throw new Error( 'Health must be non-negative.' );
             };
             this._health = value;
             return this.value+"tmpName";
           };
-          _MochaPrivateHolder.prototype.attack = function attack( target ) {
+          _mochaPrivateHolder.prototype.attack = function attack( target ) {
             log( 'The monster attacks '+target );
           };
+          Monster.m = 200;
           return Monster;
         })();
     ;

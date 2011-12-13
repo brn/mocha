@@ -14,14 +14,21 @@ class ClassProcessor : public Managed {
   ~ClassProcessor(){};
   void ProcessNode();
  private :
+  typedef void (*DstaCallback)( const char* class_name,
+                                Function* closure_body,
+                                AssignmentExp* exp,
+                                bool is_const );
+  
   inline void ProcessBody_( AstNode* body );
   inline void ProcessMember_( ClassProperties* body );
   inline void IterateMember_( AstNode* list , bool is_prototype , bool is_private , bool is_instance );
   void ProcessEachMember_( AstNode* node , bool is_prototype , bool is_private , bool is_instance );
   inline void ProcessVariable_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
-  inline void ProcessFunction_( Function* function , bool is_prottoype , bool is_private );
+  inline void ProcessFunction_( Function* function , bool is_prottoype , bool is_private , bool is_instance );
   inline void ProcessConstructor_( Function* constructor );
-
+  inline void ProcessDsta_( ValueNode* value ,bool is_const , DstaCallback callback );
+  inline void SimpleVariables_( AstNode* node , bool is_const );
+  inline void NoSimpleVariables_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
   int class_id_;
   std::string name_;
   ProcessorInfo *info_;

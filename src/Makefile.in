@@ -52,13 +52,13 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	class_processor.$(OBJEXT) ast_utils.$(OBJEXT) \
 	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
 	codegen_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
-	compiler.$(OBJEXT) compile_runner.$(OBJEXT) \
-	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
-	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
-	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
-	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
-	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
-	interaction.$(OBJEXT) commands.$(OBJEXT) \
+	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	compile_runner.$(OBJEXT) list_runner.$(OBJEXT) \
+	error_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
+	compiler_utils.$(OBJEXT) commandline_options.$(OBJEXT) \
+	file_io.$(OBJEXT) file_observer.$(OBJEXT) \
+	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
+	help_runner.$(OBJEXT) interaction.$(OBJEXT) commands.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
 	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
 	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
@@ -215,6 +215,8 @@ ast/visitors/utils/codewriter.h\
 ast/visitors/utils/codewriter.cc\
 compiler/compiler.cc\
 compiler/compiler.h\
+compiler/tokens/symbol_list.h\
+compiler/tokens/symbol_list.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
@@ -450,6 +452,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scope.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setting.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/symbol_list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thread.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinystr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxml.Po@am__quote@
@@ -659,6 +662,20 @@ compiler.obj: compiler/compiler.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/compiler.cc' object='compiler.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compiler.obj `if test -f 'compiler/compiler.cc'; then $(CYGPATH_W) 'compiler/compiler.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/compiler.cc'; fi`
+
+symbol_list.o: compiler/tokens/symbol_list.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT symbol_list.o -MD -MP -MF $(DEPDIR)/symbol_list.Tpo -c -o symbol_list.o `test -f 'compiler/tokens/symbol_list.cc' || echo '$(srcdir)/'`compiler/tokens/symbol_list.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/symbol_list.Tpo $(DEPDIR)/symbol_list.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/tokens/symbol_list.cc' object='symbol_list.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o symbol_list.o `test -f 'compiler/tokens/symbol_list.cc' || echo '$(srcdir)/'`compiler/tokens/symbol_list.cc
+
+symbol_list.obj: compiler/tokens/symbol_list.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT symbol_list.obj -MD -MP -MF $(DEPDIR)/symbol_list.Tpo -c -o symbol_list.obj `if test -f 'compiler/tokens/symbol_list.cc'; then $(CYGPATH_W) 'compiler/tokens/symbol_list.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/tokens/symbol_list.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/symbol_list.Tpo $(DEPDIR)/symbol_list.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/tokens/symbol_list.cc' object='symbol_list.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o symbol_list.obj `if test -f 'compiler/tokens/symbol_list.cc'; then $(CYGPATH_W) 'compiler/tokens/symbol_list.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/tokens/symbol_list.cc'; fi`
 
 compile_runner.o: bootstrap/runners/compile_runner.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.o -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.o `test -f 'bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/compile_runner.cc

@@ -40,7 +40,7 @@ class Monster {
   // declares a prototype property and initializes it to the value
   // of that expression. 
   public numAttacks = 0;
-  
+  static m = 200;
   // After a "public" modifier,
   // the keyword "const" followed by an identifier and an
   // initializer declares a constant prototype property.

@@ -45,8 +45,8 @@ class VisitorInfo : private Uncopyable{
   inline void EscapeClass() { is_in_class_ = false; }
   inline bool IsInClass() { return is_in_class_; }
   inline bool IsInPrivate() { return is_in_private_closure_; }
-  inline bool EnterPrivate() { is_in_private_closure_ = true; }
-  inline bool EscapePrivate() { is_in_private_closure_ = false; }
+  inline void EnterPrivate() { is_in_private_closure_ = true; }
+  inline void EscapePrivate() { is_in_private_closure_ = false; }
   inline void AddClass( ClassProcessor* proc ) { class_list_.push_back( proc ); }
   inline const ClassList& GetClassList() { return class_list_; }
  private :

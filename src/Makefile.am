@@ -34,6 +34,8 @@ ast/visitors/utils/codewriter.h\
 ast/visitors/utils/codewriter.cc\
 compiler/compiler.cc\
 compiler/compiler.h\
+compiler/tokens/symbol_list.h\
+compiler/tokens/symbol_list.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
