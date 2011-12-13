@@ -152,6 +152,7 @@
 %token <info> JS_GRATER_EQUAL
 %token <info> JS_IDENTIFIER
 %token <info> JS_IF
+%token <info> JS_IF_OPT
 %token <info> JS_IMPLEMENTS
 %token <info> JS_IMPORT
 %token <info> JS_IN
@@ -1548,6 +1549,15 @@ if_statement
     stmt->Else( GetEmptyNode() );
     $$ = stmt;
   }
+| JS_IF_OPT expression statement
+  {
+    IFStmt *stmt = ManagedHandle::Retain<IFStmt>();
+    stmt->Line( $1->GetLineNumber() );
+    stmt->Exp( $2 );
+    stmt->Then( $3 );
+    stmt->Else( GetEmptyNode() );
+    $$ = stmt;
+  }
 ;
 
 iteration_statement
@@ -2101,6 +2111,33 @@ member_expression
     exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( $3 );
+    exp->Depth( depth );
+    $$ = exp;
+  }
+| JS_PRIVATE '[' expression ']'
+  {
+    int depth = 0;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( $1->GetLineNumber() );
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
+    exp->Line( value->Line() );
+    exp->Callable( value );
+    exp->Args( $3 );
+    exp->Depth( depth );
+    $$ = exp;
+  }
+| JS_PRIVATE '.' JS_IDENTIFIER
+  {
+    int depth = 0;
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    ident->Symbol( $3 );
+    value->Line( $1->GetLineNumber() );
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
+    exp->Line( value->Line() );
+    exp->Callable( value );
+    exp->Args( ident );
     exp->Depth( depth );
     $$ = exp;
   }

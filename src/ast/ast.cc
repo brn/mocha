@@ -447,7 +447,7 @@ AstNode* ValueNode::Clone() {
       if ( node_ ) {
         ret->node_ = node_->Clone();
       } else if ( value_ ) {
-        ret->value_ = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType() , value_->GetLineNumber() ) );
+        ret->value_ = value_;
       }
       break;
   }

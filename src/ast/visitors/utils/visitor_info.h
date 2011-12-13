@@ -44,6 +44,9 @@ class VisitorInfo : private Uncopyable{
   inline void EnterClass() { is_in_class_ = true; }
   inline void EscapeClass() { is_in_class_ = false; }
   inline bool IsInClass() { return is_in_class_; }
+  inline bool IsInPrivate() { return is_in_private_closure_; }
+  inline bool EnterPrivate() { is_in_private_closure_ = true; }
+  inline bool EscapePrivate() { is_in_private_closure_ = false; }
   inline void AddClass( ClassProcessor* proc ) { class_list_.push_back( proc ); }
   inline const ClassList& GetClassList() { return class_list_; }
  private :
@@ -52,6 +55,7 @@ class VisitorInfo : private Uncopyable{
   bool is_rest_injection_;
   bool is_runtime_;
   bool is_in_class_;
+  bool is_in_private_closure_;
   int64_t is_in_module_;
   const char* main_file_path_;
   const char* file_name_;

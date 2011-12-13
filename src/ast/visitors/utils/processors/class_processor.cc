@@ -29,53 +29,80 @@ inline ValueNode* CreateTypeIdNode( long line ) {
   return this_node;
 }
 
-inline CallExp* CreateTypeIdIntializer( long line ) {
+inline CallExp* CreatePrivateInstance( long line ) {
+  
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  ValueNode* this_node = CreateThisNode( line );
   char buf[50];
-  sprintf( buf , "'%s'" , AstUtils::GetTypeIdSymbol() );
-  ValueNode* instance_str = AstUtils::CreateNameNode( buf , TOKEN::JS_STRING_LITERAL , line );
-  ValueNode* instance_sym = AstUtils::CreateNameNode( AstUtils::GetInstanceIdSymbol() , TOKEN::JS_IDENTIFIER , line );
-  UnaryExp* exp = ManagedHandle::Retain( new UnaryExp( TOKEN::JS_INCREMENT ) );
-  exp->Exp( instance_sym );
-  list->AddChild( this_node );
-  list->AddChild( instance_str );
-  list->AddChild( exp );
+  sprintf( buf , "'%s'" , "__private__" );
+  ValueNode* field = AstUtils::CreateNameNode( buf , TOKEN::JS_IDENTIFIER , line );
+  ValueNode* this_sym = CreateThisNode( line );
+  ValueNode* holder = AstUtils::CreateNameNode( "_MochaPrivateHolder" , TOKEN::JS_IDENTIFIER , line );
+  NewExp* new_exp = ManagedHandle::Retain<NewExp>();
+  new_exp->Constructor( holder );
+  list->AddChild( this_sym );
+  list->AddChild( field );
+  list->AddChild( new_exp );
   return CreateHiddenMember( list , line );
 }
 
 
-inline CallExp* CreateConstructorInitializer( long line ) {
+inline CallExp* CreateConstructorInitializer( const char* name , long line ) {
   ValueNode* constructor_sym = AstUtils::CreateNameNode( AstUtils::GetConstructorSymbol() , TOKEN::JS_IDENTIFIER , line );
   ValueNode* apply_sym = AstUtils::CreateNameNode( AstUtils::GetApplySym() , TOKEN::JS_IDENTIFIER , line );
   NodeList *args = ManagedHandle::Retain<NodeList>();
   args->AddChild( CreateThisNode( line ) );
   args->AddChild( AstUtils::CreateNameNode( AstUtils::GetArgumentsSymbol() , TOKEN::JS_IDENTIFIER , line ) );
   CallExp* apply_call = AstUtils::CreateNormalAccessor( apply_sym , args );
-  CallExp* this_accessor = AstUtils::CreateDotAccessor( CreateThisNode( line ) , constructor_sym );
-  CallExp* initial_call = AstUtils::CreateDotAccessor( this_accessor , apply_call );
+  CallExp* consturctor_accessor = AstUtils::CreateDotAccessor( AstUtils::CreateNameNode( name , TOKEN::JS_IDENTIFIER , line ) , constructor_sym );
+  CallExp* initial_call = AstUtils::CreateDotAccessor( consturctor_accessor , apply_call );
   return initial_call;
 }
 
 
-inline CallExp* CreateHiddenCall( const char* name , AstNode* val , Class* class_ , bool is_const ) {
-  ValueNode* hidden_call_sym = AstUtils::CreateNameNode( AstUtils::GetHiddenCallSymbol() , TOKEN::JS_IDENTIFIER , class_->Line() );
-  NodeList *list = ManagedHandle::Retain<NodeList>();
-  char tmp[50];
-  sprintf( tmp , "'%s'" , name );
-  ValueNode* name_sym = AstUtils::CreateNameNode( tmp , TOKEN::JS_IDENTIFIER , class_->Line() );
-  ValueNode* this_sym = CreateThisNode( class_->Line() );
-  ValueNode* typeid_sym = AstUtils::CreateNameNode( AstUtils::GetTypeIdSymbol(),
-                                                    TOKEN::JS_IDENTIFIER , class_->Line() );
-  CallExp* accessor_node = AstUtils::CreateDotAccessor( this_sym , typeid_sym );
-  list->AddChild( accessor_node );
-  list->AddChild( name_sym );
-  list->AddChild( val );
-  ValueNode* true_node = AstUtils::CreateNameNode( ( ( is_const )? "true" : "false" ) , TOKEN::JS_TRUE , class_->Line() );
-  list->AddChild( true_node );
-  CallExp* hidden_call = AstUtils::CreateNormalAccessor( hidden_call_sym , list );
-  CallExp* exp = AstUtils::CreateRuntimeMod( hidden_call );
-  return exp;
+inline AstNode* CreateHolderAssignment( AstNode* val,
+                                  AstNode* name,
+                                  Class* class_,
+                                  bool is_const,
+                                  bool is_instance ) {
+
+  CallExp* lhs = 0;
+  if ( !is_instance ) {
+    ValueNode* node = AstUtils::CreateNameNode( "_MochaPrivateHolder" , TOKEN::JS_IDENTIFIER , class_->Line() );
+    ValueNode* prototype = AstUtils::CreateNameNode( "prototype" , TOKEN::JS_IDENTIFIER , class_->Line() );
+    CallExp* prototype_accessor = AstUtils::CreateDotAccessor( node , prototype );
+    if ( is_const ) {
+      ValueNode* constant = AstUtils::CreateNameNode( "constant" , TOKEN::JS_IDENTIFIER , class_->Line() );
+      NodeList *arg = ManagedHandle::Retain<NodeList>();
+      arg->AddChild( prototype_accessor );
+      char tmp[50];
+      sprintf( tmp , "'%s'" , name->CastToValue()->Symbol()->GetToken() );
+      ValueNode* str = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , class_->Line() );
+      arg->AddChild( str );
+      arg->AddChild( val );
+      return AstUtils::CreateRuntimeMod( AstUtils::CreateNormalAccessor( constant , arg ) );
+    } else {
+      lhs =  AstUtils::CreateDotAccessor( prototype_accessor , name );
+      return AstUtils::CreateAssignment( '=' , lhs , val );
+    }
+  } else {
+    ValueNode* this_sym = CreateThisNode( class_->Line() );
+    ValueNode* node = AstUtils::CreateNameNode( "__private__" , TOKEN::JS_IDENTIFIER , class_->Line() );
+    CallExp* field_accessor = AstUtils::CreateDotAccessor( this_sym , node );
+    if ( is_const ) {
+      ValueNode* constant = AstUtils::CreateNameNode( "constant" , TOKEN::JS_IDENTIFIER , class_->Line() );
+      NodeList *arg = ManagedHandle::Retain<NodeList>();
+      arg->AddChild( field_accessor );
+      char tmp[50];
+      sprintf( tmp , "'%s'" , name->CastToValue()->Symbol()->GetToken() );
+      ValueNode* str = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , class_->Line() );
+      arg->AddChild( str );
+      arg->AddChild( val );
+      return AstUtils::CreateRuntimeMod( AstUtils::CreateNormalAccessor( constant , arg ) );
+    } else {
+      lhs = AstUtils::CreateDotAccessor( field_accessor , name );
+      return AstUtils::CreateAssignment( '=' , lhs , val );
+    }
+  }
 }
 
 
@@ -90,6 +117,15 @@ inline void Finish( const char* name , Class* class_ , AstNode* closure_ ) {
   } else {
     class_->AddChild( closure_->FirstChild() );
   }
+}
+
+
+inline VariableStmt* CreatePrivateHolder( Class* class_ ) {
+  Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() );
+  ValueNode* private_holder_name = AstUtils::CreateNameNode( "_MochaPrivateHolder" , TOKEN::JS_IDENTIFIER , class_->Line() );
+  ValueNode* value = AstUtils::CreateVarInitiliser( private_holder_name->Symbol() , fn );
+  VariableStmt* stmt = AstUtils::CreateVarStmt( value );
+  return stmt;
 }
 
 
@@ -117,9 +153,11 @@ void ClassProcessor::ProcessNode() {
   Function* fn = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
 
-  ExpressionStmt* type_id_initializer = AstUtils::CreateExpStmt( CreateTypeIdIntializer( class_->Line() ) );
-  fn->AddChild( type_id_initializer );
-  ExpressionStmt* constructor_initializer = AstUtils::CreateExpStmt( CreateConstructorInitializer( class_->Line() ) );
+  closure_body_->InsertBefore( CreatePrivateHolder( class_ ) );
+
+  ExpressionStmt *new_call = AstUtils::CreateExpStmt( CreatePrivateInstance( class_->Line() ) );
+  fn->AddChild( new_call );
+  ExpressionStmt* constructor_initializer = AstUtils::CreateExpStmt( CreateConstructorInitializer( name_.c_str() , class_->Line() ) );
   fn->AddChild( constructor_initializer );
   
   closure_body_->AddChild( stmt );
@@ -269,7 +307,7 @@ inline void ClassProcessor::ProcessVariable_( AstNode* node , bool is_prototype 
                                                                 TOKEN::JS_IDENTIFIER , node->Line() ) : lhs;
             AstNode* result = 0;
             if ( is_instance ) {
-              result = CreateHiddenCall( value->Symbol()->GetToken() , lhs , class_ , is_const );
+              result = CreateHolderAssignment( lhs , value , class_ , is_const , is_instance );
             } else {
               ValueNode* name_node = AstUtils::CreateNameNode( table,
                                                                TOKEN::JS_IDENTIFIER , node->Line() );
@@ -291,12 +329,15 @@ inline void ClassProcessor::ProcessVariable_( AstNode* node , bool is_prototype 
 
 inline void ClassProcessor::ProcessFunction_( Function* fn , bool is_prototype , bool is_private ) {
   fn = reinterpret_cast<Function*>( fn->Clone() );
+  ValueNode* value = fn->Name()->CastToValue();
   if ( is_prototype && is_private ) {
-    ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
-    closure_body_->InsertBefore( stmt );
+    AstNode* call = CreateHolderAssignment( fn , value , class_ , false , false );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( call );
+    closure_body_->AddChild( stmt );
+    info_->GetInfo()->EnterPrivate();
     fn->Accept( info_->GetVisitor() );
+    info_->GetInfo()->EscapePrivate();
   } else {
-    ValueNode* value = fn->Name()->CastToValue();
     if ( !is_private ) {
       ValueNode* name_node = AstUtils::CreateNameNode( name_.c_str() , TOKEN::JS_IDENTIFIER , fn->Line() );
       CallExp* exp = 0;

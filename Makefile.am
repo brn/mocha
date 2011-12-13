@@ -1,5 +1,7 @@
 SUBDIRS = src
 
+.PHONY : mocha parser core
+
 mocha:
 	cd src && bison -r state -dv -o grammar/grammar.tab.cc grammar/grammar.yy && cd ../
 	./build

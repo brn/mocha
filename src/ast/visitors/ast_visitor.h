@@ -27,6 +27,7 @@ class AstVisitor : public IVisitor {
   void JumpStmt_( AstNode* ast_node , int type );
   void ArrayAccessorProccessor_( CallExp* exp );
   void DotAccessorProccessor_( CallExp* exp );
+  void PrivateAccessorProcessor_( CallExp* exp );
   void NewCallProccessor_( CallExp* exp );
   void NormalFunctionCall_( CallExp* exp );
   void ArrayProccessor_( ValueNode* ast_node );

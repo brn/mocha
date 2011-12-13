@@ -265,30 +265,6 @@
         };
         var instanceProp = {},
             slice = Array.prototype.slice;
-        _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
-          if ( !( id in instance_prop ) ){
-            instance_prop[id] = {};
-          };
-          Object.defineProperty( instance_prop[id],prop, {
-            enumerable : true,
-            configurable : isConst,
-            writable : isConst,
-            value : value
-          });
-        };
-        _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
-          if ( id in _mochaInstanceProp ){
-            return _mochaInstanceProp[id];
-          } else {
-            try {
-              throw new TypeError( prop+"is not defined." );
-            } catch( e ){
-              throw new Error( e );
-            };
-            
-          }
-          
-        };
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
@@ -298,7 +274,7 @@
               });
             };
         var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
-              return Object.defineProp( obj,prop, {
+              return Object.defineProperty( obj,prop, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
@@ -312,34 +288,34 @@
       })();
   ( function () {
     var Monster = ( function () {
-          function attack( target ) {
-            log( 'The monster attacks '+target );
-          };
-          function health( value ) {
-            if ( value<0 ){
-              throw new Error( 'Health must be non-negative.' );
-            };
-            this.health = value;
-          };
           var x = 0;
-          function isAlive() {
-            return this.health>0;
-          };
+          var _MochaPrivateHolder = function () {
+                
+              };
           function Monster() {
-            Runtime.createUnenumProp( this,'__typeid__', ++ _mochaInstanceId );
-            this.constructor.apply( this,arguments );
+            Runtime.createUnenumProp( this,'__private__',new _MochaPrivateHolder );
+            Monster.constructor.apply( this,arguments );
           };
           Runtime.createUnenumProp( Monster,'constructor',function constructor( name,health ) {
-            var _localTmp1 = [0,2,3],
-                x = _localTmp1[0],
-                y = _localTmp1[1],
-                z = _localTmp1[2];
             this.name = name;
-            Runtime.createPrivateProp( this.__typeid__,'health',health,true );
-            Runtime.createPrivateProp( this.__typeid__,'test',200,false );
+            this.__private__._health = health;
+            Runtime.constant( this.__private__,'_tmpName',name );
           });
           Monster.prototype.numAttacks = 0;
           Monster.prototype.attackMessage = 'The monster hits you!';
+          _MochaPrivateHolder.prototype.isAlive = function isAlive() {
+            return this._health>0;
+          };
+          _MochaPrivateHolder.prototype.health = function health( value ) {
+            if ( value<0 ){
+              throw new Error( 'Health must be non-negative.' );
+            };
+            this._health = value;
+            return this.value+"tmpName";
+          };
+          _MochaPrivateHolder.prototype.attack = function attack( target ) {
+            log( 'The monster attacks '+target );
+          };
           return Monster;
         })();
     ;

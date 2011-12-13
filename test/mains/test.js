@@ -8,9 +8,8 @@ class Monster {
   // such as "this.foo = bar;" also set public properties.
   constructor(name, health) {
     public name = name;
-    private const health = health;
-    private test = 200;
-    var [x,y,z] = [0,2,3]
+    private _health = health;
+    private const _tmpName = name;
   }
   
   // An identifier followed by an argument list and body defines a
@@ -24,7 +23,7 @@ class Monster {
   // a curly body defines a getter in the same way that "get"
   // defines one in an object literal.
   private isAlive() {
-    return @health > 0;
+    return private._health > 0;
   }
   private x = 0;
   // Likewise, "set" can be used to define setters.
@@ -32,7 +31,8 @@ class Monster {
     if (value < 0) {
       throw new Error('Health must be non-negative.')
     }
-    @health = value
+    private._health = value;
+    return private[ value + "tmpName" ];
   }
   
   // After a "public" modifier,

@@ -272,31 +272,7 @@ module Runtime {
   }
   
   var instanceProp = {},
-      slice = Array.prototype.slice;  
-  
-  export createPrivateProp( id , prop , value , isConst ) {
-    if ( !( id in instance_prop ) ) {
-      instance_prop[ id ] = {}
-    }
-    Object.defineProperty( instance_prop[ id ] , prop , {
-      enumerable : true,
-      configurable : isConst,
-      writable : isConst,
-      value : value
-    });
-  }
-  
-  export getPrivateProp( id , prop ) {
-    if ( id in _mochaInstanceProp ) {
-      return _mochaInstanceProp[ id ];
-    } else {
-      try {
-        throw new TypeError( prop + "is not defined." );
-      } catch( e ) {
-        throw new Error( e );
-      }
-    }
-  }
+      slice = Array.prototype.slice;
   
   export createUnenumProp = ( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : true,
@@ -305,7 +281,7 @@ module Runtime {
     value : value
   });
   
-  export constant = ( obj , prop , value ) -> Object.defineProp( obj , prop , {
+  export constant = ( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : false,
     enumerable : false,
     writable : false,

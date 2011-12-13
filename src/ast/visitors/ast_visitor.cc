@@ -581,6 +581,28 @@ void AstVisitor::DotAccessorProccessor_( CallExp* exp ) {
   exp->Args()->Accept( this );
 }
 
+
+void AstVisitor::PrivateAccessorProcessor_( CallExp* exp ) {
+  ValueNode* maybeIdent = exp->Callable()->CastToValue();
+  if ( maybeIdent ) {
+    ValueNode* this_sym = AstUtils::CreateNameNode( AstUtils::GetThisSymbol() , TOKEN::JS_IDENTIFIER , maybeIdent->Line() );
+    if ( !visitor_info_->IsInPrivate() ) {
+      ValueNode* private_field = AstUtils::CreateNameNode( "__private__" , TOKEN::JS_IDENTIFIER , maybeIdent->Line() );
+      ValueNode* maybeIdent = exp->Args()->CastToValue();
+      CallExp* dot_accessor = AstUtils::CreateDotAccessor( this_sym , private_field );
+      exp->Callable( dot_accessor );
+    } else {
+      exp->Callable( this_sym );
+    }
+    if ( maybeIdent && maybeIdent->ValueType() == ValueNode::kIdentifier ) {
+      exp->CallType( CallExp::kDot );
+    } else {
+      exp->CallType( CallExp::kBracket );
+    }
+  }
+}
+
+
 void AstVisitor::NewCallProccessor_( CallExp* exp ) {
   AstNode* args = exp->Args();
   exp->Callable()->Accept( this );
@@ -622,6 +644,10 @@ VISITOR_IMPL( CallExp ) {
 
     case CallExp::kBracket :
       ArrayAccessorProccessor_( ast_node );
+      break;
+
+    case CallExp::kPrivate :
+      PrivateAccessorProcessor_( ast_node );
       break;
   }
 }
