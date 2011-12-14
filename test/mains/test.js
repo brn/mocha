@@ -1,5 +1,5 @@
-//import {fmt} from "./fmt";
-//import {jQuery} from "../jspp-lib/jquery-devel"
+import {fmt} from "./fmt";
+import {jQuery} from "../jspp-lib/jquery-devel"
 class Monster {
   // The contextual keyword "constructor" followed by an argument
   // list and a body defines the body of the class’s constructor
@@ -8,7 +8,7 @@ class Monster {
   // such as "this.foo = bar;" also set public properties.
   constructor(name, health) {
     public name = name;
-    private _health = health;
+    private const {x:[name ,age,{hobby}]} = {x:200};
     private const _tmpName = name;
   }
   
@@ -25,7 +25,7 @@ class Monster {
   private isAlive() {
     return private._health > 0;
   }
-  private {x:[name ,age,{hobby}]} = {x:200};
+  
   // Likewise, "set" can be used to define setters.
   private health(value) {
     if (value < 0) {
@@ -41,6 +41,8 @@ class Monster {
   // of that expression. 
   public numAttacks = 0;
   static m = 200;
+  static {human : {name,age,hobby : [h1,h2,h3]}} = human;
+  static {human_ : {name_,age_,hobby_ : [h1_,h2_,h3_]}} = human_;
   // After a "public" modifier,
   // the keyword "const" followed by an identifier and an
   // initializer declares a constant prototype property.
