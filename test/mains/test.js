@@ -25,7 +25,7 @@ class Monster {
   private isAlive() {
     return private._health > 0;
   }
-  private x = 0;
+  private {x:[name ,age,{hobby}]} = {x:200};
   // Likewise, "set" can be used to define setters.
   private health(value) {
     if (value < 0) {

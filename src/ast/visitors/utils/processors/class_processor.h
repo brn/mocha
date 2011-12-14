@@ -16,7 +16,7 @@ class ClassProcessor : public Managed {
  private :
   typedef void (*DstaCallback)( const char* class_name,
                                 Function* closure_body,
-                                AssignmentExp* exp,
+                                ValueNode* exp,
                                 bool is_const );
   
   inline void ProcessBody_( AstNode* body );

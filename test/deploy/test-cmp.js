@@ -265,30 +265,6 @@
         };
         var instanceProp = {},
             slice = Array.prototype.slice;
-        _mochaGlobalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
-          if ( !( id in instance_prop ) ){
-            instance_prop[id] = {};
-          };
-          Object.defineProperty( instance_prop[id],prop, {
-            enumerable : true,
-            configurable : isConst,
-            writable : isConst,
-            value : value
-          });
-        };
-        _mochaGlobalExport.getPrivateProp = function getPrivateProp( id,prop ) {
-          if ( id in _mochaInstanceProp ){
-            return _mochaInstanceProp[id];
-          } else {
-            try {
-              throw new TypeError( prop+"is not defined." );
-            } catch( e ){
-              throw new Error( e );
-            };
-            
-          }
-          
-        };
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
@@ -298,7 +274,7 @@
               });
             };
         var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
-              return Object.defineProp( obj,prop, {
+              return Object.defineProperty( obj,prop, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
@@ -329,7 +305,12 @@
           _mochaPrivateHolder.prototype.isAlive = function isAlive() {
             return this._health>0;
           };
-          _mochaPrivateHolder.prototype.x = 0;
+          var _mochaLocalTmp1 =  {
+                x : 200
+              };
+          _mochaPrivateHolder.prototype.name = ( _mochaLocalTmp1.x && _mochaLocalTmp1.x[0] )?_mochaLocalTmp1.x[0] : undefined;
+          _mochaPrivateHolder.prototype.age = ( _mochaLocalTmp1.x && _mochaLocalTmp1.x[1] )?_mochaLocalTmp1.x[1] : undefined;
+          _mochaPrivateHolder.prototype.hobby = ( _mochaLocalTmp1.x && _mochaLocalTmp1.x[2] && _mochaLocalTmp1.x[2].hobby )?_mochaLocalTmp1.x[2].hobby : undefined;
           _mochaPrivateHolder.prototype.health = function health( value ) {
             if ( value<0 ){
               throw new Error( 'Health must be non-negative.' );
