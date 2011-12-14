@@ -32,9 +32,10 @@ namespace mocha {
 
 AstVisitor::AstVisitor( bool is_runtime , Scope* scope , Compiler* compiler , const char* main_file_path,
                         const char* filename ) :
-    visitor_info_( new VisitorInfo( is_runtime , scope , compiler ,
-                                    ManagedHandle::Retain<DstaExtractedExpressions>() , main_file_path , filename ) ),
-    proc_info_( new ProcessorInfo( this , scope , visitor_info_.Get() ) ){}
+    visitor_info_ ( new VisitorInfo( is_runtime , scope , compiler ,
+                                     ManagedHandle::Retain<DstaExtractedExpressions>() , main_file_path , filename ) ) {
+  proc_info_( new ProcessorInfo( this , scope , visitor_info_.Get() ) );
+}
 
 AstVisitor::~AstVisitor () {}
 
@@ -58,6 +59,23 @@ VISITOR_IMPL( FileRoot ) {
     Function *fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
                                                  ManagedHandle::Retain<Empty>() , ast_node );
     ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
+    ValueNode* global_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
+                                                         TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    ValueNode* object_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+    object_literal->Node( ManagedHandle::Retain<Empty>() );
+    StrHandle handle = FileSystem::GetModuleKey( ast_node->FileName() );
+    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , TOKEN::JS_STRING_LITERAL , ast_node->Line() );
+    
+    CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key );
+    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal );
+
+    ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
+                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() );
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt(
+        AstUtils::CreateVarInitiliser( alias->Symbol() , global_export_accessor->Clone() ) );
+
+    fn->InsertBefore( var_stmt );
+    fn->InsertBefore( AstUtils::CreateExpStmt( exp ) );
     ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
   }
 }
@@ -178,7 +196,7 @@ VISITOR_IMPL( ExportStmt ) {
   if ( name_node && name_node->ValueType() == ValueNode::kConstant ) {
     node = name_node->Node();
   }
-  printf( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%d\n" , node->NodeType() == AstNode::kNodeList );
+  
   node->Accept( this );
   
   if ( node->NodeType() == AstNode::kFunction ) {

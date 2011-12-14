@@ -748,6 +748,12 @@ shorten_function_body
 
 formal_parameter_list_with_rest
 : formal_parameter_list { $$ = $1; }
+| formal_parameter_rest
+  {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
+  }
 | formal_parameter_list ',' formal_parameter_rest__opt
   {
     if ( !$3->IsEmpty() ) {
@@ -1402,6 +1408,15 @@ array_left_hand_side_list
     list->AddChild( value );
     $$ = list;
   }
+| elision__opt formal_parameter_rest
+  {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    if ( $1 ) {
+      list->AddChild( GetEmptyNode() );
+    }
+    list->AddChild( $2 );
+    $$ = list;
+  }
 | elision__opt destructuring_assignment_left_hand_side
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -1420,6 +1435,14 @@ array_left_hand_side_list
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $4 );
     $1->AddChild( value );
+    $$ = $1;
+  }
+| array_left_hand_side_list ',' elision__opt formal_parameter_rest
+  {
+    if ( $3 ) {
+      $1->AddChild( GetEmptyNode() );
+    }
+    $1->AddChild( $4 );
     $$ = $1;
   }
 | array_left_hand_side_list ',' elision__opt destructuring_assignment_left_hand_side

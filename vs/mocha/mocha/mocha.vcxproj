@@ -13,16 +13,28 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ast\ast.h" />
     <ClInclude Include="..\..\..\src\ast\ast_foward_decl.h" />
+    <ClInclude Include="..\..\..\src\ast\utils\ast_utils.h" />
     <ClInclude Include="..\..\..\src\ast\visitors\ast_visitor.h" />
     <ClInclude Include="..\..\..\src\ast\visitors\codegen_visitor.h" />
     <ClInclude Include="..\..\..\src\ast\visitors\ivisitor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\codegenerator_utils.h" />
     <ClInclude Include="..\..\..\src\ast\visitors\utils\codewriter.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\class_processor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\dsta_processor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\iteration_processor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\processor_info.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\variable_processor.h" />
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\visitor_info.h" />
     <ClInclude Include="..\..\..\src\ast\visitors\visitor_decl.h" />
     <ClInclude Include="..\..\..\src\bootstrap\bootstrap.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\interactions\commands.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\interactions\commands_analyzer.h" />
     <ClInclude Include="..\..\..\src\bootstrap\interactions\interaction.h" />
     <ClInclude Include="..\..\..\src\bootstrap\runners\compile_runner.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\runners\error_runner.h" />
     <ClInclude Include="..\..\..\src\bootstrap\runners\help_runner.h" />
     <ClInclude Include="..\..\..\src\bootstrap\runners\icommandline_runner.h" />
+    <ClInclude Include="..\..\..\src\bootstrap\runners\list_runner.h" />
     <ClInclude Include="..\..\..\src\bootstrap\runners\observer_runner.h" />
     <ClInclude Include="..\..\..\src\compiler\binding\parser_connector.h" />
     <ClInclude Include="..\..\..\src\compiler\binding\parser_tracer.h" />
@@ -32,6 +44,7 @@
     <ClInclude Include="..\..\..\src\compiler\scanner\queue_scanner.h" />
     <ClInclude Include="..\..\..\src\compiler\scopes\scope.h" />
     <ClInclude Include="..\..\..\src\compiler\tokens\js_token.h" />
+    <ClInclude Include="..\..\..\src\compiler\tokens\symbol_list.h" />
     <ClInclude Include="..\..\..\src\compiler\tokens\token_info.h" />
     <ClInclude Include="..\..\..\src\compiler\utils\compiler_starter.h" />
     <ClInclude Include="..\..\..\src\compiler\utils\compiler_utils.h" />
@@ -77,6 +90,7 @@
     <ClInclude Include="..\..\..\src\utils\thread\platform_linux.h" />
     <ClInclude Include="..\..\..\src\utils\thread\platform_win.h" />
     <ClInclude Include="..\..\..\src\utils\thread\thread.h" />
+    <ClInclude Include="..\..\..\src\utils\xml\versions.h" />
     <ClInclude Include="..\..\..\src\utils\xml\xml_reader.h" />
     <ClInclude Include="..\..\..\src\utils\xml\xml_setting_info-inl.h" />
     <ClInclude Include="..\..\..\src\utils\xml\xml_setting_info.h" />
@@ -89,13 +103,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ast\ast.cc" />
+    <ClCompile Include="..\..\..\src\ast\utils\ast_utils.cc" />
     <ClCompile Include="..\..\..\src\ast\visitors\ast_visitor.cc" />
     <ClCompile Include="..\..\..\src\ast\visitors\codegen_visitor.cc" />
     <ClCompile Include="..\..\..\src\ast\visitors\utils\codewriter.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\class_processor.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\dsta_processor.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\iteration_processor.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\variable_processor.cc" />
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\visitor_info.cc" />
     <ClCompile Include="..\..\..\src\bootstrap\bootstrap.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\interactions\commands.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\interactions\commands_analyzer.cc" />
     <ClCompile Include="..\..\..\src\bootstrap\interactions\interaction.cc" />
     <ClCompile Include="..\..\..\src\bootstrap\runners\compile_runner.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\runners\error_runner.cc" />
     <ClCompile Include="..\..\..\src\bootstrap\runners\help_runner.cc" />
+    <ClCompile Include="..\..\..\src\bootstrap\runners\list_runner.cc" />
     <ClCompile Include="..\..\..\src\bootstrap\runners\observer_runner.cc" />
     <ClCompile Include="..\..\..\src\compiler\binding\parser_connector.cc" />
     <ClCompile Include="..\..\..\src\compiler\binding\parser_tracer.cc" />
@@ -104,6 +128,7 @@
     <ClCompile Include="..\..\..\src\compiler\scanner\queue_scanner.cc" />
     <ClCompile Include="..\..\..\src\compiler\scopes\scope.cc" />
     <ClCompile Include="..\..\..\src\compiler\tokens\js_token.cc" />
+    <ClCompile Include="..\..\..\src\compiler\tokens\symbol_list.cc" />
     <ClCompile Include="..\..\..\src\compiler\tokens\token_info.cc" />
     <ClCompile Include="..\..\..\src\compiler\utils\compiler_starter.cc" />
     <ClCompile Include="..\..\..\src\compiler\utils\compiler_utils.cc" />
@@ -130,6 +155,7 @@
     <ClCompile Include="..\..\..\src\utils\pool\managed_handle.cc" />
     <ClCompile Include="..\..\..\src\utils\thread\thread-win-impl.cc" />
     <ClCompile Include="..\..\..\src\utils\thread\thread.cc" />
+    <ClCompile Include="..\..\..\src\utils\xml\versions.cc" />
     <ClCompile Include="..\..\..\src\utils\xml\xml_reader.cc" />
     <ClCompile Include="..\..\..\src\utils\xml\xml_setting_info.cc" />
   </ItemGroup>

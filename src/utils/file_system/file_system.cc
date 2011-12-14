@@ -90,6 +90,11 @@ Handle<PathInfo> FileSystem::GetPathInfo( const char* path ) {
 
 StrHandle FileSystem::NormalizePath( const char* path ) {
   std::string tmp = path;
+  int size = tmp.size();
+  int index = 0;
+  while ( ( index = tmp.find( "\\" , 0 ) ) != std::string::npos ) {
+	  tmp = tmp.replace( index , 1 , "/" );
+  }
   while ( 1 ) {
     int pos = tmp.find( "../" , 0 );
     if ( pos == std::string::npos ) {
@@ -108,7 +113,7 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
       int count = 0;
       int matched = 0;
       bool has_ch = false;
-      while ( tmp[ pos ] ) {
+      while ( pos < size && pos > -1 ) {
         if ( tmp[ pos ] == '/' ) {
           if ( matched == 1 && has_ch ) {
             break;
@@ -121,6 +126,9 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
         pos--;
         count++;
       }
+	  if ( pos < 0 ) {
+		  pos = 0;
+	  }
       tmp.erase( pos , count + 2 );
     }
   }

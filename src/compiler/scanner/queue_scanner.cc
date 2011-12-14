@@ -379,11 +379,20 @@ class QueueScanner::Scanner {
     bool hasIndex = false;
     char last;
     char next;
+    int index = 0;
   
     while ( ( next = GetChar_ () ) ) {
       if ( isdigit ( next ) ) {
         token_str_ += next;
         last = next;
+      } else if ( next == '.' && index == 0 ) {
+        if ( GetChar_() == '.' ) {
+          token_str_ += "..";
+          PushBack_( token_str_.c_str() , TOKEN::JS_PARAMETER_REST );
+          return;
+        } else {
+          BackChar_( 1 );
+        }
       } else if ( next == 'e' &&
                   !hasIndex &&
                   last != 'e' ) {
@@ -397,6 +406,7 @@ class QueueScanner::Scanner {
         BackChar_ ();
         break;
       }
+      index++;
     }
     PushBack_( token_str_.c_str() , TOKEN::JS_NUMERIC_LITERAL );
   }
@@ -1223,7 +1233,7 @@ class QueueScanner::TokenGetter {
       last_type_ = type;
       return info;
     } else if ( type == TOKEN::JS_CONST && ( last_type_ == TOKEN::JS_PRIVATE || last_type_ == TOKEN::JS_PUBLIC ||
-                                             last_type_ == TOKEN::JS_EXPORT ) ) {
+                                             last_type_ == TOKEN::JS_EXPORT || last_type_ == TOKEN::JS_STATIC ) ) {
       return NormalState_();
     } else if ( type == '{' && is_in_class_ ) {
       if ( type == '{' ) {

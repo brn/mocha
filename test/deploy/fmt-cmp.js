@@ -1,10 +1,11 @@
 (function() {
   var __global_export__ = {},
       __MC_tmp__ = undefined;
+  this.x = 0;
   var _mochaGlobalExport = {},
       _mochaClassTable = {},
       _mochaInstanceTable = {},
-      _mochaInstanceId = 0;
+      _mochaInstanceId = ( +(new Date) );
   var Runtime = ( function Runtime() {
         var _mochaLocalExport = {};
         if ( !String.prototype.trim ){
@@ -264,7 +265,7 @@
         };
         var instanceProp = {},
             slice = Array.prototype.slice;
-        _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
+        _mochaGlobalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
           if ( !( id in instance_prop ) ){
             instance_prop[id] = {};
           };
@@ -275,7 +276,7 @@
             value : value
           });
         };
-        _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
+        _mochaGlobalExport.getPrivateProp = function getPrivateProp( id,prop ) {
           if ( id in _mochaInstanceProp ){
             return _mochaInstanceProp[id];
           } else {
@@ -310,13 +311,11 @@
         return _mochaLocalExport;
       })();
   ( function () {
-    ( function () {
-      var _mochaLocalExport = _mochaGlobalAlias;
-      var x = _mochaLocalExport.x = function () {
-            var _localTmp0;
-            return _localTmp0 = [200,300];
-          };
-      return _mochaLocalExport;
-    })();
+    var x = function (  ) {
+          var rest = Runtime.toArray( arguments,0 );
+          var _mochaLocalTmp0 = [0,1,2,3],
+              x = ( _mochaLocalTmp0.x && _mochaLocalTmp0.x[0] )?_mochaLocalTmp0.x[0] : undefined,
+              m = ( _mochaLocalTmp0.x )?Runtime.toArray( _mochaLocalTmp0,1 ) : undefined;
+        };
   })();
 })();

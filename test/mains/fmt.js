@@ -1,8 +1,6 @@
 
-module {
-
-  export x = -> [x,y] = [200,300];
-
-}
+var x = function ( ...rest ) {
+      var {x:[x,...m]} = [0,1,2,3]
+    }
 
 

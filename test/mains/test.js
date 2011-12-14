@@ -1,6 +1,7 @@
 import {fmt} from "./fmt";
-import {jQuery} from "../jspp-lib/jquery-devel"
-class Monster {
+//import {jQuery} from "../jspp-lib/jquery-devel"
+module {
+export class Monster {
   // The contextual keyword "constructor" followed by an argument
   // list and a body defines the body of the class’s constructor
   // function. public and private declarations in the constructor
@@ -40,7 +41,7 @@ class Monster {
   // declares a prototype property and initializes it to the value
   // of that expression. 
   public numAttacks = 0;
-  static m = 200;
+  static const constant = 200;
   static {human : {name,age,hobby : [h1,h2,h3]}} = human;
   static {human_ : {name_,age_,hobby_ : [h1_,h2_,h3_]}} = human_;
   // After a "public" modifier,
@@ -48,4 +49,4 @@ class Monster {
   // initializer declares a constant prototype property.
   public const attackMessage = 'The monster hits you!';
 }
-
+}

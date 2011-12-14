@@ -111,7 +111,7 @@ inline AstNode* CreateHolderAssignment( AstNode* val,
 
 
 inline void Finish( const char* name , Class* class_ , AstNode* closure_ ) {
-  if ( class_->Decl() ) {
+  if ( class_->ParentNode()->ParentNode()->NodeType() == AstNode::kExpressionStmt ) {
     TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , TOKEN::JS_IDENTIFIER , class_->Line() ) );
     ValueNode* vars = AstUtils::CreateVarInitiliser( info , closure_->FirstChild() );
     NodeList* list = ManagedHandle::Retain<NodeList>();
@@ -119,7 +119,17 @@ inline void Finish( const char* name , Class* class_ , AstNode* closure_ ) {
     VariableStmt* stmt = AstUtils::CreateVarStmt( list );
     class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , stmt );
   } else {
-    class_->AddChild( closure_->FirstChild() );
+    if ( class_->ParentNode()->NodeType() == AstNode::kExportStmt ) {
+      ValueNode* name_node = AstUtils::CreateNameNode( name , TOKEN::JS_IDENTIFIER , class_->Line() );
+      ValueNode* local_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
+                                                          TOKEN::JS_IDENTIFIER , class_->Line() );
+      CallExp* dot_accessor = AstUtils::CreateDotAccessor( local_export , name_node );
+      ExpressionStmt* assign_stmt = AstUtils::CreateExpStmt(
+          AstUtils::CreateAssignment( '=' , dot_accessor , closure_->FirstChild() ) );
+      class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , assign_stmt );
+    } else {
+      class_->AddChild( closure_->FirstChild() );
+    }
   }
 }
 

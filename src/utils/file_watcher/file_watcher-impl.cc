@@ -64,11 +64,7 @@ class FileWatcher::PtrImpl {
   }
 
   inline void UnWatchAll() {
-    WatchList::iterator ITERATOR(watch_list_);
-    while ( begin != end ) {
-      UnWatch_( begin );
-      ++begin;
-    }
+    watch_list_.clear();
   }
 
   inline void Stop() {

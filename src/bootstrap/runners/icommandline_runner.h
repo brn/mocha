@@ -8,7 +8,7 @@ class ICommandLineRunner {
  public :
   ICommandLineRunner( Options* option ) : options_( option ) {}
   virtual ~ICommandLineRunner(){}
-  virtual void Run() = 0;
+  virtual void Run(){};
   virtual ObserverRunner* CastToObserver() { return 0; }
   virtual ListRunner* CastToList() { return 0; }
  protected :

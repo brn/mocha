@@ -643,7 +643,7 @@ class CallExp : public Expression {
     kPrivate
   };
   inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ),
-                               callable_( 0 ) , args_( 0 ){};
+                               is_rest_( false ) , callable_( 0 ) , args_( 0 ){};
   inline ~CallExp() {};
   inline void Callable( AstNode* node ){ callable_ = node;node->ParentNode( this ); };
   inline AstNode* Callable() { return callable_; };
@@ -653,10 +653,13 @@ class CallExp : public Expression {
   inline void CallType( int type ) { call_type_ = type; }
   inline void Depth( int depth ) { depth_ = depth; }
   inline int Depth() { return depth_; }
+  inline void Rest() { is_rest_ = true; }
+  inline bool IsRest() const { return is_rest_; }
   CLONE(CallExp);
  private :
   int call_type_;
   int depth_;
+  bool is_rest_;
   AstNode* callable_;
   AstNode* args_;
   CALL_ACCEPTOR( CallExp );

@@ -42,8 +42,9 @@ XMLReader::~XMLReader() {
 void XMLReader::Parse( const char* path , bool is_reparse ) {
   BEGIN(Parse);
   std::string fullpath;
+  StrHandle path_handle = FileSystem::NormalizePath( path );
   //Get absolute path of xml file.
-  GetFullPath_( path , fullpath );
+  GetFullPath_( path_handle.Get() , fullpath );
   /*
    *If xml file is exit, start parse,
    *if not exist ignore this file and logging.
@@ -86,7 +87,8 @@ void XMLReader::GetPath_( const char* path , std::string& buf ) {
    *Get full file path.
    */
   StrHandle fullpath = FileSystem::GetAbsolutePath( path );
-  buf = fullpath.Get();
+  StrHandle path_handle = FileSystem::NormalizePath( fullpath.Get() );
+  buf = path_handle.Get();
   INCLUDE_LIST.push_back( buf );
   END(GetPath_);
 }

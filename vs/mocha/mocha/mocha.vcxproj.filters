@@ -220,6 +220,48 @@
     <ClInclude Include="..\..\..\src\define.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\bootstrap\interactions\commands.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\bootstrap\interactions\commands_analyzer.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\compiler\tokens\symbol_list.h">
+      <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\class_processor.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\dsta_processor.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\iteration_processor.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\processor_info.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\processors\variable_processor.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\codegenerator_utils.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\visitors\utils\visitor_info.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\utils\xml\versions.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ast\utils\ast_utils.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\bootstrap\runners\list_runner.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\bootstrap\runners\error_runner.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\src\grammar\grammar.tab.hh">
@@ -366,6 +408,42 @@
       <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\utils\xml\xml_setting_info.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\bootstrap\interactions\commands.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\bootstrap\interactions\commands_analyzer.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\compiler\tokens\symbol_list.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\utils\xml\versions.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\visitor_info.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\class_processor.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\dsta_processor.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\iteration_processor.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ast\visitors\utils\processors\variable_processor.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ast\utils\ast_utils.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\bootstrap\runners\list_runner.cc">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\bootstrap\runners\error_runner.cc">
       <Filter>ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -167,8 +167,9 @@ Compiler* Compiler::CreateInstance( const char* filename ) {
   return instance;
 }
 
-Compiler::Compiler ( const char* filename ) :
-    implementation_ ( new PtrImpl( this , filename ) ) {}
+Compiler::Compiler ( const char* filename ){
+  implementation_ ( new PtrImpl( this , filename ) );
+}
 
 
 void Compiler::Compile () {

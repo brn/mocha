@@ -5,7 +5,7 @@ namespace mocha {
 class Interaction {
  public :
   static void Begin();
-  inline static bool End() { is_end_ = true; }
+  inline static void End() { is_end_ = true; }
  private :
   static bool is_end_;
   static Commands commands_;
