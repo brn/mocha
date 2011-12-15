@@ -23,6 +23,7 @@ class SymbolInfo;
 class Symbol;
 class File;
 
+
 class SymbolSet : public Managed {
  public :
   typedef enum {
@@ -54,7 +55,7 @@ class Scope : public Managed {
  public :
   Scope ();
   virtual ~Scope ();
-  Scope* Escape () { return up_; }
+  inline Scope* Escape () { return up_; }
   Scope* Enter ();
   void Insert ( const char* ident );
   void InsertLabel ( const char* ident );

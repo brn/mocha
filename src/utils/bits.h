@@ -11,11 +11,15 @@ class BitVector {
   inline BitVector() : set_( 0 ){}
   inline ~BitVector(){}
   inline void Set( int val ) {
-    assert( bit_bands >= val );
+    assert( bit_bands >= val && val > -1 );
     set_ |= ( 1 << val );
   }
   inline void UnSet( int val ) {
-    assert( bit_bands >= val );
+    assert( bit_bands >= val && val > -1 );
+    set_ &= ( ( 1 << val ) ^ ( 1 << val ) );
+  }
+  inline void Reverse( int val ) {
+    assert( bit_bands >= val && val > -1 );
     set_ ^= ( 1 << val );
   }
   inline bool At( int val ) {

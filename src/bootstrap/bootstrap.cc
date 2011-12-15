@@ -74,16 +74,13 @@ void LoadLog() {
 namespace mocha {
 
 void test() {
-  FixedBitStack32<100> array;
-  array.Push( 7 );
-  array.Push( 6 );
-  array.Push( 32 );
-  printf( "%d\n" , array[32] );
-  printf( "%d\n" , array[4] );
+  BitVector<int8_t,8> bvector;
+  bvector.UnSet(0);
+  printf( "%d\n" , bvector[0] == true );
 }
 
 void Bootstrap::Initialize( int argc , char** argv ) {
-  //test();
+  test();
   Setting::instance_ = new Setting();
   LoadLog();
   Setting::instance_->Log( "mocha initialize end." );

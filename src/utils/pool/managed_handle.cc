@@ -63,9 +63,10 @@ int ManagedHandle::AssignId () {
   return pool->Assign ();
 }
 
-void ManagedHandle::EnsureScopeCreated_ ( PtrCollector* ptrc ) throw ()  {
+void ManagedHandle::EnsureScopeCreated_ ( PtrCollector* ptrc ) {
   if ( ptrc == NULL ) {
-    throw std::runtime_error ( "ManagedHandle::Retain called before create ManagedScope." );
+    fprintf( stderr , "ManagedHandle::Retain called before create ManagedScope.\n" );
+    abort();
   }
 }
 

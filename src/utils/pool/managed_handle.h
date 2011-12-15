@@ -104,7 +104,7 @@ class ManagedHandle {
   }
   static void Allocate_ ();
   static void Release_ ( int id );
-  static void EnsureScopeCreated_ ( PtrCollector* ptrc ) throw ();
+  static void EnsureScopeCreated_ ( PtrCollector* ptrc );
   static PtrCollector* GetPool_ ();
   static void Destructor_ ( void* ptr ); 
   static ThreadLocalStorageKey key_;
