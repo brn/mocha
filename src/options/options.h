@@ -23,7 +23,7 @@
 #define mocha_options_h_
 
 #include <string.h>
-#include <stdint.h>
+#include <utils/int_types.h>
 #include <string>
 #include <vector>
 #include <utils/smart_pointer/ref_count/handle.h>

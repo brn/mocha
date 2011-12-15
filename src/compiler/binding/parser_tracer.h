@@ -1,7 +1,7 @@
 #ifndef ParserTracer_h
 #define ParserTracer_h
 #include <string>
-#include <stdint.h>
+#include <utils/int_types.h>
 #include "define.h"
 
 namespace mocha{

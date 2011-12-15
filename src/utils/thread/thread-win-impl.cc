@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#include <stdint.h>
+#include <utils/int_types.h>
 #include <process.h>
 #include <utils/thread/thread.h>
 #include <options/setting.h>

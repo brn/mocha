@@ -24,7 +24,7 @@
 #define mocha_scope_handle_h_
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdint.h>
+#include <utils/int_types.h>
 #include <stdexcept>
 #include <utils/thread/thread.h>
 #include <utils/pool/managed.h>

@@ -85,8 +85,8 @@ var fs = require( "fs" ),
             console.log( err.message );
             process.exit();
           }
-        }.bind( this ));
-      }.bind( this ));
+        });
+      }, this );
     }.bind( this ));
   }
 }).install();

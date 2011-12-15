@@ -1,6 +1,6 @@
 #ifndef mocha_visitor_info_h_
 #define mocha_visitor_info_h_
-#include <stdint.h>
+#include <utils/int_types.h>
 #include <list>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/class_traits/uncopyable.h>

@@ -9,6 +9,7 @@
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <options/commandline/commandline_options.h>
 #include <bootstrap/interactions/interaction.h>
+#include <utils/bits.h>
 
 #ifdef HAVE__EXECV
 #include <process.h>
@@ -71,7 +72,18 @@ void LoadLog() {
 }
 
 namespace mocha {
+
+void test() {
+  FixedBitStack32<100> array;
+  array.Push( 7 );
+  array.Push( 6 );
+  array.Push( 32 );
+  printf( "%d\n" , array[32] );
+  printf( "%d\n" , array[4] );
+}
+
 void Bootstrap::Initialize( int argc , char** argv ) {
+  //test();
   Setting::instance_ = new Setting();
   LoadLog();
   Setting::instance_->Log( "mocha initialize end." );
