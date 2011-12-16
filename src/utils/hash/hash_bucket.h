@@ -12,11 +12,12 @@ class HashBucket {
   HashEntry* Find( Key key , uint32_t hash );
   void Remove( Key key , uint32_t hash );
   int Size() { return entry_size_; };
+  static const int BUCKET_SIZE[];
  private :
   int entry_size_;
-  void SearchPosition_( Key key , uint32_t hash );
+  void SearchPosition_( uint32_t hash );
   int Rehash_( uint32_t hash );
-  HashEntry<T> entry_[ MOCHA_HASH_BUCKET_SIZE ];
+  HashEntry<Key,Value> entry_[ MOCHA_HASH_BUCKET_SIZE ];
 };
 
 }
