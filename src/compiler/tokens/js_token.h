@@ -1,26 +1,17 @@
 
 #ifndef mocha_js_token_h_
 #define mocha_js_token_h_
-
+#include <utils/class_traits/static.h>
+#include <boost/unordered_map.hpp>
 namespace mocha{
   
-  class JsToken {
-  public:
-    JsToken ();
-    static int getType ( const char* token , bool isOperator = false );
-    static const char* GetOperatorFromNumber( int id );
-    
-  private :
-    static char operators_[];
-    static char keywordsList_ [][ 20 ];
-    static char combineOperators_ [] [ 20 ];
-    static int keywordToken_ [];
-    static int operatorToken_ [];
-    static int operatorsLength_;
-    static int keywordsLength_;
-    static int combineOperatorsLength_;
-  };
-
+class JsToken : private Static {
+ public:
+  static int getType ( const char* token , bool isOperator = false );
+  static bool IsBuiltin( const char* token );
+  static const char* GetOperatorFromNumber( int id );
+  static void Initialize();
+};
 }
 
 #endif

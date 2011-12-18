@@ -7,46 +7,9 @@ using namespace yy;
 using namespace mocha;
 #define TOKEN ParserImplementation::token
 
-JsToken::JsToken (){};  
+typedef boost::unordered_map<std::string,int> TokenMap;
 
-
-
-int JsToken::getType ( const char* token , bool isOperator ) {
-  if ( isOperator ) {
-    if ( token [ 1 ] == 0 ) {
-      for ( int i = 0; i < operatorsLength_; ++i ) {
-        if ( token [ 0 ] == operators_ [ i ] ) {       
-          return operators_ [ i ];
-        }
-      }
-    } else {
-      for ( int i = 0; i < combineOperatorsLength_; i++ ) {        
-        if ( strcmp ( token , combineOperators_ [ i ] ) == 0 ) {
-          return operatorToken_ [ i ];          
-        }        
-      };                  
-    }    
-  } else {
-    for ( int i = 0; i < keywordsLength_; i++ ) {
-      if ( strcmp ( token , keywordsList_ [ i ] ) == 0 ) {
-        return keywordToken_ [ i ];        
-      }      
-    }
-    return TOKEN::JS_IDENTIFIER;
-  }
-  return 0;  
-}
-
-const char* JsToken::GetOperatorFromNumber( int id ) {
-  for ( int i = 0; i < combineOperatorsLength_; i++ ) {        
-    if ( id == operatorToken_[ i ] ) {
-      return combineOperators_[ i ];          
-    }
-  };
-  return 0;
-}
-
-int JsToken::keywordToken_ [] = {
+int token_id_list [] = {
   TOKEN::JS_ABSTRACT,
   TOKEN::JS_BOOLEAN,
   TOKEN::JS_BREAK,
@@ -113,7 +76,7 @@ int JsToken::keywordToken_ [] = {
   TOKEN::MOCHA_VERSIONOF
 };
 
-char JsToken::keywordsList_ [] [ 20 ] = {  
+char reserved_words[][ 20 ] = {  
   "abstract",
   "boolean" ,
   "break" ,
@@ -180,14 +143,14 @@ char JsToken::keywordsList_ [] [ 20 ] = {
   "versionof"
 };
 
-char JsToken::operators_ [] = {
+char single_operators[] = {
   
   '[' , ']' , '{' , '}' , '(' , ')' , '*' , '/' , '+' , '-' , '%' , '^' , '&' , '!' , '|' , '~' ,
   '?' , ',' , '<' , '>' , '.' , ';' , '=' , '\'' , '"' , ':' , '#'
 
 };
 
-int JsToken::operatorToken_ [] = {
+int combine_operator_id_list[] = {
 
   TOKEN::JS_INCREMENT , TOKEN::JS_DECREMENT , TOKEN::JS_EQUAL , TOKEN::JS_SHIFT_LEFT,
   TOKEN::JS_SHIFT_RIGHT , TOKEN::JS_LESS_EQUAL , TOKEN::JS_GRATER_EQUAL , TOKEN::JS_EQ,
@@ -199,7 +162,7 @@ int JsToken::operatorToken_ [] = {
 
 };
 
-char JsToken::combineOperators_ [][ 20 ] = {
+char combine_operators[][ 20 ] = {
 
    "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,
    "!==", ">>>" , "+=" , "-=" , "/=" , "%=" , "*=" , "&&" , "||" , "<<=",
@@ -207,7 +170,232 @@ char JsToken::combineOperators_ [][ 20 ] = {
   
 };
 
-int JsToken::operatorsLength_ = sizeof ( JsToken::operators_ );
-int JsToken::keywordsLength_ = sizeof ( JsToken::keywordsList_ ) / sizeof ( JsToken::keywordsList_ [ 0 ] );
-int JsToken::combineOperatorsLength_ = sizeof ( JsToken::combineOperators_ ) / sizeof ( JsToken::combineOperators_ [ 0 ] );
+char builtins[][ 30 ] = {
+  "Array",
+  "Boolean"
+  "Date",
+  "Error",
+  "EvalError",
+  "Function",
+  "Infinity",
+  "Math",
+  "NaN",
+  "Number",
+  "Object",
+  "RangeError",
+  "ReferenceError",
+  "RegExp",
+  "String",
+  "SyntaxError",
+  "TypeError",
+  "URIError",
+  "arguments",
+  "decodeURI",
+  "decodeURIComponent",
+  "encodeURI",
+  "encodeURIComponent",
+  "escape",
+  "eval",
+  "isFinite",
+  "isNaN",
+  "parseFloat",
+  "parseInt",
+  "undefined",
+  "unescape",
+  "Attr",
+  "CDATASection",
+  "CharacterData",
+  "Comment",
+  "DOMException",
+  "DOMImplementation",
+  "Document",
+  "DocumentFragment"
+  "DocumentType",
+  "Element",
+  "Entity",
+  "EntityReference",
+  "ExceptionCode",
+  "NamedNodeMap",
+  "Node",
+  "NodeList",
+  "Notation"
+  "ProcessingInstruction",
+  "Text",
+  "HTMLAnchorElement",
+  "HTMLAppletElement",
+  "HTMLAreaElement",
+  "HTMLBRElement",
+  "HTMLBaseElement",
+  "HTMLBaseFontElement",
+  "HTMLBodyElement",
+  "HTMLButtonElement",
+  "HTMLCollection",
+  "HTMLDListElement",
+  "HTMLDirectoryElement",
+  "HTMLDivElement",
+  "HTMLDocument",
+  "HTMLElement",
+  "HTMLFieldSetElement",
+  "HTMLFontElement",
+  "HTMLFormElement",
+  "HTMLFrameElement",
+  "HTMLFrameSetElement",
+  "HTMLHRElement",
+  "HTMLHeadElement",
+  "HTMLHeadingElement",
+  "HTMLHtmlElement",
+  "HTMLIFrameElement",
+  "HTMLImageElement",
+  "HTMLInputElement",
+  "HTMLIsIndexElement",
+  "HTMLLIElement",
+  "HTMLLabelElement",
+  "HTMLLegendElement",
+  "HTMLLinkElement",
+  "HTMLMapElement",
+  "HTMLMenuElement",
+  "HTMLMetaElement",
+  "HTMLModElement",
+  "HTMLOListElement",
+  "HTMLObjectElement",
+  "HTMLOptGroupElement",
+  "HTMLOptionElement",
+  "HTMLOptionsCollection",
+  "HTMLParagraphElement",
+  "HTMLParamElement",
+  "HTMLPreElement",
+  "HTMLQuoteElement",
+  "HTMLScriptElement",
+  "HTMLSelectElement",
+  "HTMLStyleElement",
+  "HTMLTableCaptionElement",
+  "HTMLTableCellElement",
+  "HTMLTableColElement",
+  "HTMLTableElement",
+  "HTMLTableRowElement",
+  "HTMLTableSectionElement",
+  "HTMLTextAreaElement",
+  "HTMLTitleElement",
+  "HTMLUListElement",
+  "DOMConfiguration",
+  "DOMError",
+  "DOMException",
+  "DOMImplementationList",
+  "DOMImplementationSource",
+  "DOMLocator",
+  "DOMStringList",
+  "NameList",
+  "TypeInfo",
+  "UserDataHandler"
+  "window",
+  "alert",
+  "confirm",
+  "document",
+  "java",
+  "navigator",
+  "prompt",
+  "screen",
+  "self",
+  "top",
+  "CSSCharsetRule",
+  "CSSFontFace",
+  "CSSFontFaceRule",
+  "CSSImportRule",
+  "CSSMediaRule",
+  "CSSPageRule",
+  "CSSPrimitiveValue",
+  "CSSProperties",
+  "CSSRule",
+  "CSSRuleList",
+  "CSSStyleDeclaration",
+  "CSSStyleRule",
+  "CSSStyleSheet",
+  "CSSValue",
+  "CSSValueList",
+  "Counter",
+  "DOMImplementationCSS",
+  "DocumentCSS",
+  "DocumentStyle",
+  "ElementCSSInlineStyle",
+  "LinkStyle",
+  "MediaList",
+  "RGBColor",
+  "Rect",
+  "StyleSheet",
+  "StyleSheetList",
+  "ViewCSS",
+  "EventListener",
+  "EventTarget",
+  "Event",
+  "DocumentEvent",
+  "UIEvent",
+  "MouseEvent",
+  "MutationEvent",
+  "KeyboardEvent",
+  "DocumentRange",
+  "Range",
+  "RangeException",
+  "XPathResult",
+  "XMLHttpRequest"
+};
+  
+int operators_length = sizeof ( single_operators );
+int keywords_length = sizeof ( reserved_words ) / sizeof ( reserved_words[ 0 ] );
+int combine_operators_length = sizeof ( combine_operators ) / sizeof ( combine_operators[ 0 ] );
+int builtin_length = sizeof( builtins ) / sizeof( builtins[ 0 ] );
+boost::unordered_map<std::string,int> reserved_map;
+boost::unordered_map<std::string,int> builtin_map;
 
+void JsToken::Initialize() {
+  for ( int i = 0; i < combine_operators_length; i++ ) {
+    reserved_map.insert( std::pair<const char* , int>( combine_operators[ i ] , combine_operator_id_list[ i ] ) );
+  };
+  for ( int i = 0; i < keywords_length; i++ ) {
+    reserved_map.insert( std::pair<const char* , int>(  reserved_words[ i ] , token_id_list[ i ] ) );
+  }
+  for ( int i = 0; i < builtin_length; i++ ) {
+    builtin_map.insert( std::pair<const char* , int>(  builtins[ i ] , 1 ) );
+  }
+}
+
+
+int JsToken::getType ( const char* token , bool is_operator ) {
+  if ( is_operator ) {
+    if ( token[ 1 ] == 0 ) {
+      for ( int i = 0; i < operators_length; ++i ) {
+        if ( token [ 0 ] == single_operators[ i ] ) {       
+          return single_operators [ i ];
+        }
+      }
+    } else {
+      TokenMap::iterator find = reserved_map.find( token );
+      if ( find != reserved_map.end() ) {
+        return find->second;
+      }
+    }    
+  } else {
+    TokenMap::iterator find = reserved_map.find( token );
+    if ( find != reserved_map.end() ) {
+      return find->second;
+    }
+    return TOKEN::JS_IDENTIFIER;
+  }
+  return 0;  
+}
+
+bool JsToken::IsBuiltin( const char* token ) {
+  TokenMap::iterator find = builtin_map.find( token );
+  if ( find != builtin_map.end() ) {
+    return true;
+  }
+  return false;
+}
+
+const char* JsToken::GetOperatorFromNumber( int id ) {
+  for ( int i = 0; i < combine_operators_length; i++ ) {        
+    if ( id == combine_operator_id_list[ i ] ) {
+      return combine_operators[ i ];
+    }
+  };
+  return 0;
+}

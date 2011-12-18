@@ -4,45 +4,45 @@
 namespace mocha {
 
 template <typename Key,typename Value>
-inline HashBucketList::HashBucketList() : bucket_length_( 0 ) {
+inline HashBucketList<Key,Value>::HashBucketList() : bucket_length_( 0 ) {
   Grow();
 }
 
-#define ITERATOR(name) begin = name.begin,end = name.end()
-#define RITERATOR(name) begin = name.rbegin,end = name.rend()
+#define ITERATOR(name) begin = name.begin(),end = name.end()
+#define RITERATOR(name) begin = name.rbegin(),end = name.rend()
 template <typename Key,typename Value>
-inline HashBucketList::~HashBucketList() {
-  std::list<HashBucket<Key,Value>*>::iterator ITERATOR(bucket_);
+inline HashBucketList<Key,Value>::~HashBucketList() {
+  typename std::list<HashBucket<Key,Value>*>::iterator ITERATOR(bucket_);
   while ( begin != end ) {
-    delete begin;
+    delete (*begin);
     ++begin;
   }
 }
 
 template <typename Key,typename Value>
-inline void HashBucketList::Grow() {
+inline void HashBucketList<Key,Value>::Grow() {
   bucket_length_++;
   bucket_.push_back( new HashBucket<Key,Value> );
 }
 
 template <typename Key,typename Value>
-inline void HashBucketList::Insert( Key key , Value value , uint32_t hash ) {
+inline void HashBucketList<Key,Value>::Insert( Key key , Value value , uint32_t hash ) {
   bucket_.back()->Insert( key , value , hash );
-  if ( bucket_.Size() > ( 0.8 * HashBucket::BUCKET_SIZE ) ) {
+  if ( bucket_.back()->Size() > ( 0.8 * HashBucket<Key,Value>::BUCKET_SIZE ) ) {
     Grow();
   }
 }
 
 template<typename Key,typename Value>
-inline HashEntry<Key,Value>* HashBucketList::Find( Key key , uint32_t hash ) {
+inline HashEntry<Key,Value>* HashBucketList<Key,Value>::Find( Key key , uint32_t hash ) {
   return FindOf_( key , hash );
 }
 
 template<typename Key,typename Value>
-inline HashEntry<Key,Value> HashBucketList::FindOf_( Key key , uint32_t hash ) {
+inline HashEntry<Key,Value>* HashBucketList<Key,Value>::FindOf_( Key key , uint32_t hash ) {
   HashEntry<Key,Value> *entry = bucket_.back()->Find( key , hash );
   if ( entry->IsEmpty() ) {
-    std::list<HashBucket<T>*>::reverse_iterator RITERATOR(bucket_);
+    typename std::list<HashBucket<Key,Value>*>::reverse_iterator RITERATOR(bucket_);
     begin++;
     while ( begin != end ) {
       entry = (*begin)->Find( key , hash );
