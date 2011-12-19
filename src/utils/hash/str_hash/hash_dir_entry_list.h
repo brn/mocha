@@ -9,7 +9,11 @@ class DirEntryList {
   ~DirEntryList();
   void Extend();
   DirEntry* At( int num );
+  void Insert( void* entry , uint64_t hash );
+  void* Find( uint64_t hash );
  private :
+  int used_bit_category_;
+  int size_;
   struct DirEntry {
     Bucket* becket_ptr_;
   };
