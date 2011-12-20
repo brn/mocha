@@ -7,7 +7,7 @@
 #include <utils/bits.h>
 #include <utils/int_types.h>
 #include "str_hash.h"
-#define MAX_WORDS 100
+#define MAX_WORDS 400000
 #define MAX_EACH_WORD 100
 using namespace std;
 
@@ -21,7 +21,6 @@ class HashAutoTester {
 
 public :
   static void cacheWord ( const char* dict , const char* word ) {
-    printf( "%d %d\n" , sizeof(map_) , sizeof( mocha::HashBucket<std::string,const char*> ) );
     fprintf( stderr , "begin collecting words ." );
     FILE *fp = fopen ( dict , "r" );
     FILE *fp2 = fopen ( word , "r" );
@@ -125,8 +124,8 @@ public :
     {
       mocha::Profiler profiler( stderr , "str-hash-find" );
       profiler.Begin();
-      if ( strcmp ( hash_.Find( testerDict_[ 1000 ] )->Value() , testerWord_[ 1000 ] ) != 0 ) {
-        fprintf ( stderr , "Word count is %d\nFailed key : %s, value : %s\n" , 1000 , testerDict_[ 1000 ] , testerWord_[1000] );
+      if ( strcmp ( hash_.Find( testerDict_[ 0 ] )->Value() , testerWord_[ 0 ] ) != 0 ) {
+        fprintf ( stderr , "Word count is %d\nFailed key : %s, value : %s\n" , words_count , testerDict_[ words_count - 1 ] , testerWord_[words_count - 1] );
         perror ( "Fail test." );
         exit ( 2 );
       }
@@ -179,9 +178,9 @@ public :
     fprintf ( stderr , "All words count are %d\nAll process time is %f\nTest success.\n", all_count , end - start );
     {
       insert = GetTimeOfDaySec();
-      boost::unordered_map<std::string,std::string>::iterator find = map_.find( testerDict_[ 1000 ] );
-      if ( strcmp ( find->second.c_str() , testerWord_[ 1000 ] ) != 0 ) {
-        fprintf ( stderr , "Word count is %d\nFailed key : %s, value : %s\n" , words_count , testerDict_[ 1000 ] , testerWord_[1000] );
+      boost::unordered_map<std::string,std::string>::iterator find = map_.find( testerDict_[ 0 ] );
+      if ( strcmp ( find->second.c_str() , testerWord_[ 0 ] ) != 0 ) {
+        fprintf ( stderr , "Word count is %d\nFailed key : %s, value : %s\n" , words_count , testerDict_[ words_count - 1 ] , testerWord_[words_count - 1] );
         perror ( "Fail test." );
         exit ( 2 );
       }
@@ -223,16 +222,25 @@ int main ( int argc , char** argv ) {
     printf ( "%s\n", "Usage: HashAutoTester [dict file] [word file]" );
     return 0;
   } else {
-    uint64_t v = 1ULL;
-    uint64_t diff = 63 - mocha::bits::MSB64( v );
-    uint64_t bited_ = ( v << diff );
-    uint64_t bited = bited_ | ( ( bited_ << ( 63ULL - diff ) ) >> ( 63ULL - diff ) );
-    uint64_t msb5 = bited >> 59ULL;
-    uint64_t nmsb5 = ( bited << 5ULL ) >> 59ULL;
-    printf( "%d,%lld,%lld,%llud,%llud\n" , mocha::bits::MSB64( v ) , msb5 , nmsb5 , UINT64_MAX , ( bited_ | (~bited_) ) );
-    //HashAutoTester::cacheWord ( argv [ 1 ] , argv [ 2 ] );
-    //HashAutoTester::RunSrtTest();
-    //HashAutoTester::RunBoostTest();
+    mocha::StrHash<const char*> hash;
+    /*for ( int i = 0; i < 100; i++ ) {
+      char tmp[100];
+      sprintf( tmp , "%dabcdefg%d" , i , i );
+      char ret[100];
+      sprintf( ret , "%dxxx%d" , i , i );
+      hash.Insert( tmp , ret );
+    }
+    for ( int i = 0; i < 100; i++ ) {
+      char tmp[100];
+      sprintf( tmp , "%dabcdefg%d" , i , i );
+      mocha::StrHash<const char*>::HashEntry entry = hash.Find( tmp );
+      if ( !entry->IsEmpty() ) {
+        printf( "%s\n" , hash.Find( tmp )->Value() );
+      }
+      }*/
+    HashAutoTester::cacheWord ( argv [ 1 ] , argv [ 2 ] );
+    HashAutoTester::RunSrtTest();
+    HashAutoTester::RunBoostTest();
     
   }
   return 0;

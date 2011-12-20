@@ -8,10 +8,12 @@ template <typename Key_t,typename Value_t>
 class Entry {
  public :
   Entry( Key_t key , Value_t value , uint64_t hash );
+  Entry();
   ~Entry();
   const uint64_t& Hash() const;
   const Key_t& Key() const;
   const Value_t& Value() const;
+  bool IsEmpty() const;
  private :
   uint64_t hash_;
   Key_t key_;
@@ -19,5 +21,7 @@ class Entry {
 };
 
 }
+
+#include <utils/hash/entry-impl.h>
 
 #endif

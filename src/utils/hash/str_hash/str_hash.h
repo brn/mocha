@@ -3,19 +3,20 @@
 #include <string.h>
 #include <string>
 #include <utils/int_types.h>
-#include <utils/hash/hash_bucket.h>
+#include <utils/hash/hash_table.h>
 
 namespace mocha {
 template <typename Value>
 class StrHash {
  public :
+  typedef const Entry<std::string,Value>* HashEntry;
   inline StrHash();
   inline ~StrHash();
   inline void Insert( const char* key , Value value );
-  inline HashEntry<std::string,Value>* Find( const char* key );
+  inline HashEntry Find( const char* key );
   inline int Size();
  private :
-  HashBucket<std::string,Value> list_;
+  HashTable<std::string,Value> table_;
 };
 }
 
