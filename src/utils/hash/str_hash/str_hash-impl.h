@@ -87,6 +87,13 @@ inline void StrHash<Value>::Insert( const char* key , Value value ) {
 }
 
 template <typename Value>
+inline void StrHash<Value>::Remove( const char* key ) {
+  Hash_t hash = SuperFastHash( key , strlen( key ) );
+  std::string key_arg = key;
+  table_.Remove( key_arg , hash );
+}
+
+template <typename Value>
 inline typename StrHash<Value>::HashEntry StrHash<Value>::Find( const char* key ) {
   Hash_t hash = SuperFastHash( key , strlen( key ) );
   return table_.Find( key , hash );
@@ -95,6 +102,11 @@ inline typename StrHash<Value>::HashEntry StrHash<Value>::Find( const char* key 
 template <typename Value>
 inline int StrHash<Value>::Size() {
   return table_.Size();
+}
+
+template <typename Value>
+inline typename StrHash<Value>::EntryIterator StrHash<Value>::Entries() {
+  return table_.Entries();
 }
 
 }

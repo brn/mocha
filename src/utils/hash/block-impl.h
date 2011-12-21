@@ -6,7 +6,7 @@
 namespace mocha {
 
 template <typename Key_t , typename Value_t>
-Block<Key_t,Value_t>::Block() : node_( 0 ) , entry_( 0 ){}
+Block<Key_t,Value_t>::Block() : next_( 0 ) , prev_( 0 ) , node_( 0 ) , entry_( 0 ){}
 
 template <typename Key_t , typename Value_t>
 Block<Key_t,Value_t>::~Block(){
@@ -54,6 +54,16 @@ uint64_t& Block<Key_t,Value_t>::Hash() {
 template <typename Key_t , typename Value_t>
 Key_t& Block<Key_t,Value_t>::Key() {
   return entry_->key_;
+}
+
+template <typename Key_t , typename Value_t>
+Block<Key_t,Value_t>* Block<Key_t,Value_t>::Next() {
+  return next_;
+}
+
+template <typename Key_t , typename Value_t>
+Block<Key_t,Value_t>* Block<Key_t,Value_t>::Prev() {
+  return prev_;
 }
 
 }

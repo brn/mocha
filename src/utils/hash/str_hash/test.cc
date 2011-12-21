@@ -8,7 +8,7 @@
 #include <utils/bits.h>
 #include <utils/int_types.h>
 #include "str_hash.h"
-#define MAX_WORDS 100000
+#define MAX_WORDS 1000000
 #define MAX_EACH_WORD 30
 using namespace std;
 
@@ -22,6 +22,7 @@ class HashAutoTester {
 
 public :
   static void cacheWord ( const char* dict , const char* word ) {
+    printf( "%d\n" , sizeof( hash_ ) );
     fprintf( stderr , "begin collecting words ." );
     FILE *fp = fopen ( dict , "r" );
     FILE *fp2 = fopen ( word , "r" );
@@ -96,7 +97,7 @@ public :
     insert_profiler.Begin();
     while ( index > 0 ) {
 
-      if ( /*hash_.Find ( word_list[index] )->IsEmpty()*/1 ) {
+      if ( hash_.Find ( word_list[index] )->IsEmpty() ) {
         
         hash_.Insert( word_list[index] , value_list[value_index] );
         // printf ( "ret is empty %d , value %s  list key %s value %s  hash %lld count %d \n" ,hash_.Find( word_list[ index ] )->IsEmpty() , hash_.Find( word_list[ index ] )->Value() , word_list[ index ] , value_list[ value_index ] , hash_.Find( word_list[index] )->Hash() , index );
@@ -304,26 +305,31 @@ int main ( int argc , char** argv ) {
     printf ( "%s\n", "Usage: HashAutoTester [dict file] [word file]" );
     return 0;
   } else {
-    //mocha::StrHash<const char*> hash;
-    /*for ( int i = 0; i < 100; i++ ) {
+    /*mocha::StrHash<std::string> hash;
+    for ( int i = 0; i < 10; i++ ) {
       char tmp[100];
       sprintf( tmp , "%dabcdefg%d" , i , i );
       char ret[100];
       sprintf( ret , "%dxxx%d" , i , i );
       hash.Insert( tmp , ret );
     }
+    mocha::StrHash<std::string>::EntryIterator it = hash.Entries();
+    while ( it.HasNext() ) {
+      printf( "%s\n" , it.Next()->Value().c_str() );
+    }
     for ( int i = 0; i < 100; i++ ) {
       char tmp[100];
       sprintf( tmp , "%dabcdefg%d" , i , i );
-      mocha::StrHash<const char*>::HashEntry entry = hash.Find( tmp );
+      mocha::StrHash<std::string>::HashEntry entry = hash.Find( tmp );
       if ( !entry->IsEmpty() ) {
-        printf( "%s\n" , hash.Find( tmp )->Value() );
+        printf( "%s\n" , entry->Value().c_str() );
       }
-      }*/
+    }*/
     HashAutoTester::cacheWord( argv[ 1 ] , argv[ 2 ] );
-    HashAutoTester::RunBoostTest();
+    
     //HashAutoTester::RunMapTest();
-    HashAutoTester::RunSrtTest();
+    HashAutoTester::RunBoostTest();
+    //HashAutoTester::RunSrtTest();
   }
   return 0;
 }

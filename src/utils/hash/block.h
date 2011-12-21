@@ -6,12 +6,16 @@
 namespace mocha {
 
 template <typename Key,typename Value>
+class HashTable;
+
+template <typename Key,typename Value>
 struct BlockContainer;
 
 typedef uint64_t Hash_t;
 
 template <typename Key_t , typename Value_t>
 class Block {
+  friend class HashTable<Key_t,Value_t>;
  public :
   typedef std::list<Entry<Key_t,Value_t>*> EntryList;
   inline Block();
@@ -22,10 +26,13 @@ class Block {
   inline void Set( Key_t& key , Value_t& value , Hash_t hash );
   inline Hash_t& Hash();
   inline Key_t& Key();
+  inline Block<Key_t,Value_t>* Next();
+  inline Block<Key_t,Value_t>* Prev();
  private :
+  Block<Key_t,Value_t>* next_;
+  Block<Key_t,Value_t>* prev_;
   BlockContainer<Key_t,Value_t>* node_;
   Entry<Key_t,Value_t>* entry_;
-  //EntryList list_;
 };
 
 template <typename Key_t ,typename Value_t>
