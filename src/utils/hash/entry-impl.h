@@ -4,7 +4,7 @@
 namespace mocha {
 
 template <typename Key_t , typename Value_t>
-Entry<Key_t,Value_t>::Entry( Key_t key , Value_t value , uint64_t hash ) :
+Entry<Key_t,Value_t>::Entry( Key_t& key , Value_t& value , uint64_t hash ) :
     hash_( hash ) , key_( key ) , value_( value ) {}
 
 template <typename Key_t , typename Value_t>

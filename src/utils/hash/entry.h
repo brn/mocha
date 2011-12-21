@@ -4,10 +4,14 @@
 
 namespace mocha {
 
+template<typename Key_t, typename Value_t>
+class Block;
+
 template <typename Key_t,typename Value_t>
 class Entry {
+  friend class Block<Key_t,Value_t>;
  public :
-  Entry( Key_t key , Value_t value , uint64_t hash );
+  Entry( Key_t& key , Value_t& value , uint64_t hash );
   Entry();
   ~Entry();
   const uint64_t& Hash() const;

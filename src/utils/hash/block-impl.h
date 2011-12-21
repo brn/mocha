@@ -6,29 +6,54 @@
 namespace mocha {
 
 template <typename Key_t , typename Value_t>
-Block<Key_t,Value_t>::Block() : node_( 0 ){}
+Block<Key_t,Value_t>::Block() : node_( 0 ) , entry_( 0 ){}
 
 template <typename Key_t , typename Value_t>
-Block<Key_t,Value_t>::~Block(){}
+Block<Key_t,Value_t>::~Block(){
+  if ( node_ != 0 ) {
+    delete node_;
+  }
+  if ( entry_ != 0 ) {
+    delete entry_;
+  }
+}
 
 template <typename Key_t , typename Value_t>
 Block<Key_t,Value_t>* Block<Key_t,Value_t>::Node() {
-  return node_;
+  return node_->block;
 }
 
 template <typename Key_t , typename Value_t>
-void Block<Key_t,Value_t>::Link( Block<Key_t , Value_t> *block ) {
-  node_ = block;
+void Block<Key_t,Value_t>::Alloc() {
+  node_ = new BlockContainer<Key_t,Value_t>;
+}
+
+
+template <typename Key_t , typename Value_t>
+Entry<Key_t,Value_t>* Block<Key_t,Value_t>::GetEntry() {
+  return entry_;
 }
 
 template <typename Key_t , typename Value_t>
-const typename Block<Key_t,Value_t>::EntryList& Block<Key_t,Value_t>::GetEntry() {
-  return list_;
+inline void Block<Key_t,Value_t>::Set( Key_t& key , Value_t& value , uint64_t hash ) {
+  //if ( list_.size() > 1 ) printf( "conflict %zd\n" , list_.size() );
+  if ( entry_ == 0 ) {
+    entry_ = new Entry<Key_t,Value_t>( key , value , hash );
+  } else {
+    entry_->key_ = key;
+    entry_->value_ = value;
+    entry_->hash_ = hash;
+  }
 }
 
 template <typename Key_t , typename Value_t>
-inline void Block<Key_t,Value_t>::Set( Key_t key , Value_t value , uint64_t hash ) {
-  list_.push_back( Handle<Entry<Key_t,Value_t> >( new Entry<Key_t,Value_t>( key , value , hash ) ) );
+uint64_t& Block<Key_t,Value_t>::Hash() {
+  return entry_->hash_;
+}
+
+template <typename Key_t , typename Value_t>
+Key_t& Block<Key_t,Value_t>::Key() {
+  return entry_->key_;
 }
 
 }

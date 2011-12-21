@@ -15,8 +15,8 @@
 
 namespace mocha {
 
-uint64_t SuperFastHash ( const char * data, int len ) {
-  uint64_t hash = len, tmp;
+inline Hash_t SuperFastHash ( const char * data, int len ) {
+  Hash_t hash = len, tmp;
   int rem;
 
   if (len <= 0 || data == NULL) return 0;
@@ -60,8 +60,10 @@ uint64_t SuperFastHash ( const char * data, int len ) {
   return hash;
 }
 
-inline uint64_t GetStrHashVal( const char *s ) {
-  uint64_t ret = 1;
+#undef get16bits
+
+inline Hash_t GetStrHashVal( const char *s ) {
+  Hash_t ret = 1;
   int len = strlen( s );
   len = ( len > 10 )? 10 : len;
   for ( int i = 0; i < len; i++) {
@@ -79,13 +81,14 @@ inline StrHash<Value>::~StrHash(){}
 
 template <typename Value>
 inline void StrHash<Value>::Insert( const char* key , Value value ) {
-  uint64_t hash = SuperFastHash( key , strlen( key ) );
-  table_.Insert( key , value , hash );
+  Hash_t hash = SuperFastHash( key , strlen( key ) );
+  std::string key_arg = key;
+  table_.Insert( key_arg , value , hash );
 }
 
 template <typename Value>
 inline typename StrHash<Value>::HashEntry StrHash<Value>::Find( const char* key ) {
-  uint64_t hash = SuperFastHash( key , strlen( key ) );
+  Hash_t hash = SuperFastHash( key , strlen( key ) );
   return table_.Find( key , hash );
 }
 
