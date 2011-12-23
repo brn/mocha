@@ -2958,7 +2958,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 2091 "grammar/grammar.yy"
     {
-    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
     node->Symbol( (yysemantic_stack_[(1) - (1)].info) );
     (yyval.value_node) = node;
@@ -3059,7 +3059,7 @@ namespace yy {
     {
     int depth = 0;
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-    ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     value->Symbol( (yysemantic_stack_[(3) - (1)].info) );
     ident->Symbol( (yysemantic_stack_[(3) - (3)].info) );
     value->Line( (yysemantic_stack_[(3) - (1)].info)->GetLineNumber() );
@@ -3077,7 +3077,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 2168 "grammar/grammar.yy"
     {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     int depth = 0;
     if ( (yysemantic_stack_[(3) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
       depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(3) - (1)].ast) )->Depth() + 1;
@@ -3188,7 +3188,7 @@ namespace yy {
 /* Line 690 of lalr1.cc  */
 #line 2249 "grammar/grammar.yy"
     {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     int depth = 0;
     if ( (yysemantic_stack_[(3) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
       depth = reinterpret_cast<CallExp*>( (yysemantic_stack_[(3) - (1)].ast) )->Depth() + 1;

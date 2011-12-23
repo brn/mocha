@@ -15,7 +15,8 @@ void DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
   char buf[50];
   VisitorInfo* visitor_info = info->GetInfo();
   const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info->GetTmpIndex() );
-  ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
+  ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line(),
+                                               ValueNode::kIdentifier , true );
   DstaTree* tree = ManagedHandle::Retain<DstaTree>();
   if ( !visitor_info->GetCurrentStmt()->HasDsta() ) {
     visitor_info->GetCurrentStmt()->SetDsta( ManagedHandle::Retain<DstaExtractedExpressions>() );
@@ -162,6 +163,7 @@ void DstaProcessor::ObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int
       switch ( value->ValueType() ) {
         case ValueNode::kNumeric :
         case ValueNode::kString :
+        case ValueNode::kProperty :
         case ValueNode::kIdentifier : {
           if ( value->ChildLength() > 0 ) {
             MemberProcessor_( value , tree , info );
@@ -258,9 +260,9 @@ inline void ArrayHelper( ValueNode* ast_node,
     NodeList* list = ManagedHandle::Retain<NodeList>();
     char num[50];
     sprintf( num , "%d" , index );
-    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() );
+    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
     ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
-                                                    TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                    TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kProperty );
     list->AddChild( visitor_info->GetCurrentStmt()->GetDsta()->Refs()->LastChild() );
     list->AddChild( arg );
     CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
@@ -296,7 +298,7 @@ void DstaProcessor::ArrayProcessor_( ValueNode* ast_node , DstaTree* tree , int 
         if ( !element->IsEmpty() ) {
           if ( element->NodeType() == AstNode::kValueNode ) {
             ValueNode* elem = element->CastToValue();
-            if ( elem->ValueType() == ValueNode::kIdentifier ) {
+            if ( elem->ValueType() == ValueNode::kIdentifier || elem->ValueType() == ValueNode::kProperty ) {
               ArrayHelper( ast_node , visitor_info , tree , index , elem , false );
               visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
               UPDATE_TREE;

@@ -9,7 +9,7 @@ namespace mocha {
 template <typename Key_t , typename Value_t>
 class EntryIteratorBase {
  public :
-  typedef const Entry<Key_t,Value_t>* HashEntry;
+  typedef Entry<Key_t,Value_t> HashEntry;
   typedef Block<Key_t,Value_t> Node;
   inline EntryIteratorBase( Node* node );
   inline EntryIteratorBase( const EntryIteratorBase& iterator );
@@ -31,7 +31,8 @@ class HashTable {
   inline ~HashTable();
   inline void Insert( Key_t& key , Value_t& value , Hash_t& hash );
   inline void Remove( Key_t& key , Hash_t& hash );
-  inline const Leaf* Find( const Key_t& key , Hash_t& hash );
+  inline void RemoveAll();
+  inline Leaf Find( const Key_t& key , Hash_t& hash );
   inline int Size();
   inline EntryIteratorBase<Key_t,Value_t> Entries();
  private :
@@ -40,12 +41,13 @@ class HashTable {
   
   int size_;
   const Leaf empty_entry_;
-  TopFixedBlock fixed_[ 32 ];
+  TopFixedBlock *fixed_;
   Node* head_;
   Node* tail_;
   static const Hash_t lower_5bit;
   static const Hash_t lower_2bit;
-  static const Hash_t shift_constatnt;
+  static const Hash_t shift_constatnt2;
+  static const Hash_t shift_constatnt5;
 };
 }
 

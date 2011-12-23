@@ -12,7 +12,7 @@ class AstUtils : private Static {
   static CallExp* CreateDotAccessor( AstNode* callable , AstNode* args );
   static CallExp* CreatePrototypeAccessor( AstNode* callable , AstNode* args );
   static CallExp* CreateNormalAccessor( AstNode* callable , AstNode* args );
-  static ValueNode* CreateNameNode( const char* name , int type , long line , bool is_empty = false );
+  static ValueNode* CreateNameNode( const char* name , int type , long line , int value_type , bool is_empty = false );
   static AssignmentExp* CreateAssignment( int type , AstNode* lhs , AstNode* rhs );
   static ValueNode* CreateObjectLiteral( AstNode* body );
   static ExpressionStmt* CreateAnonymousFnCall( Function *fn , AstNode* args );

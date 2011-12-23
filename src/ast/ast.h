@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <utils/pool/managed.h>
+#include <compiler/scopes/scope.h>
 #include <ast/ast_foward_decl.h>
 #include <ast/visitors/ivisitor.h>
 namespace mocha {
@@ -178,8 +179,11 @@ class AstRoot : public AstNode {
  public :
   inline AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" ) {}
   inline ~AstRoot(){};
+  inline void SetScope( InnerScope* scope ) { scope_ = scope; }
+  inline InnerScope* GetScope() { return scope_; }
   CLONE( AstRoot );
  private :
+  InnerScope* scope_;
   CALL_ACCEPTOR(AstRoot);
 };
 
@@ -621,6 +625,8 @@ class Function : public Expression {
   inline void FunctionType( int type ) { fn_type_ = type; }
   inline int ContextType() { return context_; }
   inline void ContextType( int type ) { context_ = type; }
+  inline void SetScope( InnerScope* scope ){ scope_ = scope; };
+  inline InnerScope* GetScope(){ return scope_; };
   CLONE( Function );
  private :
   int fn_type_;
@@ -629,6 +635,7 @@ class Function : public Expression {
   bool is_const_;
   AstNode* name_;
   AstNode* argv_;
+  InnerScope* scope_;
   CALL_ACCEPTOR( Function );
 };
 
@@ -841,7 +848,8 @@ class ValueNode : public AstNode {
     kDstArray,
     kSpread,
     kConstant,
-    kRest
+    kRest,
+    kProperty
   };
   inline ValueNode( int type ) :
       AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};

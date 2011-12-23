@@ -2,12 +2,16 @@
 #include <stdio.h>
 #include <compiler/tokens/js_token.h>
 #include <grammar/grammar.tab.hh>
+#include <utils/hash/hash_map/hash_map.h>
 
 using namespace yy;
-using namespace mocha;
+
+namespace mocha {
+
+
 #define TOKEN ParserImplementation::token
 
-typedef boost::unordered_map<std::string,int> TokenMap;
+typedef HashMap<const char*,int> TokenMap;
 
 int token_id_list [] = {
   TOKEN::JS_ABSTRACT,
@@ -343,18 +347,18 @@ int operators_length = sizeof ( single_operators );
 int keywords_length = sizeof ( reserved_words ) / sizeof ( reserved_words[ 0 ] );
 int combine_operators_length = sizeof ( combine_operators ) / sizeof ( combine_operators[ 0 ] );
 int builtin_length = sizeof( builtins ) / sizeof( builtins[ 0 ] );
-boost::unordered_map<std::string,int> reserved_map;
-boost::unordered_map<std::string,int> builtin_map;
+TokenMap reserved_map;
+TokenMap builtin_map;
 
 void JsToken::Initialize() {
   for ( int i = 0; i < combine_operators_length; i++ ) {
-    reserved_map.insert( std::pair<const char* , int>( combine_operators[ i ] , combine_operator_id_list[ i ] ) );
+    reserved_map.Insert( combine_operators[ i ] , combine_operator_id_list[ i ] );
   };
   for ( int i = 0; i < keywords_length; i++ ) {
-    reserved_map.insert( std::pair<const char* , int>(  reserved_words[ i ] , token_id_list[ i ] ) );
+    reserved_map.Insert( reserved_words[ i ] , token_id_list[ i ] );
   }
   for ( int i = 0; i < builtin_length; i++ ) {
-    builtin_map.insert( std::pair<const char* , int>(  builtins[ i ] , 1 ) );
+    builtin_map.Insert( builtins[ i ] , 1 );
   }
 }
 
@@ -368,15 +372,15 @@ int JsToken::getType ( const char* token , bool is_operator ) {
         }
       }
     } else {
-      TokenMap::iterator find = reserved_map.find( token );
-      if ( find != reserved_map.end() ) {
-        return find->second;
+      TokenMap::HashEntry find = reserved_map.Find( token );
+      if ( !find.IsEmpty() ) {
+        return find.Value();
       }
     }    
   } else {
-    TokenMap::iterator find = reserved_map.find( token );
-    if ( find != reserved_map.end() ) {
-      return find->second;
+    TokenMap::HashEntry find = reserved_map.Find( token );
+    if ( !find.IsEmpty() ) {
+      return find.Value();
     }
     return TOKEN::JS_IDENTIFIER;
   }
@@ -384,8 +388,8 @@ int JsToken::getType ( const char* token , bool is_operator ) {
 }
 
 bool JsToken::IsBuiltin( const char* token ) {
-  TokenMap::iterator find = builtin_map.find( token );
-  if ( find != builtin_map.end() ) {
+  TokenMap::HashEntry find = builtin_map.Find( token );
+  if ( !find.IsEmpty() ) {
     return true;
   }
   return false;
@@ -398,4 +402,6 @@ const char* JsToken::GetOperatorFromNumber( int id ) {
     }
   };
   return 0;
+}
+
 }

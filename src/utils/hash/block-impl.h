@@ -20,7 +20,7 @@ Block<Key_t,Value_t>::~Block(){
 
 template <typename Key_t , typename Value_t>
 Block<Key_t,Value_t>* Block<Key_t,Value_t>::Node() {
-  return node_->block;
+  return ( node_ )? node_->block : 0;
 }
 
 template <typename Key_t , typename Value_t>

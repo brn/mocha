@@ -4,19 +4,20 @@
 #include <stdlib.h>
 #include <vector>
 #include <compiler/scopes/scope.h>
+#include <compiler/tokens/token_info.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/smart_pointer/scope/scoped_list.h>
 
-using namespace mocha;
-using namespace std;
+namespace mocha {
 
-struct Scope::NameIndex {
-  NameIndex () : size_ ( 0 ) {
+class Renamer {
+ public :
+  Renamer () : size_ ( 0 ) {
     for ( int i = 0; i < 15; i++ ) {
       indexes_[ i ] = 0;
     }
   }
-  ~NameIndex () {}
+  ~Renamer () {}
   
   const char* GetContractionName () {
     if ( size_ == 0 ) {
@@ -33,8 +34,7 @@ struct Scope::NameIndex {
     }
   }
  private :
-  typedef boost::unordered_map<const char*,int> ContractionTable;
-  inline const char* CreateChar_ ( const string& str ) {
+  inline const char* CreateChar_ ( const std::string& str ) {
     char *ret = char_handle_.Retain ( new char [ str.size () + 1 ] );
     strcpy ( ret, str.c_str () );
     return ret;
@@ -74,7 +74,6 @@ struct Scope::NameIndex {
   void SetMultiName_ ( std::string& tmp ) {
     for ( int i = 0,len = size_ + 1; i < len; i++ ) {
       tmp += table_ [ indexes_[ i ] ];
-
       if ( i == 0 ) {
         if ( ( ( i < size_ && indexes_ [ i + 1 ] == kMaxAfter ) || i == size_ ) &&
              indexes_ [ i ] < kMax ) {
@@ -96,175 +95,145 @@ struct Scope::NameIndex {
   ScopedArrayList<char> char_handle_;
 };
 
-char Scope::NameIndex::table_ [] = {
+char Renamer::table_ [] = {
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$0123456789"
 };
 
 
-struct Scope::ThreadValue {
-  Scope::HashList property_table;
-  Scope::NameIndex name_index;
-};
+InnerScope::InnerScope() : Managed() , head_( this ) , up_( 0 ) , renamer_handle_( new Renamer ){}
+InnerScope::~InnerScope() {}
 
-void Scope::ThreadValueDestructor ( void* ptr ) {
-  Scope::ThreadValue* thread_value = reinterpret_cast<Scope::ThreadValue*>( ptr );
-  delete thread_value;
-}
-
-Scope::Scope () :
-    Managed (),
-    head_ ( this ),
-    up_ ( 0 ),
-    name_index_handle_ ( new NameIndex () )
-{
-  if ( GetValue_ () == NULL ) {
-    Scope::ThreadValue *value_ = new Scope::ThreadValue ();
-    ThreadLocalStorage::Set ( &key_ , value_ );
-  }
-};
-
-Scope::~Scope () {}
-
-Scope* Scope::Enter () {
-  Scope* scope = ManagedHandle::Retain<Scope> ();
-  PushBack_ ( scope );
+InnerScope* InnerScope::Enter() {
+  InnerScope* scope = ManagedHandle::Retain<InnerScope>();
+  children_.push_back( scope );
   scope->up_ = this;
   scope->head_ = head_;
   return scope;
 }
+  
+InnerScope* InnerScope::Escape() {
+  return up_;
+}
 
-void Scope::Insert ( const char* ident ) { Insert_ ( ident , ident_table_ [ Scope::kSymbol ] ); }
-void Scope::InsertLabel ( const char* ident ) { Insert_ ( ident ,  ident_table_ [ Scope::kLabel ] ); }
-void Scope::Update ( const char* ident ) { Update_ ( ident ); }
-SymbolSet* Scope::Find ( const char* ident ) { return Find_ ( ident , Scope::kSymbol ); }
-SymbolSet* Scope::FindLabel ( const char* ident ) { return Find_ ( ident , Scope::kLabel ); }
-bool Scope::IsGlobal () { return ( up_ == 0 ); }
-Scope* Scope::GetGlobal () { return head_; }
-
-SymbolSet* Scope::Find_ ( const char* ident , SearchType search_type ) {
-  int len = strlen ( ident );
-  if ( len > 0 ) {
-    Pair* ret = SearchWithParentScope_ ( ident , search_type );
-    if ( ret == 0 ) { return &empty_set_; }
-    return ret->second;
-  } else {
-    return &empty_set_;
+void InnerScope::Insert ( TokenInfo* info ) {
+  const char* ident = info->GetToken();
+  SymbolTable::HashEntry entry = table_.Find( ident );
+  if ( entry.IsEmpty() ) {
+    table_.Insert( ident , info );
   }
 }
 
-inline void Scope::Insert_ ( const char* ident , HashList& list , bool force , const char* shorten_name ) {
-  int len = strlen ( ident );
-  if ( len > 0 ) {
-    HashList::iterator is_find = SearchCurrentScope_ ( ident , list );
-    if ( is_find == list.end () || force ) {
-      const char* shorten;
-      if ( force ) {
-        shorten = shorten_name;
-      } else {
-        shorten = name_index_handle_->GetContractionName ();
-        while ( ident_table_[kUsed].end () != ident_table_[kUsed].find ( shorten ) ) {
-          shorten = name_index_handle_->GetContractionName ();
+void InnerScope::Ref ( TokenInfo* info ) {
+  const char* ident = info->GetToken();
+  SymbolTable::HashEntry entry = reference_table_.Find( ident );
+  if ( entry.IsEmpty() ) {
+    reference_table_.Insert( ident , info );
+  }
+}
+
+TokenInfo* InnerScope::Find ( TokenInfo* info ) {
+  const char* ident = info->GetToken();
+  SymbolTable::HashEntry entry = table_.Find( ident );
+  if ( !entry.IsEmpty() ) {
+    return entry.Value();
+  } else {
+    if ( up_ ) {
+      return up_->Find( info );
+    }
+    return 0;
+  }
+}
+
+void InnerScope::Rename() {
+  std::list<InnerScope*>::iterator begin = children_.begin(),end = children_.end();
+  while ( begin != end ) {
+    (*begin)->Rename();
+    ++begin;
+  }
+  HashMap<const char*,int> used_map;
+  if ( reference_table_.Size() > 0 ) {
+    SymbolTable::EntryIterator ref_iterator = reference_table_.Entries();
+    while ( ref_iterator.HasNext() ) {
+      SymbolTable::HashEntry entry = ref_iterator.Next();
+      printf( "reference name = %s is there %d\n" , entry.Key().c_str() ,  table_.Find( entry.Key() ).IsEmpty() );
+      if ( table_.Find( entry.Key() ).IsEmpty() ) {
+        InnerScope* parent = up_;
+        TokenInfo* info = entry.Value();
+        const char* renamed = renamer_handle_->GetContractionName();
+        while ( !used_table_.Find( renamed ).IsEmpty() ) {
+          renamed = renamer_handle_->GetContractionName();
+        }
+        info->Rename( renamed );
+        used_table_.Insert( renamed , 1 );
+        while ( parent ) {
+          SymbolTable::HashEntry parent_entry = parent->table_.Find( entry.Key() );
+          if ( !parent_entry.IsEmpty() ) {
+            parent_entry.Value()->Rename( renamed );
+            parent->used_table_.Insert( renamed , 1 );
+            break;
+          } else {
+            parent->used_table_.Insert( renamed , 1 );
+          }
+          parent = parent->up_;
         }
       }
-      SymbolSet* symbol_set = ManagedHandle::Retain ( new SymbolSet ( ident , shorten ) );
-      ident_table_[ kUsed ].insert ( Pair( shorten , symbol_set ) );
-      list.insert ( std::pair<const char* , SymbolSet*> ( ident , symbol_set ) );
     }
   }
-}
-
-inline void Scope::Update_ ( const char* ident ) {
-  Scope* scope = this;
-  const char* shorten = name_index_handle_->GetContractionName ();
-  while ( scope ) {
-    if ( scope->UpdateEachScope_ ( ident , shorten ) ) {
-      break;
-    }
-    scope = scope->up_;
-  } 
-}
-
-inline bool Scope::UpdateEachScope_ ( const char* ident , const char* shorten ) {
-  HashList::iterator find = SearchCurrentScope_ ( ident , ident_table_ [ kSymbol ] );
-  if ( find != ident_table_[kSymbol].end () ) {
-    if ( strcmp((&(*find).first[0]) , ident ) != 0 ) {
-      Insert_ ( ident , ident_table_[kSymbol] , true , shorten );
-      return false;
-    } else {
-      return true;
-    }
-  }
-  Insert_ ( ident , ident_table_[kSymbol] , true , shorten );
-  return false;
-}
-
-const Scope::HashList::iterator& Scope::SearchCurrentScope_ ( const char* ident , HashList& list ) {
-  return list.find ( ident );
-}
-
-inline Scope::Pair* Scope::SearchWithParentScope_ ( const char* key , SearchType search_type ) {
-  Scope::HashList::iterator it;
-  int index = static_cast<int>( search_type );
-  HashList& current_list = ident_table_ [ index ];
-  if ( strlen ( key ) > 0 ) {
-    if ( ( it = SearchCurrentScope_ ( key , current_list ) ) != current_list.end () ) {
-      return &(*it);
-    } else {
-      Scope *u_ = up_;
-      while ( u_ != 0 ) {
-        HashList& list = u_->ident_table_ [ index ];
-        if ( ( it = u_->SearchCurrentScope_ ( key , list ) ) != list.end () ) {
-          return &(*it);
-        } else {
-          u_ = u_->Escape ();
-        }
+  
+  SymbolTable::EntryIterator var_iterator = table_.Entries();
+  while ( var_iterator.HasNext() ) {
+    SymbolTable::HashEntry entry = var_iterator.Next();
+    TokenInfo* info = entry.Value();
+    if ( !info->IsRenamed() ) {
+      const char* renamed = renamer_handle_->GetContractionName();
+      printf( "base name = %s , contraction = %s\n" , entry.Key().c_str() , renamed );
+      while ( !used_table_.Find( renamed ).IsEmpty() ) {
+        renamed = renamer_handle_->GetContractionName();
+        printf( "rename base name = %s , contraction = %s\n" , entry.Key().c_str() , renamed );
       }
-      return 0;
+      info->Rename( renamed );
+    } else {
+      printf( "replaced base name = %s , contraction = %s\n" , entry.Key().c_str() , entry.Value()->GetAnotherName() );
     }
   }
-  return 0;
 }
 
-inline void Scope::PushBack_ ( Scope* scope ) {
-  scopeList_.push_back ( scope );
+
+
+Scope::Scope () : head_ ( new InnerScope ) , current_( head_ ) {};
+
+Scope::~Scope () {
+  delete head_;
 }
 
-Scope::ThreadValue* Scope::GetValue_ () {
-  Scope::ThreadValue* val = reinterpret_cast<Scope::ThreadValue*> ( ThreadLocalStorage::Get ( &key_ ) );
-  return val;
+InnerScope* Scope::Enter () {
+  current_ = current_->Enter();
+  return current_;
 }
 
-void Scope::EnsureScopeCreated_ ( Scope::ThreadValue* val ) {
-  if ( val == NULL ) {
-    std::runtime_error( "static Scope method called before Scope created." );
-  }
+InnerScope* Scope::Escape () {
+  current_ = current_->Escape();
+  return current_;
 }
 
-void Scope::InsertGlobalSymbol ( const char* ident ) {
-  MutexLock mutex_lock( mutex_ );
-  Scope::ThreadValue* value = GetValue_ ();
-  EnsureScopeCreated_ ( value );
-  HashList::iterator find = value->property_table.find ( ident );
-  if ( find == value->property_table.end () && strlen(ident) > 0 ) {
-    SymbolSet* symbol_set = ManagedHandle::Retain (
-        new SymbolSet ( ident , value->name_index.GetContractionName () ) );
-    value->property_table.insert ( Scope::Pair ( ident , symbol_set ) );
-  }
+void Scope::Insert ( TokenInfo* info ) {
+  current_->Insert( info );
 }
 
-SymbolSet* Scope::GetGlobalSymbol ( const char* ident ) {
-  MutexLock mutex_lock( mutex_ );
-  Scope::ThreadValue* value = GetValue_ ();
-  EnsureScopeCreated_ ( value );
-  HashList::iterator find = value->property_table.find ( ident );
-  if ( find != value->property_table.end () ) {
-    printf ( "get !!!!!!!!!!!!!!!!!!!!!!!!!%s %d \n" , ident , (*find).second->IsEmpty() );
-    return (*find).second;
-  } else {
-    return &empty_set_;
-  }
+InnerScope* Scope::Current() {
+  return current_;
 }
 
-SymbolSet Scope::empty_set_;
-Mutex Scope::mutex_;
-ThreadLocalStorageKey Scope::key_ ( Scope::ThreadValueDestructor );
+void Scope::Ref ( TokenInfo* info ) {
+  current_->Ref( info );
+}
+
+TokenInfo* Scope::Find ( TokenInfo* info ) {
+  return current_->Find( info );
+}
+
+void Scope::Rename() {
+  head_->Rename();
+}
+
+}

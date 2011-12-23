@@ -5,6 +5,7 @@
 #include <boost/unordered_map.hpp>
 #include <utils/file_watcher/file_watcher.h>
 #include <utils/smart_pointer/common/ptr_handle.h>
+#include <utils/hash/hash_map/hash_map.h>
 
 #define SETTINGS Setting::GetInstance()
 namespace mocha {
@@ -82,10 +83,10 @@ class WatcherContainer {
  public :
   WatcherContainer( const char* path , IUpdater *updater , int type , int wd ) :
       filename_( path ) , type_( type ) , wd_( wd ) , updater_( updater ){};
-  inline const char* GetFileName(){ return filename_.c_str(); }
-  inline int GetType() { return type_; }
-  inline int GetWatchDescriptor() { return wd_; }
-  inline IUpdater* GetUpdater() { return updater_; }
+  inline const char* GetFileName() const { return filename_.c_str(); }
+  inline int GetType() const { return type_; }
+  inline int GetWatchDescriptor() const { return wd_; }
+  inline IUpdater* GetUpdater() const { return updater_; }
  private :
   std::string filename_;
   int type_;
@@ -103,7 +104,6 @@ class FileWatcher::PtrImpl {
       is_end_ = true;
     }
     ::close(fd_);
-    watch_list_.clear();
     array_.clear();
   }
   void AddWatch( const char* path , IUpdater* updater , int type ) {
@@ -120,21 +120,19 @@ class FileWatcher::PtrImpl {
   }
 
   void UnWatch( const char* path ) {
-    WatchList::iterator ITERATOR(watch_list_,begin,end);
-    ITERATOR_LOOP( begin , end ) {
-      if ( strcmp( GET(begin).second->GetFileName() , path ) == 0 ) {
-        UnWatch_( begin );
+    WatchList::EntryIterator iterator = watch_list_.Entries();
+    while ( iterator.HasNext() ) {
+      WatchList::HashEntry entry = iterator.Next();
+      if ( strcmp( entry.Value()->GetFileName() , path ) == 0 ) {
+        inotify_rm_watch( fd_ , entry.Value()->GetWatchDescriptor() );
+        watch_list_.Remove( entry.Value()->GetWatchDescriptor() );
+        break;
       }
-      ++begin;
     }
   }
 
   void UnWatchAll() {
-    WatchList::iterator ITERATOR(watch_list_,begin,end);
-    ITERATOR_LOOP( begin , end ) {
-      UnWatch_( begin );
-      ++begin;
-    }
+    watch_list_.RemoveAll();
   }
 
   void Stop() {
@@ -159,22 +157,16 @@ class FileWatcher::PtrImpl {
   
  private :
   typedef std::vector<Handle<inotify_event> > EventArray;
-  typedef boost::unordered_map<int,Handle<WatcherContainer> > WatchList;
+  typedef HashMap<int,Handle<WatcherContainer> > WatchList;
   
   void Regist_( const char* path , IUpdater* updater , int type , int wd ) {
     Handle<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
-    watch_list_[ wd ] = handle;
-  }
-
-  
-  void UnWatch_( const WatchList::iterator& find ) {
-    inotify_rm_watch( fd_ , GET(find).second->GetWatchDescriptor() );
-    watch_list_.erase( find );
+    watch_list_.Insert( wd , handle );
   }
   
   void ProcessInotifyEvent_() {
     while ( !is_end_ ) {
-      if ( is_watch_ && watch_list_.size() > 0 ) {
+      if ( is_watch_ && watch_list_.Size() > 0 ) {
         if ( CheckEvent_() ) {
           int read_event = ReadInotifyEvents_();
           if ( read_event > 0 ) {
@@ -236,9 +228,9 @@ class FileWatcher::PtrImpl {
     ITERATOR_LOOP( begin , end ) {
       inotify_event *cont = (*begin).Get();
       int wd = cont->wd;
-      WatchList::iterator find = watch_list_.find( wd );
-      if ( find != watch_list_.end() && !(GET(begin)->mask & IN_ISDIR) ) {
-        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , GET(find).second.Get() );
+      WatchList::HashEntry find = watch_list_.Find( wd );
+      if ( !find.IsEmpty() && !(GET(begin)->mask & IN_ISDIR) ) {
+        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , find.Value().Get() );
       }
       ++begin;
     }

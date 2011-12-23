@@ -13,9 +13,12 @@ class TokenInfo : public Managed {
   TokenInfo& operator = ( const TokenInfo& info );
   ~TokenInfo();
   const char* GetToken() const;
+  inline const char* GetAnotherName() const { return ( renamed_.size() > 0 )? renamed_.c_str() : token_.c_str(); };
+  inline void Rename( const char* token ) { renamed_ = token; }
+  inline void SetToken( const char* token ) { token_ = token; }
+  inline bool IsRenamed() { return renamed_.size() > 0; }
   int GetType() const;
   void SetType( int type );
-  void SetToken( const char* token ) { token_ = token; }
   int GetLineNumber() const;
   void Const() { is_const_ = true; }
   bool IsConst() { return is_const_; }
@@ -28,6 +31,7 @@ class TokenInfo : public Managed {
   bool is_const_;
   bool is_let_;
   std::string token_;
+  std::string renamed_;
 
 };
 

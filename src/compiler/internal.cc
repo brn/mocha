@@ -84,7 +84,6 @@ inline void Internal::ParseStart_ () {
                                   &tracer,
                                   &root,
                                   buf );
-  scope_ = scope_->GetGlobal ();
   parser.ParseStart ();
   
   mocha::AstVisitor visitor ( is_runtime_ , scope_ , compiler_,

@@ -2,7 +2,6 @@
 #ifndef mocha_js_token_h_
 #define mocha_js_token_h_
 #include <utils/class_traits/static.h>
-#include <boost/unordered_map.hpp>
 namespace mocha{
   
 class JsToken : private Static {

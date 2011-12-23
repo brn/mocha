@@ -11,16 +11,19 @@ template <typename Key_t , typename Value_t>
 Entry<Key_t,Value_t>::Entry() : hash_( 0 ){}
 
 template <typename Key_t , typename Value_t>
+Entry<Key_t,Value_t>::Entry( const Entry& entry ) : hash_( entry.hash_ ) , key_( entry.key_ ) , value_( entry.value_ ){}
+
+template <typename Key_t , typename Value_t>
 Entry<Key_t,Value_t>::~Entry(){};
 
 template <typename Key_t , typename Value_t>
-inline const Key_t& Entry<Key_t,Value_t>::Key() const { return key_; }
+inline Key_t& Entry<Key_t,Value_t>::Key() { return key_; }
 
 template <typename Key_t , typename Value_t>
-inline const Value_t& Entry<Key_t,Value_t>::Value() const { return value_; }
+inline Value_t& Entry<Key_t,Value_t>::Value() { return value_; }
 
 template <typename Key_t , typename Value_t>
-inline const uint64_t& Entry<Key_t,Value_t>::Hash() const { return hash_; }
+inline uint64_t& Entry<Key_t,Value_t>::Hash() { return hash_; }
 
 template <typename Key_t , typename Value_t>
 inline bool Entry<Key_t,Value_t>::IsEmpty() const {

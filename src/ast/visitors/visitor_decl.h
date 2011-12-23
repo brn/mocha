@@ -1,6 +1,3 @@
-#ifndef mocha_visitor_decl_h_
-#define mocha_visitor_decl_h_
-
 #define DECL_VISITOR(type) void Accept##type ( type* ast )
 DECL_VISITOR(AstRoot);
 DECL_VISITOR(FileRoot);
@@ -42,5 +39,3 @@ DECL_VISITOR(ConditionalExp);
 DECL_VISITOR(AssignmentExp);
 DECL_VISITOR(ValueNode);
 #undef DECL_VISITOR
-
-#endif

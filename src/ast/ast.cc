@@ -430,6 +430,7 @@ AstNode* ValueNode::Clone() {
     case kPropertyName :
     case kVariable :
     case kRest :
+    case kProperty :
       if ( value_ ) {
         ret->value_ = value_;
       } else if ( node_ ) {

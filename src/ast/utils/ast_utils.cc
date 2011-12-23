@@ -34,7 +34,7 @@ CallExp* AstUtils::CreateDotAccessor( AstNode* callable , AstNode* args ) {
 static const char prototype[] = { "prototype" };
 
 CallExp* AstUtils::CreatePrototypeAccessor( AstNode* callable , AstNode* args ) {
-  ValueNode* prototype_node = CreateNameNode( prototype , TOKEN::JS_IDENTIFIER , callable->Line() );
+  ValueNode* prototype_node = CreateNameNode( prototype , TOKEN::JS_IDENTIFIER , callable->Line() , ValueNode::kProperty );
   CallExp* depth1 = CreateDotAccessor( callable , prototype_node );
   CallExp* depth2 = CreateDotAccessor( depth1 , args );
   return depth2;
@@ -47,9 +47,9 @@ CallExp* AstUtils::CreateNormalAccessor( AstNode* callable , AstNode* args ) {
   return exp;
 }
 
-ValueNode* AstUtils::CreateNameNode( const char* name , int type , long line , bool is_empty ) {
+ValueNode* AstUtils::CreateNameNode( const char* name , int type , long line , int value_type , bool is_empty ) {
   TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , type , line ) );
-  ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+  ValueNode* value = ManagedHandle::Retain( new ValueNode( value_type ) );
   if ( is_empty ) {
     value->AddChild( ManagedHandle::Retain<Empty>() );
   }
@@ -121,13 +121,13 @@ ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp ) {
 
 CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value ) {
   ValueNode* constant = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstant ),
-                                                  TOKEN::JS_IDENTIFIER , lhs->Line() );
+                                                  TOKEN::JS_IDENTIFIER , lhs->Line() , ValueNode::kIdentifier );
   ValueNode* prop_str = prop->CastToValue();
   AstNode* property = prop;
-  if ( prop_str && prop_str->ValueType() == ValueNode::kIdentifier ) {
+  if ( prop_str && prop_str->ValueType() == ValueNode::kIdentifier || prop_str->ValueType() == ValueNode::kProperty ) {
     char tmp[50];
     sprintf( tmp , "'%s'" , prop_str->Symbol()->GetToken() );
-    property = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , prop_str->Line() );
+    property = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , prop_str->Line() , ValueNode::kString );
   }
   NodeList* args = ManagedHandle::Retain<NodeList>();
   args->AddChild( lhs );
@@ -140,14 +140,14 @@ CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* v
 
 CallExp* AstUtils::CreatePrototypeNode( AstNode* lhs ) {
   ValueNode* prototype = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrototype ),
-                                                   TOKEN::JS_IDENTIFIER , lhs->Line() );
+                                                   TOKEN::JS_IDENTIFIER , lhs->Line() , ValueNode::kProperty );
   return AstUtils::CreateDotAccessor( lhs , prototype );
 }
 
 
 CallExp* AstUtils::CreateRuntimeMod( AstNode* member ) {
   ValueNode* value = CreateNameNode( SymbolList::GetSymbol( SymbolList::kRuntime ),
-                                     TOKEN::JS_IDENTIFIER , 0 );
+                                     TOKEN::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
   CallExp* exp = CreateDotAccessor( value , member );
   return exp;
 }
@@ -160,8 +160,8 @@ const char* AstUtils::CreateTmpRef( char* buf , int index ) {
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filename ) {
   StrHandle key = FileSystem::GetModuleKey( filename );
   ValueNode* value = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                               TOKEN::JS_IDENTIFIER , ast_node->Line() );
-  ValueNode* name = AstUtils::CreateNameNode( key.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                               TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+  ValueNode* name = AstUtils::CreateNameNode( key.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
   CallExp* arr = AstUtils::CreateArrayAccessor( value , name );
   return arr;
 }

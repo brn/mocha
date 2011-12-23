@@ -30,9 +30,6 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
 
 
 void VariableProcessor::ProcessVarInitialiser( ValueNode* ast_node , ProcessorInfo* info ) {
-  if ( ast_node->ValueType() == ValueNode::kVariable ) {
-    //ast_node->Symbol()->Accept( this );
-  }
   AstNode* initialiser = ast_node->FirstChild();
   if ( !initialiser->IsEmpty() ) {
     initialiser->Accept( info->GetVisitor() );

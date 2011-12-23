@@ -10,6 +10,7 @@
 #include <ast/visitors/utils/codewriter.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
+#include <utils/hash/hash_map/hash_map.h>
 #include <grammar/grammar.tab.hh>
 
 
@@ -27,6 +28,7 @@ namespace mocha {
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
     tmp_index_( 0 ),is_line_( false ),has_rest_( false ),
+    scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ),
     current_class_ ( 0 ){}
@@ -34,18 +36,10 @@ CodegenVisitor::CodegenVisitor( Options* option ) :
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
+  scope_ = ast_node->GetScope();
   stream_->Write( "(function()" );
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
   writer_->InsertDebugSymbol( stream_.Get() );
-  writer_->WriteOp( TOKEN::JS_VAR , 0 , stream_.Get() );
-  stream_->Write( "__global_export__" );
-  writer_->WriteOp( '=' , 0 , stream_.Get() );
-  stream_->Write( "{}" );
-  writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
-  stream_->Write( "__MC_tmp__" );
-  writer_->WriteOp( '=' , 0 , stream_.Get() );
-  stream_->Write( "undefined" );
-  writer_->WriteOp( ';' , CodeWriter::kVarsEnd , stream_.Get() );
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
@@ -717,9 +711,8 @@ VISITOR_IMPL(ClassMember) {
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
   writer_->WriteOp( TOKEN::JS_FUNCTION , 0 , stream_.Get() );
-  if ( !ast_node->Name()->IsEmpty() ) {
-    writer_->Write( ast_node->Name()->CastToValue()->Symbol()->GetToken() , stream_.Get() );
-  }
+  ast_node->Name()->Accept( this );
+  scope_ = ast_node->GetScope();
   if ( ast_node->Argv()->IsEmpty() ) {
     stream_->Write( "()" );
   } else {
@@ -756,6 +749,7 @@ VISITOR_IMPL(Function){
     stream_->Write( "this" );
     writer_->WriteOp( ')' , 0 , stream_.Get() );
   }
+  scope_ = scope_->Escape();
 };
 
 
@@ -813,8 +807,8 @@ void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
 void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
   PRINT_NODE_NAME;
   if ( ast_node->ValueType() == ValueNode::kVariable ) {
-    const char* ident = ast_node->Symbol()->GetToken();
-    writer_->Write( ident ,  stream_.Get() );
+    ast_node->ValueType( ValueNode::kIdentifier );
+    ast_node->Accept( this );
   }
   AstNode* initialiser = ast_node->FirstChild();
   if ( !initialiser->IsEmpty() ) {
@@ -850,8 +844,13 @@ VISITOR_IMPL( ValueNode ) {
       printf( "Rest\n" );
       rest_name_ = ast_node->Symbol()->GetToken();
       break;
+
+    case ValueNode::kProperty :
+      printf( "Property @@@@@@@@@@@@@ %s %p\n" , ast_node->Symbol()->GetToken() );
+      stream_->Write( ast_node->Symbol()->GetToken() );
+      break;
       
-    default :
+    case ValueNode::kIdentifier : {
       const char* symbol = ast_node->Symbol()->GetToken();
       if ( symbol[ 0 ] == '@' ) {
         std::string tmp = symbol;
@@ -863,8 +862,24 @@ VISITOR_IMPL( ValueNode ) {
         }
         stream_->Write( tmp.c_str() );
       } else {
-        stream_->Write( symbol );
+        printf( "%s\n" , symbol );
+        if ( scope_ ) {
+          TokenInfo* info = scope_->Find( ast_node->Symbol() );
+          if ( info != 0 ) {
+            printf( "token @@@@@@@@@@@@@ %s\n" , info->GetAnotherName() );
+            stream_->Write( info->GetAnotherName() );
+          } else {
+            stream_->Write( symbol );
+          }
+        } else {
+          stream_->Write( symbol );
+        }
       }
+    }
+      break;
+
+    default :
+      stream_->Write( ast_node->Symbol()->GetToken() );
   }
 }
 

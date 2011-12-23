@@ -3,6 +3,7 @@
 #include <utils/int_types.h>
 namespace mocha {
 
+namespace hash {
 static inline uint64_t GetHash( uint64_t key ) {
   uint64_t hash = key;
   hash = ~hash + (hash << 15);  // hash = (hash << 15) - hash - 1;
@@ -34,7 +35,7 @@ static int IntegerHash64to32( uint64_t key ) {
   key = key ^ (key >> 22);
   return (int) key;
 }
-
+}
 }
 
 #endif

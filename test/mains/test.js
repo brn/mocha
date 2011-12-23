@@ -49,4 +49,6 @@ export class Monster {
   // initializer declares a constant prototype property.
   public const attackMessage = 'The monster hits you!';
 }
+  
+  var {x,y,z} = {};
 }

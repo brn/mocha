@@ -2089,7 +2089,7 @@ property_name_and_value_list
 property_name
 : JS_IDENTIFIER
   {
-    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     node->Line( $1->GetLineNumber() );
     node->Symbol( $1 );
     $$ = node;
@@ -2153,7 +2153,7 @@ member_expression
   {
     int depth = 0;
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-    ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     value->Symbol( $1 );
     ident->Symbol( $3 );
     value->Line( $1->GetLineNumber() );
@@ -2166,7 +2166,7 @@ member_expression
   }
 | member_expression '.' JS_IDENTIFIER
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     int depth = 0;
     if ( $1->NodeType() == AstNode::kCallExp ) {
       depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
@@ -2247,7 +2247,7 @@ call_expression
   }
 | call_expression '.' JS_IDENTIFIER
   {
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     int depth = 0;
     if ( $1->NodeType() == AstNode::kCallExp ) {
       depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;

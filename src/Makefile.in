@@ -51,8 +51,8 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
 	class_processor.$(OBJEXT) ast_utils.$(OBJEXT) \
 	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
-	codegen_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
-	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	codegen_visitor.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
+	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	compile_runner.$(OBJEXT) list_runner.$(OBJEXT) \
 	error_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
 	compiler_utils.$(OBJEXT) commandline_options.$(OBJEXT) \
@@ -211,6 +211,8 @@ utils/char_allocator.h\
 utils/char_allocator.cc\
 ast/visitors/codegen_visitor.h\
 ast/visitors/codegen_visitor.cc\
+ast/visitors/optimizer_visitor.h\
+ast/visitors/optimizer_visitor.cc\
 ast/visitors/utils/codewriter.h\
 ast/visitors/utils/codewriter.cc\
 compiler/compiler.cc\
@@ -445,6 +447,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mkdir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mocha.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observer_runner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/optimizer_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_connector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
@@ -634,6 +637,20 @@ codegen_visitor.obj: ast/visitors/codegen_visitor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/codegen_visitor.cc' object='codegen_visitor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o codegen_visitor.obj `if test -f 'ast/visitors/codegen_visitor.cc'; then $(CYGPATH_W) 'ast/visitors/codegen_visitor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/codegen_visitor.cc'; fi`
+
+optimizer_visitor.o: ast/visitors/optimizer_visitor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT optimizer_visitor.o -MD -MP -MF $(DEPDIR)/optimizer_visitor.Tpo -c -o optimizer_visitor.o `test -f 'ast/visitors/optimizer_visitor.cc' || echo '$(srcdir)/'`ast/visitors/optimizer_visitor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/optimizer_visitor.Tpo $(DEPDIR)/optimizer_visitor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/optimizer_visitor.cc' object='optimizer_visitor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o optimizer_visitor.o `test -f 'ast/visitors/optimizer_visitor.cc' || echo '$(srcdir)/'`ast/visitors/optimizer_visitor.cc
+
+optimizer_visitor.obj: ast/visitors/optimizer_visitor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT optimizer_visitor.obj -MD -MP -MF $(DEPDIR)/optimizer_visitor.Tpo -c -o optimizer_visitor.obj `if test -f 'ast/visitors/optimizer_visitor.cc'; then $(CYGPATH_W) 'ast/visitors/optimizer_visitor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/optimizer_visitor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/optimizer_visitor.Tpo $(DEPDIR)/optimizer_visitor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/optimizer_visitor.cc' object='optimizer_visitor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o optimizer_visitor.obj `if test -f 'ast/visitors/optimizer_visitor.cc'; then $(CYGPATH_W) 'ast/visitors/optimizer_visitor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/optimizer_visitor.cc'; fi`
 
 codewriter.o: ast/visitors/utils/codewriter.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT codewriter.o -MD -MP -MF $(DEPDIR)/codewriter.Tpo -c -o codewriter.o `test -f 'ast/visitors/utils/codewriter.cc' || echo '$(srcdir)/'`ast/visitors/utils/codewriter.cc

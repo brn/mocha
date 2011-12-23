@@ -6,100 +6,55 @@
 
 #include <list>
 #include <string>
-
-#ifdef HAVE_BOOST_UNORDERED_MAP_HPP
-#include <boost/unordered_map.hpp>
-#endif
-
 #include <define.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/pool/managed.h>
-#include <utils/thread/thread.h>
+#include <utils/hash/hash_map/hash_map.h>
 
 
 namespace mocha {
 
-class SymbolInfo;
-class Symbol;
-class File;
+class TokenInfo;
+class Renamer;
 
-
-class SymbolSet : public Managed {
+class InnerScope : public Managed {
  public :
-  typedef enum {
-    kString,
-    kNumber,
-    kFunction,
-    kArray,
-    kObject,
-    kRegExp,
-    kDocument,
-    kWindow,
-    kElementNode,
-    kTextNode
-  } JSType;
-  SymbolSet () : Managed () , ident_ ( 0 ), is_empty_ ( true ) {}
-  SymbolSet ( const char* ident_ , const char* shorten , bool is_empty = false ) :
-      ident_ ( ident_ ) , shorten_ ( shorten ) , is_empty_ ( false ) {}
-  inline JPM_CONST const char* GetRawIdent () const { return ident_; };
-  inline JPM_CONST const char* GetShortenName () const { return &shorten_ [ 0 ]; };
-  inline JPM_CONST bool IsEmpty () const { return is_empty_; }
+  typedef HashMap<const char*,TokenInfo*> SymbolTable;
+  typedef HashMap<const char*,int> UsedTable;
+  InnerScope();
+  ~InnerScope();
+
+  InnerScope* Enter();
+  InnerScope* Escape();
+  void Insert ( TokenInfo* info );
+  TokenInfo* Find ( TokenInfo* info );
+  void Ref( TokenInfo* info );
+  void Rename();
+  
  private :
-  const char* ident_;
-  const char* shorten_;
-  bool is_empty_;
+  std::list<InnerScope*> children_;
+  InnerScope* head_;
+  InnerScope* up_;
+  ScopedPtr<Renamer> renamer_handle_;
+  SymbolTable table_;
+  SymbolTable reference_table_;
+  UsedTable used_table_;
 };
 
-
-class Scope : public Managed {
+class Scope {
  public :
   Scope ();
-  virtual ~Scope ();
-  inline Scope* Escape () { return up_; }
-  Scope* Enter ();
-  void Insert ( const char* ident );
-  void InsertLabel ( const char* ident );
-  void Update ( const char* );
-  SymbolSet* Find ( const char* ident );
-  SymbolSet* FindLabel ( const char* ident );
-  bool IsGlobal ();
-  Scope* GetGlobal ();
-  static void InsertGlobalSymbol ( const char* name );
-  static SymbolSet* GetGlobalSymbol ( const char* ident );
-  static void ThreadValueDestructor ( void* ptr );
+  ~Scope ();
+  InnerScope* Escape();
+  InnerScope* Enter();
+  InnerScope* Current();
+  void Insert ( TokenInfo* info );
+  void Ref( TokenInfo* info );
+  TokenInfo* Find ( TokenInfo* info );
+  void Rename();
  private:
-  typedef std::pair<const std::string , SymbolSet*> Pair;
-  typedef boost::unordered_map<const std::string , SymbolSet*> HashList;
-
-  typedef enum {
-    kSymbol = 0,
-    kProperty = 1,
-    kLabel = 2,
-    kUsed = 3
-  } SearchType;
-  struct ThreadValue;
-  inline void Insert_ ( const char* ident , HashList& list , bool force = false , const char* shorten_name = "void" );
-  inline SymbolSet* Find_ ( const char* key , SearchType search_type );
-  inline const HashList::iterator& SearchCurrentScope_ ( const char* key , HashList& list );
-  inline Pair* SearchWithParentScope_ ( const char* key , SearchType search_type );
-  inline void Update_ ( const char* );
-  inline bool UpdateEachScope_ ( const char* , const char* );
-  inline void PushBack_ ( Scope* scope );
-  static ThreadValue* GetValue_ ();
-  static void EnsureScopeCreated_ ( ThreadValue* val );
-  std::list<Scope*> scopeList_;
-  Scope* head_;
-  Scope* up_;
-  HashList ident_table_ [ 5 ];
-  static boost::unordered_map<const char* , SymbolSet*> dom_reserved_word_;
-  static boost::unordered_map<const char* , SymbolSet*> js_reserved_word_;
-  static boost::unordered_map<const char* , SymbolSet*> property_reserved_word_;
-  static SymbolSet empty_set_;
-  struct NameIndex;
-  ScopedPtr<SymbolSet> symbol_set_handle_;
-  ScopedPtr<NameIndex> name_index_handle_;
-  static ThreadLocalStorageKey key_;
-  static Mutex mutex_;
+  InnerScope* head_;
+  InnerScope* current_;
 };
 
 }

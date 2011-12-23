@@ -30,6 +30,8 @@ utils/char_allocator.h\
 utils/char_allocator.cc\
 ast/visitors/codegen_visitor.h\
 ast/visitors/codegen_visitor.cc\
+ast/visitors/optimizer_visitor.h\
+ast/visitors/optimizer_visitor.cc\
 ast/visitors/utils/codewriter.h\
 ast/visitors/utils/codewriter.cc\
 compiler/compiler.cc\

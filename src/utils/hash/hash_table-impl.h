@@ -11,7 +11,10 @@ template <typename Key_t,typename Value_t>
 const Hash_t HashTable<Key_t,Value_t>::lower_2bit = 0x0000000000000003ULL;
 
 template <typename Key_t,typename Value_t>
-const Hash_t HashTable<Key_t,Value_t>::shift_constatnt = 2;
+const Hash_t HashTable<Key_t,Value_t>::shift_constatnt5 = 5;
+
+template <typename Key_t,typename Value_t>
+const Hash_t HashTable<Key_t,Value_t>::shift_constatnt2 = 2;
 
 
 template <typename Key_t , typename Value_t>
@@ -32,22 +35,21 @@ inline bool EntryIteratorBase<Key_t,Value_t>::HasNext() {
 
 template <typename Key_t , typename Value_t>
 inline typename EntryIteratorBase<Key_t,Value_t>::HashEntry EntryIteratorBase<Key_t,Value_t>::Next() {
-  HashEntry ret = current_->GetEntry();
+  HashEntry* ret = current_->GetEntry();
   current_ = current_->Next();
-  while ( current_ && current_->GetEntry() && current_->GetEntry()->IsEmpty() ) {
-    current_ = current_->Next();
-  }
-  return ret;
+  return *ret;
 }
 
 
 template <typename Key_t , typename Value_t>
-inline HashTable<Key_t,Value_t>::HashTable() : size_( 0 ) , head_( 0 ) , tail_( 0 ){}
+inline HashTable<Key_t,Value_t>::HashTable() : size_( 0 ) , fixed_( new Block<Key_t,Value_t>[ 32 ] ) , head_( 0 ) , tail_( 0 ){}
 
 
 
 template <typename Key_t , typename Value_t>
-inline HashTable<Key_t,Value_t>::~HashTable() {}
+inline HashTable<Key_t,Value_t>::~HashTable() {
+  delete [] fixed_;
+}
 
 
 
@@ -77,15 +79,21 @@ inline void HashTable<Key_t,Value_t>::Remove( Key_t& key , Hash_t& hash ) {
 }
 
 
+template <typename Key_t , typename Value_t>
+inline void HashTable<Key_t,Value_t>::RemoveAll() {
+  delete [] fixed_;
+  fixed_ = new TopFixedBlock[32];
+}
+
 
 template <typename Key_t , typename Value_t>
-inline const Entry<Key_t,Value_t>* HashTable<Key_t,Value_t>::Find( const Key_t& key,
+inline Entry<Key_t,Value_t> HashTable<Key_t,Value_t>::Find( const Key_t& key,
                                                                    Hash_t& hash ) {
   Node* ret = GetBlock_( key , hash , false );
   if ( ret == 0 ) {
-    return &empty_entry_;
+    return empty_entry_;
   } else {
-    return ret->GetEntry();
+    return *( ret->GetEntry() );
   }
 }
 
@@ -108,11 +116,11 @@ inline Block<Key_t,Value_t>* HashTable<Key_t,Value_t>::GetBlock_( const Key_t& k
                                                                   Hash_t& hash,
                                                                   bool is_insert ) {
   int first = hash & lower_5bit;
-  Hash_t tmp = hash >> shift_constatnt;
+  Hash_t tmp = hash >> shift_constatnt5;
   Node* next = fixed_ + first;
   while ( tmp ) {
     int next_hash = tmp & lower_2bit;
-    tmp >>= shift_constatnt;
+    tmp >>= shift_constatnt2;
     Node *next_node = next->Node();
     if ( next_node == 0 ) {
       if ( is_insert ) {

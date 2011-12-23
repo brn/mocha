@@ -51,26 +51,27 @@ VISITOR_IMPL( AstRoot ) {
 VISITOR_IMPL( FileRoot ) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
+  bool is_runtime = visitor_info_->IsRuntime();
+  
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  printf( "%d\n" , visitor_info_->IsRuntime() );
-  if ( !visitor_info_->IsRuntime() ) {
+  if ( !is_runtime ) {
     Function *fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
                                                  ManagedHandle::Retain<Empty>() , ast_node );
     ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
     ValueNode* global_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                         TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                         TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     ValueNode* object_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
     object_literal->Node( ManagedHandle::Retain<Empty>() );
     StrHandle handle = FileSystem::GetModuleKey( ast_node->FileName() );
-    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , TOKEN::JS_STRING_LITERAL , ast_node->Line() );
+    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , TOKEN::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
     
     CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal );
 
     ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     VariableStmt* var_stmt = AstUtils::CreateVarStmt(
         AstUtils::CreateVarInitiliser( alias->Symbol() , global_export_accessor->Clone() ) );
 
@@ -116,6 +117,7 @@ VISITOR_IMPL( ModuleStmt ) {
   REGIST(ast_node);
   AstNode* body = ast_node->FirstChild();
   AstNode* name = ast_node->Name();
+  bool is_runtime = visitor_info_->IsRuntime();
   
   if ( body->NodeType() == AstNode::kBlockStmt ) {
     //Get block inner node.
@@ -143,14 +145,14 @@ VISITOR_IMPL( ModuleStmt ) {
      * all export properties are directly add to global export symbol.
      * Like this -> __MC_global_alias__.<name> = ...;
      */
-    if ( !visitor_info_->IsRuntime() ) {
+    if ( !is_runtime ) {
       ValueNode* alias = 0;
       if ( visitor_info_->IsInModules() ) {
         alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                          TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                          TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
       } else {
         alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                          TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                          TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
       }
       CallExp* dot_accessor = AstUtils::CreateDotAccessor( alias , name );
       AssignmentExp* exp = AstUtils::CreateAssignment( '=' , dot_accessor , an_stmt_node->FirstChild() );
@@ -167,7 +169,8 @@ VISITOR_IMPL( ModuleStmt ) {
 
   TokenInfo* local = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kLocalExport ),
                                                            TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
-  ValueNode* ret_local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ) , TOKEN::JS_IDENTIFIER , ast_node->Line() );
+  ValueNode* ret_local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
+                                                   TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
 
   ValueNode* init;
   if ( !name->IsEmpty() ) {
@@ -175,7 +178,7 @@ VISITOR_IMPL( ModuleStmt ) {
                                           AstUtils::CreateObjectLiteral( ManagedHandle::Retain<Empty>() ) );
   } else {
     ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     init = AstUtils::CreateVarInitiliser( local,
                                           alias );
   }
@@ -203,8 +206,10 @@ VISITOR_IMPL( ExportStmt ) {
     Function* fn = reinterpret_cast<Function*>( node );
     ValueNode* name = fn->Name()->CastToValue();
     ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() );
-    CallExp *export_prop = AstUtils::CreateDotAccessor( local , name );
+                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+    ValueNode* property_name = name->Clone()->CastToValue();
+    property_name->ValueType( ValueNode::kProperty );
+    CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name );
     AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , fn );
     ExpressionStmt* exp_stmt_node = AstUtils::CreateExpStmt( assign );
     ast_node->ParentNode()->ReplaceChild( ast_node , exp_stmt_node );
@@ -220,7 +225,7 @@ VISITOR_IMPL( ExportStmt ) {
       TokenInfo *name_info = item->CastToValue()->Symbol();
       ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
       ValueNode *local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                   TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                   TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
       CallExp *export_prop = AstUtils::CreateDotAccessor( local , name );
       AssignmentExp* assign;
       if ( !item->FirstChild()->IsEmpty() ) {
@@ -254,9 +259,10 @@ VISITOR_IMPL( ImportStmt ) {
   
   ast_node->Exp()->Accept( this );
   
-  ValueNode *name = AstUtils::CreateNameNode( ast_node->ModKey()->GetToken() , TOKEN::JS_STRING_LITERAL , ast_node->Line() );
+  ValueNode *name = AstUtils::CreateNameNode( ast_node->ModKey()->GetToken(),
+                                              TOKEN::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
   ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
   CallExp* exp = AstUtils::CreateArrayAccessor( global , name );
   if ( ast_node->From()->ChildLength() > 1 ) {
     NodeIterator iter = ast_node->From()->ChildNodes();
@@ -610,9 +616,10 @@ void AstVisitor::PrivateAccessorProcessor_( CallExp* exp ) {
   ValueNode* maybeIdent = exp->Callable()->CastToValue();
   if ( maybeIdent ) {
     ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                    TOKEN::JS_IDENTIFIER , maybeIdent->Line() );
+                                                    TOKEN::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
     if ( !visitor_info_->IsInPrivate() ) {
-      ValueNode* private_field = AstUtils::CreateNameNode( "__private__" , TOKEN::JS_IDENTIFIER , maybeIdent->Line() );
+      ValueNode* private_field = AstUtils::CreateNameNode( "__private__",
+                                                           TOKEN::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kProperty );
       ValueNode* maybeIdent = exp->Args()->CastToValue();
       CallExp* dot_accessor = AstUtils::CreateDotAccessor( this_sym , private_field );
       exp->Callable( dot_accessor );
@@ -776,7 +783,6 @@ VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
   Statement* stmt = ManagedHandle::Retain<Statement>();
   REGIST(stmt);
-  ast_node->Name()->Accept( this );
   AstNode* argv = ast_node->Argv();
   int argc = 0;
   
@@ -784,7 +790,8 @@ VISITOR_IMPL(Function){
     argc = argv->ChildLength();
     NodeIterator iterator = argv->ChildNodes();
     while ( iterator.HasNext() ) {
-      iterator.Next()->Accept( this );
+      AstNode* node = iterator.Next();
+      node->Accept( this );
     }
   }
 
@@ -819,13 +826,13 @@ VISITOR_IMPL(Function){
   
   if ( is_rest ) {
     ValueNode* rhs = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
-                                               TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                               TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     char num[50];
     sprintf( num , "%d" , argc - 1 );
-    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() );
+    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
     ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
-                                                    TOKEN::JS_IDENTIFIER , ast_node->Line() );
+                                                    TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kProperty );
     list->AddChild( rhs );
     list->AddChild( arg );
     CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
@@ -844,7 +851,6 @@ VISITOR_IMPL(Function){
   } else if ( rest_stmt ) {
     ast_node->InsertBefore( rest_stmt );
   }
-  
 };
 
 
@@ -917,10 +923,6 @@ VISITOR_IMPL( ValueNode ) {
       visitor_info_->SetRestExp( ast_node->Symbol() );
     }
       break;
-      
-    default :
-      const char* symbol = ast_node->Symbol()->GetToken();
-      printf( "%s\n" , symbol );
   }
 }
 }

@@ -13,10 +13,11 @@ class Entry {
  public :
   Entry( Key_t& key , Value_t& value , uint64_t hash );
   Entry();
+  Entry( const Entry& entry );
   ~Entry();
-  const uint64_t& Hash() const;
-  const Key_t& Key() const;
-  const Value_t& Value() const;
+  uint64_t& Hash();
+  Key_t& Key();
+  Value_t& Value();
   bool IsEmpty() const;
  private :
   uint64_t hash_;

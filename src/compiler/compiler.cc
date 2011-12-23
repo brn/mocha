@@ -37,6 +37,7 @@
 #include <utils/xml/xml_setting_info.h>
 #include <ast/ast.h>
 #include <ast/visitors/codegen_visitor.h>
+#include <ast/visitors/optimizer_visitor.h>
 #include <options/setting.h>
 
 
@@ -53,7 +54,8 @@ class Compiler::PtrImpl {
 public :
 
   PtrImpl( Compiler* compiler , const char* main_file_path ) :
-      compiler_( compiler ) , codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ) {
+      compiler_( compiler ),
+      codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ) {
     main_file_path_ = main_file_path;
     SetPath_( main_file_path );
     //Change direcotry to main js path.
@@ -64,6 +66,9 @@ public :
   inline void Compile() {
     LoadRuntime_();
     CallInternal_( path_info_ , Internal::kFatal , false );
+    OptimizerVisitor visitor( &scope_ );
+    ast_root_.Accept( &visitor );
+    scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
     Write_ ( codegen_->GetCode() );
   }
@@ -139,10 +144,10 @@ private :
   std::string main_file_path_;
   boost::unordered_map<std::string,int> loaded_path_;
   Compiler *compiler_;
-  Scope scope_;
   AstRoot ast_root_;
   Handle<PathInfo> path_info_;
   ScopedPtr<CodegenVisitor> codegen_;
+  Scope scope_;
 };
 
 
@@ -156,13 +161,9 @@ Compiler* Compiler::CreateInstance( const char* filename ) {
   Compiler* instance = reinterpret_cast<Compiler*>( ThreadLocalStorage::Get( &local_key_ ) );
 
   if ( instance == NULL ) {
-    //Get lock.
-    MutexLock lock( mutex_ );
     instance = new Compiler( filename );
-
     //Set Instance to tsd.
     ThreadLocalStorage::Set( &local_key_ , instance );
-    lock.Unlock();
   }
   return instance;
 }
