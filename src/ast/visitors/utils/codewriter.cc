@@ -29,11 +29,19 @@ class CodeWriter::WriterBase {
 
 class PrettyPrinter : public CodeWriter::WriterBase {
  public :
-  PrettyPrinter( bool is_line ) : is_line_( is_line ) , last_op_( 0 ) {}
+  PrettyPrinter( bool is_line ) : is_line_( is_line ) , last_op_( 0 ) , last_state_( 0 ) {}
   void Write( const char* code , CodeStream* stream ) {
     stream->Write( code );
   }
   void WriteOp( int op , int state , CodeStream* stream ) {
+    if ( last_state_ == CodeWriter::kElseBlockEnd ) {
+      stream->Write( ';' );
+      if ( op != '}' ) {
+        stream->Write( '\n' );
+        stream->Write( indent_.c_str() );
+      }
+      last_state_ = 0;
+    }
     switch ( state ) {
       case CodeWriter::kFunctionBeginBrace :
         stream->Write( " {\n" );
@@ -161,14 +169,15 @@ class PrettyPrinter : public CodeWriter::WriterBase {
 
       case '}' :
         EraseIndent( indent_ , 2 );
-        stream->Write( '\n' );
-        stream->Write( indent_ );
         if ( state == CodeWriter::kElseBlockEnd ) {
-          stream->Write( "}\n" );
+          EraseIndent( stream , 2 );
+          stream->Write( "}" );
+          last_state_ = CodeWriter::kElseBlockEnd;
         } else {
+          stream->Write( '\n' );
+          stream->Write( indent_ );
           stream->Write( "};\n" );
         }
-        stream->Write( indent_ );
         break;
         
       case TOKEN::JS_NEW :
@@ -252,6 +261,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
         
       case TOKEN::JS_IF :
+        if ( last_op_ != TOKEN::JS_ELSE && last_op_ != '{' ) {
+          stream->Write( '\n' );
+          stream->Write( indent_.c_str() );
+        }
         stream->Write( "if " );
         break;
 
@@ -276,6 +289,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_VAR :
+        if ( last_op_ != '{' ) {
+          stream->Write( "\n" );
+          stream->Write( indent_.c_str() );
+        }
         stream->Write( "var " );
         indent_ += ( state == CodeWriter::kFor )? "" : "    ";
         break;
@@ -299,6 +316,7 @@ class PrettyPrinter : public CodeWriter::WriterBase {
 
   bool is_line_;
   int last_op_;
+  int last_state_;
   static const char default_indent_[];
   std::string indent_;
 };

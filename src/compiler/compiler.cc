@@ -73,7 +73,7 @@ public :
     CallInternal_( path_info_ , Internal::kFatal , false );
     OptimizerVisitor visitor( &scope_ );
     ast_root_.Accept( &visitor );
-    //scope_.Rename();
+    scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
     Write_ ( codegen_->GetCode() );
   }

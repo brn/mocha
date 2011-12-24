@@ -139,12 +139,14 @@ void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* i
       } else if ( prop->ValueType() == ValueNode::kDstArray ) {
         ProcessArray( prop , tree , ( depth + 1 ) , info );
       } else {
+        prop->ValueType( ValueNode::kProperty );
         tree->Symbol( prop );
         visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
         UPDATE_TREE;
       }
     }
   } else {
+    value->ValueType( ValueNode::kProperty );
     tree->Symbol( value );
     ProcessMember( value , tree , info );
     visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
