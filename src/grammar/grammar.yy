@@ -401,6 +401,7 @@ inherit_declaration__opt
     } else {
       expandar = ManagedHandle::Retain( new ClassExpandar( ClassExpandar::kExtends ) );
     }
+    expandar->AddChild( $2 );
     $$ = expandar;
   }
 ;
@@ -791,8 +792,10 @@ formal_parameter_list
 | destructuring_assignment_left_hand_side initialiser__opt
   {
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    $1->AddChild( $2 );
-    list->AddChild( $1 );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->AddChild( $2 );
+    value->Node( $1 );
+    list->AddChild( value );
     $$ = list;
   }
 
@@ -808,8 +811,10 @@ formal_parameter_list
 
 | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
   {
-    $3->AddChild( $4 );
-    $1->AddChild( $3 );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    value->AddChild( $4 );
+    value->Node( $3 );
+    $1->AddChild( value );
     $$ = $1;
   }
 ;
@@ -2062,6 +2067,10 @@ property_name_and_value_list__opt
   $$ = GetEmptyNode();
 }
 | property_name_and_value_list ';'
+  {
+    $$ = $1;
+  }
+| property_name_and_value_list
   {
     $$ = $1;
   }

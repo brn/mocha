@@ -3,6 +3,7 @@
  *@fileOverview
  *@license
  *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
  *
  *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  *associated doc umentation files (the "Software"), to deal in the Software without restriction,
@@ -29,6 +30,7 @@
 #include <compiler/internal.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/utils/compiler_utils.h>
+#include <compiler/utils/exception_handler.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/io/file_io.h>
 #include <utils/pool/managed_handle.h>
@@ -45,6 +47,9 @@
 // class Compiler::PtrImpl implementation begin. //
 ///////////////////////////////////////////////////
 namespace mocha {
+
+typedef std::list<ExceptionHandle> ExceptionList;
+
 /**
  *@class
  *Implementation of pimpl idiom.
@@ -52,7 +57,7 @@ namespace mocha {
 class Compiler::PtrImpl {
   friend class Compiler;
 public :
-
+  
   PtrImpl( Compiler* compiler , const char* main_file_path ) :
       compiler_( compiler ),
       codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ) {
@@ -68,7 +73,7 @@ public :
     CallInternal_( path_info_ , Internal::kFatal , false );
     OptimizerVisitor visitor( &scope_ );
     ast_root_.Accept( &visitor );
-    scope_.Rename();
+    //scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
     Write_ ( codegen_->GetCode() );
   }
@@ -142,6 +147,7 @@ private :
 
   
   std::string main_file_path_;
+  ExceptionList exception_list_;
   boost::unordered_map<std::string,int> loaded_path_;
   Compiler *compiler_;
   AstRoot ast_root_;
@@ -176,6 +182,10 @@ Compiler::Compiler ( const char* filename ){
 void Compiler::Compile () {
   mocha::ManagedScope managed_scope;
   implementation_->Compile();
+}
+
+void Compiler::CatchException( ExceptionHandle handle ) {
+  implementation_->exception_list_.push_back( handle );
 }
 
 Handle<PathInfo> Compiler::GetMainPathInfo () {

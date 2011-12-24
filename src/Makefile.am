@@ -1,5 +1,5 @@
 bin_PROGRAMS = mocha
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions
 AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \
@@ -21,9 +21,13 @@ ast/visitors/utils/processors/variable_processor.h\
 ast/visitors/utils/processors/variable_processor.cc\
 ast/visitors/utils/processors/class_processor.cc\
 ast/visitors/utils/processors/class_processor.h\
+ast/visitors/utils/processors/function_processor.cc\
+ast/visitors/utils/processors/function_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
+utils/format.h\
+utils/format.cc\
 bootstrap/bootstrap.h\
 bootstrap/bootstrap.cc\
 utils/char_allocator.h\
@@ -38,6 +42,8 @@ compiler/compiler.cc\
 compiler/compiler.h\
 compiler/tokens/symbol_list.h\
 compiler/tokens/symbol_list.cc\
+compiler/utils/exception_handler.h\
+compiler/utils/exception_handler.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\

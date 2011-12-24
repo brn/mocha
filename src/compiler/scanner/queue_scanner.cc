@@ -704,9 +704,11 @@ class QueueScanner::Scanner {
             ++begin;
             if ( begin != end ) {
               int last = ( *begin )->GetType();
+              printf( "last_type = %d\n" , last );
               if ( last == '}' || last == ']' || last == ')' || last == TOKEN::JS_IDENTIFIER || last == TOKEN::JS_STRING_LITERAL ||
                    last == TOKEN::JS_REGEXP_LITERAL || last == TOKEN::JS_THIS || last == TOKEN::JS_K_NULL ||
-                   last == TOKEN::JS_TRUE || last == TOKEN::JS_FALSE || last == TOKEN::JS_NUMERIC_LITERAL ) {
+                   last == TOKEN::JS_TRUE || last == TOKEN::JS_FALSE || last == TOKEN::JS_NUMERIC_LITERAL ||
+                   last == '=' ) {
                 return;
               }
             }
@@ -1035,7 +1037,9 @@ class QueueScanner::TokenGetter {
 
   TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
       last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ),
-      function_paren_count_( 0 ) , class_paren_count_( 0 ) , mode_( 0 ) , is_in_class_( false ),
+      function_paren_count_( 0 ) , default_paren_type_( 0 ) ,
+      default_paren_count_( 0 ) , class_paren_count_( 0 ) ,
+      mode_( 0 ) , is_in_class_( false ), is_default_parameter_( false ),
       import_stmt_( false ),is_incrementable_( true ), has_line_break_( false ),
       tracer_( tracer ) , queue_( queue ) {
     it_ = queue_.begin();
@@ -1099,18 +1103,60 @@ class QueueScanner::TokenGetter {
       } else if ( type == TOKEN::JS_PARAM_END ) {
         mode_ = 0;
       } else {
+        if ( type == '=' ) {
+          is_default_parameter_ = true;
+        } else if ( is_default_parameter_ && default_paren_type_ == 0 ) {
+          if ( type == '{' || type == '[' ) {
+            default_paren_type_ = type;
+            default_paren_count_++;
+          } else {
+            is_default_parameter_ = false;
+          }
+        }
         switch ( type ) {
           case '{' :
-            info->SetType( TOKEN::JS_DSTO_BEGIN );
+            if ( is_default_parameter_ ) {
+              if ( default_paren_type_ == '{' ) {
+                default_paren_count_++;
+              }
+            } else {
+              info->SetType( TOKEN::JS_DSTO_BEGIN );
+            }
             break;
           case '}' :
-            info->SetType( TOKEN::JS_DSTO_END );
+            if ( is_default_parameter_ ) {
+              if ( default_paren_type_ == '}' ) {
+                default_paren_count_--;
+                if ( default_paren_count_ == 0 ) {
+                  is_default_parameter_ = false;
+                  default_paren_type_ = 0;
+                }
+              }
+            } else {
+              info->SetType( TOKEN::JS_DSTO_END );
+            }
             break;
           case '[' :
-            info->SetType( TOKEN::JS_DSTA_BEGIN );
+            if ( is_default_parameter_ ) {
+              if ( default_paren_type_ == '[' ) {
+                default_paren_count_++;
+              }
+            } else {
+              info->SetType( TOKEN::JS_DSTA_BEGIN );
+            }
             break;
           case ']' :
-            info->SetType( TOKEN::JS_DSTA_END );
+            if ( is_default_parameter_ ) {
+              if ( default_paren_type_ == ']' ) {
+                default_paren_count_--;
+                if ( default_paren_count_ == 0 ) {
+                  is_default_parameter_ = false;
+                  default_paren_type_ = 0;
+                }
+              }
+            } else {
+              info->SetType( TOKEN::JS_DSTA_END );
+            }
             break;
         }
       }
@@ -1313,9 +1359,12 @@ class QueueScanner::TokenGetter {
   int opt_block_;
   int opt_block_paren_count_;
   int function_paren_count_;
+  int default_paren_type_;
+  int default_paren_count_;
   int class_paren_count_;
   int mode_;
   bool is_in_class_;
+  bool is_default_parameter_;
   bool import_stmt_;
   bool is_incrementable_;
   bool has_line_break_;

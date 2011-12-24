@@ -1,6 +1,4 @@
 (function() {
-  var __global_export__ = {},
-      __MC_tmp__ = undefined;
   this.x = 0;
   var _mochaGlobalExport = {},
       _mochaClassTable = {},
@@ -311,11 +309,30 @@
         return _mochaLocalExport;
       })();
   ( function () {
-    var x = function (  ) {
-          var rest = Runtime.toArray( arguments,0 );
-          var _mochaLocalTmp0 = [0,1,2,3],
-              x = ( _mochaLocalTmp0.x && _mochaLocalTmp0.x[0] )?_mochaLocalTmp0.x[0] : undefined,
-              m = ( _mochaLocalTmp0.x )?Runtime.toArray( _mochaLocalTmp0,1 ) : undefined;
+    _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
+    var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'];
+    var x = function ( _mochaLocalTmp0,_mochaLocalTmp1 ) {
+          _mochaLocalTmp1 = _mochaLocalTmp1 || [ {
+            y : 200
+          }];
+          var m = _mochaLocalTmp0.m,
+              y = _mochaLocalTmp1[0],
+              rest = Runtime.toArray( arguments,2 );
+          var _mochaLocalTmp2 = [0,1,2,3],
+              x = ( _mochaLocalTmp2.x && _mochaLocalTmp2.x[0] )?_mochaLocalTmp2.x[0] : undefined,
+              m = ( _mochaLocalTmp2.x )?Runtime.toArray( _mochaLocalTmp2,1 ) : undefined;
         };
+    var m = function ( v,g ) {
+          v = v || 200;
+          g = g || 200;
+          return v+g;
+        };
+    var _mochaLocalTmp3 = [0,1,2],
+        x = ( _mochaLocalTmp3[0] && _mochaLocalTmp3[0]["@sgeg"] )?_mochaLocalTmp3[0]["@sgeg"] : undefined,
+        y = _mochaLocalTmp3[1],
+        z = _mochaLocalTmp3[2];
+    var _mochaLocalTmp4;
+    _mochaLocalTmp4 = [z,y,x];
+    ( x = ( _mochaLocalTmp4[0] && _mochaLocalTmp4[0][0] )?_mochaLocalTmp4[0][0] : undefined , y = _mochaLocalTmp4[1] , z = _mochaLocalTmp4[2] );
   })();
 })();

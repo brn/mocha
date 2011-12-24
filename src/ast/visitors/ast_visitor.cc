@@ -1,3 +1,26 @@
+/**
+ *@author Taketoshi Aono
+ *@fileOverview
+ *Implementation of destructuring assignment processor.
+ *@license
+ *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ *associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ *subject to the following conditions:
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions ofthe Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *DEALINGS IN THE SOFTWARE.
+ */
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
@@ -17,6 +40,7 @@
 #include <ast/visitors/utils/processors/iteration_processor.h>
 #include <ast/visitors/utils/processors/variable_processor.h>
 #include <ast/visitors/utils/processors/class_processor.h>
+#include <ast/visitors/utils/processors/function_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/xml/xml_setting_info.h>
 #include <grammar/grammar.tab.hh>
@@ -748,109 +772,16 @@ VISITOR_IMPL(Class) {
   cls->ProcessNode();
 }
 
-VISITOR_IMPL(ClassProperties) {
-  AstNode* pr = ast_node->Private();
-  AstNode* pb = ast_node->Public();
-  AstNode* st = ast_node->Static();
-  AstNode* cn = ast_node->Constructor();
-  AstNode* proto = ast_node->Prototype();
+VISITOR_IMPL(ClassProperties) {}
 
-#define ITERATION( name )                               \
-  if ( name ) {                                         \
-    NodeIterator name##_iterator = name->ChildNodes();  \
-    while ( name##_iterator.HasNext() ) {               \
-      name##_iterator.Next()->Accept( this );           \
-    }                                                   \
-  }
+VISITOR_IMPL(ClassExpandar) {}
 
-  ITERATION( cn );
-  ITERATION( proto );
-  ITERATION( pb );
-  ITERATION( pr );
-  ITERATION( st );
-}
-
-VISITOR_IMPL(ClassExpandar) {
-}
-
-VISITOR_IMPL(ClassMember) {
-  PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
-  
-}
+VISITOR_IMPL(ClassMember) {}
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  Statement* stmt = ManagedHandle::Retain<Statement>();
-  REGIST(stmt);
-  AstNode* argv = ast_node->Argv();
-  int argc = 0;
-  
-  if ( !argv->IsEmpty() ) {
-    argc = argv->ChildLength();
-    NodeIterator iterator = argv->ChildNodes();
-    while ( iterator.HasNext() ) {
-      AstNode* node = iterator.Next();
-      node->Accept( this );
-    }
-  }
-
-  bool is_rest = visitor_info_->IsRestInjection();
-  visitor_info_->SetRestInjection( false );
-  if ( ast_node->FunctionType() == Function::kShorten ) {
-    Statement* stmt_tmp = ManagedHandle::Retain<Statement>();
-    REGIST( stmt_tmp );
-    ast_node->FirstChild()->Accept( this );
-    ReturnStmt* ret_stmt = AstUtils::CreateReturnStmt( ast_node->FirstChild()->Clone() );
-    ast_node->RemoveAllChild();
-    if ( stmt_tmp->HasDsta() ) {
-      NodeList* list = ManagedHandle::Retain<NodeList>();
-      list->AddChild( DstaProcessor::CreateTmpVarDecl( stmt_tmp , proc_info_.Get() ) );
-      list->AddChild( ret_stmt );
-      ast_node->Append( list );
-    }
-    ast_node->AddChild( ret_stmt );
-  } else {
-    NodeIterator iterator = ast_node->ChildNodes();
-    while ( iterator.HasNext() ) {
-      iterator.Next()->Accept( this );
-    }
-  }
-
-  VariableStmt* dsta_stmt = 0;
-  VariableStmt* rest_stmt = 0;
-  if ( stmt->HasDsta() ) {
-    NodeList *list = DstaProcessor::CreateDstaExtractedVarStmt( stmt , proc_info_.Get() );
-    dsta_stmt = AstUtils::CreateVarStmt( list );
-  }
-  
-  if ( is_rest ) {
-    ValueNode* rhs = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
-                                               TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-    NodeList* list = ManagedHandle::Retain<NodeList>();
-    char num[50];
-    sprintf( num , "%d" , argc - 1 );
-    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
-    ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
-                                                    TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kProperty );
-    list->AddChild( rhs );
-    list->AddChild( arg );
-    CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
-    CallExp* std_to_array = AstUtils::CreateRuntimeMod( nrm );
-    ValueNode* var_node = AstUtils::CreateVarInitiliser( visitor_info_->GetRestExp() , std_to_array );
-    NodeList* var_list = ManagedHandle::Retain<NodeList>();
-    var_list->AddChild( var_node );
-    rest_stmt = AstUtils::CreateVarStmt( var_list );
-  }
-
-  if ( dsta_stmt && rest_stmt ) {
-    dsta_stmt->AddChild( rest_stmt->FirstChild() );
-    ast_node->InsertBefore( dsta_stmt );
-  } else if ( dsta_stmt ) {
-    ast_node->InsertBefore( dsta_stmt );
-  } else if ( rest_stmt ) {
-    ast_node->InsertBefore( rest_stmt );
-  }
+  FunctionProcessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
 };
 
 

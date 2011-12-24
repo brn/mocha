@@ -1,9 +1,9 @@
 (function() {
   this.x = 0;
-  var v = {},
-      w = {},
+  var j = {},
       x = {},
-      y = ( +(new Date) );
+      y = {},
+      z = ( +(new Date) );
   var f = ( function f() {
         var m = {};
         if ( !String.prototype.trim ){
@@ -33,6 +33,8 @@
         };
         if ( !Array.prototype.forEach ){
           Array.prototype.forEach = function ( b,c ) {
+            b = b || ;
+            c = c || ;
             var d = -1,
                 e;
             if ( c ){
@@ -50,6 +52,8 @@
         };
         if ( !Array.prototype.every ){
           Array.prototype.every = function ( b,c ) {
+            b = b || ;
+            c = c || ;
             var d = -1,
                 e;
             if ( c ){
@@ -71,6 +75,8 @@
         };
         if ( !Array.prototype.some ){
           Array.prototype.some = function ( b,c ) {
+            b = b || ;
+            c = c || ;
             var d = -1,
                 e;
             if ( c ){
@@ -92,6 +98,8 @@
         };
         if ( !Array.prototype.filter ){
           Array.prototype.filter = function ( c,d ) {
+            c = c || ;
+            d = d || ;
             var e = -1,
                 f = [],
                 g;
@@ -118,6 +126,7 @@
         };
         if ( !Array.prototype.indexOf ){
           Array.prototype.indexOf = function ( b ) {
+            b = b || ;
             var c = -1,
                 d = -1,
                 e;
@@ -132,6 +141,7 @@
         };
         if ( !Array.prototype.lastIndexOf ){
           Array.prototype.lastIndexOf = function ( b ) {
+            b = b || ;
             var c = this.length,
                 d = -1,
                 e;
@@ -146,6 +156,8 @@
         };
         if ( !Array.prototype.map ){
           Array.prototype.map = function ( c,d ) {
+            c = c || ;
+            d = d || ;
             var e = [],
                 f = -1,
                 g;
@@ -168,6 +180,8 @@
         };
         if ( !Array.prototype.reduce ){
           Array.prototype.reduce = function ( b,c ) {
+            b = b || ;
+            c = c || ;
             var d = c || this[0],
                 e = ( ( c ) )?0 : 1,
                 f,
@@ -182,6 +196,8 @@
         };
         if ( !Array.prototype.reduceRight ){
           Array.prototype.reduceRight = function ( b,c ) {
+            b = b || ;
+            c = c || ;
             var d = c || this[this.length-1],
                 e = ( ( c ) )?this.length-1 : this.length-2,
                 f;
@@ -205,6 +221,7 @@
         };
         if ( !Object.keys ){
           Object.keys = function ( b ) {
+            b = b || ;
             var c = [],
                 d = -1;
             for ( var i in b ){
@@ -217,16 +234,19 @@
         };
         if ( !Object.preventExtensions ){
           Object.preventExtensions = function ( a ) {
+            a = a || ;
             return a;
           };
         };
         if ( !Object.seal ){
           Object.seal = function ( a ) {
+            a = a || ;
             return a;
           };
         };
         if ( !Object.freeze ){
           Object.freeze = function ( a ) {
+            a = a || ;
             return a;
           };
         };
@@ -247,6 +267,9 @@
             })();
         if ( !n ){
           Object.defineProperty = function ( a,b,c ) {
+            a = a || ;
+            b = b || ;
+            c = c || ;
             if ( c.value ){
               a[b] = c.value;
             };
@@ -255,6 +278,7 @@
         if ( !Array.isArray ){
           var c = "[object Array]";
           Array.isArray = function ( d ) {
+            d = d || ;
             if ( arguments.length === 0 ){
               return false;
             };
@@ -263,7 +287,11 @@
         };
         var o = {},
             a = Array.prototype.slice;
-        v.createPrivateProp = function p( c,d,e,f ) {
+        j.createPrivateProp = function p( c,d,e,f ) {
+          c = c || ;
+          d = d || ;
+          e = e || ;
+          f = f || ;
           if ( !( c in instance_prop ) ){
             instance_prop[c] = {};
           };
@@ -274,7 +302,9 @@
             value : e
           });
         };
-        v.getPrivateProp = function q( e,f ) {
+        j.getPrivateProp = function q( e,f ) {
+          e = e || ;
+          f = f || ;
           if ( e in _mochaInstanceProp ){
             return _mochaInstanceProp[e];
           } else {
@@ -288,6 +318,9 @@
           
         };
         var r = m.createUnenumProp = function ( b,c,d ) {
+              b = b || ;
+              c = c || ;
+              d = d || ;
               return Object.defineProperty( b,c, {
                 configurable : true,
                 enumerable : false,
@@ -296,6 +329,9 @@
               });
             };
         var s = m.constant = function ( b,c,d ) {
+              b = b || ;
+              c = c || ;
+              d = d || ;
               return Object.defineProp( b,c, {
                 configurable : false,
                 enumerable : false,
@@ -304,28 +340,28 @@
               });
             };
         var t = m.toArray = function ( b ) {
+              b = b || ;
               return ( ( b ) )?a.call( b ) : [];
             };
         return m;
       })();
   ( function () {
-    v['{1-302-567-849-60818395-1384-fmt.js}'] = {};
-    var e = v['{1-302-567-849-60818395-1384-fmt.js}'];
-    var f = function (  ) {
-          var d = f.toArray( arguments,0 );
-          var e = [0,1,2,3],
-              f = ( e.x && e.x[0] )?e.x[0] : undefined,
-              g = ( e.x )?f.toArray( e,1 ) : undefined;
+    j['{1-302-567-849-60818395-1384-fmt.js}'] = {};
+    var d = j['{1-302-567-849-60818395-1384-fmt.js}'];
+    var e = function (  ) {
+          var c = [0,1,2,3],
+              d = ( c.x && c.x[0] )?c.x[0] : undefined,
+              e = ( c.x )?f.toArray( c,1 ) : undefined;
         };
   })();
   ( function () {
-    v['{1-302-567-849-60818395-1384-test.js}'] = {};
-    var u = v['{1-302-567-849-60818395-1384-test.js}'];
-    var w = v['{1-302-567-849-60818395-1384-fmt.js}'],
-        x = w.x;
+    j['{1-302-567-849-60818395-1384-test.js}'] = {};
+    var v = j['{1-302-567-849-60818395-1384-test.js}'];
+    var l = j['{1-302-567-849-60818395-1384-fmt.js}'],
+        x = l.x;
     ( function () {
-      var v = u;
-      v.Monster = ( function () {
+      var x = v;
+      x.Monster = ( function () {
         var c = function () {
               
             };
@@ -333,7 +369,8 @@
           f.createUnenumProp( this,'__private__',new c );
           d.constructor.apply( this,arguments );
         };
-        f.createUnenumProp( d,'constructor',function u( f,g ) {
+        f.extendClass( d,test["200"] );
+        f.createUnenumProp( d,'constructor',function v( f,g ) {
           this.name = f;
           var h =  {
                 x : 200
@@ -345,39 +382,55 @@
         });
         d.prototype.numAttacks = 0;
         f.constant( d.prototype,'attackMessage','The monster hits you!' );
-        c.prototype.v = function v() {
+        c.prototype.isAlive = function isAlive() {
           return this.__private__._health>0;
         };
-        c.prototype.w = function w( c ) {
+        c.prototype.health = function health( c ) {
+          c = c || ;
           if ( c<0 ){
             throw new Error( 'Health must be non-negative.' );
           };
           this.__private__._health = c;
           return this.__private__.c+"tmpName";
         };
-        c.prototype.x = function x( b ) {
+        c.prototype.x = ( function () {
+          var c = function () {
+                
+              };
+          function d() {
+            f.createUnenumProp( this,'__private__',new c );
+            d.constructor.apply( this,arguments );
+          };
+          c.prototype.constructor = function constructor() {
+            this.m = 200;
+          };
+          return d;
+        })();
+        c.prototype.attack = function attack( b ) {
+          b = b || ;
           log( 'The monster attacks '+b );
         };
         f.constant( d,'constant',200 );
-        var y = human;
-        d.name = ( y.human && y.human.name )?y.human.name : undefined;
-        d.age = ( y.human && y.human.age )?y.human.age : undefined;
-        d.h1 = ( y.human && y.human.hobby && y.human.hobby[0] )?y.human.hobby[0] : undefined;
-        d.h2 = ( y.human && y.human.hobby && y.human.hobby[1] )?y.human.hobby[1] : undefined;
-        d.h3 = ( y.human && y.human.hobby && y.human.hobby[2] )?y.human.hobby[2] : undefined;
-        var z = human_;
-        d.name_ = ( z.human_ && z.human_.name_ )?z.human_.name_ : undefined;
-        d.age_ = ( z.human_ && z.human_.age_ )?z.human_.age_ : undefined;
-        d.h1_ = ( z.human_ && z.human_.hobby_ && z.human_.hobby_[0] )?z.human_.hobby_[0] : undefined;
-        d.h2_ = ( z.human_ && z.human_.hobby_ && z.human_.hobby_[1] )?z.human_.hobby_[1] : undefined;
-        d.h3_ = ( z.human_ && z.human_.hobby_ && z.human_.hobby_[2] )?z.human_.hobby_[2] : undefined;
+        var z = human;
+        d.j = ( z.human && z.human.j )?z.human.j : undefined;
+        d.l = ( z.human && z.human.l )?z.human.l : undefined;
+        d.h1 = ( z.human && z.human.hobby && z.human.hobby[0] )?z.human.hobby[0] : undefined;
+        d.h2 = ( z.human && z.human.hobby && z.human.hobby[1] )?z.human.hobby[1] : undefined;
+        d.h3 = ( z.human && z.human.hobby && z.human.hobby[2] )?z.human.hobby[2] : undefined;
+        var A = human_;
+        d.name_ = ( A.human_ && A.human_.name_ )?A.human_.name_ : undefined;
+        d.age_ = ( A.human_ && A.human_.age_ )?A.human_.age_ : undefined;
+        d.h1_ = ( A.human_ && A.human_.hobby_ && A.human_.hobby_[0] )?A.human_.hobby_[0] : undefined;
+        d.h2_ = ( A.human_ && A.human_.hobby_ && A.human_.hobby_[1] )?A.human_.hobby_[1] : undefined;
+        d.h3_ = ( A.human_ && A.human_.hobby_ && A.human_.hobby_[2] )?A.human_.hobby_[2] : undefined;
         return d;
       })();
-      var w = {},
-          x = w.x,
-          y = w.y,
-          z = w.z;
-      return v;
+      var y = {},
+          j = y.j,
+          l = y.l,
+          z = y.z;
+      console.log( z );
+      return x;
     })();
   })();
 })();

@@ -13,10 +13,6 @@ class DstaProcessor : private Static {
   static NodeList* CreateDstaExtractedVarStmt( Statement* , ProcessorInfo* info );
   static NodeList* CreateDstaExtractedAssignment( Statement* , ProcessorInfo* info );
   static VariableStmt* CreateTmpVarDecl( Statement* , ProcessorInfo* info );
- private :
-  static void ArrayProcessor_( ValueNode* ast_node , DstaTree* tree , int depth , ProcessorInfo* info );
-  static void ObjectProcessor_( ValueNode* ast_node , DstaTree* tree , int depth , ProcessorInfo* info );
-  static void MemberProcessor_( ValueNode* ast_node , DstaTree* tree , ProcessorInfo* info );
 };
 
 }

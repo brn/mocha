@@ -512,12 +512,14 @@ class Class : public Expression {
  public :
   Class( AstNode* expandar , bool is_const ) :
       Expression( NAME_PARAMETER( Class ) ) , is_const_( is_const ),
-      is_decl_( true ) ,name_( 0 ),body_( 0 ), expandar_( expandar ){}
+      is_decl_( true ) , is_inner_( false ) ,name_( 0 ),body_( 0 ), expandar_( expandar ){}
   Class( Empty* empty ) : Expression( NAME_PARAMETER( Class ) ) , expandar_( empty ){}
   ~Class(){}
   void Decl( bool is ) { is_decl_ = is; }
   bool Decl() { return is_decl_; }
   bool Const() { return is_const_; }
+  void Inner( bool is ) { is_inner_ = is; }
+  bool Inner() { return is_inner_; }
   void Name( AstNode* name ) { name_ = name; }
   AstNode* Name() { return name_; }
   AstNode* Expandar() { return expandar_; }
@@ -531,6 +533,7 @@ class Class : public Expression {
   CALL_ACCEPTOR( Class );
   bool is_const_;
   bool is_decl_;
+  bool is_inner_;
   AstNode* name_;
   AstNode* body_;
   AstNode* expandar_;

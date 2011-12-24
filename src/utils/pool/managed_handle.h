@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <utils/int_types.h>
-#include <stdexcept>
 #include <utils/thread/thread.h>
 #include <utils/pool/managed.h>
 #include <utils/smart_pointer/common/ptr_deleter.h>
@@ -117,7 +116,8 @@ class ManagedScope {
     ManagedHandle::Allocate_ ();
     handle_id_ = ManagedHandle::AssignId ();
     if ( handle_id_ > MAX_MANAGED_SCOPE ) {
-      throw std::runtime_error ( "too many ManagedScope created." );
+      fprintf( stderr , "too many ManagedScope created." );
+      abort();
     }
   }
 

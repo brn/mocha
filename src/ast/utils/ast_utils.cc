@@ -9,6 +9,7 @@
 #define TOKEN yy::ParserImplementation::token
 
 namespace mocha{
+
 Function* AstUtils::CreateFunctionDecl( AstNode* name , AstNode* argv , AstNode* body ) {
   Function *fn = ManagedHandle::Retain<Function>();
   fn->Name( name );

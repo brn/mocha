@@ -139,9 +139,8 @@ inline T Handle<T>::operator [] ( int num ) {
 template <typename T>
 inline void Handle<T>::CheckInit_( const char* message ) const {
   if ( rc_ == 0 ) {
-    char tmp[500];
-    sprintf( tmp , "%s called before initialized." , message );
-    throw std::runtime_error( message );
+    fprintf( stderr , "%s called before initialized." , message );
+    abort();
   }
 }
 

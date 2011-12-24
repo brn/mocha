@@ -376,236 +376,237 @@ Terminals unused in grammar
 
   215 property_name_and_value_list__opt: /* 空 */
   216                                  | property_name_and_value_list ';'
+  217                                  | property_name_and_value_list
 
-  217 property_name_and_value_list: property_name ':' assignment_expression
-  218                             | property_name_and_value_list ',' property_name ':' assignment_expression
+  218 property_name_and_value_list: property_name ':' assignment_expression
+  219                             | property_name_and_value_list ',' property_name ':' assignment_expression
 
-  219 property_name: JS_IDENTIFIER
-  220              | JS_STRING_LITERAL
-  221              | JS_NUMERIC_LITERAL
+  220 property_name: JS_IDENTIFIER
+  221              | JS_STRING_LITERAL
+  222              | JS_NUMERIC_LITERAL
 
-  222 member_expression: primary_expression
-  223                  | function_expression
-  224                  | class_initialiser
-  225                  | member_expression '[' expression ']'
-  226                  | JS_PRIVATE '[' expression ']'
-  227                  | JS_PRIVATE '.' JS_IDENTIFIER
-  228                  | member_expression '.' JS_IDENTIFIER
-  229                  | JS_NEW member_expression arguments
+  223 member_expression: primary_expression
+  224                  | function_expression
+  225                  | class_initialiser
+  226                  | member_expression '[' expression ']'
+  227                  | JS_PRIVATE '[' expression ']'
+  228                  | JS_PRIVATE '.' JS_IDENTIFIER
+  229                  | member_expression '.' JS_IDENTIFIER
+  230                  | JS_NEW member_expression arguments
 
-  230 new_expression: member_expression
-  231               | JS_NEW new_expression
+  231 new_expression: member_expression
+  232               | JS_NEW new_expression
 
-  232 call_expression: member_expression arguments
-  233                | call_expression arguments
-  234                | call_expression '[' expression ']'
-  235                | call_expression '.' JS_IDENTIFIER
+  233 call_expression: member_expression arguments
+  234                | call_expression arguments
+  235                | call_expression '[' expression ']'
+  236                | call_expression '.' JS_IDENTIFIER
 
-  236 arguments: '(' ')'
-  237          | '(' argument_list ')'
+  237 arguments: '(' ')'
+  238          | '(' argument_list ')'
 
-  238 argument_list: assignment_expression
-  239              | arguments_spread
-  240              | argument_list ',' assignment_expression
-  241              | argument_list ',' arguments_spread
+  239 argument_list: assignment_expression
+  240              | arguments_spread
+  241              | argument_list ',' assignment_expression
+  242              | argument_list ',' arguments_spread
 
-  242 left_hand_side_expression: new_expression
-  243                          | call_expression
-  244                          | array_left_hand_side
-  245                          | '(' object_left_hand_side ')'
+  243 left_hand_side_expression: new_expression
+  244                          | call_expression
+  245                          | array_left_hand_side
+  246                          | '(' object_left_hand_side ')'
 
-  246 postfix_expression: left_hand_side_expression
-  247                   | left_hand_side_expression JS_INCREMENT
-  248                   | left_hand_side_expression JS_DECREMENT
+  247 postfix_expression: left_hand_side_expression
+  248                   | left_hand_side_expression JS_INCREMENT
+  249                   | left_hand_side_expression JS_DECREMENT
 
-  249 unary_expression: postfix_expression
-  250                 | JS_DELETE unary_expression
-  251                 | JS_VOID unary_expression
-  252                 | JS_TYPEOF unary_expression
-  253                 | JS_INCREMENT unary_expression
-  254                 | JS_DECREMENT unary_expression
-  255                 | '+' unary_expression
-  256                 | '-' unary_expression
-  257                 | '~' unary_expression
-  258                 | '!' unary_expression
+  250 unary_expression: postfix_expression
+  251                 | JS_DELETE unary_expression
+  252                 | JS_VOID unary_expression
+  253                 | JS_TYPEOF unary_expression
+  254                 | JS_INCREMENT unary_expression
+  255                 | JS_DECREMENT unary_expression
+  256                 | '+' unary_expression
+  257                 | '-' unary_expression
+  258                 | '~' unary_expression
+  259                 | '!' unary_expression
 
-  259 multiplicative_expression: unary_expression
-  260                          | multiplicative_expression '*' unary_expression
-  261                          | multiplicative_expression '/' unary_expression
-  262                          | multiplicative_expression '%' unary_expression
+  260 multiplicative_expression: unary_expression
+  261                          | multiplicative_expression '*' unary_expression
+  262                          | multiplicative_expression '/' unary_expression
+  263                          | multiplicative_expression '%' unary_expression
 
-  263 additive_expression: multiplicative_expression
-  264                    | additive_expression '+' multiplicative_expression
-  265                    | additive_expression '-' multiplicative_expression
+  264 additive_expression: multiplicative_expression
+  265                    | additive_expression '+' multiplicative_expression
+  266                    | additive_expression '-' multiplicative_expression
 
-  266 shift_expression: additive_expression
-  267                 | shift_expression JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression JS_U_SHIFT_RIGHT additive_expression
+  267 shift_expression: additive_expression
+  268                 | shift_expression JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression JS_U_SHIFT_RIGHT additive_expression
 
-  270 relational_expression: shift_expression
-  271                      | relational_expression '<' shift_expression
-  272                      | relational_expression '>' shift_expression
-  273                      | relational_expression JS_LESS_EQUAL shift_expression
-  274                      | relational_expression JS_GRATER_EQUAL shift_expression
-  275                      | relational_expression JS_INSTANCEOF shift_expression
-  276                      | relational_expression JS_IN shift_expression
+  271 relational_expression: shift_expression
+  272                      | relational_expression '<' shift_expression
+  273                      | relational_expression '>' shift_expression
+  274                      | relational_expression JS_LESS_EQUAL shift_expression
+  275                      | relational_expression JS_GRATER_EQUAL shift_expression
+  276                      | relational_expression JS_INSTANCEOF shift_expression
+  277                      | relational_expression JS_IN shift_expression
 
-  277 relational_expression_no_in: shift_expression
-  278                            | relational_expression_no_in '<' shift_expression
-  279                            | relational_expression_no_in '>' shift_expression
-  280                            | relational_expression_no_in JS_LESS_EQUAL shift_expression
-  281                            | relational_expression_no_in JS_GRATER_EQUAL shift_expression
-  282                            | relational_expression_no_in JS_INSTANCEOF shift_expression
+  278 relational_expression_no_in: shift_expression
+  279                            | relational_expression_no_in '<' shift_expression
+  280                            | relational_expression_no_in '>' shift_expression
+  281                            | relational_expression_no_in JS_LESS_EQUAL shift_expression
+  282                            | relational_expression_no_in JS_GRATER_EQUAL shift_expression
+  283                            | relational_expression_no_in JS_INSTANCEOF shift_expression
 
-  283 equality_expression: relational_expression
-  284                    | equality_expression JS_EQUAL relational_expression
-  285                    | equality_expression JS_NOT_EQUAL relational_expression
-  286                    | equality_expression JS_EQ relational_expression
-  287                    | equality_expression JS_NOT_EQ relational_expression
+  284 equality_expression: relational_expression
+  285                    | equality_expression JS_EQUAL relational_expression
+  286                    | equality_expression JS_NOT_EQUAL relational_expression
+  287                    | equality_expression JS_EQ relational_expression
+  288                    | equality_expression JS_NOT_EQ relational_expression
 
-  288 equality_expression_no_in: relational_expression_no_in
-  289                          | equality_expression_no_in JS_EQUAL relational_expression_no_in
-  290                          | equality_expression_no_in JS_NOT_EQUAL relational_expression_no_in
-  291                          | equality_expression_no_in JS_EQ relational_expression_no_in
-  292                          | equality_expression_no_in JS_NOT_EQ relational_expression_no_in
+  289 equality_expression_no_in: relational_expression_no_in
+  290                          | equality_expression_no_in JS_EQUAL relational_expression_no_in
+  291                          | equality_expression_no_in JS_NOT_EQUAL relational_expression_no_in
+  292                          | equality_expression_no_in JS_EQ relational_expression_no_in
+  293                          | equality_expression_no_in JS_NOT_EQ relational_expression_no_in
 
-  293 bitwise_and_expression: equality_expression
-  294                       | bitwise_and_expression '&' equality_expression
+  294 bitwise_and_expression: equality_expression
+  295                       | bitwise_and_expression '&' equality_expression
 
-  295 bitwise_and_expression_no_in: equality_expression_no_in
-  296                             | bitwise_and_expression_no_in '&' equality_expression_no_in
+  296 bitwise_and_expression_no_in: equality_expression_no_in
+  297                             | bitwise_and_expression_no_in '&' equality_expression_no_in
 
-  297 bitwise_xor_expression: bitwise_and_expression
-  298                       | bitwise_xor_expression '^' bitwise_and_expression
+  298 bitwise_xor_expression: bitwise_and_expression
+  299                       | bitwise_xor_expression '^' bitwise_and_expression
 
-  299 bitwise_xor_expression_no_in: bitwise_and_expression_no_in
-  300                             | bitwise_xor_expression_no_in '^' bitwise_and_expression_no_in
+  300 bitwise_xor_expression_no_in: bitwise_and_expression_no_in
+  301                             | bitwise_xor_expression_no_in '^' bitwise_and_expression_no_in
 
-  301 bitwise_or_expression: bitwise_xor_expression
-  302                      | bitwise_or_expression '|' bitwise_xor_expression
+  302 bitwise_or_expression: bitwise_xor_expression
+  303                      | bitwise_or_expression '|' bitwise_xor_expression
 
-  303 bitwise_or_expression_no_in: bitwise_xor_expression_no_in
-  304                            | bitwise_or_expression_no_in '|' bitwise_xor_expression_no_in
+  304 bitwise_or_expression_no_in: bitwise_xor_expression_no_in
+  305                            | bitwise_or_expression_no_in '|' bitwise_xor_expression_no_in
 
-  305 logical_and_expression: bitwise_or_expression
-  306                       | logical_and_expression JS_LOGICAL_AND bitwise_or_expression
+  306 logical_and_expression: bitwise_or_expression
+  307                       | logical_and_expression JS_LOGICAL_AND bitwise_or_expression
 
-  307 logical_and_expression_no_in: bitwise_or_expression_no_in
-  308                             | logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in
+  308 logical_and_expression_no_in: bitwise_or_expression_no_in
+  309                             | logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in
 
-  309 logical_or_expression: logical_and_expression
-  310                      | logical_or_expression JS_LOGICAL_OR logical_and_expression
+  310 logical_or_expression: logical_and_expression
+  311                      | logical_or_expression JS_LOGICAL_OR logical_and_expression
 
-  311 logical_or_expression_no_in: logical_and_expression_no_in
-  312                            | logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in
+  312 logical_or_expression_no_in: logical_and_expression_no_in
+  313                            | logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in
 
-  313 conditional_expression: logical_or_expression
-  314                       | logical_or_expression '?' assignment_expression ':' assignment_expression
+  314 conditional_expression: logical_or_expression
+  315                       | logical_or_expression '?' assignment_expression ':' assignment_expression
 
-  315 conditional_expression_no_in: logical_or_expression_no_in
-  316                             | logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in
+  316 conditional_expression_no_in: logical_or_expression_no_in
+  317                             | logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in
 
-  317 assignment_expression: conditional_expression
-  318                      | left_hand_side_expression assignment_operator assignment_expression
+  318 assignment_expression: conditional_expression
+  319                      | left_hand_side_expression assignment_operator assignment_expression
 
-  319 assignment_expression_no_in: conditional_expression_no_in
-  320                            | left_hand_side_expression assignment_operator assignment_expression_no_in
+  320 assignment_expression_no_in: conditional_expression_no_in
+  321                            | left_hand_side_expression assignment_operator assignment_expression_no_in
 
-  321 assignment_operator: '='
-  322                    | JS_MUL_LET
-  323                    | JS_DIV_LET
-  324                    | JS_MOD_LET
-  325                    | JS_ADD_LET
-  326                    | JS_SUB_LET
-  327                    | JS_SHIFT_LEFT_LET
-  328                    | JS_SHIFT_RIGHT_LET
-  329                    | JS_U_SHIFT_RIGHT_LET
-  330                    | JS_AND_LET
-  331                    | JS_NOT_LET
-  332                    | JS_OR_LET
+  322 assignment_operator: '='
+  323                    | JS_MUL_LET
+  324                    | JS_DIV_LET
+  325                    | JS_MOD_LET
+  326                    | JS_ADD_LET
+  327                    | JS_SUB_LET
+  328                    | JS_SHIFT_LEFT_LET
+  329                    | JS_SHIFT_RIGHT_LET
+  330                    | JS_U_SHIFT_RIGHT_LET
+  331                    | JS_AND_LET
+  332                    | JS_NOT_LET
+  333                    | JS_OR_LET
 
-  333 expression: assignment_expression
-  334           | expression ',' assignment_expression
+  334 expression: assignment_expression
+  335           | expression ',' assignment_expression
 
-  335 expression_no_in: assignment_expression_no_in
-  336                 | expression_no_in ',' assignment_expression_no_in
+  336 expression_no_in: assignment_expression_no_in
+  337                 | expression_no_in ',' assignment_expression_no_in
 
-  337 expression_no_in__opt: /* 空 */
-  338                      | expression_no_in
+  338 expression_no_in__opt: /* 空 */
+  339                      | expression_no_in
 
-  339 expression__opt: /* 空 */
-  340                | expression
+  340 expression__opt: /* 空 */
+  341                | expression
 
-  341 elision__opt: /* 空 */
-  342             | elision
+  342 elision__opt: /* 空 */
+  343             | elision
 
-  343 terminator: ';'
-  344           | JS_LINE_BREAK
+  344 terminator: ';'
+  345           | JS_LINE_BREAK
 
 
 出現位置の規則による終端
 
 $end (0) 0
-'!' (33) 258
-'%' (37) 262
-'&' (38) 294 296
+'!' (33) 259
+'%' (37) 263
+'&' (38) 295 297
 '(' (40) 21 29 30 31 32 33 34 35 115 150 151 153 154 155 156 157 158
-    159 160 164 165 177 200 210 211 213 236 237 245
+    159 160 164 165 177 200 210 211 213 237 238 246
 ')' (41) 21 29 30 31 32 33 34 35 115 150 151 153 154 155 156 157 158
-    159 160 164 165 177 200 210 211 213 236 237 245
-'*' (42) 260
-'+' (43) 255 264
+    159 160 164 165 177 200 210 211 213 237 238 246
+'*' (42) 261
+'+' (43) 256 265
 ',' (44) 48 51 52 117 121 123 132 136 137 138 143 144 145 203 206 207
-    208 218 240 241 334 336
-'-' (45) 256 265
-'.' (46) 109 227 228 235
-'/' (47) 261
-':' (58) 141 142 143 145 170 171 172 217 218 314 316
-';' (59) 155 156 216 343
-'<' (60) 271 278
-'=' (61) 146 147 321
-'>' (62) 272 279
-'?' (63) 314 316
-'[' (91) 201 202 203 204 225 226 234
-']' (93) 201 202 203 204 225 226 234
-'^' (94) 298 300
+    208 219 241 242 335 337
+'-' (45) 257 266
+'.' (46) 109 228 229 236
+'/' (47) 262
+':' (58) 141 142 143 145 170 171 172 218 219 315 317
+';' (59) 155 156 216 344
+'<' (60) 272 279
+'=' (61) 146 147 322
+'>' (62) 273 280
+'?' (63) 315 317
+'[' (91) 201 202 203 204 226 227 235
+']' (93) 201 202 203 204 226 227 235
+'^' (94) 299 301
 '{' (123) 3 21 29 30 31 32 33 34 35 37 38 39 40 100 101 166 167 214
-'|' (124) 302 304
+'|' (124) 303 305
 '}' (125) 3 21 29 30 31 32 33 34 35 37 38 39 40 100 101 166 167 214
-'~' (126) 257
+'~' (126) 258
 error (256)
-JS_U_SHIFT_RIGHT_LET (258) 329
-JS_SUB_LET (259) 326
-JS_SHIFT_RIGHT_LET (260) 328
-JS_SHIFT_LEFT_LET (261) 327
-JS_OR_LET (262) 332
-JS_NOT_LET (263) 331
-JS_MUL_LET (264) 322
-JS_MOD_LET (265) 324
-JS_DIV_LET (266) 323
-JS_AND_LET (267) 330
-JS_ADD_LET (268) 325
-JS_LOGICAL_OR (269) 310 312
-JS_LOGICAL_AND (270) 306 308
-JS_NOT_EQ (271) 287 292
-JS_NOT_EQUAL (272) 285 290
-JS_EQUAL (273) 284 289
-JS_EQ (274) 286 291
-JS_INSTANCEOF (275) 275 282
-JS_IN (276) 157 158 159 160 210 211 276
-JS_LESS_EQUAL (277) 273 280
+JS_U_SHIFT_RIGHT_LET (258) 330
+JS_SUB_LET (259) 327
+JS_SHIFT_RIGHT_LET (260) 329
+JS_SHIFT_LEFT_LET (261) 328
+JS_OR_LET (262) 333
+JS_NOT_LET (263) 332
+JS_MUL_LET (264) 323
+JS_MOD_LET (265) 325
+JS_DIV_LET (266) 324
+JS_AND_LET (267) 331
+JS_ADD_LET (268) 326
+JS_LOGICAL_OR (269) 311 313
+JS_LOGICAL_AND (270) 307 309
+JS_NOT_EQ (271) 288 293
+JS_NOT_EQUAL (272) 286 291
+JS_EQUAL (273) 285 290
+JS_EQ (274) 287 292
+JS_INSTANCEOF (275) 276 283
+JS_IN (276) 157 158 159 160 210 211 277
+JS_LESS_EQUAL (277) 274 281
 JS_GREATER_EQUAL (278)
 JS_U_SHIFT_LEFT (279)
-JS_U_SHIFT_RIGHT (280) 269
-JS_SHIFT_RIGHT (281) 268
-JS_SHIFT_LEFT (282) 267
-JS_DELETE (283) 250
-JS_VOID (284) 251
-JS_TYPEOF (285) 252
-JS_DECREMENT (286) 248 254
-JS_INCREMENT (287) 247 253
-JS_NEW (288) 229 231
+JS_U_SHIFT_RIGHT (280) 270
+JS_SHIFT_RIGHT (281) 269
+JS_SHIFT_LEFT (282) 268
+JS_DELETE (283) 251
+JS_VOID (284) 252
+JS_TYPEOF (285) 253
+JS_DECREMENT (286) 249 255
+JS_INCREMENT (287) 248 254
+JS_NEW (288) 230 232
 BRACKET (289)
 JS_ABSTRACT (290)
 JS_BOOLEAN (291)
@@ -633,9 +634,9 @@ JS_FOR (312) 155 156 157 158 159 160 210 211
 JS_COMP_FOR (313)
 JS_FUNCTION (314) 33 35
 JS_GOTO (315)
-JS_GRATER_EQUAL (316) 274 281
+JS_GRATER_EQUAL (316) 275 282
 JS_IDENTIFIER (317) 29 30 31 32 33 34 49 51 55 56 78 104 108 109 118
-    124 126 133 136 140 141 143 144 172 177 196 219 227 228 235
+    124 126 133 136 140 141 143 144 172 177 196 220 228 229 236
 JS_IF (318) 150 151 213
 JS_IF_OPT (319) 152
 JS_IMPLEMENTS (320)
@@ -645,8 +646,8 @@ JS_INTERFACE (323)
 JS_LONG (324)
 JS_NATIVE (325)
 JS_K_NULL (326) 192
-JS_NUMERIC_LITERAL (327) 189 221
-JS_PRIVATE (328) 25 226 227
+JS_NUMERIC_LITERAL (327) 189 222
+JS_PRIVATE (328) 25 227 228
 JS_PACKAGE_RESERVED (329)
 JS_PROTECTED (330)
 JS_PUBLIC (331) 24
@@ -654,7 +655,7 @@ JS_REGEXP_LITERAL (332) 191
 JS_RETURN (333) 163
 JS_SHORT (334)
 JS_STATIC (335) 23
-JS_STRING_LITERAL (336) 106 107 190 220
+JS_STRING_LITERAL (336) 106 107 190 221
 JS_SUPER (337)
 JS_SWITCH (338) 165
 JS_SYNCHRONIZED (339)
@@ -669,7 +670,7 @@ JS_VOLATILE (347)
 JS_WHILE (348) 153 154
 JS_WITH (349) 164
 JS_TERMINATE (350)
-JS_LINE_BREAK (351) 344
+JS_LINE_BREAK (351) 345
 JS_FUNCTION_GLYPH (352) 37 38 41 44
 JS_FUNCTION_GLYPH_WITH_CONTEXT (353) 39 40 42 43
 JS_FUNCTION_IDENTIFIER (354)
@@ -705,7 +706,7 @@ program (146)
 $@1 (147)
     左辺: 1, 右辺: 2
 class_initialiser (148)
-    左辺: 3, 右辺: 28 224
+    左辺: 3, 右辺: 28 225
 class_adjective__opt (149)
     左辺: 4 5, 右辺: 3
 inherit_declaration__opt (150)
@@ -737,7 +738,7 @@ version_statement (162)
 function_declaration (163)
     左辺: 33 34, 右辺: 68 70 74
 function_expression (164)
-    左辺: 35 36, 右辺: 223
+    左辺: 35 36, 右辺: 224
 arrow_function_expression (165)
     左辺: 37 38 39 40 41 42 43 44, 右辺: 36
 shorten_function_body (166)
@@ -751,7 +752,7 @@ formal_parameter_rest__opt (169)
 formal_parameter_rest (170)
     左辺: 55, 右辺: 47 54 134 137
 arguments_spread (171)
-    左辺: 56, 右辺: 239 241
+    左辺: 56, 右辺: 240 242
 constructor_function_body (172)
     左辺: 57 58, 右辺: 21
 function_body (173)
@@ -811,11 +812,11 @@ variable_declaration_no_in (198)
 destructuring_assignment_left_hand_side (199)
     左辺: 128 129, 右辺: 50 52 105 119 125 127 135 138 142 145
 array_left_hand_side (200)
-    左辺: 130 131 132, 右辺: 128 244
+    左辺: 130 131 132, 右辺: 128 245
 array_left_hand_side_list (201)
     左辺: 133 134 135 136 137 138, 右辺: 131 132 136 137 138
 object_left_hand_side (202)
-    左辺: 139, 右辺: 129 245
+    左辺: 139, 右辺: 129 246
 object_member_left_hand_side_list (203)
     左辺: 140 141 142 143 144 145, 右辺: 139 143 144 145
 initialiser (204)
@@ -873,13 +874,13 @@ null_literal (229)
 boolean_literal (230)
     左辺: 193 194, 右辺: 188
 primary_expression (231)
-    左辺: 195 196 197 198 199 200, 右辺: 222
+    左辺: 195 196 197 198 199 200, 右辺: 223
 array_literal (232)
     左辺: 201 202 203 204, 右辺: 198
 element_list (233)
     左辺: 205 206, 右辺: 202 203 204 206
 elision (234)
-    左辺: 207 208, 右辺: 208 342
+    左辺: 207 208, 右辺: 208 343
 array_comprehensions (235)
     左辺: 209, 右辺: 204
 array_comprehension_iteration (236)
@@ -889,93 +890,93 @@ array_comprehension_if__opt (237)
 object_literal (238)
     左辺: 214, 右辺: 199
 property_name_and_value_list__opt (239)
-    左辺: 215 216, 右辺: 214
+    左辺: 215 216 217, 右辺: 214
 property_name_and_value_list (240)
-    左辺: 217 218, 右辺: 216 218
+    左辺: 218 219, 右辺: 216 217 219
 property_name (241)
-    左辺: 219 220 221, 右辺: 141 142 143 145 217 218
+    左辺: 220 221 222, 右辺: 141 142 143 145 218 219
 member_expression (242)
-    左辺: 222 223 224 225 226 227 228 229, 右辺: 7 225 228 229
-    230 232
+    左辺: 223 224 225 226 227 228 229 230, 右辺: 7 226 229 230
+    231 233
 new_expression (243)
-    左辺: 230 231, 右辺: 231 242
+    左辺: 231 232, 右辺: 232 243
 call_expression (244)
-    左辺: 232 233 234 235, 右辺: 233 234 235 243
+    左辺: 233 234 235 236, 右辺: 234 235 236 244
 arguments (245)
-    左辺: 236 237, 右辺: 229 232 233
+    左辺: 237 238, 右辺: 230 233 234
 argument_list (246)
-    左辺: 238 239 240 241, 右辺: 237 240 241
+    左辺: 239 240 241 242, 右辺: 238 241 242
 left_hand_side_expression (247)
-    左辺: 242 243 244 245, 右辺: 157 159 210 211 246 247 248 318
-    320
+    左辺: 243 244 245 246, 右辺: 157 159 210 211 247 248 249 319
+    321
 postfix_expression (248)
-    左辺: 246 247 248, 右辺: 249
+    左辺: 247 248 249, 右辺: 250
 unary_expression (249)
-    左辺: 249 250 251 252 253 254 255 256 257 258, 右辺: 250 251
-    252 253 254 255 256 257 258 259 260 261 262
+    左辺: 250 251 252 253 254 255 256 257 258 259, 右辺: 251 252
+    253 254 255 256 257 258 259 260 261 262 263
 multiplicative_expression (250)
-    左辺: 259 260 261 262, 右辺: 260 261 262 263 264 265
+    左辺: 260 261 262 263, 右辺: 261 262 263 264 265 266
 additive_expression (251)
-    左辺: 263 264 265, 右辺: 264 265 266 267 268 269
+    左辺: 264 265 266, 右辺: 265 266 267 268 269 270
 shift_expression (252)
-    左辺: 266 267 268 269, 右辺: 267 268 269 270 271 272 273 274
-    275 276 277 278 279 280 281 282
+    左辺: 267 268 269 270, 右辺: 268 269 270 271 272 273 274 275
+    276 277 278 279 280 281 282 283
 relational_expression (253)
-    左辺: 270 271 272 273 274 275 276, 右辺: 271 272 273 274 275
-    276 283 284 285 286 287
+    左辺: 271 272 273 274 275 276 277, 右辺: 272 273 274 275 276
+    277 284 285 286 287 288
 relational_expression_no_in (254)
-    左辺: 277 278 279 280 281 282, 右辺: 278 279 280 281 282 288
-    289 290 291 292
+    左辺: 278 279 280 281 282 283, 右辺: 279 280 281 282 283 289
+    290 291 292 293
 equality_expression (255)
-    左辺: 283 284 285 286 287, 右辺: 284 285 286 287 293 294
+    左辺: 284 285 286 287 288, 右辺: 285 286 287 288 294 295
 equality_expression_no_in (256)
-    左辺: 288 289 290 291 292, 右辺: 289 290 291 292 295 296
+    左辺: 289 290 291 292 293, 右辺: 290 291 292 293 296 297
 bitwise_and_expression (257)
-    左辺: 293 294, 右辺: 294 297 298
+    左辺: 294 295, 右辺: 295 298 299
 bitwise_and_expression_no_in (258)
-    左辺: 295 296, 右辺: 296 299 300
+    左辺: 296 297, 右辺: 297 300 301
 bitwise_xor_expression (259)
-    左辺: 297 298, 右辺: 298 301 302
+    左辺: 298 299, 右辺: 299 302 303
 bitwise_xor_expression_no_in (260)
-    左辺: 299 300, 右辺: 300 303 304
+    左辺: 300 301, 右辺: 301 304 305
 bitwise_or_expression (261)
-    左辺: 301 302, 右辺: 302 305 306
+    左辺: 302 303, 右辺: 303 306 307
 bitwise_or_expression_no_in (262)
-    左辺: 303 304, 右辺: 304 307 308
+    左辺: 304 305, 右辺: 305 308 309
 logical_and_expression (263)
-    左辺: 305 306, 右辺: 306 309 310
+    左辺: 306 307, 右辺: 307 310 311
 logical_and_expression_no_in (264)
-    左辺: 307 308, 右辺: 308 311 312
+    左辺: 308 309, 右辺: 309 312 313
 logical_or_expression (265)
-    左辺: 309 310, 右辺: 310 313 314
+    左辺: 310 311, 右辺: 311 314 315
 logical_or_expression_no_in (266)
-    左辺: 311 312, 右辺: 312 315 316
+    左辺: 312 313, 右辺: 313 316 317
 conditional_expression (267)
-    左辺: 313 314, 右辺: 317
+    左辺: 314 315, 右辺: 318
 conditional_expression_no_in (268)
-    左辺: 315 316, 右辺: 319
+    左辺: 316 317, 右辺: 320
 assignment_expression (269)
-    左辺: 317 318, 右辺: 45 146 205 206 217 218 238 240 314 318
-    333 334
+    左辺: 318 319, 右辺: 45 146 205 206 218 219 239 241 315 319
+    334 335
 assignment_expression_no_in (270)
-    左辺: 319 320, 右辺: 147 316 320 335 336
+    左辺: 320 321, 右辺: 147 317 321 336 337
 assignment_operator (271)
-    左辺: 321 322 323 324 325 326 327 328 329 330 331 332, 右辺:
-    318 320
+    左辺: 322 323 324 325 326 327 328 329 330 331 332 333, 右辺:
+    319 321
 expression (272)
-    左辺: 333 334, 右辺: 149 150 151 152 153 154 157 158 159 160
-    164 165 170 173 200 210 211 213 225 226 234 334 340
+    左辺: 334 335, 右辺: 149 150 151 152 153 154 157 158 159 160
+    164 165 170 173 200 210 211 213 226 227 235 335 341
 expression_no_in (273)
-    左辺: 335 336, 右辺: 336 338
+    左辺: 336 337, 右辺: 337 339
 expression_no_in__opt (274)
-    左辺: 337 338, 右辺: 155
+    左辺: 338 339, 右辺: 155
 expression__opt (275)
-    左辺: 339 340, 右辺: 155 156 163
+    左辺: 340 341, 右辺: 155 156 163
 elision__opt (276)
-    左辺: 341 342, 右辺: 130 132 133 134 135 136 137 138 201 203
+    左辺: 342 343, 右辺: 130 132 133 134 135 136 137 138 201 203
     205 206
 terminator (277)
-    左辺: 343 344, 右辺: 22 23 24 25 104 105 106 112 113 114 148
+    左辺: 344 345, 右辺: 22 23 24 25 104 105 106 112 113 114 148
     149 153 161 162 163 173
 
 
@@ -1118,7 +1119,7 @@ terminator (277)
 
 状態 4
 
-  255 unary_expression: '+' . unary_expression
+  256 unary_expression: '+' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1172,7 +1173,7 @@ terminator (277)
 
 状態 5
 
-  256 unary_expression: '-' . unary_expression
+  257 unary_expression: '-' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1226,7 +1227,7 @@ terminator (277)
 
 状態 6
 
-  258 unary_expression: '!' . unary_expression
+  259 unary_expression: '!' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1280,7 +1281,7 @@ terminator (277)
 
 状態 7
 
-  257 unary_expression: '~' . unary_expression
+  258 unary_expression: '~' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1334,7 +1335,7 @@ terminator (277)
 
 状態 8
 
-  250 unary_expression: JS_DELETE . unary_expression
+  251 unary_expression: JS_DELETE . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1388,7 +1389,7 @@ terminator (277)
 
 状態 9
 
-  251 unary_expression: JS_VOID . unary_expression
+  252 unary_expression: JS_VOID . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1442,7 +1443,7 @@ terminator (277)
 
 状態 10
 
-  252 unary_expression: JS_TYPEOF . unary_expression
+  253 unary_expression: JS_TYPEOF . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1496,7 +1497,7 @@ terminator (277)
 
 状態 11
 
-  254 unary_expression: JS_DECREMENT . unary_expression
+  255 unary_expression: JS_DECREMENT . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1550,7 +1551,7 @@ terminator (277)
 
 状態 12
 
-  253 unary_expression: JS_INCREMENT . unary_expression
+  254 unary_expression: JS_INCREMENT . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1605,7 +1606,7 @@ terminator (277)
 状態 13
 
   200 primary_expression: '(' . expression ')'
-  245 left_hand_side_expression: '(' . object_left_hand_side ')'
+  246 left_hand_side_expression: '(' . object_left_hand_side ')'
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -1674,8 +1675,8 @@ terminator (277)
 
 状態 14
 
-  229 member_expression: JS_NEW . member_expression arguments
-  231 new_expression: JS_NEW . new_expression
+  230 member_expression: JS_NEW . member_expression arguments
+  232 new_expression: JS_NEW . new_expression
 
     '('                             shift, and go to state 125
     JS_NEW                          shift, and go to state 14
@@ -1721,7 +1722,7 @@ terminator (277)
 
     ','  shift, and go to state 128
 
-    $default  reduce using rule 341 (elision__opt)
+    $default  reduce using rule 342 (elision__opt)
 
     element_list  go to state 129
     elision       go to state 130
@@ -2051,8 +2052,8 @@ terminator (277)
 
 状態 30
 
-  226 member_expression: JS_PRIVATE . '[' expression ']'
-  227                  | JS_PRIVATE . '.' JS_IDENTIFIER
+  227 member_expression: JS_PRIVATE . '[' expression ']'
+  228                  | JS_PRIVATE . '.' JS_IDENTIFIER
 
     '['  shift, and go to state 160
     '.'  shift, and go to state 161
@@ -2099,7 +2100,7 @@ terminator (277)
     '{'                             shift, and go to state 111
 
     JS_CLASS  reduce using rule 4 (class_adjective__opt)
-    $default  reduce using rule 339 (expression__opt)
+    $default  reduce using rule 340 (expression__opt)
 
     class_initialiser          go to state 52
     class_adjective__opt       go to state 53
@@ -2271,9 +2272,9 @@ terminator (277)
 
 状態 42
 
-  344 terminator: JS_LINE_BREAK .
+  345 terminator: JS_LINE_BREAK .
 
-    $default  reduce using rule 344 (terminator)
+    $default  reduce using rule 345 (terminator)
 
 
 状態 43
@@ -2358,7 +2359,7 @@ terminator (277)
 
     ','  shift, and go to state 128
 
-    $default  reduce using rule 341 (elision__opt)
+    $default  reduce using rule 342 (elision__opt)
 
     array_left_hand_side_list  go to state 187
     elision                    go to state 130
@@ -2492,16 +2493,16 @@ terminator (277)
 
 状態 51
 
-  343 terminator: ';' .
+  344 terminator: ';' .
 
-    $default  reduce using rule 343 (terminator)
+    $default  reduce using rule 344 (terminator)
 
 
 状態 52
 
-  224 member_expression: class_initialiser .
+  225 member_expression: class_initialiser .
 
-    $default  reduce using rule 224 (member_expression)
+    $default  reduce using rule 225 (member_expression)
 
 
 状態 53
@@ -2527,9 +2528,9 @@ terminator (277)
 
 状態 56
 
-  223 member_expression: function_expression .
+  224 member_expression: function_expression .
 
-    $default  reduce using rule 223 (member_expression)
+    $default  reduce using rule 224 (member_expression)
 
 
 状態 57
@@ -2725,9 +2726,9 @@ terminator (277)
 
 状態 69
 
-  244 left_hand_side_expression: array_left_hand_side .
+  245 left_hand_side_expression: array_left_hand_side .
 
-    $default  reduce using rule 244 (left_hand_side_expression)
+    $default  reduce using rule 245 (left_hand_side_expression)
 
 
 状態 70
@@ -2837,9 +2838,9 @@ terminator (277)
 
 状態 85
 
-  222 member_expression: primary_expression .
+  223 member_expression: primary_expression .
 
-    $default  reduce using rule 222 (member_expression)
+    $default  reduce using rule 223 (member_expression)
 
 
 状態 86
@@ -2858,55 +2859,55 @@ terminator (277)
 
 状態 88
 
-  225 member_expression: member_expression . '[' expression ']'
-  228                  | member_expression . '.' JS_IDENTIFIER
-  230 new_expression: member_expression .
-  232 call_expression: member_expression . arguments
+  226 member_expression: member_expression . '[' expression ']'
+  229                  | member_expression . '.' JS_IDENTIFIER
+  231 new_expression: member_expression .
+  233 call_expression: member_expression . arguments
 
     '('  shift, and go to state 201
     '['  shift, and go to state 202
     '.'  shift, and go to state 203
 
-    '('       [reduce using rule 230 (new_expression)]
-    '['       [reduce using rule 230 (new_expression)]
-    '.'       [reduce using rule 230 (new_expression)]
-    $default  reduce using rule 230 (new_expression)
+    '('       [reduce using rule 231 (new_expression)]
+    '['       [reduce using rule 231 (new_expression)]
+    '.'       [reduce using rule 231 (new_expression)]
+    $default  reduce using rule 231 (new_expression)
 
     arguments  go to state 204
 
 
 状態 89
 
-  242 left_hand_side_expression: new_expression .
+  243 left_hand_side_expression: new_expression .
 
-    $default  reduce using rule 242 (left_hand_side_expression)
+    $default  reduce using rule 243 (left_hand_side_expression)
 
 
 状態 90
 
-  233 call_expression: call_expression . arguments
-  234                | call_expression . '[' expression ']'
-  235                | call_expression . '.' JS_IDENTIFIER
-  243 left_hand_side_expression: call_expression .
+  234 call_expression: call_expression . arguments
+  235                | call_expression . '[' expression ']'
+  236                | call_expression . '.' JS_IDENTIFIER
+  244 left_hand_side_expression: call_expression .
 
     '('  shift, and go to state 201
     '['  shift, and go to state 205
     '.'  shift, and go to state 206
 
-    '('       [reduce using rule 243 (left_hand_side_expression)]
-    '['       [reduce using rule 243 (left_hand_side_expression)]
-    '.'       [reduce using rule 243 (left_hand_side_expression)]
-    $default  reduce using rule 243 (left_hand_side_expression)
+    '('       [reduce using rule 244 (left_hand_side_expression)]
+    '['       [reduce using rule 244 (left_hand_side_expression)]
+    '.'       [reduce using rule 244 (left_hand_side_expression)]
+    $default  reduce using rule 244 (left_hand_side_expression)
 
     arguments  go to state 207
 
 
 状態 91
 
-  246 postfix_expression: left_hand_side_expression .
-  247                   | left_hand_side_expression . JS_INCREMENT
-  248                   | left_hand_side_expression . JS_DECREMENT
-  318 assignment_expression: left_hand_side_expression . assignment_operator assignment_expression
+  247 postfix_expression: left_hand_side_expression .
+  248                   | left_hand_side_expression . JS_INCREMENT
+  249                   | left_hand_side_expression . JS_DECREMENT
+  319 assignment_expression: left_hand_side_expression . assignment_operator assignment_expression
 
     JS_U_SHIFT_RIGHT_LET  shift, and go to state 208
     JS_SUB_LET            shift, and go to state 209
@@ -2923,96 +2924,96 @@ terminator (277)
     JS_INCREMENT          shift, and go to state 220
     '='                   shift, and go to state 221
 
-    JS_U_SHIFT_RIGHT_LET  [reduce using rule 246 (postfix_expression)]
-    JS_SUB_LET            [reduce using rule 246 (postfix_expression)]
-    JS_SHIFT_RIGHT_LET    [reduce using rule 246 (postfix_expression)]
-    JS_SHIFT_LEFT_LET     [reduce using rule 246 (postfix_expression)]
-    JS_OR_LET             [reduce using rule 246 (postfix_expression)]
-    JS_NOT_LET            [reduce using rule 246 (postfix_expression)]
-    JS_MUL_LET            [reduce using rule 246 (postfix_expression)]
-    JS_MOD_LET            [reduce using rule 246 (postfix_expression)]
-    JS_DIV_LET            [reduce using rule 246 (postfix_expression)]
-    JS_AND_LET            [reduce using rule 246 (postfix_expression)]
-    JS_ADD_LET            [reduce using rule 246 (postfix_expression)]
-    JS_DECREMENT          [reduce using rule 246 (postfix_expression)]
-    JS_INCREMENT          [reduce using rule 246 (postfix_expression)]
-    '='                   [reduce using rule 246 (postfix_expression)]
-    $default              reduce using rule 246 (postfix_expression)
+    JS_U_SHIFT_RIGHT_LET  [reduce using rule 247 (postfix_expression)]
+    JS_SUB_LET            [reduce using rule 247 (postfix_expression)]
+    JS_SHIFT_RIGHT_LET    [reduce using rule 247 (postfix_expression)]
+    JS_SHIFT_LEFT_LET     [reduce using rule 247 (postfix_expression)]
+    JS_OR_LET             [reduce using rule 247 (postfix_expression)]
+    JS_NOT_LET            [reduce using rule 247 (postfix_expression)]
+    JS_MUL_LET            [reduce using rule 247 (postfix_expression)]
+    JS_MOD_LET            [reduce using rule 247 (postfix_expression)]
+    JS_DIV_LET            [reduce using rule 247 (postfix_expression)]
+    JS_AND_LET            [reduce using rule 247 (postfix_expression)]
+    JS_ADD_LET            [reduce using rule 247 (postfix_expression)]
+    JS_DECREMENT          [reduce using rule 247 (postfix_expression)]
+    JS_INCREMENT          [reduce using rule 247 (postfix_expression)]
+    '='                   [reduce using rule 247 (postfix_expression)]
+    $default              reduce using rule 247 (postfix_expression)
 
     assignment_operator  go to state 222
 
 
 状態 92
 
-  249 unary_expression: postfix_expression .
+  250 unary_expression: postfix_expression .
 
-    $default  reduce using rule 249 (unary_expression)
+    $default  reduce using rule 250 (unary_expression)
 
 
 状態 93
 
-  259 multiplicative_expression: unary_expression .
+  260 multiplicative_expression: unary_expression .
 
-    $default  reduce using rule 259 (multiplicative_expression)
+    $default  reduce using rule 260 (multiplicative_expression)
 
 
 状態 94
 
-  260 multiplicative_expression: multiplicative_expression . '*' unary_expression
-  261                          | multiplicative_expression . '/' unary_expression
-  262                          | multiplicative_expression . '%' unary_expression
-  263 additive_expression: multiplicative_expression .
+  261 multiplicative_expression: multiplicative_expression . '*' unary_expression
+  262                          | multiplicative_expression . '/' unary_expression
+  263                          | multiplicative_expression . '%' unary_expression
+  264 additive_expression: multiplicative_expression .
 
     '*'  shift, and go to state 223
     '/'  shift, and go to state 224
     '%'  shift, and go to state 225
 
-    '*'       [reduce using rule 263 (additive_expression)]
-    '/'       [reduce using rule 263 (additive_expression)]
-    '%'       [reduce using rule 263 (additive_expression)]
-    $default  reduce using rule 263 (additive_expression)
+    '*'       [reduce using rule 264 (additive_expression)]
+    '/'       [reduce using rule 264 (additive_expression)]
+    '%'       [reduce using rule 264 (additive_expression)]
+    $default  reduce using rule 264 (additive_expression)
 
 
 状態 95
 
-  264 additive_expression: additive_expression . '+' multiplicative_expression
-  265                    | additive_expression . '-' multiplicative_expression
-  266 shift_expression: additive_expression .
+  265 additive_expression: additive_expression . '+' multiplicative_expression
+  266                    | additive_expression . '-' multiplicative_expression
+  267 shift_expression: additive_expression .
 
     '+'  shift, and go to state 226
     '-'  shift, and go to state 227
 
-    '+'       [reduce using rule 266 (shift_expression)]
-    '-'       [reduce using rule 266 (shift_expression)]
-    $default  reduce using rule 266 (shift_expression)
+    '+'       [reduce using rule 267 (shift_expression)]
+    '-'       [reduce using rule 267 (shift_expression)]
+    $default  reduce using rule 267 (shift_expression)
 
 
 状態 96
 
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  270 relational_expression: shift_expression .
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  271 relational_expression: shift_expression .
 
     JS_U_SHIFT_RIGHT  shift, and go to state 228
     JS_SHIFT_RIGHT    shift, and go to state 229
     JS_SHIFT_LEFT     shift, and go to state 230
 
-    JS_U_SHIFT_RIGHT  [reduce using rule 270 (relational_expression)]
-    JS_SHIFT_RIGHT    [reduce using rule 270 (relational_expression)]
-    JS_SHIFT_LEFT     [reduce using rule 270 (relational_expression)]
-    $default          reduce using rule 270 (relational_expression)
+    JS_U_SHIFT_RIGHT  [reduce using rule 271 (relational_expression)]
+    JS_SHIFT_RIGHT    [reduce using rule 271 (relational_expression)]
+    JS_SHIFT_LEFT     [reduce using rule 271 (relational_expression)]
+    $default          reduce using rule 271 (relational_expression)
 
 
 状態 97
 
-  271 relational_expression: relational_expression . '<' shift_expression
-  272                      | relational_expression . '>' shift_expression
-  273                      | relational_expression . JS_LESS_EQUAL shift_expression
-  274                      | relational_expression . JS_GRATER_EQUAL shift_expression
-  275                      | relational_expression . JS_INSTANCEOF shift_expression
-  276                      | relational_expression . JS_IN shift_expression
-  283 equality_expression: relational_expression .
+  272 relational_expression: relational_expression . '<' shift_expression
+  273                      | relational_expression . '>' shift_expression
+  274                      | relational_expression . JS_LESS_EQUAL shift_expression
+  275                      | relational_expression . JS_GRATER_EQUAL shift_expression
+  276                      | relational_expression . JS_INSTANCEOF shift_expression
+  277                      | relational_expression . JS_IN shift_expression
+  284 equality_expression: relational_expression .
 
     '>'              shift, and go to state 231
     '<'              shift, and go to state 232
@@ -3021,111 +3022,111 @@ terminator (277)
     JS_LESS_EQUAL    shift, and go to state 235
     JS_GRATER_EQUAL  shift, and go to state 236
 
-    '>'              [reduce using rule 283 (equality_expression)]
-    '<'              [reduce using rule 283 (equality_expression)]
-    JS_INSTANCEOF    [reduce using rule 283 (equality_expression)]
-    JS_IN            [reduce using rule 283 (equality_expression)]
-    JS_LESS_EQUAL    [reduce using rule 283 (equality_expression)]
-    JS_GRATER_EQUAL  [reduce using rule 283 (equality_expression)]
-    $default         reduce using rule 283 (equality_expression)
+    '>'              [reduce using rule 284 (equality_expression)]
+    '<'              [reduce using rule 284 (equality_expression)]
+    JS_INSTANCEOF    [reduce using rule 284 (equality_expression)]
+    JS_IN            [reduce using rule 284 (equality_expression)]
+    JS_LESS_EQUAL    [reduce using rule 284 (equality_expression)]
+    JS_GRATER_EQUAL  [reduce using rule 284 (equality_expression)]
+    $default         reduce using rule 284 (equality_expression)
 
 
 状態 98
 
-  284 equality_expression: equality_expression . JS_EQUAL relational_expression
-  285                    | equality_expression . JS_NOT_EQUAL relational_expression
-  286                    | equality_expression . JS_EQ relational_expression
-  287                    | equality_expression . JS_NOT_EQ relational_expression
-  293 bitwise_and_expression: equality_expression .
+  285 equality_expression: equality_expression . JS_EQUAL relational_expression
+  286                    | equality_expression . JS_NOT_EQUAL relational_expression
+  287                    | equality_expression . JS_EQ relational_expression
+  288                    | equality_expression . JS_NOT_EQ relational_expression
+  294 bitwise_and_expression: equality_expression .
 
     JS_NOT_EQ     shift, and go to state 237
     JS_NOT_EQUAL  shift, and go to state 238
     JS_EQUAL      shift, and go to state 239
     JS_EQ         shift, and go to state 240
 
-    JS_NOT_EQ     [reduce using rule 293 (bitwise_and_expression)]
-    JS_NOT_EQUAL  [reduce using rule 293 (bitwise_and_expression)]
-    JS_EQUAL      [reduce using rule 293 (bitwise_and_expression)]
-    JS_EQ         [reduce using rule 293 (bitwise_and_expression)]
-    $default      reduce using rule 293 (bitwise_and_expression)
+    JS_NOT_EQ     [reduce using rule 294 (bitwise_and_expression)]
+    JS_NOT_EQUAL  [reduce using rule 294 (bitwise_and_expression)]
+    JS_EQUAL      [reduce using rule 294 (bitwise_and_expression)]
+    JS_EQ         [reduce using rule 294 (bitwise_and_expression)]
+    $default      reduce using rule 294 (bitwise_and_expression)
 
 
 状態 99
 
-  294 bitwise_and_expression: bitwise_and_expression . '&' equality_expression
-  297 bitwise_xor_expression: bitwise_and_expression .
+  295 bitwise_and_expression: bitwise_and_expression . '&' equality_expression
+  298 bitwise_xor_expression: bitwise_and_expression .
 
     '&'  shift, and go to state 241
 
-    '&'       [reduce using rule 297 (bitwise_xor_expression)]
-    $default  reduce using rule 297 (bitwise_xor_expression)
+    '&'       [reduce using rule 298 (bitwise_xor_expression)]
+    $default  reduce using rule 298 (bitwise_xor_expression)
 
 
 状態 100
 
-  298 bitwise_xor_expression: bitwise_xor_expression . '^' bitwise_and_expression
-  301 bitwise_or_expression: bitwise_xor_expression .
+  299 bitwise_xor_expression: bitwise_xor_expression . '^' bitwise_and_expression
+  302 bitwise_or_expression: bitwise_xor_expression .
 
     '^'  shift, and go to state 242
 
-    '^'       [reduce using rule 301 (bitwise_or_expression)]
-    $default  reduce using rule 301 (bitwise_or_expression)
+    '^'       [reduce using rule 302 (bitwise_or_expression)]
+    $default  reduce using rule 302 (bitwise_or_expression)
 
 
 状態 101
 
-  302 bitwise_or_expression: bitwise_or_expression . '|' bitwise_xor_expression
-  305 logical_and_expression: bitwise_or_expression .
+  303 bitwise_or_expression: bitwise_or_expression . '|' bitwise_xor_expression
+  306 logical_and_expression: bitwise_or_expression .
 
     '|'  shift, and go to state 243
 
-    '|'       [reduce using rule 305 (logical_and_expression)]
-    $default  reduce using rule 305 (logical_and_expression)
+    '|'       [reduce using rule 306 (logical_and_expression)]
+    $default  reduce using rule 306 (logical_and_expression)
 
 
 状態 102
 
-  306 logical_and_expression: logical_and_expression . JS_LOGICAL_AND bitwise_or_expression
-  309 logical_or_expression: logical_and_expression .
+  307 logical_and_expression: logical_and_expression . JS_LOGICAL_AND bitwise_or_expression
+  310 logical_or_expression: logical_and_expression .
 
     JS_LOGICAL_AND  shift, and go to state 244
 
-    JS_LOGICAL_AND  [reduce using rule 309 (logical_or_expression)]
-    $default        reduce using rule 309 (logical_or_expression)
+    JS_LOGICAL_AND  [reduce using rule 310 (logical_or_expression)]
+    $default        reduce using rule 310 (logical_or_expression)
 
 
 状態 103
 
-  310 logical_or_expression: logical_or_expression . JS_LOGICAL_OR logical_and_expression
-  313 conditional_expression: logical_or_expression .
-  314                       | logical_or_expression . '?' assignment_expression ':' assignment_expression
+  311 logical_or_expression: logical_or_expression . JS_LOGICAL_OR logical_and_expression
+  314 conditional_expression: logical_or_expression .
+  315                       | logical_or_expression . '?' assignment_expression ':' assignment_expression
 
     '?'            shift, and go to state 245
     JS_LOGICAL_OR  shift, and go to state 246
 
-    '?'            [reduce using rule 313 (conditional_expression)]
-    JS_LOGICAL_OR  [reduce using rule 313 (conditional_expression)]
-    $default       reduce using rule 313 (conditional_expression)
+    '?'            [reduce using rule 314 (conditional_expression)]
+    JS_LOGICAL_OR  [reduce using rule 314 (conditional_expression)]
+    $default       reduce using rule 314 (conditional_expression)
 
 
 状態 104
 
-  317 assignment_expression: conditional_expression .
+  318 assignment_expression: conditional_expression .
 
-    $default  reduce using rule 317 (assignment_expression)
+    $default  reduce using rule 318 (assignment_expression)
 
 
 状態 105
 
-  333 expression: assignment_expression .
+  334 expression: assignment_expression .
 
-    $default  reduce using rule 333 (expression)
+    $default  reduce using rule 334 (expression)
 
 
 状態 106
 
   149 expression_statement: expression . terminator
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','            shift, and go to state 247
     JS_LINE_BREAK  shift, and go to state 42
@@ -3183,79 +3184,79 @@ terminator (277)
 
 状態 112
 
-  246 postfix_expression: left_hand_side_expression .
-  247                   | left_hand_side_expression . JS_INCREMENT
-  248                   | left_hand_side_expression . JS_DECREMENT
+  247 postfix_expression: left_hand_side_expression .
+  248                   | left_hand_side_expression . JS_INCREMENT
+  249                   | left_hand_side_expression . JS_DECREMENT
 
     JS_DECREMENT  shift, and go to state 219
     JS_INCREMENT  shift, and go to state 220
 
-    JS_DECREMENT  [reduce using rule 246 (postfix_expression)]
-    JS_INCREMENT  [reduce using rule 246 (postfix_expression)]
-    $default      reduce using rule 246 (postfix_expression)
+    JS_DECREMENT  [reduce using rule 247 (postfix_expression)]
+    JS_INCREMENT  [reduce using rule 247 (postfix_expression)]
+    $default      reduce using rule 247 (postfix_expression)
 
 
 状態 113
 
-  255 unary_expression: '+' unary_expression .
-
-    $default  reduce using rule 255 (unary_expression)
-
-
-状態 114
-
-  256 unary_expression: '-' unary_expression .
+  256 unary_expression: '+' unary_expression .
 
     $default  reduce using rule 256 (unary_expression)
 
 
-状態 115
+状態 114
 
-  258 unary_expression: '!' unary_expression .
-
-    $default  reduce using rule 258 (unary_expression)
-
-
-状態 116
-
-  257 unary_expression: '~' unary_expression .
+  257 unary_expression: '-' unary_expression .
 
     $default  reduce using rule 257 (unary_expression)
 
 
+状態 115
+
+  259 unary_expression: '!' unary_expression .
+
+    $default  reduce using rule 259 (unary_expression)
+
+
+状態 116
+
+  258 unary_expression: '~' unary_expression .
+
+    $default  reduce using rule 258 (unary_expression)
+
+
 状態 117
 
-  250 unary_expression: JS_DELETE unary_expression .
-
-    $default  reduce using rule 250 (unary_expression)
-
-
-状態 118
-
-  251 unary_expression: JS_VOID unary_expression .
+  251 unary_expression: JS_DELETE unary_expression .
 
     $default  reduce using rule 251 (unary_expression)
 
 
-状態 119
+状態 118
 
-  252 unary_expression: JS_TYPEOF unary_expression .
+  252 unary_expression: JS_VOID unary_expression .
 
     $default  reduce using rule 252 (unary_expression)
 
 
+状態 119
+
+  253 unary_expression: JS_TYPEOF unary_expression .
+
+    $default  reduce using rule 253 (unary_expression)
+
+
 状態 120
 
-  254 unary_expression: JS_DECREMENT unary_expression .
+  255 unary_expression: JS_DECREMENT unary_expression .
 
-    $default  reduce using rule 254 (unary_expression)
+    $default  reduce using rule 255 (unary_expression)
 
 
 状態 121
 
-  253 unary_expression: JS_INCREMENT unary_expression .
+  254 unary_expression: JS_INCREMENT unary_expression .
 
-    $default  reduce using rule 253 (unary_expression)
+    $default  reduce using rule 254 (unary_expression)
 
 
 状態 122
@@ -3272,7 +3273,7 @@ terminator (277)
 
 状態 123
 
-  245 left_hand_side_expression: '(' object_left_hand_side . ')'
+  246 left_hand_side_expression: '(' object_left_hand_side . ')'
 
     ')'  shift, and go to state 255
 
@@ -3280,7 +3281,7 @@ terminator (277)
 状態 124
 
   200 primary_expression: '(' expression . ')'
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 256
@@ -3355,28 +3356,28 @@ terminator (277)
 
 状態 126
 
-  225 member_expression: member_expression . '[' expression ']'
-  228                  | member_expression . '.' JS_IDENTIFIER
-  229                  | JS_NEW member_expression . arguments
-  230 new_expression: member_expression .
+  226 member_expression: member_expression . '[' expression ']'
+  229                  | member_expression . '.' JS_IDENTIFIER
+  230                  | JS_NEW member_expression . arguments
+  231 new_expression: member_expression .
 
     '('  shift, and go to state 201
     '['  shift, and go to state 202
     '.'  shift, and go to state 203
 
-    '('       [reduce using rule 230 (new_expression)]
-    '['       [reduce using rule 230 (new_expression)]
-    '.'       [reduce using rule 230 (new_expression)]
-    $default  reduce using rule 230 (new_expression)
+    '('       [reduce using rule 231 (new_expression)]
+    '['       [reduce using rule 231 (new_expression)]
+    '.'       [reduce using rule 231 (new_expression)]
+    $default  reduce using rule 231 (new_expression)
 
     arguments  go to state 257
 
 
 状態 127
 
-  231 new_expression: JS_NEW new_expression .
+  232 new_expression: JS_NEW new_expression .
 
-    $default  reduce using rule 231 (new_expression)
+    $default  reduce using rule 232 (new_expression)
 
 
 状態 128
@@ -3404,11 +3405,11 @@ terminator (277)
 状態 130
 
   208 elision: elision . ','
-  342 elision__opt: elision .
+  343 elision__opt: elision .
 
     ','  shift, and go to state 263
 
-    $default  reduce using rule 342 (elision__opt)
+    $default  reduce using rule 343 (elision__opt)
 
 
 状態 131
@@ -3698,7 +3699,7 @@ terminator (277)
     JS_DSTA_BEGIN                   shift, and go to state 48
     '{'                             shift, and go to state 111
 
-    ';'       reduce using rule 337 (expression_no_in__opt)
+    ';'       reduce using rule 338 (expression_no_in__opt)
     $default  reduce using rule 4 (class_adjective__opt)
 
     class_initialiser             go to state 52
@@ -3940,7 +3941,7 @@ terminator (277)
 状態 156
 
   152 if_statement: JS_IF_OPT expression . statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','                             shift, and go to state 247
     '+'                             shift, and go to state 4
@@ -4072,7 +4073,7 @@ terminator (277)
 
 状態 160
 
-  226 member_expression: JS_PRIVATE '[' . expression ']'
+  227 member_expression: JS_PRIVATE '[' . expression ']'
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -4139,19 +4140,19 @@ terminator (277)
 
 状態 161
 
-  227 member_expression: JS_PRIVATE '.' . JS_IDENTIFIER
+  228 member_expression: JS_PRIVATE '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 304
 
 
 状態 162
 
-  334 expression: expression . ',' assignment_expression
-  340 expression__opt: expression .
+  335 expression: expression . ',' assignment_expression
+  341 expression__opt: expression .
 
     ','  shift, and go to state 247
 
-    $default  reduce using rule 340 (expression__opt)
+    $default  reduce using rule 341 (expression__opt)
 
 
 状態 163
@@ -4234,7 +4235,7 @@ terminator (277)
 状態 165
 
   173 throw_statement: JS_THROW expression . terminator
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','            shift, and go to state 247
     JS_LINE_BREAK  shift, and go to state 42
@@ -5073,29 +5074,29 @@ terminator (277)
 
   172 labelled_statement: JS_IDENTIFIER . ':' statement
   196 primary_expression: JS_IDENTIFIER .
-  219 property_name: JS_IDENTIFIER .
+  220 property_name: JS_IDENTIFIER .
 
     ':'  shift, and go to state 154
 
-    ':'       [reduce using rule 219 (property_name)]
+    ':'       [reduce using rule 220 (property_name)]
     $default  reduce using rule 196 (primary_expression)
 
 
 状態 191
 
   189 literal: JS_NUMERIC_LITERAL .
-  221 property_name: JS_NUMERIC_LITERAL .
+  222 property_name: JS_NUMERIC_LITERAL .
 
-    ':'       reduce using rule 221 (property_name)
+    ':'       reduce using rule 222 (property_name)
     $default  reduce using rule 189 (literal)
 
 
 状態 192
 
   190 literal: JS_STRING_LITERAL .
-  220 property_name: JS_STRING_LITERAL .
+  221 property_name: JS_STRING_LITERAL .
 
-    ':'       reduce using rule 220 (property_name)
+    ':'       reduce using rule 221 (property_name)
     $default  reduce using rule 190 (literal)
 
 
@@ -5235,15 +5236,18 @@ terminator (277)
 状態 197
 
   216 property_name_and_value_list__opt: property_name_and_value_list . ';'
-  218 property_name_and_value_list: property_name_and_value_list . ',' property_name ':' assignment_expression
+  217                                  | property_name_and_value_list .
+  219 property_name_and_value_list: property_name_and_value_list . ',' property_name ':' assignment_expression
 
     ','  shift, and go to state 343
     ';'  shift, and go to state 344
 
+    $default  reduce using rule 217 (property_name_and_value_list__opt)
+
 
 状態 198
 
-  217 property_name_and_value_list: property_name . ':' assignment_expression
+  218 property_name_and_value_list: property_name . ':' assignment_expression
 
     ':'  shift, and go to state 345
 
@@ -5268,8 +5272,8 @@ terminator (277)
 
 状態 201
 
-  236 arguments: '(' . ')'
-  237          | '(' . argument_list ')'
+  237 arguments: '(' . ')'
+  238          | '(' . argument_list ')'
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5339,7 +5343,7 @@ terminator (277)
 
 状態 202
 
-  225 member_expression: member_expression '[' . expression ']'
+  226 member_expression: member_expression '[' . expression ']'
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5406,21 +5410,21 @@ terminator (277)
 
 状態 203
 
-  228 member_expression: member_expression '.' . JS_IDENTIFIER
+  229 member_expression: member_expression '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 353
 
 
 状態 204
 
-  232 call_expression: member_expression arguments .
+  233 call_expression: member_expression arguments .
 
-    $default  reduce using rule 232 (call_expression)
+    $default  reduce using rule 233 (call_expression)
 
 
 状態 205
 
-  234 call_expression: call_expression '[' . expression ']'
+  235 call_expression: call_expression '[' . expression ']'
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5487,119 +5491,119 @@ terminator (277)
 
 状態 206
 
-  235 call_expression: call_expression '.' . JS_IDENTIFIER
+  236 call_expression: call_expression '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 355
 
 
 状態 207
 
-  233 call_expression: call_expression arguments .
+  234 call_expression: call_expression arguments .
 
-    $default  reduce using rule 233 (call_expression)
+    $default  reduce using rule 234 (call_expression)
 
 
 状態 208
 
-  329 assignment_operator: JS_U_SHIFT_RIGHT_LET .
-
-    $default  reduce using rule 329 (assignment_operator)
-
-
-状態 209
-
-  326 assignment_operator: JS_SUB_LET .
-
-    $default  reduce using rule 326 (assignment_operator)
-
-
-状態 210
-
-  328 assignment_operator: JS_SHIFT_RIGHT_LET .
-
-    $default  reduce using rule 328 (assignment_operator)
-
-
-状態 211
-
-  327 assignment_operator: JS_SHIFT_LEFT_LET .
-
-    $default  reduce using rule 327 (assignment_operator)
-
-
-状態 212
-
-  332 assignment_operator: JS_OR_LET .
-
-    $default  reduce using rule 332 (assignment_operator)
-
-
-状態 213
-
-  331 assignment_operator: JS_NOT_LET .
-
-    $default  reduce using rule 331 (assignment_operator)
-
-
-状態 214
-
-  322 assignment_operator: JS_MUL_LET .
-
-    $default  reduce using rule 322 (assignment_operator)
-
-
-状態 215
-
-  324 assignment_operator: JS_MOD_LET .
-
-    $default  reduce using rule 324 (assignment_operator)
-
-
-状態 216
-
-  323 assignment_operator: JS_DIV_LET .
-
-    $default  reduce using rule 323 (assignment_operator)
-
-
-状態 217
-
-  330 assignment_operator: JS_AND_LET .
+  330 assignment_operator: JS_U_SHIFT_RIGHT_LET .
 
     $default  reduce using rule 330 (assignment_operator)
 
 
-状態 218
+状態 209
 
-  325 assignment_operator: JS_ADD_LET .
+  327 assignment_operator: JS_SUB_LET .
+
+    $default  reduce using rule 327 (assignment_operator)
+
+
+状態 210
+
+  329 assignment_operator: JS_SHIFT_RIGHT_LET .
+
+    $default  reduce using rule 329 (assignment_operator)
+
+
+状態 211
+
+  328 assignment_operator: JS_SHIFT_LEFT_LET .
+
+    $default  reduce using rule 328 (assignment_operator)
+
+
+状態 212
+
+  333 assignment_operator: JS_OR_LET .
+
+    $default  reduce using rule 333 (assignment_operator)
+
+
+状態 213
+
+  332 assignment_operator: JS_NOT_LET .
+
+    $default  reduce using rule 332 (assignment_operator)
+
+
+状態 214
+
+  323 assignment_operator: JS_MUL_LET .
+
+    $default  reduce using rule 323 (assignment_operator)
+
+
+状態 215
+
+  325 assignment_operator: JS_MOD_LET .
 
     $default  reduce using rule 325 (assignment_operator)
 
 
+状態 216
+
+  324 assignment_operator: JS_DIV_LET .
+
+    $default  reduce using rule 324 (assignment_operator)
+
+
+状態 217
+
+  331 assignment_operator: JS_AND_LET .
+
+    $default  reduce using rule 331 (assignment_operator)
+
+
+状態 218
+
+  326 assignment_operator: JS_ADD_LET .
+
+    $default  reduce using rule 326 (assignment_operator)
+
+
 状態 219
 
-  248 postfix_expression: left_hand_side_expression JS_DECREMENT .
+  249 postfix_expression: left_hand_side_expression JS_DECREMENT .
 
-    $default  reduce using rule 248 (postfix_expression)
+    $default  reduce using rule 249 (postfix_expression)
 
 
 状態 220
 
-  247 postfix_expression: left_hand_side_expression JS_INCREMENT .
+  248 postfix_expression: left_hand_side_expression JS_INCREMENT .
 
-    $default  reduce using rule 247 (postfix_expression)
+    $default  reduce using rule 248 (postfix_expression)
 
 
 状態 221
 
-  321 assignment_operator: '=' .
+  322 assignment_operator: '=' .
 
-    $default  reduce using rule 321 (assignment_operator)
+    $default  reduce using rule 322 (assignment_operator)
 
 
 状態 222
 
-  318 assignment_expression: left_hand_side_expression assignment_operator . assignment_expression
+  319 assignment_expression: left_hand_side_expression assignment_operator . assignment_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5665,7 +5669,7 @@ terminator (277)
 
 状態 223
 
-  260 multiplicative_expression: multiplicative_expression '*' . unary_expression
+  261 multiplicative_expression: multiplicative_expression '*' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5719,7 +5723,7 @@ terminator (277)
 
 状態 224
 
-  261 multiplicative_expression: multiplicative_expression '/' . unary_expression
+  262 multiplicative_expression: multiplicative_expression '/' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5773,7 +5777,7 @@ terminator (277)
 
 状態 225
 
-  262 multiplicative_expression: multiplicative_expression '%' . unary_expression
+  263 multiplicative_expression: multiplicative_expression '%' . unary_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5827,7 +5831,7 @@ terminator (277)
 
 状態 226
 
-  264 additive_expression: additive_expression '+' . multiplicative_expression
+  265 additive_expression: additive_expression '+' . multiplicative_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5882,7 +5886,7 @@ terminator (277)
 
 状態 227
 
-  265 additive_expression: additive_expression '-' . multiplicative_expression
+  266 additive_expression: additive_expression '-' . multiplicative_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5937,7 +5941,7 @@ terminator (277)
 
 状態 228
 
-  269 shift_expression: shift_expression JS_U_SHIFT_RIGHT . additive_expression
+  270 shift_expression: shift_expression JS_U_SHIFT_RIGHT . additive_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -5993,7 +5997,7 @@ terminator (277)
 
 状態 229
 
-  268 shift_expression: shift_expression JS_SHIFT_RIGHT . additive_expression
+  269 shift_expression: shift_expression JS_SHIFT_RIGHT . additive_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6049,7 +6053,7 @@ terminator (277)
 
 状態 230
 
-  267 shift_expression: shift_expression JS_SHIFT_LEFT . additive_expression
+  268 shift_expression: shift_expression JS_SHIFT_LEFT . additive_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6105,7 +6109,7 @@ terminator (277)
 
 状態 231
 
-  272 relational_expression: relational_expression '>' . shift_expression
+  273 relational_expression: relational_expression '>' . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6162,7 +6166,7 @@ terminator (277)
 
 状態 232
 
-  271 relational_expression: relational_expression '<' . shift_expression
+  272 relational_expression: relational_expression '<' . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6219,7 +6223,7 @@ terminator (277)
 
 状態 233
 
-  275 relational_expression: relational_expression JS_INSTANCEOF . shift_expression
+  276 relational_expression: relational_expression JS_INSTANCEOF . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6276,7 +6280,7 @@ terminator (277)
 
 状態 234
 
-  276 relational_expression: relational_expression JS_IN . shift_expression
+  277 relational_expression: relational_expression JS_IN . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6333,7 +6337,7 @@ terminator (277)
 
 状態 235
 
-  273 relational_expression: relational_expression JS_LESS_EQUAL . shift_expression
+  274 relational_expression: relational_expression JS_LESS_EQUAL . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6390,7 +6394,7 @@ terminator (277)
 
 状態 236
 
-  274 relational_expression: relational_expression JS_GRATER_EQUAL . shift_expression
+  275 relational_expression: relational_expression JS_GRATER_EQUAL . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6447,7 +6451,7 @@ terminator (277)
 
 状態 237
 
-  287 equality_expression: equality_expression JS_NOT_EQ . relational_expression
+  288 equality_expression: equality_expression JS_NOT_EQ . relational_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6505,7 +6509,7 @@ terminator (277)
 
 状態 238
 
-  285 equality_expression: equality_expression JS_NOT_EQUAL . relational_expression
+  286 equality_expression: equality_expression JS_NOT_EQUAL . relational_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6563,7 +6567,7 @@ terminator (277)
 
 状態 239
 
-  284 equality_expression: equality_expression JS_EQUAL . relational_expression
+  285 equality_expression: equality_expression JS_EQUAL . relational_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6621,7 +6625,7 @@ terminator (277)
 
 状態 240
 
-  286 equality_expression: equality_expression JS_EQ . relational_expression
+  287 equality_expression: equality_expression JS_EQ . relational_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6679,7 +6683,7 @@ terminator (277)
 
 状態 241
 
-  294 bitwise_and_expression: bitwise_and_expression '&' . equality_expression
+  295 bitwise_and_expression: bitwise_and_expression '&' . equality_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6738,7 +6742,7 @@ terminator (277)
 
 状態 242
 
-  298 bitwise_xor_expression: bitwise_xor_expression '^' . bitwise_and_expression
+  299 bitwise_xor_expression: bitwise_xor_expression '^' . bitwise_and_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6798,7 +6802,7 @@ terminator (277)
 
 状態 243
 
-  302 bitwise_or_expression: bitwise_or_expression '|' . bitwise_xor_expression
+  303 bitwise_or_expression: bitwise_or_expression '|' . bitwise_xor_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6859,7 +6863,7 @@ terminator (277)
 
 状態 244
 
-  306 logical_and_expression: logical_and_expression JS_LOGICAL_AND . bitwise_or_expression
+  307 logical_and_expression: logical_and_expression JS_LOGICAL_AND . bitwise_or_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6921,7 +6925,7 @@ terminator (277)
 
 状態 245
 
-  314 conditional_expression: logical_or_expression '?' . assignment_expression ':' assignment_expression
+  315 conditional_expression: logical_or_expression '?' . assignment_expression ':' assignment_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -6987,7 +6991,7 @@ terminator (277)
 
 状態 246
 
-  310 logical_or_expression: logical_or_expression JS_LOGICAL_OR . logical_and_expression
+  311 logical_or_expression: logical_or_expression JS_LOGICAL_OR . logical_and_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -7050,7 +7054,7 @@ terminator (277)
 
 状態 247
 
-  334 expression: expression ',' . assignment_expression
+  335 expression: expression ',' . assignment_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -7123,31 +7127,31 @@ terminator (277)
 
 状態 249
 
-  219 property_name: JS_IDENTIFIER .
+  220 property_name: JS_IDENTIFIER .
 
-    $default  reduce using rule 219 (property_name)
+    $default  reduce using rule 220 (property_name)
 
 
 状態 250
 
-  221 property_name: JS_NUMERIC_LITERAL .
+  222 property_name: JS_NUMERIC_LITERAL .
 
-    $default  reduce using rule 221 (property_name)
+    $default  reduce using rule 222 (property_name)
 
 
 状態 251
 
-  220 property_name: JS_STRING_LITERAL .
+  221 property_name: JS_STRING_LITERAL .
 
-    $default  reduce using rule 220 (property_name)
+    $default  reduce using rule 221 (property_name)
 
 
 状態 252
 
   140 object_member_left_hand_side_list: JS_IDENTIFIER .
-  219 property_name: JS_IDENTIFIER .
+  220 property_name: JS_IDENTIFIER .
 
-    ':'       reduce using rule 219 (property_name)
+    ':'       reduce using rule 220 (property_name)
     $default  reduce using rule 140 (object_member_left_hand_side_list)
 
 
@@ -7172,9 +7176,9 @@ terminator (277)
 
 状態 255
 
-  245 left_hand_side_expression: '(' object_left_hand_side ')' .
+  246 left_hand_side_expression: '(' object_left_hand_side ')' .
 
-    $default  reduce using rule 245 (left_hand_side_expression)
+    $default  reduce using rule 246 (left_hand_side_expression)
 
 
 状態 256
@@ -7186,9 +7190,9 @@ terminator (277)
 
 状態 257
 
-  229 member_expression: JS_NEW member_expression arguments .
+  230 member_expression: JS_NEW member_expression arguments .
 
-    $default  reduce using rule 229 (member_expression)
+    $default  reduce using rule 230 (member_expression)
 
 
 状態 258
@@ -7198,7 +7202,7 @@ terminator (277)
 
     ','  shift, and go to state 128
 
-    $default  reduce using rule 341 (elision__opt)
+    $default  reduce using rule 342 (elision__opt)
 
     elision       go to state 130
     elision__opt  go to state 385
@@ -7471,10 +7475,10 @@ terminator (277)
 状態 281
 
   157 iteration_statement: JS_FOR '(' left_hand_side_expression . JS_IN expression ')' statement
-  246 postfix_expression: left_hand_side_expression .
-  247                   | left_hand_side_expression . JS_INCREMENT
-  248                   | left_hand_side_expression . JS_DECREMENT
-  320 assignment_expression_no_in: left_hand_side_expression . assignment_operator assignment_expression_no_in
+  247 postfix_expression: left_hand_side_expression .
+  248                   | left_hand_side_expression . JS_INCREMENT
+  249                   | left_hand_side_expression . JS_DECREMENT
+  321 assignment_expression_no_in: left_hand_side_expression . assignment_operator assignment_expression_no_in
 
     JS_U_SHIFT_RIGHT_LET  shift, and go to state 208
     JS_SUB_LET            shift, and go to state 209
@@ -7492,33 +7496,33 @@ terminator (277)
     JS_INCREMENT          shift, and go to state 220
     '='                   shift, and go to state 221
 
-    $default  reduce using rule 246 (postfix_expression)
+    $default  reduce using rule 247 (postfix_expression)
 
     assignment_operator  go to state 403
 
 
 状態 282
 
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  277 relational_expression_no_in: shift_expression .
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  278 relational_expression_no_in: shift_expression .
 
     JS_U_SHIFT_RIGHT  shift, and go to state 228
     JS_SHIFT_RIGHT    shift, and go to state 229
     JS_SHIFT_LEFT     shift, and go to state 230
 
-    $default  reduce using rule 277 (relational_expression_no_in)
+    $default  reduce using rule 278 (relational_expression_no_in)
 
 
 状態 283
 
-  278 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
-  279                            | relational_expression_no_in . '>' shift_expression
-  280                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
-  281                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
-  282                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
-  288 equality_expression_no_in: relational_expression_no_in .
+  279 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
+  280                            | relational_expression_no_in . '>' shift_expression
+  281                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
+  282                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
+  283                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
+  289 equality_expression_no_in: relational_expression_no_in .
 
     '>'              shift, and go to state 404
     '<'              shift, and go to state 405
@@ -7526,99 +7530,99 @@ terminator (277)
     JS_LESS_EQUAL    shift, and go to state 407
     JS_GRATER_EQUAL  shift, and go to state 408
 
-    $default  reduce using rule 288 (equality_expression_no_in)
+    $default  reduce using rule 289 (equality_expression_no_in)
 
 
 状態 284
 
-  289 equality_expression_no_in: equality_expression_no_in . JS_EQUAL relational_expression_no_in
-  290                          | equality_expression_no_in . JS_NOT_EQUAL relational_expression_no_in
-  291                          | equality_expression_no_in . JS_EQ relational_expression_no_in
-  292                          | equality_expression_no_in . JS_NOT_EQ relational_expression_no_in
-  295 bitwise_and_expression_no_in: equality_expression_no_in .
+  290 equality_expression_no_in: equality_expression_no_in . JS_EQUAL relational_expression_no_in
+  291                          | equality_expression_no_in . JS_NOT_EQUAL relational_expression_no_in
+  292                          | equality_expression_no_in . JS_EQ relational_expression_no_in
+  293                          | equality_expression_no_in . JS_NOT_EQ relational_expression_no_in
+  296 bitwise_and_expression_no_in: equality_expression_no_in .
 
     JS_NOT_EQ     shift, and go to state 409
     JS_NOT_EQUAL  shift, and go to state 410
     JS_EQUAL      shift, and go to state 411
     JS_EQ         shift, and go to state 412
 
-    $default  reduce using rule 295 (bitwise_and_expression_no_in)
+    $default  reduce using rule 296 (bitwise_and_expression_no_in)
 
 
 状態 285
 
-  296 bitwise_and_expression_no_in: bitwise_and_expression_no_in . '&' equality_expression_no_in
-  299 bitwise_xor_expression_no_in: bitwise_and_expression_no_in .
+  297 bitwise_and_expression_no_in: bitwise_and_expression_no_in . '&' equality_expression_no_in
+  300 bitwise_xor_expression_no_in: bitwise_and_expression_no_in .
 
     '&'  shift, and go to state 413
 
-    $default  reduce using rule 299 (bitwise_xor_expression_no_in)
+    $default  reduce using rule 300 (bitwise_xor_expression_no_in)
 
 
 状態 286
 
-  300 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in . '^' bitwise_and_expression_no_in
-  303 bitwise_or_expression_no_in: bitwise_xor_expression_no_in .
+  301 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in . '^' bitwise_and_expression_no_in
+  304 bitwise_or_expression_no_in: bitwise_xor_expression_no_in .
 
     '^'  shift, and go to state 414
 
-    $default  reduce using rule 303 (bitwise_or_expression_no_in)
+    $default  reduce using rule 304 (bitwise_or_expression_no_in)
 
 
 状態 287
 
-  304 bitwise_or_expression_no_in: bitwise_or_expression_no_in . '|' bitwise_xor_expression_no_in
-  307 logical_and_expression_no_in: bitwise_or_expression_no_in .
+  305 bitwise_or_expression_no_in: bitwise_or_expression_no_in . '|' bitwise_xor_expression_no_in
+  308 logical_and_expression_no_in: bitwise_or_expression_no_in .
 
     '|'  shift, and go to state 415
 
-    $default  reduce using rule 307 (logical_and_expression_no_in)
+    $default  reduce using rule 308 (logical_and_expression_no_in)
 
 
 状態 288
 
-  308 logical_and_expression_no_in: logical_and_expression_no_in . JS_LOGICAL_AND bitwise_or_expression_no_in
-  311 logical_or_expression_no_in: logical_and_expression_no_in .
+  309 logical_and_expression_no_in: logical_and_expression_no_in . JS_LOGICAL_AND bitwise_or_expression_no_in
+  312 logical_or_expression_no_in: logical_and_expression_no_in .
 
     JS_LOGICAL_AND  shift, and go to state 416
 
-    $default  reduce using rule 311 (logical_or_expression_no_in)
+    $default  reduce using rule 312 (logical_or_expression_no_in)
 
 
 状態 289
 
-  312 logical_or_expression_no_in: logical_or_expression_no_in . JS_LOGICAL_OR logical_and_expression_no_in
-  315 conditional_expression_no_in: logical_or_expression_no_in .
-  316                             | logical_or_expression_no_in . '?' assignment_expression_no_in ':' assignment_expression_no_in
+  313 logical_or_expression_no_in: logical_or_expression_no_in . JS_LOGICAL_OR logical_and_expression_no_in
+  316 conditional_expression_no_in: logical_or_expression_no_in .
+  317                             | logical_or_expression_no_in . '?' assignment_expression_no_in ':' assignment_expression_no_in
 
     '?'            shift, and go to state 417
     JS_LOGICAL_OR  shift, and go to state 418
 
-    $default  reduce using rule 315 (conditional_expression_no_in)
+    $default  reduce using rule 316 (conditional_expression_no_in)
 
 
 状態 290
 
-  319 assignment_expression_no_in: conditional_expression_no_in .
+  320 assignment_expression_no_in: conditional_expression_no_in .
 
-    $default  reduce using rule 319 (assignment_expression_no_in)
+    $default  reduce using rule 320 (assignment_expression_no_in)
 
 
 状態 291
 
-  335 expression_no_in: assignment_expression_no_in .
+  336 expression_no_in: assignment_expression_no_in .
 
-    $default  reduce using rule 335 (expression_no_in)
+    $default  reduce using rule 336 (expression_no_in)
 
 
 状態 292
 
-  336 expression_no_in: expression_no_in . ',' assignment_expression_no_in
-  338 expression_no_in__opt: expression_no_in .
+  337 expression_no_in: expression_no_in . ',' assignment_expression_no_in
+  339 expression_no_in__opt: expression_no_in .
 
     ','  shift, and go to state 419
 
-    $default  reduce using rule 338 (expression_no_in__opt)
+    $default  reduce using rule 339 (expression_no_in__opt)
 
 
 状態 293
@@ -7724,7 +7728,7 @@ terminator (277)
 
   150 if_statement: JS_IF '(' expression . ')' statement JS_ELSE statement
   151             | JS_IF '(' expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 425
@@ -7769,8 +7773,8 @@ terminator (277)
 
 状態 303
 
-  226 member_expression: JS_PRIVATE '[' expression . ']'
-  334 expression: expression . ',' assignment_expression
+  227 member_expression: JS_PRIVATE '[' expression . ']'
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ']'  shift, and go to state 431
@@ -7778,9 +7782,9 @@ terminator (277)
 
 状態 304
 
-  227 member_expression: JS_PRIVATE '.' JS_IDENTIFIER .
+  228 member_expression: JS_PRIVATE '.' JS_IDENTIFIER .
 
-    $default  reduce using rule 227 (member_expression)
+    $default  reduce using rule 228 (member_expression)
 
 
 状態 305
@@ -7793,7 +7797,7 @@ terminator (277)
 状態 306
 
   165 switch_statement: JS_SWITCH '(' expression . ')' case_block
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 432
@@ -7851,7 +7855,7 @@ terminator (277)
 状態 313
 
   154 iteration_statement: JS_WHILE '(' expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 436
@@ -7860,7 +7864,7 @@ terminator (277)
 状態 314
 
   164 with_statement: JS_WITH '(' expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 437
@@ -8129,7 +8133,7 @@ terminator (277)
 
     ','  shift, and go to state 128
 
-    $default  reduce using rule 341 (elision__opt)
+    $default  reduce using rule 342 (elision__opt)
 
     elision       go to state 130
     elision__opt  go to state 451
@@ -8200,7 +8204,7 @@ terminator (277)
 
 状態 343
 
-  218 property_name_and_value_list: property_name_and_value_list ',' . property_name ':' assignment_expression
+  219 property_name_and_value_list: property_name_and_value_list ',' . property_name ':' assignment_expression
 
     JS_IDENTIFIER       shift, and go to state 249
     JS_NUMERIC_LITERAL  shift, and go to state 250
@@ -8218,7 +8222,7 @@ terminator (277)
 
 状態 345
 
-  217 property_name_and_value_list: property_name ':' . assignment_expression
+  218 property_name_and_value_list: property_name ':' . assignment_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -8304,23 +8308,23 @@ terminator (277)
 
 状態 348
 
-  236 arguments: '(' ')' .
+  237 arguments: '(' ')' .
 
-    $default  reduce using rule 236 (arguments)
+    $default  reduce using rule 237 (arguments)
 
 
 状態 349
 
-  239 argument_list: arguments_spread .
+  240 argument_list: arguments_spread .
 
-    $default  reduce using rule 239 (argument_list)
+    $default  reduce using rule 240 (argument_list)
 
 
 状態 350
 
-  237 arguments: '(' argument_list . ')'
-  240 argument_list: argument_list . ',' assignment_expression
-  241              | argument_list . ',' arguments_spread
+  238 arguments: '(' argument_list . ')'
+  241 argument_list: argument_list . ',' assignment_expression
+  242              | argument_list . ',' arguments_spread
 
     ','  shift, and go to state 460
     ')'  shift, and go to state 461
@@ -8328,15 +8332,15 @@ terminator (277)
 
 状態 351
 
-  238 argument_list: assignment_expression .
+  239 argument_list: assignment_expression .
 
-    $default  reduce using rule 238 (argument_list)
+    $default  reduce using rule 239 (argument_list)
 
 
 状態 352
 
-  225 member_expression: member_expression '[' expression . ']'
-  334 expression: expression . ',' assignment_expression
+  226 member_expression: member_expression '[' expression . ']'
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ']'  shift, and go to state 462
@@ -8344,15 +8348,15 @@ terminator (277)
 
 状態 353
 
-  228 member_expression: member_expression '.' JS_IDENTIFIER .
+  229 member_expression: member_expression '.' JS_IDENTIFIER .
 
-    $default  reduce using rule 228 (member_expression)
+    $default  reduce using rule 229 (member_expression)
 
 
 状態 354
 
-  234 call_expression: call_expression '[' expression . ']'
-  334 expression: expression . ',' assignment_expression
+  235 call_expression: call_expression '[' expression . ']'
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ']'  shift, and go to state 463
@@ -8360,59 +8364,45 @@ terminator (277)
 
 状態 355
 
-  235 call_expression: call_expression '.' JS_IDENTIFIER .
+  236 call_expression: call_expression '.' JS_IDENTIFIER .
 
-    $default  reduce using rule 235 (call_expression)
+    $default  reduce using rule 236 (call_expression)
 
 
 状態 356
 
-  318 assignment_expression: left_hand_side_expression assignment_operator assignment_expression .
+  319 assignment_expression: left_hand_side_expression assignment_operator assignment_expression .
 
-    $default  reduce using rule 318 (assignment_expression)
+    $default  reduce using rule 319 (assignment_expression)
 
 
 状態 357
 
-  260 multiplicative_expression: multiplicative_expression '*' unary_expression .
-
-    $default  reduce using rule 260 (multiplicative_expression)
-
-
-状態 358
-
-  261 multiplicative_expression: multiplicative_expression '/' unary_expression .
+  261 multiplicative_expression: multiplicative_expression '*' unary_expression .
 
     $default  reduce using rule 261 (multiplicative_expression)
 
 
-状態 359
+状態 358
 
-  262 multiplicative_expression: multiplicative_expression '%' unary_expression .
+  262 multiplicative_expression: multiplicative_expression '/' unary_expression .
 
     $default  reduce using rule 262 (multiplicative_expression)
 
 
+状態 359
+
+  263 multiplicative_expression: multiplicative_expression '%' unary_expression .
+
+    $default  reduce using rule 263 (multiplicative_expression)
+
+
 状態 360
 
-  260 multiplicative_expression: multiplicative_expression . '*' unary_expression
-  261                          | multiplicative_expression . '/' unary_expression
-  262                          | multiplicative_expression . '%' unary_expression
-  264 additive_expression: additive_expression '+' multiplicative_expression .
-
-    '*'  shift, and go to state 223
-    '/'  shift, and go to state 224
-    '%'  shift, and go to state 225
-
-    $default  reduce using rule 264 (additive_expression)
-
-
-状態 361
-
-  260 multiplicative_expression: multiplicative_expression . '*' unary_expression
-  261                          | multiplicative_expression . '/' unary_expression
-  262                          | multiplicative_expression . '%' unary_expression
-  265 additive_expression: additive_expression '-' multiplicative_expression .
+  261 multiplicative_expression: multiplicative_expression . '*' unary_expression
+  262                          | multiplicative_expression . '/' unary_expression
+  263                          | multiplicative_expression . '%' unary_expression
+  265 additive_expression: additive_expression '+' multiplicative_expression .
 
     '*'  shift, and go to state 223
     '/'  shift, and go to state 224
@@ -8421,11 +8411,37 @@ terminator (277)
     $default  reduce using rule 265 (additive_expression)
 
 
+状態 361
+
+  261 multiplicative_expression: multiplicative_expression . '*' unary_expression
+  262                          | multiplicative_expression . '/' unary_expression
+  263                          | multiplicative_expression . '%' unary_expression
+  266 additive_expression: additive_expression '-' multiplicative_expression .
+
+    '*'  shift, and go to state 223
+    '/'  shift, and go to state 224
+    '%'  shift, and go to state 225
+
+    $default  reduce using rule 266 (additive_expression)
+
+
 状態 362
 
-  264 additive_expression: additive_expression . '+' multiplicative_expression
-  265                    | additive_expression . '-' multiplicative_expression
-  269 shift_expression: shift_expression JS_U_SHIFT_RIGHT additive_expression .
+  265 additive_expression: additive_expression . '+' multiplicative_expression
+  266                    | additive_expression . '-' multiplicative_expression
+  270 shift_expression: shift_expression JS_U_SHIFT_RIGHT additive_expression .
+
+    '+'  shift, and go to state 226
+    '-'  shift, and go to state 227
+
+    $default  reduce using rule 270 (shift_expression)
+
+
+状態 363
+
+  265 additive_expression: additive_expression . '+' multiplicative_expression
+  266                    | additive_expression . '-' multiplicative_expression
+  269 shift_expression: shift_expression JS_SHIFT_RIGHT additive_expression .
 
     '+'  shift, and go to state 226
     '-'  shift, and go to state 227
@@ -8433,11 +8449,11 @@ terminator (277)
     $default  reduce using rule 269 (shift_expression)
 
 
-状態 363
+状態 364
 
-  264 additive_expression: additive_expression . '+' multiplicative_expression
-  265                    | additive_expression . '-' multiplicative_expression
-  268 shift_expression: shift_expression JS_SHIFT_RIGHT additive_expression .
+  265 additive_expression: additive_expression . '+' multiplicative_expression
+  266                    | additive_expression . '-' multiplicative_expression
+  268 shift_expression: shift_expression JS_SHIFT_LEFT additive_expression .
 
     '+'  shift, and go to state 226
     '-'  shift, and go to state 227
@@ -8445,80 +8461,12 @@ terminator (277)
     $default  reduce using rule 268 (shift_expression)
 
 
-状態 364
-
-  264 additive_expression: additive_expression . '+' multiplicative_expression
-  265                    | additive_expression . '-' multiplicative_expression
-  267 shift_expression: shift_expression JS_SHIFT_LEFT additive_expression .
-
-    '+'  shift, and go to state 226
-    '-'  shift, and go to state 227
-
-    $default  reduce using rule 267 (shift_expression)
-
-
 状態 365
 
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  272 relational_expression: relational_expression '>' shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 272 (relational_expression)
-
-
-状態 366
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  271 relational_expression: relational_expression '<' shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 271 (relational_expression)
-
-
-状態 367
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  275 relational_expression: relational_expression JS_INSTANCEOF shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 275 (relational_expression)
-
-
-状態 368
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  276 relational_expression: relational_expression JS_IN shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 276 (relational_expression)
-
-
-状態 369
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  273 relational_expression: relational_expression JS_LESS_EQUAL shift_expression .
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  273 relational_expression: relational_expression '>' shift_expression .
 
     JS_U_SHIFT_RIGHT  shift, and go to state 228
     JS_SHIFT_RIGHT    shift, and go to state 229
@@ -8527,32 +8475,88 @@ terminator (277)
     $default  reduce using rule 273 (relational_expression)
 
 
-状態 370
+状態 366
 
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  274 relational_expression: relational_expression JS_GRATER_EQUAL shift_expression .
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  272 relational_expression: relational_expression '<' shift_expression .
 
     JS_U_SHIFT_RIGHT  shift, and go to state 228
     JS_SHIFT_RIGHT    shift, and go to state 229
     JS_SHIFT_LEFT     shift, and go to state 230
 
-    JS_U_SHIFT_RIGHT  [reduce using rule 274 (relational_expression)]
-    JS_SHIFT_RIGHT    [reduce using rule 274 (relational_expression)]
-    JS_SHIFT_LEFT     [reduce using rule 274 (relational_expression)]
-    $default          reduce using rule 274 (relational_expression)
+    $default  reduce using rule 272 (relational_expression)
+
+
+状態 367
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  276 relational_expression: relational_expression JS_INSTANCEOF shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    $default  reduce using rule 276 (relational_expression)
+
+
+状態 368
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  277 relational_expression: relational_expression JS_IN shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    $default  reduce using rule 277 (relational_expression)
+
+
+状態 369
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  274 relational_expression: relational_expression JS_LESS_EQUAL shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    $default  reduce using rule 274 (relational_expression)
+
+
+状態 370
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  275 relational_expression: relational_expression JS_GRATER_EQUAL shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    JS_U_SHIFT_RIGHT  [reduce using rule 275 (relational_expression)]
+    JS_SHIFT_RIGHT    [reduce using rule 275 (relational_expression)]
+    JS_SHIFT_LEFT     [reduce using rule 275 (relational_expression)]
+    $default          reduce using rule 275 (relational_expression)
 
 
 状態 371
 
-  271 relational_expression: relational_expression . '<' shift_expression
-  272                      | relational_expression . '>' shift_expression
-  273                      | relational_expression . JS_LESS_EQUAL shift_expression
-  274                      | relational_expression . JS_GRATER_EQUAL shift_expression
-  275                      | relational_expression . JS_INSTANCEOF shift_expression
-  276                      | relational_expression . JS_IN shift_expression
-  287 equality_expression: equality_expression JS_NOT_EQ relational_expression .
+  272 relational_expression: relational_expression . '<' shift_expression
+  273                      | relational_expression . '>' shift_expression
+  274                      | relational_expression . JS_LESS_EQUAL shift_expression
+  275                      | relational_expression . JS_GRATER_EQUAL shift_expression
+  276                      | relational_expression . JS_INSTANCEOF shift_expression
+  277                      | relational_expression . JS_IN shift_expression
+  288 equality_expression: equality_expression JS_NOT_EQ relational_expression .
 
     '>'              shift, and go to state 231
     '<'              shift, and go to state 232
@@ -8561,61 +8565,19 @@ terminator (277)
     JS_LESS_EQUAL    shift, and go to state 235
     JS_GRATER_EQUAL  shift, and go to state 236
 
-    JS_GRATER_EQUAL  [reduce using rule 287 (equality_expression)]
-    $default         reduce using rule 287 (equality_expression)
+    JS_GRATER_EQUAL  [reduce using rule 288 (equality_expression)]
+    $default         reduce using rule 288 (equality_expression)
 
 
 状態 372
 
-  271 relational_expression: relational_expression . '<' shift_expression
-  272                      | relational_expression . '>' shift_expression
-  273                      | relational_expression . JS_LESS_EQUAL shift_expression
-  274                      | relational_expression . JS_GRATER_EQUAL shift_expression
-  275                      | relational_expression . JS_INSTANCEOF shift_expression
-  276                      | relational_expression . JS_IN shift_expression
-  285 equality_expression: equality_expression JS_NOT_EQUAL relational_expression .
-
-    '>'              shift, and go to state 231
-    '<'              shift, and go to state 232
-    JS_INSTANCEOF    shift, and go to state 233
-    JS_IN            shift, and go to state 234
-    JS_LESS_EQUAL    shift, and go to state 235
-    JS_GRATER_EQUAL  shift, and go to state 236
-
-    JS_GRATER_EQUAL  [reduce using rule 285 (equality_expression)]
-    $default         reduce using rule 285 (equality_expression)
-
-
-状態 373
-
-  271 relational_expression: relational_expression . '<' shift_expression
-  272                      | relational_expression . '>' shift_expression
-  273                      | relational_expression . JS_LESS_EQUAL shift_expression
-  274                      | relational_expression . JS_GRATER_EQUAL shift_expression
-  275                      | relational_expression . JS_INSTANCEOF shift_expression
-  276                      | relational_expression . JS_IN shift_expression
-  284 equality_expression: equality_expression JS_EQUAL relational_expression .
-
-    '>'              shift, and go to state 231
-    '<'              shift, and go to state 232
-    JS_INSTANCEOF    shift, and go to state 233
-    JS_IN            shift, and go to state 234
-    JS_LESS_EQUAL    shift, and go to state 235
-    JS_GRATER_EQUAL  shift, and go to state 236
-
-    JS_GRATER_EQUAL  [reduce using rule 284 (equality_expression)]
-    $default         reduce using rule 284 (equality_expression)
-
-
-状態 374
-
-  271 relational_expression: relational_expression . '<' shift_expression
-  272                      | relational_expression . '>' shift_expression
-  273                      | relational_expression . JS_LESS_EQUAL shift_expression
-  274                      | relational_expression . JS_GRATER_EQUAL shift_expression
-  275                      | relational_expression . JS_INSTANCEOF shift_expression
-  276                      | relational_expression . JS_IN shift_expression
-  286 equality_expression: equality_expression JS_EQ relational_expression .
+  272 relational_expression: relational_expression . '<' shift_expression
+  273                      | relational_expression . '>' shift_expression
+  274                      | relational_expression . JS_LESS_EQUAL shift_expression
+  275                      | relational_expression . JS_GRATER_EQUAL shift_expression
+  276                      | relational_expression . JS_INSTANCEOF shift_expression
+  277                      | relational_expression . JS_IN shift_expression
+  286 equality_expression: equality_expression JS_NOT_EQUAL relational_expression .
 
     '>'              shift, and go to state 231
     '<'              shift, and go to state 232
@@ -8628,74 +8590,116 @@ terminator (277)
     $default         reduce using rule 286 (equality_expression)
 
 
+状態 373
+
+  272 relational_expression: relational_expression . '<' shift_expression
+  273                      | relational_expression . '>' shift_expression
+  274                      | relational_expression . JS_LESS_EQUAL shift_expression
+  275                      | relational_expression . JS_GRATER_EQUAL shift_expression
+  276                      | relational_expression . JS_INSTANCEOF shift_expression
+  277                      | relational_expression . JS_IN shift_expression
+  285 equality_expression: equality_expression JS_EQUAL relational_expression .
+
+    '>'              shift, and go to state 231
+    '<'              shift, and go to state 232
+    JS_INSTANCEOF    shift, and go to state 233
+    JS_IN            shift, and go to state 234
+    JS_LESS_EQUAL    shift, and go to state 235
+    JS_GRATER_EQUAL  shift, and go to state 236
+
+    JS_GRATER_EQUAL  [reduce using rule 285 (equality_expression)]
+    $default         reduce using rule 285 (equality_expression)
+
+
+状態 374
+
+  272 relational_expression: relational_expression . '<' shift_expression
+  273                      | relational_expression . '>' shift_expression
+  274                      | relational_expression . JS_LESS_EQUAL shift_expression
+  275                      | relational_expression . JS_GRATER_EQUAL shift_expression
+  276                      | relational_expression . JS_INSTANCEOF shift_expression
+  277                      | relational_expression . JS_IN shift_expression
+  287 equality_expression: equality_expression JS_EQ relational_expression .
+
+    '>'              shift, and go to state 231
+    '<'              shift, and go to state 232
+    JS_INSTANCEOF    shift, and go to state 233
+    JS_IN            shift, and go to state 234
+    JS_LESS_EQUAL    shift, and go to state 235
+    JS_GRATER_EQUAL  shift, and go to state 236
+
+    JS_GRATER_EQUAL  [reduce using rule 287 (equality_expression)]
+    $default         reduce using rule 287 (equality_expression)
+
+
 状態 375
 
-  284 equality_expression: equality_expression . JS_EQUAL relational_expression
-  285                    | equality_expression . JS_NOT_EQUAL relational_expression
-  286                    | equality_expression . JS_EQ relational_expression
-  287                    | equality_expression . JS_NOT_EQ relational_expression
-  294 bitwise_and_expression: bitwise_and_expression '&' equality_expression .
+  285 equality_expression: equality_expression . JS_EQUAL relational_expression
+  286                    | equality_expression . JS_NOT_EQUAL relational_expression
+  287                    | equality_expression . JS_EQ relational_expression
+  288                    | equality_expression . JS_NOT_EQ relational_expression
+  295 bitwise_and_expression: bitwise_and_expression '&' equality_expression .
 
     JS_NOT_EQ     shift, and go to state 237
     JS_NOT_EQUAL  shift, and go to state 238
     JS_EQUAL      shift, and go to state 239
     JS_EQ         shift, and go to state 240
 
-    $default  reduce using rule 294 (bitwise_and_expression)
+    $default  reduce using rule 295 (bitwise_and_expression)
 
 
 状態 376
 
-  294 bitwise_and_expression: bitwise_and_expression . '&' equality_expression
-  298 bitwise_xor_expression: bitwise_xor_expression '^' bitwise_and_expression .
+  295 bitwise_and_expression: bitwise_and_expression . '&' equality_expression
+  299 bitwise_xor_expression: bitwise_xor_expression '^' bitwise_and_expression .
 
     '&'  shift, and go to state 241
 
-    $default  reduce using rule 298 (bitwise_xor_expression)
+    $default  reduce using rule 299 (bitwise_xor_expression)
 
 
 状態 377
 
-  298 bitwise_xor_expression: bitwise_xor_expression . '^' bitwise_and_expression
-  302 bitwise_or_expression: bitwise_or_expression '|' bitwise_xor_expression .
+  299 bitwise_xor_expression: bitwise_xor_expression . '^' bitwise_and_expression
+  303 bitwise_or_expression: bitwise_or_expression '|' bitwise_xor_expression .
 
     '^'  shift, and go to state 242
 
-    $default  reduce using rule 302 (bitwise_or_expression)
+    $default  reduce using rule 303 (bitwise_or_expression)
 
 
 状態 378
 
-  302 bitwise_or_expression: bitwise_or_expression . '|' bitwise_xor_expression
-  306 logical_and_expression: logical_and_expression JS_LOGICAL_AND bitwise_or_expression .
+  303 bitwise_or_expression: bitwise_or_expression . '|' bitwise_xor_expression
+  307 logical_and_expression: logical_and_expression JS_LOGICAL_AND bitwise_or_expression .
 
     '|'  shift, and go to state 243
 
-    $default  reduce using rule 306 (logical_and_expression)
+    $default  reduce using rule 307 (logical_and_expression)
 
 
 状態 379
 
-  314 conditional_expression: logical_or_expression '?' assignment_expression . ':' assignment_expression
+  315 conditional_expression: logical_or_expression '?' assignment_expression . ':' assignment_expression
 
     ':'  shift, and go to state 464
 
 
 状態 380
 
-  306 logical_and_expression: logical_and_expression . JS_LOGICAL_AND bitwise_or_expression
-  310 logical_or_expression: logical_or_expression JS_LOGICAL_OR logical_and_expression .
+  307 logical_and_expression: logical_and_expression . JS_LOGICAL_AND bitwise_or_expression
+  311 logical_or_expression: logical_or_expression JS_LOGICAL_OR logical_and_expression .
 
     JS_LOGICAL_AND  shift, and go to state 244
 
-    $default  reduce using rule 310 (logical_or_expression)
+    $default  reduce using rule 311 (logical_or_expression)
 
 
 状態 381
 
-  334 expression: expression ',' assignment_expression .
+  335 expression: expression ',' assignment_expression .
 
-    $default  reduce using rule 334 (expression)
+    $default  reduce using rule 335 (expression)
 
 
 状態 382
@@ -9105,7 +9109,7 @@ terminator (277)
 
 状態 403
 
-  320 assignment_expression_no_in: left_hand_side_expression assignment_operator . assignment_expression_no_in
+  321 assignment_expression_no_in: left_hand_side_expression assignment_operator . assignment_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9171,7 +9175,7 @@ terminator (277)
 
 状態 404
 
-  279 relational_expression_no_in: relational_expression_no_in '>' . shift_expression
+  280 relational_expression_no_in: relational_expression_no_in '>' . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9228,7 +9232,7 @@ terminator (277)
 
 状態 405
 
-  278 relational_expression_no_in: relational_expression_no_in '<' . shift_expression
+  279 relational_expression_no_in: relational_expression_no_in '<' . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9285,7 +9289,7 @@ terminator (277)
 
 状態 406
 
-  282 relational_expression_no_in: relational_expression_no_in JS_INSTANCEOF . shift_expression
+  283 relational_expression_no_in: relational_expression_no_in JS_INSTANCEOF . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9342,7 +9346,7 @@ terminator (277)
 
 状態 407
 
-  280 relational_expression_no_in: relational_expression_no_in JS_LESS_EQUAL . shift_expression
+  281 relational_expression_no_in: relational_expression_no_in JS_LESS_EQUAL . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9399,7 +9403,7 @@ terminator (277)
 
 状態 408
 
-  281 relational_expression_no_in: relational_expression_no_in JS_GRATER_EQUAL . shift_expression
+  282 relational_expression_no_in: relational_expression_no_in JS_GRATER_EQUAL . shift_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9456,7 +9460,7 @@ terminator (277)
 
 状態 409
 
-  292 equality_expression_no_in: equality_expression_no_in JS_NOT_EQ . relational_expression_no_in
+  293 equality_expression_no_in: equality_expression_no_in JS_NOT_EQ . relational_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9514,7 +9518,7 @@ terminator (277)
 
 状態 410
 
-  290 equality_expression_no_in: equality_expression_no_in JS_NOT_EQUAL . relational_expression_no_in
+  291 equality_expression_no_in: equality_expression_no_in JS_NOT_EQUAL . relational_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9572,7 +9576,7 @@ terminator (277)
 
 状態 411
 
-  289 equality_expression_no_in: equality_expression_no_in JS_EQUAL . relational_expression_no_in
+  290 equality_expression_no_in: equality_expression_no_in JS_EQUAL . relational_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9630,7 +9634,7 @@ terminator (277)
 
 状態 412
 
-  291 equality_expression_no_in: equality_expression_no_in JS_EQ . relational_expression_no_in
+  292 equality_expression_no_in: equality_expression_no_in JS_EQ . relational_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9688,7 +9692,7 @@ terminator (277)
 
 状態 413
 
-  296 bitwise_and_expression_no_in: bitwise_and_expression_no_in '&' . equality_expression_no_in
+  297 bitwise_and_expression_no_in: bitwise_and_expression_no_in '&' . equality_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9747,7 +9751,7 @@ terminator (277)
 
 状態 414
 
-  300 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in '^' . bitwise_and_expression_no_in
+  301 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in '^' . bitwise_and_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9807,7 +9811,7 @@ terminator (277)
 
 状態 415
 
-  304 bitwise_or_expression_no_in: bitwise_or_expression_no_in '|' . bitwise_xor_expression_no_in
+  305 bitwise_or_expression_no_in: bitwise_or_expression_no_in '|' . bitwise_xor_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9868,7 +9872,7 @@ terminator (277)
 
 状態 416
 
-  308 logical_and_expression_no_in: logical_and_expression_no_in JS_LOGICAL_AND . bitwise_or_expression_no_in
+  309 logical_and_expression_no_in: logical_and_expression_no_in JS_LOGICAL_AND . bitwise_or_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9930,7 +9934,7 @@ terminator (277)
 
 状態 417
 
-  316 conditional_expression_no_in: logical_or_expression_no_in '?' . assignment_expression_no_in ':' assignment_expression_no_in
+  317 conditional_expression_no_in: logical_or_expression_no_in '?' . assignment_expression_no_in ':' assignment_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -9996,7 +10000,7 @@ terminator (277)
 
 状態 418
 
-  312 logical_or_expression_no_in: logical_or_expression_no_in JS_LOGICAL_OR . logical_and_expression_no_in
+  313 logical_or_expression_no_in: logical_or_expression_no_in JS_LOGICAL_OR . logical_and_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -10059,7 +10063,7 @@ terminator (277)
 
 状態 419
 
-  336 expression_no_in: expression_no_in ',' . assignment_expression_no_in
+  337 expression_no_in: expression_no_in ',' . assignment_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -10156,7 +10160,7 @@ terminator (277)
     JS_DSTA_BEGIN                   shift, and go to state 48
     '{'                             shift, and go to state 111
 
-    ';'       reduce using rule 339 (expression__opt)
+    ';'       reduce using rule 340 (expression__opt)
     $default  reduce using rule 4 (class_adjective__opt)
 
     class_initialiser          go to state 52
@@ -10390,9 +10394,9 @@ terminator (277)
 
 状態 431
 
-  226 member_expression: JS_PRIVATE '[' expression ']' .
+  227 member_expression: JS_PRIVATE '[' expression ']' .
 
-    $default  reduce using rule 226 (member_expression)
+    $default  reduce using rule 227 (member_expression)
 
 
 状態 432
@@ -10892,16 +10896,16 @@ terminator (277)
 
 状態 453
 
-  218 property_name_and_value_list: property_name_and_value_list ',' property_name . ':' assignment_expression
+  219 property_name_and_value_list: property_name_and_value_list ',' property_name . ':' assignment_expression
 
     ':'  shift, and go to state 533
 
 
 状態 454
 
-  217 property_name_and_value_list: property_name ':' assignment_expression .
+  218 property_name_and_value_list: property_name ':' assignment_expression .
 
-    $default  reduce using rule 217 (property_name_and_value_list)
+    $default  reduce using rule 218 (property_name_and_value_list)
 
 
 状態 455
@@ -10972,8 +10976,8 @@ terminator (277)
 
 状態 460
 
-  240 argument_list: argument_list ',' . assignment_expression
-  241              | argument_list ',' . arguments_spread
+  241 argument_list: argument_list ',' . assignment_expression
+  242              | argument_list ',' . arguments_spread
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -11041,28 +11045,28 @@ terminator (277)
 
 状態 461
 
-  237 arguments: '(' argument_list ')' .
+  238 arguments: '(' argument_list ')' .
 
-    $default  reduce using rule 237 (arguments)
+    $default  reduce using rule 238 (arguments)
 
 
 状態 462
 
-  225 member_expression: member_expression '[' expression ']' .
+  226 member_expression: member_expression '[' expression ']' .
 
-    $default  reduce using rule 225 (member_expression)
+    $default  reduce using rule 226 (member_expression)
 
 
 状態 463
 
-  234 call_expression: call_expression '[' expression ']' .
+  235 call_expression: call_expression '[' expression ']' .
 
-    $default  reduce using rule 234 (call_expression)
+    $default  reduce using rule 235 (call_expression)
 
 
 状態 464
 
-  314 conditional_expression: logical_or_expression '?' assignment_expression ':' . assignment_expression
+  315 conditional_expression: logical_or_expression '?' assignment_expression ':' . assignment_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -11129,9 +11133,9 @@ terminator (277)
 状態 465
 
   144 object_member_left_hand_side_list: object_member_left_hand_side_list ',' JS_IDENTIFIER .
-  219 property_name: JS_IDENTIFIER .
+  220 property_name: JS_IDENTIFIER .
 
-    ':'       reduce using rule 219 (property_name)
+    ':'       reduce using rule 220 (property_name)
     $default  reduce using rule 144 (object_member_left_hand_side_list)
 
 
@@ -11298,7 +11302,7 @@ terminator (277)
 状態 475
 
   153 iteration_statement: JS_DO statement JS_WHILE '(' expression . ')' terminator
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 545
@@ -11452,7 +11456,7 @@ terminator (277)
     JS_DSTA_BEGIN                   shift, and go to state 48
     '{'                             shift, and go to state 111
 
-    ';'       reduce using rule 339 (expression__opt)
+    ';'       reduce using rule 340 (expression__opt)
     $default  reduce using rule 4 (class_adjective__opt)
 
     class_initialiser          go to state 52
@@ -11565,7 +11569,7 @@ terminator (277)
 状態 486
 
   157 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IN expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 553
@@ -11573,10 +11577,10 @@ terminator (277)
 
 状態 487
 
-  246 postfix_expression: left_hand_side_expression .
-  247                   | left_hand_side_expression . JS_INCREMENT
-  248                   | left_hand_side_expression . JS_DECREMENT
-  320 assignment_expression_no_in: left_hand_side_expression . assignment_operator assignment_expression_no_in
+  247 postfix_expression: left_hand_side_expression .
+  248                   | left_hand_side_expression . JS_INCREMENT
+  249                   | left_hand_side_expression . JS_DECREMENT
+  321 assignment_expression_no_in: left_hand_side_expression . assignment_operator assignment_expression_no_in
 
     JS_U_SHIFT_RIGHT_LET  shift, and go to state 208
     JS_SUB_LET            shift, and go to state 209
@@ -11593,66 +11597,24 @@ terminator (277)
     JS_INCREMENT          shift, and go to state 220
     '='                   shift, and go to state 221
 
-    $default  reduce using rule 246 (postfix_expression)
+    $default  reduce using rule 247 (postfix_expression)
 
     assignment_operator  go to state 403
 
 
 状態 488
 
-  320 assignment_expression_no_in: left_hand_side_expression assignment_operator assignment_expression_no_in .
+  321 assignment_expression_no_in: left_hand_side_expression assignment_operator assignment_expression_no_in .
 
-    $default  reduce using rule 320 (assignment_expression_no_in)
+    $default  reduce using rule 321 (assignment_expression_no_in)
 
 
 状態 489
 
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  279 relational_expression_no_in: relational_expression_no_in '>' shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 279 (relational_expression_no_in)
-
-
-状態 490
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  278 relational_expression_no_in: relational_expression_no_in '<' shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 278 (relational_expression_no_in)
-
-
-状態 491
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  282 relational_expression_no_in: relational_expression_no_in JS_INSTANCEOF shift_expression .
-
-    JS_U_SHIFT_RIGHT  shift, and go to state 228
-    JS_SHIFT_RIGHT    shift, and go to state 229
-    JS_SHIFT_LEFT     shift, and go to state 230
-
-    $default  reduce using rule 282 (relational_expression_no_in)
-
-
-状態 492
-
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  280 relational_expression_no_in: relational_expression_no_in JS_LESS_EQUAL shift_expression .
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  280 relational_expression_no_in: relational_expression_no_in '>' shift_expression .
 
     JS_U_SHIFT_RIGHT  shift, and go to state 228
     JS_SHIFT_RIGHT    shift, and go to state 229
@@ -11661,12 +11623,40 @@ terminator (277)
     $default  reduce using rule 280 (relational_expression_no_in)
 
 
-状態 493
+状態 490
 
-  267 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
-  268                 | shift_expression . JS_SHIFT_RIGHT additive_expression
-  269                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
-  281 relational_expression_no_in: relational_expression_no_in JS_GRATER_EQUAL shift_expression .
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  279 relational_expression_no_in: relational_expression_no_in '<' shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    $default  reduce using rule 279 (relational_expression_no_in)
+
+
+状態 491
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  283 relational_expression_no_in: relational_expression_no_in JS_INSTANCEOF shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    $default  reduce using rule 283 (relational_expression_no_in)
+
+
+状態 492
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  281 relational_expression_no_in: relational_expression_no_in JS_LESS_EQUAL shift_expression .
 
     JS_U_SHIFT_RIGHT  shift, and go to state 228
     JS_SHIFT_RIGHT    shift, and go to state 229
@@ -11675,14 +11665,28 @@ terminator (277)
     $default  reduce using rule 281 (relational_expression_no_in)
 
 
+状態 493
+
+  268 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
+  269                 | shift_expression . JS_SHIFT_RIGHT additive_expression
+  270                 | shift_expression . JS_U_SHIFT_RIGHT additive_expression
+  282 relational_expression_no_in: relational_expression_no_in JS_GRATER_EQUAL shift_expression .
+
+    JS_U_SHIFT_RIGHT  shift, and go to state 228
+    JS_SHIFT_RIGHT    shift, and go to state 229
+    JS_SHIFT_LEFT     shift, and go to state 230
+
+    $default  reduce using rule 282 (relational_expression_no_in)
+
+
 状態 494
 
-  278 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
-  279                            | relational_expression_no_in . '>' shift_expression
-  280                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
-  281                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
-  282                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
-  292 equality_expression_no_in: equality_expression_no_in JS_NOT_EQ relational_expression_no_in .
+  279 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
+  280                            | relational_expression_no_in . '>' shift_expression
+  281                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
+  282                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
+  283                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
+  293 equality_expression_no_in: equality_expression_no_in JS_NOT_EQ relational_expression_no_in .
 
     '>'              shift, and go to state 404
     '<'              shift, and go to state 405
@@ -11690,53 +11694,17 @@ terminator (277)
     JS_LESS_EQUAL    shift, and go to state 407
     JS_GRATER_EQUAL  shift, and go to state 408
 
-    $default  reduce using rule 292 (equality_expression_no_in)
+    $default  reduce using rule 293 (equality_expression_no_in)
 
 
 状態 495
 
-  278 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
-  279                            | relational_expression_no_in . '>' shift_expression
-  280                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
-  281                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
-  282                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
-  290 equality_expression_no_in: equality_expression_no_in JS_NOT_EQUAL relational_expression_no_in .
-
-    '>'              shift, and go to state 404
-    '<'              shift, and go to state 405
-    JS_INSTANCEOF    shift, and go to state 406
-    JS_LESS_EQUAL    shift, and go to state 407
-    JS_GRATER_EQUAL  shift, and go to state 408
-
-    $default  reduce using rule 290 (equality_expression_no_in)
-
-
-状態 496
-
-  278 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
-  279                            | relational_expression_no_in . '>' shift_expression
-  280                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
-  281                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
-  282                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
-  289 equality_expression_no_in: equality_expression_no_in JS_EQUAL relational_expression_no_in .
-
-    '>'              shift, and go to state 404
-    '<'              shift, and go to state 405
-    JS_INSTANCEOF    shift, and go to state 406
-    JS_LESS_EQUAL    shift, and go to state 407
-    JS_GRATER_EQUAL  shift, and go to state 408
-
-    $default  reduce using rule 289 (equality_expression_no_in)
-
-
-状態 497
-
-  278 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
-  279                            | relational_expression_no_in . '>' shift_expression
-  280                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
-  281                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
-  282                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
-  291 equality_expression_no_in: equality_expression_no_in JS_EQ relational_expression_no_in .
+  279 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
+  280                            | relational_expression_no_in . '>' shift_expression
+  281                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
+  282                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
+  283                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
+  291 equality_expression_no_in: equality_expression_no_in JS_NOT_EQUAL relational_expression_no_in .
 
     '>'              shift, and go to state 404
     '<'              shift, and go to state 405
@@ -11747,74 +11715,110 @@ terminator (277)
     $default  reduce using rule 291 (equality_expression_no_in)
 
 
+状態 496
+
+  279 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
+  280                            | relational_expression_no_in . '>' shift_expression
+  281                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
+  282                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
+  283                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
+  290 equality_expression_no_in: equality_expression_no_in JS_EQUAL relational_expression_no_in .
+
+    '>'              shift, and go to state 404
+    '<'              shift, and go to state 405
+    JS_INSTANCEOF    shift, and go to state 406
+    JS_LESS_EQUAL    shift, and go to state 407
+    JS_GRATER_EQUAL  shift, and go to state 408
+
+    $default  reduce using rule 290 (equality_expression_no_in)
+
+
+状態 497
+
+  279 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
+  280                            | relational_expression_no_in . '>' shift_expression
+  281                            | relational_expression_no_in . JS_LESS_EQUAL shift_expression
+  282                            | relational_expression_no_in . JS_GRATER_EQUAL shift_expression
+  283                            | relational_expression_no_in . JS_INSTANCEOF shift_expression
+  292 equality_expression_no_in: equality_expression_no_in JS_EQ relational_expression_no_in .
+
+    '>'              shift, and go to state 404
+    '<'              shift, and go to state 405
+    JS_INSTANCEOF    shift, and go to state 406
+    JS_LESS_EQUAL    shift, and go to state 407
+    JS_GRATER_EQUAL  shift, and go to state 408
+
+    $default  reduce using rule 292 (equality_expression_no_in)
+
+
 状態 498
 
-  289 equality_expression_no_in: equality_expression_no_in . JS_EQUAL relational_expression_no_in
-  290                          | equality_expression_no_in . JS_NOT_EQUAL relational_expression_no_in
-  291                          | equality_expression_no_in . JS_EQ relational_expression_no_in
-  292                          | equality_expression_no_in . JS_NOT_EQ relational_expression_no_in
-  296 bitwise_and_expression_no_in: bitwise_and_expression_no_in '&' equality_expression_no_in .
+  290 equality_expression_no_in: equality_expression_no_in . JS_EQUAL relational_expression_no_in
+  291                          | equality_expression_no_in . JS_NOT_EQUAL relational_expression_no_in
+  292                          | equality_expression_no_in . JS_EQ relational_expression_no_in
+  293                          | equality_expression_no_in . JS_NOT_EQ relational_expression_no_in
+  297 bitwise_and_expression_no_in: bitwise_and_expression_no_in '&' equality_expression_no_in .
 
     JS_NOT_EQ     shift, and go to state 409
     JS_NOT_EQUAL  shift, and go to state 410
     JS_EQUAL      shift, and go to state 411
     JS_EQ         shift, and go to state 412
 
-    $default  reduce using rule 296 (bitwise_and_expression_no_in)
+    $default  reduce using rule 297 (bitwise_and_expression_no_in)
 
 
 状態 499
 
-  296 bitwise_and_expression_no_in: bitwise_and_expression_no_in . '&' equality_expression_no_in
-  300 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in '^' bitwise_and_expression_no_in .
+  297 bitwise_and_expression_no_in: bitwise_and_expression_no_in . '&' equality_expression_no_in
+  301 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in '^' bitwise_and_expression_no_in .
 
     '&'  shift, and go to state 413
 
-    $default  reduce using rule 300 (bitwise_xor_expression_no_in)
+    $default  reduce using rule 301 (bitwise_xor_expression_no_in)
 
 
 状態 500
 
-  300 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in . '^' bitwise_and_expression_no_in
-  304 bitwise_or_expression_no_in: bitwise_or_expression_no_in '|' bitwise_xor_expression_no_in .
+  301 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in . '^' bitwise_and_expression_no_in
+  305 bitwise_or_expression_no_in: bitwise_or_expression_no_in '|' bitwise_xor_expression_no_in .
 
     '^'  shift, and go to state 414
 
-    $default  reduce using rule 304 (bitwise_or_expression_no_in)
+    $default  reduce using rule 305 (bitwise_or_expression_no_in)
 
 
 状態 501
 
-  304 bitwise_or_expression_no_in: bitwise_or_expression_no_in . '|' bitwise_xor_expression_no_in
-  308 logical_and_expression_no_in: logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in .
+  305 bitwise_or_expression_no_in: bitwise_or_expression_no_in . '|' bitwise_xor_expression_no_in
+  309 logical_and_expression_no_in: logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in .
 
     '|'  shift, and go to state 415
 
-    $default  reduce using rule 308 (logical_and_expression_no_in)
+    $default  reduce using rule 309 (logical_and_expression_no_in)
 
 
 状態 502
 
-  316 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in . ':' assignment_expression_no_in
+  317 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in . ':' assignment_expression_no_in
 
     ':'  shift, and go to state 554
 
 
 状態 503
 
-  308 logical_and_expression_no_in: logical_and_expression_no_in . JS_LOGICAL_AND bitwise_or_expression_no_in
-  312 logical_or_expression_no_in: logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in .
+  309 logical_and_expression_no_in: logical_and_expression_no_in . JS_LOGICAL_AND bitwise_or_expression_no_in
+  313 logical_or_expression_no_in: logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in .
 
     JS_LOGICAL_AND  shift, and go to state 416
 
-    $default  reduce using rule 312 (logical_or_expression_no_in)
+    $default  reduce using rule 313 (logical_or_expression_no_in)
 
 
 状態 504
 
-  336 expression_no_in: expression_no_in ',' assignment_expression_no_in .
+  337 expression_no_in: expression_no_in ',' assignment_expression_no_in .
 
-    $default  reduce using rule 336 (expression_no_in)
+    $default  reduce using rule 337 (expression_no_in)
 
 
 状態 505
@@ -12398,7 +12402,7 @@ terminator (277)
 
 状態 533
 
-  218 property_name_and_value_list: property_name_and_value_list ',' property_name ':' . assignment_expression
+  219 property_name_and_value_list: property_name_and_value_list ',' property_name ':' . assignment_expression
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -12505,7 +12509,7 @@ terminator (277)
 
 状態 535
 
-  229 member_expression: JS_NEW . member_expression arguments
+  230 member_expression: JS_NEW . member_expression arguments
 
     '('                             shift, and go to state 125
     JS_NEW                          shift, and go to state 535
@@ -12544,8 +12548,8 @@ terminator (277)
 状態 536
 
     7 inherit_declaration__opt: inherit_declaration member_expression .
-  225 member_expression: member_expression . '[' expression ']'
-  228                  | member_expression . '.' JS_IDENTIFIER
+  226 member_expression: member_expression . '[' expression ']'
+  229                  | member_expression . '.' JS_IDENTIFIER
 
     '['  shift, and go to state 202
     '.'  shift, and go to state 203
@@ -12555,23 +12559,23 @@ terminator (277)
 
 状態 537
 
-  241 argument_list: argument_list ',' arguments_spread .
+  242 argument_list: argument_list ',' arguments_spread .
 
-    $default  reduce using rule 241 (argument_list)
+    $default  reduce using rule 242 (argument_list)
 
 
 状態 538
 
-  240 argument_list: argument_list ',' assignment_expression .
+  241 argument_list: argument_list ',' assignment_expression .
 
-    $default  reduce using rule 240 (argument_list)
+    $default  reduce using rule 241 (argument_list)
 
 
 状態 539
 
-  314 conditional_expression: logical_or_expression '?' assignment_expression ':' assignment_expression .
+  315 conditional_expression: logical_or_expression '?' assignment_expression ':' assignment_expression .
 
-    $default  reduce using rule 314 (conditional_expression)
+    $default  reduce using rule 315 (conditional_expression)
 
 
 状態 540
@@ -12665,7 +12669,7 @@ terminator (277)
 状態 543
 
   213 array_comprehension_if__opt: JS_IF '(' expression . ')'
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 592
@@ -13042,7 +13046,7 @@ terminator (277)
 状態 552
 
   158 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 599
@@ -13160,7 +13164,7 @@ terminator (277)
 
 状態 554
 
-  316 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in ':' . assignment_expression_no_in
+  317 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in ':' . assignment_expression_no_in
 
     '+'                             shift, and go to state 4
     '-'                             shift, and go to state 5
@@ -13257,7 +13261,7 @@ terminator (277)
     JS_DSTA_BEGIN                   shift, and go to state 48
     '{'                             shift, and go to state 111
 
-    ')'       reduce using rule 339 (expression__opt)
+    ')'       reduce using rule 340 (expression__opt)
     $default  reduce using rule 4 (class_adjective__opt)
 
     class_initialiser          go to state 52
@@ -13363,7 +13367,7 @@ terminator (277)
 状態 557
 
   159 iteration_statement: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 604
@@ -13947,9 +13951,9 @@ terminator (277)
 
 状態 571
 
-  218 property_name_and_value_list: property_name_and_value_list ',' property_name ':' assignment_expression .
+  219 property_name_and_value_list: property_name_and_value_list ',' property_name ':' assignment_expression .
 
-    $default  reduce using rule 218 (property_name_and_value_list)
+    $default  reduce using rule 219 (property_name_and_value_list)
 
 
 状態 572
@@ -14142,9 +14146,9 @@ terminator (277)
 
 状態 587
 
-  225 member_expression: member_expression . '[' expression ']'
-  228                  | member_expression . '.' JS_IDENTIFIER
-  229                  | JS_NEW member_expression . arguments
+  226 member_expression: member_expression . '[' expression ']'
+  229                  | member_expression . '.' JS_IDENTIFIER
+  230                  | JS_NEW member_expression . arguments
 
     '('  shift, and go to state 201
     '['  shift, and go to state 202
@@ -14170,7 +14174,7 @@ terminator (277)
 状態 590
 
   210 array_comprehension_iteration: JS_FOR '(' left_hand_side_expression JS_IN expression . ')'
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 624
@@ -14421,7 +14425,7 @@ terminator (277)
     JS_DSTA_BEGIN                   shift, and go to state 48
     '{'                             shift, and go to state 111
 
-    ')'       reduce using rule 339 (expression__opt)
+    ')'       reduce using rule 340 (expression__opt)
     $default  reduce using rule 4 (class_adjective__opt)
 
     class_initialiser          go to state 52
@@ -14576,9 +14580,9 @@ terminator (277)
 
 状態 601
 
-  316 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in .
+  317 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in .
 
-    $default  reduce using rule 316 (conditional_expression_no_in)
+    $default  reduce using rule 317 (conditional_expression_no_in)
 
 
 状態 602
@@ -14591,7 +14595,7 @@ terminator (277)
 状態 603
 
   160 iteration_statement: JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN expression . ')' statement
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 633
@@ -14731,7 +14735,7 @@ terminator (277)
 状態 608
 
   170 case_clause: JS_CASE expression . ':' statement_list__opt
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ':'  shift, and go to state 637
@@ -14880,7 +14884,7 @@ terminator (277)
 状態 625
 
   211 array_comprehension_iteration: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression . ')'
-  334 expression: expression . ',' assignment_expression
+  335 expression: expression . ',' assignment_expression
 
     ','  shift, and go to state 247
     ')'  shift, and go to state 644
@@ -15719,8 +15723,8 @@ terminator (277)
 状態 655
 
    25 private_property_definition: JS_PRIVATE . exportable_definition terminator
-  226 member_expression: JS_PRIVATE . '[' expression ']'
-  227                  | JS_PRIVATE . '.' JS_IDENTIFIER
+  227 member_expression: JS_PRIVATE . '[' expression ']'
+  228                  | JS_PRIVATE . '.' JS_IDENTIFIER
 
     '['            shift, and go to state 160
     '.'            shift, and go to state 161

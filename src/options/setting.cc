@@ -9,6 +9,7 @@
 #include <utils/thread/thread.h>
 #include <utils/file_system/stat.h>
 
+
 namespace mocha {
 
 class Setting::PtrImpl {

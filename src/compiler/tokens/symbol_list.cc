@@ -13,7 +13,9 @@ static const char runtime[][50] = {
   "createUnenumProp",
   "__typeid__",
   "constant",
-  "__private__" 
+  "__private__",
+  "extendClass",
+  "extendPrototype"
 };
 
 static const char builtin[][50] = {

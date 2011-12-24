@@ -113,13 +113,18 @@ inline AstNode* CreateHolderAssignment( AstNode* val,
 
 
 inline void Finish( const char* name , Class* class_ , AstNode* closure_ , ProcessorInfo* info ) {
-  if ( class_->ParentNode()->ParentNode()->NodeType() == AstNode::kExpressionStmt ) {
+  if ( class_->ParentNode()->ParentNode()->NodeType() == AstNode::kExpressionStmt ||
+       class_->Inner() ) {
     TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , TOKEN::JS_IDENTIFIER , class_->Line() ) );
     ValueNode* vars = AstUtils::CreateVarInitiliser( info , closure_->FirstChild() );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( vars );
     VariableStmt* stmt = AstUtils::CreateVarStmt( list );
-    class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , stmt );
+    if ( !class_->Inner() ) {
+      class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , stmt );
+    } else {
+      class_->AddChild( stmt );
+    }
   } else {
     if ( class_->ParentNode()->NodeType() == AstNode::kExportStmt ) {
       ValueNode* name_node = AstUtils::CreateNameNode( name , TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
@@ -180,12 +185,34 @@ void ClassProcessor::ProcessNode() {
   fn->AddChild( constructor_initializer );
   
   closure_body_->AddChild( stmt );
+  ProcessExtends_( class_->Expandar() );
   ProcessBody_( body );
   ReturnStmt* ret = AstUtils::CreateReturnStmt( name->Clone() );
   closure_body_->AddChild( ret );
   Finish( name_.c_str() , class_ , closure_ , info_ );
 }
 
+
+inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
+  if ( !node->IsEmpty() ) {
+    ClassExpandar* expandar = reinterpret_cast<ClassExpandar*>( node );
+    const char* extend_fn = ( expandar->Type() == ClassExpandar::kExtends )?
+        SymbolList::GetSymbol( SymbolList::kExtendClass ) :
+        SymbolList::GetSymbol( SymbolList::kPrototype );
+    
+    ValueNode* extend = AstUtils::CreateNameNode( extend_fn,
+                                                  TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
+    CallExp* runtime_prop = AstUtils::CreateRuntimeMod( extend );
+    NodeList* arg = ManagedHandle::Retain<NodeList>();
+    ValueNode* class_name = AstUtils::CreateNameNode( name_.c_str(),
+                                                  TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
+    arg->AddChild( class_name );
+    arg->AddChild( node->FirstChild() );
+    CallExp* normal_fn_call = AstUtils::CreateNormalAccessor( runtime_prop , arg );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( normal_fn_call );
+    closure_body_->AddChild( stmt );
+  }
+}
 
 
 inline void ClassProcessor::ProcessBody_( AstNode* body ) {
@@ -278,6 +305,17 @@ void ClassProcessor::ProcessEachMember_( AstNode* node , bool is_prototype , boo
       
     case AstNode::kNodeList : {
       ProcessVariable_( node , is_prototype , is_private , is_instance , false );
+    }
+      break;
+
+    case AstNode::kClass : {
+      Statement* tmp_stmt = ManagedHandle::Retain<Statement>();
+      info_->GetInfo()->SetCurrentStmt( tmp_stmt );
+      Class* class_node = reinterpret_cast<Class*>( node );
+      class_node->Inner( true );
+      ClassProcessor *cls = ManagedHandle::Retain( new ClassProcessor( info_ , class_node , tmp_stmt ) );
+      cls->ProcessNode();
+      ProcessVariable_( class_node->FirstChild() , is_prototype , is_private , is_instance , class_node->Const() );
     }
   }
 }
@@ -560,6 +598,7 @@ inline void ClassProcessor::ProcessFunction_( Function* fn , bool is_prototype ,
   fn = reinterpret_cast<Function*>( fn->Clone() );
   ValueNode* value = fn->Name()->CastToValue();
   const char* class_name = name_.c_str();
+  value->ValueType( ValueNode::kProperty );
   if ( !is_instance && !is_prototype ) {
     fn->Accept( info_->GetVisitor() );
     closure_body_->AddChild( Static( class_name , value , fn ) );

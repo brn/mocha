@@ -49,16 +49,18 @@ PROGRAMS = $(bin_PROGRAMS)
 am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
 	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
-	class_processor.$(OBJEXT) ast_utils.$(OBJEXT) \
-	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
-	codegen_visitor.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
-	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
-	compile_runner.$(OBJEXT) list_runner.$(OBJEXT) \
-	error_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
-	compiler_utils.$(OBJEXT) commandline_options.$(OBJEXT) \
-	file_io.$(OBJEXT) file_observer.$(OBJEXT) \
-	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
-	help_runner.$(OBJEXT) interaction.$(OBJEXT) commands.$(OBJEXT) \
+	class_processor.$(OBJEXT) function_processor.$(OBJEXT) \
+	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
+	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
+	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
+	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	exception_handler.$(OBJEXT) compile_runner.$(OBJEXT) \
+	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
+	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
+	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
+	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
+	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
+	interaction.$(OBJEXT) commands.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
 	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
 	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
@@ -180,7 +182,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions
 AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \
@@ -202,9 +204,13 @@ ast/visitors/utils/processors/variable_processor.h\
 ast/visitors/utils/processors/variable_processor.cc\
 ast/visitors/utils/processors/class_processor.cc\
 ast/visitors/utils/processors/class_processor.h\
+ast/visitors/utils/processors/function_processor.cc\
+ast/visitors/utils/processors/function_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
+utils/format.h\
+utils/format.cc\
 bootstrap/bootstrap.h\
 bootstrap/bootstrap.cc\
 utils/char_allocator.h\
@@ -219,6 +225,8 @@ compiler/compiler.cc\
 compiler/compiler.h\
 compiler/tokens/symbol_list.h\
 compiler/tokens/symbol_list.cc\
+compiler/utils/exception_handler.h\
+compiler/utils/exception_handler.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
@@ -431,10 +439,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dsta_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error_runner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception_handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_observer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_system.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_watcher.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/format.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/function_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/grammar.tab.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/help_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
@@ -582,6 +593,20 @@ class_processor.obj: ast/visitors/utils/processors/class_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o class_processor.obj `if test -f 'ast/visitors/utils/processors/class_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/class_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/class_processor.cc'; fi`
 
+function_processor.o: ast/visitors/utils/processors/function_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT function_processor.o -MD -MP -MF $(DEPDIR)/function_processor.Tpo -c -o function_processor.o `test -f 'ast/visitors/utils/processors/function_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/function_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/function_processor.Tpo $(DEPDIR)/function_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/function_processor.cc' object='function_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o function_processor.o `test -f 'ast/visitors/utils/processors/function_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/function_processor.cc
+
+function_processor.obj: ast/visitors/utils/processors/function_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT function_processor.obj -MD -MP -MF $(DEPDIR)/function_processor.Tpo -c -o function_processor.obj `if test -f 'ast/visitors/utils/processors/function_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/function_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/function_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/function_processor.Tpo $(DEPDIR)/function_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/function_processor.cc' object='function_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o function_processor.obj `if test -f 'ast/visitors/utils/processors/function_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/function_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/function_processor.cc'; fi`
+
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_utils.Tpo $(DEPDIR)/ast_utils.Po
@@ -595,6 +620,20 @@ ast_utils.obj: ast/utils/ast_utils.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/utils/ast_utils.cc' object='ast_utils.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_utils.obj `if test -f 'ast/utils/ast_utils.cc'; then $(CYGPATH_W) 'ast/utils/ast_utils.cc'; else $(CYGPATH_W) '$(srcdir)/ast/utils/ast_utils.cc'; fi`
+
+format.o: utils/format.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT format.o -MD -MP -MF $(DEPDIR)/format.Tpo -c -o format.o `test -f 'utils/format.cc' || echo '$(srcdir)/'`utils/format.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/format.Tpo $(DEPDIR)/format.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/format.cc' object='format.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o format.o `test -f 'utils/format.cc' || echo '$(srcdir)/'`utils/format.cc
+
+format.obj: utils/format.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT format.obj -MD -MP -MF $(DEPDIR)/format.Tpo -c -o format.obj `if test -f 'utils/format.cc'; then $(CYGPATH_W) 'utils/format.cc'; else $(CYGPATH_W) '$(srcdir)/utils/format.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/format.Tpo $(DEPDIR)/format.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/format.cc' object='format.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o format.obj `if test -f 'utils/format.cc'; then $(CYGPATH_W) 'utils/format.cc'; else $(CYGPATH_W) '$(srcdir)/utils/format.cc'; fi`
 
 bootstrap.o: bootstrap/bootstrap.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bootstrap.o -MD -MP -MF $(DEPDIR)/bootstrap.Tpo -c -o bootstrap.o `test -f 'bootstrap/bootstrap.cc' || echo '$(srcdir)/'`bootstrap/bootstrap.cc
@@ -693,6 +732,20 @@ symbol_list.obj: compiler/tokens/symbol_list.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/tokens/symbol_list.cc' object='symbol_list.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o symbol_list.obj `if test -f 'compiler/tokens/symbol_list.cc'; then $(CYGPATH_W) 'compiler/tokens/symbol_list.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/tokens/symbol_list.cc'; fi`
+
+exception_handler.o: compiler/utils/exception_handler.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT exception_handler.o -MD -MP -MF $(DEPDIR)/exception_handler.Tpo -c -o exception_handler.o `test -f 'compiler/utils/exception_handler.cc' || echo '$(srcdir)/'`compiler/utils/exception_handler.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/exception_handler.Tpo $(DEPDIR)/exception_handler.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/utils/exception_handler.cc' object='exception_handler.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o exception_handler.o `test -f 'compiler/utils/exception_handler.cc' || echo '$(srcdir)/'`compiler/utils/exception_handler.cc
+
+exception_handler.obj: compiler/utils/exception_handler.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT exception_handler.obj -MD -MP -MF $(DEPDIR)/exception_handler.Tpo -c -o exception_handler.obj `if test -f 'compiler/utils/exception_handler.cc'; then $(CYGPATH_W) 'compiler/utils/exception_handler.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/exception_handler.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/exception_handler.Tpo $(DEPDIR)/exception_handler.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/utils/exception_handler.cc' object='exception_handler.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o exception_handler.obj `if test -f 'compiler/utils/exception_handler.cc'; then $(CYGPATH_W) 'compiler/utils/exception_handler.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/exception_handler.cc'; fi`
 
 compile_runner.o: bootstrap/runners/compile_runner.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.o -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.o `test -f 'bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/compile_runner.cc

@@ -1,7 +1,7 @@
 import {fmt} from "./fmt";
 //import {jQuery} from "../jspp-lib/jquery-devel"
 module {
-export class Monster {
+  export class Monster extends test["200"]{
   // The contextual keyword "constructor" followed by an argument
   // list and a body defines the body of the class’s constructor
   // function. public and private declarations in the constructor
@@ -35,7 +35,11 @@ export class Monster {
     private._health = value;
     return private[ value + "tmpName" ];
   }
-  
+  private class x {
+    constructor() {
+      this.m = 200;
+    }
+  }
   // After a "public" modifier,
   // an identifier optionally followed by "=" and an expression
   // declares a prototype property and initializes it to the value
@@ -50,5 +54,6 @@ export class Monster {
   public const attackMessage = 'The monster hits you!';
 }
   
-  var {x,y,z} = {};
+  var {name,age,time} = {};
+  console.log(time);
 }

@@ -29,6 +29,7 @@
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_system/file_system.h>
 #include <compiler/utils/compiler_starter.h>
+#include <compiler/utils/exception_handler.h>
 
 namespace mocha {
 
@@ -64,6 +65,8 @@ class Compiler : private Uncopyable {
    */
   StrHandle Load ( const char* filename );
 
+  void CatchException( ExceptionHandle handle );
+  
   /**
    * @public
    * @returns {Handle<PathInfo>}

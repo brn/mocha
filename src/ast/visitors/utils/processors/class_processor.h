@@ -18,7 +18,8 @@ class ClassProcessor : public Managed {
                                 Function* closure_body,
                                 ValueNode* exp,
                                 bool is_const );
-  
+
+  inline void ProcessExtends_( AstNode* node );
   inline void ProcessBody_( AstNode* body );
   inline void ProcessMember_( ClassProperties* body );
   inline void IterateMember_( AstNode* list , bool is_prototype , bool is_private , bool is_instance );

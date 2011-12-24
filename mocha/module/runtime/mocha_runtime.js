@@ -1,8 +1,6 @@
 this.x=0;
 var _mochaGlobalExport = {},
-    _mochaClassTable = {},
-    _mochaInstanceTable = {},
-    _mochaInstanceId = (+new Date());
+    _mochaClassTable = {}
 
 module Runtime {
 
@@ -271,8 +269,7 @@ module Runtime {
     }
   }
   
-  var instanceProp = {},
-      slice = Array.prototype.slice;
+  var slice = Array.prototype.slice;
   
   export createUnenumProp = ( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : true,

@@ -134,9 +134,8 @@ inline void ScopedPtr<T>::LazyInitialize_( PtrHandleBase* base , T* ptr ) {
 template <typename T>
 inline void ScopedPtr<T>::CheckInit_( const char* message ) const {
   if ( ptr_ == 0 ) {
-    char tmp[500];
-    sprintf( tmp , "%s called before initialized." , message );
-    throw std::runtime_error( tmp );
+    fprintf( stderr , "%s called before initialized." , message );
+    abort();
   }
 }
 
