@@ -43,7 +43,7 @@ namespace mocha {
 /**
  * We express destructuring assingment as dsta.
  * Let's begin transform of abstract syntax tree!
- * Buf before that , descript target tree structure overview.
+ * Buf before that , describe target tree structure overview on following.
  *
  * Statement<Current active statement>
  *                  |
