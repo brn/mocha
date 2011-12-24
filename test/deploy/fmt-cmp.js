@@ -328,7 +328,7 @@
           return v+g;
         };
     var _mochaLocalTmp3 = [0,1,2],
-        x = ( _mochaLocalTmp3[0] && _mochaLocalTmp3[0]["@sgeg"] )?_mochaLocalTmp3[0]["@sgeg"] : undefined,
+        x = _mochaLocalTmp3[0],
         y = _mochaLocalTmp3[1],
         z = _mochaLocalTmp3[2];
     var _mochaLocalTmp4;

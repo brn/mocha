@@ -228,47 +228,79 @@ void ArrayHelper( ValueNode* ast_node,
 }
 
 
-
-void ProcessArray( ValueNode* ast_node , DstaTree* tree , int depth , ProcessorInfo* info ) {
+/**
+ * Process each member of array pattern.
+ */
+DstaTree* ProcessArrayElement( ValueNode* ast_node,
+                          AstNode* element,
+                          DstaTree* tree,
+                          int depth,
+                          int index,
+                          ProcessorInfo* info ) {
+  printf( "depth is = %d\n" , depth );
   VisitorInfo* visitor_info = info->GetInfo();
-  AstNode* list_child = ast_node->FirstChild();
+  if ( !element->IsEmpty() ) {
+    if ( element->NodeType() == AstNode::kValueNode ) {
+      ValueNode* elem = element->CastToValue();
+      switch( elem->ValueType() ) {
+        //In case of [ x , y ]
+        case ValueNode::kIdentifier : //fall through
+        case ValueNode::kProperty : {
+          ArrayHelper( ast_node , visitor_info , tree , index , elem , false );
+          visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
+          UPDATE_TREE;
+        }
+          break;
+          //In case of [ {x,y} ]
+        case ValueNode::kDst : {
+          ArrayHelper( ast_node , visitor_info , tree , index , 0 , false );
+          ProcessObject( elem , tree , ( depth + 1 ) , info );
+          UPDATE_TREE;
+        }
+          break;
+          //In case of [ [x,y] ]
+        case ValueNode::kDstArray : {
+          ArrayHelper( ast_node , visitor_info , tree , index , 0 , false );
+          ProcessArray( elem , tree , ( depth + 1 ) , info );
+          UPDATE_TREE;
+        }
+          break;
+          //In case of [ x ,y ,...rest ]
+        case ValueNode::kRest : {
+          ArrayHelper( ast_node , visitor_info , tree , index , elem , true );
+          visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
+          UPDATE_TREE;
+        }
+          break;
+      }
+    }
+  }
+  return tree;
+}
+
+
+/**
+ * Process Array pattern.
+ * Array pattern is this,
+ * [ x, y, z ],
+ * [ x, {x,y,z} ],
+ * [ x , [ x,y ] ],
+ * [ x, y , ...rest ]
+ */
+void ProcessArray( ValueNode* ast_node , DstaTree* tree , int depth , ProcessorInfo* info ) {
+  NodeIterator list_child = ast_node->ChildNodes();
   int index = 0;
-  while ( list_child ) {
-    if ( !list_child->IsEmpty() ) {
-      NodeIterator iter = list_child->ChildNodes();
+  while ( list_child.HasNext() ) {
+    AstNode* item = list_child.Next();
+    if ( !item->IsEmpty() ) {
+      NodeIterator iter = item->ChildNodes();
       while ( iter.HasNext() ) {
         AstNode* element = iter.Next();
-        if ( !element->IsEmpty() ) {
-          if ( element->NodeType() == AstNode::kValueNode ) {
-            ValueNode* elem = element->CastToValue();
-            if ( elem->ValueType() == ValueNode::kIdentifier || elem->ValueType() == ValueNode::kProperty ) {
-              ArrayHelper( ast_node , visitor_info , tree , index , elem , false );
-              visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
-              UPDATE_TREE;
-            } else if ( elem->ValueType() == ValueNode::kDst ) {
-              ArrayHelper( ast_node , visitor_info , tree , index , 0 , false );
-              ProcessObject( elem , tree , ( depth + 1 ) , info );
-              UPDATE_TREE;
-            } else if ( elem->ValueType() == ValueNode::kDstArray ) {
-              ArrayHelper( ast_node , visitor_info , tree , index , 0 , false );
-              ProcessArray( elem , tree , ( depth + 1 ) , info );
-              UPDATE_TREE;
-            } else if ( elem->ValueType() == ValueNode::kRest ) {
-              ArrayHelper( ast_node , visitor_info , tree , index , elem , true );
-              visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
-              UPDATE_TREE;
-            }
-          }
-        }
+        tree = ProcessArrayElement( ast_node , element , tree , depth , index , info );
         if ( iter.HasNext() ) {
           index++;
         }
       }
-    }
-    if ( list_child->HasNext() ) {
-      list_child = list_child->NextSibling();
-    } else {
-      break;
     }
   }
 }
@@ -299,10 +331,10 @@ inline AstNode* CreateConditional( AstNode* last_exp , AstNode* first , Processo
 
 
 
-inline NodeList* IterateTree( NodeList* result,
-                              AstNode* first,
-                              ProcessorInfo *info,
-                              bool is_assign ) {
+NodeList* IterateTree( NodeList* result,
+                       AstNode* first,
+                       ProcessorInfo *info,
+                       bool is_assign ) {
   AstNode* maybe_callexp = 0;//init after.
   AstNode* last_exp = 0;//init after.
   //The Children of tree.
@@ -448,7 +480,7 @@ NodeList* DstaProcessor::CreateDstaExtractedAssignment( Statement* stmt , Proces
 
 
 
-void DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
+int DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
   /**
    * Create a variable has the temporary referrence to assignment right hand side.
    * That like this -> _mochaLocalTmp<current number of tmporary variable> = <LHS>
@@ -466,12 +498,16 @@ void DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
    * If we have not dsta yet,
    * add DstaExtractedAssignment to current active statement.
    */
-  if ( !visitor_info->GetCurrentStmt()->HasDsta() ) {
+  Statement* stmt = visitor_info->GetCurrentStmt();
+  if ( stmt && !stmt->HasDsta() ) {
     visitor_info->GetCurrentStmt()->SetDsta( ManagedHandle::Retain<DstaExtractedExpressions>() );
     visitor_info->GetCurrentStmt()->GetDsta()->AddChild( ManagedHandle::Retain<NodeList>() );
+  } else if ( !stmt ) {
+    ERROR( info , "ProcessNode" );
+    return kError;
   }
   /**
-   * Now add temporary referrence variable to Refs node.
+   * Now add a temporary referrence variable to Refs node.
    */
   visitor_info->GetCurrentStmt()->GetDsta()->Refs( value );
   if ( ast_node->ValueType() == ValueNode::kDstArray ) {
@@ -484,6 +520,7 @@ void DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
    */
   ast_node->ValueType( ValueNode::kIdentifier );
   ast_node->Symbol( value->Symbol() );
+  return kSuccess;
 }
 
 
