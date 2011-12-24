@@ -18,7 +18,9 @@ class SymbolList : private Static {
     kConstant,
     kPrivateField,
     kExtendClass,
-    kExtendPrototype
+    kExtendPrototype,
+    kScopeModule,
+    kFile,
   } RuntimeSymbol;
 
   typedef enum {

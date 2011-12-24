@@ -23,6 +23,10 @@ ast/visitors/utils/processors/class_processor.cc\
 ast/visitors/utils/processors/class_processor.h\
 ast/visitors/utils/processors/function_processor.cc\
 ast/visitors/utils/processors/function_processor.h\
+ast/visitors/utils/processors/fileroot_processor.cc\
+ast/visitors/utils/processors/fileroot_processor.h\
+ast/visitors/utils/processors/module_processor.cc\
+ast/visitors/utils/processors/module_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\

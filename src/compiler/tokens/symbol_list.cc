@@ -15,7 +15,9 @@ static const char runtime[][50] = {
   "constant",
   "__private__",
   "extendClass",
-  "extendPrototype"
+  "extendPrototype",
+  "__MODULE__",
+  "__FILE__"
 };
 
 static const char builtin[][50] = {

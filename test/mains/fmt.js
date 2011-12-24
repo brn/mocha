@@ -6,3 +6,10 @@ var m = ( v = 200 , g = 200 )-> v + g;
 var [x,y,z] = [0,1,2];
 
 [[x],y,z] = [z,y,x];
+
+
+module {
+  export name() {}
+}
+
+console.log( __MODULE__.name )

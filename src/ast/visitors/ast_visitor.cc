@@ -41,6 +41,8 @@
 #include <ast/visitors/utils/processors/variable_processor.h>
 #include <ast/visitors/utils/processors/class_processor.h>
 #include <ast/visitors/utils/processors/function_processor.h>
+#include <ast/visitors/utils/processors/fileroot_processor.h>
+#include <ast/visitors/utils/processors/module_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/xml/xml_setting_info.h>
 #include <grammar/grammar.tab.hh>
@@ -74,35 +76,7 @@ VISITOR_IMPL( AstRoot ) {
 
 VISITOR_IMPL( FileRoot ) {
   PRINT_NODE_NAME;
-  NodeIterator iterator = ast_node->ChildNodes();
-  bool is_runtime = visitor_info_->IsRuntime();
-  
-  while ( iterator.HasNext() ) {
-    iterator.Next()->Accept( this );
-  }
-  if ( !is_runtime ) {
-    Function *fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
-                                                 ManagedHandle::Retain<Empty>() , ast_node );
-    ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
-    ValueNode* global_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                         TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-    ValueNode* object_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
-    object_literal->Node( ManagedHandle::Retain<Empty>() );
-    StrHandle handle = FileSystem::GetModuleKey( ast_node->FileName() );
-    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , TOKEN::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
-    
-    CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key );
-    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal );
-
-    ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-    VariableStmt* var_stmt = AstUtils::CreateVarStmt(
-        AstUtils::CreateVarInitiliser( alias->Symbol() , global_export_accessor->Clone() ) );
-
-    fn->InsertBefore( var_stmt );
-    fn->InsertBefore( AstUtils::CreateExpStmt( exp ) );
-    ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
-  }
+  FileRootProcessor::ProcessNode( ast_node , proc_info_.Get() );
 }
 
 
@@ -139,79 +113,8 @@ VISITOR_IMPL( BlockStmt ) {
 VISITOR_IMPL( ModuleStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  AstNode* body = ast_node->FirstChild();
-  AstNode* name = ast_node->Name();
-  bool is_runtime = visitor_info_->IsRuntime();
-  
-  if ( body->NodeType() == AstNode::kBlockStmt ) {
-    //Get block inner node.
-    body = body->FirstChild();
-  } else {
-    //Create node list.
-    StatementList *list = ManagedHandle::Retain<StatementList>();
-    list->AddChild( body );
-    body = list;
-  }
-
-  /**
-   * Create anonymous function call like (function(){ ... })()
-   * to create module scopes.
-   */
-  Function *fn_node = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , body );
-  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
-  visitor_info_->EnterModuel();
-  body->Accept( this );
-  visitor_info_->EscapeModuel();
-  //For anonymous module.
-  if ( !name->IsEmpty() ) {
-    /*
-     * In anonymous modules,
-     * all export properties are directly add to global export symbol.
-     * Like this -> __MC_global_alias__.<name> = ...;
-     */
-    if ( !is_runtime ) {
-      ValueNode* alias = 0;
-      if ( visitor_info_->IsInModules() ) {
-        alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                          TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-      } else {
-        alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                          TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-      }
-      CallExp* dot_accessor = AstUtils::CreateDotAccessor( alias , name );
-      AssignmentExp* exp = AstUtils::CreateAssignment( '=' , dot_accessor , an_stmt_node->FirstChild() );
-      ExpressionStmt* exp_stmt =  AstUtils::CreateExpStmt( exp );
-      ast_node->ParentNode()->ReplaceChild( ast_node , exp_stmt );
-    } else {
-      ValueNode *var_node = AstUtils::CreateVarInitiliser( name->CastToValue()->Symbol() , an_stmt_node->FirstChild() );
-      VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_node );
-      ast_node->ParentNode()->ReplaceChild( ast_node , var_stmt );
-    }
-  } else {
-    ast_node->ParentNode()->ReplaceChild( ast_node , an_stmt_node );
-  }
-
-  TokenInfo* local = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                           TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
-  ValueNode* ret_local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                   TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-
-  ValueNode* init;
-  if ( !name->IsEmpty() ) {
-    init = AstUtils::CreateVarInitiliser( local,
-                                          AstUtils::CreateObjectLiteral( ManagedHandle::Retain<Empty>() ) );
-  } else {
-    ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-    init = AstUtils::CreateVarInitiliser( local,
-                                          alias );
-  }
-  NodeList* list = ManagedHandle::Retain<NodeList>();
-  ReturnStmt* ret = AstUtils::CreateReturnStmt( ret_local );
-  list->AddChild( init );
-  VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
-  fn_node->InsertBefore( var_stmt );
-  fn_node->AddChild( ret );
+  ModuleProcessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
 }
 
 
@@ -229,7 +132,7 @@ VISITOR_IMPL( ExportStmt ) {
   if ( node->NodeType() == AstNode::kFunction ) {
     Function* fn = reinterpret_cast<Function*>( node );
     ValueNode* name = fn->Name()->CastToValue();
-    ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
+    ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
                                                  TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     ValueNode* property_name = name->Clone()->CastToValue();
     property_name->ValueType( ValueNode::kProperty );

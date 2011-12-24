@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ast/ast.h>
 #include <ast/visitors/optimizer_visitor.h>
+#include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
 namespace mocha {
@@ -315,7 +316,6 @@ VISITOR_IMPL(Function){
   ValueNode* name_node = name->CastToValue();
   if ( !name->IsEmpty() ) {
     scope_->Insert( name_node->Symbol() );
-    printf( "+++++++++++++++++++++++++++var token = %s %p\n", name_node->Symbol()->GetToken() , scope_->Current() );
   }
   ast_node->SetScope( scope_->Enter() );
   NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
@@ -336,12 +336,14 @@ VISITOR_IMPL(Function){
 VISITOR_IMPL( ValueNode ) {
   switch ( ast_node->ValueType() ) {
     case ValueNode::kVariable :
-      printf( "+++++++++++++++++++++++++++var token = %s %p\n", ast_node->Symbol()->GetToken() , scope_->Current() );
       scope_->Insert( ast_node->Symbol() );
       ast_node->FirstChild()->Accept( this );
       break;
       
     case ValueNode::kIdentifier :
+      if ( strcmp( ast_node->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kScopeModule ) ) == 0 ) {
+        ast_node->Symbol()->SetToken( SymbolList::GetSymbol( SymbolList::kGlobalAlias ) );
+      }
       scope_->Ref( ast_node->Symbol() );
       AstNode* first_child = ast_node->FirstChild();
       if ( first_child ) {

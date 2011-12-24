@@ -50,6 +50,7 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
 	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
 	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
 	class_processor.$(OBJEXT) function_processor.$(OBJEXT) \
+	fileroot_processor.$(OBJEXT) module_processor.$(OBJEXT) \
 	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
 	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
 	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
@@ -206,6 +207,10 @@ ast/visitors/utils/processors/class_processor.cc\
 ast/visitors/utils/processors/class_processor.h\
 ast/visitors/utils/processors/function_processor.cc\
 ast/visitors/utils/processors/function_processor.h\
+ast/visitors/utils/processors/fileroot_processor.cc\
+ast/visitors/utils/processors/fileroot_processor.h\
+ast/visitors/utils/processors/module_processor.cc\
+ast/visitors/utils/processors/module_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
@@ -444,6 +449,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_observer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_system.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_watcher.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileroot_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/format.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/function_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/grammar.tab.Po@am__quote@
@@ -457,6 +463,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/managed_handle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mkdir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mocha.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/module_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observer_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/optimizer_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_connector.Po@am__quote@
@@ -606,6 +613,34 @@ function_processor.obj: ast/visitors/utils/processors/function_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/function_processor.cc' object='function_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o function_processor.obj `if test -f 'ast/visitors/utils/processors/function_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/function_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/function_processor.cc'; fi`
+
+fileroot_processor.o: ast/visitors/utils/processors/fileroot_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fileroot_processor.o -MD -MP -MF $(DEPDIR)/fileroot_processor.Tpo -c -o fileroot_processor.o `test -f 'ast/visitors/utils/processors/fileroot_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/fileroot_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/fileroot_processor.Tpo $(DEPDIR)/fileroot_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/fileroot_processor.cc' object='fileroot_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fileroot_processor.o `test -f 'ast/visitors/utils/processors/fileroot_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/fileroot_processor.cc
+
+fileroot_processor.obj: ast/visitors/utils/processors/fileroot_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fileroot_processor.obj -MD -MP -MF $(DEPDIR)/fileroot_processor.Tpo -c -o fileroot_processor.obj `if test -f 'ast/visitors/utils/processors/fileroot_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/fileroot_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/fileroot_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/fileroot_processor.Tpo $(DEPDIR)/fileroot_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/fileroot_processor.cc' object='fileroot_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fileroot_processor.obj `if test -f 'ast/visitors/utils/processors/fileroot_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/fileroot_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/fileroot_processor.cc'; fi`
+
+module_processor.o: ast/visitors/utils/processors/module_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT module_processor.o -MD -MP -MF $(DEPDIR)/module_processor.Tpo -c -o module_processor.o `test -f 'ast/visitors/utils/processors/module_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/module_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/module_processor.Tpo $(DEPDIR)/module_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/module_processor.cc' object='module_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o module_processor.o `test -f 'ast/visitors/utils/processors/module_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/module_processor.cc
+
+module_processor.obj: ast/visitors/utils/processors/module_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT module_processor.obj -MD -MP -MF $(DEPDIR)/module_processor.Tpo -c -o module_processor.obj `if test -f 'ast/visitors/utils/processors/module_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/module_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/module_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/module_processor.Tpo $(DEPDIR)/module_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/module_processor.cc' object='module_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o module_processor.obj `if test -f 'ast/visitors/utils/processors/module_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/module_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/module_processor.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc
