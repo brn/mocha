@@ -31,10 +31,12 @@ void ModuleProcessor::ProcessNode() {
   }
   Function* fn_node = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , body );
   ExpressionStmt* an_stmt_node = ProcessBody_( body , fn_node , name );
+  fn_node->Line( stmt_->Line() );
   //For anonymous module.
   if ( !name->IsEmpty() ) {
     ProcessAnonymousModule_( an_stmt_node , name , is_runtime );
   } else {
+    an_stmt_node->Line( stmt_->Line() );
     stmt_->ParentNode()->ReplaceChild( stmt_ , an_stmt_node );
   }
   Finish_( name , fn_node );
@@ -69,6 +71,7 @@ void ModuleProcessor::ProcessAnonymousModule_( ExpressionStmt* an_stmt_node , As
   } else {
     ValueNode *var_node = AstUtils::CreateVarInitiliser( name->CastToValue()->Symbol() , an_stmt_node->FirstChild() );
     VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_node );
+    var_stmt->Line( stmt_->Line() );
     stmt_->ParentNode()->ReplaceChild( stmt_ , var_stmt );
   }
 }
@@ -107,6 +110,7 @@ void ModuleProcessor::Finish_( AstNode* name , Function* fn_node ) {
   ReturnStmt* ret = AstUtils::CreateReturnStmt( ret_local );
   list->AddChild( init );
   VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
+  var_stmt->Line( stmt_->Line() );
   fn_node->InsertBefore( var_stmt );
   fn_node->AddChild( ret );
 }

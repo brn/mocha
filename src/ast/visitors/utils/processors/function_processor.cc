@@ -110,6 +110,7 @@ void FunctionProcessor::ProcessBody_() {
     info_->GetInfo()->SetCurrentStmt( stmt_tmp );
     function_->FirstChild()->Accept( visitor );
     ReturnStmt* ret_stmt = AstUtils::CreateReturnStmt( function_->FirstChild()->Clone() );
+    ret_stmt->Line( function_->FirstChild()->Line() );
     function_->RemoveAllChild();
     if ( stmt_tmp->HasDsta() ) {
       NodeList* list = ManagedHandle::Retain<NodeList>();

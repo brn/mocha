@@ -43,6 +43,8 @@
 #include <ast/visitors/utils/processors/function_processor.h>
 #include <ast/visitors/utils/processors/fileroot_processor.h>
 #include <ast/visitors/utils/processors/module_processor.h>
+#include <ast/visitors/utils/processors/export_processor.h>
+#include <ast/visitors/utils/processors/import_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/xml/xml_setting_info.h>
 #include <grammar/grammar.tab.hh>
@@ -121,135 +123,15 @@ VISITOR_IMPL( ModuleStmt ) {
 VISITOR_IMPL( ExportStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  AstNode* node = ast_node->FirstChild();
-  ValueNode* name_node = node->CastToValue();
-  if ( name_node && name_node->ValueType() == ValueNode::kConstant ) {
-    node = name_node->Node();
-  }
-  
-  node->Accept( this );
-  
-  if ( node->NodeType() == AstNode::kFunction ) {
-    Function* fn = reinterpret_cast<Function*>( node );
-    ValueNode* name = fn->Name()->CastToValue();
-    ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-    ValueNode* property_name = name->Clone()->CastToValue();
-    property_name->ValueType( ValueNode::kProperty );
-    CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name );
-    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , fn );
-    ExpressionStmt* exp_stmt_node = AstUtils::CreateExpStmt( assign );
-    ast_node->ParentNode()->ReplaceChild( ast_node , exp_stmt_node );
-
-  } else if ( node->NodeType() == AstNode::kNodeList ) {
-
-    NodeIterator iterator = node->ChildNodes();
-    VariableStmt* var_stmt = ManagedHandle::Retain<VariableStmt>();
-    Expression* exp = ManagedHandle::Retain<Expression>();
-    exp->Paren();
-    while ( iterator.HasNext() ) {
-      AstNode *item = iterator.Next();
-      TokenInfo *name_info = item->CastToValue()->Symbol();
-      ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , TOKEN::JS_IDENTIFIER , ast_node->Line() , true );
-      ValueNode *local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                   TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-      CallExp *export_prop = AstUtils::CreateDotAccessor( local , name );
-      AssignmentExp* assign;
-      if ( !item->FirstChild()->IsEmpty() ) {
-        assign = AstUtils::CreateAssignment( '=' , export_prop , item->FirstChild() );
-        ValueNode *val = AstUtils::CreateVarInitiliser( name->Symbol() , assign );
-        var_stmt->AddChild( val);
-      } else {
-        assign = AstUtils::CreateAssignment( '=' , export_prop , name );
-        exp->AddChild( assign );
-      }
-    }
-    if ( var_stmt->ChildLength() > 0 ) {
-      ast_node->ParentNode()->ReplaceChild( ast_node , var_stmt );
-    }
-    if ( exp->ChildLength() > 0 ) {
-      ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
-      stmt->AddChild( exp );
-      if ( var_stmt->ChildLength() > 0 ) {
-        ast_node->ParentNode()->InsertBefore( stmt , var_stmt );
-      } else {
-        ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
-      }
-    }
-  }
+  ExportProcessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
 }
 
 VISITOR_IMPL( ImportStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  ImportProccessor_( ast_node );
-  
-  ast_node->Exp()->Accept( this );
-  
-  ValueNode *name = AstUtils::CreateNameNode( ast_node->ModKey()->GetToken(),
-                                              TOKEN::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
-  ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-  CallExp* exp = AstUtils::CreateArrayAccessor( global , name );
-  if ( ast_node->From()->ChildLength() > 1 ) {
-    NodeIterator iter = ast_node->From()->ChildNodes();
-    iter.Next();
-    while ( iter.HasNext() ) {
-      ValueNode* item = iter.Next()->CastToValue();
-      if ( !item->IsEmpty() ) {
-        if ( item->ValueType() == ValueNode::kString ) {
-          exp = AstUtils::CreateArrayAccessor( exp , item );
-        } else {
-          exp = AstUtils::CreateDotAccessor( exp , item );
-        }
-      }
-    }
-  }
-  
-  if ( ast_node->HasDsta() ) {
-    ValueNode* value = AstUtils::CreateVarInitiliser( ast_node->Exp()->CastToValue()->Symbol() , exp );
-    NodeList* list = ManagedHandle::Retain<NodeList>();
-    list->AddChild( value );
-    list->Append( DstaProcessor::CreateDstaExtractedVarStmt( ast_node , proc_info_.Get() ) );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( list );
-    ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
-  } else {
-    ValueNode* value = AstUtils::CreateVarInitiliser( ast_node->Exp()->CastToValue()->Symbol() , exp );
-    NodeList* list = ManagedHandle::Retain<NodeList>();
-    list->AddChild( value );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( list );
-    ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
-  }
-}
-
-
-void AstVisitor::ImportProccessor_( ImportStmt* ast_node ) {
-  AstNode* from = ast_node->From();
-  AstNode* file = from->FirstChild();
-  ValueNode* value = file->CastToValue();
-
-  if ( value && value->ValueType() == ValueNode::kString ) {
-    //Create path from js string literal.
-    TokenInfo* info = value->Symbol();
-    std::string js_path = info->GetToken();
-    js_path.erase( 0 , 1 );
-    //"path to file" -> path to file
-    js_path.erase( js_path.size() - 1 , js_path.size() );
-    
-    StrHandle current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
-    //Get full path of module.
-    StrHandle real_path = visitor_info_->GetCompiler()->Load( js_path.c_str() );
-
-    //Set virtual dir to current context dir.
-    VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
-
-    //Get module uuid key.
-    StrHandle key_str = FileSystem::GetModuleKey( real_path.Get() );
-    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() ) );
-
-    //Reserve module key string for later code generation.
-    ast_node->ModKey( key );
-  }
+  ImportProccessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
 }
 
 

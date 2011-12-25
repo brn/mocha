@@ -45,7 +45,6 @@ class AstVisitor : public IVisitor {
 #include <ast/visitors/visitor_decl.h>
   
  private:
-  void ImportProccessor_( ImportStmt *node );
   void JumpStmt_( AstNode* ast_node , int type );
   void ArrayAccessorProccessor_( CallExp* exp );
   void DotAccessorProccessor_( CallExp* exp );

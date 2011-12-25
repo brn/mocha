@@ -1,6 +1,9 @@
 import {fmt} from "./fmt";
+if (x){
+} else if (z) {}
 //import {jQuery} from "../jspp-lib/jquery-devel"
 module {
+  export const x = 0;
   export class Monster extends test["200"]{
   // The contextual keyword "constructor" followed by an argument
   // list and a body defines the body of the class’s constructor

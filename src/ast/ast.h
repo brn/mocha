@@ -613,7 +613,8 @@ class Function : public Expression {
     kThis
   };
   inline Function() : Expression( NAME_PARAMETER( Function ) ),
-                      fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ) , name_( 0 ) , argv_( 0 ){};
+                      fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_root_( false ),
+                      name_( 0 ) , argv_( 0 ){};
   inline ~Function(){};
   inline void Name( AstNode* name ){ name_ = name; };
   inline AstNode* Name(){ return name_; };
@@ -630,12 +631,15 @@ class Function : public Expression {
   inline void ContextType( int type ) { context_ = type; }
   inline void SetScope( InnerScope* scope ){ scope_ = scope; };
   inline InnerScope* GetScope(){ return scope_; };
+  inline void Root( bool is ) { is_root_ = is; }
+  inline bool Root() { return is_root_; }
   CLONE( Function );
  private :
   int fn_type_;
   int context_;
   int fn_attr_;
   bool is_const_;
+  bool is_root_;
   AstNode* name_;
   AstNode* argv_;
   InnerScope* scope_;

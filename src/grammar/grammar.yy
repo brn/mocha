@@ -378,6 +378,7 @@ class_initialiser
 : class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt '}'
   {
     Class* cls = ManagedHandle::Retain( new Class( $4 , $1 ) );
+    cls->Line( $2->GetLineNumber() );
     cls->Name( $3 );
     cls->Body( $6 );
     $$ = cls;
@@ -401,6 +402,7 @@ inherit_declaration__opt
     } else {
       expandar = ManagedHandle::Retain( new ClassExpandar( ClassExpandar::kExtends ) );
     }
+    expandar->Line( $1->GetLineNumber() );
     expandar->AddChild( $2 );
     $$ = expandar;
   }
@@ -542,6 +544,7 @@ exportable_definition
 | JS_CONST variable_declaration_list
   {
     ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kConstant ) );
+    val->Line( $1->GetLineNumber() );
     val->Node( $2 );
     $$ = val;
   }
@@ -587,6 +590,7 @@ version_statement
 : MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' '{' statement_list__opt '}'
   {
     VersionStmt* stmt = ManagedHandle::Retain( new VersionStmt( $3 ) );
+    stmt->Line( $1->GetLineNumber() );
     stmt->AddChild( $6 );
     $$ = stmt;
   }
@@ -1334,6 +1338,7 @@ variable_declaration
 | destructuring_assignment_left_hand_side initialiser__opt
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    node->Line( $1->Line() );
     node->Node( $1 );
     node->AddChild( $2 );
     $$ = node;
@@ -1352,6 +1357,7 @@ variable_declaration_no_in
 | destructuring_assignment_left_hand_side initialiser_no_in__opt
   {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+    node->Line( $1->Line() );
     node->Node( $1 );
     node->AddChild( $2 );
     $$ = node;
@@ -1438,6 +1444,7 @@ array_left_hand_side_list
       $1->AddChild( GetEmptyNode() );
     }
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Line( $4->GetLineNumber() );
     value->Symbol( $4 );
     $1->AddChild( value );
     $$ = $1;
@@ -1489,6 +1496,7 @@ object_member_left_hand_side_list
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     node->Symbol( $3 );
     $1->AddChild( node );
+    node->Line( $3->GetLineNumber() );
     list->Line( $1->Line() );
     list->AddChild( $1 );
     $$ = list;
@@ -1509,6 +1517,7 @@ object_member_left_hand_side_list
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     $1->AddChild( $3 );
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Line( $5->GetLineNumber() );
     node->Symbol( $5 );
     $3->AddChild( node );
     $$ = $1;
@@ -1518,6 +1527,7 @@ object_member_left_hand_side_list
   {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    node->Line( $3->GetLineNumber() );
     node->Symbol( $3 );
     $1->AddChild( node );
     $$ = $1;

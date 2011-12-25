@@ -1,6 +1,9 @@
 #include <ast/visitors/utils/codewriter.h>
 #include <grammar/grammar.tab.hh>
 #include <compiler/tokens/js_token.h>
+#include <compiler/tokens/token_info.h>
+#include <compiler/scopes/scope.h>
+#include <utils/pool/managed_handle.h>
 
 namespace mocha {
 
@@ -34,14 +37,6 @@ class PrettyPrinter : public CodeWriter::WriterBase {
     stream->Write( code );
   }
   void WriteOp( int op , int state , CodeStream* stream ) {
-    if ( last_state_ == CodeWriter::kElseBlockEnd ) {
-      stream->Write( ';' );
-      if ( op != '}' ) {
-        stream->Write( '\n' );
-        stream->Write( indent_.c_str() );
-      }
-      last_state_ = 0;
-    }
     switch ( state ) {
       case CodeWriter::kFunctionBeginBrace :
         stream->Write( " {\n" );
@@ -172,7 +167,6 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         if ( state == CodeWriter::kElseBlockEnd ) {
           EraseIndent( stream , 2 );
           stream->Write( "}" );
-          last_state_ = CodeWriter::kElseBlockEnd;
         } else {
           stream->Write( '\n' );
           stream->Write( indent_ );
@@ -261,10 +255,6 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
         
       case TOKEN::JS_IF :
-        if ( last_op_ != TOKEN::JS_ELSE && last_op_ != '{' ) {
-          stream->Write( '\n' );
-          stream->Write( indent_.c_str() );
-        }
         stream->Write( "if " );
         break;
 
@@ -289,10 +279,6 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
 
       case TOKEN::JS_VAR :
-        if ( last_op_ != '{' ) {
-          stream->Write( "\n" );
-          stream->Write( indent_.c_str() );
-        }
         stream->Write( "var " );
         indent_ += ( state == CodeWriter::kFor )? "" : "    ";
         break;
@@ -459,24 +445,14 @@ CodeWriter::~CodeWriter() {
 
 void CodeWriter::InsertDebugSymbol( CodeStream* stream ) {
   if ( is_line_ ) {
-    stream->Write( "var __FILE__ = ''" );
-    base_->WriteOp( ';' , 0 , stream );
     stream->Write( "var __LINE__ = 0" );
-    base_->WriteOp( ';' , 0 , stream );
-    stream->Write( "window.onerror=function( err ){try{"
-                   "throw new SyntaxError(err + ' in ' +  __FILE__ + ' at : ' + __LINE__ )"
-                   "}catch(e){"
-                   "  throw new Error(e);"
-                   "}}" );
     base_->WriteOp( ';' , 0 , stream );
   }
 }
 
 void CodeWriter::InitializeFileName( const char* file , CodeStream* stream ) {
   if ( is_line_ ) {
-    stream->Write( "var __backup__" );
-    base_->WriteOp( '=' , 0 , stream );
-    stream->Write( "__FILE__" );
+    stream->Write( "var __FILE__" );
     base_->WriteOp( '=' , 0 , stream );
     stream->Write( '"' );
     stream->Write( file );
@@ -536,6 +512,52 @@ void CodeWriter::ModuleBeginProccessor( const char* key , const char* name , Cod
   }
 }
 
+
+void CodeWriter::DebugBlockBegin( CodeStream* stream ) {
+  if ( is_line_ ) {
+    if ( is_pretty_print_ ) {
+      stream->Write( "try " );
+    } else {
+      stream->Write( "try" );
+    }
+    base_->WriteOp( '{' , kBlockBeginBrace , stream );
+  }
+}
+
+
+void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
+  if ( is_line_ ) {
+    if ( is_pretty_print_ ) {
+      base_->WriteOp( '}' , kBlockEndBrace , stream );
+      stream->Write( " catch( e )" );
+      base_->WriteOp( '{' , kBlockBeginBrace , stream );
+    } else {
+      stream->Write( "}catch(e){" );
+    }
+    if ( is_pretty_print_ ) {
+      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , TOKEN::JS_IDENTIFIER , 0 ) );
+      TokenInfo* info = scope->Find( runtime );
+      if ( info ) {
+        stream->Write( info->GetAnotherName() );
+      } else {
+        stream->Write( "Runtime" );
+      }
+      stream->Write( ".exceptionHandler( __LINE__ , __FILE__ , e )" );
+      base_->WriteOp( ';' , 0 , stream );
+      base_->WriteOp( '}' , kBlockEndBrace , stream );
+    } else {
+      stream->Write( "}catch(e){" );
+      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , TOKEN::JS_IDENTIFIER , 0 ) );
+      TokenInfo* info = scope->Find( runtime );
+      if ( info ) {
+        stream->Write( info->GetAnotherName() );
+      } else {
+        stream->Write( "Runtime" );
+      }
+      stream->Write( ".catchHandler(__LINE__,__FILE__,e);}" );
+    }
+  }
+}
 
 void CodeWriter::AnonymousModuleBeginProccessor( const char* key , CodeStream* stream ) {
   if ( is_pretty_print_ ) {

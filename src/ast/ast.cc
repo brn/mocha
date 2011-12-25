@@ -185,6 +185,7 @@ inline T2* CopyChildren( T* dest , T2* source ) {
 #define NORMAL_CLONE( name )                    \
   AstNode* name::Clone() {                      \
     name* ret = ManagedHandle::Retain<name>();  \
+    ret->Line( Line() );                        \
     return CopyChildren( ret , this );          \
   }
 
@@ -356,6 +357,7 @@ AstNode* Function::Clone() {
   fn->context_ = context_;
   fn->fn_attr_ = fn_attr_;
   fn->is_const_ = is_const_;
+  fn->Line( Line() );
   return CopyChildren( fn , this );
 }
 
@@ -452,6 +454,7 @@ AstNode* ValueNode::Clone() {
       }
       break;
   }
+  ret->Line( Line() );
   return CopyChildren( ret , this );
 }
 

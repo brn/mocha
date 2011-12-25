@@ -120,6 +120,7 @@ inline void Finish( const char* name , Class* class_ , AstNode* closure_ , Proce
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( vars );
     VariableStmt* stmt = AstUtils::CreateVarStmt( list );
+    stmt->Line( class_->Line() );
     if ( !class_->Inner() ) {
       class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , stmt );
     } else {
@@ -131,10 +132,13 @@ inline void Finish( const char* name , Class* class_ , AstNode* closure_ , Proce
       ValueNode* local_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
                                                           TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
       CallExp* dot_accessor = AstUtils::CreateDotAccessor( local_export , name_node );
-      ExpressionStmt* assign_stmt = AstUtils::CreateExpStmt(
-          AstUtils::CreateAssignment( '=' , dot_accessor , closure_->FirstChild() ) );
-      class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , assign_stmt );
+      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , dot_accessor , closure_->FirstChild() );
+      ValueNode* var_node = AstUtils::CreateVarInitiliser( name_node->Clone()->CastToValue()->Symbol() , assign );
+      VariableStmt* var_stmt = AstUtils::CreateVarStmt( var_node );
+      var_stmt->Line( class_->Line() );
+      class_->ParentNode()->ParentNode()->ReplaceChild( class_->ParentNode() , var_stmt );
     } else {
+      closure_->FirstChild()->Line( class_->Line() );
       class_->AddChild( closure_->FirstChild() );
     }
   }
@@ -158,6 +162,7 @@ ClassProcessor::ClassProcessor( ProcessorInfo* info , Class* ast_node , Statemen
   closure_body_ = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() ,
                                            ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<StatementList>() );
   closure_ = AstUtils::CreateAnonymousFnCall( closure_body_ , ManagedHandle::Retain<Empty>() );
+  closure_body_->Line( class_->Line() );
 }
 
 
@@ -175,8 +180,9 @@ void ClassProcessor::ProcessNode() {
   
   ValueNode* name = AstUtils::CreateNameNode( name_.c_str() , TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
   Function* fn = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() );
+  fn->Line( class_->Line() );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
-
+  stmt->Line( class_->Line() );
   closure_body_->InsertBefore( CreatePrivateHolder( class_ , info_ ) );
 
   ExpressionStmt *new_call = AstUtils::CreateExpStmt( CreatePrivateInstance( class_->Line() ) );
@@ -210,6 +216,7 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
     arg->AddChild( node->FirstChild() );
     CallExp* normal_fn_call = AstUtils::CreateNormalAccessor( runtime_prop , arg );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( normal_fn_call );
+    stmt->Line( node->Line() );
     closure_body_->AddChild( stmt );
   }
 }
@@ -233,6 +240,7 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
   if ( constructor_decl ) {
     Function* constructor = reinterpret_cast<Function*>( constructor_decl->FirstChild() );
     constructor_ = constructor;
+    constructor->Line( constructor_decl->FirstChild()->Line() );
     ProcessConstructor_( constructor );
   }
 
@@ -257,7 +265,7 @@ inline void ClassProcessor::ProcessConstructor_( Function* constructor ) {
   list->AddChild( constructor );
   Function *backup = closure_body_;
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( CreateHiddenMember( list , constructor->Line() ) );
-  
+  stmt->Line( constructor->Line() );
   NodeIterator iterator = constructor->ChildNodes();
   closure_body_ = constructor;
   while ( iterator.HasNext() ) {
@@ -430,9 +438,13 @@ inline ExpressionStmt* ConstantStatic( const char* class_name , AstNode* name_no
                                           ValueNode* val,               \
                                           bool is_const ) {             \
       if ( is_const ) {                                                 \
-        closure_body->AddChild( ConstantInstance##accessor( val ) );    \
+        ExpressionStmt* stmt = ConstantInstance##accessor( val );       \
+        stmt->Line( val->Line() );                                      \
+        closure_body->AddChild( stmt );                                 \
       } else {                                                          \
-        closure_body->AddChild( Instance##accessor( val ) );            \
+        ExpressionStmt* stmt = Instance##accessor( val );               \
+        stmt->Line( val->Line() );                                      \
+        closure_body->AddChild( stmt );                                 \
       }                                                                 \
     }
 INSTANCE_DSTA(Public);
@@ -441,15 +453,19 @@ INSTANCE_DSTA(Private);
 
 #undef INSTANCE_DSTA
 
-#define PROTOTYPE_DSTA(accessor,args)                                       \
-  inline void Prototype##accessor##Dsta( const char* class_name,\
+#define PROTOTYPE_DSTA(accessor,args)                                   \
+  inline void Prototype##accessor##Dsta( const char* class_name,        \
                                          Function* closure_body,        \
-                                         ValueNode* val,\
+                                         ValueNode* val,                \
                                          bool is_const ) {              \
     if ( is_const ) {                                                   \
-      closure_body->AddChild( ConstantPrototype##accessor( args ) ); \
+      ExpressionStmt* stmt = ConstantPrototype##accessor( args );       \
+      stmt->Line( val->Line() );                                        \
+      closure_body->AddChild( stmt );                                   \
     } else {                                                            \
-      closure_body->AddChild( Prototype##accessor( args ) ); \
+      ExpressionStmt* stmt = Prototype##accessor( args );               \
+      stmt->Line( val->Line() );                                        \
+      closure_body->AddChild( stmt );                                   \
     }                                                                   \
   }
 #define PUBLIC_ARGS class_name , val , val->FirstChild()
@@ -467,9 +483,13 @@ inline void StaticDsta( const char* class_name,
                         ValueNode* exp,
                         bool is_const ) {
   if ( is_const ) {
-    closure_body->AddChild( ConstantStatic( class_name , exp , exp->FirstChild() ) );
+    ExpressionStmt* stmt = ConstantStatic( class_name , exp , exp->FirstChild() );
+    stmt->Line( exp->Line() );
+    closure_body->AddChild( stmt );
   } else {
-    closure_body->AddChild( Static( class_name , exp ,  exp->FirstChild() ) );
+    ExpressionStmt* stmt = Static( class_name , exp ,  exp->FirstChild() );
+    stmt->Line( exp->Line() );
+    closure_body->AddChild( stmt );
   }
 }
 
@@ -485,14 +505,15 @@ inline void ClassProcessor::ProcessDsta_( ValueNode *value,
     value->ValueType( ValueNode::kVariable );
     value->Symbol( value->Node()->CastToValue()->Symbol() );
     VariableStmt* stmt = AstUtils::CreateVarStmt( value );
+    stmt->Line( value->Line() );
     closure_body_->AddChild( stmt );
     NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt( tmp_stmt , info_ );
     NodeIterator iterator = list->ChildNodes();
-    printf( "aaaaaaaa@@@@@@@@@@@@@@@@@@@\n" );
     while ( iterator.HasNext() ) {
-      ValueNode* value = iterator.Next()->CastToValue();
-      value->ValueType( ValueNode::kIdentifier );
-      callback( name_.c_str() , closure_body_ , value , is_const );
+      ValueNode* dsta_value = iterator.Next()->CastToValue();
+      dsta_value->Line( value->Line() );
+      dsta_value->ValueType( ValueNode::kIdentifier );
+      callback( name_.c_str() , closure_body_ , dsta_value , is_const );
     }
   }
 }
@@ -515,6 +536,7 @@ inline void ClassProcessor::SimpleVariables_( AstNode* node , bool is_const ) {
         } else {
           result = PrototypePrivate( value , GetSafeValue( value ) );
         }
+        result->Line( value->Line() );
         closure_body_->AddChild( result );
       }
     }
@@ -573,6 +595,7 @@ inline void ClassProcessor::NoSimpleVariables_( AstNode* node,
             result = InstancePublic( value );
           }
         }
+        result->Line( value->Line() );
         closure_body_->AddChild( result );
       }
     }
@@ -601,26 +624,36 @@ inline void ClassProcessor::ProcessFunction_( Function* fn , bool is_prototype ,
   value->ValueType( ValueNode::kProperty );
   if ( !is_instance && !is_prototype ) {
     fn->Accept( info_->GetVisitor() );
-    closure_body_->AddChild( Static( class_name , value , fn ) );
+    ExpressionStmt* stmt = Static( class_name , value , fn );
+    stmt->Line( fn->Line() );
+    closure_body_->AddChild( stmt );
   } else if ( is_prototype ) {
     if ( is_private ) {
       info_->GetInfo()->EnterPrivate();
       fn->Accept( info_->GetVisitor() );
       info_->GetInfo()->EscapePrivate();
-      closure_body_->AddChild( PrototypePrivate( value , fn ) );
+      ExpressionStmt* stmt = PrototypePrivate( value , fn );
+      stmt->Line( fn->Line() );
+      closure_body_->AddChild( stmt );
     } else {
       fn->Accept( info_->GetVisitor() );
-      closure_body_->AddChild( PrototypePublic( class_name , value , fn ) );
+      ExpressionStmt* stmt = PrototypePublic( class_name , value , fn );
+      stmt->Line( fn->Line() );
+      closure_body_->AddChild( stmt );
     }
   } else {
     if ( is_private ) {
       info_->GetInfo()->EnterPrivate();
       fn->Accept( info_->GetVisitor() );
       info_->GetInfo()->EscapePrivate();
-      closure_body_->AddChild( PrototypePrivate( value , fn ) );
+      ExpressionStmt* stmt = PrototypePrivate( value , fn );
+      stmt->Line( fn->Line() );
+      closure_body_->AddChild( stmt );
     } else {
       fn->Accept( info_->GetVisitor() );
-      closure_body_->AddChild( PrototypePublic( class_name , value , fn ) );
+      ExpressionStmt* stmt = PrototypePublic( class_name , value , fn );
+      stmt->Line( fn->Line() );
+      closure_body_->AddChild( stmt );
     }
   }
 }

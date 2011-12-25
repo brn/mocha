@@ -21,6 +21,7 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
   if ( !is_runtime ) {
     Function *fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
                                                  ManagedHandle::Retain<Empty>() , ast_node );
+    fn->Line( 1 );
     ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
     ValueNode* global_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
                                                          TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
@@ -36,10 +37,16 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
                                                  TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     VariableStmt* var_stmt = AstUtils::CreateVarStmt(
         AstUtils::CreateVarInitiliser( alias->Symbol() , global_export_accessor->Clone() ) );
-
+    ExpressionStmt* extend_global = AstUtils::CreateExpStmt( exp );
+    FileRoot* root = ManagedHandle::Retain<FileRoot>();
+    root->FileName( ast_node->FileName() );
+    root->AddChild( stmt );
+    extend_global->Line( 2 );
+    var_stmt->Line( 3 );
     fn->InsertBefore( var_stmt );
-    fn->InsertBefore( AstUtils::CreateExpStmt( exp ) );
-    ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
+    fn->InsertBefore( extend_global );
+    fn->Root( true );
+    ast_node->ParentNode()->ReplaceChild( ast_node , root );
   }
 }
 
