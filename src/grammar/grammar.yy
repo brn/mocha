@@ -364,11 +364,11 @@
 %%
 
 program
-: {int yydebug_ = 0;} source_elements
+: source_elements
   {
     FileRoot* root = ManagedHandle::Retain<FileRoot>();
     root->FileName( tracer->GetPath());
-    root->Append( $2 );
+    root->Append( $1 );
     ast_root->InsertBefore( root );
   }
 ;

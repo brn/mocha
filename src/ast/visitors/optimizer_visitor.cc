@@ -7,7 +7,7 @@
 namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
-#define VISITOR_IMPL(type) void OptimizerVisitor::Accept##type( type* ast_node )
+#define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type( type* ast_node )
 #define PRINT_NODE_NAME ast_node->PrintNodeName()
 
 

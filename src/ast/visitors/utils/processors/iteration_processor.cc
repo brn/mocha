@@ -12,7 +12,6 @@ namespace mocha {
 
 void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo* info ) {
   IVisitor *visitor = info->GetVisitor();
-  bool is_dst = false;
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();
   AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
@@ -43,7 +42,6 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
 
 void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info ) {
   IVisitor *visitor = info->GetVisitor();
-  VisitorInfo *visitor_info = info->GetInfo();
   bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar;
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();

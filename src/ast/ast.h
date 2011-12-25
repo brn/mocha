@@ -10,7 +10,7 @@ namespace mocha {
 
 
 #define NVI_ACCEPTOR_DECL void NVIAccept_( IVisitor* visitor )
-#define CALL_ACCEPTOR(name) inline NVI_ACCEPTOR_DECL{visitor->Accept##name( this );}
+#define CALL_ACCEPTOR(name) inline NVI_ACCEPTOR_DECL{visitor->Visit##name( this );}
 
 class NodeIterator{
  public :

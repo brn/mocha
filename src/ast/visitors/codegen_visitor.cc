@@ -17,7 +17,7 @@
 namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
-#define VISITOR_IMPL(type) void CodegenVisitor::Accept##type( type* ast_node )
+#define VISITOR_IMPL(type) void CodegenVisitor::Visit##type( type* ast_node )
 #define ITERATOR(name) begin = name.begin(),end = name.end()
 #define PRINT_NODE_NAME ast_node->PrintNodeName()
 #define ACCEPT( ast )                           \
@@ -155,7 +155,6 @@ void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
-      ValueNode* value = item->CastToValue();
       item->Accept( this );
       if ( iterator.HasNext() ) {
         if ( CurrentState_() == CodeWriter::kFor ) {

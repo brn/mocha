@@ -125,7 +125,7 @@ CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* v
                                                   TOKEN::JS_IDENTIFIER , lhs->Line() , ValueNode::kIdentifier );
   ValueNode* prop_str = prop->CastToValue();
   AstNode* property = prop;
-  if ( prop_str && prop_str->ValueType() == ValueNode::kIdentifier || prop_str->ValueType() == ValueNode::kProperty ) {
+  if ( prop_str && ( prop_str->ValueType() == ValueNode::kIdentifier || prop_str->ValueType() == ValueNode::kProperty ) ) {
     char tmp[50];
     sprintf( tmp , "'%s'" , prop_str->Symbol()->GetToken() );
     property = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , prop_str->Line() , ValueNode::kString );

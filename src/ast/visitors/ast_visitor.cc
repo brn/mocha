@@ -52,7 +52,7 @@
 namespace mocha {
 
 
-#define VISITOR_IMPL(type) void AstVisitor::Accept##type( type* ast_node )
+#define VISITOR_IMPL(type) void AstVisitor::Visit##type( type* ast_node )
 #define TOKEN yy::ParserImplementation::token
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
 #define REGIST(node) visitor_info_->SetCurrentStmt( node )
@@ -429,7 +429,6 @@ void AstVisitor::PrivateAccessorProcessor_( CallExp* exp ) {
     if ( !visitor_info_->IsInPrivate() ) {
       ValueNode* private_field = AstUtils::CreateNameNode( "__private__",
                                                            TOKEN::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kProperty );
-      ValueNode* maybeIdent = exp->Args()->CastToValue();
       CallExp* dot_accessor = AstUtils::CreateDotAccessor( this_sym , private_field );
       exp->Callable( dot_accessor );
     } else {

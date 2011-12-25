@@ -1,4 +1,4 @@
-#define DECL_VISITOR(type) void Accept##type ( type* ast )
+#define DECL_VISITOR(type) void Visit##type ( type* ast )
 DECL_VISITOR(AstRoot);
 DECL_VISITOR(FileRoot);
 DECL_VISITOR(Statement);

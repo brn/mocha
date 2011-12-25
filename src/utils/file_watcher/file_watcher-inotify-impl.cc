@@ -185,7 +185,6 @@ class FileWatcher::PtrImpl {
 
   int CheckEvent_() {
     fd_set rfds;
-    time_t now_time;
     timeval waitval;
     waitval.tv_sec  = 0;
     waitval.tv_usec = 500;
@@ -200,7 +199,7 @@ class FileWatcher::PtrImpl {
     char buffer[ 16384 ];
     size_t buffer_i = 0;
     inotify_event *pevent;
-    ssize_t read_size;
+    size_t read_size;
     size_t event_size;
     size_t q_event_size;
     int count = 0;

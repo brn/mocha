@@ -90,19 +90,19 @@ Handle<PathInfo> FileSystem::GetPathInfo( const char* path ) {
 
 StrHandle FileSystem::NormalizePath( const char* path ) {
   std::string tmp = path;
-  int size = tmp.size();
-  int index = 0;
+  size_t size = tmp.size();
+  size_t index = 0;
   while ( ( index = tmp.find( "\\" , 0 ) ) != std::string::npos ) {
 	  tmp = tmp.replace( index , 1 , "/" );
   }
   while ( 1 ) {
-    int pos = tmp.find( "../" , 0 );
+    size_t pos = tmp.find( "../" , 0 );
     if ( pos == std::string::npos ) {
-      int pos = tmp.find( "./" , 0 );
+      size_t pos = tmp.find( "./" , 0 );
       if ( pos != std::string::npos ) {
         tmp.erase( pos , 2 );
       } else {
-        int pos = tmp.find( "//" , 0 );
+        size_t pos = tmp.find( "//" , 0 );
         if ( pos != std::string::npos ) {
           tmp.erase( pos , 1 );
         } else {
@@ -112,24 +112,26 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
     } else {
       int count = 0;
       int matched = 0;
+      int spos = pos;
+      int ssize = size;
       bool has_ch = false;
-      while ( pos < size && pos > -1 ) {
-        if ( tmp[ pos ] == '/' ) {
+      while ( spos < ssize && spos > -1 ) {
+        if ( tmp[ spos ] == '/' ) {
           if ( matched == 1 && has_ch ) {
             break;
           }
           matched = 1;
         }
-        if ( tmp[ pos ] != '.' && tmp[ pos ] != '/' ) {
+        if ( tmp[ spos ] != '.' && tmp[ spos ] != '/' ) {
           has_ch = true;
         }
-        pos--;
+        spos--;
         count++;
       }
-	  if ( pos < 0 ) {
-		  pos = 0;
-	  }
-      tmp.erase( pos , count + 2 );
+      if ( spos < 0 ) {
+        spos = 0;
+      }
+      tmp.erase( spos , count + 2 );
     }
   }
   if ( tmp[ tmp.size() - 1 ] == '/' ) {
