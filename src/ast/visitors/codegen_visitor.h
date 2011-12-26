@@ -43,6 +43,7 @@ class CodegenVisitor : public IVisitor {
   bool MatchState_( int state );
 
   int tmp_index_;
+  int depth_;
   bool is_line_;
   bool has_rest_;
   std::vector<int> state_;

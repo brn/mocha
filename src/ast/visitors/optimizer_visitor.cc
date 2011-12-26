@@ -8,10 +8,10 @@ namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type( type* ast_node )
-#define PRINT_NODE_NAME ast_node->PrintNodeName()
+#define PRINT_NODE_NAME printf( "depth = %d name = %s\n" , depth_++ , ast_node->GetName() )
 
 
-OptimizerVisitor::OptimizerVisitor( Scope* scope ) : scope_( scope ){}
+OptimizerVisitor::OptimizerVisitor( Scope* scope ) : depth_( 0 ), scope_( scope ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
@@ -43,13 +43,7 @@ VISITOR_IMPL( NodeList ) {
 
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
-  AstNode* node_list = ast_node->FirstChild();
-  if ( !node_list->IsEmpty() ) {
-    NodeIterator iterator = ast_node->ChildNodes();
-    while ( iterator.HasNext() ) {
-      iterator.Next()->Accept( this );
-    }
-  }
+  ast_node->FirstChild()->Accept( this );
 }
 
 
@@ -333,14 +327,62 @@ VISITOR_IMPL(Function){
 };
 
 
+void OptimizerVisitor::ArrayProccessor_( ValueNode* ast_node ) {
+  PRINT_NODE_NAME;
+  AstNode* list_child = ast_node->FirstChild();
+  while ( list_child ) {
+    if ( !list_child->IsEmpty() ) {
+      NodeIterator iter = list_child->ChildNodes();
+      while ( iter.HasNext() ) {
+        AstNode* element = iter.Next();
+        if ( !element->IsEmpty() ) {
+          element->Accept( this );
+        }
+      }
+      if ( list_child->HasNext() ) {
+        list_child = list_child->NextSibling();
+      } else {
+        break;
+      }
+    }
+  }
+}
+
+
+void OptimizerVisitor::ObjectProccessor_( ValueNode* ast_node ) {
+  PRINT_NODE_NAME;
+  AstNode* element_list = ast_node->Node();
+  if ( !element_list->IsEmpty() ) {
+    NodeIterator iterator = element_list->ChildNodes();
+    while ( iterator.HasNext() ) {
+      AstNode* element = iterator.Next();
+      element->Accept( this );
+      element->FirstChild()->Accept( this );
+    }
+  }
+}
+
+
 VISITOR_IMPL( ValueNode ) {
+  printf( "%d\n" ,ast_node->ValueType() );
+  if ( ast_node->Symbol() ) {
+    printf( "%s\n", ast_node->Symbol()->GetToken() );
+  }
   switch ( ast_node->ValueType() ) {
+    case ValueNode::kArray :
+      ArrayProccessor_( ast_node );
+      break;
+
+    case ValueNode::kObject :
+      ObjectProccessor_( ast_node );
+      break;
+
     case ValueNode::kVariable :
       scope_->Insert( ast_node->Symbol() );
       ast_node->FirstChild()->Accept( this );
       break;
       
-    case ValueNode::kIdentifier :
+    case ValueNode::kIdentifier : {
       if ( strcmp( ast_node->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kScopeModule ) ) == 0 ) {
         ast_node->Symbol()->SetToken( SymbolList::GetSymbol( SymbolList::kGlobalAlias ) );
       }
@@ -349,7 +391,11 @@ VISITOR_IMPL( ValueNode ) {
       if ( first_child ) {
         first_child->Accept( this );
       }
+    }
       break;
+      
+    default :
+      return;
   }
 }
 

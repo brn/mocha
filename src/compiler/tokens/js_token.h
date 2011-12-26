@@ -114,7 +114,8 @@ class Token : private Static {
     JS_DSTO_END,
     JS_CONSTRUCTOR,
     JS_PROTOTYPE,
-    JS_EXP_CLOSURE_BEGIN
+    JS_EXP_CLOSURE_BEGIN,
+    JS_PROPERTY
   };
 };
 

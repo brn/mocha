@@ -53,7 +53,6 @@ int ParserConnector::InvokeScanner ( void* yylval_ , int yystate ) {
   }
   line_ = info->GetLineNumber();
   yylval->info = info;
-printf( "%s\n" ,info->GetToken() );
   return JsToken::ToParserToken( info->GetType() );
 }
 

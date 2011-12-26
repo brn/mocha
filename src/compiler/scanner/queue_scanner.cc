@@ -896,7 +896,7 @@ class QueueScanner::Scanner {
 
   inline void SetRegExpAfter_ () {
     int type = ( token_queue_.size() > 0 )? token_queue_.back()->GetType() : 0;
-    if ( JsToken::IsBinaryOperatorNoIn( type ) ||
+    if ( JsToken::IsBinaryOperator( type ) ||
          type == '}' ||
          type == '|' ||
          type == '{' ||
@@ -991,8 +991,8 @@ class QueueScanner::TokenGetter {
   TokenGetter( QueueScanner::Scanner::TokenQueue& queue , ParserTracer *tracer ) :
       last_type_(0) , opt_block_( 0 ) , opt_block_paren_count_( 0 ),
       function_paren_count_( 0 ) , default_paren_type_( 0 ) ,
-      default_paren_count_( 0 ) , class_paren_count_( 0 ) ,
-      mode_( 0 ) , is_in_class_( false ), is_default_parameter_( false ),
+      default_paren_count_( 0 ) , class_paren_count_( 0 ),
+      mode_( 0 ) , is_in_class_( false ), is_default_parameter_( false ),is_object_mark_expect_( false ),
       import_stmt_( false ),is_incrementable_( true ), has_line_break_( false ),
       tracer_( tracer ) , queue_( queue ) {
     it_ = queue_.begin();
@@ -1003,6 +1003,7 @@ class QueueScanner::TokenGetter {
     }
     has_line_break_ = false;
     is_incrementable_ = true;
+    int cache = last_type_;
     TokenInfo* info = SwitchState_();
     int type = info->GetType();
     //TokenInfo* info =(*it_);
@@ -1115,6 +1116,19 @@ class QueueScanner::TokenGetter {
       last_type_ = info->GetType();
     }
     
+    if ( last_type_ != Token::JS_DSTO_BEGIN &&
+         ( JsToken::IsBinaryOperator( cache ) ||
+           IsBinaryChar_( cache ) ||
+           cache == '!' ||
+           tracer_->IsAllowExpression() ||
+           ( cache == ':' || cache == '(' || cache == ',' || cache == '[' ||
+             cache == Token::JS_RETURN || cache == Token::JS_THROW ||
+             cache == Token::JS_EXTENDS || cache == Token::JS_PROTOTYPE ||
+             cache == Token::JS_CASE || cache == '?' ) ) &&
+         type == '{' ) {
+      is_object_mark_expect_ = true;
+    }
+    
     if ( type == Token::JS_FOR || type == Token::JS_EACH || type == Token::JS_WHILE || type == Token::JS_IF ) {
       opt_block_ = 1;
     }
@@ -1153,7 +1167,8 @@ class QueueScanner::TokenGetter {
  private :
   enum {
     kLiteral = 1,
-    kFunction = 2
+    kFunction = 2,
+    kObjectLiteral = 3
   };
 
   bool IsLiteral_( int type ) {
@@ -1166,6 +1181,23 @@ class QueueScanner::TokenGetter {
       case Token::JS_K_NULL :
       case Token::JS_TRUE :
       case Token::JS_FALSE :
+        return true;
+    }
+    return false;
+  }
+
+  bool IsBinaryChar_( int type ) {
+    switch ( type ) {
+      case '+' :
+      case '-' :
+      case '*' :
+      case '%' :
+      case '^' :
+      case '&' :
+      case '|' :
+      case '=' :
+      case '>' :
+      case '<' :
         return true;
     }
     return false;
@@ -1222,6 +1254,14 @@ class QueueScanner::TokenGetter {
     int type = info->GetType();
     bool is_literal = IsLiteral_( type );
     bool is_last_literal = IsLiteral_( last_type_ );
+
+    if ( is_object_mark_expect_ ) {
+      is_incrementable_ = false;
+      is_object_mark_expect_ = false;
+      TokenInfo *mark_info = ManagedHandle::Retain( new TokenInfo( "@" , '@' , info->GetLineNumber() ) );
+      return mark_info;
+      last_type_ = '@';
+    }
     
     if ( type == Token::JS_CLASS ) {
       if ( ( last_type_ == ']' || last_type_ == '}' || last_type_ == ')' || is_last_literal ) ) {
@@ -1314,9 +1354,11 @@ class QueueScanner::TokenGetter {
   int default_paren_type_;
   int default_paren_count_;
   int class_paren_count_;
+  int object_brace_count_;
   int mode_;
   bool is_in_class_;
   bool is_default_parameter_;
+  bool is_object_mark_expect_;
   bool import_stmt_;
   bool is_incrementable_;
   bool has_line_break_;
@@ -1337,7 +1379,7 @@ void QueueScanner::CollectToken() {
 
 TokenInfo* QueueScanner::GetToken( int yystate ) {
   TokenInfo* info =  token_getter_->GetToken( yystate );
-  /*if ( info->GetType() > 200 ) {
+  /*if ( info->GetType() > 127 ) {
     printf( "%s\n" , info->GetToken() );
   } else {
     printf( "%c\n" , info->GetType() );

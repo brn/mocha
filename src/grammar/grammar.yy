@@ -97,7 +97,7 @@
 %parse-param { mocha::AstRoot* ast_root}
 %lex-param	 { mocha::ParserConnector* connector }
 %lex-param {int yystate}
-%expect 62
+%expect 60
 %left ','
 %right JS_ADD_LET JS_AND_LET JS_DIV_LET JS_MOD_LET JS_MUL_LET JS_NOT_LET JS_OR_LET JS_SHIFT_LEFT_LET JS_SHIFT_RIGHT_LET JS_SUB_LET JS_U_SHIFT_RIGHT_LET
 %right '?'
@@ -231,6 +231,7 @@
 %token <info> JS_SET
 %token <info> JS_PROTOTYPE
 %token <info> MOCHA_VERSIONOF
+%token <info> JS_PROPERTY
 
 %type <ast> program
 %type <function> function_declaration
@@ -1599,44 +1600,51 @@ if_statement
 ;
 
 iteration_statement
-: JS_DO statement JS_WHILE '(' expression ')' terminator
+: JS_DO statement JS_WHILE
+  { tracer->AllowExpression( true ); }
+  '(' expression
+  { tracer->AllowExpression( false ); } ')' terminator
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kDoWhile ) );
     iter->Line( $1->GetLineNumber() );
-    iter->Exp( $5 );
+    iter->Exp( $6 );
     iter->AddChild( $2 );
     $$ = iter;
   }
-| JS_WHILE '(' expression ')' statement
+| JS_WHILE
+  { tracer->AllowExpression( true ); }
+  '(' expression  { tracer->AllowExpression( false ); } ')' statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kWhile ) );
     iter->Line( $1->GetLineNumber() );
-    iter->Exp( $3 );
-    iter->AddChild( $5 );
+    iter->Exp( $4 );
+    iter->AddChild( $7 );
     $$ = iter;
   }
-| JS_FOR '(' expression_no_in__opt ';' expression__opt ';' expression__opt ')' statement
+| JS_FOR '(' expression_no_in__opt { tracer->AllowExpression( true ); } ';' expression__opt ';' expression__opt
+  { tracer->AllowExpression( false ); } ')' statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kFor ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     iter->Line( $1->GetLineNumber() );
     list->AddChild( $3 );
-    list->AddChild( $5 );
-    list->AddChild( $7 );
+    list->AddChild( $6 );
+    list->AddChild( $8 );
     iter->Exp( list );
-    iter->AddChild( $9 );
+    iter->AddChild( $11 );
     $$ = iter;
   }
-| JS_FOR '(' JS_VAR variable_declaration_list_no_in ';' expression__opt ';' expression__opt ')' statement
+| JS_FOR '(' JS_VAR variable_declaration_list_no_in { tracer->AllowExpression( true ); } ';' expression__opt ';' expression__opt
+  { tracer->AllowExpression( false ); } ')' statement
   {
     IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForWithVar ) );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     iter->Line( $1->GetLineNumber() );
     list->AddChild( $4 );
-    list->AddChild( $6 );
-    list->AddChild( $8 );
+    list->AddChild( $7 );
+    list->AddChild( $9 );
     iter->Exp( list );
-    iter->AddChild( $10 );
+    iter->AddChild( $12 );
     $$ = iter;
   }
 | JS_FOR '(' left_hand_side_expression JS_IN expression ')' statement
@@ -2072,17 +2080,17 @@ object_literal
 ;
 
 property_name_and_value_list__opt
-:
+: '@'
 {
   $$ = GetEmptyNode();
 }
-| property_name_and_value_list ';'
+| '@' property_name_and_value_list ';'
   {
-    $$ = $1;
+    $$ = $2;
   }
-| property_name_and_value_list
+| '@' property_name_and_value_list
   {
-    $$ = $1;
+    $$ = $2;
   }
 ;
 
@@ -2096,11 +2104,53 @@ property_name_and_value_list
     $1->AddChild( $3 );
     $$ = list;
   }
+| JS_IDENTIFIER
+  {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    val->Symbol( $1 );
+    val->Line( $1->GetLineNumber() );
+    list->AddChild( val );
+    $$ = list;
+  }
+| JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->GetLineNumber() );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $1 );
+    fn->Name( value );
+    fn->Argv ( $3 );
+    fn->Append( $6 );
+    $$ = fn;
+  }
 | property_name_and_value_list ',' property_name ':' assignment_expression
   {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     $1->AddChild( $3 );
     $3->AddChild( $5 );
+    $$ = $1;
+  }
+| property_name_and_value_list ',' JS_IDENTIFIER
+  {
+    tracer->SetState( ParserTracer::kObjectLiteralEnd );
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    val->Symbol( $3 );
+    val->Line( $3->GetLineNumber() );
+    $1->AddChild( val );
+    $$ = $1;
+  }
+| property_name_and_value_list ',' JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
+  {
+    Function *fn = ManagedHandle::Retain<Function>();
+    fn->Line( $1->Line() );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    value->Symbol( $3 );
+    fn->Name( value );
+    fn->Argv ( $5 );
+    fn->Append( $8 );
+    $1->AddChild( fn );
     $$ = $1;
   }
 ;

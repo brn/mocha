@@ -16,7 +16,7 @@ class BitVector {
   }
   inline void UnSet( int val ) {
     assert( bit_bands >= val && val > -1 );
-    set_ &= ( ( 1 << val ) ^ ( 1 << val ) );
+    set_ &= ( ~( 1 << val ) );
   }
   inline void Reverse( int val ) {
     assert( bit_bands >= val && val > -1 );

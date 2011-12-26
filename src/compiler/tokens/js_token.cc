@@ -251,7 +251,8 @@ int token_id_list [] = {
   TOKEN::JS_DSTO_END,
   TOKEN::JS_CONSTRUCTOR,
   TOKEN::JS_PROTOTYPE,
-  TOKEN::JS_EXP_CLOSURE_BEGIN
+  TOKEN::JS_EXP_CLOSURE_BEGIN,
+  TOKEN::JS_PROPERTY
 };
 
 char reserved_words[][ 20 ] = {
@@ -710,9 +711,8 @@ static bool binary_operator[] = {
   true,//JS_SHIFT_RIGHT_LET,
   true,//JS_U_SHIFT_RIGHT_LET,
   true,//JS_NOT_LET,
-  true,//JS_NOT_EQ,
   true,//JS_AND_LET,
-  true,//JS_LOGICAL_OR,
+  true,//JS_OR_LET,
   false,//JS_FUNCTION_GLYPH,
   false,//JS_FUNCTION_GLYPH_WITH_CONTEXT
   false,//TOKEN::JS_IDENTIFIER,

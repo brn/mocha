@@ -20,7 +20,7 @@ namespace mocha {
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void CodegenVisitor::Visit##type( type* ast_node )
 #define ITERATOR(name) begin = name.begin(),end = name.end()
-#define PRINT_NODE_NAME ast_node->PrintNodeName()
+#define PRINT_NODE_NAME printf( "depth = %d name = %s\n" , depth_++ , ast_node->GetName() )
 #define ACCEPT( ast )                           \
   if ( ast != 0 )                               \
     ast->Accept(this)
@@ -58,7 +58,7 @@ inline void LineBreak( AstNode* ast_node , CodeStream* stream , CodeWriter* writ
 
 
 CodegenVisitor::CodegenVisitor( Options* option ) :
-    tmp_index_( 0 ),is_line_( false ),has_rest_( false ),
+    tmp_index_( 0 ),depth_( 0 ),is_line_( false ),has_rest_( false ),
     scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ),
@@ -106,7 +106,7 @@ VISITOR_IMPL( BlockStmt ) {
   writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
   AstNode* node_list = ast_node->FirstChild();
   if ( !node_list->IsEmpty() ) {
-    NodeIterator iterator = ast_node->ChildNodes();
+    NodeIterator iterator = node_list->ChildNodes();
     while ( iterator.HasNext() ) {
       iterator.Next()->Accept( this );
     }

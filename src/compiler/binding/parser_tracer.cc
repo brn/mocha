@@ -11,6 +11,7 @@ using namespace mocha;
 ParserTracer::ParserTracer ( const char* filename ) :
     l_brace_( false ),
     r_brace_( false ),
+    in_exp_( false ),
   parser_flags_ ( 0 ),
   parser_state_( 0 ),
   errorLine_ ( 0 ),

@@ -1,4 +1,5 @@
 (function() {
+  
   this.x = 0;
   
   var _mochaGlobalExport = {},
@@ -13,6 +14,7 @@
           String.prototype.trim = function () {
             return this.replace( String.prototype.trim.rtrim,"" );
           };
+          
           String.prototype.trim.rtrim = /^\s*|\s*$/g;
         };
         
@@ -29,7 +31,9 @@
                     return ret.context.apply( context,args );
                   };
                 };
+            
             ret.prototype = this.prototype;
+            
             ret.context = this;
             return ret;
           };
@@ -103,8 +107,8 @@
                 ta;
             
             if ( that ){
-              for ( 
-              var i = 0,len = this.length;i<len; ++ i ){
+              for ( var i = 0,len = this.length;i<len; ++ i )
+              {
                 if ( ( ta = this[i] ) !== null && ta !== undefined ){
                   if ( fn.call( that,ta,i,this ) ){
                     ret[ ++ iter] = ta;
@@ -112,8 +116,8 @@
                 };
               };
             } else {
-              for ( 
-              var i = 0,len = this.length;i<len; ++ i ){
+              for ( var i = 0,len = this.length;i<len; ++ i )
+              {
                 if ( ( ta = this[i] ) !== null && ta !== undefined ){
                   if ( fn( ta,i,this ) ){
                     ret[ ++ iter] = ta;
@@ -130,6 +134,7 @@
             var iter = -1,
                 index = -1,
                 ta;
+            
             while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
               if ( ta === subject ){
                 index = iter;
@@ -145,6 +150,7 @@
             var iter = this.length,
                 index = -1,
                 ta;
+            
             while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
               if ( ta === subject ){
                 index = iter;
@@ -162,15 +168,15 @@
                 ta;
             
             if ( that ){
-              for ( 
-              var i = 0,len = this.length;i<len; ++ i ){
+              for ( var i = 0,len = this.length;i<len; ++ i )
+              {
                 if ( ( ta = this[i] ) !== null && ta !== undefined ){
                   ret[ ++ iter] = fn.call( that,ta,i,this );
                 };
               };
             } else {
-              for ( 
-              var i = 0,len = this.length;i<len; ++ i ){
+              for ( var i = 0,len = this.length;i<len; ++ i )
+              {
                 if ( ( ta = this[i] ) !== null && ta !== undefined ){
                   ret[ ++ iter] = fn( ta,i,this );
                 };
@@ -186,6 +192,7 @@
                 i = ( ( initial ) )?0 : 1,
                 ta,
                 len;
+            
             for ( i , len = this.length;i<len; ++ i ){
               if ( ( ta = this[i] ) !== null && ta !== undefined ){
                 ret = fn( ret,ta,i,this );
@@ -200,6 +207,7 @@
             var ret = initial || this[this.length-1],
                 i = ( ( initial ) )?this.length-1 : this.length-2,
                 ta;
+            
             for ( i;i>-1; -- i ){
               if ( ( ta = this[i] ) !== null && ta !== undefined ){
                 ret = fn( ret,ta,i,this );
@@ -225,8 +233,9 @@
           Object.keys = function ( obj ) {
             var ret = [],
                 iter = -1;
-            for ( 
-            var i in obj ){
+            
+            for ( var i in obj )
+            {
               if ( obj.hasOwnProperty( i ) ){
                 ret[ ++ iter] = obj[i];
               };
@@ -256,12 +265,14 @@
         var hasRealEcma5 = ( function () {
               try {
                 var obj = {};
+                
                 Object.defineProperty( obj,"test", {
                   configurable : false,
                   writable : false,
                   enumerable : false,
                   value : 0
                 });
+                
                 obj.test = 200;
                 return ( ( obj.test === 200 ) )?false : true;
               } catch( e ){
@@ -279,6 +290,7 @@
         
         if ( !Array.isArray ){
           var arrayString = "[object Array]";
+          
           Array.isArray = function ( arr ) {
             if ( arguments.length === 0 ){
               return false;
@@ -289,10 +301,12 @@
         
         var instanceProp = {},
             slice = Array.prototype.slice;
+        
         _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
           if ( !( id in instance_prop ) ){
             instance_prop[id] = {};
           };
+          
           Object.defineProperty( instance_prop[id],prop, {
             enumerable : true,
             configurable : isConst,
@@ -300,6 +314,7 @@
             value : value
           });
         };
+        
         _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
           if ( id in _mochaInstanceProp ){
             return _mochaInstanceProp[id];
@@ -335,6 +350,7 @@
             };
         return _mochaLocalExport;
       })();
+  
   ( function () {
     _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
     
@@ -354,8 +370,11 @@
               m2 = ( _mochaLocalTmp2.x )?Runtime.toArray( _mochaLocalTmp2,1 ) : undefined;
         };
     
+    var match = [null,selector,null];
+    
     var m = function ( v,g ) {
           v = v || 200;
+          
           g = g || 200;
           return v+g;
         };
@@ -366,14 +385,16 @@
         z = _mochaLocalTmp3[2];
     
     var _mochaLocalTmp4;
+    
     _mochaLocalTmp4 = [z,y,x];
+    
     ( function () {
       var _mochaLocalExport = _mochaGlobalAlias;
-      _mochaLocalExport.name = function name() {
-        
-      };
+      
+      _mochaLocalExport.name = function name(){};
       return _mochaLocalExport;
     })();
+    
     console.log( _mochaGlobalAlias.name );
   })();
 })();

@@ -53,6 +53,8 @@ namespace mocha{
     inline bool IsExpectLBrace() { return l_brace_; }
     inline void ExpectRBrace() { r_brace_ = true; }
     inline bool IsExpectRBrace() { return r_brace_; }
+    inline bool IsAllowExpression() { return in_exp_; }
+    inline void AllowExpression( bool is ) { in_exp_ = is; }
     
     void LineNumber ( long int num );
     
@@ -83,6 +85,7 @@ namespace mocha{
   private:
     bool l_brace_;
     bool r_brace_;
+    bool in_exp_;
     uint8_t parser_flags_;
     uint8_t parser_state_;
     uint32_t block_literal_stack_;

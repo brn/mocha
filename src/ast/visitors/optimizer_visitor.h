@@ -14,6 +14,9 @@ class OptimizerVisitor : public IVisitor {
   void DotAccessorProccessor_( CallExp* exp );
   void NewCallProccessor_( CallExp* exp );
   void NormalFunctionCall_( CallExp* exp );
+  void ArrayProccessor_( ValueNode* ast_node );
+  void ObjectProccessor_( ValueNode* ast_node );
+  int depth_;
   Scope* scope_;
 };
 
