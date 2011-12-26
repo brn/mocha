@@ -3,6 +3,7 @@
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <ast/utils/ast_utils.h>
 #include <ast/visitors/utils/visitor_info.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/tokens/token_info.h>
 #include <utils/pool/managed_handle.h>
@@ -35,7 +36,7 @@ void ExportProcessor::ProcessFunction_( AstNode* node ) {
   Function* fn = reinterpret_cast<Function*>( node );
   ValueNode* name = fn->Name()->CastToValue();
   ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                               TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                               Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
   ValueNode* property_name = name->Clone()->CastToValue();
   property_name->ValueType( ValueNode::kProperty );
   CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name );
@@ -72,9 +73,9 @@ void ExportProcessor::CreateAssignment_( Expression* exp , VariableStmt* var_stm
   while ( iterator.HasNext() ) {
     AstNode *item = iterator.Next();
     TokenInfo *name_info = item->CastToValue()->Symbol();
-    ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , TOKEN::JS_IDENTIFIER , stmt_->Line() , true );
+    ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , Token::JS_IDENTIFIER , stmt_->Line() , true );
     ValueNode *local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                 TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                                 Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
     CallExp *export_prop = AstUtils::CreateDotAccessor( local , name );
     AssignmentExp* assign;
     if ( !item->FirstChild()->IsEmpty() ) {

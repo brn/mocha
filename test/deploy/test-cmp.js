@@ -525,52 +525,10 @@
           var instanceProp = {},
               slice = Array.prototype.slice;
           
-          __LINE__ = 0;
-          _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
-            try {
-              __LINE__ = 277;
-              if ( !( id in instance_prop ) ){
-                __LINE__ = 278;
-                instance_prop[id] = {};
-              };
-              
-              __LINE__ = 280;
-              Object.defineProperty( instance_prop[id],prop, {
-                enumerable : true,
-                configurable : isConst,
-                writable : isConst,
-                value : value
-              });
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
-            try {
-              __LINE__ = 289;
-              if ( id in _mochaInstanceProp ){
-                __LINE__ = 290;
-                return _mochaInstanceProp[id];
-              } else {
-                try {
-                  __LINE__ = 293;
-                  throw new TypeError( prop+"is not defined." );
-                } catch( e ){
-                  __LINE__ = 295;
-                  throw new Error( e );
-                };
-              };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 300;
+          __LINE__ = 276;
           var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
                 try {
-                  __LINE__ = 300;
+                  __LINE__ = 276;
                   return Object.defineProperty( obj,prop, {
                     configurable : true,
                     enumerable : false,
@@ -582,11 +540,11 @@
                 }
               };
           
-          __LINE__ = 307;
+          __LINE__ = 283;
           var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
                 try {
-                  __LINE__ = 307;
-                  return Object.defineProp( obj,prop, {
+                  __LINE__ = 283;
+                  return Object.defineProperty( obj,prop, {
                     configurable : false,
                     enumerable : false,
                     writable : false,
@@ -597,10 +555,10 @@
                 }
               };
           
-          __LINE__ = 314;
+          __LINE__ = 290;
           var toArray = _mochaLocalExport.toArray = function ( likeArray ) {
                 try {
-                  __LINE__ = 314;
+                  __LINE__ = 290;
                   return ( ( likeArray ) )?slice.call( likeArray ) : [];
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -616,12 +574,12 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/test/mains/fmt.js";
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js";
       __LINE__ = 2;
-      _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
+      _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'];
       
       __LINE__ = 0;
       var x = function ( _mochaLocalTmp0,_mochaLocalTmp1 ) {
@@ -631,7 +589,7 @@
                 y : 200
               }];
               
-              __LINE__ = 460;
+              __LINE__ = 0;
               var m = _mochaLocalTmp0.m,
                   y = _mochaLocalTmp1[0],
                   rest = Runtime.toArray( arguments,2 );
@@ -697,15 +655,15 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/test/mains/test.js";
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/test.js";
       __LINE__ = 2;
-      _mochaGlobalExport['{1-302-567-849-60818395-1384-test.js}'] = {};
+      _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-test.js}'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-test.js}'];
       
       __LINE__ = 0;
-      var _mochaLocalTmp0 = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'],
+      var _mochaLocalTmp0 = _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'],
           fmt = _mochaLocalTmp0.fmt;
       
       __LINE__ = 1;

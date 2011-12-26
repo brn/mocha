@@ -174,7 +174,7 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         }
         break;
         
-      case TOKEN::JS_NEW :
+      case Token::JS_NEW :
         if ( state == CodeWriter::kNewNoArgsBegin ) {
           stream->Write( "(new " );
         } else {
@@ -182,27 +182,27 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         }
         break;
 
-      case TOKEN::JS_BREAK :
+      case Token::JS_BREAK :
         stream->Write( "break" );
         break;
         
-      case TOKEN::JS_INSTANCEOF :
+      case Token::JS_INSTANCEOF :
         stream->Write( " instanceof " );
         break;
 
-      case TOKEN::JS_IN :
+      case Token::JS_IN :
         stream->Write( " in " );
         break;
 
-      case TOKEN::JS_TYPEOF :
+      case Token::JS_TYPEOF :
         stream->Write( "typeof " );
         break;
 
-      case TOKEN::JS_VOID :
+      case Token::JS_VOID :
         stream->Write( "void " );
         break;
 
-      case TOKEN::JS_CASE :
+      case Token::JS_CASE :
         if ( last_op_ != '{' ) {
           EraseIndent( stream , 2 );
           EraseIndent( indent_ , 2 );
@@ -210,15 +210,15 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         stream->Write( "case " );
         break;
 
-      case TOKEN::JS_CATCH :
+      case Token::JS_CATCH :
         stream->Write( " catch" );
         break;
 
-      case TOKEN::JS_CONTINUE :
+      case Token::JS_CONTINUE :
         stream->Write( "continue " );
         break;
 
-      case TOKEN::JS_DEFAULT :
+      case Token::JS_DEFAULT :
         if ( last_op_ != '{' ) {
           EraseIndent( stream , 2 );
           EraseIndent( indent_ , 2 );
@@ -226,67 +226,67 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         stream->Write( "default" );
         break;
 
-      case TOKEN::JS_DELETE :
+      case Token::JS_DELETE :
         stream->Write( "delete " );
         break;
 
-      case TOKEN::JS_DO :
+      case Token::JS_DO :
         stream->Write( "do " );
         break;
 
-      case TOKEN::JS_ELSE :
+      case Token::JS_ELSE :
         stream->Write( " else " );
         break;
 
-      case TOKEN::JS_FINALLY :
+      case Token::JS_FINALLY :
         stream->Write( " finally " );
         break;
 
-      case TOKEN::JS_FOR :
+      case Token::JS_FOR :
         stream->Write( "for " );
         break;
 
-      case TOKEN::JS_FUNCTION :
+      case Token::JS_FUNCTION :
         stream->Write( "function " );
         break;
 
-      case TOKEN::JS_RETURN :
+      case Token::JS_RETURN :
         stream->Write( "return " );
         break;
         
-      case TOKEN::JS_IF :
+      case Token::JS_IF :
         stream->Write( "if " );
         break;
 
-      case TOKEN::JS_TRY :
+      case Token::JS_TRY :
         stream->Write( "try " );
         break;
 
-      case TOKEN::JS_WITH :
+      case Token::JS_WITH :
         stream->Write( "with " );
         break;
 
-      case TOKEN::JS_SWITCH :
+      case Token::JS_SWITCH :
         stream->Write( "switch " );
         break;
 
-      case TOKEN::JS_THROW :
+      case Token::JS_THROW :
         stream->Write( "throw " );
         break;
         
-      case TOKEN::JS_WHILE :
+      case Token::JS_WHILE :
         stream->Write( "while " );
         break;
 
-      case TOKEN::JS_VAR :
+      case Token::JS_VAR :
         stream->Write( "var " );
         indent_ += ( state == CodeWriter::kFor )? "" : "    ";
         break;
         
       default :
-        if ( op > 200 ) {
+        if ( op > 127 ) {
           char tmp[500];
-          sprintf( tmp , " %s " , JsToken::GetOperatorFromNumber( op ) );
+          sprintf( tmp , " %s " , JsToken::GetTokenFromNumber( op ) );
           stream->Write( tmp );
         } else {
           char tmp[500];
@@ -321,105 +321,105 @@ class CompressWriter : public CodeWriter::WriterBase {
 
   void CommonOperandWriter_( int op , int state , CodeStream* stream ) {
     switch ( op ) {
-      case TOKEN::JS_NEW :
+      case Token::JS_NEW :
         stream->Write( "new " );
         break;
 
-      case TOKEN::JS_BREAK :
+      case Token::JS_BREAK :
         stream->Write( "break" );
         break;
         
-      case TOKEN::JS_INSTANCEOF :
+      case Token::JS_INSTANCEOF :
         stream->Write( " instanceof " );
         break;
 
-      case TOKEN::JS_IN :
+      case Token::JS_IN :
         stream->Write( " in " );
         break;
 
-      case TOKEN::JS_TYPEOF :
+      case Token::JS_TYPEOF :
         stream->Write( "typeof " );
         break;
 
-      case TOKEN::JS_VOID :
+      case Token::JS_VOID :
         stream->Write( "void " );
         break;
 
-      case TOKEN::JS_CASE :
+      case Token::JS_CASE :
         stream->Write( "case " );
         break;
 
-      case TOKEN::JS_CATCH :
+      case Token::JS_CATCH :
         stream->Write( " catch" );
         break;
 
-      case TOKEN::JS_CONTINUE :
+      case Token::JS_CONTINUE :
         stream->Write( "continue " );
         break;
 
-      case TOKEN::JS_DEFAULT :
+      case Token::JS_DEFAULT :
         stream->Write( "default" );
         break;
 
-      case TOKEN::JS_DELETE :
+      case Token::JS_DELETE :
         stream->Write( "delete " );
         break;
 
-      case TOKEN::JS_DO :
+      case Token::JS_DO :
         stream->Write( "do " );
         break;
 
-      case TOKEN::JS_ELSE :
+      case Token::JS_ELSE :
         stream->Write( " else " );
         break;
 
-      case TOKEN::JS_FINALLY :
+      case Token::JS_FINALLY :
         stream->Write( " finally " );
         break;
 
-      case TOKEN::JS_FOR :
+      case Token::JS_FOR :
         stream->Write( "for " );
         break;
 
-      case TOKEN::JS_FUNCTION :
+      case Token::JS_FUNCTION :
         stream->Write( "function " );
         break;
 
-      case TOKEN::JS_RETURN :
+      case Token::JS_RETURN :
         stream->Write( "return " );
         break;
         
-      case TOKEN::JS_IF :
+      case Token::JS_IF :
         stream->Write( "if " );
         break;
 
-      case TOKEN::JS_TRY :
+      case Token::JS_TRY :
         stream->Write( "try " );
         break;
 
-      case TOKEN::JS_WITH :
+      case Token::JS_WITH :
         stream->Write( "with " );
         break;
 
-      case TOKEN::JS_SWITCH :
+      case Token::JS_SWITCH :
         stream->Write( "switch " );
         break;
 
-      case TOKEN::JS_THROW :
+      case Token::JS_THROW :
         stream->Write( "throw " );
         break;
         
-      case TOKEN::JS_WHILE :
+      case Token::JS_WHILE :
         stream->Write( "while " );
         break;
 
-      case TOKEN::JS_VAR :
+      case Token::JS_VAR :
         stream->Write( "var " );
         break;
         
       default :
         if ( op > 200 ) {
-          stream->Write( JsToken::GetOperatorFromNumber( op ) );
+          stream->Write( JsToken::GetTokenFromNumber( op ) );
         } else {
           stream->Write( op );
         }
@@ -535,7 +535,7 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
       stream->Write( "}catch(e){" );
     }
     if ( is_pretty_print_ ) {
-      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , TOKEN::JS_IDENTIFIER , 0 ) );
+      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
       TokenInfo* info = scope->Find( runtime );
       if ( info ) {
         stream->Write( info->GetAnotherName() );
@@ -547,7 +547,7 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
       base_->WriteOp( '}' , kBlockEndBrace , stream );
     } else {
       stream->Write( "}catch(e){" );
-      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , TOKEN::JS_IDENTIFIER , 0 ) );
+      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
       TokenInfo* info = scope->Find( runtime );
       if ( info ) {
         stream->Write( info->GetAnotherName() );

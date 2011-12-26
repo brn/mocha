@@ -27,6 +27,7 @@
 #include <list>
 #include <utility>
 #include <compiler/compiler.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
@@ -425,10 +426,10 @@ void AstVisitor::PrivateAccessorProcessor_( CallExp* exp ) {
   ValueNode* maybeIdent = exp->Callable()->CastToValue();
   if ( maybeIdent ) {
     ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                    TOKEN::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
+                                                    Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
     if ( !visitor_info_->IsInPrivate() ) {
       ValueNode* private_field = AstUtils::CreateNameNode( "__private__",
-                                                           TOKEN::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kProperty );
+                                                           Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kProperty );
       CallExp* dot_accessor = AstUtils::CreateDotAccessor( this_sym , private_field );
       exp->Callable( dot_accessor );
     } else {

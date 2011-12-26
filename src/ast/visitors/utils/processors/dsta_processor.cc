@@ -28,6 +28,7 @@
 #include <ast/utils/ast_utils.h>
 #include <utils/pool/managed_handle.h>
 #include <compiler/compiler.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/utils/exception_handler.h>
@@ -85,7 +86,7 @@ void ProcessMember( ValueNode* ast_node , DstaTree* tree , ProcessorInfo* proc_i
   TokenInfo* info = ast_node->Symbol();
   switch( info->GetType() ) {
     //In case of { Identifier : ... } or { Identifier }
-    case TOKEN::JS_IDENTIFIER : {
+    case Token::JS_IDENTIFIER : {
       if ( tree->ChildLength() > 0 ) {
         /*
          * If the Tree has the one or more children,
@@ -105,8 +106,8 @@ void ProcessMember( ValueNode* ast_node , DstaTree* tree , ProcessorInfo* proc_i
     }
       break;
       //In case of { "string" : ... } or { 0 : ... }
-    case TOKEN::JS_NUMERIC_LITERAL :
-    case TOKEN::JS_STRING_LITERAL : {
+    case Token::JS_NUMERIC_LITERAL :
+    case Token::JS_STRING_LITERAL : {
       if ( tree->ChildLength() > 0 ) {
         //As stated above, connect node.
         CallExp* arr_accessor = AstUtils::CreateArrayAccessor( tree->LastChild() , ast_node );
@@ -199,15 +200,15 @@ void ArrayHelper( ValueNode* ast_node,
   char tmp_index[ 10 ];
   sprintf( tmp_index , "%d" , index );
   TokenInfo* info = ManagedHandle::Retain( new TokenInfo( tmp_index,
-                                                          TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() ) );
+                                                          Token::JS_NUMERIC_LITERAL , ast_node->Line() ) );
   CallExp* exp;
   if ( is_rest ) {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     char num[50];
     sprintf( num , "%d" , index );
-    ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
+    ValueNode* arg = AstUtils::CreateNameNode( num , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
     ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
-                                                    TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kProperty );
+                                                    Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kProperty );
     list->AddChild( visitor_info->GetCurrentStmt()->GetDsta()->Refs()->LastChild() );
     list->AddChild( arg );
     CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
@@ -311,7 +312,7 @@ void ProcessArray( ValueNode* ast_node , DstaTree* tree , int depth , ProcessorI
 //Create a conditional expression that dsta converted result.
 inline AstNode* CreateConditional( AstNode* last_exp , AstNode* first , ProcessorInfo *info , bool is_assign ) {
   ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                                   TOKEN::JS_IDENTIFIER , last_exp->Line() , ValueNode::kIdentifier );
+                                                   Token::JS_IDENTIFIER , last_exp->Line() , ValueNode::kIdentifier );
   ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( last_exp , first->LastChild() , undefined ) );
   DstaTree* tree = 0;//init after.
   if ( first->NodeType() == AstNode::kDstaTree ) {
@@ -368,7 +369,7 @@ NodeList* IterateTree( NodeList* result,
       }
       if ( !next->IsRest() ) {
         //Create and exparession. like -> a && b
-        last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , item , next ) );
+        last_exp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , item , next ) );
       } else {
         /*
          * In case of rest,
@@ -378,7 +379,7 @@ NodeList* IterateTree( NodeList* result,
       }
     } else {
       if ( !item->IsRest() ) {
-        last_exp = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_AND , last_exp , item ) );
+        last_exp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , last_exp , item ) );
       }
     }
   }
@@ -490,7 +491,7 @@ int DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
   char buf[50];
   VisitorInfo* visitor_info = info->GetInfo();
   const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info->GetTmpIndex() );
-  ValueNode* value = AstUtils::CreateNameNode( tmp_ref , TOKEN::JS_IDENTIFIER , ast_node->Line(),
+  ValueNode* value = AstUtils::CreateNameNode( tmp_ref , Token::JS_IDENTIFIER , ast_node->Line(),
                                                ValueNode::kIdentifier , true );
   /**
    * Create a tree node that is stored the result of processing.

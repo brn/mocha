@@ -4,6 +4,7 @@
 #include <ast/visitors/utils/processors/module_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/pool/managed_handle.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/tokens/token_info.h>
 #include <grammar/grammar.tab.hh>
@@ -53,10 +54,10 @@ void ModuleProcessor::ProcessAnonymousModule_( ExpressionStmt* an_stmt_node , As
     ValueNode* alias = 0;
     if ( visitor_info->IsInModules() ) {
       alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                        TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                        Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
     } else {
       alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                        TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                        Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
     }
     CallExp* dot_accessor = AstUtils::CreateDotAccessor( alias , name );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , dot_accessor , an_stmt_node->FirstChild() );
@@ -93,16 +94,16 @@ ExpressionStmt* ModuleProcessor::ProcessBody_( AstNode* body , Function* fn_node
 
 void ModuleProcessor::Finish_( AstNode* name , Function* fn_node ) {
   TokenInfo* local = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                           TOKEN::JS_IDENTIFIER , stmt_->Line() ) );
+                                                           Token::JS_IDENTIFIER , stmt_->Line() ) );
   ValueNode* ret_local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                   TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                                   Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
   ValueNode* init = 0;//init after.
   if ( !name->IsEmpty() ) {
     init = AstUtils::CreateVarInitiliser( local,
                                           AstUtils::CreateObjectLiteral( ManagedHandle::Retain<Empty>() ) );
   } else {
     ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                                 Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
     init = AstUtils::CreateVarInitiliser( local,
                                           alias );
   }

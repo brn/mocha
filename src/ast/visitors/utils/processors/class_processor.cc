@@ -6,6 +6,7 @@
 #include <ast/utils/ast_utils.h>
 #include <utils/pool/managed_handle.h>
 #include <grammar/grammar.tab.hh>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/symbol_list.h>
 
@@ -15,7 +16,7 @@ namespace mocha {
 
 inline CallExp* CreateHiddenMember( NodeList* args , long line ) {
   ValueNode* hidden = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateUnenumProp ),
-                                                TOKEN::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                                Token::JS_IDENTIFIER , line , ValueNode::kProperty );
   CallExp* mod = AstUtils::CreateRuntimeMod( hidden );
   CallExp* nrm = AstUtils::CreateNormalAccessor( mod , args );
   return nrm;
@@ -24,17 +25,17 @@ inline CallExp* CreateHiddenMember( NodeList* args , long line ) {
 
 inline ValueNode* CreatePrivateHolderName( long line ) {
   return AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                   TOKEN::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+                                   Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
 }
 
 inline ValueNode* CreatePrivateField( long line ) {
   return AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateField ),
-                                   TOKEN::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                   Token::JS_IDENTIFIER , line , ValueNode::kProperty );
 }
 
 inline ValueNode* CreateThisNode( long line ) {
   ValueNode* this_node = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                   TOKEN::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+                                                   Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
   return this_node;
 }
 
@@ -46,7 +47,7 @@ inline CallExp* CreatePrivateFieldAccessor( AstNode* name ) {
 
 inline ValueNode* CreateTypeIdNode( long line ) {
   ValueNode* this_node = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kTypeId ),
-                                                   TOKEN::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                                   Token::JS_IDENTIFIER , line , ValueNode::kProperty );
   return this_node;
 }
 
@@ -55,10 +56,10 @@ inline CallExp* CreatePrivateInstance( long line ) {
   NodeList* list = ManagedHandle::Retain<NodeList>();
   char buf[50];
   sprintf( buf , "'%s'" , SymbolList::GetSymbol( SymbolList::kPrivateField ) );
-  ValueNode* field = AstUtils::CreateNameNode( buf , TOKEN::JS_IDENTIFIER , line , ValueNode::kString );
+  ValueNode* field = AstUtils::CreateNameNode( buf , Token::JS_IDENTIFIER , line , ValueNode::kString );
   ValueNode* this_sym = CreateThisNode( line );
   ValueNode* holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                                TOKEN::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+                                                Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
   NewExp* new_exp = ManagedHandle::Retain<NewExp>();
   new_exp->Constructor( holder );
   list->AddChild( this_sym );
@@ -70,15 +71,15 @@ inline CallExp* CreatePrivateInstance( long line ) {
 
 inline CallExp* CreateConstructorInitializer( const char* name , long line ) {
   ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
-                                                         TOKEN::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                                         Token::JS_IDENTIFIER , line , ValueNode::kProperty );
   ValueNode* apply_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kApply ),
-                                                   TOKEN::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                                   Token::JS_IDENTIFIER , line , ValueNode::kProperty );
   NodeList *args = ManagedHandle::Retain<NodeList>();
   args->AddChild( CreateThisNode( line ) );
   args->AddChild( AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
-                                            TOKEN::JS_IDENTIFIER , line , ValueNode::kIdentifier ) );
+                                            Token::JS_IDENTIFIER , line , ValueNode::kIdentifier ) );
   CallExp* apply_call = AstUtils::CreateNormalAccessor( apply_sym , args );
-  CallExp* consturctor_accessor = AstUtils::CreateDotAccessor( AstUtils::CreateNameNode( name,TOKEN::JS_IDENTIFIER,
+  CallExp* consturctor_accessor = AstUtils::CreateDotAccessor( AstUtils::CreateNameNode( name,Token::JS_IDENTIFIER,
                                                                                          line , ValueNode::kIdentifier ),
                                                                constructor_sym );
   CallExp* initial_call = AstUtils::CreateDotAccessor( consturctor_accessor , apply_call );
@@ -115,7 +116,7 @@ inline AstNode* CreateHolderAssignment( AstNode* val,
 inline void Finish( const char* name , Class* class_ , AstNode* closure_ , ProcessorInfo* info ) {
   if ( class_->ParentNode()->ParentNode()->NodeType() == AstNode::kExpressionStmt ||
        class_->Inner() ) {
-    TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , TOKEN::JS_IDENTIFIER , class_->Line() ) );
+    TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , Token::JS_IDENTIFIER , class_->Line() ) );
     ValueNode* vars = AstUtils::CreateVarInitiliser( info , closure_->FirstChild() );
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( vars );
@@ -128,9 +129,9 @@ inline void Finish( const char* name , Class* class_ , AstNode* closure_ , Proce
     }
   } else {
     if ( class_->ParentNode()->NodeType() == AstNode::kExportStmt ) {
-      ValueNode* name_node = AstUtils::CreateNameNode( name , TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
+      ValueNode* name_node = AstUtils::CreateNameNode( name , Token::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
       ValueNode* local_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                          TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
+                                                          Token::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
       CallExp* dot_accessor = AstUtils::CreateDotAccessor( local_export , name_node );
       AssignmentExp* assign = AstUtils::CreateAssignment( '=' , dot_accessor , closure_->FirstChild() );
       ValueNode* var_node = AstUtils::CreateVarInitiliser( name_node->Clone()->CastToValue()->Symbol() , assign );
@@ -149,7 +150,7 @@ inline VariableStmt* CreatePrivateHolder( Class* class_ , ProcessorInfo* info ) 
   Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
                                                ManagedHandle::Retain<Empty>(), ManagedHandle::Retain<Empty>() );
   ValueNode* private_holder_name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                                             TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
+                                                             Token::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
   ValueNode* value = AstUtils::CreateVarInitiliser( private_holder_name->Symbol() , fn );
   VariableStmt* stmt = AstUtils::CreateVarStmt( value );
   return stmt;
@@ -178,7 +179,7 @@ void ClassProcessor::ProcessNode() {
     name_ = AstUtils::CreateTmpRef( buf , info_->GetInfo()->GetTmpIndex() );
   }
   
-  ValueNode* name = AstUtils::CreateNameNode( name_.c_str() , TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
+  ValueNode* name = AstUtils::CreateNameNode( name_.c_str() , Token::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
   Function* fn = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() );
   fn->Line( class_->Line() );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
@@ -207,11 +208,11 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
         SymbolList::GetSymbol( SymbolList::kPrototype );
     
     ValueNode* extend = AstUtils::CreateNameNode( extend_fn,
-                                                  TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
+                                                  Token::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
     CallExp* runtime_prop = AstUtils::CreateRuntimeMod( extend );
     NodeList* arg = ManagedHandle::Retain<NodeList>();
     ValueNode* class_name = AstUtils::CreateNameNode( name_.c_str(),
-                                                  TOKEN::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
+                                                  Token::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
     arg->AddChild( class_name );
     arg->AddChild( node->FirstChild() );
     CallExp* normal_fn_call = AstUtils::CreateNormalAccessor( runtime_prop , arg );
@@ -253,11 +254,11 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
 
 
 inline void ClassProcessor::ProcessConstructor_( Function* constructor ) {
-  ValueNode* name_node = AstUtils::CreateNameNode( name_.c_str() , TOKEN::JS_IDENTIFIER , constructor->Line(),
+  ValueNode* name_node = AstUtils::CreateNameNode( name_.c_str() , Token::JS_IDENTIFIER , constructor->Line(),
                                                    ValueNode::kIdentifier );
   char tmp[50];
   sprintf( tmp , "'%s'" , SymbolList::GetSymbol( SymbolList::kConstructor ) );
-  ValueNode* consturctor_sym = AstUtils::CreateNameNode( tmp , TOKEN::JS_IDENTIFIER , constructor->Line(),
+  ValueNode* consturctor_sym = AstUtils::CreateNameNode( tmp , Token::JS_IDENTIFIER , constructor->Line(),
                                                          ValueNode::kString );
   NodeList *list = ManagedHandle::Retain<NodeList>();
   list->AddChild( name_node );
@@ -333,7 +334,7 @@ void ClassProcessor::ProcessEachMember_( AstNode* node , bool is_prototype , boo
 inline AstNode* GetSafeValue( ValueNode* value ) {
   AstNode* lhs = value->FirstChild();
   return ( lhs )? lhs : AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                                  TOKEN::JS_IDENTIFIER , value->Line() , ValueNode::kIdentifier );
+                                                  Token::JS_IDENTIFIER , value->Line() , ValueNode::kIdentifier );
 }
 
 
@@ -374,7 +375,7 @@ inline ExpressionStmt* ConstantInstancePublic( ValueNode* value ) {
 
 inline ExpressionStmt* PrototypePrivate( AstNode* name_node , AstNode* val ) {
   ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                              TOKEN::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+                                              Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
   CallExp* prototype_accessor = AstUtils::CreatePrototypeNode( name );
   CallExp* name_accessor = AstUtils::CreateDotAccessor( prototype_accessor , name_node );
   return AstUtils::CreateExpStmt( AstUtils::CreateAssignment( '=' , name_accessor , val ) );
@@ -384,7 +385,7 @@ inline ExpressionStmt* PrototypePrivate( AstNode* name_node , AstNode* val ) {
 
 inline ExpressionStmt* PrototypePublic( const char* class_name, AstNode* name_node , AstNode* val ) {
   ValueNode* name = AstUtils::CreateNameNode( class_name,
-                                              TOKEN::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+                                              Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
   CallExp* prototype_accessor = AstUtils::CreatePrototypeNode( name );
   CallExp* name_accessor = AstUtils::CreateDotAccessor( prototype_accessor , name_node );
   return AstUtils::CreateExpStmt( AstUtils::CreateAssignment( '=' , name_accessor , val ) );
@@ -394,7 +395,7 @@ inline ExpressionStmt* PrototypePublic( const char* class_name, AstNode* name_no
 
 inline ExpressionStmt* ConstantPrototypePrivate( AstNode* name_node , AstNode* val ) {
   ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                              TOKEN::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+                                              Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
   CallExp* prototype_accessor = AstUtils::CreatePrototypeNode( name );
   CallExp* constant_accessor = AstUtils::CreateConstantProp( prototype_accessor,
                                                              name_node , val );
@@ -405,7 +406,7 @@ inline ExpressionStmt* ConstantPrototypePrivate( AstNode* name_node , AstNode* v
 
 inline ExpressionStmt* ConstantPrototypePublic( const char* class_name , AstNode* name_node , AstNode* val ) {
   ValueNode* name = AstUtils::CreateNameNode( class_name,
-                                              TOKEN::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+                                              Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
   CallExp* prototype_accessor = AstUtils::CreatePrototypeNode( name );
   CallExp* constant_accessor = AstUtils::CreateConstantProp( prototype_accessor,
                                                              name_node , val );
@@ -416,7 +417,7 @@ inline ExpressionStmt* ConstantPrototypePublic( const char* class_name , AstNode
 
 inline ExpressionStmt* Static( const char* class_name , AstNode* name_node , AstNode* val ) {
   ValueNode* name = AstUtils::CreateNameNode( class_name,
-                                              TOKEN::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+                                              Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
   CallExp* dot_accessor = AstUtils::CreateDotAccessor( name , name_node );
   return AstUtils::CreateExpStmt( AstUtils::CreateAssignment( '=' , dot_accessor , val ) );
 }
@@ -425,7 +426,7 @@ inline ExpressionStmt* Static( const char* class_name , AstNode* name_node , Ast
 
 inline ExpressionStmt* ConstantStatic( const char* class_name , AstNode* name_node , AstNode* val ) {
   ValueNode* name = AstUtils::CreateNameNode( class_name,
-                                              TOKEN::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+                                              Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
   CallExp* constant_accessor = AstUtils::CreateConstantProp( name , name_node , val );
   return AstUtils::CreateExpStmt( constant_accessor );
 }

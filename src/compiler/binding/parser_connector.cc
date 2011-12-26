@@ -27,13 +27,14 @@
 #include <ast/ast.h>
 #include <grammar/grammar.tab.hh>
 #include <compiler/tokens/token_info.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/scanner/queue_scanner.h>
 
 namespace mocha {
 ParserConnector::ParserConnector ( Compiler *compiler,
-                                          ParserTracer* tracer ,
-                                          AstRoot* ast_root,
-                                          const std::string& source ) :
+                                     ParserTracer* tracer ,
+                                     AstRoot* ast_root,
+                                     const std::string& source ) :
     line_( 0 ) , is_end_( false ), compiler_ ( compiler ) , tracer ( tracer ),
     ast_root_ ( ast_root ) , scanner_( new QueueScanner( source , tracer ) ){
   scanner_->CollectToken();
@@ -52,7 +53,8 @@ int ParserConnector::InvokeScanner ( void* yylval_ , int yystate ) {
   }
   line_ = info->GetLineNumber();
   yylval->info = info;
-  return info->GetType();
+printf( "%s\n" ,info->GetToken() );
+  return JsToken::ToParserToken( info->GetType() );
 }
 
 int ParserConnector::ParseStart () {

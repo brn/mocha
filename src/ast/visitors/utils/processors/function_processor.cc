@@ -5,6 +5,7 @@
 #include <ast/ast.h>
 #include <ast/utils/ast_utils.h>
 #include <utils/pool/managed_handle.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
 #include <grammar/grammar.tab.hh>
 
@@ -96,7 +97,7 @@ void FunctionProcessor::ProcessDefaultParameter_( ValueNode *value ) {
   AstNode* default_value = initialiser->FirstChild();
   arg->RemoveAllChild();
   initialiser->RemoveAllChild();
-  CompareExp* logical_or = ManagedHandle::Retain( new CompareExp( TOKEN::JS_LOGICAL_OR , arg , default_value ) );
+  CompareExp* logical_or = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_OR , arg , default_value ) );
   AssignmentExp* exp = AstUtils::CreateAssignment( '=', initialiser , logical_or );
   default_parameter_->InsertBefore( exp );
 }
@@ -129,13 +130,13 @@ void FunctionProcessor::ProcessBody_() {
 
 VariableStmt* FunctionProcessor::ProcessRestParameter_() {
   ValueNode* rhs = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
-                                             TOKEN::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+                                             Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
   NodeList* list = ManagedHandle::Retain<NodeList>();
   char num[50];
   sprintf( num , "%d" , argc_ - 1 );
-  ValueNode* arg = AstUtils::CreateNameNode( num , TOKEN::JS_NUMERIC_LITERAL , function_->Line() , ValueNode::kNumeric );
+  ValueNode* arg = AstUtils::CreateNameNode( num , Token::JS_NUMERIC_LITERAL , function_->Line() , ValueNode::kNumeric );
   ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
-                                                  TOKEN::JS_IDENTIFIER , function_->Line() , ValueNode::kProperty );
+                                                  Token::JS_IDENTIFIER , function_->Line() , ValueNode::kProperty );
   list->AddChild( rhs );
   list->AddChild( arg );
   CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );

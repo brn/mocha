@@ -1,5 +1,6 @@
 #include <ast/utils/ast_utils.h>
 #include <ast/ast.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/symbol_list.h>
 #include <utils/pool/managed_handle.h>
@@ -35,7 +36,7 @@ CallExp* AstUtils::CreateDotAccessor( AstNode* callable , AstNode* args ) {
 static const char prototype[] = { "prototype" };
 
 CallExp* AstUtils::CreatePrototypeAccessor( AstNode* callable , AstNode* args ) {
-  ValueNode* prototype_node = CreateNameNode( prototype , TOKEN::JS_IDENTIFIER , callable->Line() , ValueNode::kProperty );
+  ValueNode* prototype_node = CreateNameNode( prototype , Token::JS_IDENTIFIER , callable->Line() , ValueNode::kProperty );
   CallExp* depth1 = CreateDotAccessor( callable , prototype_node );
   CallExp* depth2 = CreateDotAccessor( depth1 , args );
   return depth2;
@@ -122,13 +123,13 @@ ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp ) {
 
 CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value ) {
   ValueNode* constant = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstant ),
-                                                  TOKEN::JS_IDENTIFIER , lhs->Line() , ValueNode::kIdentifier );
+                                                  Token::JS_IDENTIFIER , lhs->Line() , ValueNode::kIdentifier );
   ValueNode* prop_str = prop->CastToValue();
   AstNode* property = prop;
   if ( prop_str && ( prop_str->ValueType() == ValueNode::kIdentifier || prop_str->ValueType() == ValueNode::kProperty ) ) {
     char tmp[50];
     sprintf( tmp , "'%s'" , prop_str->Symbol()->GetToken() );
-    property = AstUtils::CreateNameNode( tmp , TOKEN::JS_STRING_LITERAL , prop_str->Line() , ValueNode::kString );
+    property = AstUtils::CreateNameNode( tmp , Token::JS_STRING_LITERAL , prop_str->Line() , ValueNode::kString );
   }
   NodeList* args = ManagedHandle::Retain<NodeList>();
   args->AddChild( lhs );
@@ -141,14 +142,14 @@ CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* v
 
 CallExp* AstUtils::CreatePrototypeNode( AstNode* lhs ) {
   ValueNode* prototype = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrototype ),
-                                                   TOKEN::JS_IDENTIFIER , lhs->Line() , ValueNode::kProperty );
+                                                   Token::JS_IDENTIFIER , lhs->Line() , ValueNode::kProperty );
   return AstUtils::CreateDotAccessor( lhs , prototype );
 }
 
 
 CallExp* AstUtils::CreateRuntimeMod( AstNode* member ) {
   ValueNode* value = CreateNameNode( SymbolList::GetSymbol( SymbolList::kRuntime ),
-                                     TOKEN::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+                                     Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
   CallExp* exp = CreateDotAccessor( value , member );
   return exp;
 }
@@ -161,8 +162,8 @@ const char* AstUtils::CreateTmpRef( char* buf , int index ) {
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filename ) {
   StrHandle key = FileSystem::GetModuleKey( filename );
   ValueNode* value = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                               TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-  ValueNode* name = AstUtils::CreateNameNode( key.Get() , TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
+                                               Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+  ValueNode* name = AstUtils::CreateNameNode( key.Get() , Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
   CallExp* arr = AstUtils::CreateArrayAccessor( value , name );
   return arr;
 }

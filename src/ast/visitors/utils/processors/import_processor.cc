@@ -3,6 +3,7 @@
 #include <utils/file_system/virtual_directory.h>
 #include <utils/file_system/file_system.h>
 #include <utils/pool/managed_handle.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/symbol_list.h>
 #include <ast/ast.h>
@@ -23,9 +24,9 @@ void ImportProccessor::ProcessNode() {
   stmt_->Exp()->Accept( visitor );
   LoadModule_();
   ValueNode *name = AstUtils::CreateNameNode( stmt_->ModKey()->GetToken(),
-                                              TOKEN::JS_STRING_LITERAL , stmt_->Line() , ValueNode::kString );
+                                              Token::JS_STRING_LITERAL , stmt_->Line() , ValueNode::kString );
   ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                TOKEN::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+                                                Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
   CallExp* exp = AstUtils::CreateArrayAccessor( global , name );
   if ( stmt_->From()->ChildLength() > 1 ) {
     NodeIterator iter = stmt_->From()->ChildNodes();
@@ -83,7 +84,7 @@ void ImportProccessor::LoadModule_() {
 
     //Get module uuid key.
     StrHandle key_str = FileSystem::GetModuleKey( real_path.Get() );
-    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , TOKEN::JS_IDENTIFIER , stmt_->Line() ) );
+    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , Token::JS_IDENTIFIER , stmt_->Line() ) );
 
     //Reserve module key string for later code generation.
     stmt_->ModKey( key );

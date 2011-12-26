@@ -328,8 +328,8 @@ int main ( int argc , char** argv ) {
     HashAutoTester::cacheWord( argv[ 1 ] , argv[ 2 ] );
     
     //HashAutoTester::RunMapTest();
-    HashAutoTester::RunBoostTest();
-    //HashAutoTester::RunSrtTest();
+    //HashAutoTester::RunBoostTest();
+    HashAutoTester::RunSrtTest();
   }
   return 0;
 }

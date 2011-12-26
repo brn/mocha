@@ -4,6 +4,7 @@
 #include <ast/visitors/utils/processors/fileroot_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/pool/managed_handle.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
 #include <grammar/grammar.tab.hh>
 namespace mocha {
@@ -24,17 +25,17 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
     fn->Line( 1 );
     ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
     ValueNode* global_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                         TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+                                                         Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     ValueNode* object_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
     object_literal->Node( ManagedHandle::Retain<Empty>() );
     StrHandle handle = FileSystem::GetModuleKey( ast_node->FileName() );
-    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , TOKEN::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
+    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , Token::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
     
     CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal );
 
     ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 TOKEN::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+                                                 Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     VariableStmt* var_stmt = AstUtils::CreateVarStmt(
         AstUtils::CreateVarInitiliser( alias->Symbol() , global_export_accessor->Clone() ) );
     ExpressionStmt* extend_global = AstUtils::CreateExpStmt( exp );
