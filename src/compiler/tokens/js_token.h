@@ -4,7 +4,7 @@
 #include <utils/class_traits/static.h>
 namespace mocha{
 
-//Bison convertible token list.
+//Bison compatible token list.
 class Token : private Static {
  public :
   enum {
