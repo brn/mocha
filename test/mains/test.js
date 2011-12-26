@@ -1,4 +1,12 @@
-import {fmt} from "../jspp-lib/jquery-devel";
+//import {fmt} from "../jspp-lib/jquery-devel";
+var aono,tak;
+var watsi = {
+      aono,
+      tak,
+      getName() {
+        return this.aono + this.tak;
+      }
+    };
 var x = {x:200,y:300};
 //import {jQuery} from "../jspp-lib/jquery-devel"
 module {

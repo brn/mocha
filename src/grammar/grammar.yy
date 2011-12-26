@@ -2111,11 +2111,14 @@ property_name_and_value_list
     ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     val->Symbol( $1 );
     val->Line( $1->GetLineNumber() );
+    ValueNode* child = val->Clone()->CastToValue();
+    val->AddChild( child );
     list->AddChild( val );
     $$ = list;
   }
 | JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
   {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( $1->GetLineNumber() );
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -2123,7 +2126,8 @@ property_name_and_value_list
     fn->Name( value );
     fn->Argv ( $3 );
     fn->Append( $6 );
-    $$ = fn;
+    list->AddChild( value );
+    $$ = list;
   }
 | property_name_and_value_list ',' property_name ':' assignment_expression
   {
@@ -2138,6 +2142,8 @@ property_name_and_value_list
     ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     val->Symbol( $3 );
     val->Line( $3->GetLineNumber() );
+    ValueNode* child = val->Clone()->CastToValue();
+    val->AddChild( child );
     $1->AddChild( val );
     $$ = $1;
   }
@@ -2150,7 +2156,8 @@ property_name_and_value_list
     fn->Name( value );
     fn->Argv ( $5 );
     fn->Append( $8 );
-    $1->AddChild( fn );
+    value->AddChild( fn );
+    $1->AddChild( value );
     $$ = $1;
   }
 ;

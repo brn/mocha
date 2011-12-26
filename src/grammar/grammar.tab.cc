@@ -3024,6 +3024,8 @@ namespace yy {
     ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     val->Symbol( (yysemantic_stack_[(1) - (1)].info) );
     val->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
+    ValueNode* child = val->Clone()->CastToValue();
+    val->AddChild( child );
     list->AddChild( val );
     (yyval.ast) = list;
   }
@@ -3032,8 +3034,9 @@ namespace yy {
   case 228:
 
 /* Line 690 of lalr1.cc  */
-#line 2118 "grammar/grammar.yy"
+#line 2120 "grammar/grammar.yy"
     {
+    NodeList* list = ManagedHandle::Retain<NodeList>();
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(7) - (1)].info)->GetLineNumber() );
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -3041,14 +3044,15 @@ namespace yy {
     fn->Name( value );
     fn->Argv ( (yysemantic_stack_[(7) - (3)].ast) );
     fn->Append( (yysemantic_stack_[(7) - (6)].node_list) );
-    (yyval.ast) = fn;
+    list->AddChild( value );
+    (yyval.ast) = list;
   }
     break;
 
   case 229:
 
 /* Line 690 of lalr1.cc  */
-#line 2129 "grammar/grammar.yy"
+#line 2133 "grammar/grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     (yysemantic_stack_[(5) - (1)].ast)->AddChild( (yysemantic_stack_[(5) - (3)].value_node) );
@@ -3060,12 +3064,14 @@ namespace yy {
   case 230:
 
 /* Line 690 of lalr1.cc  */
-#line 2136 "grammar/grammar.yy"
+#line 2140 "grammar/grammar.yy"
     {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     val->Symbol( (yysemantic_stack_[(3) - (3)].info) );
     val->Line( (yysemantic_stack_[(3) - (3)].info)->GetLineNumber() );
+    ValueNode* child = val->Clone()->CastToValue();
+    val->AddChild( child );
     (yysemantic_stack_[(3) - (1)].ast)->AddChild( val );
     (yyval.ast) = (yysemantic_stack_[(3) - (1)].ast);
   }
@@ -3074,7 +3080,7 @@ namespace yy {
   case 231:
 
 /* Line 690 of lalr1.cc  */
-#line 2145 "grammar/grammar.yy"
+#line 2151 "grammar/grammar.yy"
     {
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( (yysemantic_stack_[(9) - (1)].ast)->Line() );
@@ -3083,7 +3089,8 @@ namespace yy {
     fn->Name( value );
     fn->Argv ( (yysemantic_stack_[(9) - (5)].ast) );
     fn->Append( (yysemantic_stack_[(9) - (8)].node_list) );
-    (yysemantic_stack_[(9) - (1)].ast)->AddChild( fn );
+    value->AddChild( fn );
+    (yysemantic_stack_[(9) - (1)].ast)->AddChild( value );
     (yyval.ast) = (yysemantic_stack_[(9) - (1)].ast);
   }
     break;
@@ -3091,7 +3098,7 @@ namespace yy {
   case 232:
 
 /* Line 690 of lalr1.cc  */
-#line 2160 "grammar/grammar.yy"
+#line 2167 "grammar/grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
@@ -3103,7 +3110,7 @@ namespace yy {
   case 233:
 
 /* Line 690 of lalr1.cc  */
-#line 2167 "grammar/grammar.yy"
+#line 2174 "grammar/grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kString ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
@@ -3115,7 +3122,7 @@ namespace yy {
   case 234:
 
 /* Line 690 of lalr1.cc  */
-#line 2174 "grammar/grammar.yy"
+#line 2181 "grammar/grammar.yy"
     {
     ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kNumeric ) );
     node->Line( (yysemantic_stack_[(1) - (1)].info)->GetLineNumber() );
@@ -3127,7 +3134,7 @@ namespace yy {
   case 235:
 
 /* Line 690 of lalr1.cc  */
-#line 2184 "grammar/grammar.yy"
+#line 2191 "grammar/grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
@@ -3136,7 +3143,7 @@ namespace yy {
   case 236:
 
 /* Line 690 of lalr1.cc  */
-#line 2188 "grammar/grammar.yy"
+#line 2195 "grammar/grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].function);
   }
@@ -3145,7 +3152,7 @@ namespace yy {
   case 237:
 
 /* Line 690 of lalr1.cc  */
-#line 2192 "grammar/grammar.yy"
+#line 2199 "grammar/grammar.yy"
     {
     (yysemantic_stack_[(1) - (1)].cls)->Decl( false );
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].cls);
@@ -3155,7 +3162,7 @@ namespace yy {
   case 238:
 
 /* Line 690 of lalr1.cc  */
-#line 2197 "grammar/grammar.yy"
+#line 2204 "grammar/grammar.yy"
     {
     int depth = 0;
     if ( (yysemantic_stack_[(4) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
@@ -3173,7 +3180,7 @@ namespace yy {
   case 239:
 
 /* Line 690 of lalr1.cc  */
-#line 2210 "grammar/grammar.yy"
+#line 2217 "grammar/grammar.yy"
     {
     int depth = 0;
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -3190,7 +3197,7 @@ namespace yy {
   case 240:
 
 /* Line 690 of lalr1.cc  */
-#line 2222 "grammar/grammar.yy"
+#line 2229 "grammar/grammar.yy"
     {
     int depth = 0;
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -3210,7 +3217,7 @@ namespace yy {
   case 241:
 
 /* Line 690 of lalr1.cc  */
-#line 2237 "grammar/grammar.yy"
+#line 2244 "grammar/grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     int depth = 0;
@@ -3230,7 +3237,7 @@ namespace yy {
   case 242:
 
 /* Line 690 of lalr1.cc  */
-#line 2252 "grammar/grammar.yy"
+#line 2259 "grammar/grammar.yy"
     {
     int depth = 0;
     if ( (yysemantic_stack_[(3) - (2)].ast)->NodeType() == AstNode::kCallExp ) {
@@ -3248,14 +3255,14 @@ namespace yy {
   case 243:
 
 /* Line 690 of lalr1.cc  */
-#line 2267 "grammar/grammar.yy"
+#line 2274 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 244:
 
 /* Line 690 of lalr1.cc  */
-#line 2269 "grammar/grammar.yy"
+#line 2276 "grammar/grammar.yy"
     {
     NewExp* ret = ManagedHandle::Retain<NewExp>();
     ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
@@ -3267,7 +3274,7 @@ namespace yy {
   case 245:
 
 /* Line 690 of lalr1.cc  */
-#line 2279 "grammar/grammar.yy"
+#line 2286 "grammar/grammar.yy"
     {
     int depth = 0;
     if ( (yysemantic_stack_[(2) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
@@ -3285,7 +3292,7 @@ namespace yy {
   case 246:
 
 /* Line 690 of lalr1.cc  */
-#line 2292 "grammar/grammar.yy"
+#line 2299 "grammar/grammar.yy"
     {
     int depth = 0;
     if ( (yysemantic_stack_[(2) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
@@ -3303,7 +3310,7 @@ namespace yy {
   case 247:
 
 /* Line 690 of lalr1.cc  */
-#line 2305 "grammar/grammar.yy"
+#line 2312 "grammar/grammar.yy"
     {
     int depth = 0;
     if ( (yysemantic_stack_[(4) - (1)].ast)->NodeType() == AstNode::kCallExp ) {
@@ -3321,7 +3328,7 @@ namespace yy {
   case 248:
 
 /* Line 690 of lalr1.cc  */
-#line 2318 "grammar/grammar.yy"
+#line 2325 "grammar/grammar.yy"
     {
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     int depth = 0;
@@ -3341,21 +3348,21 @@ namespace yy {
   case 249:
 
 /* Line 690 of lalr1.cc  */
-#line 2335 "grammar/grammar.yy"
+#line 2342 "grammar/grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 250:
 
 /* Line 690 of lalr1.cc  */
-#line 2336 "grammar/grammar.yy"
+#line 2343 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(3) - (2)].node_list); }
     break;
 
   case 251:
 
 /* Line 690 of lalr1.cc  */
-#line 2341 "grammar/grammar.yy"
+#line 2348 "grammar/grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
@@ -3366,7 +3373,7 @@ namespace yy {
   case 252:
 
 /* Line 690 of lalr1.cc  */
-#line 2347 "grammar/grammar.yy"
+#line 2354 "grammar/grammar.yy"
     {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     list->AddChild( (yysemantic_stack_[(1) - (1)].ast) );
@@ -3377,7 +3384,7 @@ namespace yy {
   case 253:
 
 /* Line 690 of lalr1.cc  */
-#line 2353 "grammar/grammar.yy"
+#line 2360 "grammar/grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
@@ -3387,7 +3394,7 @@ namespace yy {
   case 254:
 
 /* Line 690 of lalr1.cc  */
-#line 2358 "grammar/grammar.yy"
+#line 2365 "grammar/grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].node_list)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.node_list) = (yysemantic_stack_[(3) - (1)].node_list);
@@ -3397,53 +3404,41 @@ namespace yy {
   case 255:
 
 /* Line 690 of lalr1.cc  */
-#line 2365 "grammar/grammar.yy"
+#line 2372 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 256:
 
 /* Line 690 of lalr1.cc  */
-#line 2366 "grammar/grammar.yy"
+#line 2373 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 257:
 
 /* Line 690 of lalr1.cc  */
-#line 2367 "grammar/grammar.yy"
+#line 2374 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].value_node); }
     break;
 
   case 258:
 
 /* Line 690 of lalr1.cc  */
-#line 2368 "grammar/grammar.yy"
+#line 2375 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(3) - (2)].value_node); }
     break;
 
   case 259:
 
 /* Line 690 of lalr1.cc  */
-#line 2373 "grammar/grammar.yy"
+#line 2380 "grammar/grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
     break;
 
   case 260:
-
-/* Line 690 of lalr1.cc  */
-#line 2377 "grammar/grammar.yy"
-    {
-    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( (yysemantic_stack_[(2) - (2)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
-    ret->Exp( (yysemantic_stack_[(2) - (1)].ast) );
-    (yyval.ast) = ret;
-  }
-    break;
-
-  case 261:
 
 /* Line 690 of lalr1.cc  */
 #line 2384 "grammar/grammar.yy"
@@ -3455,26 +3450,26 @@ namespace yy {
   }
     break;
 
-  case 262:
+  case 261:
 
 /* Line 690 of lalr1.cc  */
-#line 2393 "grammar/grammar.yy"
-    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
-    break;
-
-  case 263:
-
-/* Line 690 of lalr1.cc  */
-#line 2395 "grammar/grammar.yy"
+#line 2391 "grammar/grammar.yy"
     {
-    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
-    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
-    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    PostfixExp *ret = ManagedHandle::Retain ( new PostfixExp ( (yysemantic_stack_[(2) - (2)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].ast)->Line() );
+    ret->Exp( (yysemantic_stack_[(2) - (1)].ast) );
     (yyval.ast) = ret;
   }
     break;
 
-  case 264:
+  case 262:
+
+/* Line 690 of lalr1.cc  */
+#line 2400 "grammar/grammar.yy"
+    { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
+    break;
+
+  case 263:
 
 /* Line 690 of lalr1.cc  */
 #line 2402 "grammar/grammar.yy"
@@ -3486,7 +3481,7 @@ namespace yy {
   }
     break;
 
-  case 265:
+  case 264:
 
 /* Line 690 of lalr1.cc  */
 #line 2409 "grammar/grammar.yy"
@@ -3498,7 +3493,7 @@ namespace yy {
   }
     break;
 
-  case 266:
+  case 265:
 
 /* Line 690 of lalr1.cc  */
 #line 2416 "grammar/grammar.yy"
@@ -3510,7 +3505,7 @@ namespace yy {
   }
     break;
 
-  case 267:
+  case 266:
 
 /* Line 690 of lalr1.cc  */
 #line 2423 "grammar/grammar.yy"
@@ -3522,10 +3517,22 @@ namespace yy {
   }
     break;
 
-  case 268:
+  case 267:
 
 /* Line 690 of lalr1.cc  */
 #line 2430 "grammar/grammar.yy"
+    {
+    UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( (yysemantic_stack_[(2) - (1)].info)->GetType() ) );
+    ret->Line( (yysemantic_stack_[(2) - (1)].info)->GetLineNumber() );
+    ret->Exp( (yysemantic_stack_[(2) - (2)].ast) );
+    (yyval.ast) = ret;
+  }
+    break;
+
+  case 268:
+
+/* Line 690 of lalr1.cc  */
+#line 2437 "grammar/grammar.yy"
     {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '+' ) );
     ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
@@ -3537,7 +3544,7 @@ namespace yy {
   case 269:
 
 /* Line 690 of lalr1.cc  */
-#line 2437 "grammar/grammar.yy"
+#line 2444 "grammar/grammar.yy"
     {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '-' ) );
     ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
@@ -3549,7 +3556,7 @@ namespace yy {
   case 270:
 
 /* Line 690 of lalr1.cc  */
-#line 2444 "grammar/grammar.yy"
+#line 2451 "grammar/grammar.yy"
     {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '~' ) );
     ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
@@ -3561,7 +3568,7 @@ namespace yy {
   case 271:
 
 /* Line 690 of lalr1.cc  */
-#line 2451 "grammar/grammar.yy"
+#line 2458 "grammar/grammar.yy"
     {
     UnaryExp *ret = ManagedHandle::Retain ( new UnaryExp ( '!' ) );
     ret->Line( (yysemantic_stack_[(2) - (2)].ast)->Line() );
@@ -3573,14 +3580,14 @@ namespace yy {
   case 272:
 
 /* Line 690 of lalr1.cc  */
-#line 2460 "grammar/grammar.yy"
+#line 2467 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 273:
 
 /* Line 690 of lalr1.cc  */
-#line 2462 "grammar/grammar.yy"
+#line 2469 "grammar/grammar.yy"
     {
     BINARY_ACTION('*',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3589,7 +3596,7 @@ namespace yy {
   case 274:
 
 /* Line 690 of lalr1.cc  */
-#line 2466 "grammar/grammar.yy"
+#line 2473 "grammar/grammar.yy"
     {
     BINARY_ACTION('/',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3598,7 +3605,7 @@ namespace yy {
   case 275:
 
 /* Line 690 of lalr1.cc  */
-#line 2470 "grammar/grammar.yy"
+#line 2477 "grammar/grammar.yy"
     {
     BINARY_ACTION('%',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3607,14 +3614,14 @@ namespace yy {
   case 276:
 
 /* Line 690 of lalr1.cc  */
-#line 2476 "grammar/grammar.yy"
+#line 2483 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 277:
 
 /* Line 690 of lalr1.cc  */
-#line 2478 "grammar/grammar.yy"
+#line 2485 "grammar/grammar.yy"
     {
     BINARY_ACTION('+',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3623,7 +3630,7 @@ namespace yy {
   case 278:
 
 /* Line 690 of lalr1.cc  */
-#line 2482 "grammar/grammar.yy"
+#line 2489 "grammar/grammar.yy"
     {
     BINARY_ACTION('-',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3632,14 +3639,14 @@ namespace yy {
   case 279:
 
 /* Line 690 of lalr1.cc  */
-#line 2488 "grammar/grammar.yy"
+#line 2495 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 280:
 
 /* Line 690 of lalr1.cc  */
-#line 2490 "grammar/grammar.yy"
+#line 2497 "grammar/grammar.yy"
     {
     BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3648,7 +3655,7 @@ namespace yy {
   case 281:
 
 /* Line 690 of lalr1.cc  */
-#line 2494 "grammar/grammar.yy"
+#line 2501 "grammar/grammar.yy"
     {
     BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3657,7 +3664,7 @@ namespace yy {
   case 282:
 
 /* Line 690 of lalr1.cc  */
-#line 2498 "grammar/grammar.yy"
+#line 2505 "grammar/grammar.yy"
     {
     BINARY_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3666,14 +3673,14 @@ namespace yy {
   case 283:
 
 /* Line 690 of lalr1.cc  */
-#line 2504 "grammar/grammar.yy"
+#line 2511 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 284:
 
 /* Line 690 of lalr1.cc  */
-#line 2506 "grammar/grammar.yy"
+#line 2513 "grammar/grammar.yy"
     {
     COMPARE_ACTION('<',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3682,7 +3689,7 @@ namespace yy {
   case 285:
 
 /* Line 690 of lalr1.cc  */
-#line 2510 "grammar/grammar.yy"
+#line 2517 "grammar/grammar.yy"
     {
     COMPARE_ACTION('>',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3691,7 +3698,7 @@ namespace yy {
   case 286:
 
 /* Line 690 of lalr1.cc  */
-#line 2514 "grammar/grammar.yy"
+#line 2521 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3700,7 +3707,7 @@ namespace yy {
   case 287:
 
 /* Line 690 of lalr1.cc  */
-#line 2518 "grammar/grammar.yy"
+#line 2525 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3709,7 +3716,7 @@ namespace yy {
   case 288:
 
 /* Line 690 of lalr1.cc  */
-#line 2522 "grammar/grammar.yy"
+#line 2529 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3718,7 +3725,7 @@ namespace yy {
   case 289:
 
 /* Line 690 of lalr1.cc  */
-#line 2526 "grammar/grammar.yy"
+#line 2533 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3727,14 +3734,14 @@ namespace yy {
   case 290:
 
 /* Line 690 of lalr1.cc  */
-#line 2532 "grammar/grammar.yy"
+#line 2539 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 291:
 
 /* Line 690 of lalr1.cc  */
-#line 2534 "grammar/grammar.yy"
+#line 2541 "grammar/grammar.yy"
     {
     COMPARE_ACTION('<',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3743,7 +3750,7 @@ namespace yy {
   case 292:
 
 /* Line 690 of lalr1.cc  */
-#line 2538 "grammar/grammar.yy"
+#line 2545 "grammar/grammar.yy"
     {
     COMPARE_ACTION('>',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3752,7 +3759,7 @@ namespace yy {
   case 293:
 
 /* Line 690 of lalr1.cc  */
-#line 2542 "grammar/grammar.yy"
+#line 2549 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3761,7 +3768,7 @@ namespace yy {
   case 294:
 
 /* Line 690 of lalr1.cc  */
-#line 2546 "grammar/grammar.yy"
+#line 2553 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3770,7 +3777,7 @@ namespace yy {
   case 295:
 
 /* Line 690 of lalr1.cc  */
-#line 2550 "grammar/grammar.yy"
+#line 2557 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3779,14 +3786,14 @@ namespace yy {
   case 296:
 
 /* Line 690 of lalr1.cc  */
-#line 2556 "grammar/grammar.yy"
+#line 2563 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 297:
 
 /* Line 690 of lalr1.cc  */
-#line 2558 "grammar/grammar.yy"
+#line 2565 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3795,7 +3802,7 @@ namespace yy {
   case 298:
 
 /* Line 690 of lalr1.cc  */
-#line 2562 "grammar/grammar.yy"
+#line 2569 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3804,7 +3811,7 @@ namespace yy {
   case 299:
 
 /* Line 690 of lalr1.cc  */
-#line 2566 "grammar/grammar.yy"
+#line 2573 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3813,7 +3820,7 @@ namespace yy {
   case 300:
 
 /* Line 690 of lalr1.cc  */
-#line 2570 "grammar/grammar.yy"
+#line 2577 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3822,14 +3829,14 @@ namespace yy {
   case 301:
 
 /* Line 690 of lalr1.cc  */
-#line 2576 "grammar/grammar.yy"
+#line 2583 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 302:
 
 /* Line 690 of lalr1.cc  */
-#line 2578 "grammar/grammar.yy"
+#line 2585 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3838,7 +3845,7 @@ namespace yy {
   case 303:
 
 /* Line 690 of lalr1.cc  */
-#line 2582 "grammar/grammar.yy"
+#line 2589 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3847,7 +3854,7 @@ namespace yy {
   case 304:
 
 /* Line 690 of lalr1.cc  */
-#line 2586 "grammar/grammar.yy"
+#line 2593 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3856,7 +3863,7 @@ namespace yy {
   case 305:
 
 /* Line 690 of lalr1.cc  */
-#line 2590 "grammar/grammar.yy"
+#line 2597 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3865,14 +3872,14 @@ namespace yy {
   case 306:
 
 /* Line 690 of lalr1.cc  */
-#line 2596 "grammar/grammar.yy"
+#line 2603 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 307:
 
 /* Line 690 of lalr1.cc  */
-#line 2598 "grammar/grammar.yy"
+#line 2605 "grammar/grammar.yy"
     {
     BINARY_ACTION('&',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3881,14 +3888,14 @@ namespace yy {
   case 308:
 
 /* Line 690 of lalr1.cc  */
-#line 2604 "grammar/grammar.yy"
+#line 2611 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 309:
 
 /* Line 690 of lalr1.cc  */
-#line 2606 "grammar/grammar.yy"
+#line 2613 "grammar/grammar.yy"
     {
     BINARY_ACTION('&',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3897,14 +3904,14 @@ namespace yy {
   case 310:
 
 /* Line 690 of lalr1.cc  */
-#line 2612 "grammar/grammar.yy"
+#line 2619 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 311:
 
 /* Line 690 of lalr1.cc  */
-#line 2614 "grammar/grammar.yy"
+#line 2621 "grammar/grammar.yy"
     {
     BINARY_ACTION('^',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3913,14 +3920,14 @@ namespace yy {
   case 312:
 
 /* Line 690 of lalr1.cc  */
-#line 2620 "grammar/grammar.yy"
+#line 2627 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);}
     break;
 
   case 313:
 
 /* Line 690 of lalr1.cc  */
-#line 2622 "grammar/grammar.yy"
+#line 2629 "grammar/grammar.yy"
     {
     BINARY_ACTION('^',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3929,14 +3936,14 @@ namespace yy {
   case 314:
 
 /* Line 690 of lalr1.cc  */
-#line 2628 "grammar/grammar.yy"
+#line 2635 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 315:
 
 /* Line 690 of lalr1.cc  */
-#line 2630 "grammar/grammar.yy"
+#line 2637 "grammar/grammar.yy"
     {
     BINARY_ACTION('|',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3945,14 +3952,14 @@ namespace yy {
   case 316:
 
 /* Line 690 of lalr1.cc  */
-#line 2636 "grammar/grammar.yy"
+#line 2643 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 317:
 
 /* Line 690 of lalr1.cc  */
-#line 2638 "grammar/grammar.yy"
+#line 2645 "grammar/grammar.yy"
     {
     BINARY_ACTION('|',(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3961,14 +3968,14 @@ namespace yy {
   case 318:
 
 /* Line 690 of lalr1.cc  */
-#line 2644 "grammar/grammar.yy"
+#line 2651 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 319:
 
 /* Line 690 of lalr1.cc  */
-#line 2646 "grammar/grammar.yy"
+#line 2653 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3977,14 +3984,14 @@ namespace yy {
   case 320:
 
 /* Line 690 of lalr1.cc  */
-#line 2652 "grammar/grammar.yy"
+#line 2659 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 321:
 
 /* Line 690 of lalr1.cc  */
-#line 2654 "grammar/grammar.yy"
+#line 2661 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -3993,14 +4000,14 @@ namespace yy {
   case 322:
 
 /* Line 690 of lalr1.cc  */
-#line 2660 "grammar/grammar.yy"
+#line 2667 "grammar/grammar.yy"
     {(yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 323:
 
 /* Line 690 of lalr1.cc  */
-#line 2662 "grammar/grammar.yy"
+#line 2669 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -4009,14 +4016,14 @@ namespace yy {
   case 324:
 
 /* Line 690 of lalr1.cc  */
-#line 2668 "grammar/grammar.yy"
+#line 2675 "grammar/grammar.yy"
     { (yyval.ast) =(yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 325:
 
 /* Line 690 of lalr1.cc  */
-#line 2670 "grammar/grammar.yy"
+#line 2677 "grammar/grammar.yy"
     {
     COMPARE_ACTION((yysemantic_stack_[(3) - (2)].info)->GetType(),(yysemantic_stack_[(3) - (1)].ast),(yysemantic_stack_[(3) - (3)].ast),(yyval.ast));
   }
@@ -4025,14 +4032,14 @@ namespace yy {
   case 326:
 
 /* Line 690 of lalr1.cc  */
-#line 2676 "grammar/grammar.yy"
+#line 2683 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 327:
 
 /* Line 690 of lalr1.cc  */
-#line 2678 "grammar/grammar.yy"
+#line 2685 "grammar/grammar.yy"
     {
     ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( (yysemantic_stack_[(5) - (1)].ast) , (yysemantic_stack_[(5) - (3)].ast) , (yysemantic_stack_[(5) - (5)].ast) ) );
     ret->Line( (yysemantic_stack_[(5) - (1)].ast)->Line() );
@@ -4043,14 +4050,14 @@ namespace yy {
   case 328:
 
 /* Line 690 of lalr1.cc  */
-#line 2686 "grammar/grammar.yy"
+#line 2693 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast); }
     break;
 
   case 329:
 
 /* Line 690 of lalr1.cc  */
-#line 2688 "grammar/grammar.yy"
+#line 2695 "grammar/grammar.yy"
     {
     ConditionalExp *ret = ManagedHandle::Retain ( new ConditionalExp ( (yysemantic_stack_[(5) - (1)].ast) , (yysemantic_stack_[(5) - (3)].ast) , (yysemantic_stack_[(5) - (5)].ast) ) );
     ret->Line( (yysemantic_stack_[(5) - (1)].ast)->Line() );
@@ -4061,7 +4068,7 @@ namespace yy {
   case 330:
 
 /* Line 690 of lalr1.cc  */
-#line 2697 "grammar/grammar.yy"
+#line 2704 "grammar/grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
@@ -4070,7 +4077,7 @@ namespace yy {
   case 331:
 
 /* Line 690 of lalr1.cc  */
-#line 2701 "grammar/grammar.yy"
+#line 2708 "grammar/grammar.yy"
     {
     AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( (yysemantic_stack_[(3) - (2)].num) , (yysemantic_stack_[(3) - (1)].ast) , (yysemantic_stack_[(3) - (3)].ast) ) );
     ret->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
@@ -4081,7 +4088,7 @@ namespace yy {
   case 332:
 
 /* Line 690 of lalr1.cc  */
-#line 2711 "grammar/grammar.yy"
+#line 2718 "grammar/grammar.yy"
     {
     (yyval.ast) = (yysemantic_stack_[(1) - (1)].ast);
   }
@@ -4090,7 +4097,7 @@ namespace yy {
   case 333:
 
 /* Line 690 of lalr1.cc  */
-#line 2715 "grammar/grammar.yy"
+#line 2722 "grammar/grammar.yy"
     {
     AssignmentExp *ret = ManagedHandle::Retain ( new AssignmentExp( (yysemantic_stack_[(3) - (2)].num) , (yysemantic_stack_[(3) - (1)].ast) , (yysemantic_stack_[(3) - (3)].ast) ) );
     ret->Line( (yysemantic_stack_[(3) - (1)].ast)->Line() );
@@ -4101,91 +4108,91 @@ namespace yy {
   case 334:
 
 /* Line 690 of lalr1.cc  */
-#line 2725 "grammar/grammar.yy"
+#line 2732 "grammar/grammar.yy"
     { (yyval.num) = '='; }
     break;
 
   case 335:
 
 /* Line 690 of lalr1.cc  */
-#line 2726 "grammar/grammar.yy"
+#line 2733 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 336:
 
 /* Line 690 of lalr1.cc  */
-#line 2727 "grammar/grammar.yy"
+#line 2734 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 337:
 
 /* Line 690 of lalr1.cc  */
-#line 2728 "grammar/grammar.yy"
+#line 2735 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 338:
 
 /* Line 690 of lalr1.cc  */
-#line 2729 "grammar/grammar.yy"
+#line 2736 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 339:
 
 /* Line 690 of lalr1.cc  */
-#line 2730 "grammar/grammar.yy"
+#line 2737 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 340:
 
 /* Line 690 of lalr1.cc  */
-#line 2731 "grammar/grammar.yy"
+#line 2738 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 341:
 
 /* Line 690 of lalr1.cc  */
-#line 2732 "grammar/grammar.yy"
+#line 2739 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 342:
 
 /* Line 690 of lalr1.cc  */
-#line 2733 "grammar/grammar.yy"
+#line 2740 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 343:
 
 /* Line 690 of lalr1.cc  */
-#line 2734 "grammar/grammar.yy"
+#line 2741 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 344:
 
 /* Line 690 of lalr1.cc  */
-#line 2735 "grammar/grammar.yy"
+#line 2742 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 345:
 
 /* Line 690 of lalr1.cc  */
-#line 2736 "grammar/grammar.yy"
+#line 2743 "grammar/grammar.yy"
     { (yyval.num) = (yysemantic_stack_[(1) - (1)].info)->GetType(); }
     break;
 
   case 346:
 
 /* Line 690 of lalr1.cc  */
-#line 2741 "grammar/grammar.yy"
+#line 2748 "grammar/grammar.yy"
     {
     Expression *exp = ManagedHandle::Retain<Expression>();
     exp->Line( (yysemantic_stack_[(1) - (1)].ast)->Line() );
@@ -4197,7 +4204,7 @@ namespace yy {
   case 347:
 
 /* Line 690 of lalr1.cc  */
-#line 2748 "grammar/grammar.yy"
+#line 2755 "grammar/grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].expression)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.expression) = (yysemantic_stack_[(3) - (1)].expression);
@@ -4207,7 +4214,7 @@ namespace yy {
   case 348:
 
 /* Line 690 of lalr1.cc  */
-#line 2756 "grammar/grammar.yy"
+#line 2763 "grammar/grammar.yy"
     { 
     Expression *exp = ManagedHandle::Retain<Expression> ();
     exp->Line( (yysemantic_stack_[(1) - (1)].ast)->Line() );
@@ -4219,7 +4226,7 @@ namespace yy {
   case 349:
 
 /* Line 690 of lalr1.cc  */
-#line 2763 "grammar/grammar.yy"
+#line 2770 "grammar/grammar.yy"
     {
     (yysemantic_stack_[(3) - (1)].expression)->AddChild( (yysemantic_stack_[(3) - (3)].ast) );
     (yyval.expression) = (yysemantic_stack_[(3) - (1)].expression);
@@ -4229,63 +4236,63 @@ namespace yy {
   case 350:
 
 /* Line 690 of lalr1.cc  */
-#line 2770 "grammar/grammar.yy"
+#line 2777 "grammar/grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 351:
 
 /* Line 690 of lalr1.cc  */
-#line 2771 "grammar/grammar.yy"
+#line 2778 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression); }
     break;
 
   case 352:
 
 /* Line 690 of lalr1.cc  */
-#line 2775 "grammar/grammar.yy"
+#line 2782 "grammar/grammar.yy"
     { (yyval.ast) = GetEmptyNode(); }
     break;
 
   case 353:
 
 /* Line 690 of lalr1.cc  */
-#line 2776 "grammar/grammar.yy"
+#line 2783 "grammar/grammar.yy"
     { (yyval.ast) = (yysemantic_stack_[(1) - (1)].expression); }
     break;
 
   case 354:
 
 /* Line 690 of lalr1.cc  */
-#line 2780 "grammar/grammar.yy"
+#line 2787 "grammar/grammar.yy"
     { (yyval.opt) = false; }
     break;
 
   case 355:
 
 /* Line 690 of lalr1.cc  */
-#line 2781 "grammar/grammar.yy"
+#line 2788 "grammar/grammar.yy"
     { (yyval.opt) = true; }
     break;
 
   case 356:
 
 /* Line 690 of lalr1.cc  */
-#line 2785 "grammar/grammar.yy"
+#line 2792 "grammar/grammar.yy"
     {(yyval.num) = ';';}
     break;
 
   case 357:
 
 /* Line 690 of lalr1.cc  */
-#line 2786 "grammar/grammar.yy"
+#line 2793 "grammar/grammar.yy"
     {(yyval.num) = ';';}
     break;
 
 
 
 /* Line 690 of lalr1.cc  */
-#line 4289 "grammar/grammar.tab.cc"
+#line 4296 "grammar/grammar.tab.cc"
 	default:
           break;
       }
@@ -5912,20 +5919,20 @@ namespace yy {
     1877,  1881,  1882,  1886,  1887,  1891,  1892,  1893,  1900,  1907,
     1917,  1927,  1934,  1944,  1951,  1958,  1959,  1960,  1961,  1969,
     1979,  1986,  1996,  2007,  2017,  2028,  2029,  2034,  2042,  2049,
-    2059,  2060,  2069,  2083,  2087,  2091,  2098,  2107,  2117,  2128,
-    2135,  2144,  2159,  2166,  2173,  2183,  2187,  2191,  2196,  2209,
-    2221,  2236,  2251,  2267,  2268,  2278,  2291,  2304,  2317,  2335,
-    2336,  2340,  2346,  2352,  2357,  2365,  2366,  2367,  2368,  2372,
-    2376,  2383,  2393,  2394,  2401,  2408,  2415,  2422,  2429,  2436,
-    2443,  2450,  2460,  2461,  2465,  2469,  2476,  2477,  2481,  2488,
-    2489,  2493,  2497,  2504,  2505,  2509,  2513,  2517,  2521,  2525,
-    2532,  2533,  2537,  2541,  2545,  2549,  2556,  2557,  2561,  2565,
-    2569,  2576,  2577,  2581,  2585,  2589,  2596,  2597,  2604,  2605,
-    2612,  2613,  2620,  2621,  2628,  2629,  2636,  2637,  2644,  2645,
-    2652,  2653,  2660,  2661,  2668,  2669,  2676,  2677,  2686,  2687,
-    2696,  2700,  2710,  2714,  2725,  2726,  2727,  2728,  2729,  2730,
-    2731,  2732,  2733,  2734,  2735,  2736,  2740,  2747,  2755,  2762,
-    2770,  2771,  2775,  2776,  2780,  2781,  2785,  2786
+    2059,  2060,  2069,  2083,  2087,  2091,  2098,  2107,  2119,  2132,
+    2139,  2150,  2166,  2173,  2180,  2190,  2194,  2198,  2203,  2216,
+    2228,  2243,  2258,  2274,  2275,  2285,  2298,  2311,  2324,  2342,
+    2343,  2347,  2353,  2359,  2364,  2372,  2373,  2374,  2375,  2379,
+    2383,  2390,  2400,  2401,  2408,  2415,  2422,  2429,  2436,  2443,
+    2450,  2457,  2467,  2468,  2472,  2476,  2483,  2484,  2488,  2495,
+    2496,  2500,  2504,  2511,  2512,  2516,  2520,  2524,  2528,  2532,
+    2539,  2540,  2544,  2548,  2552,  2556,  2563,  2564,  2568,  2572,
+    2576,  2583,  2584,  2588,  2592,  2596,  2603,  2604,  2611,  2612,
+    2619,  2620,  2627,  2628,  2635,  2636,  2643,  2644,  2651,  2652,
+    2659,  2660,  2667,  2668,  2675,  2676,  2683,  2684,  2693,  2694,
+    2703,  2707,  2717,  2721,  2732,  2733,  2734,  2735,  2736,  2737,
+    2738,  2739,  2740,  2741,  2742,  2743,  2747,  2754,  2762,  2769,
+    2777,  2778,  2782,  2783,  2787,  2788,  2792,  2793
   };
 
   // Print the state stack on the debug stream.
@@ -6026,11 +6033,11 @@ namespace yy {
 } // yy
 
 /* Line 1136 of lalr1.cc  */
-#line 6030 "grammar/grammar.tab.cc"
+#line 6037 "grammar/grammar.tab.cc"
 
 
 /* Line 1138 of lalr1.cc  */
-#line 2789 "grammar/grammar.yy"
+#line 2796 "grammar/grammar.yy"
 
 
 void yy::ParserImplementation::error (const location_type& loc, const std::string& msg) {
