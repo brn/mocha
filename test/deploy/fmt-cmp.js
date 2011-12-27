@@ -302,31 +302,6 @@
         var instanceProp = {},
             slice = Array.prototype.slice;
         
-        _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
-          if ( !( id in instance_prop ) ){
-            instance_prop[id] = {};
-          };
-          
-          Object.defineProperty( instance_prop[id],prop, {
-            enumerable : true,
-            configurable : isConst,
-            writable : isConst,
-            value : value
-          });
-        };
-        
-        _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
-          if ( id in _mochaInstanceProp ){
-            return _mochaInstanceProp[id];
-          } else {
-            try {
-              throw new TypeError( prop+"is not defined." );
-            } catch( e ){
-              throw new Error( e );
-            };
-          };
-        };
-        
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
@@ -337,7 +312,7 @@
             };
         
         var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
-              return Object.defineProp( obj,prop, {
+              return Object.defineProperty( obj,prop, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
@@ -352,49 +327,14 @@
       })();
   
   ( function () {
-    _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
+    _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'] = {};
     
-    var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'];
+    var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'];
     
-    var x = function ( _mochaLocalTmp0,_mochaLocalTmp1 ) {
-          _mochaLocalTmp1 = _mochaLocalTmp1 || [ {
-            y : 200
-          }];
-          
-          var m = _mochaLocalTmp0.m,
-              y = _mochaLocalTmp1[0],
-              rest = Runtime.toArray( arguments,2 );
-          
-          var _mochaLocalTmp2 = [0,1,2,3],
-              x = ( _mochaLocalTmp2.x && _mochaLocalTmp2.x[0] )?_mochaLocalTmp2.x[0] : undefined,
-              m2 = ( _mochaLocalTmp2.x )?Runtime.toArray( _mochaLocalTmp2,1 ) : undefined;
+    var x =  {
+          x : function () {
+            return this.x+this.y;
+          }
         };
-    
-    var match = [null,selector,null];
-    
-    var m = function ( v,g ) {
-          v = v || 200;
-          
-          g = g || 200;
-          return v+g;
-        };
-    
-    var _mochaLocalTmp3 = [0,1,2],
-        x = _mochaLocalTmp3[0],
-        y = _mochaLocalTmp3[1],
-        z = _mochaLocalTmp3[2];
-    
-    var _mochaLocalTmp4;
-    
-    _mochaLocalTmp4 = [z,y,x];
-    
-    ( function () {
-      var _mochaLocalExport = _mochaGlobalAlias;
-      
-      _mochaLocalExport.name = function name(){};
-      return _mochaLocalExport;
-    })();
-    
-    console.log( _mochaGlobalAlias.name );
   })();
 })();

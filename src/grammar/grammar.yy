@@ -2123,9 +2123,11 @@ property_name_and_value_list
     fn->Line( $1->GetLineNumber() );
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $1 );
-    fn->Name( value );
+    ValueNode* name = value->Clone()->CastToValue();
+    fn->Name( name );
     fn->Argv ( $3 );
     fn->Append( $6 );
+    value->AddChild( fn );
     list->AddChild( value );
     $$ = list;
   }
@@ -2153,7 +2155,8 @@ property_name_and_value_list
     fn->Line( $1->Line() );
     ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
     value->Symbol( $3 );
-    fn->Name( value );
+    ValueNode* name = value->Clone()->CastToValue();
+    fn->Name( name );
     fn->Argv ( $5 );
     fn->Append( $8 );
     value->AddChild( fn );

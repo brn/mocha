@@ -3,8 +3,9 @@
 #include <compiler/tokens/token_info.h>
 namespace mocha {
 
-AstNode::AstNode( int type , const char* name ) : Managed(),
-    type_( type ) , child_length_( 0 ) , name_( name ),
+AstNode::AstNode( int type , const char* name ) :
+    Managed(),
+    type_( type ) , child_length_( 0 ) ,line_( 0 ) , name_( name ),
     parent_( 0 ), first_child_( 0 ) , last_child_( 0 ),
     next_sibling_( 0 ) , prev_sibling_( 0 ){}
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ast/visitors/utils/codewriter.h>
 #include <grammar/grammar.tab.hh>
 #include <compiler/tokens/js_token.h>

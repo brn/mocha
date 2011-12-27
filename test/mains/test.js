@@ -1,12 +1,9 @@
 //import {fmt} from "../jspp-lib/jquery-devel";
-var aono,tak;
-var watsi = {
-      aono,
-      tak,
-      getName() {
-        return this.aono + this.tak;
-      }
-    };
+const m = ( x , y ) -> ({
+        x,
+        y,
+        getName() { this.x + this.y}
+      })
 var x = {x:200,y:300};
 //import {jQuery} from "../jspp-lib/jquery-devel"
 module {
