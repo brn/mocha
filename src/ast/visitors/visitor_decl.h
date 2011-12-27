@@ -31,6 +31,7 @@ DECL_VISITOR(ClassMember);
 DECL_VISITOR(Function);
 DECL_VISITOR(CallExp);
 DECL_VISITOR(NewExp);
+DECL_VISITOR(YieldExp);
 DECL_VISITOR(PostfixExp);
 DECL_VISITOR(UnaryExp);
 DECL_VISITOR(BinaryExp);

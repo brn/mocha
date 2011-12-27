@@ -46,16 +46,16 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_mocha_OBJECTS = ast.$(OBJEXT) ast_visitor.$(OBJEXT) \
+am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
 	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
 	class_processor.$(OBJEXT) function_processor.$(OBJEXT) \
 	fileroot_processor.$(OBJEXT) module_processor.$(OBJEXT) \
 	export_processor.$(OBJEXT) import_processor.$(OBJEXT) \
-	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
-	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
-	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
-	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	call_processor.$(OBJEXT) ast_utils.$(OBJEXT) format.$(OBJEXT) \
+	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
+	codegen_visitor.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
+	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	exception_handler.$(OBJEXT) compile_runner.$(OBJEXT) \
 	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
 	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
@@ -194,8 +194,8 @@ useconfig.h\
 ast/ast_foward_decl.h\
 ast/ast.h\
 ast/ast.cc\
-ast/visitors/ast_visitor.cc\
-ast/visitors/ast_visitor.h\
+ast/visitors/ast_transformer.cc\
+ast/visitors/ast_transformer.h\
 ast/visitors/utils/visitor_info.h\
 ast/visitors/utils/visitor_info.cc\
 ast/visitors/utils/processors/dsta_processor.h\
@@ -216,6 +216,8 @@ ast/visitors/utils/processors/export_processor.cc\
 ast/visitors/utils/processors/export_processor.h\
 ast/visitors/utils/processors/import_processor.cc\
 ast/visitors/utils/processors/import_processor.h\
+ast/visitors/utils/processors/call_processor.cc\
+ast/visitors/utils/processors/call_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
@@ -433,9 +435,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_transformer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_utils.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bootstrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/call_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/char_allocator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/class_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/codegen_visitor.Po@am__quote@
@@ -523,19 +526,19 @@ ast.obj: ast/ast.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast.obj `if test -f 'ast/ast.cc'; then $(CYGPATH_W) 'ast/ast.cc'; else $(CYGPATH_W) '$(srcdir)/ast/ast.cc'; fi`
 
-ast_visitor.o: ast/visitors/ast_visitor.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_visitor.o -MD -MP -MF $(DEPDIR)/ast_visitor.Tpo -c -o ast_visitor.o `test -f 'ast/visitors/ast_visitor.cc' || echo '$(srcdir)/'`ast/visitors/ast_visitor.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_visitor.Tpo $(DEPDIR)/ast_visitor.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/ast_visitor.cc' object='ast_visitor.o' libtool=no @AMDEPBACKSLASH@
+ast_transformer.o: ast/visitors/ast_transformer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_transformer.o -MD -MP -MF $(DEPDIR)/ast_transformer.Tpo -c -o ast_transformer.o `test -f 'ast/visitors/ast_transformer.cc' || echo '$(srcdir)/'`ast/visitors/ast_transformer.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_transformer.Tpo $(DEPDIR)/ast_transformer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/ast_transformer.cc' object='ast_transformer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_visitor.o `test -f 'ast/visitors/ast_visitor.cc' || echo '$(srcdir)/'`ast/visitors/ast_visitor.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_transformer.o `test -f 'ast/visitors/ast_transformer.cc' || echo '$(srcdir)/'`ast/visitors/ast_transformer.cc
 
-ast_visitor.obj: ast/visitors/ast_visitor.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_visitor.obj -MD -MP -MF $(DEPDIR)/ast_visitor.Tpo -c -o ast_visitor.obj `if test -f 'ast/visitors/ast_visitor.cc'; then $(CYGPATH_W) 'ast/visitors/ast_visitor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/ast_visitor.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_visitor.Tpo $(DEPDIR)/ast_visitor.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/ast_visitor.cc' object='ast_visitor.obj' libtool=no @AMDEPBACKSLASH@
+ast_transformer.obj: ast/visitors/ast_transformer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_transformer.obj -MD -MP -MF $(DEPDIR)/ast_transformer.Tpo -c -o ast_transformer.obj `if test -f 'ast/visitors/ast_transformer.cc'; then $(CYGPATH_W) 'ast/visitors/ast_transformer.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/ast_transformer.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_transformer.Tpo $(DEPDIR)/ast_transformer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/ast_transformer.cc' object='ast_transformer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_visitor.obj `if test -f 'ast/visitors/ast_visitor.cc'; then $(CYGPATH_W) 'ast/visitors/ast_visitor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/ast_visitor.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_transformer.obj `if test -f 'ast/visitors/ast_transformer.cc'; then $(CYGPATH_W) 'ast/visitors/ast_transformer.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/ast_transformer.cc'; fi`
 
 visitor_info.o: ast/visitors/utils/visitor_info.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT visitor_info.o -MD -MP -MF $(DEPDIR)/visitor_info.Tpo -c -o visitor_info.o `test -f 'ast/visitors/utils/visitor_info.cc' || echo '$(srcdir)/'`ast/visitors/utils/visitor_info.cc
@@ -676,6 +679,20 @@ import_processor.obj: ast/visitors/utils/processors/import_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/import_processor.cc' object='import_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o import_processor.obj `if test -f 'ast/visitors/utils/processors/import_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/import_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/import_processor.cc'; fi`
+
+call_processor.o: ast/visitors/utils/processors/call_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT call_processor.o -MD -MP -MF $(DEPDIR)/call_processor.Tpo -c -o call_processor.o `test -f 'ast/visitors/utils/processors/call_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/call_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/call_processor.Tpo $(DEPDIR)/call_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/call_processor.cc' object='call_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o call_processor.o `test -f 'ast/visitors/utils/processors/call_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/call_processor.cc
+
+call_processor.obj: ast/visitors/utils/processors/call_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT call_processor.obj -MD -MP -MF $(DEPDIR)/call_processor.Tpo -c -o call_processor.obj `if test -f 'ast/visitors/utils/processors/call_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/call_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/call_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/call_processor.Tpo $(DEPDIR)/call_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/call_processor.cc' object='call_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o call_processor.obj `if test -f 'ast/visitors/utils/processors/call_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/call_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/call_processor.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc

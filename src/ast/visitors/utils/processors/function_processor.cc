@@ -24,6 +24,7 @@ FunctionProcessor::~FunctionProcessor() {}
 
 void FunctionProcessor::ProcessNode() {
   VisitorInfo* visitor_info = info_->GetInfo();
+  visitor_info->SetFunction( function_ );
   ProcessFormalParameter_();
   bool is_rest = visitor_info->IsRestInjection();
   visitor_info->SetRestInjection( false );

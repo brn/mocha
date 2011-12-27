@@ -85,6 +85,7 @@ class AstNode : public Managed {
     kFunction,
     kCallExp,
     kNewExp,
+    kYieldExp,
     kPostfixExp,
     kUnaryExp,
     kBinaryExp,
@@ -125,6 +126,7 @@ class AstNode : public Managed {
   virtual Expression* CastToExpression() { return 0; };
   virtual ValueNode* CastToValue() { return 0; };
   virtual DstaTree* CastToDstaTree() { return 0; }
+  inline virtual bool IsStatement() const { return false; }
   inline void PrintNodeName() { printf( "%s\n" , name_ ); }
   inline void Line( long line ) { line_ = line; }
   inline long Line() { return line_; }
@@ -222,6 +224,7 @@ class Statement : public AstNode {
   inline bool HasDsta() { return has_dsta_; }
   inline DstaExtractedExpressions* GetDsta() { return dsta_exp_; }
   inline void ResetDsta();
+  inline bool IsStatement() const { return true; }
  private :
   virtual NVI_ACCEPTOR_DECL{};
   bool has_dsta_;
@@ -692,7 +695,14 @@ class NewExp : public Expression {
   CALL_ACCEPTOR( NewExp );
 };
 
-
+class YieldExp : public Expression {
+ public :
+  inline YieldExp() : Expression( NAME_PARAMETER( YieldExp ) ){}
+  inline ~YieldExp(){}
+  CLONE( YieldExp );
+ private :
+  CALL_ACCEPTOR( YieldExp );
+};
 
 class PostfixExp : public Expression {
  public :

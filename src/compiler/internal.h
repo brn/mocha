@@ -12,7 +12,7 @@ class Codegen;
 class File;
 class ParserTracer;
 class Ast;
-class AstVisitor;
+class AstTransformer;
 class Compiler;
 class AstRoot;
 class CodegenVisitor;

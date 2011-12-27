@@ -198,7 +198,9 @@ void InnerScope::Rename() {
   }
 }
 
-
+bool InnerScope::IsGlobal() const {
+  return head_ == this;
+}
 
 Scope::Scope () : head_ ( new InnerScope ) , current_( head_ ) {};
 
@@ -234,6 +236,10 @@ TokenInfo* Scope::Find ( TokenInfo* info ) {
 
 void Scope::Rename() {
   head_->Rename();
+}
+
+bool Scope::IsGlobal() const {
+  return current_->IsGlobal();
 }
 
 }

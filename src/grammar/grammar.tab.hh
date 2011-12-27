@@ -37,7 +37,7 @@
 
 /* "%code requires" blocks.  */
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 34 "grammar/grammar.yy"
 
 #include <ast/ast.h>
@@ -53,7 +53,7 @@
 
 
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 58 "grammar/grammar.tab.hh"
 
 
@@ -83,7 +83,7 @@
 
 namespace yy {
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 88 "grammar/grammar.tab.hh"
 
   /// A Bison parser.
@@ -95,7 +95,7 @@ namespace yy {
     union semantic_type
     {
 
-/* Line 282 of lalr1.cc  */
+/* Line 35 of lalr1.cc  */
 #line 47 "grammar/grammar.yy"
 
   mocha::TokenInfo *info;
@@ -134,13 +134,14 @@ namespace yy {
   mocha::AssignmentExp *assignment;
   mocha::Class* cls;
   mocha::ClassProperties* prop;
+  mocha::YieldExp* yield_exp;
   bool opt;
   int num;
 
 
 
-/* Line 282 of lalr1.cc  */
-#line 144 "grammar/grammar.tab.hh"
+/* Line 35 of lalr1.cc  */
+#line 145 "grammar/grammar.tab.hh"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -270,7 +271,8 @@ namespace yy {
      JS_SET = 373,
      JS_PROTOTYPE = 374,
      MOCHA_VERSIONOF = 375,
-     JS_PROPERTY = 376
+     JS_PROPERTY = 376,
+     JS_YIELD = 377
    };
 
     };
@@ -452,8 +454,8 @@ namespace yy {
 
 } // yy
 
-/* Line 282 of lalr1.cc  */
-#line 457 "grammar/grammar.tab.hh"
+/* Line 35 of lalr1.cc  */
+#line 459 "grammar/grammar.tab.hh"
 
 
 

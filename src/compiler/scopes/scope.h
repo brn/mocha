@@ -30,6 +30,7 @@ class InnerScope : public Managed {
   TokenInfo* Find ( TokenInfo* info );
   void Ref( TokenInfo* info );
   void Rename();
+  bool IsGlobal() const;
   
  private :
   std::list<InnerScope*> children_;
@@ -52,6 +53,7 @@ class Scope {
   void Ref( TokenInfo* info );
   TokenInfo* Find ( TokenInfo* info );
   void Rename();
+  bool IsGlobal() const;
  private:
   InnerScope* head_;
   InnerScope* current_;

@@ -9,7 +9,7 @@
 #include <compiler/binding/parser_connector.h>
 #include <compiler/binding/yylex.h>
 #include <ast/ast.h>
-#include <ast/visitors/ast_visitor.h>
+#include <ast/visitors/ast_transformer.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/pool/managed_handle.h>
 
@@ -81,6 +81,7 @@
   mocha::AssignmentExp *assignment;
   mocha::Class* cls;
   mocha::ClassProperties* prop;
+  mocha::YieldExp* yield_exp;
   bool opt;
   int num;
 } 
@@ -232,6 +233,7 @@
 %token <info> JS_PROTOTYPE
 %token <info> MOCHA_VERSIONOF
 %token <info> JS_PROPERTY
+%token <info> JS_YIELD
 
 %type <ast> program
 %type <function> function_declaration
@@ -362,6 +364,7 @@
 %type <ast> private_property_definition
 %type <ast> exportable_definition
 %type <ast> version_statement
+%type <yield_exp> yield_expression
 %%
 
 program
@@ -2746,6 +2749,15 @@ assignment_operator
 |  JS_OR_LET { $$ = $1->GetType(); }
 ;
 
+yield_expression
+: JS_YIELD assignment_expression
+  {
+    YieldExp *yield_exp = ManagedHandle::Retain<YieldExp>();
+    yield_exp->AddChild( $2 );
+    yield_exp->Line( $2->Line() );
+    $$ = yield_exp;
+  }
+
 expression
 : assignment_expression
   {
@@ -2753,6 +2765,10 @@ expression
     exp->Line( $1->Line() );
     exp->AddChild( $1 );
     $$ = exp;
+  }
+| yield_expression
+  {
+    $$ = $1;
   }
 | expression ',' assignment_expression
   {

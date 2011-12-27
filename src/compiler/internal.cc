@@ -10,7 +10,7 @@
 #include <utils/file_system/file_system.h>
 #include <utils/file_system/virtual_directory.h>
 #include <ast/ast.h>
-#include <ast/visitors/ast_visitor.h>
+#include <ast/visitors/ast_transformer.h>
 #include <ast/visitors/codegen_visitor.h>
 #include <options/setting.h>
 
@@ -86,7 +86,7 @@ inline void Internal::ParseStart_ () {
                                   buf );
   parser.ParseStart ();
   
-  mocha::AstVisitor visitor ( is_runtime_ , scope_ , compiler_,
+  mocha::AstTransformer visitor ( is_runtime_ , scope_ , compiler_,
                               main_file_path_ , file_->GetFileName() );
   
   if ( !tracer.IsSyntaxError () ) {

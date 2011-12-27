@@ -242,6 +242,9 @@ VISITOR_IMPL(NewExp) {
 }
 
 
+VISITOR_IMPL(YieldExp){}
+
+
 VISITOR_IMPL(PostfixExp) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );

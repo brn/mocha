@@ -382,6 +382,8 @@ AstNode* NewExp::Clone() {
   return CopyChildren( exp , this );
 }
 
+NORMAL_CLONE(YieldExp);
+
 AstNode* PostfixExp::Clone() {
   PostfixExp* exp = ManagedHandle::Retain( new PostfixExp( post_type_ ) );
   if ( exp_ ) {

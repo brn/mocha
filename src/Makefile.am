@@ -9,8 +9,8 @@ useconfig.h\
 ast/ast_foward_decl.h\
 ast/ast.h\
 ast/ast.cc\
-ast/visitors/ast_visitor.cc\
-ast/visitors/ast_visitor.h\
+ast/visitors/ast_transformer.cc\
+ast/visitors/ast_transformer.h\
 ast/visitors/utils/visitor_info.h\
 ast/visitors/utils/visitor_info.cc\
 ast/visitors/utils/processors/dsta_processor.h\
@@ -31,6 +31,8 @@ ast/visitors/utils/processors/export_processor.cc\
 ast/visitors/utils/processors/export_processor.h\
 ast/visitors/utils/processors/import_processor.cc\
 ast/visitors/utils/processors/import_processor.h\
+ast/visitors/utils/processors/call_processor.cc\
+ast/visitors/utils/processors/call_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\

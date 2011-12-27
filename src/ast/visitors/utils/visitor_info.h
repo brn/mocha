@@ -49,6 +49,8 @@ class VisitorInfo : private Uncopyable{
   inline void EnterPrivate() { bit_vector_.Set( 3 ); }
   inline void EscapePrivate() { bit_vector_.UnSet( 3 ); }
   inline void AddClass( ClassProcessor* proc ) { class_list_.push_back( proc ); }
+  inline void SetFunction( Function* fn ) { current_fn_ = fn; }
+  inline Function* GetFunction() { return current_fn_; }
   inline const ClassList& GetClassList() { return class_list_; }
  private :
   int tmp_index_;
@@ -63,6 +65,7 @@ class VisitorInfo : private Uncopyable{
   Scope *scope_;
   Compiler *compiler_;
   Statement* current_stmt_;
+  Function* current_fn_;
   ClassList class_list_;
 };
 }

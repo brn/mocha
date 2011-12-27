@@ -37,6 +37,7 @@ FOWARD_DECL(ClassMember);
 FOWARD_DECL(Function);
 FOWARD_DECL(CallExp);
 FOWARD_DECL(NewExp);
+FOWARD_DECL(YieldExp);
 FOWARD_DECL(PostfixExp);
 FOWARD_DECL(UnaryExp);
 FOWARD_DECL(BinaryExp);
