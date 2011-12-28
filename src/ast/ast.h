@@ -1,3 +1,26 @@
+/**
+ *@author Taketoshi Aono
+ *@fileOverview
+ *@license
+ *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ *associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ *subject to the following conditions:
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions ofthe Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *DEALINGS IN THE SOFTWARE.
+ */
+
 #ifndef mocha_ast_h_
 #define mocha_ast_h_
 #include <stdio.h>
@@ -6,30 +29,55 @@
 #include <compiler/scopes/scope.h>
 #include <ast/ast_foward_decl.h>
 #include <ast/visitors/ivisitor.h>
+
 namespace mocha {
-
-
 #define NVI_ACCEPTOR_DECL void NVIAccept_( IVisitor* visitor )
 #define CALL_ACCEPTOR(name) inline NVI_ACCEPTOR_DECL{visitor->Visit##name( this );}
 
+/**
+ * @class
+ * Iterator of node lists.
+ */
 class NodeIterator{
  public :
-  NodeIterator( AstNode* node ) : node_( node ){}
-  ~NodeIterator(){}
-  bool HasNext() { return ( node_ != 0 )? true : false; }
+  inline NodeIterator( AstNode* node ) : node_( node ){}
+  inline ~NodeIterator(){}
+  /**
+   * @param {bool}
+   * @returns {AstNode*}
+   * Check current node is 0 or not.
+   */
+  inline bool HasNext() const { return ( node_ != 0 )? true : false; }
+
+  /**
+   * @returns {AstNode*}
+   * Return the current node,
+   * and update it with it's next sibling.
+   */
   AstNode* Next();
-  AstNode* Item();
+
+  /**
+   * @return {AstNode*}
+   * Just get the current node.
+   */
+  inline AstNode* Item() const { return node_; };
  private :
   AstNode* node_;
 };
 
+/**
+ * @class
+ * Reverse iterator of node lists.
+ * All method's behaviour are the same as above NodeIterator,
+ * except function Next behave as towards to previous sibling.
+ */
 class ReverseNodeIterator{
  public :
-  ReverseNodeIterator( AstNode* node ) : node_( node ){}
-  ~ReverseNodeIterator(){}
-  bool HasNext() { return ( node_ != 0 )? true : false; }
+  inline ReverseNodeIterator( AstNode* node ) : node_( node ){}
+  inline ~ReverseNodeIterator(){}
+  inline bool HasNext() const { return ( node_ != 0 )? true : false; }
   AstNode* Next();
-  AstNode* Item();
+  inline AstNode* Item() const { return node_; };
  private :
   AstNode* node_;
 };
@@ -37,10 +85,15 @@ class ReverseNodeIterator{
 /**
  * @class
  * Base class of Ast.
+ * This class based on W3C DOM.
+ * WARNING
+ * You must set empty node to 'Empty' class ptr,
+ * if you not, you got sigenv where access to empty node.
  */
 class AstNode : public Managed {
   friend class AstNodeList;
  public :
+  //Definition of all node type.
   enum {
     kBase,
     kEmpty,
@@ -97,53 +150,236 @@ class AstNode : public Managed {
   };
   AstNode( int type , const char* name );
   virtual inline ~AstNode(){};
-  inline bool HasParent() { return parent_ != 0; };
-  inline AstNode* ParentNode() { return parent_; };
+
+  /**
+   * @returns {bool}
+   * Return that this node has parent ast node or not. 
+   */
+  inline bool HasParent() const { return parent_ != 0; };
+
+  /**
+   * @returns {AstNode*}
+   * Return parent ast node.
+   * If a parent node is empty, return 0;
+   */
+  inline AstNode* ParentNode() const { return parent_; };
+
+  /**
+   * @param {AstNode*} node
+   * Set a parent node of this node.
+   */
   inline void ParentNode( AstNode* node ) { parent_ = node; }
-  inline AstNode* FirstChild() { return first_child_; };
-  inline AstNode* LastChild() { return last_child_; };
-  inline AstNode* NextSibling() { return next_sibling_; };
-  inline AstNode* PreviousSibling() { return prev_sibling_; };
-  inline bool HasNext() { return next_sibling_ != 0; }
-  inline bool HasPrev() { return prev_sibling_ != 0; }
-  inline bool HasChild() { return first_child_ != 0; }
+
+  /**
+   * @returns {AstNode*}
+   * Return a first child of this node.
+   * If child nodes are empty, return 0;
+   */
+  inline AstNode* FirstChild() const { return first_child_; };
+
+  /**
+   * @returns {AstNode*}
+   * Return a last child of this node.
+   * If child nodes are empty, return 0.
+   * If child nodes length is less than 2,
+   * return a first child node.
+   */
+  inline AstNode* LastChild() const { return last_child_; };
+
+  /**
+   * @returns {AstNode*}
+   * Return next sibling node,
+   * If the next sibling is empty, return 0.
+   */
+  inline AstNode* NextSibling() const { return next_sibling_; };
+
+  /**
+   * @returns {AstNode*}
+   * Return prev sibling node,
+   * If the prev sibling is empty, return 0.
+   */
+  inline AstNode* PreviousSibling() const { return prev_sibling_; };
+
+  /**
+   * @returns {bool}
+   * Check that the next sibling node is there.
+   */
+  inline bool HasNext() const { return next_sibling_ != 0; }
+
+  /**
+   * @returns {bool}
+   * Check that the prev sibling node is there.
+   */
+  inline bool HasPrev() const { return prev_sibling_ != 0; }
+
+  /**
+   * @returns {bool}
+   * Check this node has children or not.
+   */
+  inline bool HasChild() const { return first_child_ != 0; }
+
+  /**
+   * @param {AstNode*}
+   * Insert a node to next sibling of this node. 
+   */
   inline void After( AstNode* node ) { next_sibling_ = node;node->prev_sibling_ = this; };
+
+  /**
+   * @param {AstNode*}
+   * Insert a node to previous sibling of this node. 
+   */
   inline void Before( AstNode* node ) { prev_sibling_ = node;node->next_sibling_ = this; };
+
+  /**
+   * @param {AstNode*}
+   * Add the child nodes of arguments node to this node directry.
+   *
+   * NodeList           NodeList
+   * |      |       +   |      |
+   * child  child       child  child
+   *                |
+   *             NodeList
+   *              __|______________
+   *             |     |     |     |
+   *             child child child child
+   */
   void Append( AstNode* node );
+
+  /**
+   * @returns {NodeIterator}
+   * Get a iterator of the child nodes.
+   * This function returns is values by value of NodeIterator.
+   */
   inline NodeIterator ChildNodes() { return NodeIterator( first_child_ ); }
+
+  /**
+   * @returns {ReverseNodeIterator}
+   * Get a ReverseNodeIterator of the child nodes.
+   */
   inline ReverseNodeIterator ReverseChildNodes() { return ReverseNodeIterator( last_child_ ); }
+
+  /**
+   * @param {AstNode*}
+   * Add child.
+   */
   void AddChild( AstNode* node );
+
+  /**
+   * @params {AstNode*}
+   * Insert child to the front of child nodes.
+   * The node that passed as arguments is assign to the first child.
+   */
   void InsertBefore( AstNode* node );
+
+  /**
+   * @param {AstNode*} insert
+   * @param {AstNode*} target
+   * Insert a new child node before the old node.
+   */
   void InsertBefore( AstNode* insert , AstNode* target );
+
+  /**
+   * @param {AstNode*} insert
+   * @param {AstNode*} target
+   * Insert a new child node after the old node.
+   */
   void InsertAfter( AstNode* insert , AstNode* target );
+
+  /**
+   * @param {AstNode*}
+   * Remove a node that passed as arguments from the child nodes.
+   */
   void RemoveChild( AstNode* node );
+
+  /**
+   * Remove all child nodes.
+   * In fact, this function is not delete child node,
+   * but set parent_ property of all child nodes to 0 and,
+   * set self properties ( first_child_ , last_child_ and child_length_ ) to 0.
+   */
+  void RemoveAllChild();
+
+  /**
+   * @param {AstNode*}
+   * Replace this node with the node that passed as arguments. 
+   */
   void ReplaceWith( AstNode* node );
+
+  /**
+   * @param {AstNode*}
+   * Replace the old_node with new_node in childnodes.
+   */
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
+
+  /**
+   * @returns {int}
+   * Get the size of child nodes.
+   */
   inline int ChildLength() const { return child_length_; }
+
+  /**
+   * @returns {int}
+   * Get real type of the node.
+   */
   inline int NodeType() const { return type_; }
+
+  /**
+   * @param {IVisitor}
+   * Function that accept visitor.
+   * This function call private virtual NVIAcceptor_.
+   */
   inline void Accept( IVisitor* visitor ) { NVIAccept_( visitor ); };
+
+  /**
+   * @param {Statemet*}
+   * Cast to statement.
+   * Return 0 by default.
+   */
   virtual Statement* CastToStatement() { return 0; };
+
+  /**
+   * @param {Expression*}
+   * Cast to Expression.
+   * Return 0 by default.
+   */
   virtual Expression* CastToExpression() { return 0; };
   virtual ValueNode* CastToValue() { return 0; };
   virtual DstaTree* CastToDstaTree() { return 0; }
-  inline virtual bool IsStatement() const { return false; }
-  inline void PrintNodeName() { printf( "%s\n" , name_ ); }
+
+  /**
+   * Print the real node name of this node.
+   */
+  inline void PrintNodeName() const { printf( "%s\n" , name_ ); }
+
+  /**
+   * @param {long}
+   * Set line number.
+   */
   inline void Line( long line ) { line_ = line; }
-  inline long Line() { return line_; }
-  inline const char* GetName() { return name_; }
+
+  /**
+   * @returns {long}
+   * Get line number.
+   */
+  inline long Line() const { return line_; }
+
+  /**
+   * @returns {const char*}
+   * Get the real name of this node.
+   */
+  inline const char* GetName() const { return name_; }
+
+  /**
+   * @returns {AstNode*}
+   * Clone node.
+   */
   inline virtual AstNode* Clone() { return 0; };
-  inline void RemoveAllChild() {
-    if ( first_child_ ) {
-      first_child_->parent_ = 0;
-    }
-    first_child_ = 0;
-    if ( last_child_ ) {
-      last_child_->parent_ = 0;
-    }
-    last_child_ = 0;
-    child_length_ = 0;
-  }
-  virtual inline bool IsEmpty(){ return false; }
+
+  /**
+   * @returns {bool}
+   * Check this node is Empty or not.
+   */
+  virtual inline bool IsEmpty() const { return false; }
  private :
   inline virtual NVI_ACCEPTOR_DECL{};
   int type_;
@@ -159,6 +395,15 @@ class AstNode : public Managed {
 
 #define CLONE( name ) AstNode* Clone();
 
+
+/**
+ * @class
+ * This class is utility ast,
+ * this node has not definition of usage,
+ * but has proper perporse,
+ * that is to band node collections.
+ * So you can use this node, anywhere you want to band nodes.
+ */
 class NodeList : public AstNode {
  public :
   inline NodeList() : AstNode( AstNode::kNodeList , "NodeList" ){}
@@ -168,21 +413,44 @@ class NodeList : public AstNode {
   CALL_ACCEPTOR(NodeList);
 };
 
+
+/**
+ * @class
+ * Sentinel node.
+ * You must set empty slots of each node to this node.
+ */
 class Empty : public AstNode {
  public :
   Empty() : AstNode( AstNode::kEmpty , "Empty" ){}
-  inline bool IsEmpty(){ return true; }
+  /**
+   * @param {bool}
+   * Only this node that IsEmpty method return true.
+   */
+  inline bool IsEmpty() const { return true; }
   CLONE( Empty );
  private :
   inline void NVIAccept_( IVisitor* visitor ){}
 };
 
+/**
+ * @class
+ * Root node of abstract syntax tree,
+ * in normaly, each syntax tree has this node only one in the top of tree.
+ */
 class AstRoot : public AstNode {
  public :
   inline AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" ) {}
   inline ~AstRoot(){};
+  /**
+   * @param {InnerScope*}
+   * Global closure scope.
+   */
   inline void SetScope( InnerScope* scope ) { scope_ = scope; }
-  inline InnerScope* GetScope() { return scope_; }
+  /**
+   * @retunrs {InnerScope*}
+   * Return global closure scope.
+   */
+  inline InnerScope* GetScope() const { return scope_; }
   CLONE( AstRoot );
  private :
   InnerScope* scope_;
@@ -198,8 +466,16 @@ class FileRoot : public AstNode {
  public :
   inline FileRoot() : AstNode( AstNode::kFileRoot , "FileRoot" ) {}
   inline ~FileRoot(){};
+  /**
+   * @param {const char*}
+   * Set current file name.
+   */
   inline void FileName( const char* filepath ) { filepath_ = filepath; }
-  inline const char* FileName() { return filepath_.c_str(); }
+  /**
+   * @returns {const char*}
+   * Get file name.
+   */
+  inline const char* FileName() const { return filepath_.c_str(); }
   CLONE( FileRoot );
  private :
   std::string filepath_;
@@ -214,7 +490,7 @@ class FileRoot : public AstNode {
 class Statement : public AstNode {
  public :
   inline Statement() : AstNode( AstNode::kStatement , "Statement" ) , has_dsta_( false ) , dsta_exp_( 0 ){}
-  Statement( int type , const char* name ) : AstNode( type , name ) , has_dsta_( false ) , dsta_exp_( 0 ) {};
+  inline Statement( int type , const char* name ) : AstNode( type , name ) , has_dsta_( false ) , dsta_exp_( 0 ) {};
   virtual inline ~Statement() {};
   inline Statement* CastToStatement() { return this; }
   inline void SetDsta( DstaExtractedExpressions* tree ) {
@@ -224,7 +500,6 @@ class Statement : public AstNode {
   inline bool HasDsta() { return has_dsta_; }
   inline DstaExtractedExpressions* GetDsta() { return dsta_exp_; }
   inline void ResetDsta();
-  inline bool IsStatement() const { return true; }
  private :
   virtual NVI_ACCEPTOR_DECL{};
   bool has_dsta_;
@@ -926,10 +1201,10 @@ void Statement::ResetDsta()  {
   dsta_exp_->Refs()->RemoveAllChild();
 }
 
-}
+}//namespace mocha
 
 #undef NVI_ACCEPTOR_DECL
 #undef CALL_ACCEPTOR
 #undef NAME_PARAMETER
 
-#endif
+#endif //mocha_ast_h_

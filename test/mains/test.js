@@ -1,5 +1,5 @@
 //import {fmt} from "../jspp-lib/jquery-devel";
-versionof( all ) {
+versionf( all ) {
   const m = ( x , y ) -> ({
           x,
           y,

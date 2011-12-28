@@ -92,24 +92,29 @@ void AstNode::Append( AstNode* node ) {
   }
 }
 
+void AstNode::RemoveAllChild() {
+  if ( first_child_ ) {
+    first_child_->parent_ = 0;
+  }
+  first_child_ = 0;
+  if ( last_child_ ) {
+    last_child_->parent_ = 0;
+  }
+  last_child_ = 0;
+  child_length_ = 0;
+}
+
 AstNode* NodeIterator::Next() {
   AstNode* ret = node_;
   node_ = node_->NextSibling();
   return ret;
 }
 
-AstNode* NodeIterator::Item() {
-  return node_;
-}
 
 AstNode* ReverseNodeIterator::Next() {
   AstNode* ret = node_;
   node_ = node_->PreviousSibling();
   return ret;
-}
-
-AstNode* ReverseNodeIterator::Item() {
-  return node_;
 }
 
 void AstNode::RemoveChild( AstNode* node ) {
