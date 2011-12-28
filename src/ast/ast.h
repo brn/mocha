@@ -486,20 +486,45 @@ class FileRoot : public AstNode {
 /**
  * @class
  * Statement block.
+ * Basically this class is not used.
  */
 class Statement : public AstNode {
  public :
   inline Statement() : AstNode( AstNode::kStatement , "Statement" ) , has_dsta_( false ) , dsta_exp_( 0 ){}
   inline Statement( int type , const char* name ) : AstNode( type , name ) , has_dsta_( false ) , dsta_exp_( 0 ) {};
   virtual inline ~Statement() {};
+
+  /**
+   * @returns {Statement*}
+   * Cast to statement.
+   */
   inline Statement* CastToStatement() { return this; }
+
+  /**
+   * @param {DstaExtractedExpression} tree
+   * Set destructuring assignment tree.
+   */
   inline void SetDsta( DstaExtractedExpressions* tree ) {
     dsta_exp_ = tree;
     has_dsta_ = true;
   }
+
+  /**
+   * @returns {bool}
+   * Check this node's children include destructuring assignment node. 
+   */
   inline bool HasDsta() { return has_dsta_; }
+
+  /**
+   * @returns {DstaExtractedExpression}
+   * Get destructuring assignment node.
+   */
   inline DstaExtractedExpressions* GetDsta() { return dsta_exp_; }
-  inline void ResetDsta();
+
+  /**
+   * Set 0 to all destructuring assignment block.
+   */
+  void ResetDsta();
  private :
   virtual NVI_ACCEPTOR_DECL{};
   bool has_dsta_;
@@ -507,6 +532,11 @@ class Statement : public AstNode {
 };
 
 
+/**
+ * @class
+ * Statement list.
+ * This class behave like the NodeList.
+ */
 class StatementList : public AstNode {
  public :
   inline StatementList() : AstNode( AstNode::kStatementList , "StatementList" ){}
@@ -519,6 +549,10 @@ class StatementList : public AstNode {
 
 #define NAME_PARAMETER(name) AstNode::k##name , #name
 
+/**
+ * @class
+ * Block statement node.
+ */
 class BlockStmt : public Statement {
  public :
   inline BlockStmt() : Statement( NAME_PARAMETER(BlockStmt) ){};
@@ -529,11 +563,25 @@ class BlockStmt : public Statement {
 };
 
 
+/**
+ * @class
+ * Module statement node.
+ */
 class ModuleStmt : public Statement {
  public :
   inline ModuleStmt() : Statement( NAME_PARAMETER(ModuleStmt) ) , name_( 0 ){};
   inline ~ModuleStmt() {};
+
+  /**
+   * @param {AstNode*} name
+   * Set module name.
+   */
   inline void Name( AstNode* name ) { name_ = name; }
+
+  /**
+   * @returns {AstNode*}
+   * Get module name.
+   */
   inline AstNode* Name() const { return name_; }
   CLONE(ModuleStmt);
  private :
@@ -542,7 +590,10 @@ class ModuleStmt : public Statement {
 };
 
 
-
+/**
+ * @class
+ * Export statement node.
+ */
 class ExportStmt : public Statement {
  public :
   inline ExportStmt() : Statement( NAME_PARAMETER(ExportStmt) ){};
@@ -553,12 +604,18 @@ class ExportStmt : public Statement {
 };
 
 
+/**
+ * @class
+ * Import statement node.
+ */
 class ImportStmt : public Statement {
  public :
+  //Import target type.
   enum {
     kFile,
     kModule
   };
+  //Left hand side type.
   enum {
     kVar,
     kDst,
@@ -568,12 +625,51 @@ class ImportStmt : public Statement {
       Statement( NAME_PARAMETER( ImportStmt ) ),
       var_type_( var_type ) , mod_type_( mod_type ) , exp_( 0 ) , from_( 0 ),key_( 0 ){}
   inline ~ImportStmt(){};
+
+  /**
+   * @param {AstNode*} exp
+   * Set the expression node.
+   * import <...> form <...>
+   *          |
+   *         this
+   */
   inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
+
+  /**
+   * @returns {AstNode*}
+   * Get the expression node.
+   */
   inline AstNode* Exp() { return exp_; }
+
+  /**
+   * @param {AstNode*} exp
+   * Set the expression node that continue after from keyword.
+   * import <...> form <...>
+   *                     |
+   *                    this
+   */
   inline void From( AstNode* from ) { from_ = from;from->ParentNode( this ); }
+
+  /**
+   * @param {AstNode*}
+   * Get from after expression.
+   */
   inline AstNode* From() { return from_; }
+
+  /**
+   * @param {TokenInfo*} key
+   * Set the module load key,
+   * this key used inner compiled javascript.
+   */
   inline void ModKey( TokenInfo* key ) { key_ = key; }
+
+  /**
+   * @returns {TokenInfo*}
+   * Get module key.
+   */
   inline TokenInfo* ModKey() { return key_; }
+
+  //Type getter.
   inline int VarType() { return var_type_; }
   inline int ModType() { return mod_type_; }
   CLONE(ImportStmt);
@@ -586,9 +682,13 @@ class ImportStmt : public Statement {
   CALL_ACCEPTOR( ImportStmt );
 };
 
-
+/**
+ * @class
+ * Variable statement node.
+ */
 class VariableStmt : public Statement {
  public :
+  //Variable declaration type. 
   enum {
     kNormal,
     kConst,
@@ -596,7 +696,17 @@ class VariableStmt : public Statement {
   };
   inline VariableStmt() : Statement( NAME_PARAMETER(VariableStmt) ){};
   inline ~VariableStmt(){};
+
+  /**
+   * @param {int} type
+   * Set decl type.
+   */
   inline void VarType( int type ){ var_type_ = type; };
+
+  /**
+   * @returns {int}
+   * Get decl type.
+   */
   inline int VarType() { return var_type_; };
   CLONE( VariableStmt );
  private :
@@ -605,6 +715,11 @@ class VariableStmt : public Statement {
 };
 
 
+/**
+ * @class
+ * Let statement node.
+ * This class is node used. 2011/12/28
+ */
 class LetStmt : public Statement {
  public :
   inline LetStmt() : Statement( NAME_PARAMETER(LetStmt) ) , exp_( 0 ) {}
@@ -618,6 +733,10 @@ class LetStmt : public Statement {
 };
 
 
+/**
+ * @class
+ * Expression statement node.
+ */
 class ExpressionStmt : public Statement {
  public :
   inline ExpressionStmt() : Statement( AstNode::kExpressionStmt , "ExpressionStmt" ) {};
@@ -628,11 +747,28 @@ class ExpressionStmt : public Statement {
 };
 
 
+/**
+ * @class
+ * If statement node.
+ */
 class IFStmt : public Statement {
  public :
   inline IFStmt() : Statement( NAME_PARAMETER(IFStmt) ) , exp_( 0 ) , then_( 0 ), else_( 0 ){};
   inline ~IFStmt() {};
+
+  /**
+   * @param {AstNode*} exp
+   * Set expression node.
+   * if ( <...> ) { ...
+   *        |
+   *       this
+   */
   inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
+
+  /**
+   * @returns {AstNode*}
+   * Get expression node.
+   */
   inline AstNode* Exp() { return exp_; }
   inline void Then( AstNode* node ) { then_ = node;node->ParentNode( this ); }
   inline AstNode* Then() { return then_; }
