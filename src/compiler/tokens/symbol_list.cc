@@ -17,7 +17,10 @@ static const char runtime[][50] = {
   "extendClass",
   "extendPrototype",
   "__MODULE__",
-  "__FILE__"
+  "__FILE__",
+  "_yieldState",
+  "next",
+  "exceptionHandler"
 };
 
 static const char builtin[][50] = {

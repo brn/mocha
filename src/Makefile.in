@@ -52,10 +52,11 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	class_processor.$(OBJEXT) function_processor.$(OBJEXT) \
 	fileroot_processor.$(OBJEXT) module_processor.$(OBJEXT) \
 	export_processor.$(OBJEXT) import_processor.$(OBJEXT) \
-	call_processor.$(OBJEXT) ast_utils.$(OBJEXT) format.$(OBJEXT) \
-	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
-	codegen_visitor.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
-	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	call_processor.$(OBJEXT) yield_processor.$(OBJEXT) \
+	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
+	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
+	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
+	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	exception_handler.$(OBJEXT) compile_runner.$(OBJEXT) \
 	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
 	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
@@ -218,6 +219,8 @@ ast/visitors/utils/processors/import_processor.cc\
 ast/visitors/utils/processors/import_processor.h\
 ast/visitors/utils/processors/call_processor.cc\
 ast/visitors/utils/processors/call_processor.h\
+ast/visitors/utils/processors/yield_processor.cc\
+ast/visitors/utils/processors/yield_processor.h\
 ast/visitors/utils/processors/processor_info.h\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
@@ -497,6 +500,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_observer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_reader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_setting_info.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/yield_processor.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -693,6 +697,20 @@ call_processor.obj: ast/visitors/utils/processors/call_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/call_processor.cc' object='call_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o call_processor.obj `if test -f 'ast/visitors/utils/processors/call_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/call_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/call_processor.cc'; fi`
+
+yield_processor.o: ast/visitors/utils/processors/yield_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT yield_processor.o -MD -MP -MF $(DEPDIR)/yield_processor.Tpo -c -o yield_processor.o `test -f 'ast/visitors/utils/processors/yield_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/yield_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/yield_processor.Tpo $(DEPDIR)/yield_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/yield_processor.cc' object='yield_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o yield_processor.o `test -f 'ast/visitors/utils/processors/yield_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/yield_processor.cc
+
+yield_processor.obj: ast/visitors/utils/processors/yield_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT yield_processor.obj -MD -MP -MF $(DEPDIR)/yield_processor.Tpo -c -o yield_processor.obj `if test -f 'ast/visitors/utils/processors/yield_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/yield_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/yield_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/yield_processor.Tpo $(DEPDIR)/yield_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/yield_processor.cc' object='yield_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o yield_processor.obj `if test -f 'ast/visitors/utils/processors/yield_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/yield_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/yield_processor.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc

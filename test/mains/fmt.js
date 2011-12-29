@@ -1,2 +1,5 @@
 
-var x = {x:function (){return this.x + this.y}}
+var x = function () {
+      return 
+      300;
+    }

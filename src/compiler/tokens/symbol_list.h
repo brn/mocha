@@ -21,6 +21,9 @@ class SymbolList : private Static {
     kExtendPrototype,
     kScopeModule,
     kFile,
+    kYieldState,
+    kYieldNext,
+    kExceptionHandler
   } RuntimeSymbol;
 
   typedef enum {

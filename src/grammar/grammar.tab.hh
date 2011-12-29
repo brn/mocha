@@ -272,7 +272,9 @@ namespace yy {
      JS_PROTOTYPE = 374,
      MOCHA_VERSIONOF = 375,
      JS_PROPERTY = 376,
-     JS_YIELD = 377
+     JS_YIELD = 377,
+     JS_YIELD_SENTINEL = 378,
+     EX_TOKEN_YIELD = 379
    };
 
     };
@@ -455,7 +457,7 @@ namespace yy {
 } // yy
 
 /* Line 35 of lalr1.cc  */
-#line 459 "grammar/grammar.tab.hh"
+#line 461 "grammar/grammar.tab.hh"
 
 
 

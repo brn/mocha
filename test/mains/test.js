@@ -1,10 +1,12 @@
 //import {fmt} from "../jspp-lib/jquery-devel";
-versionf( all ) {
-  const m = ( x , y ) -> ({
-          x,
-          y,
-          getName() { this.x + this.y}
-        })
+versionof( all ) {
+  const m = ( x , y ) ->{
+          var x = yield x + y;
+          var m = 200;
+          if ( x > 200 ) {
+            yield x + y + m * 200;
+          }
+        }
 }
 var x = {x:200,y:300};
 //import {jQuery} from "../jspp-lib/jquery-devel"

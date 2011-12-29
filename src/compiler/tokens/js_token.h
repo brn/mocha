@@ -71,6 +71,7 @@ class Token : private Static {
     JS_WITH,
     JS_EACH,
     JS_FROM,
+    JS_YIELD,
     MOCHA_VERSIONOF,
     JS_INCREMENT,
     JS_DECREMENT,
@@ -115,7 +116,8 @@ class Token : private Static {
     JS_CONSTRUCTOR,
     JS_PROTOTYPE,
     JS_EXP_CLOSURE_BEGIN,
-    JS_PROPERTY
+    JS_PROPERTY,
+    JS_YIELD_SENTINEL
   };
 };
 

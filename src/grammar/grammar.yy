@@ -234,6 +234,8 @@
 %token <info> MOCHA_VERSIONOF
 %token <info> JS_PROPERTY
 %token <info> JS_YIELD
+%token <info> JS_YIELD_SENTINEL
+%token <info> EX_TOKEN_YIELD
 
 %type <ast> program
 %type <function> function_declaration
@@ -364,7 +366,8 @@
 %type <ast> private_property_definition
 %type <ast> exportable_definition
 %type <ast> version_statement
-%type <yield_exp> yield_expression
+%type <ast> yield_expression
+%type <ast> yield_expression_no_in
 %%
 
 program
@@ -2705,8 +2708,36 @@ conditional_expression_no_in
   }
 ;
 
+yield_expression
+: conditional_expression { $$ = $1; }
+| JS_YIELD JS_YIELD_SENTINEL
+  {
+    $$ = ManagedHandle::Retain<YieldExp>();
+  }
+| JS_YIELD assignment_expression
+  {
+    YieldExp* yield_exp = ManagedHandle::Retain<YieldExp>();
+    yield_exp->AddChild( $2 );
+    $$ = yield_exp;
+  }
+;
+
+yield_expression_no_in
+: conditional_expression_no_in { $$ = $1; }
+| JS_YIELD JS_YIELD_SENTINEL
+  {
+    $$ = ManagedHandle::Retain<YieldExp>();
+  }
+| JS_YIELD assignment_expression_no_in
+  {
+    YieldExp* yield_exp = ManagedHandle::Retain<YieldExp>();
+    yield_exp->AddChild( $2 );
+    $$ = yield_exp;
+  }
+;
+
 assignment_expression
-: conditional_expression
+: yield_expression
   {
     $$ = $1;
   }
@@ -2720,7 +2751,7 @@ assignment_expression
 
 
 assignment_expression_no_in
-: conditional_expression_no_in
+: yield_expression_no_in
   {
     $$ = $1;
   }
@@ -2749,15 +2780,6 @@ assignment_operator
 |  JS_OR_LET { $$ = $1->GetType(); }
 ;
 
-yield_expression
-: JS_YIELD assignment_expression
-  {
-    YieldExp *yield_exp = ManagedHandle::Retain<YieldExp>();
-    yield_exp->AddChild( $2 );
-    yield_exp->Line( $2->Line() );
-    $$ = yield_exp;
-  }
-
 expression
 : assignment_expression
   {
@@ -2765,10 +2787,6 @@ expression
     exp->Line( $1->Line() );
     exp->AddChild( $1 );
     $$ = exp;
-  }
-| yield_expression
-  {
-    $$ = $1;
   }
 | expression ',' assignment_expression
   {

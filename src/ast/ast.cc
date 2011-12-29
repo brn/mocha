@@ -389,6 +389,19 @@ AstNode* NewExp::Clone() {
 
 NORMAL_CLONE(YieldExp);
 
+
+void PostfixExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == exp_ ) {
+    new_node->Before( exp_->PreviousSibling() );
+    new_node->After( exp_->NextSibling() );
+    new_node->ParentNode( this );
+    exp_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
+
 AstNode* PostfixExp::Clone() {
   PostfixExp* exp = ManagedHandle::Retain( new PostfixExp( post_type_ ) );
   if ( exp_ ) {
@@ -396,6 +409,19 @@ AstNode* PostfixExp::Clone() {
   }
   return CopyChildren( exp , this );
 }
+
+
+void UnaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == exp_ ) {
+    new_node->Before( exp_->PreviousSibling() );
+    new_node->After( exp_->NextSibling() );
+    new_node->ParentNode( this );
+    exp_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
 
 AstNode* UnaryExp::Clone() {
   UnaryExp* exp = ManagedHandle::Retain( new UnaryExp( op_ ) );
@@ -405,20 +431,94 @@ AstNode* UnaryExp::Clone() {
   return CopyChildren( exp , this );
 }
 
+void BinaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == left_ ) {
+    new_node->Before( left_->PreviousSibling() );
+    new_node->After( left_->NextSibling() );
+    new_node->ParentNode( this );
+    left_ = new_node;
+  } else if ( old_node == right_ ) {
+    new_node->Before( right_->PreviousSibling() );
+    new_node->After( right_->NextSibling() );
+    new_node->ParentNode( this );
+    right_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
 AstNode* BinaryExp::Clone() {
   BinaryExp* exp = ManagedHandle::Retain( new BinaryExp( op_ , left_->Clone() , right_->Clone() ) );
   return CopyChildren( exp , this );
 }
+
+
+void CompareExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == left_ ) {
+    new_node->Before( left_->PreviousSibling() );
+    new_node->After( left_->NextSibling() );
+    new_node->ParentNode( this );
+    left_ = new_node;
+  } else if ( old_node == right_ ) {
+    new_node->Before( right_->PreviousSibling() );
+    new_node->After( right_->NextSibling() );
+    new_node->ParentNode( this );
+    right_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
 
 AstNode* CompareExp::Clone() {
   CompareExp* exp = ManagedHandle::Retain( new CompareExp( op_ , left_->Clone() , right_->Clone() ) );
   return CopyChildren( exp , this );
 }
 
+
+void ConditionalExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == cond_ ) {
+    new_node->Before( cond_->PreviousSibling() );
+    new_node->After( cond_->NextSibling() );
+    new_node->ParentNode( this );
+    cond_ = new_node;
+  } else if ( old_node == case_true_ ) {
+    new_node->Before( case_true_->PreviousSibling() );
+    new_node->After( case_true_->NextSibling() );
+    new_node->ParentNode( this );
+    case_true_ = new_node;
+  } else if ( old_node == case_false_ ) {
+    new_node->Before( case_false_->PreviousSibling() );
+    new_node->After( case_false_->NextSibling() );
+    new_node->ParentNode( this );
+    case_false_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
+
 AstNode* ConditionalExp::Clone() {
   ConditionalExp* exp = ManagedHandle::Retain( new ConditionalExp( cond_->Clone(),
                                                                    case_true_->Clone() , case_false_->Clone() ) );
   return CopyChildren( exp , this );
+}
+
+
+void AssignmentExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == left_ ) {
+    new_node->Before( left_->PreviousSibling() );
+    new_node->After( left_->NextSibling() );
+    new_node->ParentNode( this );
+    left_ = new_node;
+  } else if ( old_node == right_ ) {
+    new_node->Before( right_->PreviousSibling() );
+    new_node->After( right_->NextSibling() );
+    new_node->ParentNode( this );
+    right_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
 }
 
 AstNode* AssignmentExp::Clone() {

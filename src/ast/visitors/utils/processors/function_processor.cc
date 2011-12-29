@@ -7,6 +7,7 @@
 #include <utils/pool/managed_handle.h>
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
+#include <compiler/tokens/token_info.h>
 #include <grammar/grammar.tab.hh>
 
 #define TOKEN yy::ParserImplementation::token
@@ -42,6 +43,10 @@ void FunctionProcessor::ProcessNode() {
   }
 
   ProcessBody_();
+
+  if ( function_->GetYieldFlag() ) {
+    ProcessYield_();
+  }
   
   if ( dsta_stmt && rest_stmt ) {
     dsta_stmt->AddChild( rest_stmt->FirstChild() );
@@ -129,6 +134,7 @@ void FunctionProcessor::ProcessBody_() {
   }
 }
 
+
 VariableStmt* FunctionProcessor::ProcessRestParameter_() {
   ValueNode* rhs = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
                                              Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
@@ -146,6 +152,203 @@ VariableStmt* FunctionProcessor::ProcessRestParameter_() {
   NodeList* var_list = ManagedHandle::Retain<NodeList>();
   var_list->AddChild( var_node );
   return AstUtils::CreateVarStmt( var_list );
+}
+
+
+class YieldHelper {
+ public :
+  YieldHelper( Function* function , ProcessorInfo* info ) :
+      state_( 0 ), function_( function ) , info_( info ),
+      clause_( CreateCaseClause_( state_ ) ),
+      clause_body_( clause_->FirstChild() ),
+      body_( ManagedHandle::Retain<NodeList>() ){
+    iterator_ = function_->ChildNodes();
+  }
+
+  void ProcessYield() {
+    while ( iterator_.HasNext() ) {
+      AstNode* yield_stmt = iterator_.Next();
+      if ( yield_stmt->NodeType() == AstNode::kVariableStmt ) {
+        ProcessVarStmtInYield_( yield_stmt );
+      } else {
+        ProcessStmtInYield_( yield_stmt );
+      }
+    }
+    body_->AddChild( clause_ );
+    Finish_();
+  }
+
+  NodeList* GetBody() {
+    return body_;
+  }
+  
+ private :
+  void Finish_() {
+    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    CallExp* exp = AstUtils::CreateNormalAccessor( handler , list );
+    CallExp* runtime = AstUtils::CreateRuntimeMod( exp );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime );
+    CreateCaseClause_( 0 , true );
+    clause_body_->AddChild( stmt );
+    body_->AddChild( clause_ );
+  }
+  
+  CaseClause* CreateCaseClause_( long line , bool is_error = false ) {
+    clause_ = ManagedHandle::Retain<CaseClause>();
+    clause_body_ = ManagedHandle::Retain<StatementList>();
+    clause_->AddChild( clause_body_ );
+    clause_->Line( function_->Line() );
+    if ( !is_error ) {
+      ValueNode* state = CreateCurrentState_( line );
+      clause_->Exp( state );
+    } else {
+      ValueNode* error = AstUtils::CreateNameNode( "-1" , Token::JS_IDENTIFIER , 0 , ValueNode::kNumeric );
+      clause_->Exp( error );
+    }
+    return clause_;
+  }
+
+  ValueNode* CreateCurrentState_( long line ) {
+    char tmp_state_exp[10];
+    sprintf( tmp_state_exp , "%d" , state_ );
+    ValueNode* state_exp = AstUtils::CreateNameNode( tmp_state_exp , Token::JS_NUMERIC_LITERAL,
+                                                     line , ValueNode::kNumeric );
+    return state_exp;
+  }
+
+  ExpressionStmt* CreateNextState_( long line ) {
+    ValueNode* yield_state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                       Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    char tmp_state_str[10];
+    sprintf( tmp_state_str , "%d" , state_ + 1 );
+    ValueNode* state = AstUtils::CreateNameNode( tmp_state_str , Token::JS_NUMERIC_LITERAL,
+                                                 line , ValueNode::kNumeric );
+    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , yield_state->Clone() , state );
+    return AstUtils::CreateExpStmt( exp );
+  }
+
+  void ProcessVarStmtInYield_( AstNode* yield_stmt ) {
+    bool is_end = yield_stmt->CastToStatement()->GetYieldFlag();
+    NodeIterator iter = yield_stmt->ChildNodes();
+    while ( iter.HasNext() ) {
+      ValueNode* orig = iter.Next()->CastToValue();
+      ValueNode* val = orig->Clone()->CastToValue();
+      orig->RemoveAllChild();
+      orig->AddChild( ManagedHandle::Retain<Empty>() );
+      AstNode* child = val->FirstChild();
+      val->RemoveAllChild();
+      val->ValueType( ValueNode::kIdentifier );
+      val->AddChild( ManagedHandle::Retain<Empty>() );
+      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , val , child );
+      ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
+      clause_body_->AddChild( stmt );
+    }
+    if ( is_end ) {
+      body_->AddChild( clause_ );
+      if ( !iterator_.HasNext() ) {
+        state_ = -2;
+        clause_body_->InsertBefore( CreateNextState_( 0 ) );
+      } else {
+        clause_body_->InsertBefore( CreateNextState_( 0 ) );
+        state_++;
+      }
+      if ( iterator_.HasNext() ) {
+        CreateCaseClause_( function_->Line() );
+      }
+    }
+  }
+
+  void ProcessStmtInYield_( AstNode* yield_stmt ) {
+    function_->RemoveChild( yield_stmt );
+    if ( yield_stmt->CastToStatement()->GetYieldFlag() ) {
+      if ( !iterator_.HasNext() ) {
+        state_ = -2;
+        clause_body_->InsertBefore( CreateNextState_( 0 ) );
+      } else {
+        clause_body_->InsertBefore( CreateNextState_( 0 ) );
+        state_++;
+      }
+      clause_body_->AddChild( yield_stmt );
+      body_->AddChild( clause_ );
+      if ( iterator_.HasNext() ) {
+        CreateCaseClause_( function_->Line() );
+      }
+    } else {
+      clause_body_->AddChild( yield_stmt );
+    }
+  }
+  
+  int state_;
+  Function* function_;
+  ProcessorInfo* info_;
+  CaseClause* clause_;
+  AstNode* clause_body_;
+  NodeList* body_;
+  NodeIterator iterator_;
+};
+
+
+class GeneratorHelper {
+ public :
+  GeneratorHelper( Function* function , NodeList* body , ProcessorInfo* info ) :
+      function_( function ) , body_( body ) , switch_stmt_( ManagedHandle::Retain<SwitchStmt>() ),
+      info_( info ) {}
+  
+  void ProcessGenerator() {
+    ValueNode* yield_state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                       Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    switch_stmt_->Line( function_->Line() );
+    switch_stmt_->Exp( yield_state );
+    switch_stmt_->AddChild( body_ );
+    ProcessReturn_();
+    CreateStateInitialiser_();
+  }
+ private :
+  void CreateStateInitialiser_() {
+    TokenInfo* state = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                             Token::JS_IDENTIFIER , function_->Line() ) );
+    ValueNode* begin_state = AstUtils::CreateNameNode( "0" ,Token::JS_NUMERIC_LITERAL,
+                                                       function_->Line() , ValueNode::kIdentifier );
+    ValueNode* value = AstUtils::CreateVarInitiliser( state , begin_state );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( value );
+    function_->InsertBefore( stmt );
+  }
+  
+  void ProcessReturn_() {
+    Function* fn = ManagedHandle::Retain<Function>();
+    fn->Name( ManagedHandle::Retain<Empty>() );
+    fn->Argv( ManagedHandle::Retain<Empty>() );
+    fn->AddChild( switch_stmt_ );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    TokenInfo* next = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kYieldNext ),
+                                                            Token::JS_IDENTIFIER , function_->Line() ) );
+    val->Symbol( next );
+    val->Line( function_->Line() );
+    val->AddChild( fn );
+    list->AddChild( val );
+    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+    value->Node( list );
+    ReturnStmt* ret = AstUtils::CreateReturnStmt( value );
+    function_->AddChild( ret );
+  }
+  
+  Function* function_;
+  NodeList* body_;
+  SwitchStmt *switch_stmt_;
+  ProcessorInfo* info_;
+  
+};
+
+
+void FunctionProcessor::ProcessYield_() {
+  YieldHelper helper( function_ , info_ );
+  helper.ProcessYield();
+  NodeList* body = helper.GetBody();
+  GeneratorHelper ge_helper( function_ , body , info_ );
+  ge_helper.ProcessGenerator();
 }
 
 }

@@ -25,6 +25,7 @@
 #define mocha_ast_h_
 #include <stdio.h>
 #include <string>
+#include <vector>
 #include <utils/pool/managed.h>
 #include <compiler/scopes/scope.h>
 #include <ast/ast_foward_decl.h>
@@ -40,8 +41,16 @@ namespace mocha {
  */
 class NodeIterator{
  public :
-  inline NodeIterator( AstNode* node ) : node_( node ){}
+  inline NodeIterator() : node_( 0 ){}
+  inline explicit NodeIterator( AstNode* node ) : node_( node ){}
   inline ~NodeIterator(){}
+  inline NodeIterator( const NodeIterator& iterator ) {
+    node_ = iterator.node_;
+  }
+  inline const NodeIterator& operator =( const NodeIterator& iterator ) {
+    node_ = iterator.node_;
+    return (*this);
+  }
   /**
    * @param {bool}
    * @returns {AstNode*}
@@ -289,7 +298,7 @@ class AstNode : public Managed {
    * @param {AstNode*}
    * Remove a node that passed as arguments from the child nodes.
    */
-  void RemoveChild( AstNode* node );
+  virtual void RemoveChild( AstNode* node );
 
   /**
    * Remove all child nodes.
@@ -297,7 +306,7 @@ class AstNode : public Managed {
    * but set parent_ property of all child nodes to 0 and,
    * set self properties ( first_child_ , last_child_ and child_length_ ) to 0.
    */
-  void RemoveAllChild();
+  virtual void RemoveAllChild();
 
   /**
    * @param {AstNode*}
@@ -309,7 +318,7 @@ class AstNode : public Managed {
    * @param {AstNode*}
    * Replace the old_node with new_node in childnodes.
    */
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
+  virtual void ReplaceChild( AstNode* old_node , AstNode* new_node );
 
   /**
    * @returns {int}
@@ -490,7 +499,8 @@ class FileRoot : public AstNode {
  */
 class Statement : public AstNode {
  public :
-  inline Statement() : AstNode( AstNode::kStatement , "Statement" ) , has_dsta_( false ) , dsta_exp_( 0 ){}
+  inline Statement() : AstNode( AstNode::kStatement , "Statement" ),
+                       has_dsta_( false ) , has_yield_( false ) , dsta_exp_( 0 ){}
   inline Statement( int type , const char* name ) : AstNode( type , name ) , has_dsta_( false ) , dsta_exp_( 0 ) {};
   virtual inline ~Statement() {};
 
@@ -509,6 +519,10 @@ class Statement : public AstNode {
     has_dsta_ = true;
   }
 
+  inline void SetYieldFlag() { has_yield_ = true; }
+
+  inline bool GetYieldFlag() { return has_yield_; }
+  
   /**
    * @returns {bool}
    * Check this node's children include destructuring assignment node. 
@@ -524,10 +538,11 @@ class Statement : public AstNode {
   /**
    * Set 0 to all destructuring assignment block.
    */
-  void ResetDsta();
+  inline void ResetDsta();
  private :
   virtual NVI_ACCEPTOR_DECL{};
   bool has_dsta_;
+  bool has_yield_;
   DstaExtractedExpressions *dsta_exp_;
 };
 
@@ -1028,7 +1043,8 @@ class Function : public Expression {
   };
   inline Function() : Expression( NAME_PARAMETER( Function ) ),
                       fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_root_( false ),
-                      name_( 0 ) , argv_( 0 ){};
+                      has_yield_( false ),
+                      name_( 0 ) , argv_( 0 ) {};
   inline ~Function(){};
   inline void Name( AstNode* name ){ name_ = name; };
   inline AstNode* Name(){ return name_; };
@@ -1047,6 +1063,8 @@ class Function : public Expression {
   inline InnerScope* GetScope(){ return scope_; };
   inline void Root( bool is ) { is_root_ = is; }
   inline bool Root() { return is_root_; }
+  inline void SetYieldFlag() { has_yield_ = true; }
+  inline bool GetYieldFlag(){ return has_yield_; }
   CLONE( Function );
  private :
   int fn_type_;
@@ -1054,6 +1072,7 @@ class Function : public Expression {
   int fn_attr_;
   bool is_const_;
   bool is_root_;
+  bool has_yield_;
   AstNode* name_;
   AstNode* argv_;
   InnerScope* scope_;
@@ -1126,6 +1145,7 @@ class PostfixExp : public Expression {
   inline int PostType() { return post_type_; };
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( PostfixExp );
  private :
   int post_type_;
@@ -1152,6 +1172,7 @@ class UnaryExp : public Expression {
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
   inline int Op() { return op_; };
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( UnaryExp );
  private :
   int op_;
@@ -1180,6 +1201,7 @@ class BinaryExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( BinaryExp );
  private :
   int op_;
@@ -1210,6 +1232,7 @@ class CompareExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( CompareExp );
  private :
   int op_;
@@ -1228,6 +1251,7 @@ class ConditionalExp : public Expression {
   inline AstNode* True() { return case_true_; };
   inline AstNode* False() { return case_false_; };
   inline AstNode* Cond() { return cond_; };
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( ConditionalExp );
  private :
   AstNode* cond_;
@@ -1242,10 +1266,14 @@ class AssignmentExp : public Expression {
  public :
   inline AssignmentExp( int op , AstNode* left , AstNode* right ) :
       Expression( NAME_PARAMETER( AssignmentExp ) ),
-      op_( op ) , left_( left ) , right_( right ){};
+      op_( op ) , left_( left ) , right_( right ){
+    left_->ParentNode( this );
+    right_->ParentNode( this );
+  };
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( AssignmentExp );
  private :
   int op_;

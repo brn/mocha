@@ -1280,6 +1280,15 @@ class QueueScanner::TokenGetter {
       is_in_class_ = true;
       last_type_ = type;
       return info;
+    } else if ( ( has_line_break_ || type == ';' ) && ( last_type_ == Token::JS_RETURN || last_type_ == Token::JS_YIELD ) ) {
+      if ( last_type_ == Token::JS_YIELD ) {
+        TokenInfo* ret = ManagedHandle::Retain( new TokenInfo( "" , Token::JS_YIELD_SENTINEL , info->GetLineNumber() ) );
+        last_type_ = Token::JS_YIELD_SENTINEL;
+        is_incrementable_ = false;
+        return ret;
+      } else {
+        return SemicolonInsertion_();
+      }
     } else if ( type == Token::JS_DSTO_END || type == Token::JS_DSTA_END ) {
       last_type_ = type;
       return info;

@@ -208,6 +208,7 @@ int token_id_list [] = {
   TOKEN::JS_WITH,
   TOKEN::JS_EACH,
   TOKEN::JS_FROM,
+  TOKEN::JS_YIELD,
   TOKEN::MOCHA_VERSIONOF,
   TOKEN::JS_INCREMENT,
   TOKEN::JS_DECREMENT,
@@ -252,7 +253,8 @@ int token_id_list [] = {
   TOKEN::JS_CONSTRUCTOR,
   TOKEN::JS_PROTOTYPE,
   TOKEN::JS_EXP_CLOSURE_BEGIN,
-  TOKEN::JS_PROPERTY
+  TOKEN::JS_PROPERTY,
+  TOKEN::JS_YIELD_SENTINEL
 };
 
 char reserved_words[][ 20 ] = {
@@ -319,6 +321,7 @@ char reserved_words[][ 20 ] = {
   "with",
   "each",
   "from",
+  "yield",
   "versionof",
   "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,
    "!==", ">>>" , "+=" , "-=" , "/=" , "%=" , "*=" , "&&" , "||" , "<<=",

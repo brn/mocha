@@ -1,7 +1,6 @@
 /**
  *@author Taketoshi Aono
  *@fileOverview
- *Implementation of destructuring assignment processor.
  *@license
  *Copyright (c) 2011 Taketoshi Aono
  *Licensed under the BSD.
@@ -47,6 +46,7 @@
 #include <ast/visitors/utils/processors/export_processor.h>
 #include <ast/visitors/utils/processors/import_processor.h>
 #include <ast/visitors/utils/processors/call_processor.h>
+#include <ast/visitors/utils/processors/yield_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/xml/xml_setting_info.h>
 #include <grammar/grammar.tab.hh>
@@ -441,7 +441,11 @@ VISITOR_IMPL(NewExp) {
 }
 
 
-VISITOR_IMPL(YieldExp) {}
+VISITOR_IMPL(YieldExp) {
+  PRINT_NODE_NAME;
+  YieldProcessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
+}
 
 
 VISITOR_IMPL(PostfixExp) {
