@@ -1,7 +1,10 @@
 //import {fmt} from "../jspp-lib/jquery-devel";
 versionof( all ) {
-  const m = ( x , y ) ->{
-          var x = yield x + y;
+  const m = ( x , y , ...x ) ->{
+          for ( var i = 0; i < 20; i++ ) {
+            fx(yield x);
+          }
+          var {x} = yield x + y;
           var m = 200;
           if ( x > 200 ) {
             yield x + y + m * 200;

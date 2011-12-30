@@ -32,14 +32,13 @@ void AstNode::InsertBefore( AstNode* node ) {
     last_child_ = node;
     node->next_sibling_ = 0;
     node->prev_sibling_ = 0;
-    node->parent_ = this;
   } else {
     first_child_->prev_sibling_ = node;
     node->next_sibling_ = first_child_;
     first_child_ = node;
     node->prev_sibling_ = 0;
-    node->parent_ = this;
   }
+  node->parent_ = this;
   child_length_++;
 }
 
@@ -55,11 +54,13 @@ void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
 
   if ( !is_insert ) {
     insert->prev_sibling_ = target->prev_sibling_;
-    target->prev_sibling_->next_sibling_ = insert;
+    if ( target->prev_sibling_ ) {
+      target->prev_sibling_->next_sibling_ = insert;
+    }
     target->prev_sibling_ = insert;
     insert->next_sibling_ = target;
   }
-  
+  insert->parent_ = this;
   child_length_++;
 }
 
@@ -76,10 +77,13 @@ void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
 
   if ( !is_insert ) {
     insert->next_sibling_ = target->next_sibling_;
+    if ( target->next_sibling_ ) {
+      target->next_sibling_->prev_sibling_ = insert;
+    }
     target->next_sibling_ = insert;
     insert->prev_sibling_ = target;
   }
-  
+  insert->parent_ = this;
   child_length_++;
 }
 
@@ -94,11 +98,15 @@ void AstNode::Append( AstNode* node ) {
 
 void AstNode::RemoveAllChild() {
   if ( first_child_ ) {
-    first_child_->parent_ = 0;
+    if ( first_child_->parent_ == this ) {
+      first_child_->parent_ = 0;
+    }
   }
   first_child_ = 0;
   if ( last_child_ ) {
-    last_child_->parent_ = 0;
+    if ( last_child_->parent_ == this ) {
+      last_child_->parent_ = 0;
+    }
   }
   last_child_ = 0;
   child_length_ = 0;
@@ -124,10 +132,14 @@ void AstNode::RemoveChild( AstNode* node ) {
     AstNode* item = iterator.Next();
     if ( item == node ) {
       match_ptr = item;
+      break;
     }
   }
   if ( match_ptr ) {
     child_length_--;
+    if ( match_ptr->parent_ == this ) {
+      match_ptr->parent_ = 0;
+    }
     if ( match_ptr->next_sibling_ ) {
       match_ptr->next_sibling_->prev_sibling_ = match_ptr->prev_sibling_;
     }

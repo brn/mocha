@@ -20,7 +20,11 @@ static const char runtime[][50] = {
   "__FILE__",
   "_yieldState",
   "next",
-  "exceptionHandler"
+  "send",
+  "exceptionHandler",
+  "_yieldResult",
+  "_isYieldSend",
+  "_mochaGenerator"
 };
 
 static const char builtin[][50] = {
@@ -29,7 +33,11 @@ static const char builtin[][50] = {
   "constructor",
   "this",
   "apply",
-  "prototype"
+  "prototype",
+  "length",
+  "true",
+  "false",
+  "bind"
 };
 
 

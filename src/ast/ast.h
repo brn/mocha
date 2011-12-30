@@ -148,6 +148,7 @@ class AstNode : public Managed {
     kCallExp,
     kNewExp,
     kYieldExp,
+    kExYieldStateNode,
     kPostfixExp,
     kUnaryExp,
     kBinaryExp,
@@ -354,7 +355,8 @@ class AstNode : public Managed {
   virtual Expression* CastToExpression() { return 0; };
   virtual ValueNode* CastToValue() { return 0; };
   virtual DstaTree* CastToDstaTree() { return 0; }
-
+  virtual NodeList* CastToNodeList() { return 0; }
+  
   /**
    * Print the real node name of this node.
    */
@@ -417,6 +419,7 @@ class NodeList : public AstNode {
  public :
   inline NodeList() : AstNode( AstNode::kNodeList , "NodeList" ){}
   inline ~NodeList(){}
+  NodeList* CastToNodeList() { return this; }
   CLONE( NodeList );
  private :
   CALL_ACCEPTOR(NodeList);
@@ -501,7 +504,8 @@ class Statement : public AstNode {
  public :
   inline Statement() : AstNode( AstNode::kStatement , "Statement" ),
                        has_dsta_( false ) , has_yield_( false ) , dsta_exp_( 0 ){}
-  inline Statement( int type , const char* name ) : AstNode( type , name ) , has_dsta_( false ) , dsta_exp_( 0 ) {};
+  inline Statement( int type , const char* name ) :
+      AstNode( type , name ) , has_dsta_( false ) , has_yield_( false ) , dsta_exp_( 0 ) {};
   virtual inline ~Statement() {};
 
   /**
@@ -510,6 +514,8 @@ class Statement : public AstNode {
    */
   inline Statement* CastToStatement() { return this; }
 
+  virtual inline IterationStmt* CastToIteration() { return 0; }
+  virtual inline ExYieldStateNode* CastToYieldMark() { return 0; }
   /**
    * @param {DstaExtractedExpression} tree
    * Set destructuring assignment tree.
@@ -563,6 +569,27 @@ class StatementList : public AstNode {
 
 
 #define NAME_PARAMETER(name) AstNode::k##name , #name
+
+
+class ExYieldStateNode : public Statement {
+ public :
+  inline ExYieldStateNode() :
+      Statement( NAME_PARAMETER( ExYieldStateNode ) ) , loopback_ptr_( 0 ),
+      next_ptr_( 0 ) , if_stmt_ptr_( 0 ) {}
+  inline ~ExYieldStateNode(){};
+  inline ExYieldStateNode* CastToYieldMark() { return this; }
+  inline void LoopBackPtr( ValueNode* ptr ) { loopback_ptr_ = ptr; }
+  inline ValueNode* LoopBackPtr() { return loopback_ptr_; }
+  inline void NextPtr( ValueNode* ptr ) { next_ptr_ = ptr; }
+  inline ValueNode* NextPtr() { return next_ptr_; }
+  inline void IfStmtPtr( IFStmt* ptr ) { if_stmt_ptr_ = ptr; }
+  inline IFStmt* IfStmtPtr() { return if_stmt_ptr_; }
+ private :
+  ValueNode* loopback_ptr_;
+  ValueNode* next_ptr_;
+  IFStmt* if_stmt_ptr_;
+};
+
 
 /**
  * @class
@@ -804,6 +831,7 @@ class IterationStmt : public Statement {
   inline ~IterationStmt(){};
   inline void Exp( AstNode* exp ) { exp_ = exp; }
   inline AstNode* Exp() { return exp_; }
+  inline IterationStmt* CastToIteration() { return this; }
   CLONE( IterationStmt );
  private:
   AstNode* exp_;
@@ -1029,6 +1057,7 @@ class ClassMember : public AstNode {
 
 class Function : public Expression {
  public :
+  typedef std::vector<AstNode*> IterationList;
   enum {
     kNormal,
     kShorten,
@@ -1044,7 +1073,7 @@ class Function : public Expression {
   inline Function() : Expression( NAME_PARAMETER( Function ) ),
                       fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_root_( false ),
                       has_yield_( false ),
-                      name_( 0 ) , argv_( 0 ) {};
+                      name_( 0 ) , argv_( 0 ) , iteration_list_( 0 ) {};
   inline ~Function(){};
   inline void Name( AstNode* name ){ name_ = name; };
   inline AstNode* Name(){ return name_; };
@@ -1065,6 +1094,8 @@ class Function : public Expression {
   inline bool Root() { return is_root_; }
   inline void SetYieldFlag() { has_yield_ = true; }
   inline bool GetYieldFlag(){ return has_yield_; }
+  inline void SetIteration( AstNode* node ) { iteration_list_.push_back( node ); }
+  inline IterationList& GetIteration() { return iteration_list_; }
   CLONE( Function );
  private :
   int fn_type_;
@@ -1076,6 +1107,7 @@ class Function : public Expression {
   AstNode* name_;
   AstNode* argv_;
   InnerScope* scope_;
+  IterationList iteration_list_;
   CALL_ACCEPTOR( Function );
 };
 
@@ -1133,6 +1165,7 @@ class YieldExp : public Expression {
  private :
   CALL_ACCEPTOR( YieldExp );
 };
+
 
 class PostfixExp : public Expression {
  public :

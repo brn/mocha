@@ -9,6 +9,7 @@ class YieldProcessor {
   ~YieldProcessor();
   void ProcessNode();
  private :
+  void ProcessSend_( AstNode* exp );
   AstNode* exp_;
   ProcessorInfo* info_;
 };

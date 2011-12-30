@@ -23,7 +23,11 @@ class SymbolList : private Static {
     kFile,
     kYieldState,
     kYieldNext,
-    kExceptionHandler
+    kYieldSend,
+    kExceptionHandler,
+    kYieldResult,
+    kYieldSendFlag,
+    kGenerator
   } RuntimeSymbol;
 
   typedef enum {
@@ -32,7 +36,11 @@ class SymbolList : private Static {
     kConstructor,
     kThis,
     kApply,
-    kPrototype
+    kPrototype,
+    kLength,
+    kTrue,
+    kFalse,
+    kBind
   } BuiltinSymbol;
   
   static const char* GetSymbol( RuntimeSymbol runtime_symbol );
