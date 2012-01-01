@@ -155,7 +155,6 @@ VariableStmt* FunctionProcessor::ProcessRestParameter_() {
 }
 
 
-
 class YieldHelper {
  public :
   YieldHelper( Function* function , ProcessorInfo* info ) :
@@ -215,7 +214,7 @@ class YieldHelper {
 
   void ProcessFor_( IterationStmt* node , int size , int count ) {
     AstNode* parent = node->ParentNode();
-    AstNode* mark = ManagedHandle::Retain<Statement>();
+    YieldMark* mark = ManagedHandle::Retain<YieldMark>();
     parent->InsertBefore( mark , node );
     node->ParentNode()->RemoveChild( node );
     AstNode* exp = node->Exp();
@@ -226,15 +225,21 @@ class YieldHelper {
     if ( node->NodeType() == AstNode::kForWithVar ) {
       if ( !exp->FirstChild()->IsEmpty() ) {
         VariableStmt* stmt = AstUtils::CreateVarStmt( exp->FirstChild()->CastToNodeList() );
-        if ( count == ( size - 1 ) ) {
+        if ( count == ( size - 1 ) && cond->IsEmpty() ) {
           stmt->SetYieldFlag();
         }
         parent->InsertBefore( stmt , mark );
       }
     }
     if ( !cond->IsEmpty() ) {
+      YieldMark* state_mark = ManagedHandle::Retain<YieldMark>();
       ExYieldStateNode* ex_node = ProcessDynamicState_( cond );
+      IFStmt* if_stmt = CreateEscapeState_( cond , ex_node );
+      state_mark->ReEntrantNode( ex_node->LoopBackPtr() );
       parent->InsertAfter( ex_node , mark );
+      parent->InsertBefore( if_stmt , mark );
+      parent->InsertBefore( state_mark , if_stmt );
+      if_stmt->SetYieldFlag();
     }
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( counter );
     parent->InsertAfter( stmt , mark );
@@ -252,9 +257,43 @@ class YieldHelper {
         }
       }
     }
-    parent->RemoveChild( mark );
+    mark->ParentNode()->RemoveChild( mark );
   }
 
+
+  IFStmt* CreateEscapeState_( AstNode* cond , ExYieldStateNode *ex_node ) {
+    ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    
+    ValueNode* dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
+    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
+    
+    IFStmt *if_stmt = ManagedHandle::Retain<IFStmt>();
+    
+    BlockStmt* if_block = ManagedHandle::Retain<BlockStmt>();
+    StatementList* if_stmt_list = ManagedHandle::Retain<StatementList>();
+
+    BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+    Expression *exp = ManagedHandle::Retain<Expression>();
+    exp->AddChild( cond );
+    exp->Paren();
+    UnaryExp *not_exp = ManagedHandle::Retain( new UnaryExp( '!' ) );
+    not_exp->Exp( exp );
+    break_stmt->Line( 0 );
+    break_stmt->AddChild( ManagedHandle::Retain<Empty>() );
+    
+    if_stmt_list->AddChild( exp_stmt );
+    if_stmt_list->AddChild( break_stmt );
+    if_block->AddChild( if_stmt_list );
+    if_stmt->Line( function_->Line() );
+    if_stmt->Exp( not_exp );
+    if_stmt->Then( if_block );
+    if_stmt->Else( ManagedHandle::Retain<Empty>() );
+    ex_node->EscapePtr( dynamic_state );
+    return if_stmt;
+  }
+  
 
   ExYieldStateNode* ProcessDynamicState_( AstNode* cond ) {
     ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
@@ -377,22 +416,45 @@ class YieldHelper {
     if ( yield_stmt->NodeType() == AstNode::kReturnStmt ) {
       is_state_injection_ = true;
     }
-    if ( yield_stmt->NodeType() == AstNode::kExYieldStateNode ) {
-      ExYieldStateNode* ex_node = yield_stmt->CastToStatement()->CastToYieldMark();
+    if ( yield_stmt->NodeType() == AstNode::kYieldMark ) {
+      YieldMark* mark = yield_stmt->CastToStatement()->CastToYieldMark();
+      char state[10];
+      sprintf( state , "%d" , ( state_ + 1 ) );
+      mark->ReEntrantNode()->Symbol()->SetToken( state );
+    } else if ( yield_stmt->NodeType() == AstNode::kExYieldStateNode ) {
+      ExYieldStateNode* ex_node = yield_stmt->CastToStatement()->CastToYieldState();
       char back[10];
       sprintf( back ,"%d" , ( state_ - 1 ) );
       char next[10];
       int next_state;
-      if ( !iterator_.HasNext() ){
-        next_state = -1;
+      ValueNode* esc = ex_node->EscapePtr();
+      
+      if ( is_state_injection_ ) {
+        if ( !iterator_.HasNext() ) {
+          state_ = -2;
+          clause_body_->InsertBefore( CreateNextState_( 0 ) );
+        } else {
+          clause_body_->InsertBefore( CreateNextState_( 0 ) );
+          state_++;
+        }
       } else {
-        next_state = state_ + 1;
+        if ( !iterator_.HasNext() ) {
+          state_ = -1;
+        } else {
+          state_++;
+        }
       }
-      sprintf( next ,"%d" , next_state );
-      ex_node->LoopBackPtr()->Symbol()->SetToken( back );
+      sprintf( next ,"%d" , ( state_ ) );
+      if ( esc ) {
+        esc->Symbol()->SetToken( next );
+      }
       ex_node->NextPtr()->Symbol()->SetToken( next );
       clause_body_->AddChild( ex_node->IfStmtPtr() );
       is_state_injection_ = false;
+      body_->AddChild( clause_ );
+      if ( iterator_.HasNext() ) {
+        CreateCaseClause_( function_->Line() );
+      }
     } else if ( yield_stmt->CastToStatement()->GetYieldFlag() ) {
       if ( is_state_injection_ ) {
         if ( !iterator_.HasNext() ) {

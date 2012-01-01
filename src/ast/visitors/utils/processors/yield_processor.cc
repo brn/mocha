@@ -33,6 +33,7 @@ void YieldProcessor::ProcessNode() {
   VisitorInfo* visitor_info = info_->GetInfo();
   AstNode* direct_child = exp_->ParentNode();
   Function* fn = visitor_info->GetFunction();
+  
   while ( 1 ) {
     if ( direct_child->ParentNode()->NodeType() == AstNode::kFunction ) {
       break;
@@ -44,7 +45,7 @@ void YieldProcessor::ProcessNode() {
          direct_child->NodeType() == AstNode::kForInWithVar ) {
       Statement* stmt = direct_child->CastToStatement();
       if ( !stmt->GetYieldFlag() ) {
-        fn->SetIteration( direct_child );
+        fn->SetIteration( stmt );
       }
       stmt->SetYieldFlag();
     }

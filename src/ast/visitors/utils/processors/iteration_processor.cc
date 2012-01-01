@@ -37,7 +37,7 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
     ast_node->FirstChild()->Accept( visitor );
   } else {
     ast_node->FirstChild()->Accept( visitor );
-  } 
+  }
 }
 
 void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info ) {

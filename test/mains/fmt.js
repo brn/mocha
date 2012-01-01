@@ -5,4 +5,5 @@ var x = function () {
           yield i;
         }
       }
+      yield 200;
     }

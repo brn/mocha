@@ -148,6 +148,7 @@ class AstNode : public Managed {
     kCallExp,
     kNewExp,
     kYieldExp,
+    kYieldMark,
     kExYieldStateNode,
     kPostfixExp,
     kUnaryExp,
@@ -515,7 +516,8 @@ class Statement : public AstNode {
   inline Statement* CastToStatement() { return this; }
 
   virtual inline IterationStmt* CastToIteration() { return 0; }
-  virtual inline ExYieldStateNode* CastToYieldMark() { return 0; }
+  virtual inline ExYieldStateNode* CastToYieldState() { return 0; }
+  virtual inline YieldMark* CastToYieldMark() { return 0; }
   /**
    * @param {DstaExtractedExpression} tree
    * Set destructuring assignment tree.
@@ -571,13 +573,27 @@ class StatementList : public AstNode {
 #define NAME_PARAMETER(name) AstNode::k##name , #name
 
 
+class YieldMark : public Statement {
+ public :
+  YieldMark() : Statement( NAME_PARAMETER( YieldMark ) ) , state_( 0 ){}
+  ~YieldMark() {}
+  inline void ReEntrantNode( ValueNode* val ){ state_ = val; }
+  inline ValueNode* ReEntrantNode(){ return state_; }
+  inline YieldMark* CastToYieldMark() { return this; }
+ private :
+  ValueNode* state_;
+};
+
+
 class ExYieldStateNode : public Statement {
  public :
   inline ExYieldStateNode() :
       Statement( NAME_PARAMETER( ExYieldStateNode ) ) , loopback_ptr_( 0 ),
-      next_ptr_( 0 ) , if_stmt_ptr_( 0 ) {}
+      next_ptr_( 0 ) , escape_ptr_( 0 ) , if_stmt_ptr_( 0 ) {}
   inline ~ExYieldStateNode(){};
-  inline ExYieldStateNode* CastToYieldMark() { return this; }
+  inline ExYieldStateNode* CastToYieldState() { return this; }
+  inline void EscapePtr( ValueNode* ptr ) { escape_ptr_ = ptr; }
+  inline ValueNode* EscapePtr() { return escape_ptr_; }
   inline void LoopBackPtr( ValueNode* ptr ) { loopback_ptr_ = ptr; }
   inline ValueNode* LoopBackPtr() { return loopback_ptr_; }
   inline void NextPtr( ValueNode* ptr ) { next_ptr_ = ptr; }
@@ -587,6 +603,7 @@ class ExYieldStateNode : public Statement {
  private :
   ValueNode* loopback_ptr_;
   ValueNode* next_ptr_;
+  ValueNode* escape_ptr_;
   IFStmt* if_stmt_ptr_;
 };
 
