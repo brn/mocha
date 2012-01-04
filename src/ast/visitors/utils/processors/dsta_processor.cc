@@ -142,10 +142,6 @@ void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* i
       } else {
         prop->ValueType( ValueNode::kProperty );
         tree->Symbol( prop );
-        Function* fn = visitor_info->GetFunction();
-        if ( fn ) {
-          fn->SetVariable( prop );
-        }
         visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
         UPDATE_TREE;
       }
@@ -153,10 +149,6 @@ void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* i
   } else {
     value->ValueType( ValueNode::kProperty );
     tree->Symbol( value );
-    Function* fn = visitor_info->GetFunction();
-    if ( fn ) {
-      fn->SetVariable( value );
-    }
     ProcessMember( value , tree , info );
     visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
     UPDATE_TREE;
@@ -233,11 +225,7 @@ void ArrayHelper( ValueNode* ast_node,
     }
   }
   if ( symbol ) {
-    Function* fn = visitor_info->GetFunction();
-    if ( fn ) {
-      tree->Symbol( symbol );
-      fn->SetVariable( symbol );
-    }
+    tree->Symbol( symbol );
   }
   tree->AddChild( exp );
 }
@@ -337,6 +325,10 @@ inline AstNode* CreateConditional( AstNode* last_exp , AstNode* first , Processo
     ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     var->Symbol( tree->Symbol()->Symbol() );
     var->AddChild( cond );
+    Function* fn = info->GetInfo()->GetFunction();
+    if ( fn ) {
+      fn->SetVariable( var );
+    }
     return var;
   } else {
     AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( '=' , tree->Symbol() , cond ) );
@@ -413,11 +405,15 @@ NodeList* IterateTree( NodeList* result,
  * <lhs is javascript object except null or undefined> -> no throw
  * <lhs is null or undefined> -> throw TypeError <... is has no property.>
  */
-AstNode* CreateSimpleAccessor( AstNode* first , bool is_assign ) {
+AstNode* CreateSimpleAccessor( AstNode* first , VisitorInfo* info , bool is_assign ) {
   if ( !is_assign ) {
     ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     DstaTree* tree = reinterpret_cast<DstaTree*>( first );
     var->Symbol( tree->Symbol()->Symbol() );
+    Function* fn = info->GetFunction();
+    if ( fn ) {
+      fn->SetVariable( var );
+    }
     var->AddChild( first->FirstChild() );
     return var;
   } else {
@@ -466,7 +462,7 @@ NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool 
         return 0;
       }
     } else {
-      AstNode* ret = CreateSimpleAccessor( first , is_assign );
+      AstNode* ret = CreateSimpleAccessor( first , info->GetInfo() , is_assign );
       result->AddChild( ret );
     }
   }
@@ -505,10 +501,6 @@ int DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
   const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info->GetTmpIndex() );
   ValueNode* value = AstUtils::CreateNameNode( tmp_ref , Token::JS_IDENTIFIER , ast_node->Line(),
                                                ValueNode::kIdentifier , true );
-  Function* fn = info->GetInfo()->GetFunction();
-  if ( fn ) {
-    fn->SetVariable( value );
-  }
   /**
    * Create a tree node that is stored the result of processing.
    */
@@ -539,6 +531,7 @@ int DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
    */
   ast_node->ValueType( ValueNode::kIdentifier );
   ast_node->Symbol( value->Symbol() );
+  
   return kSuccess;
 }
 

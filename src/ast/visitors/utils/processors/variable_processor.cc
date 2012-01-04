@@ -19,12 +19,13 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
         printf( "type %s\n" ,value->Node()->CastToValue()->Symbol()->GetToken() );
         value->ValueType( ValueNode::kVariable );
         value->Symbol( value->Node()->CastToValue()->Symbol() );
-        if ( fn ) {
-          fn->SetVariable( value );
-        }
         AstNode* initialiser = item->FirstChild();
         if ( !initialiser->IsEmpty() ) {
           initialiser->Accept( visitor );
+        }
+        Function* fn = info->GetInfo()->GetFunction();
+        if ( fn ) {
+          fn->SetVariable( value );
         }
       } else {
         printf( "node type %d\n" , item->NodeType() );

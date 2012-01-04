@@ -363,6 +363,8 @@
           
           var i,
               j,
+              _mochaLocalTmp0,
+              x,
               m;
           
           var _mochaGenerator = function ( _isYieldSend ) {
@@ -387,6 +389,8 @@
                     case 2 :
                       
                       _yieldState = 3;
+                      
+                      x = _mochaLocalTmp0.x;
                       
                       m = 200;
                       return i;

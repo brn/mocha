@@ -176,7 +176,7 @@ class YieldHelper {
         ident->AddChild( ManagedHandle::Retain<Empty>() );
         AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->FirstChild()->Clone() );
         ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
-        printf( "parent type = %d\n" , value->ParentNode()->NodeType() );
+        printf( "parent type = %d symbol = %s\n" , value->ParentNode()->ParentNode()->NodeType() , value->Symbol()->GetToken() );
         value->ParentNode()->ParentNode()->ReplaceChild( value->ParentNode() , stmt );
         ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
         var->Symbol( value->Symbol() );
