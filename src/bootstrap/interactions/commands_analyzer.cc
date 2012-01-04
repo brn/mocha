@@ -38,8 +38,13 @@ Handle<ICommandLineRunner> CommandsAnalyzer::Analyze( const char* buf ) {
   switch ( state_ ) {
     case kS_Compile :
       {
-        CompileRunner* runner = new CompileRunner( options );
-        return Handle<ICommandLineRunner>( runner );
+        if ( options->IsPath() ) {
+          CompileRunner* runner = new CompileRunner( options );
+          return Handle<ICommandLineRunner>( runner );
+        } else {
+          ErrorRunner* runner = new ErrorRunner( options );
+          return Handle<ICommandLineRunner>( runner );
+        }
       }
     case kS_Observe :
       {
