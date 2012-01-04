@@ -1075,6 +1075,7 @@ class ClassMember : public AstNode {
 class Function : public Expression {
  public :
   typedef std::vector<AstNode*> IterationList;
+  typedef std::vector<ValueNode*> VariableList;
   enum {
     kNormal,
     kShorten,
@@ -1113,6 +1114,8 @@ class Function : public Expression {
   inline bool GetYieldFlag(){ return has_yield_; }
   inline void SetIteration( AstNode* node ) { iteration_list_.push_back( node ); }
   inline IterationList& GetIteration() { return iteration_list_; }
+  inline void SetVariable( ValueNode* node ) { variable_list_.push_back( node ); }
+  inline VariableList& GetVariable() { return variable_list_; }
   CLONE( Function );
  private :
   int fn_type_;
@@ -1125,6 +1128,7 @@ class Function : public Expression {
   AstNode* argv_;
   InnerScope* scope_;
   IterationList iteration_list_;
+  VariableList variable_list_;
   CALL_ACCEPTOR( Function );
 };
 

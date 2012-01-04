@@ -3,7 +3,9 @@
   this.x = 0;
   
   var _mochaGlobalExport = {},
-      _mochaClassTable = {};
+      _mochaClassTable = {},
+      _mochaInstanceTable = {},
+      _mochaInstanceId = ( +(new Date) );
   
   var Runtime = ( function Runtime() {
         var _mochaLocalExport = {};
@@ -297,7 +299,33 @@
           };
         };
         
-        var slice = Array.prototype.slice;
+        var instanceProp = {},
+            slice = Array.prototype.slice;
+        
+        _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
+          if ( !( id in instance_prop ) ){
+            instance_prop[id] = {};
+          };
+          
+          Object.defineProperty( instance_prop[id],prop, {
+            enumerable : true,
+            configurable : isConst,
+            writable : isConst,
+            value : value
+          });
+        };
+        
+        _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
+          if ( id in _mochaInstanceProp ){
+            return _mochaInstanceProp[id];
+          } else {
+            try {
+              throw new TypeError( prop+"is not defined." );
+            } catch( e ){
+              throw new Error( e );
+            };
+          };
+        };
         
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
@@ -309,7 +337,7 @@
             };
         
         var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+              return Object.defineProp( obj,prop, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
@@ -324,18 +352,18 @@
       })();
   
   ( function () {
-    _mochaGlobalExport['{1-397-628-896-60818442-1431-fmt.js}'] = {};
+    _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
     
-    var _mochaGlobalAlias = _mochaGlobalExport['{1-397-628-896-60818442-1431-fmt.js}'];
+    var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'];
     
     var x = function () {
           var _yieldState = 0;
           
           var _yieldResult = undefined;
           
-          var i;
-          
-          var j;
+          var i,
+              j,
+              m;
           
           var _mochaGenerator = function ( _isYieldSend ) {
                 while ( 1 ){
@@ -359,6 +387,8 @@
                     case 2 :
                       
                       _yieldState = 3;
+                      
+                      m = 200;
                       return i;
                     case 3 :
                       

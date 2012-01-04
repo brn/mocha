@@ -89,9 +89,16 @@ void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
 
 void AstNode::Append( AstNode* node ) {
   if ( node ) {
+    typedef std::list<AstNode*> AstArray;
+    AstArray ast_array;
     NodeIterator iterator = node->ChildNodes();
     while ( iterator.HasNext() ) {
-      AddChild( iterator.Next() );
+      ast_array.push_back( iterator.Next() );
+    }
+    AstArray::iterator begin = ast_array.begin() , end = ast_array.end();
+    while ( begin != end ) {
+      AddChild( (*begin) );
+      ++begin;
     }
   }
 }

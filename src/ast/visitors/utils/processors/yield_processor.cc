@@ -44,9 +44,6 @@ void YieldProcessor::ProcessNode() {
          direct_child->NodeType() == AstNode::kForIn ||
          direct_child->NodeType() == AstNode::kForInWithVar ) {
       Statement* stmt = direct_child->CastToStatement();
-      if ( !stmt->GetYieldFlag() ) {
-        fn->SetIteration( stmt );
-      }
       stmt->SetYieldFlag();
     }
   }

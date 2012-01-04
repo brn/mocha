@@ -45,8 +45,9 @@ void ImportProccessor::ProcessNode() {
   if ( stmt_->HasDsta() ) {
     ValueNode* value = AstUtils::CreateVarInitiliser( stmt_->Exp()->CastToValue()->Symbol() , exp );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    NodeList* var_list = DstaProcessor::CreateDstaExtractedVarStmt( stmt_ , info_ );
     list->AddChild( value );
-    list->Append( DstaProcessor::CreateDstaExtractedVarStmt( stmt_ , info_ ) );
+    list->Append( var_list );
     VariableStmt* stmt = AstUtils::CreateVarStmt( list );
     stmt->Line( stmt_->Line() );
     stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );

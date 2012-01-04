@@ -16,12 +16,8 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
   AstNode* index_exp = exp->FirstChild();
   AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
   AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
-
-  if ( ast_node->NodeType() == AstNode::kForWithVar ) {
-    VariableProcessor::ProcessVarList( ast_node , info );
-  } else {
-    index_exp->Accept( visitor );
-  }
+  
+  index_exp->Accept( visitor );
   
   if ( cond_exp ) {
     cond_exp->Accept( visitor );
@@ -37,6 +33,9 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
     ast_node->FirstChild()->Accept( visitor );
   } else {
     ast_node->FirstChild()->Accept( visitor );
+  }
+  if ( ast_node->GetYieldFlag() ) {
+    info->GetInfo()->GetFunction()->SetIteration( ast_node );
   }
 }
 

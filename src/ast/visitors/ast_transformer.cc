@@ -567,7 +567,7 @@ VISITOR_IMPL( ValueNode ) {
       break;
 
     case ValueNode::kVariable :
-      VariableProcessor::ProcessVarList( ast_node , proc_info_.Get() );
+      VariableProcessor::ProcessVarInitialiser( ast_node , proc_info_.Get() );
       break;
 
     case ValueNode::kDst :

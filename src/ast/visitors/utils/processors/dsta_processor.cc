@@ -142,6 +142,10 @@ void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* i
       } else {
         prop->ValueType( ValueNode::kProperty );
         tree->Symbol( prop );
+        Function* fn = visitor_info->GetFunction();
+        if ( fn ) {
+          fn->SetVariable( prop );
+        }
         visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
         UPDATE_TREE;
       }
@@ -149,6 +153,10 @@ void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* i
   } else {
     value->ValueType( ValueNode::kProperty );
     tree->Symbol( value );
+    Function* fn = visitor_info->GetFunction();
+    if ( fn ) {
+      fn->SetVariable( value );
+    }
     ProcessMember( value , tree , info );
     visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
     UPDATE_TREE;
@@ -225,7 +233,11 @@ void ArrayHelper( ValueNode* ast_node,
     }
   }
   if ( symbol ) {
-    tree->Symbol( symbol );
+    Function* fn = visitor_info->GetFunction();
+    if ( fn ) {
+      tree->Symbol( symbol );
+      fn->SetVariable( symbol );
+    }
   }
   tree->AddChild( exp );
 }
@@ -235,11 +247,11 @@ void ArrayHelper( ValueNode* ast_node,
  * Process each member of array pattern.
  */
 DstaTree* ProcessArrayElement( ValueNode* ast_node,
-                          AstNode* element,
-                          DstaTree* tree,
-                          int depth,
-                          int index,
-                          ProcessorInfo* info ) {
+                               AstNode* element,
+                               DstaTree* tree,
+                               int depth,
+                               int index,
+                               ProcessorInfo* info ) {
   printf( "depth is = %d\n" , depth );
   VisitorInfo* visitor_info = info->GetInfo();
   if ( !element->IsEmpty() ) {
@@ -493,6 +505,10 @@ int DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
   const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info->GetTmpIndex() );
   ValueNode* value = AstUtils::CreateNameNode( tmp_ref , Token::JS_IDENTIFIER , ast_node->Line(),
                                                ValueNode::kIdentifier , true );
+  Function* fn = info->GetInfo()->GetFunction();
+  if ( fn ) {
+    fn->SetVariable( value );
+  }
   /**
    * Create a tree node that is stored the result of processing.
    */

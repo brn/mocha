@@ -161,16 +161,37 @@ class YieldHelper {
       state_( 0 ), is_state_injection_( false ), function_( function ) , info_( info ),
       clause_( CreateCaseClause_( state_ ) ),
       clause_body_( clause_->FirstChild() ),
-      body_( ManagedHandle::Retain<NodeList>() ){
-    ProcessIteration_();
-    iterator_ = function_->ChildNodes();
-  }
+      body_( ManagedHandle::Retain<NodeList>() ){}
 
   void ProcessYield() {
+    ProcessIteration_();
+    Function::VariableList &list = function_->GetVariable();
+    if ( list.size() > 0 ) {
+      Function::VariableList::iterator begin = list.begin(),end = list.end();
+      NodeList* node_list = ManagedHandle::Retain<NodeList>();
+      while ( begin != end ) {
+        ValueNode* value = (*begin);
+        ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+        ident->Symbol( value->Symbol() );
+        ident->AddChild( ManagedHandle::Retain<Empty>() );
+        AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->FirstChild()->Clone() );
+        ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
+        printf( "parent type = %d\n" , value->ParentNode()->NodeType() );
+        value->ParentNode()->ParentNode()->ReplaceChild( value->ParentNode() , stmt );
+        ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
+        var->Symbol( value->Symbol() );
+        var->AddChild( ManagedHandle::Retain<Empty>() );
+        node_list->AddChild( var );
+        ++begin;
+      }
+      VariableStmt* stmt = AstUtils::CreateVarStmt( node_list );
+      function_->InsertBefore( stmt );
+    }
+    iterator_ = function_->ChildNodes();
     while ( iterator_.HasNext() ) {
       AstNode* yield_stmt = iterator_.Next();
       if ( yield_stmt->NodeType() == AstNode::kVariableStmt ) {
-        ProcessVarStmtInYield_( yield_stmt );
+        //ProcessVarStmtInYield_( yield_stmt );
       } else {
         ProcessStmtInYield_( yield_stmt );
       }
@@ -226,7 +247,7 @@ class YieldHelper {
       if ( !exp->FirstChild()->IsEmpty() ) {
         VariableStmt* stmt = AstUtils::CreateVarStmt( exp->FirstChild()->CastToNodeList() );
         if ( count == ( size - 1 ) && cond->IsEmpty() ) {
-          stmt->SetYieldFlag();
+          //stmt->SetYieldFlag();
         }
         parent->InsertBefore( stmt , mark );
       }
