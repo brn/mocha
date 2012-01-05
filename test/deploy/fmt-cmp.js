@@ -302,6 +302,31 @@
         var instanceProp = {},
             slice = Array.prototype.slice;
         
+        _mochaLocalExport.createPrivateProp = function createPrivateProp( id,prop,value,isConst ) {
+          if ( !( id in instance_prop ) ){
+            instance_prop[id] = {};
+          };
+          
+          Object.defineProperty( instance_prop[id],prop, {
+            enumerable : true,
+            configurable : isConst,
+            writable : isConst,
+            value : value
+          });
+        };
+        
+        _mochaLocalExport.getPrivateProp = function getPrivateProp( id,prop ) {
+          if ( id in _mochaInstanceProp ){
+            return _mochaInstanceProp[id];
+          } else {
+            try {
+              throw new TypeError( prop+"is not defined." );
+            } catch( e ){
+              throw new Error( e );
+            };
+          };
+        };
+        
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
@@ -312,7 +337,7 @@
             };
         
         var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+              return Object.defineProp( obj,prop, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
@@ -327,22 +352,28 @@
       })();
   
   ( function () {
-    _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'] = {};
+    _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
     
-    var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'];
+    var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'];
     
     var x = function () {
-          var _yieldState = 0;
-          
-          var _yieldResult = undefined;
-          
-          var i,
+          var _mochaIsNewBorn = true,
+              _yieldResult = undefined,
+              _yieldState = 0,
+              i,
               j,
               _mochaLocalTmp0,
               x,
-              m;
+              m,
+              l;
           
           var _mochaGenerator = function ( _isYieldSend ) {
+                if ( _isYieldSend ){
+                  _mochaIsNewBorn = false;
+                } else if ( !_isYieldSend && _mochaIsNewBorn ){
+                  Runtime.exceptionHandler(  );
+                };
+                
                 while ( 1 ){
                   switch ( _yieldState ) {
                     case 0 :
@@ -394,6 +425,28 @@
                         _yieldState = 5;
                       };
                     case 5 :
+                      
+                      l = 0;
+                      
+                      if ( !( l<20 ) ){
+                        _yieldState = 8;
+                        break;
+                      };
+                    case 6 :
+                      
+                      _yieldState = 7;
+                      return l;
+                    case 7 :
+                      
+                      l ++ ;
+                      
+                      if ( l<20 ){
+                        _yieldState = 6;
+                        break;
+                      } else {
+                        _yieldState = 8;
+                      };
+                    case 8 :
                       
                       _yieldState = -1;
                       return 200;

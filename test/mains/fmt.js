@@ -7,5 +7,8 @@ var x = function () {
           yield i;
         }
       }
+      for ( var l = 0; l < 20; l++ ) {
+        yield l;
+      }
       yield 200;
     }

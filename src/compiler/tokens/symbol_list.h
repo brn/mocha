@@ -27,7 +27,8 @@ class SymbolList : private Static {
     kExceptionHandler,
     kYieldResult,
     kYieldSendFlag,
-    kGenerator
+    kGenerator,
+    kIsNewBorn
   } RuntimeSymbol;
 
   typedef enum {
