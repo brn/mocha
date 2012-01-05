@@ -56,7 +56,13 @@ namespace mocha {
 
 #define VISITOR_IMPL(type) void AstTransformer::Visit##type( type* ast_node )
 #define TOKEN yy::ParserImplementation::token
+
+#ifdef PRINTABLE
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
+#else
+#define PRINT_NODE_NAME
+#endif
+
 #define REGIST(node) visitor_info_->SetCurrentStmt( node )
 
 

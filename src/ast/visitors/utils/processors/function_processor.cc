@@ -177,12 +177,20 @@ class YieldHelper {
         AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->FirstChild()->Clone() );
         ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
         printf( "parent type = %d symbol = %s\n" , value->ParentNode()->ParentNode()->NodeType() , value->Symbol()->GetToken() );
-        value->ParentNode()->ParentNode()->ReplaceChild( value->ParentNode() , stmt );
+        value->ParentNode()->ParentNode()->InsertBefore( stmt , value->ParentNode() );
         ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
         var->Symbol( value->Symbol() );
         var->AddChild( ManagedHandle::Retain<Empty>() );
         node_list->AddChild( var );
         ++begin;
+      }
+      Function::VariableList::iterator begin_ = list.begin(),end_ = list.end();
+      while ( begin_ != end_ ) {
+        ValueNode* value = (*begin_);
+        if ( value->ParentNode() && value->ParentNode()->ParentNode() ) {
+          value->ParentNode()->ParentNode()->RemoveChild( value->ParentNode() );
+        }
+        ++begin_;
       }
       VariableStmt* stmt = AstUtils::CreateVarStmt( node_list );
       function_->InsertBefore( stmt );
@@ -193,6 +201,7 @@ class YieldHelper {
       if ( yield_stmt->NodeType() == AstNode::kVariableStmt ) {
         //ProcessVarStmtInYield_( yield_stmt );
       } else {
+        printf( "stmt type = %s\n" , yield_stmt->GetName() ); 
         ProcessStmtInYield_( yield_stmt );
       }
     }

@@ -20,7 +20,13 @@ namespace mocha {
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void CodegenVisitor::Visit##type( type* ast_node )
 #define ITERATOR(name) begin = name.begin(),end = name.end()
+
+#ifdef PRINTABLE
 #define PRINT_NODE_NAME printf( "depth = %d name = %s\n" , depth_++ , ast_node->GetName() )
+#else
+#define PRINT_NODE_NAME
+#endif
+
 #define ACCEPT( ast )                           \
   if ( ast != 0 )                               \
     ast->Accept(this)

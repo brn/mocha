@@ -8,7 +8,12 @@ namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type( type* ast_node )
+
+#ifdef PRINTABLE
 #define PRINT_NODE_NAME printf( "depth = %d name = %s\n" , depth_++ , ast_node->GetName() )
+#else
+#define PRINT_NODE_NAME
+#endif
 
 
 OptimizerVisitor::OptimizerVisitor( Scope* scope ) : depth_( 0 ), scope_( scope ){}
