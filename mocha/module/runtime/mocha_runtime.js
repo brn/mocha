@@ -285,7 +285,96 @@ module Runtime {
     value : value
   });
   
-  export toArray = ( likeArray ) -> ( likeArray )? slice.call( likeArray ) : [];
+  export toArray = ( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
+  
+  export StopIteration = ( message )-> {
+    this.toString = function () { return "StopIteration"; }
+  }
+  
+  export Iterator = ( obj , isKeyOnly = false )-> {
+    var iter = {},
+        isArray,
+        ret,
+        index = 0;
+    if ( this instanceof Iterator ) {
+      isArray = Array.isArray( obj );
+      ret = _ownPropertyIterator( obj , isArray , isKeyOnly );
+    } else {
+      return _userdefIterator( obj , isKeyOnly );
+    }
+    createUnenumProp( iter , "next" , -> ret[ index++ ] );
+    return iter;
+  }
+  
+  const _objectIterator = ( obj , isKeyOnly ) -> {
+          var ret = [],
+              iter = -1;
+          if ( isKeyOnly ) {
+            for ( var prop in obj ) {
+              ret[ ++iter ] = prop;
+            }
+          } else {
+            for ( var prop in obj ) {
+              ret[ ++iter ] = [ prop , obj[ prop ] ];
+            }
+          }
+          return ret;
+        },
+  
+        _arrayIterator = ( obj , isKeyOnly ) -> {
+          var ret = [];
+          if ( isKeyOnly ) {
+            for ( var i = 0,len = obj.length; i < len; i++ ) {
+              ret[ i ] = i;
+            }
+          } else {
+            for ( var i = 0,len = obj.length; i < len; i++ ) {
+              ret[ i ] = [ i , obj[ i ] ];
+            }
+          }
+          return ret;
+        },
+  
+        _stringIterator = ( obj , isKeyOnly ) -> {
+          var ret = [];
+          if ( isKeyOnly ) {
+            for ( var i = 0,len = obj.length; i < len; i++ ) {
+              ret[ i ] = i;
+            }
+          } else {
+            for ( var i = 0,len = obj.length; i < len; i++ ) {
+              ret[ i ] = [ i , obj.charAt( i ) ];
+            }
+          }
+          return ret;
+        },
+  
+        _ownPropertyIterator = ( obj , isArray , isKeyOnly ) -> {
+          var type = typeof obj;
+          if ( type === "object" && !isArray ) {
+            return _objectIterator( obj , isKeyOnly );
+          } else if ( isArray ) {
+            return _arrayIterator( obj , isKeyOnly );
+          } else if ( type === "string" ) {
+            return _stringIterator( obj , isKeyOnly );
+          }
+        },
+  
+        _userdefIterator = ( obj , isKeyOnly ) -> {
+          if ( "__iterator__" in obj ) {
+            return obj.__iterator__( isKeyOnly );
+          } else {
+            return {
+              next : function () {
+                try {
+                  throw new StopIteration;
+                } catch( e ) {
+                  throw new Error( e );
+                }
+              }
+            }
+          }
+        }
 }
 
 

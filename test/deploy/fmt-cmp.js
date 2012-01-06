@@ -3,9 +3,7 @@
   this.x = 0;
   
   var _mochaGlobalExport = {},
-      _mochaClassTable = {},
-      _mochaInstanceTable = {},
-      _mochaInstanceId = ( +(new Date) );
+      _mochaClassTable = {};
   
   var Runtime = ( function Runtime() {
         var _mochaLocalExport = {};
@@ -299,8 +297,7 @@
           };
         };
         
-        var instanceProp = {},
-            slice = Array.prototype.slice;
+        var slice = Array.prototype.slice;
         
         var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
@@ -320,8 +317,113 @@
               });
             };
         
-        var toArray = _mochaLocalExport.toArray = function ( likeArray ) {
-              return ( ( likeArray ) )?slice.call( likeArray ) : [];
+        var toArray = _mochaLocalExport.toArray = function ( likeArray,index ) {
+              return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
+            };
+        
+        var StopIteration = _mochaLocalExport.StopIteration = function ( message ) {
+              this.toString = function () {
+                return "StopIteration";
+              };
+            };
+        
+        var Iterator = _mochaLocalExport.Iterator = function ( obj,isKeyOnly ) {
+              isKeyOnly = isKeyOnly || false;
+              
+              var iter = {},
+                  isArray,
+                  ret,
+                  index = 0;
+              
+              if ( this instanceof Iterator ){
+                isArray = Array.isArray( obj );
+                
+                ret = _ownPropertyIterator( obj,isArray,isKeyOnly );
+              } else {
+                return _userdefIterator( obj,isKeyOnly );
+              };
+              
+              createUnenumProp( iter,"next",
+              function () {
+                return ret[index ++ ];
+              });
+              return iter;
+            };
+        
+        var _objectIterator = function ( obj,isKeyOnly ) {
+              var ret = [],
+                  iter = -1;
+              
+              if ( isKeyOnly ){
+                for ( var prop in obj )
+                {
+                  ret[ ++ iter] = prop;
+                };
+              } else {
+                for ( var prop in obj )
+                {
+                  ret[ ++ iter] = [prop,obj[prop]];
+                };
+              };
+              return ret;
+            },
+            _arrayIterator = function ( obj,isKeyOnly ) {
+              var ret = [];
+              
+              if ( isKeyOnly ){
+                for ( var i = 0,len = obj.length;i<len;i ++  )
+                {
+                  ret[i] = i;
+                };
+              } else {
+                for ( var i = 0,len = obj.length;i<len;i ++  )
+                {
+                  ret[i] = [i,obj[i]];
+                };
+              };
+              return ret;
+            },
+            _stringIterator = function ( obj,isKeyOnly ) {
+              var ret = [];
+              
+              if ( isKeyOnly ){
+                for ( var i = 0,len = obj.length;i<len;i ++  )
+                {
+                  ret[i] = i;
+                };
+              } else {
+                for ( var i = 0,len = obj.length;i<len;i ++  )
+                {
+                  ret[i] = [i,obj.charAt( i )];
+                };
+              };
+              return ret;
+            },
+            _ownPropertyIterator = function ( obj,isArray,isKeyOnly ) {
+              var type = typeof obj;
+              
+              if ( type === "object" && !isArray ){
+                return _objectIterator( obj,isKeyOnly );
+              } else if ( isArray ){
+                return _arrayIterator( obj,isKeyOnly );
+              } else if ( type === "string" ){
+                return _stringIterator( obj,isKeyOnly );
+              };
+            },
+            _userdefIterator = function ( obj,isKeyOnly ) {
+              if ( "__iterator__" in obj ){
+                return obj.__iterator__( isKeyOnly );
+              } else {
+                return  {
+                  next : function () {
+                    try {
+                      throw new StopIteration;
+                    } catch( e ){
+                      throw new Error( e );
+                    };
+                  }
+                };
+              };
             };
         return _mochaLocalExport;
       })();
