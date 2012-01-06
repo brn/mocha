@@ -248,7 +248,7 @@ class YieldHelper : private Uncopyable {
     TokenInfo* result = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kYieldResult ),
                                                              Token::JS_IDENTIFIER , function_->Line() ) );
     ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                                     Token::JS_NUMERIC_LITERAL, function_->Line(),
+                                                     Token::JS_IDENTIFIER, function_->Line(),
                                                      ValueNode::kIdentifier );
     ValueNode* value = AstUtils::CreateVarInitiliser( result , undefined );
     return value;
@@ -599,26 +599,37 @@ class GeneratorHelper : private Uncopyable {
                                                     Token::JS_IDENTIFIER, function_->Line(),
                                                     ValueNode::kIdentifier , ValueNode::kIdentifier );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( AstUtils::CreateAssignment( '=' , is_new_born , false_sym ) );
-    if_stmt->Exp( is_send );
+    UnaryExp* not_is_send = ManagedHandle::Retain( new UnaryExp( '!' ) );
+    not_is_send->Exp( is_send );
+    if_stmt->Exp( not_is_send );
     BlockStmt* then_block = ManagedHandle::Retain<BlockStmt>();
     StatementList* then_list = ManagedHandle::Retain<StatementList>();
     then_list->AddChild( stmt );
     then_block->AddChild( then_list );
     if_stmt->Then( then_block );
     IFStmt* else_if_stmt = ManagedHandle::Retain<IFStmt>();
-    UnaryExp* not_is_send = ManagedHandle::Retain( new UnaryExp( '!' ) );
-    not_is_send->Exp( is_send->Clone() );
-    CompareExp* comp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , not_is_send , is_new_born ) );
+    ValueNode* arguments = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
+                                                     Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    ValueNode* one = AstUtils::CreateNameNode( "1" , Token::JS_NUMERIC_LITERAL , function_->Line() , ValueNode::kNumeric );
+    CallExp* array_accessor = AstUtils::CreateArrayAccessor( arguments , one );
+    ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
+                                                     Token::JS_NUMERIC_LITERAL, function_->Line(),
+                                                     ValueNode::kIdentifier );
+    CompareExp* undef_check = ManagedHandle::Retain( new CompareExp( Token::JS_NOT_EQ , array_accessor , undefined ) );
+    CompareExp* comp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , is_send->Clone() , is_new_born ) );
+    CompareExp* comp2 = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , comp , undef_check ) );
     BlockStmt* else_block = ManagedHandle::Retain<BlockStmt>();
     StatementList* else_list = ManagedHandle::Retain<StatementList>();
     ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
                                                    Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* message = AstUtils::CreateNameNode( "'attempt to send to newborn generator.'" , Token::JS_STRING_LITERAL , 0 , ValueNode::kString );
     NodeList* handle_list = ManagedHandle::Retain<NodeList>();
+    handle_list->AddChild( message );
     CallExp* handle_exp = AstUtils::CreateNormalAccessor( handler , handle_list );
     CallExp* runtime = AstUtils::CreateRuntimeMod( handle_exp );
     ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( runtime );
     else_list->AddChild( exp_stmt );
-    else_if_stmt->Exp( comp );
+    else_if_stmt->Exp( comp2 );
     else_block->AddChild( else_list );
     else_if_stmt->Then( else_block );
     else_if_stmt->Else( ManagedHandle::Retain<Empty>() );
