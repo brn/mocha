@@ -138,6 +138,8 @@ class AstNode : public Managed {
     kForInWithVar,
     kForEach,
     kForEachWithVar,
+    kForOf,
+    kForOfWithVar,
     kWhile,
     kDoWhile,
     kClass,
@@ -518,6 +520,7 @@ class Statement : public AstNode {
   virtual inline IterationStmt* CastToIteration() { return 0; }
   virtual inline ExYieldStateNode* CastToYieldState() { return 0; }
   virtual inline YieldMark* CastToYieldMark() { return 0; }
+  virtual inline IFStmt* CastToIFStmt() { return 0; }
   /**
    * @param {DstaExtractedExpression} tree
    * Set destructuring assignment tree.
@@ -575,12 +578,15 @@ class StatementList : public AstNode {
 
 class YieldMark : public Statement {
  public :
-  YieldMark() : Statement( NAME_PARAMETER( YieldMark ) ) , state_( 0 ){}
+  YieldMark() : Statement( NAME_PARAMETER( YieldMark ) ) , adjustment_( 0 ), state_( 0 ){}
   ~YieldMark() {}
   inline void ReEntrantNode( ValueNode* val ){ state_ = val; }
   inline ValueNode* ReEntrantNode(){ return state_; }
   inline YieldMark* CastToYieldMark() { return this; }
+  inline int Adjust( int val ) { return val + adjustment_; }
+  inline void SetAdjust( int val ) { adjustment_ = val; }
  private :
+  int adjustment_;
   ValueNode* state_;
 };
 
@@ -814,7 +820,7 @@ class IFStmt : public Statement {
  public :
   inline IFStmt() : Statement( NAME_PARAMETER(IFStmt) ) , exp_( 0 ) , then_( 0 ), else_( 0 ){};
   inline ~IFStmt() {};
-
+  inline IFStmt* CastToIFStmt() { return this; }
   /**
    * @param {AstNode*} exp
    * Set expression node.
@@ -846,7 +852,7 @@ class IterationStmt : public Statement {
  public :
   inline IterationStmt( int type ) : Statement( type , "IterationStmt" ) , exp_( 0 ){};
   inline ~IterationStmt(){};
-  inline void Exp( AstNode* exp ) { exp_ = exp; }
+  inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   inline IterationStmt* CastToIteration() { return this; }
   CLONE( IterationStmt );
@@ -975,6 +981,7 @@ class Expression : public AstNode {
   inline void Paren() { paren_ = true; };
   inline bool IsParen() { return paren_; };
   inline Expression* CastToExpression() { return this; }
+  inline virtual AssignmentExp* CastToAssigment() { return 0; }
   virtual CLONE( Expression );
  private :
   bool paren_;
@@ -1074,8 +1081,9 @@ class ClassMember : public AstNode {
 
 class Function : public Expression {
  public :
-  typedef std::vector<AstNode*> IterationList;
+  typedef std::vector<AstNode*> StmtList;
   typedef std::vector<ValueNode*> VariableList;
+  typedef std::vector<TryStmt*> TryList;
   enum {
     kNormal,
     kShorten,
@@ -1112,8 +1120,10 @@ class Function : public Expression {
   inline bool Root() { return is_root_; }
   inline void SetYieldFlag() { has_yield_ = true; }
   inline bool GetYieldFlag(){ return has_yield_; }
-  inline void SetIteration( AstNode* node ) { iteration_list_.push_back( node ); }
-  inline IterationList& GetIteration() { return iteration_list_; }
+  inline void SetStmtWithYield( AstNode* node ) { iteration_list_.push_back( node ); }
+  inline StmtList& GetStmtList() { return iteration_list_; }
+  inline void SetTryCatch( TryStmt* try_stmt ) { try_list_.push_back( try_stmt ); }
+  inline TryList& GetTryCatch() { return try_list_; }
   inline void SetVariable( ValueNode* node ) { variable_list_.push_back( node ); }
   inline VariableList& GetVariable() { return variable_list_; }
   CLONE( Function );
@@ -1127,8 +1137,9 @@ class Function : public Expression {
   AstNode* name_;
   AstNode* argv_;
   InnerScope* scope_;
-  IterationList iteration_list_;
+  StmtList iteration_list_;
   VariableList variable_list_;
+  TryList try_list_;
   CALL_ACCEPTOR( Function );
 };
 
@@ -1324,6 +1335,7 @@ class AssignmentExp : public Expression {
     left_->ParentNode( this );
     right_->ParentNode( this );
   };
+  inline AssignmentExp* CastToAssigment() { return this; }
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };

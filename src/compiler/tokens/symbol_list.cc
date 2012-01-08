@@ -18,6 +18,7 @@ static const char runtime[][50] = {
   "extendPrototype",
   "__MODULE__",
   "__FILE__",
+  "__LINE__",
   "_yieldState",
   "next",
   "send",
@@ -25,7 +26,14 @@ static const char runtime[][50] = {
   "_yieldResult",
   "_isYieldSend",
   "_mochaGenerator",
-  "_mochaIsNewBorn"
+  "_mochaIsNewBorn",
+  "StopIteration",
+  "throwException",
+  "close",
+  "_mochaFinallyCache",
+  "_mochaCatchCache",
+  "_mochaException",
+  "createGenerator"
 };
 
 static const char builtin[][50] = {
@@ -38,7 +46,8 @@ static const char builtin[][50] = {
   "length",
   "true",
   "false",
-  "bind"
+  "bind",
+  "push"
 };
 
 

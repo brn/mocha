@@ -45,6 +45,8 @@ class AstUtils : private Static {
   static CallExp* CreateNormalAccessor( AstNode* callable , AstNode* args );
   static ValueNode* CreateNameNode( const char* name , int type , long line , int value_type , bool is_empty = false );
   static AssignmentExp* CreateAssignment( int type , AstNode* lhs , AstNode* rhs );
+  static UnaryExp* CreateUnaryExp( int type , AstNode* exp );
+  static NodeList* CreateNodeList( int num , ... );
   static ValueNode* CreateObjectLiteral( AstNode* body );
   static ExpressionStmt* CreateAnonymousFnCall( Function *fn , AstNode* args );
   static ExpressionStmt* CreateExpStmt( AstNode* node );
@@ -57,6 +59,9 @@ class AstUtils : private Static {
   static CallExp* CreatePrototypeNode( AstNode* lhs );
   static CallExp* CreateGlobalExportNode( AstNode* ast_node , const char* filename );
   static const char* CreateTmpRef( char* buf , int index );
+  static ValueNode* CreateTmpNode( int index );
+  static IFStmt* CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt );
+  static BlockStmt* CreateBlockStmt( int num , ... );
 };
 
 }

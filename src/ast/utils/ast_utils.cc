@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include <ast/utils/ast_utils.h>
 #include <ast/ast.h>
 #include <compiler/tokens/js_token.h>
@@ -62,6 +63,23 @@ ValueNode* AstUtils::CreateNameNode( const char* name , int type , long line , i
 AssignmentExp* AstUtils::CreateAssignment( int type , AstNode* lhs , AstNode* rhs ) {
   AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( type , lhs , rhs ) );
   return assign;
+}
+
+UnaryExp* AstUtils::CreateUnaryExp( int type , AstNode* exp ) {
+  UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( type ) );
+  unary->Exp( exp );
+  return unary;
+}
+
+NodeList* AstUtils::CreateNodeList( int num , ... ) {
+  va_list list;
+  va_start( list , num );
+  NodeList* node_list = ManagedHandle::Retain<NodeList>();
+  for ( int i = 0; i < num; i++ ) {
+    AstNode* node = va_arg( list , AstNode* );
+    node_list->AddChild( node );
+  }
+  return node_list;
 }
 
 ValueNode* AstUtils::CreateObjectLiteral( AstNode* body ) {
@@ -159,6 +177,12 @@ const char* AstUtils::CreateTmpRef( char* buf , int index ) {
   return buf;
 }
 
+ValueNode* AstUtils::CreateTmpNode( int index ) {
+  char buf[ 100 ];
+  const char* tmp = AstUtils::CreateTmpRef( buf , index );
+  return AstUtils::CreateNameNode( tmp , Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+}
+
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filename ) {
   StrHandle key = FileSystem::GetModuleKey( filename );
   ValueNode* value = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
@@ -166,6 +190,27 @@ CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filen
   ValueNode* name = AstUtils::CreateNameNode( key.Get() , Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
   CallExp* arr = AstUtils::CreateArrayAccessor( value , name );
   return arr;
+}
+
+IFStmt* AstUtils::CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt ) {
+  IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
+  if_stmt->Exp( exp );
+  if_stmt->Then( then_stmt );
+  if_stmt->Else( else_stmt );
+  return if_stmt;
+}
+
+BlockStmt* AstUtils::CreateBlockStmt( int num , ... ) {
+  va_list list;
+  va_start( list ,  num );
+  StatementList* stmt_list = ManagedHandle::Retain<StatementList>();
+  for ( int i = 0; i < num; i++ ) {
+    AstNode* stmt = va_arg( list , AstNode* );
+    stmt_list->AddChild( stmt );
+  }
+  BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+  block->AddChild( stmt_list );
+  return block;
 }
 
 }

@@ -1388,11 +1388,11 @@ void QueueScanner::CollectToken() {
 
 TokenInfo* QueueScanner::GetToken( int yystate ) {
   TokenInfo* info =  token_getter_->GetToken( yystate );
-  /*if ( info->GetType() > 127 ) {
-    printf( "%s\n" , info->GetToken() );
+  if ( info->GetType() > 127 ) {
+    printf( "%s %d\n" , info->GetToken() , JsToken::ToParserToken( info->GetType() ) );
   } else {
     printf( "%c\n" , info->GetType() );
-    }*/
+  }
   return info;
 }
 

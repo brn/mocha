@@ -287,8 +287,8 @@ module Runtime {
   
   export toArray = ( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
   
-  export StopIteration = ( message )-> {
-    this.toString = function () { return "StopIteration"; }
+  export StopIteration = {
+    toString() { return "StopIteration"; }
   }
   
   export Iterator = ( obj , isKeyOnly = false )-> {
@@ -375,6 +375,35 @@ module Runtime {
             }
           }
         }
+  
+  export createGenerator = ( generatorFn , closeFn , context ) -> {
+    var ret = {};
+    createUnenumProp( ret , "next" , generatorFn.bind( context , false ) );
+    createUnenumProp( ret , "send" , generatorFn.bind( context , true ) );
+    createUnenumProp( ret , "close" , closeFn.bind( context ) );
+    createUnenumProp( ret , "toString" , -> "[object Generator]" );
+  }
+  
+  const getErrorMessage = ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString();
+  
+  export throwException = ( exception ) -> {
+    try {
+      throw exception;
+    } catch( e ) {
+      throw new Error( getErrorMessage( e ) );
+    }
+  }
+  
+  const Exception( line , file , e ) {
+          this.message = -> {
+            return getErrorMessage( e ) + " in file " + file + " at : " + line;
+          }
+        }
+  
+  export exceptionHandler = ( line , file , e ) -> {
+    throwException( new Exception( line , file , e ) );
+  }
+  
 }
 
 

@@ -166,6 +166,7 @@ class YieldHelper : private Uncopyable {
 
   void ProcessYield() {
     ProcessIteration_();
+    ProcessTryCatch_();
     ProcessVarDecl_();
     iterator_ = function_->ChildNodes();
     while ( iterator_.HasNext() ) {
@@ -184,22 +185,123 @@ class YieldHelper : private Uncopyable {
   
  private :
   void Finish_() {
-    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
-                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThrowException ),
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
     NodeList* list = ManagedHandle::Retain<NodeList>();
+    
+    ValueNode* stop_iteration = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kStopIteration ),
+                                                        Token::JS_PROPERTY , function_->Line() , ValueNode::kProperty );
+    CallExp* runtime_throw = AstUtils::CreateRuntimeMod( stop_iteration );
+    list->AddChild( runtime_throw );
     CallExp* exp = AstUtils::CreateNormalAccessor( handler , list );
     CallExp* runtime = AstUtils::CreateRuntimeMod( exp );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime );
+    stmt->Line( function_->Line() );
     CreateCaseClause_( 0 , true );
     clause_body_->AddChild( stmt );
     body_->AddChild( clause_ );
   }
 
+  VariableStmt* CreateClearCacheStmt_( const char* symbol ) {
+    ValueNode* cache = AstUtils::CreateNameNode( symbol , Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
+                                                     Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* clear_cache = AstUtils::CreateVarInitiliser( cache->Symbol() , undefined );
+    VariableStmt* clear_cache_stmt = AstUtils::CreateVarStmt( clear_cache );
+    function_->SetVariable( clear_cache );
+    return clear_cache_stmt;
+  }
+  
+  void ProcessTryCatch_() {
+    Function::TryList &list = function_->GetTryCatch();
+    if ( list.size() > 0 ) {
+      Function::TryList::iterator begin = list.begin(),end = list.end();
+      while ( begin != end ) {
+        TryStmt* stmt = (*begin);
+        bool has_finally = ( !stmt->Finally()->IsEmpty() );
+        ExpressionStmt* catch_stmt = ProcessCatch_( stmt );
+        VariableStmt* clear_catch_stmt = CreateClearCacheStmt_( SymbolList::GetSymbol( SymbolList::kCatchCache ) );
+        ExpressionStmt* finally_stmt = 0;
+        VariableStmt* clear_finally_stmt = 0;
+        if ( has_finally ) {
+          finally_stmt = ProcessFinally_( stmt );
+          clear_finally_stmt = CreateClearCacheStmt_( SymbolList::GetSymbol( SymbolList::kFinallyCache ) );
+        }
+        CopyTryCatchBody_( has_finally , stmt , catch_stmt,
+                           clear_catch_stmt , finally_stmt , clear_finally_stmt );
+        ++begin;
+      }
+    }
+  }
+
+  void CopyTryCatchBody_( bool has_finally , TryStmt* stmt , ExpressionStmt* catch_stmt,
+                          VariableStmt* clear_catch_stmt , ExpressionStmt* finally_stmt,
+                          VariableStmt* clear_finally_stmt ) {
+    NodeIterator iterator = stmt->FirstChild()->FirstChild()->ChildNodes();
+    AstNode* last = 0;
+    AstNode* first = 0;
+    while ( iterator.HasNext() ) {
+      if ( !last ) {
+        first = last = iterator.Next();
+        stmt->ParentNode()->InsertBefore( last , stmt );
+      } else {
+        AstNode* item = iterator.Next();
+        stmt->ParentNode()->InsertAfter( item , last );
+        last = item;
+      }
+    }
+    stmt->ParentNode()->InsertAfter( clear_catch_stmt , stmt );
+    stmt->ParentNode()->InsertBefore( catch_stmt , ( first )? first : stmt );
+    if ( has_finally ) {
+      stmt->ParentNode()->InsertAfter( clear_finally_stmt , clear_catch_stmt );
+      stmt->ParentNode()->InsertAfter( finally_stmt , catch_stmt );
+    }
+    stmt->ParentNode()->RemoveChild( stmt );
+  }
+  
+  ExpressionStmt* ProcessFinally_( TryStmt* stmt ) {
+    AstNode* block = stmt->Finally();
+    NodeList* arg = ManagedHandle::Retain<NodeList>();
+    AstNode* block_body = block->FirstChild();
+    Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , arg , block_body );
+    ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kFinallyCache ),
+                                                Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , name , fn );
+    ExpressionStmt* ret = AstUtils::CreateExpStmt( assign );
+    ret->Line( block->Line() );
+    return ret;
+  }
+
+  ExpressionStmt* ProcessCatch_( TryStmt* stmt ) {
+    ValueNode* block = stmt->Catch()->CastToValue();
+    NodeList* arg = ManagedHandle::Retain<NodeList>();
+    AstNode* block_body = block->FirstChild()->FirstChild();
+    ValueNode* arg_name = block->Clone()->CastToValue();
+    arg_name->RemoveAllChild();
+    arg->AddChild( arg_name );
+    Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , arg , block_body );
+    ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCatchCache ),
+                                                Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , name , fn );
+    YieldMark* mark = ManagedHandle::Retain<YieldMark>();
+    ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* pseudo_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , state , pseudo_state );
+    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( exp );
+    exp_stmt->Line( function_->Line() );
+    mark->ReEntrantNode( pseudo_state );
+    fn->InsertBefore( exp_stmt );
+    stmt->ParentNode()->InsertAfter( mark , stmt );
+    ExpressionStmt* ret = AstUtils::CreateExpStmt( assign );
+    ret->Line( block->Line() );
+    return ret;
+  }
+  
   void ProcessVarDecl_() {
     Function::VariableList &list = function_->GetVariable();
-    NodeList* node_list = ManagedHandle::Retain<NodeList>();
     if ( list.size() > 0 ) {
-      TransformVarDecl_( list , node_list );
+      TransformVarDecl_( list );
       Function::VariableList::iterator begin = list.begin(),end = list.end();
       while ( begin != end ) {
         ValueNode* value = (*begin);
@@ -209,14 +311,12 @@ class YieldHelper : private Uncopyable {
         ++begin;
       }
     }
-    node_list->InsertBefore( CreateStateInitialiser_() );
-    node_list->InsertBefore( CreateResultInitialiser_() );
-    node_list->InsertBefore( CreateNewBornCheckFlag_() );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( node_list );
-    function_->InsertBefore( stmt );
+    function_->InsertBefore( CreateStateInitialiser_() );
+    function_->InsertBefore( CreateResultInitialiser_() );
+    function_->InsertBefore( CreateNewBornCheckFlag_() );
   }
 
-  void TransformVarDecl_( Function::VariableList& list , NodeList* node_list ) {
+  void TransformVarDecl_( Function::VariableList& list ) {
     Function::VariableList::iterator begin = list.begin(),end = list.end();
     while ( begin != end ) {
       ValueNode* value = (*begin);
@@ -225,65 +325,260 @@ class YieldHelper : private Uncopyable {
       ident->AddChild( ManagedHandle::Retain<Empty>() );
       AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->FirstChild()->Clone() );
       ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
-      printf( "parent type = %d symbol = %s\n" , value->ParentNode()->ParentNode()->NodeType() , value->Symbol()->GetToken() );
+      stmt->Line( value->ParentNode()->Line() );
+      if ( value->ParentNode()->CastToStatement()->GetYieldFlag() ) {
+        stmt->SetYieldFlag();
+      }
+      printf( "is yield %d  parent type = %d symbol = %s\n" , value->ParentNode()->CastToStatement()->GetYieldFlag() , value->ParentNode()->ParentNode()->NodeType() , value->Symbol()->GetToken() );
       value->ParentNode()->ParentNode()->InsertBefore( stmt , value->ParentNode() );
       ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
       var->Symbol( value->Symbol() );
       var->AddChild( ManagedHandle::Retain<Empty>() );
-      node_list->AddChild( var );
+      VariableStmt* var_stmt = AstUtils::CreateVarStmt( var );
+      var_stmt->Line( value->ParentNode()->Line() );
+      function_->InsertBefore( var_stmt );
       ++begin;
     }
   }
 
-  ValueNode* CreateStateInitialiser_() {
+  VariableStmt* CreateStateInitialiser_() {
     TokenInfo* state = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kYieldState ),
                                                              Token::JS_IDENTIFIER , function_->Line() ) );
     ValueNode* begin_state = AstUtils::CreateNameNode( "0" ,Token::JS_NUMERIC_LITERAL,
                                                        function_->Line() , ValueNode::kIdentifier );
     ValueNode* value = AstUtils::CreateVarInitiliser( state , begin_state );
-    return value;
+    return AstUtils::CreateVarStmt( value );
   }
 
-  ValueNode* CreateResultInitialiser_() {
+  VariableStmt* CreateResultInitialiser_() {
     TokenInfo* result = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kYieldResult ),
                                                              Token::JS_IDENTIFIER , function_->Line() ) );
     ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
                                                      Token::JS_IDENTIFIER, function_->Line(),
                                                      ValueNode::kIdentifier );
     ValueNode* value = AstUtils::CreateVarInitiliser( result , undefined );
-    return value;
+    return AstUtils::CreateVarStmt( value );
   }
 
 
-  ValueNode* CreateNewBornCheckFlag_() {
+  VariableStmt* CreateNewBornCheckFlag_() {
     TokenInfo* result = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kIsNewBorn ),
                                                              Token::JS_IDENTIFIER , function_->Line() ) );
     ValueNode* true_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kTrue ),
                                                     Token::JS_IDENTIFIER, function_->Line(),
                                                     ValueNode::kIdentifier );
     ValueNode* value = AstUtils::CreateVarInitiliser( result , true_sym );
-    return value;
+    return AstUtils::CreateVarStmt( value );
   }
   
   void ProcessIteration_() {
-    typedef Function::IterationList::reverse_iterator Iterator;
-    Iterator begin = function_->GetIteration().rbegin(),end = function_->GetIteration().rend();
+    typedef Function::StmtList::reverse_iterator Iterator;
+    Iterator begin = function_->GetStmtList().rbegin(),end = function_->GetStmtList().rend();
     int count = 0;
-    int size = function_->GetIteration().size();
+    int size = function_->GetStmtList().size();
     while ( begin != end ) {
       AstNode* iteration_stmt = (*begin);
       if ( iteration_stmt->NodeType() == AstNode::kFor ||
            iteration_stmt->NodeType() == AstNode::kForWithVar ) {
         ProcessFor_( iteration_stmt->CastToStatement()->CastToIteration() , size , count );
+      } else if ( iteration_stmt->NodeType() == AstNode::kForIn ||
+                  iteration_stmt->NodeType() == AstNode::kForInWithVar ||
+                  iteration_stmt->NodeType() == AstNode::kForEach ||
+                  iteration_stmt->NodeType() == AstNode::kForEachWithVar ) {
+        ProcessForIn_( iteration_stmt->CastToStatement()->CastToIteration() , size , count );
+      } else if ( iteration_stmt->NodeType() == AstNode::kWhile ) {
+        ProcessWhile_( iteration_stmt->CastToStatement()->CastToIteration() , size , count );
+      } else if ( iteration_stmt->NodeType() == AstNode::kDoWhile ) {
+        ProcessDoWhile_( iteration_stmt->CastToStatement()->CastToIteration() , size , count );
+      } else if ( iteration_stmt->NodeType() == AstNode::kIFStmt ) {
+        ProcessIFStmt_( iteration_stmt->CastToStatement()->CastToIFStmt() , size , count );
       }
       count++;
       ++begin;
     }
   }
 
+
+  void ProcessIFStmt_( IFStmt* node , int size , int count ) {
+    AstNode* parent = node->ParentNode();
+    YieldMark* mark = ManagedHandle::Retain<YieldMark>();
+    mark->SetAdjust( 1 );
+    parent->InsertBefore( mark , node );
+    node->ParentNode()->RemoveChild( node );
+    AstNode* cond = node->Exp();
+    AstNode* then_body = node->Then();
+    AstNode* else_body = node->Else();
+    AstNode* current = 0;//init after.
+    BlockStmt* then_block;
+    BlockStmt* else_block;
+    
+    YieldMark* normal_mark = ManagedHandle::Retain<YieldMark>();
+    YieldMark* abnormal_mark = ManagedHandle::Retain<YieldMark>();
+    {
+      ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    
+      ValueNode* dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
+      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
+      BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+      exp_stmt->Line( function_->Line() );
+      then_block = AstUtils::CreateBlockStmt( 2 , exp_stmt , break_stmt );
+      normal_mark->ReEntrantNode( dynamic_state );
+    }
+
+    {
+      YieldMark* state_mark = ManagedHandle::Retain<YieldMark>();
+      ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    
+      ValueNode* dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
+      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
+      BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+      exp_stmt->Line( function_->Line() );
+      else_block = AstUtils::CreateBlockStmt( 2 , exp_stmt , break_stmt );
+      abnormal_mark->ReEntrantNode( dynamic_state );
+    }
+    
+    IFStmt* if_stmt = AstUtils::CreateIFStmt( cond , then_block , else_block );
+    if_stmt->Line( node->Line() );
+    parent->InsertBefore( if_stmt , mark );
+    if_stmt->SetYieldFlag();
+
+    AstNode* last;
+    if ( then_body->NodeType() == AstNode::kBlockStmt ) {
+      NodeIterator iterator = then_body->FirstChild()->ChildNodes();
+      while ( iterator.HasNext() ) {
+        AstNode* item = iterator.Next();
+        if ( !current ) {
+          current = item;
+          parent->InsertBefore( current , mark );
+        } else {
+          AstNode* tmp = item;
+          parent->InsertAfter( tmp , current );
+          current = tmp;
+        }
+      }
+      last = current;
+    } else {
+      last = then_body;
+      parent->InsertBefore( last , mark );
+    }
+    last->ParentNode()->InsertBefore( normal_mark , last );
+    last->CastToStatement()->SetYieldFlag();
+
+    if ( else_body->NodeType() == AstNode::kBlockStmt ) {
+      NodeIterator iterator = else_body->FirstChild()->ChildNodes();
+      while ( iterator.HasNext() ) {
+        AstNode* item = iterator.Next();
+        if ( !current ) {
+          current = item;
+          parent->InsertBefore( current , mark );
+        } else {
+          AstNode* tmp = item;
+          parent->InsertAfter( tmp , current );
+          current = tmp;
+        }
+      }
+      last = current;
+    } else {
+      last = else_body;
+      parent->InsertBefore( last , mark );
+    }
+    last->ParentNode()->InsertBefore( abnormal_mark , last );
+    if ( !last->IsEmpty() ) {
+      last->CastToStatement()->SetYieldFlag();
+    }
+    
+    mark->ParentNode()->RemoveChild( mark );
+  }
+
+  
+  void ProcessDoWhile_( IterationStmt* node , int size , int count ) {
+    if ( node->PreviousSibling() ) {
+      node->PreviousSibling()->CastToStatement()->SetYieldFlag();
+    }
+    AstNode* parent = node->ParentNode();
+    YieldMark* mark = ManagedHandle::Retain<YieldMark>();
+    parent->InsertBefore( mark , node );
+    node->ParentNode()->RemoveChild( node );
+    AstNode* cond = node->Exp();
+    AstNode* body = node->FirstChild();
+    AstNode* current = 0;//init after.
+    
+    YieldMark* state_mark = ManagedHandle::Retain<YieldMark>();
+    ExYieldStateNode* ex_node = ProcessDynamicState_( cond );
+    ex_node->Line( node->Line() );
+    state_mark->ReEntrantNode( ex_node->LoopBackPtr() );
+    parent->InsertAfter( ex_node , mark );
+    parent->InsertBefore( state_mark , mark );
+    if ( body->NodeType() == AstNode::kBlockStmt ) {
+      NodeIterator iterator = body->FirstChild()->ChildNodes();
+      while ( iterator.HasNext() ) {
+        AstNode* item = iterator.Next();
+        if ( !current ) {
+          current = item;
+          parent->InsertBefore( current , mark );
+        } else {
+          AstNode* tmp = item;
+          parent->InsertAfter( tmp , current );
+          current = tmp;
+        }
+      }
+    } else {
+      parent->InsertBefore( body->FirstChild() , mark );
+    }
+    mark->ParentNode()->RemoveChild( mark );
+  }
+
+  
+  void ProcessWhile_( IterationStmt* node , int size , int count ) {
+    AstNode* parent = node->ParentNode();
+    YieldMark* mark = ManagedHandle::Retain<YieldMark>();
+    mark->SetAdjust( 1 );
+    parent->InsertBefore( mark , node );
+    node->ParentNode()->RemoveChild( node );
+    AstNode* cond = node->Exp();
+    AstNode* body = node->FirstChild();
+    AstNode* current = 0;//init after.
+    
+    YieldMark* state_mark = ManagedHandle::Retain<YieldMark>();
+    state_mark->SetAdjust( 1 );
+    ExYieldStateNode* ex_node = ProcessDynamicState_( cond );
+    ex_node->Line( node->Line() );
+    IFStmt* if_stmt = CreateEscapeState_( cond , ex_node );
+    if_stmt->Line( node->Line() );
+    state_mark->ReEntrantNode( ex_node->LoopBackPtr() );
+    parent->InsertAfter( ex_node , mark );
+    parent->InsertBefore( if_stmt , mark );
+    parent->InsertBefore( state_mark , if_stmt );
+    if_stmt->SetYieldFlag();
+    
+    if ( body->NodeType() == AstNode::kBlockStmt ) {
+      NodeIterator iterator = body->FirstChild()->ChildNodes();
+      while ( iterator.HasNext() ) {
+        AstNode* item = iterator.Next();
+        if ( !current ) {
+          current = item;
+          parent->InsertBefore( current , mark );
+        } else {
+          AstNode* tmp = item;
+          parent->InsertAfter( tmp , current );
+          current = tmp;
+        }
+      }
+    } else {
+      parent->InsertBefore( body->FirstChild() , mark );
+    }
+    mark->ParentNode()->RemoveChild( mark );
+  }
+
+  
   void ProcessFor_( IterationStmt* node , int size , int count ) {
     AstNode* parent = node->ParentNode();
     YieldMark* mark = ManagedHandle::Retain<YieldMark>();
+    mark->SetAdjust( 1 );
     parent->InsertBefore( mark , node );
     node->ParentNode()->RemoveChild( node );
     AstNode* exp = node->Exp();
@@ -294,16 +589,17 @@ class YieldHelper : private Uncopyable {
     if ( node->NodeType() == AstNode::kForWithVar ) {
       if ( !exp->FirstChild()->IsEmpty() ) {
         VariableStmt* stmt = AstUtils::CreateVarStmt( exp->FirstChild()->CastToNodeList() );
-        if ( count == ( size - 1 ) && cond->IsEmpty() ) {
-          //stmt->SetYieldFlag();
-        }
+        stmt->Line( node->Line() );
         parent->InsertBefore( stmt , mark );
       }
     }
     if ( !cond->IsEmpty() ) {
       YieldMark* state_mark = ManagedHandle::Retain<YieldMark>();
+      state_mark->SetAdjust( 1 );
       ExYieldStateNode* ex_node = ProcessDynamicState_( cond );
+      ex_node->Line( node->Line() );
       IFStmt* if_stmt = CreateEscapeState_( cond , ex_node );
+      if_stmt->Line( node->Line() );
       state_mark->ReEntrantNode( ex_node->LoopBackPtr() );
       parent->InsertAfter( ex_node , mark );
       parent->InsertBefore( if_stmt , mark );
@@ -325,10 +621,99 @@ class YieldHelper : private Uncopyable {
           current = tmp;
         }
       }
+    } else {
+      parent->InsertBefore( body->FirstChild() , mark );
     }
     mark->ParentNode()->RemoveChild( mark );
   }
 
+
+  void ProcessForIn_( IterationStmt* node , int size , int count ) {
+    AstNode* exp = node->Exp();
+    VisitorInfo* visitor_info = info_->GetInfo();
+    ValueNode* tmp_node = AstUtils::CreateTmpNode( visitor_info->GetTmpIndex() );
+    tmp_node->ValueType( ValueNode::kVariable );
+    tmp_node->AddChild( ManagedHandle::Retain<Empty>() );
+    AstNode* index_exp = exp->FirstChild();
+    AstNode* target_exp = index_exp->NextSibling();
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForInWithVar ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( node->Line() );
+    list->AddChild( tmp_node );
+    list->AddChild( target_exp );
+    iter->Exp( list );
+    ValueNode* array_lhs = AstUtils::CreateTmpNode( visitor_info->GetTmpIndex() );
+    ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+    ValueNode* tmp_array = AstUtils::CreateVarInitiliser( array_lhs->Symbol() , array );
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt( tmp_array );
+    function_->InsertBefore( var_stmt );
+    ValueNode* push = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPush ),
+                                                Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+    NodeList* arg = ManagedHandle::Retain<NodeList>();
+    ValueNode* name = tmp_node->Clone()->CastToValue();
+    name->ValueType( ValueNode::kIdentifier );
+    arg->AddChild( name );
+    CallExp* push_call = AstUtils::CreateNormalAccessor( push , arg );
+    CallExp* push_accessor = AstUtils::CreateDotAccessor( array_lhs->Clone() , push_call );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( push_accessor );
+    stmt->Line( function_->Line() );
+    iter->AddChild( stmt );
+    node->ParentNode()->InsertBefore( iter , node );
+    TransformForIn_( node , array_lhs->Clone()->CastToValue() , size , count );
+  }
+
+
+  void TransformForIn_( IterationStmt* node , ValueNode* array , int size , int count ) {
+    VisitorInfo* visitor_info = info_->GetInfo();
+    AstNode* exp = node->Exp();
+    AstNode* index_exp = exp->FirstChild();
+    ValueNode* tmp_node = AstUtils::CreateTmpNode( visitor_info->GetTmpIndex() );
+    ValueNode* zero = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+    ValueNode* index = AstUtils::CreateVarInitiliser( tmp_node->Symbol() , zero );
+    ValueNode* length = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLength ),
+                                                  Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+    CallExp* length_accessor = AstUtils::CreateDotAccessor( array , length );
+    ValueNode* var_length = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLength ),
+                                                  Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* len_cache = AstUtils::CreateVarInitiliser( var_length->Symbol() , length_accessor );
+    NodeList* var_list = AstUtils::CreateNodeList( 2 , index , len_cache );
+    function_->SetVariable( index );
+    function_->SetVariable( len_cache );
+    ValueNode* index_name = AstUtils::CreateNameNode( index->Symbol()->GetToken(),
+                                                      Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* len_name = AstUtils::CreateNameNode( len_cache->Symbol()->GetToken(),
+                                                    Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    CompareExp* cmp = ManagedHandle::Retain( new CompareExp( '<' , index_name , len_name ) );
+    UnaryExp* unary = AstUtils::CreateUnaryExp( Token::JS_INCREMENT , index_name->Clone() );
+    
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForWithVar ) );
+    NodeList* list = AstUtils::CreateNodeList( 3 , var_list , cmp , unary );
+    iter->Line( node->Line() );
+    iter->Exp( list );
+    AstNode* index_stmt;
+    if ( index_exp->CastToValue()->ValueType() == ValueNode::kVariable ) {
+      CallExp* accessor = AstUtils::CreateArrayAccessor( array->Clone() , index_name->Clone() );
+      index_exp->RemoveAllChild();
+      index_exp->AddChild( accessor );
+      index_stmt = AstUtils::CreateVarStmt( index_exp );
+    } else {
+      CallExp* accessor = AstUtils::CreateArrayAccessor( array->Clone() , index_name->Clone() );
+      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , index_exp , accessor );
+      index_stmt = AstUtils::CreateExpStmt( assign );
+    }
+    
+    AstNode* maybeBlock = node->FirstChild();
+    if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
+      maybeBlock->FirstChild()->InsertBefore( index_stmt );
+      iter->AddChild( maybeBlock );
+    } else {
+      BlockStmt* block = AstUtils::CreateBlockStmt( 2 , index_stmt , maybeBlock->FirstChild() );
+      iter->AddChild( block );
+    }
+    node->ParentNode()->ReplaceChild( node , iter );
+    ProcessFor_( iter , size , count );
+  }
+  
 
   IFStmt* CreateEscapeState_( AstNode* cond , ExYieldStateNode *ex_node ) {
     ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
@@ -337,69 +722,50 @@ class YieldHelper : private Uncopyable {
     ValueNode* dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
     AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
     ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
+    exp_stmt->Line( function_->Line() );
     
-    IFStmt *if_stmt = ManagedHandle::Retain<IFStmt>();
-    
-    BlockStmt* if_block = ManagedHandle::Retain<BlockStmt>();
-    StatementList* if_stmt_list = ManagedHandle::Retain<StatementList>();
 
     BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
     Expression *exp = ManagedHandle::Retain<Expression>();
     exp->AddChild( cond );
     exp->Paren();
-    UnaryExp *not_exp = ManagedHandle::Retain( new UnaryExp( '!' ) );
-    not_exp->Exp( exp );
-    break_stmt->Line( 0 );
+    UnaryExp *not_exp = AstUtils::CreateUnaryExp( '!' , exp );
+    break_stmt->Line( function_->Line() );
     break_stmt->AddChild( ManagedHandle::Retain<Empty>() );
     
-    if_stmt_list->AddChild( exp_stmt );
-    if_stmt_list->AddChild( break_stmt );
-    if_block->AddChild( if_stmt_list );
+    BlockStmt* if_block = AstUtils::CreateBlockStmt( 2 , exp_stmt , break_stmt );
+    IFStmt *if_stmt = AstUtils::CreateIFStmt( not_exp , if_block , ManagedHandle::Retain<Empty>() );
     if_stmt->Line( function_->Line() );
-    if_stmt->Exp( not_exp );
-    if_stmt->Then( if_block );
-    if_stmt->Else( ManagedHandle::Retain<Empty>() );
     ex_node->EscapePtr( dynamic_state );
     return if_stmt;
   }
-  
+
+  ExpressionStmt* CreateStateAssignment_( const char* state ) {
+    ValueNode* state_node = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* state_val = AstUtils::CreateNameNode( state , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state_node , state_val );
+    return AstUtils::CreateExpStmt( assign );
+  }
 
   ExYieldStateNode* ProcessDynamicState_( AstNode* cond ) {
-    ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
-                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ExpressionStmt* exp_stmt = CreateStateAssignment_( "0" );
+    exp_stmt->Line( function_->Line() );
     
-    ValueNode* dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
-    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
-    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
-
-    ValueNode* next_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
-    AssignmentExp* next_assign = AstUtils::CreateAssignment( '=' , state->Clone() , next_state );
-    ExpressionStmt* next_stmt = AstUtils::CreateExpStmt( next_assign );
-    
-    IFStmt *if_stmt = ManagedHandle::Retain<IFStmt>();
-    
-    BlockStmt* if_block = ManagedHandle::Retain<BlockStmt>();
-    BlockStmt* else_block = ManagedHandle::Retain<BlockStmt>();
-    StatementList* if_stmt_list = ManagedHandle::Retain<StatementList>();
-    AstNode* clone_stmt_list = if_stmt_list->Clone();
+    ExpressionStmt* next_stmt = CreateStateAssignment_( "0" );
+    next_stmt->Line( function_->Line() );
 
     BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
     break_stmt->Line( 0 );
     break_stmt->AddChild( ManagedHandle::Retain<Empty>() );
     
-    if_stmt_list->AddChild( exp_stmt );
-    if_stmt_list->AddChild( break_stmt );
-    clone_stmt_list->AddChild( next_stmt );
-    if_block->AddChild( if_stmt_list );
-    else_block->AddChild( clone_stmt_list );
-    
+    BlockStmt* else_block = AstUtils::CreateBlockStmt( 1 , next_stmt );
+    BlockStmt* if_block = AstUtils::CreateBlockStmt( 2 , exp_stmt , break_stmt );
+    IFStmt* if_stmt = AstUtils::CreateIFStmt( cond , if_block , else_block );
     if_stmt->Line( function_->Line() );
-    if_stmt->Exp( cond );
-    if_stmt->Then( if_block );
-    if_stmt->Else( else_block );
     ExYieldStateNode* ex_node = ManagedHandle::Retain<ExYieldStateNode>();
-    ex_node->LoopBackPtr( dynamic_state );
-    ex_node->NextPtr( next_state );
+    ex_node->LoopBackPtr( exp_stmt->FirstChild()->FirstChild()->CastToExpression()->CastToAssigment()->Right()->CastToValue() );
+    ex_node->NextPtr( next_stmt->FirstChild()->FirstChild()->CastToExpression()->CastToAssigment()->Right()->CastToValue() );
     ex_node->IfStmtPtr( if_stmt );
     return ex_node;
   }
@@ -436,57 +802,18 @@ class YieldHelper : private Uncopyable {
     ValueNode* state = AstUtils::CreateNameNode( tmp_state_str , Token::JS_NUMERIC_LITERAL,
                                                  line , ValueNode::kNumeric );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , yield_state->Clone() , state );
-    return AstUtils::CreateExpStmt( exp );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
+    stmt->Line( line );
+    return stmt;
   }
 
-  void ProcessVarStmtInYield_( AstNode* yield_stmt ) {
-    bool is_end = yield_stmt->CastToStatement()->GetYieldFlag();
-    NodeIterator iter = yield_stmt->ChildNodes();
-    while ( iter.HasNext() ) {
-      ValueNode* orig = iter.Next()->CastToValue();
-      ValueNode* val = orig->Clone()->CastToValue();
-      orig->RemoveAllChild();
-      orig->AddChild( ManagedHandle::Retain<Empty>() );
-      AstNode* child = val->FirstChild();
-      val->RemoveAllChild();
-      val->ValueType( ValueNode::kIdentifier );
-      val->AddChild( ManagedHandle::Retain<Empty>() );
-      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , val , child );
-      ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
-      clause_body_->AddChild( stmt );
-    }
-    printf( "@@@@@@@@@@@@@@@@ %d \n" , is_end );
-    if ( is_end ) {
-      body_->AddChild( clause_ );
-      if ( is_state_injection_ ) {
-        if ( !iterator_.HasNext() ) {
-          state_ = -2;
-          clause_body_->InsertBefore( CreateNextState_( 0 ) );
-        } else {
-          clause_body_->InsertBefore( CreateNextState_( 0 ) );
-          state_++;
-        }
-      } else {
-        if ( !iterator_.HasNext() ) {
-          state_ = -2;
-        } else {
-          state_++;
-        }
-      }
-      is_state_injection_ = false;
-      if ( iterator_.HasNext() ) {
-        CreateCaseClause_( function_->Line() );
-      }
-    }
-  }
-
-  void SetState_() {
+  void SetState_( long line ) {
     if ( is_state_injection_ ) {
       if ( !iterator_.HasNext() ) {
         state_ = -2;
-        clause_body_->InsertBefore( CreateNextState_( 0 ) );
+        clause_body_->InsertBefore( CreateNextState_( line ) );
       } else {
-        clause_body_->InsertBefore( CreateNextState_( 0 ) );
+        clause_body_->InsertBefore( CreateNextState_( line ) );
         state_++;
       }
     } else {
@@ -500,13 +827,16 @@ class YieldHelper : private Uncopyable {
   
   void ProcessStmtInYield_( AstNode* yield_stmt ) {
     function_->RemoveChild( yield_stmt );
+    if ( !yield_stmt->CastToStatement() )
+      printf( "error type %s\n" , yield_stmt->FirstChild()->CastToExpression()->CastToAssigment()->Left()->CastToValue()->Symbol()->GetToken() );
     if ( yield_stmt->NodeType() == AstNode::kReturnStmt ) {
       is_state_injection_ = true;
     }
     if ( yield_stmt->NodeType() == AstNode::kYieldMark ) {
       YieldMark* mark = yield_stmt->CastToStatement()->CastToYieldMark();
       char state[10];
-      sprintf( state , "%d" , ( state_ + 1 ) );
+      int state_num = mark->Adjust( state_ );
+      sprintf( state , "%d" , state_num );
       mark->ReEntrantNode()->Symbol()->SetToken( state );
     } else if ( yield_stmt->NodeType() == AstNode::kExYieldStateNode ) {
       ExYieldStateNode* ex_node = yield_stmt->CastToStatement()->CastToYieldState();
@@ -515,7 +845,7 @@ class YieldHelper : private Uncopyable {
       char next[10];
       int next_state;
       ValueNode* esc = ex_node->EscapePtr();
-      SetState_();
+      SetState_( yield_stmt->Line() );
       sprintf( next ,"%d" , ( ( state_ < 0 )? -1 : state_ ) );
       if ( esc ) {
         esc->Symbol()->SetToken( next );
@@ -528,7 +858,7 @@ class YieldHelper : private Uncopyable {
         CreateCaseClause_( function_->Line() );
       }
     } else if ( yield_stmt->CastToStatement()->GetYieldFlag() ) {
-      SetState_();
+      SetState_( yield_stmt->Line() );
       clause_body_->AddChild( yield_stmt );
       is_state_injection_ = false;
       body_->AddChild( clause_ );
@@ -571,9 +901,9 @@ class GeneratorHelper : private Uncopyable {
 
   void CreateStateLoop_( Function* fn ) {
     NodeList *generator_arg = ManagedHandle::Retain<NodeList>();
-    ValueNode* one_exp = AstUtils::CreateNameNode( "1" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+    ValueNode* one_exp = AstUtils::CreateNameNode( "1" , Token::JS_NUMERIC_LITERAL , function_->Line() , ValueNode::kNumeric );
     ValueNode* is_send = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSendFlag ),
-                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
     StatementList* stmt_list = ManagedHandle::Retain<StatementList>();
     stmt_list->AddChild( switch_stmt_ );
     BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
@@ -586,9 +916,67 @@ class GeneratorHelper : private Uncopyable {
     iter->AddChild( block );
     generator_arg->AddChild( is_send );
     fn->Argv( generator_arg );
+    if ( function_->GetTryCatch().size() > 0 ) {
+      TryStmt* stmt = ManagedHandle::Retain<TryStmt>();
+      BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
+      stmt->Catch( CreateCatchHandler_() );
+      stmt->Finally( CreateFinallyHandler_() );
+      AstNode* node = iter->FirstChild()->FirstChild();
+      iter->RemoveAllChild();
+      block->AddChild( node );
+      stmt->AddChild( block );
+      iter->AddChild( stmt );
+    }
     fn->AddChild( iter );
   }
 
+  ValueNode* CreateCatchHandler_() {
+    ValueNode* catches = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kException ),
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    BlockStmt* catch_block = ManagedHandle::Retain<BlockStmt>();
+    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCatchCache ),
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    NodeList* args = ManagedHandle::Retain<NodeList>();
+    args->AddChild( catches->Clone() );
+    CallExp* call_handler = AstUtils::CreateNormalAccessor( handler , args );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( call_handler );
+    
+    IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
+    ValueNode* thrower = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThrowException ),
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( catches->Clone() );
+    CallExp* throw_call = AstUtils::CreateNormalAccessor( thrower , list );
+    CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( throw_call );
+    ExpressionStmt* call_stmt = AstUtils::CreateExpStmt( runtime_accessor );
+    if_stmt->Exp( handler->Clone() );
+    if_stmt->Then( stmt );
+    if_stmt->Else( call_stmt );
+    StatementList *catch_stmt_list = ManagedHandle::Retain<StatementList>();
+    catch_stmt_list->AddChild( if_stmt );
+    catch_block->AddChild( catch_stmt_list );
+    catches->AddChild( catch_block );
+    return catches;
+  }
+
+  AstNode* CreateFinallyHandler_() {
+    BlockStmt* finally_block = ManagedHandle::Retain<BlockStmt>();
+    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kFinallyCache ),
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    NodeList* args = ManagedHandle::Retain<NodeList>();
+    CallExp* call_handler = AstUtils::CreateNormalAccessor( handler , args );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( call_handler );
+    
+    IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
+    if_stmt->Exp( handler->Clone() );
+    if_stmt->Then( stmt );
+    if_stmt->Else( ManagedHandle::Retain<Empty>() );
+    StatementList *finally_stmt_list = ManagedHandle::Retain<StatementList>();
+    finally_stmt_list->AddChild( if_stmt );
+    finally_block->AddChild( finally_stmt_list );
+    return finally_block;
+  }
+  
   IFStmt* CreateNewBornCheckStmt_() {
     IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
     ValueNode* is_send = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSendFlag ),
@@ -621,8 +1009,8 @@ class GeneratorHelper : private Uncopyable {
     BlockStmt* else_block = ManagedHandle::Retain<BlockStmt>();
     StatementList* else_list = ManagedHandle::Retain<StatementList>();
     ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
-                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
-    ValueNode* message = AstUtils::CreateNameNode( "'attempt to send to newborn generator.'" , Token::JS_STRING_LITERAL , 0 , ValueNode::kString );
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    ValueNode* message = AstUtils::CreateNameNode( "'attempt to send to newborn generator.'" , Token::JS_STRING_LITERAL , function_->Line() , ValueNode::kString );
     NodeList* handle_list = ManagedHandle::Retain<NodeList>();
     handle_list->AddChild( message );
     CallExp* handle_exp = AstUtils::CreateNormalAccessor( handler , handle_list );
@@ -670,24 +1058,45 @@ class GeneratorHelper : private Uncopyable {
     name->AddChild( call );
     return name;
   }
-  
+
+  Function* CloseInitialiser_() {
+    ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                 Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    ValueNode* error_state = AstUtils::CreateNameNode( "-1" , Token::JS_NUMERIC_LITERAL , function_->Line() , ValueNode::kNumeric );
+    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , error_state );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
+    Function* close_fn = ManagedHandle::Retain<Function>();
+    close_fn->Name( ManagedHandle::Retain<Empty>() );
+    close_fn->Argv( ManagedHandle::Retain<NodeList>() );
+    close_fn->AddChild( stmt );
+    if ( function_->GetTryCatch().size() > 0 ) {
+      ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kFinallyCache ),
+                                                  Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+      CallExp* exp = AstUtils::CreateNormalAccessor( name , ManagedHandle::Retain<NodeList>() );
+      ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
+      IFStmt* if_stmt = AstUtils::CreateIFStmt( name->Clone() , stmt , ManagedHandle::Retain<Empty>() );
+      close_fn->AddChild( if_stmt );
+    }
+    return close_fn;
+  }
   
   void GeneratorInitialiser_( Function* fn ) {
     NodeList* list = ManagedHandle::Retain<NodeList>();
     CreateStateLoop_( fn );
     fn->InsertBefore( CreateNewBornCheckStmt_() );
     ValueNode* generator = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGenerator ),
-                                                     Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier , true );
+                                                     Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier , true );
+    ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                    Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
     ValueNode* generator_init = AstUtils::CreateVarInitiliser( generator->Symbol() , fn );
     VariableStmt* var_stmt = AstUtils::CreateVarStmt( generator_init );
     function_->AddChild( var_stmt );
-    ValueNode* next = ObjectInitialiser_( generator , false );
-    ValueNode* send = ObjectInitialiser_( generator , true );
-    list->AddChild( next );
-    list->AddChild( send );
-    ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
-    value->Node( list );
-    ReturnStmt* ret = AstUtils::CreateReturnStmt( value );
+    ValueNode* create_generator = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateGenerator ),
+                                                            Token::JS_PROPERTY , function_->Line() , ValueNode::kIdentifier );
+    NodeList* args = AstUtils::CreateNodeList( 3 , generator->Clone() , CloseInitialiser_() , this_sym );
+    CallExp* create_generator_call = AstUtils::CreateNormalAccessor( create_generator , args );
+    CallExp* runtime = AstUtils::CreateRuntimeMod( create_generator_call );
+    ReturnStmt* ret = AstUtils::CreateReturnStmt( runtime );
     function_->AddChild( ret );
   }
   

@@ -249,6 +249,9 @@ VISITOR_IMPL(IFStmt) {
   if ( !maybeElse->IsEmpty() ) {
     maybeElse->Accept( this );
   }
+  if ( ast_node->GetYieldFlag() ) {
+    visitor_info_->GetFunction()->SetStmtWithYield( ast_node );
+  }
 }
 
 
@@ -269,6 +272,10 @@ VISITOR_IMPL(IterationStmt) {
     case AstNode::kForEachWithVar :
       IterationProcessor::ProcessForEachNode( ast_node , proc_info_.Get() );
       break;
+
+    case AstNode::kForOf :
+    case AstNode::kForOfWithVar :
+      IterationProcessor::ProcessForOfNode( ast_node , proc_info_.Get() );
 
     case AstNode::kDoWhile :
     case AstNode::kWhile :
@@ -416,6 +423,9 @@ VISITOR_IMPL(TryStmt) {
   ast_node->FirstChild()->Accept( this );
   ast_node->Catch()->Accept( this );
   ast_node->Finally()->Accept( this );
+  if ( ast_node->GetYieldFlag() ) {
+    visitor_info_->GetFunction()->SetTryCatch( ast_node );
+  }
 }
 
 

@@ -6,6 +6,8 @@
 #include <ast/visitors/utils/processors/variable_processor.h>
 #include <ast/visitors/utils/processors/dsta_processor.h>
 #include <compiler/scopes/scope.h>
+#include <compiler/tokens/symbol_list.h>
+#include <compiler/tokens/js_token.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 
 namespace mocha {
@@ -35,11 +37,11 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
     ast_node->FirstChild()->Accept( visitor );
   }
   if ( ast_node->GetYieldFlag() ) {
-    info->GetInfo()->GetFunction()->SetIteration( ast_node );
+    info->GetInfo()->GetFunction()->SetStmtWithYield( ast_node );
   }
 }
 
-void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info ) {
+void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info , bool is_regist ) {
   IVisitor *visitor = info->GetVisitor();
   bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar;
   AstNode* exp = ast_node->Exp();
@@ -88,7 +90,69 @@ void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorIn
   } else if ( is_dst ) {
     body->InsertBefore( dsta_stmt );
   }
+  if ( ast_node->GetYieldFlag() && is_regist ) {
+    info->GetInfo()->GetFunction()->SetStmtWithYield( ast_node );
+  }
 }
+
+
+void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorInfo* info ) {
+  ProcessForInNode( ast_node , info , false );
+  AstNode* exp = ast_node->Exp();
+  AstNode* index_exp = exp->FirstChild();
+  AstNode* target_exp = index_exp->NextSibling();
+  IterationStmt* while_stmt = ManagedHandle::Retain( new IterationStmt( AstNode::kWhile ) );
+  ValueNode* maybeIdent = target_exp->CastToValue();
+  if ( ast_node->NodeType() == AstNode::kForOfWithVar ) {
+    ValueNode* val = index_exp->Clone()->CastToValue();
+    exp->ReplaceChild( index_exp , val );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( index_exp );
+    ast_node->ParentNode()->InsertBefore( stmt , ast_node );
+    val->ValueType( ValueNode::kIdentifier );
+    index_exp = val;
+  }
+  if ( !maybeIdent ) {
+    ValueNode* tmp = AstUtils::CreateTmpNode( info->GetInfo()->GetTmpIndex() );
+    ValueNode* init = AstUtils::CreateVarInitiliser( tmp->Symbol() , target_exp->FirstChild() );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( init );
+    ValueNode* target = tmp->Clone()->CastToValue();
+    ast_node->ParentNode()->InsertBefore( stmt , ast_node );
+    exp->ReplaceChild( target_exp , target );
+    target_exp = target;
+  }
+  ValueNode* next = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldNext ),
+                                              Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
+  CallExp* next_call = AstUtils::CreateNormalAccessor( next , ManagedHandle::Retain<NodeList>() );
+  CallExp* dot_call = AstUtils::CreateDotAccessor( target_exp , next_call );
+  CallExp* dot_exp = AstUtils::CreateDotAccessor( target_exp , next->Clone() );
+  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , index_exp , dot_call );
+  Expression* expression = ManagedHandle::Retain<Expression>();
+  expression->AddChild( assign );
+  expression->Paren();
+  while_stmt->Exp( expression );
+  while_stmt->AddChild( ast_node->FirstChild() );
+  ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
+                                                 Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+  char line_tmp[50];
+  sprintf( line_tmp , "%ld" , ast_node->Line() );
+  ValueNode* line_num = AstUtils::CreateNameNode( line_tmp , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+  ValueNode* file_name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kFile ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+  ValueNode* error = AstUtils::CreateNameNode( "'for of statement expect iterator or generator object.'",
+                                               Token::JS_STRING_LITERAL , 0 , ValueNode::kString );
+  NodeList* args = AstUtils::CreateNodeList( 3 , line_num , file_name , error );
+  CallExp* handler_call = AstUtils::CreateNormalAccessor( handler , args );
+  ExpressionStmt* handler_stmt = AstUtils::CreateExpStmt( handler_call );
+  BlockStmt* then_block = AstUtils::CreateBlockStmt( 1 , while_stmt );
+  BlockStmt* else_block = AstUtils::CreateBlockStmt( 1 , handler_stmt );
+  IFStmt* if_stmt = AstUtils::CreateIFStmt( dot_exp , then_block , else_block );
+  ast_node->ParentNode()->ReplaceChild( ast_node , if_stmt );
+  if ( ast_node->GetYieldFlag() ) {
+    info->GetInfo()->GetFunction()->SetStmtWithYield( while_stmt );
+    info->GetInfo()->GetFunction()->SetStmtWithYield( if_stmt );
+  }
+}
+
 
 void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , ProcessorInfo *info ) {
   IVisitor* visitor = info->GetVisitor();
@@ -152,9 +216,12 @@ void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , Processor
     ast_node->AddChild( block );
   } else {
     if ( is_dst ) {
-      body->InsertBefore( dsta_stmt );
+      body->FirstChild()->InsertBefore( dsta_stmt );
     }
-    body->InsertBefore( stmt );
+    body->FirstChild()->InsertBefore( stmt );
+  }
+  if ( ast_node->GetYieldFlag() ) {
+    info->GetInfo()->GetFunction()->SetStmtWithYield( ast_node );
   }
 }
 
@@ -186,6 +253,9 @@ void IterationProcessor::ProcessWhileNode( IterationStmt *ast_node , ProcessorIn
       block->AddChild( body );
     }
     ast_node->ParentNode()->InsertBefore( var_stmt , ast_node );
+  }
+  if ( ast_node->GetYieldFlag() ) {
+    info->GetInfo()->GetFunction()->SetStmtWithYield( ast_node );
   }
 }
 

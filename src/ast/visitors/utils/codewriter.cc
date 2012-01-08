@@ -453,12 +453,17 @@ void CodeWriter::InsertDebugSymbol( CodeStream* stream ) {
 
 void CodeWriter::InitializeFileName( const char* file , CodeStream* stream ) {
   if ( is_line_ ) {
-    stream->Write( "var __FILE__" );
+    base_->WriteOp( Token::JS_VAR , 0 , stream );
+    stream->Write( "__FILE__" );
     base_->WriteOp( '=' , 0 , stream );
     stream->Write( '"' );
     stream->Write( file );
     stream->Write( '"' );
-    base_->WriteOp( ';' , 0 , stream );
+    base_->WriteOp( ',' , kVarsComma , stream );
+    stream->Write( "__LINE__" );
+    base_->WriteOp( '=' , 0 , stream );
+    stream->Write( "0" );
+    base_->WriteOp( ';' , kVarsEnd , stream );
   }
 }
 

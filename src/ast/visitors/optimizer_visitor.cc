@@ -378,19 +378,23 @@ VISITOR_IMPL( ValueNode ) {
   }
   switch ( ast_node->ValueType() ) {
     case ValueNode::kArray :
+      printf( "Array\n" );
       ArrayProccessor_( ast_node );
       break;
 
     case ValueNode::kObject :
+      printf( "Object\n" );
       ObjectProccessor_( ast_node );
       break;
 
     case ValueNode::kVariable :
+      printf( "Var\n" );
       scope_->Insert( ast_node->Symbol() );
       ast_node->FirstChild()->Accept( this );
       break;
       
     case ValueNode::kIdentifier : {
+      printf( "Ident\n" );
       if ( strcmp( ast_node->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kScopeModule ) ) == 0 ) {
         ast_node->Symbol()->SetToken( SymbolList::GetSymbol( SymbolList::kGlobalAlias ) );
       }

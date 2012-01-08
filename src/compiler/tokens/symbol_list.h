@@ -21,6 +21,7 @@ class SymbolList : private Static {
     kExtendPrototype,
     kScopeModule,
     kFile,
+    kLine,
     kYieldState,
     kYieldNext,
     kYieldSend,
@@ -28,7 +29,14 @@ class SymbolList : private Static {
     kYieldResult,
     kYieldSendFlag,
     kGenerator,
-    kIsNewBorn
+    kIsNewBorn,
+    kStopIteration,
+    kThrowException,
+    kClose,
+    kFinallyCache,
+    kCatchCache,
+    kException,
+    kCreateGenerator
   } RuntimeSymbol;
 
   typedef enum {
@@ -41,7 +49,8 @@ class SymbolList : private Static {
     kLength,
     kTrue,
     kFalse,
-    kBind
+    kBind,
+    kPush
   } BuiltinSymbol;
   
   static const char* GetSymbol( RuntimeSymbol runtime_symbol );

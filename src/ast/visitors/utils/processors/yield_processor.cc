@@ -24,6 +24,7 @@ void YieldProcessor::ProcessNode() {
   if ( exp && exp->ParentNode()->NodeType() == AstNode::kExpressionStmt ) {
     ReturnStmt* ret = AstUtils::CreateReturnStmt( exp_->FirstChild()->Clone() );
     ret->SetYieldFlag();
+    ret->Line( exp->ParentNode()->Line() );
     exp->ParentNode()->ParentNode()->ReplaceChild( exp->ParentNode() , ret );
     exp_ = ret->FirstChild();
   } else {
@@ -42,7 +43,13 @@ void YieldProcessor::ProcessNode() {
     if ( direct_child->NodeType() == AstNode::kFor ||
          direct_child->NodeType() == AstNode::kForWithVar ||
          direct_child->NodeType() == AstNode::kForIn ||
-         direct_child->NodeType() == AstNode::kForInWithVar ) {
+         direct_child->NodeType() == AstNode::kForInWithVar ||
+         direct_child->NodeType() == AstNode::kForEachWithVar ||
+         direct_child->NodeType() == AstNode::kForEach ||
+         direct_child->NodeType() == AstNode::kWhile ||
+         direct_child->NodeType() == AstNode::kDoWhile ||
+         direct_child->NodeType() == AstNode::kTryStmt ||
+         direct_child->NodeType() == AstNode::kIFStmt ) {
       Statement* stmt = direct_child->CastToStatement();
       stmt->SetYieldFlag();
     }
@@ -63,6 +70,7 @@ void YieldProcessor::ProcessSend_( AstNode* exp ) {
     exp = exp->ParentNode();
   }
   ret->SetYieldFlag();
+  ret->Line( exp->Line() );
   exp->ParentNode()->InsertBefore( ret , exp );
   AstNode* tmp = exp_->FirstChild()->Clone();
   ValueNode* is_send = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSendFlag ),

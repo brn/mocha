@@ -650,7 +650,6 @@ function_expression
     fn->Append( $7 );
     $$ = fn;
   }
-
 | arrow_function_expression { $$ = $1; }
 ;
 
@@ -936,25 +935,11 @@ source_elements_for_function
 
 source_element
 : statement { $$ = $1; }
-| function_declaration
-  { 
-    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
-    stmt->Line( $1->Line() );
-    stmt->AddChild( $1 );
-    $$ = stmt;
-  }
 ;
 
 
 source_element_for_constructor
 : statement_with_block { $$ = $1; }
-| function_declaration
-  { 
-    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
-    stmt->Line( $1->Line() );
-    stmt->AddChild( $1 );
-    $$ = stmt;
-  }
 | instance_property_definition { $$ = $1; }
 | private_property_definition { $$ = $1; }
 ;
@@ -962,13 +947,6 @@ source_element_for_constructor
 
 source_element_for_function
 : statement_with_block { $$ = $1; }
-| function_declaration
-  { 
-    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
-    stmt->Line( $1->Line() );
-    stmt->AddChild( $1 );
-    $$ = stmt;
-  }
 ;
 
 formal_parameter_list__opt
@@ -1017,6 +995,13 @@ statement_no_block
   {
     
     $$ = $1;
+  }
+| function_declaration
+  { 
+    ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->Line( $1->Line() );
+    stmt->AddChild( $1 );
+    $$ = stmt;
   }
 | let_statement
   { 
@@ -1673,6 +1658,47 @@ iteration_statement
     list->AddChild( $6 );
     iter->Exp( list );
     iter->AddChild( $8 );
+    $$ = iter;
+  }
+
+| JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')'
+  {
+    if ( strcmp( $4->GetToken() , "of" ) != 0 ) {
+      std::string error_msg = "parse error unexpected ";
+      error_msg += $4->GetToken();
+      error_msg += " expected of.";
+      error( yylloc , error_msg );
+    }
+  }
+  statement
+  {
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForOf ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
+    list->AddChild( $3 );
+    list->AddChild( $5 );
+    iter->Exp( list );
+    iter->AddChild( $8 );
+    $$ = iter;
+  }
+| JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression ')'
+  {
+    if ( strcmp( $5->GetToken() , "of" ) != 0 ) {
+      std::string error_msg = "parse error unexpected ";
+      error_msg += $5->GetToken();
+      error_msg += " expected of.";
+      error( yylloc , error_msg );
+    }
+  }
+  statement
+  {
+    IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( AstNode::kForOfWithVar ) );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    iter->Line( $1->GetLineNumber() );
+    list->AddChild( $4 );
+    list->AddChild( $6 );
+    iter->Exp( list );
+    iter->AddChild( $9 );
     $$ = iter;
   }
 
@@ -2713,10 +2739,12 @@ yield_expression
 | JS_YIELD JS_YIELD_SENTINEL
   {
     $$ = ManagedHandle::Retain<YieldExp>();
+    $$->Line( $1->GetLineNumber() );
   }
 | JS_YIELD assignment_expression
   {
     YieldExp* yield_exp = ManagedHandle::Retain<YieldExp>();
+    yield_exp->Line( $1->GetLineNumber() );
     yield_exp->AddChild( $2 );
     $$ = yield_exp;
   }
@@ -2727,10 +2755,12 @@ yield_expression_no_in
 | JS_YIELD JS_YIELD_SENTINEL
   {
     $$ = ManagedHandle::Retain<YieldExp>();
+    $$->Line( $1->GetLineNumber() );
   }
 | JS_YIELD assignment_expression_no_in
   {
     YieldExp* yield_exp = ManagedHandle::Retain<YieldExp>();
+    yield_exp->Line( $1->GetLineNumber() );
     yield_exp->AddChild( $2 );
     $$ = yield_exp;
   }
