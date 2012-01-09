@@ -378,9 +378,10 @@ module Runtime {
   
   export createGenerator = ( generatorFn , closeFn , context ) -> {
     var ret = {};
-    createUnenumProp( ret , "next" , generatorFn.bind( context , false ) );
-    createUnenumProp( ret , "send" , generatorFn.bind( context , true ) );
+    createUnenumProp( ret , "next" , generatorFn.bind( context , false , false ) );
+    createUnenumProp( ret , "send" , generatorFn.bind( context , true , false ) );
     createUnenumProp( ret , "close" , closeFn.bind( context ) );
+    createUnenumProp( ret , "__nothrowNext__" , closeFn.bind( context , false , true ) );
     createUnenumProp( ret , "toString" , -> "[object Generator]" );
   }
   

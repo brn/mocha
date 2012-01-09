@@ -120,7 +120,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
     exp->ReplaceChild( target_exp , target );
     target_exp = target;
   }
-  ValueNode* next = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldNext ),
+  ValueNode* next = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNoThrow ),
                                               Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
   CallExp* next_call = AstUtils::CreateNormalAccessor( next , ManagedHandle::Retain<NodeList>() );
   CallExp* dot_call = AstUtils::CreateDotAccessor( target_exp , next_call );

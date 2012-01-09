@@ -1,7 +1,13 @@
 
 var m = function () {
       if ( window ) {
-        yield window
+        for (var i = 0; i < 10; i ++) {
+          yield i
+        }
+      } else  {
+        for (var m = 0; m < 10; m ++) {
+        yield m
+        }
       }
     }
 

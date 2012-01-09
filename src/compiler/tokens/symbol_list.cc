@@ -25,6 +25,7 @@ static const char runtime[][50] = {
   "exceptionHandler",
   "_yieldResult",
   "_isYieldSend",
+  "_isYieldSafe",
   "_mochaGenerator",
   "_mochaIsNewBorn",
   "StopIteration",
@@ -33,7 +34,8 @@ static const char runtime[][50] = {
   "_mochaFinallyCache",
   "_mochaCatchCache",
   "_mochaException",
-  "createGenerator"
+  "createGenerator",
+  "__nothrowNext__"
 };
 
 static const char builtin[][50] = {

@@ -82,15 +82,15 @@ void YieldProcessor::ProcessSend_( AstNode* exp ) {
   ValueNode* length = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLength ),
                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kProperty );
   CallExp* dot = AstUtils::CreateDotAccessor( arguments , length );
-  ValueNode* one = AstUtils::CreateNameNode( "1" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
-  CompareExp* length_comp = ManagedHandle::Retain( new CompareExp( '>' , dot , one ) );
+  ValueNode* two = AstUtils::CreateNameNode( "2" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+  CompareExp* length_comp = ManagedHandle::Retain( new CompareExp( '>' , dot , two ) );
   CompareExp* comp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , is_send , length_comp ) );
   ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
                                                    Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
   ConditionalExp* no_arg = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp , undefined ) );
   NodeList* args = ManagedHandle::Retain<NodeList>();
   args->AddChild( arguments->Clone() );
-  args->AddChild( one->Clone() );
+  args->AddChild( two->Clone() );
   CallExp* normal = AstUtils::CreateNormalAccessor( to_array , args );
   CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
   ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( comp , runtime_call , no_arg ) );

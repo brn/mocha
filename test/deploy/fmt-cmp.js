@@ -847,11 +847,14 @@
               __LINE__ = 0;
               var _yieldState = 0;
               
-              __LINE__ = 2;
+              __LINE__ = 7;
               var m;
               
+              __LINE__ = 3;
+              var i;
+              
               __LINE__ = 0;
-              var _mochaGenerator = function ( _isYieldSend ) {
+              var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
                     try {
                       __LINE__ = 0;
                       if ( !_isYieldSend ){
@@ -869,32 +872,100 @@
                           case 0 :
                             
                             __LINE__ = 2;
-                            m = 0;
-                          case 1 :
-                            
-                            __LINE__ = 4;
-                            _yieldState = 2;
-                            __LINE__ = 4;
-                            return m;
-                          case 2 :
-                            
-                            __LINE__ = 5;
-                            m ++ ;
-                            
-                            __LINE__ = 1;
-                            if ( m<100 ){
+                            if ( window ){
                               __LINE__ = 1;
                               _yieldState = 1;
                               __LINE__ = 0;
                               break;
                             } else {
                               __LINE__ = 1;
-                              _yieldState = -1;
+                              _yieldState = 5;
+                              __LINE__ = 0;
+                              break;
                             };
-                          case -1 :
+                          case 1 :
+                            
+                            __LINE__ = 3;
+                            i = 0;
+                            
+                            __LINE__ = 3;
+                            if ( !( i<10 ) ){
+                              __LINE__ = 1;
+                              _yieldState = 4;
+                              __LINE__ = 1;
+                              break;
+                            };
+                          case 2 :
+                            
+                            __LINE__ = 4;
+                            _yieldState = 3;
+                            __LINE__ = 4;
+                            return i;
+                          case 3 :
+                            
+                            __LINE__ = 0;
+                            i ++ ;
                             
                             __LINE__ = 1;
-                            Runtime.throwException( Runtime.StopIteration );
+                            if ( i<10 ){
+                              __LINE__ = 1;
+                              _yieldState = 2;
+                              __LINE__ = 0;
+                              break;
+                            } else {
+                              __LINE__ = 1;
+                              _yieldState = 4;
+                            };
+                          case 4 :
+                            
+                            __LINE__ = 0;
+                            _yieldState = -1;
+                            __LINE__ = 0;
+                            break;
+                          case 5 :
+                            
+                            __LINE__ = 7;
+                            m = 0;
+                            
+                            __LINE__ = 7;
+                            if ( !( m<10 ) ){
+                              __LINE__ = 1;
+                              _yieldState = 8;
+                              __LINE__ = 1;
+                              break;
+                            };
+                          case 6 :
+                            
+                            __LINE__ = 8;
+                            _yieldState = 7;
+                            __LINE__ = 8;
+                            return m;
+                          case 7 :
+                            
+                            __LINE__ = 0;
+                            m ++ ;
+                            
+                            __LINE__ = 1;
+                            if ( m<10 ){
+                              __LINE__ = 1;
+                              _yieldState = 6;
+                              __LINE__ = 0;
+                              break;
+                            } else {
+                              __LINE__ = 1;
+                              _yieldState = 8;
+                            };
+                          case 8 :
+                          case -1 :
+                            
+                            __LINE__ = 0;
+                            if ( _isYieldSafe ){
+                              __LINE__ = 0;
+                              return undefined;
+                            } else {
+                              __LINE__ = 1;
+                              Runtime.throwException( Runtime.StopIteration );
+                            };
                             
                         };
                       };
@@ -917,7 +988,7 @@
             }
           };
       
-      __LINE__ = 9;
+      __LINE__ = 13;
       var x = function () {
             try {
               __LINE__ = 0;
@@ -935,26 +1006,26 @@
               __LINE__ = 0;
               var _mochaCatchCache;
               
-              __LINE__ = 25;
+              __LINE__ = 29;
               var l;
               
-              __LINE__ = 16;
+              __LINE__ = 20;
               var m;
               
-              __LINE__ = 15;
+              __LINE__ = 19;
               var x;
               
-              __LINE__ = 15;
+              __LINE__ = 19;
               var _mochaLocalTmp0;
               
-              __LINE__ = 13;
+              __LINE__ = 17;
               var j;
               
-              __LINE__ = 10;
+              __LINE__ = 14;
               var i;
               
               __LINE__ = 0;
-              var _mochaGenerator = function ( _isYieldSend ) {
+              var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
                     try {
                       __LINE__ = 0;
                       if ( !_isYieldSend ){
@@ -965,100 +1036,100 @@
                         Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
                       };
                       
-                      __LINE__ = 9;
+                      __LINE__ = 13;
                       while ( 1 ){
                         try {
-                          __LINE__ = 9;
+                          __LINE__ = 13;
                           switch ( _yieldState ) {
                             case 0 :
                               
-                              __LINE__ = 10;
+                              __LINE__ = 14;
                               i = 0;
                               
-                              __LINE__ = 10;
+                              __LINE__ = 14;
                               if ( !( i<200 ) ){
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 7;
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 break;
                               };
                             case 1 :
                               
-                              __LINE__ = 12;
+                              __LINE__ = 16;
                               _yieldState = 2;
                               
-                              __LINE__ = 20;
+                              __LINE__ = 24;
                               _mochaCatchCache = function ( e ) {
                                 try {
-                                  __LINE__ = 9;
-                                  _yieldState = 6;
+                                  __LINE__ = 13;
+                                  _yieldState = 7;
                                 } catch( e ){
                                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                                 }
                               };
                               
-                              __LINE__ = 21;
+                              __LINE__ = 25;
                               _mochaFinallyCache = function (  ) {
                                 try {
-                                  __LINE__ = 22;
+                                  __LINE__ = 26;
                                   console.log( 100 );
                                 } catch( e ){
                                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                                 }
                               };
-                              __LINE__ = 12;
+                              __LINE__ = 16;
                               return i;
                             case 2 :
                               
-                              __LINE__ = 13;
+                              __LINE__ = 17;
                               j = 0;
                               
-                              __LINE__ = 14;
+                              __LINE__ = 18;
                               if ( !( j<100 ) ){
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 6;
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 break;
                               };
                             case 3 :
                               
-                              __LINE__ = 16;
+                              __LINE__ = 20;
                               _yieldState = 4;
                               
-                              __LINE__ = 15;
+                              __LINE__ = 19;
                               _mochaLocalTmp0 =  {
                                 x : 300
                               };
                               
-                              __LINE__ = 15;
+                              __LINE__ = 19;
                               x = _mochaLocalTmp0.x;
                               
                               __LINE__ = 0;
-                              _yieldResult = ( _isYieldSend && arguments.length>1 )?Runtime.toArray( arguments,1 ) : ( _isYieldSend )?200 : undefined;
-                              __LINE__ = 16;
+                              _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 ) : ( _isYieldSend )?200 : undefined;
+                              __LINE__ = 20;
                               return 200;
                             case 4 :
                               
-                              __LINE__ = 17;
+                              __LINE__ = 21;
                               _yieldState = 5;
                               
-                              __LINE__ = 16;
+                              __LINE__ = 20;
                               m = _yieldResult;
-                              __LINE__ = 17;
+                              __LINE__ = 21;
                               return j;
                             case 5 :
                               
-                              __LINE__ = 18;
+                              __LINE__ = 22;
                               j ++ ;
                               
-                              __LINE__ = 9;
+                              __LINE__ = 13;
                               if ( j<100 ){
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 3;
                                 __LINE__ = 0;
                                 break;
                               } else {
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 6;
                               };
                             case 6 :
@@ -1072,59 +1143,65 @@
                               __LINE__ = 0;
                               i ++ ;
                               
-                              __LINE__ = 9;
+                              __LINE__ = 13;
                               if ( i<200 ){
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 1;
                                 __LINE__ = 0;
                                 break;
                               } else {
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 7;
                               };
                             case 7 :
                               
-                              __LINE__ = 25;
+                              __LINE__ = 29;
                               l = 0;
                               
-                              __LINE__ = 25;
+                              __LINE__ = 29;
                               if ( !( l<20 ) ){
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 10;
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 break;
                               };
                             case 8 :
                               
-                              __LINE__ = 26;
+                              __LINE__ = 30;
                               _yieldState = 9;
-                              __LINE__ = 26;
+                              __LINE__ = 30;
                               return l;
                             case 9 :
                               
                               __LINE__ = 0;
                               l ++ ;
                               
-                              __LINE__ = 9;
+                              __LINE__ = 13;
                               if ( l<20 ){
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 8;
                                 __LINE__ = 0;
                                 break;
                               } else {
-                                __LINE__ = 9;
+                                __LINE__ = 13;
                                 _yieldState = 10;
                               };
                             case 10 :
                               
-                              __LINE__ = 28;
+                              __LINE__ = 32;
                               _yieldState = -1;
-                              __LINE__ = 28;
+                              __LINE__ = 32;
                               return 200;
                             case -1 :
                               
-                              __LINE__ = 9;
-                              Runtime.throwException( Runtime.StopIteration );
+                              __LINE__ = 0;
+                              if ( _isYieldSafe ){
+                                __LINE__ = 0;
+                                return undefined;
+                              } else {
+                                __LINE__ = 13;
+                                Runtime.throwException( Runtime.StopIteration );
+                              };
                               
                           };
                         } catch( _mochaException ){
@@ -1176,9 +1253,15 @@
       var _mochaLocalTmp1 = x();
       
       __LINE__ = 0;
-      while ( m = _mochaLocalTmp1 ){
-        __LINE__ = 31;
-        console.log( m );
+      if ( _mochaLocalTmp1.__nothrowNext__ ){
+        __LINE__ = 0;
+        while ( ( m = _mochaLocalTmp1.__nothrowNext__(  ) ) ){
+          __LINE__ = 35;
+          console.log( m );
+        };
+      } else {
+        __LINE__ = 0;
+        exceptionHandler( 34,__FILE__,'for of statement expect iterator or generator object.' );
       };
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

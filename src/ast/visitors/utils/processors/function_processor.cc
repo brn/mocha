@@ -172,8 +172,18 @@ class YieldHelper : private Uncopyable {
     while ( iterator_.HasNext() ) {
       AstNode* yield_stmt = iterator_.Next();
       if ( yield_stmt->NodeType() != AstNode::kVariableStmt ) {
+        printf( "yield type = %s\n" , yield_stmt->GetName() );
         ProcessStmtInYield_( yield_stmt );
       }
+    }
+    std::list<YieldMark*>::iterator begin = mark_list_.begin(),end = mark_list_.end();
+    while ( begin != end ) {
+      YieldMark* mark = (*begin);
+      char state[10];
+      int state_num = ( iterator_.HasNext() )? mark->Adjust( state_ ) : -1;
+      sprintf( state , "%d" , state_num );
+      mark->ReEntrantNode()->Symbol()->SetToken( state );
+      ++begin;
     }
     body_->AddChild( clause_ );
     Finish_();
@@ -196,9 +206,15 @@ class YieldHelper : private Uncopyable {
     CallExp* exp = AstUtils::CreateNormalAccessor( handler , list );
     CallExp* runtime = AstUtils::CreateRuntimeMod( exp );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime );
+    ValueNode* is_safe = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSafeFlag ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    ReturnStmt* ret = AstUtils::CreateReturnStmt( undefined );
+    IFStmt* if_stmt = AstUtils::CreateIFStmt( is_safe , ret , stmt );
     stmt->Line( function_->Line() );
     CreateCaseClause_( 0 , true );
-    clause_body_->AddChild( stmt );
+    clause_body_->AddChild( if_stmt );
     body_->AddChild( clause_ );
   }
 
@@ -376,6 +392,7 @@ class YieldHelper : private Uncopyable {
     Iterator begin = function_->GetStmtList().rbegin(),end = function_->GetStmtList().rend();
     int count = 0;
     int size = function_->GetStmtList().size();
+    YieldMark *if_escape_mark = 0;
     while ( begin != end ) {
       AstNode* iteration_stmt = (*begin);
       if ( iteration_stmt->NodeType() == AstNode::kFor ||
@@ -391,7 +408,10 @@ class YieldHelper : private Uncopyable {
       } else if ( iteration_stmt->NodeType() == AstNode::kDoWhile ) {
         ProcessDoWhile_( iteration_stmt->CastToStatement()->CastToIteration() , size , count );
       } else if ( iteration_stmt->NodeType() == AstNode::kIFStmt ) {
-        ProcessIFStmt_( iteration_stmt->CastToStatement()->CastToIFStmt() , size , count );
+        if ( if_escape_mark == 0 ) {
+          if_escape_mark = ManagedHandle::Retain<YieldMark>();
+        }
+        if_escape_mark = ProcessIFStmt_( iteration_stmt->CastToStatement()->CastToIFStmt() , if_escape_mark , size , count );
       }
       count++;
       ++begin;
@@ -399,7 +419,7 @@ class YieldHelper : private Uncopyable {
   }
 
 
-  void ProcessIFStmt_( IFStmt* node , int size , int count ) {
+  YieldMark* ProcessIFStmt_( IFStmt* node , YieldMark* escape_mark , int size , int count ) {
     AstNode* parent = node->ParentNode();
     YieldMark* mark = ManagedHandle::Retain<YieldMark>();
     mark->SetAdjust( 1 );
@@ -422,6 +442,7 @@ class YieldHelper : private Uncopyable {
       AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
       ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
       BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+      break_stmt->AddChild( ManagedHandle::Retain<Empty>() );
       exp_stmt->Line( function_->Line() );
       then_block = AstUtils::CreateBlockStmt( 2 , exp_stmt , break_stmt );
       normal_mark->ReEntrantNode( dynamic_state );
@@ -436,6 +457,7 @@ class YieldHelper : private Uncopyable {
       AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
       ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
       BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+      break_stmt->AddChild( ManagedHandle::Retain<Empty>() );
       exp_stmt->Line( function_->Line() );
       else_block = AstUtils::CreateBlockStmt( 2 , exp_stmt , break_stmt );
       abnormal_mark->ReEntrantNode( dynamic_state );
@@ -445,53 +467,93 @@ class YieldHelper : private Uncopyable {
     if_stmt->Line( node->Line() );
     parent->InsertBefore( if_stmt , mark );
     if_stmt->SetYieldFlag();
-
+    
     AstNode* last;
     if ( then_body->NodeType() == AstNode::kBlockStmt ) {
       NodeIterator iterator = then_body->FirstChild()->ChildNodes();
       while ( iterator.HasNext() ) {
         AstNode* item = iterator.Next();
-        if ( !current ) {
-          current = item;
-          parent->InsertBefore( current , mark );
-        } else {
-          AstNode* tmp = item;
-          parent->InsertAfter( tmp , current );
-          current = tmp;
+        if ( !item->IsEmpty() ) {
+          if ( !current ) {
+            current = item;
+            parent->InsertBefore( current , mark );
+          } else {
+            AstNode* tmp = item;
+            parent->InsertAfter( tmp , current );
+            current = tmp;
+          }
         }
       }
       last = current;
-    } else {
+    } else if ( !then_body->IsEmpty() ) {
       last = then_body;
       parent->InsertBefore( last , mark );
     }
     last->ParentNode()->InsertBefore( normal_mark , last );
     last->CastToStatement()->SetYieldFlag();
-
-    if ( else_body->NodeType() == AstNode::kBlockStmt ) {
-      NodeIterator iterator = else_body->FirstChild()->ChildNodes();
-      while ( iterator.HasNext() ) {
-        AstNode* item = iterator.Next();
-        if ( !current ) {
-          current = item;
-          parent->InsertBefore( current , mark );
-        } else {
-          AstNode* tmp = item;
-          parent->InsertAfter( tmp , current );
-          current = tmp;
-        }
+    AstNode* embed_ptr = 0;
+    {
+      ValueNode* state = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldState ),
+                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    
+      ValueNode* dynamic_state = 0;
+      if ( escape_mark->ReEntrantNode() == 0 ) {
+        dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+        escape_mark->ReEntrantNode( dynamic_state );
+      } else {
+        dynamic_state = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
+        dynamic_state->Symbol( escape_mark->ReEntrantNode()->Symbol() );
       }
-      last = current;
-    } else {
-      last = else_body;
-      parent->InsertBefore( last , mark );
+      
+      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , state , dynamic_state );
+      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
+      last->ParentNode()->InsertAfter( exp_stmt , last );
+      BreakStmt *break_stmt = ManagedHandle::Retain<BreakStmt>();
+      break_stmt->AddChild( ManagedHandle::Retain<Empty>() );
+      last->ParentNode()->InsertAfter( break_stmt , exp_stmt );
+      break_stmt->SetYieldFlag();
+      embed_ptr = current = break_stmt;
     }
-    last->ParentNode()->InsertBefore( abnormal_mark , last );
+
+    if ( !else_body->IsEmpty() ) {
+      if ( else_body->NodeType() == AstNode::kBlockStmt ) {
+        NodeIterator iterator = else_body->FirstChild()->ChildNodes();
+        while ( iterator.HasNext() ) {
+          AstNode* item = iterator.Next();
+          if ( !item->IsEmpty() ) {
+            if ( !current ) {
+              current = item;
+              parent->InsertBefore( current , mark );
+            } else {
+              AstNode* tmp = item;
+              parent->InsertAfter( tmp , current );
+              current = tmp;
+            }
+          }
+        }
+        last = current;
+      } else {
+        last = else_body;
+        parent->InsertBefore( last , mark );
+      }
+      last->ParentNode()->InsertBefore( abnormal_mark , last );
+      if ( else_body->NodeType() != AstNode::kIFStmt ) {
+        last->ParentNode()->InsertAfter( escape_mark , last );
+        escape_mark = 0;
+      }
+    } else {
+      last->ParentNode()->InsertAfter( abnormal_mark , last );
+      last->ParentNode()->InsertAfter( escape_mark , abnormal_mark );
+      escape_mark->SetAdjust( 1 );
+      escape_mark = 0;
+    }
+    
     if ( !last->IsEmpty() ) {
       last->CastToStatement()->SetYieldFlag();
     }
     
     mark->ParentNode()->RemoveChild( mark );
+    return escape_mark;
   }
 
   
@@ -828,16 +890,12 @@ class YieldHelper : private Uncopyable {
   void ProcessStmtInYield_( AstNode* yield_stmt ) {
     function_->RemoveChild( yield_stmt );
     if ( !yield_stmt->CastToStatement() )
-      printf( "error type %s\n" , yield_stmt->FirstChild()->CastToExpression()->CastToAssigment()->Left()->CastToValue()->Symbol()->GetToken() );
+      printf( "error type %s\n" , yield_stmt->GetName() );
     if ( yield_stmt->NodeType() == AstNode::kReturnStmt ) {
       is_state_injection_ = true;
     }
     if ( yield_stmt->NodeType() == AstNode::kYieldMark ) {
-      YieldMark* mark = yield_stmt->CastToStatement()->CastToYieldMark();
-      char state[10];
-      int state_num = mark->Adjust( state_ );
-      sprintf( state , "%d" , state_num );
-      mark->ReEntrantNode()->Symbol()->SetToken( state );
+      mark_list_.push_back( yield_stmt->CastToStatement()->CastToYieldMark() );
     } else if ( yield_stmt->NodeType() == AstNode::kExYieldStateNode ) {
       ExYieldStateNode* ex_node = yield_stmt->CastToStatement()->CastToYieldState();
       char back[10];
@@ -858,6 +916,16 @@ class YieldHelper : private Uncopyable {
         CreateCaseClause_( function_->Line() );
       }
     } else if ( yield_stmt->CastToStatement()->GetYieldFlag() ) {
+      std::list<YieldMark*>::iterator begin = mark_list_.begin(),end = mark_list_.end();
+      while ( begin != end ) {
+        YieldMark* mark = (*begin);
+        char state[10];
+        int state_num = ( iterator_.HasNext() )? mark->Adjust( state_ ) : -1;
+        sprintf( state , "%d" , state_num );
+        mark->ReEntrantNode()->Symbol()->SetToken( state );
+        ++begin;
+      }
+      mark_list_.clear();
       SetState_( yield_stmt->Line() );
       clause_body_->AddChild( yield_stmt );
       is_state_injection_ = false;
@@ -878,6 +946,7 @@ class YieldHelper : private Uncopyable {
   AstNode* clause_body_;
   NodeList* body_;
   NodeIterator iterator_;
+  std::list<YieldMark*> mark_list_;
 };
 
 
@@ -904,6 +973,8 @@ class GeneratorHelper : private Uncopyable {
     ValueNode* one_exp = AstUtils::CreateNameNode( "1" , Token::JS_NUMERIC_LITERAL , function_->Line() , ValueNode::kNumeric );
     ValueNode* is_send = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSendFlag ),
                                                    Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+    ValueNode* is_safe = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSafeFlag ),
+                                                   Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
     StatementList* stmt_list = ManagedHandle::Retain<StatementList>();
     stmt_list->AddChild( switch_stmt_ );
     BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
@@ -915,6 +986,7 @@ class GeneratorHelper : private Uncopyable {
     iter->Exp( exp );
     iter->AddChild( block );
     generator_arg->AddChild( is_send );
+    generator_arg->AddChild( is_safe );
     fn->Argv( generator_arg );
     if ( function_->GetTryCatch().size() > 0 ) {
       TryStmt* stmt = ManagedHandle::Retain<TryStmt>();

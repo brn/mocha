@@ -387,7 +387,7 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
   LineBreak( ast_node , stream_.Get() , writer_.Get() );
   writer_->SetLine( ast_node->Line() , stream_.Get() );
-  AstNode* exp = ast_node->Exp()->FirstChild();
+  AstNode* exp = ast_node->Exp();
   writer_->WriteOp( Token::JS_WHILE , 0 , stream_.Get() );
   writer_->WriteOp( '(' , 0 , stream_.Get() );
   BeginState_( CodeWriter::kExpSp );
