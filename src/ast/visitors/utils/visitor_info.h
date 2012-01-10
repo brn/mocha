@@ -56,9 +56,13 @@ class VisitorInfo : private Uncopyable{
   inline Function* GetFunction() { return current_fn_; }
   inline void SetObjectPrivate( AstPair private_name ) { private_names_.push_back( private_name ); }
   inline PrivateNameList& GetObjectPrivateList() { return private_names_; }
+  inline void EnterObject() { object_depth_++; }
+  inline void EscapeObject() { object_depth_--; }
+  inline bool IsInObject() { return object_depth_ > 0; }
   inline const ClassList& GetClassList() { return class_list_; }
  private :
   int tmp_index_;
+  int object_depth_;
   int16_t is_in_class_;
   int16_t is_in_module_;
   const char* main_file_path_;

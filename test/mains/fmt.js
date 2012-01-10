@@ -1,7 +1,13 @@
 
 var privateName = new Date();
 var testObj = {
-      [privateName] : 20
+      m : {
+        [privateName] : {
+          v : {
+            [privateName] : 20
+          }
+        }
+      }
     }
 
 var m = function () {

@@ -37,33 +37,33 @@ Terminals unused in grammar
    EX_TOKEN_YIELD
 
 
-State 44 conflicts: 1 shift/reduce
-State 87 conflicts: 3 shift/reduce
-State 89 conflicts: 3 shift/reduce
-State 90 conflicts: 14 shift/reduce
-State 93 conflicts: 3 shift/reduce
-State 94 conflicts: 2 shift/reduce
-State 95 conflicts: 3 shift/reduce
-State 96 conflicts: 6 shift/reduce
-State 97 conflicts: 4 shift/reduce
-State 98 conflicts: 1 shift/reduce
-State 99 conflicts: 1 shift/reduce
-State 100 conflicts: 1 shift/reduce
-State 101 conflicts: 1 shift/reduce
-State 102 conflicts: 2 shift/reduce
-State 112 conflicts: 2 shift/reduce
-State 126 conflicts: 3 shift/reduce
-State 143 conflicts: 1 shift/reduce
-State 151 conflicts: 1 shift/reduce
-State 369 conflicts: 3 shift/reduce
-State 370 conflicts: 1 shift/reduce
-State 371 conflicts: 1 shift/reduce
-State 372 conflicts: 1 shift/reduce
-State 373 conflicts: 1 shift/reduce
-State 518 conflicts: 1 shift/reduce
+状態 44 conflicts: 1 shift/reduce
+状態 87 conflicts: 3 shift/reduce
+状態 89 conflicts: 3 shift/reduce
+状態 90 conflicts: 14 shift/reduce
+状態 93 conflicts: 3 shift/reduce
+状態 94 conflicts: 2 shift/reduce
+状態 95 conflicts: 3 shift/reduce
+状態 96 conflicts: 6 shift/reduce
+状態 97 conflicts: 4 shift/reduce
+状態 98 conflicts: 1 shift/reduce
+状態 99 conflicts: 1 shift/reduce
+状態 100 conflicts: 1 shift/reduce
+状態 101 conflicts: 1 shift/reduce
+状態 102 conflicts: 2 shift/reduce
+状態 112 conflicts: 2 shift/reduce
+状態 126 conflicts: 3 shift/reduce
+状態 143 conflicts: 1 shift/reduce
+状態 151 conflicts: 1 shift/reduce
+状態 369 conflicts: 3 shift/reduce
+状態 370 conflicts: 1 shift/reduce
+状態 371 conflicts: 1 shift/reduce
+状態 372 conflicts: 1 shift/reduce
+状態 373 conflicts: 1 shift/reduce
+状態 518 conflicts: 1 shift/reduce
 
 
-Grammar
+文法
 
     0 $accept: program $end
 
@@ -71,16 +71,16 @@ Grammar
 
     2 class_initialiser: class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt '}'
 
-    3 class_adjective__opt: /* empty */
+    3 class_adjective__opt: /* 空 */
     4                     | JS_CONST
 
-    5 inherit_declaration__opt: /* empty */
+    5 inherit_declaration__opt: /* 空 */
     6                         | inherit_declaration member_expression
 
     7 inherit_declaration: JS_EXTENDS
     8                    | JS_PROTOTYPE
 
-    9 class_body__opt: /* empty */
+    9 class_body__opt: /* 空 */
    10                | class_body
 
    11 class_body: class_element_list
@@ -140,17 +140,17 @@ Grammar
    50                      | formal_parameter_list ',' JS_IDENTIFIER initialiser__opt
    51                      | formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt
 
-   52 formal_parameter_rest__opt: /* empty */
+   52 formal_parameter_rest__opt: /* 空 */
    53                           | formal_parameter_rest
 
    54 formal_parameter_rest: JS_PARAMETER_REST JS_IDENTIFIER
 
    55 arguments_spread: JS_PARAMETER_REST JS_IDENTIFIER
 
-   56 constructor_function_body: /* empty */
+   56 constructor_function_body: /* 空 */
    57                          | source_elements_for_constructor
 
-   58 function_body: /* empty */
+   58 function_body: /* 空 */
    59              | source_elements_for_function
 
    60 source_elements: source_element
@@ -170,10 +170,10 @@ Grammar
 
    70 source_element_for_function: statement_with_block
 
-   71 formal_parameter_list__opt: /* empty */
+   71 formal_parameter_list__opt: /* 空 */
    72                           | formal_parameter_list_with_rest
 
-   73 identifier__opt: /* empty */
+   73 identifier__opt: /* 空 */
    74                | JS_IDENTIFIER
 
    75 statement: statement_with_block
@@ -278,37 +278,37 @@ Grammar
   148             | JS_IF '(' expression ')' statement
   149             | JS_IF_OPT expression statement
 
-  150 $@1: /* empty */
+  150 $@1: /* 空 */
 
-  151 $@2: /* empty */
+  151 $@2: /* 空 */
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 '(' expression $@2 ')' terminator
 
-  153 $@3: /* empty */
+  153 $@3: /* 空 */
 
-  154 $@4: /* empty */
+  154 $@4: /* 空 */
 
   155 iteration_statement: JS_WHILE $@3 '(' expression $@4 ')' statement
 
-  156 $@5: /* empty */
+  156 $@5: /* 空 */
 
-  157 $@6: /* empty */
+  157 $@6: /* 空 */
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt ';' expression__opt $@6 ')' statement
 
-  159 $@7: /* empty */
+  159 $@7: /* 空 */
 
-  160 $@8: /* empty */
+  160 $@8: /* 空 */
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 ')' statement
   162                    | JS_FOR '(' left_hand_side_expression JS_IN expression ')' statement
   163                    | JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
 
-  164 $@9: /* empty */
+  164 $@9: /* 空 */
 
   165 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')' $@9 statement
 
-  166 $@10: /* empty */
+  166 $@10: /* 空 */
 
   167 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression ')' $@10 statement
   168                    | JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')' statement
@@ -346,16 +346,16 @@ Grammar
 
   187 finally: JS_FINALLY block
 
-  188 statement_list__opt: /* empty */
+  188 statement_list__opt: /* 空 */
   189                    | statement_list
 
-  190 initialiser__opt: /* empty */
+  190 initialiser__opt: /* 空 */
   191                 | initialiser
 
-  192 initialiser_no_in__opt: /* empty */
+  192 initialiser_no_in__opt: /* 空 */
   193                       | initialiser_no_in
 
-  194 case_clauses__opt: /* empty */
+  194 case_clauses__opt: /* 空 */
   195                  | case_clauses
 
   196 literal: null_literal
@@ -392,7 +392,7 @@ Grammar
   219 array_comprehension_iteration: JS_FOR '(' left_hand_side_expression JS_IN expression ')'
   220                              | JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')'
 
-  221 array_comprehension_if__opt: /* empty */
+  221 array_comprehension_if__opt: /* 空 */
   222                            | JS_IF '(' expression ')'
 
   223 object_literal: '{' property_name_and_value_list__opt '}'
@@ -568,20 +568,20 @@ Grammar
   356 expression_no_in: assignment_expression_no_in
   357                 | expression_no_in ',' assignment_expression_no_in
 
-  358 expression_no_in__opt: /* empty */
+  358 expression_no_in__opt: /* 空 */
   359                      | expression_no_in
 
-  360 expression__opt: /* empty */
+  360 expression__opt: /* 空 */
   361                | expression
 
-  362 elision__opt: /* empty */
+  362 elision__opt: /* 空 */
   363             | elision
 
   364 terminator: ';'
   365           | JS_LINE_BREAK
 
 
-Terminals, with rules where they appear
+出現位置の規則による終端
 
 $end (0) 0
 '!' (33) 273
@@ -741,312 +741,312 @@ JS_YIELD_SENTINEL (378) 333 336
 EX_TOKEN_YIELD (379)
 
 
-Nonterminals, with rules where they appear
+出現位置の規則による非終端
 
 $accept (150)
-    on left: 0
+    左辺: 0
 program (151)
-    on left: 1, on right: 0
+    左辺: 1, 右辺: 0
 class_initialiser (152)
-    on left: 2, on right: 27 239
+    左辺: 2, 右辺: 27 239
 class_adjective__opt (153)
-    on left: 3 4, on right: 2
+    左辺: 3 4, 右辺: 2
 inherit_declaration__opt (154)
-    on left: 5 6, on right: 2
+    左辺: 5 6, 右辺: 2
 inherit_declaration (155)
-    on left: 7 8, on right: 6
+    左辺: 7 8, 右辺: 6
 class_body__opt (156)
-    on left: 9 10, on right: 2
+    左辺: 9 10, 右辺: 2
 class_body (157)
-    on left: 11, on right: 10
+    左辺: 11, 右辺: 10
 class_element_list (158)
-    on left: 12 13, on right: 11 13
+    左辺: 12 13, 右辺: 11 13
 class_element (159)
-    on left: 14 15 16 17 18 19, on right: 12 13
+    左辺: 14 15 16 17 18 19, 右辺: 12 13
 constructor_definition (160)
-    on left: 20, on right: 14
+    左辺: 20, 右辺: 14
 prototype_property_definition (161)
-    on left: 21, on right: 16
+    左辺: 21, 右辺: 16
 class_property_definition (162)
-    on left: 22, on right: 17
+    左辺: 22, 右辺: 17
 instance_property_definition (163)
-    on left: 23, on right: 18 68
+    左辺: 23, 右辺: 18 68
 private_property_definition (164)
-    on left: 24, on right: 19 69
+    左辺: 24, 右辺: 19 69
 exportable_definition (165)
-    on left: 25 26 27 28 29 30, on right: 21 22 23 24 100
+    左辺: 25 26 27 28 29 30, 右辺: 21 22 23 24 100
 version_statement (166)
-    on left: 31, on right: 96
+    左辺: 31, 右辺: 96
 function_declaration (167)
-    on left: 32 33, on right: 81
+    左辺: 32 33, 右辺: 81
 function_expression (168)
-    on left: 34 35, on right: 238
+    左辺: 34 35, 右辺: 238
 arrow_function_expression (169)
-    on left: 36 37 38 39 40 41 42 43, on right: 35
+    左辺: 36 37 38 39 40 41 42 43, 右辺: 35
 shorten_function_body (170)
-    on left: 44, on right: 40 41 42 43
+    左辺: 44, 右辺: 40 41 42 43
 formal_parameter_list_with_rest (171)
-    on left: 45 46 47, on right: 72
+    左辺: 45 46 47, 右辺: 72
 formal_parameter_list (172)
-    on left: 48 49 50 51, on right: 45 47 50 51
+    左辺: 48 49 50 51, 右辺: 45 47 50 51
 formal_parameter_rest__opt (173)
-    on left: 52 53, on right: 47
+    左辺: 52 53, 右辺: 47
 formal_parameter_rest (174)
-    on left: 54, on right: 46 53 131 134
+    左辺: 54, 右辺: 46 53 131 134
 arguments_spread (175)
-    on left: 55, on right: 254 256
+    左辺: 55, 右辺: 254 256
 constructor_function_body (176)
-    on left: 56 57, on right: 20
+    左辺: 56 57, 右辺: 20
 function_body (177)
-    on left: 58 59, on right: 28 29 30 32 33 34 36 37 38 39 229 232
+    左辺: 58 59, 右辺: 28 29 30 32 33 34 36 37 38 39 229 232
 source_elements (178)
-    on left: 60 61, on right: 1 61
+    左辺: 60 61, 右辺: 1 61
 source_elements_for_constructor (179)
-    on left: 62 63, on right: 57 63
+    左辺: 62 63, 右辺: 57 63
 source_elements_for_function (180)
-    on left: 64 65, on right: 59 65
+    左辺: 64 65, 右辺: 59 65
 source_element (181)
-    on left: 66, on right: 60 61
+    左辺: 66, 右辺: 60 61
 source_element_for_constructor (182)
-    on left: 67 68 69, on right: 62 63
+    左辺: 67 68 69, 右辺: 62 63
 source_element_for_function (183)
-    on left: 70, on right: 64 65
+    左辺: 70, 右辺: 64 65
 formal_parameter_list__opt (184)
-    on left: 71 72, on right: 20 28 30 32 33 34 36 38 40 41 229 232
+    左辺: 71 72, 右辺: 20 28 30 32 33 34 36 38 40 41 229 232
 identifier__opt (185)
-    on left: 73 74, on right: 2 34 99 170 171
+    左辺: 73 74, 右辺: 2 34 99 170 171
 statement (186)
-    on left: 75 76 77, on right: 66 99 107 108 112 147 148 149 152
-    155 158 161 162 163 165 167 168 169 173 181
+    左辺: 75 76 77, 右辺: 66 99 107 108 112 147 148 149 152 155
+    158 161 162 163 165 167 168 169 173 181
 statement_with_block (187)
-    on left: 78 79, on right: 67 70 75
+    左辺: 78 79, 右辺: 67 70 75
 statement_no_block (188)
-    on left: 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96, on right:
+    左辺: 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96, 右辺:
     79
 block (189)
-    on left: 97 98, on right: 78 183 184 185 186 187
+    左辺: 97 98, 右辺: 78 183 184 185 186 187
 module_block (190)
-    on left: 99, on right: 76
+    左辺: 99, 右辺: 76
 export_statement (191)
-    on left: 100, on right: 77
+    左辺: 100, 右辺: 77
 import_statement (192)
-    on left: 101 102 103, on right: 95
+    左辺: 101 102 103, 右辺: 95
 import_expression (193)
-    on left: 104 105 106, on right: 101 102 103 106
+    左辺: 104 105 106, 右辺: 101 102 103 106
 statement_list (194)
-    on left: 107 108, on right: 98 108 189
+    左辺: 107 108, 右辺: 98 108 189
 variable_statement (195)
-    on left: 109 110 111, on right: 80
+    左辺: 109 110 111, 右辺: 80
 let_statement (196)
-    on left: 112, on right: 82
+    左辺: 112, 右辺: 82
 let_assignment_list (197)
-    on left: 113 114, on right: 112 114
+    左辺: 113 114, 右辺: 112 114
 let_assignment_expression (198)
-    on left: 115 116, on right: 113 114
+    左辺: 115 116, 右辺: 113 114
 variable_declaration_list (199)
-    on left: 117 118, on right: 25 26 109 110 111 118
+    左辺: 117 118, 右辺: 25 26 109 110 111 118
 variable_declaration_list_no_in (200)
-    on left: 119 120, on right: 120 161
+    左辺: 119 120, 右辺: 120 161
 variable_declaration (201)
-    on left: 121 122, on right: 117 118
+    左辺: 121 122, 右辺: 117 118
 variable_declaration_no_in (202)
-    on left: 123 124, on right: 119 120 163 167 169
+    左辺: 123 124, 右辺: 119 120 163 167 169
 destructuring_assignment_left_hand_side (203)
-    on left: 125 126, on right: 49 51 102 116 122 124 132 135 139 142
+    左辺: 125 126, 右辺: 49 51 102 116 122 124 132 135 139 142
 array_left_hand_side (204)
-    on left: 127 128 129, on right: 125 259
+    左辺: 127 128 129, 右辺: 125 259
 array_left_hand_side_list (205)
-    on left: 130 131 132 133 134 135, on right: 128 129 133 134 135
+    左辺: 130 131 132 133 134 135, 右辺: 128 129 133 134 135
 object_left_hand_side (206)
-    on left: 136, on right: 126 260
+    左辺: 136, 右辺: 126 260
 object_member_left_hand_side_list (207)
-    on left: 137 138 139 140 141 142, on right: 136 140 141 142
+    左辺: 137 138 139 140 141 142, 右辺: 136 140 141 142
 initialiser (208)
-    on left: 143, on right: 116 191
+    左辺: 143, 右辺: 116 191
 initialiser_no_in (209)
-    on left: 144, on right: 193
+    左辺: 144, 右辺: 193
 empty_statement (210)
-    on left: 145, on right: 15 83
+    左辺: 145, 右辺: 15 83
 expression_statement (211)
-    on left: 146, on right: 84
+    左辺: 146, 右辺: 84
 if_statement (212)
-    on left: 147 148 149, on right: 85
+    左辺: 147 148 149, 右辺: 85
 iteration_statement (213)
-    on left: 152 155 158 161 162 163 165 167 168 169, on right: 86
+    左辺: 152 155 158 161 162 163 165 167 168 169, 右辺: 86
 $@1 (214)
-    on left: 150, on right: 152
+    左辺: 150, 右辺: 152
 $@2 (215)
-    on left: 151, on right: 152
+    左辺: 151, 右辺: 152
 $@3 (216)
-    on left: 153, on right: 155
+    左辺: 153, 右辺: 155
 $@4 (217)
-    on left: 154, on right: 155
+    左辺: 154, 右辺: 155
 $@5 (218)
-    on left: 156, on right: 158
+    左辺: 156, 右辺: 158
 $@6 (219)
-    on left: 157, on right: 158
+    左辺: 157, 右辺: 158
 $@7 (220)
-    on left: 159, on right: 161
+    左辺: 159, 右辺: 161
 $@8 (221)
-    on left: 160, on right: 161
+    左辺: 160, 右辺: 161
 $@9 (222)
-    on left: 164, on right: 165
+    左辺: 164, 右辺: 165
 $@10 (223)
-    on left: 166, on right: 167
+    左辺: 166, 右辺: 167
 continue_statement (224)
-    on left: 170, on right: 87
+    左辺: 170, 右辺: 87
 break_statement (225)
-    on left: 171, on right: 88
+    左辺: 171, 右辺: 88
 return_statement (226)
-    on left: 172, on right: 89
+    左辺: 172, 右辺: 89
 with_statement (227)
-    on left: 173, on right: 90
+    左辺: 173, 右辺: 90
 switch_statement (228)
-    on left: 174, on right: 92
+    左辺: 174, 右辺: 92
 case_block (229)
-    on left: 175 176, on right: 174
+    左辺: 175 176, 右辺: 174
 case_clauses (230)
-    on left: 177 178, on right: 178 195
+    左辺: 177 178, 右辺: 178 195
 case_clause (231)
-    on left: 179, on right: 177 178
+    左辺: 179, 右辺: 177 178
 default_clause (232)
-    on left: 180, on right: 176
+    左辺: 180, 右辺: 176
 labelled_statement (233)
-    on left: 181, on right: 91
+    左辺: 181, 右辺: 91
 throw_statement (234)
-    on left: 182, on right: 93
+    左辺: 182, 右辺: 93
 try_statement (235)
-    on left: 183 184 185, on right: 94
+    左辺: 183 184 185, 右辺: 94
 catch (236)
-    on left: 186, on right: 183 185
+    左辺: 186, 右辺: 183 185
 finally (237)
-    on left: 187, on right: 184 185
+    左辺: 187, 右辺: 184 185
 statement_list__opt (238)
-    on left: 188 189, on right: 31 179 180
+    左辺: 188 189, 右辺: 31 179 180
 initialiser__opt (239)
-    on left: 190 191, on right: 48 49 50 51 115 121 122
+    左辺: 190 191, 右辺: 48 49 50 51 115 121 122
 initialiser_no_in__opt (240)
-    on left: 192 193, on right: 123 124
+    左辺: 192 193, 右辺: 123 124
 case_clauses__opt (241)
-    on left: 194 195, on right: 175 176
+    左辺: 194 195, 右辺: 175 176
 literal (242)
-    on left: 196 197 198 199 200, on right: 206
+    左辺: 196 197 198 199 200, 右辺: 206
 null_literal (243)
-    on left: 201, on right: 196
+    左辺: 201, 右辺: 196
 boolean_literal (244)
-    on left: 202 203, on right: 197
+    左辺: 202 203, 右辺: 197
 primary_expression (245)
-    on left: 204 205 206 207 208 209, on right: 237
+    左辺: 204 205 206 207 208 209, 右辺: 237
 array_literal (246)
-    on left: 210 211 212 213, on right: 207
+    左辺: 210 211 212 213, 右辺: 207
 element_list (247)
-    on left: 214 215, on right: 211 212 213 215
+    左辺: 214 215, 右辺: 211 212 213 215
 elision (248)
-    on left: 216 217, on right: 217 363
+    左辺: 216 217, 右辺: 217 363
 array_comprehensions (249)
-    on left: 218, on right: 213
+    左辺: 218, 右辺: 213
 array_comprehension_iteration (250)
-    on left: 219 220, on right: 218
+    左辺: 219 220, 右辺: 218
 array_comprehension_if__opt (251)
-    on left: 221 222, on right: 218
+    左辺: 221 222, 右辺: 218
 object_literal (252)
-    on left: 223, on right: 208
+    左辺: 223, 右辺: 208
 property_name_and_value_list__opt (253)
-    on left: 224 225 226, on right: 223
+    左辺: 224 225 226, 右辺: 223
 property_name_and_value_list (254)
-    on left: 227 228 229 230 231 232, on right: 225 226 230 231 232
+    左辺: 227 228 229 230 231 232, 右辺: 225 226 230 231 232
 property_name (255)
-    on left: 233 234 235 236, on right: 138 139 140 142 227 230
+    左辺: 233 234 235 236, 右辺: 138 139 140 142 227 230
 member_expression (256)
-    on left: 237 238 239 240 241 242 243 244, on right: 6 240 243 244
+    左辺: 237 238 239 240 241 242 243 244, 右辺: 6 240 243 244
     245 247
 new_expression (257)
-    on left: 245 246, on right: 246 257
+    左辺: 245 246, 右辺: 246 257
 call_expression (258)
-    on left: 247 248 249 250, on right: 248 249 250 258
+    左辺: 247 248 249 250, 右辺: 248 249 250 258
 arguments (259)
-    on left: 251 252, on right: 244 247 248
+    左辺: 251 252, 右辺: 244 247 248
 argument_list (260)
-    on left: 253 254 255 256, on right: 252 255 256
+    左辺: 253 254 255 256, 右辺: 252 255 256
 left_hand_side_expression (261)
-    on left: 257 258 259 260, on right: 162 165 168 219 220 261 262
-    263 339 341
+    左辺: 257 258 259 260, 右辺: 162 165 168 219 220 261 262 263
+    339 341
 postfix_expression (262)
-    on left: 261 262 263, on right: 264
+    左辺: 261 262 263, 右辺: 264
 unary_expression (263)
-    on left: 264 265 266 267 268 269 270 271 272 273, on right: 265
-    266 267 268 269 270 271 272 273 274 275 276 277
+    左辺: 264 265 266 267 268 269 270 271 272 273, 右辺: 265 266
+    267 268 269 270 271 272 273 274 275 276 277
 multiplicative_expression (264)
-    on left: 274 275 276 277, on right: 275 276 277 278 279 280
+    左辺: 274 275 276 277, 右辺: 275 276 277 278 279 280
 additive_expression (265)
-    on left: 278 279 280, on right: 279 280 281 282 283 284
+    左辺: 278 279 280, 右辺: 279 280 281 282 283 284
 shift_expression (266)
-    on left: 281 282 283 284, on right: 282 283 284 285 286 287 288
-    289 290 291 292 293 294 295 296 297
+    左辺: 281 282 283 284, 右辺: 282 283 284 285 286 287 288 289
+    290 291 292 293 294 295 296 297
 relational_expression (267)
-    on left: 285 286 287 288 289 290 291, on right: 286 287 288 289
-    290 291 298 299 300 301 302
+    左辺: 285 286 287 288 289 290 291, 右辺: 286 287 288 289 290
+    291 298 299 300 301 302
 relational_expression_no_in (268)
-    on left: 292 293 294 295 296 297, on right: 293 294 295 296 297
-    303 304 305 306 307
+    左辺: 292 293 294 295 296 297, 右辺: 293 294 295 296 297 303
+    304 305 306 307
 equality_expression (269)
-    on left: 298 299 300 301 302, on right: 299 300 301 302 308 309
+    左辺: 298 299 300 301 302, 右辺: 299 300 301 302 308 309
 equality_expression_no_in (270)
-    on left: 303 304 305 306 307, on right: 304 305 306 307 310 311
+    左辺: 303 304 305 306 307, 右辺: 304 305 306 307 310 311
 bitwise_and_expression (271)
-    on left: 308 309, on right: 309 312 313
+    左辺: 308 309, 右辺: 309 312 313
 bitwise_and_expression_no_in (272)
-    on left: 310 311, on right: 311 314 315
+    左辺: 310 311, 右辺: 311 314 315
 bitwise_xor_expression (273)
-    on left: 312 313, on right: 313 316 317
+    左辺: 312 313, 右辺: 313 316 317
 bitwise_xor_expression_no_in (274)
-    on left: 314 315, on right: 315 318 319
+    左辺: 314 315, 右辺: 315 318 319
 bitwise_or_expression (275)
-    on left: 316 317, on right: 317 320 321
+    左辺: 316 317, 右辺: 317 320 321
 bitwise_or_expression_no_in (276)
-    on left: 318 319, on right: 319 322 323
+    左辺: 318 319, 右辺: 319 322 323
 logical_and_expression (277)
-    on left: 320 321, on right: 321 324 325
+    左辺: 320 321, 右辺: 321 324 325
 logical_and_expression_no_in (278)
-    on left: 322 323, on right: 323 326 327
+    左辺: 322 323, 右辺: 323 326 327
 logical_or_expression (279)
-    on left: 324 325, on right: 325 328 329
+    左辺: 324 325, 右辺: 325 328 329
 logical_or_expression_no_in (280)
-    on left: 326 327, on right: 327 330 331
+    左辺: 326 327, 右辺: 327 330 331
 conditional_expression (281)
-    on left: 328 329, on right: 332
+    左辺: 328 329, 右辺: 332
 conditional_expression_no_in (282)
-    on left: 330 331, on right: 335
+    左辺: 330 331, 右辺: 335
 yield_expression (283)
-    on left: 332 333 334, on right: 338
+    左辺: 332 333 334, 右辺: 338
 yield_expression_no_in (284)
-    on left: 335 336 337, on right: 340
+    左辺: 335 336 337, 右辺: 340
 assignment_expression (285)
-    on left: 338 339, on right: 44 143 214 215 227 230 236 253 255
-    329 334 339 354 355
+    左辺: 338 339, 右辺: 44 143 214 215 227 230 236 253 255 329
+    334 339 354 355
 assignment_expression_no_in (286)
-    on left: 340 341, on right: 144 331 337 341 356 357
+    左辺: 340 341, 右辺: 144 331 337 341 356 357
 assignment_operator (287)
-    on left: 342 343 344 345 346 347 348 349 350 351 352 353, on right:
+    左辺: 342 343 344 345 346 347 348 349 350 351 352 353, 右辺:
     339 341
 expression (288)
-    on left: 354 355, on right: 146 147 148 149 152 155 162 163 165
-    167 168 169 173 174 179 182 209 219 220 222 240 241 249 355 361
+    左辺: 354 355, 右辺: 146 147 148 149 152 155 162 163 165 167
+    168 169 173 174 179 182 209 219 220 222 240 241 249 355 361
 expression_no_in (289)
-    on left: 356 357, on right: 357 359
+    左辺: 356 357, 右辺: 357 359
 expression_no_in__opt (290)
-    on left: 358 359, on right: 158
+    左辺: 358 359, 右辺: 158
 expression__opt (291)
-    on left: 360 361, on right: 158 161 172
+    左辺: 360 361, 右辺: 158 161 172
 elision__opt (292)
-    on left: 362 363, on right: 127 129 130 131 132 133 134 135 210
-    212 214 215
+    左辺: 362 363, 右辺: 127 129 130 131 132 133 134 135 210 212
+    214 215
 terminator (293)
-    on left: 364 365, on right: 21 22 23 24 101 102 103 109 110 111
-    145 146 152 170 171 172 182
+    左辺: 364 365, 右辺: 21 22 23 24 101 102 103 109 110 111 145
+    146 152 170 171 172 182
 
 
-state 0
+状態 0
 
     0 $accept: . program $end
 
@@ -1162,7 +1162,7 @@ state 0
     terminator                 go to state 107
 
 
-state 1
+状態 1
 
   270 unary_expression: '+' . unary_expression
 
@@ -1216,7 +1216,7 @@ state 1
     unary_expression           go to state 113
 
 
-state 2
+状態 2
 
   271 unary_expression: '-' . unary_expression
 
@@ -1270,7 +1270,7 @@ state 2
     unary_expression           go to state 114
 
 
-state 3
+状態 3
 
   273 unary_expression: '!' . unary_expression
 
@@ -1324,7 +1324,7 @@ state 3
     unary_expression           go to state 115
 
 
-state 4
+状態 4
 
   272 unary_expression: '~' . unary_expression
 
@@ -1378,7 +1378,7 @@ state 4
     unary_expression           go to state 116
 
 
-state 5
+状態 5
 
   265 unary_expression: JS_DELETE . unary_expression
 
@@ -1432,7 +1432,7 @@ state 5
     unary_expression           go to state 117
 
 
-state 6
+状態 6
 
   266 unary_expression: JS_VOID . unary_expression
 
@@ -1486,7 +1486,7 @@ state 6
     unary_expression           go to state 118
 
 
-state 7
+状態 7
 
   267 unary_expression: JS_TYPEOF . unary_expression
 
@@ -1540,7 +1540,7 @@ state 7
     unary_expression           go to state 119
 
 
-state 8
+状態 8
 
   269 unary_expression: JS_DECREMENT . unary_expression
 
@@ -1594,7 +1594,7 @@ state 8
     unary_expression           go to state 120
 
 
-state 9
+状態 9
 
   268 unary_expression: JS_INCREMENT . unary_expression
 
@@ -1648,7 +1648,7 @@ state 9
     unary_expression           go to state 121
 
 
-state 10
+状態 10
 
   209 primary_expression: '(' . expression ')'
   260 left_hand_side_expression: '(' . object_left_hand_side ')'
@@ -1720,7 +1720,7 @@ state 10
     expression                 go to state 124
 
 
-state 11
+状態 11
 
   244 member_expression: JS_NEW . member_expression arguments
   246 new_expression: JS_NEW . new_expression
@@ -1760,7 +1760,7 @@ state 11
     new_expression             go to state 127
 
 
-state 12
+状態 12
 
   210 array_literal: '[' . elision__opt ']'
   211              | '[' . element_list ']'
@@ -1776,7 +1776,7 @@ state 12
     elision__opt  go to state 131
 
 
-state 13
+状態 13
 
   171 break_statement: JS_BREAK . identifier__opt terminator
 
@@ -1787,7 +1787,7 @@ state 13
     identifier__opt  go to state 133
 
 
-state 14
+状態 14
 
     4 class_adjective__opt: JS_CONST .
    33 function_declaration: JS_CONST . JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
@@ -1806,7 +1806,7 @@ state 14
     object_left_hand_side                    go to state 139
 
 
-state 15
+状態 15
 
   170 continue_statement: JS_CONTINUE . identifier__opt terminator
 
@@ -1817,7 +1817,7 @@ state 15
     identifier__opt  go to state 140
 
 
-state 16
+状態 16
 
   152 iteration_statement: JS_DO . statement JS_WHILE $@1 '(' expression $@2 ')' terminator
 
@@ -1930,7 +1930,7 @@ state 16
     terminator                 go to state 107
 
 
-state 17
+状態 17
 
   100 export_statement: JS_EXPORT . exportable_definition
 
@@ -1953,14 +1953,14 @@ state 17
     object_left_hand_side                    go to state 139
 
 
-state 18
+状態 18
 
   203 boolean_literal: JS_FALSE .
 
     $default  reduce using rule 203 (boolean_literal)
 
 
-state 19
+状態 19
 
   158 iteration_statement: JS_FOR . '(' expression_no_in__opt $@5 ';' expression__opt ';' expression__opt $@6 ')' statement
   161                    | JS_FOR . '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 ')' statement
@@ -1975,7 +1975,7 @@ state 19
     JS_EACH  shift, and go to state 150
 
 
-state 20
+状態 20
 
    32 function_declaration: JS_FUNCTION . JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
    34 function_expression: JS_FUNCTION . identifier__opt '(' formal_parameter_list__opt ')' '{' function_body '}'
@@ -1987,7 +1987,7 @@ state 20
     identifier__opt  go to state 152
 
 
-state 21
+状態 21
 
   181 labelled_statement: JS_IDENTIFIER . ':' statement
   205 primary_expression: JS_IDENTIFIER .
@@ -1997,7 +1997,7 @@ state 21
     $default  reduce using rule 205 (primary_expression)
 
 
-state 22
+状態 22
 
   147 if_statement: JS_IF . '(' expression ')' statement JS_ELSE statement
   148             | JS_IF . '(' expression ')' statement
@@ -2005,7 +2005,7 @@ state 22
     '('  shift, and go to state 154
 
 
-state 23
+状態 23
 
   149 if_statement: JS_IF_OPT . expression statement
 
@@ -2074,7 +2074,7 @@ state 23
     expression                 go to state 155
 
 
-state 24
+状態 24
 
   101 import_statement: JS_IMPORT . JS_IDENTIFIER JS_FROM import_expression terminator
   102                 | JS_IMPORT . destructuring_assignment_left_hand_side JS_FROM import_expression terminator
@@ -2090,21 +2090,21 @@ state 24
     object_left_hand_side                    go to state 139
 
 
-state 25
+状態 25
 
   201 null_literal: JS_K_NULL .
 
     $default  reduce using rule 201 (null_literal)
 
 
-state 26
+状態 26
 
   198 literal: JS_NUMERIC_LITERAL .
 
     $default  reduce using rule 198 (literal)
 
 
-state 27
+状態 27
 
   241 member_expression: JS_PRIVATE . '[' expression ']'
   242                  | JS_PRIVATE . '.' JS_IDENTIFIER
@@ -2113,14 +2113,14 @@ state 27
     '.'  shift, and go to state 160
 
 
-state 28
+状態 28
 
   200 literal: JS_REGEXP_LITERAL .
 
     $default  reduce using rule 200 (literal)
 
 
-state 29
+状態 29
 
   172 return_statement: JS_RETURN . expression__opt terminator
 
@@ -2191,28 +2191,28 @@ state 29
     expression__opt            go to state 162
 
 
-state 30
+状態 30
 
   199 literal: JS_STRING_LITERAL .
 
     $default  reduce using rule 199 (literal)
 
 
-state 31
+状態 31
 
   174 switch_statement: JS_SWITCH . '(' expression ')' case_block
 
     '('  shift, and go to state 163
 
 
-state 32
+状態 32
 
   204 primary_expression: JS_THIS .
 
     $default  reduce using rule 204 (primary_expression)
 
 
-state 33
+状態 33
 
   182 throw_statement: JS_THROW . expression terminator
 
@@ -2281,14 +2281,14 @@ state 33
     expression                 go to state 164
 
 
-state 34
+状態 34
 
   202 boolean_literal: JS_TRUE .
 
     $default  reduce using rule 202 (boolean_literal)
 
 
-state 35
+状態 35
 
   183 try_statement: JS_TRY . block catch
   184              | JS_TRY . block finally
@@ -2299,7 +2299,7 @@ state 35
     block  go to state 166
 
 
-state 36
+状態 36
 
   109 variable_statement: JS_VAR . variable_declaration_list terminator
 
@@ -2314,7 +2314,7 @@ state 36
     object_left_hand_side                    go to state 139
 
 
-state 37
+状態 37
 
   155 iteration_statement: JS_WHILE . $@3 '(' expression $@4 ')' statement
 
@@ -2323,21 +2323,21 @@ state 37
     $@3  go to state 169
 
 
-state 38
+状態 38
 
   173 with_statement: JS_WITH . '(' expression ')' statement
 
     '('  shift, and go to state 170
 
 
-state 39
+状態 39
 
   365 terminator: JS_LINE_BREAK .
 
     $default  reduce using rule 365 (terminator)
 
 
-state 40
+状態 40
 
    37 arrow_function_expression: JS_FUNCTION_GLYPH . '{' function_body '}'
    43                          | JS_FUNCTION_GLYPH . shorten_function_body
@@ -2348,7 +2348,7 @@ state 40
     shorten_function_body  go to state 173
 
 
-state 41
+状態 41
 
    39 arrow_function_expression: JS_FUNCTION_GLYPH_WITH_CONTEXT . '{' function_body '}'
    42                          | JS_FUNCTION_GLYPH_WITH_CONTEXT . shorten_function_body
@@ -2359,7 +2359,7 @@ state 41
     shorten_function_body  go to state 175
 
 
-state 42
+状態 42
 
    36 arrow_function_expression: JS_PARAM_BEGIN . formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
    38                          | JS_PARAM_BEGIN . formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
@@ -2382,7 +2382,7 @@ state 42
     object_left_hand_side                    go to state 139
 
 
-state 43
+状態 43
 
   111 variable_statement: JS_LET . variable_declaration_list terminator
   112 let_statement: JS_LET . '(' let_assignment_list ')' statement
@@ -2399,7 +2399,7 @@ state 43
     object_left_hand_side                    go to state 139
 
 
-state 44
+状態 44
 
    99 module_block: JS_MODULE . identifier__opt statement
 
@@ -2411,7 +2411,7 @@ state 44
     identifier__opt  go to state 185
 
 
-state 45
+状態 45
 
   127 array_left_hand_side: JS_DSTA_BEGIN . elision__opt JS_DSTA_END
   128                     | JS_DSTA_BEGIN . array_left_hand_side_list JS_DSTA_END
@@ -2426,14 +2426,14 @@ state 45
     elision__opt               go to state 187
 
 
-state 46
+状態 46
 
    31 version_statement: MOCHA_VERSIONOF . '(' JS_IDENTIFIER ')' '{' statement_list__opt '}'
 
     '('  shift, and go to state 188
 
 
-state 47
+状態 47
 
   333 yield_expression: JS_YIELD . JS_YIELD_SENTINEL
   334                 | JS_YIELD . assignment_expression
@@ -2503,7 +2503,7 @@ state 47
     assignment_expression      go to state 190
 
 
-state 48
+状態 48
 
    97 block: '{' . '}'
    98      | '{' . statement_list '}'
@@ -2622,63 +2622,63 @@ state 48
     terminator                         go to state 107
 
 
-state 49
+状態 49
 
   364 terminator: ';' .
 
     $default  reduce using rule 364 (terminator)
 
 
-state 50
+状態 50
 
     0 $accept: program . $end
 
     $end  shift, and go to state 196
 
 
-state 51
+状態 51
 
   239 member_expression: class_initialiser .
 
     $default  reduce using rule 239 (member_expression)
 
 
-state 52
+状態 52
 
     2 class_initialiser: class_adjective__opt . JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt '}'
 
     JS_CLASS  shift, and go to state 197
 
 
-state 53
+状態 53
 
    96 statement_no_block: version_statement .
 
     $default  reduce using rule 96 (statement_no_block)
 
 
-state 54
+状態 54
 
    81 statement_no_block: function_declaration .
 
     $default  reduce using rule 81 (statement_no_block)
 
 
-state 55
+状態 55
 
   238 member_expression: function_expression .
 
     $default  reduce using rule 238 (member_expression)
 
 
-state 56
+状態 56
 
    35 function_expression: arrow_function_expression .
 
     $default  reduce using rule 35 (function_expression)
 
 
-state 57
+状態 57
 
     1 program: source_elements .
    61 source_elements: source_elements . source_element
@@ -2794,210 +2794,210 @@ state 57
     terminator                 go to state 107
 
 
-state 58
+状態 58
 
    60 source_elements: source_element .
 
     $default  reduce using rule 60 (source_elements)
 
 
-state 59
+状態 59
 
    66 source_element: statement .
 
     $default  reduce using rule 66 (source_element)
 
 
-state 60
+状態 60
 
    75 statement: statement_with_block .
 
     $default  reduce using rule 75 (statement)
 
 
-state 61
+状態 61
 
    79 statement_with_block: statement_no_block .
 
     $default  reduce using rule 79 (statement_with_block)
 
 
-state 62
+状態 62
 
    78 statement_with_block: block .
 
     $default  reduce using rule 78 (statement_with_block)
 
 
-state 63
+状態 63
 
    76 statement: module_block .
 
     $default  reduce using rule 76 (statement)
 
 
-state 64
+状態 64
 
    77 statement: export_statement .
 
     $default  reduce using rule 77 (statement)
 
 
-state 65
+状態 65
 
    95 statement_no_block: import_statement .
 
     $default  reduce using rule 95 (statement_no_block)
 
 
-state 66
+状態 66
 
    80 statement_no_block: variable_statement .
 
     $default  reduce using rule 80 (statement_no_block)
 
 
-state 67
+状態 67
 
    82 statement_no_block: let_statement .
 
     $default  reduce using rule 82 (statement_no_block)
 
 
-state 68
+状態 68
 
   259 left_hand_side_expression: array_left_hand_side .
 
     $default  reduce using rule 259 (left_hand_side_expression)
 
 
-state 69
+状態 69
 
    83 statement_no_block: empty_statement .
 
     $default  reduce using rule 83 (statement_no_block)
 
 
-state 70
+状態 70
 
    84 statement_no_block: expression_statement .
 
     $default  reduce using rule 84 (statement_no_block)
 
 
-state 71
+状態 71
 
    85 statement_no_block: if_statement .
 
     $default  reduce using rule 85 (statement_no_block)
 
 
-state 72
+状態 72
 
    86 statement_no_block: iteration_statement .
 
     $default  reduce using rule 86 (statement_no_block)
 
 
-state 73
+状態 73
 
    87 statement_no_block: continue_statement .
 
     $default  reduce using rule 87 (statement_no_block)
 
 
-state 74
+状態 74
 
    88 statement_no_block: break_statement .
 
     $default  reduce using rule 88 (statement_no_block)
 
 
-state 75
+状態 75
 
    89 statement_no_block: return_statement .
 
     $default  reduce using rule 89 (statement_no_block)
 
 
-state 76
+状態 76
 
    90 statement_no_block: with_statement .
 
     $default  reduce using rule 90 (statement_no_block)
 
 
-state 77
+状態 77
 
    92 statement_no_block: switch_statement .
 
     $default  reduce using rule 92 (statement_no_block)
 
 
-state 78
+状態 78
 
    91 statement_no_block: labelled_statement .
 
     $default  reduce using rule 91 (statement_no_block)
 
 
-state 79
+状態 79
 
    93 statement_no_block: throw_statement .
 
     $default  reduce using rule 93 (statement_no_block)
 
 
-state 80
+状態 80
 
    94 statement_no_block: try_statement .
 
     $default  reduce using rule 94 (statement_no_block)
 
 
-state 81
+状態 81
 
   206 primary_expression: literal .
 
     $default  reduce using rule 206 (primary_expression)
 
 
-state 82
+状態 82
 
   196 literal: null_literal .
 
     $default  reduce using rule 196 (literal)
 
 
-state 83
+状態 83
 
   197 literal: boolean_literal .
 
     $default  reduce using rule 197 (literal)
 
 
-state 84
+状態 84
 
   237 member_expression: primary_expression .
 
     $default  reduce using rule 237 (member_expression)
 
 
-state 85
+状態 85
 
   207 primary_expression: array_literal .
 
     $default  reduce using rule 207 (primary_expression)
 
 
-state 86
+状態 86
 
   208 primary_expression: object_literal .
 
     $default  reduce using rule 208 (primary_expression)
 
 
-state 87
+状態 87
 
   240 member_expression: member_expression . '[' expression ']'
   243                  | member_expression . '.' JS_IDENTIFIER
@@ -3016,14 +3016,14 @@ state 87
     arguments  go to state 202
 
 
-state 88
+状態 88
 
   257 left_hand_side_expression: new_expression .
 
     $default  reduce using rule 257 (left_hand_side_expression)
 
 
-state 89
+状態 89
 
   248 call_expression: call_expression . arguments
   249                | call_expression . '[' expression ']'
@@ -3042,7 +3042,7 @@ state 89
     arguments  go to state 205
 
 
-state 90
+状態 90
 
   261 postfix_expression: left_hand_side_expression .
   262                   | left_hand_side_expression . JS_INCREMENT
@@ -3083,21 +3083,21 @@ state 90
     assignment_operator  go to state 220
 
 
-state 91
+状態 91
 
   264 unary_expression: postfix_expression .
 
     $default  reduce using rule 264 (unary_expression)
 
 
-state 92
+状態 92
 
   274 multiplicative_expression: unary_expression .
 
     $default  reduce using rule 274 (multiplicative_expression)
 
 
-state 93
+状態 93
 
   275 multiplicative_expression: multiplicative_expression . '*' unary_expression
   276                          | multiplicative_expression . '/' unary_expression
@@ -3114,7 +3114,7 @@ state 93
     $default  reduce using rule 278 (additive_expression)
 
 
-state 94
+状態 94
 
   279 additive_expression: additive_expression . '+' multiplicative_expression
   280                    | additive_expression . '-' multiplicative_expression
@@ -3128,7 +3128,7 @@ state 94
     $default  reduce using rule 281 (shift_expression)
 
 
-state 95
+状態 95
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -3145,7 +3145,7 @@ state 95
     $default          reduce using rule 285 (relational_expression)
 
 
-state 96
+状態 96
 
   286 relational_expression: relational_expression . '<' shift_expression
   287                      | relational_expression . '>' shift_expression
@@ -3171,7 +3171,7 @@ state 96
     $default         reduce using rule 298 (equality_expression)
 
 
-state 97
+状態 97
 
   299 equality_expression: equality_expression . JS_EQUAL relational_expression
   300                    | equality_expression . JS_NOT_EQUAL relational_expression
@@ -3191,7 +3191,7 @@ state 97
     $default      reduce using rule 308 (bitwise_and_expression)
 
 
-state 98
+状態 98
 
   309 bitwise_and_expression: bitwise_and_expression . '&' equality_expression
   312 bitwise_xor_expression: bitwise_and_expression .
@@ -3202,7 +3202,7 @@ state 98
     $default  reduce using rule 312 (bitwise_xor_expression)
 
 
-state 99
+状態 99
 
   313 bitwise_xor_expression: bitwise_xor_expression . '^' bitwise_and_expression
   316 bitwise_or_expression: bitwise_xor_expression .
@@ -3213,7 +3213,7 @@ state 99
     $default  reduce using rule 316 (bitwise_or_expression)
 
 
-state 100
+状態 100
 
   317 bitwise_or_expression: bitwise_or_expression . '|' bitwise_xor_expression
   320 logical_and_expression: bitwise_or_expression .
@@ -3224,7 +3224,7 @@ state 100
     $default  reduce using rule 320 (logical_and_expression)
 
 
-state 101
+状態 101
 
   321 logical_and_expression: logical_and_expression . JS_LOGICAL_AND bitwise_or_expression
   324 logical_or_expression: logical_and_expression .
@@ -3235,7 +3235,7 @@ state 101
     $default        reduce using rule 324 (logical_or_expression)
 
 
-state 102
+状態 102
 
   325 logical_or_expression: logical_or_expression . JS_LOGICAL_OR logical_and_expression
   328 conditional_expression: logical_or_expression .
@@ -3249,28 +3249,28 @@ state 102
     $default       reduce using rule 328 (conditional_expression)
 
 
-state 103
+状態 103
 
   332 yield_expression: conditional_expression .
 
     $default  reduce using rule 332 (yield_expression)
 
 
-state 104
+状態 104
 
   338 assignment_expression: yield_expression .
 
     $default  reduce using rule 338 (assignment_expression)
 
 
-state 105
+状態 105
 
   354 expression: assignment_expression .
 
     $default  reduce using rule 354 (expression)
 
 
-state 106
+状態 106
 
   146 expression_statement: expression . terminator
   355 expression: expression . ',' assignment_expression
@@ -3282,21 +3282,21 @@ state 106
     terminator  go to state 246
 
 
-state 107
+状態 107
 
   145 empty_statement: terminator .
 
     $default  reduce using rule 145 (empty_statement)
 
 
-state 108
+状態 108
 
     4 class_adjective__opt: JS_CONST .
 
     $default  reduce using rule 4 (class_adjective__opt)
 
 
-state 109
+状態 109
 
    34 function_expression: JS_FUNCTION . identifier__opt '(' formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -3307,14 +3307,14 @@ state 109
     identifier__opt  go to state 152
 
 
-state 110
+状態 110
 
   205 primary_expression: JS_IDENTIFIER .
 
     $default  reduce using rule 205 (primary_expression)
 
 
-state 111
+状態 111
 
   223 object_literal: '{' . property_name_and_value_list__opt '}'
 
@@ -3323,7 +3323,7 @@ state 111
     property_name_and_value_list__opt  go to state 195
 
 
-state 112
+状態 112
 
   261 postfix_expression: left_hand_side_expression .
   262                   | left_hand_side_expression . JS_INCREMENT
@@ -3337,70 +3337,70 @@ state 112
     $default      reduce using rule 261 (postfix_expression)
 
 
-state 113
+状態 113
 
   270 unary_expression: '+' unary_expression .
 
     $default  reduce using rule 270 (unary_expression)
 
 
-state 114
+状態 114
 
   271 unary_expression: '-' unary_expression .
 
     $default  reduce using rule 271 (unary_expression)
 
 
-state 115
+状態 115
 
   273 unary_expression: '!' unary_expression .
 
     $default  reduce using rule 273 (unary_expression)
 
 
-state 116
+状態 116
 
   272 unary_expression: '~' unary_expression .
 
     $default  reduce using rule 272 (unary_expression)
 
 
-state 117
+状態 117
 
   265 unary_expression: JS_DELETE unary_expression .
 
     $default  reduce using rule 265 (unary_expression)
 
 
-state 118
+状態 118
 
   266 unary_expression: JS_VOID unary_expression .
 
     $default  reduce using rule 266 (unary_expression)
 
 
-state 119
+状態 119
 
   267 unary_expression: JS_TYPEOF unary_expression .
 
     $default  reduce using rule 267 (unary_expression)
 
 
-state 120
+状態 120
 
   269 unary_expression: JS_DECREMENT unary_expression .
 
     $default  reduce using rule 269 (unary_expression)
 
 
-state 121
+状態 121
 
   268 unary_expression: JS_INCREMENT unary_expression .
 
     $default  reduce using rule 268 (unary_expression)
 
 
-state 122
+状態 122
 
   136 object_left_hand_side: JS_DSTO_BEGIN . object_member_left_hand_side_list JS_DSTO_END
 
@@ -3413,14 +3413,14 @@ state 122
     property_name                      go to state 252
 
 
-state 123
+状態 123
 
   260 left_hand_side_expression: '(' object_left_hand_side . ')'
 
     ')'  shift, and go to state 253
 
 
-state 124
+状態 124
 
   209 primary_expression: '(' expression . ')'
   355 expression: expression . ',' assignment_expression
@@ -3429,7 +3429,7 @@ state 124
     ')'  shift, and go to state 254
 
 
-state 125
+状態 125
 
   209 primary_expression: '(' . expression ')'
 
@@ -3498,7 +3498,7 @@ state 125
     expression                 go to state 124
 
 
-state 126
+状態 126
 
   240 member_expression: member_expression . '[' expression ']'
   243                  | member_expression . '.' JS_IDENTIFIER
@@ -3517,21 +3517,21 @@ state 126
     arguments  go to state 255
 
 
-state 127
+状態 127
 
   246 new_expression: JS_NEW new_expression .
 
     $default  reduce using rule 246 (new_expression)
 
 
-state 128
+状態 128
 
   216 elision: ',' .
 
     $default  reduce using rule 216 (elision)
 
 
-state 129
+状態 129
 
   211 array_literal: '[' element_list . ']'
   212              | '[' element_list . ',' elision__opt ']'
@@ -3546,7 +3546,7 @@ state 129
     array_comprehension_iteration  go to state 260
 
 
-state 130
+状態 130
 
   217 elision: elision . ','
   363 elision__opt: elision .
@@ -3556,7 +3556,7 @@ state 130
     $default  reduce using rule 363 (elision__opt)
 
 
-state 131
+状態 131
 
   210 array_literal: '[' elision__opt . ']'
   214 element_list: elision__opt . assignment_expression
@@ -3626,14 +3626,14 @@ state 131
     assignment_expression      go to state 263
 
 
-state 132
+状態 132
 
    74 identifier__opt: JS_IDENTIFIER .
 
     $default  reduce using rule 74 (identifier__opt)
 
 
-state 133
+状態 133
 
   171 break_statement: JS_BREAK identifier__opt . terminator
 
@@ -3643,7 +3643,7 @@ state 133
     terminator  go to state 264
 
 
-state 134
+状態 134
 
    33 function_declaration: JS_CONST JS_IDENTIFIER . '(' formal_parameter_list__opt ')' '{' function_body '}'
   121 variable_declaration: JS_IDENTIFIER . initialiser__opt
@@ -3657,7 +3657,7 @@ state 134
     initialiser__opt  go to state 268
 
 
-state 135
+状態 135
 
   110 variable_statement: JS_CONST variable_declaration_list . terminator
   118 variable_declaration_list: variable_declaration_list . ',' variable_declaration
@@ -3669,14 +3669,14 @@ state 135
     terminator  go to state 270
 
 
-state 136
+状態 136
 
   117 variable_declaration_list: variable_declaration .
 
     $default  reduce using rule 117 (variable_declaration_list)
 
 
-state 137
+状態 137
 
   122 variable_declaration: destructuring_assignment_left_hand_side . initialiser__opt
 
@@ -3688,21 +3688,21 @@ state 137
     initialiser__opt  go to state 271
 
 
-state 138
+状態 138
 
   125 destructuring_assignment_left_hand_side: array_left_hand_side .
 
     $default  reduce using rule 125 (destructuring_assignment_left_hand_side)
 
 
-state 139
+状態 139
 
   126 destructuring_assignment_left_hand_side: object_left_hand_side .
 
     $default  reduce using rule 126 (destructuring_assignment_left_hand_side)
 
 
-state 140
+状態 140
 
   170 continue_statement: JS_CONTINUE identifier__opt . terminator
 
@@ -3712,14 +3712,14 @@ state 140
     terminator  go to state 272
 
 
-state 141
+状態 141
 
   152 iteration_statement: JS_DO statement . JS_WHILE $@1 '(' expression $@2 ')' terminator
 
     JS_WHILE  shift, and go to state 273
 
 
-state 142
+状態 142
 
     4 class_adjective__opt: JS_CONST .
    26 exportable_definition: JS_CONST . variable_declaration_list
@@ -3737,7 +3737,7 @@ state 142
     object_left_hand_side                    go to state 139
 
 
-state 143
+状態 143
 
    28 exportable_definition: JS_IDENTIFIER . '(' formal_parameter_list__opt ')' '{' function_body '}'
   121 variable_declaration: JS_IDENTIFIER . initialiser__opt
@@ -3752,35 +3752,35 @@ state 143
     initialiser__opt  go to state 268
 
 
-state 144
+状態 144
 
    29 exportable_definition: JS_GET . JS_IDENTIFIER '(' ')' '{' function_body '}'
 
     JS_IDENTIFIER  shift, and go to state 276
 
 
-state 145
+状態 145
 
    30 exportable_definition: JS_SET . JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}'
 
     JS_IDENTIFIER  shift, and go to state 277
 
 
-state 146
+状態 146
 
    27 exportable_definition: class_initialiser .
 
     $default  reduce using rule 27 (exportable_definition)
 
 
-state 147
+状態 147
 
   100 export_statement: JS_EXPORT exportable_definition .
 
     $default  reduce using rule 100 (export_statement)
 
 
-state 148
+状態 148
 
    25 exportable_definition: variable_declaration_list .
   118 variable_declaration_list: variable_declaration_list . ',' variable_declaration
@@ -3790,7 +3790,7 @@ state 148
     $default  reduce using rule 25 (exportable_definition)
 
 
-state 149
+状態 149
 
   158 iteration_statement: JS_FOR '(' . expression_no_in__opt $@5 ';' expression__opt ';' expression__opt $@6 ')' statement
   161                    | JS_FOR '(' . JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 ')' statement
@@ -3867,7 +3867,7 @@ state 149
     expression_no_in__opt         go to state 293
 
 
-state 150
+状態 150
 
   168 iteration_statement: JS_FOR JS_EACH . '(' left_hand_side_expression JS_IN expression ')' statement
   169                    | JS_FOR JS_EACH . '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
@@ -3875,7 +3875,7 @@ state 150
     '('  shift, and go to state 294
 
 
-state 151
+状態 151
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER . '(' formal_parameter_list__opt ')' '{' function_body '}'
    74 identifier__opt: JS_IDENTIFIER .
@@ -3885,14 +3885,14 @@ state 151
     '('  [reduce using rule 74 (identifier__opt)]
 
 
-state 152
+状態 152
 
    34 function_expression: JS_FUNCTION identifier__opt . '(' formal_parameter_list__opt ')' '{' function_body '}'
 
     '('  shift, and go to state 296
 
 
-state 153
+状態 153
 
   181 labelled_statement: JS_IDENTIFIER ':' . statement
 
@@ -4005,7 +4005,7 @@ state 153
     terminator                 go to state 107
 
 
-state 154
+状態 154
 
   147 if_statement: JS_IF '(' . expression ')' statement JS_ELSE statement
   148             | JS_IF '(' . expression ')' statement
@@ -4075,7 +4075,7 @@ state 154
     expression                 go to state 298
 
 
-state 155
+状態 155
 
   149 if_statement: JS_IF_OPT expression . statement
   355 expression: expression . ',' assignment_expression
@@ -4190,28 +4190,28 @@ state 155
     terminator                 go to state 107
 
 
-state 156
+状態 156
 
   101 import_statement: JS_IMPORT JS_IDENTIFIER . JS_FROM import_expression terminator
 
     JS_FROM  shift, and go to state 300
 
 
-state 157
+状態 157
 
   103 import_statement: JS_IMPORT JS_STRING_LITERAL . JS_FROM import_expression terminator
 
     JS_FROM  shift, and go to state 301
 
 
-state 158
+状態 158
 
   102 import_statement: JS_IMPORT destructuring_assignment_left_hand_side . JS_FROM import_expression terminator
 
     JS_FROM  shift, and go to state 302
 
 
-state 159
+状態 159
 
   241 member_expression: JS_PRIVATE '[' . expression ']'
 
@@ -4280,14 +4280,14 @@ state 159
     expression                 go to state 303
 
 
-state 160
+状態 160
 
   242 member_expression: JS_PRIVATE '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 304
 
 
-state 161
+状態 161
 
   355 expression: expression . ',' assignment_expression
   361 expression__opt: expression .
@@ -4297,7 +4297,7 @@ state 161
     $default  reduce using rule 361 (expression__opt)
 
 
-state 162
+状態 162
 
   172 return_statement: JS_RETURN expression__opt . terminator
 
@@ -4307,7 +4307,7 @@ state 162
     terminator  go to state 305
 
 
-state 163
+状態 163
 
   174 switch_statement: JS_SWITCH '(' . expression ')' case_block
 
@@ -4376,7 +4376,7 @@ state 163
     expression                 go to state 306
 
 
-state 164
+状態 164
 
   182 throw_statement: JS_THROW expression . terminator
   355 expression: expression . ',' assignment_expression
@@ -4388,7 +4388,7 @@ state 164
     terminator  go to state 307
 
 
-state 165
+状態 165
 
    97 block: '{' . '}'
    98      | '{' . statement_list '}'
@@ -4504,7 +4504,7 @@ state 165
     terminator                 go to state 107
 
 
-state 166
+状態 166
 
   183 try_statement: JS_TRY block . catch
   184              | JS_TRY block . finally
@@ -4517,7 +4517,7 @@ state 166
     finally  go to state 311
 
 
-state 167
+状態 167
 
   121 variable_declaration: JS_IDENTIFIER . initialiser__opt
 
@@ -4529,7 +4529,7 @@ state 167
     initialiser__opt  go to state 268
 
 
-state 168
+状態 168
 
   109 variable_statement: JS_VAR variable_declaration_list . terminator
   118 variable_declaration_list: variable_declaration_list . ',' variable_declaration
@@ -4541,14 +4541,14 @@ state 168
     terminator  go to state 312
 
 
-state 169
+状態 169
 
   155 iteration_statement: JS_WHILE $@3 . '(' expression $@4 ')' statement
 
     '('  shift, and go to state 313
 
 
-state 170
+状態 170
 
   173 with_statement: JS_WITH '(' . expression ')' statement
 
@@ -4617,7 +4617,7 @@ state 170
     expression                 go to state 314
 
 
-state 171
+状態 171
 
    44 shorten_function_body: JS_EXP_CLOSURE_BEGIN . assignment_expression
 
@@ -4685,7 +4685,7 @@ state 171
     assignment_expression      go to state 315
 
 
-state 172
+状態 172
 
    37 arrow_function_expression: JS_FUNCTION_GLYPH '{' . function_body '}'
 
@@ -4797,14 +4797,14 @@ state 172
     terminator                    go to state 107
 
 
-state 173
+状態 173
 
    43 arrow_function_expression: JS_FUNCTION_GLYPH shorten_function_body .
 
     $default  reduce using rule 43 (arrow_function_expression)
 
 
-state 174
+状態 174
 
    39 arrow_function_expression: JS_FUNCTION_GLYPH_WITH_CONTEXT '{' . function_body '}'
 
@@ -4916,14 +4916,14 @@ state 174
     terminator                    go to state 107
 
 
-state 175
+状態 175
 
    42 arrow_function_expression: JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body .
 
     $default  reduce using rule 42 (arrow_function_expression)
 
 
-state 176
+状態 176
 
    48 formal_parameter_list: JS_IDENTIFIER . initialiser__opt
 
@@ -4935,21 +4935,21 @@ state 176
     initialiser__opt  go to state 321
 
 
-state 177
+状態 177
 
    54 formal_parameter_rest: JS_PARAMETER_REST . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 322
 
 
-state 178
+状態 178
 
    72 formal_parameter_list__opt: formal_parameter_list_with_rest .
 
     $default  reduce using rule 72 (formal_parameter_list__opt)
 
 
-state 179
+状態 179
 
    45 formal_parameter_list_with_rest: formal_parameter_list .
    47                                | formal_parameter_list . ',' formal_parameter_rest__opt
@@ -4961,14 +4961,14 @@ state 179
     $default  reduce using rule 45 (formal_parameter_list_with_rest)
 
 
-state 180
+状態 180
 
    46 formal_parameter_list_with_rest: formal_parameter_rest .
 
     $default  reduce using rule 46 (formal_parameter_list_with_rest)
 
 
-state 181
+状態 181
 
    36 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt . JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
    38                          | JS_PARAM_BEGIN formal_parameter_list__opt . JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
@@ -4978,7 +4978,7 @@ state 181
     JS_PARAM_END  shift, and go to state 324
 
 
-state 182
+状態 182
 
    49 formal_parameter_list: destructuring_assignment_left_hand_side . initialiser__opt
 
@@ -4990,7 +4990,7 @@ state 182
     initialiser__opt  go to state 325
 
 
-state 183
+状態 183
 
   112 let_statement: JS_LET '(' . let_assignment_list ')' statement
 
@@ -5005,7 +5005,7 @@ state 183
     object_left_hand_side                    go to state 139
 
 
-state 184
+状態 184
 
   111 variable_statement: JS_LET variable_declaration_list . terminator
   118 variable_declaration_list: variable_declaration_list . ',' variable_declaration
@@ -5017,7 +5017,7 @@ state 184
     terminator  go to state 330
 
 
-state 185
+状態 185
 
    99 module_block: JS_MODULE identifier__opt . statement
 
@@ -5130,7 +5130,7 @@ state 185
     terminator                 go to state 107
 
 
-state 186
+状態 186
 
   128 array_left_hand_side: JS_DSTA_BEGIN array_left_hand_side_list . JS_DSTA_END
   129                     | JS_DSTA_BEGIN array_left_hand_side_list . ',' elision__opt JS_DSTA_END
@@ -5142,7 +5142,7 @@ state 186
     JS_DSTA_END  shift, and go to state 333
 
 
-state 187
+状態 187
 
   127 array_left_hand_side: JS_DSTA_BEGIN elision__opt . JS_DSTA_END
   130 array_left_hand_side_list: elision__opt . JS_IDENTIFIER
@@ -5161,35 +5161,35 @@ state 187
     object_left_hand_side                    go to state 139
 
 
-state 188
+状態 188
 
    31 version_statement: MOCHA_VERSIONOF '(' . JS_IDENTIFIER ')' '{' statement_list__opt '}'
 
     JS_IDENTIFIER  shift, and go to state 338
 
 
-state 189
+状態 189
 
   333 yield_expression: JS_YIELD JS_YIELD_SENTINEL .
 
     $default  reduce using rule 333 (yield_expression)
 
 
-state 190
+状態 190
 
   334 yield_expression: JS_YIELD assignment_expression .
 
     $default  reduce using rule 334 (yield_expression)
 
 
-state 191
+状態 191
 
    97 block: '{' '}' .
 
     $default  reduce using rule 97 (block)
 
 
-state 192
+状態 192
 
   224 property_name_and_value_list__opt: '@' .
   225                                  | '@' . property_name_and_value_list ';'
@@ -5206,14 +5206,14 @@ state 192
     property_name                 go to state 341
 
 
-state 193
+状態 193
 
   107 statement_list: statement .
 
     $default  reduce using rule 107 (statement_list)
 
 
-state 194
+状態 194
 
    98 block: '{' statement_list . '}'
   108 statement_list: statement_list . statement
@@ -5328,21 +5328,21 @@ state 194
     terminator                 go to state 107
 
 
-state 195
+状態 195
 
   223 object_literal: '{' property_name_and_value_list__opt . '}'
 
     '}'  shift, and go to state 344
 
 
-state 196
+状態 196
 
     0 $accept: program $end .
 
     $default  accept
 
 
-state 197
+状態 197
 
     2 class_initialiser: class_adjective__opt JS_CLASS . identifier__opt inherit_declaration__opt '{' class_body__opt '}'
 
@@ -5353,14 +5353,14 @@ state 197
     identifier__opt  go to state 345
 
 
-state 198
+状態 198
 
    61 source_elements: source_elements source_element .
 
     $default  reduce using rule 61 (source_elements)
 
 
-state 199
+状態 199
 
   251 arguments: '(' . ')'
   252          | '(' . argument_list ')'
@@ -5433,7 +5433,7 @@ state 199
     assignment_expression      go to state 350
 
 
-state 200
+状態 200
 
   240 member_expression: member_expression '[' . expression ']'
 
@@ -5502,21 +5502,21 @@ state 200
     expression                 go to state 351
 
 
-state 201
+状態 201
 
   243 member_expression: member_expression '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 352
 
 
-state 202
+状態 202
 
   247 call_expression: member_expression arguments .
 
     $default  reduce using rule 247 (call_expression)
 
 
-state 203
+状態 203
 
   249 call_expression: call_expression '[' . expression ']'
 
@@ -5585,119 +5585,119 @@ state 203
     expression                 go to state 353
 
 
-state 204
+状態 204
 
   250 call_expression: call_expression '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 354
 
 
-state 205
+状態 205
 
   248 call_expression: call_expression arguments .
 
     $default  reduce using rule 248 (call_expression)
 
 
-state 206
+状態 206
 
   350 assignment_operator: JS_U_SHIFT_RIGHT_LET .
 
     $default  reduce using rule 350 (assignment_operator)
 
 
-state 207
+状態 207
 
   347 assignment_operator: JS_SUB_LET .
 
     $default  reduce using rule 347 (assignment_operator)
 
 
-state 208
+状態 208
 
   349 assignment_operator: JS_SHIFT_RIGHT_LET .
 
     $default  reduce using rule 349 (assignment_operator)
 
 
-state 209
+状態 209
 
   348 assignment_operator: JS_SHIFT_LEFT_LET .
 
     $default  reduce using rule 348 (assignment_operator)
 
 
-state 210
+状態 210
 
   353 assignment_operator: JS_OR_LET .
 
     $default  reduce using rule 353 (assignment_operator)
 
 
-state 211
+状態 211
 
   352 assignment_operator: JS_NOT_LET .
 
     $default  reduce using rule 352 (assignment_operator)
 
 
-state 212
+状態 212
 
   343 assignment_operator: JS_MUL_LET .
 
     $default  reduce using rule 343 (assignment_operator)
 
 
-state 213
+状態 213
 
   345 assignment_operator: JS_MOD_LET .
 
     $default  reduce using rule 345 (assignment_operator)
 
 
-state 214
+状態 214
 
   344 assignment_operator: JS_DIV_LET .
 
     $default  reduce using rule 344 (assignment_operator)
 
 
-state 215
+状態 215
 
   351 assignment_operator: JS_AND_LET .
 
     $default  reduce using rule 351 (assignment_operator)
 
 
-state 216
+状態 216
 
   346 assignment_operator: JS_ADD_LET .
 
     $default  reduce using rule 346 (assignment_operator)
 
 
-state 217
+状態 217
 
   263 postfix_expression: left_hand_side_expression JS_DECREMENT .
 
     $default  reduce using rule 263 (postfix_expression)
 
 
-state 218
+状態 218
 
   262 postfix_expression: left_hand_side_expression JS_INCREMENT .
 
     $default  reduce using rule 262 (postfix_expression)
 
 
-state 219
+状態 219
 
   342 assignment_operator: '=' .
 
     $default  reduce using rule 342 (assignment_operator)
 
 
-state 220
+状態 220
 
   339 assignment_expression: left_hand_side_expression assignment_operator . assignment_expression
 
@@ -5765,7 +5765,7 @@ state 220
     assignment_expression      go to state 355
 
 
-state 221
+状態 221
 
   275 multiplicative_expression: multiplicative_expression '*' . unary_expression
 
@@ -5819,7 +5819,7 @@ state 221
     unary_expression           go to state 356
 
 
-state 222
+状態 222
 
   276 multiplicative_expression: multiplicative_expression '/' . unary_expression
 
@@ -5873,7 +5873,7 @@ state 222
     unary_expression           go to state 357
 
 
-state 223
+状態 223
 
   277 multiplicative_expression: multiplicative_expression '%' . unary_expression
 
@@ -5927,7 +5927,7 @@ state 223
     unary_expression           go to state 358
 
 
-state 224
+状態 224
 
   279 additive_expression: additive_expression '+' . multiplicative_expression
 
@@ -5982,7 +5982,7 @@ state 224
     multiplicative_expression  go to state 359
 
 
-state 225
+状態 225
 
   280 additive_expression: additive_expression '-' . multiplicative_expression
 
@@ -6037,7 +6037,7 @@ state 225
     multiplicative_expression  go to state 360
 
 
-state 226
+状態 226
 
   284 shift_expression: shift_expression JS_U_SHIFT_RIGHT . additive_expression
 
@@ -6093,7 +6093,7 @@ state 226
     additive_expression        go to state 361
 
 
-state 227
+状態 227
 
   283 shift_expression: shift_expression JS_SHIFT_RIGHT . additive_expression
 
@@ -6149,7 +6149,7 @@ state 227
     additive_expression        go to state 362
 
 
-state 228
+状態 228
 
   282 shift_expression: shift_expression JS_SHIFT_LEFT . additive_expression
 
@@ -6205,7 +6205,7 @@ state 228
     additive_expression        go to state 363
 
 
-state 229
+状態 229
 
   287 relational_expression: relational_expression '>' . shift_expression
 
@@ -6262,7 +6262,7 @@ state 229
     shift_expression           go to state 364
 
 
-state 230
+状態 230
 
   286 relational_expression: relational_expression '<' . shift_expression
 
@@ -6319,7 +6319,7 @@ state 230
     shift_expression           go to state 365
 
 
-state 231
+状態 231
 
   290 relational_expression: relational_expression JS_INSTANCEOF . shift_expression
 
@@ -6376,7 +6376,7 @@ state 231
     shift_expression           go to state 366
 
 
-state 232
+状態 232
 
   291 relational_expression: relational_expression JS_IN . shift_expression
 
@@ -6433,7 +6433,7 @@ state 232
     shift_expression           go to state 367
 
 
-state 233
+状態 233
 
   288 relational_expression: relational_expression JS_LESS_EQUAL . shift_expression
 
@@ -6490,7 +6490,7 @@ state 233
     shift_expression           go to state 368
 
 
-state 234
+状態 234
 
   289 relational_expression: relational_expression JS_GRATER_EQUAL . shift_expression
 
@@ -6547,7 +6547,7 @@ state 234
     shift_expression           go to state 369
 
 
-state 235
+状態 235
 
   302 equality_expression: equality_expression JS_NOT_EQ . relational_expression
 
@@ -6605,7 +6605,7 @@ state 235
     relational_expression      go to state 370
 
 
-state 236
+状態 236
 
   300 equality_expression: equality_expression JS_NOT_EQUAL . relational_expression
 
@@ -6663,7 +6663,7 @@ state 236
     relational_expression      go to state 371
 
 
-state 237
+状態 237
 
   299 equality_expression: equality_expression JS_EQUAL . relational_expression
 
@@ -6721,7 +6721,7 @@ state 237
     relational_expression      go to state 372
 
 
-state 238
+状態 238
 
   301 equality_expression: equality_expression JS_EQ . relational_expression
 
@@ -6779,7 +6779,7 @@ state 238
     relational_expression      go to state 373
 
 
-state 239
+状態 239
 
   309 bitwise_and_expression: bitwise_and_expression '&' . equality_expression
 
@@ -6838,7 +6838,7 @@ state 239
     equality_expression        go to state 374
 
 
-state 240
+状態 240
 
   313 bitwise_xor_expression: bitwise_xor_expression '^' . bitwise_and_expression
 
@@ -6898,7 +6898,7 @@ state 240
     bitwise_and_expression     go to state 375
 
 
-state 241
+状態 241
 
   317 bitwise_or_expression: bitwise_or_expression '|' . bitwise_xor_expression
 
@@ -6959,7 +6959,7 @@ state 241
     bitwise_xor_expression     go to state 376
 
 
-state 242
+状態 242
 
   321 logical_and_expression: logical_and_expression JS_LOGICAL_AND . bitwise_or_expression
 
@@ -7021,7 +7021,7 @@ state 242
     bitwise_or_expression      go to state 377
 
 
-state 243
+状態 243
 
   329 conditional_expression: logical_or_expression '?' . assignment_expression ':' assignment_expression
 
@@ -7089,7 +7089,7 @@ state 243
     assignment_expression      go to state 378
 
 
-state 244
+状態 244
 
   325 logical_or_expression: logical_or_expression JS_LOGICAL_OR . logical_and_expression
 
@@ -7152,7 +7152,7 @@ state 244
     logical_and_expression     go to state 379
 
 
-state 245
+状態 245
 
   355 expression: expression ',' . assignment_expression
 
@@ -7220,14 +7220,14 @@ state 245
     assignment_expression      go to state 380
 
 
-state 246
+状態 246
 
   146 expression_statement: expression terminator .
 
     $default  reduce using rule 146 (expression_statement)
 
 
-state 247
+状態 247
 
   236 property_name: '[' . assignment_expression ']'
 
@@ -7295,7 +7295,7 @@ state 247
     assignment_expression      go to state 381
 
 
-state 248
+状態 248
 
   137 object_member_left_hand_side_list: JS_IDENTIFIER .
   233 property_name: JS_IDENTIFIER .
@@ -7304,21 +7304,21 @@ state 248
     $default  reduce using rule 137 (object_member_left_hand_side_list)
 
 
-state 249
+状態 249
 
   235 property_name: JS_NUMERIC_LITERAL .
 
     $default  reduce using rule 235 (property_name)
 
 
-state 250
+状態 250
 
   234 property_name: JS_STRING_LITERAL .
 
     $default  reduce using rule 234 (property_name)
 
 
-state 251
+状態 251
 
   136 object_left_hand_side: JS_DSTO_BEGIN object_member_left_hand_side_list . JS_DSTO_END
   140 object_member_left_hand_side_list: object_member_left_hand_side_list . ',' property_name ':' JS_IDENTIFIER
@@ -7329,7 +7329,7 @@ state 251
     JS_DSTO_END  shift, and go to state 383
 
 
-state 252
+状態 252
 
   138 object_member_left_hand_side_list: property_name . ':' JS_IDENTIFIER
   139                                  | property_name . ':' destructuring_assignment_left_hand_side
@@ -7337,28 +7337,28 @@ state 252
     ':'  shift, and go to state 384
 
 
-state 253
+状態 253
 
   260 left_hand_side_expression: '(' object_left_hand_side ')' .
 
     $default  reduce using rule 260 (left_hand_side_expression)
 
 
-state 254
+状態 254
 
   209 primary_expression: '(' expression ')' .
 
     $default  reduce using rule 209 (primary_expression)
 
 
-state 255
+状態 255
 
   244 member_expression: JS_NEW member_expression arguments .
 
     $default  reduce using rule 244 (member_expression)
 
 
-state 256
+状態 256
 
   212 array_literal: '[' element_list ',' . elision__opt ']'
   215 element_list: element_list ',' . elision__opt assignment_expression
@@ -7371,7 +7371,7 @@ state 256
     elision__opt  go to state 385
 
 
-state 257
+状態 257
 
   219 array_comprehension_iteration: JS_FOR . '(' left_hand_side_expression JS_IN expression ')'
   220                              | JS_FOR . JS_EACH '(' left_hand_side_expression JS_IN expression ')'
@@ -7380,21 +7380,21 @@ state 257
     JS_EACH  shift, and go to state 387
 
 
-state 258
+状態 258
 
   211 array_literal: '[' element_list ']' .
 
     $default  reduce using rule 211 (array_literal)
 
 
-state 259
+状態 259
 
   213 array_literal: '[' element_list array_comprehensions . ']'
 
     ']'  shift, and go to state 388
 
 
-state 260
+状態 260
 
   218 array_comprehensions: array_comprehension_iteration . array_comprehension_if__opt
 
@@ -7405,35 +7405,35 @@ state 260
     array_comprehension_if__opt  go to state 390
 
 
-state 261
+状態 261
 
   217 elision: elision ',' .
 
     $default  reduce using rule 217 (elision)
 
 
-state 262
+状態 262
 
   210 array_literal: '[' elision__opt ']' .
 
     $default  reduce using rule 210 (array_literal)
 
 
-state 263
+状態 263
 
   214 element_list: elision__opt assignment_expression .
 
     $default  reduce using rule 214 (element_list)
 
 
-state 264
+状態 264
 
   171 break_statement: JS_BREAK identifier__opt terminator .
 
     $default  reduce using rule 171 (break_statement)
 
 
-state 265
+状態 265
 
    33 function_declaration: JS_CONST JS_IDENTIFIER '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -7453,7 +7453,7 @@ state 265
     object_left_hand_side                    go to state 139
 
 
-state 266
+状態 266
 
   143 initialiser: '=' . assignment_expression
 
@@ -7521,21 +7521,21 @@ state 266
     assignment_expression      go to state 392
 
 
-state 267
+状態 267
 
   191 initialiser__opt: initialiser .
 
     $default  reduce using rule 191 (initialiser__opt)
 
 
-state 268
+状態 268
 
   121 variable_declaration: JS_IDENTIFIER initialiser__opt .
 
     $default  reduce using rule 121 (variable_declaration)
 
 
-state 269
+状態 269
 
   118 variable_declaration_list: variable_declaration_list ',' . variable_declaration
 
@@ -7549,28 +7549,28 @@ state 269
     object_left_hand_side                    go to state 139
 
 
-state 270
+状態 270
 
   110 variable_statement: JS_CONST variable_declaration_list terminator .
 
     $default  reduce using rule 110 (variable_statement)
 
 
-state 271
+状態 271
 
   122 variable_declaration: destructuring_assignment_left_hand_side initialiser__opt .
 
     $default  reduce using rule 122 (variable_declaration)
 
 
-state 272
+状態 272
 
   170 continue_statement: JS_CONTINUE identifier__opt terminator .
 
     $default  reduce using rule 170 (continue_statement)
 
 
-state 273
+状態 273
 
   152 iteration_statement: JS_DO statement JS_WHILE . $@1 '(' expression $@2 ')' terminator
 
@@ -7579,7 +7579,7 @@ state 273
     $@1  go to state 394
 
 
-state 274
+状態 274
 
    26 exportable_definition: JS_CONST variable_declaration_list .
   118 variable_declaration_list: variable_declaration_list . ',' variable_declaration
@@ -7589,7 +7589,7 @@ state 274
     $default  reduce using rule 26 (exportable_definition)
 
 
-state 275
+状態 275
 
    28 exportable_definition: JS_IDENTIFIER '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -7609,21 +7609,21 @@ state 275
     object_left_hand_side                    go to state 139
 
 
-state 276
+状態 276
 
    29 exportable_definition: JS_GET JS_IDENTIFIER . '(' ')' '{' function_body '}'
 
     '('  shift, and go to state 396
 
 
-state 277
+状態 277
 
    30 exportable_definition: JS_SET JS_IDENTIFIER . '(' formal_parameter_list__opt ')' '{' function_body '}'
 
     '('  shift, and go to state 397
 
 
-state 278
+状態 278
 
   161 iteration_statement: JS_FOR '(' JS_VAR . variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 ')' statement
   163                    | JS_FOR '(' JS_VAR . variable_declaration_no_in JS_IN expression ')' statement
@@ -7640,7 +7640,7 @@ state 278
     object_left_hand_side                    go to state 139
 
 
-state 279
+状態 279
 
   336 yield_expression_no_in: JS_YIELD . JS_YIELD_SENTINEL
   337                       | JS_YIELD . assignment_expression_no_in
@@ -7710,7 +7710,7 @@ state 279
     assignment_expression_no_in   go to state 404
 
 
-state 280
+状態 280
 
   162 iteration_statement: JS_FOR '(' left_hand_side_expression . JS_IN expression ')' statement
   165                    | JS_FOR '(' left_hand_side_expression . JS_IDENTIFIER expression ')' $@9 statement
@@ -7741,7 +7741,7 @@ state 280
     assignment_operator  go to state 407
 
 
-state 281
+状態 281
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -7755,7 +7755,7 @@ state 281
     $default  reduce using rule 292 (relational_expression_no_in)
 
 
-state 282
+状態 282
 
   293 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
   294                            | relational_expression_no_in . '>' shift_expression
@@ -7773,7 +7773,7 @@ state 282
     $default  reduce using rule 303 (equality_expression_no_in)
 
 
-state 283
+状態 283
 
   304 equality_expression_no_in: equality_expression_no_in . JS_EQUAL relational_expression_no_in
   305                          | equality_expression_no_in . JS_NOT_EQUAL relational_expression_no_in
@@ -7789,7 +7789,7 @@ state 283
     $default  reduce using rule 310 (bitwise_and_expression_no_in)
 
 
-state 284
+状態 284
 
   311 bitwise_and_expression_no_in: bitwise_and_expression_no_in . '&' equality_expression_no_in
   314 bitwise_xor_expression_no_in: bitwise_and_expression_no_in .
@@ -7799,7 +7799,7 @@ state 284
     $default  reduce using rule 314 (bitwise_xor_expression_no_in)
 
 
-state 285
+状態 285
 
   315 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in . '^' bitwise_and_expression_no_in
   318 bitwise_or_expression_no_in: bitwise_xor_expression_no_in .
@@ -7809,7 +7809,7 @@ state 285
     $default  reduce using rule 318 (bitwise_or_expression_no_in)
 
 
-state 286
+状態 286
 
   319 bitwise_or_expression_no_in: bitwise_or_expression_no_in . '|' bitwise_xor_expression_no_in
   322 logical_and_expression_no_in: bitwise_or_expression_no_in .
@@ -7819,7 +7819,7 @@ state 286
     $default  reduce using rule 322 (logical_and_expression_no_in)
 
 
-state 287
+状態 287
 
   323 logical_and_expression_no_in: logical_and_expression_no_in . JS_LOGICAL_AND bitwise_or_expression_no_in
   326 logical_or_expression_no_in: logical_and_expression_no_in .
@@ -7829,7 +7829,7 @@ state 287
     $default  reduce using rule 326 (logical_or_expression_no_in)
 
 
-state 288
+状態 288
 
   327 logical_or_expression_no_in: logical_or_expression_no_in . JS_LOGICAL_OR logical_and_expression_no_in
   330 conditional_expression_no_in: logical_or_expression_no_in .
@@ -7841,28 +7841,28 @@ state 288
     $default  reduce using rule 330 (conditional_expression_no_in)
 
 
-state 289
+状態 289
 
   335 yield_expression_no_in: conditional_expression_no_in .
 
     $default  reduce using rule 335 (yield_expression_no_in)
 
 
-state 290
+状態 290
 
   340 assignment_expression_no_in: yield_expression_no_in .
 
     $default  reduce using rule 340 (assignment_expression_no_in)
 
 
-state 291
+状態 291
 
   356 expression_no_in: assignment_expression_no_in .
 
     $default  reduce using rule 356 (expression_no_in)
 
 
-state 292
+状態 292
 
   357 expression_no_in: expression_no_in . ',' assignment_expression_no_in
   359 expression_no_in__opt: expression_no_in .
@@ -7872,7 +7872,7 @@ state 292
     $default  reduce using rule 359 (expression_no_in__opt)
 
 
-state 293
+状態 293
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt . $@5 ';' expression__opt ';' expression__opt $@6 ')' statement
 
@@ -7881,7 +7881,7 @@ state 293
     $@5  go to state 424
 
 
-state 294
+状態 294
 
   168 iteration_statement: JS_FOR JS_EACH '(' . left_hand_side_expression JS_IN expression ')' statement
   169                    | JS_FOR JS_EACH '(' . JS_VAR variable_declaration_no_in JS_IN expression ')' statement
@@ -7926,7 +7926,7 @@ state 294
     left_hand_side_expression  go to state 426
 
 
-state 295
+状態 295
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -7946,7 +7946,7 @@ state 295
     object_left_hand_side                    go to state 139
 
 
-state 296
+状態 296
 
    34 function_expression: JS_FUNCTION identifier__opt '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -7966,14 +7966,14 @@ state 296
     object_left_hand_side                    go to state 139
 
 
-state 297
+状態 297
 
   181 labelled_statement: JS_IDENTIFIER ':' statement .
 
     $default  reduce using rule 181 (labelled_statement)
 
 
-state 298
+状態 298
 
   147 if_statement: JS_IF '(' expression . ')' statement JS_ELSE statement
   148             | JS_IF '(' expression . ')' statement
@@ -7983,14 +7983,14 @@ state 298
     ')'  shift, and go to state 429
 
 
-state 299
+状態 299
 
   149 if_statement: JS_IF_OPT expression statement .
 
     $default  reduce using rule 149 (if_statement)
 
 
-state 300
+状態 300
 
   101 import_statement: JS_IMPORT JS_IDENTIFIER JS_FROM . import_expression terminator
 
@@ -8000,7 +8000,7 @@ state 300
     import_expression  go to state 432
 
 
-state 301
+状態 301
 
   103 import_statement: JS_IMPORT JS_STRING_LITERAL JS_FROM . import_expression terminator
 
@@ -8010,7 +8010,7 @@ state 301
     import_expression  go to state 433
 
 
-state 302
+状態 302
 
   102 import_statement: JS_IMPORT destructuring_assignment_left_hand_side JS_FROM . import_expression terminator
 
@@ -8020,7 +8020,7 @@ state 302
     import_expression  go to state 434
 
 
-state 303
+状態 303
 
   241 member_expression: JS_PRIVATE '[' expression . ']'
   355 expression: expression . ',' assignment_expression
@@ -8029,21 +8029,21 @@ state 303
     ']'  shift, and go to state 435
 
 
-state 304
+状態 304
 
   242 member_expression: JS_PRIVATE '.' JS_IDENTIFIER .
 
     $default  reduce using rule 242 (member_expression)
 
 
-state 305
+状態 305
 
   172 return_statement: JS_RETURN expression__opt terminator .
 
     $default  reduce using rule 172 (return_statement)
 
 
-state 306
+状態 306
 
   174 switch_statement: JS_SWITCH '(' expression . ')' case_block
   355 expression: expression . ',' assignment_expression
@@ -8052,21 +8052,21 @@ state 306
     ')'  shift, and go to state 436
 
 
-state 307
+状態 307
 
   182 throw_statement: JS_THROW expression terminator .
 
     $default  reduce using rule 182 (throw_statement)
 
 
-state 308
+状態 308
 
   186 catch: JS_CATCH . '(' JS_IDENTIFIER ')' block
 
     '('  shift, and go to state 437
 
 
-state 309
+状態 309
 
   187 finally: JS_FINALLY . block
 
@@ -8075,7 +8075,7 @@ state 309
     block  go to state 438
 
 
-state 310
+状態 310
 
   183 try_statement: JS_TRY block catch .
   185              | JS_TRY block catch . finally
@@ -8087,21 +8087,21 @@ state 310
     finally  go to state 439
 
 
-state 311
+状態 311
 
   184 try_statement: JS_TRY block finally .
 
     $default  reduce using rule 184 (try_statement)
 
 
-state 312
+状態 312
 
   109 variable_statement: JS_VAR variable_declaration_list terminator .
 
     $default  reduce using rule 109 (variable_statement)
 
 
-state 313
+状態 313
 
   155 iteration_statement: JS_WHILE $@3 '(' . expression $@4 ')' statement
 
@@ -8170,7 +8170,7 @@ state 313
     expression                 go to state 440
 
 
-state 314
+状態 314
 
   173 with_statement: JS_WITH '(' expression . ')' statement
   355 expression: expression . ',' assignment_expression
@@ -8179,21 +8179,21 @@ state 314
     ')'  shift, and go to state 441
 
 
-state 315
+状態 315
 
    44 shorten_function_body: JS_EXP_CLOSURE_BEGIN assignment_expression .
 
     $default  reduce using rule 44 (shorten_function_body)
 
 
-state 316
+状態 316
 
    37 arrow_function_expression: JS_FUNCTION_GLYPH '{' function_body . '}'
 
     '}'  shift, and go to state 442
 
 
-state 317
+状態 317
 
    59 function_body: source_elements_for_function .
    65 source_elements_for_function: source_elements_for_function . source_element_for_function
@@ -8304,42 +8304,42 @@ state 317
     terminator                   go to state 107
 
 
-state 318
+状態 318
 
    64 source_elements_for_function: source_element_for_function .
 
     $default  reduce using rule 64 (source_elements_for_function)
 
 
-state 319
+状態 319
 
    70 source_element_for_function: statement_with_block .
 
     $default  reduce using rule 70 (source_element_for_function)
 
 
-state 320
+状態 320
 
    39 arrow_function_expression: JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body . '}'
 
     '}'  shift, and go to state 444
 
 
-state 321
+状態 321
 
    48 formal_parameter_list: JS_IDENTIFIER initialiser__opt .
 
     $default  reduce using rule 48 (formal_parameter_list)
 
 
-state 322
+状態 322
 
    54 formal_parameter_rest: JS_PARAMETER_REST JS_IDENTIFIER .
 
     $default  reduce using rule 54 (formal_parameter_rest)
 
 
-state 323
+状態 323
 
    47 formal_parameter_list_with_rest: formal_parameter_list ',' . formal_parameter_rest__opt
    50 formal_parameter_list: formal_parameter_list ',' . JS_IDENTIFIER initialiser__opt
@@ -8359,7 +8359,7 @@ state 323
     object_left_hand_side                    go to state 139
 
 
-state 324
+状態 324
 
    36 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END . JS_FUNCTION_GLYPH '{' function_body '}'
    38                          | JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END . JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
@@ -8370,14 +8370,14 @@ state 324
     JS_FUNCTION_GLYPH_WITH_CONTEXT  shift, and go to state 450
 
 
-state 325
+状態 325
 
    49 formal_parameter_list: destructuring_assignment_left_hand_side initialiser__opt .
 
     $default  reduce using rule 49 (formal_parameter_list)
 
 
-state 326
+状態 326
 
   115 let_assignment_expression: JS_IDENTIFIER . initialiser__opt
 
@@ -8389,7 +8389,7 @@ state 326
     initialiser__opt  go to state 451
 
 
-state 327
+状態 327
 
   112 let_statement: JS_LET '(' let_assignment_list . ')' statement
   114 let_assignment_list: let_assignment_list . ',' let_assignment_expression
@@ -8398,14 +8398,14 @@ state 327
     ')'  shift, and go to state 453
 
 
-state 328
+状態 328
 
   113 let_assignment_list: let_assignment_expression .
 
     $default  reduce using rule 113 (let_assignment_list)
 
 
-state 329
+状態 329
 
   116 let_assignment_expression: destructuring_assignment_left_hand_side . initialiser
 
@@ -8414,21 +8414,21 @@ state 329
     initialiser  go to state 454
 
 
-state 330
+状態 330
 
   111 variable_statement: JS_LET variable_declaration_list terminator .
 
     $default  reduce using rule 111 (variable_statement)
 
 
-state 331
+状態 331
 
    99 module_block: JS_MODULE identifier__opt statement .
 
     $default  reduce using rule 99 (module_block)
 
 
-state 332
+状態 332
 
   129 array_left_hand_side: JS_DSTA_BEGIN array_left_hand_side_list ',' . elision__opt JS_DSTA_END
   133 array_left_hand_side_list: array_left_hand_side_list ',' . elision__opt JS_IDENTIFIER
@@ -8443,49 +8443,49 @@ state 332
     elision__opt  go to state 455
 
 
-state 333
+状態 333
 
   128 array_left_hand_side: JS_DSTA_BEGIN array_left_hand_side_list JS_DSTA_END .
 
     $default  reduce using rule 128 (array_left_hand_side)
 
 
-state 334
+状態 334
 
   130 array_left_hand_side_list: elision__opt JS_IDENTIFIER .
 
     $default  reduce using rule 130 (array_left_hand_side_list)
 
 
-state 335
+状態 335
 
   127 array_left_hand_side: JS_DSTA_BEGIN elision__opt JS_DSTA_END .
 
     $default  reduce using rule 127 (array_left_hand_side)
 
 
-state 336
+状態 336
 
   131 array_left_hand_side_list: elision__opt formal_parameter_rest .
 
     $default  reduce using rule 131 (array_left_hand_side_list)
 
 
-state 337
+状態 337
 
   132 array_left_hand_side_list: elision__opt destructuring_assignment_left_hand_side .
 
     $default  reduce using rule 132 (array_left_hand_side_list)
 
 
-state 338
+状態 338
 
    31 version_statement: MOCHA_VERSIONOF '(' JS_IDENTIFIER . ')' '{' statement_list__opt '}'
 
     ')'  shift, and go to state 456
 
 
-state 339
+状態 339
 
   228 property_name_and_value_list: JS_IDENTIFIER .
   229                             | JS_IDENTIFIER . '(' formal_parameter_list__opt ')' '{' function_body '}'
@@ -8497,7 +8497,7 @@ state 339
     $default  reduce using rule 228 (property_name_and_value_list)
 
 
-state 340
+状態 340
 
   225 property_name_and_value_list__opt: '@' property_name_and_value_list . ';'
   226                                  | '@' property_name_and_value_list .
@@ -8511,35 +8511,35 @@ state 340
     $default  reduce using rule 226 (property_name_and_value_list__opt)
 
 
-state 341
+状態 341
 
   227 property_name_and_value_list: property_name . ':' assignment_expression
 
     ':'  shift, and go to state 460
 
 
-state 342
+状態 342
 
    98 block: '{' statement_list '}' .
 
     $default  reduce using rule 98 (block)
 
 
-state 343
+状態 343
 
   108 statement_list: statement_list statement .
 
     $default  reduce using rule 108 (statement_list)
 
 
-state 344
+状態 344
 
   223 object_literal: '{' property_name_and_value_list__opt '}' .
 
     $default  reduce using rule 223 (object_literal)
 
 
-state 345
+状態 345
 
     2 class_initialiser: class_adjective__opt JS_CLASS identifier__opt . inherit_declaration__opt '{' class_body__opt '}'
 
@@ -8552,28 +8552,28 @@ state 345
     inherit_declaration       go to state 464
 
 
-state 346
+状態 346
 
    55 arguments_spread: JS_PARAMETER_REST . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 465
 
 
-state 347
+状態 347
 
   251 arguments: '(' ')' .
 
     $default  reduce using rule 251 (arguments)
 
 
-state 348
+状態 348
 
   254 argument_list: arguments_spread .
 
     $default  reduce using rule 254 (argument_list)
 
 
-state 349
+状態 349
 
   252 arguments: '(' argument_list . ')'
   255 argument_list: argument_list . ',' assignment_expression
@@ -8583,14 +8583,14 @@ state 349
     ')'  shift, and go to state 467
 
 
-state 350
+状態 350
 
   253 argument_list: assignment_expression .
 
     $default  reduce using rule 253 (argument_list)
 
 
-state 351
+状態 351
 
   240 member_expression: member_expression '[' expression . ']'
   355 expression: expression . ',' assignment_expression
@@ -8599,14 +8599,14 @@ state 351
     ']'  shift, and go to state 468
 
 
-state 352
+状態 352
 
   243 member_expression: member_expression '.' JS_IDENTIFIER .
 
     $default  reduce using rule 243 (member_expression)
 
 
-state 353
+状態 353
 
   249 call_expression: call_expression '[' expression . ']'
   355 expression: expression . ',' assignment_expression
@@ -8615,42 +8615,42 @@ state 353
     ']'  shift, and go to state 469
 
 
-state 354
+状態 354
 
   250 call_expression: call_expression '.' JS_IDENTIFIER .
 
     $default  reduce using rule 250 (call_expression)
 
 
-state 355
+状態 355
 
   339 assignment_expression: left_hand_side_expression assignment_operator assignment_expression .
 
     $default  reduce using rule 339 (assignment_expression)
 
 
-state 356
+状態 356
 
   275 multiplicative_expression: multiplicative_expression '*' unary_expression .
 
     $default  reduce using rule 275 (multiplicative_expression)
 
 
-state 357
+状態 357
 
   276 multiplicative_expression: multiplicative_expression '/' unary_expression .
 
     $default  reduce using rule 276 (multiplicative_expression)
 
 
-state 358
+状態 358
 
   277 multiplicative_expression: multiplicative_expression '%' unary_expression .
 
     $default  reduce using rule 277 (multiplicative_expression)
 
 
-state 359
+状態 359
 
   275 multiplicative_expression: multiplicative_expression . '*' unary_expression
   276                          | multiplicative_expression . '/' unary_expression
@@ -8664,7 +8664,7 @@ state 359
     $default  reduce using rule 279 (additive_expression)
 
 
-state 360
+状態 360
 
   275 multiplicative_expression: multiplicative_expression . '*' unary_expression
   276                          | multiplicative_expression . '/' unary_expression
@@ -8678,7 +8678,7 @@ state 360
     $default  reduce using rule 280 (additive_expression)
 
 
-state 361
+状態 361
 
   279 additive_expression: additive_expression . '+' multiplicative_expression
   280                    | additive_expression . '-' multiplicative_expression
@@ -8690,7 +8690,7 @@ state 361
     $default  reduce using rule 284 (shift_expression)
 
 
-state 362
+状態 362
 
   279 additive_expression: additive_expression . '+' multiplicative_expression
   280                    | additive_expression . '-' multiplicative_expression
@@ -8702,7 +8702,7 @@ state 362
     $default  reduce using rule 283 (shift_expression)
 
 
-state 363
+状態 363
 
   279 additive_expression: additive_expression . '+' multiplicative_expression
   280                    | additive_expression . '-' multiplicative_expression
@@ -8714,7 +8714,7 @@ state 363
     $default  reduce using rule 282 (shift_expression)
 
 
-state 364
+状態 364
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -8728,7 +8728,7 @@ state 364
     $default  reduce using rule 287 (relational_expression)
 
 
-state 365
+状態 365
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -8742,7 +8742,7 @@ state 365
     $default  reduce using rule 286 (relational_expression)
 
 
-state 366
+状態 366
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -8756,7 +8756,7 @@ state 366
     $default  reduce using rule 290 (relational_expression)
 
 
-state 367
+状態 367
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -8770,7 +8770,7 @@ state 367
     $default  reduce using rule 291 (relational_expression)
 
 
-state 368
+状態 368
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -8784,7 +8784,7 @@ state 368
     $default  reduce using rule 288 (relational_expression)
 
 
-state 369
+状態 369
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -8801,7 +8801,7 @@ state 369
     $default          reduce using rule 289 (relational_expression)
 
 
-state 370
+状態 370
 
   286 relational_expression: relational_expression . '<' shift_expression
   287                      | relational_expression . '>' shift_expression
@@ -8822,7 +8822,7 @@ state 370
     $default         reduce using rule 302 (equality_expression)
 
 
-state 371
+状態 371
 
   286 relational_expression: relational_expression . '<' shift_expression
   287                      | relational_expression . '>' shift_expression
@@ -8843,7 +8843,7 @@ state 371
     $default         reduce using rule 300 (equality_expression)
 
 
-state 372
+状態 372
 
   286 relational_expression: relational_expression . '<' shift_expression
   287                      | relational_expression . '>' shift_expression
@@ -8864,7 +8864,7 @@ state 372
     $default         reduce using rule 299 (equality_expression)
 
 
-state 373
+状態 373
 
   286 relational_expression: relational_expression . '<' shift_expression
   287                      | relational_expression . '>' shift_expression
@@ -8885,7 +8885,7 @@ state 373
     $default         reduce using rule 301 (equality_expression)
 
 
-state 374
+状態 374
 
   299 equality_expression: equality_expression . JS_EQUAL relational_expression
   300                    | equality_expression . JS_NOT_EQUAL relational_expression
@@ -8901,7 +8901,7 @@ state 374
     $default  reduce using rule 309 (bitwise_and_expression)
 
 
-state 375
+状態 375
 
   309 bitwise_and_expression: bitwise_and_expression . '&' equality_expression
   313 bitwise_xor_expression: bitwise_xor_expression '^' bitwise_and_expression .
@@ -8911,7 +8911,7 @@ state 375
     $default  reduce using rule 313 (bitwise_xor_expression)
 
 
-state 376
+状態 376
 
   313 bitwise_xor_expression: bitwise_xor_expression . '^' bitwise_and_expression
   317 bitwise_or_expression: bitwise_or_expression '|' bitwise_xor_expression .
@@ -8921,7 +8921,7 @@ state 376
     $default  reduce using rule 317 (bitwise_or_expression)
 
 
-state 377
+状態 377
 
   317 bitwise_or_expression: bitwise_or_expression . '|' bitwise_xor_expression
   321 logical_and_expression: logical_and_expression JS_LOGICAL_AND bitwise_or_expression .
@@ -8931,14 +8931,14 @@ state 377
     $default  reduce using rule 321 (logical_and_expression)
 
 
-state 378
+状態 378
 
   329 conditional_expression: logical_or_expression '?' assignment_expression . ':' assignment_expression
 
     ':'  shift, and go to state 470
 
 
-state 379
+状態 379
 
   321 logical_and_expression: logical_and_expression . JS_LOGICAL_AND bitwise_or_expression
   325 logical_or_expression: logical_or_expression JS_LOGICAL_OR logical_and_expression .
@@ -8948,21 +8948,21 @@ state 379
     $default  reduce using rule 325 (logical_or_expression)
 
 
-state 380
+状態 380
 
   355 expression: expression ',' assignment_expression .
 
     $default  reduce using rule 355 (expression)
 
 
-state 381
+状態 381
 
   236 property_name: '[' assignment_expression . ']'
 
     ']'  shift, and go to state 471
 
 
-state 382
+状態 382
 
   140 object_member_left_hand_side_list: object_member_left_hand_side_list ',' . property_name ':' JS_IDENTIFIER
   141                                  | object_member_left_hand_side_list ',' . JS_IDENTIFIER
@@ -8976,14 +8976,14 @@ state 382
     property_name  go to state 473
 
 
-state 383
+状態 383
 
   136 object_left_hand_side: JS_DSTO_BEGIN object_member_left_hand_side_list JS_DSTO_END .
 
     $default  reduce using rule 136 (object_left_hand_side)
 
 
-state 384
+状態 384
 
   138 object_member_left_hand_side_list: property_name ':' . JS_IDENTIFIER
   139                                  | property_name ':' . destructuring_assignment_left_hand_side
@@ -8997,7 +8997,7 @@ state 384
     object_left_hand_side                    go to state 139
 
 
-state 385
+状態 385
 
   212 array_literal: '[' element_list ',' elision__opt . ']'
   215 element_list: element_list ',' elision__opt . assignment_expression
@@ -9067,7 +9067,7 @@ state 385
     assignment_expression      go to state 477
 
 
-state 386
+状態 386
 
   219 array_comprehension_iteration: JS_FOR '(' . left_hand_side_expression JS_IN expression ')'
 
@@ -9110,77 +9110,77 @@ state 386
     left_hand_side_expression  go to state 478
 
 
-state 387
+状態 387
 
   220 array_comprehension_iteration: JS_FOR JS_EACH . '(' left_hand_side_expression JS_IN expression ')'
 
     '('  shift, and go to state 479
 
 
-state 388
+状態 388
 
   213 array_literal: '[' element_list array_comprehensions ']' .
 
     $default  reduce using rule 213 (array_literal)
 
 
-state 389
+状態 389
 
   222 array_comprehension_if__opt: JS_IF . '(' expression ')'
 
     '('  shift, and go to state 480
 
 
-state 390
+状態 390
 
   218 array_comprehensions: array_comprehension_iteration array_comprehension_if__opt .
 
     $default  reduce using rule 218 (array_comprehensions)
 
 
-state 391
+状態 391
 
    33 function_declaration: JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 481
 
 
-state 392
+状態 392
 
   143 initialiser: '=' assignment_expression .
 
     $default  reduce using rule 143 (initialiser)
 
 
-state 393
+状態 393
 
   118 variable_declaration_list: variable_declaration_list ',' variable_declaration .
 
     $default  reduce using rule 118 (variable_declaration_list)
 
 
-state 394
+状態 394
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 . '(' expression $@2 ')' terminator
 
     '('  shift, and go to state 482
 
 
-state 395
+状態 395
 
    28 exportable_definition: JS_IDENTIFIER '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 483
 
 
-state 396
+状態 396
 
    29 exportable_definition: JS_GET JS_IDENTIFIER '(' . ')' '{' function_body '}'
 
     ')'  shift, and go to state 484
 
 
-state 397
+状態 397
 
    30 exportable_definition: JS_SET JS_IDENTIFIER '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -9200,7 +9200,7 @@ state 397
     object_left_hand_side                    go to state 139
 
 
-state 398
+状態 398
 
   123 variable_declaration_no_in: JS_IDENTIFIER . initialiser_no_in__opt
 
@@ -9212,7 +9212,7 @@ state 398
     initialiser_no_in__opt  go to state 488
 
 
-state 399
+状態 399
 
   120 variable_declaration_list_no_in: variable_declaration_list_no_in . ',' variable_declaration_no_in
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in . $@7 ';' expression__opt ';' expression__opt $@8 ')' statement
@@ -9224,7 +9224,7 @@ state 399
     $@7  go to state 490
 
 
-state 400
+状態 400
 
   119 variable_declaration_list_no_in: variable_declaration_no_in .
   163 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in . JS_IN expression ')' statement
@@ -9236,7 +9236,7 @@ state 400
     $default  reduce using rule 119 (variable_declaration_list_no_in)
 
 
-state 401
+状態 401
 
   124 variable_declaration_no_in: destructuring_assignment_left_hand_side . initialiser_no_in__opt
 
@@ -9248,14 +9248,14 @@ state 401
     initialiser_no_in__opt  go to state 493
 
 
-state 402
+状態 402
 
   336 yield_expression_no_in: JS_YIELD JS_YIELD_SENTINEL .
 
     $default  reduce using rule 336 (yield_expression_no_in)
 
 
-state 403
+状態 403
 
   261 postfix_expression: left_hand_side_expression .
   262                   | left_hand_side_expression . JS_INCREMENT
@@ -9282,14 +9282,14 @@ state 403
     assignment_operator  go to state 407
 
 
-state 404
+状態 404
 
   337 yield_expression_no_in: JS_YIELD assignment_expression_no_in .
 
     $default  reduce using rule 337 (yield_expression_no_in)
 
 
-state 405
+状態 405
 
   162 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IN . expression ')' statement
 
@@ -9358,7 +9358,7 @@ state 405
     expression                 go to state 494
 
 
-state 406
+状態 406
 
   165 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER . expression ')' $@9 statement
 
@@ -9427,7 +9427,7 @@ state 406
     expression                 go to state 495
 
 
-state 407
+状態 407
 
   341 assignment_expression_no_in: left_hand_side_expression assignment_operator . assignment_expression_no_in
 
@@ -9495,7 +9495,7 @@ state 407
     assignment_expression_no_in   go to state 496
 
 
-state 408
+状態 408
 
   294 relational_expression_no_in: relational_expression_no_in '>' . shift_expression
 
@@ -9552,7 +9552,7 @@ state 408
     shift_expression           go to state 497
 
 
-state 409
+状態 409
 
   293 relational_expression_no_in: relational_expression_no_in '<' . shift_expression
 
@@ -9609,7 +9609,7 @@ state 409
     shift_expression           go to state 498
 
 
-state 410
+状態 410
 
   297 relational_expression_no_in: relational_expression_no_in JS_INSTANCEOF . shift_expression
 
@@ -9666,7 +9666,7 @@ state 410
     shift_expression           go to state 499
 
 
-state 411
+状態 411
 
   295 relational_expression_no_in: relational_expression_no_in JS_LESS_EQUAL . shift_expression
 
@@ -9723,7 +9723,7 @@ state 411
     shift_expression           go to state 500
 
 
-state 412
+状態 412
 
   296 relational_expression_no_in: relational_expression_no_in JS_GRATER_EQUAL . shift_expression
 
@@ -9780,7 +9780,7 @@ state 412
     shift_expression           go to state 501
 
 
-state 413
+状態 413
 
   307 equality_expression_no_in: equality_expression_no_in JS_NOT_EQ . relational_expression_no_in
 
@@ -9838,7 +9838,7 @@ state 413
     relational_expression_no_in  go to state 502
 
 
-state 414
+状態 414
 
   305 equality_expression_no_in: equality_expression_no_in JS_NOT_EQUAL . relational_expression_no_in
 
@@ -9896,7 +9896,7 @@ state 414
     relational_expression_no_in  go to state 503
 
 
-state 415
+状態 415
 
   304 equality_expression_no_in: equality_expression_no_in JS_EQUAL . relational_expression_no_in
 
@@ -9954,7 +9954,7 @@ state 415
     relational_expression_no_in  go to state 504
 
 
-state 416
+状態 416
 
   306 equality_expression_no_in: equality_expression_no_in JS_EQ . relational_expression_no_in
 
@@ -10012,7 +10012,7 @@ state 416
     relational_expression_no_in  go to state 505
 
 
-state 417
+状態 417
 
   311 bitwise_and_expression_no_in: bitwise_and_expression_no_in '&' . equality_expression_no_in
 
@@ -10071,7 +10071,7 @@ state 417
     equality_expression_no_in    go to state 506
 
 
-state 418
+状態 418
 
   315 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in '^' . bitwise_and_expression_no_in
 
@@ -10131,7 +10131,7 @@ state 418
     bitwise_and_expression_no_in  go to state 507
 
 
-state 419
+状態 419
 
   319 bitwise_or_expression_no_in: bitwise_or_expression_no_in '|' . bitwise_xor_expression_no_in
 
@@ -10192,7 +10192,7 @@ state 419
     bitwise_xor_expression_no_in  go to state 508
 
 
-state 420
+状態 420
 
   323 logical_and_expression_no_in: logical_and_expression_no_in JS_LOGICAL_AND . bitwise_or_expression_no_in
 
@@ -10254,7 +10254,7 @@ state 420
     bitwise_or_expression_no_in   go to state 509
 
 
-state 421
+状態 421
 
   331 conditional_expression_no_in: logical_or_expression_no_in '?' . assignment_expression_no_in ':' assignment_expression_no_in
 
@@ -10322,7 +10322,7 @@ state 421
     assignment_expression_no_in   go to state 510
 
 
-state 422
+状態 422
 
   327 logical_or_expression_no_in: logical_or_expression_no_in JS_LOGICAL_OR . logical_and_expression_no_in
 
@@ -10385,7 +10385,7 @@ state 422
     logical_and_expression_no_in  go to state 511
 
 
-state 423
+状態 423
 
   357 expression_no_in: expression_no_in ',' . assignment_expression_no_in
 
@@ -10453,14 +10453,14 @@ state 423
     assignment_expression_no_in   go to state 512
 
 
-state 424
+状態 424
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 . ';' expression__opt ';' expression__opt $@6 ')' statement
 
     ';'  shift, and go to state 513
 
 
-state 425
+状態 425
 
   169 iteration_statement: JS_FOR JS_EACH '(' JS_VAR . variable_declaration_no_in JS_IN expression ')' statement
 
@@ -10474,28 +10474,28 @@ state 425
     object_left_hand_side                    go to state 139
 
 
-state 426
+状態 426
 
   168 iteration_statement: JS_FOR JS_EACH '(' left_hand_side_expression . JS_IN expression ')' statement
 
     JS_IN  shift, and go to state 515
 
 
-state 427
+状態 427
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 516
 
 
-state 428
+状態 428
 
    34 function_expression: JS_FUNCTION identifier__opt '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 517
 
 
-state 429
+状態 429
 
   147 if_statement: JS_IF '(' expression ')' . statement JS_ELSE statement
   148             | JS_IF '(' expression ')' . statement
@@ -10609,21 +10609,21 @@ state 429
     terminator                 go to state 107
 
 
-state 430
+状態 430
 
   105 import_expression: JS_IDENTIFIER .
 
     $default  reduce using rule 105 (import_expression)
 
 
-state 431
+状態 431
 
   104 import_expression: JS_STRING_LITERAL .
 
     $default  reduce using rule 104 (import_expression)
 
 
-state 432
+状態 432
 
   101 import_statement: JS_IMPORT JS_IDENTIFIER JS_FROM import_expression . terminator
   106 import_expression: import_expression . '.' JS_IDENTIFIER
@@ -10635,7 +10635,7 @@ state 432
     terminator  go to state 520
 
 
-state 433
+状態 433
 
   103 import_statement: JS_IMPORT JS_STRING_LITERAL JS_FROM import_expression . terminator
   106 import_expression: import_expression . '.' JS_IDENTIFIER
@@ -10647,7 +10647,7 @@ state 433
     terminator  go to state 521
 
 
-state 434
+状態 434
 
   102 import_statement: JS_IMPORT destructuring_assignment_left_hand_side JS_FROM import_expression . terminator
   106 import_expression: import_expression . '.' JS_IDENTIFIER
@@ -10659,14 +10659,14 @@ state 434
     terminator  go to state 522
 
 
-state 435
+状態 435
 
   241 member_expression: JS_PRIVATE '[' expression ']' .
 
     $default  reduce using rule 241 (member_expression)
 
 
-state 436
+状態 436
 
   174 switch_statement: JS_SWITCH '(' expression ')' . case_block
 
@@ -10675,28 +10675,28 @@ state 436
     case_block  go to state 524
 
 
-state 437
+状態 437
 
   186 catch: JS_CATCH '(' . JS_IDENTIFIER ')' block
 
     JS_IDENTIFIER  shift, and go to state 525
 
 
-state 438
+状態 438
 
   187 finally: JS_FINALLY block .
 
     $default  reduce using rule 187 (finally)
 
 
-state 439
+状態 439
 
   185 try_statement: JS_TRY block catch finally .
 
     $default  reduce using rule 185 (try_statement)
 
 
-state 440
+状態 440
 
   155 iteration_statement: JS_WHILE $@3 '(' expression . $@4 ')' statement
   355 expression: expression . ',' assignment_expression
@@ -10708,7 +10708,7 @@ state 440
     $@4  go to state 526
 
 
-state 441
+状態 441
 
   173 with_statement: JS_WITH '(' expression ')' . statement
 
@@ -10821,28 +10821,28 @@ state 441
     terminator                 go to state 107
 
 
-state 442
+状態 442
 
    37 arrow_function_expression: JS_FUNCTION_GLYPH '{' function_body '}' .
 
     $default  reduce using rule 37 (arrow_function_expression)
 
 
-state 443
+状態 443
 
    65 source_elements_for_function: source_elements_for_function source_element_for_function .
 
     $default  reduce using rule 65 (source_elements_for_function)
 
 
-state 444
+状態 444
 
    39 arrow_function_expression: JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}' .
 
     $default  reduce using rule 39 (arrow_function_expression)
 
 
-state 445
+状態 445
 
    50 formal_parameter_list: formal_parameter_list ',' JS_IDENTIFIER . initialiser__opt
 
@@ -10854,21 +10854,21 @@ state 445
     initialiser__opt  go to state 528
 
 
-state 446
+状態 446
 
    47 formal_parameter_list_with_rest: formal_parameter_list ',' formal_parameter_rest__opt .
 
     $default  reduce using rule 47 (formal_parameter_list_with_rest)
 
 
-state 447
+状態 447
 
    53 formal_parameter_rest__opt: formal_parameter_rest .
 
     $default  reduce using rule 53 (formal_parameter_rest__opt)
 
 
-state 448
+状態 448
 
    51 formal_parameter_list: formal_parameter_list ',' destructuring_assignment_left_hand_side . initialiser__opt
 
@@ -10880,7 +10880,7 @@ state 448
     initialiser__opt  go to state 529
 
 
-state 449
+状態 449
 
    36 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH . '{' function_body '}'
    40                          | JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH . shorten_function_body
@@ -10891,7 +10891,7 @@ state 449
     shorten_function_body  go to state 531
 
 
-state 450
+状態 450
 
    38 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT . '{' function_body '}'
    41                          | JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT . shorten_function_body
@@ -10902,14 +10902,14 @@ state 450
     shorten_function_body  go to state 533
 
 
-state 451
+状態 451
 
   115 let_assignment_expression: JS_IDENTIFIER initialiser__opt .
 
     $default  reduce using rule 115 (let_assignment_expression)
 
 
-state 452
+状態 452
 
   114 let_assignment_list: let_assignment_list ',' . let_assignment_expression
 
@@ -10923,7 +10923,7 @@ state 452
     object_left_hand_side                    go to state 139
 
 
-state 453
+状態 453
 
   112 let_statement: JS_LET '(' let_assignment_list ')' . statement
 
@@ -11036,14 +11036,14 @@ state 453
     terminator                 go to state 107
 
 
-state 454
+状態 454
 
   116 let_assignment_expression: destructuring_assignment_left_hand_side initialiser .
 
     $default  reduce using rule 116 (let_assignment_expression)
 
 
-state 455
+状態 455
 
   129 array_left_hand_side: JS_DSTA_BEGIN array_left_hand_side_list ',' elision__opt . JS_DSTA_END
   133 array_left_hand_side_list: array_left_hand_side_list ',' elision__opt . JS_IDENTIFIER
@@ -11062,14 +11062,14 @@ state 455
     object_left_hand_side                    go to state 139
 
 
-state 456
+状態 456
 
    31 version_statement: MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' . '{' statement_list__opt '}'
 
     '{'  shift, and go to state 540
 
 
-state 457
+状態 457
 
   229 property_name_and_value_list: JS_IDENTIFIER '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -11089,7 +11089,7 @@ state 457
     object_left_hand_side                    go to state 139
 
 
-state 458
+状態 458
 
   230 property_name_and_value_list: property_name_and_value_list ',' . property_name ':' assignment_expression
   231                             | property_name_and_value_list ',' . JS_IDENTIFIER
@@ -11103,14 +11103,14 @@ state 458
     property_name  go to state 543
 
 
-state 459
+状態 459
 
   225 property_name_and_value_list__opt: '@' property_name_and_value_list ';' .
 
     $default  reduce using rule 225 (property_name_and_value_list__opt)
 
 
-state 460
+状態 460
 
   227 property_name_and_value_list: property_name ':' . assignment_expression
 
@@ -11178,28 +11178,28 @@ state 460
     assignment_expression      go to state 544
 
 
-state 461
+状態 461
 
     7 inherit_declaration: JS_EXTENDS .
 
     $default  reduce using rule 7 (inherit_declaration)
 
 
-state 462
+状態 462
 
     8 inherit_declaration: JS_PROTOTYPE .
 
     $default  reduce using rule 8 (inherit_declaration)
 
 
-state 463
+状態 463
 
     2 class_initialiser: class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt . '{' class_body__opt '}'
 
     '{'  shift, and go to state 545
 
 
-state 464
+状態 464
 
     6 inherit_declaration__opt: inherit_declaration . member_expression
 
@@ -11237,14 +11237,14 @@ state 464
     member_expression          go to state 547
 
 
-state 465
+状態 465
 
    55 arguments_spread: JS_PARAMETER_REST JS_IDENTIFIER .
 
     $default  reduce using rule 55 (arguments_spread)
 
 
-state 466
+状態 466
 
   255 argument_list: argument_list ',' . assignment_expression
   256              | argument_list ',' . arguments_spread
@@ -11315,28 +11315,28 @@ state 466
     assignment_expression      go to state 549
 
 
-state 467
+状態 467
 
   252 arguments: '(' argument_list ')' .
 
     $default  reduce using rule 252 (arguments)
 
 
-state 468
+状態 468
 
   240 member_expression: member_expression '[' expression ']' .
 
     $default  reduce using rule 240 (member_expression)
 
 
-state 469
+状態 469
 
   249 call_expression: call_expression '[' expression ']' .
 
     $default  reduce using rule 249 (call_expression)
 
 
-state 470
+状態 470
 
   329 conditional_expression: logical_or_expression '?' assignment_expression ':' . assignment_expression
 
@@ -11404,14 +11404,14 @@ state 470
     assignment_expression      go to state 550
 
 
-state 471
+状態 471
 
   236 property_name: '[' assignment_expression ']' .
 
     $default  reduce using rule 236 (property_name)
 
 
-state 472
+状態 472
 
   141 object_member_left_hand_side_list: object_member_left_hand_side_list ',' JS_IDENTIFIER .
   233 property_name: JS_IDENTIFIER .
@@ -11420,7 +11420,7 @@ state 472
     $default  reduce using rule 141 (object_member_left_hand_side_list)
 
 
-state 473
+状態 473
 
   140 object_member_left_hand_side_list: object_member_left_hand_side_list ',' property_name . ':' JS_IDENTIFIER
   142                                  | object_member_left_hand_side_list ',' property_name . ':' destructuring_assignment_left_hand_side
@@ -11428,42 +11428,42 @@ state 473
     ':'  shift, and go to state 551
 
 
-state 474
+状態 474
 
   138 object_member_left_hand_side_list: property_name ':' JS_IDENTIFIER .
 
     $default  reduce using rule 138 (object_member_left_hand_side_list)
 
 
-state 475
+状態 475
 
   139 object_member_left_hand_side_list: property_name ':' destructuring_assignment_left_hand_side .
 
     $default  reduce using rule 139 (object_member_left_hand_side_list)
 
 
-state 476
+状態 476
 
   212 array_literal: '[' element_list ',' elision__opt ']' .
 
     $default  reduce using rule 212 (array_literal)
 
 
-state 477
+状態 477
 
   215 element_list: element_list ',' elision__opt assignment_expression .
 
     $default  reduce using rule 215 (element_list)
 
 
-state 478
+状態 478
 
   219 array_comprehension_iteration: JS_FOR '(' left_hand_side_expression . JS_IN expression ')'
 
     JS_IN  shift, and go to state 552
 
 
-state 479
+状態 479
 
   220 array_comprehension_iteration: JS_FOR JS_EACH '(' . left_hand_side_expression JS_IN expression ')'
 
@@ -11506,7 +11506,7 @@ state 479
     left_hand_side_expression  go to state 553
 
 
-state 480
+状態 480
 
   222 array_comprehension_if__opt: JS_IF '(' . expression ')'
 
@@ -11575,14 +11575,14 @@ state 480
     expression                 go to state 554
 
 
-state 481
+状態 481
 
    33 function_declaration: JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 555
 
 
-state 482
+状態 482
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 '(' . expression $@2 ')' terminator
 
@@ -11651,28 +11651,28 @@ state 482
     expression                 go to state 556
 
 
-state 483
+状態 483
 
    28 exportable_definition: JS_IDENTIFIER '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 557
 
 
-state 484
+状態 484
 
    29 exportable_definition: JS_GET JS_IDENTIFIER '(' ')' . '{' function_body '}'
 
     '{'  shift, and go to state 558
 
 
-state 485
+状態 485
 
    30 exportable_definition: JS_SET JS_IDENTIFIER '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 559
 
 
-state 486
+状態 486
 
   144 initialiser_no_in: '=' . assignment_expression_no_in
 
@@ -11740,21 +11740,21 @@ state 486
     assignment_expression_no_in   go to state 560
 
 
-state 487
+状態 487
 
   193 initialiser_no_in__opt: initialiser_no_in .
 
     $default  reduce using rule 193 (initialiser_no_in__opt)
 
 
-state 488
+状態 488
 
   123 variable_declaration_no_in: JS_IDENTIFIER initialiser_no_in__opt .
 
     $default  reduce using rule 123 (variable_declaration_no_in)
 
 
-state 489
+状態 489
 
   120 variable_declaration_list_no_in: variable_declaration_list_no_in ',' . variable_declaration_no_in
 
@@ -11768,14 +11768,14 @@ state 489
     object_left_hand_side                    go to state 139
 
 
-state 490
+状態 490
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 . ';' expression__opt ';' expression__opt $@8 ')' statement
 
     ';'  shift, and go to state 562
 
 
-state 491
+状態 491
 
   163 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN . expression ')' statement
 
@@ -11844,7 +11844,7 @@ state 491
     expression                 go to state 563
 
 
-state 492
+状態 492
 
   167 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER . expression ')' $@10 statement
 
@@ -11913,14 +11913,14 @@ state 492
     expression                 go to state 564
 
 
-state 493
+状態 493
 
   124 variable_declaration_no_in: destructuring_assignment_left_hand_side initialiser_no_in__opt .
 
     $default  reduce using rule 124 (variable_declaration_no_in)
 
 
-state 494
+状態 494
 
   162 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IN expression . ')' statement
   355 expression: expression . ',' assignment_expression
@@ -11929,7 +11929,7 @@ state 494
     ')'  shift, and go to state 565
 
 
-state 495
+状態 495
 
   165 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression . ')' $@9 statement
   355 expression: expression . ',' assignment_expression
@@ -11938,14 +11938,14 @@ state 495
     ')'  shift, and go to state 566
 
 
-state 496
+状態 496
 
   341 assignment_expression_no_in: left_hand_side_expression assignment_operator assignment_expression_no_in .
 
     $default  reduce using rule 341 (assignment_expression_no_in)
 
 
-state 497
+状態 497
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -11959,7 +11959,7 @@ state 497
     $default  reduce using rule 294 (relational_expression_no_in)
 
 
-state 498
+状態 498
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -11973,7 +11973,7 @@ state 498
     $default  reduce using rule 293 (relational_expression_no_in)
 
 
-state 499
+状態 499
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -11987,7 +11987,7 @@ state 499
     $default  reduce using rule 297 (relational_expression_no_in)
 
 
-state 500
+状態 500
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -12001,7 +12001,7 @@ state 500
     $default  reduce using rule 295 (relational_expression_no_in)
 
 
-state 501
+状態 501
 
   282 shift_expression: shift_expression . JS_SHIFT_LEFT additive_expression
   283                 | shift_expression . JS_SHIFT_RIGHT additive_expression
@@ -12015,7 +12015,7 @@ state 501
     $default  reduce using rule 296 (relational_expression_no_in)
 
 
-state 502
+状態 502
 
   293 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
   294                            | relational_expression_no_in . '>' shift_expression
@@ -12033,7 +12033,7 @@ state 502
     $default  reduce using rule 307 (equality_expression_no_in)
 
 
-state 503
+状態 503
 
   293 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
   294                            | relational_expression_no_in . '>' shift_expression
@@ -12051,7 +12051,7 @@ state 503
     $default  reduce using rule 305 (equality_expression_no_in)
 
 
-state 504
+状態 504
 
   293 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
   294                            | relational_expression_no_in . '>' shift_expression
@@ -12069,7 +12069,7 @@ state 504
     $default  reduce using rule 304 (equality_expression_no_in)
 
 
-state 505
+状態 505
 
   293 relational_expression_no_in: relational_expression_no_in . '<' shift_expression
   294                            | relational_expression_no_in . '>' shift_expression
@@ -12087,7 +12087,7 @@ state 505
     $default  reduce using rule 306 (equality_expression_no_in)
 
 
-state 506
+状態 506
 
   304 equality_expression_no_in: equality_expression_no_in . JS_EQUAL relational_expression_no_in
   305                          | equality_expression_no_in . JS_NOT_EQUAL relational_expression_no_in
@@ -12103,7 +12103,7 @@ state 506
     $default  reduce using rule 311 (bitwise_and_expression_no_in)
 
 
-state 507
+状態 507
 
   311 bitwise_and_expression_no_in: bitwise_and_expression_no_in . '&' equality_expression_no_in
   315 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in '^' bitwise_and_expression_no_in .
@@ -12113,7 +12113,7 @@ state 507
     $default  reduce using rule 315 (bitwise_xor_expression_no_in)
 
 
-state 508
+状態 508
 
   315 bitwise_xor_expression_no_in: bitwise_xor_expression_no_in . '^' bitwise_and_expression_no_in
   319 bitwise_or_expression_no_in: bitwise_or_expression_no_in '|' bitwise_xor_expression_no_in .
@@ -12123,7 +12123,7 @@ state 508
     $default  reduce using rule 319 (bitwise_or_expression_no_in)
 
 
-state 509
+状態 509
 
   319 bitwise_or_expression_no_in: bitwise_or_expression_no_in . '|' bitwise_xor_expression_no_in
   323 logical_and_expression_no_in: logical_and_expression_no_in JS_LOGICAL_AND bitwise_or_expression_no_in .
@@ -12133,14 +12133,14 @@ state 509
     $default  reduce using rule 323 (logical_and_expression_no_in)
 
 
-state 510
+状態 510
 
   331 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in . ':' assignment_expression_no_in
 
     ':'  shift, and go to state 567
 
 
-state 511
+状態 511
 
   323 logical_and_expression_no_in: logical_and_expression_no_in . JS_LOGICAL_AND bitwise_or_expression_no_in
   327 logical_or_expression_no_in: logical_or_expression_no_in JS_LOGICAL_OR logical_and_expression_no_in .
@@ -12150,14 +12150,14 @@ state 511
     $default  reduce using rule 327 (logical_or_expression_no_in)
 
 
-state 512
+状態 512
 
   357 expression_no_in: expression_no_in ',' assignment_expression_no_in .
 
     $default  reduce using rule 357 (expression_no_in)
 
 
-state 513
+状態 513
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' . expression__opt ';' expression__opt $@6 ')' statement
 
@@ -12228,14 +12228,14 @@ state 513
     expression__opt            go to state 568
 
 
-state 514
+状態 514
 
   169 iteration_statement: JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in . JS_IN expression ')' statement
 
     JS_IN  shift, and go to state 569
 
 
-state 515
+状態 515
 
   168 iteration_statement: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN . expression ')' statement
 
@@ -12304,21 +12304,21 @@ state 515
     expression                 go to state 570
 
 
-state 516
+状態 516
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 571
 
 
-state 517
+状態 517
 
    34 function_expression: JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 572
 
 
-state 518
+状態 518
 
   147 if_statement: JS_IF '(' expression ')' statement . JS_ELSE statement
   148             | JS_IF '(' expression ')' statement .
@@ -12329,35 +12329,35 @@ state 518
     $default  reduce using rule 148 (if_statement)
 
 
-state 519
+状態 519
 
   106 import_expression: import_expression '.' . JS_IDENTIFIER
 
     JS_IDENTIFIER  shift, and go to state 574
 
 
-state 520
+状態 520
 
   101 import_statement: JS_IMPORT JS_IDENTIFIER JS_FROM import_expression terminator .
 
     $default  reduce using rule 101 (import_statement)
 
 
-state 521
+状態 521
 
   103 import_statement: JS_IMPORT JS_STRING_LITERAL JS_FROM import_expression terminator .
 
     $default  reduce using rule 103 (import_statement)
 
 
-state 522
+状態 522
 
   102 import_statement: JS_IMPORT destructuring_assignment_left_hand_side JS_FROM import_expression terminator .
 
     $default  reduce using rule 102 (import_statement)
 
 
-state 523
+状態 523
 
   175 case_block: '{' . case_clauses__opt '}'
   176           | '{' . case_clauses__opt default_clause case_clauses__opt '}'
@@ -12371,49 +12371,49 @@ state 523
     case_clauses__opt  go to state 578
 
 
-state 524
+状態 524
 
   174 switch_statement: JS_SWITCH '(' expression ')' case_block .
 
     $default  reduce using rule 174 (switch_statement)
 
 
-state 525
+状態 525
 
   186 catch: JS_CATCH '(' JS_IDENTIFIER . ')' block
 
     ')'  shift, and go to state 579
 
 
-state 526
+状態 526
 
   155 iteration_statement: JS_WHILE $@3 '(' expression $@4 . ')' statement
 
     ')'  shift, and go to state 580
 
 
-state 527
+状態 527
 
   173 with_statement: JS_WITH '(' expression ')' statement .
 
     $default  reduce using rule 173 (with_statement)
 
 
-state 528
+状態 528
 
    50 formal_parameter_list: formal_parameter_list ',' JS_IDENTIFIER initialiser__opt .
 
     $default  reduce using rule 50 (formal_parameter_list)
 
 
-state 529
+状態 529
 
    51 formal_parameter_list: formal_parameter_list ',' destructuring_assignment_left_hand_side initialiser__opt .
 
     $default  reduce using rule 51 (formal_parameter_list)
 
 
-state 530
+状態 530
 
    36 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH '{' . function_body '}'
 
@@ -12525,14 +12525,14 @@ state 530
     terminator                    go to state 107
 
 
-state 531
+状態 531
 
    40 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH shorten_function_body .
 
     $default  reduce using rule 40 (arrow_function_expression)
 
 
-state 532
+状態 532
 
    38 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' . function_body '}'
 
@@ -12644,56 +12644,56 @@ state 532
     terminator                    go to state 107
 
 
-state 533
+状態 533
 
    41 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body .
 
     $default  reduce using rule 41 (arrow_function_expression)
 
 
-state 534
+状態 534
 
   114 let_assignment_list: let_assignment_list ',' let_assignment_expression .
 
     $default  reduce using rule 114 (let_assignment_list)
 
 
-state 535
+状態 535
 
   112 let_statement: JS_LET '(' let_assignment_list ')' statement .
 
     $default  reduce using rule 112 (let_statement)
 
 
-state 536
+状態 536
 
   133 array_left_hand_side_list: array_left_hand_side_list ',' elision__opt JS_IDENTIFIER .
 
     $default  reduce using rule 133 (array_left_hand_side_list)
 
 
-state 537
+状態 537
 
   129 array_left_hand_side: JS_DSTA_BEGIN array_left_hand_side_list ',' elision__opt JS_DSTA_END .
 
     $default  reduce using rule 129 (array_left_hand_side)
 
 
-state 538
+状態 538
 
   134 array_left_hand_side_list: array_left_hand_side_list ',' elision__opt formal_parameter_rest .
 
     $default  reduce using rule 134 (array_left_hand_side_list)
 
 
-state 539
+状態 539
 
   135 array_left_hand_side_list: array_left_hand_side_list ',' elision__opt destructuring_assignment_left_hand_side .
 
     $default  reduce using rule 135 (array_left_hand_side_list)
 
 
-state 540
+状態 540
 
    31 version_statement: MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' '{' . statement_list__opt '}'
 
@@ -12809,14 +12809,14 @@ state 540
     terminator                 go to state 107
 
 
-state 541
+状態 541
 
   229 property_name_and_value_list: JS_IDENTIFIER '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 585
 
 
-state 542
+状態 542
 
   231 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER .
   232                             | property_name_and_value_list ',' JS_IDENTIFIER . '(' formal_parameter_list__opt ')' '{' function_body '}'
@@ -12828,21 +12828,21 @@ state 542
     $default  reduce using rule 231 (property_name_and_value_list)
 
 
-state 543
+状態 543
 
   230 property_name_and_value_list: property_name_and_value_list ',' property_name . ':' assignment_expression
 
     ':'  shift, and go to state 587
 
 
-state 544
+状態 544
 
   227 property_name_and_value_list: property_name ':' assignment_expression .
 
     $default  reduce using rule 227 (property_name_and_value_list)
 
 
-state 545
+状態 545
 
     2 class_initialiser: class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' . class_body__opt '}'
 
@@ -12883,7 +12883,7 @@ state 545
     terminator                               go to state 107
 
 
-state 546
+状態 546
 
   244 member_expression: JS_NEW . member_expression arguments
 
@@ -12921,7 +12921,7 @@ state 546
     member_expression          go to state 603
 
 
-state 547
+状態 547
 
     6 inherit_declaration__opt: inherit_declaration member_expression .
   240 member_expression: member_expression . '[' expression ']'
@@ -12933,28 +12933,28 @@ state 547
     $default  reduce using rule 6 (inherit_declaration__opt)
 
 
-state 548
+状態 548
 
   256 argument_list: argument_list ',' arguments_spread .
 
     $default  reduce using rule 256 (argument_list)
 
 
-state 549
+状態 549
 
   255 argument_list: argument_list ',' assignment_expression .
 
     $default  reduce using rule 255 (argument_list)
 
 
-state 550
+状態 550
 
   329 conditional_expression: logical_or_expression '?' assignment_expression ':' assignment_expression .
 
     $default  reduce using rule 329 (conditional_expression)
 
 
-state 551
+状態 551
 
   140 object_member_left_hand_side_list: object_member_left_hand_side_list ',' property_name ':' . JS_IDENTIFIER
   142                                  | object_member_left_hand_side_list ',' property_name ':' . destructuring_assignment_left_hand_side
@@ -12968,7 +12968,7 @@ state 551
     object_left_hand_side                    go to state 139
 
 
-state 552
+状態 552
 
   219 array_comprehension_iteration: JS_FOR '(' left_hand_side_expression JS_IN . expression ')'
 
@@ -13037,14 +13037,14 @@ state 552
     expression                 go to state 606
 
 
-state 553
+状態 553
 
   220 array_comprehension_iteration: JS_FOR JS_EACH '(' left_hand_side_expression . JS_IN expression ')'
 
     JS_IN  shift, and go to state 607
 
 
-state 554
+状態 554
 
   222 array_comprehension_if__opt: JS_IF '(' expression . ')'
   355 expression: expression . ',' assignment_expression
@@ -13053,7 +13053,7 @@ state 554
     ')'  shift, and go to state 608
 
 
-state 555
+状態 555
 
    33 function_declaration: JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -13165,7 +13165,7 @@ state 555
     terminator                    go to state 107
 
 
-state 556
+状態 556
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 '(' expression . $@2 ')' terminator
   355 expression: expression . ',' assignment_expression
@@ -13177,7 +13177,7 @@ state 556
     $@2  go to state 610
 
 
-state 557
+状態 557
 
    28 exportable_definition: JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -13289,7 +13289,7 @@ state 557
     terminator                    go to state 107
 
 
-state 558
+状態 558
 
    29 exportable_definition: JS_GET JS_IDENTIFIER '(' ')' '{' . function_body '}'
 
@@ -13401,28 +13401,28 @@ state 558
     terminator                    go to state 107
 
 
-state 559
+状態 559
 
    30 exportable_definition: JS_SET JS_IDENTIFIER '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 613
 
 
-state 560
+状態 560
 
   144 initialiser_no_in: '=' assignment_expression_no_in .
 
     $default  reduce using rule 144 (initialiser_no_in)
 
 
-state 561
+状態 561
 
   120 variable_declaration_list_no_in: variable_declaration_list_no_in ',' variable_declaration_no_in .
 
     $default  reduce using rule 120 (variable_declaration_list_no_in)
 
 
-state 562
+状態 562
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' . expression__opt ';' expression__opt $@8 ')' statement
 
@@ -13493,7 +13493,7 @@ state 562
     expression__opt            go to state 614
 
 
-state 563
+状態 563
 
   163 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression . ')' statement
   355 expression: expression . ',' assignment_expression
@@ -13502,7 +13502,7 @@ state 563
     ')'  shift, and go to state 615
 
 
-state 564
+状態 564
 
   167 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression . ')' $@10 statement
   355 expression: expression . ',' assignment_expression
@@ -13511,7 +13511,7 @@ state 564
     ')'  shift, and go to state 616
 
 
-state 565
+状態 565
 
   162 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IN expression ')' . statement
 
@@ -13624,7 +13624,7 @@ state 565
     terminator                 go to state 107
 
 
-state 566
+状態 566
 
   165 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')' . $@9 statement
 
@@ -13633,7 +13633,7 @@ state 566
     $@9  go to state 618
 
 
-state 567
+状態 567
 
   331 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in ':' . assignment_expression_no_in
 
@@ -13701,14 +13701,14 @@ state 567
     assignment_expression_no_in   go to state 619
 
 
-state 568
+状態 568
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt . ';' expression__opt $@6 ')' statement
 
     ';'  shift, and go to state 620
 
 
-state 569
+状態 569
 
   169 iteration_statement: JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN . expression ')' statement
 
@@ -13777,7 +13777,7 @@ state 569
     expression                 go to state 621
 
 
-state 570
+状態 570
 
   168 iteration_statement: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression . ')' statement
   355 expression: expression . ',' assignment_expression
@@ -13786,7 +13786,7 @@ state 570
     ')'  shift, and go to state 622
 
 
-state 571
+状態 571
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -13898,7 +13898,7 @@ state 571
     terminator                    go to state 107
 
 
-state 572
+状態 572
 
    34 function_expression: JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -14010,7 +14010,7 @@ state 572
     terminator                    go to state 107
 
 
-state 573
+状態 573
 
   147 if_statement: JS_IF '(' expression ')' statement JS_ELSE . statement
 
@@ -14123,14 +14123,14 @@ state 573
     terminator                 go to state 107
 
 
-state 574
+状態 574
 
   106 import_expression: import_expression '.' JS_IDENTIFIER .
 
     $default  reduce using rule 106 (import_expression)
 
 
-state 575
+状態 575
 
   179 case_clause: JS_CASE . expression ':' statement_list__opt
 
@@ -14199,7 +14199,7 @@ state 575
     expression                 go to state 626
 
 
-state 576
+状態 576
 
   178 case_clauses: case_clauses . case_clause
   195 case_clauses__opt: case_clauses .
@@ -14211,14 +14211,14 @@ state 576
     case_clause  go to state 627
 
 
-state 577
+状態 577
 
   177 case_clauses: case_clause .
 
     $default  reduce using rule 177 (case_clauses)
 
 
-state 578
+状態 578
 
   175 case_block: '{' case_clauses__opt . '}'
   176           | '{' case_clauses__opt . default_clause case_clauses__opt '}'
@@ -14229,7 +14229,7 @@ state 578
     default_clause  go to state 630
 
 
-state 579
+状態 579
 
   186 catch: JS_CATCH '(' JS_IDENTIFIER ')' . block
 
@@ -14238,7 +14238,7 @@ state 579
     block  go to state 631
 
 
-state 580
+状態 580
 
   155 iteration_statement: JS_WHILE $@3 '(' expression $@4 ')' . statement
 
@@ -14351,21 +14351,21 @@ state 580
     terminator                 go to state 107
 
 
-state 581
+状態 581
 
    36 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body . '}'
 
     '}'  shift, and go to state 633
 
 
-state 582
+状態 582
 
    38 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body . '}'
 
     '}'  shift, and go to state 634
 
 
-state 583
+状態 583
 
   108 statement_list: statement_list . statement
   189 statement_list__opt: statement_list .
@@ -14480,21 +14480,21 @@ state 583
     terminator                 go to state 107
 
 
-state 584
+状態 584
 
    31 version_statement: MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' '{' statement_list__opt . '}'
 
     '}'  shift, and go to state 635
 
 
-state 585
+状態 585
 
   229 property_name_and_value_list: JS_IDENTIFIER '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 636
 
 
-state 586
+状態 586
 
   232 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER '(' . formal_parameter_list__opt ')' '{' function_body '}'
 
@@ -14514,7 +14514,7 @@ state 586
     object_left_hand_side                    go to state 139
 
 
-state 587
+状態 587
 
   230 property_name_and_value_list: property_name_and_value_list ',' property_name ':' . assignment_expression
 
@@ -14582,7 +14582,7 @@ state 587
     assignment_expression      go to state 638
 
 
-state 588
+状態 588
 
    24 private_property_definition: JS_PRIVATE . exportable_definition terminator
 
@@ -14605,7 +14605,7 @@ state 588
     object_left_hand_side                    go to state 139
 
 
-state 589
+状態 589
 
    23 instance_property_definition: JS_PUBLIC . exportable_definition terminator
 
@@ -14628,7 +14628,7 @@ state 589
     object_left_hand_side                    go to state 139
 
 
-state 590
+状態 590
 
    22 class_property_definition: JS_STATIC . exportable_definition terminator
 
@@ -14651,28 +14651,28 @@ state 590
     object_left_hand_side                    go to state 139
 
 
-state 591
+状態 591
 
    20 constructor_definition: JS_CONSTRUCTOR . '(' formal_parameter_list__opt ')' '{' constructor_function_body '}'
 
     '('  shift, and go to state 642
 
 
-state 592
+状態 592
 
     2 class_initialiser: class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt . '}'
 
     '}'  shift, and go to state 643
 
 
-state 593
+状態 593
 
    10 class_body__opt: class_body .
 
     $default  reduce using rule 10 (class_body__opt)
 
 
-state 594
+状態 594
 
    11 class_body: class_element_list .
    13 class_element_list: class_element_list . class_element
@@ -14711,49 +14711,49 @@ state 594
     terminator                               go to state 107
 
 
-state 595
+状態 595
 
    12 class_element_list: class_element .
 
     $default  reduce using rule 12 (class_element_list)
 
 
-state 596
+状態 596
 
    14 class_element: constructor_definition .
 
     $default  reduce using rule 14 (class_element)
 
 
-state 597
+状態 597
 
    16 class_element: prototype_property_definition .
 
     $default  reduce using rule 16 (class_element)
 
 
-state 598
+状態 598
 
    17 class_element: class_property_definition .
 
     $default  reduce using rule 17 (class_element)
 
 
-state 599
+状態 599
 
    18 class_element: instance_property_definition .
 
     $default  reduce using rule 18 (class_element)
 
 
-state 600
+状態 600
 
    19 class_element: private_property_definition .
 
     $default  reduce using rule 19 (class_element)
 
 
-state 601
+状態 601
 
    21 prototype_property_definition: exportable_definition . terminator
 
@@ -14763,14 +14763,14 @@ state 601
     terminator  go to state 645
 
 
-state 602
+状態 602
 
    15 class_element: empty_statement .
 
     $default  reduce using rule 15 (class_element)
 
 
-state 603
+状態 603
 
   240 member_expression: member_expression . '[' expression ']'
   243                  | member_expression . '.' JS_IDENTIFIER
@@ -14783,21 +14783,21 @@ state 603
     arguments  go to state 255
 
 
-state 604
+状態 604
 
   140 object_member_left_hand_side_list: object_member_left_hand_side_list ',' property_name ':' JS_IDENTIFIER .
 
     $default  reduce using rule 140 (object_member_left_hand_side_list)
 
 
-state 605
+状態 605
 
   142 object_member_left_hand_side_list: object_member_left_hand_side_list ',' property_name ':' destructuring_assignment_left_hand_side .
 
     $default  reduce using rule 142 (object_member_left_hand_side_list)
 
 
-state 606
+状態 606
 
   219 array_comprehension_iteration: JS_FOR '(' left_hand_side_expression JS_IN expression . ')'
   355 expression: expression . ',' assignment_expression
@@ -14806,7 +14806,7 @@ state 606
     ')'  shift, and go to state 646
 
 
-state 607
+状態 607
 
   220 array_comprehension_iteration: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN . expression ')'
 
@@ -14875,42 +14875,42 @@ state 607
     expression                 go to state 647
 
 
-state 608
+状態 608
 
   222 array_comprehension_if__opt: JS_IF '(' expression ')' .
 
     $default  reduce using rule 222 (array_comprehension_if__opt)
 
 
-state 609
+状態 609
 
    33 function_declaration: JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 648
 
 
-state 610
+状態 610
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 '(' expression $@2 . ')' terminator
 
     ')'  shift, and go to state 649
 
 
-state 611
+状態 611
 
    28 exportable_definition: JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 650
 
 
-state 612
+状態 612
 
    29 exportable_definition: JS_GET JS_IDENTIFIER '(' ')' '{' function_body . '}'
 
     '}'  shift, and go to state 651
 
 
-state 613
+状態 613
 
    30 exportable_definition: JS_SET JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -15022,14 +15022,14 @@ state 613
     terminator                    go to state 107
 
 
-state 614
+状態 614
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt . ';' expression__opt $@8 ')' statement
 
     ';'  shift, and go to state 653
 
 
-state 615
+状態 615
 
   163 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression ')' . statement
 
@@ -15142,7 +15142,7 @@ state 615
     terminator                 go to state 107
 
 
-state 616
+状態 616
 
   167 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression ')' . $@10 statement
 
@@ -15151,14 +15151,14 @@ state 616
     $@10  go to state 655
 
 
-state 617
+状態 617
 
   162 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IN expression ')' statement .
 
     $default  reduce using rule 162 (iteration_statement)
 
 
-state 618
+状態 618
 
   165 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')' $@9 . statement
 
@@ -15271,14 +15271,14 @@ state 618
     terminator                 go to state 107
 
 
-state 619
+状態 619
 
   331 conditional_expression_no_in: logical_or_expression_no_in '?' assignment_expression_no_in ':' assignment_expression_no_in .
 
     $default  reduce using rule 331 (conditional_expression_no_in)
 
 
-state 620
+状態 620
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt ';' . expression__opt $@6 ')' statement
 
@@ -15349,7 +15349,7 @@ state 620
     expression__opt            go to state 657
 
 
-state 621
+状態 621
 
   169 iteration_statement: JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN expression . ')' statement
   355 expression: expression . ',' assignment_expression
@@ -15358,7 +15358,7 @@ state 621
     ')'  shift, and go to state 658
 
 
-state 622
+状態 622
 
   168 iteration_statement: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')' . statement
 
@@ -15471,28 +15471,28 @@ state 622
     terminator                 go to state 107
 
 
-state 623
+状態 623
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 660
 
 
-state 624
+状態 624
 
    34 function_expression: JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 661
 
 
-state 625
+状態 625
 
   147 if_statement: JS_IF '(' expression ')' statement JS_ELSE statement .
 
     $default  reduce using rule 147 (if_statement)
 
 
-state 626
+状態 626
 
   179 case_clause: JS_CASE expression . ':' statement_list__opt
   355 expression: expression . ',' assignment_expression
@@ -15501,28 +15501,28 @@ state 626
     ':'  shift, and go to state 662
 
 
-state 627
+状態 627
 
   178 case_clauses: case_clauses case_clause .
 
     $default  reduce using rule 178 (case_clauses)
 
 
-state 628
+状態 628
 
   180 default_clause: JS_DEFAULT . ':' statement_list__opt
 
     ':'  shift, and go to state 663
 
 
-state 629
+状態 629
 
   175 case_block: '{' case_clauses__opt '}' .
 
     $default  reduce using rule 175 (case_block)
 
 
-state 630
+状態 630
 
   176 case_block: '{' case_clauses__opt default_clause . case_clauses__opt '}'
 
@@ -15535,42 +15535,42 @@ state 630
     case_clauses__opt  go to state 664
 
 
-state 631
+状態 631
 
   186 catch: JS_CATCH '(' JS_IDENTIFIER ')' block .
 
     $default  reduce using rule 186 (catch)
 
 
-state 632
+状態 632
 
   155 iteration_statement: JS_WHILE $@3 '(' expression $@4 ')' statement .
 
     $default  reduce using rule 155 (iteration_statement)
 
 
-state 633
+状態 633
 
    36 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}' .
 
     $default  reduce using rule 36 (arrow_function_expression)
 
 
-state 634
+状態 634
 
    38 arrow_function_expression: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}' .
 
     $default  reduce using rule 38 (arrow_function_expression)
 
 
-state 635
+状態 635
 
    31 version_statement: MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' '{' statement_list__opt '}' .
 
     $default  reduce using rule 31 (version_statement)
 
 
-state 636
+状態 636
 
   229 property_name_and_value_list: JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -15682,21 +15682,21 @@ state 636
     terminator                    go to state 107
 
 
-state 637
+状態 637
 
   232 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER '(' formal_parameter_list__opt . ')' '{' function_body '}'
 
     ')'  shift, and go to state 666
 
 
-state 638
+状態 638
 
   230 property_name_and_value_list: property_name_and_value_list ',' property_name ':' assignment_expression .
 
     $default  reduce using rule 230 (property_name_and_value_list)
 
 
-state 639
+状態 639
 
    24 private_property_definition: JS_PRIVATE exportable_definition . terminator
 
@@ -15706,7 +15706,7 @@ state 639
     terminator  go to state 667
 
 
-state 640
+状態 640
 
    23 instance_property_definition: JS_PUBLIC exportable_definition . terminator
 
@@ -15716,7 +15716,7 @@ state 640
     terminator  go to state 668
 
 
-state 641
+状態 641
 
    22 class_property_definition: JS_STATIC exportable_definition . terminator
 
@@ -15726,7 +15726,7 @@ state 641
     terminator  go to state 669
 
 
-state 642
+状態 642
 
    20 constructor_definition: JS_CONSTRUCTOR '(' . formal_parameter_list__opt ')' '{' constructor_function_body '}'
 
@@ -15746,35 +15746,35 @@ state 642
     object_left_hand_side                    go to state 139
 
 
-state 643
+状態 643
 
     2 class_initialiser: class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt '}' .
 
     $default  reduce using rule 2 (class_initialiser)
 
 
-state 644
+状態 644
 
    13 class_element_list: class_element_list class_element .
 
     $default  reduce using rule 13 (class_element_list)
 
 
-state 645
+状態 645
 
    21 prototype_property_definition: exportable_definition terminator .
 
     $default  reduce using rule 21 (prototype_property_definition)
 
 
-state 646
+状態 646
 
   219 array_comprehension_iteration: JS_FOR '(' left_hand_side_expression JS_IN expression ')' .
 
     $default  reduce using rule 219 (array_comprehension_iteration)
 
 
-state 647
+状態 647
 
   220 array_comprehension_iteration: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression . ')'
   355 expression: expression . ',' assignment_expression
@@ -15783,14 +15783,14 @@ state 647
     ')'  shift, and go to state 671
 
 
-state 648
+状態 648
 
    33 function_declaration: JS_CONST JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 33 (function_declaration)
 
 
-state 649
+状態 649
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 '(' expression $@2 ')' . terminator
 
@@ -15800,28 +15800,28 @@ state 649
     terminator  go to state 672
 
 
-state 650
+状態 650
 
    28 exportable_definition: JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 28 (exportable_definition)
 
 
-state 651
+状態 651
 
    29 exportable_definition: JS_GET JS_IDENTIFIER '(' ')' '{' function_body '}' .
 
     $default  reduce using rule 29 (exportable_definition)
 
 
-state 652
+状態 652
 
    30 exportable_definition: JS_SET JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 673
 
 
-state 653
+状態 653
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' . expression__opt $@8 ')' statement
 
@@ -15892,14 +15892,14 @@ state 653
     expression__opt            go to state 674
 
 
-state 654
+状態 654
 
   163 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement .
 
     $default  reduce using rule 163 (iteration_statement)
 
 
-state 655
+状態 655
 
   167 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression ')' $@10 . statement
 
@@ -16012,14 +16012,14 @@ state 655
     terminator                 go to state 107
 
 
-state 656
+状態 656
 
   165 iteration_statement: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')' $@9 statement .
 
     $default  reduce using rule 165 (iteration_statement)
 
 
-state 657
+状態 657
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt ';' expression__opt . $@6 ')' statement
 
@@ -16028,7 +16028,7 @@ state 657
     $@6  go to state 676
 
 
-state 658
+状態 658
 
   169 iteration_statement: JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN expression ')' . statement
 
@@ -16141,28 +16141,28 @@ state 658
     terminator                 go to state 107
 
 
-state 659
+状態 659
 
   168 iteration_statement: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')' statement .
 
     $default  reduce using rule 168 (iteration_statement)
 
 
-state 660
+状態 660
 
    32 function_declaration: JS_FUNCTION JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 32 (function_declaration)
 
 
-state 661
+状態 661
 
    34 function_expression: JS_FUNCTION identifier__opt '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 34 (function_expression)
 
 
-state 662
+状態 662
 
   179 case_clause: JS_CASE expression ':' . statement_list__opt
 
@@ -16278,7 +16278,7 @@ state 662
     terminator                 go to state 107
 
 
-state 663
+状態 663
 
   180 default_clause: JS_DEFAULT ':' . statement_list__opt
 
@@ -16394,77 +16394,77 @@ state 663
     terminator                 go to state 107
 
 
-state 664
+状態 664
 
   176 case_block: '{' case_clauses__opt default_clause case_clauses__opt . '}'
 
     '}'  shift, and go to state 680
 
 
-state 665
+状態 665
 
   229 property_name_and_value_list: JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 681
 
 
-state 666
+状態 666
 
   232 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER '(' formal_parameter_list__opt ')' . '{' function_body '}'
 
     '{'  shift, and go to state 682
 
 
-state 667
+状態 667
 
    24 private_property_definition: JS_PRIVATE exportable_definition terminator .
 
     $default  reduce using rule 24 (private_property_definition)
 
 
-state 668
+状態 668
 
    23 instance_property_definition: JS_PUBLIC exportable_definition terminator .
 
     $default  reduce using rule 23 (instance_property_definition)
 
 
-state 669
+状態 669
 
    22 class_property_definition: JS_STATIC exportable_definition terminator .
 
     $default  reduce using rule 22 (class_property_definition)
 
 
-state 670
+状態 670
 
    20 constructor_definition: JS_CONSTRUCTOR '(' formal_parameter_list__opt . ')' '{' constructor_function_body '}'
 
     ')'  shift, and go to state 683
 
 
-state 671
+状態 671
 
   220 array_comprehension_iteration: JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')' .
 
     $default  reduce using rule 220 (array_comprehension_iteration)
 
 
-state 672
+状態 672
 
   152 iteration_statement: JS_DO statement JS_WHILE $@1 '(' expression $@2 ')' terminator .
 
     $default  reduce using rule 152 (iteration_statement)
 
 
-state 673
+状態 673
 
    30 exportable_definition: JS_SET JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 30 (exportable_definition)
 
 
-state 674
+状態 674
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt . $@8 ')' statement
 
@@ -16473,56 +16473,56 @@ state 674
     $@8  go to state 684
 
 
-state 675
+状態 675
 
   167 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression ')' $@10 statement .
 
     $default  reduce using rule 167 (iteration_statement)
 
 
-state 676
+状態 676
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt ';' expression__opt $@6 . ')' statement
 
     ')'  shift, and go to state 685
 
 
-state 677
+状態 677
 
   169 iteration_statement: JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement .
 
     $default  reduce using rule 169 (iteration_statement)
 
 
-state 678
+状態 678
 
   179 case_clause: JS_CASE expression ':' statement_list__opt .
 
     $default  reduce using rule 179 (case_clause)
 
 
-state 679
+状態 679
 
   180 default_clause: JS_DEFAULT ':' statement_list__opt .
 
     $default  reduce using rule 180 (default_clause)
 
 
-state 680
+状態 680
 
   176 case_block: '{' case_clauses__opt default_clause case_clauses__opt '}' .
 
     $default  reduce using rule 176 (case_block)
 
 
-state 681
+状態 681
 
   229 property_name_and_value_list: JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 229 (property_name_and_value_list)
 
 
-state 682
+状態 682
 
   232 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' . function_body '}'
 
@@ -16634,21 +16634,21 @@ state 682
     terminator                    go to state 107
 
 
-state 683
+状態 683
 
    20 constructor_definition: JS_CONSTRUCTOR '(' formal_parameter_list__opt ')' . '{' constructor_function_body '}'
 
     '{'  shift, and go to state 687
 
 
-state 684
+状態 684
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 . ')' statement
 
     ')'  shift, and go to state 688
 
 
-state 685
+状態 685
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt ';' expression__opt $@6 ')' . statement
 
@@ -16761,14 +16761,14 @@ state 685
     terminator                 go to state 107
 
 
-state 686
+状態 686
 
   232 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body . '}'
 
     '}'  shift, and go to state 690
 
 
-state 687
+状態 687
 
    20 constructor_definition: JS_CONSTRUCTOR '(' formal_parameter_list__opt ')' '{' . constructor_function_body '}'
 
@@ -16883,7 +16883,7 @@ state 687
     terminator                       go to state 107
 
 
-state 688
+状態 688
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 ')' . statement
 
@@ -16996,21 +16996,21 @@ state 688
     terminator                 go to state 107
 
 
-state 689
+状態 689
 
   158 iteration_statement: JS_FOR '(' expression_no_in__opt $@5 ';' expression__opt ';' expression__opt $@6 ')' statement .
 
     $default  reduce using rule 158 (iteration_statement)
 
 
-state 690
+状態 690
 
   232 property_name_and_value_list: property_name_and_value_list ',' JS_IDENTIFIER '(' formal_parameter_list__opt ')' '{' function_body '}' .
 
     $default  reduce using rule 232 (property_name_and_value_list)
 
 
-state 691
+状態 691
 
    24 private_property_definition: JS_PRIVATE . exportable_definition terminator
   241 member_expression: JS_PRIVATE . '[' expression ']'
@@ -17037,28 +17037,28 @@ state 691
     object_left_hand_side                    go to state 139
 
 
-state 692
+状態 692
 
    68 source_element_for_constructor: instance_property_definition .
 
     $default  reduce using rule 68 (source_element_for_constructor)
 
 
-state 693
+状態 693
 
    69 source_element_for_constructor: private_property_definition .
 
     $default  reduce using rule 69 (source_element_for_constructor)
 
 
-state 694
+状態 694
 
    20 constructor_definition: JS_CONSTRUCTOR '(' formal_parameter_list__opt ')' '{' constructor_function_body . '}'
 
     '}'  shift, and go to state 699
 
 
-state 695
+状態 695
 
    57 constructor_function_body: source_elements_for_constructor .
    63 source_elements_for_constructor: source_elements_for_constructor . source_element_for_constructor
@@ -17172,35 +17172,35 @@ state 695
     terminator                      go to state 107
 
 
-state 696
+状態 696
 
    62 source_elements_for_constructor: source_element_for_constructor .
 
     $default  reduce using rule 62 (source_elements_for_constructor)
 
 
-state 697
+状態 697
 
    67 source_element_for_constructor: statement_with_block .
 
     $default  reduce using rule 67 (source_element_for_constructor)
 
 
-state 698
+状態 698
 
   161 iteration_statement: JS_FOR '(' JS_VAR variable_declaration_list_no_in $@7 ';' expression__opt ';' expression__opt $@8 ')' statement .
 
     $default  reduce using rule 161 (iteration_statement)
 
 
-state 699
+状態 699
 
    20 constructor_definition: JS_CONSTRUCTOR '(' formal_parameter_list__opt ')' '{' constructor_function_body '}' .
 
     $default  reduce using rule 20 (constructor_definition)
 
 
-state 700
+状態 700
 
    63 source_elements_for_constructor: source_elements_for_constructor source_element_for_constructor .
 

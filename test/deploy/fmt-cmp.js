@@ -558,19 +558,14 @@
               };
           
           __LINE__ = 289;
-          var StopIteration = _mochaLocalExport.StopIteration = function ( message ) {
-                try {
-                  __LINE__ = 290;
-                  this.toString = function () {
-                    try {
-                      __LINE__ = 290;
-                      return "StopIteration";
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+          var StopIteration = _mochaLocalExport.StopIteration =  {
+                toString : function toString() {
+                  try {
+                    __LINE__ = 290;
+                    return "StopIteration";
+                  } catch( e ){
+                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  }
                 }
               };
           
@@ -740,6 +735,88 @@
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
+          
+          __LINE__ = 378;
+          var createGenerator = _mochaLocalExport.createGenerator = function ( generatorFn,closeFn,context ) {
+                try {
+                  __LINE__ = 379;
+                  var ret = {};
+                  
+                  __LINE__ = 380;
+                  createUnenumProp( ret,"next",generatorFn.bind( context,false ) );
+                  
+                  __LINE__ = 381;
+                  createUnenumProp( ret,"send",generatorFn.bind( context,true ) );
+                  
+                  __LINE__ = 382;
+                  createUnenumProp( ret,"close",closeFn.bind( context ) );
+                  
+                  __LINE__ = 383;
+                  createUnenumProp( ret,"toString",
+                  function () {
+                    try {
+                      __LINE__ = 383;
+                      return "[object Generator]";
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  });
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 386;
+          var getErrorMessage = function ( e ) {
+                try {
+                  __LINE__ = 386;
+                  return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 388;
+          var throwException = _mochaLocalExport.throwException = function ( exception ) {
+                try {
+                  try {
+                    __LINE__ = 390;
+                    throw exception;
+                  } catch( e ){
+                    __LINE__ = 392;
+                    throw new Error( getErrorMessage( e ) );
+                  };
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 396;
+          function Exception( line,file,e ) {
+            try {
+              __LINE__ = 397;
+              this.message = function () {
+                try {
+                  __LINE__ = 398;
+                  return getErrorMessage( e )+" in file "+file+" at : "+line;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 402;
+          var exceptionHandler = _mochaLocalExport.exceptionHandler = function ( line,file,e ) {
+                try {
+                  __LINE__ = 403;
+                  throwException( new Exception( line , file , e ) );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
           __LINE__ = 0;
           return _mochaLocalExport;
         } catch( e ){
@@ -750,29 +827,34 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js",
+      var __FILE__ = "/var/samba/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'] = {};
+      _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-60818395-1384-fmt.js}'];
       
       __LINE__ = 1;
       var privateName = (new Date);
       
       __LINE__ = 0;
       var _mochaLocalTmp0 =  {
-            
+            m :  {
+              
+            }
           };
       
       __LINE__ = 0;
-      privateName[privateName] = 20;
+      _mochaLocalTmp0[privateName][v][privateName][m] = 20;
+      
+      __LINE__ = 0;
+      _mochaLocalTmp0[privateName][m] = {};
       
       __LINE__ = 2;
       var testObj = _mochaLocalTmp0;
       
-      __LINE__ = 6;
+      __LINE__ = 12;
       var m = function () {
             try {
               __LINE__ = 0;
@@ -784,10 +866,10 @@
               __LINE__ = 0;
               var _yieldState = 0;
               
-              __LINE__ = 12;
+              __LINE__ = 18;
               var m;
               
-              __LINE__ = 8;
+              __LINE__ = 14;
               var i;
               
               __LINE__ = 0;
@@ -802,55 +884,55 @@
                         Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
                       };
                       
-                      __LINE__ = 6;
+                      __LINE__ = 12;
                       while ( 1 ){
-                        __LINE__ = 6;
+                        __LINE__ = 12;
                         switch ( _yieldState ) {
                           case 0 :
                             
-                            __LINE__ = 7;
+                            __LINE__ = 13;
                             if ( window ){
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 1;
                               __LINE__ = 0;
                               break;
                             } else {
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 5;
                               __LINE__ = 0;
                               break;
                             };
                           case 1 :
                             
-                            __LINE__ = 8;
+                            __LINE__ = 14;
                             i = 0;
                             
-                            __LINE__ = 8;
+                            __LINE__ = 14;
                             if ( !( i<10 ) ){
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 4;
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               break;
                             };
                           case 2 :
                             
-                            __LINE__ = 9;
+                            __LINE__ = 15;
                             _yieldState = 3;
-                            __LINE__ = 9;
+                            __LINE__ = 15;
                             return i;
                           case 3 :
                             
                             __LINE__ = 0;
                             i ++ ;
                             
-                            __LINE__ = 6;
+                            __LINE__ = 12;
                             if ( i<10 ){
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 2;
                               __LINE__ = 0;
                               break;
                             } else {
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 4;
                             };
                           case 4 :
@@ -861,35 +943,35 @@
                             break;
                           case 5 :
                             
-                            __LINE__ = 12;
+                            __LINE__ = 18;
                             m = 0;
                             
-                            __LINE__ = 12;
+                            __LINE__ = 18;
                             if ( !( m<10 ) ){
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 8;
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               break;
                             };
                           case 6 :
                             
-                            __LINE__ = 13;
+                            __LINE__ = 19;
                             _yieldState = 7;
-                            __LINE__ = 13;
+                            __LINE__ = 19;
                             return m;
                           case 7 :
                             
                             __LINE__ = 0;
                             m ++ ;
                             
-                            __LINE__ = 6;
+                            __LINE__ = 12;
                             if ( m<10 ){
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 6;
                               __LINE__ = 0;
                               break;
                             } else {
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               _yieldState = 8;
                             };
                           case 8 :
@@ -900,7 +982,7 @@
                               __LINE__ = 0;
                               return undefined;
                             } else {
-                              __LINE__ = 6;
+                              __LINE__ = 12;
                               Runtime.throwException( Runtime.StopIteration );
                             };
                             
@@ -925,7 +1007,7 @@
             }
           };
       
-      __LINE__ = 18;
+      __LINE__ = 24;
       var x = function () {
             try {
               __LINE__ = 0;
@@ -943,22 +1025,22 @@
               __LINE__ = 0;
               var _mochaCatchCache;
               
-              __LINE__ = 34;
+              __LINE__ = 40;
               var l;
               
-              __LINE__ = 25;
+              __LINE__ = 31;
               var m;
               
-              __LINE__ = 24;
+              __LINE__ = 30;
               var x;
               
-              __LINE__ = 24;
+              __LINE__ = 30;
               var _mochaLocalTmp1;
               
-              __LINE__ = 22;
+              __LINE__ = 28;
               var j;
               
-              __LINE__ = 19;
+              __LINE__ = 25;
               var i;
               
               __LINE__ = 0;
@@ -973,100 +1055,100 @@
                         Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
                       };
                       
-                      __LINE__ = 18;
+                      __LINE__ = 24;
                       while ( 1 ){
                         try {
-                          __LINE__ = 18;
+                          __LINE__ = 24;
                           switch ( _yieldState ) {
                             case 0 :
                               
-                              __LINE__ = 19;
+                              __LINE__ = 25;
                               i = 0;
                               
-                              __LINE__ = 19;
+                              __LINE__ = 25;
                               if ( !( i<200 ) ){
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 7;
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 break;
                               };
                             case 1 :
                               
-                              __LINE__ = 21;
+                              __LINE__ = 27;
                               _yieldState = 2;
                               
-                              __LINE__ = 29;
+                              __LINE__ = 35;
                               _mochaCatchCache = function ( e ) {
                                 try {
-                                  __LINE__ = 18;
+                                  __LINE__ = 24;
                                   _yieldState = 7;
                                 } catch( e ){
                                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                                 }
                               };
                               
-                              __LINE__ = 30;
+                              __LINE__ = 36;
                               _mochaFinallyCache = function (  ) {
                                 try {
-                                  __LINE__ = 31;
+                                  __LINE__ = 37;
                                   console.log( 100 );
                                 } catch( e ){
                                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                                 }
                               };
-                              __LINE__ = 21;
+                              __LINE__ = 27;
                               return i;
                             case 2 :
                               
-                              __LINE__ = 22;
+                              __LINE__ = 28;
                               j = 0;
                               
-                              __LINE__ = 23;
+                              __LINE__ = 29;
                               if ( !( j<100 ) ){
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 6;
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 break;
                               };
                             case 3 :
                               
-                              __LINE__ = 25;
+                              __LINE__ = 31;
                               _yieldState = 4;
                               
-                              __LINE__ = 24;
+                              __LINE__ = 30;
                               _mochaLocalTmp1 =  {
                                 x : 300
                               };
                               
-                              __LINE__ = 24;
+                              __LINE__ = 30;
                               x = _mochaLocalTmp1.x;
                               
                               __LINE__ = 0;
                               _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 ) : ( _isYieldSend )?200 : undefined;
-                              __LINE__ = 25;
+                              __LINE__ = 31;
                               return 200;
                             case 4 :
                               
-                              __LINE__ = 26;
+                              __LINE__ = 32;
                               _yieldState = 5;
                               
-                              __LINE__ = 25;
+                              __LINE__ = 31;
                               m = _yieldResult;
-                              __LINE__ = 26;
+                              __LINE__ = 32;
                               return j;
                             case 5 :
                               
-                              __LINE__ = 27;
+                              __LINE__ = 33;
                               j ++ ;
                               
-                              __LINE__ = 18;
+                              __LINE__ = 24;
                               if ( j<100 ){
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 3;
                                 __LINE__ = 0;
                                 break;
                               } else {
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 6;
                               };
                             case 6 :
@@ -1080,54 +1162,54 @@
                               __LINE__ = 0;
                               i ++ ;
                               
-                              __LINE__ = 18;
+                              __LINE__ = 24;
                               if ( i<200 ){
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 1;
                                 __LINE__ = 0;
                                 break;
                               } else {
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 7;
                               };
                             case 7 :
                               
-                              __LINE__ = 34;
+                              __LINE__ = 40;
                               l = 0;
                               
-                              __LINE__ = 34;
+                              __LINE__ = 40;
                               if ( !( l<20 ) ){
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 10;
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 break;
                               };
                             case 8 :
                               
-                              __LINE__ = 35;
+                              __LINE__ = 41;
                               _yieldState = 9;
-                              __LINE__ = 35;
+                              __LINE__ = 41;
                               return l;
                             case 9 :
                               
                               __LINE__ = 0;
                               l ++ ;
                               
-                              __LINE__ = 18;
+                              __LINE__ = 24;
                               if ( l<20 ){
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 8;
                                 __LINE__ = 0;
                                 break;
                               } else {
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 _yieldState = 10;
                               };
                             case 10 :
                               
-                              __LINE__ = 37;
+                              __LINE__ = 43;
                               _yieldState = -1;
-                              __LINE__ = 37;
+                              __LINE__ = 43;
                               return 200;
                             case -1 :
                               
@@ -1136,7 +1218,7 @@
                                 __LINE__ = 0;
                                 return undefined;
                               } else {
-                                __LINE__ = 18;
+                                __LINE__ = 24;
                                 Runtime.throwException( Runtime.StopIteration );
                               };
                               
@@ -1193,12 +1275,12 @@
       if ( _mochaLocalTmp2.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( m = _mochaLocalTmp2.__nothrowNext__(  ) ) ){
-          __LINE__ = 40;
+          __LINE__ = 46;
           console.log( m );
         };
       } else {
         __LINE__ = 0;
-        exceptionHandler( 39,__FILE__,'for of statement expect iterator or generator object.' );
+        exceptionHandler( 45,__FILE__,'for of statement expect iterator or generator object.' );
       };
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
