@@ -870,11 +870,14 @@ void CodegenVisitor::ObjectProccessor_( ValueNode* ast_node ) {
     NodeIterator iterator = element_list->ChildNodes();
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
-      element->Accept( this );
-      writer_->WriteOp( ':' , 0 , stream_.Get() );
-      element->FirstChild()->Accept( this );
-      if ( iterator.HasNext() ) {
-        writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
+      ValueNode* val = element->CastToValue();
+      if ( ( val && element->CastToValue()->ValueType() != ValueNode::kPrivateProperty ) || !val ) {
+        element->Accept( this );
+        writer_->WriteOp( ':' , 0 , stream_.Get() );
+        element->FirstChild()->Accept( this );
+        if ( iterator.HasNext() ) {
+          writer_->WriteOp( ',' , CodeWriter::kVarsComma , stream_.Get() );
+        }
       }
     }
     writer_->WriteOp( '}' , CodeWriter::kArgs , stream_.Get() );
@@ -951,6 +954,10 @@ VISITOR_IMPL( ValueNode ) {
         }
       }
     }
+      break;
+
+    case ValueNode::kPrivateProperty :
+      return;
       break;
 
     default :

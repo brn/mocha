@@ -2,6 +2,7 @@
 #define mocha_visitor_info_h_
 #include <utils/int_types.h>
 #include <list>
+#include <utility>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/class_traits/uncopyable.h>
 #include <utils/xml/versions.h>
@@ -15,6 +16,8 @@ class ClassProcessor;
 typedef std::list<ClassProcessor*> ClassList;
 class VisitorInfo : private Uncopyable{
  public :
+  typedef std::pair<AstNode* , AstNode*> AstPair;
+  typedef std::list<AstPair> PrivateNameList;
   VisitorInfo( bool is_runtime , Scope* scope , Compiler *compiler ,
                DstaExtractedExpressions* dsta_exp , const char* main_file_path , const char* file_name );
   ~VisitorInfo(){};
@@ -51,6 +54,8 @@ class VisitorInfo : private Uncopyable{
   inline void AddClass( ClassProcessor* proc ) { class_list_.push_back( proc ); }
   inline void SetFunction( Function* fn ) { current_fn_ = fn; }
   inline Function* GetFunction() { return current_fn_; }
+  inline void SetObjectPrivate( AstPair private_name ) { private_names_.push_back( private_name ); }
+  inline PrivateNameList& GetObjectPrivateList() { return private_names_; }
   inline const ClassList& GetClassList() { return class_list_; }
  private :
   int tmp_index_;
@@ -58,6 +63,7 @@ class VisitorInfo : private Uncopyable{
   int16_t is_in_module_;
   const char* main_file_path_;
   const char* file_name_;
+  PrivateNameList private_names_;
   BitVector8 bit_vector_;
   Version* version_;
   DstaExtractedExpressions* dsta_exp_;

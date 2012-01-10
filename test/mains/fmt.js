@@ -1,4 +1,9 @@
 
+var privateName = new Date();
+var testObj = {
+      [privateName] : 20
+    }
+
 var m = function () {
       if ( window ) {
         for (var i = 0; i < 10; i ++) {

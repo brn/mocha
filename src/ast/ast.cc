@@ -574,6 +574,7 @@ AstNode* ValueNode::Clone() {
     case kDstArray :
     case kSpread :
     case kConstant :
+    case kPrivateProperty :
       if ( node_ ) {
         ret->node_ = node_->Clone();
       } else if ( value_ ) {

@@ -2219,6 +2219,13 @@ property_name
     node->Symbol( $1 );
     $$ = node;
   }
+| '[' assignment_expression ']'
+  {
+    ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kPrivateProperty ) );
+    node->Line( $2->Line() );
+    node->Node( $2 );
+    $$ = node;
+  }
 ;
 
 member_expression

@@ -563,8 +563,8 @@ void AstTransformer::ObjectProccessor_( ValueNode* ast_node ) {
     NodeIterator iterator = element_list->ChildNodes();
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
-      element->Accept( this );
       element->FirstChild()->Accept( this );
+      element->Accept( this );
     }
   }
 }
@@ -578,10 +578,75 @@ VISITOR_IMPL( ValueNode ) {
       ArrayProccessor_( ast_node );
       break;
 
-    case ValueNode::kObject :
+    case ValueNode::kObject : {
       ObjectProccessor_( ast_node );
+      AstNode* parent = ast_node->ParentNode();
+      if ( parent->NodeType() != AstNode::kValueNode ||
+           parent->CastToValue()->ValueType() != ValueNode::kObject ) {
+        if ( visitor_info_->GetObjectPrivateList().size() > 0 ) {
+          AstNode* parent = ast_node->ParentNode();
+          while ( !parent->CastToStatement() ) {
+            parent = parent->ParentNode();
+          }
+          ValueNode* name = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
+          ValueNode* exp = AstUtils::CreateVarInitiliser( name->Symbol() , ast_node->Clone() );
+          VariableStmt* stmt = AstUtils::CreateVarStmt( exp );
+          parent->ParentNode()->InsertBefore( stmt , parent );
+          ast_node->Symbol( name->Symbol() );
+          ast_node->ValueType( ValueNode::kIdentifier );
+          ast_node->RemoveAllChild();
+          ast_node->AddChild( name->Clone() );
+          VisitorInfo::PrivateNameList &list = visitor_info_->GetObjectPrivateList();
+          VisitorInfo::PrivateNameList::iterator begin = list.begin(),end = list.end();
+          while ( begin != end ) {
+            AstNode* name = (*begin).first;
+            CallExp* exp = AstUtils::CreateArrayAccessor( name, (*begin).first );
+            AstNode* name_parent = name;
+            
+            while ( name_parent && ( name_parent->NodeType() == AstNode::kNodeList ||
+                                     name_parent->NodeType() == AstNode::kValueNode ) &&
+                    name_parent->CastToValue()->ValueType() != ValueNode::kVariable ) {
+              ValueNode* val = name_parent->CastToValue();
+              if ( val && ( val->ValueType() == ValueNode::kPrivateProperty ||
+                            val->ValueType() == ValueNode::kProperty ||
+                            val->ValueType() == ValueNode::kString ||
+                            val->ValueType() == ValueNode::kNumeric ) ) {
+                if ( val->ValueType() == ValueNode::kPrivateProperty ) {
+                  exp = AstUtils::CreateArrayAccessor( exp , val->Node()->Clone() );
+                } else if ( val->ValueType() == ValueNode::kIdentifier ) {
+                  exp = AstUtils::CreateDotAccessor( exp , val->Clone() );
+                } else {
+                  exp = AstUtils::CreateArrayAccessor( exp , val->Clone() );
+                }
+              } else {
+                break;
+              }
+              name_parent = parent->ParentNode();
+            }
+            AssignmentExp* assign = AstUtils::CreateAssignment( '=' , exp , (*begin).second->Clone() );
+            ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
+            parent->ParentNode()->InsertBefore( stmt , parent );
+            ++begin;
+          }
+          list.clear();
+        }
+      }
+    }
       break;
 
+    case ValueNode::kPrivateProperty : {
+      AstNode* node = ast_node->FirstChild();
+      ValueNode* maybeObject = node->CastToValue();
+      if ( maybeObject && maybeObject->ValueType() == ValueNode::kObject ) {
+        ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+        value->Node( ManagedHandle::Retain<Empty>() );
+        visitor_info_->SetObjectPrivate( VisitorInfo::AstPair( ast_node->Node() , value ) );
+      } else {
+        visitor_info_->SetObjectPrivate( VisitorInfo::AstPair( ast_node->Node() , ast_node->FirstChild() ) );
+      }
+    }
+      break;
+      
     case ValueNode::kVariable :
       VariableProcessor::ProcessVarInitialiser( ast_node , proc_info_.Get() );
       break;

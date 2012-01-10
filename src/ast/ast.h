@@ -1371,7 +1371,8 @@ class ValueNode : public AstNode {
     kSpread,
     kConstant,
     kRest,
-    kProperty
+    kProperty,
+    kPrivateProperty
   };
   inline ValueNode( int type ) :
       AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
@@ -1380,7 +1381,7 @@ class ValueNode : public AstNode {
   inline int ValueType() const { return value_type_; };
   inline void Symbol( TokenInfo* value ) { value_ = value; };
   inline TokenInfo* Symbol() const { return value_; };
-  inline void Node( AstNode* node ) { node_ = node; };
+  inline void Node( AstNode* node ) { node_ = node; node->ParentNode( this ); };
   inline AstNode* Node() const { return node_; };
   inline ValueNode* CastToValue() { return this; }
   CLONE( ValueNode );
