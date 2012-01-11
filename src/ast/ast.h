@@ -235,13 +235,13 @@ class AstNode : public Managed {
    * @param {AstNode*}
    * Insert a node to next sibling of this node. 
    */
-  inline void After( AstNode* node ) { next_sibling_ = node;node->prev_sibling_ = this; };
+  inline void After( AstNode* node ) { next_sibling_ = node; if ( node ) node->prev_sibling_ = this; };
 
   /**
    * @param {AstNode*}
    * Insert a node to previous sibling of this node. 
    */
-  inline void Before( AstNode* node ) { prev_sibling_ = node;node->next_sibling_ = this; };
+  inline void Before( AstNode* node ) { prev_sibling_ = node; if ( node ) node->next_sibling_ = this; };
 
   /**
    * @param {AstNode*}
@@ -839,6 +839,7 @@ class IFStmt : public Statement {
   inline AstNode* Then() { return then_; }
   inline void Else( AstNode* els ) { else_ = els;els->ParentNode( this ); }
   inline AstNode* Else() { return else_; }
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( IFStmt );
  private :
   AstNode* exp_;

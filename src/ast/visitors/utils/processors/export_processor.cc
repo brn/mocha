@@ -34,6 +34,7 @@ void ExportProcessor::ProcessNode() {
 
 void ExportProcessor::ProcessFunction_( AstNode* node ) {
   Function* fn = reinterpret_cast<Function*>( node );
+  info_->GetInfo()->SetFunction( fn );
   ValueNode* name = fn->Name()->CastToValue();
   ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
                                                Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );

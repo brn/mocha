@@ -938,6 +938,8 @@ class QueueScanner::Scanner {
       RewriteDst_();
     } else if ( type == Token::JS_IN ) {
       RewriteDst_();
+    } else if ( type == Token::JS_IDENTIFIER && strcmp( ctoken , "of" ) == 0 ) {
+      RewriteDst_();
     }
     DoPushBack_( ctoken , type );
   }

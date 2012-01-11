@@ -486,7 +486,7 @@ class YieldHelper : private Uncopyable {
       }
       last = current;
     } else if ( !then_body->IsEmpty() ) {
-      last = then_body;
+      current = last = then_body;
       parent->InsertBefore( last , mark );
     }
     last->ParentNode()->InsertBefore( normal_mark , last );
@@ -533,7 +533,7 @@ class YieldHelper : private Uncopyable {
         }
         last = current;
       } else {
-        last = else_body;
+        current = last = else_body;
         parent->InsertBefore( last , mark );
       }
       last->ParentNode()->InsertBefore( abnormal_mark , last );
@@ -769,7 +769,7 @@ class YieldHelper : private Uncopyable {
       maybeBlock->FirstChild()->InsertBefore( index_stmt );
       iter->AddChild( maybeBlock );
     } else {
-      BlockStmt* block = AstUtils::CreateBlockStmt( 2 , index_stmt , maybeBlock->FirstChild() );
+      BlockStmt* block = AstUtils::CreateBlockStmt( 2 , index_stmt , maybeBlock );
       iter->AddChild( block );
     }
     node->ParentNode()->ReplaceChild( node , iter );

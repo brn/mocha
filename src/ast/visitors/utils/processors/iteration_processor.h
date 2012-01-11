@@ -10,7 +10,7 @@ class ProcessorInfo;
 class IterationProcessor : private Static {
  public :
   static void ProcessForNode( IterationStmt* ast_node , ProcessorInfo* info );
-  static void ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info , bool is_regist = false );
+  static void ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info , bool is_regist = true );
   static void ProcessForOfNode( IterationStmt* ast_node , ProcessorInfo* info );
   static void ProcessForEachNode( IterationStmt* ast_node , ProcessorInfo* info );
   static void ProcessWhileNode( IterationStmt* ast_node , ProcessorInfo* info );

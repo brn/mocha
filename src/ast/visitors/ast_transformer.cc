@@ -598,10 +598,12 @@ VISITOR_IMPL( ValueNode ) {
           ast_node->RemoveAllChild();
           ast_node->AddChild( name->Clone() );
           VisitorInfo::PrivateNameList &list = visitor_info_->GetObjectPrivateList();
-          VisitorInfo::PrivateNameList::iterator begin = list.begin(),end = list.end();
+          VisitorInfo::PrivateNameList::reverse_iterator begin = list.rbegin(),end = list.rend();
           while ( begin != end ) {
+            std::list<ValueNode*> exp_list;
             AstNode* cur_name = (*begin).first;
-            CallExp* exp =  AstUtils::CreateArrayAccessor( name->Clone() , cur_name->CastToValue()->Node()->Clone() );
+            exp_list.push_back( cur_name->CastToValue() );
+            //CallExp* exp =  AstUtils::CreateArrayAccessor( name->Clone() , cur_name->CastToValue()->Node()->Clone() );
             AstNode* name_parent = cur_name->ParentNode();
             ValueNode* maybeValue = name_parent->CastToValue();
             while ( name_parent && ( ( name_parent->NodeType() == AstNode::kNodeList ) ||
@@ -612,16 +614,35 @@ VISITOR_IMPL( ValueNode ) {
                                                        maybeValue->ValueType() == ValueNode::kObject ) ) ) ) {
               ValueNode* val = name_parent->CastToValue();
               if ( val && val->ValueType() != ValueNode::kObject ) {
-                if ( val->ValueType() == ValueNode::kPrivateProperty ) {
-                  exp = AstUtils::CreateArrayAccessor( exp , val->Node()->Clone() );
-                } else if ( val->ValueType() == ValueNode::kIdentifier ) {
-                  exp = AstUtils::CreateDotAccessor( exp ,  val->Clone() );
-                } else {
-                  exp = AstUtils::CreateArrayAccessor( exp ,  val->Clone() );
-                }
+                exp_list.push_back( val );
               }
               name_parent = name_parent->ParentNode();
               maybeValue = name_parent->CastToValue();
+            }
+            std::list<ValueNode*>::reverse_iterator exp_begin = exp_list.rbegin(),exp_end = exp_list.rend();
+            CallExp* exp = 0;
+            while ( exp_begin != exp_end ) {
+              ValueNode* val = (*exp_begin);
+              if ( val->ValueType() == ValueNode::kPrivateProperty ) {
+                if ( exp == 0 ) {
+                  exp =  AstUtils::CreateArrayAccessor( name->Clone() , (*exp_begin)->Node()->Clone() );
+                } else {
+                  exp =  AstUtils::CreateArrayAccessor( exp , (*exp_begin)->Node()->Clone() );
+                }
+              } else if ( val->ValueType() == ValueNode::kIdentifier || val->ValueType() == ValueNode::kProperty ) {
+                if ( exp == 0 ) {
+                  exp =  AstUtils::CreateDotAccessor( name->Clone() , (*exp_begin)->Clone() );
+                } else {
+                  exp =  AstUtils::CreateDotAccessor( exp , (*exp_begin)->Clone() );
+                }
+              } else {
+                if ( exp == 0 ) {
+                  exp =  AstUtils::CreateArrayAccessor( name->Clone() , (*exp_begin)->Clone() );
+                } else {
+                  exp =  AstUtils::CreateArrayAccessor( exp , (*exp_begin)->Clone() );
+                }
+              }
+              ++exp_begin;
             }
             AssignmentExp* assign = AstUtils::CreateAssignment( '=' , exp , (*begin).second->Clone() );
             ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
@@ -637,13 +658,7 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kPrivateProperty : {
       AstNode* node = ast_node->FirstChild();
       ValueNode* maybeObject = node->CastToValue();
-      if ( maybeObject && maybeObject->ValueType() == ValueNode::kObject ) {
-        ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
-        value->Node( ManagedHandle::Retain<Empty>() );
-        visitor_info_->SetObjectPrivate( VisitorInfo::AstPair( ast_node , value ) );
-      } else {
-        visitor_info_->SetObjectPrivate( VisitorInfo::AstPair( ast_node , ast_node->FirstChild() ) );
-      }
+      visitor_info_->SetObjectPrivate( VisitorInfo::AstPair( ast_node , ast_node->FirstChild() ) );
     }
       break;
       

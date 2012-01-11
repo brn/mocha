@@ -7,18 +7,9 @@ var testObj = {
             [privateName] : 20
           }
         }
-      }
-    }
-
-var m = function () {
-      if ( window ) {
-        for (var i = 0; i < 10; i ++) {
-          yield i
-        }
-      } else  {
-        for (var m = 0; m < 10; m ++) {
-        yield m
-        }
+      },
+      test : {
+        [Math.random()] : 200
       }
     }
 
@@ -43,6 +34,9 @@ var x = function () {
       }
       yield 200;
     }
-for ( var m of x() ) {
-  console.log(m);
+
+var m = {v:200,g:300}
+
+for ( var item of iterator.allItems( m ) ) {
+  console.log(item , val);
 }

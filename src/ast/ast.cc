@@ -196,6 +196,7 @@ void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
     }
     old_node->ReplaceWith( new_node );
   }
+  new_node->ParentNode( this );
 }
 
 template <typename T , typename T2>
@@ -259,6 +260,27 @@ AstNode* LetStmt::Clone() {
 }
 
 NORMAL_CLONE(ExpressionStmt);
+
+void IFStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( exp_ == old_node ) {
+    exp_ = new_node;
+    new_node->After( old_node->NextSibling() );
+    new_node->Before( old_node->PreviousSibling() );
+    new_node->ParentNode( this );
+  } else if ( then_ == old_node ) {
+    then_ = new_node;
+    new_node->After( old_node->NextSibling() );
+    new_node->Before( old_node->PreviousSibling() );
+    new_node->ParentNode( this );
+  } else if ( else_ == old_node ) {
+    else_ = new_node;
+    new_node->After( old_node->NextSibling() );
+    new_node->Before( old_node->PreviousSibling() );
+    new_node->ParentNode( this );
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
 
 AstNode* IFStmt::Clone() {
   IFStmt* stmt = ManagedHandle::Retain<IFStmt>();
