@@ -846,6 +846,7 @@ void CodegenVisitor::ArrayProccessor_( ValueNode* ast_node ) {
   while ( list_child ) {
     if ( list_child->IsEmpty() ) {
       stream_->Write( ',' );
+      break;
     } else {
       NodeIterator iter = list_child->ChildNodes();
       while ( iter.HasNext() ) {
@@ -969,6 +970,7 @@ VISITOR_IMPL( ValueNode ) {
       break;
 
     default :
+      printf( "other %d\n" , ast_node->ValueType() );
       stream_->Write( ast_node->Symbol()->GetToken() );
   }
 }

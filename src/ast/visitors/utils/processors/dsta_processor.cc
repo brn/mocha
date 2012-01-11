@@ -128,7 +128,7 @@ void ProcessMember( ValueNode* ast_node , DstaTree* tree , ProcessorInfo* proc_i
 /**
  * Process { x : <...> } or { <...> }
  */
-void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* info , int depth ) {
+DstaTree* ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* info , int depth ) {
   VisitorInfo* visitor_info = info->GetInfo();
   if ( value->ChildLength() > 0 ) {
     ProcessMember( value , tree , info );
@@ -153,6 +153,7 @@ void ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorInfo* i
     visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
     UPDATE_TREE;
   }
+  return tree;
 }
 
 
@@ -179,7 +180,7 @@ void ProcessObject( ValueNode* ast_node , DstaTree* tree , int depth , Processor
         case ValueNode::kString :
         case ValueNode::kProperty :
         case ValueNode::kIdentifier : {
-          ProcessPropertyMember( value , tree , info , depth );
+          tree = ProcessPropertyMember( value , tree , info , depth );
         }
           break;
         default :

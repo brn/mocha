@@ -276,6 +276,7 @@ VISITOR_IMPL(IterationStmt) {
     case AstNode::kForOf :
     case AstNode::kForOfWithVar :
       IterationProcessor::ProcessForOfNode( ast_node , proc_info_.Get() );
+      break;
 
     case AstNode::kDoWhile :
     case AstNode::kWhile :
@@ -551,6 +552,8 @@ void AstTransformer::ArrayProccessor_( ValueNode* ast_node ) {
       } else {
         break;
       }
+    } else {
+      break;
     }
   }
 }
@@ -578,6 +581,47 @@ VISITOR_IMPL( ValueNode ) {
       ArrayProccessor_( ast_node );
       break;
 
+    case ValueNode::kArrayComp : {
+      ValueNode* tmp = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
+      ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+      VariableStmt* var_stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarInitiliser( tmp->Symbol() , array ) );
+      NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
+      bool is_first = true;
+      AstNode* first;
+      AstNode* current;
+      while ( iterator.HasNext() ) {
+        if ( is_first ) {
+          current = first = iterator.Next();
+          is_first = false;
+        } else {
+          AstNode* item = iterator.Next();
+          current->AddChild( item );
+          current = item;
+        }
+      }
+      ValueNode* push = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPush ),
+                                                  Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+      NodeList* list = ManagedHandle::Retain<NodeList>();
+      list->AddChild( ast_node->Node()->Clone() );
+      CallExp* push_call = AstUtils::CreateNormalAccessor( push , list );
+      CallExp* push_accessor = AstUtils::CreateDotAccessor( tmp->Clone() , push_call );
+      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( push_accessor );
+      if ( current->NodeType() == AstNode::kIFStmt ) {
+        IFStmt* if_stmt = current->CastToStatement()->CastToIFStmt();
+        if_stmt->Then( exp_stmt );
+        if_stmt->Else( ManagedHandle::Retain<Empty>() );
+      } else {
+        current->AddChild( exp_stmt );
+      }
+      ReturnStmt* stmt = AstUtils::CreateReturnStmt( tmp->Clone() );
+      NodeList* body = AstUtils::CreateNodeList( 3 , var_stmt , first , stmt );
+      Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
+      fn->Accept( this );
+      ExpressionStmt* result = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
+      ast_node->ParentNode()->ReplaceChild( ast_node , result );
+    }
+      break;
+      
     case ValueNode::kObject : {
       visitor_info_->EnterObject();
       ObjectProccessor_( ast_node );

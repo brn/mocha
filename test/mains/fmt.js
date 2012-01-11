@@ -1,4 +1,19 @@
+var name = Math.random();
+var m = {
+      [name] : {
+        v : {
+          [name] : {
+            g : {
+              g : function (){}
+            }
+          },
+          gd : {}
+        }
+      }
+    }
 
+var ret = [ [i,j] for (i of rows) for (j of columns) ]
+/*import {iterator ,allItems} from "iterators";
 var privateName = new Date();
 var testObj = {
       m : {
@@ -34,9 +49,10 @@ var x = function () {
       }
       yield 200;
     }
-
+var [ig,vg] = {x,y};
 var m = {v:200,g:300}
-var i = iterator.allItems( m );
+var i = allItems( m );
 for ( var [item,val] of i ) {
   console.log(item , val);
 }
+*/

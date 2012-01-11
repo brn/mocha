@@ -43,7 +43,7 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
 
 void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info , bool is_regist ) {
   IVisitor *visitor = info->GetVisitor();
-  bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar;
+  bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForOfWithVar;
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();
   AstNode* target_exp = index_exp->NextSibling();
@@ -98,6 +98,12 @@ void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorIn
 
 
 void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorInfo* info ) {
+  AstNode* maybeBlock = ast_node->FirstChild();
+  if ( maybeBlock->NodeType() != AstNode::kBlockStmt ) {
+    ast_node->RemoveAllChild();
+    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , maybeBlock );
+    ast_node->AddChild( stmt );
+  }
   ProcessForInNode( ast_node , info , false );
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();
@@ -107,6 +113,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   if ( ast_node->NodeType() == AstNode::kForOfWithVar ) {
     ValueNode* val = index_exp->Clone()->CastToValue();
     exp->ReplaceChild( index_exp , val );
+    index_exp->CastToValue()->ValueType( ValueNode::kVariable );
     VariableStmt* stmt = AstUtils::CreateVarStmt( index_exp );
     ast_node->ParentNode()->InsertBefore( stmt , ast_node );
     val->ValueType( ValueNode::kIdentifier );
@@ -131,6 +138,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   expression->AddChild( assign );
   expression->Paren();
   while_stmt->Exp( expression );
+
   while_stmt->AddChild( ast_node->FirstChild() );
   ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
                                                  Token::JS_PROPERTY , 0 , ValueNode::kProperty );
@@ -148,7 +156,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   BlockStmt* else_block = AstUtils::CreateBlockStmt( 1 , handler_stmt );
   IFStmt* if_stmt = AstUtils::CreateIFStmt( dot_exp , then_block , else_block );
   ast_node->ParentNode()->ReplaceChild( ast_node , if_stmt );
-  
+
   if ( ast_node->GetYieldFlag() ) {
     info->GetInfo()->GetFunction()->SetStmtWithYield( while_stmt );
     info->GetInfo()->GetFunction()->SetStmtWithYield( if_stmt );

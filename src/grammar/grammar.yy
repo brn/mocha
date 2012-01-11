@@ -2025,12 +2025,15 @@ array_literal
     }
     $$ = value;
   }
-| '[' element_list array_comprehensions ']'
+| '[' element_list ';' array_comprehensions array_comprehension_if__opt ']'
   {
+    if ( !$5->IsEmpty() ) {
+      $4->AddChild( $5 );
+    }
     ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kArrayComp ) );
-    value->AddChild( $2 );
+    value->Node( $2 );
+    value->AddChild( $4 );
     value->Line( $2->Line() );
-    value->AddChild( $3 );
     $$ = value;
   }
 ;
@@ -2063,27 +2066,29 @@ elision
 
 
 array_comprehensions
-: array_comprehension_iteration array_comprehension_if__opt
+: array_comprehension_iteration
   {
-    $1->After( $2 );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $1 );
+    $$ = list;
+  }
+| array_comprehensions array_comprehension_iteration
+  {
+    $1->AddChild( $2 );
     $$ = $1;
   }
 ;
 
 array_comprehension_iteration
-: JS_FOR '(' left_hand_side_expression JS_IN expression ')'
+: JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')'
   {
-    IterationStmt *for_in = ManagedHandle::Retain( new IterationStmt( AstNode::kForIn ) );
-    for_in->Exp( $3 );
-    $3->After( $5 );
-    $$ = for_in;
-  }
-| JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')'
-  {
-    IterationStmt *for_each = ManagedHandle::Retain( new IterationStmt( AstNode::kForEach ) );
-    for_each->Exp( $4 );
-    $4->After( $6 );
-    $$ = for_each;
+    IterationStmt *for_of = ManagedHandle::Retain( new IterationStmt( AstNode::kForOf ) );
+    for_of->Exp( $3 );
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    list->AddChild( $3 );
+    list->AddChild( $5 );
+    for_of->Exp( list );
+    $$ = for_of;
   }
 ;
 

@@ -352,6 +352,8 @@ void OptimizerVisitor::ArrayProccessor_( ValueNode* ast_node ) {
       } else {
         break;
       }
+    } else {
+      break;
     }
   }
 }

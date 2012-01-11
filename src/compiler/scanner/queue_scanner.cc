@@ -1157,7 +1157,6 @@ class QueueScanner::TokenGetter {
         }
       }
     }
-
     if ( type == 0 && last_type_ != ';' ) {
       last_type_ = -100;
       return ManagedHandle::Retain( new TokenInfo( "" , ';' , 0 ) );
@@ -1310,9 +1309,10 @@ class QueueScanner::TokenGetter {
       }
       last_type_ = type;
       return info;
-    } else if ( ( is_last_literal && is_literal ) ||
-                ( is_last_literal && ( type == '[' || type == '{' || type == '(' ) ) ||
-                ( ( last_type_ == ']' || last_type_ == '}' || last_type_ == ')' ) && is_literal )) {
+    } else if ( opt_block_ != -1 &&
+                ( ( is_last_literal && is_literal ) ||
+                  ( is_last_literal && ( type == '[' || type == '{' || type == '(' ) ) ||
+                  ( ( last_type_ == ']' || last_type_ == '}' || last_type_ == ')' ) && is_literal ) ) ) {
       if ( has_line_break_ ) {
         return SemicolonInsertion_();
       }
@@ -1335,6 +1335,9 @@ class QueueScanner::TokenGetter {
                   type == Token::JS_SWITCH || type == Token::JS_THROW ||
                   type == Token::JS_TRY ) ) {
       return SemicolonInsertion_();
+    } else if ( opt_block_ == -1 ) {
+      last_type_ = type;
+      return info;
     } else if ( last_type_ == ')' && is_literal ) {
       return SemicolonInsertion_(); 
     }
