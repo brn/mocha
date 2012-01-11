@@ -61,6 +61,7 @@ void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorIn
     ValueNode* node = mayBeDsta->Node()->CastToValue();
     node->ValueType( ValueNode::kVariable );
     exp->ReplaceChild( exp->FirstChild() , node );
+    node->RemoveAllChild();
     node->AddChild( ManagedHandle::Retain<Empty>() );
   } else {
     is_dst = ast_node->HasDsta();
@@ -88,7 +89,7 @@ void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorIn
     block->AddChild( list );
     ast_node->AddChild( block );
   } else if ( is_dst ) {
-    body->InsertBefore( dsta_stmt );
+    body->FirstChild()->InsertBefore( dsta_stmt );
   }
   if ( ast_node->GetYieldFlag() && is_regist ) {
     info->GetInfo()->GetFunction()->SetStmtWithYield( ast_node );
@@ -147,6 +148,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   BlockStmt* else_block = AstUtils::CreateBlockStmt( 1 , handler_stmt );
   IFStmt* if_stmt = AstUtils::CreateIFStmt( dot_exp , then_block , else_block );
   ast_node->ParentNode()->ReplaceChild( ast_node , if_stmt );
+  
   if ( ast_node->GetYieldFlag() ) {
     info->GetInfo()->GetFunction()->SetStmtWithYield( while_stmt );
     info->GetInfo()->GetFunction()->SetStmtWithYield( if_stmt );

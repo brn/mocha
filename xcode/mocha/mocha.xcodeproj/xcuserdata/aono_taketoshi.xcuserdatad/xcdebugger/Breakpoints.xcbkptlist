@@ -59,5 +59,19 @@
          landmarkName = "ProcessYield()"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/ast/visitors/utils/processors/iteration_processor.cc"
+         timestampString = "347965922.527659"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
+         landmarkName = "IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorInfo* info )"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

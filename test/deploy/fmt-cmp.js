@@ -2046,22 +2046,23 @@
             g : 300
           };
       
-      __LINE__ = 0;
-      var item;
+      __LINE__ = 38;
+      var i = iterator.allItems( m );
       
       __LINE__ = 0;
-      var _mochaLocalTmp2 = iterator.allItems( m );
+      var _mochaLocalTmp2;
       
       __LINE__ = 0;
-      if ( _mochaLocalTmp2.__nothrowNext__ ){
+      var _mochaLocalTmp3 = i;
+      
+      __LINE__ = 0;
+      var _mochaLocalTmp2;
+      
+      __LINE__ = 39;
+      for ( _mochaLocalTmp2 in _mochaLocalTmp3 ){
+        
         __LINE__ = 0;
-        while ( ( item = _mochaLocalTmp2.__nothrowNext__(  ) ) ){
-          __LINE__ = 40;
-          console.log( item,val );
-        };
-      } else {
-        __LINE__ = 0;
-        exceptionHandler( 39,__FILE__,'for of statement expect iterator or generator object.' );
+        (  );
       };
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

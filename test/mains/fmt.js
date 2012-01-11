@@ -36,7 +36,7 @@ var x = function () {
     }
 
 var m = {v:200,g:300}
-
-for ( var item of iterator.allItems( m ) ) {
+var i = iterator.allItems( m );
+for ( var [item,val] of i ) {
   console.log(item , val);
 }
