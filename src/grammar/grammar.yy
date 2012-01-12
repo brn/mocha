@@ -1105,7 +1105,7 @@ pragma_statement
     val->Symbol( $3 );
     PragmaStmt* prg_stmt = ManagedHandle::Retain<PragmaStmt>();
     prg_stmt->Op( val );
-    prg_stmt->AddChild( $5 )
+    prg_stmt->AddChild( $5 );
     $$ = prg_stmt;
   }
 ;
@@ -2161,10 +2161,11 @@ property_name_and_value_list
   {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
     NodeList* list = ManagedHandle::Retain<NodeList>();
-    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     val->Symbol( $1 );
     val->Line( $1->GetLineNumber() );
     ValueNode* child = val->Clone()->CastToValue();
+    child->ValueType( ValueNode::kIdentifier );
     val->AddChild( child );
     list->AddChild( val );
     $$ = list;
@@ -2174,7 +2175,7 @@ property_name_and_value_list
     NodeList* list = ManagedHandle::Retain<NodeList>();
     Function *fn = ManagedHandle::Retain<Function>();
     fn->Line( $1->GetLineNumber() );
-    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode *value = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     value->Symbol( $1 );
     ValueNode* name = value->Clone()->CastToValue();
     fn->Name( name );
@@ -2194,10 +2195,11 @@ property_name_and_value_list
 | property_name_and_value_list ',' JS_IDENTIFIER
   {
     tracer->SetState( ParserTracer::kObjectLiteralEnd );
-    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
     val->Symbol( $3 );
     val->Line( $3->GetLineNumber() );
     ValueNode* child = val->Clone()->CastToValue();
+    child->ValueType( ValueNode::kIdentifier );
     val->AddChild( child );
     $1->AddChild( val );
     $$ = $1;

@@ -3,12 +3,12 @@
 #include <compiler/tokens/token_info.h>
 namespace mocha {
 
-const char* types[][ 30 ] = {
+static const char types[][ 30 ] = {
   "__debug",
   "__noassign",
   "__inline",
   "__pure"
-}
+};
 
 int CompileInfo::GetType( const char* str ) {
   if ( strcmp( str , types[ 0 ] ) == 0 ) {
@@ -20,6 +20,7 @@ int CompileInfo::GetType( const char* str ) {
   } else if ( strcmp( str , types[ 3 ] ) == 0 ) {
     return CompileInfo::kPure;
   }
+  return -1;
 }
 
 AstNode::AstNode( int type , const char* name ) :
@@ -247,9 +248,9 @@ AstNode* VersionStmt::Clone() {
 }
 
 AstNode* PragmaStmt::Clone() {
-  ValueNode* op = op_->Clone();
+  AstNode* op = op_->Clone();
   PragmaStmt* prg_stmt = ManagedHandle::Retain<PragmaStmt>();
-  prg_stmt->Op( op );
+  prg_stmt->Op( op->CastToValue() );
   return CopyChildren( prg_stmt , this );
 }
 

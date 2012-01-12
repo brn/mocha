@@ -16,7 +16,7 @@ namespace mocha {
 #endif
 
 
-OptimizerVisitor::OptimizerVisitor( Scope* scope ) : depth_( 0 ), scope_( scope ){}
+OptimizerVisitor::OptimizerVisitor( Scope* scope , Options* option ) : depth_( 0 ), scope_( scope ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
@@ -321,14 +321,14 @@ VISITOR_IMPL(Function){
   AstNode* name = ast_node->Name();
   ValueNode* name_node = name->CastToValue();
   if ( !name->IsEmpty() ) {
-    scope_->Insert( name_node->Symbol() );
+    //scope_->Insert( name_node->Symbol() );
   }
   ast_node->SetScope( scope_->Enter() );
   NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
   while ( arg_iterator.HasNext() ) {
     ValueNode* arg = arg_iterator.Next()->CastToValue();
     if ( arg ) {
-      scope_->Insert( arg->Symbol() );
+      //scope_->Insert( arg->Symbol() );
     }
   }
   NodeIterator body_iterator = ast_node->ChildNodes();
@@ -395,7 +395,7 @@ VISITOR_IMPL( ValueNode ) {
 
     case ValueNode::kVariable :
       printf( "Var\n" );
-      scope_->Insert( ast_node->Symbol() );
+      //scope_->Insert( ast_node->Symbol() );
       ast_node->FirstChild()->Accept( this );
       break;
       

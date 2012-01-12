@@ -1,4 +1,5 @@
-import {iterator ,allItems} from "iterators";
+//import {iterator ,allItems} from "iterators";
+@pragma( __debug )
 var name = Math.random();
 var m = {
       [name] : {
@@ -14,7 +15,7 @@ var m = {
     }
 
 var ret = [ [i,j] for (i of rows) for (j of columns) ];
-var x = {x:200,y:200};
+var x = {xa:200,ya:200};
 x.{ret,m,name}
 /*var privateName = new Date();
 var testObj = {

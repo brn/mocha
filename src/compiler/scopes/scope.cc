@@ -3,12 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <ast/ast.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/smart_pointer/scope/scoped_list.h>
 
 namespace mocha {
+
+static SymbolEntry& GetEmpty() {
+  static SymbolEntry table( 0 , 0 );
+  return table;
+}
 
 class Renamer {
  public :
@@ -115,23 +121,24 @@ InnerScope* InnerScope::Escape() {
   return up_;
 }
 
-void InnerScope::Insert ( TokenInfo* info ) {
+void InnerScope::Insert ( TokenInfo* info , AstNode* ast_node ) {
   const char* ident = info->GetToken();
   SymbolTable::HashEntry entry = table_.Find( ident );
   if ( entry.IsEmpty() ) {
-    table_.Insert( ident , info );
+    SymbolEntry entry( info , ast_node );
+    table_.Insert( ident , entry );
   }
 }
 
 void InnerScope::Ref ( TokenInfo* info ) {
   const char* ident = info->GetToken();
-  SymbolTable::HashEntry entry = reference_table_.Find( ident );
+  RefTable::HashEntry entry = reference_table_.Find( ident );
   if ( entry.IsEmpty() ) {
     reference_table_.Insert( ident , info );
   }
 }
 
-TokenInfo* InnerScope::Find ( TokenInfo* info ) {
+SymbolEntry& InnerScope::Find ( TokenInfo* info ) {
   const char* ident = info->GetToken();
   SymbolTable::HashEntry entry = table_.Find( ident );
   if ( !entry.IsEmpty() ) {
@@ -140,7 +147,7 @@ TokenInfo* InnerScope::Find ( TokenInfo* info ) {
     if ( up_ ) {
       return up_->Find( info );
     }
-    return 0;
+    return GetEmpty();
   }
 }
 
@@ -152,9 +159,9 @@ void InnerScope::Rename() {
   }
   HashMap<const char*,int> used_map;
   if ( reference_table_.Size() > 0 ) {
-    SymbolTable::EntryIterator ref_iterator = reference_table_.Entries();
+    RefTable::EntryIterator ref_iterator = reference_table_.Entries();
     while ( ref_iterator.HasNext() ) {
-      SymbolTable::HashEntry entry = ref_iterator.Next();
+      RefTable::HashEntry entry = ref_iterator.Next();
       printf( "reference name = %s is there %d\n" , entry.Key().c_str() ,  table_.Find( entry.Key() ).IsEmpty() );
       if ( table_.Find( entry.Key() ).IsEmpty() ) {
         InnerScope* parent = up_;
@@ -168,7 +175,7 @@ void InnerScope::Rename() {
         while ( parent ) {
           SymbolTable::HashEntry parent_entry = parent->table_.Find( entry.Key() );
           if ( !parent_entry.IsEmpty() ) {
-            parent_entry.Value()->Rename( renamed );
+            parent_entry.Value().first->Rename( renamed );
             parent->used_table_.Insert( renamed , 1 );
             break;
           } else {
@@ -183,7 +190,7 @@ void InnerScope::Rename() {
   SymbolTable::EntryIterator var_iterator = table_.Entries();
   while ( var_iterator.HasNext() ) {
     SymbolTable::HashEntry entry = var_iterator.Next();
-    TokenInfo* info = entry.Value();
+    TokenInfo* info = entry.Value().first;
     if ( !info->IsRenamed() ) {
       const char* renamed = renamer_handle_->GetContractionName();
       printf( "base name = %s , contraction = %s\n" , entry.Key().c_str() , renamed );
@@ -193,7 +200,7 @@ void InnerScope::Rename() {
       }
       info->Rename( renamed );
     } else {
-      printf( "replaced base name = %s , contraction = %s\n" , entry.Key().c_str() , entry.Value()->GetAnotherName() );
+      printf( "replaced base name = %s , contraction = %s\n" , entry.Key().c_str() , entry.Value().first->GetAnotherName() );
     }
   }
 }
@@ -218,8 +225,8 @@ InnerScope* Scope::Escape () {
   return current_;
 }
 
-void Scope::Insert ( TokenInfo* info ) {
-  current_->Insert( info );
+void Scope::Insert ( TokenInfo* info , AstNode* ast_node ) {
+  current_->Insert( info , ast_node );
 }
 
 InnerScope* Scope::Current() {
@@ -230,7 +237,7 @@ void Scope::Ref ( TokenInfo* info ) {
   current_->Ref( info );
 }
 
-TokenInfo* Scope::Find ( TokenInfo* info ) {
+SymbolEntry Scope::Find ( TokenInfo* info ) {
   return current_->Find( info );
 }
 

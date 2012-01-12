@@ -117,8 +117,8 @@ VISITOR_IMPL( VersionStmt ) {
 
 
 VISITOR_IMPL( PragmaStmt ) {
-  AstNode* body ast_node->FirstChild();
-  int type = CompileInfo::GetType( ast_node->Op()->Symbol()->GetToken() );
+  AstNode* body = ast_node->FirstChild();
+  int type = CompileInfo::GetType( ast_node->Op() );
   if ( body->NodeType() == AstNode::kBlockStmt ) {
     NodeIterator iter = body->FirstChild()->ChildNodes();
     while ( iter.HasNext() ) {

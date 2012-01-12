@@ -5,6 +5,7 @@
 #include <useconfig.h>
 
 #include <list>
+#include <utility>
 #include <string>
 #include <define.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
@@ -16,18 +17,20 @@ namespace mocha {
 
 class TokenInfo;
 class Renamer;
-
+class AstNode;
+typedef std::pair<TokenInfo* , AstNode*> SymbolEntry;
 class InnerScope : public Managed {
  public :
-  typedef HashMap<const char*,TokenInfo*> SymbolTable;
+  typedef HashMap<const char*,SymbolEntry> SymbolTable;
+  typedef HashMap<const char*,TokenInfo*> RefTable;
   typedef HashMap<const char*,int> UsedTable;
   InnerScope();
   ~InnerScope();
 
   InnerScope* Enter();
   InnerScope* Escape();
-  void Insert ( TokenInfo* info );
-  TokenInfo* Find ( TokenInfo* info );
+  void Insert ( TokenInfo* info , AstNode* ast_node );
+  SymbolEntry& Find ( TokenInfo* info );
   void Ref( TokenInfo* info );
   void Rename();
   bool IsGlobal() const;
@@ -38,7 +41,7 @@ class InnerScope : public Managed {
   InnerScope* up_;
   ScopedPtr<Renamer> renamer_handle_;
   SymbolTable table_;
-  SymbolTable reference_table_;
+  RefTable reference_table_;
   UsedTable used_table_;
 };
 
@@ -49,9 +52,9 @@ class Scope {
   InnerScope* Escape();
   InnerScope* Enter();
   InnerScope* Current();
-  void Insert ( TokenInfo* info );
+  void Insert ( TokenInfo* info , AstNode* ast_node );
   void Ref( TokenInfo* info );
-  TokenInfo* Find ( TokenInfo* info );
+  SymbolEntry Find ( TokenInfo* info );
   void Rename();
   bool IsGlobal() const;
  private:

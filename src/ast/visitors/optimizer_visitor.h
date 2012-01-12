@@ -2,12 +2,12 @@
 #define mocha_optimizer_visitor_h_
 #include <ast/ast_foward_decl.h>
 #include <ast/visitors/ivisitor.h>
+#include <options/options.h>
 namespace mocha {
-class Scope;
 class OptimizerVisitor : public IVisitor {
  public :
-  OptimizerVisitor( Scope* scope );
-  ~OptimizerVisitor(){};
+  OptimizerVisitor( Scope* scope ,  Options* option );
+  ~OptimizerVisitor(){}
 #include <ast/visitors/visitor_decl.h>
  private :
   void ArrayAccessorProccessor_( CallExp* exp );
@@ -19,7 +19,6 @@ class OptimizerVisitor : public IVisitor {
   int depth_;
   Scope* scope_;
 };
-
 }
 
 #endif

@@ -46,6 +46,8 @@ utils/char_allocator.h\
 utils/char_allocator.cc\
 ast/visitors/codegen_visitor.h\
 ast/visitors/codegen_visitor.cc\
+ast/visitors/symbol_collector.h\
+ast/visitors/symbol_collector.cc\
 ast/visitors/optimizer_visitor.h\
 ast/visitors/optimizer_visitor.cc\
 ast/visitors/utils/codewriter.h\

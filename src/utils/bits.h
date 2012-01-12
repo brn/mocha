@@ -13,7 +13,7 @@ class BitVector {
   inline BitVector( const BitVector& vec ) {
     set_ = vec.set_;
   }
-  inline const BitVector<T,int>& operator = ( const BitVector<T,int> vec ) {
+  inline const BitVector<T,bit_bands>& operator = ( const BitVector<T,bit_bands>& vec ) {
     set_ = vec.set_;
     return (*this);
   }

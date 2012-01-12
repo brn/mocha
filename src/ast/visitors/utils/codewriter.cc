@@ -542,7 +542,7 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
     }
     if ( is_pretty_print_ ) {
       TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
-      TokenInfo* info = scope->Find( runtime );
+      TokenInfo* info = scope->Find( runtime ).first;
       if ( info ) {
         stream->Write( info->GetAnotherName() );
       } else {
@@ -554,7 +554,7 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
     } else {
       stream->Write( "}catch(e){" );
       TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
-      TokenInfo* info = scope->Find( runtime );
+      TokenInfo* info = scope->Find( runtime ).first;
       if ( info ) {
         stream->Write( info->GetAnotherName() );
       } else {

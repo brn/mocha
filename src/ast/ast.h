@@ -28,6 +28,7 @@
 #include <vector>
 #include <utils/pool/managed.h>
 #include <compiler/scopes/scope.h>
+#include <compiler/tokens/token_info.h>
 #include <ast/ast_foward_decl.h>
 #include <ast/visitors/ivisitor.h>
 
@@ -105,7 +106,8 @@ class CompileInfo : public Managed {
   ~CompileInfo(){};
   void Type( Pragma pragma ) { vector_ = pragma; }
   void Type( int type ) { vector_.At( type ); }
-  Pragma IsType( int type ) { return vector_; }
+  Pragma Type() { return vector_; }
+  bool IsType( int type ) { return vector_.At( type ); }
   static int GetType( const char* type );
  private :
   Pragma vector_;
@@ -647,13 +649,13 @@ class ExYieldStateNode : public Statement {
 class PragmaStmt : public Statement {
  public :
   PragmaStmt() : Statement( NAME_PARAMETER(PragmaStmt) ) , op_( 0 ){}
-  ~PragmaStmt();
-  void Op( ValueNode* op ) { op_ = op;op->ParentNode( this ); }
-  ValueNode* Op() { return op_; }
+  ~PragmaStmt(){};
+  inline void Op( ValueNode* op );
+  inline const char* Op();
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE(PragmaStmt);
  private :
-  ValueNode* op_;
+  AstNode* op_;
   CALL_ACCEPTOR( PragmaStmt );
 };
 
@@ -1478,6 +1480,9 @@ void Statement::ResetDsta()  {
   dsta_exp_->RemoveAllChild();
   dsta_exp_->Refs()->RemoveAllChild();
 }
+
+const char* PragmaStmt::Op() { return op_->CastToValue()->Symbol()->GetToken(); }
+void PragmaStmt::Op( ValueNode* op ) { op_ = op;op->ParentNode( this ); }
 
 }//namespace mocha
 

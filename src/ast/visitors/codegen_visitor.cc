@@ -956,7 +956,7 @@ VISITOR_IMPL( ValueNode ) {
         stream_->Write( tmp.c_str() );
       } else {
         if ( scope_ ) {
-          TokenInfo* info = scope_->Find( ast_node->Symbol() );
+          TokenInfo* info = scope_->Find( ast_node->Symbol() ).first;
           if ( info != 0 ) {
             stream_->Write( info->GetAnotherName() );
           } else {

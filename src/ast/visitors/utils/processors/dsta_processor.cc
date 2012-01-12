@@ -411,6 +411,7 @@ AstNode* CreateSimpleAccessor( AstNode* first , VisitorInfo* info , bool is_assi
     ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     DstaTree* tree = reinterpret_cast<DstaTree*>( first );
     var->Symbol( tree->Symbol()->Symbol() );
+    var->SetInfo( first->GetInfo() );
     Function* fn = info->GetFunction();
     if ( fn ) {
       fn->SetVariable( var );
@@ -450,7 +451,8 @@ NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool 
   while ( list.HasNext() ) {
     AstNode *first = list.Next();
     AstNode* maybe_callexp = first->FirstChild();
-    CallExp* exp = 0;//init after. 
+    CallExp* exp = 0;//init after.
+    first->SetInfo( stmt->GetInfo() );
     if ( maybe_callexp != 0 && maybe_callexp->NodeType() == AstNode::kCallExp ) {
       exp = reinterpret_cast<CallExp*>( first->FirstChild() );
     } else {

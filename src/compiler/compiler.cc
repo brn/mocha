@@ -39,7 +39,7 @@
 #include <utils/xml/xml_setting_info.h>
 #include <ast/ast.h>
 #include <ast/visitors/codegen_visitor.h>
-#include <ast/visitors/optimizer_visitor.h>
+#include <ast/visitors/symbol_collector.h>
 #include <options/setting.h>
 
 
@@ -71,9 +71,9 @@ public :
   inline void Compile() {
     LoadRuntime_();
     CallInternal_( path_info_ , Internal::kFatal , false );
-    OptimizerVisitor visitor( &scope_ );
+    SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
-    //scope_.Rename();
+    scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
     Write_ ( codegen_->GetCode() );
   }
