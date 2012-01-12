@@ -42,4 +42,17 @@ void CallProcessor::ProcessFnCall( CallExp* ast_node , ProcessorInfo* info ) {
   }
 }
 
+void CallProcessor::ProcessExtendAccessor( CallExp* ast_node , ProcessorInfo* info ) {
+  IVisitor *visitor = info->GetVisitor();
+  ast_node->Callable()->Accept( visitor );
+  ast_node->Args()->Accept( visitor );
+  CallExp* clone = ast_node->Clone()->CastToExpression()->CastToCallExp();
+  ValueNode* extend = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExtend ),
+                                                Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
+  NodeList* args = AstUtils::CreateNodeList( 2 , clone->Callable() , ast_node->Args() );
+  CallExp* extend_call = AstUtils::CreateNormalAccessor( extend , args );
+  CallExp* extend_acessor = AstUtils::CreateRuntimeMod( extend_call );
+  ast_node->ParentNode()->ReplaceChild( ast_node , extend_acessor );
+}
+
 }

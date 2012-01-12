@@ -38,7 +38,8 @@ class SymbolList : private Static {
     kCatchCache,
     kException,
     kCreateGenerator,
-    kNoThrow
+    kNoThrow,
+    kExtend
   } RuntimeSymbol;
 
   typedef enum {

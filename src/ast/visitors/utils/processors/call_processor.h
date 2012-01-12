@@ -7,6 +7,7 @@ class CallProcessor : private Static{
  public :
   static void ProcessPrivateAccessor( CallExp* ast_node , ProcessorInfo* info );
   static void ProcessFnCall( CallExp* ast_node , ProcessorInfo* info );
+  static void ProcessExtendAccessor( CallExp* ast_node , ProcessorInfo* info );
 };
 
 }

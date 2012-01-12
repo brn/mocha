@@ -210,6 +210,7 @@ int token_id_list [] = {
   TOKEN::JS_FROM,
   TOKEN::JS_YIELD,
   TOKEN::MOCHA_VERSIONOF,
+  TOKEN::MOCHA_PRAGMA,
   TOKEN::JS_INCREMENT,
   TOKEN::JS_DECREMENT,
   TOKEN::JS_EQUAL,
@@ -322,7 +323,8 @@ char reserved_words[][ 20 ] = {
   "each",
   "from",
   "yield",
-  "versionof",
+  "@version",
+  "@pragma"
   "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,
    "!==", ">>>" , "+=" , "-=" , "/=" , "%=" , "*=" , "&&" , "||" , "<<=",
    ">>=" , ">>>=" , "^=" , "&=" , "|=" , "->" , "=>"

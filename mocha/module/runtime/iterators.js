@@ -68,4 +68,13 @@ module {
       }
     };
   }
+  
+  export isGenerator( obj ) {
+    return obj.toString() === "[object Generator]";
+  }
+  
+  export isStopIteration( obj ) {
+    return obj === StopIteration;
+  }
+  
 }

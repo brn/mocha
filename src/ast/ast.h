@@ -91,6 +91,27 @@ class ReverseNodeIterator{
   AstNode* node_;
 };
 
+
+class CompileInfo : public Managed {
+ public :
+  typedef BitVector8 Pragma;
+  enum {
+    kDebug,
+    kNoAssign,
+    kInline,
+    kPure
+  };
+  CompileInfo() : Managed(){};
+  ~CompileInfo(){};
+  void Type( Pragma pragma ) { vector_ = pragma; }
+  void Type( int type ) { vector_.At( type ); }
+  Pragma IsType( int type ) { return vector_; }
+  static int GetType( const char* type );
+ private :
+  Pragma vector_;
+};
+
+
 /**
  * @class
  * Base class of Ast.
@@ -115,6 +136,7 @@ class AstNode : public Managed {
     kValueNode,
     kCase,
     kNodeList,
+    kPragmaStmt,
     kBlockStmt,
     kModuleStmt,
     kExportStmt,
@@ -394,6 +416,9 @@ class AstNode : public Managed {
    * Check this node is Empty or not.
    */
   virtual inline bool IsEmpty() const { return false; }
+
+  inline void SetInfo( CompileInfo* info ) { info_ = info; }
+  inline CompileInfo* GetInfo() { return info_; }
  private :
   inline virtual NVI_ACCEPTOR_DECL{};
   int type_;
@@ -405,6 +430,7 @@ class AstNode : public Managed {
   AstNode* last_child_;
   AstNode* next_sibling_;
   AstNode* prev_sibling_;
+  CompileInfo* info_;
 };
 
 #define CLONE( name ) AstNode* Clone();
@@ -613,6 +639,23 @@ class ExYieldStateNode : public Statement {
   IFStmt* if_stmt_ptr_;
 };
 
+
+/**
+ * @class
+ * Pragma statement node.
+ */
+class PragmaStmt : public Statement {
+ public :
+  PragmaStmt() : Statement( NAME_PARAMETER(PragmaStmt) ) , op_( 0 ){}
+  ~PragmaStmt();
+  void Op( ValueNode* op ) { op_ = op;op->ParentNode( this ); }
+  ValueNode* Op() { return op_; }
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
+  CLONE(PragmaStmt);
+ private :
+  ValueNode* op_;
+  CALL_ACCEPTOR( PragmaStmt );
+};
 
 /**
  * @class
@@ -983,6 +1026,7 @@ class Expression : public AstNode {
   inline bool IsParen() { return paren_; };
   inline Expression* CastToExpression() { return this; }
   inline virtual AssignmentExp* CastToAssigment() { return 0; }
+  inline virtual CallExp* CastToCallExp() { return 0; }
   virtual CLONE( Expression );
  private :
   bool paren_;
@@ -1152,7 +1196,8 @@ class CallExp : public Expression {
     kBracket,
     kDot,
     kNew,
-    kPrivate
+    kPrivate,
+    kExtend
   };
   inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ),
                                is_rest_( false ) , callable_( 0 ) , args_( 0 ){};
@@ -1167,6 +1212,7 @@ class CallExp : public Expression {
   inline int Depth() { return depth_; }
   inline void Rest() { is_rest_ = true; }
   inline bool IsRest() const { return is_rest_; }
+  inline CallExp* CastToCallExp() { return this; }
   CLONE(CallExp);
  private :
   int call_type_;

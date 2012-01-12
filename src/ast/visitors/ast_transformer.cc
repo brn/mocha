@@ -116,6 +116,33 @@ VISITOR_IMPL( VersionStmt ) {
 }
 
 
+VISITOR_IMPL( PragmaStmt ) {
+  AstNode* body ast_node->FirstChild();
+  int type = CompileInfo::GetType( ast_node->Op()->Symbol()->GetToken() );
+  if ( body->NodeType() == AstNode::kBlockStmt ) {
+    NodeIterator iter = body->FirstChild()->ChildNodes();
+    while ( iter.HasNext() ) {
+      AstNode* item = iter.Next();
+      CompileInfo* info = ManagedHandle::Retain<CompileInfo>();
+      if ( ast_node->GetInfo() ) {
+        info->Type( ast_node->GetInfo()->Type() );
+      }
+      info->Type( type );
+      item->SetInfo( info );
+      item->Accept( this );
+    }
+  } else {
+    CompileInfo* info = ManagedHandle::Retain<CompileInfo>();
+    if ( ast_node->GetInfo() ) {
+      info->Type( ast_node->GetInfo()->Type() );
+    }
+    info->Type( type );
+    body->SetInfo( info );
+    body->Accept( this );
+  }
+}
+
+
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
@@ -440,14 +467,22 @@ VISITOR_IMPL( CallExp ) {
 
     case CallExp::kDot :
     case CallExp::kBracket : {
-      ast_node->Callable()->Accept( this );
-      ast_node->Args()->Accept( this );
+      AstNode* args = ast_node->Args();
+      if ( args->CastToValue() && args->CastToValue()->ValueType() == ValueNode::kObject ) {
+        CallProcessor::ProcessExtendAccessor( ast_node , proc_info_.Get() );
+      } else {
+        ast_node->Callable()->Accept( this );
+        args->Accept( this );
+      }
     }
       break;
 
     case CallExp::kPrivate :
       CallProcessor::ProcessPrivateAccessor( ast_node , proc_info_.Get() );
       break;
+
+    case CallExp::kExtend :
+      CallProcessor::ProcessExtendAccessor( ast_node , proc_info_.Get() );
   }
 }
 

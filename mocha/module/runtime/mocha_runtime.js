@@ -287,10 +287,6 @@ module Runtime {
   
   export toArray = ( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
   
-  export StopIteration = {
-    toString() { return "StopIteration"; }
-  }
-  
   export Iterator = ( obj , isKeyOnly = false )-> {
     var iter = {},
         isArray,
@@ -383,6 +379,8 @@ module Runtime {
     createUnenumProp( ret , "close" , closeFn.bind( context ) );
     createUnenumProp( ret , "__nothrowNext__" , closeFn.bind( context , false , true ) );
     createUnenumProp( ret , "toString" , -> "[object Generator]" );
+    Object.freeze( ret );
+    return ret;
   }
   
   const getErrorMessage = ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString();
@@ -404,4 +402,8 @@ module Runtime {
   export exceptionHandler = ( line , file , e ) -> {
     throwException( new Exception( line , file , e ) );
   }
+}
+
+const StopIteration = {
+  toString() { return "StopIteration"; }
 }

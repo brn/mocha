@@ -11,6 +11,7 @@ FOWARD_DECL(FileRoot);
 FOWARD_DECL(Statement);
 FOWARD_DECL(StatementList);
 FOWARD_DECL(VersionStmt);
+FOWARD_DECL(PragmaStmt);
 FOWARD_DECL(BlockStmt);
 FOWARD_DECL(ModuleStmt);
 FOWARD_DECL(ExportStmt);

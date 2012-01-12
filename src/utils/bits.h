@@ -10,6 +10,13 @@ class BitVector {
  public :
   inline BitVector() : set_( 0 ){}
   inline ~BitVector(){}
+  inline BitVector( const BitVector& vec ) {
+    set_ = vec.set_;
+  }
+  inline const BitVector<T,int>& operator = ( const BitVector<T,int> vec ) {
+    set_ = vec.set_;
+    return (*this);
+  }
   inline void Set( int val ) {
     assert( bit_bands >= val && val > -1 );
     set_ |= ( 1 << val );

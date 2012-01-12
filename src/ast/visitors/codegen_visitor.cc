@@ -107,6 +107,10 @@ VISITOR_IMPL( NodeList ) {
 }
 
 
+VISITOR_IMPL( PragmaStmt ) {
+}
+
+
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
   LineBreak( ast_node , stream_.Get() , writer_.Get() );

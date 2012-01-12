@@ -3,11 +3,30 @@
 #include <compiler/tokens/token_info.h>
 namespace mocha {
 
+const char* types[][ 30 ] = {
+  "__debug",
+  "__noassign",
+  "__inline",
+  "__pure"
+}
+
+int CompileInfo::GetType( const char* str ) {
+  if ( strcmp( str , types[ 0 ] ) == 0 ) {
+    return CompileInfo::kDebug;
+  } else if ( strcmp( str , types[ 1 ] ) == 0 ) {
+    return CompileInfo::kNoAssign;
+  } else if ( strcmp( str , types[ 2 ] ) == 0 ) {
+    return CompileInfo::kInline;
+  } else if ( strcmp( str , types[ 3 ] ) == 0 ) {
+    return CompileInfo::kPure;
+  }
+}
+
 AstNode::AstNode( int type , const char* name ) :
     Managed(),
     type_( type ) , child_length_( 0 ) ,line_( 0 ) , name_( name ),
     parent_( 0 ), first_child_( 0 ) , last_child_( 0 ),
-    next_sibling_( 0 ) , prev_sibling_( 0 ){}
+    next_sibling_( 0 ) , prev_sibling_( 0 ) , info_( 0 ){}
 
 void AstNode::AddChild( AstNode* node ) {
   if ( first_child_ == 0 ) {
@@ -225,6 +244,24 @@ AstNode* VersionStmt::Clone() {
   TokenInfo *info = new TokenInfo( ver_->GetToken() , ver_->GetType() , ver_->GetLineNumber() );
   VersionStmt* stmt = ManagedHandle::Retain( new VersionStmt( info ) );
   return CopyChildren( stmt , this );
+}
+
+AstNode* PragmaStmt::Clone() {
+  ValueNode* op = op_->Clone();
+  PragmaStmt* prg_stmt = ManagedHandle::Retain<PragmaStmt>();
+  prg_stmt->Op( op );
+  return CopyChildren( prg_stmt , this );
+}
+
+void PragmaStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( op_ == old_node ) {
+    op_ = new_node;
+    new_node->After( old_node->NextSibling() );
+    new_node->Before( old_node->PreviousSibling() );
+    new_node->ParentNode( this );
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
 }
 
 NORMAL_CLONE(BlockStmt);

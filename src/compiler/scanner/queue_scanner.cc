@@ -1126,7 +1126,7 @@ class QueueScanner::TokenGetter {
            ( cache == ':' || cache == '(' || cache == ',' || cache == '[' ||
              cache == Token::JS_RETURN || cache == Token::JS_THROW ||
              cache == Token::JS_EXTENDS || cache == Token::JS_PROTOTYPE ||
-             cache == Token::JS_CASE || cache == '?' ) ) &&
+             cache == Token::JS_CASE || cache == '?' || cache == '.' ) ) &&
          type == '{' ) {
       is_object_mark_expect_ = true;
     }

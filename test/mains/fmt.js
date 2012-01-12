@@ -1,3 +1,4 @@
+import {iterator ,allItems} from "iterators";
 var name = Math.random();
 var m = {
       [name] : {
@@ -12,9 +13,10 @@ var m = {
       }
     }
 
-var ret = [ [i,j] for (i of rows) for (j of columns) ]
-/*import {iterator ,allItems} from "iterators";
-var privateName = new Date();
+var ret = [ [i,j] for (i of rows) for (j of columns) ];
+var x = {x:200,y:200};
+x.{ret,m,name}
+/*var privateName = new Date();
 var testObj = {
       m : {
         [privateName] : {

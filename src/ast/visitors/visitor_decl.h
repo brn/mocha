@@ -5,6 +5,7 @@ DECL_VISITOR(Statement);
 DECL_VISITOR(NodeList);
 DECL_VISITOR(StatementList);
 DECL_VISITOR(VersionStmt);
+DECL_VISITOR(PragmaStmt);
 DECL_VISITOR(BlockStmt);
 DECL_VISITOR(ModuleStmt);
 DECL_VISITOR(ExportStmt);

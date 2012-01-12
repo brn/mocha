@@ -236,6 +236,7 @@
 %token <info> JS_YIELD
 %token <info> JS_YIELD_SENTINEL
 %token <info> EX_TOKEN_YIELD
+%token <info> MOCHA_PRAGMA
 
 %type <ast> program
 %type <function> function_declaration
@@ -368,6 +369,7 @@
 %type <ast> version_statement
 %type <ast> yield_expression
 %type <ast> yield_expression_no_in
+%type <ast> pragma_statement
 %%
 
 program
@@ -996,6 +998,7 @@ statement_no_block
     
     $$ = $1;
   }
+| pragma_statement { $$ = $1; }
 | function_declaration
   { 
     ExpressionStmt *stmt = ManagedHandle::Retain<ExpressionStmt>();
@@ -1091,6 +1094,19 @@ block
     block->Line( $2->Line() );
     block->AddChild( $2 );
     $$ = block;
+  }
+;
+
+
+pragma_statement
+: MOCHA_PRAGMA '(' JS_IDENTIFIER ')' statement
+  {
+    ValueNode* val = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    val->Symbol( $3 );
+    PragmaStmt* prg_stmt = ManagedHandle::Retain<PragmaStmt>();
+    prg_stmt->Op( val );
+    prg_stmt->AddChild( $5 )
+    $$ = prg_stmt;
   }
 ;
 
@@ -2299,6 +2315,19 @@ member_expression
     exp->Line( $1->Line() );
     exp->Callable( $1 );
     exp->Args( value );
+    exp->Depth( depth );
+    $$ = exp;
+  }
+| member_expression '.' object_literal
+  {
+    int depth = 0;
+    if ( $1->NodeType() == AstNode::kCallExp ) {
+      depth = reinterpret_cast<CallExp*>( $1 )->Depth() + 1;
+    }
+    CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kExtend ) );
+    exp->Line( $1->Line() );
+    exp->Callable( $1 );
+    exp->Args( $3 );
     exp->Depth( depth );
     $$ = exp;
   }

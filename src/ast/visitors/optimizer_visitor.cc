@@ -46,6 +46,10 @@ VISITOR_IMPL( NodeList ) {
 }
 
 
+VISITOR_IMPL( PragmaStmt ) {
+}
+
+
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
   ast_node->FirstChild()->Accept( this );
