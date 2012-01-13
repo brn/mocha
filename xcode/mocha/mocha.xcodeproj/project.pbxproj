@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42CFAA5214BFE9810073ADD3 /* symbol_collector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */; };
 		F217FDD014B0D9F700EF26E8 /* ast.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC5C14B0D9F700EF26E8 /* ast.cc */; };
 		F217FDD114B0D9F700EF26E8 /* ast_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC6014B0D9F700EF26E8 /* ast_utils.cc */; };
 		F217FDD214B0D9F700EF26E8 /* ast_transformer.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC6314B0D9F700EF26E8 /* ast_transformer.cc */; };
@@ -90,6 +91,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symbol_collector.cc; sourceTree = "<group>"; };
+		42CFAA5114BFE9810073ADD3 /* symbol_collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symbol_collector.h; sourceTree = "<group>"; };
 		F217F99014B0D94500EF26E8 /* mocha */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mocha; sourceTree = BUILT_PRODUCTS_DIR; };
 		F217FC5C14B0D9F700EF26E8 /* ast.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ast.cc; sourceTree = "<group>"; };
 		F217FC5D14B0D9F700EF26E8 /* ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ast.h; sourceTree = "<group>"; };
@@ -702,6 +705,8 @@
 		F217FC6214B0D9F700EF26E8 /* visitors */ = {
 			isa = PBXGroup;
 			children = (
+				42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */,
+				42CFAA5114BFE9810073ADD3 /* symbol_collector.h */,
 				F217FC6314B0D9F700EF26E8 /* ast_transformer.cc */,
 				F217FC6414B0D9F700EF26E8 /* ast_transformer.h */,
 				F217FC6714B0D9F700EF26E8 /* codegen_visitor.cc */,
@@ -1274,6 +1279,7 @@
 				F217FE1C14B0D9F700EF26E8 /* versions.cc in Sources */,
 				F217FE1D14B0D9F700EF26E8 /* xml_reader.cc in Sources */,
 				F217FE1E14B0D9F700EF26E8 /* xml_setting_info.cc in Sources */,
+				42CFAA5214BFE9810073ADD3 /* symbol_collector.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

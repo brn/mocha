@@ -2,6 +2,9 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
+  __LINE__ = 0;
+  this.x = 0;
+  
   __LINE__ = 1;
   var f = {},
       m = {};
@@ -555,80 +558,68 @@
               };
           
           __LINE__ = 289;
-          var a = m.StopIteration =  {
-                toString : function toString() {
-                  try {
-                    __LINE__ = 290;
-                    return "StopIteration";
-                  } catch( e ){
-                    h.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-          
-          __LINE__ = 293;
           var c = m.Iterator = function ( h,i ) {
                 try {
                   __LINE__ = 0;
                   i = i || false;
                   
-                  __LINE__ = 294;
+                  __LINE__ = 290;
                   var j = {},
                       k,
                       a,
                       b = 0;
                   
-                  __LINE__ = 298;
+                  __LINE__ = 294;
                   if ( this instanceof c ){
-                    __LINE__ = 299;
+                    __LINE__ = 295;
                     k = Array.isArray( h );
                     
-                    __LINE__ = 300;
+                    __LINE__ = 296;
                     a = e( h,k,i );
                   } else {
-                    __LINE__ = 302;
+                    __LINE__ = 298;
                     return f( h,i );
                   };
                   
-                  __LINE__ = 304;
+                  __LINE__ = 300;
                   a( j,"next",
                   function () {
                     try {
-                      __LINE__ = 304;
+                      __LINE__ = 300;
                       return a[b ++ ];
                     } catch( e ){
                       h.exceptionHandler( __LINE__ , __FILE__ , e );
                     }
                   });
-                  __LINE__ = 305;
+                  __LINE__ = 301;
                   return j;
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
           
-          __LINE__ = 308;
+          __LINE__ = 304;
           var a = function ( b,c ) {
                 try {
-                  __LINE__ = 309;
+                  __LINE__ = 305;
                   var d = [],
                       e = -1;
                   
-                  __LINE__ = 311;
+                  __LINE__ = 307;
                   if ( c ){
-                    __LINE__ = 312;
+                    __LINE__ = 308;
                     for ( var prop in b ){
-                      __LINE__ = 313;
+                      __LINE__ = 309;
                       d[ ++ e] = prop;
                     };
                   } else {
-                    __LINE__ = 316;
+                    __LINE__ = 312;
                     for ( var prop in b ){
-                      __LINE__ = 317;
+                      __LINE__ = 313;
                       d[ ++ e] = [prop,b[prop]];
                     };
                   };
-                  __LINE__ = 320;
+                  __LINE__ = 316;
                   return d;
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -636,24 +627,24 @@
               },
               b = function ( b,c ) {
                 try {
-                  __LINE__ = 324;
+                  __LINE__ = 320;
                   var d = [];
                   
-                  __LINE__ = 325;
+                  __LINE__ = 321;
                   if ( c ){
-                    __LINE__ = 326;
+                    __LINE__ = 322;
                     for ( var i = 0,len = b.length;i<len;i ++  ){
-                      __LINE__ = 327;
+                      __LINE__ = 323;
                       d[i] = i;
                     };
                   } else {
-                    __LINE__ = 330;
+                    __LINE__ = 326;
                     for ( var i = 0,len = b.length;i<len;i ++  ){
-                      __LINE__ = 331;
+                      __LINE__ = 327;
                       d[i] = [i,b[i]];
                     };
                   };
-                  __LINE__ = 334;
+                  __LINE__ = 330;
                   return d;
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -661,24 +652,24 @@
               },
               c = function ( b,c ) {
                 try {
-                  __LINE__ = 338;
+                  __LINE__ = 334;
                   var d = [];
                   
-                  __LINE__ = 339;
+                  __LINE__ = 335;
                   if ( c ){
-                    __LINE__ = 340;
+                    __LINE__ = 336;
                     for ( var i = 0,len = b.length;i<len;i ++  ){
-                      __LINE__ = 341;
+                      __LINE__ = 337;
                       d[i] = i;
                     };
                   } else {
-                    __LINE__ = 344;
+                    __LINE__ = 340;
                     for ( var i = 0,len = b.length;i<len;i ++  ){
-                      __LINE__ = 345;
+                      __LINE__ = 341;
                       d[i] = [i,b.charAt( i )];
                     };
                   };
-                  __LINE__ = 348;
+                  __LINE__ = 344;
                   return d;
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -686,18 +677,18 @@
               },
               e = function ( d,e,f ) {
                 try {
-                  __LINE__ = 352;
+                  __LINE__ = 348;
                   var g = typeof d;
                   
-                  __LINE__ = 353;
+                  __LINE__ = 349;
                   if ( g === "object" && !e ){
-                    __LINE__ = 354;
+                    __LINE__ = 350;
                     return a( d,f );
                   } else if ( e ){
-                    __LINE__ = 356;
+                    __LINE__ = 352;
                     return b( d,f );
                   } else if ( g === "string" ){
-                    __LINE__ = 358;
+                    __LINE__ = 354;
                     return c( d,f );
                   };
                 } catch( e ){
@@ -706,20 +697,20 @@
               },
               f = function ( d,e ) {
                 try {
-                  __LINE__ = 363;
+                  __LINE__ = 359;
                   if ( "__iterator__" in d ){
-                    __LINE__ = 364;
+                    __LINE__ = 360;
                     return d.__iterator__( e );
                   } else {
-                    __LINE__ = 366;
+                    __LINE__ = 362;
                     return  {
                       next : function () {
                         try {
                           try {
-                            __LINE__ = 369;
+                            __LINE__ = 365;
                             throw new a;
                           } catch( e ){
-                            __LINE__ = 371;
+                            __LINE__ = 367;
                             throw new Error( e );
                           };
                         } catch( e ){
@@ -733,57 +724,62 @@
                 }
               };
           
-          __LINE__ = 378;
-          var r = m.createGenerator = function ( b,c,d ) {
+          __LINE__ = 374;
+          var q = m.createGenerator = function ( c,d,e ) {
                 try {
+                  __LINE__ = 375;
+                  var f = {};
+                  
+                  __LINE__ = 376;
+                  a( f,"next",c.bind( e,false,false ) );
+                  
+                  __LINE__ = 377;
+                  a( f,"send",c.bind( e,true,false ) );
+                  
+                  __LINE__ = 378;
+                  a( f,"close",d.bind( e ) );
+                  
                   __LINE__ = 379;
-                  var e = {};
+                  a( f,"__nothrowNext__",d.bind( e,false,true ) );
                   
                   __LINE__ = 380;
-                  a( e,"next",b.bind( d,false,false ) );
-                  
-                  __LINE__ = 381;
-                  a( e,"send",b.bind( d,true,false ) );
-                  
-                  __LINE__ = 382;
-                  a( e,"close",c.bind( d ) );
-                  
-                  __LINE__ = 383;
-                  a( e,"__nothrowNext__",c.bind( d,false,true ) );
-                  
-                  __LINE__ = 384;
-                  a( e,"toString",
+                  a( f,"toString",
                   function () {
                     try {
-                      __LINE__ = 384;
+                      __LINE__ = 380;
                       return "[object Generator]";
                     } catch( e ){
                       h.exceptionHandler( __LINE__ , __FILE__ , e );
                     }
                   });
+                  
+                  __LINE__ = 381;
+                  Object.freeze( f );
+                  __LINE__ = 382;
+                  return f;
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
           
-          __LINE__ = 387;
+          __LINE__ = 385;
           var a = function ( a ) {
                 try {
-                  __LINE__ = 387;
+                  __LINE__ = 385;
                   return ( ( a.message ) )?a.message : ( ( a.description ) )?a.description : a.toString();
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
           
-          __LINE__ = 389;
+          __LINE__ = 387;
           var a = m.throwException = function ( d ) {
                 try {
                   try {
-                    __LINE__ = 391;
+                    __LINE__ = 389;
                     throw d;
                   } catch( e ){
-                    __LINE__ = 393;
+                    __LINE__ = 391;
                     throw new Error( a( e ) );
                   };
                 } catch( e ){
@@ -791,13 +787,13 @@
                 }
               };
           
-          __LINE__ = 397;
+          __LINE__ = 395;
           function b( d,c,b ) {
             try {
-              __LINE__ = 398;
+              __LINE__ = 396;
               this.message = function () {
                 try {
-                  __LINE__ = 399;
+                  __LINE__ = 397;
                   return a( b )+" in file "+c+" at : "+d;
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -808,10 +804,10 @@
             }
           };
           
-          __LINE__ = 403;
-          var s = m.exceptionHandler = function ( c,d,e ) {
+          __LINE__ = 401;
+          var r = m.exceptionHandler = function ( c,d,e ) {
                 try {
-                  __LINE__ = 404;
+                  __LINE__ = 402;
                   a( new b( c , d , e ) );
                 } catch( e ){
                   h.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -824,18 +820,30 @@
         }
       })();
   
+  __LINE__ = 406;
+  var a =  {
+        toString : function toString() {
+          try {
+            __LINE__ = 407;
+            return "StopIteration";
+          } catch( e ){
+            h.exceptionHandler( __LINE__ , __FILE__ , e );
+          }
+        }
+      };
+  
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/test/mains/fmt.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      f['{1-302-567-849-60818395-1384-fmt.js}'] = {};
+      f['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'] = {};
       
       __LINE__ = 3;
-      var i = f['{1-302-567-849-60818395-1384-fmt.js}'];
+      var i = f['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'];
       
-      __LINE__ = 2;
+      __LINE__ = 3;
       var j = Math.random();
       
       __LINE__ = 0;
@@ -857,10 +865,10 @@
         }
       };
       
-      __LINE__ = 3;
+      __LINE__ = 4;
       var l = k;
       
-      __LINE__ = 16;
+      __LINE__ = 17;
       var m = 
           __LINE__ = 0;
           ( function () {
@@ -902,13 +910,13 @@
           })();
           ;
       
-      __LINE__ = 17;
+      __LINE__ = 18;
       var n =  {
             xa : 200,
             ya : 200
           };
       
-      __LINE__ = 18;
+      __LINE__ = 19;
       h.extend( n, {
         ret : m,
         m : l,
