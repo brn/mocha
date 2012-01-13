@@ -37,6 +37,7 @@ void ImportProccessor::ProcessNode() {
         if ( item->ValueType() == ValueNode::kString ) {
           exp = AstUtils::CreateArrayAccessor( exp , item );
         } else {
+          item->ValueType( ValueNode::kProperty );
           exp = AstUtils::CreateDotAccessor( exp , item );
         }
       }

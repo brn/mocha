@@ -709,6 +709,7 @@ VISITOR_IMPL( ValueNode ) {
                   exp =  AstUtils::CreateArrayAccessor( exp , (*exp_begin)->Node()->Clone() );
                 }
               } else if ( val->ValueType() == ValueNode::kIdentifier || val->ValueType() == ValueNode::kProperty ) {
+                val->ValueType( ValueNode::kProperty );
                 if ( exp == 0 ) {
                   exp =  AstUtils::CreateDotAccessor( name->Clone() , (*exp_begin)->Clone() );
                 } else {

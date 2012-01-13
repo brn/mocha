@@ -7,7 +7,7 @@
   
   __LINE__ = 1;
   var f = {},
-      m = {};
+      w = {};
   
   __LINE__ = 4;
   var h = ( function h() {
@@ -835,6 +835,956 @@
   __LINE__ = 0;
   ( function () {
     try {
+      var __FILE__ = "/Users/aono_taketoshi/.mocha/module/runtime/iterators.js",
+          __LINE__ = 0;
+      __LINE__ = 2;
+      f['{1-397-1092-26148-1746-829413-iterators.js}'] = {};
+      
+      __LINE__ = 3;
+      var g = f['{1-397-1092-26148-1746-829413-iterators.js}'];
+      
+      __LINE__ = 0;
+      ( function () {
+        try {
+          __LINE__ = 0;
+          var k = g;
+          
+          __LINE__ = 1;
+          var m = Function.prototype.call.bind( Function.prototype.call );
+          
+          __LINE__ = 2;
+          var n = Object.prototype.hasOwnProperty;
+          
+          __LINE__ = 3;
+          var a = k.iterator = "__iterator__";
+          
+          __LINE__ = 0;
+          k.keys = function l( o ) {
+            try {
+              __LINE__ = 0;
+              var g =  {
+                    
+                  };
+              
+              __LINE__ = 0;
+              g[a] = function () {
+                try {
+                  __LINE__ = 7;
+                  return ( function () {
+                    try {
+                      __LINE__ = 0;
+                      var a = true;
+                      
+                      __LINE__ = 0;
+                      var w = undefined;
+                      
+                      __LINE__ = 0;
+                      var a = 0;
+                      
+                      __LINE__ = 0;
+                      var k;
+                      
+                      __LINE__ = 0;
+                      var j;
+                      
+                      __LINE__ = 0;
+                      var l;
+                      
+                      __LINE__ = 0;
+                      var h = [];
+                      
+                      __LINE__ = 0;
+                      var x = function ( q,r ) {
+                            try {
+                              __LINE__ = 0;
+                              if ( !q ){
+                                __LINE__ = 0;
+                                a = false;
+                              } else if ( q && a && arguments[1] !== undefined ){
+                                __LINE__ = 0;
+                                h.exceptionHandler( 'attempt to send to newborn generator.' );
+                              };
+                              
+                              __LINE__ = 0;
+                              while ( 1 ){
+                                __LINE__ = 0;
+                                switch ( a ) {
+                                  case 0 :
+                                    
+                                    __LINE__ = 0;
+                                    for ( var _mochaLocalTmp0 in o ){
+                                      
+                                      __LINE__ = 7;
+                                      h.push( _mochaLocalTmp0 );
+                                    };
+                                    
+                                    __LINE__ = 8;
+                                    j = 0;
+                                    
+                                    __LINE__ = 8;
+                                    k = h.length;
+                                    
+                                    __LINE__ = 0;
+                                    if ( !( j<k ) ){
+                                      __LINE__ = 7;
+                                      a = -1;
+                                      __LINE__ = 7;
+                                      break;
+                                    };
+                                  case 1 :
+                                    
+                                    __LINE__ = 0;
+                                    l = h[j];
+                                    
+                                    __LINE__ = 0;
+                                    if ( m( n,o,l ) ){
+                                      __LINE__ = 7;
+                                      a = 2;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 7;
+                                      a = 3;
+                                      __LINE__ = 0;
+                                      break;
+                                    };
+                                  case 2 :
+                                    
+                                    __LINE__ = 10;
+                                    a = 3;
+                                    __LINE__ = 10;
+                                    return l;
+                                  case 3 :
+                                    
+                                    __LINE__ = 0;
+                                    a = 4;
+                                    __LINE__ = 0;
+                                    break;
+                                  case 4 :
+                                    
+                                    __LINE__ = 0;
+                                     ++ j;
+                                    
+                                    __LINE__ = 0;
+                                    if ( j<k ){
+                                      __LINE__ = 7;
+                                      a = 1;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 7;
+                                      a = -1;
+                                    };
+                                  case -1 :
+                                    
+                                    __LINE__ = 0;
+                                    if ( r ){
+                                      __LINE__ = 0;
+                                      return undefined;
+                                    } else {
+                                      __LINE__ = 7;
+                                      h.throwException( h.StopIteration );
+                                    };
+                                    
+                                };
+                              };
+                            } catch( e ){
+                              h.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      __LINE__ = 0;
+                      return h.createGenerator( x,
+                      function (  ) {
+                        try {
+                          __LINE__ = 0;
+                          a = -1;
+                        } catch( e ){
+                          h.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      },this);
+                    } catch( e ){
+                      h.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+                } catch( e ){
+                  h.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              __LINE__ = 5;
+              return g;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.values = function w( o ) {
+            try {
+              __LINE__ = 0;
+              var g =  {
+                    
+                  };
+              
+              __LINE__ = 0;
+              g[a] = function () {
+                try {
+                  __LINE__ = 19;
+                  return ( function () {
+                    try {
+                      __LINE__ = 0;
+                      var a = true;
+                      
+                      __LINE__ = 0;
+                      var w = undefined;
+                      
+                      __LINE__ = 0;
+                      var a = 0;
+                      
+                      __LINE__ = 0;
+                      var k;
+                      
+                      __LINE__ = 0;
+                      var j;
+                      
+                      __LINE__ = 0;
+                      var l;
+                      
+                      __LINE__ = 0;
+                      var h = [];
+                      
+                      __LINE__ = 0;
+                      var x = function ( q,r ) {
+                            try {
+                              __LINE__ = 0;
+                              if ( !q ){
+                                __LINE__ = 0;
+                                a = false;
+                              } else if ( q && a && arguments[1] !== undefined ){
+                                __LINE__ = 0;
+                                h.exceptionHandler( 'attempt to send to newborn generator.' );
+                              };
+                              
+                              __LINE__ = 0;
+                              while ( 1 ){
+                                __LINE__ = 0;
+                                switch ( a ) {
+                                  case 0 :
+                                    
+                                    __LINE__ = 0;
+                                    for ( var _mochaLocalTmp4 in o ){
+                                      
+                                      __LINE__ = 19;
+                                      h.push( _mochaLocalTmp4 );
+                                    };
+                                    
+                                    __LINE__ = 20;
+                                    j = 0;
+                                    
+                                    __LINE__ = 20;
+                                    k = h.length;
+                                    
+                                    __LINE__ = 0;
+                                    if ( !( j<k ) ){
+                                      __LINE__ = 19;
+                                      a = -1;
+                                      __LINE__ = 19;
+                                      break;
+                                    };
+                                  case 1 :
+                                    
+                                    __LINE__ = 0;
+                                    l = h[j];
+                                    
+                                    __LINE__ = 0;
+                                    if ( m( n,o,l ) ){
+                                      __LINE__ = 19;
+                                      a = 2;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 19;
+                                      a = 3;
+                                      __LINE__ = 0;
+                                      break;
+                                    };
+                                  case 2 :
+                                    
+                                    __LINE__ = 22;
+                                    a = 3;
+                                    __LINE__ = 22;
+                                    return o[l];
+                                  case 3 :
+                                    
+                                    __LINE__ = 0;
+                                    a = 4;
+                                    __LINE__ = 0;
+                                    break;
+                                  case 4 :
+                                    
+                                    __LINE__ = 0;
+                                     ++ j;
+                                    
+                                    __LINE__ = 0;
+                                    if ( j<k ){
+                                      __LINE__ = 19;
+                                      a = 1;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 19;
+                                      a = -1;
+                                    };
+                                  case -1 :
+                                    
+                                    __LINE__ = 0;
+                                    if ( r ){
+                                      __LINE__ = 0;
+                                      return undefined;
+                                    } else {
+                                      __LINE__ = 19;
+                                      h.throwException( h.StopIteration );
+                                    };
+                                    
+                                };
+                              };
+                            } catch( e ){
+                              h.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      __LINE__ = 0;
+                      return h.createGenerator( x,
+                      function (  ) {
+                        try {
+                          __LINE__ = 0;
+                          a = -1;
+                        } catch( e ){
+                          h.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      },this);
+                    } catch( e ){
+                      h.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+                } catch( e ){
+                  h.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              __LINE__ = 17;
+              return g;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.items = function x( o ) {
+            try {
+              __LINE__ = 0;
+              var g =  {
+                    
+                  };
+              
+              __LINE__ = 0;
+              g[a] = function () {
+                try {
+                  __LINE__ = 31;
+                  return ( function () {
+                    try {
+                      __LINE__ = 0;
+                      var a = true;
+                      
+                      __LINE__ = 0;
+                      var w = undefined;
+                      
+                      __LINE__ = 0;
+                      var a = 0;
+                      
+                      __LINE__ = 0;
+                      var k;
+                      
+                      __LINE__ = 0;
+                      var j;
+                      
+                      __LINE__ = 0;
+                      var l;
+                      
+                      __LINE__ = 0;
+                      var h = [];
+                      
+                      __LINE__ = 0;
+                      var x = function ( q,r ) {
+                            try {
+                              __LINE__ = 0;
+                              if ( !q ){
+                                __LINE__ = 0;
+                                a = false;
+                              } else if ( q && a && arguments[1] !== undefined ){
+                                __LINE__ = 0;
+                                h.exceptionHandler( 'attempt to send to newborn generator.' );
+                              };
+                              
+                              __LINE__ = 0;
+                              while ( 1 ){
+                                __LINE__ = 0;
+                                switch ( a ) {
+                                  case 0 :
+                                    
+                                    __LINE__ = 0;
+                                    for ( var _mochaLocalTmp8 in o ){
+                                      
+                                      __LINE__ = 31;
+                                      h.push( _mochaLocalTmp8 );
+                                    };
+                                    
+                                    __LINE__ = 32;
+                                    j = 0;
+                                    
+                                    __LINE__ = 32;
+                                    k = h.length;
+                                    
+                                    __LINE__ = 0;
+                                    if ( !( j<k ) ){
+                                      __LINE__ = 31;
+                                      a = -1;
+                                      __LINE__ = 31;
+                                      break;
+                                    };
+                                  case 1 :
+                                    
+                                    __LINE__ = 0;
+                                    l = h[j];
+                                    
+                                    __LINE__ = 0;
+                                    if ( m( n,o,l ) ){
+                                      __LINE__ = 31;
+                                      a = 2;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 31;
+                                      a = 3;
+                                      __LINE__ = 0;
+                                      break;
+                                    };
+                                  case 2 :
+                                    
+                                    __LINE__ = 34;
+                                    a = 3;
+                                    __LINE__ = 34;
+                                    return [l,o[l]];
+                                  case 3 :
+                                    
+                                    __LINE__ = 0;
+                                    a = 4;
+                                    __LINE__ = 0;
+                                    break;
+                                  case 4 :
+                                    
+                                    __LINE__ = 0;
+                                     ++ j;
+                                    
+                                    __LINE__ = 0;
+                                    if ( j<k ){
+                                      __LINE__ = 31;
+                                      a = 1;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 31;
+                                      a = -1;
+                                    };
+                                  case -1 :
+                                    
+                                    __LINE__ = 0;
+                                    if ( r ){
+                                      __LINE__ = 0;
+                                      return undefined;
+                                    } else {
+                                      __LINE__ = 31;
+                                      h.throwException( h.StopIteration );
+                                    };
+                                    
+                                };
+                              };
+                            } catch( e ){
+                              h.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      __LINE__ = 0;
+                      return h.createGenerator( x,
+                      function (  ) {
+                        try {
+                          __LINE__ = 0;
+                          a = -1;
+                        } catch( e ){
+                          h.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      },this);
+                    } catch( e ){
+                      h.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+                } catch( e ){
+                  h.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              __LINE__ = 29;
+              return g;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.allKeys = function y( g ) {
+            try {
+              __LINE__ = 0;
+              var h =  {
+                    
+                  };
+              
+              __LINE__ = 0;
+              h[a] = function () {
+                try {
+                  __LINE__ = 43;
+                  return ( function () {
+                    try {
+                      __LINE__ = 0;
+                      var a = true;
+                      
+                      __LINE__ = 0;
+                      var t = undefined;
+                      
+                      __LINE__ = 0;
+                      var a = 0;
+                      
+                      __LINE__ = 0;
+                      var k;
+                      
+                      __LINE__ = 0;
+                      var j;
+                      
+                      __LINE__ = 0;
+                      var l;
+                      
+                      __LINE__ = 0;
+                      var h = [];
+                      
+                      __LINE__ = 0;
+                      var u = function ( n,o ) {
+                            try {
+                              __LINE__ = 0;
+                              if ( !n ){
+                                __LINE__ = 0;
+                                a = false;
+                              } else if ( n && a && arguments[1] !== undefined ){
+                                __LINE__ = 0;
+                                h.exceptionHandler( 'attempt to send to newborn generator.' );
+                              };
+                              
+                              __LINE__ = 0;
+                              while ( 1 ){
+                                __LINE__ = 0;
+                                switch ( a ) {
+                                  case 0 :
+                                    
+                                    __LINE__ = 0;
+                                    for ( var _mochaLocalTmp12 in g ){
+                                      
+                                      __LINE__ = 43;
+                                      h.push( _mochaLocalTmp12 );
+                                    };
+                                    
+                                    __LINE__ = 44;
+                                    j = 0;
+                                    
+                                    __LINE__ = 44;
+                                    k = h.length;
+                                    
+                                    __LINE__ = 0;
+                                    if ( !( j<k ) ){
+                                      __LINE__ = 43;
+                                      a = -1;
+                                      __LINE__ = 43;
+                                      break;
+                                    };
+                                  case 1 :
+                                    
+                                    __LINE__ = 45;
+                                    a = 2;
+                                    
+                                    __LINE__ = 0;
+                                    l = h[j];
+                                    __LINE__ = 45;
+                                    return l;
+                                  case 2 :
+                                    
+                                    __LINE__ = 0;
+                                     ++ j;
+                                    
+                                    __LINE__ = 0;
+                                    if ( j<k ){
+                                      __LINE__ = 43;
+                                      a = 1;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 43;
+                                      a = -1;
+                                    };
+                                  case -1 :
+                                    
+                                    __LINE__ = 0;
+                                    if ( o ){
+                                      __LINE__ = 0;
+                                      return undefined;
+                                    } else {
+                                      __LINE__ = 43;
+                                      h.throwException( h.StopIteration );
+                                    };
+                                    
+                                };
+                              };
+                            } catch( e ){
+                              h.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      __LINE__ = 0;
+                      return h.createGenerator( u,
+                      function (  ) {
+                        try {
+                          __LINE__ = 0;
+                          a = -1;
+                        } catch( e ){
+                          h.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      },this);
+                    } catch( e ){
+                      h.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+                } catch( e ){
+                  h.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              __LINE__ = 41;
+              return h;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.allValues = function z( m ) {
+            try {
+              __LINE__ = 0;
+              var g =  {
+                    
+                  };
+              
+              __LINE__ = 0;
+              g[a] = function () {
+                try {
+                  __LINE__ = 53;
+                  return ( function () {
+                    try {
+                      __LINE__ = 0;
+                      var a = true;
+                      
+                      __LINE__ = 0;
+                      var u = undefined;
+                      
+                      __LINE__ = 0;
+                      var a = 0;
+                      
+                      __LINE__ = 0;
+                      var k;
+                      
+                      __LINE__ = 0;
+                      var j;
+                      
+                      __LINE__ = 0;
+                      var l;
+                      
+                      __LINE__ = 0;
+                      var h = [];
+                      
+                      __LINE__ = 0;
+                      var v = function ( o,p ) {
+                            try {
+                              __LINE__ = 0;
+                              if ( !o ){
+                                __LINE__ = 0;
+                                a = false;
+                              } else if ( o && a && arguments[1] !== undefined ){
+                                __LINE__ = 0;
+                                h.exceptionHandler( 'attempt to send to newborn generator.' );
+                              };
+                              
+                              __LINE__ = 0;
+                              while ( 1 ){
+                                __LINE__ = 0;
+                                switch ( a ) {
+                                  case 0 :
+                                    
+                                    __LINE__ = 0;
+                                    for ( var _mochaLocalTmp16 in m ){
+                                      
+                                      __LINE__ = 53;
+                                      h.push( _mochaLocalTmp16 );
+                                    };
+                                    
+                                    __LINE__ = 54;
+                                    j = 0;
+                                    
+                                    __LINE__ = 54;
+                                    k = h.length;
+                                    
+                                    __LINE__ = 0;
+                                    if ( !( j<k ) ){
+                                      __LINE__ = 53;
+                                      a = -1;
+                                      __LINE__ = 53;
+                                      break;
+                                    };
+                                  case 1 :
+                                    
+                                    __LINE__ = 55;
+                                    a = 2;
+                                    
+                                    __LINE__ = 0;
+                                    l = h[j];
+                                    __LINE__ = 55;
+                                    return m[l];
+                                  case 2 :
+                                    
+                                    __LINE__ = 0;
+                                     ++ j;
+                                    
+                                    __LINE__ = 0;
+                                    if ( j<k ){
+                                      __LINE__ = 53;
+                                      a = 1;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 53;
+                                      a = -1;
+                                    };
+                                  case -1 :
+                                    
+                                    __LINE__ = 0;
+                                    if ( p ){
+                                      __LINE__ = 0;
+                                      return undefined;
+                                    } else {
+                                      __LINE__ = 53;
+                                      h.throwException( h.StopIteration );
+                                    };
+                                    
+                                };
+                              };
+                            } catch( e ){
+                              h.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      __LINE__ = 0;
+                      return h.createGenerator( v,
+                      function (  ) {
+                        try {
+                          __LINE__ = 0;
+                          a = -1;
+                        } catch( e ){
+                          h.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      },this);
+                    } catch( e ){
+                      h.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+                } catch( e ){
+                  h.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              __LINE__ = 51;
+              return g;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.allItems = function A( m ) {
+            try {
+              __LINE__ = 0;
+              var g =  {
+                    
+                  };
+              
+              __LINE__ = 0;
+              g[a] = function () {
+                try {
+                  __LINE__ = 63;
+                  return ( function () {
+                    try {
+                      __LINE__ = 0;
+                      var a = true;
+                      
+                      __LINE__ = 0;
+                      var u = undefined;
+                      
+                      __LINE__ = 0;
+                      var a = 0;
+                      
+                      __LINE__ = 0;
+                      var k;
+                      
+                      __LINE__ = 0;
+                      var j;
+                      
+                      __LINE__ = 0;
+                      var l;
+                      
+                      __LINE__ = 0;
+                      var h = [];
+                      
+                      __LINE__ = 0;
+                      var v = function ( o,p ) {
+                            try {
+                              __LINE__ = 0;
+                              if ( !o ){
+                                __LINE__ = 0;
+                                a = false;
+                              } else if ( o && a && arguments[1] !== undefined ){
+                                __LINE__ = 0;
+                                h.exceptionHandler( 'attempt to send to newborn generator.' );
+                              };
+                              
+                              __LINE__ = 0;
+                              while ( 1 ){
+                                __LINE__ = 0;
+                                switch ( a ) {
+                                  case 0 :
+                                    
+                                    __LINE__ = 0;
+                                    for ( var _mochaLocalTmp20 in m ){
+                                      
+                                      __LINE__ = 63;
+                                      h.push( _mochaLocalTmp20 );
+                                    };
+                                    
+                                    __LINE__ = 64;
+                                    j = 0;
+                                    
+                                    __LINE__ = 64;
+                                    k = h.length;
+                                    
+                                    __LINE__ = 0;
+                                    if ( !( j<k ) ){
+                                      __LINE__ = 63;
+                                      a = -1;
+                                      __LINE__ = 63;
+                                      break;
+                                    };
+                                  case 1 :
+                                    
+                                    __LINE__ = 65;
+                                    a = 2;
+                                    
+                                    __LINE__ = 0;
+                                    l = h[j];
+                                    __LINE__ = 65;
+                                    return [l,m[l]];
+                                  case 2 :
+                                    
+                                    __LINE__ = 0;
+                                     ++ j;
+                                    
+                                    __LINE__ = 0;
+                                    if ( j<k ){
+                                      __LINE__ = 63;
+                                      a = 1;
+                                      __LINE__ = 0;
+                                      break;
+                                    } else {
+                                      __LINE__ = 63;
+                                      a = -1;
+                                    };
+                                  case -1 :
+                                    
+                                    __LINE__ = 0;
+                                    if ( p ){
+                                      __LINE__ = 0;
+                                      return undefined;
+                                    } else {
+                                      __LINE__ = 63;
+                                      h.throwException( h.StopIteration );
+                                    };
+                                    
+                                };
+                              };
+                            } catch( e ){
+                              h.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      __LINE__ = 0;
+                      return h.createGenerator( v,
+                      function (  ) {
+                        try {
+                          __LINE__ = 0;
+                          a = -1;
+                        } catch( e ){
+                          h.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      },this);
+                    } catch( e ){
+                      h.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+                } catch( e ){
+                  h.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              __LINE__ = 61;
+              return g;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.isGenerator = function B( a ) {
+            try {
+              __LINE__ = 72;
+              return a.toString() === "[object Generator]";
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 0;
+          k.isStopIteration = function C( b ) {
+            try {
+              __LINE__ = 76;
+              return b === a;
+            } catch( e ){
+              h.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          __LINE__ = 0;
+          return k;
+        } catch( e ){
+          h.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+    } catch( e ){
+      h.exceptionHandler( __LINE__ , __FILE__ , e );
+    }
+  })();
+  
+  __LINE__ = 0;
+  ( function () {
+    try {
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
@@ -843,33 +1793,36 @@
       __LINE__ = 3;
       var i = f['{1-397-1092-205522212-1695-60819241-2230-fmt.js}'];
       
+      __LINE__ = 0;
+      var j = f['{1-397-1092-26148-1746-829413-iterators.js}'].iterator;
+      
       __LINE__ = 3;
-      var j = Math.random();
+      var k = Math.random();
       
       __LINE__ = 0;
-      var k =  {
+      var l =  {
             
           };
       
       __LINE__ = 0;
-      k[j] =  {
+      l[k] =  {
         v :  {
           gd : {}
         }
       };
       
       __LINE__ = 0;
-      k[j].v[j] =  {
+      l[k].v[k] =  {
         g :  {
           g : function (){}
         }
       };
       
       __LINE__ = 4;
-      var l = k;
+      var m = l;
       
       __LINE__ = 17;
-      var m = 
+      var n = 
           __LINE__ = 0;
           ( function () {
             try {
@@ -911,16 +1864,16 @@
           ;
       
       __LINE__ = 18;
-      var n =  {
+      var o =  {
             xa : 200,
             ya : 200
           };
       
       __LINE__ = 19;
-      h.extend( n, {
-        ret : m,
-        m : l,
-        name : j
+      h.extend( o, {
+        ret : n,
+        m : m,
+        name : k
       });
     } catch( e ){
       h.exceptionHandler( __LINE__ , __FILE__ , e );

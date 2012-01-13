@@ -18,15 +18,21 @@ StrHandle CompilerUtils::CreateJsPath( const char* filename , const char* module
     tmp += VirtualDirectory::GetInstance()->GetRealPath( filename ).Get();
     tmp += JS_EXTENSION;
   } else {
-    tmp = Setting::GetInstance()->GetRuntimePath();
+    tmp = Setting::GetInstance()->GetModulePath();
     tmp += '/';
     tmp += filename;
     tmp += JS_EXTENSION;
     if ( !FileIO::IsExist( tmp.c_str() ) ) {
-      tmp = XMLSettingInfo::GetModuleDirPath( module_path_key );
+      tmp = Setting::GetInstance()->GetRuntimePath();
       tmp += '/';
       tmp += filename;
       tmp += JS_EXTENSION;
+      if ( !FileIO::IsExist( tmp.c_str() ) ) {
+        tmp = XMLSettingInfo::GetModuleDirPath( module_path_key );
+        tmp += '/';
+        tmp += filename;
+        tmp += JS_EXTENSION;
+      }
     }
   }
   return FileSystem::NormalizePath( tmp.c_str() );

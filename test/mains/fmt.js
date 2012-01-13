@@ -1,4 +1,4 @@
-//import {iterator ,allItems} from "iterators";
+import iterator from "iterators".iterator;
  
 @pragma( __debug )
 var name = Math.random();
