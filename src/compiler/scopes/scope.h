@@ -31,6 +31,7 @@ class InnerScope : public Managed {
   InnerScope* Escape();
   void Insert ( TokenInfo* info , AstNode* ast_node );
   SymbolEntry& Find ( TokenInfo* info );
+  SymbolEntry& FindAlias( TokenInfo* info );
   void Ref( TokenInfo* info );
   void Rename();
   bool IsGlobal() const;
@@ -41,6 +42,7 @@ class InnerScope : public Managed {
   InnerScope* up_;
   ScopedPtr<Renamer> renamer_handle_;
   SymbolTable table_;
+  SymbolTable alias_table_;
   RefTable reference_table_;
   UsedTable used_table_;
 };
@@ -55,6 +57,7 @@ class Scope {
   void Insert ( TokenInfo* info , AstNode* ast_node );
   void Ref( TokenInfo* info );
   SymbolEntry Find ( TokenInfo* info );
+  SymbolEntry& FindAlias( TokenInfo* info );
   void Rename();
   bool IsGlobal() const;
  private:

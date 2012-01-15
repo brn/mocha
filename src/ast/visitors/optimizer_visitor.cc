@@ -16,7 +16,8 @@ namespace mocha {
 #endif
 
 
-OptimizerVisitor::OptimizerVisitor( Scope* scope , Options* option ) : depth_( 0 ), scope_( scope ){}
+OptimizerVisitor::OptimizerVisitor( Scope* scope , Options* option ) :
+    depth_( 0 ), is_debug_( option->IsDebug() ), scope_( scope ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;

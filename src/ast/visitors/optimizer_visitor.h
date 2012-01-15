@@ -17,6 +17,7 @@ class OptimizerVisitor : public IVisitor {
   void ArrayProccessor_( ValueNode* ast_node );
   void ObjectProccessor_( ValueNode* ast_node );
   int depth_;
+  bool is_debug_;
   Scope* scope_;
 };
 }

@@ -1,5 +1,5 @@
 bin_PROGRAMS = mocha
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions -L./v8/ -lv8
 AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD)
 mocha_SOURCES = \

@@ -50,6 +50,7 @@
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/xml/xml_setting_info.h>
 #include <grammar/grammar.tab.hh>
+#include <third_party/v8/include/v8.h>
 
 namespace mocha {
 

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <compiler/tokens/token_info.h>
+#include <ast/ast.h>
 
 using namespace mocha;
 

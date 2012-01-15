@@ -237,6 +237,8 @@
 %token <info> JS_YIELD_SENTINEL
 %token <info> EX_TOKEN_YIELD
 %token <info> MOCHA_PRAGMA
+%token <info> MOCHA_NAMESPACE
+%token <info> MOCHA_DEF
 
 %type <ast> program
 %type <function> function_declaration
@@ -370,6 +372,7 @@
 %type <ast> yield_expression
 %type <ast> yield_expression_no_in
 %type <ast> pragma_statement
+/**%type <ast> compiler_directives**/
 %%
 
 program
@@ -382,6 +385,44 @@ program
   }
 ;
 
+/*
+compiler_directives
+: MOCHA_NAMESPACE JS_IDENTIFIER '{' compiler_directives '}'
+  {
+    DirectiveNamespace dir_ns = ManagedHandle::Retain<DirectiveNamespace>();
+    ValueNode* name = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    name->Symbol( $2 );
+    dir_ns->Name( name );
+    dir_ns->AddChild( $4 );
+    $$ = dir_ns;
+  }
+| def_call__opt JS_IDENTIFIER '(' formal_parameter_list ')' '{'  '}'
+  {
+    DirectiveFunction* dir_fn = ManagedHandle::Retain<DirectiveFunction>();
+    ValueNode* name = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+    name->Symbol( $2 );
+    dir_fn->Attr( $1 );
+    dir_fn->Name( name );
+    dir_fn->Args( $4 );
+    dir_fn->Append( $7 );
+    $$ = dir_fn;
+  }
+;
+
+def_call__opt
+: MOCHA_DEF '(' formal_parameter_list ')'
+  {
+    DirectiveDef* def = ManagedHandle::Retain<DirectiveDef>();
+    def->Args( $3 );
+    $$ = def;
+  }
+| MOCHA_DEF
+  {
+    DirectiveDef* def = ManagedHandle::Retain<DirectiveDef>();
+    def->Args( GetEmptyNode() );
+    $$ = def;
+  }
+  ;*/
 
 version_statement
 : MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' '{' statement_list__opt '}'
@@ -392,6 +433,8 @@ version_statement
     $$ = stmt;
   }
 ;
+
+
 
 /*
  *In case of
@@ -759,6 +802,7 @@ identifier__opt
 
 statement
 : statement_with_block { $$ = $1; }
+/*| compiler_directives { $$ = $1; }*/
 | module_block
   {
     

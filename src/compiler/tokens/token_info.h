@@ -4,7 +4,7 @@
 #include <string>
 #include <utils/pool/managed.h>
 namespace mocha {
-
+class CompilerInfo;
 class TokenInfo : public Managed {
     
  public:
@@ -24,7 +24,8 @@ class TokenInfo : public Managed {
   bool IsConst() { return is_const_; }
   void Let() { is_let_ = true; }
   bool IsLet() { return is_let_; }
-    
+  void SetInfo( CompilerInfo* info ) { info_ = info; }
+  CompilerInfo* GetInfo() { return info_; }
  private:
   int type_;
   int line_;
@@ -32,7 +33,7 @@ class TokenInfo : public Managed {
   bool is_let_;
   std::string token_;
   std::string renamed_;
-
+  CompilerInfo* info_;
 };
 
 }
