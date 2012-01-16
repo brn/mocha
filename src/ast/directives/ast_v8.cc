@@ -3,12 +3,29 @@
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/pool/managed_handle.h>
 #include <ast/ast.h>
+#include <assert.h>
 using namespace v8;
 namespace mocha {
 
+typedef v8::Local<v8::Object> V8Object;
+typedef v8::Handle<v8::Value> V8Value;
+typedef v8::Function V8Function;
+typedef v8::String V8String;
+
+v8::Persistent<Object> GetMark() {
+  static v8::Persistent<Object> mark;
+  return mark;
+}
+
 template <typename T>
 T* GetInternal( int num , V8Object obj ) {
+  assert( num > 0 );
   return static_cast<T*>( v8::Local<v8::External>::Cast( obj->GetInternalField( num ) )->Value() );
+}
+
+bool TypeCheck( int type , V8Object obj ) {
+  AstNode* ast = static_cast<AstNode*>( v8::Local<v8::External>::Cast( obj->GetInternalField( num ) )->Value() );
+  return ast->NodeType() == type;
 }
 
 template <typename T>
@@ -16,19 +33,26 @@ T GetInternalHandle( int num , V8Object obj ) {
   return v8::Handle<T>::Cast( obj->GetInternalField( num ) )->Value();
 }
 
-typedef v8::Local<v8::Object> V8Object;
-typedef v8::Handle<v8::Value> V8Value;
-typedef v8::Function V8Function;
-
 #define GET_THIS(name) V8Object name = args.This()
+#define ARGUMENTS_CHECK(num,arg)                                        \
+  if ( arg.Length() != num ) {                                          \
+    return v8::ThrowException( V8String::New( "arguments error." ) );   \
+  }
+
+#define ERROR_CHECK(obj,type)                                               \
+  if ( obj->InternalFieldCount() > 0 && obj->GetInternalField( 0 )->StrictEquals( GetMark() ) && !TypeCheck( type , obj ) ) { \
+    return v8::ThrowException( "arguments error." );                    \
+  }
 
 class JSFileRoot {
  public :
   static V8Value GetFilename( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    FileRoot* node = GetInternal<FileRoot>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kFileRoot );
+    FileRoot* node = GetInternal<FileRoot>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     return String::New( node->FileName() , info );
   }
 };
@@ -37,9 +61,11 @@ class JSVariableStmt {
  public :
   static V8Value GetVarType( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    VariableStmt* node = GetInternal<VariableStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kVariableStmt );
+    VariableStmt* node = GetInternal<VariableStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     return Number::New( node->VarType() , info );
   }
 };
@@ -48,28 +74,34 @@ class JSIFStmt {
  public :
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IFStmt* node = GetInternal<IFStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IFStmt* node = GetInternal<IFStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     return AstForV8::Init( global , node->Exp() , info );
   }
 
   static V8Value GetThen( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IFStmt* node = GetInternal<IFStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IFStmt* node = GetInternal<IFStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     return AstForV8::Init( global , node->Then() , info );
   }
 
   static V8Value GetElse( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IFStmt* node = GetInternal<IFStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1, this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IFStmt* node = GetInternal<IFStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2, this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     if ( node->Else() ) {
       return AstForV8::Init( global , node->Else() , info );
     } else {
@@ -82,10 +114,12 @@ class JSIterationStmt {
  public :
   static V8Value GetDecl( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IterationStmt* node = GetInternal<IterationStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IterationStmt* node = GetInternal<IterationStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     if ( !node->Exp()->FirstChild()->IsEmpty() ) {
       return AstForV8::Init( global , node->Exp()->FirstChild() , info );
     } else {
@@ -95,10 +129,12 @@ class JSIterationStmt {
 
   static V8Value GetCond( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IterationStmt* node = GetInternal<IterationStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IterationStmt* node = GetInternal<IterationStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* cond = node->Exp()->FirstChild()->NextSibling();
     if ( !cond->IsEmpty() ) {
       return AstForV8::Init( global , cond , info );
@@ -109,10 +145,12 @@ class JSIterationStmt {
 
   static V8Value GetCounter( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IterationStmt* node = GetInternal<IterationStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IterationStmt* node = GetInternal<IterationStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* counter = node->Exp()->FirstChild()->NextSibling()->NextSibling();
     if ( !counter->IsEmpty() ) {
       return AstForV8::Init( global , counter , info );
@@ -131,10 +169,12 @@ class JSIterationStmt {
 
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    IterationStmt* node = GetInternal<IterationStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kIFStmt );
+    IterationStmt* node = GetInternal<IterationStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* exp = node->Exp();
     if ( !exp->IsEmpty() ) {
       return AstForV8::Init( global , exp , info );
@@ -148,10 +188,12 @@ class JSSwtichStmt {
  public :
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    SwitchStmt* node = GetInternal<SwitchStmt>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kSwitchStmt );
+    SwitchStmt* node = GetInternal<SwitchStmt>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* exp = node->Exp();
     if ( !exp->IsEmpty() ) {
       return AstForV8::Init( global , exp , info );
@@ -165,10 +207,12 @@ class JSCaseClause {
  public :
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    CaseClause* node = GetInternal<CaseClause>( 0 , this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 ,this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCase );
+    CaseClause* node = GetInternal<CaseClause>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 ,this_obj );
     AstNode* exp = node->Exp();
     if ( !exp->IsEmpty() ) {
       return AstForV8::Init( global , exp , info );
@@ -182,10 +226,12 @@ class JSThorwStmt {
  public :
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
+    ARGUMENTS_CHECK(0,args);
     GET_THIS( this_obj );
-    ThrowStmt* node = GetInternal<ThrowStmt>( 0, this_obj );
-    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 ,this_obj );
-    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ERROR_CHECK( this_obj , AstNode::kThrowStmt );
+    ThrowStmt* node = GetInternal<ThrowStmt>( 1, this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 ,this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* exp = node->Exp();
     if ( !exp->IsEmpty() ) {
       return AstForV8::Init( global , exp , info );
@@ -199,9 +245,12 @@ class JSFunction {
  public :
   static V8Value GetName( const Arguments& args ) {
     HandleScope handle_scope;
-    mocha::Function* node = reinterpret_cast<mocha::Function*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kFunction );
+    Function* node = GetInternal<Function>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* name = node->Name();
     if ( !name->IsEmpty() ) {
       return AstForV8::Init( global , name->CastToValue()->GetToken() , info );
@@ -212,9 +261,12 @@ class JSFunction {
 
   static V8Value GetParameterList( const Arguments& args ) {
     HandleScope handle_scope;
-    mocha::Function* node = reinterpret_cast<mocha::Function*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kFunction );
+    Function* node = GetInternal<Function>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* param = node->Argv();
     if ( !param->IsEmpty() ) {
       V8Value val = AstForV8::Init( global , param , info )->Get( String::New( "childNodes" ) );
@@ -226,16 +278,22 @@ class JSFunction {
 
   static V8Value GetParameterCount( const Arguments& args ) {
     HandleScope handle_scope;
-    mocha::Function* node = reinterpret_cast<mocha::Function*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kFunction );
+    Function* node = GetInternal<Function>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     int argc = node->Argc();
     return Number::New( argc );
   }
 
   static V8Value IsConst( const Arguments& args ) {
     HandleScope handle_scope;
-    mocha::Function* node = reinterpret_cast<mocha::Function*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kFunction );
+    Function* node = GetInternal<Function>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo*>( 2 , this_obj );
     return Boolean::New( node->IsConst() );
   }
 };
@@ -244,17 +302,23 @@ class JSCallExp {
  public :
   static V8Value GetCallable( const Arguments& args ) {
     HandleScope handle_scope;
-    CallExp* node = reinterpret_cast<CallExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCallExp );
+    CallExp* node = GetInternal<CallExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     return AstForV8::Init( global , node , info );
   }
 
   static V8Value GetArgs( const Arguments& args ) {
     HandleScope handle_scope;
-    CallExp* node = reinterpret_cast<CallExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCallExp );
+    CallExp* node = GetInternal<CallExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* m_args = node->Args();
     if ( !m_args->IsEmpty() ) {
       V8Value val = AstForV8::Init( global , m_args , info )->Get( String::New( "childNodes" ) );
@@ -266,10 +330,13 @@ class JSCallExp {
     }
   }
 
-  static V8Value GetArgs( const Arguments& args ) {
+  static V8Value CallType( const Arguments& args ) {
     HandleScope handle_scope;
-    CallExp* node = reinterpret_cast<CallExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCallExp );
+    CallExp* node = GetInternal<CallExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     int call_type = node->CallType();
     return Number::New( call_type );
   }
@@ -279,9 +346,12 @@ class JSNewExp {
  public :
   static V8Value GetConstructor( const Arguments& args ) {
     HandleScope handle_scope;
-    NewExp* node = reinterpret_cast<NewExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCallExp );
+    NewExp* node = GetInternal<NewExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* exp = node->Constructor();
     return AstForV8::Init( global , exp , info );
   }
@@ -291,9 +361,12 @@ class JSNewExp {
  public :
   static V8Value GetConstructor( const Arguments& args ) {
     HandleScope handle_scope;
-    NewExp* node = reinterpret_cast<NewExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kNewExp );
+    NewExp* node = GetInternal<NewExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* exp = node->Constructor();
     return AstForV8::Init( global , exp , info );
   }
@@ -303,9 +376,12 @@ class JSPostfixExp {
  public :
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
-    PostfixExp* node = reinterpret_cast<PostfixExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kPostfixExp );
+    PostfixExp* node = GetInternal<PostfixExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* exp = node->Exp();
     return AstForV8::Init( global , exp , info );
   }
@@ -315,17 +391,23 @@ class JSUnaryExp {
  public :
   static V8Value GetExp( const Arguments& args ) {
     HandleScope handle_scope;
-    UnaryExp* node = reinterpret_cast<UnaryExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kUnaryExp );
+    UnaryExp* node = GetInternal<UnaryExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Obje>( 3 , this_obj );
     AstNode* exp = node->Exp();
     return AstForV8::Init( global , exp , info );
   }
 
   static V8Value GetOp( const Arguments& args ) {
     HandleScope handle_scope;
-    UnaryExp* node = reinterpret_cast<UnaryExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kUnaryExp );
+    UnaryExp* node = GetInternal<UnaryExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     int op = node->Op();
     return Number::New( op );
   }
@@ -335,26 +417,35 @@ class JSBinaryExp {
  public :
   static V8Value GetLeftExp( const Arguments& args ) {
     HandleScope handle_scope;
-    BinaryExp* node = reinterpret_cast<BinaryExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kBinaryExp );
+    BinaryExp* node = GetInternal<BinaryExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* left = node->Left();
     return AstForV8::Init( global , left , info );
   }
 
   static V8Value GetRightExp( const Arguments& args ) {
     HandleScope handle_scope;
-    BinaryExp* node = reinterpret_cast<BinaryExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kBinaryExp );
+    BinaryExp* node = GetInternal<BinaryExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* right = node->Right();
     return AstForV8::Init( global , right , info );
   }
   
   static V8Value GetOp( const Arguments& args ) {
     HandleScope handle_scope;
-    BinaryExp* node = reinterpret_cast<BinaryExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kBinaryExp );
+    BinaryExp* node = GetInternal<BinaryExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     int op = node->Op();
     return Number::New( op );
   }
@@ -364,26 +455,35 @@ class JSCompareExp {
  public :
   static V8Value GetLeftExp( const Arguments& args ) {
     HandleScope handle_scope;
-    CompareExp* node = reinterpret_cast<CompareExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCompareExp );
+    CompareExp* node = GetInternal<CompareExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* left = node->Left();
     return AstForV8::Init( global , left , info );
   }
 
   static V8Value GetRightExp( const Arguments& args ) {
     HandleScope handle_scope;
-    CompareExp* node = reinterpret_cast<CompareExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCompareExp );
+    CompareExp* node = GetInternal<CompareExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* right = node->Right();
     return AstForV8::Init( global , right , info );
   }
   
   static V8Value GetOp( const Arguments& args ) {
     HandleScope handle_scope;
-    CompareExp* node = reinterpret_cast<CompareExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kCompareExp );
+    CompareExp* node = GetInternal<CompareExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     int op = node->Op();
     return Number::New( op );
   }
@@ -393,26 +493,35 @@ class JSAssignmentExp {
  public :
   static V8Value GetLeftExp( const Arguments& args ) {
     HandleScope handle_scope;
-    AssignmentExp* node = reinterpret_cast<AssignmentExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kAssignmentExp );
+    AssignmentExp* node = GetInternal<AssignmentExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* left = node->Left();
     return AstForV8::Init( global , left , info );
   }
 
   static V8Value GetRightExp( const Arguments& args ) {
     HandleScope handle_scope;
-    AssignmentExp* node = reinterpret_cast<AssignmentExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kAssignmentExp );
+    AssignmentExp* node = GetInternal<AssignmentExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* right = node->Right();
     return AstForV8::Init( global , right , info );
   }
   
   static V8Value GetOp( const Arguments& args ) {
     HandleScope handle_scope;
-    AssignmentExp* node = reinterpret_cast<AssignmentExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kAssignmentExp );
+    AssignmentExp* node = GetInternal<AssignmentExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     int op = node->Op();
     return Number::New( op );
   }
@@ -423,27 +532,36 @@ class JSConditionalExp {
  public :
   static V8Value GetCond( const Arguments& args ) {
     HandleScope handle_scope;
-    ConditionalExp* node = reinterpret_cast<ConditionalExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kConditionalExp );
+    ConditionalExp* node = GetInternal<ConditionalExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* cond = node->Cond();
     return AstForV8::Init( global , cond , info );
   }
 
   static V8Value GetRightExp( const Arguments& args ) {
     HandleScope handle_scope;
-    ConditionalExp* node = reinterpret_cast<ConditionalExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kConditionalExp );
+    ConditionalExp* node = GetInternal<ConditionalExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* true_exp = node->True();
     return AstForV8::Init( global , true_exp , info );
   }
   
   static V8Value GetOp( const Arguments& args ) {
     HandleScope handle_scope;
-    ConditionalExp* node = reinterpret_cast<ConditionalExp*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kConditionalExp );
+    ConditionalExp* node = GetInternal<ConditionalExp>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     AstNode* false_exp = node->False();
     return AstForV8::Init( global , false_exp , info );
   }
@@ -453,8 +571,11 @@ class JSValueNode {
  public :
   static V8Value GetSymbol( const Arguments& args ) {
     HandleScope handle_scope;
-    ValueNode* node = reinterpret_cast<ValueNode*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kValueNode );
+    ValueNode* node = GetInternal<ValueNode>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     if ( node->Symbol() ) {
       const char* symbol = node->Symbol()->GetToken();
       return String::New( symbol );
@@ -465,9 +586,12 @@ class JSValueNode {
 
   static V8Value GetNode( const Arguments& args ) {
     HandleScope handle_scope;
-    ValueNode* node = reinterpret_cast<ValueNode*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 2 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kValueNode );
+    ValueNode* node = GetInternal<ValueNode>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 3 , this_obj );
     if ( node->Node() ) {
       return AstForV8::Init( global , node->Node() ,  symbol );
     } else {
@@ -477,8 +601,11 @@ class JSValueNode {
 
   static V8Value GetValueType( const Arguments& args ) {
     HandleScope handle_scope;
-    ValueNode* node = reinterpret_cast<ValueNode*>( args.This()->GetInternalField( 0 ) );
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK(0,args);
+    GET_THIS( this_obj );
+    ERROR_CHECK( this_obj , AstNode::kValueNode );
+    ValueNode* node = GetInternal<ValueNode>( 1 , this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 2 , this_obj );
     return Number::New( node->ValueType() );
   }
 
@@ -1088,10 +1215,11 @@ V8Object AstForV8::Init( V8Object global_object , AstNode* ast_node , ProcessorI
   prototype_template->Set( String::New( "NodeType" ) , FunctionTemplate::New( AstForV8::NodeType ) );
   SetUniqueProp( ast_node , prototype_template );
   V8Object object = function_template->GetFunction()->NewInstance();
-  object->SetInternalFieldCount( 3 );
-  object->SetInternalField( 0 , External::New( ast_node ) );
-  object->SetInternalField( 1 , External::New( info ) );
-  object->SetInternalField( 2 , global_object );
+  object->SetInternalFieldCount( 4 );
+  object->SetInternalField( 0 , GetMark() );
+  object->SetInternalField( 1 , External::New( ast_node ) );
+  object->SetInternalField( 2 , External::New( info ) );
+  object->SetInternalField( 3 , global_object );
   return object;
 }
 
