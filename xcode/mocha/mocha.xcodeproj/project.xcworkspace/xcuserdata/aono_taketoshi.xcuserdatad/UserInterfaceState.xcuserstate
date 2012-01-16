@@ -15093,7 +15093,7 @@
 				</dict>
 			</array>
 		</dict>
-		<real>348127888.640688</real>
+		<real>348141268.67978299</real>
 		<string>{600, 175}</string>
 		<dict>
 			<key>$class</key>
@@ -19075,7 +19075,7 @@
 				</dict>
 			</array>
 		</dict>
-		<string>{{0, 0}, {600, 578}}</string>
+		<string>{{0, 0}, {600, 600}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -21619,7 +21619,7 @@
 				</dict>
 			</array>
 		</dict>
-		<real>348127888.64300102</real>
+		<real>348141268.68210202</real>
 		<string>{600, 175}</string>
 		<string>Xcode.IDEKit.EditorDocument.SourceCode</string>
 		<dict>
