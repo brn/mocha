@@ -17,6 +17,11 @@ v8::Persistent<Object> GetMark() {
   return mark;
 }
 
+v8::Persistent<Object> GetCreatorMark() {
+  static v8::Persistent<Object> mark;
+  return mark;
+}
+
 template <typename T>
 T* GetInternal( int num , V8Object obj ) {
   assert( num > 0 );
@@ -35,13 +40,23 @@ T GetInternalHandle( int num , V8Object obj ) {
 
 #define GET_THIS(name,args) V8Object name = args.This()
 #define ARGUMENTS_CHECK(num,arg)                                        \
-  if ( arg.Length() != num && num != AstNode::kBase ) {                 \
-    return v8::ThrowException( V8String::New( "arguments error." ) );   \
+  if ( arg.Length() != num ) {                                          \
+    return v8::ThrowException( V8String::New( "arguments error" ) );   \
+  }
+
+#define ARGUMENTS_CHECK_GT(num,arg)                                     \
+  if ( arg.Length() >= num ) {                                          \
+    return v8::ThrowException( V8String::New( "arguments error" ) );   \
   }
 
 #define ERROR_CHECK(obj,type)                                               \
   if ( obj->InternalFieldCount() > 0 && obj->GetInternalField( 0 )->StrictEquals( GetMark() ) && !TypeCheck( type , obj ) ) { \
-    return v8::ThrowException( "arguments error." );                    \
+    return v8::ThrowException( "arguments error" );                    \
+  }
+
+#define ERROR_CHECK_FOR_CREATOR(obj,type)                               \
+  if ( obj->InternalFieldCount() > 0 && obj->GetInternalField( 0 )->StrictEquals( GetCreatorMark() ) ) { \
+    return v8::ThrowException( "Illegal invocation" );                    \
   }
 
 class JSFileRoot {
@@ -749,19 +764,57 @@ class JSEnv {
   }
 };
 
+#define STATEMENT_EXPECT(name,node)                             \
+  if ( !node->CastToStatement() && !node->IsEmpty() ){          \
+    std::string tmp = "The arguments of ";                      \
+    tmp += #name;                                               \
+    tmp += " expect Statement";                                 \
+    return v8::ThrowException( V8String::New( tmp.c_str() ) );  \
+  }
+
+#define FORBID_STATEMENT(name,node)                                     \
+  if ( node->CastToStatement() && !node->IsEmpty() ){                   \
+    std::string tmp = "Unexpected Statement got in the arguments of ";  \
+    tmp += #name;                                                       \
+    return v8::ThrowException( V8String::New( tmp.c_str() ) );          \
+  }
+
+#define FORBID_LIST(name,node)                                          \
+  if ( node->NodeType() == AstNode::kNodeList || node->NodeType() == AstNode::StatementList ){ \
+    std::string tmp = "Unexpected NodeList or StatementList got in the arguments of "; \
+    tmp += #name;                                                       \
+    return v8::ThrowException( V8String::New( tmp.c_str() ) );          \
+  }
+
+#define VALUE_EXPECT(name,node)                                         \
+  if ( node->NodeType() != AstNode::kValueNode && !node->IsEmpty() ){   \
+    std::string tmp = "The arguments of ";                              \
+    tmp += #name;                                                       \
+    tmp += " expect ValueNode";                                         \
+    return v8::ThrowException( V8String::New( tmp.c_str() ) );          \
+  }
 
 class JSAst {
  public :
   static V8Value CreateBlock( const Arguments& args ) {
     HandleScope handle_scope;
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 0 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 1 ) );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Handle>( 2 , this_obj );
     int len = args.Length();
     StatementList* list = ManagedHandle::Retain<StatementList>();
     for ( int i = 0; i < len; i++ ) {
-      V8Value val = V8Object::Cast( args[ i ] )->GetInternalField( 0 );
-      AstNode* node = reinterpret_cast<AstNode*>( val );
-      list->AddChild( node );
+      V8Object obj = args[ i ]->ToObject();
+      ERROR_CHECK( obj , AstNode::kBase );
+      AstNode* node = GetInternal<AstNode>( 1 , obj );
+      if ( len == 1 && ( node->NodeType() == AstNode::kStatementList ||
+                         node->NodeType() == AstNode::kNodeList ) ) {
+        list->Append( node );
+      } else {
+        STATEMENT_EXPECT( CreateBlock , node );
+        list->AddChild( node );
+      }
     }
     BlockStmt* stmt = ManagedHandle::Retain<BlockStmt>();
     stmt->AddChild( list );
@@ -769,22 +822,35 @@ class JSAst {
   }
 
   static V8Value CreateEmptyNode( const Arguments& args ) {
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 0 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 1 ) );
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 0 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
     AstNode* empty = ManagedHandle::Retain<Empty>();
     return AstForV8::Init( global , empty , info );
   }
   
   static V8Value CreateVariableStmt( const Arguments& args ) {
     HandleScope handle_scope;
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 0 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternal<V8Object>( 2 , this_obj );
     int len = args.Length();
-    NodeList* list = ManagedHandle::Retain<NodeList>();
+    AstNode *list;
     for ( int i = 0; i < len; i++ ) {
-      V8Value val = V8Object::Cast( args[ i ] )->GetInternalField( 0 );
-      AstNode* node = reinterpret_cast<AstNode*>( val );
-      list->AddChild( node );
+      V8Object obj = args[ i ]->ToObject();
+      ERROR_CHECK( obj , AstNode::kBase );
+      AstNode* node = GetInternal<AstNode>( 1 , obj );
+      if ( node->NodeType() == AstNode::kNodeList && len == 1 ) {
+        list->Append( node );
+      } else {
+        VALUE_EXPECT( CreateVariableStmt , node );
+        list->AddChild( node );
+      }
     }
     VariableStmt* stmt = ManagedHandle::Retain<VariableStmt>();
     stmt->AddChild( list );
@@ -793,22 +859,43 @@ class JSAst {
 
   static V8Value CreateExpressionStmt( const Arguments& args ) {
     HandleScope handle_scope;
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 0 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 1 ) );
-    ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
-    V8Value val = V8Object::Cast( args[ 0 ] )->GetInternalField( 0 );
-    stmt->AddChild( reinterpret_cast<AstNode*>( val ) );
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternal<V8Object>( 2 , this_obj );
+    V8Object obj = args[ i ]->ToObject();
+    ERROR_CHECK( obj , AstNode::kBase );
+    AstNode* node = GetInternal<AstNode>( 1 , obj );
+    FORBID_STATEMENT( CreateExpressionStmt , node );
+    FORBID_LIST( CreateExpressionStmt , node );
+    if ( node->NodeType() != AstNode::kExpression ) {
+      Expression* exp = ManagedHandle::Retain<Expression>();
+      ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+      exp->AddChild( node );
+      stmt->AddChild( exp );
+    } else {
+      ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+      stmt->AddChild( node );
+    }
     return AstForV8::Init( global , stmt , info );
   }
 
   static V8Value CreateIFStmt( const Arguments& args ) {
     HandleScope handle_scope;
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 0 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 1 ) );
+    ARGUMENTS_CHECK( 3 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternal<V8Object>( 2 , this_obj );
     IFStmt* stmt = ManagedHandle::Retain<IFStmt>();
-    V8Value exp_val = V8Object::Cast( args[ 0 ] )->GetInternalField( 0 );
-    V8Value then_val = V8Object::Cast( args[ 0 ] )->GetInternalField( 0 );
-    V8Value else_val = V8Object::Cast( args[ 0 ] )->GetInternalField( 0 );
+    V8Value exp_val = args[ 0 ]->ToObject();
+    V8Value then_val = args[ 0 ]->ToObject();
+    V8Value else_val = args[ 0 ]->ToObject();
+    FORBID_STATEMENT( CreateIFStmt , exp_val );
+    FORBID_LIST( CreateIFStmt , exp );
+    STATEMENT_EXPECT( CreateIFStmt , then_val );
+    STATEMENT_EXPECT( CreateIFStmt , else_val );
     AstNode* then_body = reinterpret_cast<AstNode*>( then_val );
     AstNode* else_body = reinterpret_cast<AstNode*>( else_val );
     AstNode* exp = reinterpret_cast<AstNode*>( exp_val ); 
@@ -1153,48 +1240,228 @@ class JSAst {
     AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( type , left , right ) );
     return AstForV8::Init( global , assign , info );
   }
-
-  static V8Value CreateValueNode( const Arguments& args ) {
+  
+  static V8Value CreateSymbol( const Arguments& args ) {
     HandleScope handle_scope;
-    ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 0 ) );
-    V8Object global = V8Object::Cast( args.This()->GetInternalField( 1 ) );
-    V8Value type_val = V8Object::Cast( args[ 0 ] )->GetInternalField( 0 );
-    V8Value symbol_val = V8Object::Cast( args[ 1 ] )->GetInternalField( 0 );
-    V8Value value_val = V8Object::Cast( args[ 2 ] )->GetInternalField( 0 );
-    int type = reinterpret_cast<int>( type_val );
-    AstNode* symbol = reinterpret_cast<AstNode*>( symbol_val );
-    AstNode* value = reinterpret_cast<AstNode*>( value_val );
-    ValueNode* node = ManagedHandle::Retain( new ValueNode( type ) );
-    switch ( type ) {
-      case ValueNode::kNull :
-      case ValueNode::kTrue :
-      case ValueNode::kFalse :
-      case ValueNode::kNumeric :
-      case ValueNode::kString :
-      case ValueNode::kRegExp :
-      case ValueNode::kThis : 
-      case ValueNode::kIdentifier :
-      case ValueNode::kPropertyName :
-      case ValueNode::kVariable :
-      case ValueNode::kRest :
-      case ValueNode::kProperty :
-        node->Symbol( symbol );
-        node->AddChild( value );
-        break;
-      
-      case ValueNode::kArray :
-      case ValueNode::kArrayComp :
-      case ValueNode::kObject :
-      case ValueNode::kDst :
-      case ValueNode::kDstArray :
-      case ValueNode::kSpread :
-      case ValueNode::kConstant :
-      case ValueNode::kPrivateProperty :
-        node->Node( symbol );
-        node->AddChild( value );
-        break;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    if ( args[ 0 ]->IsString() ) {
+      V8String::Utf8Value str( args[0] );
+      const char* val = *str;
+      ValueNode* value = AstUtils::CreateNameNode( val , Token::JS_IDENTIFIER , ValueNode::kIdentifier , 0 );
+      return AstForV8::Init( global , value , info );
     }
-    return AstForV8::Init( global , node , info );
+    return v8::ThrowException( V8String::New( "arguments error." ) );
+  }
+
+  static V8Value CreateProperty( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    if ( args[ 0 ]->IsString() ) {
+      V8String::Utf8Value str( args[0] );
+      const char* val = *str;
+      ValueNode* value = AstUtils::CreateNameNode( val , Token::JS_PROPERTY , ValueNode::kProperty , 0 );
+      return AstForV8::Init( global , value , info );
+    }
+    return v8::ThrowException( V8String::New( "arguments error." ) );
+  }
+
+  static V8Value CreateThis( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 0 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ValueNode* value = AstUtils::CreateNameNode( "this" , Token::JS_THIS , ValueNode::kThis , 0 );
+    return AstForV8::Init( global , value , info );
+  }
+
+  static V8Value CreateTrue( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 0 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ValueNode* value = AstUtils::CreateNameNode( "true" , Token::JS_TRUE , ValueNode::kTrue , 0 );
+    return AstForV8::Init( global , value , info );
+  }
+
+  static V8Value CreateFalse( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 0 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ValueNode* value = AstUtils::CreateNameNode( "false" , Token::JS_FALSE , ValueNode::kFalse , 0 );
+    return AstForV8::Init( global, value , info );
+  }
+
+  static V8Value CreateNull( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 0 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ValueNode* value = AstUtils::CreateNameNode( "null" , Token::JS_IDENTIFIER , ValueNode::kIdentifier , 0 );
+    return AstForV8::Init( global , value , info );
+  }
+
+  static V8Value CreateUndefined( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 0 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    ValueNode* value = AstUtils::CreateNameNode( "undefined" , Token::JS_IDENTIFIER , ValueNode::kIdentifier , 0 );
+    return AstForV8::Init( global , value , info );
+  }
+  
+  static V8Value CreateNumber( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    if ( args[ 0 ]->IsString() ) {
+      ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+      V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+      V8String::Utf8Value str( args[0] );
+      const char* val = *str;
+      ValueNode* value = AstUtils::CreateNameNode( val , Token::JS_NUMERIC , ValueNode::kNumeric , 0 );
+      return AstForV8::Init( global , value , info );
+    }
+    return v8::ThrowException( V8String::New( "arguments error." ) );
+  }
+
+  static V8Value CreateString( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    if ( args[ 0 ]->IsString() ) {
+      ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+      V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+      V8String::Utf8Value str( args[0] );
+      std::string val = "\"";
+      val += *str;
+      val += '"';
+      ValueNode* value = AstUtils::CreateNameNode( val.c_str() , Token::JS_STRING_LITERAL , ValueNode::kString , 0 );
+      return AstForV8::Init( global , value , info );
+    }
+    return v8::ThrowException( V8String::New( "arguments error." ) );
+  }
+
+  static V8Value CreateRegExp( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    if ( args[ 0 ]->IsString() ) {
+      ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+      V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+      V8String::Utf8Value str( args[0] );
+      const char* val = *str;
+      ValueNode* value = AstUtils::CreateNameNode( val , Token::JS_REGEXP , ValueNode::kRegExp , 0 );
+      return AstForV8::Init( global , value , info );
+    }
+    return v8::ThrowException( V8String::New( "arguments error." ) );
+  }
+
+  static V8Value CreateVariableDecl( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 2 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ERROR_CHECK( args[ 0 ]->ToObject() , AstNode::kValueNode );
+    ERROR_CHECK( args[ 1 ]->ToObject() , AstNode::kBase );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    AstNode* name = GetInternal<ValueNode*>( 1 , args[ 0 ]->ToObject() );
+    AstNode* val = GetInternal<ValueNode*>( 2 , args[ 1 ]->ToObject() );
+    ValueNode* var = AstUtils::CreateVarInitialiser( name , val );
+    return AstForV8::Init( global , var , info );
+  }
+
+  static V8Value CreateObject( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ERROR_CHECK( args[ 0 ]->ToObject() , AstNode::kNodeList );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    AstNode* val = GetInternal<NodeList>( 1 , args[ 0 ]->ToObject() );
+    ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+    object->Node( val );
+    return AstForV8::Init( global , object , info );
+  }
+
+  static V8Value CreateObjectElement( const Arguments& args ) {
+    HandleScope handle_scope;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    for ( int i = 0,len = args.Length(); i < len; i++ ) {
+      ERROR_CHECK( args[ i ]->ToObject() , AstNode::kBase );
+      AstNode* val = GetInternal<AstNode>( 1 , args[ i ]->ToObject() );
+      if ( val->NodeType() == AstNode::kValueNode && val->CastToValue()->ValueType() == ValueNode::kProperty ) {
+        list->AddChild( val );
+      } else {
+        return v8::ThrowException( V8String::New( "arguments error." ) );
+      }
+    }
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    return AstForV8::Init( global , list , info );
+  }
+
+  static V8Value CreateArray( const Arguments& args ) {
+    HandleScope handle_scope;
+    ARGUMENTS_CHECK( 1 , args );
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    ERROR_CHECK( args[ 0 ]->ToObject() , AstNode::kNodeList );
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    AstNode* val = GetInternal<NodeList>( 1 , args[ 0 ]->ToObject() );
+    ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+    object->Node( val );
+    return AstForV8::Init( global , object , info );
+  }
+
+  static V8Value CreateArrayElement( const Arguments& args ) {
+    HandleScope handle_scope;
+    NodeList* list = ManagedHandle::Retain<NodeList>();
+    GET_THIS( this_obj , args );
+    ERROR_CHECK_FOR_CREATOR( this_obj , AstNode::kBase );
+    for ( int i = 0,len = args.Length(); i < len; i++ ) {
+      ERROR_CHECK( args[ i ]->ToObject() , AstNode::kBase );
+      AstNode* val = GetInternal<AstNode>( 1 , args[ i ]->ToObject() );
+      if ( val->NodeType() == AstNode::kValueNode ||
+           val->NodeType() == AstNode::kFunction ||
+           val->NodeType() == AstNode::kAssignmentExp ||
+           val->NodeType() == AstNode::kCompareExp ||
+           val->NodeType() == AstNode::kEmpty ||
+           val->NodeType() == AstNode::kUnaryExp ||
+           val->NodeType() == AstNode::kConditionalExp ||
+           val->NodeType() == AstNode::kCallExp ||
+           val->NodeType() == AstNode::kNewExp
+           val->NodeType() == AstNode::kEmpty ) {
+        list->AddChild( val );
+      } else {
+        return v8::ThrowException( V8String::New( "arguments error." ) );
+      }
+    }
+    ProcessorInfo* info = GetInternal<ProcessorInfo>( 1 , this_obj );
+    V8Object global = GetInternalHandle<V8Object>( 2 , this_obj );
+    return AstForV8::Init( global , list , info );
   }
 };
 
@@ -1207,12 +1474,19 @@ V8Object AstForV8::Init( V8Object global_object , AstNode* ast_node , ProcessorI
   prototype_template->Set( String::New( "childNodes" ) , FunctionTemplate::New( AstForV8::ChildNodes ) );
   prototype_template->Set( String::New( "firstChild" ) , FunctionTemplate::New( AstForV8::FirstChild ) );
   prototype_template->Set( String::New( "lastChild" ) , FunctionTemplate::New( AstForV8::LastChild ) );
-  prototype_template->Set( String::New( "ReplaceChild" ) , FunctionTemplate::New( AstForV8::ReplaceChild ) );
-  prototype_template->Set( String::New( "ParentNode" ) , FunctionTemplate::New( AstForV8::ParentNode ) );
-  prototype_template->Set( String::New( "NextSibling" ) , FunctionTemplate::New( AstForV8::NextSibling ) );
-  prototype_template->Set( String::New( "PreviousSibling" ) , FunctionTemplate::New( AstForV8::PreviousSibling ) );
-  prototype_template->Set( String::New( "NodeName" ) , FunctionTemplate::New( AstForV8::NodeName ) );
-  prototype_template->Set( String::New( "NodeType" ) , FunctionTemplate::New( AstForV8::NodeType ) );
+  prototype_template->Set( String::New( "replaceChild" ) , FunctionTemplate::New( AstForV8::ReplaceChild ) );
+  prototype_template->Set( String::New( "parentNode" ) , FunctionTemplate::New( AstForV8::ParentNode ) );
+  prototype_template->Set( String::New( "nextSibling" ) , FunctionTemplate::New( AstForV8::NextSibling ) );
+  prototype_template->Set( String::New( "previousSibling" ) , FunctionTemplate::New( AstForV8::PreviousSibling ) );
+  prototype_template->Set( String::New( "nodeName" ) , FunctionTemplate::New( AstForV8::NodeName ) );
+  prototype_template->Set( String::New( "nodeType" ) , FunctionTemplate::New( AstForV8::NodeType ) );
+  prototype_template->Set( String::New( "addChild" ) , FunctionTemplate::New( AstForV8::AddChild ) );
+  prototype_template->Set( String::New( "removeChild" ) , FunctionTemplate::New( AstForV8::RemoveChild ) );
+  prototype_template->Set( String::New( "before" ) , FunctionTemplate::New( AstForV8::Before ) );
+  prototype_template->Set( String::New( "after" ) , FunctionTemplate::New( AstForV8::After ) );
+  prototype_template->Set( String::New( "insertAfter" ) , FunctionTemplate::New( AstForV8::InsertAfter ) );
+  prototype_template->Set( String::New( "insertBefore" ) , FunctionTemplate::New( AstForV8::InsertBefore ) );
+  prototype_template->Set( String::New( "setParent" ) , FunctionTemplate::New( AstForV8::SetParentNode ) );
   SetUniqueProp( ast_node , prototype_template );
   V8Object object = function_template->GetFunction()->NewInstance();
   object->SetInternalFieldCount( 4 );
@@ -1239,13 +1513,13 @@ Handle<ObjectTemplate> AstForV8::InitEnv( V8Object , ProcessorInfo* info ) {
   return handle_scope.Close( object );
 }
 
-
 Handle<ObjectTemplate> AstForV8::InitCreator( V8Object global , ProcessorInfo* info ) {
   HandleScope handle_scope;
   Handle<ObjectTemplate> object = ObjectTemplate::New();
   object->SetInternalFieldCount( 2 );
-  object->SetInternalField( 0 , info );
-  object->SetInternalField( 1 , global );
+  object->SetInternalField( 0 , GetCreatorMark() );
+  object->SetInternalField( 1 , info );
+  object->SetInternalField( 2 , global );
   object->Set( String::New( "createBlockStmt" ) , Function::New( CreateBlock ),
                PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
   object->Set( String::New( "createEmptyNode" ) , Function::New( CreateEmptyNode ),
@@ -1300,8 +1574,31 @@ Handle<ObjectTemplate> AstForV8::InitCreator( V8Object global , ProcessorInfo* i
                PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
   object->Set( String::New( "createConditionalExp" ) , Function::New( CreateConditionalExp ),
                PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
-  object->Set( String::New( "createValueNode" ) , Function::New( CreateValueNode ),
+  object->Set( String::New( "createSymbol" ) , Function::New( CreateSymbol ),
                PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createProperty" ) , Function::New( CreateProperty ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createThis" ) , Function::New( CreateThis ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createTrue" ) , Function::New( CreateTrue ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createFalse" ) , Function::New( CreateFalse ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createNull" ) , Function::New( CreateNull ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createUndefined" ) , Function::New( CreateUndefined ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createRegExp" ) , Function::New( CreateRegExp ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createObject" ) , Function::New( CreateObject ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createObjectElement" ) , Function::New( CreateObjectElement ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createArray" ) , Function::New( CreateArray ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  object->Set( String::New( "createArrayElement" ) , Function::New( CreateArrayElement ),
+               PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
+  
   V8Object ast_type = SetTypes();
   object->Set( String::New( "astType" ) , ast_type,
                PropertyAttribute::kDontDelete | PropertyAttribute::kReadOnly );
@@ -1518,16 +1815,6 @@ V8Value AstForV8::FirstChild( const Arguments& args ) {
   }
 }
 
-V8Value AstForV8::ReplaceChild( const Arguments& args ) {
-  HandleScope handle_scope;
-  AstNode* node = reinterpret_cast<AstNode*>( args.This()->GetInternalField( 0 ) );
-  ProcessorInfo* info = reinterpret_cast<ProcessorInfo*>( args.Thils()->GetInternalField( 1 ) );
-  AstNode* old_node = args[ 0 ]->GetInternalField( 0 );
-  AstNode* new_node = args[ 1 ]->GetInternalField( 0 );
-  node->ReplaceChild( old_node , new_node );
-  return Undefined();
-}
-
 V8Value AstForV8::ParentNode( const Arguments& args ) {
   HandleScope handle_scope;
   AstNode* node = reinterpret_cast<AstNode*>( args.This()->GetInternalField( 0 ) );
@@ -1590,7 +1877,7 @@ V8Value AstForV8::AddChild( const Arguments& args ) {
   return V8Undefined();
 }
 
-V8Value AstForV8::ParentNode( const Arguments& args ) {
+V8Value AstForV8::SetParentNode( const Arguments& args ) {
   HandleScope handle_scope;
   ARGUMENTS_CHECK( 1 , args );
   V8Handle<V8Object> parent_arg = V8Handle<V8Object>::Cast( args[ 0 ] );
