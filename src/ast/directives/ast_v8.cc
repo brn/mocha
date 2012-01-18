@@ -1487,6 +1487,7 @@ V8Object AstForV8::Init( V8Object global_object , AstNode* ast_node , ProcessorI
   prototype_template->Set( String::New( "insertAfter" ) , FunctionTemplate::New( AstForV8::InsertAfter ) );
   prototype_template->Set( String::New( "insertBefore" ) , FunctionTemplate::New( AstForV8::InsertBefore ) );
   prototype_template->Set( String::New( "setParent" ) , FunctionTemplate::New( AstForV8::SetParentNode ) );
+  prototype_template->Set( String::New( "toString" ) , FunctionTemplate::New( AstForV8::ToString ) );
   SetUniqueProp( ast_node , prototype_template );
   V8Object object = function_template->GetFunction()->NewInstance();
   object->SetInternalFieldCount( 4 );
@@ -1961,20 +1962,15 @@ V8Value AstForV8::InsertAfter( const Arguments& args ) {
   return V8Undefined();
 }
 
-V8Value AstForV8::InsertBefore( const Arguments& args ) {
+V8Value AstForV8::ToString( const Arguments& args ) {
   HandleScope handle_scope;
-  ARGUMENTS_CHECK( 2 , args );
-  V8Handle<V8Object> after_node_arg = V8Handle<V8Object>::Cast( args[ 0 ] );
-  V8Handle<V8Object> before_node_arg = V8Handle<V8Object>::Cast( args[ 1 ] );
+  ARGUMENTS_CHECK( 0 , args );
   GET_THIS( this_obj , args );
   ERROR_CHECK( this_obj , AstNode::kBase );
-  ERROR_CHECK( after_node_arg , AstNode::kBase );
-  ERROR_CHECK( before_node_arg , AstNode::kBase );
   AstNode* node = GetInternal<AstNode>( 1 , this_obj );
-  AstNode* before_node = GetInternal<AstNode>( 1 , after_node_arg );
-  AstNode* after_node = GetInternal<AstNode>( 1 , before_node_arg );
-  node->InsertAfter( before_node , after_node );
-  return V8Undefined();
+  CodegenVisitor visitor( true , false );
+  node->Accept( &visitor );
+  return V8String::New( visitor.GetCode() );
 }
 
 }

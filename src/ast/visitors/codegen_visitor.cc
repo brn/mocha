@@ -70,6 +70,13 @@ CodegenVisitor::CodegenVisitor( Options* option ) :
     writer_( new CodeWriter( option->IsPrettyPrint() , option->IsDebug() ) ),
     current_class_ ( 0 ){}
 
+CodegenVisitor::CodegenVisitor( bool is_pretty_print , bool is_debug ) :
+    tmp_index_( 0 ),depth_( 0 ),is_line_( is_debug ),has_rest_( false ),
+    scope_( 0 ),
+    stream_( new CodeStream( &default_buffer_ ) ),
+    writer_( new CodeWriter( is_pretty_print , is_debug ) ),
+    current_class_ ( 0 ){}
+
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;

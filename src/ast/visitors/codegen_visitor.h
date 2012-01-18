@@ -17,6 +17,7 @@ class InnerScope;
 class CodegenVisitor : public IVisitor {
  public :
   CodegenVisitor( Options* option );
+  CodegenVisitor( bool is_pretty_print , bool is_debug );
   ~CodegenVisitor(){};
 #include <ast/visitors/visitor_decl.h>
   inline void Write( const char* code ) { stream_->Write( code ); }

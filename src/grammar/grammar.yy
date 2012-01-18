@@ -373,6 +373,7 @@
 %type <ast> yield_expression_no_in
 %type <ast> pragma_statement
 /**%type <ast> compiler_directives**/
+%type <ast> directive_call
 %%
 
 program
@@ -2284,6 +2285,12 @@ argument_list
   }
 ;
 
+directive_call
+: member_expression '!' arguments
+| member_expression '!' arguments block
+| member_expression '!' block
+;
+
 class_initialiser
 : class_adjective__opt JS_CLASS identifier__opt inherit_declaration__opt '{' class_body__opt '}'
   {
@@ -2500,6 +2507,7 @@ exportable_definition
 left_hand_side_expression
 : new_expression { $$ = $1; }
 | call_expression { $$ = $1; }
+| directive_call { $$ = $1; }
 | array_left_hand_side { $$ = $1; }
 | '(' object_left_hand_side ')' { $$ = $2; }
 ;
