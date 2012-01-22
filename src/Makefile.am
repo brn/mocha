@@ -1,7 +1,7 @@
 bin_PROGRAMS = mocha
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions -L./v8/ -lv8
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions `icu-config --ldflags`
 AM_CXXFLAGS = $(AM_CFLAGS)
-mocha_LDFLAGS = $(PTHREAD)
+mocha_LDFLAGS = $(PTHREAD) -Xlinker -rpath -Xlinker `icu-config --icudata-install-dir` ./third_party/v8/libv8.a
 mocha_SOURCES = \
 define.h\
 unconfig.h\
@@ -66,8 +66,12 @@ bootstrap/runners/error_runner.h\
 bootstrap/runners/error_runner.cc\
 compiler/utils/compiler_starter.h\
 compiler/utils/compiler_starter.cc\
+compiler/encoding/encoding.h\
+compiler/encoding/encoding.cc\
 compiler/utils/compiler_utils.h\
 compiler/utils/compiler_utils.cc\
+compiler/utils/error_reporter.h\
+compiler/utils/error_reporter.cc\
 options/commandline/commandline_options.h\
 options/commandline/commandline_options.cc\
 utils/io/file_io.cc\
@@ -94,6 +98,12 @@ compiler/internal.cc\
 compiler/internal.h\
 mch/mocha.cc\
 mch/mocha.h\
+compiler/scanner/token_stream.h\
+compiler/scanner/token_stream.cc\
+compiler/scanner/source_stream.h\
+compiler/scanner/source_stream.cc\
+compiler/scanner/scanner.h\
+compiler/scanner/scanner.cc\
 compiler/tokens/js_token.cc\
 compiler/tokens/js_token.h\
 grammar/location.hh\

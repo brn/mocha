@@ -497,10 +497,10 @@ function_expression
  *ES6 proporsal.
  */
 arrow_function_expression
-: JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH '{' function_body '}'
+: '(' expression ')' JS_FUNCTION_GLYPH '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
-    fn->Line( $1->GetLineNumber() );
+    fn->Line( $2->Line() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
     fn->Append( $6 );
@@ -515,10 +515,10 @@ arrow_function_expression
     fn->Append( $3 );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
+| '(' expression ')' JS_FUNCTION_GLYPH_WITH_CONTEXT '{' function_body '}'
   {
     Function *fn = ManagedHandle::Retain<Function>();
-    fn->Line( $1->GetLineNumber() );
+    fn->Line( $2->Line() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
     fn->Append( $6 );
@@ -535,20 +535,20 @@ arrow_function_expression
     fn->ContextType( Function::kThis );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH shorten_function_body
+| '(' expression ')' JS_FUNCTION_GLYPH shorten_function_body
   {
     Function *fn = ManagedHandle::Retain<Function>();
-    fn->Line( $1->GetLineNumber() );
+    fn->Line( $2->Line() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
     fn->AddChild( $5 );
     fn->FunctionType( Function::kShorten );
     $$ = fn;
   }
-| JS_PARAM_BEGIN formal_parameter_list__opt JS_PARAM_END JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body
+| '(' expression ')' JS_FUNCTION_GLYPH_WITH_CONTEXT shorten_function_body
   {
     Function *fn = ManagedHandle::Retain<Function>();
-    fn->Line( $1->GetLineNumber() );
+    fn->Line( $2->Line() );
     fn->Name( GetEmptyNode() );
     fn->Argv( $2 );
     fn->AddChild( $5 );

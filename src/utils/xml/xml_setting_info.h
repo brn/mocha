@@ -20,6 +20,9 @@ class XMLSettingInfo : private Static {
   static StrHandle GetDeployPath( const char* filename );
   static Options* GetCompileOption( const char* filename );
   static Version* GetVersion( const char* filename );
+  static bool HasCharset( const char* filename );
+  static StrHandle GetCharset( const char* filename );
+  static StrHandle GetDeployCharset( const char* filename );
   template<typename T>
   inline static void IterateFileList( CALL_BACK , T* thisObject );
   template<typename T>
@@ -35,7 +38,10 @@ class XMLSettingInfo : private Static {
   static List file_list_;
   static List include_list_;
   static Hash module_list_;
+  static Hash charset_list_;
   static Hash deploy_list_;
+  static Hash deploy_name_list_;
+  static Hash deploy_charset_list_;
   static OptionHash compile_option_;
   static Options empty_option_;
   static VersionHash versions_;

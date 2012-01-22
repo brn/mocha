@@ -59,21 +59,24 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	exception_handler.$(OBJEXT) compile_runner.$(OBJEXT) \
 	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
-	compiler_starter.$(OBJEXT) compiler_utils.$(OBJEXT) \
+	compiler_starter.$(OBJEXT) encoding.$(OBJEXT) \
+	compiler_utils.$(OBJEXT) error_reporter.$(OBJEXT) \
 	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
 	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
 	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
 	interaction.$(OBJEXT) commands.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
-	js_token.$(OBJEXT) main.$(OBJEXT) managed_handle.$(OBJEXT) \
-	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
-	parser_connector.$(OBJEXT) parser_tracer.$(OBJEXT) \
-	queue_scanner.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
-	stat.$(OBJEXT) thread.$(OBJEXT) tinyxml.$(OBJEXT) \
-	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
-	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
-	virtual_directory.$(OBJEXT) grammar.tab.$(OBJEXT) \
-	xml_observer.$(OBJEXT) versions.$(OBJEXT) xml_reader.$(OBJEXT) \
+	token_stream.$(OBJEXT) source_stream.$(OBJEXT) \
+	scanner.$(OBJEXT) js_token.$(OBJEXT) main.$(OBJEXT) \
+	managed_handle.$(OBJEXT) mkdir.$(OBJEXT) \
+	observer_runner.$(OBJEXT) parser_connector.$(OBJEXT) \
+	parser_tracer.$(OBJEXT) queue_scanner.$(OBJEXT) \
+	scope.$(OBJEXT) setting.$(OBJEXT) stat.$(OBJEXT) \
+	thread.$(OBJEXT) tinyxml.$(OBJEXT) tinystr.$(OBJEXT) \
+	tinyxmlparser.$(OBJEXT) tinyxmlerror.$(OBJEXT) \
+	token_info.$(OBJEXT) virtual_directory.$(OBJEXT) \
+	grammar.tab.$(OBJEXT) xml_observer.$(OBJEXT) \
+	versions.$(OBJEXT) xml_reader.$(OBJEXT) \
 	xml_setting_info.$(OBJEXT)
 mocha_OBJECTS = $(am_mocha_OBJECTS)
 mocha_LDADD = $(LDADD)
@@ -185,9 +188,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions -L./v8/ -lv8
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions `icu-config --ldflags`
 AM_CXXFLAGS = $(AM_CFLAGS)
-mocha_LDFLAGS = $(PTHREAD)
+mocha_LDFLAGS = $(PTHREAD) -Xlinker -rpath -Xlinker `icu-config --icudata-install-dir` ./third_party/v8/libv8.a
 mocha_SOURCES = \
 define.h\
 unconfig.h\
@@ -252,8 +255,12 @@ bootstrap/runners/error_runner.h\
 bootstrap/runners/error_runner.cc\
 compiler/utils/compiler_starter.h\
 compiler/utils/compiler_starter.cc\
+compiler/encoding/encoding.h\
+compiler/encoding/encoding.cc\
 compiler/utils/compiler_utils.h\
 compiler/utils/compiler_utils.cc\
+compiler/utils/error_reporter.h\
+compiler/utils/error_reporter.cc\
 options/commandline/commandline_options.h\
 options/commandline/commandline_options.cc\
 utils/io/file_io.cc\
@@ -280,6 +287,12 @@ compiler/internal.cc\
 compiler/internal.h\
 mch/mocha.cc\
 mch/mocha.h\
+compiler/scanner/token_stream.h\
+compiler/scanner/token_stream.cc\
+compiler/scanner/source_stream.h\
+compiler/scanner/source_stream.cc\
+compiler/scanner/scanner.h\
+compiler/scanner/scanner.cc\
 compiler/tokens/js_token.cc\
 compiler/tokens/js_token.h\
 grammar/location.hh\
@@ -456,6 +469,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_starter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dsta_processor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/encoding.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error_reporter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception_handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_processor.Po@am__quote@
@@ -485,8 +500,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue_scanner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scope.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setting.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/source_stream.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/symbol_collector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/symbol_list.Po@am__quote@
@@ -496,6 +513,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlerror.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlparser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_info.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_stream.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/variable_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/virtual_directory.Po@am__quote@
@@ -925,6 +943,20 @@ compiler_starter.obj: compiler/utils/compiler_starter.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compiler_starter.obj `if test -f 'compiler/utils/compiler_starter.cc'; then $(CYGPATH_W) 'compiler/utils/compiler_starter.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/compiler_starter.cc'; fi`
 
+encoding.o: compiler/encoding/encoding.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT encoding.o -MD -MP -MF $(DEPDIR)/encoding.Tpo -c -o encoding.o `test -f 'compiler/encoding/encoding.cc' || echo '$(srcdir)/'`compiler/encoding/encoding.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/encoding.Tpo $(DEPDIR)/encoding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/encoding/encoding.cc' object='encoding.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o encoding.o `test -f 'compiler/encoding/encoding.cc' || echo '$(srcdir)/'`compiler/encoding/encoding.cc
+
+encoding.obj: compiler/encoding/encoding.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT encoding.obj -MD -MP -MF $(DEPDIR)/encoding.Tpo -c -o encoding.obj `if test -f 'compiler/encoding/encoding.cc'; then $(CYGPATH_W) 'compiler/encoding/encoding.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/encoding/encoding.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/encoding.Tpo $(DEPDIR)/encoding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/encoding/encoding.cc' object='encoding.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o encoding.obj `if test -f 'compiler/encoding/encoding.cc'; then $(CYGPATH_W) 'compiler/encoding/encoding.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/encoding/encoding.cc'; fi`
+
 compiler_utils.o: compiler/utils/compiler_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compiler_utils.o -MD -MP -MF $(DEPDIR)/compiler_utils.Tpo -c -o compiler_utils.o `test -f 'compiler/utils/compiler_utils.cc' || echo '$(srcdir)/'`compiler/utils/compiler_utils.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/compiler_utils.Tpo $(DEPDIR)/compiler_utils.Po
@@ -938,6 +970,20 @@ compiler_utils.obj: compiler/utils/compiler_utils.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/utils/compiler_utils.cc' object='compiler_utils.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compiler_utils.obj `if test -f 'compiler/utils/compiler_utils.cc'; then $(CYGPATH_W) 'compiler/utils/compiler_utils.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/compiler_utils.cc'; fi`
+
+error_reporter.o: compiler/utils/error_reporter.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT error_reporter.o -MD -MP -MF $(DEPDIR)/error_reporter.Tpo -c -o error_reporter.o `test -f 'compiler/utils/error_reporter.cc' || echo '$(srcdir)/'`compiler/utils/error_reporter.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/error_reporter.Tpo $(DEPDIR)/error_reporter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/utils/error_reporter.cc' object='error_reporter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_reporter.o `test -f 'compiler/utils/error_reporter.cc' || echo '$(srcdir)/'`compiler/utils/error_reporter.cc
+
+error_reporter.obj: compiler/utils/error_reporter.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT error_reporter.obj -MD -MP -MF $(DEPDIR)/error_reporter.Tpo -c -o error_reporter.obj `if test -f 'compiler/utils/error_reporter.cc'; then $(CYGPATH_W) 'compiler/utils/error_reporter.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/error_reporter.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/error_reporter.Tpo $(DEPDIR)/error_reporter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/utils/error_reporter.cc' object='error_reporter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_reporter.obj `if test -f 'compiler/utils/error_reporter.cc'; then $(CYGPATH_W) 'compiler/utils/error_reporter.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/error_reporter.cc'; fi`
 
 commandline_options.o: options/commandline/commandline_options.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commandline_options.o -MD -MP -MF $(DEPDIR)/commandline_options.Tpo -c -o commandline_options.o `test -f 'options/commandline/commandline_options.cc' || echo '$(srcdir)/'`options/commandline/commandline_options.cc
@@ -1106,6 +1152,48 @@ mocha.obj: mch/mocha.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mch/mocha.cc' object='mocha.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mocha.obj `if test -f 'mch/mocha.cc'; then $(CYGPATH_W) 'mch/mocha.cc'; else $(CYGPATH_W) '$(srcdir)/mch/mocha.cc'; fi`
+
+token_stream.o: compiler/scanner/token_stream.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT token_stream.o -MD -MP -MF $(DEPDIR)/token_stream.Tpo -c -o token_stream.o `test -f 'compiler/scanner/token_stream.cc' || echo '$(srcdir)/'`compiler/scanner/token_stream.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/token_stream.Tpo $(DEPDIR)/token_stream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/token_stream.cc' object='token_stream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o token_stream.o `test -f 'compiler/scanner/token_stream.cc' || echo '$(srcdir)/'`compiler/scanner/token_stream.cc
+
+token_stream.obj: compiler/scanner/token_stream.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT token_stream.obj -MD -MP -MF $(DEPDIR)/token_stream.Tpo -c -o token_stream.obj `if test -f 'compiler/scanner/token_stream.cc'; then $(CYGPATH_W) 'compiler/scanner/token_stream.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/token_stream.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/token_stream.Tpo $(DEPDIR)/token_stream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/token_stream.cc' object='token_stream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o token_stream.obj `if test -f 'compiler/scanner/token_stream.cc'; then $(CYGPATH_W) 'compiler/scanner/token_stream.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/token_stream.cc'; fi`
+
+source_stream.o: compiler/scanner/source_stream.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT source_stream.o -MD -MP -MF $(DEPDIR)/source_stream.Tpo -c -o source_stream.o `test -f 'compiler/scanner/source_stream.cc' || echo '$(srcdir)/'`compiler/scanner/source_stream.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/source_stream.Tpo $(DEPDIR)/source_stream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/source_stream.cc' object='source_stream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o source_stream.o `test -f 'compiler/scanner/source_stream.cc' || echo '$(srcdir)/'`compiler/scanner/source_stream.cc
+
+source_stream.obj: compiler/scanner/source_stream.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT source_stream.obj -MD -MP -MF $(DEPDIR)/source_stream.Tpo -c -o source_stream.obj `if test -f 'compiler/scanner/source_stream.cc'; then $(CYGPATH_W) 'compiler/scanner/source_stream.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/source_stream.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/source_stream.Tpo $(DEPDIR)/source_stream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/source_stream.cc' object='source_stream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o source_stream.obj `if test -f 'compiler/scanner/source_stream.cc'; then $(CYGPATH_W) 'compiler/scanner/source_stream.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/source_stream.cc'; fi`
+
+scanner.o: compiler/scanner/scanner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT scanner.o -MD -MP -MF $(DEPDIR)/scanner.Tpo -c -o scanner.o `test -f 'compiler/scanner/scanner.cc' || echo '$(srcdir)/'`compiler/scanner/scanner.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/scanner.Tpo $(DEPDIR)/scanner.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/scanner.cc' object='scanner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o scanner.o `test -f 'compiler/scanner/scanner.cc' || echo '$(srcdir)/'`compiler/scanner/scanner.cc
+
+scanner.obj: compiler/scanner/scanner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT scanner.obj -MD -MP -MF $(DEPDIR)/scanner.Tpo -c -o scanner.obj `if test -f 'compiler/scanner/scanner.cc'; then $(CYGPATH_W) 'compiler/scanner/scanner.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/scanner.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/scanner.Tpo $(DEPDIR)/scanner.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/scanner.cc' object='scanner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o scanner.obj `if test -f 'compiler/scanner/scanner.cc'; then $(CYGPATH_W) 'compiler/scanner/scanner.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/scanner.cc'; fi`
 
 js_token.o: compiler/tokens/js_token.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT js_token.o -MD -MP -MF $(DEPDIR)/js_token.Tpo -c -o js_token.o `test -f 'compiler/tokens/js_token.cc' || echo '$(srcdir)/'`compiler/tokens/js_token.cc

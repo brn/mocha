@@ -118,7 +118,10 @@ class Token : private Static {
     JS_PROTOTYPE,
     JS_EXP_CLOSURE_BEGIN,
     JS_PROPERTY,
-    JS_YIELD_SENTINEL
+    JS_YIELD_SENTINEL,
+    ILLEGAL,
+    END_OF_INPUT,
+    END_TOKEN = -1,
   };
 };
 

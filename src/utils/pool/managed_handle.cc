@@ -58,7 +58,6 @@ void PtrCollector::Release_ ( int id ) {
 }
 
 int ManagedHandle::AssignId () {
-  MutexLock mutex_lock ( mutex_ );
   PtrCollector* pool = GetPool_ ();
   return pool->Assign ();
 }
@@ -71,22 +70,20 @@ void ManagedHandle::EnsureScopeCreated_ ( PtrCollector* ptrc ) {
 }
 
 void ManagedHandle::Release_ ( int id ) {
-  MutexLock mutex_lock ( mutex_ );
   PtrCollector* pool = GetPool_ ();
-  pool->Release ( id );
+  pool->Release( id );
 }
 
 void ManagedHandle::Allocate_ () {
-  MutexLock mutex_lock ( mutex_ );
   PtrCollector* pool = GetPool_ ();
   if ( pool == NULL ) {
     pool =  new PtrCollector ();
-    ThreadLocalStorage::Set ( &key_ , pool );
+    ThreadLocalStorage::Set( &key_ , pool );
   }
 }
 
 PtrCollector* ManagedHandle::GetPool_ () {
-  return reinterpret_cast<PtrCollector*> ( ThreadLocalStorage::Get ( &key_ ) );
+  return reinterpret_cast<PtrCollector*>( ThreadLocalStorage::Get ( &key_ ) );
 }
 
 void ManagedHandle::Destructor_ ( void* ptr ) {
@@ -94,7 +91,6 @@ void ManagedHandle::Destructor_ ( void* ptr ) {
   delete ptrc;
 }
 ThreadLocalStorageKey ManagedHandle::key_ ( ManagedHandle::Destructor_ );
-Mutex ManagedHandle::mutex_;
 
 inline void* ManagedScope::operator new ( size_t size ) throw () {return 0;}
 inline void* ManagedScope::operator new [] ( size_t size ) throw () {return 0;}

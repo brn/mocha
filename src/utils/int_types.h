@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_MSC_VER) && ( _MSC_VER < 1600 ) && !defined(__MINGW32__)
 
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
@@ -13,6 +13,7 @@ typedef int int32_t;
 typedef unsigned int uint32_t;
 typedef __int64 int64_t;
 typedef unsigned __int64 uint64_t;
+
 #define INT8_MAX CHAR_MAX
 #define INT8_MIN CHAR_MIN
 #define UINT8_MAX UCHAR_MAX
@@ -27,8 +28,10 @@ typedef unsigned __int64 uint64_t;
 #define UINT64_MAX _UI64_MAX
 
 // intptr_t and friends are defined in crtdefs.h through stdio.h.
-
+#include <crtdefs.h>
 #else
+
+
 #include <stdint.h>
 
 #endif

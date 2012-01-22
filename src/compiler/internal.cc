@@ -1,10 +1,14 @@
-
-#include <string.h>
 #include <compiler/internal.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/binding/parser_tracer.h>
 #include <compiler/binding/parser_connector.h>
 #include <compiler/compiler.h>
+#include <compiler/scanner/token_stream.h>
+#include <compiler/scanner/source_stream.h>
+#include <compiler/scanner/scanner.h>
+#include <compiler/tokens/js_token.h>
+#include <compiler/utils/error_reporter.h>
+#include <utils/xml/xml_setting_info.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/io/file_io.h>
 #include <utils/file_system/file_system.h>
@@ -62,7 +66,7 @@ inline void Internal::LoadFile_ () {
   
   //Check is file exist.
   if ( mocha::FileIO::IsExist ( path ) ) {
-    file_ = mocha::FileIO::Open ( path , "r" );
+    file_ = mocha::FileIO::Open ( path , "rb" );
     //Set bool to true.
     FILE_EXIST;
   } else {
@@ -78,6 +82,22 @@ inline void Internal::LoadFile_ () {
 inline void Internal::ParseStart_ () {
   std::string buf;
   file_->GetFileContents( buf );
+  ErrorReporter reporter;
+  SourceStream *source_stream = SourceStream::Create( buf.c_str() , main_file_path_ );
+  Scanner *scanner = Scanner::Create( source_stream , &reporter , file_->GetFileName() );
+  for ( TokenInfo* info = Scanner::kEmpty; info = scanner->Advance(); ) {
+    if ( info->GetType() > 128 && info->GetType() != Token::JS_LINE_BREAK ) {
+      printf( "token str = %s %d\n" , info->GetToken(), info->GetType() );
+    } else if ( info->GetType() != Token::JS_LINE_BREAK && info->GetType() > -1 ) {
+      printf( "token ch = %c\n" , info->GetType() );
+    }
+  }
+  if ( reporter.Error() ) {
+    std::string buf;
+    reporter.SetError( &buf );
+    printf( "%s\n" , buf.c_str() );
+  }
+  /*
   AstRoot root;
   mocha::ParserTracer tracer( path_info_->GetFileIdentifier().Get() );
   mocha::ParserConnector parser ( compiler_,
@@ -97,7 +117,7 @@ inline void Internal::ParseStart_ () {
     SyntaxError_( tracer );
     Setting::GetInstance()->Log( "syntax error found in file %s.",
                                  file_->GetFileName() );
-  }
+                                 }*/
 }
 
 inline void Internal::OpenError_() {

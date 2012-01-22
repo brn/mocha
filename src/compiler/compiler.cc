@@ -70,12 +70,12 @@ public :
 
   inline void Compile() {
     LoadRuntime_();
-    CallInternal_( path_info_ , Internal::kFatal , false );
+    /*CallInternal_( path_info_ , Internal::kFatal , false );
     SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
     scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
-    Write_ ( codegen_->GetCode() );
+    Write_ ( codegen_->GetCode() );*/
   }
 
   inline StrHandle Load( const char* filename ) {

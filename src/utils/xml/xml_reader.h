@@ -28,6 +28,8 @@ class XMLReader {
   void ProcessDirNode_( TiXmlElement *elem , XMLInfo* info );
   void ProcessIncludeNode_( TiXmlElement *elem , XMLInfo* info );
   void ProcessDeployOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
+  void ProcessDeployName_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
+  void ProcessCharset_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
   void ProcessCompileOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
   void ProcessVersion_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
   void ProcessModuleOption_( const char* filename , const char* module );
@@ -43,8 +45,10 @@ class XMLReader {
   static const char module_[];
   static const char ignore_[];
   static const char deploy_[];
+  static const char deployname_[];
   static const char options_[];
   static const char version_[];
+  static const char charset_[];
 };
 }
 #undef IS_IGNORE

@@ -80,13 +80,11 @@ class ManagedHandle {
   
   template <typename T>
   inline static T* Retain ( T* ptr , PtrCollector::ReleaseCallback callback = PtrDeleter<Managed>::Delete ) {
-    MutexLock mutex_lock ( mutex_ );
     return Retain_<T> ( ptr , callback );
   }
   
   template <typename T>
   inline static T* Retain ( PtrCollector::ReleaseCallback callback = PtrDeleter<Managed>::Delete ) {
-    MutexLock mutex_lock ( mutex_ );
     T* ptr = new T;
     return Retain_<T> ( ptr , callback );
   }
@@ -107,7 +105,6 @@ class ManagedHandle {
   static PtrCollector* GetPool_ ();
   static void Destructor_ ( void* ptr ); 
   static ThreadLocalStorageKey key_;
-  static Mutex mutex_;
 };
 
 class ManagedScope {

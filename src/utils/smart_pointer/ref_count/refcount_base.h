@@ -21,7 +21,7 @@ namespace mocha {
   private :
     unsigned int count_;
   };
-};
+}
 
 
 #endif

@@ -2,7 +2,7 @@
 <settings>
     <dir path="./" module="../jspp-modules">
 	<file path="./ecma262-5th-compatible-devel.js" deploy="./../deploy/" options="-P -L" />
-	<file path="./pr_main.js" deploy="./../deploy/" options="-P -L" />
+	<file path="./pr_main.js" deploy="./../deploy/" deployname="pr_main-cmp.js:UTF-8" options="-P -L" />
 	<file path="./test.js" deploy="./../deploy/" options="-P -L -D" />
 	<file path="./fmt.js" deploy="./../deploy/" options="-P -L -D" version="test debug" />
     </dir>

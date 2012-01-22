@@ -17,7 +17,10 @@
 #define ITERATOR(name) begin = name.begin(),end = name.end()
 #define MODULE_LIST XMLSettingInfo::module_list_
 #define INCLUDE_LIST XMLSettingInfo::include_list_
+#define CHARSET_LIST XMLSettingInfo::charset_list_
 #define DEPLOY_LIST XMLSettingInfo::deploy_list_
+#define DEPLOY_NAME XMLSettingInfo::deploy_name_list_
+#define DEPLOY_CHARSET_LIST XMLSettingInfo::deploy_charset_list_
 #define FILE_LIST XMLSettingInfo::file_list_
 #define COMPILE_OPTION XMLSettingInfo::compile_option_
 #define VERSIONS XMLSettingInfo::versions_
@@ -167,6 +170,8 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
       ProcessFilePath_( normalized_path );
       //Processing <file deploy="..." /> attr.
       ProcessDeployOption_( elem , normalized_path , dir , info );
+      ProcessDeployName_( elem , normalized_path , dir , info );
+      ProcessCharset_( elem , normalized_path , dir , info );
       ProcessCompileOption_( elem , normalized_path , dir , info );
       ProcessVersion_( elem , normalized_path , dir , info );
     } else {
@@ -199,6 +204,32 @@ void XMLReader::ProcessDeployOption_( TiXmlElement *elem , const char* filename 
     sprintf( buf , "%s/%s/%s" , info->GetPath() , dir , deploy_path );
     StrHandle handle = FileSystem::NormalizePath( buf );
     DEPLOY_LIST[ filename ] = handle.Get();
+  }
+}
+
+
+void XMLReader::ProcessDeployName_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo *info ) {
+  const char* deploy_name = elem->Attribute( deployname_ );
+  if ( IS_DEF( deploy_name ) ) {
+    std::string tmp = deploy_name;
+    size_t pos = 0;
+    if ( ( pos = tmp.find( ':' , 0 ) ) != std::string::npos ) {
+      std::string charset = tmp.substr( ( pos + 1 ) );
+      std::string name = tmp.substr( 0 , pos );
+      DEPLOY_NAME[ filename ] = name.c_str();
+      DEPLOY_CHARSET_LIST[ filename ] = charset.c_str();
+    } else {
+      DEPLOY_NAME[ filename ] = deploy_name;
+    }
+  }
+}
+
+
+void XMLReader::ProcessCharset_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo *info ) {
+  const char* charset = elem->Attribute( charset_ );
+  if ( IS_DEF( charset ) ) {
+    CHARSET_LIST[ filename ] = charset;
+    printf( "charset = %s\n" , charset );
   }
 }
 
@@ -297,6 +328,8 @@ const char XMLReader::path_[] = { "path" };
 const char XMLReader::module_[] = { "module" };
 const char XMLReader::ignore_[] = { "ignore" };
 const char XMLReader::deploy_[] = { "deploy" };
+const char XMLReader::deployname_[] = { "deployname" };
 const char XMLReader::options_[] = { "options" };
 const char XMLReader::version_[] = { "version" };
+const char XMLReader::charset_[] = { "charset" };
 }
