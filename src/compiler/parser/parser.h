@@ -5,13 +5,21 @@ namespace mocha {
 
 class Parser{
  public :
-  Parser();
+  Parser( ParserConnector* connector_ , ErrorReporter* reporter );
   ~Parser();
   AstRoot* Parse();
  private :
-  AstNode* ParseProgram();
-  AstNode* ParseSourceElement();
-  AstNode* ParseStatement();
+  inline TokenInfo* Advance_( int len = 1 ) { return connector_->Advance( len ); }
+  inline TokenInfo* Undo_( int len = 1 ) { return connector_->Undo( len ); }
+  inline TokenInfo* Seek_( int len = 1 ) { return connector_->Seek( len ); }
+  AstNode* ParseProgram_();
+  AstNode* ParseSourceElements_();
+  AstNode* ParseSourceElement_();
+  AstNode* ParseStatementList_();
+  AstNode* ParseStatement_();
+  AstNode* ParseModuleStatement_();
+  AstNode* ParseExportStatement_();
+  AstNode* ParseImportStatement_();
   AstNode* ParseFunctionDecl();
   AstNode* ParseClassDecl();
   AstNode* ParseConstDecl();
@@ -46,6 +54,9 @@ class Parser{
   AstNode* ParseObjectLiteral();
   AstNode* ParseArrayLiteral();
   AstNode* ParsePrimary();
+
+  ParserConnector* connector_;
+  ErrorReporter* reporter_;
 };
 
 }
