@@ -121,8 +121,8 @@ ICULIBS_COMMON_LIB_NAME_A = ${LIBICU}${COMMON_STUBNAME}${ICULIBSUFFIX}.${A}
 ICULIBS = $(ICULIBS_BASE) $(ICULIBS_I18N) $(ICULIBS_COMMON) $(ICULIBS_DATA) 
 
 # Proper echo newline handling is needed in icu-config
-ECHO_N=-n
-ECHO_C=
+ECHO_N=
+ECHO_C=\c
 # Not currently being used but good to have for proper tab handling
 ECHO_T=
 
@@ -161,14 +161,14 @@ pkglibdir = $(libdir)/$(PACKAGE)$(ICULIBSUFFIX)/$(VERSION)
 ##################################################################
 
 # Information about the host that 'configure' was run on.
-host = i686-pc-linux-gnu
+host = i386-apple-darwin10.7.4
 host_alias = 
-host_cpu = i686
-host_vendor = pc
-host_os = linux-gnu
+host_cpu = i386
+host_vendor = apple
+host_os = darwin10.7.4
 # Our platform canonical name (as determined by configure)
 # this is a #define value (i.e. U_XXXX or XXXX)
-platform = U_LINUX
+platform = U_DARWIN
 
 ##################################################################
 ##################################################################
@@ -197,14 +197,14 @@ INSTALL_PROGRAM  =  ${INSTALL}
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 LDFLAGS =  $(RPATHLDFLAGS)
-LIBS = -lpthread -ldl -lm  
+LIBS = -lpthread -lm  
 LIB_M = 
 LIB_VERSION = 48.1.1
 LIB_VERSION_MAJOR = 48
 MKINSTALLDIRS = $(SHELL) $(pkgdatadir)/mkinstalldirs
 RANLIB = ranlib
 RMV = rm -rf
-SHELL = /bin/bash
+SHELL = /bin/sh
 SHLIB.c=      $(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -shared
 SHLIB.cc=     $(CXX) $(DEFS) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -shared
 U_IS_BIG_ENDIAN = 0
@@ -263,7 +263,7 @@ endif
 
 #SH# esac
 
-GENCCODE_ASSEMBLY = -a gcc
+GENCCODE_ASSEMBLY = 
 
 ##################################################################
 ##################################################################
@@ -281,6 +281,6 @@ ifeq (selfcheck,$(MAKECMDGOALS)) #M#
 selfcheck: #M#
 	@echo passed #M#
 else #M#
-include $(pkgdatadir)/config/mh-linux
+include $(pkgdatadir)/config/mh-darwin
 endif #M#
 

@@ -71,7 +71,7 @@
 #define PACKAGE_VERSION ""
 
 /* The size of `void *', as computed by sizeof. */
-#define SIZEOF_VOID_P 4
+#define SIZEOF_VOID_P 8
 
 /* The size of `wchar_t', as computed by sizeof. */
 #define SIZEOF_WCHAR_T 4

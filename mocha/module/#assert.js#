@@ -1,0 +1,44 @@
+@version( debug ) {
+  import {global} from "global"
+  module {
+    var __assert;
+    if ( global.console && typeof global.console.assert === "function" ) {
+      __assert = global.console.assert.bind( global.console );
+    } else if ( global.console && global.console.assert ) {
+      __assert = ( expressionResult , expressionString )->{
+        console.assert( condExpression.ToValue() );
+        console.log( line );
+      }
+    } else {
+      __assert = ( expressionResult , expressionString )->{
+        if ( !condExpression ) {
+          Runtime.throwException( condExpression.ToValue() );
+        }
+      };
+    }
+    export __assert;
+  }
+}
+
+@namespace std{
+  @def( __debug , __call ) assert( condExpression ) {
+    var expr = condExpression.toString(),
+        message = expr + " at " + condExpression.getLineNumber();
+    return "__mochaGlobalExport[" + env.getFilename() + "].__assert(" + expr  + ",'" + message + "')";
+  }
+  
+  @def( __keyword ) readable( name ) {
+    var clone = name.clone();
+    var getter = "get" + clone;
+    if ( name.nodeType() == ast.astType.VALUE_NODE && name.valueType() == ast.valueType.IDENTIFIER ) {
+      return "var " + getter + " = function () { return " + clone + ";}";
+    } else if ( name.nodeType() == ast.astType.CALL_EXP && name.callType() == ast.callType.DOT ) {
+      return getter + " = function () { return " + clone + ";}";
+    }
+  }
+}
+
+
+var m = function () {}
+readable( m.prototype._v , v , 200 );
+

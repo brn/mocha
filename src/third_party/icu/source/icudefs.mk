@@ -13,7 +13,7 @@
 
 # Shell to use
 
-SHELL = /bin/bash
+SHELL = /bin/sh
 
 # Standard directories
 
@@ -85,7 +85,7 @@ ICUPKGDATA_INSTALL_DIR = $(DESTDIR)$(ICUPKGDATA_DIR)
 ICUPKGDATA_INSTALL_LIBDIR = $(DESTDIR)$(libdir)
 
 # If defined to a valid value, pkgdata will generate a data library more quickly
-GENCCODE_ASSEMBLY = -a gcc
+GENCCODE_ASSEMBLY = 
 
 # ICU specific directories
 
@@ -137,7 +137,7 @@ LIBCFLAGS = -fvisibility=hidden
 # LIBCXXFLAGS are the flags for static and shared libraries.
 LIBCXXFLAGS = -fvisibility=hidden
 # DEFAULT_LIBS are the default libraries to link against
-DEFAULT_LIBS = -lpthread -ldl -lm 
+DEFAULT_LIBS = -lpthread -lm 
 # LIB_M is for linking against the math library
 LIB_M = 
 # LIB_THREAD is for linking against the threading library
@@ -159,8 +159,8 @@ ENABLE_SHARED = YES
 
 # Echo w/o newline
 
-#ECHO_N = -n
-#ECHO_C = 
+#ECHO_N = 
+#ECHO_C = \c
 
 # Commands to compile
 COMPILE.c=    $(CC) $(CPPFLAGS) $(DEFS) $(CFLAGS) -c
@@ -267,7 +267,7 @@ INVOKE = $(LDLIBRARYPATH_ENVVAR)=$(LIBRARY_PATH_PREFIX)$(LIBDIR):$(top_builddir)
 PKGDATA_INVOKE = $(LDLIBRARYPATH_ENVVAR)=$(top_builddir)/stubdata:$(top_builddir)/tools/ctestfw:$(LIBRARY_PATH_PREFIX)$(LIBDIR):$$$(LDLIBRARYPATH_ENVVAR) $(LEAK_CHECKER) $(PKGDATA_INVOKE_OPTS)
 
 # Platform-specific setup
-include $(top_srcdir)/config/mh-linux
+include $(top_srcdir)/config/mh-darwin
 
 # When shared libraries are disabled and static libraries are enabled,
 # the C++ compiler must be used to link in the libraries for the tools.

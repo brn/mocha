@@ -421,7 +421,7 @@ AstNode* ParseArrayPattern_() {
         //it's element is only allowed JS_IDENTIFIER or JS_REST.
         SYNTAX_ERROR( "parse error got undexpected token "
                       << token->GetToken()
-                      << " in 'destructuring assignment array pattern' "
+                      << ". In 'destructuring assignment array pattern' "
                       "element is only allowed 'identifier' or 'parameter rest'.\nin file '"
                       << filename_ << " at line "
                       << token->GetLineNumber() );
@@ -434,6 +434,223 @@ AstNode* ParseArrayPattern_() {
   }
   destructuring->AddChild( list );
   return destructuring;
+}
+
+AstNode* ParseObjectPattern_() {
+  /*
+   * [bison/yacc compat syntax]
+   * object_member_left_hand_side_list
+   * :  JS_IDENTIFIER
+   * | property_name ':' JS_IDENTIFIER
+   * | property_name ':' destructuring_assignment_left_hand_side
+   * | object_member_left_hand_side_list ',' property_name ':' JS_IDENTIFIER
+   * | object_member_left_hand_side_list ',' JS_IDENTIFIER
+   * | object_member_left_hand_side_list ',' property_name ':' destructuring_assignment_left_hand
+   * ;
+   */
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  int maybe_colon = Seek_( 2 )->GetType();
+  int brace_count = 1;
+  ValueNode* destructuring = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+  destructuring->Line( token->GetLineNumber() );
+  NodeList* list = ManagedHandle::Retain<NodeList>();
+  while ( brace_count > 0 ) {
+    if ( maybe_colon == '}' ) {
+      AstNode* node = ParseObjectPatternElement_( type , token , list );
+      brace_count--;
+    } else if ( maybe_colon == '{' ) {
+      brace_count++;
+    } else if ( maybe_colon == ':' ) {
+      AstNode* node = ParseLiteral_();
+      Advance_();
+      TokenInfo* info = Seek_();
+      AstNode* node = ParseObjectPatternElement_( type , token , list );
+      token = Advance_();
+      type = token->GetType();
+      if ( type == '}' ) {
+        brace_count--;
+      }
+    } else {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                    << token->GetToken()
+                    << ". In 'destructuring assignment object pattern'"
+                    " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+    }
+    token = Seek_();
+    type = token->GetType();
+    maybe_colon = Seek_( 2 )->GetType();
+  }
+  destructuring->AddChild( list );
+  return destructuring;
+}
+
+
+AstNode* ParseObjectPatternElement_( int type , TokenInfo* token , AstNode* list ) {
+  if ( type == Token::JS_IDENTIFIER ) {
+    AstNode* node = ParseLiteral_();
+    Advance_();
+    list->AddChild( node );
+    return node;
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << ". In 'destructuring assignment object pattern'"
+                  " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+    return ManagedHandle::Retain<Empty>();
+  }
+}
+
+
+AstNode* CheckLabellOrExpressionStatement_() {
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  if ( type == ':' ) {
+    ParseLabelledStatement_();
+  } else {
+    Undo_();
+    ParseExpression_();
+  }
+}
+
+
+AstNode* ParseIFStatement_() {
+  /*
+   * [bison/yacc compat syntax]
+   * if_statement
+   * : JS_IF '(' expression ')' statement JS_ELSE statement 
+   * | JS_IF '(' expression ')' statement
+   * | JS_IF_OPT expression statement
+   * ;
+   */
+  TokenInfo *token = Advance_();
+  int type = token->GetType();
+  IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
+  if ( type == '(' ) {
+    AstNode* exp = ParseExpression_( false );
+    if_stmt->Exp( exp );
+    token = Advance_();
+    type = token->GetType();
+    if ( type == ')' ) {
+      AstNode* stmt = ParseStatement_();
+      if_stmt->Then( stmt );
+      token = Advance_();
+      type = token->GetType();
+      if ( type == Token::JS_ELSE ) {
+        AstNode* stmt = ParseStatement_();
+        if_stmt->Else( stmt );
+      }
+    } else {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                    << token->GetToken()
+                    << " in 'if statement conditional expression end' expect ')' \nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'if statement conditional expression' expect '(' \nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return if_stmt;
+}
+
+AstNode* ParseForStatement_() {
+  TokenInfo *token = Advance_();
+  int type = token->GetType();
+  NodeList exp_list = ManagedHandle::Retain<NodeList>();
+  IterationStmt* iter_stmt;
+  if ( type == '(' ) {
+    AstNode* exp = ParseExpression_();
+    list->AddChild( exp );
+    token = Advance_();
+    type = token->GetType();
+    if ( type == ';' ) {
+      iter_stmt = ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
+      iter_stmt->Line( token->GetLineNumber() );
+      ParseForStatementCondition_( exp_list );
+    } else if ( type == Token::JS_IN ) {
+      iter_stmt = ManagedHandle::Retain( new IterationStmt( IterationStmt::kForIn ) );
+      iter_stmt->Line( token->GetLineNumber() );
+      ParseForInStatementCondition_( exp_list );
+    } else {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                    << token->GetToken()
+                    << " in 'if statement conditional expression end' expect ')' \nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'if statement conditional expression' expect '(' \nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return if_stmt;
+}
+
+
+AstNode* Parser::ParseForStatementCondition_( NodeList* list ) {
+  if ( Seek_()->GetType() == ';' ) {
+    list->AddChild( ManagedHandle::Retain<Empty>() );
+  } else {
+    AstNode* exp = ParseExpression_();
+    list->AddChild( exp );
+  }
+  token = Advance_();
+  type = token->GetType();
+  if ( type == ';' ) {
+    if ( Seek_()->GetType() == ')' ) {
+      list->AddChild( ManagedHandle::Retain<Empty>() );
+    } else {
+      AstNode* exp = ParseExpression_();
+      list->AddChild( exp );
+    }
+    token = Advance_();
+    type = token->GetType();
+    if ( type != ')' ) {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                    << token->GetToken()
+                    << " in 'for statement condition end' expect ')' \nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+    }
+  }
+}
+
+
+AstNode* Parser::ParseForInStatementCondition_( NodeList* list ) {
+  Token* token = Advance_();
+  int type = token->GetType();
+  if ( type == Token::JS_IN ) {
+    AstNode* target_exp = ParseExpression_( false );
+  } else {
+    AstNode* exp = ParseExpression_();
+    list->AddChild( exp );
+  }
+  token = Advance_();
+  type = token->GetType();
+  if ( type == ';' ) {
+    if ( Seek_()->GetType() == ')' ) {
+      list->AddChild( ManagedHandle::Retain<Empty>() );
+    } else {
+      AstNode* exp = ParseExpression_();
+      list->AddChild( exp );
+    }
+    token = Advance_();
+    type = token->GetType();
+    if ( type != ')' ) {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                    << token->GetToken()
+                    << " in 'for statement condition end' expect ')' \nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+    }
+  }
 }
 
 }

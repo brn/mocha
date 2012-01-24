@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		42CFAA5214BFE9810073ADD3 /* symbol_collector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */; };
+		42E9C0F514CD21F30043DAE1 /* scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0EF14CD21F30043DAE1 /* scanner.cc */; };
+		42E9C0F614CD21F30043DAE1 /* source_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0F114CD21F30043DAE1 /* source_stream.cc */; };
+		42E9C0F714CD21F30043DAE1 /* token_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0F314CD21F30043DAE1 /* token_stream.cc */; };
+		42E9C0FA14CD22180043DAE1 /* error_reporter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0F814CD22180043DAE1 /* error_reporter.cc */; };
+		42E9C0FE14CD22390043DAE1 /* encoding.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0FC14CD22390043DAE1 /* encoding.cc */; };
+		42E9C10814CD27E00043DAE1 /* libicudata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10514CD27E00043DAE1 /* libicudata.a */; };
+		42E9C10914CD27E00043DAE1 /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10614CD27E00043DAE1 /* libicui18n.a */; };
+		42E9C10A14CD27E00043DAE1 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10714CD27E00043DAE1 /* libicuuc.a */; };
 		F217FDD014B0D9F700EF26E8 /* ast.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC5C14B0D9F700EF26E8 /* ast.cc */; };
 		F217FDD114B0D9F700EF26E8 /* ast_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC6014B0D9F700EF26E8 /* ast_utils.cc */; };
 		F217FDD214B0D9F700EF26E8 /* ast_transformer.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC6314B0D9F700EF26E8 /* ast_transformer.cc */; };
@@ -93,6 +101,19 @@
 /* Begin PBXFileReference section */
 		42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symbol_collector.cc; sourceTree = "<group>"; };
 		42CFAA5114BFE9810073ADD3 /* symbol_collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symbol_collector.h; sourceTree = "<group>"; };
+		42E9C0EF14CD21F30043DAE1 /* scanner.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scanner.cc; sourceTree = "<group>"; };
+		42E9C0F014CD21F30043DAE1 /* scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scanner.h; sourceTree = "<group>"; };
+		42E9C0F114CD21F30043DAE1 /* source_stream.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = source_stream.cc; sourceTree = "<group>"; };
+		42E9C0F214CD21F30043DAE1 /* source_stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = source_stream.h; sourceTree = "<group>"; };
+		42E9C0F314CD21F30043DAE1 /* token_stream.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = token_stream.cc; sourceTree = "<group>"; };
+		42E9C0F414CD21F30043DAE1 /* token_stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = token_stream.h; sourceTree = "<group>"; };
+		42E9C0F814CD22180043DAE1 /* error_reporter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = error_reporter.cc; sourceTree = "<group>"; };
+		42E9C0F914CD22180043DAE1 /* error_reporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error_reporter.h; sourceTree = "<group>"; };
+		42E9C0FC14CD22390043DAE1 /* encoding.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = encoding.cc; sourceTree = "<group>"; };
+		42E9C0FD14CD22390043DAE1 /* encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
+		42E9C10514CD27E00043DAE1 /* libicudata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicudata.a; path = "../../src/third_party/icu/lib-osx/libicudata.a"; sourceTree = "<group>"; };
+		42E9C10614CD27E00043DAE1 /* libicui18n.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicui18n.a; path = "../../src/third_party/icu/lib-osx/libicui18n.a"; sourceTree = "<group>"; };
+		42E9C10714CD27E00043DAE1 /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = "../../src/third_party/icu/lib-osx/libicuuc.a"; sourceTree = "<group>"; };
 		F217F99014B0D94500EF26E8 /* mocha */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mocha; sourceTree = BUILT_PRODUCTS_DIR; };
 		F217FC5C14B0D9F700EF26E8 /* ast.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ast.cc; sourceTree = "<group>"; };
 		F217FC5D14B0D9F700EF26E8 /* ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ast.h; sourceTree = "<group>"; };
@@ -298,6 +319,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42E9C10814CD27E00043DAE1 /* libicudata.a in Frameworks */,
+				42E9C10914CD27E00043DAE1 /* libicui18n.a in Frameworks */,
+				42E9C10A14CD27E00043DAE1 /* libicuuc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +331,9 @@
 		08FB7794FE84155DC02AAC07 /* mocha */ = {
 			isa = PBXGroup;
 			children = (
+				42E9C10514CD27E00043DAE1 /* libicudata.a */,
+				42E9C10614CD27E00043DAE1 /* libicui18n.a */,
+				42E9C10714CD27E00043DAE1 /* libicuuc.a */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -329,6 +356,15 @@
 				F217F99014B0D94500EF26E8 /* mocha */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		42E9C0FB14CD22390043DAE1 /* encoding */ = {
+			isa = PBXGroup;
+			children = (
+				42E9C0FC14CD22390043DAE1 /* encoding.cc */,
+				42E9C0FD14CD22390043DAE1 /* encoding.h */,
+			);
+			path = encoding;
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* Documentation */ = {
@@ -809,6 +845,7 @@
 		F217FCA314B0D9F700EF26E8 /* compiler */ = {
 			isa = PBXGroup;
 			children = (
+				42E9C0FB14CD22390043DAE1 /* encoding */,
 				F217FCA414B0D9F700EF26E8 /* binding */,
 				F217FCAA14B0D9F700EF26E8 /* compiler.cc */,
 				F217FCAB14B0D9F700EF26E8 /* compiler.h */,
@@ -837,6 +874,12 @@
 		F217FCAE14B0D9F700EF26E8 /* scanner */ = {
 			isa = PBXGroup;
 			children = (
+				42E9C0EF14CD21F30043DAE1 /* scanner.cc */,
+				42E9C0F014CD21F30043DAE1 /* scanner.h */,
+				42E9C0F114CD21F30043DAE1 /* source_stream.cc */,
+				42E9C0F214CD21F30043DAE1 /* source_stream.h */,
+				42E9C0F314CD21F30043DAE1 /* token_stream.cc */,
+				42E9C0F414CD21F30043DAE1 /* token_stream.h */,
 				F217FCAF14B0D9F700EF26E8 /* queue_scanner.cc */,
 				F217FCB014B0D9F700EF26E8 /* queue_scanner.h */,
 				F217FCB114B0D9F700EF26E8 /* scanner_state.h */,
@@ -869,6 +912,8 @@
 		F217FCBE14B0D9F700EF26E8 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				42E9C0F814CD22180043DAE1 /* error_reporter.cc */,
+				42E9C0F914CD22180043DAE1 /* error_reporter.h */,
 				F217FCBF14B0D9F700EF26E8 /* compiler_starter.cc */,
 				F217FCC014B0D9F700EF26E8 /* compiler_starter.h */,
 				F217FCC114B0D9F700EF26E8 /* compiler_utils.cc */,
@@ -1280,6 +1325,11 @@
 				F217FE1D14B0D9F700EF26E8 /* xml_reader.cc in Sources */,
 				F217FE1E14B0D9F700EF26E8 /* xml_setting_info.cc in Sources */,
 				42CFAA5214BFE9810073ADD3 /* symbol_collector.cc in Sources */,
+				42E9C0F514CD21F30043DAE1 /* scanner.cc in Sources */,
+				42E9C0F614CD21F30043DAE1 /* source_stream.cc in Sources */,
+				42E9C0F714CD21F30043DAE1 /* token_stream.cc in Sources */,
+				42E9C0FA14CD22180043DAE1 /* error_reporter.cc in Sources */,
+				42E9C0FE14CD22390043DAE1 /* encoding.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1296,6 +1346,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../src/third_party/icu/lib-osx\"",
+				);
 				PRODUCT_NAME = mocha;
 			};
 			name = Debug;
@@ -1307,6 +1361,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../src/third_party/icu/lib-osx\"",
+				);
 				PRODUCT_NAME = mocha;
 			};
 			name = Release;
@@ -1328,6 +1386,12 @@
 					/opt/local/include/,
 					"../../src/**",
 				);
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"../../src/**",
+					"/usr/local/include/**",
+					/opt/local/include/,
+				);
+				"LIBRARY_SEARCH_PATHS[arch=*]" = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
