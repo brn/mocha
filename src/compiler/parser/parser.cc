@@ -282,7 +282,7 @@ AstNode* ParseVariableStatement_() {
    */
   VariableStmt* stmt = ManagedHandle::Retain<VariableStmt>();
   AstNode* list = ParseVariableDecl_( false );
-  stmt->AddChild( list );
+  stmt->Append( list );
   return stmt;
 }
 
@@ -354,6 +354,7 @@ AstNode* ParseVariableDecl_( bool is_noin ) {
     }
     maybe_assign_op = Seek_( 2 );
   }
+  Undo_();
   return list;
 }
 
@@ -508,10 +509,10 @@ AstNode* ParseObjectPatternElement_( int type , TokenInfo* token , AstNode* list
 AstNode* CheckLabellOrExpressionStatement_() {
   TokenInfo* token = Seek_();
   int type = token->GetType();
+  Undo_();
   if ( type == ':' ) {
     ParseLabelledStatement_();
   } else {
-    Undo_();
     ParseExpression_();
   }
 }
@@ -560,30 +561,80 @@ AstNode* ParseIFStatement_() {
   return if_stmt;
 }
 
-AstNode* ParseForStatement_() {
+AstNode* ParseForStatement_( bool is_comprehensions ) {
   TokenInfo *token = Advance_();
   int type = token->GetType();
+  bool is_each = false;
   NodeList exp_list = ManagedHandle::Retain<NodeList>();
-  IterationStmt* iter_stmt;
+  IterationStmt* iter_stmt = 0;
+  if ( type == Token::JS_EACH ) {
+    is_each = true;
+  }
   if ( type == '(' ) {
-    AstNode* exp = ParseExpression_();
-    list->AddChild( exp );
+    TokenInfo *next_type = Seek_()->GetType();
+    bool is_var_decl = false;
+    int var_decl_len = 0;
+    if ( next_type == Token::JS_VAR ) {
+      AstNode* var_decl = ParseVariableDecl_();
+      var_decl_len = var_decl->ChildLength();
+    } else if ( next_type != ';' ) {
+      AstNode* exp = ParseExpression_();
+      list->AddChild( exp );
+    } else {
+      list->AddChild( ManagedHandle::Retain<Empty>() );
+    }
     token = Advance_();
     type = token->GetType();
-    if ( type == ';' ) {
-      iter_stmt = ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
+    if ( type == ';' && is_each == false ) {
+      int iter_type = ( is_var_decl )? IterationStmt::kForWithVar : IterationStmt::kFor;
+      iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
       iter_stmt->Line( token->GetLineNumber() );
       ParseForStatementCondition_( exp_list );
     } else if ( type == Token::JS_IN ) {
-      iter_stmt = ManagedHandle::Retain( new IterationStmt( IterationStmt::kForIn ) );
-      iter_stmt->Line( token->GetLineNumber() );
+      if ( var_decl_len > 1 ) {
+        SYNTAX_ERROR( "parse error 'for in statement' could has only one variable declaration."
+                      "\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        RECOVERY;
+        return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
+      }
+      if ( is_each = false ) {
+        int iter_type = ( is_var_decl )? IterationStmt::kForInWithVar : IterationStmt::kForIn;
+        iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
+        iter_stmt->Line( token->GetLineNumber() );
+      } else {
+        int iter_type = ( is_var_decl )? IterationStmt::kForEachWithVar : IterationStmt::kForEach;
+        iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
+        iter_stmt->Line( token->GetLineNumber() );
+      }
+      ParseForInStatementCondition_( exp_list );
+    } else if ( type == Token::JS_IDENTIFIER && strcmp( token->GetToken() , "of" ) == 0 ) {
+      if ( var_decl_len > 1 ) {
+        SYNTAX_ERROR( "parse error 'for of statement' could has only one variable declaration."
+                      "\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        RECOVERY;
+        return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
+      }
+      if ( is_each = false ) {
+        int iter_type = ( is_var_decl )? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
+        iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
+        iter_stmt->Line( token->GetLineNumber() );
+      } else {
+        SYNTAX_ERROR( "parse error 'for of statement' can not has 'each'."
+                      "\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        RECOVERY;
+        return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
+      }
       ParseForInStatementCondition_( exp_list );
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << token->GetToken()
-                    << " in 'if statement conditional expression end' expect ')' \nin file "
+                    << " in 'for statement conditional expression' expect 'in' , 'of' or ';' \nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       RECOVERY;
+      return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
     }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
@@ -591,12 +642,19 @@ AstNode* ParseForStatement_() {
                   << " in 'if statement conditional expression' expect '(' \nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     RECOVERY;
+    return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
   }
-  return if_stmt;
+  if ( !is_comprehensions ) {
+    AstNode* body = ParseStatement_();
+    iter_stmt->AddChild( body );
+  } else {
+    iter_stmt->AddChild( ManagedHandle::Retain<Empty>() );
+  }
+  return iter_stmt;
 }
 
 
-AstNode* Parser::ParseForStatementCondition_( NodeList* list ) {
+void Parser::ParseForStatementCondition_( NodeList* list ) {
   if ( Seek_()->GetType() == ';' ) {
     list->AddChild( ManagedHandle::Retain<Empty>() );
   } else {
@@ -619,37 +677,319 @@ AstNode* Parser::ParseForStatementCondition_( NodeList* list ) {
                     << token->GetToken()
                     << " in 'for statement condition end' expect ')' \nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
     }
   }
 }
 
 
-AstNode* Parser::ParseForInStatementCondition_( NodeList* list ) {
+void Parser::ParseForInStatementCondition_( NodeList* list ) {
   Token* token = Advance_();
   int type = token->GetType();
-  if ( type == Token::JS_IN ) {
-    AstNode* target_exp = ParseExpression_( false );
+  AstNode* target_exp = ParseExpression_( false );
+  token = Seek_();
+  type = token->GetType();
+  list->AddChild( target_exp );
+  if ( type != ')' ) {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'for in statement condition end' expect ')' \nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+}
+
+
+AstNode* Parser::ParseContinueStatement_() {
+  TokenInfo *token = Seek_();
+  int type = token->GetType();
+  ContinueStmt* stmt = ManagedHandle::Retain<ContinueStmt>();
+  stmt->Line( Seek_( -1 )->GetLineNumber() );
+  if ( type = Token::JS_IDENTIFIER ) {
+    AstNode* identifier = ParseLiteral_();
+    stmt->AddChild( identifier );
+  } else if ( token->HasLineBreakBefore() ) {
+    stmt->AddChild( ManagedHandle::Retain<Empty>() );
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token '"
+                  << token->GetToken()
+                  << "' in 'continue statement' expect ';' or 'line break'\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return stmt;
+}
+
+
+AstNode* Parser::ParseBreakStatement_() {
+  TokenInfo *token = Seek_();
+  int type = token->GetType();
+  BreakStmt* stmt = ManagedHandle::Retain<BreakStmt>();
+  stmt->Line( Seek_( -1 )->GetLineNumber() );
+  if ( type = Token::JS_IDENTIFIER ) {
+    AstNode* identifier = ParseLiteral_();
+    stmt->AddChild( identifier );
+  } else if ( token->HasLineBreakBefore() ) {
+    stmt->AddChild( ManagedHandle::Retain<Empty>() );
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token '"
+                  << token->GetToken()
+                  << "' in 'break statement' expect ';' or 'line break'\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return stmt;
+}
+
+AstNode* Parser::ParseReturnStatement_() {
+  TokenInfo *token = Seek_();
+  int type = token->GetType();
+  ReturnStmt* stmt = ManagedHandle::Retain<ReturnStmt>();
+  stmt->Line( Seek_( -1 )->GetLineNumber() );
+  if ( type = ';' || token->HasLineBreakBefore() ) {
+    stmt->AddChild( ManagedHandle::Retain<Empty>() );
   } else {
     AstNode* exp = ParseExpression_();
-    list->AddChild( exp );
-  }
-  token = Advance_();
-  type = token->GetType();
-  if ( type == ';' ) {
-    if ( Seek_()->GetType() == ')' ) {
-      list->AddChild( ManagedHandle::Retain<Empty>() );
+    stmt->AddChild( exp );
+    TokenInfo *maybe_semicolon = Seek_();
+    int type = maybe_semicolon->GetType();
+    if ( type = ';' || maybe_semicolon->HasLineBreakBefore() ) {
+      stmt->AddChild( ManagedHandle::Retain<Empty>() );
     } else {
-      AstNode* exp = ParseExpression_();
-      list->AddChild( exp );
+      SYNTAX_ERROR( "parse error got unexpected token '"
+                    << maybe_semicolon->GetToken()
+                    << "' in 'continue statement' expect ';' or 'line break'\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
     }
+  }
+  return stmt;
+}
+
+
+AstNode* Parser::ParseWithStatement_() {
+  TokenInfo *token = Advance_();
+  int type = token->GetType();
+  WithStmt* stmt = ManagedHandle::Retain<WithStmt>();
+  stmt->Line( Seek_( -1 ) );
+  if ( type == '(' ) {
+    AstNode* exp = ParseExpression_();
+    stmt->Exp( exp );
     token = Advance_();
     type = token->GetType();
-    if ( type != ')' ) {
+    if ( type == ')' ) {
+      AstNode* statement = ParseStatement_();
+      stmt->AddChild( statement );
+    } else {
+      SYNTAX_ERROR( "parse error unmatched paren"
+                    " in 'with statement expression'\nin file"
+                    << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'with statement expression' expect '('\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return stmt;
+}
+
+
+AstNode* Parser::ParseSwitchStatement_() {
+  TokenInfo *token = Advance_();
+  int type = token->GetType();
+  SwitchStmt* stmt = ManagedHandle::Retain<SwitchStmt>();
+  if ( type == '(' ) {
+    AstNode* exp = ParseExpression_();
+    stmt->Exp( exp );
+    token = Advance_();
+    type = token->GetType();
+    if ( type == ')' ) {
+      AstNode* case_block = ParseCaseClauses_();
+      stmt->AddChild( case_block );
+    } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << token->GetToken()
-                    << " in 'for statement condition end' expect ')' \nin file "
+                    << " in 'switch statement expression' expect ')'\nin file"
                     << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
     }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'switch statement expression' expect '('\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return case_block;
+}
+
+AstNode* Parser::ParseCaseClauses_() {
+  TokenInfo *token = Advance_();
+  int type = token->GetType();
+  NodeList *list = ManagedHandle::Retain<NodeList>();
+  if ( type == '{' ) {
+    while ( type != '}' ) {
+      token = Advance_();
+      type = token->GetType();
+      bool is_default = type == Token::JS_DEFAULT;
+      if ( type == Token::JS_CASE || is_default ) {
+        if ( !is_default ) {
+          CaseClause* clause = ManagedHandle::Retain<CaseClause>();        
+          AstNode* exp = ParseExpression_();
+          clause->Exp( exp );
+        } else {
+          clause->Exp( ManagedHandle::Retain<Empty>() );
+        }
+        clause->Line( token->GetLineNumber() );
+        token = Advance_();
+        type = token->GetType();
+        if ( type == ':' ) {
+          AstNode* statement_list = ParseStatementList_();
+          clause->AddChild( statement_list );
+          list->AddChild( clause );
+        } else {
+          SYNTAX_ERROR( "parse error got unexpected token "
+                        << token->GetToken()
+                        << " in 'switch statement case expression' expect ':'\nin file"
+                        << filename_ << " at line " << token->GetLineNumber() );
+          RECOVERY;
+          break;
+        }
+      } else {
+        SYNTAX_ERROR( "parse error got unexpected token "
+                      << token->GetToken()
+                      << " in 'switch statement case block' expect 'case'\nin file"
+                      << filename_ << " at line " << token->GetLineNumber() );
+        RECOVERY;
+        break;
+      }
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'switch statement case block' expect '{'\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return list;
+}
+
+
+AstNode* Parser::ParseLabelledStatement_() {
+  AstNode* ident = ParseLiteral_();
+  Advance_();
+  AstNode* statement = ParseStatement_();
+  LabelledStmt* stmt = ManagedHandle::Retain<LabelledStmt>();
+  stmt->AddChild( ident );
+  stmt->AddChild( statement);
+  return stmt;
+}
+
+AstNode* Parser::ParseThrowStatement_() {
+  TokenInfo* token = Seek_( -1 );
+  ThrowStmt* throw_stmt = ManagedHandle::Retain<ThrowStmt>();
+  throw_stmt->Line( token->GetLineNumber() );
+  AstNode* exp = ParseExpression_();
+  throw_stmt->Exp( exp );
+  token = Advance_();
+  int type = token->GetType();
+  if ( type != ';' && !token->HasLineBreakBefore() ) {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'throw statement' expect ';' or 'line break'\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return throw_stmt;
+}
+
+
+AstNode* Parser::ParseTryStatement_() {
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  TryStmt *stmt = ManagedHandle::Retain<TryStmt>();
+  if ( type == '{' ) {
+    AstNode* block = ParseBlockStatement_();
+    token = Seek_();
+    type = token->GetType();
+    if ( type == Token::JS_CATCH ) {
+      AstNode* catch_block = ParseCatchBlock_();
+      stmt->Catch( catch_block );
+      token = Seek_();
+      type = token->GetType();
+    } else {
+      stmt->Catch( ManagedHandle::Retain<Empty>() );
+    }
+    if ( type == Token::JS_FINALLY ) {
+      AstNode* finally_block = ParseFinallyBlock_();
+      stmt->Finally( finally_block );
+    } else {
+      stmt->Finally( ManagedHandle::Retain<Empty>() );
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'try statement' expect '{'\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return stmt;
+}
+
+AstNode* Parser::ParseCatchBlock_() {
+  TokenInfo *token = Advance_( 2 );
+  int type = token->GetType();
+  if ( type == '(' ) {
+    AstNode* ident = ParseLiteral_();
+    token = Advance_();
+    type = token->GetType();
+    if ( type == ')' ) {
+      token = Seek_();
+      type = token->GetType();
+      if ( type != '{' ) {
+        SYNTAX_ERROR( "parse error got unexpected token "
+                      << token->GetToken()
+                      << " in 'catch block' expect '{'\nin file"
+                      << filename_ << " at line " << token->GetLineNumber() );
+        RECOVERY;
+      } else {
+        AstNode* block = ParseBlockStatement_();
+        ident->AddChild( block );
+        return block;
+      }
+    } else {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                    << token->GetToken()
+                    << " in 'catch block' expect ')'\nin file"
+                    << filename_ << " at line " << token->GetLineNumber() );
+      RECOVERY;
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'catch block' expect '('\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
+  }
+  return ManagedHandle::Retain<Empty>();
+}
+
+
+AstNode* Parser::ParseFinallyBlock_() {
+  TokenInfo *token = Advance_( 2 );
+  int type = token->GetType();
+  if ( type == '{' ) {
+    AstNode* block = ParseBlockStatement_();
+    return block;
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << token->GetToken()
+                  << " in 'finally block' expect '{'\nin file"
+                  << filename_ << " at line " << token->GetLineNumber() );
+    RECOVERY;
   }
 }
 
