@@ -57,14 +57,14 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
 	symbol_collector.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
-	exception_handler.$(OBJEXT) compile_runner.$(OBJEXT) \
-	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
-	compiler_starter.$(OBJEXT) encoding.$(OBJEXT) \
-	compiler_utils.$(OBJEXT) error_reporter.$(OBJEXT) \
-	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
-	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
-	file_watcher.$(OBJEXT) pwd.$(OBJEXT) help_runner.$(OBJEXT) \
-	interaction.$(OBJEXT) commands.$(OBJEXT) \
+	exception_handler.$(OBJEXT) parser.$(OBJEXT) \
+	compile_runner.$(OBJEXT) list_runner.$(OBJEXT) \
+	error_runner.$(OBJEXT) compiler_starter.$(OBJEXT) \
+	encoding.$(OBJEXT) compiler_utils.$(OBJEXT) \
+	error_reporter.$(OBJEXT) commandline_options.$(OBJEXT) \
+	file_io.$(OBJEXT) file_observer.$(OBJEXT) \
+	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
+	help_runner.$(OBJEXT) interaction.$(OBJEXT) commands.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
 	token_stream.$(OBJEXT) source_stream.$(OBJEXT) \
 	scanner.$(OBJEXT) js_token.$(OBJEXT) main.$(OBJEXT) \
@@ -75,8 +75,7 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	thread.$(OBJEXT) tinyxml.$(OBJEXT) tinystr.$(OBJEXT) \
 	tinyxmlparser.$(OBJEXT) tinyxmlerror.$(OBJEXT) \
 	token_info.$(OBJEXT) virtual_directory.$(OBJEXT) \
-	grammar.tab.$(OBJEXT) xml_observer.$(OBJEXT) \
-	versions.$(OBJEXT) xml_reader.$(OBJEXT) \
+	xml_observer.$(OBJEXT) versions.$(OBJEXT) xml_reader.$(OBJEXT) \
 	xml_setting_info.$(OBJEXT)
 mocha_OBJECTS = $(am_mocha_OBJECTS)
 mocha_LDADD = $(LDADD)
@@ -247,6 +246,8 @@ compiler/tokens/symbol_list.h\
 compiler/tokens/symbol_list.cc\
 compiler/utils/exception_handler.h\
 compiler/utils/exception_handler.cc\
+compiler/parser/parser.h\
+compiler/parser/parser.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
@@ -295,7 +296,6 @@ compiler/scanner/scanner.h\
 compiler/scanner/scanner.cc\
 compiler/tokens/js_token.cc\
 compiler/tokens/js_token.h\
-grammar/location.hh\
 mch/main.cc\
 utils/pool/managed_handle.h\
 utils/pool/managed_handle.cc\
@@ -340,8 +340,6 @@ compiler/tokens/token_info.h\
 utils/class_traits/uncopyable.h\
 utils/file_system/virtual_directory.h\
 utils/file_system/virtual_directory.cc\
-grammar/grammar.tab.hh\
-grammar/grammar.tab.cc\
 utils/file_watcher/observer/xml_observer.h\
 utils/file_watcher/observer/xml_observer.cc\
 utils/xml/versions.h\
@@ -481,7 +479,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileroot_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/format.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/function_processor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/grammar.tab.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/help_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/import_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
@@ -496,6 +493,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/module_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observer_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/optimizer_visitor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_connector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
@@ -886,6 +884,20 @@ exception_handler.obj: compiler/utils/exception_handler.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/utils/exception_handler.cc' object='exception_handler.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o exception_handler.obj `if test -f 'compiler/utils/exception_handler.cc'; then $(CYGPATH_W) 'compiler/utils/exception_handler.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/utils/exception_handler.cc'; fi`
+
+parser.o: compiler/parser/parser.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser.o -MD -MP -MF $(DEPDIR)/parser.Tpo -c -o parser.o `test -f 'compiler/parser/parser.cc' || echo '$(srcdir)/'`compiler/parser/parser.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/parser.Tpo $(DEPDIR)/parser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/parser/parser.cc' object='parser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser.o `test -f 'compiler/parser/parser.cc' || echo '$(srcdir)/'`compiler/parser/parser.cc
+
+parser.obj: compiler/parser/parser.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser.obj -MD -MP -MF $(DEPDIR)/parser.Tpo -c -o parser.obj `if test -f 'compiler/parser/parser.cc'; then $(CYGPATH_W) 'compiler/parser/parser.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/parser/parser.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/parser.Tpo $(DEPDIR)/parser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/parser/parser.cc' object='parser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser.obj `if test -f 'compiler/parser/parser.cc'; then $(CYGPATH_W) 'compiler/parser/parser.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/parser/parser.cc'; fi`
 
 compile_runner.o: bootstrap/runners/compile_runner.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.o -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.o `test -f 'bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/compile_runner.cc
@@ -1446,20 +1458,6 @@ virtual_directory.obj: utils/file_system/virtual_directory.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/virtual_directory.cc' object='virtual_directory.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o virtual_directory.obj `if test -f 'utils/file_system/virtual_directory.cc'; then $(CYGPATH_W) 'utils/file_system/virtual_directory.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/virtual_directory.cc'; fi`
-
-grammar.tab.o: grammar/grammar.tab.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT grammar.tab.o -MD -MP -MF $(DEPDIR)/grammar.tab.Tpo -c -o grammar.tab.o `test -f 'grammar/grammar.tab.cc' || echo '$(srcdir)/'`grammar/grammar.tab.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/grammar.tab.Tpo $(DEPDIR)/grammar.tab.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='grammar/grammar.tab.cc' object='grammar.tab.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o grammar.tab.o `test -f 'grammar/grammar.tab.cc' || echo '$(srcdir)/'`grammar/grammar.tab.cc
-
-grammar.tab.obj: grammar/grammar.tab.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT grammar.tab.obj -MD -MP -MF $(DEPDIR)/grammar.tab.Tpo -c -o grammar.tab.obj `if test -f 'grammar/grammar.tab.cc'; then $(CYGPATH_W) 'grammar/grammar.tab.cc'; else $(CYGPATH_W) '$(srcdir)/grammar/grammar.tab.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/grammar.tab.Tpo $(DEPDIR)/grammar.tab.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='grammar/grammar.tab.cc' object='grammar.tab.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o grammar.tab.obj `if test -f 'grammar/grammar.tab.cc'; then $(CYGPATH_W) 'grammar/grammar.tab.cc'; else $(CYGPATH_W) '$(srcdir)/grammar/grammar.tab.cc'; fi`
 
 xml_observer.o: utils/file_watcher/observer/xml_observer.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_observer.o -MD -MP -MF $(DEPDIR)/xml_observer.Tpo -c -o xml_observer.o `test -f 'utils/file_watcher/observer/xml_observer.cc' || echo '$(srcdir)/'`utils/file_watcher/observer/xml_observer.cc

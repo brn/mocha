@@ -98,15 +98,15 @@ TokenInfo* TokenStream::Undo( int index ) {
   for ( int i = 0; i < index; i++ ) {
     if ( count < 0 ) {
       current_ = current_->prev;
-      if ( current_ != 0 ) {
+      if ( current_ == 0 ) {
         current_ = tmp;
         return kEmpty;
       } else {
         count = current_->size;
       }
     }
-    ret = current_->Get( count );
     count--;
+    ret = current_->Get( count );
   }
   cursor_ = count;
   return ret;
@@ -116,7 +116,7 @@ TokenInfo* TokenStream::Undo( int index ) {
 TokenInfo* TokenStream::Seek( int index ) {
   int cursor = cursor_;
   TokenContainer* tmp = current_;
-  TokenInfo* info = ( index > 0 )? Advance( index ) : Undo( index );
+  TokenInfo* info = ( index > 0 )? Advance( index ) : Undo( ( -1 * index ) );
   current_ = tmp;
   cursor_ = cursor;
   return info;

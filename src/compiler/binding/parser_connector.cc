@@ -21,46 +21,39 @@
  */
 
 #include <stdio.h>
-#include <compiler/binding/parser_connector.h>
-#include <compiler/binding/parser_tracer.h>
-#include <compiler/scopes/scope.h>
 #include <ast/ast.h>
-#include <grammar/grammar.tab.hh>
+#include <compiler/binding/parser_connector.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/js_token.h>
-#include <compiler/scanner/queue_scanner.h>
+#include <compiler/scanner/scanner.h>
+#include <compiler/scanner/source_stream.h>
+#include <compiler/utils/error_reporter.h>
 
 namespace mocha {
 ParserConnector::ParserConnector ( Compiler *compiler,
-                                     ParserTracer* tracer ,
-                                     AstRoot* ast_root,
-                                     const std::string& source ) :
-    line_( 0 ) , is_end_( false ), compiler_ ( compiler ) , tracer ( tracer ),
-    ast_root_ ( ast_root ) , scanner_( new QueueScanner( source , tracer ) ){
-  scanner_->CollectToken();
-}
+                                   AstRoot* ast_root,
+                                   Scanner* scanner,
+                                   SourceStream* stream,
+                                   ErrorReporter* reporter ) :
+    scanner_( scanner ), stream_( stream ), reporter_( reporter ){}
 
 ParserConnector::~ParserConnector () {};
 
 
-int ParserConnector::InvokeScanner ( void* yylval_ , int yystate ) {
-  if ( is_end_ ) return 0;
-  yy::ParserImplementation::semantic_type* yylval = reinterpret_cast<yy::ParserImplementation::semantic_type*> ( yylval_ );
-  TokenInfo* info = scanner_->GetToken( yystate );
-  if ( info->GetType() == 0 ) {
-    is_end_ = true;
-    return 0;
-  }
-  line_ = info->GetLineNumber();
-  yylval->info = info;
-  return JsToken::ToParserToken( info->GetType() );
+TokenInfo* ParserConnector::Advance( int index ) {
+  return scanner_->Advance( index );
 }
 
-int ParserConnector::ParseStart () {
-  yy::ParserImplementation parser ( compiler_ , this , tracer , ast_root_ );
-  return parser.parse ();
+TokenInfo* ParserConnector::Undo( int index ) {
+  return scanner_->Undo( index );
 }
 
-long int ParserConnector::GetLineNumber () { return line_; }
+TokenInfo* ParserConnector::Seek( int index ) {
+  return scanner_->Seek( index );
+}
+
+ErrorReporter* ParserConnector::GetError() {
+  return reporter_;
+}
 
 }

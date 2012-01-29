@@ -80,7 +80,7 @@ class Token : private Static {
     JS_SHIFT_LEFT,
     JS_SHIFT_RIGHT,
     JS_LESS_EQUAL,
-    JS_GRATER_EQUAL,
+    JS_GREATER_EQUAL,
     JS_EQ,
     JS_NOT_EQUAL,
     JS_NOT_EQ,
@@ -134,6 +134,16 @@ class JsToken : private Static {
   static bool IsBuiltin( const char* token );
   static const char* GetTokenFromNumber( int id );
   static void Initialize();
+};
+class TokenInfo;
+class TokenConverter {
+ public :
+  TokenConverter( TokenInfo* token );
+  ~TokenConverter();
+  operator const char*();
+ private :
+  std::string buf_;
+  TokenInfo* info_;
 };
 }
 

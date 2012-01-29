@@ -3,6 +3,7 @@
 #define mocha_token_info_h_
 #include <string>
 #include <utils/pool/managed.h>
+#include <utils/bits.h>
 namespace mocha {
 class CompilerInfo;
 class TokenInfo : public Managed {
@@ -26,6 +27,10 @@ class TokenInfo : public Managed {
   bool IsLet() { return is_let_; }
   void SetInfo( CompilerInfo* info ) { info_ = info; }
   CompilerInfo* GetInfo() { return info_; }
+  bool HasLineBreakBefore() { return vector_.At( 0 ); }
+  bool HasLineBreakAfter() { return vector_.At( 1 ); }
+  void SetLineBreakBefor() { vector_.Set( 0 ); }
+  void SetLineBreakAfter() { vector_.Set( 1 ); }
  private:
   int type_;
   int line_;
@@ -33,6 +38,7 @@ class TokenInfo : public Managed {
   bool is_let_;
   std::string token_;
   std::string renamed_;
+  BitVector8 vector_;
   CompilerInfo* info_;
 };
 

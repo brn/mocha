@@ -36,6 +36,7 @@ FOWARD_DECL(ClassProperties);
 FOWARD_DECL(ClassExpandar);
 FOWARD_DECL(ClassMember);
 FOWARD_DECL(Function);
+FOWARD_DECL(Property);
 FOWARD_DECL(CallExp);
 FOWARD_DECL(NewExp);
 FOWARD_DECL(YieldExp);

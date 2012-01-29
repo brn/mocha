@@ -69,9 +69,9 @@ public :
   }
 
   inline void Compile() {
-    LoadRuntime_();
-    /*CallInternal_( path_info_ , Internal::kFatal , false );
-    SymbolCollector visitor( &scope_ );
+    //LoadRuntime_();
+    CallInternal_( path_info_ , Internal::kFatal , false );
+    /*SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
     scope_.Rename();
     ast_root_.Accept( codegen_.Get() );

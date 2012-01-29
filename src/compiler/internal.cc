@@ -3,6 +3,7 @@
 #include <compiler/binding/parser_tracer.h>
 #include <compiler/binding/parser_connector.h>
 #include <compiler/compiler.h>
+#include <compiler/parser/parser.h>
 #include <compiler/scanner/token_stream.h>
 #include <compiler/scanner/source_stream.h>
 #include <compiler/scanner/scanner.h>
@@ -85,13 +86,9 @@ inline void Internal::ParseStart_ () {
   ErrorReporter reporter;
   SourceStream *source_stream = SourceStream::Create( buf.c_str() , main_file_path_ );
   Scanner *scanner = Scanner::Create( source_stream , &reporter , file_->GetFileName() );
-  for ( TokenInfo* info = Scanner::kEmpty; info = scanner->Advance(); ) {
-    if ( info->GetType() > 128 && info->GetType() != Token::JS_LINE_BREAK ) {
-      printf( "token str = %s %d\n" , info->GetToken(), info->GetType() );
-    } else if ( info->GetType() != Token::JS_LINE_BREAK && info->GetType() > -1 ) {
-      printf( "token ch = %c\n" , info->GetType() );
-    }
-  }
+  ParserConnector connector( compiler_ , ast_root_ , scanner , source_stream , &reporter );
+  Parser parser( &connector , &reporter , file_->GetFileName() );
+  FileRoot* root = parser.Parse();
   if ( reporter.Error() ) {
     std::string buf;
     reporter.SetError( &buf );

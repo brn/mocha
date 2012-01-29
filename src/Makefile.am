@@ -58,6 +58,8 @@ compiler/tokens/symbol_list.h\
 compiler/tokens/symbol_list.cc\
 compiler/utils/exception_handler.h\
 compiler/utils/exception_handler.cc\
+compiler/parser/parser.h\
+compiler/parser/parser.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
@@ -106,7 +108,6 @@ compiler/scanner/scanner.h\
 compiler/scanner/scanner.cc\
 compiler/tokens/js_token.cc\
 compiler/tokens/js_token.h\
-grammar/location.hh\
 mch/main.cc\
 utils/pool/managed_handle.h\
 utils/pool/managed_handle.cc\
@@ -151,8 +152,6 @@ compiler/tokens/token_info.h\
 utils/class_traits/uncopyable.h\
 utils/file_system/virtual_directory.h\
 utils/file_system/virtual_directory.cc\
-grammar/grammar.tab.hh\
-grammar/grammar.tab.cc\
 utils/file_watcher/observer/xml_observer.h\
 utils/file_watcher/observer/xml_observer.cc\
 utils/xml/versions.h\

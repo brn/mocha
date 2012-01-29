@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <string>
 #include <compiler/tokens/js_token.h>
 #include <grammar/grammar.tab.hh>
 #include <utils/hash/hash_map/hash_map.h>
@@ -801,4 +802,20 @@ const char* JsToken::GetTokenFromNumber( int id ) {
   return 0;
 }
 
+TokenConverter::TokenConverter( TokenInfo* token ) : info_( token ){}
+TokenConverter::~TokenConverter(){}
+TokenConverter::operator const char*() {
+  buf_.clear();
+  if ( info_ != 0 ) {
+    int type = info_->GetType();
+    if ( type > 127 ) {
+      return info_->GetToken();
+    } else {
+      buf_ += static_cast<char>( info_->GetType() );
+      return buf_.c_str();
+    }
+  } else {
+    return "empty";
+  }
+}
 }

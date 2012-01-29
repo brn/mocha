@@ -30,13 +30,11 @@
 namespace mocha {
   
 class Compiler;
-class ParserTracer;
 class Scanner;
-class Scope;
-class AstPtr;
 class AstRoot;
 class TokenInfo;
-class QueueScanner;
+class SourceStream;
+class ErrorReporter;
 
 /**
  * @class
@@ -55,9 +53,12 @@ class ParserConnector {
    * @param {Scope*} scope -> Scope instance.
    */
   ParserConnector ( Compiler *compiler,
-                    ParserTracer* tracer ,
                     AstRoot* ast_root,
-                    const std::string& source );
+                    Scanner* scanner,
+                    SourceStream* stream,
+                    ErrorReporter* reporter );
+
+  void Initialize();
   
   ~ParserConnector ();
 
@@ -66,30 +67,19 @@ class ParserConnector {
    * @param {void*} yylval -> Type erasured args. real type is ParserImplementation::semantic_type*
    * Run mocha::Scanner::GetToken().
    */
-  int InvokeScanner ( void* yylval , int yystate );
+  TokenInfo* Advance( int len = 1 );
+  TokenInfo* Undo( int len = 1 );
+  TokenInfo* Seek( int len = 1 );
 
-  /**
-   * @public
-   * Start bison parser. 
-   */
-  int ParseStart ();
-
-  /**
-   * @public
-   * Get current token linenumber.
-   */
-  long int GetLineNumber ();
-
- private :
-  long int line_;
-  bool is_end_;
-  Compiler* compiler_;
-  ParserTracer *tracer;
-  Scope* scope;
-  AstRoot* ast_root_;
-  //pimpl idiom.
-  ScopedPtr<QueueScanner> scanner_;
+  ErrorReporter* GetError();
   
+ private :
+  Compiler* compiler_;
+  AstRoot* ast_root_;
+  Scanner* scanner_;
+  SourceStream* stream_;
+  ErrorReporter* reporter_;
+  //pimpl idiom.
 };
 
 }

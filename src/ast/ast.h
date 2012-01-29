@@ -172,6 +172,7 @@ class AstNode : public Managed {
     kClassMember,
     kFunction,
     kCallExp,
+    kProperty,
     kNewExp,
     kYieldExp,
     kYieldMark,
@@ -1029,6 +1030,7 @@ class Expression : public AstNode {
   inline Expression* CastToExpression() { return this; }
   inline virtual AssignmentExp* CastToAssigment() { return 0; }
   inline virtual CallExp* CastToCallExp() { return 0; }
+  inline virtual Function* CastToFunction() { return 0; }
   virtual CLONE( Expression );
  private :
   bool paren_;
@@ -1148,6 +1150,7 @@ class Function : public Expression {
                       has_yield_( false ),
                       name_( 0 ) , argv_( 0 ) , iteration_list_( 0 ) {};
   inline ~Function(){};
+  inline Function* CastToFunction() { return this; }
   inline void Name( AstNode* name ){ name_ = name; };
   inline AstNode* Name(){ return name_; };
   inline AstNode* Argv(){ return argv_; };
@@ -1191,9 +1194,25 @@ class Function : public Expression {
 };
 
 
+class Property : public Expression {
+ public :
+  enum {
+    kDot,
+    kBracket,
+    kExtend
+  };
+  Property( int type ) : Expression( NAME_PARAMETER( Property ) ) , type_( type ){}
+  ~Property(){}
+  int Type() { return type_; }
+ private :
+  int type_;
+};
+
+
 class CallExp : public Expression {
  public :
   enum {
+    kNormalAccessor,
     kNormal,
     kBracket,
     kDot,
@@ -1202,7 +1221,7 @@ class CallExp : public Expression {
     kExtend
   };
   inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ),
-                               is_rest_( false ) , callable_( 0 ) , args_( 0 ){};
+                               is_call_( false ) , is_rest_( false ) , callable_( 0 ) , args_( 0 ){};
   inline ~CallExp() {};
   inline void Callable( AstNode* node ){ callable_ = node;node->ParentNode( this ); };
   inline AstNode* Callable() { return callable_; };
@@ -1215,10 +1234,13 @@ class CallExp : public Expression {
   inline void Rest() { is_rest_ = true; }
   inline bool IsRest() const { return is_rest_; }
   inline CallExp* CastToCallExp() { return this; }
+  inline void Call() { is_call_ = true; }
+  inline bool IsCall() { return is_call_; }
   CLONE(CallExp);
  private :
   int call_type_;
   int depth_;
+  bool is_call_;
   bool is_rest_;
   AstNode* callable_;
   AstNode* args_;

@@ -34,7 +34,10 @@ class Scanner::InternalScanner {
     while ( !IsEof_() ) {
       Skip_();
       if ( flags_.At( FLAG_LB ) ) {
-        PushBack_( Token::JS_LINE_BREAK );
+        TokenInfo* info = token_stream_->Last();
+        if ( info ) {
+          info->SetLineBreakAfter();
+        }
         flags_.UnSet( FLAG_LB );
       }
       char ch = Advance_();
@@ -62,6 +65,10 @@ class Scanner::InternalScanner {
       }
       SetRegExpAfter_();
       SetNumericAfter_();
+    }
+    TokenInfo* last = token_stream_->Last();
+    if ( last ) {
+      last->SetLineBreakBefor();
     }
     //Sentinel.
     token_stream_->Append( "" , Token::END_TOKEN , 0 );
@@ -833,7 +840,11 @@ class Scanner::InternalScanner {
    * Push back a pointer of TokenInfo to token_stream_.
    */
   inline void DoPushBack_( const char* ctoken , int type ) {
+    TokenInfo* info = token_stream_->Last();
     token_stream_->Append( ctoken , type , line_ );
+    if ( info && info->HasLineBreakAfter() ) {
+      token_stream_->Last()->SetLineBreakBefor();
+    }
   }
 
   int64_t line_;
