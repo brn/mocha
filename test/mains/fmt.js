@@ -1,4 +1,4 @@
-if( !Function.prototype.bind ){
+if( !Function.prototype. ){
   Function.prototype.bind = -> {
     var argArray = 0,
         ret = ->{

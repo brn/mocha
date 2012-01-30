@@ -680,10 +680,6 @@ VISITOR_IMPL( CallExp ) {
       DotAccessorProccessor_( ast_node );
       break;
 
-    case CallExp::kNew :
-      NewCallProccessor_( ast_node );
-      break;
-
     case CallExp::kBracket :
       ArrayAccessorProccessor_( ast_node );
       break;
@@ -694,7 +690,7 @@ VISITOR_IMPL( CallExp ) {
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
   writer_->WriteOp( Token::JS_NEW , 0 , stream_.Get() );
-  ast_node->Constructor()->Accept( this );
+  ast_node->FirstChild()->Accept( this );
 }
 
 

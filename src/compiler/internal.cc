@@ -89,32 +89,21 @@ inline void Internal::ParseStart_ () {
   ParserConnector connector( compiler_ , ast_root_ , scanner , source_stream , &reporter );
   Parser parser( &connector , &reporter , file_->GetFileName() );
   FileRoot* root = parser.Parse();
-  if ( reporter.Error() ) {
+  AstTransformer visitor ( is_runtime_ , scope_ , compiler_,
+                           main_file_path_ , file_->GetFileName() );
+  if ( !reporter.Error() ) {
+    AstRoot tmp_root;
+    tmp_root.AddChild( root );
+    tmp_root.Accept ( &visitor );
+    ast_root_->AddChild( root );
+  } else {
+    printf( "Error occured.\n" );
     std::string buf;
     reporter.SetError( &buf );
     printf( "%s\n" , buf.c_str() );
-  }
-  /*
-  AstRoot root;
-  mocha::ParserTracer tracer( path_info_->GetFileIdentifier().Get() );
-  mocha::ParserConnector parser ( compiler_,
-                                  &tracer,
-                                  &root,
-                                  buf );
-  parser.ParseStart ();
-  
-  mocha::AstTransformer visitor ( is_runtime_ , scope_ , compiler_,
-                              main_file_path_ , file_->GetFileName() );
-  
-  if ( !tracer.IsSyntaxError () ) {
-    root.Accept ( &visitor );
-    ast_root_->AddChild( root.FirstChild() );
-  } else {
-    printf( "Error occured.\n" );
-    SyntaxError_( tracer );
     Setting::GetInstance()->Log( "syntax error found in file %s.",
                                  file_->GetFileName() );
-                                 }*/
+  }
 }
 
 inline void Internal::OpenError_() {

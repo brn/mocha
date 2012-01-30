@@ -1031,6 +1031,7 @@ class Expression : public AstNode {
   inline virtual AssignmentExp* CastToAssigment() { return 0; }
   inline virtual CallExp* CastToCallExp() { return 0; }
   inline virtual Function* CastToFunction() { return 0; }
+  inline virtual Property* CastToProperty() { return 0; }
   virtual CLONE( Expression );
  private :
   bool paren_;
@@ -1205,6 +1206,7 @@ class Property : public Expression {
   Property( int type ) : Expression( NAME_PARAMETER( Property ) ) , type_( type ){}
   ~Property(){}
   int Type() { return type_; }
+  inline Property* CastToProperty(){ return this; }
  private :
   int type_;
 };

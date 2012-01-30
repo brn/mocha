@@ -462,7 +462,6 @@ VISITOR_IMPL( CallExp ) {
   PRINT_NODE_NAME;
   switch ( ast_node->CallType() ) {
     case CallExp::kNormal :
-    case CallExp::kNew :
       CallProcessor::ProcessFnCall( ast_node , proc_info_.Get() );
       break;
 
@@ -490,7 +489,7 @@ VISITOR_IMPL( CallExp ) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  ast_node->Constructor()->Accept( this );
+  ast_node->FirstChild()->Accept( this );
 }
 
 

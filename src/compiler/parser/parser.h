@@ -14,6 +14,7 @@ class Parser{
   ~Parser();
   FileRoot* Parse();
  private :
+  typedef bool ( *StatementListMatcher )( int type );
   inline TokenInfo* Advance_( int len = 1 ) {
     TokenInfo* info = connector_->Advance( len );
     //printf( "advance %s\n" , static_cast<const char*>( TokenConverter(info) ) );
@@ -29,6 +30,7 @@ class Parser{
   AstNode* ParseProgram_();
   AstNode* ParseSourceElements_();
   AstNode* ParseSourceElement_();
+  AstNode* ParseStatementList_( StatementListMatcher matcher );
   AstNode* ParseStatement_();
   AstNode* ParseBlockStatement_();
   AstNode* ParseModuleStatement_();
@@ -79,6 +81,9 @@ class Parser{
   AstNode* ParseCallExpression_();
   AstNode* ParseArguments_();
   AstNode* ParseMemberExpression_();
+  AstNode* ParseBracketMember_();
+  AstNode* ParseDotMember_( bool *is_bool );
+  CallExp* ParseEachMember_( int type , bool is_first , CallExp* exp );
   AstNode* ParsePrimaryExpression_();
   AstNode* ParseObjectLiteral_();
   AstNode* ParseObjectElement_( int type , TokenInfo* token , AstNode* list );
@@ -93,6 +98,7 @@ class Parser{
   AstNode* ParseArrayComprehensions_();
 
   const char* filename_;
+  bool is_source_elements_parse_begin_;
   std::string indent_;
   ParserConnector* connector_;
   ErrorReporter* reporter_;
