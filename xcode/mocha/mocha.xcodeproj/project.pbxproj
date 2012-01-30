@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4225925B14D61AAB00601E9A /* parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4225925914D61AAB00601E9A /* parser.cc */; };
 		42CFAA5214BFE9810073ADD3 /* symbol_collector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */; };
 		42E9C0F514CD21F30043DAE1 /* scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0EF14CD21F30043DAE1 /* scanner.cc */; };
 		42E9C0F614CD21F30043DAE1 /* source_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0F114CD21F30043DAE1 /* source_stream.cc */; };
@@ -45,7 +46,6 @@
 		F217FDEB14B0D9F700EF26E8 /* list_runner.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FC9F14B0D9F700EF26E8 /* list_runner.cc */; };
 		F217FDEC14B0D9F700EF26E8 /* observer_runner.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCA114B0D9F700EF26E8 /* observer_runner.cc */; };
 		F217FDED14B0D9F700EF26E8 /* parser_connector.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCA514B0D9F700EF26E8 /* parser_connector.cc */; };
-		F217FDEE14B0D9F700EF26E8 /* parser_tracer.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCA714B0D9F700EF26E8 /* parser_tracer.cc */; };
 		F217FDEF14B0D9F700EF26E8 /* compiler.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCAA14B0D9F700EF26E8 /* compiler.cc */; };
 		F217FDF014B0D9F700EF26E8 /* internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCAC14B0D9F700EF26E8 /* internal.cc */; };
 		F217FDF114B0D9F700EF26E8 /* queue_scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCAF14B0D9F700EF26E8 /* queue_scanner.cc */; };
@@ -56,7 +56,6 @@
 		F217FDF614B0D9F700EF26E8 /* compiler_starter.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCBF14B0D9F700EF26E8 /* compiler_starter.cc */; };
 		F217FDF714B0D9F700EF26E8 /* compiler_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCC114B0D9F700EF26E8 /* compiler_utils.cc */; };
 		F217FDF814B0D9F700EF26E8 /* exception_handler.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCC314B0D9F700EF26E8 /* exception_handler.cc */; };
-		F217FDF914B0D9F700EF26E8 /* grammar.tab.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCCA14B0D9F700EF26E8 /* grammar.tab.cc */; };
 		F217FDFB14B0D9F700EF26E8 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCD414B0D9F700EF26E8 /* main.cc */; };
 		F217FDFC14B0D9F700EF26E8 /* mocha.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCD514B0D9F700EF26E8 /* mocha.cc */; };
 		F217FDFD14B0D9F700EF26E8 /* commandline_options.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCD914B0D9F700EF26E8 /* commandline_options.cc */; };
@@ -99,6 +98,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4225925914D61AAB00601E9A /* parser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parser.cc; path = parser/parser.cc; sourceTree = "<group>"; };
+		4225925A14D61AAB00601E9A /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parser.h; path = parser/parser.h; sourceTree = "<group>"; };
 		42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symbol_collector.cc; sourceTree = "<group>"; };
 		42CFAA5114BFE9810073ADD3 /* symbol_collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symbol_collector.h; sourceTree = "<group>"; };
 		42E9C0EF14CD21F30043DAE1 /* scanner.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scanner.cc; sourceTree = "<group>"; };
@@ -178,9 +179,6 @@
 		F217FCA214B0D9F700EF26E8 /* observer_runner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = observer_runner.h; sourceTree = "<group>"; };
 		F217FCA514B0D9F700EF26E8 /* parser_connector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parser_connector.cc; sourceTree = "<group>"; };
 		F217FCA614B0D9F700EF26E8 /* parser_connector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser_connector.h; sourceTree = "<group>"; };
-		F217FCA714B0D9F700EF26E8 /* parser_tracer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parser_tracer.cc; sourceTree = "<group>"; };
-		F217FCA814B0D9F700EF26E8 /* parser_tracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser_tracer.h; sourceTree = "<group>"; };
-		F217FCA914B0D9F700EF26E8 /* yylex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yylex.h; sourceTree = "<group>"; };
 		F217FCAA14B0D9F700EF26E8 /* compiler.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compiler.cc; sourceTree = "<group>"; };
 		F217FCAB14B0D9F700EF26E8 /* compiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compiler.h; sourceTree = "<group>"; };
 		F217FCAC14B0D9F700EF26E8 /* internal.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = internal.cc; sourceTree = "<group>"; };
@@ -205,12 +203,6 @@
 		F217FCC514B0D9F700EF26E8 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		F217FCC614B0D9F700EF26E8 /* config.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.h.in; sourceTree = "<group>"; };
 		F217FCC714B0D9F700EF26E8 /* define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = define.h; sourceTree = "<group>"; };
-		F217FCCA14B0D9F700EF26E8 /* grammar.tab.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = grammar.tab.cc; sourceTree = "<group>"; };
-		F217FCCB14B0D9F700EF26E8 /* grammar.tab.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = grammar.tab.hh; sourceTree = "<group>"; };
-		F217FCCC14B0D9F700EF26E8 /* grammar.yy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grammar.yy; sourceTree = "<group>"; };
-		F217FCCD14B0D9F700EF26E8 /* location.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = location.hh; sourceTree = "<group>"; };
-		F217FCCE14B0D9F700EF26E8 /* position.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = position.hh; sourceTree = "<group>"; };
-		F217FCCF14B0D9F700EF26E8 /* stack.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = stack.hh; sourceTree = "<group>"; };
 		F217FCD114B0D9F700EF26E8 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		F217FCD214B0D9F700EF26E8 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
 		F217FCD414B0D9F700EF26E8 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
@@ -696,7 +688,6 @@
 				F217FCC514B0D9F700EF26E8 /* config.h */,
 				F217FCC614B0D9F700EF26E8 /* config.h.in */,
 				F217FCC714B0D9F700EF26E8 /* define.h */,
-				F217FCC814B0D9F700EF26E8 /* grammar */,
 				F217FCD114B0D9F700EF26E8 /* Makefile.am */,
 				F217FCD214B0D9F700EF26E8 /* Makefile.in */,
 				F217FCD314B0D9F700EF26E8 /* mch */,
@@ -845,6 +836,8 @@
 		F217FCA314B0D9F700EF26E8 /* compiler */ = {
 			isa = PBXGroup;
 			children = (
+				4225925914D61AAB00601E9A /* parser.cc */,
+				4225925A14D61AAB00601E9A /* parser.h */,
 				42E9C0FB14CD22390043DAE1 /* encoding */,
 				F217FCA414B0D9F700EF26E8 /* binding */,
 				F217FCAA14B0D9F700EF26E8 /* compiler.cc */,
@@ -864,9 +857,6 @@
 			children = (
 				F217FCA514B0D9F700EF26E8 /* parser_connector.cc */,
 				F217FCA614B0D9F700EF26E8 /* parser_connector.h */,
-				F217FCA714B0D9F700EF26E8 /* parser_tracer.cc */,
-				F217FCA814B0D9F700EF26E8 /* parser_tracer.h */,
-				F217FCA914B0D9F700EF26E8 /* yylex.h */,
 			);
 			path = binding;
 			sourceTree = "<group>";
@@ -922,19 +912,6 @@
 				F217FCC414B0D9F700EF26E8 /* exception_handler.h */,
 			);
 			path = utils;
-			sourceTree = "<group>";
-		};
-		F217FCC814B0D9F700EF26E8 /* grammar */ = {
-			isa = PBXGroup;
-			children = (
-				F217FCCA14B0D9F700EF26E8 /* grammar.tab.cc */,
-				F217FCCB14B0D9F700EF26E8 /* grammar.tab.hh */,
-				F217FCCC14B0D9F700EF26E8 /* grammar.yy */,
-				F217FCCD14B0D9F700EF26E8 /* location.hh */,
-				F217FCCE14B0D9F700EF26E8 /* position.hh */,
-				F217FCCF14B0D9F700EF26E8 /* stack.hh */,
-			);
-			path = grammar;
 			sourceTree = "<group>";
 		};
 		F217FCD314B0D9F700EF26E8 /* mch */ = {
@@ -1285,7 +1262,6 @@
 				F217FDEB14B0D9F700EF26E8 /* list_runner.cc in Sources */,
 				F217FDEC14B0D9F700EF26E8 /* observer_runner.cc in Sources */,
 				F217FDED14B0D9F700EF26E8 /* parser_connector.cc in Sources */,
-				F217FDEE14B0D9F700EF26E8 /* parser_tracer.cc in Sources */,
 				F217FDEF14B0D9F700EF26E8 /* compiler.cc in Sources */,
 				F217FDF014B0D9F700EF26E8 /* internal.cc in Sources */,
 				F217FDF114B0D9F700EF26E8 /* queue_scanner.cc in Sources */,
@@ -1296,7 +1272,6 @@
 				F217FDF614B0D9F700EF26E8 /* compiler_starter.cc in Sources */,
 				F217FDF714B0D9F700EF26E8 /* compiler_utils.cc in Sources */,
 				F217FDF814B0D9F700EF26E8 /* exception_handler.cc in Sources */,
-				F217FDF914B0D9F700EF26E8 /* grammar.tab.cc in Sources */,
 				F217FDFB14B0D9F700EF26E8 /* main.cc in Sources */,
 				F217FDFC14B0D9F700EF26E8 /* mocha.cc in Sources */,
 				F217FDFD14B0D9F700EF26E8 /* commandline_options.cc in Sources */,
@@ -1330,6 +1305,7 @@
 				42E9C0F714CD21F30043DAE1 /* token_stream.cc in Sources */,
 				42E9C0FA14CD22180043DAE1 /* error_reporter.cc in Sources */,
 				42E9C0FE14CD22390043DAE1 /* encoding.cc in Sources */,
+				4225925B14D61AAB00601E9A /* parser.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

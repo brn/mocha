@@ -1199,7 +1199,8 @@ class Property : public Expression {
   enum {
     kDot,
     kBracket,
-    kExtend
+    kExtend,
+    kNew
   };
   Property( int type ) : Expression( NAME_PARAMETER( Property ) ) , type_( type ){}
   ~Property(){}

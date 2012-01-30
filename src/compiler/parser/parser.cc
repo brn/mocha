@@ -26,8 +26,8 @@ const char import_from[] = { "from" };
 #define PARSER_DEBUG 1
 
 #ifdef PARSER_DEBUG
-#define ENTER(mode) indent_+=' ';fprintf( stderr , "%snext token = %s enter %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode )
-#define END(mode) fprintf( stderr , "%snext token = %s end %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode );indent_.erase(0,1)
+#define ENTER(mode) fflush(stdout);indent_+=' ';fprintf( stderr , "%snext token = %s enter %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode )
+#define END(mode) fflush(stdout);fprintf( stderr , "%snext token = %s end %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode );indent_.erase(0,1)
 #else
 #define ENTER(mode)
 #define END(mode)
@@ -175,7 +175,6 @@ AstNode* Parser::ParseStatement_() {
    *;
    */
   TokenInfo* info = Advance_();
-  printf( "%s\n" , static_cast<const char*>( TokenConverter( info ) ) );
   AstNode* result;
   switch ( info->GetType() ) {
     case '{' :
@@ -287,7 +286,6 @@ AstNode* Parser::ParseBlockStatement_() {
       list->AddChild( statement );
       info = Seek_();
       type = info->GetType();
-      printf( "token in block %s\n" , static_cast<const char*>( TokenConverter( info ) ) );
       if ( type == '}' ) {
         Advance_();
         break;
@@ -302,7 +300,6 @@ AstNode* Parser::ParseBlockStatement_() {
     Advance_();
     block->AddChild( ManagedHandle::Retain<Empty>() );
   }
-  printf( "end BlockStatement  %s\n" , static_cast<const char*>( TokenConverter( Seek_() ) ) );
   END(BlockStatement);
   return block;
 }
@@ -546,7 +543,6 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
     }
     next = Seek_();
     next_type = next->GetType();
-    printf( "next token = %s\n" , static_cast<const char*>( TokenConverter( next ) ) );
     /*
      * If next token type is semicolon or line break, declarations are end,
      * if next token type is comma, declaration is continue after,
@@ -567,7 +563,6 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
     maybe_assign_op = Seek_( 2 );
     next = Seek_();
     next_type = next->GetType();
-    printf( "end token = %s\n" , static_cast<const char*>( TokenConverter( next ) ) );
   }
   END(VariableDecl);
   return list;
@@ -798,7 +793,6 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
   if ( type == '(' ) {
     AstNode* exp = ParseExpression_( false );
     CHECK_ERROR( if_stmt );
-    printf( "in if exp %s\n" , static_cast<const char*>(TokenConverter( Seek_() )) );
     if_stmt->Exp( exp );
     token = Advance_();
     type = token->GetType();
@@ -1814,7 +1808,6 @@ AstNode* Parser::ParseUnaryExpression_() {
   ENTER(UnaryExpression);
   TokenInfo* token = Seek_();
   int type = token->GetType();
-  printf( "in unary %s\n" , static_cast<const char*>(TokenConverter( token )) );
   if ( IsUnaryOp( type ) ) {
     Advance_();
     AstNode* post_exp = ParsePostfixExpression_();
@@ -1868,19 +1861,38 @@ NewExp* Parser::ParseNewExpression_() {
   Advance_();
   TokenInfo* token = Seek_();
   int type = token->GetType();
-  NewExp* new_exp = ManagedHandle::Retain<NewExp>();
-  new_exp->Line( token->GetLineNumber() );
-  if ( type == Token::JS_NEW ) {
-    NewExp* exp = ParseNewExpression_();
-    CHECK_ERROR( exp );
-    new_exp->Constructor( exp );
-  } else {
-    AstNode* member = ParseMemberExpression_();
-    CHECK_ERROR( new_exp );
-    new_exp->Constructor( member );
+  NodeList* list = ManagedHandle::Retain<NodeList>();
+  while ( type == Token::JS_NEW ) {
+    Advance_();
+    Property* prop = ManagedHandle::Retain( new Property( Property::kNew ) );
+    list->AddChild( prop );
+    token = Seek_();
+    type = token->GetType();
   }
-  END(NewExpression);
-  return new_exp;
+  AstNode* member = ParseCallExpression_();
+  if ( member->NodeType() == AstNode::kCallExp ) {
+    CallExp* ret = member->CastToExpression()->CastToCallExp();
+    if ( ret->IsCall() ) {
+      ReverseNodeIterator riterator = list->ReverseChildNodes();
+      while ( riterator.HasNext() ) {
+        ret->InsertBefore( riterator.Next() );
+      }
+      END(NewExpression);
+      return ret;
+    } else {
+      NewExp* new_exp = ManagedHandle::Retain<NewExp>();
+      list->Append( member );
+      new_exp->AddChild( list );
+      END(NewExpression);
+      return new_exp;
+    }
+  } else {
+    NewExp* new_exp = ManagedHandle::Retain<NewExp>();
+    list->AddChild( member );
+    new_exp->AddChild( list );
+    END(NewExpression);
+    return new_exp;
+  }
 }
 
 AstNode* Parser::ParseCallExpression_() {

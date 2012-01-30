@@ -7,3 +7,4 @@ if( !Function.prototype.bind ){
     return ret;
   }
 }
+
