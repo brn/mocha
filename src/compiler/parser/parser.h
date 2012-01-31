@@ -30,7 +30,7 @@ class Parser{
   AstNode* ParseProgram_();
   AstNode* ParseSourceElements_();
   AstNode* ParseSourceElement_();
-  AstNode* ParseStatementList_( StatementListMatcher matcher );
+  AstNode* ParseStatementList_( StatementListMatcher matcher , const char* expect );
   AstNode* ParseStatement_();
   AstNode* ParseBlockStatement_();
   AstNode* ParseModuleStatement_();

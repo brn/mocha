@@ -68,7 +68,7 @@ class Scanner::InternalScanner {
     }
     TokenInfo* last = token_stream_->Last();
     if ( last ) {
-      last->SetLineBreakBefor();
+      last->SetLineBreakAfter();
     }
     //Sentinel.
     token_stream_->Append( "" , Token::END_TOKEN , 0 );
