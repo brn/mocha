@@ -137,8 +137,10 @@ DstaTree* ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorIn
     if ( prop ) {
       if ( prop->ValueType() == ValueNode::kDst ) {
         ProcessObject( prop , tree , ( depth + 1 ) , info );
+        UPDATE_TREE;
       } else if ( prop->ValueType() == ValueNode::kDstArray ) {
         ProcessArray( prop , tree , ( depth + 1 ) , info );
+        UPDATE_TREE;
       } else {
         prop->ValueType( ValueNode::kProperty );
         tree->Symbol( prop );

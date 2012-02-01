@@ -673,27 +673,47 @@ AstNode* Parser::ParseArrayPattern_() {
    * ;
    */
   TokenInfo* token = Seek_();
-  int brack_count = 1;
   int type = token->GetType();
   ValueNode* destructuring = ManagedHandle::Retain( new ValueNode( ValueNode::kDstArray ) );
   destructuring->Line( token->GetLineNumber() );
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  while ( brack_count > 0 ) {
+  while ( 1 ) {
     //Check bracket count.
-    if ( type == '[' ) {
-      brack_count++;
+    if ( type == '[' || type == '{' ) {
+      AstNode* elem = ParseDestructuringLeftHandSide_();
+      CHECK_ERROR(list);
+      list->AddChild( elem );
+      token = Seek_();
+      type = token->GetType();
+      if ( type == ',' ) {
+        Advance_();
+      }
     } else if ( type == ']' ) {
-      brack_count--;
+      Advance_();
+      break;
     } else {
       if ( type == ',' ) {
+        printf( "empty!!\n" );
         list->AddChild( ManagedHandle::Retain<Empty>() );
         Advance_();
+        token = Seek_();
+        type = token->GetType();
+        if ( type == ']' ) {
+          list->AddChild( ManagedHandle::Retain<Empty>() );
+          Advance_();
+          break;
+        }
       } else if ( type == Token::JS_IDENTIFIER ) {
         AstNode* value = ParseLiteral_();
         CHECK_ERROR( list );
         list->AddChild( value );
+        token = Seek_();
+        type = token->GetType();
+        if ( type == ',' ) {
+          Advance_();
+        }
       } else if ( type == Token::JS_PARAMETER_REST ) {
-        token = Advance_();
+        token = Advance_( 2 );
         type = token->GetType();
         if ( type == Token::JS_IDENTIFIER ) {
           ValueNode* rest = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
@@ -744,27 +764,37 @@ AstNode* Parser::ParseObjectPattern_() {
   TokenInfo* token = Seek_();
   int type = token->GetType();
   int maybe_colon = Seek_( 2 )->GetType();
-  int brace_count = 1;
   ValueNode* destructuring = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
   destructuring->Line( token->GetLineNumber() );
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  while ( brace_count > 0 ) {
+  while ( 1 ) {
     if ( maybe_colon == '}' ) {
-      AstNode* elem = ParseObjectPatternElement_( type , token , list );
-      brace_count--;
-    } else if ( maybe_colon == '{' ) {
-      brace_count++;
+      ParseObjectPatternElement_( type , token , list );
+      Advance_();
+      break;
+    } else if ( maybe_colon == ',' ) {
+      ParseObjectPatternElement_( type , token , list );
+      Advance_();
     } else if ( maybe_colon == ':' ) {
       AstNode* node = ParseLiteral_();
       Advance_();
       token = Seek_();
-      ParseObjectPatternElement_( type , token , node );
+      type = token->GetType();
+      if ( type == '[' || type == '{' ) {
+        AstNode* elem = ParseDestructuringLeftHandSide_();
+        CHECK_ERROR( elem );
+        node->AddChild( elem );
+      } else {
+        ParseObjectPatternElement_( type , token , node );
+      }
       CHECK_ERROR( list );
       list->AddChild( node );
       token = Advance_();
       type = token->GetType();
       if ( type == '}' ) {
-        brace_count--;
+        break;
+      } else if ( type == ',' ) {
+        printf( "%s\n" , static_cast<const char*>( TokenConverter( token ) ) );
       }
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -788,7 +818,6 @@ AstNode* Parser::ParseObjectPatternElement_( int type , TokenInfo* token , AstNo
   if ( type == Token::JS_IDENTIFIER ) {
     AstNode* node = ParseLiteral_();
     CHECK_ERROR( node );
-    Advance_();
     list->AddChild( node );
     END(ObjectPatternElement);
     return node;
@@ -2263,8 +2292,15 @@ AstNode* Parser::ParseObjectLiteral_() {
       if ( maybe_colon == '}' ) {
         AstNode* node = ParseObjectElement_( type , token , list );
         CHECK_ERROR( node );
+        Advance_();
         node->AddChild( node->Clone() );
         break;
+      } else if ( maybe_colon == ',' ) {
+        AstNode* node = ParseObjectElement_( type , token , list );
+        CHECK_ERROR(list);
+        node->AddChild( node->Clone() );
+        token = Seek_();
+        type = token->GetType();
       } else if ( maybe_colon == ':' ) {
         AstNode* node = ParseLiteral_();
         CHECK_ERROR( node );
@@ -2273,6 +2309,8 @@ AstNode* Parser::ParseObjectLiteral_() {
         CHECK_ERROR( assign );
         node->AddChild( assign );
         list->AddChild( node );
+        token = Seek_();
+        type = token->GetType();
       } else if ( maybe_colon == '(' || maybe_colon == Token::JS_FUNCTION_GLYPH ||
                   maybe_colon == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
         AstNode* fn = ParseFunctionDecl_( false );
@@ -2280,23 +2318,30 @@ AstNode* Parser::ParseObjectLiteral_() {
         ValueNode* val = fn->CastToExpression()->CastToFunction()->Name()->Clone()->CastToValue();
         val->AddChild( fn );
         list->AddChild( val );
+        token = Seek_();
+        type = token->GetType();
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << ". In 'destructuring assignment object pattern'"
-                      " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\nin file "
+                      << ". In 'object literal'\n"
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ObjectLiteralError);
         return object;
+      }
+      if ( type == ',' ) {
+        Advance_();
+      } else if ( type == '}' ) {
+        Advance_();
+        break;
       }
       token = Seek_();
       type = token->GetType();
       maybe_colon = Seek_( 2 )->GetType();
     }
-    object->AddChild( list );
+    object->Node( list );
   } else {
     Advance_();
-    object->AddChild( ManagedHandle::Retain<Empty>() );
+    object->Node( ManagedHandle::Retain<Empty>() );
   }
   END(ObjectLiteral);
   return object;  
@@ -2468,7 +2513,7 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     AstNode* name = ParseLiteral_();
     CHECK_ERROR( name );
     fn->Name( name );
-    token = Advance_();
+    token = Seek_();
     type = token->GetType();
   } else {
     fn->Name( ManagedHandle::Retain<Empty>() );
@@ -2543,7 +2588,7 @@ AstNode* Parser::ParseFormalParameter_() {
   while ( type != ')' && !IsEnd( type ) ) {
     if ( IsValidFormalParameter( type ) ) {
       AstNode* node;
-      if( type == '{' || type == ']' ){
+      if( type == '{' || type == '[' ){
         node = ParseDestructuringLeftHandSide_();
         CHECK_ERROR(node);
         ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );

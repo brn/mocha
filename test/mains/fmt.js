@@ -17,4 +17,11 @@ while ( m-- ) {
   console.log( m );
 }
 var v = function () { return 200; },
-    v2 = function ( {x} , y ) { return 400; }
+    v2 = function ( [a,{b},...rest] , y ) { return 400; }
+
+testFn( {x} , y , z )->300;
+var {test2} = {test2:300};
+var testObject = {
+      a,
+      b->200
+    }
