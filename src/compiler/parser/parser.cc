@@ -435,7 +435,7 @@ AstNode* Parser::ParseImportStatement_() {
     stmt->From( exp );
     TokenInfo* semicolon = Seek_();
     int type = semicolon->GetType();
-    if ( !semicolon->HasLineBreakBefore() && type != ';' ) {
+    if ( !semicolon->HasLineBreakBefore() && type != ';' && type != '}' ) {
       SYNTAX_ERROR( "parse error unexpected token "
                     << TokenConverter( semicolon )
                     << "after 'import statement' expect ';' or 'line break'\nin file "
@@ -616,7 +616,7 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
      * if next token type is comma, declaration is continue after,
      * if not, it's error.
      */
-    if ( next_type != ',' && ( next->HasLineBreakBefore() || next_type == ';' || IsEnd( next_type ) ) ) {
+    if ( next_type != ',' && ( next->HasLineBreakBefore() || next_type == '}' || next_type == ';' || IsEnd( next_type ) ) ) {
       break;
     } else if ( next_type != ',' ) {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -850,8 +850,8 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
     AstNode* ret = ParseExpression_( false );
     CHECK_ERROR( ret );
     TokenInfo* token = Seek_();
-    int type = Seek_( 2 )->GetType();
-    if ( type == ';' || token->HasLineBreakAfter() ) {
+    int type = token->GetType();
+    if ( type == ';' || type == '}' || token->HasLineBreakBefore() ) {
       if ( type == ';' ) {
         Advance_();
       }
@@ -1235,7 +1235,7 @@ AstNode* Parser::ParseReturnStatement_() {
   int type = token->GetType();
   ReturnStmt* stmt = ManagedHandle::Retain<ReturnStmt>();
   stmt->Line( Seek_( -1 )->GetLineNumber() );
-  if ( type == ';' || token->HasLineBreakBefore() ) {
+  if ( type == ';' || type == '}' || token->HasLineBreakBefore() ) {
     stmt->AddChild( ManagedHandle::Retain<Empty>() );
   } else {
     AstNode* exp = ParseExpression_( false );
@@ -1243,7 +1243,7 @@ AstNode* Parser::ParseReturnStatement_() {
     stmt->AddChild( exp );
     TokenInfo *maybe_semicolon = Seek_();
     int type = maybe_semicolon->GetType();
-    if ( type == ';' || maybe_semicolon->HasLineBreakBefore() ) {
+    if ( type == ';' || type == '}' || maybe_semicolon->HasLineBreakBefore() ) {
       if ( type == ';' ) {
         Advance_();
       }
@@ -1401,7 +1401,7 @@ AstNode* Parser::ParseThrowStatement_() {
   throw_stmt->Exp( exp );
   token = Advance_();
   int type = token->GetType();
-  if ( type != ';' && !token->HasLineBreakBefore() ) {
+  if ( type != ';' && type != '}' && !token->HasLineBreakBefore() ) {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
                   << " in 'throw statement' expect ';' or 'line break'\nin file"
@@ -1700,12 +1700,21 @@ AstNode* Parser::ParseExpression_( bool is_noin ) {
   exp->AddChild( assignment );
   TokenInfo* token = Seek_();
   int type = token->GetType();
-  while ( type == ',' ) {
-    AstNode* assignment = ParseAssignmentExpression_( is_noin );
-    CHECK_ERROR( exp );
-    exp->AddChild( assignment );
-    token = Seek_();
-    type = token->GetType();
+  if ( type == ',' ) {
+    Advance_();
+    while ( 1 ) {
+      AstNode* assignment = ParseAssignmentExpression_( is_noin );
+      CHECK_ERROR( exp );
+      exp->AddChild( assignment );
+      token = Seek_();
+      type = token->GetType();
+      if ( type == ',' ) {
+        token = Advance_();
+        type = token->GetType();
+      } else {
+        break;
+      }
+    }
   }
   END(Expression);
   return exp;
@@ -1760,7 +1769,7 @@ AstNode* Parser::ParseYieldExpression_( bool is_noin ) {
   if ( type == Token::JS_YIELD ) {
     token = Advance_();
     type = token->GetType();
-    if ( token->HasLineBreakAfter() || Seek_()->GetType() == ';' ) {
+    if ( token->HasLineBreakAfter() || type == ';' || type == '}' ) {
       YieldExp* exp = ManagedHandle::Retain<YieldExp>();
       exp->Line( token->GetLineNumber() );
       END(YieldExpression);
@@ -2008,6 +2017,7 @@ AstNode* Parser::ParseCallExpression_() {
     token = Seek_();
     type = token->GetType();
     if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+      Advance_();
       AstNode* fn = ParseArrowFunctionExpression_( member , arguments , type );
       CHECK_ERROR(fn);
       END(ParseCallExpression_);
@@ -2041,6 +2051,7 @@ AstNode* Parser::ParseCallExpression_() {
       END(CallExpression);
       return first;
     } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+      Advance_();
       END(CallExpression);
       return ParseArrowFunctionExpression_( member , arguments , type );
     } else {
@@ -2275,6 +2286,15 @@ AstNode* Parser::ParsePrimaryExpression_() {
     CHECK_ERROR( exp );
     token = Seek_();
     type = token->GetType();
+    if ( type == ')' ) {
+      Advance_();
+      token = Seek_();
+      type = token->GetType();
+    } else {
+      SYNTAX_ERROR( "parse error unmatched parensis\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      return exp;
+    }
     if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
       Advance_();
       END(PrimaryExpression);
@@ -2304,7 +2324,6 @@ AstNode* Parser::ParseObjectLiteral_() {
       if ( maybe_colon == '}' ) {
         AstNode* node = ParseObjectElement_( type , token , list );
         CHECK_ERROR( node );
-        Advance_();
         node->AddChild( node->Clone() );
         break;
       } else if ( maybe_colon == ',' ) {
@@ -2677,6 +2696,47 @@ AstNode* Parser::ParseFormalParameter_() {
 }
 
 
+void DstRewriter( AstNode *dst ) {
+  NodeIterator iterator = dst->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* node = iterator.Next();
+    ValueNode* value = node->CastToValue();
+    if ( value ) {
+      int type = value->ValueType();
+      if ( type == ValueNode::kArray || type == ValueNode::kObject ) {
+        type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
+        value->ValueType( type );
+        DstRewriter( value->Node() );
+      }
+    }
+  }
+}
+
+
+void DstConvertor( AstNode *args , AstNode* list ) {
+  NodeIterator iterator = args->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    ValueNode* maybe_dst = item->CastToValue();
+    if ( maybe_dst ) {
+      int type = maybe_dst->ValueType();
+      if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
+        type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
+        maybe_dst->ValueType( type );
+        DstRewriter( maybe_dst->Node() );
+        ValueNode* dst = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+        dst->Line( maybe_dst->Line() );
+        dst->Node( maybe_dst );
+        list->AddChild( dst );
+        continue;
+      }
+    }
+    list->AddChild( item );
+  }
+}
+
+
+
 AstNode* Parser::ParseArrowFunctionExpression_( AstNode* exp , int type ) {
   ENTER(ArrowFunctionExpression);
   Function* fn = ManagedHandle::Retain<Function>();
@@ -2684,7 +2744,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* exp , int type ) {
     fn->ContextType( Function::kThis );
   }
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  list->Append( exp );
+  DstConvertor( exp , list );
   fn->Argv( list );
   fn->Name( ManagedHandle::Retain<Empty>() );
   END( ArrowFunctionExpression );
@@ -2707,7 +2767,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* member , AstNode* args 
   }
   fn->Name( maybeIdent );
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  list->Append( args );
+  DstConvertor( args , list );
   fn->Argv( list );
   END( ArrowFunctionExpression );
   return ParseArrowFunctionBody_( fn );

@@ -65,39 +65,59 @@
         }
       };
   
+  function () {
+    try {
+      __LINE__ = 23;
+      return 300;
+    } catch( e ){
+      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+    }
+  }
   __LINE__ = 0;
-  function testFn( x ) {
+  function testFn( _mochaLocalTmp1 ) {
     try {
       __LINE__ = 0;
-      return function () {
-        try {
-          __LINE__ = 22;
-          return 200;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      };
+      var a = ( _mochaLocalTmp1.x && _mochaLocalTmp1.x[0] )?_mochaLocalTmp1.x[0] : undefined,
+          b = ( _mochaLocalTmp1.x && _mochaLocalTmp1.x[1] )?_mochaLocalTmp1.x[1] : undefined,
+          c = ( _mochaLocalTmp1.x && _mochaLocalTmp1.x[2] )?_mochaLocalTmp1.x[2] : undefined,
+          z = _mochaLocalTmp1.z;
+      __LINE__ = 25;
+      return 200;
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }
   };
   
   __LINE__ = 0;
-  var _mochaLocalTmp1 =  {
+  var m = function ( _mochaLocalTmp2,_mochaLocalTmp3,_mochaLocalTmp4 ) {
+        try {
+          __LINE__ = 0;
+          var x = _mochaLocalTmp2.x,
+              y = _mochaLocalTmp3.y,
+              z = _mochaLocalTmp4.z;
+          __LINE__ = 26;
+          return 200;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      };
+  
+  __LINE__ = 0;
+  var _mochaLocalTmp5 =  {
         test2 : 300
       },
-      x = ( _mochaLocalTmp1.test2 && _mochaLocalTmp1.test2.x )?_mochaLocalTmp1.test2.x : undefined,
-      test = _mochaLocalTmp1.test,
-      a = ( _mochaLocalTmp1.v && _mochaLocalTmp1.v[0] )?_mochaLocalTmp1.v[0] : undefined,
-      b = ( _mochaLocalTmp1.v && _mochaLocalTmp1.v[1] )?_mochaLocalTmp1.v[1] : undefined,
-      c = ( _mochaLocalTmp1.v && _mochaLocalTmp1.v[2] )?_mochaLocalTmp1.v[2] : undefined;
+      x = ( _mochaLocalTmp5.test2 && _mochaLocalTmp5.test2.x )?_mochaLocalTmp5.test2.x : undefined,
+      test = _mochaLocalTmp5.test,
+      a = ( _mochaLocalTmp5.v && _mochaLocalTmp5.v[0] )?_mochaLocalTmp5.v[0] : undefined,
+      b = ( _mochaLocalTmp5.v && _mochaLocalTmp5.v[1] )?_mochaLocalTmp5.v[1] : undefined,
+      c = ( _mochaLocalTmp5.v && _mochaLocalTmp5.v[2] )?_mochaLocalTmp5.v[2] : undefined;
   
   __LINE__ = 0;
   var testObject =  {
         a : a,
         b : function b() {
           try {
-            __LINE__ = 26;
+            __LINE__ = 30;
             return 200;
           } catch( e ){
             Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

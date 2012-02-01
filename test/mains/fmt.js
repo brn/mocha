@@ -19,7 +19,11 @@ while ( m-- ) {
 var v = function () { return 200; },
     v2 = function ( [a,{b},...rest] , y ) { return 400; }
 
-testFn( {x:y} )->200;
+const testConst() {
+        return 300;
+      }
+testFn( {x:[a,b,c],z} )->{ return 200};
+const m = ({x},{y},{z})->{return 200};
 var {test2 : {x},test,v:[a,b,c]} = {test2:300};
 var testObject = {
       a,
