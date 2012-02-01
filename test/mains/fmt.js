@@ -19,8 +19,8 @@ while ( m-- ) {
 var v = function () { return 200; },
     v2 = function ( [a,{b},...rest] , y ) { return 400; }
 
-testFn( {x} , y , z )->300;
-var {test2} = {test2:300};
+testFn( {x:y} )->200;
+var {test2 : {x},test,v:[a,b,c]} = {test2:300};
 var testObject = {
       a,
       b->200

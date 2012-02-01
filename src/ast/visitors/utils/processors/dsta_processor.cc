@@ -135,10 +135,10 @@ DstaTree* ProcessPropertyMember( ValueNode* value , DstaTree* tree , ProcessorIn
     AstNode* child_node = value->FirstChild();
     ValueNode* prop = child_node->CastToValue();
     if ( prop ) {
-      if ( prop->ValueType() == ValueNode::kDst ) {
+      if ( prop->ValueType() == ValueNode::kDst || prop->ValueType() == ValueNode::kObject ) {
         ProcessObject( prop , tree , ( depth + 1 ) , info );
         UPDATE_TREE;
-      } else if ( prop->ValueType() == ValueNode::kDstArray ) {
+      } else if ( prop->ValueType() == ValueNode::kDstArray || prop->ValueType() == ValueNode::kArray ) {
         ProcessArray( prop , tree , ( depth + 1 ) , info );
         UPDATE_TREE;
       } else {
@@ -258,6 +258,7 @@ DstaTree* ProcessArrayElement( ValueNode* ast_node,
         }
           break;
           //In case of [ {x,y} ]
+        case ValueNode::kObject :
         case ValueNode::kDst : {
           ArrayHelper( ast_node , visitor_info , tree , index , 0 , false );
           ProcessObject( elem , tree , ( depth + 1 ) , info );
@@ -265,6 +266,7 @@ DstaTree* ProcessArrayElement( ValueNode* ast_node,
         }
           break;
           //In case of [ [x,y] ]
+        case ValueNode::kArray :
         case ValueNode::kDstArray : {
           ArrayHelper( ast_node , visitor_info , tree , index , 0 , false );
           ProcessArray( elem , tree , ( depth + 1 ) , info );
@@ -526,7 +528,8 @@ int DstaProcessor::ProcessNode( ValueNode* ast_node , ProcessorInfo* info ) {
    * Now add a temporary referrence variable to Refs node.
    */
   visitor_info->GetCurrentStmt()->GetDsta()->Refs( value );
-  if ( ast_node->ValueType() == ValueNode::kDstArray ) {
+  if ( ast_node->ValueType() == ValueNode::kDstArray ||
+       ast_node->ValueType() == ValueNode::kArray ) {
     ProcessArray( ast_node , tree , 0 , info );
   } else {
     ProcessObject( ast_node , tree , 0 , info );

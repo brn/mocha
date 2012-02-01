@@ -572,9 +572,14 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
     if ( next_type == '{' || next_type == '[' ) {
       //Treat harmony destructuring.
       var_left_hand = ParseDestructuringLeftHandSide_();
-      var_left_hand->CastToValue()->ValueType( ValueNode::kDst );
+      ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+      value->Node( var_left_hand );
+      value->Line( var_left_hand->Line() );
+      var_left_hand = value;
       CHECK_ERROR( list );
       is_destructuring = true;
+      maybe_assign_op = Seek_();
+      type = maybe_assign_op->GetType();
     } else if ( next_type == Token::JS_IDENTIFIER ) {
       //Normal idneifier.
       var_left_hand = ParseLiteral_();
@@ -618,7 +623,7 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
                     << TokenConverter( next )
                     << " after 'variable statement' expect ',' or ';' , 'line break'\nin file "
                     << filename_ << " at line " << next->GetLineNumber() );
-      END(VariableDecl);
+      END(VariableDeclError);
       return list;
     } else if ( next_type == ',' ) {
       Advance_();
@@ -2000,6 +2005,14 @@ AstNode* Parser::ParseCallExpression_() {
                     << " in 'call expression' expect ')'\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
     }
+    token = Seek_();
+    type = token->GetType();
+    if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+      AstNode* fn = ParseArrowFunctionExpression_( member , arguments , type );
+      CHECK_ERROR(fn);
+      END(ParseCallExpression_);
+      return fn;
+    }
     int depth = 0;
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
     CallExp* first = exp;
@@ -2089,8 +2102,7 @@ AstNode* Parser::ParseMemberExpression_() {
     //fn->LeftHandSide();
     END(MemberExpression);
     return fn;
-  } else if ( fn_signature_type == '(' ||
-              fn_signature_type == Token::JS_FUNCTION_GLYPH ||
+  } else if ( fn_signature_type == Token::JS_FUNCTION_GLYPH ||
               fn_signature_type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     END(MemberExpression);
     return ParseFunctionDecl_( false );

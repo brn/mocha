@@ -78,7 +78,9 @@ void FunctionProcessor::ProcessFormalParameter_() {
       if ( node->ChildLength() > 0 && !node->FirstChild()->IsEmpty() && maybeInitialiser &&
            maybeInitialiser->ValueType() == ValueNode::kIdentifier ) {
         ProcessDefaultParameter_( maybeInitialiser );
-      } else if ( maybeInitialiser && maybeInitialiser->ValueType() == ValueNode::kDst ) {
+      } else if ( maybeInitialiser && maybeInitialiser->ValueType() == ValueNode::kDst ||
+                  maybeInitialiser->ValueType() == ValueNode::kArray ||
+                  maybeInitialiser->ValueType() == ValueNode::kObject ) {
         bool has_default_parameter = node->ChildLength() > 0 && !node->FirstChild()->IsEmpty();
         AstNode* dsta_node = maybeInitialiser->Node();
         dsta_node->Accept( visitor );

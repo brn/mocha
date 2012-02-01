@@ -1022,11 +1022,14 @@ class CaseClause : public AstNode {
 
 class Expression : public AstNode {
  public :
-  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) , paren_( false ){};
-  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) , paren_( false ){};
+  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) , is_valid_lhs_( false ) , paren_( false ){};
+  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) , is_valid_lhs_( false ) , paren_( false ){};
   virtual inline ~Expression(){};
   inline void Paren() { paren_ = true; };
   inline bool IsParen() { return paren_; };
+  inline bool IsValidLhs() { return is_valid_lhs_; }
+  inline void InValidLhs() { is_valid_lhs_ = false; }
+  inline void ValidLhs() { is_valid_lhs_ = false; }
   inline Expression* CastToExpression() { return this; }
   inline virtual AssignmentExp* CastToAssigment() { return 0; }
   inline virtual CallExp* CastToCallExp() { return 0; }
@@ -1034,6 +1037,7 @@ class Expression : public AstNode {
   inline virtual Property* CastToProperty() { return 0; }
   virtual CLONE( Expression );
  private :
+  bool is_valid_lhs_;
   bool paren_;
   virtual CALL_ACCEPTOR( Expression );
 };
@@ -1424,7 +1428,7 @@ class AssignmentExp : public Expression {
 
 
 
-class ValueNode : public AstNode {
+class ValueNode : public Expression {
  public :
   enum {
     kNull,
@@ -1449,7 +1453,7 @@ class ValueNode : public AstNode {
     kPrivateProperty
   };
   inline ValueNode( int type ) :
-      AstNode( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
+      Expression( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
   inline ~ValueNode() {};
   inline void ValueType( int value_type ) { value_type_ = value_type; }
   inline int ValueType() const { return value_type_; };
