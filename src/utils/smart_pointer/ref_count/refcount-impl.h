@@ -17,7 +17,7 @@ inline RefCount<T>::RefCount ( PtrHandleBase* base ) :
     RefCountBase ( 1 ) , ptr_handle_ ( base ) {};
 
 template <typename T>
-inline RefCount<T>::~RefCount () {      
+inline RefCount<T>::~RefCount () {
   if ( ptr_handle_ != 0 ) {
     //destruct pointer.
     ptr_handle_->Dispose();

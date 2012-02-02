@@ -7,12 +7,8 @@ namespace mocha {
 VirtualDirectory* VirtualDirectory::GetInstance() {
   VirtualDirectory* instance = reinterpret_cast<VirtualDirectory*>( ThreadLocalStorage::Get( &local_key_ ) );
   if ( instance == NULL ) {
-    MutexLock lock( mutex_ );
-    if ( instance == NULL ) {
-      instance = new VirtualDirectory;
-      ThreadLocalStorage::Set( &local_key_ , instance );
-      lock.Unlock();
-    }
+    instance = new VirtualDirectory;
+    ThreadLocalStorage::Set( &local_key_ , instance );
   }
   return instance;
 }

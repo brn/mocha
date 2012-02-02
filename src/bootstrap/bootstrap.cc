@@ -11,6 +11,7 @@
 #include <options/commandline/commandline_options.h>
 #include <bootstrap/interactions/interaction.h>
 #include <utils/bits.h>
+#include <bootstrap/test/test_run.h>
 
 #ifdef HAVE__EXECV
 #include <process.h>
@@ -74,22 +75,22 @@ void LoadLog() {
 
 namespace mocha {
 
-void test() {
-  BitVector<int8_t,8> bvector;
-  bvector.UnSet(0);
-  printf( "%d\n" , bvector[0] == true );
-}
 
 void Bootstrap::Initialize( int argc , char** argv ) {
   JsToken::Initialize();
-  test();
   Setting::instance_ = new Setting();
   LoadLog();
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
   self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).Get();
-  Interaction::Begin();
-  delete Setting::instance_;
+  if ( argc > 1 ) {
+    if ( strcmp( argv[ 1 ] , "test" ) == 0 ) {
+      compiler_test::RunTest();
+    }
+  } else {
+    Interaction::Begin();
+    delete Setting::instance_;
+  }
 }
 
 void Bootstrap::Reboot() {
@@ -97,6 +98,8 @@ void Bootstrap::Reboot() {
   FileIO::CloseAll();
   execv( self_path_.c_str() , argv_ );
 }
+
+const char* Bootstrap::GetSelfPath() { return self_path_.c_str(); }
 
 char** Bootstrap::argv_;
 std::string Bootstrap::self_path_;

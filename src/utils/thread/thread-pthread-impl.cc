@@ -88,12 +88,16 @@ public :
   PtrImpl() : is_init_( false ) {}
   ThreadLocalStorageKey_t local_key_t_;
   bool is_init_;
+  Mutex mutex_;
 };
 
 ThreadLocalStorageKey::ThreadLocalStorageKey ( Destructor destructor ) : IMPL( new PtrImpl ) {
   if ( !IMPL->is_init_ ) {
-    IMPL->is_init_ = true;
-    pthread_key_create ( &( IMPL->local_key_t_ ) , destructor );
+    MutexLock( IMPL->mutex_ );
+    if ( !IMPL->is_init_ ) {
+      IMPL->is_init_ = true;
+      pthread_key_create ( &( IMPL->local_key_t_ ) , destructor );
+    }
   }
 }
 

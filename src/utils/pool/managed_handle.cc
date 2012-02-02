@@ -59,7 +59,7 @@ void PtrCollector::Release_ ( int id ) {
 
 int ManagedHandle::AssignId () {
   PtrCollector* pool = GetPool_ ();
-  return pool->Assign ();
+  return pool->Assign();
 }
 
 void ManagedHandle::EnsureScopeCreated_ ( PtrCollector* ptrc ) {
@@ -75,9 +75,11 @@ void ManagedHandle::Release_ ( int id ) {
 }
 
 void ManagedHandle::Allocate_ () {
-  PtrCollector* pool = GetPool_ ();
-  if ( pool == NULL ) {
+  PtrCollector* pool = GetPool_();
+  printf( "pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
+  if ( pool == NULL || !pool ) {
     pool =  new PtrCollector ();
+    printf( "next pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
     ThreadLocalStorage::Set( &key_ , pool );
   }
 }
@@ -90,7 +92,7 @@ void ManagedHandle::Destructor_ ( void* ptr ) {
   PtrCollector* ptrc = reinterpret_cast<PtrCollector*>(ptr);
   delete ptrc;
 }
-ThreadLocalStorageKey ManagedHandle::key_ ( ManagedHandle::Destructor_ );
+ThreadLocalStorageKey ManagedHandle::key_( ManagedHandle::Destructor_ );
 
 inline void* ManagedScope::operator new ( size_t size ) throw () {return 0;}
 inline void* ManagedScope::operator new [] ( size_t size ) throw () {return 0;}

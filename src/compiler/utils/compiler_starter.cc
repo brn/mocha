@@ -7,14 +7,16 @@
 #include <options/setting.h>
 
 namespace mocha {
-void CompilerStarter::StartCompile( const char* path ) {
+void CompilerStarter::StartCompile( const char* path , bool is_join ) {
   Thread thread;
   char* arg = new char[ strlen( path ) + 1 ];
   strcpy( arg , path );
   if ( !thread.Create ( ThreadRunner , arg ) ) {
     Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
   } else {
-    thread.Join();
+    if ( is_join ) {
+      thread.Join();
+    }
   }
 }
 void* CompilerStarter::ThreadRunner( void* args ) {

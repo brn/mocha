@@ -4,7 +4,7 @@
 namespace mocha {
 class CompilerStarter{
  public :
-  static void StartCompile( const char* path );
+  static void StartCompile( const char* path , bool is_join = true );
   static void* ThreadRunner( void *arg );
  private :
 };

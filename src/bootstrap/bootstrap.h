@@ -9,6 +9,7 @@ class Bootstrap : private Static {
  public :
   static void Initialize( int argc, char** argv );
   static void Reboot();
+  static const char* GetSelfPath();
  private :
   static char** argv_;
   static std::string self_path_;

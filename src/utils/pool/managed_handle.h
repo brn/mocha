@@ -110,8 +110,9 @@ class ManagedHandle {
 class ManagedScope {
  public :
   ManagedScope () : is_closed_ ( false ) {
-    ManagedHandle::Allocate_ ();
-    handle_id_ = ManagedHandle::AssignId ();
+    ManagedHandle::Allocate_();
+    printf( "%X allocate\n" , Thread::GetThreadId() );
+    handle_id_ = ManagedHandle::AssignId();
     if ( handle_id_ > MAX_MANAGED_SCOPE ) {
       fprintf( stderr , "too many ManagedScope created." );
       abort();
