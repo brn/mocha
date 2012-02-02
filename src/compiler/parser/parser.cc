@@ -29,7 +29,7 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 }
 
 //Debug flag.
-#define PARSER_DEBUG 1
+//#define PARSER_DEBUG 1
 
 //Print parser move to stderr.
 #ifdef PARSER_DEBUG

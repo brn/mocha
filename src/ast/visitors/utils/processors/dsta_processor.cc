@@ -35,7 +35,7 @@
 #include <grammar/grammar.tab.hh>
 
 #define ERROR(info,func)                                                \
-  AST_ERROR( ( info->GetInfo() ) , "mocha bugs in DstaProcessor::"#func"." )
+  //AST_ERROR( ( info->GetInfo() ) , "mocha bugs in DstaProcessor::"#func"." )
 
 #define TOKEN yy::ParserImplementation::token
 

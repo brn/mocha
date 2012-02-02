@@ -28,10 +28,15 @@
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_system/file_system.h>
-#include <compiler/utils/compiler_starter.h>
-#include <compiler/utils/exception_handler.h>
+#include <compiler/utils/compiler_facade.h>
+#include <compiler/utils/error_reporter.h>
+#include <utils/hash/hash_map/hash_map.h>
 
 namespace mocha {
+
+typedef Handle<ErrorReporter> ErrorHandler;
+typedef HashMap<const char*,ErrorHandler> ErrorMap;
+typedef Handle<ErrorMap> ErrorMapHandle;
 
 /**
  * @class
@@ -42,7 +47,7 @@ namespace mocha {
  * @see MochaMain::CompileStart_
  */
 class Compiler : private Uncopyable {
-  friend class CompilerStarter;
+  friend class CompilerFacade;
  public :
 
   /**
@@ -65,7 +70,7 @@ class Compiler : private Uncopyable {
    */
   StrHandle Load ( const char* filename );
 
-  void CatchException( ExceptionHandle handle );
+  void CatchException( const char* filename , ErrorHandler handle );
   
   /**
    * @public
@@ -80,7 +85,7 @@ class Compiler : private Uncopyable {
    * Create Compiler's singleton instance.
    * This method callable only class MochaMain.
    */
-  static Compiler* CreateInstance( const char* filename );
+  static Compiler* CreateInstance( const char* filename , FinishDelegator* callback );
 
   /**
    * @private
@@ -91,7 +96,7 @@ class Compiler : private Uncopyable {
    * @description
    * Compiler instance could create only Caompiler::CreateInstance.
    */
-  Compiler ( const char* filename );
+  Compiler ( const char* filename ,  FinishDelegator* callback );
   ~Compiler () {}
 
   /**

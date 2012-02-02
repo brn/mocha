@@ -56,8 +56,8 @@ compiler/compiler.cc\
 compiler/compiler.h\
 compiler/tokens/symbol_list.h\
 compiler/tokens/symbol_list.cc\
-compiler/utils/exception_handler.h\
-compiler/utils/exception_handler.cc\
+compiler/utils/compile_result.h\
+compiler/utils/compile_result.cc\
 compiler/parser/parser.h\
 compiler/parser/parser.cc\
 bootstrap/runners/compile_runner.h\
@@ -66,8 +66,8 @@ bootstrap/runners/list_runner.h\
 bootstrap/runners/list_runner.cc\
 bootstrap/runners/error_runner.h\
 bootstrap/runners/error_runner.cc\
-compiler/utils/compiler_starter.h\
-compiler/utils/compiler_starter.cc\
+compiler/utils/compiler_facade.h\
+compiler/utils/compiler_facade.cc\
 compiler/encoding/encoding.h\
 compiler/encoding/encoding.cc\
 compiler/utils/compiler_utils.h\

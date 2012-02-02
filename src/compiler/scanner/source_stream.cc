@@ -8,23 +8,22 @@
 #include <utils/xml/xml_setting_info.h>
 namespace mocha {
 
-void Encode( const char* source , const char* path , std::string *buf ) {
+StrHandle Encode( const char* source , const char* path ) {
   if ( !XMLSettingInfo::HasCharset( path ) ) {
     Handle<DetectResult> detected = ICUWrapper::GetEncode( source );
     StrHandle data = ICUWrapper::EncodeToUtf8( source , detected->charset );
-    buf->assign( data.Get() );
+    return data;
   } else {
     StrHandle charset = XMLSettingInfo::GetCharset( path );
     StrHandle data = ICUWrapper::EncodeToUtf8( source , charset.Get() );
-    buf->assign( data.Get() );
+    return data;
   }
 }
 
 SourceStream* SourceStream::Create( const char* source , const char* path ) {
-  std::string buf;
-  Encode( source , path , &buf );
+  StrHandle str_handle = Encode( source , path );
   SourceStream* stream = ManagedHandle::Retain( new SourceStream() );
-  stream->CreateStream_( buf.c_str() );
+  stream->CreateStream_( str_handle.Get() );
   return stream;
 }
 
@@ -40,7 +39,7 @@ SourceStream::~SourceStream() {
 void SourceStream::CreateStream_( const char* utf8_str ) {
   int size = strlen( utf8_str );
   int count = 0;
-  stream_ = reinterpret_cast<uint8_t*>( malloc( sizeof( uint8_t ) * size ) );
+  stream_ = reinterpret_cast<uint8_t*>( malloc( sizeof( char ) * size + sizeof( char ) ) );
   for ( int i = 0; i < size; i++ ) {
     if ( utf8_str[ i ] == '\n' ) line_++;
     if ( utf8_str[ i ] != '\r' ) {

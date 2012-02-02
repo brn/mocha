@@ -76,10 +76,10 @@ void ManagedHandle::Release_ ( int id ) {
 
 void ManagedHandle::Allocate_ () {
   PtrCollector* pool = GetPool_();
-  printf( "pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
+  //printf( "pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
   if ( pool == NULL || !pool ) {
     pool =  new PtrCollector ();
-    printf( "next pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
+    //printf( "next pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
     ThreadLocalStorage::Set( &key_ , pool );
   }
 }

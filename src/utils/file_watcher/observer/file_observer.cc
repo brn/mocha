@@ -1,6 +1,6 @@
 #include <string.h>
 #include <boost/unordered_map.hpp>
-#include <compiler/utils/compiler_starter.h>
+#include <compiler/utils/compiler_facade.h>
 #include <utils/thread/thread.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_watcher/observer/file_observer.h>
@@ -21,7 +21,7 @@ class FileObserver::FileUpdater : public IUpdater {
       const char* name = filename;
       char* hname = new char[ strlen( name ) + 1 ];
       strcpy( hname , name );
-      if ( !thread.Create ( CompilerStarter::ThreadRunner , hname ) ) {
+      if ( !thread.Create ( CompilerFacade::ExternalThreadRunner , hname ) ) {
         fprintf ( stderr,"thread create fail." );
       }
       thread.Join();

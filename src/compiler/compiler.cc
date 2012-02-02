@@ -30,8 +30,7 @@
 #include <compiler/internal.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/utils/compiler_utils.h>
-#include <compiler/utils/exception_handler.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <compiler/utils/compile_result.h>
 #include <utils/io/file_io.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
@@ -48,8 +47,6 @@
 ///////////////////////////////////////////////////
 namespace mocha {
 
-typedef std::list<ExceptionHandle> ExceptionList;
-
 /**
  *@class
  *Implementation of pimpl idiom.
@@ -58,14 +55,16 @@ class Compiler::PtrImpl {
   friend class Compiler;
 public :
   
-  PtrImpl( Compiler* compiler , const char* main_file_path ) :
+  PtrImpl( Compiler* compiler , const char* main_file_path , FinishDelegator* callback ) :
       compiler_( compiler ),
-      codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ) {
+      codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ),
+      callback_( callback ){
     main_file_path_ = main_file_path;
     SetPath_( main_file_path );
     //Change direcotry to main js path.
     path_info_ = CompilerUtils::ChangeDir( main_file_path );
     Setting::GetInstance()->Log( "file %s compile start." , main_file_path );
+    error_map_( new ErrorMap );
   }
 
   inline void Compile() {
@@ -75,7 +74,9 @@ public :
     ast_root_.Accept( &visitor );
     //scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
-    Write_ ( codegen_->GetCode() );
+    Write_( codegen_->GetCode() );
+    Handle<CompileResult> result( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) );
+    callback_->Delegate( result );
   }
 
   inline StrHandle Load( const char* filename ) {
@@ -147,13 +148,14 @@ private :
 
   
   std::string main_file_path_;
-  ExceptionList exception_list_;
+  ErrorMapHandle error_map_;
   boost::unordered_map<std::string,int> loaded_path_;
   Compiler *compiler_;
   AstRoot ast_root_;
   Handle<PathInfo> path_info_;
-  ScopedPtr<CodegenVisitor> codegen_;
+  Handle<CodegenVisitor> codegen_;
   Scope scope_;
+  FinishDelegator* callback_;
 };
 
 
@@ -162,20 +164,20 @@ private :
 // class Compiler implementation begin. //
 //////////////////////////////////////////
 
-Compiler* Compiler::CreateInstance( const char* filename ) {
+Compiler* Compiler::CreateInstance( const char* filename , FinishDelegator* callback ) {
   //Get thread local instance.
   Compiler* instance = reinterpret_cast<Compiler*>( ThreadLocalStorage::Get( &local_key_ ) );
 
   if ( instance == NULL ) {
-    instance = new Compiler( filename );
+    instance = new Compiler( filename , callback );
     //Set Instance to tsd.
     ThreadLocalStorage::Set( &local_key_ , instance );
   }
   return instance;
 }
 
-Compiler::Compiler ( const char* filename ){
-  implementation_ ( new PtrImpl( this , filename ) );
+Compiler::Compiler ( const char* filename , FinishDelegator* callback ){
+  implementation_ ( new PtrImpl( this , filename , callback ) );
 }
 
 
@@ -184,8 +186,9 @@ void Compiler::Compile () {
   implementation_->Compile();
 }
 
-void Compiler::CatchException( ExceptionHandle handle ) {
-  implementation_->exception_list_.push_back( handle );
+void Compiler::CatchException( const char* filename , ErrorHandler handler ) {
+  MutexLock lock( mutex_ );
+  implementation_->error_map_->Insert( filename , handler );
 }
 
 Handle<PathInfo> Compiler::GetMainPathInfo () {

@@ -147,7 +147,8 @@ inline void Handle<T>::CheckInit_( const char* message ) const {
 template <typename T>
 inline void Handle<T>::CheckInit_() const {
   if ( rc_ != 0 ) {
-    throw std::runtime_error( "mocha::Handle is already initilized." );
+    fprintf( stderr , "mocha::Handle is already initilized." );
+    abort();
   }
 }
 
