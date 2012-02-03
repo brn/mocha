@@ -3,7 +3,9 @@
 namespace mocha {
 
 CompileResult::CompileResult( const char* filename , Handle<CodegenVisitor> visitor , ErrorMapHandle map ) :
-    filename_( filename ) , visitor_( visitor ) , map_( map ) {}
+    visitor_( visitor ) , map_( map ) {
+  filename_ = filename;
+}
 
 
 }

@@ -27,6 +27,8 @@ void CompilerFacade::Compile_( Thread *thread , ThreadArgs* args , bool is_join 
   } else {
     if ( is_join ) {
       thread->Join();
+    } else {
+      thread->Detach();
     }
   }
 }
@@ -45,19 +47,25 @@ class ParallelDelegator : public FinishDelegator {
       size_( size ) , is_end_( false ) , current_( 0 ) {}
   ~ParallelDelegator(){}
   void Delegate( Handle<CompileResult> result ) {
-    MutexLock lock( mutex_ );
+    printf( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@end %s\n" , result->GetFilename() );
     if ( Atomic::Increment( &current_ ) == size_ ) {
-      ErrorMap map = result->GetErrorMap();
+      is_end_ = true;
+    }/*
+    ErrorMap map = result->GetErrorMap();
+    if ( map.Size() > 0 ) {
+      MutexLock lock( mutex_ );
       ErrorMap::EntryIterator iterator = map.Entries();
       while ( iterator.HasNext() ) {
         std::string buf;
-        iterator.Next().Value()->SetError( &buf );
-        if ( buf.size() > 0 ) {
-          errors_ += buf.c_str();
+        ErrorMap::HashEntry entry = iterator.Next();
+        if ( !entry.IsEmpty() ) {
+          entry.Value()->SetError( &buf );
+          if ( buf.size() > 0 ) {
+            errors_ += buf.c_str();
+          }
         }
       }
-      is_end_ = true;
-    }
+      }*/
   }
   bool IsEnd() { return is_end_; }
   void PrintError() {

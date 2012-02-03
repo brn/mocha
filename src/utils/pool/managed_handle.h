@@ -94,12 +94,12 @@ class ManagedHandle {
   
   template <typename T>
   static inline T* Retain_ ( T* ptr , PtrCollector::ReleaseCallback callback ) {
-    PtrCollector* pool = GetPool_ ();
+    PtrCollector* pool = GetPool_();
     EnsureScopeCreated_ ( pool );
     pool->Retain ( ptr , callback );
     return ptr;
   }
-  static void Allocate_ ();
+  static PtrCollector* Allocate_ ();
   static void Release_ ( int id );
   static void EnsureScopeCreated_ ( PtrCollector* ptrc );
   static PtrCollector* GetPool_ ();
@@ -110,9 +110,9 @@ class ManagedHandle {
 class ManagedScope {
  public :
   ManagedScope () : is_closed_ ( false ) {
-    ManagedHandle::Allocate_();
+    PtrCollector* ptr_cl = ManagedHandle::Allocate_();
     //printf( "%X allocate\n" , Thread::GetThreadId() );
-    handle_id_ = ManagedHandle::AssignId();
+    handle_id_ = ptr_cl->Assign();
     if ( handle_id_ > MAX_MANAGED_SCOPE ) {
       fprintf( stderr , "too many ManagedScope created." );
       abort();

@@ -11,10 +11,10 @@ class FinishDelegator {
   virtual void Delegate( Handle<CompileResult> result ){};
 };
 class CompilerFacade{
+ public :
   typedef std::pair<const char*,FinishDelegator*> ThreadArgs;
   typedef std::pair<const char* , bool> EachArgs;
   typedef std::vector<EachArgs> FileList;
- public :
   CompilerFacade(){};
   static void Compile( const char* path , bool is_join );
   static void Compile( const char* path , bool is_join , FinishDelegator* callback );

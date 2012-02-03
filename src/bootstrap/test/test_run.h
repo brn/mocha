@@ -18,10 +18,10 @@ std::string GetPath( const char* path ) {
 
 
 void RunTest() {
-  std::string expression_test = FileSystem::NormalizePath( GetPath( "../../src/bootstrap/test/js/expression_test.js" ).c_str() ).Get();
-  std::string for_test = FileSystem::NormalizePath( GetPath( "../../src/bootstrap/test/js/for_test.js" ).c_str() ).Get();
-  std::string while_test = FileSystem::NormalizePath( GetPath( "../../src/bootstrap/test/js/while_test.js" ).c_str() ).Get();
-  std::string function_test = FileSystem::NormalizePath( GetPath( "../../src/bootstrap/test/js/function_test.js" ).c_str() ).Get();
+  std::string expression_test = FileSystem::NormalizePath( GetPath( "../../../src/bootstrap/test/js/expression_test.js" ).c_str() ).Get();
+  std::string for_test = FileSystem::NormalizePath( GetPath( "../../../src/bootstrap/test/js/for_test.js" ).c_str() ).Get();
+  std::string while_test = FileSystem::NormalizePath( GetPath( "../../../src/bootstrap/test/js/while_test.js" ).c_str() ).Get();
+  std::string function_test = FileSystem::NormalizePath( GetPath( "../../../src/bootstrap/test/js/function_test.js" ).c_str() ).Get();
   CompilerFacade facade;
   fprintf( stderr , "@@@@@ expression test begin.\n" );
   facade.AddCompileList( expression_test.c_str() , false );
@@ -32,10 +32,10 @@ void RunTest() {
   fprintf( stderr , "@@@@@ function test begin.\n" );
   facade.AddCompileList( function_test.c_str() , false );
   facade.Compile();/*
-  CompilerFacade::Compile( expression_test.c_str() , true );
-  CompilerFacade::Compile( for_test.c_str()  , true);
-  CompilerFacade::Compile( while_test.c_str() , true );
-  CompilerFacade::Compile( function_test.c_str() , true );*/
+  CompilerFacade::Compile( expression_test.c_str() , false );
+  CompilerFacade::Compile( for_test.c_str()  , false);
+  CompilerFacade::Compile( while_test.c_str() , false );
+  CompilerFacade::Compile( function_test.c_str() , false );*/
 }
 
 }}

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4225925B14D61AAB00601E9A /* parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4225925914D61AAB00601E9A /* parser.cc */; };
 		42CFAA5214BFE9810073ADD3 /* symbol_collector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */; };
+		42DCC54E14DB6C460063C894 /* compiler_facade.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42DCC54C14DB6C460063C894 /* compiler_facade.cc */; };
+		42DCC55114DB6C620063C894 /* compile_result.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42DCC54F14DB6C620063C894 /* compile_result.cc */; };
 		42E9C0F514CD21F30043DAE1 /* scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0EF14CD21F30043DAE1 /* scanner.cc */; };
 		42E9C0F614CD21F30043DAE1 /* source_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0F114CD21F30043DAE1 /* source_stream.cc */; };
 		42E9C0F714CD21F30043DAE1 /* token_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0F314CD21F30043DAE1 /* token_stream.cc */; };
@@ -53,7 +55,6 @@
 		F217FDF314B0D9F700EF26E8 /* js_token.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCB714B0D9F700EF26E8 /* js_token.cc */; };
 		F217FDF414B0D9F700EF26E8 /* symbol_list.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCB914B0D9F700EF26E8 /* symbol_list.cc */; };
 		F217FDF514B0D9F700EF26E8 /* token_info.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCBB14B0D9F700EF26E8 /* token_info.cc */; };
-		F217FDF614B0D9F700EF26E8 /* compiler_starter.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCBF14B0D9F700EF26E8 /* compiler_starter.cc */; };
 		F217FDF714B0D9F700EF26E8 /* compiler_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCC114B0D9F700EF26E8 /* compiler_utils.cc */; };
 		F217FDF814B0D9F700EF26E8 /* exception_handler.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCC314B0D9F700EF26E8 /* exception_handler.cc */; };
 		F217FDFB14B0D9F700EF26E8 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCD414B0D9F700EF26E8 /* main.cc */; };
@@ -102,6 +103,10 @@
 		4225925A14D61AAB00601E9A /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parser.h; path = parser/parser.h; sourceTree = "<group>"; };
 		42CFAA5014BFE9810073ADD3 /* symbol_collector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symbol_collector.cc; sourceTree = "<group>"; };
 		42CFAA5114BFE9810073ADD3 /* symbol_collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symbol_collector.h; sourceTree = "<group>"; };
+		42DCC54C14DB6C460063C894 /* compiler_facade.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compiler_facade.cc; sourceTree = "<group>"; };
+		42DCC54D14DB6C460063C894 /* compiler_facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compiler_facade.h; sourceTree = "<group>"; };
+		42DCC54F14DB6C620063C894 /* compile_result.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compile_result.cc; sourceTree = "<group>"; };
+		42DCC55014DB6C620063C894 /* compile_result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compile_result.h; sourceTree = "<group>"; };
 		42E9C0EF14CD21F30043DAE1 /* scanner.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scanner.cc; sourceTree = "<group>"; };
 		42E9C0F014CD21F30043DAE1 /* scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scanner.h; sourceTree = "<group>"; };
 		42E9C0F114CD21F30043DAE1 /* source_stream.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = source_stream.cc; sourceTree = "<group>"; };
@@ -194,8 +199,6 @@
 		F217FCBA14B0D9F700EF26E8 /* symbol_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symbol_list.h; sourceTree = "<group>"; };
 		F217FCBB14B0D9F700EF26E8 /* token_info.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = token_info.cc; sourceTree = "<group>"; };
 		F217FCBC14B0D9F700EF26E8 /* token_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = token_info.h; sourceTree = "<group>"; };
-		F217FCBF14B0D9F700EF26E8 /* compiler_starter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compiler_starter.cc; sourceTree = "<group>"; };
-		F217FCC014B0D9F700EF26E8 /* compiler_starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compiler_starter.h; sourceTree = "<group>"; };
 		F217FCC114B0D9F700EF26E8 /* compiler_utils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compiler_utils.cc; sourceTree = "<group>"; };
 		F217FCC214B0D9F700EF26E8 /* compiler_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compiler_utils.h; sourceTree = "<group>"; };
 		F217FCC314B0D9F700EF26E8 /* exception_handler.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exception_handler.cc; sourceTree = "<group>"; };
@@ -902,10 +905,12 @@
 		F217FCBE14B0D9F700EF26E8 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				42DCC54F14DB6C620063C894 /* compile_result.cc */,
+				42DCC55014DB6C620063C894 /* compile_result.h */,
+				42DCC54C14DB6C460063C894 /* compiler_facade.cc */,
+				42DCC54D14DB6C460063C894 /* compiler_facade.h */,
 				42E9C0F814CD22180043DAE1 /* error_reporter.cc */,
 				42E9C0F914CD22180043DAE1 /* error_reporter.h */,
-				F217FCBF14B0D9F700EF26E8 /* compiler_starter.cc */,
-				F217FCC014B0D9F700EF26E8 /* compiler_starter.h */,
 				F217FCC114B0D9F700EF26E8 /* compiler_utils.cc */,
 				F217FCC214B0D9F700EF26E8 /* compiler_utils.h */,
 				F217FCC314B0D9F700EF26E8 /* exception_handler.cc */,
@@ -1269,7 +1274,6 @@
 				F217FDF314B0D9F700EF26E8 /* js_token.cc in Sources */,
 				F217FDF414B0D9F700EF26E8 /* symbol_list.cc in Sources */,
 				F217FDF514B0D9F700EF26E8 /* token_info.cc in Sources */,
-				F217FDF614B0D9F700EF26E8 /* compiler_starter.cc in Sources */,
 				F217FDF714B0D9F700EF26E8 /* compiler_utils.cc in Sources */,
 				F217FDF814B0D9F700EF26E8 /* exception_handler.cc in Sources */,
 				F217FDFB14B0D9F700EF26E8 /* main.cc in Sources */,
@@ -1306,6 +1310,8 @@
 				42E9C0FA14CD22180043DAE1 /* error_reporter.cc in Sources */,
 				42E9C0FE14CD22390043DAE1 /* encoding.cc in Sources */,
 				4225925B14D61AAB00601E9A /* parser.cc in Sources */,
+				42DCC54E14DB6C460063C894 /* compiler_facade.cc in Sources */,
+				42DCC55114DB6C620063C894 /* compile_result.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

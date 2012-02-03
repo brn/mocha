@@ -59,6 +59,7 @@ public :
       compiler_( compiler ),
       codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ),
       callback_( callback ){
+    fprintf( stderr , "@@@@@@@@@@@@@@@@@@@@@@@@@@@start %s\n" , main_file_path );
     main_file_path_ = main_file_path;
     SetPath_( main_file_path );
     //Change direcotry to main js path.
@@ -75,8 +76,8 @@ public :
     //scope_.Rename();
     ast_root_.Accept( codegen_.Get() );
     Write_( codegen_->GetCode() );
-    Handle<CompileResult> result( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) );
-    callback_->Delegate( result );
+    callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );
+    return;
   }
 
   inline StrHandle Load( const char* filename ) {
@@ -165,6 +166,7 @@ private :
 //////////////////////////////////////////
 
 Compiler* Compiler::CreateInstance( const char* filename , FinishDelegator* callback ) {
+  MutexLock lock( mutex_ );
   //Get thread local instance.
   Compiler* instance = reinterpret_cast<Compiler*>( ThreadLocalStorage::Get( &local_key_ ) );
 

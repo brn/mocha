@@ -17,11 +17,11 @@ class Thread{
   ~Thread ();
   bool Create ( pThreadStartFunc fn , void* param );
   int Detach();
-  void Exit ();
   void Cancel ();
   bool Join ();
   bool IsJoinable ();
   static ThreadId GetThreadId ();
+  static void Exit ();
  private :
   PTR_IMPL;
 };

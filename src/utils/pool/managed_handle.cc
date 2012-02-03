@@ -8,8 +8,8 @@ int PtrCollector::Assign () {
 }
 
 void PtrCollector::Retain ( Managed* ptr , ReleaseCallback callback ) {
-  if ( ptr->Retained_ () != true ) {
-    ptr->Retain_ ();
+  if ( ptr->Retained_() == false ) {
+    ptr->Retain_();
     ptr->id_ = ( base_id_ - 1 );
     ptr->destructor_ = callback;
     if ( last_ == 0 ) {
@@ -30,30 +30,32 @@ void PtrCollector::Release ( int id ) {
 }
 
 void PtrCollector::Release_ ( int id ) {
-  Managed* managed_ptr = last_;
-  Managed* tmp;
-  Managed* unfree_list = 0;
-  Managed* unfree_head_;
-  while ( managed_ptr ) {
-    tmp = managed_ptr->prev_;
-    if ( managed_ptr->Retained_() &&  managed_ptr->id_ == id ) {
-      managed_ptr->Release_();
-    } else if ( unfree_list == 0 ) {
-      unfree_list = managed_ptr;
-      unfree_head_ = managed_ptr;
-    } else {
-      unfree_list->prev_ = managed_ptr;
-      managed_ptr->next_ = unfree_list;
-      unfree_list = managed_ptr;
+  if ( last_ != 0 ) {
+    Managed* managed_ptr = last_;
+    Managed* tmp;
+    Managed* unfree_list = 0;
+    Managed* unfree_head_;
+    while ( managed_ptr ) {
+      tmp = managed_ptr->prev_;
+      if ( managed_ptr->Retained_() &&  managed_ptr->id_ == id ) {
+        managed_ptr->Release_();
+      } else if ( unfree_list == 0 ) {
+        unfree_list = managed_ptr;
+        unfree_head_ = managed_ptr;
+      } else {
+        unfree_list->prev_ = managed_ptr;
+        managed_ptr->next_ = unfree_list;
+        unfree_list = managed_ptr;
+      }
+      managed_ptr = tmp;
     }
-    managed_ptr = tmp;
-  }
 
-  if ( unfree_list != 0 ) {
-    last_ = unfree_head_;
-    last_->next_ = 0;
-  } else {
-    last_ = 0;
+    if ( unfree_list != 0 ) {
+      last_ = unfree_head_;
+      last_->next_ = 0;
+    } else {
+      last_ = 0;
+    }
   }
 }
 
@@ -74,14 +76,13 @@ void ManagedHandle::Release_ ( int id ) {
   pool->Release( id );
 }
 
-void ManagedHandle::Allocate_ () {
+PtrCollector* ManagedHandle::Allocate_ () {
   PtrCollector* pool = GetPool_();
-  //printf( "pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
   if ( pool == NULL || !pool ) {
     pool =  new PtrCollector ();
-    //printf( "next pool @@@@@@@@@@@@@@ %p %X\n" , pool , Thread::GetThreadId() );
     ThreadLocalStorage::Set( &key_ , pool );
   }
+  return pool;
 }
 
 PtrCollector* ManagedHandle::GetPool_ () {
