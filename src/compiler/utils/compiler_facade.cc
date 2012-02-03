@@ -11,17 +11,17 @@ namespace mocha {
 
 void CompilerFacade::Compile( const char* path , bool is_join ) {
   Thread thread;
-  ThreadArgs args( path , &noop_ );
-  Compile_( &thread , &args  , is_join );
+  ThreadArgs *args = new ThreadArgs( path , &noop_ );
+  Compile_( &thread , args  , is_join );
 }
 
 void CompilerFacade::Compile( const char* path , bool is_join , FinishDelegator* callback ) {
   Thread thread;
-  ThreadArgs args( path , callback );
-  Compile_( &thread , &args , is_join );
+  ThreadArgs *args = new ThreadArgs( path , callback );
+  Compile_( &thread , args , is_join );
 }
 
-void CompilerFacade::Compile_( Thread *thread , ThreadArgs* args , bool is_join ) {
+void CompilerFacade::Compile_( Thread *thread , ThreadArgs *args , bool is_join ) {
   if ( !thread->Create ( InternalThreadRunner , args ) ) {
     Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
   } else {
@@ -47,25 +47,25 @@ class ParallelDelegator : public FinishDelegator {
       size_( size ) , is_end_( false ) , current_( 0 ) {}
   ~ParallelDelegator(){}
   void Delegate( Handle<CompileResult> result ) {
+    MutexLock lock( mutex_ );
     printf( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@end %s\n" , result->GetFilename() );
     if ( Atomic::Increment( &current_ ) == size_ ) {
       is_end_ = true;
-    }/*
-    ErrorMap map = result->GetErrorMap();
-    if ( map.Size() > 0 ) {
-      MutexLock lock( mutex_ );
-      ErrorMap::EntryIterator iterator = map.Entries();
+    }
+    const ErrorMap *map = &(result->GetErrorMap());
+    if ( map->Size() > 0 ) {      
+      ErrorMap::EntryIterator iterator = map->Entries();
       while ( iterator.HasNext() ) {
         std::string buf;
         ErrorMap::HashEntry entry = iterator.Next();
         if ( !entry.IsEmpty() ) {
-          entry.Value()->SetError( &buf );
+          entry.Value()->SetRawError( &buf );
           if ( buf.size() > 0 ) {
             errors_ += buf.c_str();
           }
         }
       }
-      }*/
+    }
   }
   bool IsEnd() { return is_end_; }
   void PrintError() {
@@ -104,6 +104,7 @@ void* CompilerFacade::InternalThreadRunner( void* args ) {
   ThreadArgs *compile_args = reinterpret_cast<ThreadArgs*>( args );
   Compiler* compiler = Compiler::CreateInstance( compile_args->first , compile_args->second );
   compiler->Compile();
+  delete compile_args;
   return 0;
 }
 

@@ -29,7 +29,7 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 }
 
 //Debug flag.
-//#define PARSER_DEBUG 1
+#define PARSER_DEBUG 1
 
 //Print parser move to stderr.
 #ifdef PARSER_DEBUG
@@ -54,7 +54,81 @@ bool BlockBodyMatcher( int type ) {
 }
 
 bool CaseBodyMatcher( int type ) {
-  return type != '}' && type != Token::JS_CASE;
+  return type != '}' && type != Token::JS_CASE && type != Token::JS_DEFAULT;
+}
+
+bool IsLiteral( int type ) {
+  return type == Token::JS_IDENTIFIER ||
+      type == Token::JS_STRING_LITERAL ||
+      type == Token::JS_NUMERIC_LITERAL;
+}
+
+bool IsValidProperty( int type ) {
+  return type == ValueNode::kString ||
+      type == ValueNode::kNumeric ||
+      type == ValueNode::kIdentifier ||
+      type == ValueNode::kProperty;
+}
+
+void DstaRewriter( AstNode *dst ) {
+  NodeIterator iterator = dst->ChildNodes();
+  ValueNode* parent = dst->ParentNode()->CastToValue();
+  while ( iterator.HasNext() ) {
+    AstNode* node = iterator.Next();
+    ValueNode* value = node->CastToValue();
+    if ( value ) {
+      int type = value->ValueType();
+      if ( type == ValueNode::kArray ) {
+        value->ValueType( ValueNode::kDstArray );
+        DstaRewriter( value->FirstChild() );
+      } else if ( type == ValueNode::kObject ) {
+        value->ValueType( ValueNode::kDst );
+        DstaRewriter( value->Node() );
+      } else if ( parent && IsValidProperty( type ) && parent->ValueType() == ValueNode::kDst ) {
+        DstaRewriter( value );
+      }
+    }
+  }
+}
+
+
+void FormalParameterDstaConvertor( AstNode *args , AstNode* list ) {
+  NodeIterator iterator = args->ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    ValueNode* maybe_dst = item->CastToValue();
+    if ( maybe_dst ) {
+      int type = maybe_dst->ValueType();
+      if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
+        type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
+        maybe_dst->ValueType( type );
+        DstaRewriter( maybe_dst->Node() );
+        ValueNode* dst = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+        dst->Line( maybe_dst->Line() );
+        dst->Node( maybe_dst );
+        list->AddChild( dst );
+        continue;
+      }
+    }
+    list->AddChild( item );
+  }
+}
+
+void AssignmentDstaConvertor( AstNode* exp ) {
+  ValueNode* dsta = exp->CastToValue();
+  if ( dsta ) {
+    int type = dsta->ValueType();
+    if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
+      ValueNode* value;
+      if ( type == ValueNode::kArray ) {
+        dsta->ValueType( ValueNode::kDstArray );
+        DstaRewriter( dsta->FirstChild() );
+      } else {
+        dsta->ValueType( ValueNode::kDst );
+        DstaRewriter( dsta->Node() );
+      }
+    }
+  }
 }
 
 Parser::Parser( ParserConnector* connector , ErrorReporter* reporter , const char* filename )
@@ -540,6 +614,11 @@ AstNode* Parser::ParseVariableStatement_() {
   VariableStmt* stmt = ManagedHandle::Retain<VariableStmt>();
   AstNode* list = ParseVariableDecl_( false );
   CHECK_ERROR(stmt);
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  if ( type == ';' ) {
+    Advance_();
+  }
   stmt->Append( list );
   END(VariableStatement);
   return stmt;
@@ -851,7 +930,7 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
     CHECK_ERROR( ret );
     TokenInfo* token = Seek_();
     int type = token->GetType();
-    if ( type == ';' || type == '}' || token->HasLineBreakBefore() ) {
+    if ( type == ';' || type == '}' || token->HasLineBreakBefore() || IsEnd( type ) ) {
       if ( type == ';' ) {
         Advance_();
       }
@@ -939,7 +1018,7 @@ AstNode* Parser::ParseDoWhileStatement_() {
   if ( type == Token::JS_WHILE ) {
     TokenInfo* token = Advance_();
     int type = token->GetType();
-    if ( type == ')' ) {
+    if ( type == '(' ) {
       AstNode* node = ParseExpression_( false );
       CHECK_ERROR( statement );
       token = Advance_();
@@ -1194,7 +1273,14 @@ AstNode* Parser::ParseContinueStatement_() {
     AstNode* identifier = ParseLiteral_();
     CHECK_ERROR( stmt );
     stmt->AddChild( identifier );
-  } else if ( token->HasLineBreakBefore() ) {
+    token = Seek_();
+    type = token->GetType();
+  }
+
+  if ( type == ';' || token->HasLineBreakBefore() || type == '}' || IsEnd( type ) ) {
+    if ( type == ';' ) {
+      Advance_();
+    }
     stmt->AddChild( ManagedHandle::Retain<Empty>() );
   } else {
     SYNTAX_ERROR( "parse error got unexpected token '"
@@ -1217,7 +1303,13 @@ AstNode* Parser::ParseBreakStatement_() {
     AstNode* identifier = ParseLiteral_();
     CHECK_ERROR( stmt );
     stmt->AddChild( identifier );
-  } else if ( token->HasLineBreakBefore() ) {
+    token = Seek_();
+    type = token->GetType();
+  }
+  if ( type == ';' || type == '}' || IsEnd( type ) || token->HasLineBreakBefore() ) {
+    if ( type == ';' ) {
+      Advance_();
+    }
     stmt->AddChild( ManagedHandle::Retain<Empty>() );
   } else {
     SYNTAX_ERROR( "parse error got unexpected token '"
@@ -1347,7 +1439,7 @@ AstNode* Parser::ParseCaseClauses_() {
         token = Advance_();
         type = token->GetType();
         if ( type == ':' ) {
-          AstNode* statement_list = ParseSourceElements_();
+          AstNode* statement_list = ParseStatementList_( CaseBodyMatcher , "'case','default' or '}'" );
           CHECK_ERROR( clause );
           clause->AddChild( statement_list );
           list->AddChild( clause );
@@ -1365,6 +1457,8 @@ AstNode* Parser::ParseCaseClauses_() {
                       << filename_ << " at line " << token->GetLineNumber() );
         break;
       }
+      token = Seek_();
+      type = token->GetType();
     }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
@@ -1372,6 +1466,7 @@ AstNode* Parser::ParseCaseClauses_() {
                   << " in 'switch statement case block' expect '{'\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
+  Advance_();
   END(CaseClause);
   return list;
 }
@@ -1738,12 +1833,16 @@ AstNode* Parser::ParseAssignmentExpression_( bool is_noin ) {
   if ( IsAssignmentOp( type ) ) {
     Advance_();
     ValueNode* maybeDst = exp->CastToValue();
+    Expression* dsta_object_pattern = exp->CastToExpression();
     if ( maybeDst ) {
-      if ( maybeDst->ValueType() == ValueNode::kObject ) {
-        maybeDst->ValueType( ValueNode::kDst );
-      } else if ( maybeDst->ValueType() == ValueNode::kArray ) {
-        maybeDst->ValueType( ValueNode::kDstArray );
+      AssignmentDstaConvertor( maybeDst );
+    } else if ( dsta_object_pattern && dsta_object_pattern->IsParen() && dsta_object_pattern->ChildLength() > 0 ) {
+      AstNode* last = dsta_object_pattern->LastChild();
+      maybeDst = last->CastToValue();
+      if ( maybeDst && maybeDst->ValueType() == ValueNode::kObject ) {
+        AssignmentDstaConvertor( maybeDst );
       }
+      exp = maybeDst;
     }
     if ( 1/*exp->LeftHandSide()*/ ) {
       AstNode* rhs = ParseAssignmentExpression_( is_noin );
@@ -1832,6 +1931,7 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
   while ( 1 ) {
     TokenInfo* token = Seek_();
     int type = token->GetType();
+    AstNode* exp;
     switch ( type ) {
       case Token::JS_LOGICAL_AND :
       case Token::JS_LOGICAL_OR :
@@ -1845,7 +1945,6 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
       case '<' :
       case '>' : {
         Advance_();
-        CompareExp* exp;
         AstNode* rhs = ParseUnaryExpression_();
         CHECK_ERROR( rhs );
         if ( last == 0 ) {
@@ -1861,7 +1960,6 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
       case Token::JS_IN : {
         if ( !is_noin ) {
           Advance_();
-          CompareExp* exp;
           AstNode* rhs = ParseUnaryExpression_();
           CHECK_ERROR( rhs );
           if ( last == 0 ) {
@@ -1891,7 +1989,6 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
       case Token::JS_SHIFT_RIGHT :
       case Token::JS_U_SHIFT_RIGHT :{
         Advance_();
-        BinaryExp *exp;
         AstNode* rhs = ParseUnaryExpression_();
         CHECK_ERROR( rhs );
         if ( last == 0 ) {
@@ -1906,7 +2003,7 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
         
       default :
         END(BinaryExpression);
-        return ( first == 0 )? lhs : first;
+        return ( first == 0 )? lhs : exp;
     }
   }
 }
@@ -2184,6 +2281,7 @@ AstNode* Parser::ParseMemberExpression_() {
 
 AstNode* Parser::ParseBracketMember_() {
   ENTER(BracketMember);
+  Advance_();
   AstNode* node = ParseExpression_( false );
   CHECK_ERROR( node );
   TokenInfo* token = Advance_();
@@ -2205,9 +2303,10 @@ AstNode* Parser::ParseDotMember_( bool *is_extend ) {
   ENTER(DotMember);
   TokenInfo* token = Seek_();
   int next = token->GetType();
-  if ( next == '{' ) {
+  int extend_type = Seek_( 2 )->GetType();
+  if ( extend_type == '{' ) {
     *is_extend = true;
-    Advance_();
+    Advance_( 2 );
     AstNode* node = ParseObjectLiteral_();
     CHECK_ERROR( node );
     return node;
@@ -2290,6 +2389,8 @@ AstNode* Parser::ParsePrimaryExpression_() {
       Advance_();
       token = Seek_();
       type = token->GetType();
+      Expression *expression = exp->CastToExpression();
+      expression->Paren();
     } else {
       SYNTAX_ERROR( "parse error unmatched parensis\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
@@ -2336,7 +2437,15 @@ AstNode* Parser::ParseObjectLiteral_() {
         AstNode* node = ParseLiteral_();
         CHECK_ERROR( node );
         Advance_();
-        AstNode* assign = ParseAssignmentExpression_( false );
+        token = Seek_();
+        type = token->GetType();
+        AstNode* assign;
+        if ( type == '{' ) {
+          Advance_();
+          assign = ParseObjectLiteral_();
+        } else {
+          assign = ParseAssignmentExpression_( false );
+        }
         CHECK_ERROR( assign );
         node->AddChild( assign );
         list->AddChild( node );
@@ -2378,12 +2487,6 @@ AstNode* Parser::ParseObjectLiteral_() {
   return object;  
 }
 
-
-bool IsLiteral( int type ) {
-  return type == Token::JS_IDENTIFIER ||
-      type == Token::JS_STRING_LITERAL ||
-      type == Token::JS_NUMERIC_LITERAL;
-}
 
 
 AstNode* Parser::ParseObjectElement_( int type , TokenInfo* token , AstNode* list ) {
@@ -2696,47 +2799,6 @@ AstNode* Parser::ParseFormalParameter_() {
 }
 
 
-void DstRewriter( AstNode *dst ) {
-  NodeIterator iterator = dst->ChildNodes();
-  while ( iterator.HasNext() ) {
-    AstNode* node = iterator.Next();
-    ValueNode* value = node->CastToValue();
-    if ( value ) {
-      int type = value->ValueType();
-      if ( type == ValueNode::kArray || type == ValueNode::kObject ) {
-        type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
-        value->ValueType( type );
-        DstRewriter( value->Node() );
-      }
-    }
-  }
-}
-
-
-void DstConvertor( AstNode *args , AstNode* list ) {
-  NodeIterator iterator = args->ChildNodes();
-  while ( iterator.HasNext() ) {
-    AstNode* item = iterator.Next();
-    ValueNode* maybe_dst = item->CastToValue();
-    if ( maybe_dst ) {
-      int type = maybe_dst->ValueType();
-      if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
-        type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
-        maybe_dst->ValueType( type );
-        DstRewriter( maybe_dst->Node() );
-        ValueNode* dst = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-        dst->Line( maybe_dst->Line() );
-        dst->Node( maybe_dst );
-        list->AddChild( dst );
-        continue;
-      }
-    }
-    list->AddChild( item );
-  }
-}
-
-
-
 AstNode* Parser::ParseArrowFunctionExpression_( AstNode* exp , int type ) {
   ENTER(ArrowFunctionExpression);
   Function* fn = ManagedHandle::Retain<Function>();
@@ -2744,7 +2806,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* exp , int type ) {
     fn->ContextType( Function::kThis );
   }
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  DstConvertor( exp , list );
+  FormalParameterDstaConvertor( exp , list );
   fn->Argv( list );
   fn->Name( ManagedHandle::Retain<Empty>() );
   END( ArrowFunctionExpression );
@@ -2767,7 +2829,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* member , AstNode* args 
   }
   fn->Name( maybeIdent );
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  DstConvertor( args , list );
+  FormalParameterDstaConvertor( args , list );
   fn->Argv( list );
   END( ArrowFunctionExpression );
   return ParseArrowFunctionBody_( fn );

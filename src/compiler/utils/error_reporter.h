@@ -13,9 +13,11 @@ class ErrorReporter : private Uncopyable {
   void ReportSyntaxError( const char* error );
   bool Error() { return error_num_ > 0; };
   void SetError( std::string *buf );
+  void SetRawError( std::string *buf );
  private :
   int error_num_;
   ErrorList buffer_;
+  ErrorList raw_list_;
 };
 
 }

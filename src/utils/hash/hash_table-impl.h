@@ -100,13 +100,13 @@ inline Entry<Key_t,Value_t> HashTable<Key_t,Value_t>::Find( const Key_t& key,
 
 
 template <typename Key_t , typename Value_t>
-inline int HashTable<Key_t,Value_t>::Size() {
+inline int HashTable<Key_t,Value_t>::Size() const {
   return size_;
 }
 
 
 template <typename Key_t , typename Value_t>
-inline EntryIteratorBase<Key_t,Value_t> HashTable<Key_t,Value_t>::Entries() {
+inline EntryIteratorBase<Key_t,Value_t> HashTable<Key_t,Value_t>::Entries() const {
   return EntryIteratorBase<Key_t,Value_t>( head_ );
 }
 

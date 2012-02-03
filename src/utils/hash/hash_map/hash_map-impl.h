@@ -142,12 +142,12 @@ inline typename HashMap<const char*,Value>::HashEntry HashMap<const char*,Value>
 }
 
 template <typename Value>
-inline int HashMap<const char*,Value>::Size() {
+inline int HashMap<const char*,Value>::Size() const {
   return table_.Size();
 }
 
 template <typename Value>
-inline typename HashMap<const char*,Value>::EntryIterator HashMap<const char*,Value>::Entries() {
+inline typename HashMap<const char*,Value>::EntryIterator HashMap<const char*,Value>::Entries() const {
   return table_.Entries();
 }
 
@@ -182,12 +182,12 @@ inline typename HashMap<int,Value>::HashEntry HashMap<int,Value>::Find( int key 
 }
 
 template <typename Value>
-inline int HashMap<int,Value>::Size() {
+inline int HashMap<int,Value>::Size() const {
   return table_.Size();
 }
 
 template <typename Value>
-inline typename HashMap<int,Value>::EntryIterator HashMap<int,Value>::Entries() {
+inline typename HashMap<int,Value>::EntryIterator HashMap<int,Value>::Entries() const {
   return table_.Entries();
 }
 

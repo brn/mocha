@@ -1,7 +1,38 @@
-try{
-  throw new SyntaxError("parse error got unexpected token '{' expect 'identifier', 'String', 'Number', 'Boolean', 'this', 'RegExp'
-in file /Users/aono_taketoshi/github/mocha/src/bootstrap/test/js/expression_test.js at line 7")
-}catch(e){
-  throw new Error(e);
-}
-;(function(){})();
+(function(){
+document.getElementById("id");
+document.test.test2.test3();
+document.test.test3=1;
+Runtime.extend(document,{extendtest:true,extendtest2:false});
+var _mochaLocalTmp0;
+_mochaLocalTmp0={destructuring:1,destructuring2:2};
+(destructuring=_mochaLocalTmp0.destructuring,destructuring2=_mochaLocalTmp0.destructuring2);
+var _mochaLocalTmp1;
+_mochaLocalTmp1={destructuring:destructuring,destructuring2:destructuring2};
+(destructuring=_mochaLocalTmp1.destructuring,destructuring2=_mochaLocalTmp1.destructuring2);
+var _mochaLocalTmp2;
+_mochaLocalTmp2={destructuring:1,destructuring2:2};
+(destructuring=_mochaLocalTmp2.destructuring,destructuring2=(_mochaLocalTmp2.dsta2&&_mochaLocalTmp2.dsta2[0])?_mochaLocalTmp2.dsta2[0]:undefined);
+var _mochaLocalTmp3;
+_mochaLocalTmp3={destructuring:destructuring,destructuring2:destructuring2};
+(destructuring=_mochaLocalTmp3.destructuring,destructuring2=_mochaLocalTmp3.dsta2,dsta4=(_mochaLocalTmp3.dsta3&&_mochaLocalTmp3.dsta3.dsta4)?_mochaLocalTmp3.dsta3.dsta4:undefined);
+var _mochaLocalTmp4;
+_mochaLocalTmp4=[0,1];
+(destructuring=_mochaLocalTmp4[0],destructuring2=_mochaLocalTmp4[1]);
+var _mochaLocalTmp5;
+_mochaLocalTmp5=[0,[1]];
+(destructuring=_mochaLocalTmp5[0],destructuring2=(_mochaLocalTmp5[1]&&_mochaLocalTmp5[1][0])?_mochaLocalTmp5[1][0]:undefined);
+var _mochaLocalTmp6;
+_mochaLocalTmp6=[{dsta:dsta}];
+(dsta=(_mochaLocalTmp6[0]&&_mochaLocalTmp6[0].dsta)?_mochaLocalTmp6[0].dsta:undefined,a=(_mochaLocalTmp6[0]&&_mochaLocalTmp6[0].dsta2&&_mochaLocalTmp6[0].dsta2[0])?_mochaLocalTmp6[0].dsta2[0]:undefined,dsta2=(_mochaLocalTmp6[1]&&_mochaLocalTmp6[1].dsta2)?_mochaLocalTmp6[1].dsta2:undefined);
+var _mochaLocalTmp7;
+_mochaLocalTmp7={getname:function (){return "aaaa";},getage:function (){return "aaaaa";}};
+(getname=_mochaLocalTmp7.getname,getage=_mochaLocalTmp7.getage);
+var _mochaLocalTmp8;
+_mochaLocalTmp8={getname:function getname(){return "aaaa";},getage:function getage(){return "aaaaa";}};
+(getname=_mochaLocalTmp8.getname,getage=_mochaLocalTmp8.getage);
+var _mochaLocalTmp9;
+_mochaLocalTmp9={getname:function getname(){return "aaaa";},getage:function getage(){return "aaaaa";}};
+(getname=_mochaLocalTmp9.getname,getage=_mochaLocalTmp9.getage);
+var _mochaLocalTmp10;
+_mochaLocalTmp10={getname:function getname(){return "aaaa";},getage:function getage(){return "aaaaa";}};
+(getname=_mochaLocalTmp10.getname,getage=_mochaLocalTmp10.getage);})();

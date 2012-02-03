@@ -419,7 +419,7 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
         
       default :
-        if ( op > 200 ) {
+        if ( op > 127 ) {
           stream->Write( JsToken::GetTokenFromNumber( op ) );
         } else {
           stream->Write( op );

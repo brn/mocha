@@ -166,7 +166,7 @@ private :
 //////////////////////////////////////////
 
 Compiler* Compiler::CreateInstance( const char* filename , FinishDelegator* callback ) {
-  MutexLock lock( mutex_ );
+  //MutexLock lock( mutex_ );
   //Get thread local instance.
   Compiler* instance = reinterpret_cast<Compiler*>( ThreadLocalStorage::Get( &local_key_ ) );
 

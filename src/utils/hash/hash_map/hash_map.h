@@ -17,8 +17,8 @@ class HashMap {
   inline void Remove( const Key& key );
   inline void RemoveAll();
   inline HashEntry Find( const Key& key );
-  inline int Size();
-  inline EntryIterator Entries();
+  inline int Size() const;
+  inline EntryIterator Entries() const;
  private :
   HashTable<Key,Value> table_;
 };
@@ -37,8 +37,8 @@ class HashMap<const char*,Value> {
   inline void RemoveAll();
   inline HashEntry Find( const char* key );
   inline HashEntry Find( const std::string& key );
-  inline int Size();
-  inline EntryIterator Entries();
+  inline int Size() const;
+  inline EntryIterator Entries() const;
  private :
   HashTable<std::string,Value> table_;
 };
@@ -55,8 +55,8 @@ class HashMap<int,Value> {
   inline void Remove( int key );
   inline void RemoveAll();
   inline HashEntry Find( int key );
-  inline int Size();
-  inline EntryIterator Entries();
+  inline int Size() const;
+  inline EntryIterator Entries() const;
  private :
   HashTable<int,Value> table_;
 };

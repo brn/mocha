@@ -33,8 +33,8 @@ class HashTable {
   inline void Remove( Key_t& key , Hash_t& hash );
   inline void RemoveAll();
   inline Leaf Find( const Key_t& key , Hash_t& hash );
-  inline int Size();
-  inline EntryIteratorBase<Key_t,Value_t> Entries();
+  inline int Size() const;
+  inline EntryIteratorBase<Key_t,Value_t> Entries() const;
  private :
   Block<Key_t,Value_t>* GetBlock_( const Key_t& key , Hash_t& hash , bool is_insert );
   void AddList_( Node* node );
