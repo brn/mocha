@@ -493,6 +493,12 @@
       var test =  {
             x : true
           };
+      
+      __LINE__ = 3;
+      Runtime.assert( true,test.x === true,"test.x === true",3 );
+      
+      __LINE__ = 4;
+      Runtime.assert( true,test.x === false,"test.x === false",4 );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

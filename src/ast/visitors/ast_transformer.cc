@@ -461,7 +461,7 @@ VISITOR_IMPL(TryStmt) {
 
 VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
-  if ( !visitor_info_->HasVersion( "debug" ) ) {
+  if ( visitor_info_->HasVersion( "debug" ) ) {
     REGIST(ast_node);
     AstNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kAssert ),
                                               Token::JS_IDENTIFIER , ValueNode::kIdentifier , ast_node->Line() );
@@ -474,9 +474,12 @@ VISITOR_IMPL(AssertStmt) {
     std::string str = "\"";
     str += visitor.GetCode();
     str += "\"";
+    char tmp[100];
+    sprintf( tmp , "%ld" , ast_node->Line() );
+    ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ValueNode::kNumeric , ast_node->Line() );
     AstNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
                                                            ValueNode::kString , ast_node->Line() );
-    AstNode* arg = AstUtils::CreateNodeList( 3 , expect , expression , string_expression );
+    AstNode* arg = AstUtils::CreateNodeList( 4 , expect , expression , string_expression , line );
     CallExp* call = AstUtils::CreateNormalAccessor( name , arg );
     CallExp* exp = AstUtils::CreateRuntimeMod( call );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
