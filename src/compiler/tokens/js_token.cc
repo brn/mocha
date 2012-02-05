@@ -324,6 +324,7 @@ char reserved_words[][ 20 ] = {
   "each",
   "from",
   "yield",
+  "@assert",
   "@version",
   "@pragma",
   "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,

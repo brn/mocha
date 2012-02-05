@@ -72,6 +72,7 @@ class Token : private Static {
     JS_EACH,
     JS_FROM,
     JS_YIELD,
+    JS_ASSERT,
     MOCHA_VERSIONOF,
     MOCHA_PRAGMA,
     JS_INCREMENT,

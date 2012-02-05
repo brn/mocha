@@ -1,5 +1,5 @@
 bin_PROGRAMS = mocha
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -fno-exceptions `icu-config --ldflags`
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -DCURRENT_DIR=\"`pwd`\" -fno-exceptions `icu-config --ldflags`
 AM_CXXFLAGS = $(AM_CFLAGS)
 mocha_LDFLAGS = $(PTHREAD) -Xlinker -rpath -Xlinker `icu-config --icudata-install-dir` ./third_party/v8/libv8.a
 mocha_SOURCES = \
@@ -58,6 +58,12 @@ compiler/tokens/symbol_list.h\
 compiler/tokens/symbol_list.cc\
 compiler/utils/compile_result.h\
 compiler/utils/compile_result.cc\
+compiler/external/external_resource.h\
+compiler/external/external_resource.cc\
+compiler/utils/compile_info.h\
+compiler/utils/compile_info.cc\
+compiler/consts/consts.h\
+compiler/consts/consts.cc\
 compiler/parser/parser.h\
 compiler/parser/parser.cc\
 bootstrap/runners/compile_runner.h\
@@ -66,6 +72,8 @@ bootstrap/runners/list_runner.h\
 bootstrap/runners/list_runner.cc\
 bootstrap/runners/error_runner.h\
 bootstrap/runners/error_runner.cc\
+bootstrap/runners/phantom_runner.h\
+bootstrap/runners/phantom_runner.cc\
 compiler/utils/compiler_facade.h\
 compiler/utils/compiler_facade.cc\
 compiler/encoding/encoding.h\
@@ -86,6 +94,8 @@ utils/file_watcher/file_watcher.h\
 utils/file_watcher/file_watcher.cc\
 utils/file_system/pwd.cc\
 utils/file_system/pwd.h\
+utils/file_system/directory.h\
+utils/file_system/directory.cc\
 utils/smart_pointer/ref_count/handle.h\
 bootstrap/runners/help_runner.h\
 bootstrap/runners/help_runner.cc\

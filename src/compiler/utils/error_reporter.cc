@@ -32,6 +32,7 @@ void ErrorReporter::SetRawError( std::string *buf ) {
     ErrorList::iterator begin = raw_list_.begin(),end = raw_list_.end();
     while ( begin != end ) {
       (*buf) += begin->c_str();
+      (*buf) += "\n";
       ++begin;
     }
   }

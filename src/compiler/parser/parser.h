@@ -39,6 +39,7 @@ class Parser{
   AstNode* ParseImportExpression_();
   AstNode* ParseDebuggerStatement_( TokenInfo* token );
   AstNode* ParseVersionStatement_();
+  AstNode* ParseAssertStatement_();
   AstNode* ParseVariableStatement_();
   AstNode* ParseVariableDecl_( bool is_noin );
   AstNode* ParseLetDeclOrLetStatement_(){return 0;};

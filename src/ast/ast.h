@@ -93,26 +93,6 @@ class ReverseNodeIterator{
 };
 
 
-class CompileInfo : public Managed {
- public :
-  typedef BitVector8 Pragma;
-  enum {
-    kDebug,
-    kNoAssign,
-    kInline,
-    kPure
-  };
-  CompileInfo() : Managed(){};
-  ~CompileInfo(){};
-  void Type( Pragma pragma ) { vector_ = pragma; }
-  void Type( int type ) { vector_.At( type ); }
-  Pragma Type() { return vector_; }
-  bool IsType( int type ) { return vector_.At( type ); }
-  static int GetType( const char* type );
- private :
-  Pragma vector_;
-};
-
 
 /**
  * @class
@@ -134,6 +114,7 @@ class AstNode : public Managed {
     kStatement,
     kStatementList,
     kVersionStmt,
+    kAssertStmt,
     kExpression,
     kValueNode,
     kCase,
@@ -420,8 +401,6 @@ class AstNode : public Managed {
    */
   virtual inline bool IsEmpty() const { return false; }
 
-  inline void SetInfo( CompileInfo* info ) { info_ = info; }
-  inline CompileInfo* GetInfo() { return info_; }
  private :
   inline virtual NVI_ACCEPTOR_DECL{};
   int type_;
@@ -433,7 +412,6 @@ class AstNode : public Managed {
   AstNode* last_child_;
   AstNode* next_sibling_;
   AstNode* prev_sibling_;
-  CompileInfo* info_;
 };
 
 #define CLONE( name ) AstNode* Clone();
@@ -508,7 +486,7 @@ class AstRoot : public AstNode {
  */
 class FileRoot : public AstNode {
  public :
-  inline FileRoot() : AstNode( AstNode::kFileRoot , "FileRoot" ) {}
+  inline FileRoot() : AstNode( AstNode::kFileRoot , "FileRoot" ) ,is_file_root_( false ) {}
   inline ~FileRoot(){};
   /**
    * @param {const char*}
@@ -520,8 +498,11 @@ class FileRoot : public AstNode {
    * Get file name.
    */
   inline const char* FileName() const { return filepath_.c_str(); }
+  bool IsRuntime() { return is_file_root_; }
+  void SetFileRoot() { is_file_root_ = true; }
   CLONE( FileRoot );
  private :
+  bool is_file_root_;
   std::string filepath_;
   CALL_ACCEPTOR( FileRoot );
 };
@@ -1005,6 +986,15 @@ class TryStmt : public Statement {
   AstNode* catch_;
   AstNode* finally_;
   CALL_ACCEPTOR( TryStmt );
+};
+
+class AssertStmt : public Statement {
+ public :
+  inline AssertStmt() : Statement( NAME_PARAMETER(AssertStmt) ){}
+  inline ~AssertStmt(){}
+  CLONE( AssertStmt );
+ private :
+  CALL_ACCEPTOR( AssertStmt );
 };
 
 class CaseClause : public AstNode {

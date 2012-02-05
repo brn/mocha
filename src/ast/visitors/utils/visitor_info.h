@@ -3,6 +3,7 @@
 #include <utils/int_types.h>
 #include <list>
 #include <utility>
+#include <compiler/utils/compile_info.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/class_traits/uncopyable.h>
 #include <utils/xml/versions.h>
@@ -36,12 +37,7 @@ class VisitorInfo : private Uncopyable{
   inline void SetCurrentStmt( Statement* stmt ) { current_stmt_ = stmt; }
   inline Statement* GetCurrentStmt() { return current_stmt_; }
   inline bool IsRuntime() { return bit_vector_[ 2 ]; }
-  inline bool HasVersion( const char* ver ) {
-    if ( version_ ) {
-      return version_->Get( ver );
-    }
-    return false;
-  }
+  inline bool HasVersion( const char* ver ) { return compile_info_->HasVersion( ver ); }
   inline bool IsInModules() { return is_in_module_ > 0; }
   inline void EscapeModuel() { is_in_module_--;}
   inline void EnterModuel() { is_in_module_++ ;}
@@ -69,7 +65,7 @@ class VisitorInfo : private Uncopyable{
   const char* file_name_;
   PrivateNameList private_names_;
   BitVector8 bit_vector_;
-  Version* version_;
+  CompileInfo* compile_info_;
   DstaExtractedExpressions* dsta_exp_;
   TokenInfo* rest_exp_;
   Scope *scope_;

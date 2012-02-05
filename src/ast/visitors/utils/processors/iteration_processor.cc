@@ -13,6 +13,12 @@
 namespace mocha {
 
 void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo* info ) {
+  AstNode* maybeBlock = ast_node->FirstChild();
+  if ( maybeBlock->NodeType() != AstNode::kBlockStmt ) {
+    ast_node->RemoveAllChild();
+    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , maybeBlock );
+    ast_node->AddChild( stmt );
+  }
   IVisitor *visitor = info->GetVisitor();
   AstNode* exp = ast_node->Exp();
   AstNode* index_exp = exp->FirstChild();
@@ -29,19 +35,19 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
     incr_exp->Accept( visitor );
   }
   
-
-  AstNode* maybeBlock = ast_node->FirstChild();
-  if ( maybeBlock->NodeType() == AstNode::kBlockStmt ) {
-    ast_node->FirstChild()->Accept( visitor );
-  } else {
-    ast_node->FirstChild()->Accept( visitor );
-  }
+  ast_node->FirstChild()->Accept( visitor );
   if ( ast_node->GetYieldFlag() ) {
     info->GetInfo()->GetFunction()->SetStmtWithYield( ast_node );
   }
 }
 
 void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info , bool is_regist ) {
+  AstNode* maybeBlock = ast_node->FirstChild();
+  if ( maybeBlock->NodeType() != AstNode::kBlockStmt ) {
+    ast_node->RemoveAllChild();
+    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , maybeBlock );
+    ast_node->AddChild( stmt );
+  }
   IVisitor *visitor = info->GetVisitor();
   bool has_variable = ast_node->NodeType() == AstNode::kForInWithVar || ast_node->NodeType() == AstNode::kForOfWithVar;
   AstNode* exp = ast_node->Exp();
@@ -165,6 +171,12 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
 
 
 void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , ProcessorInfo *info ) {
+  AstNode* maybeBlock = ast_node->FirstChild();
+  if ( maybeBlock->NodeType() != AstNode::kBlockStmt ) {
+    ast_node->RemoveAllChild();
+    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , maybeBlock );
+    ast_node->AddChild( stmt );
+  }
   IVisitor* visitor = info->GetVisitor();
   bool has_variable = ast_node->NodeType() == AstNode::kForEachWithVar;
   AstNode* exp = ast_node->Exp();
@@ -236,13 +248,23 @@ void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , Processor
 }
 
 void IterationProcessor::ProcessWhileNode( IterationStmt *ast_node , ProcessorInfo *info ) {
+  AstNode* maybeBlock = ast_node->FirstChild();
+  if ( maybeBlock->NodeType() != AstNode::kBlockStmt ) {
+    ast_node->RemoveAllChild();
+    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , maybeBlock );
+    ast_node->AddChild( stmt );
+  }
   IVisitor* visitor = info->GetVisitor();
   bool is_dst = false;
   NodeList* dsta_list = 0;
   VariableStmt* var_stmt = 0;
   ast_node->Exp()->Accept( visitor );
   if ( ( is_dst = ast_node->HasDsta() ) ) {
-    var_stmt = DstaProcessor::CreateTmpVarDecl( ast_node , info );
+    if ( ast_node->NodeType() == AstNode::kDoWhile ) {
+      var_stmt = DstaProcessor::CreateTmpVarDecl( ast_node , info );
+    } else {
+      var_stmt = DstaProcessor::CreateTmpVarDecl( ast_node , info );
+    }
     dsta_list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , info );
   }
   AstNode* body = ast_node->FirstChild();
@@ -255,7 +277,7 @@ void IterationProcessor::ProcessWhileNode( IterationStmt *ast_node , ProcessorIn
     ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
     stmt->AddChild( exp );
     if ( body->NodeType() == AstNode::kBlockStmt ) {
-      body->InsertBefore( stmt );
+      body->FirstChild()->InsertBefore( stmt );
     } else {
       BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
       block->AddChild( stmt );

@@ -13,10 +13,10 @@ namespace mocha {
 class CodeWriter;
 class NodeIterator;
 class InnerScope;
-
+class CompileInfo;
 class CodegenVisitor : public IVisitor {
  public :
-  CodegenVisitor( Options* option );
+  CodegenVisitor( CompileInfo* info );
   CodegenVisitor( bool is_pretty_print , bool is_debug );
   ~CodegenVisitor(){};
 #include <ast/visitors/visitor_decl.h>

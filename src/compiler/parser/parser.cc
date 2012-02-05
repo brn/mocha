@@ -33,8 +33,8 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 
 //Print parser move to stderr.
 #ifdef PARSER_DEBUG
-#define ENTER(mode) fflush(stdout);indent_+=' ';fprintf( stderr , "%snext token = %s enter %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode )
-#define END(mode) fflush(stdout);fprintf( stderr , "%snext token = %s end %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode );indent_.erase(0,1)
+#define ENTER(mode) fflush(stdout);indent_+=' ';fprintf( stdout , "%snext token = %s enter %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode )
+#define END(mode) fflush(stdout);fprintf( stdout , "%snext token = %s end %s\n" , indent_.c_str(),static_cast<const char*>( TokenConverter( Seek_() ) ),#mode );indent_.erase(0,1)
 #else
 #define ENTER(mode)
 #define END(mode)
@@ -83,7 +83,8 @@ void DstaRewriter( AstNode *dst ) {
         DstaRewriter( value->FirstChild() );
       } else if ( type == ValueNode::kObject ) {
         value->ValueType( ValueNode::kDst );
-        DstaRewriter( value->Node() );
+        AstNode* target = value->Node();
+        DstaRewriter( target );
       } else if ( parent && IsValidProperty( type ) && parent->ValueType() == ValueNode::kDst ) {
         DstaRewriter( value );
       }
@@ -92,22 +93,41 @@ void DstaRewriter( AstNode *dst ) {
 }
 
 
-void FormalParameterDstaConvertor( AstNode *args , AstNode* list ) {
+void FormalParameterConvertor( AstNode *args , AstNode* list ) {
   NodeIterator iterator = args->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
-    ValueNode* maybe_dst = item->CastToValue();
-    if ( maybe_dst ) {
-      int type = maybe_dst->ValueType();
+    printf( "%s\n" , item->GetName() );
+    ValueNode* maybe_dst_or_spread = item->CastToValue();
+    if ( maybe_dst_or_spread ) {
+      int type = maybe_dst_or_spread->ValueType();
       if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
         type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
-        maybe_dst->ValueType( type );
-        DstaRewriter( maybe_dst->Node() );
+        AstNode* target = maybe_dst_or_spread->Node();
+        maybe_dst_or_spread->ValueType( type );
+        if ( !target ) {
+          DstaRewriter( maybe_dst_or_spread->FirstChild() );
+        } else {
+          DstaRewriter( target );
+        }
         ValueNode* dst = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
-        dst->Line( maybe_dst->Line() );
-        dst->Node( maybe_dst );
+        dst->Line( maybe_dst_or_spread->Line() );
+        dst->Node( maybe_dst_or_spread );
         list->AddChild( dst );
         continue;
+      } else if ( type == ValueNode::kSpread ) {
+        maybe_dst_or_spread->ValueType( ValueNode::kRest );
+      }
+    } else if ( item->NodeType() == ValueNode::kAssignmentExp ) {
+      AssignmentExp* exp = item->CastToExpression()->CastToAssigment();
+      ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+      ValueNode* symbol = exp->Left()->CastToValue();
+      if ( symbol ) {
+        value->Symbol( symbol->Symbol() );
+        value->AddChild( exp->Right() );
+        item = value;
+      } else {
+        printf( "Error!!\n" );
       }
     }
     list->AddChild( item );
@@ -240,7 +260,6 @@ AstNode* Parser::ParseSourceElement_() {
         //check syntax for const function.
         if ( type == '(' || type == Token::JS_FUNCTION_GLYPH ||
              type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
-          Advance_();
           result = ParseFunctionDecl_( true );
         } else {
           result = ParseVariableStatement_();
@@ -265,7 +284,7 @@ AstNode* Parser::ParseStatementList_( StatementListMatcher matcher , const char*
   int type = token->GetType();
   StatementList* list = ManagedHandle::Retain<StatementList>();
   while ( matcher( type ) ) {
-    AstNode* statement = ParseStatement_();
+    AstNode* statement = ParseSourceElement_();
     CHECK_ERROR( statement );
     list->AddChild( statement );
     token = Seek_();
@@ -378,6 +397,10 @@ AstNode* Parser::ParseStatement_() {
     case Token::JS_IMPORT :
       result = ParseImportStatement_();
       break;
+
+    case Token::JS_ASSERT :
+      result = ParseAssertStatement_();
+      break;
       
     case Token::MOCHA_VERSIONOF :
       result = ParseVersionStatement_();
@@ -453,7 +476,7 @@ AstNode* Parser::ParseModuleStatement_() {
   } else {
     module_stmt->Name( ManagedHandle::Retain<Empty>() );
   }
-  AstNode* statement = ParseStatement_();
+  AstNode* statement = ParseSourceElement_();
   module_stmt->Line( info->GetLineNumber() );
   module_stmt->AddChild( statement );
   END(ModuleStatement);
@@ -576,12 +599,16 @@ AstNode* Parser::ParseVersionStatement_() {
     type = token->GetType();
     if ( type == Token::JS_IDENTIFIER ) {
       VersionStmt* stmt = ManagedHandle::Retain( new VersionStmt( token ) );
-      stmt->Line( token->GetLineNumber() );
-      AstNode* statement = ParseStatement_();
-      CHECK_ERROR( stmt );
-      stmt->AddChild( statement );
-      END(VersionStatement);
-      return stmt;
+      token = Advance_();
+      type = token->GetType();
+      if ( type == ')' ) {
+        stmt->Line( token->GetLineNumber() );
+        AstNode* statement = ParseStatementList_( BlockBodyMatcher , "}" );
+        CHECK_ERROR( stmt );
+        stmt->AddChild( statement );
+        END(VersionStatement);
+        return stmt;
+      }
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
@@ -596,6 +623,68 @@ AstNode* Parser::ParseVersionStatement_() {
                   << " in 'version statement' expect ')' \nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(VersionStatementError);
+    return ManagedHandle::Retain<Empty>();
+  }
+}
+
+
+AstNode* Parser::ParseAssertStatement_() {
+  TokenInfo *token = Seek_();
+  int type = token->GetType();
+  long line = token->GetLineNumber();
+  if ( type == '(' ) {
+    token = Advance_();
+    type = token->GetType();
+    AstNode* literal = ParseLiteral_();
+    CHECK_ERROR( literal );
+    token = Advance_();
+    type = token->GetType();
+    if ( type == ',' ) {
+      AstNode* exp = ParseExpression_( false );
+      token = Advance_();
+      type = token->GetType();
+      if ( type == ')' ) {
+        token = Seek_();
+        type = token->GetType();
+        if ( type == ';' || type == '}' || token->HasLineBreakBefore() || IsEnd( type ) ) {
+          if ( type == ';' ) {
+            Advance_();
+          }
+          AssertStmt* stmt = ManagedHandle::Retain<AssertStmt>();
+          stmt->Line( line );
+          stmt->AddChild( literal );
+          stmt->AddChild( exp );
+          return stmt;
+        } else {
+          SYNTAX_ERROR( "parse error got unexpected token "
+                        << TokenConverter( token )
+                        << " 'in assert statement' expect ';' or 'line break'\nin file "
+                        << filename_ << " at line " << token->GetLineNumber() );
+          END(AssertStatement);
+          return exp;
+        }
+      } else {
+        SYNTAX_ERROR( "parse error got unexpected token "
+                      << TokenConverter( token )
+                      << " 'in assert statement' expect ')'\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        END(AssertStatement);
+        return literal;
+      }
+    } else {
+      SYNTAX_ERROR( "parse error got unexpected token "
+                  << TokenConverter( token )
+                  << " 'in assert statement', second arguments must be a 'expression'\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+      END(AssertStatement);
+      return literal;
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << TokenConverter( token )
+                  << " 'in assert statement' expect '('\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    END(AssertStatement);
     return ManagedHandle::Retain<Empty>();
   }
 }
@@ -695,16 +784,9 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
      * if next token type is comma, declaration is continue after,
      * if not, it's error.
      */
-    if ( next_type != ',' && ( next->HasLineBreakBefore() || next_type == '}' || next_type == ';' || IsEnd( next_type ) ) ) {
+    if ( next_type != ',' ) {
       break;
-    } else if ( next_type != ',' ) {
-      SYNTAX_ERROR( "parse error got unexpected token "
-                    << TokenConverter( next )
-                    << " after 'variable statement' expect ',' or ';' , 'line break'\nin file "
-                    << filename_ << " at line " << next->GetLineNumber() );
-      END(VariableDeclError);
-      return list;
-    } else if ( next_type == ',' ) {
+    } else {
       Advance_();
     }
     maybe_assign_op = Seek_( 2 );
@@ -971,14 +1053,14 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
     type = token->GetType();
     if ( type == ')' ) {
       if ( !is_comprehensions ) {
-        AstNode* stmt = ParseStatement_();
+        AstNode* stmt = ParseSourceElement_();
         CHECK_ERROR( stmt );
         if_stmt->Then( stmt );
         token = Seek_();
         type = token->GetType();
         if ( type == Token::JS_ELSE ) {
           Advance_();
-          AstNode* stmt = ParseStatement_();
+          AstNode* stmt = ParseSourceElement_();
           CHECK_ERROR( stmt )
           if_stmt->Else( stmt );
         } else {
@@ -1011,7 +1093,7 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
 
 AstNode* Parser::ParseDoWhileStatement_() {
   ENTER(DoWhileStatement);
-  AstNode* statement = ParseStatement_();
+  AstNode* statement = ParseSourceElement_();
   CHECK_ERROR( statement );
   TokenInfo* token = Advance_();
   int type = token->GetType();
@@ -1069,7 +1151,7 @@ AstNode* Parser::ParseWhileStatement_() {
       IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
       iter->Line( token->GetLineNumber() );
       iter->Exp( node );
-      AstNode* statement = ParseStatement_();
+      AstNode* statement = ParseSourceElement_();
       CHECK_ERROR( iter );
       iter->AddChild( statement );
       END(WhileStatement);
@@ -1101,6 +1183,8 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
   IterationStmt* iter_stmt = 0;
   if ( type == Token::JS_EACH ) {
     is_each = true;
+    token = Advance_();
+    type = token->GetType();
   }
   if ( type == '(' ) {
     int next_type = Seek_()->GetType();
@@ -1122,7 +1206,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
         var_decl_len = var_decl->ChildLength();
       }
     } else if ( next_type != ';' ) {
-      AstNode* exp = ParseExpression_( false );
+      AstNode* exp = ParseExpression_( true );
       CHECK_ERROR( exp );
       exp_list->AddChild( exp );
     } else {
@@ -1151,6 +1235,10 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
       }
+      if ( is_var_decl ) {
+        AstNode* initialiser = exp_list->FirstChild()->FirstChild();
+        exp_list->ReplaceChild( exp_list->FirstChild() , initialiser );
+      }
       if ( is_each == false ) {
         int iter_type = ( is_var_decl )? IterationStmt::kForInWithVar : IterationStmt::kForIn;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
@@ -1169,6 +1257,10 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
+      }
+      if ( is_var_decl ) {
+        AstNode* initialiser = exp_list->FirstChild()->FirstChild();
+        exp_list->ReplaceChild( exp_list->FirstChild() , initialiser );
       }
       if ( is_each == false ) {
         int iter_type = ( is_var_decl )? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
@@ -1194,13 +1286,13 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'if statement conditional expression' expect '(' \nin file "
+                  << " in 'for statement conditional expression' expect '(' \nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ForStatementError);
     return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
   }
   if ( !is_comprehensions ) {
-    AstNode* body = ParseStatement_();
+    AstNode* body = ParseSourceElement_();
     CHECK_ERROR( iter_stmt );
     iter_stmt->AddChild( body );
   } else {
@@ -1246,12 +1338,10 @@ void Parser::ParseForStatementCondition_( NodeList* list ) {
 
 void Parser::ParseForInStatementCondition_( NodeList* list ) {
   ENTER(ForInStatementCondition);
-  TokenInfo* token = Advance_();
-  int type = token->GetType();
   AstNode* target_exp = ParseExpression_( false );
   CHECK_ERROR();
-  token = Seek_();
-  type = token->GetType();
+  TokenInfo* token = Advance_();
+  int type = token->GetType();
   list->AddChild( target_exp );
   if ( type != ')' ) {
     SYNTAX_ERROR( "parse error got unexpected token "
@@ -1364,7 +1454,7 @@ AstNode* Parser::ParseWithStatement_() {
     token = Advance_();
     type = token->GetType();
     if ( type == ')' ) {
-      AstNode* statement = ParseStatement_();
+      AstNode* statement = ParseSourceElement_();
       CHECK_ERROR( stmt );
       stmt->AddChild( statement );
     } else {
@@ -1477,7 +1567,7 @@ AstNode* Parser::ParseLabelledStatement_() {
   AstNode* ident = ParseLiteral_();
   CHECK_ERROR( ident )
   Advance_();
-  AstNode* statement = ParseStatement_();
+  AstNode* statement = ParseSourceElement_();
   LabelledStmt* stmt = ManagedHandle::Retain<LabelledStmt>();
   CHECK_ERROR( stmt );
   stmt->AddChild( ident );
@@ -1494,13 +1584,16 @@ AstNode* Parser::ParseThrowStatement_() {
   AstNode* exp = ParseExpression_( false );
   CHECK_ERROR( throw_stmt );
   throw_stmt->Exp( exp );
-  token = Advance_();
+  token = Seek_();
   int type = token->GetType();
-  if ( type != ';' && type != '}' && !token->HasLineBreakBefore() ) {
+  if ( type != ';' && type != '}' && !token->HasLineBreakBefore() && !IsEnd( type ) ) {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
                   << " in 'throw statement' expect ';' or 'line break'\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
+  }
+  if ( type == ';' ) {
+    Advance_();
   }
   END(ThrowStatement);
   return throw_stmt;
@@ -1513,6 +1606,7 @@ AstNode* Parser::ParseTryStatement_() {
   int type = token->GetType();
   TryStmt *stmt = ManagedHandle::Retain<TryStmt>();
   if ( type == '{' ) {
+    Advance_();
     AstNode* block = ParseBlockStatement_();
     CHECK_ERROR( stmt );
     stmt->AddChild( block );
@@ -1528,6 +1622,7 @@ AstNode* Parser::ParseTryStatement_() {
       stmt->Catch( ManagedHandle::Retain<Empty>() );
     }
     if ( type == Token::JS_FINALLY ) {
+      Advance_();
       AstNode* finally_block = ParseFinallyBlock_();
       CHECK_ERROR( stmt );
       stmt->Finally( finally_block );
@@ -1562,11 +1657,12 @@ AstNode* Parser::ParseCatchBlock_() {
                       << " in 'catch block' expect '{'\nin file"
                       << filename_ << " at line " << token->GetLineNumber() );
       } else {
+        Advance_();
         AstNode* block = ParseBlockStatement_();
         CHECK_ERROR( ident );
         ident->AddChild( block );
         END(CatchBlock);
-        return block;
+        return ident;
       }
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -1587,7 +1683,7 @@ AstNode* Parser::ParseCatchBlock_() {
 
 AstNode* Parser::ParseFinallyBlock_() {
   ENTER(FinallyBlock);
-  TokenInfo *token = Advance_( 2 );
+  TokenInfo *token = Advance_();
   int type = token->GetType();
   if ( type == '{' ) {
     AstNode* block = ParseBlockStatement_();
@@ -1969,11 +2065,8 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
             exp = ManagedHandle::Retain( new CompareExp( type , last , rhs ) );
           }
           last = exp;
-        } else {
-          SYNTAX_ERROR( "parse error got unexpected token 'in'\nin file "
-                        << filename_ << " at line " << token->GetLineNumber() );
-          return lhs;
         }
+        return ( first == 0 )? lhs : exp;
       }
         break;
         
@@ -2169,9 +2262,28 @@ AstNode* Parser::ParseArguments_() {
   NodeList* list = ManagedHandle::Retain<NodeList>();
   if ( type != ')' ) {
     while ( type != ')' ) {
-      AstNode* exp = ParseAssignmentExpression_( false );
-      CHECK_ERROR( list );
-      list->AddChild( exp );
+      if ( type == Token::JS_PARAMETER_REST ) {
+        Advance_();
+        token = Seek_();
+        type = token->GetType();
+        if ( type == Token::JS_IDENTIFIER ) {
+          AstNode* value = ParseLiteral_();
+          CHECK_ERROR( list );
+          value->CastToValue()->ValueType( ValueNode::kSpread );
+          list->AddChild( value );
+        } else {
+          SYNTAX_ERROR( "parse error got unexpected token "
+                        << TokenConverter( token )
+                        << " in 'formal parameter rest or arguments spread' expect 'identifier'\nin file "
+                        << filename_ << " at line " << token->GetLineNumber() );
+          END( FormalParameterErrror );
+          return list;
+        }
+      } else {
+        AstNode* exp = ParseAssignmentExpression_( false );
+        CHECK_ERROR( list );
+        list->AddChild( exp );
+      }
       token = Seek_();
       type = token->GetType();
       if ( type == ',' ) {
@@ -2210,8 +2322,8 @@ AstNode* Parser::ParseMemberExpression_() {
     //fn->LeftHandSide();
     END(MemberExpression);
     return fn;
-  } else if ( fn_signature_type == Token::JS_FUNCTION_GLYPH ||
-              fn_signature_type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+  } else if ( type == Token::JS_IDENTIFIER && ( fn_signature_type == Token::JS_FUNCTION_GLYPH ||
+                                                fn_signature_type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) ) {
     END(MemberExpression);
     return ParseFunctionDecl_( false );
   } else {
@@ -2518,58 +2630,64 @@ AstNode* Parser::ParseArrayLiteral_() {
   int type = token->GetType();
   val->Line( token->GetLineNumber() );
   int count = 0;
-  while ( 1 ) {
-    if ( type == ',' ) {
-      list->AddChild( ManagedHandle::Retain<Empty>() );
-      token = Advance_();
-      type = token->GetType();
-      if ( type == ']' ) {
-        Advance_();
+  if ( type == ']' ) {
+    Advance_();
+    END(ArrayLiteral);
+    return val;
+  } else {
+    while ( 1 ) {
+      if ( type == ',' ) {
         list->AddChild( ManagedHandle::Retain<Empty>() );
-        break;
-      }
-    } else {
-      AstNode* node = ParseAssignmentExpression_( false );
-      CHECK_ERROR( node );
-      list->AddChild( node );
-      token = Seek_();
-      type = token->GetType();
-      if ( type == Token::JS_FOR ) {
-        if ( count > 0 ) {
-          SYNTAX_ERROR( "parse error got unexpected token "
-                        << TokenConverter( token )
-                        << " in 'array comprehensions expect' 'assignment expression'\nin file "
-                        << filename_ << " at line " << token->GetLineNumber() );
-          END(ArrayLiteralError);
-          return val;
+        token = Advance_();
+        type = token->GetType();
+        if ( type == ']' ) {
+          Advance_();
+          list->AddChild( ManagedHandle::Retain<Empty>() );
+          break;
         }
-        AstNode* node = ParseArrayComprehensions_();
+      } else {
+        AstNode* node = ParseAssignmentExpression_( false );
         CHECK_ERROR( node );
         list->AddChild( node );
         token = Seek_();
         type = token->GetType();
-        if ( type != ']' ) {
-          SYNTAX_ERROR( "parse error got unexpected token "
-                        << TokenConverter( token )
-                        << " in 'array comprehensions expect' ']'\nin file "
-                        << filename_ << " at line " << token->GetLineNumber() );
-          END(ArrayLiteralError);
+        if ( type == Token::JS_FOR ) {
+          if ( count > 0 ) {
+            SYNTAX_ERROR( "parse error got unexpected token "
+                          << TokenConverter( token )
+                          << " in 'array comprehensions expect' 'assignment expression'\nin file "
+                          << filename_ << " at line " << token->GetLineNumber() );
+            END(ArrayLiteralError);
+            return val;
+          }
+          AstNode* node = ParseArrayComprehensions_();
+          CHECK_ERROR( node );
+          list->AddChild( node );
+          token = Seek_();
+          type = token->GetType();
+          if ( type != ']' ) {
+            SYNTAX_ERROR( "parse error got unexpected token "
+                          << TokenConverter( token )
+                          << " in 'array comprehensions expect' ']'\nin file "
+                          << filename_ << " at line " << token->GetLineNumber() );
+            END(ArrayLiteralError);
+            return val;
+          }
+          val->Append( node );
+          val->ValueType( ValueNode::kArrayComp );
+          END(ArrayLiteral);
           return val;
+        } else if ( type == ',' ) {
+          Advance_();
+          token = Seek_();
+          type = token->GetType();
+        } else if ( type == ']' ) {
+          Advance_();
+          break;
         }
-        val->Append( node );
-        val->ValueType( ValueNode::kArrayComp );
-        END(ArrayLiteral);
-        return val;
-      } else if ( type == ',' ) {
-        Advance_();
-        token = Seek_();
-        type = token->GetType();
-      } else if ( type == ']' ) {
-        Advance_();
-        break;
       }
+      count++;
     }
-    count++;
   }
   val->AddChild( list );
   END(ArrayLiteral);
@@ -2624,7 +2742,7 @@ AstNode* Parser::ParseLiteral_() {
       return ManagedHandle::Retain<Empty>();
     }
   }
-  assert( value_type != 0 );
+  //assert( value_type != 0 );
   ValueNode* value = ManagedHandle::Retain( new ValueNode( value_type ) );
   value->Line( token->GetLineNumber() );
   value->Symbol( token );
@@ -2660,12 +2778,12 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     if ( type != ')' ) {
       AstNode* list = ParseFormalParameter_();
       fn->Argv( list );
-      token = Seek_();
+      token = Advance_( 2 );
       type = token->GetType();
+      printf( "%s\n" ,static_cast<const char*>( TokenConverter( token ) ) );
     } else {
       fn->Argv( ManagedHandle::Retain<Empty>() );
-      Advance_();
-      token = Seek_();
+      token = Advance_( 2 );
       type = token->GetType();
     }
   } else {
@@ -2673,7 +2791,6 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
   }
 
   if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
-    Advance_();
     if ( type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
       fn->ContextType( Function::kThis );
     }
@@ -2696,11 +2813,11 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     }
   } else {
     if ( type == '{' ) {
-      Advance_();
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
       CHECK_ERROR( body );
       Advance_();
       fn->Append( body );
+      END(FunctionDecl);
       return fn;
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -2739,30 +2856,43 @@ AstNode* Parser::ParseFormalParameter_() {
         node = value;
       } else {
         node = ParseAssignmentExpression_( false );
+        AssignmentExp* exp = node->CastToExpression()->CastToAssigment();
+        if ( exp ) {
+          ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
+          ValueNode* symbol = exp->Left()->CastToValue();
+          if ( symbol ) {
+            value->Symbol( symbol->Symbol() );
+            value->AddChild( exp->Right() );
+            node = value;
+          }
+        }
       }
       CHECK_ERROR( node );
       list->AddChild( node );
-      token = Advance_();
+      token = Seek_();
       type = token->GetType();
       if ( type != ')' && type != ',' ) {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
                       << " in 'formal parameter' expect ')' or ','\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
-        END( FormalParameter );
+        END( FormalParameterError );
         return list;
+      } else if ( type == ',' ) {
+        Advance_();
       } else if ( type == ')' ) {
         break;
       }
       token = Seek_();
       type = token->GetType();
     } else if ( type == Token::JS_PARAMETER_REST ) {
-      token = Advance_();
+      Advance_();
+      token = Seek_();
       type = token->GetType();
       if ( type == Token::JS_IDENTIFIER ) {
-        ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
-        value->Line( token->GetLineNumber() );
-        value->Symbol( token );
+        AstNode* value = ParseLiteral_();
+        CHECK_ERROR( value );
+        value->CastToValue()->ValueType( ValueNode::kRest );
         token = Seek_();
         type = token->GetType();
         if ( type != ')' && type != ',' ) {
@@ -2770,7 +2900,7 @@ AstNode* Parser::ParseFormalParameter_() {
                         << TokenConverter( token )
                         << " in 'formal parameter rest' can not continue after any 'formal parameter'\nin file "
                         << filename_ << " at line " << token->GetLineNumber() );
-          END( FormalParameter );
+          END( FormalParameterError );
           return list;
         } else if ( type == ')' ) {
           break;
@@ -2782,7 +2912,7 @@ AstNode* Parser::ParseFormalParameter_() {
                       << TokenConverter( token )
                       << " in 'formal parameter rest' expect 'identifier'\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
-        END( FormalParameter );
+        END( FormalParameterErrror );
         return list;
       }
     }
@@ -2806,7 +2936,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* exp , int type ) {
     fn->ContextType( Function::kThis );
   }
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  FormalParameterDstaConvertor( exp , list );
+  FormalParameterConvertor( exp , list );
   fn->Argv( list );
   fn->Name( ManagedHandle::Retain<Empty>() );
   END( ArrowFunctionExpression );
@@ -2829,7 +2959,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* member , AstNode* args 
   }
   fn->Name( maybeIdent );
   NodeList* list = ManagedHandle::Retain<NodeList>();
-  FormalParameterDstaConvertor( args , list );
+  FormalParameterConvertor( args , list );
   fn->Argv( list );
   END( ArrowFunctionExpression );
   return ParseArrowFunctionBody_( fn );

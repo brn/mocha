@@ -10,6 +10,7 @@
 
 namespace mocha {
 class XMLInfo;
+class Resources;
 class XMLReader {
  public :
   XMLReader (){};
@@ -27,12 +28,12 @@ class XMLReader {
   void ProcessSettingNode_( TiXmlElement *elem , XMLInfo* info );
   void ProcessDirNode_( TiXmlElement *elem , XMLInfo* info );
   void ProcessIncludeNode_( TiXmlElement *elem , XMLInfo* info );
-  void ProcessDeployOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
-  void ProcessDeployName_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
-  void ProcessCharset_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
-  void ProcessCompileOption_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
-  void ProcessVersion_( TiXmlElement *elem , const char* filename , const char* dir , XMLInfo* info );
-  void ProcessModuleOption_( const char* filename , const char* module );
+  void ProcessDeployOption_( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
+  void ProcessDeployName_( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
+  void ProcessCharset_( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
+  void ProcessCompileOption_( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
+  void ProcessVersion_( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
+  void ProcessModuleOption_( const char* filename , const char* module , Resources* resource );
   void ProcessFilePath_( const char* filename );
   
   ScopedStrList scoped_char_;

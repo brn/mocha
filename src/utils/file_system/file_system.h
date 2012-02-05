@@ -7,7 +7,6 @@
 #include <utils/file_watcher/file_watcher.h>
 
 namespace mocha {
-
 class PathInfo {
  public :
   PathInfo( const char* path );

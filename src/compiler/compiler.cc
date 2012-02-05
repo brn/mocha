@@ -31,6 +31,8 @@
 #include <compiler/scopes/scope.h>
 #include <compiler/utils/compiler_utils.h>
 #include <compiler/utils/compile_result.h>
+#include <compiler/utils/compile_info.h>
+#include <compiler/external/external_resource.h>
 #include <utils/io/file_io.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
@@ -57,7 +59,7 @@ public :
   
   PtrImpl( Compiler* compiler , const char* main_file_path , FinishDelegator* callback ) :
       compiler_( compiler ),
-      codegen_( new CodegenVisitor( XMLSettingInfo::GetCompileOption( main_file_path ) ) ),
+      codegen_( new CodegenVisitor( ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
     fprintf( stderr , "@@@@@@@@@@@@@@@@@@@@@@@@@@@start %s\n" , main_file_path );
     main_file_path_ = main_file_path;
@@ -69,7 +71,7 @@ public :
   }
 
   inline void Compile() {
-    //LoadRuntime_();
+    LoadRuntime_();
     CallInternal_( path_info_ , Internal::kFatal , false );
     SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
@@ -106,7 +108,7 @@ public :
     sprintf( tmp , "%s/%s" , path_info_->GetDirPath().Get() , path_info_->GetFileName().Get() );
 
     //Get deploy path of -cmp.js file.
-    StrHandle handle = XMLSettingInfo::GetDeployPath( tmp );
+    StrHandle handle = ExternalResource::SafeGet( main_file_path_.c_str() )->GetDeployName( tmp );
     
     Handle<File> ret = FileIO::Open ( handle.Get(),
                                       "rwn",
@@ -188,10 +190,12 @@ void Compiler::Compile () {
   implementation_->Compile();
 }
 
+
 void Compiler::CatchException( const char* filename , ErrorHandler handler ) {
   MutexLock lock( mutex_ );
   implementation_->error_map_->Insert( filename , handler );
 }
+
 
 Handle<PathInfo> Compiler::GetMainPathInfo () {
   return implementation_->path_info_;

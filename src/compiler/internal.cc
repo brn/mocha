@@ -96,7 +96,7 @@ inline void Internal::ParseStart_ () {
     AstRoot tmp_root;
     tmp_root.AddChild( root );
     tmp_root.Accept ( &visitor );
-    ast_root_->AddChild( root );
+    ast_root_->AddChild( tmp_root.FirstChild() );
   } else {
     std::string buf;
     reporter->SetError( &buf );

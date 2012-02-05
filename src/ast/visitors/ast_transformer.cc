@@ -31,6 +31,7 @@
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
 #include <ast/visitors/ast_transformer.h>
+#include <ast/visitors/codegen_visitor.h>
 #include <ast/ast.h>
 #include <utils/file_system/virtual_directory.h>
 #include <utils/pool/managed_handle.h>
@@ -71,7 +72,7 @@ AstTransformer::AstTransformer( bool is_runtime , Scope* scope , Compiler* compi
                         const char* main_file_path , const char* filename ) :
     visitor_info_( new VisitorInfo( is_runtime,
                                     scope,
-                                    compiler ,
+                                    compiler,
                                     ManagedHandle::Retain<DstaExtractedExpressions>() , main_file_path , filename ) ) {
   proc_info_( new ProcessorInfo( this , scope , visitor_info_.Get() ) );
 }
@@ -118,7 +119,7 @@ VISITOR_IMPL( VersionStmt ) {
 
 
 VISITOR_IMPL( PragmaStmt ) {
-  AstNode* body = ast_node->FirstChild();
+  /*AstNode* body = ast_node->FirstChild();
   int type = CompileInfo::GetType( ast_node->Op() );
   if ( body->NodeType() == AstNode::kBlockStmt ) {
     NodeIterator iter = body->FirstChild()->ChildNodes();
@@ -140,7 +141,7 @@ VISITOR_IMPL( PragmaStmt ) {
     info->Type( type );
     body->SetInfo( info );
     body->Accept( this );
-  }
+    }*/
 }
 
 
@@ -454,6 +455,37 @@ VISITOR_IMPL(TryStmt) {
   ast_node->Finally()->Accept( this );
   if ( ast_node->GetYieldFlag() ) {
     visitor_info_->GetFunction()->SetTryCatch( ast_node );
+  }
+}
+
+
+VISITOR_IMPL(AssertStmt) {
+  PRINT_NODE_NAME;
+  if ( !visitor_info_->HasVersion( "debug" ) ) {
+    REGIST(ast_node);
+    AstNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kAssert ),
+                                              Token::JS_IDENTIFIER , ValueNode::kIdentifier , ast_node->Line() );
+    CodegenVisitor visitor( true , false );
+    AstNode* expect = ast_node->FirstChild();
+    AstNode* expression = expect->NextSibling();
+    expect->Accept( this );
+    expression->Accept( this );
+    expression->Accept( &visitor );
+    std::string str = "\"";
+    str += visitor.GetCode();
+    str += "\"";
+    AstNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
+                                                           ValueNode::kString , ast_node->Line() );
+    AstNode* arg = AstUtils::CreateNodeList( 3 , expect , expression , string_expression );
+    CallExp* call = AstUtils::CreateNormalAccessor( name , arg );
+    CallExp* exp = AstUtils::CreateRuntimeMod( call );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
+    ast_node->ReplaceChild( ast_node , stmt );
+    stmt->Line( ast_node->Line() );
+    if ( ast_node->HasDsta() ) {
+      AstNode* exp = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
+      ast_node->ParentNode()->InsertAfter( exp , ast_node );
+    }
   }
 }
 

@@ -33,3 +33,12 @@ document.{
   getname->"aaaa",
   getage->"aaaaa"
 }
+
+var m = function () { return function () { return function() {} }; }
+var m2 = {m : {m:{m:function () {}}}}
+var m3 = {m : {m:{m}}}
+var instance = new m();
+var instance2 = new new m();
+var instance3 = new new new m();
+var instance4 = new m2.m.m();
+var instance5 = new new new m3.m.m();

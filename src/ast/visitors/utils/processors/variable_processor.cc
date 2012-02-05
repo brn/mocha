@@ -30,7 +30,6 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
       } else {
         printf( "node type %d\n" , item->NodeType() );
         if ( !item->IsEmpty() ) {
-          item->SetInfo( ast_node->GetInfo() );
           ProcessVarInitialiser( item->CastToValue() , info );
         }
       }

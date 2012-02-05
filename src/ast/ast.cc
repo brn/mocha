@@ -3,31 +3,11 @@
 #include <compiler/tokens/token_info.h>
 namespace mocha {
 
-static const char types[][ 30 ] = {
-  "__debug",
-  "__noassign",
-  "__inline",
-  "__pure"
-};
-
-int CompileInfo::GetType( const char* str ) {
-  if ( strcmp( str , types[ 0 ] ) == 0 ) {
-    return CompileInfo::kDebug;
-  } else if ( strcmp( str , types[ 1 ] ) == 0 ) {
-    return CompileInfo::kNoAssign;
-  } else if ( strcmp( str , types[ 2 ] ) == 0 ) {
-    return CompileInfo::kInline;
-  } else if ( strcmp( str , types[ 3 ] ) == 0 ) {
-    return CompileInfo::kPure;
-  }
-  return -1;
-}
-
 AstNode::AstNode( int type , const char* name ) :
     Managed(),
     type_( type ) , child_length_( 0 ) ,line_( 0 ) , name_( name ),
     parent_( 0 ), first_child_( 0 ) , last_child_( 0 ),
-    next_sibling_( 0 ) , prev_sibling_( 0 ) , info_( 0 ){}
+    next_sibling_( 0 ) , prev_sibling_( 0 ) {}
 
 void AstNode::AddChild( AstNode* node ) {
   if ( first_child_ == 0 ) {
@@ -384,6 +364,8 @@ AstNode* TryStmt::Clone() {
   }
   return CopyChildren( stmt , this );
 }
+
+NORMAL_CLONE(AssertStmt);
 
 AstNode* CaseClause::Clone() {
   CaseClause* clause = ManagedHandle::Retain<CaseClause>();

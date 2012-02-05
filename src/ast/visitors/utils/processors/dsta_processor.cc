@@ -415,7 +415,6 @@ AstNode* CreateSimpleAccessor( AstNode* first , VisitorInfo* info , bool is_assi
     ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
     DstaTree* tree = reinterpret_cast<DstaTree*>( first );
     var->Symbol( tree->Symbol()->Symbol() );
-    var->SetInfo( first->GetInfo() );
     Function* fn = info->GetFunction();
     if ( fn ) {
       fn->SetVariable( var );
@@ -456,7 +455,6 @@ NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool 
     AstNode *first = list.Next();
     AstNode* maybe_callexp = first->FirstChild();
     CallExp* exp = 0;//init after.
-    first->SetInfo( stmt->GetInfo() );
     if ( maybe_callexp != 0 && maybe_callexp->NodeType() == AstNode::kCallExp ) {
       exp = reinterpret_cast<CallExp*>( first->FirstChild() );
     } else {
@@ -568,7 +566,14 @@ VariableStmt* DstaProcessor::CreateTmpVarDecl( Statement* stmt , ProcessorInfo* 
       ERROR( info , "CreateTmpVarDecl" );
       return 0;
     }
+    if ( value->ChildLength() == 0 || value->FirstChild()->NodeType() == AstNode::kEmpty ) {
+      if ( value->ChildLength() > 0 ) {
+        value->RemoveAllChild();
+      }
+      value->AddChild( AstUtils::CreateObjectLiteral( ManagedHandle::Retain<Empty>() ) );
+    }
     value->ValueType( ValueNode::kVariable );
+    
     var_list->AddChild( value );    
   }
   return AstUtils::CreateVarStmt( var_list );

@@ -38,7 +38,7 @@ class CodeWriter {
   void DebugBlockBegin( CodeStream* stream );
   void DebugBlockEnd( CodeStream* stream , InnerScope* scope );
   void SetFileName( CodeStream* stream_ );
-  void SetLine( long line , CodeStream* stream_ );
+  void SetLine( long line , CodeStream* stream_ , FileRoot* root );
   void ModuleBeginProccessor( const char* key , const char* name , CodeStream* stream_ );
   void AnonymousModuleBeginProccessor( const char* key , CodeStream* stream_ );
   void ModuleEndProccessor( CodeStream* stream_ );

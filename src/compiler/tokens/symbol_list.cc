@@ -36,7 +36,8 @@ static const char runtime[][50] = {
   "_mochaException",
   "createGenerator",
   "__nothrowNext__",
-  "extend"
+  "extend",
+  "assert"
 };
 
 static const char builtin[][50] = {

@@ -79,6 +79,7 @@ VISITOR_IMPL( ImportStmt ) {
 VISITOR_IMPL( Statement ) {}
 
 VISITOR_IMPL( VersionStmt ) {}
+VISITOR_IMPL( AssertStmt ) {}
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;

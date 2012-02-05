@@ -78,6 +78,7 @@ VISITOR_IMPL( ImportStmt ) {
 VISITOR_IMPL( Statement ) {}
 
 VISITOR_IMPL( VersionStmt ) {}
+VISITOR_IMPL( AssertStmt ) {}
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
@@ -247,7 +248,7 @@ VISITOR_IMPL( CallExp ) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  ast_node->Constructor()->Accept( this );
+  ast_node->FirstChild()->Accept( this );
 }
 
 

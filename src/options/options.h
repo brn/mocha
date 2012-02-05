@@ -44,7 +44,8 @@ class Options {
   inline bool IsPrettyPrint() { return ( options_ & 2 ) == 2; }
   inline bool IsDebug() { return ( options_ & 4 ) == 4; }
   inline bool IsPath() { return ( options_ & 8 ) == 8; }
-  inline bool IsUnmatch() { return ( options_ & 16 ) == 16; }
+  inline bool IsCompress() { return ( options_ & 16 ) == 16; }
+  inline bool IsUnmatch() { return ( options_ & 32 ) == 32; }
   inline void ShowError() {
     fprintf( stderr , "%s\n" , error_.c_str() );
   }
@@ -73,6 +74,8 @@ class Options {
             PrettyPrint_();
           } else if ( strcmp( argv , "--debug" ) == 0 ) {
             Debug_();
+          } else if ( strcmp( argv , "--compress" ) == 0 ) {
+            Compress_();
           } else {
             if ( !IsUnmatch() ) {
               Unmatch_( argv );
@@ -102,6 +105,9 @@ class Options {
       case 'D' :
         Debug_();
         break;
+      case 'C' :
+        Compress_();
+        break;
       default :
         if ( !IsUnmatch() ) {
           std::string arg_str;
@@ -124,7 +130,8 @@ class Options {
   void PrettyPrint_() { options_ |= 2; }
   void Debug_() { options_ |= 4; }
   void HasPath_() { options_ |= 8; }
-  void Unmatch_( const char* op ) { options_ |= 16;UnrecognizedOption_( op ); }
+  void Compress_() { options_ |= 16; }
+  void Unmatch_( const char* op ) { options_ |= 32;UnrecognizedOption_( op ); }
   int32_t options_;
   std::string error_;
   std::string path_;

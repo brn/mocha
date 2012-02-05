@@ -61,7 +61,11 @@ class ParallelDelegator : public FinishDelegator {
         if ( !entry.IsEmpty() ) {
           entry.Value()->SetRawError( &buf );
           if ( buf.size() > 0 ) {
+            errors_ += "---error---filename => ";
+            errors_ += entry.Key().c_str();
+            errors_ += "---\n";
             errors_ += buf.c_str();
+            errors_ += "-------------------------------------------------------------------\n\n";
           }
         }
       }

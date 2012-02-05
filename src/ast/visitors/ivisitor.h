@@ -32,6 +32,7 @@ class IVisitor {
   DECL_VISITOR(SwitchStmt);
   DECL_VISITOR(ThrowStmt);
   DECL_VISITOR(TryStmt);
+  DECL_VISITOR(AssertStmt);
   DECL_VISITOR(CaseClause);
   DECL_VISITOR(Expression);
   DECL_VISITOR(Class);

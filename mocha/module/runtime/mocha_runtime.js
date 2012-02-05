@@ -1,9 +1,25 @@
-this.x=0;
 var _mochaGlobalExport = {},
     _mochaClassTable = {}
 
 module Runtime {
-
+  
+  const Exception( line , file , e ) {
+          this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
+        }
+  var Runtime = {
+        getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
+        exceptionHandler ( line , file , e ){
+          this.throwException( new Exception( line , file , e ) );
+        },
+        throwException ( exception ) {
+          try {
+            throw exception;
+          } catch( e ) {
+            throw new Error( this.getErrorMessage( e ) );
+          }
+        }
+      }
+  
   if( !String.prototype.trim ){
     String.prototype.trim = -> this.replace( String.prototype.trim.rtrim , "" );
     String.prototype.trim.rtrim = /^\s*|\s*$/g;
@@ -385,22 +401,18 @@ module Runtime {
   
   const getErrorMessage = ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString();
   
-  export throwException = ( exception ) -> {
-    try {
-      throw exception;
-    } catch( e ) {
-      throw new Error( getErrorMessage( e ) );
-    }
-  }
+  export throwException = Runtime.throwException.bind( Runtime );
   
-  const Exception( line , file , e ) {
-          this.message = -> {
-            return getErrorMessage( e ) + " in file " + file + " at : " + line;
-          }
+  export exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+  
+  @version( debug ) {
+    export assert = ( console && console.assert )?
+      ( expect , exp , str , line )->console.assert( expect === exp , str + "\nat : " + line ) :
+      ( expect , exp , str , line )->{
+        if ( expect !== exp ) {
+          Runtime.throwException( "assertion failed : " + str + "\nat : " + line );
         }
-  
-  export exceptionHandler = ( line , file , e ) -> {
-    throwException( new Exception( line , file , e ) );
+      }
   }
 }
 
