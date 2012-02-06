@@ -7,6 +7,7 @@
 #include <compiler/tokens/js_token.h>
 #include <mch/mocha.h>
 #include <options/setting.h>
+#include <compiler/utils/compiler_facade.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <options/commandline/commandline_options.h>
 #include <bootstrap/interactions/interaction.h>
@@ -76,6 +77,12 @@ void LoadLog() {
 namespace mocha {
 
 
+Handle<ExternalAst> LoadRuntime() {
+  const char* path = Setting::GetInstance()->GetRuntimeFile();
+  ExternalResource::UnsafeSet( path );
+  return CompilerFacade::GetAst( path , true );
+}
+
 void Bootstrap::Initialize( int argc , char** argv ) {
   JsToken::Initialize();
   Setting::instance_ = new Setting();
@@ -83,6 +90,7 @@ void Bootstrap::Initialize( int argc , char** argv ) {
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
   self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).Get();
+  Setting::runtime_ast_ = LoadRuntime();
   if ( argc > 1 ) {
     if ( strcmp( argv[ 1 ] , "test" ) == 0 ) {
       compiler_test::RunTest();

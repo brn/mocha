@@ -1,12 +1,16 @@
 #include <string.h>
 #include <string>
 #include <compiler/utils/compiler_facade.h>
+#include <compiler/utils/error_reporter.h>
+#include <compiler/external/external_ast.h>
 #include <compiler/compiler.h>
 #include <utils/thread/thread.h>
+#include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_watcher/observer/file_observer.h>
 #include <options/setting.h>
 #include <compiler/utils/compile_result.h>
 #include <utils/atomic.h>
+#include <utils/file_system/file_system.h>
 namespace mocha {
 
 void CompilerFacade::Compile( const char* path , bool is_join ) {
@@ -20,6 +24,15 @@ void CompilerFacade::Compile( const char* path , bool is_join , FinishDelegator*
   ThreadArgs *args = new ThreadArgs( path , callback );
   Compile_( &thread , args , is_join );
 }
+
+
+Handle<ExternalAst> CompilerFacade::GetAst( const char* path , bool is_runtime ) {
+  Compiler* compiler = Compiler::CreateInstance( path , &noop_ );
+  Handle<PathInfo> info = FileSystem::GetPathInfo( path );
+  ErrorReporter reporter;
+  return compiler->GetAst( &reporter , info , is_runtime );
+}
+
 
 void CompilerFacade::Compile_( Thread *thread , ThreadArgs *args , bool is_join ) {
   if ( !thread->Create ( InternalThreadRunner , args ) ) {

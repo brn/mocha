@@ -2,6 +2,8 @@
 #include <compiler/consts/consts.h>
 #include <compiler/utils/compile_info.h>
 #include <utils/file_system/file_system.h>
+#include <options/setting.h>
+#include <ast/ast.h>
 namespace mocha {
 
 Resources::Resources() : info_( new CompileInfo ){}
@@ -125,6 +127,11 @@ Resources* ExternalResource::SafeGet( const char* filename ) {
     return entry.Value().Get();
   }
   return 0;
+}
+
+FileRoot* ExternalResource::SafeGetRuntime() {
+  MutexLock lock( mutex_ );
+  return Setting::GetInstance()->GetRuntime();
 }
 
 Mutex ExternalResource::mutex_;

@@ -6,6 +6,7 @@
 namespace mocha {
 class CompileResult;
 class Thread;
+class ExternalAst;
 class FinishDelegator {
  public :
   virtual void Delegate( Handle<CompileResult> result ){};
@@ -18,6 +19,7 @@ class CompilerFacade{
   CompilerFacade(){};
   static void Compile( const char* path , bool is_join );
   static void Compile( const char* path , bool is_join , FinishDelegator* callback );
+  static Handle<ExternalAst> GetAst( const char* path , bool is_runtime );
   static void* ExternalThreadRunner( void *arg );
   void AddCompileList( const char* path , bool is_join );
   void Compile();

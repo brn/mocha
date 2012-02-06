@@ -105,16 +105,13 @@ VISITOR_IMPL( NodeList ) {
 VISITOR_IMPL( VersionStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  const char* ver = ast_node->Ver()->GetToken();
-  ast_node->FirstChild()->Accept( this );
-  if ( visitor_info_->HasVersion( ver ) ) {
-    Function *fn_node = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
-                                                      ManagedHandle::Retain<Empty>() , ast_node->FirstChild() );
-    ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
-    ast_node->ParentNode()->ReplaceChild( ast_node , an_stmt_node );
-  } else {
-    ast_node->ParentNode()->RemoveChild( ast_node );
-  }
+  AstNode* body = ast_node->FirstChild();
+  ast_node->RemoveAllChild();
+  Function *fn_node = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
+                                                    ManagedHandle::Retain<Empty>() , body );
+  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
+  ast_node->AddChild( an_stmt_node );
+  body->Accept( this );
 }
 
 
@@ -461,34 +458,34 @@ VISITOR_IMPL(TryStmt) {
 
 VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
-  if ( visitor_info_->HasVersion( "debug" ) ) {
-    REGIST(ast_node);
-    AstNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kAssert ),
-                                              Token::JS_IDENTIFIER , ValueNode::kIdentifier , ast_node->Line() );
-    CodegenVisitor visitor( true , false );
-    AstNode* expect = ast_node->FirstChild();
-    AstNode* expression = expect->NextSibling();
-    expect->Accept( this );
-    expression->Accept( this );
-    expression->Accept( &visitor );
-    std::string str = "\"";
-    str += visitor.GetCode();
-    str += "\"";
-    char tmp[100];
-    sprintf( tmp , "%ld" , ast_node->Line() );
-    ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ValueNode::kNumeric , ast_node->Line() );
-    AstNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
-                                                           ValueNode::kString , ast_node->Line() );
-    AstNode* arg = AstUtils::CreateNodeList( 4 , expect , expression , string_expression , line );
-    CallExp* call = AstUtils::CreateNormalAccessor( name , arg );
-    CallExp* exp = AstUtils::CreateRuntimeMod( call );
-    ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
-    ast_node->ReplaceChild( ast_node , stmt );
-    stmt->Line( ast_node->Line() );
-    if ( ast_node->HasDsta() ) {
-      AstNode* exp = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
-      ast_node->ParentNode()->InsertAfter( exp , ast_node );
-    }
+  REGIST(ast_node);
+  AstNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kAssert ),
+                                            Token::JS_IDENTIFIER , ValueNode::kIdentifier , ast_node->Line() );
+  CodegenVisitor visitor( visitor_info_->GetFileName() , true , false );
+  AstNode* expect = ast_node->FirstChild();
+  AstNode* expression = expect->NextSibling();
+  ast_node->RemoveAllChild();
+  expect->Accept( this );
+  expression->Accept( this );
+  expression->Accept( &visitor );
+  std::string str = "\"";
+  str += visitor.GetCode();
+  str += "\"";
+  char tmp[100];
+  sprintf( tmp , "%ld" , ast_node->Line() );
+  ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ValueNode::kNumeric , ast_node->Line() );
+  AstNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
+                                                         ValueNode::kString , ast_node->Line() );
+  AstNode* arg = AstUtils::CreateNodeList( 4 , expect , expression , string_expression , line );
+  CallExp* call = AstUtils::CreateNormalAccessor( name , arg );
+  CallExp* exp = AstUtils::CreateRuntimeMod( call );
+  ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
+  ast_node->AddChild( stmt );
+  stmt->Line( ast_node->Line() );
+  if ( ast_node->HasDsta() ) {
+    AstNode* dsta_exp = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
+    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( dsta_exp );
+    ast_node->AddChild( exp_stmt );
   }
 }
 

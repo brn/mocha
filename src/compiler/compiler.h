@@ -33,7 +33,7 @@
 #include <utils/hash/hash_map/hash_map.h>
 
 namespace mocha {
-
+class ExternalAst;
 typedef Handle<ErrorReporter> ErrorHandler;
 typedef HashMap<const char*,ErrorHandler> ErrorMap;
 typedef Handle<ErrorMap> ErrorMapHandle;
@@ -71,7 +71,7 @@ class Compiler : private Uncopyable {
   StrHandle Load ( const char* filename );
 
   void CatchException( const char* filename , ErrorHandler handle );
-  
+  Handle<ExternalAst> GetAst( ErrorReporter* reporter , Handle<PathInfo> info , bool is_runtime );
   /**
    * @public
    * @returns {Handle<PathInfo>}

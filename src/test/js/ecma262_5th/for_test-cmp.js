@@ -459,15 +459,13 @@
         var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
         
         ( function () {
-          {
-            var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line ) {
-                  return console.assert( expect === exp,str+"\nat : "+line );
-                } : function ( expect,exp,str,line ) {
-                  if ( expect !== exp ){
-                    Runtime.throwException( "assertion failed : "+str+"\nat : "+line );
-                  };
+          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line ) {
+                return console.assert( expect === exp,str+"\nat : "+line );
+              } : function ( expect,exp,str,line ) {
+                if ( expect !== exp ){
+                  Runtime.throwException( "assertion failed : "+str+"\nat : "+line );
                 };
-          };
+              };
         })();
         return _mochaLocalExport;
       })();
@@ -481,13 +479,13 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/for_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/for_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-302-567-849-1039-60818583-120587556-1984-for_test.js}'] = {};
+      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-for_test.js}'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-302-567-849-1039-60818583-120587556-1984-for_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-for_test.js}'];
       
       __LINE__ = 1;
       for ( var i = 0;i<10;i ++  ){

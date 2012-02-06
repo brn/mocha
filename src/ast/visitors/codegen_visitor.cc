@@ -4,9 +4,11 @@
 #include <list>
 #include <utility>
 #include <compiler/utils/compile_info.h>
+#include <compiler/consts/consts.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
+#include <compiler/external/external_resource.h>
 #include <ast/ast.h>
 #include <ast/visitors/codegen_visitor.h>
 #include <ast/visitors/utils/codewriter.h>
@@ -64,16 +66,16 @@ inline void LineBreak( AstNode* ast_node , CodeStream* stream , CodeWriter* writ
 }
 
 
-CodegenVisitor::CodegenVisitor( CompileInfo* info ) :
+CodegenVisitor::CodegenVisitor( const char* filename , CompileInfo* info ) :
     tmp_index_( 0 ),depth_( 0 ),is_line_( info->Debug() ),has_rest_( false ),
-    scope_( 0 ),
+    filename_( filename ) , scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( info->PrettyPrint() , info->Debug() ) ),
     current_class_ ( 0 ){}
 
-CodegenVisitor::CodegenVisitor( bool is_pretty_print , bool is_debug ) :
+CodegenVisitor::CodegenVisitor( const char* filename , bool is_pretty_print , bool is_debug ) :
     tmp_index_( 0 ),depth_( 0 ),is_line_( is_debug ),has_rest_( false ),
-    scope_( 0 ),
+    filename_( filename ) , scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( is_pretty_print , is_debug ) ),
     current_class_ ( 0 ){}
@@ -156,9 +158,24 @@ VISITOR_IMPL( ImportStmt ) {
 
 VISITOR_IMPL( Statement ) {}
 
-VISITOR_IMPL( VersionStmt ) {}
+VISITOR_IMPL( VersionStmt ) {
+  const char* ver = ast_node->Ver()->GetToken();
+  Resources *resource = ExternalResource::SafeGet( filename_ );
+  if ( resource->GetCompileInfo()->HasVersion( ver ) ) {
+    ast_node->FirstChild()->Accept( this );
+  }
+}
 
-VISITOR_IMPL( AssertStmt ) {}
+VISITOR_IMPL( AssertStmt ) {
+  const char* filename = current_root_->FileName();
+  Resources *resource = ExternalResource::SafeGet( filename_ );
+  if ( resource->GetCompileInfo()->HasVersion( Consts::kVersionDebug ) ) {
+    NodeIterator iterator = ast_node->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+  }
+}
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;

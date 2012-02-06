@@ -110,9 +110,9 @@ class ManagedHandle {
 class ManagedScope {
  public :
   ManagedScope () : is_closed_ ( false ) {
-    PtrCollector* ptr_cl = ManagedHandle::Allocate_();
+    ptr_cl_ = ManagedHandle::Allocate_();
     //printf( "%X allocate\n" , Thread::GetThreadId() );
-    handle_id_ = ptr_cl->Assign();
+    handle_id_ = ptr_cl_->Assign();
     if ( handle_id_ > MAX_MANAGED_SCOPE ) {
       fprintf( stderr , "too many ManagedScope created." );
       abort();
@@ -125,7 +125,7 @@ class ManagedScope {
   }
   
   ~ManagedScope () {
-    if ( !is_closed_ ) { ManagedHandle::Release_ ( handle_id_ ); }
+    if ( !is_closed_ ) { ptr_cl_->Release( handle_id_ ); }
   }
   
  private :
@@ -139,6 +139,7 @@ class ManagedScope {
   inline static void operator delete [] ( void* ptr , void* );
   int handle_id_;
   bool is_closed_;
+  PtrCollector* ptr_cl_;
 };
 
 }

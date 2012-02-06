@@ -2,9 +2,7 @@
 
 namespace mocha {
 int PtrCollector::Assign () {
-  int ret = base_id_;
-  base_id_++;
-  return ret;
+  return base_id_++;
 }
 
 void PtrCollector::Retain ( Managed* ptr , ReleaseCallback callback ) {

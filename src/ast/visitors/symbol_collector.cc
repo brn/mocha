@@ -77,7 +77,9 @@ VISITOR_IMPL( ImportStmt ) {
 
 VISITOR_IMPL( Statement ) {}
 
-VISITOR_IMPL( VersionStmt ) {}
+VISITOR_IMPL( VersionStmt ) {
+  ast_node->FirstChild()->Accept( this );
+}
 VISITOR_IMPL( AssertStmt ) {}
 
 VISITOR_IMPL(StatementList) {

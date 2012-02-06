@@ -3,6 +3,8 @@
 #include <time.h>
 #include <string>
 #include <options/setting.h>
+#include <ast/ast.h>
+#include <compiler/external/external_ast.h>
 #include <utils/file_system/file_system.h>
 #include <utils/io/file_io.h>
 #include <utils/smart_pointer/ref_count/handle.h>
@@ -82,6 +84,7 @@ const char* Setting::GetRuntimePath() { return implementation_->runtime_path.c_s
 const char* Setting::GetRuntimeFile() { return implementation_->runtime_file.c_str(); }
 const char* Setting::GetLogPath() { return implementation_->log_path.c_str(); }
 const char* Setting::GetTimeStr() { return implementation_->GetTimeStr(); }
+FileRoot* Setting::GetRuntime() { return reinterpret_cast<FileRoot*>( runtime_ast_->GetRoot()->FirstChild()->Clone() ); }
 void Setting::Close(){ implementation_->file_handle->Close(); }
 
 void Setting::LogNoDate( const char* format , ... ) {
@@ -144,5 +147,5 @@ void Setting::SetLogFileHandle() {
 }
 
 Setting* Setting::instance_ = 0;
-
+Handle<ExternalAst> Setting::runtime_ast_;
 }

@@ -17,7 +17,7 @@ class Compiler;
 class AstRoot;
 class CodegenVisitor;
 class PathInfo;
-  
+class ErrorReporter;
 class Internal {
  public:
   typedef enum {
@@ -35,12 +35,13 @@ class Internal {
   inline ~Internal () {};
 
   void Parse( ErrorLevel level );
-    
+  void GetAst( ErrorLevel level , ErrorReporter* reporter );
  private :
   inline void LoadFile_ ();
   inline void ParseStart_ ();
   inline void OpenError_();
   inline void SyntaxError_( const ParserTracer& );
+  inline void GetAst_( ErrorReporter* reporter );
 
   const char* main_file_path_;
   bool is_runtime_;

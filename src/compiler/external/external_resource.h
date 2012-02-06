@@ -2,6 +2,7 @@
 #define mocha_external_resource_h_
 #include <vector>
 #include <string>
+#include <ast/ast_foward_decl.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/hash/hash_map/hash_map.h>
 #include <utils/class_traits/static.h>
@@ -41,6 +42,7 @@ class ExternalResource : private Static {
   static Resources* UnsafeGet( const char* filename );
   static void SafeSet( const char* filename );
   static Resources* SafeGet( const char* filename );
+  static FileRoot* SafeGetRuntime();
  private :
   static Mutex mutex_;
   static ResourceMap resources_;

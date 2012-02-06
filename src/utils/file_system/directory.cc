@@ -101,8 +101,9 @@ DirectoryIterator GetFileList( bool is_recursive , bool show_level ) {
 class DirFinder {
   typedef std::vector<std::string> SubDirList;
  public :
-  DirFinder( const char* path , DIR* dir , ScopedList<DirEntry> *scoped_list ) :
-      path_( path ) , dir_( dir ) , first_( 0 ) , current_( 0 ) , scoped_list_( scoped_list ){};
+  DirFinder( const char* path , bool is_recursive , bool show_level , DIR* dir , ScopedList<DirEntry> *scoped_list ) :
+      path_( path ) , is_recursive_( is_recursive ), show_level_( show_level ),
+      dir_( dir ) , first_( 0 ) , current_( 0 ) , scoped_list_( scoped_list ){};
   inline DirEntry* GetFirst() { return first_; }
   inline DirEntry* Find() {
     SubDirList sub;
@@ -114,7 +115,7 @@ class DirFinder {
       if ( result_ == NULL ) {
         break;
       }
-      if ( !show_level_ && ( strcmp( result_->d_name , "." ) == 0 || strcmp( result_->d_name , ".." ) == 0 ) ) {
+      if ( !show_level_ && ( result_->d_name[0] == '.' || strcmp( result_->d_name , ".." ) == 0 ) ) {
         continue;
       }
       std::string fullpath = path_;
@@ -149,7 +150,7 @@ class DirFinder {
       if ( dir == NULL ) {
         continue;
       } else {
-        DirFinder finder( path , dir , scoped_list_ );
+        DirFinder finder( path , is_recursive_ , show_level_ , dir , scoped_list_ );
         DirEntry* last = finder.Find();
         if ( first_ ) {
           current_->SetNext( finder.GetFirst() );
@@ -178,7 +179,7 @@ DirectoryIterator Directory::GetFileList( bool is_recursive , bool show_level ) 
   if ( dir == NULL ) {
     return DirectoryIterator( 0 );
   }
-  DirFinder finder( dirpath_ , dir , &scoped_entry_ );
+  DirFinder finder( dirpath_ , is_recursive , show_level , dir , &scoped_entry_ );
   finder.Find();
   return DirectoryIterator( finder.GetFirst() );
 }

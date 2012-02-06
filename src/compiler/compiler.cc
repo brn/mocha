@@ -33,6 +33,7 @@
 #include <compiler/utils/compile_result.h>
 #include <compiler/utils/compile_info.h>
 #include <compiler/external/external_resource.h>
+#include <compiler/external/external_ast.h>
 #include <utils/io/file_io.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
@@ -59,10 +60,10 @@ public :
   
   PtrImpl( Compiler* compiler , const char* main_file_path , FinishDelegator* callback ) :
       compiler_( compiler ),
-      codegen_( new CodegenVisitor( ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
+      main_file_path_( main_file_path ),
+      codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
     fprintf( stderr , "@@@@@@@@@@@@@@@@@@@@@@@@@@@start %s\n" , main_file_path );
-    main_file_path_ = main_file_path;
     SetPath_( main_file_path );
     //Change direcotry to main js path.
     path_info_ = CompilerUtils::ChangeDir( main_file_path );
@@ -71,7 +72,8 @@ public :
   }
 
   inline void Compile() {
-    LoadRuntime_();
+    //LoadRuntime_();
+    ast_root_.AddChild( ExternalResource::SafeGetRuntime() );
     CallInternal_( path_info_ , Internal::kFatal , false );
     SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
@@ -100,6 +102,14 @@ public :
     return js_path;
   }
 
+
+  inline Handle<ExternalAst> GetAst( ErrorReporter *handler , Handle<PathInfo> path_info , bool is_runtime ) {
+    Handle<ExternalAst> external_ast = ExternalAst::Create();
+    Internal internal( main_file_path_.c_str() , is_runtime ,
+                       path_info , compiler_ , &scope_ , codegen_.Get() , external_ast->GetRoot() );
+    internal.GetAst( Internal::kFatal , handler );
+    return external_ast;
+  }
   
   inline void Write_ ( const char* script ) {
     //Current directory -> main js file path.
@@ -206,6 +216,9 @@ void Compiler::Destructor_( void* ptr ) {
   delete compiler;
 }
 
+Handle<ExternalAst> Compiler::GetAst( ErrorReporter *handler , Handle<PathInfo> path_info , bool is_runtime ) {
+  return implementation_->GetAst( handler , path_info , is_runtime );
+}
 
 StrHandle Compiler::Load ( const char* filename ) {
   return implementation_->Load( filename );

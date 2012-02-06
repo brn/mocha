@@ -16,8 +16,8 @@ class InnerScope;
 class CompileInfo;
 class CodegenVisitor : public IVisitor {
  public :
-  CodegenVisitor( CompileInfo* info );
-  CodegenVisitor( bool is_pretty_print , bool is_debug );
+  CodegenVisitor( const char* filename_ , CompileInfo* info );
+  CodegenVisitor( const char* filename_ , bool is_pretty_print , bool is_debug );
   ~CodegenVisitor(){};
 #include <ast/visitors/visitor_decl.h>
   inline void Write( const char* code ) { stream_->Write( code ); }
@@ -47,6 +47,7 @@ class CodegenVisitor : public IVisitor {
   int depth_;
   bool is_line_;
   bool has_rest_;
+  const char* filename_;
   std::vector<int> state_;
   std::string rest_ref_;
   std::string rest_name_;

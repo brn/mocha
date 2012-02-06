@@ -603,11 +603,23 @@ AstNode* Parser::ParseVersionStatement_() {
       type = token->GetType();
       if ( type == ')' ) {
         stmt->Line( token->GetLineNumber() );
-        AstNode* statement = ParseStatementList_( BlockBodyMatcher , "}" );
-        CHECK_ERROR( stmt );
-        stmt->AddChild( statement );
-        END(VersionStatement);
-        return stmt;
+        token = Seek_();
+        type = token->GetType();
+        if ( type == '{' ) {
+          Advance_();
+          AstNode* statement = ParseStatementList_( BlockBodyMatcher , "}" );
+          CHECK_ERROR( stmt );
+          stmt->AddChild( statement );
+          Advance_();
+          END(VersionStatement);
+          return stmt;
+        } else {
+          AstNode* statement = ParseStatement_();
+          CHECK_ERROR( stmt );
+          stmt->AddChild( statement );
+          END(VersionStatement);
+          return stmt;
+        }
       }
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "

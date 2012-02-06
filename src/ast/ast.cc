@@ -218,7 +218,12 @@ inline T2* CopyChildren( T* dest , T2* source ) {
 NORMAL_CLONE(NodeList);
 NORMAL_CLONE(Empty);
 NORMAL_CLONE(AstRoot);
-NORMAL_CLONE(FileRoot);
+AstNode* FileRoot::Clone() {
+  FileRoot* root = ManagedHandle::Retain<FileRoot>();
+  root->is_file_root_ = is_file_root_;
+  root->filepath_ = filepath_;
+  return CopyChildren( root , this );
+}
 NORMAL_CLONE(StatementList);
 
 AstNode* VersionStmt::Clone() {

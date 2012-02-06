@@ -3,6 +3,7 @@
 #include <string>
 #include <useconfig.h>
 #include <utils/class_traits/static.h>
+#include <utils/smart_pointer/ref_count/handle.h>
 
 namespace mocha {
 class Bootstrap : private Static {

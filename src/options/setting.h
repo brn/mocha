@@ -2,10 +2,12 @@
 #define mocha_setting_h_
 
 #include <utils/smart_pointer/scope/scoped_ptr.h>
+#include <utils/smart_pointer/ref_count/handle.h>
 #include <bootstrap/bootstrap.h>
-
+#include <ast/ast_foward_decl.h>
 namespace mocha {
 class File;
+class ExternalAst;
 class Setting {
   friend class Bootstrap;
  public :
@@ -17,6 +19,7 @@ class Setting {
   const char* GetRuntimeFile();
   const char* GetLogPath();
   const char* GetTimeStr();
+  FileRoot* GetRuntime();
   void Close();
   void LogNoDate( const char* str , ... );
   void Log( const char* str , ... );
@@ -28,6 +31,7 @@ class Setting {
   ~Setting(){};
   class PtrImpl;
   ScopedPtr<PtrImpl> implementation_;
+  static Handle<ExternalAst> runtime_ast_;
   static Setting* instance_;
 };
 }
