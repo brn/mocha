@@ -479,18 +479,18 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/for_in_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/for_in_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-for_in_test.js}'] = {};
+      _mochaGlobalExport['./for_in_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-for_in_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./for_in_test.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 1;
       var m;
       
-      __LINE__ = 0;
+      __LINE__ = 2;
       var target =  {
             m : 200,
             g : 200
@@ -498,31 +498,31 @@
       
       __LINE__ = 3;
       for ( var i in target ){
-        __LINE__ = 0;
+        __LINE__ = 4;
         console.log( i );
       };
       
       __LINE__ = 7;
       for ( i in target ){
-        __LINE__ = 0;
+        __LINE__ = 8;
         console.log( i );
       };
       
       __LINE__ = 11;
       for ( var i in target ){
-        __LINE__ = 0;
+        __LINE__ = 12;
         console.log( i );
       };
       
       __LINE__ = 14;
       for ( i in target ){
-        __LINE__ = 0;
+        __LINE__ = 15;
         console.log( i );
       };
       
       __LINE__ = 17;
       for ( m.g.i in target ){
-        __LINE__ = 0;
+        __LINE__ = 18;
         console.log( m.g.i );
       };
     } catch( e ){

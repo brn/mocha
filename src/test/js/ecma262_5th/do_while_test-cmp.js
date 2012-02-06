@@ -479,35 +479,35 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/do_while_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/do_while_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-do_while_test.js}'] = {};
+      _mochaGlobalExport['./do_while_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-do_while_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./do_while_test.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 1;
       var testvalue = 1;
       
-      __LINE__ = 4;
+      __LINE__ = 2;
       do {
         __LINE__ = 3;
         break;
       }while ( testvalue );
       
-      __LINE__ = 0;
+      __LINE__ = 6;
       var testDstaObject =  {
             test : 200
           };
       
-      __LINE__ = 0;
+      __LINE__ = 7;
       var testDstaTarget;
       
       __LINE__ = 0;
       var _mochaLocalTmp0 = {};
       
-      __LINE__ = 11;
+      __LINE__ = 9;
       do {
         __LINE__ = 0;
         ( testDstaTarget = _mochaLocalTmp0.test );
@@ -515,10 +515,10 @@
         break;
       }while ( ( _mochaLocalTmp0 = testDstaObject ) );
       
-      __LINE__ = 0;
+      __LINE__ = 13;
       var i = 1;
       
-      __LINE__ = 16;
+      __LINE__ = 15;
       do {
         __LINE__ = 15;
         break;

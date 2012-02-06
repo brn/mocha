@@ -11,6 +11,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <vector>
 #include <string>
 
 #include <utils/file_system/file_system.h>
@@ -163,34 +164,72 @@ StrHandle FileSystem::GetAbsolutePath( const char* path ) {
   return StrHandle( ret );
 }
 
-StrHandle FileSystem::GetModuleKey( const char* path ) {
+typedef std::vector<std::string> PathArray;
+
+void GetPathArray( const char* path , PathArray *array ) {
   int len = strlen( path );
-  long ret = 1;
-  std::string tmp_str = "'{";
-  for ( int i = 0; i < len; i++ ) {
-    if ( path[ i ] == '/' ) {
-      ret += ( static_cast<int>( path[i] ) * i );
-      char tmp[100];
-      sprintf( tmp , "%ld-" , ret );
-      tmp_str += tmp;
-      ret = 1;
-    } else {
-      if ( path[ i ] != 0 ) {
-        ret = static_cast<int>( path[i] ) << ret;
-      } else {
-        ret = 2 * ret;
-      }
-      if ( ret < 0 ) {
-        ret *= -1;
-      }
-    }
+  std::string tmp = path;
+  std::string slash = "/";
+  std::string str;
+  if ( path[ len - 1 ] != '/' ) {
+    tmp += '/';
   }
-  Handle<PathInfo> path_info = GetPathInfo( path );
-  tmp_str += path_info->GetFileName().Get();
-  tmp_str += "}'";
-  char *result = new char[ tmp_str.size() + 1 ];
-  strcpy( result , tmp_str.c_str() );
-  return StrHandle( result );
+  const char* raw = tmp.c_str();
+  int i = 0;
+  while ( raw[ i ] ) {
+    if ( raw[ i ] == '/' ) {
+      if ( i == 0 ) {
+        array->push_back( slash );
+      } else {
+        array->push_back( str );
+      }
+      str.clear();
+    } else {
+      str += raw[i];
+    }
+    i++;
+  }
+}
+
+StrHandle FileSystem::GetModuleKey( const char* base , const char* path ) {
+  if ( strcmp( base , path ) == 0 ) {
+    return StrHandle( utils::CharAlloc( "./" ) );
+  }
+  PathArray base_array;
+  PathArray target_array;
+  GetPathArray( base , &base_array );
+  GetPathArray( path , &target_array );
+  std::string result;
+  int i = 0;
+  int base_size = base_array.size();
+  int target_size = target_array.size();
+  while ( ( i < base_size ) || ( i < target_size ) ) {
+    if ( i >= base_size ) {
+      result += target_array.at( i );
+    } else if ( i >= target_size ) {
+      std::string tmp;
+      while ( i < base_size ) {
+        tmp += "../";
+        i++;
+      }
+      tmp += result;
+      return StrHandle( utils::CharAlloc( tmp.c_str() ) );
+    } else if ( base_array.at( i ).compare( target_array.at( i ) ) != 0 ) {
+      while ( i < base_size ) {
+        result += "../";
+        base_array.pop_back();
+        base_size = base_array.size();
+      }
+      while ( i < target_size ) {
+        result += target_array[ i ];
+        result += "/";
+        i++;
+      }
+      return StrHandle( utils::CharAlloc( result.c_str() ) );
+    }
+    i++;
+  }
+  return StrHandle( utils::CharAlloc( result.c_str() ) );
 }
 
 void FileSystem::Chdir ( const char* path ) {

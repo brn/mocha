@@ -479,24 +479,24 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/expression_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-expression_test.js}'] = {};
+      _mochaGlobalExport['./expression_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-expression_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./expression_test.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 4;
       document.getElementById( "id" );
       
-      __LINE__ = 0;
+      __LINE__ = 5;
       document.test.test2.test3();
       
-      __LINE__ = 0;
+      __LINE__ = 6;
       document.test.test3 = 1;
       
-      __LINE__ = 0;
+      __LINE__ = 7;
       Runtime.extend( document, {
         extendtest : true,
         extendtest2 : false
@@ -505,7 +505,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp0;
       
-      __LINE__ = 0;
+      __LINE__ = 11;
       _mochaLocalTmp0 =  {
         destructuring : 1,
         destructuring2 : 2
@@ -517,7 +517,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp1;
       
-      __LINE__ = 0;
+      __LINE__ = 12;
       _mochaLocalTmp1 =  {
         destructuring : destructuring,
         destructuring2 : destructuring2
@@ -529,7 +529,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp2;
       
-      __LINE__ = 0;
+      __LINE__ = 13;
       _mochaLocalTmp2 =  {
         destructuring : 1,
         destructuring2 : 2
@@ -541,7 +541,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp3;
       
-      __LINE__ = 0;
+      __LINE__ = 14;
       _mochaLocalTmp3 =  {
         destructuring : destructuring,
         destructuring2 : destructuring2
@@ -553,7 +553,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp4;
       
-      __LINE__ = 0;
+      __LINE__ = 16;
       _mochaLocalTmp4 = [0,1];
       
       __LINE__ = 0;
@@ -562,7 +562,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp5;
       
-      __LINE__ = 0;
+      __LINE__ = 17;
       _mochaLocalTmp5 = [0,[1]];
       
       __LINE__ = 0;
@@ -571,7 +571,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp6;
       
-      __LINE__ = 0;
+      __LINE__ = 18;
       _mochaLocalTmp6 = [ {
         dsta : dsta
       }];
@@ -582,7 +582,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp7;
       
-      __LINE__ = 0;
+      __LINE__ = 19;
       _mochaLocalTmp7 =  {
         getname : function () {
           try {
@@ -608,7 +608,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp8;
       
-      __LINE__ = 0;
+      __LINE__ = 23;
       _mochaLocalTmp8 =  {
         getname : function getname() {
           try {
@@ -634,7 +634,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp9;
       
-      __LINE__ = 0;
+      __LINE__ = 27;
       _mochaLocalTmp9 =  {
         getname : function getname() {
           try {
@@ -646,7 +646,7 @@
         },
         getage : function getage() {
           try {
-            __LINE__ = 29;
+            __LINE__ = 30;
             return "aaaaa";
           } catch( e ){
             Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -660,11 +660,11 @@
       __LINE__ = 0;
       var _mochaLocalTmp10;
       
-      __LINE__ = 0;
+      __LINE__ = 32;
       _mochaLocalTmp10 =  {
         getname : function getname() {
           try {
-            __LINE__ = 0;
+            __LINE__ = 33;
             return function () {
               try {
                 __LINE__ = 33;
@@ -679,10 +679,10 @@
         },
         getage : function getage() {
           try {
-            __LINE__ = 0;
+            __LINE__ = 35;
             return function () {
               try {
-                __LINE__ = 34;
+                __LINE__ = 35;
                 return "aaaaa";
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -697,7 +697,7 @@
       __LINE__ = 0;
       ( getname = _mochaLocalTmp10.getname , getage = _mochaLocalTmp10.getage );
       
-      __LINE__ = 0;
+      __LINE__ = 37;
       var m = function () {
             try {
               __LINE__ = 37;
@@ -714,7 +714,7 @@
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 38;
       var m2 =  {
             m :  {
               m :  {
@@ -723,7 +723,7 @@
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 39;
       var m3 =  {
             m :  {
               m :  {
@@ -732,19 +732,19 @@
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 40;
       var instance = new m();
       
-      __LINE__ = 0;
+      __LINE__ = 41;
       var instance2 = new new m();
       
-      __LINE__ = 0;
+      __LINE__ = 42;
       var instance3 = new new new m();
       
-      __LINE__ = 0;
+      __LINE__ = 43;
       var instance4 = new m2.m.m();
       
-      __LINE__ = 0;
+      __LINE__ = 44;
       var instance5 = new new new m3.m.m();
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

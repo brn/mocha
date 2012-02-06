@@ -29,8 +29,7 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
                                                          Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
     ValueNode* object_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
     object_literal->Node( ManagedHandle::Retain<Empty>() );
-    StrHandle handle = FileSystem::GetModuleKey( ast_node->FileName() );
-    ValueNode* key = AstUtils::CreateNameNode( handle.Get() , Token::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
+    ValueNode* key = AstUtils::CreateNameNode( visitor_info->GetRelativePath() , Token::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
     
     CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal );

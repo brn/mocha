@@ -10,9 +10,9 @@ class ExternalAst : private Uncopyable {
  public :
   static Handle<ExternalAst> Create();
   AstRoot* GetRoot() { return root_; }
+  ~ExternalAst(){}
  private :
   ExternalAst();
-  ~ExternalAst(){}
   ManagedScope scope_;
   AstRoot* root_;
 };

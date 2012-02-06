@@ -66,6 +66,8 @@ compiler/consts/consts.h\
 compiler/consts/consts.cc\
 compiler/parser/parser.h\
 compiler/parser/parser.cc\
+compiler/external/external_ast.h\
+compiler/external/external_ast.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
@@ -134,8 +136,6 @@ utils/smart_pointer/common/ptr_deleter.h\
 utils/smart_pointer/common/ptr_handle.h\
 utils/smart_pointer/common/ptr_handle_base.h\
 utils/smart_pointer/common/ptr_traits.h\
-compiler/scanner/queue_scanner.h\
-compiler/scanner/queue_scanner.cc\
 utils/smart_pointer/ref_count/ref_count.h\
 utils/smart_pointer/ref_count/ref_count_base.h\
 compiler/scopes/scope.cc\

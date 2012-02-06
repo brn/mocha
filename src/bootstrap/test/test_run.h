@@ -29,6 +29,7 @@ void RunJS() {
     if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
       args += fullpath;
       args += " ";
+      //break;
     }
   }
   printf( "%s\n" , args.c_str() );
@@ -49,6 +50,7 @@ void RunTest() {
       info->SetDebug();
       info->SetPrettyPrint();
       facade.AddCompileList( fullpath , true );
+      //break;
     }
   }
   facade.Compile();

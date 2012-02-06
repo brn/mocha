@@ -59,25 +59,26 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	compile_result.$(OBJEXT) external_resource.$(OBJEXT) \
 	compile_info.$(OBJEXT) consts.$(OBJEXT) parser.$(OBJEXT) \
-	compile_runner.$(OBJEXT) list_runner.$(OBJEXT) \
-	error_runner.$(OBJEXT) phantom_runner.$(OBJEXT) \
-	compiler_facade.$(OBJEXT) encoding.$(OBJEXT) \
-	compiler_utils.$(OBJEXT) error_reporter.$(OBJEXT) \
-	commandline_options.$(OBJEXT) file_io.$(OBJEXT) \
-	file_observer.$(OBJEXT) file_system.$(OBJEXT) \
-	file_watcher.$(OBJEXT) pwd.$(OBJEXT) directory.$(OBJEXT) \
-	help_runner.$(OBJEXT) interaction.$(OBJEXT) commands.$(OBJEXT) \
+	external_ast.$(OBJEXT) compile_runner.$(OBJEXT) \
+	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
+	phantom_runner.$(OBJEXT) compiler_facade.$(OBJEXT) \
+	encoding.$(OBJEXT) compiler_utils.$(OBJEXT) \
+	error_reporter.$(OBJEXT) commandline_options.$(OBJEXT) \
+	file_io.$(OBJEXT) file_observer.$(OBJEXT) \
+	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
+	directory.$(OBJEXT) help_runner.$(OBJEXT) \
+	interaction.$(OBJEXT) commands.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
 	token_stream.$(OBJEXT) source_stream.$(OBJEXT) \
 	scanner.$(OBJEXT) js_token.$(OBJEXT) main.$(OBJEXT) \
 	managed_handle.$(OBJEXT) mkdir.$(OBJEXT) \
 	observer_runner.$(OBJEXT) parser_connector.$(OBJEXT) \
-	parser_tracer.$(OBJEXT) queue_scanner.$(OBJEXT) \
-	scope.$(OBJEXT) setting.$(OBJEXT) stat.$(OBJEXT) \
-	thread.$(OBJEXT) tinyxml.$(OBJEXT) tinystr.$(OBJEXT) \
-	tinyxmlparser.$(OBJEXT) tinyxmlerror.$(OBJEXT) \
-	token_info.$(OBJEXT) virtual_directory.$(OBJEXT) \
-	xml_observer.$(OBJEXT) versions.$(OBJEXT) xml_reader.$(OBJEXT) \
+	parser_tracer.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
+	stat.$(OBJEXT) thread.$(OBJEXT) tinyxml.$(OBJEXT) \
+	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
+	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
+	virtual_directory.$(OBJEXT) xml_observer.$(OBJEXT) \
+	versions.$(OBJEXT) xml_reader.$(OBJEXT) \
 	xml_setting_info.$(OBJEXT)
 mocha_OBJECTS = $(am_mocha_OBJECTS)
 mocha_LDADD = $(LDADD)
@@ -256,6 +257,8 @@ compiler/consts/consts.h\
 compiler/consts/consts.cc\
 compiler/parser/parser.h\
 compiler/parser/parser.cc\
+compiler/external/external_ast.h\
+compiler/external/external_ast.cc\
 bootstrap/runners/compile_runner.h\
 bootstrap/runners/compile_runner.cc\
 bootstrap/runners/list_runner.h\
@@ -324,8 +327,6 @@ utils/smart_pointer/common/ptr_deleter.h\
 utils/smart_pointer/common/ptr_handle.h\
 utils/smart_pointer/common/ptr_handle_base.h\
 utils/smart_pointer/common/ptr_traits.h\
-compiler/scanner/queue_scanner.h\
-compiler/scanner/queue_scanner.cc\
 utils/smart_pointer/ref_count/ref_count.h\
 utils/smart_pointer/ref_count/ref_count_base.h\
 compiler/scopes/scope.cc\
@@ -487,6 +488,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error_reporter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_processor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/external_ast.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/external_resource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_observer.Po@am__quote@
@@ -514,7 +516,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/phantom_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue_scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scope.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setting.Po@am__quote@
@@ -958,6 +959,20 @@ parser.obj: compiler/parser/parser.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser.obj `if test -f 'compiler/parser/parser.cc'; then $(CYGPATH_W) 'compiler/parser/parser.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/parser/parser.cc'; fi`
 
+external_ast.o: compiler/external/external_ast.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT external_ast.o -MD -MP -MF $(DEPDIR)/external_ast.Tpo -c -o external_ast.o `test -f 'compiler/external/external_ast.cc' || echo '$(srcdir)/'`compiler/external/external_ast.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/external_ast.Tpo $(DEPDIR)/external_ast.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/external/external_ast.cc' object='external_ast.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o external_ast.o `test -f 'compiler/external/external_ast.cc' || echo '$(srcdir)/'`compiler/external/external_ast.cc
+
+external_ast.obj: compiler/external/external_ast.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT external_ast.obj -MD -MP -MF $(DEPDIR)/external_ast.Tpo -c -o external_ast.obj `if test -f 'compiler/external/external_ast.cc'; then $(CYGPATH_W) 'compiler/external/external_ast.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/external/external_ast.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/external_ast.Tpo $(DEPDIR)/external_ast.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/external/external_ast.cc' object='external_ast.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o external_ast.obj `if test -f 'compiler/external/external_ast.cc'; then $(CYGPATH_W) 'compiler/external/external_ast.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/external/external_ast.cc'; fi`
+
 compile_runner.o: bootstrap/runners/compile_runner.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.o -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.o `test -f 'bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/compile_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/compile_runner.Tpo $(DEPDIR)/compile_runner.Po
@@ -1391,20 +1406,6 @@ parser_tracer.obj: compiler/binding/parser_tracer.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/binding/parser_tracer.cc' object='parser_tracer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser_tracer.obj `if test -f 'compiler/binding/parser_tracer.cc'; then $(CYGPATH_W) 'compiler/binding/parser_tracer.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/binding/parser_tracer.cc'; fi`
-
-queue_scanner.o: compiler/scanner/queue_scanner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT queue_scanner.o -MD -MP -MF $(DEPDIR)/queue_scanner.Tpo -c -o queue_scanner.o `test -f 'compiler/scanner/queue_scanner.cc' || echo '$(srcdir)/'`compiler/scanner/queue_scanner.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/queue_scanner.Tpo $(DEPDIR)/queue_scanner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/queue_scanner.cc' object='queue_scanner.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o queue_scanner.o `test -f 'compiler/scanner/queue_scanner.cc' || echo '$(srcdir)/'`compiler/scanner/queue_scanner.cc
-
-queue_scanner.obj: compiler/scanner/queue_scanner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT queue_scanner.obj -MD -MP -MF $(DEPDIR)/queue_scanner.Tpo -c -o queue_scanner.obj `if test -f 'compiler/scanner/queue_scanner.cc'; then $(CYGPATH_W) 'compiler/scanner/queue_scanner.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/queue_scanner.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/queue_scanner.Tpo $(DEPDIR)/queue_scanner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='compiler/scanner/queue_scanner.cc' object='queue_scanner.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o queue_scanner.obj `if test -f 'compiler/scanner/queue_scanner.cc'; then $(CYGPATH_W) 'compiler/scanner/queue_scanner.cc'; else $(CYGPATH_W) '$(srcdir)/compiler/scanner/queue_scanner.cc'; fi`
 
 scope.o: compiler/scopes/scope.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT scope.o -MD -MP -MF $(DEPDIR)/scope.Tpo -c -o scope.o `test -f 'compiler/scopes/scope.cc' || echo '$(srcdir)/'`compiler/scopes/scope.cc

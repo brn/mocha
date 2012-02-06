@@ -85,8 +85,14 @@ void ImportProccessor::LoadModule_() {
     VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
 
     //Get module uuid key.
-    StrHandle key_str = FileSystem::GetModuleKey( real_path.Get() );
-    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( key_str.Get() , Token::JS_IDENTIFIER , stmt_->Line() ) );
+    Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->GetMainPath() );
+    Handle<PathInfo> target_path_info = FileSystem::GetPathInfo( real_path.Get() );
+    StrHandle handle = FileSystem::GetModuleKey( base_path_info->GetDirPath().Get() , target_path_info->GetDirPath().Get() );
+    std::string modkey = "'";
+    modkey += handle.Get();
+    modkey += target_path_info->GetFileName().Get();
+    modkey += "'";
+    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( modkey.c_str() , Token::JS_IDENTIFIER , stmt_->Line() ) );
 
     //Reserve module key string for later code generation.
     stmt_->ModKey( key );

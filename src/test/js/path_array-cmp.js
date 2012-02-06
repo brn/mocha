@@ -479,58 +479,58 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/path_array.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/path_array.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-path_array.js}'] = {};
+      _mochaGlobalExport['./path_array.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-path_array.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./path_array.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 1;
       var m = "/Users/aono_taketoshi/mocha/test/js";
       
-      __LINE__ = 0;
+      __LINE__ = 2;
       var v = "/url/local/includes";
       
       function getPathArray( path ) {
         try {
-          __LINE__ = 0;
+          __LINE__ = 4;
           if ( path[path.length-1] !== '/' ){
-            __LINE__ = 0;
+            __LINE__ = 4;
             path += '/';
           };
           
-          __LINE__ = 0;
+          __LINE__ = 5;
           var i = 0;
           
-          __LINE__ = 0;
+          __LINE__ = 6;
           var arr = [];
           
-          __LINE__ = 0;
+          __LINE__ = 7;
           var tmp = "";
           
           __LINE__ = 8;
           while ( path[i] ){
-            __LINE__ = 0;
+            __LINE__ = 9;
             if ( path[i] == '/' ){
-              __LINE__ = 0;
+              __LINE__ = 10;
               if ( i == 0 ){
-                __LINE__ = 0;
+                __LINE__ = 10;
                 arr.push( "/" );
               } else {
-                __LINE__ = 0;
+                __LINE__ = 11;
                 arr.push( tmp );
               };
               
-              __LINE__ = 0;
+              __LINE__ = 12;
               tmp = "";
             } else {
-              __LINE__ = 0;
+              __LINE__ = 14;
               tmp += path[i];
             };
             
-            __LINE__ = 0;
+            __LINE__ = 16;
             i ++ ;
           };
           __LINE__ = 18;
@@ -539,67 +539,67 @@
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 0;
+      __LINE__ = 21;
       var arr1 = getPathArray( m ),
           arr2 = getPathArray( v );
       
       function cmp( arr1,arr2 ) {
         try {
-          __LINE__ = 0;
+          __LINE__ = 24;
           var ret = "";
           
-          __LINE__ = 0;
+          __LINE__ = 25;
           var i = 0;
           
-          __LINE__ = 0;
+          __LINE__ = 26;
           var unmatch = false;
           
           __LINE__ = 27;
           while ( arr1[i] || arr2[i] ){
-            __LINE__ = 0;
+            __LINE__ = 28;
             if ( !arr1[i] ){
-              __LINE__ = 0;
+              __LINE__ = 29;
               ret += arr2[i]+"/";
             } else if ( !arr2[i] ){
-              __LINE__ = 0;
+              __LINE__ = 31;
               var tmp = "";
               
               __LINE__ = 32;
               while ( arr1[i] ){
-                __LINE__ = 0;
+                __LINE__ = 33;
                 tmp += "../";
                 
-                __LINE__ = 0;
+                __LINE__ = 34;
                 i ++ ;
               };
               __LINE__ = 36;
               return tmp+ret;
             } else if ( arr1[i] != arr2[i] ){
-              __LINE__ = 0;
+              __LINE__ = 38;
               unmatch = true;
               
               __LINE__ = 39;
               while ( arr1[i] ){
-                __LINE__ = 0;
+                __LINE__ = 40;
                 ret += "../";
                 
-                __LINE__ = 0;
+                __LINE__ = 41;
                 arr1.pop();
               };
               
               __LINE__ = 43;
               while ( arr2[i] ){
-                __LINE__ = 0;
+                __LINE__ = 44;
                 ret += arr2[i]+"/";
                 
-                __LINE__ = 0;
+                __LINE__ = 45;
                 i ++ ;
               };
               __LINE__ = 47;
               return ret;
             };
             
-            __LINE__ = 0;
+            __LINE__ = 49;
             i ++ ;
           };
           __LINE__ = 51;
@@ -608,7 +608,7 @@
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 0;
+      __LINE__ = 53;
       cmp( arr1,arr2 );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

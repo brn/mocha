@@ -417,6 +417,7 @@ AstNode* Parser::ParseStatement_() {
     default :
       result = CheckLabellOrExpressionStatement_();
   }
+  result->Line( info->GetLineNumber() );
   END(Statement);
   return result;
 }
@@ -517,9 +518,10 @@ AstNode* Parser::ParseImportStatement_() {
   TokenInfo* r_from = Advance_();
   TokenConverter cnv( r_from );
   if ( r_from->GetType() == Token::JS_IDENTIFIER &&
-       strlen( cnv ) > 0 && strcmp( cnv , import_from ) == 0 ) {
-    AstNode* exp = ParseImportExpression_();
-    ValueNode* maybe_file = exp->FirstChild()->CastToValue();
+       strlen( static_cast<const char*>( cnv ) ) > 0 &&
+       strcmp( static_cast<const char*>( cnv ) , import_from ) == 0 ) {
+    AstNode* from_exp = ParseImportExpression_();
+    ValueNode* maybe_file = from_exp->FirstChild()->CastToValue();
     int from_type;
     if ( maybe_file && maybe_file->ValueType() == ValueNode::kString ) {
       from_type = ImportStmt::kFile;
@@ -529,13 +531,13 @@ AstNode* Parser::ParseImportStatement_() {
     ImportStmt* stmt = ManagedHandle::Retain( new ImportStmt( type , from_type ) );
     CHECK_ERROR( stmt );
     stmt->Exp( exp );
-    stmt->From( exp );
+    stmt->From( from_exp );
     TokenInfo* semicolon = Seek_();
     int type = semicolon->GetType();
     if ( !semicolon->HasLineBreakBefore() && type != ';' && type != '}' ) {
       SYNTAX_ERROR( "parse error unexpected token "
                     << TokenConverter( semicolon )
-                    << "after 'import statement' expect ';' or 'line break'\nin file "
+                    << " after 'import statement' expect ';' or 'line break'\\nin file "
                     << filename_ << " at line " << semicolon->GetLineNumber() );
     }
     END(ImportStatement);
@@ -543,7 +545,7 @@ AstNode* Parser::ParseImportStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( r_from )
-                  << "after 'import' expect 'from'\nin file "
+                  << " after 'import' expect 'from'\\nin file "
                   << filename_ << " at line " << r_from->GetLineNumber() );
     END(ImportStatementError);
     return ManagedHandle::Retain<Empty>();
@@ -552,7 +554,7 @@ AstNode* Parser::ParseImportStatement_() {
 
 AstNode* Parser::ParseImportExpression_() {
   ENTER(ImportExpression);
-  TokenInfo* token = Advance_();
+  TokenInfo* token = Seek_();
   int type = token->GetType();
   NodeList* list = ManagedHandle::Retain<NodeList>();
   if ( type == Token::JS_STRING_LITERAL ) {
@@ -561,15 +563,18 @@ AstNode* Parser::ParseImportExpression_() {
     list->AddChild( literal );
   } else if ( type == Token::JS_IDENTIFIER ) {
     AstNode* literal = ParseLiteral_();
+    CHECK_ERROR( literal );
     list->AddChild( literal );
   }
-  token = Advance_();
+  token = Seek_();
   type = token->GetType();
   while ( 1 ) {
     if ( type == '.' || type == '[' ) {
       AstNode* literal = ParseLiteral_();
       CHECK_ERROR(literal);
       list->AddChild( literal );
+      token = Seek_();
+      type = token->GetType();
     } else {
       break;
     }
@@ -712,10 +717,12 @@ AstNode* Parser::ParseVariableStatement_() {
    * | JS_LET variable_declaration_list terminator
    * ;
    */
+  TokenInfo* token = Seek_( -1 );
   VariableStmt* stmt = ManagedHandle::Retain<VariableStmt>();
+  stmt->Line( token->GetLineNumber() );
   AstNode* list = ParseVariableDecl_( false );
   CHECK_ERROR(stmt);
-  TokenInfo* token = Seek_();
+  token = Seek_();
   int type = token->GetType();
   if ( type == ';' ) {
     Advance_();
@@ -1018,11 +1025,13 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
   Undo_();
   if ( type == ':' ) {
     END(LabellOrExpressionStatement);
-    return ParseLabelledStatement_();
+    AstNode* stmt = ParseLabelledStatement_();
+    stmt->Line( token->GetLineNumber() );
   } else {
     AstNode* ret = ParseExpression_( false );
     CHECK_ERROR( ret );
-    TokenInfo* token = Seek_();
+    ret->Line( token->GetLineNumber() );
+    token = Seek_();
     int type = token->GetType();
     if ( type == ';' || type == '}' || token->HasLineBreakBefore() || IsEnd( type ) ) {
       if ( type == ';' ) {
@@ -1057,6 +1066,7 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
   TokenInfo *token = Advance_();
   int type = token->GetType();
   IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
+  if_stmt->Line( token->GetLineNumber() );
   if ( type == '(' ) {
     AstNode* exp = ParseExpression_( false );
     CHECK_ERROR( if_stmt );
@@ -1105,6 +1115,7 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
 
 AstNode* Parser::ParseDoWhileStatement_() {
   ENTER(DoWhileStatement);
+  long line = Seek_( -1 )->GetLineNumber();
   AstNode* statement = ParseSourceElement_();
   CHECK_ERROR( statement );
   TokenInfo* token = Advance_();
@@ -1119,7 +1130,7 @@ AstNode* Parser::ParseDoWhileStatement_() {
       type = token->GetType();
       if ( type == ')' ) {
         IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( IterationStmt::kDoWhile ) );
-        iter->Line( token->GetLineNumber() );
+        iter->Line( line );
         iter->Exp( node );
         iter->AddChild( statement );
         END(DoWhileStatement);
@@ -1154,6 +1165,7 @@ AstNode* Parser::ParseWhileStatement_() {
   ENTER(WhileStatement);
   TokenInfo* token = Advance_();
   int type = token->GetType();
+  long line = token->GetLineNumber();
   if ( type == '(' ) {
     AstNode* node = ParseExpression_( false );
     CHECK_ERROR( node );
@@ -1161,7 +1173,7 @@ AstNode* Parser::ParseWhileStatement_() {
     type = token->GetType();
     if ( type == ')' ) {
       IterationStmt* iter = ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
-      iter->Line( token->GetLineNumber() );
+      iter->Line( line );
       iter->Exp( node );
       AstNode* statement = ParseSourceElement_();
       CHECK_ERROR( iter );
@@ -1190,6 +1202,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
   ENTER(ForStatement);
   TokenInfo *token = Advance_();
   int type = token->GetType();
+  long line = token->GetLineNumber();
   bool is_each = false;
   NodeList *exp_list = ManagedHandle::Retain<NodeList>();
   IterationStmt* iter_stmt = 0;
@@ -1236,7 +1249,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
       }
       int iter_type = ( is_var_decl )? IterationStmt::kForWithVar : IterationStmt::kFor;
       iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
-      iter_stmt->Line( token->GetLineNumber() );
+      iter_stmt->Line( line );
       ParseForStatementCondition_( exp_list );
       CHECK_ERROR( iter_stmt );
     } else if ( type == Token::JS_IN ) {
@@ -1254,11 +1267,11 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
       if ( is_each == false ) {
         int iter_type = ( is_var_decl )? IterationStmt::kForInWithVar : IterationStmt::kForIn;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
-        iter_stmt->Line( token->GetLineNumber() );
+        iter_stmt->Line( line );
       } else {
         int iter_type = ( is_var_decl )? IterationStmt::kForEachWithVar : IterationStmt::kForEach;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
-        iter_stmt->Line( token->GetLineNumber() );
+        iter_stmt->Line( line );
       }
       ParseForInStatementCondition_( exp_list );
       CHECK_ERROR( iter_stmt );
@@ -1277,7 +1290,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
       if ( is_each == false ) {
         int iter_type = ( is_var_decl )? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
-        iter_stmt->Line( token->GetLineNumber() );
+        iter_stmt->Line( line );
       } else {
         SYNTAX_ERROR( "parse error 'for of statement' can not has 'each'."
                       "\nin file "
@@ -1903,6 +1916,7 @@ AstNode* Parser::ParseExpression_( bool is_noin ) {
   exp->AddChild( assignment );
   TokenInfo* token = Seek_();
   int type = token->GetType();
+  assignment->Line( token->GetLineNumber() );
   if ( type == ',' ) {
     Advance_();
     while ( 1 ) {
@@ -1938,6 +1952,7 @@ AstNode* Parser::ParseAssignmentExpression_( bool is_noin ) {
   CHECK_ERROR( exp );
   TokenInfo *token = Seek_();
   int type = token->GetType();
+  exp->Line( token->GetLineNumber() );
   if ( IsAssignmentOp( type ) ) {
     Advance_();
     ValueNode* maybeDst = exp->CastToValue();
@@ -1956,7 +1971,7 @@ AstNode* Parser::ParseAssignmentExpression_( bool is_noin ) {
       AstNode* rhs = ParseAssignmentExpression_( is_noin );
       CHECK_ERROR( rhs );
       AssignmentExp* assign_exp = ManagedHandle::Retain( new AssignmentExp( type , exp , rhs ) );
-      assign_exp->Line( token->GetLineNumber() );
+      assign_exp->Line( exp->Line() );
       return assign_exp;
     } else {
       SYNTAX_ERROR( "parse error invalid left hand side expression in 'assignment expression'\nin file "
@@ -2854,6 +2869,7 @@ AstNode* Parser::ParseFormalParameter_() {
       if( type == '{' || type == '[' ){
         node = ParseDestructuringLeftHandSide_();
         CHECK_ERROR(node);
+        node->Line( token->GetLineNumber() );
         ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
         value->Node( node );
         token = Seek_();
@@ -2868,6 +2884,8 @@ AstNode* Parser::ParseFormalParameter_() {
         node = value;
       } else {
         node = ParseAssignmentExpression_( false );
+        CHECK_ERROR( node );
+        node->Line( token->GetLineNumber() );
         AssignmentExp* exp = node->CastToExpression()->CastToAssigment();
         if ( exp ) {
           ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -2904,6 +2922,7 @@ AstNode* Parser::ParseFormalParameter_() {
       if ( type == Token::JS_IDENTIFIER ) {
         AstNode* value = ParseLiteral_();
         CHECK_ERROR( value );
+        value->Line( token->GetLineNumber() );
         value->CastToValue()->ValueType( ValueNode::kRest );
         token = Seek_();
         type = token->GetType();

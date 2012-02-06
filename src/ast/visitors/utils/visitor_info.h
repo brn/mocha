@@ -1,8 +1,9 @@
 #ifndef mocha_visitor_info_h_
 #define mocha_visitor_info_h_
-#include <utils/int_types.h>
+#include <string>
 #include <list>
 #include <utility>
+#include <utils/int_types.h>
 #include <compiler/utils/compile_info.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/class_traits/uncopyable.h>
@@ -25,6 +26,7 @@ class VisitorInfo : private Uncopyable{
   inline int GetTmpIndex() { int ret = tmp_index_;tmp_index_++;return ret; };
   inline const char* GetMainPath() { return main_file_path_; };
   inline const char* GetFileName() { return file_name_; };
+  inline const char* GetRelativePath() { return relative_path_.c_str(); }
   inline Scope* GetScope() { return scope_; };
   inline Compiler* GetCompiler() { return compiler_; };
   inline void SetDstaInjection( bool is ) { ( is )? bit_vector_.Set( 0 ) : bit_vector_.UnSet( 0 ); }
@@ -63,6 +65,7 @@ class VisitorInfo : private Uncopyable{
   int16_t is_in_module_;
   const char* main_file_path_;
   const char* file_name_;
+  std::string relative_path_;
   PrivateNameList private_names_;
   BitVector8 bit_vector_;
   CompileInfo* compile_info_;

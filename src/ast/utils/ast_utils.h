@@ -35,7 +35,7 @@ namespace mocha {
   char buf[ 1000 ];                                                     \
   Format( buf , "%s at %d\n" , message , __LINE__ );                    \
   info->GetCompiler()->CatchException( ExceptionHandler::CreateException( buf ) )
-
+class VisitorInfo;
 class AstUtils : private Static {
  public :
   static Function* CreateFunctionDecl( AstNode* name , AstNode* argv , AstNode* body );
@@ -57,7 +57,7 @@ class AstUtils : private Static {
   static CallExp* CreateRuntimeMod( AstNode* member );
   static CallExp* CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value );
   static CallExp* CreatePrototypeNode( AstNode* lhs );
-  static CallExp* CreateGlobalExportNode( AstNode* ast_node , const char* filename );
+  static CallExp* CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visitor_info , const char* base ,  const char* filename );
   static const char* CreateTmpRef( char* buf , int index );
   static ValueNode* CreateTmpNode( int index );
   static IFStmt* CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt );

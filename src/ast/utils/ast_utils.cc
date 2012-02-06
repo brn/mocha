@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <ast/utils/ast_utils.h>
 #include <ast/ast.h>
+#include <ast/visitors/utils/visitor_info.h>
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/symbol_list.h>
@@ -183,11 +184,18 @@ ValueNode* AstUtils::CreateTmpNode( int index ) {
   return AstUtils::CreateNameNode( tmp , Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
 }
 
-CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , const char* filename ) {
-  StrHandle key = FileSystem::GetModuleKey( filename );
+CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visitor_info,
+                                           const char* base , const char* filename ) {
+  Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->GetMainPath() );
+  Handle<PathInfo> target_path_info = FileSystem::GetPathInfo( filename );
+  StrHandle handle = FileSystem::GetModuleKey( base_path_info->GetDirPath().Get() , target_path_info->GetDirPath().Get() );
+  std::string modkey = "'";
+  modkey += handle.Get();
+  modkey += target_path_info->GetFileName().Get();
+  modkey += "'";
   ValueNode* value = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
                                                Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-  ValueNode* name = AstUtils::CreateNameNode( key.Get() , Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
+  ValueNode* name = AstUtils::CreateNameNode( modkey.c_str() , Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
   CallExp* arr = AstUtils::CreateArrayAccessor( value , name );
   return arr;
 }

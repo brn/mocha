@@ -479,41 +479,41 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/switch_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/switch_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-switch_test.js}'] = {};
+      _mochaGlobalExport['./switch_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-switch_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./switch_test.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 1;
       switch ( type ) {
         case "only" :
         case "first" :
           
           __LINE__ = 4;
           while ( ( node = node.previousSibling ) ){
-            __LINE__ = 0;
+            __LINE__ = 5;
             if ( node.nodeType === 1 ){
               __LINE__ = 6;
               return false;
             };
           };
           
-          __LINE__ = 0;
+          __LINE__ = 10;
           if ( type === "first" ){
             __LINE__ = 11;
             return true;
           };
           
-          __LINE__ = 0;
+          __LINE__ = 14;
           node = elem;
         case "last" :
           
           __LINE__ = 17;
           while ( ( node = node.nextSibling ) ){
-            __LINE__ = 0;
+            __LINE__ = 18;
             if ( node.nodeType === 1 ){
               __LINE__ = 19;
               return false;
@@ -523,46 +523,46 @@
           return true;
         case "nth" :
           
-          __LINE__ = 0;
+          __LINE__ = 26;
           first = match[2];
           
-          __LINE__ = 0;
+          __LINE__ = 27;
           last = match[3];
           
-          __LINE__ = 0;
+          __LINE__ = 29;
           if ( first === 1 && last === 0 ){
             __LINE__ = 30;
             return true;
           };
           
-          __LINE__ = 0;
+          __LINE__ = 33;
           doneName = match[0];
           
-          __LINE__ = 0;
+          __LINE__ = 34;
           parent = elem.parentNode;
           
-          __LINE__ = 0;
+          __LINE__ = 36;
           if ( parent && ( parent[expando] !== doneName || !elem.nodeIndex ) ){
-            __LINE__ = 0;
+            __LINE__ = 37;
             count = 0;
             
             __LINE__ = 39;
             for ( node = parent.firstChild;node;node = node.nextSibling ){
-              __LINE__ = 0;
+              __LINE__ = 40;
               if ( node.nodeType === 1 ){
-                __LINE__ = 0;
+                __LINE__ = 41;
                 node.nodeIndex =  ++ count;
               };
             };
             
-            __LINE__ = 0;
+            __LINE__ = 45;
             parent[expando] = doneName;
           };
           
-          __LINE__ = 0;
+          __LINE__ = 48;
           diff = elem.nodeIndex-last;
           
-          __LINE__ = 0;
+          __LINE__ = 50;
           if ( first === 0 ){
             __LINE__ = 51;
             return diff === 0;
@@ -574,7 +574,7 @@
           break;
         default :
           
-          __LINE__ = 0;
+          __LINE__ = 58;
           console.log( 1 );
           
       };

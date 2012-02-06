@@ -70,7 +70,6 @@ class Token : private Static {
     JS_WHILE,
     JS_WITH,
     JS_EACH,
-    JS_FROM,
     JS_YIELD,
     JS_ASSERT,
     MOCHA_VERSIONOF,

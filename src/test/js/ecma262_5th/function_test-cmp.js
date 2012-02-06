@@ -479,40 +479,40 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/function_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/function_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-function_test.js}'] = {};
+      _mochaGlobalExport['./function_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-function_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./function_test.js'];
       
       function test() {
         try {
-          __LINE__ = 0;
+          __LINE__ = 3;
           console.log( 1 );
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 0;
+      __LINE__ = 5;
       test();
       
-      __LINE__ = 0;
+      __LINE__ = 6;
       var testExpression = function () {
             try {
-              __LINE__ = 0;
+              __LINE__ = 7;
               console.log( 1 );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 10;
       var testObject =  {
             v : function () {
               try {
-                __LINE__ = 0;
+                __LINE__ = 12;
                 console.log( 1 );
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -523,7 +523,7 @@
       
       function testFormal( args,args2,args3 ) {
         try {
-          __LINE__ = 0;
+          __LINE__ = 18;
           console.log( 1 );
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -539,23 +539,23 @@
               args5 = ( _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args5 )?_mochaLocalTmp2[2].args5 : undefined,
               args7 = ( _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args6 && _mochaLocalTmp2[2].args6.args7 )?_mochaLocalTmp2[2].args6.args7 : undefined;
           
-          __LINE__ = 0;
+          __LINE__ = 22;
           console.log( 1 );
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 0;
+      __LINE__ = 25;
       var testExpressionFormal = function ( args,args2,args3 ) {
             try {
-              __LINE__ = 0;
+              __LINE__ = 26;
               console.log( 1 );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 29;
       var testExpressionFormalDsta = function ( _mochaLocalTmp3,_mochaLocalTmp4,_mochaLocalTmp5 ) {
             try {
               __LINE__ = 0;
@@ -566,18 +566,18 @@
                   args5 = ( _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5 )?_mochaLocalTmp5[2].args5 : undefined,
                   args7 = ( _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7 )?_mochaLocalTmp5[2].args6.args7 : undefined;
               
-              __LINE__ = 0;
+              __LINE__ = 30;
               console.log( 1 );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 33;
       var testObjectFormal =  {
             v : function ( args,args2,args3 ) {
               try {
-                __LINE__ = 0;
+                __LINE__ = 35;
                 console.log( 1 );
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -585,7 +585,7 @@
             }
           };
       
-      __LINE__ = 0;
+      __LINE__ = 39;
       var testObjectFormalDsta =  {
             v : function ( _mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8 ) {
               try {
@@ -597,7 +597,7 @@
                     args5 = ( _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args5 )?_mochaLocalTmp8[2].args5 : undefined,
                     args7 = ( _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args6 && _mochaLocalTmp8[2].args6.args7 )?_mochaLocalTmp8[2].args6.args7 : undefined;
                 
-                __LINE__ = 0;
+                __LINE__ = 41;
                 console.log( 1 );
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

@@ -479,13 +479,13 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/for_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/for_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-for_test.js}'] = {};
+      _mochaGlobalExport['./for_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-for_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./for_test.js'];
       
       __LINE__ = 1;
       for ( var i = 0;i<10;i ++  ){
@@ -501,7 +501,7 @@
       
       __LINE__ = 9;
       for ( ;; ){
-        __LINE__ = 0;
+        __LINE__ = 10;
         console.log( 1 );
         __LINE__ = 11;
         break;
@@ -509,7 +509,7 @@
       
       __LINE__ = 14;
       for ( i;i; ){
-        __LINE__ = 0;
+        __LINE__ = 15;
         console.log( 1 );
         __LINE__ = 16;
         break;

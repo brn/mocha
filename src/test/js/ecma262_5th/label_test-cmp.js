@@ -479,20 +479,20 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/label_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/label_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-label_test.js}'] = {};
+      _mochaGlobalExport['./label_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-2830-label_test.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./label_test.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 1;
       console.log( 1 );
-      __LINE__ = 0;
+      __LINE__ = 2;
       TEST_LABEL : 
       {
-        __LINE__ = 0;
+        __LINE__ = 3;
         var m = 0;
       };
     } catch( e ){
