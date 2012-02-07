@@ -29,7 +29,7 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 }
 
 //Debug flag.
-//#define PARSER_DEBUG 1
+#define PARSER_DEBUG 1
 
 //Print parser move to stderr.
 #ifdef PARSER_DEBUG
@@ -69,6 +69,7 @@ bool IsValidProperty( int type ) {
       type == ValueNode::kIdentifier ||
       type == ValueNode::kProperty;
 }
+
 
 void DstaRewriter( AstNode *dst ) {
   NodeIterator iterator = dst->ChildNodes();
@@ -152,7 +153,7 @@ void AssignmentDstaConvertor( AstNode* exp ) {
 }
 
 Parser::Parser( ParserConnector* connector , ErrorReporter* reporter , const char* filename )
-    : filename_( filename ) , is_source_elements_parse_begin_( false ),
+    : filename_( filename ) , is_in_class_decl_( false ) , is_source_elements_parse_begin_( false ),
       connector_( connector ) , reporter_( reporter ) {}
 Parser::~Parser() {}
 
@@ -170,6 +171,22 @@ FileRoot* Parser::Parse() {
 void Parser::IllegalEnd_( const char* expect , long line ) {
   SYNTAX_ERROR( "parse error got unexpected end of input expect "
                 << expect << "\\nin file " << filename_ << " at line " << line );
+}
+
+
+void Parser::ParseTerminator_() {
+  TokenInfo *token = Seek_();
+  int type = token->GetType();
+  if ( type == ';' || type == '}' || IsEnd( type ) || token->HasLineBreakBefore() ) {
+    if ( type == ';' ) {
+      Advance_();
+    }
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << TokenConverter( token )
+                  << " expect ';' or 'line break'\\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+  }
 }
 
 //Begining of parse.
@@ -241,8 +258,12 @@ AstNode* Parser::ParseSourceElement_() {
     return ManagedHandle::Retain<Empty>();
   }
   switch ( info->GetType() ) {
-    case Token::JS_CLASS :
+    case Token::JS_CLASS :{
       result = ParseClassDecl_( false );
+      ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+      stmt->AddChild( result );
+      result = stmt;
+    }
       break;
     case Token::JS_FUNCTION :
       result = ParseFunctionDecl_( false );
@@ -412,6 +433,19 @@ AstNode* Parser::ParseStatement_() {
       
     case Token::JS_DEBUGGER :
       result = ParseDebuggerStatement_( info );
+      break;
+
+    case Token::JS_PRIVATE :
+    case Token::JS_PUBLIC :
+    case Token::JS_STATIC : {
+      TokenInfo *token = Seek_();
+      int type = token->GetType();
+      if ( type == '.' || type == '[' ) {
+        result = CheckLabellOrExpressionStatement_();
+      } else {
+        result = ParseClassMemberStatement_();
+      }
+    }
       break;
       
     default :
@@ -1735,6 +1769,7 @@ AstNode* Parser::ParseClassDecl_( bool is_const ) {
   int type = token->GetType();
   AstNode* name;
   AstNode* inherit;
+  is_in_class_decl_ = true;
   if ( type == Token::JS_IDENTIFIER ) {
     name = ParseLiteral_();
     CHECK_ERROR( name );
@@ -1743,7 +1778,9 @@ AstNode* Parser::ParseClassDecl_( bool is_const ) {
   }
   token = Seek_();
   type = token->GetType();
-  if ( type == Token::JS_EXTENDS || type == Token::JS_PROTOTYPE ) {
+  if ( type == Token::JS_EXTENDS ||
+       ( type == Token::JS_IDENTIFIER ||
+         strcmp( token->GetToken() , "prototype" ) == 0 ) ) {
     inherit = ParseInheritDecl_();
     CHECK_ERROR( inherit );
   } else {
@@ -1764,9 +1801,11 @@ AstNode* Parser::ParseClassDecl_( bool is_const ) {
                   << " in 'class declaration' expect '{'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ClassDecl);
+    is_in_class_decl_ = false;
     return cls;
   }
   END(ClassDecl);
+  is_in_class_decl_ = false;
   return cls;
 }
 
@@ -1824,35 +1863,67 @@ AstNode* Parser::ParseClassBody_() {
           list->Constructor( mem );
           break;
       }
+      token = Seek_();
+      type = token->GetType();
     }
+    Advance_();
     END(ClassBody);
     return list;
   }
 }
 
+AstNode* Parser::ParseClassMemberStatement_() {
+  TokenInfo* token = Seek_( -1 );
+  int type = token->GetType();
+  if ( is_in_class_decl_ ) {
+    ClassMember::MemberAttr member_type = ( type == Token::JS_PUBLIC )?
+        ClassMember::kPublic : ( type == Token::JS_STATIC )?
+        ClassMember::kStatic : ClassMember::kPrivate;
+    AstNode* node = ParseExportableDefinition_();
+    CHECK_ERROR( node );
+    ClassMember* member = ManagedHandle::Retain( new ClassMember( member_type ) );
+    member->AddChild( node );
+    return member;
+  } else {
+    SYNTAX_ERROR( "parse error got unexpected token "
+                  << TokenConverter( token )
+                  << " in 'member expression' expect '.' or '['\\nin file "
+                  << filename_ << " at line " << token->GetLineNumber() );
+    END(MemberExpressionError);
+    return ManagedHandle::Retain<Empty>();
+  }
+}
+
 ClassMember* Parser::ParseClassMember_() {
   ENTER(ClassMember);
-  TokenInfo* token = Advance_();
+  TokenInfo* token = Seek_();
   int type = token->GetType();
-  int member_type;
+  ClassMember::MemberAttr member_type;
   AstNode* exp;
-  if ( type == Token::JS_CONSTRUCTOR ) {
+  if ( type == Token::JS_IDENTIFIER && strcmp( token->GetToken() , "constructor" ) == 0 ) {
     exp = ParseFunctionDecl_( false );
     member_type = ClassMember::kConstructor;
   } else if ( type == Token::JS_STATIC ) {
+    Advance_();
     exp = ParseExportableDefinition_();
     member_type = ClassMember::kStatic;
   } else if ( type == Token::JS_PRIVATE ) {
+    Advance_();
     exp = ParseExportableDefinition_();
     member_type = ClassMember::kPrivate;
   } else if ( type == Token::JS_PUBLIC ) {
+    Advance_();
     exp = ParseExportableDefinition_();
     member_type = ClassMember::kPublic;
   } else {
     exp = ParseExportableDefinition_();
+    fprintf( stderr, "@@@@@@@@@@@@@@@@@ type %d\n" , exp->NodeType() == AstNode::kClassMember );
+    if ( exp->NodeType() == AstNode::kClassMember ) {
+      return reinterpret_cast<ClassMember*>( exp );
+    }
     member_type = ClassMember::kPrototype;
   }
-  ClassMember* member = ManagedHandle::Retain( new ClassMember( static_cast<ClassMember::MemberAttr>( member_type ) ) );
+  ClassMember* member = ManagedHandle::Retain( new ClassMember( member_type ) );
   member->AddChild( exp );
   END(ClassMember);
   return member;
@@ -1870,8 +1941,12 @@ AstNode* Parser::ParseExportableDefinition_() {
       END(ExportableDefinition);
       return ParseFunctionDecl_( false );
     } else {
+      AstNode* ret = ParseVariableDecl_( false );
+      CHECK_ERROR( ret );
+      ParseTerminator_();
+      CHECK_ERROR( ret );
       END(ExportableDefinition);
-      return ParseVariableDecl_( false );
+      return ret;
     }
   } else {
     if ( type == Token::JS_CONST ) {
@@ -1882,11 +1957,20 @@ AstNode* Parser::ParseExportableDefinition_() {
         return ParseClassDecl_( true );
       } else if ( type == '(' || type == Token::JS_FUNCTION_GLYPH ||
                   type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+        Advance_();
         END(ExportableDefinition);
         return ParseFunctionDecl_( true );
       } else {
+        Advance_();
+        AstNode* ret = ParseVariableDecl_( false );
+        CHECK_ERROR( ret );
+        ParseTerminator_();
+        CHECK_ERROR( ret );
         END(ExportableDefinition);
-        return ParseVariableDecl_( false );
+        ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kConstant ) );
+        value->Line( token->GetLineNumber() );
+        value->Node( ret );
+        return value;
       }
     } else if ( type == Token::JS_GET ) {
       AstNode* fn = ParseFunctionDecl_( false );
@@ -2360,21 +2444,18 @@ AstNode* Parser::ParseMemberExpression_() {
   } else {
     int depth = 0;
     if ( type == Token::JS_PRIVATE ) {
-      ValueNode* private_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
-      private_literal->Symbol( token );
-      exp = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
-      token = Advance_();
+      TokenInfo* pr_sym = token;
+      int type_cache = type;
+      token = Seek_( 2 );
       type = token->GetType();
-      if ( type != '.' || type != '[' ) {
-        SYNTAX_ERROR( "parse error got unexpected token "
-                      << TokenConverter( token )
-                      << " in 'member expression' expect '.' or '['\\nin file "
-                      << filename_ << " at line " << token->GetLineNumber() );
-        END(MemberExpressionError);
-        return exp;
-      }
+      ValueNode* private_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
+      private_literal->Symbol( pr_sym );
+      exp = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
+      Advance_( 2 );
       AstNode *primary = ParsePrimaryExpression_();
       CHECK_ERROR( primary );
+      if ( primary->CastToValue() )
+        fprintf( stderr ,"@@@@@@@@@@@@@@@@@@@@@@@@@@%d\n" , primary->CastToValue()->ValueType() == ValueNode::kIdentifier );
       if ( primary->CastToValue() && primary->CastToValue()->ValueType() == ValueNode::kIdentifier ) {
         primary->CastToValue()->ValueType( ValueNode::kProperty );
       }

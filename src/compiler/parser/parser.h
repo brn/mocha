@@ -27,6 +27,7 @@ class Parser{
     return info;
   }
   void IllegalEnd_( const char* expect , long line );
+  void ParseTerminator_();
   AstNode* ParseProgram_();
   AstNode* ParseSourceElements_();
   AstNode* ParseSourceElement_();
@@ -68,6 +69,7 @@ class Parser{
   AstNode* ParseClassDecl_( bool is_const );
   AstNode* ParseInheritDecl_();
   AstNode* ParseClassBody_();
+  AstNode* ParseClassMemberStatement_();
   ClassMember* ParseClassMember_();
   AstNode* ParseExportableDefinition_();
   AstNode* ParseExpression_( bool is_noin );
@@ -99,6 +101,7 @@ class Parser{
   AstNode* ParseArrayComprehensions_();
 
   const char* filename_;
+  bool is_in_class_decl_;
   bool is_source_elements_parse_begin_;
   std::string indent_;
   ParserConnector* connector_;

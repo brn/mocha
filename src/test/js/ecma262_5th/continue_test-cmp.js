@@ -1,9 +1,4 @@
-try{
-  throw new SyntaxError("parse error got unexpected token [. In 'object literal'\n/Users/aono_taketoshi/.mocha/module/runtime/iterators.js at line 7")
-}catch(e){
-  throw new Error(e);
-}
-;(function() {
+(function() {
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
@@ -484,7 +479,7 @@ try{
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/continue_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/continue_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./continue_test.js'] = {};
@@ -492,46 +487,42 @@ try{
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./continue_test.js'];
       
-      __LINE__ = 0;
-      var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../.mocha/module/runtime/iterators.js'],
-          items = _mochaLocalTmp0.items;
-      
-      __LINE__ = 2;
+      __LINE__ = 1;
       for ( var i = 0;i<10;i ++  ){
-        __LINE__ = 3;
+        __LINE__ = 2;
         continue ;
       };
+      
+      __LINE__ = 4;
+      Runtime.assert( true,i === 10,"i === 10",4 );
       
       __LINE__ = 5;
       Runtime.assert( true,i === 10,"i === 10",5 );
       
       __LINE__ = 6;
-      Runtime.assert( true,i === 10,"i === 10",6 );
-      
-      __LINE__ = 7;
       for ( i = 0;i<10;i ++  ){
-        __LINE__ = 8;
+        __LINE__ = 7;
         END : 
         {
           __LINE__ = 0;
           for ( var j = 0;j<5;j ++  ){
-            __LINE__ = 10;
+            __LINE__ = 9;
             break END;
           };
         };
         
-        __LINE__ = 12;
-        Runtime.assert( true,j === 0,"j === 0",12 );
+        __LINE__ = 11;
+        Runtime.assert( true,j === 0,"j === 0",11 );
       };
+      
+      __LINE__ = 13;
+      Runtime.assert( true,i === 10,"i === 10",13 );
       
       __LINE__ = 14;
       Runtime.assert( true,i === 10,"i === 10",14 );
       
       __LINE__ = 15;
       Runtime.assert( true,i === 10,"i === 10",15 );
-      
-      __LINE__ = 16;
-      Runtime.assert( true,i === 10,"i === 10",16 );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

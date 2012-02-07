@@ -497,7 +497,7 @@
         try {
           __LINE__ = 4;
           if ( path[path.length-1] !== '/' ){
-            __LINE__ = 4;
+            __LINE__ = 0;
             path += '/';
           };
           
@@ -516,21 +516,21 @@
             if ( path[i] == '/' ){
               __LINE__ = 10;
               if ( i == 0 ){
-                __LINE__ = 10;
+                __LINE__ = 0;
                 arr.push( "/" );
               } else {
-                __LINE__ = 11;
+                __LINE__ = 0;
                 arr.push( tmp );
               };
               
-              __LINE__ = 12;
+              __LINE__ = 0;
               tmp = "";
             } else {
-              __LINE__ = 14;
+              __LINE__ = 0;
               tmp += path[i];
             };
             
-            __LINE__ = 16;
+            __LINE__ = 0;
             i ++ ;
           };
           __LINE__ = 18;
@@ -558,7 +558,7 @@
           while ( arr1[i] || arr2[i] ){
             __LINE__ = 28;
             if ( !arr1[i] ){
-              __LINE__ = 29;
+              __LINE__ = 0;
               ret += arr2[i]+"/";
             } else if ( !arr2[i] ){
               __LINE__ = 31;
@@ -566,40 +566,40 @@
               
               __LINE__ = 32;
               while ( arr1[i] ){
-                __LINE__ = 33;
+                __LINE__ = 0;
                 tmp += "../";
                 
-                __LINE__ = 34;
+                __LINE__ = 0;
                 i ++ ;
               };
               __LINE__ = 36;
               return tmp+ret;
             } else if ( arr1[i] != arr2[i] ){
-              __LINE__ = 38;
+              __LINE__ = 0;
               unmatch = true;
               
               __LINE__ = 39;
               while ( arr1[i] ){
-                __LINE__ = 40;
+                __LINE__ = 0;
                 ret += "../";
                 
-                __LINE__ = 41;
+                __LINE__ = 0;
                 arr1.pop();
               };
               
               __LINE__ = 43;
               while ( arr2[i] ){
-                __LINE__ = 44;
+                __LINE__ = 0;
                 ret += arr2[i]+"/";
                 
-                __LINE__ = 45;
+                __LINE__ = 0;
                 i ++ ;
               };
               __LINE__ = 47;
               return ret;
             };
             
-            __LINE__ = 49;
+            __LINE__ = 0;
             i ++ ;
           };
           __LINE__ = 51;
@@ -608,7 +608,7 @@
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 53;
+      __LINE__ = 0;
       cmp( arr1,arr2 );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

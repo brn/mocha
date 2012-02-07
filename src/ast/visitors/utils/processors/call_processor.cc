@@ -21,7 +21,8 @@ void CallProcessor::ProcessPrivateAccessor( CallExp* ast_node , ProcessorInfo* i
     } else {
       ast_node->Callable( this_sym );
     }
-    if ( maybeIdent && maybeIdent->ValueType() == ValueNode::kIdentifier ) {
+    maybeIdent = ast_node->Args()->CastToValue();
+    if ( maybeIdent && maybeIdent->ValueType() == ValueNode::kProperty ) {
       ast_node->CallType( CallExp::kDot );
     } else {
       ast_node->CallType( CallExp::kBracket );

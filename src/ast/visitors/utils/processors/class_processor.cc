@@ -61,7 +61,7 @@ inline CallExp* CreatePrivateInstance( long line ) {
   ValueNode* holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
                                                 Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
   NewExp* new_exp = ManagedHandle::Retain<NewExp>();
-  new_exp->Constructor( holder );
+  new_exp->AddChild( holder );
   list->AddChild( this_sym );
   list->AddChild( field );
   list->AddChild( new_exp );
@@ -114,7 +114,7 @@ inline AstNode* CreateHolderAssignment( AstNode* val,
 
 
 inline void Finish( const char* name , Class* class_ , AstNode* closure_ , ProcessorInfo* info ) {
-  if ( class_->ParentNode()->ParentNode()->NodeType() == AstNode::kExpressionStmt ||
+  if ( class_->ParentNode()->NodeType() == AstNode::kExpressionStmt ||
        class_->Inner() ) {
     TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , Token::JS_IDENTIFIER , class_->Line() ) );
     ValueNode* vars = AstUtils::CreateVarInitiliser( info , closure_->FirstChild() );
@@ -205,7 +205,7 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
     ClassExpandar* expandar = reinterpret_cast<ClassExpandar*>( node );
     const char* extend_fn = ( expandar->Type() == ClassExpandar::kExtends )?
         SymbolList::GetSymbol( SymbolList::kExtendClass ) :
-        SymbolList::GetSymbol( SymbolList::kPrototype );
+        SymbolList::GetSymbol( SymbolList::kExtendPrototype );
     
     ValueNode* extend = AstUtils::CreateNameNode( extend_fn,
                                                   Token::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
@@ -271,6 +271,7 @@ inline void ClassProcessor::ProcessConstructor_( Function* constructor ) {
   closure_body_ = constructor;
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
+    fprintf( stderr, "----------------------%s\n" , item->GetName() );
     if ( item->NodeType() == AstNode::kClassMember ) {
       ClassMember* member = reinterpret_cast<ClassMember*>( item );
       if ( member->Attr() == ClassMember::kPrivate ) {
