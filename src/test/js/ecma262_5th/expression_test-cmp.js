@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/expression_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./expression_test.js'] = {};
@@ -487,16 +487,16 @@
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./expression_test.js'];
       
-      __LINE__ = 4;
+      __LINE__ = 0;
       document.getElementById( "id" );
       
-      __LINE__ = 5;
+      __LINE__ = 0;
       document.test.test2.test3();
       
-      __LINE__ = 6;
+      __LINE__ = 0;
       document.test.test3 = 1;
       
-      __LINE__ = 7;
+      __LINE__ = 0;
       Runtime.extend( document, {
         extendtest : true,
         extendtest2 : false
@@ -505,7 +505,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp0;
       
-      __LINE__ = 11;
+      __LINE__ = 0;
       _mochaLocalTmp0 =  {
         destructuring : 1,
         destructuring2 : 2
@@ -517,7 +517,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp1;
       
-      __LINE__ = 12;
+      __LINE__ = 0;
       _mochaLocalTmp1 =  {
         destructuring : destructuring,
         destructuring2 : destructuring2
@@ -529,7 +529,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp2;
       
-      __LINE__ = 13;
+      __LINE__ = 0;
       _mochaLocalTmp2 =  {
         destructuring : 1,
         destructuring2 : 2
@@ -541,7 +541,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp3;
       
-      __LINE__ = 14;
+      __LINE__ = 0;
       _mochaLocalTmp3 =  {
         destructuring : destructuring,
         destructuring2 : destructuring2
@@ -553,7 +553,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp4;
       
-      __LINE__ = 16;
+      __LINE__ = 0;
       _mochaLocalTmp4 = [0,1];
       
       __LINE__ = 0;
@@ -562,7 +562,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp5;
       
-      __LINE__ = 17;
+      __LINE__ = 0;
       _mochaLocalTmp5 = [0,[1]];
       
       __LINE__ = 0;
@@ -571,7 +571,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp6;
       
-      __LINE__ = 18;
+      __LINE__ = 0;
       _mochaLocalTmp6 = [ {
         dsta : dsta
       }];
@@ -582,7 +582,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp7;
       
-      __LINE__ = 19;
+      __LINE__ = 0;
       _mochaLocalTmp7 =  {
         getname : function () {
           try {
@@ -608,7 +608,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp8;
       
-      __LINE__ = 23;
+      __LINE__ = 0;
       _mochaLocalTmp8 =  {
         getname : function getname() {
           try {
@@ -634,7 +634,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp9;
       
-      __LINE__ = 27;
+      __LINE__ = 0;
       _mochaLocalTmp9 =  {
         getname : function getname() {
           try {
@@ -660,7 +660,7 @@
       __LINE__ = 0;
       var _mochaLocalTmp10;
       
-      __LINE__ = 32;
+      __LINE__ = 0;
       _mochaLocalTmp10 =  {
         getname : function getname() {
           try {

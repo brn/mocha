@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_of_test.js'] = {};
@@ -506,7 +506,7 @@
       if ( _mochaLocalTmp0.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( i = _mochaLocalTmp0.__nothrowNext__(  ) ) ){
-          __LINE__ = 4;
+          __LINE__ = 0;
           console.log( i );
         };
       } else {
@@ -521,7 +521,7 @@
       if ( _mochaLocalTmp1.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( i = _mochaLocalTmp1.__nothrowNext__(  ) ) ){
-          __LINE__ = 8;
+          __LINE__ = 0;
           console.log( i );
         };
       } else {
@@ -539,7 +539,7 @@
       if ( _mochaLocalTmp2.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( i = _mochaLocalTmp2.__nothrowNext__(  ) ) ){
-          __LINE__ = 12;
+          __LINE__ = 0;
           console.log( i );
         };
       } else {
@@ -554,7 +554,7 @@
       if ( _mochaLocalTmp3.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( i = _mochaLocalTmp3.__nothrowNext__(  ) ) ){
-          __LINE__ = 15;
+          __LINE__ = 0;
           console.log( i );
         };
       } else {
@@ -569,7 +569,7 @@
       if ( _mochaLocalTmp4.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( m.g.i = _mochaLocalTmp4.__nothrowNext__(  ) ) ){
-          __LINE__ = 18;
+          __LINE__ = 0;
           console.log( m.g.i );
         };
       } else {

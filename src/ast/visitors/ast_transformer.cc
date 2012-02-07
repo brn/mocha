@@ -432,6 +432,10 @@ VISITOR_IMPL( LabelledStmt ) {
   REGIST(ast_node);
   AstNode* symbol = ast_node->FirstChild();
   AstNode* statement = symbol->NextSibling();
+  if ( statement->NodeType() != AstNode::kBlockStmt ) {
+    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , statement->Clone() );
+    ast_node->ReplaceChild( statement , stmt );
+  }
   symbol->Accept( this );
   statement->Accept( this );
 }
@@ -460,7 +464,7 @@ VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   AstNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kAssert ),
-                                            Token::JS_IDENTIFIER , ValueNode::kIdentifier , ast_node->Line() );
+                                            Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
   CodegenVisitor visitor( visitor_info_->GetFileName() , true , false );
   AstNode* expect = ast_node->FirstChild();
   AstNode* expression = expect->NextSibling();
@@ -473,13 +477,14 @@ VISITOR_IMPL(AssertStmt) {
   str += "\"";
   char tmp[100];
   sprintf( tmp , "%ld" , ast_node->Line() );
-  ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ValueNode::kNumeric , ast_node->Line() );
-  AstNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
-                                                         ValueNode::kString , ast_node->Line() );
+  printf( "assert expression %s\n" , str.c_str() );
+  ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
+  ValueNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
+                                                           ast_node->Line() , ValueNode::kString );
   AstNode* arg = AstUtils::CreateNodeList( 4 , expect , expression , string_expression , line );
-  CallExp* call = AstUtils::CreateNormalAccessor( name , arg );
-  CallExp* exp = AstUtils::CreateRuntimeMod( call );
-  ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
+  CallExp* exp = AstUtils::CreateRuntimeMod( name );
+  CallExp* call = AstUtils::CreateNormalAccessor( exp , arg );
+  ExpressionStmt* stmt = AstUtils::CreateExpStmt( call );
   ast_node->AddChild( stmt );
   stmt->Line( ast_node->Line() );
   if ( ast_node->HasDsta() ) {

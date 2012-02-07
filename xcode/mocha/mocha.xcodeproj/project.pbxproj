@@ -56,7 +56,6 @@
 		F217FDED14B0D9F700EF26E8 /* parser_connector.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCA514B0D9F700EF26E8 /* parser_connector.cc */; };
 		F217FDEF14B0D9F700EF26E8 /* compiler.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCAA14B0D9F700EF26E8 /* compiler.cc */; };
 		F217FDF014B0D9F700EF26E8 /* internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCAC14B0D9F700EF26E8 /* internal.cc */; };
-		F217FDF114B0D9F700EF26E8 /* queue_scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCAF14B0D9F700EF26E8 /* queue_scanner.cc */; };
 		F217FDF214B0D9F700EF26E8 /* scope.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCB414B0D9F700EF26E8 /* scope.cc */; };
 		F217FDF314B0D9F700EF26E8 /* js_token.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCB714B0D9F700EF26E8 /* js_token.cc */; };
 		F217FDF414B0D9F700EF26E8 /* symbol_list.cc in Sources */ = {isa = PBXBuildFile; fileRef = F217FCB914B0D9F700EF26E8 /* symbol_list.cc */; };
@@ -208,9 +207,6 @@
 		F217FCAB14B0D9F700EF26E8 /* compiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compiler.h; sourceTree = "<group>"; };
 		F217FCAC14B0D9F700EF26E8 /* internal.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = internal.cc; sourceTree = "<group>"; };
 		F217FCAD14B0D9F700EF26E8 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
-		F217FCAF14B0D9F700EF26E8 /* queue_scanner.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = queue_scanner.cc; sourceTree = "<group>"; };
-		F217FCB014B0D9F700EF26E8 /* queue_scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue_scanner.h; sourceTree = "<group>"; };
-		F217FCB114B0D9F700EF26E8 /* scanner_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scanner_state.h; sourceTree = "<group>"; };
 		F217FCB414B0D9F700EF26E8 /* scope.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scope.cc; sourceTree = "<group>"; };
 		F217FCB514B0D9F700EF26E8 /* scope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scope.h; sourceTree = "<group>"; };
 		F217FCB714B0D9F700EF26E8 /* js_token.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_token.cc; sourceTree = "<group>"; };
@@ -926,9 +922,6 @@
 				42E9C0F214CD21F30043DAE1 /* source_stream.h */,
 				42E9C0F314CD21F30043DAE1 /* token_stream.cc */,
 				42E9C0F414CD21F30043DAE1 /* token_stream.h */,
-				F217FCAF14B0D9F700EF26E8 /* queue_scanner.cc */,
-				F217FCB014B0D9F700EF26E8 /* queue_scanner.h */,
-				F217FCB114B0D9F700EF26E8 /* scanner_state.h */,
 			);
 			path = scanner;
 			sourceTree = "<group>";
@@ -1327,7 +1320,6 @@
 				F217FDED14B0D9F700EF26E8 /* parser_connector.cc in Sources */,
 				F217FDEF14B0D9F700EF26E8 /* compiler.cc in Sources */,
 				F217FDF014B0D9F700EF26E8 /* internal.cc in Sources */,
-				F217FDF114B0D9F700EF26E8 /* queue_scanner.cc in Sources */,
 				F217FDF214B0D9F700EF26E8 /* scope.cc in Sources */,
 				F217FDF314B0D9F700EF26E8 /* js_token.cc in Sources */,
 				F217FDF414B0D9F700EF26E8 /* symbol_list.cc in Sources */,

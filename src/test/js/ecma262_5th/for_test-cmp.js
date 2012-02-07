@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/for_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/for_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_test.js'] = {};
@@ -501,7 +501,7 @@
       
       __LINE__ = 9;
       for ( ;; ){
-        __LINE__ = 10;
+        __LINE__ = 0;
         console.log( 1 );
         __LINE__ = 11;
         break;
@@ -509,7 +509,7 @@
       
       __LINE__ = 14;
       for ( i;i; ){
-        __LINE__ = 15;
+        __LINE__ = 0;
         console.log( 1 );
         __LINE__ = 16;
         break;

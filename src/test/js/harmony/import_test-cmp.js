@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/function_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/function_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['../ecma262_5th/function_test.js'] = {};
@@ -489,19 +489,19 @@
       
       function test() {
         try {
-          __LINE__ = 3;
+          __LINE__ = 0;
           console.log( 1 );
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 5;
+      __LINE__ = 0;
       test();
       
       __LINE__ = 6;
       var testExpression = function () {
             try {
-              __LINE__ = 7;
+              __LINE__ = 0;
               console.log( 1 );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -512,7 +512,7 @@
       var testObject =  {
             v : function () {
               try {
-                __LINE__ = 12;
+                __LINE__ = 0;
                 console.log( 1 );
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -523,7 +523,7 @@
       
       function testFormal( args,args2,args3 ) {
         try {
-          __LINE__ = 18;
+          __LINE__ = 0;
           console.log( 1 );
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -539,7 +539,7 @@
               args5 = ( _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args5 )?_mochaLocalTmp2[2].args5 : undefined,
               args7 = ( _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args6 && _mochaLocalTmp2[2].args6.args7 )?_mochaLocalTmp2[2].args6.args7 : undefined;
           
-          __LINE__ = 22;
+          __LINE__ = 0;
           console.log( 1 );
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -548,7 +548,7 @@
       __LINE__ = 25;
       var testExpressionFormal = function ( args,args2,args3 ) {
             try {
-              __LINE__ = 26;
+              __LINE__ = 0;
               console.log( 1 );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -566,7 +566,7 @@
                   args5 = ( _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5 )?_mochaLocalTmp5[2].args5 : undefined,
                   args7 = ( _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7 )?_mochaLocalTmp5[2].args6.args7 : undefined;
               
-              __LINE__ = 30;
+              __LINE__ = 0;
               console.log( 1 );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -577,7 +577,7 @@
       var testObjectFormal =  {
             v : function ( args,args2,args3 ) {
               try {
-                __LINE__ = 35;
+                __LINE__ = 0;
                 console.log( 1 );
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -597,7 +597,7 @@
                     args5 = ( _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args5 )?_mochaLocalTmp8[2].args5 : undefined,
                     args7 = ( _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args6 && _mochaLocalTmp8[2].args6.args7 )?_mochaLocalTmp8[2].args6.args7 : undefined;
                 
-                __LINE__ = 41;
+                __LINE__ = 0;
                 console.log( 1 );
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -612,7 +612,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/import_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./import_test.js'] = {};
@@ -620,7 +620,7 @@
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./import_test.js'];
       
-      __LINE__ = 1;
+      __LINE__ = 0;
       var _mochaLocalTmp0 = _mochaGlobalExport['../ecma262_5th/function_test.js'],
           x = _mochaLocalTmp0.x,
           y = _mochaLocalTmp0.y,

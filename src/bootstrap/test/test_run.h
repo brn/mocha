@@ -26,13 +26,11 @@ void RunJS() {
   while ( iterator.HasNext() ) {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
-    if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
+    if ( strstr( fullpath , "continue_test-cmp.js" ) != NULL ) {
       args += fullpath;
       args += " ";
-      //break;
     }
   }
-  printf( "%s\n" , args.c_str() );
   PhantomRunner::Run( args.c_str() );
 }
 
@@ -43,14 +41,14 @@ void RunTest() {
   while ( iterator.HasNext() ) {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
+    int i = 0;
     if ( strstr( fullpath , "-cmp.js" ) == NULL ) {
-      printf( "%s\n" , fullpath );
       ExternalResource::UnsafeSet( fullpath );
       CompileInfo* info = ExternalResource::UnsafeGet( fullpath )->GetCompileInfo();
       info->SetDebug();
       info->SetPrettyPrint();
       facade.AddCompileList( fullpath , true );
-      //break;
+      i++;
     }
   }
   facade.Compile();

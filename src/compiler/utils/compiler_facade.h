@@ -3,6 +3,7 @@
 #include <vector>
 #include <useconfig.h>
 #include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/thread/thread.h>
 namespace mocha {
 class CompileResult;
 class Thread;
@@ -11,9 +12,20 @@ class FinishDelegator {
  public :
   virtual void Delegate( Handle<CompileResult> result ){};
 };
+
+struct ThreadArgs {
+ public :
+  ThreadArgs( Thread* th, const char* name , FinishDelegator *delegator ) :
+      exit( false ) , filename( name ) , callback( delegator ) , thread( th  ) {}
+  ~ThreadArgs() { delete thread; }
+  bool exit;
+  const char* filename;
+  FinishDelegator* callback;
+  Thread *thread;
+};
+
 class CompilerFacade{
  public :
-  typedef std::pair<const char*,FinishDelegator*> ThreadArgs;
   typedef std::pair<const char* , bool> EachArgs;
   typedef std::vector<EachArgs> FileList;
   CompilerFacade(){};
@@ -24,7 +36,7 @@ class CompilerFacade{
   void AddCompileList( const char* path , bool is_join );
   void Compile();
  private :
-  static void Compile_( Thread *thread , ThreadArgs* args , bool is_join );
+  static void Compile_( ThreadArgs* args , bool is_join );
   static void* InternalThreadRunner( void *arg );
   static FinishDelegator noop_;
   FileList file_list_;

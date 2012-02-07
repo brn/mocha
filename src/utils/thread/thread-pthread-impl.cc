@@ -41,7 +41,7 @@ void Thread::Cancel () {
 }
 
 bool Thread::Join () {
-  return 0 == pthread_join ( IMPL->thread_t_ , NULL );
+  return 0 == ::pthread_join( IMPL->thread_t_ , NULL );
 }
 
 bool Thread::IsJoinable () {

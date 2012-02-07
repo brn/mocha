@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/switch_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/switch_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./switch_test.js'] = {};
@@ -487,7 +487,7 @@
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./switch_test.js'];
       
-      __LINE__ = 1;
+      __LINE__ = 0;
       switch ( type ) {
         case "only" :
         case "first" :
@@ -507,7 +507,7 @@
             return true;
           };
           
-          __LINE__ = 14;
+          __LINE__ = 0;
           node = elem;
         case "last" :
           
@@ -523,10 +523,10 @@
           return true;
         case "nth" :
           
-          __LINE__ = 26;
+          __LINE__ = 0;
           first = match[2];
           
-          __LINE__ = 27;
+          __LINE__ = 0;
           last = match[3];
           
           __LINE__ = 29;
@@ -535,31 +535,31 @@
             return true;
           };
           
-          __LINE__ = 33;
+          __LINE__ = 0;
           doneName = match[0];
           
-          __LINE__ = 34;
+          __LINE__ = 0;
           parent = elem.parentNode;
           
           __LINE__ = 36;
           if ( parent && ( parent[expando] !== doneName || !elem.nodeIndex ) ){
-            __LINE__ = 37;
+            __LINE__ = 0;
             count = 0;
             
             __LINE__ = 39;
             for ( node = parent.firstChild;node;node = node.nextSibling ){
               __LINE__ = 40;
               if ( node.nodeType === 1 ){
-                __LINE__ = 41;
+                __LINE__ = 0;
                 node.nodeIndex =  ++ count;
               };
             };
             
-            __LINE__ = 45;
+            __LINE__ = 0;
             parent[expando] = doneName;
           };
           
-          __LINE__ = 48;
+          __LINE__ = 0;
           diff = elem.nodeIndex-last;
           
           __LINE__ = 50;
@@ -574,7 +574,7 @@
           break;
         default :
           
-          __LINE__ = 58;
+          __LINE__ = 0;
           console.log( 1 );
           
       };

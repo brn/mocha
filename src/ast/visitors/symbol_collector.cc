@@ -80,7 +80,9 @@ VISITOR_IMPL( Statement ) {}
 VISITOR_IMPL( VersionStmt ) {
   ast_node->FirstChild()->Accept( this );
 }
-VISITOR_IMPL( AssertStmt ) {}
+VISITOR_IMPL( AssertStmt ) {
+  ast_node->FirstChild()->Accept( this );
+}
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
@@ -383,7 +385,7 @@ void SymbolCollector::ObjectProccessor_( ValueNode* ast_node ) {
 VISITOR_IMPL( ValueNode ) {
   printf( "%d\n" ,ast_node->ValueType() );
   if ( ast_node->Symbol() ) {
-    printf( "%s\n", ast_node->Symbol()->GetToken() );
+    printf( "symbol is %s\n", ast_node->Symbol()->GetToken() );
   }
   switch ( ast_node->ValueType() ) {
     case ValueNode::kArray :

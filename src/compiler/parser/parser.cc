@@ -169,7 +169,7 @@ FileRoot* Parser::Parse() {
 //Report illegal end of input.
 void Parser::IllegalEnd_( const char* expect , long line ) {
   SYNTAX_ERROR( "parse error got unexpected end of input expect "
-                << expect << "\nin file " << filename_ << " at line " << line );
+                << expect << "\\nin file " << filename_ << " at line " << line );
 }
 
 //Begining of parse.
@@ -417,7 +417,8 @@ AstNode* Parser::ParseStatement_() {
     default :
       result = CheckLabellOrExpressionStatement_();
   }
-  result->Line( info->GetLineNumber() );
+  CHECK_ERROR(result);
+  //result->Line( info->GetLineNumber() );
   END(Statement);
   return result;
 }
@@ -629,7 +630,7 @@ AstNode* Parser::ParseVersionStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'version statement' expect 'identifier' \nin file "
+                    << " in 'version statement' expect 'identifier' \\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(VersionStatementError);
       return ManagedHandle::Retain<Empty>();
@@ -637,7 +638,7 @@ AstNode* Parser::ParseVersionStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'version statement' expect ')' \nin file "
+                  << " in 'version statement' expect ')' \\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(VersionStatementError);
     return ManagedHandle::Retain<Empty>();
@@ -646,6 +647,7 @@ AstNode* Parser::ParseVersionStatement_() {
 
 
 AstNode* Parser::ParseAssertStatement_() {
+  ENTER(AssertStatement);
   TokenInfo *token = Seek_();
   int type = token->GetType();
   long line = token->GetLineNumber();
@@ -675,7 +677,7 @@ AstNode* Parser::ParseAssertStatement_() {
         } else {
           SYNTAX_ERROR( "parse error got unexpected token "
                         << TokenConverter( token )
-                        << " 'in assert statement' expect ';' or 'line break'\nin file "
+                        << " 'in assert statement' expect ';' or 'line break'\\nin file "
                         << filename_ << " at line " << token->GetLineNumber() );
           END(AssertStatement);
           return exp;
@@ -683,7 +685,7 @@ AstNode* Parser::ParseAssertStatement_() {
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " 'in assert statement' expect ')'\nin file "
+                      << " 'in assert statement' expect ')'\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(AssertStatement);
         return literal;
@@ -691,7 +693,7 @@ AstNode* Parser::ParseAssertStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " 'in assert statement', second arguments must be a 'expression'\nin file "
+                  << " 'in assert statement', second arguments must be a 'expression'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
       END(AssertStatement);
       return literal;
@@ -699,7 +701,7 @@ AstNode* Parser::ParseAssertStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " 'in assert statement' expect '('\nin file "
+                  << " 'in assert statement' expect '('\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(AssertStatement);
     return ManagedHandle::Retain<Empty>();
@@ -776,7 +778,7 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( next )
-                    << " in 'variable statement' expect 'variable name' or 'destructuring assignment'\nin file "
+                    << " in 'variable statement' expect 'variable name' or 'destructuring assignment'\\nin file "
                     << filename_ << " at line " << next->GetLineNumber() );
       END(VariableDeclError);
       return ManagedHandle::Retain<Empty>();
@@ -908,7 +910,7 @@ AstNode* Parser::ParseArrayPattern_() {
         } else {
           SYNTAX_ERROR( "parse error got undexpected token "
                         << TokenConverter( token )
-                        << ". In 'destructuring assignment parameter rest expect 'identifier'\nin file "
+                        << ". In 'destructuring assignment parameter rest expect 'identifier'\\nin file "
                         << filename_ << " at line "
                         << token->GetLineNumber() );
           break;
@@ -919,7 +921,7 @@ AstNode* Parser::ParseArrayPattern_() {
         SYNTAX_ERROR( "parse error got undexpected token "
                       << TokenConverter( token )
                       << ". In 'destructuring assignment array pattern' "
-                      "element is only allowed 'identifier' or 'parameter rest'.\nin file '"
+                      "element is only allowed 'identifier' or 'parameter rest'.\\nin file '"
                       << filename_ << " at line "
                       << token->GetLineNumber() );
         break;
@@ -985,7 +987,7 @@ AstNode* Parser::ParseObjectPattern_() {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
                     << ". In 'destructuring assignment object pattern'"
-                    " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\nin file "
+                    " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
     }
     token = Seek_();
@@ -1010,7 +1012,7 @@ AstNode* Parser::ParseObjectPatternElement_( int type , TokenInfo* token , AstNo
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
                   << ". In 'destructuring assignment object pattern'"
-                  " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\nin file "
+                  " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ObjectPatternElementError);
     return ManagedHandle::Retain<Empty>();
@@ -1024,9 +1026,11 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
   int type = token->GetType();
   Undo_();
   if ( type == ':' ) {
-    END(LabellOrExpressionStatement);
     AstNode* stmt = ParseLabelledStatement_();
+    CHECK_ERROR(stmt);
     stmt->Line( token->GetLineNumber() );
+    END(LabellOrExpressionStatement);
+    return stmt;
   } else {
     AstNode* ret = ParseExpression_( false );
     CHECK_ERROR( ret );
@@ -1044,7 +1048,7 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'expression statement' expect ';' or 'line break'\nin file "
+                    << " in 'expression statement' expect ';' or 'line break'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(LabellOrExpressionStatementError);
       return ret;
@@ -1095,7 +1099,7 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'if statement conditional expression end' expect ')' \nin file "
+                    << " in 'if statement conditional expression end' expect ')' \\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(IFStatementError);
       return if_stmt;
@@ -1103,7 +1107,7 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'if statement conditional expression' expect '(' \nin file "
+                  << " in 'if statement conditional expression' expect '(' \\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(IFStatementError);
     return if_stmt;
@@ -1138,7 +1142,7 @@ AstNode* Parser::ParseDoWhileStatement_() {
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " in 'while statement conditional expression' expect ')' \nin file "
+                      << " in 'while statement conditional expression' expect ')' \\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(DoWhileStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
@@ -1146,7 +1150,7 @@ AstNode* Parser::ParseDoWhileStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'do while statement conditional expression' expect '(' \nin file "
+                    << " in 'do while statement conditional expression' expect '(' \\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(DoWhileStatementError);
       return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
@@ -1154,7 +1158,7 @@ AstNode* Parser::ParseDoWhileStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'do while statement conditional expression' expect 'while' \nin file "
+                  << " in 'do while statement conditional expression' expect 'while' \\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(DoWhileStatementError);
     return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
@@ -1183,7 +1187,7 @@ AstNode* Parser::ParseWhileStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'while statement conditional expression' expect ')' \nin file "
+                    << " in 'while statement conditional expression' expect ')' \\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(WhileStatementError);
       return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
@@ -1191,7 +1195,7 @@ AstNode* Parser::ParseWhileStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'while statement conditional expression' expect '(' \nin file "
+                  << " in 'while statement conditional expression' expect '(' \\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(WhileStatementError);
     return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
@@ -1219,7 +1223,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
       is_var_decl = true;
       if ( is_comprehensions ) {
         SYNTAX_ERROR( "parse error in 'array comprehensions for expression' could not has variable declaration"
-                      "\nin file "
+                      "\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1242,7 +1246,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     if ( type == ';' && is_each == false ) {
       if ( is_comprehensions ) {
         SYNTAX_ERROR( "parse error in 'array comprehensions' allowed 'for in statement' or 'for of statement'"
-                      "\nin file "
+                      "\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1255,7 +1259,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     } else if ( type == Token::JS_IN ) {
       if ( var_decl_len > 1 ) {
         SYNTAX_ERROR( "parse error 'for in statement' could has only one variable declaration."
-                      "\nin file "
+                      "\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1278,7 +1282,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     } else if ( type == Token::JS_IDENTIFIER && strcmp( TokenConverter( token ) , "of" ) == 0 ) {
       if ( var_decl_len > 1 ) {
         SYNTAX_ERROR( "parse error 'for of statement' could has only one variable declaration."
-                      "\nin file "
+                      "\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1293,7 +1297,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
         iter_stmt->Line( line );
       } else {
         SYNTAX_ERROR( "parse error 'for of statement' can not has 'each'."
-                      "\nin file "
+                      "\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ForStatementError);
         return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1303,7 +1307,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'for statement conditional expression' expect 'in' , 'of' or ';' \nin file "
+                    << " in 'for statement conditional expression' expect 'in' , 'of' or ';' \\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(ForStatementError);
       return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1311,7 +1315,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'for statement conditional expression' expect '(' \nin file "
+                  << " in 'for statement conditional expression' expect '(' \\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ForStatementError);
     return ManagedHandle::Retain( new IterationStmt( IterationStmt::kFor ) );
@@ -1353,7 +1357,7 @@ void Parser::ParseForStatementCondition_( NodeList* list ) {
     if ( type != ')' ) {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'for statement condition end' expect ')' \nin file "
+                    << " in 'for statement condition end' expect ')' \\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
     }
   }
@@ -1371,7 +1375,7 @@ void Parser::ParseForInStatementCondition_( NodeList* list ) {
   if ( type != ')' ) {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'for in statement condition end' expect ')' \nin file "
+                  << " in 'for in statement condition end' expect ')' \\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(ForInStatementCondition);
@@ -1400,7 +1404,7 @@ AstNode* Parser::ParseContinueStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token '"
                   << TokenConverter( token )
-                  << "' in 'continue statement' expect ';' or 'line break'\nin file "
+                  << "' in 'continue statement' expect ';' or 'line break'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(ContinueStatement);
@@ -1429,7 +1433,7 @@ AstNode* Parser::ParseBreakStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token '"
                   << TokenConverter( token )
-                  << "' in 'break statement' expect ';' or 'line break'\nin file "
+                  << "' in 'break statement' expect ';' or 'line break'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(BreakStatement);
@@ -1457,7 +1461,7 @@ AstNode* Parser::ParseReturnStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token '"
                     << TokenConverter( maybe_semicolon )
-                    << "' in 'continue statement' expect ';' or 'line break'\nin file "
+                    << "' in 'continue statement' expect ';' or 'line break'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
     }
   }
@@ -1484,13 +1488,13 @@ AstNode* Parser::ParseWithStatement_() {
       stmt->AddChild( statement );
     } else {
       SYNTAX_ERROR( "parse error unmatched paren"
-                    " in 'with statement expression'\nin file"
+                    " in 'with statement expression'\\nin file"
                     << filename_ << " at line " << token->GetLineNumber() );
     }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'with statement expression' expect '('\nin file"
+                  << " in 'with statement expression' expect '('\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(WithStatement);
@@ -1516,13 +1520,13 @@ AstNode* Parser::ParseSwitchStatement_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'switch statement expression' expect ')'\nin file"
+                    << " in 'switch statement expression' expect ')'\\nin file"
                     << filename_ << " at line " << token->GetLineNumber() );
     }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'switch statement expression' expect '('\nin file"
+                  << " in 'switch statement expression' expect '('\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(SwitchStatement);
@@ -1561,14 +1565,14 @@ AstNode* Parser::ParseCaseClauses_() {
         } else {
           SYNTAX_ERROR( "parse error got unexpected token "
                         << TokenConverter( token )
-                        << " in 'switch statement case expression' expect ':'\nin file"
+                        << " in 'switch statement case expression' expect ':'\\nin file"
                         << filename_ << " at line " << token->GetLineNumber() );
           break;
         }
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " in 'switch statement case block' expect 'case'\nin file"
+                      << " in 'switch statement case block' expect 'case'\\nin file"
                       << filename_ << " at line " << token->GetLineNumber() );
         break;
       }
@@ -1578,7 +1582,7 @@ AstNode* Parser::ParseCaseClauses_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'switch statement case block' expect '{'\nin file"
+                  << " in 'switch statement case block' expect '{'\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   Advance_();
@@ -1614,7 +1618,7 @@ AstNode* Parser::ParseThrowStatement_() {
   if ( type != ';' && type != '}' && !token->HasLineBreakBefore() && !IsEnd( type ) ) {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'throw statement' expect ';' or 'line break'\nin file"
+                  << " in 'throw statement' expect ';' or 'line break'\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   if ( type == ';' ) {
@@ -1657,7 +1661,7 @@ AstNode* Parser::ParseTryStatement_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'try statement' expect '{'\nin file"
+                  << " in 'try statement' expect '{'\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(TryStatement);
@@ -1679,7 +1683,7 @@ AstNode* Parser::ParseCatchBlock_() {
       if ( type != '{' ) {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " in 'catch block' expect '{'\nin file"
+                      << " in 'catch block' expect '{'\\nin file"
                       << filename_ << " at line " << token->GetLineNumber() );
       } else {
         Advance_();
@@ -1692,13 +1696,13 @@ AstNode* Parser::ParseCatchBlock_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'catch block' expect ')'\nin file"
+                    << " in 'catch block' expect ')'\\nin file"
                     << filename_ << " at line " << token->GetLineNumber() );
     }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'catch block' expect '('\nin file"
+                  << " in 'catch block' expect '('\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
   }
   END(CatchBlockError);
@@ -1717,7 +1721,7 @@ AstNode* Parser::ParseFinallyBlock_() {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'finally block' expect '{'\nin file"
+                  << " in 'finally block' expect '{'\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
     END(FinallyBlockError);
     return ManagedHandle::Retain<Empty>();
@@ -1757,7 +1761,7 @@ AstNode* Parser::ParseClassDecl_( bool is_const ) {
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'class declaration' expect '{'\nin file "
+                  << " in 'class declaration' expect '{'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ClassDecl);
     return cls;
@@ -1899,7 +1903,7 @@ AstNode* Parser::ParseExportableDefinition_() {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'exportable definition' expect 'identifier','const','get' or 'set'\nin file "
+                    << " in 'exportable definition' expect 'identifier','const','get' or 'set'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(ExportableDefinitionError);
       return ManagedHandle::Retain<Empty>();
@@ -1974,7 +1978,7 @@ AstNode* Parser::ParseAssignmentExpression_( bool is_noin ) {
       assign_exp->Line( exp->Line() );
       return assign_exp;
     } else {
-      SYNTAX_ERROR( "parse error invalid left hand side expression in 'assignment expression'\nin file "
+      SYNTAX_ERROR( "parse error invalid left hand side expression in 'assignment expression'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(AssignmentExpressionError);
       return ManagedHandle::Retain<Empty>();
@@ -2033,7 +2037,7 @@ AstNode* Parser::ParseConditional_( bool is_noin ) {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'conditional expression' expect ':'\nin file "
+                    << " in 'conditional expression' expect ':'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(ConditionalError);
       return ManagedHandle::Retain<Empty>();
@@ -2228,7 +2232,7 @@ AstNode* Parser::ParseCallExpression_() {
     if ( type != ')' ) {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'call expression' expect ')'\nin file "
+                    << " in 'call expression' expect ')'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
     }
     token = Seek_();
@@ -2301,7 +2305,7 @@ AstNode* Parser::ParseArguments_() {
         } else {
           SYNTAX_ERROR( "parse error got unexpected token "
                         << TokenConverter( token )
-                        << " in 'formal parameter rest or arguments spread' expect 'identifier'\nin file "
+                        << " in 'formal parameter rest or arguments spread' expect 'identifier'\\nin file "
                         << filename_ << " at line " << token->GetLineNumber() );
           END( FormalParameterErrror );
           return list;
@@ -2364,13 +2368,16 @@ AstNode* Parser::ParseMemberExpression_() {
       if ( type != '.' || type != '[' ) {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " in 'member expression' expect '.' or '['\nin file "
+                      << " in 'member expression' expect '.' or '['\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END(MemberExpressionError);
         return exp;
       }
       AstNode *primary = ParsePrimaryExpression_();
       CHECK_ERROR( primary );
+      if ( primary->CastToValue() && primary->CastToValue()->ValueType() == ValueNode::kIdentifier ) {
+        primary->CastToValue()->ValueType( ValueNode::kProperty );
+      }
       exp->Callable( private_literal );
       exp->Args( primary );
       exp->Depth( depth );
@@ -2428,7 +2435,7 @@ AstNode* Parser::ParseBracketMember_() {
   if ( type != ']' ) {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'member expression' expect ']'\nin file "
+                  << " in 'member expression' expect ']'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(BracketMemberError);
     return node;
@@ -2457,10 +2464,12 @@ AstNode* Parser::ParseDotMember_( bool *is_extend ) {
     if ( !maybeIdent || maybeIdent->ValueType() != ValueNode::kIdentifier ) {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'member expression' expect 'identifier'\nin file "
+                    << " in 'member expression' expect 'identifier'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(DotMemberError);
       return node;
+    } else if ( maybeIdent->ValueType() == ValueNode::kIdentifier ) {
+      maybeIdent->ValueType( ValueNode::kProperty );
     }
     END(DotMember);
     return node;
@@ -2531,7 +2540,7 @@ AstNode* Parser::ParsePrimaryExpression_() {
       Expression *expression = exp->CastToExpression();
       expression->Paren();
     } else {
-      SYNTAX_ERROR( "parse error unmatched parensis\nin file "
+      SYNTAX_ERROR( "parse error unmatched parensis\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       return exp;
     }
@@ -2602,7 +2611,7 @@ AstNode* Parser::ParseObjectLiteral_() {
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << ". In 'object literal'\n"
+                      << ". In 'object literal'\\n"
                       << filename_ << " at line " << token->GetLineNumber() );
         END(ObjectLiteralError);
         return object;
@@ -2641,7 +2650,7 @@ AstNode* Parser::ParseObjectElement_( int type , TokenInfo* token , AstNode* lis
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
                   << ". In 'object literal'"
-                  " member only allowed 'string literal','number' or 'identifier'\nin file "
+                  " member only allowed 'string literal','number' or 'identifier'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ObjectElementError);
     return ManagedHandle::Retain<Empty>();
@@ -2682,7 +2691,7 @@ AstNode* Parser::ParseArrayLiteral_() {
           if ( count > 0 ) {
             SYNTAX_ERROR( "parse error got unexpected token "
                           << TokenConverter( token )
-                          << " in 'array comprehensions expect' 'assignment expression'\nin file "
+                          << " in 'array comprehensions expect' 'assignment expression'\\nin file "
                           << filename_ << " at line " << token->GetLineNumber() );
             END(ArrayLiteralError);
             return val;
@@ -2695,7 +2704,7 @@ AstNode* Parser::ParseArrayLiteral_() {
           if ( type != ']' ) {
             SYNTAX_ERROR( "parse error got unexpected token "
                           << TokenConverter( token )
-                          << " in 'array comprehensions expect' ']'\nin file "
+                          << " in 'array comprehensions expect' ']'\\nin file "
                           << filename_ << " at line " << token->GetLineNumber() );
             END(ArrayLiteralError);
             return val;
@@ -2763,7 +2772,7 @@ AstNode* Parser::ParseLiteral_() {
     default : {
       SYNTAX_ERROR( "parse error got unexpected token '"
                     << TokenConverter( token )
-                    << "' expect " << literals << "\nin file "
+                    << "' expect " << literals << "\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(LiteralError);
       return ManagedHandle::Retain<Empty>();
@@ -2849,7 +2858,7 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                     << TokenConverter( token )
-                    << " in 'function declaration' expect '{'\nin file "
+                    << " in 'function declaration' expect '{'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
       END(FunctionDeclError);
       return fn;
@@ -2904,7 +2913,7 @@ AstNode* Parser::ParseFormalParameter_() {
       if ( type != ')' && type != ',' ) {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " in 'formal parameter' expect ')' or ','\nin file "
+                      << " in 'formal parameter' expect ')' or ','\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END( FormalParameterError );
         return list;
@@ -2929,7 +2938,7 @@ AstNode* Parser::ParseFormalParameter_() {
         if ( type != ')' && type != ',' ) {
           SYNTAX_ERROR( "parse error got unexpected token "
                         << TokenConverter( token )
-                        << " in 'formal parameter rest' can not continue after any 'formal parameter'\nin file "
+                        << " in 'formal parameter rest' can not continue after any 'formal parameter'\\nin file "
                         << filename_ << " at line " << token->GetLineNumber() );
           END( FormalParameterError );
           return list;
@@ -2941,7 +2950,7 @@ AstNode* Parser::ParseFormalParameter_() {
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
-                      << " in 'formal parameter rest' expect 'identifier'\nin file "
+                      << " in 'formal parameter rest' expect 'identifier'\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END( FormalParameterErrror );
         return list;
@@ -2951,7 +2960,7 @@ AstNode* Parser::ParseFormalParameter_() {
   if ( IsEnd( type ) ) {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
-                  << " in 'formal parameter' expect ')'\nin file "
+                  << " in 'formal parameter' expect ')'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END( FormalParameter );
     return list;
@@ -2983,7 +2992,7 @@ AstNode* Parser::ParseArrowFunctionExpression_( AstNode* member , AstNode* args 
   ValueNode* maybeIdent = member->CastToValue();
   if ( !maybeIdent || maybeIdent->ValueType() != ValueNode::kIdentifier ) {
     SYNTAX_ERROR( "parse error illegal function name "
-                  "in 'arrow function expression' expect 'identifier'\nin file"
+                  "in 'arrow function expression' expect 'identifier'\\nin file"
                   << filename_ << " at line " << member->Line() );
     END( ArrowFunctionExpression );
     return fn;

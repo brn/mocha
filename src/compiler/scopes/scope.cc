@@ -138,15 +138,19 @@ void InnerScope::Ref ( TokenInfo* info ) {
   }
 }
 
-SymbolEntry& InnerScope::Find ( TokenInfo* info ) {
-  const char* ident = info->GetToken();
-  SymbolTable::HashEntry entry = table_.Find( ident );
-  if ( !entry.IsEmpty() ) {
-    return entry.Value();
-  } else {
-    if ( up_ ) {
-      return up_->Find( info );
+SymbolEntry InnerScope::Find ( TokenInfo* info ) {
+  if ( table_.Size() > 0 ) {
+    const char* ident = info->GetToken();
+    SymbolTable::HashEntry entry = table_.Find( ident );
+    if ( !entry.IsEmpty() ) {
+      return entry.Value();
+    } else {
+      if ( up_ ) {
+        return up_->Find( info );
+      }
+      return GetEmpty();
     }
+  } else {
     return GetEmpty();
   }
 }

@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/while_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/while_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./while_test.js'] = {};

@@ -167,12 +167,15 @@ VISITOR_IMPL( VersionStmt ) {
 }
 
 VISITOR_IMPL( AssertStmt ) {
+  PRINT_NODE_NAME;
   const char* filename = current_root_->FileName();
   Resources *resource = ExternalResource::SafeGet( filename_ );
   if ( resource->GetCompileInfo()->HasVersion( Consts::kVersionDebug ) ) {
-    NodeIterator iterator = ast_node->ChildNodes();
-    while ( iterator.HasNext() ) {
-      iterator.Next()->Accept( this );
+    AstNode* first = ast_node->FirstChild();
+    AstNode* second = first->NextSibling();
+    first->Accept( this );
+    if ( second ) {
+      second->Accept( this );
     }
   }
 }
@@ -493,6 +496,7 @@ void CodegenVisitor::JumpStmt_( AstNode* ast_node , int type ) {
   writer_->WriteOp( type , 0 , stream_.Get() );
   AstNode* identifer = ast_node->FirstChild();
   if ( !identifer->IsEmpty() ) {
+    writer_->Write( " " , stream_.Get() );
     ValueNode* value = identifer->CastToValue();
     writer_->Write( value->Symbol()->GetToken() , stream_.Get() );
   }
@@ -987,8 +991,9 @@ VISITOR_IMPL( ValueNode ) {
         stream_->Write( tmp.c_str() );
       } else {
         if ( scope_ ) {
-          TokenInfo* info = scope_->Find( ast_node->Symbol() ).first;
-          if ( info != 0 ) {
+          SymbolEntry entry = scope_->Find( ast_node->Symbol() );
+          if ( entry.first != 0 ) {
+            TokenInfo *info = entry.first;
             stream_->Write( info->GetAnotherName() );
           } else {
             stream_->Write( symbol );

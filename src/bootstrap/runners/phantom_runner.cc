@@ -33,13 +33,25 @@ int DoRun( const char* command ) {
   arg += command;
   arg += "";
 
-  printf("%s\n" , arg.c_str());
-  /* Invoke processs */
-  if((pid=fork())<0){
-    perror("popen2");
-    return(-1);
+  
+  FILE *fp;
+  if ( ( fp = popen( arg.c_str() , "r" ) ) == NULL ) {
+    fprintf( stderr , "error!!!\n" );
+    exit( -1 );
   }
-  if(pid==0){/* I'm child */
+  char ch;
+  std::string buf;
+  while ( ( ch = fgetc( fp ) ) != EOF && ch ) {
+    buf += ch;
+  }
+  fprintf( stderr , "%s" , buf.c_str() );
+  pclose( fp );
+  /*
+  if ( ( pid = fork() ) < 0 ) {
+    perror( "popen2" );
+    return -1;
+  }
+  if ( pid == 0 ) {
     if ( execlp( "sh" , "sh" , "-c", arg.c_str(), static_cast<char*>( NULL ) ) < 0 ) {
       perror("popen2");
     }
@@ -47,7 +59,7 @@ int DoRun( const char* command ) {
     int status;
     ::wait( &status );
   }
-  return(pid); 
+  return(pid);*/
 }
 #endif
 void PhantomRunner::Run( const char* command ) {

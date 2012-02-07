@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/with_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/with_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./with_test.js'] = {};
@@ -496,7 +496,7 @@
       
       __LINE__ = 2;
       with ( m ){
-        __LINE__ = 3;
+        __LINE__ = 0;
         console.log( v );
       };
       
@@ -509,10 +509,10 @@
         with (  {
           i : i
         }){
-          __LINE__ = 9;
+          __LINE__ = 0;
           x.push( function () {
             try {
-              __LINE__ = 9;
+              __LINE__ = 0;
               console.log( i );
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

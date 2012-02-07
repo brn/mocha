@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/try_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/try_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./try_test.js'] = {};
@@ -494,7 +494,7 @@
         __LINE__ = 4;
         throw new Error( e );
       } finally {
-        __LINE__ = 6;
+        __LINE__ = 0;
         console.log( "end" );
       };
     } catch( e ){

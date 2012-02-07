@@ -14,15 +14,13 @@
 namespace mocha {
 
 void CompilerFacade::Compile( const char* path , bool is_join ) {
-  Thread thread;
-  ThreadArgs *args = new ThreadArgs( path , &noop_ );
-  Compile_( &thread , args  , is_join );
+  ThreadArgs *args = new ThreadArgs( new Thread , path , &noop_ );
+  Compile_( args  , is_join );
 }
 
 void CompilerFacade::Compile( const char* path , bool is_join , FinishDelegator* callback ) {
-  Thread thread;
-  ThreadArgs *args = new ThreadArgs( path , callback );
-  Compile_( &thread , args , is_join );
+  ThreadArgs *args = new ThreadArgs( new Thread , path , callback );
+  Compile_( args , is_join );
 }
 
 
@@ -34,14 +32,14 @@ Handle<ExternalAst> CompilerFacade::GetAst( const char* path , bool is_runtime )
 }
 
 
-void CompilerFacade::Compile_( Thread *thread , ThreadArgs *args , bool is_join ) {
-  if ( !thread->Create ( InternalThreadRunner , args ) ) {
+void CompilerFacade::Compile_( ThreadArgs *args , bool is_join ) {
+  if ( !args->thread->Create ( InternalThreadRunner , args ) ) {
     Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
   } else {
     if ( is_join ) {
-      thread->Join();
+      args->thread->Join();
     } else {
-      thread->Detach();
+      args->thread->Detach();
     }
   }
 }
@@ -118,8 +116,8 @@ void CompilerFacade::AddCompileList( const char* filename , bool is_join ) {
 }
 
 void* CompilerFacade::InternalThreadRunner( void* args ) {
-  ThreadArgs *compile_args = reinterpret_cast<ThreadArgs*>( args );
-  Compiler* compiler = Compiler::CreateInstance( compile_args->first , compile_args->second );
+  ThreadArgs *compile_args = static_cast<ThreadArgs*>( args );
+  Compiler* compiler = Compiler::CreateInstance( compile_args->filename , compile_args->callback );
   compiler->Compile();
   delete compile_args;
   return 0;

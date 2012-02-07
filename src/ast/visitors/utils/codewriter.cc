@@ -542,8 +542,9 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
     }
     if ( is_pretty_print_ ) {
       TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
-      TokenInfo* info = scope->Find( runtime ).first;
-      if ( info ) {
+      SymbolEntry entry = scope->Find( runtime );
+      if ( entry.first != 0 ) {
+        TokenInfo* info = entry.first;
         stream->Write( info->GetAnotherName() );
       } else {
         stream->Write( "Runtime" );
@@ -554,8 +555,9 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
     } else {
       stream->Write( "}catch(e){" );
       TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
-      TokenInfo* info = scope->Find( runtime ).first;
-      if ( info ) {
+      SymbolEntry entry = scope->Find( runtime );
+      if ( entry.first != 0 ) {
+        TokenInfo* info = entry.first;
         stream->Write( info->GetAnotherName() );
       } else {
         stream->Write( "Runtime" );

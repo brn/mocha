@@ -482,12 +482,12 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/mocha_directives/mocha_runtime.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-3076-mocha_runtime.js}'] = {};
+      _mochaGlobalExport['./mocha_runtime.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['{1-397-1092-205522212-1695-1885-60819429-120588402-3076-mocha_runtime.js}'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./mocha_runtime.js'];
       
-      __LINE__ = 0;
+      __LINE__ = 2;
       var _mochaGlobalExport = {},
           _mochaClassTable = {};
       
@@ -497,12 +497,12 @@
               __LINE__ = 5;
               var _mochaLocalExport = {};
               
-              __LINE__ = 0;
+              __LINE__ = 7;
               if ( !String.prototype.trim ){
                 __LINE__ = 0;
                 String.prototype.trim = function () {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 8;
                     return this.replace( String.prototype.trim.rtrim,"" );
                   } catch( e ){
                     Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -513,20 +513,20 @@
                 String.prototype.trim.rtrim = /^\s*|\s*$/g;
               };
               
-              __LINE__ = 0;
+              __LINE__ = 12;
               if ( !Function.prototype.bind ){
                 __LINE__ = 0;
                 Function.prototype.bind = function () {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 14;
                     var argArray = Array.prototype.slice.call( arguments ),
                         context = argArray.shift(),
                         ret = function () {
                           try {
-                            __LINE__ = 0;
+                            __LINE__ = 17;
                             var args = argArray.concat( Array.prototype.slice.call( arguments ) );
                             
-                            __LINE__ = 0;
+                            __LINE__ = 18;
                             if ( this instanceof ret ){
                               __LINE__ = 19;
                               return ret.context.apply( this,args );
@@ -552,16 +552,16 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 30;
               if ( !Array.prototype.forEach ){
                 __LINE__ = 0;
                 Array.prototype.forEach = function ( fn,that ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 32;
                     var iter = -1,
                         ta;
                     
-                    __LINE__ = 0;
+                    __LINE__ = 34;
                     if ( that ){
                       __LINE__ = 35;
                       while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
@@ -581,20 +581,20 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 46;
               if ( !Array.prototype.every ){
                 __LINE__ = 0;
                 Array.prototype.every = function ( fn,that ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 48;
                     var iter = -1,
                         ta;
                     
-                    __LINE__ = 0;
+                    __LINE__ = 50;
                     if ( that ){
                       __LINE__ = 51;
                       while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-                        __LINE__ = 0;
+                        __LINE__ = 52;
                         if ( !( fn.call( that,ta,iter,this ) ) ){
                           __LINE__ = 53;
                           return false;
@@ -617,20 +617,20 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 67;
               if ( !Array.prototype.some ){
                 __LINE__ = 0;
                 Array.prototype.some = function ( fn,that ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 69;
                     var iter = -1,
                         ta;
                     
-                    __LINE__ = 0;
+                    __LINE__ = 71;
                     if ( that ){
                       __LINE__ = 72;
                       while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-                        __LINE__ = 0;
+                        __LINE__ = 73;
                         if ( fn.call( that,ta,iter,this ) ){
                           __LINE__ = 74;
                           return true;
@@ -653,23 +653,23 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 88;
               if ( !Array.prototype.filter ){
                 __LINE__ = 0;
                 Array.prototype.filter = function ( fn,that ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 90;
                     var iter = -1,
                         ret = [],
                         ta;
                     
-                    __LINE__ = 0;
+                    __LINE__ = 93;
                     if ( that ){
                       __LINE__ = 94;
                       for ( var i = 0,len = this.length;i<len; ++ i ){
-                        __LINE__ = 0;
+                        __LINE__ = 95;
                         if ( ( ta = this[i] ) !== null && ta !== undefined ){
-                          __LINE__ = 0;
+                          __LINE__ = 96;
                           if ( fn.call( that,ta,i,this ) ){
                             __LINE__ = 0;
                             ret[ ++ iter] = ta;
@@ -695,19 +695,19 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 114;
               if ( !Array.prototype.indexOf ){
                 __LINE__ = 0;
                 Array.prototype.indexOf = function ( subject ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 116;
                     var iter = -1,
                         index = -1,
                         ta;
                     
                     __LINE__ = 119;
                     while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-                      __LINE__ = 0;
+                      __LINE__ = 120;
                       if ( ta === subject ){
                         __LINE__ = 0;
                         index = iter;
@@ -723,19 +723,19 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 129;
               if ( !Array.prototype.lastIndexOf ){
                 __LINE__ = 0;
                 Array.prototype.lastIndexOf = function ( subject ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 131;
                     var iter = this.length,
                         index = -1,
                         ta;
                     
                     __LINE__ = 134;
                     while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-                      __LINE__ = 0;
+                      __LINE__ = 135;
                       if ( ta === subject ){
                         __LINE__ = 0;
                         index = iter;
@@ -751,21 +751,21 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 144;
               if ( !Array.prototype.map ){
                 __LINE__ = 0;
                 Array.prototype.map = function ( fn,that ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 146;
                     var ret = [],
                         iter = -1,
                         ta;
                     
-                    __LINE__ = 0;
+                    __LINE__ = 149;
                     if ( that ){
                       __LINE__ = 150;
                       for ( var i = 0,len = this.length;i<len; ++ i ){
-                        __LINE__ = 0;
+                        __LINE__ = 151;
                         if ( ( ta = this[i] ) !== null && ta !== undefined ){
                           __LINE__ = 0;
                           ret[ ++ iter] = fn.call( that,ta,i,this );
@@ -788,12 +788,12 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 166;
               if ( !Array.prototype.reduce ){
                 __LINE__ = 0;
                 Array.prototype.reduce = function ( fn,initial ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 168;
                     var ret = initial || this[0],
                         i = ( ( initial ) )?0 : 1,
                         ta,
@@ -801,7 +801,7 @@
                     
                     __LINE__ = 172;
                     for ( i , len = this.length;i<len; ++ i ){
-                      __LINE__ = 0;
+                      __LINE__ = 173;
                       if ( ( ta = this[i] ) !== null && ta !== undefined ){
                         __LINE__ = 0;
                         ret = fn( ret,ta,i,this );
@@ -815,19 +815,19 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 181;
               if ( !Array.prototype.reduceRight ){
                 __LINE__ = 0;
                 Array.prototype.reduceRight = function ( fn,initial ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 183;
                     var ret = initial || this[this.length-1],
                         i = ( ( initial ) )?this.length-1 : this.length-2,
                         ta;
                     
                     __LINE__ = 186;
                     for ( i;i>-1; -- i ){
-                      __LINE__ = 0;
+                      __LINE__ = 187;
                       if ( ( ta = this[i] ) !== null && ta !== undefined ){
                         __LINE__ = 0;
                         ret = fn( ret,ta,i,this );
@@ -841,12 +841,12 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 195;
               if ( !Date.prototype.toJSON ){
                 __LINE__ = 0;
                 Date.prototype.toJSON = function () {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 203;
                     return '"'+this.getUTCFullYear()+'-'+"0"+( this.getUTCMonth()+1 )+'-'+"0"+( this.getUTCDate()-1 )+'T'+this.getUTCHours()+':'+this.getMinutes()+':'+this.getSeconds()+'.'+this.getUTCMilliseconds()+'"';
                   } catch( e ){
                     Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -854,7 +854,7 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 206;
               if ( !Date.now ){
                 __LINE__ = 0;
                 Date.now = function () {
@@ -867,18 +867,18 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 210;
               if ( !Object.keys ){
                 __LINE__ = 0;
                 Object.keys = function ( obj ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 212;
                     var ret = [],
                         iter = -1;
                     
                     __LINE__ = 215;
                     for ( var i in obj ){
-                      __LINE__ = 0;
+                      __LINE__ = 216;
                       if ( obj.hasOwnProperty( i ) ){
                         __LINE__ = 0;
                         ret[ ++ iter] = obj[i];
@@ -892,7 +892,7 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 226;
               if ( !Object.preventExtensions ){
                 __LINE__ = 0;
                 Object.preventExtensions = function ( o ) {
@@ -905,7 +905,7 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 230;
               if ( !Object.seal ){
                 __LINE__ = 0;
                 Object.seal = function ( o ) {
@@ -918,7 +918,7 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 234;
               if ( !Object.freeze ){
                 __LINE__ = 0;
                 Object.freeze = function ( o ) {
@@ -931,11 +931,11 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 238;
               var hasRealEcma5 = ( function () {
                     try {
                       try {
-                        __LINE__ = 0;
+                        __LINE__ = 240;
                         var obj = {};
                         
                         __LINE__ = 0;
@@ -959,12 +959,12 @@
                     }
                   })();
               
-              __LINE__ = 0;
+              __LINE__ = 254;
               if ( !hasRealEcma5 ){
                 __LINE__ = 0;
                 Object.defineProperty = function ( obj,prop,valobj ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 256;
                     if ( valobj.value ){
                       __LINE__ = 0;
                       obj[prop] = valobj.value;
@@ -975,15 +975,15 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 262;
               if ( !Array.isArray ){
-                __LINE__ = 0;
+                __LINE__ = 263;
                 var arrayString = "[object Array]";
                 
                 __LINE__ = 0;
                 Array.isArray = function ( arr ) {
                   try {
-                    __LINE__ = 0;
+                    __LINE__ = 265;
                     if ( arguments.length === 0 ){
                       __LINE__ = 266;
                       return false;
@@ -996,13 +996,13 @@
                 };
               };
               
-              __LINE__ = 0;
+              __LINE__ = 272;
               var slice = Array.prototype.slice;
               
               __LINE__ = 0;
               var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 279;
                       return Object.defineProperty( obj,prop, {
                         configurable : true,
                         enumerable : false,
@@ -1017,7 +1017,7 @@
               __LINE__ = 0;
               var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 286;
                       return Object.defineProperty( obj,prop, {
                         configurable : false,
                         enumerable : false,
@@ -1032,7 +1032,7 @@
               __LINE__ = 0;
               var toArray = _mochaLocalExport.toArray = function ( likeArray,index ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 288;
                       return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
                     } catch( e ){
                       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -1057,13 +1057,13 @@
                       __LINE__ = 0;
                       isKeyOnly = isKeyOnly || false;
                       
-                      __LINE__ = 0;
+                      __LINE__ = 295;
                       var iter = {},
                           isArray,
                           ret,
                           index = 0;
                       
-                      __LINE__ = 0;
+                      __LINE__ = 299;
                       if ( this instanceof Iterator ){
                         __LINE__ = 0;
                         isArray = Array.isArray( obj );
@@ -1079,7 +1079,7 @@
                       createUnenumProp( iter,"next",
                       function () {
                         try {
-                          __LINE__ = 0;
+                          __LINE__ = 305;
                           return ret[index ++ ];
                         } catch( e ){
                           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -1092,14 +1092,14 @@
                     }
                   };
               
-              __LINE__ = 0;
+              __LINE__ = 309;
               var _objectIterator = function ( obj,isKeyOnly ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 310;
                       var ret = [],
                           iter = -1;
                       
-                      __LINE__ = 0;
+                      __LINE__ = 312;
                       if ( isKeyOnly ){
                         __LINE__ = 313;
                         for ( var prop in obj ){
@@ -1121,10 +1121,10 @@
                   },
                   _arrayIterator = function ( obj,isKeyOnly ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 325;
                       var ret = [];
                       
-                      __LINE__ = 0;
+                      __LINE__ = 326;
                       if ( isKeyOnly ){
                         __LINE__ = 327;
                         for ( var i = 0,len = obj.length;i<len;i ++  ){
@@ -1146,10 +1146,10 @@
                   },
                   _stringIterator = function ( obj,isKeyOnly ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 339;
                       var ret = [];
                       
-                      __LINE__ = 0;
+                      __LINE__ = 340;
                       if ( isKeyOnly ){
                         __LINE__ = 341;
                         for ( var i = 0,len = obj.length;i<len;i ++  ){
@@ -1171,10 +1171,10 @@
                   },
                   _ownPropertyIterator = function ( obj,isArray,isKeyOnly ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 353;
                       var type = typeof obj;
                       
-                      __LINE__ = 0;
+                      __LINE__ = 354;
                       if ( type === "object" && !isArray ){
                         __LINE__ = 355;
                         return _objectIterator( obj,isKeyOnly );
@@ -1191,7 +1191,7 @@
                   },
                   _userdefIterator = function ( obj,isKeyOnly ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 364;
                       if ( "__iterator__" in obj ){
                         __LINE__ = 365;
                         return obj.__iterator__( isKeyOnly );
@@ -1221,7 +1221,7 @@
               __LINE__ = 0;
               var createGenerator = _mochaLocalExport.createGenerator = function ( generatorFn,closeFn,context ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 380;
                       var ret = {};
                       
                       __LINE__ = 0;
@@ -1251,10 +1251,10 @@
                     }
                   };
               
-              __LINE__ = 0;
+              __LINE__ = 388;
               var getErrorMessage = function ( e ) {
                     try {
-                      __LINE__ = 0;
+                      __LINE__ = 388;
                       return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
                     } catch( e ){
                       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

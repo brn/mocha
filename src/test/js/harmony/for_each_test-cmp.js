@@ -479,7 +479,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_each_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_each_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_each_test.js'] = {};
@@ -504,7 +504,7 @@
         __LINE__ = 0;
         i = target[i];
         
-        __LINE__ = 5;
+        __LINE__ = 0;
         console.log( i );
       };
       
@@ -513,7 +513,7 @@
         __LINE__ = 0;
         i = target[i];
         
-        __LINE__ = 9;
+        __LINE__ = 0;
         console.log( i );
       };
       
@@ -522,7 +522,7 @@
         __LINE__ = 0;
         i = target[i];
         
-        __LINE__ = 13;
+        __LINE__ = 0;
         console.log( i );
       };
       
@@ -531,7 +531,7 @@
         __LINE__ = 0;
         i = target[i];
         
-        __LINE__ = 16;
+        __LINE__ = 0;
         console.log( i );
       };
       
@@ -540,7 +540,7 @@
         __LINE__ = 0;
         m.g.i = target[m.g.i];
         
-        __LINE__ = 19;
+        __LINE__ = 0;
         console.log( m.g.i );
       };
     } catch( e ){
