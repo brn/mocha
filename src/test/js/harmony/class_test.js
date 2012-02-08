@@ -49,13 +49,17 @@ var monster = new Monster( "slime" , 100 );
 @assert( 0 , monster.numAttacks );
 @assert( 100 , Monster.DEFAULT_LIFE );
 @assert( undefined , Monster.health );
-
 class BaseTest {
-  
+  public getName() {
+    return "hogehoge";
+  }
 }
 
-class DeriveTest prototype BaseTest {
+class DeriveTest extends BaseTest {
 }
+
+
+@assert( true , new DeriveTest().getName() === "hogehoge" );
 
 
 

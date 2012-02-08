@@ -688,12 +688,12 @@ AstNode* Parser::ParseAssertStatement_() {
   if ( type == '(' ) {
     token = Advance_();
     type = token->GetType();
-    AstNode* literal = ParseLiteral_();
-    CHECK_ERROR( literal );
+    AstNode* expect = ParseAssignmentExpression_( false );
+    CHECK_ERROR( expect );
     token = Advance_();
     type = token->GetType();
     if ( type == ',' ) {
-      AstNode* exp = ParseExpression_( false );
+      AstNode* exp = ParseAssignmentExpression_( false );
       token = Advance_();
       type = token->GetType();
       if ( type == ')' ) {
@@ -705,7 +705,7 @@ AstNode* Parser::ParseAssertStatement_() {
           }
           AssertStmt* stmt = ManagedHandle::Retain<AssertStmt>();
           stmt->Line( line );
-          stmt->AddChild( literal );
+          stmt->AddChild( expect );
           stmt->AddChild( exp );
           return stmt;
         } else {
@@ -713,7 +713,7 @@ AstNode* Parser::ParseAssertStatement_() {
                         << TokenConverter( token )
                         << " 'in assert statement' expect ';' or 'line break'\\nin file "
                         << filename_ << " at line " << token->GetLineNumber() );
-          END(AssertStatement);
+          END(AssertStatementError);
           return exp;
         }
       } else {
@@ -721,23 +721,23 @@ AstNode* Parser::ParseAssertStatement_() {
                       << TokenConverter( token )
                       << " 'in assert statement' expect ')'\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
-        END(AssertStatement);
-        return literal;
+        END(AssertStatementError);
+        return expect;
       }
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
                   << " 'in assert statement', second arguments must be a 'expression'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
-      END(AssertStatement);
-      return literal;
+      END(AssertStatementError);
+      return expect;
     }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
                   << " 'in assert statement' expect '('\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
-    END(AssertStatement);
+    END(AssertStatementError);
     return ManagedHandle::Retain<Empty>();
   }
 }
@@ -2321,31 +2321,55 @@ AstNode* Parser::ParseCallExpression_() {
     }
     token = Seek_();
     type = token->GetType();
-    if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+    bool is_function_decl = ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT );
+    ValueNode* symbol = member->CastToValue();
+    if ( symbol && symbol->ValueType() == ValueNode::kIdentifier && is_function_decl ) {
       Advance_();
       AstNode* fn = ParseArrowFunctionExpression_( member , arguments , type );
       CHECK_ERROR(fn);
       END(ParseCallExpression_);
       return fn;
+    } else if ( is_function_decl ) {
+      SYNTAX_ERROR( "parse error arrow function expression name must be 'identifier'\\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
     }
     int depth = 0;
     CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
-    CallExp* first = exp;
     exp->Callable( member );
     exp->Args( arguments );
     exp->Depth( depth );
     token = Seek_();
     type = token->GetType();
-    if ( type == '.' || type == '[' ) {
-      ParseEachMember_( type , true , exp );
+    if ( type == '.' || type == '[' || type == '(' ) {
+      exp = ParseEachMember_( type , true , exp );
       token = Seek_();
       type = token->GetType();
       while ( 1 ) {
         depth++;
-        CallExp* ret = ParseEachMember_( type , false , exp );
+        CallExp* ret = 0;
+        if ( type != '(' ) {
+          ret = ParseEachMember_( type , false , exp );
+        } else if ( type == '(' ) {
+          Advance_();
+          AstNode* arguments = ParseArguments_();
+          CHECK_ERROR( arguments );
+          token = Advance_();
+          type = token->GetType();
+          if ( type != ')' ) {
+            SYNTAX_ERROR( "parse error got unexpected token "
+                          << TokenConverter( token )
+                          << " in 'call expression' expect ')'\\nin file "
+                          << filename_ << " at line " << token->GetLineNumber() );
+            END( CallExpressionError );
+            return exp;
+          }
+          ret = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+          ret->Callable( exp );
+          ret->Args( arguments );
+        }
         if ( ret == 0 ) {
           END(CallExpression);
-          return first;
+          return exp;
         } else {
           exp = ret;
         }
@@ -2354,14 +2378,14 @@ AstNode* Parser::ParseCallExpression_() {
         type = token->GetType();
       }
       END(CallExpression);
-      return first;
+      return exp;
     } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
       Advance_();
       END(CallExpression);
       return ParseArrowFunctionExpression_( member , arguments , type );
     } else {
       END(CallExpression);
-      return first;
+      return exp;
     }
   } else {
     END(CallExpression);
@@ -2564,14 +2588,26 @@ CallExp* Parser::ParseEachMember_( int type , bool is_first , CallExp* exp ) {
     AstNode* node = ParseBracketMember_();
     CHECK_ERROR( exp );
     if ( is_first ) {
-      exp->Args( node );
-      END(EachMember);
-      return exp;
+      if ( exp->CallType() == CallExp::kNormal ) {
+        CallExp* accessor = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
+        accessor->Callable( exp );
+        accessor->Args( node );
+        return accessor;
+      } else {
+        exp->Args( node );
+        END(EachMember);
+        return exp;
+      }
     } else {
       CallExp* accessor = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
-      accessor->Callable( exp->Args() );
-      accessor->Args( node );
-      exp->Callable( accessor );
+      if ( exp->CallType() == CallExp::kNormal ) {
+        accessor->Callable( exp );
+        accessor->Args( node );
+      } else {
+        accessor->Callable( exp->Args() );
+        accessor->Args( node );
+        exp->Callable( accessor );
+      }
       END(EachMember);
       return accessor;
     }
@@ -2580,15 +2616,28 @@ CallExp* Parser::ParseEachMember_( int type , bool is_first , CallExp* exp ) {
     AstNode* node = ParseDotMember_( &is_extend );
     CHECK_ERROR( exp );
     if ( is_first ) {
-      exp->Args( node );
-      END(EachMember);
-      return exp;
+      if ( exp->CallType() == CallExp::kNormal ) {
+        int type = ( is_extend )? CallExp::kExtend : CallExp::kDot;
+        CallExp* accessor = ManagedHandle::Retain( new CallExp( type ) );
+        accessor->Callable( exp );
+        accessor->Args( node );
+        return accessor;
+      } else {
+        exp->Args( node );
+        END(EachMember);
+        return exp;
+      }
     } else {
       int type = ( is_extend )? CallExp::kExtend : CallExp::kDot;
       CallExp* accessor = ManagedHandle::Retain( new CallExp( type ) );
-      accessor->Callable( exp->Args() );
-      accessor->Args( node );
-      exp->Args( accessor );
+      if ( exp->CallType() == CallExp::kNormal ) {
+        accessor->Callable( exp );
+        accessor->Args( node );
+      } else {
+        accessor->Callable( exp->Args() );
+        accessor->Args( node );
+        exp->Args( accessor );
+      }
       END(EachMember);
       return accessor;
     }

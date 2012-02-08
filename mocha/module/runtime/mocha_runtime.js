@@ -6,6 +6,7 @@ module Runtime {
   const Exception( line , file , e ) {
           this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
         }
+  //Minimal runtime object.
   var Runtime = {
         getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
         exceptionHandler ( line , file , e ){
@@ -17,7 +18,8 @@ module Runtime {
           } catch( e ) {
             throw new Error( this.getErrorMessage( e ) );
           }
-        }
+        },
+        hasProto : "__proto__" in {}
       }
   
   if( !String.prototype.trim ){
@@ -287,108 +289,23 @@ module Runtime {
   
   var slice = Array.prototype.slice;
   
-  export createUnenumProp = ( obj , prop , value ) -> Object.defineProperty( obj , prop , {
+  export createUnenumProp( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : true,
     enumerable : false,
     writable : true,
     value : value
   });
   
-  export constant = ( obj , prop , value ) -> Object.defineProperty( obj , prop , {
+  export constant( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : false,
     enumerable : false,
     writable : false,
     value : value
   });
   
-  export toArray = ( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
+  export toArray( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
   
-  export Iterator = ( obj , isKeyOnly = false )-> {
-    var iter = {},
-        isArray,
-        ret,
-        index = 0;
-    if ( this instanceof Iterator ) {
-      isArray = Array.isArray( obj );
-      ret = _ownPropertyIterator( obj , isArray , isKeyOnly );
-    } else {
-      return _userdefIterator( obj , isKeyOnly );
-    }
-    createUnenumProp( iter , "next" , -> ret[ index++ ] );
-    return iter;
-  }
-  
-  const _objectIterator = ( obj , isKeyOnly ) -> {
-          var ret = [],
-              iter = -1;
-          if ( isKeyOnly ) {
-            for ( var prop in obj ) {
-              ret[ ++iter ] = prop;
-            }
-          } else {
-            for ( var prop in obj ) {
-              ret[ ++iter ] = [ prop , obj[ prop ] ];
-            }
-          }
-          return ret;
-        },
-  
-        _arrayIterator = ( obj , isKeyOnly ) -> {
-          var ret = [];
-          if ( isKeyOnly ) {
-            for ( var i = 0,len = obj.length; i < len; i++ ) {
-              ret[ i ] = i;
-            }
-          } else {
-            for ( var i = 0,len = obj.length; i < len; i++ ) {
-              ret[ i ] = [ i , obj[ i ] ];
-            }
-          }
-          return ret;
-        },
-  
-        _stringIterator = ( obj , isKeyOnly ) -> {
-          var ret = [];
-          if ( isKeyOnly ) {
-            for ( var i = 0,len = obj.length; i < len; i++ ) {
-              ret[ i ] = i;
-            }
-          } else {
-            for ( var i = 0,len = obj.length; i < len; i++ ) {
-              ret[ i ] = [ i , obj.charAt( i ) ];
-            }
-          }
-          return ret;
-        },
-  
-        _ownPropertyIterator = ( obj , isArray , isKeyOnly ) -> {
-          var type = typeof obj;
-          if ( type === "object" && !isArray ) {
-            return _objectIterator( obj , isKeyOnly );
-          } else if ( isArray ) {
-            return _arrayIterator( obj , isKeyOnly );
-          } else if ( type === "string" ) {
-            return _stringIterator( obj , isKeyOnly );
-          }
-        },
-  
-        _userdefIterator = ( obj , isKeyOnly ) -> {
-          if ( "__iterator__" in obj ) {
-            return obj.__iterator__( isKeyOnly );
-          } else {
-            return {
-              next : function () {
-                try {
-                  throw new StopIteration;
-                } catch( e ) {
-                  throw new Error( e );
-                }
-              }
-            }
-          }
-        }
-  
-  export createGenerator = ( generatorFn , closeFn , context ) -> {
+  export createGenerator( generatorFn , closeFn , context ) -> {
     var ret = {};
     createUnenumProp( ret , "next" , generatorFn.bind( context , false , false ) );
     createUnenumProp( ret , "send" , generatorFn.bind( context , true , false ) );
@@ -399,18 +316,52 @@ module Runtime {
     return ret;
   }
   
-  const getErrorMessage = ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString();
+  const getErrorMessage( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString();
   
   export throwException = Runtime.throwException.bind( Runtime );
   
   export exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
   
+  export extendPrototype = ( derived , base ) -> {
+    derived.prototype = base;
+  }
+  
+  const getPrototype = ( "getPrototypeOf" in Object )?
+    ( obj ) -> Object.getPrototypeOf( obj ) :
+    ( obj ) -> {
+      if ( "constructor" in obj ) {
+        return obj.constructor.prototype || {};
+      }
+    }
+  
+  export extendClass = ( Runtime.hasProto )?
+    ( derived , base ) -> {
+      if ( typeof base === 'function' ) {
+        derived.prototype.__proto__ = base.prototype;
+      } else {
+        derived.prototype.__proto__ = base.__proto__;
+      }
+    } :
+    ( derived , base ) -> {
+      var baseType = typeof base;
+      if ( baseType === "function" ) {
+        var inherit = ->{};
+        inherit.prototype = base.prototype;
+        derived.prototype = new inherit;
+      } else {
+        var inherit = ->{},
+            proto = getPrototype( base );
+        inherit.prototype = proto;
+        derived.prototype = new inherit;
+      }
+    }
+  
   @version( debug ) {
     export assert = ( console && console.assert )?
-      ( expect , exp , str , line )->console.assert( expect === exp , str + "\nat : " + line ) :
-      ( expect , exp , str , line )->{
+      ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nin file " + filename + " at : " + line ) :
+      ( expect , exp , str , line , filename )->{
         if ( expect !== exp ) {
-          Runtime.throwException( "assertion failed : " + str + "\nat : " + line );
+          Runtime.throwException( "assertion failed : " + str + "\nin file " + filename + " at : " + line );
         }
       }
   }

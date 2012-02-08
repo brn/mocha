@@ -58,6 +58,8 @@ class VisitorInfo : private Uncopyable{
   inline void EscapeObject() { object_depth_--; }
   inline bool IsInObject() { return object_depth_ > 0; }
   inline const ClassList& GetClassList() { return class_list_; }
+  inline void SetClass( ClassProcessor* proc ) { current_class_ = proc; }
+  inline ClassProcessor* GetClass() { return current_class_; }
  private :
   int tmp_index_;
   int object_depth_;
@@ -75,6 +77,7 @@ class VisitorInfo : private Uncopyable{
   Compiler *compiler_;
   Statement* current_stmt_;
   Function* current_fn_;
+  ClassProcessor* current_class_;
   ClassList class_list_;
 };
 }

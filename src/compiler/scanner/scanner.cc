@@ -555,20 +555,29 @@ class Scanner::InternalScanner {
         }
       }
     } else {
-      while ( ( next = Advance_() ) ) {
-        if ( !escaped && next == '\\' ) {
-          escaped = true;
-        } else {
-          escaped = false;
-        }
+      if ( next == ch ) {
+        token_str_ += ch;
+        Advance_();
+      } else {
+        while ( ( next = Advance_() ) ) {
+          if ( !escaped && next == '\\' ) {
+            escaped = true;
+          } else {
+            escaped = false;
+          }
       
-        token_str_ += next;
-        if ( !escaped && next == '\n' ) {
-          break;
-        }
+          token_str_ += next;
+          next = Seek_(1);
+        
+          if ( !escaped && next == '\n' ) {
+            break;
+          }
 
-        if ( !escaped && next == ch ) {
-          break;
+          if ( !escaped && next == ch ) {
+            token_str_ += next;
+            Advance_();
+            break;
+          }
         }
       }
     }

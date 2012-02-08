@@ -30,16 +30,19 @@
 namespace mocha {
 
 class ProcessorInfo;
+class ClassProcessorUtils;
+typedef void (ClassProcessorUtils::*DstaCallback)( const char* class_name,
+                                                   Function* closure_body,
+                                                   ValueNode* exp,
+                                                   bool is_const );
 class ClassProcessor : public Managed {
  public :
   ClassProcessor( ProcessorInfo* info , Class* ast_node , Statement* tmp_stmt );
-  ~ClassProcessor(){};
+  ~ClassProcessor();
   void ProcessNode();
+  const char* GetPrivateFieldName() { return random_field_.c_str(); }
+  const char* GetName() { return name_.c_str(); }
  private :
-  typedef void (*DstaCallback)( const char* class_name,
-                                Function* closure_body,
-                                ValueNode* exp,
-                                bool is_const );
 
   inline void ProcessExtends_( AstNode* node );
   inline void ProcessBody_( AstNode* body );
@@ -54,9 +57,11 @@ class ClassProcessor : public Managed {
   inline void NoSimpleVariables_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
   int class_id_;
   std::string name_;
+  std::string random_field_;
   ProcessorInfo *info_;
   AstNode* closure_;
   Class* class_;
+  ClassProcessorUtils* utils_;
   Function* closure_body_;
   Statement* tmp_stmt_;
   Function* constructor_;

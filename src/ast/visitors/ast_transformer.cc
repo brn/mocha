@@ -473,7 +473,24 @@ VISITOR_IMPL(AssertStmt) {
   expression->Accept( this );
   expression->Accept( &visitor );
   std::string str = "\"";
-  str += visitor.GetCode();
+  std::string result = visitor.GetCode();
+  bool is_escaped = false;
+  for ( int i = 0,len = result.size(); i < len; i++ ) {
+    if ( result.at( i ) == '\n' ) {
+      str += "\\n";
+    } else if ( result.at( i ) == '\\' && !is_escaped ) {
+      str += '\\';
+      is_escaped = true;
+    } else if ( result.at( i ) == '"' && !is_escaped ) {
+      str += '\\';
+      str += '"';
+    } else if ( is_escaped ) {
+      str += result.at( i );
+      is_escaped = false;
+    } else {
+      str += result.at( i );
+    }
+  }
   str += "\"";
   char tmp[100];
   sprintf( tmp , "%ld" , ast_node->Line() );
@@ -481,7 +498,9 @@ VISITOR_IMPL(AssertStmt) {
   ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
   ValueNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
                                                            ast_node->Line() , ValueNode::kString );
-  AstNode* arg = AstUtils::CreateNodeList( 4 , expect , expression , string_expression , line );
+  ValueNode* filename = AstUtils::CreateNameNode( visitor_info_->GetRelativePath() , Token::JS_STRING_LITERAL,
+                                                  ast_node->Line() , ValueNode::kString );
+  AstNode* arg = AstUtils::CreateNodeList( 5 , expect , expression , string_expression , line , filename );
   CallExp* exp = AstUtils::CreateRuntimeMod( name );
   CallExp* call = AstUtils::CreateNormalAccessor( exp , arg );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( call );
@@ -591,6 +610,7 @@ VISITOR_IMPL(Class) {
   Statement *tmp_stmt = ManagedHandle::Retain<Statement>();
   REGIST(tmp_stmt);
   ClassProcessor *cls = ManagedHandle::Retain( new ClassProcessor( proc_info_.Get() , ast_node , tmp_stmt ) );
+  visitor_info_->SetClass( cls );
   cls->ProcessNode();
 }
 

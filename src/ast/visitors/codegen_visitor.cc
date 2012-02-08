@@ -71,14 +71,14 @@ CodegenVisitor::CodegenVisitor( const char* filename , CompileInfo* info ) :
     filename_( filename ) , scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( info->PrettyPrint() , info->Debug() ) ),
-    current_class_ ( 0 ){}
+    current_root_( 0 ) ,current_class_ ( 0 ){}
 
 CodegenVisitor::CodegenVisitor( const char* filename , bool is_pretty_print , bool is_debug ) :
     tmp_index_( 0 ),depth_( 0 ),is_line_( is_debug ),has_rest_( false ),
     filename_( filename ) , scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( is_pretty_print , is_debug ) ),
-    current_class_ ( 0 ){}
+    current_root_( 0 ) ,current_class_ ( 0 ){}
 
 
 VISITOR_IMPL( AstRoot ) {
@@ -168,9 +168,18 @@ VISITOR_IMPL( VersionStmt ) {
 
 VISITOR_IMPL( AssertStmt ) {
   PRINT_NODE_NAME;
-  const char* filename = current_root_->FileName();
-  Resources *resource = ExternalResource::SafeGet( filename_ );
-  if ( resource->GetCompileInfo()->HasVersion( Consts::kVersionDebug ) ) {
+  if ( current_root_ ) {
+    const char* filename = current_root_->FileName();
+    Resources *resource = ExternalResource::SafeGet( filename_ );
+    if ( resource->GetCompileInfo()->HasVersion( Consts::kVersionDebug ) ) {
+      AstNode* first = ast_node->FirstChild();
+      AstNode* second = first->NextSibling();
+      first->Accept( this );
+      if ( second ) {
+        second->Accept( this );
+      }
+    }
+  } else {
     AstNode* first = ast_node->FirstChild();
     AstNode* second = first->NextSibling();
     first->Accept( this );
@@ -842,10 +851,10 @@ VISITOR_IMPL(Function){
     stream_->Write( "{}" );
   } else {
     writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
-    if ( !current_root_->IsRuntime() ) {
+    if ( current_root_ && !current_root_->IsRuntime() ) {
       writer_->DebugBlockBegin( stream_.Get() );
     }
-    if ( ast_node->Root() ) {
+    if ( current_root_ && ast_node->Root() ) {
       writer_->InitializeFileName( current_root_->FileName() , stream_.Get() );
     }
     NodeIterator iterator = ast_node->ChildNodes();
@@ -859,12 +868,12 @@ VISITOR_IMPL(Function){
     if ( ast_node->ContextType() == Function::kGlobal ) {
       state = ( state == CodeWriter::kArgs )? state :
           ( MatchState_( CodeWriter::kParenExp ) )? CodeWriter::kArgs : CodeWriter::kFunctionEndBrace;
-      if ( !current_root_->IsRuntime() ) {
+      if ( current_root_ && !current_root_->IsRuntime() ) {
         writer_->DebugBlockEnd( stream_.Get() , scope_ );
       }
       writer_->WriteOp( '}' , state , stream_.Get() );
     } else {
-      if ( !current_root_->IsRuntime() ) {
+      if ( current_root_ && !current_root_->IsRuntime() ) {
         writer_->DebugBlockEnd( stream_.Get() , scope_ );
       }
       writer_->WriteOp( '}' , CodeWriter::kArgs , stream_.Get() );
@@ -874,7 +883,9 @@ VISITOR_IMPL(Function){
       writer_->WriteOp( ')' , 0 , stream_.Get() );
     }
   }
-  scope_ = scope_->Escape();
+  if ( scope_ ) {
+    scope_ = scope_->Escape();
+  }
 };
 
 

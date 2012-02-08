@@ -3,6 +3,7 @@
 #include <ast/visitors/utils/visitor_info.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <ast/visitors/utils/processors/call_processor.h>
+#include <ast/visitors/utils/processors/class_processor.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/tokens/js_token.h>
 namespace mocha {
@@ -14,9 +15,14 @@ void CallProcessor::ProcessPrivateAccessor( CallExp* ast_node , ProcessorInfo* i
     ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
                                                     Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
     if ( !visitor_info->IsInPrivate() ) {
-      ValueNode* private_field = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateField ),
+      ValueNode* private_field = AstUtils::CreateNameNode( visitor_info->GetClass()->GetPrivateFieldName(),
                                                            Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kProperty );
-      CallExp* dot_accessor = AstUtils::CreateDotAccessor( this_sym , private_field );
+      ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                      Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
+      ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
+                                                             Token::JS_PROPERTY , maybeIdent->Line() , ValueNode::kProperty );
+      CallExp* constructor = AstUtils::CreateDotAccessor( this_sym , constructor_sym );
+      CallExp* dot_accessor = AstUtils::CreateDotAccessor( constructor , private_field );
       ast_node->Callable( dot_accessor );
     } else {
       ast_node->Callable( this_sym );

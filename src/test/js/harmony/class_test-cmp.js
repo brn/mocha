@@ -26,7 +26,8 @@
                 } catch( e ){
                   throw new Error( this.getErrorMessage( e ) );
                 };
-              }
+              },
+              hasProto : "__proto__" in {}
             };
         
         if ( !String.prototype.trim ){
@@ -315,7 +316,7 @@
         
         var slice = Array.prototype.slice;
         
-        var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
+        var createUnenumProp = _mochaLocalExport.createUnenumProp = function createUnenumProp( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
                 enumerable : false,
@@ -324,7 +325,7 @@
               });
             };
         
-        var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
+        var constant = _mochaLocalExport.constant = function constant( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : false,
                 enumerable : false,
@@ -333,104 +334,11 @@
               });
             };
         
-        var toArray = _mochaLocalExport.toArray = function ( likeArray,index ) {
+        var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
               return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
             };
         
-        var Iterator = _mochaLocalExport.Iterator = function ( obj,isKeyOnly ) {
-              isKeyOnly = isKeyOnly || false;
-              
-              var iter = {},
-                  isArray,
-                  ret,
-                  index = 0;
-              
-              if ( this instanceof Iterator ){
-                isArray = Array.isArray( obj );
-                
-                ret = _ownPropertyIterator( obj,isArray,isKeyOnly );
-              } else {
-                return _userdefIterator( obj,isKeyOnly );
-              };
-              
-              createUnenumProp( iter,"next",
-              function () {
-                return ret[index ++ ];
-              });
-              return iter;
-            };
-        
-        var _objectIterator = function ( obj,isKeyOnly ) {
-              var ret = [],
-                  iter = -1;
-              
-              if ( isKeyOnly ){
-                for ( var prop in obj ){
-                  ret[ ++ iter] = prop;
-                };
-              } else {
-                for ( var prop in obj ){
-                  ret[ ++ iter] = [prop,obj[prop]];
-                };
-              };
-              return ret;
-            },
-            _arrayIterator = function ( obj,isKeyOnly ) {
-              var ret = [];
-              
-              if ( isKeyOnly ){
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = i;
-                };
-              } else {
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = [i,obj[i]];
-                };
-              };
-              return ret;
-            },
-            _stringIterator = function ( obj,isKeyOnly ) {
-              var ret = [];
-              
-              if ( isKeyOnly ){
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = i;
-                };
-              } else {
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = [i,obj.charAt( i )];
-                };
-              };
-              return ret;
-            },
-            _ownPropertyIterator = function ( obj,isArray,isKeyOnly ) {
-              var type = typeof obj;
-              
-              if ( type === "object" && !isArray ){
-                return _objectIterator( obj,isKeyOnly );
-              } else if ( isArray ){
-                return _arrayIterator( obj,isKeyOnly );
-              } else if ( type === "string" ){
-                return _stringIterator( obj,isKeyOnly );
-              };
-            },
-            _userdefIterator = function ( obj,isKeyOnly ) {
-              if ( "__iterator__" in obj ){
-                return obj.__iterator__( isKeyOnly );
-              } else {
-                return  {
-                  next : function () {
-                    try {
-                      throw new StopIteration;
-                    } catch( e ){
-                      throw new Error( e );
-                    };
-                  }
-                };
-              };
-            };
-        
-        var createGenerator = _mochaLocalExport.createGenerator = function ( generatorFn,closeFn,context ) {
+        var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
               var ret = {};
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
@@ -450,20 +358,56 @@
               return ret;
             };
         
-        var getErrorMessage = function ( e ) {
-              return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
-            };
-        
+        function getErrorMessage( e ) {
+          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+        }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
         var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
         
+        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
+              derived.prototype = base;
+            };
+        
+        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+              return Object.getPrototypeOf( obj );
+            } : function ( obj ) {
+              if ( "constructor" in obj ){
+                return obj.constructor.prototype || {};
+              };
+            };
+        
+        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+              if ( typeof base === 'function' ){
+                derived.prototype.__proto__ = base.prototype;
+              } else {
+                derived.prototype.__proto__ = base.__proto__;
+              };
+            } : function ( derived,base ) {
+              var baseType = typeof base;
+              
+              if ( baseType === "function" ){
+                var inherit = function (){};
+                
+                inherit.prototype = base.prototype;
+                
+                derived.prototype = new inherit;
+              } else {
+                var inherit = function (){},
+                    proto = getPrototype( base );
+                
+                inherit.prototype = proto;
+                
+                derived.prototype = new inherit;
+              };
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line ) {
-                return console.assert( expect === exp,str+"\nat : "+line );
-              } : function ( expect,exp,str,line ) {
+          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+                return console.assert( expect === exp,"assertion failed : "+str+"\nin file "+filename+" at : "+line );
+              } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
-                  Runtime.throwException( "assertion failed : "+str+"\nat : "+line );
+                  Runtime.throwException( "assertion failed : "+str+"\nin file "+filename+" at : "+line );
                 };
               };
         })();
@@ -479,7 +423,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
@@ -497,10 +441,16 @@
               function Monster() {
                 try {
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this,'__private__',new _mochaPrivateHolder );
+                  Runtime.constant( this,'constructor',Monster.constructor );
                   
                   __LINE__ = 0;
-                  Monster.constructor.apply( this,arguments );
+                  Runtime.createUnenumProp( this.constructor,'__XQi8nvIhru__',new _mochaPrivateHolder );
+                  
+                  __LINE__ = 0;
+                  if ( Monster.constructor ){
+                    __LINE__ = 0;
+                    Monster.constructor.apply( this,arguments );
+                  };
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -515,7 +465,7 @@
                   this.name = name;
                   
                   __LINE__ = 9;
-                  this.__private__.health = health;
+                  this.constructor.__XQi8nvIhru__.health = health;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -535,7 +485,7 @@
               Monster.prototype.isAlive = function isAlive() {
                 try {
                   __LINE__ = 23;
-                  return this.__private__.health>0;
+                  return this.constructor.__XQi8nvIhru__.health>0;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -551,7 +501,7 @@
                   };
                   
                   __LINE__ = 0;
-                  this.__private__.health = value;
+                  this.constructor.__XQi8nvIhru__.health = value;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -576,31 +526,47 @@
       var monster = new Monster( "slime",100 );
       
       __LINE__ = 48;
-      Runtime.assert( true,monster.isAlive(),"monster.isAlive()",48 );
+      Runtime.assert( true,monster.isAlive(),"monster.isAlive()",48,'./class_test.js' );
       
       __LINE__ = 49;
-      Runtime.assert( 0,monster.numAttacks,"monster.numAttacks",49 );
+      Runtime.assert( 0,monster.numAttacks,"monster.numAttacks",49,'./class_test.js' );
       
       __LINE__ = 50;
-      Runtime.assert( 100,Monster.DEFAULT_LIFE,"Monster.DEFAULT_LIFE",50 );
+      Runtime.assert( 100,Monster.DEFAULT_LIFE,"Monster.DEFAULT_LIFE",50,'./class_test.js' );
       
       __LINE__ = 51;
-      Runtime.assert( undefined,Monster.health,"Monster.health",51 );
+      Runtime.assert( undefined,Monster.health,"Monster.health",51,'./class_test.js' );
       
-      __LINE__ = 53;
+      __LINE__ = 52;
       var BaseTest = ( function () {
             try {
               __LINE__ = 0;
               var _mochaPrivateHolder = function (){};
               
-              __LINE__ = 53;
+              __LINE__ = 52;
               function BaseTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this,'__private__',new _mochaPrivateHolder );
+                  Runtime.constant( this,'constructor',BaseTest.constructor );
                   
                   __LINE__ = 0;
-                  BaseTest.constructor.apply( this,arguments );
+                  Runtime.createUnenumProp( this.constructor,'__rf$whsZbnL__',new _mochaPrivateHolder );
+                  
+                  __LINE__ = 0;
+                  if ( BaseTest.constructor ){
+                    __LINE__ = 0;
+                    BaseTest.constructor.apply( this,arguments );
+                  };
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              BaseTest.prototype.getName = function getName() {
+                try {
+                  __LINE__ = 54;
+                  return "hogehoge";
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -612,33 +578,42 @@
             }
           })();
       
-      __LINE__ = 57;
+      __LINE__ = 58;
       var DeriveTest = ( function () {
             try {
               __LINE__ = 0;
               var _mochaPrivateHolder = function (){};
               
-              __LINE__ = 57;
+              __LINE__ = 58;
               function DeriveTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this,'__private__',new _mochaPrivateHolder );
+                  Runtime.constant( this,'constructor',DeriveTest.constructor );
                   
                   __LINE__ = 0;
-                  DeriveTest.constructor.apply( this,arguments );
+                  Runtime.createUnenumProp( this.constructor,'__WiHl$b2I_N__',new _mochaPrivateHolder );
+                  
+                  __LINE__ = 0;
+                  if ( DeriveTest.constructor ){
+                    __LINE__ = 0;
+                    DeriveTest.constructor.apply( this,arguments );
+                  };
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
               
-              __LINE__ = 57;
-              Runtime.extendPrototype( DeriveTest,BaseTest );
+              __LINE__ = 58;
+              Runtime.extendClass( DeriveTest,BaseTest );
               __LINE__ = 0;
               return DeriveTest;
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           })();
+      
+      __LINE__ = 62;
+      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",62,'./class_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }
