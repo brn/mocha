@@ -49,7 +49,8 @@ void YieldProcessor::ProcessNode() {
          direct_child->NodeType() == AstNode::kWhile ||
          direct_child->NodeType() == AstNode::kDoWhile ||
          direct_child->NodeType() == AstNode::kTryStmt ||
-         direct_child->NodeType() == AstNode::kIFStmt ) {
+         direct_child->NodeType() == AstNode::kIFStmt ||
+         direct_child->NodeType() == AstNode::kSwitchStmt ) {
       Statement* stmt = direct_child->CastToStatement();
       stmt->SetYieldFlag();
     }
@@ -87,7 +88,12 @@ void YieldProcessor::ProcessSend_( AstNode* exp ) {
   CompareExp* comp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , is_send , length_comp ) );
   ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
                                                    Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
-  ConditionalExp* no_arg = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp , undefined ) );
+  AstNode* no_arg;
+  if ( !tmp->IsEmpty() ) {
+    no_arg = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp , undefined ) );
+  } else {
+    no_arg = undefined;
+  }
   NodeList* args = ManagedHandle::Retain<NodeList>();
   args->AddChild( arguments->Clone() );
   args->AddChild( two->Clone() );
@@ -101,11 +107,11 @@ void YieldProcessor::ProcessSend_( AstNode* exp ) {
   UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( '!' ) );
   unary->Exp( tmp_ret->Clone() );
   CompareExp* comp2 = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , unary , comp->Clone() ) );
-  ConditionalExp* no_arg2 = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp_ret->Clone() , undefined ) );
+  AstNode* no_arg2 = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp_ret->Clone() , undefined ) );
   ConditionalExp* cond2 = ManagedHandle::Retain( new ConditionalExp( comp2 , array_accessor , no_arg2 ) );
-  
-  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , tmp_ret , cond );
   AssignmentExp* assign2 = AstUtils::CreateAssignment( '=' , tmp_ret->Clone() , cond2 );
+  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , tmp_ret , cond );
+  
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
   ExpressionStmt* stmt2 = AstUtils::CreateExpStmt( assign2 );
   //ret->ParentNode()->InsertBefore( stmt , ret );

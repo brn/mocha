@@ -2,6 +2,7 @@
 #define mocha_parser_h_
 #include <string>
 #include <ast/ast_foward_decl.h>
+#include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <compiler/binding/parser_connector.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/tokens/js_token.h>
@@ -101,9 +102,10 @@ class Parser{
   AstNode* ParseArrayComprehensions_();
 
   const char* filename_;
-  bool is_in_class_decl_;
-  bool is_source_elements_parse_begin_;
   std::string indent_;
+  class StateStack;
+  ScopedPtr<StateStack> state_stack_;
+  BitVector8 bits_;
   ParserConnector* connector_;
   ErrorReporter* reporter_;
 };

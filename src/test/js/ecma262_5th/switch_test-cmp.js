@@ -1,4 +1,9 @@
-(function() {
+try{
+  throw new SyntaxError("return statement only allowed in 'function'\nin file /var/samba/mocha/src/test/js/ecma262_5th/switch_test.js at line 6")
+}catch(e){
+  throw new Error(e);
+}
+;(function() {
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
@@ -421,111 +426,4 @@
       }
     };
   };
-  
-  __LINE__ = 0;
-  ( function () {
-    try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/switch_test.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      _mochaGlobalExport['./switch_test.js'] = {};
-      
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./switch_test.js'];
-      
-      __LINE__ = 0;
-      switch ( type ) {
-        case "only" :
-        case "first" :
-          
-          __LINE__ = 4;
-          while ( ( node = node.previousSibling ) ){
-            __LINE__ = 5;
-            if ( node.nodeType === 1 ){
-              __LINE__ = 6;
-              return false;
-            };
-          };
-          
-          __LINE__ = 10;
-          if ( type === "first" ){
-            __LINE__ = 11;
-            return true;
-          };
-          
-          __LINE__ = 0;
-          node = elem;
-        case "last" :
-          
-          __LINE__ = 17;
-          while ( ( node = node.nextSibling ) ){
-            __LINE__ = 18;
-            if ( node.nodeType === 1 ){
-              __LINE__ = 19;
-              return false;
-            };
-          };
-          __LINE__ = 23;
-          return true;
-        case "nth" :
-          
-          __LINE__ = 0;
-          first = match[2];
-          
-          __LINE__ = 0;
-          last = match[3];
-          
-          __LINE__ = 29;
-          if ( first === 1 && last === 0 ){
-            __LINE__ = 30;
-            return true;
-          };
-          
-          __LINE__ = 0;
-          doneName = match[0];
-          
-          __LINE__ = 0;
-          parent = elem.parentNode;
-          
-          __LINE__ = 36;
-          if ( parent && ( parent[expando] !== doneName || !elem.nodeIndex ) ){
-            __LINE__ = 0;
-            count = 0;
-            
-            __LINE__ = 39;
-            for ( node = parent.firstChild;node;node = node.nextSibling ){
-              __LINE__ = 40;
-              if ( node.nodeType === 1 ){
-                __LINE__ = 0;
-                node.nodeIndex =  ++ count;
-              };
-            };
-            
-            __LINE__ = 0;
-            parent[expando] = doneName;
-          };
-          
-          __LINE__ = 0;
-          diff = elem.nodeIndex-last;
-          
-          __LINE__ = 50;
-          if ( first === 0 ){
-            __LINE__ = 51;
-            return diff === 0;
-          } else {
-            __LINE__ = 54;
-            return ( diff%first === 0 && diff/first >= 0 );
-          };
-          __LINE__ = 56;
-          break;
-        default :
-          
-          __LINE__ = 0;
-          console.log( 1 );
-          
-      };
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
-  })();
 })();

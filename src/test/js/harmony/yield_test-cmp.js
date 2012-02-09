@@ -425,7 +425,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/yield_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/yield_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./yield_test.js'] = {};
@@ -2023,11 +2023,14 @@
           __LINE__ = 0;
           var _mochaCatchCache;
           
-          __LINE__ = 251;
+          __LINE__ = 252;
           var m;
           
-          __LINE__ = 249;
+          __LINE__ = 250;
           var i;
+          
+          __LINE__ = 249;
+          var flg;
           
           __LINE__ = 0;
           var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
@@ -2041,21 +2044,24 @@
                     Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
                   };
                   
-                  __LINE__ = 260;
+                  __LINE__ = 261;
                   while ( 1 ){
                     try {
-                      __LINE__ = 260;
+                      __LINE__ = 261;
                       switch ( _yieldState ) {
                         case 0 :
                           
                           __LINE__ = 249;
+                          flg = false;
+                          
+                          __LINE__ = 250;
                           i = 0;
                           
-                          __LINE__ = 249;
+                          __LINE__ = 250;
                           if ( !( i<10 ) ){
-                            __LINE__ = 260;
+                            __LINE__ = 261;
                             _yieldState = -1;
-                            __LINE__ = 260;
+                            __LINE__ = 261;
                             break;
                           };
                         case 1 :
@@ -2063,10 +2069,10 @@
                           __LINE__ = 0;
                           _yieldState = 2;
                           
-                          __LINE__ = 254;
+                          __LINE__ = 255;
                           _mochaCatchCache = function ( e ) {
                             try {
-                              __LINE__ = 260;
+                              __LINE__ = 261;
                               _yieldState = 3;
                             } catch( e ){
                               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -2077,14 +2083,14 @@
                           _mochaFinallyCache = function (  ) {
                             try {
                               __LINE__ = 0;
-                              return i;
+                              flg = true;
                             } catch( e ){
                               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                             }
                           };
                           
-                          __LINE__ = 251;
-                          m = 0;
+                          __LINE__ = 252;
+                          m = ( ( flg ) )?1 : 0;
                           __LINE__ = 0;
                           return m;
                         case 2 :
@@ -2102,14 +2108,14 @@
                           __LINE__ = 0;
                           i ++ ;
                           
-                          __LINE__ = 260;
+                          __LINE__ = 261;
                           if ( i<10 ){
-                            __LINE__ = 260;
+                            __LINE__ = 261;
                             _yieldState = 1;
                             __LINE__ = 0;
                             break;
                           } else {
-                            __LINE__ = 260;
+                            __LINE__ = 261;
                             _yieldState = -1;
                           };
                         case -1 :
@@ -2119,7 +2125,7 @@
                             __LINE__ = 0;
                             return undefined;
                           } else {
-                            __LINE__ = 260;
+                            __LINE__ = 261;
                             Runtime.throwException( StopIteration );
                           };
                           
@@ -2181,23 +2187,212 @@
       __LINE__ = 0;
       generator = yieldTest9();
       
-      __LINE__ = 261;
-      Runtime.assert( true,generator.next() === 0,"generator.next() === 0",261,'./yield_test.js' );
-      
       __LINE__ = 262;
       Runtime.assert( true,generator.next() === 0,"generator.next() === 0",262,'./yield_test.js' );
       
       __LINE__ = 263;
-      Runtime.assert( true,generator.next() === 0,"generator.next() === 0",263,'./yield_test.js' );
+      Runtime.assert( true,generator.next() === 1,"generator.next() === 1",263,'./yield_test.js' );
       
       __LINE__ = 264;
       Runtime.assert( true,generator.next() === 1,"generator.next() === 1",264,'./yield_test.js' );
       
       __LINE__ = 265;
-      Runtime.assert( true,generator.next() === 0,"generator.next() === 0",265,'./yield_test.js' );
+      Runtime.assert( true,generator.next() === 1,"generator.next() === 1",265,'./yield_test.js' );
       
       __LINE__ = 266;
-      Runtime.assert( true,generator.next() === 2,"generator.next() === 2",266,'./yield_test.js' );
+      Runtime.assert( true,generator.next() === 1,"generator.next() === 1",266,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      function yieldTest10(  ) {
+        try {
+          __LINE__ = 0;
+          var _mochaIsNewBorn = true;
+          
+          __LINE__ = 0;
+          var _yieldResult = undefined;
+          
+          __LINE__ = 0;
+          var _yieldState = 0;
+          
+          __LINE__ = 270;
+          var type;
+          
+          __LINE__ = 269;
+          var i;
+          
+          __LINE__ = 0;
+          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
+                try {
+                  __LINE__ = 0;
+                  if ( !_isYieldSend ){
+                    __LINE__ = 0;
+                    _mochaIsNewBorn = false;
+                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
+                    __LINE__ = 0;
+                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                  };
+                  
+                  __LINE__ = 283;
+                  while ( 1 ){
+                    __LINE__ = 283;
+                    switch ( _yieldState ) {
+                      case 0 :
+                        
+                        __LINE__ = 269;
+                        i = 0;
+                        
+                        __LINE__ = 269;
+                        if ( !( i<10 ) ){
+                          __LINE__ = 283;
+                          _yieldState = -1;
+                          __LINE__ = 283;
+                          break;
+                        };
+                      case 1 :
+                        
+                        __LINE__ = 270;
+                        _yieldState = 2;
+                        __LINE__ = 270;
+                        return ;
+                      case 2 :
+                        
+                        __LINE__ = 0;
+                        _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 )[0] : undefined;
+                        
+                        __LINE__ = 270;
+                        type = _yieldResult;
+                        
+                        __LINE__ = 0;
+                        switch ( type ) {
+                          case 0 :
+                            
+                            __LINE__ = 0;
+                            _yieldState = 3;
+                            __LINE__ = 0;
+                            break;
+                          case 2 :
+                            
+                            __LINE__ = 0;
+                            _yieldState = 4;
+                            __LINE__ = 0;
+                            break;
+                          case 3 :
+                            
+                            __LINE__ = 0;
+                            _yieldState = 5;
+                            __LINE__ = 0;
+                            break;
+                          default :
+                            
+                            __LINE__ = 0;
+                            _yieldState = 6;
+                            __LINE__ = 0;
+                            break;
+                            
+                        };
+                      case 3 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 7;
+                        __LINE__ = 0;
+                        return 200;
+                      case 4 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 7;
+                        __LINE__ = 0;
+                        return 400;
+                      case 5 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 7;
+                        __LINE__ = 0;
+                        return 600;
+                      case 6 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 7;
+                        __LINE__ = 0;
+                        return 700;
+                      case 7 :
+                        
+                        __LINE__ = 0;
+                        i ++ ;
+                        
+                        __LINE__ = 283;
+                        if ( i<10 ){
+                          __LINE__ = 283;
+                          _yieldState = 1;
+                          __LINE__ = 0;
+                          break;
+                        } else {
+                          __LINE__ = 283;
+                          _yieldState = -1;
+                        };
+                      case -1 :
+                        
+                        __LINE__ = 0;
+                        if ( _isYieldSafe ){
+                          __LINE__ = 0;
+                          return undefined;
+                        } else {
+                          __LINE__ = 283;
+                          Runtime.throwException( StopIteration );
+                        };
+                        
+                    };
+                  };
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          __LINE__ = 0;
+          return Runtime.createGenerator( _mochaGenerator,
+          function (  ) {
+            try {
+              __LINE__ = 0;
+              _yieldState = -1;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          },this);
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      };
+      
+      __LINE__ = 0;
+      generator = yieldTest10();
+      
+      __LINE__ = 0;
+      generator.next();
+      
+      __LINE__ = 285;
+      Runtime.assert( true,generator.send( 0 ) === 200,"generator.send( 0 ) === 200",285,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      generator.next();
+      
+      __LINE__ = 0;
+      console.log( generator.send( 2 ) );
+      
+      __LINE__ = 288;
+      Runtime.assert( true,generator.send( 2 ) === 400,"generator.send( 2 ) === 400",288,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      console.log( generator.send( 3 ) );
+      
+      __LINE__ = 0;
+      generator.next();
+      
+      __LINE__ = 291;
+      Runtime.assert( true,generator.send( 3 ) === 600,"generator.send( 3 ) === 600",291,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      generator.next();
+      
+      __LINE__ = 293;
+      Runtime.assert( true,generator.send( null ) === 700,"generator.send( null ) === 700",293,'./yield_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

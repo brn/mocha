@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <vector>
 #include <sstream>
 #include <ast/ast.h>
 #include <compiler/utils/error_reporter.h>
@@ -12,7 +13,8 @@ namespace mocha {
 static const char use_strict[] = { "use strict" };
 static const char import_from[] = { "from" };
 static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', 'this', 'RegExp'" };
-
+#define RETURN_FLG 0
+#define YIELD_FLG 1
 //Shortcut for syntax error reporter.
 #define SYNTAX_ERROR( msg ) {\
   std::stringstream st;      \
@@ -49,20 +51,42 @@ bool IsEnd( int type ) {
   return type == Token::END_TOKEN || type == Token::END_OF_INPUT;
 }
 
+/**
+ * @param {int} type
+ * @returns bool
+ * Callback function for ParseStatementList_.
+ * Match block like structure.
+ */
 bool BlockBodyMatcher( int type ) {
   return type != '}';
 }
 
+/**
+ * @param {int} type
+ * @returns bool
+ * Callback function for ParseStatementList_.
+ * Match case clause body.
+ */
 bool CaseBodyMatcher( int type ) {
   return type != '}' && type != Token::JS_CASE && type != Token::JS_DEFAULT;
 }
 
-bool IsLiteral( int type ) {
+/**
+ * @param {int} type
+ * @returns bool
+ * Check the type is a valid object literal property name.
+ */
+bool IsValidPropertyName( int type ) {
   return type == Token::JS_IDENTIFIER ||
       type == Token::JS_STRING_LITERAL ||
       type == Token::JS_NUMERIC_LITERAL;
 }
 
+/**
+ * @param {int} type
+ * @returns bool
+ * Check the type is a valid object literal member.
+ */
 bool IsValidProperty( int type ) {
   return type == ValueNode::kString ||
       type == ValueNode::kNumeric ||
@@ -70,8 +94,15 @@ bool IsValidProperty( int type ) {
       type == ValueNode::kProperty;
 }
 
-
+/**
+ * @param {int} type
+ * @returns bool
+ * Rewrite the object literal and the array literal to a valid destructuring assignment.
+ */
 void DstaRewriter( AstNode *dst ) {
+  //We treat destructuring assignment in formal parameter of arrow function expression
+  //as an object literal or an array literal,
+  //so that are need to rewrite to destructuring assignment.
   NodeIterator iterator = dst->ChildNodes();
   ValueNode* parent = dst->ParentNode()->CastToValue();
   while ( iterator.HasNext() ) {
@@ -80,13 +111,17 @@ void DstaRewriter( AstNode *dst ) {
     if ( value ) {
       int type = value->ValueType();
       if ( type == ValueNode::kArray ) {
+        //array literal.
         value->ValueType( ValueNode::kDstArray );
         DstaRewriter( value->FirstChild() );
       } else if ( type == ValueNode::kObject ) {
+        //object literal.
         value->ValueType( ValueNode::kDst );
         AstNode* target = value->Node();
         DstaRewriter( target );
       } else if ( parent && IsValidProperty( type ) && parent->ValueType() == ValueNode::kDst ) {
+        //object literal property name.
+        //like { foo : bar } or { foo : { foo : bar } }
         DstaRewriter( value );
       }
     }
@@ -94,6 +129,11 @@ void DstaRewriter( AstNode *dst ) {
 }
 
 
+/**
+ * @param {AstNode} args
+ * @param {AstNode} list
+ * Convert an arrow function expression's formal parameter list to a valid formal parameter list.
+ */
 void FormalParameterConvertor( AstNode *args , AstNode* list ) {
   NodeIterator iterator = args->ChildNodes();
   while ( iterator.HasNext() ) {
@@ -152,13 +192,38 @@ void AssignmentDstaConvertor( AstNode* exp ) {
   }
 }
 
+class Parser::StateStack {
+ public :
+  typedef enum {
+    kClassDecl,
+    kParseBegin,
+    kFinally,
+    kFunction
+  } ParserState;
+  typedef std::vector<ParserState> StateArray;
+  void Push( ParserState state ) { stack_.push_back( state ); }
+  void Pop() { stack_.pop_back(); }
+  bool Has( ParserState state ) {
+    StateArray::iterator begin = stack_.begin();
+    StateArray::iterator end = stack_.end();
+    while ( begin != end ) {
+      if ( state == (*begin) ) {
+        return true;
+      }
+      ++begin;
+    }
+    return false;
+  }
+ private :
+  StateArray stack_;
+};
+
 Parser::Parser( ParserConnector* connector , ErrorReporter* reporter , const char* filename )
-    : filename_( filename ) , is_in_class_decl_( false ) , is_source_elements_parse_begin_( false ),
-      connector_( connector ) , reporter_( reporter ) {}
+    : filename_( filename ) , state_stack_( new StateStack ) , connector_( connector ) , reporter_( reporter ) {}
 Parser::~Parser() {}
 
 
-//Entrance for parser.
+//The entrance for parser.
 //We return the FileRoot node not AstRoot.
 FileRoot* Parser::Parse() {
   FileRoot* root = ManagedHandle::Retain<FileRoot>();
@@ -214,10 +279,8 @@ AstNode* Parser::ParseSourceElements_() {
    *| source_elements source_element
    */
   //Check once flag.
-  assert( is_source_elements_parse_begin_ == false );
-  if ( !is_source_elements_parse_begin_ ) {
-    is_source_elements_parse_begin_ = true;
-  }
+  assert( state_stack_->Has( StateStack::kParseBegin ) == false );
+  state_stack_->Push( StateStack::kParseBegin );
   TokenInfo* type;
   NodeList* list = ManagedHandle::Retain<NodeList>();
   while ( ( type = Seek_() ) && type != 0 && ( type->GetType() != Token::END_TOKEN || type->GetType() != Token::END_OF_INPUT ) ) {
@@ -567,14 +630,8 @@ AstNode* Parser::ParseImportStatement_() {
     CHECK_ERROR( stmt );
     stmt->Exp( exp );
     stmt->From( from_exp );
-    TokenInfo* semicolon = Seek_();
-    int type = semicolon->GetType();
-    if ( !semicolon->HasLineBreakBefore() && type != ';' && type != '}' ) {
-      SYNTAX_ERROR( "parse error unexpected token "
-                    << TokenConverter( semicolon )
-                    << " after 'import statement' expect ';' or 'line break'\\nin file "
-                    << filename_ << " at line " << semicolon->GetLineNumber() );
-    }
+    ParseTerminator_();
+    CHECK_ERROR( stmt );
     END(ImportStatement);
     return stmt;
   } else {
@@ -697,25 +754,13 @@ AstNode* Parser::ParseAssertStatement_() {
       token = Advance_();
       type = token->GetType();
       if ( type == ')' ) {
-        token = Seek_();
-        type = token->GetType();
-        if ( type == ';' || type == '}' || token->HasLineBreakBefore() || IsEnd( type ) ) {
-          if ( type == ';' ) {
-            Advance_();
-          }
-          AssertStmt* stmt = ManagedHandle::Retain<AssertStmt>();
-          stmt->Line( line );
-          stmt->AddChild( expect );
-          stmt->AddChild( exp );
-          return stmt;
-        } else {
-          SYNTAX_ERROR( "parse error got unexpected token "
-                        << TokenConverter( token )
-                        << " 'in assert statement' expect ';' or 'line break'\\nin file "
-                        << filename_ << " at line " << token->GetLineNumber() );
-          END(AssertStatementError);
-          return exp;
-        }
+        ParseTerminator_();
+        CHECK_ERROR( exp );
+        AssertStmt* stmt = ManagedHandle::Retain<AssertStmt>();
+        stmt->Line( line );
+        stmt->AddChild( expect );
+        stmt->AddChild( exp );
+        return stmt;
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
@@ -1069,24 +1114,12 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
     AstNode* ret = ParseExpression_( false );
     CHECK_ERROR( ret );
     ret->Line( token->GetLineNumber() );
-    token = Seek_();
-    int type = token->GetType();
-    if ( type == ';' || type == '}' || token->HasLineBreakBefore() || IsEnd( type ) ) {
-      if ( type == ';' ) {
-        Advance_();
-      }
-      ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
-      stmt->AddChild( ret );
-      END(LabellOrExpressionStatement);
-      return stmt;
-    } else {
-      SYNTAX_ERROR( "parse error got unexpected token "
-                    << TokenConverter( token )
-                    << " in 'expression statement' expect ';' or 'line break'\\nin file "
-                    << filename_ << " at line " << token->GetLineNumber() );
-      END(LabellOrExpressionStatementError);
-      return ret;
-    }
+    ParseTerminator_();
+    CHECK_ERROR( ret );
+    ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+    stmt->AddChild( ret );
+    END(LabellOrExpressionStatement);
+    return stmt;
   }
 }
 
@@ -1426,21 +1459,10 @@ AstNode* Parser::ParseContinueStatement_() {
     AstNode* identifier = ParseLiteral_();
     CHECK_ERROR( stmt );
     stmt->AddChild( identifier );
-    token = Seek_();
-    type = token->GetType();
   }
-
-  if ( type == ';' || token->HasLineBreakBefore() || type == '}' || IsEnd( type ) ) {
-    if ( type == ';' ) {
-      Advance_();
-    }
-    stmt->AddChild( ManagedHandle::Retain<Empty>() );
-  } else {
-    SYNTAX_ERROR( "parse error got unexpected token '"
-                  << TokenConverter( token )
-                  << "' in 'continue statement' expect ';' or 'line break'\\nin file "
-                  << filename_ << " at line " << token->GetLineNumber() );
-  }
+  ParseTerminator_();
+  CHECK_ERROR( stmt );
+  stmt->AddChild( ManagedHandle::Retain<Empty>() );
   END(ContinueStatement);
   return stmt;
 }
@@ -1456,26 +1478,23 @@ AstNode* Parser::ParseBreakStatement_() {
     AstNode* identifier = ParseLiteral_();
     CHECK_ERROR( stmt );
     stmt->AddChild( identifier );
-    token = Seek_();
-    type = token->GetType();
   }
-  if ( type == ';' || type == '}' || IsEnd( type ) || token->HasLineBreakBefore() ) {
-    if ( type == ';' ) {
-      Advance_();
-    }
-    stmt->AddChild( ManagedHandle::Retain<Empty>() );
-  } else {
-    SYNTAX_ERROR( "parse error got unexpected token '"
-                  << TokenConverter( token )
-                  << "' in 'break statement' expect ';' or 'line break'\\nin file "
-                  << filename_ << " at line " << token->GetLineNumber() );
-  }
+  ParseTerminator_();
+  CHECK_ERROR( stmt );
+  stmt->AddChild( ManagedHandle::Retain<Empty>() );
   END(BreakStatement);
   return stmt;
 }
 
 AstNode* Parser::ParseReturnStatement_() {
   ENTER(ReturnStatement);
+  if ( !state_stack_->Has( StateStack::kFunction ) ) {
+    SYNTAX_ERROR( "return statement only allowed in 'function'\\nin file "
+                  << filename_ << " at line " << Seek_( -1 )->GetLineNumber() );
+    END(ReturnStatement);
+    return ManagedHandle::Retain<Empty>();
+  }
+  bits_.Set( RETURN_FLG );
   TokenInfo *token = Seek_();
   int type = token->GetType();
   ReturnStmt* stmt = ManagedHandle::Retain<ReturnStmt>();
@@ -1486,18 +1505,8 @@ AstNode* Parser::ParseReturnStatement_() {
     AstNode* exp = ParseExpression_( false );
     CHECK_ERROR( stmt );
     stmt->AddChild( exp );
-    TokenInfo *maybe_semicolon = Seek_();
-    int type = maybe_semicolon->GetType();
-    if ( type == ';' || type == '}' || maybe_semicolon->HasLineBreakBefore() ) {
-      if ( type == ';' ) {
-        Advance_();
-      }
-    } else {
-      SYNTAX_ERROR( "parse error got unexpected token '"
-                    << TokenConverter( maybe_semicolon )
-                    << "' in 'continue statement' expect ';' or 'line break'\\nin file "
-                    << filename_ << " at line " << token->GetLineNumber() );
-    }
+    ParseTerminator_();
+    CHECK_ERROR( exp );
   }
   END(ReturnStatement);
   return stmt;
@@ -1592,23 +1601,32 @@ AstNode* Parser::ParseCaseClauses_() {
         token = Advance_();
         type = token->GetType();
         if ( type == ':' ) {
-          AstNode* statement_list = ParseStatementList_( CaseBodyMatcher , "'case','default' or '}'" );
-          CHECK_ERROR( clause );
-          clause->AddChild( statement_list );
-          list->AddChild( clause );
+          token = Seek_();
+          type = token->GetType();
+          if ( type == Token::JS_CASE ) {
+            clause->AddChild( ManagedHandle::Retain<Empty>() );
+            list->AddChild( clause );
+          } else {
+            AstNode* statement_list = ParseStatementList_( CaseBodyMatcher , "'case','default' or '}'" );
+            CHECK_ERROR( clause );
+            clause->AddChild( statement_list );
+            list->AddChild( clause );
+          }
         } else {
           SYNTAX_ERROR( "parse error got unexpected token "
                         << TokenConverter( token )
                         << " in 'switch statement case expression' expect ':'\\nin file"
                         << filename_ << " at line " << token->GetLineNumber() );
-          break;
+          END(SwitchStatementError);
+          return list;
         }
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
                       << " in 'switch statement case block' expect 'case'\\nin file"
                       << filename_ << " at line " << token->GetLineNumber() );
-        break;
+        END(SwitchStatementError);
+        return list;
       }
       token = Seek_();
       type = token->GetType();
@@ -1618,6 +1636,8 @@ AstNode* Parser::ParseCaseClauses_() {
                   << TokenConverter( token )
                   << " in 'switch statement case block' expect '{'\\nin file"
                   << filename_ << " at line " << token->GetLineNumber() );
+    END(SwitchStatementError);
+    return list;
   }
   Advance_();
   END(CaseClause);
@@ -1647,17 +1667,8 @@ AstNode* Parser::ParseThrowStatement_() {
   AstNode* exp = ParseExpression_( false );
   CHECK_ERROR( throw_stmt );
   throw_stmt->Exp( exp );
-  token = Seek_();
-  int type = token->GetType();
-  if ( type != ';' && type != '}' && !token->HasLineBreakBefore() && !IsEnd( type ) ) {
-    SYNTAX_ERROR( "parse error got unexpected token "
-                  << TokenConverter( token )
-                  << " in 'throw statement' expect ';' or 'line break'\\nin file"
-                  << filename_ << " at line " << token->GetLineNumber() );
-  }
-  if ( type == ';' ) {
-    Advance_();
-  }
+  ParseTerminator_();
+  CHECK_ERROR( exp );
   END(ThrowStatement);
   return throw_stmt;
 }
@@ -1749,7 +1760,9 @@ AstNode* Parser::ParseFinallyBlock_() {
   TokenInfo *token = Advance_();
   int type = token->GetType();
   if ( type == '{' ) {
+    state_stack_->Push( StateStack::kFinally );
     AstNode* block = ParseBlockStatement_();
+    state_stack_->Pop();
     END(FinallyBlock);
     return block;
   } else {
@@ -1769,7 +1782,7 @@ AstNode* Parser::ParseClassDecl_( bool is_const ) {
   int type = token->GetType();
   AstNode* name;
   AstNode* inherit;
-  is_in_class_decl_ = true;
+  state_stack_->Push( StateStack::kClassDecl );
   if ( type == Token::JS_IDENTIFIER ) {
     name = ParseLiteral_();
     CHECK_ERROR( name );
@@ -1801,11 +1814,11 @@ AstNode* Parser::ParseClassDecl_( bool is_const ) {
                   << " in 'class declaration' expect '{'\\nin file "
                   << filename_ << " at line " << token->GetLineNumber() );
     END(ClassDecl);
-    is_in_class_decl_ = false;
+    state_stack_->Pop();
     return cls;
   }
   END(ClassDecl);
-  is_in_class_decl_ = false;
+  state_stack_->Pop();
   return cls;
 }
 
@@ -1875,7 +1888,7 @@ AstNode* Parser::ParseClassBody_() {
 AstNode* Parser::ParseClassMemberStatement_() {
   TokenInfo* token = Seek_( -1 );
   int type = token->GetType();
-  if ( is_in_class_decl_ ) {
+  if ( state_stack_->Has( StateStack::kClassDecl ) ) {
     ClassMember::MemberAttr member_type = ( type == Token::JS_PUBLIC )?
         ClassMember::kPublic : ( type == Token::JS_STATIC )?
         ClassMember::kStatic : ClassMember::kPrivate;
@@ -2077,10 +2090,28 @@ AstNode* Parser::ParseYieldExpression_( bool is_noin ) {
   TokenInfo* token = Seek_();
   int type = token->GetType();
   if ( type == Token::JS_YIELD ) {
-    token = Advance_();
+    if ( state_stack_->Has( StateStack::kFinally ) ) {
+      SYNTAX_ERROR( "yield statement not allowed in 'finally block'\\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      END(YieldExpressionError);
+      return ManagedHandle::Retain<Empty>();
+    }
+    if ( !state_stack_->Has( StateStack::kFunction ) ) {
+      SYNTAX_ERROR( "yield statement only allowed in 'function'\\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      END(YieldExpressionError);
+      return ManagedHandle::Retain<Empty>();
+    }
+    bits_.Set( YIELD_FLG );
+    Advance_();
+    token = Seek_();
     type = token->GetType();
     if ( token->HasLineBreakAfter() || type == ';' || type == '}' ) {
+      if ( type == ';' ) {
+        Advance_();
+      }
       YieldExp* exp = ManagedHandle::Retain<YieldExp>();
+      exp->AddChild( ManagedHandle::Retain<Empty>() );
       exp->Line( token->GetLineNumber() );
       END(YieldExpression);
       return exp;
@@ -2769,7 +2800,7 @@ AstNode* Parser::ParseObjectLiteral_() {
 
 AstNode* Parser::ParseObjectElement_( int type , TokenInfo* token , AstNode* list ) {
   ENTER(ObjectElement);
-  if ( IsLiteral( type ) ) {
+  if ( IsValidPropertyName( type ) ) {
     AstNode* node = ParseLiteral_();
     CHECK_ERROR( node );
     Advance_();
@@ -2964,7 +2995,17 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     type = token->GetType();
     if ( type == '{' ) {
       Advance_();
+      state_stack_->Push( StateStack::kFunction );
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
+      if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
+        SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        END(FunctionDeclError);
+        return fn;
+      }
+      bits_.UnSet( RETURN_FLG );
+      bits_.UnSet( YIELD_FLG );
+      state_stack_->Pop();
       CHECK_ERROR( body );
       fn->Append( body );
       Advance_();
@@ -2979,7 +3020,9 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     }
   } else {
     if ( type == '{' ) {
+      state_stack_->Push( StateStack::kFunction );
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
+      state_stack_->Pop();
       CHECK_ERROR( body );
       Advance_();
       fn->Append( body );
@@ -3153,7 +3196,17 @@ AstNode* Parser::ParseArrowFunctionBody_( Function* fn ) {
   int token_type = token->GetType();
   if ( token_type == '{' ) {
     Advance_();
+    state_stack_->Push( StateStack::kFunction );
     AstNode* list = ParseStatementList_( BlockBodyMatcher , "}" );
+    if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
+      SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      END(FunctionDeclError);
+      return fn;
+    }
+    bits_.UnSet( RETURN_FLG );
+    bits_.UnSet( YIELD_FLG );
+    state_stack_->Pop();
     CHECK_ERROR( list );
     fn->Append( list );
     Advance_();

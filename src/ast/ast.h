@@ -531,6 +531,7 @@ class Statement : public AstNode {
   virtual inline ExYieldStateNode* CastToYieldState() { return 0; }
   virtual inline YieldMark* CastToYieldMark() { return 0; }
   virtual inline IFStmt* CastToIFStmt() { return 0; }
+  virtual inline SwitchStmt* CastToSwitchStmt() { return 0; }
   /**
    * @param {DstaExtractedExpression} tree
    * Set destructuring assignment tree.
@@ -588,15 +589,18 @@ class StatementList : public AstNode {
 
 class YieldMark : public Statement {
  public :
-  YieldMark() : Statement( NAME_PARAMETER( YieldMark ) ) , adjustment_( 0 ), state_( 0 ){}
+  YieldMark() : Statement( NAME_PARAMETER( YieldMark ) ) , adjustment_( 0 ) , is_state_injection_( false ), state_( 0 ){}
   ~YieldMark() {}
   inline void ReEntrantNode( ValueNode* val ){ state_ = val; }
   inline ValueNode* ReEntrantNode(){ return state_; }
   inline YieldMark* CastToYieldMark() { return this; }
   inline int Adjust( int val ) { return val + adjustment_; }
   inline void SetAdjust( int val ) { adjustment_ = val; }
+  inline void SetNoStateInjection() { is_state_injection_ = true; }
+  inline bool GetNoStateInjection() { return is_state_injection_; }
  private :
   int adjustment_;
+  bool is_state_injection_;
   ValueNode* state_;
 };
 
@@ -952,6 +956,7 @@ class SwitchStmt : public Statement {
   inline ~SwitchStmt() {};
   inline void Exp( AstNode* node ) { exp_ = node; }
   inline AstNode* Exp() { return exp_; }
+  inline SwitchStmt* CastToSwitchStmt() { return this; }
   CLONE( SwitchStmt );
  private :
   AstNode* exp_;

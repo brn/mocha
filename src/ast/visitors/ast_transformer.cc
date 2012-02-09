@@ -376,6 +376,9 @@ VISITOR_IMPL( SwitchStmt ) {
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
+  if ( ast_node->GetYieldFlag() ) {
+    visitor_info_->GetFunction()->SetStmtWithYield( ast_node );
+  }
 }
 
 

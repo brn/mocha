@@ -246,22 +246,47 @@ generator = yieldTest8();
 
 
 yieldTest9()-> {
+  var flg = false;
   for ( var i = 0; i < 10; i++ ) {
     try {
-      var m = 0
+      var m = ( flg )? 1 : 0
       yield m;
       ddddd();
     } catch(e) {}
     finally {
-      yield i;
+      flg = true;
     }
   }
 }
 generator = yieldTest9();
 @assert( true , generator.next() === 0 );
-@assert( true , generator.next() === 0 );
-@assert( true , generator.next() === 0 );
 @assert( true , generator.next() === 1 );
-@assert( true , generator.next() === 0 );
-@assert( true , generator.next() === 2 );
+@assert( true , generator.next() === 1 );
+@assert( true , generator.next() === 1 );
+@assert( true , generator.next() === 1 );
+
+yieldTest10()-> {
+  for ( var i = 0; i < 10; i++ ) {
+    var type = yield;
+    switch( type ) {
+    case 0 :
+      yield 200;
+    case 2 :
+      yield 400;
+    case 3 :
+      yield 600;
+    default :
+      yield 700;
+    }
+  }
+}
+generator = yieldTest10();
+generator.next();
+@assert( true , generator.send( 0 ) === 200 );
+generator.next()
+@assert( true , generator.send( 2 ) === 400 );
+generator.next()
+@assert( true , generator.send( 3 ) === 600 );
+generator.next()
+@assert( true , generator.send(null) === 700 );
 

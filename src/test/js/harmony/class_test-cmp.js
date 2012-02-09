@@ -425,7 +425,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
@@ -446,7 +446,7 @@
                   Runtime.constant( this,'constructor',Monster.constructor );
                   
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this.constructor,'__XQi8nvIhru__',new _mochaPrivateHolder );
+                  Runtime.createUnenumProp( this.constructor,'__gZ9SnR5gc2__',new _mochaPrivateHolder );
                   
                   __LINE__ = 0;
                   if ( Monster.constructor ){
@@ -467,7 +467,7 @@
                   this.name = name;
                   
                   __LINE__ = 9;
-                  this.constructor.__XQi8nvIhru__.health = health;
+                  this.constructor.__gZ9SnR5gc2__.health = health;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -487,7 +487,7 @@
               Monster.prototype.isAlive = function isAlive() {
                 try {
                   __LINE__ = 23;
-                  return this.constructor.__XQi8nvIhru__.health>0;
+                  return this.constructor.__gZ9SnR5gc2__.health>0;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -503,7 +503,7 @@
                   };
                   
                   __LINE__ = 0;
-                  this.constructor.__XQi8nvIhru__.health = value;
+                  this.constructor.__gZ9SnR5gc2__.health = value;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -552,7 +552,7 @@
                   Runtime.constant( this,'constructor',BaseTest.constructor );
                   
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this.constructor,'__rf$whsZbnL__',new _mochaPrivateHolder );
+                  Runtime.createUnenumProp( this.constructor,'__OnAJFAY1yA__',new _mochaPrivateHolder );
                   
                   __LINE__ = 0;
                   if ( BaseTest.constructor ){
@@ -593,7 +593,7 @@
                   Runtime.constant( this,'constructor',DeriveTest.constructor );
                   
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this.constructor,'__WiHl$b2I_N__',new _mochaPrivateHolder );
+                  Runtime.createUnenumProp( this.constructor,'__DxPuYg_rcb__',new _mochaPrivateHolder );
                   
                   __LINE__ = 0;
                   if ( DeriveTest.constructor ){
