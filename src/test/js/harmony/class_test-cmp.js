@@ -404,21 +404,23 @@
         
         ( function () {
           var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
-                return console.assert( expect === exp,"assertion failed : "+str+"\nin file "+filename+" at : "+line );
+                return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
               } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
-                  Runtime.throwException( "assertion failed : "+str+"\nin file "+filename+" at : "+line );
+                  Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
                 };
               };
         })();
         return _mochaLocalExport;
       })();
   
-  var StopIteration =  {
-        toString : function toString() {
-          return "StopIteration";
-        }
-      };
+  if ( !( "StopIteration" in window ) ){
+    window.StopIteration =  {
+      toString : function toString() {
+        return "StopIteration";
+      }
+    };
+  };
   
   __LINE__ = 0;
   ( function () {

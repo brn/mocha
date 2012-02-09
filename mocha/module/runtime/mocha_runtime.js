@@ -358,15 +358,17 @@ module Runtime {
   
   @version( debug ) {
     export assert = ( console && console.assert )?
-      ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nin file " + filename + " at : " + line ) :
+      ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
       ( expect , exp , str , line , filename )->{
         if ( expect !== exp ) {
-          Runtime.throwException( "assertion failed : " + str + "\nin file " + filename + " at : " + line );
+          Runtime.throwException( "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line );
         }
       }
   }
 }
 
-const StopIteration = {
-  toString() { return "StopIteration"; }
+if ( !( "StopIteration" in window ) ) {
+  window.StopIteration = {
+    toString() { return "StopIteration"; }
+  }
 }

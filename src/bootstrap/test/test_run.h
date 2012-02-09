@@ -26,7 +26,7 @@ void RunJS() {
   while ( iterator.HasNext() ) {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
-    if ( strstr( fullpath , "class_test-cmp.js" ) != NULL ) {
+    if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
       args += fullpath;
       args += " ";
     }
@@ -42,7 +42,7 @@ void RunTest() {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     int i = 0;
-    if ( strstr( fullpath , "class_test.js" ) != NULL ) {
+    if ( strstr( fullpath , "-cmp.js" ) == NULL ) {
       ExternalResource::UnsafeSet( fullpath );
       CompileInfo* info = ExternalResource::UnsafeGet( fullpath )->GetCompileInfo();
       info->SetDebug();

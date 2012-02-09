@@ -182,7 +182,7 @@ class YieldHelper : private Uncopyable {
     while ( begin != end ) {
       YieldMark* mark = (*begin);
       char state[10];
-      int state_num = ( iterator_.HasNext() )? mark->Adjust( state_ ) : -1;
+      int state_num = mark->Adjust( state_ );
       sprintf( state , "%d" , state_num );
       mark->ReEntrantNode()->Symbol()->SetToken( state );
       ++begin;
@@ -203,8 +203,7 @@ class YieldHelper : private Uncopyable {
     
     ValueNode* stop_iteration = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kStopIteration ),
                                                         Token::JS_PROPERTY , function_->Line() , ValueNode::kProperty );
-    CallExp* runtime_throw = AstUtils::CreateRuntimeMod( stop_iteration );
-    list->AddChild( runtime_throw );
+    list->AddChild( stop_iteration );
     CallExp* exp = AstUtils::CreateNormalAccessor( handler , list );
     CallExp* runtime = AstUtils::CreateRuntimeMod( exp );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime );
@@ -244,6 +243,9 @@ class YieldHelper : private Uncopyable {
         if ( has_finally ) {
           finally_stmt = ProcessFinally_( stmt );
           clear_finally_stmt = CreateClearCacheStmt_( SymbolList::GetSymbol( SymbolList::kFinallyCache ) );
+          clear_finally_stmt->SetYieldFlag();
+        } else {
+          clear_catch_stmt->SetYieldFlag();
         }
         CopyTryCatchBody_( has_finally , stmt , catch_stmt,
                            clear_catch_stmt , finally_stmt , clear_finally_stmt );
@@ -418,6 +420,7 @@ class YieldHelper : private Uncopyable {
       count++;
       ++begin;
     }
+    NodeIterator iterator = function_->ChildNodes();
   }
 
 
@@ -897,7 +900,12 @@ class YieldHelper : private Uncopyable {
       is_state_injection_ = true;
     }
     if ( yield_stmt->NodeType() == AstNode::kYieldMark ) {
-      mark_list_.push_back( yield_stmt->CastToStatement()->CastToYieldMark() );
+      YieldMark* yield_mark = yield_stmt->CastToStatement()->CastToYieldMark();
+      char state[10];
+      int state_num = ( iterator_.HasNext() )? yield_mark->Adjust( state_ ) : -1;
+      sprintf( state , "%d" , state_num );
+      yield_mark->ReEntrantNode()->Symbol()->SetToken( state );
+      //mark_list_.push_back( yield_stmt->CastToStatement()->CastToYieldMark() );
     } else if ( yield_stmt->NodeType() == AstNode::kExYieldStateNode ) {
       ExYieldStateNode* ex_node = yield_stmt->CastToStatement()->CastToYieldState();
       char back[10];
@@ -917,7 +925,7 @@ class YieldHelper : private Uncopyable {
       if ( iterator_.HasNext() ) {
         CreateCaseClause_( function_->Line() );
       }
-    } else if ( yield_stmt->CastToStatement()->GetYieldFlag() ) {
+    } else if ( yield_stmt->CastToStatement() && yield_stmt->CastToStatement()->GetYieldFlag() ) {
       std::list<YieldMark*>::iterator begin = mark_list_.begin(),end = mark_list_.end();
       while ( begin != end ) {
         YieldMark* mark = (*begin);
@@ -1004,6 +1012,22 @@ class GeneratorHelper : private Uncopyable {
     fn->AddChild( iter );
   }
 
+
+  BlockStmt* CreateExceptionReturnValueCheckStmt_ ( CallExp* call_handler ) {
+    ValueNode* cache = AstUtils::CreateTmpNode( info_->GetInfo()->GetTmpIndex() );
+    AstNode* return_value = cache->Clone();
+    cache->ValueType( ValueNode::kVariable );
+    cache->AddChild( call_handler );
+    VariableStmt* value_stmt = AstUtils::CreateVarStmt( cache );
+    ReturnStmt* return_value_stmt = AstUtils::CreateReturnStmt( return_value );
+    BlockStmt* blk = AstUtils::CreateBlockStmt( 1 , return_value_stmt );
+    ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ) , Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+    CompareExp* is_defined = ManagedHandle::Retain( new CompareExp( Token::JS_NOT_EQ , return_value->Clone() , undefined ) );
+    IFStmt* is_return = AstUtils::CreateIFStmt( is_defined , blk , ManagedHandle::Retain<Empty>() );
+    BlockStmt* check_return = AstUtils::CreateBlockStmt( 2 , value_stmt , is_return );
+    return check_return;
+  }
+  
   ValueNode* CreateCatchHandler_() {
     ValueNode* catches = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kException ),
                                                    Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
@@ -1013,7 +1037,8 @@ class GeneratorHelper : private Uncopyable {
     NodeList* args = ManagedHandle::Retain<NodeList>();
     args->AddChild( catches->Clone() );
     CallExp* call_handler = AstUtils::CreateNormalAccessor( handler , args );
-    ExpressionStmt* stmt = AstUtils::CreateExpStmt( call_handler );
+
+    BlockStmt* check_return = CreateExceptionReturnValueCheckStmt_( call_handler );
     
     IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
     ValueNode* thrower = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThrowException ),
@@ -1024,7 +1049,7 @@ class GeneratorHelper : private Uncopyable {
     CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( throw_call );
     ExpressionStmt* call_stmt = AstUtils::CreateExpStmt( runtime_accessor );
     if_stmt->Exp( handler->Clone() );
-    if_stmt->Then( stmt );
+    if_stmt->Then( check_return );
     if_stmt->Else( call_stmt );
     StatementList *catch_stmt_list = ManagedHandle::Retain<StatementList>();
     catch_stmt_list->AddChild( if_stmt );
@@ -1039,11 +1064,10 @@ class GeneratorHelper : private Uncopyable {
                                                    Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
     NodeList* args = ManagedHandle::Retain<NodeList>();
     CallExp* call_handler = AstUtils::CreateNormalAccessor( handler , args );
-    ExpressionStmt* stmt = AstUtils::CreateExpStmt( call_handler );
-    
+    BlockStmt* check_return = CreateExceptionReturnValueCheckStmt_( call_handler );
     IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
     if_stmt->Exp( handler->Clone() );
-    if_stmt->Then( stmt );
+    if_stmt->Then( check_return );
     if_stmt->Else( ManagedHandle::Retain<Empty>() );
     StatementList *finally_stmt_list = ManagedHandle::Retain<StatementList>();
     finally_stmt_list->AddChild( if_stmt );

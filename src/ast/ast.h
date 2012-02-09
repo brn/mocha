@@ -977,9 +977,9 @@ class TryStmt : public Statement {
  public :
   inline TryStmt() : Statement( NAME_PARAMETER(TryStmt) ) , catch_( 0 ) , finally_( 0 ){};
   inline ~TryStmt(){};
-  inline void Catch( AstNode* catch_stmt ) { catch_ = catch_stmt; }
+  inline void Catch( AstNode* catch_stmt ) { catch_ = catch_stmt;catch_stmt->ParentNode( this ); }
   inline AstNode* Catch() { return catch_; }
-  inline void Finally( AstNode* finally_stmt ) { finally_ = finally_stmt; }
+  inline void Finally( AstNode* finally_stmt ) { finally_ = finally_stmt;finally_stmt->ParentNode( this ); }
   inline AstNode* Finally() { return finally_; }
   CLONE( TryStmt );
  private :

@@ -26,7 +26,8 @@
                 } catch( e ){
                   throw new Error( this.getErrorMessage( e ) );
                 };
-              }
+              },
+              hasProto : "__proto__" in {}
             };
         
         if ( !String.prototype.trim ){
@@ -315,7 +316,7 @@
         
         var slice = Array.prototype.slice;
         
-        var createUnenumProp = _mochaLocalExport.createUnenumProp = function ( obj,prop,value ) {
+        var createUnenumProp = _mochaLocalExport.createUnenumProp = function createUnenumProp( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : true,
                 enumerable : false,
@@ -324,7 +325,7 @@
               });
             };
         
-        var constant = _mochaLocalExport.constant = function ( obj,prop,value ) {
+        var constant = _mochaLocalExport.constant = function constant( obj,prop,value ) {
               return Object.defineProperty( obj,prop, {
                 configurable : false,
                 enumerable : false,
@@ -333,104 +334,11 @@
               });
             };
         
-        var toArray = _mochaLocalExport.toArray = function ( likeArray,index ) {
+        var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
               return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
             };
         
-        var Iterator = _mochaLocalExport.Iterator = function ( obj,isKeyOnly ) {
-              isKeyOnly = isKeyOnly || false;
-              
-              var iter = {},
-                  isArray,
-                  ret,
-                  index = 0;
-              
-              if ( this instanceof Iterator ){
-                isArray = Array.isArray( obj );
-                
-                ret = _ownPropertyIterator( obj,isArray,isKeyOnly );
-              } else {
-                return _userdefIterator( obj,isKeyOnly );
-              };
-              
-              createUnenumProp( iter,"next",
-              function () {
-                return ret[index ++ ];
-              });
-              return iter;
-            };
-        
-        var _objectIterator = function ( obj,isKeyOnly ) {
-              var ret = [],
-                  iter = -1;
-              
-              if ( isKeyOnly ){
-                for ( var prop in obj ){
-                  ret[ ++ iter] = prop;
-                };
-              } else {
-                for ( var prop in obj ){
-                  ret[ ++ iter] = [prop,obj[prop]];
-                };
-              };
-              return ret;
-            },
-            _arrayIterator = function ( obj,isKeyOnly ) {
-              var ret = [];
-              
-              if ( isKeyOnly ){
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = i;
-                };
-              } else {
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = [i,obj[i]];
-                };
-              };
-              return ret;
-            },
-            _stringIterator = function ( obj,isKeyOnly ) {
-              var ret = [];
-              
-              if ( isKeyOnly ){
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = i;
-                };
-              } else {
-                for ( var i = 0,len = obj.length;i<len;i ++  ){
-                  ret[i] = [i,obj.charAt( i )];
-                };
-              };
-              return ret;
-            },
-            _ownPropertyIterator = function ( obj,isArray,isKeyOnly ) {
-              var type = typeof obj;
-              
-              if ( type === "object" && !isArray ){
-                return _objectIterator( obj,isKeyOnly );
-              } else if ( isArray ){
-                return _arrayIterator( obj,isKeyOnly );
-              } else if ( type === "string" ){
-                return _stringIterator( obj,isKeyOnly );
-              };
-            },
-            _userdefIterator = function ( obj,isKeyOnly ) {
-              if ( "__iterator__" in obj ){
-                return obj.__iterator__( isKeyOnly );
-              } else {
-                return  {
-                  next : function () {
-                    try {
-                      throw new StopIteration;
-                    } catch( e ){
-                      throw new Error( e );
-                    };
-                  }
-                };
-              };
-            };
-        
-        var createGenerator = _mochaLocalExport.createGenerator = function ( generatorFn,closeFn,context ) {
+        var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
               var ret = {};
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
@@ -450,36 +358,74 @@
               return ret;
             };
         
-        var getErrorMessage = function ( e ) {
-              return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
-            };
-        
+        function getErrorMessage( e ) {
+          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+        }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
         var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
         
+        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
+              derived.prototype = base;
+            };
+        
+        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+              return Object.getPrototypeOf( obj );
+            } : function ( obj ) {
+              if ( "constructor" in obj ){
+                return obj.constructor.prototype || {};
+              };
+            };
+        
+        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+              if ( typeof base === 'function' ){
+                derived.prototype.__proto__ = base.prototype;
+              } else {
+                derived.prototype.__proto__ = base.__proto__;
+              };
+            } : function ( derived,base ) {
+              var baseType = typeof base;
+              
+              if ( baseType === "function" ){
+                var inherit = function (){};
+                
+                inherit.prototype = base.prototype;
+                
+                derived.prototype = new inherit;
+              } else {
+                var inherit = function (){},
+                    proto = getPrototype( base );
+                
+                inherit.prototype = proto;
+                
+                derived.prototype = new inherit;
+              };
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line ) {
-                return console.assert( expect === exp,str+"\nat : "+line );
-              } : function ( expect,exp,str,line ) {
+          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+                return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
+              } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
-                  Runtime.throwException( "assertion failed : "+str+"\nat : "+line );
+                  Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
                 };
               };
         })();
         return _mochaLocalExport;
       })();
   
-  var StopIteration =  {
-        toString : function toString() {
-          return "StopIteration";
-        }
-      };
+  if ( !( "StopIteration" in window ) ){
+    window.StopIteration =  {
+      toString : function toString() {
+        return "StopIteration";
+      }
+    };
+  };
   
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/function_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/function_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['../ecma262_5th/function_test.js'] = {};
@@ -612,7 +558,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/import_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./import_test.js'] = {};
