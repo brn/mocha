@@ -1,17 +1,34 @@
-var testvalue = 1;
+var testvalue = 9;
+var table = ['a','b','c','d','e','f','g','h','i','j'];
+var ret = [];
 do {
-  break;
-} while( testvalue );
+  ret.push( table[ testvalue ] );
+} while( testvalue-- );
 
-var testDstaObject = { test : 200  };
-var testDstaTarget;
+@assert( true , ret[ 0 ] === 'j' );
+@assert( true , ret[ 1 ] === 'i' );
+@assert( true , ret[ 2 ] === 'h' );
+@assert( true , ret[ 3 ] === 'g' );
+@assert( true , ret[ 4 ] === 'f' );
+@assert( true , ret[ 5 ] === 'e' );
+@assert( true , ret[ 6 ] === 'd' );
+@assert( true , ret[ 7 ] === 'c' );
+@assert( true , ret[ 8 ] === 'b' );
+@assert( true , ret[ 9 ] === 'a' );
 
-do {
-  break;
-} while ( ( {test:testDstaTarget} = testDstaObject ) );
+testvalue = 9;
+ret = [];
+do ret.push( table[ testvalue ] );
+  while ( testvalue-- );
 
-var i = 1;
-
-do break;
-while( i );
+@assert( true , ret[ 0 ] === 'j' );
+@assert( true , ret[ 1 ] === 'i' );
+@assert( true , ret[ 2 ] === 'h' );
+@assert( true , ret[ 3 ] === 'g' );
+@assert( true , ret[ 4 ] === 'f' );
+@assert( true , ret[ 5 ] === 'e' );
+@assert( true , ret[ 6 ] === 'd' );
+@assert( true , ret[ 7 ] === 'c' );
+@assert( true , ret[ 8 ] === 'b' );
+@assert( true , ret[ 9 ] === 'a' );
 

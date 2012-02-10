@@ -1,5 +1,6 @@
 #ifndef mocha_test_run_h_
 #define mocha_test_run_h_
+#include <string.h>
 #include <bootstrap/runners/phantom_runner.h>
 #include <compiler/external/external_resource.h>
 #include <compiler/compiler.h>
@@ -9,6 +10,7 @@
 #include <bootstrap/bootstrap.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_system/directory.h>
+#include <utils/thread/thread.h>
 namespace mocha {namespace compiler_test {
 
 std::string GetPath( const char* path ) {
@@ -17,6 +19,12 @@ std::string GetPath( const char* path ) {
   result += '/';
   result += path;
   return result;
+}
+
+void* ThreadRunner( void* args ) {
+  const char* path = reinterpret_cast<const char*>( args );
+  PhantomRunner::Run( path );
+  delete []path;
 }
 
 void RunJS() {
@@ -31,7 +39,11 @@ void RunJS() {
       args += " ";
     }
   }
-  PhantomRunner::Run( args.c_str() );
+  char* path = new char[ args.size() ];
+  strcpy( path , args.c_str() );
+  Thread thread;
+  thread.Create( ThreadRunner , path );
+  thread.Exit();
 }
 
 void RunTest() {

@@ -463,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/do_while_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/do_while_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./do_while_test.js'] = {};
@@ -472,41 +472,91 @@
       var _mochaGlobalAlias = _mochaGlobalExport['./do_while_test.js'];
       
       __LINE__ = 1;
-      var testvalue = 1;
+      var testvalue = 9;
       
       __LINE__ = 2;
-      do {
-        __LINE__ = 3;
-        break;
-      }while ( testvalue );
+      var table = ['a','b','c','d','e','f','g','h','i','j'];
       
-      __LINE__ = 6;
-      var testDstaObject =  {
-            test : 200
-          };
+      __LINE__ = 3;
+      var ret = [];
       
-      __LINE__ = 7;
-      var testDstaTarget;
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp0 = {};
-      
-      __LINE__ = 9;
+      __LINE__ = 4;
       do {
         __LINE__ = 0;
-        ( testDstaTarget = _mochaLocalTmp0.test );
-        __LINE__ = 10;
-        break;
-      }while ( ( _mochaLocalTmp0 = testDstaObject ) );
+        ret.push( table[testvalue] );
+      }while ( testvalue --  );
+      
+      __LINE__ = 8;
+      Runtime.assert( true,ret[0] === 'j',"ret[0] === 'j'",8,'./do_while_test.js' );
+      
+      __LINE__ = 9;
+      Runtime.assert( true,ret[1] === 'i',"ret[1] === 'i'",9,'./do_while_test.js' );
+      
+      __LINE__ = 10;
+      Runtime.assert( true,ret[2] === 'h',"ret[2] === 'h'",10,'./do_while_test.js' );
+      
+      __LINE__ = 11;
+      Runtime.assert( true,ret[3] === 'g',"ret[3] === 'g'",11,'./do_while_test.js' );
+      
+      __LINE__ = 12;
+      Runtime.assert( true,ret[4] === 'f',"ret[4] === 'f'",12,'./do_while_test.js' );
       
       __LINE__ = 13;
-      var i = 1;
+      Runtime.assert( true,ret[5] === 'e',"ret[5] === 'e'",13,'./do_while_test.js' );
+      
+      __LINE__ = 14;
+      Runtime.assert( true,ret[6] === 'd',"ret[6] === 'd'",14,'./do_while_test.js' );
       
       __LINE__ = 15;
+      Runtime.assert( true,ret[7] === 'c',"ret[7] === 'c'",15,'./do_while_test.js' );
+      
+      __LINE__ = 16;
+      Runtime.assert( true,ret[8] === 'b',"ret[8] === 'b'",16,'./do_while_test.js' );
+      
+      __LINE__ = 17;
+      Runtime.assert( true,ret[9] === 'a',"ret[9] === 'a'",17,'./do_while_test.js' );
+      
+      __LINE__ = 0;
+      testvalue = 9;
+      
+      __LINE__ = 0;
+      ret = [];
+      
+      __LINE__ = 21;
       do {
-        __LINE__ = 15;
-        break;
-      }while ( i );
+        __LINE__ = 0;
+        ret.push( table[testvalue] );
+      }while ( testvalue --  );
+      
+      __LINE__ = 24;
+      Runtime.assert( true,ret[0] === 'j',"ret[0] === 'j'",24,'./do_while_test.js' );
+      
+      __LINE__ = 25;
+      Runtime.assert( true,ret[1] === 'i',"ret[1] === 'i'",25,'./do_while_test.js' );
+      
+      __LINE__ = 26;
+      Runtime.assert( true,ret[2] === 'h',"ret[2] === 'h'",26,'./do_while_test.js' );
+      
+      __LINE__ = 27;
+      Runtime.assert( true,ret[3] === 'g',"ret[3] === 'g'",27,'./do_while_test.js' );
+      
+      __LINE__ = 28;
+      Runtime.assert( true,ret[4] === 'f',"ret[4] === 'f'",28,'./do_while_test.js' );
+      
+      __LINE__ = 29;
+      Runtime.assert( true,ret[5] === 'e',"ret[5] === 'e'",29,'./do_while_test.js' );
+      
+      __LINE__ = 30;
+      Runtime.assert( true,ret[6] === 'd',"ret[6] === 'd'",30,'./do_while_test.js' );
+      
+      __LINE__ = 31;
+      Runtime.assert( true,ret[7] === 'c',"ret[7] === 'c'",31,'./do_while_test.js' );
+      
+      __LINE__ = 32;
+      Runtime.assert( true,ret[8] === 'b',"ret[8] === 'b'",32,'./do_while_test.js' );
+      
+      __LINE__ = 33;
+      Runtime.assert( true,ret[9] === 'a',"ret[9] === 'a'",33,'./do_while_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

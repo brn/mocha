@@ -1,9 +1,4 @@
-try{
-  throw new SyntaxError("return statement only allowed in 'function'\nin file /Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/switch_test.js at line 6")
-}catch(e){
-  throw new Error(e);
-}
-;(function() {
+(function() {
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
@@ -464,4 +459,107 @@ try{
       }
     };
   };
+  
+  __LINE__ = 0;
+  ( function () {
+    try {
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/switch_test.js",
+          __LINE__ = 0;
+      __LINE__ = 2;
+      _mochaGlobalExport['./switch_test.js'] = {};
+      
+      __LINE__ = 3;
+      var _mochaGlobalAlias = _mochaGlobalExport['./switch_test.js'];
+      
+      function switchTest( type ) {
+        try {
+          __LINE__ = 3;
+          var ret = 0;
+          
+          __LINE__ = 0;
+          switch ( type ) {
+            case 1 :
+              
+              __LINE__ = 0;
+              ret = 0;
+              
+              __LINE__ = 0;
+              ret += 1;
+              __LINE__ = 8;
+              return ret;
+            case 2 :
+              
+              __LINE__ = 0;
+              ret = 100;
+              __LINE__ = 11;
+              break;
+            case 3 :
+            case 4 :
+              
+              __LINE__ = 0;
+              ret = 0;
+              
+              __LINE__ = 0;
+              ret ++ ;
+              __LINE__ = 17;
+              break;
+            case 5 :
+              
+              {
+                __LINE__ = 0;
+                ret = 0;
+                
+                __LINE__ = 0;
+                ret = 1;
+              };
+              __LINE__ = 23;
+              break;
+            case 6 :
+            case 7 :
+              
+              {
+                __LINE__ = 0;
+                ret = 10;
+              };
+              __LINE__ = 28;
+              break;
+            default :
+              
+              __LINE__ = 0;
+              ret = 100;
+              
+          };
+          __LINE__ = 32;
+          return ret;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      __LINE__ = 35;
+      Runtime.assert( true,switchTest( 1 ) === 1,"switchTest( 1 ) === 1",35,'./switch_test.js' );
+      
+      __LINE__ = 36;
+      Runtime.assert( true,switchTest( 2 ) === 100,"switchTest( 2 ) === 100",36,'./switch_test.js' );
+      
+      __LINE__ = 37;
+      Runtime.assert( true,switchTest( 3 ) === 1,"switchTest( 3 ) === 1",37,'./switch_test.js' );
+      
+      __LINE__ = 38;
+      Runtime.assert( true,switchTest( 4 ) === 1,"switchTest( 4 ) === 1",38,'./switch_test.js' );
+      
+      __LINE__ = 39;
+      Runtime.assert( true,switchTest( 5 ) === 1,"switchTest( 5 ) === 1",39,'./switch_test.js' );
+      
+      __LINE__ = 40;
+      Runtime.assert( true,switchTest( 6 ) === 10,"switchTest( 6 ) === 10",40,'./switch_test.js' );
+      
+      __LINE__ = 41;
+      Runtime.assert( true,switchTest( 7 ) === 10,"switchTest( 7 ) === 10",41,'./switch_test.js' );
+      
+      __LINE__ = 42;
+      Runtime.assert( true,switchTest( 8 ) === 100,"switchTest( 8 ) === 100",42,'./switch_test.js' );
+    } catch( e ){
+      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+    }
+  })();
 })();

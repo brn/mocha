@@ -463,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/try_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/try_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./try_test.js'] = {};
@@ -471,15 +471,22 @@
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./try_test.js'];
       
+      __LINE__ = 1;
+      var value = 0;
+      
       try {
-        __LINE__ = 2;
+        __LINE__ = 0;
+        value = 100;
+        __LINE__ = 4;
         throw new Error( "message" );
       } catch( e ){
-        __LINE__ = 4;
-        throw new Error( e );
+        
+        __LINE__ = 6;
+        Runtime.assert( true,e instanceof Error,"e instanceof Error",6,'./try_test.js' );
       } finally {
-        __LINE__ = 0;
-        console.log( "end" );
+        
+        __LINE__ = 8;
+        Runtime.assert( true,value === 100,"value === 100",8,'./try_test.js' );
       };
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

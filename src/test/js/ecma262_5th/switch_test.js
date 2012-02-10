@@ -1,59 +1,43 @@
-switch ( type ) {
-case "only":
-case "first":
-	while ( (node = node.previousSibling) )	 {
-		if ( node.nodeType === 1 ) { 
-			return false; 
-		}
-	}
 
-	if ( type === "first" ) { 
-		return true; 
-	}
-
-	node = elem;
-
-case "last":
-	while ( (node = node.nextSibling) )	 {
-		if ( node.nodeType === 1 ) { 
-			return false; 
-		}
-	}
-
-	return true;
-
-case "nth":
-	first = match[2];
-	last = match[3];
-
-	if ( first === 1 && last === 0 ) {
-		return true;
-	}
-	
-	doneName = match[0];
-	parent = elem.parentNode;
-	
-	if ( parent && (parent[ expando ] !== doneName || !elem.nodeIndex) ) {
-		count = 0;
-		
-		for ( node = parent.firstChild; node; node = node.nextSibling ) {
-			if ( node.nodeType === 1 ) {
-				node.nodeIndex = ++count;
-			}
-		} 
-
-		parent[ expando ] = doneName;
-	}
-	
-	diff = elem.nodeIndex - last;
-
-	if ( first === 0 ) {
-		return diff === 0;
-
-	} else {
-		return ( diff % first === 0 && diff / first >= 0 );
-	}
-  break;
-default :
-  console.log(1);
+function switchTest( type ) {
+  var ret = 0;
+  switch( type ) {
+  case 1 :
+    ret = 0;
+    ret += 1;
+    return ret;
+  case 2 :
+    ret = 100;
+    break;
+    
+  case 3 :
+  case 4 :
+    ret = 0;
+    ret++;
+    break;
+    
+  case 5 : {
+    ret = 0;
+    ret = 1;
+  }
+    break;
+  case 6 :
+  case 7 : {
+    ret = 10;
+  }
+    break;
+  default : 
+    ret = 100;
+  }
+  return ret;
 }
+
+@assert( true , switchTest( 1 ) === 1 );
+@assert( true , switchTest( 2 ) === 100 );
+@assert( true , switchTest( 3 ) === 1 );
+@assert( true , switchTest( 4 ) === 1 );
+@assert( true , switchTest( 5 ) === 1 );
+@assert( true , switchTest( 6 ) === 10 );
+@assert( true , switchTest( 7 ) === 10 );
+@assert( true , switchTest( 8 ) === 100 );
+

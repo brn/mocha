@@ -291,14 +291,47 @@ generator.next()
 @assert( true , generator.send(null) === 700 );
 
 
-yieldTest11 -> {
+yieldTest11()-> {
+  for ( var i = 0; i < 15; i++ ) {
+    var type = yield;
+    switch( type ) {
+    case 4 :
+    case 0 :
+      yield 200;
+    case 5 :
+      break;
+    case 6 :
+    case 2 :
+      yield 400;
+    case 3 :
+      yield 600;
+    default :
+      yield 700;
+    }
+  }
+}
+generator = yieldTest11();
+generator.next();
+@assert( true , generator.send( 0 ) === 200 );
+generator.next();
+@assert( true , generator.send( 4 ) === 200 );
+generator.next();
+@assert( true , generator.send( 2 ) === 400 );
+generator.next()
+@assert( true , generator.send( 5 ) === undefined );
+@assert( true , generator.send( 3 ) === 600 );
+generator.next()
+@assert( true , generator.send(null) === 700 );
+
+
+yieldTest12 -> {
   var obj = {x:200,y:300,z:400};
   for ( var i in obj ) {
     yield [ i , obj[ i ] ];
   }
 }
 
-generator = yieldTest11();
+generator = yieldTest12();
 var ret = generator.next();
 @assert( true , ret[ 0 ] === "x" );
 @assert( true , ret[ 1 ] === 200 );
