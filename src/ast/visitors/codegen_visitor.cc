@@ -764,9 +764,7 @@ VISITOR_IMPL( CompareExp ) {
 
 VISITOR_IMPL(ConditionalExp) {
   PRINT_NODE_NAME;
-  writer_->WriteOp( '(' , 0 , stream_.Get() );
   ast_node->Cond()->Accept( this );
-  writer_->WriteOp( ')' , 0 , stream_.Get() );
   writer_->WriteOp( '?' , 0 , stream_.Get() );
   ast_node->True()->Accept( this );
   writer_->WriteOp( ':' , 0 , stream_.Get() );

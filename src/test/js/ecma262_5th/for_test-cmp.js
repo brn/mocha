@@ -15,16 +15,24 @@
         }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
-                return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
               },
               exceptionHandler : function exceptionHandler( line,file,e ) {
-                this.throwException( new Exception( line,file,e ) );
+                if ( isStopIteration( e ) ){
+                  this.throwException( e );
+                } else {
+                  this.throwException( new Exception( line,file,e ) );
+                };
               },
               throwException : function throwException( exception ) {
                 try {
                   throw exception;
                 } catch( e ){
-                  throw new Error( this.getErrorMessage( e ) );
+                  if ( isStopIteration( e ) ){
+                    throw new Error( e );
+                  } else {
+                    throw new Error( this.getErrorMessage( e ) );
+                  };
                 };
               },
               hasProto : "__proto__" in {}
@@ -45,7 +53,7 @@
                 ret = function () {
                   var args = argArray.concat( Array.prototype.slice.call( arguments ) );
                   
-                  if ( this instanceof ret ){
+                  if ( this !== null && this !== window && this instanceof ret ){
                     return ret.context.apply( this,args );
                   } else {
                     return ret.context.apply( context,args );
@@ -205,7 +213,7 @@
         if ( !Array.prototype.reduce ){
           Array.prototype.reduce = function ( fn,initial ) {
             var ret = initial || this[0],
-                i = ( ( initial ) )?0 : 1,
+                i = ( initial )?0 : 1,
                 ta,
                 len;
             
@@ -221,7 +229,7 @@
         if ( !Array.prototype.reduceRight ){
           Array.prototype.reduceRight = function ( fn,initial ) {
             var ret = initial || this[this.length-1],
-                i = ( ( initial ) )?this.length-1 : this.length-2,
+                i = ( initial )?this.length-1 : this.length-2,
                 ta;
             
             for ( i;i>-1; -- i ){
@@ -289,7 +297,7 @@
                 });
                 
                 obj.test = 200;
-                return ( ( obj.test === 200 ) )?false : true;
+                return ( obj.test === 200 )?false : true;
               } catch( e ){
                 return false;
               };
@@ -310,7 +318,7 @@
             if ( arguments.length === 0 ){
               return false;
             };
-            return ( ( arr ) )?Object.prototype.toString.call( arr ) === arrayString : false;
+            return ( arr )?Object.prototype.toString.call( arr ) === arrayString : false;
           };
         };
         
@@ -335,11 +343,13 @@
             };
         
         var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
+              return ( likeArray )?slice.call( likeArray,index ) : [];
             };
         
+        var Generator = function (){};
+        
         var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = {};
+              var ret = new Generator;
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
               
@@ -347,7 +357,7 @@
               
               createUnenumProp( ret,"close",closeFn.bind( context ) );
               
-              createUnenumProp( ret,"__nothrowNext__",closeFn.bind( context,false,true ) );
+              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
               
               createUnenumProp( ret,"toString",
               function () {
@@ -359,7 +369,7 @@
             };
         
         function getErrorMessage( e ) {
-          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
         }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
@@ -369,7 +379,7 @@
               derived.prototype = base;
             };
         
-        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
               return Object.getPrototypeOf( obj );
             } : function ( obj ) {
               if ( "constructor" in obj ){
@@ -377,7 +387,7 @@
               };
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
               } else {
@@ -402,8 +412,36 @@
               };
             };
         
+        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+              try {
+                throw StopIteration;
+              } catch( e ){
+                throw new Error( e.toString() );
+              };
+            };
+        
+        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
+              return obj instanceof Generator;
+            };
+        
+        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
+              return obj[__ref_iterator__]();
+            };
+        
+        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
+              return __ref_iterator__ in obj;
+            };
+        
+        var rstopIteration = /StopIteration/;
+        
+        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
+              return obj === StopIteration || rstopIteration.test( obj );
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
               } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
@@ -417,7 +455,7 @@
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
       toString : function toString() {
-        return "StopIteration";
+        return "[object StopIteration]";
       }
     };
   };
@@ -425,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/for_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/for_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_test.js'] = {};
@@ -434,32 +472,175 @@
       var _mochaGlobalAlias = _mochaGlobalExport['./for_test.js'];
       
       __LINE__ = 1;
+      var target = ['a','b','c','d','e','f','g','h','i','j'];
+      
+      __LINE__ = 2;
+      var arr = [];
+      
+      __LINE__ = 3;
       for ( var i = 0;i<10;i ++  ){
-        __LINE__ = 2;
-        break;
+        __LINE__ = 0;
+        arr.push( target[i] );
       };
       
-      __LINE__ = 5;
-      for ( i = 0;i<10;i ++  ){
-        __LINE__ = 6;
-        break;
-      };
+      __LINE__ = 6;
+      Runtime.assert( true,arr[0] === 'a',"arr[0] === 'a'",6,'./for_test.js' );
+      
+      __LINE__ = 7;
+      Runtime.assert( true,arr[1] === 'b',"arr[1] === 'b'",7,'./for_test.js' );
+      
+      __LINE__ = 8;
+      Runtime.assert( true,arr[2] === 'c',"arr[2] === 'c'",8,'./for_test.js' );
       
       __LINE__ = 9;
-      for ( ;; ){
-        __LINE__ = 0;
-        console.log( 1 );
-        __LINE__ = 11;
-        break;
-      };
+      Runtime.assert( true,arr[3] === 'd',"arr[3] === 'd'",9,'./for_test.js' );
+      
+      __LINE__ = 10;
+      Runtime.assert( true,arr[4] === 'e',"arr[4] === 'e'",10,'./for_test.js' );
+      
+      __LINE__ = 11;
+      Runtime.assert( true,arr[5] === 'f',"arr[5] === 'f'",11,'./for_test.js' );
+      
+      __LINE__ = 12;
+      Runtime.assert( true,arr[6] === 'g',"arr[6] === 'g'",12,'./for_test.js' );
+      
+      __LINE__ = 13;
+      Runtime.assert( true,arr[7] === 'h',"arr[7] === 'h'",13,'./for_test.js' );
       
       __LINE__ = 14;
+      Runtime.assert( true,arr[8] === 'i',"arr[8] === 'i'",14,'./for_test.js' );
+      
+      __LINE__ = 15;
+      Runtime.assert( true,arr[9] === 'j',"arr[9] === 'j'",15,'./for_test.js' );
+      
+      __LINE__ = 0;
+      arr = [];
+      
+      __LINE__ = 18;
+      for ( i = 0;i<10;i ++  ){
+        __LINE__ = 0;
+        arr.push( target[i] );
+      };
+      
+      __LINE__ = 21;
+      Runtime.assert( true,arr[0] === 'a',"arr[0] === 'a'",21,'./for_test.js' );
+      
+      __LINE__ = 22;
+      Runtime.assert( true,arr[1] === 'b',"arr[1] === 'b'",22,'./for_test.js' );
+      
+      __LINE__ = 23;
+      Runtime.assert( true,arr[2] === 'c',"arr[2] === 'c'",23,'./for_test.js' );
+      
+      __LINE__ = 24;
+      Runtime.assert( true,arr[3] === 'd',"arr[3] === 'd'",24,'./for_test.js' );
+      
+      __LINE__ = 25;
+      Runtime.assert( true,arr[4] === 'e',"arr[4] === 'e'",25,'./for_test.js' );
+      
+      __LINE__ = 26;
+      Runtime.assert( true,arr[5] === 'f',"arr[5] === 'f'",26,'./for_test.js' );
+      
+      __LINE__ = 27;
+      Runtime.assert( true,arr[6] === 'g',"arr[6] === 'g'",27,'./for_test.js' );
+      
+      __LINE__ = 28;
+      Runtime.assert( true,arr[7] === 'h',"arr[7] === 'h'",28,'./for_test.js' );
+      
+      __LINE__ = 29;
+      Runtime.assert( true,arr[8] === 'i',"arr[8] === 'i'",29,'./for_test.js' );
+      
+      __LINE__ = 30;
+      Runtime.assert( true,arr[9] === 'j',"arr[9] === 'j'",30,'./for_test.js' );
+      
+      __LINE__ = 0;
+      i = 0;
+      
+      __LINE__ = 33;
+      for ( ;; ){
+        __LINE__ = 0;
+        arr.push( target[i] );
+        
+        __LINE__ = 0;
+        i ++ ;
+        
+        __LINE__ = 36;
+        if ( i === 10 ){
+          __LINE__ = 36;
+          break;
+        };
+      };
+      
+      __LINE__ = 38;
+      Runtime.assert( true,arr[0] === 'a',"arr[0] === 'a'",38,'./for_test.js' );
+      
+      __LINE__ = 39;
+      Runtime.assert( true,arr[1] === 'b',"arr[1] === 'b'",39,'./for_test.js' );
+      
+      __LINE__ = 40;
+      Runtime.assert( true,arr[2] === 'c',"arr[2] === 'c'",40,'./for_test.js' );
+      
+      __LINE__ = 41;
+      Runtime.assert( true,arr[3] === 'd',"arr[3] === 'd'",41,'./for_test.js' );
+      
+      __LINE__ = 42;
+      Runtime.assert( true,arr[4] === 'e',"arr[4] === 'e'",42,'./for_test.js' );
+      
+      __LINE__ = 43;
+      Runtime.assert( true,arr[5] === 'f',"arr[5] === 'f'",43,'./for_test.js' );
+      
+      __LINE__ = 44;
+      Runtime.assert( true,arr[6] === 'g',"arr[6] === 'g'",44,'./for_test.js' );
+      
+      __LINE__ = 45;
+      Runtime.assert( true,arr[7] === 'h',"arr[7] === 'h'",45,'./for_test.js' );
+      
+      __LINE__ = 46;
+      Runtime.assert( true,arr[8] === 'i',"arr[8] === 'i'",46,'./for_test.js' );
+      
+      __LINE__ = 47;
+      Runtime.assert( true,arr[9] === 'j',"arr[9] === 'j'",47,'./for_test.js' );
+      
+      __LINE__ = 0;
+      i = 9;
+      
+      __LINE__ = 50;
       for ( i;i; ){
         __LINE__ = 0;
-        console.log( 1 );
-        __LINE__ = 16;
-        break;
+        arr.push( target[i] );
+        
+        __LINE__ = 0;
+        i -- ;
       };
+      
+      __LINE__ = 54;
+      Runtime.assert( true,arr[0] === 'a',"arr[0] === 'a'",54,'./for_test.js' );
+      
+      __LINE__ = 55;
+      Runtime.assert( true,arr[1] === 'b',"arr[1] === 'b'",55,'./for_test.js' );
+      
+      __LINE__ = 56;
+      Runtime.assert( true,arr[2] === 'c',"arr[2] === 'c'",56,'./for_test.js' );
+      
+      __LINE__ = 57;
+      Runtime.assert( true,arr[3] === 'd',"arr[3] === 'd'",57,'./for_test.js' );
+      
+      __LINE__ = 58;
+      Runtime.assert( true,arr[4] === 'e',"arr[4] === 'e'",58,'./for_test.js' );
+      
+      __LINE__ = 59;
+      Runtime.assert( true,arr[5] === 'f',"arr[5] === 'f'",59,'./for_test.js' );
+      
+      __LINE__ = 60;
+      Runtime.assert( true,arr[6] === 'g',"arr[6] === 'g'",60,'./for_test.js' );
+      
+      __LINE__ = 61;
+      Runtime.assert( true,arr[7] === 'h',"arr[7] === 'h'",61,'./for_test.js' );
+      
+      __LINE__ = 62;
+      Runtime.assert( true,arr[8] === 'i',"arr[8] === 'i'",62,'./for_test.js' );
+      
+      __LINE__ = 63;
+      Runtime.assert( true,arr[9] === 'j',"arr[9] === 'j'",63,'./for_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

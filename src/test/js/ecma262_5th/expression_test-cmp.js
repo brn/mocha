@@ -15,16 +15,24 @@
         }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
-                return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
               },
               exceptionHandler : function exceptionHandler( line,file,e ) {
-                this.throwException( new Exception( line,file,e ) );
+                if ( isStopIteration( e ) ){
+                  this.throwException( e );
+                } else {
+                  this.throwException( new Exception( line,file,e ) );
+                };
               },
               throwException : function throwException( exception ) {
                 try {
                   throw exception;
                 } catch( e ){
-                  throw new Error( this.getErrorMessage( e ) );
+                  if ( isStopIteration( e ) ){
+                    throw new Error( e );
+                  } else {
+                    throw new Error( this.getErrorMessage( e ) );
+                  };
                 };
               },
               hasProto : "__proto__" in {}
@@ -45,7 +53,7 @@
                 ret = function () {
                   var args = argArray.concat( Array.prototype.slice.call( arguments ) );
                   
-                  if ( this instanceof ret ){
+                  if ( this !== null && this !== window && this instanceof ret ){
                     return ret.context.apply( this,args );
                   } else {
                     return ret.context.apply( context,args );
@@ -205,7 +213,7 @@
         if ( !Array.prototype.reduce ){
           Array.prototype.reduce = function ( fn,initial ) {
             var ret = initial || this[0],
-                i = ( ( initial ) )?0 : 1,
+                i = ( initial )?0 : 1,
                 ta,
                 len;
             
@@ -221,7 +229,7 @@
         if ( !Array.prototype.reduceRight ){
           Array.prototype.reduceRight = function ( fn,initial ) {
             var ret = initial || this[this.length-1],
-                i = ( ( initial ) )?this.length-1 : this.length-2,
+                i = ( initial )?this.length-1 : this.length-2,
                 ta;
             
             for ( i;i>-1; -- i ){
@@ -289,7 +297,7 @@
                 });
                 
                 obj.test = 200;
-                return ( ( obj.test === 200 ) )?false : true;
+                return ( obj.test === 200 )?false : true;
               } catch( e ){
                 return false;
               };
@@ -310,7 +318,7 @@
             if ( arguments.length === 0 ){
               return false;
             };
-            return ( ( arr ) )?Object.prototype.toString.call( arr ) === arrayString : false;
+            return ( arr )?Object.prototype.toString.call( arr ) === arrayString : false;
           };
         };
         
@@ -335,11 +343,13 @@
             };
         
         var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
+              return ( likeArray )?slice.call( likeArray,index ) : [];
             };
         
+        var Generator = function (){};
+        
         var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = {};
+              var ret = new Generator;
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
               
@@ -347,7 +357,7 @@
               
               createUnenumProp( ret,"close",closeFn.bind( context ) );
               
-              createUnenumProp( ret,"__nothrowNext__",closeFn.bind( context,false,true ) );
+              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
               
               createUnenumProp( ret,"toString",
               function () {
@@ -359,7 +369,7 @@
             };
         
         function getErrorMessage( e ) {
-          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
         }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
@@ -369,7 +379,7 @@
               derived.prototype = base;
             };
         
-        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
               return Object.getPrototypeOf( obj );
             } : function ( obj ) {
               if ( "constructor" in obj ){
@@ -377,7 +387,7 @@
               };
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
               } else {
@@ -402,8 +412,36 @@
               };
             };
         
+        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+              try {
+                throw StopIteration;
+              } catch( e ){
+                throw new Error( e.toString() );
+              };
+            };
+        
+        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
+              return obj instanceof Generator;
+            };
+        
+        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
+              return obj[__ref_iterator__]();
+            };
+        
+        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
+              return __ref_iterator__ in obj;
+            };
+        
+        var rstopIteration = /StopIteration/;
+        
+        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
+              return obj === StopIteration || rstopIteration.test( obj );
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
               } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
@@ -417,7 +455,7 @@
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
       toString : function toString() {
-        return "StopIteration";
+        return "[object StopIteration]";
       }
     };
   };
@@ -425,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/expression_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./expression_test.js'] = {};
@@ -433,265 +471,775 @@
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./expression_test.js'];
       
-      __LINE__ = 0;
-      document.getElementById( "id" );
-      
-      __LINE__ = 0;
-      document.test.test2.test3();
-      
-      __LINE__ = 0;
-      document.test.test3 = 1;
-      
-      __LINE__ = 0;
-      Runtime.extend( document, {
-        extendtest : true,
-        extendtest2 : false
-      });
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp0;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp0 =  {
-        destructuring : 1,
-        destructuring2 : 2
-      };
-      
-      __LINE__ = 0;
-      ( destructuring = _mochaLocalTmp0.destructuring , destructuring2 = _mochaLocalTmp0.destructuring2 );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp1;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp1 =  {
-        destructuring : destructuring,
-        destructuring2 : destructuring2
-      };
-      
-      __LINE__ = 0;
-      ( destructuring = _mochaLocalTmp1.destructuring , destructuring2 = _mochaLocalTmp1.destructuring2 );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp2;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp2 =  {
-        destructuring : 1,
-        destructuring2 : 2
-      };
-      
-      __LINE__ = 0;
-      ( destructuring = _mochaLocalTmp2.destructuring , destructuring2 = ( _mochaLocalTmp2.dsta2 && _mochaLocalTmp2.dsta2[0] )?_mochaLocalTmp2.dsta2[0] : undefined );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp3;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp3 =  {
-        destructuring : destructuring,
-        destructuring2 : destructuring2
-      };
-      
-      __LINE__ = 0;
-      ( destructuring = _mochaLocalTmp3.destructuring , destructuring2 = _mochaLocalTmp3.dsta2 , dsta4 = ( _mochaLocalTmp3.dsta3 && _mochaLocalTmp3.dsta3.dsta4 )?_mochaLocalTmp3.dsta3.dsta4 : undefined );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp4;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp4 = [0,1];
-      
-      __LINE__ = 0;
-      ( destructuring = _mochaLocalTmp4[0] , destructuring2 = _mochaLocalTmp4[1] );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp5;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp5 = [0,[1]];
-      
-      __LINE__ = 0;
-      ( destructuring = _mochaLocalTmp5[0] , destructuring2 = ( _mochaLocalTmp5[1] && _mochaLocalTmp5[1][0] )?_mochaLocalTmp5[1][0] : undefined );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp6;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp6 = [ {
-        dsta : dsta
-      }];
-      
-      __LINE__ = 0;
-      ( dsta = ( _mochaLocalTmp6[0] && _mochaLocalTmp6[0].dsta )?_mochaLocalTmp6[0].dsta : undefined , a = ( _mochaLocalTmp6[0] && _mochaLocalTmp6[0].dsta2 && _mochaLocalTmp6[0].dsta2[0] )?_mochaLocalTmp6[0].dsta2[0] : undefined , dsta2 = ( _mochaLocalTmp6[1] && _mochaLocalTmp6[1].dsta2 )?_mochaLocalTmp6[1].dsta2 : undefined );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp7;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp7 =  {
-        getname : function () {
-          try {
-            __LINE__ = 20;
-            return "aaaa";
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        },
-        getage : function () {
-          try {
-            __LINE__ = 21;
-            return "aaaaa";
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        }
-      };
-      
-      __LINE__ = 0;
-      ( getname = _mochaLocalTmp7.getname , getage = _mochaLocalTmp7.getage );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp8;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp8 =  {
-        getname : function getname() {
-          try {
-            __LINE__ = 24;
-            return "aaaa";
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        },
-        getage : function getage() {
-          try {
-            __LINE__ = 25;
-            return "aaaaa";
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        }
-      };
-      
-      __LINE__ = 0;
-      ( getname = _mochaLocalTmp8.getname , getage = _mochaLocalTmp8.getage );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp9;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp9 =  {
-        getname : function getname() {
-          try {
-            __LINE__ = 28;
-            return "aaaa";
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        },
-        getage : function getage() {
-          try {
-            __LINE__ = 30;
-            return "aaaaa";
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        }
-      };
-      
-      __LINE__ = 0;
-      ( getname = _mochaLocalTmp9.getname , getage = _mochaLocalTmp9.getage );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp10;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp10 =  {
-        getname : function getname() {
-          try {
-            __LINE__ = 33;
-            return function () {
-              try {
-                __LINE__ = 33;
-                return "aaaa";
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            };
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        },
-        getage : function getage() {
-          try {
-            __LINE__ = 35;
-            return function () {
-              try {
-                __LINE__ = 35;
-                return "aaaaa";
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            };
-          } catch( e ){
-            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-          }
-        }
-      };
-      
-      __LINE__ = 0;
-      ( getname = _mochaLocalTmp10.getname , getage = _mochaLocalTmp10.getage );
-      
-      __LINE__ = 37;
-      var m = function () {
+      function objectAndNewTest() {
+        try {
+          __LINE__ = 2;
+          var testObject = {};
+          
+          __LINE__ = 0;
+          testObject.testProp = {};
+          
+          __LINE__ = 0;
+          testObject.testProp.testProp = {};
+          
+          __LINE__ = 0;
+          testObject.testProp.testProp.testProp = {};
+          
+          __LINE__ = 0;
+          testObject.testFn = function () {
             try {
-              __LINE__ = 37;
-              return function () {
-                try {
-                  __LINE__ = 37;
-                  return function (){};
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
+              __LINE__ = 6;
+              return true;
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
-      
-      __LINE__ = 38;
-      var m2 =  {
-            m :  {
-              m :  {
-                m : function (){}
-              }
+          
+          __LINE__ = 0;
+          testObject.testProp.testFn = function () {
+            try {
+              __LINE__ = 7;
+              return false;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
-      
-      __LINE__ = 39;
-      var m3 =  {
-            m :  {
-              m :  {
-                m : m
-              }
+          
+          __LINE__ = 0;
+          testObject.testProp.testProp.testFn = function () {
+            try {
+              __LINE__ = 8;
+              return 2;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
+          
+          __LINE__ = 10;
+          Runtime.assert( true,testObject.testFn() === true,"testObject.testFn() === true",10,'./expression_test.js' );
+          
+          __LINE__ = 11;
+          Runtime.assert( true,testObject.testProp.testFn() === false,"testObject.testProp.testFn() === false",11,'./expression_test.js' );
+          
+          __LINE__ = 12;
+          Runtime.assert( true,testObject.testProp.testProp.testFn() === 2,"testObject.testProp.testProp.testFn() === 2",12,'./expression_test.js' );
+          
+          __LINE__ = 14;
+          var highFn = function () {
+                try {
+                  __LINE__ = 14;
+                  return inner1;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 15;
+          var inner1 = function () {
+                try {
+                  __LINE__ = 15;
+                  return inner2;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 16;
+          var inner2 = function (){};
+          
+          __LINE__ = 17;
+          var instance = new highFn();
+          
+          __LINE__ = 18;
+          var instance2 = new new highFn();
+          
+          __LINE__ = 19;
+          var instance3 = new new new highFn();
+          
+          __LINE__ = 20;
+          Runtime.assert( true,instance === inner1,"instance === inner1",20,'./expression_test.js' );
+          
+          __LINE__ = 21;
+          Runtime.assert( true,instance2 === inner2,"instance2 === inner2",21,'./expression_test.js' );
+          
+          __LINE__ = 22;
+          Runtime.assert( true,instance3 instanceof inner2,"instance3 instanceof inner2",22,'./expression_test.js' );
+          
+          __LINE__ = 24;
+          var fnObj =  {
+                highFn : highFn,
+                highFnInner :  {
+                  highFn : highFn
+                }
+              };
+          
+          __LINE__ = 31;
+          var instance4 = new fnObj.highFn();
+          
+          __LINE__ = 32;
+          var instance5 = new new fnObj.highFn();
+          
+          __LINE__ = 33;
+          var instance6 = new new new fnObj.highFn();
+          
+          __LINE__ = 34;
+          Runtime.assert( true,instance4 === inner1,"instance4 === inner1",34,'./expression_test.js' );
+          
+          __LINE__ = 35;
+          Runtime.assert( true,instance5 === inner2,"instance5 === inner2",35,'./expression_test.js' );
+          
+          __LINE__ = 36;
+          Runtime.assert( true,instance6 instanceof inner2,"instance6 instanceof inner2",36,'./expression_test.js' );
+          
+          __LINE__ = 37;
+          var instance7 = new fnObj.highFnInner.highFn();
+          
+          __LINE__ = 38;
+          var instance8 = new new fnObj.highFnInner.highFn();
+          
+          __LINE__ = 39;
+          var instance9 = new new new fnObj.highFnInner.highFn();
+          
+          __LINE__ = 40;
+          Runtime.assert( true,instance7 === inner1,"instance7 === inner1",40,'./expression_test.js' );
+          
+          __LINE__ = 41;
+          Runtime.assert( true,instance8 === inner2,"instance8 === inner2",41,'./expression_test.js' );
+          
+          __LINE__ = 42;
+          Runtime.assert( true,instance9 instanceof inner2,"instance9 instanceof inner2",42,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      function callExpressionTest() {
+        try {
+          __LINE__ = 46;
+          var highFn = function () {
+                try {
+                  __LINE__ = 47;
+                  return function () {
+                    try {
+                      __LINE__ = 48;
+                      return function () {
+                        try {
+                          __LINE__ = 49;
+                          return true;
+                        } catch( e ){
+                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      };
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  };
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 53;
+          Runtime.assert( true,highFn()()() === true,"highFn()()() === true",53,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          highFn = function () {
+            try {
+              __LINE__ = 54;
+              return inner1;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          };
+          
+          __LINE__ = 55;
+          var inner1 = function () {
+                try {
+                  __LINE__ = 55;
+                  return inner2;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 56;
+          var inner2 = function (){};
+          
+          __LINE__ = 57;
+          var flg = 1;
+          
+          __LINE__ = 58;
+          var instance = new ( ( flg )?highFn : inner1 );
+          
+          __LINE__ = 59;
+          Runtime.assert( true,instance === inner1,"instance === inner1",59,'./expression_test.js' );
+          
+          __LINE__ = 60;
+          var flg2 = 0;
+          
+          __LINE__ = 0;
+          instance = new ( ( flg2 )?highFn : inner1 );
+          
+          __LINE__ = 62;
+          Runtime.assert( true,instance === inner2,"instance === inner2",62,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      function binaryExpressionTest() {
+        try {
+          __LINE__ = 66;
+          var item = 100,
+              trueValue = true,
+              falseValue = false,
+              val = 0;
+          
+          __LINE__ = 70;
+          if ( item && trueValue && !falseValue ){
+            __LINE__ = 0;
+            val = 1;
+          };
+          
+          __LINE__ = 73;
+          Runtime.assert( true,val === 1,"val === 1",73,'./expression_test.js' );
+          
+          __LINE__ = 74;
+          if ( ( item && trueValue ) || falseValue ){
+            __LINE__ = 0;
+            val = 2;
+          };
+          
+          __LINE__ = 77;
+          Runtime.assert( true,val === 2,"val === 2",77,'./expression_test.js' );
+          
+          __LINE__ = 78;
+          if ( ( item && falseValue ) || !trueValue ){
+            __LINE__ = 0;
+            val = 3;
+          };
+          
+          __LINE__ = 81;
+          Runtime.assert( false,val === 3,"val === 3",81,'./expression_test.js' );
+          
+          __LINE__ = 83;
+          var changeVal = function ( value ) {
+                try {
+                  __LINE__ = 0;
+                  val = value;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          
+          __LINE__ = 0;
+          ( item ) && ( trueValue ) && ( !falseValue ) && ( changeVal( 4 ) );
+          
+          __LINE__ = 88;
+          Runtime.assert( true,val === 4,"val === 4",88,'./expression_test.js' );
+          
+          __LINE__ = 90;
+          var eq = 0,
+              eqVal = 0;
+          
+          __LINE__ = 92;
+          if ( eq == 0 ){
+            __LINE__ = 0;
+            eqVal = 1;
+          };
+          
+          __LINE__ = 95;
+          Runtime.assert( true,eqVal === 1,"eqVal === 1",95,'./expression_test.js' );
+          
+          __LINE__ = 97;
+          if ( eq === 0 ){
+            __LINE__ = 0;
+            eqVal = 2;
+          };
+          
+          __LINE__ = 100;
+          Runtime.assert( true,eqVal === 2,"eqVal === 2",100,'./expression_test.js' );
+          
+          __LINE__ = 102;
+          var bit = 1,
+              ret = 0;
+          
+          __LINE__ = 0;
+          ret = bit << 1;
+          
+          __LINE__ = 105;
+          Runtime.assert( true,ret === 2,"ret === 2",105,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          ret = bit >> 1;
+          
+          __LINE__ = 107;
+          Runtime.assert( true,ret === 0,"ret === 0",107,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          ret = bit|2;
+          
+          __LINE__ = 109;
+          Runtime.assert( true,ret === 3,"ret === 3",109,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 1;
+          
+          __LINE__ = 0;
+          bit <<= 1;
+          
+          __LINE__ = 113;
+          Runtime.assert( true,bit === 2,"bit === 2",113,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 1;
+          
+          __LINE__ = 0;
+          bit >>= 1;
+          
+          __LINE__ = 116;
+          Runtime.assert( true,bit === 0,"bit === 0",116,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 1;
+          
+          __LINE__ = 0;
+          bit |= 2;
+          
+          __LINE__ = 119;
+          Runtime.assert( true,bit === 3,"bit === 3",119,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 10;
+          
+          __LINE__ = 0;
+          ret = bit >>> 2;
+          
+          __LINE__ = 123;
+          Runtime.assert( true,ret === 2,"ret === 2",123,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 10;
+          
+          __LINE__ = 0;
+          bit >>>= 2;
+          
+          __LINE__ = 126;
+          Runtime.assert( true,bit === 2,"bit === 2",126,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 3;
+          
+          __LINE__ = 0;
+          ret = bit&1;
+          
+          __LINE__ = 130;
+          Runtime.assert( true,ret === 1,"ret === 1",130,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit &= 1;
+          
+          __LINE__ = 132;
+          Runtime.assert( true,bit === 1,"bit === 1",132,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 2;
+          
+          __LINE__ = 0;
+          ret = bit^1;
+          
+          __LINE__ = 136;
+          Runtime.assert( true,ret === 3,"ret === 3",136,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          bit = 2;
+          
+          __LINE__ = 0;
+          bit ^= 1;
+          
+          __LINE__ = 139;
+          Runtime.assert( true,bit === 3,"bit === 3",139,'./expression_test.js' );
+          
+          __LINE__ = 141;
+          var lt = 0,
+              gt = 1,
+              cmpVal = 0;
+          
+          __LINE__ = 145;
+          if ( lt>gt ){
+            __LINE__ = 0;
+            cmpVal = 1;
+          };
+          
+          __LINE__ = 148;
+          Runtime.assert( true,cmpVal === 0,"cmpVal === 0",148,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          cmpVal = 0;
+          
+          __LINE__ = 151;
+          if ( lt<gt ){
+            __LINE__ = 0;
+            cmpVal = 1;
+          };
+          
+          __LINE__ = 154;
+          Runtime.assert( true,cmpVal === 1,"cmpVal === 1",154,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          cmpVal = 0;
+          
+          __LINE__ = 157;
+          if ( lt <= gt ){
+            __LINE__ = 0;
+            cmpVal = 1;
+          };
+          
+          __LINE__ = 160;
+          Runtime.assert( true,cmpVal === 1,"cmpVal === 1",160,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          cmpVal = 0;
+          
+          __LINE__ = 163;
+          if ( lt >= gt ){
+            __LINE__ = 0;
+            cmpVal = 1;
+          };
+          
+          __LINE__ = 166;
+          Runtime.assert( false,cmpVal === 1,"cmpVal === 1",166,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          cmpVal = 0;
+          
+          __LINE__ = 0;
+          lt = 1;
+          
+          __LINE__ = 170;
+          if ( lt <= gt ){
+            __LINE__ = 0;
+            cmpVal = 1;
+          };
+          
+          __LINE__ = 173;
+          Runtime.assert( true,cmpVal === 1,"cmpVal === 1",173,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          cmpVal = 1;
+          
+          __LINE__ = 176;
+          if ( lt >= gt ){
+            __LINE__ = 0;
+            cmpVal = 1;
+          };
+          
+          __LINE__ = 179;
+          Runtime.assert( true,cmpVal === 1,"cmpVal === 1",179,'./expression_test.js' );
+          
+          __LINE__ = 181;
+          var pl = 0;
+          
+          __LINE__ = 0;
+          ret = pl+1;
+          
+          __LINE__ = 183;
+          Runtime.assert( true,ret === 1,"ret === 1",183,'./expression_test.js' );
+          
+          __LINE__ = 185;
+          var mi = 1;
+          
+          __LINE__ = 0;
+          ret = mi-1;
+          
+          __LINE__ = 187;
+          Runtime.assert( true,ret === 0,"ret === 0",187,'./expression_test.js' );
+          
+          __LINE__ = 189;
+          var mul = 1;
+          
+          __LINE__ = 0;
+          ret = mul*2;
+          
+          __LINE__ = 191;
+          Runtime.assert( true,ret === 2,"ret === 2",191,'./expression_test.js' );
+          
+          __LINE__ = 193;
+          var div = 2;
+          
+          __LINE__ = 0;
+          ret = div/2;
+          
+          __LINE__ = 195;
+          Runtime.assert( true,ret === 1,"ret === 1",195,'./expression_test.js' );
+          
+          __LINE__ = 197;
+          var mod = 3;
+          
+          __LINE__ = 0;
+          ret = mod%2;
+          
+          __LINE__ = 199;
+          Runtime.assert( true,ret === 1,"ret === 1",199,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          pl = 0;
+          
+          __LINE__ = 0;
+          pl += 1;
+          
+          __LINE__ = 203;
+          Runtime.assert( true,pl === 1,"pl === 1",203,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          mi = 1;
+          
+          __LINE__ = 0;
+          mi -= 1;
+          
+          __LINE__ = 207;
+          Runtime.assert( true,mi === 0,"mi === 0",207,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          mul = 1;
+          
+          __LINE__ = 0;
+          mul *= 2;
+          
+          __LINE__ = 211;
+          Runtime.assert( true,mul === 2,"mul === 2",211,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          div = 2;
+          
+          __LINE__ = 0;
+          div /= 2;
+          
+          __LINE__ = 215;
+          Runtime.assert( true,div === 1,"div === 1",215,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          mod = 3;
+          
+          __LINE__ = 0;
+          mod %= 2;
+          
+          __LINE__ = 219;
+          Runtime.assert( true,mod === 1,"mod === 1",219,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      function postfixExpressionTest() {
+        try {
+          __LINE__ = 223;
+          var add = 0;
+          
+          __LINE__ = 0;
+          add ++ ;
+          
+          __LINE__ = 225;
+          Runtime.assert( true,add === 1,"add === 1",225,'./expression_test.js' );
+          
+          __LINE__ = 227;
+          var sub = 1;
+          
+          __LINE__ = 0;
+          sub -- ;
+          
+          __LINE__ = 229;
+          Runtime.assert( true,sub === 0,"sub === 0",229,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      function unaryExpressionTest() {
+        try {
+          __LINE__ = 233;
+          var strNum = "1",
+              ret = +strNum;
+          
+          __LINE__ = 235;
+          Runtime.assert( true,ret === 1,"ret === 1",235,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          ret = -strNum;
+          
+          __LINE__ = 238;
+          Runtime.assert( true,ret === -1,"ret === -1",238,'./expression_test.js' );
+          
+          __LINE__ = 240;
+          var num = -5;
+          
+          __LINE__ = 0;
+          ret = ~num;
+          
+          __LINE__ = 242;
+          Runtime.assert( true,ret === 4,"ret === 4",242,'./expression_test.js' );
+          
+          __LINE__ = 244;
+          var flg = true;
+          
+          __LINE__ = 0;
+          ret = !flg;
+          
+          __LINE__ = 246;
+          Runtime.assert( true,ret === false,"ret === false",246,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          ret = !!flg;
+          
+          __LINE__ = 249;
+          Runtime.assert( true,ret === true,"ret === true",249,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      function memberExpressionTest() {
+        try {
+          __LINE__ = 253;
+          var test =  {
+                test2 :  {
+                  "@test" :  {
+                    0 :  {
+                      "1" : function () {
+                        try {
+                          __LINE__ = 258;
+                          return function () {
+                            try {
+                              __LINE__ = 258;
+                              return 1;
+                            } catch( e ){
+                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                        } catch( e ){
+                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      }
+                    }
+                  }
+                }
+              };
+          
+          __LINE__ = 264;
+          Runtime.assert( true,test["test2"]["@test"]["0"]["1"]()() === 1,"test[\"test2\"][\"@test\"][\"0\"][\"1\"]()() === 1",264,'./expression_test.js' );
+          
+          __LINE__ = 265;
+          Runtime.assert( true,test.test2["@test"][0]["1"]()() === 1,"test.test2[\"@test\"][0][\"1\"]()() === 1",265,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      function expressionTest() {
+        try {
+          __LINE__ = 269;
+          var exp = function () {
+                try {
+                  __LINE__ = 270;
+                  return 1;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }();
+          
+          __LINE__ = 272;
+          Runtime.assert( true,exp === 1,"exp === 1",272,'./expression_test.js' );
+          
+          __LINE__ = 274;
+          var a,
+              b,
+              c;
+          
+          __LINE__ = 0;
+          exp = ( a = 0 , b = 1 , c = 2 );
+          
+          __LINE__ = 276;
+          Runtime.assert( true,a === 0,"a === 0",276,'./expression_test.js' );
+          
+          __LINE__ = 277;
+          Runtime.assert( true,b === 1,"b === 1",277,'./expression_test.js' );
+          
+          __LINE__ = 278;
+          Runtime.assert( true,c === 2,"c === 2",278,'./expression_test.js' );
+          
+          __LINE__ = 279;
+          Runtime.assert( true,exp === 2,"exp === 2",279,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          ( function () {
+            try {
+              __LINE__ = 0;
+              exp = 10;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+          
+          __LINE__ = 285;
+          Runtime.assert( true,exp === 10,"exp === 10",285,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          ( function ( a,b ) {
+            try {
+              __LINE__ = 0;
+              exp = a+b;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })( ( function () {
+            try {
+              __LINE__ = 289;
+              return 100;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })(),function () {
+            try {
+              __LINE__ = 289;
+              return 200;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          }());
+          
+          __LINE__ = 291;
+          Runtime.assert( true,exp === 300,"exp === 300",291,'./expression_test.js' );
+          
+          __LINE__ = 0;
+          !function () {
+            try {
+              __LINE__ = 0;
+              exp = 1;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          }();
+          
+          __LINE__ = 296;
+          Runtime.assert( true,exp === 1,"exp === 1",296,'./expression_test.js' );
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      }
+      __LINE__ = 0;
+      objectAndNewTest();
       
-      __LINE__ = 40;
-      var instance = new m();
+      __LINE__ = 0;
+      callExpressionTest();
       
-      __LINE__ = 41;
-      var instance2 = new new m();
+      __LINE__ = 0;
+      binaryExpressionTest();
       
-      __LINE__ = 42;
-      var instance3 = new new new m();
+      __LINE__ = 0;
+      postfixExpressionTest();
       
-      __LINE__ = 43;
-      var instance4 = new m2.m.m();
+      __LINE__ = 0;
+      unaryExpressionTest();
       
-      __LINE__ = 44;
-      var instance5 = new new new m3.m.m();
+      __LINE__ = 0;
+      memberExpressionTest();
+      
+      __LINE__ = 0;
+      expressionTest();
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

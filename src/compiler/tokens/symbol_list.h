@@ -40,7 +40,11 @@ class SymbolList : private Static {
     kCreateGenerator,
     kNoThrow,
     kExtend,
-    kAssert
+    kAssert,
+    kIteratorKey,
+    kThrowStopIteration,
+    kHasIterator,
+    kGetIterator
   } RuntimeSymbol;
 
   typedef enum {

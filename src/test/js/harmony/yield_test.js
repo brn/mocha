@@ -290,3 +290,49 @@ generator.next()
 generator.next()
 @assert( true , generator.send(null) === 700 );
 
+
+yieldTest11 -> {
+  var obj = {x:200,y:300,z:400};
+  for ( var i in obj ) {
+    yield [ i , obj[ i ] ];
+  }
+}
+
+generator = yieldTest11();
+var ret = generator.next();
+@assert( true , ret[ 0 ] === "x" );
+@assert( true , ret[ 1 ] === 200 );
+ret = generator.next();
+@assert( true , ret[ 0 ] === "y" );
+@assert( true , ret[ 1 ] === 300 );
+ret = generator.next();
+@assert( true , ret[ 0 ] === "z" );
+@assert( true , ret[ 1 ] === 400 );
+
+
+keys( obj ) -> {
+  for ( var prop in obj ) {
+    if ( obj.hasOwnProperty( prop ) ) {
+      yield prop;
+    }
+  }
+}
+
+var testObject = {
+      value1 : 1,
+      value2 : 2,
+      value3 : 3,
+      value4 : 4
+    };
+try {
+  var itemGen = keys( testObject );
+  @assert( true , itemGen.next() == "value1" );
+  @assert( true , itemGen.next() == "value2" );
+  @assert( true , itemGen.next() == "value3" );
+  @assert( true , itemGen.next() == "value4" );
+  @assert( true , itemGen.next() == "value5" );
+} catch( e ) {
+  @assert( true , Runtime.isStopIteration( e ) );
+}
+
+

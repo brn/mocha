@@ -129,7 +129,6 @@ class JsToken : private Static {
  public:
   static bool IsBinaryOperatorNoIn( int token );
   static bool IsBinaryOperator( int token );
-  static int ToParserToken( int token );
   static int getType ( const char* token , bool isOperator = false );
   static bool IsBuiltin( const char* token );
   static const char* GetTokenFromNumber( int id );

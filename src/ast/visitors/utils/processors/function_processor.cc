@@ -198,14 +198,10 @@ class YieldHelper : private Uncopyable {
   
  private :
   void Finish_() {
-    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThrowException ),
+    ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThrowStopIteration ),
                                                    Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
-    NodeList* list = ManagedHandle::Retain<NodeList>();
-    
-    ValueNode* stop_iteration = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kStopIteration ),
-                                                        Token::JS_PROPERTY , function_->Line() , ValueNode::kProperty );
-    list->AddChild( stop_iteration );
-    CallExp* exp = AstUtils::CreateNormalAccessor( handler , list );
+    Empty* empty = ManagedHandle::Retain<Empty>();
+    CallExp* exp = AstUtils::CreateNormalAccessor( handler , empty );
     CallExp* runtime = AstUtils::CreateRuntimeMod( exp );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime );
     ValueNode* is_safe = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSafeFlag ),
@@ -654,6 +650,11 @@ class YieldHelper : private Uncopyable {
         }
       }
     }
+    BreakStmt* stmt = ManagedHandle::Retain<BreakStmt>();
+    stmt->AddChild( ManagedHandle::Retain<Empty>() );
+    node->SetYieldFlag( false );
+    stmt->SetYieldFlag( true );
+    parent->InsertAfter( stmt , node );
     if ( !mark->ReEntrantNode() ) {
       parent->RemoveChild( mark );
     }

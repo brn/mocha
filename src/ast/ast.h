@@ -542,6 +542,7 @@ class Statement : public AstNode {
   }
 
   inline void SetYieldFlag() { has_yield_ = true; }
+  inline void SetYieldFlag( bool is ) { has_yield_ = is; }
 
   inline bool GetYieldFlag() { return has_yield_; }
   

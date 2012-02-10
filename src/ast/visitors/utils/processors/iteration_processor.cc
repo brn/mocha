@@ -127,10 +127,24 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   }
   if ( !maybeIdent ) {
     ValueNode* tmp = AstUtils::CreateTmpNode( info->GetInfo()->GetTmpIndex() );
-    ValueNode* init = AstUtils::CreateVarInitiliser( tmp->Symbol() , target_exp->FirstChild() );
+    ValueNode* init = AstUtils::CreateVarInitiliser( tmp->Symbol() , target_exp );
     VariableStmt* stmt = AstUtils::CreateVarStmt( init );
     ValueNode* target = tmp->Clone()->CastToValue();
+
+    ValueNode* has_iterator = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kHasIterator ),
+                                                        Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+    ValueNode* get_iterator = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGetIterator ),
+                                                        Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+    CallExp* runtime_key = AstUtils::CreateRuntimeMod( has_iterator );
+    CallExp* runtime_key2 = AstUtils::CreateRuntimeMod( get_iterator );
+    NodeList* args = AstUtils::CreateNodeList( 1 , tmp->Clone() );
+    CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_key , args );
+    CallExp* get_iterator_call = AstUtils::CreateNormalAccessor( runtime_key2 , args->Clone() );
+    ConditionalExp* cond_exp = ManagedHandle::Retain( new ConditionalExp( runtime_call , get_iterator_call , tmp->Clone() ) );
+    AssignmentExp* assign = AstUtils::CreateAssignment( '=' , target->Clone() , cond_exp );
+    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
     ast_node->ParentNode()->InsertBefore( stmt , ast_node );
+    ast_node->ParentNode()->InsertBefore( exp_stmt , ast_node );
     exp->ReplaceChild( target_exp , target );
     target_exp = target;
   }
@@ -148,15 +162,15 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   while_stmt->AddChild( ast_node->FirstChild() );
   ValueNode* handler = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExceptionHandler ),
                                                  Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+  CallExp* runtime_call = AstUtils::CreateRuntimeMod( handler );
   char line_tmp[50];
   sprintf( line_tmp , "%ld" , ast_node->Line() );
   ValueNode* line_num = AstUtils::CreateNameNode( line_tmp , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
-  ValueNode* file_name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kFile ),
-                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+  ValueNode* file_name = AstUtils::CreateNameNode( info->GetInfo()->GetRelativePath() , Token::JS_STRING_LITERAL , 0 , ValueNode::kString );
   ValueNode* error = AstUtils::CreateNameNode( "'for of statement expect iterator or generator object.'",
                                                Token::JS_STRING_LITERAL , 0 , ValueNode::kString );
   NodeList* args = AstUtils::CreateNodeList( 3 , line_num , file_name , error );
-  CallExp* handler_call = AstUtils::CreateNormalAccessor( handler , args );
+  CallExp* handler_call = AstUtils::CreateNormalAccessor( runtime_call , args );
   ExpressionStmt* handler_stmt = AstUtils::CreateExpStmt( handler_call );
   BlockStmt* then_block = AstUtils::CreateBlockStmt( 1 , while_stmt );
   BlockStmt* else_block = AstUtils::CreateBlockStmt( 1 , handler_stmt );

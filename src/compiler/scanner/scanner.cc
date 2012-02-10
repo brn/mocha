@@ -727,9 +727,17 @@ class Scanner::InternalScanner {
   
     if ( next == ch ) {
       token_str_ += next;
+      if ( ch == '<' && next == '<' ) {
+        next = Seek_(1);
+        if ( next == '=' ) {
+          token_str_ += next;
+          Advance_();
+        }
+      }
     } else if ( ( ch == '|' ||
                   ch == '^' ||
-                  ch == '<' ) &&
+                  ch == '<' ||
+                  ch == '&' ) &&
                 next == '=' ) {
       token_str_ += next;
     } else {
@@ -741,17 +749,23 @@ class Scanner::InternalScanner {
 
   inline void CaseShiftRight_ () {
     char next = Advance_ ();
-    if ( next == '=' ) {
-      token_str_ += next;
-    } else if ( next == '>' ) {
+    if ( next == '>' ) {
       token_str_ += next;
       next = Advance_ ();
       if ( next == '>' ) {
         token_str_ += next;
-        Undo_ ();
+        next = Seek_( 1 );
+        if ( next == '=' ) {
+          token_str_ += next;
+          Advance_();
+        }
+      } else if ( next == '=' ) {
+        token_str_ += next;
       } else {
         Undo_ ();
       }
+    } else if ( next == '=' ) {
+      token_str_ += next;
     } else {
       Undo_ ();
     }

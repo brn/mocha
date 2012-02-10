@@ -42,9 +42,25 @@ int DoRun( const char* command ) {
   char ch;
   std::string buf;
   while ( ( ch = fgetc( fp ) ) != EOF && ch ) {
+    if ( ch == '\n' ) {
+      if ( buf.find( "failed" ) != std::string::npos || buf.find( "Error" ) != std::string::npos ) {
+        fprintf( stderr , "\x1b[1m");
+        fprintf( stderr , "\x1b[31m" );
+      } else if ( buf.find( "success" ) != std::string::npos ) {
+        fprintf( stderr , "\x1b[1m");
+        fprintf( stderr , "\x1b[32m" );
+      } else {
+        fprintf( stderr , "\x1b[49m" );
+        fprintf( stderr , "\x1b[0m" );
+      }
+      fprintf( stderr , "%s" , buf.c_str() );
+      buf.clear();
+    }
     buf += ch;
   }
-  fprintf( stderr , "%s" , buf.c_str() );
+  fprintf( stderr , "\x1b[49m" );
+  fprintf( stderr , "\x1b[0m" );
+  fprintf( stderr , "\n" );
   pclose( fp );
   /*
   if ( ( pid = fork() ) < 0 ) {

@@ -15,16 +15,24 @@
         }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
-                return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
               },
               exceptionHandler : function exceptionHandler( line,file,e ) {
-                this.throwException( new Exception( line,file,e ) );
+                if ( isStopIteration( e ) ){
+                  this.throwException( e );
+                } else {
+                  this.throwException( new Exception( line,file,e ) );
+                };
               },
               throwException : function throwException( exception ) {
                 try {
                   throw exception;
                 } catch( e ){
-                  throw new Error( this.getErrorMessage( e ) );
+                  if ( isStopIteration( e ) ){
+                    throw new Error( e );
+                  } else {
+                    throw new Error( this.getErrorMessage( e ) );
+                  };
                 };
               },
               hasProto : "__proto__" in {}
@@ -45,7 +53,7 @@
                 ret = function () {
                   var args = argArray.concat( Array.prototype.slice.call( arguments ) );
                   
-                  if ( this instanceof ret ){
+                  if ( this !== null && this !== window && this instanceof ret ){
                     return ret.context.apply( this,args );
                   } else {
                     return ret.context.apply( context,args );
@@ -205,7 +213,7 @@
         if ( !Array.prototype.reduce ){
           Array.prototype.reduce = function ( fn,initial ) {
             var ret = initial || this[0],
-                i = ( ( initial ) )?0 : 1,
+                i = ( initial )?0 : 1,
                 ta,
                 len;
             
@@ -221,7 +229,7 @@
         if ( !Array.prototype.reduceRight ){
           Array.prototype.reduceRight = function ( fn,initial ) {
             var ret = initial || this[this.length-1],
-                i = ( ( initial ) )?this.length-1 : this.length-2,
+                i = ( initial )?this.length-1 : this.length-2,
                 ta;
             
             for ( i;i>-1; -- i ){
@@ -289,7 +297,7 @@
                 });
                 
                 obj.test = 200;
-                return ( ( obj.test === 200 ) )?false : true;
+                return ( obj.test === 200 )?false : true;
               } catch( e ){
                 return false;
               };
@@ -310,7 +318,7 @@
             if ( arguments.length === 0 ){
               return false;
             };
-            return ( ( arr ) )?Object.prototype.toString.call( arr ) === arrayString : false;
+            return ( arr )?Object.prototype.toString.call( arr ) === arrayString : false;
           };
         };
         
@@ -335,11 +343,13 @@
             };
         
         var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
+              return ( likeArray )?slice.call( likeArray,index ) : [];
             };
         
+        var Generator = function (){};
+        
         var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = {};
+              var ret = new Generator;
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
               
@@ -347,7 +357,7 @@
               
               createUnenumProp( ret,"close",closeFn.bind( context ) );
               
-              createUnenumProp( ret,"__nothrowNext__",closeFn.bind( context,false,true ) );
+              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
               
               createUnenumProp( ret,"toString",
               function () {
@@ -359,7 +369,7 @@
             };
         
         function getErrorMessage( e ) {
-          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
         }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
@@ -369,7 +379,7 @@
               derived.prototype = base;
             };
         
-        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
               return Object.getPrototypeOf( obj );
             } : function ( obj ) {
               if ( "constructor" in obj ){
@@ -377,7 +387,7 @@
               };
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
               } else {
@@ -402,8 +412,36 @@
               };
             };
         
+        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+              try {
+                throw StopIteration;
+              } catch( e ){
+                throw new Error( e.toString() );
+              };
+            };
+        
+        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
+              return obj instanceof Generator;
+            };
+        
+        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
+              return obj[__ref_iterator__]();
+            };
+        
+        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
+              return __ref_iterator__ in obj;
+            };
+        
+        var rstopIteration = /StopIteration/;
+        
+        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
+              return obj === StopIteration || rstopIteration.test( obj );
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
               } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
@@ -417,7 +455,7 @@
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
       toString : function toString() {
-        return "StopIteration";
+        return "[object StopIteration]";
       }
     };
   };
@@ -425,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/function_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/ecma262_5th/function_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./function_test.js'] = {};
@@ -435,121 +473,81 @@
       
       function test() {
         try {
-          __LINE__ = 0;
-          console.log( 1 );
+          __LINE__ = 3;
+          return 1;
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      __LINE__ = 0;
-      test();
+      __LINE__ = 5;
+      Runtime.assert( true,1 === test(),"1 === test()",5,'./function_test.js' );
       
-      __LINE__ = 6;
+      __LINE__ = 7;
       var testExpression = function () {
             try {
-              __LINE__ = 0;
-              console.log( 1 );
+              __LINE__ = 8;
+              return 1;
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
       
       __LINE__ = 10;
+      Runtime.assert( true,1 === testExpression(),"1 === testExpression()",10,'./function_test.js' );
+      
+      __LINE__ = 12;
       var testObject =  {
-            v : function () {
+            prop : function () {
               try {
-                __LINE__ = 0;
-                console.log( 1 );
+                __LINE__ = 14;
+                return 1;
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
               }
-            },
-            m : 0
+            }
           };
       
-      function testFormal( args,args2,args3 ) {
+      __LINE__ = 18;
+      Runtime.assert( true,1 === testObject.prop(),"1 === testObject.prop()",18,'./function_test.js' );
+      
+      function testFormal( arg,arg2,arg3 ) {
         try {
-          __LINE__ = 0;
-          console.log( 1 );
+          __LINE__ = 21;
+          return arg+arg2+arg3;
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
       }
-      function testDstaFormal( _mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2 ) {
-        try {
-          __LINE__ = 0;
-          var args = _mochaLocalTmp0.args,
-              args2 = ( _mochaLocalTmp1.tmp && _mochaLocalTmp1.tmp["args2"] )?_mochaLocalTmp1.tmp["args2"] : undefined,
-              args3 = _mochaLocalTmp2[0],
-              args4 = _mochaLocalTmp2[1],
-              args5 = ( _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args5 )?_mochaLocalTmp2[2].args5 : undefined,
-              args7 = ( _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args6 && _mochaLocalTmp2[2].args6.args7 )?_mochaLocalTmp2[2].args6.args7 : undefined;
-          
-          __LINE__ = 0;
-          console.log( 1 );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 25;
-      var testExpressionFormal = function ( args,args2,args3 ) {
+      __LINE__ = 23;
+      Runtime.assert( true,3 === testFormal( 1,1,1 ),"3 === testFormal( 1,1,1 )",23,'./function_test.js' );
+      
+      __LINE__ = 26;
+      var testExpressionFormal = function ( arg,arg2,arg3 ) {
             try {
-              __LINE__ = 0;
-              console.log( 1 );
+              __LINE__ = 27;
+              return arg+arg2+arg3;
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           };
       
       __LINE__ = 29;
-      var testExpressionFormalDsta = function ( _mochaLocalTmp3,_mochaLocalTmp4,_mochaLocalTmp5 ) {
-            try {
-              __LINE__ = 0;
-              var args = _mochaLocalTmp3.args,
-                  args2 = ( _mochaLocalTmp4.tmp && _mochaLocalTmp4.tmp["args2"] )?_mochaLocalTmp4.tmp["args2"] : undefined,
-                  args3 = _mochaLocalTmp5[0],
-                  args4 = _mochaLocalTmp5[1],
-                  args5 = ( _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5 )?_mochaLocalTmp5[2].args5 : undefined,
-                  args7 = ( _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7 )?_mochaLocalTmp5[2].args6.args7 : undefined;
-              
-              __LINE__ = 0;
-              console.log( 1 );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
+      Runtime.assert( true,3 === testExpressionFormal( 1,1,1 ),"3 === testExpressionFormal( 1,1,1 )",29,'./function_test.js' );
       
-      __LINE__ = 33;
+      __LINE__ = 31;
       var testObjectFormal =  {
-            v : function ( args,args2,args3 ) {
+            prop : function ( arg,arg2,arg3 ) {
               try {
-                __LINE__ = 0;
-                console.log( 1 );
+                __LINE__ = 33;
+                return arg+arg2+arg3;
               } catch( e ){
                 Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
               }
             }
           };
       
-      __LINE__ = 39;
-      var testObjectFormalDsta =  {
-            v : function ( _mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8 ) {
-              try {
-                __LINE__ = 0;
-                var args = _mochaLocalTmp6.args,
-                    args2 = ( _mochaLocalTmp7.tmp && _mochaLocalTmp7.tmp["args2"] )?_mochaLocalTmp7.tmp["args2"] : undefined,
-                    args3 = _mochaLocalTmp8[0],
-                    args4 = _mochaLocalTmp8[1],
-                    args5 = ( _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args5 )?_mochaLocalTmp8[2].args5 : undefined,
-                    args7 = ( _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args6 && _mochaLocalTmp8[2].args6.args7 )?_mochaLocalTmp8[2].args6.args7 : undefined;
-                
-                __LINE__ = 0;
-                console.log( 1 );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
+      __LINE__ = 36;
+      Runtime.assert( true,3 === testObjectFormal.prop( 1,1,1 ),"3 === testObjectFormal.prop( 1,1,1 )",36,'./function_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

@@ -2263,7 +2263,7 @@ AstNode* Parser::ParseUnaryExpression_() {
   int type = token->GetType();
   if ( IsUnaryOp( type ) ) {
     Advance_();
-    AstNode* post_exp = ParsePostfixExpression_();
+    AstNode* post_exp = ParseUnaryExpression_();
     CHECK_ERROR( post_exp );
     UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( type ) );
     unary->Line( token->GetLineNumber() );
@@ -2372,7 +2372,9 @@ AstNode* Parser::ParseCallExpression_() {
     token = Seek_();
     type = token->GetType();
     if ( type == '.' || type == '[' || type == '(' ) {
-      exp = ParseEachMember_( type , true , exp );
+      if ( type != '(' ) {
+        exp = ParseEachMember_( type , true , exp );
+      }
       token = Seek_();
       type = token->GetType();
       while ( 1 ) {
@@ -2396,7 +2398,11 @@ AstNode* Parser::ParseCallExpression_() {
           }
           ret = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
           ret->Callable( exp );
-          ret->Args( arguments );
+          if ( arguments->ChildLength() == 0 ) {
+            ret->Args( ManagedHandle::Retain<Empty>() );
+          } else {
+            ret->Args( arguments );
+          }
         }
         if ( ret == 0 ) {
           END(CallExpression);
@@ -2546,7 +2552,7 @@ AstNode* Parser::ParseMemberExpression_() {
       CallExp* ret = ParseEachMember_( type , false , exp );
       if ( ret == 0 ) {
         END(MemberExpression);
-        return first;
+        return exp;
       } else {
         exp = ret;
       }
@@ -2556,7 +2562,7 @@ AstNode* Parser::ParseMemberExpression_() {
       fprintf( stderr, "%s %d\n" , static_cast<const char*>( TokenConverter( token ) ) , type == '.' );
     }
     END(MemberExpression);
-    return first;
+    return exp;
   }
 }
 
@@ -2635,9 +2641,8 @@ CallExp* Parser::ParseEachMember_( int type , bool is_first , CallExp* exp ) {
         accessor->Callable( exp );
         accessor->Args( node );
       } else {
-        accessor->Callable( exp->Args() );
+        accessor->Callable( exp );
         accessor->Args( node );
-        exp->Callable( accessor );
       }
       END(EachMember);
       return accessor;
@@ -2665,9 +2670,8 @@ CallExp* Parser::ParseEachMember_( int type , bool is_first , CallExp* exp ) {
         accessor->Callable( exp );
         accessor->Args( node );
       } else {
-        accessor->Callable( exp->Args() );
+        accessor->Callable( exp );
         accessor->Args( node );
-        exp->Args( accessor );
       }
       END(EachMember);
       return accessor;
@@ -2713,6 +2717,11 @@ AstNode* Parser::ParsePrimaryExpression_() {
       END(PrimaryExpression);
       return exp;
     }
+  } else if ( type == Token::JS_FUNCTION_GLYPH ||
+              type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+    AstNode* fn = ParseArrowFunctionExpression_( type );
+    END(PrimaryExpression);
+    return fn;
   } else {
     Undo_();
     END(PrimaryExpression);
@@ -2760,6 +2769,27 @@ AstNode* Parser::ParseObjectLiteral_() {
         list->AddChild( node );
         token = Seek_();
         type = token->GetType();
+      } else if ( type == '[' ) {
+        AstNode* node = ParseObjectElement_( type , token , list );
+        CHECK_ERROR( node );
+        token = Advance_();
+        type = token->GetType();
+        if ( type == ':' ) {
+          AstNode* assign;
+          token = Seek_();
+          type = token->GetType();
+          if ( type == '{' ) {
+            Advance_();
+            assign = ParseObjectLiteral_();
+          } else {
+            assign = ParseAssignmentExpression_( false );
+          }
+          CHECK_ERROR(assign);
+          node->AddChild( assign );
+          list->AddChild( node );
+          token = Seek_();
+          type = token->GetType();
+        }
       } else if ( maybe_colon == '(' || maybe_colon == Token::JS_FUNCTION_GLYPH ||
                   maybe_colon == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
         AstNode* fn = ParseFunctionDecl_( false );
@@ -2807,6 +2837,23 @@ AstNode* Parser::ParseObjectElement_( int type , TokenInfo* token , AstNode* lis
     list->AddChild( node );
     END(ObjectElement);
     return node;
+  } else if ( type == '[' ) {
+    Advance_();
+    AstNode* node = ParseAssignmentExpression_( true );
+    TokenInfo* token = Seek_();
+    int next = token->GetType();
+    if ( next != ']' ) {
+      SYNTAX_ERROR( "in 'object literal private property' expect ']' but got " << TokenConverter( token )
+                    << "\\nin file " << filename_ << " at line " << token->GetLineNumber() );
+      END( ObjectElementError );
+      return node;
+    } else {
+      Advance_();
+      ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kPrivateProperty ) );
+      value->Line( token->GetLineNumber() );
+      value->Node( node );
+      return value;
+    }
   } else {
     SYNTAX_ERROR( "parse error got unexpected token "
                   << TokenConverter( token )
@@ -2985,6 +3032,11 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     }
   } else {
     fn->Argv( ManagedHandle::Retain<Empty>() );
+    token = Seek_();
+    type = token->GetType();
+    if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+      Advance_();
+    }
   }
 
   if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
@@ -2996,6 +3048,10 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
     if ( type == '{' ) {
       Advance_();
       state_stack_->Push( StateStack::kFunction );
+      bool has_return = bits_.At( RETURN_FLG );
+      bool has_yield = bits_.At( YIELD_FLG );
+      bits_.UnSet( RETURN_FLG );
+      bits_.UnSet( YIELD_FLG );
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
       if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
         SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
@@ -3003,8 +3059,12 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
         END(FunctionDeclError);
         return fn;
       }
-      bits_.UnSet( RETURN_FLG );
-      bits_.UnSet( YIELD_FLG );
+      if ( !has_return ) {
+        bits_.UnSet( RETURN_FLG );
+      }
+      if ( !has_yield ) {
+        bits_.UnSet( YIELD_FLG );
+      }
       state_stack_->Pop();
       CHECK_ERROR( body );
       fn->Append( body );
@@ -3021,7 +3081,23 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
   } else {
     if ( type == '{' ) {
       state_stack_->Push( StateStack::kFunction );
+      bool has_return = bits_.At( RETURN_FLG );
+      bool has_yield = bits_.At( YIELD_FLG );
+      bits_.UnSet( RETURN_FLG );
+      bits_.UnSet( YIELD_FLG );
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
+      if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
+        SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        END(FunctionDeclError);
+        return fn;
+      }
+      if ( !has_return ) {
+        bits_.UnSet( RETURN_FLG );
+      }
+      if ( !has_yield ) {
+        bits_.UnSet( YIELD_FLG );
+      }
       state_stack_->Pop();
       CHECK_ERROR( body );
       Advance_();
@@ -3197,6 +3273,10 @@ AstNode* Parser::ParseArrowFunctionBody_( Function* fn ) {
   if ( token_type == '{' ) {
     Advance_();
     state_stack_->Push( StateStack::kFunction );
+    bool has_return = bits_.At( RETURN_FLG );
+    bool has_yield = bits_.At( YIELD_FLG );
+    bits_.UnSet( RETURN_FLG );
+    bits_.UnSet( YIELD_FLG );
     AstNode* list = ParseStatementList_( BlockBodyMatcher , "}" );
     if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
       SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
@@ -3204,8 +3284,12 @@ AstNode* Parser::ParseArrowFunctionBody_( Function* fn ) {
       END(FunctionDeclError);
       return fn;
     }
-    bits_.UnSet( RETURN_FLG );
-    bits_.UnSet( YIELD_FLG );
+    if ( !has_return ) {
+      bits_.UnSet( RETURN_FLG );
+    }
+    if ( !has_yield ) {
+      bits_.UnSet( YIELD_FLG );
+    }
     state_stack_->Pop();
     CHECK_ERROR( list );
     fn->Append( list );

@@ -37,7 +37,11 @@ static const char runtime[][50] = {
   "createGenerator",
   "__nothrowNext__",
   "extend",
-  "assert"
+  "assert",
+  "__ref_iterator__",
+  "throwStopIteration",
+  "hasIterator",
+  "getIterator"
 };
 
 static const char builtin[][50] = {

@@ -10,13 +10,21 @@ module Runtime {
   var Runtime = {
         getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
         exceptionHandler ( line , file , e ){
-          this.throwException( new Exception( line , file , e ) );
+          if ( isStopIteration( e ) ) {
+            this.throwException( e );
+          } else {
+            this.throwException( new Exception( line , file , e ) );
+          }
         },
         throwException ( exception ) {
           try {
             throw exception;
           } catch( e ) {
-            throw new Error( this.getErrorMessage( e ) );
+            if ( isStopIteration( e ) ) {
+              throw new Error( e );
+            } else {
+              throw new Error( this.getErrorMessage( e ) );
+            }
           }
         },
         hasProto : "__proto__" in {}
@@ -33,7 +41,7 @@ module Runtime {
           context = argArray.shift (),
           ret = ->{
             var args = argArray.concat ( Array.prototype.slice.call ( arguments ) );
-            if ( this instanceof ret ) {
+            if ( this !== null && this !== window && this instanceof ret ) {
               return ret.context.apply ( this , args );
             } else {
               return ret.context.apply( context , args );
@@ -305,12 +313,14 @@ module Runtime {
   
   export toArray( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
   
+  var Generator = function () {}
+  
   export createGenerator( generatorFn , closeFn , context ) -> {
-    var ret = {};
+    var ret = new Generator;
     createUnenumProp( ret , "next" , generatorFn.bind( context , false , false ) );
     createUnenumProp( ret , "send" , generatorFn.bind( context , true , false ) );
     createUnenumProp( ret , "close" , closeFn.bind( context ) );
-    createUnenumProp( ret , "__nothrowNext__" , closeFn.bind( context , false , true ) );
+    createUnenumProp( ret , "__nothrowNext__" , generatorFn.bind( context , false , true ) );
     createUnenumProp( ret , "toString" , -> "[object Generator]" );
     Object.freeze( ret );
     return ret;
@@ -356,6 +366,33 @@ module Runtime {
       }
     }
   
+  export __ref_iterator__ = "__mocha_iterator_special_key__";
+  
+  export throwStopIteration() {
+    try {
+      throw StopIteration;
+    } catch ( e ) {
+      throw new Error( e.toString() );
+    }
+  }
+  
+  export isGenerator( obj ) {
+    return obj instanceof Generator;
+  }
+  
+  export getIterator( obj ) {
+    return obj[__ref_iterator__]();
+  }
+  
+  export hasIterator( obj ) {
+    return __ref_iterator__ in obj;
+  }
+  
+  const rstopIteration = /StopIteration/;
+  export isStopIteration( obj ) {
+    return obj === StopIteration || rstopIteration.test( obj );
+  }
+  
   @version( debug ) {
     export assert = ( console && console.assert )?
       ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
@@ -369,6 +406,6 @@ module Runtime {
 
 if ( !( "StopIteration" in window ) ) {
   window.StopIteration = {
-    toString() { return "StopIteration"; }
+    toString() { return "[object StopIteration]"; }
   }
 }

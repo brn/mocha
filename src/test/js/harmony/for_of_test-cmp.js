@@ -15,16 +15,24 @@
         }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
-                return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
               },
               exceptionHandler : function exceptionHandler( line,file,e ) {
-                this.throwException( new Exception( line,file,e ) );
+                if ( isStopIteration( e ) ){
+                  this.throwException( e );
+                } else {
+                  this.throwException( new Exception( line,file,e ) );
+                };
               },
               throwException : function throwException( exception ) {
                 try {
                   throw exception;
                 } catch( e ){
-                  throw new Error( this.getErrorMessage( e ) );
+                  if ( isStopIteration( e ) ){
+                    throw new Error( e );
+                  } else {
+                    throw new Error( this.getErrorMessage( e ) );
+                  };
                 };
               },
               hasProto : "__proto__" in {}
@@ -45,7 +53,7 @@
                 ret = function () {
                   var args = argArray.concat( Array.prototype.slice.call( arguments ) );
                   
-                  if ( this instanceof ret ){
+                  if ( this !== null && this !== window && this instanceof ret ){
                     return ret.context.apply( this,args );
                   } else {
                     return ret.context.apply( context,args );
@@ -205,7 +213,7 @@
         if ( !Array.prototype.reduce ){
           Array.prototype.reduce = function ( fn,initial ) {
             var ret = initial || this[0],
-                i = ( ( initial ) )?0 : 1,
+                i = ( initial )?0 : 1,
                 ta,
                 len;
             
@@ -221,7 +229,7 @@
         if ( !Array.prototype.reduceRight ){
           Array.prototype.reduceRight = function ( fn,initial ) {
             var ret = initial || this[this.length-1],
-                i = ( ( initial ) )?this.length-1 : this.length-2,
+                i = ( initial )?this.length-1 : this.length-2,
                 ta;
             
             for ( i;i>-1; -- i ){
@@ -289,7 +297,7 @@
                 });
                 
                 obj.test = 200;
-                return ( ( obj.test === 200 ) )?false : true;
+                return ( obj.test === 200 )?false : true;
               } catch( e ){
                 return false;
               };
@@ -310,7 +318,7 @@
             if ( arguments.length === 0 ){
               return false;
             };
-            return ( ( arr ) )?Object.prototype.toString.call( arr ) === arrayString : false;
+            return ( arr )?Object.prototype.toString.call( arr ) === arrayString : false;
           };
         };
         
@@ -335,11 +343,13 @@
             };
         
         var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
+              return ( likeArray )?slice.call( likeArray,index ) : [];
             };
         
+        var Generator = function (){};
+        
         var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = {};
+              var ret = new Generator;
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
               
@@ -347,7 +357,7 @@
               
               createUnenumProp( ret,"close",closeFn.bind( context ) );
               
-              createUnenumProp( ret,"__nothrowNext__",closeFn.bind( context,false,true ) );
+              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
               
               createUnenumProp( ret,"toString",
               function () {
@@ -359,7 +369,7 @@
             };
         
         function getErrorMessage( e ) {
-          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
         }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
@@ -369,7 +379,7 @@
               derived.prototype = base;
             };
         
-        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
               return Object.getPrototypeOf( obj );
             } : function ( obj ) {
               if ( "constructor" in obj ){
@@ -377,7 +387,7 @@
               };
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
               } else {
@@ -402,8 +412,36 @@
               };
             };
         
+        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+              try {
+                throw StopIteration;
+              } catch( e ){
+                throw new Error( e.toString() );
+              };
+            };
+        
+        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
+              return obj instanceof Generator;
+            };
+        
+        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
+              return obj[__ref_iterator__]();
+            };
+        
+        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
+              return __ref_iterator__ in obj;
+            };
+        
+        var rstopIteration = /StopIteration/;
+        
+        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
+              return obj === StopIteration || rstopIteration.test( obj );
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
               } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
@@ -417,7 +455,7 @@
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
       toString : function toString() {
-        return "StopIteration";
+        return "[object StopIteration]";
       }
     };
   };
@@ -425,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_of_test.js'] = {};
@@ -449,6 +487,9 @@
       var _mochaLocalTmp0 = target;
       
       __LINE__ = 0;
+      _mochaLocalTmp0 = Runtime.hasIterator( _mochaLocalTmp0 )?Runtime.getIterator( _mochaLocalTmp0 ) : _mochaLocalTmp0;
+      
+      __LINE__ = 0;
       if ( _mochaLocalTmp0.__nothrowNext__ ){
         __LINE__ = 0;
         while ( ( i = _mochaLocalTmp0.__nothrowNext__(  ) ) ){
@@ -457,11 +498,14 @@
         };
       } else {
         __LINE__ = 0;
-        exceptionHandler( 3,__FILE__,'for of statement expect iterator or generator object.' );
+        Runtime.exceptionHandler( 3,'./for_of_test.js','for of statement expect iterator or generator object.' );
       };
       
       __LINE__ = 0;
       var _mochaLocalTmp1 = target;
+      
+      __LINE__ = 0;
+      _mochaLocalTmp1 = Runtime.hasIterator( _mochaLocalTmp1 )?Runtime.getIterator( _mochaLocalTmp1 ) : _mochaLocalTmp1;
       
       __LINE__ = 0;
       if ( _mochaLocalTmp1.__nothrowNext__ ){
@@ -472,7 +516,7 @@
         };
       } else {
         __LINE__ = 0;
-        exceptionHandler( 7,__FILE__,'for of statement expect iterator or generator object.' );
+        Runtime.exceptionHandler( 7,'./for_of_test.js','for of statement expect iterator or generator object.' );
       };
       
       __LINE__ = 0;
@@ -480,6 +524,9 @@
       
       __LINE__ = 0;
       var _mochaLocalTmp2 = target;
+      
+      __LINE__ = 0;
+      _mochaLocalTmp2 = Runtime.hasIterator( _mochaLocalTmp2 )?Runtime.getIterator( _mochaLocalTmp2 ) : _mochaLocalTmp2;
       
       __LINE__ = 0;
       if ( _mochaLocalTmp2.__nothrowNext__ ){
@@ -490,11 +537,14 @@
         };
       } else {
         __LINE__ = 0;
-        exceptionHandler( 11,__FILE__,'for of statement expect iterator or generator object.' );
+        Runtime.exceptionHandler( 11,'./for_of_test.js','for of statement expect iterator or generator object.' );
       };
       
       __LINE__ = 0;
       var _mochaLocalTmp3 = target;
+      
+      __LINE__ = 0;
+      _mochaLocalTmp3 = Runtime.hasIterator( _mochaLocalTmp3 )?Runtime.getIterator( _mochaLocalTmp3 ) : _mochaLocalTmp3;
       
       __LINE__ = 0;
       if ( _mochaLocalTmp3.__nothrowNext__ ){
@@ -505,11 +555,14 @@
         };
       } else {
         __LINE__ = 0;
-        exceptionHandler( 14,__FILE__,'for of statement expect iterator or generator object.' );
+        Runtime.exceptionHandler( 14,'./for_of_test.js','for of statement expect iterator or generator object.' );
       };
       
       __LINE__ = 0;
       var _mochaLocalTmp4 = target;
+      
+      __LINE__ = 0;
+      _mochaLocalTmp4 = Runtime.hasIterator( _mochaLocalTmp4 )?Runtime.getIterator( _mochaLocalTmp4 ) : _mochaLocalTmp4;
       
       __LINE__ = 0;
       if ( _mochaLocalTmp4.__nothrowNext__ ){
@@ -520,7 +573,7 @@
         };
       } else {
         __LINE__ = 0;
-        exceptionHandler( 17,__FILE__,'for of statement expect iterator or generator object.' );
+        Runtime.exceptionHandler( 17,'./for_of_test.js','for of statement expect iterator or generator object.' );
       };
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );

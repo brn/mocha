@@ -15,16 +15,24 @@
         }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
-                return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
               },
               exceptionHandler : function exceptionHandler( line,file,e ) {
-                this.throwException( new Exception( line,file,e ) );
+                if ( isStopIteration( e ) ){
+                  this.throwException( e );
+                } else {
+                  this.throwException( new Exception( line,file,e ) );
+                };
               },
               throwException : function throwException( exception ) {
                 try {
                   throw exception;
                 } catch( e ){
-                  throw new Error( this.getErrorMessage( e ) );
+                  if ( isStopIteration( e ) ){
+                    throw new Error( e );
+                  } else {
+                    throw new Error( this.getErrorMessage( e ) );
+                  };
                 };
               },
               hasProto : "__proto__" in {}
@@ -45,7 +53,7 @@
                 ret = function () {
                   var args = argArray.concat( Array.prototype.slice.call( arguments ) );
                   
-                  if ( this instanceof ret ){
+                  if ( this !== null && this !== window && this instanceof ret ){
                     return ret.context.apply( this,args );
                   } else {
                     return ret.context.apply( context,args );
@@ -205,7 +213,7 @@
         if ( !Array.prototype.reduce ){
           Array.prototype.reduce = function ( fn,initial ) {
             var ret = initial || this[0],
-                i = ( ( initial ) )?0 : 1,
+                i = ( initial )?0 : 1,
                 ta,
                 len;
             
@@ -221,7 +229,7 @@
         if ( !Array.prototype.reduceRight ){
           Array.prototype.reduceRight = function ( fn,initial ) {
             var ret = initial || this[this.length-1],
-                i = ( ( initial ) )?this.length-1 : this.length-2,
+                i = ( initial )?this.length-1 : this.length-2,
                 ta;
             
             for ( i;i>-1; -- i ){
@@ -289,7 +297,7 @@
                 });
                 
                 obj.test = 200;
-                return ( ( obj.test === 200 ) )?false : true;
+                return ( obj.test === 200 )?false : true;
               } catch( e ){
                 return false;
               };
@@ -310,7 +318,7 @@
             if ( arguments.length === 0 ){
               return false;
             };
-            return ( ( arr ) )?Object.prototype.toString.call( arr ) === arrayString : false;
+            return ( arr )?Object.prototype.toString.call( arr ) === arrayString : false;
           };
         };
         
@@ -335,11 +343,13 @@
             };
         
         var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( ( likeArray ) )?slice.call( likeArray,index ) : [];
+              return ( likeArray )?slice.call( likeArray,index ) : [];
             };
         
+        var Generator = function (){};
+        
         var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = {};
+              var ret = new Generator;
               
               createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
               
@@ -347,7 +357,7 @@
               
               createUnenumProp( ret,"close",closeFn.bind( context ) );
               
-              createUnenumProp( ret,"__nothrowNext__",closeFn.bind( context,false,true ) );
+              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
               
               createUnenumProp( ret,"toString",
               function () {
@@ -359,7 +369,7 @@
             };
         
         function getErrorMessage( e ) {
-          return ( ( e.message ) )?e.message : ( ( e.description ) )?e.description : e.toString();
+          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
         }
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
@@ -369,7 +379,7 @@
               derived.prototype = base;
             };
         
-        var getPrototype = ( ( "getPrototypeOf" in Object ) )?function ( obj ) {
+        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
               return Object.getPrototypeOf( obj );
             } : function ( obj ) {
               if ( "constructor" in obj ){
@@ -377,7 +387,7 @@
               };
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( ( Runtime.hasProto ) )?function ( derived,base ) {
+        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
               } else {
@@ -402,8 +412,36 @@
               };
             };
         
+        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+              try {
+                throw StopIteration;
+              } catch( e ){
+                throw new Error( e.toString() );
+              };
+            };
+        
+        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
+              return obj instanceof Generator;
+            };
+        
+        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
+              return obj[__ref_iterator__]();
+            };
+        
+        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
+              return __ref_iterator__ in obj;
+            };
+        
+        var rstopIteration = /StopIteration/;
+        
+        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
+              return obj === StopIteration || rstopIteration.test( obj );
+            };
+        
         ( function () {
-          var assert = _mochaLocalExport.assert = ( ( console && console.assert ) )?function ( expect,exp,str,line,filename ) {
+          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
               } : function ( expect,exp,str,line,filename ) {
                 if ( expect !== exp ){
@@ -417,7 +455,7 @@
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
       toString : function toString() {
-        return "StopIteration";
+        return "[object StopIteration]";
       }
     };
   };
@@ -425,7 +463,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/yield_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/yield_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./yield_test.js'] = {};
@@ -475,7 +513,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 5;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -571,7 +609,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 11;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -720,7 +758,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 32;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -884,7 +922,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 48;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -1130,7 +1168,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 117;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -1246,7 +1284,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 135;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -1358,7 +1396,7 @@
                       case 2 :
                         
                         __LINE__ = 0;
-                        _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 )[0] : ( _isYieldSend )?i : undefined;
+                        _yieldResult = _isYieldSend && arguments.length>2?Runtime.toArray( arguments,2 )[0] : _isYieldSend?i : undefined;
                         
                         __LINE__ = 149;
                         m = _yieldResult;
@@ -1442,7 +1480,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 160;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -1557,7 +1595,7 @@
                       case 2 :
                         
                         __LINE__ = 0;
-                        _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 )[0] : ( _isYieldSend )?i : undefined;
+                        _yieldResult = _isYieldSend && arguments.length>2?Runtime.toArray( arguments,2 )[0] : _isYieldSend?i : undefined;
                         
                         __LINE__ = 174;
                         m = _yieldResult;
@@ -1668,7 +1706,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 188;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -1822,7 +1860,7 @@
                       case 3 :
                         
                         __LINE__ = 0;
-                        _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 )[0] : ( _isYieldSend )?i : undefined;
+                        _yieldResult = _isYieldSend && arguments.length>2?Runtime.toArray( arguments,2 )[0] : _isYieldSend?i : undefined;
                         
                         __LINE__ = 213;
                         m = _yieldResult;
@@ -1921,7 +1959,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 226;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -2090,7 +2128,7 @@
                           };
                           
                           __LINE__ = 252;
-                          m = ( ( flg ) )?1 : 0;
+                          m = ( flg )?1 : 0;
                           __LINE__ = 0;
                           return m;
                         case 2 :
@@ -2126,7 +2164,7 @@
                             return undefined;
                           } else {
                             __LINE__ = 261;
-                            Runtime.throwException( StopIteration );
+                            Runtime.throwStopIteration();
                           };
                           
                       };
@@ -2257,7 +2295,7 @@
                       case 2 :
                         
                         __LINE__ = 0;
-                        _yieldResult = ( _isYieldSend && arguments.length>2 )?Runtime.toArray( arguments,2 )[0] : undefined;
+                        _yieldResult = _isYieldSend && arguments.length>2?Runtime.toArray( arguments,2 )[0] : undefined;
                         
                         __LINE__ = 270;
                         type = _yieldResult;
@@ -2290,6 +2328,8 @@
                             break;
                             
                         };
+                        __LINE__ = 0;
+                        break;
                       case 3 :
                         
                         __LINE__ = 0;
@@ -2337,7 +2377,7 @@
                           return undefined;
                         } else {
                           __LINE__ = 283;
-                          Runtime.throwException( StopIteration );
+                          Runtime.throwStopIteration();
                         };
                         
                     };
@@ -2373,26 +2413,348 @@
       __LINE__ = 0;
       generator.next();
       
-      __LINE__ = 0;
-      console.log( generator.send( 2 ) );
-      
-      __LINE__ = 288;
-      Runtime.assert( true,generator.send( 2 ) === 400,"generator.send( 2 ) === 400",288,'./yield_test.js' );
+      __LINE__ = 287;
+      Runtime.assert( true,generator.send( 2 ) === 400,"generator.send( 2 ) === 400",287,'./yield_test.js' );
       
       __LINE__ = 0;
-      console.log( generator.send( 3 ) );
+      generator.next();
+      
+      __LINE__ = 289;
+      Runtime.assert( true,generator.send( 3 ) === 600,"generator.send( 3 ) === 600",289,'./yield_test.js' );
       
       __LINE__ = 0;
       generator.next();
       
       __LINE__ = 291;
-      Runtime.assert( true,generator.send( 3 ) === 600,"generator.send( 3 ) === 600",291,'./yield_test.js' );
+      Runtime.assert( true,generator.send( null ) === 700,"generator.send( null ) === 700",291,'./yield_test.js' );
       
       __LINE__ = 0;
-      generator.next();
+      function yieldTest11() {
+        try {
+          __LINE__ = 0;
+          var _mochaIsNewBorn = true;
+          
+          __LINE__ = 0;
+          var _yieldResult = undefined;
+          
+          __LINE__ = 0;
+          var _yieldState = 0;
+          
+          __LINE__ = 296;
+          var length;
+          
+          __LINE__ = 296;
+          var _mochaLocalTmp4;
+          
+          __LINE__ = 0;
+          var i;
+          
+          __LINE__ = 295;
+          var obj;
+          
+          __LINE__ = 0;
+          var _mochaLocalTmp3 = [];
+          
+          __LINE__ = 0;
+          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
+                try {
+                  __LINE__ = 0;
+                  if ( !_isYieldSend ){
+                    __LINE__ = 0;
+                    _mochaIsNewBorn = false;
+                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
+                    __LINE__ = 0;
+                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                  };
+                  
+                  __LINE__ = 301;
+                  while ( 1 ){
+                    __LINE__ = 301;
+                    switch ( _yieldState ) {
+                      case 0 :
+                        
+                        __LINE__ = 295;
+                        obj =  {
+                          x : 200,
+                          y : 300,
+                          z : 400
+                        };
+                        
+                        __LINE__ = 296;
+                        for ( var _mochaLocalTmp2 in obj ){
+                          
+                          __LINE__ = 301;
+                          _mochaLocalTmp3.push( _mochaLocalTmp2 );
+                        };
+                        
+                        __LINE__ = 296;
+                        _mochaLocalTmp4 = 0;
+                        
+                        __LINE__ = 296;
+                        length = _mochaLocalTmp3.length;
+                        
+                        __LINE__ = 296;
+                        if ( !( _mochaLocalTmp4<length ) ){
+                          __LINE__ = 301;
+                          _yieldState = -1;
+                          __LINE__ = 301;
+                          break;
+                        };
+                      case 1 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 2;
+                        
+                        __LINE__ = 0;
+                        i = _mochaLocalTmp3[_mochaLocalTmp4];
+                        __LINE__ = 0;
+                        return [i,obj[i]];
+                      case 2 :
+                        
+                        __LINE__ = 0;
+                         ++ _mochaLocalTmp4;
+                        
+                        __LINE__ = 301;
+                        if ( _mochaLocalTmp4<length ){
+                          __LINE__ = 301;
+                          _yieldState = 1;
+                          __LINE__ = 0;
+                          break;
+                        } else {
+                          __LINE__ = 301;
+                          _yieldState = -1;
+                        };
+                      case -1 :
+                        
+                        __LINE__ = 0;
+                        if ( _isYieldSafe ){
+                          __LINE__ = 0;
+                          return undefined;
+                        } else {
+                          __LINE__ = 301;
+                          Runtime.throwStopIteration();
+                        };
+                        
+                    };
+                  };
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          __LINE__ = 0;
+          return Runtime.createGenerator( _mochaGenerator,
+          function (  ) {
+            try {
+              __LINE__ = 0;
+              _yieldState = -1;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          },this);
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      };
       
-      __LINE__ = 293;
-      Runtime.assert( true,generator.send( null ) === 700,"generator.send( null ) === 700",293,'./yield_test.js' );
+      __LINE__ = 0;
+      generator = yieldTest11();
+      
+      __LINE__ = 302;
+      var ret = generator.next();
+      
+      __LINE__ = 303;
+      Runtime.assert( true,ret[0] === "x","ret[0] === \"x\"",303,'./yield_test.js' );
+      
+      __LINE__ = 304;
+      Runtime.assert( true,ret[1] === 200,"ret[1] === 200",304,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      ret = generator.next();
+      
+      __LINE__ = 306;
+      Runtime.assert( true,ret[0] === "y","ret[0] === \"y\"",306,'./yield_test.js' );
+      
+      __LINE__ = 307;
+      Runtime.assert( true,ret[1] === 300,"ret[1] === 300",307,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      ret = generator.next();
+      
+      __LINE__ = 309;
+      Runtime.assert( true,ret[0] === "z","ret[0] === \"z\"",309,'./yield_test.js' );
+      
+      __LINE__ = 310;
+      Runtime.assert( true,ret[1] === 400,"ret[1] === 400",310,'./yield_test.js' );
+      
+      __LINE__ = 0;
+      function keys( obj ) {
+        try {
+          __LINE__ = 0;
+          var _mochaIsNewBorn = true;
+          
+          __LINE__ = 0;
+          var _yieldResult = undefined;
+          
+          __LINE__ = 0;
+          var _yieldState = 0;
+          
+          __LINE__ = 314;
+          var length;
+          
+          __LINE__ = 314;
+          var _mochaLocalTmp7;
+          
+          __LINE__ = 0;
+          var prop;
+          
+          __LINE__ = 0;
+          var _mochaLocalTmp6 = [];
+          
+          __LINE__ = 0;
+          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
+                try {
+                  __LINE__ = 0;
+                  if ( !_isYieldSend ){
+                    __LINE__ = 0;
+                    _mochaIsNewBorn = false;
+                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
+                    __LINE__ = 0;
+                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                  };
+                  
+                  __LINE__ = 321;
+                  while ( 1 ){
+                    __LINE__ = 321;
+                    switch ( _yieldState ) {
+                      case 0 :
+                        
+                        __LINE__ = 314;
+                        for ( var _mochaLocalTmp5 in obj ){
+                          
+                          __LINE__ = 321;
+                          _mochaLocalTmp6.push( _mochaLocalTmp5 );
+                        };
+                        
+                        __LINE__ = 314;
+                        _mochaLocalTmp7 = 0;
+                        
+                        __LINE__ = 314;
+                        length = _mochaLocalTmp6.length;
+                        
+                        __LINE__ = 314;
+                        if ( !( _mochaLocalTmp7<length ) ){
+                          __LINE__ = 321;
+                          _yieldState = -1;
+                          __LINE__ = 321;
+                          break;
+                        };
+                      case 1 :
+                        
+                        __LINE__ = 0;
+                        prop = _mochaLocalTmp6[_mochaLocalTmp7];
+                        
+                        __LINE__ = 315;
+                        if ( obj.hasOwnProperty( prop ) ){
+                          __LINE__ = 321;
+                          _yieldState = 2;
+                          __LINE__ = 0;
+                          break;
+                        } else {
+                          __LINE__ = 321;
+                          _yieldState = 3;
+                          __LINE__ = 0;
+                          break;
+                        };
+                      case 2 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 3;
+                        __LINE__ = 0;
+                        return prop;
+                      case 3 :
+                        
+                        __LINE__ = 0;
+                        _yieldState = 4;
+                        __LINE__ = 0;
+                        break;
+                      case 4 :
+                        
+                        __LINE__ = 0;
+                         ++ _mochaLocalTmp7;
+                        
+                        __LINE__ = 321;
+                        if ( _mochaLocalTmp7<length ){
+                          __LINE__ = 321;
+                          _yieldState = 1;
+                          __LINE__ = 0;
+                          break;
+                        } else {
+                          __LINE__ = 321;
+                          _yieldState = -1;
+                        };
+                      case -1 :
+                        
+                        __LINE__ = 0;
+                        if ( _isYieldSafe ){
+                          __LINE__ = 0;
+                          return undefined;
+                        } else {
+                          __LINE__ = 321;
+                          Runtime.throwStopIteration();
+                        };
+                        
+                    };
+                  };
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          __LINE__ = 0;
+          return Runtime.createGenerator( _mochaGenerator,
+          function (  ) {
+            try {
+              __LINE__ = 0;
+              _yieldState = -1;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          },this);
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      };
+      
+      __LINE__ = 321;
+      var testObject =  {
+            value1 : 1,
+            value2 : 2,
+            value3 : 3,
+            value4 : 4
+          };
+      
+      try {
+        __LINE__ = 328;
+        var itemGen = keys( testObject );
+        
+        __LINE__ = 329;
+        Runtime.assert( true,itemGen.next() == "value1","itemGen.next() == \"value1\"",329,'./yield_test.js' );
+        
+        __LINE__ = 330;
+        Runtime.assert( true,itemGen.next() == "value2","itemGen.next() == \"value2\"",330,'./yield_test.js' );
+        
+        __LINE__ = 331;
+        Runtime.assert( true,itemGen.next() == "value3","itemGen.next() == \"value3\"",331,'./yield_test.js' );
+        
+        __LINE__ = 332;
+        Runtime.assert( true,itemGen.next() == "value4","itemGen.next() == \"value4\"",332,'./yield_test.js' );
+        
+        __LINE__ = 333;
+        Runtime.assert( true,itemGen.next() == "value5","itemGen.next() == \"value5\"",333,'./yield_test.js' );
+      } catch( e ){
+        
+        __LINE__ = 335;
+        Runtime.assert( true,Runtime.isStopIteration( e ),"Runtime.isStopIteration( e )",335,'./yield_test.js' );
+      };
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

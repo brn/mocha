@@ -455,7 +455,10 @@ VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ast_node->FirstChild()->Accept( this );
-  ast_node->Catch()->Accept( this );
+  if ( !ast_node->Catch()->IsEmpty() ) {
+    ast_node->Catch()->Accept( this );
+    ast_node->Catch()->FirstChild()->Accept( this );
+  }
   ast_node->Finally()->Accept( this );
   if ( ast_node->GetYieldFlag() ) {
     visitor_info_->GetFunction()->SetTryCatch( ast_node );
@@ -784,8 +787,12 @@ VISITOR_IMPL( ValueNode ) {
               }
               ++exp_begin;
             }
-            AssignmentExp* assign = AstUtils::CreateAssignment( '=' , exp , (*begin).second->Clone() );
-            ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
+            ValueNode* unenum = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateUnenumProp ),
+                                                          Token::JS_PROPERTY , 0 , ValueNode::kProperty );
+            CallExp* runtime_call = AstUtils::CreateRuntimeMod( unenum );
+            NodeList* args = AstUtils::CreateNodeList( 3 , exp->Callable() , exp->Args() , (*begin).second->Clone() );
+            CallExp* runtime_normal_call = AstUtils::CreateNormalAccessor( runtime_call , args );
+            ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime_normal_call );
             parent->ParentNode()->InsertBefore( stmt , parent );
             ++begin;
           }
