@@ -22,9 +22,9 @@ std::string GetPath( const char* path ) {
 }
 
 void* ThreadRunner( void* args ) {
-  const char* path = reinterpret_cast<const char*>( args );
+  const char* path = reinterpret_cast<std::string*>( args )->c_str();
   PhantomRunner::Run( path );
-  delete []path;
+  
 }
 
 void RunJS() {
@@ -39,11 +39,9 @@ void RunJS() {
       args += " ";
     }
   }
-  char* path = new char[ args.size() ];
-  strcpy( path , args.c_str() );
   Thread thread;
-  thread.Create( ThreadRunner , path );
-  thread.Exit();
+  thread.Create( ThreadRunner , &args );
+  thread.Join();
 }
 
 void RunTest() {

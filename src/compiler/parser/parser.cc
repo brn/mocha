@@ -31,7 +31,7 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 }
 
 //Debug flag.
-#define PARSER_DEBUG 1
+//#define PARSER_DEBUG 1
 
 //Print parser move to stderr.
 #ifdef PARSER_DEBUG
@@ -138,7 +138,6 @@ void FormalParameterConvertor( AstNode *args , AstNode* list ) {
   NodeIterator iterator = args->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
-    printf( "%s\n" , item->GetName() );
     ValueNode* maybe_dst_or_spread = item->CastToValue();
     if ( maybe_dst_or_spread ) {
       int type = maybe_dst_or_spread->ValueType();
@@ -180,7 +179,6 @@ void AssignmentDstaConvertor( AstNode* exp ) {
   if ( dsta ) {
     int type = dsta->ValueType();
     if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
-      ValueNode* value;
       if ( type == ValueNode::kArray ) {
         dsta->ValueType( ValueNode::kDstArray );
         DstaRewriter( dsta->FirstChild() );
@@ -959,7 +957,6 @@ AstNode* Parser::ParseArrayPattern_() {
       break;
     } else {
       if ( type == ',' ) {
-        printf( "empty!!\n" );
         list->AddChild( ManagedHandle::Retain<Empty>() );
         Advance_();
         token = Seek_();
@@ -1059,8 +1056,6 @@ AstNode* Parser::ParseObjectPattern_() {
       type = token->GetType();
       if ( type == '}' ) {
         break;
-      } else if ( type == ',' ) {
-        printf( "%s\n" , static_cast<const char*>( TokenConverter( token ) ) );
       }
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -1930,7 +1925,6 @@ ClassMember* Parser::ParseClassMember_() {
     member_type = ClassMember::kPublic;
   } else {
     exp = ParseExportableDefinition_();
-    fprintf( stderr, "@@@@@@@@@@@@@@@@@ type %d\n" , exp->NodeType() == AstNode::kClassMember );
     if ( exp->NodeType() == AstNode::kClassMember ) {
       return reinterpret_cast<ClassMember*>( exp );
     }
@@ -2211,8 +2205,10 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
             exp = ManagedHandle::Retain( new CompareExp( type , last , rhs ) );
           }
           last = exp;
+        } else {
+          END( BinaryExpressionNoIn );
+          return ( first == 0 )? lhs : exp;
         }
-        return ( first == 0 )? lhs : exp;
       }
         break;
         
@@ -2283,7 +2279,7 @@ AstNode* Parser::ParsePostfixExpression_() {
   CHECK_ERROR( lhs );
   TokenInfo *token = Seek_();
   int type = token->GetType();
-  if ( type == Token::JS_INCREMENT || type == Token::JS_DECREMENT ) {
+  if ( !token->HasLineBreakBefore() && ( type == Token::JS_INCREMENT || type == Token::JS_DECREMENT ) ) {
     PostfixExp* post = ManagedHandle::Retain( new PostfixExp( type ) );
     post->Line( token->GetLineNumber() );
     post->Exp( lhs );
@@ -2481,89 +2477,64 @@ AstNode* Parser::ParseMemberExpression_() {
   ENTER(MemberExpression);
   TokenInfo* token = Seek_();
   int type = token->GetType();
-  TokenInfo* function_signature = Seek_( 2 );
-  int fn_signature_type = function_signature->GetType();
   CallExp* exp;
-  if ( type == Token::JS_FUNCTION ) {
-    Advance_();
-    AstNode* fn = ParseFunctionDecl_( false );
-    CHECK_ERROR( fn );
-    //fn->LeftHandSide();
-    END(MemberExpression);
-    return fn;
-  } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
-    Advance_();
-    AstNode* fn = ParseArrowFunctionExpression_( type );
-    CHECK_ERROR( fn );
-    //fn->LeftHandSide();
-    END(MemberExpression);
-    return fn;
-  } else if ( type == Token::JS_IDENTIFIER && ( fn_signature_type == Token::JS_FUNCTION_GLYPH ||
-                                                fn_signature_type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) ) {
-    END(MemberExpression);
-    return ParseFunctionDecl_( false );
+  int depth = 0;
+  if ( type == Token::JS_PRIVATE ) {
+    TokenInfo* pr_sym = token;
+    int type_cache = type;
+    token = Seek_( 2 );
+    type = token->GetType();
+    ValueNode* private_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
+    private_literal->Symbol( pr_sym );
+    exp = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
+    Advance_( 2 );
+    AstNode *primary = ParsePrimaryExpression_();
+    CHECK_ERROR( primary );
+    if ( primary->CastToValue() && primary->CastToValue()->ValueType() == ValueNode::kIdentifier ) {
+      primary->CastToValue()->ValueType( ValueNode::kProperty );
+    }
+    exp->Callable( private_literal );
+    exp->Args( primary );
+    exp->Depth( depth );
+    token = Seek_();
+    type = token->GetType();
+    if ( type != '.' && type != '[' ) {
+      END(MemberExpression);
+      return exp;
+    }
   } else {
-    int depth = 0;
-    if ( type == Token::JS_PRIVATE ) {
-      TokenInfo* pr_sym = token;
-      int type_cache = type;
-      token = Seek_( 2 );
-      type = token->GetType();
-      ValueNode* private_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kProperty ) );
-      private_literal->Symbol( pr_sym );
-      exp = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
-      Advance_( 2 );
-      AstNode *primary = ParsePrimaryExpression_();
-      CHECK_ERROR( primary );
-      if ( primary->CastToValue() )
-        fprintf( stderr ,"@@@@@@@@@@@@@@@@@@@@@@@@@@%d\n" , primary->CastToValue()->ValueType() == ValueNode::kIdentifier );
-      if ( primary->CastToValue() && primary->CastToValue()->ValueType() == ValueNode::kIdentifier ) {
-        primary->CastToValue()->ValueType( ValueNode::kProperty );
-      }
-      exp->Callable( private_literal );
-      exp->Args( primary );
-      exp->Depth( depth );
-      token = Seek_();
-      type = token->GetType();
-      if ( type != '.' && type != '[' ) {
-        END(MemberExpression);
-        return exp;
-      }
-    } else {
-      AstNode *primary = ParsePrimaryExpression_();
-      CHECK_ERROR( primary );
-      token = Seek_();
-      type = token->GetType();
-      if ( type != '.' && type != '[' ) {
-        END(MemberExpression);
-        return primary;
-      }
-      int call_type = ( type == '.' )? CallExp::kDot : CallExp::kBracket;
-      exp = ManagedHandle::Retain( new CallExp( call_type ) );
-      exp->Callable( primary );
-      exp->Depth( depth );
-      ParseEachMember_( type , true , exp );
-      token = Seek_();
-      type = token->GetType();
+    AstNode *primary = ParsePrimaryExpression_();
+    CHECK_ERROR( primary );
+    token = Seek_();
+    type = token->GetType();
+    if ( type != '.' && type != '[' ) {
+      END(MemberExpression);
+      return primary;
     }
-    CallExp* first = exp;
-    while ( 1 ) {
-      depth++;
-      CallExp* ret = ParseEachMember_( type , false , exp );
-      if ( ret == 0 ) {
-        END(MemberExpression);
-        return exp;
-      } else {
-        exp = ret;
-      }
-      exp->Depth( depth );
-      token = Seek_();
-      type = token->GetType();
-      fprintf( stderr, "%s %d\n" , static_cast<const char*>( TokenConverter( token ) ) , type == '.' );
-    }
-    END(MemberExpression);
-    return exp;
+    int call_type = ( type == '.' )? CallExp::kDot : CallExp::kBracket;
+    exp = ManagedHandle::Retain( new CallExp( call_type ) );
+    exp->Callable( primary );
+    exp->Depth( depth );
+    ParseEachMember_( type , true , exp );
+    token = Seek_();
+    type = token->GetType();
   }
+  CallExp* first = exp;
+  while ( 1 ) {
+    depth++;
+    CallExp* ret = ParseEachMember_( type , false , exp );
+    if ( ret == 0 ) {
+      END(MemberExpression);
+      return exp;
+    } else {
+      exp = ret;
+    }
+    exp->Depth( depth );
+    token = Seek_();
+    type = token->GetType();
+  }
+  END(MemberExpression);
+  return exp;
 }
 
 
@@ -2687,7 +2658,26 @@ AstNode* Parser::ParsePrimaryExpression_() {
   ENTER(PrimaryExpression);
   TokenInfo* token = Advance_();
   int type = token->GetType();
-  if ( type == '{' ) {
+  TokenInfo* function_signature = Seek_();
+  int fn_signature_type = function_signature->GetType();
+  if ( type == Token::JS_FUNCTION ) {
+    AstNode* fn = ParseFunctionDecl_( false );
+    CHECK_ERROR( fn );
+    //fn->LeftHandSide();
+    END(MemberExpression);
+    return fn;
+  } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
+    AstNode* fn = ParseArrowFunctionExpression_( type );
+    CHECK_ERROR( fn );
+    //fn->LeftHandSide();
+    END(MemberExpression);
+    return fn;
+  } else if ( type == Token::JS_IDENTIFIER && ( fn_signature_type == Token::JS_FUNCTION_GLYPH ||
+                                                fn_signature_type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) ) {
+    Undo_();
+    END(MemberExpression);
+    return ParseFunctionDecl_( false );
+  } else if ( type == '{' ) {
     END(PrimaryExpression);
     return ParseObjectLiteral_();
   } else if ( type == '[' ) {
@@ -2882,12 +2872,37 @@ AstNode* Parser::ParseArrayLiteral_() {
     while ( 1 ) {
       if ( type == ',' ) {
         list->AddChild( ManagedHandle::Retain<Empty>() );
+        int last_type = Seek_( -1 )->GetType();
         token = Advance_();
         type = token->GetType();
         if ( type == ']' ) {
           Advance_();
-          list->AddChild( ManagedHandle::Retain<Empty>() );
+          if ( last_type == '[' ) {
+            list->AddChild( ManagedHandle::Retain<Empty>() );
+          }
           break;
+        }
+      } else if ( type == Token::JS_PARAMETER_REST ) {
+        token = Advance_( 2 );
+        type = token->GetType();
+        if ( type == Token::JS_IDENTIFIER ) {
+          ValueNode* rest = ManagedHandle::Retain( new ValueNode( ValueNode::kRest ) );
+          rest->Line( token->GetLineNumber() );
+          rest->Symbol( token );
+          list->AddChild( rest );
+          token = Seek_();
+          type = token->GetType();
+          if ( type == ']' ) {
+            Advance_();
+            break;
+          }
+        } else {
+          SYNTAX_ERROR( "unexpected token "
+                        << TokenConverter( token )
+                        << " expect 'identifier' in 'rest expression'\\nin file "
+                        << filename_ << " at line " << token->GetLineNumber() );
+          END(ArrayLiteralError);
+          return val;
         }
       } else {
         AstNode* node = ParseAssignmentExpression_( false );
@@ -3024,7 +3039,6 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
       fn->Argv( list );
       token = Advance_( 2 );
       type = token->GetType();
-      printf( "%s\n" ,static_cast<const char*>( TokenConverter( token ) ) );
     } else {
       fn->Argv( ManagedHandle::Retain<Empty>() );
       token = Advance_( 2 );

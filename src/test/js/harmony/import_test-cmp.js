@@ -1,4 +1,9 @@
-(function() {
+try{
+  throw new SyntaxError("/var/samba/mocha/src/test/js/ecma262_5th/function_test.js No such file or directory")
+}catch(e){
+  throw new Error(e);
+}
+;(function() {
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
@@ -427,7 +432,46 @@
             };
         
         var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
-              return obj[__ref_iterator__]();
+              var ret = obj[__ref_iterator__](),
+                  newObj;
+              
+              if ( isGenerator( ret ) ){
+                return ret;
+              };
+              
+              newObj = {};
+              
+              if ( ret.next ){
+                createUnenumProp( newObj,"next",
+                function () {
+                  var result = ret.next();
+                  
+                  if ( result === undefined ){
+                    throwStopIteration();
+                  };
+                  return result;
+                });
+              } else {
+                return {};
+              };
+              
+              if ( !( "__nothrowNext__" in ret ) ){
+                createUnenumProp( newObj,"__nothrowNext__",ret.next.bind( ret ) );
+              };
+              
+              for ( var prop in ret ){
+                if ( prop !== "next" && prop !== "__nothrowNext__" ){
+                  newObj[prop] = ret[prop];
+                };
+              };
+              
+              if ( !( "toString" in ret ) ){
+                createUnenumProp( newObj,"toString",
+                function () {
+                  return "[object Iterator]";
+                });
+              };
+              return newObj;
             };
         
         var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
@@ -459,99 +503,6 @@
       }
     };
   };
-  
-  __LINE__ = 0;
-  ( function () {
-    try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/ecma262_5th/function_test.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      _mochaGlobalExport['../ecma262_5th/function_test.js'] = {};
-      
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../ecma262_5th/function_test.js'];
-      
-      function test() {
-        try {
-          __LINE__ = 3;
-          return 1;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 5;
-      Runtime.assert( true,1 === test(),"1 === test()",5,'../ecma262_5th/function_test.js' );
-      
-      __LINE__ = 7;
-      var testExpression = function () {
-            try {
-              __LINE__ = 8;
-              return 1;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-      
-      __LINE__ = 10;
-      Runtime.assert( true,1 === testExpression(),"1 === testExpression()",10,'../ecma262_5th/function_test.js' );
-      
-      __LINE__ = 12;
-      var testObject =  {
-            prop : function () {
-              try {
-                __LINE__ = 14;
-                return 1;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-      
-      __LINE__ = 18;
-      Runtime.assert( true,1 === testObject.prop(),"1 === testObject.prop()",18,'../ecma262_5th/function_test.js' );
-      
-      function testFormal( arg,arg2,arg3 ) {
-        try {
-          __LINE__ = 21;
-          return arg+arg2+arg3;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 23;
-      Runtime.assert( true,3 === testFormal( 1,1,1 ),"3 === testFormal( 1,1,1 )",23,'../ecma262_5th/function_test.js' );
-      
-      __LINE__ = 26;
-      var testExpressionFormal = function ( arg,arg2,arg3 ) {
-            try {
-              __LINE__ = 27;
-              return arg+arg2+arg3;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-      
-      __LINE__ = 29;
-      Runtime.assert( true,3 === testExpressionFormal( 1,1,1 ),"3 === testExpressionFormal( 1,1,1 )",29,'../ecma262_5th/function_test.js' );
-      
-      __LINE__ = 31;
-      var testObjectFormal =  {
-            prop : function ( arg,arg2,arg3 ) {
-              try {
-                __LINE__ = 33;
-                return arg+arg2+arg3;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-      
-      __LINE__ = 36;
-      Runtime.assert( true,3 === testObjectFormal.prop( 1,1,1 ),"3 === testObjectFormal.prop( 1,1,1 )",36,'../ecma262_5th/function_test.js' );
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
-  })();
   
   __LINE__ = 0;
   ( function () {

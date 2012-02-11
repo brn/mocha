@@ -381,7 +381,35 @@ module Runtime {
   }
   
   export getIterator( obj ) {
-    return obj[__ref_iterator__]();
+    var ret = obj[__ref_iterator__](),
+        newObj;
+    if ( isGenerator( ret ) ) {
+      return ret;
+    }
+    newObj = {};
+    if ( ret.next ) {
+      createUnenumProp( newObj , "next" , function () {
+        var result = ret.next();
+        if ( result === undefined ) {
+          throwStopIteration();
+        }
+        return result;
+      });
+    } else {
+      return {};
+    }
+    if ( !( "__nothrowNext__" in ret ) ) {
+      createUnenumProp( newObj , "__nothrowNext__" , ret.next.bind( ret ) );
+    }
+    for ( var prop in ret ) {
+      if ( prop !== "next" && prop !== "__nothrowNext__" ) {
+        newObj[ prop ] = ret[ prop ]
+      }
+    }
+    if ( !( "toString" in ret ) ) {
+      createUnenumProp( newObj , "toString" , -> "[object Iterator]" );
+    }
+    return newObj;
   }
   
   export hasIterator( obj ) {

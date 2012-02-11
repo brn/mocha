@@ -212,7 +212,11 @@ void ArrayHelper( ValueNode* ast_node,
     ValueNode* arg = AstUtils::CreateNameNode( num , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
     ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
                                                     Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kProperty );
-    list->AddChild( visitor_info->GetCurrentStmt()->GetDsta()->Refs()->LastChild() );
+    if ( tree->ChildLength() > 0 ) {
+      list->AddChild( tree->LastChild()->Clone() );
+    } else {
+      list->AddChild( visitor_info->GetCurrentStmt()->GetDsta()->Refs()->LastChild()->Clone() );
+    }
     list->AddChild( arg );
     CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list );
     CallExp* std_to_array = AstUtils::CreateRuntimeMod( nrm );
@@ -228,6 +232,7 @@ void ArrayHelper( ValueNode* ast_node,
     }
   }
   if ( symbol ) {
+    symbol->ValueType( ValueNode::kIdentifier );
     tree->Symbol( symbol );
   }
   tree->AddChild( exp );
@@ -275,6 +280,7 @@ DstaTree* ProcessArrayElement( ValueNode* ast_node,
           break;
           //In case of [ x ,y ,...rest ]
         case ValueNode::kRest : {
+          fprintf( stderr , "@@@@@@@@ rest @@@@@@@@@\n");
           ArrayHelper( ast_node , visitor_info , tree , index , elem , true );
           visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
           UPDATE_TREE;
@@ -321,7 +327,7 @@ inline AstNode* CreateConditional( AstNode* last_exp , AstNode* first , Processo
   ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( last_exp , first->LastChild() , undefined ) );
   DstaTree* tree = 0;//init after.
   if ( first->NodeType() == AstNode::kDstaTree ) {
-    tree = reinterpret_cast<DstaTree*>( first );
+    tree = first->CastToDstaTree();
   } else {
     ERROR( info , CreateConditional );
     return 0;
@@ -336,7 +342,7 @@ inline AstNode* CreateConditional( AstNode* last_exp , AstNode* first , Processo
     }
     return var;
   } else {
-    AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( '=' , tree->Symbol() , cond ) );
+    AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( '=' , tree->Symbol()->Clone() , cond ) );
     return assign;
   }
 }
@@ -422,8 +428,8 @@ AstNode* CreateSimpleAccessor( AstNode* first , VisitorInfo* info , bool is_assi
     var->AddChild( first->FirstChild() );
     return var;
   } else {
-    DstaTree* tree = reinterpret_cast<DstaTree*>( first );
-    AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( '=' , tree->Symbol() , first->FirstChild() ) );
+    DstaTree* tree = first->CastToDstaTree();
+    AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( '=' , tree->Symbol()->Clone() , first->FirstChild() ) );
     return assign;
   }
 }
@@ -453,6 +459,7 @@ NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool 
    */
   while ( list.HasNext() ) {
     AstNode *first = list.Next();
+    fprintf( stderr, "|||||||||||||||||type = %s , %s\n" , first->GetName() , first->CastToDstaTree()->Symbol()->Symbol()->GetToken() );
     AstNode* maybe_callexp = first->FirstChild();
     CallExp* exp = 0;//init after.
     if ( maybe_callexp != 0 && maybe_callexp->NodeType() == AstNode::kCallExp ) {

@@ -216,11 +216,19 @@ VISITOR_IMPL(ExpressionStmt) {
     VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_list );
     ast_node->ParentNode()->InsertBefore( var_stmt , ast_node );
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
-    Expression* exp = ManagedHandle::Retain<Expression>();
-    exp->Append( list );
-    exp->Paren();
-    ExpressionStmt* stmt = AstUtils::CreateExpStmt( exp );
-    ast_node->ParentNode()->InsertAfter( stmt , ast_node );
+    NodeIterator iter = list->ChildNodes();
+    AstNode* last = 0;
+    while ( iter.HasNext() ) {
+      AstNode* item = iter.Next();
+      ExpressionStmt* stmt = AstUtils::CreateExpStmt( item );
+      if ( last ) {
+        ast_node->ParentNode()->InsertAfter( stmt , last );
+        last = stmt;
+      } else {
+        ast_node->ParentNode()->InsertAfter( stmt , ast_node );
+        last = stmt;
+      }
+    }
   }
 }
 
@@ -447,7 +455,25 @@ VISITOR_IMPL( LabelledStmt ) {
 VISITOR_IMPL( ThrowStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  ast_node->Exp()->Accept( this );
+  AstNode* val = ast_node->Exp();
+  Expression* exp = val->CastToExpression();
+  if ( exp && !visitor_info_->IsRuntime() ) {
+    if ( exp->ChildLength() == 1 ) {
+      ValueNode* name = exp->FirstChild()->CastToValue();
+      if ( name && name->ValueType() == ValueNode::kIdentifier && strcmp( name->Symbol()->GetToken() , "StopIteration" ) == 0 ) {
+        ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
+                                                         Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+        ReturnStmt* stmt = AstUtils::CreateReturnStmt( undefined );
+        ast_node->ParentNode()->ReplaceChild( ast_node , stmt );
+      } else {
+        ast_node->Exp()->Accept( this );
+      }
+    } else {
+      ast_node->Exp()->Accept( this );
+    }
+  } else {
+    ast_node->Exp()->Accept( this );
+  }
 }
 
 

@@ -24,7 +24,10 @@ namespace mocha {
 class Scanner::InternalScanner {
  public :
   InternalScanner( SourceStream* source , ErrorReporter* reporter , const char* filename ) :
-      line_( 1 ) , filename_( filename ) , token_stream_( TokenStream::Create() ) , source_stream_( source ) , reporter_( reporter ){}
+      line_( 1 ) , filename_( filename ) , token_stream_( TokenStream::Create() ) , source_stream_( source ) , reporter_( reporter ){
+    flags_.Set( FLAG_REGEXP );
+    flags_.Set( FLAG_NUMERIC );
+  }
 
   /**
    * @public
@@ -776,6 +779,7 @@ class Scanner::InternalScanner {
   inline void SetNumericAfter_ () {
     int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->GetType() : 0;
     if ( JsToken::IsBinaryOperatorNoIn( type ) ||
+         type == '[' ||
          type == '{' ||
          type == '(' ||
          type == '*' ||
@@ -785,7 +789,15 @@ class Scanner::InternalScanner {
          type == '=' ||
          type == '^' ||
          type == '&' ||
-         type == '|' ) {
+         type == '|' ||
+         type == ':' ||
+         type == ',' ||
+         type == ';' ||
+         type == '~' ||
+         type == '>' ||
+         type == '<' ||
+         type == '!' ||
+         type == Token::JS_RETURN ) {
       flags_.Set( FLAG_NUMERIC );
     } else {
       flags_.UnSet( FLAG_NUMERIC );
@@ -814,7 +826,10 @@ class Scanner::InternalScanner {
          type == '/' ||
          type == '%' ||
          type == '*' ||
-         type == '~' ) {
+         type == '~' ||
+         type == '>' ||
+         type == '<' ||
+         type == Token::JS_RETURN ) {
       flags_.Set( FLAG_REGEXP );
     } else {
       flags_.UnSet( FLAG_REGEXP );
