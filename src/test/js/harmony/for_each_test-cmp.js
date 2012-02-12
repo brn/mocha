@@ -479,6 +479,12 @@
               return obj === StopIteration || rstopIteration.test( obj );
             };
         
+        var _uid = +( new Date() );
+        
+        var getUid = _mochaLocalExport.getUid = function getUid() {
+              return _uid ++ ;
+            };
+        
         ( function () {
           var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );

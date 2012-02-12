@@ -60,23 +60,14 @@ class ClassProcessorUtils {
     return this_node;
   }
 
-  inline CallExp* CreatePrivateInstance( long line ) {
-    NodeList* list = ManagedHandle::Retain<NodeList>();
-    char buf[50];
-    sprintf( buf , "'%s'" , private_field_->c_str() );
-    ValueNode* field = AstUtils::CreateNameNode( buf , Token::JS_IDENTIFIER , line , ValueNode::kString );
+  inline CallExp* CreateRecord( long line ) {
     ValueNode* this_sym = CreateThisNode( line );
-    ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
-                                                           Token::JS_PROPERTY , line , ValueNode::kProperty );
-    CallExp* constructor = AstUtils::CreateDotAccessor( this_sym , constructor_sym );
-    ValueNode* holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                                  Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
-    NewExp* new_exp = ManagedHandle::Retain<NewExp>();
-    new_exp->AddChild( holder );
-    list->AddChild( constructor );
-    list->AddChild( field );
-    list->AddChild( new_exp );
-    return CreateHiddenMember( list , line );
+    ValueNode* create_record = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreatePrivateRecord ),
+                                                         Token::JS_PROPERTY , line , ValueNode::kProperty );
+    NodeList* args = AstUtils::CreateNodeList( 1 , this_sym );
+    CallExp* normal = AstUtils::CreateNormalAccessor( create_record , args );
+    CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
+    return runtime_call;
   }
 
 
@@ -84,7 +75,13 @@ class ClassProcessorUtils {
     ValueNode* this_sym = CreateThisNode( line );
     ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
                                                            Token::JS_IDENTIFIER , line , ValueNode::kProperty );
-    AstNode* hidden_constructor = AstUtils::CreateConstantProp( this_sym , constructor_sym , constructor_sym->Clone() );
+    std::string constructor_string_expression = "\"";
+    constructor_string_expression += SymbolList::GetSymbol( SymbolList::kConstructor );
+    constructor_string_expression += "\"";
+    ValueNode* constructor_string = AstUtils::CreateNameNode( constructor_string_expression.c_str(),
+                                                              Token::JS_IDENTIFIER , line , ValueNode::kProperty );
+    NodeList* args = AstUtils::CreateNodeList( 3 , this_sym , constructor_string , constructor_sym );
+    AstNode* hidden_constructor = CreateHiddenMember( args , line );
     return AstUtils::CreateExpStmt( hidden_constructor );
   }
 
@@ -392,13 +389,13 @@ void ClassProcessor::ProcessNode() {
   ValueNode* name = AstUtils::CreateNameNode( name_.c_str() , Token::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
   Function* fn = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() );
   fn->Line( class_->Line() );
+  common_constructor_ = fn;
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
   stmt->Line( class_->Line() );
   closure_body_->InsertBefore( utils_->CreatePrivateHolder( class_ , info_ ) );
-
-  ExpressionStmt *new_call = AstUtils::CreateExpStmt( utils_->CreatePrivateInstance( class_->Line() ) );
+  ExpressionStmt *create_record = AstUtils::CreateExpStmt( utils_->CreateRecord( class_->Line() ) );
   fn->AddChild( utils_->CreateHiddenConstructor( class_->Line() ) );
-  fn->AddChild( new_call );
+  fn->AddChild( create_record );
   fn->AddChild( utils_->CreateConstructorInitializer( name_.c_str() , class_->Line() ) );
   closure_body_->AddChild( stmt );
   ProcessExtends_( class_->Expandar() );
@@ -435,6 +432,8 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
 inline void ClassProcessor::ProcessBody_( AstNode* body ) {
   if ( !body->IsEmpty() ) {
     ProcessMember_( reinterpret_cast<ClassProperties*>( body ) );
+  } else {
+    CreateEmptyConstructor_();
   }
 }
 
@@ -448,9 +447,7 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
   AstNode* constructor_decl = body->Constructor();
 
   if ( constructor_decl ) {
-    VisitorInfo* visitor_info = info_->GetInfo();
     Function* constructor = constructor_decl->FirstChild()->CastToExpression()->CastToFunction();
-    visitor_info->SetFunction( constructor );
     constructor_ = constructor;
     constructor->Line( constructor_decl->FirstChild()->Line() );
     ProcessConstructor_( constructor );
@@ -467,6 +464,7 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
 
 
 inline void ClassProcessor::ProcessConstructor_( Function* constructor ) {
+  IVisitor* visitor = info_->GetVisitor();
   closure_body_->AddChild( constructor );
   Function *backup = closure_body_;
   NodeIterator iterator = constructor->ChildNodes();
@@ -480,10 +478,9 @@ inline void ClassProcessor::ProcessConstructor_( Function* constructor ) {
       } else {
         ProcessEachMember_( member->FirstChild() , false , false , true );
       }
-    } else {
-      item->Accept( info_->GetVisitor() );
     }
   }
+  constructor->Accept( visitor );
   closure_body_ = backup;
 }
 

@@ -50,6 +50,7 @@ var monster = new Monster( "slime" , 100 );
 @assert( 100 , Monster.DEFAULT_LIFE );
 @assert( undefined , Monster.health );
 class BaseTest {
+  constructor( this.name = 200 , private.addr = "tokyo" , private.age ) {}
   public getName() {
     return "hogehoge";
   }

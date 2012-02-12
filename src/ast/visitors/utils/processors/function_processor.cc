@@ -91,6 +91,10 @@ void FunctionProcessor::ProcessFormalParameter_() {
           ProcessDefaultParameter_( arg->CastToValue() );
         }
         node->ParentNode()->ReplaceChild( node , dsta_node );
+      } else if ( node->NodeType() == AstNode::kAssignmentExp ) {
+        ProcessDefaultParameter_( node->CastToExpression()->CastToAssigment() );
+      } else if ( node->NodeType() == AstNode::kCallExp ) {
+        ProcessPropertyParameter_( node->CastToExpression()->CastToCallExp() );
       } else {
         node->Accept( visitor );
       }
@@ -109,6 +113,25 @@ void FunctionProcessor::ProcessDefaultParameter_( ValueNode *value ) {
   CompareExp* logical_or = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_OR , arg , default_value ) );
   AssignmentExp* exp = AstUtils::CreateAssignment( '=', initialiser , logical_or );
   default_parameter_->InsertBefore( exp );
+}
+
+
+void FunctionProcessor::ProcessDefaultParameter_( AssignmentExp *exp ) {
+  ValueNode* arg = AstUtils::CreateTmpNode( info_->GetInfo()->GetTmpIndex() );
+  exp->ParentNode()->ReplaceChild( exp , arg );
+  CompareExp* logical_or = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_OR , arg->Clone() , exp->Right() ) );
+  AssignmentExp* ret = AstUtils::CreateAssignment( '=', exp->Left()->Clone() , logical_or );
+  default_parameter_->InsertBefore( ret );
+  ret->Accept( info_->GetVisitor() );
+}
+
+
+void FunctionProcessor::ProcessPropertyParameter_( CallExp *exp ) {
+  ValueNode* arg = AstUtils::CreateTmpNode( info_->GetInfo()->GetTmpIndex() );
+  exp->ParentNode()->ReplaceChild( exp , arg );
+  AssignmentExp* ret = AstUtils::CreateAssignment( '=', exp , arg->Clone() );
+  default_parameter_->InsertBefore( ret );
+  exp->Accept( info_->GetVisitor() );
 }
 
 

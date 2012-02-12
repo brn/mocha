@@ -61,6 +61,7 @@ class ClassProcessor : public Managed {
   std::string random_field_;
   ProcessorInfo *info_;
   AstNode* closure_;
+  Function* common_constructor_;
   Class* class_;
   ClassProcessorUtils* utils_;
   Function* closure_body_;

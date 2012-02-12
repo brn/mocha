@@ -44,7 +44,10 @@ class SymbolList : private Static {
     kIteratorKey,
     kThrowStopIteration,
     kHasIterator,
-    kGetIterator
+    kGetIterator,
+    kTypeid,
+    kGetUid,
+    kCreatePrivateRecord
   } RuntimeSymbol;
 
   typedef enum {

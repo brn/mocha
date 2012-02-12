@@ -12,6 +12,8 @@ class FunctionProcessor : private Uncopyable{
  private :
   void ProcessFormalParameter_();
   void ProcessDefaultParameter_( ValueNode* value );
+  void ProcessDefaultParameter_( AssignmentExp* exp );
+  void ProcessPropertyParameter_( CallExp* exp );
   void ProcessBody_();
   void ProcessYield_();
   VariableStmt* ProcessRestParameter_();

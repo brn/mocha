@@ -479,6 +479,12 @@
               return obj === StopIteration || rstopIteration.test( obj );
             };
         
+        var _uid = +( new Date() );
+        
+        var getUid = _mochaLocalExport.getUid = function getUid() {
+              return _uid ++ ;
+            };
+        
         ( function () {
           var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
@@ -520,10 +526,10 @@
               function Monster() {
                 try {
                   __LINE__ = 0;
-                  Runtime.constant( this,'constructor',constructor );
+                  Runtime.createUnenumProp( this,"constructor",constructor );
                   
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this.constructor,'__gZ9SnR5gc2__',new _mochaPrivateHolder );
+                  Runtime.createPrivateRecord( this );
                   
                   __LINE__ = 0;
                   constructor.apply( this,arguments );
@@ -620,10 +626,10 @@
               function BaseTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.constant( this,'constructor',constructor );
+                  Runtime.createUnenumProp( this,"constructor",constructor );
                   
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this.constructor,'__OnAJFAY1yA__',new _mochaPrivateHolder );
+                  Runtime.createPrivateRecord( this );
                   
                   __LINE__ = 0;
                   constructor.apply( this,arguments );
@@ -632,11 +638,24 @@
                 }
               };
               
-              function constructor(){}
+              function constructor( _mochaLocalTmp2,_mochaLocalTmp3,_mochaLocalTmp4 ) {
+                try {
+                  __LINE__ = 0;
+                  this.name = _mochaLocalTmp2 || 200;
+                  
+                  __LINE__ = 0;
+                  this.constructor.__OnAJFAY1yA__.addr = _mochaLocalTmp3 || "tokyo";
+                  
+                  __LINE__ = 0;
+                  this.constructor.__OnAJFAY1yA__.age = _mochaLocalTmp4;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
               __LINE__ = 0;
               BaseTest.prototype.getName = function getName() {
                 try {
-                  __LINE__ = 54;
+                  __LINE__ = 55;
                   return "hogehoge";
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -649,20 +668,20 @@
             }
           })();
       
-      __LINE__ = 58;
+      __LINE__ = 59;
       var DeriveTest = ( function () {
             try {
               __LINE__ = 0;
               var _mochaPrivateHolder = function (){};
               
-              __LINE__ = 58;
+              __LINE__ = 59;
               function DeriveTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.constant( this,'constructor',constructor );
+                  Runtime.createUnenumProp( this,"constructor",constructor );
                   
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this.constructor,'__DxPuYg_rcb__',new _mochaPrivateHolder );
+                  Runtime.createPrivateRecord( this );
                   
                   __LINE__ = 0;
                   constructor.apply( this,arguments );
@@ -671,17 +690,18 @@
                 }
               };
               
-              __LINE__ = 58;
+              __LINE__ = 59;
               Runtime.extendClass( DeriveTest,BaseTest );
-              __LINE__ = 0;
+              
+              function constructor(){}__LINE__ = 0;
               return DeriveTest;
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           })();
       
-      __LINE__ = 62;
-      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",62,'./class_test.js' );
+      __LINE__ = 63;
+      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",63,'./class_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

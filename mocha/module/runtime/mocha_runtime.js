@@ -421,6 +421,44 @@ module Runtime {
     return obj === StopIteration || rstopIteration.test( obj );
   }
   
+  if ( "WeakMap" in window ) {
+    const privateRecord = new WeakMap();
+    export createPrivateRecord( self , privateHolder ) {
+      privateRecord.set( self , new privateHolder );
+    }
+    export getPrivateRecord( self ) {
+      if ( privateRecord.has( self ) ) {
+        return privateRecord.get( self );
+      } else {
+        Runtime.throwException( "class not has private field." );
+      }
+    }
+  } else {
+    const _uid = ( new Date() );
+    const privateRecord = {};
+    export createPrivateRecord( self , privateHolder ) {
+      if ( !self.__typeid__ ) {
+        var id = _uid++;
+        createUnenumProp( self , "__typeid__", id );
+        privateRecord[ id ] = new privateHolder;
+      }
+    }
+    export getPrivateRecord( self ) {
+      if ( self.__typeid__ ) {
+        return privateRecord[ self.__typeid__ ];
+      } else {
+        Runtime.throwException( "class not has private field." );
+      }
+    }
+    if ( "addEventListener" in document ) {
+      window.addEventListener( "unload" , function () {
+        for ( var i in privateRecord ) {
+          delete privateRecord[ i ];
+        }
+      }, false );
+    }
+  }
+  
   @version( debug ) {
     export assert = ( console && console.assert )?
       ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
