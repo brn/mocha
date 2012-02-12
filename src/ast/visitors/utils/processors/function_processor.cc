@@ -115,6 +115,44 @@ void FunctionProcessor::ProcessDefaultParameter_( ValueNode *value ) {
 
 void FunctionProcessor::ProcessBody_() {
   IVisitor *visitor = info_->GetVisitor();
+  if ( function_->ContextType() == Function::kThis ) {
+    bool is_assignment = false;
+    AstNode* tmp = function_->ParentNode();
+    if ( !function_->IsDecl() ) {
+      is_assignment = true;
+    }
+    if ( !is_assignment ) {
+      ValueNode* tmp_name = AstUtils::CreateTmpNode( info_->GetInfo()->GetTmpIndex() );
+      ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                      Token::JS_THIS , function_->Line() , ValueNode::kThis );
+      ValueNode* initialiser = AstUtils::CreateVarInitiliser( tmp_name->Symbol() , this_sym );
+      AstNode* statement = function_->ParentNode();
+      while ( !statement->CastToStatement() &&
+              statement->NodeType() != AstNode::kFileRoot ||
+              statement->NodeType() != AstNode::kCase ) {
+        if ( statement->HasParent() ) {
+          statement = statement->ParentNode();
+        } else {
+          break;
+        }
+      }
+      VariableStmt* var_stmt = AstUtils::CreateVarStmt( initialiser );
+      statement->InsertBefore( var_stmt , function_ );
+      function_->SetReplacedThis( tmp_name );
+    } else {
+      Statement* mark = ManagedHandle::Retain<Statement>();
+      ValueNode* bind_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kBind ),
+                                                      Token::JS_PROPERTY , function_->Line() , ValueNode::kProperty );
+      ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                      Token::JS_IDENTIFIER , function_->Line() , ValueNode::kIdentifier );
+      NodeList* arg = AstUtils::CreateNodeList( 1 , this_sym );
+      CallExp* bind_call = AstUtils::CreateNormalAccessor( bind_sym , arg );
+      AstNode* parent = function_->ParentNode();
+      parent->ReplaceChild( function_ , mark );
+      CallExp* binding_function = AstUtils::CreateDotAccessor( function_ , bind_call );
+      parent->ReplaceChild( mark , binding_function );
+    }
+  }
   if ( function_->FunctionType() == Function::kShorten ) {
     Statement* stmt_tmp = ManagedHandle::Retain<Statement>();
     info_->GetInfo()->SetCurrentStmt( stmt_tmp );

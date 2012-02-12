@@ -520,7 +520,7 @@
               var testExport1 = _mochaLocalExport.testExport1 = function testExport1() {
                     try {
                       __LINE__ = 4;
-                      return arguments;
+                      return 1;
                     } catch( e ){
                       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                     }
@@ -548,7 +548,7 @@
                       var testExport2 = _mochaLocalExport.testExport2 = function testExport2() {
                             try {
                               __LINE__ = 10;
-                              return arguments;
+                              return 2;
                             } catch( e ){
                               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                             }
@@ -587,7 +587,7 @@
                   var testExport4 = _mochaLocalExport.testExport4 = function testExport4() {
                         try {
                           __LINE__ = 17;
-                          return arguments;
+                          return 3;
                         } catch( e ){
                           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                         }
@@ -603,7 +603,7 @@
           var testExport5 = _mochaLocalExport.testExport5 = function testExport5() {
                 try {
                   __LINE__ = 19;
-                  return arguments;
+                  return 4;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }

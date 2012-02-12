@@ -863,23 +863,12 @@ VISITOR_IMPL(Function){
       }
     }
     int state = CurrentState_();
-    if ( ast_node->ContextType() == Function::kGlobal ) {
-      state = ( state == CodeWriter::kArgs )? state :
-          ( MatchState_( CodeWriter::kParenExp ) )? CodeWriter::kArgs : CodeWriter::kFunctionEndBrace;
-      if ( current_root_ && !current_root_->IsRuntime() ) {
-        writer_->DebugBlockEnd( stream_.Get() , scope_ );
-      }
-      writer_->WriteOp( '}' , state , stream_.Get() );
-    } else {
-      if ( current_root_ && !current_root_->IsRuntime() ) {
-        writer_->DebugBlockEnd( stream_.Get() , scope_ );
-      }
-      writer_->WriteOp( '}' , CodeWriter::kArgs , stream_.Get() );
-      stream_->Write( ".bind" );
-      writer_->WriteOp( '(' , 0 , stream_.Get() );
-      stream_->Write( "this" );
-      writer_->WriteOp( ')' , 0 , stream_.Get() );
+    state = ( state == CodeWriter::kArgs )? state :
+        ( MatchState_( CodeWriter::kParenExp ) )? CodeWriter::kArgs : CodeWriter::kFunctionEndBrace;
+    if ( current_root_ && !current_root_->IsRuntime() ) {
+      writer_->DebugBlockEnd( stream_.Get() , scope_ );
     }
+    writer_->WriteOp( '}' , state , stream_.Get() );
   }
   if ( scope_ ) {
     scope_ = scope_->Escape();

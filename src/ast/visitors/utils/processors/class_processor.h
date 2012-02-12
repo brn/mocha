@@ -52,6 +52,7 @@ class ClassProcessor : public Managed {
   inline void ProcessVariable_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
   inline void ProcessFunction_( Function* function , bool is_prottoype , bool is_private , bool is_instance );
   inline void ProcessConstructor_( Function* constructor );
+  inline void CreateEmptyConstructor_();
   inline void ProcessDsta_( ValueNode* value ,bool is_const , DstaCallback callback );
   inline void SimpleVariables_( AstNode* node , bool is_const );
   inline void NoSimpleVariables_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );

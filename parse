@@ -17311,13 +17311,8 @@ other 3
 other 4
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@end /var/samba/mocha/src/test/js/harmony/yield_test.js
 is runtime 0
-before process -> /var/samba/mocha/src/test/js/harmony/../ecma262_5th/function_test
-try{
-  throw new SyntaxError("/var/samba/mocha/src/test/js/ecma262_5th/function_test.js No such file or directory")
-}catch(e){
-  throw new Error(e);
-}
-;
+before process -> /var/samba/mocha/src/test/js/harmony/./module_test
+is runtime 0
 9
 symbol is _mochaGlobalExport
 Var
@@ -19810,6 +19805,159 @@ symbol is "[object StopIteration]"
 symbol is _mochaGlobalExport
 Ident
 4
+symbol is './module_test.js'
+12
+Object
+9
+symbol is _mochaGlobalAlias
+Var
+7
+symbol is _mochaGlobalExport
+Ident
+4
+symbol is './module_test.js'
+9
+symbol is testModule1
+Var
+7
+symbol is _mochaGlobalAlias
+Ident
+7
+symbol is testModule1
+Ident
+9
+symbol is _mochaLocalExport
+Var
+12
+Object
+9
+symbol is testExport1
+Var
+7
+symbol is _mochaLocalExport
+Ident
+18
+symbol is testExport1
+7
+symbol is arguments
+Ident
+7
+symbol is _mochaLocalExport
+Ident
+9
+symbol is testModule2
+Var
+7
+symbol is _mochaGlobalAlias
+Ident
+7
+symbol is testModule2
+Ident
+9
+symbol is _mochaLocalExport
+Var
+12
+Object
+9
+symbol is testInnerModule3
+Var
+7
+symbol is _mochaLocalExport
+Ident
+7
+symbol is testInnerModule3
+Ident
+9
+symbol is _mochaLocalExport
+Var
+12
+Object
+9
+symbol is testExport2
+Var
+7
+symbol is _mochaLocalExport
+Ident
+18
+symbol is testExport2
+7
+symbol is arguments
+Ident
+9
+symbol is testExport3
+Var
+7
+symbol is _mochaLocalExport
+Ident
+1
+symbol is testExport3
+12
+Object
+7
+symbol is test
+Ident
+3
+symbol is 200
+3
+symbol is 200
+7
+symbol is _mochaLocalExport
+Ident
+7
+symbol is _mochaLocalExport
+Ident
+9
+symbol is _mochaLocalExport
+Var
+7
+symbol is _mochaGlobalAlias
+Ident
+9
+symbol is testInnerModule4
+Var
+7
+symbol is _mochaLocalExport
+Ident
+7
+symbol is testInnerModule4
+Ident
+9
+symbol is _mochaLocalExport
+Var
+12
+Object
+9
+symbol is testExport4
+Var
+7
+symbol is _mochaLocalExport
+Ident
+18
+symbol is testExport4
+7
+symbol is arguments
+Ident
+7
+symbol is _mochaLocalExport
+Ident
+9
+symbol is testExport5
+Var
+7
+symbol is _mochaLocalExport
+Ident
+18
+symbol is testExport5
+7
+symbol is arguments
+Ident
+7
+symbol is _mochaLocalExport
+Ident
+7
+symbol is _mochaGlobalExport
+Ident
+4
 symbol is './import_test.js'
 12
 Object
@@ -19828,15 +19976,15 @@ Var
 symbol is _mochaGlobalExport
 Ident
 4
-symbol is '../ecma262_5th/function_test.js'
+symbol is './module_test.js'
 9
-symbol is x
+symbol is testExport1
 Var
 7
 symbol is _mochaLocalTmp0
 Ident
 18
-symbol is x
+symbol is testExport1
 9
 symbol is y
 Var
@@ -20194,6 +20342,47 @@ Object
 1
 var
 other 4
+1
+var
+1
+var
+Object
+1
+var
+1
+var
+1
+var
+Object
+1
+var
+1
+var
+Object
+1
+var
+1
+var
+other 1
+Object
+other 3
+1
+var
+1
+var
+1
+var
+Object
+1
+var
+1
+var
+ast node = ExpressionStmt
+other 4
+Object
+1
+var
+other 4
 4
 var
 other 4
@@ -20223,6 +20412,24 @@ other 3
 assert expression "value7 === 100"
 other 3
 assert expression "strvalue === 100"
+depth is = 1
+depth is = 1
+depth is = 1
+depth is = 2
+other 3
+assert expression "value1 === 100"
+other 3
+assert expression "value3 === 100"
+other 3
+assert expression "value5_ === 100"
+other 3
+assert expression "value6_ === 200"
+other 3
+assert expression "value7_ === 300"
+other 3
+assert expression "value7 === 100"
+other 3
+assert expression "strvalue === 100"
 depth is = 0
 depth is = 0
 depth is = 0
@@ -20230,7 +20437,7 @@ depth is = 0
 depth is = 0
 depth is = 3
 depth is = 3
-type _mochaLocalTmp1
+type _mochaLocalTmp2
 other 3
 assert expression "value1 === 100"
 other 3
@@ -20249,7 +20456,26 @@ depth is = 0
 depth is = 0
 depth is = 0
 depth is = 3
-type _mochaLocalTmp2
+depth is = 3
+other 3
+assert expression "value1 === 100"
+other 3
+assert expression "arr_value1 === 200"
+other 3
+assert expression "value2 === 100"
+other 3
+assert expression "value3 === 100"
+other 3
+assert expression "arr_value2 === 100"
+other 3
+assert expression "arr_value3 === 200"
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 3
+type _mochaLocalTmp4
 other 3
 assert expression "value1 === 100"
 other 3
@@ -20264,6 +20490,27 @@ assert expression "arr_value2[0] === 100"
 other 3
 other 3
 assert expression "arr_value2[1] === 200"
+node type 9
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 3
+other 3
+assert expression "value1 === 100"
+other 3
+assert expression "arr_value1 === 200"
+other 3
+assert expression "value2 === 100"
+other 3
+assert expression "value3 === 100"
+other 3
+other 3
+assert expression "arr_value4[0] === 100"
+other 3
+other 3
+assert expression "arr_value4[1] === 200"
 depth is = 1
 depth is = 1
 depth is = 1
@@ -20301,6 +20548,26 @@ other 3
 assert expression "arr_value2 === 100"
 other 3
 assert expression "arr_value3 === 200"
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 0
+depth is = 3
+other 3
+assert expression "value1 === 100"
+other 3
+assert expression "arr_value1 === 200"
+other 3
+assert expression "value2 === 100"
+other 3
+assert expression "value3 === 100"
+other 3
+other 3
+assert expression "arr_value2[0] === 100"
+other 3
+other 3
+assert expression "arr_value2[1] === 200"
 9
 symbol is _mochaGlobalExport
 Var
@@ -23354,132 +23621,72 @@ symbol is './destructuring_test.js'
 symbol is _mochaLocalTmp1
 Var
 7
-symbol is array
-Ident
-9
-symbol is value1
-Var
-7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 0
 7
-symbol is _mochaLocalTmp1
+symbol is object
 Ident
-3
-symbol is 0
 18
 symbol is value1
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 0
+7
+symbol is value1
+Ident
 18
 symbol is value1
-7
-symbol is undefined
-Ident
-9
-symbol is arr_value1
-Var
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 1
-9
-symbol is value2
-Var
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 2
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 2
 18
-symbol is value2
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 2
-18
-symbol is value2
-7
-symbol is undefined
-Ident
-9
 symbol is value3
-Var
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 3
+7
+symbol is value2
+Ident
+13
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 3
-4
-symbol is "value3"
+7
+symbol is value2
+Ident
+13
+7
+symbol is value3
+Ident
+18
+symbol is value3
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 3
-4
-symbol is "value3"
+7
+symbol is value2
+Ident
+13
+7
+symbol is value3
+Ident
+18
+symbol is value3
 7
 symbol is undefined
 Ident
-9
-symbol is arr_value2
-Var
+7
+symbol is value5_
+Ident
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 4
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 4
 7
 symbol is value4
-Ident
-13
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 4
-7
-symbol is value4
-Ident
-13
-7
-symbol is value5
 Ident
 14
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 4
 7
 symbol is value4
-Ident
-13
-7
-symbol is value5
 Ident
 14
 3
@@ -23487,14 +23694,8 @@ symbol is 0
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 4
 7
 symbol is value4
-Ident
-13
-7
-symbol is value5
 Ident
 14
 3
@@ -23502,47 +23703,21 @@ symbol is 0
 7
 symbol is undefined
 Ident
-9
-symbol is arr_value3
-Var
+7
+symbol is value6_
+Ident
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 4
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 4
 7
 symbol is value4
-Ident
-13
-7
-symbol is _mochaLocalTmp1
-Ident
-3
-symbol is 4
-7
-symbol is value4
-Ident
-13
-7
-symbol is value5
 Ident
 14
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 4
 7
 symbol is value4
-Ident
-13
-7
-symbol is value5
 Ident
 14
 3
@@ -23550,18 +23725,145 @@ symbol is 1
 7
 symbol is _mochaLocalTmp1
 Ident
-3
-symbol is 4
 7
 symbol is value4
-Ident
-13
-7
-symbol is value5
 Ident
 14
 3
 symbol is 1
+7
+symbol is undefined
+Ident
+7
+symbol is value7_
+Ident
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value4
+Ident
+14
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 2
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 2
+7
+symbol is undefined
+Ident
+18
+symbol is value7
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+3
+symbol is 0
+7
+symbol is value7
+Ident
+18
+symbol is value7
+7
+symbol is _mochaLocalTmp1
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+3
+symbol is 0
+7
+symbol is value7
+Ident
+18
+symbol is value7
+7
+symbol is undefined
+Ident
+18
+symbol is strvalue
+7
+symbol is _mochaLocalTmp1
+Ident
+4
+symbol is "@value"
+7
+symbol is _mochaLocalTmp1
+Ident
+4
+symbol is "@value"
+7
+symbol is strvalue
+Ident
+18
+symbol is strvalue
+7
+symbol is _mochaLocalTmp1
+Ident
+4
+symbol is "@value"
+7
+symbol is strvalue
+Ident
+18
+symbol is strvalue
 7
 symbol is undefined
 Ident
@@ -23580,43 +23882,7 @@ symbol is 100
 4
 symbol is "value1 === 100"
 3
-symbol is 30
-4
-symbol is './destructuring_test.js'
-7
-symbol is Runtime
-Ident
-18
-symbol is assert
-1
-symbol is true
-7
-symbol is arr_value1
-Ident
-3
-symbol is 200
-4
-symbol is "arr_value1 === 200"
-3
-symbol is 31
-4
-symbol is './destructuring_test.js'
-7
-symbol is Runtime
-Ident
-18
-symbol is assert
-1
-symbol is true
-7
-symbol is value2
-Ident
-3
-symbol is 100
-4
-symbol is "value2 === 100"
-3
-symbol is 32
+symbol is 28
 4
 symbol is './destructuring_test.js'
 7
@@ -23634,6 +23900,78 @@ symbol is 100
 4
 symbol is "value3 === 100"
 3
+symbol is 29
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value5_
+Ident
+3
+symbol is 100
+4
+symbol is "value5_ === 100"
+3
+symbol is 30
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value6_
+Ident
+3
+symbol is 200
+4
+symbol is "value6_ === 200"
+3
+symbol is 31
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value7_
+Ident
+3
+symbol is 300
+4
+symbol is "value7_ === 300"
+3
+symbol is 32
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value7
+Ident
+3
+symbol is 100
+4
+symbol is "value7 === 100"
+3
 symbol is 33
 4
 symbol is './destructuring_test.js'
@@ -23645,32 +23983,14 @@ symbol is assert
 1
 symbol is true
 7
-symbol is arr_value2
+symbol is strvalue
 Ident
 3
 symbol is 100
 4
-symbol is "arr_value2 === 100"
+symbol is "strvalue === 100"
 3
 symbol is 34
-4
-symbol is './destructuring_test.js'
-7
-symbol is Runtime
-Ident
-18
-symbol is assert
-1
-symbol is true
-7
-symbol is arr_value3
-Ident
-3
-symbol is 200
-4
-symbol is "arr_value3 === 200"
-3
-symbol is 35
 4
 symbol is './destructuring_test.js'
 9
@@ -23793,10 +24113,20 @@ symbol is value5
 Ident
 14
 7
-symbol is Runtime
+symbol is _mochaLocalTmp2
 Ident
-18
-symbol is toArray
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+3
+symbol is 0
 7
 symbol is _mochaLocalTmp2
 Ident
@@ -23812,6 +24142,69 @@ Ident
 14
 3
 symbol is 0
+7
+symbol is undefined
+Ident
+9
+symbol is arr_value3
+Var
+7
+symbol is _mochaLocalTmp2
+Ident
+3
+symbol is 4
+7
+symbol is _mochaLocalTmp2
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is _mochaLocalTmp2
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+7
+symbol is _mochaLocalTmp2
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+3
+symbol is 1
+7
+symbol is _mochaLocalTmp2
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+3
+symbol is 1
 7
 symbol is undefined
 Ident
@@ -23898,11 +24291,9 @@ symbol is true
 symbol is arr_value2
 Ident
 3
-symbol is 0
-3
 symbol is 100
 4
-symbol is "arr_value2[0] === 100"
+symbol is "arr_value2 === 100"
 3
 symbol is 44
 4
@@ -23915,72 +24306,165 @@ symbol is assert
 1
 symbol is true
 7
-symbol is arr_value2
+symbol is arr_value3
 Ident
-3
-symbol is 1
 3
 symbol is 200
 4
-symbol is "arr_value2[1] === 200"
+symbol is "arr_value3 === 200"
 3
 symbol is 45
 4
 symbol is './destructuring_test.js'
 9
-symbol is value1
+symbol is _mochaLocalTmp3
 Var
 7
 symbol is _mochaLocalTmp3
 Ident
+13
+7
+symbol is arr_value1
+Ident
+13
+13
+13
+7
+symbol is array
+Ident
 18
 symbol is value1
-9
-symbol is value3
-Var
 7
 symbol is _mochaLocalTmp3
 Ident
-7
-symbol is value2
-Ident
-13
+3
+symbol is 0
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 0
 7
-symbol is value2
+symbol is value1
 Ident
-13
 18
-symbol is value3
+symbol is value1
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 0
 7
-symbol is value2
+symbol is value1
 Ident
-13
 18
-symbol is value3
+symbol is value1
 7
 symbol is undefined
 Ident
-9
-symbol is value5_
-Var
+7
+symbol is arr_value1
+Ident
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 1
+18
+symbol is value2
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 2
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 2
+7
+symbol is value2
+Ident
+18
+symbol is value2
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 2
+7
+symbol is value2
+Ident
+18
+symbol is value2
+7
+symbol is undefined
+Ident
+18
+symbol is value3
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 3
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is undefined
+Ident
+7
+symbol is arr_value2
+Ident
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 4
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 4
 7
 symbol is value4
+Ident
+13
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
 Ident
 14
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 4
 7
 symbol is value4
+Ident
+13
+7
+symbol is value5
 Ident
 14
 3
@@ -23988,8 +24472,14 @@ symbol is 0
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 4
 7
 symbol is value4
+Ident
+13
+7
+symbol is value5
 Ident
 14
 3
@@ -23997,21 +24487,47 @@ symbol is 0
 7
 symbol is undefined
 Ident
-9
-symbol is value6_
-Var
+7
+symbol is arr_value3
+Ident
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 4
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 4
 7
 symbol is value4
+Ident
+13
+7
+symbol is _mochaLocalTmp3
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
 Ident
 14
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 4
 7
 symbol is value4
+Ident
+13
+7
+symbol is value5
 Ident
 14
 3
@@ -24019,135 +24535,18 @@ symbol is 1
 7
 symbol is _mochaLocalTmp3
 Ident
+3
+symbol is 4
 7
 symbol is value4
+Ident
+13
+7
+symbol is value5
 Ident
 14
 3
 symbol is 1
-7
-symbol is undefined
-Ident
-9
-symbol is value7_
-Var
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value4
-Ident
-14
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value4
-Ident
-14
-3
-symbol is 2
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value4
-Ident
-14
-3
-symbol is 2
-7
-symbol is undefined
-Ident
-9
-symbol is value7
-Var
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value5
-Ident
-13
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value5
-Ident
-13
-7
-symbol is value6
-Ident
-14
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value5
-Ident
-13
-7
-symbol is value6
-Ident
-14
-3
-symbol is 0
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value5
-Ident
-13
-7
-symbol is value6
-Ident
-14
-3
-symbol is 0
-18
-symbol is value7
-7
-symbol is _mochaLocalTmp3
-Ident
-7
-symbol is value5
-Ident
-13
-7
-symbol is value6
-Ident
-14
-3
-symbol is 0
-18
-symbol is value7
-7
-symbol is undefined
-Ident
-9
-symbol is strvalue
-Var
-7
-symbol is _mochaLocalTmp3
-Ident
-4
-symbol is "@value"
-7
-symbol is _mochaLocalTmp3
-Ident
-4
-symbol is "@value"
-18
-symbol is strvalue
-7
-symbol is _mochaLocalTmp3
-Ident
-4
-symbol is "@value"
-18
-symbol is strvalue
 7
 symbol is undefined
 Ident
@@ -24165,6 +24564,42 @@ Ident
 symbol is 100
 4
 symbol is "value1 === 100"
+3
+symbol is 47
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value1
+Ident
+3
+symbol is 200
+4
+symbol is "arr_value1 === 200"
+3
+symbol is 48
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value2
+Ident
+3
+symbol is 100
+4
+symbol is "value2 === 100"
 3
 symbol is 49
 4
@@ -24195,12 +24630,12 @@ symbol is assert
 1
 symbol is true
 7
-symbol is value5_
+symbol is arr_value2
 Ident
 3
 symbol is 100
 4
-symbol is "value5_ === 100"
+symbol is "arr_value2 === 100"
 3
 symbol is 51
 4
@@ -24213,72 +24648,21 @@ symbol is assert
 1
 symbol is true
 7
-symbol is value6_
+symbol is arr_value3
 Ident
 3
 symbol is 200
 4
-symbol is "value6_ === 200"
+symbol is "arr_value3 === 200"
 3
 symbol is 52
 4
 symbol is './destructuring_test.js'
+9
+symbol is _mochaLocalTmp4
+Var
 7
-symbol is Runtime
-Ident
-18
-symbol is assert
-1
-symbol is true
-7
-symbol is value7_
-Ident
-3
-symbol is 300
-4
-symbol is "value7_ === 300"
-3
-symbol is 53
-4
-symbol is './destructuring_test.js'
-7
-symbol is Runtime
-Ident
-18
-symbol is assert
-1
-symbol is true
-7
-symbol is value7
-Ident
-3
-symbol is 100
-4
-symbol is "value7 === 100"
-3
-symbol is 54
-4
-symbol is './destructuring_test.js'
-7
-symbol is Runtime
-Ident
-18
-symbol is assert
-1
-symbol is true
-7
-symbol is strvalue
-Ident
-3
-symbol is 100
-4
-symbol is "strvalue === 100"
-3
-symbol is 55
-4
-symbol is './destructuring_test.js'
-7
-symbol is object
+symbol is array
 Ident
 9
 symbol is value1
@@ -24394,6 +24778,11 @@ symbol is value5
 Ident
 14
 7
+symbol is Runtime
+Ident
+18
+symbol is toArray
+7
 symbol is _mochaLocalTmp4
 Ident
 3
@@ -24409,7 +24798,879 @@ Ident
 3
 symbol is 0
 7
-symbol is _mochaLocalTmp4
+symbol is undefined
+Ident
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value1
+Ident
+3
+symbol is 100
+4
+symbol is "value1 === 100"
+3
+symbol is 57
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value1
+Ident
+3
+symbol is 200
+4
+symbol is "arr_value1 === 200"
+3
+symbol is 58
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value2
+Ident
+3
+symbol is 100
+4
+symbol is "value2 === 100"
+3
+symbol is 59
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value3
+Ident
+3
+symbol is 100
+4
+symbol is "value3 === 100"
+3
+symbol is 60
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value2
+Ident
+3
+symbol is 0
+3
+symbol is 100
+4
+symbol is "arr_value2[0] === 100"
+3
+symbol is 61
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value2
+Ident
+3
+symbol is 1
+3
+symbol is 200
+4
+symbol is "arr_value2[1] === 200"
+3
+symbol is 62
+4
+symbol is './destructuring_test.js'
+9
+symbol is arr_value4
+Var
+9
+symbol is _mochaLocalTmp5
+Var
+7
+symbol is _mochaLocalTmp5
+Ident
+13
+7
+symbol is arr_value1
+Ident
+13
+13
+13
+7
+symbol is array
+Ident
+18
+symbol is value1
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 0
+7
+symbol is value1
+Ident
+18
+symbol is value1
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 0
+7
+symbol is value1
+Ident
+18
+symbol is value1
+7
+symbol is undefined
+Ident
+7
+symbol is arr_value1
+Ident
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 1
+18
+symbol is value2
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 2
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 2
+7
+symbol is value2
+Ident
+18
+symbol is value2
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 2
+7
+symbol is value2
+Ident
+18
+symbol is value2
+7
+symbol is undefined
+Ident
+18
+symbol is value3
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 3
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is undefined
+Ident
+7
+symbol is arr_value4
+Ident
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 4
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+7
+symbol is Runtime
+Ident
+18
+symbol is toArray
+7
+symbol is _mochaLocalTmp5
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+3
+symbol is 0
+7
+symbol is undefined
+Ident
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value1
+Ident
+3
+symbol is 100
+4
+symbol is "value1 === 100"
+3
+symbol is 65
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value1
+Ident
+3
+symbol is 200
+4
+symbol is "arr_value1 === 200"
+3
+symbol is 66
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value2
+Ident
+3
+symbol is 100
+4
+symbol is "value2 === 100"
+3
+symbol is 67
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value3
+Ident
+3
+symbol is 100
+4
+symbol is "value3 === 100"
+3
+symbol is 68
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value4
+Ident
+3
+symbol is 0
+3
+symbol is 100
+4
+symbol is "arr_value4[0] === 100"
+3
+symbol is 69
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value4
+Ident
+3
+symbol is 1
+3
+symbol is 200
+4
+symbol is "arr_value4[1] === 200"
+3
+symbol is 70
+4
+symbol is './destructuring_test.js'
+9
+symbol is value1
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+18
+symbol is value1
+9
+symbol is value3
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value2
+Ident
+13
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value2
+Ident
+13
+18
+symbol is value3
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value2
+Ident
+13
+18
+symbol is value3
+7
+symbol is undefined
+Ident
+9
+symbol is value5_
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 0
+7
+symbol is undefined
+Ident
+9
+symbol is value6_
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 1
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 1
+7
+symbol is undefined
+Ident
+9
+symbol is value7_
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 2
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value4
+Ident
+14
+3
+symbol is 2
+7
+symbol is undefined
+Ident
+9
+symbol is value7
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+3
+symbol is 0
+18
+symbol is value7
+7
+symbol is _mochaLocalTmp6
+Ident
+7
+symbol is value5
+Ident
+13
+7
+symbol is value6
+Ident
+14
+3
+symbol is 0
+18
+symbol is value7
+7
+symbol is undefined
+Ident
+9
+symbol is strvalue
+Var
+7
+symbol is _mochaLocalTmp6
+Ident
+4
+symbol is "@value"
+7
+symbol is _mochaLocalTmp6
+Ident
+4
+symbol is "@value"
+18
+symbol is strvalue
+7
+symbol is _mochaLocalTmp6
+Ident
+4
+symbol is "@value"
+18
+symbol is strvalue
+7
+symbol is undefined
+Ident
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value1
+Ident
+3
+symbol is 100
+4
+symbol is "value1 === 100"
+3
+symbol is 74
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value3
+Ident
+3
+symbol is 100
+4
+symbol is "value3 === 100"
+3
+symbol is 75
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value5_
+Ident
+3
+symbol is 100
+4
+symbol is "value5_ === 100"
+3
+symbol is 76
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value6_
+Ident
+3
+symbol is 200
+4
+symbol is "value6_ === 200"
+3
+symbol is 77
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value7_
+Ident
+3
+symbol is 300
+4
+symbol is "value7_ === 300"
+3
+symbol is 78
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value7
+Ident
+3
+symbol is 100
+4
+symbol is "value7 === 100"
+3
+symbol is 79
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is strvalue
+Ident
+3
+symbol is 100
+4
+symbol is "strvalue === 100"
+3
+symbol is 80
+4
+symbol is './destructuring_test.js'
+7
+symbol is object
+Ident
+9
+symbol is value1
+Var
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 0
+18
+symbol is value1
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 0
+18
+symbol is value1
+7
+symbol is undefined
+Ident
+9
+symbol is arr_value1
+Var
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 1
+9
+symbol is value2
+Var
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 2
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 2
+18
+symbol is value2
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 2
+18
+symbol is value2
+7
+symbol is undefined
+Ident
+9
+symbol is value3
+Var
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 3
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is undefined
+Ident
+9
+symbol is arr_value2
+Var
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 4
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+7
+symbol is _mochaLocalTmp7
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp7
 Ident
 3
 symbol is 4
@@ -24430,12 +25691,12 @@ Ident
 symbol is arr_value3
 Var
 7
-symbol is _mochaLocalTmp4
+symbol is _mochaLocalTmp7
 Ident
 3
 symbol is 4
 7
-symbol is _mochaLocalTmp4
+symbol is _mochaLocalTmp7
 Ident
 3
 symbol is 4
@@ -24444,7 +25705,7 @@ symbol is value4
 Ident
 13
 7
-symbol is _mochaLocalTmp4
+symbol is _mochaLocalTmp7
 Ident
 3
 symbol is 4
@@ -24457,7 +25718,7 @@ symbol is value5
 Ident
 14
 7
-symbol is _mochaLocalTmp4
+symbol is _mochaLocalTmp7
 Ident
 3
 symbol is 4
@@ -24472,7 +25733,7 @@ Ident
 3
 symbol is 1
 7
-symbol is _mochaLocalTmp4
+symbol is _mochaLocalTmp7
 Ident
 3
 symbol is 4
@@ -24504,7 +25765,7 @@ symbol is 100
 4
 symbol is "value1 === 100"
 3
-symbol is 59
+symbol is 85
 4
 symbol is './destructuring_test.js'
 7
@@ -24522,7 +25783,7 @@ symbol is 200
 4
 symbol is "arr_value1 === 200"
 3
-symbol is 60
+symbol is 86
 4
 symbol is './destructuring_test.js'
 7
@@ -24540,7 +25801,7 @@ symbol is 100
 4
 symbol is "value2 === 100"
 3
-symbol is 61
+symbol is 87
 4
 symbol is './destructuring_test.js'
 7
@@ -24558,7 +25819,7 @@ symbol is 100
 4
 symbol is "value3 === 100"
 3
-symbol is 62
+symbol is 88
 4
 symbol is './destructuring_test.js'
 7
@@ -24576,7 +25837,7 @@ symbol is 100
 4
 symbol is "arr_value2 === 100"
 3
-symbol is 63
+symbol is 89
 4
 symbol is './destructuring_test.js'
 7
@@ -24594,7 +25855,258 @@ symbol is 200
 4
 symbol is "arr_value3 === 200"
 3
-symbol is 64
+symbol is 90
+4
+symbol is './destructuring_test.js'
+7
+symbol is array
+Ident
+9
+symbol is value1
+Var
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 0
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 0
+18
+symbol is value1
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 0
+18
+symbol is value1
+7
+symbol is undefined
+Ident
+9
+symbol is arr_value1
+Var
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 1
+9
+symbol is value2
+Var
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 2
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 2
+18
+symbol is value2
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 2
+18
+symbol is value2
+7
+symbol is undefined
+Ident
+9
+symbol is value3
+Var
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 3
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 3
+4
+symbol is "value3"
+7
+symbol is undefined
+Ident
+9
+symbol is arr_value2
+Var
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 4
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+7
+symbol is Runtime
+Ident
+18
+symbol is toArray
+7
+symbol is _mochaLocalTmp8
+Ident
+3
+symbol is 4
+7
+symbol is value4
+Ident
+13
+7
+symbol is value5
+Ident
+14
+3
+symbol is 0
+7
+symbol is undefined
+Ident
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value1
+Ident
+3
+symbol is 100
+4
+symbol is "value1 === 100"
+3
+symbol is 95
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value1
+Ident
+3
+symbol is 200
+4
+symbol is "arr_value1 === 200"
+3
+symbol is 96
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value2
+Ident
+3
+symbol is 100
+4
+symbol is "value2 === 100"
+3
+symbol is 97
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is value3
+Ident
+3
+symbol is 100
+4
+symbol is "value3 === 100"
+3
+symbol is 98
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value2
+Ident
+3
+symbol is 0
+3
+symbol is 100
+4
+symbol is "arr_value2[0] === 100"
+3
+symbol is 99
+4
+symbol is './destructuring_test.js'
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is arr_value2
+Ident
+3
+symbol is 1
+3
+symbol is 200
+4
+symbol is "arr_value2[1] === 200"
+3
+symbol is 100
 4
 symbol is './destructuring_test.js'
 7
@@ -25029,6 +26541,55 @@ other 3
 other 4
 other 3
 other 4
+1
+var
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 4
+other 4
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
 7
 var
 var
@@ -25056,6 +26617,64 @@ other 3
 other 3
 other 3
 var
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+1
+var
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 4
+other 3
+other 4
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
 other 3
 other 3
 other 3
@@ -25149,6 +26768,59 @@ other 3
 other 4
 other 3
 other 4
+1
+var
+1
+var
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 3
+other 4
+other 3
+other 4
+other 3
+other 3
+other 3
+other 3
+other 3
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 3
+other 4
+other 3
+other 4
 7
 var
 var
@@ -25263,6 +26935,61 @@ other 4
 other 3
 other 4
 other 1
+other 3
+other 4
+other 3
+other 4
+5
+var
+other 3
+other 3
+other 3
+var
+other 3
+var
+other 3
+other 3
+other 3
+var
+other 3
+other 3
+other 4
+other 3
+other 4
+var
+other 3
+other 3
+other 3
+other 3
+other 3
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
+other 3
+other 4
+other 3
+other 4
+other 1
+other 3
 other 3
 other 4
 other 3
@@ -74577,6 +76304,9 @@ other 3
 assert expression "exp === 300"
 other 3
 assert expression "exp === 1"
+node type 9
+other 3
+assert expression "array.length === 3"
 9
 symbol is _mochaGlobalExport
 Var
@@ -79435,6 +81165,31 @@ symbol is "exp === 1"
 symbol is 338
 4
 symbol is './expression_test.js'
+9
+symbol is array
+Var
+10
+Array
+7
+symbol is Runtime
+Ident
+18
+symbol is assert
+1
+symbol is true
+7
+symbol is array
+Ident
+18
+symbol is length
+3
+symbol is 3
+4
+symbol is "array.length === 3"
+3
+symbol is 343
+4
+symbol is './expression_test.js'
 7
 symbol is parseTest
 Ident
@@ -79458,6 +81213,9 @@ symbol is memberExpressionTest
 Ident
 7
 symbol is expressionTest
+Ident
+7
+symbol is primaryTest
 Ident
 ast node = VariableStmt
 2
@@ -80383,6 +82141,14 @@ other 4
 other 3
 other 4
 other 3
+other 1
+other 3
+other 4
+other 3
+other 4
+1
+var
+Array
 other 1
 other 3
 other 4

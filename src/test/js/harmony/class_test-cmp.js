@@ -520,23 +520,18 @@
               function Monster() {
                 try {
                   __LINE__ = 0;
-                  Runtime.constant( this,'constructor',Monster.constructor );
+                  Runtime.constant( this,'constructor',constructor );
                   
                   __LINE__ = 0;
                   Runtime.createUnenumProp( this.constructor,'__gZ9SnR5gc2__',new _mochaPrivateHolder );
                   
                   __LINE__ = 0;
-                  if ( Monster.constructor ){
-                    __LINE__ = 0;
-                    Monster.constructor.apply( this,arguments );
-                  };
+                  constructor.apply( this,arguments );
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
               
-              __LINE__ = 0;
-              Runtime.createUnenumProp( Monster,'constructor',
               function constructor( name,health ) {
                 try {
                   
@@ -548,8 +543,7 @@
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
-              });
-              
+              }
               __LINE__ = 0;
               Monster.prototype.attack = function attack( target ) {
                 try {
@@ -626,21 +620,19 @@
               function BaseTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.constant( this,'constructor',BaseTest.constructor );
+                  Runtime.constant( this,'constructor',constructor );
                   
                   __LINE__ = 0;
                   Runtime.createUnenumProp( this.constructor,'__OnAJFAY1yA__',new _mochaPrivateHolder );
                   
                   __LINE__ = 0;
-                  if ( BaseTest.constructor ){
-                    __LINE__ = 0;
-                    BaseTest.constructor.apply( this,arguments );
-                  };
+                  constructor.apply( this,arguments );
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
               
+              function constructor(){}
               __LINE__ = 0;
               BaseTest.prototype.getName = function getName() {
                 try {
@@ -667,16 +659,13 @@
               function DeriveTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.constant( this,'constructor',DeriveTest.constructor );
+                  Runtime.constant( this,'constructor',constructor );
                   
                   __LINE__ = 0;
                   Runtime.createUnenumProp( this.constructor,'__DxPuYg_rcb__',new _mochaPrivateHolder );
                   
                   __LINE__ = 0;
-                  if ( DeriveTest.constructor ){
-                    __LINE__ = 0;
-                    DeriveTest.constructor.apply( this,arguments );
-                  };
+                  constructor.apply( this,arguments );
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }

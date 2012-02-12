@@ -1147,18 +1147,21 @@ class Function : public Expression {
     kThis
   };
   inline Function() : Expression( NAME_PARAMETER( Function ) ),
-                      fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_root_( false ),
+                      fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_decl_( false ),
+                      is_root_( false ),
                       has_yield_( false ),
-                      name_( 0 ) , argv_( 0 ) , iteration_list_( 0 ) {};
+                      name_( 0 ) , argv_( 0 ) , replaced_this_( 0 ) , iteration_list_( 0 ) {};
   inline ~Function(){};
   inline Function* CastToFunction() { return this; }
   inline void Name( AstNode* name ){ name_ = name; };
   inline AstNode* Name(){ return name_; };
   inline AstNode* Argv(){ return argv_; };
-  inline void Argv( AstNode* argv ) { argv_ = argv; };
+  inline void Argv( AstNode* argv ) { argv_ = argv;argv_->ParentNode( this ); };
   inline int Argc() const { return argv_->ChildLength(); }
   inline void Const() { is_const_ = true; }
   inline bool IsConst() const { return is_const_; }
+  inline void Decl() { is_decl_ = true; }
+  inline bool IsDecl() { return is_decl_; }
   inline void Attr( FnAttr attr ) { fn_attr_ |= attr; }
   inline bool IsAttr( FnAttr attr ) { return ( fn_attr_ & attr ) == attr; }
   inline int FunctionType() { return fn_type_; }
@@ -1177,16 +1180,20 @@ class Function : public Expression {
   inline TryList& GetTryCatch() { return try_list_; }
   inline void SetVariable( ValueNode* node ) { variable_list_.push_back( node ); }
   inline VariableList& GetVariable() { return variable_list_; }
+  inline void SetReplacedThis( ValueNode* val ) { replaced_this_ = val; }
+  inline ValueNode* GetReplacedThis() { return replaced_this_; }
   CLONE( Function );
  private :
   int fn_type_;
   int context_;
   int fn_attr_;
   bool is_const_;
+  bool is_decl_;
   bool is_root_;
   bool has_yield_;
   AstNode* name_;
   AstNode* argv_;
+  ValueNode* replaced_this_;
   InnerScope* scope_;
   StmtList iteration_list_;
   VariableList variable_list_;

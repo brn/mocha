@@ -326,9 +326,14 @@ AstNode* Parser::ParseSourceElement_() {
       result = stmt;
     }
       break;
-    case Token::JS_FUNCTION :
+    case Token::JS_FUNCTION : {
       result = ParseFunctionDecl_( false );
+      CHECK_ERROR(result);
+      Function* fn = result->CastToExpression()->CastToFunction();
+      fn->Decl();
+    }
       break;
+      
     case Token::JS_CONST : {
       info = Seek_();
       int type = info->GetType();
@@ -343,6 +348,9 @@ AstNode* Parser::ParseSourceElement_() {
         if ( type == '(' || type == Token::JS_FUNCTION_GLYPH ||
              type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
           result = ParseFunctionDecl_( true );
+          CHECK_ERROR(result);
+          Function* fn = result->CastToExpression()->CastToFunction();
+          fn->Decl();
         } else {
           result = ParseVariableStatement_();
         }
@@ -488,8 +496,12 @@ AstNode* Parser::ParseStatement_() {
       result = ParseVersionStatement_();
       break;
       
-    case Token::JS_FUNCTION :
+    case Token::JS_FUNCTION : {
       result = ParseFunctionDecl_( false );
+      CHECK_ERROR(result);
+      Function* fn = result->CastToExpression()->CastToFunction();
+      fn->Decl();
+    }
       break;
       
     case Token::JS_DEBUGGER :
@@ -509,8 +521,22 @@ AstNode* Parser::ParseStatement_() {
     }
       break;
       
-    default :
+    default : {
       result = CheckLabellOrExpressionStatement_();
+      CHECK_ERROR(result);;
+      if ( result->NodeType() == AstNode::kExpressionStmt ) {
+        Expression* exp = result->FirstChild()->CastToExpression();
+        if ( exp->ChildLength() > 0 ) {
+          NodeIterator iterator = exp->ChildNodes();
+          while ( iterator.HasNext() ) {
+            AstNode* item = iterator.Next();
+            if ( item->NodeType() == AstNode::kFunction ) {
+              item->CastToExpression()->CastToFunction()->Decl();
+            }
+          }
+        }
+      }
+    }
   }
   CHECK_ERROR(result);
   //result->Line( info->GetLineNumber() );
@@ -1910,6 +1936,8 @@ ClassMember* Parser::ParseClassMember_() {
   AstNode* exp;
   if ( type == Token::JS_IDENTIFIER && strcmp( token->GetToken() , "constructor" ) == 0 ) {
     exp = ParseFunctionDecl_( false );
+    CHECK_ERROR(ManagedHandle::Retain( new ClassMember( ClassMember::kConstructor ) ));
+    exp->CastToExpression()->CastToFunction()->Decl();
     member_type = ClassMember::kConstructor;
   } else if ( type == Token::JS_STATIC ) {
     Advance_();

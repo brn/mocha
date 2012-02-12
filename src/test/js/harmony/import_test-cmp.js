@@ -1,9 +1,4 @@
-try{
-  throw new SyntaxError("/var/samba/mocha/src/test/js/ecma262_5th/function_test.js No such file or directory")
-}catch(e){
-  throw new Error(e);
-}
-;(function() {
+(function() {
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
@@ -507,6 +502,126 @@ try{
   __LINE__ = 0;
   ( function () {
     try {
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/module_test.js",
+          __LINE__ = 0;
+      __LINE__ = 2;
+      _mochaGlobalExport['./module_test.js'] = {};
+      
+      __LINE__ = 3;
+      var _mochaGlobalAlias = _mochaGlobalExport['./module_test.js'];
+      
+      __LINE__ = 0;
+      var testModule1 = _mochaGlobalAlias.testModule1 = ( function testModule1() {
+            try {
+              __LINE__ = 2;
+              var _mochaLocalExport = {};
+              
+              __LINE__ = 0;
+              var testExport1 = _mochaLocalExport.testExport1 = function testExport1() {
+                    try {
+                      __LINE__ = 4;
+                      return 1;
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  };
+              __LINE__ = 0;
+              return _mochaLocalExport;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 0;
+      var testModule2 = _mochaGlobalAlias.testModule2 = ( function testModule2() {
+            try {
+              __LINE__ = 8;
+              var _mochaLocalExport = {};
+              
+              __LINE__ = 0;
+              var testInnerModule3 = _mochaLocalExport.testInnerModule3 = ( function testInnerModule3() {
+                    try {
+                      __LINE__ = 9;
+                      var _mochaLocalExport = {};
+                      
+                      __LINE__ = 0;
+                      var testExport2 = _mochaLocalExport.testExport2 = function testExport2() {
+                            try {
+                              __LINE__ = 10;
+                              return 2;
+                            } catch( e ){
+                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                            }
+                          };
+                      
+                      __LINE__ = 0;
+                      var testExport3 = _mochaLocalExport.testExport3 =  {
+                            test : 200
+                          };
+                      __LINE__ = 0;
+                      return _mochaLocalExport;
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  })();
+              __LINE__ = 0;
+              return _mochaLocalExport;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 15;
+      ( function () {
+        try {
+          __LINE__ = 15;
+          var _mochaLocalExport = _mochaGlobalAlias;
+          
+          __LINE__ = 0;
+          var testInnerModule4 = _mochaLocalExport.testInnerModule4 = ( function testInnerModule4() {
+                try {
+                  __LINE__ = 16;
+                  var _mochaLocalExport = {};
+                  
+                  __LINE__ = 0;
+                  var testExport4 = _mochaLocalExport.testExport4 = function testExport4() {
+                        try {
+                          __LINE__ = 17;
+                          return 3;
+                        } catch( e ){
+                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      };
+                  __LINE__ = 0;
+                  return _mochaLocalExport;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              })();
+          
+          __LINE__ = 0;
+          var testExport5 = _mochaLocalExport.testExport5 = function testExport5() {
+                try {
+                  __LINE__ = 19;
+                  return 4;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+          __LINE__ = 0;
+          return _mochaLocalExport;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+    } catch( e ){
+      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+    }
+  })();
+  
+  __LINE__ = 0;
+  ( function () {
+    try {
       var __FILE__ = "/var/samba/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
@@ -516,10 +631,27 @@ try{
       var _mochaGlobalAlias = _mochaGlobalExport['./import_test.js'];
       
       __LINE__ = 0;
-      var _mochaLocalTmp0 = _mochaGlobalExport['../ecma262_5th/function_test.js'],
-          x = _mochaLocalTmp0.x,
-          y = _mochaLocalTmp0.y,
-          z = _mochaLocalTmp0.z;
+      var _mochaLocalTmp0 = _mochaGlobalExport['./module_test.js'],
+          testExport1 = _mochaLocalTmp0.testModule1 && _mochaLocalTmp0.testModule1.testExport1?_mochaLocalTmp0.testModule1.testExport1 : undefined,
+          testExport2 = _mochaLocalTmp0.testModule2 && _mochaLocalTmp0.testModule2.testInnerModule3 && _mochaLocalTmp0.testModule2.testInnerModule3.testExport2?_mochaLocalTmp0.testModule2.testInnerModule3.testExport2 : undefined,
+          testExport3 = _mochaLocalTmp0.testModule2 && _mochaLocalTmp0.testModule2.testInnerModule3 && _mochaLocalTmp0.testModule2.testInnerModule3.testExport3?_mochaLocalTmp0.testModule2.testInnerModule3.testExport3 : undefined,
+          testExport4 = _mochaLocalTmp0.testInnerModule4 && _mochaLocalTmp0.testInnerModule4.testExport4?_mochaLocalTmp0.testInnerModule4.testExport4 : undefined,
+          testExport5 = _mochaLocalTmp0.testExport5;
+      
+      __LINE__ = 18;
+      Runtime.assert( true,testExport1() === 1,"testExport1() === 1",18,'./import_test.js' );
+      
+      __LINE__ = 19;
+      Runtime.assert( true,testExport2() === 2,"testExport2() === 2",19,'./import_test.js' );
+      
+      __LINE__ = 20;
+      Runtime.assert( true,testExport3.test === 200,"testExport3.test === 200",20,'./import_test.js' );
+      
+      __LINE__ = 21;
+      Runtime.assert( true,testExport4() === 3,"testExport4() === 3",21,'./import_test.js' );
+      
+      __LINE__ = 22;
+      Runtime.assert( true,testExport5() === 4,"testExport5() === 4",22,'./import_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

@@ -851,6 +851,13 @@ VISITOR_IMPL( ValueNode ) {
       visitor_info_->SetRestExp( ast_node->Symbol() );
     }
       break;
+
+    case ValueNode::kThis : {
+      Function* fn = visitor_info_->GetFunction();
+      if ( fn && fn->GetReplacedThis() ) {
+        ast_node->Symbol( fn->GetReplacedThis()->Symbol() );
+      }
+    }
   }
 }
 }
