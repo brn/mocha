@@ -1,40 +1,51 @@
-var _mochaGlobalExport = {},
-    _mochaClassTable = {}
+/**
+ *@author Taketoshi Aono
+ *@fileOverview
+ *@license
+ *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ *associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ *subject to the following conditions:
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions ofthe Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *DEALINGS IN THE SOFTWARE.
+ */
 
-module Runtime {
-  const Exception( line , file , e ) {
-          this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
-        }
-  //Minimal runtime object.
-  var Runtime = {
-        getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
-        exceptionHandler ( line , file , e ){
-          if ( isStopIteration( e ) ) {
-            this.throwException( e );
-          } else {
-            this.throwException( new Exception( line , file , e ) );
-          }
-        },
-        throwException ( exception ) {
-          try {
-            throw exception;
-          } catch( e ) {
-            if ( isStopIteration( e ) ) {
-              throw new Error( e );
-            } else {
-              throw new Error( this.getErrorMessage( e ) );
-            }
-          }
-        },
-        hasProto : "__proto__" in {}
-      }
+//Global module container.
+var _mochaGlobalExport = {};
+
+//ecma262 5th edition compatible buitin extensions.
+(->{
   
   if( !String.prototype.trim ){
+    /**
+     * [MDN String/Trim]
+     * Removes whitespace from both ends of the string.
+     * @return {String}
+     */
     String.prototype.trim = -> this.replace( String.prototype.trim.rtrim , "" );
+    //To avoid closure, we set regular expression to function's property.
     String.prototype.trim.rtrim = /^\s*|\s*$/g;
   }
-
+  
   if( !Function.prototype.bind ){
+    /**
+     * [MDN Function/Bind]
+     * Creates a new function that, when called,
+     * itself calls this function in the context of the provided this value,
+     * with a given sequence of arguments preceding any provided when the new function was called.
+     * @return {Function}
+     */
     Function.prototype.bind = -> {
       var argArray = Array.prototype.slice.call ( arguments ),
           context = argArray.shift (),
@@ -46,6 +57,7 @@ module Runtime {
               return ret.context.apply( context , args );
             }
           }
+      //Avoid closure.
       ret.prototype = this.prototype;
       ret.context = this;
       return ret;
@@ -53,6 +65,12 @@ module Runtime {
   }
 
   if( !Array.prototype.forEach ){
+    /**
+     * [MDN Array/ForEach]
+     * Executes a provided function once per array element.
+     * @param {Function} fn
+     * @param {*} that -> context object. 
+     */
     Array.prototype.forEach = ( fn , that ) -> {
       var iter = -1,
           ta;
@@ -69,6 +87,12 @@ module Runtime {
   }
 
   if( !Array.prototype.every ){
+    /**
+     * [MDN Array/every]
+     * Tests whether all elements in the array pass the test implemented by the provided function.
+     * @param {Function} fn
+     * @param {*} that -> context object.
+     */
     Array.prototype.every = ( fn , that ) -> {
       var iter = -1,
           ta;
@@ -90,6 +114,12 @@ module Runtime {
   }
 
   if( !Array.prototype.some ){
+    /**
+     * [MDN Array/Some]
+     * Tests whether some element in the array passes the test implemented by the provided function.
+     * @param {Function} fn
+     * @param {*} that -> context object.
+     */
     Array.prototype.some = ( fn , that ) -> {
       var iter = -1,
           ta;
@@ -111,6 +141,12 @@ module Runtime {
   }
 
   if( !Array.prototype.filter ){
+    /**
+     * [MDN Array/Filter]
+     * Creates a new array with all elements that pass the test implemented by the provided function.
+     * @param {Function} fn
+     * @param {*} that -> context object
+     */
     Array.prototype.filter = ( fn , that ) -> {
       var iter = -1,
           ret = [],
@@ -293,6 +329,49 @@ module Runtime {
       return ( arr )? Object.prototype.toString.call ( arr ) === arrayString : false;
     }
   }
+})();
+/**
+ * The runtime modules that used as runtime helper.
+ * This module accessible from each js files,
+ * but shouldn't be used by user.
+ * @namespace
+ */
+module Runtime {
+  
+  /**
+   * Custom error function, must be called by new operator.
+   * @const
+   * @param {Number} line
+   * @param {String} file
+   * @param {Error} e
+   */
+  const Exception( line , file , e ) {
+          this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
+        }
+  
+  //Minimal runtime.
+  var Runtime = {
+        getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
+        exceptionHandler ( line , file , e ){
+          if ( isStopIteration( e ) ) {
+            this.throwException( e );
+          } else {
+            this.throwException( new Exception( line , file , e ) );
+          }
+        },
+        throwException ( exception ) {
+          try {
+            throw exception;
+          } catch( e ) {
+            if ( isStopIteration( e ) ) {
+              throw new Error( e );
+            } else {
+              throw new Error( this.getErrorMessage( e ) );
+            }
+          }
+        },
+        hasProto : "__proto__" in {}
+      }
   
   var slice = Array.prototype.slice;
   
@@ -338,9 +417,13 @@ module Runtime {
   const getPrototype = ( "getPrototypeOf" in Object )?
     ( obj ) -> Object.getPrototypeOf( obj ) :
     ( obj ) -> {
-      if ( "constructor" in obj ) {
-        return obj.constructor.prototype || {};
+      var ret = {};
+      for ( var i in obj ) {
+        if ( !obj.hasOwnProperty( i ) ) {
+          ret[ i ] = obj[ i ];
+        }
       }
+      return ret;
     }
   
   export extendClass = ( Runtime.hasProto )?
