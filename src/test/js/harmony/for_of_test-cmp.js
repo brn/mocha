@@ -479,10 +479,86 @@
               return obj === StopIteration || rstopIteration.test( obj );
             };
         
-        var _uid = +( new Date() );
+        var privateRecord,
+            createPrivateRecord,
+            getPrivateRecord;
         
-        var getUid = _mochaLocalExport.getUid = function getUid() {
-              return _uid ++ ;
+        if ( "WeakMap" in window ){
+          privateRecord = new WeakMap();
+          
+          createPrivateRecord = function ( self,privateHolder ) {
+            privateRecord.set( self,new privateHolder );
+          };
+          
+          getPrivateRecord = function ( self ) {
+            if ( privateRecord.has( self ) ){
+              return privateRecord.get( self );
+            } else {
+              Runtime.throwException( "class not has private field." );
+            };
+          };
+        } else {
+          var _uid = ( new Date() );
+          
+          privateRecord = {};
+          
+          createPrivateRecord = function ( self,privateHolder ) {
+            if ( !self.__typeid__ ){
+              var id = _uid ++ ;
+              
+              createUnenumProp( self,"__typeid__",id );
+              
+              privateRecord[id] = new privateHolder;
+            };
+          };
+          
+          getPrivateRecord = function ( self ) {
+            if ( self.__typeid__ ){
+              return privateRecord[self.__typeid__];
+            } else {
+              Runtime.throwException( "class not has private field." );
+            };
+          };
+          if ( "addEventListener" in document ){
+            window.addEventListener( "unload",
+            function () {
+              for ( var i in privateRecord ){
+                delete privateRecord[i];
+              };
+            },false);
+          };
+        };
+        
+        ( _mochaLocalExport.createPrivateRecord = createPrivateRecord );
+        
+        ( _mochaLocalExport.getPrivateRecord = getPrivateRecord );
+        
+        var getSuper = _mochaLocalExport.getSuper = function getSuper( obj ) {
+              var type = typeof obj,
+                  ret;
+              
+              if ( type === "function" ){
+                if ( obj.__typeid__ ){
+                  ret = function () {
+                    obj.prototype.constructor.apply( this,arguments );
+                  };
+                } else {
+                  ret = function () {
+                    obj.apply( this,arguments );
+                  };
+                };
+                
+                for ( var i in obj.prototype ){
+                  obj[i] = obj.prototype[i];
+                };
+              } else {
+                ret = obj.constructor;
+                
+                for ( var i in obj.prototype ){
+                  obj[i] = obj[i];
+                };
+              };
+              return ret;
             };
         
         ( function () {
@@ -508,13 +584,13 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
+      var __FILE__ = "/Users/aono_taketoshi/.mocha/module/iterators.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'];
       
       __LINE__ = 1;
       ( function () {
@@ -1441,7 +1517,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_of_test.js'] = {};
@@ -1450,7 +1526,7 @@
       var _mochaGlobalAlias = _mochaGlobalExport['./for_of_test.js'];
       
       __LINE__ = 0;
-      var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
+      var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'],
           iterator = _mochaLocalTmp0.iterator;
       
       __LINE__ = 0;

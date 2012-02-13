@@ -2,7 +2,6 @@ var _mochaGlobalExport = {},
     _mochaClassTable = {}
 
 module Runtime {
-  
   const Exception( line , file , e ) {
           this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
         }
@@ -421,12 +420,15 @@ module Runtime {
     return obj === StopIteration || rstopIteration.test( obj );
   }
   
+  var privateRecord,
+      createPrivateRecord,
+      getPrivateRecord;
   if ( "WeakMap" in window ) {
-    const privateRecord = new WeakMap();
-    export createPrivateRecord( self , privateHolder ) {
+    privateRecord = new WeakMap();
+    createPrivateRecord = ( self , privateHolder ) -> {
       privateRecord.set( self , new privateHolder );
     }
-    export getPrivateRecord( self ) {
+    getPrivateRecord = ( self ) -> {
       if ( privateRecord.has( self ) ) {
         return privateRecord.get( self );
       } else {
@@ -435,21 +437,22 @@ module Runtime {
     }
   } else {
     const _uid = ( new Date() );
-    const privateRecord = {};
-    export createPrivateRecord( self , privateHolder ) {
+    privateRecord = {};
+    createPrivateRecord = ( self , privateHolder ) -> {
       if ( !self.__typeid__ ) {
         var id = _uid++;
         createUnenumProp( self , "__typeid__", id );
         privateRecord[ id ] = new privateHolder;
       }
     }
-    export getPrivateRecord( self ) {
+    getPrivateRecord = ( self ) -> {
       if ( self.__typeid__ ) {
         return privateRecord[ self.__typeid__ ];
       } else {
         Runtime.throwException( "class not has private field." );
       }
     }
+    
     if ( "addEventListener" in document ) {
       window.addEventListener( "unload" , function () {
         for ( var i in privateRecord ) {
@@ -458,6 +461,34 @@ module Runtime {
       }, false );
     }
   }
+  
+  export createPrivateRecord;
+  export getPrivateRecord;
+  export getSuper( obj ) {
+    var type = typeof obj,
+        ret;
+    if ( type === "function" ) {
+      if ( obj.__typeid__ ) {
+        ret = function () {
+          obj.prototype.constructor.apply( this , arguments );
+        }
+      } else {
+        ret = function () {
+          obj.apply( this , arguments );
+        }
+      }
+      for ( var i in obj.prototype ) {
+        obj[ i ] = obj.prototype[ i ];
+      }
+    } else {
+      ret = obj.constructor;
+      for ( var i in obj.prototype ) {
+        obj[ i ] = obj[ i ];
+      }
+    }
+    return ret;
+  }
+  
   
   @version( debug ) {
     export assert = ( console && console.assert )?

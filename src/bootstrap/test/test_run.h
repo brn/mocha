@@ -31,17 +31,28 @@ void RunJS() {
   Directory directory( CURRENT_DIR"/test/js" );
   DirectoryIterator iterator = directory.GetFileList( true , false );
   std::string args;
+  int count = 0;
+BEGIN :
   while ( iterator.HasNext() ) {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
       args += fullpath;
       args += " ";
+      count++;
+    }
+    if ( count == 10 ) {
+      break;
     }
   }
   Thread thread;
   thread.Create( ThreadRunner , &args );
   thread.Join();
+  count = 0;
+  args = "";
+  if ( iterator.HasNext() ) {
+    goto BEGIN;
+  }
 }
 
 void RunTest() {

@@ -479,10 +479,86 @@
               return obj === StopIteration || rstopIteration.test( obj );
             };
         
-        var _uid = +( new Date() );
+        var privateRecord,
+            createPrivateRecord,
+            getPrivateRecord;
         
-        var getUid = _mochaLocalExport.getUid = function getUid() {
-              return _uid ++ ;
+        if ( "WeakMap" in window ){
+          privateRecord = new WeakMap();
+          
+          createPrivateRecord = function ( self,privateHolder ) {
+            privateRecord.set( self,new privateHolder );
+          };
+          
+          getPrivateRecord = function ( self ) {
+            if ( privateRecord.has( self ) ){
+              return privateRecord.get( self );
+            } else {
+              Runtime.throwException( "class not has private field." );
+            };
+          };
+        } else {
+          var _uid = ( new Date() );
+          
+          privateRecord = {};
+          
+          createPrivateRecord = function ( self,privateHolder ) {
+            if ( !self.__typeid__ ){
+              var id = _uid ++ ;
+              
+              createUnenumProp( self,"__typeid__",id );
+              
+              privateRecord[id] = new privateHolder;
+            };
+          };
+          
+          getPrivateRecord = function ( self ) {
+            if ( self.__typeid__ ){
+              return privateRecord[self.__typeid__];
+            } else {
+              Runtime.throwException( "class not has private field." );
+            };
+          };
+          if ( "addEventListener" in document ){
+            window.addEventListener( "unload",
+            function () {
+              for ( var i in privateRecord ){
+                delete privateRecord[i];
+              };
+            },false);
+          };
+        };
+        
+        ( _mochaLocalExport.createPrivateRecord = createPrivateRecord );
+        
+        ( _mochaLocalExport.getPrivateRecord = getPrivateRecord );
+        
+        var getSuper = _mochaLocalExport.getSuper = function getSuper( obj ) {
+              var type = typeof obj,
+                  ret;
+              
+              if ( type === "function" ){
+                if ( obj.__typeid__ ){
+                  ret = function () {
+                    obj.prototype.constructor.apply( this,arguments );
+                  };
+                } else {
+                  ret = function () {
+                    obj.apply( this,arguments );
+                  };
+                };
+                
+                for ( var i in obj.prototype ){
+                  obj[i] = obj.prototype[i];
+                };
+              } else {
+                ret = obj.constructor;
+                
+                for ( var i in obj.prototype ){
+                  obj[i] = obj[i];
+                };
+              };
+              return ret;
             };
         
         ( function () {
@@ -508,7 +584,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
@@ -526,10 +602,7 @@
               function Monster() {
                 try {
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this,"constructor",constructor );
-                  
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this );
+                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
                   
                   __LINE__ = 0;
                   constructor.apply( this,arguments );
@@ -545,7 +618,7 @@
                   this.name = name;
                   
                   __LINE__ = 9;
-                  this.constructor.__gZ9SnR5gc2__.health = health;
+                  Runtime.getPrivateRecord( this ).health = health;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -564,7 +637,7 @@
               Monster.prototype.isAlive = function isAlive() {
                 try {
                   __LINE__ = 23;
-                  return this.constructor.__gZ9SnR5gc2__.health>0;
+                  return Runtime.getPrivateRecord( this ).health>0;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -580,7 +653,7 @@
                   };
                   
                   __LINE__ = 0;
-                  this.constructor.__gZ9SnR5gc2__.health = value;
+                  Runtime.getPrivateRecord( this ).health = value;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -594,6 +667,9 @@
               
               __LINE__ = 44;
               Runtime.constant( Monster,'DEFAULT_LIFE',100 );
+              
+              __LINE__ = 0;
+              Runtime.createUnenumProp( Monster.prototype,"constructor",constructor );
               __LINE__ = 0;
               return Monster;
             } catch( e ){
@@ -626,10 +702,7 @@
               function BaseTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this,"constructor",constructor );
-                  
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this );
+                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
                   
                   __LINE__ = 0;
                   constructor.apply( this,arguments );
@@ -644,10 +717,10 @@
                   this.name = _mochaLocalTmp2 || 200;
                   
                   __LINE__ = 0;
-                  this.constructor.__OnAJFAY1yA__.addr = _mochaLocalTmp3 || "tokyo";
+                  Runtime.getPrivateRecord( this ).addr = _mochaLocalTmp3 || "tokyo";
                   
                   __LINE__ = 0;
-                  this.constructor.__OnAJFAY1yA__.age = _mochaLocalTmp4;
+                  Runtime.getPrivateRecord( this ).age = _mochaLocalTmp4;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -661,6 +734,9 @@
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               };
+              
+              __LINE__ = 0;
+              Runtime.createUnenumProp( BaseTest.prototype,"constructor",constructor );
               __LINE__ = 0;
               return BaseTest;
             } catch( e ){
@@ -678,10 +754,7 @@
               function DeriveTest() {
                 try {
                   __LINE__ = 0;
-                  Runtime.createUnenumProp( this,"constructor",constructor );
-                  
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this );
+                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
                   
                   __LINE__ = 0;
                   constructor.apply( this,arguments );
@@ -690,18 +763,44 @@
                 }
               };
               
-              __LINE__ = 59;
-              Runtime.extendClass( DeriveTest,BaseTest );
+              __LINE__ = 0;
+              var _mochaLocalTmp6 = BaseTest;
               
-              function constructor(){}__LINE__ = 0;
+              __LINE__ = 59;
+              Runtime.extendClass( DeriveTest,_mochaLocalTmp6 );
+              
+              __LINE__ = 0;
+              var _mochaSuper = Runtime.getSuper( _mochaLocalTmp6 );
+              
+              function constructor() {
+                try {
+                  __LINE__ = 0;
+                  _mochaSuper.call( this );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+              __LINE__ = 0;
+              _mochaPrivateHolder.prototype.getName = function getName() {
+                try {
+                  __LINE__ = 64;
+                  return _mochaSuper.getName.call( this );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              Runtime.createUnenumProp( DeriveTest.prototype,"constructor",constructor );
+              __LINE__ = 0;
               return DeriveTest;
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
           })();
       
-      __LINE__ = 63;
-      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",63,'./class_test.js' );
+      __LINE__ = 69;
+      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",69,'./class_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

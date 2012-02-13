@@ -560,7 +560,7 @@ VISITOR_IMPL( CallExp ) {
         CallProcessor::ProcessExtendAccessor( ast_node , proc_info_.Get() );
       } else {
         ast_node->Callable()->Accept( this );
-        args->Accept( this );
+        ast_node->Args()->Accept( this );
       }
     }
       break;
@@ -858,6 +858,14 @@ VISITOR_IMPL( ValueNode ) {
         ast_node->Symbol( fn->GetReplacedThis()->Symbol() );
       }
     }
+      break;
+
+    case ValueNode::kSuper : {
+      TokenInfo* info = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kSuper ) , Token::JS_IDENTIFIER , ast_node->Line() ) );
+      ast_node->Symbol( info );
+      ast_node->ValueType( ValueNode::kIdentifier );
+    }
+      break;
   }
 }
 }

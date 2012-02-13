@@ -47,7 +47,10 @@ class SymbolList : private Static {
     kGetIterator,
     kTypeid,
     kGetUid,
-    kCreatePrivateRecord
+    kCreatePrivateRecord,
+    kGetPrivateRecord,
+    kSuper,
+    kGetSuper
   } RuntimeSymbol;
 
   typedef enum {
@@ -56,6 +59,7 @@ class SymbolList : private Static {
     kConstructor,
     kThis,
     kApply,
+    kCall,
     kPrototype,
     kLength,
     kTrue,

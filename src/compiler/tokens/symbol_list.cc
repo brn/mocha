@@ -44,7 +44,10 @@ static const char runtime[][50] = {
   "getIterator",
   "__typeid__",
   "getUid",
-  "createPrivateRecord"
+  "createPrivateRecord",
+  "getPrivateRecord",
+  "_mochaSuper",
+  "getSuper"
 };
 
 static const char builtin[][50] = {
@@ -53,6 +56,7 @@ static const char builtin[][50] = {
   "constructor",
   "this",
   "apply",
+  "call",
   "prototype",
   "length",
   "true",

@@ -1453,7 +1453,8 @@ class ValueNode : public Expression {
     kConstant,
     kRest,
     kProperty,
-    kPrivateProperty
+    kPrivateProperty,
+    kSuper
   };
   inline ValueNode( int type ) :
       Expression( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};

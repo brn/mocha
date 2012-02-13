@@ -47,11 +47,13 @@ class ClassProcessorUtils {
 
 
   inline CallExp* CreatePrivateFieldAccessor( AstNode* name ) {
-    ValueNode* this_sym = CreateThisNode( name->Line() );
-    ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
-                                                           Token::JS_PROPERTY , name->Line() , ValueNode::kProperty );
-    CallExp* constructor = AstUtils::CreateDotAccessor( this_sym , constructor_sym );
-    return AstUtils::CreateDotAccessor( constructor , CreatePrivateField( name->Line() ) );
+    ValueNode* private_field = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGetPrivateRecord ),
+                                                         Token::JS_PROPERTY , name->Line() , ValueNode::kProperty );
+    ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                    Token::JS_IDENTIFIER , name->Line() , ValueNode::kIdentifier );
+    NodeList* args = AstUtils::CreateNodeList( 1 , this_sym );
+    CallExp* normal = AstUtils::CreateNormalAccessor( private_field , args );
+    return AstUtils::CreateRuntimeMod( normal );
   }
 
   inline ValueNode* CreateTypeIdNode( long line ) {
@@ -64,15 +66,18 @@ class ClassProcessorUtils {
     ValueNode* this_sym = CreateThisNode( line );
     ValueNode* create_record = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreatePrivateRecord ),
                                                          Token::JS_PROPERTY , line , ValueNode::kProperty );
-    NodeList* args = AstUtils::CreateNodeList( 1 , this_sym );
+    ValueNode* private_holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
+                                                          Token::JS_PROPERTY , line , ValueNode::kProperty );
+    NodeList* args = AstUtils::CreateNodeList( 2 , this_sym , private_holder );
     CallExp* normal = AstUtils::CreateNormalAccessor( create_record , args );
     CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
     return runtime_call;
   }
 
 
-  inline AstNode* CreateHiddenConstructor ( long line ) {
-    ValueNode* this_sym = CreateThisNode( line );
+  inline AstNode* CreateHiddenConstructor ( const char* name , long line ) {
+    ValueNode* name_sym = AstUtils::CreateNameNode( name , Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+    CallExp* prototype = AstUtils::CreatePrototypeNode( name_sym );
     ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
                                                            Token::JS_IDENTIFIER , line , ValueNode::kProperty );
     std::string constructor_string_expression = "\"";
@@ -80,7 +85,7 @@ class ClassProcessorUtils {
     constructor_string_expression += "\"";
     ValueNode* constructor_string = AstUtils::CreateNameNode( constructor_string_expression.c_str(),
                                                               Token::JS_IDENTIFIER , line , ValueNode::kProperty );
-    NodeList* args = AstUtils::CreateNodeList( 3 , this_sym , constructor_string , constructor_sym );
+    NodeList* args = AstUtils::CreateNodeList( 3 , prototype , constructor_string , constructor_sym );
     AstNode* hidden_constructor = CreateHiddenMember( args , line );
     return AstUtils::CreateExpStmt( hidden_constructor );
   }
@@ -394,12 +399,12 @@ void ClassProcessor::ProcessNode() {
   stmt->Line( class_->Line() );
   closure_body_->InsertBefore( utils_->CreatePrivateHolder( class_ , info_ ) );
   ExpressionStmt *create_record = AstUtils::CreateExpStmt( utils_->CreateRecord( class_->Line() ) );
-  fn->AddChild( utils_->CreateHiddenConstructor( class_->Line() ) );
   fn->AddChild( create_record );
   fn->AddChild( utils_->CreateConstructorInitializer( name_.c_str() , class_->Line() ) );
   closure_body_->AddChild( stmt );
   ProcessExtends_( class_->Expandar() );
   ProcessBody_( body );
+  closure_body_->AddChild( utils_->CreateHiddenConstructor( name_.c_str() , class_->Line() ) );
   ReturnStmt* ret = AstUtils::CreateReturnStmt( name->Clone() );
   closure_body_->AddChild( ret );
   utils_->Finish( name_.c_str() , class_ , closure_ , info_ );
@@ -412,6 +417,10 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
     const char* extend_fn = ( expandar->Type() == ClassExpandar::kExtends )?
         SymbolList::GetSymbol( SymbolList::kExtendClass ) :
         SymbolList::GetSymbol( SymbolList::kExtendPrototype );
+    ValueNode* tmp_node = AstUtils::CreateTmpNode( info_->GetInfo()->GetTmpIndex() );
+    ValueNode* tmp_init = AstUtils::CreateVarInitiliser( tmp_node->Symbol() , node->FirstChild() );
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt( tmp_init );
+    closure_body_->AddChild( var_stmt );
     
     ValueNode* extend = AstUtils::CreateNameNode( extend_fn,
                                                   Token::JS_IDENTIFIER , class_->Line() , ValueNode::kProperty );
@@ -420,11 +429,21 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
     ValueNode* class_name = AstUtils::CreateNameNode( name_.c_str(),
                                                   Token::JS_IDENTIFIER , class_->Line() , ValueNode::kIdentifier );
     arg->AddChild( class_name );
-    arg->AddChild( node->FirstChild() );
+    arg->AddChild( tmp_node->Clone() );
     CallExp* normal_fn_call = AstUtils::CreateNormalAccessor( runtime_prop , arg );
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( normal_fn_call );
     stmt->Line( node->Line() );
     closure_body_->AddChild( stmt );
+    ValueNode* super_obj = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kSuper ),
+                                                     Token::JS_IDENTIFIER , node->Line() , ValueNode::kIdentifier );
+    ValueNode* create_super = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGetSuper ),
+                                                        Token::JS_PROPERTY , node->Line() , ValueNode::kProperty );
+    NodeList* super_args = AstUtils::CreateNodeList( 1 , tmp_node->Clone() );
+    CallExp* create_super_call = AstUtils::CreateNormalAccessor( create_super , super_args );
+    CallExp* runtime_exp = AstUtils::CreateRuntimeMod( create_super_call );
+    ValueNode* var_init = AstUtils::CreateVarInitiliser( super_obj->Symbol() , runtime_exp );
+    VariableStmt* runtime_super_stmt = AstUtils::CreateVarStmt( var_init );
+    closure_body_->AddChild( runtime_super_stmt );
   }
 }
 

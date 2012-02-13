@@ -57,6 +57,12 @@ class BaseTest {
 }
 
 class DeriveTest extends BaseTest {
+  constructor() {
+    super();
+  }
+  getName() {
+    return super.getName();
+  }
 }
 
 

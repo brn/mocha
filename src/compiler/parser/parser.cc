@@ -2988,6 +2988,10 @@ AstNode* Parser::ParseLiteral_() {
   int type = token->GetType();
   int value_type = 0;
   switch ( type ) {
+    case Token::JS_SUPER :
+      value_type = ValueNode::kSuper;
+      break;
+      
     case Token::JS_THIS :
       value_type = ValueNode::kThis;
       break;
