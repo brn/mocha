@@ -54,6 +54,7 @@ class BaseTest {
   public getName() {
     return "hogehoge";
   }
+  static getName -> "static hogehoge";
 }
 
 class DeriveTest extends BaseTest {
@@ -66,7 +67,25 @@ class DeriveTest extends BaseTest {
 }
 
 
+class Derive2 extends DeriveTest {
+  constructor () -> super();
+  public getAddr() -> private.addr;
+}
+
+
+var TestClass = class {
+      constructor( private._name = "test" , private._age = 20 ){}
+      public getName -> private._name;
+      public getAge -> private._age;
+      private class Inner {
+        constructor->{}
+      }
+    }
+
 @assert( true , new DeriveTest().getName() === "hogehoge" );
-
-
+@assert( true , DeriveTest.getName() === "static hogehoge" );
+@assert( true , new Derive2().getAddr() === "tokyo" );
+var instance = new TestClass();
+@assert( true , instance.getName() === "test" );
+@assert( true , instance.getAge() === 20 );
 

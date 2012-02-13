@@ -390,6 +390,10 @@
         var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
+                
+                for ( var i in base ){
+                  derived[i] = base[i];
+                };
               } else {
                 derived.prototype.__proto__ = base.__proto__;
               };
@@ -402,6 +406,10 @@
                 inherit.prototype = base.prototype;
                 
                 derived.prototype = new inherit;
+                
+                for ( var i in base ){
+                  derived[i] = base[i];
+                };
               } else {
                 var inherit = function (){},
                     proto = getPrototype( base );
@@ -493,8 +501,6 @@
           getPrivateRecord = function ( self ) {
             if ( privateRecord.has( self ) ){
               return privateRecord.get( self );
-            } else {
-              Runtime.throwException( "class not has private field." );
             };
           };
         } else {
@@ -515,8 +521,6 @@
           getPrivateRecord = function ( self ) {
             if ( self.__typeid__ ){
               return privateRecord[self.__typeid__];
-            } else {
-              Runtime.throwException( "class not has private field." );
             };
           };
           if ( "addEventListener" in document ){
@@ -538,25 +542,18 @@
                   ret;
               
               if ( type === "function" ){
-                if ( obj.__typeid__ ){
-                  ret = function () {
-                    obj.prototype.constructor.apply( this,arguments );
-                  };
+                ret = function (){};
+                
+                ret.prototype = obj.prototype;
+                
+                ret = new ret();
+                
+                if ( obj.__harmony_class__ ){
+                  ret.constructor = obj.constructor;
                 } else {
-                  ret = function () {
-                    obj.apply( this,arguments );
-                  };
+                  ret.constructor = obj;
                 };
-                
-                for ( var i in obj.prototype ){
-                  obj[i] = obj.prototype[i];
-                };
-              } else {
-                ret = obj.constructor;
-                
-                for ( var i in obj.prototype ){
-                  obj[i] = obj[i];
-                };
+                return ret;
               };
               return ret;
             };
@@ -584,7 +581,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
@@ -623,6 +620,9 @@
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               }
+              __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
               __LINE__ = 0;
               Monster.prototype.attack = function attack( target ) {
                 try {
@@ -726,10 +726,23 @@
                 }
               }
               __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
+              __LINE__ = 0;
               BaseTest.prototype.getName = function getName() {
                 try {
                   __LINE__ = 55;
                   return "hogehoge";
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              BaseTest.getName = function getName() {
+                try {
+                  __LINE__ = 57;
+                  return "static hogehoge";
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -744,13 +757,13 @@
             }
           })();
       
-      __LINE__ = 59;
+      __LINE__ = 60;
       var DeriveTest = ( function () {
             try {
               __LINE__ = 0;
               var _mochaPrivateHolder = function (){};
               
-              __LINE__ = 59;
+              __LINE__ = 60;
               function DeriveTest() {
                 try {
                   __LINE__ = 0;
@@ -766,7 +779,7 @@
               __LINE__ = 0;
               var _mochaLocalTmp6 = BaseTest;
               
-              __LINE__ = 59;
+              __LINE__ = 60;
               Runtime.extendClass( DeriveTest,_mochaLocalTmp6 );
               
               __LINE__ = 0;
@@ -775,16 +788,19 @@
               function constructor() {
                 try {
                   __LINE__ = 0;
-                  _mochaSuper.call( this );
+                  _mochaSuper.constructor.call( this );
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               }
               __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
+              __LINE__ = 0;
               _mochaPrivateHolder.prototype.getName = function getName() {
                 try {
-                  __LINE__ = 64;
-                  return _mochaSuper.getName.call( this );
+                  __LINE__ = 65;
+                  return _mochaSuper.getName.constructor.call( this );
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
@@ -799,8 +815,175 @@
             }
           })();
       
-      __LINE__ = 69;
-      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",69,'./class_test.js' );
+      __LINE__ = 70;
+      var Derive2 = ( function () {
+            try {
+              __LINE__ = 0;
+              var _mochaPrivateHolder = function (){};
+              
+              __LINE__ = 70;
+              function Derive2() {
+                try {
+                  __LINE__ = 0;
+                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+                  
+                  __LINE__ = 0;
+                  constructor.apply( this,arguments );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              var _mochaLocalTmp8 = DeriveTest;
+              
+              __LINE__ = 70;
+              Runtime.extendClass( Derive2,_mochaLocalTmp8 );
+              
+              __LINE__ = 0;
+              var _mochaSuper = Runtime.getSuper( _mochaLocalTmp8 );
+              
+              function constructor() {
+                try {
+                  __LINE__ = 71;
+                  return _mochaSuper.constructor.call( this );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+              __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
+              __LINE__ = 0;
+              Derive2.prototype.getAddr = function getAddr() {
+                try {
+                  __LINE__ = 0;
+                  return Runtime.getPrivateRecord( this ).addr;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              Runtime.createUnenumProp( Derive2.prototype,"constructor",constructor );
+              __LINE__ = 0;
+              return Derive2;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 76;
+      var TestClass = ( function () {
+            try {
+              __LINE__ = 0;
+              var _mochaPrivateHolder = function (){};
+              
+              __LINE__ = 85;
+              function _mochaLocalTmp10() {
+                try {
+                  __LINE__ = 0;
+                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+                  
+                  __LINE__ = 0;
+                  constructor.apply( this,arguments );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              function constructor( _mochaLocalTmp11,_mochaLocalTmp12 ) {
+                try {
+                  __LINE__ = 0;
+                  Runtime.getPrivateRecord( this )._name = _mochaLocalTmp11 || "test";
+                  
+                  __LINE__ = 0;
+                  Runtime.getPrivateRecord( this )._age = _mochaLocalTmp12 || 20;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+              __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
+              __LINE__ = 0;
+              _mochaLocalTmp10.prototype.getName = function getName() {
+                try {
+                  __LINE__ = 0;
+                  return Runtime.getPrivateRecord( this )._name;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              _mochaLocalTmp10.prototype.getAge = function getAge() {
+                try {
+                  __LINE__ = 0;
+                  return Runtime.getPrivateRecord( this )._age;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 80;
+              _mochaPrivateHolder.prototype.Inner = ( function () {
+                try {
+                  __LINE__ = 0;
+                  var _mochaPrivateHolder = function (){};
+                  
+                  __LINE__ = 80;
+                  function Inner() {
+                    try {
+                      __LINE__ = 0;
+                      Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+                      
+                      __LINE__ = 0;
+                      constructor.apply( this,arguments );
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  };
+                  
+                  function constructor(){}
+                  __LINE__ = 0;
+                  Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+                  
+                  __LINE__ = 0;
+                  Runtime.createUnenumProp( Inner.prototype,"constructor",constructor );
+                  __LINE__ = 0;
+                  return Inner;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              })();
+              
+              __LINE__ = 0;
+              Runtime.createUnenumProp( _mochaLocalTmp10.prototype,"constructor",constructor );
+              __LINE__ = 0;
+              return _mochaLocalTmp10;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 85;
+      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",85,'./class_test.js' );
+      
+      __LINE__ = 86;
+      Runtime.assert( true,DeriveTest.getName() === "static hogehoge","DeriveTest.getName() === \"static hogehoge\"",86,'./class_test.js' );
+      
+      __LINE__ = 87;
+      Runtime.assert( true,new Derive2().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",87,'./class_test.js' );
+      
+      __LINE__ = 88;
+      var instance = new TestClass();
+      
+      __LINE__ = 89;
+      Runtime.assert( true,instance.getName() === "test","instance.getName() === \"test\"",89,'./class_test.js' );
+      
+      __LINE__ = 90;
+      Runtime.assert( true,instance.getAge() === 20,"instance.getAge() === 20",90,'./class_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

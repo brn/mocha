@@ -1,3 +1,4 @@
+#include <sstream>
 #include <ast/visitors/utils/processors/class_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <ast/visitors/utils/processors/dsta_processor.h>
@@ -74,7 +75,21 @@ class ClassProcessorUtils {
     return runtime_call;
   }
 
+  inline ExpressionStmt* SetMark( Function* fn ) {
+    std::stringstream str_st;
+    str_st << "\"" << SymbolList::GetSymbol( SymbolList::kClassMark ) << "\"";
+    ValueNode* mark = AstUtils::CreateNameNode( str_st.str().c_str() , Token::JS_STRING_LITERAL,
+                                                fn->Line() , ValueNode::kProperty );
+    ValueNode* constructor = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
+                                                       Token::JS_IDENTIFIER , fn->Line() , ValueNode::kIdentifier );
+    ValueNode* one = AstUtils::CreateNameNode( "1" , Token::JS_NUMERIC_LITERAL , fn->Line(),
+                                               ValueNode::kNumeric );
+    NodeList* args = AstUtils::CreateNodeList( 3 , constructor , mark , one );
+    CallExp* exp = CreateHiddenMember( args , fn->Line() );
+    return AstUtils::CreateExpStmt( exp );
+  }
 
+  
   inline AstNode* CreateHiddenConstructor ( const char* name , long line ) {
     ValueNode* name_sym = AstUtils::CreateNameNode( name , Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
     CallExp* prototype = AstUtils::CreatePrototypeNode( name_sym );
@@ -260,7 +275,7 @@ class ClassProcessorUtils {
 
 
 
-  inline ExpressionStmt* Static( const char* class_name , AstNode* name_node , AstNode* val ) {
+  inline ExpressionStmt* PublicStatic( const char* class_name , AstNode* name_node , AstNode* val ) {
     ValueNode* name = AstUtils::CreateNameNode( class_name,
                                                 Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
     CallExp* dot_accessor = AstUtils::CreateDotAccessor( name , name_node );
@@ -269,8 +284,23 @@ class ClassProcessorUtils {
 
 
 
-  inline ExpressionStmt* ConstantStatic( const char* class_name , AstNode* name_node , AstNode* val ) {
+  inline ExpressionStmt* PublicConstantStatic( const char* class_name , AstNode* name_node , AstNode* val ) {
     ValueNode* name = AstUtils::CreateNameNode( class_name,
+                                                Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+    CallExp* constant_accessor = AstUtils::CreateConstantProp( name , name_node , val );
+    return AstUtils::CreateExpStmt( constant_accessor );
+  }
+
+
+  inline ExpressionStmt* PrivateStatic( AstNode* name_node , AstNode* val ) {
+    ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
+                                                Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
+    CallExp* dot_accessor = AstUtils::CreateDotAccessor( name , name_node );
+    return AstUtils::CreateExpStmt( AstUtils::CreateAssignment( '=' , dot_accessor , val ) );
+  }
+
+  inline ExpressionStmt* PrivateConstantStatic( AstNode* name_node , AstNode* val ) {
+    ValueNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
                                                 Token::JS_IDENTIFIER , val->Line() , ValueNode::kIdentifier );
     CallExp* constant_accessor = AstUtils::CreateConstantProp( name , name_node , val );
     return AstUtils::CreateExpStmt( constant_accessor );
@@ -323,22 +353,30 @@ class ClassProcessorUtils {
 #undef PRIVATE_ARGS
 
 
-
-  inline void StaticDsta( const char* class_name,
-                          Function* closure_body,
-                          ValueNode* exp,
-                          bool is_const ) {
-    if ( is_const ) {
-      ExpressionStmt* stmt = ConstantStatic( class_name , exp , exp->FirstChild() );
-      stmt->Line( exp->Line() );
-      closure_body->AddChild( stmt );
-    } else {
-      ExpressionStmt* stmt = Static( class_name , exp ,  exp->FirstChild() );
-      stmt->Line( exp->Line() );
-      closure_body->AddChild( stmt );
-    }
+#define STATIC(accessor,args)                                   \
+  inline void accessor##StaticDsta( const char* class_name,     \
+                                    Function* closure_body,     \
+                                    ValueNode* exp,             \
+                                    bool is_const ) {           \
+    if ( is_const ) {                                           \
+      ExpressionStmt* stmt = accessor##ConstantStatic( args );  \
+      stmt->Line( exp->Line() );                                \
+      closure_body->AddChild( stmt );                           \
+    } else {                                                    \
+      ExpressionStmt* stmt = accessor##Static( args );          \
+      stmt->Line( exp->Line() );                                \
+      closure_body->AddChild( stmt );                           \
+    }                                                           \
   }
-
+  
+#define PUBLIC_ARGS class_name , exp , exp->FirstChild()
+#define PRIVATE_ARGS exp , exp->FirstChild()
+  STATIC( Private , PRIVATE_ARGS );
+  STATIC( Public , PUBLIC_ARGS );
+#undef PUBLIC_ARGS
+#undef PRIVATE_ARGS
+#undef STATIC
+  
  private :
   std::string *private_field_;
   ClassProcessor* processor_;
@@ -462,7 +500,8 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
   AstNode* public_list = body->Public();
   AstNode* private_list = body->Private();
   AstNode* prototype_list = body->Prototype();
-  AstNode* static_list = body->Static();
+  AstNode* public_static_list = body->PublicStatic();
+  AstNode* private_static_list = body->PrivateStatic();
   AstNode* constructor_decl = body->Constructor();
 
   if ( constructor_decl ) {
@@ -477,7 +516,8 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
   IterateMember_( public_list , true , false , false );
   IterateMember_( private_list , true , true , false );
   IterateMember_( prototype_list , true , true , false );
-  IterateMember_( static_list , false , false , false );
+  IterateMember_( public_static_list , false , false , false );
+  IterateMember_( private_static_list , false , true , false );
 }
 
 
@@ -501,6 +541,7 @@ inline void ClassProcessor::ProcessConstructor_( Function* constructor ) {
   }
   constructor->Accept( visitor );
   closure_body_ = backup;
+  closure_body_->AddChild( utils_->SetMark( constructor ) );
 }
 
 
@@ -510,9 +551,8 @@ inline void ClassProcessor::CreateEmptyConstructor_() {
   Function* fn = AstUtils::CreateFunctionDecl( constructor , ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() );
   fn->Line( class_->Line() );
   closure_body_->AddChild( fn );
+  closure_body_->AddChild( utils_->SetMark( fn ) );
 }
-
-
 
 inline void ClassProcessor::IterateMember_( AstNode *list , bool is_prototype , bool is_private , bool is_instance ) {
   NodeIterator iterator = list->ChildNodes();
@@ -624,7 +664,11 @@ inline void ClassProcessor::NoSimpleVariables_( AstNode* node,
     if ( value ) {
       if ( value->ValueType() == ValueNode::kDst ) {
         if ( !is_instance && !is_prototype ) {
-          ProcessDsta_( value , is_const , &ClassProcessorUtils::StaticDsta );
+          if ( !is_private ) {
+            ProcessDsta_( value , is_const , &ClassProcessorUtils::PublicStaticDsta );
+          } else {
+            ProcessDsta_( value , is_const , &ClassProcessorUtils::PrivateStaticDsta );
+          }
         } else if ( is_prototype ) {
           ProcessDsta_( value , is_const , &ClassProcessorUtils::PrototypePublicDsta );
         } else if ( is_private ){
@@ -637,10 +681,18 @@ inline void ClassProcessor::NoSimpleVariables_( AstNode* node,
         value->ValueType( ValueNode::kProperty );
         AstNode* safe_val = utils_->GetSafeValue( value );
         if ( !is_instance && !is_prototype ) {
-          if ( is_const ) {
-            result = utils_->ConstantStatic( class_name , value , safe_val );
+          if ( !is_private ) {
+            if ( is_const ) {
+              result = utils_->PublicConstantStatic( class_name , value , safe_val );
+            } else {
+              result = utils_->PublicStatic( class_name , value , safe_val );
+            }
           } else {
-            result = utils_->Static( class_name , value , safe_val );
+            if ( is_const ) {
+              result = utils_->PrivateConstantStatic( value , safe_val );
+            } else {
+              result = utils_->PrivateStatic( value , safe_val );
+            }
           }
         } else if ( is_prototype ) {
           if ( is_const ) {
@@ -690,7 +742,12 @@ inline void ClassProcessor::ProcessFunction_( Function* fn , bool is_prototype ,
   value->ValueType( ValueNode::kProperty );
   if ( !is_instance && !is_prototype ) {
     fn->Accept( info_->GetVisitor() );
-    ExpressionStmt* stmt = utils_->Static( class_name , value , fn );
+    ExpressionStmt* stmt;
+    if ( !is_private ) {
+      stmt = utils_->PublicStatic( class_name , value , fn );
+    } else {
+      stmt = utils_->PrivateStatic( value , fn );
+    }
     stmt->Line( fn->Line() );
     closure_body_->AddChild( stmt );
   } else if ( is_prototype ) {

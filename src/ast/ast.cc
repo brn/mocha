@@ -401,7 +401,8 @@ AstNode* ClassProperties::Clone() {
   ClassProperties *prop = ManagedHandle::Retain<ClassProperties>();
   CopyChildren( &( prop->public_ ) , &public_ );
   CopyChildren( &( prop->private_ ) , &private_ );
-  CopyChildren( &( prop->static_ ) , &static_ );
+  CopyChildren( &( prop->public_static_ ) , &public_static_ );
+  CopyChildren( &( prop->private_static_ ) , &private_static_ );
   CopyChildren( &( prop->prototype_ ) , &prototype_ );
   CopyChildren( prop->constructor_ , constructor_ );
   return CopyChildren( prop , this );

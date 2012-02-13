@@ -347,6 +347,9 @@ module Runtime {
     ( derived , base ) -> {
       if ( typeof base === 'function' ) {
         derived.prototype.__proto__ = base.prototype;
+        for ( var i in base ) {
+          derived[ i ] = base[ i ];
+        }
       } else {
         derived.prototype.__proto__ = base.__proto__;
       }
@@ -357,6 +360,9 @@ module Runtime {
         var inherit = ->{};
         inherit.prototype = base.prototype;
         derived.prototype = new inherit;
+        for ( var i in base ) {
+          derived[ i ] = base[ i ];
+        }
       } else {
         var inherit = ->{},
             proto = getPrototype( base );
@@ -431,8 +437,6 @@ module Runtime {
     getPrivateRecord = ( self ) -> {
       if ( privateRecord.has( self ) ) {
         return privateRecord.get( self );
-      } else {
-        Runtime.throwException( "class not has private field." );
       }
     }
   } else {
@@ -448,8 +452,6 @@ module Runtime {
     getPrivateRecord = ( self ) -> {
       if ( self.__typeid__ ) {
         return privateRecord[ self.__typeid__ ];
-      } else {
-        Runtime.throwException( "class not has private field." );
       }
     }
     
@@ -468,23 +470,15 @@ module Runtime {
     var type = typeof obj,
         ret;
     if ( type === "function" ) {
-      if ( obj.__typeid__ ) {
-        ret = function () {
-          obj.prototype.constructor.apply( this , arguments );
-        }
+      ret = function () {}
+      ret.prototype = obj.prototype;
+      ret = new ret();
+      if ( obj.__harmony_class__ ) {
+        ret.constructor = obj.constructor;
       } else {
-        ret = function () {
-          obj.apply( this , arguments );
-        }
+        ret.constructor = obj;
       }
-      for ( var i in obj.prototype ) {
-        obj[ i ] = obj.prototype[ i ];
-      }
-    } else {
-      ret = obj.constructor;
-      for ( var i in obj.prototype ) {
-        obj[ i ] = obj[ i ];
-      }
+      return ret;
     }
     return ret;
   }

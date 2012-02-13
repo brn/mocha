@@ -390,6 +390,10 @@
         var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
               if ( typeof base === 'function' ){
                 derived.prototype.__proto__ = base.prototype;
+                
+                for ( var i in base ){
+                  derived[i] = base[i];
+                };
               } else {
                 derived.prototype.__proto__ = base.__proto__;
               };
@@ -402,6 +406,10 @@
                 inherit.prototype = base.prototype;
                 
                 derived.prototype = new inherit;
+                
+                for ( var i in base ){
+                  derived[i] = base[i];
+                };
               } else {
                 var inherit = function (){},
                     proto = getPrototype( base );
@@ -493,8 +501,6 @@
           getPrivateRecord = function ( self ) {
             if ( privateRecord.has( self ) ){
               return privateRecord.get( self );
-            } else {
-              Runtime.throwException( "class not has private field." );
             };
           };
         } else {
@@ -515,8 +521,6 @@
           getPrivateRecord = function ( self ) {
             if ( self.__typeid__ ){
               return privateRecord[self.__typeid__];
-            } else {
-              Runtime.throwException( "class not has private field." );
             };
           };
           if ( "addEventListener" in document ){
@@ -538,25 +542,18 @@
                   ret;
               
               if ( type === "function" ){
-                if ( obj.__typeid__ ){
-                  ret = function () {
-                    obj.prototype.constructor.apply( this,arguments );
-                  };
+                ret = function (){};
+                
+                ret.prototype = obj.prototype;
+                
+                ret = new ret();
+                
+                if ( obj.__harmony_class__ ){
+                  ret.constructor = obj.constructor;
                 } else {
-                  ret = function () {
-                    obj.apply( this,arguments );
-                  };
+                  ret.constructor = obj;
                 };
-                
-                for ( var i in obj.prototype ){
-                  obj[i] = obj.prototype[i];
-                };
-              } else {
-                ret = obj.constructor;
-                
-                for ( var i in obj.prototype ){
-                  obj[i] = obj[i];
-                };
+                return ret;
               };
               return ret;
             };
@@ -584,13 +581,13 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/.mocha/module/iterators.js",
+      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
       
       __LINE__ = 1;
       ( function () {
@@ -1517,7 +1514,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_of_test.js'] = {};
@@ -1526,7 +1523,7 @@
       var _mochaGlobalAlias = _mochaGlobalExport['./for_of_test.js'];
       
       __LINE__ = 0;
-      var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'],
+      var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
           iterator = _mochaLocalTmp0.iterator;
       
       __LINE__ = 0;

@@ -1076,11 +1076,13 @@ class ClassProperties : public AstNode {
   ~ClassProperties(){};
   void Public( AstNode* pb ) { public_.AddChild( pb ); }
   void Private( AstNode* pv ) { private_.AddChild( pv ); }
-  void Static( AstNode* st ) { static_.AddChild( st ); }
+  void PublicStatic( AstNode* st ) { public_static_.AddChild( st ); }
+  void PrivateStatic( AstNode* st ) { private_static_.AddChild( st ); }
   void Prototype( AstNode* pt ) { prototype_.AddChild( pt ); }
   AstNode* Public() { return &public_; }
   AstNode* Private() { return &private_; }
-  AstNode* Static() { return &static_; }
+  AstNode* PublicStatic() { return &public_static_; }
+  AstNode* PrivateStatic() { return &private_static_; }
   AstNode* Prototype() { return &prototype_; }
   void Constructor( AstNode* constructor ) { constructor_ = constructor; }
   AstNode* Constructor() { return constructor_; }
@@ -1089,7 +1091,8 @@ class ClassProperties : public AstNode {
   CALL_ACCEPTOR(ClassProperties);
   NodeList public_;
   NodeList private_;
-  NodeList static_;
+  NodeList public_static_;
+  NodeList private_static_;
   NodeList prototype_;
   AstNode* constructor_;
 };
@@ -1116,7 +1119,8 @@ class ClassMember : public AstNode {
     kPrivate,
     kPublic,
     kPrototype,
-    kStatic,
+    kPublicStatic,
+    kPrivateStatic,
     kConstructor
   } MemberAttr;
   ClassMember( MemberAttr attr ) : AstNode( NAME_PARAMETER( ClassMember ) ) , attr_( attr ){}

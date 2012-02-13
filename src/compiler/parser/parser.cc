@@ -1885,8 +1885,12 @@ AstNode* Parser::ParseClassBody_() {
           list->Public( mem );
           break;
 
-        case ClassMember::kStatic :
-          list->Static( mem );
+        case ClassMember::kPublicStatic :
+          list->PublicStatic( mem );
+          break;
+
+        case ClassMember::kPrivateStatic :
+          list->PrivateStatic( mem );
           break;
 
         case ClassMember::kPrototype :
@@ -1910,9 +1914,12 @@ AstNode* Parser::ParseClassMemberStatement_() {
   TokenInfo* token = Seek_( -1 );
   int type = token->GetType();
   if ( state_stack_->Has( StateStack::kClassDecl ) ) {
-    ClassMember::MemberAttr member_type = ( type == Token::JS_PUBLIC )?
-        ClassMember::kPublic : ( type == Token::JS_STATIC )?
-        ClassMember::kStatic : ClassMember::kPrivate;
+    ClassMember::MemberAttr member_type;
+    if ( type == Token::JS_PUBLIC ) {
+      member_type = ClassMember::kPublic;
+    } else if ( type == Token::JS_PRIVATE ) {
+      member_type = ClassMember::kPrivate;
+    }
     AstNode* node = ParseExportableDefinition_();
     CHECK_ERROR( node );
     ClassMember* member = ManagedHandle::Retain( new ClassMember( member_type ) );
@@ -1937,12 +1944,14 @@ ClassMember* Parser::ParseClassMember_() {
   if ( type == Token::JS_IDENTIFIER && strcmp( token->GetToken() , "constructor" ) == 0 ) {
     exp = ParseFunctionDecl_( false );
     CHECK_ERROR(ManagedHandle::Retain( new ClassMember( ClassMember::kConstructor ) ));
+    ParseTerminator_();
+    CHECK_ERROR(ManagedHandle::Retain( new ClassMember( ClassMember::kConstructor ) ));
     exp->CastToExpression()->CastToFunction()->Decl();
     member_type = ClassMember::kConstructor;
   } else if ( type == Token::JS_STATIC ) {
     Advance_();
     exp = ParseExportableDefinition_();
-    member_type = ClassMember::kStatic;
+    member_type = ClassMember::kPublicStatic;
   } else if ( type == Token::JS_PRIVATE ) {
     Advance_();
     exp = ParseExportableDefinition_();
@@ -1972,9 +1981,13 @@ AstNode* Parser::ParseExportableDefinition_() {
   if ( type == Token::JS_IDENTIFIER || type == '{' || type == '[' ) {
     token = Seek_( 2 );
     type = token->GetType();
-    if ( type == '(' ) {
+    if ( type == '(' || type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
       END(ExportableDefinition);
-      return ParseFunctionDecl_( false );
+      AstNode* ret = ParseFunctionDecl_( false );
+      CHECK_ERROR( ret );
+      ParseTerminator_();
+      CHECK_ERROR( ret );
+      return ret;
     } else {
       AstNode* ret = ParseVariableDecl_( false );
       CHECK_ERROR( ret );
@@ -1983,6 +1996,12 @@ AstNode* Parser::ParseExportableDefinition_() {
       END(ExportableDefinition);
       return ret;
     }
+  } else if ( type == Token::JS_CLASS  ) {
+    Advance_();
+    AstNode* class_exp = ParseClassDecl_( false );
+    CHECK_ERROR( class_exp );
+    END( ExportableDefinition );
+    return class_exp;
   } else {
     if ( type == Token::JS_CONST ) {
       token = Seek_( 2 );
@@ -1994,7 +2013,11 @@ AstNode* Parser::ParseExportableDefinition_() {
                   type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
         Advance_();
         END(ExportableDefinition);
-        return ParseFunctionDecl_( true );
+        AstNode* ret = ParseFunctionDecl_( true );
+        CHECK_ERROR( ret );
+        ParseTerminator_();
+        CHECK_ERROR( ret );
+        return ret;
       } else {
         Advance_();
         AstNode* ret = ParseVariableDecl_( false );
@@ -2694,6 +2717,10 @@ AstNode* Parser::ParsePrimaryExpression_() {
     //fn->LeftHandSide();
     END(MemberExpression);
     return fn;
+  } else if ( type == Token::JS_CLASS  ) {
+    AstNode* class_exp = ParseClassDecl_( false );
+    CHECK_ERROR( class_exp );
+    return class_exp;
   } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression_( type );
     CHECK_ERROR( fn );

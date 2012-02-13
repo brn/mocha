@@ -25,6 +25,7 @@
 #include <string>
 #include <boost/unordered_map.hpp>
 #include <utils/pool/managed.h>
+#include <utils/hash/hash_map/hash_map.h>
 #include <ast/ast_foward_decl.h>
 
 namespace mocha {
@@ -42,6 +43,8 @@ class ClassProcessor : public Managed {
   void ProcessNode();
   const char* GetPrivateFieldName() { return random_field_.c_str(); }
   const char* GetName() { return name_.c_str(); }
+  inline void SetPrivateStaticMap( const char* name ) { private_static_map_.Insert( name ,true ); }
+  inline bool HasPrivateStaticMap( const char* name ) { return !( private_static_map_.Find( name ).IsEmpty() ); }
  private :
 
   inline void ProcessExtends_( AstNode* node );
@@ -67,6 +70,7 @@ class ClassProcessor : public Managed {
   Function* closure_body_;
   Statement* tmp_stmt_;
   Function* constructor_;
+  HashMap<const char*,bool> private_static_map_;
 };
 
 };

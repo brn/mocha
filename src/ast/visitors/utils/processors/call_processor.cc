@@ -42,7 +42,10 @@ void CallSuper ( CallExp* ast_node ) {
                                                   Token::JS_THIS , ast_node->Line() , ValueNode::kThis );
   ValueNode* call = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
                                               Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
-  CallExp* normal = AstUtils::CreateDotAccessor( ast_node->Callable() , call );
+  ValueNode* constructor = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
+                                                     Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
+  CallExp* constructor_accessor = AstUtils::CreateDotAccessor( ast_node->Callable(), constructor );
+  CallExp* normal = AstUtils::CreateDotAccessor( constructor_accessor , call );
   ast_node->Callable( normal );
   if ( !args->IsEmpty() ) {
     ast_node->Args()->InsertBefore( this_sym );
