@@ -1039,6 +1039,53 @@ class Expression : public AstNode {
 };
 
 
+class Trait : public Expression {
+ public :
+  Trait() : Expression( NAME_PARAMETER( Trait ) ) ,name_( 0 ){}
+  ~Trait(){};
+  void SetMember( TraitMember* member ) {
+    if ( member->Attr() == TraitMember::kPublic ) {
+      public_member_.AddChild( member );
+    } else {
+      private_member_.AddChild( member );
+    }
+  }
+  void SetName( AstNode* value ) { name_ = value; }
+  AstNode* GetName( AstNode* value ) { return name_; }
+  void SetRequire( AstNode* require ) { require_list_.AddChild( require ); }
+  void SetMixin( AstNode* mixin ) { mixin_list_.AddChild( mixin ); }
+  NodeList* GetPublic() { return &public_member_; }
+  NodeList* GetPrivate() { return &private_member_; }
+  NodeList* GetRequireList() { return &require_list_; }
+  NodeList* GetMixinList() { return &mixin_list_; }
+ private :
+  CALL_ACCEPTOR( Trait );
+  AstNode* name_;
+  NodeList private_member_;
+  NodeList public_member_;
+  NodeList require_list_;
+  NodeList mixin_list_;
+};
+
+
+class TraitMember : public Expression {
+ public :
+  typedef enum {
+    kPublic,
+    kPrivate
+  } TraitAttr;
+  TraitMember( TraitAttr type , AstNode* property ) : Expression( NAME_PARAMETER( TraitMember ) ),
+                                                      type_( type ) , property_( property ){}
+  ~TraitMember(){}
+  AstNode* GetProperty() { return property_; };
+  TraitAttr GetAttr() { return type_; }
+ private :
+  void NVIAccept_( IVisitor* ){}
+  TraitAttr type_;
+  AstNode* property_;
+};
+
+
 class Class : public Expression {
  public :
   Class( AstNode* expandar , bool is_const ) :

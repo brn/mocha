@@ -26,6 +26,21 @@ var _mochaGlobalExport = {};
 
 //ecma262 5th edition compatible buitin extensions.
 (->{
+  "use strict";  
+  builtinTypeError( message ) -> {
+    try {
+      throw new TypeError( message );
+    } catch ( e ) {
+      throw new  Error( e );
+    }
+  }
+  
+  callbackCheck( callback , type ) -> {
+    @assert( true , typeof type === "string" );
+    if ( typeof callback !== "function" ) {
+      builtinTypeError( type + " : first argument is not callable" );
+    }
+  }
   
   if( !String.prototype.trim ){
     /**
@@ -44,6 +59,8 @@ var _mochaGlobalExport = {};
      * Creates a new function that, when called,
      * itself calls this function in the context of the provided this value,
      * with a given sequence of arguments preceding any provided when the new function was called.
+     * @param {*} -> context object, nullable.
+     * @param {...args} -> binding arguments list.
      * @return {Function}
      */
     Function.prototype.bind = -> {
@@ -68,19 +85,30 @@ var _mochaGlobalExport = {};
     /**
      * [MDN Array/ForEach]
      * Executes a provided function once per array element.
-     * @param {Function} fn
+     * @param {Function} callback -> Function( current , index , array )
+     * * Callback function taking three arguments.
+     * current
+     *   |- The current element begin processed in array.
+     * index
+     *   |- The index of the current element begin processed in array.
+     * array
+     *   |- The array map was called upon.
      * @param {*} that -> context object. 
      */
-    Array.prototype.forEach = ( fn , that ) -> {
+    Array.prototype.forEach = ( callback , that ) -> {
+      callbackCheck( callback , "Array.forEach" );
       var iter = -1,
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.forEach : this is null or not defined" );
+      }
       if( that ){
         while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
-          fn.call( that , ta , iter , this );
+          callback.call( that , ta , iter , this );
         }
       }else{
         while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
-          fn( ta , iter , this );
+          callback( ta , iter , this );
         }
       }
     }
@@ -90,21 +118,32 @@ var _mochaGlobalExport = {};
     /**
      * [MDN Array/every]
      * Tests whether all elements in the array pass the test implemented by the provided function.
-     * @param {Function} fn
+     * @param {Function} callback -> Function( current , index , array )
+     * Callback function taking three arguments.
+     * current
+     *   |- The current element begin processed in array.
+     * index
+     *   |- The index of the current element begin processed in array.
+     * array
+     *   |- The array map was called upon.
      * @param {*} that -> context object.
      */
-    Array.prototype.every = ( fn , that ) -> {
+    Array.prototype.every = ( callback , that ) -> {
+      callbackCheck( callback , "Array.every" );
       var iter = -1,
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.every : this is null or not defined" );
+      }
       if( that ){
         while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
-          if( ! ( fn.call( that , ta , iter , this ) ) ){
+          if( ! ( callback.call( that , ta , iter , this ) ) ){
             return false;
           }
         }
       }else{
         while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
-          if( !( fn( ta , iter , this ) ) ){
+          if( !( callback( ta , iter , this ) ) ){
             return false;
           }
         }
@@ -117,21 +156,32 @@ var _mochaGlobalExport = {};
     /**
      * [MDN Array/Some]
      * Tests whether some element in the array passes the test implemented by the provided function.
-     * @param {Function} fn
+     * @param {Function} callback -> Function( current , index ,array )
+     * Callback function taking three arguments.
+     * current
+     *   |- The current element begin processed in array.
+     * index
+     *   |- The index of the current element begin processed in array.
+     * array
+     *   |- The array map was called upon.
      * @param {*} that -> context object.
      */
-    Array.prototype.some = ( fn , that ) -> {
+    Array.prototype.some = ( callback , that ) -> {
+      callbackCheck( callback , "Array.some" );
       var iter = -1,
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.some : this is null or not defined" );
+      }
       if( that ){
         while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
-          if( fn.call( that , ta , iter , this ) ){
+          if( callback.call( that , ta , iter , this ) ){
             return true;
           }
         }
       }else{
         while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
-          if( fn( ta , iter , this ) ){
+          if( callback( ta , iter , this ) ){
             return true;
           }
         }
@@ -144,17 +194,29 @@ var _mochaGlobalExport = {};
     /**
      * [MDN Array/Filter]
      * Creates a new array with all elements that pass the test implemented by the provided function.
-     * @param {Function} fn
+     * @param {Function} callback -> Function( current , index , array )
+     * Callback function taking three arguments.
+     * current
+     *   |- The current element begin processed in array.
+     * index
+     *   |- The index of the current element begin processed in array.
+     * array
+     *   |- The array map was called upon.
      * @param {*} that -> context object
      */
-    Array.prototype.filter = ( fn , that ) -> {
-      var iter = -1,
+    Array.prototype.filter = ( callback , that ) -> {
+      callbackCheck( callback , "Array.filter" );
+      var len = this.length,
+          iter = -1,
           ret = [],
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.filter : this is null or not defined" );
+      }
       if( that ){
         for( var i = 0,len = this.length; i < len; ++i ){
           if( ( ta = this[ i ] ) !== null && ta !== undefined ){
-            if( fn.call( that , ta , i , this ) ){
+            if( callback.call( that , ta , i , this ) ){
               ret[ ++iter ] = ta;
             }
           }
@@ -162,7 +224,7 @@ var _mochaGlobalExport = {};
       }else{
         for( var i = 0,len = this.length; i < len; ++i ){
           if( ( ta = this[ i ] ) !== null && ta !== undefined ){
-            if( fn( ta , i , this ) ){
+            if( callback( ta , i , this ) ){
               ret[ ++iter ] = ta;
             }
           }
@@ -173,10 +235,19 @@ var _mochaGlobalExport = {};
   }
 
   if( !Array.prototype.indexOf ){
-    Array.prototype.indexOf = ( subject ) -> {
-      var iter = -1,
+    /**
+     * [MDN Array/indexOf]
+     * Returns the first index at which a given element can be found in the array, or -1 if it is not present.
+     * @param {*} subject
+     * @param {Number} fromIndex -> Index that begin search.
+     */
+    Array.prototype.indexOf = ( subject , fromIndex ) -> {
+      var iter = ( fromIndex )? fromIndex - 1 : -1,
           index = -1,
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.indexOf : this is null or not defined." );
+      }
       while( ( ta = this[ ++iter ] ) !== null && ta !== undefined ){
         if( ta === subject ){
           index = iter;
@@ -188,12 +259,23 @@ var _mochaGlobalExport = {};
   }
 
   if( !Array.prototype.lastIndexOf ){
-    Array.prototype.lastIndexOf = ( subject ) -> {
-      var iter = this.length,
+    /**
+     * [MDN Array/lastIndexOf]
+     * Returns the last index at which a given element can be found in the array, or -1 if it is not present.
+     * The array is searched backwards, starting at fromIndex.
+     * @param {*} target
+     * @param {Number} fromIndex -> Index that begin search.
+     */
+    Array.prototype.lastIndexOf = ( target , fromIndex ) -> {
+      var len = this.length,
+          iter = ( fromIndex )? fromIndex + 1 : len,
           index = -1,
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+      }
       while( ( ta = this[ --iter ] ) !== null && ta !== undefined ){
-        if( ta === subject ){
+        if( ta === target ){
           index = iter;
           break;
         }
@@ -201,101 +283,211 @@ var _mochaGlobalExport = {};
       return index;
     }
   }
-
+  
+  
+  
   if( !Array.prototype.map ){
-    Array.prototype.map = ( fn , that ) -> {
+    /**
+     * [MDN Array/map]
+     * Creates a new array with the results of calling a provided function on every element in this array.
+     * @param {Function} callback -> Function( current , index , array )
+     * Callback function taking three arguments.
+     * current
+     *   |- The current element begin processed in array.
+     * index
+     *   |- The index of the current element begin processed in array.
+     * array
+     *   |- The array map was called upon.
+     * @param {*} that -> context object
+     */
+    Array.prototype.map = ( callback , that ) -> {
+      callbackCheck( callback , "Array.map" );
       var ret = [],
           iter = -1,
+          len = this.length,
+          i = 0,
           ta;
+      if ( this === null ) {
+        builtinTypeError( "Array.map : this is null or not defined." );
+      }
       if( that ){
-        for( var i = 0,len = this.length; i < len; ++i ){
+        for( i; i < len; ++i ){
           if( ( ta = this[ i ] ) !== null && ta !== undefined ){
-            ret[ ++iter ] = fn.call( that , ta , i , this );
+            ret[ ++iter ] = callback.call( that , ta , i , this );
           }
         }
       }else{
-        for( var i = 0,len = this.length; i < len; ++i ){
+        for( i; i < len; ++i ){
           if( ( ta = this[ i ] ) !== null && ta !== undefined ){
-            ret[ ++iter ] = fn( ta , i , this );
+            ret[ ++iter ] = callback( ta , i , this );
           }
         }
       }
       return ret;
     };
   }
-
+  
+  
+  
   if( !Array.prototype.reduce ){
-    Array.prototype.reduce = ( fn , initial ) -> {
+    /**
+     * [MDN Array/Reduce]
+     * Apply a function against an accumulator and
+     * each value of the array (from left-to-right) as to reduce it to a single value.
+     * @param {Function} callback -> Function( previousValue , currentValue , index , array );
+     * Callback function taking four arguments,
+     * previousValue
+     *   |- The value previously returned in the last invocation of the callback, or initialValue, if supplied. (See below.)
+     * currentValue
+     *   |- The current element being processed in the array.
+     * index
+     *   |- The index of the current element being processed in the array.
+     * array
+     *   |- The array reduce was called upon. 
+     * @param {Number} initial -> Object to use as the first argument to the first call of the callback.
+     */
+    Array.prototype.reduce = ( callback , initial ) -> {
+      callbackCheck( callback , "Array.reduce" );
       var ret = initial || this[ 0 ],
           i = ( initial )? 0 : 1,
-          ta,
-          len;
-      for( i,len = this.length; i < len; ++i ){
+          len = this.length,
+          ta;
+      if ( ( len === 0 || len === null ) && arguments.length < 2 ) {
+        builtinTypeError( "Array length is 0 and no second argument" );
+      }
+      for( i; i < len; ++i ){
         if( ( ta = this[ i ] ) !== null && ta !== undefined ){
-          ret = fn( ret , ta , i , this );
+          ret = callback( ret , ta , i , this );
         }
       }
       return ret;
     };
   }
+  
+  
 
   if( !Array.prototype.reduceRight ){
-    Array.prototype.reduceRight = ( fn , initial ) -> {
-      var ret = initial || this[ this.length - 1 ],
-          i = ( initial )? this.length - 1 : this.length - 2,
+    /**
+     * [MDN Array/ReduceRight]
+     * Apply a function simultaneously against
+     * two values of the array (from right-to-left) as to reduce it to a single value.
+     * @param {Function} callback -> Function( previousValue , currentValue , index , array );
+     * Callback function taking four arguments,
+     * previousValue
+     *   |- The value previously returned in the last invocation of the callback, or initialValue, if supplied. (See below.)
+     * currentValue
+     *   |- The current element being processed in the array.
+     * index
+     *   |- The index of the current element being processed in the array.
+     * array
+     *   |- The array reduce was called upon. 
+     * @param {Number} initial -> Object to use as the first argument to the first call of the callback.
+     */
+    Array.prototype.reduceRight = ( callback , initial ) -> {
+      callbackCheck( callback , "Array.reduceRight" );
+      var len = this.length,
+          ret = initial || this[ len - 1 ],
+          i = ( initial )? len - 1 : len - 2,
           ta;
+      if ( ( len === 0 || len === null ) && arguments.length < 2 ) {
+        builtinTypeError( "Array length is 0 and no second argument" );
+      }
       for( i; i > -1; --i ){
         if( ( ta = this[ i ] ) !== null && ta !== undefined ){
-          ret = fn( ret , ta , i , this );
+          ret = callback( ret , ta , i , this );
         }
       }
       return ret;
     };
   }
-
+  
+  
+  
   if ( !Date.prototype.toJSON ) {
-    Date.prototype.toJSON = ->
-      '"' + this.getUTCFullYear () + '-' +
-      "0" + ( this.getUTCMonth () + 1 ) + '-' +
-      "0" + ( this.getUTCDate () - 1 ) + 'T' +
-      this.getUTCHours () + ':' +
-      this.getMinutes () + ':' +
-      this.getSeconds () + '.' +
-      this.getUTCMilliseconds () + '"';
+    /**
+     * [MDN Date/toJSON]
+     * Returns a JSON representation of the Date object.
+     * @returns {String}
+     */
+    Date.prototype.toJSON = -> {
+      var [month, date, hour, minute, second] = [
+            this.getUTCMonth(),
+            this.getUTCDate(),
+            this.getUTCHours(),
+            this.getMinutes(),
+            this.getSeconds()
+          ];
+      return '"' + this.getUTCFullYear () + '-' +
+        ( month > 8? month + 1 : "0" + ( month + 1 ) ) + '-' +
+        ( date > 9? date : "0" + date ) + 'T' +
+        ( hour > 9? hour : "0" + hour ) + ':' +
+        ( minute > 9? minute : "0" + minute ) + ':' +
+        ( second > 9? second : "0" + second ) + '.' +
+        this.getUTCMilliseconds () + 'Z"';
+    }
   }
 
   if ( !Date.now ) {
+    /**
+     * [MDN Date/now]
+     * Returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+     * @return {String}
+     */
     Date.now = -> +new Date ();
   }
 
   if ( !Object.keys ) {
+    /**
+     * Returns an array of all own enumerable properties found upon a given object,
+     * in the same order as that provided by a for-in loop
+     * (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+     * @param {*} obj
+     * @return {Array}
+     */
     Object.keys = ( obj ) -> {
+      if ( !obj ) {
+        builtinTypeError( "Object.keys : first arguments is null or not defined." );
+      }
       var ret = [],
           iter = -1;
-      
       for ( var i in obj ) {
         if ( obj.hasOwnProperty ( i ) ) {
           ret [ ++iter ] = obj [ i ]
         }
       }
-      
       return ret;
-      
     };
   }
 
   if ( !Object.preventExtensions ) {
+    /**
+     * DUMMY FUNCTION
+     * @param {*}
+     */
     Object.preventExtensions = ( o ) -> o;
   }
 
   if ( !Object.seal ) {
+    /**
+     * DUMMY FUNCTION
+     * @param {*}
+     */
     Object.seal = ( o ) -> o;
   }
 
   if ( !Object.freeze ) {
+    /**
+     * DUMMY FUNCTION
+     * @param {*}
+     */
     Object.freeze = ( o ) -> o;
   }
-
+  
+  //Check that given enviorment has real ecma262 5th edition.
+  //i.e. Internet Explorer 8 has Object.definedProperty,
+  //but that couldn't apply to the javascript object.
+  //To distinguish the detail implemention,
+  //we try test run.
   var hasRealEcma5 = (->{
         try {
           var obj = {}
@@ -313,6 +505,13 @@ var _mochaGlobalExport = {};
       })();
 
   if ( !hasRealEcma5 ) {
+    /**
+     * This implementation is not compat ecma5th dition,
+     * and only set property to object.
+     * @param {*} obj
+     * @param {String} prop
+     * @param {*} valobj 
+     */
     Object.defineProperty = ( obj , prop , valobj ) -> {
       if ( valobj.value ) {
         obj[ prop ] = valobj.value;
@@ -321,15 +520,21 @@ var _mochaGlobalExport = {};
   }
 
   if ( !Array.isArray ) {
-    var arrayString = "[object Array]";
+    /**
+     * [MDN Array/isArray]
+     * Returns true if an object is an array, false if it is not.
+     * @param {*} arr
+     */
     Array.isArray = ( arr ) -> {
       if  ( arguments.length === 0 ) {
         return false;
       }
-      return ( arr )? Object.prototype.toString.call ( arr ) === arrayString : false;
+      return ( arr )? Object.prototype.toString.call ( arr ) === "[object Array]" : false;
     }
   }
 })();
+
+
 /**
  * The runtime modules that used as runtime helper.
  * This module accessible from each js files,

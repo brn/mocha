@@ -68,8 +68,8 @@ class DeriveTest extends BaseTest {
 
 
 class Derive2 extends DeriveTest {
-  constructor () -> super();
-  public getAddr() -> private.addr;
+  constructor -> super();
+  public getAddr -> private.addr;
 }
 
 

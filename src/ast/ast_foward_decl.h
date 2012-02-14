@@ -32,6 +32,8 @@ FOWARD_DECL(TryStmt);
 FOWARD_DECL(AssertStmt);
 FOWARD_DECL(CaseClause);
 FOWARD_DECL(Expression);
+FOWARD_DECL(Trait);
+FOWARD_DECL(TraitMember);
 FOWARD_DECL(Class);
 FOWARD_DECL(ClassProperties);
 FOWARD_DECL(ClassExpandar);

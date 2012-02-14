@@ -67,6 +67,7 @@ class Parser{
   AstNode* ParseTryStatement_();
   AstNode* ParseCatchBlock_();
   AstNode* ParseFinallyBlock_();
+  AstNode* ParseTrait_();
   AstNode* ParseClassDecl_( bool is_const );
   AstNode* ParseInheritDecl_();
   AstNode* ParseClassBody_();

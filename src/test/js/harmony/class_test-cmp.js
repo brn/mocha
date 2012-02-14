@@ -5,6 +5,25 @@
   var _mochaGlobalExport = {};
   
   ( function () {
+    "use strict";
+    
+    function builtinTypeError( message ) {
+      try {
+        throw new TypeError( message );
+      } catch( e ){
+        throw new Error( e );
+      };
+    };
+    
+    function callbackCheck( callback,type ) {
+      
+      Runtime.assert( true,typeof type === "string","typeof type === \"string\"",39,'./mocha_runtime.js' );
+      
+      if ( typeof callback !== "function" ){
+        builtinTypeError( type+" : first argument is not callable" );
+      };
+    };
+    
     if ( !String.prototype.trim ){
       String.prototype.trim = function () {
         return this.replace( String.prototype.trim.rtrim,"" );
@@ -35,36 +54,48 @@
     };
     
     if ( !Array.prototype.forEach ){
-      Array.prototype.forEach = function ( fn,that ) {
+      Array.prototype.forEach = function ( callback,that ) {
+        callbackCheck( callback,"Array.forEach" );
+        
         var iter = -1,
             ta;
         
+        if ( this === null ){
+          builtinTypeError( "Array.forEach : this is null or not defined" );
+        };
+        
         if ( that ){
           while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            fn.call( that,ta,iter,this );
+            callback.call( that,ta,iter,this );
           };
         } else {
           while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            fn( ta,iter,this );
+            callback( ta,iter,this );
           };
         };
       };
     };
     
     if ( !Array.prototype.every ){
-      Array.prototype.every = function ( fn,that ) {
+      Array.prototype.every = function ( callback,that ) {
+        callbackCheck( callback,"Array.every" );
+        
         var iter = -1,
             ta;
         
+        if ( this === null ){
+          builtinTypeError( "Array.every : this is null or not defined" );
+        };
+        
         if ( that ){
           while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( fn.call( that,ta,iter,this ) ) ){
+            if ( !( callback.call( that,ta,iter,this ) ) ){
               return false;
             };
           };
         } else {
           while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( fn( ta,iter,this ) ) ){
+            if ( !( callback( ta,iter,this ) ) ){
               return false;
             };
           };
@@ -74,19 +105,25 @@
     };
     
     if ( !Array.prototype.some ){
-      Array.prototype.some = function ( fn,that ) {
+      Array.prototype.some = function ( callback,that ) {
+        callbackCheck( callback,"Array.some" );
+        
         var iter = -1,
             ta;
         
+        if ( this === null ){
+          builtinTypeError( "Array.some : this is null or not defined" );
+        };
+        
         if ( that ){
           while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( fn.call( that,ta,iter,this ) ){
+            if ( callback.call( that,ta,iter,this ) ){
               return true;
             };
           };
         } else {
           while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( fn( ta,iter,this ) ){
+            if ( callback( ta,iter,this ) ){
               return true;
             };
           };
@@ -96,15 +133,22 @@
     };
     
     if ( !Array.prototype.filter ){
-      Array.prototype.filter = function ( fn,that ) {
-        var iter = -1,
+      Array.prototype.filter = function ( callback,that ) {
+        callbackCheck( callback,"Array.filter" );
+        
+        var len = this.length,
+            iter = -1,
             ret = [],
             ta;
+        
+        if ( this === null ){
+          builtinTypeError( "Array.filter : this is null or not defined" );
+        };
         
         if ( that ){
           for ( var i = 0,len = this.length;i<len; ++ i ){
             if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( fn.call( that,ta,i,this ) ){
+              if ( callback.call( that,ta,i,this ) ){
                 ret[ ++ iter] = ta;
               };
             };
@@ -112,7 +156,7 @@
         } else {
           for ( var i = 0,len = this.length;i<len; ++ i ){
             if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( fn( ta,i,this ) ){
+              if ( callback( ta,i,this ) ){
                 ret[ ++ iter] = ta;
               };
             };
@@ -123,10 +167,14 @@
     };
     
     if ( !Array.prototype.indexOf ){
-      Array.prototype.indexOf = function ( subject ) {
-        var iter = -1,
+      Array.prototype.indexOf = function ( subject,fromIndex ) {
+        var iter = ( fromIndex )?fromIndex-1 : -1,
             index = -1,
             ta;
+        
+        if ( this === null ){
+          builtinTypeError( "Array.indexOf : this is null or not defined." );
+        };
         
         while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
           if ( ta === subject ){
@@ -139,13 +187,18 @@
     };
     
     if ( !Array.prototype.lastIndexOf ){
-      Array.prototype.lastIndexOf = function ( subject ) {
-        var iter = this.length,
+      Array.prototype.lastIndexOf = function ( target,fromIndex ) {
+        var len = this.length,
+            iter = ( fromIndex )?fromIndex+1 : len,
             index = -1,
             ta;
         
+        if ( this === null ){
+          builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+        };
+        
         while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-          if ( ta === subject ){
+          if ( ta === target ){
             index = iter;
             break;
           };
@@ -155,21 +208,29 @@
     };
     
     if ( !Array.prototype.map ){
-      Array.prototype.map = function ( fn,that ) {
+      Array.prototype.map = function ( callback,that ) {
+        callbackCheck( callback,"Array.map" );
+        
         var ret = [],
             iter = -1,
+            len = this.length,
+            i = 0,
             ta;
         
+        if ( this === null ){
+          builtinTypeError( "Array.map : this is null or not defined." );
+        };
+        
         if ( that ){
-          for ( var i = 0,len = this.length;i<len; ++ i ){
+          for ( i;i<len; ++ i ){
             if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = fn.call( that,ta,i,this );
+              ret[ ++ iter] = callback.call( that,ta,i,this );
             };
           };
         } else {
-          for ( var i = 0,len = this.length;i<len; ++ i ){
+          for ( i;i<len; ++ i ){
             if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = fn( ta,i,this );
+              ret[ ++ iter] = callback( ta,i,this );
             };
           };
         };
@@ -178,15 +239,21 @@
     };
     
     if ( !Array.prototype.reduce ){
-      Array.prototype.reduce = function ( fn,initial ) {
+      Array.prototype.reduce = function ( callback,initial ) {
+        callbackCheck( callback,"Array.reduce" );
+        
         var ret = initial || this[0],
             i = ( initial )?0 : 1,
-            ta,
-            len;
+            len = this.length,
+            ta;
         
-        for ( i , len = this.length;i<len; ++ i ){
+        if ( ( len === 0 || len === null ) && arguments.length<2 ){
+          builtinTypeError( "Array length is 0 and no second argument" );
+        };
+        
+        for ( i;i<len; ++ i ){
           if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = fn( ret,ta,i,this );
+            ret = callback( ret,ta,i,this );
           };
         };
         return ret;
@@ -194,14 +261,21 @@
     };
     
     if ( !Array.prototype.reduceRight ){
-      Array.prototype.reduceRight = function ( fn,initial ) {
-        var ret = initial || this[this.length-1],
-            i = ( initial )?this.length-1 : this.length-2,
+      Array.prototype.reduceRight = function ( callback,initial ) {
+        callbackCheck( callback,"Array.reduceRight" );
+        
+        var len = this.length,
+            ret = initial || this[len-1],
+            i = ( initial )?len-1 : len-2,
             ta;
+        
+        if ( ( len === 0 || len === null ) && arguments.length<2 ){
+          builtinTypeError( "Array length is 0 and no second argument" );
+        };
         
         for ( i;i>-1; -- i ){
           if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = fn( ret,ta,i,this );
+            ret = callback( ret,ta,i,this );
           };
         };
         return ret;
@@ -210,7 +284,13 @@
     
     if ( !Date.prototype.toJSON ){
       Date.prototype.toJSON = function () {
-        return '"'+this.getUTCFullYear()+'-'+"0"+( this.getUTCMonth()+1 )+'-'+"0"+( this.getUTCDate()-1 )+'T'+this.getUTCHours()+':'+this.getMinutes()+':'+this.getSeconds()+'.'+this.getUTCMilliseconds()+'"';
+        var _mochaLocalTmp0 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            month = _mochaLocalTmp0[0],
+            date = _mochaLocalTmp0[1],
+            hour = _mochaLocalTmp0[2],
+            minute = _mochaLocalTmp0[3],
+            second = _mochaLocalTmp0[4];
+        return '"'+this.getUTCFullYear()+'-'+( month>8?month+1 : "0"+( month+1 ) )+'-'+( date>9?date : "0"+date )+'T'+( hour>9?hour : "0"+hour )+':'+( minute>9?minute : "0"+minute )+':'+( second>9?second : "0"+second )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -222,6 +302,10 @@
     
     if ( !Object.keys ){
       Object.keys = function ( obj ) {
+        if ( !obj ){
+          builtinTypeError( "Object.keys : first arguments is null or not defined." );
+        };
+        
         var ret = [],
             iter = -1;
         
@@ -279,13 +363,11 @@
     };
     
     if ( !Array.isArray ){
-      var arrayString = "[object Array]";
-      
       Array.isArray = function ( arr ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( arr )?Object.prototype.toString.call( arr ) === arrayString : false;
+        return ( arr )?Object.prototype.toString.call( arr ) === "[object Array]" : false;
       };
     };
   })();
@@ -587,7 +669,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
