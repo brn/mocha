@@ -69,7 +69,7 @@ class Parser{
   AstNode* ParseFinallyBlock_();
   AstNode* ParseTrait_();
   void ParseTraitBody_( Trait* trait );
-  void ParseMixin_( Trait* trait );
+  AstNode* ParseMixin_();
   AstNode* ParseClassDecl_( bool is_const );
   AstNode* ParseInheritDecl_();
   AstNode* ParseClassBody_();

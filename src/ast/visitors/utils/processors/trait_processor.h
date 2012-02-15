@@ -1,6 +1,6 @@
 #ifndef mocha_trait_processor_h_
 #define mocha_trait_processor_h_
-#include <ast/ast_foward_decl.h>
+#include <ast/ast.h>
 namespace mocha {
 class ProcessorInfo;
 class TraitProcessor {
@@ -10,13 +10,13 @@ class TraitProcessor {
   TraitProcessor( Trait* trait , ProcessorInfo* info );
   ~TraitProcessor(){}
   void ProcessNode();
+  static AstNode* ProcessMixin( AstNode* mixin , ProcessorInfo* info , long line );
  private :
   void CommonProcessor_( NodeList* list , IteratorGetter getter , const char* type );
   void ProcessPrivate_( NodeList* list );
   void ProcessPublic_( NodeList* list );
-  void ProcessMixin_( AstNode* mark );
   void ProcessRequires_( NodeList* list );
-
+  void CreateMixinStmt_( AstNode* mixin_list , AstNode* mark );
   Trait* trait_;
   ProcessorInfo* info_;
   ValueNode* name_;

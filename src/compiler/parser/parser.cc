@@ -1847,15 +1847,27 @@ void Parser::ParseTraitBody_( Trait* trait ) {
     if ( type == Token::JS_IDENTIFIER ) {
       if ( strcmp( token->GetToken() , "requires" ) == 0 ) {
         Advance_();
-        AstNode* ret = ParseLiteral_();
-        CHECK_ERROR();
-        ParseTerminator_();
-        CHECK_ERROR();
-        trait->SetRequire( ret );
+        while ( 1 ) {
+          AstNode* ret = ParseLiteral_();
+          CHECK_ERROR();
+          ValueNode* val = ret->CastToValue();
+          val->ValueType( ValueNode::kProperty );
+          token = Seek_();
+          type = token->GetType();
+          trait->SetRequire( ret );
+          if ( type == ',' ) {
+            Advance_();
+          } else {
+            ParseTerminator_();
+            CHECK_ERROR();
+            break;
+          }
+        }
       } else if ( strcmp( token->GetToken() , "mixin" ) == 0 ) {
         Advance_();
-        ParseMixin_( trait );
+        AstNode* mixin = ParseMixin_();
         CHECK_ERROR();
+        trait->SetMixin( mixin );
       } else {
         AstNode* ret = ParseFunctionDecl_( false );
         CHECK_ERROR();
@@ -1898,9 +1910,9 @@ void Parser::ParseTraitBody_( Trait* trait ) {
 }
 
 
-void Parser::ParseMixin( Trait* trait ) {
+AstNode* Parser::ParseMixin_() {
   AstNode* literal = ParseLiteral_();
-  CHECK_ERROR( literal );
+  CHECK_ERROR(literal);
   MixinMember* mixin = ManagedHandle::Retain<MixinMember>();
   mixin->SetName( literal );
   TokenInfo* token = Seek_();
@@ -1909,7 +1921,7 @@ void Parser::ParseMixin( Trait* trait ) {
     if ( type == Token::JS_WITH ) {
       Advance_();
       AstNode* before = ParseLiteral_();
-      CHECK_ERROR();
+      CHECK_ERROR( before );
       ValueNode* val = before->CastToValue();
       val->ValueType( ValueNode::kProperty );
       token = Seek_();
@@ -1918,19 +1930,22 @@ void Parser::ParseMixin( Trait* trait ) {
            strcmp( token->GetToken() , "as" ) == 0 ) {
         Advance_();
         AstNode* after = ParseLiteral_();
-        CHECK_ERROR();
+        CHECK_ERROR( after );
         ValueNode* after_val = after->CastToValue();
         after_val->ValueType( ValueNode::kProperty );
         NodeList* list = ManagedHandle::Retain<NodeList>();
-        list->AddChild( before , after );
+        list->AddChild( before );
+        list->AddChild( after );
         mixin->AddRename( list );
         token = Seek_();
         type = token->GetType();
         if ( type == ',' ) {
           Advance_();
+          token = Seek_();
+          type = token->GetType();
         } else {
           ParseTerminator_();
-          CHECK_ERROR();
+          CHECK_ERROR( mixin );
           break;
         }
       } else {
@@ -1939,28 +1954,32 @@ void Parser::ParseMixin( Trait* trait ) {
                       << " in 'mixin declaration' expect 'as'\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
         END( MixinError );
-        return;
+        return mixin;
       }
     } else if ( type == Token::JS_IDENTIFIER &&
                 strcmp( token->GetToken() , "without" ) == 0 ) {
       Advance_();
       AstNode* remove = ParseLiteral_();
-      CHECK_ERROR();
+      CHECK_ERROR( remove );
+      remove->CastToValue()->ValueType( ValueNode::kProperty );
       mixin->AddRemoval( remove );
       token = Seek_();
       type = token->GetType();
+      fprintf( stderr , "@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@ %s\n" , static_cast<const char*>( TokenConverter( token ) ) );
       if ( type == ',' ) {
         Advance_();
+        token = Seek_();
+        type = token->GetType();
       } else {
         ParseTerminator_();
-        CHECK_ERROR();
+        CHECK_ERROR( remove );
         break;
       }
     } else {
       break;
     }
   }
-  trait->SetMixin( mixin );
+  return mixin;
 }
 
 
@@ -2067,6 +2086,10 @@ AstNode* Parser::ParseClassBody_() {
         case ClassMember::kConstructor :
           list->Constructor( mem );
           break;
+
+        case ClassMember::kMixin :
+          list->Mixin( mem->FirstChild() );
+          break;
       }
       token = Seek_();
       type = token->GetType();
@@ -2127,6 +2150,14 @@ ClassMember* Parser::ParseClassMember_() {
     Advance_();
     exp = ParseExportableDefinition_();
     member_type = ClassMember::kPublic;
+  } else if ( type == Token::JS_IDENTIFIER &&
+              strcmp( token->GetToken() , "mixin" ) == 0 ) {
+    Advance_();
+    exp = ParseMixin_();
+    CHECK_ERROR( ManagedHandle::Retain( new ClassMember( ClassMember::kMixin ) ) );
+    ParseTerminator_();
+    CHECK_ERROR( ManagedHandle::Retain( new ClassMember( ClassMember::kMixin ) ) );
+    member_type = ClassMember::kMixin;
   } else {
     exp = ParseExportableDefinition_();
     if ( exp->NodeType() == AstNode::kClassMember ) {
@@ -3429,6 +3460,7 @@ AstNode* Parser::ParseFormalParameter_() {
         value->CastToValue()->ValueType( ValueNode::kRest );
         token = Seek_();
         type = token->GetType();
+        list->AddChild( value );
         if ( type != ')' && type != ',' ) {
           SYNTAX_ERROR( "parse error got unexpected token "
                         << TokenConverter( token )

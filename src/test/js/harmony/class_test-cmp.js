@@ -646,21 +646,66 @@
               return ret;
             };
         
-        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source ) {
+        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source,with_,without ) {
               if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-                
+                Runtime.throwException( "mixin only used for trait." );
               } else {
                 var destTraitPrivate = dest._mochaTraitPrivate,
                     sourceTraitPrivate = source._mochaTraitPrivate,
                     destTraitPublic = dest._mochaTraitPublic,
-                    sourceTraitPublic = source._mochaTraitPublic;
+                    sourceTraitPublic = source._mochaTraitPublic,
+                    sourceRequires = source._mochaRequires,
+                    destRequires = dest._mochaRequires,
+                    tmp;
                 
                 for ( var i in sourceTraitPrivate ){
-                  destTraitPrivate[i] = sourceTraitPrivate[i];
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    destTraitPrivate[tmp] = sourceTraitPrivate[i];
+                  };
                 };
                 
                 for ( i in sourceTraitPublic ){
-                  destTraitPublic[i] = sourceTraitPublic[i];
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    destTraitPublic[tmp] = sourceTraitPublic[i];
+                  };
+                };
+                
+                for ( i in sourceRequires ){
+                  destRequires[i] = sourceRequires[i];
+                };
+              };
+            };
+        
+        var classMixin = _mochaLocalExport.classMixin = function classMixin( _mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3,with_,without ) {
+              var constructorProto = _mochaLocalTmp1.prototype,
+                  privateProto = _mochaLocalTmp2.prototype,
+                  mark = _mochaLocalTmp3._mochaTraitMark,
+                  traitPublic = _mochaLocalTmp3._mochaTraitPublic,
+                  traitPrivate = _mochaLocalTmp3._mochaTraitPrivate;
+              
+              if ( !mark ){
+                Runtime.throwException( "mixin only used for trait." );
+              } else {
+                var tmp;
+                
+                for ( var i in traitPublic ){
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    constructorProto[tmp] = traitPublic[i];
+                  };
+                };
+                
+                for ( i in traitPrivate ){
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    privateProto[tmp] = traitPrivate[i];
+                  };
                 };
               };
             };
@@ -688,7 +733,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
@@ -1091,6 +1136,124 @@
       
       __LINE__ = 90;
       Runtime.assert( true,instance.getAge() === 20,"instance.getAge() === 20",90,'./class_test.js' );
+      
+      __LINE__ = 0;
+      var TestTrait =  {
+            _mochaTraitPrivate :  {
+              
+            },
+            _mochaTraitPublic :  {
+              testm1 : function testm1(  ) {
+                try {
+                  __LINE__ = 0;
+                  var arg = Runtime.toArray( arguments,0 );
+                  __LINE__ = 93;
+                  return arg[0];
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+            },
+            _mochaRequires :  {
+              
+            },
+            _mochaTraitMark : true
+          };
+      
+      __LINE__ = 0;
+      var TestTrait2 =  {
+            _mochaTraitPrivate :  {
+              
+            },
+            _mochaTraitPublic :  {
+              testm2 : function testm2(  ) {
+                try {
+                  __LINE__ = 0;
+                  var arg = Runtime.toArray( arguments,0 );
+                  __LINE__ = 97;
+                  return arg[0];
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              },
+              testm3 : function testm3() {
+                try {
+                  __LINE__ = 98;
+                  return "ok";
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+            },
+            _mochaRequires :  {
+              
+            },
+            _mochaTraitMark : true
+          };
+      
+      __LINE__ = 0;
+      function xxx(  ) {
+        try {
+          __LINE__ = 0;
+          var arg = Runtime.toArray( arguments,0 );
+          __LINE__ = 100;
+          return arg[0];
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      };
+      
+      __LINE__ = 101;
+      var MixinTest = ( function () {
+            try {
+              __LINE__ = 0;
+              var _mochaPrivateHolder = function (){};
+              
+              __LINE__ = 101;
+              function MixinTest() {
+                try {
+                  __LINE__ = 0;
+                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+                  
+                  __LINE__ = 0;
+                  constructor.apply( this,arguments );
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait2,{}, {
+                testm2 : true,
+                testm3 : true
+              });
+              
+              __LINE__ = 0;
+              Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait, {
+                testm1 : "m1"
+              },{});
+              
+              function constructor(){}
+              __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
+              __LINE__ = 0;
+              Runtime.createUnenumProp( MixinTest.prototype,"constructor",constructor );
+              __LINE__ = 0;
+              return MixinTest;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 105;
+      var instance2 = new MixinTest();
+      
+      __LINE__ = 106;
+      Runtime.assert( true,instance2.m1( "foo" ) === "foo","instance2.m1( \"foo\" ) === \"foo\"",106,'./class_test.js' );
+      
+      __LINE__ = 107;
+      Runtime.assert( true,instance2.m2 === undefined,"instance2.m2 === undefined",107,'./class_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

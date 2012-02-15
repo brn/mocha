@@ -646,21 +646,66 @@
               return ret;
             };
         
-        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source ) {
+        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source,with_,without ) {
               if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-                
+                Runtime.throwException( "mixin only used for trait." );
               } else {
                 var destTraitPrivate = dest._mochaTraitPrivate,
                     sourceTraitPrivate = source._mochaTraitPrivate,
                     destTraitPublic = dest._mochaTraitPublic,
-                    sourceTraitPublic = source._mochaTraitPublic;
+                    sourceTraitPublic = source._mochaTraitPublic,
+                    sourceRequires = source._mochaRequires,
+                    destRequires = dest._mochaRequires,
+                    tmp;
                 
                 for ( var i in sourceTraitPrivate ){
-                  destTraitPrivate[i] = sourceTraitPrivate[i];
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    destTraitPrivate[tmp] = sourceTraitPrivate[i];
+                  };
                 };
                 
                 for ( i in sourceTraitPublic ){
-                  destTraitPublic[i] = sourceTraitPublic[i];
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    destTraitPublic[tmp] = sourceTraitPublic[i];
+                  };
+                };
+                
+                for ( i in sourceRequires ){
+                  destRequires[i] = sourceRequires[i];
+                };
+              };
+            };
+        
+        var classMixin = _mochaLocalExport.classMixin = function classMixin( _mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3,with_,without ) {
+              var constructorProto = _mochaLocalTmp1.prototype,
+                  privateProto = _mochaLocalTmp2.prototype,
+                  mark = _mochaLocalTmp3._mochaTraitMark,
+                  traitPublic = _mochaLocalTmp3._mochaTraitPublic,
+                  traitPrivate = _mochaLocalTmp3._mochaTraitPrivate;
+              
+              if ( !mark ){
+                Runtime.throwException( "mixin only used for trait." );
+              } else {
+                var tmp;
+                
+                for ( var i in traitPublic ){
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    constructorProto[tmp] = traitPublic[i];
+                  };
+                };
+                
+                for ( i in traitPrivate ){
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    privateProto[tmp] = traitPrivate[i];
+                  };
                 };
               };
             };
@@ -688,7 +733,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/trait_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/trait_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./trait_test.js'] = {};
@@ -701,7 +746,7 @@
             _mochaTraitPrivate :  {
               _greaterThant : function _greaterThant( x,y ) {
                 try {
-                  __LINE__ = 3;
+                  __LINE__ = 2;
                   return x<y;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -711,12 +756,15 @@
             _mochaTraitPublic :  {
               greaterThan : function greaterThan( x,y ) {
                 try {
-                  __LINE__ = 4;
+                  __LINE__ = 3;
                   return x<y;
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                 }
               }
+            },
+            _mochaRequires :  {
+              
             },
             _mochaTraitMark : true
           };
@@ -743,11 +791,21 @@
                 }
               }
             },
+            _mochaRequires :  {
+              compare : true,
+              test1 : true,
+              test2 : true,
+              test3 : true,
+              test4 : true
+            },
             _mochaTraitMark : true
           };
       
       __LINE__ = 0;
-      Runtime.traitMixin( TestTrait,TestTraitP );
+      Runtime.traitMixin( TestTrait,TestTraitP, {
+        greaterThan : "gt",
+        _greaterThant : "_gt"
+      },{});
       
       __LINE__ = 14;
       var traitexp = ( function () {
@@ -773,6 +831,9 @@
                           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
                         }
                       }
+                    },
+                    _mochaRequires :  {
+                      
                     },
                     _mochaTraitMark : true
                   };

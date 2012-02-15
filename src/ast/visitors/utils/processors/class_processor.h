@@ -48,8 +48,8 @@ class ClassProcessor : public Managed {
  private :
 
   inline void ProcessExtends_( AstNode* node );
-  inline void ProcessBody_( AstNode* body );
-  inline void ProcessMember_( ClassProperties* body );
+  inline void ProcessBody_( AstNode* body , AstNode* mark );
+  inline void ProcessMember_( ClassProperties* body , AstNode* mark );
   inline void IterateMember_( AstNode* list , bool is_prototype , bool is_private , bool is_instance );
   inline void ProcessEachMember_( AstNode* node , bool is_prototype , bool is_private , bool is_instance );
   inline void ProcessVariable_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );

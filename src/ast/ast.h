@@ -1070,8 +1070,8 @@ class MixinMember : public Expression {
   ~MixinMember(){}
   void SetName( AstNode* name ) { name_ = name;name->ParentNode( this ); }
   AstNode* GetName() { return name_; }
-  void AddRename( AstNode* rename_list ) {  rename_list_->AddChild( rename_list );rename_list->ParentNode( this ); }
-  void AddRemoval( AstNode* removal_member ) {  remove_list_->AddChild( removal_member );remove_list->ParentNode( this ); }
+  void AddRename( AstNode* rename_list ) {  rename_list_.AddChild( rename_list );rename_list->ParentNode( this ); }
+  void AddRemoval( AstNode* removal_member ) {  remove_list_.AddChild( removal_member );removal_member->ParentNode( this ); }
   NodeList* GetRename() { return &rename_list_; }
   NodeList* GetRemoval() { return &remove_list_; }
   inline MixinMember* CastToMixinMember() { return this; }
@@ -1154,11 +1154,13 @@ class ClassProperties : public AstNode {
   void PublicStatic( AstNode* st ) { public_static_.AddChild( st ); }
   void PrivateStatic( AstNode* st ) { private_static_.AddChild( st ); }
   void Prototype( AstNode* pt ) { prototype_.AddChild( pt ); }
+  void Mixin( AstNode* mi ) { mixin_.AddChild( mi ); }
   AstNode* Public() { return &public_; }
   AstNode* Private() { return &private_; }
   AstNode* PublicStatic() { return &public_static_; }
   AstNode* PrivateStatic() { return &private_static_; }
   AstNode* Prototype() { return &prototype_; }
+  AstNode* Mixin() { return &mixin_; }
   void Constructor( AstNode* constructor ) { constructor_ = constructor; }
   AstNode* Constructor() { return constructor_; }
   CLONE( ClassProperties );
@@ -1169,6 +1171,7 @@ class ClassProperties : public AstNode {
   NodeList public_static_;
   NodeList private_static_;
   NodeList prototype_;
+  NodeList mixin_;
   AstNode* constructor_;
 };
 
@@ -1196,7 +1199,8 @@ class ClassMember : public AstNode {
     kPrototype,
     kPublicStatic,
     kPrivateStatic,
-    kConstructor
+    kConstructor,
+    kMixin
   } MemberAttr;
   ClassMember( MemberAttr attr ) : AstNode( NAME_PARAMETER( ClassMember ) ) , attr_( attr ){}
   ~ClassMember(){}

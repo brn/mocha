@@ -89,3 +89,19 @@ var instance = new TestClass();
 @assert( true , instance.getName() === "test" );
 @assert( true , instance.getAge() === 20 );
 
+trait TestTrait {
+  public testm1( ...arg )->arg[0];
+}
+
+trait TestTrait2 {
+  public testm2( ...arg )->arg[0];
+  public testm3->"ok";
+}
+xxx(...arg)->arg[0];
+class MixinTest {
+  mixin TestTrait with testm1 as m1;
+  mixin TestTrait2 without testm2, without testm3;
+}
+var instance2 = new MixinTest();
+@assert( true , instance2.m1( "foo" ) === "foo" );
+@assert( true , instance2.m2 === undefined );

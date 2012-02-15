@@ -52,11 +52,12 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	class_processor.$(OBJEXT) function_processor.$(OBJEXT) \
 	fileroot_processor.$(OBJEXT) module_processor.$(OBJEXT) \
 	export_processor.$(OBJEXT) import_processor.$(OBJEXT) \
-	call_processor.$(OBJEXT) yield_processor.$(OBJEXT) \
-	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
-	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
-	symbol_collector.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
-	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	call_processor.$(OBJEXT) trait_processor.$(OBJEXT) \
+	yield_processor.$(OBJEXT) ast_utils.$(OBJEXT) format.$(OBJEXT) \
+	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
+	codegen_visitor.$(OBJEXT) symbol_collector.$(OBJEXT) \
+	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
+	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	compile_result.$(OBJEXT) external_resource.$(OBJEXT) \
 	compile_info.$(OBJEXT) consts.$(OBJEXT) parser.$(OBJEXT) \
 	external_ast.$(OBJEXT) compile_runner.$(OBJEXT) \
@@ -224,6 +225,8 @@ ast/visitors/utils/processors/import_processor.cc\
 ast/visitors/utils/processors/import_processor.h\
 ast/visitors/utils/processors/call_processor.cc\
 ast/visitors/utils/processors/call_processor.h\
+ast/visitors/utils/processors/trait_processor.cc\
+ast/visitors/utils/processors/trait_processor.h\
 ast/visitors/utils/processors/yield_processor.cc\
 ast/visitors/utils/processors/yield_processor.h\
 ast/visitors/utils/processors/processor_info.h\
@@ -530,6 +533,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxmlparser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token_stream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trait_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/variable_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/virtual_directory.Po@am__quote@
@@ -734,6 +738,20 @@ call_processor.obj: ast/visitors/utils/processors/call_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/call_processor.cc' object='call_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o call_processor.obj `if test -f 'ast/visitors/utils/processors/call_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/call_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/call_processor.cc'; fi`
+
+trait_processor.o: ast/visitors/utils/processors/trait_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT trait_processor.o -MD -MP -MF $(DEPDIR)/trait_processor.Tpo -c -o trait_processor.o `test -f 'ast/visitors/utils/processors/trait_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/trait_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/trait_processor.Tpo $(DEPDIR)/trait_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/trait_processor.cc' object='trait_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o trait_processor.o `test -f 'ast/visitors/utils/processors/trait_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/trait_processor.cc
+
+trait_processor.obj: ast/visitors/utils/processors/trait_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT trait_processor.obj -MD -MP -MF $(DEPDIR)/trait_processor.Tpo -c -o trait_processor.obj `if test -f 'ast/visitors/utils/processors/trait_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/trait_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/trait_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/trait_processor.Tpo $(DEPDIR)/trait_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/trait_processor.cc' object='trait_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o trait_processor.obj `if test -f 'ast/visitors/utils/processors/trait_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/trait_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/trait_processor.cc'; fi`
 
 yield_processor.o: ast/visitors/utils/processors/yield_processor.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT yield_processor.o -MD -MP -MF $(DEPDIR)/yield_processor.Tpo -c -o yield_processor.o `test -f 'ast/visitors/utils/processors/yield_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/yield_processor.cc

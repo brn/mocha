@@ -646,21 +646,66 @@
               return ret;
             };
         
-        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source ) {
+        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source,with_,without ) {
               if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-                
+                Runtime.throwException( "mixin only used for trait." );
               } else {
                 var destTraitPrivate = dest._mochaTraitPrivate,
                     sourceTraitPrivate = source._mochaTraitPrivate,
                     destTraitPublic = dest._mochaTraitPublic,
-                    sourceTraitPublic = source._mochaTraitPublic;
+                    sourceTraitPublic = source._mochaTraitPublic,
+                    sourceRequires = source._mochaRequires,
+                    destRequires = dest._mochaRequires,
+                    tmp;
                 
                 for ( var i in sourceTraitPrivate ){
-                  destTraitPrivate[i] = sourceTraitPrivate[i];
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    destTraitPrivate[tmp] = sourceTraitPrivate[i];
+                  };
                 };
                 
                 for ( i in sourceTraitPublic ){
-                  destTraitPublic[i] = sourceTraitPublic[i];
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    destTraitPublic[tmp] = sourceTraitPublic[i];
+                  };
+                };
+                
+                for ( i in sourceRequires ){
+                  destRequires[i] = sourceRequires[i];
+                };
+              };
+            };
+        
+        var classMixin = _mochaLocalExport.classMixin = function classMixin( _mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3,with_,without ) {
+              var constructorProto = _mochaLocalTmp1.prototype,
+                  privateProto = _mochaLocalTmp2.prototype,
+                  mark = _mochaLocalTmp3._mochaTraitMark,
+                  traitPublic = _mochaLocalTmp3._mochaTraitPublic,
+                  traitPrivate = _mochaLocalTmp3._mochaTraitPrivate;
+              
+              if ( !mark ){
+                Runtime.throwException( "mixin only used for trait." );
+              } else {
+                var tmp;
+                
+                for ( var i in traitPublic ){
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    constructorProto[tmp] = traitPublic[i];
+                  };
+                };
+                
+                for ( i in traitPrivate ){
+                  if ( !without[i] ){
+                    tmp = ( !with_[i] )?i : with_[i];
+                    
+                    privateProto[tmp] = traitPrivate[i];
+                  };
                 };
               };
             };
@@ -688,7 +733,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/function_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/function_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./function_test.js'] = {};
@@ -879,7 +924,8 @@
                   args3 = _mochaLocalTmp9[0],
                   args4 = _mochaLocalTmp9[1],
                   args5 = _mochaLocalTmp9[2] && _mochaLocalTmp9[2].args5?_mochaLocalTmp9[2].args5 : undefined,
-                  args7 = _mochaLocalTmp9[2] && _mochaLocalTmp9[2].args6 && _mochaLocalTmp9[2].args6.args7?_mochaLocalTmp9[2].args6.args7 : undefined;
+                  args7 = _mochaLocalTmp9[2] && _mochaLocalTmp9[2].args6 && _mochaLocalTmp9[2].args6.args7?_mochaLocalTmp9[2].args6.args7 : undefined,
+                  args8 = Runtime.toArray( arguments,3 );
               __LINE__ = 35;
               return console.log( 1 );
             } catch( e ){
@@ -908,7 +954,8 @@
                   args3 = _mochaLocalTmp13[0],
                   args4 = _mochaLocalTmp13[1],
                   args5 = _mochaLocalTmp13[2] && _mochaLocalTmp13[2].args5?_mochaLocalTmp13[2].args5 : undefined,
-                  args7 = _mochaLocalTmp13[2] && _mochaLocalTmp13[2].args6 && _mochaLocalTmp13[2].args6.args7?_mochaLocalTmp13[2].args6.args7 : undefined;
+                  args7 = _mochaLocalTmp13[2] && _mochaLocalTmp13[2].args6 && _mochaLocalTmp13[2].args6.args7?_mochaLocalTmp13[2].args6.args7 : undefined,
+                  args8 = Runtime.toArray( arguments,3 );
               __LINE__ = 37;
               return console.log( _mochaLocalTmp14 );
             } catch( e ){
@@ -931,7 +978,8 @@
                   args3 = _mochaLocalTmp17[0],
                   args4 = _mochaLocalTmp17[1],
                   args5 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args5?_mochaLocalTmp17[2].args5 : undefined,
-                  args7 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args6 && _mochaLocalTmp17[2].args6.args7?_mochaLocalTmp17[2].args6.args7 : undefined;
+                  args7 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args6 && _mochaLocalTmp17[2].args6.args7?_mochaLocalTmp17[2].args6.args7 : undefined,
+                  args8 = Runtime.toArray( arguments,3 );
               
               __LINE__ = 0;
               console.log( 1 );
@@ -955,7 +1003,8 @@
                   args3 = _mochaLocalTmp20[0],
                   args4 = _mochaLocalTmp20[1],
                   args5 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args5?_mochaLocalTmp20[2].args5 : undefined,
-                  args7 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args6 && _mochaLocalTmp20[2].args6.args7?_mochaLocalTmp20[2].args6.args7 : undefined;
+                  args7 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args6 && _mochaLocalTmp20[2].args6.args7?_mochaLocalTmp20[2].args6.args7 : undefined,
+                  args8 = Runtime.toArray( arguments,3 );
               __LINE__ = 46;
               return console.log( 1 );
             } catch( e ){
@@ -984,7 +1033,8 @@
                   args3 = _mochaLocalTmp24[0],
                   args4 = _mochaLocalTmp24[1],
                   args5 = _mochaLocalTmp24[2] && _mochaLocalTmp24[2].args5?_mochaLocalTmp24[2].args5 : undefined,
-                  args7 = _mochaLocalTmp24[2] && _mochaLocalTmp24[2].args6 && _mochaLocalTmp24[2].args6.args7?_mochaLocalTmp24[2].args6.args7 : undefined;
+                  args7 = _mochaLocalTmp24[2] && _mochaLocalTmp24[2].args6 && _mochaLocalTmp24[2].args6.args7?_mochaLocalTmp24[2].args6.args7 : undefined,
+                  args8 = Runtime.toArray( arguments,3 );
               __LINE__ = 48;
               return console.log( 1 );
             } catch( e ){

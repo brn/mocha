@@ -2,6 +2,7 @@
 #include <ast/visitors/utils/processors/class_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <ast/visitors/utils/processors/dsta_processor.h>
+#include <ast/visitors/utils/processors/trait_processor.h>
 #include <ast/visitors/utils/visitor_info.h>
 #include <ast/ast.h>
 #include <ast/utils/ast_utils.h>
@@ -121,7 +122,34 @@ class ClassProcessorUtils {
     return exp_stmt;
   }
 
+  inline AstNode* CreateMixin( AstNode* mixins , ProcessorInfo* info ) {
+    AstNode* ret = TraitProcessor::ProcessMixin( mixins , info , mixins->Line() );
+    return ret;
+  }
 
+  void CreateMixinStmt(  const char* name , AstNode* mixin_list , AstNode* body , AstNode* mark ) {
+    ValueNode* mixin = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kClassMixin ),
+                                                 Token::JS_PROPERTY , mark->Line() , ValueNode::kProperty );
+    NodeIterator iterator = mixin_list->ChildNodes();
+    AstNode* last = mark;
+    while ( iterator.HasNext() ) {
+      AstNode* item = iterator.Next();
+      AstNode* rename = item->FirstChild();
+      AstNode* remove = rename->NextSibling();
+      AstNode* name_node = remove->NextSibling();
+      ValueNode* name_sym = AstUtils::CreateNameNode( name , Token::JS_IDENTIFIER , mark->Line() , ValueNode::kIdentifier );
+      ValueNode* private_holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
+                                                            Token::JS_IDENTIFIER , mark->Line() , ValueNode::kIdentifier );
+    
+      NodeList* args = AstUtils::CreateNodeList( 5 , name_sym, private_holder , name_node , rename , remove );
+      CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( mixin );
+      CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args );
+      ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime_call );
+      body->InsertAfter( stmt , mark );
+      last = stmt;
+    }
+  }
+  
   inline AstNode* CreateHolderAssignment( AstNode* val,
                                           AstNode* name,
                                           Class* class_,
@@ -441,7 +469,7 @@ void ClassProcessor::ProcessNode() {
   fn->AddChild( utils_->CreateConstructorInitializer( name_.c_str() , class_->Line() ) );
   closure_body_->AddChild( stmt );
   ProcessExtends_( class_->Expandar() );
-  ProcessBody_( body );
+  ProcessBody_( body , stmt );
   closure_body_->AddChild( utils_->CreateHiddenConstructor( name_.c_str() , class_->Line() ) );
   ReturnStmt* ret = AstUtils::CreateReturnStmt( name->Clone() );
   closure_body_->AddChild( ret );
@@ -486,9 +514,9 @@ inline void ClassProcessor::ProcessExtends_( AstNode* node ) {
 }
 
 
-inline void ClassProcessor::ProcessBody_( AstNode* body ) {
+inline void ClassProcessor::ProcessBody_( AstNode* body , AstNode* mark ) {
   if ( !body->IsEmpty() ) {
-    ProcessMember_( reinterpret_cast<ClassProperties*>( body ) );
+    ProcessMember_( reinterpret_cast<ClassProperties*>( body ) , mark );
   } else {
     CreateEmptyConstructor_();
   }
@@ -496,13 +524,14 @@ inline void ClassProcessor::ProcessBody_( AstNode* body ) {
 
 
 
-inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
+inline void ClassProcessor::ProcessMember_( ClassProperties* body , AstNode* mark ) {
   AstNode* public_list = body->Public();
   AstNode* private_list = body->Private();
   AstNode* prototype_list = body->Prototype();
   AstNode* public_static_list = body->PublicStatic();
   AstNode* private_static_list = body->PrivateStatic();
   AstNode* constructor_decl = body->Constructor();
+  AstNode* mixin = body->Mixin();
 
   if ( constructor_decl ) {
     Function* constructor = constructor_decl->FirstChild()->CastToExpression()->CastToFunction();
@@ -518,6 +547,10 @@ inline void ClassProcessor::ProcessMember_( ClassProperties* body ) {
   IterateMember_( prototype_list , true , true , false );
   IterateMember_( public_static_list , false , false , false );
   IterateMember_( private_static_list , false , true , false );
+  if ( mixin->ChildLength() > 0 ) {
+    AstNode* mixin_list = utils_->CreateMixin( mixin , info_ );
+    utils_->CreateMixinStmt( name_.c_str() , mixin_list , closure_body_ , mark );
+  }
 }
 
 

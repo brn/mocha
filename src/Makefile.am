@@ -33,6 +33,8 @@ ast/visitors/utils/processors/import_processor.cc\
 ast/visitors/utils/processors/import_processor.h\
 ast/visitors/utils/processors/call_processor.cc\
 ast/visitors/utils/processors/call_processor.h\
+ast/visitors/utils/processors/trait_processor.cc\
+ast/visitors/utils/processors/trait_processor.h\
 ast/visitors/utils/processors/yield_processor.cc\
 ast/visitors/utils/processors/yield_processor.h\
 ast/visitors/utils/processors/processor_info.h\

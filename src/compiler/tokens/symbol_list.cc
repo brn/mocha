@@ -52,7 +52,9 @@ static const char runtime[][50] = {
   "_mochaTraitPrivate",
   "_mochaTraitPublic",
   "_mochaTraitMark",
-  "traitMixin"
+  "traitMixin",
+  "_mochaRequires",
+  "classMixin"
 };
 
 static const char builtin[][50] = {

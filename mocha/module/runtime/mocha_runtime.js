@@ -772,18 +772,54 @@ module Runtime {
   }
   
   
-  export traitMixin( dest , source ) {
+  export traitMixin( dest , source , with_ , without ) {
     if ( !dest._mochaTraitMark || !source._mochaTraitMark ) {
+      Runtime.throwException( "mixin only used for trait." );
     } else {
       var destTraitPrivate = dest._mochaTraitPrivate,
           sourceTraitPrivate = source._mochaTraitPrivate,
           destTraitPublic = dest._mochaTraitPublic,
-          sourceTraitPublic = source._mochaTraitPublic;
+          sourceTraitPublic = source._mochaTraitPublic,
+          sourceRequires = source._mochaRequires,
+          destRequires = dest._mochaRequires,
+          tmp;
       for ( var i in sourceTraitPrivate ) {
-        destTraitPrivate[ i ] = sourceTraitPrivate[ i ]
+        if ( !without[ i ] ) {
+          tmp = ( !with_[ i ] )? i : with_[ i ];
+          destTraitPrivate[ tmp ] = sourceTraitPrivate[ i ];
+        }
       }
       for ( i in sourceTraitPublic ) {
-        destTraitPublic[ i ] = sourceTraitPublic[ i ];
+        if ( !without[ i ] ) {
+          tmp = ( !with_[ i ] )? i : with_[ i ];
+          destTraitPublic[ tmp ] = sourceTraitPublic[ i ];
+        }
+      }
+      for ( i in sourceRequires ) {
+        destRequires[ i ] = sourceRequires[ i ];
+      }
+    }
+  }
+  
+  export classMixin( { prototype : constructorProto } , { prototype : privateProto },
+                     { _mochaTraitMark : mark , _mochaTraitPublic : traitPublic , _mochaTraitPrivate : traitPrivate },
+                     with_ , without )
+  {
+    if ( !mark ) {
+      Runtime.throwException( "mixin only used for trait." );
+    } else {
+      var tmp;
+      for ( var i in traitPublic ) {
+        if ( !without[ i ] ) {
+          tmp = ( !with_[ i ] )? i : with_[ i ];
+          constructorProto[ tmp ] = traitPublic[ i ];
+        }
+      }
+      for ( i in traitPrivate ) {
+        if ( !without[ i ] ) {
+          tmp = ( !with_[ i ] )? i : with_[ i ];
+          privateProto[ tmp ] = traitPrivate[ i ];
+        }
       }
     }
   }

@@ -55,7 +55,9 @@ class SymbolList : private Static {
     kTraitPrivate,
     kTraitPublic,
     kTraitMark,
-    kMixin
+    kMixin,
+    kRequires,
+    kClassMixin
   } RuntimeSymbol;
 
   typedef enum {
