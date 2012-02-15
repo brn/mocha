@@ -646,6 +646,25 @@
               return ret;
             };
         
+        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source ) {
+              if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
+                
+              } else {
+                var destTraitPrivate = dest._mochaTraitPrivate,
+                    sourceTraitPrivate = source._mochaTraitPrivate,
+                    destTraitPublic = dest._mochaTraitPublic,
+                    sourceTraitPublic = source._mochaTraitPublic;
+                
+                for ( var i in sourceTraitPrivate ){
+                  destTraitPrivate[i] = sourceTraitPrivate[i];
+                };
+                
+                for ( i in sourceTraitPublic ){
+                  destTraitPublic[i] = sourceTraitPublic[i];
+                };
+              };
+            };
+        
         ( function () {
           var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );

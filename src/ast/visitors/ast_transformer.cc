@@ -41,6 +41,7 @@
 #include <ast/visitors/utils/processors/iteration_processor.h>
 #include <ast/visitors/utils/processors/variable_processor.h>
 #include <ast/visitors/utils/processors/class_processor.h>
+#include <ast/visitors/utils/processors/trait_processor.h>
 #include <ast/visitors/utils/processors/function_processor.h>
 #include <ast/visitors/utils/processors/fileroot_processor.h>
 #include <ast/visitors/utils/processors/module_processor.h>
@@ -644,6 +645,12 @@ VISITOR_IMPL(Class) {
   ClassProcessor *cls = ManagedHandle::Retain( new ClassProcessor( proc_info_.Get() , ast_node , tmp_stmt ) );
   visitor_info_->SetClass( cls );
   cls->ProcessNode();
+}
+
+VISITOR_IMPL(Trait) {
+  PRINT_NODE_NAME;
+  TraitProcessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
 }
 
 VISITOR_IMPL(ClassProperties) {}

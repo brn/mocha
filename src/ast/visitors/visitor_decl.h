@@ -26,6 +26,7 @@ DECL_VISITOR(TryStmt);
 DECL_VISITOR(AssertStmt);
 DECL_VISITOR(CaseClause);
 DECL_VISITOR(Expression);
+DECL_VISITOR(Trait);
 DECL_VISITOR(Class);
 DECL_VISITOR(ClassProperties);
 DECL_VISITOR(ClassExpandar);

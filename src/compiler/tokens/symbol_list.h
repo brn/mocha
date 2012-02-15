@@ -51,7 +51,11 @@ class SymbolList : private Static {
     kGetPrivateRecord,
     kSuper,
     kGetSuper,
-    kClassMark
+    kClassMark,
+    kTraitPrivate,
+    kTraitPublic,
+    kTraitMark,
+    kMixin
   } RuntimeSymbol;
 
   typedef enum {

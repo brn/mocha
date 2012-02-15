@@ -807,6 +807,8 @@ void CodegenVisitor::PrototypeMemberProccessor( NodeIterator& iterator , AstNode
 void CodegenVisitor::StaticMemberProccessor( NodeIterator& iterator , AstNode* name ) {
 }
 
+VISITOR_IMPL(Trait) {
+}
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;

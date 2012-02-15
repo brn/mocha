@@ -688,131 +688,100 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/for_in_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/trait_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./for_in_test.js'] = {};
+      _mochaGlobalExport['./trait_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./for_in_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./trait_test.js'];
       
-      __LINE__ = 1;
-      var target =  {
-            value1 : 100,
-            value2 : 200,
-            value3 : 300,
-            value4 : 400
+      __LINE__ = 0;
+      var TestTraitP =  {
+            _mochaTraitPrivate :  {
+              _greaterThant : function _greaterThant( x,y ) {
+                try {
+                  __LINE__ = 3;
+                  return x<y;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+            },
+            _mochaTraitPublic :  {
+              greaterThan : function greaterThan( x,y ) {
+                try {
+                  __LINE__ = 4;
+                  return x<y;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+            },
+            _mochaTraitMark : true
           };
       
-      __LINE__ = 7;
-      var arr = [];
+      __LINE__ = 0;
+      var TestTrait =  {
+            _mochaTraitPrivate :  {
+              _lessThan : function _lessThan( x,y ) {
+                try {
+                  __LINE__ = 10;
+                  return x<y;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+            },
+            _mochaTraitPublic :  {
+              lessThan : function lessThan( x,y ) {
+                try {
+                  __LINE__ = 11;
+                  return x<y;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              }
+            },
+            _mochaTraitMark : true
+          };
       
-      __LINE__ = 8;
-      for ( var i in target ){
-        __LINE__ = 0;
-        arr.push( target[i] );
-      };
-      
-      __LINE__ = 11;
-      Runtime.assert( true,arr[0] === 100,"arr[0] === 100",11,'./for_in_test.js' );
-      
-      __LINE__ = 12;
-      Runtime.assert( true,arr[1] === 200,"arr[1] === 200",12,'./for_in_test.js' );
-      
-      __LINE__ = 13;
-      Runtime.assert( true,arr[2] === 300,"arr[2] === 300",13,'./for_in_test.js' );
+      __LINE__ = 0;
+      Runtime.traitMixin( TestTrait,TestTraitP );
       
       __LINE__ = 14;
-      Runtime.assert( true,arr[3] === 400,"arr[3] === 400",14,'./for_in_test.js' );
-      
-      __LINE__ = 0;
-      arr = [];
-      
-      __LINE__ = 17;
-      for ( i in target ){
-        __LINE__ = 0;
-        arr.push( target[i] );
-      };
-      
-      __LINE__ = 20;
-      Runtime.assert( true,arr[0] === 100,"arr[0] === 100",20,'./for_in_test.js' );
-      
-      __LINE__ = 21;
-      Runtime.assert( true,arr[1] === 200,"arr[1] === 200",21,'./for_in_test.js' );
-      
-      __LINE__ = 22;
-      Runtime.assert( true,arr[2] === 300,"arr[2] === 300",22,'./for_in_test.js' );
-      
-      __LINE__ = 23;
-      Runtime.assert( true,arr[3] === 400,"arr[3] === 400",23,'./for_in_test.js' );
-      
-      __LINE__ = 0;
-      arr = [];
-      
-      __LINE__ = 26;
-      for ( var i in target ){
-        __LINE__ = 0;
-        arr.push( target[i] );
-      };
-      
-      __LINE__ = 28;
-      Runtime.assert( true,arr[0] === 100,"arr[0] === 100",28,'./for_in_test.js' );
-      
-      __LINE__ = 29;
-      Runtime.assert( true,arr[1] === 200,"arr[1] === 200",29,'./for_in_test.js' );
-      
-      __LINE__ = 30;
-      Runtime.assert( true,arr[2] === 300,"arr[2] === 300",30,'./for_in_test.js' );
-      
-      __LINE__ = 31;
-      Runtime.assert( true,arr[3] === 400,"arr[3] === 400",31,'./for_in_test.js' );
-      
-      __LINE__ = 0;
-      arr = [];
-      
-      __LINE__ = 34;
-      for ( i in target ){
-        __LINE__ = 0;
-        arr.push( target[i] );
-      };
-      
-      __LINE__ = 36;
-      Runtime.assert( true,arr[0] === 100,"arr[0] === 100",36,'./for_in_test.js' );
-      
-      __LINE__ = 37;
-      Runtime.assert( true,arr[1] === 200,"arr[1] === 200",37,'./for_in_test.js' );
-      
-      __LINE__ = 38;
-      Runtime.assert( true,arr[2] === 300,"arr[2] === 300",38,'./for_in_test.js' );
-      
-      __LINE__ = 39;
-      Runtime.assert( true,arr[3] === 400,"arr[3] === 400",39,'./for_in_test.js' );
-      
-      __LINE__ = 41;
-      var index =  {
-            prop : ""
-          };
-      
-      __LINE__ = 0;
-      arr = [];
-      
-      __LINE__ = 43;
-      for ( index.prop in target ){
-        __LINE__ = 0;
-        arr.push( target[index.prop] );
-      };
-      
-      __LINE__ = 46;
-      Runtime.assert( true,arr[0] === 100,"arr[0] === 100",46,'./for_in_test.js' );
-      
-      __LINE__ = 47;
-      Runtime.assert( true,arr[1] === 200,"arr[1] === 200",47,'./for_in_test.js' );
-      
-      __LINE__ = 48;
-      Runtime.assert( true,arr[2] === 300,"arr[2] === 300",48,'./for_in_test.js' );
-      
-      __LINE__ = 49;
-      Runtime.assert( true,arr[3] === 400,"arr[3] === 400",49,'./for_in_test.js' );
+      var traitexp = ( function () {
+            try {
+              __LINE__ = 0;
+              var _mochaLocalTmp0 =  {
+                    _mochaTraitPrivate :  {
+                      mastercmp : function mastercmp( x,y ) {
+                        try {
+                          __LINE__ = 15;
+                          return x>y;
+                        } catch( e ){
+                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      }
+                    },
+                    _mochaTraitPublic :  {
+                      lessthan : function lessthan( x,y ) {
+                        try {
+                          __LINE__ = 16;
+                          return x>y;
+                        } catch( e ){
+                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        }
+                      }
+                    },
+                    _mochaTraitMark : true
+                  };
+              __LINE__ = 0;
+              return _mochaLocalTmp0;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

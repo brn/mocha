@@ -48,7 +48,11 @@ static const char runtime[][50] = {
   "getPrivateRecord",
   "_mochaSuper",
   "getSuper",
-  "__harmony_class__"
+  "__harmony_class__",
+  "_mochaTraitPrivate",
+  "_mochaTraitPublic",
+  "_mochaTraitMark",
+  "traitMixin"
 };
 
 static const char builtin[][50] = {

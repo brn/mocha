@@ -306,6 +306,9 @@ VISITOR_IMPL(Expression) {
 }
 
 
+VISITOR_IMPL(Trait){}
+
+
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
   ast_node->FirstChild()->Accept( this );

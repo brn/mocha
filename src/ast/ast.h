@@ -147,6 +147,9 @@ class AstNode : public Managed {
     kForOfWithVar,
     kWhile,
     kDoWhile,
+    kTrait,
+    kTraitMember,
+    kMixinMember,
     kClass,
     kClassProperties,
     kClassExpandar,
@@ -1031,40 +1034,14 @@ class Expression : public AstNode {
   inline virtual CallExp* CastToCallExp() { return 0; }
   inline virtual Function* CastToFunction() { return 0; }
   inline virtual Property* CastToProperty() { return 0; }
+  inline virtual Trait* CastToTrait() { return 0; }
+  inline virtual TraitMember* CastToTraitMember() { return 0; }
+  inline virtual MixinMember* CastToMixinMember() { return 0; }
   virtual CLONE( Expression );
  private :
   bool is_valid_lhs_;
   bool paren_;
   virtual CALL_ACCEPTOR( Expression );
-};
-
-
-class Trait : public Expression {
- public :
-  Trait() : Expression( NAME_PARAMETER( Trait ) ) ,name_( 0 ){}
-  ~Trait(){};
-  void SetMember( TraitMember* member ) {
-    if ( member->Attr() == TraitMember::kPublic ) {
-      public_member_.AddChild( member );
-    } else {
-      private_member_.AddChild( member );
-    }
-  }
-  void SetName( AstNode* value ) { name_ = value; }
-  AstNode* GetName( AstNode* value ) { return name_; }
-  void SetRequire( AstNode* require ) { require_list_.AddChild( require ); }
-  void SetMixin( AstNode* mixin ) { mixin_list_.AddChild( mixin ); }
-  NodeList* GetPublic() { return &public_member_; }
-  NodeList* GetPrivate() { return &private_member_; }
-  NodeList* GetRequireList() { return &require_list_; }
-  NodeList* GetMixinList() { return &mixin_list_; }
- private :
-  CALL_ACCEPTOR( Trait );
-  AstNode* name_;
-  NodeList private_member_;
-  NodeList public_member_;
-  NodeList require_list_;
-  NodeList mixin_list_;
 };
 
 
@@ -1079,10 +1056,61 @@ class TraitMember : public Expression {
   ~TraitMember(){}
   AstNode* GetProperty() { return property_; };
   TraitAttr GetAttr() { return type_; }
+  inline TraitMember* CastToTraitMember() { return this; }
  private :
   void NVIAccept_( IVisitor* ){}
   TraitAttr type_;
   AstNode* property_;
+};
+
+
+class MixinMember : public Expression {
+ public :
+  MixinMember() : Expression( NAME_PARAMETER( MixinMember ) ) , name_( 0 ){}
+  ~MixinMember(){}
+  void SetName( AstNode* name ) { name_ = name;name->ParentNode( this ); }
+  AstNode* GetName() { return name_; }
+  void AddRename( AstNode* rename_list ) {  rename_list_->AddChild( rename_list );rename_list->ParentNode( this ); }
+  void AddRemoval( AstNode* removal_member ) {  remove_list_->AddChild( removal_member );remove_list->ParentNode( this ); }
+  NodeList* GetRename() { return &rename_list_; }
+  NodeList* GetRemoval() { return &remove_list_; }
+  inline MixinMember* CastToMixinMember() { return this; }
+ private :
+  AstNode* name_;
+  NodeList remove_list_;
+  NodeList rename_list_;
+};
+
+class Trait : public Expression {
+ public :
+  Trait() : Expression( NAME_PARAMETER( Trait ) ) ,is_decl_( false ) , name_( 0 ){}
+  ~Trait(){};
+  void SetMember( TraitMember* member ) {
+    if ( member->GetAttr() == TraitMember::kPublic ) {
+      public_member_.AddChild( member );
+    } else {
+      private_member_.AddChild( member );
+    }
+  }
+  void SetName( AstNode* value ) { name_ = value; }
+  AstNode* GetName() { return name_; }
+  void SetRequire( AstNode* require ) { require_list_.AddChild( require ); }
+  void SetMixin( AstNode* mixin ) { mixin_list_.AddChild( mixin ); }
+  NodeList* GetPublic() { return &public_member_; }
+  NodeList* GetPrivate() { return &private_member_; }
+  NodeList* GetRequireList() { return &require_list_; }
+  NodeList* GetMixinList() { return &mixin_list_; }
+  inline Trait* CastToTrait() { return this; }
+  void Decl() { is_decl_ = true; }
+  bool IsDecl() { return is_decl_; }
+ private :
+  CALL_ACCEPTOR( Trait );
+  bool is_decl_;
+  AstNode* name_;
+  NodeList private_member_;
+  NodeList public_member_;
+  NodeList require_list_;
+  NodeList mixin_list_;
 };
 
 

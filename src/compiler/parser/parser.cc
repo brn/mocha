@@ -522,12 +522,14 @@ AstNode* Parser::ParseStatement_() {
       break;
       
     default : {
+      int type = info->GetType();
       if ( type == Token::JS_IDENTIFIER ) {
         TokenInfo* token = Seek_( 2 );
         type = token->GetType();
-        if ( strcmp( info->Symbol()->GetToken() , "trait" ) == 0 && type == '{' ) {
+        if ( strcmp( info->GetToken() , "trait" ) == 0 && type == '{' ) {
           result = ParseTrait_();
           CHECK_ERROR( result );
+          result->CastToExpression()->CastToTrait()->Decl();
           break;
         }
       }
@@ -1809,7 +1811,7 @@ AstNode* Parser::ParseFinallyBlock_() {
 AstNode* Parser::ParseTrait_() {
   ENTER( Trait );
   TokenInfo* token = Seek_();
-  int type = token->GetToken();
+  int type = token->GetType();
   Trait* trait = ManagedHandle::Retain<Trait>();
   if ( type == Token::JS_IDENTIFIER ) {
     AstNode* literal = ParseLiteral_();
@@ -1821,10 +1823,10 @@ AstNode* Parser::ParseTrait_() {
     trait->SetName( ManagedHandle::Retain<Empty>() );
   }
   if ( type == '{' ) {
-    AstNode* ret = ParseTraitBody_( trait );
-    CHECK_ERROR( ret );
+    ParseTraitBody_( trait );
+    CHECK_ERROR( trait );
     Advance_();
-    return ret;
+    return trait;
   } else {
     SYNTAX_ERROR( "got unexpected token "
                   << TokenConverter( token )
@@ -1838,44 +1840,127 @@ AstNode* Parser::ParseTrait_() {
 
 
 void Parser::ParseTraitBody_( Trait* trait ) {
-  TokenInfo* token = Advance_();
+  Advance_();
+  TokenInfo* token = Seek_();
   int type = token->GetType();
   while ( 1 ) {
     if ( type == Token::JS_IDENTIFIER ) {
-      if ( strcmp( token->Symbol()->GetToken() , "requires" ) == 0 ) {
+      if ( strcmp( token->GetToken() , "requires" ) == 0 ) {
         Advance_();
         AstNode* ret = ParseLiteral_();
-        CHECK_ERROR(ret);
+        CHECK_ERROR();
+        ParseTerminator_();
+        CHECK_ERROR();
         trait->SetRequire( ret );
-      } else if ( srcmp( token->Symbol()->GetToken() , "mixin" ) == 0 ) {
+      } else if ( strcmp( token->GetToken() , "mixin" ) == 0 ) {
         Advance_();
-        AstNode* ret = ParseLiteral_();
-        CHECK_ERROR( ret );
-        trait->SetMixin( ret );
+        ParseMixin_( trait );
+        CHECK_ERROR();
       } else {
         AstNode* ret = ParseFunctionDecl_( false );
-        CHECK_ERROR( ret );
+        CHECK_ERROR();
+        ParseTerminator_();
+        CHECK_ERROR();
         TraitMember *member = ManagedHandle::Retain( new TraitMember( TraitMember::kPrivate , ret ) );
         trait->SetMember( member );
       }
     } else if ( type == Token::JS_PUBLIC ) {
       Advance_();
       AstNode* ret = ParseFunctionDecl_( false );
-      CHECK_ERROR( ret );
+      CHECK_ERROR();
+      ParseTerminator_();
+      CHECK_ERROR();
       TraitMember *member = ManagedHandle::Retain( new TraitMember( TraitMember::kPublic , ret ) );
       trait->SetMember( member );
     } else if ( type == Token::JS_PRIVATE ) {
+      Advance_();
       AstNode* ret = ParseFunctionDecl_( false );
-      CHECK_ERROR( ret );
+      CHECK_ERROR();
+      ParseTerminator_();
+      CHECK_ERROR();
       TraitMember *member = ManagedHandle::Retain( new TraitMember( TraitMember::kPrivate , ret ) );
       trait->SetMember( member );
+    } else {
+      SYNTAX_ERROR( "got unexpected token "
+                    << TokenConverter( token )
+                    << " in 'trait declaration'\\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      END(TraitBodyError);
+      return;
     }
     token = Seek_();
     type = token->GetType();
+    fprintf( stderr , "token = %s\n" , static_cast<const char*>( TokenConverter( token ) ) );
     if ( type == '}' ) {
       break;
     }
   }
+}
+
+
+void Parser::ParseMixin( Trait* trait ) {
+  AstNode* literal = ParseLiteral_();
+  CHECK_ERROR( literal );
+  MixinMember* mixin = ManagedHandle::Retain<MixinMember>();
+  mixin->SetName( literal );
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  while ( 1 ) {
+    if ( type == Token::JS_WITH ) {
+      Advance_();
+      AstNode* before = ParseLiteral_();
+      CHECK_ERROR();
+      ValueNode* val = before->CastToValue();
+      val->ValueType( ValueNode::kProperty );
+      token = Seek_();
+      type = token->GetType();
+      if ( type == Token::JS_IDENTIFIER &&
+           strcmp( token->GetToken() , "as" ) == 0 ) {
+        Advance_();
+        AstNode* after = ParseLiteral_();
+        CHECK_ERROR();
+        ValueNode* after_val = after->CastToValue();
+        after_val->ValueType( ValueNode::kProperty );
+        NodeList* list = ManagedHandle::Retain<NodeList>();
+        list->AddChild( before , after );
+        mixin->AddRename( list );
+        token = Seek_();
+        type = token->GetType();
+        if ( type == ',' ) {
+          Advance_();
+        } else {
+          ParseTerminator_();
+          CHECK_ERROR();
+          break;
+        }
+      } else {
+        SYNTAX_ERROR( "got unexpected token "
+                      << TokenConverter( token )
+                      << " in 'mixin declaration' expect 'as'\\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        END( MixinError );
+        return;
+      }
+    } else if ( type == Token::JS_IDENTIFIER &&
+                strcmp( token->GetToken() , "without" ) == 0 ) {
+      Advance_();
+      AstNode* remove = ParseLiteral_();
+      CHECK_ERROR();
+      mixin->AddRemoval( remove );
+      token = Seek_();
+      type = token->GetType();
+      if ( type == ',' ) {
+        Advance_();
+      } else {
+        ParseTerminator_();
+        CHECK_ERROR();
+        break;
+      }
+    } else {
+      break;
+    }
+  }
+  trait->SetMixin( mixin );
 }
 
 
@@ -2803,6 +2888,11 @@ AstNode* Parser::ParsePrimaryExpression_() {
     AstNode* class_exp = ParseClassDecl_( false );
     CHECK_ERROR( class_exp );
     return class_exp;
+  } else if ( type == Token::JS_IDENTIFIER && strcmp( token->GetToken() , "trait" ) == 0 &&
+              ( Seek_()->GetType()  == '{' || Seek_( 2 )->GetType() == '{' ) ) {
+    AstNode* trait = ParseTrait_();
+    CHECK_ERROR( trait );
+    return trait;
   } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression_( type );
     CHECK_ERROR( fn );
