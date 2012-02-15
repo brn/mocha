@@ -112,9 +112,13 @@ void TraitProcessor::ProcessMixin_( AstNode* mark ) {
     ValueNode* rename_map;
     if ( rename_list->ChildLength() > 0 ) {
       rename_map = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+      NodeList* map_list = ManagedHandle::Retain<NodeList>();
       NodeIterator rename_iterator = rename_list->ChildNodes();
       while ( rename_iterator.HasNext() ) {
-        
+        AstNode* item = rename_iterator.Next();
+        ValueNode* before = item->FirstChild()->CastToValue();
+        ValueNode* after = item->FirstChild()->NextSibling()->CastToValue();
+        before->AddChild( after );
       }
     }
     ValueNode* name = name_->Clone()->CastToValue();
