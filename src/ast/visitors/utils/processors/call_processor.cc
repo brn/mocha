@@ -13,19 +13,13 @@ void CallProcessor::ProcessPrivateAccessor( CallExp* ast_node , ProcessorInfo* i
   ValueNode* maybeIdent = ast_node->Callable()->CastToValue();
   if ( maybeIdent ) {
     ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                    Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
-    if ( !visitor_info->IsInPrivate() ) {
-      ValueNode* private_field = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGetPrivateRecord ),
-                                                           Token::JS_PROPERTY , maybeIdent->Line() , ValueNode::kProperty );
-      ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                      Token::JS_IDENTIFIER , maybeIdent->Line() , ValueNode::kIdentifier );
-      NodeList* args = AstUtils::CreateNodeList( 1 , this_sym );
-      CallExp* normal = AstUtils::CreateNormalAccessor( private_field , args );
-      CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
-      ast_node->Callable( runtime_call );
-    } else {
-      ast_node->Callable( this_sym );
-    }
+                                                    Token::JS_THIS , maybeIdent->Line() , ValueNode::kThis );
+    ValueNode* private_field = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGetPrivateRecord ),
+                                                         Token::JS_PROPERTY , maybeIdent->Line() , ValueNode::kProperty );
+    NodeList* args = AstUtils::CreateNodeList( 1 , this_sym->Clone() );
+    CallExp* normal = AstUtils::CreateNormalAccessor( private_field , args );
+    CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
+    ast_node->Callable( runtime_call );
     maybeIdent = ast_node->Args()->CastToValue();
     if ( maybeIdent && maybeIdent->ValueType() == ValueNode::kProperty ) {
       ast_node->CallType( CallExp::kDot );

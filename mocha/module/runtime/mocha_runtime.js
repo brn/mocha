@@ -720,35 +720,31 @@ module Runtime {
   if ( "WeakMap" in window ) {
     privateRecord = new WeakMap();
     createPrivateRecord = ( self , privateHolder ) -> {
-      privateRecord.set( self , new privateHolder );
+      var holder = new privateHolder;
+      createUnenumProp( holder.constructor , "__is_private__" , 1 );
+      privateRecord.set( self , holder );
     }
     getPrivateRecord = ( self ) -> {
       if ( privateRecord.has( self ) ) {
         return privateRecord.get( self );
+      } else if ( self.constructor === "__is_private__" ) {
+        return self;
       }
     }
   } else {
-    const _uid = ( new Date() );
-    privateRecord = {};
     createPrivateRecord = ( self , privateHolder ) -> {
       if ( !self.__typeid__ ) {
-        var id = _uid++;
-        createUnenumProp( self , "__typeid__", id );
-        privateRecord[ id ] = new privateHolder;
+        var holder = new privateHolder;
+        createUnenumProp( holder.constructor , "__is_private__" , 1 );
+        createUnenumProp( self , "__private__", holder );
       }
     }
     getPrivateRecord = ( self ) -> {
-      if ( self.__typeid__ ) {
-        return privateRecord[ self.__typeid__ ];
+      if ( self.__private__ ) {
+        return self.__private__;
+      } else if ( self.constructor === "__is_private__" ) {
+        return self;
       }
-    }
-    
-    if ( "addEventListener" in document ) {
-      window.addEventListener( "unload" , function () {
-        for ( var i in privateRecord ) {
-          delete privateRecord[ i ];
-        }
-      }, false );
     }
   }
   

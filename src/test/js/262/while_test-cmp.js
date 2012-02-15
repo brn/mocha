@@ -583,41 +583,37 @@
           privateRecord = new WeakMap();
           
           createPrivateRecord = function ( self,privateHolder ) {
-            privateRecord.set( self,new privateHolder );
+            var holder = new privateHolder;
+            
+            createUnenumProp( holder.constructor,"__is_private__",1 );
+            
+            privateRecord.set( self,holder );
           };
           
           getPrivateRecord = function ( self ) {
             if ( privateRecord.has( self ) ){
               return privateRecord.get( self );
+            } else if ( self.constructor === "__is_private__" ){
+              return self;
             };
           };
         } else {
-          var _uid = ( new Date() );
-          
-          privateRecord = {};
-          
           createPrivateRecord = function ( self,privateHolder ) {
             if ( !self.__typeid__ ){
-              var id = _uid ++ ;
+              var holder = new privateHolder;
               
-              createUnenumProp( self,"__typeid__",id );
+              createUnenumProp( holder.constructor,"__is_private__",1 );
               
-              privateRecord[id] = new privateHolder;
+              createUnenumProp( self,"__private__",holder );
             };
           };
           
           getPrivateRecord = function ( self ) {
-            if ( self.__typeid__ ){
-              return privateRecord[self.__typeid__];
+            if ( self.__private__ ){
+              return self.__private__;
+            } else if ( self.constructor === "__is_private__" ){
+              return self;
             };
-          };
-          if ( "addEventListener" in document ){
-            window.addEventListener( "unload",
-            function () {
-              for ( var i in privateRecord ){
-                delete privateRecord[i];
-              };
-            },false);
           };
         };
         
