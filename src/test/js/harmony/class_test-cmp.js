@@ -380,6 +380,9 @@
             return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
           };
         }
+        function fastMax( x,y ) {
+          return x>y?x : y;
+        }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
                 return ( e.message )?e.message : ( e.description )?e.description : e.toString();
@@ -457,6 +460,42 @@
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
         var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        
+        var extend = _mochaLocalExport.extend = function extend( dest,source ) {
+              for ( var prop in source ){
+                dest[prop] = source[prop];
+              };
+              return dest;
+            };
+        
+        function compareTuple( tuple ) {
+          var max = fastMax( tuple.length,this.length );
+          
+          i = 0;
+          
+          while ( i<max && tuple[i] === this[i] ){
+            i ++ ;
+          };
+          return max === i;
+        };
+        
+        function tupleToArray() {
+          return Array.prototype.slice.call( this );
+        };
+        
+        var createTuple = _mochaLocalExport.createTuple = function createTuple( obj,size ) {
+              createUnenumProp( obj,"length",size );
+              
+              createUnenumProp( obj,"equal",compareTuple );
+              
+              createUnenumProp( obj,"toArray",tupleToArray );
+              
+              createUnenumProp( obj,"toString",
+              function () {
+                return "[object Tuple]";
+              });
+              return Object.freeze( obj );
+            };
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
               derived.prototype = base;
@@ -706,6 +745,22 @@
               };
             };
         
+        var checkRequirements = _mochaLocalExport.checkRequirements = function checkRequirements( _mochaLocalTmp4,_mochaLocalTmp5,traits,file,line ) {
+              var proto1 = _mochaLocalTmp4.prototype,
+                  proto2 = _mochaLocalTmp5.prototype;
+              
+              for ( var i = 0,len = traits.length;i<len;i ++  ){
+                var _mochaLocalTmp6 = traits[i],
+                    _mochaRequires = _mochaLocalTmp6._mochaRequires;
+                
+                for ( var prop in _mochaRequires ){
+                  if ( !( prop in proto1 ) && !( prop in proto2 ) ){
+                    Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+                  };
+                };
+              };
+            };
+        
         ( function () {
           var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
@@ -729,7 +784,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};
@@ -1143,7 +1198,7 @@
                 try {
                   __LINE__ = 0;
                   var arg = Runtime.toArray( arguments,0 );
-                  __LINE__ = 93;
+                  __LINE__ = 94;
                   return arg[0];
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -1151,7 +1206,7 @@
               }
             },
             _mochaRequires :  {
-              
+              doTestm1 : true
             },
             _mochaTraitMark : true
           };
@@ -1166,7 +1221,7 @@
                 try {
                   __LINE__ = 0;
                   var arg = Runtime.toArray( arguments,0 );
-                  __LINE__ = 97;
+                  __LINE__ = 99;
                   return arg[0];
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -1174,7 +1229,7 @@
               },
               testm3 : function testm3() {
                 try {
-                  __LINE__ = 98;
+                  __LINE__ = 100;
                   return "ok";
                 } catch( e ){
                   Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
@@ -1182,30 +1237,18 @@
               }
             },
             _mochaRequires :  {
-              
+              doTestm2 : true
             },
             _mochaTraitMark : true
           };
       
-      __LINE__ = 0;
-      function xxx(  ) {
-        try {
-          __LINE__ = 0;
-          var arg = Runtime.toArray( arguments,0 );
-          __LINE__ = 100;
-          return arg[0];
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      };
-      
-      __LINE__ = 101;
+      __LINE__ = 103;
       var MixinTest = ( function () {
             try {
               __LINE__ = 0;
               var _mochaPrivateHolder = function (){};
               
-              __LINE__ = 101;
+              __LINE__ = 103;
               function MixinTest() {
                 try {
                   __LINE__ = 0;
@@ -1218,6 +1261,35 @@
                 }
               };
               
+              function constructor(){}
+              __LINE__ = 0;
+              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              
+              __LINE__ = 0;
+              MixinTest.prototype.doTestm1 = function doTestm1() {
+                try {
+                  __LINE__ = 104;
+                  return "aaa";
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              MixinTest.prototype.doTestm2 = function doTestm2() {
+                try {
+                  __LINE__ = 106;
+                  return "bbb";
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              };
+              
+              __LINE__ = 0;
+              Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait, {
+                testm1 : "m1"
+              },{});
+              
               __LINE__ = 0;
               Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait2,{}, {
                 testm2 : true,
@@ -1225,13 +1297,7 @@
               });
               
               __LINE__ = 0;
-              Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait, {
-                testm1 : "m1"
-              },{});
-              
-              function constructor(){}
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
+              Runtime.checkRequirements( MixinTest,_mochaPrivateHolder,[TestTrait,TestTrait2],'./class_test.js',107 );
               
               __LINE__ = 0;
               Runtime.createUnenumProp( MixinTest.prototype,"constructor",constructor );
@@ -1242,14 +1308,14 @@
             }
           })();
       
-      __LINE__ = 105;
+      __LINE__ = 109;
       var instance2 = new MixinTest();
       
-      __LINE__ = 106;
-      Runtime.assert( true,instance2.m1( "foo" ) === "foo","instance2.m1( \"foo\" ) === \"foo\"",106,'./class_test.js' );
+      __LINE__ = 110;
+      Runtime.assert( true,instance2.m1( "foo" ) === "foo","instance2.m1( \"foo\" ) === \"foo\"",110,'./class_test.js' );
       
-      __LINE__ = 107;
-      Runtime.assert( true,instance2.m2 === undefined,"instance2.m2 === undefined",107,'./class_test.js' );
+      __LINE__ = 111;
+      Runtime.assert( true,instance2.m2 === undefined,"instance2.m2 === undefined",111,'./class_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

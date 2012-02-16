@@ -1336,7 +1336,16 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     } else if ( next_type != ';' ) {
       AstNode* exp = ParseExpression_( true );
       CHECK_ERROR( exp );
-      exp_list->AddChild( exp );
+      if ( exp->FirstChild()->NodeType() == AstNode::kValueNode && is_comprehensions ) {
+        AstNode* first = exp->FirstChild();
+        if ( first->ChildLength() == 0 ) {
+          first->AddChild( ManagedHandle::Retain<Empty>() );
+        }
+        first->CastToValue()->ValueType( ValueNode::kVariable );
+        exp_list->AddChild( first );
+      } else {
+        exp_list->AddChild( exp );
+      }
     } else {
       exp_list->AddChild( ManagedHandle::Retain<Empty>() );
     }
@@ -1368,11 +1377,11 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
         exp_list->ReplaceChild( exp_list->FirstChild() , initialiser );
       }
       if ( is_each == false ) {
-        int iter_type = ( is_var_decl )? IterationStmt::kForInWithVar : IterationStmt::kForIn;
+        int iter_type = ( is_var_decl || is_comprehensions )? IterationStmt::kForInWithVar : IterationStmt::kForIn;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
         iter_stmt->Line( line );
       } else {
-        int iter_type = ( is_var_decl )? IterationStmt::kForEachWithVar : IterationStmt::kForEach;
+        int iter_type = ( is_var_decl || is_comprehensions )? IterationStmt::kForEachWithVar : IterationStmt::kForEach;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
         iter_stmt->Line( line );
       }
@@ -1391,7 +1400,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
         exp_list->ReplaceChild( exp_list->FirstChild() , initialiser );
       }
       if ( is_each == false ) {
-        int iter_type = ( is_var_decl )? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
+        int iter_type = ( is_var_decl || is_comprehensions )? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
         iter_stmt = ManagedHandle::Retain( new IterationStmt( iter_type ) );
         iter_stmt->Line( line );
       } else {
@@ -1423,8 +1432,6 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     AstNode* body = ParseSourceElement_();
     CHECK_ERROR( iter_stmt );
     iter_stmt->AddChild( body );
-  } else {
-    iter_stmt->AddChild( ManagedHandle::Retain<Empty>() );
   }
   iter_stmt->Exp( exp_list );
   END(ForStatement);
@@ -2952,6 +2959,17 @@ AstNode* Parser::ParsePrimaryExpression_() {
       type = token->GetType();
       Expression *expression = exp->CastToExpression();
       expression->Paren();
+    } else if ( type == Token::JS_FOR ) {
+      AstNode* generator = ParseGeneratorExpression_( exp );
+      CHECK_ERROR(generator);
+      token = Advance_();
+      type = token->GetType();
+      if ( type != ')' ) {
+        SYNTAX_ERROR( "unmatched parensis\\nin file "
+                      << filename_ << " at line " << token->GetLineNumber() );
+        return generator;
+      }
+      return generator;
     } else {
       SYNTAX_ERROR( "parse error unmatched parensis\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
@@ -2965,6 +2983,21 @@ AstNode* Parser::ParsePrimaryExpression_() {
       END(PrimaryExpression);
       return exp;
     }
+  } else if ( type == '#' ) {
+    token = Advance_();
+    type = token->GetType();
+    if ( type == '[' ) {
+      AstNode* elem = ParseArrayLiteral_();
+      CHECK_ERROR( elem );
+      elem->CastToValue()->ValueType( ValueNode::kTuple );
+      return elem;
+    } else {
+      SYNTAX_ERROR( "got unexpected token "
+                    << TokenConverter( token ) <<
+                    " expect '[' \\nin file "
+                    << filename_ << " at line " << token->GetLineNumber() );
+      return ManagedHandle::Retain<Empty>();
+    }
   } else if ( type == Token::JS_FUNCTION_GLYPH ||
               type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression_( type );
@@ -2975,6 +3008,16 @@ AstNode* Parser::ParsePrimaryExpression_() {
     END(PrimaryExpression);
     return ParseLiteral_();
   }
+}
+
+
+AstNode* Parser::ParseGeneratorExpression_( AstNode* exp ) {
+  AstNode* node = ParseArrayComprehensions_();
+  CHECK_ERROR( node );
+  ValueNode* generator = ManagedHandle::Retain( new ValueNode( ValueNode::kGenerator ) );
+  generator->AddChild( node );
+  generator->Node( exp );
+  return generator;
 }
 
 
@@ -3177,9 +3220,10 @@ AstNode* Parser::ParseArrayLiteral_() {
             END(ArrayLiteralError);
             return val;
           }
-          AstNode* node = ParseArrayComprehensions_();
-          CHECK_ERROR( node );
-          list->AddChild( node );
+          AstNode* cmp_node = ParseArrayComprehensions_();
+          CHECK_ERROR( cmp_node );
+          list->RemoveChild( node );
+          list->AddChild( cmp_node );
           token = Seek_();
           type = token->GetType();
           if ( type != ']' ) {
@@ -3189,8 +3233,11 @@ AstNode* Parser::ParseArrayLiteral_() {
                           << filename_ << " at line " << token->GetLineNumber() );
             END(ArrayLiteralError);
             return val;
+          } else {
+            Advance_();
           }
-          val->Append( node );
+          val->Node( node );
+          val->AddChild( cmp_node );
           val->ValueType( ValueNode::kArrayComp );
           END(ArrayLiteral);
           return val;

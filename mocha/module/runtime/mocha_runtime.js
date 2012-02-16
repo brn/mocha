@@ -554,6 +554,8 @@ module Runtime {
           this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
         }
   
+  const fastMax( x , y ) -> x > y? x : y;
+  
   //Minimal runtime.
   var Runtime = {
         getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
@@ -614,6 +616,30 @@ module Runtime {
   export throwException = Runtime.throwException.bind( Runtime );
   
   export exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+  
+  export extend( dest , source ) {
+    for ( var prop in source ) {
+      dest[ prop ] = source[ prop ];
+    }
+    return dest;
+  }
+  
+  compareTuple( tuple ) -> {
+    var max = fastMax( tuple.length , this.length );
+        i = 0;
+    while ( i < max && tuple[ i ] === this[ i ] ){ i++; }
+    return max === i;
+  }
+  
+  tupleToArray -> Array.prototype.slice.call( this );
+  
+  export createTuple( obj , size ) {
+    createUnenumProp( obj , "length" , size );
+    createUnenumProp( obj , "equal" , compareTuple );
+    createUnenumProp( obj , "toArray" , tupleToArray );
+    createUnenumProp( obj , "toString" , -> "[object Tuple]" );
+    return Object.freeze( obj );
+  }
   
   export extendPrototype = ( derived , base ) -> {
     derived.prototype = base;
@@ -815,6 +841,18 @@ module Runtime {
         if ( !without[ i ] ) {
           tmp = ( !with_[ i ] )? i : with_[ i ];
           privateProto[ tmp ] = traitPrivate[ i ];
+        }
+      }
+    }
+  }
+  
+  export checkRequirements( {prototype:proto1}, {prototype:proto2} , traits , file , line ) {
+    for ( var i = 0,len = traits.length; i < len; i++ ) {
+      var {_mochaRequires} = traits[ i ];
+      for ( var prop in _mochaRequires ) {
+        if ( !( prop in proto1 ) && !( prop in proto2 ) ) {
+          Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "
+                                  + prop + "\nin file " + file + " at line " + line );
         }
       }
     }

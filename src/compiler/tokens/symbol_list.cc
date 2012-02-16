@@ -54,7 +54,9 @@ static const char runtime[][50] = {
   "_mochaTraitMark",
   "traitMixin",
   "_mochaRequires",
-  "classMixin"
+  "classMixin",
+  "checkRequirements",
+  "createTuple"
 };
 
 static const char builtin[][50] = {

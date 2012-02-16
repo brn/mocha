@@ -434,6 +434,22 @@ AstNode* Function::Clone() {
   return CopyChildren( fn , this );
 }
 
+void CallExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( old_node == callable_ ) {
+    new_node->Before( 0 );
+    new_node->After( 0 );
+    new_node->ParentNode( this );
+    callable_ = new_node;
+  } else if ( old_node == args_ ) {
+    new_node->Before( 0 );
+    new_node->After( 0 );
+    new_node->ParentNode( this );
+    args_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
 AstNode* CallExp::Clone() {
   CallExp *exp = ManagedHandle::Retain( new CallExp( call_type_ ) );
   if ( callable_ ) {

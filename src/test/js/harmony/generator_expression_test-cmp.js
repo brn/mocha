@@ -784,91 +784,144 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/function_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/generator_expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./function_test.js'] = {};
+      _mochaGlobalExport['./generator_expression_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./function_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./generator_expression_test.js'];
       
-      function test() {
-        try {
-          __LINE__ = 3;
-          return 1;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 5;
-      Runtime.assert( true,1 === test(),"1 === test()",5,'./function_test.js' );
-      
-      __LINE__ = 7;
-      var testExpression = function () {
-            try {
-              __LINE__ = 8;
-              return 1;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-      
-      __LINE__ = 10;
-      Runtime.assert( true,1 === testExpression(),"1 === testExpression()",10,'./function_test.js' );
-      
-      __LINE__ = 12;
+      __LINE__ = 3;
       var testObject =  {
-            prop : function () {
-              try {
-                __LINE__ = 14;
-                return 1;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
+            value1 : 100,
+            value2 : 200,
+            value3 : 300
           };
       
-      __LINE__ = 18;
-      Runtime.assert( true,1 === testObject.prop(),"1 === testObject.prop()",18,'./function_test.js' );
-      
-      function testFormal( arg,arg2,arg3 ) {
-        try {
-          __LINE__ = 21;
-          return arg+arg2+arg3;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 23;
-      Runtime.assert( true,3 === testFormal( 1,1,1 ),"3 === testFormal( 1,1,1 )",23,'./function_test.js' );
-      
-      __LINE__ = 26;
-      var testExpressionFormal = function ( arg,arg2,arg3 ) {
+      __LINE__ = 8;
+      var test = ( function () {
             try {
-              __LINE__ = 27;
-              return arg+arg2+arg3;
+              __LINE__ = 0;
+              var _mochaIsNewBorn = true;
+              
+              __LINE__ = 0;
+              var _yieldResult = undefined;
+              
+              __LINE__ = 0;
+              var _yieldState = 0;
+              
+              __LINE__ = 8;
+              var length;
+              
+              __LINE__ = 8;
+              var _mochaLocalTmp2;
+              
+              __LINE__ = 0;
+              var x;
+              
+              __LINE__ = 0;
+              var _mochaLocalTmp1 = [];
+              
+              __LINE__ = 0;
+              var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
+                    try {
+                      __LINE__ = 0;
+                      if ( !_isYieldSend ){
+                        __LINE__ = 0;
+                        _mochaIsNewBorn = false;
+                      } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
+                        __LINE__ = 0;
+                        Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                      };
+                      
+                      __LINE__ = 0;
+                      while ( 1 ){
+                        __LINE__ = 0;
+                        switch ( _yieldState ) {
+                          case 0 :
+                            
+                            __LINE__ = 8;
+                            for ( var _mochaLocalTmp0 in testObject ){
+                              
+                              __LINE__ = 0;
+                              _mochaLocalTmp1.push( _mochaLocalTmp0 );
+                            };
+                            
+                            __LINE__ = 8;
+                            _mochaLocalTmp2 = 0;
+                            
+                            __LINE__ = 8;
+                            length = _mochaLocalTmp1.length;
+                            
+                            __LINE__ = 8;
+                            if ( !( _mochaLocalTmp2<length ) ){
+                              __LINE__ = 0;
+                              _yieldState = -1;
+                              __LINE__ = 0;
+                              break;
+                            };
+                          case 1 :
+                            
+                            __LINE__ = 0;
+                            _yieldState = 2;
+                            
+                            __LINE__ = 0;
+                            x = _mochaLocalTmp1[_mochaLocalTmp2];
+                            
+                            __LINE__ = 0;
+                            x = testObject[x];
+                            __LINE__ = 0;
+                            return x;
+                          case 2 :
+                            
+                            __LINE__ = 0;
+                             ++ _mochaLocalTmp2;
+                            
+                            __LINE__ = 0;
+                            if ( _mochaLocalTmp2<length ){
+                              __LINE__ = 0;
+                              _yieldState = 1;
+                              __LINE__ = 0;
+                              break;
+                            } else {
+                              __LINE__ = 0;
+                              _yieldState = -1;
+                            };
+                          case -1 :
+                            
+                            __LINE__ = 0;
+                            if ( _isYieldSafe ){
+                              __LINE__ = 0;
+                              return undefined;
+                            } else {
+                              __LINE__ = 0;
+                              Runtime.throwStopIteration();
+                            };
+                            
+                        };
+                      };
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  };
+              __LINE__ = 0;
+              return Runtime.createGenerator( _mochaGenerator,
+              function (  ) {
+                try {
+                  __LINE__ = 0;
+                  _yieldState = -1;
+                } catch( e ){
+                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                }
+              },this);
             } catch( e ){
               Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
             }
-          };
+          })();
       
-      __LINE__ = 29;
-      Runtime.assert( true,3 === testExpressionFormal( 1,1,1 ),"3 === testExpressionFormal( 1,1,1 )",29,'./function_test.js' );
-      
-      __LINE__ = 31;
-      var testObjectFormal =  {
-            prop : function ( arg,arg2,arg3 ) {
-              try {
-                __LINE__ = 33;
-                return arg+arg2+arg3;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-      
-      __LINE__ = 36;
-      Runtime.assert( true,3 === testObjectFormal.prop( 1,1,1 ),"3 === testObjectFormal.prop( 1,1,1 )",36,'./function_test.js' );
+      __LINE__ = 0;
+      console.log( test.next() );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

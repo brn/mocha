@@ -784,91 +784,27 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/function_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/tuple_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./function_test.js'] = {};
+      _mochaGlobalExport['./tuple_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./function_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./tuple_test.js'];
       
-      function test() {
-        try {
-          __LINE__ = 3;
-          return 1;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 5;
-      Runtime.assert( true,1 === test(),"1 === test()",5,'./function_test.js' );
+      __LINE__ = 3;
+      var test = Runtime.createTuple(  {
+            0 : 0,
+            1 : 1,
+            2 : 2,
+            3 : 3
+          },4);
       
-      __LINE__ = 7;
-      var testExpression = function () {
-            try {
-              __LINE__ = 8;
-              return 1;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
+      __LINE__ = 0;
+      console.log( test );
       
-      __LINE__ = 10;
-      Runtime.assert( true,1 === testExpression(),"1 === testExpression()",10,'./function_test.js' );
-      
-      __LINE__ = 12;
-      var testObject =  {
-            prop : function () {
-              try {
-                __LINE__ = 14;
-                return 1;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-      
-      __LINE__ = 18;
-      Runtime.assert( true,1 === testObject.prop(),"1 === testObject.prop()",18,'./function_test.js' );
-      
-      function testFormal( arg,arg2,arg3 ) {
-        try {
-          __LINE__ = 21;
-          return arg+arg2+arg3;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      }
-      __LINE__ = 23;
-      Runtime.assert( true,3 === testFormal( 1,1,1 ),"3 === testFormal( 1,1,1 )",23,'./function_test.js' );
-      
-      __LINE__ = 26;
-      var testExpressionFormal = function ( arg,arg2,arg3 ) {
-            try {
-              __LINE__ = 27;
-              return arg+arg2+arg3;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-      
-      __LINE__ = 29;
-      Runtime.assert( true,3 === testExpressionFormal( 1,1,1 ),"3 === testExpressionFormal( 1,1,1 )",29,'./function_test.js' );
-      
-      __LINE__ = 31;
-      var testObjectFormal =  {
-            prop : function ( arg,arg2,arg3 ) {
-              try {
-                __LINE__ = 33;
-                return arg+arg2+arg3;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-      
-      __LINE__ = 36;
-      Runtime.assert( true,3 === testObjectFormal.prop( 1,1,1 ),"3 === testObjectFormal.prop( 1,1,1 )",36,'./function_test.js' );
+      __LINE__ = 0;
+      console.log( test.toArray() );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

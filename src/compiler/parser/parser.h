@@ -92,6 +92,7 @@ class Parser{
   AstNode* ParseDotMember_( bool *is_bool );
   CallExp* ParseEachMember_( int type , bool is_first , CallExp* exp );
   AstNode* ParsePrimaryExpression_();
+  AstNode* ParseGeneratorExpression_( AstNode* exp );
   AstNode* ParseObjectLiteral_();
   AstNode* ParseObjectElement_( int type , TokenInfo* token , AstNode* list );
   AstNode* ParseArrayLiteral_();

@@ -41,9 +41,7 @@ BEGIN :
       args += " ";
       count++;
     }
-    if ( count == 10 ) {
-      break;
-    }
+    
   }
   Thread thread;
   thread.Create( ThreadRunner , &args );

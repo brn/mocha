@@ -433,7 +433,8 @@ class Scanner::InternalScanner {
          ch == '[' || ch == ']' ||
          ch == '~' || ch == ',' ||
          ch == '.' || ch == ':' ||
-         ch == ';' || ch == '?' ) {
+         ch == ';' || ch == '?' ||
+         ch == '#') {
       char next = Seek_( 1 );
       char next_after_ = Seek_( 2 );
       if ( ch == '.' && next == ch && next_after_ == ch ) {

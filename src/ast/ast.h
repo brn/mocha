@@ -1329,6 +1329,7 @@ class CallExp : public Expression {
   inline CallExp* CastToCallExp() { return this; }
   inline void Call() { is_call_ = true; }
   inline bool IsCall() { return is_call_; }
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE(CallExp);
  private :
   int call_type_;
@@ -1537,7 +1538,9 @@ class ValueNode : public Expression {
     kRest,
     kProperty,
     kPrivateProperty,
-    kSuper
+    kSuper,
+    kGenerator,
+    kTuple
   };
   inline ValueNode( int type ) :
       Expression( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};

@@ -1717,458 +1717,364 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/array_comprehensions_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./for_of_test.js'] = {};
+      _mochaGlobalExport['./array_comprehensions_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./for_of_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./array_comprehensions_test.js'];
       
       __LINE__ = 0;
       var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'],
-          iterator = _mochaLocalTmp0.iterator;
+          items = _mochaLocalTmp0.items;
       
-      __LINE__ = 0;
-      var _mochaLocalTmp9 =  {
-            arr : [],
-            add : function ( value ) {
-              try {
-                __LINE__ = 0;
-                this.arr.push( value );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            
+      __LINE__ = 3;
+      var testTarget =  {
+            value1 : 100,
+            value2 : 200,
+            value3 : 300
           };
       
+      __LINE__ = 9;
+      var cmpTest = ( function () {
+            try {
+              __LINE__ = 0;
+              var _mochaLocalTmp1 = [];
+              
+              __LINE__ = 9;
+              for ( var prop in testTarget ){
+                __LINE__ = 0;
+                prop = testTarget[prop];
+                
+                __LINE__ = 0;
+                _mochaLocalTmp1.push( prop );
+              };
+              __LINE__ = 0;
+              return _mochaLocalTmp1;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 10;
+      Runtime.assert( true,cmpTest[0] === 100,"cmpTest[0] === 100",10,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 11;
+      Runtime.assert( true,cmpTest[1] === 200,"cmpTest[1] === 200",11,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 12;
+      Runtime.assert( true,cmpTest[2] === 300,"cmpTest[2] === 300",12,'./array_comprehensions_test.js' );
+      
       __LINE__ = 0;
-      Runtime.createUnenumProp( _mochaLocalTmp9,iterator,
-      function () {
+      cmpTest = ( function () {
         try {
           __LINE__ = 0;
-          var arr = this.arr;
-          __LINE__ = 27;
-          return  {
-            index : 0,
-            next : function () {
-              try {
-                __LINE__ = 0;
-                if ( arr.length>this.index ){
-                  __LINE__ = 0;
-                  var ret = arr[this.index];
-                  
-                  __LINE__ = 0;
-                  this.index ++ ;
-                  __LINE__ = 33;
-                  return ret;
-                } else {
-                  __LINE__ = 0;
-                  return undefined;
-                };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
+          var _mochaLocalTmp2 = [];
+          
+          __LINE__ = 14;
+          for ( var prop in testTarget ){
+            __LINE__ = 0;
+            _mochaLocalTmp2.push( prop );
           };
+          __LINE__ = 0;
+          return _mochaLocalTmp2;
         } catch( e ){
           Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
         }
-      });
+      })();
       
-      __LINE__ = 2;
-      var item = function ( obj ) {
-            try {
-              __LINE__ = 0;
-              var _mochaLocalTmp4 =  {
-                    
-                  };
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( _mochaLocalTmp4,iterator,
-              function () {
-                try {
-                  __LINE__ = 0;
-                  var _mochaIsNewBorn = true;
-                  
-                  __LINE__ = 0;
-                  var _yieldResult = undefined;
-                  
-                  __LINE__ = 0;
-                  var _yieldState = 0;
-                  
-                  __LINE__ = 0;
-                  var length;
-                  
-                  __LINE__ = 0;
-                  var _mochaLocalTmp3;
-                  
-                  __LINE__ = 0;
-                  var i;
-                  
-                  __LINE__ = 0;
-                  var _mochaLocalTmp2 = [];
-                  
-                  __LINE__ = 0;
-                  var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                        try {
-                          __LINE__ = 0;
-                          if ( !_isYieldSend ){
-                            __LINE__ = 0;
-                            _mochaIsNewBorn = false;
-                          } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                            __LINE__ = 0;
-                            Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                          };
-                          
-                          __LINE__ = 0;
-                          while ( 1 ){
-                            __LINE__ = 0;
-                            switch ( _yieldState ) {
-                              case 0 :
-                                
-                                __LINE__ = 0;
-                                for ( var _mochaLocalTmp1 in obj ){
-                                  
-                                  __LINE__ = 9;
-                                  _mochaLocalTmp2.push( _mochaLocalTmp1 );
-                                };
-                                
-                                __LINE__ = 5;
-                                _mochaLocalTmp3 = 0;
-                                
-                                __LINE__ = 5;
-                                length = _mochaLocalTmp2.length;
-                                
-                                __LINE__ = 0;
-                                if ( !( _mochaLocalTmp3<length ) ){
-                                  __LINE__ = 9;
-                                  _yieldState = -1;
-                                  __LINE__ = 9;
-                                  break;
-                                };
-                              case 1 :
-                                
-                                __LINE__ = 0;
-                                _yieldState = 2;
-                                
-                                __LINE__ = 0;
-                                i = _mochaLocalTmp2[_mochaLocalTmp3];
-                                
-                                __LINE__ = 0;
-                                i = obj[i];
-                                __LINE__ = 0;
-                                return i;
-                              case 2 :
-                                
-                                __LINE__ = 0;
-                                 ++ _mochaLocalTmp3;
-                                
-                                __LINE__ = 0;
-                                if ( _mochaLocalTmp3<length ){
-                                  __LINE__ = 9;
-                                  _yieldState = 1;
-                                  __LINE__ = 0;
-                                  break;
-                                } else {
-                                  __LINE__ = 9;
-                                  _yieldState = -1;
-                                };
-                              case -1 :
-                                
-                                __LINE__ = 0;
-                                if ( _isYieldSafe ){
-                                  __LINE__ = 0;
-                                  return undefined;
-                                } else {
-                                  __LINE__ = 9;
-                                  Runtime.throwStopIteration();
-                                };
-                                
-                            };
-                          };
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      };
-                  __LINE__ = 0;
-                  return Runtime.createGenerator( _mochaGenerator,
-                  function (  ) {
-                    try {
-                      __LINE__ = 0;
-                      _yieldState = -1;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  },this);
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              });
-              __LINE__ = 3;
-              return _mochaLocalTmp4;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          },
-          key = function ( obj ) {
-            try {
-              __LINE__ = 0;
-              var _mochaLocalTmp8 =  {
-                    
-                  };
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( _mochaLocalTmp8,iterator,
-              function () {
-                try {
-                  __LINE__ = 0;
-                  var _mochaIsNewBorn = true;
-                  
-                  __LINE__ = 0;
-                  var _yieldResult = undefined;
-                  
-                  __LINE__ = 0;
-                  var _yieldState = 0;
-                  
-                  __LINE__ = 0;
-                  var length;
-                  
-                  __LINE__ = 0;
-                  var _mochaLocalTmp7;
-                  
-                  __LINE__ = 0;
-                  var i;
-                  
-                  __LINE__ = 0;
-                  var _mochaLocalTmp6 = [];
-                  
-                  __LINE__ = 0;
-                  var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                        try {
-                          __LINE__ = 0;
-                          if ( !_isYieldSend ){
-                            __LINE__ = 0;
-                            _mochaIsNewBorn = false;
-                          } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                            __LINE__ = 0;
-                            Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                          };
-                          
-                          __LINE__ = 0;
-                          while ( 1 ){
-                            __LINE__ = 0;
-                            switch ( _yieldState ) {
-                              case 0 :
-                                
-                                __LINE__ = 0;
-                                for ( var _mochaLocalTmp5 in obj ){
-                                  
-                                  __LINE__ = 18;
-                                  _mochaLocalTmp6.push( _mochaLocalTmp5 );
-                                };
-                                
-                                __LINE__ = 14;
-                                _mochaLocalTmp7 = 0;
-                                
-                                __LINE__ = 14;
-                                length = _mochaLocalTmp6.length;
-                                
-                                __LINE__ = 0;
-                                if ( !( _mochaLocalTmp7<length ) ){
-                                  __LINE__ = 18;
-                                  _yieldState = -1;
-                                  __LINE__ = 18;
-                                  break;
-                                };
-                              case 1 :
-                                
-                                __LINE__ = 0;
-                                _yieldState = 2;
-                                
-                                __LINE__ = 0;
-                                i = _mochaLocalTmp6[_mochaLocalTmp7];
-                                __LINE__ = 0;
-                                return i;
-                              case 2 :
-                                
-                                __LINE__ = 0;
-                                 ++ _mochaLocalTmp7;
-                                
-                                __LINE__ = 0;
-                                if ( _mochaLocalTmp7<length ){
-                                  __LINE__ = 18;
-                                  _yieldState = 1;
-                                  __LINE__ = 0;
-                                  break;
-                                } else {
-                                  __LINE__ = 18;
-                                  _yieldState = -1;
-                                };
-                              case -1 :
-                                
-                                __LINE__ = 0;
-                                if ( _isYieldSafe ){
-                                  __LINE__ = 0;
-                                  return undefined;
-                                } else {
-                                  __LINE__ = 18;
-                                  Runtime.throwStopIteration();
-                                };
-                                
-                            };
-                          };
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      };
-                  __LINE__ = 0;
-                  return Runtime.createGenerator( _mochaGenerator,
-                  function (  ) {
-                    try {
-                      __LINE__ = 0;
-                      _yieldState = -1;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  },this);
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              });
-              __LINE__ = 12;
-              return _mochaLocalTmp8;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          },
-          iter = _mochaLocalTmp9;
+      __LINE__ = 15;
+      Runtime.assert( true,cmpTest[0] === "value1","cmpTest[0] === \"value1\"",15,'./array_comprehensions_test.js' );
       
-      __LINE__ = 42;
-      var testObj =  {
-            value1 : 100,
-            value2 : 200,
-            value3 : 300,
-            value4 : 400
-          };
+      __LINE__ = 16;
+      Runtime.assert( true,cmpTest[1] === "value2","cmpTest[1] === \"value2\"",16,'./array_comprehensions_test.js' );
       
-      __LINE__ = 48;
-      var ret = [];
+      __LINE__ = 17;
+      Runtime.assert( true,cmpTest[2] === "value3","cmpTest[2] === \"value3\"",17,'./array_comprehensions_test.js' );
       
       __LINE__ = 0;
-      var i;
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp10 = item( testObj );
-      
-      __LINE__ = 0;
-      _mochaLocalTmp10 = Runtime.hasIterator( _mochaLocalTmp10 )?Runtime.getIterator( _mochaLocalTmp10 ) : _mochaLocalTmp10;
-      
-      __LINE__ = 0;
-      if ( _mochaLocalTmp10.__nothrowNext__ ){
-        __LINE__ = 0;
-        while ( ( i = _mochaLocalTmp10.__nothrowNext__(  ) ) ){
+      cmpTest = ( function () {
+        try {
           __LINE__ = 0;
-          ret.push( i );
-        };
-      } else {
-        __LINE__ = 0;
-        Runtime.exceptionHandler( 49,'./for_of_test.js','for of statement expect iterator or generator object.' );
+          var _mochaLocalTmp3 = [];
+          
+          __LINE__ = 0;
+          var prop;
+          
+          __LINE__ = 0;
+          var _mochaLocalTmp4 = items( testTarget );
+          
+          __LINE__ = 0;
+          _mochaLocalTmp4 = Runtime.hasIterator( _mochaLocalTmp4 )?Runtime.getIterator( _mochaLocalTmp4 ) : _mochaLocalTmp4;
+          
+          __LINE__ = 0;
+          if ( _mochaLocalTmp4.__nothrowNext__ ){
+            __LINE__ = 0;
+            while ( ( prop = _mochaLocalTmp4.__nothrowNext__(  ) ) ){
+              __LINE__ = 0;
+              _mochaLocalTmp3.push( prop );
+            };
+          } else {
+            __LINE__ = 0;
+            Runtime.exceptionHandler( 19,'./array_comprehensions_test.js','for of statement expect iterator or generator object.' );
+          };
+          __LINE__ = 0;
+          return _mochaLocalTmp3;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+      
+      __LINE__ = 20;
+      Runtime.assert( true,cmpTest[0][0] === "value1","cmpTest[0][0] === \"value1\"",20,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 21;
+      Runtime.assert( true,cmpTest[0][1] === 100,"cmpTest[0][1] === 100",21,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 22;
+      Runtime.assert( true,cmpTest[1][0] === "value2","cmpTest[1][0] === \"value2\"",22,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 23;
+      Runtime.assert( true,cmpTest[1][1] === 200,"cmpTest[1][1] === 200",23,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 24;
+      Runtime.assert( true,cmpTest[2][0] === "value3","cmpTest[2][0] === \"value3\"",24,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 25;
+      Runtime.assert( true,cmpTest[2][1] === 300,"cmpTest[2][1] === 300",25,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 28;
+      var cmpTest = ( function () {
+            try {
+              __LINE__ = 0;
+              var _mochaLocalTmp5 = [];
+              
+              __LINE__ = 28;
+              for ( var prop in testTarget ){
+                __LINE__ = 0;
+                prop = testTarget[prop];
+                
+                __LINE__ = 28;
+                if ( prop === 200 ){
+                  __LINE__ = 0;
+                  _mochaLocalTmp5.push( prop );
+                };
+              };
+              __LINE__ = 0;
+              return _mochaLocalTmp5;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 29;
+      Runtime.assert( true,cmpTest[0] === 200,"cmpTest[0] === 200",29,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 0;
+      cmpTest = ( function () {
+        try {
+          __LINE__ = 0;
+          var _mochaLocalTmp6 = [];
+          
+          __LINE__ = 31;
+          for ( var prop in testTarget ){
+            __LINE__ = 31;
+            if ( prop === "value2" ){
+              __LINE__ = 0;
+              _mochaLocalTmp6.push( prop );
+            };
+          };
+          __LINE__ = 0;
+          return _mochaLocalTmp6;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+      
+      __LINE__ = 32;
+      Runtime.assert( true,cmpTest[0] === "value2","cmpTest[0] === \"value2\"",32,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 0;
+      cmpTest = ( function () {
+        try {
+          __LINE__ = 0;
+          var _mochaLocalTmp7 = [];
+          
+          __LINE__ = 0;
+          var prop;
+          
+          __LINE__ = 0;
+          var _mochaLocalTmp8 = items( testTarget );
+          
+          __LINE__ = 0;
+          _mochaLocalTmp8 = Runtime.hasIterator( _mochaLocalTmp8 )?Runtime.getIterator( _mochaLocalTmp8 ) : _mochaLocalTmp8;
+          
+          __LINE__ = 0;
+          if ( _mochaLocalTmp8.__nothrowNext__ ){
+            __LINE__ = 0;
+            while ( ( prop = _mochaLocalTmp8.__nothrowNext__(  ) ) ){
+              __LINE__ = 34;
+              if ( prop[1] === 200 ){
+                __LINE__ = 0;
+                _mochaLocalTmp7.push( prop );
+              };
+            };
+          } else {
+            __LINE__ = 0;
+            Runtime.exceptionHandler( 34,'./array_comprehensions_test.js','for of statement expect iterator or generator object.' );
+          };
+          __LINE__ = 0;
+          return _mochaLocalTmp7;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+      
+      __LINE__ = 35;
+      Runtime.assert( true,cmpTest[0][0] === "value2","cmpTest[0][0] === \"value2\"",35,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 36;
+      Runtime.assert( true,cmpTest[0][1] === 200,"cmpTest[0][1] === 200",36,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 0;
+      testTarget =  {
+        value1 :  {
+          value1 : 100
+        },
+        value2 :  {
+          value2 : 200
+        },
+        value3 :  {
+          value3 : 300
+        }
       };
+      
+      __LINE__ = 0;
+      cmpTest = ( function () {
+        try {
+          __LINE__ = 0;
+          var _mochaLocalTmp9 = [];
+          
+          __LINE__ = 44;
+          for ( var prop in testTarget ){
+            __LINE__ = 0;
+            prop = testTarget[prop];
+            
+            __LINE__ = 44;
+            for ( var x in prop ){
+              __LINE__ = 0;
+              x = prop[x];
+              
+              __LINE__ = 0;
+              _mochaLocalTmp9.push( x );
+            };
+          };
+          __LINE__ = 0;
+          return _mochaLocalTmp9;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+      
+      __LINE__ = 45;
+      Runtime.assert( true,cmpTest[0] === 100,"cmpTest[0] === 100",45,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 46;
+      Runtime.assert( true,cmpTest[1] === 200,"cmpTest[1] === 200",46,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 47;
+      Runtime.assert( true,cmpTest[2] === 300,"cmpTest[2] === 300",47,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 0;
+      cmpTest = ( function () {
+        try {
+          __LINE__ = 0;
+          var _mochaLocalTmp10 = [];
+          
+          __LINE__ = 49;
+          for ( var prop in testTarget ){
+            __LINE__ = 0;
+            prop = testTarget[prop];
+            
+            __LINE__ = 49;
+            for ( var x in prop ){
+              __LINE__ = 0;
+              _mochaLocalTmp10.push( x );
+            };
+          };
+          __LINE__ = 0;
+          return _mochaLocalTmp10;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
+      
+      __LINE__ = 50;
+      Runtime.assert( true,cmpTest[0] === "value1","cmpTest[0] === \"value1\"",50,'./array_comprehensions_test.js' );
+      
+      __LINE__ = 51;
+      Runtime.assert( true,cmpTest[1] === "value2","cmpTest[1] === \"value2\"",51,'./array_comprehensions_test.js' );
       
       __LINE__ = 52;
-      Runtime.assert( true,ret[0] === 100,"ret[0] === 100",52,'./for_of_test.js' );
+      Runtime.assert( true,cmpTest[2] === "value3","cmpTest[2] === \"value3\"",52,'./array_comprehensions_test.js' );
       
-      __LINE__ = 53;
-      Runtime.assert( true,ret[1] === 200,"ret[1] === 200",53,'./for_of_test.js' );
-      
-      __LINE__ = 54;
-      Runtime.assert( true,ret[2] === 300,"ret[2] === 300",54,'./for_of_test.js' );
+      __LINE__ = 0;
+      cmpTest = ( function () {
+        try {
+          __LINE__ = 0;
+          var _mochaLocalTmp11 = [];
+          
+          __LINE__ = 54;
+          for ( var prop in testTarget ){
+            __LINE__ = 0;
+            prop = testTarget[prop];
+            
+            __LINE__ = 0;
+            var x;
+            
+            __LINE__ = 0;
+            var _mochaLocalTmp12 = items( prop );
+            
+            __LINE__ = 0;
+            _mochaLocalTmp12 = Runtime.hasIterator( _mochaLocalTmp12 )?Runtime.getIterator( _mochaLocalTmp12 ) : _mochaLocalTmp12;
+            
+            __LINE__ = 0;
+            if ( _mochaLocalTmp12.__nothrowNext__ ){
+              __LINE__ = 0;
+              while ( ( x = _mochaLocalTmp12.__nothrowNext__(  ) ) ){
+                __LINE__ = 0;
+                _mochaLocalTmp11.push( x );
+              };
+            } else {
+              __LINE__ = 0;
+              Runtime.exceptionHandler( 54,'./array_comprehensions_test.js','for of statement expect iterator or generator object.' );
+            };
+          };
+          __LINE__ = 0;
+          return _mochaLocalTmp11;
+        } catch( e ){
+          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        }
+      })();
       
       __LINE__ = 55;
-      Runtime.assert( true,ret[3] === 400,"ret[3] === 400",55,'./for_of_test.js' );
+      Runtime.assert( true,cmpTest[0][0] === "value1","cmpTest[0][0] === \"value1\"",55,'./array_comprehensions_test.js' );
       
-      __LINE__ = 0;
-      ret = [];
+      __LINE__ = 56;
+      Runtime.assert( true,cmpTest[0][1] === 100,"cmpTest[0][1] === 100",56,'./array_comprehensions_test.js' );
       
-      __LINE__ = 0;
-      var x;
+      __LINE__ = 57;
+      Runtime.assert( true,cmpTest[1][0] === "value2","cmpTest[1][0] === \"value2\"",57,'./array_comprehensions_test.js' );
       
-      __LINE__ = 0;
-      var _mochaLocalTmp11 = key( testObj );
+      __LINE__ = 58;
+      Runtime.assert( true,cmpTest[1][1] === 200,"cmpTest[1][1] === 200",58,'./array_comprehensions_test.js' );
       
-      __LINE__ = 0;
-      _mochaLocalTmp11 = Runtime.hasIterator( _mochaLocalTmp11 )?Runtime.getIterator( _mochaLocalTmp11 ) : _mochaLocalTmp11;
+      __LINE__ = 59;
+      Runtime.assert( true,cmpTest[2][0] === "value3","cmpTest[2][0] === \"value3\"",59,'./array_comprehensions_test.js' );
       
-      __LINE__ = 0;
-      if ( _mochaLocalTmp11.__nothrowNext__ ){
-        __LINE__ = 0;
-        while ( ( x = _mochaLocalTmp11.__nothrowNext__(  ) ) ){
-          __LINE__ = 0;
-          ret.push( x );
-        };
-      } else {
-        __LINE__ = 0;
-        Runtime.exceptionHandler( 58,'./for_of_test.js','for of statement expect iterator or generator object.' );
-      };
-      
-      __LINE__ = 61;
-      Runtime.assert( true,ret[0] === "value1","ret[0] === \"value1\"",61,'./for_of_test.js' );
-      
-      __LINE__ = 62;
-      Runtime.assert( true,ret[1] === "value2","ret[1] === \"value2\"",62,'./for_of_test.js' );
-      
-      __LINE__ = 63;
-      Runtime.assert( true,ret[2] === "value3","ret[2] === \"value3\"",63,'./for_of_test.js' );
-      
-      __LINE__ = 64;
-      Runtime.assert( true,ret[3] === "value4","ret[3] === \"value4\"",64,'./for_of_test.js' );
-      
-      __LINE__ = 0;
-      ret = [];
-      
-      __LINE__ = 0;
-      iter.add( 100 );
-      
-      __LINE__ = 0;
-      iter.add( 200 );
-      
-      __LINE__ = 0;
-      iter.add( 300 );
-      
-      __LINE__ = 0;
-      iter.add( 400 );
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp12 = iter;
-      
-      __LINE__ = 0;
-      _mochaLocalTmp12 = Runtime.hasIterator( _mochaLocalTmp12 )?Runtime.getIterator( _mochaLocalTmp12 ) : _mochaLocalTmp12;
-      
-      __LINE__ = 0;
-      if ( _mochaLocalTmp12.__nothrowNext__ ){
-        __LINE__ = 0;
-        while ( ( i = _mochaLocalTmp12.__nothrowNext__(  ) ) ){
-          __LINE__ = 0;
-          ret.push( i );
-        };
-      } else {
-        __LINE__ = 0;
-        Runtime.exceptionHandler( 71,'./for_of_test.js','for of statement expect iterator or generator object.' );
-      };
-      
-      __LINE__ = 74;
-      Runtime.assert( true,ret[0] === 100,"ret[0] === 100",74,'./for_of_test.js' );
-      
-      __LINE__ = 75;
-      Runtime.assert( true,ret[1] === 200,"ret[1] === 200",75,'./for_of_test.js' );
-      
-      __LINE__ = 76;
-      Runtime.assert( true,ret[2] === 300,"ret[2] === 300",76,'./for_of_test.js' );
-      
-      __LINE__ = 77;
-      Runtime.assert( true,ret[3] === 400,"ret[3] === 400",77,'./for_of_test.js' );
+      __LINE__ = 60;
+      Runtime.assert( true,cmpTest[2][1] === 300,"cmpTest[2][1] === 300",60,'./array_comprehensions_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

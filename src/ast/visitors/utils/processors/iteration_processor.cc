@@ -117,12 +117,17 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   IterationStmt* while_stmt = ManagedHandle::Retain( new IterationStmt( AstNode::kWhile ) );
   ValueNode* maybeIdent = target_exp->CastToValue();
   if ( ast_node->NodeType() == AstNode::kForOfWithVar ) {
-    ValueNode* val = index_exp->Clone()->CastToValue();
-    exp->ReplaceChild( index_exp , val );
-    index_exp->CastToValue()->ValueType( ValueNode::kVariable );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( index_exp );
-    ast_node->ParentNode()->InsertBefore( stmt , ast_node );
-    val->ValueType( ValueNode::kIdentifier );
+    AstNode* val = index_exp->Clone();
+    ValueNode* maybe_value = index_exp->CastToValue();
+    fprintf( stderr , "for of node type ====== =========================== %s" , val->GetName() );
+    if ( maybe_value ) {
+      maybe_value->ValueType( ValueNode::kVariable );
+      VariableStmt* stmt = AstUtils::CreateVarStmt( index_exp );
+      ast_node->ParentNode()->InsertBefore( stmt , ast_node );
+    }
+    if ( val->CastToValue() ) {
+      val->CastToValue()->ValueType( ValueNode::kIdentifier );
+    }
     index_exp = val;
   }
   if ( !maybeIdent ) {

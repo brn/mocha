@@ -39,9 +39,10 @@ int DoRun( const char* command ) {
     fprintf( stderr , "error!!!\n" );
     exit( -1 );
   }
+  
   char ch;
   std::string buf;
-  while ( ( ch = fgetc( fp ) ) != EOF && ch ) {
+  while ( ( ch = fgetc( fp ) ) != EOF ) {
     if ( ch == '\n' ) {
       if ( buf.find( "failed" ) != std::string::npos || buf.find( "Error" ) != std::string::npos ) {
         fprintf( stderr , "\x1b[1m");

@@ -734,9 +734,9 @@ VISITOR_IMPL( ValueNode ) {
                                                   Token::JS_PROPERTY , 0 , ValueNode::kProperty );
       NodeList* list = ManagedHandle::Retain<NodeList>();
       list->AddChild( ast_node->Node()->Clone() );
-      CallExp* push_call = AstUtils::CreateNormalAccessor( push , list );
-      CallExp* push_accessor = AstUtils::CreateDotAccessor( tmp->Clone() , push_call );
-      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( push_accessor );
+      CallExp* push_accessor = AstUtils::CreateDotAccessor( tmp->Clone() , push );
+      CallExp* push_call = AstUtils::CreateNormalAccessor( push_accessor , list );
+      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( push_call );
       if ( current->NodeType() == AstNode::kIFStmt ) {
         IFStmt* if_stmt = current->CastToStatement()->CastToIFStmt();
         if_stmt->Then( exp_stmt );
@@ -749,7 +749,77 @@ VISITOR_IMPL( ValueNode ) {
       Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
       fn->Accept( this );
       ExpressionStmt* result = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
-      ast_node->ParentNode()->ReplaceChild( ast_node , result );
+      if ( ast_node->ParentNode()->CastToExpression() ) {
+        ast_node->ParentNode()->ReplaceChild( ast_node , result->FirstChild() );
+      } else {
+        ast_node->ParentNode()->ReplaceChild( ast_node , result );
+      }
+    }
+      break;
+
+    case ValueNode::kGenerator : {
+      fprintf( stderr , "@@@@@@@@@@@@@@@@-----------------------@@@@@@@@@@@@@@@@@@@@" );
+      NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
+      bool is_first = true;
+      AstNode* first;
+      AstNode* current;
+      while ( iterator.HasNext() ) {
+        if ( is_first ) {
+          current = first = iterator.Next();
+          is_first = false;
+        } else {
+          AstNode* item = iterator.Next();
+          current->AddChild( item );
+          current = item;
+        }
+      }
+      YieldExp* yield_exp = ManagedHandle::Retain<YieldExp>();
+      yield_exp->AddChild( ast_node->Node()->Clone() );
+      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( yield_exp );
+      if ( current->NodeType() == AstNode::kIFStmt ) {
+        IFStmt* if_stmt = current->CastToStatement()->CastToIFStmt();
+        if_stmt->Then( exp_stmt );
+        if_stmt->Else( ManagedHandle::Retain<Empty>() );
+      } else {
+        current->AddChild( exp_stmt );
+      }
+      NodeList* body = AstUtils::CreateNodeList( 1 , first );
+      Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
+      fn->Accept( this );
+      ExpressionStmt* result = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
+      if ( ast_node->ParentNode()->CastToExpression() ) {
+        ast_node->ParentNode()->ReplaceChild( ast_node , result->FirstChild() );
+      } else {
+        ast_node->ParentNode()->ReplaceChild( ast_node , result );
+      }
+    }
+      break;
+
+    case ValueNode::kTuple : {
+      ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+      NodeList* list = ManagedHandle::Retain<NodeList>();
+      NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
+      int count = 0;
+      while ( iterator.HasNext() ) {
+        char tmp[500];
+        sprintf( tmp , "%d" , count );
+        ValueNode* num = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
+        AstNode* item = iterator.Next();
+        item->Accept( this );
+        num->AddChild( item );
+        list->AddChild( num );
+        count++;
+      }
+      char tmp[500];
+      sprintf( tmp , "%d" , count );
+      ValueNode* num = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
+      object->Node( list );
+      ValueNode* create_tuple = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateTuple ),
+                                                          Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
+      CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( create_tuple );
+      NodeList* args = AstUtils::CreateNodeList( 2 , object , num );
+      CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args );
+      ast_node->ParentNode()->ReplaceChild( ast_node , runtime_call );
     }
       break;
       

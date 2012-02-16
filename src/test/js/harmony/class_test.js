@@ -90,18 +90,23 @@ var instance = new TestClass();
 @assert( true , instance.getAge() === 20 );
 
 trait TestTrait {
+  requires doTestm1;
   public testm1( ...arg )->arg[0];
 }
 
 trait TestTrait2 {
+  requires doTestm2;
   public testm2( ...arg )->arg[0];
   public testm3->"ok";
 }
-xxx(...arg)->arg[0];
+
 class MixinTest {
+  public doTestm1() -> "aaa";
+  public doTestm2() -> "bbb"
   mixin TestTrait with testm1 as m1;
   mixin TestTrait2 without testm2, without testm3;
 }
 var instance2 = new MixinTest();
 @assert( true , instance2.m1( "foo" ) === "foo" );
 @assert( true , instance2.m2 === undefined );
+

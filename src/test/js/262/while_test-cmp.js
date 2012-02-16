@@ -380,6 +380,9 @@
             return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
           };
         }
+        function fastMax( x,y ) {
+          return x>y?x : y;
+        }
         var Runtime =  {
               getErrorMessage : function getErrorMessage( e ) {
                 return ( e.message )?e.message : ( e.description )?e.description : e.toString();
@@ -457,6 +460,42 @@
         var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
         
         var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        
+        var extend = _mochaLocalExport.extend = function extend( dest,source ) {
+              for ( var prop in source ){
+                dest[prop] = source[prop];
+              };
+              return dest;
+            };
+        
+        function compareTuple( tuple ) {
+          var max = fastMax( tuple.length,this.length );
+          
+          i = 0;
+          
+          while ( i<max && tuple[i] === this[i] ){
+            i ++ ;
+          };
+          return max === i;
+        };
+        
+        function tupleToArray() {
+          return Array.prototype.slice.call( this );
+        };
+        
+        var createTuple = _mochaLocalExport.createTuple = function createTuple( obj,size ) {
+              createUnenumProp( obj,"length",size );
+              
+              createUnenumProp( obj,"equal",compareTuple );
+              
+              createUnenumProp( obj,"toArray",tupleToArray );
+              
+              createUnenumProp( obj,"toString",
+              function () {
+                return "[object Tuple]";
+              });
+              return Object.freeze( obj );
+            };
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
               derived.prototype = base;
@@ -706,6 +745,22 @@
               };
             };
         
+        var checkRequirements = _mochaLocalExport.checkRequirements = function checkRequirements( _mochaLocalTmp4,_mochaLocalTmp5,traits,file,line ) {
+              var proto1 = _mochaLocalTmp4.prototype,
+                  proto2 = _mochaLocalTmp5.prototype;
+              
+              for ( var i = 0,len = traits.length;i<len;i ++  ){
+                var _mochaLocalTmp6 = traits[i],
+                    _mochaRequires = _mochaLocalTmp6._mochaRequires;
+                
+                for ( var prop in _mochaRequires ){
+                  if ( !( prop in proto1 ) && !( prop in proto2 ) ){
+                    Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+                  };
+                };
+              };
+            };
+        
         ( function () {
           var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
                 return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
@@ -729,7 +784,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/while_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/while_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./while_test.js'] = {};
