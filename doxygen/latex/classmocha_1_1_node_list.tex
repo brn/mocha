@@ -1,0 +1,129 @@
+\hypertarget{classmocha_1_1_node_list}{
+\section{mocha::NodeList Class Reference}
+\label{classmocha_1_1_node_list}\index{mocha::NodeList@{mocha::NodeList}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::NodeList:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmocha_1_1_node_list}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_node_list_a6752c690ebff3781f28f8ecf40c6ef49}{NodeList} ()
+\item 
+\hyperlink{classmocha_1_1_node_list_a48d8cc7814defc30ddfabc92bafacc12}{$\sim$NodeList} ()
+\item 
+\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$ \hyperlink{classmocha_1_1_node_list_a7933d1250b8278abd9055b6c20eb7d4d}{CastToNodeList} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_node_list_a9e826e3da85ebff3ac151b627dd20d71}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_node_list_a1c45823bfde4c1f6741342e226304531}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 431 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_node_list_a6752c690ebff3781f28f8ecf40c6ef49}{
+\index{mocha::NodeList@{mocha::NodeList}!NodeList@{NodeList}}
+\index{NodeList@{NodeList}!mocha::NodeList@{mocha::NodeList}}
+\subsubsection[{NodeList}]{\setlength{\rightskip}{0pt plus 5cm}mocha::NodeList::NodeList (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_node_list_a6752c690ebff3781f28f8ecf40c6ef49}
+
+
+Definition at line 433 of file ast.h.
+
+\hypertarget{classmocha_1_1_node_list_a48d8cc7814defc30ddfabc92bafacc12}{
+\index{mocha::NodeList@{mocha::NodeList}!$\sim$NodeList@{$\sim$NodeList}}
+\index{$\sim$NodeList@{$\sim$NodeList}!mocha::NodeList@{mocha::NodeList}}
+\subsubsection[{$\sim$NodeList}]{\setlength{\rightskip}{0pt plus 5cm}mocha::NodeList::$\sim$NodeList (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_node_list_a48d8cc7814defc30ddfabc92bafacc12}
+
+
+Definition at line 434 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_node_list_a7933d1250b8278abd9055b6c20eb7d4d}{
+\index{mocha::NodeList@{mocha::NodeList}!CastToNodeList@{CastToNodeList}}
+\index{CastToNodeList@{CastToNodeList}!mocha::NodeList@{mocha::NodeList}}
+\subsubsection[{CastToNodeList}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NodeList}$\ast$ mocha::NodeList::CastToNodeList (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_node_list_a7933d1250b8278abd9055b6c20eb7d4d}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_ad9408c65e5b3f9620bc057396a850f07}{mocha::AstNode}.
+
+
+
+Definition at line 435 of file ast.h.
+
+\hypertarget{classmocha_1_1_node_list_a9e826e3da85ebff3ac151b627dd20d71}{
+\index{mocha::NodeList@{mocha::NodeList}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::NodeList@{mocha::NodeList}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::NodeList::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_node_list_a9e826e3da85ebff3ac151b627dd20d71}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_af2a895699bac2012f8b7739bff49c5ec}{mocha::AstNode}.
+
+
+
+Definition at line 218 of file ast.cc.
+
+\hypertarget{classmocha_1_1_node_list_a1c45823bfde4c1f6741342e226304531}{
+\index{mocha::NodeList@{mocha::NodeList}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::NodeList@{mocha::NodeList}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::NodeList::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_node_list_a1c45823bfde4c1f6741342e226304531}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_a4a9c107bed3671f3fa15312b87f6ae96}{mocha::AstNode}.
+
+
+
+Definition at line 438 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

@@ -1,0 +1,136 @@
+\hypertarget{classmocha_1_1_exception_handler}{
+\section{mocha::ExceptionHandler Class Reference}
+\label{classmocha_1_1_exception_handler}\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+}
+
+
+{\ttfamily \#include $<$exception\_\-handler.h$>$}
+
+Inheritance diagram for mocha::ExceptionHandler:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_exception_handler}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_exception_handler}{ExceptionHandler} $>$ \hyperlink{classmocha_1_1_exception_handler_a438ecf67fc82c3eb61b570767795151f}{ExceptionHandle}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_exception_handler_ab41aec92d3738929a8fa2f3ff6da354c}{$\sim$ExceptionHandler} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_exception_handler_aca1a29f16dc8e1af2ab3551a8c0519f7}{Message} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_handle}{ExceptionHandle} \hyperlink{classmocha_1_1_exception_handler_a4a8479b68e91bcb753a961abf50f46f5}{CreateException} (const char $\ast$message)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_exception_handler_a8188d53fba437ba3711f5e161eba4e9f}{ExceptionHandler} (const char $\ast$message)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::string \hyperlink{classmocha_1_1_exception_handler_a0a0a95700abd61de8ed3e19a32219d3d}{error\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 32 of file exception\_\-handler.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_exception_handler_a438ecf67fc82c3eb61b570767795151f}{
+\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}!ExceptionHandle@{ExceptionHandle}}
+\index{ExceptionHandle@{ExceptionHandle}!mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+\subsubsection[{ExceptionHandle}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Handle}$<${\bf ExceptionHandler}$>$ {\bf mocha::ExceptionHandler::ExceptionHandle}}}
+\label{classmocha_1_1_exception_handler_a438ecf67fc82c3eb61b570767795151f}
+
+
+Definition at line 34 of file exception\_\-handler.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_exception_handler_ab41aec92d3738929a8fa2f3ff6da354c}{
+\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}!$\sim$ExceptionHandler@{$\sim$ExceptionHandler}}
+\index{$\sim$ExceptionHandler@{$\sim$ExceptionHandler}!mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+\subsubsection[{$\sim$ExceptionHandler}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ExceptionHandler::$\sim$ExceptionHandler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_exception_handler_ab41aec92d3738929a8fa2f3ff6da354c}
+
+
+Definition at line 9 of file exception\_\-handler.cc.
+
+\hypertarget{classmocha_1_1_exception_handler_a8188d53fba437ba3711f5e161eba4e9f}{
+\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}!ExceptionHandler@{ExceptionHandler}}
+\index{ExceptionHandler@{ExceptionHandler}!mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+\subsubsection[{ExceptionHandler}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ExceptionHandler::ExceptionHandler (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_exception_handler_a8188d53fba437ba3711f5e161eba4e9f}
+
+
+Definition at line 8 of file exception\_\-handler.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_exception_handler_a4a8479b68e91bcb753a961abf50f46f5}{
+\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}!CreateException@{CreateException}}
+\index{CreateException@{CreateException}!mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+\subsubsection[{CreateException}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExceptionHandle} mocha::ExceptionHandler::CreateException (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_exception_handler_a4a8479b68e91bcb753a961abf50f46f5}
+
+
+Definition at line 5 of file exception\_\-handler.cc.
+
+\hypertarget{classmocha_1_1_exception_handler_aca1a29f16dc8e1af2ab3551a8c0519f7}{
+\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}!Message@{Message}}
+\index{Message@{Message}!mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+\subsubsection[{Message}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::ExceptionHandler::Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_exception_handler_aca1a29f16dc8e1af2ab3551a8c0519f7}
+
+
+Definition at line 37 of file exception\_\-handler.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_exception_handler_a0a0a95700abd61de8ed3e19a32219d3d}{
+\index{mocha::ExceptionHandler@{mocha::ExceptionHandler}!error\_\-@{error\_\-}}
+\index{error\_\-@{error\_\-}!mocha::ExceptionHandler@{mocha::ExceptionHandler}}
+\subsubsection[{error\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::ExceptionHandler::error\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_exception_handler_a0a0a95700abd61de8ed3e19a32219d3d}
+
+
+Definition at line 40 of file exception\_\-handler.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/utils/\hyperlink{exception__handler_8h}{exception\_\-handler.h}\item 
+Y:/mocha/src/compiler/utils/\hyperlink{exception__handler_8cc}{exception\_\-handler.cc}\end{DoxyCompactItemize}

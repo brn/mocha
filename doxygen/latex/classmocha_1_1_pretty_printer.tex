@@ -1,0 +1,171 @@
+\hypertarget{classmocha_1_1_pretty_printer}{
+\section{mocha::PrettyPrinter Class Reference}
+\label{classmocha_1_1_pretty_printer}\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+}
+Inheritance diagram for mocha::PrettyPrinter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_pretty_printer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_pretty_printer_a06a715f096649ba7c93f3a9d7042147a}{PrettyPrinter} (bool is\_\-line)
+\item 
+void \hyperlink{classmocha_1_1_pretty_printer_ad494168e90d71f97ead31b6c613c9a46}{Write} (const char $\ast$code, \hyperlink{classmocha_1_1_code_stream}{CodeStream} $\ast$stream)
+\item 
+void \hyperlink{classmocha_1_1_pretty_printer_a55c5f0ad4f93a2b3459305864f7eca24}{WriteOp} (int op, int state, \hyperlink{classmocha_1_1_code_stream}{CodeStream} $\ast$stream)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_pretty_printer_ad3703eea22f27426db4b34b4b07a0d3a}{CommonOperandWriter\_\-} (int op, int state, \hyperlink{classmocha_1_1_code_stream}{CodeStream} $\ast$stream)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classmocha_1_1_pretty_printer_a8708ff8166e2017244fbb396a2688ebb}{is\_\-line\_\-}
+\item 
+int \hyperlink{classmocha_1_1_pretty_printer_a146a5110df5481164c5ad84a36fffe0c}{last\_\-op\_\-}
+\item 
+int \hyperlink{classmocha_1_1_pretty_printer_a50d07941880d3d2fc1fdf656ced16468}{last\_\-state\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_pretty_printer_a706e726a1c55482bbf3bd4e9706171c0}{indent\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const char \hyperlink{classmocha_1_1_pretty_printer_a39b8f05425247815827fc63ad1dbce91}{default\_\-indent\_\-} \mbox{[}$\,$\mbox{]} = \{\char`\"{} \char`\"{}\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 34 of file codewriter.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_pretty_printer_a06a715f096649ba7c93f3a9d7042147a}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!PrettyPrinter@{PrettyPrinter}}
+\index{PrettyPrinter@{PrettyPrinter}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{PrettyPrinter}]{\setlength{\rightskip}{0pt plus 5cm}mocha::PrettyPrinter::PrettyPrinter (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a06a715f096649ba7c93f3a9d7042147a}
+
+
+Definition at line 36 of file codewriter.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_pretty_printer_ad3703eea22f27426db4b34b4b07a0d3a}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!CommonOperandWriter\_\-@{CommonOperandWriter\_\-}}
+\index{CommonOperandWriter\_\-@{CommonOperandWriter\_\-}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{CommonOperandWriter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::PrettyPrinter::CommonOperandWriter\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{op, }
+\item[{int}]{state, }
+\item[{{\bf CodeStream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_ad3703eea22f27426db4b34b4b07a0d3a}
+
+
+Definition at line 104 of file codewriter.cc.
+
+\hypertarget{classmocha_1_1_pretty_printer_ad494168e90d71f97ead31b6c613c9a46}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!Write@{Write}}
+\index{Write@{Write}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{Write}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::PrettyPrinter::Write (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{code, }
+\item[{{\bf CodeStream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_ad494168e90d71f97ead31b6c613c9a46}
+
+
+Implements \hyperlink{classmocha_1_1_code_writer_1_1_writer_base_a0b5eabede582c9df1e581d871e000873}{mocha::CodeWriter::WriterBase}.
+
+
+
+Definition at line 37 of file codewriter.cc.
+
+\hypertarget{classmocha_1_1_pretty_printer_a55c5f0ad4f93a2b3459305864f7eca24}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!WriteOp@{WriteOp}}
+\index{WriteOp@{WriteOp}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{WriteOp}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::PrettyPrinter::WriteOp (
+\begin{DoxyParamCaption}
+\item[{int}]{op, }
+\item[{int}]{state, }
+\item[{{\bf CodeStream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a55c5f0ad4f93a2b3459305864f7eca24}
+
+
+Implements \hyperlink{classmocha_1_1_code_writer_1_1_writer_base_aff0352433a2fa7726b7742d4438ffe58}{mocha::CodeWriter::WriterBase}.
+
+
+
+Definition at line 40 of file codewriter.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_pretty_printer_a39b8f05425247815827fc63ad1dbce91}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!default\_\-indent\_\-@{default\_\-indent\_\-}}
+\index{default\_\-indent\_\-@{default\_\-indent\_\-}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{default\_\-indent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::PrettyPrinter::default\_\-indent\_\-} = \{\char`\"{} \char`\"{}\}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a39b8f05425247815827fc63ad1dbce91}
+
+
+Definition at line 307 of file codewriter.cc.
+
+\hypertarget{classmocha_1_1_pretty_printer_a706e726a1c55482bbf3bd4e9706171c0}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!indent\_\-@{indent\_\-}}
+\index{indent\_\-@{indent\_\-}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{indent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::PrettyPrinter::indent\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a706e726a1c55482bbf3bd4e9706171c0}
+
+
+Definition at line 308 of file codewriter.cc.
+
+\hypertarget{classmocha_1_1_pretty_printer_a8708ff8166e2017244fbb396a2688ebb}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!is\_\-line\_\-@{is\_\-line\_\-}}
+\index{is\_\-line\_\-@{is\_\-line\_\-}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{is\_\-line\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::PrettyPrinter::is\_\-line\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a8708ff8166e2017244fbb396a2688ebb}
+
+
+Definition at line 304 of file codewriter.cc.
+
+\hypertarget{classmocha_1_1_pretty_printer_a146a5110df5481164c5ad84a36fffe0c}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!last\_\-op\_\-@{last\_\-op\_\-}}
+\index{last\_\-op\_\-@{last\_\-op\_\-}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{last\_\-op\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::PrettyPrinter::last\_\-op\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a146a5110df5481164c5ad84a36fffe0c}
+
+
+Definition at line 305 of file codewriter.cc.
+
+\hypertarget{classmocha_1_1_pretty_printer_a50d07941880d3d2fc1fdf656ced16468}{
+\index{mocha::PrettyPrinter@{mocha::PrettyPrinter}!last\_\-state\_\-@{last\_\-state\_\-}}
+\index{last\_\-state\_\-@{last\_\-state\_\-}!mocha::PrettyPrinter@{mocha::PrettyPrinter}}
+\subsubsection[{last\_\-state\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::PrettyPrinter::last\_\-state\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_pretty_printer_a50d07941880d3d2fc1fdf656ced16468}
+
+
+Definition at line 306 of file codewriter.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/utils/\hyperlink{codewriter_8cc}{codewriter.cc}\end{DoxyCompactItemize}

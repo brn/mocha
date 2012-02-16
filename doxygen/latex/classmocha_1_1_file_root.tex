@@ -1,0 +1,206 @@
+\hypertarget{classmocha_1_1_file_root}{
+\section{mocha::FileRoot Class Reference}
+\label{classmocha_1_1_file_root}\index{mocha::FileRoot@{mocha::FileRoot}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::FileRoot:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmocha_1_1_file_root}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_file_root_a4187f8dfcf8cfde3c480d32348ad599e}{FileRoot} ()
+\item 
+\hyperlink{classmocha_1_1_file_root_a3af35d629cf83fbad09bbaa085166eab}{$\sim$FileRoot} ()
+\item 
+void \hyperlink{classmocha_1_1_file_root_af766366c3935dce897a3fdb833c70946}{FileName} (const char $\ast$filepath)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_file_root_a57407c35fda0bbe2216d38ccddc8ed18}{FileName} () const 
+\item 
+bool \hyperlink{classmocha_1_1_file_root_aa6a6808576b77df6c909f3251400ba27}{IsRuntime} ()
+\item 
+void \hyperlink{classmocha_1_1_file_root_a674cea3b318e39b3ed36a6e07752d167}{SetFileRoot} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_file_root_a15c4779b5050481286c6d6cb4cc9223e}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_file_root_a6cff1c80bcb419835cceaa2106e33b2f}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classmocha_1_1_file_root_aee92f4b4d0461d5e54ac871750291971}{is\_\-file\_\-root\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_file_root_a5a82fa0f7471ecd6194fea872f961565}{filepath\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 490 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_file_root_a4187f8dfcf8cfde3c480d32348ad599e}{
+\index{mocha::FileRoot@{mocha::FileRoot}!FileRoot@{FileRoot}}
+\index{FileRoot@{FileRoot}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{FileRoot}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileRoot::FileRoot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_root_a4187f8dfcf8cfde3c480d32348ad599e}
+
+
+Definition at line 492 of file ast.h.
+
+\hypertarget{classmocha_1_1_file_root_a3af35d629cf83fbad09bbaa085166eab}{
+\index{mocha::FileRoot@{mocha::FileRoot}!$\sim$FileRoot@{$\sim$FileRoot}}
+\index{$\sim$FileRoot@{$\sim$FileRoot}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{$\sim$FileRoot}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileRoot::$\sim$FileRoot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_root_a3af35d629cf83fbad09bbaa085166eab}
+
+
+Definition at line 493 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_file_root_a15c4779b5050481286c6d6cb4cc9223e}{
+\index{mocha::FileRoot@{mocha::FileRoot}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::FileRoot::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_file_root_a15c4779b5050481286c6d6cb4cc9223e}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_af2a895699bac2012f8b7739bff49c5ec}{mocha::AstNode}.
+
+
+
+Definition at line 221 of file ast.cc.
+
+\hypertarget{classmocha_1_1_file_root_af766366c3935dce897a3fdb833c70946}{
+\index{mocha::FileRoot@{mocha::FileRoot}!FileName@{FileName}}
+\index{FileName@{FileName}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{FileName}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileRoot::FileName (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filepath}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_root_af766366c3935dce897a3fdb833c70946}
+
+\begin{DoxyParams}{Parameters}
+{\em \{const} & char$\ast$\} Set current file name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 498 of file ast.h.
+
+\hypertarget{classmocha_1_1_file_root_a57407c35fda0bbe2216d38ccddc8ed18}{
+\index{mocha::FileRoot@{mocha::FileRoot}!FileName@{FileName}}
+\index{FileName@{FileName}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{FileName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::FileRoot::FileName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_root_a57407c35fda0bbe2216d38ccddc8ed18}
+\begin{DoxyReturn}{Returns}
+\{const char$\ast$\} Get file name. 
+\end{DoxyReturn}
+
+
+Definition at line 503 of file ast.h.
+
+\hypertarget{classmocha_1_1_file_root_aa6a6808576b77df6c909f3251400ba27}{
+\index{mocha::FileRoot@{mocha::FileRoot}!IsRuntime@{IsRuntime}}
+\index{IsRuntime@{IsRuntime}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{IsRuntime}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::FileRoot::IsRuntime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_root_aa6a6808576b77df6c909f3251400ba27}
+
+
+Definition at line 504 of file ast.h.
+
+\hypertarget{classmocha_1_1_file_root_a6cff1c80bcb419835cceaa2106e33b2f}{
+\index{mocha::FileRoot@{mocha::FileRoot}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileRoot::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_file_root_a6cff1c80bcb419835cceaa2106e33b2f}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_a4a9c107bed3671f3fa15312b87f6ae96}{mocha::AstNode}.
+
+
+
+Definition at line 510 of file ast.h.
+
+\hypertarget{classmocha_1_1_file_root_a674cea3b318e39b3ed36a6e07752d167}{
+\index{mocha::FileRoot@{mocha::FileRoot}!SetFileRoot@{SetFileRoot}}
+\index{SetFileRoot@{SetFileRoot}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{SetFileRoot}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileRoot::SetFileRoot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_root_a674cea3b318e39b3ed36a6e07752d167}
+
+
+Definition at line 505 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_file_root_a5a82fa0f7471ecd6194fea872f961565}{
+\index{mocha::FileRoot@{mocha::FileRoot}!filepath\_\-@{filepath\_\-}}
+\index{filepath\_\-@{filepath\_\-}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{filepath\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::FileRoot::filepath\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_root_a5a82fa0f7471ecd6194fea872f961565}
+
+
+Definition at line 509 of file ast.h.
+
+\hypertarget{classmocha_1_1_file_root_aee92f4b4d0461d5e54ac871750291971}{
+\index{mocha::FileRoot@{mocha::FileRoot}!is\_\-file\_\-root\_\-@{is\_\-file\_\-root\_\-}}
+\index{is\_\-file\_\-root\_\-@{is\_\-file\_\-root\_\-}!mocha::FileRoot@{mocha::FileRoot}}
+\subsubsection[{is\_\-file\_\-root\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::FileRoot::is\_\-file\_\-root\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_root_aee92f4b4d0461d5e54ac871750291971}
+
+
+Definition at line 506 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

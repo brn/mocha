@@ -1,0 +1,117 @@
+\hypertarget{classmocha_1_1_file_observer_1_1_file_updater}{
+\section{mocha::FileObserver::FileUpdater Class Reference}
+\label{classmocha_1_1_file_observer_1_1_file_updater}\index{mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}}
+}
+Inheritance diagram for mocha::FileObserver::FileUpdater:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_file_observer_1_1_file_updater}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_file_observer_1_1_file_updater_a80a60cca8240f014e4f191bb60d82bf3}{Update} (\hyperlink{structmocha_1_1watch__traits_1_1_modify}{watch\_\-traits::Modify} $\ast$trait)
+\item 
+void \hyperlink{classmocha_1_1_file_observer_1_1_file_updater_a1984b103811915719d04d979275d6beb}{Update} (\hyperlink{structmocha_1_1watch__traits_1_1_delete_self}{watch\_\-traits::DeleteSelf} $\ast$trait)
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef boost::unordered\_\-map$<$ std::string, \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_mutex}{Mutex} $>$ $>$ \hyperlink{classmocha_1_1_file_observer_1_1_file_updater_a63074c527b9a0bcb0f8a715b53535c17}{List}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_file_observer_1_1_file_updater_a63074c527b9a0bcb0f8a715b53535c17}{List} \hyperlink{classmocha_1_1_file_observer_1_1_file_updater_a12e24a3b76615c93d5fc14a3eea7354d}{mutex\_\-list\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_file_observer_1_1_file_updater_a4b52c311bd4ce9ed180ae976ba0a6196}{FileObserver}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 12 of file file\_\-observer.cc.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_file_observer_1_1_file_updater_a63074c527b9a0bcb0f8a715b53535c17}{
+\index{mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}!List@{List}}
+\index{List@{List}!mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}}
+\subsubsection[{List}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost::unordered\_\-map$<$std::string,{\bf Handle}$<${\bf Mutex}$>$ $>$ {\bf mocha::FileObserver::FileUpdater::List}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_1_1_file_updater_a63074c527b9a0bcb0f8a715b53535c17}
+
+
+Definition at line 42 of file file\_\-observer.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_file_observer_1_1_file_updater_a80a60cca8240f014e4f191bb60d82bf3}{
+\index{mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}!Update@{Update}}
+\index{Update@{Update}!mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileObserver::FileUpdater::Update (
+\begin{DoxyParamCaption}
+\item[{{\bf watch\_\-traits::Modify} $\ast$}]{trait}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_file_observer_1_1_file_updater_a80a60cca8240f014e4f191bb60d82bf3}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_i_updater_a99f87c1ff978b034b5be7ab372e81a5b}{mocha::IUpdater}.
+
+
+
+Definition at line 15 of file file\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_file_observer_1_1_file_updater_a1984b103811915719d04d979275d6beb}{
+\index{mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}!Update@{Update}}
+\index{Update@{Update}!mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileObserver::FileUpdater::Update (
+\begin{DoxyParamCaption}
+\item[{{\bf watch\_\-traits::DeleteSelf} $\ast$}]{trait}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_file_observer_1_1_file_updater_a1984b103811915719d04d979275d6beb}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_i_updater_a37df53aa438d78a64820721026c207b0}{mocha::IUpdater}.
+
+
+
+Definition at line 30 of file file\_\-observer.cc.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_file_observer_1_1_file_updater_a4b52c311bd4ce9ed180ae976ba0a6196}{
+\index{mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}!FileObserver@{FileObserver}}
+\index{FileObserver@{FileObserver}!mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}}
+\subsubsection[{FileObserver}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf FileObserver}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_file_observer_1_1_file_updater_a4b52c311bd4ce9ed180ae976ba0a6196}
+
+
+Definition at line 13 of file file\_\-observer.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_file_observer_1_1_file_updater_a12e24a3b76615c93d5fc14a3eea7354d}{
+\index{mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}!mutex\_\-list\_\-@{mutex\_\-list\_\-}}
+\index{mutex\_\-list\_\-@{mutex\_\-list\_\-}!mocha::FileObserver::FileUpdater@{mocha::FileObserver::FileUpdater}}
+\subsubsection[{mutex\_\-list\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf List} {\bf mocha::FileObserver::FileUpdater::mutex\_\-list\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_1_1_file_updater_a12e24a3b76615c93d5fc14a3eea7354d}
+
+
+Definition at line 43 of file file\_\-observer.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-watcher/observer/\hyperlink{file__observer_8cc}{file\_\-observer.cc}\end{DoxyCompactItemize}

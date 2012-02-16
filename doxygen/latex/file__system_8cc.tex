@@ -1,0 +1,87 @@
+\hypertarget{file__system_8cc}{
+\section{Y:/mocha/src/utils/file\_\-system/file\_\-system.cc File Reference}
+\label{file__system_8cc}\index{Y:/mocha/src/utils/file\_\-system/file\_\-system.cc@{Y:/mocha/src/utils/file\_\-system/file\_\-system.cc}}
+}
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$dirent.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include $<$string$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/file\_\-system.h$>$}\par
+{\ttfamily \#include $<$utils/io/file\_\-io.h$>$}\par
+{\ttfamily \#include $<$useconfig.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/stat.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/mkdir.h$>$}\par
+{\ttfamily \#include $<$utils/char\_\-allocator.h$>$}\par
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{file__system_8cc_a0e26ea2db1b570d1a6fe1ac180ef4541}{HOME}~\char`\"{}HOME\char`\"{}
+\item 
+\#define \hyperlink{file__system_8cc_addfa831c1473e710d2b71b72fd7fcfa5}{MAXPATHLEN}~10000
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std::vector$<$ std::string $>$ \hyperlink{file__system_8cc_a4e0b1984d420df8ce6ca960a1178d226}{PathArray}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{file__system_8cc_abe822bae6d4a483337a8a97ac0a006a2}{GetPathArray} (const char $\ast$path, \hyperlink{file__system_8cc_a4e0b1984d420df8ce6ca960a1178d226}{PathArray} $\ast$array)
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{file__system_8cc_a0e26ea2db1b570d1a6fe1ac180ef4541}{
+\index{file\_\-system.cc@{file\_\-system.cc}!HOME@{HOME}}
+\index{HOME@{HOME}!file_system.cc@{file\_\-system.cc}}
+\subsubsection[{HOME}]{\setlength{\rightskip}{0pt plus 5cm}\#define HOME~\char`\"{}HOME\char`\"{}}}
+\label{file__system_8cc_a0e26ea2db1b570d1a6fe1ac180ef4541}
+
+
+Definition at line 31 of file file\_\-system.cc.
+
+\hypertarget{file__system_8cc_addfa831c1473e710d2b71b72fd7fcfa5}{
+\index{file\_\-system.cc@{file\_\-system.cc}!MAXPATHLEN@{MAXPATHLEN}}
+\index{MAXPATHLEN@{MAXPATHLEN}!file_system.cc@{file\_\-system.cc}}
+\subsubsection[{MAXPATHLEN}]{\setlength{\rightskip}{0pt plus 5cm}\#define MAXPATHLEN~10000}}
+\label{file__system_8cc_addfa831c1473e710d2b71b72fd7fcfa5}
+
+
+Definition at line 35 of file file\_\-system.cc.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{file__system_8cc_a4e0b1984d420df8ce6ca960a1178d226}{
+\index{file\_\-system.cc@{file\_\-system.cc}!PathArray@{PathArray}}
+\index{PathArray@{PathArray}!file_system.cc@{file\_\-system.cc}}
+\subsubsection[{PathArray}]{\setlength{\rightskip}{0pt plus 5cm}typedef std::vector$<$std::string$>$ {\bf PathArray}}}
+\label{file__system_8cc_a4e0b1984d420df8ce6ca960a1178d226}
+
+
+Definition at line 167 of file file\_\-system.cc.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{file__system_8cc_abe822bae6d4a483337a8a97ac0a006a2}{
+\index{file\_\-system.cc@{file\_\-system.cc}!GetPathArray@{GetPathArray}}
+\index{GetPathArray@{GetPathArray}!file_system.cc@{file\_\-system.cc}}
+\subsubsection[{GetPathArray}]{\setlength{\rightskip}{0pt plus 5cm}void GetPathArray (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf PathArray} $\ast$}]{array}
+\end{DoxyParamCaption}
+)}}
+\label{file__system_8cc_abe822bae6d4a483337a8a97ac0a006a2}
+
+
+Definition at line 169 of file file\_\-system.cc.
+

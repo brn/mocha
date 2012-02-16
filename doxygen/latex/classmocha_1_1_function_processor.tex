@@ -1,0 +1,262 @@
+\hypertarget{classmocha_1_1_function_processor}{
+\section{mocha::FunctionProcessor Class Reference}
+\label{classmocha_1_1_function_processor}\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+}
+
+
+{\ttfamily \#include $<$function\_\-processor.h$>$}
+
+Inheritance diagram for mocha::FunctionProcessor:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_function_processor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_function_processor_aad99a004bfa81660b7c754b975967c00}{FunctionProcessor} (\hyperlink{classmocha_1_1_function}{Function} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+\hyperlink{classmocha_1_1_function_processor_a5a9e45f713c095b6068bc4ecc1e3b8a6}{$\sim$FunctionProcessor} ()
+\item 
+void \hyperlink{classmocha_1_1_function_processor_a8a926734a37f613ba1b63a965796ce7d}{ProcessNode} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_function_processor_abf51bbfb82b2118f674091294af28dfa}{ProcessFormalParameter\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_function_processor_a3ca564f1c27aac6586fa9876a20c954a}{ProcessDefaultParameter\_\-} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$value)
+\item 
+void \hyperlink{classmocha_1_1_function_processor_adfb4453236c5d1880702c41e654cadbc}{ProcessDefaultParameter\_\-} (\hyperlink{classmocha_1_1_assignment_exp}{AssignmentExp} $\ast$exp)
+\item 
+void \hyperlink{classmocha_1_1_function_processor_aaaecef01492133780ee3d913c3993395}{ProcessPropertyParameter\_\-} (\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$exp)
+\item 
+void \hyperlink{classmocha_1_1_function_processor_aad3b65103cff5f6692654fe79e591bc3}{ProcessBody\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_function_processor_a6d6275f740f30823d9989ab10bd5c921}{ProcessYield\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_function_processor_a947c36d1350aa2bf1fa13c3f3f90bbd8}{ProcessRestParameter\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_function_processor_add1888aa27daa30db055b3ae56835466}{argc\_\-}
+\item 
+\hyperlink{classmocha_1_1_function}{Function} $\ast$ \hyperlink{classmocha_1_1_function_processor_a6960880e27df165e26343346ffdebd87}{function\_\-}
+\item 
+\hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$ \hyperlink{classmocha_1_1_function_processor_a6f7c00d60191f92a3bdb359c7031eedb}{info\_\-}
+\item 
+\hyperlink{classmocha_1_1_statement}{Statement} $\ast$ \hyperlink{classmocha_1_1_function_processor_ab5123d2edc85be3e181a79dd7714ba7a}{stmt\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_function_processor_a3cd96a2aa4d17c7c34fd5f7efd41ef84}{formal\_\-parameter\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_function_processor_a620a370dd5dfc1ce5960856ffbaffb63}{default\_\-parameter\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 7 of file function\_\-processor.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_function_processor_aad99a004bfa81660b7c754b975967c00}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!FunctionProcessor@{FunctionProcessor}}
+\index{FunctionProcessor@{FunctionProcessor}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{FunctionProcessor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FunctionProcessor::FunctionProcessor (
+\begin{DoxyParamCaption}
+\item[{{\bf Function} $\ast$}]{ast\_\-node, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_function_processor_aad99a004bfa81660b7c754b975967c00}
+
+
+Definition at line 18 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_a5a9e45f713c095b6068bc4ecc1e3b8a6}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!$\sim$FunctionProcessor@{$\sim$FunctionProcessor}}
+\index{$\sim$FunctionProcessor@{$\sim$FunctionProcessor}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{$\sim$FunctionProcessor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FunctionProcessor::$\sim$FunctionProcessor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_function_processor_a5a9e45f713c095b6068bc4ecc1e3b8a6}
+
+
+Definition at line 25 of file function\_\-processor.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_function_processor_aad3b65103cff5f6692654fe79e591bc3}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessBody\_\-@{ProcessBody\_\-}}
+\index{ProcessBody\_\-@{ProcessBody\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessBody\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessBody\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_aad3b65103cff5f6692654fe79e591bc3}
+
+
+Definition at line 139 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_adfb4453236c5d1880702c41e654cadbc}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessDefaultParameter\_\-@{ProcessDefaultParameter\_\-}}
+\index{ProcessDefaultParameter\_\-@{ProcessDefaultParameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessDefaultParameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessDefaultParameter\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AssignmentExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_adfb4453236c5d1880702c41e654cadbc}
+
+
+Definition at line 119 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_a3ca564f1c27aac6586fa9876a20c954a}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessDefaultParameter\_\-@{ProcessDefaultParameter\_\-}}
+\index{ProcessDefaultParameter\_\-@{ProcessDefaultParameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessDefaultParameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessDefaultParameter\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a3ca564f1c27aac6586fa9876a20c954a}
+
+
+Definition at line 107 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_abf51bbfb82b2118f674091294af28dfa}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessFormalParameter\_\-@{ProcessFormalParameter\_\-}}
+\index{ProcessFormalParameter\_\-@{ProcessFormalParameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessFormalParameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessFormalParameter\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_abf51bbfb82b2118f674091294af28dfa}
+
+
+Definition at line 71 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_a8a926734a37f613ba1b63a965796ce7d}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessNode@{ProcessNode}}
+\index{ProcessNode@{ProcessNode}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessNode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_function_processor_a8a926734a37f613ba1b63a965796ce7d}
+
+
+Definition at line 27 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_aaaecef01492133780ee3d913c3993395}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessPropertyParameter\_\-@{ProcessPropertyParameter\_\-}}
+\index{ProcessPropertyParameter\_\-@{ProcessPropertyParameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessPropertyParameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessPropertyParameter\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf CallExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_aaaecef01492133780ee3d913c3993395}
+
+
+Definition at line 129 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_a947c36d1350aa2bf1fa13c3f3f90bbd8}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessRestParameter\_\-@{ProcessRestParameter\_\-}}
+\index{ProcessRestParameter\_\-@{ProcessRestParameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessRestParameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt} $\ast$ mocha::FunctionProcessor::ProcessRestParameter\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a947c36d1350aa2bf1fa13c3f3f90bbd8}
+
+
+Definition at line 202 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_function_processor_a6d6275f740f30823d9989ab10bd5c921}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!ProcessYield\_\-@{ProcessYield\_\-}}
+\index{ProcessYield\_\-@{ProcessYield\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{ProcessYield\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FunctionProcessor::ProcessYield\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a6d6275f740f30823d9989ab10bd5c921}
+
+
+Definition at line 1407 of file function\_\-processor.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_function_processor_add1888aa27daa30db055b3ae56835466}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!argc\_\-@{argc\_\-}}
+\index{argc\_\-@{argc\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{argc\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::FunctionProcessor::argc\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_add1888aa27daa30db055b3ae56835466}
+
+
+Definition at line 20 of file function\_\-processor.h.
+
+\hypertarget{classmocha_1_1_function_processor_a620a370dd5dfc1ce5960856ffbaffb63}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!default\_\-parameter\_\-@{default\_\-parameter\_\-}}
+\index{default\_\-parameter\_\-@{default\_\-parameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{default\_\-parameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::FunctionProcessor::default\_\-parameter\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a620a370dd5dfc1ce5960856ffbaffb63}
+
+
+Definition at line 25 of file function\_\-processor.h.
+
+\hypertarget{classmocha_1_1_function_processor_a3cd96a2aa4d17c7c34fd5f7efd41ef84}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!formal\_\-parameter\_\-@{formal\_\-parameter\_\-}}
+\index{formal\_\-parameter\_\-@{formal\_\-parameter\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{formal\_\-parameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::FunctionProcessor::formal\_\-parameter\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a3cd96a2aa4d17c7c34fd5f7efd41ef84}
+
+
+Definition at line 24 of file function\_\-processor.h.
+
+\hypertarget{classmocha_1_1_function_processor_a6960880e27df165e26343346ffdebd87}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!function\_\-@{function\_\-}}
+\index{function\_\-@{function\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{function\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Function}$\ast$ {\bf mocha::FunctionProcessor::function\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a6960880e27df165e26343346ffdebd87}
+
+
+Definition at line 21 of file function\_\-processor.h.
+
+\hypertarget{classmocha_1_1_function_processor_a6f7c00d60191f92a3bdb359c7031eedb}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!info\_\-@{info\_\-}}
+\index{info\_\-@{info\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ProcessorInfo}$\ast$ {\bf mocha::FunctionProcessor::info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_a6f7c00d60191f92a3bdb359c7031eedb}
+
+
+Definition at line 22 of file function\_\-processor.h.
+
+\hypertarget{classmocha_1_1_function_processor_ab5123d2edc85be3e181a79dd7714ba7a}{
+\index{mocha::FunctionProcessor@{mocha::FunctionProcessor}!stmt\_\-@{stmt\_\-}}
+\index{stmt\_\-@{stmt\_\-}!mocha::FunctionProcessor@{mocha::FunctionProcessor}}
+\subsubsection[{stmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Statement}$\ast$ {\bf mocha::FunctionProcessor::stmt\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_function_processor_ab5123d2edc85be3e181a79dd7714ba7a}
+
+
+Definition at line 23 of file function\_\-processor.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{function__processor_8h}{function\_\-processor.h}\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{function__processor_8cc}{function\_\-processor.cc}\end{DoxyCompactItemize}

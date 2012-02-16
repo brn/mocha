@@ -1,0 +1,383 @@
+\hypertarget{classmocha_1_1_statement}{
+\section{mocha::Statement Class Reference}
+\label{classmocha_1_1_statement}\index{mocha::Statement@{mocha::Statement}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::Statement:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{classmocha_1_1_statement}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_statement_a61bc5bf1a118bb5c6288c85848b9ee48}{Statement} ()
+\item 
+\hyperlink{classmocha_1_1_statement_ac8a40a3520bb29ebb20364875d01ffff}{Statement} (int type, const char $\ast$name)
+\item 
+virtual \hyperlink{classmocha_1_1_statement_ad806a006f7e2cb8f1ececdfa5c5151fe}{$\sim$Statement} ()
+\item 
+\hyperlink{classmocha_1_1_statement}{Statement} $\ast$ \hyperlink{classmocha_1_1_statement_a91d52b61a590207efa749d623094543c}{CastToStatement} ()
+\item 
+virtual \hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ \hyperlink{classmocha_1_1_statement_a7f26b035f4e7504e6c6ca6fca280e636}{CastToIteration} ()
+\item 
+virtual \hyperlink{classmocha_1_1_ex_yield_state_node}{ExYieldStateNode} $\ast$ \hyperlink{classmocha_1_1_statement_a21dd7e1d946eae1ab31113d2adc79110}{CastToYieldState} ()
+\item 
+virtual \hyperlink{classmocha_1_1_yield_mark}{YieldMark} $\ast$ \hyperlink{classmocha_1_1_statement_a403ef1401f09802c177f269ba0225f7c}{CastToYieldMark} ()
+\item 
+virtual \hyperlink{classmocha_1_1_i_f_stmt}{IFStmt} $\ast$ \hyperlink{classmocha_1_1_statement_a8a2c083af282392e417e367fa1ac3938}{CastToIFStmt} ()
+\item 
+virtual \hyperlink{classmocha_1_1_switch_stmt}{SwitchStmt} $\ast$ \hyperlink{classmocha_1_1_statement_a1961e09139861be2276552f41917e447}{CastToSwitchStmt} ()
+\item 
+void \hyperlink{classmocha_1_1_statement_aff56aa2480452a15ad08f3b70e75ff88}{SetDsta} (\hyperlink{classmocha_1_1_dsta_extracted_expressions}{DstaExtractedExpressions} $\ast$tree)
+\item 
+void \hyperlink{classmocha_1_1_statement_a3da2b32930da12e1ab1db145951e6d79}{SetYieldFlag} ()
+\item 
+void \hyperlink{classmocha_1_1_statement_a16b3dbc1ece47df34f9739d67e196a7c}{SetYieldFlag} (bool is)
+\item 
+bool \hyperlink{classmocha_1_1_statement_aebf68628d0df1aa896796b244b551067}{GetYieldFlag} ()
+\item 
+bool \hyperlink{classmocha_1_1_statement_a348f368ee5c22018059510067ceeaead}{HasDsta} ()
+\item 
+\hyperlink{classmocha_1_1_dsta_extracted_expressions}{DstaExtractedExpressions} $\ast$ \hyperlink{classmocha_1_1_statement_ae1802b82da424cefda6c890563ff2e11}{GetDsta} ()
+\item 
+void \hyperlink{classmocha_1_1_statement_af5e7c55d555f43d60d831af659224d0f}{ResetDsta} ()
+\begin{DoxyCompactList}\small\item\em Set 0 to all destructuring assignment block. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classmocha_1_1_statement_a7ada59273fc336ffb75e03a4ff999570}{has\_\-dsta\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_statement_ae9970a2c71dde36750e08ff3be61239f}{has\_\-yield\_\-}
+\item 
+\hyperlink{classmocha_1_1_dsta_extracted_expressions}{DstaExtractedExpressions} $\ast$ \hyperlink{classmocha_1_1_statement_a0ce32d27ea57a9b2c017c6870be612a0}{dsta\_\-exp\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 519 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_statement_a61bc5bf1a118bb5c6288c85848b9ee48}{
+\index{mocha::Statement@{mocha::Statement}!Statement@{Statement}}
+\index{Statement@{Statement}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{Statement}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Statement::Statement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_a61bc5bf1a118bb5c6288c85848b9ee48}
+
+
+Definition at line 521 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_ac8a40a3520bb29ebb20364875d01ffff}{
+\index{mocha::Statement@{mocha::Statement}!Statement@{Statement}}
+\index{Statement@{Statement}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{Statement}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Statement::Statement (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_ac8a40a3520bb29ebb20364875d01ffff}
+
+
+Definition at line 523 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_ad806a006f7e2cb8f1ececdfa5c5151fe}{
+\index{mocha::Statement@{mocha::Statement}!$\sim$Statement@{$\sim$Statement}}
+\index{$\sim$Statement@{$\sim$Statement}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{$\sim$Statement}]{\setlength{\rightskip}{0pt plus 5cm}virtual mocha::Statement::$\sim$Statement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_ad806a006f7e2cb8f1ececdfa5c5151fe}
+
+
+Definition at line 525 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_statement_a8a2c083af282392e417e367fa1ac3938}{
+\index{mocha::Statement@{mocha::Statement}!CastToIFStmt@{CastToIFStmt}}
+\index{CastToIFStmt@{CastToIFStmt}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{CastToIFStmt}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf IFStmt}$\ast$ mocha::Statement::CastToIFStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_a8a2c083af282392e417e367fa1ac3938}
+
+
+Reimplemented in \hyperlink{classmocha_1_1_i_f_stmt_a5d9f034d4ad5a7763cfbb0a952fe1cfe}{mocha::IFStmt}.
+
+
+
+Definition at line 536 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a7f26b035f4e7504e6c6ca6fca280e636}{
+\index{mocha::Statement@{mocha::Statement}!CastToIteration@{CastToIteration}}
+\index{CastToIteration@{CastToIteration}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{CastToIteration}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf IterationStmt}$\ast$ mocha::Statement::CastToIteration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_a7f26b035f4e7504e6c6ca6fca280e636}
+
+
+Reimplemented in \hyperlink{classmocha_1_1_iteration_stmt_ac9a778b002e50fb49212164307423ecb}{mocha::IterationStmt}.
+
+
+
+Definition at line 533 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a91d52b61a590207efa749d623094543c}{
+\index{mocha::Statement@{mocha::Statement}!CastToStatement@{CastToStatement}}
+\index{CastToStatement@{CastToStatement}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{CastToStatement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Statement}$\ast$ mocha::Statement::CastToStatement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_a91d52b61a590207efa749d623094543c}
+\begin{DoxyReturn}{Returns}
+\{Statement$\ast$\} Cast to statement. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_a1fe8a6f31b9f47be0867f18c89f6349e}{mocha::AstNode}.
+
+
+
+Definition at line 531 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a1961e09139861be2276552f41917e447}{
+\index{mocha::Statement@{mocha::Statement}!CastToSwitchStmt@{CastToSwitchStmt}}
+\index{CastToSwitchStmt@{CastToSwitchStmt}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{CastToSwitchStmt}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf SwitchStmt}$\ast$ mocha::Statement::CastToSwitchStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_a1961e09139861be2276552f41917e447}
+
+
+Reimplemented in \hyperlink{classmocha_1_1_switch_stmt_a870ac8c77e48dcc159926655aa1981e3}{mocha::SwitchStmt}.
+
+
+
+Definition at line 537 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a403ef1401f09802c177f269ba0225f7c}{
+\index{mocha::Statement@{mocha::Statement}!CastToYieldMark@{CastToYieldMark}}
+\index{CastToYieldMark@{CastToYieldMark}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{CastToYieldMark}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf YieldMark}$\ast$ mocha::Statement::CastToYieldMark (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_a403ef1401f09802c177f269ba0225f7c}
+
+
+Reimplemented in \hyperlink{classmocha_1_1_yield_mark_ac43d6b11559da52a58847aa567a3e64e}{mocha::YieldMark}.
+
+
+
+Definition at line 535 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a21dd7e1d946eae1ab31113d2adc79110}{
+\index{mocha::Statement@{mocha::Statement}!CastToYieldState@{CastToYieldState}}
+\index{CastToYieldState@{CastToYieldState}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{CastToYieldState}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf ExYieldStateNode}$\ast$ mocha::Statement::CastToYieldState (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_a21dd7e1d946eae1ab31113d2adc79110}
+
+
+Reimplemented in \hyperlink{classmocha_1_1_ex_yield_state_node_a5ca3856c558729bde56291fffd67f6aa}{mocha::ExYieldStateNode}.
+
+
+
+Definition at line 534 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_ae1802b82da424cefda6c890563ff2e11}{
+\index{mocha::Statement@{mocha::Statement}!GetDsta@{GetDsta}}
+\index{GetDsta@{GetDsta}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{GetDsta}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DstaExtractedExpressions}$\ast$ mocha::Statement::GetDsta (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_ae1802b82da424cefda6c890563ff2e11}
+\begin{DoxyReturn}{Returns}
+\{DstaExtractedExpression\} Get destructuring assignment node. 
+\end{DoxyReturn}
+
+
+Definition at line 562 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_aebf68628d0df1aa896796b244b551067}{
+\index{mocha::Statement@{mocha::Statement}!GetYieldFlag@{GetYieldFlag}}
+\index{GetYieldFlag@{GetYieldFlag}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{GetYieldFlag}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Statement::GetYieldFlag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_aebf68628d0df1aa896796b244b551067}
+
+
+Definition at line 550 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a348f368ee5c22018059510067ceeaead}{
+\index{mocha::Statement@{mocha::Statement}!HasDsta@{HasDsta}}
+\index{HasDsta@{HasDsta}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{HasDsta}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Statement::HasDsta (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_a348f368ee5c22018059510067ceeaead}
+\begin{DoxyReturn}{Returns}
+\{bool\} Check this node's children include destructuring assignment node. 
+\end{DoxyReturn}
+
+
+Definition at line 556 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}{
+\index{mocha::Statement@{mocha::Statement}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void mocha::Statement::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_a4a9c107bed3671f3fa15312b87f6ae96}{mocha::AstNode}.
+
+
+
+Reimplemented in \hyperlink{classmocha_1_1_pragma_stmt_aeb08affe7141887bfc88f44c49dfea4e}{mocha::PragmaStmt}, \hyperlink{classmocha_1_1_block_stmt_ade660294b70c686c3c7b1cd07dce97ab}{mocha::BlockStmt}, \hyperlink{classmocha_1_1_module_stmt_a2028c16db13ad29aeab6f53b4de08014}{mocha::ModuleStmt}, \hyperlink{classmocha_1_1_export_stmt_a7cda610c60ff845128e6ec191552df05}{mocha::ExportStmt}, \hyperlink{classmocha_1_1_import_stmt_a75f5f5ca0a60825d11a0f0f8c182b48f}{mocha::ImportStmt}, \hyperlink{classmocha_1_1_variable_stmt_a17244d6a21ec5e47f67b0709c5dad4ee}{mocha::VariableStmt}, \hyperlink{classmocha_1_1_let_stmt_a5d20086563ecfcf5f7da28eb19bead94}{mocha::LetStmt}, \hyperlink{classmocha_1_1_expression_stmt_afa89adad8608636cf29a1c2d617347b8}{mocha::ExpressionStmt}, \hyperlink{classmocha_1_1_i_f_stmt_ae8dc0f336ec79750d3e713d0e8a0b1fe}{mocha::IFStmt}, \hyperlink{classmocha_1_1_iteration_stmt_a20e4650b73f5f88b8f07485ca1f2a005}{mocha::IterationStmt}, \hyperlink{classmocha_1_1_continue_stmt_ae8cbf571d917e7b8002b3b9614b6f92e}{mocha::ContinueStmt}, \hyperlink{classmocha_1_1_break_stmt_a73d4722ff7fccc9a62e7a2fb562bc7b6}{mocha::BreakStmt}, \hyperlink{classmocha_1_1_return_stmt_a13dd108e4f098a6f4e1ea39afa217bbc}{mocha::ReturnStmt}, \hyperlink{classmocha_1_1_with_stmt_a3a24b05de3590e14097cb308a6ce636f}{mocha::WithStmt}, \hyperlink{classmocha_1_1_labelled_stmt_ac53558b27dae5f5322602c7ea77606ee}{mocha::LabelledStmt}, \hyperlink{classmocha_1_1_switch_stmt_a2002a4411af51c5c15f0cb619d0e9a90}{mocha::SwitchStmt}, \hyperlink{classmocha_1_1_throw_stmt_aa03f03d979f69c8ab2e415d1d5bd2dcf}{mocha::ThrowStmt}, \hyperlink{classmocha_1_1_try_stmt_a82c1e07c83c3397f9f95a08129ef81eb}{mocha::TryStmt}, \hyperlink{classmocha_1_1_assert_stmt_a49e173e8f338612c594af47c06b650fa}{mocha::AssertStmt}, and \hyperlink{classmocha_1_1_version_stmt_a82e2f78b4d3b39b1a73bd15d84cbf6f6}{mocha::VersionStmt}.
+
+
+
+Definition at line 569 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_af5e7c55d555f43d60d831af659224d0f}{
+\index{mocha::Statement@{mocha::Statement}!ResetDsta@{ResetDsta}}
+\index{ResetDsta@{ResetDsta}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{ResetDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Statement::ResetDsta (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_af5e7c55d555f43d60d831af659224d0f}
+
+
+Set 0 to all destructuring assignment block. 
+
+
+
+Definition at line 1597 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_aff56aa2480452a15ad08f3b70e75ff88}{
+\index{mocha::Statement@{mocha::Statement}!SetDsta@{SetDsta}}
+\index{SetDsta@{SetDsta}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{SetDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Statement::SetDsta (
+\begin{DoxyParamCaption}
+\item[{{\bf DstaExtractedExpressions} $\ast$}]{tree}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_aff56aa2480452a15ad08f3b70e75ff88}
+
+\begin{DoxyParams}{Parameters}
+{\em \{DstaExtractedExpression\}} & tree Set destructuring assignment tree. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 542 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a16b3dbc1ece47df34f9739d67e196a7c}{
+\index{mocha::Statement@{mocha::Statement}!SetYieldFlag@{SetYieldFlag}}
+\index{SetYieldFlag@{SetYieldFlag}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{SetYieldFlag}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Statement::SetYieldFlag (
+\begin{DoxyParamCaption}
+\item[{bool}]{is}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_a16b3dbc1ece47df34f9739d67e196a7c}
+
+
+Definition at line 548 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a3da2b32930da12e1ab1db145951e6d79}{
+\index{mocha::Statement@{mocha::Statement}!SetYieldFlag@{SetYieldFlag}}
+\index{SetYieldFlag@{SetYieldFlag}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{SetYieldFlag}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Statement::SetYieldFlag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_statement_a3da2b32930da12e1ab1db145951e6d79}
+
+
+Definition at line 547 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_statement_a0ce32d27ea57a9b2c017c6870be612a0}{
+\index{mocha::Statement@{mocha::Statement}!dsta\_\-exp\_\-@{dsta\_\-exp\_\-}}
+\index{dsta\_\-exp\_\-@{dsta\_\-exp\_\-}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{dsta\_\-exp\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DstaExtractedExpressions}$\ast$ {\bf mocha::Statement::dsta\_\-exp\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_statement_a0ce32d27ea57a9b2c017c6870be612a0}
+
+
+Definition at line 572 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_a7ada59273fc336ffb75e03a4ff999570}{
+\index{mocha::Statement@{mocha::Statement}!has\_\-dsta\_\-@{has\_\-dsta\_\-}}
+\index{has\_\-dsta\_\-@{has\_\-dsta\_\-}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{has\_\-dsta\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::Statement::has\_\-dsta\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_statement_a7ada59273fc336ffb75e03a4ff999570}
+
+
+Definition at line 569 of file ast.h.
+
+\hypertarget{classmocha_1_1_statement_ae9970a2c71dde36750e08ff3be61239f}{
+\index{mocha::Statement@{mocha::Statement}!has\_\-yield\_\-@{has\_\-yield\_\-}}
+\index{has\_\-yield\_\-@{has\_\-yield\_\-}!mocha::Statement@{mocha::Statement}}
+\subsubsection[{has\_\-yield\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::Statement::has\_\-yield\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_statement_ae9970a2c71dde36750e08ff3be61239f}
+
+
+Definition at line 571 of file ast.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\end{DoxyCompactItemize}

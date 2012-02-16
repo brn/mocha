@@ -1,0 +1,225 @@
+\hypertarget{classmocha_1_1_assignment_exp}{
+\section{mocha::AssignmentExp Class Reference}
+\label{classmocha_1_1_assignment_exp}\index{mocha::AssignmentExp@{mocha::AssignmentExp}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::AssignmentExp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_assignment_exp}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_assignment_exp_a467744dd3da0f4e4589fd17eea275122}{AssignmentExp} (int op, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$left, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$right)
+\item 
+\hyperlink{classmocha_1_1_assignment_exp}{AssignmentExp} $\ast$ \hyperlink{classmocha_1_1_assignment_exp_ae8016bd58008fae4ae8e009f403fc9b0}{CastToAssigment} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_assignment_exp_a68245835b583847ee2aad68142d72cae}{Left} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_assignment_exp_acae30f2d8b41b29a90de4f2e2b425407}{Right} ()
+\item 
+int \hyperlink{classmocha_1_1_assignment_exp_a847a00375a65b134a03d96bbafd1c0f6}{Op} ()
+\item 
+void \hyperlink{classmocha_1_1_assignment_exp_a11115bd08d4ea4fc93a19bcc1fdf306d}{ReplaceChild} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$old\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$new\_\-node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_assignment_exp_ac266c79bc33aaba7a6de7bb34a966786}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_assignment_exp_ae8926731b19e86748e07bf8f29fa9a1b}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_assignment_exp_a602624825bd3b7fa70ff1069c0425f9a}{op\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_assignment_exp_ad899e6df5e3e26572eece7523e1a4327}{left\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_assignment_exp_a41d8c915810d5f81e7ba584402d2e692}{right\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1495 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_assignment_exp_a467744dd3da0f4e4589fd17eea275122}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!AssignmentExp@{AssignmentExp}}
+\index{AssignmentExp@{AssignmentExp}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{AssignmentExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::AssignmentExp::AssignmentExp (
+\begin{DoxyParamCaption}
+\item[{int}]{op, }
+\item[{{\bf AstNode} $\ast$}]{left, }
+\item[{{\bf AstNode} $\ast$}]{right}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_a467744dd3da0f4e4589fd17eea275122}
+
+
+Definition at line 1497 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_assignment_exp_ae8016bd58008fae4ae8e009f403fc9b0}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!CastToAssigment@{CastToAssigment}}
+\index{CastToAssigment@{CastToAssigment}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{CastToAssigment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AssignmentExp}$\ast$ mocha::AssignmentExp::CastToAssigment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_ae8016bd58008fae4ae8e009f403fc9b0}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac9487a84166be5500145ae33523ebfdf}{mocha::Expression}.
+
+
+
+Definition at line 1503 of file ast.h.
+
+\hypertarget{classmocha_1_1_assignment_exp_ac266c79bc33aaba7a6de7bb34a966786}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::AssignmentExp::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_ac266c79bc33aaba7a6de7bb34a966786}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac1fb936e2bf0fdd6e7667275d3723ca5}{mocha::Expression}.
+
+
+
+Definition at line 607 of file ast.cc.
+
+\hypertarget{classmocha_1_1_assignment_exp_a68245835b583847ee2aad68142d72cae}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!Left@{Left}}
+\index{Left@{Left}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{Left}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::AssignmentExp::Left (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_a68245835b583847ee2aad68142d72cae}
+
+
+Definition at line 1504 of file ast.h.
+
+\hypertarget{classmocha_1_1_assignment_exp_ae8926731b19e86748e07bf8f29fa9a1b}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::AssignmentExp::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_ae8926731b19e86748e07bf8f29fa9a1b}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1513 of file ast.h.
+
+\hypertarget{classmocha_1_1_assignment_exp_a847a00375a65b134a03d96bbafd1c0f6}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!Op@{Op}}
+\index{Op@{Op}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{Op}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::AssignmentExp::Op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_a847a00375a65b134a03d96bbafd1c0f6}
+
+
+Definition at line 1506 of file ast.h.
+
+\hypertarget{classmocha_1_1_assignment_exp_a11115bd08d4ea4fc93a19bcc1fdf306d}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!ReplaceChild@{ReplaceChild}}
+\index{ReplaceChild@{ReplaceChild}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{ReplaceChild}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::AssignmentExp::ReplaceChild (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{old\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{new\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_a11115bd08d4ea4fc93a19bcc1fdf306d}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & Replace the old\_\-node with new\_\-node in childnodes. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_aa40396040f75fb59e320d81c3fd328c8}{mocha::AstNode}.
+
+
+
+Definition at line 591 of file ast.cc.
+
+\hypertarget{classmocha_1_1_assignment_exp_acae30f2d8b41b29a90de4f2e2b425407}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!Right@{Right}}
+\index{Right@{Right}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{Right}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::AssignmentExp::Right (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_acae30f2d8b41b29a90de4f2e2b425407}
+
+
+Definition at line 1505 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_assignment_exp_ad899e6df5e3e26572eece7523e1a4327}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!left\_\-@{left\_\-}}
+\index{left\_\-@{left\_\-}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{left\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::AssignmentExp::left\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_ad899e6df5e3e26572eece7523e1a4327}
+
+
+Definition at line 1511 of file ast.h.
+
+\hypertarget{classmocha_1_1_assignment_exp_a602624825bd3b7fa70ff1069c0425f9a}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!op\_\-@{op\_\-}}
+\index{op\_\-@{op\_\-}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{op\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::AssignmentExp::op\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_a602624825bd3b7fa70ff1069c0425f9a}
+
+
+Definition at line 1508 of file ast.h.
+
+\hypertarget{classmocha_1_1_assignment_exp_a41d8c915810d5f81e7ba584402d2e692}{
+\index{mocha::AssignmentExp@{mocha::AssignmentExp}!right\_\-@{right\_\-}}
+\index{right\_\-@{right\_\-}!mocha::AssignmentExp@{mocha::AssignmentExp}}
+\subsubsection[{right\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::AssignmentExp::right\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_assignment_exp_a41d8c915810d5f81e7ba584402d2e692}
+
+
+Definition at line 1512 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

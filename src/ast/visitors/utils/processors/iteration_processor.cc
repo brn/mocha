@@ -119,9 +119,10 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   if ( ast_node->NodeType() == AstNode::kForOfWithVar ) {
     AstNode* val = index_exp->Clone();
     ValueNode* maybe_value = index_exp->CastToValue();
-    fprintf( stderr , "for of node type ====== =========================== %s" , val->GetName() );
     if ( maybe_value ) {
       maybe_value->ValueType( ValueNode::kVariable );
+      maybe_value->RemoveAllChild();
+      maybe_value->AddChild( ManagedHandle::Retain<Empty>() );
       VariableStmt* stmt = AstUtils::CreateVarStmt( index_exp );
       ast_node->ParentNode()->InsertBefore( stmt , ast_node );
     }

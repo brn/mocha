@@ -1,0 +1,656 @@
+\hypertarget{classmocha_1_1_class_processor_utils}{
+\section{mocha::ClassProcessorUtils Class Reference}
+\label{classmocha_1_1_class_processor_utils}\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_class_processor_utils_ab68b22b8df753884d141c79423128759}{ClassProcessorUtils} (\hyperlink{classmocha_1_1_class_processor}{ClassProcessor} $\ast$processor, std::string $\ast$private\_\-field)
+\item 
+\hyperlink{classmocha_1_1_class_processor_utils_a27c762615ca89f0543d08d286f6d8981}{$\sim$ClassProcessorUtils} ()
+\item 
+\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a610865dafa045c1406bebd542b5c5d83}{CreateHiddenMember} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$args, long line)
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_af75b7f05a1ec3c13d31b98b977bf82ec}{CreatePrivateHolderName} (long line)
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a330e44d58fbec85a47df4a7721679471}{CreatePrivateField} (long line)
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ab57d62ddfbaeb403018b214da4d09067}{CreateThisNode} (long line)
+\item 
+\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_aa60e32378408cad91c137cac3f69bcbc}{CreatePrivateFieldAccessor} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name)
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a14bb29392495622b718afc8542e77d7f}{CreateTypeIdNode} (long line)
+\item 
+\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ac7e7158b65ce6bc045868d46763c3634}{CreateRecord} (long line)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ab56c8f661100300b99a4ef01cca8ba11}{SetMark} (\hyperlink{classmocha_1_1_function}{Function} $\ast$fn)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a9327665bf5bd23c50bf7925e4b497769}{CreateHiddenConstructor} (const char $\ast$name, long line)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_aa3d30f0d1db866791c961ba4193b4810}{CreateConstructorInitializer} (const char $\ast$name, long line)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a29af6b8e270cc7ff00c9ed19ec06daaa}{CreateMixin} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mixins, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_a5a63e6c4b0567dfa908eeed3ac896ede}{CreateMixinStmt} (const char $\ast$name, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mixin\_\-list, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$body)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_a66a15724e9fc5b217b958550c6911016}{CreateRequirementsCheck} (const char $\ast$name, const char $\ast$filename, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mixin\_\-list, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$body)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a66448399c2ac6f95d54efd5b2740ab3a}{CreateHolderAssignment} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name, \hyperlink{classmocha_1_1_class}{Class} $\ast$class\_\-, bool is\_\-const, bool is\_\-instance)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_ae749932a020a7f02b636caadc41ed885}{Finish} (const char $\ast$name, \hyperlink{classmocha_1_1_class}{Class} $\ast$class\_\-, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$closure\_\-, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+\hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a1b999dea09f4b52d22ba43c71febd23e}{CreatePrivateHolder} (\hyperlink{classmocha_1_1_class}{Class} $\ast$class\_\-, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a4745971a910122bc31e366c0fa49f114}{GetSafeValue} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$value)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a2ff3e378a45327df8060e236970407b8}{InstancePrivate} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$value)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a425461673b00f5f837a893277b4d14cf}{InstancePublic} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$value)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_abe05538ee0cc20be8f3740d05db761ae}{ConstantInstancePrivate} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$value)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ad239680f421167da1c307681f6b81197}{ConstantInstancePublic} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$value)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a4b47f30d7968755e17db302f8fe7bf9c}{PrototypePrivate} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ac931857f4f62031b1ba249cf233da5c1}{PrototypePublic} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_af5b9c37de2825626bf80a70c43d41c00}{ConstantPrototypePrivate} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a50068b6d373030e45c8c57a0eee045c4}{ConstantPrototypePublic} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a28a8c9dae3d507054c521d4b8f5e1830}{PublicStatic} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a3d84ff9ef3f2d4082396169e1b99f6bb}{PublicConstantStatic} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ac59461d97ab0bb6da1f1ad0024e85e1f}{PrivateStatic} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ab81285773872b9fb9cdd7ceb33ad6f2a}{PrivateConstantStatic} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$val)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_afeb3b1bdc113c10b8417e1e9d217042a}{InstancePublicDsta} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_function}{Function} $\ast$closure\_\-body, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$val, bool is\_\-const)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_a2b746fe441de3ed55f5ec11f6f5172d8}{InstancePrivateDsta} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_function}{Function} $\ast$closure\_\-body, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$val, bool is\_\-const)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_ad30031d6087cd77d4d2cc6763c05352f}{PrototypePublicDsta} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_function}{Function} $\ast$closure\_\-body, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$val, bool is\_\-const)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_ac3bfe46eb0acef03d504b0c6724fb7b4}{PrototypePrivateDsta} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_function}{Function} $\ast$closure\_\-body, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$val, bool is\_\-const)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_ac5b625457ddf992f3b22b9e3a1bdee30}{PrivateStaticDsta} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_function}{Function} $\ast$closure\_\-body, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$exp, bool is\_\-const)
+\item 
+void \hyperlink{classmocha_1_1_class_processor_utils_a86c2ceefe5e02737d5a0a9e8afcc7db1}{PublicStaticDsta} (const char $\ast$class\_\-name, \hyperlink{classmocha_1_1_function}{Function} $\ast$closure\_\-body, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$exp, bool is\_\-const)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::string $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_a48ca9aca95f8511c95934051751eadb9}{private\_\-field\_\-}
+\item 
+\hyperlink{classmocha_1_1_class_processor}{ClassProcessor} $\ast$ \hyperlink{classmocha_1_1_class_processor_utils_ae8daab7ebd208801b9b7c640c8e3b3a0}{processor\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 20 of file class\_\-processor.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_class_processor_utils_ab68b22b8df753884d141c79423128759}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!ClassProcessorUtils@{ClassProcessorUtils}}
+\index{ClassProcessorUtils@{ClassProcessorUtils}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{ClassProcessorUtils}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ClassProcessorUtils::ClassProcessorUtils (
+\begin{DoxyParamCaption}
+\item[{{\bf ClassProcessor} $\ast$}]{processor, }
+\item[{std::string $\ast$}]{private\_\-field}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ab68b22b8df753884d141c79423128759}
+
+
+Definition at line 22 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a27c762615ca89f0543d08d286f6d8981}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!$\sim$ClassProcessorUtils@{$\sim$ClassProcessorUtils}}
+\index{$\sim$ClassProcessorUtils@{$\sim$ClassProcessorUtils}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{$\sim$ClassProcessorUtils}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ClassProcessorUtils::$\sim$ClassProcessorUtils (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a27c762615ca89f0543d08d286f6d8981}
+
+
+Definition at line 24 of file class\_\-processor.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_class_processor_utils_abe05538ee0cc20be8f3740d05db761ae}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!ConstantInstancePrivate@{ConstantInstancePrivate}}
+\index{ConstantInstancePrivate@{ConstantInstancePrivate}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{ConstantInstancePrivate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::ConstantInstancePrivate (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_abe05538ee0cc20be8f3740d05db761ae}
+
+
+Definition at line 274 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ad239680f421167da1c307681f6b81197}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!ConstantInstancePublic@{ConstantInstancePublic}}
+\index{ConstantInstancePublic@{ConstantInstancePublic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{ConstantInstancePublic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::ConstantInstancePublic (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ad239680f421167da1c307681f6b81197}
+
+
+Definition at line 282 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_af5b9c37de2825626bf80a70c43d41c00}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!ConstantPrototypePrivate@{ConstantPrototypePrivate}}
+\index{ConstantPrototypePrivate@{ConstantPrototypePrivate}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{ConstantPrototypePrivate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::ConstantPrototypePrivate (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_af5b9c37de2825626bf80a70c43d41c00}
+
+
+Definition at line 312 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a50068b6d373030e45c8c57a0eee045c4}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!ConstantPrototypePublic@{ConstantPrototypePublic}}
+\index{ConstantPrototypePublic@{ConstantPrototypePublic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{ConstantPrototypePublic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::ConstantPrototypePublic (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a50068b6d373030e45c8c57a0eee045c4}
+
+
+Definition at line 323 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_aa3d30f0d1db866791c961ba4193b4810}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateConstructorInitializer@{CreateConstructorInitializer}}
+\index{CreateConstructorInitializer@{CreateConstructorInitializer}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateConstructorInitializer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ClassProcessorUtils::CreateConstructorInitializer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_aa3d30f0d1db866791c961ba4193b4810}
+
+
+Definition at line 110 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a9327665bf5bd23c50bf7925e4b497769}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateHiddenConstructor@{CreateHiddenConstructor}}
+\index{CreateHiddenConstructor@{CreateHiddenConstructor}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateHiddenConstructor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ClassProcessorUtils::CreateHiddenConstructor (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a9327665bf5bd23c50bf7925e4b497769}
+
+
+Definition at line 94 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a610865dafa045c1406bebd542b5c5d83}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateHiddenMember@{CreateHiddenMember}}
+\index{CreateHiddenMember@{CreateHiddenMember}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateHiddenMember}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp}$\ast$ mocha::ClassProcessorUtils::CreateHiddenMember (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{args, }
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a610865dafa045c1406bebd542b5c5d83}
+
+
+Definition at line 25 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a66448399c2ac6f95d54efd5b2740ab3a}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateHolderAssignment@{CreateHolderAssignment}}
+\index{CreateHolderAssignment@{CreateHolderAssignment}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateHolderAssignment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ClassProcessorUtils::CreateHolderAssignment (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{val, }
+\item[{{\bf AstNode} $\ast$}]{name, }
+\item[{{\bf Class} $\ast$}]{class\_\-, }
+\item[{bool}]{is\_\-const, }
+\item[{bool}]{is\_\-instance}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a66448399c2ac6f95d54efd5b2740ab3a}
+
+
+Definition at line 181 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a29af6b8e270cc7ff00c9ed19ec06daaa}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateMixin@{CreateMixin}}
+\index{CreateMixin@{CreateMixin}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateMixin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ClassProcessorUtils::CreateMixin (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{mixins, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a29af6b8e270cc7ff00c9ed19ec06daaa}
+
+
+Definition at line 125 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a5a63e6c4b0567dfa908eeed3ac896ede}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateMixinStmt@{CreateMixinStmt}}
+\index{CreateMixinStmt@{CreateMixinStmt}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateMixinStmt}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::CreateMixinStmt (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{{\bf AstNode} $\ast$}]{mixin\_\-list, }
+\item[{{\bf AstNode} $\ast$}]{body}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a5a63e6c4b0567dfa908eeed3ac896ede}
+
+
+Definition at line 130 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a330e44d58fbec85a47df4a7721679471}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreatePrivateField@{CreatePrivateField}}
+\index{CreatePrivateField@{CreatePrivateField}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreatePrivateField}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ mocha::ClassProcessorUtils::CreatePrivateField (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a330e44d58fbec85a47df4a7721679471}
+
+
+Definition at line 39 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_aa60e32378408cad91c137cac3f69bcbc}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreatePrivateFieldAccessor@{CreatePrivateFieldAccessor}}
+\index{CreatePrivateFieldAccessor@{CreatePrivateFieldAccessor}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreatePrivateFieldAccessor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp}$\ast$ mocha::ClassProcessorUtils::CreatePrivateFieldAccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_aa60e32378408cad91c137cac3f69bcbc}
+
+
+Definition at line 51 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a1b999dea09f4b52d22ba43c71febd23e}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreatePrivateHolder@{CreatePrivateHolder}}
+\index{CreatePrivateHolder@{CreatePrivateHolder}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreatePrivateHolder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt}$\ast$ mocha::ClassProcessorUtils::CreatePrivateHolder (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{class\_\-, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a1b999dea09f4b52d22ba43c71febd23e}
+
+
+Definition at line 240 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_af75b7f05a1ec3c13d31b98b977bf82ec}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreatePrivateHolderName@{CreatePrivateHolderName}}
+\index{CreatePrivateHolderName@{CreatePrivateHolderName}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreatePrivateHolderName}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ mocha::ClassProcessorUtils::CreatePrivateHolderName (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_af75b7f05a1ec3c13d31b98b977bf82ec}
+
+
+Definition at line 34 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ac7e7158b65ce6bc045868d46763c3634}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateRecord@{CreateRecord}}
+\index{CreateRecord@{CreateRecord}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateRecord}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp}$\ast$ mocha::ClassProcessorUtils::CreateRecord (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ac7e7158b65ce6bc045868d46763c3634}
+
+
+Definition at line 67 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a66a15724e9fc5b217b958550c6911016}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateRequirementsCheck@{CreateRequirementsCheck}}
+\index{CreateRequirementsCheck@{CreateRequirementsCheck}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateRequirementsCheck}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::CreateRequirementsCheck (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{filename, }
+\item[{{\bf AstNode} $\ast$}]{mixin\_\-list, }
+\item[{{\bf AstNode} $\ast$}]{body}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a66a15724e9fc5b217b958550c6911016}
+
+
+Definition at line 151 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ab57d62ddfbaeb403018b214da4d09067}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateThisNode@{CreateThisNode}}
+\index{CreateThisNode@{CreateThisNode}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateThisNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ mocha::ClassProcessorUtils::CreateThisNode (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ab57d62ddfbaeb403018b214da4d09067}
+
+
+Definition at line 44 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a14bb29392495622b718afc8542e77d7f}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!CreateTypeIdNode@{CreateTypeIdNode}}
+\index{CreateTypeIdNode@{CreateTypeIdNode}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{CreateTypeIdNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ mocha::ClassProcessorUtils::CreateTypeIdNode (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a14bb29392495622b718afc8542e77d7f}
+
+
+Definition at line 61 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ae749932a020a7f02b636caadc41ed885}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!Finish@{Finish}}
+\index{Finish@{Finish}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{Finish}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::Finish (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{{\bf Class} $\ast$}]{class\_\-, }
+\item[{{\bf AstNode} $\ast$}]{closure\_\-, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ae749932a020a7f02b636caadc41ed885}
+
+
+Definition at line 207 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a4745971a910122bc31e366c0fa49f114}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!GetSafeValue@{GetSafeValue}}
+\index{GetSafeValue@{GetSafeValue}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{GetSafeValue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ClassProcessorUtils::GetSafeValue (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a4745971a910122bc31e366c0fa49f114}
+
+
+Definition at line 250 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a2ff3e378a45327df8060e236970407b8}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!InstancePrivate@{InstancePrivate}}
+\index{InstancePrivate@{InstancePrivate}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{InstancePrivate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::InstancePrivate (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a2ff3e378a45327df8060e236970407b8}
+
+
+Definition at line 258 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a2b746fe441de3ed55f5ec11f6f5172d8}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!InstancePrivateDsta@{InstancePrivateDsta}}
+\index{InstancePrivateDsta@{InstancePrivateDsta}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{InstancePrivateDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::InstancePrivateDsta (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf Function} $\ast$}]{closure\_\-body, }
+\item[{{\bf ValueNode} $\ast$}]{val, }
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a2b746fe441de3ed55f5ec11f6f5172d8}
+
+
+Definition at line 383 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a425461673b00f5f837a893277b4d14cf}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!InstancePublic@{InstancePublic}}
+\index{InstancePublic@{InstancePublic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{InstancePublic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::InstancePublic (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a425461673b00f5f837a893277b4d14cf}
+
+
+Definition at line 266 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_afeb3b1bdc113c10b8417e1e9d217042a}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!InstancePublicDsta@{InstancePublicDsta}}
+\index{InstancePublicDsta@{InstancePublicDsta}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{InstancePublicDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::InstancePublicDsta (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf Function} $\ast$}]{closure\_\-body, }
+\item[{{\bf ValueNode} $\ast$}]{val, }
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_afeb3b1bdc113c10b8417e1e9d217042a}
+
+
+Definition at line 382 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ab81285773872b9fb9cdd7ceb33ad6f2a}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrivateConstantStatic@{PrivateConstantStatic}}
+\index{PrivateConstantStatic@{PrivateConstantStatic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrivateConstantStatic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::PrivateConstantStatic (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ab81285773872b9fb9cdd7ceb33ad6f2a}
+
+
+Definition at line 358 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ac59461d97ab0bb6da1f1ad0024e85e1f}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrivateStatic@{PrivateStatic}}
+\index{PrivateStatic@{PrivateStatic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrivateStatic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::PrivateStatic (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ac59461d97ab0bb6da1f1ad0024e85e1f}
+
+
+Definition at line 351 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ac5b625457ddf992f3b22b9e3a1bdee30}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrivateStaticDsta@{PrivateStaticDsta}}
+\index{PrivateStaticDsta@{PrivateStaticDsta}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrivateStaticDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::PrivateStaticDsta (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf Function} $\ast$}]{closure\_\-body, }
+\item[{{\bf ValueNode} $\ast$}]{exp, }
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ac5b625457ddf992f3b22b9e3a1bdee30}
+
+
+Definition at line 430 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a4b47f30d7968755e17db302f8fe7bf9c}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrototypePrivate@{PrototypePrivate}}
+\index{PrototypePrivate@{PrototypePrivate}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrototypePrivate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::PrototypePrivate (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a4b47f30d7968755e17db302f8fe7bf9c}
+
+
+Definition at line 292 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ac3bfe46eb0acef03d504b0c6724fb7b4}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrototypePrivateDsta@{PrototypePrivateDsta}}
+\index{PrototypePrivateDsta@{PrototypePrivateDsta}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrototypePrivateDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::PrototypePrivateDsta (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf Function} $\ast$}]{closure\_\-body, }
+\item[{{\bf ValueNode} $\ast$}]{val, }
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ac3bfe46eb0acef03d504b0c6724fb7b4}
+
+
+Definition at line 406 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ac931857f4f62031b1ba249cf233da5c1}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrototypePublic@{PrototypePublic}}
+\index{PrototypePublic@{PrototypePublic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrototypePublic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::PrototypePublic (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ac931857f4f62031b1ba249cf233da5c1}
+
+
+Definition at line 302 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ad30031d6087cd77d4d2cc6763c05352f}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PrototypePublicDsta@{PrototypePublicDsta}}
+\index{PrototypePublicDsta@{PrototypePublicDsta}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PrototypePublicDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::PrototypePublicDsta (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf Function} $\ast$}]{closure\_\-body, }
+\item[{{\bf ValueNode} $\ast$}]{val, }
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ad30031d6087cd77d4d2cc6763c05352f}
+
+
+Definition at line 405 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a3d84ff9ef3f2d4082396169e1b99f6bb}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PublicConstantStatic@{PublicConstantStatic}}
+\index{PublicConstantStatic@{PublicConstantStatic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PublicConstantStatic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::PublicConstantStatic (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a3d84ff9ef3f2d4082396169e1b99f6bb}
+
+
+Definition at line 343 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a28a8c9dae3d507054c521d4b8f5e1830}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PublicStatic@{PublicStatic}}
+\index{PublicStatic@{PublicStatic}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PublicStatic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::PublicStatic (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a28a8c9dae3d507054c521d4b8f5e1830}
+
+
+Definition at line 334 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_a86c2ceefe5e02737d5a0a9e8afcc7db1}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!PublicStaticDsta@{PublicStaticDsta}}
+\index{PublicStaticDsta@{PublicStaticDsta}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{PublicStaticDsta}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ClassProcessorUtils::PublicStaticDsta (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{class\_\-name, }
+\item[{{\bf Function} $\ast$}]{closure\_\-body, }
+\item[{{\bf ValueNode} $\ast$}]{exp, }
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a86c2ceefe5e02737d5a0a9e8afcc7db1}
+
+
+Definition at line 431 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ab56c8f661100300b99a4ef01cca8ba11}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!SetMark@{SetMark}}
+\index{SetMark@{SetMark}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{SetMark}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::ClassProcessorUtils::SetMark (
+\begin{DoxyParamCaption}
+\item[{{\bf Function} $\ast$}]{fn}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ab56c8f661100300b99a4ef01cca8ba11}
+
+
+Definition at line 79 of file class\_\-processor.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_class_processor_utils_a48ca9aca95f8511c95934051751eadb9}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!private\_\-field\_\-@{private\_\-field\_\-}}
+\index{private\_\-field\_\-@{private\_\-field\_\-}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{private\_\-field\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string$\ast$ {\bf mocha::ClassProcessorUtils::private\_\-field\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_a48ca9aca95f8511c95934051751eadb9}
+
+
+Definition at line 431 of file class\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_class_processor_utils_ae8daab7ebd208801b9b7c640c8e3b3a0}{
+\index{mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}!processor\_\-@{processor\_\-}}
+\index{processor\_\-@{processor\_\-}!mocha::ClassProcessorUtils@{mocha::ClassProcessorUtils}}
+\subsubsection[{processor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ClassProcessor}$\ast$ {\bf mocha::ClassProcessorUtils::processor\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_class_processor_utils_ae8daab7ebd208801b9b7c640c8e3b3a0}
+
+
+Definition at line 438 of file class\_\-processor.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{class__processor_8cc}{class\_\-processor.cc}\end{DoxyCompactItemize}

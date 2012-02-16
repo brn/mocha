@@ -1,0 +1,566 @@
+\hypertarget{classmocha_1_1_codegen_visitor}{
+\section{mocha::CodegenVisitor Class Reference}
+\label{classmocha_1_1_codegen_visitor}\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+}
+
+
+{\ttfamily \#include $<$codegen\_\-visitor.h$>$}
+
+Inheritance diagram for mocha::CodegenVisitor:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_codegen_visitor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_codegen_visitor_aa35625b6ae531e2ca3c529c1c84ab57f}{CodegenVisitor} (const char $\ast$\hyperlink{classmocha_1_1_codegen_visitor_aab8ca0550a471810ff7caa360fbd26b4}{filename\_\-}, \hyperlink{classmocha_1_1_compile_info}{CompileInfo} $\ast$info)
+\item 
+\hyperlink{classmocha_1_1_codegen_visitor_a90a9952c701d3523d32f4f1b4640f91d}{CodegenVisitor} (const char $\ast$\hyperlink{classmocha_1_1_codegen_visitor_aab8ca0550a471810ff7caa360fbd26b4}{filename\_\-}, bool is\_\-pretty\_\-print, bool is\_\-debug)
+\item 
+\hyperlink{classmocha_1_1_codegen_visitor_aacc64569f0b7bf04f9f3f55a55f5a180}{$\sim$CodegenVisitor} ()
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a046d0648f036d9f6e580d3fd7f6223b9}{Write} (const char $\ast$code)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_codegen_visitor_afd3d84940413ff3b974882a8e6b227df}{GetCode} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_aaaa6cabbe8c04a0aab7c3a9a26956783}{ForProccessor\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$iter)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_ac2b58bbdf7ceab17af317dc9b7148748}{ForInProccessor\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$iter)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_acd33c4711ad2da1aa6bf0e8307cdcf3f}{DoWhileProccessor\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$iter)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a0da6f8640afb0d656c8dd37f3a6cb8d3}{WhileProccessor\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$iter)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a41831cab2278e60af618eb82241f968f}{VarListProcessor\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ast\_\-node)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a89d8a0fb83b55514867f3208f13fe7cd}{JumpStmt\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ast\_\-node, int type)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a077cf4f25bc92526de580991a57154b5}{ArrayAccessorProccessor\_\-} (\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$exp)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a2d7c50f21f63cfb8f0cb3a15197563bb}{DotAccessorProccessor\_\-} (\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$exp)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a1bdfafe5fc128e579f652aec4f0f9e71}{NewCallProccessor\_\-} (\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$exp)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a0cfe3e8a5fa7133ca8a68e1463e56416}{NormalFunctionCall\_\-} (\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$exp)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a90b161c24a93abae48d1bfc0c8a36410}{ArrayProccessor\_\-} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ast\_\-node)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a9ca58184fa0084e484c76b1df527e6f0}{ObjectProccessor\_\-} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ast\_\-node)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a47a692c054c25c49b1dc6697e21c187e}{VarInitialiserProccessor\_\-} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ast\_\-node)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a4287a8c66135cf5b8c04368a5d37800e}{PrototypeMemberProccessor} (\hyperlink{classmocha_1_1_node_iterator}{NodeIterator} \&iterator, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name\_\-node, bool is\_\-private)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a243944b3a75886d451294ff344fd0bc4}{StaticMemberProccessor} (\hyperlink{classmocha_1_1_node_iterator}{NodeIterator} \&iterator, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$node)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_a7b254fb143b78dc6588ae6ad1f6bd7c4}{BeginState\_\-} (int state)
+\item 
+void \hyperlink{classmocha_1_1_codegen_visitor_afad33b6f54ceca8cb14dbbbd19f19630}{EndLastState\_\-} ()
+\item 
+int \hyperlink{classmocha_1_1_codegen_visitor_a195a3b729f7caab1181694da6afd7e5e}{CurrentState\_\-} ()
+\item 
+bool \hyperlink{classmocha_1_1_codegen_visitor_a2ba9effeb2147f147b7514cc6cc01e48}{MatchState\_\-} (int state)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_codegen_visitor_a4e2e4c70cc264ee5357386facf4a8342}{tmp\_\-index\_\-}
+\item 
+int \hyperlink{classmocha_1_1_codegen_visitor_addd36abf7937731e4890f02aee09f35c}{depth\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_codegen_visitor_af198dc9fecc2e79d9a3d3df0a3e28231}{is\_\-line\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_codegen_visitor_a2ee0634fdb95ee4150e914a69d894257}{has\_\-rest\_\-}
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_codegen_visitor_aab8ca0550a471810ff7caa360fbd26b4}{filename\_\-}
+\item 
+std::vector$<$ int $>$ \hyperlink{classmocha_1_1_codegen_visitor_a021c80b5dabd79be55bdc0d0cde292c0}{state\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_codegen_visitor_a54eb17d7aaa77efc93f704f35056a4a0}{rest\_\-ref\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_codegen_visitor_a9e6cd1c236038c7bf885481added42e5}{rest\_\-name\_\-}
+\item 
+\hyperlink{classmocha_1_1_inner_scope}{InnerScope} $\ast$ \hyperlink{classmocha_1_1_codegen_visitor_a0a7ecec309937be191ab716c144a3475}{scope\_\-}
+\item 
+\hyperlink{classmocha_1_1_code_buffer}{CodeBuffer} \hyperlink{classmocha_1_1_codegen_visitor_a7570febb0ccff0a7c6895031d8e4f124}{default\_\-buffer\_\-}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_code_stream}{CodeStream} $>$ \hyperlink{classmocha_1_1_codegen_visitor_a357d3e1fd1b56f1af4242c9f5af22602}{stream\_\-}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_code_writer}{CodeWriter} $>$ \hyperlink{classmocha_1_1_codegen_visitor_ad497faaa804159b3beecec28583a10fb}{writer\_\-}
+\item 
+\hyperlink{classmocha_1_1_file_root}{FileRoot} $\ast$ \hyperlink{classmocha_1_1_codegen_visitor_abfc91c7744f53a5727356dab84d55647}{current\_\-root\_\-}
+\item 
+\hyperlink{classmocha_1_1_class}{Class} $\ast$ \hyperlink{classmocha_1_1_codegen_visitor_ac72ee4104a6d4aaaaa2b0695bae62f07}{current\_\-class\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 17 of file codegen\_\-visitor.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_codegen_visitor_aa35625b6ae531e2ca3c529c1c84ab57f}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!CodegenVisitor@{CodegenVisitor}}
+\index{CodegenVisitor@{CodegenVisitor}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{CodegenVisitor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CodegenVisitor::CodegenVisitor (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename\_\-, }
+\item[{{\bf CompileInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_codegen_visitor_aa35625b6ae531e2ca3c529c1c84ab57f}
+
+
+Definition at line 69 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a90a9952c701d3523d32f4f1b4640f91d}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!CodegenVisitor@{CodegenVisitor}}
+\index{CodegenVisitor@{CodegenVisitor}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{CodegenVisitor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CodegenVisitor::CodegenVisitor (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename\_\-, }
+\item[{bool}]{is\_\-pretty\_\-print, }
+\item[{bool}]{is\_\-debug}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_codegen_visitor_a90a9952c701d3523d32f4f1b4640f91d}
+
+
+Definition at line 76 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_aacc64569f0b7bf04f9f3f55a55f5a180}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!$\sim$CodegenVisitor@{$\sim$CodegenVisitor}}
+\index{$\sim$CodegenVisitor@{$\sim$CodegenVisitor}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{$\sim$CodegenVisitor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CodegenVisitor::$\sim$CodegenVisitor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_aacc64569f0b7bf04f9f3f55a55f5a180}
+
+
+Definition at line 21 of file codegen\_\-visitor.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_codegen_visitor_a077cf4f25bc92526de580991a57154b5}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!ArrayAccessorProccessor\_\-@{ArrayAccessorProccessor\_\-}}
+\index{ArrayAccessorProccessor\_\-@{ArrayAccessorProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{ArrayAccessorProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::ArrayAccessorProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf CallExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a077cf4f25bc92526de580991a57154b5}
+
+
+Definition at line 645 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a90b161c24a93abae48d1bfc0c8a36410}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!ArrayProccessor\_\-@{ArrayProccessor\_\-}}
+\index{ArrayProccessor\_\-@{ArrayProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{ArrayProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::ArrayProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a90b161c24a93abae48d1bfc0c8a36410}
+
+
+Definition at line 881 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a7b254fb143b78dc6588ae6ad1f6bd7c4}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!BeginState\_\-@{BeginState\_\-}}
+\index{BeginState\_\-@{BeginState\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{BeginState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::BeginState\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{state}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a7b254fb143b78dc6588ae6ad1f6bd7c4}
+
+
+Definition at line 1018 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a195a3b729f7caab1181694da6afd7e5e}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!CurrentState\_\-@{CurrentState\_\-}}
+\index{CurrentState\_\-@{CurrentState\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{CurrentState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::CodegenVisitor::CurrentState\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a195a3b729f7caab1181694da6afd7e5e}
+
+
+Definition at line 1026 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a2d7c50f21f63cfb8f0cb3a15197563bb}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!DotAccessorProccessor\_\-@{DotAccessorProccessor\_\-}}
+\index{DotAccessorProccessor\_\-@{DotAccessorProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{DotAccessorProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::DotAccessorProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf CallExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a2d7c50f21f63cfb8f0cb3a15197563bb}
+
+
+Definition at line 655 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_acd33c4711ad2da1aa6bf0e8307cdcf3f}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!DoWhileProccessor\_\-@{DoWhileProccessor\_\-}}
+\index{DoWhileProccessor\_\-@{DoWhileProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{DoWhileProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::DoWhileProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{iter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_acd33c4711ad2da1aa6bf0e8307cdcf3f}
+
+
+Definition at line 466 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_afad33b6f54ceca8cb14dbbbd19f19630}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!EndLastState\_\-@{EndLastState\_\-}}
+\index{EndLastState\_\-@{EndLastState\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{EndLastState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::EndLastState\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_afad33b6f54ceca8cb14dbbbd19f19630}
+
+
+Definition at line 1022 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_ac2b58bbdf7ceab17af317dc9b7148748}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!ForInProccessor\_\-@{ForInProccessor\_\-}}
+\index{ForInProccessor\_\-@{ForInProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{ForInProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::ForInProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{iter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_ac2b58bbdf7ceab17af317dc9b7148748}
+
+
+Definition at line 387 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_aaaa6cabbe8c04a0aab7c3a9a26956783}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!ForProccessor\_\-@{ForProccessor\_\-}}
+\index{ForProccessor\_\-@{ForProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{ForProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::ForProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{iter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_aaaa6cabbe8c04a0aab7c3a9a26956783}
+
+
+Definition at line 336 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_afd3d84940413ff3b974882a8e6b227df}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!GetCode@{GetCode}}
+\index{GetCode@{GetCode}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{GetCode}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::CodegenVisitor::GetCode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_afd3d84940413ff3b974882a8e6b227df}
+
+
+Definition at line 24 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a89d8a0fb83b55514867f3208f13fe7cd}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!JumpStmt\_\-@{JumpStmt\_\-}}
+\index{JumpStmt\_\-@{JumpStmt\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{JumpStmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::JumpStmt\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{ast\_\-node, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a89d8a0fb83b55514867f3208f13fe7cd}
+
+
+Definition at line 502 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a2ba9effeb2147f147b7514cc6cc01e48}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!MatchState\_\-@{MatchState\_\-}}
+\index{MatchState\_\-@{MatchState\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{MatchState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::CodegenVisitor::MatchState\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{state}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a2ba9effeb2147f147b7514cc6cc01e48}
+
+
+Definition at line 1030 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a1bdfafe5fc128e579f652aec4f0f9e71}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!NewCallProccessor\_\-@{NewCallProccessor\_\-}}
+\index{NewCallProccessor\_\-@{NewCallProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{NewCallProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::NewCallProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf CallExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a1bdfafe5fc128e579f652aec4f0f9e71}
+
+
+Definition at line 661 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a0cfe3e8a5fa7133ca8a68e1463e56416}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!NormalFunctionCall\_\-@{NormalFunctionCall\_\-}}
+\index{NormalFunctionCall\_\-@{NormalFunctionCall\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{NormalFunctionCall\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::NormalFunctionCall\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf CallExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a0cfe3e8a5fa7133ca8a68e1463e56416}
+
+
+Definition at line 686 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a9ca58184fa0084e484c76b1df527e6f0}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!ObjectProccessor\_\-@{ObjectProccessor\_\-}}
+\index{ObjectProccessor\_\-@{ObjectProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{ObjectProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::ObjectProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a9ca58184fa0084e484c76b1df527e6f0}
+
+
+Definition at line 911 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a4287a8c66135cf5b8c04368a5d37800e}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!PrototypeMemberProccessor@{PrototypeMemberProccessor}}
+\index{PrototypeMemberProccessor@{PrototypeMemberProccessor}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{PrototypeMemberProccessor}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::PrototypeMemberProccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeIterator} \&}]{iterator, }
+\item[{{\bf AstNode} $\ast$}]{name\_\-node, }
+\item[{bool}]{is\_\-private}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a4287a8c66135cf5b8c04368a5d37800e}
+
+
+Definition at line 803 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a243944b3a75886d451294ff344fd0bc4}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!StaticMemberProccessor@{StaticMemberProccessor}}
+\index{StaticMemberProccessor@{StaticMemberProccessor}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{StaticMemberProccessor}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::StaticMemberProccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeIterator} \&}]{iterator, }
+\item[{{\bf AstNode} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a243944b3a75886d451294ff344fd0bc4}
+
+
+Definition at line 807 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a47a692c054c25c49b1dc6697e21c187e}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!VarInitialiserProccessor\_\-@{VarInitialiserProccessor\_\-}}
+\index{VarInitialiserProccessor\_\-@{VarInitialiserProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{VarInitialiserProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::VarInitialiserProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a47a692c054c25c49b1dc6697e21c187e}
+
+
+Definition at line 936 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a41831cab2278e60af618eb82241f968f}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!VarListProcessor\_\-@{VarListProcessor\_\-}}
+\index{VarListProcessor\_\-@{VarListProcessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{VarListProcessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::VarListProcessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a41831cab2278e60af618eb82241f968f}
+
+
+Definition at line 202 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a0da6f8640afb0d656c8dd37f3a6cb8d3}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!WhileProccessor\_\-@{WhileProccessor\_\-}}
+\index{WhileProccessor\_\-@{WhileProccessor\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{WhileProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::WhileProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{iter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a0da6f8640afb0d656c8dd37f3a6cb8d3}
+
+
+Definition at line 435 of file codegen\_\-visitor.cc.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a046d0648f036d9f6e580d3fd7f6223b9}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!Write@{Write}}
+\index{Write@{Write}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{Write}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CodegenVisitor::Write (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a046d0648f036d9f6e580d3fd7f6223b9}
+
+
+Definition at line 23 of file codegen\_\-visitor.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_codegen_visitor_ac72ee4104a6d4aaaaa2b0695bae62f07}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!current\_\-class\_\-@{current\_\-class\_\-}}
+\index{current\_\-class\_\-@{current\_\-class\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{current\_\-class\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Class}$\ast$ {\bf mocha::CodegenVisitor::current\_\-class\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_ac72ee4104a6d4aaaaa2b0695bae62f07}
+
+
+Definition at line 59 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_abfc91c7744f53a5727356dab84d55647}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!current\_\-root\_\-@{current\_\-root\_\-}}
+\index{current\_\-root\_\-@{current\_\-root\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{current\_\-root\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileRoot}$\ast$ {\bf mocha::CodegenVisitor::current\_\-root\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_abfc91c7744f53a5727356dab84d55647}
+
+
+Definition at line 58 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a7570febb0ccff0a7c6895031d8e4f124}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!default\_\-buffer\_\-@{default\_\-buffer\_\-}}
+\index{default\_\-buffer\_\-@{default\_\-buffer\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{default\_\-buffer\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CodeBuffer} {\bf mocha::CodegenVisitor::default\_\-buffer\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a7570febb0ccff0a7c6895031d8e4f124}
+
+
+Definition at line 55 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_addd36abf7937731e4890f02aee09f35c}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!depth\_\-@{depth\_\-}}
+\index{depth\_\-@{depth\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{depth\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::CodegenVisitor::depth\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_addd36abf7937731e4890f02aee09f35c}
+
+
+Definition at line 47 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_aab8ca0550a471810ff7caa360fbd26b4}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!filename\_\-@{filename\_\-}}
+\index{filename\_\-@{filename\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{filename\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf mocha::CodegenVisitor::filename\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_aab8ca0550a471810ff7caa360fbd26b4}
+
+
+Definition at line 50 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a2ee0634fdb95ee4150e914a69d894257}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!has\_\-rest\_\-@{has\_\-rest\_\-}}
+\index{has\_\-rest\_\-@{has\_\-rest\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{has\_\-rest\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::CodegenVisitor::has\_\-rest\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a2ee0634fdb95ee4150e914a69d894257}
+
+
+Definition at line 49 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_af198dc9fecc2e79d9a3d3df0a3e28231}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!is\_\-line\_\-@{is\_\-line\_\-}}
+\index{is\_\-line\_\-@{is\_\-line\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{is\_\-line\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::CodegenVisitor::is\_\-line\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_af198dc9fecc2e79d9a3d3df0a3e28231}
+
+
+Definition at line 48 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a9e6cd1c236038c7bf885481added42e5}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!rest\_\-name\_\-@{rest\_\-name\_\-}}
+\index{rest\_\-name\_\-@{rest\_\-name\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{rest\_\-name\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::CodegenVisitor::rest\_\-name\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a9e6cd1c236038c7bf885481added42e5}
+
+
+Definition at line 53 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a54eb17d7aaa77efc93f704f35056a4a0}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!rest\_\-ref\_\-@{rest\_\-ref\_\-}}
+\index{rest\_\-ref\_\-@{rest\_\-ref\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{rest\_\-ref\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::CodegenVisitor::rest\_\-ref\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a54eb17d7aaa77efc93f704f35056a4a0}
+
+
+Definition at line 52 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a0a7ecec309937be191ab716c144a3475}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!scope\_\-@{scope\_\-}}
+\index{scope\_\-@{scope\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{scope\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf InnerScope}$\ast$ {\bf mocha::CodegenVisitor::scope\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a0a7ecec309937be191ab716c144a3475}
+
+
+Definition at line 54 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a021c80b5dabd79be55bdc0d0cde292c0}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!state\_\-@{state\_\-}}
+\index{state\_\-@{state\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{state\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$int$>$ {\bf mocha::CodegenVisitor::state\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a021c80b5dabd79be55bdc0d0cde292c0}
+
+
+Definition at line 51 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a357d3e1fd1b56f1af4242c9f5af22602}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!stream\_\-@{stream\_\-}}
+\index{stream\_\-@{stream\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{stream\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf CodeStream}$>$ {\bf mocha::CodegenVisitor::stream\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a357d3e1fd1b56f1af4242c9f5af22602}
+
+
+Definition at line 56 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_a4e2e4c70cc264ee5357386facf4a8342}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!tmp\_\-index\_\-@{tmp\_\-index\_\-}}
+\index{tmp\_\-index\_\-@{tmp\_\-index\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{tmp\_\-index\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::CodegenVisitor::tmp\_\-index\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_a4e2e4c70cc264ee5357386facf4a8342}
+
+
+Definition at line 46 of file codegen\_\-visitor.h.
+
+\hypertarget{classmocha_1_1_codegen_visitor_ad497faaa804159b3beecec28583a10fb}{
+\index{mocha::CodegenVisitor@{mocha::CodegenVisitor}!writer\_\-@{writer\_\-}}
+\index{writer\_\-@{writer\_\-}!mocha::CodegenVisitor@{mocha::CodegenVisitor}}
+\subsubsection[{writer\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf CodeWriter}$>$ {\bf mocha::CodegenVisitor::writer\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_codegen_visitor_ad497faaa804159b3beecec28583a10fb}
+
+
+Definition at line 57 of file codegen\_\-visitor.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/\hyperlink{codegen__visitor_8h}{codegen\_\-visitor.h}\item 
+Y:/mocha/src/ast/visitors/\hyperlink{codegen__visitor_8cc}{codegen\_\-visitor.cc}\end{DoxyCompactItemize}

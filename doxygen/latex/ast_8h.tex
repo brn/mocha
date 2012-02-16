@@ -1,0 +1,190 @@
+\hypertarget{ast_8h}{
+\section{Y:/mocha/src/ast/ast.h File Reference}
+\label{ast_8h}\index{Y:/mocha/src/ast/ast.h@{Y:/mocha/src/ast/ast.h}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string$>$}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include $<$utils/pool/managed.h$>$}\par
+{\ttfamily \#include $<$compiler/scopes/scope.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/token\_\-info.h$>$}\par
+{\ttfamily \#include $<$ast/ast\_\-foward\_\-decl.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/ivisitor.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_node_iterator}{mocha::NodeIterator}
+\item 
+class \hyperlink{classmocha_1_1_reverse_node_iterator}{mocha::ReverseNodeIterator}
+\item 
+class \hyperlink{classmocha_1_1_ast_node}{mocha::AstNode}
+\item 
+class \hyperlink{classmocha_1_1_node_list}{mocha::NodeList}
+\item 
+class \hyperlink{classmocha_1_1_empty}{mocha::Empty}
+\item 
+class \hyperlink{classmocha_1_1_ast_root}{mocha::AstRoot}
+\item 
+class \hyperlink{classmocha_1_1_file_root}{mocha::FileRoot}
+\item 
+class \hyperlink{classmocha_1_1_statement}{mocha::Statement}
+\item 
+class \hyperlink{classmocha_1_1_statement_list}{mocha::StatementList}
+\item 
+class \hyperlink{classmocha_1_1_yield_mark}{mocha::YieldMark}
+\item 
+class \hyperlink{classmocha_1_1_ex_yield_state_node}{mocha::ExYieldStateNode}
+\item 
+class \hyperlink{classmocha_1_1_pragma_stmt}{mocha::PragmaStmt}
+\item 
+class \hyperlink{classmocha_1_1_block_stmt}{mocha::BlockStmt}
+\item 
+class \hyperlink{classmocha_1_1_module_stmt}{mocha::ModuleStmt}
+\item 
+class \hyperlink{classmocha_1_1_export_stmt}{mocha::ExportStmt}
+\item 
+class \hyperlink{classmocha_1_1_import_stmt}{mocha::ImportStmt}
+\item 
+class \hyperlink{classmocha_1_1_variable_stmt}{mocha::VariableStmt}
+\item 
+class \hyperlink{classmocha_1_1_let_stmt}{mocha::LetStmt}
+\item 
+class \hyperlink{classmocha_1_1_expression_stmt}{mocha::ExpressionStmt}
+\item 
+class \hyperlink{classmocha_1_1_i_f_stmt}{mocha::IFStmt}
+\item 
+class \hyperlink{classmocha_1_1_iteration_stmt}{mocha::IterationStmt}
+\item 
+class \hyperlink{classmocha_1_1_continue_stmt}{mocha::ContinueStmt}
+\item 
+class \hyperlink{classmocha_1_1_break_stmt}{mocha::BreakStmt}
+\item 
+class \hyperlink{classmocha_1_1_return_stmt}{mocha::ReturnStmt}
+\item 
+class \hyperlink{classmocha_1_1_with_stmt}{mocha::WithStmt}
+\item 
+class \hyperlink{classmocha_1_1_labelled_stmt}{mocha::LabelledStmt}
+\item 
+class \hyperlink{classmocha_1_1_switch_stmt}{mocha::SwitchStmt}
+\item 
+class \hyperlink{classmocha_1_1_throw_stmt}{mocha::ThrowStmt}
+\item 
+class \hyperlink{classmocha_1_1_try_stmt}{mocha::TryStmt}
+\item 
+class \hyperlink{classmocha_1_1_assert_stmt}{mocha::AssertStmt}
+\item 
+class \hyperlink{classmocha_1_1_case_clause}{mocha::CaseClause}
+\item 
+class \hyperlink{classmocha_1_1_expression}{mocha::Expression}
+\item 
+class \hyperlink{classmocha_1_1_trait_member}{mocha::TraitMember}
+\item 
+class \hyperlink{classmocha_1_1_mixin_member}{mocha::MixinMember}
+\item 
+class \hyperlink{classmocha_1_1_trait}{mocha::Trait}
+\item 
+class \hyperlink{classmocha_1_1_class}{mocha::Class}
+\item 
+class \hyperlink{classmocha_1_1_class_properties}{mocha::ClassProperties}
+\item 
+class \hyperlink{classmocha_1_1_class_expandar}{mocha::ClassExpandar}
+\item 
+class \hyperlink{classmocha_1_1_class_member}{mocha::ClassMember}
+\item 
+class \hyperlink{classmocha_1_1_function}{mocha::Function}
+\item 
+class \hyperlink{classmocha_1_1_property}{mocha::Property}
+\item 
+class \hyperlink{classmocha_1_1_call_exp}{mocha::CallExp}
+\item 
+class \hyperlink{classmocha_1_1_new_exp}{mocha::NewExp}
+\item 
+class \hyperlink{classmocha_1_1_yield_exp}{mocha::YieldExp}
+\item 
+class \hyperlink{classmocha_1_1_postfix_exp}{mocha::PostfixExp}
+\item 
+class \hyperlink{classmocha_1_1_unary_exp}{mocha::UnaryExp}
+\item 
+class \hyperlink{classmocha_1_1_binary_exp}{mocha::BinaryExp}
+\item 
+class \hyperlink{classmocha_1_1_compare_exp}{mocha::CompareExp}
+\item 
+class \hyperlink{classmocha_1_1_conditional_exp}{mocha::ConditionalExp}
+\item 
+class \hyperlink{classmocha_1_1_assignment_exp}{mocha::AssignmentExp}
+\item 
+class \hyperlink{classmocha_1_1_value_node}{mocha::ValueNode}
+\item 
+class \hyperlink{classmocha_1_1_dsta_tree}{mocha::DstaTree}
+\item 
+class \hyperlink{classmocha_1_1_version_stmt}{mocha::VersionStmt}
+\item 
+class \hyperlink{classmocha_1_1_dsta_extracted_expressions}{mocha::DstaExtractedExpressions}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ast_8h_af7c3f48410c8e58125b5d3d687da84ca}{NVI\_\-ACCEPTOR\_\-DECL}~void NVIAccept\_\-( IVisitor$\ast$ visitor )
+\item 
+\#define \hyperlink{ast_8h_ae70bdf6de17b1d34f4264b878da3c6d4}{CALL\_\-ACCEPTOR}(name)~inline NVI\_\-ACCEPTOR\_\-DECL\{visitor-\/$>$Visit\#\#name( this );\}
+\item 
+\#define \hyperlink{ast_8h_af25e7484442b51b329c42eb4e866197c}{CLONE}(name)~AstNode$\ast$ Clone();
+\item 
+\#define \hyperlink{ast_8h_a717344ff585206f0f3d8f936980f7475}{NAME\_\-PARAMETER}(name)~AstNode::k\#\#name , \#name
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{ast_8h_ae70bdf6de17b1d34f4264b878da3c6d4}{
+\index{ast.h@{ast.h}!CALL\_\-ACCEPTOR@{CALL\_\-ACCEPTOR}}
+\index{CALL\_\-ACCEPTOR@{CALL\_\-ACCEPTOR}!ast.h@{ast.h}}
+\subsubsection[{CALL\_\-ACCEPTOR}]{\setlength{\rightskip}{0pt plus 5cm}\#define CALL\_\-ACCEPTOR(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~inline NVI\_\-ACCEPTOR\_\-DECL\{visitor-\/$>$Visit\#\#name( this );\}}}
+\label{ast_8h_ae70bdf6de17b1d34f4264b878da3c6d4}
+
+
+Definition at line 37 of file ast.h.
+
+\hypertarget{ast_8h_af25e7484442b51b329c42eb4e866197c}{
+\index{ast.h@{ast.h}!CLONE@{CLONE}}
+\index{CLONE@{CLONE}!ast.h@{ast.h}}
+\subsubsection[{CLONE}]{\setlength{\rightskip}{0pt plus 5cm}\#define CLONE(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~AstNode$\ast$ Clone();}}
+\label{ast_8h_af25e7484442b51b329c42eb4e866197c}
+
+
+Definition at line 420 of file ast.h.
+
+\hypertarget{ast_8h_a717344ff585206f0f3d8f936980f7475}{
+\index{ast.h@{ast.h}!NAME\_\-PARAMETER@{NAME\_\-PARAMETER}}
+\index{NAME\_\-PARAMETER@{NAME\_\-PARAMETER}!ast.h@{ast.h}}
+\subsubsection[{NAME\_\-PARAMETER}]{\setlength{\rightskip}{0pt plus 5cm}\#define NAME\_\-PARAMETER(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~AstNode::k\#\#name , \#name}}
+\label{ast_8h_a717344ff585206f0f3d8f936980f7475}
+
+
+Definition at line 591 of file ast.h.
+
+\hypertarget{ast_8h_af7c3f48410c8e58125b5d3d687da84ca}{
+\index{ast.h@{ast.h}!NVI\_\-ACCEPTOR\_\-DECL@{NVI\_\-ACCEPTOR\_\-DECL}}
+\index{NVI\_\-ACCEPTOR\_\-DECL@{NVI\_\-ACCEPTOR\_\-DECL}!ast.h@{ast.h}}
+\subsubsection[{NVI\_\-ACCEPTOR\_\-DECL}]{\setlength{\rightskip}{0pt plus 5cm}\#define NVI\_\-ACCEPTOR\_\-DECL~void NVIAccept\_\-( IVisitor$\ast$ visitor )}}
+\label{ast_8h_af7c3f48410c8e58125b5d3d687da84ca}
+
+
+Definition at line 36 of file ast.h.
+

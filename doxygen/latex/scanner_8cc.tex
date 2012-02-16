@@ -1,0 +1,79 @@
+\hypertarget{scanner_8cc}{
+\section{Y:/mocha/src/compiler/scanner/scanner.cc File Reference}
+\label{scanner_8cc}\index{Y:/mocha/src/compiler/scanner/scanner.cc@{Y:/mocha/src/compiler/scanner/scanner.cc}}
+}
+{\ttfamily \#include $<$utils/int\_\-types.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$string$>$}\par
+{\ttfamily \#include $<$sstream$>$}\par
+{\ttfamily \#include $<$compiler/scanner/scanner.h$>$}\par
+{\ttfamily \#include $<$compiler/scanner/token\_\-stream.h$>$}\par
+{\ttfamily \#include $<$compiler/scanner/source\_\-stream.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/js\_\-token.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/token\_\-info.h$>$}\par
+{\ttfamily \#include $<$compiler/binding/parser\_\-tracer.h$>$}\par
+{\ttfamily \#include $<$compiler/utils/error\_\-reporter.h$>$}\par
+{\ttfamily \#include $<$utils/smart\_\-pointer/scope/scoped\_\-list.h$>$}\par
+{\ttfamily \#include $<$utils/pool/managed\_\-handle.h$>$}\par
+{\ttfamily \#include $<$utils/bits.h$>$}\par
+{\ttfamily \#include $<$grammar/grammar.tab.hh$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_scanner_1_1_internal_scanner}{mocha::Scanner::InternalScanner}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{scanner_8cc_a97a60fc3eceb04c33f57cddc4a9bbc17}{FLAG\_\-LB}~0
+\item 
+\#define \hyperlink{scanner_8cc_ac09cb6403c35aa0ffa94250628ea6705}{FLAG\_\-REST}~1
+\item 
+\#define \hyperlink{scanner_8cc_a0781af553ed5f5edd1a9089716642136}{FLAG\_\-NUMERIC}~2
+\item 
+\#define \hyperlink{scanner_8cc_ac14317d3a6a5ae2ae506ad736acc0876}{FLAG\_\-REGEXP}~3
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{scanner_8cc_a97a60fc3eceb04c33f57cddc4a9bbc17}{
+\index{scanner.cc@{scanner.cc}!FLAG\_\-LB@{FLAG\_\-LB}}
+\index{FLAG\_\-LB@{FLAG\_\-LB}!scanner.cc@{scanner.cc}}
+\subsubsection[{FLAG\_\-LB}]{\setlength{\rightskip}{0pt plus 5cm}\#define FLAG\_\-LB~0}}
+\label{scanner_8cc_a97a60fc3eceb04c33f57cddc4a9bbc17}
+
+
+Definition at line 19 of file scanner.cc.
+
+\hypertarget{scanner_8cc_a0781af553ed5f5edd1a9089716642136}{
+\index{scanner.cc@{scanner.cc}!FLAG\_\-NUMERIC@{FLAG\_\-NUMERIC}}
+\index{FLAG\_\-NUMERIC@{FLAG\_\-NUMERIC}!scanner.cc@{scanner.cc}}
+\subsubsection[{FLAG\_\-NUMERIC}]{\setlength{\rightskip}{0pt plus 5cm}\#define FLAG\_\-NUMERIC~2}}
+\label{scanner_8cc_a0781af553ed5f5edd1a9089716642136}
+
+
+Definition at line 21 of file scanner.cc.
+
+\hypertarget{scanner_8cc_ac14317d3a6a5ae2ae506ad736acc0876}{
+\index{scanner.cc@{scanner.cc}!FLAG\_\-REGEXP@{FLAG\_\-REGEXP}}
+\index{FLAG\_\-REGEXP@{FLAG\_\-REGEXP}!scanner.cc@{scanner.cc}}
+\subsubsection[{FLAG\_\-REGEXP}]{\setlength{\rightskip}{0pt plus 5cm}\#define FLAG\_\-REGEXP~3}}
+\label{scanner_8cc_ac14317d3a6a5ae2ae506ad736acc0876}
+
+
+Definition at line 22 of file scanner.cc.
+
+\hypertarget{scanner_8cc_ac09cb6403c35aa0ffa94250628ea6705}{
+\index{scanner.cc@{scanner.cc}!FLAG\_\-REST@{FLAG\_\-REST}}
+\index{FLAG\_\-REST@{FLAG\_\-REST}!scanner.cc@{scanner.cc}}
+\subsubsection[{FLAG\_\-REST}]{\setlength{\rightskip}{0pt plus 5cm}\#define FLAG\_\-REST~1}}
+\label{scanner_8cc_ac09cb6403c35aa0ffa94250628ea6705}
+
+
+Definition at line 20 of file scanner.cc.
+

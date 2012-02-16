@@ -1,0 +1,521 @@
+\hypertarget{classmocha_1_1_x_m_l_reader}{
+\section{mocha::XMLReader Class Reference}
+\label{classmocha_1_1_x_m_l_reader}\index{mocha::XMLReader@{mocha::XMLReader}}
+}
+
+
+{\ttfamily \#include $<$xml\_\-reader.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_x_m_l_reader_a8e6a9c21c7be6a982afc265c0e62a1eb}{XMLReader} ()
+\item 
+\hyperlink{classmocha_1_1_x_m_l_reader_a299712ccf1fc12b407855d705634e4b7}{$\sim$XMLReader} ()
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_aa56524c6a873198b14159cfc5d5f8f1d}{Parse} (const char $\ast$xmlpath, bool is\_\-reparse=false)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a307ace6c6b380e304521e160f989aa37}{GetFullPath\_\-} (const char $\ast$path, std::string \&buf)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a9baa4f350691f766c22985414a5d9fb5}{GetPath\_\-} (const char $\ast$path, std::string \&buf)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a576bac970ec258bed83ea778950b4bbd}{ParseStart\_\-} (const char $\ast$path)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_ab92a1a439200a7238834851434806001}{SwitchProcessor\_\-} (\hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$node, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_ac6ec29e61af5137a7a5a872099386a0d}{ProcessNode\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_afef6eecbd5abb61d067e00ffec509e02}{ProcessFileNode\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, const char $\ast$path, const char $\ast$module, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a38c7f5600444910749a57af5be1310dc}{ProcessSettingNode\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_aa6c7530087864b9855b27f5ccc53946d}{ProcessDirNode\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a4ccf9c3736965dc72b69e8389aee8a95}{ProcessIncludeNode\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a26f425bb1b924b1041294a17ec6f8299}{ProcessDeployOption\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, const char $\ast$filename, const char $\ast$dir, \hyperlink{classmocha_1_1_resources}{Resources} $\ast$resource, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_a7c428adff5abba47fca8683f1013efef}{ProcessDeployName\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, const char $\ast$filename, const char $\ast$dir, \hyperlink{classmocha_1_1_resources}{Resources} $\ast$resource, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_abffe9e24ba7103f6a20fbd377f06b38e}{ProcessCharset\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, const char $\ast$filename, const char $\ast$dir, \hyperlink{classmocha_1_1_resources}{Resources} $\ast$resource, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_ac5f1e1f6398c30b089cf501fafdf3db4}{ProcessCompileOption\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, const char $\ast$filename, const char $\ast$dir, \hyperlink{classmocha_1_1_resources}{Resources} $\ast$resource, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_adf5c6bf68f7831f1ad5d434c943ae33b}{ProcessVersion\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem, const char $\ast$filename, const char $\ast$dir, \hyperlink{classmocha_1_1_resources}{Resources} $\ast$resource, \hyperlink{classmocha_1_1_x_m_l_info}{XMLInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_af5634427fa9a0d3c1a022f80a75fb146}{ProcessModuleOption\_\-} (const char $\ast$filename, const char $\ast$module, \hyperlink{classmocha_1_1_resources}{Resources} $\ast$resource)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_reader_abcfa4632fc6646238d72846a293b4ce1}{ProcessFilePath\_\-} (const char $\ast$filename)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classmocha_1_1_x_m_l_reader_a8be157beb9fa4944dd7e6bf48ce601fe}{CheckIgnoreOption\_\-} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$elem)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_array_list}{ScopedStrList} \hyperlink{classmocha_1_1_x_m_l_reader_a0d0d4ff33f378d6c61a18bf6e6a45b06}{scoped\_\-char\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_aaf5e2fc0d87c47b98cc6f8db550d5af9}{setting\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}settings\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a01924180e01a5125b2442b58da57a856}{file\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}file\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_ad1a6dff4c5b1c8d3c697f7759022c4b5}{include\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}include\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a129a6a3323241afb155f6441c55773af}{dir\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}dir\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a8b2209cc78c1b2c380fc77e8663c3677}{path\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}path\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a791eea80c3f0c419f6582c87b2a9b631}{module\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}module\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a749252cf2d5c3cf2913f6e3cfb281102}{ignore\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}ignore\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_ae48618b8cf404da69071b422fea6f7e8}{deploy\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}deploy\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_acf67bd089a4dd7bf722f6c4112ef3970}{deployname\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}deployname\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_ae72442abf51c27715281622f68e6f238}{options\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}options\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a8a90655c87ea52747d0da94c3e992b6d}{version\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}version\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_x_m_l_reader_a3d7781f09d113fe583a36e44a9442428}{charset\_\-} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}charset\char`\"{} \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 14 of file xml\_\-reader.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_x_m_l_reader_a8e6a9c21c7be6a982afc265c0e62a1eb}{
+\index{mocha::XMLReader@{mocha::XMLReader}!XMLReader@{XMLReader}}
+\index{XMLReader@{XMLReader}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{XMLReader}]{\setlength{\rightskip}{0pt plus 5cm}mocha::XMLReader::XMLReader (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a8e6a9c21c7be6a982afc265c0e62a1eb}
+
+
+Definition at line 16 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a299712ccf1fc12b407855d705634e4b7}{
+\index{mocha::XMLReader@{mocha::XMLReader}!$\sim$XMLReader@{$\sim$XMLReader}}
+\index{$\sim$XMLReader@{$\sim$XMLReader}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{$\sim$XMLReader}]{\setlength{\rightskip}{0pt plus 5cm}mocha::XMLReader::$\sim$XMLReader (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_x_m_l_reader_a299712ccf1fc12b407855d705634e4b7}
+
+
+Definition at line 43 of file xml\_\-reader.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_x_m_l_reader_a8be157beb9fa4944dd7e6bf48ce601fe}{
+\index{mocha::XMLReader@{mocha::XMLReader}!CheckIgnoreOption\_\-@{CheckIgnoreOption\_\-}}
+\index{CheckIgnoreOption\_\-@{CheckIgnoreOption\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{CheckIgnoreOption\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::XMLReader::CheckIgnoreOption\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a8be157beb9fa4944dd7e6bf48ce601fe}
+
+
+Definition at line 65 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a307ace6c6b380e304521e160f989aa37}{
+\index{mocha::XMLReader@{mocha::XMLReader}!GetFullPath\_\-@{GetFullPath\_\-}}
+\index{GetFullPath\_\-@{GetFullPath\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{GetFullPath\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::GetFullPath\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{std::string \&}]{buf}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a307ace6c6b380e304521e160f989aa37}
+
+
+Definition at line 74 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a9baa4f350691f766c22985414a5d9fb5}{
+\index{mocha::XMLReader@{mocha::XMLReader}!GetPath\_\-@{GetPath\_\-}}
+\index{GetPath\_\-@{GetPath\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{GetPath\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::GetPath\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{std::string \&}]{buf}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a9baa4f350691f766c22985414a5d9fb5}
+
+
+Definition at line 89 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_aa56524c6a873198b14159cfc5d5f8f1d}{
+\index{mocha::XMLReader@{mocha::XMLReader}!Parse@{Parse}}
+\index{Parse@{Parse}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{Parse}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::Parse (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{xmlpath, }
+\item[{bool}]{is\_\-reparse = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_x_m_l_reader_aa56524c6a873198b14159cfc5d5f8f1d}
+
+
+Definition at line 47 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a576bac970ec258bed83ea778950b4bbd}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ParseStart\_\-@{ParseStart\_\-}}
+\index{ParseStart\_\-@{ParseStart\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ParseStart\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ParseStart\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a576bac970ec258bed83ea778950b4bbd}
+
+
+Definition at line 103 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_abffe9e24ba7103f6a20fbd377f06b38e}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessCharset\_\-@{ProcessCharset\_\-}}
+\index{ProcessCharset\_\-@{ProcessCharset\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessCharset\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessCharset\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{dir, }
+\item[{{\bf Resources} $\ast$}]{resource, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_abffe9e24ba7103f6a20fbd377f06b38e}
+
+
+Definition at line 250 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_ac5f1e1f6398c30b089cf501fafdf3db4}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessCompileOption\_\-@{ProcessCompileOption\_\-}}
+\index{ProcessCompileOption\_\-@{ProcessCompileOption\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessCompileOption\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessCompileOption\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{dir, }
+\item[{{\bf Resources} $\ast$}]{resource, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_ac5f1e1f6398c30b089cf501fafdf3db4}
+
+
+Definition at line 260 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a7c428adff5abba47fca8683f1013efef}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessDeployName\_\-@{ProcessDeployName\_\-}}
+\index{ProcessDeployName\_\-@{ProcessDeployName\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessDeployName\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessDeployName\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{dir, }
+\item[{{\bf Resources} $\ast$}]{resource, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a7c428adff5abba47fca8683f1013efef}
+
+
+Definition at line 230 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a26f425bb1b924b1041294a17ec6f8299}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessDeployOption\_\-@{ProcessDeployOption\_\-}}
+\index{ProcessDeployOption\_\-@{ProcessDeployOption\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessDeployOption\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessDeployOption\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{dir, }
+\item[{{\bf Resources} $\ast$}]{resource, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a26f425bb1b924b1041294a17ec6f8299}
+
+
+Definition at line 218 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_aa6c7530087864b9855b27f5ccc53946d}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessDirNode\_\-@{ProcessDirNode\_\-}}
+\index{ProcessDirNode\_\-@{ProcessDirNode\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessDirNode\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessDirNode\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_aa6c7530087864b9855b27f5ccc53946d}
+
+
+Definition at line 328 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_afef6eecbd5abb61d067e00ffec509e02}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessFileNode\_\-@{ProcessFileNode\_\-}}
+\index{ProcessFileNode\_\-@{ProcessFileNode\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessFileNode\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessFileNode\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{const char $\ast$}]{path, }
+\item[{const char $\ast$}]{module, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_afef6eecbd5abb61d067e00ffec509e02}
+
+
+Definition at line 148 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_abcfa4632fc6646238d72846a293b4ce1}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessFilePath\_\-@{ProcessFilePath\_\-}}
+\index{ProcessFilePath\_\-@{ProcessFilePath\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessFilePath\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessFilePath\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_abcfa4632fc6646238d72846a293b4ce1}
+
+
+Definition at line 188 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a4ccf9c3736965dc72b69e8389aee8a95}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessIncludeNode\_\-@{ProcessIncludeNode\_\-}}
+\index{ProcessIncludeNode\_\-@{ProcessIncludeNode\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessIncludeNode\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessIncludeNode\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a4ccf9c3736965dc72b69e8389aee8a95}
+
+
+Definition at line 346 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_af5634427fa9a0d3c1a022f80a75fb146}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessModuleOption\_\-@{ProcessModuleOption\_\-}}
+\index{ProcessModuleOption\_\-@{ProcessModuleOption\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessModuleOption\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessModuleOption\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{module, }
+\item[{{\bf Resources} $\ast$}]{resource}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_af5634427fa9a0d3c1a022f80a75fb146}
+
+
+Definition at line 195 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_ac6ec29e61af5137a7a5a872099386a0d}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessNode\_\-@{ProcessNode\_\-}}
+\index{ProcessNode\_\-@{ProcessNode\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessNode\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessNode\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_ac6ec29e61af5137a7a5a872099386a0d}
+
+
+Definition at line 134 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a38c7f5600444910749a57af5be1310dc}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessSettingNode\_\-@{ProcessSettingNode\_\-}}
+\index{ProcessSettingNode\_\-@{ProcessSettingNode\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessSettingNode\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessSettingNode\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a38c7f5600444910749a57af5be1310dc}
+
+
+Definition at line 317 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_adf5c6bf68f7831f1ad5d434c943ae33b}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ProcessVersion\_\-@{ProcessVersion\_\-}}
+\index{ProcessVersion\_\-@{ProcessVersion\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ProcessVersion\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::ProcessVersion\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{elem, }
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{dir, }
+\item[{{\bf Resources} $\ast$}]{resource, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_adf5c6bf68f7831f1ad5d434c943ae33b}
+
+
+Definition at line 295 of file xml\_\-reader.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_ab92a1a439200a7238834851434806001}{
+\index{mocha::XMLReader@{mocha::XMLReader}!SwitchProcessor\_\-@{SwitchProcessor\_\-}}
+\index{SwitchProcessor\_\-@{SwitchProcessor\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{SwitchProcessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLReader::SwitchProcessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlNode} $\ast$}]{node, }
+\item[{{\bf XMLInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_ab92a1a439200a7238834851434806001}
+
+
+Definition at line 116 of file xml\_\-reader.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_x_m_l_reader_a3d7781f09d113fe583a36e44a9442428}{
+\index{mocha::XMLReader@{mocha::XMLReader}!charset\_\-@{charset\_\-}}
+\index{charset\_\-@{charset\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{charset\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::charset\_\-} = \{ \char`\"{}charset\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a3d7781f09d113fe583a36e44a9442428}
+
+
+Definition at line 52 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_ae48618b8cf404da69071b422fea6f7e8}{
+\index{mocha::XMLReader@{mocha::XMLReader}!deploy\_\-@{deploy\_\-}}
+\index{deploy\_\-@{deploy\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{deploy\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::deploy\_\-} = \{ \char`\"{}deploy\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_ae48618b8cf404da69071b422fea6f7e8}
+
+
+Definition at line 48 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_acf67bd089a4dd7bf722f6c4112ef3970}{
+\index{mocha::XMLReader@{mocha::XMLReader}!deployname\_\-@{deployname\_\-}}
+\index{deployname\_\-@{deployname\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{deployname\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::deployname\_\-} = \{ \char`\"{}deployname\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_acf67bd089a4dd7bf722f6c4112ef3970}
+
+
+Definition at line 49 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a129a6a3323241afb155f6441c55773af}{
+\index{mocha::XMLReader@{mocha::XMLReader}!dir\_\-@{dir\_\-}}
+\index{dir\_\-@{dir\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{dir\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::dir\_\-} = \{ \char`\"{}dir\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a129a6a3323241afb155f6441c55773af}
+
+
+Definition at line 44 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a01924180e01a5125b2442b58da57a856}{
+\index{mocha::XMLReader@{mocha::XMLReader}!file\_\-@{file\_\-}}
+\index{file\_\-@{file\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{file\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::file\_\-} = \{ \char`\"{}file\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a01924180e01a5125b2442b58da57a856}
+
+
+Definition at line 42 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a749252cf2d5c3cf2913f6e3cfb281102}{
+\index{mocha::XMLReader@{mocha::XMLReader}!ignore\_\-@{ignore\_\-}}
+\index{ignore\_\-@{ignore\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{ignore\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::ignore\_\-} = \{ \char`\"{}ignore\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a749252cf2d5c3cf2913f6e3cfb281102}
+
+
+Definition at line 47 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_ad1a6dff4c5b1c8d3c697f7759022c4b5}{
+\index{mocha::XMLReader@{mocha::XMLReader}!include\_\-@{include\_\-}}
+\index{include\_\-@{include\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{include\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::include\_\-} = \{ \char`\"{}include\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_ad1a6dff4c5b1c8d3c697f7759022c4b5}
+
+
+Definition at line 43 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a791eea80c3f0c419f6582c87b2a9b631}{
+\index{mocha::XMLReader@{mocha::XMLReader}!module\_\-@{module\_\-}}
+\index{module\_\-@{module\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{module\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::module\_\-} = \{ \char`\"{}module\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a791eea80c3f0c419f6582c87b2a9b631}
+
+
+Definition at line 46 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_ae72442abf51c27715281622f68e6f238}{
+\index{mocha::XMLReader@{mocha::XMLReader}!options\_\-@{options\_\-}}
+\index{options\_\-@{options\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{options\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::options\_\-} = \{ \char`\"{}options\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_ae72442abf51c27715281622f68e6f238}
+
+
+Definition at line 50 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a8b2209cc78c1b2c380fc77e8663c3677}{
+\index{mocha::XMLReader@{mocha::XMLReader}!path\_\-@{path\_\-}}
+\index{path\_\-@{path\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{path\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::path\_\-} = \{ \char`\"{}path\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a8b2209cc78c1b2c380fc77e8663c3677}
+
+
+Definition at line 45 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a0d0d4ff33f378d6c61a18bf6e6a45b06}{
+\index{mocha::XMLReader@{mocha::XMLReader}!scoped\_\-char\_\-@{scoped\_\-char\_\-}}
+\index{scoped\_\-char\_\-@{scoped\_\-char\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{scoped\_\-char\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedStrList} {\bf mocha::XMLReader::scoped\_\-char\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a0d0d4ff33f378d6c61a18bf6e6a45b06}
+
+
+Definition at line 39 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_aaf5e2fc0d87c47b98cc6f8db550d5af9}{
+\index{mocha::XMLReader@{mocha::XMLReader}!setting\_\-@{setting\_\-}}
+\index{setting\_\-@{setting\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{setting\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::setting\_\-} = \{ \char`\"{}settings\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_aaf5e2fc0d87c47b98cc6f8db550d5af9}
+
+
+Definition at line 41 of file xml\_\-reader.h.
+
+\hypertarget{classmocha_1_1_x_m_l_reader_a8a90655c87ea52747d0da94c3e992b6d}{
+\index{mocha::XMLReader@{mocha::XMLReader}!version\_\-@{version\_\-}}
+\index{version\_\-@{version\_\-}!mocha::XMLReader@{mocha::XMLReader}}
+\subsubsection[{version\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::XMLReader::version\_\-} = \{ \char`\"{}version\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_reader_a8a90655c87ea52747d0da94c3e992b6d}
+
+
+Definition at line 51 of file xml\_\-reader.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/xml/\hyperlink{xml__reader_8h}{xml\_\-reader.h}\item 
+Y:/mocha/src/utils/xml/\hyperlink{xml__reader_8cc}{xml\_\-reader.cc}\end{DoxyCompactItemize}

@@ -1,0 +1,46 @@
+\hypertarget{ast_8cc}{
+\section{Y:/mocha/src/ast/ast.cc File Reference}
+\label{ast_8cc}\index{Y:/mocha/src/ast/ast.cc@{Y:/mocha/src/ast/ast.cc}}
+}
+{\ttfamily \#include $<$ast/ast.h$>$}\par
+{\ttfamily \#include $<$utils/pool/managed\_\-handle.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/token\_\-info.h$>$}\par
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ast_8cc_ac3091f21df04ca12ff6dc177209b04b6}{NORMAL\_\-CLONE}(name)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename T2 $>$ }\\T2 $\ast$ \hyperlink{namespacemocha_a79ee75d825bd12aef121c19925082a1b}{mocha::CopyChildren} (T $\ast$dest, T2 $\ast$source)
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{ast_8cc_ac3091f21df04ca12ff6dc177209b04b6}{
+\index{ast.cc@{ast.cc}!NORMAL\_\-CLONE@{NORMAL\_\-CLONE}}
+\index{NORMAL\_\-CLONE@{NORMAL\_\-CLONE}!ast.cc@{ast.cc}}
+\subsubsection[{NORMAL\_\-CLONE}]{\setlength{\rightskip}{0pt plus 5cm}\#define NORMAL\_\-CLONE(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{ast_8cc_ac3091f21df04ca12ff6dc177209b04b6}
+{\bfseries Value:}
+\begin{DoxyCode}
+AstNode* name::Clone() {                      \
+    name* ret = ManagedHandle::Retain<name>();  \
+    ret->Line( Line() );                        \
+    return CopyChildren( ret , this );          \
+  }
+\end{DoxyCode}
+
+
+Definition at line 211 of file ast.cc.
+

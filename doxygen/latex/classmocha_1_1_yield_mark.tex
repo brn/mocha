@@ -1,0 +1,213 @@
+\hypertarget{classmocha_1_1_yield_mark}{
+\section{mocha::YieldMark Class Reference}
+\label{classmocha_1_1_yield_mark}\index{mocha::YieldMark@{mocha::YieldMark}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::YieldMark:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_yield_mark}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_yield_mark_ac21e782327707fa745325b062f1a7a54}{YieldMark} ()
+\item 
+\hyperlink{classmocha_1_1_yield_mark_a39a0123297eb8449c07662b753dc53ae}{$\sim$YieldMark} ()
+\item 
+void \hyperlink{classmocha_1_1_yield_mark_a4859663e07a4500339dbc2bb3951ab8b}{ReEntrantNode} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$val)
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_yield_mark_a74bd1b459c4401fb2c9bc76fddf89cd3}{ReEntrantNode} ()
+\item 
+\hyperlink{classmocha_1_1_yield_mark}{YieldMark} $\ast$ \hyperlink{classmocha_1_1_yield_mark_ac43d6b11559da52a58847aa567a3e64e}{CastToYieldMark} ()
+\item 
+int \hyperlink{classmocha_1_1_yield_mark_a065749a765c91638062a858f8b641be5}{Adjust} (int val)
+\item 
+void \hyperlink{classmocha_1_1_yield_mark_a34137ede79b129a0f59757b65ad9a9a6}{SetAdjust} (int val)
+\item 
+void \hyperlink{classmocha_1_1_yield_mark_ad652b6e253e6a84204ab2d06a5a6c5d8}{SetNoStateInjection} ()
+\item 
+bool \hyperlink{classmocha_1_1_yield_mark_a52bd9df832846e6ee8c2479460ec96e9}{GetNoStateInjection} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_yield_mark_a7ace248044739e02c186bd9f97f8449d}{adjustment\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_yield_mark_a776792c8ed73cc26c74b9722bae5dbde}{is\_\-state\_\-injection\_\-}
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_yield_mark_a41c9796ef1dfbf005cd58a2a5a05a747}{state\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 594 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_yield_mark_ac21e782327707fa745325b062f1a7a54}{
+\index{mocha::YieldMark@{mocha::YieldMark}!YieldMark@{YieldMark}}
+\index{YieldMark@{YieldMark}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{YieldMark}]{\setlength{\rightskip}{0pt plus 5cm}mocha::YieldMark::YieldMark (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_ac21e782327707fa745325b062f1a7a54}
+
+
+Definition at line 596 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a39a0123297eb8449c07662b753dc53ae}{
+\index{mocha::YieldMark@{mocha::YieldMark}!$\sim$YieldMark@{$\sim$YieldMark}}
+\index{$\sim$YieldMark@{$\sim$YieldMark}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{$\sim$YieldMark}]{\setlength{\rightskip}{0pt plus 5cm}mocha::YieldMark::$\sim$YieldMark (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a39a0123297eb8449c07662b753dc53ae}
+
+
+Definition at line 597 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_yield_mark_a065749a765c91638062a858f8b641be5}{
+\index{mocha::YieldMark@{mocha::YieldMark}!Adjust@{Adjust}}
+\index{Adjust@{Adjust}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{Adjust}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::YieldMark::Adjust (
+\begin{DoxyParamCaption}
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a065749a765c91638062a858f8b641be5}
+
+
+Definition at line 601 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_ac43d6b11559da52a58847aa567a3e64e}{
+\index{mocha::YieldMark@{mocha::YieldMark}!CastToYieldMark@{CastToYieldMark}}
+\index{CastToYieldMark@{CastToYieldMark}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{CastToYieldMark}]{\setlength{\rightskip}{0pt plus 5cm}{\bf YieldMark}$\ast$ mocha::YieldMark::CastToYieldMark (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_ac43d6b11559da52a58847aa567a3e64e}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_statement_a403ef1401f09802c177f269ba0225f7c}{mocha::Statement}.
+
+
+
+Definition at line 600 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a52bd9df832846e6ee8c2479460ec96e9}{
+\index{mocha::YieldMark@{mocha::YieldMark}!GetNoStateInjection@{GetNoStateInjection}}
+\index{GetNoStateInjection@{GetNoStateInjection}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{GetNoStateInjection}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::YieldMark::GetNoStateInjection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a52bd9df832846e6ee8c2479460ec96e9}
+
+
+Definition at line 604 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a4859663e07a4500339dbc2bb3951ab8b}{
+\index{mocha::YieldMark@{mocha::YieldMark}!ReEntrantNode@{ReEntrantNode}}
+\index{ReEntrantNode@{ReEntrantNode}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{ReEntrantNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldMark::ReEntrantNode (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a4859663e07a4500339dbc2bb3951ab8b}
+
+
+Definition at line 598 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a74bd1b459c4401fb2c9bc76fddf89cd3}{
+\index{mocha::YieldMark@{mocha::YieldMark}!ReEntrantNode@{ReEntrantNode}}
+\index{ReEntrantNode@{ReEntrantNode}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{ReEntrantNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ mocha::YieldMark::ReEntrantNode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a74bd1b459c4401fb2c9bc76fddf89cd3}
+
+
+Definition at line 599 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a34137ede79b129a0f59757b65ad9a9a6}{
+\index{mocha::YieldMark@{mocha::YieldMark}!SetAdjust@{SetAdjust}}
+\index{SetAdjust@{SetAdjust}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{SetAdjust}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldMark::SetAdjust (
+\begin{DoxyParamCaption}
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a34137ede79b129a0f59757b65ad9a9a6}
+
+
+Definition at line 602 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_ad652b6e253e6a84204ab2d06a5a6c5d8}{
+\index{mocha::YieldMark@{mocha::YieldMark}!SetNoStateInjection@{SetNoStateInjection}}
+\index{SetNoStateInjection@{SetNoStateInjection}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{SetNoStateInjection}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldMark::SetNoStateInjection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_ad652b6e253e6a84204ab2d06a5a6c5d8}
+
+
+Definition at line 603 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_yield_mark_a7ace248044739e02c186bd9f97f8449d}{
+\index{mocha::YieldMark@{mocha::YieldMark}!adjustment\_\-@{adjustment\_\-}}
+\index{adjustment\_\-@{adjustment\_\-}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{adjustment\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::YieldMark::adjustment\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a7ace248044739e02c186bd9f97f8449d}
+
+
+Definition at line 606 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a776792c8ed73cc26c74b9722bae5dbde}{
+\index{mocha::YieldMark@{mocha::YieldMark}!is\_\-state\_\-injection\_\-@{is\_\-state\_\-injection\_\-}}
+\index{is\_\-state\_\-injection\_\-@{is\_\-state\_\-injection\_\-}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{is\_\-state\_\-injection\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::YieldMark::is\_\-state\_\-injection\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a776792c8ed73cc26c74b9722bae5dbde}
+
+
+Definition at line 607 of file ast.h.
+
+\hypertarget{classmocha_1_1_yield_mark_a41c9796ef1dfbf005cd58a2a5a05a747}{
+\index{mocha::YieldMark@{mocha::YieldMark}!state\_\-@{state\_\-}}
+\index{state\_\-@{state\_\-}!mocha::YieldMark@{mocha::YieldMark}}
+\subsubsection[{state\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ {\bf mocha::YieldMark::state\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_mark_a41c9796ef1dfbf005cd58a2a5a05a747}
+
+
+Definition at line 608 of file ast.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\end{DoxyCompactItemize}

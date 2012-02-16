@@ -1,0 +1,112 @@
+\hypertarget{dsta__processor_8cc}{
+\section{Y:/mocha/src/ast/visitors/utils/processors/dsta\_\-processor.cc File Reference}
+\label{dsta__processor_8cc}\index{Y:/mocha/src/ast/visitors/utils/processors/dsta\_\-processor.cc@{Y:/mocha/src/ast/visitors/utils/processors/dsta\_\-processor.cc}}
+}
+{\ttfamily \#include $<$assert.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/utils/processors/dsta\_\-processor.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/utils/processors/processor\_\-info.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/utils/visitor\_\-info.h$>$}\par
+{\ttfamily \#include $<$ast/utils/ast\_\-utils.h$>$}\par
+{\ttfamily \#include $<$utils/pool/managed\_\-handle.h$>$}\par
+{\ttfamily \#include $<$compiler/compiler.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/js\_\-token.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/token\_\-info.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/symbol\_\-list.h$>$}\par
+{\ttfamily \#include $<$compiler/utils/exception\_\-handler.h$>$}\par
+{\ttfamily \#include $<$grammar/grammar.tab.hh$>$}\par
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{dsta__processor_8cc_a04742d7f90e8442694c6966153e818a2}{ERROR}(info, func)
+\item 
+\#define \hyperlink{dsta__processor_8cc_a5c3a83864bf5991d09aa5c2abb911bf0}{TOKEN}~\hyperlink{structyy_1_1_parser_implementation_1_1token}{yy::ParserImplementation::token}
+\item 
+\#define \hyperlink{dsta__processor_8cc_a19ff393b4360cbfec2b96ba18961fdb7}{UPDATE\_\-TREE}
+\begin{DoxyCompactList}\small\item\em We express destructuring assingment as dsta. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespacemocha_a52d7a3f3bf8de146d1e05760aa7463dc}{mocha::ProcessObject} (ValueNode $\ast$ast\_\-node, DstaTree $\ast$tree, int depth, ProcessorInfo $\ast$info)
+\begin{DoxyCompactList}\small\item\em Iterate Object pattern like var \{ x, y , z : \{ x \} \} = \{...\}. \end{DoxyCompactList}\item 
+void \hyperlink{namespacemocha_ae7216e54bbad37a8eb20cdf819e3cc0b}{mocha::ProcessArray} (ValueNode $\ast$ast\_\-node, DstaTree $\ast$tree, int depth, ProcessorInfo $\ast$info)
+\begin{DoxyCompactList}\small\item\em Process Array pattern. \end{DoxyCompactList}\item 
+void \hyperlink{namespacemocha_adb1a85a8064e46a4ad0109ead9aba3e8}{mocha::ProcessMember} (ValueNode $\ast$ast\_\-node, DstaTree $\ast$tree, ProcessorInfo $\ast$proc\_\-info)
+\begin{DoxyCompactList}\small\item\em Process the Object pattern's property member. \end{DoxyCompactList}\item 
+DstaTree $\ast$ \hyperlink{namespacemocha_a23f9553bc80e3ea1df3feda5667c0282}{mocha::ProcessPropertyMember} (ValueNode $\ast$value, DstaTree $\ast$tree, ProcessorInfo $\ast$info, int depth)
+\begin{DoxyCompactList}\small\item\em Process \{ x : $<$...$>$ \} or \{ $<$...$>$ \}. \end{DoxyCompactList}\item 
+void \hyperlink{namespacemocha_a1e0321e63212cb250b296eb1958fde95}{mocha::ArrayHelper} (ValueNode $\ast$ast\_\-node, VisitorInfo $\ast$visitor\_\-info, DstaTree $\ast$tree, int index, ValueNode $\ast$symbol, bool is\_\-rest)
+\item 
+DstaTree $\ast$ \hyperlink{namespacemocha_af8a6e0cfa8b0cf7abe9b684eec0cfcef}{mocha::ProcessArrayElement} (ValueNode $\ast$ast\_\-node, AstNode $\ast$element, DstaTree $\ast$tree, int depth, int index, ProcessorInfo $\ast$info)
+\begin{DoxyCompactList}\small\item\em Process each member of array pattern. \end{DoxyCompactList}\item 
+AstNode $\ast$ \hyperlink{namespacemocha_a112c49bb7f4b348cfb03ece35ee1c97a}{mocha::CreateConditional} (AstNode $\ast$last\_\-exp, AstNode $\ast$first, ProcessorInfo $\ast$info, bool is\_\-assign)
+\item 
+NodeList $\ast$ \hyperlink{namespacemocha_a7f88242dd7a314683af9e25a253575ec}{mocha::IterateTree} (NodeList $\ast$result, AstNode $\ast$first, ProcessorInfo $\ast$info, bool is\_\-assign)
+\item 
+AstNode $\ast$ \hyperlink{namespacemocha_aa1c1e8405ca6a36492f0ae4b6f6f5a88}{mocha::CreateSimpleAccessor} (AstNode $\ast$first, VisitorInfo $\ast$info, bool is\_\-assign)
+\begin{DoxyCompactList}\small\item\em Simple property accessor. \end{DoxyCompactList}\item 
+NodeList $\ast$ \hyperlink{namespacemocha_acd5c53aedeb5b13ad796ff32a95e6ac3}{mocha::CreateDstaExtractedNode} (Statement $\ast$stmt, ProcessorInfo $\ast$info, bool is\_\-assign)
+\begin{DoxyCompactList}\small\item\em Create a statement, from the results of analyzing dsta expressions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{dsta__processor_8cc_a04742d7f90e8442694c6966153e818a2}{
+\index{dsta\_\-processor.cc@{dsta\_\-processor.cc}!ERROR@{ERROR}}
+\index{ERROR@{ERROR}!dsta_processor.cc@{dsta\_\-processor.cc}}
+\subsubsection[{ERROR}]{\setlength{\rightskip}{0pt plus 5cm}\#define ERROR(
+\begin{DoxyParamCaption}
+\item[{}]{info, }
+\item[{}]{func}
+\end{DoxyParamCaption}
+)}}
+\label{dsta__processor_8cc_a04742d7f90e8442694c6966153e818a2}
+\begin{DoxyAuthor}{Author}
+Taketoshi Aono  Implementation of destructuring assignment processor.  Copyright (c) 2011 Taketoshi Aono Licensed under the BSD.
+\end{DoxyAuthor}
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated doc umentation files (the \char`\"{}Software\char`\"{}), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions ofthe Software.
+
+THE SOFTWARE IS PROVIDED \char`\"{}AS IS\char`\"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+
+Definition at line 37 of file dsta\_\-processor.cc.
+
+\hypertarget{dsta__processor_8cc_a5c3a83864bf5991d09aa5c2abb911bf0}{
+\index{dsta\_\-processor.cc@{dsta\_\-processor.cc}!TOKEN@{TOKEN}}
+\index{TOKEN@{TOKEN}!dsta_processor.cc@{dsta\_\-processor.cc}}
+\subsubsection[{TOKEN}]{\setlength{\rightskip}{0pt plus 5cm}\#define TOKEN~{\bf yy::ParserImplementation::token}}}
+\label{dsta__processor_8cc_a5c3a83864bf5991d09aa5c2abb911bf0}
+
+
+Definition at line 40 of file dsta\_\-processor.cc.
+
+\hypertarget{dsta__processor_8cc_a19ff393b4360cbfec2b96ba18961fdb7}{
+\index{dsta\_\-processor.cc@{dsta\_\-processor.cc}!UPDATE\_\-TREE@{UPDATE\_\-TREE}}
+\index{UPDATE\_\-TREE@{UPDATE\_\-TREE}!dsta_processor.cc@{dsta\_\-processor.cc}}
+\subsubsection[{UPDATE\_\-TREE}]{\setlength{\rightskip}{0pt plus 5cm}\#define UPDATE\_\-TREE}}
+\label{dsta__processor_8cc_a19ff393b4360cbfec2b96ba18961fdb7}
+{\bfseries Value:}
+\begin{DoxyCode}
+if ( depth == 0 ) {                           \
+    tree = ManagedHandle::Retain<DstaTree>();   \
+  } else {                                      \
+    tree = tree->Clone()->CastToDstaTree();     \
+    tree->RemoveChild( tree->LastChild() );     \
+  }
+\end{DoxyCode}
+
+
+We express destructuring assingment as dsta. 
+
+Let's begin transform of abstract syntax tree! Buf before that , describe target tree structure overview on following.
+
+Statement$<$Current active statement$>$ $|$ DstaExtractedExpression -\/-\/-\/-\/-\/Refs $|$ $|$-\/-\/-\/-\/-\/ NodeList-\/-\/-\/-\/-\/-\/-\/-\/ $|$ $|$ $|$ $|$ $|$ $|$ Ref1 Ref2 ... Tree Tree Tree Tree $|$ CallExp$<$Result of processing$>$
+
+The DstaExtractedExpression could has multiple Tree class, but appling this case will be only in case that dsta appear in the formal\_\-parameter\_\-list. Now mocha implements dsta as the conditional expression or simple property accessor. This implementation not throw error, except if lhs is null or undefined, this based on firefox implemetation, not harmony. 
+
+Definition at line 68 of file dsta\_\-processor.cc.
+

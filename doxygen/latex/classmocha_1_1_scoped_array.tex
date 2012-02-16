@@ -1,0 +1,99 @@
+\hypertarget{classmocha_1_1_scoped_array}{
+\section{mocha::ScopedArray$<$ T $>$ Class Template Reference}
+\label{classmocha_1_1_scoped_array}\index{mocha::ScopedArray@{mocha::ScopedArray}}
+}
+
+
+{\ttfamily \#include $<$scoped\_\-ptr.h$>$}
+
+Inheritance diagram for mocha::ScopedArray$<$ T $>$:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmocha_1_1_scoped_array}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Class $>$ }\\\hyperlink{classmocha_1_1_scoped_array_ac4f3fb1441a6bac79c5174f3a5df874d}{ScopedArray} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classmocha_1_1_scoped_array}{ScopedArray} has only simple constructor. \end{DoxyCompactList}\item 
+\hyperlink{classmocha_1_1_scoped_array_a213d2853787d39615248ff821e39ace4}{ScopedArray} ()
+\begin{DoxyCompactList}\small\item\em Constructor for container or class member. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Class $>$ }\\void \hyperlink{classmocha_1_1_scoped_array_a5da7acbefbe60db54062c8556fa0f745}{operator()} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Operator for lazy initialization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class mocha::ScopedArray$<$ T $>$}
+
+
+
+Definition at line 177 of file scoped\_\-ptr.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_scoped_array_ac4f3fb1441a6bac79c5174f3a5df874d}{
+\index{mocha::ScopedArray@{mocha::ScopedArray}!ScopedArray@{ScopedArray}}
+\index{ScopedArray@{ScopedArray}!mocha::ScopedArray@{mocha::ScopedArray}}
+\subsubsection[{ScopedArray}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ {\bf mocha::ScopedArray}$<$ T $>$::{\bf ScopedArray} (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_array_ac4f3fb1441a6bac79c5174f3a5df874d}
+
+
+\hyperlink{classmocha_1_1_scoped_array}{ScopedArray} has only simple constructor. 
+
+Deleter is selected as PtrDeleter::deleterArray. 
+
+Definition at line 152 of file scoped\_\-ptr-\/impl.h.
+
+\hypertarget{classmocha_1_1_scoped_array_a213d2853787d39615248ff821e39ace4}{
+\index{mocha::ScopedArray@{mocha::ScopedArray}!ScopedArray@{ScopedArray}}
+\index{ScopedArray@{ScopedArray}!mocha::ScopedArray@{mocha::ScopedArray}}
+\subsubsection[{ScopedArray}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::ScopedArray}$<$ T $>$::{\bf ScopedArray} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_array_a213d2853787d39615248ff821e39ace4}
+
+
+Constructor for container or class member. 
+
+
+
+Definition at line 155 of file scoped\_\-ptr-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_scoped_array_a5da7acbefbe60db54062c8556fa0f745}{
+\index{mocha::ScopedArray@{mocha::ScopedArray}!operator()@{operator()}}
+\index{operator()@{operator()}!mocha::ScopedArray@{mocha::ScopedArray}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ void {\bf mocha::ScopedArray}$<$ T $>$::operator() (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_array_a5da7acbefbe60db54062c8556fa0f745}
+
+
+Operator for lazy initialization. 
+
+
+
+Reimplemented from \hyperlink{classmocha_1_1_scoped_ptr_ae25ac571557fd0c071a88f70e78b2b55}{mocha::ScopedPtr$<$ T $>$}.
+
+
+
+Definition at line 159 of file scoped\_\-ptr-\/impl.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/smart\_\-pointer/scope/\hyperlink{scoped__ptr_8h}{scoped\_\-ptr.h}\item 
+Y:/mocha/src/utils/smart\_\-pointer/scope/\hyperlink{scoped__ptr-impl_8h}{scoped\_\-ptr-\/impl.h}\end{DoxyCompactItemize}

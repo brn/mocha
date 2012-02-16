@@ -1,0 +1,144 @@
+\hypertarget{classmocha_1_1_entry_iterator_base}{
+\section{mocha::EntryIteratorBase$<$ Key\_\-t, Value\_\-t $>$ Class Template Reference}
+\label{classmocha_1_1_entry_iterator_base}\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+}
+
+
+{\ttfamily \#include $<$hash\_\-table.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmocha_1_1_entry}{Entry}$<$ Key\_\-t, Value\_\-t $>$ \hyperlink{classmocha_1_1_entry_iterator_base_a8bc02c1067df11a391cf565953e23b05}{HashEntry}
+\item 
+typedef \hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ \hyperlink{classmocha_1_1_entry_iterator_base_a0c7fd5003d4f45319346ae64e6e111be}{Node}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_entry_iterator_base_a22f7638410ddf78c3cbd778087bb03b5}{EntryIteratorBase} (\hyperlink{classmocha_1_1_block}{Node} $\ast$node)
+\item 
+\hyperlink{classmocha_1_1_entry_iterator_base_a87b0daed5edb1f08879329571ee424c0}{EntryIteratorBase} (const \hyperlink{classmocha_1_1_entry_iterator_base}{EntryIteratorBase} \&iterator)
+\item 
+bool \hyperlink{classmocha_1_1_entry_iterator_base_a44e67289c205d7f758f07eaf8f8dc154}{HasNext} ()
+\item 
+\hyperlink{classmocha_1_1_entry}{HashEntry} \hyperlink{classmocha_1_1_entry_iterator_base_ab9cb9d8f5c9e2b59243de6e2c6028146}{Next} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_block}{Node} $\ast$ \hyperlink{classmocha_1_1_entry_iterator_base_a6cd7e41a0a9e198c6ef5bcf745f0a89a}{node\_\-}
+\item 
+\hyperlink{classmocha_1_1_block}{Node} $\ast$ \hyperlink{classmocha_1_1_entry_iterator_base_aa7d56c6b85e161cd052317a225e5b550}{current\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Key\_\-t, typename Value\_\-t$>$class mocha::EntryIteratorBase$<$ Key\_\-t, Value\_\-t $>$}
+
+
+
+Definition at line 10 of file hash\_\-table.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_entry_iterator_base_a8bc02c1067df11a391cf565953e23b05}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!HashEntry@{HashEntry}}
+\index{HashEntry@{HashEntry}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{HashEntry}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ typedef {\bf Entry}$<$Key\_\-t,Value\_\-t$>$ {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf HashEntry}}}
+\label{classmocha_1_1_entry_iterator_base_a8bc02c1067df11a391cf565953e23b05}
+
+
+Definition at line 12 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_entry_iterator_base_a0c7fd5003d4f45319346ae64e6e111be}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!Node@{Node}}
+\index{Node@{Node}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{Node}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ typedef {\bf Block}$<$Key\_\-t,Value\_\-t$>$ {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf Node}}}
+\label{classmocha_1_1_entry_iterator_base_a0c7fd5003d4f45319346ae64e6e111be}
+
+
+Definition at line 13 of file hash\_\-table.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_entry_iterator_base_a22f7638410ddf78c3cbd778087bb03b5}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!EntryIteratorBase@{EntryIteratorBase}}
+\index{EntryIteratorBase@{EntryIteratorBase}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{EntryIteratorBase}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf EntryIteratorBase} (
+\begin{DoxyParamCaption}
+\item[{{\bf Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_iterator_base_a22f7638410ddf78c3cbd778087bb03b5}
+\hypertarget{classmocha_1_1_entry_iterator_base_a87b0daed5edb1f08879329571ee424c0}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!EntryIteratorBase@{EntryIteratorBase}}
+\index{EntryIteratorBase@{EntryIteratorBase}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{EntryIteratorBase}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf EntryIteratorBase} (
+\begin{DoxyParamCaption}
+\item[{const {\bf EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$ \&}]{iterator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_iterator_base_a87b0daed5edb1f08879329571ee424c0}
+
+
+Definition at line 26 of file hash\_\-table-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_entry_iterator_base_a44e67289c205d7f758f07eaf8f8dc154}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!HasNext@{HasNext}}
+\index{HasNext@{HasNext}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{HasNext}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ bool {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::HasNext (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_iterator_base_a44e67289c205d7f758f07eaf8f8dc154}
+
+
+Definition at line 31 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_iterator_base_ab9cb9d8f5c9e2b59243de6e2c6028146}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!Next@{Next}}
+\index{Next@{Next}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{Next}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf HashEntry} {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::Next (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_iterator_base_ab9cb9d8f5c9e2b59243de6e2c6028146}
+
+
+Definition at line 37 of file hash\_\-table-\/impl.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_entry_iterator_base_aa7d56c6b85e161cd052317a225e5b550}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!current\_\-@{current\_\-}}
+\index{current\_\-@{current\_\-}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{current\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Node}$\ast$ {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf current\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_entry_iterator_base_aa7d56c6b85e161cd052317a225e5b550}
+
+
+Definition at line 20 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_entry_iterator_base_a6cd7e41a0a9e198c6ef5bcf745f0a89a}{
+\index{mocha::EntryIteratorBase@{mocha::EntryIteratorBase}!node\_\-@{node\_\-}}
+\index{node\_\-@{node\_\-}!mocha::EntryIteratorBase@{mocha::EntryIteratorBase}}
+\subsubsection[{node\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Node}$\ast$ {\bf mocha::EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$::{\bf node\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_entry_iterator_base_a6cd7e41a0a9e198c6ef5bcf745f0a89a}
+
+
+Definition at line 19 of file hash\_\-table.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/hash/\hyperlink{hash__table_8h}{hash\_\-table.h}\item 
+Y:/mocha/src/utils/hash/\hyperlink{hash__table-impl_8h}{hash\_\-table-\/impl.h}\end{DoxyCompactItemize}

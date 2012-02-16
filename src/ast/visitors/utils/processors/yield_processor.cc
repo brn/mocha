@@ -34,7 +34,6 @@ void YieldProcessor::ProcessNode() {
   VisitorInfo* visitor_info = info_->GetInfo();
   AstNode* direct_child = exp_->ParentNode();
   Function* fn = visitor_info->GetFunction();
-  fprintf( stderr , "%s %s\n" , exp_->GetName() , direct_child->ParentNode()->GetName() );
   while ( 1 ) {
     if ( direct_child->ParentNode()->NodeType() == AstNode::kFunction ) {
       break;

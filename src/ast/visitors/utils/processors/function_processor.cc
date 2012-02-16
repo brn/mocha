@@ -236,7 +236,6 @@ class YieldHelper : private Uncopyable {
     while ( iterator_.HasNext() ) {
       AstNode* yield_stmt = iterator_.Next();
       if ( yield_stmt->NodeType() != AstNode::kVariableStmt ) {
-        printf( "yield type = %s\n" , yield_stmt->GetName() );
         ProcessStmtInYield_( yield_stmt );
       }
     }
@@ -401,14 +400,15 @@ class YieldHelper : private Uncopyable {
       ValueNode* ident = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
       ident->Symbol( value->Symbol() );
       ident->AddChild( ManagedHandle::Retain<Empty>() );
-      AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->FirstChild()->Clone() );
-      ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
-      stmt->Line( value->ParentNode()->Line() );
-      if ( value->ParentNode()->CastToStatement()->GetYieldFlag() ) {
-        stmt->SetYieldFlag();
+      if ( !value->FirstChild()->IsEmpty() ) {
+        AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->FirstChild()->Clone() );
+        ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
+        stmt->Line( value->ParentNode()->Line() );
+        if ( value->ParentNode()->CastToStatement()->GetYieldFlag() ) {
+          stmt->SetYieldFlag();
+        }
+        value->ParentNode()->ParentNode()->InsertBefore( stmt , value->ParentNode() );
       }
-      printf( "is yield %d  parent type = %d symbol = %s\n" , value->ParentNode()->CastToStatement()->GetYieldFlag() , value->ParentNode()->ParentNode()->NodeType() , value->Symbol()->GetToken() );
-      value->ParentNode()->ParentNode()->InsertBefore( stmt , value->ParentNode() );
       ValueNode* var = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
       var->Symbol( value->Symbol() );
       var->AddChild( ManagedHandle::Retain<Empty>() );
@@ -1079,8 +1079,6 @@ class YieldHelper : private Uncopyable {
   
   void ProcessStmtInYield_( AstNode* yield_stmt ) {
     function_->RemoveChild( yield_stmt );
-    if ( !yield_stmt->CastToStatement() )
-      printf( "error type %s\n" , yield_stmt->GetName() );
     if ( yield_stmt->NodeType() == AstNode::kReturnStmt && !no_state_injection_ ) {
       is_state_injection_ = true;
     }

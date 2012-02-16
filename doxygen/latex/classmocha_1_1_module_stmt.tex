@@ -1,0 +1,169 @@
+\hypertarget{classmocha_1_1_module_stmt}{
+\section{mocha::ModuleStmt Class Reference}
+\label{classmocha_1_1_module_stmt}\index{mocha::ModuleStmt@{mocha::ModuleStmt}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::ModuleStmt:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_module_stmt}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_module_stmt_ae55e73b48a3d754f712aa8d7957b89dc}{ModuleStmt} ()
+\item 
+\hyperlink{classmocha_1_1_module_stmt_a3b3bb4ed2ef35914b35dd90c5da376c9}{$\sim$ModuleStmt} ()
+\item 
+void \hyperlink{classmocha_1_1_module_stmt_a3e1b68120a7c4d11957078dad8687d8f}{Name} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_module_stmt_a266ecf6da3061057ad180111a53aa736}{Name} () const 
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_module_stmt_a924627822a09527a0ba57aaed5e48afa}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_module_stmt_a2028c16db13ad29aeab6f53b4de08014}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_module_stmt_aca6fd8961e4bc109ab793c5a4392478d}{name\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 670 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_module_stmt_ae55e73b48a3d754f712aa8d7957b89dc}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!ModuleStmt@{ModuleStmt}}
+\index{ModuleStmt@{ModuleStmt}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{ModuleStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ModuleStmt::ModuleStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_ae55e73b48a3d754f712aa8d7957b89dc}
+
+
+Definition at line 672 of file ast.h.
+
+\hypertarget{classmocha_1_1_module_stmt_a3b3bb4ed2ef35914b35dd90c5da376c9}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!$\sim$ModuleStmt@{$\sim$ModuleStmt}}
+\index{$\sim$ModuleStmt@{$\sim$ModuleStmt}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{$\sim$ModuleStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ModuleStmt::$\sim$ModuleStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_a3b3bb4ed2ef35914b35dd90c5da376c9}
+
+
+Definition at line 673 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_module_stmt_a924627822a09527a0ba57aaed5e48afa}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::ModuleStmt::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_a924627822a09527a0ba57aaed5e48afa}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_af2a895699bac2012f8b7739bff49c5ec}{mocha::AstNode}.
+
+
+
+Definition at line 254 of file ast.cc.
+
+\hypertarget{classmocha_1_1_module_stmt_a266ecf6da3061057ad180111a53aa736}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!Name@{Name}}
+\index{Name@{Name}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ModuleStmt::Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_a266ecf6da3061057ad180111a53aa736}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Get module name. 
+\end{DoxyReturn}
+
+
+Definition at line 685 of file ast.h.
+
+\hypertarget{classmocha_1_1_module_stmt_a3e1b68120a7c4d11957078dad8687d8f}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!Name@{Name}}
+\index{Name@{Name}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{Name}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ModuleStmt::Name (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_a3e1b68120a7c4d11957078dad8687d8f}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & name Set module name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 679 of file ast.h.
+
+\hypertarget{classmocha_1_1_module_stmt_a2028c16db13ad29aeab6f53b4de08014}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ModuleStmt::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_a2028c16db13ad29aeab6f53b4de08014}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}{mocha::Statement}.
+
+
+
+Definition at line 689 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_module_stmt_aca6fd8961e4bc109ab793c5a4392478d}{
+\index{mocha::ModuleStmt@{mocha::ModuleStmt}!name\_\-@{name\_\-}}
+\index{name\_\-@{name\_\-}!mocha::ModuleStmt@{mocha::ModuleStmt}}
+\subsubsection[{name\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::ModuleStmt::name\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_module_stmt_aca6fd8961e4bc109ab793c5a4392478d}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_a876b49852a3151d977c842a90ee02771}{mocha::AstNode}.
+
+
+
+Definition at line 686 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

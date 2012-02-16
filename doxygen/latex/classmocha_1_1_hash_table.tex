@@ -1,0 +1,334 @@
+\hypertarget{classmocha_1_1_hash_table}{
+\section{mocha::HashTable$<$ Key\_\-t, Value\_\-t $>$ Class Template Reference}
+\label{classmocha_1_1_hash_table}\index{mocha::HashTable@{mocha::HashTable}}
+}
+
+
+{\ttfamily \#include $<$hash\_\-table.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ \hyperlink{classmocha_1_1_hash_table_a83e016fe56f778ffc27cb24f90304cdf}{TopFixedBlock}
+\item 
+typedef \hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ \hyperlink{classmocha_1_1_hash_table_a1bcb8a4bec495c629f3df6cd6c25b610}{Node}
+\item 
+typedef \hyperlink{classmocha_1_1_entry}{Entry}$<$ Key\_\-t, Value\_\-t $>$ \hyperlink{classmocha_1_1_hash_table_a3c863111b21220947a039924bf185b18}{Leaf}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_hash_table_a924ef91867550f7c3978541d0d9a6d3a}{HashTable} ()
+\item 
+\hyperlink{classmocha_1_1_hash_table_a509abb4dde83ebb6a16821d952527343}{$\sim$HashTable} ()
+\item 
+void \hyperlink{classmocha_1_1_hash_table_aea293f99aa0634c44aea47a0e26c7403}{Insert} (Key\_\-t \&key, Value\_\-t \&value, \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \&hash)
+\item 
+void \hyperlink{classmocha_1_1_hash_table_a892bd72db9c046f3fefbc9180d7d2218}{Remove} (Key\_\-t \&key, \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \&hash)
+\item 
+void \hyperlink{classmocha_1_1_hash_table_acf1505ea4f3b3734dd573dbd4cde6af2}{RemoveAll} ()
+\item 
+\hyperlink{classmocha_1_1_entry}{Leaf} \hyperlink{classmocha_1_1_hash_table_ae94879c804070289cf728f3c37b7a689}{Find} (const Key\_\-t \&key, \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \&hash)
+\item 
+int \hyperlink{classmocha_1_1_hash_table_a9678aab33b6bef7a242fd7236c0df93a}{Size} () const 
+\item 
+\hyperlink{classmocha_1_1_entry_iterator_base}{EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$ \hyperlink{classmocha_1_1_hash_table_aa831a9ac9e54118a34f5aecee513daff}{Entries} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_hash_table_a3c482eff8a9afb3651ffeb5a60c7c170}{GetBlock\_\-} (const Key\_\-t \&key, \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \&hash, bool is\_\-insert)
+\item 
+void \hyperlink{classmocha_1_1_hash_table_ae90cb7c71a4e9316495ca7c4d635fc10}{AddList\_\-} (\hyperlink{classmocha_1_1_block}{Node} $\ast$node)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_hash_table_acfaea92a2c538b293ef7211b1018ef8e}{size\_\-}
+\item 
+const \hyperlink{classmocha_1_1_entry}{Leaf} \hyperlink{classmocha_1_1_hash_table_a1d1bc15084515db8f2cb0d792929214f}{empty\_\-entry\_\-}
+\item 
+\hyperlink{classmocha_1_1_block}{TopFixedBlock} $\ast$ \hyperlink{classmocha_1_1_hash_table_a6cbe7e08011b4a51fb42828709702e66}{fixed\_\-}
+\item 
+\hyperlink{classmocha_1_1_block}{Node} $\ast$ \hyperlink{classmocha_1_1_hash_table_a954f7023e83b9b52affc3655c67a450c}{head\_\-}
+\item 
+\hyperlink{classmocha_1_1_block}{Node} $\ast$ \hyperlink{classmocha_1_1_hash_table_a2a2427ab0f6c9e70b381e9915d3e64ef}{tail\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \hyperlink{classmocha_1_1_hash_table_a33bcad6d78ecde63a8c9a7aeb60dc90f}{lower\_\-5bit} = 0x000000000000001FULL
+\item 
+static const \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \hyperlink{classmocha_1_1_hash_table_ae089c8e0a1e230fcd07895124e9af72a}{lower\_\-2bit} = 0x0000000000000003ULL
+\item 
+static const \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \hyperlink{classmocha_1_1_hash_table_ae452418e6b4593739a896b9de14e200f}{shift\_\-constatnt2} = 2
+\item 
+static const \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \hyperlink{classmocha_1_1_hash_table_a0c9f14cc6a29009848ff5e22ff5c77ae}{shift\_\-constatnt5} = 5
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Key\_\-t, typename Value\_\-t$>$class mocha::HashTable$<$ Key\_\-t, Value\_\-t $>$}
+
+
+
+Definition at line 24 of file hash\_\-table.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_hash_table_a3c863111b21220947a039924bf185b18}{
+\index{mocha::HashTable@{mocha::HashTable}!Leaf@{Leaf}}
+\index{Leaf@{Leaf}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Leaf}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ typedef {\bf Entry}$<$Key\_\-t,Value\_\-t$>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf Leaf}}}
+\label{classmocha_1_1_hash_table_a3c863111b21220947a039924bf185b18}
+
+
+Definition at line 28 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a1bcb8a4bec495c629f3df6cd6c25b610}{
+\index{mocha::HashTable@{mocha::HashTable}!Node@{Node}}
+\index{Node@{Node}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Node}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ typedef {\bf Block}$<$Key\_\-t,Value\_\-t$>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf Node}}}
+\label{classmocha_1_1_hash_table_a1bcb8a4bec495c629f3df6cd6c25b610}
+
+
+Definition at line 27 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a83e016fe56f778ffc27cb24f90304cdf}{
+\index{mocha::HashTable@{mocha::HashTable}!TopFixedBlock@{TopFixedBlock}}
+\index{TopFixedBlock@{TopFixedBlock}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{TopFixedBlock}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ typedef {\bf Block}$<$Key\_\-t,Value\_\-t$>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf TopFixedBlock}}}
+\label{classmocha_1_1_hash_table_a83e016fe56f778ffc27cb24f90304cdf}
+
+
+Definition at line 26 of file hash\_\-table.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_hash_table_a924ef91867550f7c3978541d0d9a6d3a}{
+\index{mocha::HashTable@{mocha::HashTable}!HashTable@{HashTable}}
+\index{HashTable@{HashTable}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{HashTable}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf HashTable} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a924ef91867550f7c3978541d0d9a6d3a}
+
+
+Definition at line 45 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_a509abb4dde83ebb6a16821d952527343}{
+\index{mocha::HashTable@{mocha::HashTable}!$\sim$HashTable@{$\sim$HashTable}}
+\index{$\sim$HashTable@{$\sim$HashTable}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{$\sim$HashTable}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::$\sim${\bf HashTable} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a509abb4dde83ebb6a16821d952527343}
+
+
+Definition at line 50 of file hash\_\-table-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_hash_table_ae90cb7c71a4e9316495ca7c4d635fc10}{
+\index{mocha::HashTable@{mocha::HashTable}!AddList\_\-@{AddList\_\-}}
+\index{AddList\_\-@{AddList\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{AddList\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ void {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::AddList\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_ae90cb7c71a4e9316495ca7c4d635fc10}
+\hypertarget{classmocha_1_1_hash_table_aa831a9ac9e54118a34f5aecee513daff}{
+\index{mocha::HashTable@{mocha::HashTable}!Entries@{Entries}}
+\index{Entries@{Entries}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Entries}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf EntryIteratorBase}$<$ Key\_\-t, Value\_\-t $>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::Entries (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_aa831a9ac9e54118a34f5aecee513daff}
+
+
+Definition at line 109 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_ae94879c804070289cf728f3c37b7a689}{
+\index{mocha::HashTable@{mocha::HashTable}!Find@{Find}}
+\index{Find@{Find}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Find}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t $>$ {\bf Entry}$<$ Key\_\-t, Value\_\-t $>$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::Find (
+\begin{DoxyParamCaption}
+\item[{const Key\_\-t \&}]{key, }
+\item[{{\bf Hash\_\-t} \&}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_ae94879c804070289cf728f3c37b7a689}
+
+
+Definition at line 90 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_a3c482eff8a9afb3651ffeb5a60c7c170}{
+\index{mocha::HashTable@{mocha::HashTable}!GetBlock\_\-@{GetBlock\_\-}}
+\index{GetBlock\_\-@{GetBlock\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{GetBlock\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t $>$ {\bf Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::GetBlock\_\- (
+\begin{DoxyParamCaption}
+\item[{const Key\_\-t \&}]{key, }
+\item[{{\bf Hash\_\-t} \&}]{hash, }
+\item[{bool}]{is\_\-insert}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a3c482eff8a9afb3651ffeb5a60c7c170}
+
+
+Definition at line 115 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_aea293f99aa0634c44aea47a0e26c7403}{
+\index{mocha::HashTable@{mocha::HashTable}!Insert@{Insert}}
+\index{Insert@{Insert}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ void {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::Insert (
+\begin{DoxyParamCaption}
+\item[{Key\_\-t \&}]{key, }
+\item[{Value\_\-t \&}]{value, }
+\item[{{\bf Hash\_\-t} \&}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_aea293f99aa0634c44aea47a0e26c7403}
+
+
+Definition at line 57 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_a892bd72db9c046f3fefbc9180d7d2218}{
+\index{mocha::HashTable@{mocha::HashTable}!Remove@{Remove}}
+\index{Remove@{Remove}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Remove}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t $>$ void {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::Remove (
+\begin{DoxyParamCaption}
+\item[{Key\_\-t \&}]{key, }
+\item[{{\bf Hash\_\-t} \&}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a892bd72db9c046f3fefbc9180d7d2218}
+
+
+Definition at line 66 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_acf1505ea4f3b3734dd573dbd4cde6af2}{
+\index{mocha::HashTable@{mocha::HashTable}!RemoveAll@{RemoveAll}}
+\index{RemoveAll@{RemoveAll}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{RemoveAll}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ void {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::RemoveAll (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_acf1505ea4f3b3734dd573dbd4cde6af2}
+
+
+Definition at line 83 of file hash\_\-table-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_table_a9678aab33b6bef7a242fd7236c0df93a}{
+\index{mocha::HashTable@{mocha::HashTable}!Size@{Size}}
+\index{Size@{Size}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ int {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a9678aab33b6bef7a242fd7236c0df93a}
+
+
+Definition at line 103 of file hash\_\-table-\/impl.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_hash_table_a1d1bc15084515db8f2cb0d792929214f}{
+\index{mocha::HashTable@{mocha::HashTable}!empty\_\-entry\_\-@{empty\_\-entry\_\-}}
+\index{empty\_\-entry\_\-@{empty\_\-entry\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{empty\_\-entry\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ const {\bf Leaf} {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf empty\_\-entry\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a1d1bc15084515db8f2cb0d792929214f}
+
+
+Definition at line 43 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a6cbe7e08011b4a51fb42828709702e66}{
+\index{mocha::HashTable@{mocha::HashTable}!fixed\_\-@{fixed\_\-}}
+\index{fixed\_\-@{fixed\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{fixed\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf TopFixedBlock}$\ast$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf fixed\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a6cbe7e08011b4a51fb42828709702e66}
+
+
+Definition at line 44 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a954f7023e83b9b52affc3655c67a450c}{
+\index{mocha::HashTable@{mocha::HashTable}!head\_\-@{head\_\-}}
+\index{head\_\-@{head\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{head\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Node}$\ast$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf head\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a954f7023e83b9b52affc3655c67a450c}
+
+
+Definition at line 45 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_ae089c8e0a1e230fcd07895124e9af72a}{
+\index{mocha::HashTable@{mocha::HashTable}!lower\_\-2bit@{lower\_\-2bit}}
+\index{lower\_\-2bit@{lower\_\-2bit}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{lower\_\-2bit}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ const {\bf Hash\_\-t} {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf lower\_\-2bit} = 0x0000000000000003ULL\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_ae089c8e0a1e230fcd07895124e9af72a}
+
+
+Definition at line 48 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a33bcad6d78ecde63a8c9a7aeb60dc90f}{
+\index{mocha::HashTable@{mocha::HashTable}!lower\_\-5bit@{lower\_\-5bit}}
+\index{lower\_\-5bit@{lower\_\-5bit}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{lower\_\-5bit}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ const {\bf Hash\_\-t} {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf lower\_\-5bit} = 0x000000000000001FULL\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a33bcad6d78ecde63a8c9a7aeb60dc90f}
+
+
+Definition at line 47 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_ae452418e6b4593739a896b9de14e200f}{
+\index{mocha::HashTable@{mocha::HashTable}!shift\_\-constatnt2@{shift\_\-constatnt2}}
+\index{shift\_\-constatnt2@{shift\_\-constatnt2}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{shift\_\-constatnt2}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ const {\bf Hash\_\-t} {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf shift\_\-constatnt2} = 2\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_ae452418e6b4593739a896b9de14e200f}
+
+
+Definition at line 49 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a0c9f14cc6a29009848ff5e22ff5c77ae}{
+\index{mocha::HashTable@{mocha::HashTable}!shift\_\-constatnt5@{shift\_\-constatnt5}}
+\index{shift\_\-constatnt5@{shift\_\-constatnt5}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{shift\_\-constatnt5}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ const {\bf Hash\_\-t} {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf shift\_\-constatnt5} = 5\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a0c9f14cc6a29009848ff5e22ff5c77ae}
+
+
+Definition at line 50 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_acfaea92a2c538b293ef7211b1018ef8e}{
+\index{mocha::HashTable@{mocha::HashTable}!size\_\-@{size\_\-}}
+\index{size\_\-@{size\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ int {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_acfaea92a2c538b293ef7211b1018ef8e}
+
+
+Definition at line 42 of file hash\_\-table.h.
+
+\hypertarget{classmocha_1_1_hash_table_a2a2427ab0f6c9e70b381e9915d3e64ef}{
+\index{mocha::HashTable@{mocha::HashTable}!tail\_\-@{tail\_\-}}
+\index{tail\_\-@{tail\_\-}!mocha::HashTable@{mocha::HashTable}}
+\subsubsection[{tail\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Node}$\ast$ {\bf mocha::HashTable}$<$ Key\_\-t, Value\_\-t $>$::{\bf tail\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_table_a2a2427ab0f6c9e70b381e9915d3e64ef}
+
+
+Definition at line 46 of file hash\_\-table.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/hash/\hyperlink{hash__table_8h}{hash\_\-table.h}\item 
+Y:/mocha/src/utils/hash/\hyperlink{hash__table-impl_8h}{hash\_\-table-\/impl.h}\end{DoxyCompactItemize}

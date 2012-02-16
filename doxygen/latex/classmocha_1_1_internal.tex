@@ -1,0 +1,324 @@
+\hypertarget{classmocha_1_1_internal}{
+\section{mocha::Internal Class Reference}
+\label{classmocha_1_1_internal}\index{mocha::Internal@{mocha::Internal}}
+}
+
+
+{\ttfamily \#include $<$internal.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9}{ErrorLevel} \{ \hyperlink{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9aed1aa64d26393f649c81a31a4df3e3f1}{kFatal}, 
+\hyperlink{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9af4ee95016bc3475b5e36686e7913cc4c}{kNofatal}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_internal_abc425250c2a39b6118764ba09a8cb766}{Internal} (const char $\ast$main\_\-file\_\-path, bool is\_\-runtime, \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_path_info}{PathInfo} $>$ path\_\-info, \hyperlink{classmocha_1_1_compiler}{Compiler} $\ast$compiler, \hyperlink{classmocha_1_1_scope}{Scope} $\ast$scope, \hyperlink{classmocha_1_1_codegen_visitor}{CodegenVisitor} $\ast$codegen, \hyperlink{classmocha_1_1_ast_root}{AstRoot} $\ast$ast\_\-root)
+\item 
+\hyperlink{classmocha_1_1_internal_a359b80aabe55b3c5274f6aa285847c64}{$\sim$Internal} ()
+\item 
+void \hyperlink{classmocha_1_1_internal_a4e41be482c9ff17b9abbaae0c3f19212}{Parse} (\hyperlink{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9}{ErrorLevel} level)
+\item 
+void \hyperlink{classmocha_1_1_internal_ac154a96f8dde1b4404c5e9bc9482b3dc}{GetAst} (\hyperlink{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9}{ErrorLevel} level, \hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$reporter)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_internal_a935af598d7d3988d6e2deb3ef4b9f371}{LoadFile\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_internal_afe4d564afd28de8cbf4c8ea1a035184c}{ParseStart\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_internal_a100899a751add395e56a52991462d30b}{OpenError\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_internal_a05c0e0b84386af93e8eb1e889f65fecb}{SyntaxError\_\-} (const \hyperlink{classmocha_1_1_parser_tracer}{ParserTracer} \&)
+\item 
+void \hyperlink{classmocha_1_1_internal_a4fd370840628cdc6fa30a41b458d48ef}{GetAst\_\-} (\hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$reporter)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_internal_a078269b0ed348d8581f3acdae618e394}{main\_\-file\_\-path\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_internal_a0e4225ddc86465d35cdef3dac4211df1}{is\_\-runtime\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_internal_aee7ebdb2e4620bc81cb165d6d966c369}{file\_\-exist\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_internal_ac701005cf899132836fe980a64715353}{error\_\-}
+\item 
+\hyperlink{classmocha_1_1_compiler}{Compiler} $\ast$ \hyperlink{classmocha_1_1_internal_ae20e32b51b17a60782e14bfbd5eddf93}{compiler\_\-}
+\item 
+\hyperlink{classmocha_1_1_scope}{Scope} $\ast$ \hyperlink{classmocha_1_1_internal_af9c954ecf5256edb08ab163ecf8bc967}{scope\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_root}{AstRoot} $\ast$ \hyperlink{classmocha_1_1_internal_a630d9b1bf103a3279a78d1ef7e26df2e}{ast\_\-root\_\-}
+\item 
+\hyperlink{classmocha_1_1_codegen_visitor}{CodegenVisitor} $\ast$ \hyperlink{classmocha_1_1_internal_acf64e190f1b015f35a55ba6c4be188d0}{codegen\_\-}
+\item 
+\hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_file}{File} $>$ \hyperlink{classmocha_1_1_internal_af70a5ac87611f52380bbe0e7da0c7d99}{file\_\-}
+\item 
+\hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_path_info}{PathInfo} $>$ \hyperlink{classmocha_1_1_internal_a3ad557772e8614820d6755ae0eb1aa77}{path\_\-info\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 21 of file internal.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9}{
+\index{mocha::Internal@{mocha::Internal}!ErrorLevel@{ErrorLevel}}
+\index{ErrorLevel@{ErrorLevel}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{ErrorLevel}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mocha::Internal::ErrorLevel}}}
+\label{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kFatal@{kFatal}!mocha::Internal@{mocha::Internal}}\index{mocha::Internal@{mocha::Internal}!kFatal@{kFatal}}\item[{\em 
+\hypertarget{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9aed1aa64d26393f649c81a31a4df3e3f1}{
+kFatal}
+\label{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9aed1aa64d26393f649c81a31a4df3e3f1}
+}]\index{kNofatal@{kNofatal}!mocha::Internal@{mocha::Internal}}\index{mocha::Internal@{mocha::Internal}!kNofatal@{kNofatal}}\item[{\em 
+\hypertarget{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9af4ee95016bc3475b5e36686e7913cc4c}{
+kNofatal}
+\label{classmocha_1_1_internal_afbba1f8f92938ca06cc3411b328995e9af4ee95016bc3475b5e36686e7913cc4c}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 23 of file internal.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_internal_abc425250c2a39b6118764ba09a8cb766}{
+\index{mocha::Internal@{mocha::Internal}!Internal@{Internal}}
+\index{Internal@{Internal}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{Internal}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Internal::Internal (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{main\_\-file\_\-path, }
+\item[{bool}]{is\_\-runtime, }
+\item[{{\bf Handle}$<$ {\bf PathInfo} $>$}]{path\_\-info, }
+\item[{{\bf Compiler} $\ast$}]{compiler, }
+\item[{{\bf Scope} $\ast$}]{scope, }
+\item[{{\bf CodegenVisitor} $\ast$}]{codegen, }
+\item[{{\bf AstRoot} $\ast$}]{ast\_\-root}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_internal_abc425250c2a39b6118764ba09a8cb766}
+
+
+Definition at line 29 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_a359b80aabe55b3c5274f6aa285847c64}{
+\index{mocha::Internal@{mocha::Internal}!$\sim$Internal@{$\sim$Internal}}
+\index{$\sim$Internal@{$\sim$Internal}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{$\sim$Internal}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Internal::$\sim$Internal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_internal_a359b80aabe55b3c5274f6aa285847c64}
+
+
+Definition at line 35 of file internal.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_internal_ac154a96f8dde1b4404c5e9bc9482b3dc}{
+\index{mocha::Internal@{mocha::Internal}!GetAst@{GetAst}}
+\index{GetAst@{GetAst}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{GetAst}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::GetAst (
+\begin{DoxyParamCaption}
+\item[{{\bf ErrorLevel}}]{level, }
+\item[{{\bf ErrorReporter} $\ast$}]{reporter}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_internal_ac154a96f8dde1b4404c5e9bc9482b3dc}
+
+
+Definition at line 63 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_a4fd370840628cdc6fa30a41b458d48ef}{
+\index{mocha::Internal@{mocha::Internal}!GetAst\_\-@{GetAst\_\-}}
+\index{GetAst\_\-@{GetAst\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{GetAst\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::GetAst\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ErrorReporter} $\ast$}]{reporter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_internal_a4fd370840628cdc6fa30a41b458d48ef}
+
+
+Definition at line 100 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_a935af598d7d3988d6e2deb3ef4b9f371}{
+\index{mocha::Internal@{mocha::Internal}!LoadFile\_\-@{LoadFile\_\-}}
+\index{LoadFile\_\-@{LoadFile\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{LoadFile\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::LoadFile\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_internal_a935af598d7d3988d6e2deb3ef4b9f371}
+
+
+Definition at line 80 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_a100899a751add395e56a52991462d30b}{
+\index{mocha::Internal@{mocha::Internal}!OpenError\_\-@{OpenError\_\-}}
+\index{OpenError\_\-@{OpenError\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{OpenError\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::OpenError\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_internal_a100899a751add395e56a52991462d30b}
+
+
+Definition at line 151 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_a4e41be482c9ff17b9abbaae0c3f19212}{
+\index{mocha::Internal@{mocha::Internal}!Parse@{Parse}}
+\index{Parse@{Parse}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{Parse}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::Parse (
+\begin{DoxyParamCaption}
+\item[{{\bf ErrorLevel}}]{level}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_internal_a4e41be482c9ff17b9abbaae0c3f19212}
+
+
+Definition at line 46 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_afe4d564afd28de8cbf4c8ea1a035184c}{
+\index{mocha::Internal@{mocha::Internal}!ParseStart\_\-@{ParseStart\_\-}}
+\index{ParseStart\_\-@{ParseStart\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{ParseStart\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::ParseStart\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_internal_afe4d564afd28de8cbf4c8ea1a035184c}
+
+
+Definition at line 124 of file internal.cc.
+
+\hypertarget{classmocha_1_1_internal_a05c0e0b84386af93e8eb1e889f65fecb}{
+\index{mocha::Internal@{mocha::Internal}!SyntaxError\_\-@{SyntaxError\_\-}}
+\index{SyntaxError\_\-@{SyntaxError\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{SyntaxError\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Internal::SyntaxError\_\- (
+\begin{DoxyParamCaption}
+\item[{const {\bf ParserTracer} \&}]{tracer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_internal_a05c0e0b84386af93e8eb1e889f65fecb}
+
+
+Definition at line 163 of file internal.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_internal_a630d9b1bf103a3279a78d1ef7e26df2e}{
+\index{mocha::Internal@{mocha::Internal}!ast\_\-root\_\-@{ast\_\-root\_\-}}
+\index{ast\_\-root\_\-@{ast\_\-root\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{ast\_\-root\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstRoot}$\ast$ {\bf mocha::Internal::ast\_\-root\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_a630d9b1bf103a3279a78d1ef7e26df2e}
+
+
+Definition at line 52 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_acf64e190f1b015f35a55ba6c4be188d0}{
+\index{mocha::Internal@{mocha::Internal}!codegen\_\-@{codegen\_\-}}
+\index{codegen\_\-@{codegen\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{codegen\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CodegenVisitor}$\ast$ {\bf mocha::Internal::codegen\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_acf64e190f1b015f35a55ba6c4be188d0}
+
+
+Definition at line 53 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_ae20e32b51b17a60782e14bfbd5eddf93}{
+\index{mocha::Internal@{mocha::Internal}!compiler\_\-@{compiler\_\-}}
+\index{compiler\_\-@{compiler\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{compiler\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Compiler}$\ast$ {\bf mocha::Internal::compiler\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_ae20e32b51b17a60782e14bfbd5eddf93}
+
+
+Definition at line 50 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_ac701005cf899132836fe980a64715353}{
+\index{mocha::Internal@{mocha::Internal}!error\_\-@{error\_\-}}
+\index{error\_\-@{error\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{error\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Internal::error\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_ac701005cf899132836fe980a64715353}
+
+
+Definition at line 49 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_af70a5ac87611f52380bbe0e7da0c7d99}{
+\index{mocha::Internal@{mocha::Internal}!file\_\-@{file\_\-}}
+\index{file\_\-@{file\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{file\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Handle}$<${\bf File}$>$ {\bf mocha::Internal::file\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_af70a5ac87611f52380bbe0e7da0c7d99}
+
+
+Definition at line 54 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_aee7ebdb2e4620bc81cb165d6d966c369}{
+\index{mocha::Internal@{mocha::Internal}!file\_\-exist\_\-@{file\_\-exist\_\-}}
+\index{file\_\-exist\_\-@{file\_\-exist\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{file\_\-exist\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::Internal::file\_\-exist\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_aee7ebdb2e4620bc81cb165d6d966c369}
+
+
+Definition at line 48 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_a0e4225ddc86465d35cdef3dac4211df1}{
+\index{mocha::Internal@{mocha::Internal}!is\_\-runtime\_\-@{is\_\-runtime\_\-}}
+\index{is\_\-runtime\_\-@{is\_\-runtime\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{is\_\-runtime\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::Internal::is\_\-runtime\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_a0e4225ddc86465d35cdef3dac4211df1}
+
+
+Definition at line 47 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_a078269b0ed348d8581f3acdae618e394}{
+\index{mocha::Internal@{mocha::Internal}!main\_\-file\_\-path\_\-@{main\_\-file\_\-path\_\-}}
+\index{main\_\-file\_\-path\_\-@{main\_\-file\_\-path\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{main\_\-file\_\-path\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf mocha::Internal::main\_\-file\_\-path\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_a078269b0ed348d8581f3acdae618e394}
+
+
+Definition at line 46 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_a3ad557772e8614820d6755ae0eb1aa77}{
+\index{mocha::Internal@{mocha::Internal}!path\_\-info\_\-@{path\_\-info\_\-}}
+\index{path\_\-info\_\-@{path\_\-info\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{path\_\-info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Handle}$<${\bf PathInfo}$>$ {\bf mocha::Internal::path\_\-info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_a3ad557772e8614820d6755ae0eb1aa77}
+
+
+Definition at line 55 of file internal.h.
+
+\hypertarget{classmocha_1_1_internal_af9c954ecf5256edb08ab163ecf8bc967}{
+\index{mocha::Internal@{mocha::Internal}!scope\_\-@{scope\_\-}}
+\index{scope\_\-@{scope\_\-}!mocha::Internal@{mocha::Internal}}
+\subsubsection[{scope\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scope}$\ast$ {\bf mocha::Internal::scope\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_internal_af9c954ecf5256edb08ab163ecf8bc967}
+
+
+Definition at line 51 of file internal.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/\hyperlink{internal_8h}{internal.h}\item 
+Y:/mocha/src/compiler/\hyperlink{internal_8cc}{internal.cc}\end{DoxyCompactItemize}

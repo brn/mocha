@@ -1,0 +1,487 @@
+\hypertarget{classmocha_1_1_handle}{
+\section{mocha::Handle$<$ T $>$ Class Template Reference}
+\label{classmocha_1_1_handle}\index{mocha::Handle@{mocha::Handle}}
+}
+
+
+{\ttfamily \#include $<$handle.h$>$}
+
+Inheritance diagram for mocha::Handle$<$ T $>$:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_handle}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_handle_a6b6fa11fae745cd62e5fa89583d468a2}{Handle} ()
+\begin{DoxyCompactList}\small\item\em No arguments constructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Class $>$ }\\\hyperlink{classmocha_1_1_handle_a51ad9790078e4d57a11c095947243110}{Handle} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Normal constructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Class , typename Deleter $>$ }\\\hyperlink{classmocha_1_1_handle_a307c83e0b57fa7185d305f7edac1ec1a}{Handle} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr, Deleter deleter)
+\begin{DoxyCompactList}\small\item\em Deleter constructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Class $>$ }\\\hyperlink{classmocha_1_1_handle_a7623048eb3ef9074a8748fd1cdc5887e}{Handle} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr, \hyperlink{classmocha_1_1_ptr_handle_base}{PtrHandleBase} $\ast$base)
+\item 
+\hyperlink{classmocha_1_1_handle_ad6a7059f0912996aa72b857960985380}{Handle} (const \hyperlink{classmocha_1_1_handle}{Handle} \&ref)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{classmocha_1_1_handle_aa717ea98a75b0bcb4209bd93eac8467a}{$\sim$Handle} ()
+\begin{DoxyCompactList}\small\item\em decrement counter. \end{DoxyCompactList}\item 
+bool \hyperlink{classmocha_1_1_handle_aebd20177e8cd12f3a7bb7dc6839c3158}{Contain} ()
+\item 
+{\footnotesize template$<$typename Class $>$ }\\void \hyperlink{classmocha_1_1_handle_a8b6ed8540590e1199729a891957e7506}{operator()} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Delay initialize. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Class , typename Deleter $>$ }\\void \hyperlink{classmocha_1_1_handle_a4fd3a6b1cf5323bdc232e00892e02bc4}{operator()} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr, Deleter deleter)
+\begin{DoxyCompactList}\small\item\em Delay initializer with deleter. \end{DoxyCompactList}\item 
+const \hyperlink{classmocha_1_1_handle}{Handle}$<$ T $>$ \& \hyperlink{classmocha_1_1_handle_ad728d4926f6f0c4a1953e1ba4aed4ef4}{operator=} (const \hyperlink{classmocha_1_1_handle}{Handle}$<$ T $>$ \&ref)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+\hyperlink{classmocha_1_1_handle_ab0f5eb08d7783139f6c6c17f2e1098d8}{PtrType} \hyperlink{classmocha_1_1_handle_a4c4c0d897044b930998696586e54ac39}{operator$\ast$} () const 
+\begin{DoxyCompactList}\small\item\em Dereference pointer. \end{DoxyCompactList}\item 
+const T $\ast$ \hyperlink{classmocha_1_1_handle_a25fba36a3db6ba5da853f87bcc3873b6}{Get} () const 
+\begin{DoxyCompactList}\small\item\em Get raw pointer. \end{DoxyCompactList}\item 
+T $\ast$ \hyperlink{classmocha_1_1_handle_a5e2114880e952d0e9a5548c11d296c00}{Get} ()
+\begin{DoxyCompactList}\small\item\em Get raw pointer. \end{DoxyCompactList}\item 
+const T $\ast$ \hyperlink{classmocha_1_1_handle_aac0744f4944f8a11cf95b1c716fd4331}{operator-\/$>$} () const 
+\begin{DoxyCompactList}\small\item\em Memeber operator. \end{DoxyCompactList}\item 
+T $\ast$ \hyperlink{classmocha_1_1_handle_a88015a5bd81ae54dc00101bb1c0315bb}{operator-\/$>$} ()
+\begin{DoxyCompactList}\small\item\em Memeber operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classmocha_1_1_handle_ad2334723661470505174f44cc538703e}{operator==} (T $\ast$target) const 
+\item 
+bool \hyperlink{classmocha_1_1_handle_a5d92489789f7e263f72f116988fa01cb}{operator!=} (T $\ast$target) const 
+\item 
+\hyperlink{classmocha_1_1_handle_a5ba0823555ec6bcf30d4a0f6a2c17660}{operator bool} () const 
+\item 
+{\footnotesize template$<$typename Class $>$ }\\\hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_class}{Class} $>$ \hyperlink{classmocha_1_1_handle_a1c82610a38aebfe993439109f8b98d9f}{CastTo} ()
+\item 
+T \hyperlink{classmocha_1_1_handle_a9515324f6fe120df8291a721ddd05cca}{operator\mbox{[}$\,$\mbox{]}} (int num)
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structmocha_1_1_ptr_traits}{PtrTraits}$<$ T $>$::types \hyperlink{classmocha_1_1_handle_ab0f5eb08d7783139f6c6c17f2e1098d8}{PtrType}
+\begin{DoxyCompactList}\small\item\em Return type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_handle_a9580000fd5a7b1bda7868e7d060bff94}{CheckInit\_\-} (const char $\ast$message) const 
+\item 
+void \hyperlink{classmocha_1_1_handle_a90b2f483d04cb525a16380a0e301b8cf}{CheckInit\_\-} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{classmocha_1_1_handle_a58e82f1bbee46886fee9b433ecbae776}{ptr\_\-}
+\begin{DoxyCompactList}\small\item\em This class not has the property of pointer. \end{DoxyCompactList}\item 
+\hyperlink{classmocha_1_1_ref_count_base}{RefCountBase} $\ast$ \hyperlink{classmocha_1_1_handle_a97ddcc3a71592fcd487ef19f837e6b62}{rc\_\-}
+\begin{DoxyCompactList}\small\item\em Manage counter and pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class mocha::Handle$<$ T $>$}
+
+
+
+Definition at line 27 of file handle.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_handle_ab0f5eb08d7783139f6c6c17f2e1098d8}{
+\index{mocha::Handle@{mocha::Handle}!PtrType@{PtrType}}
+\index{PtrType@{PtrType}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{PtrType}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ typedef {\bf PtrTraits}$<$T$>$::types {\bf mocha::Handle}$<$ T $>$::{\bf PtrType}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_handle_ab0f5eb08d7783139f6c6c17f2e1098d8}
+
+
+Return type. 
+
+
+
+Definition at line 35 of file handle.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_handle_a6b6fa11fae745cd62e5fa89583d468a2}{
+\index{mocha::Handle@{mocha::Handle}!Handle@{Handle}}
+\index{Handle@{Handle}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Handle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::Handle}$<$ T $>$::{\bf Handle} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a6b6fa11fae745cd62e5fa89583d468a2}
+
+
+No arguments constructor. 
+
+
+
+Definition at line 7 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a51ad9790078e4d57a11c095947243110}{
+\index{mocha::Handle@{mocha::Handle}!Handle@{Handle}}
+\index{Handle@{Handle}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Handle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ {\bf mocha::Handle}$<$ T $>$::{\bf Handle} (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, explicit\mbox{]}}}}
+\label{classmocha_1_1_handle_a51ad9790078e4d57a11c095947243110}
+
+
+Normal constructor. 
+
+
+
+Definition at line 11 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a307c83e0b57fa7185d305f7edac1ec1a}{
+\index{mocha::Handle@{mocha::Handle}!Handle@{Handle}}
+\index{Handle@{Handle}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Handle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class , typename Deleter $>$ {\bf mocha::Handle}$<$ T $>$::{\bf Handle} (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr, }
+\item[{Deleter}]{deleter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a307c83e0b57fa7185d305f7edac1ec1a}
+
+
+Deleter constructor. 
+
+
+
+Definition at line 15 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a7623048eb3ef9074a8748fd1cdc5887e}{
+\index{mocha::Handle@{mocha::Handle}!Handle@{Handle}}
+\index{Handle@{Handle}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Handle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ {\bf mocha::Handle}$<$ T $>$::{\bf Handle} (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr, }
+\item[{{\bf PtrHandleBase} $\ast$}]{base}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a7623048eb3ef9074a8748fd1cdc5887e}
+
+
+Definition at line 20 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_ad6a7059f0912996aa72b857960985380}{
+\index{mocha::Handle@{mocha::Handle}!Handle@{Handle}}
+\index{Handle@{Handle}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Handle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::Handle}$<$ T $>$::{\bf Handle} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Handle}$<$ T $>$ \&}]{ref}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_ad6a7059f0912996aa72b857960985380}
+
+
+Copy constructor. 
+
+
+
+Definition at line 24 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_aa717ea98a75b0bcb4209bd93eac8467a}{
+\index{mocha::Handle@{mocha::Handle}!$\sim$Handle@{$\sim$Handle}}
+\index{$\sim$Handle@{$\sim$Handle}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{$\sim$Handle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::Handle}$<$ T $>$::$\sim${\bf Handle} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_aa717ea98a75b0bcb4209bd93eac8467a}
+
+
+decrement counter. 
+
+
+
+Definition at line 32 of file handle-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_handle_a1c82610a38aebfe993439109f8b98d9f}{
+\index{mocha::Handle@{mocha::Handle}!CastTo@{CastTo}}
+\index{CastTo@{CastTo}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{CastTo}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ {\bf Handle}$<$ {\bf Class} $>$ {\bf mocha::Handle}$<$ T $>$::CastTo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a1c82610a38aebfe993439109f8b98d9f}
+
+
+Definition at line 128 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a90b2f483d04cb525a16380a0e301b8cf}{
+\index{mocha::Handle@{mocha::Handle}!CheckInit\_\-@{CheckInit\_\-}}
+\index{CheckInit\_\-@{CheckInit\_\-}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{CheckInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void {\bf mocha::Handle}$<$ T $>$::CheckInit\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_handle_a90b2f483d04cb525a16380a0e301b8cf}
+
+
+Definition at line 148 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a9580000fd5a7b1bda7868e7d060bff94}{
+\index{mocha::Handle@{mocha::Handle}!CheckInit\_\-@{CheckInit\_\-}}
+\index{CheckInit\_\-@{CheckInit\_\-}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{CheckInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void {\bf mocha::Handle}$<$ T $>$::CheckInit\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_handle_a9580000fd5a7b1bda7868e7d060bff94}
+
+
+Definition at line 140 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_aebd20177e8cd12f3a7bb7dc6839c3158}{
+\index{mocha::Handle@{mocha::Handle}!Contain@{Contain}}
+\index{Contain@{Contain}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Contain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ bool {\bf mocha::Handle}$<$ T $>$::Contain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_aebd20177e8cd12f3a7bb7dc6839c3158}
+
+
+Definition at line 39 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a25fba36a3db6ba5da853f87bcc3873b6}{
+\index{mocha::Handle@{mocha::Handle}!Get@{Get}}
+\index{Get@{Get}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Get}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ const T $\ast$ {\bf mocha::Handle}$<$ T $>$::Get (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a25fba36a3db6ba5da853f87bcc3873b6}
+
+
+Get raw pointer. 
+
+
+
+Definition at line 82 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a5e2114880e952d0e9a5548c11d296c00}{
+\index{mocha::Handle@{mocha::Handle}!Get@{Get}}
+\index{Get@{Get}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{Get}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T $\ast$ {\bf mocha::Handle}$<$ T $>$::Get (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a5e2114880e952d0e9a5548c11d296c00}
+
+
+Get raw pointer. 
+
+
+
+Definition at line 89 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a5ba0823555ec6bcf30d4a0f6a2c17660}{
+\index{mocha::Handle@{mocha::Handle}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator bool}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::Handle}$<$ T $>$::operator bool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a5ba0823555ec6bcf30d4a0f6a2c17660}
+
+
+Definition at line 121 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a5d92489789f7e263f72f116988fa01cb}{
+\index{mocha::Handle@{mocha::Handle}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ bool {\bf mocha::Handle}$<$ T $>$::operator!= (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{target}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a5d92489789f7e263f72f116988fa01cb}
+
+
+Definition at line 115 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a8b6ed8540590e1199729a891957e7506}{
+\index{mocha::Handle@{mocha::Handle}!operator()@{operator()}}
+\index{operator()@{operator()}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ void {\bf mocha::Handle}$<$ T $>$::operator() (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a8b6ed8540590e1199729a891957e7506}
+
+
+Delay initialize. 
+
+
+
+Reimplemented in \hyperlink{classmocha_1_1_array_handle_ad4a9cf2bce28823184e6d0e07e9f57b4}{mocha::ArrayHandle$<$ T $>$}, \hyperlink{classmocha_1_1_allocator_handle_a17373eff1ea33be27713d9a3fa06ce0d}{mocha::AllocatorHandle$<$ T $>$}, and \hyperlink{classmocha_1_1_array_handle_ad4a9cf2bce28823184e6d0e07e9f57b4}{mocha::ArrayHandle$<$ const char $>$}.
+
+
+
+Definition at line 45 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a4fd3a6b1cf5323bdc232e00892e02bc4}{
+\index{mocha::Handle@{mocha::Handle}!operator()@{operator()}}
+\index{operator()@{operator()}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class , typename Deleter $>$ void {\bf mocha::Handle}$<$ T $>$::operator() (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr, }
+\item[{Deleter}]{deleter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a4fd3a6b1cf5323bdc232e00892e02bc4}
+
+
+Delay initializer with deleter. 
+
+
+
+Definition at line 53 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a4c4c0d897044b930998696586e54ac39}{
+\index{mocha::Handle@{mocha::Handle}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf Handle}$<$ T $>$::{\bf PtrType} {\bf mocha::Handle}$<$ T $>$::operator$\ast$ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a4c4c0d897044b930998696586e54ac39}
+
+
+Dereference pointer. 
+
+
+
+Definition at line 75 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a88015a5bd81ae54dc00101bb1c0315bb}{
+\index{mocha::Handle@{mocha::Handle}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator-\/$>$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T $\ast$ {\bf mocha::Handle}$<$ T $>$::operator-\/$>$ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a88015a5bd81ae54dc00101bb1c0315bb}
+
+
+Memeber operator. 
+
+
+
+Definition at line 102 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_aac0744f4944f8a11cf95b1c716fd4331}{
+\index{mocha::Handle@{mocha::Handle}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator-\/$>$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ const T $\ast$ {\bf mocha::Handle}$<$ T $>$::operator-\/$>$ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_aac0744f4944f8a11cf95b1c716fd4331}
+
+
+Memeber operator. 
+
+
+
+Definition at line 96 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_ad728d4926f6f0c4a1953e1ba4aed4ef4}{
+\index{mocha::Handle@{mocha::Handle}!operator=@{operator=}}
+\index{operator=@{operator=}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ const {\bf Handle}$<$ T $>$ \& {\bf mocha::Handle}$<$ T $>$::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Handle}$<$ T $>$ \&}]{ref}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_ad728d4926f6f0c4a1953e1ba4aed4ef4}
+
+
+Assignment operator. 
+
+Decrement counter and increment counter of copy. 
+
+Definition at line 60 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_ad2334723661470505174f44cc538703e}{
+\index{mocha::Handle@{mocha::Handle}!operator==@{operator==}}
+\index{operator==@{operator==}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ bool {\bf mocha::Handle}$<$ T $>$::operator== (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{target}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_ad2334723661470505174f44cc538703e}
+
+
+Definition at line 109 of file handle-\/impl.h.
+
+\hypertarget{classmocha_1_1_handle_a9515324f6fe120df8291a721ddd05cca}{
+\index{mocha::Handle@{mocha::Handle}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T {\bf mocha::Handle}$<$ T $>$::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{num}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_handle_a9515324f6fe120df8291a721ddd05cca}
+
+
+Definition at line 134 of file handle-\/impl.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_handle_a58e82f1bbee46886fee9b433ecbae776}{
+\index{mocha::Handle@{mocha::Handle}!ptr\_\-@{ptr\_\-}}
+\index{ptr\_\-@{ptr\_\-}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{ptr\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T$\ast$ {\bf mocha::Handle}$<$ T $>$::{\bf ptr\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_handle_a58e82f1bbee46886fee9b433ecbae776}
+
+
+This class not has the property of pointer. 
+
+This pointer is used only reference. 
+
+Definition at line 151 of file handle.h.
+
+\hypertarget{classmocha_1_1_handle_a97ddcc3a71592fcd487ef19f837e6b62}{
+\index{mocha::Handle@{mocha::Handle}!rc\_\-@{rc\_\-}}
+\index{rc\_\-@{rc\_\-}!mocha::Handle@{mocha::Handle}}
+\subsubsection[{rc\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf RefCountBase}$\ast$ {\bf mocha::Handle}$<$ T $>$::{\bf rc\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_handle_a97ddcc3a71592fcd487ef19f837e6b62}
+
+
+Manage counter and pointer. 
+
+
+
+Definition at line 157 of file handle.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/smart\_\-pointer/ref\_\-count/\hyperlink{handle_8h}{handle.h}\item 
+Y:/mocha/src/utils/smart\_\-pointer/ref\_\-count/\hyperlink{handle-impl_8h}{handle-\/impl.h}\end{DoxyCompactItemize}

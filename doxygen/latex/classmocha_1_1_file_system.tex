@@ -1,0 +1,208 @@
+\hypertarget{classmocha_1_1_file_system}{
+\section{mocha::FileSystem Class Reference}
+\label{classmocha_1_1_file_system}\index{mocha::FileSystem@{mocha::FileSystem}}
+}
+
+
+{\ttfamily \#include $<$file\_\-system.h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_array_handle}{StrHandle} \hyperlink{classmocha_1_1_file_system_afdc88698fd2bfd0b3dc97de20c06cf48}{pwd} ()
+\item 
+static \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_path_info}{PathInfo} $>$ \hyperlink{classmocha_1_1_file_system_ab56ef869ef3f7eab8768c1bc95869c81}{GetPathInfo} (const char $\ast$path)
+\item 
+static \hyperlink{classmocha_1_1_array_handle}{StrHandle} \hyperlink{classmocha_1_1_file_system_aa8e0d580f05cc70418dd87b93106d619}{NormalizePath} (const char $\ast$path)
+\item 
+static void \hyperlink{classmocha_1_1_file_system_a23801304e4ec18fddf88b6b6688c0a28}{Chdir} (const char $\ast$path)
+\item 
+static bool \hyperlink{classmocha_1_1_file_system_aa39867ad9a341dc0c7bd3636203d6e34}{Chmod} (const char $\ast$pass, int permiss)
+\item 
+static \hyperlink{classmocha_1_1_array_handle}{StrHandle} \hyperlink{classmocha_1_1_file_system_a65191296d1bb00548a66cf5ba7426594}{GetModuleKey} (const char $\ast$base, const char $\ast$)
+\item 
+static void \hyperlink{classmocha_1_1_file_system_af69da9f81d9effd19ceb8736d8450bd7}{SetModuleDir} (const char $\ast$path)
+\item 
+static const char $\ast$ \hyperlink{classmocha_1_1_file_system_aadad83aa0066e57ea4fa785b10026bc3}{GetModuleDir} ()
+\item 
+static \hyperlink{classmocha_1_1_array_handle}{StrHandle} \hyperlink{classmocha_1_1_file_system_a0dff04800995e60c7ea2bc5428c0288d}{GetUserHomeDir} ()
+\item 
+static \hyperlink{classmocha_1_1_array_handle}{StrHandle} \hyperlink{classmocha_1_1_file_system_ad09942b93a267933166cdadba349397f}{GetAbsolutePath} (const char $\ast$path)
+\item 
+static bool \hyperlink{classmocha_1_1_file_system_a0c202c7a85c8827f4ffac7bff746c7a8}{Mkdir} (const char $\ast$path, int permiss)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std::string \hyperlink{classmocha_1_1_file_system_a387837ad143996593d7a66284ab8153a}{module\_\-dir\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 24 of file file\_\-system.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_file_system_a23801304e4ec18fddf88b6b6688c0a28}{
+\index{mocha::FileSystem@{mocha::FileSystem}!Chdir@{Chdir}}
+\index{Chdir@{Chdir}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{Chdir}]{\setlength{\rightskip}{0pt plus 5cm}void FileSystem::Chdir (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_a23801304e4ec18fddf88b6b6688c0a28}
+
+
+Definition at line 235 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_aa39867ad9a341dc0c7bd3636203d6e34}{
+\index{mocha::FileSystem@{mocha::FileSystem}!Chmod@{Chmod}}
+\index{Chmod@{Chmod}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{Chmod}]{\setlength{\rightskip}{0pt plus 5cm}bool FileSystem::Chmod (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{pass, }
+\item[{int}]{permiss}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_aa39867ad9a341dc0c7bd3636203d6e34}
+
+
+Definition at line 249 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_ad09942b93a267933166cdadba349397f}{
+\index{mocha::FileSystem@{mocha::FileSystem}!GetAbsolutePath@{GetAbsolutePath}}
+\index{GetAbsolutePath@{GetAbsolutePath}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{GetAbsolutePath}]{\setlength{\rightskip}{0pt plus 5cm}{\bf StrHandle} FileSystem::GetAbsolutePath (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_ad09942b93a267933166cdadba349397f}
+
+
+Definition at line 159 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_aadad83aa0066e57ea4fa785b10026bc3}{
+\index{mocha::FileSystem@{mocha::FileSystem}!GetModuleDir@{GetModuleDir}}
+\index{GetModuleDir@{GetModuleDir}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{GetModuleDir}]{\setlength{\rightskip}{0pt plus 5cm}static const char$\ast$ mocha::FileSystem::GetModuleDir (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}
+\label{classmocha_1_1_file_system_aadad83aa0066e57ea4fa785b10026bc3}
+
+
+Definition at line 33 of file file\_\-system.h.
+
+\hypertarget{classmocha_1_1_file_system_a65191296d1bb00548a66cf5ba7426594}{
+\index{mocha::FileSystem@{mocha::FileSystem}!GetModuleKey@{GetModuleKey}}
+\index{GetModuleKey@{GetModuleKey}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{GetModuleKey}]{\setlength{\rightskip}{0pt plus 5cm}{\bf StrHandle} FileSystem::GetModuleKey (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{base, }
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_a65191296d1bb00548a66cf5ba7426594}
+
+
+Definition at line 194 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_ab56ef869ef3f7eab8768c1bc95869c81}{
+\index{mocha::FileSystem@{mocha::FileSystem}!GetPathInfo@{GetPathInfo}}
+\index{GetPathInfo@{GetPathInfo}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{GetPathInfo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Handle}$<$ {\bf PathInfo} $>$ FileSystem::GetPathInfo (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_ab56ef869ef3f7eab8768c1bc95869c81}
+
+
+Definition at line 85 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_a0dff04800995e60c7ea2bc5428c0288d}{
+\index{mocha::FileSystem@{mocha::FileSystem}!GetUserHomeDir@{GetUserHomeDir}}
+\index{GetUserHomeDir@{GetUserHomeDir}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{GetUserHomeDir}]{\setlength{\rightskip}{0pt plus 5cm}{\bf StrHandle} FileSystem::GetUserHomeDir (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_a0dff04800995e60c7ea2bc5428c0288d}
+
+
+Definition at line 146 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_a0c202c7a85c8827f4ffac7bff746c7a8}{
+\index{mocha::FileSystem@{mocha::FileSystem}!Mkdir@{Mkdir}}
+\index{Mkdir@{Mkdir}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{Mkdir}]{\setlength{\rightskip}{0pt plus 5cm}bool FileSystem::Mkdir (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{int}]{permiss}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_a0c202c7a85c8827f4ffac7bff746c7a8}
+
+
+Definition at line 245 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_aa8e0d580f05cc70418dd87b93106d619}{
+\index{mocha::FileSystem@{mocha::FileSystem}!NormalizePath@{NormalizePath}}
+\index{NormalizePath@{NormalizePath}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{NormalizePath}]{\setlength{\rightskip}{0pt plus 5cm}{\bf StrHandle} FileSystem::NormalizePath (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_aa8e0d580f05cc70418dd87b93106d619}
+
+
+Definition at line 92 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_afdc88698fd2bfd0b3dc97de20c06cf48}{
+\index{mocha::FileSystem@{mocha::FileSystem}!pwd@{pwd}}
+\index{pwd@{pwd}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{pwd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf StrHandle} FileSystem::pwd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_afdc88698fd2bfd0b3dc97de20c06cf48}
+
+
+Definition at line 81 of file file\_\-system.cc.
+
+\hypertarget{classmocha_1_1_file_system_af69da9f81d9effd19ceb8736d8450bd7}{
+\index{mocha::FileSystem@{mocha::FileSystem}!SetModuleDir@{SetModuleDir}}
+\index{SetModuleDir@{SetModuleDir}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{SetModuleDir}]{\setlength{\rightskip}{0pt plus 5cm}static void mocha::FileSystem::SetModuleDir (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_file_system_af69da9f81d9effd19ceb8736d8450bd7}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_file_system_a387837ad143996593d7a66284ab8153a}{
+\index{mocha::FileSystem@{mocha::FileSystem}!module\_\-dir\_\-@{module\_\-dir\_\-}}
+\index{module\_\-dir\_\-@{module\_\-dir\_\-}!mocha::FileSystem@{mocha::FileSystem}}
+\subsubsection[{module\_\-dir\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::FileSystem::module\_\-dir\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_file_system_a387837ad143996593d7a66284ab8153a}
+
+
+Definition at line 38 of file file\_\-system.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-system/\hyperlink{file__system_8h}{file\_\-system.h}\item 
+Y:/mocha/src/utils/file\_\-system/\hyperlink{file__system_8cc}{file\_\-system.cc}\end{DoxyCompactItemize}

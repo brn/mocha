@@ -1,0 +1,218 @@
+\hypertarget{classmocha_1_1_parser_connector}{
+\section{mocha::ParserConnector Class Reference}
+\label{classmocha_1_1_parser_connector}\index{mocha::ParserConnector@{mocha::ParserConnector}}
+}
+
+
+{\ttfamily \#include $<$parser\_\-connector.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_parser_connector_a82a8adf72d5a6601948b665c422f30b1}{ParserConnector} (\hyperlink{classmocha_1_1_compiler}{Compiler} $\ast$compiler, \hyperlink{classmocha_1_1_ast_root}{AstRoot} $\ast$ast\_\-root, \hyperlink{classmocha_1_1_scanner}{Scanner} $\ast$scanner, \hyperlink{classmocha_1_1_source_stream}{SourceStream} $\ast$stream, \hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$reporter)
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+void \hyperlink{classmocha_1_1_parser_connector_a52fc22f0ebcf29e26681099332ebbd73}{Initialize} ()
+\item 
+\hyperlink{classmocha_1_1_parser_connector_afbd4eaeb7af0f594af0f2b6f16e3756c}{$\sim$ParserConnector} ()
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a11ebf98086caa4e95b9b4a0928f0123a}{Advance} (int len=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_parser_connector_ac86fac993524ff4e5620020514a345a7}{Undo} (int len=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a4fed43adca80272da37a38d2bb5c4e96}{Seek} (int len=1)
+\item 
+\hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a04d9dd149ed5c9aff55ec100b1bd6779}{GetError} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_compiler}{Compiler} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a5fdce7fe52d58940446cb4b3c6cb9d47}{compiler\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_root}{AstRoot} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a5b4c22ce26cf9e393bc8ff8632b61cb7}{ast\_\-root\_\-}
+\item 
+\hyperlink{classmocha_1_1_scanner}{Scanner} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a5927a8f3e5eb29338c8d1383567f421a}{scanner\_\-}
+\item 
+\hyperlink{classmocha_1_1_source_stream}{SourceStream} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a23cf641fda330704baab22e6c9208db8}{stream\_\-}
+\item 
+\hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$ \hyperlink{classmocha_1_1_parser_connector_a51939c1f93bc2a8e712ebce930813842}{reporter\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 43 of file parser\_\-connector.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_parser_connector_a82a8adf72d5a6601948b665c422f30b1}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!ParserConnector@{ParserConnector}}
+\index{ParserConnector@{ParserConnector}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{ParserConnector}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ParserConnector::ParserConnector (
+\begin{DoxyParamCaption}
+\item[{{\bf Compiler} $\ast$}]{compiler, }
+\item[{{\bf AstRoot} $\ast$}]{ast\_\-root, }
+\item[{{\bf Scanner} $\ast$}]{scanner, }
+\item[{{\bf SourceStream} $\ast$}]{stream, }
+\item[{{\bf ErrorReporter} $\ast$}]{reporter}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_a82a8adf72d5a6601948b665c422f30b1}
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em \{Compiler$\ast$\}} & compiler -\/$>$ \hyperlink{classmocha_1_1_compiler}{Compiler} instance. \\
+\hline
+{\em \{Scanner$\ast$\}} & scanner -\/$>$ \hyperlink{classmocha_1_1_scanner}{Scanner} instance. \\
+\hline
+{\em \{ParserTracer$\ast$\}} & tracer -\/$>$ \hyperlink{classmocha_1_1_parser_tracer}{ParserTracer} instance. \\
+\hline
+{\em \{AstRoot$\ast$\}} & ast\_\-root -\/$>$ \hyperlink{classmocha_1_1_ast_root}{AstRoot} instance. \\
+\hline
+{\em \{Scope$\ast$\}} & scope -\/$>$ \hyperlink{classmocha_1_1_scope}{Scope} instance. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 33 of file parser\_\-connector.cc.
+
+\hypertarget{classmocha_1_1_parser_connector_afbd4eaeb7af0f594af0f2b6f16e3756c}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!$\sim$ParserConnector@{$\sim$ParserConnector}}
+\index{$\sim$ParserConnector@{$\sim$ParserConnector}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{$\sim$ParserConnector}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ParserConnector::$\sim$ParserConnector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_afbd4eaeb7af0f594af0f2b6f16e3756c}
+
+
+Definition at line 40 of file parser\_\-connector.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_parser_connector_a11ebf98086caa4e95b9b4a0928f0123a}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!Advance@{Advance}}
+\index{Advance@{Advance}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{Advance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::ParserConnector::Advance (
+\begin{DoxyParamCaption}
+\item[{int}]{len = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_a11ebf98086caa4e95b9b4a0928f0123a}
+
+\begin{DoxyParams}{Parameters}
+{\em \{void$\ast$\}} & yylval -\/$>$ Type erasured args. real type is ParserImplementation::semantic\_\-type$\ast$ Run mocha::Scanner::GetToken(). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 43 of file parser\_\-connector.cc.
+
+\hypertarget{classmocha_1_1_parser_connector_a04d9dd149ed5c9aff55ec100b1bd6779}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!GetError@{GetError}}
+\index{GetError@{GetError}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{GetError}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ErrorReporter} $\ast$ mocha::ParserConnector::GetError (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_a04d9dd149ed5c9aff55ec100b1bd6779}
+
+
+Definition at line 55 of file parser\_\-connector.cc.
+
+\hypertarget{classmocha_1_1_parser_connector_a52fc22f0ebcf29e26681099332ebbd73}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{Initialize}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserConnector::Initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_a52fc22f0ebcf29e26681099332ebbd73}
+\hypertarget{classmocha_1_1_parser_connector_a4fed43adca80272da37a38d2bb5c4e96}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!Seek@{Seek}}
+\index{Seek@{Seek}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{Seek}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::ParserConnector::Seek (
+\begin{DoxyParamCaption}
+\item[{int}]{len = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_a4fed43adca80272da37a38d2bb5c4e96}
+
+
+Definition at line 51 of file parser\_\-connector.cc.
+
+\hypertarget{classmocha_1_1_parser_connector_ac86fac993524ff4e5620020514a345a7}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!Undo@{Undo}}
+\index{Undo@{Undo}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{Undo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::ParserConnector::Undo (
+\begin{DoxyParamCaption}
+\item[{int}]{len = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_connector_ac86fac993524ff4e5620020514a345a7}
+
+
+Definition at line 47 of file parser\_\-connector.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_parser_connector_a5b4c22ce26cf9e393bc8ff8632b61cb7}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!ast\_\-root\_\-@{ast\_\-root\_\-}}
+\index{ast\_\-root\_\-@{ast\_\-root\_\-}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{ast\_\-root\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstRoot}$\ast$ {\bf mocha::ParserConnector::ast\_\-root\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_connector_a5b4c22ce26cf9e393bc8ff8632b61cb7}
+
+
+Definition at line 78 of file parser\_\-connector.h.
+
+\hypertarget{classmocha_1_1_parser_connector_a5fdce7fe52d58940446cb4b3c6cb9d47}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!compiler\_\-@{compiler\_\-}}
+\index{compiler\_\-@{compiler\_\-}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{compiler\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Compiler}$\ast$ {\bf mocha::ParserConnector::compiler\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_connector_a5fdce7fe52d58940446cb4b3c6cb9d47}
+
+
+Definition at line 77 of file parser\_\-connector.h.
+
+\hypertarget{classmocha_1_1_parser_connector_a51939c1f93bc2a8e712ebce930813842}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!reporter\_\-@{reporter\_\-}}
+\index{reporter\_\-@{reporter\_\-}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{reporter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ErrorReporter}$\ast$ {\bf mocha::ParserConnector::reporter\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_connector_a51939c1f93bc2a8e712ebce930813842}
+
+
+Definition at line 81 of file parser\_\-connector.h.
+
+\hypertarget{classmocha_1_1_parser_connector_a5927a8f3e5eb29338c8d1383567f421a}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!scanner\_\-@{scanner\_\-}}
+\index{scanner\_\-@{scanner\_\-}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{scanner\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scanner}$\ast$ {\bf mocha::ParserConnector::scanner\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_connector_a5927a8f3e5eb29338c8d1383567f421a}
+
+
+Definition at line 79 of file parser\_\-connector.h.
+
+\hypertarget{classmocha_1_1_parser_connector_a23cf641fda330704baab22e6c9208db8}{
+\index{mocha::ParserConnector@{mocha::ParserConnector}!stream\_\-@{stream\_\-}}
+\index{stream\_\-@{stream\_\-}!mocha::ParserConnector@{mocha::ParserConnector}}
+\subsubsection[{stream\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SourceStream}$\ast$ {\bf mocha::ParserConnector::stream\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_connector_a23cf641fda330704baab22e6c9208db8}
+
+
+Definition at line 80 of file parser\_\-connector.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/binding/\hyperlink{parser__connector_8h}{parser\_\-connector.h}\item 
+Y:/mocha/src/compiler/binding/\hyperlink{parser__connector_8cc}{parser\_\-connector.cc}\end{DoxyCompactItemize}

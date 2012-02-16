@@ -1,0 +1,181 @@
+\hypertarget{file__watcher-inotify-impl_8cc}{
+\section{Y:/mocha/src/utils/file\_\-watcher/file\_\-watcher-\/inotify-\/impl.cc File Reference}
+\label{file__watcher-inotify-impl_8cc}\index{Y:/mocha/src/utils/file\_\-watcher/file\_\-watcher-\/inotify-\/impl.cc@{Y:/mocha/src/utils/file\_\-watcher/file\_\-watcher-\/inotify-\/impl.cc}}
+}
+{\ttfamily \#include $<$sys/inotify.h$>$}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include $<$boost/unordered\_\-map.hpp$>$}\par
+{\ttfamily \#include $<$utils/file\_\-watcher/file\_\-watcher.h$>$}\par
+{\ttfamily \#include $<$utils/smart\_\-pointer/common/ptr\_\-handle.h$>$}\par
+{\ttfamily \#include $<$utils/hash/hash\_\-map/hash\_\-map.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_watcher_container}{mocha::WatcherContainer}
+\item 
+class \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl}{mocha::FileWatcher::PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\item 
+namespace \hyperlink{namespacemocha_1_1inotify__helper__}{mocha::inotify\_\-helper\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_a30482aa248568ad0cc101ec99f16ccde}{mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-}
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_aa2d5c758628dddfa26e73ca5a245222a}{SETTINGS}~Setting::GetInstance()
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_a69654895e069baa5ac52071dfecac957}{GET\_\-MASK}(mask)~( type \& mask ) == mask
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_afe1eee8f4fde68229d350271a0308b1b}{ITERATOR}(type, name1, name2)~name1 = type.begin(),name2 = type.end()
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_af5c7e639f4d066422b1e9b2dac32f6ce}{ITERATOR\_\-LOOP}(name1, name2)~while ( name1 != name2 )
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_abc88874e7507dbc512511050cf90c2b2}{ITERATOR\_\-NEXT}(name)~++name
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_af77a401ecadfcd3e71c2481652cd5f6d}{GET}(it)~($\ast$it)
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_ac064943fe2b39a99631a30adfe41a543}{UPDATE}(name)
+\item 
+\#define \hyperlink{file__watcher-inotify-impl_8cc_a913cb0da7f62fd2a3016ba62ac18dd5c}{UNWATCH}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned long \hyperlink{namespacemocha_1_1inotify__helper___aa8d25eea9099a062f693484523e0d508}{mocha::inotify\_\-helper\_\-::InotifyMask}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{namespacemocha_1_1inotify__helper___a7c9694e0500321b1856f15e64556a1d4}{mocha::inotify\_\-helper\_\-::OpenInotifyFD\_\-} ()
+\item 
+InotifyMask \hyperlink{namespacemocha_1_1inotify__helper___ac978057f9a7394984b74291ccd2e575f}{mocha::inotify\_\-helper\_\-::GetWatchType} (int type)
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{file__watcher-inotify-impl_8cc_af77a401ecadfcd3e71c2481652cd5f6d}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!GET@{GET}}
+\index{GET@{GET}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{GET}]{\setlength{\rightskip}{0pt plus 5cm}\#define GET(
+\begin{DoxyParamCaption}
+\item[{}]{it}
+\end{DoxyParamCaption}
+)~($\ast$it)}}
+\label{file__watcher-inotify-impl_8cc_af77a401ecadfcd3e71c2481652cd5f6d}
+
+
+Definition at line 17 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_a69654895e069baa5ac52071dfecac957}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!GET\_\-MASK@{GET\_\-MASK}}
+\index{GET\_\-MASK@{GET\_\-MASK}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{GET\_\-MASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define GET\_\-MASK(
+\begin{DoxyParamCaption}
+\item[{}]{mask}
+\end{DoxyParamCaption}
+)~( type \& mask ) == mask}}
+\label{file__watcher-inotify-impl_8cc_a69654895e069baa5ac52071dfecac957}
+
+
+Definition at line 13 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_afe1eee8f4fde68229d350271a0308b1b}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!ITERATOR@{ITERATOR}}
+\index{ITERATOR@{ITERATOR}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{ITERATOR}]{\setlength{\rightskip}{0pt plus 5cm}\#define ITERATOR(
+\begin{DoxyParamCaption}
+\item[{}]{type, }
+\item[{}]{name1, }
+\item[{}]{name2}
+\end{DoxyParamCaption}
+)~name1 = type.begin(),name2 = type.end()}}
+\label{file__watcher-inotify-impl_8cc_afe1eee8f4fde68229d350271a0308b1b}
+
+
+Definition at line 14 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_af5c7e639f4d066422b1e9b2dac32f6ce}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!ITERATOR\_\-LOOP@{ITERATOR\_\-LOOP}}
+\index{ITERATOR\_\-LOOP@{ITERATOR\_\-LOOP}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{ITERATOR\_\-LOOP}]{\setlength{\rightskip}{0pt plus 5cm}\#define ITERATOR\_\-LOOP(
+\begin{DoxyParamCaption}
+\item[{}]{name1, }
+\item[{}]{name2}
+\end{DoxyParamCaption}
+)~while ( name1 != name2 )}}
+\label{file__watcher-inotify-impl_8cc_af5c7e639f4d066422b1e9b2dac32f6ce}
+
+
+Definition at line 15 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_abc88874e7507dbc512511050cf90c2b2}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!ITERATOR\_\-NEXT@{ITERATOR\_\-NEXT}}
+\index{ITERATOR\_\-NEXT@{ITERATOR\_\-NEXT}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{ITERATOR\_\-NEXT}]{\setlength{\rightskip}{0pt plus 5cm}\#define ITERATOR\_\-NEXT(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~++name}}
+\label{file__watcher-inotify-impl_8cc_abc88874e7507dbc512511050cf90c2b2}
+
+
+Definition at line 16 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_a30482aa248568ad0cc101ec99f16ccde}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-@{mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-}}
+\index{mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-@{mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\#define mocha\_\-file\_\-watcher\_\-inotify\_\-impl\_\-cc\_\-}}
+\label{file__watcher-inotify-impl_8cc_a30482aa248568ad0cc101ec99f16ccde}
+
+
+Definition at line 2 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_aa2d5c758628dddfa26e73ca5a245222a}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!SETTINGS@{SETTINGS}}
+\index{SETTINGS@{SETTINGS}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{SETTINGS}]{\setlength{\rightskip}{0pt plus 5cm}\#define SETTINGS~Setting::GetInstance()}}
+\label{file__watcher-inotify-impl_8cc_aa2d5c758628dddfa26e73ca5a245222a}
+
+
+Definition at line 10 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_a913cb0da7f62fd2a3016ba62ac18dd5c}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!UNWATCH@{UNWATCH}}
+\index{UNWATCH@{UNWATCH}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{UNWATCH}]{\setlength{\rightskip}{0pt plus 5cm}\#define UNWATCH}}
+\label{file__watcher-inotify-impl_8cc_a913cb0da7f62fd2a3016ba62ac18dd5c}
+{\bfseries Value:}
+\begin{DoxyCode}
+UnWatch(container->GetFileName());            \
+  break
+\end{DoxyCode}
+
+
+Definition at line 244 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{file__watcher-inotify-impl_8cc_ac064943fe2b39a99631a30adfe41a543}{
+\index{file\_\-watcher-\/inotify-\/impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}!UPDATE@{UPDATE}}
+\index{UPDATE@{UPDATE}!file_watcher-inotify-impl.cc@{file\_\-watcher-\/inotify-\/impl.cc}}
+\subsubsection[{UPDATE}]{\setlength{\rightskip}{0pt plus 5cm}\#define UPDATE(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{file__watcher-inotify-impl_8cc_ac064943fe2b39a99631a30adfe41a543}
+{\bfseries Value:}
+\begin{DoxyCode}
+{                                          \
+    watch_traits::name inst_( container->GetFileName() );       \
+    container->GetUpdater()->Update(&inst_);                    \
+  }                                                             \
+    break
+\end{DoxyCode}
+
+
+Definition at line 238 of file file\_\-watcher-\/inotify-\/impl.cc.
+

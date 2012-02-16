@@ -1,0 +1,219 @@
+\hypertarget{classmocha_1_1_scoped_list}{
+\section{mocha::ScopedList$<$ T $>$ Class Template Reference}
+\label{classmocha_1_1_scoped_list}\index{mocha::ScopedList@{mocha::ScopedList}}
+}
+
+
+{\ttfamily \#include $<$scoped\_\-list.h$>$}
+
+Inheritance diagram for mocha::ScopedList$<$ T $>$:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmocha_1_1_scoped_list}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_list_a1fd9146260b328e3128f5fc4a24520c0}{ScopedList} ()
+\item 
+virtual \hyperlink{classmocha_1_1_scoped_list_abd4cd67e3e40d02a33890cb44e4b721d}{$\sim$ScopedList} ()
+\item 
+{\footnotesize template$<$typename Class , typename Deleter $>$ }\\T $\ast$ \hyperlink{classmocha_1_1_scoped_list_a61bbbf95172fb61fa808d9fa7482f730}{Retain} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr, Deleter deleter)
+\item 
+{\footnotesize template$<$typename Deleter $>$ }\\T $\ast$ \hyperlink{classmocha_1_1_scoped_list_a785f1500b54cfed3e420f97512d73df1}{Retain} (Deleter deleter)
+\item 
+{\footnotesize template$<$typename Class $>$ }\\T $\ast$ \hyperlink{classmocha_1_1_scoped_list_ade60ad28ed6411369c882eeec21def9d}{Retain} (\hyperlink{classmocha_1_1_class}{Class} $\ast$ptr)
+\item 
+{\footnotesize template$<$typename Class $>$ }\\T $\ast$ \hyperlink{classmocha_1_1_scoped_list_ab2b21b48525ed825bcab6acaef93ece2}{Retain} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std::list$<$ \hyperlink{classmocha_1_1_handle}{Handle}$<$ T $>$ $>$ \hyperlink{classmocha_1_1_scoped_list_a3fadd391a6a52177023df714c72500e1}{List\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{classmocha_1_1_scoped_list_a0f30068adb4062152cbdd93d912aceae}{RegistToList\_\-} (\hyperlink{classmocha_1_1_handle}{Handle}$<$ T $>$ handle, T $\ast$ptr)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_list_a3fadd391a6a52177023df714c72500e1}{List\_\-} \hyperlink{classmocha_1_1_scoped_list_a2ba5cdd36f373368d33ba02395cc6542}{list\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{classmocha_1_1_scoped_list_a100457401ee7f2ff619a1511cc4d8078}{operator new} (size\_\-t size)
+\item 
+static void $\ast$ \hyperlink{classmocha_1_1_scoped_list_a5c86d14229c8fdbb43f86d3aa744eb70}{operator new\mbox{[}$\,$\mbox{]}} (size\_\-t size)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class mocha::ScopedList$<$ T $>$}
+
+
+
+Definition at line 12 of file scoped\_\-list.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_scoped_list_a3fadd391a6a52177023df714c72500e1}{
+\index{mocha::ScopedList@{mocha::ScopedList}!List\_\-@{List\_\-}}
+\index{List\_\-@{List\_\-}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{List\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ typedef std::list$<${\bf Handle}$<$T$>$ $>$ {\bf mocha::ScopedList}$<$ T $>$::{\bf List\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a3fadd391a6a52177023df714c72500e1}
+
+
+Definition at line 31 of file scoped\_\-list.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_scoped_list_a1fd9146260b328e3128f5fc4a24520c0}{
+\index{mocha::ScopedList@{mocha::ScopedList}!ScopedList@{ScopedList}}
+\index{ScopedList@{ScopedList}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{ScopedList}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::ScopedList}$<$ T $>$::{\bf ScopedList} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a1fd9146260b328e3128f5fc4a24520c0}
+
+
+Definition at line 6 of file scoped\_\-list-\/impl.h.
+
+\hypertarget{classmocha_1_1_scoped_list_abd4cd67e3e40d02a33890cb44e4b721d}{
+\index{mocha::ScopedList@{mocha::ScopedList}!$\sim$ScopedList@{$\sim$ScopedList}}
+\index{$\sim$ScopedList@{$\sim$ScopedList}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{$\sim$ScopedList}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::ScopedList}$<$ T $>$::$\sim${\bf ScopedList} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_abd4cd67e3e40d02a33890cb44e4b721d}
+
+
+Definition at line 9 of file scoped\_\-list-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_scoped_list_a100457401ee7f2ff619a1511cc4d8078}{
+\index{mocha::ScopedList@{mocha::ScopedList}!operator new@{operator new}}
+\index{operator new@{operator new}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{operator new}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static void$\ast$ {\bf mocha::ScopedList}$<$ T $>$::operator new (
+\begin{DoxyParamCaption}
+\item[{size\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a100457401ee7f2ff619a1511cc4d8078}
+
+
+Definition at line 34 of file scoped\_\-list.h.
+
+\hypertarget{classmocha_1_1_scoped_list_a5c86d14229c8fdbb43f86d3aa744eb70}{
+\index{mocha::ScopedList@{mocha::ScopedList}!operator new\mbox{[}\mbox{]}@{operator new[]}}
+\index{operator new\mbox{[}\mbox{]}@{operator new[]}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{operator new[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static void$\ast$ {\bf mocha::ScopedList}$<$ T $>$::operator new\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{size\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a5c86d14229c8fdbb43f86d3aa744eb70}
+
+
+Definition at line 35 of file scoped\_\-list.h.
+
+\hypertarget{classmocha_1_1_scoped_list_a0f30068adb4062152cbdd93d912aceae}{
+\index{mocha::ScopedList@{mocha::ScopedList}!RegistToList\_\-@{RegistToList\_\-}}
+\index{RegistToList\_\-@{RegistToList\_\-}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{RegistToList\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T $\ast$ {\bf mocha::ScopedList}$<$ T $>$::RegistToList\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf Handle}$<$ T $>$}]{handle, }
+\item[{T $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a0f30068adb4062152cbdd93d912aceae}
+
+
+Definition at line 39 of file scoped\_\-list-\/impl.h.
+
+\hypertarget{classmocha_1_1_scoped_list_a785f1500b54cfed3e420f97512d73df1}{
+\index{mocha::ScopedList@{mocha::ScopedList}!Retain@{Retain}}
+\index{Retain@{Retain}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{Retain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Deleter $>$ T $\ast$ {\bf mocha::ScopedList}$<$ T $>$::Retain (
+\begin{DoxyParamCaption}
+\item[{Deleter}]{deleter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a785f1500b54cfed3e420f97512d73df1}
+
+
+Definition at line 19 of file scoped\_\-list-\/impl.h.
+
+\hypertarget{classmocha_1_1_scoped_list_ab2b21b48525ed825bcab6acaef93ece2}{
+\index{mocha::ScopedList@{mocha::ScopedList}!Retain@{Retain}}
+\index{Retain@{Retain}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{Retain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ T $\ast$ {\bf mocha::ScopedList}$<$ T $>$::Retain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_ab2b21b48525ed825bcab6acaef93ece2}
+
+
+Definition at line 33 of file scoped\_\-list-\/impl.h.
+
+\hypertarget{classmocha_1_1_scoped_list_ade60ad28ed6411369c882eeec21def9d}{
+\index{mocha::ScopedList@{mocha::ScopedList}!Retain@{Retain}}
+\index{Retain@{Retain}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{Retain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class $>$ T $\ast$ {\bf mocha::ScopedList}$<$ T $>$::Retain (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_ade60ad28ed6411369c882eeec21def9d}
+
+
+Reimplemented in \hyperlink{classmocha_1_1_scoped_array_list_a772b167d66c30f435d102d21800c26ff}{mocha::ScopedArrayList$<$ T $>$}, \hyperlink{classmocha_1_1_scoped_allocater_list_a1d09e29e47c41dd631ce3e591559f5c8}{mocha::ScopedAllocaterList$<$ T $>$}, and \hyperlink{classmocha_1_1_scoped_array_list_a772b167d66c30f435d102d21800c26ff}{mocha::ScopedArrayList$<$ char $>$}.
+
+
+
+Definition at line 27 of file scoped\_\-list-\/impl.h.
+
+\hypertarget{classmocha_1_1_scoped_list_a61bbbf95172fb61fa808d9fa7482f730}{
+\index{mocha::ScopedList@{mocha::ScopedList}!Retain@{Retain}}
+\index{Retain@{Retain}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{Retain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Class , typename Deleter $>$ T $\ast$ {\bf mocha::ScopedList}$<$ T $>$::Retain (
+\begin{DoxyParamCaption}
+\item[{{\bf Class} $\ast$}]{ptr, }
+\item[{Deleter}]{deleter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a61bbbf95172fb61fa808d9fa7482f730}
+
+
+Definition at line 13 of file scoped\_\-list-\/impl.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_scoped_list_a2ba5cdd36f373368d33ba02395cc6542}{
+\index{mocha::ScopedList@{mocha::ScopedList}!list\_\-@{list\_\-}}
+\index{list\_\-@{list\_\-}!mocha::ScopedList@{mocha::ScopedList}}
+\subsubsection[{list\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf List\_\-} {\bf mocha::ScopedList}$<$ T $>$::{\bf list\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmocha_1_1_scoped_list_a2ba5cdd36f373368d33ba02395cc6542}
+
+
+Definition at line 32 of file scoped\_\-list.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/smart\_\-pointer/scope/\hyperlink{scoped__list_8h}{scoped\_\-list.h}\item 
+Y:/mocha/src/utils/smart\_\-pointer/scope/\hyperlink{scoped__list-impl_8h}{scoped\_\-list-\/impl.h}\end{DoxyCompactItemize}

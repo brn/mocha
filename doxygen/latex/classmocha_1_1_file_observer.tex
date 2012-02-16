@@ -1,0 +1,175 @@
+\hypertarget{classmocha_1_1_file_observer}{
+\section{mocha::FileObserver Class Reference}
+\label{classmocha_1_1_file_observer}\index{mocha::FileObserver@{mocha::FileObserver}}
+}
+
+
+{\ttfamily \#include $<$file\_\-observer.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_file_observer_1_1_file_updater}{FileUpdater}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_file_observer_a336a46a78bdb9952f12db2325b4353cd}{FileObserver} ()
+\item 
+\hyperlink{classmocha_1_1_file_observer_a8816635e00b2ddf824cb33c33037d4d3}{$\sim$FileObserver} ()
+\item 
+void \hyperlink{classmocha_1_1_file_observer_aa0cf63fff2f93c6aa3ed80bbb4f41332}{Run} ()
+\item 
+void \hyperlink{classmocha_1_1_file_observer_ad2ca9cfba7edbf7ce76f7f4199d7edba}{Exit} (\hyperlink{classmocha_1_1_file_watcher_af774b8dd436b9f8929506466533831b9}{FileWatcher::EndCallBack} fn, void $\ast$arg)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_file_observer_a6fa51f827d8023577887bbe2cab8921f}{RegistFile\_\-} (const char $\ast$filename)
+\item 
+void \hyperlink{classmocha_1_1_file_observer_a536e202ce36dc014076538ee43422021}{Initialize\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{classmocha_1_1_file_observer_a20113d9556e7b1c5372cbc72dd8ae4d7}{ThreadRunner\_\-} (void $\ast$arg)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_file_observer_1_1_file_updater}{FileUpdater} $>$ \hyperlink{classmocha_1_1_file_observer_acf0dfa07ac9d5ff6336b35bce6cb05f4}{file\_\-updater\_\-}
+\item 
+\hyperlink{classmocha_1_1_file_watcher}{FileWatcher} \hyperlink{classmocha_1_1_file_observer_a2e810173e7300cd84a5fd830fc5538ce}{file\_\-watcher\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file file\_\-observer.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_file_observer_a336a46a78bdb9952f12db2325b4353cd}{
+\index{mocha::FileObserver@{mocha::FileObserver}!FileObserver@{FileObserver}}
+\index{FileObserver@{FileObserver}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{FileObserver}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileObserver::FileObserver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_observer_a336a46a78bdb9952f12db2325b4353cd}
+
+
+Definition at line 46 of file file\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_file_observer_a8816635e00b2ddf824cb33c33037d4d3}{
+\index{mocha::FileObserver@{mocha::FileObserver}!$\sim$FileObserver@{$\sim$FileObserver}}
+\index{$\sim$FileObserver@{$\sim$FileObserver}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{$\sim$FileObserver}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileObserver::$\sim$FileObserver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_observer_a8816635e00b2ddf824cb33c33037d4d3}
+
+
+Definition at line 12 of file file\_\-observer.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_file_observer_ad2ca9cfba7edbf7ce76f7f4199d7edba}{
+\index{mocha::FileObserver@{mocha::FileObserver}!Exit@{Exit}}
+\index{Exit@{Exit}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{Exit}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileObserver::Exit (
+\begin{DoxyParamCaption}
+\item[{{\bf FileWatcher::EndCallBack}}]{fn, }
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_observer_ad2ca9cfba7edbf7ce76f7f4199d7edba}
+
+
+Definition at line 58 of file file\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_file_observer_a536e202ce36dc014076538ee43422021}{
+\index{mocha::FileObserver@{mocha::FileObserver}!Initialize\_\-@{Initialize\_\-}}
+\index{Initialize\_\-@{Initialize\_\-}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{Initialize\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileObserver::Initialize\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_a536e202ce36dc014076538ee43422021}
+
+
+Definition at line 68 of file file\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_file_observer_a6fa51f827d8023577887bbe2cab8921f}{
+\index{mocha::FileObserver@{mocha::FileObserver}!RegistFile\_\-@{RegistFile\_\-}}
+\index{RegistFile\_\-@{RegistFile\_\-}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{RegistFile\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileObserver::RegistFile\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_a6fa51f827d8023577887bbe2cab8921f}
+
+
+Definition at line 72 of file file\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_file_observer_aa0cf63fff2f93c6aa3ed80bbb4f41332}{
+\index{mocha::FileObserver@{mocha::FileObserver}!Run@{Run}}
+\index{Run@{Run}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{Run}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileObserver::Run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_observer_aa0cf63fff2f93c6aa3ed80bbb4f41332}
+
+
+Definition at line 48 of file file\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_file_observer_a20113d9556e7b1c5372cbc72dd8ae4d7}{
+\index{mocha::FileObserver@{mocha::FileObserver}!ThreadRunner\_\-@{ThreadRunner\_\-}}
+\index{ThreadRunner\_\-@{ThreadRunner\_\-}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{ThreadRunner\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ mocha::FileObserver::ThreadRunner\_\- (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_a20113d9556e7b1c5372cbc72dd8ae4d7}
+
+
+Definition at line 62 of file file\_\-observer.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_file_observer_acf0dfa07ac9d5ff6336b35bce6cb05f4}{
+\index{mocha::FileObserver@{mocha::FileObserver}!file\_\-updater\_\-@{file\_\-updater\_\-}}
+\index{file\_\-updater\_\-@{file\_\-updater\_\-}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{file\_\-updater\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf FileUpdater}$>$ {\bf mocha::FileObserver::file\_\-updater\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_acf0dfa07ac9d5ff6336b35bce6cb05f4}
+
+
+Definition at line 19 of file file\_\-observer.h.
+
+\hypertarget{classmocha_1_1_file_observer_a2e810173e7300cd84a5fd830fc5538ce}{
+\index{mocha::FileObserver@{mocha::FileObserver}!file\_\-watcher\_\-@{file\_\-watcher\_\-}}
+\index{file\_\-watcher\_\-@{file\_\-watcher\_\-}!mocha::FileObserver@{mocha::FileObserver}}
+\subsubsection[{file\_\-watcher\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileWatcher} {\bf mocha::FileObserver::file\_\-watcher\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_observer_a2e810173e7300cd84a5fd830fc5538ce}
+
+
+Definition at line 21 of file file\_\-observer.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-watcher/observer/\hyperlink{file__observer_8h}{file\_\-observer.h}\item 
+Y:/mocha/src/utils/file\_\-watcher/observer/\hyperlink{file__observer_8cc}{file\_\-observer.cc}\end{DoxyCompactItemize}

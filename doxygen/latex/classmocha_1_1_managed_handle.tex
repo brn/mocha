@@ -1,0 +1,216 @@
+\hypertarget{classmocha_1_1_managed_handle}{
+\section{mocha::ManagedHandle Class Reference}
+\label{classmocha_1_1_managed_handle}\index{mocha::ManagedHandle@{mocha::ManagedHandle}}
+}
+
+
+{\ttfamily \#include $<$managed\_\-handle.h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classmocha_1_1_managed_handle_a164396ad3c163746cf94c87cc56df9ac}{AssignId} ()
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T $\ast$ \hyperlink{classmocha_1_1_managed_handle_a37d5506197f103b180d88f19f3b7d2b5}{Retain} (T $\ast$ptr, \hyperlink{classmocha_1_1_ptr_collector_a5ec1946ab80fe57d29680f29ef30abb1}{PtrCollector::ReleaseCallback} callback=\hyperlink{structmocha_1_1_ptr_deleter}{PtrDeleter}$<$ \hyperlink{classmocha_1_1_managed}{Managed} $>$::Delete)
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T $\ast$ \hyperlink{classmocha_1_1_managed_handle_a6c22298173e807c59f2bf821498471d6}{Retain} (\hyperlink{classmocha_1_1_ptr_collector_a5ec1946ab80fe57d29680f29ef30abb1}{PtrCollector::ReleaseCallback} callback=\hyperlink{structmocha_1_1_ptr_deleter}{PtrDeleter}$<$ \hyperlink{classmocha_1_1_managed}{Managed} $>$::Delete)
+\item 
+static void \hyperlink{classmocha_1_1_managed_handle_a19f03ef87e40113dfa4f153163f7a496}{Renounce} (\hyperlink{classmocha_1_1_managed}{Managed} $\ast$ptr)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T $\ast$ \hyperlink{classmocha_1_1_managed_handle_a29dcd71720891229c0069583cb67abba}{Retain\_\-} (T $\ast$ptr, \hyperlink{classmocha_1_1_ptr_collector_a5ec1946ab80fe57d29680f29ef30abb1}{PtrCollector::ReleaseCallback} callback)
+\item 
+static \hyperlink{classmocha_1_1_ptr_collector}{PtrCollector} $\ast$ \hyperlink{classmocha_1_1_managed_handle_af9863134e40e2bb21165df5a4886c768}{Allocate\_\-} ()
+\item 
+static void \hyperlink{classmocha_1_1_managed_handle_a134e1b71ba18748aaf347632b0a546dc}{Release\_\-} (int id)
+\item 
+static void \hyperlink{classmocha_1_1_managed_handle_a96aff39e005fd1125fe4164e310fcb95}{EnsureScopeCreated\_\-} (\hyperlink{classmocha_1_1_ptr_collector}{PtrCollector} $\ast$ptrc)
+\item 
+static \hyperlink{classmocha_1_1_ptr_collector}{PtrCollector} $\ast$ \hyperlink{classmocha_1_1_managed_handle_abd3b8e22f65399e92220fd9701404425}{GetPool\_\-} ()
+\item 
+static void \hyperlink{classmocha_1_1_managed_handle_aa5dc7f633fe0ab07ace269c1f0c2d2cd}{Destructor\_\-} (void $\ast$ptr)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_thread_local_storage_key}{ThreadLocalStorageKey} \hyperlink{classmocha_1_1_managed_handle_a026ef7f5d722421dfd597fd18df39661}{key\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_managed_handle_a918558197438d96930f72064778d0828}{ManagedScope}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 75 of file managed\_\-handle.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_managed_handle_af9863134e40e2bb21165df5a4886c768}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Allocate\_\-@{Allocate\_\-}}
+\index{Allocate\_\-@{Allocate\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Allocate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PtrCollector} $\ast$ mocha::ManagedHandle::Allocate\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_af9863134e40e2bb21165df5a4886c768}
+
+
+Definition at line 77 of file managed\_\-handle.cc.
+
+\hypertarget{classmocha_1_1_managed_handle_a164396ad3c163746cf94c87cc56df9ac}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!AssignId@{AssignId}}
+\index{AssignId@{AssignId}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{AssignId}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::ManagedHandle::AssignId (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a164396ad3c163746cf94c87cc56df9ac}
+
+
+Definition at line 60 of file managed\_\-handle.cc.
+
+\hypertarget{classmocha_1_1_managed_handle_aa5dc7f633fe0ab07ace269c1f0c2d2cd}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Destructor\_\-@{Destructor\_\-}}
+\index{Destructor\_\-@{Destructor\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Destructor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ManagedHandle::Destructor\_\- (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_aa5dc7f633fe0ab07ace269c1f0c2d2cd}
+
+
+Definition at line 90 of file managed\_\-handle.cc.
+
+\hypertarget{classmocha_1_1_managed_handle_a96aff39e005fd1125fe4164e310fcb95}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!EnsureScopeCreated\_\-@{EnsureScopeCreated\_\-}}
+\index{EnsureScopeCreated\_\-@{EnsureScopeCreated\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{EnsureScopeCreated\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ManagedHandle::EnsureScopeCreated\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf PtrCollector} $\ast$}]{ptrc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a96aff39e005fd1125fe4164e310fcb95}
+
+
+Definition at line 65 of file managed\_\-handle.cc.
+
+\hypertarget{classmocha_1_1_managed_handle_abd3b8e22f65399e92220fd9701404425}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!GetPool\_\-@{GetPool\_\-}}
+\index{GetPool\_\-@{GetPool\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{GetPool\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PtrCollector} $\ast$ mocha::ManagedHandle::GetPool\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_abd3b8e22f65399e92220fd9701404425}
+
+
+Definition at line 86 of file managed\_\-handle.cc.
+
+\hypertarget{classmocha_1_1_managed_handle_a134e1b71ba18748aaf347632b0a546dc}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Release\_\-@{Release\_\-}}
+\index{Release\_\-@{Release\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Release\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ManagedHandle::Release\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a134e1b71ba18748aaf347632b0a546dc}
+
+
+Definition at line 72 of file managed\_\-handle.cc.
+
+\hypertarget{classmocha_1_1_managed_handle_a19f03ef87e40113dfa4f153163f7a496}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Renounce@{Renounce}}
+\index{Renounce@{Renounce}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Renounce}]{\setlength{\rightskip}{0pt plus 5cm}static void mocha::ManagedHandle::Renounce (
+\begin{DoxyParamCaption}
+\item[{{\bf Managed} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a19f03ef87e40113dfa4f153163f7a496}
+
+
+Definition at line 92 of file managed\_\-handle.h.
+
+\hypertarget{classmocha_1_1_managed_handle_a37d5506197f103b180d88f19f3b7d2b5}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Retain@{Retain}}
+\index{Retain@{Retain}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Retain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ static T$\ast$ mocha::ManagedHandle::Retain (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{ptr, }
+\item[{{\bf PtrCollector::ReleaseCallback}}]{callback = {\ttfamily {\bf PtrDeleter}$<${\bf Managed}$>$::Delete}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a37d5506197f103b180d88f19f3b7d2b5}
+
+
+Definition at line 82 of file managed\_\-handle.h.
+
+\hypertarget{classmocha_1_1_managed_handle_a6c22298173e807c59f2bf821498471d6}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Retain@{Retain}}
+\index{Retain@{Retain}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Retain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ static T$\ast$ mocha::ManagedHandle::Retain (
+\begin{DoxyParamCaption}
+\item[{{\bf PtrCollector::ReleaseCallback}}]{callback = {\ttfamily {\bf PtrDeleter}$<${\bf Managed}$>$::Delete}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a6c22298173e807c59f2bf821498471d6}
+
+
+Definition at line 87 of file managed\_\-handle.h.
+
+\hypertarget{classmocha_1_1_managed_handle_a29dcd71720891229c0069583cb67abba}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!Retain\_\-@{Retain\_\-}}
+\index{Retain\_\-@{Retain\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{Retain\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ static T$\ast$ mocha::ManagedHandle::Retain\_\- (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{ptr, }
+\item[{{\bf PtrCollector::ReleaseCallback}}]{callback}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a29dcd71720891229c0069583cb67abba}
+
+
+Definition at line 96 of file managed\_\-handle.h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_managed_handle_a918558197438d96930f72064778d0828}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!ManagedScope@{ManagedScope}}
+\index{ManagedScope@{ManagedScope}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{ManagedScope}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf ManagedScope}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a918558197438d96930f72064778d0828}
+
+
+Definition at line 76 of file managed\_\-handle.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_managed_handle_a026ef7f5d722421dfd597fd18df39661}{
+\index{mocha::ManagedHandle@{mocha::ManagedHandle}!key\_\-@{key\_\-}}
+\index{key\_\-@{key\_\-}!mocha::ManagedHandle@{mocha::ManagedHandle}}
+\subsubsection[{key\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ThreadLocalStorageKey} {\bf mocha::ManagedHandle::key\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_managed_handle_a026ef7f5d722421dfd597fd18df39661}
+
+
+Definition at line 107 of file managed\_\-handle.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/pool/\hyperlink{managed__handle_8h}{managed\_\-handle.h}\item 
+Y:/mocha/src/utils/pool/\hyperlink{managed__handle_8cc}{managed\_\-handle.cc}\end{DoxyCompactItemize}

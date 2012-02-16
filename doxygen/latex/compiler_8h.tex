@@ -1,0 +1,31 @@
+\hypertarget{compiler_8h}{
+\section{Y:/mocha/src/compiler/compiler.h File Reference}
+\label{compiler_8h}\index{Y:/mocha/src/compiler/compiler.h@{Y:/mocha/src/compiler/compiler.h}}
+}
+{\ttfamily \#include $<$utils/class\_\-traits/uncopyable.h$>$}\par
+{\ttfamily \#include $<$utils/thread/thread.h$>$}\par
+{\ttfamily \#include $<$utils/smart\_\-pointer/scope/scoped\_\-ptr.h$>$}\par
+{\ttfamily \#include $<$utils/smart\_\-pointer/ref\_\-count/handle.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/file\_\-system.h$>$}\par
+{\ttfamily \#include $<$compiler/utils/compiler\_\-facade.h$>$}\par
+{\ttfamily \#include $<$compiler/utils/error\_\-reporter.h$>$}\par
+{\ttfamily \#include $<$utils/hash/hash\_\-map/hash\_\-map.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_compiler}{mocha::Compiler}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef Handle$<$ ErrorReporter $>$ \hyperlink{namespacemocha_a62a8540d653f9de4f6198d4a857c456f}{mocha::ErrorHandler}
+\item 
+typedef HashMap$<$ const char $\ast$, ErrorHandler $>$ \hyperlink{namespacemocha_a47a4cccd3c5221fb912446d3dc0e5234}{mocha::ErrorMap}
+\item 
+typedef Handle$<$ ErrorMap $>$ \hyperlink{namespacemocha_a8737c94f12ceeb67b4030427d00a1865}{mocha::ErrorMapHandle}
+\end{DoxyCompactItemize}

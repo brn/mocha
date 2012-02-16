@@ -1,0 +1,211 @@
+\hypertarget{classyy_1_1stack}{
+\section{yy::stack$<$ T, S $>$ Class Template Reference}
+\label{classyy_1_1stack}\index{yy::stack@{yy::stack}}
+}
+
+
+{\ttfamily \#include $<$stack.hh$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef S::reverse\_\-iterator \hyperlink{classyy_1_1stack_a959921144f243952520a2178121cbe6f}{iterator}
+\item 
+typedef S::const\_\-reverse\_\-iterator \hyperlink{classyy_1_1stack_a0cab3a74b0947ce6de68c3520b9229ab}{const\_\-iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classyy_1_1stack_a40ce1d12c5c83edbae23a0a52aaa6d97}{stack} ()
+\item 
+\hyperlink{classyy_1_1stack_af4277ae80177abc36f242c3646cbcfbe}{stack} (unsigned int n)
+\item 
+T \& \hyperlink{classyy_1_1stack_a1058b8b7e1a3e0aa7b1e6f2f1a62c234}{operator\mbox{[}$\,$\mbox{]}} (unsigned int i)
+\item 
+const T \& \hyperlink{classyy_1_1stack_a46778e0ee1fd32a559008d5a261df098}{operator\mbox{[}$\,$\mbox{]}} (unsigned int i) const 
+\item 
+void \hyperlink{classyy_1_1stack_a5ff563955472eca36f73f6e840df2963}{push} (const T \&t)
+\item 
+void \hyperlink{classyy_1_1stack_a0800c0a796cade80c3ce9a785dc87564}{pop} (unsigned int n=1)
+\item 
+unsigned int \hyperlink{classyy_1_1stack_a968303842836fd4e9e3994a4e3984191}{height} () const 
+\item 
+\hyperlink{classyy_1_1stack_a0cab3a74b0947ce6de68c3520b9229ab}{const\_\-iterator} \hyperlink{classyy_1_1stack_a3939df081955a4ad78e14eeb9b2b5dbf}{begin} () const 
+\item 
+\hyperlink{classyy_1_1stack_a0cab3a74b0947ce6de68c3520b9229ab}{const\_\-iterator} \hyperlink{classyy_1_1stack_a27ade5b933a4dc8a27960c88addda2a0}{end} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+S \hyperlink{classyy_1_1stack_ae0a9cbe8fb11651438de273ee7a6ef2e}{seq\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T, class S = std::deque$<$T$>$$>$class yy::stack$<$ T, S $>$}
+
+
+
+Definition at line 44 of file stack.hh.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classyy_1_1stack_a0cab3a74b0947ce6de68c3520b9229ab}{
+\index{yy::stack@{yy::stack}!const\_\-iterator@{const\_\-iterator}}
+\index{const\_\-iterator@{const\_\-iterator}!yy::stack@{yy::stack}}
+\subsubsection[{const\_\-iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ typedef S::const\_\-reverse\_\-iterator {\bf yy::stack}$<$ T, S $>$::{\bf const\_\-iterator}}}
+\label{classyy_1_1stack_a0cab3a74b0947ce6de68c3520b9229ab}
+
+
+Definition at line 50 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a959921144f243952520a2178121cbe6f}{
+\index{yy::stack@{yy::stack}!iterator@{iterator}}
+\index{iterator@{iterator}!yy::stack@{yy::stack}}
+\subsubsection[{iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ typedef S::reverse\_\-iterator {\bf yy::stack}$<$ T, S $>$::{\bf iterator}}}
+\label{classyy_1_1stack_a959921144f243952520a2178121cbe6f}
+
+
+Definition at line 49 of file stack.hh.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classyy_1_1stack_a40ce1d12c5c83edbae23a0a52aaa6d97}{
+\index{yy::stack@{yy::stack}!stack@{stack}}
+\index{stack@{stack}!yy::stack@{yy::stack}}
+\subsubsection[{stack}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ {\bf yy::stack}$<$ T, S $>$::{\bf stack} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a40ce1d12c5c83edbae23a0a52aaa6d97}
+
+
+Definition at line 52 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_af4277ae80177abc36f242c3646cbcfbe}{
+\index{yy::stack@{yy::stack}!stack@{stack}}
+\index{stack@{stack}!yy::stack@{yy::stack}}
+\subsubsection[{stack}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ {\bf yy::stack}$<$ T, S $>$::{\bf stack} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_af4277ae80177abc36f242c3646cbcfbe}
+
+
+Definition at line 56 of file stack.hh.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classyy_1_1stack_a3939df081955a4ad78e14eeb9b2b5dbf}{
+\index{yy::stack@{yy::stack}!begin@{begin}}
+\index{begin@{begin}!yy::stack@{yy::stack}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ {\bf const\_\-iterator} {\bf yy::stack}$<$ T, S $>$::begin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a3939df081955a4ad78e14eeb9b2b5dbf}
+
+
+Definition at line 96 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a27ade5b933a4dc8a27960c88addda2a0}{
+\index{yy::stack@{yy::stack}!end@{end}}
+\index{end@{end}!yy::stack@{yy::stack}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ {\bf const\_\-iterator} {\bf yy::stack}$<$ T, S $>$::end (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a27ade5b933a4dc8a27960c88addda2a0}
+
+
+Definition at line 97 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a968303842836fd4e9e3994a4e3984191}{
+\index{yy::stack@{yy::stack}!height@{height}}
+\index{height@{height}!yy::stack@{yy::stack}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ unsigned int {\bf yy::stack}$<$ T, S $>$::height (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a968303842836fd4e9e3994a4e3984191}
+
+
+Definition at line 91 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a46778e0ee1fd32a559008d5a261df098}{
+\index{yy::stack@{yy::stack}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!yy::stack@{yy::stack}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ const T\& {\bf yy::stack}$<$ T, S $>$::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a46778e0ee1fd32a559008d5a261df098}
+
+
+Definition at line 69 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a1058b8b7e1a3e0aa7b1e6f2f1a62c234}{
+\index{yy::stack@{yy::stack}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!yy::stack@{yy::stack}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ T\& {\bf yy::stack}$<$ T, S $>$::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a1058b8b7e1a3e0aa7b1e6f2f1a62c234}
+
+
+Definition at line 62 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a0800c0a796cade80c3ce9a785dc87564}{
+\index{yy::stack@{yy::stack}!pop@{pop}}
+\index{pop@{pop}!yy::stack@{yy::stack}}
+\subsubsection[{pop}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ void {\bf yy::stack}$<$ T, S $>$::pop (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{n = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a0800c0a796cade80c3ce9a785dc87564}
+
+
+Definition at line 83 of file stack.hh.
+
+\hypertarget{classyy_1_1stack_a5ff563955472eca36f73f6e840df2963}{
+\index{yy::stack@{yy::stack}!push@{push}}
+\index{push@{push}!yy::stack@{yy::stack}}
+\subsubsection[{push}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ void {\bf yy::stack}$<$ T, S $>$::push (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classyy_1_1stack_a5ff563955472eca36f73f6e840df2963}
+
+
+Definition at line 76 of file stack.hh.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classyy_1_1stack_ae0a9cbe8fb11651438de273ee7a6ef2e}{
+\index{yy::stack@{yy::stack}!seq\_\-@{seq\_\-}}
+\index{seq\_\-@{seq\_\-}!yy::stack@{yy::stack}}
+\subsubsection[{seq\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class S = std::deque$<$T$>$$>$ S {\bf yy::stack}$<$ T, S $>$::{\bf seq\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classyy_1_1stack_ae0a9cbe8fb11651438de273ee7a6ef2e}
+
+
+Definition at line 101 of file stack.hh.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/grammar/\hyperlink{stack_8hh}{stack.hh}\end{DoxyCompactItemize}

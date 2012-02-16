@@ -1,0 +1,117 @@
+\hypertarget{classmocha_1_1_ref_count}{
+\section{mocha::RefCount$<$ T $>$ Class Template Reference}
+\label{classmocha_1_1_ref_count}\index{mocha::RefCount@{mocha::RefCount}}
+}
+
+
+{\ttfamily \#include $<$refcount.h$>$}
+
+Inheritance diagram for mocha::RefCount$<$ T $>$:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmocha_1_1_ref_count}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ref_count_ab98ec350481d71201e7238a0374c48c8}{RefCount} (T $\ast$target)
+\item 
+{\footnotesize template$<$typename Deleter $>$ }\\\hyperlink{classmocha_1_1_ref_count_a0ce410ae928132a0b19657455ac386ce}{RefCount} (T $\ast$target, Deleter deleter)
+\item 
+\hyperlink{classmocha_1_1_ref_count_a9fa6159abf35569f565560e966a506a4}{RefCount} (\hyperlink{classmocha_1_1_ptr_handle_base}{PtrHandleBase} $\ast$base)
+\item 
+\hyperlink{classmocha_1_1_ref_count_af8f55fed6c5dd09e75a7ab8f770c106a}{$\sim$RefCount} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ptr_handle_base}{PtrHandleBase} $\ast$ \hyperlink{classmocha_1_1_ref_count_ad821e295b1ca024e6304b40f7c0b0ac6}{ptr\_\-handle\_\-}
+\begin{DoxyCompactList}\small\item\em This pointer type is RefPtrBase, but real type is upcast pointer of RefPtr or RefPtrDeleter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class mocha::RefCount$<$ T $>$}
+
+
+
+Definition at line 18 of file refcount.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_ref_count_ab98ec350481d71201e7238a0374c48c8}{
+\index{mocha::RefCount@{mocha::RefCount}!RefCount@{RefCount}}
+\index{RefCount@{RefCount}!mocha::RefCount@{mocha::RefCount}}
+\subsubsection[{RefCount}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::RefCount}$<$ T $>$::{\bf RefCount} (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{target}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, explicit\mbox{]}}}}
+\label{classmocha_1_1_ref_count_ab98ec350481d71201e7238a0374c48c8}
+
+
+Definition at line 7 of file refcount-\/impl.h.
+
+\hypertarget{classmocha_1_1_ref_count_a0ce410ae928132a0b19657455ac386ce}{
+\index{mocha::RefCount@{mocha::RefCount}!RefCount@{RefCount}}
+\index{RefCount@{RefCount}!mocha::RefCount@{mocha::RefCount}}
+\subsubsection[{RefCount}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ template$<$typename Deleter $>$ {\bf mocha::RefCount}$<$ T $>$::{\bf RefCount} (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{target, }
+\item[{Deleter}]{deleter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_ref_count_a0ce410ae928132a0b19657455ac386ce}
+
+
+Definition at line 12 of file refcount-\/impl.h.
+
+\hypertarget{classmocha_1_1_ref_count_a9fa6159abf35569f565560e966a506a4}{
+\index{mocha::RefCount@{mocha::RefCount}!RefCount@{RefCount}}
+\index{RefCount@{RefCount}!mocha::RefCount@{mocha::RefCount}}
+\subsubsection[{RefCount}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::RefCount}$<$ T $>$::{\bf RefCount} (
+\begin{DoxyParamCaption}
+\item[{{\bf PtrHandleBase} $\ast$}]{base}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, explicit\mbox{]}}}}
+\label{classmocha_1_1_ref_count_a9fa6159abf35569f565560e966a506a4}
+
+
+Definition at line 16 of file refcount-\/impl.h.
+
+\hypertarget{classmocha_1_1_ref_count_af8f55fed6c5dd09e75a7ab8f770c106a}{
+\index{mocha::RefCount@{mocha::RefCount}!$\sim$RefCount@{$\sim$RefCount}}
+\index{$\sim$RefCount@{$\sim$RefCount}!mocha::RefCount@{mocha::RefCount}}
+\subsubsection[{$\sim$RefCount}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf mocha::RefCount}$<$ T $>$::$\sim${\bf RefCount} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_ref_count_af8f55fed6c5dd09e75a7ab8f770c106a}
+
+
+Definition at line 20 of file refcount-\/impl.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_ref_count_ad821e295b1ca024e6304b40f7c0b0ac6}{
+\index{mocha::RefCount@{mocha::RefCount}!ptr\_\-handle\_\-@{ptr\_\-handle\_\-}}
+\index{ptr\_\-handle\_\-@{ptr\_\-handle\_\-}!mocha::RefCount@{mocha::RefCount}}
+\subsubsection[{ptr\_\-handle\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf PtrHandleBase}$\ast$ {\bf mocha::RefCount}$<$ T $>$::{\bf ptr\_\-handle\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_ref_count_ad821e295b1ca024e6304b40f7c0b0ac6}
+
+
+This pointer type is RefPtrBase, but real type is upcast pointer of RefPtr or RefPtrDeleter. 
+
+
+
+Definition at line 56 of file refcount.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/smart\_\-pointer/ref\_\-count/\hyperlink{refcount_8h}{refcount.h}\item 
+Y:/mocha/src/utils/smart\_\-pointer/ref\_\-count/\hyperlink{refcount-impl_8h}{refcount-\/impl.h}\end{DoxyCompactItemize}

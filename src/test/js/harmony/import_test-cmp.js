@@ -784,7 +784,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/module_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/module_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./module_test.js'] = {};
@@ -904,7 +904,7 @@
   __LINE__ = 0;
   ( function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./import_test.js'] = {};
@@ -934,6 +934,35 @@
       
       __LINE__ = 22;
       Runtime.assert( true,testExport5() === 4,"testExport5() === 4",22,'./import_test.js' );
+      
+      __LINE__ = 0;
+      var testModule = _mochaGlobalAlias.testModule = ( function testModule() {
+            try {
+              __LINE__ = 24;
+              var _mochaLocalExport = {};
+              
+              __LINE__ = 0;
+              var foo = _mochaLocalExport.foo = function foo() {
+                    try {
+                      __LINE__ = 25;
+                      return "ok";
+                    } catch( e ){
+                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    }
+                  };
+              __LINE__ = 0;
+              return _mochaLocalExport;
+            } catch( e ){
+              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            }
+          })();
+      
+      __LINE__ = 0;
+      var _mochaLocalTmp1 = testModule,
+          foo = _mochaLocalTmp1.foo;
+      
+      __LINE__ = 29;
+      Runtime.assert( true,foo() === "ok","foo() === \"ok\"",29,'./import_test.js' );
     } catch( e ){
       Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
     }

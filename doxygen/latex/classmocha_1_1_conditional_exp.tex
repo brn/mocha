@@ -1,0 +1,221 @@
+\hypertarget{classmocha_1_1_conditional_exp}{
+\section{mocha::ConditionalExp Class Reference}
+\label{classmocha_1_1_conditional_exp}\index{mocha::ConditionalExp@{mocha::ConditionalExp}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::ConditionalExp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_conditional_exp}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_conditional_exp_af14ae917b07a37d05d08b9adff48d44c}{ConditionalExp} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$cond, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$case\_\-true, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$case\_\-false)
+\item 
+\hyperlink{classmocha_1_1_conditional_exp_abace5fb783efded7b0eac17f88cd3602}{$\sim$ConditionalExp} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_aaed0b73fb13035c1ca5465f2a24a833b}{True} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_aff17d7cdbc31e6725fd9fe1c89e9a896}{False} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_aa19a0246f74af43f5f485173476803af}{Cond} ()
+\item 
+void \hyperlink{classmocha_1_1_conditional_exp_afc1d1c6448489deac42837c5d89d836e}{ReplaceChild} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$old\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$new\_\-node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_a568bfc0b7fce3e0155e3c789baf6fa40}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_conditional_exp_a719ad36c380cd142230163006ef6b124}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_ae648dcd906465556dc11277d756e5a08}{cond\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_a6262ae4637116f3150926cdd469423a1}{case\_\-true\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_conditional_exp_aded78409cf39d226ba14c4f233b35254}{case\_\-false\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1475 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_conditional_exp_af14ae917b07a37d05d08b9adff48d44c}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!ConditionalExp@{ConditionalExp}}
+\index{ConditionalExp@{ConditionalExp}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{ConditionalExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ConditionalExp::ConditionalExp (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{cond, }
+\item[{{\bf AstNode} $\ast$}]{case\_\-true, }
+\item[{{\bf AstNode} $\ast$}]{case\_\-false}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_af14ae917b07a37d05d08b9adff48d44c}
+
+
+Definition at line 1477 of file ast.h.
+
+\hypertarget{classmocha_1_1_conditional_exp_abace5fb783efded7b0eac17f88cd3602}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!$\sim$ConditionalExp@{$\sim$ConditionalExp}}
+\index{$\sim$ConditionalExp@{$\sim$ConditionalExp}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{$\sim$ConditionalExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ConditionalExp::$\sim$ConditionalExp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_abace5fb783efded7b0eac17f88cd3602}
+
+
+Definition at line 1480 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_conditional_exp_a568bfc0b7fce3e0155e3c789baf6fa40}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::ConditionalExp::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_a568bfc0b7fce3e0155e3c789baf6fa40}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac1fb936e2bf0fdd6e7667275d3723ca5}{mocha::Expression}.
+
+
+
+Definition at line 584 of file ast.cc.
+
+\hypertarget{classmocha_1_1_conditional_exp_aa19a0246f74af43f5f485173476803af}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!Cond@{Cond}}
+\index{Cond@{Cond}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{Cond}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ConditionalExp::Cond (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_aa19a0246f74af43f5f485173476803af}
+
+
+Definition at line 1483 of file ast.h.
+
+\hypertarget{classmocha_1_1_conditional_exp_aff17d7cdbc31e6725fd9fe1c89e9a896}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!False@{False}}
+\index{False@{False}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{False}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ConditionalExp::False (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_aff17d7cdbc31e6725fd9fe1c89e9a896}
+
+
+Definition at line 1482 of file ast.h.
+
+\hypertarget{classmocha_1_1_conditional_exp_a719ad36c380cd142230163006ef6b124}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ConditionalExp::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_a719ad36c380cd142230163006ef6b124}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1490 of file ast.h.
+
+\hypertarget{classmocha_1_1_conditional_exp_afc1d1c6448489deac42837c5d89d836e}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!ReplaceChild@{ReplaceChild}}
+\index{ReplaceChild@{ReplaceChild}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{ReplaceChild}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ConditionalExp::ReplaceChild (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{old\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{new\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_afc1d1c6448489deac42837c5d89d836e}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & Replace the old\_\-node with new\_\-node in childnodes. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_aa40396040f75fb59e320d81c3fd328c8}{mocha::AstNode}.
+
+
+
+Definition at line 562 of file ast.cc.
+
+\hypertarget{classmocha_1_1_conditional_exp_aaed0b73fb13035c1ca5465f2a24a833b}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!True@{True}}
+\index{True@{True}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{True}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::ConditionalExp::True (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_aaed0b73fb13035c1ca5465f2a24a833b}
+
+
+Definition at line 1481 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_conditional_exp_aded78409cf39d226ba14c4f233b35254}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!case\_\-false\_\-@{case\_\-false\_\-}}
+\index{case\_\-false\_\-@{case\_\-false\_\-}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{case\_\-false\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::ConditionalExp::case\_\-false\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_aded78409cf39d226ba14c4f233b35254}
+
+
+Definition at line 1489 of file ast.h.
+
+\hypertarget{classmocha_1_1_conditional_exp_a6262ae4637116f3150926cdd469423a1}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!case\_\-true\_\-@{case\_\-true\_\-}}
+\index{case\_\-true\_\-@{case\_\-true\_\-}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{case\_\-true\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::ConditionalExp::case\_\-true\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_a6262ae4637116f3150926cdd469423a1}
+
+
+Definition at line 1488 of file ast.h.
+
+\hypertarget{classmocha_1_1_conditional_exp_ae648dcd906465556dc11277d756e5a08}{
+\index{mocha::ConditionalExp@{mocha::ConditionalExp}!cond\_\-@{cond\_\-}}
+\index{cond\_\-@{cond\_\-}!mocha::ConditionalExp@{mocha::ConditionalExp}}
+\subsubsection[{cond\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::ConditionalExp::cond\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_conditional_exp_ae648dcd906465556dc11277d756e5a08}
+
+
+Definition at line 1485 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

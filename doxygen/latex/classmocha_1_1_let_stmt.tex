@@ -1,0 +1,157 @@
+\hypertarget{classmocha_1_1_let_stmt}{
+\section{mocha::LetStmt Class Reference}
+\label{classmocha_1_1_let_stmt}\index{mocha::LetStmt@{mocha::LetStmt}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::LetStmt:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_let_stmt}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_let_stmt_aca9adea081cb0f16631dcd4b64ffdc30}{LetStmt} ()
+\item 
+\hyperlink{classmocha_1_1_let_stmt_a23eeee2504f241d61e6ec0da2a0fd7df}{$\sim$LetStmt} ()
+\item 
+void \hyperlink{classmocha_1_1_let_stmt_ae0b9d728fcebde0f3e695d883b73d768}{Exp} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_let_stmt_a640e83fd93f5eb70fd2ae8839178e6d7}{Exp} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_let_stmt_a43030a387da699ac560948020ddeb77b}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_let_stmt_a5d20086563ecfcf5f7da28eb19bead94}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_let_stmt_a0231be9f73f43719cb95668ea56a36d5}{exp\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 823 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_let_stmt_aca9adea081cb0f16631dcd4b64ffdc30}{
+\index{mocha::LetStmt@{mocha::LetStmt}!LetStmt@{LetStmt}}
+\index{LetStmt@{LetStmt}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{LetStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::LetStmt::LetStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_aca9adea081cb0f16631dcd4b64ffdc30}
+
+
+Definition at line 825 of file ast.h.
+
+\hypertarget{classmocha_1_1_let_stmt_a23eeee2504f241d61e6ec0da2a0fd7df}{
+\index{mocha::LetStmt@{mocha::LetStmt}!$\sim$LetStmt@{$\sim$LetStmt}}
+\index{$\sim$LetStmt@{$\sim$LetStmt}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{$\sim$LetStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::LetStmt::$\sim$LetStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_a23eeee2504f241d61e6ec0da2a0fd7df}
+
+
+Definition at line 826 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_let_stmt_a43030a387da699ac560948020ddeb77b}{
+\index{mocha::LetStmt@{mocha::LetStmt}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::LetStmt::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_a43030a387da699ac560948020ddeb77b}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_af2a895699bac2012f8b7739bff49c5ec}{mocha::AstNode}.
+
+
+
+Definition at line 277 of file ast.cc.
+
+\hypertarget{classmocha_1_1_let_stmt_a640e83fd93f5eb70fd2ae8839178e6d7}{
+\index{mocha::LetStmt@{mocha::LetStmt}!Exp@{Exp}}
+\index{Exp@{Exp}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{Exp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::LetStmt::Exp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_a640e83fd93f5eb70fd2ae8839178e6d7}
+
+
+Definition at line 828 of file ast.h.
+
+\hypertarget{classmocha_1_1_let_stmt_ae0b9d728fcebde0f3e695d883b73d768}{
+\index{mocha::LetStmt@{mocha::LetStmt}!Exp@{Exp}}
+\index{Exp@{Exp}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{Exp}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::LetStmt::Exp (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_ae0b9d728fcebde0f3e695d883b73d768}
+
+
+Definition at line 827 of file ast.h.
+
+\hypertarget{classmocha_1_1_let_stmt_a5d20086563ecfcf5f7da28eb19bead94}{
+\index{mocha::LetStmt@{mocha::LetStmt}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::LetStmt::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_a5d20086563ecfcf5f7da28eb19bead94}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}{mocha::Statement}.
+
+
+
+Definition at line 832 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_let_stmt_a0231be9f73f43719cb95668ea56a36d5}{
+\index{mocha::LetStmt@{mocha::LetStmt}!exp\_\-@{exp\_\-}}
+\index{exp\_\-@{exp\_\-}!mocha::LetStmt@{mocha::LetStmt}}
+\subsubsection[{exp\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::LetStmt::exp\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_let_stmt_a0231be9f73f43719cb95668ea56a36d5}
+
+
+Definition at line 829 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

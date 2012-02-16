@@ -1,0 +1,58 @@
+\hypertarget{internal_8cc}{
+\section{Y:/mocha/src/compiler/internal.cc File Reference}
+\label{internal_8cc}\index{Y:/mocha/src/compiler/internal.cc@{Y:/mocha/src/compiler/internal.cc}}
+}
+{\ttfamily \#include $<$compiler/internal.h$>$}\par
+{\ttfamily \#include $<$compiler/scopes/scope.h$>$}\par
+{\ttfamily \#include $<$compiler/binding/parser\_\-tracer.h$>$}\par
+{\ttfamily \#include $<$compiler/binding/parser\_\-connector.h$>$}\par
+{\ttfamily \#include $<$compiler/compiler.h$>$}\par
+{\ttfamily \#include $<$compiler/parser/parser.h$>$}\par
+{\ttfamily \#include $<$compiler/scanner/token\_\-stream.h$>$}\par
+{\ttfamily \#include $<$compiler/scanner/source\_\-stream.h$>$}\par
+{\ttfamily \#include $<$compiler/scanner/scanner.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/js\_\-token.h$>$}\par
+{\ttfamily \#include $<$compiler/utils/error\_\-reporter.h$>$}\par
+{\ttfamily \#include $<$utils/xml/xml\_\-setting\_\-info.h$>$}\par
+{\ttfamily \#include $<$utils/smart\_\-pointer/ref\_\-count/handle.h$>$}\par
+{\ttfamily \#include $<$utils/io/file\_\-io.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/file\_\-system.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/virtual\_\-directory.h$>$}\par
+{\ttfamily \#include $<$utils/pool/managed\_\-handle.h$>$}\par
+{\ttfamily \#include $<$ast/ast.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/ast\_\-transformer.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/codegen\_\-visitor.h$>$}\par
+{\ttfamily \#include $<$options/setting.h$>$}\par
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{internal_8cc_ae6fbd2063ab419955cfffcaf10f53779}{FILE\_\-EXIST}~file\_\-exist\_\- = true
+\item 
+\#define \hyperlink{internal_8cc_acb17c9bcd63c1563d23183f13f69c8af}{FILE\_\-NOT\_\-EXIST}~file\_\-exist\_\- = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{internal_8cc_ae6fbd2063ab419955cfffcaf10f53779}{
+\index{internal.cc@{internal.cc}!FILE\_\-EXIST@{FILE\_\-EXIST}}
+\index{FILE\_\-EXIST@{FILE\_\-EXIST}!internal.cc@{internal.cc}}
+\subsubsection[{FILE\_\-EXIST}]{\setlength{\rightskip}{0pt plus 5cm}\#define FILE\_\-EXIST~file\_\-exist\_\- = true}}
+\label{internal_8cc_ae6fbd2063ab419955cfffcaf10f53779}
+
+
+Definition at line 25 of file internal.cc.
+
+\hypertarget{internal_8cc_acb17c9bcd63c1563d23183f13f69c8af}{
+\index{internal.cc@{internal.cc}!FILE\_\-NOT\_\-EXIST@{FILE\_\-NOT\_\-EXIST}}
+\index{FILE\_\-NOT\_\-EXIST@{FILE\_\-NOT\_\-EXIST}!internal.cc@{internal.cc}}
+\subsubsection[{FILE\_\-NOT\_\-EXIST}]{\setlength{\rightskip}{0pt plus 5cm}\#define FILE\_\-NOT\_\-EXIST~file\_\-exist\_\- = false}}
+\label{internal_8cc_acb17c9bcd63c1563d23183f13f69c8af}
+
+
+Definition at line 26 of file internal.cc.
+

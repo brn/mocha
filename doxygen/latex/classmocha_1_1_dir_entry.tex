@@ -1,0 +1,216 @@
+\hypertarget{classmocha_1_1_dir_entry}{
+\section{mocha::DirEntry Class Reference}
+\label{classmocha_1_1_dir_entry}\index{mocha::DirEntry@{mocha::DirEntry}}
+}
+
+
+{\ttfamily \#include $<$directory.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_dir_entry_afcec06b8ebc51d9cc914a53282b28bae}{DirEntry} (const char $\ast$path, const char $\ast$dir)
+\item 
+\hyperlink{classmocha_1_1_dir_entry_a865911e82d9b09796173f18bac8ccd7e}{$\sim$DirEntry} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_dir_entry_aa35e4e487db311e479fc7eb9a5d7a459}{GetName} () const 
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_dir_entry_a85f99f5336f997212d9920b09073cee3}{GetFullPath} () const 
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_dir_entry_a1e30c41653b46a081cee15f003248c53}{GetDirName} () const 
+\item 
+void \hyperlink{classmocha_1_1_dir_entry_abec849ef6f0736a70faac0f436c9519f}{SetNext} (\hyperlink{classmocha_1_1_dir_entry}{DirEntry} $\ast$ent)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_dir_entry_a280456e530b249c5b5891ee027a971c1}{DirEntry} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::string \hyperlink{classmocha_1_1_dir_entry_a1fffe6a5d6f268f6a00f16e4fbce433d}{name\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_dir_entry_aa7c3d579d46d694ac584f3f197c43d8d}{dir\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_dir_entry_ad257721184bc483c22fb639f3e98e6ad}{full\_\-path\_\-}
+\item 
+const \hyperlink{classmocha_1_1_dir_entry}{DirEntry} $\ast$ \hyperlink{classmocha_1_1_dir_entry_aaedb913694aacd4b88c6ccc5daf78ae8}{next\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_dir_entry_ae63907c37399ddb1ac7a104c3fe64423}{DirectoryIterator}
+\item 
+class \hyperlink{classmocha_1_1_dir_entry_a245303e8660be5fb8eb2828a8c44b773}{Directory}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 7 of file directory.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_dir_entry_afcec06b8ebc51d9cc914a53282b28bae}{
+\index{mocha::DirEntry@{mocha::DirEntry}!DirEntry@{DirEntry}}
+\index{DirEntry@{DirEntry}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{DirEntry}]{\setlength{\rightskip}{0pt plus 5cm}mocha::DirEntry::DirEntry (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{const char $\ast$}]{dir}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_afcec06b8ebc51d9cc914a53282b28bae}
+
+
+Definition at line 11 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_a865911e82d9b09796173f18bac8ccd7e}{
+\index{mocha::DirEntry@{mocha::DirEntry}!$\sim$DirEntry@{$\sim$DirEntry}}
+\index{$\sim$DirEntry@{$\sim$DirEntry}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{$\sim$DirEntry}]{\setlength{\rightskip}{0pt plus 5cm}mocha::DirEntry::$\sim$DirEntry (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_a865911e82d9b09796173f18bac8ccd7e}
+
+
+Definition at line 16 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_a280456e530b249c5b5891ee027a971c1}{
+\index{mocha::DirEntry@{mocha::DirEntry}!DirEntry@{DirEntry}}
+\index{DirEntry@{DirEntry}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{DirEntry}]{\setlength{\rightskip}{0pt plus 5cm}mocha::DirEntry::DirEntry (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_a280456e530b249c5b5891ee027a971c1}
+
+
+Definition at line 22 of file directory.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_dir_entry_a1e30c41653b46a081cee15f003248c53}{
+\index{mocha::DirEntry@{mocha::DirEntry}!GetDirName@{GetDirName}}
+\index{GetDirName@{GetDirName}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{GetDirName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::DirEntry::GetDirName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_a1e30c41653b46a081cee15f003248c53}
+
+
+Definition at line 19 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_a85f99f5336f997212d9920b09073cee3}{
+\index{mocha::DirEntry@{mocha::DirEntry}!GetFullPath@{GetFullPath}}
+\index{GetFullPath@{GetFullPath}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{GetFullPath}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::DirEntry::GetFullPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_a85f99f5336f997212d9920b09073cee3}
+
+
+Definition at line 18 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_aa35e4e487db311e479fc7eb9a5d7a459}{
+\index{mocha::DirEntry@{mocha::DirEntry}!GetName@{GetName}}
+\index{GetName@{GetName}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{GetName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::DirEntry::GetName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_aa35e4e487db311e479fc7eb9a5d7a459}
+
+
+Definition at line 17 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_abec849ef6f0736a70faac0f436c9519f}{
+\index{mocha::DirEntry@{mocha::DirEntry}!SetNext@{SetNext}}
+\index{SetNext@{SetNext}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{SetNext}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::DirEntry::SetNext (
+\begin{DoxyParamCaption}
+\item[{{\bf DirEntry} $\ast$}]{ent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_abec849ef6f0736a70faac0f436c9519f}
+
+
+Definition at line 20 of file directory.h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_dir_entry_a245303e8660be5fb8eb2828a8c44b773}{
+\index{mocha::DirEntry@{mocha::DirEntry}!Directory@{Directory}}
+\index{Directory@{Directory}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{Directory}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Directory}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_a245303e8660be5fb8eb2828a8c44b773}
+
+
+Definition at line 9 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_ae63907c37399ddb1ac7a104c3fe64423}{
+\index{mocha::DirEntry@{mocha::DirEntry}!DirectoryIterator@{DirectoryIterator}}
+\index{DirectoryIterator@{DirectoryIterator}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{DirectoryIterator}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf DirectoryIterator}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_ae63907c37399ddb1ac7a104c3fe64423}
+
+
+Definition at line 8 of file directory.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_dir_entry_aa7c3d579d46d694ac584f3f197c43d8d}{
+\index{mocha::DirEntry@{mocha::DirEntry}!dir\_\-@{dir\_\-}}
+\index{dir\_\-@{dir\_\-}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{dir\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::DirEntry::dir\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_aa7c3d579d46d694ac584f3f197c43d8d}
+
+
+Definition at line 24 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_ad257721184bc483c22fb639f3e98e6ad}{
+\index{mocha::DirEntry@{mocha::DirEntry}!full\_\-path\_\-@{full\_\-path\_\-}}
+\index{full\_\-path\_\-@{full\_\-path\_\-}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{full\_\-path\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::DirEntry::full\_\-path\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_ad257721184bc483c22fb639f3e98e6ad}
+
+
+Definition at line 25 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_a1fffe6a5d6f268f6a00f16e4fbce433d}{
+\index{mocha::DirEntry@{mocha::DirEntry}!name\_\-@{name\_\-}}
+\index{name\_\-@{name\_\-}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{name\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::DirEntry::name\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_a1fffe6a5d6f268f6a00f16e4fbce433d}
+
+
+Definition at line 23 of file directory.h.
+
+\hypertarget{classmocha_1_1_dir_entry_aaedb913694aacd4b88c6ccc5daf78ae8}{
+\index{mocha::DirEntry@{mocha::DirEntry}!next\_\-@{next\_\-}}
+\index{next\_\-@{next\_\-}!mocha::DirEntry@{mocha::DirEntry}}
+\subsubsection[{next\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf DirEntry}$\ast$ {\bf mocha::DirEntry::next\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_dir_entry_aaedb913694aacd4b88c6ccc5daf78ae8}
+
+
+Definition at line 26 of file directory.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-system/\hyperlink{directory_8h}{directory.h}\end{DoxyCompactItemize}

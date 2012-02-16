@@ -1,0 +1,269 @@
+\hypertarget{classmocha_1_1_token_stream}{
+\section{mocha::TokenStream Class Reference}
+\label{classmocha_1_1_token_stream}\index{mocha::TokenStream@{mocha::TokenStream}}
+}
+
+
+{\ttfamily \#include $<$token\_\-stream.h$>$}
+
+Inheritance diagram for mocha::TokenStream:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_token_stream}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_token_stream_aaee8c9a07899de5195ee01e274d50eb7}{$\sim$TokenStream} ()
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_token_stream_a6903c569c84bdbb265aee14a50c41ba0}{Advance} (int index=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_token_stream_abc6ea0a6410cf9b7e4a730806be87c14}{Seek} (int index)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_token_stream_a67b531f000b58f2dc7ce63a25ac36057}{Undo} (int index=0)
+\item 
+void \hyperlink{classmocha_1_1_token_stream_a8d1c62c777139b7e0138bdadafc15c8d}{Append} (const char $\ast$token, int type, long line)
+\item 
+int \hyperlink{classmocha_1_1_token_stream_afc8590e2538bdd9af89cda9183026f6a}{Size} () const 
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_token_stream_a35ffa07b7198ddc580a370c837c86056}{Last} () const 
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_token_stream_a3c8b7a96404c2f80daaed4aa77cdfbbc}{First} () const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_token_stream}{TokenStream} $\ast$ \hyperlink{classmocha_1_1_token_stream_ad50a516f8313419dbc01f4f494f86b32}{Create} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_token_stream_ae15de3402e95397fd58b6efa49f08d42}{kEmpty} = 0
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_token_stream_a4ad4aad5e1d4449430ad4225e374cfbe}{TokenStream} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_token_stream_acb7ac8cb2bdc97c495621b92139a5d47}{cursor\_\-}
+\item 
+int \hyperlink{classmocha_1_1_token_stream_a0a7f30870a65e8bc87cb435ca366ea52}{size\_\-}
+\item 
+\hyperlink{classmocha_1_1_token_container}{TokenContainer} $\ast$ \hyperlink{classmocha_1_1_token_stream_a91a912c01f3ca9489c7f29e49a436324}{current\_\-}
+\item 
+\hyperlink{classmocha_1_1_token_container}{TokenContainer} $\ast$ \hyperlink{classmocha_1_1_token_stream_a931a79234762ef220bc3e887a0426721}{head\_\-}
+\item 
+\hyperlink{classmocha_1_1_token_container}{TokenContainer} $\ast$ \hyperlink{classmocha_1_1_token_stream_a478d6cb07f735082f7cf55a86d6addc2}{tail\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 8 of file token\_\-stream.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_token_stream_aaee8c9a07899de5195ee01e274d50eb7}{
+\index{mocha::TokenStream@{mocha::TokenStream}!$\sim$TokenStream@{$\sim$TokenStream}}
+\index{$\sim$TokenStream@{$\sim$TokenStream}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{$\sim$TokenStream}]{\setlength{\rightskip}{0pt plus 5cm}mocha::TokenStream::$\sim$TokenStream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_stream_aaee8c9a07899de5195ee01e274d50eb7}
+
+
+Definition at line 41 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_a4ad4aad5e1d4449430ad4225e374cfbe}{
+\index{mocha::TokenStream@{mocha::TokenStream}!TokenStream@{TokenStream}}
+\index{TokenStream@{TokenStream}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{TokenStream}]{\setlength{\rightskip}{0pt plus 5cm}mocha::TokenStream::TokenStream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_stream_a4ad4aad5e1d4449430ad4225e374cfbe}
+
+
+Definition at line 40 of file token\_\-stream.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_token_stream_a6903c569c84bdbb265aee14a50c41ba0}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Advance@{Advance}}
+\index{Advance@{Advance}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Advance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::TokenStream::Advance (
+\begin{DoxyParamCaption}
+\item[{int}]{index = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_stream_a6903c569c84bdbb265aee14a50c41ba0}
+
+
+Definition at line 51 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_a8d1c62c777139b7e0138bdadafc15c8d}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Append@{Append}}
+\index{Append@{Append}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Append}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenStream::Append (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{token, }
+\item[{int}]{type, }
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_stream_a8d1c62c777139b7e0138bdadafc15c8d}
+
+
+Definition at line 75 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_ad50a516f8313419dbc01f4f494f86b32}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Create@{Create}}
+\index{Create@{Create}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenStream} $\ast$ mocha::TokenStream::Create (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_token_stream_ad50a516f8313419dbc01f4f494f86b32}
+
+
+Definition at line 36 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_a3c8b7a96404c2f80daaed4aa77cdfbbc}{
+\index{mocha::TokenStream@{mocha::TokenStream}!First@{First}}
+\index{First@{First}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{First}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::TokenStream::First (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_token_stream_a3c8b7a96404c2f80daaed4aa77cdfbbc}
+
+
+Definition at line 128 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_a35ffa07b7198ddc580a370c837c86056}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Last@{Last}}
+\index{Last@{Last}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Last}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::TokenStream::Last (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_token_stream_a35ffa07b7198ddc580a370c837c86056}
+
+
+Definition at line 135 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_abc6ea0a6410cf9b7e4a730806be87c14}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Seek@{Seek}}
+\index{Seek@{Seek}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Seek}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::TokenStream::Seek (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_stream_abc6ea0a6410cf9b7e4a730806be87c14}
+
+
+Definition at line 116 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_afc8590e2538bdd9af89cda9183026f6a}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Size@{Size}}
+\index{Size@{Size}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::TokenStream::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_token_stream_afc8590e2538bdd9af89cda9183026f6a}
+
+
+Definition at line 126 of file token\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_token_stream_a67b531f000b58f2dc7ce63a25ac36057}{
+\index{mocha::TokenStream@{mocha::TokenStream}!Undo@{Undo}}
+\index{Undo@{Undo}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{Undo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::TokenStream::Undo (
+\begin{DoxyParamCaption}
+\item[{int}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_stream_a67b531f000b58f2dc7ce63a25ac36057}
+
+
+Definition at line 93 of file token\_\-stream.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_token_stream_a91a912c01f3ca9489c7f29e49a436324}{
+\index{mocha::TokenStream@{mocha::TokenStream}!current\_\-@{current\_\-}}
+\index{current\_\-@{current\_\-}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{current\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenContainer}$\ast$ {\bf mocha::TokenStream::current\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_stream_a91a912c01f3ca9489c7f29e49a436324}
+
+
+Definition at line 24 of file token\_\-stream.h.
+
+\hypertarget{classmocha_1_1_token_stream_acb7ac8cb2bdc97c495621b92139a5d47}{
+\index{mocha::TokenStream@{mocha::TokenStream}!cursor\_\-@{cursor\_\-}}
+\index{cursor\_\-@{cursor\_\-}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{cursor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::TokenStream::cursor\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_stream_acb7ac8cb2bdc97c495621b92139a5d47}
+
+
+Definition at line 22 of file token\_\-stream.h.
+
+\hypertarget{classmocha_1_1_token_stream_a931a79234762ef220bc3e887a0426721}{
+\index{mocha::TokenStream@{mocha::TokenStream}!head\_\-@{head\_\-}}
+\index{head\_\-@{head\_\-}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{head\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenContainer}$\ast$ {\bf mocha::TokenStream::head\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_stream_a931a79234762ef220bc3e887a0426721}
+
+
+Definition at line 25 of file token\_\-stream.h.
+
+\hypertarget{classmocha_1_1_token_stream_ae15de3402e95397fd58b6efa49f08d42}{
+\index{mocha::TokenStream@{mocha::TokenStream}!kEmpty@{kEmpty}}
+\index{kEmpty@{kEmpty}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{kEmpty}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ {\bf mocha::TokenStream::kEmpty} = 0\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_token_stream_ae15de3402e95397fd58b6efa49f08d42}
+
+
+Definition at line 19 of file token\_\-stream.h.
+
+\hypertarget{classmocha_1_1_token_stream_a0a7f30870a65e8bc87cb435ca366ea52}{
+\index{mocha::TokenStream@{mocha::TokenStream}!size\_\-@{size\_\-}}
+\index{size\_\-@{size\_\-}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::TokenStream::size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_stream_a0a7f30870a65e8bc87cb435ca366ea52}
+
+
+Definition at line 23 of file token\_\-stream.h.
+
+\hypertarget{classmocha_1_1_token_stream_a478d6cb07f735082f7cf55a86d6addc2}{
+\index{mocha::TokenStream@{mocha::TokenStream}!tail\_\-@{tail\_\-}}
+\index{tail\_\-@{tail\_\-}!mocha::TokenStream@{mocha::TokenStream}}
+\subsubsection[{tail\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenContainer}$\ast$ {\bf mocha::TokenStream::tail\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_stream_a478d6cb07f735082f7cf55a86d6addc2}
+
+
+Definition at line 26 of file token\_\-stream.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/scanner/\hyperlink{token__stream_8h}{token\_\-stream.h}\item 
+Y:/mocha/src/compiler/scanner/\hyperlink{token__stream_8cc}{token\_\-stream.cc}\end{DoxyCompactItemize}

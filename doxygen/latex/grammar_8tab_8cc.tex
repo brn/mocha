@@ -1,0 +1,401 @@
+\hypertarget{grammar_8tab_8cc}{
+\section{Y:/mocha/src/grammar/grammar.tab.cc File Reference}
+\label{grammar_8tab_8cc}\index{Y:/mocha/src/grammar/grammar.tab.cc@{Y:/mocha/src/grammar/grammar.tab.cc}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$string$>$}\par
+{\ttfamily \#include $<$list$>$}\par
+{\ttfamily \#include $<$compiler/compiler.h$>$}\par
+{\ttfamily \#include $<$compiler/tokens/token\_\-info.h$>$}\par
+{\ttfamily \#include $<$compiler/binding/parser\_\-tracer.h$>$}\par
+{\ttfamily \#include $<$compiler/binding/parser\_\-connector.h$>$}\par
+{\ttfamily \#include $<$compiler/binding/yylex.h$>$}\par
+{\ttfamily \#include $<$ast/ast.h$>$}\par
+{\ttfamily \#include $<$ast/visitors/ast\_\-transformer.h$>$}\par
+{\ttfamily \#include $<$utils/smart\_\-pointer/ref\_\-count/handle.h$>$}\par
+{\ttfamily \#include $<$utils/pool/managed\_\-handle.h$>$}\par
+{\ttfamily \#include \char`\"{}grammar.tab.hh\char`\"{}}\par
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespaceyy}{yy}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{grammar_8tab_8cc_af7ecc8682901674d3f9f16aa1912360d}{BINARY\_\-ACTION}(type, \_\-1, \_\-3, \_\-4)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a4038c099681b261ecf0c773f88b32bc2}{COMPARE\_\-ACTION}(type, \_\-1, \_\-3, \_\-4)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a86f079016f11f0600f4259f3f03f8d43}{YY\_\-}(msgid)~msgid
+\item 
+\#define \hyperlink{grammar_8tab_8cc_ab2b4f027a2b092ac14ca4464e7b3db60}{YYRHSLOC}(Rhs, K)~((Rhs)\mbox{[}K\mbox{]})
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a485d38f93de30679900c9cad6e7f3446}{YYLLOC\_\-DEFAULT}(Current, Rhs, N)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_ad7d1ef1bbc6adfe69894bc8221f557e1}{YYUSE}(e)~((void) (e))
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a3649de2ba01c20b4c9ec72bdc71b2956}{YYCDEBUG}~if (yydebug\_\-) ($\ast$yycdebug\_\-)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a1c510d33cb388afc9411141ba3076a36}{YY\_\-SYMBOL\_\-PRINT}(Title, Type, Value, Location)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a49ad456240785266cadae498ddae9310}{YY\_\-REDUCE\_\-PRINT}(Rule)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a56e528a4079b5c725f0fcbe184414bf5}{YY\_\-STACK\_\-PRINT}()
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a20bf055e53dc4fd5afddfd752a4d1adb}{yyerrok}~(yyerrstatus\_\- = 0)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a5035d59933b3f5388c44f596145db047}{yyclearin}~(yychar = yyempty\_\-)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_aa6c7a65b580c214b2ea832fd7bdd472e}{YYACCEPT}~goto yyacceptlab
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a3bcde0b05b9aa4ec5169092d9d211dbd}{YYABORT}~goto yyabortlab
+\item 
+\#define \hyperlink{grammar_8tab_8cc_af1eef6197be78122699013d0784acc80}{YYERROR}~goto yyerrorlab
+\item 
+\#define \hyperlink{grammar_8tab_8cc_ad860e18ca4b79fc589895b531bdb7948}{YYRECOVERING}()~(!!yyerrstatus\_\-)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a23293ac2f1c46bdbbfe2cad8c2fb31ee}{TYPE}(name)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a23293ac2f1c46bdbbfe2cad8c2fb31ee}{TYPE}(name)
+\item 
+\#define \hyperlink{grammar_8tab_8cc_a5678224066e7b61a101000279b4bb0be}{YYCASE\_\-}(N, S)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_empty}{Empty} $\ast$ \hyperlink{grammar_8tab_8cc_af74340590be4c86eb57c1a016f25b158}{GetEmptyNode} ()
+\item 
+void \hyperlink{grammar_8tab_8cc_ac9f81a188c0054860d9626ed31d2f831}{Replace} (std::string \&msg, const char $\ast$find, const char $\ast$rep)
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{grammar_8tab_8cc_af7ecc8682901674d3f9f16aa1912360d}{
+\index{grammar.tab.cc@{grammar.tab.cc}!BINARY\_\-ACTION@{BINARY\_\-ACTION}}
+\index{BINARY\_\-ACTION@{BINARY\_\-ACTION}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{BINARY\_\-ACTION}]{\setlength{\rightskip}{0pt plus 5cm}\#define BINARY\_\-ACTION(
+\begin{DoxyParamCaption}
+\item[{}]{type, }
+\item[{}]{\_\-1, }
+\item[{}]{\_\-3, }
+\item[{}]{\_\-4}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_af7ecc8682901674d3f9f16aa1912360d}
+{\bfseries Value:}
+\begin{DoxyCode}
+BinaryExp* binary = ManagedHandle::Retain( new BinaryExp( type , _1 , _3 ) ); \
+  binary->Line( connector->GetLineNumber() );                           \
+  _4 = binary;                                                          \
+\end{DoxyCode}
+
+
+Definition at line 55 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a4038c099681b261ecf0c773f88b32bc2}{
+\index{grammar.tab.cc@{grammar.tab.cc}!COMPARE\_\-ACTION@{COMPARE\_\-ACTION}}
+\index{COMPARE\_\-ACTION@{COMPARE\_\-ACTION}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{COMPARE\_\-ACTION}]{\setlength{\rightskip}{0pt plus 5cm}\#define COMPARE\_\-ACTION(
+\begin{DoxyParamCaption}
+\item[{}]{type, }
+\item[{}]{\_\-1, }
+\item[{}]{\_\-3, }
+\item[{}]{\_\-4}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a4038c099681b261ecf0c773f88b32bc2}
+{\bfseries Value:}
+\begin{DoxyCode}
+CompareExp* compare = ManagedHandle::Retain( new CompareExp( type , _1 , _3 ) ); 
+      \
+  compare->Line( connector->GetLineNumber() );                           \
+  _4 = compare;                                                         \
+\end{DoxyCode}
+
+
+Definition at line 60 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a23293ac2f1c46bdbbfe2cad8c2fb31ee}{
+\index{grammar.tab.cc@{grammar.tab.cc}!TYPE@{TYPE}}
+\index{TYPE@{TYPE}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{TYPE}]{\setlength{\rightskip}{0pt plus 5cm}\#define TYPE(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a23293ac2f1c46bdbbfe2cad8c2fb31ee}
+{\bfseries Value:}
+\begin{DoxyCode}
+case ClassMember::k##name :               \
+        list->name( (yysemantic_stack_[(1) - (1)].ast) );                       \
+      
+        break
+\end{DoxyCode}
+\hypertarget{grammar_8tab_8cc_a23293ac2f1c46bdbbfe2cad8c2fb31ee}{
+\index{grammar.tab.cc@{grammar.tab.cc}!TYPE@{TYPE}}
+\index{TYPE@{TYPE}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{TYPE}]{\setlength{\rightskip}{0pt plus 5cm}\#define TYPE(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a23293ac2f1c46bdbbfe2cad8c2fb31ee}
+{\bfseries Value:}
+\begin{DoxyCode}
+case ClassMember::k##name :               \
+        (yysemantic_stack_[(2) - (1)].prop)->name( (yysemantic_stack_[(2) - (2)].
+      ast) );                         \
+        break
+\end{DoxyCode}
+\hypertarget{grammar_8tab_8cc_a86f079016f11f0600f4259f3f03f8d43}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YY\_\-@{YY\_\-}}
+\index{YY\_\-@{YY\_\-}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YY\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\#define YY\_\-(
+\begin{DoxyParamCaption}
+\item[{}]{msgid}
+\end{DoxyParamCaption}
+)~msgid}}
+\label{grammar_8tab_8cc_a86f079016f11f0600f4259f3f03f8d43}
+
+
+Definition at line 91 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a49ad456240785266cadae498ddae9310}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YY\_\-REDUCE\_\-PRINT@{YY\_\-REDUCE\_\-PRINT}}
+\index{YY\_\-REDUCE\_\-PRINT@{YY\_\-REDUCE\_\-PRINT}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YY\_\-REDUCE\_\-PRINT}]{\setlength{\rightskip}{0pt plus 5cm}\#define YY\_\-REDUCE\_\-PRINT(
+\begin{DoxyParamCaption}
+\item[{}]{Rule}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a49ad456240785266cadae498ddae9310}
+{\bfseries Value:}
+\begin{DoxyCode}
+do {                                    \
+  if (yydebug_)                         \
+    yy_reduce_print_ (Rule);            \
+} while (false)
+\end{DoxyCode}
+
+
+Definition at line 134 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a56e528a4079b5c725f0fcbe184414bf5}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YY\_\-STACK\_\-PRINT@{YY\_\-STACK\_\-PRINT}}
+\index{YY\_\-STACK\_\-PRINT@{YY\_\-STACK\_\-PRINT}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YY\_\-STACK\_\-PRINT}]{\setlength{\rightskip}{0pt plus 5cm}\#define YY\_\-STACK\_\-PRINT(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a56e528a4079b5c725f0fcbe184414bf5}
+{\bfseries Value:}
+\begin{DoxyCode}
+do {                                    \
+  if (yydebug_)                         \
+    yystack_print_ ();                  \
+} while (false)
+\end{DoxyCode}
+
+
+Definition at line 140 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a1c510d33cb388afc9411141ba3076a36}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YY\_\-SYMBOL\_\-PRINT@{YY\_\-SYMBOL\_\-PRINT}}
+\index{YY\_\-SYMBOL\_\-PRINT@{YY\_\-SYMBOL\_\-PRINT}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YY\_\-SYMBOL\_\-PRINT}]{\setlength{\rightskip}{0pt plus 5cm}\#define YY\_\-SYMBOL\_\-PRINT(
+\begin{DoxyParamCaption}
+\item[{}]{Title, }
+\item[{}]{Type, }
+\item[{}]{Value, }
+\item[{}]{Location}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a1c510d33cb388afc9411141ba3076a36}
+{\bfseries Value:}
+\begin{DoxyCode}
+do {                                                    \
+  if (yydebug_)                                         \
+    {                                                   \
+      *yycdebug_ << Title << ' ';                       \
+      yy_symbol_print_ ((Type), (Value), (Location));   \
+      *yycdebug_ << std::endl;                          \
+    }                                                   \
+} while (false)
+\end{DoxyCode}
+
+
+Definition at line 124 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a3bcde0b05b9aa4ec5169092d9d211dbd}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYABORT@{YYABORT}}
+\index{YYABORT@{YYABORT}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYABORT}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYABORT~goto yyabortlab}}
+\label{grammar_8tab_8cc_a3bcde0b05b9aa4ec5169092d9d211dbd}
+
+
+Definition at line 159 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_aa6c7a65b580c214b2ea832fd7bdd472e}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYACCEPT@{YYACCEPT}}
+\index{YYACCEPT@{YYACCEPT}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYACCEPT}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYACCEPT~goto yyacceptlab}}
+\label{grammar_8tab_8cc_aa6c7a65b580c214b2ea832fd7bdd472e}
+
+
+Definition at line 158 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a5678224066e7b61a101000279b4bb0be}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYCASE\_\-@{YYCASE\_\-}}
+\index{YYCASE\_\-@{YYCASE\_\-}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYCASE\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYCASE\_\-(
+\begin{DoxyParamCaption}
+\item[{}]{N, }
+\item[{}]{S}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a5678224066e7b61a101000279b4bb0be}
+{\bfseries Value:}
+\begin{DoxyCode}
+case N:                               \
+          yyformat = S;                       \
+        break
+\end{DoxyCode}
+\hypertarget{grammar_8tab_8cc_a3649de2ba01c20b4c9ec72bdc71b2956}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYCDEBUG@{YYCDEBUG}}
+\index{YYCDEBUG@{YYCDEBUG}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYCDEBUG}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYCDEBUG~if (yydebug\_\-) ($\ast$yycdebug\_\-)}}
+\label{grammar_8tab_8cc_a3649de2ba01c20b4c9ec72bdc71b2956}
+
+
+Definition at line 122 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a5035d59933b3f5388c44f596145db047}{
+\index{grammar.tab.cc@{grammar.tab.cc}!yyclearin@{yyclearin}}
+\index{yyclearin@{yyclearin}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{yyclearin}]{\setlength{\rightskip}{0pt plus 5cm}\#define yyclearin~(yychar = yyempty\_\-)}}
+\label{grammar_8tab_8cc_a5035d59933b3f5388c44f596145db047}
+
+
+Definition at line 156 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a20bf055e53dc4fd5afddfd752a4d1adb}{
+\index{grammar.tab.cc@{grammar.tab.cc}!yyerrok@{yyerrok}}
+\index{yyerrok@{yyerrok}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{yyerrok}]{\setlength{\rightskip}{0pt plus 5cm}\#define yyerrok~(yyerrstatus\_\- = 0)}}
+\label{grammar_8tab_8cc_a20bf055e53dc4fd5afddfd752a4d1adb}
+
+
+Definition at line 155 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_af1eef6197be78122699013d0784acc80}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYERROR@{YYERROR}}
+\index{YYERROR@{YYERROR}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYERROR}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYERROR~goto yyerrorlab}}
+\label{grammar_8tab_8cc_af1eef6197be78122699013d0784acc80}
+
+
+Definition at line 160 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_a485d38f93de30679900c9cad6e7f3446}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYLLOC\_\-DEFAULT@{YYLLOC\_\-DEFAULT}}
+\index{YYLLOC\_\-DEFAULT@{YYLLOC\_\-DEFAULT}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYLLOC\_\-DEFAULT}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYLLOC\_\-DEFAULT(
+\begin{DoxyParamCaption}
+\item[{}]{Current, }
+\item[{}]{Rhs, }
+\item[{}]{N}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_a485d38f93de30679900c9cad6e7f3446}
+{\bfseries Value:}
+\begin{DoxyCode}
+do                                                                    \
+   if (N)                                                              \
+     {                                                                 \
+       (Current).begin = YYRHSLOC (Rhs, 1).begin;                      \
+       (Current).end   = YYRHSLOC (Rhs, N).end;                        \
+     }                                                                 \
+   else                                                                \
+     {                                                                 \
+       (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;        \
+     }                                                                 \
+ while (false)
+\end{DoxyCode}
+
+
+Definition at line 101 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_ad860e18ca4b79fc589895b531bdb7948}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYRECOVERING@{YYRECOVERING}}
+\index{YYRECOVERING@{YYRECOVERING}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYRECOVERING}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYRECOVERING(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~(!!yyerrstatus\_\-)}}
+\label{grammar_8tab_8cc_ad860e18ca4b79fc589895b531bdb7948}
+
+
+Definition at line 161 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_ab2b4f027a2b092ac14ca4464e7b3db60}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYRHSLOC@{YYRHSLOC}}
+\index{YYRHSLOC@{YYRHSLOC}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYRHSLOC}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYRHSLOC(
+\begin{DoxyParamCaption}
+\item[{}]{Rhs, }
+\item[{}]{K}
+\end{DoxyParamCaption}
+)~((Rhs)\mbox{[}K\mbox{]})}}
+\label{grammar_8tab_8cc_ab2b4f027a2b092ac14ca4464e7b3db60}
+
+
+Definition at line 99 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_ad7d1ef1bbc6adfe69894bc8221f557e1}{
+\index{grammar.tab.cc@{grammar.tab.cc}!YYUSE@{YYUSE}}
+\index{YYUSE@{YYUSE}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{YYUSE}]{\setlength{\rightskip}{0pt plus 5cm}\#define YYUSE(
+\begin{DoxyParamCaption}
+\item[{}]{e}
+\end{DoxyParamCaption}
+)~((void) (e))}}
+\label{grammar_8tab_8cc_ad7d1ef1bbc6adfe69894bc8221f557e1}
+
+
+Definition at line 116 of file grammar.tab.cc.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{grammar_8tab_8cc_af74340590be4c86eb57c1a016f25b158}{
+\index{grammar.tab.cc@{grammar.tab.cc}!GetEmptyNode@{GetEmptyNode}}
+\index{GetEmptyNode@{GetEmptyNode}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{GetEmptyNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Empty}$\ast$ GetEmptyNode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_af74340590be4c86eb57c1a016f25b158}
+
+
+Definition at line 65 of file grammar.tab.cc.
+
+\hypertarget{grammar_8tab_8cc_ac9f81a188c0054860d9626ed31d2f831}{
+\index{grammar.tab.cc@{grammar.tab.cc}!Replace@{Replace}}
+\index{Replace@{Replace}!grammar.tab.cc@{grammar.tab.cc}}
+\subsubsection[{Replace}]{\setlength{\rightskip}{0pt plus 5cm}void Replace (
+\begin{DoxyParamCaption}
+\item[{std::string \&}]{msg, }
+\item[{const char $\ast$}]{find, }
+\item[{const char $\ast$}]{rep}
+\end{DoxyParamCaption}
+)}}
+\label{grammar_8tab_8cc_ac9f81a188c0054860d9626ed31d2f831}
+
+
+Definition at line 6174 of file grammar.tab.cc.
+

@@ -1,0 +1,406 @@
+\hypertarget{class_ti_xml_declaration}{
+\section{TiXmlDeclaration Class Reference}
+\label{class_ti_xml_declaration}\index{TiXmlDeclaration@{TiXmlDeclaration}}
+}
+
+
+In correct XML the declaration is the first entry in the file.  
+
+
+
+
+{\ttfamily \#include $<$tinyxml.h$>$}
+
+Inheritance diagram for TiXmlDeclaration:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_ti_xml_declaration}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ti_xml_declaration_aa0484d059bea0ea1acb47c9094382d79}{TiXmlDeclaration} ()
+\begin{DoxyCompactList}\small\item\em Construct an empty declaration. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_declaration_a3b618d1c30c25e4b7a71f31a595ee298}{TiXmlDeclaration} (const char $\ast$\_\-version, const char $\ast$\_\-encoding, const char $\ast$\_\-standalone)
+\begin{DoxyCompactList}\small\item\em Construct. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_declaration_a58ac9042c342f7845c8491da0bb091e8}{TiXmlDeclaration} (const \hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} \&copy)
+\item 
+\hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} \& \hyperlink{class_ti_xml_declaration_a3bc617efe11014ff2b1a9c5727c37a9a}{operator=} (const \hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} \&copy)
+\item 
+virtual \hyperlink{class_ti_xml_declaration_ad5f37a673f4c507fd7e550470f9cec25}{$\sim$TiXmlDeclaration} ()
+\item 
+const char $\ast$ \hyperlink{class_ti_xml_declaration_a02ee557b1a4545c3219ed377c103ec76}{Version} () const 
+\begin{DoxyCompactList}\small\item\em Version. Will return an empty string if none was found. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{class_ti_xml_declaration_a5d974231f9e9a2f0542f15f3a46cdb76}{Encoding} () const 
+\begin{DoxyCompactList}\small\item\em Encoding. Will return an empty string if none was found. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{class_ti_xml_declaration_a9ff06afc033d7ef730ec7c6825b97ad9}{Standalone} () const 
+\begin{DoxyCompactList}\small\item\em Is this a standalone document? \end{DoxyCompactList}\item 
+virtual \hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$ \hyperlink{class_ti_xml_declaration_aff8231266d735943d8a7514a9c9822b9}{Clone} () const 
+\begin{DoxyCompactList}\small\item\em Creates a copy of this Declaration and returns it. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_ti_xml_declaration_ae24e7e08dfc5c414965add510fecf270}{Print} (FILE $\ast$cfile, int depth, \hyperlink{class_ti_xml_string}{TiXmlString} $\ast$str) const 
+\item 
+virtual void \hyperlink{class_ti_xml_declaration_abf6303db4bd05b5be554036817ff1cb4}{Print} (FILE $\ast$cfile, int depth) const 
+\begin{DoxyCompactList}\small\item\em All TinyXml classes can print themselves to a filestream or the string class (\hyperlink{class_ti_xml_string}{TiXmlString} in non-\/STL mode, std::string in STL mode.) Either or both cfile and str can be null. \end{DoxyCompactList}\item 
+virtual const char $\ast$ \hyperlink{class_ti_xml_declaration_a9839ea97ed687a2b7342fd7b0f04361b}{Parse} (const char $\ast$p, \hyperlink{class_ti_xml_parsing_data}{TiXmlParsingData} $\ast$\hyperlink{bootstrap_8cc_a923b2158227405b9f7a6eceb6c7104c8}{data}, \hyperlink{tinyxml_8h_a88d51847a13ee0f4b4d320d03d2c4d96}{TiXmlEncoding} \hyperlink{class_ti_xml_declaration_a5eb346397dd758b4e9626fb68274d9d2}{encoding})
+\item 
+virtual const \hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} $\ast$ \hyperlink{class_ti_xml_declaration_a1e085d3fefd1dbf5ccdbff729931a967}{ToDeclaration} () const 
+\begin{DoxyCompactList}\small\item\em Cast to a more defined type. Will return null not of the requested type. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} $\ast$ \hyperlink{class_ti_xml_declaration_a6bd3d1daddcaeb9543c24bfd090969ce}{ToDeclaration} ()
+\begin{DoxyCompactList}\small\item\em Cast to a more defined type. Will return null not of the requested type. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_declaration_ab6a6b178161ba9abc2c35058de689864}{Accept} (\hyperlink{class_ti_xml_visitor}{TiXmlVisitor} $\ast$visitor) const 
+\begin{DoxyCompactList}\small\item\em Walk the XML tree visiting this node and all of its children. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_ti_xml_declaration_a9d08959f935421a593032bd3efb30c38}{CopyTo} (\hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} $\ast$target) const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ti_xml_string}{TiXmlString} \hyperlink{class_ti_xml_declaration_a369b5e3c1a8d0cb1d62f69cdf02ead0f}{version}
+\item 
+\hyperlink{class_ti_xml_string}{TiXmlString} \hyperlink{class_ti_xml_declaration_a5eb346397dd758b4e9626fb68274d9d2}{encoding}
+\item 
+\hyperlink{class_ti_xml_string}{TiXmlString} \hyperlink{class_ti_xml_declaration_ae061e61062658a979f8cd8cca8807440}{standalone}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+In correct XML the declaration is the first entry in the file. 
+
+\begin{DoxyVerb}
+		<?xml version="1.0" standalone="yes"?>
+	\end{DoxyVerb}
+
+
+TinyXml will happily read or write files without a declaration, however. There are 3 possible attributes to the declaration: version, encoding, and standalone.
+
+Note: In this version of the code, the attributes are handled as special cases, not generic attributes, simply because there can only be at most 3 and they are always the same. 
+
+Definition at line 1285 of file tinyxml.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ti_xml_declaration_aa0484d059bea0ea1acb47c9094382d79}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\index{TiXmlDeclaration@{TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{TiXmlDeclaration}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlDeclaration::TiXmlDeclaration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_declaration_aa0484d059bea0ea1acb47c9094382d79}
+
+
+Construct an empty declaration. 
+
+
+
+Definition at line 1289 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a3b618d1c30c25e4b7a71f31a595ee298}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\index{TiXmlDeclaration@{TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{TiXmlDeclaration}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlDeclaration::TiXmlDeclaration (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{\_\-version, }
+\item[{const char $\ast$}]{\_\-encoding, }
+\item[{const char $\ast$}]{\_\-standalone}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_declaration_a3b618d1c30c25e4b7a71f31a595ee298}
+
+
+Construct. 
+
+
+
+Definition at line 1379 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_a58ac9042c342f7845c8491da0bb091e8}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\index{TiXmlDeclaration@{TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{TiXmlDeclaration}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlDeclaration::TiXmlDeclaration (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlDeclaration} \&}]{copy}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_declaration_a58ac9042c342f7845c8491da0bb091e8}
+
+
+Definition at line 1403 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_ad5f37a673f4c507fd7e550470f9cec25}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!$\sim$TiXmlDeclaration@{$\sim$TiXmlDeclaration}}
+\index{$\sim$TiXmlDeclaration@{$\sim$TiXmlDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{$\sim$TiXmlDeclaration}]{\setlength{\rightskip}{0pt plus 5cm}virtual TiXmlDeclaration::$\sim$TiXmlDeclaration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_ad5f37a673f4c507fd7e550470f9cec25}
+
+
+Definition at line 1306 of file tinyxml.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ti_xml_declaration_ab6a6b178161ba9abc2c35058de689864}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Accept@{Accept}}
+\index{Accept@{Accept}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Accept}]{\setlength{\rightskip}{0pt plus 5cm}bool TiXmlDeclaration::Accept (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_ab6a6b178161ba9abc2c35058de689864}
+
+
+Walk the XML tree visiting this node and all of its children. 
+
+
+
+Implements \hyperlink{class_ti_xml_node_acc0f88b7462c6cb73809d410a4f5bb86}{TiXmlNode}.
+
+
+
+Definition at line 1450 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_aff8231266d735943d8a7514a9c9822b9}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Clone@{Clone}}
+\index{Clone@{Clone}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlNode} $\ast$ TiXmlDeclaration::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_aff8231266d735943d8a7514a9c9822b9}
+
+
+Creates a copy of this Declaration and returns it. 
+
+
+
+Implements \hyperlink{class_ti_xml_node_a4508cc3a2d7a98e96a54cc09c37a78a4}{TiXmlNode}.
+
+
+
+Definition at line 1456 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_a9d08959f935421a593032bd3efb30c38}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!CopyTo@{CopyTo}}
+\index{CopyTo@{CopyTo}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{CopyTo}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlDeclaration::CopyTo (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlDeclaration} $\ast$}]{target}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_ti_xml_declaration_a9d08959f935421a593032bd3efb30c38}
+
+
+Definition at line 1440 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_a5d974231f9e9a2f0542f15f3a46cdb76}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Encoding@{Encoding}}
+\index{Encoding@{Encoding}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Encoding}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ TiXmlDeclaration::Encoding (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_declaration_a5d974231f9e9a2f0542f15f3a46cdb76}
+
+
+Encoding. Will return an empty string if none was found. 
+
+
+
+Definition at line 1311 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a3bc617efe11014ff2b1a9c5727c37a9a}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!operator=@{operator=}}
+\index{operator=@{operator=}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlDeclaration} \& TiXmlDeclaration::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlDeclaration} \&}]{copy}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_declaration_a3bc617efe11014ff2b1a9c5727c37a9a}
+
+
+Definition at line 1410 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_a9839ea97ed687a2b7342fd7b0f04361b}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Parse@{Parse}}
+\index{Parse@{Parse}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Parse}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlDeclaration::Parse (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{p, }
+\item[{{\bf TiXmlParsingData} $\ast$}]{data, }
+\item[{{\bf TiXmlEncoding}}]{encoding}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_a9839ea97ed687a2b7342fd7b0f04361b}
+
+
+Implements \hyperlink{class_ti_xml_base_a00e4edb0219d00a1379c856e5a1d2025}{TiXmlBase}.
+
+
+
+Definition at line 1572 of file tinyxmlparser.cpp.
+
+\hypertarget{class_ti_xml_declaration_ae24e7e08dfc5c414965add510fecf270}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Print@{Print}}
+\index{Print@{Print}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Print}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlDeclaration::Print (
+\begin{DoxyParamCaption}
+\item[{FILE $\ast$}]{cfile, }
+\item[{int}]{depth, }
+\item[{{\bf TiXmlString} $\ast$}]{str}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_ae24e7e08dfc5c414965add510fecf270}
+
+
+Definition at line 1418 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_declaration_abf6303db4bd05b5be554036817ff1cb4}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Print@{Print}}
+\index{Print@{Print}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Print}]{\setlength{\rightskip}{0pt plus 5cm}virtual void TiXmlDeclaration::Print (
+\begin{DoxyParamCaption}
+\item[{FILE $\ast$}]{cfile, }
+\item[{int}]{depth}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_abf6303db4bd05b5be554036817ff1cb4}
+
+
+All TinyXml classes can print themselves to a filestream or the string class (\hyperlink{class_ti_xml_string}{TiXmlString} in non-\/STL mode, std::string in STL mode.) Either or both cfile and str can be null. 
+
+This is a formatted print, and will insert tabs and newlines.
+
+(For an unformatted stream, use the $<$$<$ operator.) 
+
+Implements \hyperlink{class_ti_xml_base_a0de56b3f2ef14c65091a3b916437b512}{TiXmlBase}.
+
+
+
+Definition at line 1319 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a9ff06afc033d7ef730ec7c6825b97ad9}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Standalone@{Standalone}}
+\index{Standalone@{Standalone}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Standalone}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ TiXmlDeclaration::Standalone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_declaration_a9ff06afc033d7ef730ec7c6825b97ad9}
+
+
+Is this a standalone document? 
+
+
+
+Definition at line 1313 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a6bd3d1daddcaeb9543c24bfd090969ce}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!ToDeclaration@{ToDeclaration}}
+\index{ToDeclaration@{ToDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{ToDeclaration}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf TiXmlDeclaration}$\ast$ TiXmlDeclaration::ToDeclaration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_a6bd3d1daddcaeb9543c24bfd090969ce}
+
+
+Cast to a more defined type. Will return null not of the requested type. 
+
+
+
+Reimplemented from \hyperlink{class_ti_xml_node_a4027136ca820ff4a636b607231b6a6df}{TiXmlNode}.
+
+
+
+Definition at line 1326 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a1e085d3fefd1dbf5ccdbff729931a967}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!ToDeclaration@{ToDeclaration}}
+\index{ToDeclaration@{ToDeclaration}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{ToDeclaration}]{\setlength{\rightskip}{0pt plus 5cm}virtual const {\bf TiXmlDeclaration}$\ast$ TiXmlDeclaration::ToDeclaration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_declaration_a1e085d3fefd1dbf5ccdbff729931a967}
+
+
+Cast to a more defined type. Will return null not of the requested type. 
+
+
+
+Reimplemented from \hyperlink{class_ti_xml_node_a9f43e6984fc7d4afd6eb32714c6b7b72}{TiXmlNode}.
+
+
+
+Definition at line 1325 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a02ee557b1a4545c3219ed377c103ec76}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!Version@{Version}}
+\index{Version@{Version}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{Version}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ TiXmlDeclaration::Version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_declaration_a02ee557b1a4545c3219ed377c103ec76}
+
+
+Version. Will return an empty string if none was found. 
+
+
+
+Definition at line 1309 of file tinyxml.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ti_xml_declaration_a5eb346397dd758b4e9626fb68274d9d2}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!encoding@{encoding}}
+\index{encoding@{encoding}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{encoding}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlString} {\bf TiXmlDeclaration::encoding}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ti_xml_declaration_a5eb346397dd758b4e9626fb68274d9d2}
+
+
+Definition at line 1342 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_ae061e61062658a979f8cd8cca8807440}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!standalone@{standalone}}
+\index{standalone@{standalone}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{standalone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlString} {\bf TiXmlDeclaration::standalone}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ti_xml_declaration_ae061e61062658a979f8cd8cca8807440}
+
+
+Definition at line 1343 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_declaration_a369b5e3c1a8d0cb1d62f69cdf02ead0f}{
+\index{TiXmlDeclaration@{TiXmlDeclaration}!version@{version}}
+\index{version@{version}!TiXmlDeclaration@{TiXmlDeclaration}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlString} {\bf TiXmlDeclaration::version}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ti_xml_declaration_a369b5e3c1a8d0cb1d62f69cdf02ead0f}
+
+
+Definition at line 1341 of file tinyxml.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8h}{tinyxml.h}\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8cpp}{tinyxml.cpp}\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxmlparser_8cpp}{tinyxmlparser.cpp}\end{DoxyCompactItemize}

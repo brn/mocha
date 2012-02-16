@@ -1,0 +1,431 @@
+\hypertarget{classmocha_1_1_options}{
+\section{mocha::Options Class Reference}
+\label{classmocha_1_1_options}\index{mocha::Options@{mocha::Options}}
+}
+
+
+{\ttfamily \#include $<$options.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_options_abb6a471304a735b90e69aafbdb35cd8c}{Options} ()
+\item 
+\hyperlink{classmocha_1_1_options_a9d15ed9445cde1877cd75cf35d10f0b2}{$\sim$Options} ()
+\item 
+void \hyperlink{classmocha_1_1_options_a0a0a01e7742117035f71638ec7d3b1c2}{AnalyzeOption} (const char $\ast$argv)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_options_a0abbb408e7bb9a99963760c6dfd2478b}{GetPath} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_a6800974f0eca552d43c944b3a90d3bc5}{IsCommandLineCompile} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_abe3689c77e5303396847d17f951ecbfb}{IsPrettyPrint} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_a0165140c0617b6e8102a99635cd27350}{IsDebug} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_a12fca4365f5ec25c4037d6c430aa3378}{IsPath} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_a928c7ea852dd6a5ed1d01f81f8262117}{IsCompress} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_a93b8bf848e6cdd3c346328f3d30816c1}{IsUnmatch} ()
+\item 
+void \hyperlink{classmocha_1_1_options_accb5dfe2f49dc2258f1c5e5897d1c3ca}{ShowError} ()
+\item 
+void \hyperlink{classmocha_1_1_options_aba0218b78790d4c265d3051da436b5f5}{StopObserve} ()
+\item 
+bool \hyperlink{classmocha_1_1_options_a16982328e501cd6308f72ac2328b42a1}{IsStopObserving} ()
+\item 
+void \hyperlink{classmocha_1_1_options_a9901e7ea6418f11841ab96a4e9dec763}{Reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_options_ac3fccb490c0f2dab1a41749f773b661a}{AnalyzeOption\_\-} (const char $\ast$argv)
+\item 
+void \hyperlink{classmocha_1_1_options_ac40c6e5756b77c71e12671174423fa0d}{MatchOptions\_\-} (char arg)
+\item 
+void \hyperlink{classmocha_1_1_options_a7e8d315b40d0bec0621036051c0b2796}{UnrecognizedOption\_\-} (const char $\ast$opt)
+\item 
+void \hyperlink{classmocha_1_1_options_ae913cc1987c2390f470afb57b69dc796}{OptionNotEnough\_\-} (const char $\ast$opt)
+\item 
+void \hyperlink{classmocha_1_1_options_af96d758a22ba5803953be57a0d1f76ce}{CommandLineCompile\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_options_ae45da1a2425fa91a545941811b4b1231}{PrettyPrint\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_options_a1937122e931cb8715a8da23a797df18b}{Debug\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_options_ade45c0925f8acbfe8addbfc5c254772d}{HasPath\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_options_aff0c6b3baa05971050a9cfd21520a864}{Compress\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_options_aed2a5df0fa95a0995c7764678c1057cb}{Unmatch\_\-} (const char $\ast$op)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int32\_\-t \hyperlink{classmocha_1_1_options_a0d25bc46d6f426be00ae99527190c4c1}{options\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_options_a38cd36a24de169f60220e2b0faabf730}{error\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_options_acecff880bcf3d91590fa39665c2ec6ab}{path\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 33 of file options.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_options_abb6a471304a735b90e69aafbdb35cd8c}{
+\index{mocha::Options@{mocha::Options}!Options@{Options}}
+\index{Options@{Options}!mocha::Options@{mocha::Options}}
+\subsubsection[{Options}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Options::Options (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_abb6a471304a735b90e69aafbdb35cd8c}
+
+
+Definition at line 35 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a9d15ed9445cde1877cd75cf35d10f0b2}{
+\index{mocha::Options@{mocha::Options}!$\sim$Options@{$\sim$Options}}
+\index{$\sim$Options@{$\sim$Options}!mocha::Options@{mocha::Options}}
+\subsubsection[{$\sim$Options}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Options::$\sim$Options (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a9d15ed9445cde1877cd75cf35d10f0b2}
+
+
+Definition at line 36 of file options.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_options_a0a0a01e7742117035f71638ec7d3b1c2}{
+\index{mocha::Options@{mocha::Options}!AnalyzeOption@{AnalyzeOption}}
+\index{AnalyzeOption@{AnalyzeOption}!mocha::Options@{mocha::Options}}
+\subsubsection[{AnalyzeOption}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::AnalyzeOption (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{argv}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a0a0a01e7742117035f71638ec7d3b1c2}
+
+
+Definition at line 37 of file options.h.
+
+\hypertarget{classmocha_1_1_options_ac3fccb490c0f2dab1a41749f773b661a}{
+\index{mocha::Options@{mocha::Options}!AnalyzeOption\_\-@{AnalyzeOption\_\-}}
+\index{AnalyzeOption\_\-@{AnalyzeOption\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{AnalyzeOption\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::AnalyzeOption\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{argv}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_ac3fccb490c0f2dab1a41749f773b661a}
+
+
+Definition at line 65 of file options.h.
+
+\hypertarget{classmocha_1_1_options_af96d758a22ba5803953be57a0d1f76ce}{
+\index{mocha::Options@{mocha::Options}!CommandLineCompile\_\-@{CommandLineCompile\_\-}}
+\index{CommandLineCompile\_\-@{CommandLineCompile\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{CommandLineCompile\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::CommandLineCompile\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_af96d758a22ba5803953be57a0d1f76ce}
+
+
+Definition at line 129 of file options.h.
+
+\hypertarget{classmocha_1_1_options_aff0c6b3baa05971050a9cfd21520a864}{
+\index{mocha::Options@{mocha::Options}!Compress\_\-@{Compress\_\-}}
+\index{Compress\_\-@{Compress\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{Compress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::Compress\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_aff0c6b3baa05971050a9cfd21520a864}
+
+
+Definition at line 133 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a1937122e931cb8715a8da23a797df18b}{
+\index{mocha::Options@{mocha::Options}!Debug\_\-@{Debug\_\-}}
+\index{Debug\_\-@{Debug\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{Debug\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::Debug\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_a1937122e931cb8715a8da23a797df18b}
+
+
+Definition at line 131 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a0abbb408e7bb9a99963760c6dfd2478b}{
+\index{mocha::Options@{mocha::Options}!GetPath@{GetPath}}
+\index{GetPath@{GetPath}!mocha::Options@{mocha::Options}}
+\subsubsection[{GetPath}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::Options::GetPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a0abbb408e7bb9a99963760c6dfd2478b}
+
+
+Definition at line 40 of file options.h.
+
+\hypertarget{classmocha_1_1_options_ade45c0925f8acbfe8addbfc5c254772d}{
+\index{mocha::Options@{mocha::Options}!HasPath\_\-@{HasPath\_\-}}
+\index{HasPath\_\-@{HasPath\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{HasPath\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::HasPath\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_ade45c0925f8acbfe8addbfc5c254772d}
+
+
+Definition at line 132 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a6800974f0eca552d43c944b3a90d3bc5}{
+\index{mocha::Options@{mocha::Options}!IsCommandLineCompile@{IsCommandLineCompile}}
+\index{IsCommandLineCompile@{IsCommandLineCompile}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsCommandLineCompile}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsCommandLineCompile (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a6800974f0eca552d43c944b3a90d3bc5}
+
+
+Definition at line 43 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a928c7ea852dd6a5ed1d01f81f8262117}{
+\index{mocha::Options@{mocha::Options}!IsCompress@{IsCompress}}
+\index{IsCompress@{IsCompress}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsCompress}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsCompress (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a928c7ea852dd6a5ed1d01f81f8262117}
+
+
+Definition at line 47 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a0165140c0617b6e8102a99635cd27350}{
+\index{mocha::Options@{mocha::Options}!IsDebug@{IsDebug}}
+\index{IsDebug@{IsDebug}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsDebug}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsDebug (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a0165140c0617b6e8102a99635cd27350}
+
+
+Definition at line 45 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a12fca4365f5ec25c4037d6c430aa3378}{
+\index{mocha::Options@{mocha::Options}!IsPath@{IsPath}}
+\index{IsPath@{IsPath}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsPath}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a12fca4365f5ec25c4037d6c430aa3378}
+
+
+Definition at line 46 of file options.h.
+
+\hypertarget{classmocha_1_1_options_abe3689c77e5303396847d17f951ecbfb}{
+\index{mocha::Options@{mocha::Options}!IsPrettyPrint@{IsPrettyPrint}}
+\index{IsPrettyPrint@{IsPrettyPrint}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsPrettyPrint}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsPrettyPrint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_abe3689c77e5303396847d17f951ecbfb}
+
+
+Definition at line 44 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a16982328e501cd6308f72ac2328b42a1}{
+\index{mocha::Options@{mocha::Options}!IsStopObserving@{IsStopObserving}}
+\index{IsStopObserving@{IsStopObserving}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsStopObserving}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsStopObserving (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a16982328e501cd6308f72ac2328b42a1}
+
+
+Definition at line 55 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a93b8bf848e6cdd3c346328f3d30816c1}{
+\index{mocha::Options@{mocha::Options}!IsUnmatch@{IsUnmatch}}
+\index{IsUnmatch@{IsUnmatch}!mocha::Options@{mocha::Options}}
+\subsubsection[{IsUnmatch}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Options::IsUnmatch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a93b8bf848e6cdd3c346328f3d30816c1}
+
+
+Definition at line 48 of file options.h.
+
+\hypertarget{classmocha_1_1_options_ac40c6e5756b77c71e12671174423fa0d}{
+\index{mocha::Options@{mocha::Options}!MatchOptions\_\-@{MatchOptions\_\-}}
+\index{MatchOptions\_\-@{MatchOptions\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{MatchOptions\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::MatchOptions\_\- (
+\begin{DoxyParamCaption}
+\item[{char}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_ac40c6e5756b77c71e12671174423fa0d}
+
+
+Definition at line 97 of file options.h.
+
+\hypertarget{classmocha_1_1_options_ae913cc1987c2390f470afb57b69dc796}{
+\index{mocha::Options@{mocha::Options}!OptionNotEnough\_\-@{OptionNotEnough\_\-}}
+\index{OptionNotEnough\_\-@{OptionNotEnough\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{OptionNotEnough\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::OptionNotEnough\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{opt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_ae913cc1987c2390f470afb57b69dc796}
+
+
+Definition at line 126 of file options.h.
+
+\hypertarget{classmocha_1_1_options_ae45da1a2425fa91a545941811b4b1231}{
+\index{mocha::Options@{mocha::Options}!PrettyPrint\_\-@{PrettyPrint\_\-}}
+\index{PrettyPrint\_\-@{PrettyPrint\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{PrettyPrint\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::PrettyPrint\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_ae45da1a2425fa91a545941811b4b1231}
+
+
+Definition at line 130 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a9901e7ea6418f11841ab96a4e9dec763}{
+\index{mocha::Options@{mocha::Options}!Reset@{Reset}}
+\index{Reset@{Reset}!mocha::Options@{mocha::Options}}
+\subsubsection[{Reset}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_a9901e7ea6418f11841ab96a4e9dec763}
+
+
+Definition at line 58 of file options.h.
+
+\hypertarget{classmocha_1_1_options_accb5dfe2f49dc2258f1c5e5897d1c3ca}{
+\index{mocha::Options@{mocha::Options}!ShowError@{ShowError}}
+\index{ShowError@{ShowError}!mocha::Options@{mocha::Options}}
+\subsubsection[{ShowError}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::ShowError (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_accb5dfe2f49dc2258f1c5e5897d1c3ca}
+
+
+Definition at line 49 of file options.h.
+
+\hypertarget{classmocha_1_1_options_aba0218b78790d4c265d3051da436b5f5}{
+\index{mocha::Options@{mocha::Options}!StopObserve@{StopObserve}}
+\index{StopObserve@{StopObserve}!mocha::Options@{mocha::Options}}
+\subsubsection[{StopObserve}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::StopObserve (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_options_aba0218b78790d4c265d3051da436b5f5}
+
+
+Definition at line 52 of file options.h.
+
+\hypertarget{classmocha_1_1_options_aed2a5df0fa95a0995c7764678c1057cb}{
+\index{mocha::Options@{mocha::Options}!Unmatch\_\-@{Unmatch\_\-}}
+\index{Unmatch\_\-@{Unmatch\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{Unmatch\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::Unmatch\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{op}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_aed2a5df0fa95a0995c7764678c1057cb}
+
+
+Definition at line 134 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a7e8d315b40d0bec0621036051c0b2796}{
+\index{mocha::Options@{mocha::Options}!UnrecognizedOption\_\-@{UnrecognizedOption\_\-}}
+\index{UnrecognizedOption\_\-@{UnrecognizedOption\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{UnrecognizedOption\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Options::UnrecognizedOption\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{opt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_options_a7e8d315b40d0bec0621036051c0b2796}
+
+
+Definition at line 120 of file options.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_options_a38cd36a24de169f60220e2b0faabf730}{
+\index{mocha::Options@{mocha::Options}!error\_\-@{error\_\-}}
+\index{error\_\-@{error\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{error\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Options::error\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_options_a38cd36a24de169f60220e2b0faabf730}
+
+
+Definition at line 136 of file options.h.
+
+\hypertarget{classmocha_1_1_options_a0d25bc46d6f426be00ae99527190c4c1}{
+\index{mocha::Options@{mocha::Options}!options\_\-@{options\_\-}}
+\index{options\_\-@{options\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{options\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int32\_\-t {\bf mocha::Options::options\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_options_a0d25bc46d6f426be00ae99527190c4c1}
+
+
+Definition at line 135 of file options.h.
+
+\hypertarget{classmocha_1_1_options_acecff880bcf3d91590fa39665c2ec6ab}{
+\index{mocha::Options@{mocha::Options}!path\_\-@{path\_\-}}
+\index{path\_\-@{path\_\-}!mocha::Options@{mocha::Options}}
+\subsubsection[{path\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Options::path\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_options_acecff880bcf3d91590fa39665c2ec6ab}
+
+
+Definition at line 137 of file options.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/options/\hyperlink{options_8h}{options.h}\end{DoxyCompactItemize}

@@ -1,0 +1,244 @@
+\hypertarget{classmocha_1_1_trait_processor}{
+\section{mocha::TraitProcessor Class Reference}
+\label{classmocha_1_1_trait_processor}\index{mocha::TraitProcessor@{mocha::TraitProcessor}}
+}
+
+
+{\ttfamily \#include $<$trait\_\-processor.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_trait_processor_ae38c5ff2f28feaa6cea6c60e6c5bc3cd}{TraitProcessor} (\hyperlink{classmocha_1_1_trait}{Trait} $\ast$trait, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+\hyperlink{classmocha_1_1_trait_processor_a2fb88cfb4c31f32ae1de8f99bfdb5e98}{$\sim$TraitProcessor} ()
+\item 
+void \hyperlink{classmocha_1_1_trait_processor_a01446e414e34d9f767199f52d9664834}{ProcessNode} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_trait_processor_ae2a0fac54c740889182958f3f62a7e30}{ProcessMixin} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mixin, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info, long line)
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmocha_1_1_node_iterator}{NodeIterator}($\ast$ \hyperlink{classmocha_1_1_trait_processor_af7805e506418889e29cefb8f5c23c4a9}{IteratorGetter} )(\hyperlink{classmocha_1_1_trait}{Trait} $\ast$trait)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_trait_processor_a063e90b1e7ee7160a836ea7512b00154}{CommonProcessor\_\-} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list, \hyperlink{classmocha_1_1_trait_processor_af7805e506418889e29cefb8f5c23c4a9}{IteratorGetter} getter, const char $\ast$type)
+\item 
+void \hyperlink{classmocha_1_1_trait_processor_af646d1fded29a7b4ed32db4d041682e9}{ProcessPrivate\_\-} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list)
+\item 
+void \hyperlink{classmocha_1_1_trait_processor_af28b7da942c72a903f7a88151591603c}{ProcessPublic\_\-} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list)
+\item 
+void \hyperlink{classmocha_1_1_trait_processor_a963012039e428372c18689d0f6f7b438}{ProcessRequires\_\-} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list)
+\item 
+void \hyperlink{classmocha_1_1_trait_processor_a952d6c040be1e5429563b3752bff0d29}{CreateMixinStmt\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mixin\_\-list, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mark)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_trait}{Trait} $\ast$ \hyperlink{classmocha_1_1_trait_processor_a8d94b8d55d770bec3d3b0b17cc626bf0}{trait\_\-}
+\item 
+\hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$ \hyperlink{classmocha_1_1_trait_processor_a90d1c88f5a7a093a2cfb2306e989769c}{info\_\-}
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_trait_processor_ab927330496a78fef533aa1c5cb6eb745}{name\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_trait_processor_adee805716650a09bc1b81f79686e47fe}{body\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file trait\_\-processor.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_trait_processor_af7805e506418889e29cefb8f5c23c4a9}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!IteratorGetter@{IteratorGetter}}
+\index{IteratorGetter@{IteratorGetter}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{IteratorGetter}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf NodeIterator}($\ast$ {\bf mocha::TraitProcessor::IteratorGetter})({\bf Trait} $\ast$trait)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_af7805e506418889e29cefb8f5c23c4a9}
+
+
+Definition at line 8 of file trait\_\-processor.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_trait_processor_ae38c5ff2f28feaa6cea6c60e6c5bc3cd}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!TraitProcessor@{TraitProcessor}}
+\index{TraitProcessor@{TraitProcessor}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{TraitProcessor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::TraitProcessor::TraitProcessor (
+\begin{DoxyParamCaption}
+\item[{{\bf Trait} $\ast$}]{trait, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_trait_processor_ae38c5ff2f28feaa6cea6c60e6c5bc3cd}
+
+
+Definition at line 12 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_a2fb88cfb4c31f32ae1de8f99bfdb5e98}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!$\sim$TraitProcessor@{$\sim$TraitProcessor}}
+\index{$\sim$TraitProcessor@{$\sim$TraitProcessor}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{$\sim$TraitProcessor}]{\setlength{\rightskip}{0pt plus 5cm}mocha::TraitProcessor::$\sim$TraitProcessor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_a2fb88cfb4c31f32ae1de8f99bfdb5e98}
+
+
+Definition at line 11 of file trait\_\-processor.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_trait_processor_a063e90b1e7ee7160a836ea7512b00154}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!CommonProcessor\_\-@{CommonProcessor\_\-}}
+\index{CommonProcessor\_\-@{CommonProcessor\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{CommonProcessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitProcessor::CommonProcessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list, }
+\item[{{\bf IteratorGetter}}]{getter, }
+\item[{const char $\ast$}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_a063e90b1e7ee7160a836ea7512b00154}
+
+
+Definition at line 71 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_a952d6c040be1e5429563b3752bff0d29}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!CreateMixinStmt\_\-@{CreateMixinStmt\_\-}}
+\index{CreateMixinStmt\_\-@{CreateMixinStmt\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{CreateMixinStmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitProcessor::CreateMixinStmt\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{mixin\_\-list, }
+\item[{{\bf AstNode} $\ast$}]{mark}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_a952d6c040be1e5429563b3752bff0d29}
+
+
+Definition at line 105 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_ae2a0fac54c740889182958f3f62a7e30}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!ProcessMixin@{ProcessMixin}}
+\index{ProcessMixin@{ProcessMixin}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{ProcessMixin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::TraitProcessor::ProcessMixin (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{mixin, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info, }
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_ae2a0fac54c740889182958f3f62a7e30}
+
+
+Definition at line 124 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_a01446e414e34d9f767199f52d9664834}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!ProcessNode@{ProcessNode}}
+\index{ProcessNode@{ProcessNode}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{ProcessNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitProcessor::ProcessNode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_trait_processor_a01446e414e34d9f767199f52d9664834}
+
+
+Definition at line 15 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_af646d1fded29a7b4ed32db4d041682e9}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!ProcessPrivate\_\-@{ProcessPrivate\_\-}}
+\index{ProcessPrivate\_\-@{ProcessPrivate\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{ProcessPrivate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitProcessor::ProcessPrivate\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_af646d1fded29a7b4ed32db4d041682e9}
+
+
+Definition at line 97 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_af28b7da942c72a903f7a88151591603c}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!ProcessPublic\_\-@{ProcessPublic\_\-}}
+\index{ProcessPublic\_\-@{ProcessPublic\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{ProcessPublic\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitProcessor::ProcessPublic\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_af28b7da942c72a903f7a88151591603c}
+
+
+Definition at line 101 of file trait\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_trait_processor_a963012039e428372c18689d0f6f7b438}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!ProcessRequires\_\-@{ProcessRequires\_\-}}
+\index{ProcessRequires\_\-@{ProcessRequires\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{ProcessRequires\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitProcessor::ProcessRequires\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_a963012039e428372c18689d0f6f7b438}
+
+
+Definition at line 180 of file trait\_\-processor.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_trait_processor_adee805716650a09bc1b81f79686e47fe}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!body\_\-@{body\_\-}}
+\index{body\_\-@{body\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{body\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::TraitProcessor::body\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_adee805716650a09bc1b81f79686e47fe}
+
+
+Definition at line 23 of file trait\_\-processor.h.
+
+\hypertarget{classmocha_1_1_trait_processor_a90d1c88f5a7a093a2cfb2306e989769c}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!info\_\-@{info\_\-}}
+\index{info\_\-@{info\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ProcessorInfo}$\ast$ {\bf mocha::TraitProcessor::info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_a90d1c88f5a7a093a2cfb2306e989769c}
+
+
+Definition at line 21 of file trait\_\-processor.h.
+
+\hypertarget{classmocha_1_1_trait_processor_ab927330496a78fef533aa1c5cb6eb745}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!name\_\-@{name\_\-}}
+\index{name\_\-@{name\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{name\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ {\bf mocha::TraitProcessor::name\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_ab927330496a78fef533aa1c5cb6eb745}
+
+
+Definition at line 22 of file trait\_\-processor.h.
+
+\hypertarget{classmocha_1_1_trait_processor_a8d94b8d55d770bec3d3b0b17cc626bf0}{
+\index{mocha::TraitProcessor@{mocha::TraitProcessor}!trait\_\-@{trait\_\-}}
+\index{trait\_\-@{trait\_\-}!mocha::TraitProcessor@{mocha::TraitProcessor}}
+\subsubsection[{trait\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Trait}$\ast$ {\bf mocha::TraitProcessor::trait\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_processor_a8d94b8d55d770bec3d3b0b17cc626bf0}
+
+
+Definition at line 20 of file trait\_\-processor.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{trait__processor_8h}{trait\_\-processor.h}\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{trait__processor_8cc}{trait\_\-processor.cc}\end{DoxyCompactItemize}

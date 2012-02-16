@@ -1,0 +1,252 @@
+\hypertarget{classmocha_1_1_hash_bucket}{
+\section{mocha::HashBucket$<$ Key, Value $>$ Class Template Reference}
+\label{classmocha_1_1_hash_bucket}\index{mocha::HashBucket@{mocha::HashBucket}}
+}
+
+
+{\ttfamily \#include $<$hash\_\-bucket.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_hash_bucket_a7049580fb7e6124549b4620d9616138b}{HashBucket} ()
+\item 
+\hyperlink{classmocha_1_1_hash_bucket_a41ed7b317cd86a0d1571f85a521a4efc}{$\sim$HashBucket} ()
+\item 
+void \hyperlink{classmocha_1_1_hash_bucket_a540328f9fd771bbb41704d67d44ebeca}{Insert} (Key key, Value value, uint64\_\-t hash)
+\item 
+\hyperlink{classmocha_1_1_hash_entry}{HashEntry}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_hash_bucket_aef3dc6b1651258392da4785012d12684}{Find} (Key key, uint64\_\-t hash)
+\item 
+void \hyperlink{classmocha_1_1_hash_bucket_a919be8f67b2b9ca26e8c28815e2cdacb}{Remove} (Key key, uint64\_\-t hash)
+\item 
+int \hyperlink{classmocha_1_1_hash_bucket_a0f4d715e5deb247a01b3857c25bf467a}{Size} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_hash_entry}{HashEntry}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_hash_bucket_a1655c21ed63a2270582240ef0200762a}{SearchPosition\_\-} (const Key \&key, uint64\_\-t hash, bool is\_\-insert)
+\item 
+void \hyperlink{classmocha_1_1_hash_bucket_afb374610e6b60fd6bf08db19b47c32db}{Remap\_\-} (\hyperlink{classmocha_1_1_hash_entry}{HashEntry}$<$ Key, Value $>$ $\ast$old\_\-entry, \hyperlink{structmocha_1_1_entry_vector}{EntryVector}$<$ Key, Value $>$ $\ast$entry\_\-vector)
+\item 
+void \hyperlink{classmocha_1_1_hash_bucket_aa35b8924bc434a37b3f01e228f15d523}{Rehash\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_hash_bucket_adde3d5a33a7ec825755c01cf759b8198}{entry\_\-size\_\-}
+\item 
+int \hyperlink{classmocha_1_1_hash_bucket_ab52abe3e83f5d679211db5386bed0ca8}{bucket\_\-generation\_\-}
+\item 
+uint64\_\-t \hyperlink{classmocha_1_1_hash_bucket_add3cde17cfde167c3aeb3f083e39d740}{bucket\_\-size\_\-}
+\item 
+\hyperlink{structmocha_1_1_entry_vector}{EntryVector}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_hash_bucket_ab72765abd9c87c46dfe2994872527cbe}{entry\_\-}
+\item 
+\hyperlink{classmocha_1_1_entry_cache}{EntryCache}$<$ Key, Value $>$ \hyperlink{classmocha_1_1_hash_bucket_a035c907a461a625b46de064db5ac3677}{cache\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_hash_entry}{HashEntry}$<$ Key, Value $>$ \hyperlink{classmocha_1_1_hash_bucket_a6c74531aad8a59a84651e953cb6e0872}{empty\_\-entry\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Key, typename Value$>$class mocha::HashBucket$<$ Key, Value $>$}
+
+
+
+Definition at line 62 of file hash\_\-bucket.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_hash_bucket_a7049580fb7e6124549b4620d9616138b}{
+\index{mocha::HashBucket@{mocha::HashBucket}!HashBucket@{HashBucket}}
+\index{HashBucket@{HashBucket}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{HashBucket}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf HashBucket} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a7049580fb7e6124549b4620d9616138b}
+
+
+Definition at line 173 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a41ed7b317cd86a0d1571f85a521a4efc}{
+\index{mocha::HashBucket@{mocha::HashBucket}!$\sim$HashBucket@{$\sim$HashBucket}}
+\index{$\sim$HashBucket@{$\sim$HashBucket}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{$\sim$HashBucket}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf mocha::HashBucket}$<$ Key, Value $>$::$\sim${\bf HashBucket} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a41ed7b317cd86a0d1571f85a521a4efc}
+
+
+Definition at line 180 of file hash\_\-bucket-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_hash_bucket_aef3dc6b1651258392da4785012d12684}{
+\index{mocha::HashBucket@{mocha::HashBucket}!Find@{Find}}
+\index{Find@{Find}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{Find}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf HashEntry}$<$ Key, Value $>$ $\ast$ {\bf mocha::HashBucket}$<$ Key, Value $>$::Find (
+\begin{DoxyParamCaption}
+\item[{Key}]{key, }
+\item[{uint64\_\-t}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_aef3dc6b1651258392da4785012d12684}
+
+
+Definition at line 204 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a540328f9fd771bbb41704d67d44ebeca}{
+\index{mocha::HashBucket@{mocha::HashBucket}!Insert@{Insert}}
+\index{Insert@{Insert}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::HashBucket}$<$ Key, Value $>$::Insert (
+\begin{DoxyParamCaption}
+\item[{Key}]{key, }
+\item[{Value}]{value, }
+\item[{uint64\_\-t}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a540328f9fd771bbb41704d67d44ebeca}
+
+
+Definition at line 190 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_aa35b8924bc434a37b3f01e228f15d523}{
+\index{mocha::HashBucket@{mocha::HashBucket}!Rehash\_\-@{Rehash\_\-}}
+\index{Rehash\_\-@{Rehash\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{Rehash\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::HashBucket}$<$ Key, Value $>$::Rehash\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_aa35b8924bc434a37b3f01e228f15d523}
+
+
+Definition at line 276 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_afb374610e6b60fd6bf08db19b47c32db}{
+\index{mocha::HashBucket@{mocha::HashBucket}!Remap\_\-@{Remap\_\-}}
+\index{Remap\_\-@{Remap\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{Remap\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::HashBucket}$<$ Key, Value $>$::Remap\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf HashEntry}$<$ Key, Value $>$ $\ast$}]{old\_\-entry, }
+\item[{{\bf EntryVector}$<$ Key, Value $>$ $\ast$}]{entry\_\-vector}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_afb374610e6b60fd6bf08db19b47c32db}
+
+
+Definition at line 256 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a919be8f67b2b9ca26e8c28815e2cdacb}{
+\index{mocha::HashBucket@{mocha::HashBucket}!Remove@{Remove}}
+\index{Remove@{Remove}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{Remove}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::HashBucket}$<$ Key, Value $>$::Remove (
+\begin{DoxyParamCaption}
+\item[{Key}]{key, }
+\item[{uint64\_\-t}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a919be8f67b2b9ca26e8c28815e2cdacb}
+
+
+Definition at line 209 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a1655c21ed63a2270582240ef0200762a}{
+\index{mocha::HashBucket@{mocha::HashBucket}!SearchPosition\_\-@{SearchPosition\_\-}}
+\index{SearchPosition\_\-@{SearchPosition\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{SearchPosition\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf HashEntry}$<$ Key, Value $>$ $\ast$ {\bf mocha::HashBucket}$<$ Key, Value $>$::SearchPosition\_\- (
+\begin{DoxyParamCaption}
+\item[{const Key \&}]{key, }
+\item[{uint64\_\-t}]{hash, }
+\item[{bool}]{is\_\-insert}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a1655c21ed63a2270582240ef0200762a}
+
+
+Definition at line 218 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a0f4d715e5deb247a01b3857c25bf467a}{
+\index{mocha::HashBucket@{mocha::HashBucket}!Size@{Size}}
+\index{Size@{Size}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ int {\bf mocha::HashBucket}$<$ Key, Value $>$::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a0f4d715e5deb247a01b3857c25bf467a}
+
+
+Definition at line 69 of file hash\_\-bucket.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_hash_bucket_ab52abe3e83f5d679211db5386bed0ca8}{
+\index{mocha::HashBucket@{mocha::HashBucket}!bucket\_\-generation\_\-@{bucket\_\-generation\_\-}}
+\index{bucket\_\-generation\_\-@{bucket\_\-generation\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{bucket\_\-generation\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ int {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf bucket\_\-generation\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_ab52abe3e83f5d679211db5386bed0ca8}
+
+
+Definition at line 72 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_add3cde17cfde167c3aeb3f083e39d740}{
+\index{mocha::HashBucket@{mocha::HashBucket}!bucket\_\-size\_\-@{bucket\_\-size\_\-}}
+\index{bucket\_\-size\_\-@{bucket\_\-size\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{bucket\_\-size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ uint64\_\-t {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf bucket\_\-size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_add3cde17cfde167c3aeb3f083e39d740}
+
+
+Definition at line 73 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a035c907a461a625b46de064db5ac3677}{
+\index{mocha::HashBucket@{mocha::HashBucket}!cache\_\-@{cache\_\-}}
+\index{cache\_\-@{cache\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{cache\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf EntryCache}$<$Key,Value$>$ {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf cache\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a035c907a461a625b46de064db5ac3677}
+
+
+Definition at line 79 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_a6c74531aad8a59a84651e953cb6e0872}{
+\index{mocha::HashBucket@{mocha::HashBucket}!empty\_\-entry\_\-@{empty\_\-entry\_\-}}
+\index{empty\_\-entry\_\-@{empty\_\-entry\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{empty\_\-entry\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf HashEntry}$<$ Key, Value $>$ {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf empty\_\-entry\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_a6c74531aad8a59a84651e953cb6e0872}
+
+
+Definition at line 74 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_ab72765abd9c87c46dfe2994872527cbe}{
+\index{mocha::HashBucket@{mocha::HashBucket}!entry\_\-@{entry\_\-}}
+\index{entry\_\-@{entry\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{entry\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf EntryVector}$<$Key,Value$>$$\ast$ {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf entry\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_ab72765abd9c87c46dfe2994872527cbe}
+
+
+Definition at line 78 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_hash_bucket_adde3d5a33a7ec825755c01cf759b8198}{
+\index{mocha::HashBucket@{mocha::HashBucket}!entry\_\-size\_\-@{entry\_\-size\_\-}}
+\index{entry\_\-size\_\-@{entry\_\-size\_\-}!mocha::HashBucket@{mocha::HashBucket}}
+\subsubsection[{entry\_\-size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ int {\bf mocha::HashBucket}$<$ Key, Value $>$::{\bf entry\_\-size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_bucket_adde3d5a33a7ec825755c01cf759b8198}
+
+
+Definition at line 69 of file hash\_\-bucket.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/hash/backup/\hyperlink{backup_2hash__bucket_8h}{hash\_\-bucket.h}\item 
+Y:/mocha/src/utils/hash/backup/\hyperlink{hash__bucket-impl_8h}{hash\_\-bucket-\/impl.h}\end{DoxyCompactItemize}

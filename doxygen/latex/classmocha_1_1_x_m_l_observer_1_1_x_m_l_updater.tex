@@ -1,0 +1,227 @@
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater}{
+\section{mocha::XMLObserver::XMLUpdater Class Reference}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater}\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+}
+Inheritance diagram for mocha::XMLObserver::XMLUpdater:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a66b4a73d2075c7c7ea6f15493024af93}{XMLUpdater} (\hyperlink{classmocha_1_1_x_m_l_observer}{XMLObserver} $\ast$observer)
+\item 
+\hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a55d2a1fad337631a31bf119cd982a936}{$\sim$XMLUpdater} ()
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ab2d9bc54ead18acb65084d8405eb9570}{Update} (\hyperlink{structmocha_1_1watch__traits_1_1_modify}{watch\_\-traits::Modify} $\ast$traits)
+\item 
+void \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a337cc9a5191ace52ad8b651f0518ab12}{Die} ()
+\item 
+\hyperlink{classmocha_1_1_file_observer}{FileObserver} $\ast$ \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a4760142ca311fbf5e3e484691d6d6c9f}{GetObserver} ()
+\item 
+\hyperlink{classmocha_1_1_file_watcher}{FileWatcher} $\ast$ \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a36fcb475ffc1080ed9fe0b0e5615bade}{GetWatcher} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a613b546f3a88b7efc735e247161ebbb4}{RestartXMLWatcher\_\-} (void $\ast$arg)
+\item 
+static void \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_aad65829fbb88fe014899c38094a2cf26}{DieXMLWatcher\_\-} (void $\ast$arg)
+\item 
+static void \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ae5058f649435e803f5c3a9e05a9c8c69}{RestartFileWatcher\_\-} (void $\ast$arg)
+\item 
+static void \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a72de661df0311bd6bad576c15dc0b13a}{DieFileWatcher\_\-} (void $\ast$arg)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_file_observer}{FileObserver} \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a55d86bb53c933323f123e1ad9bd4844c}{file\_\-observer\_\-}
+\item 
+\hyperlink{classmocha_1_1_file_watcher}{FileWatcher} \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_aa775c8ff2cf07901e5e2b615302a1789}{file\_\-watcher\_\-}
+\item 
+\hyperlink{classmocha_1_1_x_m_l_observer}{XMLObserver} $\ast$ \hyperlink{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ad29a952b6d6a56e7780b442d655f9810}{observer\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 15 of file xml\_\-observer.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a66b4a73d2075c7c7ea6f15493024af93}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!XMLUpdater@{XMLUpdater}}
+\index{XMLUpdater@{XMLUpdater}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{XMLUpdater}]{\setlength{\rightskip}{0pt plus 5cm}mocha::XMLObserver::XMLUpdater::XMLUpdater (
+\begin{DoxyParamCaption}
+\item[{{\bf XMLObserver} $\ast$}]{observer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a66b4a73d2075c7c7ea6f15493024af93}
+
+
+Definition at line 17 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a55d2a1fad337631a31bf119cd982a936}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!$\sim$XMLUpdater@{$\sim$XMLUpdater}}
+\index{$\sim$XMLUpdater@{$\sim$XMLUpdater}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{$\sim$XMLUpdater}]{\setlength{\rightskip}{0pt plus 5cm}mocha::XMLObserver::XMLUpdater::$\sim$XMLUpdater (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a55d2a1fad337631a31bf119cd982a936}
+
+
+Definition at line 18 of file xml\_\-observer.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a337cc9a5191ace52ad8b651f0518ab12}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!Die@{Die}}
+\index{Die@{Die}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{Die}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLObserver::XMLUpdater::Die (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a337cc9a5191ace52ad8b651f0518ab12}
+
+
+Definition at line 22 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a72de661df0311bd6bad576c15dc0b13a}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!DieFileWatcher\_\-@{DieFileWatcher\_\-}}
+\index{DieFileWatcher\_\-@{DieFileWatcher\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{DieFileWatcher\_\-}]{\setlength{\rightskip}{0pt plus 5cm}static void mocha::XMLObserver::XMLUpdater::DieFileWatcher\_\- (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a72de661df0311bd6bad576c15dc0b13a}
+
+
+Definition at line 49 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_aad65829fbb88fe014899c38094a2cf26}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!DieXMLWatcher\_\-@{DieXMLWatcher\_\-}}
+\index{DieXMLWatcher\_\-@{DieXMLWatcher\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{DieXMLWatcher\_\-}]{\setlength{\rightskip}{0pt plus 5cm}static void mocha::XMLObserver::XMLUpdater::DieXMLWatcher\_\- (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_aad65829fbb88fe014899c38094a2cf26}
+
+
+Definition at line 36 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a4760142ca311fbf5e3e484691d6d6c9f}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!GetObserver@{GetObserver}}
+\index{GetObserver@{GetObserver}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{GetObserver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileObserver}$\ast$ mocha::XMLObserver::XMLUpdater::GetObserver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a4760142ca311fbf5e3e484691d6d6c9f}
+
+
+Definition at line 26 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a36fcb475ffc1080ed9fe0b0e5615bade}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!GetWatcher@{GetWatcher}}
+\index{GetWatcher@{GetWatcher}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{GetWatcher}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileWatcher}$\ast$ mocha::XMLObserver::XMLUpdater::GetWatcher (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a36fcb475ffc1080ed9fe0b0e5615bade}
+
+
+Definition at line 27 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ae5058f649435e803f5c3a9e05a9c8c69}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!RestartFileWatcher\_\-@{RestartFileWatcher\_\-}}
+\index{RestartFileWatcher\_\-@{RestartFileWatcher\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{RestartFileWatcher\_\-}]{\setlength{\rightskip}{0pt plus 5cm}static void mocha::XMLObserver::XMLUpdater::RestartFileWatcher\_\- (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ae5058f649435e803f5c3a9e05a9c8c69}
+
+
+Definition at line 42 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a613b546f3a88b7efc735e247161ebbb4}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!RestartXMLWatcher\_\-@{RestartXMLWatcher\_\-}}
+\index{RestartXMLWatcher\_\-@{RestartXMLWatcher\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{RestartXMLWatcher\_\-}]{\setlength{\rightskip}{0pt plus 5cm}static void mocha::XMLObserver::XMLUpdater::RestartXMLWatcher\_\- (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a613b546f3a88b7efc735e247161ebbb4}
+
+
+Definition at line 31 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ab2d9bc54ead18acb65084d8405eb9570}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!Update@{Update}}
+\index{Update@{Update}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::XMLObserver::XMLUpdater::Update (
+\begin{DoxyParamCaption}
+\item[{{\bf watch\_\-traits::Modify} $\ast$}]{traits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ab2d9bc54ead18acb65084d8405eb9570}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_i_updater_a99f87c1ff978b034b5be7ab372e81a5b}{mocha::IUpdater}.
+
+
+
+Definition at line 19 of file xml\_\-observer.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a55d86bb53c933323f123e1ad9bd4844c}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!file\_\-observer\_\-@{file\_\-observer\_\-}}
+\index{file\_\-observer\_\-@{file\_\-observer\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{file\_\-observer\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileObserver} {\bf mocha::XMLObserver::XMLUpdater::file\_\-observer\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_a55d86bb53c933323f123e1ad9bd4844c}
+
+
+Definition at line 57 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_aa775c8ff2cf07901e5e2b615302a1789}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!file\_\-watcher\_\-@{file\_\-watcher\_\-}}
+\index{file\_\-watcher\_\-@{file\_\-watcher\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{file\_\-watcher\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileWatcher} {\bf mocha::XMLObserver::XMLUpdater::file\_\-watcher\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_aa775c8ff2cf07901e5e2b615302a1789}
+
+
+Definition at line 58 of file xml\_\-observer.cc.
+
+\hypertarget{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ad29a952b6d6a56e7780b442d655f9810}{
+\index{mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}!observer\_\-@{observer\_\-}}
+\index{observer\_\-@{observer\_\-}!mocha::XMLObserver::XMLUpdater@{mocha::XMLObserver::XMLUpdater}}
+\subsubsection[{observer\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf XMLObserver}$\ast$ {\bf mocha::XMLObserver::XMLUpdater::observer\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_x_m_l_observer_1_1_x_m_l_updater_ad29a952b6d6a56e7780b442d655f9810}
+
+
+Definition at line 59 of file xml\_\-observer.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-watcher/observer/\hyperlink{xml__observer_8cc}{xml\_\-observer.cc}\end{DoxyCompactItemize}

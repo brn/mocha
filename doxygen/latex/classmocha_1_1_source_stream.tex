@@ -1,0 +1,275 @@
+\hypertarget{classmocha_1_1_source_stream}{
+\section{mocha::SourceStream Class Reference}
+\label{classmocha_1_1_source_stream}\index{mocha::SourceStream@{mocha::SourceStream}}
+}
+
+
+{\ttfamily \#include $<$source\_\-stream.h$>$}
+
+Inheritance diagram for mocha::SourceStream:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_source_stream}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_source_stream_a2958bd7776bbf8ffbda01be0faf30649}{$\sim$SourceStream} ()
+\item 
+\hyperlink{classmocha_1_1_handle}{Handle}$<$ uint8\_\-t $>$ \hyperlink{classmocha_1_1_source_stream_a3b7b7630bf9631f20ea29e9e7a840d11}{GetSourceFragment} (int begin\_\-col, int end\_\-col, int row)
+\item 
+int \hyperlink{classmocha_1_1_source_stream_a498a70b15fd0913352c00a03f1c771db}{Size} () const 
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_source_stream_ab718622463335568dff394aab118cfa4}{At} (int index) const 
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_source_stream_a37645d9d9a65904530f67571a07d7997}{Advance} (int index=1)
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_source_stream_a9396e22cbc8ebdbd099b2353bd313718}{Undo} (int index=0)
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_source_stream_af4807a44c0baa37ca154d1b30825e201}{Seek} (int index) const 
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_source_stream_a6450a6b6d8fabec9a396ff6d0fc305ef}{Last} () const 
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_source_stream_a100838d894e109242f43fa8a52f4e540}{First} () const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_source_stream}{SourceStream} $\ast$ \hyperlink{classmocha_1_1_source_stream_ab8587c6c07193066d2216424e4eff00a}{Create} (const char $\ast$source, const char $\ast$path)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_source_stream_af6159c1fd9977a363520f466ce58c503}{SourceStream} ()
+\item 
+void \hyperlink{classmocha_1_1_source_stream_ac79d89b112d1d9fc2fba5f11b9e07e92}{CreateStream\_\-} (const char $\ast$utf8\_\-str)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_source_stream_a1f8d569a431ac46ab8c151022f24a9b1}{cursor\_\-}
+\item 
+int \hyperlink{classmocha_1_1_source_stream_ae2b4ac025bc7fd6afd68b9a6f373609d}{line\_\-}
+\item 
+int \hyperlink{classmocha_1_1_source_stream_a22cc46cbc79457e30b3bdd7f11fb1130}{size\_\-}
+\item 
+uint8\_\-t $\ast$ \hyperlink{classmocha_1_1_source_stream_aedced96615e1c357371f0f174cb95d13}{stream\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file source\_\-stream.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_source_stream_a2958bd7776bbf8ffbda01be0faf30649}{
+\index{mocha::SourceStream@{mocha::SourceStream}!$\sim$SourceStream@{$\sim$SourceStream}}
+\index{$\sim$SourceStream@{$\sim$SourceStream}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{$\sim$SourceStream}]{\setlength{\rightskip}{0pt plus 5cm}mocha::SourceStream::$\sim$SourceStream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_source_stream_a2958bd7776bbf8ffbda01be0faf30649}
+
+
+Definition at line 34 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_af6159c1fd9977a363520f466ce58c503}{
+\index{mocha::SourceStream@{mocha::SourceStream}!SourceStream@{SourceStream}}
+\index{SourceStream@{SourceStream}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{SourceStream}]{\setlength{\rightskip}{0pt plus 5cm}mocha::SourceStream::SourceStream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_source_stream_af6159c1fd9977a363520f466ce58c503}
+
+
+Definition at line 31 of file source\_\-stream.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_source_stream_a37645d9d9a65904530f67571a07d7997}{
+\index{mocha::SourceStream@{mocha::SourceStream}!Advance@{Advance}}
+\index{Advance@{Advance}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{Advance}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t mocha::SourceStream::Advance (
+\begin{DoxyParamCaption}
+\item[{int}]{index = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_source_stream_a37645d9d9a65904530f67571a07d7997}
+
+
+Definition at line 60 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_ab718622463335568dff394aab118cfa4}{
+\index{mocha::SourceStream@{mocha::SourceStream}!At@{At}}
+\index{At@{At}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{At}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t mocha::SourceStream::At (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_source_stream_ab718622463335568dff394aab118cfa4}
+
+
+Definition at line 55 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_ab8587c6c07193066d2216424e4eff00a}{
+\index{mocha::SourceStream@{mocha::SourceStream}!Create@{Create}}
+\index{Create@{Create}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SourceStream} $\ast$ mocha::SourceStream::Create (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{source, }
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_source_stream_ab8587c6c07193066d2216424e4eff00a}
+
+
+Definition at line 23 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_ac79d89b112d1d9fc2fba5f11b9e07e92}{
+\index{mocha::SourceStream@{mocha::SourceStream}!CreateStream\_\-@{CreateStream\_\-}}
+\index{CreateStream\_\-@{CreateStream\_\-}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{CreateStream\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::SourceStream::CreateStream\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{utf8\_\-str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_source_stream_ac79d89b112d1d9fc2fba5f11b9e07e92}
+
+
+Definition at line 39 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_a100838d894e109242f43fa8a52f4e540}{
+\index{mocha::SourceStream@{mocha::SourceStream}!First@{First}}
+\index{First@{First}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{First}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t mocha::SourceStream::First (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_source_stream_a100838d894e109242f43fa8a52f4e540}
+
+
+Definition at line 102 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_a3b7b7630bf9631f20ea29e9e7a840d11}{
+\index{mocha::SourceStream@{mocha::SourceStream}!GetSourceFragment@{GetSourceFragment}}
+\index{GetSourceFragment@{GetSourceFragment}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{GetSourceFragment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Handle}$<$ uint8\_\-t $>$ mocha::SourceStream::GetSourceFragment (
+\begin{DoxyParamCaption}
+\item[{int}]{begin\_\-col, }
+\item[{int}]{end\_\-col, }
+\item[{int}]{row}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_source_stream_a3b7b7630bf9631f20ea29e9e7a840d11}
+
+
+Definition at line 110 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_a6450a6b6d8fabec9a396ff6d0fc305ef}{
+\index{mocha::SourceStream@{mocha::SourceStream}!Last@{Last}}
+\index{Last@{Last}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{Last}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t mocha::SourceStream::Last (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_source_stream_a6450a6b6d8fabec9a396ff6d0fc305ef}
+
+
+Definition at line 97 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_af4807a44c0baa37ca154d1b30825e201}{
+\index{mocha::SourceStream@{mocha::SourceStream}!Seek@{Seek}}
+\index{Seek@{Seek}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{Seek}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t mocha::SourceStream::Seek (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_source_stream_af4807a44c0baa37ca154d1b30825e201}
+
+
+Definition at line 82 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_a498a70b15fd0913352c00a03f1c771db}{
+\index{mocha::SourceStream@{mocha::SourceStream}!Size@{Size}}
+\index{Size@{Size}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::SourceStream::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_source_stream_a498a70b15fd0913352c00a03f1c771db}
+
+
+Definition at line 107 of file source\_\-stream.cc.
+
+\hypertarget{classmocha_1_1_source_stream_a9396e22cbc8ebdbd099b2353bd313718}{
+\index{mocha::SourceStream@{mocha::SourceStream}!Undo@{Undo}}
+\index{Undo@{Undo}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{Undo}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t mocha::SourceStream::Undo (
+\begin{DoxyParamCaption}
+\item[{int}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_source_stream_a9396e22cbc8ebdbd099b2353bd313718}
+
+
+Definition at line 73 of file source\_\-stream.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_source_stream_a1f8d569a431ac46ab8c151022f24a9b1}{
+\index{mocha::SourceStream@{mocha::SourceStream}!cursor\_\-@{cursor\_\-}}
+\index{cursor\_\-@{cursor\_\-}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{cursor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::SourceStream::cursor\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_source_stream_a1f8d569a431ac46ab8c151022f24a9b1}
+
+
+Definition at line 24 of file source\_\-stream.h.
+
+\hypertarget{classmocha_1_1_source_stream_ae2b4ac025bc7fd6afd68b9a6f373609d}{
+\index{mocha::SourceStream@{mocha::SourceStream}!line\_\-@{line\_\-}}
+\index{line\_\-@{line\_\-}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{line\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::SourceStream::line\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_source_stream_ae2b4ac025bc7fd6afd68b9a6f373609d}
+
+
+Definition at line 25 of file source\_\-stream.h.
+
+\hypertarget{classmocha_1_1_source_stream_a22cc46cbc79457e30b3bdd7f11fb1130}{
+\index{mocha::SourceStream@{mocha::SourceStream}!size\_\-@{size\_\-}}
+\index{size\_\-@{size\_\-}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::SourceStream::size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_source_stream_a22cc46cbc79457e30b3bdd7f11fb1130}
+
+
+Definition at line 26 of file source\_\-stream.h.
+
+\hypertarget{classmocha_1_1_source_stream_aedced96615e1c357371f0f174cb95d13}{
+\index{mocha::SourceStream@{mocha::SourceStream}!stream\_\-@{stream\_\-}}
+\index{stream\_\-@{stream\_\-}!mocha::SourceStream@{mocha::SourceStream}}
+\subsubsection[{stream\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t$\ast$ {\bf mocha::SourceStream::stream\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_source_stream_aedced96615e1c357371f0f174cb95d13}
+
+
+Definition at line 27 of file source\_\-stream.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/scanner/\hyperlink{source__stream_8h}{source\_\-stream.h}\item 
+Y:/mocha/src/compiler/scanner/\hyperlink{source__stream_8cc}{source\_\-stream.cc}\end{DoxyCompactItemize}

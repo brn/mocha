@@ -1,0 +1,103 @@
+\hypertarget{thread-win-impl_8cc}{
+\section{Y:/mocha/src/utils/thread/thread-\/win-\/impl.cc File Reference}
+\label{thread-win-impl_8cc}\index{Y:/mocha/src/utils/thread/thread-\/win-\/impl.cc@{Y:/mocha/src/utils/thread/thread-\/win-\/impl.cc}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$windows.h$>$}\par
+{\ttfamily \#include $<$utils/int\_\-types.h$>$}\par
+{\ttfamily \#include $<$process.h$>$}\par
+{\ttfamily \#include $<$utils/thread/thread.h$>$}\par
+{\ttfamily \#include $<$options/setting.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmocha_1_1_params_for_win_thread}{mocha::ParamsForWinThread}
+\item 
+class \hyperlink{classmocha_1_1_thread_1_1_ptr_impl}{mocha::Thread::PtrImpl}
+\item 
+class \hyperlink{classmocha_1_1_mutex_1_1_ptr_impl}{mocha::Mutex::PtrImpl}
+\item 
+class \hyperlink{classmocha_1_1_thread_local_storage_key_1_1_ptr_impl}{mocha::ThreadLocalStorageKey::PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{thread-win-impl_8cc_acca0526a60e0a78a4c6af911a5e86bf1}{mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-}
+\item 
+\#define \hyperlink{thread-win-impl_8cc_a343c21bf5818830fa6070bdb2a06282e}{IMPL\_\-DEF}(name)~class name::PtrImpl
+\item 
+\#define \hyperlink{thread-win-impl_8cc_a750877e0398a37cb8f03443558fb7f6f}{IMPL}~implementation\_\-
+\item 
+\#define \hyperlink{thread-win-impl_8cc_a8d08c8624a47f26429c55440f93f0d9d}{DETACH}~0x00000001
+\item 
+\#define \hyperlink{thread-win-impl_8cc_ad111e603bbebe5d87f6bc39264ce4733}{EXIT}~0x00000002
+\item 
+\#define \hyperlink{thread-win-impl_8cc_a7ca40bd6cd2ad9603fd8c8e48ad0e5af}{CANCELED}~0x00000004
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{thread-win-impl_8cc_a7ca40bd6cd2ad9603fd8c8e48ad0e5af}{
+\index{thread-\/win-\/impl.cc@{thread-\/win-\/impl.cc}!CANCELED@{CANCELED}}
+\index{CANCELED@{CANCELED}!thread-win-impl.cc@{thread-\/win-\/impl.cc}}
+\subsubsection[{CANCELED}]{\setlength{\rightskip}{0pt plus 5cm}\#define CANCELED~0x00000004}}
+\label{thread-win-impl_8cc_a7ca40bd6cd2ad9603fd8c8e48ad0e5af}
+
+
+Definition at line 23 of file thread-\/win-\/impl.cc.
+
+\hypertarget{thread-win-impl_8cc_a8d08c8624a47f26429c55440f93f0d9d}{
+\index{thread-\/win-\/impl.cc@{thread-\/win-\/impl.cc}!DETACH@{DETACH}}
+\index{DETACH@{DETACH}!thread-win-impl.cc@{thread-\/win-\/impl.cc}}
+\subsubsection[{DETACH}]{\setlength{\rightskip}{0pt plus 5cm}\#define DETACH~0x00000001}}
+\label{thread-win-impl_8cc_a8d08c8624a47f26429c55440f93f0d9d}
+
+
+Definition at line 21 of file thread-\/win-\/impl.cc.
+
+\hypertarget{thread-win-impl_8cc_ad111e603bbebe5d87f6bc39264ce4733}{
+\index{thread-\/win-\/impl.cc@{thread-\/win-\/impl.cc}!EXIT@{EXIT}}
+\index{EXIT@{EXIT}!thread-win-impl.cc@{thread-\/win-\/impl.cc}}
+\subsubsection[{EXIT}]{\setlength{\rightskip}{0pt plus 5cm}\#define EXIT~0x00000002}}
+\label{thread-win-impl_8cc_ad111e603bbebe5d87f6bc39264ce4733}
+
+
+Definition at line 22 of file thread-\/win-\/impl.cc.
+
+\hypertarget{thread-win-impl_8cc_a750877e0398a37cb8f03443558fb7f6f}{
+\index{thread-\/win-\/impl.cc@{thread-\/win-\/impl.cc}!IMPL@{IMPL}}
+\index{IMPL@{IMPL}!thread-win-impl.cc@{thread-\/win-\/impl.cc}}
+\subsubsection[{IMPL}]{\setlength{\rightskip}{0pt plus 5cm}\#define IMPL~implementation\_\-}}
+\label{thread-win-impl_8cc_a750877e0398a37cb8f03443558fb7f6f}
+
+
+Definition at line 14 of file thread-\/win-\/impl.cc.
+
+\hypertarget{thread-win-impl_8cc_a343c21bf5818830fa6070bdb2a06282e}{
+\index{thread-\/win-\/impl.cc@{thread-\/win-\/impl.cc}!IMPL\_\-DEF@{IMPL\_\-DEF}}
+\index{IMPL\_\-DEF@{IMPL\_\-DEF}!thread-win-impl.cc@{thread-\/win-\/impl.cc}}
+\subsubsection[{IMPL\_\-DEF}]{\setlength{\rightskip}{0pt plus 5cm}\#define IMPL\_\-DEF(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~class name::PtrImpl}}
+\label{thread-win-impl_8cc_a343c21bf5818830fa6070bdb2a06282e}
+
+
+Definition at line 13 of file thread-\/win-\/impl.cc.
+
+\hypertarget{thread-win-impl_8cc_acca0526a60e0a78a4c6af911a5e86bf1}{
+\index{thread-\/win-\/impl.cc@{thread-\/win-\/impl.cc}!mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-@{mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-}}
+\index{mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-@{mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-}!thread-win-impl.cc@{thread-\/win-\/impl.cc}}
+\subsubsection[{mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\#define mocha\_\-thread\_\-win\_\-impl\_\-cc\_\-}}
+\label{thread-win-impl_8cc_acca0526a60e0a78a4c6af911a5e86bf1}
+
+
+Definition at line 2 of file thread-\/win-\/impl.cc.
+

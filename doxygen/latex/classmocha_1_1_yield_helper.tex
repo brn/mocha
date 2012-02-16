@@ -1,0 +1,624 @@
+\hypertarget{classmocha_1_1_yield_helper}{
+\section{mocha::YieldHelper Class Reference}
+\label{classmocha_1_1_yield_helper}\index{mocha::YieldHelper@{mocha::YieldHelper}}
+}
+Inheritance diagram for mocha::YieldHelper:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_yield_helper}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_yield_helper_a1441934bae98465cb822407d90617639}{YieldHelper} (\hyperlink{classmocha_1_1_function}{Function} $\ast$function, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_ae2ef758e99752f0dbc30b0690fdde8f7}{ProcessYield} ()
+\item 
+\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a8cb862c2afb9b683129c0759301ef49d}{GetBody} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_aba29acb586a02aa2d84379b6d6b55f81}{Finish\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_acc7e323e9d05d15a089f8b76c1733454}{CreateClearCacheStmt\_\-} (const char $\ast$symbol)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_ae9abd35221d6fdf1af067bcf07d73836}{ProcessTryCatch\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a51dd2a9d4ed92c5106157ac3fe4f2dd6}{CopyTryCatchBody\_\-} (bool has\_\-finally, \hyperlink{classmocha_1_1_try_stmt}{TryStmt} $\ast$stmt, \hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$catch\_\-stmt, \hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$clear\_\-catch\_\-stmt, \hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$finally\_\-stmt, \hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$clear\_\-finally\_\-stmt)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_af168a5d5e7c229f400dac5be45f47c7a}{ProcessFinally\_\-} (\hyperlink{classmocha_1_1_try_stmt}{TryStmt} $\ast$stmt)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a9197f5ed9b16b44e30817563a9e4d5d4}{ProcessCatch\_\-} (\hyperlink{classmocha_1_1_try_stmt}{TryStmt} $\ast$stmt)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a39560befc3e08ac0184f5dbbd4ea5f6c}{ProcessVarDecl\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a7f4568bb3f2a277cfadd54240b661ab3}{TransformVarDecl\_\-} (\hyperlink{classmocha_1_1_function_a243702678d29f0cfd91913838c1fb38c}{Function::VariableList} \&list)
+\item 
+\hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a4469a46dcc10ce24f6b0ef5cfc1e6092}{CreateStateInitialiser\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a30b6aec46dfdd328096a9e5886d6bed4}{CreateResultInitialiser\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a697c8672acf020bb61057d2aea4c897c}{CreateNewBornCheckFlag\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a48f22e4eaf29ae29cd9dcce2e261cc8f}{ProcessIteration\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_yield_mark}{YieldMark} $\ast$ \hyperlink{classmocha_1_1_yield_helper_ac2e2a4c17c61c086292475f7b8592225}{ProcessIFStmt\_\-} (\hyperlink{classmocha_1_1_i_f_stmt}{IFStmt} $\ast$node, \hyperlink{classmocha_1_1_yield_mark}{YieldMark} $\ast$escape\_\-mark, int size, int count)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a7e6dd3e147975fad9bb444c33b05f352}{ProcessSwitchStmt\_\-} (\hyperlink{classmocha_1_1_switch_stmt}{SwitchStmt} $\ast$node, int size, int count)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a74cb52ca376b507a0c2610ab4bfd02fe}{ProcessDoWhile\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$node, int size, int count)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_ab87a9b05de0aaac43f1c427561998dea}{ProcessWhile\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$node, int size, int count)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_adf0654d520b27e8782b8f19449c375c1}{ProcessFor\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$node, int size, int count)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a6c8f6f6f80e054e0c013deb34adc3542}{ProcessForIn\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$node, int size, int count)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_ab62b0c4308b3713d9c8ea4eb5879c254}{TransformForIn\_\-} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$node, \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$array, int size, int count)
+\item 
+\hyperlink{classmocha_1_1_i_f_stmt}{IFStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a5f15b9efd0c719c130741ff709acf0bd}{CreateEscapeState\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$cond, \hyperlink{classmocha_1_1_ex_yield_state_node}{ExYieldStateNode} $\ast$ex\_\-node)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_afd7cf92255befe3d3fe47c7f8a904ea0}{CreateStateAssignment\_\-} (const char $\ast$state)
+\item 
+\hyperlink{classmocha_1_1_ex_yield_state_node}{ExYieldStateNode} $\ast$ \hyperlink{classmocha_1_1_yield_helper_ac097dd4fb08a97ba3b87732b25d3339f}{ProcessDynamicState\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$cond)
+\item 
+\hyperlink{classmocha_1_1_case_clause}{CaseClause} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a29c9e2c9955127821f63404a8bf5af9b}{CreateCaseClause\_\-} (long line, bool is\_\-error=false)
+\item 
+\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_yield_helper_ae30c71f60d0c2fb9ca1e587b28be79dd}{CreateCurrentState\_\-} (long line)
+\item 
+\hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a177ec355cf863481257ba5be72391bc9}{CreateNextState\_\-} (long line)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_ad8e0aad8265230105d0700bc55599c74}{SetState\_\-} (long line)
+\item 
+void \hyperlink{classmocha_1_1_yield_helper_a6056aa60a1d8b916c5e87b790fb38c5a}{ProcessStmtInYield\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$yield\_\-stmt)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_yield_helper_af18a7f0c42d4d40e975c10cdd79aa0ad}{state\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_yield_helper_a536e157628045d35cf7cf3edb0199e85}{is\_\-state\_\-injection\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_yield_helper_a454e09b29dc21bcbb4779db83a053a60}{no\_\-state\_\-injection\_\-}
+\item 
+\hyperlink{classmocha_1_1_function}{Function} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a9e99c357f655aabff5f38121dfb08d18}{function\_\-}
+\item 
+\hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$ \hyperlink{classmocha_1_1_yield_helper_ac8e17b43697ddf37d4b013f517d37e0d}{info\_\-}
+\item 
+\hyperlink{classmocha_1_1_case_clause}{CaseClause} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a9247061d7e154c260d9ded8353721a65}{clause\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a046274df2eacd4e17ad512cd6326b33a}{clause\_\-body\_\-}
+\item 
+\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$ \hyperlink{classmocha_1_1_yield_helper_a7d77b54310e328fcffe9fb3a5d9da25f}{body\_\-}
+\item 
+\hyperlink{classmocha_1_1_node_iterator}{NodeIterator} \hyperlink{classmocha_1_1_yield_helper_acf3b4f7c427390d530ec386bdbf0aed5}{iterator\_\-}
+\item 
+std::list$<$ \hyperlink{classmocha_1_1_yield_mark}{YieldMark} $\ast$ $>$ \hyperlink{classmocha_1_1_yield_helper_ae6fd6bf0b97adb5f599b59585498d626}{mark\_\-list\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 222 of file function\_\-processor.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_yield_helper_a1441934bae98465cb822407d90617639}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!YieldHelper@{YieldHelper}}
+\index{YieldHelper@{YieldHelper}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{YieldHelper}]{\setlength{\rightskip}{0pt plus 5cm}mocha::YieldHelper::YieldHelper (
+\begin{DoxyParamCaption}
+\item[{{\bf Function} $\ast$}]{function, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a1441934bae98465cb822407d90617639}
+
+
+Definition at line 224 of file function\_\-processor.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_yield_helper_a51dd2a9d4ed92c5106157ac3fe4f2dd6}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CopyTryCatchBody\_\-@{CopyTryCatchBody\_\-}}
+\index{CopyTryCatchBody\_\-@{CopyTryCatchBody\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CopyTryCatchBody\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::CopyTryCatchBody\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{has\_\-finally, }
+\item[{{\bf TryStmt} $\ast$}]{stmt, }
+\item[{{\bf ExpressionStmt} $\ast$}]{catch\_\-stmt, }
+\item[{{\bf VariableStmt} $\ast$}]{clear\_\-catch\_\-stmt, }
+\item[{{\bf ExpressionStmt} $\ast$}]{finally\_\-stmt, }
+\item[{{\bf VariableStmt} $\ast$}]{clear\_\-finally\_\-stmt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a51dd2a9d4ed92c5106157ac3fe4f2dd6}
+
+
+Definition at line 315 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a29c9e2c9955127821f63404a8bf5af9b}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateCaseClause\_\-@{CreateCaseClause\_\-}}
+\index{CreateCaseClause\_\-@{CreateCaseClause\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateCaseClause\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CaseClause}$\ast$ mocha::YieldHelper::CreateCaseClause\_\- (
+\begin{DoxyParamCaption}
+\item[{long}]{line, }
+\item[{bool}]{is\_\-error = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a29c9e2c9955127821f63404a8bf5af9b}
+
+
+Definition at line 1027 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_acc7e323e9d05d15a089f8b76c1733454}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateClearCacheStmt\_\-@{CreateClearCacheStmt\_\-}}
+\index{CreateClearCacheStmt\_\-@{CreateClearCacheStmt\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateClearCacheStmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt}$\ast$ mocha::YieldHelper::CreateClearCacheStmt\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{symbol}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_acc7e323e9d05d15a089f8b76c1733454}
+
+
+Definition at line 280 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ae30c71f60d0c2fb9ca1e587b28be79dd}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateCurrentState\_\-@{CreateCurrentState\_\-}}
+\index{CreateCurrentState\_\-@{CreateCurrentState\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateCurrentState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode}$\ast$ mocha::YieldHelper::CreateCurrentState\_\- (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ae30c71f60d0c2fb9ca1e587b28be79dd}
+
+
+Definition at line 1042 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a5f15b9efd0c719c130741ff709acf0bd}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateEscapeState\_\-@{CreateEscapeState\_\-}}
+\index{CreateEscapeState\_\-@{CreateEscapeState\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateEscapeState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IFStmt}$\ast$ mocha::YieldHelper::CreateEscapeState\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{cond, }
+\item[{{\bf ExYieldStateNode} $\ast$}]{ex\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a5f15b9efd0c719c130741ff709acf0bd}
+
+
+Definition at line 971 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a697c8672acf020bb61057d2aea4c897c}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateNewBornCheckFlag\_\-@{CreateNewBornCheckFlag\_\-}}
+\index{CreateNewBornCheckFlag\_\-@{CreateNewBornCheckFlag\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateNewBornCheckFlag\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt}$\ast$ mocha::YieldHelper::CreateNewBornCheckFlag\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a697c8672acf020bb61057d2aea4c897c}
+
+
+Definition at line 443 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a177ec355cf863481257ba5be72391bc9}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateNextState\_\-@{CreateNextState\_\-}}
+\index{CreateNextState\_\-@{CreateNextState\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateNextState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::YieldHelper::CreateNextState\_\- (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a177ec355cf863481257ba5be72391bc9}
+
+
+Definition at line 1050 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a30b6aec46dfdd328096a9e5886d6bed4}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateResultInitialiser\_\-@{CreateResultInitialiser\_\-}}
+\index{CreateResultInitialiser\_\-@{CreateResultInitialiser\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateResultInitialiser\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt}$\ast$ mocha::YieldHelper::CreateResultInitialiser\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a30b6aec46dfdd328096a9e5886d6bed4}
+
+
+Definition at line 432 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_afd7cf92255befe3d3fe47c7f8a904ea0}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateStateAssignment\_\-@{CreateStateAssignment\_\-}}
+\index{CreateStateAssignment\_\-@{CreateStateAssignment\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateStateAssignment\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::YieldHelper::CreateStateAssignment\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{state}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_afd7cf92255befe3d3fe47c7f8a904ea0}
+
+
+Definition at line 996 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a4469a46dcc10ce24f6b0ef5cfc1e6092}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!CreateStateInitialiser\_\-@{CreateStateInitialiser\_\-}}
+\index{CreateStateInitialiser\_\-@{CreateStateInitialiser\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{CreateStateInitialiser\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt}$\ast$ mocha::YieldHelper::CreateStateInitialiser\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a4469a46dcc10ce24f6b0ef5cfc1e6092}
+
+
+Definition at line 423 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_aba29acb586a02aa2d84379b6d6b55f81}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!Finish\_\-@{Finish\_\-}}
+\index{Finish\_\-@{Finish\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{Finish\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::Finish\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_aba29acb586a02aa2d84379b6d6b55f81}
+
+
+Definition at line 261 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a8cb862c2afb9b683129c0759301ef49d}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!GetBody@{GetBody}}
+\index{GetBody@{GetBody}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{GetBody}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NodeList}$\ast$ mocha::YieldHelper::GetBody (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a8cb862c2afb9b683129c0759301ef49d}
+
+
+Definition at line 256 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a9197f5ed9b16b44e30817563a9e4d5d4}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessCatch\_\-@{ProcessCatch\_\-}}
+\index{ProcessCatch\_\-@{ProcessCatch\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessCatch\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::YieldHelper::ProcessCatch\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TryStmt} $\ast$}]{stmt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a9197f5ed9b16b44e30817563a9e4d5d4}
+
+
+Definition at line 353 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a74cb52ca376b507a0c2610ab4bfd02fe}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessDoWhile\_\-@{ProcessDoWhile\_\-}}
+\index{ProcessDoWhile\_\-@{ProcessDoWhile\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessDoWhile\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessDoWhile\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{node, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a74cb52ca376b507a0c2610ab4bfd02fe}
+
+
+Definition at line 751 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ac097dd4fb08a97ba3b87732b25d3339f}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessDynamicState\_\-@{ProcessDynamicState\_\-}}
+\index{ProcessDynamicState\_\-@{ProcessDynamicState\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessDynamicState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExYieldStateNode}$\ast$ mocha::YieldHelper::ProcessDynamicState\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{cond}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ac097dd4fb08a97ba3b87732b25d3339f}
+
+
+Definition at line 1004 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_af168a5d5e7c229f400dac5be45f47c7a}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessFinally\_\-@{ProcessFinally\_\-}}
+\index{ProcessFinally\_\-@{ProcessFinally\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessFinally\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt}$\ast$ mocha::YieldHelper::ProcessFinally\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TryStmt} $\ast$}]{stmt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_af168a5d5e7c229f400dac5be45f47c7a}
+
+
+Definition at line 340 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_adf0654d520b27e8782b8f19449c375c1}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessFor\_\-@{ProcessFor\_\-}}
+\index{ProcessFor\_\-@{ProcessFor\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessFor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessFor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{node, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_adf0654d520b27e8782b8f19449c375c1}
+
+
+Definition at line 831 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a6c8f6f6f80e054e0c013deb34adc3542}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessForIn\_\-@{ProcessForIn\_\-}}
+\index{ProcessForIn\_\-@{ProcessForIn\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessForIn\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessForIn\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{node, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a6c8f6f6f80e054e0c013deb34adc3542}
+
+
+Definition at line 884 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ac2e2a4c17c61c086292475f7b8592225}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessIFStmt\_\-@{ProcessIFStmt\_\-}}
+\index{ProcessIFStmt\_\-@{ProcessIFStmt\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessIFStmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf YieldMark}$\ast$ mocha::YieldHelper::ProcessIFStmt\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IFStmt} $\ast$}]{node, }
+\item[{{\bf YieldMark} $\ast$}]{escape\_\-mark, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ac2e2a4c17c61c086292475f7b8592225}
+
+
+Definition at line 488 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a48f22e4eaf29ae29cd9dcce2e261cc8f}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessIteration\_\-@{ProcessIteration\_\-}}
+\index{ProcessIteration\_\-@{ProcessIteration\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessIteration\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessIteration\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a48f22e4eaf29ae29cd9dcce2e261cc8f}
+
+
+Definition at line 453 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a6056aa60a1d8b916c5e87b790fb38c5a}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessStmtInYield\_\-@{ProcessStmtInYield\_\-}}
+\index{ProcessStmtInYield\_\-@{ProcessStmtInYield\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessStmtInYield\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessStmtInYield\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{yield\_\-stmt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a6056aa60a1d8b916c5e87b790fb38c5a}
+
+
+Definition at line 1081 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a7e6dd3e147975fad9bb444c33b05f352}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessSwitchStmt\_\-@{ProcessSwitchStmt\_\-}}
+\index{ProcessSwitchStmt\_\-@{ProcessSwitchStmt\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessSwitchStmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessSwitchStmt\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf SwitchStmt} $\ast$}]{node, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a7e6dd3e147975fad9bb444c33b05f352}
+
+
+Definition at line 626 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ae9abd35221d6fdf1af067bcf07d73836}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessTryCatch\_\-@{ProcessTryCatch\_\-}}
+\index{ProcessTryCatch\_\-@{ProcessTryCatch\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessTryCatch\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessTryCatch\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ae9abd35221d6fdf1af067bcf07d73836}
+
+
+Definition at line 290 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a39560befc3e08ac0184f5dbbd4ea5f6c}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessVarDecl\_\-@{ProcessVarDecl\_\-}}
+\index{ProcessVarDecl\_\-@{ProcessVarDecl\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessVarDecl\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessVarDecl\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a39560befc3e08ac0184f5dbbd4ea5f6c}
+
+
+Definition at line 379 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ab87a9b05de0aaac43f1c427561998dea}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessWhile\_\-@{ProcessWhile\_\-}}
+\index{ProcessWhile\_\-@{ProcessWhile\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessWhile\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessWhile\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{node, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ab87a9b05de0aaac43f1c427561998dea}
+
+
+Definition at line 789 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ae2ef758e99752f0dbc30b0690fdde8f7}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!ProcessYield@{ProcessYield}}
+\index{ProcessYield@{ProcessYield}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{ProcessYield}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::ProcessYield (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ae2ef758e99752f0dbc30b0690fdde8f7}
+
+
+Definition at line 231 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ad8e0aad8265230105d0700bc55599c74}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!SetState\_\-@{SetState\_\-}}
+\index{SetState\_\-@{SetState\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{SetState\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::SetState\_\- (
+\begin{DoxyParamCaption}
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ad8e0aad8265230105d0700bc55599c74}
+
+
+Definition at line 1063 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ab62b0c4308b3713d9c8ea4eb5879c254}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!TransformForIn\_\-@{TransformForIn\_\-}}
+\index{TransformForIn\_\-@{TransformForIn\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{TransformForIn\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::TransformForIn\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{node, }
+\item[{{\bf ValueNode} $\ast$}]{array, }
+\item[{int}]{size, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ab62b0c4308b3713d9c8ea4eb5879c254}
+
+
+Definition at line 919 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a7f4568bb3f2a277cfadd54240b661ab3}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!TransformVarDecl\_\-@{TransformVarDecl\_\-}}
+\index{TransformVarDecl\_\-@{TransformVarDecl\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{TransformVarDecl\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::YieldHelper::TransformVarDecl\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf Function::VariableList} \&}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a7f4568bb3f2a277cfadd54240b661ab3}
+
+
+Definition at line 397 of file function\_\-processor.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_yield_helper_a7d77b54310e328fcffe9fb3a5d9da25f}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!body\_\-@{body\_\-}}
+\index{body\_\-@{body\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{body\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NodeList}$\ast$ {\bf mocha::YieldHelper::body\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a7d77b54310e328fcffe9fb3a5d9da25f}
+
+
+Definition at line 1149 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a9247061d7e154c260d9ded8353721a65}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!clause\_\-@{clause\_\-}}
+\index{clause\_\-@{clause\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{clause\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CaseClause}$\ast$ {\bf mocha::YieldHelper::clause\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a9247061d7e154c260d9ded8353721a65}
+
+
+Definition at line 1147 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a046274df2eacd4e17ad512cd6326b33a}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!clause\_\-body\_\-@{clause\_\-body\_\-}}
+\index{clause\_\-body\_\-@{clause\_\-body\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{clause\_\-body\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::YieldHelper::clause\_\-body\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a046274df2eacd4e17ad512cd6326b33a}
+
+
+Definition at line 1148 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a9e99c357f655aabff5f38121dfb08d18}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!function\_\-@{function\_\-}}
+\index{function\_\-@{function\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{function\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Function}$\ast$ {\bf mocha::YieldHelper::function\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a9e99c357f655aabff5f38121dfb08d18}
+
+
+Definition at line 1145 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ac8e17b43697ddf37d4b013f517d37e0d}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!info\_\-@{info\_\-}}
+\index{info\_\-@{info\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ProcessorInfo}$\ast$ {\bf mocha::YieldHelper::info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ac8e17b43697ddf37d4b013f517d37e0d}
+
+
+Definition at line 1146 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a536e157628045d35cf7cf3edb0199e85}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!is\_\-state\_\-injection\_\-@{is\_\-state\_\-injection\_\-}}
+\index{is\_\-state\_\-injection\_\-@{is\_\-state\_\-injection\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{is\_\-state\_\-injection\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::YieldHelper::is\_\-state\_\-injection\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a536e157628045d35cf7cf3edb0199e85}
+
+
+Definition at line 1143 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_acf3b4f7c427390d530ec386bdbf0aed5}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!iterator\_\-@{iterator\_\-}}
+\index{iterator\_\-@{iterator\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{iterator\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NodeIterator} {\bf mocha::YieldHelper::iterator\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_acf3b4f7c427390d530ec386bdbf0aed5}
+
+
+Definition at line 1150 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_ae6fd6bf0b97adb5f599b59585498d626}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!mark\_\-list\_\-@{mark\_\-list\_\-}}
+\index{mark\_\-list\_\-@{mark\_\-list\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{mark\_\-list\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::list$<${\bf YieldMark}$\ast$$>$ {\bf mocha::YieldHelper::mark\_\-list\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_ae6fd6bf0b97adb5f599b59585498d626}
+
+
+Definition at line 1151 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_a454e09b29dc21bcbb4779db83a053a60}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!no\_\-state\_\-injection\_\-@{no\_\-state\_\-injection\_\-}}
+\index{no\_\-state\_\-injection\_\-@{no\_\-state\_\-injection\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{no\_\-state\_\-injection\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::YieldHelper::no\_\-state\_\-injection\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_a454e09b29dc21bcbb4779db83a053a60}
+
+
+Definition at line 1144 of file function\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_yield_helper_af18a7f0c42d4d40e975c10cdd79aa0ad}{
+\index{mocha::YieldHelper@{mocha::YieldHelper}!state\_\-@{state\_\-}}
+\index{state\_\-@{state\_\-}!mocha::YieldHelper@{mocha::YieldHelper}}
+\subsubsection[{state\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::YieldHelper::state\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_yield_helper_af18a7f0c42d4d40e975c10cdd79aa0ad}
+
+
+Definition at line 1142 of file function\_\-processor.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{function__processor_8cc}{function\_\-processor.cc}\end{DoxyCompactItemize}

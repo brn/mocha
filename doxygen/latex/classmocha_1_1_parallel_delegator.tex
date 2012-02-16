@@ -1,0 +1,174 @@
+\hypertarget{classmocha_1_1_parallel_delegator}{
+\section{mocha::ParallelDelegator Class Reference}
+\label{classmocha_1_1_parallel_delegator}\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+}
+Inheritance diagram for mocha::ParallelDelegator:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_parallel_delegator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_parallel_delegator_a7e824ab191578b9d045bb238ddcce194}{ParallelDelegator} (int size)
+\item 
+\hyperlink{classmocha_1_1_parallel_delegator_aa9dba7e962a6482691ed04b97c3afa3c}{$\sim$ParallelDelegator} ()
+\item 
+void \hyperlink{classmocha_1_1_parallel_delegator_a7cc8e03175669290ddb4b39ee5e1c1d6}{Delegate} (\hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_compile_result}{CompileResult} $>$ result)
+\item 
+bool \hyperlink{classmocha_1_1_parallel_delegator_a58f973cc050ec5408e4c5c3f07eab6f9}{IsEnd} ()
+\item 
+void \hyperlink{classmocha_1_1_parallel_delegator_aff7624a6debd26da67f79ce450410905}{PrintError} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_parallel_delegator_a0e515694189bd08d422c720052d21689}{size\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_parallel_delegator_a526201fcedb64e3d734f5c409f93ecf2}{is\_\-end\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_parallel_delegator_a64d6115c334c31c7e35f61c0c1628890}{errors\_\-}
+\item 
+\hyperlink{atomic_8h_a4fde06794efa6f001ed354067fdd8133}{AtomicWord} \hyperlink{classmocha_1_1_parallel_delegator_ad6a80805f55112ea6d0789dd7fee5b0b}{current\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_mutex}{Mutex} \hyperlink{classmocha_1_1_parallel_delegator_a2c38b22fc40feeb514cc1f8a4d5cb048}{mutex\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 55 of file compiler\_\-facade.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_parallel_delegator_a7e824ab191578b9d045bb238ddcce194}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!ParallelDelegator@{ParallelDelegator}}
+\index{ParallelDelegator@{ParallelDelegator}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{ParallelDelegator}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ParallelDelegator::ParallelDelegator (
+\begin{DoxyParamCaption}
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a7e824ab191578b9d045bb238ddcce194}
+
+
+Definition at line 57 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_aa9dba7e962a6482691ed04b97c3afa3c}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!$\sim$ParallelDelegator@{$\sim$ParallelDelegator}}
+\index{$\sim$ParallelDelegator@{$\sim$ParallelDelegator}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{$\sim$ParallelDelegator}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ParallelDelegator::$\sim$ParallelDelegator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_aa9dba7e962a6482691ed04b97c3afa3c}
+
+
+Definition at line 59 of file compiler\_\-facade.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_parallel_delegator_a7cc8e03175669290ddb4b39ee5e1c1d6}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!Delegate@{Delegate}}
+\index{Delegate@{Delegate}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{Delegate}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParallelDelegator::Delegate (
+\begin{DoxyParamCaption}
+\item[{{\bf Handle}$<$ {\bf CompileResult} $>$}]{result}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a7cc8e03175669290ddb4b39ee5e1c1d6}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_finish_delegator_ab558f69af2e3401b4aedc9ed86727083}{mocha::FinishDelegator}.
+
+
+
+Definition at line 60 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_a58f973cc050ec5408e4c5c3f07eab6f9}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!IsEnd@{IsEnd}}
+\index{IsEnd@{IsEnd}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{IsEnd}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::ParallelDelegator::IsEnd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a58f973cc050ec5408e4c5c3f07eab6f9}
+
+
+Definition at line 85 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_aff7624a6debd26da67f79ce450410905}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!PrintError@{PrintError}}
+\index{PrintError@{PrintError}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{PrintError}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParallelDelegator::PrintError (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_aff7624a6debd26da67f79ce450410905}
+
+
+Definition at line 86 of file compiler\_\-facade.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_parallel_delegator_ad6a80805f55112ea6d0789dd7fee5b0b}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!current\_\-@{current\_\-}}
+\index{current\_\-@{current\_\-}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{current\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AtomicWord} {\bf mocha::ParallelDelegator::current\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_ad6a80805f55112ea6d0789dd7fee5b0b}
+
+
+Definition at line 96 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_a64d6115c334c31c7e35f61c0c1628890}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!errors\_\-@{errors\_\-}}
+\index{errors\_\-@{errors\_\-}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{errors\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::ParallelDelegator::errors\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a64d6115c334c31c7e35f61c0c1628890}
+
+
+Definition at line 95 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_a526201fcedb64e3d734f5c409f93ecf2}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!is\_\-end\_\-@{is\_\-end\_\-}}
+\index{is\_\-end\_\-@{is\_\-end\_\-}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{is\_\-end\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::ParallelDelegator::is\_\-end\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a526201fcedb64e3d734f5c409f93ecf2}
+
+
+Definition at line 94 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_a2c38b22fc40feeb514cc1f8a4d5cb048}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!mutex\_\-@{mutex\_\-}}
+\index{mutex\_\-@{mutex\_\-}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{mutex\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mutex} {\bf mocha::ParallelDelegator::mutex\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a2c38b22fc40feeb514cc1f8a4d5cb048}
+
+
+Definition at line 92 of file compiler\_\-facade.cc.
+
+\hypertarget{classmocha_1_1_parallel_delegator_a0e515694189bd08d422c720052d21689}{
+\index{mocha::ParallelDelegator@{mocha::ParallelDelegator}!size\_\-@{size\_\-}}
+\index{size\_\-@{size\_\-}!mocha::ParallelDelegator@{mocha::ParallelDelegator}}
+\subsubsection[{size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::ParallelDelegator::size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parallel_delegator_a0e515694189bd08d422c720052d21689}
+
+
+Definition at line 93 of file compiler\_\-facade.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/utils/\hyperlink{compiler__facade_8cc}{compiler\_\-facade.cc}\end{DoxyCompactItemize}

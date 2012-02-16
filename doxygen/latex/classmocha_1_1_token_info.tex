@@ -1,0 +1,462 @@
+\hypertarget{classmocha_1_1_token_info}{
+\section{mocha::TokenInfo Class Reference}
+\label{classmocha_1_1_token_info}\index{mocha::TokenInfo@{mocha::TokenInfo}}
+}
+
+
+{\ttfamily \#include $<$token\_\-info.h$>$}
+
+Inheritance diagram for mocha::TokenInfo:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_token_info}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_token_info_a2c5574dee34a4ba209ca1b976a1b51d0}{TokenInfo} ()
+\item 
+\hyperlink{classmocha_1_1_token_info_abd126072703b4742ba725a3f9d2eb4d7}{TokenInfo} (const char $\ast$val, int type, int line)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} \& \hyperlink{classmocha_1_1_token_info_a9b0216ae0aec1dfd277021f6f7266d95}{operator=} (const \hyperlink{classmocha_1_1_token_info}{TokenInfo} \&info)
+\item 
+\hyperlink{classmocha_1_1_token_info_a6c25757706b1230557daec10f30c5485}{$\sim$TokenInfo} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_token_info_acdba6b43e70add98383ba963934cf32a}{GetToken} () const 
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_token_info_af436e9d263a4b08206afe6d7c79750a2}{GetAnotherName} () const 
+\item 
+void \hyperlink{classmocha_1_1_token_info_aceff81872d7d028051ff3c47be4e0a00}{Rename} (const char $\ast$token)
+\item 
+void \hyperlink{classmocha_1_1_token_info_a179e84bdeff2a02ca2931fff34010ad1}{SetToken} (const char $\ast$token)
+\item 
+bool \hyperlink{classmocha_1_1_token_info_ae9671e344d142a4cb83198329cdfcb17}{IsRenamed} ()
+\item 
+int \hyperlink{classmocha_1_1_token_info_a36fc04622e34f258f4a638a1af20858b}{GetType} () const 
+\item 
+void \hyperlink{classmocha_1_1_token_info_ada96af218e6a284d0c0217da4c964348}{SetType} (int type)
+\item 
+int \hyperlink{classmocha_1_1_token_info_a49e74ec7812e0f83c5831af40f2372fa}{GetLineNumber} () const 
+\item 
+void \hyperlink{classmocha_1_1_token_info_ae634d32d671e53e049a4fe5928efbd99}{Const} ()
+\item 
+bool \hyperlink{classmocha_1_1_token_info_ad98cf90cfefc45744b36341a787650bb}{IsConst} ()
+\item 
+void \hyperlink{classmocha_1_1_token_info_a007d63fcfa141f6939975233fea899fa}{Let} ()
+\item 
+bool \hyperlink{classmocha_1_1_token_info_a87134e10814db095ad146c695341894c}{IsLet} ()
+\item 
+void \hyperlink{classmocha_1_1_token_info_a1488308e8f9569e460f0baaed2bbd5d8}{SetInfo} (CompilerInfo $\ast$info)
+\item 
+CompilerInfo $\ast$ \hyperlink{classmocha_1_1_token_info_ac41de71a7cddeeb869d0fc36db99136f}{GetInfo} ()
+\item 
+bool \hyperlink{classmocha_1_1_token_info_a1875ee8d986b92978b4c434107201e66}{HasLineBreakBefore} ()
+\item 
+bool \hyperlink{classmocha_1_1_token_info_a9281f5382cb27af7832eb9c871bcf6b3}{HasLineBreakAfter} ()
+\item 
+void \hyperlink{classmocha_1_1_token_info_a8ce4e792e1c8c9a900e97d5d9e904c7e}{SetLineBreakBefor} ()
+\item 
+void \hyperlink{classmocha_1_1_token_info_a01b1a3b7f2792fe3fa6380288ca7a004}{SetLineBreakAfter} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_token_info_a20cafafc8e332f6182184b70fe147c2c}{type\_\-}
+\item 
+int \hyperlink{classmocha_1_1_token_info_a507eaae686fcf08cb5504117ce660a1b}{line\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_token_info_aba23d888206ca283bcb9e51100ca49ee}{is\_\-const\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_token_info_a6d1ecdd8db574d8244da19b7553ab932}{is\_\-let\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_token_info_ae8fb5a3f94285db1e14ddd222d874166}{token\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_token_info_af154824b9fca9aec8c462d6d3bb74c56}{renamed\_\-}
+\item 
+\hyperlink{classmocha_1_1_bit_vector}{BitVector8} \hyperlink{classmocha_1_1_token_info_a2a502ef536ae68253e3cb98ef2854a99}{vector\_\-}
+\item 
+CompilerInfo $\ast$ \hyperlink{classmocha_1_1_token_info_a01f9f92c6a6b74432d284a079b1f656c}{info\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file token\_\-info.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_token_info_a2c5574dee34a4ba209ca1b976a1b51d0}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!TokenInfo@{TokenInfo}}
+\index{TokenInfo@{TokenInfo}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{TokenInfo}]{\setlength{\rightskip}{0pt plus 5cm}TokenInfo::TokenInfo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_info_a2c5574dee34a4ba209ca1b976a1b51d0}
+
+
+Definition at line 9 of file token\_\-info.cc.
+
+\hypertarget{classmocha_1_1_token_info_abd126072703b4742ba725a3f9d2eb4d7}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!TokenInfo@{TokenInfo}}
+\index{TokenInfo@{TokenInfo}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{TokenInfo}]{\setlength{\rightskip}{0pt plus 5cm}TokenInfo::TokenInfo (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{val, }
+\item[{int}]{type, }
+\item[{int}]{line}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_info_abd126072703b4742ba725a3f9d2eb4d7}
+
+
+Definition at line 10 of file token\_\-info.cc.
+
+\hypertarget{classmocha_1_1_token_info_a6c25757706b1230557daec10f30c5485}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!$\sim$TokenInfo@{$\sim$TokenInfo}}
+\index{$\sim$TokenInfo@{$\sim$TokenInfo}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{$\sim$TokenInfo}]{\setlength{\rightskip}{0pt plus 5cm}TokenInfo::$\sim$TokenInfo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_info_a6c25757706b1230557daec10f30c5485}
+
+
+Definition at line 23 of file token\_\-info.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_token_info_ae634d32d671e53e049a4fe5928efbd99}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!Const@{Const}}
+\index{Const@{Const}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{Const}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::Const (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_ae634d32d671e53e049a4fe5928efbd99}
+
+
+Definition at line 24 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_af436e9d263a4b08206afe6d7c79750a2}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!GetAnotherName@{GetAnotherName}}
+\index{GetAnotherName@{GetAnotherName}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{GetAnotherName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::TokenInfo::GetAnotherName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_af436e9d263a4b08206afe6d7c79750a2}
+
+
+Definition at line 17 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_ac41de71a7cddeeb869d0fc36db99136f}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!GetInfo@{GetInfo}}
+\index{GetInfo@{GetInfo}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{GetInfo}]{\setlength{\rightskip}{0pt plus 5cm}CompilerInfo$\ast$ mocha::TokenInfo::GetInfo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_ac41de71a7cddeeb869d0fc36db99136f}
+
+
+Definition at line 29 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a49e74ec7812e0f83c5831af40f2372fa}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!GetLineNumber@{GetLineNumber}}
+\index{GetLineNumber@{GetLineNumber}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{GetLineNumber}]{\setlength{\rightskip}{0pt plus 5cm}int TokenInfo::GetLineNumber (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_token_info_a49e74ec7812e0f83c5831af40f2372fa}
+
+
+Definition at line 29 of file token\_\-info.cc.
+
+\hypertarget{classmocha_1_1_token_info_acdba6b43e70add98383ba963934cf32a}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!GetToken@{GetToken}}
+\index{GetToken@{GetToken}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{GetToken}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TokenInfo::GetToken (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_token_info_acdba6b43e70add98383ba963934cf32a}
+
+
+Definition at line 25 of file token\_\-info.cc.
+
+\hypertarget{classmocha_1_1_token_info_a36fc04622e34f258f4a638a1af20858b}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!GetType@{GetType}}
+\index{GetType@{GetType}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{GetType}]{\setlength{\rightskip}{0pt plus 5cm}int TokenInfo::GetType (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_token_info_a36fc04622e34f258f4a638a1af20858b}
+
+
+Definition at line 33 of file token\_\-info.cc.
+
+\hypertarget{classmocha_1_1_token_info_a9281f5382cb27af7832eb9c871bcf6b3}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!HasLineBreakAfter@{HasLineBreakAfter}}
+\index{HasLineBreakAfter@{HasLineBreakAfter}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{HasLineBreakAfter}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::TokenInfo::HasLineBreakAfter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a9281f5382cb27af7832eb9c871bcf6b3}
+
+
+Definition at line 31 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a1875ee8d986b92978b4c434107201e66}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!HasLineBreakBefore@{HasLineBreakBefore}}
+\index{HasLineBreakBefore@{HasLineBreakBefore}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{HasLineBreakBefore}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::TokenInfo::HasLineBreakBefore (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a1875ee8d986b92978b4c434107201e66}
+
+
+Definition at line 30 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_ad98cf90cfefc45744b36341a787650bb}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!IsConst@{IsConst}}
+\index{IsConst@{IsConst}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{IsConst}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::TokenInfo::IsConst (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_ad98cf90cfefc45744b36341a787650bb}
+
+
+Definition at line 25 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a87134e10814db095ad146c695341894c}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!IsLet@{IsLet}}
+\index{IsLet@{IsLet}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{IsLet}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::TokenInfo::IsLet (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a87134e10814db095ad146c695341894c}
+
+
+Definition at line 27 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_ae9671e344d142a4cb83198329cdfcb17}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!IsRenamed@{IsRenamed}}
+\index{IsRenamed@{IsRenamed}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{IsRenamed}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::TokenInfo::IsRenamed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_ae9671e344d142a4cb83198329cdfcb17}
+
+
+Definition at line 20 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a007d63fcfa141f6939975233fea899fa}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!Let@{Let}}
+\index{Let@{Let}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{Let}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::Let (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a007d63fcfa141f6939975233fea899fa}
+
+
+Definition at line 26 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a9b0216ae0aec1dfd277021f6f7266d95}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!operator=@{operator=}}
+\index{operator=@{operator=}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} \& TokenInfo::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf TokenInfo} \&}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_info_a9b0216ae0aec1dfd277021f6f7266d95}
+
+
+Definition at line 16 of file token\_\-info.cc.
+
+\hypertarget{classmocha_1_1_token_info_aceff81872d7d028051ff3c47be4e0a00}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!Rename@{Rename}}
+\index{Rename@{Rename}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{Rename}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::Rename (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{token}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_aceff81872d7d028051ff3c47be4e0a00}
+
+
+Definition at line 18 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a1488308e8f9569e460f0baaed2bbd5d8}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!SetInfo@{SetInfo}}
+\index{SetInfo@{SetInfo}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{SetInfo}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::SetInfo (
+\begin{DoxyParamCaption}
+\item[{CompilerInfo $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a1488308e8f9569e460f0baaed2bbd5d8}
+
+
+Definition at line 28 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a01b1a3b7f2792fe3fa6380288ca7a004}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!SetLineBreakAfter@{SetLineBreakAfter}}
+\index{SetLineBreakAfter@{SetLineBreakAfter}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{SetLineBreakAfter}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::SetLineBreakAfter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a01b1a3b7f2792fe3fa6380288ca7a004}
+
+
+Definition at line 33 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a8ce4e792e1c8c9a900e97d5d9e904c7e}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!SetLineBreakBefor@{SetLineBreakBefor}}
+\index{SetLineBreakBefor@{SetLineBreakBefor}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{SetLineBreakBefor}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::SetLineBreakBefor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a8ce4e792e1c8c9a900e97d5d9e904c7e}
+
+
+Definition at line 32 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a179e84bdeff2a02ca2931fff34010ad1}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!SetToken@{SetToken}}
+\index{SetToken@{SetToken}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{SetToken}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TokenInfo::SetToken (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{token}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_token_info_a179e84bdeff2a02ca2931fff34010ad1}
+
+
+Definition at line 19 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_ada96af218e6a284d0c0217da4c964348}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!SetType@{SetType}}
+\index{SetType@{SetType}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{SetType}]{\setlength{\rightskip}{0pt plus 5cm}void TokenInfo::SetType (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_token_info_ada96af218e6a284d0c0217da4c964348}
+
+
+Definition at line 37 of file token\_\-info.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_token_info_a01f9f92c6a6b74432d284a079b1f656c}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!info\_\-@{info\_\-}}
+\index{info\_\-@{info\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}CompilerInfo$\ast$ {\bf mocha::TokenInfo::info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_a01f9f92c6a6b74432d284a079b1f656c}
+
+
+Definition at line 42 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_aba23d888206ca283bcb9e51100ca49ee}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!is\_\-const\_\-@{is\_\-const\_\-}}
+\index{is\_\-const\_\-@{is\_\-const\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{is\_\-const\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::TokenInfo::is\_\-const\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_aba23d888206ca283bcb9e51100ca49ee}
+
+
+Definition at line 37 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a6d1ecdd8db574d8244da19b7553ab932}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!is\_\-let\_\-@{is\_\-let\_\-}}
+\index{is\_\-let\_\-@{is\_\-let\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{is\_\-let\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::TokenInfo::is\_\-let\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_a6d1ecdd8db574d8244da19b7553ab932}
+
+
+Definition at line 38 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a507eaae686fcf08cb5504117ce660a1b}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!line\_\-@{line\_\-}}
+\index{line\_\-@{line\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{line\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::TokenInfo::line\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_a507eaae686fcf08cb5504117ce660a1b}
+
+
+Definition at line 36 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_af154824b9fca9aec8c462d6d3bb74c56}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!renamed\_\-@{renamed\_\-}}
+\index{renamed\_\-@{renamed\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{renamed\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::TokenInfo::renamed\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_af154824b9fca9aec8c462d6d3bb74c56}
+
+
+Definition at line 40 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_ae8fb5a3f94285db1e14ddd222d874166}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!token\_\-@{token\_\-}}
+\index{token\_\-@{token\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{token\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::TokenInfo::token\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_ae8fb5a3f94285db1e14ddd222d874166}
+
+
+Definition at line 39 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a20cafafc8e332f6182184b70fe147c2c}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!type\_\-@{type\_\-}}
+\index{type\_\-@{type\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{type\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::TokenInfo::type\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_a20cafafc8e332f6182184b70fe147c2c}
+
+
+Definition at line 35 of file token\_\-info.h.
+
+\hypertarget{classmocha_1_1_token_info_a2a502ef536ae68253e3cb98ef2854a99}{
+\index{mocha::TokenInfo@{mocha::TokenInfo}!vector\_\-@{vector\_\-}}
+\index{vector\_\-@{vector\_\-}!mocha::TokenInfo@{mocha::TokenInfo}}
+\subsubsection[{vector\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BitVector8} {\bf mocha::TokenInfo::vector\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_token_info_a2a502ef536ae68253e3cb98ef2854a99}
+
+
+Definition at line 41 of file token\_\-info.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/tokens/\hyperlink{token__info_8h}{token\_\-info.h}\item 
+Y:/mocha/src/compiler/tokens/\hyperlink{token__info_8cc}{token\_\-info.cc}\end{DoxyCompactItemize}

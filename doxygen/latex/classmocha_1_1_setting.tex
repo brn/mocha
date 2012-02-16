@@ -1,0 +1,359 @@
+\hypertarget{classmocha_1_1_setting}{
+\section{mocha::Setting Class Reference}
+\label{classmocha_1_1_setting}\index{mocha::Setting@{mocha::Setting}}
+}
+
+
+{\ttfamily \#include $<$setting.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_setting_1_1_ptr_impl}{PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_a564f1f9d3e9733dceafa201ca40fbfb5}{GetBasePath} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_a1d590cbfb42ddc0aceedf07fb285b2a3}{GetXMLPath} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_a798784a754282fc49752c4405e86c0b7}{GetModulePath} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_aaa4fa9b03df84444846d01c6ecce2add}{GetRuntimePath} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_a6ad858f5912afd49746b6d43fab96e9f}{GetRuntimeFile} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_a57d376e6f156c0b0895273b6213ee542}{GetLogPath} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_af64bf60e08098fed22f7f84698e1a97d}{GetTimeStr} ()
+\item 
+\hyperlink{classmocha_1_1_file_root}{FileRoot} $\ast$ \hyperlink{classmocha_1_1_setting_a4f04773eb84489840ad3996894041f22}{GetRuntime} ()
+\item 
+void \hyperlink{classmocha_1_1_setting_af370dd8d958c35ebaae595702f96ca1e}{Close} ()
+\item 
+void \hyperlink{classmocha_1_1_setting_acbb0b0676135cf7e0b634b62f022ecd0}{LogNoDate} (const char $\ast$str,...)
+\item 
+void \hyperlink{classmocha_1_1_setting_aea839d6705b1cc04db741630407de2cc}{Log} (const char $\ast$str,...)
+\item 
+void \hyperlink{classmocha_1_1_setting_a6b5e982cdafe595ad0a512d2c7f4516a}{LogError} (const char $\ast$str,...)
+\item 
+void \hyperlink{classmocha_1_1_setting_adcf1d82a921242609295465ea8f5e793}{LogFatal} (const char $\ast$str,...)
+\item 
+void \hyperlink{classmocha_1_1_setting_a5259b61aa7451aeda71451d05c02a072}{SetLogFileHandle} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_setting}{Setting} $\ast$ \hyperlink{classmocha_1_1_setting_a8fa3504351b20fd3c0dc27b664b53bd9}{GetInstance} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_setting_a63d0638ba8374c025939c795fae693fb}{Setting} ()
+\item 
+\hyperlink{classmocha_1_1_setting_aae4a6f95334a30ec6e9b673161fe8bb6}{$\sim$Setting} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_setting_1_1_ptr_impl}{PtrImpl} $>$ \hyperlink{classmocha_1_1_setting_a07d6568a1ff8ac8a969d5c3c3b6ba6fe}{implementation\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_external_ast}{ExternalAst} $>$ \hyperlink{classmocha_1_1_setting_a5cb9c6885050b289f78e040839bb6e65}{runtime\_\-ast\_\-}
+\item 
+static \hyperlink{classmocha_1_1_setting}{Setting} $\ast$ \hyperlink{classmocha_1_1_setting_a37e8e9f7b64d857acf07758852747961}{instance\_\-} = 0
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_setting_aa966551cf4c3c99d5e0da9175856fb7e}{Bootstrap}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 11 of file setting.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_setting_a63d0638ba8374c025939c795fae693fb}{
+\index{mocha::Setting@{mocha::Setting}!Setting@{Setting}}
+\index{Setting@{Setting}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{Setting}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Setting::Setting (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_setting_a63d0638ba8374c025939c795fae693fb}
+
+
+Definition at line 129 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_aae4a6f95334a30ec6e9b673161fe8bb6}{
+\index{mocha::Setting@{mocha::Setting}!$\sim$Setting@{$\sim$Setting}}
+\index{$\sim$Setting@{$\sim$Setting}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{$\sim$Setting}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Setting::$\sim$Setting (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_setting_aae4a6f95334a30ec6e9b673161fe8bb6}
+
+
+Definition at line 31 of file setting.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_setting_af370dd8d958c35ebaae595702f96ca1e}{
+\index{mocha::Setting@{mocha::Setting}!Close@{Close}}
+\index{Close@{Close}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{Close}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::Close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_af370dd8d958c35ebaae595702f96ca1e}
+
+
+Definition at line 88 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a564f1f9d3e9733dceafa201ca40fbfb5}{
+\index{mocha::Setting@{mocha::Setting}!GetBasePath@{GetBasePath}}
+\index{GetBasePath@{GetBasePath}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetBasePath}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetBasePath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a564f1f9d3e9733dceafa201ca40fbfb5}
+
+
+Definition at line 80 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a8fa3504351b20fd3c0dc27b664b53bd9}{
+\index{mocha::Setting@{mocha::Setting}!GetInstance@{GetInstance}}
+\index{GetInstance@{GetInstance}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetInstance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Setting} $\ast$ mocha::Setting::GetInstance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_setting_a8fa3504351b20fd3c0dc27b664b53bd9}
+
+
+Definition at line 71 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a57d376e6f156c0b0895273b6213ee542}{
+\index{mocha::Setting@{mocha::Setting}!GetLogPath@{GetLogPath}}
+\index{GetLogPath@{GetLogPath}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetLogPath}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetLogPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a57d376e6f156c0b0895273b6213ee542}
+
+
+Definition at line 85 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a798784a754282fc49752c4405e86c0b7}{
+\index{mocha::Setting@{mocha::Setting}!GetModulePath@{GetModulePath}}
+\index{GetModulePath@{GetModulePath}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetModulePath}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetModulePath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a798784a754282fc49752c4405e86c0b7}
+
+
+Definition at line 82 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a4f04773eb84489840ad3996894041f22}{
+\index{mocha::Setting@{mocha::Setting}!GetRuntime@{GetRuntime}}
+\index{GetRuntime@{GetRuntime}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetRuntime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileRoot} $\ast$ mocha::Setting::GetRuntime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a4f04773eb84489840ad3996894041f22}
+
+
+Definition at line 87 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a6ad858f5912afd49746b6d43fab96e9f}{
+\index{mocha::Setting@{mocha::Setting}!GetRuntimeFile@{GetRuntimeFile}}
+\index{GetRuntimeFile@{GetRuntimeFile}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetRuntimeFile}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetRuntimeFile (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a6ad858f5912afd49746b6d43fab96e9f}
+
+
+Definition at line 84 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_aaa4fa9b03df84444846d01c6ecce2add}{
+\index{mocha::Setting@{mocha::Setting}!GetRuntimePath@{GetRuntimePath}}
+\index{GetRuntimePath@{GetRuntimePath}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetRuntimePath}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetRuntimePath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_aaa4fa9b03df84444846d01c6ecce2add}
+
+
+Definition at line 83 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_af64bf60e08098fed22f7f84698e1a97d}{
+\index{mocha::Setting@{mocha::Setting}!GetTimeStr@{GetTimeStr}}
+\index{GetTimeStr@{GetTimeStr}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetTimeStr}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetTimeStr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_af64bf60e08098fed22f7f84698e1a97d}
+
+
+Definition at line 86 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a1d590cbfb42ddc0aceedf07fb285b2a3}{
+\index{mocha::Setting@{mocha::Setting}!GetXMLPath@{GetXMLPath}}
+\index{GetXMLPath@{GetXMLPath}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{GetXMLPath}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Setting::GetXMLPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a1d590cbfb42ddc0aceedf07fb285b2a3}
+
+
+Definition at line 81 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_aea839d6705b1cc04db741630407de2cc}{
+\index{mocha::Setting@{mocha::Setting}!Log@{Log}}
+\index{Log@{Log}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{Log}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::Log (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_aea839d6705b1cc04db741630407de2cc}
+
+
+Definition at line 99 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a6b5e982cdafe595ad0a512d2c7f4516a}{
+\index{mocha::Setting@{mocha::Setting}!LogError@{LogError}}
+\index{LogError@{LogError}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{LogError}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::LogError (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a6b5e982cdafe595ad0a512d2c7f4516a}
+
+
+Definition at line 109 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_adcf1d82a921242609295465ea8f5e793}{
+\index{mocha::Setting@{mocha::Setting}!LogFatal@{LogFatal}}
+\index{LogFatal@{LogFatal}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{LogFatal}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::LogFatal (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_adcf1d82a921242609295465ea8f5e793}
+
+
+Definition at line 119 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_acbb0b0676135cf7e0b634b62f022ecd0}{
+\index{mocha::Setting@{mocha::Setting}!LogNoDate@{LogNoDate}}
+\index{LogNoDate@{LogNoDate}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{LogNoDate}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::LogNoDate (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_acbb0b0676135cf7e0b634b62f022ecd0}
+
+
+Definition at line 90 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_a5259b61aa7451aeda71451d05c02a072}{
+\index{mocha::Setting@{mocha::Setting}!SetLogFileHandle@{SetLogFileHandle}}
+\index{SetLogFileHandle@{SetLogFileHandle}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{SetLogFileHandle}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::SetLogFileHandle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_setting_a5259b61aa7451aeda71451d05c02a072}
+
+
+Definition at line 145 of file setting.cc.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_setting_aa966551cf4c3c99d5e0da9175856fb7e}{
+\index{mocha::Setting@{mocha::Setting}!Bootstrap@{Bootstrap}}
+\index{Bootstrap@{Bootstrap}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{Bootstrap}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Bootstrap}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_setting_aa966551cf4c3c99d5e0da9175856fb7e}
+
+
+Definition at line 12 of file setting.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_setting_a07d6568a1ff8ac8a969d5c3c3b6ba6fe}{
+\index{mocha::Setting@{mocha::Setting}!implementation\_\-@{implementation\_\-}}
+\index{implementation\_\-@{implementation\_\-}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{implementation\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf PtrImpl}$>$ {\bf mocha::Setting::implementation\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_setting_a07d6568a1ff8ac8a969d5c3c3b6ba6fe}
+
+
+Definition at line 32 of file setting.h.
+
+\hypertarget{classmocha_1_1_setting_a37e8e9f7b64d857acf07758852747961}{
+\index{mocha::Setting@{mocha::Setting}!instance\_\-@{instance\_\-}}
+\index{instance\_\-@{instance\_\-}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{instance\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Setting} $\ast$ {\bf mocha::Setting::instance\_\-} = 0\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_setting_a37e8e9f7b64d857acf07758852747961}
+
+
+Definition at line 35 of file setting.h.
+
+\hypertarget{classmocha_1_1_setting_a5cb9c6885050b289f78e040839bb6e65}{
+\index{mocha::Setting@{mocha::Setting}!runtime\_\-ast\_\-@{runtime\_\-ast\_\-}}
+\index{runtime\_\-ast\_\-@{runtime\_\-ast\_\-}!mocha::Setting@{mocha::Setting}}
+\subsubsection[{runtime\_\-ast\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Handle}$<$ {\bf ExternalAst} $>$ {\bf mocha::Setting::runtime\_\-ast\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_setting_a5cb9c6885050b289f78e040839bb6e65}
+
+
+Definition at line 34 of file setting.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/options/\hyperlink{setting_8h}{setting.h}\item 
+Y:/mocha/src/options/\hyperlink{setting_8cc}{setting.cc}\end{DoxyCompactItemize}

@@ -1,0 +1,219 @@
+\hypertarget{classmocha_1_1_managed}{
+\section{mocha::Managed Class Reference}
+\label{classmocha_1_1_managed}\index{mocha::Managed@{mocha::Managed}}
+}
+
+
+{\ttfamily \#include $<$managed.h$>$}
+
+Inheritance diagram for mocha::Managed:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.741627cm]{classmocha_1_1_managed}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_managed_afa8739a7d14bd673ff0f3a5d4a3442e3}{Managed} ()
+\item 
+virtual \hyperlink{classmocha_1_1_managed_a72cdb089c9b59de7ace586992f7bf79e}{$\sim$Managed} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{classmocha_1_1_managed_a6f59062ca3a8734842db97c2ae049c0e}{ReleaseCallback} )(\hyperlink{classmocha_1_1_managed}{Managed} $\ast$ptr)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_managed_ac713cec3c957b8b00c70d696bb9f1382}{Release\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_managed_acaaf5d0fb9f341adc773fb886cbe843c}{Retain\_\-} (bool is=true)
+\item 
+bool \hyperlink{classmocha_1_1_managed_af9d99bae00d5d179768eb875f6b1d8a0}{Retained\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classmocha_1_1_managed_ab54c73d26d18b29a750f1059634cb1cc}{is\_\-retained\_\-}
+\item 
+int \hyperlink{classmocha_1_1_managed_a363b983b4bd61e3beb5766882bab832c}{id\_\-}
+\item 
+\hyperlink{classmocha_1_1_managed}{Managed} $\ast$ \hyperlink{classmocha_1_1_managed_a732598822f2cec7406df37bcf789f68a}{next\_\-}
+\item 
+\hyperlink{classmocha_1_1_managed}{Managed} $\ast$ \hyperlink{classmocha_1_1_managed_a113a03086a31cc2a7af2c4c72e001763}{prev\_\-}
+\item 
+\hyperlink{classmocha_1_1_managed_a6f59062ca3a8734842db97c2ae049c0e}{ReleaseCallback} \hyperlink{classmocha_1_1_managed_a675129a376db51da9f6f1b510ce5c006}{destructor\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_managed_a73d86f43b616a0898e6309038ca76ee8}{PtrCollector}
+\item 
+class \hyperlink{classmocha_1_1_managed_a102b7b383e0de8f3e612201cac01a458}{ManagedHandle}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file managed.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_managed_a6f59062ca3a8734842db97c2ae049c0e}{
+\index{mocha::Managed@{mocha::Managed}!ReleaseCallback@{ReleaseCallback}}
+\index{ReleaseCallback@{ReleaseCallback}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{ReleaseCallback}]{\setlength{\rightskip}{0pt plus 5cm}typedef void( $\ast$ {\bf mocha::Managed::ReleaseCallback})({\bf Managed} $\ast$ptr)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_managed_a6f59062ca3a8734842db97c2ae049c0e}
+
+
+Definition at line 13 of file managed.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_managed_afa8739a7d14bd673ff0f3a5d4a3442e3}{
+\index{mocha::Managed@{mocha::Managed}!Managed@{Managed}}
+\index{Managed@{Managed}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{Managed}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Managed::Managed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_managed_afa8739a7d14bd673ff0f3a5d4a3442e3}
+
+
+Definition at line 10 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_a72cdb089c9b59de7ace586992f7bf79e}{
+\index{mocha::Managed@{mocha::Managed}!$\sim$Managed@{$\sim$Managed}}
+\index{$\sim$Managed@{$\sim$Managed}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{$\sim$Managed}]{\setlength{\rightskip}{0pt plus 5cm}virtual mocha::Managed::$\sim$Managed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_managed_a72cdb089c9b59de7ace586992f7bf79e}
+
+
+Definition at line 11 of file managed.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_managed_ac713cec3c957b8b00c70d696bb9f1382}{
+\index{mocha::Managed@{mocha::Managed}!Release\_\-@{Release\_\-}}
+\index{Release\_\-@{Release\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{Release\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Managed::Release\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_managed_ac713cec3c957b8b00c70d696bb9f1382}
+
+
+Definition at line 14 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_acaaf5d0fb9f341adc773fb886cbe843c}{
+\index{mocha::Managed@{mocha::Managed}!Retain\_\-@{Retain\_\-}}
+\index{Retain\_\-@{Retain\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{Retain\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Managed::Retain\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_managed_acaaf5d0fb9f341adc773fb886cbe843c}
+
+
+Definition at line 15 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_af9d99bae00d5d179768eb875f6b1d8a0}{
+\index{mocha::Managed@{mocha::Managed}!Retained\_\-@{Retained\_\-}}
+\index{Retained\_\-@{Retained\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{Retained\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Managed::Retained\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_managed_af9d99bae00d5d179768eb875f6b1d8a0}
+
+
+Definition at line 16 of file managed.h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_managed_a102b7b383e0de8f3e612201cac01a458}{
+\index{mocha::Managed@{mocha::Managed}!ManagedHandle@{ManagedHandle}}
+\index{ManagedHandle@{ManagedHandle}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{ManagedHandle}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf ManagedHandle}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_managed_a102b7b383e0de8f3e612201cac01a458}
+
+
+Definition at line 8 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_a73d86f43b616a0898e6309038ca76ee8}{
+\index{mocha::Managed@{mocha::Managed}!PtrCollector@{PtrCollector}}
+\index{PtrCollector@{PtrCollector}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{PtrCollector}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf PtrCollector}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_managed_a73d86f43b616a0898e6309038ca76ee8}
+
+
+Definition at line 7 of file managed.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_managed_a675129a376db51da9f6f1b510ce5c006}{
+\index{mocha::Managed@{mocha::Managed}!destructor\_\-@{destructor\_\-}}
+\index{destructor\_\-@{destructor\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{destructor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ReleaseCallback} {\bf mocha::Managed::destructor\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_managed_a675129a376db51da9f6f1b510ce5c006}
+
+
+Definition at line 21 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_a363b983b4bd61e3beb5766882bab832c}{
+\index{mocha::Managed@{mocha::Managed}!id\_\-@{id\_\-}}
+\index{id\_\-@{id\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{id\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::Managed::id\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_managed_a363b983b4bd61e3beb5766882bab832c}
+
+
+Definition at line 18 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_ab54c73d26d18b29a750f1059634cb1cc}{
+\index{mocha::Managed@{mocha::Managed}!is\_\-retained\_\-@{is\_\-retained\_\-}}
+\index{is\_\-retained\_\-@{is\_\-retained\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{is\_\-retained\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::Managed::is\_\-retained\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_managed_ab54c73d26d18b29a750f1059634cb1cc}
+
+
+Definition at line 17 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_a732598822f2cec7406df37bcf789f68a}{
+\index{mocha::Managed@{mocha::Managed}!next\_\-@{next\_\-}}
+\index{next\_\-@{next\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{next\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Managed}$\ast$ {\bf mocha::Managed::next\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_managed_a732598822f2cec7406df37bcf789f68a}
+
+
+Definition at line 19 of file managed.h.
+
+\hypertarget{classmocha_1_1_managed_a113a03086a31cc2a7af2c4c72e001763}{
+\index{mocha::Managed@{mocha::Managed}!prev\_\-@{prev\_\-}}
+\index{prev\_\-@{prev\_\-}!mocha::Managed@{mocha::Managed}}
+\subsubsection[{prev\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Managed}$\ast$ {\bf mocha::Managed::prev\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_managed_a113a03086a31cc2a7af2c4c72e001763}
+
+
+Definition at line 20 of file managed.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/pool/\hyperlink{managed_8h}{managed.h}\end{DoxyCompactItemize}

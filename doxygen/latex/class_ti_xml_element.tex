@@ -1,0 +1,661 @@
+\hypertarget{class_ti_xml_element}{
+\section{TiXmlElement Class Reference}
+\label{class_ti_xml_element}\index{TiXmlElement@{TiXmlElement}}
+}
+
+
+The element is a container class.  
+
+
+
+
+{\ttfamily \#include $<$tinyxml.h$>$}
+
+Inheritance diagram for TiXmlElement:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_ti_xml_element}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ti_xml_element_a01bc3ab372d35da08efcbbe65ad90c60}{TiXmlElement} (const char $\ast$in\_\-value)
+\begin{DoxyCompactList}\small\item\em Construct an element. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_element_a1ca4465f3c2eac6a60e641cd7f1d9f7e}{TiXmlElement} (const \hyperlink{class_ti_xml_element}{TiXmlElement} \&)
+\item 
+\hyperlink{class_ti_xml_element}{TiXmlElement} \& \hyperlink{class_ti_xml_element_ad58d300f4cfc0016ffa6861ebb718a0b}{operator=} (const \hyperlink{class_ti_xml_element}{TiXmlElement} \&base)
+\item 
+virtual \hyperlink{class_ti_xml_element_aa049a47c5081c0d021968666360da261}{$\sim$TiXmlElement} ()
+\item 
+const char $\ast$ \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute} (const char $\ast$name) const 
+\begin{DoxyCompactList}\small\item\em Given an attribute name, \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} returns the value for the attribute of that name, or null if none exists. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{class_ti_xml_element_aa9192e80567b5042dbded80b78c44339}{Attribute} (const char $\ast$name, int $\ast$i) const 
+\begin{DoxyCompactList}\small\item\em Given an attribute name, \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} returns the value for the attribute of that name, or null if none exists. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{class_ti_xml_element_aec4f727f8aa49b51248d80125d173136}{Attribute} (const char $\ast$name, double $\ast$d) const 
+\begin{DoxyCompactList}\small\item\em Given an attribute name, \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} returns the value for the attribute of that name, or null if none exists. \end{DoxyCompactList}\item 
+int \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute} (const char $\ast$name, int $\ast$\_\-value) const 
+\begin{DoxyCompactList}\small\item\em QueryIntAttribute examines the attribute -\/ it is an alternative to the \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} method with richer error checking. \end{DoxyCompactList}\item 
+int \hyperlink{class_ti_xml_element_ae48df644f890ab86fa19839ac401f00d}{QueryUnsignedAttribute} (const char $\ast$name, unsigned $\ast$\_\-value) const 
+\begin{DoxyCompactList}\small\item\em QueryUnsignedAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. \end{DoxyCompactList}\item 
+int \hyperlink{class_ti_xml_element_af4a1d3f88c28eb0f3115dc39ebd83fff}{QueryBoolAttribute} (const char $\ast$name, bool $\ast$\_\-value) const 
+\begin{DoxyCompactList}\small\item\em QueryBoolAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. \end{DoxyCompactList}\item 
+int \hyperlink{class_ti_xml_element_a898d7730ecc341f0bffc7a9dadbf1ce7}{QueryDoubleAttribute} (const char $\ast$name, double $\ast$\_\-value) const 
+\begin{DoxyCompactList}\small\item\em QueryDoubleAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. \end{DoxyCompactList}\item 
+int \hyperlink{class_ti_xml_element_aa04d3af11601ef5a5f88295203a843be}{QueryFloatAttribute} (const char $\ast$name, float $\ast$\_\-value) const 
+\begin{DoxyCompactList}\small\item\em QueryFloatAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. \end{DoxyCompactList}\item 
+void \hyperlink{class_ti_xml_element_abf0b3bd7f0e4c746a89ec6e7f101fc32}{SetAttribute} (const char $\ast$name, const char $\ast$\_\-value)
+\begin{DoxyCompactList}\small\item\em Sets an attribute of name to a given value. \end{DoxyCompactList}\item 
+void \hyperlink{class_ti_xml_element_ace6f4be75e373726d4774073d666d1a7}{SetAttribute} (const char $\ast$name, int \hyperlink{class_ti_xml_node_ab068eb0e3311ba1b5a132abe60a9c3c8}{value})
+\begin{DoxyCompactList}\small\item\em Sets an attribute of name to a given value. \end{DoxyCompactList}\item 
+void \hyperlink{class_ti_xml_element_a0d1dd975d75496778177e35abfe0ec0b}{SetDoubleAttribute} (const char $\ast$name, double \hyperlink{class_ti_xml_node_ab068eb0e3311ba1b5a132abe60a9c3c8}{value})
+\begin{DoxyCompactList}\small\item\em Sets an attribute of name to a given value. \end{DoxyCompactList}\item 
+void \hyperlink{class_ti_xml_element_a56979767deca794376b1dfa69a525b2a}{RemoveAttribute} (const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Deletes an attribute with the given name. \end{DoxyCompactList}\item 
+const \hyperlink{class_ti_xml_attribute}{TiXmlAttribute} $\ast$ \hyperlink{class_ti_xml_element_a516054c9073647d6cb29b6abe9fa0592}{FirstAttribute} () const 
+\begin{DoxyCompactList}\small\item\em Access the first attribute in this element. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_attribute}{TiXmlAttribute} $\ast$ \hyperlink{class_ti_xml_element_a4b33780fc565d38d6b54f640e0cf1737}{FirstAttribute} ()
+\item 
+const \hyperlink{class_ti_xml_attribute}{TiXmlAttribute} $\ast$ \hyperlink{class_ti_xml_element_a86191b49f9177be132b85b14655f1381}{LastAttribute} () const 
+\begin{DoxyCompactList}\small\item\em Access the last attribute in this element. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_attribute}{TiXmlAttribute} $\ast$ \hyperlink{class_ti_xml_element_a222f81cf06155cd108f2a68d4d176004}{LastAttribute} ()
+\item 
+const char $\ast$ \hyperlink{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}{GetText} () const 
+\begin{DoxyCompactList}\small\item\em Convenience function for easy access to the text inside an element. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$ \hyperlink{class_ti_xml_element_a13f6df105ebb1e8dc636e75cc883be32}{Clone} () const 
+\begin{DoxyCompactList}\small\item\em Creates a new Element and returns it -\/ the returned element is a copy. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_ti_xml_element_ad9d0c008866982ab8d9aafae7e14d692}{Print} (FILE $\ast$cfile, int depth) const 
+\begin{DoxyCompactList}\small\item\em All TinyXml classes can print themselves to a filestream or the string class (\hyperlink{class_ti_xml_string}{TiXmlString} in non-\/STL mode, std::string in STL mode.) Either or both cfile and str can be null. \end{DoxyCompactList}\item 
+virtual const char $\ast$ \hyperlink{class_ti_xml_element_af95c9165159fd9dfdcc5b894a3fcf85b}{Parse} (const char $\ast$p, \hyperlink{class_ti_xml_parsing_data}{TiXmlParsingData} $\ast$\hyperlink{bootstrap_8cc_a923b2158227405b9f7a6eceb6c7104c8}{data}, \hyperlink{tinyxml_8h_a88d51847a13ee0f4b4d320d03d2c4d96}{TiXmlEncoding} encoding)
+\item 
+virtual const \hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$ \hyperlink{class_ti_xml_element_ac5b8d0e25fa23fd9acbb6d146082901c}{ToElement} () const 
+\begin{DoxyCompactList}\small\item\em Cast to a more defined type. Will return null not of the requested type. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$ \hyperlink{class_ti_xml_element_a9def86337ea7a755eb41cac980f60c7a}{ToElement} ()
+\begin{DoxyCompactList}\small\item\em Cast to a more defined type. Will return null not of the requested type. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_element_a31ab28cc3b892a69254391d6bbe08df3}{Accept} (\hyperlink{class_ti_xml_visitor}{TiXmlVisitor} $\ast$visitor) const 
+\begin{DoxyCompactList}\small\item\em Walk the XML tree visiting this node and all of its children. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_ti_xml_element_a9e0c1983b840de4134f1f6bf7af00b0f}{CopyTo} (\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$target) const 
+\item 
+void \hyperlink{class_ti_xml_element_a5670933ec2d7d9763b9891acc05d7f7d}{ClearThis} ()
+\item 
+const char $\ast$ \hyperlink{class_ti_xml_element_ac786bce103042d3837c4cc2ff6967d41}{ReadValue} (const char $\ast$in, \hyperlink{class_ti_xml_parsing_data}{TiXmlParsingData} $\ast$prevData, \hyperlink{tinyxml_8h_a88d51847a13ee0f4b4d320d03d2c4d96}{TiXmlEncoding} encoding)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ti_xml_attribute_set}{TiXmlAttributeSet} \hyperlink{class_ti_xml_element_a56d7e69380c3cc938bf213d2857791b2}{attributeSet}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The element is a container class. 
+
+It has a value, the element name, and can contain other elements, text, comments, and unknowns. Elements also contain an arbitrary number of attributes. 
+
+Definition at line 940 of file tinyxml.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ti_xml_element_a01bc3ab372d35da08efcbbe65ad90c60}{
+\index{TiXmlElement@{TiXmlElement}!TiXmlElement@{TiXmlElement}}
+\index{TiXmlElement@{TiXmlElement}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{TiXmlElement}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlElement::TiXmlElement (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{in\_\-value}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_a01bc3ab372d35da08efcbbe65ad90c60}
+
+
+Construct an element. 
+
+
+
+Definition at line 525 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a1ca4465f3c2eac6a60e641cd7f1d9f7e}{
+\index{TiXmlElement@{TiXmlElement}!TiXmlElement@{TiXmlElement}}
+\index{TiXmlElement@{TiXmlElement}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{TiXmlElement}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlElement::TiXmlElement (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlElement} \&}]{copy}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_a1ca4465f3c2eac6a60e641cd7f1d9f7e}
+
+
+Definition at line 543 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_aa049a47c5081c0d021968666360da261}{
+\index{TiXmlElement@{TiXmlElement}!$\sim$TiXmlElement@{$\sim$TiXmlElement}}
+\index{$\sim$TiXmlElement@{$\sim$TiXmlElement}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{$\sim$TiXmlElement}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlElement::$\sim$TiXmlElement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_element_aa049a47c5081c0d021968666360da261}
+
+
+Definition at line 559 of file tinyxml.cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ti_xml_element_a31ab28cc3b892a69254391d6bbe08df3}{
+\index{TiXmlElement@{TiXmlElement}!Accept@{Accept}}
+\index{Accept@{Accept}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Accept}]{\setlength{\rightskip}{0pt plus 5cm}bool TiXmlElement::Accept (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_element_a31ab28cc3b892a69254391d6bbe08df3}
+
+
+Walk the XML tree visiting this node and all of its children. 
+
+
+
+Implements \hyperlink{class_ti_xml_node_acc0f88b7462c6cb73809d410a4f5bb86}{TiXmlNode}.
+
+
+
+Definition at line 875 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_aec4f727f8aa49b51248d80125d173136}{
+\index{TiXmlElement@{TiXmlElement}!Attribute@{Attribute}}
+\index{Attribute@{Attribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Attribute}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlElement::Attribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{double $\ast$}]{d}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_aec4f727f8aa49b51248d80125d173136}
+
+
+Given an attribute name, \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} returns the value for the attribute of that name, or null if none exists. 
+
+If the attribute exists and can be converted to an double, the double value will be put in the return 'd', if 'd' is non-\/null. 
+
+Definition at line 629 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{
+\index{TiXmlElement@{TiXmlElement}!Attribute@{Attribute}}
+\index{Attribute@{Attribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Attribute}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlElement::Attribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}
+
+
+Given an attribute name, \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} returns the value for the attribute of that name, or null if none exists. 
+
+
+
+Definition at line 577 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_aa9192e80567b5042dbded80b78c44339}{
+\index{TiXmlElement@{TiXmlElement}!Attribute@{Attribute}}
+\index{Attribute@{Attribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Attribute}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlElement::Attribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{int $\ast$}]{i}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_aa9192e80567b5042dbded80b78c44339}
+
+
+Given an attribute name, \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} returns the value for the attribute of that name, or null if none exists. 
+
+If the attribute exists and can be converted to an integer, the integer value will be put in the return 'i', if 'i' is non-\/null. 
+
+Definition at line 597 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a5670933ec2d7d9763b9891acc05d7f7d}{
+\index{TiXmlElement@{TiXmlElement}!ClearThis@{ClearThis}}
+\index{ClearThis@{ClearThis}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{ClearThis}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::ClearThis (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_ti_xml_element_a5670933ec2d7d9763b9891acc05d7f7d}
+
+
+Definition at line 565 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a13f6df105ebb1e8dc636e75cc883be32}{
+\index{TiXmlElement@{TiXmlElement}!Clone@{Clone}}
+\index{Clone@{Clone}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlNode} $\ast$ TiXmlElement::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_element_a13f6df105ebb1e8dc636e75cc883be32}
+
+
+Creates a new Element and returns it -\/ the returned element is a copy. 
+
+
+
+Implements \hyperlink{class_ti_xml_node_a4508cc3a2d7a98e96a54cc09c37a78a4}{TiXmlNode}.
+
+
+
+Definition at line 889 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a9e0c1983b840de4134f1f6bf7af00b0f}{
+\index{TiXmlElement@{TiXmlElement}!CopyTo@{CopyTo}}
+\index{CopyTo@{CopyTo}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{CopyTo}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::CopyTo (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlElement} $\ast$}]{target}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_ti_xml_element_a9e0c1983b840de4134f1f6bf7af00b0f}
+
+
+Definition at line 853 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a516054c9073647d6cb29b6abe9fa0592}{
+\index{TiXmlElement@{TiXmlElement}!FirstAttribute@{FirstAttribute}}
+\index{FirstAttribute@{FirstAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{FirstAttribute}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf TiXmlAttribute}$\ast$ TiXmlElement::FirstAttribute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_element_a516054c9073647d6cb29b6abe9fa0592}
+
+
+Access the first attribute in this element. 
+
+
+
+Definition at line 1084 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_element_a4b33780fc565d38d6b54f640e0cf1737}{
+\index{TiXmlElement@{TiXmlElement}!FirstAttribute@{FirstAttribute}}
+\index{FirstAttribute@{FirstAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{FirstAttribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlAttribute}$\ast$ TiXmlElement::FirstAttribute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_element_a4b33780fc565d38d6b54f640e0cf1737}
+
+
+Definition at line 1085 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}{
+\index{TiXmlElement@{TiXmlElement}!GetText@{GetText}}
+\index{GetText@{GetText}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{GetText}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlElement::GetText (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}
+
+
+Convenience function for easy access to the text inside an element. 
+
+Although easy and concise, \hyperlink{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}{GetText()} is limited compared to getting the \hyperlink{class_ti_xml_text}{TiXmlText} child and accessing it directly.
+
+If the first child of 'this' is a \hyperlink{class_ti_xml_text}{TiXmlText}, the \hyperlink{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}{GetText()} returns the character string of the Text node, else null is returned.
+
+This is a convenient method for getting the text of simple contained text: \begin{DoxyVerb}
+		<foo>This is text</foo>
+		const char* str = fooElement->GetText();
+		\end{DoxyVerb}
+
+
+'str' will be a pointer to \char`\"{}This is text\char`\"{}.
+
+Note that this function can be misleading. If the element foo was created from this XML: \begin{DoxyVerb}
+		<foo><b>This is text</b></foo> 
+		\end{DoxyVerb}
+
+
+then the value of str would be null. The first child node isn't a text node, it is another element. From this XML: \begin{DoxyVerb}
+		<foo>This is <b>text</b></foo> 
+		\end{DoxyVerb}
+ \hyperlink{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}{GetText()} will return \char`\"{}This is \char`\"{}.
+
+WARNING: \hyperlink{class_ti_xml_element_aa6dedd8a146acf3b1bc0903deb2d411a}{GetText()} accesses a child node -\/ don't become confused with the similarly named \hyperlink{class_ti_xml_handle_a9fc739c8a18d160006f82572fc143d13}{TiXmlHandle::Text()} and \hyperlink{class_ti_xml_node_a3ddfbcac78fbea041fad57e5c6d60a03}{TiXmlNode::ToText()} which are safe type casts on the referenced node. 
+
+Definition at line 900 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a222f81cf06155cd108f2a68d4d176004}{
+\index{TiXmlElement@{TiXmlElement}!LastAttribute@{LastAttribute}}
+\index{LastAttribute@{LastAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{LastAttribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlAttribute}$\ast$ TiXmlElement::LastAttribute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_element_a222f81cf06155cd108f2a68d4d176004}
+
+
+Definition at line 1087 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_element_a86191b49f9177be132b85b14655f1381}{
+\index{TiXmlElement@{TiXmlElement}!LastAttribute@{LastAttribute}}
+\index{LastAttribute@{LastAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{LastAttribute}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf TiXmlAttribute}$\ast$ TiXmlElement::LastAttribute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_element_a86191b49f9177be132b85b14655f1381}
+
+
+Access the last attribute in this element. 
+
+
+
+Definition at line 1086 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_element_ad58d300f4cfc0016ffa6861ebb718a0b}{
+\index{TiXmlElement@{TiXmlElement}!operator=@{operator=}}
+\index{operator=@{operator=}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlElement} \& TiXmlElement::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlElement} \&}]{base}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_ad58d300f4cfc0016ffa6861ebb718a0b}
+
+
+Definition at line 551 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_af95c9165159fd9dfdcc5b894a3fcf85b}{
+\index{TiXmlElement@{TiXmlElement}!Parse@{Parse}}
+\index{Parse@{Parse}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Parse}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlElement::Parse (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{p, }
+\item[{{\bf TiXmlParsingData} $\ast$}]{data, }
+\item[{{\bf TiXmlEncoding}}]{encoding}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_element_af95c9165159fd9dfdcc5b894a3fcf85b}
+
+
+Implements \hyperlink{class_ti_xml_base_a00e4edb0219d00a1379c856e5a1d2025}{TiXmlBase}.
+
+
+
+Definition at line 1043 of file tinyxmlparser.cpp.
+
+\hypertarget{class_ti_xml_element_ad9d0c008866982ab8d9aafae7e14d692}{
+\index{TiXmlElement@{TiXmlElement}!Print@{Print}}
+\index{Print@{Print}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{Print}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::Print (
+\begin{DoxyParamCaption}
+\item[{FILE $\ast$}]{cfile, }
+\item[{int}]{depth}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_ti_xml_element_ad9d0c008866982ab8d9aafae7e14d692}
+
+
+All TinyXml classes can print themselves to a filestream or the string class (\hyperlink{class_ti_xml_string}{TiXmlString} in non-\/STL mode, std::string in STL mode.) Either or both cfile and str can be null. 
+
+This is a formatted print, and will insert tabs and newlines.
+
+(For an unformatted stream, use the $<$$<$ operator.) 
+
+Implements \hyperlink{class_ti_xml_base_a0de56b3f2ef14c65091a3b916437b512}{TiXmlBase}.
+
+
+
+Definition at line 800 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_af4a1d3f88c28eb0f3115dc39ebd83fff}{
+\index{TiXmlElement@{TiXmlElement}!QueryBoolAttribute@{QueryBoolAttribute}}
+\index{QueryBoolAttribute@{QueryBoolAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{QueryBoolAttribute}]{\setlength{\rightskip}{0pt plus 5cm}int TiXmlElement::QueryBoolAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{bool $\ast$}]{\_\-value}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_af4a1d3f88c28eb0f3115dc39ebd83fff}
+
+
+QueryBoolAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. 
+
+Note that '1', 'true', or 'yes' are considered true, while '0', 'false' and 'no' are considered false. 
+
+Definition at line 683 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a898d7730ecc341f0bffc7a9dadbf1ce7}{
+\index{TiXmlElement@{TiXmlElement}!QueryDoubleAttribute@{QueryDoubleAttribute}}
+\index{QueryDoubleAttribute@{QueryDoubleAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{QueryDoubleAttribute}]{\setlength{\rightskip}{0pt plus 5cm}int TiXmlElement::QueryDoubleAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{double $\ast$}]{\_\-value}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_a898d7730ecc341f0bffc7a9dadbf1ce7}
+
+
+QueryDoubleAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. 
+
+
+
+Definition at line 720 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_aa04d3af11601ef5a5f88295203a843be}{
+\index{TiXmlElement@{TiXmlElement}!QueryFloatAttribute@{QueryFloatAttribute}}
+\index{QueryFloatAttribute@{QueryFloatAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{QueryFloatAttribute}]{\setlength{\rightskip}{0pt plus 5cm}int TiXmlElement::QueryFloatAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{float $\ast$}]{\_\-value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_element_aa04d3af11601ef5a5f88295203a843be}
+
+
+QueryFloatAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. 
+
+
+
+Definition at line 996 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{
+\index{TiXmlElement@{TiXmlElement}!QueryIntAttribute@{QueryIntAttribute}}
+\index{QueryIntAttribute@{QueryIntAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{QueryIntAttribute}]{\setlength{\rightskip}{0pt plus 5cm}int TiXmlElement::QueryIntAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{int $\ast$}]{\_\-value}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}
+
+
+QueryIntAttribute examines the attribute -\/ it is an alternative to the \hyperlink{class_ti_xml_element_ac1e4691e9375ba4e665dce7e46a50a9c}{Attribute()} method with richer error checking. 
+
+If the attribute is an integer, it is stored in 'value' and the call returns TIXML\_\-SUCCESS. If it is not an integer, it returns TIXML\_\-WRONG\_\-TYPE. If the attribute does not exist, then TIXML\_\-NO\_\-ATTRIBUTE is returned. 
+
+Definition at line 661 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_ae48df644f890ab86fa19839ac401f00d}{
+\index{TiXmlElement@{TiXmlElement}!QueryUnsignedAttribute@{QueryUnsignedAttribute}}
+\index{QueryUnsignedAttribute@{QueryUnsignedAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{QueryUnsignedAttribute}]{\setlength{\rightskip}{0pt plus 5cm}int TiXmlElement::QueryUnsignedAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{unsigned $\ast$}]{\_\-value}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_element_ae48df644f890ab86fa19839ac401f00d}
+
+
+QueryUnsignedAttribute examines the attribute -\/ see \hyperlink{class_ti_xml_element_aea0bfe471380f281c5945770ddbf52b9}{QueryIntAttribute()}. 
+
+
+
+Definition at line 670 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_ac786bce103042d3837c4cc2ff6967d41}{
+\index{TiXmlElement@{TiXmlElement}!ReadValue@{ReadValue}}
+\index{ReadValue@{ReadValue}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{ReadValue}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ TiXmlElement::ReadValue (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{in, }
+\item[{{\bf TiXmlParsingData} $\ast$}]{prevData, }
+\item[{{\bf TiXmlEncoding}}]{encoding}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_ti_xml_element_ac786bce103042d3837c4cc2ff6967d41}
+
+
+Definition at line 1179 of file tinyxmlparser.cpp.
+
+\hypertarget{class_ti_xml_element_a56979767deca794376b1dfa69a525b2a}{
+\index{TiXmlElement@{TiXmlElement}!RemoveAttribute@{RemoveAttribute}}
+\index{RemoveAttribute@{RemoveAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{RemoveAttribute}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::RemoveAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_a56979767deca794376b1dfa69a525b2a}
+
+
+Deletes an attribute with the given name. 
+
+
+
+Definition at line 437 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_abf0b3bd7f0e4c746a89ec6e7f101fc32}{
+\index{TiXmlElement@{TiXmlElement}!SetAttribute@{SetAttribute}}
+\index{SetAttribute@{SetAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{SetAttribute}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::SetAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{\_\-value}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_abf0b3bd7f0e4c746a89ec6e7f101fc32}
+
+
+Sets an attribute of name to a given value. 
+
+The attribute will be created if it does not exist, or changed if it does. 
+
+Definition at line 780 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_ace6f4be75e373726d4774073d666d1a7}{
+\index{TiXmlElement@{TiXmlElement}!SetAttribute@{SetAttribute}}
+\index{SetAttribute@{SetAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{SetAttribute}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::SetAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_ace6f4be75e373726d4774073d666d1a7}
+
+
+Sets an attribute of name to a given value. 
+
+The attribute will be created if it does not exist, or changed if it does. 
+
+Definition at line 740 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_a0d1dd975d75496778177e35abfe0ec0b}{
+\index{TiXmlElement@{TiXmlElement}!SetDoubleAttribute@{SetDoubleAttribute}}
+\index{SetDoubleAttribute@{SetDoubleAttribute}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{SetDoubleAttribute}]{\setlength{\rightskip}{0pt plus 5cm}void TiXmlElement::SetDoubleAttribute (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{class_ti_xml_element_a0d1dd975d75496778177e35abfe0ec0b}
+
+
+Sets an attribute of name to a given value. 
+
+The attribute will be created if it does not exist, or changed if it does. 
+
+Definition at line 760 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_element_ac5b8d0e25fa23fd9acbb6d146082901c}{
+\index{TiXmlElement@{TiXmlElement}!ToElement@{ToElement}}
+\index{ToElement@{ToElement}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{ToElement}]{\setlength{\rightskip}{0pt plus 5cm}virtual const {\bf TiXmlElement}$\ast$ TiXmlElement::ToElement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_element_ac5b8d0e25fa23fd9acbb6d146082901c}
+
+
+Cast to a more defined type. Will return null not of the requested type. 
+
+
+
+Reimplemented from \hyperlink{class_ti_xml_node_a72abed96dc9667ab9e0a2a275301bb1c}{TiXmlNode}.
+
+
+
+Definition at line 1133 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_element_a9def86337ea7a755eb41cac980f60c7a}{
+\index{TiXmlElement@{TiXmlElement}!ToElement@{ToElement}}
+\index{ToElement@{ToElement}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{ToElement}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf TiXmlElement}$\ast$ TiXmlElement::ToElement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_element_a9def86337ea7a755eb41cac980f60c7a}
+
+
+Cast to a more defined type. Will return null not of the requested type. 
+
+
+
+Reimplemented from \hyperlink{class_ti_xml_node_aa65d000223187d22a4dcebd7479e9ebc}{TiXmlNode}.
+
+
+
+Definition at line 1134 of file tinyxml.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ti_xml_element_a56d7e69380c3cc938bf213d2857791b2}{
+\index{TiXmlElement@{TiXmlElement}!attributeSet@{attributeSet}}
+\index{attributeSet@{attributeSet}!TiXmlElement@{TiXmlElement}}
+\subsubsection[{attributeSet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlAttributeSet} {\bf TiXmlElement::attributeSet}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ti_xml_element_a56d7e69380c3cc938bf213d2857791b2}
+
+
+Definition at line 1156 of file tinyxml.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8h}{tinyxml.h}\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8cpp}{tinyxml.cpp}\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxmlparser_8cpp}{tinyxmlparser.cpp}\end{DoxyCompactItemize}

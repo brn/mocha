@@ -63,7 +63,6 @@ public :
       main_file_path_( main_file_path ),
       codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
-    fprintf( stderr , "@@@@@@@@@@@@@@@@@@@@@@@@@@@start %s\n" , main_file_path );
     SetPath_( main_file_path );
     //Change direcotry to main js path.
     path_info_ = CompilerUtils::ChangeDir( main_file_path );

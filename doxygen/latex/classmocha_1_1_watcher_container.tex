@@ -1,0 +1,272 @@
+\hypertarget{classmocha_1_1_watcher_container}{
+\section{mocha::WatcherContainer Class Reference}
+\label{classmocha_1_1_watcher_container}\index{mocha::WatcherContainer@{mocha::WatcherContainer}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_watcher_container_a30a9ad38fd24cb86f828b6b9454a8c55}{WatcherContainer} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type)
+\item 
+\hyperlink{classmocha_1_1_watcher_container_a725cfb555c4674ce00ed5ceebc5037c3}{WatcherContainer} ()
+\item 
+\hyperlink{classmocha_1_1_watcher_container_abc840434ee39682b04670780160a2e55}{WatcherContainer} (const \hyperlink{classmocha_1_1_watcher_container}{WatcherContainer} \&container)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_watcher_container_aa2c6a461c5608e15061aad6bb5724d93}{GetDate} ()
+\item 
+void \hyperlink{classmocha_1_1_watcher_container_aeb33783d75f18f4d9ffacb7fb99dd00d}{SetDate} (const char $\ast$date)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_watcher_container_a724bed3461eb22bfcca85b796b1ac68e}{GetFileName} ()
+\item 
+\hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$ \hyperlink{classmocha_1_1_watcher_container_a5b296ecc7ebe6683c9d61c2b1b2ea0d8}{GetUpdater} ()
+\item 
+\hyperlink{classmocha_1_1_watcher_container_a18c42671387ad304f0e976784476f518}{WatcherContainer} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type, int wd)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_watcher_container_a95bd983c2d6c66ef2c1501d7b631e1d1}{GetFileName} () const 
+\item 
+int \hyperlink{classmocha_1_1_watcher_container_a0451d51520c7467a65ab6d9187a2fb2a}{GetType} () const 
+\item 
+int \hyperlink{classmocha_1_1_watcher_container_abb1f771338a112e70cb989fffe56cd12}{GetWatchDescriptor} () const 
+\item 
+\hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$ \hyperlink{classmocha_1_1_watcher_container_a4732d9c8b1bf07191fc9973ae416f1b8}{GetUpdater} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_watcher_container_aa6c90f7132c8d0f6f80a14cd3fc99e8b}{type\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_watcher_container_af155dc17f26a3fe5778ef93e8b26717d}{filename\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_watcher_container_a7bf25a75cef64f80d56a2a61a48ad0b6}{date\_\-}
+\item 
+\hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$ \hyperlink{classmocha_1_1_watcher_container_a0700b1fe0114d68f17cf615ca2fbe99d}{updater\_\-}
+\item 
+int \hyperlink{classmocha_1_1_watcher_container_a76fa5c4ce7e78992460abc92e5405ee0}{wd\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 20 of file file\_\-watcher-\/impl.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_watcher_container_a30a9ad38fd24cb86f828b6b9454a8c55}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!WatcherContainer@{WatcherContainer}}
+\index{WatcherContainer@{WatcherContainer}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{WatcherContainer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::WatcherContainer::WatcherContainer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a30a9ad38fd24cb86f828b6b9454a8c55}
+
+
+Definition at line 22 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a725cfb555c4674ce00ed5ceebc5037c3}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!WatcherContainer@{WatcherContainer}}
+\index{WatcherContainer@{WatcherContainer}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{WatcherContainer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::WatcherContainer::WatcherContainer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a725cfb555c4674ce00ed5ceebc5037c3}
+
+
+Definition at line 28 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_abc840434ee39682b04670780160a2e55}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!WatcherContainer@{WatcherContainer}}
+\index{WatcherContainer@{WatcherContainer}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{WatcherContainer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::WatcherContainer::WatcherContainer (
+\begin{DoxyParamCaption}
+\item[{const {\bf WatcherContainer} \&}]{container}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_abc840434ee39682b04670780160a2e55}
+
+
+Definition at line 29 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a18c42671387ad304f0e976784476f518}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!WatcherContainer@{WatcherContainer}}
+\index{WatcherContainer@{WatcherContainer}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{WatcherContainer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::WatcherContainer::WatcherContainer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type, }
+\item[{int}]{wd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a18c42671387ad304f0e976784476f518}
+
+
+Definition at line 84 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_watcher_container_aa2c6a461c5608e15061aad6bb5724d93}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetDate@{GetDate}}
+\index{GetDate@{GetDate}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetDate}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::WatcherContainer::GetDate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_aa2c6a461c5608e15061aad6bb5724d93}
+
+
+Definition at line 35 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a95bd983c2d6c66ef2c1501d7b631e1d1}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetFileName@{GetFileName}}
+\index{GetFileName@{GetFileName}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetFileName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::WatcherContainer::GetFileName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a95bd983c2d6c66ef2c1501d7b631e1d1}
+
+
+Definition at line 86 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a724bed3461eb22bfcca85b796b1ac68e}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetFileName@{GetFileName}}
+\index{GetFileName@{GetFileName}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetFileName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::WatcherContainer::GetFileName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a724bed3461eb22bfcca85b796b1ac68e}
+
+
+Definition at line 37 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a0451d51520c7467a65ab6d9187a2fb2a}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetType@{GetType}}
+\index{GetType@{GetType}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetType}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::WatcherContainer::GetType (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a0451d51520c7467a65ab6d9187a2fb2a}
+
+
+Definition at line 87 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a5b296ecc7ebe6683c9d61c2b1b2ea0d8}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetUpdater@{GetUpdater}}
+\index{GetUpdater@{GetUpdater}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetUpdater}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IUpdater}$\ast$ mocha::WatcherContainer::GetUpdater (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a5b296ecc7ebe6683c9d61c2b1b2ea0d8}
+
+
+Definition at line 38 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a4732d9c8b1bf07191fc9973ae416f1b8}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetUpdater@{GetUpdater}}
+\index{GetUpdater@{GetUpdater}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetUpdater}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IUpdater}$\ast$ mocha::WatcherContainer::GetUpdater (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a4732d9c8b1bf07191fc9973ae416f1b8}
+
+
+Definition at line 89 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_abb1f771338a112e70cb989fffe56cd12}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!GetWatchDescriptor@{GetWatchDescriptor}}
+\index{GetWatchDescriptor@{GetWatchDescriptor}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{GetWatchDescriptor}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::WatcherContainer::GetWatchDescriptor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_abb1f771338a112e70cb989fffe56cd12}
+
+
+Definition at line 88 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_aeb33783d75f18f4d9ffacb7fb99dd00d}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!SetDate@{SetDate}}
+\index{SetDate@{SetDate}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{SetDate}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::WatcherContainer::SetDate (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{date}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_aeb33783d75f18f4d9ffacb7fb99dd00d}
+
+
+Definition at line 36 of file file\_\-watcher-\/impl.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_watcher_container_a7bf25a75cef64f80d56a2a61a48ad0b6}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!date\_\-@{date\_\-}}
+\index{date\_\-@{date\_\-}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{date\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::WatcherContainer::date\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a7bf25a75cef64f80d56a2a61a48ad0b6}
+
+
+Definition at line 42 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_af155dc17f26a3fe5778ef93e8b26717d}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!filename\_\-@{filename\_\-}}
+\index{filename\_\-@{filename\_\-}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{filename\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::WatcherContainer::filename\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_af155dc17f26a3fe5778ef93e8b26717d}
+
+
+Definition at line 41 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_aa6c90f7132c8d0f6f80a14cd3fc99e8b}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!type\_\-@{type\_\-}}
+\index{type\_\-@{type\_\-}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{type\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::WatcherContainer::type\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_aa6c90f7132c8d0f6f80a14cd3fc99e8b}
+
+
+Definition at line 40 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a0700b1fe0114d68f17cf615ca2fbe99d}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!updater\_\-@{updater\_\-}}
+\index{updater\_\-@{updater\_\-}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{updater\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IUpdater} $\ast$ {\bf mocha::WatcherContainer::updater\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a0700b1fe0114d68f17cf615ca2fbe99d}
+
+
+Definition at line 43 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_watcher_container_a76fa5c4ce7e78992460abc92e5405ee0}{
+\index{mocha::WatcherContainer@{mocha::WatcherContainer}!wd\_\-@{wd\_\-}}
+\index{wd\_\-@{wd\_\-}!mocha::WatcherContainer@{mocha::WatcherContainer}}
+\subsubsection[{wd\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::WatcherContainer::wd\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_watcher_container_a76fa5c4ce7e78992460abc92e5405ee0}
+
+
+Definition at line 93 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-watcher/\hyperlink{file__watcher-impl_8cc}{file\_\-watcher-\/impl.cc}\item 
+Y:/mocha/src/utils/file\_\-watcher/\hyperlink{file__watcher-inotify-impl_8cc}{file\_\-watcher-\/inotify-\/impl.cc}\end{DoxyCompactItemize}

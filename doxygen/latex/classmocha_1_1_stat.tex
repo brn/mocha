@@ -1,0 +1,352 @@
+\hypertarget{classmocha_1_1_stat}{
+\section{mocha::Stat Class Reference}
+\label{classmocha_1_1_stat}\index{mocha::Stat@{mocha::Stat}}
+}
+
+
+{\ttfamily \#include $<$stat.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_stat_1_1_ptr_impl}{PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0a}{FileType} \{ \par
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aadd7dabb38a3ac56166cbe7950a565edf}{kFifo}, 
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa06f6c7345515d6f1457bf11938f095ac}{kChr}, 
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aadae4defc6d4084ff910e1636631598b2}{kDir}, 
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa43a9adb99c91670703262d29e8851ec4}{kBlk}, 
+\par
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa8e9667bb63951e45fa27b5509a9e5040}{kReg}, 
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa89183e1184937910edb93172de98164c}{kLnk}, 
+\hyperlink{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aacc4359fa24f9b2eefdd13c557a029440}{kSock}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_stat_a71be9fa6489f96ee32ddbee87be57444}{Stat} (const char $\ast$path)
+\item 
+\hyperlink{classmocha_1_1_stat_a90c04a2bd878ce1de02e0e07053e1f2e}{$\sim$Stat} ()
+\item 
+bool \hyperlink{classmocha_1_1_stat_ac36c5cfdd904956d2ee735e6f5cb1df8}{IsExist} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_a8a69994a56ac9996cb39067ad39071a6}{Dev} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_a41de52fa20fb5e742feb37e72abda4d3}{Ino} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_a6e6b1bd4775156dbd411bbe5fb5fcfef}{NLink} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_a8b6107e6387d44ede3669d1b8b3bd665}{UId} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_a26647bb3fdaaab61aa6a7f79696e8edd}{GId} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_ae0c7bb4dbe9c4d52a1e7b96eba490ba0}{RDev} ()
+\item 
+int \hyperlink{classmocha_1_1_stat_a2c603f6803d41951bbef40aff4862cc0}{Size} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_stat_a447dfc72c219a969c99f2aa3ec93eded}{ATime} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_stat_a8364473cf0c50adbd44a2384308e4bfc}{MTime} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_stat_a3706084b773f31639d520e87ac70c341}{CTime} ()
+\item 
+bool \hyperlink{classmocha_1_1_stat_ad08fa668cee3e082573469fafa25746d}{IsDir} ()
+\item 
+bool \hyperlink{classmocha_1_1_stat_a368b3b61e47e99c5ca49878b3baaad44}{IsReg} ()
+\item 
+bool \hyperlink{classmocha_1_1_stat_a46f44bcc58d9755e6ac491bff5955fe6}{IsChr} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_stat_1_1_ptr_impl}{PtrImpl} $>$ \hyperlink{classmocha_1_1_stat_a4e2e164982b1652f72667966112dddfa}{implementation\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 7 of file stat.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0a}{
+\index{mocha::Stat@{mocha::Stat}!FileType@{FileType}}
+\index{FileType@{FileType}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{FileType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mocha::Stat::FileType}}}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0a}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kFifo@{kFifo}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kFifo@{kFifo}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aadd7dabb38a3ac56166cbe7950a565edf}{
+kFifo}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aadd7dabb38a3ac56166cbe7950a565edf}
+}]\index{kChr@{kChr}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kChr@{kChr}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa06f6c7345515d6f1457bf11938f095ac}{
+kChr}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa06f6c7345515d6f1457bf11938f095ac}
+}]\index{kDir@{kDir}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kDir@{kDir}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aadae4defc6d4084ff910e1636631598b2}{
+kDir}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aadae4defc6d4084ff910e1636631598b2}
+}]\index{kBlk@{kBlk}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kBlk@{kBlk}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa43a9adb99c91670703262d29e8851ec4}{
+kBlk}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa43a9adb99c91670703262d29e8851ec4}
+}]\index{kReg@{kReg}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kReg@{kReg}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa8e9667bb63951e45fa27b5509a9e5040}{
+kReg}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa8e9667bb63951e45fa27b5509a9e5040}
+}]\index{kLnk@{kLnk}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kLnk@{kLnk}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa89183e1184937910edb93172de98164c}{
+kLnk}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aa89183e1184937910edb93172de98164c}
+}]\index{kSock@{kSock}!mocha::Stat@{mocha::Stat}}\index{mocha::Stat@{mocha::Stat}!kSock@{kSock}}\item[{\em 
+\hypertarget{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aacc4359fa24f9b2eefdd13c557a029440}{
+kSock}
+\label{classmocha_1_1_stat_a5d24a871c13f068a042e605f575c6a0aacc4359fa24f9b2eefdd13c557a029440}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 9 of file stat.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_stat_a71be9fa6489f96ee32ddbee87be57444}{
+\index{mocha::Stat@{mocha::Stat}!Stat@{Stat}}
+\index{Stat@{Stat}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{Stat}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Stat::Stat (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a71be9fa6489f96ee32ddbee87be57444}
+
+
+Definition at line 75 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a90c04a2bd878ce1de02e0e07053e1f2e}{
+\index{mocha::Stat@{mocha::Stat}!$\sim$Stat@{$\sim$Stat}}
+\index{$\sim$Stat@{$\sim$Stat}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{$\sim$Stat}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Stat::$\sim$Stat (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_stat_a90c04a2bd878ce1de02e0e07053e1f2e}
+
+
+Definition at line 19 of file stat.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_stat_a447dfc72c219a969c99f2aa3ec93eded}{
+\index{mocha::Stat@{mocha::Stat}!ATime@{ATime}}
+\index{ATime@{ATime}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{ATime}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Stat::ATime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a447dfc72c219a969c99f2aa3ec93eded}
+
+
+Definition at line 84 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a3706084b773f31639d520e87ac70c341}{
+\index{mocha::Stat@{mocha::Stat}!CTime@{CTime}}
+\index{CTime@{CTime}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{CTime}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Stat::CTime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a3706084b773f31639d520e87ac70c341}
+
+
+Definition at line 86 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a8a69994a56ac9996cb39067ad39071a6}{
+\index{mocha::Stat@{mocha::Stat}!Dev@{Dev}}
+\index{Dev@{Dev}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{Dev}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::Dev (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a8a69994a56ac9996cb39067ad39071a6}
+
+
+Definition at line 77 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a26647bb3fdaaab61aa6a7f79696e8edd}{
+\index{mocha::Stat@{mocha::Stat}!GId@{GId}}
+\index{GId@{GId}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{GId}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::GId (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a26647bb3fdaaab61aa6a7f79696e8edd}
+
+
+Definition at line 81 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a41de52fa20fb5e742feb37e72abda4d3}{
+\index{mocha::Stat@{mocha::Stat}!Ino@{Ino}}
+\index{Ino@{Ino}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{Ino}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::Ino (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a41de52fa20fb5e742feb37e72abda4d3}
+
+
+Definition at line 78 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a46f44bcc58d9755e6ac491bff5955fe6}{
+\index{mocha::Stat@{mocha::Stat}!IsChr@{IsChr}}
+\index{IsChr@{IsChr}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{IsChr}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Stat::IsChr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a46f44bcc58d9755e6ac491bff5955fe6}
+
+
+Definition at line 89 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_ad08fa668cee3e082573469fafa25746d}{
+\index{mocha::Stat@{mocha::Stat}!IsDir@{IsDir}}
+\index{IsDir@{IsDir}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{IsDir}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Stat::IsDir (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_ad08fa668cee3e082573469fafa25746d}
+
+
+Definition at line 87 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_ac36c5cfdd904956d2ee735e6f5cb1df8}{
+\index{mocha::Stat@{mocha::Stat}!IsExist@{IsExist}}
+\index{IsExist@{IsExist}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{IsExist}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Stat::IsExist (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_ac36c5cfdd904956d2ee735e6f5cb1df8}
+
+
+Definition at line 76 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a368b3b61e47e99c5ca49878b3baaad44}{
+\index{mocha::Stat@{mocha::Stat}!IsReg@{IsReg}}
+\index{IsReg@{IsReg}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{IsReg}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Stat::IsReg (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a368b3b61e47e99c5ca49878b3baaad44}
+
+
+Definition at line 88 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a8364473cf0c50adbd44a2384308e4bfc}{
+\index{mocha::Stat@{mocha::Stat}!MTime@{MTime}}
+\index{MTime@{MTime}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{MTime}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::Stat::MTime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a8364473cf0c50adbd44a2384308e4bfc}
+
+
+Definition at line 85 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a6e6b1bd4775156dbd411bbe5fb5fcfef}{
+\index{mocha::Stat@{mocha::Stat}!NLink@{NLink}}
+\index{NLink@{NLink}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{NLink}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::NLink (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a6e6b1bd4775156dbd411bbe5fb5fcfef}
+
+
+Definition at line 79 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_ae0c7bb4dbe9c4d52a1e7b96eba490ba0}{
+\index{mocha::Stat@{mocha::Stat}!RDev@{RDev}}
+\index{RDev@{RDev}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{RDev}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::RDev (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_ae0c7bb4dbe9c4d52a1e7b96eba490ba0}
+
+
+Definition at line 82 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a2c603f6803d41951bbef40aff4862cc0}{
+\index{mocha::Stat@{mocha::Stat}!Size@{Size}}
+\index{Size@{Size}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a2c603f6803d41951bbef40aff4862cc0}
+
+
+Definition at line 83 of file stat.cc.
+
+\hypertarget{classmocha_1_1_stat_a8b6107e6387d44ede3669d1b8b3bd665}{
+\index{mocha::Stat@{mocha::Stat}!UId@{UId}}
+\index{UId@{UId}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{UId}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Stat::UId (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_stat_a8b6107e6387d44ede3669d1b8b3bd665}
+
+
+Definition at line 80 of file stat.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_stat_a4e2e164982b1652f72667966112dddfa}{
+\index{mocha::Stat@{mocha::Stat}!implementation\_\-@{implementation\_\-}}
+\index{implementation\_\-@{implementation\_\-}!mocha::Stat@{mocha::Stat}}
+\subsubsection[{implementation\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf PtrImpl}$>$ {\bf mocha::Stat::implementation\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_stat_a4e2e164982b1652f72667966112dddfa}
+
+
+Definition at line 35 of file stat.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-system/\hyperlink{stat_8h}{stat.h}\item 
+Y:/mocha/src/utils/file\_\-system/\hyperlink{stat_8cc}{stat.cc}\end{DoxyCompactItemize}

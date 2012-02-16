@@ -1,0 +1,268 @@
+\hypertarget{classmocha_1_1_block}{
+\section{mocha::Block$<$ Key\_\-t, Value\_\-t $>$ Class Template Reference}
+\label{classmocha_1_1_block}\index{mocha::Block@{mocha::Block}}
+}
+
+
+{\ttfamily \#include $<$block.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std::list$<$ \hyperlink{classmocha_1_1_entry}{Entry}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ $>$ \hyperlink{classmocha_1_1_block_a021e0317e479cd9af8dc345d382bf675}{EntryList}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_block_a0bda8fe4ef62d71672a673a97ef13f05}{Block} ()
+\item 
+\hyperlink{classmocha_1_1_block_a8dc69c793ffe830490930759d8c7f4e8}{$\sim$Block} ()
+\item 
+\hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_a6ad0be06026e4691b1bf402ebfcbd55b}{Node} ()
+\item 
+void \hyperlink{classmocha_1_1_block_a8f03eff4f3d7219a4011820c92ea820b}{Alloc} ()
+\item 
+\hyperlink{classmocha_1_1_entry}{Entry}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_a6a8baf07b2b82f7276e19a8b73a5a552}{GetEntry} ()
+\item 
+void \hyperlink{classmocha_1_1_block_a560bb0b7c45e87b185b63ece5fb2c923}{Set} (Key\_\-t \&key, Value\_\-t \&value, \hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} hash)
+\item 
+\hyperlink{namespacemocha_ac43feb383f32d7a0b18fc5866cf9ed5c}{Hash\_\-t} \& \hyperlink{classmocha_1_1_block_a324597684fc027e5a4b427fbbfc37a47}{Hash} ()
+\item 
+Key\_\-t \& \hyperlink{classmocha_1_1_block_a1cf7a117e9f7d57060ee94d9ec5751ca}{Key} ()
+\item 
+\hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_ad621221ad1bceb11fbaecc6d42051bd1}{Next} ()
+\item 
+\hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_a366d0ff6d8947fa3e551eefcfa2d417c}{Prev} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_a8c506f64ed0ff2476b5e0dc2e5d53f8d}{next\_\-}
+\item 
+\hyperlink{classmocha_1_1_block}{Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_ae8d39631c54d02454b942bc17304df98}{prev\_\-}
+\item 
+\hyperlink{structmocha_1_1_block_container}{BlockContainer}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_a8293c90ec2083f03208cae2d88d69ea7}{node\_\-}
+\item 
+\hyperlink{classmocha_1_1_entry}{Entry}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ \hyperlink{classmocha_1_1_block_ada95cd41b7f920efd5edf47140b9111b}{entry\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_block_a63ed0d853d9ea8144eafb8c114be45a6}{HashTable$<$ Key\_\-t, Value\_\-t $>$}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Key\_\-t, typename Value\_\-t$>$class mocha::Block$<$ Key\_\-t, Value\_\-t $>$}
+
+
+
+Definition at line 17 of file block.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_block_a021e0317e479cd9af8dc345d382bf675}{
+\index{mocha::Block@{mocha::Block}!EntryList@{EntryList}}
+\index{EntryList@{EntryList}!mocha::Block@{mocha::Block}}
+\subsubsection[{EntryList}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ typedef std::list$<${\bf Entry}$<$Key\_\-t,Value\_\-t$>$$\ast$$>$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::{\bf EntryList}}}
+\label{classmocha_1_1_block_a021e0317e479cd9af8dc345d382bf675}
+
+
+Definition at line 20 of file block.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_block_a0bda8fe4ef62d71672a673a97ef13f05}{
+\index{mocha::Block@{mocha::Block}!Block@{Block}}
+\index{Block@{Block}!mocha::Block@{mocha::Block}}
+\subsubsection[{Block}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::{\bf Block} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a0bda8fe4ef62d71672a673a97ef13f05}
+
+
+Definition at line 9 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a8dc69c793ffe830490930759d8c7f4e8}{
+\index{mocha::Block@{mocha::Block}!$\sim$Block@{$\sim$Block}}
+\index{$\sim$Block@{$\sim$Block}!mocha::Block@{mocha::Block}}
+\subsubsection[{$\sim$Block}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::$\sim${\bf Block} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a8dc69c793ffe830490930759d8c7f4e8}
+
+
+Definition at line 12 of file block-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_block_a8f03eff4f3d7219a4011820c92ea820b}{
+\index{mocha::Block@{mocha::Block}!Alloc@{Alloc}}
+\index{Alloc@{Alloc}!mocha::Block@{mocha::Block}}
+\subsubsection[{Alloc}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ void {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Alloc (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a8f03eff4f3d7219a4011820c92ea820b}
+
+
+Definition at line 27 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a6a8baf07b2b82f7276e19a8b73a5a552}{
+\index{mocha::Block@{mocha::Block}!GetEntry@{GetEntry}}
+\index{GetEntry@{GetEntry}!mocha::Block@{mocha::Block}}
+\subsubsection[{GetEntry}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf Entry}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::GetEntry (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a6a8baf07b2b82f7276e19a8b73a5a552}
+
+
+Definition at line 33 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a324597684fc027e5a4b427fbbfc37a47}{
+\index{mocha::Block@{mocha::Block}!Hash@{Hash}}
+\index{Hash@{Hash}!mocha::Block@{mocha::Block}}
+\subsubsection[{Hash}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ uint64\_\-t \& {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Hash (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a324597684fc027e5a4b427fbbfc37a47}
+
+
+Definition at line 50 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a1cf7a117e9f7d57060ee94d9ec5751ca}{
+\index{mocha::Block@{mocha::Block}!Key@{Key}}
+\index{Key@{Key}!mocha::Block@{mocha::Block}}
+\subsubsection[{Key}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ Key\_\-t \& {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a1cf7a117e9f7d57060ee94d9ec5751ca}
+
+
+Definition at line 55 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_ad621221ad1bceb11fbaecc6d42051bd1}{
+\index{mocha::Block@{mocha::Block}!Next@{Next}}
+\index{Next@{Next}!mocha::Block@{mocha::Block}}
+\subsubsection[{Next}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Next (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_ad621221ad1bceb11fbaecc6d42051bd1}
+
+
+Definition at line 60 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a6ad0be06026e4691b1bf402ebfcbd55b}{
+\index{mocha::Block@{mocha::Block}!Node@{Node}}
+\index{Node@{Node}!mocha::Block@{mocha::Block}}
+\subsubsection[{Node}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a6ad0be06026e4691b1bf402ebfcbd55b}
+
+
+Definition at line 22 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a366d0ff6d8947fa3e551eefcfa2d417c}{
+\index{mocha::Block@{mocha::Block}!Prev@{Prev}}
+\index{Prev@{Prev}!mocha::Block@{mocha::Block}}
+\subsubsection[{Prev}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ {\bf Block}$<$ Key\_\-t, Value\_\-t $>$ $\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Prev (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a366d0ff6d8947fa3e551eefcfa2d417c}
+
+
+Definition at line 65 of file block-\/impl.h.
+
+\hypertarget{classmocha_1_1_block_a560bb0b7c45e87b185b63ece5fb2c923}{
+\index{mocha::Block@{mocha::Block}!Set@{Set}}
+\index{Set@{Set}!mocha::Block@{mocha::Block}}
+\subsubsection[{Set}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t , typename Value\_\-t $>$ void {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::Set (
+\begin{DoxyParamCaption}
+\item[{Key\_\-t \&}]{key, }
+\item[{Value\_\-t \&}]{value, }
+\item[{{\bf Hash\_\-t}}]{hash}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_block_a560bb0b7c45e87b185b63ece5fb2c923}
+
+
+Definition at line 38 of file block-\/impl.h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_block_a63ed0d853d9ea8144eafb8c114be45a6}{
+\index{mocha::Block@{mocha::Block}!HashTable$<$ Key\_\-t, Value\_\-t $>$@{HashTable$<$ Key\_\-t, Value\_\-t $>$}}
+\index{HashTable$<$ Key\_\-t, Value\_\-t $>$@{HashTable$<$ Key\_\-t, Value\_\-t $>$}!mocha::Block@{mocha::Block}}
+\subsubsection[{HashTable$<$ Key\_\-t, Value\_\-t $>$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ friend class {\bf HashTable}$<$ Key\_\-t, Value\_\-t $>$\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_block_a63ed0d853d9ea8144eafb8c114be45a6}
+
+
+Definition at line 18 of file block.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_block_ada95cd41b7f920efd5edf47140b9111b}{
+\index{mocha::Block@{mocha::Block}!entry\_\-@{entry\_\-}}
+\index{entry\_\-@{entry\_\-}!mocha::Block@{mocha::Block}}
+\subsubsection[{entry\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Entry}$<$Key\_\-t,Value\_\-t$>$$\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::{\bf entry\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_block_ada95cd41b7f920efd5edf47140b9111b}
+
+
+Definition at line 35 of file block.h.
+
+\hypertarget{classmocha_1_1_block_a8c506f64ed0ff2476b5e0dc2e5d53f8d}{
+\index{mocha::Block@{mocha::Block}!next\_\-@{next\_\-}}
+\index{next\_\-@{next\_\-}!mocha::Block@{mocha::Block}}
+\subsubsection[{next\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Block}$<$Key\_\-t,Value\_\-t$>$$\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::{\bf next\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_block_a8c506f64ed0ff2476b5e0dc2e5d53f8d}
+
+
+Definition at line 32 of file block.h.
+
+\hypertarget{classmocha_1_1_block_a8293c90ec2083f03208cae2d88d69ea7}{
+\index{mocha::Block@{mocha::Block}!node\_\-@{node\_\-}}
+\index{node\_\-@{node\_\-}!mocha::Block@{mocha::Block}}
+\subsubsection[{node\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf BlockContainer}$<$Key\_\-t,Value\_\-t$>$$\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::{\bf node\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_block_a8293c90ec2083f03208cae2d88d69ea7}
+
+
+Definition at line 34 of file block.h.
+
+\hypertarget{classmocha_1_1_block_ae8d39631c54d02454b942bc17304df98}{
+\index{mocha::Block@{mocha::Block}!prev\_\-@{prev\_\-}}
+\index{prev\_\-@{prev\_\-}!mocha::Block@{mocha::Block}}
+\subsubsection[{prev\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key\_\-t, typename Value\_\-t$>$ {\bf Block}$<$Key\_\-t,Value\_\-t$>$$\ast$ {\bf mocha::Block}$<$ Key\_\-t, Value\_\-t $>$::{\bf prev\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_block_ae8d39631c54d02454b942bc17304df98}
+
+
+Definition at line 33 of file block.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/hash/\hyperlink{block_8h}{block.h}\item 
+Y:/mocha/src/utils/hash/\hyperlink{block-impl_8h}{block-\/impl.h}\end{DoxyCompactItemize}

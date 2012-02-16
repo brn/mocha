@@ -1,0 +1,625 @@
+\hypertarget{classmocha_1_1_parser_tracer}{
+\section{mocha::ParserTracer Class Reference}
+\label{classmocha_1_1_parser_tracer}\index{mocha::ParserTracer@{mocha::ParserTracer}}
+}
+
+
+{\ttfamily \#include $<$parser\_\-tracer.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}{ParserState} \{ \par
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a5767dc3b56f89f3c5f228e2a8b7f2d92}{kNone} =  0, 
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a0d72bbf87897069035f8f61e0b4a3943}{kObjectLiteralEnd} =  1, 
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713adc3207761ea23eee8c06cf4e593bab20}{kCallExpEnd} =  2, 
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a4c6adc797564ee85392770850e7d5c0d}{kFunction} =  4, 
+\par
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a97fbd1f765965f719e33435c80e0b036}{kClosureEnd} =  8, 
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713afb07e3bd42a4667f1c1d0551988f11c7}{kNoSemicolon} =  16
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_parser_tracer_a1275e0408a44f429533372ecd559da14}{ParserTracer} (const char $\ast$\hyperlink{classmocha_1_1_parser_tracer_ae45e8a1683a3ac121218fdad7b6b9bc2}{filename\_\-})
+\item 
+\hyperlink{classmocha_1_1_parser_tracer_a6ddfb9f4b58e5eef20c46461cb9f5c87}{$\sim$ParserTracer} ()
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a1374dd1660c2300fb050595114d52595}{SetSemicolonFlag} (bool is)
+\item 
+JPM\_\-PURE bool \hyperlink{classmocha_1_1_parser_tracer_af4a281bd4efe1ee704e5ef0a91c31564}{GetSemicolonFlag} () const 
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a5ce38127b141a5213add4ee4e556cc42}{SetRollBackFlag} (bool is)
+\item 
+JPM\_\-PURE bool \hyperlink{classmocha_1_1_parser_tracer_a26a38983c66404db2666052aa02a8d8d}{GetRollBackFlag} () const 
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a8e2ca7195200965dce3f5d82d15b322b}{SetLineBreakFlag} (bool is)
+\item 
+JPM\_\-PURE bool \hyperlink{classmocha_1_1_parser_tracer_a143df5acd7b28790cde70a5744660c94}{GetLineBreakFlag} () const 
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_ab1a1497fdd0d9bee7b5cb190ccfd57e8}{SetIncludeFlag} (bool is)
+\item 
+JPM\_\-PURE bool \hyperlink{classmocha_1_1_parser_tracer_a33f348823e64116a9ebbb25654a1ae09}{GetIncludeFlag} () const 
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_aeb18997de46f8084f6b5c0308f79199f}{SetState} (\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}{ParserState} state)
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_a99cf8da56dede369d5dbe70f3ecef3a2}{GetState} (\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}{ParserState} state) const 
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a2a0da04ecd0abb0bc7bfcf3567a91580}{EndState} (\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}{ParserState} state)
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_af06a3714c3361b2fa11acee54cf88503}{ExpectLBrace} ()
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_a5f83d9288227e7690c185389e2de6159}{IsExpectLBrace} ()
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a7ccddb08ff7173af5f3baf361abaa572}{ExpectRBrace} ()
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_aa9688c876936c1be1880ace55e8e24d2}{IsExpectRBrace} ()
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_a1cd3550672564839bba7b97c2eec2155}{IsAllowExpression} ()
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a102ec3e73afebcae53867c6189b1b8a9}{AllowExpression} (bool is)
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_aa9abf6b85ff1e7d830ffe32c98d67225}{LineNumber} (long int num)
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_a9e131cd1aeb87990121b8d93dfad5c6c}{SyntaxError} (long int line, const char $\ast$mes)
+\item 
+JPM\_\-PURE bool \hyperlink{classmocha_1_1_parser_tracer_a10dedf60aa72b5929216ce39053a7dd7}{IsSyntaxError} () const 
+\item 
+JPM\_\-CONST long int \hyperlink{classmocha_1_1_parser_tracer_ad0f8eb12c3b75e8dea5d0eac2657434d}{GetErrorLine} () const 
+\item 
+JPM\_\-PURE const char $\ast$ \hyperlink{classmocha_1_1_parser_tracer_af9bc88df499622ebd9c7642662661c12}{GetErrorMessage} () const 
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_parser_tracer_ab45ec59f75c3ffd7fc3c15ae263ddf15}{GetModuleName} () const 
+\item 
+void \hyperlink{classmocha_1_1_parser_tracer_ae6b8f244e48d9e4495f4c64384ef26d6}{SetModuleName} (const char $\ast$name)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_parser_tracer_aac2e5dc59d52601d4b69278a04e9b221}{GetPath} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_aff95ee8b66288b929029026324959be4}{l\_\-brace\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_a68ddbc5b5c22bd599d86ad7e82598a8d}{r\_\-brace\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_parser_tracer_ab3d8cd46853e02d0318b932a4d2e271a}{in\_\-exp\_\-}
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_parser_tracer_a2b47370146eb41cae42152a5aec44aa9}{parser\_\-flags\_\-}
+\item 
+uint8\_\-t \hyperlink{classmocha_1_1_parser_tracer_a114c5f058d10f88c349347528ba60bfe}{parser\_\-state\_\-}
+\item 
+uint32\_\-t \hyperlink{classmocha_1_1_parser_tracer_a54822e9954907f16d56078e0339436fa}{block\_\-literal\_\-stack\_\-}
+\item 
+long int \hyperlink{classmocha_1_1_parser_tracer_a0d4c2ee1918d1e59ce45779853e462e5}{errorLine\_\-}
+\item 
+\hyperlink{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}{ParserState} \hyperlink{classmocha_1_1_parser_tracer_a8663013c09f0c7788bc5a26715fdc746}{state\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_parser_tracer_a11ac093f19a1e36dd2386c423dc96d04}{message\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_parser_tracer_ab5d8b29a4acd4d80c83d3d7d5f70f4cf}{module\_\-name\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_parser_tracer_a423db07998b1298089cd5e6daa330d3b}{indent\_\-}
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_parser_tracer_ae45e8a1683a3ac121218fdad7b6b9bc2}{filename\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file parser\_\-tracer.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!ParserState@{ParserState}}
+\index{ParserState@{ParserState}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{ParserState}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mocha::ParserTracer::ParserState}}}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kNone@{kNone}!mocha::ParserTracer@{mocha::ParserTracer}}\index{mocha::ParserTracer@{mocha::ParserTracer}!kNone@{kNone}}\item[{\em 
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a5767dc3b56f89f3c5f228e2a8b7f2d92}{
+kNone}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a5767dc3b56f89f3c5f228e2a8b7f2d92}
+}]\index{kObjectLiteralEnd@{kObjectLiteralEnd}!mocha::ParserTracer@{mocha::ParserTracer}}\index{mocha::ParserTracer@{mocha::ParserTracer}!kObjectLiteralEnd@{kObjectLiteralEnd}}\item[{\em 
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a0d72bbf87897069035f8f61e0b4a3943}{
+kObjectLiteralEnd}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a0d72bbf87897069035f8f61e0b4a3943}
+}]\index{kCallExpEnd@{kCallExpEnd}!mocha::ParserTracer@{mocha::ParserTracer}}\index{mocha::ParserTracer@{mocha::ParserTracer}!kCallExpEnd@{kCallExpEnd}}\item[{\em 
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713adc3207761ea23eee8c06cf4e593bab20}{
+kCallExpEnd}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713adc3207761ea23eee8c06cf4e593bab20}
+}]\index{kFunction@{kFunction}!mocha::ParserTracer@{mocha::ParserTracer}}\index{mocha::ParserTracer@{mocha::ParserTracer}!kFunction@{kFunction}}\item[{\em 
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a4c6adc797564ee85392770850e7d5c0d}{
+kFunction}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a4c6adc797564ee85392770850e7d5c0d}
+}]\index{kClosureEnd@{kClosureEnd}!mocha::ParserTracer@{mocha::ParserTracer}}\index{mocha::ParserTracer@{mocha::ParserTracer}!kClosureEnd@{kClosureEnd}}\item[{\em 
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a97fbd1f765965f719e33435c80e0b036}{
+kClosureEnd}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713a97fbd1f765965f719e33435c80e0b036}
+}]\index{kNoSemicolon@{kNoSemicolon}!mocha::ParserTracer@{mocha::ParserTracer}}\index{mocha::ParserTracer@{mocha::ParserTracer}!kNoSemicolon@{kNoSemicolon}}\item[{\em 
+\hypertarget{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713afb07e3bd42a4667f1c1d0551988f11c7}{
+kNoSemicolon}
+\label{classmocha_1_1_parser_tracer_afe3c94bff7f4cd17fd2f457f92fcf713afb07e3bd42a4667f1c1d0551988f11c7}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 13 of file parser\_\-tracer.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_parser_tracer_a1275e0408a44f429533372ecd559da14}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!ParserTracer@{ParserTracer}}
+\index{ParserTracer@{ParserTracer}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{ParserTracer}]{\setlength{\rightskip}{0pt plus 5cm}ParserTracer::ParserTracer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename\_\-}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a1275e0408a44f429533372ecd559da14}
+
+
+Definition at line 11 of file parser\_\-tracer.cc.
+
+\hypertarget{classmocha_1_1_parser_tracer_a6ddfb9f4b58e5eef20c46461cb9f5c87}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!$\sim$ParserTracer@{$\sim$ParserTracer}}
+\index{$\sim$ParserTracer@{$\sim$ParserTracer}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{$\sim$ParserTracer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ParserTracer::$\sim$ParserTracer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a6ddfb9f4b58e5eef20c46461cb9f5c87}
+
+
+Definition at line 23 of file parser\_\-tracer.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_parser_tracer_a102ec3e73afebcae53867c6189b1b8a9}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!AllowExpression@{AllowExpression}}
+\index{AllowExpression@{AllowExpression}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{AllowExpression}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::AllowExpression (
+\begin{DoxyParamCaption}
+\item[{bool}]{is}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a102ec3e73afebcae53867c6189b1b8a9}
+
+
+Definition at line 57 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a2a0da04ecd0abb0bc7bfcf3567a91580}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!EndState@{EndState}}
+\index{EndState@{EndState}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{EndState}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::EndState (
+\begin{DoxyParamCaption}
+\item[{{\bf ParserState}}]{state}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a2a0da04ecd0abb0bc7bfcf3567a91580}
+
+
+Definition at line 51 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_af06a3714c3361b2fa11acee54cf88503}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!ExpectLBrace@{ExpectLBrace}}
+\index{ExpectLBrace@{ExpectLBrace}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{ExpectLBrace}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::ExpectLBrace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_af06a3714c3361b2fa11acee54cf88503}
+
+
+Definition at line 52 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a7ccddb08ff7173af5f3baf361abaa572}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!ExpectRBrace@{ExpectRBrace}}
+\index{ExpectRBrace@{ExpectRBrace}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{ExpectRBrace}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::ExpectRBrace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a7ccddb08ff7173af5f3baf361abaa572}
+
+
+Definition at line 54 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_ad0f8eb12c3b75e8dea5d0eac2657434d}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetErrorLine@{GetErrorLine}}
+\index{GetErrorLine@{GetErrorLine}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetErrorLine}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-CONST long int mocha::ParserTracer::GetErrorLine (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_ad0f8eb12c3b75e8dea5d0eac2657434d}
+
+
+Definition at line 67 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_af9bc88df499622ebd9c7642662661c12}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetErrorMessage@{GetErrorMessage}}
+\index{GetErrorMessage@{GetErrorMessage}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetErrorMessage}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-PURE const char$\ast$ mocha::ParserTracer::GetErrorMessage (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_af9bc88df499622ebd9c7642662661c12}
+
+
+Definition at line 71 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a33f348823e64116a9ebbb25654a1ae09}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetIncludeFlag@{GetIncludeFlag}}
+\index{GetIncludeFlag@{GetIncludeFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetIncludeFlag}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-PURE bool mocha::ParserTracer::GetIncludeFlag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a33f348823e64116a9ebbb25654a1ae09}
+
+
+Definition at line 45 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a143df5acd7b28790cde70a5744660c94}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetLineBreakFlag@{GetLineBreakFlag}}
+\index{GetLineBreakFlag@{GetLineBreakFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetLineBreakFlag}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-PURE bool mocha::ParserTracer::GetLineBreakFlag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a143df5acd7b28790cde70a5744660c94}
+
+
+Definition at line 39 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_ab45ec59f75c3ffd7fc3c15ae263ddf15}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetModuleName@{GetModuleName}}
+\index{GetModuleName@{GetModuleName}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetModuleName}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::ParserTracer::GetModuleName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_ab45ec59f75c3ffd7fc3c15ae263ddf15}
+
+
+Definition at line 75 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_aac2e5dc59d52601d4b69278a04e9b221}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetPath@{GetPath}}
+\index{GetPath@{GetPath}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetPath}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::ParserTracer::GetPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_aac2e5dc59d52601d4b69278a04e9b221}
+
+
+Definition at line 83 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a26a38983c66404db2666052aa02a8d8d}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetRollBackFlag@{GetRollBackFlag}}
+\index{GetRollBackFlag@{GetRollBackFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetRollBackFlag}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-PURE bool mocha::ParserTracer::GetRollBackFlag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a26a38983c66404db2666052aa02a8d8d}
+
+
+Definition at line 33 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_af4a281bd4efe1ee704e5ef0a91c31564}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetSemicolonFlag@{GetSemicolonFlag}}
+\index{GetSemicolonFlag@{GetSemicolonFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetSemicolonFlag}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-PURE bool mocha::ParserTracer::GetSemicolonFlag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_af4a281bd4efe1ee704e5ef0a91c31564}
+
+
+Definition at line 27 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a99cf8da56dede369d5dbe70f3ecef3a2}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!GetState@{GetState}}
+\index{GetState@{GetState}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{GetState}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::ParserTracer::GetState (
+\begin{DoxyParamCaption}
+\item[{{\bf ParserState}}]{state}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a99cf8da56dede369d5dbe70f3ecef3a2}
+
+
+Definition at line 50 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a1cd3550672564839bba7b97c2eec2155}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!IsAllowExpression@{IsAllowExpression}}
+\index{IsAllowExpression@{IsAllowExpression}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{IsAllowExpression}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::ParserTracer::IsAllowExpression (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a1cd3550672564839bba7b97c2eec2155}
+
+
+Definition at line 56 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a5f83d9288227e7690c185389e2de6159}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!IsExpectLBrace@{IsExpectLBrace}}
+\index{IsExpectLBrace@{IsExpectLBrace}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{IsExpectLBrace}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::ParserTracer::IsExpectLBrace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a5f83d9288227e7690c185389e2de6159}
+
+
+Definition at line 53 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_aa9688c876936c1be1880ace55e8e24d2}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!IsExpectRBrace@{IsExpectRBrace}}
+\index{IsExpectRBrace@{IsExpectRBrace}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{IsExpectRBrace}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::ParserTracer::IsExpectRBrace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_aa9688c876936c1be1880ace55e8e24d2}
+
+
+Definition at line 55 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a10dedf60aa72b5929216ce39053a7dd7}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!IsSyntaxError@{IsSyntaxError}}
+\index{IsSyntaxError@{IsSyntaxError}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{IsSyntaxError}]{\setlength{\rightskip}{0pt plus 5cm}JPM\_\-PURE bool mocha::ParserTracer::IsSyntaxError (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a10dedf60aa72b5929216ce39053a7dd7}
+
+
+Definition at line 63 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_aa9abf6b85ff1e7d830ffe32c98d67225}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!LineNumber@{LineNumber}}
+\index{LineNumber@{LineNumber}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{LineNumber}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::LineNumber (
+\begin{DoxyParamCaption}
+\item[{long int}]{num}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_tracer_aa9abf6b85ff1e7d830ffe32c98d67225}
+\hypertarget{classmocha_1_1_parser_tracer_ab1a1497fdd0d9bee7b5cb190ccfd57e8}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SetIncludeFlag@{SetIncludeFlag}}
+\index{SetIncludeFlag@{SetIncludeFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SetIncludeFlag}]{\setlength{\rightskip}{0pt plus 5cm}void ParserTracer::SetIncludeFlag (
+\begin{DoxyParamCaption}
+\item[{bool}]{is}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_tracer_ab1a1497fdd0d9bee7b5cb190ccfd57e8}
+
+
+Definition at line 48 of file parser\_\-tracer.cc.
+
+\hypertarget{classmocha_1_1_parser_tracer_a8e2ca7195200965dce3f5d82d15b322b}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SetLineBreakFlag@{SetLineBreakFlag}}
+\index{SetLineBreakFlag@{SetLineBreakFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SetLineBreakFlag}]{\setlength{\rightskip}{0pt plus 5cm}void ParserTracer::SetLineBreakFlag (
+\begin{DoxyParamCaption}
+\item[{bool}]{is}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_tracer_a8e2ca7195200965dce3f5d82d15b322b}
+
+
+Definition at line 39 of file parser\_\-tracer.cc.
+
+\hypertarget{classmocha_1_1_parser_tracer_ae6b8f244e48d9e4495f4c64384ef26d6}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SetModuleName@{SetModuleName}}
+\index{SetModuleName@{SetModuleName}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SetModuleName}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::SetModuleName (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_ae6b8f244e48d9e4495f4c64384ef26d6}
+
+
+Definition at line 79 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a5ce38127b141a5213add4ee4e556cc42}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SetRollBackFlag@{SetRollBackFlag}}
+\index{SetRollBackFlag@{SetRollBackFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SetRollBackFlag}]{\setlength{\rightskip}{0pt plus 5cm}void ParserTracer::SetRollBackFlag (
+\begin{DoxyParamCaption}
+\item[{bool}]{is}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_tracer_a5ce38127b141a5213add4ee4e556cc42}
+
+
+Definition at line 30 of file parser\_\-tracer.cc.
+
+\hypertarget{classmocha_1_1_parser_tracer_a1374dd1660c2300fb050595114d52595}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SetSemicolonFlag@{SetSemicolonFlag}}
+\index{SetSemicolonFlag@{SetSemicolonFlag}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SetSemicolonFlag}]{\setlength{\rightskip}{0pt plus 5cm}void ParserTracer::SetSemicolonFlag (
+\begin{DoxyParamCaption}
+\item[{bool}]{is}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_tracer_a1374dd1660c2300fb050595114d52595}
+
+
+Definition at line 21 of file parser\_\-tracer.cc.
+
+\hypertarget{classmocha_1_1_parser_tracer_aeb18997de46f8084f6b5c0308f79199f}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SetState@{SetState}}
+\index{SetState@{SetState}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SetState}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ParserTracer::SetState (
+\begin{DoxyParamCaption}
+\item[{{\bf ParserState}}]{state}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_aeb18997de46f8084f6b5c0308f79199f}
+
+
+Definition at line 49 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a9e131cd1aeb87990121b8d93dfad5c6c}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!SyntaxError@{SyntaxError}}
+\index{SyntaxError@{SyntaxError}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{SyntaxError}]{\setlength{\rightskip}{0pt plus 5cm}void ParserTracer::SyntaxError (
+\begin{DoxyParamCaption}
+\item[{long int}]{line, }
+\item[{const char $\ast$}]{mes}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_tracer_a9e131cd1aeb87990121b8d93dfad5c6c}
+
+
+Definition at line 57 of file parser\_\-tracer.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_parser_tracer_a54822e9954907f16d56078e0339436fa}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!block\_\-literal\_\-stack\_\-@{block\_\-literal\_\-stack\_\-}}
+\index{block\_\-literal\_\-stack\_\-@{block\_\-literal\_\-stack\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{block\_\-literal\_\-stack\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint32\_\-t {\bf mocha::ParserTracer::block\_\-literal\_\-stack\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a54822e9954907f16d56078e0339436fa}
+
+
+Definition at line 91 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a0d4c2ee1918d1e59ce45779853e462e5}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!errorLine\_\-@{errorLine\_\-}}
+\index{errorLine\_\-@{errorLine\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{errorLine\_\-}]{\setlength{\rightskip}{0pt plus 5cm}long int {\bf mocha::ParserTracer::errorLine\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a0d4c2ee1918d1e59ce45779853e462e5}
+
+
+Definition at line 92 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_ae45e8a1683a3ac121218fdad7b6b9bc2}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!filename\_\-@{filename\_\-}}
+\index{filename\_\-@{filename\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{filename\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf mocha::ParserTracer::filename\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_ae45e8a1683a3ac121218fdad7b6b9bc2}
+
+
+Definition at line 97 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_ab3d8cd46853e02d0318b932a4d2e271a}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!in\_\-exp\_\-@{in\_\-exp\_\-}}
+\index{in\_\-exp\_\-@{in\_\-exp\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{in\_\-exp\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::ParserTracer::in\_\-exp\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_ab3d8cd46853e02d0318b932a4d2e271a}
+
+
+Definition at line 88 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a423db07998b1298089cd5e6daa330d3b}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!indent\_\-@{indent\_\-}}
+\index{indent\_\-@{indent\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{indent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::ParserTracer::indent\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a423db07998b1298089cd5e6daa330d3b}
+
+
+Definition at line 96 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_aff95ee8b66288b929029026324959be4}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!l\_\-brace\_\-@{l\_\-brace\_\-}}
+\index{l\_\-brace\_\-@{l\_\-brace\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{l\_\-brace\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::ParserTracer::l\_\-brace\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_aff95ee8b66288b929029026324959be4}
+
+
+Definition at line 86 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a11ac093f19a1e36dd2386c423dc96d04}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!message\_\-@{message\_\-}}
+\index{message\_\-@{message\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{message\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::ParserTracer::message\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a11ac093f19a1e36dd2386c423dc96d04}
+
+
+Definition at line 94 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_ab5d8b29a4acd4d80c83d3d7d5f70f4cf}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!module\_\-name\_\-@{module\_\-name\_\-}}
+\index{module\_\-name\_\-@{module\_\-name\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{module\_\-name\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::ParserTracer::module\_\-name\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_ab5d8b29a4acd4d80c83d3d7d5f70f4cf}
+
+
+Definition at line 95 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a2b47370146eb41cae42152a5aec44aa9}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!parser\_\-flags\_\-@{parser\_\-flags\_\-}}
+\index{parser\_\-flags\_\-@{parser\_\-flags\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{parser\_\-flags\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t {\bf mocha::ParserTracer::parser\_\-flags\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a2b47370146eb41cae42152a5aec44aa9}
+
+
+Definition at line 89 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a114c5f058d10f88c349347528ba60bfe}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!parser\_\-state\_\-@{parser\_\-state\_\-}}
+\index{parser\_\-state\_\-@{parser\_\-state\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{parser\_\-state\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\_\-t {\bf mocha::ParserTracer::parser\_\-state\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a114c5f058d10f88c349347528ba60bfe}
+
+
+Definition at line 90 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a68ddbc5b5c22bd599d86ad7e82598a8d}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!r\_\-brace\_\-@{r\_\-brace\_\-}}
+\index{r\_\-brace\_\-@{r\_\-brace\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{r\_\-brace\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::ParserTracer::r\_\-brace\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a68ddbc5b5c22bd599d86ad7e82598a8d}
+
+
+Definition at line 87 of file parser\_\-tracer.h.
+
+\hypertarget{classmocha_1_1_parser_tracer_a8663013c09f0c7788bc5a26715fdc746}{
+\index{mocha::ParserTracer@{mocha::ParserTracer}!state\_\-@{state\_\-}}
+\index{state\_\-@{state\_\-}!mocha::ParserTracer@{mocha::ParserTracer}}
+\subsubsection[{state\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ParserState} {\bf mocha::ParserTracer::state\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_tracer_a8663013c09f0c7788bc5a26715fdc746}
+
+
+Definition at line 93 of file parser\_\-tracer.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/binding/\hyperlink{parser__tracer_8h}{parser\_\-tracer.h}\item 
+Y:/mocha/src/compiler/binding/\hyperlink{parser__tracer_8cc}{parser\_\-tracer.cc}\end{DoxyCompactItemize}

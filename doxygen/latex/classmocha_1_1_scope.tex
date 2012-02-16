@@ -1,0 +1,220 @@
+\hypertarget{classmocha_1_1_scope}{
+\section{mocha::Scope Class Reference}
+\label{classmocha_1_1_scope}\index{mocha::Scope@{mocha::Scope}}
+}
+
+
+{\ttfamily \#include $<$scope.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scope_a1285a61d062405ac9292384fc6745065}{Scope} ()
+\item 
+\hyperlink{classmocha_1_1_scope_a231d9af8b87a3ad8e5cb67282a295fae}{$\sim$Scope} ()
+\item 
+\hyperlink{classmocha_1_1_inner_scope}{InnerScope} $\ast$ \hyperlink{classmocha_1_1_scope_a705410a49c99211aec6c02c5d2487e03}{Escape} ()
+\item 
+\hyperlink{classmocha_1_1_inner_scope}{InnerScope} $\ast$ \hyperlink{classmocha_1_1_scope_a29ece19b67b1fe0e342972d88b0240cf}{Enter} ()
+\item 
+\hyperlink{classmocha_1_1_inner_scope}{InnerScope} $\ast$ \hyperlink{classmocha_1_1_scope_acdc8929125b135da654301a563337d02}{Current} ()
+\item 
+void \hyperlink{classmocha_1_1_scope_a05d3d516b51f3f5f77d5be59124a3a60}{Insert} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$info, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ast\_\-node)
+\item 
+void \hyperlink{classmocha_1_1_scope_ac9bde607294112095398a58f038d6e5f}{Ref} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$info)
+\item 
+\hyperlink{namespacemocha_a692c3ca38973da32760e114599b8a960}{SymbolEntry} \hyperlink{classmocha_1_1_scope_a81cb8dcf31eb20e25c70de74cfd37b57}{Find} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$info)
+\item 
+\hyperlink{namespacemocha_a692c3ca38973da32760e114599b8a960}{SymbolEntry} \& \hyperlink{classmocha_1_1_scope_a366485d8c7ded9537966abfd04f37804}{FindAlias} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$info)
+\item 
+void \hyperlink{classmocha_1_1_scope_a5d02cf07dfb63b4deee6ac4ed710a11c}{Rename} ()
+\item 
+bool \hyperlink{classmocha_1_1_scope_a340ac275b3d9ecb0baf943136eb95ebc}{IsGlobal} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_inner_scope}{InnerScope} $\ast$ \hyperlink{classmocha_1_1_scope_a3be4316686df6873241258805b9f7f54}{head\_\-}
+\item 
+\hyperlink{classmocha_1_1_inner_scope}{InnerScope} $\ast$ \hyperlink{classmocha_1_1_scope_a4c359015bf104add9517b9159f9bea8b}{current\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 50 of file scope.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_scope_a1285a61d062405ac9292384fc6745065}{
+\index{mocha::Scope@{mocha::Scope}!Scope@{Scope}}
+\index{Scope@{Scope}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Scope}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Scope::Scope (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a1285a61d062405ac9292384fc6745065}
+
+
+Definition at line 216 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a231d9af8b87a3ad8e5cb67282a295fae}{
+\index{mocha::Scope@{mocha::Scope}!$\sim$Scope@{$\sim$Scope}}
+\index{$\sim$Scope@{$\sim$Scope}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{$\sim$Scope}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Scope::$\sim$Scope (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a231d9af8b87a3ad8e5cb67282a295fae}
+
+
+Definition at line 218 of file scope.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_scope_acdc8929125b135da654301a563337d02}{
+\index{mocha::Scope@{mocha::Scope}!Current@{Current}}
+\index{Current@{Current}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf InnerScope} $\ast$ mocha::Scope::Current (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_acdc8929125b135da654301a563337d02}
+
+
+Definition at line 236 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a29ece19b67b1fe0e342972d88b0240cf}{
+\index{mocha::Scope@{mocha::Scope}!Enter@{Enter}}
+\index{Enter@{Enter}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Enter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf InnerScope} $\ast$ mocha::Scope::Enter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a29ece19b67b1fe0e342972d88b0240cf}
+
+
+Definition at line 222 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a705410a49c99211aec6c02c5d2487e03}{
+\index{mocha::Scope@{mocha::Scope}!Escape@{Escape}}
+\index{Escape@{Escape}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Escape}]{\setlength{\rightskip}{0pt plus 5cm}{\bf InnerScope} $\ast$ mocha::Scope::Escape (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a705410a49c99211aec6c02c5d2487e03}
+
+
+Definition at line 227 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a81cb8dcf31eb20e25c70de74cfd37b57}{
+\index{mocha::Scope@{mocha::Scope}!Find@{Find}}
+\index{Find@{Find}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Find}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SymbolEntry} mocha::Scope::Find (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a81cb8dcf31eb20e25c70de74cfd37b57}
+
+
+Definition at line 244 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a366485d8c7ded9537966abfd04f37804}{
+\index{mocha::Scope@{mocha::Scope}!FindAlias@{FindAlias}}
+\index{FindAlias@{FindAlias}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{FindAlias}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SymbolEntry}\& mocha::Scope::FindAlias (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a366485d8c7ded9537966abfd04f37804}
+\hypertarget{classmocha_1_1_scope_a05d3d516b51f3f5f77d5be59124a3a60}{
+\index{mocha::Scope@{mocha::Scope}!Insert@{Insert}}
+\index{Insert@{Insert}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Scope::Insert (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{info, }
+\item[{{\bf AstNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a05d3d516b51f3f5f77d5be59124a3a60}
+
+
+Definition at line 232 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a340ac275b3d9ecb0baf943136eb95ebc}{
+\index{mocha::Scope@{mocha::Scope}!IsGlobal@{IsGlobal}}
+\index{IsGlobal@{IsGlobal}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{IsGlobal}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Scope::IsGlobal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{classmocha_1_1_scope_a340ac275b3d9ecb0baf943136eb95ebc}
+
+
+Definition at line 252 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_ac9bde607294112095398a58f038d6e5f}{
+\index{mocha::Scope@{mocha::Scope}!Ref@{Ref}}
+\index{Ref@{Ref}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Ref}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Scope::Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_ac9bde607294112095398a58f038d6e5f}
+
+
+Definition at line 240 of file scope.cc.
+
+\hypertarget{classmocha_1_1_scope_a5d02cf07dfb63b4deee6ac4ed710a11c}{
+\index{mocha::Scope@{mocha::Scope}!Rename@{Rename}}
+\index{Rename@{Rename}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{Rename}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Scope::Rename (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scope_a5d02cf07dfb63b4deee6ac4ed710a11c}
+
+
+Definition at line 248 of file scope.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_scope_a4c359015bf104add9517b9159f9bea8b}{
+\index{mocha::Scope@{mocha::Scope}!current\_\-@{current\_\-}}
+\index{current\_\-@{current\_\-}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{current\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf InnerScope}$\ast$ {\bf mocha::Scope::current\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scope_a4c359015bf104add9517b9159f9bea8b}
+
+
+Definition at line 65 of file scope.h.
+
+\hypertarget{classmocha_1_1_scope_a3be4316686df6873241258805b9f7f54}{
+\index{mocha::Scope@{mocha::Scope}!head\_\-@{head\_\-}}
+\index{head\_\-@{head\_\-}!mocha::Scope@{mocha::Scope}}
+\subsubsection[{head\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf InnerScope}$\ast$ {\bf mocha::Scope::head\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scope_a3be4316686df6873241258805b9f7f54}
+
+
+Definition at line 64 of file scope.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/scopes/\hyperlink{scope_8h}{scope.h}\item 
+Y:/mocha/src/compiler/scopes/\hyperlink{scope_8cc}{scope.cc}\end{DoxyCompactItemize}

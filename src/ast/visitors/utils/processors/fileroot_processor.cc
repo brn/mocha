@@ -16,7 +16,6 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
   IVisitor* visitor = info->GetVisitor();
   NodeIterator iterator = ast_node->ChildNodes();
   bool is_runtime = visitor_info->IsRuntime();
-  printf( "is runtime %d\n" , is_runtime );
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( visitor );
   }

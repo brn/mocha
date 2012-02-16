@@ -450,7 +450,6 @@ void SetRandomField( std::string *buf ) {
   int len = strlen( table_ );
   *buf += "__";
   for ( int i = 0; i < 10; i++ ) {
-    fprintf( stderr,  "rand %d\n" , rand() % len );
     (*buf) += ( table_[ rand() % len ] );
   }
   *buf += "__";

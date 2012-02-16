@@ -1,0 +1,244 @@
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4}{
+\section{mocha::HashMap$<$ const char $\ast$, Value $>$ Class Template Reference}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4}\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+}
+
+
+{\ttfamily \#include $<$hash\_\-map.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmocha_1_1_entry_iterator_base}{EntryIteratorBase}$<$ std::string, Value $>$ \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a6d4fd42742e1f425da11c48b752a071a}{EntryIterator}
+\item 
+typedef \hyperlink{classmocha_1_1_entry}{Entry}$<$ std::string, Value $>$ \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ae5c98db165f1b1bcfa42839abf6c3724}{HashEntry}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_acfdc9c05b738f14b2999c8b87f6ba36e}{HashMap} ()
+\item 
+\hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a7173dc62e2ab8dee6783862ddfbf2469}{$\sim$HashMap} ()
+\item 
+void \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ae939aa36c41bf73ee865a1b1fb51b026}{Insert} (const char $\ast$key, Value value)
+\item 
+void \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a0a616301a9867e1d2a176f9cf4f6f05c}{Insert} (const std::string \&key, Value value)
+\item 
+void \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_af8bf2243591e85ba9ec1107eab9a1dd7}{Remove} (const char $\ast$key)
+\item 
+void \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_aacc86757d4f0f3b3ae9b189c2d443585}{Remove} (const std::string \&key)
+\item 
+void \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a3bfc0c983e947b7d22293e630c8d0460}{RemoveAll} ()
+\item 
+\hyperlink{classmocha_1_1_entry}{HashEntry} \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a3a1083d019461a1b11497701645df76b}{Find} (const char $\ast$key)
+\item 
+\hyperlink{classmocha_1_1_entry}{HashEntry} \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a83d0b14bbfa209964e59cf52c29643bc}{Find} (const std::string \&key)
+\item 
+int \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a4fd09dd0e69b51f55e7ceea5a1190d6f}{Size} () const 
+\item 
+\hyperlink{classmocha_1_1_entry_iterator_base}{EntryIterator} \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ace303af0008e1302ce8aac1ede89624c}{Entries} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_hash_table}{HashTable}$<$ std::string, Value $>$ \hyperlink{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a8d8a5d3b64971ad73706c746afffccf0}{table\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Value$>$class mocha::HashMap$<$ const char $\ast$, Value $>$}
+
+
+
+Definition at line 27 of file hash\_\-map.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a6d4fd42742e1f425da11c48b752a071a}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!EntryIterator@{EntryIterator}}
+\index{EntryIterator@{EntryIterator}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{EntryIterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ typedef {\bf EntryIteratorBase}$<$std::string,Value$>$ {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::{\bf EntryIterator}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a6d4fd42742e1f425da11c48b752a071a}
+
+
+Definition at line 29 of file hash\_\-map.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ae5c98db165f1b1bcfa42839abf6c3724}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!HashEntry@{HashEntry}}
+\index{HashEntry@{HashEntry}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{HashEntry}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ typedef {\bf Entry}$<$std::string,Value$>$ {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::{\bf HashEntry}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ae5c98db165f1b1bcfa42839abf6c3724}
+
+
+Definition at line 30 of file hash\_\-map.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_acfdc9c05b738f14b2999c8b87f6ba36e}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!HashMap@{HashMap}}
+\index{HashMap@{HashMap}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{HashMap}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::{\bf HashMap} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_acfdc9c05b738f14b2999c8b87f6ba36e}
+
+
+Definition at line 96 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a7173dc62e2ab8dee6783862ddfbf2469}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!$\sim$HashMap@{$\sim$HashMap}}
+\index{$\sim$HashMap@{$\sim$HashMap}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{$\sim$HashMap}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::$\sim${\bf HashMap} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a7173dc62e2ab8dee6783862ddfbf2469}
+
+
+Definition at line 99 of file hash\_\-map-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ace303af0008e1302ce8aac1ede89624c}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Entries@{Entries}}
+\index{Entries@{Entries}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Entries}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ {\bf HashMap}$<$ const char $\ast$, Value $>$::{\bf EntryIterator} {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Entries (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ace303af0008e1302ce8aac1ede89624c}
+
+
+Definition at line 150 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a3a1083d019461a1b11497701645df76b}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Find@{Find}}
+\index{Find@{Find}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Find}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ {\bf HashMap}$<$ const char $\ast$, Value $>$::{\bf HashEntry} {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Find (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a3a1083d019461a1b11497701645df76b}
+
+
+Definition at line 133 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a83d0b14bbfa209964e59cf52c29643bc}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Find@{Find}}
+\index{Find@{Find}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Find}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ {\bf HashMap}$<$ const char $\ast$, Value $>$::{\bf HashEntry} {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Find (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a83d0b14bbfa209964e59cf52c29643bc}
+
+
+Definition at line 139 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a0a616301a9867e1d2a176f9cf4f6f05c}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Insert@{Insert}}
+\index{Insert@{Insert}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ void {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Insert (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{key, }
+\item[{Value}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a0a616301a9867e1d2a176f9cf4f6f05c}
+
+
+Definition at line 109 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ae939aa36c41bf73ee865a1b1fb51b026}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Insert@{Insert}}
+\index{Insert@{Insert}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ void {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Insert (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{key, }
+\item[{Value}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_ae939aa36c41bf73ee865a1b1fb51b026}
+
+
+Definition at line 102 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_aacc86757d4f0f3b3ae9b189c2d443585}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Remove@{Remove}}
+\index{Remove@{Remove}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Remove}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ void {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Remove (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_aacc86757d4f0f3b3ae9b189c2d443585}
+
+
+Definition at line 127 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_af8bf2243591e85ba9ec1107eab9a1dd7}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Remove@{Remove}}
+\index{Remove@{Remove}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Remove}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ void {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Remove (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_af8bf2243591e85ba9ec1107eab9a1dd7}
+
+
+Definition at line 115 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a3bfc0c983e947b7d22293e630c8d0460}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!RemoveAll@{RemoveAll}}
+\index{RemoveAll@{RemoveAll}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{RemoveAll}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ void {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::RemoveAll (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a3bfc0c983e947b7d22293e630c8d0460}
+
+
+Definition at line 122 of file hash\_\-map-\/impl.h.
+
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a4fd09dd0e69b51f55e7ceea5a1190d6f}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!Size@{Size}}
+\index{Size@{Size}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ int {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a4fd09dd0e69b51f55e7ceea5a1190d6f}
+
+
+Definition at line 145 of file hash\_\-map-\/impl.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a8d8a5d3b64971ad73706c746afffccf0}{
+\index{mocha::HashMap$<$ const char $\ast$, Value $>$@{mocha::HashMap$<$ const char $\ast$, Value $>$}!table\_\-@{table\_\-}}
+\index{table\_\-@{table\_\-}!mocha::HashMap< const char *, Value >@{mocha::HashMap$<$ const char $\ast$, Value $>$}}
+\subsubsection[{table\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Value $>$ {\bf HashTable}$<$std::string,Value$>$ {\bf mocha::HashMap}$<$ const char $\ast$, Value $>$::{\bf table\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_hash_map_3_01const_01char_01_5_00_01_value_01_4_a8d8a5d3b64971ad73706c746afffccf0}
+
+
+Definition at line 43 of file hash\_\-map.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/hash/hash\_\-map/\hyperlink{hash__map_8h}{hash\_\-map.h}\item 
+Y:/mocha/src/utils/hash/hash\_\-map/\hyperlink{hash__map-impl_8h}{hash\_\-map-\/impl.h}\end{DoxyCompactItemize}

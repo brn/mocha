@@ -22,13 +22,25 @@ ImportProccessor::ImportProccessor( ImportStmt* stmt , ProcessorInfo* info ) :
 void ImportProccessor::ProcessNode() {
   IVisitor *visitor = info_->GetVisitor();
   stmt_->Exp()->Accept( visitor );
-  LoadModule_();
-  ValueNode *name = AstUtils::CreateNameNode( stmt_->ModKey()->GetToken(),
+  AstNode* exp = 0;//init after;
+  if ( stmt_->ModType() == ImportStmt::kFile ) {
+    LoadModule_();
+    AstNode *name = AstUtils::CreateNameNode( stmt_->ModKey()->GetToken(),
                                               Token::JS_STRING_LITERAL , stmt_->Line() , ValueNode::kString );
-  ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-  CallExp* exp = AstUtils::CreateArrayAccessor( global , name );
-  if ( stmt_->From()->ChildLength() > 1 ) {
+    ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
+                                                  Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+    exp = AstUtils::CreateArrayAccessor( global , name );
+  } else {
+    if ( !stmt_->HasDsta() ) {
+      ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
+                                                    Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+      CallExp* dot = AstUtils::CreateDotAccessor( stmt_->From() , stmt_->Exp() );
+      exp = AstUtils::CreateDotAccessor( global , dot );
+    } else {
+      exp = stmt_->From();
+    }
+  }
+  if ( stmt_->From()->ChildLength() > 1 && stmt_->ModType() == ImportStmt::kFile ) {
     NodeIterator iter = stmt_->From()->ChildNodes();
     iter.Next();
     while ( iter.HasNext() ) {

@@ -1,0 +1,176 @@
+\hypertarget{classmocha_1_1_iteration_stmt}{
+\section{mocha::IterationStmt Class Reference}
+\label{classmocha_1_1_iteration_stmt}\index{mocha::IterationStmt@{mocha::IterationStmt}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::IterationStmt:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_iteration_stmt}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_iteration_stmt_a038c19a5378eeb918acbfa9cd46f7ba6}{IterationStmt} (int type)
+\item 
+\hyperlink{classmocha_1_1_iteration_stmt_ac0a43232d7647e06adc37ccc226da1e7}{$\sim$IterationStmt} ()
+\item 
+void \hyperlink{classmocha_1_1_iteration_stmt_ae35c5585d41cc876d4236a534aac16ed}{Exp} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_iteration_stmt_a9525f841a3cf7f6b49fb33ee24a6ea32}{Exp} ()
+\item 
+\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ \hyperlink{classmocha_1_1_iteration_stmt_ac9a778b002e50fb49212164307423ecb}{CastToIteration} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_iteration_stmt_ac2dcc191031a045a43892d4ceb284c16}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_iteration_stmt_a20e4650b73f5f88b8f07485ca1f2a005}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_iteration_stmt_a7e7d57f41145e2892f31b93d345480c1}{exp\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 887 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_iteration_stmt_a038c19a5378eeb918acbfa9cd46f7ba6}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!IterationStmt@{IterationStmt}}
+\index{IterationStmt@{IterationStmt}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{IterationStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::IterationStmt::IterationStmt (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_a038c19a5378eeb918acbfa9cd46f7ba6}
+
+
+Definition at line 889 of file ast.h.
+
+\hypertarget{classmocha_1_1_iteration_stmt_ac0a43232d7647e06adc37ccc226da1e7}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!$\sim$IterationStmt@{$\sim$IterationStmt}}
+\index{$\sim$IterationStmt@{$\sim$IterationStmt}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{$\sim$IterationStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::IterationStmt::$\sim$IterationStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_ac0a43232d7647e06adc37ccc226da1e7}
+
+
+Definition at line 890 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_iteration_stmt_ac9a778b002e50fb49212164307423ecb}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!CastToIteration@{CastToIteration}}
+\index{CastToIteration@{CastToIteration}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{CastToIteration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IterationStmt}$\ast$ mocha::IterationStmt::CastToIteration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_ac9a778b002e50fb49212164307423ecb}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_statement_a7f26b035f4e7504e6c6ca6fca280e636}{mocha::Statement}.
+
+
+
+Definition at line 893 of file ast.h.
+
+\hypertarget{classmocha_1_1_iteration_stmt_ac2dcc191031a045a43892d4ceb284c16}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::IterationStmt::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_ac2dcc191031a045a43892d4ceb284c16}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_af2a895699bac2012f8b7739bff49c5ec}{mocha::AstNode}.
+
+
+
+Definition at line 324 of file ast.cc.
+
+\hypertarget{classmocha_1_1_iteration_stmt_a9525f841a3cf7f6b49fb33ee24a6ea32}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!Exp@{Exp}}
+\index{Exp@{Exp}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{Exp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::IterationStmt::Exp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_a9525f841a3cf7f6b49fb33ee24a6ea32}
+
+
+Definition at line 892 of file ast.h.
+
+\hypertarget{classmocha_1_1_iteration_stmt_ae35c5585d41cc876d4236a534aac16ed}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!Exp@{Exp}}
+\index{Exp@{Exp}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{Exp}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationStmt::Exp (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_ae35c5585d41cc876d4236a534aac16ed}
+
+
+Definition at line 891 of file ast.h.
+
+\hypertarget{classmocha_1_1_iteration_stmt_a20e4650b73f5f88b8f07485ca1f2a005}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationStmt::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_a20e4650b73f5f88b8f07485ca1f2a005}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}{mocha::Statement}.
+
+
+
+Definition at line 897 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_iteration_stmt_a7e7d57f41145e2892f31b93d345480c1}{
+\index{mocha::IterationStmt@{mocha::IterationStmt}!exp\_\-@{exp\_\-}}
+\index{exp\_\-@{exp\_\-}!mocha::IterationStmt@{mocha::IterationStmt}}
+\subsubsection[{exp\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::IterationStmt::exp\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_iteration_stmt_a7e7d57f41145e2892f31b93d345480c1}
+
+
+Definition at line 894 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

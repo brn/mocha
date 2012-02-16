@@ -1,0 +1,114 @@
+\hypertarget{classmocha_1_1_iteration_processor}{
+\section{mocha::IterationProcessor Class Reference}
+\label{classmocha_1_1_iteration_processor}\index{mocha::IterationProcessor@{mocha::IterationProcessor}}
+}
+
+
+{\ttfamily \#include $<$iteration\_\-processor.h$>$}
+
+Inheritance diagram for mocha::IterationProcessor:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_iteration_processor}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classmocha_1_1_iteration_processor_a71b1bfabd5e593e115e581b363de1309}{ProcessForNode} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+static void \hyperlink{classmocha_1_1_iteration_processor_af2201f1d9fbe61092e028b698e12c9f2}{ProcessForInNode} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info, bool is\_\-regist=true)
+\item 
+static void \hyperlink{classmocha_1_1_iteration_processor_a67a04e80e75aa882543e6074b1ad7ebb}{ProcessForOfNode} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+static void \hyperlink{classmocha_1_1_iteration_processor_a161534483dd981dd4da2d6044bd7a3e9}{ProcessForEachNode} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\item 
+static void \hyperlink{classmocha_1_1_iteration_processor_a014c5c866557fbcccfec1095b316e903}{ProcessWhileNode} (\hyperlink{classmocha_1_1_iteration_stmt}{IterationStmt} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $\ast$info)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file iteration\_\-processor.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_iteration_processor_a161534483dd981dd4da2d6044bd7a3e9}{
+\index{mocha::IterationProcessor@{mocha::IterationProcessor}!ProcessForEachNode@{ProcessForEachNode}}
+\index{ProcessForEachNode@{ProcessForEachNode}!mocha::IterationProcessor@{mocha::IterationProcessor}}
+\subsubsection[{ProcessForEachNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationProcessor::ProcessForEachNode (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{ast\_\-node, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_iteration_processor_a161534483dd981dd4da2d6044bd7a3e9}
+
+
+Definition at line 193 of file iteration\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_iteration_processor_af2201f1d9fbe61092e028b698e12c9f2}{
+\index{mocha::IterationProcessor@{mocha::IterationProcessor}!ProcessForInNode@{ProcessForInNode}}
+\index{ProcessForInNode@{ProcessForInNode}!mocha::IterationProcessor@{mocha::IterationProcessor}}
+\subsubsection[{ProcessForInNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationProcessor::ProcessForInNode (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{ast\_\-node, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info, }
+\item[{bool}]{is\_\-regist = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_iteration_processor_af2201f1d9fbe61092e028b698e12c9f2}
+
+
+Definition at line 44 of file iteration\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_iteration_processor_a71b1bfabd5e593e115e581b363de1309}{
+\index{mocha::IterationProcessor@{mocha::IterationProcessor}!ProcessForNode@{ProcessForNode}}
+\index{ProcessForNode@{ProcessForNode}!mocha::IterationProcessor@{mocha::IterationProcessor}}
+\subsubsection[{ProcessForNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationProcessor::ProcessForNode (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{ast\_\-node, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_iteration_processor_a71b1bfabd5e593e115e581b363de1309}
+
+
+Definition at line 15 of file iteration\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_iteration_processor_a67a04e80e75aa882543e6074b1ad7ebb}{
+\index{mocha::IterationProcessor@{mocha::IterationProcessor}!ProcessForOfNode@{ProcessForOfNode}}
+\index{ProcessForOfNode@{ProcessForOfNode}!mocha::IterationProcessor@{mocha::IterationProcessor}}
+\subsubsection[{ProcessForOfNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationProcessor::ProcessForOfNode (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{ast\_\-node, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_iteration_processor_a67a04e80e75aa882543e6074b1ad7ebb}
+
+
+Definition at line 106 of file iteration\_\-processor.cc.
+
+\hypertarget{classmocha_1_1_iteration_processor_a014c5c866557fbcccfec1095b316e903}{
+\index{mocha::IterationProcessor@{mocha::IterationProcessor}!ProcessWhileNode@{ProcessWhileNode}}
+\index{ProcessWhileNode@{ProcessWhileNode}!mocha::IterationProcessor@{mocha::IterationProcessor}}
+\subsubsection[{ProcessWhileNode}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::IterationProcessor::ProcessWhileNode (
+\begin{DoxyParamCaption}
+\item[{{\bf IterationStmt} $\ast$}]{ast\_\-node, }
+\item[{{\bf ProcessorInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_iteration_processor_a014c5c866557fbcccfec1095b316e903}
+
+
+Definition at line 270 of file iteration\_\-processor.cc.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{iteration__processor_8h}{iteration\_\-processor.h}\item 
+Y:/mocha/src/ast/visitors/utils/processors/\hyperlink{iteration__processor_8cc}{iteration\_\-processor.cc}\end{DoxyCompactItemize}

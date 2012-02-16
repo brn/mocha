@@ -1,0 +1,80 @@
+\hypertarget{file__watcher-impl_8cc}{
+\section{Y:/mocha/src/utils/file\_\-watcher/file\_\-watcher-\/impl.cc File Reference}
+\label{file__watcher-impl_8cc}\index{Y:/mocha/src/utils/file\_\-watcher/file\_\-watcher-\/impl.cc@{Y:/mocha/src/utils/file\_\-watcher/file\_\-watcher-\/impl.cc}}
+}
+{\ttfamily \#include $<$useconfig.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$boost/unordered\_\-map.hpp$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/file\_\-system.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-watcher/file\_\-watcher.h$>$}\par
+{\ttfamily \#include $<$utils/file\_\-system/stat.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_watcher_container}{mocha::WatcherContainer}
+\item 
+class \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl}{mocha::FileWatcher::PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{file__watcher-impl_8cc_a77667bff91912af241d2fdf2b7a13556}{mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-}
+\item 
+\#define \hyperlink{file__watcher-impl_8cc_aa2d5c758628dddfa26e73ca5a245222a}{SETTINGS}~Setting::GetInstance()
+\item 
+\#define \hyperlink{file__watcher-impl_8cc_a69654895e069baa5ac52071dfecac957}{GET\_\-MASK}(mask)~( type \& mask ) == mask
+\item 
+\#define \hyperlink{file__watcher-impl_8cc_a06b931da68cc0b7db1b442bf1552a5d5}{ITERATOR}(name)~begin = name.begin(),end = name.end();
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{file__watcher-impl_8cc_a69654895e069baa5ac52071dfecac957}{
+\index{file\_\-watcher-\/impl.cc@{file\_\-watcher-\/impl.cc}!GET\_\-MASK@{GET\_\-MASK}}
+\index{GET\_\-MASK@{GET\_\-MASK}!file_watcher-impl.cc@{file\_\-watcher-\/impl.cc}}
+\subsubsection[{GET\_\-MASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define GET\_\-MASK(
+\begin{DoxyParamCaption}
+\item[{}]{mask}
+\end{DoxyParamCaption}
+)~( type \& mask ) == mask}}
+\label{file__watcher-impl_8cc_a69654895e069baa5ac52071dfecac957}
+
+
+Definition at line 14 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{file__watcher-impl_8cc_a06b931da68cc0b7db1b442bf1552a5d5}{
+\index{file\_\-watcher-\/impl.cc@{file\_\-watcher-\/impl.cc}!ITERATOR@{ITERATOR}}
+\index{ITERATOR@{ITERATOR}!file_watcher-impl.cc@{file\_\-watcher-\/impl.cc}}
+\subsubsection[{ITERATOR}]{\setlength{\rightskip}{0pt plus 5cm}\#define ITERATOR(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~begin = name.begin(),end = name.end();}}
+\label{file__watcher-impl_8cc_a06b931da68cc0b7db1b442bf1552a5d5}
+
+
+Definition at line 15 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{file__watcher-impl_8cc_a77667bff91912af241d2fdf2b7a13556}{
+\index{file\_\-watcher-\/impl.cc@{file\_\-watcher-\/impl.cc}!mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-@{mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-}}
+\index{mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-@{mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-}!file_watcher-impl.cc@{file\_\-watcher-\/impl.cc}}
+\subsubsection[{mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\#define mocha\_\-file\_\-watcher\_\-win\_\-impl\_\-cc\_\-}}
+\label{file__watcher-impl_8cc_a77667bff91912af241d2fdf2b7a13556}
+
+
+Definition at line 2 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{file__watcher-impl_8cc_aa2d5c758628dddfa26e73ca5a245222a}{
+\index{file\_\-watcher-\/impl.cc@{file\_\-watcher-\/impl.cc}!SETTINGS@{SETTINGS}}
+\index{SETTINGS@{SETTINGS}!file_watcher-impl.cc@{file\_\-watcher-\/impl.cc}}
+\subsubsection[{SETTINGS}]{\setlength{\rightskip}{0pt plus 5cm}\#define SETTINGS~Setting::GetInstance()}}
+\label{file__watcher-impl_8cc_aa2d5c758628dddfa26e73ca5a245222a}
+
+
+Definition at line 13 of file file\_\-watcher-\/impl.cc.
+

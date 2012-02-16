@@ -1,0 +1,644 @@
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl}{
+\section{mocha::FileWatcher::PtrImpl Class Reference}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl}\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_abd9d31fe45441698d2a782ffb33e5d02}{PtrImpl} ()
+\item 
+\hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a9a34b0b1c7f148ddafd04faa3448bc3b}{$\sim$PtrImpl} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a29b1776db81f039ff3d397adb516d907}{AddWatch} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ad0aca11b5dffced71385d0b40bf4a060}{UnWatch} (const char $\ast$path)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ad5bbbb2993eb3661ec94154a4fe0a448}{UnWatchAll} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_adcf4783a26e4dd2ab797dbb790087012}{Stop} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a61d2ff449e422799e8554fca888663e4}{Start} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ab68659e2a0445d58e1df7af1ed3280ca}{End} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ae132bbd9089fec4183743bf2f3d90113}{End} (\hyperlink{classmocha_1_1_file_watcher_af774b8dd436b9f8929506466533831b9}{FileWatcher::EndCallBack} fn, void $\ast$arg)
+\item 
+\hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_abd9d31fe45441698d2a782ffb33e5d02}{PtrImpl} ()
+\item 
+\hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a9a34b0b1c7f148ddafd04faa3448bc3b}{$\sim$PtrImpl} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a29b1776db81f039ff3d397adb516d907}{AddWatch} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ad0aca11b5dffced71385d0b40bf4a060}{UnWatch} (const char $\ast$path)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ad5bbbb2993eb3661ec94154a4fe0a448}{UnWatchAll} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_adcf4783a26e4dd2ab797dbb790087012}{Stop} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ab68659e2a0445d58e1df7af1ed3280ca}{End} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ae132bbd9089fec4183743bf2f3d90113}{End} (\hyperlink{classmocha_1_1_file_watcher_af774b8dd436b9f8929506466533831b9}{FileWatcher::EndCallBack} fn, void $\ast$arg)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a61d2ff449e422799e8554fca888663e4}{Start} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std::string \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ac8da734014593b49abf0a45f97154ac6}{FileEntry}
+\item 
+typedef boost::unordered\_\-map$<$ \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ac8da734014593b49abf0a45f97154ac6}{FileEntry}, \hyperlink{classmocha_1_1_watcher_container}{WatcherContainer} $>$ \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e431afab5a7af053ec48673cc325d}{WatchList}
+\item 
+typedef std::vector$<$ \hyperlink{classmocha_1_1_handle}{Handle}$<$ inotify\_\-event $>$ $>$ \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e577eda4e2979add6ae59a6c42c63}{EventArray}
+\item 
+typedef \hyperlink{classmocha_1_1_hash_map}{HashMap}$<$ int, \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_watcher_container}{WatcherContainer} $>$ $>$ \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a978a55e79bd47e1b1d284d95d24ee61c}{WatchList}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ae39d4963230278c98c88f94ca5aec162}{Regist\_\-} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a7ab8af718b82f2544d8e5366422a05b5}{AddToWatchList\_\-} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a8f75c9f3652efde78f973f5a8d1fbfd2}{ProcessNotification\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a70d99d205c0011dababa26b69c6ca446}{WatchFile\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a81fd5abc62a78c114f71b4ea3271b0a3}{UnWatch\_\-} (WatchList::iterator \&it)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a85cbc5de94605c56b740f935146c57da}{Regist\_\-} (const char $\ast$path, \hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$updater, int type, int wd)
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a719edb9752ddfdb182434ee472292892}{ProcessInotifyEvent\_\-} ()
+\item 
+int \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a9f3abaf80fb4e4c6a5d7f929890a472a}{CheckEvent\_\-} ()
+\item 
+int \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ae1b45a4b82aed3c3b64c7e410032f52f}{ReadInotifyEvents\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_aa76b00b2b18690d29d62c8512936b5fc}{ProcessEvent\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ae9c44a310e24ada2113d324e2fb4e9c4}{SwitchEvents\_\-} (\hyperlink{namespacemocha_1_1inotify__helper___aa8d25eea9099a062f693484523e0d508}{inotify\_\-helper\_\-::InotifyMask} mask, \hyperlink{classmocha_1_1_watcher_container}{WatcherContainer} $\ast$container)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a268f932a057d3e6e92b0938d69bc6273}{is\_\-stop\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ac2596e9026a0319cf7300584746be3aa}{is\_\-end\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_af9894b6a727c08a00d378d74657d33d4}{is\_\-call\_\-back\_\-}
+\item 
+void $\ast$ \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ac4ef839936e2c0df50e1332884ff32e2}{arg\_\-}
+\item 
+\hyperlink{classmocha_1_1_file_watcher_af774b8dd436b9f8929506466533831b9}{FileWatcher::EndCallBack} \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_aad15f2df19b37f02b4e688f057cb993a}{fn\_\-}
+\item 
+\hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e431afab5a7af053ec48673cc325d}{WatchList} \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_aa51062c0d8ee6c367c2c1372d676d8c1}{watch\_\-list\_\-}
+\item 
+int \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_ad12b5cd049def2da9eed58c9f8aad348}{fd\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a2abd26bdb30b1a22d5625705d7b421ea}{is\_\-watch\_\-}
+\item 
+\hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e577eda4e2979add6ae59a6c42c63}{EventArray} \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a7e8eab76d8ad6bcc7e44f756b0eca624}{array\_\-}
+\item 
+\hyperlink{classmocha_1_1_i_updater}{IUpdater} $\ast$ \hyperlink{classmocha_1_1_file_watcher_1_1_ptr_impl_a5a8ecef4b0e028f33cd5b2d4ba4f926d}{updater\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 46 of file file\_\-watcher-\/impl.cc.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e577eda4e2979add6ae59a6c42c63}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!EventArray@{EventArray}}
+\index{EventArray@{EventArray}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{EventArray}]{\setlength{\rightskip}{0pt plus 5cm}typedef std::vector$<${\bf Handle}$<$inotify\_\-event$>$ $>$ {\bf mocha::FileWatcher::PtrImpl::EventArray}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e577eda4e2979add6ae59a6c42c63}
+
+
+Definition at line 159 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ac8da734014593b49abf0a45f97154ac6}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!FileEntry@{FileEntry}}
+\index{FileEntry@{FileEntry}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{FileEntry}]{\setlength{\rightskip}{0pt plus 5cm}typedef std::string {\bf mocha::FileWatcher::PtrImpl::FileEntry}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ac8da734014593b49abf0a45f97154ac6}
+
+
+Definition at line 91 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a978a55e79bd47e1b1d284d95d24ee61c}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!WatchList@{WatchList}}
+\index{WatchList@{WatchList}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{WatchList}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf HashMap}$<$int,{\bf Handle}$<${\bf WatcherContainer}$>$ $>$ {\bf mocha::FileWatcher::PtrImpl::WatchList}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a978a55e79bd47e1b1d284d95d24ee61c}
+
+
+Definition at line 160 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e431afab5a7af053ec48673cc325d}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!WatchList@{WatchList}}
+\index{WatchList@{WatchList}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{WatchList}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost::unordered\_\-map$<${\bf FileEntry}, {\bf WatcherContainer}$>$ {\bf mocha::FileWatcher::PtrImpl::WatchList}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a0f2e431afab5a7af053ec48673cc325d}
+
+
+Definition at line 92 of file file\_\-watcher-\/impl.cc.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_abd9d31fe45441698d2a782ffb33e5d02}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!PtrImpl@{PtrImpl}}
+\index{PtrImpl@{PtrImpl}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{PtrImpl}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileWatcher::PtrImpl::PtrImpl (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_abd9d31fe45441698d2a782ffb33e5d02}
+
+
+Definition at line 48 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a9a34b0b1c7f148ddafd04faa3448bc3b}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!$\sim$PtrImpl@{$\sim$PtrImpl}}
+\index{$\sim$PtrImpl@{$\sim$PtrImpl}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{$\sim$PtrImpl}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileWatcher::PtrImpl::$\sim$PtrImpl (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a9a34b0b1c7f148ddafd04faa3448bc3b}
+
+
+Definition at line 49 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_abd9d31fe45441698d2a782ffb33e5d02}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!PtrImpl@{PtrImpl}}
+\index{PtrImpl@{PtrImpl}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{PtrImpl}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileWatcher::PtrImpl::PtrImpl (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_abd9d31fe45441698d2a782ffb33e5d02}
+
+
+Definition at line 100 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a9a34b0b1c7f148ddafd04faa3448bc3b}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!$\sim$PtrImpl@{$\sim$PtrImpl}}
+\index{$\sim$PtrImpl@{$\sim$PtrImpl}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{$\sim$PtrImpl}]{\setlength{\rightskip}{0pt plus 5cm}mocha::FileWatcher::PtrImpl::$\sim$PtrImpl (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a9a34b0b1c7f148ddafd04faa3448bc3b}
+
+
+Definition at line 102 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a7ab8af718b82f2544d8e5366422a05b5}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!AddToWatchList\_\-@{AddToWatchList\_\-}}
+\index{AddToWatchList\_\-@{AddToWatchList\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{AddToWatchList\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::AddToWatchList\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a7ab8af718b82f2544d8e5366422a05b5}
+
+
+Definition at line 101 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a29b1776db81f039ff3d397adb516d907}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!AddWatch@{AddWatch}}
+\index{AddWatch@{AddWatch}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{AddWatch}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::AddWatch (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a29b1776db81f039ff3d397adb516d907}
+
+
+Definition at line 55 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a29b1776db81f039ff3d397adb516d907}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!AddWatch@{AddWatch}}
+\index{AddWatch@{AddWatch}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{AddWatch}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::AddWatch (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a29b1776db81f039ff3d397adb516d907}
+
+
+Definition at line 109 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a9f3abaf80fb4e4c6a5d7f929890a472a}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!CheckEvent\_\-@{CheckEvent\_\-}}
+\index{CheckEvent\_\-@{CheckEvent\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{CheckEvent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::FileWatcher::PtrImpl::CheckEvent\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a9f3abaf80fb4e4c6a5d7f929890a472a}
+
+
+Definition at line 186 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ab68659e2a0445d58e1df7af1ed3280ca}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!End@{End}}
+\index{End@{End}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::End (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ab68659e2a0445d58e1df7af1ed3280ca}
+
+
+Definition at line 142 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ae132bbd9089fec4183743bf2f3d90113}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!End@{End}}
+\index{End@{End}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::End (
+\begin{DoxyParamCaption}
+\item[{{\bf FileWatcher::EndCallBack}}]{fn, }
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ae132bbd9089fec4183743bf2f3d90113}
+
+
+Definition at line 147 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ab68659e2a0445d58e1df7af1ed3280ca}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!End@{End}}
+\index{End@{End}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::End (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ab68659e2a0445d58e1df7af1ed3280ca}
+
+
+Definition at line 78 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ae132bbd9089fec4183743bf2f3d90113}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!End@{End}}
+\index{End@{End}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::End (
+\begin{DoxyParamCaption}
+\item[{{\bf FileWatcher::EndCallBack}}]{fn, }
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ae132bbd9089fec4183743bf2f3d90113}
+
+
+Definition at line 83 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_aa76b00b2b18690d29d62c8512936b5fc}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!ProcessEvent\_\-@{ProcessEvent\_\-}}
+\index{ProcessEvent\_\-@{ProcessEvent\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{ProcessEvent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::ProcessEvent\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_aa76b00b2b18690d29d62c8512936b5fc}
+
+
+Definition at line 225 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a719edb9752ddfdb182434ee472292892}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!ProcessInotifyEvent\_\-@{ProcessInotifyEvent\_\-}}
+\index{ProcessInotifyEvent\_\-@{ProcessInotifyEvent\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{ProcessInotifyEvent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::ProcessInotifyEvent\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a719edb9752ddfdb182434ee472292892}
+
+
+Definition at line 167 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a8f75c9f3652efde78f973f5a8d1fbfd2}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!ProcessNotification\_\-@{ProcessNotification\_\-}}
+\index{ProcessNotification\_\-@{ProcessNotification\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{ProcessNotification\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::ProcessNotification\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a8f75c9f3652efde78f973f5a8d1fbfd2}
+
+
+Definition at line 106 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ae1b45a4b82aed3c3b64c7e410032f52f}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!ReadInotifyEvents\_\-@{ReadInotifyEvents\_\-}}
+\index{ReadInotifyEvents\_\-@{ReadInotifyEvents\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{ReadInotifyEvents\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::FileWatcher::PtrImpl::ReadInotifyEvents\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ae1b45a4b82aed3c3b64c7e410032f52f}
+
+
+Definition at line 197 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ae39d4963230278c98c88f94ca5aec162}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!Regist\_\-@{Regist\_\-}}
+\index{Regist\_\-@{Regist\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{Regist\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::Regist\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ae39d4963230278c98c88f94ca5aec162}
+
+
+Definition at line 94 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a85cbc5de94605c56b740f935146c57da}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!Regist\_\-@{Regist\_\-}}
+\index{Regist\_\-@{Regist\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{Regist\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::Regist\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path, }
+\item[{{\bf IUpdater} $\ast$}]{updater, }
+\item[{int}]{type, }
+\item[{int}]{wd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a85cbc5de94605c56b740f935146c57da}
+
+
+Definition at line 162 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a61d2ff449e422799e8554fca888663e4}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!Start@{Start}}
+\index{Start@{Start}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a61d2ff449e422799e8554fca888663e4}
+
+
+Definition at line 74 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a61d2ff449e422799e8554fca888663e4}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!Start@{Start}}
+\index{Start@{Start}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a61d2ff449e422799e8554fca888663e4}
+
+
+Definition at line 154 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_adcf4783a26e4dd2ab797dbb790087012}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!Stop@{Stop}}
+\index{Stop@{Stop}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::Stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_adcf4783a26e4dd2ab797dbb790087012}
+
+
+Definition at line 138 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_adcf4783a26e4dd2ab797dbb790087012}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!Stop@{Stop}}
+\index{Stop@{Stop}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::Stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_adcf4783a26e4dd2ab797dbb790087012}
+
+
+Definition at line 70 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ae9c44a310e24ada2113d324e2fb4e9c4}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!SwitchEvents\_\-@{SwitchEvents\_\-}}
+\index{SwitchEvents\_\-@{SwitchEvents\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{SwitchEvents\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::SwitchEvents\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf inotify\_\-helper\_\-::InotifyMask}}]{mask, }
+\item[{{\bf WatcherContainer} $\ast$}]{container}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ae9c44a310e24ada2113d324e2fb4e9c4}
+
+
+Definition at line 248 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ad0aca11b5dffced71385d0b40bf4a060}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!UnWatch@{UnWatch}}
+\index{UnWatch@{UnWatch}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{UnWatch}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::UnWatch (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ad0aca11b5dffced71385d0b40bf4a060}
+
+
+Definition at line 59 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ad0aca11b5dffced71385d0b40bf4a060}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!UnWatch@{UnWatch}}
+\index{UnWatch@{UnWatch}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{UnWatch}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::UnWatch (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ad0aca11b5dffced71385d0b40bf4a060}
+
+
+Definition at line 122 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a81fd5abc62a78c114f71b4ea3271b0a3}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!UnWatch\_\-@{UnWatch\_\-}}
+\index{UnWatch\_\-@{UnWatch\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{UnWatch\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::UnWatch\_\- (
+\begin{DoxyParamCaption}
+\item[{WatchList::iterator \&}]{it}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a81fd5abc62a78c114f71b4ea3271b0a3}
+
+
+Definition at line 143 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ad5bbbb2993eb3661ec94154a4fe0a448}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!UnWatchAll@{UnWatchAll}}
+\index{UnWatchAll@{UnWatchAll}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{UnWatchAll}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::UnWatchAll (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ad5bbbb2993eb3661ec94154a4fe0a448}
+
+
+Definition at line 134 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ad5bbbb2993eb3661ec94154a4fe0a448}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!UnWatchAll@{UnWatchAll}}
+\index{UnWatchAll@{UnWatchAll}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{UnWatchAll}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::UnWatchAll (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ad5bbbb2993eb3661ec94154a4fe0a448}
+
+
+Definition at line 66 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a70d99d205c0011dababa26b69c6ca446}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!WatchFile\_\-@{WatchFile\_\-}}
+\index{WatchFile\_\-@{WatchFile\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{WatchFile\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::FileWatcher::PtrImpl::WatchFile\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a70d99d205c0011dababa26b69c6ca446}
+
+
+Definition at line 119 of file file\_\-watcher-\/impl.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ac4ef839936e2c0df50e1332884ff32e2}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!arg\_\-@{arg\_\-}}
+\index{arg\_\-@{arg\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{arg\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ {\bf mocha::FileWatcher::PtrImpl::arg\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ac4ef839936e2c0df50e1332884ff32e2}
+
+
+Definition at line 148 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a7e8eab76d8ad6bcc7e44f756b0eca624}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!array\_\-@{array\_\-}}
+\index{array\_\-@{array\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{array\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf EventArray} {\bf mocha::FileWatcher::PtrImpl::array\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a7e8eab76d8ad6bcc7e44f756b0eca624}
+
+
+Definition at line 285 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ad12b5cd049def2da9eed58c9f8aad348}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!fd\_\-@{fd\_\-}}
+\index{fd\_\-@{fd\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{fd\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::FileWatcher::PtrImpl::fd\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ad12b5cd049def2da9eed58c9f8aad348}
+
+
+Definition at line 278 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_aad15f2df19b37f02b4e688f057cb993a}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!fn\_\-@{fn\_\-}}
+\index{fn\_\-@{fn\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{fn\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileWatcher::EndCallBack} {\bf mocha::FileWatcher::PtrImpl::fn\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_aad15f2df19b37f02b4e688f057cb993a}
+
+
+Definition at line 149 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_af9894b6a727c08a00d378d74657d33d4}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!is\_\-call\_\-back\_\-@{is\_\-call\_\-back\_\-}}
+\index{is\_\-call\_\-back\_\-@{is\_\-call\_\-back\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{is\_\-call\_\-back\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::FileWatcher::PtrImpl::is\_\-call\_\-back\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_af9894b6a727c08a00d378d74657d33d4}
+
+
+Definition at line 147 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_ac2596e9026a0319cf7300584746be3aa}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!is\_\-end\_\-@{is\_\-end\_\-}}
+\index{is\_\-end\_\-@{is\_\-end\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{is\_\-end\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::FileWatcher::PtrImpl::is\_\-end\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_ac2596e9026a0319cf7300584746be3aa}
+
+
+Definition at line 146 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a268f932a057d3e6e92b0938d69bc6273}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!is\_\-stop\_\-@{is\_\-stop\_\-}}
+\index{is\_\-stop\_\-@{is\_\-stop\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{is\_\-stop\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::FileWatcher::PtrImpl::is\_\-stop\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a268f932a057d3e6e92b0938d69bc6273}
+
+
+Definition at line 145 of file file\_\-watcher-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a2abd26bdb30b1a22d5625705d7b421ea}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!is\_\-watch\_\-@{is\_\-watch\_\-}}
+\index{is\_\-watch\_\-@{is\_\-watch\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{is\_\-watch\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::FileWatcher::PtrImpl::is\_\-watch\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a2abd26bdb30b1a22d5625705d7b421ea}
+
+
+Definition at line 279 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_a5a8ecef4b0e028f33cd5b2d4ba4f926d}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!updater\_\-@{updater\_\-}}
+\index{updater\_\-@{updater\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{updater\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IUpdater}$\ast$ {\bf mocha::FileWatcher::PtrImpl::updater\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_a5a8ecef4b0e028f33cd5b2d4ba4f926d}
+
+
+Definition at line 286 of file file\_\-watcher-\/inotify-\/impl.cc.
+
+\hypertarget{classmocha_1_1_file_watcher_1_1_ptr_impl_aa51062c0d8ee6c367c2c1372d676d8c1}{
+\index{mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}!watch\_\-list\_\-@{watch\_\-list\_\-}}
+\index{watch\_\-list\_\-@{watch\_\-list\_\-}!mocha::FileWatcher::PtrImpl@{mocha::FileWatcher::PtrImpl}}
+\subsubsection[{watch\_\-list\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf WatchList} {\bf mocha::FileWatcher::PtrImpl::watch\_\-list\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_watcher_1_1_ptr_impl_aa51062c0d8ee6c367c2c1372d676d8c1}
+
+
+Definition at line 150 of file file\_\-watcher-\/impl.cc.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/file\_\-watcher/\hyperlink{file__watcher-impl_8cc}{file\_\-watcher-\/impl.cc}\item 
+Y:/mocha/src/utils/file\_\-watcher/\hyperlink{file__watcher-inotify-impl_8cc}{file\_\-watcher-\/inotify-\/impl.cc}\end{DoxyCompactItemize}

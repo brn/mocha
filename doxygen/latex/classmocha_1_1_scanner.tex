@@ -1,0 +1,209 @@
+\hypertarget{classmocha_1_1_scanner}{
+\section{mocha::Scanner Class Reference}
+\label{classmocha_1_1_scanner}\index{mocha::Scanner@{mocha::Scanner}}
+}
+
+
+{\ttfamily \#include $<$scanner.h$>$}
+
+Inheritance diagram for mocha::Scanner:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_scanner}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_scanner_1_1_internal_scanner}{InternalScanner}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scanner_af9c2d1d3d0a20cf7e98cbbe53e46ce7c}{$\sim$Scanner} ()
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_scanner_acee228f06ccd3da5a2e03d4b12adcf27}{Advance} (int index=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_scanner_a0545925230632e1fea9a9fcd5006baaa}{Undo} (int index=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_scanner_a0b016ff6aa2f7ada851208b9f447d367}{Seek} (int index)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_scanner}{Scanner} $\ast$ \hyperlink{classmocha_1_1_scanner_ae70b34c84662cad42c7fdd3fa73f2c57}{Create} (\hyperlink{classmocha_1_1_source_stream}{SourceStream} $\ast$source, \hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$reporter, const char $\ast$filename)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_scanner_a68b535f6c558d75f7816a78ac2ffa5ec}{kEmpty} = 0
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scanner_aab47365559518db8da80bbd5682274cc}{Scanner} (\hyperlink{classmocha_1_1_source_stream}{SourceStream} $\ast$source, \hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$reporter, const char $\ast$filename)
+\item 
+void \hyperlink{classmocha_1_1_scanner_af7396124d87a6b8d5ce69a849ef7c29c}{CreateTokenStream\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_scanner_1_1_internal_scanner}{InternalScanner} $>$ \hyperlink{classmocha_1_1_scanner_a2ce71c6e214bb37d67b3c8c46288b798}{scanner\_\-}
+\item 
+\hyperlink{classmocha_1_1_token_stream}{TokenStream} $\ast$ \hyperlink{classmocha_1_1_scanner_ac9dd3a3420dcc112d63220f8392a34a5}{token\_\-stream\_\-}
+\item 
+\hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$ \hyperlink{classmocha_1_1_scanner_a1c6af992cd8b73384d55de119ba3f141}{reporter\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file scanner.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_scanner_af9c2d1d3d0a20cf7e98cbbe53e46ce7c}{
+\index{mocha::Scanner@{mocha::Scanner}!$\sim$Scanner@{$\sim$Scanner}}
+\index{$\sim$Scanner@{$\sim$Scanner}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{$\sim$Scanner}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Scanner::$\sim$Scanner (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scanner_af9c2d1d3d0a20cf7e98cbbe53e46ce7c}
+
+
+Definition at line 907 of file scanner.cc.
+
+\hypertarget{classmocha_1_1_scanner_aab47365559518db8da80bbd5682274cc}{
+\index{mocha::Scanner@{mocha::Scanner}!Scanner@{Scanner}}
+\index{Scanner@{Scanner}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{Scanner}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Scanner::Scanner (
+\begin{DoxyParamCaption}
+\item[{{\bf SourceStream} $\ast$}]{source, }
+\item[{{\bf ErrorReporter} $\ast$}]{reporter, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scanner_aab47365559518db8da80bbd5682274cc}
+
+
+Definition at line 905 of file scanner.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_scanner_acee228f06ccd3da5a2e03d4b12adcf27}{
+\index{mocha::Scanner@{mocha::Scanner}!Advance@{Advance}}
+\index{Advance@{Advance}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{Advance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::Scanner::Advance (
+\begin{DoxyParamCaption}
+\item[{int}]{index = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scanner_acee228f06ccd3da5a2e03d4b12adcf27}
+
+
+Definition at line 909 of file scanner.cc.
+
+\hypertarget{classmocha_1_1_scanner_ae70b34c84662cad42c7fdd3fa73f2c57}{
+\index{mocha::Scanner@{mocha::Scanner}!Create@{Create}}
+\index{Create@{Create}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scanner} $\ast$ mocha::Scanner::Create (
+\begin{DoxyParamCaption}
+\item[{{\bf SourceStream} $\ast$}]{source, }
+\item[{{\bf ErrorReporter} $\ast$}]{reporter, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_scanner_ae70b34c84662cad42c7fdd3fa73f2c57}
+
+
+Definition at line 898 of file scanner.cc.
+
+\hypertarget{classmocha_1_1_scanner_af7396124d87a6b8d5ce69a849ef7c29c}{
+\index{mocha::Scanner@{mocha::Scanner}!CreateTokenStream\_\-@{CreateTokenStream\_\-}}
+\index{CreateTokenStream\_\-@{CreateTokenStream\_\-}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{CreateTokenStream\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Scanner::CreateTokenStream\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scanner_af7396124d87a6b8d5ce69a849ef7c29c}
+
+
+Definition at line 921 of file scanner.cc.
+
+\hypertarget{classmocha_1_1_scanner_a0b016ff6aa2f7ada851208b9f447d367}{
+\index{mocha::Scanner@{mocha::Scanner}!Seek@{Seek}}
+\index{Seek@{Seek}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{Seek}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::Scanner::Seek (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scanner_a0b016ff6aa2f7ada851208b9f447d367}
+
+
+Definition at line 917 of file scanner.cc.
+
+\hypertarget{classmocha_1_1_scanner_a0545925230632e1fea9a9fcd5006baaa}{
+\index{mocha::Scanner@{mocha::Scanner}!Undo@{Undo}}
+\index{Undo@{Undo}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{Undo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ mocha::Scanner::Undo (
+\begin{DoxyParamCaption}
+\item[{int}]{index = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_scanner_a0545925230632e1fea9a9fcd5006baaa}
+
+
+Definition at line 913 of file scanner.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_scanner_a68b535f6c558d75f7816a78ac2ffa5ec}{
+\index{mocha::Scanner@{mocha::Scanner}!kEmpty@{kEmpty}}
+\index{kEmpty@{kEmpty}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{kEmpty}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo} $\ast$ {\bf mocha::Scanner::kEmpty} = 0\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_scanner_a68b535f6c558d75f7816a78ac2ffa5ec}
+
+
+Definition at line 17 of file scanner.h.
+
+\hypertarget{classmocha_1_1_scanner_a1c6af992cd8b73384d55de119ba3f141}{
+\index{mocha::Scanner@{mocha::Scanner}!reporter\_\-@{reporter\_\-}}
+\index{reporter\_\-@{reporter\_\-}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{reporter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ErrorReporter}$\ast$ {\bf mocha::Scanner::reporter\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scanner_a1c6af992cd8b73384d55de119ba3f141}
+
+
+Definition at line 25 of file scanner.h.
+
+\hypertarget{classmocha_1_1_scanner_a2ce71c6e214bb37d67b3c8c46288b798}{
+\index{mocha::Scanner@{mocha::Scanner}!scanner\_\-@{scanner\_\-}}
+\index{scanner\_\-@{scanner\_\-}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{scanner\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf InternalScanner}$>$ {\bf mocha::Scanner::scanner\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scanner_a2ce71c6e214bb37d67b3c8c46288b798}
+
+
+Definition at line 22 of file scanner.h.
+
+\hypertarget{classmocha_1_1_scanner_ac9dd3a3420dcc112d63220f8392a34a5}{
+\index{mocha::Scanner@{mocha::Scanner}!token\_\-stream\_\-@{token\_\-stream\_\-}}
+\index{token\_\-stream\_\-@{token\_\-stream\_\-}!mocha::Scanner@{mocha::Scanner}}
+\subsubsection[{token\_\-stream\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenStream}$\ast$ {\bf mocha::Scanner::token\_\-stream\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_scanner_ac9dd3a3420dcc112d63220f8392a34a5}
+
+
+Definition at line 24 of file scanner.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/scanner/\hyperlink{scanner_8h}{scanner.h}\item 
+Y:/mocha/src/compiler/scanner/\hyperlink{scanner_8cc}{scanner.cc}\end{DoxyCompactItemize}

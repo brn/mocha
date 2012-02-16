@@ -1,0 +1,238 @@
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl}{
+\section{mocha::Setting::PtrImpl Class Reference}
+\label{classmocha_1_1_setting_1_1_ptr_impl}\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a9da7dfb33eca8d626e3e83ed7f16ea4f}{Log} (const char $\ast$str, const char $\ast$type, bool is\_\-date)
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a4f192235cec633aef48cc272a8817536}{GetTimeStr} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+time\_\-t \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a28bf43280c03b9c9dd6b56ab088f8dbd}{timer}
+\item 
+tm $\ast$ \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a222a92c2db05a720480fba0058811897}{date}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a5f948e7b0df7583a113ab5fa6c228afa}{base\_\-dir}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a5fddd4f897b994fe6a0144aa9f57c806}{xml\_\-path}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_afdf93bd92b091ae41c99a3893f53556b}{module\_\-path}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a10a54f3e368e263c56d7c804fffd110c}{runtime\_\-path}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a103e94005df3c27317024aa749bdf484}{runtime\_\-file}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a3c6deed4732e06e7e8e9e79e5a04b3ed}{log\_\-path}
+\item 
+\hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_file}{File} $>$ \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_adaa2a9b5f450b5860a9eeae593a09d26}{file\_\-handle}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const char \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_ac552226d2066caf42767a46cd55374e1}{info} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}info\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a8d10834172c72d9864d7504b61849663}{error} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}error\char`\"{} \}
+\item 
+static const char \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_aea6af2d60173b965ab3b3b05b35f8e76}{fatal} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}fatal\char`\"{} \}
+\item 
+static \hyperlink{classmocha_1_1_mutex}{Mutex} \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a1ebc25302cae41a711f6197aa09a79f9}{mutex}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a8adb95c3598b38cd0451010b7ed30e50}{SetTime\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::string \hyperlink{classmocha_1_1_setting_1_1_ptr_impl_a23c40fb9cc32d08108bff2d45f9d051c}{time\_\-str\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 17 of file setting.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a4f192235cec633aef48cc272a8817536}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!GetTimeStr@{GetTimeStr}}
+\index{GetTimeStr@{GetTimeStr}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{GetTimeStr}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ mocha::Setting::PtrImpl::GetTimeStr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a4f192235cec633aef48cc272a8817536}
+
+
+Definition at line 35 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a9da7dfb33eca8d626e3e83ed7f16ea4f}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!Log@{Log}}
+\index{Log@{Log}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{Log}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::PtrImpl::Log (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{const char $\ast$}]{type, }
+\item[{bool}]{is\_\-date}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a9da7dfb33eca8d626e3e83ed7f16ea4f}
+
+
+Definition at line 19 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a8adb95c3598b38cd0451010b7ed30e50}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!SetTime\_\-@{SetTime\_\-}}
+\index{SetTime\_\-@{SetTime\_\-}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{SetTime\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Setting::PtrImpl::SetTime\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a8adb95c3598b38cd0451010b7ed30e50}
+
+
+Definition at line 59 of file setting.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a5f948e7b0df7583a113ab5fa6c228afa}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!base\_\-dir@{base\_\-dir}}
+\index{base\_\-dir@{base\_\-dir}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{base\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::base\_\-dir}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a5f948e7b0df7583a113ab5fa6c228afa}
+
+
+Definition at line 45 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a222a92c2db05a720480fba0058811897}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!date@{date}}
+\index{date@{date}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{date}]{\setlength{\rightskip}{0pt plus 5cm}tm$\ast$ {\bf mocha::Setting::PtrImpl::date}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a222a92c2db05a720480fba0058811897}
+
+
+Definition at line 44 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a8d10834172c72d9864d7504b61849663}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!error@{error}}
+\index{error@{error}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{error}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::Setting::PtrImpl::error} = \{ \char`\"{}error\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a8d10834172c72d9864d7504b61849663}
+
+
+Definition at line 54 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_aea6af2d60173b965ab3b3b05b35f8e76}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!fatal@{fatal}}
+\index{fatal@{fatal}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{fatal}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::Setting::PtrImpl::fatal} = \{ \char`\"{}fatal\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_aea6af2d60173b965ab3b3b05b35f8e76}
+
+
+Definition at line 55 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_adaa2a9b5f450b5860a9eeae593a09d26}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!file\_\-handle@{file\_\-handle}}
+\index{file\_\-handle@{file\_\-handle}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{file\_\-handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Handle}$<${\bf File}$>$ {\bf mocha::Setting::PtrImpl::file\_\-handle}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_adaa2a9b5f450b5860a9eeae593a09d26}
+
+
+Definition at line 51 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_ac552226d2066caf42767a46cd55374e1}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!info@{info}}
+\index{info@{info}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{info}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf mocha::Setting::PtrImpl::info} = \{ \char`\"{}info\char`\"{} \}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_ac552226d2066caf42767a46cd55374e1}
+
+
+Definition at line 53 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a3c6deed4732e06e7e8e9e79e5a04b3ed}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!log\_\-path@{log\_\-path}}
+\index{log\_\-path@{log\_\-path}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{log\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::log\_\-path}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a3c6deed4732e06e7e8e9e79e5a04b3ed}
+
+
+Definition at line 50 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_afdf93bd92b091ae41c99a3893f53556b}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!module\_\-path@{module\_\-path}}
+\index{module\_\-path@{module\_\-path}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{module\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::module\_\-path}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_afdf93bd92b091ae41c99a3893f53556b}
+
+
+Definition at line 47 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a1ebc25302cae41a711f6197aa09a79f9}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!mutex@{mutex}}
+\index{mutex@{mutex}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{mutex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mutex} {\bf mocha::Setting::PtrImpl::mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a1ebc25302cae41a711f6197aa09a79f9}
+
+
+Definition at line 56 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a103e94005df3c27317024aa749bdf484}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!runtime\_\-file@{runtime\_\-file}}
+\index{runtime\_\-file@{runtime\_\-file}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{runtime\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::runtime\_\-file}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a103e94005df3c27317024aa749bdf484}
+
+
+Definition at line 49 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a10a54f3e368e263c56d7c804fffd110c}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!runtime\_\-path@{runtime\_\-path}}
+\index{runtime\_\-path@{runtime\_\-path}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{runtime\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::runtime\_\-path}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a10a54f3e368e263c56d7c804fffd110c}
+
+
+Definition at line 48 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a23c40fb9cc32d08108bff2d45f9d051c}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!time\_\-str\_\-@{time\_\-str\_\-}}
+\index{time\_\-str\_\-@{time\_\-str\_\-}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{time\_\-str\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::time\_\-str\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a23c40fb9cc32d08108bff2d45f9d051c}
+
+
+Definition at line 63 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a28bf43280c03b9c9dd6b56ab088f8dbd}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!timer@{timer}}
+\index{timer@{timer}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}time\_\-t {\bf mocha::Setting::PtrImpl::timer}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a28bf43280c03b9c9dd6b56ab088f8dbd}
+
+
+Definition at line 43 of file setting.cc.
+
+\hypertarget{classmocha_1_1_setting_1_1_ptr_impl_a5fddd4f897b994fe6a0144aa9f57c806}{
+\index{mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}!xml\_\-path@{xml\_\-path}}
+\index{xml\_\-path@{xml\_\-path}!mocha::Setting::PtrImpl@{mocha::Setting::PtrImpl}}
+\subsubsection[{xml\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Setting::PtrImpl::xml\_\-path}}}
+\label{classmocha_1_1_setting_1_1_ptr_impl_a5fddd4f897b994fe6a0144aa9f57c806}
+
+
+Definition at line 46 of file setting.cc.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/options/\hyperlink{setting_8cc}{setting.cc}\end{DoxyCompactItemize}

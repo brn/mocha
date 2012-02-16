@@ -1,0 +1,202 @@
+\hypertarget{classmocha_1_1_trait_member}{
+\section{mocha::TraitMember Class Reference}
+\label{classmocha_1_1_trait_member}\index{mocha::TraitMember@{mocha::TraitMember}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::TraitMember:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_trait_member}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40d}{TraitAttr} \{ \hyperlink{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40da030ec8908e9db3e3149097ca8b84a234}{kPublic}, 
+\hyperlink{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40da1ab6f9a89197af4bea6cb9411e2201a4}{kPrivate}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_trait_member_a173e39893ee40355712d2638342a0f2a}{TraitMember} (\hyperlink{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40d}{TraitAttr} type, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$property)
+\item 
+\hyperlink{classmocha_1_1_trait_member_a8dc158070569df9c18c6316523f0aa7d}{$\sim$TraitMember} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_trait_member_a10cb950bac544a2fae3a845ec37e56c6}{GetProperty} ()
+\item 
+\hyperlink{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40d}{TraitAttr} \hyperlink{classmocha_1_1_trait_member_a7d2059ade5e23676a134e8a860b04e43}{GetAttr} ()
+\item 
+\hyperlink{classmocha_1_1_trait_member}{TraitMember} $\ast$ \hyperlink{classmocha_1_1_trait_member_a08a942200584355364e078d79d66dde6}{CastToTraitMember} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_trait_member_ad008bf35f880ed657bbb796fe755077b}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40d}{TraitAttr} \hyperlink{classmocha_1_1_trait_member_a972c5f4718c2aa74ae626724521afd3c}{type\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_trait_member_a7a7c0a4c2720e5cfb729bfa734bfb04e}{property\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1048 of file ast.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40d}{
+\index{mocha::TraitMember@{mocha::TraitMember}!TraitAttr@{TraitAttr}}
+\index{TraitAttr@{TraitAttr}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{TraitAttr}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mocha::TraitMember::TraitAttr}}}
+\label{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40d}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kPublic@{kPublic}!mocha::TraitMember@{mocha::TraitMember}}\index{mocha::TraitMember@{mocha::TraitMember}!kPublic@{kPublic}}\item[{\em 
+\hypertarget{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40da030ec8908e9db3e3149097ca8b84a234}{
+kPublic}
+\label{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40da030ec8908e9db3e3149097ca8b84a234}
+}]\index{kPrivate@{kPrivate}!mocha::TraitMember@{mocha::TraitMember}}\index{mocha::TraitMember@{mocha::TraitMember}!kPrivate@{kPrivate}}\item[{\em 
+\hypertarget{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40da1ab6f9a89197af4bea6cb9411e2201a4}{
+kPrivate}
+\label{classmocha_1_1_trait_member_a3186269fa0b78f72814a117018a7b40da1ab6f9a89197af4bea6cb9411e2201a4}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 1050 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_trait_member_a173e39893ee40355712d2638342a0f2a}{
+\index{mocha::TraitMember@{mocha::TraitMember}!TraitMember@{TraitMember}}
+\index{TraitMember@{TraitMember}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{TraitMember}]{\setlength{\rightskip}{0pt plus 5cm}mocha::TraitMember::TraitMember (
+\begin{DoxyParamCaption}
+\item[{{\bf TraitAttr}}]{type, }
+\item[{{\bf AstNode} $\ast$}]{property}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a173e39893ee40355712d2638342a0f2a}
+
+
+Definition at line 1054 of file ast.h.
+
+\hypertarget{classmocha_1_1_trait_member_a8dc158070569df9c18c6316523f0aa7d}{
+\index{mocha::TraitMember@{mocha::TraitMember}!$\sim$TraitMember@{$\sim$TraitMember}}
+\index{$\sim$TraitMember@{$\sim$TraitMember}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{$\sim$TraitMember}]{\setlength{\rightskip}{0pt plus 5cm}mocha::TraitMember::$\sim$TraitMember (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a8dc158070569df9c18c6316523f0aa7d}
+
+
+Definition at line 1056 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_trait_member_a08a942200584355364e078d79d66dde6}{
+\index{mocha::TraitMember@{mocha::TraitMember}!CastToTraitMember@{CastToTraitMember}}
+\index{CastToTraitMember@{CastToTraitMember}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{CastToTraitMember}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TraitMember}$\ast$ mocha::TraitMember::CastToTraitMember (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a08a942200584355364e078d79d66dde6}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a0bb72b025f6ef154427a29de109a5af5}{mocha::Expression}.
+
+
+
+Definition at line 1059 of file ast.h.
+
+\hypertarget{classmocha_1_1_trait_member_a7d2059ade5e23676a134e8a860b04e43}{
+\index{mocha::TraitMember@{mocha::TraitMember}!GetAttr@{GetAttr}}
+\index{GetAttr@{GetAttr}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{GetAttr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TraitAttr} mocha::TraitMember::GetAttr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a7d2059ade5e23676a134e8a860b04e43}
+
+
+Definition at line 1058 of file ast.h.
+
+\hypertarget{classmocha_1_1_trait_member_a10cb950bac544a2fae3a845ec37e56c6}{
+\index{mocha::TraitMember@{mocha::TraitMember}!GetProperty@{GetProperty}}
+\index{GetProperty@{GetProperty}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{GetProperty}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::TraitMember::GetProperty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a10cb950bac544a2fae3a845ec37e56c6}
+
+
+Definition at line 1057 of file ast.h.
+
+\hypertarget{classmocha_1_1_trait_member_ad008bf35f880ed657bbb796fe755077b}{
+\index{mocha::TraitMember@{mocha::TraitMember}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::TraitMember::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_trait_member_ad008bf35f880ed657bbb796fe755077b}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1061 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_trait_member_a7a7c0a4c2720e5cfb729bfa734bfb04e}{
+\index{mocha::TraitMember@{mocha::TraitMember}!property\_\-@{property\_\-}}
+\index{property\_\-@{property\_\-}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{property\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::TraitMember::property\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a7a7c0a4c2720e5cfb729bfa734bfb04e}
+
+
+Definition at line 1063 of file ast.h.
+
+\hypertarget{classmocha_1_1_trait_member_a972c5f4718c2aa74ae626724521afd3c}{
+\index{mocha::TraitMember@{mocha::TraitMember}!type\_\-@{type\_\-}}
+\index{type\_\-@{type\_\-}!mocha::TraitMember@{mocha::TraitMember}}
+\subsubsection[{type\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TraitAttr} {\bf mocha::TraitMember::type\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_trait_member_a972c5f4718c2aa74ae626724521afd3c}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_a59e9238b2db27f1e5ef1ccf81c93cd16}{mocha::AstNode}.
+
+
+
+Definition at line 1062 of file ast.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\end{DoxyCompactItemize}

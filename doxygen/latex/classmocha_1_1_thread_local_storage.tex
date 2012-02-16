@@ -1,0 +1,65 @@
+\hypertarget{classmocha_1_1_thread_local_storage}{
+\section{mocha::ThreadLocalStorage Class Reference}
+\label{classmocha_1_1_thread_local_storage}\index{mocha::ThreadLocalStorage@{mocha::ThreadLocalStorage}}
+}
+
+
+{\ttfamily \#include $<$thread.h$>$}
+
+Inheritance diagram for mocha::ThreadLocalStorage:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_thread_local_storage}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{classmocha_1_1_thread_local_storage_a671fe4ef2c3efc3254a29fe1024ede88}{Get} (\hyperlink{classmocha_1_1_thread_local_storage_key}{ThreadLocalStorageKey} $\ast$key)
+\item 
+static void \hyperlink{classmocha_1_1_thread_local_storage_ab8b9d5b54f9f467809c2f99813277c7c}{Set} (\hyperlink{classmocha_1_1_thread_local_storage_key}{ThreadLocalStorageKey} $\ast$key, void $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 50 of file thread.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_thread_local_storage_a671fe4ef2c3efc3254a29fe1024ede88}{
+\index{mocha::ThreadLocalStorage@{mocha::ThreadLocalStorage}!Get@{Get}}
+\index{Get@{Get}!mocha::ThreadLocalStorage@{mocha::ThreadLocalStorage}}
+\subsubsection[{Get}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ mocha::ThreadLocalStorage::Get (
+\begin{DoxyParamCaption}
+\item[{{\bf ThreadLocalStorageKey} $\ast$}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_thread_local_storage_a671fe4ef2c3efc3254a29fe1024ede88}
+
+
+Definition at line 117 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_local_storage_ab8b9d5b54f9f467809c2f99813277c7c}{
+\index{mocha::ThreadLocalStorage@{mocha::ThreadLocalStorage}!Set@{Set}}
+\index{Set@{Set}!mocha::ThreadLocalStorage@{mocha::ThreadLocalStorage}}
+\subsubsection[{Set}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ThreadLocalStorage::Set (
+\begin{DoxyParamCaption}
+\item[{{\bf ThreadLocalStorageKey} $\ast$}]{key, }
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_thread_local_storage_ab8b9d5b54f9f467809c2f99813277c7c}
+
+
+Definition at line 121 of file thread-\/pthread-\/impl.cc.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread_8h}{thread.h}\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread-pthread-impl_8cc}{thread-\/pthread-\/impl.cc}\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread-win-impl_8cc}{thread-\/win-\/impl.cc}\end{DoxyCompactItemize}

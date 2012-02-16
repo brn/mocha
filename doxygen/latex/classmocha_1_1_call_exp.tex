@@ -1,0 +1,464 @@
+\hypertarget{classmocha_1_1_call_exp}{
+\section{mocha::CallExp Class Reference}
+\label{classmocha_1_1_call_exp}\index{mocha::CallExp@{mocha::CallExp}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::CallExp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_call_exp}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \par
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0faf4f3592ae2b4acb488b1a48d94980fba}{kNormalAccessor}, 
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa8b5de76a6c176c0798c45c25d9a56d33}{kNormal}, 
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0faa9ec68ed8e03dd781222f33599dfa951}{kBracket}, 
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa05f6f2ce828edec5fed91fd4f8b1525c}{kDot}, 
+\par
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa0f9895a9a11192c7a7318a6ab00cd21c}{kNew}, 
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fad834166a64cdb302c9f2eb02065414db}{kPrivate}, 
+\hyperlink{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fafc365536efc96bda13bd564f8dfee7c6}{kExtend}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_call_exp_ae4e9aaf5488ab763c4e64bac136650ff}{CallExp} (int type)
+\item 
+\hyperlink{classmocha_1_1_call_exp_a920df283bf31c2a08210ec512a72f5cc}{$\sim$CallExp} ()
+\item 
+void \hyperlink{classmocha_1_1_call_exp_ac907919216fc8cf3c4e7e0020e55ff40}{Callable} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_call_exp_ad30716599e9bf441d004f5d97e0e83f4}{Callable} ()
+\item 
+void \hyperlink{classmocha_1_1_call_exp_af575c9b1d5cd088dfbc403702470cd4f}{Args} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_call_exp_a10f4f286f5a1d33addd92012214f190b}{Args} ()
+\item 
+int \hyperlink{classmocha_1_1_call_exp_a8c6e3bec8b4d51e91782d53c58ec7980}{CallType} ()
+\item 
+void \hyperlink{classmocha_1_1_call_exp_ac59d3b40e2df09291a5902c4ebb4dafa}{CallType} (int type)
+\item 
+void \hyperlink{classmocha_1_1_call_exp_a04b99a2c8ba39a16689b2d46f30961cf}{Depth} (int depth)
+\item 
+int \hyperlink{classmocha_1_1_call_exp_a1ba1cf633037443e52c2b0dc5f7da503}{Depth} ()
+\item 
+void \hyperlink{classmocha_1_1_call_exp_affa33d340ecb3322fb01d601e3bdc660}{Rest} ()
+\item 
+bool \hyperlink{classmocha_1_1_call_exp_aa85eec3d1b9f2422f3566905189a1036}{IsRest} () const 
+\item 
+\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_call_exp_a60e1a2f17381dd35093e75786b1c0c6a}{CastToCallExp} ()
+\item 
+void \hyperlink{classmocha_1_1_call_exp_ac02db8888302cc96d46c11798642828d}{Call} ()
+\item 
+bool \hyperlink{classmocha_1_1_call_exp_a2b06a60d47dce8f02dbe17b716e0cbde}{IsCall} ()
+\item 
+void \hyperlink{classmocha_1_1_call_exp_a199afd366c874d07447b65b062ebe462}{ReplaceChild} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$old\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$new\_\-node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_call_exp_a1a423dfd91b217f3a89a6ebf4f1de495}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_call_exp_a6f03e2ebd560f6cc4bd9ce46247ae2d9}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_call_exp_adf02829fd9136829d210bd49d5997862}{call\_\-type\_\-}
+\item 
+int \hyperlink{classmocha_1_1_call_exp_a1437212b3b447a50e5fbf50512058d79}{depth\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_call_exp_a30bdde50d77e5a8da0f8e61897903c0a}{is\_\-call\_\-}
+\item 
+bool \hyperlink{classmocha_1_1_call_exp_ab345a4e9c56c57a1a5f97b60f17d7c5b}{is\_\-rest\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_call_exp_a3e15d3b3c94bdf3f046d45d3b605797a}{callable\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_call_exp_aff9ea512c5d25426b28c7801aba758c6}{args\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1305 of file ast.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0f}{
+\subsubsection[{"@7}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0f}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kNormalAccessor@{kNormalAccessor}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kNormalAccessor@{kNormalAccessor}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0faf4f3592ae2b4acb488b1a48d94980fba}{
+kNormalAccessor}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0faf4f3592ae2b4acb488b1a48d94980fba}
+}]\index{kNormal@{kNormal}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kNormal@{kNormal}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa8b5de76a6c176c0798c45c25d9a56d33}{
+kNormal}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa8b5de76a6c176c0798c45c25d9a56d33}
+}]\index{kBracket@{kBracket}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kBracket@{kBracket}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0faa9ec68ed8e03dd781222f33599dfa951}{
+kBracket}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0faa9ec68ed8e03dd781222f33599dfa951}
+}]\index{kDot@{kDot}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kDot@{kDot}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa05f6f2ce828edec5fed91fd4f8b1525c}{
+kDot}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa05f6f2ce828edec5fed91fd4f8b1525c}
+}]\index{kNew@{kNew}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kNew@{kNew}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa0f9895a9a11192c7a7318a6ab00cd21c}{
+kNew}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fa0f9895a9a11192c7a7318a6ab00cd21c}
+}]\index{kPrivate@{kPrivate}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kPrivate@{kPrivate}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fad834166a64cdb302c9f2eb02065414db}{
+kPrivate}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fad834166a64cdb302c9f2eb02065414db}
+}]\index{kExtend@{kExtend}!mocha::CallExp@{mocha::CallExp}}\index{mocha::CallExp@{mocha::CallExp}!kExtend@{kExtend}}\item[{\em 
+\hypertarget{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fafc365536efc96bda13bd564f8dfee7c6}{
+kExtend}
+\label{classmocha_1_1_call_exp_a8a305224d9e8783e5d52db570638da0fafc365536efc96bda13bd564f8dfee7c6}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 1307 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_call_exp_ae4e9aaf5488ab763c4e64bac136650ff}{
+\index{mocha::CallExp@{mocha::CallExp}!CallExp@{CallExp}}
+\index{CallExp@{CallExp}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{CallExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CallExp::CallExp (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_ae4e9aaf5488ab763c4e64bac136650ff}
+
+
+Definition at line 1316 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a920df283bf31c2a08210ec512a72f5cc}{
+\index{mocha::CallExp@{mocha::CallExp}!$\sim$CallExp@{$\sim$CallExp}}
+\index{$\sim$CallExp@{$\sim$CallExp}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{$\sim$CallExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CallExp::$\sim$CallExp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a920df283bf31c2a08210ec512a72f5cc}
+
+
+Definition at line 1318 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_call_exp_af575c9b1d5cd088dfbc403702470cd4f}{
+\index{mocha::CallExp@{mocha::CallExp}!Args@{Args}}
+\index{Args@{Args}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Args}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::Args (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_af575c9b1d5cd088dfbc403702470cd4f}
+
+
+Definition at line 1321 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a10f4f286f5a1d33addd92012214f190b}{
+\index{mocha::CallExp@{mocha::CallExp}!Args@{Args}}
+\index{Args@{Args}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Args}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::CallExp::Args (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a10f4f286f5a1d33addd92012214f190b}
+
+
+Definition at line 1322 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_ac02db8888302cc96d46c11798642828d}{
+\index{mocha::CallExp@{mocha::CallExp}!Call@{Call}}
+\index{Call@{Call}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Call}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::Call (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_ac02db8888302cc96d46c11798642828d}
+
+
+Definition at line 1330 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_ad30716599e9bf441d004f5d97e0e83f4}{
+\index{mocha::CallExp@{mocha::CallExp}!Callable@{Callable}}
+\index{Callable@{Callable}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Callable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::CallExp::Callable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_ad30716599e9bf441d004f5d97e0e83f4}
+
+
+Definition at line 1320 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_ac907919216fc8cf3c4e7e0020e55ff40}{
+\index{mocha::CallExp@{mocha::CallExp}!Callable@{Callable}}
+\index{Callable@{Callable}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Callable}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::Callable (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_ac907919216fc8cf3c4e7e0020e55ff40}
+
+
+Definition at line 1319 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a8c6e3bec8b4d51e91782d53c58ec7980}{
+\index{mocha::CallExp@{mocha::CallExp}!CallType@{CallType}}
+\index{CallType@{CallType}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{CallType}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::CallExp::CallType (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a8c6e3bec8b4d51e91782d53c58ec7980}
+
+
+Definition at line 1323 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_ac59d3b40e2df09291a5902c4ebb4dafa}{
+\index{mocha::CallExp@{mocha::CallExp}!CallType@{CallType}}
+\index{CallType@{CallType}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{CallType}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::CallType (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_ac59d3b40e2df09291a5902c4ebb4dafa}
+
+
+Definition at line 1324 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a60e1a2f17381dd35093e75786b1c0c6a}{
+\index{mocha::CallExp@{mocha::CallExp}!CastToCallExp@{CastToCallExp}}
+\index{CastToCallExp@{CastToCallExp}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{CastToCallExp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp}$\ast$ mocha::CallExp::CastToCallExp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a60e1a2f17381dd35093e75786b1c0c6a}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a9bb8722ec476068afb58505699c7b2ff}{mocha::Expression}.
+
+
+
+Definition at line 1329 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a1a423dfd91b217f3a89a6ebf4f1de495}{
+\index{mocha::CallExp@{mocha::CallExp}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::CallExp::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a1a423dfd91b217f3a89a6ebf4f1de495}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac1fb936e2bf0fdd6e7667275d3723ca5}{mocha::Expression}.
+
+
+
+Definition at line 453 of file ast.cc.
+
+\hypertarget{classmocha_1_1_call_exp_a1ba1cf633037443e52c2b0dc5f7da503}{
+\index{mocha::CallExp@{mocha::CallExp}!Depth@{Depth}}
+\index{Depth@{Depth}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Depth}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::CallExp::Depth (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a1ba1cf633037443e52c2b0dc5f7da503}
+
+
+Definition at line 1326 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a04b99a2c8ba39a16689b2d46f30961cf}{
+\index{mocha::CallExp@{mocha::CallExp}!Depth@{Depth}}
+\index{Depth@{Depth}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Depth}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::Depth (
+\begin{DoxyParamCaption}
+\item[{int}]{depth}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a04b99a2c8ba39a16689b2d46f30961cf}
+
+
+Definition at line 1325 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a2b06a60d47dce8f02dbe17b716e0cbde}{
+\index{mocha::CallExp@{mocha::CallExp}!IsCall@{IsCall}}
+\index{IsCall@{IsCall}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{IsCall}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::CallExp::IsCall (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a2b06a60d47dce8f02dbe17b716e0cbde}
+
+
+Definition at line 1331 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_aa85eec3d1b9f2422f3566905189a1036}{
+\index{mocha::CallExp@{mocha::CallExp}!IsRest@{IsRest}}
+\index{IsRest@{IsRest}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{IsRest}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::CallExp::IsRest (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_aa85eec3d1b9f2422f3566905189a1036}
+
+
+Definition at line 1328 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a6f03e2ebd560f6cc4bd9ce46247ae2d9}{
+\index{mocha::CallExp@{mocha::CallExp}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a6f03e2ebd560f6cc4bd9ce46247ae2d9}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1341 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a199afd366c874d07447b65b062ebe462}{
+\index{mocha::CallExp@{mocha::CallExp}!ReplaceChild@{ReplaceChild}}
+\index{ReplaceChild@{ReplaceChild}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{ReplaceChild}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::ReplaceChild (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{old\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{new\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a199afd366c874d07447b65b062ebe462}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & Replace the old\_\-node with new\_\-node in childnodes. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_aa40396040f75fb59e320d81c3fd328c8}{mocha::AstNode}.
+
+
+
+Definition at line 437 of file ast.cc.
+
+\hypertarget{classmocha_1_1_call_exp_affa33d340ecb3322fb01d601e3bdc660}{
+\index{mocha::CallExp@{mocha::CallExp}!Rest@{Rest}}
+\index{Rest@{Rest}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{Rest}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CallExp::Rest (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_call_exp_affa33d340ecb3322fb01d601e3bdc660}
+
+
+Definition at line 1327 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_call_exp_aff9ea512c5d25426b28c7801aba758c6}{
+\index{mocha::CallExp@{mocha::CallExp}!args\_\-@{args\_\-}}
+\index{args\_\-@{args\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{args\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::CallExp::args\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_call_exp_aff9ea512c5d25426b28c7801aba758c6}
+
+
+Definition at line 1340 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_adf02829fd9136829d210bd49d5997862}{
+\index{mocha::CallExp@{mocha::CallExp}!call\_\-type\_\-@{call\_\-type\_\-}}
+\index{call\_\-type\_\-@{call\_\-type\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{call\_\-type\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::CallExp::call\_\-type\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_call_exp_adf02829fd9136829d210bd49d5997862}
+
+
+Definition at line 1333 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a3e15d3b3c94bdf3f046d45d3b605797a}{
+\index{mocha::CallExp@{mocha::CallExp}!callable\_\-@{callable\_\-}}
+\index{callable\_\-@{callable\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{callable\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::CallExp::callable\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a3e15d3b3c94bdf3f046d45d3b605797a}
+
+
+Definition at line 1339 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a1437212b3b447a50e5fbf50512058d79}{
+\index{mocha::CallExp@{mocha::CallExp}!depth\_\-@{depth\_\-}}
+\index{depth\_\-@{depth\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{depth\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::CallExp::depth\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a1437212b3b447a50e5fbf50512058d79}
+
+
+Definition at line 1336 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_a30bdde50d77e5a8da0f8e61897903c0a}{
+\index{mocha::CallExp@{mocha::CallExp}!is\_\-call\_\-@{is\_\-call\_\-}}
+\index{is\_\-call\_\-@{is\_\-call\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{is\_\-call\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::CallExp::is\_\-call\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_call_exp_a30bdde50d77e5a8da0f8e61897903c0a}
+
+
+Definition at line 1337 of file ast.h.
+
+\hypertarget{classmocha_1_1_call_exp_ab345a4e9c56c57a1a5f97b60f17d7c5b}{
+\index{mocha::CallExp@{mocha::CallExp}!is\_\-rest\_\-@{is\_\-rest\_\-}}
+\index{is\_\-rest\_\-@{is\_\-rest\_\-}!mocha::CallExp@{mocha::CallExp}}
+\subsubsection[{is\_\-rest\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::CallExp::is\_\-rest\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_call_exp_ab345a4e9c56c57a1a5f97b60f17d7c5b}
+
+
+Definition at line 1338 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

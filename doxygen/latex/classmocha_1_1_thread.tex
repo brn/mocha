@@ -1,0 +1,209 @@
+\hypertarget{classmocha_1_1_thread}{
+\section{mocha::Thread Class Reference}
+\label{classmocha_1_1_thread}\index{mocha::Thread@{mocha::Thread}}
+}
+
+
+{\ttfamily \#include $<$thread.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_thread_1_1_ptr_impl}{PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef void $\ast$($\ast$ \hyperlink{classmocha_1_1_thread_a916d7338f2a6d6ae046f89c9d46b0afa}{pThreadStartFunc} )(void $\ast$param)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_thread_a9ea8ef7102da8ce33491efec7b9c1e68}{Thread} ()
+\item 
+\hyperlink{classmocha_1_1_thread_a52b752dec303d5fedac65897a19bfca9}{$\sim$Thread} ()
+\item 
+bool \hyperlink{classmocha_1_1_thread_a4a21be27c5ff516fa3ca3c4f4a898e98}{Create} (\hyperlink{classmocha_1_1_thread_a916d7338f2a6d6ae046f89c9d46b0afa}{pThreadStartFunc} fn, void $\ast$param)
+\item 
+int \hyperlink{classmocha_1_1_thread_a8717524989bdad01ab8728de0161e6be}{Detach} ()
+\item 
+void \hyperlink{classmocha_1_1_thread_a778abf830747742fcc27f7b60c6b7451}{Cancel} ()
+\item 
+bool \hyperlink{classmocha_1_1_thread_ab44e0a91ed358da7f73d1b210ca2f081}{Join} ()
+\item 
+bool \hyperlink{classmocha_1_1_thread_a85939c313e4ea7bef6af778ecd4f1129}{IsJoinable} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{namespacemocha_a9fcf48a10671a66cd922f7e21d6efb6b}{ThreadId} \hyperlink{classmocha_1_1_thread_abc15368799ec10b5a8e52fb06bb0358b}{GetThreadId} ()
+\item 
+static void \hyperlink{classmocha_1_1_thread_aac480a3452e0cd2a6c2c94825e66178c}{Exit} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_thread_1_1_ptr_impl}{PtrImpl} $>$ \hyperlink{classmocha_1_1_thread_a84ed7dce54ad56eaeb4165cd2d5a01d7}{implementation\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 13 of file thread.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_thread_a916d7338f2a6d6ae046f89c9d46b0afa}{
+\index{mocha::Thread@{mocha::Thread}!pThreadStartFunc@{pThreadStartFunc}}
+\index{pThreadStartFunc@{pThreadStartFunc}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{pThreadStartFunc}]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$($\ast$ {\bf mocha::Thread::pThreadStartFunc})(void $\ast$param)}}
+\label{classmocha_1_1_thread_a916d7338f2a6d6ae046f89c9d46b0afa}
+
+
+Definition at line 15 of file thread.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_thread_a9ea8ef7102da8ce33491efec7b9c1e68}{
+\index{mocha::Thread@{mocha::Thread}!Thread@{Thread}}
+\index{Thread@{Thread}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{Thread}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Thread::Thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_a9ea8ef7102da8ce33491efec7b9c1e68}
+
+
+Definition at line 19 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_a52b752dec303d5fedac65897a19bfca9}{
+\index{mocha::Thread@{mocha::Thread}!$\sim$Thread@{$\sim$Thread}}
+\index{$\sim$Thread@{$\sim$Thread}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{$\sim$Thread}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Thread::$\sim$Thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_a52b752dec303d5fedac65897a19bfca9}
+
+
+Definition at line 25 of file thread-\/pthread-\/impl.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_thread_a778abf830747742fcc27f7b60c6b7451}{
+\index{mocha::Thread@{mocha::Thread}!Cancel@{Cancel}}
+\index{Cancel@{Cancel}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{Cancel}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Thread::Cancel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_a778abf830747742fcc27f7b60c6b7451}
+
+
+Definition at line 39 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_a4a21be27c5ff516fa3ca3c4f4a898e98}{
+\index{mocha::Thread@{mocha::Thread}!Create@{Create}}
+\index{Create@{Create}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{Create}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Thread::Create (
+\begin{DoxyParamCaption}
+\item[{{\bf pThreadStartFunc}}]{fn, }
+\item[{void $\ast$}]{param}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_a4a21be27c5ff516fa3ca3c4f4a898e98}
+
+
+Definition at line 27 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_a8717524989bdad01ab8728de0161e6be}{
+\index{mocha::Thread@{mocha::Thread}!Detach@{Detach}}
+\index{Detach@{Detach}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{Detach}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::Thread::Detach (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_a8717524989bdad01ab8728de0161e6be}
+
+
+Definition at line 31 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_aac480a3452e0cd2a6c2c94825e66178c}{
+\index{mocha::Thread@{mocha::Thread}!Exit@{Exit}}
+\index{Exit@{Exit}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{Exit}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Thread::Exit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_thread_aac480a3452e0cd2a6c2c94825e66178c}
+
+
+Definition at line 35 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_abc15368799ec10b5a8e52fb06bb0358b}{
+\index{mocha::Thread@{mocha::Thread}!GetThreadId@{GetThreadId}}
+\index{GetThreadId@{GetThreadId}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{GetThreadId}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ThreadId} mocha::Thread::GetThreadId (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_thread_abc15368799ec10b5a8e52fb06bb0358b}
+
+
+Definition at line 55 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_a85939c313e4ea7bef6af778ecd4f1129}{
+\index{mocha::Thread@{mocha::Thread}!IsJoinable@{IsJoinable}}
+\index{IsJoinable@{IsJoinable}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{IsJoinable}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Thread::IsJoinable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_a85939c313e4ea7bef6af778ecd4f1129}
+
+
+Definition at line 47 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_ab44e0a91ed358da7f73d1b210ca2f081}{
+\index{mocha::Thread@{mocha::Thread}!Join@{Join}}
+\index{Join@{Join}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{Join}]{\setlength{\rightskip}{0pt plus 5cm}bool mocha::Thread::Join (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_ab44e0a91ed358da7f73d1b210ca2f081}
+
+
+Definition at line 43 of file thread-\/pthread-\/impl.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_thread_a84ed7dce54ad56eaeb4165cd2d5a01d7}{
+\index{mocha::Thread@{mocha::Thread}!implementation\_\-@{implementation\_\-}}
+\index{implementation\_\-@{implementation\_\-}!mocha::Thread@{mocha::Thread}}
+\subsubsection[{implementation\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf PtrImpl}$>$ {\bf mocha::Thread::implementation\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_thread_a84ed7dce54ad56eaeb4165cd2d5a01d7}
+
+
+Definition at line 26 of file thread.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread_8h}{thread.h}\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread-pthread-impl_8cc}{thread-\/pthread-\/impl.cc}\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread-win-impl_8cc}{thread-\/win-\/impl.cc}\end{DoxyCompactItemize}

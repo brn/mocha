@@ -16,7 +16,6 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
       ValueNode* value = item->CastToValue();
       if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
         value->Node()->Accept( visitor );
-        printf( "type %s\n" ,value->Node()->CastToValue()->Symbol()->GetToken() );
         value->ValueType( ValueNode::kVariable );
         value->Symbol( value->Node()->CastToValue()->Symbol() );
         AstNode* initialiser = item->FirstChild();
@@ -28,7 +27,6 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
           fn->SetVariable( value );
         }
       } else {
-        printf( "node type %d\n" , item->NodeType() );
         if ( !item->IsEmpty() ) {
           ProcessVarInitialiser( item->CastToValue() , info );
         }

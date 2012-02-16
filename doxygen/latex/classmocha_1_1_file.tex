@@ -1,0 +1,384 @@
+\hypertarget{classmocha_1_1_file}{
+\section{mocha::File Class Reference}
+\label{classmocha_1_1_file}\index{mocha::File@{mocha::File}}
+}
+
+
+{\ttfamily \#include $<$file\_\-io.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6a}{DateType} \{ \hyperlink{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6aae03a7ea608ce891c3b92ee0716ed844a}{kUpdate}, 
+\hyperlink{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6aace95f694456c939dc96b07d816b6dfb7}{kCreate}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_file_ae039af5807fc385f41b60644725d15d0}{File} ()
+\item 
+\hyperlink{classmocha_1_1_file_abd7ef89b6d9000d2ff75ef78965c5ab6}{File} (int \hyperlink{classmocha_1_1_file_ac34e63054b7ff96513b163692909bc06}{fd}, const char $\ast$path, unsigned int \hyperlink{classmocha_1_1_file_aedc322e34cdfe5248644cf425b165ae7}{openType}, \hyperlink{classmocha_1_1_stat}{Stat} $\ast$\hyperlink{classmocha_1_1_file_a1af3675df21335d14aefa9d775c808e2}{fstat}, bool isNeedLock)
+\item 
+\hyperlink{classmocha_1_1_file_a59bf1e7bb0c6b8dd83dccef6b942a0f9}{File} (const \hyperlink{classmocha_1_1_file}{File} \&file)
+\item 
+\hyperlink{classmocha_1_1_file_ac704ebdf5f57d7a1c5ddf409d797fb69}{$\sim$File} ()
+\item 
+\hyperlink{classmocha_1_1_file}{File} \& \hyperlink{classmocha_1_1_file_a8160d4f295558728cc217d4740cbd01e}{operator=} (const \hyperlink{classmocha_1_1_file}{File} \&file)
+\item 
+void \hyperlink{classmocha_1_1_file_a7ce241fcabbbbed256d1d2beb5de300f}{Close} ()
+\item 
+\hyperlink{classmocha_1_1_allocator_handle}{CStrHandle} \hyperlink{classmocha_1_1_file_a38e9611c580c29cef7d992e9093847ee}{GetFileContents} ()
+\item 
+void \hyperlink{classmocha_1_1_file_a544e01571f2abe1a85535af34bff010e}{GetFileContents} (std::string \&str)
+\item 
+int \hyperlink{classmocha_1_1_file_afe41d2812a4c6c47f8f90c3a3a7b8b38}{Write} (const char $\ast$buf)
+\item 
+int \hyperlink{classmocha_1_1_file_ad399ddacdbe03508f436d212a0068b2e}{ReadSync} (char $\ast$buf, size\_\-t size)
+\item 
+bool \hyperlink{classmocha_1_1_file_af32f10e682a473e2d1f26b223f84092a}{IsSuccess} ()
+\item 
+\hyperlink{classmocha_1_1_array_handle}{StrHandle} \hyperlink{classmocha_1_1_file_a90999c2a1d0bf842f46daed77d9e20a7}{GetDate} (\hyperlink{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6a}{DateType} type=kUpdate)
+\item 
+long int \hyperlink{classmocha_1_1_file_a4a951d40672719f17aa9d779f51b37ba}{GetSize} ()
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_file_a824c8f6dfaec9e9b7639973995edf7f5}{GetFileName} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{classmocha_1_1_file_ac0e5cc0f09384b1298243ac5f9dd68a4}{Allocate} (size\_\-t size)
+\item 
+char $\ast$ \hyperlink{classmocha_1_1_file_a64bbdac45b1e87ef4087d1b55e717fc0}{Reallocate} (char $\ast$buffer, size\_\-t size)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_file_ac34e63054b7ff96513b163692909bc06}{fd}
+\item 
+\hyperlink{classmocha_1_1_stat}{Stat} $\ast$ \hyperlink{classmocha_1_1_file_a1af3675df21335d14aefa9d775c808e2}{fstat}
+\item 
+bool \hyperlink{classmocha_1_1_file_a9c49e57fb0a425d80226ea3962f7f1ad}{isLocked}
+\item 
+bool \hyperlink{classmocha_1_1_file_a3a79db70f833a45ee94ea3f35ce270b8}{opened}
+\item 
+unsigned int \hyperlink{classmocha_1_1_file_aedc322e34cdfe5248644cf425b165ae7}{openType}
+\item 
+std::string \hyperlink{classmocha_1_1_file_ab9331e1a837f5d7b73925b9c836bc754}{path\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 19 of file file\_\-io.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6a}{
+\index{mocha::File@{mocha::File}!DateType@{DateType}}
+\index{DateType@{DateType}!mocha::File@{mocha::File}}
+\subsubsection[{DateType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mocha::File::DateType}}}
+\label{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6a}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kUpdate@{kUpdate}!mocha::File@{mocha::File}}\index{mocha::File@{mocha::File}!kUpdate@{kUpdate}}\item[{\em 
+\hypertarget{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6aae03a7ea608ce891c3b92ee0716ed844a}{
+kUpdate}
+\label{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6aae03a7ea608ce891c3b92ee0716ed844a}
+}]\index{kCreate@{kCreate}!mocha::File@{mocha::File}}\index{mocha::File@{mocha::File}!kCreate@{kCreate}}\item[{\em 
+\hypertarget{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6aace95f694456c939dc96b07d816b6dfb7}{
+kCreate}
+\label{classmocha_1_1_file_a86110d8e8c2dfa58f84ae6617aa1fb6aace95f694456c939dc96b07d816b6dfb7}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 36 of file file\_\-io.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_file_ae039af5807fc385f41b60644725d15d0}{
+\index{mocha::File@{mocha::File}!File@{File}}
+\index{File@{File}!mocha::File@{mocha::File}}
+\subsubsection[{File}]{\setlength{\rightskip}{0pt plus 5cm}File::File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_ae039af5807fc385f41b60644725d15d0}
+
+
+Definition at line 116 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_abd7ef89b6d9000d2ff75ef78965c5ab6}{
+\index{mocha::File@{mocha::File}!File@{File}}
+\index{File@{File}!mocha::File@{mocha::File}}
+\subsubsection[{File}]{\setlength{\rightskip}{0pt plus 5cm}File::File (
+\begin{DoxyParamCaption}
+\item[{int}]{fd, }
+\item[{const char $\ast$}]{path, }
+\item[{unsigned int}]{openType, }
+\item[{{\bf Stat} $\ast$}]{fstat, }
+\item[{bool}]{isNeedLock}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_abd7ef89b6d9000d2ff75ef78965c5ab6}
+
+
+Definition at line 123 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a59bf1e7bb0c6b8dd83dccef6b942a0f9}{
+\index{mocha::File@{mocha::File}!File@{File}}
+\index{File@{File}!mocha::File@{mocha::File}}
+\subsubsection[{File}]{\setlength{\rightskip}{0pt plus 5cm}File::File (
+\begin{DoxyParamCaption}
+\item[{const {\bf File} \&}]{file}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a59bf1e7bb0c6b8dd83dccef6b942a0f9}
+
+
+Definition at line 135 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_ac704ebdf5f57d7a1c5ddf409d797fb69}{
+\index{mocha::File@{mocha::File}!$\sim$File@{$\sim$File}}
+\index{$\sim$File@{$\sim$File}!mocha::File@{mocha::File}}
+\subsubsection[{$\sim$File}]{\setlength{\rightskip}{0pt plus 5cm}File::$\sim$File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_ac704ebdf5f57d7a1c5ddf409d797fb69}
+
+
+Definition at line 141 of file file\_\-io.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_file_ac0e5cc0f09384b1298243ac5f9dd68a4}{
+\index{mocha::File@{mocha::File}!Allocate@{Allocate}}
+\index{Allocate@{Allocate}!mocha::File@{mocha::File}}
+\subsubsection[{Allocate}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ File::Allocate (
+\begin{DoxyParamCaption}
+\item[{size\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_ac0e5cc0f09384b1298243ac5f9dd68a4}
+
+
+Definition at line 108 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a7ce241fcabbbbed256d1d2beb5de300f}{
+\index{mocha::File@{mocha::File}!Close@{Close}}
+\index{Close@{Close}!mocha::File@{mocha::File}}
+\subsubsection[{Close}]{\setlength{\rightskip}{0pt plus 5cm}void File::Close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a7ce241fcabbbbed256d1d2beb5de300f}
+
+
+Definition at line 155 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a90999c2a1d0bf842f46daed77d9e20a7}{
+\index{mocha::File@{mocha::File}!GetDate@{GetDate}}
+\index{GetDate@{GetDate}!mocha::File@{mocha::File}}
+\subsubsection[{GetDate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf StrHandle} File::GetDate (
+\begin{DoxyParamCaption}
+\item[{{\bf DateType}}]{type = {\ttfamily kUpdate}}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a90999c2a1d0bf842f46daed77d9e20a7}
+
+
+Definition at line 230 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a38e9611c580c29cef7d992e9093847ee}{
+\index{mocha::File@{mocha::File}!GetFileContents@{GetFileContents}}
+\index{GetFileContents@{GetFileContents}!mocha::File@{mocha::File}}
+\subsubsection[{GetFileContents}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CStrHandle} File::GetFileContents (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a38e9611c580c29cef7d992e9093847ee}
+
+
+Definition at line 166 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a544e01571f2abe1a85535af34bff010e}{
+\index{mocha::File@{mocha::File}!GetFileContents@{GetFileContents}}
+\index{GetFileContents@{GetFileContents}!mocha::File@{mocha::File}}
+\subsubsection[{GetFileContents}]{\setlength{\rightskip}{0pt plus 5cm}void File::GetFileContents (
+\begin{DoxyParamCaption}
+\item[{std::string \&}]{str}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a544e01571f2abe1a85535af34bff010e}
+
+
+Definition at line 186 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a824c8f6dfaec9e9b7639973995edf7f5}{
+\index{mocha::File@{mocha::File}!GetFileName@{GetFileName}}
+\index{GetFileName@{GetFileName}!mocha::File@{mocha::File}}
+\subsubsection[{GetFileName}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ File::GetFileName (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a824c8f6dfaec9e9b7639973995edf7f5}
+
+
+Definition at line 199 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a4a951d40672719f17aa9d779f51b37ba}{
+\index{mocha::File@{mocha::File}!GetSize@{GetSize}}
+\index{GetSize@{GetSize}!mocha::File@{mocha::File}}
+\subsubsection[{GetSize}]{\setlength{\rightskip}{0pt plus 5cm}long int File::GetSize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a4a951d40672719f17aa9d779f51b37ba}
+
+
+Definition at line 241 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_af32f10e682a473e2d1f26b223f84092a}{
+\index{mocha::File@{mocha::File}!IsSuccess@{IsSuccess}}
+\index{IsSuccess@{IsSuccess}!mocha::File@{mocha::File}}
+\subsubsection[{IsSuccess}]{\setlength{\rightskip}{0pt plus 5cm}bool File::IsSuccess (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_af32f10e682a473e2d1f26b223f84092a}
+
+
+Definition at line 226 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a8160d4f295558728cc217d4740cbd01e}{
+\index{mocha::File@{mocha::File}!operator=@{operator=}}
+\index{operator=@{operator=}!mocha::File@{mocha::File}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf File} \& File::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf File} \&}]{file}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_a8160d4f295558728cc217d4740cbd01e}
+
+
+Definition at line 148 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_ad399ddacdbe03508f436d212a0068b2e}{
+\index{mocha::File@{mocha::File}!ReadSync@{ReadSync}}
+\index{ReadSync@{ReadSync}!mocha::File@{mocha::File}}
+\subsubsection[{ReadSync}]{\setlength{\rightskip}{0pt plus 5cm}int File::ReadSync (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buf, }
+\item[{size\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_ad399ddacdbe03508f436d212a0068b2e}
+
+
+Definition at line 221 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_a64bbdac45b1e87ef4087d1b55e717fc0}{
+\index{mocha::File@{mocha::File}!Reallocate@{Reallocate}}
+\index{Reallocate@{Reallocate}!mocha::File@{mocha::File}}
+\subsubsection[{Reallocate}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ File::Reallocate (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buffer, }
+\item[{size\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_file_a64bbdac45b1e87ef4087d1b55e717fc0}
+
+
+Definition at line 112 of file file\_\-io.cc.
+
+\hypertarget{classmocha_1_1_file_afe41d2812a4c6c47f8f90c3a3a7b8b38}{
+\index{mocha::File@{mocha::File}!Write@{Write}}
+\index{Write@{Write}!mocha::File@{mocha::File}}
+\subsubsection[{Write}]{\setlength{\rightskip}{0pt plus 5cm}int File::Write (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_file_afe41d2812a4c6c47f8f90c3a3a7b8b38}
+
+
+Definition at line 203 of file file\_\-io.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_file_ac34e63054b7ff96513b163692909bc06}{
+\index{mocha::File@{mocha::File}!fd@{fd}}
+\index{fd@{fd}!mocha::File@{mocha::File}}
+\subsubsection[{fd}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::File::fd}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_ac34e63054b7ff96513b163692909bc06}
+
+
+Definition at line 22 of file file\_\-io.h.
+
+\hypertarget{classmocha_1_1_file_a1af3675df21335d14aefa9d775c808e2}{
+\index{mocha::File@{mocha::File}!fstat@{fstat}}
+\index{fstat@{fstat}!mocha::File@{mocha::File}}
+\subsubsection[{fstat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Stat}$\ast$ {\bf mocha::File::fstat}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_a1af3675df21335d14aefa9d775c808e2}
+
+
+Definition at line 23 of file file\_\-io.h.
+
+\hypertarget{classmocha_1_1_file_a9c49e57fb0a425d80226ea3962f7f1ad}{
+\index{mocha::File@{mocha::File}!isLocked@{isLocked}}
+\index{isLocked@{isLocked}!mocha::File@{mocha::File}}
+\subsubsection[{isLocked}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::File::isLocked}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_a9c49e57fb0a425d80226ea3962f7f1ad}
+
+
+Definition at line 24 of file file\_\-io.h.
+
+\hypertarget{classmocha_1_1_file_a3a79db70f833a45ee94ea3f35ce270b8}{
+\index{mocha::File@{mocha::File}!opened@{opened}}
+\index{opened@{opened}!mocha::File@{mocha::File}}
+\subsubsection[{opened}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf mocha::File::opened}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_a3a79db70f833a45ee94ea3f35ce270b8}
+
+
+Definition at line 25 of file file\_\-io.h.
+
+\hypertarget{classmocha_1_1_file_aedc322e34cdfe5248644cf425b165ae7}{
+\index{mocha::File@{mocha::File}!openType@{openType}}
+\index{openType@{openType}!mocha::File@{mocha::File}}
+\subsubsection[{openType}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf mocha::File::openType}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_aedc322e34cdfe5248644cf425b165ae7}
+
+
+Definition at line 27 of file file\_\-io.h.
+
+\hypertarget{classmocha_1_1_file_ab9331e1a837f5d7b73925b9c836bc754}{
+\index{mocha::File@{mocha::File}!path\_\-@{path\_\-}}
+\index{path\_\-@{path\_\-}!mocha::File@{mocha::File}}
+\subsubsection[{path\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::File::path\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_file_ab9331e1a837f5d7b73925b9c836bc754}
+
+
+Definition at line 33 of file file\_\-io.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/io/\hyperlink{file__io_8h}{file\_\-io.h}\item 
+Y:/mocha/src/utils/io/\hyperlink{file__io_8cc}{file\_\-io.cc}\end{DoxyCompactItemize}

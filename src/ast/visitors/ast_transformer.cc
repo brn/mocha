@@ -527,7 +527,6 @@ VISITOR_IMPL(AssertStmt) {
   str += "\"";
   char tmp[100];
   sprintf( tmp , "%ld" , ast_node->Line() );
-  printf( "assert expression %s\n" , str.c_str() );
   ValueNode* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , ValueNode::kNumeric );
   ValueNode* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
                                                            ast_node->Line() , ValueNode::kString );
@@ -758,7 +757,6 @@ VISITOR_IMPL( ValueNode ) {
       break;
 
     case ValueNode::kGenerator : {
-      fprintf( stderr , "@@@@@@@@@@@@@@@@-----------------------@@@@@@@@@@@@@@@@@@@@" );
       NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
       bool is_first = true;
       AstNode* first;

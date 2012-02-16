@@ -6,12 +6,12 @@
 #include <compiler/parser/parser.h>
 #include <compiler/scanner/token_stream.h>
 #include <compiler/tokens/js_token.h>
+#include <compiler/tokens/symbol_list.h>
 #include <utils/pool/managed_handle.h>
 
 namespace mocha {
 
 static const char use_strict[] = { "use strict" };
-static const char import_from[] = { "from" };
 static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', 'this', 'RegExp'" };
 #define RETURN_FLG 0
 #define YIELD_FLG 1
@@ -132,15 +132,18 @@ void DstaRewriter( AstNode *dst ) {
 /**
  * @param {AstNode} args
  * @param {AstNode} list
- * Convert an arrow function expression's formal parameter list to a valid formal parameter list.
+ * Arrow function expression with formal parameter is parsed as expression at first.
+ * So we convert an arrow function expression's formal parameter list to a valid formal parameter list.
  */
 void FormalParameterConvertor( AstNode *args , AstNode* list ) {
   NodeIterator iterator = args->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
     ValueNode* maybe_dst_or_spread = item->CastToValue();
+    //process ...rest parameter
     if ( maybe_dst_or_spread ) {
       int type = maybe_dst_or_spread->ValueType();
+      //Array or Object literal is convert to destructuring assignment.
       if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
         type = ( type == ValueNode::kArray )? ValueNode::kDstArray : ValueNode::kDst;
         AstNode* target = maybe_dst_or_spread->Node();
@@ -156,9 +159,11 @@ void FormalParameterConvertor( AstNode *args , AstNode* list ) {
         list->AddChild( dst );
         continue;
       } else if ( type == ValueNode::kSpread ) {
+        //The spread convert to rest parameter.
         maybe_dst_or_spread->ValueType( ValueNode::kRest );
       }
     } else if ( item->NodeType() == ValueNode::kAssignmentExp ) {
+      //The assigment expression is convert to the default parameter.
       AssignmentExp* exp = item->CastToExpression()->CastToAssigment();
       ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
       ValueNode* symbol = exp->Left()->CastToValue();
@@ -166,8 +171,6 @@ void FormalParameterConvertor( AstNode *args , AstNode* list ) {
         value->Symbol( symbol->Symbol() );
         value->AddChild( exp->Right() );
         item = value;
-      } else {
-        printf( "Error!!\n" );
       }
     }
     list->AddChild( item );
@@ -283,19 +286,6 @@ AstNode* Parser::ParseSourceElements_() {
   NodeList* list = ManagedHandle::Retain<NodeList>();
   while ( ( type = Seek_() ) && type != 0 && ( type->GetType() != Token::END_TOKEN || type->GetType() != Token::END_OF_INPUT ) ) {
     AstNode* statement = ParseSourceElement_();
-    /*//check "use strict" prologue directive.
-    if ( statement->NodeType() == AstNode::kExpressionStmt ) {
-      if ( !( statement->FirstChild()->CastToExpression()->IsParen() ) )
-      NodeIterator iterator = statement->Find( AstNode::kValueNode );
-      if ( iterator.Length() == 1 ) {
-        ValueNode* maybeString = iterator.Next()->CastToValue()->GetToken();
-        if ( maybeString->ValueType() == ValueNode::kString ) {
-          if ( strlen( maybeString->GetToken() ) > 0 && strcmp( maybeString->GetToken() , use_strict ) ) {
-            env_->DirectivePrologue();
-          }
-        }
-      }
-      }*/
     if ( !statement->IsEmpty() ) {
       list->AddChild( statement );
     }
@@ -310,8 +300,13 @@ AstNode* Parser::ParseSourceElements_() {
 AstNode* Parser::ParseSourceElement_() {
   ENTER(SourceElement);
   /*
-   *source_element
+   * [bison/yacc compat syntax]
+   * source_element
    * : statement
+   * | class_declaration
+   * | function_declaration
+   * | const_declaration
+   * ;
    */
   TokenInfo* info = Advance_();
   AstNode* result = 0;//init after;
@@ -326,6 +321,7 @@ AstNode* Parser::ParseSourceElement_() {
       result = stmt;
     }
       break;
+      
     case Token::JS_FUNCTION : {
       result = ParseFunctionDecl_( false );
       CHECK_ERROR(result);
@@ -333,7 +329,9 @@ AstNode* Parser::ParseSourceElement_() {
       fn->Decl();
     }
       break;
-      
+
+      //Now the const decaration is parsable, but not create block scope,
+      //because block scoping overhead are heavy for the current javascript.
     case Token::JS_CONST : {
       info = Seek_();
       int type = info->GetType();
@@ -341,6 +339,7 @@ AstNode* Parser::ParseSourceElement_() {
       if ( type == Token::JS_CLASS ) {
         Advance_();
         result = ParseClassDecl_( true );
+        CHECK_ERROR( result );
       } else {
         TokenInfo* function_signature = Seek_( 2 );
         int type = function_signature->GetType();
@@ -357,18 +356,31 @@ AstNode* Parser::ParseSourceElement_() {
       }
       break;
     }
+      //Now the let statement is parsable, but not create block scope,
+      //same reasons with above const declaration.
     case Token::JS_LET :
         result = ParseLetDeclOrLetStatement_();
+        CHECK_ERROR( result );
+        
     default :
       Undo_();
       result = ParseStatement_();
+      CHECK_ERROR( result );
   }
   END(SourceElement);
   return result;
 }
 
-
+//Parse the statement list,
+//like the block statement body or the function body.
 AstNode* Parser::ParseStatementList_( StatementListMatcher matcher , const char* expect ) {
+  /**
+   * [bison/yacc compat syntax]
+   * statement_list
+   * : statement
+   * | statement_list statement
+   * ;
+   */
   ENTER( StatementList );
   TokenInfo* token = Seek_();
   int type = token->GetType();
@@ -391,6 +403,7 @@ AstNode* Parser::ParseStatementList_( StatementListMatcher matcher , const char*
 }
 
 
+//Parse statement.
 AstNode* Parser::ParseStatement_() {
   ENTER(Statement);
   /*
@@ -412,6 +425,9 @@ AstNode* Parser::ParseStatement_() {
    *| try_statement
    *| import_statement
    *| version_statement
+   *| function_declaration
+   *| exportable_denifinition
+   *| debugger_statement
    *| expression_statement
    *;
    */
@@ -429,7 +445,8 @@ AstNode* Parser::ParseStatement_() {
     case Token::JS_EXPORT :
       result = ParseExportStatement_();
       break;
-      
+
+      //The let and const variable statement is not create block scope.
     case Token::JS_VAR :
     case Token::JS_LET :
     case Token::JS_CONST :
@@ -488,10 +505,12 @@ AstNode* Parser::ParseStatement_() {
       result = ParseImportStatement_();
       break;
 
+      //a mocha special keyword not harmony.
     case Token::JS_ASSERT :
       result = ParseAssertStatement_();
       break;
-      
+
+      //a mocha special keyword not harmony.
     case Token::MOCHA_VERSIONOF :
       result = ParseVersionStatement_();
       break;
@@ -508,12 +527,15 @@ AstNode* Parser::ParseStatement_() {
       result = ParseDebuggerStatement_( info );
       break;
 
+      //The exportable definition is only acceptable in class declaration,
+      //but private accessor is allowed in any place.
     case Token::JS_PRIVATE :
     case Token::JS_PUBLIC :
     case Token::JS_STATIC : {
       TokenInfo *token = Seek_();
       int type = token->GetType();
       if ( type == '.' || type == '[' ) {
+        //private accessor.
         result = CheckLabellOrExpressionStatement_();
       } else {
         result = ParseClassMemberStatement_();
@@ -526,7 +548,9 @@ AstNode* Parser::ParseStatement_() {
       if ( type == Token::JS_IDENTIFIER ) {
         TokenInfo* token = Seek_( 2 );
         type = token->GetType();
-        if ( strcmp( info->GetToken() , "trait" ) == 0 && type == '{' ) {
+        //Check trait declaration.
+        //The trait keyword is not treated as the reserved word.
+        if ( strcmp( info->GetToken() , SymbolList::GetSymbol( SymbolList::kTrait ) ) == 0 && type == '{' ) {
           result = ParseTrait_();
           CHECK_ERROR( result );
           result->CastToExpression()->CastToTrait()->Decl();
@@ -535,6 +559,8 @@ AstNode* Parser::ParseStatement_() {
       }
       result = CheckLabellOrExpressionStatement_();
       CHECK_ERROR(result);
+      //If shorten function expression is parsed as expression,
+      //we mark as function declaration.
       if ( result->NodeType() == AstNode::kExpressionStmt ) {
         Expression* exp = result->FirstChild()->CastToExpression();
         if ( exp->ChildLength() > 0 ) {
@@ -550,7 +576,6 @@ AstNode* Parser::ParseStatement_() {
     }
   }
   CHECK_ERROR(result);
-  //result->Line( info->GetLineNumber() );
   END(Statement);
   return result;
 }
@@ -558,9 +583,10 @@ AstNode* Parser::ParseStatement_() {
 AstNode* Parser::ParseBlockStatement_() {
   ENTER(BlockStatement);
   /*
-   *block
-   *: '{' '}'
-   *| '{' statement_list '}'
+   * [bison/yacc compat syntax]
+   * block
+   * : '{' '}'
+   * | '{' statement_list '}'
    */
   BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
   StatementList* list = ManagedHandle::Retain<StatementList>();
@@ -593,12 +619,15 @@ AstNode* Parser::ParseBlockStatement_() {
   return block;
 }
 
+
+//Parse module statement.
 AstNode* Parser::ParseModuleStatement_() {
   ENTER(ModuleStatement);
   /*
-   *module_statement
-   *: JS_MODULE identifier__opt statement
-   *;
+   * [bison/yacc compat syntax]
+   * module_statement
+   * : JS_MODULE identifier__opt statement
+   * ;
    */
   ModuleStmt* module_stmt = ManagedHandle::Retain<ModuleStmt>();
   TokenInfo* info = Seek_();
@@ -617,11 +646,13 @@ AstNode* Parser::ParseModuleStatement_() {
   return module_stmt;
 }
 
+//Parse export statement.
 AstNode* Parser::ParseExportStatement_() {
   ENTER(ExportStatement);
   /*
-   *export_statement
-   *: JS_EXPORT exportable_definition
+   * [bison/yacc compat syntax]
+   * export_statement
+   * : JS_EXPORT exportable_definition
    */
   ExportStmt* export_stmt = ManagedHandle::Retain<ExportStmt>();
   AstNode* exportable = ParseExportableDefinition_();
@@ -632,30 +663,40 @@ AstNode* Parser::ParseExportStatement_() {
   return export_stmt;
 }
 
+//Parse import statement.
 AstNode* Parser::ParseImportStatement_() {
   ENTER(ImportStatement);
   /*
-   *import_statement
-   *: JS_IMPORT JS_IDENTIFIER JS_FROM import_expression terminator
+   * [bison/yacc compat syntax]
+   * import_statement
+   * : JS_IMPORT JS_IDENTIFIER JS_FROM import_expression terminator
    */
   TokenInfo* val = Seek_();
   int type;
   AstNode* exp;
   if ( val->GetType() == Token::JS_IDENTIFIER ) {
     exp = ParseLiteral_();
+    CHECK_ERROR( exp );
     type = ImportStmt::kVar;
   } else if ( val->GetType() == '{' || val->GetType() == '[' ) {
+    //import statement allow destructuring assignment.
     exp = ParseDestructuringLeftHandSide_();
+    CHECK_ERROR( exp );
     type = ImportStmt::kDst;
   }
   TokenInfo* r_from = Advance_();
   TokenConverter cnv( r_from );
+  const char* ident = static_cast<const char*>( cnv );
+  //from keyword is not treated as the reserved word,
+  //so we check that an identifier is the valid from keyword or not.
   if ( r_from->GetType() == Token::JS_IDENTIFIER &&
-       strlen( static_cast<const char*>( cnv ) ) > 0 &&
-       strcmp( static_cast<const char*>( cnv ) , import_from ) == 0 ) {
+       strlen( ident ) > 0 &&
+       strcmp( ident , SymbolList::GetSymbol( SymbolList::kFrom ) ) == 0 ) {
     AstNode* from_exp = ParseImportExpression_();
+    CHECK_ERROR( from_exp );
     ValueNode* maybe_file = from_exp->FirstChild()->CastToValue();
     int from_type;
+    //The import statement could accept the filename or the module name.
     if ( maybe_file && maybe_file->ValueType() == ValueNode::kString ) {
       from_type = ImportStmt::kFile;
     } else {
@@ -679,16 +720,20 @@ AstNode* Parser::ParseImportStatement_() {
   }
 }
 
+//Parse import expression.
+//import ... from <here>
 AstNode* Parser::ParseImportExpression_() {
   ENTER(ImportExpression);
   TokenInfo* token = Seek_();
   int type = token->GetType();
   NodeList* list = ManagedHandle::Retain<NodeList>();
+  //In case of filename.
   if ( type == Token::JS_STRING_LITERAL ) {
     AstNode* literal = ParseLiteral_();
     CHECK_ERROR(literal);
     list->AddChild( literal );
   } else if ( type == Token::JS_IDENTIFIER ) {
+    //In case of module name.
     AstNode* literal = ParseLiteral_();
     CHECK_ERROR( literal );
     list->AddChild( literal );
@@ -710,6 +755,7 @@ AstNode* Parser::ParseImportExpression_() {
   return list;
 }
 
+//Parse debugger statement.
 AstNode* Parser::ParseDebuggerStatement_( TokenInfo* token ) {
   ENTER(DebuggerStatement);
   ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
@@ -722,7 +768,14 @@ AstNode* Parser::ParseDebuggerStatement_( TokenInfo* token ) {
   return stmt;
 }
 
+//Parse version statement
 AstNode* Parser::ParseVersionStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * version_statement
+   * : MOCHA_VERSIONOF '(' JS_IDENTIFIER ')' block_statement
+   * ;
+   */
   ENTER(VersionStatement);
   TokenInfo* token = Advance_();
   int type = token->GetType();
@@ -771,8 +824,13 @@ AstNode* Parser::ParseVersionStatement_() {
   }
 }
 
-
+//Parse assert statement
 AstNode* Parser::ParseAssertStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * mocha_assert_statement
+   * : MOCHA_ASSERT '(' assignment_expression ',' assignment_expression ')'
+   */
   ENTER(AssertStatement);
   TokenInfo *token = Seek_();
   int type = token->GetType();
@@ -822,7 +880,7 @@ AstNode* Parser::ParseAssertStatement_() {
   }
 }
 
-
+//Parse variable statement
 AstNode* Parser::ParseVariableStatement_() {
   ENTER(VariableStatement);
   /*
@@ -848,6 +906,7 @@ AstNode* Parser::ParseVariableStatement_() {
   return stmt;
 }
 
+//Parse variable declaration.
 AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
   ENTER(VariableDecl);
   /*
@@ -932,6 +991,7 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
   return list;
 }
 
+//Parse destructuring assignment
 AstNode* Parser::ParseDestructuringLeftHandSide_() {
   ENTER(DestructuringLeftHandSide);
   /*
@@ -954,6 +1014,7 @@ AstNode* Parser::ParseDestructuringLeftHandSide_() {
 }
 
 
+//Parse destructuring assignment array pattern.
 AstNode* Parser::ParseArrayPattern_() {
   ENTER(ArrayPattern);
   /*
@@ -1048,6 +1109,7 @@ AstNode* Parser::ParseArrayPattern_() {
   return destructuring;
 }
 
+//Parse destructuring assignment object pattern
 AstNode* Parser::ParseObjectPattern_() {
   ENTER(ObjectPattern);
   /*
@@ -1110,7 +1172,7 @@ AstNode* Parser::ParseObjectPattern_() {
   return destructuring;
 }
 
-
+//Parse destructuring assignment object patter's each element.
 AstNode* Parser::ParseObjectPatternElement_( int type , TokenInfo* token , AstNode* list ) {
   ENTER(ObjectPatternElement);
   if ( type == Token::JS_IDENTIFIER ) {
@@ -1130,12 +1192,23 @@ AstNode* Parser::ParseObjectPatternElement_( int type , TokenInfo* token , AstNo
   }
 }
 
-
+//Parse labelled statement or expression statement.
 AstNode* Parser::CheckLabellOrExpressionStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * labelled_statement
+   * : JS_IDENTIFIER ':' statement
+   * ;
+   *
+   * expression_statement
+   * : expression
+   * ;
+   */
   ENTER(LabellOrExpressionStatement);
   TokenInfo* token = Seek_();
   int type = token->GetType();
   Undo_();
+  //In case of labelled statement.
   if ( type == ':' ) {
     AstNode* stmt = ParseLabelledStatement_();
     CHECK_ERROR(stmt);
@@ -1155,7 +1228,7 @@ AstNode* Parser::CheckLabellOrExpressionStatement_() {
   }
 }
 
-
+//Parse if statement
 AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
   ENTER(IFStatement);
   /*
@@ -1215,8 +1288,14 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
   return if_stmt;
 }
 
-
+//Parse do while statement.
 AstNode* Parser::ParseDoWhileStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * iteration_statement
+   * : JS_DO statement JS_WHILE '(' expressio ')' terminator
+   * ;
+   */
   ENTER(DoWhileStatement);
   long line = Seek_( -1 )->GetLineNumber();
   AstNode* statement = ParseSourceElement_();
@@ -1264,7 +1343,15 @@ AstNode* Parser::ParseDoWhileStatement_() {
   }
 }
 
+
+//Parse while statement
 AstNode* Parser::ParseWhileStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * iteration_statement
+   * : JS_WHILE '(' expression ')' statement
+   * ;
+   */
   ENTER(WhileStatement);
   TokenInfo* token = Advance_();
   int type = token->GetType();
@@ -1301,7 +1388,33 @@ AstNode* Parser::ParseWhileStatement_() {
   }
 }
 
+
+//Parse for statement
+//In this method, the for statement includes for_in_statement,
+//for_of_statement and array_comprehensions_iteration.
 AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
+  /**
+   * [bison/yacc compat syntax]
+   * iteration_statement
+   * : JS_FOR '(' JS_VAR variable_declaration_list_no_in ';' expression__opt ';' expression__opt ) statement
+   * | JS_FOR '(' expression_no_in__opt ';' expression__opt ';' expression__opt ')' statement 
+   * | JS_FOR '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
+   * | JS_FOR '(' left_hand_side_expression JS_IN expression ')' statement
+   * | JS_FOR '(' JS_VAR variable_declaration_no_in JS_IDENTIFIER expression ')' statement
+   * | JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')' statement
+   * | JS_FOR JS_EACH '(' JS_VAR variable_declaration_no_in JS_IN expression ')' statement
+   * | JS_FOR JS_EACH '(' left_hand_side_expression JS_IN expression ')' statement
+   * ;
+   *
+   * array_comprehensions
+   * : array_comprehension_iteration
+   * | array_comprehensions array_comprehension_iteration
+   * ;
+   *
+   * array_comprehension_iteration
+   * : JS_FOR '(' left_hand_side_expression JS_IDENTIFIER expression ')'
+   * ;
+   */
   ENTER(ForStatement);
   TokenInfo *token = Advance_();
   int type = token->GetType();
@@ -1320,6 +1433,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     int var_decl_len = 0;
     if ( next_type == Token::JS_VAR ) {
       is_var_decl = true;
+      //The array comprehension for expression could not have variable declaration.
       if ( is_comprehensions ) {
         SYNTAX_ERROR( "parse error in 'array comprehensions for expression' could not has variable declaration"
                       "\\nin file "
@@ -1344,6 +1458,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
         first->CastToValue()->ValueType( ValueNode::kVariable );
         exp_list->AddChild( first );
       } else {
+        //Empty first for statement condition expression.
         exp_list->AddChild( exp );
       }
     } else {
@@ -1351,7 +1466,8 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
     }
     token = Advance_();
     type = token->GetType();
-    if ( type == ';' && is_each == false ) {
+    if ( next_type == ';' || ( type == ';' && is_each == false ) ) {
+      //In case of normal for statement.
       if ( is_comprehensions ) {
         SYNTAX_ERROR( "parse error in 'array comprehensions' allowed 'for in statement' or 'for of statement'"
                       "\\nin file "
@@ -1365,6 +1481,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
       ParseForStatementCondition_( exp_list );
       CHECK_ERROR( iter_stmt );
     } else if ( type == Token::JS_IN ) {
+      //In case of for in statement.
       if ( var_decl_len > 1 ) {
         SYNTAX_ERROR( "parse error 'for in statement' could has only one variable declaration."
                       "\\nin file "
@@ -1387,7 +1504,10 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
       }
       ParseForInStatementCondition_( exp_list );
       CHECK_ERROR( iter_stmt );
-    } else if ( type == Token::JS_IDENTIFIER && strcmp( TokenConverter( token ) , "of" ) == 0 ) {
+    } else if ( type == Token::JS_IDENTIFIER &&
+                strcmp( TokenConverter( token ) , SymbolList::GetSymbol( SymbolList::kOf ) ) == 0 ) {
+      //For of statement's 'of' keyword is treated as identifier not reserved word,
+      //so we check token is valid 'of' identifier or not.
       if ( var_decl_len > 1 ) {
         SYNTAX_ERROR( "parse error 'for of statement' could has only one variable declaration."
                       "\\nin file "
@@ -1439,6 +1559,7 @@ AstNode* Parser::ParseForStatement_( bool is_comprehensions ) {
 }
 
 
+//Parse for statement condition expression.
 void Parser::ParseForStatementCondition_( NodeList* list ) {
   ENTER(ForStatementCondition);
   if ( Seek_()->GetType() == ';' ) {
@@ -1471,6 +1592,7 @@ void Parser::ParseForStatementCondition_( NodeList* list ) {
 }
 
 
+//Parse for in statement condition expression.
 void Parser::ParseForInStatementCondition_( NodeList* list ) {
   ENTER(ForInStatementCondition);
   AstNode* target_exp = ParseExpression_( false );
@@ -1488,7 +1610,13 @@ void Parser::ParseForInStatementCondition_( NodeList* list ) {
 }
 
 
+//Parse continue statement.
 AstNode* Parser::ParseContinueStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * continue_statement
+   * : JS_CONTINUE identifier__opt terminator
+   */
   ENTER(ContinueStatement);
   TokenInfo *token = Seek_();
   int type = token->GetType();
@@ -1507,7 +1635,13 @@ AstNode* Parser::ParseContinueStatement_() {
 }
 
 
+//Parse break statement.
 AstNode* Parser::ParseBreakStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * : JS_BREAK identifier__opt terminator
+   * ;
+   */
   ENTER(BreakStatement);
   TokenInfo *token = Seek_();
   int type = token->GetType();
@@ -1525,7 +1659,14 @@ AstNode* Parser::ParseBreakStatement_() {
   return stmt;
 }
 
+//Parse return statement.
 AstNode* Parser::ParseReturnStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * return_statement
+   * : JS_RETURN expression__opt terminator
+   * ;
+   */
   ENTER(ReturnStatement);
   if ( !state_stack_->Has( StateStack::kFunction ) ) {
     SYNTAX_ERROR( "return statement only allowed in 'function'\\nin file "
@@ -1552,7 +1693,13 @@ AstNode* Parser::ParseReturnStatement_() {
 }
 
 
+//Parse with statement.
 AstNode* Parser::ParseWithStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * with_statement
+   * : JS_WITH '(' expression ')' statement
+   */
   ENTER(WithStatement);
   TokenInfo *token = Advance_();
   int type = token->GetType();
@@ -1584,7 +1731,14 @@ AstNode* Parser::ParseWithStatement_() {
 }
 
 
+//Parse switch statement.
 AstNode* Parser::ParseSwitchStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * switch_statement
+   * : JS_SWITCH '(' expression ')' case_block
+   * ;
+   */
   ENTER(SwitchStatement);
   TokenInfo *token = Advance_();
   int type = token->GetType();
@@ -1615,7 +1769,24 @@ AstNode* Parser::ParseSwitchStatement_() {
   return stmt;
 }
 
+
+//Parse case clauses
 AstNode* Parser::ParseCaseClauses_() {
+  /**
+   * [bison/yacc compat syntax]
+   * case_clauses
+   * : case_clause
+   * | case_clauses case_clause
+   * ;
+   *
+   * case_clause
+   * : JS_CASE expression ':' statement_list__opt
+   * ;
+   *
+   * default_clause
+   * : JS_DEFAULT ':' statement_list__opt
+   * ;
+   */
   ENTER(CaseClauses);
   TokenInfo *token = Advance_();
   int type = token->GetType();
@@ -1626,7 +1797,7 @@ AstNode* Parser::ParseCaseClauses_() {
       type = token->GetType();
       bool is_default = type == Token::JS_DEFAULT;
       if ( type == Token::JS_CASE || is_default ) {
-        CaseClause* clause;
+        CaseClause* clause = 0;//init after.
         if ( !is_default ) {
           clause = ManagedHandle::Retain<CaseClause>();
           AstNode* exp = ParseExpression_( false );
@@ -1684,21 +1855,39 @@ AstNode* Parser::ParseCaseClauses_() {
 }
 
 
+//Parse labelled statement
 AstNode* Parser::ParseLabelledStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * labelled_statement
+   * : JS_IDENTIFIER ':' statement
+   * ;
+   */
   ENTER(LabelledStatement);
+  TokenInfo* token = Seek_( -1 );
   AstNode* ident = ParseLiteral_();
   CHECK_ERROR( ident )
   Advance_();
   AstNode* statement = ParseSourceElement_();
+  CHECK_ERROR( statement );
   LabelledStmt* stmt = ManagedHandle::Retain<LabelledStmt>();
   CHECK_ERROR( stmt );
   stmt->AddChild( ident );
   stmt->AddChild( statement);
+  stmt->Line( token->GetLineNumber() );
   END(LabelledStatement);
   return stmt;
 }
 
+
+//Parse throw statement
 AstNode* Parser::ParseThrowStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * throw_statement
+   * : JS_THROW expression terminator
+   * ;
+   */
   ENTER(ThrowStatement);
   TokenInfo* token = Seek_( -1 );
   ThrowStmt* throw_stmt = ManagedHandle::Retain<ThrowStmt>();
@@ -1706,6 +1895,7 @@ AstNode* Parser::ParseThrowStatement_() {
   AstNode* exp = ParseExpression_( false );
   CHECK_ERROR( throw_stmt );
   throw_stmt->Exp( exp );
+  throw_stmt->Line( token->GetLineNumber() );
   ParseTerminator_();
   CHECK_ERROR( exp );
   END(ThrowStatement);
@@ -1713,11 +1903,21 @@ AstNode* Parser::ParseThrowStatement_() {
 }
 
 
+//Parse try statement
 AstNode* Parser::ParseTryStatement_() {
+  /**
+   * [bison/yacc compat syntax]
+   * try_statement
+   * : JS_TRY block catch
+   * | JS_TRY block finally
+   * | JS_TRY block catch finally
+   * ;
+   */
   ENTER(TryStatement);
   TokenInfo* token = Seek_();
   int type = token->GetType();
   TryStmt *stmt = ManagedHandle::Retain<TryStmt>();
+  stmt->Line( token->GetLineNumber() );
   if ( type == '{' ) {
     Advance_();
     AstNode* block = ParseBlockStatement_();
@@ -1752,6 +1952,7 @@ AstNode* Parser::ParseTryStatement_() {
   return stmt;
 }
 
+//Parse catch block
 AstNode* Parser::ParseCatchBlock_() {
   ENTER(CatchBlock);
   TokenInfo *token = Advance_( 2 );
@@ -1909,7 +2110,6 @@ void Parser::ParseTraitBody_( Trait* trait ) {
     }
     token = Seek_();
     type = token->GetType();
-    fprintf( stderr , "token = %s\n" , static_cast<const char*>( TokenConverter( token ) ) );
     if ( type == '}' ) {
       break;
     }
@@ -1972,7 +2172,6 @@ AstNode* Parser::ParseMixin_() {
       mixin->AddRemoval( remove );
       token = Seek_();
       type = token->GetType();
-      fprintf( stderr , "@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@ %s\n" , static_cast<const char*>( TokenConverter( token ) ) );
       if ( type == ',' ) {
         Advance_();
         token = Seek_();
@@ -2318,7 +2517,7 @@ AstNode* Parser::ParseAssignmentExpression_( bool is_noin ) {
       }
       exp = maybeDst;
     }
-    if ( 1/*exp->LeftHandSide()*/ ) {
+    if ( exp->CastToExpression() && exp->CastToExpression()->IsValidLhs() ) {
       AstNode* rhs = ParseAssignmentExpression_( is_noin );
       CHECK_ERROR( rhs );
       AssignmentExp* assign_exp = ManagedHandle::Retain( new AssignmentExp( type , exp , rhs ) );
@@ -2398,6 +2597,7 @@ AstNode* Parser::ParseConditional_( bool is_noin ) {
       CHECK_ERROR( exp );
       ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( exp , left , right ) );
       END(Conditional);
+      cond->InValidLhs();
       return cond;
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -2445,6 +2645,7 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
         } else {
           exp = ManagedHandle::Retain( new CompareExp( type , last , rhs ) );
         }
+        exp->CastToExpression()->InValidLhs();
         last = exp;
       }
         break;
@@ -2460,6 +2661,7 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
           } else {
             exp = ManagedHandle::Retain( new CompareExp( type , last , rhs ) );
           }
+          exp->CastToExpression()->InValidLhs();
           last = exp;
         } else {
           END( BinaryExpressionNoIn );
@@ -2488,6 +2690,7 @@ AstNode* Parser::ParseBinaryExpression_( bool is_noin ) {
         } else {
           exp = ManagedHandle::Retain( new BinaryExp( type , last , rhs ) );
         }
+        exp->CastToExpression()->InValidLhs();
         last = exp;
       }
         break;
@@ -2517,6 +2720,7 @@ AstNode* Parser::ParseUnaryExpression_() {
     Advance_();
     AstNode* post_exp = ParseUnaryExpression_();
     CHECK_ERROR( post_exp );
+    post_exp->CastToExpression()->InValidLhs();
     UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( type ) );
     unary->Line( token->GetLineNumber() );
     unary->Exp( post_exp );
@@ -2536,6 +2740,7 @@ AstNode* Parser::ParsePostfixExpression_() {
   TokenInfo *token = Seek_();
   int type = token->GetType();
   if ( !token->HasLineBreakBefore() && ( type == Token::JS_INCREMENT || type == Token::JS_DECREMENT ) ) {
+    lhs->CastToExpression()->InValidLhs();
     PostfixExp* post = ManagedHandle::Retain( new PostfixExp( type ) );
     post->Line( token->GetLineNumber() );
     post->Exp( lhs );
@@ -2555,6 +2760,7 @@ AstNode* Parser::ParseLeftHandSideExpression_() {
   AstNode* node;
   if ( type == Token::JS_NEW ) {
     node = ParseNewExpression_();
+    node->CastToExpression()->InValidLhs();
   } else {
     node = ParseCallExpression_();
   }
@@ -2650,6 +2856,7 @@ AstNode* Parser::ParseCallExpression_() {
           }
           ret = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
           ret->Callable( exp );
+          ret->InValidLhs();
           if ( arguments->ChildLength() == 0 ) {
             ret->Args( ManagedHandle::Retain<Empty>() );
           } else {
@@ -2674,6 +2881,7 @@ AstNode* Parser::ParseCallExpression_() {
       return ParseArrowFunctionExpression_( member , arguments , type );
     } else {
       END(CallExpression);
+      exp->CastToExpression()->InValidLhs();
       return exp;
     }
   } else {
@@ -2919,12 +3127,13 @@ AstNode* Parser::ParsePrimaryExpression_() {
   if ( type == Token::JS_FUNCTION ) {
     AstNode* fn = ParseFunctionDecl_( false );
     CHECK_ERROR( fn );
-    //fn->LeftHandSide();
+    fn->CastToExpression()->InValidLhs();
     END(MemberExpression);
     return fn;
   } else if ( type == Token::JS_CLASS  ) {
     AstNode* class_exp = ParseClassDecl_( false );
     CHECK_ERROR( class_exp );
+    class_exp->CastToExpression()->InValidLhs();
     return class_exp;
   } else if ( type == Token::JS_IDENTIFIER && strcmp( token->GetToken() , "trait" ) == 0 &&
               ( Seek_()->GetType()  == '{' || Seek_( 2 )->GetType() == '{' ) ) {
@@ -2934,7 +3143,7 @@ AstNode* Parser::ParsePrimaryExpression_() {
   } else if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression_( type );
     CHECK_ERROR( fn );
-    //fn->LeftHandSide();
+    fn->CastToExpression()->InValidLhs();
     END(MemberExpression);
     return fn;
   } else if ( type == Token::JS_IDENTIFIER && ( fn_signature_type == Token::JS_FUNCTION_GLYPH ||
@@ -2951,6 +3160,9 @@ AstNode* Parser::ParsePrimaryExpression_() {
   } else if ( type == '(' ) {
     AstNode* exp = ParseExpression_( false );
     CHECK_ERROR( exp );
+    if ( exp->ChildLength() > 1 ) {
+      exp->CastToExpression()->InValidLhs();
+    }
     token = Seek_();
     type = token->GetType();
     if ( type == ')' ) {
@@ -2969,6 +3181,7 @@ AstNode* Parser::ParsePrimaryExpression_() {
                       << filename_ << " at line " << token->GetLineNumber() );
         return generator;
       }
+      generator->CastToExpression()->InValidLhs();
       return generator;
     } else {
       SYNTAX_ERROR( "parse error unmatched parensis\\nin file "
@@ -2978,7 +3191,10 @@ AstNode* Parser::ParsePrimaryExpression_() {
     if ( type == Token::JS_FUNCTION_GLYPH || type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
       Advance_();
       END(PrimaryExpression);
-      return ParseArrowFunctionExpression_( exp , type );
+      AstNode* ret = ParseArrowFunctionExpression_( exp , type );
+      CHECK_ERROR( ret );
+      ret->CastToExpression()->InValidLhs();
+      return ret;
     } else {
       END(PrimaryExpression);
       return exp;
@@ -2989,6 +3205,7 @@ AstNode* Parser::ParsePrimaryExpression_() {
     if ( type == '[' ) {
       AstNode* elem = ParseArrayLiteral_();
       CHECK_ERROR( elem );
+      elem->CastToExpression()->InValidLhs();
       elem->CastToValue()->ValueType( ValueNode::kTuple );
       return elem;
     } else {
@@ -3002,6 +3219,7 @@ AstNode* Parser::ParsePrimaryExpression_() {
               type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression_( type );
     END(PrimaryExpression);
+    fn->CastToExpression()->InValidLhs();
     return fn;
   } else {
     Undo_();
@@ -3264,13 +3482,16 @@ AstNode* Parser::ParseLiteral_() {
   TokenInfo* token = Advance_();
   int type = token->GetType();
   int value_type = 0;
+  bool is_invalid_lhs = false;
   switch ( type ) {
     case Token::JS_SUPER :
       value_type = ValueNode::kSuper;
+      is_invalid_lhs = true;
       break;
       
     case Token::JS_THIS :
       value_type = ValueNode::kThis;
+      is_invalid_lhs = true;
       break;
 
     case Token::JS_IDENTIFIER :
@@ -3279,26 +3500,32 @@ AstNode* Parser::ParseLiteral_() {
 
     case Token::JS_TRUE :
       value_type = ValueNode::kTrue;
+      is_invalid_lhs = true;
       break;
 
     case Token::JS_FALSE :
       value_type = ValueNode::kFalse;
+      is_invalid_lhs = true;
       break;
 
     case Token::JS_NUMERIC_LITERAL :
       value_type = ValueNode::kNumeric;
+      is_invalid_lhs = true;
       break;
 
     case Token::JS_STRING_LITERAL :
       value_type = ValueNode::kString;
+      is_invalid_lhs = true;
       break;
 
     case Token::JS_REGEXP_LITERAL :
       value_type = ValueNode::kRegExp;
+      is_invalid_lhs = true;
       break;
 
     case Token::JS_K_NULL :
       value_type = ValueNode::kNull;
+      is_invalid_lhs = true;
       break;
 
     default : {
@@ -3314,6 +3541,9 @@ AstNode* Parser::ParseLiteral_() {
   ValueNode* value = ManagedHandle::Retain( new ValueNode( value_type ) );
   value->Line( token->GetLineNumber() );
   value->Symbol( token );
+  if ( is_invalid_lhs ) {
+    value->InValidLhs();
+  }
   END(Literal);
   return value;
 }

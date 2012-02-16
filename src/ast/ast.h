@@ -1021,14 +1021,14 @@ class CaseClause : public AstNode {
 
 class Expression : public AstNode {
  public :
-  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) , is_valid_lhs_( false ) , paren_( false ){};
-  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) , is_valid_lhs_( false ) , paren_( false ){};
+  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) , is_valid_lhs_( true ) , paren_( false ){};
+  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) , is_valid_lhs_( true ) , paren_( false ){};
   virtual inline ~Expression(){};
   inline void Paren() { paren_ = true; };
   inline bool IsParen() { return paren_; };
   inline bool IsValidLhs() { return is_valid_lhs_; }
   inline void InValidLhs() { is_valid_lhs_ = false; }
-  inline void ValidLhs() { is_valid_lhs_ = false; }
+  inline void ValidLhs() { is_valid_lhs_ = true; }
   inline Expression* CastToExpression() { return this; }
   inline virtual AssignmentExp* CastToAssigment() { return 0; }
   inline virtual CallExp* CastToCallExp() { return 0; }

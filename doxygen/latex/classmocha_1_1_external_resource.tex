@@ -1,0 +1,153 @@
+\hypertarget{classmocha_1_1_external_resource}{
+\section{mocha::ExternalResource Class Reference}
+\label{classmocha_1_1_external_resource}\index{mocha::ExternalResource@{mocha::ExternalResource}}
+}
+
+
+{\ttfamily \#include $<$external\_\-resource.h$>$}
+
+Inheritance diagram for mocha::ExternalResource:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_external_resource}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classmocha_1_1_external_resource_a79ef20671c0a4b32c48d771c4785abd8}{UnsafeSet} (const char $\ast$filename)
+\item 
+static \hyperlink{classmocha_1_1_resources}{Resources} $\ast$ \hyperlink{classmocha_1_1_external_resource_ad9b2039a630d4d7fd4faed7c09c4eaab}{UnsafeGet} (const char $\ast$filename)
+\item 
+static void \hyperlink{classmocha_1_1_external_resource_afd20379c327ffe5396604545c78c066e}{SafeSet} (const char $\ast$filename)
+\item 
+static \hyperlink{classmocha_1_1_resources}{Resources} $\ast$ \hyperlink{classmocha_1_1_external_resource_a2d9388826910a37f40cc474ce1795f50}{SafeGet} (const char $\ast$filename)
+\item 
+static \hyperlink{classmocha_1_1_file_root}{FileRoot} $\ast$ \hyperlink{classmocha_1_1_external_resource_a648c5fe956b22d4a2dccc77f90a46827}{SafeGetRuntime} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmocha_1_1_hash_map}{HashMap}$<$ const char $\ast$, \hyperlink{classmocha_1_1_handle}{Handle}$<$ \hyperlink{classmocha_1_1_resources}{Resources} $>$ $>$ \hyperlink{classmocha_1_1_external_resource_af0eea09b4fa837b559799d0d6fa1ac95}{ResourceMap}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_mutex}{Mutex} \hyperlink{classmocha_1_1_external_resource_a79acd6713f0f1923efc59dae6a8cd61c}{mutex\_\-}
+\item 
+static \hyperlink{classmocha_1_1_hash_map}{ResourceMap} \hyperlink{classmocha_1_1_external_resource_a31d3e9277c6e9150224e9cc181b042d3}{resources\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 38 of file external\_\-resource.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_external_resource_af0eea09b4fa837b559799d0d6fa1ac95}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!ResourceMap@{ResourceMap}}
+\index{ResourceMap@{ResourceMap}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{ResourceMap}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf HashMap}$<$const char$\ast$, {\bf Handle}$<${\bf Resources}$>$ $>$ {\bf mocha::ExternalResource::ResourceMap}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_external_resource_af0eea09b4fa837b559799d0d6fa1ac95}
+
+
+Definition at line 39 of file external\_\-resource.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_external_resource_a2d9388826910a37f40cc474ce1795f50}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!SafeGet@{SafeGet}}
+\index{SafeGet@{SafeGet}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{SafeGet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Resources} $\ast$ mocha::ExternalResource::SafeGet (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_external_resource_a2d9388826910a37f40cc474ce1795f50}
+
+
+Definition at line 123 of file external\_\-resource.cc.
+
+\hypertarget{classmocha_1_1_external_resource_a648c5fe956b22d4a2dccc77f90a46827}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!SafeGetRuntime@{SafeGetRuntime}}
+\index{SafeGetRuntime@{SafeGetRuntime}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{SafeGetRuntime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileRoot} $\ast$ mocha::ExternalResource::SafeGetRuntime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_external_resource_a648c5fe956b22d4a2dccc77f90a46827}
+
+
+Definition at line 132 of file external\_\-resource.cc.
+
+\hypertarget{classmocha_1_1_external_resource_afd20379c327ffe5396604545c78c066e}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!SafeSet@{SafeSet}}
+\index{SafeSet@{SafeSet}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{SafeSet}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ExternalResource::SafeSet (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_external_resource_afd20379c327ffe5396604545c78c066e}
+
+
+Definition at line 109 of file external\_\-resource.cc.
+
+\hypertarget{classmocha_1_1_external_resource_ad9b2039a630d4d7fd4faed7c09c4eaab}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!UnsafeGet@{UnsafeGet}}
+\index{UnsafeGet@{UnsafeGet}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{UnsafeGet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Resources} $\ast$ mocha::ExternalResource::UnsafeGet (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_external_resource_ad9b2039a630d4d7fd4faed7c09c4eaab}
+
+
+Definition at line 115 of file external\_\-resource.cc.
+
+\hypertarget{classmocha_1_1_external_resource_a79ef20671c0a4b32c48d771c4785abd8}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!UnsafeSet@{UnsafeSet}}
+\index{UnsafeSet@{UnsafeSet}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{UnsafeSet}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ExternalResource::UnsafeSet (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_external_resource_a79ef20671c0a4b32c48d771c4785abd8}
+
+
+Definition at line 104 of file external\_\-resource.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_external_resource_a79acd6713f0f1923efc59dae6a8cd61c}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!mutex\_\-@{mutex\_\-}}
+\index{mutex\_\-@{mutex\_\-}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{mutex\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mutex} {\bf mocha::ExternalResource::mutex\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_external_resource_a79acd6713f0f1923efc59dae6a8cd61c}
+
+
+Definition at line 47 of file external\_\-resource.h.
+
+\hypertarget{classmocha_1_1_external_resource_a31d3e9277c6e9150224e9cc181b042d3}{
+\index{mocha::ExternalResource@{mocha::ExternalResource}!resources\_\-@{resources\_\-}}
+\index{resources\_\-@{resources\_\-}!mocha::ExternalResource@{mocha::ExternalResource}}
+\subsubsection[{resources\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExternalResource::ResourceMap} {\bf mocha::ExternalResource::resources\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classmocha_1_1_external_resource_a31d3e9277c6e9150224e9cc181b042d3}
+
+
+Definition at line 48 of file external\_\-resource.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/external/\hyperlink{external__resource_8h}{external\_\-resource.h}\item 
+Y:/mocha/src/compiler/external/\hyperlink{external__resource_8cc}{external\_\-resource.cc}\end{DoxyCompactItemize}

@@ -1,0 +1,42 @@
+\hypertarget{hash__map-impl_8h}{
+\section{Y:/mocha/src/utils/hash/hash\_\-map/hash\_\-map-\/impl.h File Reference}
+\label{hash__map-impl_8h}\index{Y:/mocha/src/utils/hash/hash\_\-map/hash\_\-map-\/impl.h@{Y:/mocha/src/utils/hash/hash\_\-map/hash\_\-map-\/impl.h}}
+}
+{\ttfamily \#include $<$utils/hash/hash\_\-fn.h$>$}\par
+{\ttfamily \#include $<$utils/int\_\-types.h$>$}\par
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{hash__map-impl_8h_abfd85f58e7d01721b5a6f24291d18e76}{GET\_\-16BITS}(d)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Hash\_\-t \hyperlink{namespacemocha_ac798fe588f3709b0f43c4f8267b58099}{mocha::SuperFastHash} (const char $\ast$\hyperlink{bootstrap_8cc_a923b2158227405b9f7a6eceb6c7104c8}{data}, int len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{hash__map-impl_8h_abfd85f58e7d01721b5a6f24291d18e76}{
+\index{hash\_\-map-\/impl.h@{hash\_\-map-\/impl.h}!GET\_\-16BITS@{GET\_\-16BITS}}
+\index{GET\_\-16BITS@{GET\_\-16BITS}!hash_map-impl.h@{hash\_\-map-\/impl.h}}
+\subsubsection[{GET\_\-16BITS}]{\setlength{\rightskip}{0pt plus 5cm}\#define GET\_\-16BITS(
+\begin{DoxyParamCaption}
+\item[{}]{d}
+\end{DoxyParamCaption}
+)}}
+\label{hash__map-impl_8h_abfd85f58e7d01721b5a6f24291d18e76}
+{\bfseries Value:}
+\begin{DoxyCode}
+((((uint32_t)(((const uint8_t *)(d))[1])) << 8)\
+                       +(uint32_t)(((const uint8_t *)(d))[0]) )
+\end{DoxyCode}
+
+
+Definition at line 12 of file hash\_\-map-\/impl.h.
+

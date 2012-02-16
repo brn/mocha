@@ -1,0 +1,258 @@
+\hypertarget{classmocha_1_1_entry_node}{
+\section{mocha::EntryNode$<$ Key, Value $>$ Class Template Reference}
+\label{classmocha_1_1_entry_node}\index{mocha::EntryNode@{mocha::EntryNode}}
+}
+
+
+{\ttfamily \#include $<$hash\_\-bucket.h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{classmocha_1_1_entry_node_a903ff829823f6d2ffc816134b685d249a0dc13ddec2296670a5855615141bf99c}{kMax} =  10
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_entry_node_af96045dd310ba9914e5c22579f17b595}{EntryNode} ()
+\item 
+\hyperlink{classmocha_1_1_entry_node_a86ba6135ea1f7591354f6d8d5e119bd7}{$\sim$EntryNode} ()
+\item 
+void \hyperlink{classmocha_1_1_entry_node_a16982236fbe3d161bc5e14de822b5111}{Next} (\hyperlink{classmocha_1_1_entry_node}{EntryNode}$<$ Key, Value $>$ $\ast$next)
+\item 
+\hyperlink{classmocha_1_1_entry_node}{EntryNode}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_entry_node_af13343324dc3edc1f9b951b58dadc72b}{Next} ()
+\item 
+void \hyperlink{classmocha_1_1_entry_node_af349ab0631989671ac5ba02d05053301}{Prev} (\hyperlink{classmocha_1_1_entry_node}{EntryNode}$<$ Key, Value $>$ $\ast$prev)
+\item 
+\hyperlink{classmocha_1_1_entry_node}{EntryNode}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_entry_node_a984f41a9a835669291a82d5b8da9e3aa}{Prev} ()
+\item 
+void \hyperlink{classmocha_1_1_entry_node_a45601d3e19c1f88fe4eccdb756154b7c}{Add} (\hyperlink{classmocha_1_1_hash_entry}{HashEntry}$<$ Key, Value $>$ $\ast$)
+\item 
+bool \hyperlink{classmocha_1_1_entry_node_af3e9f2f8c807f5e0b2c58b9b57d74626}{IsFull} ()
+\item 
+int \hyperlink{classmocha_1_1_entry_node_a991efeaa896fe680ee334050ec8b18e4}{Size} ()
+\item 
+\hyperlink{classmocha_1_1_entry_container}{EntryContainer}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_entry_node_a290574518d474c66f4b59a8aae4bbfa0}{Item} (int i)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_entry_node_a84d128dc83eceffa42600fbb157035a6}{size\_\-}
+\item 
+\hyperlink{classmocha_1_1_entry_node}{EntryNode}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_entry_node_a5ac0f7dac781153119c25a6f43b6621a}{next\_\-}
+\item 
+\hyperlink{classmocha_1_1_entry_node}{EntryNode}$<$ Key, Value $>$ $\ast$ \hyperlink{classmocha_1_1_entry_node_ab0f8182df8e4e1bf8d297aa730bcd51a}{prev\_\-}
+\item 
+\hyperlink{classmocha_1_1_entry_container}{EntryContainer}$<$ Key, Value $>$ \hyperlink{classmocha_1_1_entry_node_aaff09614e453f1d5407bf8557a525962}{entry\_\-} \mbox{[}10\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Key, typename Value$>$class mocha::EntryNode$<$ Key, Value $>$}
+
+
+
+Definition at line 27 of file hash\_\-bucket.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_entry_node_a903ff829823f6d2ffc816134b685d249}{
+\subsubsection[{"@23}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key, typename Value$>$ anonymous enum}}
+\label{classmocha_1_1_entry_node_a903ff829823f6d2ffc816134b685d249}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kMax@{kMax}!mocha::EntryNode@{mocha::EntryNode}}\index{mocha::EntryNode@{mocha::EntryNode}!kMax@{kMax}}\item[{\em 
+\hypertarget{classmocha_1_1_entry_node_a903ff829823f6d2ffc816134b685d249a0dc13ddec2296670a5855615141bf99c}{
+kMax}
+\label{classmocha_1_1_entry_node_a903ff829823f6d2ffc816134b685d249a0dc13ddec2296670a5855615141bf99c}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 29 of file hash\_\-bucket.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_entry_node_af96045dd310ba9914e5c22579f17b595}{
+\index{mocha::EntryNode@{mocha::EntryNode}!EntryNode@{EntryNode}}
+\index{EntryNode@{EntryNode}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{EntryNode}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf mocha::EntryNode}$<$ Key, Value $>$::{\bf EntryNode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_af96045dd310ba9914e5c22579f17b595}
+
+
+Definition at line 67 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_a86ba6135ea1f7591354f6d8d5e119bd7}{
+\index{mocha::EntryNode@{mocha::EntryNode}!$\sim$EntryNode@{$\sim$EntryNode}}
+\index{$\sim$EntryNode@{$\sim$EntryNode}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{$\sim$EntryNode}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf mocha::EntryNode}$<$ Key, Value $>$::$\sim${\bf EntryNode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a86ba6135ea1f7591354f6d8d5e119bd7}
+
+
+Definition at line 70 of file hash\_\-bucket-\/impl.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_entry_node_a45601d3e19c1f88fe4eccdb756154b7c}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Add@{Add}}
+\index{Add@{Add}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Add}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::EntryNode}$<$ Key, Value $>$::Add (
+\begin{DoxyParamCaption}
+\item[{{\bf HashEntry}$<$ Key, Value $>$ $\ast$}]{ent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a45601d3e19c1f88fe4eccdb756154b7c}
+
+
+Definition at line 105 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_af3e9f2f8c807f5e0b2c58b9b57d74626}{
+\index{mocha::EntryNode@{mocha::EntryNode}!IsFull@{IsFull}}
+\index{IsFull@{IsFull}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{IsFull}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ bool {\bf mocha::EntryNode}$<$ Key, Value $>$::IsFull (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_af3e9f2f8c807f5e0b2c58b9b57d74626}
+
+
+Definition at line 112 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_a290574518d474c66f4b59a8aae4bbfa0}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Item@{Item}}
+\index{Item@{Item}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Item}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf EntryContainer}$<$ Key, Value $>$ $\ast$ {\bf mocha::EntryNode}$<$ Key, Value $>$::Item (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a290574518d474c66f4b59a8aae4bbfa0}
+
+
+Definition at line 117 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_a16982236fbe3d161bc5e14de822b5111}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Next@{Next}}
+\index{Next@{Next}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Next}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::EntryNode}$<$ Key, Value $>$::Next (
+\begin{DoxyParamCaption}
+\item[{{\bf EntryNode}$<$ Key, Value $>$ $\ast$}]{next}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a16982236fbe3d161bc5e14de822b5111}
+
+
+Definition at line 73 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_af13343324dc3edc1f9b951b58dadc72b}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Next@{Next}}
+\index{Next@{Next}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Next}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf EntryNode}$<$ Key, Value $>$ $\ast$ {\bf mocha::EntryNode}$<$ Key, Value $>$::Next (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_af13343324dc3edc1f9b951b58dadc72b}
+
+
+Definition at line 84 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_af349ab0631989671ac5ba02d05053301}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Prev@{Prev}}
+\index{Prev@{Prev}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Prev}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ void {\bf mocha::EntryNode}$<$ Key, Value $>$::Prev (
+\begin{DoxyParamCaption}
+\item[{{\bf EntryNode}$<$ Key, Value $>$ $\ast$}]{prev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_af349ab0631989671ac5ba02d05053301}
+
+
+Definition at line 89 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_a984f41a9a835669291a82d5b8da9e3aa}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Prev@{Prev}}
+\index{Prev@{Prev}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Prev}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key , typename Value $>$ {\bf EntryNode}$<$ Key, Value $>$ $\ast$ {\bf mocha::EntryNode}$<$ Key, Value $>$::Prev (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a984f41a9a835669291a82d5b8da9e3aa}
+
+
+Definition at line 100 of file hash\_\-bucket-\/impl.h.
+
+\hypertarget{classmocha_1_1_entry_node_a991efeaa896fe680ee334050ec8b18e4}{
+\index{mocha::EntryNode@{mocha::EntryNode}!Size@{Size}}
+\index{Size@{Size}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key, typename Value$>$ int {\bf mocha::EntryNode}$<$ Key, Value $>$::Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a991efeaa896fe680ee334050ec8b18e4}
+
+
+Definition at line 38 of file hash\_\-bucket.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_entry_node_aaff09614e453f1d5407bf8557a525962}{
+\index{mocha::EntryNode@{mocha::EntryNode}!entry\_\-@{entry\_\-}}
+\index{entry\_\-@{entry\_\-}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{entry\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key, typename Value$>$ {\bf EntryContainer}$<$Key,Value$>$ {\bf mocha::EntryNode}$<$ Key, Value $>$::{\bf entry\_\-}\mbox{[}10\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_entry_node_aaff09614e453f1d5407bf8557a525962}
+
+
+Definition at line 44 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_entry_node_a5ac0f7dac781153119c25a6f43b6621a}{
+\index{mocha::EntryNode@{mocha::EntryNode}!next\_\-@{next\_\-}}
+\index{next\_\-@{next\_\-}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{next\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key, typename Value$>$ {\bf EntryNode}$<$Key,Value$>$$\ast$ {\bf mocha::EntryNode}$<$ Key, Value $>$::{\bf next\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a5ac0f7dac781153119c25a6f43b6621a}
+
+
+Definition at line 42 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_entry_node_ab0f8182df8e4e1bf8d297aa730bcd51a}{
+\index{mocha::EntryNode@{mocha::EntryNode}!prev\_\-@{prev\_\-}}
+\index{prev\_\-@{prev\_\-}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{prev\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key, typename Value$>$ {\bf EntryNode}$<$Key,Value$>$$\ast$ {\bf mocha::EntryNode}$<$ Key, Value $>$::{\bf prev\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_entry_node_ab0f8182df8e4e1bf8d297aa730bcd51a}
+
+
+Definition at line 43 of file hash\_\-bucket.h.
+
+\hypertarget{classmocha_1_1_entry_node_a84d128dc83eceffa42600fbb157035a6}{
+\index{mocha::EntryNode@{mocha::EntryNode}!size\_\-@{size\_\-}}
+\index{size\_\-@{size\_\-}!mocha::EntryNode@{mocha::EntryNode}}
+\subsubsection[{size\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Key, typename Value$>$ int {\bf mocha::EntryNode}$<$ Key, Value $>$::{\bf size\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_entry_node_a84d128dc83eceffa42600fbb157035a6}
+
+
+Definition at line 41 of file hash\_\-bucket.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/hash/backup/\hyperlink{backup_2hash__bucket_8h}{hash\_\-bucket.h}\item 
+Y:/mocha/src/utils/hash/backup/\hyperlink{hash__bucket-impl_8h}{hash\_\-bucket-\/impl.h}\end{DoxyCompactItemize}

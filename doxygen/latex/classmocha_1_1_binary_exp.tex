@@ -1,0 +1,300 @@
+\hypertarget{classmocha_1_1_binary_exp}{
+\section{mocha::BinaryExp Class Reference}
+\label{classmocha_1_1_binary_exp}\index{mocha::BinaryExp@{mocha::BinaryExp}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::BinaryExp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_binary_exp}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \par
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093aaf7777a4b57fb6d87e1e12a6267904bf}{kMul}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a7279711d59e87a5fcfbbe205dbc1184a}{kDiv}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093acc9cda28bfadceb4b2c95ddebf1206c5}{kMod}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a37a515e229ac071633d53c1d19b3dee2}{kPlus}, 
+\par
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a516cfc09844f8a70ce98e71c716f8b75}{kMinus}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093abe621824418360cb2190394b5352b2a5}{kShiftLeft}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093af5941e749b759bd5b05106a180cceb28}{kShiftRight}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093abf9cb82ae717a842d082eaaac4924984}{kUShiftRight}, 
+\par
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a164ec266fc1c3539946107eb4f9fad25}{kAnd}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a6e59ebc04a213850d191f81eb617e26b}{kXor}, 
+\hyperlink{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a2d1f97cad536573b8e69c9f295544586}{kOr}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_binary_exp_a4a6151f22fb83c7b6e958103543901e2}{BinaryExp} (int op, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$left, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$right)
+\item 
+\hyperlink{classmocha_1_1_binary_exp_aa64a52bc2abaafac6d30b122a5eac880}{$\sim$BinaryExp} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_binary_exp_aff0c16fd0b2fc8a186bd749fb9020e38}{Left} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_binary_exp_ac22eeeeee93ef31b170519c4bace8cd9}{Right} ()
+\item 
+int \hyperlink{classmocha_1_1_binary_exp_a698d95fb3cc21ae19b87e74622a76683}{Op} ()
+\item 
+void \hyperlink{classmocha_1_1_binary_exp_a3e6534281bf4c610222b1ad6ec752625}{ReplaceChild} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$old\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$new\_\-node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_binary_exp_a035d97865c0512e2902192f8ed840ae4}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_binary_exp_ac7feb22c02d0432e40486b76997f505e}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_binary_exp_acc6841e04f10973e484979d4066a532f}{op\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_binary_exp_acc7f47a0ae80042c528250d881f78a90}{left\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_binary_exp_abf7760f6928cbc7941bb98a658d927fc}{right\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1414 of file ast.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093}{
+\subsubsection[{"@10}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kMul@{kMul}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kMul@{kMul}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093aaf7777a4b57fb6d87e1e12a6267904bf}{
+kMul}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093aaf7777a4b57fb6d87e1e12a6267904bf}
+}]\index{kDiv@{kDiv}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kDiv@{kDiv}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a7279711d59e87a5fcfbbe205dbc1184a}{
+kDiv}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a7279711d59e87a5fcfbbe205dbc1184a}
+}]\index{kMod@{kMod}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kMod@{kMod}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093acc9cda28bfadceb4b2c95ddebf1206c5}{
+kMod}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093acc9cda28bfadceb4b2c95ddebf1206c5}
+}]\index{kPlus@{kPlus}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kPlus@{kPlus}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a37a515e229ac071633d53c1d19b3dee2}{
+kPlus}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a37a515e229ac071633d53c1d19b3dee2}
+}]\index{kMinus@{kMinus}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kMinus@{kMinus}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a516cfc09844f8a70ce98e71c716f8b75}{
+kMinus}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a516cfc09844f8a70ce98e71c716f8b75}
+}]\index{kShiftLeft@{kShiftLeft}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kShiftLeft@{kShiftLeft}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093abe621824418360cb2190394b5352b2a5}{
+kShiftLeft}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093abe621824418360cb2190394b5352b2a5}
+}]\index{kShiftRight@{kShiftRight}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kShiftRight@{kShiftRight}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093af5941e749b759bd5b05106a180cceb28}{
+kShiftRight}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093af5941e749b759bd5b05106a180cceb28}
+}]\index{kUShiftRight@{kUShiftRight}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kUShiftRight@{kUShiftRight}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093abf9cb82ae717a842d082eaaac4924984}{
+kUShiftRight}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093abf9cb82ae717a842d082eaaac4924984}
+}]\index{kAnd@{kAnd}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kAnd@{kAnd}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a164ec266fc1c3539946107eb4f9fad25}{
+kAnd}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a164ec266fc1c3539946107eb4f9fad25}
+}]\index{kXor@{kXor}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kXor@{kXor}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a6e59ebc04a213850d191f81eb617e26b}{
+kXor}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a6e59ebc04a213850d191f81eb617e26b}
+}]\index{kOr@{kOr}!mocha::BinaryExp@{mocha::BinaryExp}}\index{mocha::BinaryExp@{mocha::BinaryExp}!kOr@{kOr}}\item[{\em 
+\hypertarget{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a2d1f97cad536573b8e69c9f295544586}{
+kOr}
+\label{classmocha_1_1_binary_exp_a6556e5472480591fec07f524fed6d093a2d1f97cad536573b8e69c9f295544586}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 1416 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_binary_exp_a4a6151f22fb83c7b6e958103543901e2}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!BinaryExp@{BinaryExp}}
+\index{BinaryExp@{BinaryExp}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{BinaryExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::BinaryExp::BinaryExp (
+\begin{DoxyParamCaption}
+\item[{int}]{op, }
+\item[{{\bf AstNode} $\ast$}]{left, }
+\item[{{\bf AstNode} $\ast$}]{right}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_a4a6151f22fb83c7b6e958103543901e2}
+
+
+Definition at line 1429 of file ast.h.
+
+\hypertarget{classmocha_1_1_binary_exp_aa64a52bc2abaafac6d30b122a5eac880}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!$\sim$BinaryExp@{$\sim$BinaryExp}}
+\index{$\sim$BinaryExp@{$\sim$BinaryExp}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{$\sim$BinaryExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::BinaryExp::$\sim$BinaryExp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_aa64a52bc2abaafac6d30b122a5eac880}
+
+
+Definition at line 1430 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_binary_exp_a035d97865c0512e2902192f8ed840ae4}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::BinaryExp::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_a035d97865c0512e2902192f8ed840ae4}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac1fb936e2bf0fdd6e7667275d3723ca5}{mocha::Expression}.
+
+
+
+Definition at line 533 of file ast.cc.
+
+\hypertarget{classmocha_1_1_binary_exp_aff0c16fd0b2fc8a186bd749fb9020e38}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!Left@{Left}}
+\index{Left@{Left}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{Left}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::BinaryExp::Left (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_aff0c16fd0b2fc8a186bd749fb9020e38}
+
+
+Definition at line 1431 of file ast.h.
+
+\hypertarget{classmocha_1_1_binary_exp_ac7feb22c02d0432e40486b76997f505e}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::BinaryExp::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_ac7feb22c02d0432e40486b76997f505e}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1440 of file ast.h.
+
+\hypertarget{classmocha_1_1_binary_exp_a698d95fb3cc21ae19b87e74622a76683}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!Op@{Op}}
+\index{Op@{Op}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{Op}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::BinaryExp::Op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_a698d95fb3cc21ae19b87e74622a76683}
+
+
+Definition at line 1433 of file ast.h.
+
+\hypertarget{classmocha_1_1_binary_exp_a3e6534281bf4c610222b1ad6ec752625}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!ReplaceChild@{ReplaceChild}}
+\index{ReplaceChild@{ReplaceChild}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{ReplaceChild}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::BinaryExp::ReplaceChild (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{old\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{new\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_a3e6534281bf4c610222b1ad6ec752625}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & Replace the old\_\-node with new\_\-node in childnodes. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_aa40396040f75fb59e320d81c3fd328c8}{mocha::AstNode}.
+
+
+
+Definition at line 517 of file ast.cc.
+
+\hypertarget{classmocha_1_1_binary_exp_ac22eeeeee93ef31b170519c4bace8cd9}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!Right@{Right}}
+\index{Right@{Right}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{Right}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::BinaryExp::Right (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_ac22eeeeee93ef31b170519c4bace8cd9}
+
+
+Definition at line 1432 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_binary_exp_acc7f47a0ae80042c528250d881f78a90}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!left\_\-@{left\_\-}}
+\index{left\_\-@{left\_\-}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{left\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::BinaryExp::left\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_acc7f47a0ae80042c528250d881f78a90}
+
+
+Definition at line 1438 of file ast.h.
+
+\hypertarget{classmocha_1_1_binary_exp_acc6841e04f10973e484979d4066a532f}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!op\_\-@{op\_\-}}
+\index{op\_\-@{op\_\-}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{op\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::BinaryExp::op\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_acc6841e04f10973e484979d4066a532f}
+
+
+Definition at line 1435 of file ast.h.
+
+\hypertarget{classmocha_1_1_binary_exp_abf7760f6928cbc7941bb98a658d927fc}{
+\index{mocha::BinaryExp@{mocha::BinaryExp}!right\_\-@{right\_\-}}
+\index{right\_\-@{right\_\-}!mocha::BinaryExp@{mocha::BinaryExp}}
+\subsubsection[{right\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::BinaryExp::right\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_binary_exp_abf7760f6928cbc7941bb98a658d927fc}
+
+
+Definition at line 1439 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

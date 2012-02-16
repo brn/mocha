@@ -20,3 +20,11 @@ import {
 @assert( true , testExport3.test === 200 );
 @assert( true , testExport4() === 3 );
 @assert( true , testExport5() === 4 );
+
+module testModule {
+  export foo()->"ok";
+}
+
+import {foo} from testModule;
+@assert( true ,foo() === "ok" );
+

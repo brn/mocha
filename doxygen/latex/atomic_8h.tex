@@ -1,0 +1,71 @@
+\hypertarget{atomic_8h}{
+\section{Y:/mocha/src/utils/atomic.h File Reference}
+\label{atomic_8h}\index{Y:/mocha/src/utils/atomic.h@{Y:/mocha/src/utils/atomic.h}}
+}
+{\ttfamily \#include $<$bits/atomicity.h$>$}\par
+{\ttfamily \#include $<$utils/class\_\-traits/static.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_atomic}{mocha::Atomic}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacemocha}{mocha}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{atomic_8h_af6d1d1a06b88830961bdd80913b17319}{EXCHANGE\_\-INC}(val, i)~\_\-\_\-gnu\_\-cxx::\_\-\_\-exchange\_\-and\_\-add( val , i )
+\item 
+\#define \hyperlink{atomic_8h_af5a7ca771c34026fd49a64dc563b9cbb}{EXCHANGE\_\-DEC}(val, i)~\_\-\_\-gnu\_\-cxx::\_\-\_\-exchange\_\-and\_\-add( val , -\/i )
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \_\-Atomic\_\-word \hyperlink{atomic_8h_a4fde06794efa6f001ed354067fdd8133}{AtomicWord}
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{atomic_8h_af5a7ca771c34026fd49a64dc563b9cbb}{
+\index{atomic.h@{atomic.h}!EXCHANGE\_\-DEC@{EXCHANGE\_\-DEC}}
+\index{EXCHANGE\_\-DEC@{EXCHANGE\_\-DEC}!atomic.h@{atomic.h}}
+\subsubsection[{EXCHANGE\_\-DEC}]{\setlength{\rightskip}{0pt plus 5cm}\#define EXCHANGE\_\-DEC(
+\begin{DoxyParamCaption}
+\item[{}]{val, }
+\item[{}]{i}
+\end{DoxyParamCaption}
+)~\_\-\_\-gnu\_\-cxx::\_\-\_\-exchange\_\-and\_\-add( val , -\/i )}}
+\label{atomic_8h_af5a7ca771c34026fd49a64dc563b9cbb}
+
+
+Definition at line 11 of file atomic.h.
+
+\hypertarget{atomic_8h_af6d1d1a06b88830961bdd80913b17319}{
+\index{atomic.h@{atomic.h}!EXCHANGE\_\-INC@{EXCHANGE\_\-INC}}
+\index{EXCHANGE\_\-INC@{EXCHANGE\_\-INC}!atomic.h@{atomic.h}}
+\subsubsection[{EXCHANGE\_\-INC}]{\setlength{\rightskip}{0pt plus 5cm}\#define EXCHANGE\_\-INC(
+\begin{DoxyParamCaption}
+\item[{}]{val, }
+\item[{}]{i}
+\end{DoxyParamCaption}
+)~\_\-\_\-gnu\_\-cxx::\_\-\_\-exchange\_\-and\_\-add( val , i )}}
+\label{atomic_8h_af6d1d1a06b88830961bdd80913b17319}
+
+
+Definition at line 10 of file atomic.h.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{atomic_8h_a4fde06794efa6f001ed354067fdd8133}{
+\index{atomic.h@{atomic.h}!AtomicWord@{AtomicWord}}
+\index{AtomicWord@{AtomicWord}!atomic.h@{atomic.h}}
+\subsubsection[{AtomicWord}]{\setlength{\rightskip}{0pt plus 5cm}typedef \_\-Atomic\_\-word {\bf AtomicWord}}}
+\label{atomic_8h_a4fde06794efa6f001ed354067fdd8133}
+
+
+Definition at line 12 of file atomic.h.
+

@@ -103,7 +103,6 @@ VISITOR_IMPL( FileRoot ) {
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
-    printf( "ast node = %s\n" , item->GetName() );
     item->Accept( this );
   }
 }
@@ -202,7 +201,6 @@ VISITOR_IMPL(StatementList) {
 void CodegenVisitor::VarListProcessor_( AstNode* ast_node ) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
-  printf( "%d\n" , ast_node->ChildLength() );
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
     if ( !item->IsEmpty() ) {
@@ -267,7 +265,6 @@ VISITOR_IMPL(IFStmt) {
       writer_->WriteOp( ';' , 0 , stream_.Get() );
     }
   } else {
-    printf( "is line %d\n" , is_line_ );
     if ( is_line_ ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
     }
@@ -335,7 +332,6 @@ VISITOR_IMPL(IterationStmt) {
 
 void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
-  printf( "For\n" );
   LineBreak( ast_node , stream_.Get() , writer_.Get() );
   writer_->SetLine( ast_node->Line() , stream_.Get() , current_root_ );
   AstNode* exp = ast_node->Exp();
@@ -386,7 +382,6 @@ void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
 
 void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
-  printf( "ForIn\n" );
   LineBreak( ast_node , stream_.Get() , writer_.Get() );
   int for_in_type = ast_node->NodeType();
   writer_->SetLine( ast_node->Line() , stream_.Get() , current_root_ );
@@ -434,7 +429,6 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
 
 void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
-  printf( "While\n" );
   LineBreak( ast_node , stream_.Get() , writer_.Get() );
   writer_->SetLine( ast_node->Line() , stream_.Get() , current_root_ );
   AstNode* exp = ast_node->Exp();
@@ -465,7 +459,6 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
 
 void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
   PRINT_NODE_NAME;
-  printf( "DoWhile\n" );
   LineBreak( ast_node , stream_.Get() , writer_.Get() );
   AstNode* exp = ast_node->Exp()->FirstChild();
   AstNode* maybeBlock = ast_node->FirstChild();
@@ -950,27 +943,22 @@ void CodegenVisitor::VarInitialiserProccessor_( ValueNode* ast_node ) {
 VISITOR_IMPL( ValueNode ) {
   switch ( ast_node->ValueType() ) {
     case ValueNode::kArray :
-      printf( "Array\n" );
       ArrayProccessor_( ast_node );
       break;
 
     case ValueNode::kObject :
-      printf( "Object\n" );
       ObjectProccessor_( ast_node );
       break;
 
     case ValueNode::kVariable :
-      printf( "var\n" );
       VarInitialiserProccessor_( ast_node );
       break;
 
     case ValueNode::kDst :
     case ValueNode::kDstArray :
-      printf( "Dst\n" );
       break;
 
     case ValueNode::kRest :
-      printf( "Rest\n" );
       rest_name_ = ast_node->Symbol()->GetToken();
       break;
 
@@ -1010,7 +998,6 @@ VISITOR_IMPL( ValueNode ) {
       break;
 
     default :
-      printf( "other %d\n" , ast_node->ValueType() );
       stream_->Write( ast_node->Symbol()->GetToken() );
   }
 }

@@ -248,7 +248,6 @@ DstaTree* ProcessArrayElement( ValueNode* ast_node,
                                int depth,
                                int index,
                                ProcessorInfo* info ) {
-  printf( "depth is = %d\n" , depth );
   VisitorInfo* visitor_info = info->GetInfo();
   if ( !element->IsEmpty() ) {
     if ( element->NodeType() == AstNode::kValueNode ) {
@@ -280,7 +279,6 @@ DstaTree* ProcessArrayElement( ValueNode* ast_node,
           break;
           //In case of [ x ,y ,...rest ]
         case ValueNode::kRest : {
-          fprintf( stderr , "@@@@@@@@ rest @@@@@@@@@\n");
           ArrayHelper( ast_node , visitor_info , tree , index , elem , true );
           visitor_info->GetCurrentStmt()->GetDsta()->LastChild()->AddChild( tree );
           UPDATE_TREE;
@@ -459,7 +457,6 @@ NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool 
    */
   while ( list.HasNext() ) {
     AstNode *first = list.Next();
-    fprintf( stderr, "|||||||||||||||||type = %s , %s\n" , first->GetName() , first->CastToDstaTree()->Symbol()->Symbol()->GetToken() );
     AstNode* maybe_callexp = first->FirstChild();
     CallExp* exp = 0;//init after.
     if ( maybe_callexp != 0 && maybe_callexp->NodeType() == AstNode::kCallExp ) {

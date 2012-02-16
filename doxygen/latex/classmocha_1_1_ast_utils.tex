@@ -1,0 +1,418 @@
+\hypertarget{classmocha_1_1_ast_utils}{
+\section{mocha::AstUtils Class Reference}
+\label{classmocha_1_1_ast_utils}\index{mocha::AstUtils@{mocha::AstUtils}}
+}
+
+
+{\ttfamily \#include $<$ast\_\-utils.h$>$}
+
+Inheritance diagram for mocha::AstUtils:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_ast_utils}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmocha_1_1_function}{Function} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a2b150de7953f29e5c94c7e9d110a6d97}{CreateFunctionDecl} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$name, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$argv, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$body)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a73682172af76ec16a106911d7546180f}{CreateArrayAccessor} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$callable, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$args)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_aed7efcb40804b8b9e3740a49519fa41a}{CreateDotAccessor} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$callable, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$args)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_ac0986e9863d2cba6b3cbae21c9f3cea2}{CreatePrototypeAccessor} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$callable, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$args)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a77bd4f7ca31be505683055685aa1ff77}{CreateNormalAccessor} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$callable, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$args)
+\item 
+static \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a1a4ad629469bdb21a0b4b67023c416f1}{CreateNameNode} (const char $\ast$name, int type, long line, int value\_\-type, bool is\_\-empty=false)
+\item 
+static \hyperlink{classmocha_1_1_assignment_exp}{AssignmentExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a3cd4b28daba962ddd963eec4bffc9f84}{CreateAssignment} (int type, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$lhs, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$rhs)
+\item 
+static \hyperlink{classmocha_1_1_unary_exp}{UnaryExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a25e8d20ae483db57a4b5c51d0444b5a7}{CreateUnaryExp} (int type, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp)
+\item 
+static \hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a491e3a29ccd8515edd75f7ad1658ff03}{CreateNodeList} (int num,...)
+\item 
+static \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a20a30d91e2013c43e91d20c01f6b4eb8}{CreateObjectLiteral} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$body)
+\item 
+static \hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_ae8ac7a22a62b0cf12490efdd1c054045}{CreateAnonymousFnCall} (\hyperlink{classmocha_1_1_function}{Function} $\ast$fn, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$args)
+\item 
+static \hyperlink{classmocha_1_1_expression_stmt}{ExpressionStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a2ad830d99f87e4aa99eb7b77ffcd8f60}{CreateExpStmt} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$node)
+\item 
+static \hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_aa7d849cc4fe5b84c9aa80c81904931fb}{CreateVarStmt} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list)
+\item 
+static \hyperlink{classmocha_1_1_variable_stmt}{VariableStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_aaac13a7c6db56f228165461c8e41e427}{CreateVarStmt} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$mem)
+\item 
+static \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a9fcb6a0bd018a4d1a98c600287f5db18}{CreateVarInitiliser} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$lhs, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$rhs)
+\item 
+static \hyperlink{classmocha_1_1_return_stmt}{ReturnStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_acde244c3e7c6107360bc0340fa73e8ea}{CreateReturnStmt} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_ad4547f1789aba2e0857a51a02312b7ca}{CreateRuntimeMod} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$member)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_adebbc56fb60852df97fc8c14ca15bc63}{CreateConstantProp} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$lhs, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$prop, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$value)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_ab3f901178db466ed2bd2a0a5287ab797}{CreatePrototypeNode} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$lhs)
+\item 
+static \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_ast_utils_aade0bbc424bb5f7c2e5a0d7979baea5f}{CreateGlobalExportNode} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ast\_\-node, \hyperlink{classmocha_1_1_visitor_info}{VisitorInfo} $\ast$visitor\_\-info, const char $\ast$base, const char $\ast$filename)
+\item 
+static const char $\ast$ \hyperlink{classmocha_1_1_ast_utils_a75c091058d5c25382b877015958a8400}{CreateTmpRef} (char $\ast$buf, int index)
+\item 
+static \hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ \hyperlink{classmocha_1_1_ast_utils_ab6fce222ac8de9e29710fdacc83e5b92}{CreateTmpNode} (int index)
+\item 
+static \hyperlink{classmocha_1_1_i_f_stmt}{IFStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a1b536aba81ff085251f3ba0149e38bff}{CreateIFStmt} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$then\_\-stmt, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$else\_\-stmt)
+\item 
+static \hyperlink{classmocha_1_1_block_stmt}{BlockStmt} $\ast$ \hyperlink{classmocha_1_1_ast_utils_a41c0267c33880f694c8ca57c42de814d}{CreateBlockStmt} (int num,...)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 39 of file ast\_\-utils.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_ast_utils_ae8ac7a22a62b0cf12490efdd1c054045}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateAnonymousFnCall@{CreateAnonymousFnCall}}
+\index{CreateAnonymousFnCall@{CreateAnonymousFnCall}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateAnonymousFnCall}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt} $\ast$ mocha::AstUtils::CreateAnonymousFnCall (
+\begin{DoxyParamCaption}
+\item[{{\bf Function} $\ast$}]{fn, }
+\item[{{\bf AstNode} $\ast$}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_ae8ac7a22a62b0cf12490efdd1c054045}
+
+
+Definition at line 92 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a73682172af76ec16a106911d7546180f}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateArrayAccessor@{CreateArrayAccessor}}
+\index{CreateArrayAccessor@{CreateArrayAccessor}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateArrayAccessor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreateArrayAccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{callable, }
+\item[{{\bf AstNode} $\ast$}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a73682172af76ec16a106911d7546180f}
+
+
+Definition at line 24 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a3cd4b28daba962ddd963eec4bffc9f84}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateAssignment@{CreateAssignment}}
+\index{CreateAssignment@{CreateAssignment}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateAssignment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AssignmentExp} $\ast$ mocha::AstUtils::CreateAssignment (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{{\bf AstNode} $\ast$}]{lhs, }
+\item[{{\bf AstNode} $\ast$}]{rhs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a3cd4b28daba962ddd963eec4bffc9f84}
+
+
+Definition at line 64 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a41c0267c33880f694c8ca57c42de814d}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateBlockStmt@{CreateBlockStmt}}
+\index{CreateBlockStmt@{CreateBlockStmt}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateBlockStmt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BlockStmt} $\ast$ mocha::AstUtils::CreateBlockStmt (
+\begin{DoxyParamCaption}
+\item[{int}]{num, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a41c0267c33880f694c8ca57c42de814d}
+
+
+Definition at line 211 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_adebbc56fb60852df97fc8c14ca15bc63}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateConstantProp@{CreateConstantProp}}
+\index{CreateConstantProp@{CreateConstantProp}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateConstantProp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreateConstantProp (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{lhs, }
+\item[{{\bf AstNode} $\ast$}]{prop, }
+\item[{{\bf AstNode} $\ast$}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_adebbc56fb60852df97fc8c14ca15bc63}
+
+
+Definition at line 143 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_aed7efcb40804b8b9e3740a49519fa41a}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateDotAccessor@{CreateDotAccessor}}
+\index{CreateDotAccessor@{CreateDotAccessor}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateDotAccessor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreateDotAccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{callable, }
+\item[{{\bf AstNode} $\ast$}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_aed7efcb40804b8b9e3740a49519fa41a}
+
+
+Definition at line 31 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a2ad830d99f87e4aa99eb7b77ffcd8f60}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateExpStmt@{CreateExpStmt}}
+\index{CreateExpStmt@{CreateExpStmt}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateExpStmt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ExpressionStmt} $\ast$ mocha::AstUtils::CreateExpStmt (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a2ad830d99f87e4aa99eb7b77ffcd8f60}
+
+
+Definition at line 106 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a2b150de7953f29e5c94c7e9d110a6d97}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateFunctionDecl@{CreateFunctionDecl}}
+\index{CreateFunctionDecl@{CreateFunctionDecl}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateFunctionDecl}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Function} $\ast$ mocha::AstUtils::CreateFunctionDecl (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{name, }
+\item[{{\bf AstNode} $\ast$}]{argv, }
+\item[{{\bf AstNode} $\ast$}]{body}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a2b150de7953f29e5c94c7e9d110a6d97}
+
+
+Definition at line 16 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_aade0bbc424bb5f7c2e5a0d7979baea5f}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateGlobalExportNode@{CreateGlobalExportNode}}
+\index{CreateGlobalExportNode@{CreateGlobalExportNode}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateGlobalExportNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreateGlobalExportNode (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{ast\_\-node, }
+\item[{{\bf VisitorInfo} $\ast$}]{visitor\_\-info, }
+\item[{const char $\ast$}]{base, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_aade0bbc424bb5f7c2e5a0d7979baea5f}
+
+
+Definition at line 187 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a1b536aba81ff085251f3ba0149e38bff}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateIFStmt@{CreateIFStmt}}
+\index{CreateIFStmt@{CreateIFStmt}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateIFStmt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IFStmt} $\ast$ mocha::AstUtils::CreateIFStmt (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp, }
+\item[{{\bf AstNode} $\ast$}]{then\_\-stmt, }
+\item[{{\bf AstNode} $\ast$}]{else\_\-stmt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a1b536aba81ff085251f3ba0149e38bff}
+
+
+Definition at line 203 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a1a4ad629469bdb21a0b4b67023c416f1}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateNameNode@{CreateNameNode}}
+\index{CreateNameNode@{CreateNameNode}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateNameNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode} $\ast$ mocha::AstUtils::CreateNameNode (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{int}]{type, }
+\item[{long}]{line, }
+\item[{int}]{value\_\-type, }
+\item[{bool}]{is\_\-empty = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a1a4ad629469bdb21a0b4b67023c416f1}
+
+
+Definition at line 54 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a491e3a29ccd8515edd75f7ad1658ff03}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateNodeList@{CreateNodeList}}
+\index{CreateNodeList@{CreateNodeList}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateNodeList}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NodeList} $\ast$ mocha::AstUtils::CreateNodeList (
+\begin{DoxyParamCaption}
+\item[{int}]{num, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a491e3a29ccd8515edd75f7ad1658ff03}
+
+
+Definition at line 75 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a77bd4f7ca31be505683055685aa1ff77}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateNormalAccessor@{CreateNormalAccessor}}
+\index{CreateNormalAccessor@{CreateNormalAccessor}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateNormalAccessor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreateNormalAccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{callable, }
+\item[{{\bf AstNode} $\ast$}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a77bd4f7ca31be505683055685aa1ff77}
+
+
+Definition at line 47 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a20a30d91e2013c43e91d20c01f6b4eb8}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateObjectLiteral@{CreateObjectLiteral}}
+\index{CreateObjectLiteral@{CreateObjectLiteral}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateObjectLiteral}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode} $\ast$ mocha::AstUtils::CreateObjectLiteral (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{body}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a20a30d91e2013c43e91d20c01f6b4eb8}
+
+
+Definition at line 86 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_ac0986e9863d2cba6b3cbae21c9f3cea2}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreatePrototypeAccessor@{CreatePrototypeAccessor}}
+\index{CreatePrototypeAccessor@{CreatePrototypeAccessor}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreatePrototypeAccessor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreatePrototypeAccessor (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{callable, }
+\item[{{\bf AstNode} $\ast$}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_ac0986e9863d2cba6b3cbae21c9f3cea2}
+
+
+Definition at line 40 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_ab3f901178db466ed2bd2a0a5287ab797}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreatePrototypeNode@{CreatePrototypeNode}}
+\index{CreatePrototypeNode@{CreatePrototypeNode}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreatePrototypeNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreatePrototypeNode (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{lhs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_ab3f901178db466ed2bd2a0a5287ab797}
+
+
+Definition at line 162 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_acde244c3e7c6107360bc0340fa73e8ea}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateReturnStmt@{CreateReturnStmt}}
+\index{CreateReturnStmt@{CreateReturnStmt}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateReturnStmt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ReturnStmt} $\ast$ mocha::AstUtils::CreateReturnStmt (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_acde244c3e7c6107360bc0340fa73e8ea}
+
+
+Definition at line 136 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_ad4547f1789aba2e0857a51a02312b7ca}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateRuntimeMod@{CreateRuntimeMod}}
+\index{CreateRuntimeMod@{CreateRuntimeMod}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateRuntimeMod}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::AstUtils::CreateRuntimeMod (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{member}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_ad4547f1789aba2e0857a51a02312b7ca}
+
+
+Definition at line 169 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_ab6fce222ac8de9e29710fdacc83e5b92}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateTmpNode@{CreateTmpNode}}
+\index{CreateTmpNode@{CreateTmpNode}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateTmpNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode} $\ast$ mocha::AstUtils::CreateTmpNode (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_ab6fce222ac8de9e29710fdacc83e5b92}
+
+
+Definition at line 181 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a75c091058d5c25382b877015958a8400}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateTmpRef@{CreateTmpRef}}
+\index{CreateTmpRef@{CreateTmpRef}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateTmpRef}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ mocha::AstUtils::CreateTmpRef (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buf, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a75c091058d5c25382b877015958a8400}
+
+
+Definition at line 176 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a25e8d20ae483db57a4b5c51d0444b5a7}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateUnaryExp@{CreateUnaryExp}}
+\index{CreateUnaryExp@{CreateUnaryExp}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateUnaryExp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf UnaryExp} $\ast$ mocha::AstUtils::CreateUnaryExp (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{{\bf AstNode} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a25e8d20ae483db57a4b5c51d0444b5a7}
+
+
+Definition at line 69 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_a9fcb6a0bd018a4d1a98c600287f5db18}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateVarInitiliser@{CreateVarInitiliser}}
+\index{CreateVarInitiliser@{CreateVarInitiliser}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateVarInitiliser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ValueNode} $\ast$ mocha::AstUtils::CreateVarInitiliser (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{lhs, }
+\item[{{\bf AstNode} $\ast$}]{rhs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_a9fcb6a0bd018a4d1a98c600287f5db18}
+
+
+Definition at line 128 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_aa7d849cc4fe5b84c9aa80c81904931fb}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateVarStmt@{CreateVarStmt}}
+\index{CreateVarStmt@{CreateVarStmt}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateVarStmt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt} $\ast$ mocha::AstUtils::CreateVarStmt (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_aa7d849cc4fe5b84c9aa80c81904931fb}
+
+
+Definition at line 114 of file ast\_\-utils.cc.
+
+\hypertarget{classmocha_1_1_ast_utils_aaac13a7c6db56f228165461c8e41e427}{
+\index{mocha::AstUtils@{mocha::AstUtils}!CreateVarStmt@{CreateVarStmt}}
+\index{CreateVarStmt@{CreateVarStmt}!mocha::AstUtils@{mocha::AstUtils}}
+\subsubsection[{CreateVarStmt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf VariableStmt} $\ast$ mocha::AstUtils::CreateVarStmt (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{mem}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classmocha_1_1_ast_utils_aaac13a7c6db56f228165461c8e41e427}
+
+
+Definition at line 122 of file ast\_\-utils.cc.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/utils/\hyperlink{ast__utils_8h}{ast\_\-utils.h}\item 
+Y:/mocha/src/ast/utils/\hyperlink{ast__utils_8cc}{ast\_\-utils.cc}\end{DoxyCompactItemize}

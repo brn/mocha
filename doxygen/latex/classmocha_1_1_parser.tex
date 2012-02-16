@@ -1,0 +1,1459 @@
+\hypertarget{classmocha_1_1_parser}{
+\section{mocha::Parser Class Reference}
+\label{classmocha_1_1_parser}\index{mocha::Parser@{mocha::Parser}}
+}
+
+
+{\ttfamily \#include $<$parser.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_parser_1_1_state_stack}{StateStack}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_parser_a08a4b15209b1ba37b676e9dbcaffafa6}{Parser} (\hyperlink{classmocha_1_1_parser_connector}{ParserConnector} $\ast$\hyperlink{classmocha_1_1_parser_ad90310da001b04cef5b5a82faf54011f}{connector\_\-}, \hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$reporter, const char $\ast$filename)
+\item 
+\hyperlink{classmocha_1_1_parser_ab246b630dcf304fd7346387b14cc8a29}{$\sim$Parser} ()
+\item 
+\hyperlink{classmocha_1_1_file_root}{FileRoot} $\ast$ \hyperlink{classmocha_1_1_parser_a35ebf00b020104d313bc3f2118166f7c}{Parse} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef bool($\ast$ \hyperlink{classmocha_1_1_parser_aa1eb16ae11106052906d8e5b964daf28}{StatementListMatcher} )(int type)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_parser_a83f86da3309f45b0be097d2e8c529309}{Advance\_\-} (int len=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_parser_a1e49a5eca48e337c8fffcd015ff69e46}{Undo\_\-} (int len=1)
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_parser_a6393b5183496eb57961686c2f554f389}{Seek\_\-} (int len=1)
+\item 
+void \hyperlink{classmocha_1_1_parser_a49c65e57150f65bdc8b8536be9e66b20}{IllegalEnd\_\-} (const char $\ast$expect, long line)
+\item 
+void \hyperlink{classmocha_1_1_parser_aaee55d26deb96653097449f76dac3cd5}{ParseTerminator\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a49f48f2b0ee2eb35265aaac502e1cf67}{ParseProgram\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a686ff1f23dac03466e5b0a2d1bd5a765}{ParseSourceElements\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a063cf897a654b2bf0ab5926e1055a89e}{ParseSourceElement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_afd1b8949d5eae0ae9b9308e5de69cb00}{ParseStatementList\_\-} (\hyperlink{classmocha_1_1_parser_aa1eb16ae11106052906d8e5b964daf28}{StatementListMatcher} matcher, const char $\ast$expect)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a148722a488bba6f40bb8d17447e02209}{ParseStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ae24d295121c47eaa89236de42619343c}{ParseBlockStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ad5ea9e452282b85bb2f6b0dba6032e2e}{ParseModuleStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ab04e91a3c4f7361b1f9078a8629e8f17}{ParseExportStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_afb93495fec483bc52c632153e663cf33}{ParseImportStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a6fba5a6dd88e5e1ca381436b32d36de0}{ParseImportExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ab59c04af7ace713a4f414826be77e1df}{ParseDebuggerStatement\_\-} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$token)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a7ccc1d3c6708d41c0335202607da8bc1}{ParseVersionStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a5de65e7eddc7fbfa8e50215133240730}{ParseAssertStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_af04365a0f641787b9161ec0c6def79b7}{ParseVariableStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a36b344198e09e468b2017b269833c094}{ParseVariableDecl\_\-} (bool is\_\-noin)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a8cef6d1862595f385aca686c51d300e0}{ParseLetDeclOrLetStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a0295ad63dbc5fb2e470d211f697ad304}{ParseDestructuringLeftHandSide\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a29088d647394cadfcc696d3d190fc9c1}{ParseArrayPattern\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a2e6a508e8179b24fd41e01bac2217a50}{ParseObjectPattern\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ad6f727e5f351615c41a34dc3c01d3a20}{ParseObjectPatternElement\_\-} (int type, \hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$token, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$list)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a0dcf265b77b07a84053fa8b8cc491cf6}{CheckLabellOrExpressionStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_af5e1b4852a916fa8f60beb8c0debccfd}{ParseIFStatement\_\-} (bool is\_\-comprehensions)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_abd22d2ae7266faf4a1e9043410cc6cad}{ParseWhileStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a73090cd28fb80d75bb42fa873c9c2892}{ParseDoWhileStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a3f8763d6bb7dc1a8cea9e73f37952fd6}{ParseForStatement\_\-} (bool is\_\-comprehensions)
+\item 
+void \hyperlink{classmocha_1_1_parser_ab26e6700d4ea36f16446032e5254ed8e}{ParseForStatementCondition\_\-} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list)
+\item 
+void \hyperlink{classmocha_1_1_parser_ad53cf6a9e81f32d71ef0c5508384ec58}{ParseForInStatementCondition\_\-} (\hyperlink{classmocha_1_1_node_list}{NodeList} $\ast$list)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a7391900b68771631fcfbb6d21f81d281}{ParseContinueStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ac04ef2a55713b2159018bdeb5c83cc5d}{ParseBreakStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a3d2b0dda23c713787755bba1aee4d046}{ParseReturnStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a252f2eaefe60b333c6106db949300f95}{ParseWithStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ae2e9871f038882eb89f1cabb085d7862}{ParseSwitchStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a58f0d68ccd7f722c78e8ddcee8299d82}{ParseCaseClauses\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a533a9836a013b15be6ddd959c57406f8}{ParseLabelledStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ad87e9e68a8c03c87661ff354ed3f74f4}{ParseThrowStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ac2a45125b3a10222f649d25bd2c584e6}{ParseTryStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a5715daf4df01fdbced0cb3fb3c2d8ef0}{ParseCatchBlock\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a4ceb0a70bed8258f8f9e53511a554a08}{ParseFinallyBlock\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a0a425972163a01d62980c50057efc004}{ParseTrait\_\-} ()
+\item 
+void \hyperlink{classmocha_1_1_parser_a82e66320dae5600aae5620a1295cd262}{ParseTraitBody\_\-} (\hyperlink{classmocha_1_1_trait}{Trait} $\ast$trait)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a47ff5b34b98f66b1b4103e9fbee92702}{ParseMixin\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_addc502dcf5fed6496f0bb22c71bd3c21}{ParseClassDecl\_\-} (bool is\_\-const)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_aaf3c5b53f37c5a8a6842a02d8473542c}{ParseInheritDecl\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a17c8ba6a70329ae01f5c40d5a5eb13c2}{ParseClassBody\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a30c1e53407476acdcdebf1fdfdc325a4}{ParseClassMemberStatement\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_class_member}{ClassMember} $\ast$ \hyperlink{classmocha_1_1_parser_af113cc4062e83d83c45df549e91f026e}{ParseClassMember\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a6f802e6c8c4118a8b872a2250a1dfd82}{ParseExportableDefinition\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a190a87e325017c5e3cd77920542b52c2}{ParseExpression\_\-} (bool is\_\-noin)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a55b07286decbf2fd6915186716b8f12a}{ParseAssignmentExpression\_\-} (bool is\_\-noin)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a6c49ef7a770e4ba2245aaf42a2e7a6df}{ParseYieldExpression\_\-} (bool is\_\-noin)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_abb27789507274f7db8fab2ffe464f761}{ParseConditional\_\-} (bool is\_\-noin)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a7b610bc4783a6d74214cd169f5841d82}{ParseBinaryExpression\_\-} (bool is\_\-noin)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a5186b19a3b0e0d36db2a137a02865e0a}{ParseUnaryExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a80f9f4df1a87dcee51c40d1093ec8008}{ParsePostfixExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a13d969a0722c06ec886ad59d1f51b208}{ParseLeftHandSideExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_new_exp}{NewExp} $\ast$ \hyperlink{classmocha_1_1_parser_af95a894c4a10be17b645e55f878169ec}{ParseNewExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a36f8042788081db2259918ff23c934bc}{ParseCallExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_adbbbed3bc0a0d9425343b645ac44b7b7}{ParseArguments\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a2a1a3814950c8db77d1dcb16a31c84fc}{ParseMemberExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_aae28eb3fff2f671ef65445351a2b3925}{ParseBracketMember\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a5f89deb757684dd0db30adab55414d3a}{ParseDotMember\_\-} (bool $\ast$is\_\-bool)
+\item 
+\hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$ \hyperlink{classmocha_1_1_parser_a1d690e4fb9cd6ceaa210e000e0071f89}{ParseEachMember\_\-} (int type, bool is\_\-first, \hyperlink{classmocha_1_1_call_exp}{CallExp} $\ast$exp)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a9eb79e6248f736befab9d89ddcd469ac}{ParsePrimaryExpression\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ab73f697339a6f184ad99e00d90dc1bb6}{ParseGeneratorExpression\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_aa38213100dca6a61a18391d28721c6a1}{ParseObjectLiteral\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_add66e8d59d80ed3f72fb8e64b62c2f26}{ParseObjectElement\_\-} (int type, \hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$token, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$list)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_abde6c1d67a7720a0d922dff3446c4387}{ParseArrayLiteral\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a412d660401166573a01b8dbc6f5cf522}{ParseLiteral\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a4a78260898ece51074e538147042c449}{ParseFunctionDecl\_\-} (bool is\_\-const)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a4baaca0963ef048bc46950b8611f4da9}{ParseFormalParameter\_\-} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_ac726663ecdb4ba6234a3eeee86a7c898}{ParseArrowFunctionExpression\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp, int type)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a164a6c85ed2aab9207663dccbfb407bd}{ParseArrowFunctionExpression\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$member, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$args, int type)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a7fd1cd22c561bfed8dc0feeb1c8fb07a}{ParseArrowFunctionExpression\_\-} (int type)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a4ecb375916d77add07df58b477beaf41}{ParseArrowFunctionBody\_\-} (\hyperlink{classmocha_1_1_function}{Function} $\ast$fn)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_parser_a31f3c91e072b8b5b9fc47ead5d12a2ff}{ParseArrayComprehensions\_\-} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{classmocha_1_1_parser_a6ce640ba66a27ff0309fcacd70e8ccf0}{filename\_\-}
+\item 
+std::string \hyperlink{classmocha_1_1_parser_a539ea72fa95db59adfe32c7cbd73506d}{indent\_\-}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_parser_1_1_state_stack}{StateStack} $>$ \hyperlink{classmocha_1_1_parser_a7c8173ec170938b02d0c812c47d15134}{state\_\-stack\_\-}
+\item 
+\hyperlink{classmocha_1_1_bit_vector}{BitVector8} \hyperlink{classmocha_1_1_parser_a68b155333cc401e16543f4b6267c6998}{bits\_\-}
+\item 
+\hyperlink{classmocha_1_1_parser_connector}{ParserConnector} $\ast$ \hyperlink{classmocha_1_1_parser_ad90310da001b04cef5b5a82faf54011f}{connector\_\-}
+\item 
+\hyperlink{classmocha_1_1_error_reporter}{ErrorReporter} $\ast$ \hyperlink{classmocha_1_1_parser_aebb487c9fe126bab58b5c76e1995127d}{reporter\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 12 of file parser.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_parser_aa1eb16ae11106052906d8e5b964daf28}{
+\index{mocha::Parser@{mocha::Parser}!StatementListMatcher@{StatementListMatcher}}
+\index{StatementListMatcher@{StatementListMatcher}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{StatementListMatcher}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool( $\ast$ {\bf mocha::Parser::StatementListMatcher})(int type)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_aa1eb16ae11106052906d8e5b964daf28}
+
+
+Definition at line 18 of file parser.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_parser_a08a4b15209b1ba37b676e9dbcaffafa6}{
+\index{mocha::Parser@{mocha::Parser}!Parser@{Parser}}
+\index{Parser@{Parser}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{Parser}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Parser::Parser (
+\begin{DoxyParamCaption}
+\item[{{\bf ParserConnector} $\ast$}]{connector\_\-, }
+\item[{{\bf ErrorReporter} $\ast$}]{reporter, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_a08a4b15209b1ba37b676e9dbcaffafa6}
+
+
+Definition at line 222 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ab246b630dcf304fd7346387b14cc8a29}{
+\index{mocha::Parser@{mocha::Parser}!$\sim$Parser@{$\sim$Parser}}
+\index{$\sim$Parser@{$\sim$Parser}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{$\sim$Parser}]{\setlength{\rightskip}{0pt plus 5cm}mocha::Parser::$\sim$Parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_ab246b630dcf304fd7346387b14cc8a29}
+
+
+Definition at line 224 of file parser.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_parser_a83f86da3309f45b0be097d2e8c529309}{
+\index{mocha::Parser@{mocha::Parser}!Advance\_\-@{Advance\_\-}}
+\index{Advance\_\-@{Advance\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{Advance\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo}$\ast$ mocha::Parser::Advance\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{len = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_parser_a83f86da3309f45b0be097d2e8c529309}
+
+
+Definition at line 19 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_a0dcf265b77b07a84053fa8b8cc491cf6}{
+\index{mocha::Parser@{mocha::Parser}!CheckLabellOrExpressionStatement\_\-@{CheckLabellOrExpressionStatement\_\-}}
+\index{CheckLabellOrExpressionStatement\_\-@{CheckLabellOrExpressionStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{CheckLabellOrExpressionStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::CheckLabellOrExpressionStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a0dcf265b77b07a84053fa8b8cc491cf6}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} labelled\_\-statement : JS\_\-IDENTIFIER ':' statement ;
+
+expression\_\-statement : expression ;
+
+
+
+Definition at line 1196 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a49c65e57150f65bdc8b8536be9e66b20}{
+\index{mocha::Parser@{mocha::Parser}!IllegalEnd\_\-@{IllegalEnd\_\-}}
+\index{IllegalEnd\_\-@{IllegalEnd\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{IllegalEnd\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Parser::IllegalEnd\_\- (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{expect, }
+\item[{long}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a49c65e57150f65bdc8b8536be9e66b20}
+
+
+Definition at line 237 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a35ebf00b020104d313bc3f2118166f7c}{
+\index{mocha::Parser@{mocha::Parser}!Parse@{Parse}}
+\index{Parse@{Parse}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{Parse}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FileRoot} $\ast$ mocha::Parser::Parse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_parser_a35ebf00b020104d313bc3f2118166f7c}
+
+
+Definition at line 229 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_adbbbed3bc0a0d9425343b645ac44b7b7}{
+\index{mocha::Parser@{mocha::Parser}!ParseArguments\_\-@{ParseArguments\_\-}}
+\index{ParseArguments\_\-@{ParseArguments\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArguments\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArguments\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_adbbbed3bc0a0d9425343b645ac44b7b7}
+
+
+Definition at line 2896 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a31f3c91e072b8b5b9fc47ead5d12a2ff}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrayComprehensions\_\-@{ParseArrayComprehensions\_\-}}
+\index{ParseArrayComprehensions\_\-@{ParseArrayComprehensions\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrayComprehensions\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrayComprehensions\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a31f3c91e072b8b5b9fc47ead5d12a2ff}
+
+
+Definition at line 3864 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_abde6c1d67a7720a0d922dff3446c4387}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrayLiteral\_\-@{ParseArrayLiteral\_\-}}
+\index{ParseArrayLiteral\_\-@{ParseArrayLiteral\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrayLiteral\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrayLiteral\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_abde6c1d67a7720a0d922dff3446c4387}
+
+
+Definition at line 3380 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a29088d647394cadfcc696d3d190fc9c1}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrayPattern\_\-@{ParseArrayPattern\_\-}}
+\index{ParseArrayPattern\_\-@{ParseArrayPattern\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrayPattern\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrayPattern\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a29088d647394cadfcc696d3d190fc9c1}
+
+
+Definition at line 1018 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a4ecb375916d77add07df58b477beaf41}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrowFunctionBody\_\-@{ParseArrowFunctionBody\_\-}}
+\index{ParseArrowFunctionBody\_\-@{ParseArrowFunctionBody\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrowFunctionBody\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrowFunctionBody\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf Function} $\ast$}]{fn}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a4ecb375916d77add07df58b477beaf41}
+
+
+Definition at line 3825 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a7fd1cd22c561bfed8dc0feeb1c8fb07a}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrowFunctionExpression\_\-@{ParseArrowFunctionExpression\_\-}}
+\index{ParseArrowFunctionExpression\_\-@{ParseArrowFunctionExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrowFunctionExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrowFunctionExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a7fd1cd22c561bfed8dc0feeb1c8fb07a}
+
+
+Definition at line 3813 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ac726663ecdb4ba6234a3eeee86a7c898}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrowFunctionExpression\_\-@{ParseArrowFunctionExpression\_\-}}
+\index{ParseArrowFunctionExpression\_\-@{ParseArrowFunctionExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrowFunctionExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrowFunctionExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ac726663ecdb4ba6234a3eeee86a7c898}
+
+
+Definition at line 3777 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a164a6c85ed2aab9207663dccbfb407bd}{
+\index{mocha::Parser@{mocha::Parser}!ParseArrowFunctionExpression\_\-@{ParseArrowFunctionExpression\_\-}}
+\index{ParseArrowFunctionExpression\_\-@{ParseArrowFunctionExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseArrowFunctionExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseArrowFunctionExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{member, }
+\item[{{\bf AstNode} $\ast$}]{args, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a164a6c85ed2aab9207663dccbfb407bd}
+
+
+Definition at line 3791 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a5de65e7eddc7fbfa8e50215133240730}{
+\index{mocha::Parser@{mocha::Parser}!ParseAssertStatement\_\-@{ParseAssertStatement\_\-}}
+\index{ParseAssertStatement\_\-@{ParseAssertStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseAssertStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseAssertStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a5de65e7eddc7fbfa8e50215133240730}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} mocha\_\-assert\_\-statement : MOCHA\_\-ASSERT '(' assignment\_\-expression ',' assignment\_\-expression ')'
+
+
+
+Definition at line 828 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a55b07286decbf2fd6915186716b8f12a}{
+\index{mocha::Parser@{mocha::Parser}!ParseAssignmentExpression\_\-@{ParseAssignmentExpression\_\-}}
+\index{ParseAssignmentExpression\_\-@{ParseAssignmentExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseAssignmentExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseAssignmentExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-noin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a55b07286decbf2fd6915186716b8f12a}
+
+
+Definition at line 2501 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a7b610bc4783a6d74214cd169f5841d82}{
+\index{mocha::Parser@{mocha::Parser}!ParseBinaryExpression\_\-@{ParseBinaryExpression\_\-}}
+\index{ParseBinaryExpression\_\-@{ParseBinaryExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseBinaryExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseBinaryExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-noin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a7b610bc4783a6d74214cd169f5841d82}
+
+
+Definition at line 2619 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ae24d295121c47eaa89236de42619343c}{
+\index{mocha::Parser@{mocha::Parser}!ParseBlockStatement\_\-@{ParseBlockStatement\_\-}}
+\index{ParseBlockStatement\_\-@{ParseBlockStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseBlockStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseBlockStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ae24d295121c47eaa89236de42619343c}
+
+
+Definition at line 583 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_aae28eb3fff2f671ef65445351a2b3925}{
+\index{mocha::Parser@{mocha::Parser}!ParseBracketMember\_\-@{ParseBracketMember\_\-}}
+\index{ParseBracketMember\_\-@{ParseBracketMember\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseBracketMember\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseBracketMember\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_aae28eb3fff2f671ef65445351a2b3925}
+
+
+Definition at line 3007 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ac04ef2a55713b2159018bdeb5c83cc5d}{
+\index{mocha::Parser@{mocha::Parser}!ParseBreakStatement\_\-@{ParseBreakStatement\_\-}}
+\index{ParseBreakStatement\_\-@{ParseBreakStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseBreakStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseBreakStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ac04ef2a55713b2159018bdeb5c83cc5d}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} : JS\_\-BREAK identifier\_\-\_\-opt terminator ;
+
+
+
+Definition at line 1639 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a36f8042788081db2259918ff23c934bc}{
+\index{mocha::Parser@{mocha::Parser}!ParseCallExpression\_\-@{ParseCallExpression\_\-}}
+\index{ParseCallExpression\_\-@{ParseCallExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseCallExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseCallExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a36f8042788081db2259918ff23c934bc}
+
+
+Definition at line 2795 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a58f0d68ccd7f722c78e8ddcee8299d82}{
+\index{mocha::Parser@{mocha::Parser}!ParseCaseClauses\_\-@{ParseCaseClauses\_\-}}
+\index{ParseCaseClauses\_\-@{ParseCaseClauses\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseCaseClauses\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseCaseClauses\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a58f0d68ccd7f722c78e8ddcee8299d82}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} case\_\-clauses : case\_\-clause $|$ case\_\-clauses case\_\-clause ;
+
+case\_\-clause : JS\_\-CASE expression ':' statement\_\-list\_\-\_\-opt ;
+
+default\_\-clause : JS\_\-DEFAULT ':' statement\_\-list\_\-\_\-opt ;
+
+
+
+Definition at line 1774 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a5715daf4df01fdbced0cb3fb3c2d8ef0}{
+\index{mocha::Parser@{mocha::Parser}!ParseCatchBlock\_\-@{ParseCatchBlock\_\-}}
+\index{ParseCatchBlock\_\-@{ParseCatchBlock\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseCatchBlock\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseCatchBlock\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a5715daf4df01fdbced0cb3fb3c2d8ef0}
+
+
+Definition at line 1956 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a17c8ba6a70329ae01f5c40d5a5eb13c2}{
+\index{mocha::Parser@{mocha::Parser}!ParseClassBody\_\-@{ParseClassBody\_\-}}
+\index{ParseClassBody\_\-@{ParseClassBody\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseClassBody\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseClassBody\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a17c8ba6a70329ae01f5c40d5a5eb13c2}
+
+
+Definition at line 2260 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_addc502dcf5fed6496f0bb22c71bd3c21}{
+\index{mocha::Parser@{mocha::Parser}!ParseClassDecl\_\-@{ParseClassDecl\_\-}}
+\index{ParseClassDecl\_\-@{ParseClassDecl\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseClassDecl\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseClassDecl\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_addc502dcf5fed6496f0bb22c71bd3c21}
+
+
+Definition at line 2194 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_af113cc4062e83d83c45df549e91f026e}{
+\index{mocha::Parser@{mocha::Parser}!ParseClassMember\_\-@{ParseClassMember\_\-}}
+\index{ParseClassMember\_\-@{ParseClassMember\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseClassMember\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ClassMember} $\ast$ mocha::Parser::ParseClassMember\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_af113cc4062e83d83c45df549e91f026e}
+
+
+Definition at line 2336 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a30c1e53407476acdcdebf1fdfdc325a4}{
+\index{mocha::Parser@{mocha::Parser}!ParseClassMemberStatement\_\-@{ParseClassMemberStatement\_\-}}
+\index{ParseClassMemberStatement\_\-@{ParseClassMemberStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseClassMemberStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseClassMemberStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a30c1e53407476acdcdebf1fdfdc325a4}
+
+
+Definition at line 2311 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_abb27789507274f7db8fab2ffe464f761}{
+\index{mocha::Parser@{mocha::Parser}!ParseConditional\_\-@{ParseConditional\_\-}}
+\index{ParseConditional\_\-@{ParseConditional\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseConditional\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseConditional\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-noin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_abb27789507274f7db8fab2ffe464f761}
+
+
+Definition at line 2584 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a7391900b68771631fcfbb6d21f81d281}{
+\index{mocha::Parser@{mocha::Parser}!ParseContinueStatement\_\-@{ParseContinueStatement\_\-}}
+\index{ParseContinueStatement\_\-@{ParseContinueStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseContinueStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseContinueStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a7391900b68771631fcfbb6d21f81d281}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} continue\_\-statement : JS\_\-CONTINUE identifier\_\-\_\-opt terminator
+
+
+
+Definition at line 1614 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ab59c04af7ace713a4f414826be77e1df}{
+\index{mocha::Parser@{mocha::Parser}!ParseDebuggerStatement\_\-@{ParseDebuggerStatement\_\-}}
+\index{ParseDebuggerStatement\_\-@{ParseDebuggerStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseDebuggerStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseDebuggerStatement\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{token}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ab59c04af7ace713a4f414826be77e1df}
+
+
+Definition at line 759 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a0295ad63dbc5fb2e470d211f697ad304}{
+\index{mocha::Parser@{mocha::Parser}!ParseDestructuringLeftHandSide\_\-@{ParseDestructuringLeftHandSide\_\-}}
+\index{ParseDestructuringLeftHandSide\_\-@{ParseDestructuringLeftHandSide\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseDestructuringLeftHandSide\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseDestructuringLeftHandSide\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a0295ad63dbc5fb2e470d211f697ad304}
+
+
+Definition at line 995 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a5f89deb757684dd0db30adab55414d3a}{
+\index{mocha::Parser@{mocha::Parser}!ParseDotMember\_\-@{ParseDotMember\_\-}}
+\index{ParseDotMember\_\-@{ParseDotMember\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseDotMember\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseDotMember\_\- (
+\begin{DoxyParamCaption}
+\item[{bool $\ast$}]{is\_\-bool}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a5f89deb757684dd0db30adab55414d3a}
+
+
+Definition at line 3027 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a73090cd28fb80d75bb42fa873c9c2892}{
+\index{mocha::Parser@{mocha::Parser}!ParseDoWhileStatement\_\-@{ParseDoWhileStatement\_\-}}
+\index{ParseDoWhileStatement\_\-@{ParseDoWhileStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseDoWhileStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseDoWhileStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a73090cd28fb80d75bb42fa873c9c2892}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} iteration\_\-statement : JS\_\-DO statement JS\_\-WHILE '(' expressio ')' terminator ;
+
+
+
+Definition at line 1292 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a1d690e4fb9cd6ceaa210e000e0071f89}{
+\index{mocha::Parser@{mocha::Parser}!ParseEachMember\_\-@{ParseEachMember\_\-}}
+\index{ParseEachMember\_\-@{ParseEachMember\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseEachMember\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CallExp} $\ast$ mocha::Parser::ParseEachMember\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{bool}]{is\_\-first, }
+\item[{{\bf CallExp} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a1d690e4fb9cd6ceaa210e000e0071f89}
+
+
+Definition at line 3059 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a6f802e6c8c4118a8b872a2250a1dfd82}{
+\index{mocha::Parser@{mocha::Parser}!ParseExportableDefinition\_\-@{ParseExportableDefinition\_\-}}
+\index{ParseExportableDefinition\_\-@{ParseExportableDefinition\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseExportableDefinition\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseExportableDefinition\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a6f802e6c8c4118a8b872a2250a1dfd82}
+
+
+Definition at line 2383 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ab04e91a3c4f7361b1f9078a8629e8f17}{
+\index{mocha::Parser@{mocha::Parser}!ParseExportStatement\_\-@{ParseExportStatement\_\-}}
+\index{ParseExportStatement\_\-@{ParseExportStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseExportStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseExportStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ab04e91a3c4f7361b1f9078a8629e8f17}
+
+
+Definition at line 650 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a190a87e325017c5e3cd77920542b52c2}{
+\index{mocha::Parser@{mocha::Parser}!ParseExpression\_\-@{ParseExpression\_\-}}
+\index{ParseExpression\_\-@{ParseExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-noin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a190a87e325017c5e3cd77920542b52c2}
+
+
+Definition at line 2463 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a4ceb0a70bed8258f8f9e53511a554a08}{
+\index{mocha::Parser@{mocha::Parser}!ParseFinallyBlock\_\-@{ParseFinallyBlock\_\-}}
+\index{ParseFinallyBlock\_\-@{ParseFinallyBlock\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseFinallyBlock\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseFinallyBlock\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a4ceb0a70bed8258f8f9e53511a554a08}
+
+
+Definition at line 1998 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ad53cf6a9e81f32d71ef0c5508384ec58}{
+\index{mocha::Parser@{mocha::Parser}!ParseForInStatementCondition\_\-@{ParseForInStatementCondition\_\-}}
+\index{ParseForInStatementCondition\_\-@{ParseForInStatementCondition\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseForInStatementCondition\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Parser::ParseForInStatementCondition\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ad53cf6a9e81f32d71ef0c5508384ec58}
+
+
+Definition at line 1596 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a4baaca0963ef048bc46950b8611f4da9}{
+\index{mocha::Parser@{mocha::Parser}!ParseFormalParameter\_\-@{ParseFormalParameter\_\-}}
+\index{ParseFormalParameter\_\-@{ParseFormalParameter\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseFormalParameter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseFormalParameter\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a4baaca0963ef048bc46950b8611f4da9}
+
+
+Definition at line 3674 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a3f8763d6bb7dc1a8cea9e73f37952fd6}{
+\index{mocha::Parser@{mocha::Parser}!ParseForStatement\_\-@{ParseForStatement\_\-}}
+\index{ParseForStatement\_\-@{ParseForStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseForStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseForStatement\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-comprehensions}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a3f8763d6bb7dc1a8cea9e73f37952fd6}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} iteration\_\-statement : JS\_\-FOR '(' JS\_\-VAR variable\_\-declaration\_\-list\_\-no\_\-in ';' expression\_\-\_\-opt ';' expression\_\-\_\-opt ) statement $|$ JS\_\-FOR '(' expression\_\-no\_\-in\_\-\_\-opt ';' expression\_\-\_\-opt ';' expression\_\-\_\-opt ')' statement $|$ JS\_\-FOR '(' JS\_\-VAR variable\_\-declaration\_\-no\_\-in JS\_\-IN expression ')' statement $|$ JS\_\-FOR '(' left\_\-hand\_\-side\_\-expression JS\_\-IN expression ')' statement $|$ JS\_\-FOR '(' JS\_\-VAR variable\_\-declaration\_\-no\_\-in JS\_\-IDENTIFIER expression ')' statement $|$ JS\_\-FOR '(' left\_\-hand\_\-side\_\-expression JS\_\-IDENTIFIER expression ')' statement $|$ JS\_\-FOR JS\_\-EACH '(' JS\_\-VAR variable\_\-declaration\_\-no\_\-in JS\_\-IN expression ')' statement $|$ JS\_\-FOR JS\_\-EACH '(' left\_\-hand\_\-side\_\-expression JS\_\-IN expression ')' statement ;
+
+array\_\-comprehensions : array\_\-comprehension\_\-iteration $|$ array\_\-comprehensions array\_\-comprehension\_\-iteration ;
+
+array\_\-comprehension\_\-iteration : JS\_\-FOR '(' left\_\-hand\_\-side\_\-expression JS\_\-IDENTIFIER expression ')' ;
+
+
+
+Definition at line 1395 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ab26e6700d4ea36f16446032e5254ed8e}{
+\index{mocha::Parser@{mocha::Parser}!ParseForStatementCondition\_\-@{ParseForStatementCondition\_\-}}
+\index{ParseForStatementCondition\_\-@{ParseForStatementCondition\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseForStatementCondition\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Parser::ParseForStatementCondition\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf NodeList} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ab26e6700d4ea36f16446032e5254ed8e}
+
+
+Definition at line 1563 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a4a78260898ece51074e538147042c449}{
+\index{mocha::Parser@{mocha::Parser}!ParseFunctionDecl\_\-@{ParseFunctionDecl\_\-}}
+\index{ParseFunctionDecl\_\-@{ParseFunctionDecl\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseFunctionDecl\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseFunctionDecl\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-const}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a4a78260898ece51074e538147042c449}
+
+
+Definition at line 3559 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ab73f697339a6f184ad99e00d90dc1bb6}{
+\index{mocha::Parser@{mocha::Parser}!ParseGeneratorExpression\_\-@{ParseGeneratorExpression\_\-}}
+\index{ParseGeneratorExpression\_\-@{ParseGeneratorExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseGeneratorExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseGeneratorExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ab73f697339a6f184ad99e00d90dc1bb6}
+
+
+Definition at line 3234 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_af5e1b4852a916fa8f60beb8c0debccfd}{
+\index{mocha::Parser@{mocha::Parser}!ParseIFStatement\_\-@{ParseIFStatement\_\-}}
+\index{ParseIFStatement\_\-@{ParseIFStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseIFStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseIFStatement\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-comprehensions}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_af5e1b4852a916fa8f60beb8c0debccfd}
+
+
+Definition at line 1232 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a6fba5a6dd88e5e1ca381436b32d36de0}{
+\index{mocha::Parser@{mocha::Parser}!ParseImportExpression\_\-@{ParseImportExpression\_\-}}
+\index{ParseImportExpression\_\-@{ParseImportExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseImportExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseImportExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a6fba5a6dd88e5e1ca381436b32d36de0}
+
+
+Definition at line 725 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_afb93495fec483bc52c632153e663cf33}{
+\index{mocha::Parser@{mocha::Parser}!ParseImportStatement\_\-@{ParseImportStatement\_\-}}
+\index{ParseImportStatement\_\-@{ParseImportStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseImportStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseImportStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_afb93495fec483bc52c632153e663cf33}
+
+
+Definition at line 667 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_aaf3c5b53f37c5a8a6842a02d8473542c}{
+\index{mocha::Parser@{mocha::Parser}!ParseInheritDecl\_\-@{ParseInheritDecl\_\-}}
+\index{ParseInheritDecl\_\-@{ParseInheritDecl\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseInheritDecl\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseInheritDecl\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_aaf3c5b53f37c5a8a6842a02d8473542c}
+
+
+Definition at line 2241 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a533a9836a013b15be6ddd959c57406f8}{
+\index{mocha::Parser@{mocha::Parser}!ParseLabelledStatement\_\-@{ParseLabelledStatement\_\-}}
+\index{ParseLabelledStatement\_\-@{ParseLabelledStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseLabelledStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseLabelledStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a533a9836a013b15be6ddd959c57406f8}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} labelled\_\-statement : JS\_\-IDENTIFIER ':' statement ;
+
+
+
+Definition at line 1859 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a13d969a0722c06ec886ad59d1f51b208}{
+\index{mocha::Parser@{mocha::Parser}!ParseLeftHandSideExpression\_\-@{ParseLeftHandSideExpression\_\-}}
+\index{ParseLeftHandSideExpression\_\-@{ParseLeftHandSideExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseLeftHandSideExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseLeftHandSideExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a13d969a0722c06ec886ad59d1f51b208}
+
+
+Definition at line 2758 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a8cef6d1862595f385aca686c51d300e0}{
+\index{mocha::Parser@{mocha::Parser}!ParseLetDeclOrLetStatement\_\-@{ParseLetDeclOrLetStatement\_\-}}
+\index{ParseLetDeclOrLetStatement\_\-@{ParseLetDeclOrLetStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseLetDeclOrLetStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::Parser::ParseLetDeclOrLetStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_parser_a8cef6d1862595f385aca686c51d300e0}
+
+
+Definition at line 47 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_a412d660401166573a01b8dbc6f5cf522}{
+\index{mocha::Parser@{mocha::Parser}!ParseLiteral\_\-@{ParseLiteral\_\-}}
+\index{ParseLiteral\_\-@{ParseLiteral\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseLiteral\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseLiteral\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a412d660401166573a01b8dbc6f5cf522}
+
+
+Definition at line 3482 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a2a1a3814950c8db77d1dcb16a31c84fc}{
+\index{mocha::Parser@{mocha::Parser}!ParseMemberExpression\_\-@{ParseMemberExpression\_\-}}
+\index{ParseMemberExpression\_\-@{ParseMemberExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseMemberExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseMemberExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a2a1a3814950c8db77d1dcb16a31c84fc}
+
+
+Definition at line 2942 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a47ff5b34b98f66b1b4103e9fbee92702}{
+\index{mocha::Parser@{mocha::Parser}!ParseMixin\_\-@{ParseMixin\_\-}}
+\index{ParseMixin\_\-@{ParseMixin\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseMixin\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseMixin\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a47ff5b34b98f66b1b4103e9fbee92702}
+
+
+Definition at line 2121 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ad5ea9e452282b85bb2f6b0dba6032e2e}{
+\index{mocha::Parser@{mocha::Parser}!ParseModuleStatement\_\-@{ParseModuleStatement\_\-}}
+\index{ParseModuleStatement\_\-@{ParseModuleStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseModuleStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseModuleStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ad5ea9e452282b85bb2f6b0dba6032e2e}
+
+
+Definition at line 624 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_af95a894c4a10be17b645e55f878169ec}{
+\index{mocha::Parser@{mocha::Parser}!ParseNewExpression\_\-@{ParseNewExpression\_\-}}
+\index{ParseNewExpression\_\-@{ParseNewExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseNewExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewExp} $\ast$ mocha::Parser::ParseNewExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_af95a894c4a10be17b645e55f878169ec}
+
+
+Definition at line 2773 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_add66e8d59d80ed3f72fb8e64b62c2f26}{
+\index{mocha::Parser@{mocha::Parser}!ParseObjectElement\_\-@{ParseObjectElement\_\-}}
+\index{ParseObjectElement\_\-@{ParseObjectElement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseObjectElement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseObjectElement\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{{\bf TokenInfo} $\ast$}]{token, }
+\item[{{\bf AstNode} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_add66e8d59d80ed3f72fb8e64b62c2f26}
+
+
+Definition at line 3342 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_aa38213100dca6a61a18391d28721c6a1}{
+\index{mocha::Parser@{mocha::Parser}!ParseObjectLiteral\_\-@{ParseObjectLiteral\_\-}}
+\index{ParseObjectLiteral\_\-@{ParseObjectLiteral\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseObjectLiteral\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseObjectLiteral\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_aa38213100dca6a61a18391d28721c6a1}
+
+
+Definition at line 3244 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a2e6a508e8179b24fd41e01bac2217a50}{
+\index{mocha::Parser@{mocha::Parser}!ParseObjectPattern\_\-@{ParseObjectPattern\_\-}}
+\index{ParseObjectPattern\_\-@{ParseObjectPattern\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseObjectPattern\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseObjectPattern\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a2e6a508e8179b24fd41e01bac2217a50}
+
+
+Definition at line 1113 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ad6f727e5f351615c41a34dc3c01d3a20}{
+\index{mocha::Parser@{mocha::Parser}!ParseObjectPatternElement\_\-@{ParseObjectPatternElement\_\-}}
+\index{ParseObjectPatternElement\_\-@{ParseObjectPatternElement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseObjectPatternElement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseObjectPatternElement\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{{\bf TokenInfo} $\ast$}]{token, }
+\item[{{\bf AstNode} $\ast$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ad6f727e5f351615c41a34dc3c01d3a20}
+
+
+Definition at line 1176 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a80f9f4df1a87dcee51c40d1093ec8008}{
+\index{mocha::Parser@{mocha::Parser}!ParsePostfixExpression\_\-@{ParsePostfixExpression\_\-}}
+\index{ParsePostfixExpression\_\-@{ParsePostfixExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParsePostfixExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParsePostfixExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a80f9f4df1a87dcee51c40d1093ec8008}
+
+
+Definition at line 2738 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a9eb79e6248f736befab9d89ddcd469ac}{
+\index{mocha::Parser@{mocha::Parser}!ParsePrimaryExpression\_\-@{ParsePrimaryExpression\_\-}}
+\index{ParsePrimaryExpression\_\-@{ParsePrimaryExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParsePrimaryExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParsePrimaryExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a9eb79e6248f736befab9d89ddcd469ac}
+
+
+Definition at line 3123 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a49f48f2b0ee2eb35265aaac502e1cf67}{
+\index{mocha::Parser@{mocha::Parser}!ParseProgram\_\-@{ParseProgram\_\-}}
+\index{ParseProgram\_\-@{ParseProgram\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseProgram\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseProgram\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a49f48f2b0ee2eb35265aaac502e1cf67}
+
+
+Definition at line 259 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a3d2b0dda23c713787755bba1aee4d046}{
+\index{mocha::Parser@{mocha::Parser}!ParseReturnStatement\_\-@{ParseReturnStatement\_\-}}
+\index{ParseReturnStatement\_\-@{ParseReturnStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseReturnStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseReturnStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a3d2b0dda23c713787755bba1aee4d046}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} return\_\-statement : JS\_\-RETURN expression\_\-\_\-opt terminator ;
+
+
+
+Definition at line 1663 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a063cf897a654b2bf0ab5926e1055a89e}{
+\index{mocha::Parser@{mocha::Parser}!ParseSourceElement\_\-@{ParseSourceElement\_\-}}
+\index{ParseSourceElement\_\-@{ParseSourceElement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseSourceElement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseSourceElement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a063cf897a654b2bf0ab5926e1055a89e}
+
+
+Definition at line 300 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a686ff1f23dac03466e5b0a2d1bd5a765}{
+\index{mocha::Parser@{mocha::Parser}!ParseSourceElements\_\-@{ParseSourceElements\_\-}}
+\index{ParseSourceElements\_\-@{ParseSourceElements\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseSourceElements\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseSourceElements\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a686ff1f23dac03466e5b0a2d1bd5a765}
+
+
+Definition at line 275 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a148722a488bba6f40bb8d17447e02209}{
+\index{mocha::Parser@{mocha::Parser}!ParseStatement\_\-@{ParseStatement\_\-}}
+\index{ParseStatement\_\-@{ParseStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a148722a488bba6f40bb8d17447e02209}
+
+
+Definition at line 407 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_afd1b8949d5eae0ae9b9308e5de69cb00}{
+\index{mocha::Parser@{mocha::Parser}!ParseStatementList\_\-@{ParseStatementList\_\-}}
+\index{ParseStatementList\_\-@{ParseStatementList\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseStatementList\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseStatementList\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf StatementListMatcher}}]{matcher, }
+\item[{const char $\ast$}]{expect}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_afd1b8949d5eae0ae9b9308e5de69cb00}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} statement\_\-list : statement $|$ statement\_\-list statement ;
+
+
+
+Definition at line 376 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ae2e9871f038882eb89f1cabb085d7862}{
+\index{mocha::Parser@{mocha::Parser}!ParseSwitchStatement\_\-@{ParseSwitchStatement\_\-}}
+\index{ParseSwitchStatement\_\-@{ParseSwitchStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseSwitchStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseSwitchStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ae2e9871f038882eb89f1cabb085d7862}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} switch\_\-statement : JS\_\-SWITCH '(' expression ')' case\_\-block ;
+
+
+
+Definition at line 1735 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_aaee55d26deb96653097449f76dac3cd5}{
+\index{mocha::Parser@{mocha::Parser}!ParseTerminator\_\-@{ParseTerminator\_\-}}
+\index{ParseTerminator\_\-@{ParseTerminator\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseTerminator\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Parser::ParseTerminator\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_aaee55d26deb96653097449f76dac3cd5}
+
+
+Definition at line 243 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ad87e9e68a8c03c87661ff354ed3f74f4}{
+\index{mocha::Parser@{mocha::Parser}!ParseThrowStatement\_\-@{ParseThrowStatement\_\-}}
+\index{ParseThrowStatement\_\-@{ParseThrowStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseThrowStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseThrowStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ad87e9e68a8c03c87661ff354ed3f74f4}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} throw\_\-statement : JS\_\-THROW expression terminator ;
+
+
+
+Definition at line 1884 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a0a425972163a01d62980c50057efc004}{
+\index{mocha::Parser@{mocha::Parser}!ParseTrait\_\-@{ParseTrait\_\-}}
+\index{ParseTrait\_\-@{ParseTrait\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseTrait\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseTrait\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a0a425972163a01d62980c50057efc004}
+
+
+Definition at line 2019 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a82e66320dae5600aae5620a1295cd262}{
+\index{mocha::Parser@{mocha::Parser}!ParseTraitBody\_\-@{ParseTraitBody\_\-}}
+\index{ParseTraitBody\_\-@{ParseTraitBody\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseTraitBody\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::Parser::ParseTraitBody\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf Trait} $\ast$}]{trait}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a82e66320dae5600aae5620a1295cd262}
+
+
+Definition at line 2050 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_ac2a45125b3a10222f649d25bd2c584e6}{
+\index{mocha::Parser@{mocha::Parser}!ParseTryStatement\_\-@{ParseTryStatement\_\-}}
+\index{ParseTryStatement\_\-@{ParseTryStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseTryStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseTryStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ac2a45125b3a10222f649d25bd2c584e6}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} try\_\-statement : JS\_\-TRY block catch $|$ JS\_\-TRY block finally $|$ JS\_\-TRY block catch finally ;
+
+
+
+Definition at line 1907 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a5186b19a3b0e0d36db2a137a02865e0a}{
+\index{mocha::Parser@{mocha::Parser}!ParseUnaryExpression\_\-@{ParseUnaryExpression\_\-}}
+\index{ParseUnaryExpression\_\-@{ParseUnaryExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseUnaryExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseUnaryExpression\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a5186b19a3b0e0d36db2a137a02865e0a}
+
+
+Definition at line 2717 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a36b344198e09e468b2017b269833c094}{
+\index{mocha::Parser@{mocha::Parser}!ParseVariableDecl\_\-@{ParseVariableDecl\_\-}}
+\index{ParseVariableDecl\_\-@{ParseVariableDecl\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseVariableDecl\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseVariableDecl\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-noin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a36b344198e09e468b2017b269833c094}
+
+
+Definition at line 910 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_af04365a0f641787b9161ec0c6def79b7}{
+\index{mocha::Parser@{mocha::Parser}!ParseVariableStatement\_\-@{ParseVariableStatement\_\-}}
+\index{ParseVariableStatement\_\-@{ParseVariableStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseVariableStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseVariableStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_af04365a0f641787b9161ec0c6def79b7}
+
+
+Definition at line 884 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a7ccc1d3c6708d41c0335202607da8bc1}{
+\index{mocha::Parser@{mocha::Parser}!ParseVersionStatement\_\-@{ParseVersionStatement\_\-}}
+\index{ParseVersionStatement\_\-@{ParseVersionStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseVersionStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseVersionStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a7ccc1d3c6708d41c0335202607da8bc1}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} version\_\-statement : MOCHA\_\-VERSIONOF '(' JS\_\-IDENTIFIER ')' block\_\-statement ;
+
+
+
+Definition at line 772 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_abd22d2ae7266faf4a1e9043410cc6cad}{
+\index{mocha::Parser@{mocha::Parser}!ParseWhileStatement\_\-@{ParseWhileStatement\_\-}}
+\index{ParseWhileStatement\_\-@{ParseWhileStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseWhileStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseWhileStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_abd22d2ae7266faf4a1e9043410cc6cad}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} iteration\_\-statement : JS\_\-WHILE '(' expression ')' statement ;
+
+
+
+Definition at line 1348 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a252f2eaefe60b333c6106db949300f95}{
+\index{mocha::Parser@{mocha::Parser}!ParseWithStatement\_\-@{ParseWithStatement\_\-}}
+\index{ParseWithStatement\_\-@{ParseWithStatement\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseWithStatement\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseWithStatement\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a252f2eaefe60b333c6106db949300f95}
+
+
+\mbox{[}bison/yacc compat syntax\mbox{]} with\_\-statement : JS\_\-WITH '(' expression ')' statement
+
+
+
+Definition at line 1697 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a6c49ef7a770e4ba2245aaf42a2e7a6df}{
+\index{mocha::Parser@{mocha::Parser}!ParseYieldExpression\_\-@{ParseYieldExpression\_\-}}
+\index{ParseYieldExpression\_\-@{ParseYieldExpression\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{ParseYieldExpression\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::Parser::ParseYieldExpression\_\- (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-noin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a6c49ef7a770e4ba2245aaf42a2e7a6df}
+
+
+Definition at line 2539 of file parser.cc.
+
+\hypertarget{classmocha_1_1_parser_a6393b5183496eb57961686c2f554f389}{
+\index{mocha::Parser@{mocha::Parser}!Seek\_\-@{Seek\_\-}}
+\index{Seek\_\-@{Seek\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{Seek\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo}$\ast$ mocha::Parser::Seek\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{len = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_parser_a6393b5183496eb57961686c2f554f389}
+
+
+Definition at line 25 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_a1e49a5eca48e337c8fffcd015ff69e46}{
+\index{mocha::Parser@{mocha::Parser}!Undo\_\-@{Undo\_\-}}
+\index{Undo\_\-@{Undo\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{Undo\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo}$\ast$ mocha::Parser::Undo\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{len = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classmocha_1_1_parser_a1e49a5eca48e337c8fffcd015ff69e46}
+
+
+Definition at line 24 of file parser.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_parser_a68b155333cc401e16543f4b6267c6998}{
+\index{mocha::Parser@{mocha::Parser}!bits\_\-@{bits\_\-}}
+\index{bits\_\-@{bits\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{bits\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BitVector8} {\bf mocha::Parser::bits\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a68b155333cc401e16543f4b6267c6998}
+
+
+Definition at line 112 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_ad90310da001b04cef5b5a82faf54011f}{
+\index{mocha::Parser@{mocha::Parser}!connector\_\-@{connector\_\-}}
+\index{connector\_\-@{connector\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{connector\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ParserConnector}$\ast$ {\bf mocha::Parser::connector\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_ad90310da001b04cef5b5a82faf54011f}
+
+
+Definition at line 113 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_a6ce640ba66a27ff0309fcacd70e8ccf0}{
+\index{mocha::Parser@{mocha::Parser}!filename\_\-@{filename\_\-}}
+\index{filename\_\-@{filename\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{filename\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf mocha::Parser::filename\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a6ce640ba66a27ff0309fcacd70e8ccf0}
+
+
+Definition at line 108 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_a539ea72fa95db59adfe32c7cbd73506d}{
+\index{mocha::Parser@{mocha::Parser}!indent\_\-@{indent\_\-}}
+\index{indent\_\-@{indent\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{indent\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std::string {\bf mocha::Parser::indent\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a539ea72fa95db59adfe32c7cbd73506d}
+
+
+Definition at line 109 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_aebb487c9fe126bab58b5c76e1995127d}{
+\index{mocha::Parser@{mocha::Parser}!reporter\_\-@{reporter\_\-}}
+\index{reporter\_\-@{reporter\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{reporter\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ErrorReporter}$\ast$ {\bf mocha::Parser::reporter\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_aebb487c9fe126bab58b5c76e1995127d}
+
+
+Definition at line 114 of file parser.h.
+
+\hypertarget{classmocha_1_1_parser_a7c8173ec170938b02d0c812c47d15134}{
+\index{mocha::Parser@{mocha::Parser}!state\_\-stack\_\-@{state\_\-stack\_\-}}
+\index{state\_\-stack\_\-@{state\_\-stack\_\-}!mocha::Parser@{mocha::Parser}}
+\subsubsection[{state\_\-stack\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf StateStack}$>$ {\bf mocha::Parser::state\_\-stack\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_parser_a7c8173ec170938b02d0c812c47d15134}
+
+
+Definition at line 110 of file parser.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/compiler/parser/\hyperlink{parser_8h}{parser.h}\item 
+Y:/mocha/src/compiler/parser/\hyperlink{parser_8cc}{parser.cc}\end{DoxyCompactItemize}

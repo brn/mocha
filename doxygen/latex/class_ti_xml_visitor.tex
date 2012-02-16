@@ -1,0 +1,255 @@
+\hypertarget{class_ti_xml_visitor}{
+\section{TiXmlVisitor Class Reference}
+\label{class_ti_xml_visitor}\index{TiXmlVisitor@{TiXmlVisitor}}
+}
+
+
+Implements the interface to the \char`\"{}Visitor pattern\char`\"{} (see the Accept() method.) If you call the Accept() method, it requires being passed a \hyperlink{class_ti_xml_visitor}{TiXmlVisitor} class to handle callbacks.  
+
+
+
+
+{\ttfamily \#include $<$tinyxml.h$>$}
+
+Inheritance diagram for TiXmlVisitor:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_ti_xml_visitor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_ti_xml_visitor_a276c739ec4701f27c3f86b8ead095e5a}{$\sim$TiXmlVisitor} ()
+\item 
+virtual bool \hyperlink{class_ti_xml_visitor_a07baecb52dd7d8716ae2a48ad0956ee0}{VisitEnter} (const \hyperlink{class_ti_xml_document}{TiXmlDocument} \&)
+\begin{DoxyCompactList}\small\item\em Visit a document. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_aa0ade4f27087447e93974e975c3246ad}{VisitExit} (const \hyperlink{class_ti_xml_document}{TiXmlDocument} \&)
+\begin{DoxyCompactList}\small\item\em Visit a document. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_af6c6178ffa517bbdba95d70490875fff}{VisitEnter} (const \hyperlink{class_ti_xml_element}{TiXmlElement} \&, const \hyperlink{class_ti_xml_attribute}{TiXmlAttribute} $\ast$)
+\begin{DoxyCompactList}\small\item\em Visit an element. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_aec2b1f8116226d52f3a1b95dafd3a32c}{VisitExit} (const \hyperlink{class_ti_xml_element}{TiXmlElement} \&)
+\begin{DoxyCompactList}\small\item\em Visit an element. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_afad71c71ce6473fb9b4b64cd92de4a19}{Visit} (const \hyperlink{class_ti_xml_declaration}{TiXmlDeclaration} \&)
+\begin{DoxyCompactList}\small\item\em Visit a declaration. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_a399b8ebca5cd14664974a32d2ce029e5}{Visit} (const \hyperlink{class_ti_xml_text}{TiXmlText} \&)
+\begin{DoxyCompactList}\small\item\em Visit a text node. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_a53a60e7a528627b31af3161972cc7fa2}{Visit} (const \hyperlink{class_ti_xml_comment}{TiXmlComment} \&)
+\begin{DoxyCompactList}\small\item\em Visit a comment node. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_ti_xml_visitor_a7e284d607d275c51dac1adb58159ce28}{Visit} (const \hyperlink{class_ti_xml_unknown}{TiXmlUnknown} \&)
+\begin{DoxyCompactList}\small\item\em Visit an unknown node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements the interface to the \char`\"{}Visitor pattern\char`\"{} (see the Accept() method.) If you call the Accept() method, it requires being passed a \hyperlink{class_ti_xml_visitor}{TiXmlVisitor} class to handle callbacks. 
+
+For nodes that contain other nodes (Document, Element) you will get called with a VisitEnter/VisitExit pair. Nodes that are always leaves are simply called with \hyperlink{class_ti_xml_visitor_afad71c71ce6473fb9b4b64cd92de4a19}{Visit()}.
+
+If you return 'true' from a Visit method, recursive parsing will continue. If you return false, {\bfseries no children of this node or its sibilings} will be Visited.
+
+All flavors of Visit methods have a default implementation that returns 'true' (continue visiting). You need to only override methods that are interesting to you.
+
+Generally Accept() is called on the \hyperlink{class_ti_xml_document}{TiXmlDocument}, although all nodes suppert Visiting.
+
+You should never change the document from a callback.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{class_ti_xml_node_acc0f88b7462c6cb73809d410a4f5bb86}{TiXmlNode::Accept()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 128 of file tinyxml.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ti_xml_visitor_a276c739ec4701f27c3f86b8ead095e5a}{
+\index{TiXmlVisitor@{TiXmlVisitor}!$\sim$TiXmlVisitor@{$\sim$TiXmlVisitor}}
+\index{$\sim$TiXmlVisitor@{$\sim$TiXmlVisitor}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{$\sim$TiXmlVisitor}]{\setlength{\rightskip}{0pt plus 5cm}virtual TiXmlVisitor::$\sim$TiXmlVisitor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_a276c739ec4701f27c3f86b8ead095e5a}
+
+
+Definition at line 131 of file tinyxml.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ti_xml_visitor_afad71c71ce6473fb9b4b64cd92de4a19}{
+\index{TiXmlVisitor@{TiXmlVisitor}!Visit@{Visit}}
+\index{Visit@{Visit}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{Visit}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::Visit (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlDeclaration} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_afad71c71ce6473fb9b4b64cd92de4a19}
+
+
+Visit a declaration. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_adaf7eec4dc43ad071ff52b60361574f5}{TiXmlPrinter}.
+
+
+
+Definition at line 144 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_a7e284d607d275c51dac1adb58159ce28}{
+\index{TiXmlVisitor@{TiXmlVisitor}!Visit@{Visit}}
+\index{Visit@{Visit}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{Visit}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::Visit (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlUnknown} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_a7e284d607d275c51dac1adb58159ce28}
+
+
+Visit an unknown node. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_a08591a15c9a07afa83c24e08b03d6358}{TiXmlPrinter}.
+
+
+
+Definition at line 150 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_a53a60e7a528627b31af3161972cc7fa2}{
+\index{TiXmlVisitor@{TiXmlVisitor}!Visit@{Visit}}
+\index{Visit@{Visit}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{Visit}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::Visit (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlComment} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_a53a60e7a528627b31af3161972cc7fa2}
+
+
+Visit a comment node. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_a9870423f5603630e6142f6bdb66dfb57}{TiXmlPrinter}.
+
+
+
+Definition at line 148 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_a399b8ebca5cd14664974a32d2ce029e5}{
+\index{TiXmlVisitor@{TiXmlVisitor}!Visit@{Visit}}
+\index{Visit@{Visit}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{Visit}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::Visit (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlText} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_a399b8ebca5cd14664974a32d2ce029e5}
+
+
+Visit a text node. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_a0857c5d32c59b9a257f9a49cb9411df5}{TiXmlPrinter}.
+
+
+
+Definition at line 146 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_a07baecb52dd7d8716ae2a48ad0956ee0}{
+\index{TiXmlVisitor@{TiXmlVisitor}!VisitEnter@{VisitEnter}}
+\index{VisitEnter@{VisitEnter}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{VisitEnter}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::VisitEnter (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlDocument} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_a07baecb52dd7d8716ae2a48ad0956ee0}
+
+
+Visit a document. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_a2ec73087db26ff4d2c4316c56f861db7}{TiXmlPrinter}.
+
+
+
+Definition at line 134 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_af6c6178ffa517bbdba95d70490875fff}{
+\index{TiXmlVisitor@{TiXmlVisitor}!VisitEnter@{VisitEnter}}
+\index{VisitEnter@{VisitEnter}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{VisitEnter}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::VisitEnter (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlElement} \&}]{, }
+\item[{const {\bf TiXmlAttribute} $\ast$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_af6c6178ffa517bbdba95d70490875fff}
+
+
+Visit an element. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_a6dccaf5ee4979f13877690afe28721e8}{TiXmlPrinter}.
+
+
+
+Definition at line 139 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_aec2b1f8116226d52f3a1b95dafd3a32c}{
+\index{TiXmlVisitor@{TiXmlVisitor}!VisitExit@{VisitExit}}
+\index{VisitExit@{VisitExit}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{VisitExit}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::VisitExit (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlElement} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_aec2b1f8116226d52f3a1b95dafd3a32c}
+
+
+Visit an element. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_ae6a1df8271df4bf62d7873c38e34aa69}{TiXmlPrinter}.
+
+
+
+Definition at line 141 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_visitor_aa0ade4f27087447e93974e975c3246ad}{
+\index{TiXmlVisitor@{TiXmlVisitor}!VisitExit@{VisitExit}}
+\index{VisitExit@{VisitExit}!TiXmlVisitor@{TiXmlVisitor}}
+\subsubsection[{VisitExit}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool TiXmlVisitor::VisitExit (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlDocument} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_ti_xml_visitor_aa0ade4f27087447e93974e975c3246ad}
+
+
+Visit a document. 
+
+
+
+Reimplemented in \hyperlink{class_ti_xml_printer_a0a636046fa589b6d7f3e5bd025b3f33e}{TiXmlPrinter}.
+
+
+
+Definition at line 136 of file tinyxml.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8h}{tinyxml.h}\end{DoxyCompactItemize}

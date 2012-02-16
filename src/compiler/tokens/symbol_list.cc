@@ -71,7 +71,10 @@ static const char builtin[][50] = {
   "true",
   "false",
   "bind",
-  "push"
+  "push",
+  "trait",
+  "from",
+  "of"
 };
 
 

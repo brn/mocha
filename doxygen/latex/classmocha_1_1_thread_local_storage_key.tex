@@ -1,0 +1,132 @@
+\hypertarget{classmocha_1_1_thread_local_storage_key}{
+\section{mocha::ThreadLocalStorageKey Class Reference}
+\label{classmocha_1_1_thread_local_storage_key}\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+}
+
+
+{\ttfamily \#include $<$thread.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_thread_local_storage_key_1_1_ptr_impl}{PtrImpl}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{classmocha_1_1_thread_local_storage_key_a4355b1fd8f48df1214686f56bd666897}{Destructor} )(void $\ast$ptr)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_thread_local_storage_key_aa52951305452338895ff7e25bde8296b}{ThreadLocalStorageKey} (\hyperlink{classmocha_1_1_thread_local_storage_key_a4355b1fd8f48df1214686f56bd666897}{Destructor} destructor)
+\item 
+\hyperlink{classmocha_1_1_thread_local_storage_key_a4c84897d65eb9de1e596b77f93ed43ff}{ThreadLocalStorageKey} ()
+\item 
+void \hyperlink{classmocha_1_1_thread_local_storage_key_aa45430633476009152891f068a1d1ce4}{DeleteKey} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_thread_local_storage_key_1_1_ptr_impl}{PtrImpl} $>$ \hyperlink{classmocha_1_1_thread_local_storage_key_ae0fd5c5d19e230f749241ba7d58a1198}{implementation\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmocha_1_1_thread_local_storage_key_ac05d4dfcf0eaf583e5f3b4376755313f}{ThreadLocalStorage}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 56 of file thread.h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classmocha_1_1_thread_local_storage_key_a4355b1fd8f48df1214686f56bd666897}{
+\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}!Destructor@{Destructor}}
+\index{Destructor@{Destructor}!mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+\subsubsection[{Destructor}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf mocha::ThreadLocalStorageKey::Destructor})(void $\ast$ptr)}}
+\label{classmocha_1_1_thread_local_storage_key_a4355b1fd8f48df1214686f56bd666897}
+
+
+Definition at line 59 of file thread.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_thread_local_storage_key_aa52951305452338895ff7e25bde8296b}{
+\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}!ThreadLocalStorageKey@{ThreadLocalStorageKey}}
+\index{ThreadLocalStorageKey@{ThreadLocalStorageKey}!mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+\subsubsection[{ThreadLocalStorageKey}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ThreadLocalStorageKey::ThreadLocalStorageKey (
+\begin{DoxyParamCaption}
+\item[{{\bf ThreadLocalStorageKey::Destructor}}]{destructor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}
+\label{classmocha_1_1_thread_local_storage_key_aa52951305452338895ff7e25bde8296b}
+
+
+Definition at line 94 of file thread-\/pthread-\/impl.cc.
+
+\hypertarget{classmocha_1_1_thread_local_storage_key_a4c84897d65eb9de1e596b77f93ed43ff}{
+\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}!ThreadLocalStorageKey@{ThreadLocalStorageKey}}
+\index{ThreadLocalStorageKey@{ThreadLocalStorageKey}!mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+\subsubsection[{ThreadLocalStorageKey}]{\setlength{\rightskip}{0pt plus 5cm}mocha::ThreadLocalStorageKey::ThreadLocalStorageKey (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_local_storage_key_a4c84897d65eb9de1e596b77f93ed43ff}
+
+
+Definition at line 104 of file thread-\/pthread-\/impl.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_thread_local_storage_key_aa45430633476009152891f068a1d1ce4}{
+\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}!DeleteKey@{DeleteKey}}
+\index{DeleteKey@{DeleteKey}!mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+\subsubsection[{DeleteKey}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::ThreadLocalStorageKey::DeleteKey (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_thread_local_storage_key_aa45430633476009152891f068a1d1ce4}
+
+
+Definition at line 111 of file thread-\/pthread-\/impl.cc.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmocha_1_1_thread_local_storage_key_ac05d4dfcf0eaf583e5f3b4376755313f}{
+\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}!ThreadLocalStorage@{ThreadLocalStorage}}
+\index{ThreadLocalStorage@{ThreadLocalStorage}!mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+\subsubsection[{ThreadLocalStorage}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf ThreadLocalStorage}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}
+\label{classmocha_1_1_thread_local_storage_key_ac05d4dfcf0eaf583e5f3b4376755313f}
+
+
+Definition at line 57 of file thread.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_thread_local_storage_key_ae0fd5c5d19e230f749241ba7d58a1198}{
+\index{mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}!implementation\_\-@{implementation\_\-}}
+\index{implementation\_\-@{implementation\_\-}!mocha::ThreadLocalStorageKey@{mocha::ThreadLocalStorageKey}}
+\subsubsection[{implementation\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf PtrImpl}$>$ {\bf mocha::ThreadLocalStorageKey::implementation\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_thread_local_storage_key_ae0fd5c5d19e230f749241ba7d58a1198}
+
+
+Definition at line 64 of file thread.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread_8h}{thread.h}\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread-pthread-impl_8cc}{thread-\/pthread-\/impl.cc}\item 
+Y:/mocha/src/utils/thread/\hyperlink{thread-win-impl_8cc}{thread-\/win-\/impl.cc}\end{DoxyCompactItemize}

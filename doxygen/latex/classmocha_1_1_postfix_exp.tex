@@ -1,0 +1,239 @@
+\hypertarget{classmocha_1_1_postfix_exp}{
+\section{mocha::PostfixExp Class Reference}
+\label{classmocha_1_1_postfix_exp}\index{mocha::PostfixExp@{mocha::PostfixExp}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::PostfixExp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_postfix_exp}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713a5dec78060a214a2c4dba6828f66b4585}{kIncrement}, 
+\hyperlink{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713a3a197810ea215cded0a4074a90a8382a}{kDecrement}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_postfix_exp_a2cfb0a8d5b5f415cdd820984103c001a}{PostfixExp} (int type)
+\item 
+\hyperlink{classmocha_1_1_postfix_exp_a7b19c8eecba9072594df8e8fccebd6e0}{$\sim$PostfixExp} ()
+\item 
+int \hyperlink{classmocha_1_1_postfix_exp_a6add3cf44ddc5f26dceec66f49ec9f14}{PostType} ()
+\item 
+void \hyperlink{classmocha_1_1_postfix_exp_a80477d2caa919fcfe3ee669e0a4a6f36}{Exp} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$exp)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_postfix_exp_ab8d8dc1afcbe4201695a460e93b7eaf5}{Exp} ()
+\item 
+void \hyperlink{classmocha_1_1_postfix_exp_acdb52acdc2b5520961b07a3ece36eb41}{ReplaceChild} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$old\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$new\_\-node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_postfix_exp_a71df055d09b8f804d8eeeb4ea12a72ad}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_postfix_exp_ae33ad913b48ec2d634d0487f8f4a0d49}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_postfix_exp_a66355b77ccb183ead3421a0a515f7993}{post\_\-type\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_postfix_exp_a4be5a883b58bbd109e33cee01f666781}{exp\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1367 of file ast.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713}{
+\subsubsection[{"@8}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kIncrement@{kIncrement}!mocha::PostfixExp@{mocha::PostfixExp}}\index{mocha::PostfixExp@{mocha::PostfixExp}!kIncrement@{kIncrement}}\item[{\em 
+\hypertarget{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713a5dec78060a214a2c4dba6828f66b4585}{
+kIncrement}
+\label{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713a5dec78060a214a2c4dba6828f66b4585}
+}]\index{kDecrement@{kDecrement}!mocha::PostfixExp@{mocha::PostfixExp}}\index{mocha::PostfixExp@{mocha::PostfixExp}!kDecrement@{kDecrement}}\item[{\em 
+\hypertarget{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713a3a197810ea215cded0a4074a90a8382a}{
+kDecrement}
+\label{classmocha_1_1_postfix_exp_a7e0174b68da1e5342caa9ce316407713a3a197810ea215cded0a4074a90a8382a}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 1369 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_postfix_exp_a2cfb0a8d5b5f415cdd820984103c001a}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!PostfixExp@{PostfixExp}}
+\index{PostfixExp@{PostfixExp}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{PostfixExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::PostfixExp::PostfixExp (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a2cfb0a8d5b5f415cdd820984103c001a}
+
+
+Definition at line 1373 of file ast.h.
+
+\hypertarget{classmocha_1_1_postfix_exp_a7b19c8eecba9072594df8e8fccebd6e0}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!$\sim$PostfixExp@{$\sim$PostfixExp}}
+\index{$\sim$PostfixExp@{$\sim$PostfixExp}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{$\sim$PostfixExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::PostfixExp::$\sim$PostfixExp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a7b19c8eecba9072594df8e8fccebd6e0}
+
+
+Definition at line 1374 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_postfix_exp_a71df055d09b8f804d8eeeb4ea12a72ad}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::PostfixExp::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a71df055d09b8f804d8eeeb4ea12a72ad}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac1fb936e2bf0fdd6e7667275d3723ca5}{mocha::Expression}.
+
+
+
+Definition at line 488 of file ast.cc.
+
+\hypertarget{classmocha_1_1_postfix_exp_a80477d2caa919fcfe3ee669e0a4a6f36}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!Exp@{Exp}}
+\index{Exp@{Exp}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{Exp}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::PostfixExp::Exp (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a80477d2caa919fcfe3ee669e0a4a6f36}
+
+
+Definition at line 1376 of file ast.h.
+
+\hypertarget{classmocha_1_1_postfix_exp_ab8d8dc1afcbe4201695a460e93b7eaf5}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!Exp@{Exp}}
+\index{Exp@{Exp}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{Exp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::PostfixExp::Exp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_ab8d8dc1afcbe4201695a460e93b7eaf5}
+
+
+Definition at line 1377 of file ast.h.
+
+\hypertarget{classmocha_1_1_postfix_exp_ae33ad913b48ec2d634d0487f8f4a0d49}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::PostfixExp::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_ae33ad913b48ec2d634d0487f8f4a0d49}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1383 of file ast.h.
+
+\hypertarget{classmocha_1_1_postfix_exp_a6add3cf44ddc5f26dceec66f49ec9f14}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!PostType@{PostType}}
+\index{PostType@{PostType}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{PostType}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::PostfixExp::PostType (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a6add3cf44ddc5f26dceec66f49ec9f14}
+
+
+Definition at line 1375 of file ast.h.
+
+\hypertarget{classmocha_1_1_postfix_exp_acdb52acdc2b5520961b07a3ece36eb41}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!ReplaceChild@{ReplaceChild}}
+\index{ReplaceChild@{ReplaceChild}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{ReplaceChild}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::PostfixExp::ReplaceChild (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{old\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{new\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_acdb52acdc2b5520961b07a3ece36eb41}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & Replace the old\_\-node with new\_\-node in childnodes. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_aa40396040f75fb59e320d81c3fd328c8}{mocha::AstNode}.
+
+
+
+Definition at line 476 of file ast.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_postfix_exp_a4be5a883b58bbd109e33cee01f666781}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!exp\_\-@{exp\_\-}}
+\index{exp\_\-@{exp\_\-}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{exp\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::PostfixExp::exp\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a4be5a883b58bbd109e33cee01f666781}
+
+
+Definition at line 1382 of file ast.h.
+
+\hypertarget{classmocha_1_1_postfix_exp_a66355b77ccb183ead3421a0a515f7993}{
+\index{mocha::PostfixExp@{mocha::PostfixExp}!post\_\-type\_\-@{post\_\-type\_\-}}
+\index{post\_\-type\_\-@{post\_\-type\_\-}!mocha::PostfixExp@{mocha::PostfixExp}}
+\subsubsection[{post\_\-type\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::PostfixExp::post\_\-type\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_postfix_exp_a66355b77ccb183ead3421a0a515f7993}
+
+
+Definition at line 1379 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

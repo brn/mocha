@@ -1,0 +1,305 @@
+\hypertarget{classmocha_1_1_compare_exp}{
+\section{mocha::CompareExp Class Reference}
+\label{classmocha_1_1_compare_exp}\index{mocha::CompareExp@{mocha::CompareExp}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::CompareExp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_compare_exp}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \par
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3ad1e491ea0ed9a3a75cd6df6b7964fb24}{kLess}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a84acae9e2959eaf621dd2c9007394b53}{kGreater}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3abf14e7794f87bcd14e2984beaaa44d6a}{kLessEqual}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a919b2deb962643cad716dd3dadb9322a}{kGreaterEqual}, 
+\par
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a0af853b4a91a6ab164b7a2cb71a96e7b}{kInstanceof}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3afb1b9d3fc6d7fb194007adfeda3cf623}{kIn}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a71b370ae38daa71371b7c372b1c28883}{kEqual}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a1df6ff896a14072a02aeb0f70291acb4}{kNotEqual}, 
+\par
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3af83ad9b9e18e5353d951c80b8d3d5853}{kEq}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3ad8c0fc6a2937e66f4fc233249182723a}{kNotEq}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a2797128d472ed86d91dc020994858ab0}{kLogicalAND}, 
+\hyperlink{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a82a42371f7907ffdffed444474127430}{kLogicalOR}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_compare_exp_adf897019057c5828d58dc5383fbccd2f}{CompareExp} (int op, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$left, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$right)
+\item 
+\hyperlink{classmocha_1_1_compare_exp_a12393cc341813a99ce920a6c52c128df}{$\sim$CompareExp} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_compare_exp_af2325d02bad82741358315768d3222b9}{Left} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_compare_exp_a6a65fd900ebf9dd11484a6a948c4c4e2}{Right} ()
+\item 
+int \hyperlink{classmocha_1_1_compare_exp_a46d240a58be68fa85b61073ed2e4d19a}{Op} ()
+\item 
+void \hyperlink{classmocha_1_1_compare_exp_af174065f2d4986e2c7539bd041baad13}{ReplaceChild} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$old\_\-node, \hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$new\_\-node)
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_compare_exp_afa00b970faa937c81cfc15c9a0170558}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_compare_exp_a48c63840dc4ab4b2504eb805bcf76f77}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classmocha_1_1_compare_exp_abfc7d2878bb4843805ce5677ca5c7776}{op\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_compare_exp_a0498ddaaf7647a878e984afe6bf029c6}{left\_\-}
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_compare_exp_a75ad5e6ec8152bd2391044bda81b8948}{right\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1444 of file ast.h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3}{
+\subsubsection[{"@11}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{kLess@{kLess}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kLess@{kLess}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3ad1e491ea0ed9a3a75cd6df6b7964fb24}{
+kLess}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3ad1e491ea0ed9a3a75cd6df6b7964fb24}
+}]\index{kGreater@{kGreater}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kGreater@{kGreater}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a84acae9e2959eaf621dd2c9007394b53}{
+kGreater}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a84acae9e2959eaf621dd2c9007394b53}
+}]\index{kLessEqual@{kLessEqual}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kLessEqual@{kLessEqual}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3abf14e7794f87bcd14e2984beaaa44d6a}{
+kLessEqual}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3abf14e7794f87bcd14e2984beaaa44d6a}
+}]\index{kGreaterEqual@{kGreaterEqual}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kGreaterEqual@{kGreaterEqual}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a919b2deb962643cad716dd3dadb9322a}{
+kGreaterEqual}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a919b2deb962643cad716dd3dadb9322a}
+}]\index{kInstanceof@{kInstanceof}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kInstanceof@{kInstanceof}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a0af853b4a91a6ab164b7a2cb71a96e7b}{
+kInstanceof}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a0af853b4a91a6ab164b7a2cb71a96e7b}
+}]\index{kIn@{kIn}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kIn@{kIn}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3afb1b9d3fc6d7fb194007adfeda3cf623}{
+kIn}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3afb1b9d3fc6d7fb194007adfeda3cf623}
+}]\index{kEqual@{kEqual}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kEqual@{kEqual}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a71b370ae38daa71371b7c372b1c28883}{
+kEqual}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a71b370ae38daa71371b7c372b1c28883}
+}]\index{kNotEqual@{kNotEqual}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kNotEqual@{kNotEqual}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a1df6ff896a14072a02aeb0f70291acb4}{
+kNotEqual}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a1df6ff896a14072a02aeb0f70291acb4}
+}]\index{kEq@{kEq}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kEq@{kEq}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3af83ad9b9e18e5353d951c80b8d3d5853}{
+kEq}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3af83ad9b9e18e5353d951c80b8d3d5853}
+}]\index{kNotEq@{kNotEq}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kNotEq@{kNotEq}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3ad8c0fc6a2937e66f4fc233249182723a}{
+kNotEq}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3ad8c0fc6a2937e66f4fc233249182723a}
+}]\index{kLogicalAND@{kLogicalAND}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kLogicalAND@{kLogicalAND}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a2797128d472ed86d91dc020994858ab0}{
+kLogicalAND}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a2797128d472ed86d91dc020994858ab0}
+}]\index{kLogicalOR@{kLogicalOR}!mocha::CompareExp@{mocha::CompareExp}}\index{mocha::CompareExp@{mocha::CompareExp}!kLogicalOR@{kLogicalOR}}\item[{\em 
+\hypertarget{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a82a42371f7907ffdffed444474127430}{
+kLogicalOR}
+\label{classmocha_1_1_compare_exp_aa5ba2ba7107f66e1ffc940a3d09b12b3a82a42371f7907ffdffed444474127430}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 1446 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_compare_exp_adf897019057c5828d58dc5383fbccd2f}{
+\index{mocha::CompareExp@{mocha::CompareExp}!CompareExp@{CompareExp}}
+\index{CompareExp@{CompareExp}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{CompareExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CompareExp::CompareExp (
+\begin{DoxyParamCaption}
+\item[{int}]{op, }
+\item[{{\bf AstNode} $\ast$}]{left, }
+\item[{{\bf AstNode} $\ast$}]{right}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_adf897019057c5828d58dc5383fbccd2f}
+
+
+Definition at line 1460 of file ast.h.
+
+\hypertarget{classmocha_1_1_compare_exp_a12393cc341813a99ce920a6c52c128df}{
+\index{mocha::CompareExp@{mocha::CompareExp}!$\sim$CompareExp@{$\sim$CompareExp}}
+\index{$\sim$CompareExp@{$\sim$CompareExp}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{$\sim$CompareExp}]{\setlength{\rightskip}{0pt plus 5cm}mocha::CompareExp::$\sim$CompareExp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_a12393cc341813a99ce920a6c52c128df}
+
+
+Definition at line 1461 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_compare_exp_afa00b970faa937c81cfc15c9a0170558}{
+\index{mocha::CompareExp@{mocha::CompareExp}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::CompareExp::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_afa00b970faa937c81cfc15c9a0170558}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_ac1fb936e2bf0fdd6e7667275d3723ca5}{mocha::Expression}.
+
+
+
+Definition at line 556 of file ast.cc.
+
+\hypertarget{classmocha_1_1_compare_exp_af2325d02bad82741358315768d3222b9}{
+\index{mocha::CompareExp@{mocha::CompareExp}!Left@{Left}}
+\index{Left@{Left}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{Left}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::CompareExp::Left (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_af2325d02bad82741358315768d3222b9}
+
+
+Definition at line 1462 of file ast.h.
+
+\hypertarget{classmocha_1_1_compare_exp_a48c63840dc4ab4b2504eb805bcf76f77}{
+\index{mocha::CompareExp@{mocha::CompareExp}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CompareExp::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_a48c63840dc4ab4b2504eb805bcf76f77}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_expression_a112d57b7de76c37066cde60be4799fde}{mocha::Expression}.
+
+
+
+Definition at line 1471 of file ast.h.
+
+\hypertarget{classmocha_1_1_compare_exp_a46d240a58be68fa85b61073ed2e4d19a}{
+\index{mocha::CompareExp@{mocha::CompareExp}!Op@{Op}}
+\index{Op@{Op}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{Op}]{\setlength{\rightskip}{0pt plus 5cm}int mocha::CompareExp::Op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_a46d240a58be68fa85b61073ed2e4d19a}
+
+
+Definition at line 1464 of file ast.h.
+
+\hypertarget{classmocha_1_1_compare_exp_af174065f2d4986e2c7539bd041baad13}{
+\index{mocha::CompareExp@{mocha::CompareExp}!ReplaceChild@{ReplaceChild}}
+\index{ReplaceChild@{ReplaceChild}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{ReplaceChild}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::CompareExp::ReplaceChild (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{old\_\-node, }
+\item[{{\bf AstNode} $\ast$}]{new\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_af174065f2d4986e2c7539bd041baad13}
+
+\begin{DoxyParams}{Parameters}
+{\em \{AstNode$\ast$\}} & Replace the old\_\-node with new\_\-node in childnodes. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_aa40396040f75fb59e320d81c3fd328c8}{mocha::AstNode}.
+
+
+
+Definition at line 539 of file ast.cc.
+
+\hypertarget{classmocha_1_1_compare_exp_a6a65fd900ebf9dd11484a6a948c4c4e2}{
+\index{mocha::CompareExp@{mocha::CompareExp}!Right@{Right}}
+\index{Right@{Right}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{Right}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ mocha::CompareExp::Right (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_a6a65fd900ebf9dd11484a6a948c4c4e2}
+
+
+Definition at line 1463 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_compare_exp_a0498ddaaf7647a878e984afe6bf029c6}{
+\index{mocha::CompareExp@{mocha::CompareExp}!left\_\-@{left\_\-}}
+\index{left\_\-@{left\_\-}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{left\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::CompareExp::left\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_a0498ddaaf7647a878e984afe6bf029c6}
+
+
+Definition at line 1469 of file ast.h.
+
+\hypertarget{classmocha_1_1_compare_exp_abfc7d2878bb4843805ce5677ca5c7776}{
+\index{mocha::CompareExp@{mocha::CompareExp}!op\_\-@{op\_\-}}
+\index{op\_\-@{op\_\-}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{op\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mocha::CompareExp::op\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_abfc7d2878bb4843805ce5677ca5c7776}
+
+
+Definition at line 1466 of file ast.h.
+
+\hypertarget{classmocha_1_1_compare_exp_a75ad5e6ec8152bd2391044bda81b8948}{
+\index{mocha::CompareExp@{mocha::CompareExp}!right\_\-@{right\_\-}}
+\index{right\_\-@{right\_\-}!mocha::CompareExp@{mocha::CompareExp}}
+\subsubsection[{right\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode}$\ast$ {\bf mocha::CompareExp::right\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_compare_exp_a75ad5e6ec8152bd2391044bda81b8948}
+
+
+Definition at line 1470 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

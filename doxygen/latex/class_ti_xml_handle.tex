@@ -1,0 +1,480 @@
+\hypertarget{class_ti_xml_handle}{
+\section{TiXmlHandle Class Reference}
+\label{class_ti_xml_handle}\index{TiXmlHandle@{TiXmlHandle}}
+}
+
+
+A \hyperlink{class_ti_xml_handle}{TiXmlHandle} is a class that wraps a node pointer with null checks; this is an incredibly useful thing.  
+
+
+
+
+{\ttfamily \#include $<$tinyxml.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ti_xml_handle_aba18fd7bdefb942ecdea4bf4b8e29ec8}{TiXmlHandle} (\hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$\_\-node)
+\begin{DoxyCompactList}\small\item\em Create a handle from any node (at any depth of the tree.) This can be a null pointer. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle_a236d7855e1e56ccc7b980630c48c7fd7}{TiXmlHandle} (const \hyperlink{class_ti_xml_handle}{TiXmlHandle} \&ref)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_ad8e5dcf6a87882674203157f29f8e4db}{operator=} (const \hyperlink{class_ti_xml_handle}{TiXmlHandle} \&ref)
+\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_acdb1faaf88a700b40ca2c8d9aee21139}{FirstChild} () const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the first child node. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_a8c61f64ae9365d89c264f289085541f8}{FirstChild} (const char $\ast$value) const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the first child node with the given name. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_a24d1112e995e937e4dddb202d4113d4a}{FirstChildElement} () const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the first child element. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_af0aea751320f5e430fac6f8fff3b8dd4}{FirstChildElement} (const char $\ast$value) const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the first child element with the given name. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_a072492b4be1acdb0db2d03cd8f71ccc4}{Child} (const char $\ast$value, int index) const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the \char`\"{}index\char`\"{} child with the given name. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_af9cf6a7d08a5da94a8924425ad0cd5ac}{Child} (int index) const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the \char`\"{}index\char`\"{} child. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_a979a3f850984a176ee884e394c7eed2d}{ChildElement} (const char $\ast$value, int index) const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the \char`\"{}index\char`\"{} child element with the given name. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_handle}{TiXmlHandle} \hyperlink{class_ti_xml_handle_a8786475b9d1f1518492e3a46704c7ef0}{ChildElement} (int index) const 
+\begin{DoxyCompactList}\small\item\em Return a handle to the \char`\"{}index\char`\"{} child element. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$ \hyperlink{class_ti_xml_handle_af678e5088e83be67baf76f699756f2c3}{ToNode} () const 
+\begin{DoxyCompactList}\small\item\em Return the handle as a \hyperlink{class_ti_xml_node}{TiXmlNode}. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$ \hyperlink{class_ti_xml_handle_abc6e7ed383a5fe1e52b0c0004b457b9e}{ToElement} () const 
+\begin{DoxyCompactList}\small\item\em Return the handle as a \hyperlink{class_ti_xml_element}{TiXmlElement}. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_text}{TiXmlText} $\ast$ \hyperlink{class_ti_xml_handle_a4ac53a652296203a5b5e13854d923586}{ToText} () const 
+\begin{DoxyCompactList}\small\item\em Return the handle as a \hyperlink{class_ti_xml_text}{TiXmlText}. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_unknown}{TiXmlUnknown} $\ast$ \hyperlink{class_ti_xml_handle_a1381c17507a130767b1e23afc93b3674}{ToUnknown} () const 
+\begin{DoxyCompactList}\small\item\em Return the handle as a \hyperlink{class_ti_xml_unknown}{TiXmlUnknown}. \end{DoxyCompactList}\item 
+\hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$ \hyperlink{class_ti_xml_handle_ab44b723a8dc9af72838a303c079d0376}{Node} () const 
+\item 
+\hyperlink{class_ti_xml_element}{TiXmlElement} $\ast$ \hyperlink{class_ti_xml_handle_acb5fe8388a526289ea65e817a51e05e7}{Element} () const 
+\item 
+\hyperlink{class_ti_xml_text}{TiXmlText} $\ast$ \hyperlink{class_ti_xml_handle_a9fc739c8a18d160006f82572fc143d13}{Text} () const 
+\item 
+\hyperlink{class_ti_xml_unknown}{TiXmlUnknown} $\ast$ \hyperlink{class_ti_xml_handle_a49675b74357ba2aae124657a9a1ef465}{Unknown} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ti_xml_node}{TiXmlNode} $\ast$ \hyperlink{class_ti_xml_handle_ac5429de14bb78b16288bac5bf33c6858}{node}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A \hyperlink{class_ti_xml_handle}{TiXmlHandle} is a class that wraps a node pointer with null checks; this is an incredibly useful thing. 
+
+Note that \hyperlink{class_ti_xml_handle}{TiXmlHandle} is not part of the TinyXml DOM structure. It is a separate utility class.
+
+Take an example: \begin{DoxyVerb}
+	<Document>
+		<Element attributeA = "valueA">
+			<Child attributeB = "value1" />
+			<Child attributeB = "value2" />
+		</Element>
+	<Document>
+	\end{DoxyVerb}
+
+
+Assuming you want the value of \char`\"{}attributeB\char`\"{} in the 2nd \char`\"{}Child\char`\"{} element, it's very easy to write a $\ast$lot$\ast$ of code that looks like:
+
+\begin{DoxyVerb}
+	TiXmlElement* root = document.FirstChildElement( "Document" );
+	if ( root )
+	{
+		TiXmlElement* element = root->FirstChildElement( "Element" );
+		if ( element )
+		{
+			TiXmlElement* child = element->FirstChildElement( "Child" );
+			if ( child )
+			{
+				TiXmlElement* child2 = child->NextSiblingElement( "Child" );
+				if ( child2 )
+				{
+					// Finally do something useful.
+	\end{DoxyVerb}
+
+
+And that doesn't even cover \char`\"{}else\char`\"{} cases. \hyperlink{class_ti_xml_handle}{TiXmlHandle} addresses the verbosity of such code. A \hyperlink{class_ti_xml_handle}{TiXmlHandle} checks for null pointers so it is perfectly safe and correct to use:
+
+\begin{DoxyVerb}
+	TiXmlHandle docHandle( &document );
+	TiXmlElement* child2 = docHandle.FirstChild( "Document" ).FirstChild( "Element" ).Child( "Child", 1 ).ToElement();
+	if ( child2 )
+	{
+		// do something useful
+	\end{DoxyVerb}
+
+
+Which is MUCH more concise and useful.
+
+It is also safe to copy handles -\/ internally they are nothing more than node pointers. \begin{DoxyVerb}
+	TiXmlHandle handleCopy = handle;
+	\end{DoxyVerb}
+
+
+What they should not be used for is iteration:
+
+\begin{DoxyVerb}
+	int i=0; 
+	while ( true )
+	{
+		TiXmlElement* child = docHandle.FirstChild( "Document" ).FirstChild( "Element" ).Child( "Child", i ).ToElement();
+		if ( !child )
+			break;
+		// do something
+		++i;
+	}
+	\end{DoxyVerb}
+
+
+It seems reasonable, but it is in fact two embedded while loops. The Child method is a linear walk to find the element, so this code would iterate much more than it needs to. Instead, prefer:
+
+\begin{DoxyVerb}
+	TiXmlElement* child = docHandle.FirstChild( "Document" ).FirstChild( "Element" ).FirstChild( "Child" ).ToElement();
+
+	for( child; child; child=child->NextSiblingElement() )
+	{
+		// do something
+	}
+	\end{DoxyVerb}
+ 
+
+Definition at line 1638 of file tinyxml.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ti_xml_handle_aba18fd7bdefb942ecdea4bf4b8e29ec8}{
+\index{TiXmlHandle@{TiXmlHandle}!TiXmlHandle@{TiXmlHandle}}
+\index{TiXmlHandle@{TiXmlHandle}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{TiXmlHandle}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlHandle::TiXmlHandle (
+\begin{DoxyParamCaption}
+\item[{{\bf TiXmlNode} $\ast$}]{\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_aba18fd7bdefb942ecdea4bf4b8e29ec8}
+
+
+Create a handle from any node (at any depth of the tree.) This can be a null pointer. 
+
+
+
+Definition at line 1642 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_a236d7855e1e56ccc7b980630c48c7fd7}{
+\index{TiXmlHandle@{TiXmlHandle}!TiXmlHandle@{TiXmlHandle}}
+\index{TiXmlHandle@{TiXmlHandle}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{TiXmlHandle}]{\setlength{\rightskip}{0pt plus 5cm}TiXmlHandle::TiXmlHandle (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlHandle} \&}]{ref}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_a236d7855e1e56ccc7b980630c48c7fd7}
+
+
+Copy constructor. 
+
+
+
+Definition at line 1644 of file tinyxml.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ti_xml_handle_a072492b4be1acdb0db2d03cd8f71ccc4}{
+\index{TiXmlHandle@{TiXmlHandle}!Child@{Child}}
+\index{Child@{Child}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{Child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::Child (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{value, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_a072492b4be1acdb0db2d03cd8f71ccc4}
+
+
+Return a handle to the \char`\"{}index\char`\"{} child with the given name. 
+
+The first child is 0, the second 1, etc. 
+
+Definition at line 1699 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_af9cf6a7d08a5da94a8924425ad0cd5ac}{
+\index{TiXmlHandle@{TiXmlHandle}!Child@{Child}}
+\index{Child@{Child}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{Child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::Child (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_af9cf6a7d08a5da94a8924425ad0cd5ac}
+
+
+Return a handle to the \char`\"{}index\char`\"{} child. 
+
+The first child is 0, the second 1, etc. 
+
+Definition at line 1680 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_a979a3f850984a176ee884e394c7eed2d}{
+\index{TiXmlHandle@{TiXmlHandle}!ChildElement@{ChildElement}}
+\index{ChildElement@{ChildElement}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{ChildElement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::ChildElement (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{value, }
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_a979a3f850984a176ee884e394c7eed2d}
+
+
+Return a handle to the \char`\"{}index\char`\"{} child element with the given name. 
+
+The first child element is 0, the second 1, etc. Note that only TiXmlElements are indexed: other types are not counted. 
+
+Definition at line 1737 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_a8786475b9d1f1518492e3a46704c7ef0}{
+\index{TiXmlHandle@{TiXmlHandle}!ChildElement@{ChildElement}}
+\index{ChildElement@{ChildElement}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{ChildElement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::ChildElement (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_a8786475b9d1f1518492e3a46704c7ef0}
+
+
+Return a handle to the \char`\"{}index\char`\"{} child element. 
+
+The first child element is 0, the second 1, etc. Note that only TiXmlElements are indexed: other types are not counted. 
+
+Definition at line 1718 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_acb5fe8388a526289ea65e817a51e05e7}{
+\index{TiXmlHandle@{TiXmlHandle}!Element@{Element}}
+\index{Element@{Element}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{Element}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlElement}$\ast$ TiXmlHandle::Element (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_acb5fe8388a526289ea65e817a51e05e7}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]use ToElement.\end{Desc}
+Return the handle as a \hyperlink{class_ti_xml_element}{TiXmlElement}. This may return null. 
+
+Definition at line 1703 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_a8c61f64ae9365d89c264f289085541f8}{
+\index{TiXmlHandle@{TiXmlHandle}!FirstChild@{FirstChild}}
+\index{FirstChild@{FirstChild}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{FirstChild}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::FirstChild (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{value}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_a8c61f64ae9365d89c264f289085541f8}
+
+
+Return a handle to the first child node with the given name. 
+
+
+
+Definition at line 1783 of file ast\_\-v8.cc.
+
+\hypertarget{class_ti_xml_handle_acdb1faaf88a700b40ca2c8d9aee21139}{
+\index{TiXmlHandle@{TiXmlHandle}!FirstChild@{FirstChild}}
+\index{FirstChild@{FirstChild}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{FirstChild}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::FirstChild (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_acdb1faaf88a700b40ca2c8d9aee21139}
+
+
+Return a handle to the first child node. 
+
+
+
+Definition at line 1632 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_a24d1112e995e937e4dddb202d4113d4a}{
+\index{TiXmlHandle@{TiXmlHandle}!FirstChildElement@{FirstChildElement}}
+\index{FirstChildElement@{FirstChildElement}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{FirstChildElement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::FirstChildElement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_a24d1112e995e937e4dddb202d4113d4a}
+
+
+Return a handle to the first child element. 
+
+
+
+Definition at line 1656 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_af0aea751320f5e430fac6f8fff3b8dd4}{
+\index{TiXmlHandle@{TiXmlHandle}!FirstChildElement@{FirstChildElement}}
+\index{FirstChildElement@{FirstChildElement}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{FirstChildElement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::FirstChildElement (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{value}
+\end{DoxyParamCaption}
+) const}}
+\label{class_ti_xml_handle_af0aea751320f5e430fac6f8fff3b8dd4}
+
+
+Return a handle to the first child element with the given name. 
+
+
+
+Definition at line 1668 of file tinyxml.cpp.
+
+\hypertarget{class_ti_xml_handle_ab44b723a8dc9af72838a303c079d0376}{
+\index{TiXmlHandle@{TiXmlHandle}!Node@{Node}}
+\index{Node@{Node}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlNode}$\ast$ TiXmlHandle::Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_ab44b723a8dc9af72838a303c079d0376}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]use ToNode.\end{Desc}
+Return the handle as a \hyperlink{class_ti_xml_node}{TiXmlNode}. This may return null. 
+
+Definition at line 1699 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_ad8e5dcf6a87882674203157f29f8e4db}{
+\index{TiXmlHandle@{TiXmlHandle}!operator=@{operator=}}
+\index{operator=@{operator=}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlHandle} TiXmlHandle::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf TiXmlHandle} \&}]{ref}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_ad8e5dcf6a87882674203157f29f8e4db}
+
+
+Definition at line 1645 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_a9fc739c8a18d160006f82572fc143d13}{
+\index{TiXmlHandle@{TiXmlHandle}!Text@{Text}}
+\index{Text@{Text}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlText}$\ast$ TiXmlHandle::Text (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_a9fc739c8a18d160006f82572fc143d13}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000003}{Deprecated}]use \hyperlink{class_ti_xml_handle_a4ac53a652296203a5b5e13854d923586}{ToText()} Return the handle as a \hyperlink{class_ti_xml_text}{TiXmlText}.\end{Desc}
+This may return null. 
+
+Definition at line 1707 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_abc6e7ed383a5fe1e52b0c0004b457b9e}{
+\index{TiXmlHandle@{TiXmlHandle}!ToElement@{ToElement}}
+\index{ToElement@{ToElement}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{ToElement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlElement}$\ast$ TiXmlHandle::ToElement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_abc6e7ed383a5fe1e52b0c0004b457b9e}
+
+
+Return the handle as a \hyperlink{class_ti_xml_element}{TiXmlElement}. 
+
+This may return null. 
+
+Definition at line 1688 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_af678e5088e83be67baf76f699756f2c3}{
+\index{TiXmlHandle@{TiXmlHandle}!ToNode@{ToNode}}
+\index{ToNode@{ToNode}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{ToNode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlNode}$\ast$ TiXmlHandle::ToNode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_af678e5088e83be67baf76f699756f2c3}
+
+
+Return the handle as a \hyperlink{class_ti_xml_node}{TiXmlNode}. 
+
+This may return null. 
+
+Definition at line 1685 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_a4ac53a652296203a5b5e13854d923586}{
+\index{TiXmlHandle@{TiXmlHandle}!ToText@{ToText}}
+\index{ToText@{ToText}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{ToText}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlText}$\ast$ TiXmlHandle::ToText (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_a4ac53a652296203a5b5e13854d923586}
+
+
+Return the handle as a \hyperlink{class_ti_xml_text}{TiXmlText}. 
+
+This may return null. 
+
+Definition at line 1691 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_a1381c17507a130767b1e23afc93b3674}{
+\index{TiXmlHandle@{TiXmlHandle}!ToUnknown@{ToUnknown}}
+\index{ToUnknown@{ToUnknown}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{ToUnknown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlUnknown}$\ast$ TiXmlHandle::ToUnknown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_a1381c17507a130767b1e23afc93b3674}
+
+
+Return the handle as a \hyperlink{class_ti_xml_unknown}{TiXmlUnknown}. 
+
+This may return null. 
+
+Definition at line 1694 of file tinyxml.h.
+
+\hypertarget{class_ti_xml_handle_a49675b74357ba2aae124657a9a1ef465}{
+\index{TiXmlHandle@{TiXmlHandle}!Unknown@{Unknown}}
+\index{Unknown@{Unknown}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{Unknown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlUnknown}$\ast$ TiXmlHandle::Unknown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ti_xml_handle_a49675b74357ba2aae124657a9a1ef465}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000004}{Deprecated}]use \hyperlink{class_ti_xml_handle_a1381c17507a130767b1e23afc93b3674}{ToUnknown()} Return the handle as a \hyperlink{class_ti_xml_unknown}{TiXmlUnknown}.\end{Desc}
+This may return null. 
+
+Definition at line 1711 of file tinyxml.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ti_xml_handle_ac5429de14bb78b16288bac5bf33c6858}{
+\index{TiXmlHandle@{TiXmlHandle}!node@{node}}
+\index{node@{node}!TiXmlHandle@{TiXmlHandle}}
+\subsubsection[{node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TiXmlNode}$\ast$ {\bf TiXmlHandle::node}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ti_xml_handle_ac5429de14bb78b16288bac5bf33c6858}
+
+
+Definition at line 1714 of file tinyxml.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8h}{tinyxml.h}\item 
+Y:/mocha/src/ast/directives/\hyperlink{ast__v8_8cc}{ast\_\-v8.cc}\item 
+Y:/mocha/src/tinyxml/\hyperlink{tinyxml_8cpp}{tinyxml.cpp}\end{DoxyCompactItemize}

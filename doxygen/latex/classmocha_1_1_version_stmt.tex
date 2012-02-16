@@ -1,0 +1,142 @@
+\hypertarget{classmocha_1_1_version_stmt}{
+\section{mocha::VersionStmt Class Reference}
+\label{classmocha_1_1_version_stmt}\index{mocha::VersionStmt@{mocha::VersionStmt}}
+}
+
+
+{\ttfamily \#include $<$ast.h$>$}
+
+Inheritance diagram for mocha::VersionStmt:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmocha_1_1_version_stmt}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_version_stmt_a8c9d165376a1ff56ef89d372ae1534d9}{VersionStmt} (\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$info)
+\item 
+\hyperlink{classmocha_1_1_version_stmt_a749a79df02a691886a61e0210c80dbf3}{$\sim$VersionStmt} ()
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_version_stmt_aaa6d723d701aec97a33861f984b1c84c}{Ver} ()
+\item 
+\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ \hyperlink{classmocha_1_1_version_stmt_adc1b32c470560bd57e80f5d58bb57946}{Clone} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_version_stmt_a82e2f78b4d3b39b1a73bd15d84cbf6f6}{NVIAccept\_\-} (\hyperlink{classmocha_1_1_i_visitor}{IVisitor} $\ast$visitor)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_token_info}{TokenInfo} $\ast$ \hyperlink{classmocha_1_1_version_stmt_a0c47a5452a123cc952edf9590cd084b8}{ver\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 1575 of file ast.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_version_stmt_a8c9d165376a1ff56ef89d372ae1534d9}{
+\index{mocha::VersionStmt@{mocha::VersionStmt}!VersionStmt@{VersionStmt}}
+\index{VersionStmt@{VersionStmt}!mocha::VersionStmt@{mocha::VersionStmt}}
+\subsubsection[{VersionStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::VersionStmt::VersionStmt (
+\begin{DoxyParamCaption}
+\item[{{\bf TokenInfo} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_version_stmt_a8c9d165376a1ff56ef89d372ae1534d9}
+
+
+Definition at line 1577 of file ast.h.
+
+\hypertarget{classmocha_1_1_version_stmt_a749a79df02a691886a61e0210c80dbf3}{
+\index{mocha::VersionStmt@{mocha::VersionStmt}!$\sim$VersionStmt@{$\sim$VersionStmt}}
+\index{$\sim$VersionStmt@{$\sim$VersionStmt}!mocha::VersionStmt@{mocha::VersionStmt}}
+\subsubsection[{$\sim$VersionStmt}]{\setlength{\rightskip}{0pt plus 5cm}mocha::VersionStmt::$\sim$VersionStmt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_version_stmt_a749a79df02a691886a61e0210c80dbf3}
+
+
+Definition at line 1578 of file ast.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_version_stmt_adc1b32c470560bd57e80f5d58bb57946}{
+\index{mocha::VersionStmt@{mocha::VersionStmt}!Clone@{Clone}}
+\index{Clone@{Clone}!mocha::VersionStmt@{mocha::VersionStmt}}
+\subsubsection[{Clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AstNode} $\ast$ mocha::VersionStmt::Clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classmocha_1_1_version_stmt_adc1b32c470560bd57e80f5d58bb57946}
+\begin{DoxyReturn}{Returns}
+\{AstNode$\ast$\} Clone node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_ast_node_af2a895699bac2012f8b7739bff49c5ec}{mocha::AstNode}.
+
+
+
+Definition at line 229 of file ast.cc.
+
+\hypertarget{classmocha_1_1_version_stmt_a82e2f78b4d3b39b1a73bd15d84cbf6f6}{
+\index{mocha::VersionStmt@{mocha::VersionStmt}!NVIAccept\_\-@{NVIAccept\_\-}}
+\index{NVIAccept\_\-@{NVIAccept\_\-}!mocha::VersionStmt@{mocha::VersionStmt}}
+\subsubsection[{NVIAccept\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::VersionStmt::NVIAccept\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf IVisitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private, virtual\mbox{]}}}}
+\label{classmocha_1_1_version_stmt_a82e2f78b4d3b39b1a73bd15d84cbf6f6}
+
+
+Reimplemented from \hyperlink{classmocha_1_1_statement_ad0e8c3ef62d21f733eb50a414046bae4}{mocha::Statement}.
+
+
+
+Definition at line 1582 of file ast.h.
+
+\hypertarget{classmocha_1_1_version_stmt_aaa6d723d701aec97a33861f984b1c84c}{
+\index{mocha::VersionStmt@{mocha::VersionStmt}!Ver@{Ver}}
+\index{Ver@{Ver}!mocha::VersionStmt@{mocha::VersionStmt}}
+\subsubsection[{Ver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo}$\ast$ mocha::VersionStmt::Ver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmocha_1_1_version_stmt_aaa6d723d701aec97a33861f984b1c84c}
+
+
+Definition at line 1579 of file ast.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_version_stmt_a0c47a5452a123cc952edf9590cd084b8}{
+\index{mocha::VersionStmt@{mocha::VersionStmt}!ver\_\-@{ver\_\-}}
+\index{ver\_\-@{ver\_\-}!mocha::VersionStmt@{mocha::VersionStmt}}
+\subsubsection[{ver\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TokenInfo}$\ast$ {\bf mocha::VersionStmt::ver\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_version_stmt_a0c47a5452a123cc952edf9590cd084b8}
+
+
+Definition at line 1582 of file ast.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/\hyperlink{ast_8h}{ast.h}\item 
+Y:/mocha/src/ast/\hyperlink{ast_8cc}{ast.cc}\end{DoxyCompactItemize}

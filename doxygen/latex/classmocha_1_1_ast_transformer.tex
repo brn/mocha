@@ -1,0 +1,160 @@
+\hypertarget{classmocha_1_1_ast_transformer}{
+\section{mocha::AstTransformer Class Reference}
+\label{classmocha_1_1_ast_transformer}\index{mocha::AstTransformer@{mocha::AstTransformer}}
+}
+
+
+{\ttfamily \#include $<$ast\_\-transformer.h$>$}
+
+Inheritance diagram for mocha::AstTransformer:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmocha_1_1_ast_transformer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_ast_transformer_a339e9862f527dae139b581fe5c044d75}{AstTransformer} (bool is\_\-runtime, \hyperlink{classmocha_1_1_scope}{Scope} $\ast$scope, \hyperlink{classmocha_1_1_compiler}{Compiler} $\ast$compiler, const char $\ast$modulename, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+\hyperlink{classmocha_1_1_ast_transformer_a6214cb90fe29f044738d475a57316fc1}{$\sim$AstTransformer} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmocha_1_1_ast_transformer_a68ad2536f5387586ceeeb0dfb514e0b5}{JumpStmt\_\-} (\hyperlink{classmocha_1_1_ast_node}{AstNode} $\ast$ast\_\-node, int type)
+\item 
+void \hyperlink{classmocha_1_1_ast_transformer_a0e449e3bd337b0b2d86a868ad30cd3c4}{ArrayProccessor\_\-} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ast\_\-node)
+\item 
+void \hyperlink{classmocha_1_1_ast_transformer_a9c212582c300f321a26186b206ad1181}{ObjectProccessor\_\-} (\hyperlink{classmocha_1_1_value_node}{ValueNode} $\ast$ast\_\-node)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_visitor_info}{VisitorInfo} $>$ \hyperlink{classmocha_1_1_ast_transformer_ac28baaac681c02d0ac103196409bd1f9}{visitor\_\-info\_\-}
+\item 
+\hyperlink{classmocha_1_1_scoped_ptr}{ScopedPtr}$<$ \hyperlink{classmocha_1_1_processor_info}{ProcessorInfo} $>$ \hyperlink{classmocha_1_1_ast_transformer_a7cdc53f8550ca2ff46fc9c558916eeff}{proc\_\-info\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 43 of file ast\_\-transformer.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmocha_1_1_ast_transformer_a339e9862f527dae139b581fe5c044d75}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!AstTransformer@{AstTransformer}}
+\index{AstTransformer@{AstTransformer}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{AstTransformer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::AstTransformer::AstTransformer (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\_\-runtime, }
+\item[{{\bf Scope} $\ast$}]{scope, }
+\item[{{\bf Compiler} $\ast$}]{compiler, }
+\item[{const char $\ast$}]{modulename, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_ast_transformer_a339e9862f527dae139b581fe5c044d75}
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em \{bool\}} & is\_\-runtime -\/$>$ Compile module or not. \\
+\hline
+{\em \{Scope$\ast$\}} & scope \\
+\hline
+{\em \{Compiler$\ast$\}} & compiler \\
+\hline
+{\em \{const} & char$\ast$\} modulename -\/$>$ Current file name. \\
+\hline
+{\em \{const} & char$\ast$\} filename -\/$>$ Main js file name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 72 of file ast\_\-transformer.cc.
+
+\hypertarget{classmocha_1_1_ast_transformer_a6214cb90fe29f044738d475a57316fc1}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!$\sim$AstTransformer@{$\sim$AstTransformer}}
+\index{$\sim$AstTransformer@{$\sim$AstTransformer}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{$\sim$AstTransformer}]{\setlength{\rightskip}{0pt plus 5cm}mocha::AstTransformer::$\sim$AstTransformer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classmocha_1_1_ast_transformer_a6214cb90fe29f044738d475a57316fc1}
+
+
+Definition at line 81 of file ast\_\-transformer.cc.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmocha_1_1_ast_transformer_a0e449e3bd337b0b2d86a868ad30cd3c4}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!ArrayProccessor\_\-@{ArrayProccessor\_\-}}
+\index{ArrayProccessor\_\-@{ArrayProccessor\_\-}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{ArrayProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::AstTransformer::ArrayProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_ast_transformer_a0e449e3bd337b0b2d86a868ad30cd3c4}
+
+
+Definition at line 669 of file ast\_\-transformer.cc.
+
+\hypertarget{classmocha_1_1_ast_transformer_a68ad2536f5387586ceeeb0dfb514e0b5}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!JumpStmt\_\-@{JumpStmt\_\-}}
+\index{JumpStmt\_\-@{JumpStmt\_\-}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{JumpStmt\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::AstTransformer::JumpStmt\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf AstNode} $\ast$}]{ast\_\-node, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_ast_transformer_a68ad2536f5387586ceeeb0dfb514e0b5}
+\hypertarget{classmocha_1_1_ast_transformer_a9c212582c300f321a26186b206ad1181}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!ObjectProccessor\_\-@{ObjectProccessor\_\-}}
+\index{ObjectProccessor\_\-@{ObjectProccessor\_\-}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{ObjectProccessor\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void mocha::AstTransformer::ObjectProccessor\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf ValueNode} $\ast$}]{ast\_\-node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_ast_transformer_a9c212582c300f321a26186b206ad1181}
+
+
+Definition at line 693 of file ast\_\-transformer.cc.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmocha_1_1_ast_transformer_a7cdc53f8550ca2ff46fc9c558916eeff}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!proc\_\-info\_\-@{proc\_\-info\_\-}}
+\index{proc\_\-info\_\-@{proc\_\-info\_\-}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{proc\_\-info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf ProcessorInfo}$>$ {\bf mocha::AstTransformer::proc\_\-info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_ast_transformer_a7cdc53f8550ca2ff46fc9c558916eeff}
+
+
+Definition at line 68 of file ast\_\-transformer.h.
+
+\hypertarget{classmocha_1_1_ast_transformer_ac28baaac681c02d0ac103196409bd1f9}{
+\index{mocha::AstTransformer@{mocha::AstTransformer}!visitor\_\-info\_\-@{visitor\_\-info\_\-}}
+\index{visitor\_\-info\_\-@{visitor\_\-info\_\-}!mocha::AstTransformer@{mocha::AstTransformer}}
+\subsubsection[{visitor\_\-info\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ScopedPtr}$<${\bf VisitorInfo}$>$ {\bf mocha::AstTransformer::visitor\_\-info\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classmocha_1_1_ast_transformer_ac28baaac681c02d0ac103196409bd1f9}
+
+
+Definition at line 67 of file ast\_\-transformer.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Y:/mocha/src/ast/visitors/\hyperlink{ast__transformer_8h}{ast\_\-transformer.h}\item 
+Y:/mocha/src/ast/visitors/\hyperlink{ast__transformer_8cc}{ast\_\-transformer.cc}\end{DoxyCompactItemize}

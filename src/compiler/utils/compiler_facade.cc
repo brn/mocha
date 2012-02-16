@@ -59,7 +59,6 @@ class ParallelDelegator : public FinishDelegator {
   ~ParallelDelegator(){}
   void Delegate( Handle<CompileResult> result ) {
     MutexLock lock( mutex_ );
-    printf( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@end %s\n" , result->GetFilename() );
     if ( Atomic::Increment( &current_ ) == size_ ) {
       is_end_ = true;
     }
