@@ -56,7 +56,6 @@ void ExportProcessor::ProcessNodeList_( AstNode* node ) {
   VariableStmt* var_stmt = ManagedHandle::Retain<VariableStmt>();
   Expression* exp = ManagedHandle::Retain<Expression>();
   var_stmt->Line( stmt_->Line() );
-  exp->Paren();
   CreateAssignment_( exp , var_stmt , node );
   if ( var_stmt->ChildLength() > 0 ) {
     stmt_->ParentNode()->ReplaceChild( stmt_ , var_stmt );
@@ -88,7 +87,12 @@ void ExportProcessor::CreateAssignment_( Expression* exp , VariableStmt* var_stm
       ValueNode *val = AstUtils::CreateVarInitiliser( name->Symbol() , assign );
       var_stmt->AddChild( val);
     } else {
-      assign = AstUtils::CreateAssignment( '=' , export_prop , name );
+      AstNode* target = name->Clone();
+      if ( target->CastToValue() ) {
+        ValueNode* target_name = target->CastToValue();
+        target_name->ValueType( ValueNode::kIdentifier );
+      }
+      assign = AstUtils::CreateAssignment( '=' , export_prop , target );
       exp->AddChild( assign );
     }
   }

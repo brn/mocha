@@ -311,12 +311,28 @@ class PrettyPrinter : public CodeWriter::WriterBase {
 
 class CompressWriter : public CodeWriter::WriterBase {
  public :
-  CompressWriter( bool is_line ) : is_line_( is_line ){}
+  CompressWriter( bool is_line ) : is_line_( is_line ) , last_op_( 0 ) , last_2_op_( 0 ), last_state_( 0 ) , last_2_state_( 0 ){}
   void Write( const char* code , CodeStream* stream ) {
     stream->Write( code );
   }
   void WriteOp( int op , int state , CodeStream* stream ) {
-    CommonOperandWriter_( op , state , stream );
+    if ( op != '\n' ) {
+      if ( last_2_state_ == CodeWriter::kBlockEndBrace && last_op_ == ';' ) {
+        if ( op == Token::JS_ELSE ) {
+          stream->Erase( stream->Size() - 1 , stream->Size() );
+        }
+      }
+      CommonOperandWriter_( op , state , stream );
+      last_2_op_ = last_op_;
+      last_op_ = op;
+      last_2_state_ = last_state_;
+      last_state_ = state;
+    } else {
+      last_2_op_ = last_op_;
+      last_op_ = op;
+      last_2_state_ = last_state_;
+      last_state_ = state;
+    }
   }
  private :
 
@@ -428,6 +444,10 @@ class CompressWriter : public CodeWriter::WriterBase {
   }
  private :
   bool is_line_;
+  char last_op_;
+  char last_2_op_;
+  int last_2_state_;
+  int last_state_;
 };
 
 const char PrettyPrinter::default_indent_[] = {"  "};

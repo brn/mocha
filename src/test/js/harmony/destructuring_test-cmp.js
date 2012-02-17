@@ -1,101 +1,226 @@
 (function() {
-  var __FILE__ = "Runtime",
-      __LINE__ = 0;
   
-  var _mochaGlobalExport = {};
+  var p/*_mochaGlobalExport*/ = {};
   
-  ( function () {
+  ( function ( g/*_mochaLocalTmp0*/,h/*_mochaLocalTmp1*/,i/*_mochaLocalTmp2*/,j/*_mochaLocalTmp3*/ ) {
+    var a/*stringProto*/ = g/*_mochaLocalTmp0*/.prototype,
+        k/*arrayProto*/ = h/*_mochaLocalTmp1*/.prototype,
+        l/*functionProto*/ = i/*_mochaLocalTmp2*/.prototype,
+        m/*dateProto*/ = j/*_mochaLocalTmp3*/.prototype;
+    
     "use strict";
     
-    function builtinTypeError( message ) {
+    function n/*builtinTypeError*/( d/*message*/ ) {
       try {
-        throw new TypeError( message );
+        throw new TypeError( d/*message*/ );
       } catch( e ){
         throw new Error( e );
       };
     };
     
-    function callbackCheck( callback,type ) {
+    function o/*callbackCheck*/( a/*callback*/,b/*type*/ ) {
       
-      Runtime.assert( true,typeof type === "string","typeof type === \"string\"",39,'./mocha_runtime.js' );
-      
-      if ( typeof callback !== "function" ){
-        builtinTypeError( type+" : first argument is not callable" );
+      if ( typeof a/*callback*/ !== "function" ){
+        n/*builtinTypeError*/( b/*type*/+" : first argument is not callable" );
       };
     };
     
-    if ( !String.prototype.trim ){
-      String.prototype.trim = function () {
-        return this.replace( String.prototype.trim.rtrim,"" );
+    if ( !Object.keys ){
+      Object.keys = function ( b/*obj*/ ) {
+        if ( !b/*obj*/ ){
+          n/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+        };
+        
+        var c/*ret*/ = [],
+            d/*iter*/ = -1;
+        
+        for ( var i in b/*obj*/ ){
+          if ( b/*obj*/.hasOwnProperty( i ) ){
+            c/*ret*/[ ++ d/*iter*/] = b/*obj*/[i];
+          };
+        };
+        return c/*ret*/;
       };
-      
-      String.prototype.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !Function.prototype.bind ){
-      Function.prototype.bind = function () {
-        var argArray = Array.prototype.slice.call( arguments ),
-            context = argArray.shift(),
-            ret = function () {
-              var args = argArray.concat( Array.prototype.slice.call( arguments ) );
+    if ( !Object.preventExtensions ){
+      Object.preventExtensions = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    if ( !Object.seal ){
+      Object.seal = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    if ( !Object.freeze ){
+      Object.freeze = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    var p/*hasRealEcma5*/ = ( function () {
+          var c/*ret*/;
+          
+          try {
+            var d/*obj*/ = {};
+            
+            Object.defineProperty( d/*obj*/,"test", {
+              configurable : false,
+              writable : false,
+              enumerable : false,
+              value : 0
+            });
+            
+            d/*obj*/.test = 200;
+            
+            c/*ret*/ = ( d/*obj*/.test === 200 )?false : true;
+          } catch( e ){
+            c/*ret*/ = false;
+          };
+          return c/*ret*/;
+        })();
+    
+    if ( !p/*hasRealEcma5*/ ){
+      Object.defineProperty = function ( a/*obj*/,b/*prop*/,c/*valobj*/ ) {
+        if ( c/*valobj*/.value ){
+          a/*obj*/[b/*prop*/] = c/*valobj*/.value;
+        };
+      };
+    };
+    
+    if ( !a/*stringProto*/.trim ){
+      a/*stringProto*/.trim = function () {
+        return this.replace( stringProto.trim.rtrim,"" );
+      };
+      
+      a/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+    };
+    
+    if ( !a/*stringProto*/.repeat ){
+      Object.defineProperty( a/*stringProto*/,"repeat", {
+        value : function q/*value*/( b/*num*/ ) {
+          return Array( b/*num*/+1 ).join( this.toString() );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.startsWith ){
+      Object.defineProperty( a/*stringProto*/,"startsWith", {
+        value : function q/*value*/( a/*str*/ ) {
+          return !this.indexOf( a/*str*/ );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.endsWith ){
+      Object.defineProperty( a/*stringProto*/,"endsWith", {
+        value : function q/*value*/( b/*str*/ ) {
+          var c/*t*/ = String( b/*str*/ );
+          
+          var d/*index*/ = this.lastIndexOf( c/*t*/ );
+          return d/*index*/ >= 0 && d/*index*/ === this.length-c/*t*/.length;
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.contains ){
+      Object.defineProperty( a/*stringProto*/,"contains", {
+        value : function q/*value*/( a/*str*/ ) {
+          return this.indexOf( a/*str*/ ) !== -1;
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.toArray ){
+      Object.defineProperty( a/*stringProto*/,"toArray", {
+        value : function q/*value*/( a/*str*/ ) {
+          return this.split( "" );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !l/*functionProto*/.bind ){
+      l/*functionProto*/.bind = function () {
+        var d/*argArray*/ = k/*arrayProto*/.slice.call( arguments ),
+            e/*context*/ = d/*argArray*/.shift(),
+            f/*ret*/ = function () {
+              var c/*args*/ = d/*argArray*/.concat( k/*arrayProto*/.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof ret ){
-                return ret.context.apply( this,args );
+              if ( this !== null && this !== window && this instanceof f/*ret*/ ){
+                return f/*ret*/.context.apply( this,c/*args*/ );
               } else {
-                return ret.context.apply( context,args );
+                return f/*ret*/.context.apply( e/*context*/,c/*args*/ );
               };
             };
         
-        ret.prototype = this.prototype;
+        f/*ret*/.prototype = this.prototype;
         
-        ret.context = this;
-        return ret;
+        f/*ret*/.context = this;
+        return f/*ret*/;
       };
     };
     
-    if ( !Array.prototype.forEach ){
-      Array.prototype.forEach = function ( callback,that ) {
-        callbackCheck( callback,"Array.forEach" );
+    if ( !k/*arrayProto*/.forEach ){
+      k/*arrayProto*/.forEach = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.forEach" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.forEach : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            callback.call( that,ta,iter,this );
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this );
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            callback( ta,iter,this );
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            b/*callback*/( e/*ta*/,d/*iter*/,this );
           };
         };
       };
     };
     
-    if ( !Array.prototype.every ){
-      Array.prototype.every = function ( callback,that ) {
-        callbackCheck( callback,"Array.every" );
+    if ( !k/*arrayProto*/.every ){
+      k/*arrayProto*/.every = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.every" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.every : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.every : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( callback.call( that,ta,iter,this ) ) ){
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( !( b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this ) ) ){
               return false;
             };
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( callback( ta,iter,this ) ) ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( !( b/*callback*/( e/*ta*/,d/*iter*/,this ) ) ){
               return false;
             };
           };
@@ -104,26 +229,26 @@
       };
     };
     
-    if ( !Array.prototype.some ){
-      Array.prototype.some = function ( callback,that ) {
-        callbackCheck( callback,"Array.some" );
+    if ( !k/*arrayProto*/.some ){
+      k/*arrayProto*/.some = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.some" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.some : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.some : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( callback.call( that,ta,iter,this ) ){
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this ) ){
               return true;
             };
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( callback( ta,iter,this ) ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( b/*callback*/( e/*ta*/,d/*iter*/,this ) ){
               return true;
             };
           };
@@ -132,165 +257,165 @@
       };
     };
     
-    if ( !Array.prototype.filter ){
-      Array.prototype.filter = function ( callback,that ) {
-        callbackCheck( callback,"Array.filter" );
+    if ( !k/*arrayProto*/.filter ){
+      k/*arrayProto*/.filter = function ( c/*callback*/,d/*that*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.filter" );
         
-        var len = this.length,
-            iter = -1,
-            ret = [],
-            ta;
+        var e/*len*/ = this.length,
+            f/*iter*/ = -1,
+            g/*ret*/ = [],
+            h/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.filter : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.filter : this is null or not defined" );
         };
         
-        if ( that ){
-          for ( var i = 0,len = this.length;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( callback.call( that,ta,i,this ) ){
-                ret[ ++ iter] = ta;
+        if ( d/*that*/ ){
+          for ( var i = 0,e/*len*/ = this.length;i<e/*len*/; ++ i ){
+            if ( ( h/*ta*/ = this[i] ) !== null && h/*ta*/ !== undefined ){
+              if ( c/*callback*/.call( d/*that*/,h/*ta*/,i,this ) ){
+                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
               };
             };
           };
         } else {
-          for ( var i = 0,len = this.length;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( callback( ta,i,this ) ){
-                ret[ ++ iter] = ta;
+          for ( var i = 0,e/*len*/ = this.length;i<e/*len*/; ++ i ){
+            if ( ( h/*ta*/ = this[i] ) !== null && h/*ta*/ !== undefined ){
+              if ( c/*callback*/( h/*ta*/,i,this ) ){
+                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
               };
             };
           };
         };
-        return ret;
+        return g/*ret*/;
       };
     };
     
-    if ( !Array.prototype.indexOf ){
-      Array.prototype.indexOf = function ( subject,fromIndex ) {
-        var iter = ( fromIndex )?fromIndex-1 : -1,
-            index = -1,
-            ta;
+    if ( !k/*arrayProto*/.indexOf ){
+      k/*arrayProto*/.indexOf = function ( b/*subject*/,c/*fromIndex*/ ) {
+        var d/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/-1 : -1,
+            e/*index*/ = -1,
+            f/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.indexOf : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( ta === subject ){
-            index = iter;
+        while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
+          if ( f/*ta*/ === b/*subject*/ ){
+            e/*index*/ = d/*iter*/;
             break;
           };
         };
-        return index;
+        return e/*index*/;
       };
     };
     
-    if ( !Array.prototype.lastIndexOf ){
-      Array.prototype.lastIndexOf = function ( target,fromIndex ) {
-        var len = this.length,
-            iter = ( fromIndex )?fromIndex+1 : len,
-            index = -1,
-            ta;
+    if ( !k/*arrayProto*/.lastIndexOf ){
+      k/*arrayProto*/.lastIndexOf = function ( b/*target*/,c/*fromIndex*/ ) {
+        var d/*len*/ = this.length,
+            e/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/+1 : d/*len*/,
+            f/*index*/ = -1,
+            g/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-          if ( ta === target ){
-            index = iter;
+        while ( ( g/*ta*/ = this[ -- e/*iter*/] ) !== null && g/*ta*/ !== undefined ){
+          if ( g/*ta*/ === b/*target*/ ){
+            f/*index*/ = e/*iter*/;
             break;
           };
         };
-        return index;
+        return f/*index*/;
       };
     };
     
-    if ( !Array.prototype.map ){
-      Array.prototype.map = function ( callback,that ) {
-        callbackCheck( callback,"Array.map" );
+    if ( !k/*arrayProto*/.map ){
+      k/*arrayProto*/.map = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.map" );
         
-        var ret = [],
-            iter = -1,
-            len = this.length,
-            i = 0,
-            ta;
+        var d/*ret*/ = [],
+            e/*iter*/ = -1,
+            f/*len*/ = this.length,
+            g/*i*/ = 0,
+            h/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.map : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.map : this is null or not defined." );
         };
         
-        if ( that ){
-          for ( i;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = callback.call( that,ta,i,this );
+        if ( c/*that*/ ){
+          for ( g/*i*/;g/*i*/<f/*len*/; ++ g/*i*/ ){
+            if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+              d/*ret*/[ ++ e/*iter*/] = b/*callback*/.call( c/*that*/,h/*ta*/,g/*i*/,this );
             };
           };
         } else {
-          for ( i;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = callback( ta,i,this );
+          for ( g/*i*/;g/*i*/<f/*len*/; ++ g/*i*/ ){
+            if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+              d/*ret*/[ ++ e/*iter*/] = b/*callback*/( h/*ta*/,g/*i*/,this );
             };
           };
         };
-        return ret;
+        return d/*ret*/;
       };
     };
     
-    if ( !Array.prototype.reduce ){
-      Array.prototype.reduce = function ( callback,initial ) {
-        callbackCheck( callback,"Array.reduce" );
+    if ( !k/*arrayProto*/.reduce ){
+      k/*arrayProto*/.reduce = function ( c/*callback*/,d/*initial*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.reduce" );
         
-        var ret = initial || this[0],
-            i = ( initial )?0 : 1,
-            len = this.length,
-            ta;
+        var e/*ret*/ = d/*initial*/ || this[0],
+            f/*i*/ = ( d/*initial*/ )?0 : 1,
+            g/*len*/ = this.length,
+            h/*ta*/;
         
-        if ( ( len === 0 || len === null ) && arguments.length<2 ){
-          builtinTypeError( "Array length is 0 and no second argument" );
+        if ( ( g/*len*/ === 0 || g/*len*/ === null ) && arguments.length<2 ){
+          n/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( i;i<len; ++ i ){
-          if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = callback( ret,ta,i,this );
+        for ( f/*i*/;f/*i*/<g/*len*/; ++ f/*i*/ ){
+          if ( ( h/*ta*/ = this[f/*i*/] ) !== null && h/*ta*/ !== undefined ){
+            e/*ret*/ = c/*callback*/( e/*ret*/,h/*ta*/,f/*i*/,this );
           };
         };
-        return ret;
+        return e/*ret*/;
       };
     };
     
-    if ( !Array.prototype.reduceRight ){
-      Array.prototype.reduceRight = function ( callback,initial ) {
-        callbackCheck( callback,"Array.reduceRight" );
+    if ( !k/*arrayProto*/.reduceRight ){
+      k/*arrayProto*/.reduceRight = function ( c/*callback*/,d/*initial*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.reduceRight" );
         
-        var len = this.length,
-            ret = initial || this[len-1],
-            i = ( initial )?len-1 : len-2,
-            ta;
+        var e/*len*/ = this.length,
+            f/*ret*/ = d/*initial*/ || this[e/*len*/-1],
+            g/*i*/ = ( d/*initial*/ )?e/*len*/-1 : e/*len*/-2,
+            h/*ta*/;
         
-        if ( ( len === 0 || len === null ) && arguments.length<2 ){
-          builtinTypeError( "Array length is 0 and no second argument" );
+        if ( ( e/*len*/ === 0 || e/*len*/ === null ) && arguments.length<2 ){
+          n/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( i;i>-1; -- i ){
-          if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = callback( ret,ta,i,this );
+        for ( g/*i*/;g/*i*/>-1; -- g/*i*/ ){
+          if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+            f/*ret*/ = c/*callback*/( f/*ret*/,h/*ta*/,g/*i*/,this );
           };
         };
-        return ret;
+        return f/*ret*/;
       };
     };
     
-    if ( !Date.prototype.toJSON ){
-      Date.prototype.toJSON = function () {
-        var _mochaLocalTmp0 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            month = _mochaLocalTmp0[0],
-            date = _mochaLocalTmp0[1],
-            hour = _mochaLocalTmp0[2],
-            minute = _mochaLocalTmp0[3],
-            second = _mochaLocalTmp0[4];
-        return '"'+this.getUTCFullYear()+'-'+( month>8?month+1 : "0"+( month+1 ) )+'-'+( date>9?date : "0"+date )+'T'+( hour>9?hour : "0"+hour )+':'+( minute>9?minute : "0"+minute )+':'+( second>9?second : "0"+second )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !m/*dateProto*/.toJSON ){
+      m/*dateProto*/.toJSON = function () {
+        var a/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            b/*month*/ = a/*_mochaLocalTmp4*/[0],
+            c/*date*/ = a/*_mochaLocalTmp4*/[1],
+            d/*hour*/ = a/*_mochaLocalTmp4*/[2],
+            e/*minute*/ = a/*_mochaLocalTmp4*/[3],
+            f/*second*/ = a/*_mochaLocalTmp4*/[4];
+        return '"'+this.getUTCFullYear()+'-'+( b/*month*/>8?b/*month*/+1 : "0"+( b/*month*/+1 ) )+'-'+( c/*date*/>9?c/*date*/ : "0"+c/*date*/ )+'T'+( d/*hour*/>9?d/*hour*/ : "0"+d/*hour*/ )+':'+( e/*minute*/>9?e/*minute*/ : "0"+e/*minute*/ )+':'+( f/*second*/>9?f/*second*/ : "0"+f/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -300,105 +425,44 @@
       };
     };
     
-    if ( !Object.keys ){
-      Object.keys = function ( obj ) {
-        if ( !obj ){
-          builtinTypeError( "Object.keys : first arguments is null or not defined." );
-        };
-        
-        var ret = [],
-            iter = -1;
-        
-        for ( var i in obj ){
-          if ( obj.hasOwnProperty( i ) ){
-            ret[ ++ iter] = obj[i];
-          };
-        };
-        return ret;
-      };
-    };
-    
-    if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( o ) {
-        return o;
-      };
-    };
-    
-    if ( !Object.seal ){
-      Object.seal = function ( o ) {
-        return o;
-      };
-    };
-    
-    if ( !Object.freeze ){
-      Object.freeze = function ( o ) {
-        return o;
-      };
-    };
-    
-    var hasRealEcma5 = ( function () {
-          try {
-            var obj = {};
-            
-            Object.defineProperty( obj,"test", {
-              configurable : false,
-              writable : false,
-              enumerable : false,
-              value : 0
-            });
-            
-            obj.test = 200;
-            return ( obj.test === 200 )?false : true;
-          } catch( e ){
-            return false;
-          };
-        })();
-    
-    if ( !hasRealEcma5 ){
-      Object.defineProperty = function ( obj,prop,valobj ) {
-        if ( valobj.value ){
-          obj[prop] = valobj.value;
-        };
-      };
-    };
-    
     if ( !Array.isArray ){
-      Array.isArray = function ( arr ) {
+      Array.isArray = function ( c/*arr*/ ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( arr )?Object.prototype.toString.call( arr ) === "[object Array]" : false;
+        return ( c/*arr*/ )?Object.prototype.toString.call( c/*arr*/ ) === "[object Array]" : false;
       };
     };
-  })();
+  }).call( this,String,Array,Function,Date );
   
-  var Runtime = ( function Runtime() {
-        var _mochaLocalExport = {};
+  var a/*Runtime*/ = ( function a/*Runtime*/() {
+        var k/*_mochaLocalExport*/ = {};
         
-        function Exception( line,file,e ) {
+        "use strict";
+        
+        function l/*Exception*/( d/*line*/,c/*file*/,b/*e*/ ) {
           this.toString = function () {
             return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
           };
         }
-        function fastMax( x,y ) {
-          return x>y?x : y;
-        }
-        var Runtime =  {
-              getErrorMessage : function getErrorMessage( e ) {
-                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        var m/*fastMax*/ = Math.max;
+        
+        var a/*Runtime*/ =  {
+              getErrorMessage : function n/*getErrorMessage*/( a/*e*/ ) {
+                return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
               },
-              exceptionHandler : function exceptionHandler( line,file,e ) {
-                if ( isStopIteration( e ) ){
-                  this.throwException( e );
+              exceptionHandler : function o/*exceptionHandler*/( a/*line*/,b/*file*/,c/*e*/ ) {
+                if ( K/*isStopIteration*/( c/*e*/ ) ){
+                  this.throwException( c/*e*/ );
                 } else {
-                  this.throwException( new Exception( line,file,e ) );
+                  this.throwException( new l/*Exception*/( a/*line*/,b/*file*/,c/*e*/ ) );
                 };
               },
-              throwException : function throwException( exception ) {
+              throwException : function p/*throwException*/( c/*exception*/ ) {
                 try {
-                  throw exception;
+                  throw c/*exception*/;
                 } catch( e ){
-                  if ( isStopIteration( e ) ){
+                  if ( K/*isStopIteration*/( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -408,148 +472,157 @@
               hasProto : "__proto__" in {}
             };
         
-        var slice = Array.prototype.slice;
+        var q/*slice*/ = Array.prototype.slice;
         
-        var createUnenumProp = _mochaLocalExport.createUnenumProp = function createUnenumProp( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+        var r/*createUnenumProp*/ = k/*_mochaLocalExport*/.createUnenumProp = function r/*createUnenumProp*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
+              return Object.defineProperty( b/*obj*/,c/*prop*/, {
                 configurable : true,
                 enumerable : false,
                 writable : true,
-                value : value
+                value : d/*value*/
               });
             };
         
-        var constant = _mochaLocalExport.constant = function constant( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+        var s/*constant*/ = k/*_mochaLocalExport*/.constant = function s/*constant*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
+              return Object.defineProperty( b/*obj*/,c/*prop*/, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
-                value : value
+                value : d/*value*/
               });
             };
         
-        var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( likeArray )?slice.call( likeArray,index ) : [];
+        var t/*toArray*/ = k/*_mochaLocalExport*/.toArray = function t/*toArray*/( a/*likeArray*/,b/*index*/ ) {
+              return ( a/*likeArray*/ )?q/*slice*/.call( a/*likeArray*/,b/*index*/ ) : [];
             };
         
-        var Generator = function (){};
+        var u/*Generator*/ = function (){};
         
-        var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = new Generator;
+        var v/*createGenerator*/ = k/*_mochaLocalExport*/.createGenerator = function v/*createGenerator*/( b/*generatorFn*/,c/*closeFn*/,d/*context*/ ) {
+              var e/*ret*/ = new u/*Generator*/;
               
-              createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
+              r/*createUnenumProp*/( e/*ret*/,"next",b/*generatorFn*/.bind( d/*context*/,false,false ) );
               
-              createUnenumProp( ret,"send",generatorFn.bind( context,true,false ) );
+              r/*createUnenumProp*/( e/*ret*/,"send",b/*generatorFn*/.bind( d/*context*/,true,false ) );
               
-              createUnenumProp( ret,"close",closeFn.bind( context ) );
+              r/*createUnenumProp*/( e/*ret*/,"close",c/*closeFn*/.bind( d/*context*/ ) );
               
-              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
+              r/*createUnenumProp*/( e/*ret*/,"__nothrowNext__",b/*generatorFn*/.bind( d/*context*/,false,true ) );
               
-              createUnenumProp( ret,"toString",
+              r/*createUnenumProp*/( e/*ret*/,"toString",
               function () {
                 return "[object Generator]";
               });
               
-              Object.freeze( ret );
-              return ret;
+              Object.freeze( e/*ret*/ );
+              return e/*ret*/;
             };
         
-        function getErrorMessage( e ) {
-          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        function n/*getErrorMessage*/( a/*e*/ ) {
+          return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
         }
-        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
+        var p/*throwException*/ = k/*_mochaLocalExport*/.throwException = a/*Runtime*/.throwException.bind( a/*Runtime*/ );
         
-        var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        var o/*exceptionHandler*/ = k/*_mochaLocalExport*/.exceptionHandler = a/*Runtime*/.exceptionHandler.bind( a/*Runtime*/ );
         
-        var extend = _mochaLocalExport.extend = function extend( dest,source ) {
-              for ( var prop in source ){
-                dest[prop] = source[prop];
+        var w/*extend*/ = k/*_mochaLocalExport*/.extend = function w/*extend*/( b/*dest*/,c/*source*/ ) {
+              for ( var prop in c/*source*/ ){
+                b/*dest*/[prop] = c/*source*/[prop];
               };
-              return dest;
+              return b/*dest*/;
             };
         
-        function compareTuple( tuple ) {
-          var max = fastMax( tuple.length,this.length );
+        function x/*compareTuple*/( a/*tuple*/ ) {
+          var b/*max*/ = m/*fastMax*/( a/*tuple*/.length,this.length ),
+              c/*i*/ = -1;
           
-          i = 0;
-          
-          while ( i<max && tuple[i] === this[i] ){
-            i ++ ;
+          while (  ++ c/*i*/<b/*max*/ && a/*tuple*/[c/*i*/] === this[c/*i*/] ){
+            
           };
-          return max === i;
+          return b/*max*/ === c/*i*/;
         };
         
-        function tupleToArray() {
+        function y/*tupleToArray*/() {
           return Array.prototype.slice.call( this );
         };
         
-        var createTuple = _mochaLocalExport.createTuple = function createTuple( obj,size ) {
-              createUnenumProp( obj,"length",size );
+        var z/*createTuple*/ = k/*_mochaLocalExport*/.createTuple = function z/*createTuple*/( b/*obj*/,c/*size*/ ) {
+              r/*createUnenumProp*/( b/*obj*/,"length",c/*size*/ );
               
-              createUnenumProp( obj,"equal",compareTuple );
+              r/*createUnenumProp*/( b/*obj*/,"equal",x/*compareTuple*/ );
               
-              createUnenumProp( obj,"toArray",tupleToArray );
+              r/*createUnenumProp*/( b/*obj*/,"toArray",y/*tupleToArray*/ );
               
-              createUnenumProp( obj,"toString",
+              r/*createUnenumProp*/( b/*obj*/,"toString",
               function () {
                 return "[object Tuple]";
               });
-              return Object.freeze( obj );
+              return Object.freeze( b/*obj*/ );
             };
         
-        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
-              derived.prototype = base;
+        var A/*createRecord*/ = k/*_mochaLocalExport*/.createRecord = function A/*createRecord*/( b/*obj*/ ) {
+              if ( b/*obj*/.toString() === "[object Object]" ){
+                r/*createUnenumProp*/( b/*obj*/,"toString",
+                function () {
+                  return "[object Record]";
+                });
+              };
+              return Object.freeze( b/*obj*/ );
             };
         
-        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
-              return Object.getPrototypeOf( obj );
-            } : function ( obj ) {
-              var ret = {};
+        var B/*extendPrototype*/ = k/*_mochaLocalExport*/.extendPrototype = function ( a/*derived*/,b/*base*/ ) {
+              a/*derived*/.prototype = b/*base*/;
+            };
+        
+        var C/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
+              return Object.getPrototypeOf( b/*obj*/ );
+            } : function ( b/*obj*/ ) {
+              var c/*ret*/ = {};
               
-              for ( var i in obj ){
-                if ( !obj.hasOwnProperty( i ) ){
-                  ret[i] = obj[i];
+              for ( var i in b/*obj*/ ){
+                if ( !b/*obj*/.hasOwnProperty( i ) ){
+                  c/*ret*/[i] = b/*obj*/[i];
                 };
               };
-              return ret;
+              return c/*ret*/;
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
-              if ( typeof base === 'function' ){
-                derived.prototype.__proto__ = base.prototype;
+        var D/*extendClass*/ = k/*_mochaLocalExport*/.extendClass = ( a/*Runtime*/.hasProto )?function ( b/*derived*/,c/*base*/ ) {
+              if ( typeof c/*base*/ === 'function' ){
+                b/*derived*/.prototype.__proto__ = c/*base*/.prototype;
                 
-                for ( var i in base ){
-                  derived[i] = base[i];
+                for ( var i in c/*base*/ ){
+                  b/*derived*/[i] = c/*base*/[i];
                 };
               } else {
-                derived.prototype.__proto__ = base.__proto__;
+                b/*derived*/.prototype.__proto__ = c/*base*/.__proto__;
               };
-            } : function ( derived,base ) {
-              var baseType = typeof base;
+            } : function ( b/*derived*/,c/*base*/ ) {
+              var d/*baseType*/ = typeof c/*base*/;
               
-              if ( baseType === "function" ){
-                var inherit = function (){};
+              if ( d/*baseType*/ === "function" ){
+                var e/*inherit*/ = function (){};
                 
-                inherit.prototype = base.prototype;
+                e/*inherit*/.prototype = c/*base*/.prototype;
                 
-                derived.prototype = new inherit;
+                b/*derived*/.prototype = new e/*inherit*/;
                 
-                for ( var i in base ){
-                  derived[i] = base[i];
+                for ( var i in c/*base*/ ){
+                  b/*derived*/[i] = c/*base*/[i];
                 };
               } else {
-                var inherit = function (){},
-                    proto = getPrototype( base );
+                var e/*inherit*/ = function (){},
+                    f/*proto*/ = C/*getPrototype*/( c/*base*/ );
                 
-                inherit.prototype = proto;
+                e/*inherit*/.prototype = f/*proto*/;
                 
-                derived.prototype = new inherit;
+                b/*derived*/.prototype = new e/*inherit*/;
               };
             };
         
-        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        var E/*__ref_iterator__*/ = k/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
         
-        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+        var F/*throwStopIteration*/ = k/*_mochaLocalExport*/.throwStopIteration = function F/*throwStopIteration*/() {
               try {
                 throw StopIteration;
               } catch( e ){
@@ -557,609 +630,365 @@
               };
             };
         
-        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
-              return obj instanceof Generator;
+        var G/*isGenerator*/ = k/*_mochaLocalExport*/.isGenerator = function G/*isGenerator*/( a/*obj*/ ) {
+              return a/*obj*/ instanceof u/*Generator*/;
             };
         
-        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
-              var ret = obj[__ref_iterator__](),
-                  newObj;
+        var H/*getIterator*/ = k/*_mochaLocalExport*/.getIterator = function H/*getIterator*/( c/*obj*/ ) {
+              var d/*ret*/ = c/*obj*/[E/*__ref_iterator__*/](),
+                  e/*newObj*/;
               
-              if ( isGenerator( ret ) ){
-                return ret;
+              if ( G/*isGenerator*/( d/*ret*/ ) ){
+                return d/*ret*/;
               };
               
-              newObj = {};
+              e/*newObj*/ = {};
               
-              if ( ret.next ){
-                createUnenumProp( newObj,"next",
+              if ( d/*ret*/.next ){
+                r/*createUnenumProp*/( e/*newObj*/,"next",
                 function () {
-                  var result = ret.next();
+                  var b/*result*/ = d/*ret*/.next();
                   
-                  if ( result === undefined ){
-                    throwStopIteration();
+                  if ( b/*result*/ === undefined ){
+                    F/*throwStopIteration*/();
                   };
-                  return result;
+                  return b/*result*/;
                 });
               } else {
                 return {};
               };
               
-              if ( !( "__nothrowNext__" in ret ) ){
-                createUnenumProp( newObj,"__nothrowNext__",ret.next.bind( ret ) );
+              if ( !( "__nothrowNext__" in d/*ret*/ ) ){
+                r/*createUnenumProp*/( e/*newObj*/,"__nothrowNext__",d/*ret*/.next.bind( d/*ret*/ ) );
               };
               
-              for ( var prop in ret ){
+              for ( var prop in d/*ret*/ ){
                 if ( prop !== "next" && prop !== "__nothrowNext__" ){
-                  newObj[prop] = ret[prop];
+                  e/*newObj*/[prop] = d/*ret*/[prop];
                 };
               };
               
-              if ( !( "toString" in ret ) ){
-                createUnenumProp( newObj,"toString",
+              if ( !( "toString" in d/*ret*/ ) ){
+                r/*createUnenumProp*/( e/*newObj*/,"toString",
                 function () {
                   return "[object Iterator]";
                 });
               };
-              return newObj;
+              return e/*newObj*/;
             };
         
-        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
-              return __ref_iterator__ in obj;
+        var I/*hasIterator*/ = k/*_mochaLocalExport*/.hasIterator = function I/*hasIterator*/( a/*obj*/ ) {
+              return E/*__ref_iterator__*/ in a/*obj*/;
             };
         
-        var rstopIteration = /StopIteration/;
+        var J/*rstopIteration*/ = /StopIteration/;
         
-        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
-              return obj === StopIteration || rstopIteration.test( obj );
+        var K/*isStopIteration*/ = k/*_mochaLocalExport*/.isStopIteration = function K/*isStopIteration*/( b/*obj*/ ) {
+              return b/*obj*/ === StopIteration || J/*rstopIteration*/.test( b/*obj*/ );
             };
         
-        var privateRecord,
-            createPrivateRecord,
-            getPrivateRecord;
+        var L/*privateRecord*/,
+            M/*createPrivateRecord*/,
+            N/*getPrivateRecord*/;
         
         if ( "WeakMap" in window ){
-          privateRecord = new WeakMap();
+          L/*privateRecord*/ = new WeakMap();
           
-          createPrivateRecord = function ( self,privateHolder ) {
-            var holder = new privateHolder;
+          M/*createPrivateRecord*/ = function ( a/*self*/,b/*privateHolder*/ ) {
+            var c/*holder*/ = new b/*privateHolder*/;
             
-            createUnenumProp( holder.constructor,"__is_private__",1 );
+            r/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
             
-            privateRecord.set( self,holder );
+            L/*privateRecord*/.set( a/*self*/,c/*holder*/ );
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( privateRecord.has( self ) ){
-              return privateRecord.get( self );
-            } else if ( self.constructor === "__is_private__" ){
-              return self;
+          N/*getPrivateRecord*/ = function ( a/*self*/ ) {
+            if ( L/*privateRecord*/.has( a/*self*/ ) ){
+              return L/*privateRecord*/.get( a/*self*/ );
+            } else if ( a/*self*/.constructor === "__is_private__" ){
+              return a/*self*/;
             };
           };
         } else {
-          createPrivateRecord = function ( self,privateHolder ) {
-            if ( !self.__typeid__ ){
-              var holder = new privateHolder;
+          M/*createPrivateRecord*/ = function ( a/*self*/,b/*privateHolder*/ ) {
+            if ( !a/*self*/.__typeid__ ){
+              var c/*holder*/ = new b/*privateHolder*/;
               
-              createUnenumProp( holder.constructor,"__is_private__",1 );
+              r/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
               
-              createUnenumProp( self,"__private__",holder );
+              r/*createUnenumProp*/( a/*self*/,"__private__",c/*holder*/ );
             };
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( self.__private__ ){
-              return self.__private__;
-            } else if ( self.constructor === "__is_private__" ){
-              return self;
+          N/*getPrivateRecord*/ = function ( a/*self*/ ) {
+            if ( a/*self*/.__private__ ){
+              return a/*self*/.__private__;
+            } else if ( a/*self*/.constructor === "__is_private__" ){
+              return a/*self*/;
             };
           };
         };
         
-        ( _mochaLocalExport.createPrivateRecord = createPrivateRecord );
+        k/*_mochaLocalExport*/.createPrivateRecord = M/*createPrivateRecord*/;
         
-        ( _mochaLocalExport.getPrivateRecord = getPrivateRecord );
+        k/*_mochaLocalExport*/.getPrivateRecord = N/*getPrivateRecord*/;
         
-        var getSuper = _mochaLocalExport.getSuper = function getSuper( obj ) {
-              var type = typeof obj,
-                  ret;
+        var O/*getSuper*/ = k/*_mochaLocalExport*/.getSuper = function O/*getSuper*/( a/*obj*/ ) {
+              var b/*type*/ = typeof a/*obj*/,
+                  c/*ret*/;
               
-              if ( type === "function" ){
-                ret = function (){};
+              if ( b/*type*/ === "function" ){
+                c/*ret*/ = function (){};
                 
-                ret.prototype = obj.prototype;
+                c/*ret*/.prototype = a/*obj*/.prototype;
                 
-                ret = new ret();
+                c/*ret*/ = new c/*ret*/();
                 
-                if ( obj.__harmony_class__ ){
-                  ret.constructor = obj.constructor;
+                if ( a/*obj*/.__harmony_class__ ){
+                  c/*ret*/.constructor = a/*obj*/.constructor;
                 } else {
-                  ret.constructor = obj;
+                  c/*ret*/.constructor = a/*obj*/;
                 };
-                return ret;
+                return c/*ret*/;
               };
-              return ret;
+              return c/*ret*/;
             };
         
-        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source,with_,without ) {
-              if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-                Runtime.throwException( "mixin only used for trait." );
+        var P/*traitMixin*/ = k/*_mochaLocalExport*/.traitMixin = function P/*traitMixin*/( c/*dest*/,d/*source*/,e/*with_*/,f/*without*/ ) {
+              if ( !c/*dest*/._mochaTraitMark || !d/*source*/._mochaTraitMark ){
+                a/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var destTraitPrivate = dest._mochaTraitPrivate,
-                    sourceTraitPrivate = source._mochaTraitPrivate,
-                    destTraitPublic = dest._mochaTraitPublic,
-                    sourceTraitPublic = source._mochaTraitPublic,
-                    sourceRequires = source._mochaRequires,
-                    destRequires = dest._mochaRequires,
-                    tmp;
+                var g/*destTraitPrivate*/ = c/*dest*/._mochaTraitPrivate,
+                    h/*sourceTraitPrivate*/ = d/*source*/._mochaTraitPrivate,
+                    i/*destTraitPublic*/ = c/*dest*/._mochaTraitPublic,
+                    j/*sourceTraitPublic*/ = d/*source*/._mochaTraitPublic,
+                    k/*sourceRequires*/ = d/*source*/._mochaRequires,
+                    l/*destRequires*/ = c/*dest*/._mochaRequires,
+                    m/*tmp*/;
                 
-                for ( var i in sourceTraitPrivate ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( var i in h/*sourceTraitPrivate*/ ){
+                  if ( !f/*without*/[i] ){
+                    m/*tmp*/ = ( !e/*with_*/[i] )?i : e/*with_*/[i];
                     
-                    destTraitPrivate[tmp] = sourceTraitPrivate[i];
+                    g/*destTraitPrivate*/[m/*tmp*/] = h/*sourceTraitPrivate*/[i];
                   };
                 };
                 
-                for ( i in sourceTraitPublic ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( i in j/*sourceTraitPublic*/ ){
+                  if ( !f/*without*/[i] ){
+                    m/*tmp*/ = ( !e/*with_*/[i] )?i : e/*with_*/[i];
                     
-                    destTraitPublic[tmp] = sourceTraitPublic[i];
+                    i/*destTraitPublic*/[m/*tmp*/] = j/*sourceTraitPublic*/[i];
                   };
                 };
                 
-                for ( i in sourceRequires ){
-                  destRequires[i] = sourceRequires[i];
+                for ( i in k/*sourceRequires*/ ){
+                  l/*destRequires*/[i] = k/*sourceRequires*/[i];
                 };
               };
             };
         
-        var classMixin = _mochaLocalExport.classMixin = function classMixin( _mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3,with_,without ) {
-              var constructorProto = _mochaLocalTmp1.prototype,
-                  privateProto = _mochaLocalTmp2.prototype,
-                  mark = _mochaLocalTmp3._mochaTraitMark,
-                  traitPublic = _mochaLocalTmp3._mochaTraitPublic,
-                  traitPrivate = _mochaLocalTmp3._mochaTraitPrivate;
+        var Q/*classMixin*/ = k/*_mochaLocalExport*/.classMixin = function Q/*classMixin*/( f/*_mochaLocalTmp5*/,g/*_mochaLocalTmp6*/,h/*_mochaLocalTmp7*/,i/*with_*/,j/*without*/ ) {
+              var k/*constructorProto*/ = f/*_mochaLocalTmp5*/.prototype,
+                  l/*privateProto*/ = g/*_mochaLocalTmp6*/.prototype,
+                  m/*mark*/ = h/*_mochaLocalTmp7*/._mochaTraitMark,
+                  n/*traitPublic*/ = h/*_mochaLocalTmp7*/._mochaTraitPublic,
+                  o/*traitPrivate*/ = h/*_mochaLocalTmp7*/._mochaTraitPrivate;
               
-              if ( !mark ){
-                Runtime.throwException( "mixin only used for trait." );
+              if ( !m/*mark*/ ){
+                a/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var tmp;
+                var p/*tmp*/;
                 
-                for ( var i in traitPublic ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( var i in n/*traitPublic*/ ){
+                  if ( !j/*without*/[i] ){
+                    p/*tmp*/ = ( !i/*with_*/[i] )?i : i/*with_*/[i];
                     
-                    constructorProto[tmp] = traitPublic[i];
+                    k/*constructorProto*/[p/*tmp*/] = n/*traitPublic*/[i];
                   };
                 };
                 
-                for ( i in traitPrivate ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( i in o/*traitPrivate*/ ){
+                  if ( !j/*without*/[i] ){
+                    p/*tmp*/ = ( !i/*with_*/[i] )?i : i/*with_*/[i];
                     
-                    privateProto[tmp] = traitPrivate[i];
+                    l/*privateProto*/[p/*tmp*/] = o/*traitPrivate*/[i];
                   };
                 };
               };
             };
         
-        var checkRequirements = _mochaLocalExport.checkRequirements = function checkRequirements( _mochaLocalTmp4,_mochaLocalTmp5,traits,file,line ) {
-              var proto1 = _mochaLocalTmp4.prototype,
-                  proto2 = _mochaLocalTmp5.prototype;
+        var R/*checkRequirements*/ = k/*_mochaLocalExport*/.checkRequirements = function R/*checkRequirements*/( d/*_mochaLocalTmp8*/,e/*_mochaLocalTmp9*/,f/*traits*/,g/*file*/,h/*line*/ ) {
+              var i/*proto1*/ = d/*_mochaLocalTmp8*/.prototype,
+                  j/*proto2*/ = e/*_mochaLocalTmp9*/.prototype;
               
-              for ( var i = 0,len = traits.length;i<len;i ++  ){
-                var _mochaLocalTmp6 = traits[i],
-                    _mochaRequires = _mochaLocalTmp6._mochaRequires;
+              for ( var i = 0,len = f/*traits*/.length;i<len;i ++  ){
+                var k/*_mochaLocalTmp10*/ = f/*traits*/[i],
+                    l/*_mochaRequires*/ = k/*_mochaLocalTmp10*/._mochaRequires;
                 
-                for ( var prop in _mochaRequires ){
-                  if ( !( prop in proto1 ) && !( prop in proto2 ) ){
-                    Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+                for ( var prop in l/*_mochaRequires*/ ){
+                  if ( !( prop in i/*proto1*/ ) && !( prop in j/*proto2*/ ) ){
+                    a/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+g/*file*/+" at line "+h/*line*/ );
                   };
                 };
               };
             };
-        
-        ( function () {
-          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
-                return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
-              } : function ( expect,exp,str,line,filename ) {
-                if ( expect !== exp ){
-                  Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
-                };
-              };
-        })();
-        return _mochaLocalExport;
+        return k/*_mochaLocalExport*/;
       })();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function toString() {
+      toString : function r/*toString*/() {
         return "[object StopIteration]";
       }
     };
   };
   
-  __LINE__ = 0;
   ( function () {
-    try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/destructuring_test.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      _mochaGlobalExport['./destructuring_test.js'] = {};
-      
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./destructuring_test.js'];
-      
-      __LINE__ = 2;
-      var object =  {
-            value1 : 100,
-            value2 :  {
-              value3 : 100
-            },
-            value4 : [100,200,300],
-            value5 :  {
-              value6 : [ {
-                value7 : 100
-              }]
-            },
-            "@value" :  {
-              strvalue : 100
-            }
+    p/*_mochaGlobalExport*/['./destructuring_test.js'] = {};
+    
+    var f/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./destructuring_test.js'];
+    
+    var g/*object*/ =  {
+          value1 : 100,
+          value2 :  {
+            value3 : 100
           },
-          array = [ {
-            value1 : 100
-          },200, {
-            value2 : 100
-          }, {
-            "value3" : 100
-          }, {
-            value4 :  {
-              value5 : [100,200]
-            }
-          }];
+          value4 : [100,200,300],
+          value5 :  {
+            value6 : [ {
+              value7 : 100
+            }]
+          },
+          "@value" :  {
+            strvalue : 100
+          }
+        },
+        h/*array*/ = [ {
+          value1 : 100
+        },200, {
+          value2 : 100
+        }, {
+          "value3" : 100
+        }, {
+          value4 :  {
+            value5 : [100,200]
+          }
+        }];
+    
+    ( function () {
+      var f/*_mochaLocalTmp0*/ = g/*object*/,
+          g/*value1*/ = f/*_mochaLocalTmp0*/.value1,
+          h/*value3*/ = f/*_mochaLocalTmp0*/.value2 && f/*_mochaLocalTmp0*/.value2.value3?f/*_mochaLocalTmp0*/.value2.value3 : undefined,
+          i/*value5_*/ = f/*_mochaLocalTmp0*/.value4 && f/*_mochaLocalTmp0*/.value4[0]?f/*_mochaLocalTmp0*/.value4[0] : undefined,
+          j/*value6_*/ = f/*_mochaLocalTmp0*/.value4 && f/*_mochaLocalTmp0*/.value4[1]?f/*_mochaLocalTmp0*/.value4[1] : undefined,
+          k/*value7_*/ = f/*_mochaLocalTmp0*/.value4 && f/*_mochaLocalTmp0*/.value4[2]?f/*_mochaLocalTmp0*/.value4[2] : undefined,
+          l/*value7*/ = f/*_mochaLocalTmp0*/.value5 && f/*_mochaLocalTmp0*/.value5.value6 && f/*_mochaLocalTmp0*/.value5.value6[0] && f/*_mochaLocalTmp0*/.value5.value6[0].value7?f/*_mochaLocalTmp0*/.value5.value6[0].value7 : undefined,
+          m/*strvalue*/ = f/*_mochaLocalTmp0*/["@value"] && f/*_mochaLocalTmp0*/["@value"].strvalue?f/*_mochaLocalTmp0*/["@value"].strvalue : undefined;
       
-      __LINE__ = 0;
-      ( function () {
-        try {
-          __LINE__ = 18;
-          var _mochaLocalTmp0 = object,
-              value1 = _mochaLocalTmp0.value1,
-              value3 = _mochaLocalTmp0.value2 && _mochaLocalTmp0.value2.value3?_mochaLocalTmp0.value2.value3 : undefined,
-              value5_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[0]?_mochaLocalTmp0.value4[0] : undefined,
-              value6_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[1]?_mochaLocalTmp0.value4[1] : undefined,
-              value7_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[2]?_mochaLocalTmp0.value4[2] : undefined,
-              value7 = _mochaLocalTmp0.value5 && _mochaLocalTmp0.value5.value6 && _mochaLocalTmp0.value5.value6[0] && _mochaLocalTmp0.value5.value6[0].value7?_mochaLocalTmp0.value5.value6[0].value7 : undefined,
-              strvalue = _mochaLocalTmp0["@value"] && _mochaLocalTmp0["@value"].strvalue?_mochaLocalTmp0["@value"].strvalue : undefined;
-          
-          __LINE__ = 19;
-          Runtime.assert( true,value1 === 100,"value1 === 100",19,'./destructuring_test.js' );
-          
-          __LINE__ = 20;
-          Runtime.assert( true,value3 === 100,"value3 === 100",20,'./destructuring_test.js' );
-          
-          __LINE__ = 21;
-          Runtime.assert( true,value5_ === 100,"value5_ === 100",21,'./destructuring_test.js' );
-          
-          __LINE__ = 22;
-          Runtime.assert( true,value6_ === 200,"value6_ === 200",22,'./destructuring_test.js' );
-          
-          __LINE__ = 23;
-          Runtime.assert( true,value7_ === 300,"value7_ === 300",23,'./destructuring_test.js' );
-          
-          __LINE__ = 24;
-          Runtime.assert( true,value7 === 100,"value7 === 100",24,'./destructuring_test.js' );
-          
-          __LINE__ = 25;
-          Runtime.assert( true,strvalue === 100,"strvalue === 100",25,'./destructuring_test.js' );
-          
-          __LINE__ = 0;
-          var _mochaLocalTmp1;
-          
-          __LINE__ = 0;
-          _mochaLocalTmp1 = object;
-          
-          __LINE__ = 0;
-          value1 = _mochaLocalTmp1.value1;
-          
-          __LINE__ = 0;
-          value3 = _mochaLocalTmp1.value2 && _mochaLocalTmp1.value2.value3?_mochaLocalTmp1.value2.value3 : undefined;
-          
-          __LINE__ = 0;
-          value5_ = _mochaLocalTmp1.value4 && _mochaLocalTmp1.value4[0]?_mochaLocalTmp1.value4[0] : undefined;
-          
-          __LINE__ = 0;
-          value6_ = _mochaLocalTmp1.value4 && _mochaLocalTmp1.value4[1]?_mochaLocalTmp1.value4[1] : undefined;
-          
-          __LINE__ = 0;
-          value7_ = _mochaLocalTmp1.value4 && _mochaLocalTmp1.value4[2]?_mochaLocalTmp1.value4[2] : undefined;
-          
-          __LINE__ = 0;
-          value7 = _mochaLocalTmp1.value5 && _mochaLocalTmp1.value5.value6 && _mochaLocalTmp1.value5.value6[0] && _mochaLocalTmp1.value5.value6[0].value7?_mochaLocalTmp1.value5.value6[0].value7 : undefined;
-          
-          __LINE__ = 0;
-          strvalue = _mochaLocalTmp1["@value"] && _mochaLocalTmp1["@value"].strvalue?_mochaLocalTmp1["@value"].strvalue : undefined;
-          
-          __LINE__ = 28;
-          Runtime.assert( true,value1 === 100,"value1 === 100",28,'./destructuring_test.js' );
-          
-          __LINE__ = 29;
-          Runtime.assert( true,value3 === 100,"value3 === 100",29,'./destructuring_test.js' );
-          
-          __LINE__ = 30;
-          Runtime.assert( true,value5_ === 100,"value5_ === 100",30,'./destructuring_test.js' );
-          
-          __LINE__ = 31;
-          Runtime.assert( true,value6_ === 200,"value6_ === 200",31,'./destructuring_test.js' );
-          
-          __LINE__ = 32;
-          Runtime.assert( true,value7_ === 300,"value7_ === 300",32,'./destructuring_test.js' );
-          
-          __LINE__ = 33;
-          Runtime.assert( true,value7 === 100,"value7 === 100",33,'./destructuring_test.js' );
-          
-          __LINE__ = 34;
-          Runtime.assert( true,strvalue === 100,"strvalue === 100",34,'./destructuring_test.js' );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
+      var n/*_mochaLocalTmp1*/;
       
-      __LINE__ = 0;
-      ( function () {
-        try {
-          __LINE__ = 39;
-          var _mochaLocalTmp2 = array,
-              value1 = _mochaLocalTmp2[0] && _mochaLocalTmp2[0].value1?_mochaLocalTmp2[0].value1 : undefined,
-              arr_value1 = _mochaLocalTmp2[1],
-              value2 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].value2?_mochaLocalTmp2[2].value2 : undefined,
-              value3 = _mochaLocalTmp2[3] && _mochaLocalTmp2[3]["value3"]?_mochaLocalTmp2[3]["value3"] : undefined,
-              arr_value2 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5 && _mochaLocalTmp2[4].value4.value5[0]?_mochaLocalTmp2[4].value4.value5[0] : undefined,
-              arr_value3 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5 && _mochaLocalTmp2[4].value4.value5[1]?_mochaLocalTmp2[4].value4.value5[1] : undefined;
-          
-          __LINE__ = 40;
-          Runtime.assert( true,value1 === 100,"value1 === 100",40,'./destructuring_test.js' );
-          
-          __LINE__ = 41;
-          Runtime.assert( true,arr_value1 === 200,"arr_value1 === 200",41,'./destructuring_test.js' );
-          
-          __LINE__ = 42;
-          Runtime.assert( true,value2 === 100,"value2 === 100",42,'./destructuring_test.js' );
-          
-          __LINE__ = 43;
-          Runtime.assert( true,value3 === 100,"value3 === 100",43,'./destructuring_test.js' );
-          
-          __LINE__ = 44;
-          Runtime.assert( true,arr_value2 === 100,"arr_value2 === 100",44,'./destructuring_test.js' );
-          
-          __LINE__ = 45;
-          Runtime.assert( true,arr_value3 === 200,"arr_value3 === 200",45,'./destructuring_test.js' );
-          
-          __LINE__ = 0;
-          var _mochaLocalTmp3;
-          
-          __LINE__ = 0;
-          _mochaLocalTmp3 = array;
-          
-          __LINE__ = 0;
-          value1 = _mochaLocalTmp3[0] && _mochaLocalTmp3[0].value1?_mochaLocalTmp3[0].value1 : undefined;
-          
-          __LINE__ = 0;
-          arr_value1 = _mochaLocalTmp3[1];
-          
-          __LINE__ = 0;
-          value2 = _mochaLocalTmp3[2] && _mochaLocalTmp3[2].value2?_mochaLocalTmp3[2].value2 : undefined;
-          
-          __LINE__ = 0;
-          value3 = _mochaLocalTmp3[3] && _mochaLocalTmp3[3]["value3"]?_mochaLocalTmp3[3]["value3"] : undefined;
-          
-          __LINE__ = 0;
-          arr_value2 = _mochaLocalTmp3[4] && _mochaLocalTmp3[4].value4 && _mochaLocalTmp3[4].value4.value5 && _mochaLocalTmp3[4].value4.value5[0]?_mochaLocalTmp3[4].value4.value5[0] : undefined;
-          
-          __LINE__ = 0;
-          arr_value3 = _mochaLocalTmp3[4] && _mochaLocalTmp3[4].value4 && _mochaLocalTmp3[4].value4.value5 && _mochaLocalTmp3[4].value4.value5[1]?_mochaLocalTmp3[4].value4.value5[1] : undefined;
-          
-          __LINE__ = 47;
-          Runtime.assert( true,value1 === 100,"value1 === 100",47,'./destructuring_test.js' );
-          
-          __LINE__ = 48;
-          Runtime.assert( true,arr_value1 === 200,"arr_value1 === 200",48,'./destructuring_test.js' );
-          
-          __LINE__ = 49;
-          Runtime.assert( true,value2 === 100,"value2 === 100",49,'./destructuring_test.js' );
-          
-          __LINE__ = 50;
-          Runtime.assert( true,value3 === 100,"value3 === 100",50,'./destructuring_test.js' );
-          
-          __LINE__ = 51;
-          Runtime.assert( true,arr_value2 === 100,"arr_value2 === 100",51,'./destructuring_test.js' );
-          
-          __LINE__ = 52;
-          Runtime.assert( true,arr_value3 === 200,"arr_value3 === 200",52,'./destructuring_test.js' );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
+      n/*_mochaLocalTmp1*/ = g/*object*/;
       
-      __LINE__ = 0;
-      ( function () {
-        try {
-          __LINE__ = 56;
-          var _mochaLocalTmp4 = array,
-              value1 = _mochaLocalTmp4[0] && _mochaLocalTmp4[0].value1?_mochaLocalTmp4[0].value1 : undefined,
-              arr_value1 = _mochaLocalTmp4[1],
-              value2 = _mochaLocalTmp4[2] && _mochaLocalTmp4[2].value2?_mochaLocalTmp4[2].value2 : undefined,
-              value3 = _mochaLocalTmp4[3] && _mochaLocalTmp4[3]["value3"]?_mochaLocalTmp4[3]["value3"] : undefined,
-              arr_value2 = _mochaLocalTmp4[4] && _mochaLocalTmp4[4].value4 && _mochaLocalTmp4[4].value4.value5?Runtime.toArray( _mochaLocalTmp4[4].value4.value5,0 ) : undefined;
-          
-          __LINE__ = 57;
-          Runtime.assert( true,value1 === 100,"value1 === 100",57,'./destructuring_test.js' );
-          
-          __LINE__ = 58;
-          Runtime.assert( true,arr_value1 === 200,"arr_value1 === 200",58,'./destructuring_test.js' );
-          
-          __LINE__ = 59;
-          Runtime.assert( true,value2 === 100,"value2 === 100",59,'./destructuring_test.js' );
-          
-          __LINE__ = 60;
-          Runtime.assert( true,value3 === 100,"value3 === 100",60,'./destructuring_test.js' );
-          
-          __LINE__ = 61;
-          Runtime.assert( true,arr_value2[0] === 100,"arr_value2[0] === 100",61,'./destructuring_test.js' );
-          
-          __LINE__ = 62;
-          Runtime.assert( true,arr_value2[1] === 200,"arr_value2[1] === 200",62,'./destructuring_test.js' );
-          
-          __LINE__ = 63;
-          var arr_value4;
-          
-          __LINE__ = 0;
-          var _mochaLocalTmp5;
-          
-          __LINE__ = 0;
-          _mochaLocalTmp5 = array;
-          
-          __LINE__ = 0;
-          value1 = _mochaLocalTmp5[0] && _mochaLocalTmp5[0].value1?_mochaLocalTmp5[0].value1 : undefined;
-          
-          __LINE__ = 0;
-          arr_value1 = _mochaLocalTmp5[1];
-          
-          __LINE__ = 0;
-          value2 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].value2?_mochaLocalTmp5[2].value2 : undefined;
-          
-          __LINE__ = 0;
-          value3 = _mochaLocalTmp5[3] && _mochaLocalTmp5[3]["value3"]?_mochaLocalTmp5[3]["value3"] : undefined;
-          
-          __LINE__ = 0;
-          arr_value4 = _mochaLocalTmp5[4] && _mochaLocalTmp5[4].value4 && _mochaLocalTmp5[4].value4.value5?Runtime.toArray( _mochaLocalTmp5[4].value4.value5,0 ) : undefined;
-          
-          __LINE__ = 65;
-          Runtime.assert( true,value1 === 100,"value1 === 100",65,'./destructuring_test.js' );
-          
-          __LINE__ = 66;
-          Runtime.assert( true,arr_value1 === 200,"arr_value1 === 200",66,'./destructuring_test.js' );
-          
-          __LINE__ = 67;
-          Runtime.assert( true,value2 === 100,"value2 === 100",67,'./destructuring_test.js' );
-          
-          __LINE__ = 68;
-          Runtime.assert( true,value3 === 100,"value3 === 100",68,'./destructuring_test.js' );
-          
-          __LINE__ = 69;
-          Runtime.assert( true,arr_value4[0] === 100,"arr_value4[0] === 100",69,'./destructuring_test.js' );
-          
-          __LINE__ = 70;
-          Runtime.assert( true,arr_value4[1] === 200,"arr_value4[1] === 200",70,'./destructuring_test.js' );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
+      value1 = n/*_mochaLocalTmp1*/.value1;
       
-      __LINE__ = 0;
-      ( function ( _mochaLocalTmp6 ) {
-        try {
-          __LINE__ = 0;
-          var value1 = _mochaLocalTmp6.value1,
-              value3 = _mochaLocalTmp6.value2 && _mochaLocalTmp6.value2.value3?_mochaLocalTmp6.value2.value3 : undefined,
-              value5_ = _mochaLocalTmp6.value4 && _mochaLocalTmp6.value4[0]?_mochaLocalTmp6.value4[0] : undefined,
-              value6_ = _mochaLocalTmp6.value4 && _mochaLocalTmp6.value4[1]?_mochaLocalTmp6.value4[1] : undefined,
-              value7_ = _mochaLocalTmp6.value4 && _mochaLocalTmp6.value4[2]?_mochaLocalTmp6.value4[2] : undefined,
-              value7 = _mochaLocalTmp6.value5 && _mochaLocalTmp6.value5.value6 && _mochaLocalTmp6.value5.value6[0] && _mochaLocalTmp6.value5.value6[0].value7?_mochaLocalTmp6.value5.value6[0].value7 : undefined,
-              strvalue = _mochaLocalTmp6["@value"] && _mochaLocalTmp6["@value"].strvalue?_mochaLocalTmp6["@value"].strvalue : undefined;
-          
-          __LINE__ = 74;
-          Runtime.assert( true,value1 === 100,"value1 === 100",74,'./destructuring_test.js' );
-          
-          __LINE__ = 75;
-          Runtime.assert( true,value3 === 100,"value3 === 100",75,'./destructuring_test.js' );
-          
-          __LINE__ = 76;
-          Runtime.assert( true,value5_ === 100,"value5_ === 100",76,'./destructuring_test.js' );
-          
-          __LINE__ = 77;
-          Runtime.assert( true,value6_ === 200,"value6_ === 200",77,'./destructuring_test.js' );
-          
-          __LINE__ = 78;
-          Runtime.assert( true,value7_ === 300,"value7_ === 300",78,'./destructuring_test.js' );
-          
-          __LINE__ = 79;
-          Runtime.assert( true,value7 === 100,"value7 === 100",79,'./destructuring_test.js' );
-          
-          __LINE__ = 80;
-          Runtime.assert( true,strvalue === 100,"strvalue === 100",80,'./destructuring_test.js' );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })( object );
+      value3 = n/*_mochaLocalTmp1*/.value2 && n/*_mochaLocalTmp1*/.value2.value3?n/*_mochaLocalTmp1*/.value2.value3 : undefined;
       
-      __LINE__ = 0;
-      ( function ( _mochaLocalTmp7 ) {
-        try {
-          __LINE__ = 0;
-          var value1 = _mochaLocalTmp7[0] && _mochaLocalTmp7[0].value1?_mochaLocalTmp7[0].value1 : undefined,
-              arr_value1 = _mochaLocalTmp7[1],
-              value2 = _mochaLocalTmp7[2] && _mochaLocalTmp7[2].value2?_mochaLocalTmp7[2].value2 : undefined,
-              value3 = _mochaLocalTmp7[3] && _mochaLocalTmp7[3]["value3"]?_mochaLocalTmp7[3]["value3"] : undefined,
-              arr_value2 = _mochaLocalTmp7[4] && _mochaLocalTmp7[4].value4 && _mochaLocalTmp7[4].value4.value5 && _mochaLocalTmp7[4].value4.value5[0]?_mochaLocalTmp7[4].value4.value5[0] : undefined,
-              arr_value3 = _mochaLocalTmp7[4] && _mochaLocalTmp7[4].value4 && _mochaLocalTmp7[4].value4.value5 && _mochaLocalTmp7[4].value4.value5[1]?_mochaLocalTmp7[4].value4.value5[1] : undefined;
-          
-          __LINE__ = 85;
-          Runtime.assert( true,value1 === 100,"value1 === 100",85,'./destructuring_test.js' );
-          
-          __LINE__ = 86;
-          Runtime.assert( true,arr_value1 === 200,"arr_value1 === 200",86,'./destructuring_test.js' );
-          
-          __LINE__ = 87;
-          Runtime.assert( true,value2 === 100,"value2 === 100",87,'./destructuring_test.js' );
-          
-          __LINE__ = 88;
-          Runtime.assert( true,value3 === 100,"value3 === 100",88,'./destructuring_test.js' );
-          
-          __LINE__ = 89;
-          Runtime.assert( true,arr_value2 === 100,"arr_value2 === 100",89,'./destructuring_test.js' );
-          
-          __LINE__ = 90;
-          Runtime.assert( true,arr_value3 === 200,"arr_value3 === 200",90,'./destructuring_test.js' );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })( array );
+      i/*value5_*/ = n/*_mochaLocalTmp1*/.value4 && n/*_mochaLocalTmp1*/.value4[0]?n/*_mochaLocalTmp1*/.value4[0] : undefined;
       
-      __LINE__ = 0;
-      ( function ( _mochaLocalTmp8 ) {
-        try {
-          __LINE__ = 0;
-          var value1 = _mochaLocalTmp8[0] && _mochaLocalTmp8[0].value1?_mochaLocalTmp8[0].value1 : undefined,
-              arr_value1 = _mochaLocalTmp8[1],
-              value2 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].value2?_mochaLocalTmp8[2].value2 : undefined,
-              value3 = _mochaLocalTmp8[3] && _mochaLocalTmp8[3]["value3"]?_mochaLocalTmp8[3]["value3"] : undefined,
-              arr_value2 = _mochaLocalTmp8[4] && _mochaLocalTmp8[4].value4 && _mochaLocalTmp8[4].value4.value5?Runtime.toArray( _mochaLocalTmp8[4].value4.value5,0 ) : undefined;
-          
-          __LINE__ = 95;
-          Runtime.assert( true,value1 === 100,"value1 === 100",95,'./destructuring_test.js' );
-          
-          __LINE__ = 96;
-          Runtime.assert( true,arr_value1 === 200,"arr_value1 === 200",96,'./destructuring_test.js' );
-          
-          __LINE__ = 97;
-          Runtime.assert( true,value2 === 100,"value2 === 100",97,'./destructuring_test.js' );
-          
-          __LINE__ = 98;
-          Runtime.assert( true,value3 === 100,"value3 === 100",98,'./destructuring_test.js' );
-          
-          __LINE__ = 99;
-          Runtime.assert( true,arr_value2[0] === 100,"arr_value2[0] === 100",99,'./destructuring_test.js' );
-          
-          __LINE__ = 100;
-          Runtime.assert( true,arr_value2[1] === 200,"arr_value2[1] === 200",100,'./destructuring_test.js' );
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })( array );
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
+      j/*value6_*/ = n/*_mochaLocalTmp1*/.value4 && n/*_mochaLocalTmp1*/.value4[1]?n/*_mochaLocalTmp1*/.value4[1] : undefined;
+      
+      k/*value7_*/ = n/*_mochaLocalTmp1*/.value4 && n/*_mochaLocalTmp1*/.value4[2]?n/*_mochaLocalTmp1*/.value4[2] : undefined;
+      
+      value7 = n/*_mochaLocalTmp1*/.value5 && n/*_mochaLocalTmp1*/.value5.value6 && n/*_mochaLocalTmp1*/.value5.value6[0] && n/*_mochaLocalTmp1*/.value5.value6[0].value7?n/*_mochaLocalTmp1*/.value5.value6[0].value7 : undefined;
+      
+      strvalue = n/*_mochaLocalTmp1*/["@value"] && n/*_mochaLocalTmp1*/["@value"].strvalue?n/*_mochaLocalTmp1*/["@value"].strvalue : undefined;
+    })();
+    
+    ( function () {
+      var d/*_mochaLocalTmp2*/ = h/*array*/,
+          e/*value1*/ = d/*_mochaLocalTmp2*/[0] && d/*_mochaLocalTmp2*/[0].value1?d/*_mochaLocalTmp2*/[0].value1 : undefined,
+          f/*arr_value1*/ = d/*_mochaLocalTmp2*/[1],
+          g/*value2*/ = d/*_mochaLocalTmp2*/[2] && d/*_mochaLocalTmp2*/[2].value2?d/*_mochaLocalTmp2*/[2].value2 : undefined,
+          h/*value3*/ = d/*_mochaLocalTmp2*/[3] && d/*_mochaLocalTmp2*/[3]["value3"]?d/*_mochaLocalTmp2*/[3]["value3"] : undefined,
+          i/*arr_value2*/ = d/*_mochaLocalTmp2*/[4] && d/*_mochaLocalTmp2*/[4].value4 && d/*_mochaLocalTmp2*/[4].value4.value5 && d/*_mochaLocalTmp2*/[4].value4.value5[0]?d/*_mochaLocalTmp2*/[4].value4.value5[0] : undefined,
+          j/*arr_value3*/ = d/*_mochaLocalTmp2*/[4] && d/*_mochaLocalTmp2*/[4].value4 && d/*_mochaLocalTmp2*/[4].value4.value5 && d/*_mochaLocalTmp2*/[4].value4.value5[1]?d/*_mochaLocalTmp2*/[4].value4.value5[1] : undefined;
+      
+      var k/*_mochaLocalTmp3*/;
+      
+      k/*_mochaLocalTmp3*/ = h/*array*/;
+      
+      value1 = k/*_mochaLocalTmp3*/[0] && k/*_mochaLocalTmp3*/[0].value1?k/*_mochaLocalTmp3*/[0].value1 : undefined;
+      
+      f/*arr_value1*/ = k/*_mochaLocalTmp3*/[1];
+      
+      value2 = k/*_mochaLocalTmp3*/[2] && k/*_mochaLocalTmp3*/[2].value2?k/*_mochaLocalTmp3*/[2].value2 : undefined;
+      
+      value3 = k/*_mochaLocalTmp3*/[3] && k/*_mochaLocalTmp3*/[3]["value3"]?k/*_mochaLocalTmp3*/[3]["value3"] : undefined;
+      
+      i/*arr_value2*/ = k/*_mochaLocalTmp3*/[4] && k/*_mochaLocalTmp3*/[4].value4 && k/*_mochaLocalTmp3*/[4].value4.value5 && k/*_mochaLocalTmp3*/[4].value4.value5[0]?k/*_mochaLocalTmp3*/[4].value4.value5[0] : undefined;
+      
+      j/*arr_value3*/ = k/*_mochaLocalTmp3*/[4] && k/*_mochaLocalTmp3*/[4].value4 && k/*_mochaLocalTmp3*/[4].value4.value5 && k/*_mochaLocalTmp3*/[4].value4.value5[1]?k/*_mochaLocalTmp3*/[4].value4.value5[1] : undefined;
+    })();
+    
+    ( function () {
+      var d/*_mochaLocalTmp4*/ = h/*array*/,
+          e/*value1*/ = d/*_mochaLocalTmp4*/[0] && d/*_mochaLocalTmp4*/[0].value1?d/*_mochaLocalTmp4*/[0].value1 : undefined,
+          f/*arr_value1*/ = d/*_mochaLocalTmp4*/[1],
+          g/*value2*/ = d/*_mochaLocalTmp4*/[2] && d/*_mochaLocalTmp4*/[2].value2?d/*_mochaLocalTmp4*/[2].value2 : undefined,
+          h/*value3*/ = d/*_mochaLocalTmp4*/[3] && d/*_mochaLocalTmp4*/[3]["value3"]?d/*_mochaLocalTmp4*/[3]["value3"] : undefined,
+          i/*arr_value2*/ = d/*_mochaLocalTmp4*/[4] && d/*_mochaLocalTmp4*/[4].value4 && d/*_mochaLocalTmp4*/[4].value4.value5?a/*Runtime*/.toArray( d/*_mochaLocalTmp4*/[4].value4.value5,0 ) : undefined;
+      
+      var j/*arr_value4*/;
+      
+      var k/*_mochaLocalTmp5*/;
+      
+      k/*_mochaLocalTmp5*/ = h/*array*/;
+      
+      value1 = k/*_mochaLocalTmp5*/[0] && k/*_mochaLocalTmp5*/[0].value1?k/*_mochaLocalTmp5*/[0].value1 : undefined;
+      
+      f/*arr_value1*/ = k/*_mochaLocalTmp5*/[1];
+      
+      value2 = k/*_mochaLocalTmp5*/[2] && k/*_mochaLocalTmp5*/[2].value2?k/*_mochaLocalTmp5*/[2].value2 : undefined;
+      
+      value3 = k/*_mochaLocalTmp5*/[3] && k/*_mochaLocalTmp5*/[3]["value3"]?k/*_mochaLocalTmp5*/[3]["value3"] : undefined;
+      
+      j/*arr_value4*/ = k/*_mochaLocalTmp5*/[4] && k/*_mochaLocalTmp5*/[4].value4 && k/*_mochaLocalTmp5*/[4].value4.value5?a/*Runtime*/.toArray( k/*_mochaLocalTmp5*/[4].value4.value5,0 ) : undefined;
+    })();
+    
+    ( function ( f/*_mochaLocalTmp6*/ ) {
+      var g/*value1*/ = f/*_mochaLocalTmp6*/.value1,
+          h/*value3*/ = f/*_mochaLocalTmp6*/.value2 && f/*_mochaLocalTmp6*/.value2.value3?f/*_mochaLocalTmp6*/.value2.value3 : undefined,
+          i/*value5_*/ = f/*_mochaLocalTmp6*/.value4 && f/*_mochaLocalTmp6*/.value4[0]?f/*_mochaLocalTmp6*/.value4[0] : undefined,
+          j/*value6_*/ = f/*_mochaLocalTmp6*/.value4 && f/*_mochaLocalTmp6*/.value4[1]?f/*_mochaLocalTmp6*/.value4[1] : undefined,
+          k/*value7_*/ = f/*_mochaLocalTmp6*/.value4 && f/*_mochaLocalTmp6*/.value4[2]?f/*_mochaLocalTmp6*/.value4[2] : undefined,
+          l/*value7*/ = f/*_mochaLocalTmp6*/.value5 && f/*_mochaLocalTmp6*/.value5.value6 && f/*_mochaLocalTmp6*/.value5.value6[0] && f/*_mochaLocalTmp6*/.value5.value6[0].value7?f/*_mochaLocalTmp6*/.value5.value6[0].value7 : undefined,
+          m/*strvalue*/ = f/*_mochaLocalTmp6*/["@value"] && f/*_mochaLocalTmp6*/["@value"].strvalue?f/*_mochaLocalTmp6*/["@value"].strvalue : undefined;
+    })( g/*object*/ );
+    
+    ( function ( d/*_mochaLocalTmp7*/ ) {
+      var e/*value1*/ = d/*_mochaLocalTmp7*/[0] && d/*_mochaLocalTmp7*/[0].value1?d/*_mochaLocalTmp7*/[0].value1 : undefined,
+          f/*arr_value1*/ = d/*_mochaLocalTmp7*/[1],
+          g/*value2*/ = d/*_mochaLocalTmp7*/[2] && d/*_mochaLocalTmp7*/[2].value2?d/*_mochaLocalTmp7*/[2].value2 : undefined,
+          h/*value3*/ = d/*_mochaLocalTmp7*/[3] && d/*_mochaLocalTmp7*/[3]["value3"]?d/*_mochaLocalTmp7*/[3]["value3"] : undefined,
+          i/*arr_value2*/ = d/*_mochaLocalTmp7*/[4] && d/*_mochaLocalTmp7*/[4].value4 && d/*_mochaLocalTmp7*/[4].value4.value5 && d/*_mochaLocalTmp7*/[4].value4.value5[0]?d/*_mochaLocalTmp7*/[4].value4.value5[0] : undefined,
+          j/*arr_value3*/ = d/*_mochaLocalTmp7*/[4] && d/*_mochaLocalTmp7*/[4].value4 && d/*_mochaLocalTmp7*/[4].value4.value5 && d/*_mochaLocalTmp7*/[4].value4.value5[1]?d/*_mochaLocalTmp7*/[4].value4.value5[1] : undefined;
+    })( h/*array*/ );
+    
+    ( function ( d/*_mochaLocalTmp8*/ ) {
+      var e/*value1*/ = d/*_mochaLocalTmp8*/[0] && d/*_mochaLocalTmp8*/[0].value1?d/*_mochaLocalTmp8*/[0].value1 : undefined,
+          f/*arr_value1*/ = d/*_mochaLocalTmp8*/[1],
+          g/*value2*/ = d/*_mochaLocalTmp8*/[2] && d/*_mochaLocalTmp8*/[2].value2?d/*_mochaLocalTmp8*/[2].value2 : undefined,
+          h/*value3*/ = d/*_mochaLocalTmp8*/[3] && d/*_mochaLocalTmp8*/[3]["value3"]?d/*_mochaLocalTmp8*/[3]["value3"] : undefined,
+          i/*arr_value2*/ = d/*_mochaLocalTmp8*/[4] && d/*_mochaLocalTmp8*/[4].value4 && d/*_mochaLocalTmp8*/[4].value4.value5?a/*Runtime*/.toArray( d/*_mochaLocalTmp8*/[4].value4.value5,0 ) : undefined;
+    })( h/*array*/ );
+    
+    var i/*fn*/ = function () {
+          return [0,1,2];
+        };
+    
+    var j/*_mochaLocalTmp9*/ = i/*fn*/(),
+        k/*ret1*/ = j/*_mochaLocalTmp9*/[0],
+        l/*re2*/ = j/*_mochaLocalTmp9*/[2];
   })();
 })();

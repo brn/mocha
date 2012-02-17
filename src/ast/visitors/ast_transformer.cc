@@ -820,6 +820,21 @@ VISITOR_IMPL( ValueNode ) {
       ast_node->ParentNode()->ReplaceChild( ast_node , runtime_call );
     }
       break;
+
+    case ValueNode::kRecord : {
+      visitor_info_->EnterObject();
+      ObjectProccessor_( ast_node );
+      visitor_info_->EscapeObject();
+      ast_node->ValueType( ValueNode::kObject );
+      AstNode* parent = ast_node->ParentNode();
+      ValueNode* create_record = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateRecord ),
+                                                          Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
+      CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( create_record );
+      NodeList* args = AstUtils::CreateNodeList( 1 , ast_node );
+      CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args );
+      parent->ReplaceChild( ast_node , runtime_call );
+    }
+      break;
       
     case ValueNode::kObject : {
       visitor_info_->EnterObject();

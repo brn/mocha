@@ -1,101 +1,226 @@
 (function() {
-  var __FILE__ = "Runtime",
-      __LINE__ = 0;
   
-  var _mochaGlobalExport = {};
+  var p/*_mochaGlobalExport*/ = {};
   
-  ( function () {
+  ( function ( g/*_mochaLocalTmp0*/,h/*_mochaLocalTmp1*/,i/*_mochaLocalTmp2*/,j/*_mochaLocalTmp3*/ ) {
+    var a/*stringProto*/ = g/*_mochaLocalTmp0*/.prototype,
+        k/*arrayProto*/ = h/*_mochaLocalTmp1*/.prototype,
+        l/*functionProto*/ = i/*_mochaLocalTmp2*/.prototype,
+        m/*dateProto*/ = j/*_mochaLocalTmp3*/.prototype;
+    
     "use strict";
     
-    function builtinTypeError( message ) {
+    function n/*builtinTypeError*/( d/*message*/ ) {
       try {
-        throw new TypeError( message );
+        throw new TypeError( d/*message*/ );
       } catch( e ){
         throw new Error( e );
       };
     };
     
-    function callbackCheck( callback,type ) {
+    function o/*callbackCheck*/( a/*callback*/,b/*type*/ ) {
       
-      Runtime.assert( true,typeof type === "string","typeof type === \"string\"",39,'./mocha_runtime.js' );
-      
-      if ( typeof callback !== "function" ){
-        builtinTypeError( type+" : first argument is not callable" );
+      if ( typeof a/*callback*/ !== "function" ){
+        n/*builtinTypeError*/( b/*type*/+" : first argument is not callable" );
       };
     };
     
-    if ( !String.prototype.trim ){
-      String.prototype.trim = function () {
-        return this.replace( String.prototype.trim.rtrim,"" );
+    if ( !Object.keys ){
+      Object.keys = function ( b/*obj*/ ) {
+        if ( !b/*obj*/ ){
+          n/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+        };
+        
+        var c/*ret*/ = [],
+            d/*iter*/ = -1;
+        
+        for ( var i in b/*obj*/ ){
+          if ( b/*obj*/.hasOwnProperty( i ) ){
+            c/*ret*/[ ++ d/*iter*/] = b/*obj*/[i];
+          };
+        };
+        return c/*ret*/;
       };
-      
-      String.prototype.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !Function.prototype.bind ){
-      Function.prototype.bind = function () {
-        var argArray = Array.prototype.slice.call( arguments ),
-            context = argArray.shift(),
-            ret = function () {
-              var args = argArray.concat( Array.prototype.slice.call( arguments ) );
+    if ( !Object.preventExtensions ){
+      Object.preventExtensions = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    if ( !Object.seal ){
+      Object.seal = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    if ( !Object.freeze ){
+      Object.freeze = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    var p/*hasRealEcma5*/ = ( function () {
+          var c/*ret*/;
+          
+          try {
+            var d/*obj*/ = {};
+            
+            Object.defineProperty( d/*obj*/,"test", {
+              configurable : false,
+              writable : false,
+              enumerable : false,
+              value : 0
+            });
+            
+            d/*obj*/.test = 200;
+            
+            c/*ret*/ = ( d/*obj*/.test === 200 )?false : true;
+          } catch( e ){
+            c/*ret*/ = false;
+          };
+          return c/*ret*/;
+        })();
+    
+    if ( !p/*hasRealEcma5*/ ){
+      Object.defineProperty = function ( a/*obj*/,b/*prop*/,c/*valobj*/ ) {
+        if ( c/*valobj*/.value ){
+          a/*obj*/[b/*prop*/] = c/*valobj*/.value;
+        };
+      };
+    };
+    
+    if ( !a/*stringProto*/.trim ){
+      a/*stringProto*/.trim = function () {
+        return this.replace( stringProto.trim.rtrim,"" );
+      };
+      
+      a/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+    };
+    
+    if ( !a/*stringProto*/.repeat ){
+      Object.defineProperty( a/*stringProto*/,"repeat", {
+        value : function q/*value*/( b/*num*/ ) {
+          return Array( b/*num*/+1 ).join( this.toString() );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.startsWith ){
+      Object.defineProperty( a/*stringProto*/,"startsWith", {
+        value : function q/*value*/( a/*str*/ ) {
+          return !this.indexOf( a/*str*/ );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.endsWith ){
+      Object.defineProperty( a/*stringProto*/,"endsWith", {
+        value : function q/*value*/( b/*str*/ ) {
+          var c/*t*/ = String( b/*str*/ );
+          
+          var d/*index*/ = this.lastIndexOf( c/*t*/ );
+          return d/*index*/ >= 0 && d/*index*/ === this.length-c/*t*/.length;
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.contains ){
+      Object.defineProperty( a/*stringProto*/,"contains", {
+        value : function q/*value*/( a/*str*/ ) {
+          return this.indexOf( a/*str*/ ) !== -1;
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.toArray ){
+      Object.defineProperty( a/*stringProto*/,"toArray", {
+        value : function q/*value*/( a/*str*/ ) {
+          return this.split( "" );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !l/*functionProto*/.bind ){
+      l/*functionProto*/.bind = function () {
+        var d/*argArray*/ = k/*arrayProto*/.slice.call( arguments ),
+            e/*context*/ = d/*argArray*/.shift(),
+            f/*ret*/ = function () {
+              var c/*args*/ = d/*argArray*/.concat( k/*arrayProto*/.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof ret ){
-                return ret.context.apply( this,args );
+              if ( this !== null && this !== window && this instanceof f/*ret*/ ){
+                return f/*ret*/.context.apply( this,c/*args*/ );
               } else {
-                return ret.context.apply( context,args );
+                return f/*ret*/.context.apply( e/*context*/,c/*args*/ );
               };
             };
         
-        ret.prototype = this.prototype;
+        f/*ret*/.prototype = this.prototype;
         
-        ret.context = this;
-        return ret;
+        f/*ret*/.context = this;
+        return f/*ret*/;
       };
     };
     
-    if ( !Array.prototype.forEach ){
-      Array.prototype.forEach = function ( callback,that ) {
-        callbackCheck( callback,"Array.forEach" );
+    if ( !k/*arrayProto*/.forEach ){
+      k/*arrayProto*/.forEach = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.forEach" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.forEach : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            callback.call( that,ta,iter,this );
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this );
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            callback( ta,iter,this );
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            b/*callback*/( e/*ta*/,d/*iter*/,this );
           };
         };
       };
     };
     
-    if ( !Array.prototype.every ){
-      Array.prototype.every = function ( callback,that ) {
-        callbackCheck( callback,"Array.every" );
+    if ( !k/*arrayProto*/.every ){
+      k/*arrayProto*/.every = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.every" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.every : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.every : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( callback.call( that,ta,iter,this ) ) ){
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( !( b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this ) ) ){
               return false;
             };
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( callback( ta,iter,this ) ) ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( !( b/*callback*/( e/*ta*/,d/*iter*/,this ) ) ){
               return false;
             };
           };
@@ -104,26 +229,26 @@
       };
     };
     
-    if ( !Array.prototype.some ){
-      Array.prototype.some = function ( callback,that ) {
-        callbackCheck( callback,"Array.some" );
+    if ( !k/*arrayProto*/.some ){
+      k/*arrayProto*/.some = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.some" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.some : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.some : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( callback.call( that,ta,iter,this ) ){
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this ) ){
               return true;
             };
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( callback( ta,iter,this ) ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( b/*callback*/( e/*ta*/,d/*iter*/,this ) ){
               return true;
             };
           };
@@ -132,165 +257,165 @@
       };
     };
     
-    if ( !Array.prototype.filter ){
-      Array.prototype.filter = function ( callback,that ) {
-        callbackCheck( callback,"Array.filter" );
+    if ( !k/*arrayProto*/.filter ){
+      k/*arrayProto*/.filter = function ( c/*callback*/,d/*that*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.filter" );
         
-        var len = this.length,
-            iter = -1,
-            ret = [],
-            ta;
+        var e/*len*/ = this.length,
+            f/*iter*/ = -1,
+            g/*ret*/ = [],
+            h/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.filter : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.filter : this is null or not defined" );
         };
         
-        if ( that ){
-          for ( var i = 0,len = this.length;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( callback.call( that,ta,i,this ) ){
-                ret[ ++ iter] = ta;
+        if ( d/*that*/ ){
+          for ( var i = 0,e/*len*/ = this.length;i<e/*len*/; ++ i ){
+            if ( ( h/*ta*/ = this[i] ) !== null && h/*ta*/ !== undefined ){
+              if ( c/*callback*/.call( d/*that*/,h/*ta*/,i,this ) ){
+                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
               };
             };
           };
         } else {
-          for ( var i = 0,len = this.length;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( callback( ta,i,this ) ){
-                ret[ ++ iter] = ta;
+          for ( var i = 0,e/*len*/ = this.length;i<e/*len*/; ++ i ){
+            if ( ( h/*ta*/ = this[i] ) !== null && h/*ta*/ !== undefined ){
+              if ( c/*callback*/( h/*ta*/,i,this ) ){
+                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
               };
             };
           };
         };
-        return ret;
+        return g/*ret*/;
       };
     };
     
-    if ( !Array.prototype.indexOf ){
-      Array.prototype.indexOf = function ( subject,fromIndex ) {
-        var iter = ( fromIndex )?fromIndex-1 : -1,
-            index = -1,
-            ta;
+    if ( !k/*arrayProto*/.indexOf ){
+      k/*arrayProto*/.indexOf = function ( b/*subject*/,c/*fromIndex*/ ) {
+        var d/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/-1 : -1,
+            e/*index*/ = -1,
+            f/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.indexOf : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( ta === subject ){
-            index = iter;
+        while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
+          if ( f/*ta*/ === b/*subject*/ ){
+            e/*index*/ = d/*iter*/;
             break;
           };
         };
-        return index;
+        return e/*index*/;
       };
     };
     
-    if ( !Array.prototype.lastIndexOf ){
-      Array.prototype.lastIndexOf = function ( target,fromIndex ) {
-        var len = this.length,
-            iter = ( fromIndex )?fromIndex+1 : len,
-            index = -1,
-            ta;
+    if ( !k/*arrayProto*/.lastIndexOf ){
+      k/*arrayProto*/.lastIndexOf = function ( b/*target*/,c/*fromIndex*/ ) {
+        var d/*len*/ = this.length,
+            e/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/+1 : d/*len*/,
+            f/*index*/ = -1,
+            g/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-          if ( ta === target ){
-            index = iter;
+        while ( ( g/*ta*/ = this[ -- e/*iter*/] ) !== null && g/*ta*/ !== undefined ){
+          if ( g/*ta*/ === b/*target*/ ){
+            f/*index*/ = e/*iter*/;
             break;
           };
         };
-        return index;
+        return f/*index*/;
       };
     };
     
-    if ( !Array.prototype.map ){
-      Array.prototype.map = function ( callback,that ) {
-        callbackCheck( callback,"Array.map" );
+    if ( !k/*arrayProto*/.map ){
+      k/*arrayProto*/.map = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.map" );
         
-        var ret = [],
-            iter = -1,
-            len = this.length,
-            i = 0,
-            ta;
+        var d/*ret*/ = [],
+            e/*iter*/ = -1,
+            f/*len*/ = this.length,
+            g/*i*/ = 0,
+            h/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.map : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.map : this is null or not defined." );
         };
         
-        if ( that ){
-          for ( i;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = callback.call( that,ta,i,this );
+        if ( c/*that*/ ){
+          for ( g/*i*/;g/*i*/<f/*len*/; ++ g/*i*/ ){
+            if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+              d/*ret*/[ ++ e/*iter*/] = b/*callback*/.call( c/*that*/,h/*ta*/,g/*i*/,this );
             };
           };
         } else {
-          for ( i;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = callback( ta,i,this );
+          for ( g/*i*/;g/*i*/<f/*len*/; ++ g/*i*/ ){
+            if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+              d/*ret*/[ ++ e/*iter*/] = b/*callback*/( h/*ta*/,g/*i*/,this );
             };
           };
         };
-        return ret;
+        return d/*ret*/;
       };
     };
     
-    if ( !Array.prototype.reduce ){
-      Array.prototype.reduce = function ( callback,initial ) {
-        callbackCheck( callback,"Array.reduce" );
+    if ( !k/*arrayProto*/.reduce ){
+      k/*arrayProto*/.reduce = function ( c/*callback*/,d/*initial*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.reduce" );
         
-        var ret = initial || this[0],
-            i = ( initial )?0 : 1,
-            len = this.length,
-            ta;
+        var e/*ret*/ = d/*initial*/ || this[0],
+            f/*i*/ = ( d/*initial*/ )?0 : 1,
+            g/*len*/ = this.length,
+            h/*ta*/;
         
-        if ( ( len === 0 || len === null ) && arguments.length<2 ){
-          builtinTypeError( "Array length is 0 and no second argument" );
+        if ( ( g/*len*/ === 0 || g/*len*/ === null ) && arguments.length<2 ){
+          n/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( i;i<len; ++ i ){
-          if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = callback( ret,ta,i,this );
+        for ( f/*i*/;f/*i*/<g/*len*/; ++ f/*i*/ ){
+          if ( ( h/*ta*/ = this[f/*i*/] ) !== null && h/*ta*/ !== undefined ){
+            e/*ret*/ = c/*callback*/( e/*ret*/,h/*ta*/,f/*i*/,this );
           };
         };
-        return ret;
+        return e/*ret*/;
       };
     };
     
-    if ( !Array.prototype.reduceRight ){
-      Array.prototype.reduceRight = function ( callback,initial ) {
-        callbackCheck( callback,"Array.reduceRight" );
+    if ( !k/*arrayProto*/.reduceRight ){
+      k/*arrayProto*/.reduceRight = function ( c/*callback*/,d/*initial*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.reduceRight" );
         
-        var len = this.length,
-            ret = initial || this[len-1],
-            i = ( initial )?len-1 : len-2,
-            ta;
+        var e/*len*/ = this.length,
+            f/*ret*/ = d/*initial*/ || this[e/*len*/-1],
+            g/*i*/ = ( d/*initial*/ )?e/*len*/-1 : e/*len*/-2,
+            h/*ta*/;
         
-        if ( ( len === 0 || len === null ) && arguments.length<2 ){
-          builtinTypeError( "Array length is 0 and no second argument" );
+        if ( ( e/*len*/ === 0 || e/*len*/ === null ) && arguments.length<2 ){
+          n/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( i;i>-1; -- i ){
-          if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = callback( ret,ta,i,this );
+        for ( g/*i*/;g/*i*/>-1; -- g/*i*/ ){
+          if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+            f/*ret*/ = c/*callback*/( f/*ret*/,h/*ta*/,g/*i*/,this );
           };
         };
-        return ret;
+        return f/*ret*/;
       };
     };
     
-    if ( !Date.prototype.toJSON ){
-      Date.prototype.toJSON = function () {
-        var _mochaLocalTmp0 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            month = _mochaLocalTmp0[0],
-            date = _mochaLocalTmp0[1],
-            hour = _mochaLocalTmp0[2],
-            minute = _mochaLocalTmp0[3],
-            second = _mochaLocalTmp0[4];
-        return '"'+this.getUTCFullYear()+'-'+( month>8?month+1 : "0"+( month+1 ) )+'-'+( date>9?date : "0"+date )+'T'+( hour>9?hour : "0"+hour )+':'+( minute>9?minute : "0"+minute )+':'+( second>9?second : "0"+second )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !m/*dateProto*/.toJSON ){
+      m/*dateProto*/.toJSON = function () {
+        var a/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            b/*month*/ = a/*_mochaLocalTmp4*/[0],
+            c/*date*/ = a/*_mochaLocalTmp4*/[1],
+            d/*hour*/ = a/*_mochaLocalTmp4*/[2],
+            e/*minute*/ = a/*_mochaLocalTmp4*/[3],
+            f/*second*/ = a/*_mochaLocalTmp4*/[4];
+        return '"'+this.getUTCFullYear()+'-'+( b/*month*/>8?b/*month*/+1 : "0"+( b/*month*/+1 ) )+'-'+( c/*date*/>9?c/*date*/ : "0"+c/*date*/ )+'T'+( d/*hour*/>9?d/*hour*/ : "0"+d/*hour*/ )+':'+( e/*minute*/>9?e/*minute*/ : "0"+e/*minute*/ )+':'+( f/*second*/>9?f/*second*/ : "0"+f/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -300,105 +425,44 @@
       };
     };
     
-    if ( !Object.keys ){
-      Object.keys = function ( obj ) {
-        if ( !obj ){
-          builtinTypeError( "Object.keys : first arguments is null or not defined." );
-        };
-        
-        var ret = [],
-            iter = -1;
-        
-        for ( var i in obj ){
-          if ( obj.hasOwnProperty( i ) ){
-            ret[ ++ iter] = obj[i];
-          };
-        };
-        return ret;
-      };
-    };
-    
-    if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( o ) {
-        return o;
-      };
-    };
-    
-    if ( !Object.seal ){
-      Object.seal = function ( o ) {
-        return o;
-      };
-    };
-    
-    if ( !Object.freeze ){
-      Object.freeze = function ( o ) {
-        return o;
-      };
-    };
-    
-    var hasRealEcma5 = ( function () {
-          try {
-            var obj = {};
-            
-            Object.defineProperty( obj,"test", {
-              configurable : false,
-              writable : false,
-              enumerable : false,
-              value : 0
-            });
-            
-            obj.test = 200;
-            return ( obj.test === 200 )?false : true;
-          } catch( e ){
-            return false;
-          };
-        })();
-    
-    if ( !hasRealEcma5 ){
-      Object.defineProperty = function ( obj,prop,valobj ) {
-        if ( valobj.value ){
-          obj[prop] = valobj.value;
-        };
-      };
-    };
-    
     if ( !Array.isArray ){
-      Array.isArray = function ( arr ) {
+      Array.isArray = function ( c/*arr*/ ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( arr )?Object.prototype.toString.call( arr ) === "[object Array]" : false;
+        return ( c/*arr*/ )?Object.prototype.toString.call( c/*arr*/ ) === "[object Array]" : false;
       };
     };
-  })();
+  }).call( this,String,Array,Function,Date );
   
-  var Runtime = ( function Runtime() {
-        var _mochaLocalExport = {};
+  var l/*Runtime*/ = ( function l/*Runtime*/() {
+        var k/*_mochaLocalExport*/ = {};
         
-        function Exception( line,file,e ) {
+        "use strict";
+        
+        function l/*Exception*/( d/*line*/,c/*file*/,b/*e*/ ) {
           this.toString = function () {
             return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
           };
         }
-        function fastMax( x,y ) {
-          return x>y?x : y;
-        }
-        var Runtime =  {
-              getErrorMessage : function getErrorMessage( e ) {
-                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        var m/*fastMax*/ = Math.max;
+        
+        var a/*Runtime*/ =  {
+              getErrorMessage : function n/*getErrorMessage*/( a/*e*/ ) {
+                return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
               },
-              exceptionHandler : function exceptionHandler( line,file,e ) {
-                if ( isStopIteration( e ) ){
-                  this.throwException( e );
+              exceptionHandler : function o/*exceptionHandler*/( a/*line*/,b/*file*/,c/*e*/ ) {
+                if ( K/*isStopIteration*/( c/*e*/ ) ){
+                  this.throwException( c/*e*/ );
                 } else {
-                  this.throwException( new Exception( line,file,e ) );
+                  this.throwException( new l/*Exception*/( a/*line*/,b/*file*/,c/*e*/ ) );
                 };
               },
-              throwException : function throwException( exception ) {
+              throwException : function p/*throwException*/( c/*exception*/ ) {
                 try {
-                  throw exception;
+                  throw c/*exception*/;
                 } catch( e ){
-                  if ( isStopIteration( e ) ){
+                  if ( K/*isStopIteration*/( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -408,148 +472,157 @@
               hasProto : "__proto__" in {}
             };
         
-        var slice = Array.prototype.slice;
+        var q/*slice*/ = Array.prototype.slice;
         
-        var createUnenumProp = _mochaLocalExport.createUnenumProp = function createUnenumProp( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+        var r/*createUnenumProp*/ = k/*_mochaLocalExport*/.createUnenumProp = function r/*createUnenumProp*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
+              return Object.defineProperty( b/*obj*/,c/*prop*/, {
                 configurable : true,
                 enumerable : false,
                 writable : true,
-                value : value
+                value : d/*value*/
               });
             };
         
-        var constant = _mochaLocalExport.constant = function constant( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+        var s/*constant*/ = k/*_mochaLocalExport*/.constant = function s/*constant*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
+              return Object.defineProperty( b/*obj*/,c/*prop*/, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
-                value : value
+                value : d/*value*/
               });
             };
         
-        var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( likeArray )?slice.call( likeArray,index ) : [];
+        var t/*toArray*/ = k/*_mochaLocalExport*/.toArray = function t/*toArray*/( a/*likeArray*/,b/*index*/ ) {
+              return ( a/*likeArray*/ )?q/*slice*/.call( a/*likeArray*/,b/*index*/ ) : [];
             };
         
-        var Generator = function (){};
+        var u/*Generator*/ = function (){};
         
-        var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = new Generator;
+        var v/*createGenerator*/ = k/*_mochaLocalExport*/.createGenerator = function v/*createGenerator*/( b/*generatorFn*/,c/*closeFn*/,d/*context*/ ) {
+              var e/*ret*/ = new u/*Generator*/;
               
-              createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
+              r/*createUnenumProp*/( e/*ret*/,"next",b/*generatorFn*/.bind( d/*context*/,false,false ) );
               
-              createUnenumProp( ret,"send",generatorFn.bind( context,true,false ) );
+              r/*createUnenumProp*/( e/*ret*/,"send",b/*generatorFn*/.bind( d/*context*/,true,false ) );
               
-              createUnenumProp( ret,"close",closeFn.bind( context ) );
+              r/*createUnenumProp*/( e/*ret*/,"close",c/*closeFn*/.bind( d/*context*/ ) );
               
-              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
+              r/*createUnenumProp*/( e/*ret*/,"__nothrowNext__",b/*generatorFn*/.bind( d/*context*/,false,true ) );
               
-              createUnenumProp( ret,"toString",
+              r/*createUnenumProp*/( e/*ret*/,"toString",
               function () {
                 return "[object Generator]";
               });
               
-              Object.freeze( ret );
-              return ret;
+              Object.freeze( e/*ret*/ );
+              return e/*ret*/;
             };
         
-        function getErrorMessage( e ) {
-          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        function n/*getErrorMessage*/( a/*e*/ ) {
+          return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
         }
-        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
+        var p/*throwException*/ = k/*_mochaLocalExport*/.throwException = a/*Runtime*/.throwException.bind( a/*Runtime*/ );
         
-        var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        var o/*exceptionHandler*/ = k/*_mochaLocalExport*/.exceptionHandler = a/*Runtime*/.exceptionHandler.bind( a/*Runtime*/ );
         
-        var extend = _mochaLocalExport.extend = function extend( dest,source ) {
-              for ( var prop in source ){
-                dest[prop] = source[prop];
+        var w/*extend*/ = k/*_mochaLocalExport*/.extend = function w/*extend*/( b/*dest*/,c/*source*/ ) {
+              for ( var prop in c/*source*/ ){
+                b/*dest*/[prop] = c/*source*/[prop];
               };
-              return dest;
+              return b/*dest*/;
             };
         
-        function compareTuple( tuple ) {
-          var max = fastMax( tuple.length,this.length );
+        function x/*compareTuple*/( a/*tuple*/ ) {
+          var b/*max*/ = m/*fastMax*/( a/*tuple*/.length,this.length ),
+              c/*i*/ = -1;
           
-          i = 0;
-          
-          while ( i<max && tuple[i] === this[i] ){
-            i ++ ;
+          while (  ++ c/*i*/<b/*max*/ && a/*tuple*/[c/*i*/] === this[c/*i*/] ){
+            
           };
-          return max === i;
+          return b/*max*/ === c/*i*/;
         };
         
-        function tupleToArray() {
+        function y/*tupleToArray*/() {
           return Array.prototype.slice.call( this );
         };
         
-        var createTuple = _mochaLocalExport.createTuple = function createTuple( obj,size ) {
-              createUnenumProp( obj,"length",size );
+        var z/*createTuple*/ = k/*_mochaLocalExport*/.createTuple = function z/*createTuple*/( b/*obj*/,c/*size*/ ) {
+              r/*createUnenumProp*/( b/*obj*/,"length",c/*size*/ );
               
-              createUnenumProp( obj,"equal",compareTuple );
+              r/*createUnenumProp*/( b/*obj*/,"equal",x/*compareTuple*/ );
               
-              createUnenumProp( obj,"toArray",tupleToArray );
+              r/*createUnenumProp*/( b/*obj*/,"toArray",y/*tupleToArray*/ );
               
-              createUnenumProp( obj,"toString",
+              r/*createUnenumProp*/( b/*obj*/,"toString",
               function () {
                 return "[object Tuple]";
               });
-              return Object.freeze( obj );
+              return Object.freeze( b/*obj*/ );
             };
         
-        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
-              derived.prototype = base;
+        var A/*createRecord*/ = k/*_mochaLocalExport*/.createRecord = function A/*createRecord*/( b/*obj*/ ) {
+              if ( b/*obj*/.toString() === "[object Object]" ){
+                r/*createUnenumProp*/( b/*obj*/,"toString",
+                function () {
+                  return "[object Record]";
+                });
+              };
+              return Object.freeze( b/*obj*/ );
             };
         
-        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
-              return Object.getPrototypeOf( obj );
-            } : function ( obj ) {
-              var ret = {};
+        var B/*extendPrototype*/ = k/*_mochaLocalExport*/.extendPrototype = function ( a/*derived*/,b/*base*/ ) {
+              a/*derived*/.prototype = b/*base*/;
+            };
+        
+        var C/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
+              return Object.getPrototypeOf( b/*obj*/ );
+            } : function ( b/*obj*/ ) {
+              var c/*ret*/ = {};
               
-              for ( var i in obj ){
-                if ( !obj.hasOwnProperty( i ) ){
-                  ret[i] = obj[i];
+              for ( var i in b/*obj*/ ){
+                if ( !b/*obj*/.hasOwnProperty( i ) ){
+                  c/*ret*/[i] = b/*obj*/[i];
                 };
               };
-              return ret;
+              return c/*ret*/;
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
-              if ( typeof base === 'function' ){
-                derived.prototype.__proto__ = base.prototype;
+        var D/*extendClass*/ = k/*_mochaLocalExport*/.extendClass = ( a/*Runtime*/.hasProto )?function ( b/*derived*/,c/*base*/ ) {
+              if ( typeof c/*base*/ === 'function' ){
+                b/*derived*/.prototype.__proto__ = c/*base*/.prototype;
                 
-                for ( var i in base ){
-                  derived[i] = base[i];
+                for ( var i in c/*base*/ ){
+                  b/*derived*/[i] = c/*base*/[i];
                 };
               } else {
-                derived.prototype.__proto__ = base.__proto__;
+                b/*derived*/.prototype.__proto__ = c/*base*/.__proto__;
               };
-            } : function ( derived,base ) {
-              var baseType = typeof base;
+            } : function ( b/*derived*/,c/*base*/ ) {
+              var d/*baseType*/ = typeof c/*base*/;
               
-              if ( baseType === "function" ){
-                var inherit = function (){};
+              if ( d/*baseType*/ === "function" ){
+                var e/*inherit*/ = function (){};
                 
-                inherit.prototype = base.prototype;
+                e/*inherit*/.prototype = c/*base*/.prototype;
                 
-                derived.prototype = new inherit;
+                b/*derived*/.prototype = new e/*inherit*/;
                 
-                for ( var i in base ){
-                  derived[i] = base[i];
+                for ( var i in c/*base*/ ){
+                  b/*derived*/[i] = c/*base*/[i];
                 };
               } else {
-                var inherit = function (){},
-                    proto = getPrototype( base );
+                var e/*inherit*/ = function (){},
+                    f/*proto*/ = C/*getPrototype*/( c/*base*/ );
                 
-                inherit.prototype = proto;
+                e/*inherit*/.prototype = f/*proto*/;
                 
-                derived.prototype = new inherit;
+                b/*derived*/.prototype = new e/*inherit*/;
               };
             };
         
-        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        var E/*__ref_iterator__*/ = k/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
         
-        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+        var F/*throwStopIteration*/ = k/*_mochaLocalExport*/.throwStopIteration = function F/*throwStopIteration*/() {
               try {
                 throw StopIteration;
               } catch( e ){
@@ -557,1735 +630,1055 @@
               };
             };
         
-        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
-              return obj instanceof Generator;
+        var G/*isGenerator*/ = k/*_mochaLocalExport*/.isGenerator = function G/*isGenerator*/( a/*obj*/ ) {
+              return a/*obj*/ instanceof u/*Generator*/;
             };
         
-        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
-              var ret = obj[__ref_iterator__](),
-                  newObj;
+        var H/*getIterator*/ = k/*_mochaLocalExport*/.getIterator = function H/*getIterator*/( c/*obj*/ ) {
+              var d/*ret*/ = c/*obj*/[E/*__ref_iterator__*/](),
+                  e/*newObj*/;
               
-              if ( isGenerator( ret ) ){
-                return ret;
+              if ( G/*isGenerator*/( d/*ret*/ ) ){
+                return d/*ret*/;
               };
               
-              newObj = {};
+              e/*newObj*/ = {};
               
-              if ( ret.next ){
-                createUnenumProp( newObj,"next",
+              if ( d/*ret*/.next ){
+                r/*createUnenumProp*/( e/*newObj*/,"next",
                 function () {
-                  var result = ret.next();
+                  var b/*result*/ = d/*ret*/.next();
                   
-                  if ( result === undefined ){
-                    throwStopIteration();
+                  if ( b/*result*/ === undefined ){
+                    F/*throwStopIteration*/();
                   };
-                  return result;
+                  return b/*result*/;
                 });
               } else {
                 return {};
               };
               
-              if ( !( "__nothrowNext__" in ret ) ){
-                createUnenumProp( newObj,"__nothrowNext__",ret.next.bind( ret ) );
+              if ( !( "__nothrowNext__" in d/*ret*/ ) ){
+                r/*createUnenumProp*/( e/*newObj*/,"__nothrowNext__",d/*ret*/.next.bind( d/*ret*/ ) );
               };
               
-              for ( var prop in ret ){
+              for ( var prop in d/*ret*/ ){
                 if ( prop !== "next" && prop !== "__nothrowNext__" ){
-                  newObj[prop] = ret[prop];
+                  e/*newObj*/[prop] = d/*ret*/[prop];
                 };
               };
               
-              if ( !( "toString" in ret ) ){
-                createUnenumProp( newObj,"toString",
+              if ( !( "toString" in d/*ret*/ ) ){
+                r/*createUnenumProp*/( e/*newObj*/,"toString",
                 function () {
                   return "[object Iterator]";
                 });
               };
-              return newObj;
+              return e/*newObj*/;
             };
         
-        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
-              return __ref_iterator__ in obj;
+        var I/*hasIterator*/ = k/*_mochaLocalExport*/.hasIterator = function I/*hasIterator*/( a/*obj*/ ) {
+              return E/*__ref_iterator__*/ in a/*obj*/;
             };
         
-        var rstopIteration = /StopIteration/;
+        var J/*rstopIteration*/ = /StopIteration/;
         
-        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
-              return obj === StopIteration || rstopIteration.test( obj );
+        var K/*isStopIteration*/ = k/*_mochaLocalExport*/.isStopIteration = function K/*isStopIteration*/( b/*obj*/ ) {
+              return b/*obj*/ === StopIteration || J/*rstopIteration*/.test( b/*obj*/ );
             };
         
-        var privateRecord,
-            createPrivateRecord,
-            getPrivateRecord;
+        var L/*privateRecord*/,
+            M/*createPrivateRecord*/,
+            N/*getPrivateRecord*/;
         
         if ( "WeakMap" in window ){
-          privateRecord = new WeakMap();
+          L/*privateRecord*/ = new WeakMap();
           
-          createPrivateRecord = function ( self,privateHolder ) {
-            var holder = new privateHolder;
+          M/*createPrivateRecord*/ = function ( a/*self*/,b/*privateHolder*/ ) {
+            var c/*holder*/ = new b/*privateHolder*/;
             
-            createUnenumProp( holder.constructor,"__is_private__",1 );
+            r/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
             
-            privateRecord.set( self,holder );
+            L/*privateRecord*/.set( a/*self*/,c/*holder*/ );
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( privateRecord.has( self ) ){
-              return privateRecord.get( self );
-            } else if ( self.constructor === "__is_private__" ){
-              return self;
+          N/*getPrivateRecord*/ = function ( a/*self*/ ) {
+            if ( L/*privateRecord*/.has( a/*self*/ ) ){
+              return L/*privateRecord*/.get( a/*self*/ );
+            } else if ( a/*self*/.constructor === "__is_private__" ){
+              return a/*self*/;
             };
           };
         } else {
-          createPrivateRecord = function ( self,privateHolder ) {
-            if ( !self.__typeid__ ){
-              var holder = new privateHolder;
+          M/*createPrivateRecord*/ = function ( a/*self*/,b/*privateHolder*/ ) {
+            if ( !a/*self*/.__typeid__ ){
+              var c/*holder*/ = new b/*privateHolder*/;
               
-              createUnenumProp( holder.constructor,"__is_private__",1 );
+              r/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
               
-              createUnenumProp( self,"__private__",holder );
+              r/*createUnenumProp*/( a/*self*/,"__private__",c/*holder*/ );
             };
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( self.__private__ ){
-              return self.__private__;
-            } else if ( self.constructor === "__is_private__" ){
-              return self;
+          N/*getPrivateRecord*/ = function ( a/*self*/ ) {
+            if ( a/*self*/.__private__ ){
+              return a/*self*/.__private__;
+            } else if ( a/*self*/.constructor === "__is_private__" ){
+              return a/*self*/;
             };
           };
         };
         
-        ( _mochaLocalExport.createPrivateRecord = createPrivateRecord );
+        k/*_mochaLocalExport*/.createPrivateRecord = M/*createPrivateRecord*/;
         
-        ( _mochaLocalExport.getPrivateRecord = getPrivateRecord );
+        k/*_mochaLocalExport*/.getPrivateRecord = N/*getPrivateRecord*/;
         
-        var getSuper = _mochaLocalExport.getSuper = function getSuper( obj ) {
-              var type = typeof obj,
-                  ret;
+        var O/*getSuper*/ = k/*_mochaLocalExport*/.getSuper = function O/*getSuper*/( a/*obj*/ ) {
+              var b/*type*/ = typeof a/*obj*/,
+                  c/*ret*/;
               
-              if ( type === "function" ){
-                ret = function (){};
+              if ( b/*type*/ === "function" ){
+                c/*ret*/ = function (){};
                 
-                ret.prototype = obj.prototype;
+                c/*ret*/.prototype = a/*obj*/.prototype;
                 
-                ret = new ret();
+                c/*ret*/ = new c/*ret*/();
                 
-                if ( obj.__harmony_class__ ){
-                  ret.constructor = obj.constructor;
+                if ( a/*obj*/.__harmony_class__ ){
+                  c/*ret*/.constructor = a/*obj*/.constructor;
                 } else {
-                  ret.constructor = obj;
+                  c/*ret*/.constructor = a/*obj*/;
                 };
-                return ret;
+                return c/*ret*/;
               };
-              return ret;
+              return c/*ret*/;
             };
         
-        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source,with_,without ) {
-              if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-                Runtime.throwException( "mixin only used for trait." );
+        var P/*traitMixin*/ = k/*_mochaLocalExport*/.traitMixin = function P/*traitMixin*/( c/*dest*/,d/*source*/,e/*with_*/,f/*without*/ ) {
+              if ( !c/*dest*/._mochaTraitMark || !d/*source*/._mochaTraitMark ){
+                a/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var destTraitPrivate = dest._mochaTraitPrivate,
-                    sourceTraitPrivate = source._mochaTraitPrivate,
-                    destTraitPublic = dest._mochaTraitPublic,
-                    sourceTraitPublic = source._mochaTraitPublic,
-                    sourceRequires = source._mochaRequires,
-                    destRequires = dest._mochaRequires,
-                    tmp;
+                var g/*destTraitPrivate*/ = c/*dest*/._mochaTraitPrivate,
+                    h/*sourceTraitPrivate*/ = d/*source*/._mochaTraitPrivate,
+                    i/*destTraitPublic*/ = c/*dest*/._mochaTraitPublic,
+                    j/*sourceTraitPublic*/ = d/*source*/._mochaTraitPublic,
+                    k/*sourceRequires*/ = d/*source*/._mochaRequires,
+                    l/*destRequires*/ = c/*dest*/._mochaRequires,
+                    m/*tmp*/;
                 
-                for ( var i in sourceTraitPrivate ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( var i in h/*sourceTraitPrivate*/ ){
+                  if ( !f/*without*/[i] ){
+                    m/*tmp*/ = ( !e/*with_*/[i] )?i : e/*with_*/[i];
                     
-                    destTraitPrivate[tmp] = sourceTraitPrivate[i];
+                    g/*destTraitPrivate*/[m/*tmp*/] = h/*sourceTraitPrivate*/[i];
                   };
                 };
                 
-                for ( i in sourceTraitPublic ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( i in j/*sourceTraitPublic*/ ){
+                  if ( !f/*without*/[i] ){
+                    m/*tmp*/ = ( !e/*with_*/[i] )?i : e/*with_*/[i];
                     
-                    destTraitPublic[tmp] = sourceTraitPublic[i];
+                    i/*destTraitPublic*/[m/*tmp*/] = j/*sourceTraitPublic*/[i];
                   };
                 };
                 
-                for ( i in sourceRequires ){
-                  destRequires[i] = sourceRequires[i];
+                for ( i in k/*sourceRequires*/ ){
+                  l/*destRequires*/[i] = k/*sourceRequires*/[i];
                 };
               };
             };
         
-        var classMixin = _mochaLocalExport.classMixin = function classMixin( _mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3,with_,without ) {
-              var constructorProto = _mochaLocalTmp1.prototype,
-                  privateProto = _mochaLocalTmp2.prototype,
-                  mark = _mochaLocalTmp3._mochaTraitMark,
-                  traitPublic = _mochaLocalTmp3._mochaTraitPublic,
-                  traitPrivate = _mochaLocalTmp3._mochaTraitPrivate;
+        var Q/*classMixin*/ = k/*_mochaLocalExport*/.classMixin = function Q/*classMixin*/( f/*_mochaLocalTmp5*/,g/*_mochaLocalTmp6*/,h/*_mochaLocalTmp7*/,i/*with_*/,j/*without*/ ) {
+              var k/*constructorProto*/ = f/*_mochaLocalTmp5*/.prototype,
+                  l/*privateProto*/ = g/*_mochaLocalTmp6*/.prototype,
+                  m/*mark*/ = h/*_mochaLocalTmp7*/._mochaTraitMark,
+                  n/*traitPublic*/ = h/*_mochaLocalTmp7*/._mochaTraitPublic,
+                  o/*traitPrivate*/ = h/*_mochaLocalTmp7*/._mochaTraitPrivate;
               
-              if ( !mark ){
-                Runtime.throwException( "mixin only used for trait." );
+              if ( !m/*mark*/ ){
+                a/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var tmp;
+                var p/*tmp*/;
                 
-                for ( var i in traitPublic ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( var i in n/*traitPublic*/ ){
+                  if ( !j/*without*/[i] ){
+                    p/*tmp*/ = ( !i/*with_*/[i] )?i : i/*with_*/[i];
                     
-                    constructorProto[tmp] = traitPublic[i];
+                    k/*constructorProto*/[p/*tmp*/] = n/*traitPublic*/[i];
                   };
                 };
                 
-                for ( i in traitPrivate ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( i in o/*traitPrivate*/ ){
+                  if ( !j/*without*/[i] ){
+                    p/*tmp*/ = ( !i/*with_*/[i] )?i : i/*with_*/[i];
                     
-                    privateProto[tmp] = traitPrivate[i];
+                    l/*privateProto*/[p/*tmp*/] = o/*traitPrivate*/[i];
                   };
                 };
               };
             };
         
-        var checkRequirements = _mochaLocalExport.checkRequirements = function checkRequirements( _mochaLocalTmp4,_mochaLocalTmp5,traits,file,line ) {
-              var proto1 = _mochaLocalTmp4.prototype,
-                  proto2 = _mochaLocalTmp5.prototype;
+        var R/*checkRequirements*/ = k/*_mochaLocalExport*/.checkRequirements = function R/*checkRequirements*/( d/*_mochaLocalTmp8*/,e/*_mochaLocalTmp9*/,f/*traits*/,g/*file*/,h/*line*/ ) {
+              var i/*proto1*/ = d/*_mochaLocalTmp8*/.prototype,
+                  j/*proto2*/ = e/*_mochaLocalTmp9*/.prototype;
               
-              for ( var i = 0,len = traits.length;i<len;i ++  ){
-                var _mochaLocalTmp6 = traits[i],
-                    _mochaRequires = _mochaLocalTmp6._mochaRequires;
+              for ( var i = 0,len = f/*traits*/.length;i<len;i ++  ){
+                var k/*_mochaLocalTmp10*/ = f/*traits*/[i],
+                    l/*_mochaRequires*/ = k/*_mochaLocalTmp10*/._mochaRequires;
                 
-                for ( var prop in _mochaRequires ){
-                  if ( !( prop in proto1 ) && !( prop in proto2 ) ){
-                    Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+                for ( var prop in l/*_mochaRequires*/ ){
+                  if ( !( prop in i/*proto1*/ ) && !( prop in j/*proto2*/ ) ){
+                    a/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+g/*file*/+" at line "+h/*line*/ );
                   };
                 };
               };
             };
-        
-        ( function () {
-          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
-                return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
-              } : function ( expect,exp,str,line,filename ) {
-                if ( expect !== exp ){
-                  Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
-                };
-              };
-        })();
-        return _mochaLocalExport;
+        return k/*_mochaLocalExport*/;
       })();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function toString() {
+      toString : function r/*toString*/() {
         return "[object StopIteration]";
       }
     };
   };
   
-  __LINE__ = 0;
   ( function () {
-    try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+    p/*_mochaGlobalExport*/['../../../../../../.mocha/module/iterators.js'] = {};
+    
+    var q/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['../../../../../../.mocha/module/iterators.js'];
+    
+    ( function () {
+      var q/*_mochaLocalExport*/ = q/*_mochaGlobalAlias*/;
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var g/*hasOwn*/ = Object.prototype.hasOwnProperty;
       
-      __LINE__ = 1;
-      ( function () {
-        try {
-          __LINE__ = 1;
-          var _mochaLocalExport = _mochaGlobalAlias;
-          
-          __LINE__ = 2;
-          var hasOwn = Object.prototype.hasOwnProperty;
-          
-          __LINE__ = 0;
-          var iterator = _mochaLocalExport.iterator = "__mocha_iterator_special_key__";
-          
-          __LINE__ = 0;
-          var keys = _mochaLocalExport.keys = function keys( obj ) {
-                try {
-                  __LINE__ = 0;
-                  var _mochaLocalTmp3 =  {
-                        
-                      };
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( _mochaLocalTmp3,iterator,
-                  function () {
-                    try {
-                      __LINE__ = 12;
-                      return function () {
-                        try {
-                          __LINE__ = 0;
-                          var _mochaIsNewBorn = true;
-                          
-                          __LINE__ = 0;
-                          var _yieldResult = undefined;
-                          
-                          __LINE__ = 0;
-                          var _yieldState = 0;
-                          
-                          __LINE__ = 0;
-                          var length;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp2;
-                          
-                          __LINE__ = 0;
-                          var x;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp1 = [];
-                          
-                          __LINE__ = 0;
-                          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                                try {
-                                  __LINE__ = 0;
-                                  if ( !_isYieldSend ){
-                                    __LINE__ = 0;
-                                    _mochaIsNewBorn = false;
-                                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                                    __LINE__ = 0;
-                                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                                  };
-                                  
-                                  __LINE__ = 0;
-                                  while ( 1 ){
-                                    __LINE__ = 0;
-                                    switch ( _yieldState ) {
-                                      case 0 :
-                                        
-                                        __LINE__ = 0;
-                                        for ( var _mochaLocalTmp0 in obj ){
-                                          
-                                          __LINE__ = 0;
-                                          _mochaLocalTmp1.push( _mochaLocalTmp0 );
-                                        };
-                                        
-                                        __LINE__ = 7;
-                                        _mochaLocalTmp2 = 0;
-                                        
-                                        __LINE__ = 7;
-                                        length = _mochaLocalTmp1.length;
-                                        
-                                        __LINE__ = 0;
-                                        if ( !( _mochaLocalTmp2<length ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 1 :
-                                        
-                                        __LINE__ = 0;
-                                        x = _mochaLocalTmp1[_mochaLocalTmp2];
-                                        
-                                        __LINE__ = 0;
-                                        if ( hasOwn.call( obj,x ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = 2;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = 3;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 2 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 3;
-                                        __LINE__ = 0;
-                                        return x;
-                                      case 3 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 4;
-                                        __LINE__ = 0;
-                                        break;
-                                      case 4 :
-                                        
-                                        __LINE__ = 0;
-                                         ++ _mochaLocalTmp2;
-                                        
-                                        __LINE__ = 0;
-                                        if ( _mochaLocalTmp2<length ){
-                                          __LINE__ = 0;
-                                          _yieldState = 1;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                        };
-                                      case -1 :
-                                        
-                                        __LINE__ = 0;
-                                        if ( _isYieldSafe ){
-                                          __LINE__ = 0;
-                                          return undefined;
-                                        } else {
-                                          __LINE__ = 0;
-                                          Runtime.throwStopIteration();
-                                        };
-                                        
-                                    };
-                                  };
-                                } catch( e ){
-                                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                                }
-                              };
-                          __LINE__ = 0;
-                          return Runtime.createGenerator( _mochaGenerator,
-                          function (  ) {
-                            try {
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          },this);
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      }();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 5;
-                  return _mochaLocalTmp3;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          
-          __LINE__ = 0;
-          var values = _mochaLocalExport.values = function values( obj ) {
-                try {
-                  __LINE__ = 0;
-                  var _mochaLocalTmp7 =  {
-                        
-                      };
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( _mochaLocalTmp7,iterator,
-                  function () {
-                    try {
-                      __LINE__ = 23;
-                      return function () {
-                        try {
-                          __LINE__ = 0;
-                          var _mochaIsNewBorn = true;
-                          
-                          __LINE__ = 0;
-                          var _yieldResult = undefined;
-                          
-                          __LINE__ = 0;
-                          var _yieldState = 0;
-                          
-                          __LINE__ = 0;
-                          var length;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp6;
-                          
-                          __LINE__ = 0;
-                          var x;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp5 = [];
-                          
-                          __LINE__ = 0;
-                          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                                try {
-                                  __LINE__ = 0;
-                                  if ( !_isYieldSend ){
-                                    __LINE__ = 0;
-                                    _mochaIsNewBorn = false;
-                                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                                    __LINE__ = 0;
-                                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                                  };
-                                  
-                                  __LINE__ = 0;
-                                  while ( 1 ){
-                                    __LINE__ = 0;
-                                    switch ( _yieldState ) {
-                                      case 0 :
-                                        
-                                        __LINE__ = 0;
-                                        for ( var _mochaLocalTmp4 in obj ){
-                                          
-                                          __LINE__ = 0;
-                                          _mochaLocalTmp5.push( _mochaLocalTmp4 );
-                                        };
-                                        
-                                        __LINE__ = 18;
-                                        _mochaLocalTmp6 = 0;
-                                        
-                                        __LINE__ = 18;
-                                        length = _mochaLocalTmp5.length;
-                                        
-                                        __LINE__ = 0;
-                                        if ( !( _mochaLocalTmp6<length ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 1 :
-                                        
-                                        __LINE__ = 0;
-                                        x = _mochaLocalTmp5[_mochaLocalTmp6];
-                                        
-                                        __LINE__ = 0;
-                                        if ( hasOwn.call( obj,x ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = 2;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = 3;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 2 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 3;
-                                        __LINE__ = 0;
-                                        return obj[x];
-                                      case 3 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 4;
-                                        __LINE__ = 0;
-                                        break;
-                                      case 4 :
-                                        
-                                        __LINE__ = 0;
-                                         ++ _mochaLocalTmp6;
-                                        
-                                        __LINE__ = 0;
-                                        if ( _mochaLocalTmp6<length ){
-                                          __LINE__ = 0;
-                                          _yieldState = 1;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                        };
-                                      case -1 :
-                                        
-                                        __LINE__ = 0;
-                                        if ( _isYieldSafe ){
-                                          __LINE__ = 0;
-                                          return undefined;
-                                        } else {
-                                          __LINE__ = 0;
-                                          Runtime.throwStopIteration();
-                                        };
-                                        
-                                    };
-                                  };
-                                } catch( e ){
-                                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                                }
-                              };
-                          __LINE__ = 0;
-                          return Runtime.createGenerator( _mochaGenerator,
-                          function (  ) {
-                            try {
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          },this);
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      }();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 16;
-                  return _mochaLocalTmp7;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          
-          __LINE__ = 0;
-          var items = _mochaLocalExport.items = function items( obj ) {
-                try {
-                  __LINE__ = 0;
-                  var _mochaLocalTmp11 =  {
-                        
-                      };
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( _mochaLocalTmp11,iterator,
-                  function () {
-                    try {
-                      __LINE__ = 34;
-                      return function () {
-                        try {
-                          __LINE__ = 0;
-                          var _mochaIsNewBorn = true;
-                          
-                          __LINE__ = 0;
-                          var _yieldResult = undefined;
-                          
-                          __LINE__ = 0;
-                          var _yieldState = 0;
-                          
-                          __LINE__ = 0;
-                          var length;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp10;
-                          
-                          __LINE__ = 0;
-                          var x;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp9 = [];
-                          
-                          __LINE__ = 0;
-                          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                                try {
-                                  __LINE__ = 0;
-                                  if ( !_isYieldSend ){
-                                    __LINE__ = 0;
-                                    _mochaIsNewBorn = false;
-                                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                                    __LINE__ = 0;
-                                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                                  };
-                                  
-                                  __LINE__ = 0;
-                                  while ( 1 ){
-                                    __LINE__ = 0;
-                                    switch ( _yieldState ) {
-                                      case 0 :
-                                        
-                                        __LINE__ = 0;
-                                        for ( var _mochaLocalTmp8 in obj ){
-                                          
-                                          __LINE__ = 0;
-                                          _mochaLocalTmp9.push( _mochaLocalTmp8 );
-                                        };
-                                        
-                                        __LINE__ = 29;
-                                        _mochaLocalTmp10 = 0;
-                                        
-                                        __LINE__ = 29;
-                                        length = _mochaLocalTmp9.length;
-                                        
-                                        __LINE__ = 0;
-                                        if ( !( _mochaLocalTmp10<length ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 1 :
-                                        
-                                        __LINE__ = 0;
-                                        x = _mochaLocalTmp9[_mochaLocalTmp10];
-                                        
-                                        __LINE__ = 0;
-                                        if ( hasOwn.call( obj,x ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = 2;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = 3;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 2 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 3;
-                                        __LINE__ = 0;
-                                        return [x,obj[x]];
-                                      case 3 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 4;
-                                        __LINE__ = 0;
-                                        break;
-                                      case 4 :
-                                        
-                                        __LINE__ = 0;
-                                         ++ _mochaLocalTmp10;
-                                        
-                                        __LINE__ = 0;
-                                        if ( _mochaLocalTmp10<length ){
-                                          __LINE__ = 0;
-                                          _yieldState = 1;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                        };
-                                      case -1 :
-                                        
-                                        __LINE__ = 0;
-                                        if ( _isYieldSafe ){
-                                          __LINE__ = 0;
-                                          return undefined;
-                                        } else {
-                                          __LINE__ = 0;
-                                          Runtime.throwStopIteration();
-                                        };
-                                        
-                                    };
-                                  };
-                                } catch( e ){
-                                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                                }
-                              };
-                          __LINE__ = 0;
-                          return Runtime.createGenerator( _mochaGenerator,
-                          function (  ) {
-                            try {
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          },this);
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      }();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 27;
-                  return _mochaLocalTmp11;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          
-          __LINE__ = 0;
-          var allKeys = _mochaLocalExport.allKeys = function allKeys( obj ) {
-                try {
-                  __LINE__ = 0;
-                  var _mochaLocalTmp15 =  {
-                        
-                      };
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( _mochaLocalTmp15,iterator,
-                  function () {
-                    try {
-                      __LINE__ = 42;
-                      return function () {
-                        try {
-                          __LINE__ = 0;
-                          var _mochaIsNewBorn = true;
-                          
-                          __LINE__ = 0;
-                          var _yieldResult = undefined;
-                          
-                          __LINE__ = 0;
-                          var _yieldState = 0;
-                          
-                          __LINE__ = 0;
-                          var length;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp14;
-                          
-                          __LINE__ = 0;
-                          var x;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp13 = [];
-                          
-                          __LINE__ = 0;
-                          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                                try {
-                                  __LINE__ = 0;
-                                  if ( !_isYieldSend ){
-                                    __LINE__ = 0;
-                                    _mochaIsNewBorn = false;
-                                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                                    __LINE__ = 0;
-                                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                                  };
-                                  
-                                  __LINE__ = 0;
-                                  while ( 1 ){
-                                    __LINE__ = 0;
-                                    switch ( _yieldState ) {
-                                      case 0 :
-                                        
-                                        __LINE__ = 0;
-                                        for ( var _mochaLocalTmp12 in obj ){
-                                          
-                                          __LINE__ = 0;
-                                          _mochaLocalTmp13.push( _mochaLocalTmp12 );
-                                        };
-                                        
-                                        __LINE__ = 39;
-                                        _mochaLocalTmp14 = 0;
-                                        
-                                        __LINE__ = 39;
-                                        length = _mochaLocalTmp13.length;
-                                        
-                                        __LINE__ = 0;
-                                        if ( !( _mochaLocalTmp14<length ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 1 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 2;
-                                        
-                                        __LINE__ = 0;
-                                        x = _mochaLocalTmp13[_mochaLocalTmp14];
-                                        __LINE__ = 0;
-                                        return x;
-                                      case 2 :
-                                        
-                                        __LINE__ = 0;
-                                         ++ _mochaLocalTmp14;
-                                        
-                                        __LINE__ = 0;
-                                        if ( _mochaLocalTmp14<length ){
-                                          __LINE__ = 0;
-                                          _yieldState = 1;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                        };
-                                      case -1 :
-                                        
-                                        __LINE__ = 0;
-                                        if ( _isYieldSafe ){
-                                          __LINE__ = 0;
-                                          return undefined;
-                                        } else {
-                                          __LINE__ = 0;
-                                          Runtime.throwStopIteration();
-                                        };
-                                        
-                                    };
-                                  };
-                                } catch( e ){
-                                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                                }
-                              };
-                          __LINE__ = 0;
-                          return Runtime.createGenerator( _mochaGenerator,
-                          function (  ) {
-                            try {
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          },this);
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      }();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 37;
-                  return _mochaLocalTmp15;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          
-          __LINE__ = 0;
-          var allValues = _mochaLocalExport.allValues = function allValues( obj ) {
-                try {
-                  __LINE__ = 0;
-                  var _mochaLocalTmp19 =  {
-                        
-                      };
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( _mochaLocalTmp19,iterator,
-                  function () {
-                    try {
-                      __LINE__ = 50;
-                      return function () {
-                        try {
-                          __LINE__ = 0;
-                          var _mochaIsNewBorn = true;
-                          
-                          __LINE__ = 0;
-                          var _yieldResult = undefined;
-                          
-                          __LINE__ = 0;
-                          var _yieldState = 0;
-                          
-                          __LINE__ = 0;
-                          var length;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp18;
-                          
-                          __LINE__ = 0;
-                          var x;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp17 = [];
-                          
-                          __LINE__ = 0;
-                          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                                try {
-                                  __LINE__ = 0;
-                                  if ( !_isYieldSend ){
-                                    __LINE__ = 0;
-                                    _mochaIsNewBorn = false;
-                                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                                    __LINE__ = 0;
-                                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                                  };
-                                  
-                                  __LINE__ = 0;
-                                  while ( 1 ){
-                                    __LINE__ = 0;
-                                    switch ( _yieldState ) {
-                                      case 0 :
-                                        
-                                        __LINE__ = 0;
-                                        for ( var _mochaLocalTmp16 in obj ){
-                                          
-                                          __LINE__ = 0;
-                                          _mochaLocalTmp17.push( _mochaLocalTmp16 );
-                                        };
-                                        
-                                        __LINE__ = 47;
-                                        _mochaLocalTmp18 = 0;
-                                        
-                                        __LINE__ = 47;
-                                        length = _mochaLocalTmp17.length;
-                                        
-                                        __LINE__ = 0;
-                                        if ( !( _mochaLocalTmp18<length ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 1 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 2;
-                                        
-                                        __LINE__ = 0;
-                                        x = _mochaLocalTmp17[_mochaLocalTmp18];
-                                        __LINE__ = 0;
-                                        return obj[x];
-                                      case 2 :
-                                        
-                                        __LINE__ = 0;
-                                         ++ _mochaLocalTmp18;
-                                        
-                                        __LINE__ = 0;
-                                        if ( _mochaLocalTmp18<length ){
-                                          __LINE__ = 0;
-                                          _yieldState = 1;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                        };
-                                      case -1 :
-                                        
-                                        __LINE__ = 0;
-                                        if ( _isYieldSafe ){
-                                          __LINE__ = 0;
-                                          return undefined;
-                                        } else {
-                                          __LINE__ = 0;
-                                          Runtime.throwStopIteration();
-                                        };
-                                        
-                                    };
-                                  };
-                                } catch( e ){
-                                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                                }
-                              };
-                          __LINE__ = 0;
-                          return Runtime.createGenerator( _mochaGenerator,
-                          function (  ) {
-                            try {
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          },this);
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      }();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 45;
-                  return _mochaLocalTmp19;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          
-          __LINE__ = 0;
-          var allItems = _mochaLocalExport.allItems = function allItems( obj ) {
-                try {
-                  __LINE__ = 0;
-                  var _mochaLocalTmp23 =  {
-                        
-                      };
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( _mochaLocalTmp23,iterator,
-                  function () {
-                    try {
-                      __LINE__ = 58;
-                      return function () {
-                        try {
-                          __LINE__ = 0;
-                          var _mochaIsNewBorn = true;
-                          
-                          __LINE__ = 0;
-                          var _yieldResult = undefined;
-                          
-                          __LINE__ = 0;
-                          var _yieldState = 0;
-                          
-                          __LINE__ = 0;
-                          var length;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp22;
-                          
-                          __LINE__ = 0;
-                          var x;
-                          
-                          __LINE__ = 0;
-                          var _mochaLocalTmp21 = [];
-                          
-                          __LINE__ = 0;
-                          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                                try {
-                                  __LINE__ = 0;
-                                  if ( !_isYieldSend ){
-                                    __LINE__ = 0;
-                                    _mochaIsNewBorn = false;
-                                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                                    __LINE__ = 0;
-                                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                                  };
-                                  
-                                  __LINE__ = 0;
-                                  while ( 1 ){
-                                    __LINE__ = 0;
-                                    switch ( _yieldState ) {
-                                      case 0 :
-                                        
-                                        __LINE__ = 0;
-                                        for ( var _mochaLocalTmp20 in obj ){
-                                          
-                                          __LINE__ = 0;
-                                          _mochaLocalTmp21.push( _mochaLocalTmp20 );
-                                        };
-                                        
-                                        __LINE__ = 55;
-                                        _mochaLocalTmp22 = 0;
-                                        
-                                        __LINE__ = 55;
-                                        length = _mochaLocalTmp21.length;
-                                        
-                                        __LINE__ = 0;
-                                        if ( !( _mochaLocalTmp22<length ) ){
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                          __LINE__ = 0;
-                                          break;
-                                        };
-                                      case 1 :
-                                        
-                                        __LINE__ = 0;
-                                        _yieldState = 2;
-                                        
-                                        __LINE__ = 0;
-                                        x = _mochaLocalTmp21[_mochaLocalTmp22];
-                                        __LINE__ = 0;
-                                        return [x,obj[x]];
-                                      case 2 :
-                                        
-                                        __LINE__ = 0;
-                                         ++ _mochaLocalTmp22;
-                                        
-                                        __LINE__ = 0;
-                                        if ( _mochaLocalTmp22<length ){
-                                          __LINE__ = 0;
-                                          _yieldState = 1;
-                                          __LINE__ = 0;
-                                          break;
-                                        } else {
-                                          __LINE__ = 0;
-                                          _yieldState = -1;
-                                        };
-                                      case -1 :
-                                        
-                                        __LINE__ = 0;
-                                        if ( _isYieldSafe ){
-                                          __LINE__ = 0;
-                                          return undefined;
-                                        } else {
-                                          __LINE__ = 0;
-                                          Runtime.throwStopIteration();
-                                        };
-                                        
-                                    };
-                                  };
-                                } catch( e ){
-                                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                                }
-                              };
-                          __LINE__ = 0;
-                          return Runtime.createGenerator( _mochaGenerator,
-                          function (  ) {
-                            try {
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          },this);
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      }();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 53;
-                  return _mochaLocalTmp23;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          __LINE__ = 0;
-          return _mochaLocalExport;
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
-  })();
-  
-  __LINE__ = 0;
-  ( function () {
-    try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/generator_expression_test.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      _mochaGlobalExport['./generator_expression_test.js'] = {};
+      var r/*iterator*/ = q/*_mochaLocalExport*/.iterator = "__mocha_iterator_special_key__";
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./generator_expression_test.js'];
-      
-      __LINE__ = 0;
-      var _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
-          keys = _mochaLocalTmp0.keys,
-          allItems = _mochaLocalTmp0.allItems;
-      
-      __LINE__ = 3;
-      var testObject =  {
-            value1 : 100,
-            value2 : 200,
-            value3 : 300
-          };
-      
-      __LINE__ = 8;
-      var test = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaIsNewBorn = true;
-              
-              __LINE__ = 0;
-              var _yieldResult = undefined;
-              
-              __LINE__ = 0;
-              var _yieldState = 0;
-              
-              __LINE__ = 8;
-              var length;
-              
-              __LINE__ = 8;
-              var _mochaLocalTmp3;
-              
-              __LINE__ = 0;
-              var x;
-              
-              __LINE__ = 0;
-              var _mochaLocalTmp2 = [];
-              
-              __LINE__ = 0;
-              var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                    try {
-                      __LINE__ = 0;
-                      if ( !_isYieldSend ){
-                        __LINE__ = 0;
-                        _mochaIsNewBorn = false;
-                      } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                        __LINE__ = 0;
+      var s/*keys*/ = q/*_mochaLocalExport*/.keys = function s/*keys*/( h/*obj*/ ) {
+            var p/*_mochaLocalTmp3*/ =  {
+                  
+                };
+            
+            l/*Runtime*/.createUnenumProp( p/*_mochaLocalTmp3*/,r/*iterator*/,
+            function () {
+              return function () {
+                var p/*_mochaIsNewBorn*/ = true;
+                
+                var q/*_yieldResult*/ = undefined;
+                
+                var a/*_yieldState*/ = 0;
+                
+                var r/*length*/;
+                
+                var s/*_mochaLocalTmp2*/;
+                
+                var t/*x*/;
+                
+                var u/*_mochaLocalTmp1*/ = [];
+                
+                var v/*_mochaGenerator*/ = function ( j/*_isYieldSend*/,k/*_isYieldSafe*/ ) {
+                      if ( !j/*_isYieldSend*/ ){
+                        p/*_mochaIsNewBorn*/ = false;
+                      } else if ( j/*_isYieldSend*/ && p/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
                         Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
                       };
                       
-                      __LINE__ = 0;
                       while ( 1 ){
-                        __LINE__ = 0;
-                        switch ( _yieldState ) {
+                        switch ( a/*_yieldState*/ ) {
                           case 0 :
                             
-                            __LINE__ = 8;
-                            for ( var _mochaLocalTmp1 in testObject ){
-                              
-                              __LINE__ = 0;
-                              _mochaLocalTmp2.push( _mochaLocalTmp1 );
-                            };
+                            for ( var _mochaLocalTmp0 in obj )
+                            u/*_mochaLocalTmp1*/.push( _mochaLocalTmp0 );
                             
-                            __LINE__ = 8;
-                            _mochaLocalTmp3 = 0;
+                            s/*_mochaLocalTmp2*/ = 0;
                             
-                            __LINE__ = 8;
-                            length = _mochaLocalTmp2.length;
+                            r/*length*/ = u/*_mochaLocalTmp1*/.length;
                             
-                            __LINE__ = 8;
-                            if ( !( _mochaLocalTmp3<length ) ){
-                              __LINE__ = 0;
-                              _yieldState = -1;
-                              __LINE__ = 0;
+                            if ( !( s/*_mochaLocalTmp2*/<r/*length*/ ) ){
+                              a/*_yieldState*/ = -1;
                               break;
                             };
                           case 1 :
                             
-                            __LINE__ = 0;
-                            _yieldState = 2;
+                            t/*x*/ = u/*_mochaLocalTmp1*/[s/*_mochaLocalTmp2*/];
                             
-                            __LINE__ = 0;
-                            x = _mochaLocalTmp2[_mochaLocalTmp3];
-                            
-                            __LINE__ = 0;
-                            x = testObject[x];
-                            __LINE__ = 0;
-                            return x;
-                          case 2 :
-                            
-                            __LINE__ = 0;
-                             ++ _mochaLocalTmp3;
-                            
-                            __LINE__ = 0;
-                            if ( _mochaLocalTmp3<length ){
-                              __LINE__ = 0;
-                              _yieldState = 1;
-                              __LINE__ = 0;
+                            if ( hasOwn.call( obj,t/*x*/ ) ){
+                              a/*_yieldState*/ = 2;
                               break;
                             } else {
-                              __LINE__ = 0;
-                              _yieldState = -1;
+                              a/*_yieldState*/ = 3;
+                              break;
+                            };
+                          case 2 :
+                            
+                            a/*_yieldState*/ = 3;
+                            return t/*x*/;
+                          case 3 :
+                            
+                            a/*_yieldState*/ = 4;
+                            break;
+                          case 4 :
+                            
+                             ++ s/*_mochaLocalTmp2*/;
+                            
+                            if ( s/*_mochaLocalTmp2*/<r/*length*/ ){
+                              a/*_yieldState*/ = 1;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = -1;
                             };
                           case -1 :
                             
-                            __LINE__ = 0;
-                            if ( _isYieldSafe ){
-                              __LINE__ = 0;
-                              return undefined;
-                            } else {
-                              __LINE__ = 0;
-                              Runtime.throwStopIteration();
-                            };
+                            if ( k/*_isYieldSafe*/ )return undefined;
+                             else Runtime.throwStopIteration();
                             
                         };
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-              __LINE__ = 0;
-              return Runtime.createGenerator( _mochaGenerator,
-              function (  ) {
-                try {
-                  __LINE__ = 0;
+                    };
+                return Runtime.createGenerator( v/*_mochaGenerator*/,
+                function (  ) {
                   _yieldState = -1;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              },this);
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
+                },this);
+              }();
+            });
+            return p/*_mochaLocalTmp3*/;
+          };
       
-      __LINE__ = 10;
-      Runtime.assert( true,test.next() === 100,"test.next() === 100",10,'./generator_expression_test.js' );
-      
-      __LINE__ = 11;
-      Runtime.assert( true,test.next() === 200,"test.next() === 200",11,'./generator_expression_test.js' );
-      
-      __LINE__ = 12;
-      Runtime.assert( true,test.next() === 300,"test.next() === 300",12,'./generator_expression_test.js' );
-      
-      __LINE__ = 0;
-      test = ( function () {
-        try {
-          __LINE__ = 0;
-          var _mochaIsNewBorn = true;
-          
-          __LINE__ = 0;
-          var _yieldResult = undefined;
-          
-          __LINE__ = 0;
-          var _yieldState = 0;
-          
-          __LINE__ = 0;
-          var x;
-          
-          __LINE__ = 0;
-          var _mochaLocalTmp4 = keys( testObject );
-          
-          __LINE__ = 0;
-          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                try {
-                  __LINE__ = 0;
-                  if ( !_isYieldSend ){
-                    __LINE__ = 0;
-                    _mochaIsNewBorn = false;
-                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                    __LINE__ = 0;
-                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                  };
+      var t/*values*/ = q/*_mochaLocalExport*/.values = function t/*values*/( h/*obj*/ ) {
+            var p/*_mochaLocalTmp7*/ =  {
                   
-                  __LINE__ = 0;
-                  while ( 1 ){
-                    __LINE__ = 0;
-                    switch ( _yieldState ) {
-                      case 0 :
-                        
-                        __LINE__ = 0;
-                        _mochaLocalTmp4 = Runtime.hasIterator( _mochaLocalTmp4 )?Runtime.getIterator( _mochaLocalTmp4 ) : _mochaLocalTmp4;
-                        
-                        __LINE__ = 0;
-                        if ( _mochaLocalTmp4.__nothrowNext__ ){
-                          __LINE__ = 0;
-                          _yieldState = 1;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = 5;
-                          __LINE__ = 0;
-                          break;
+                };
+            
+            l/*Runtime*/.createUnenumProp( p/*_mochaLocalTmp7*/,r/*iterator*/,
+            function () {
+              return function () {
+                var p/*_mochaIsNewBorn*/ = true;
+                
+                var q/*_yieldResult*/ = undefined;
+                
+                var a/*_yieldState*/ = 0;
+                
+                var r/*length*/;
+                
+                var s/*_mochaLocalTmp6*/;
+                
+                var t/*x*/;
+                
+                var u/*_mochaLocalTmp5*/ = [];
+                
+                var v/*_mochaGenerator*/ = function ( j/*_isYieldSend*/,k/*_isYieldSafe*/ ) {
+                      if ( !j/*_isYieldSend*/ ){
+                        p/*_mochaIsNewBorn*/ = false;
+                      } else if ( j/*_isYieldSend*/ && p/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+                        Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                      };
+                      
+                      while ( 1 ){
+                        switch ( a/*_yieldState*/ ) {
+                          case 0 :
+                            
+                            for ( var _mochaLocalTmp4 in obj )
+                            u/*_mochaLocalTmp5*/.push( _mochaLocalTmp4 );
+                            
+                            s/*_mochaLocalTmp6*/ = 0;
+                            
+                            r/*length*/ = u/*_mochaLocalTmp5*/.length;
+                            
+                            if ( !( s/*_mochaLocalTmp6*/<r/*length*/ ) ){
+                              a/*_yieldState*/ = -1;
+                              break;
+                            };
+                          case 1 :
+                            
+                            t/*x*/ = u/*_mochaLocalTmp5*/[s/*_mochaLocalTmp6*/];
+                            
+                            if ( hasOwn.call( obj,t/*x*/ ) ){
+                              a/*_yieldState*/ = 2;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = 3;
+                              break;
+                            };
+                          case 2 :
+                            
+                            a/*_yieldState*/ = 3;
+                            return obj[t/*x*/];
+                          case 3 :
+                            
+                            a/*_yieldState*/ = 4;
+                            break;
+                          case 4 :
+                            
+                             ++ s/*_mochaLocalTmp6*/;
+                            
+                            if ( s/*_mochaLocalTmp6*/<r/*length*/ ){
+                              a/*_yieldState*/ = 1;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = -1;
+                            };
+                          case -1 :
+                            
+                            if ( k/*_isYieldSafe*/ )return undefined;
+                             else Runtime.throwStopIteration();
+                            
                         };
-                      case 1 :
-                        
-                        __LINE__ = 0;
-                        if ( !( ( x = _mochaLocalTmp4.__nothrowNext__(  ) ) ) ){
-                          __LINE__ = 0;
-                          _yieldState = 4;
-                          __LINE__ = 0;
-                          break;
-                        };
-                      case 2 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = 3;
-                        __LINE__ = 0;
-                        return x;
-                      case 3 :
-                        
-                        __LINE__ = 0;
-                        if ( ( x = _mochaLocalTmp4.__nothrowNext__(  ) ) ){
-                          __LINE__ = 0;
-                          _yieldState = 2;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = 4;
-                        };
-                      case 4 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = -1;
-                        __LINE__ = 0;
-                        break;
-                      case 5 :
-                        
-                        __LINE__ = 0;
-                        Runtime.exceptionHandler( 14,'./generator_expression_test.js','for of statement expect iterator or generator object.' );
-                      case 6 :
-                      case -1 :
-                        
-                        __LINE__ = 0;
-                        if ( _isYieldSafe ){
-                          __LINE__ = 0;
-                          return undefined;
-                        } else {
-                          __LINE__ = 0;
-                          Runtime.throwStopIteration();
-                        };
-                        
+                      };
                     };
-                  };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          __LINE__ = 0;
-          return Runtime.createGenerator( _mochaGenerator,
-          function (  ) {
-            try {
-              __LINE__ = 0;
-              _yieldState = -1;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          },this);
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
+                return Runtime.createGenerator( v/*_mochaGenerator*/,
+                function (  ) {
+                  _yieldState = -1;
+                },this);
+              }();
+            });
+            return p/*_mochaLocalTmp7*/;
+          };
       
-      __LINE__ = 16;
-      Runtime.assert( true,test.next() === "value1","test.next() === \"value1\"",16,'./generator_expression_test.js' );
-      
-      __LINE__ = 17;
-      Runtime.assert( true,test.next() === "value2","test.next() === \"value2\"",17,'./generator_expression_test.js' );
-      
-      __LINE__ = 18;
-      Runtime.assert( true,test.next() === "value3","test.next() === \"value3\"",18,'./generator_expression_test.js' );
-      
-      __LINE__ = 0;
-      test = ( function () {
-        try {
-          __LINE__ = 0;
-          var _mochaIsNewBorn = true;
-          
-          __LINE__ = 0;
-          var _yieldResult = undefined;
-          
-          __LINE__ = 0;
-          var _yieldState = 0;
-          
-          __LINE__ = 20;
-          var length;
-          
-          __LINE__ = 20;
-          var _mochaLocalTmp7;
-          
-          __LINE__ = 0;
-          var x;
-          
-          __LINE__ = 0;
-          var _mochaLocalTmp6 = [];
-          
-          __LINE__ = 0;
-          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                try {
-                  __LINE__ = 0;
-                  if ( !_isYieldSend ){
-                    __LINE__ = 0;
-                    _mochaIsNewBorn = false;
-                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                    __LINE__ = 0;
-                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                  };
+      var u/*items*/ = q/*_mochaLocalExport*/.items = function u/*items*/( h/*obj*/ ) {
+            var p/*_mochaLocalTmp11*/ =  {
                   
-                  __LINE__ = 0;
-                  while ( 1 ){
-                    __LINE__ = 0;
-                    switch ( _yieldState ) {
-                      case 0 :
-                        
-                        __LINE__ = 20;
-                        for ( var _mochaLocalTmp5 in testObject ){
-                          
-                          __LINE__ = 0;
-                          _mochaLocalTmp6.push( _mochaLocalTmp5 );
+                };
+            
+            l/*Runtime*/.createUnenumProp( p/*_mochaLocalTmp11*/,r/*iterator*/,
+            function () {
+              return function () {
+                var p/*_mochaIsNewBorn*/ = true;
+                
+                var q/*_yieldResult*/ = undefined;
+                
+                var a/*_yieldState*/ = 0;
+                
+                var r/*length*/;
+                
+                var s/*_mochaLocalTmp10*/;
+                
+                var t/*x*/;
+                
+                var u/*_mochaLocalTmp9*/ = [];
+                
+                var v/*_mochaGenerator*/ = function ( j/*_isYieldSend*/,k/*_isYieldSafe*/ ) {
+                      if ( !j/*_isYieldSend*/ ){
+                        p/*_mochaIsNewBorn*/ = false;
+                      } else if ( j/*_isYieldSend*/ && p/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+                        Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                      };
+                      
+                      while ( 1 ){
+                        switch ( a/*_yieldState*/ ) {
+                          case 0 :
+                            
+                            for ( var _mochaLocalTmp8 in obj )
+                            u/*_mochaLocalTmp9*/.push( _mochaLocalTmp8 );
+                            
+                            s/*_mochaLocalTmp10*/ = 0;
+                            
+                            r/*length*/ = u/*_mochaLocalTmp9*/.length;
+                            
+                            if ( !( s/*_mochaLocalTmp10*/<r/*length*/ ) ){
+                              a/*_yieldState*/ = -1;
+                              break;
+                            };
+                          case 1 :
+                            
+                            t/*x*/ = u/*_mochaLocalTmp9*/[s/*_mochaLocalTmp10*/];
+                            
+                            if ( hasOwn.call( obj,t/*x*/ ) ){
+                              a/*_yieldState*/ = 2;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = 3;
+                              break;
+                            };
+                          case 2 :
+                            
+                            a/*_yieldState*/ = 3;
+                            return [t/*x*/,obj[t/*x*/]];
+                          case 3 :
+                            
+                            a/*_yieldState*/ = 4;
+                            break;
+                          case 4 :
+                            
+                             ++ s/*_mochaLocalTmp10*/;
+                            
+                            if ( s/*_mochaLocalTmp10*/<r/*length*/ ){
+                              a/*_yieldState*/ = 1;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = -1;
+                            };
+                          case -1 :
+                            
+                            if ( k/*_isYieldSafe*/ )return undefined;
+                             else Runtime.throwStopIteration();
+                            
                         };
-                        
-                        __LINE__ = 20;
-                        _mochaLocalTmp7 = 0;
-                        
-                        __LINE__ = 20;
-                        length = _mochaLocalTmp6.length;
-                        
-                        __LINE__ = 20;
-                        if ( !( _mochaLocalTmp7<length ) ){
-                          __LINE__ = 0;
-                          _yieldState = -1;
-                          __LINE__ = 0;
-                          break;
-                        };
-                      case 1 :
-                        
-                        __LINE__ = 0;
-                        x = _mochaLocalTmp6[_mochaLocalTmp7];
-                        
-                        __LINE__ = 0;
-                        x = testObject[x];
-                        
-                        __LINE__ = 20;
-                        if ( x === 200 ){
-                          __LINE__ = 0;
-                          _yieldState = 2;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = 3;
-                          __LINE__ = 0;
-                          break;
-                        };
-                      case 2 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = 3;
-                        __LINE__ = 0;
-                        return x;
-                      case 3 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = 4;
-                        __LINE__ = 0;
-                        break;
-                      case 4 :
-                        
-                        __LINE__ = 0;
-                         ++ _mochaLocalTmp7;
-                        
-                        __LINE__ = 0;
-                        if ( _mochaLocalTmp7<length ){
-                          __LINE__ = 0;
-                          _yieldState = 1;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = -1;
-                        };
-                      case -1 :
-                        
-                        __LINE__ = 0;
-                        if ( _isYieldSafe ){
-                          __LINE__ = 0;
-                          return undefined;
-                        } else {
-                          __LINE__ = 0;
-                          Runtime.throwStopIteration();
-                        };
-                        
+                      };
                     };
-                  };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          __LINE__ = 0;
-          return Runtime.createGenerator( _mochaGenerator,
-          function (  ) {
-            try {
-              __LINE__ = 0;
-              _yieldState = -1;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          },this);
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
+                return Runtime.createGenerator( v/*_mochaGenerator*/,
+                function (  ) {
+                  _yieldState = -1;
+                },this);
+              }();
+            });
+            return p/*_mochaLocalTmp11*/;
+          };
       
-      __LINE__ = 21;
-      Runtime.assert( true,test.next() === 200,"test.next() === 200",21,'./generator_expression_test.js' );
-      
-      __LINE__ = 0;
-      test = ( function () {
-        try {
-          __LINE__ = 0;
-          var _mochaIsNewBorn = true;
-          
-          __LINE__ = 0;
-          var _yieldResult = undefined;
-          
-          __LINE__ = 0;
-          var _yieldState = 0;
-          
-          __LINE__ = 0;
-          var x;
-          
-          __LINE__ = 0;
-          var _mochaLocalTmp8 = keys( testObject );
-          
-          __LINE__ = 0;
-          var _mochaGenerator = function ( _isYieldSend,_isYieldSafe ) {
-                try {
-                  __LINE__ = 0;
-                  if ( !_isYieldSend ){
-                    __LINE__ = 0;
-                    _mochaIsNewBorn = false;
-                  } else if ( _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined ){
-                    __LINE__ = 0;
-                    Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
-                  };
+      var v/*allKeys*/ = q/*_mochaLocalExport*/.allKeys = function v/*allKeys*/( n/*obj*/ ) {
+            var o/*_mochaLocalTmp15*/ =  {
                   
-                  __LINE__ = 0;
-                  while ( 1 ){
-                    __LINE__ = 0;
-                    switch ( _yieldState ) {
-                      case 0 :
-                        
-                        __LINE__ = 0;
-                        _mochaLocalTmp8 = Runtime.hasIterator( _mochaLocalTmp8 )?Runtime.getIterator( _mochaLocalTmp8 ) : _mochaLocalTmp8;
-                        
-                        __LINE__ = 0;
-                        if ( _mochaLocalTmp8.__nothrowNext__ ){
-                          __LINE__ = 0;
-                          _yieldState = 1;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = 7;
-                          __LINE__ = 0;
-                          break;
+                };
+            
+            l/*Runtime*/.createUnenumProp( o/*_mochaLocalTmp15*/,r/*iterator*/,
+            function () {
+              return function () {
+                var n/*_mochaIsNewBorn*/ = true;
+                
+                var o/*_yieldResult*/ = undefined;
+                
+                var a/*_yieldState*/ = 0;
+                
+                var p/*length*/;
+                
+                var q/*_mochaLocalTmp14*/;
+                
+                var r/*x*/;
+                
+                var s/*_mochaLocalTmp13*/ = [];
+                
+                var t/*_mochaGenerator*/ = function ( h/*_isYieldSend*/,i/*_isYieldSafe*/ ) {
+                      if ( !h/*_isYieldSend*/ ){
+                        n/*_mochaIsNewBorn*/ = false;
+                      } else if ( h/*_isYieldSend*/ && n/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+                        Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                      };
+                      
+                      while ( 1 ){
+                        switch ( a/*_yieldState*/ ) {
+                          case 0 :
+                            
+                            for ( var _mochaLocalTmp12 in obj )
+                            s/*_mochaLocalTmp13*/.push( _mochaLocalTmp12 );
+                            
+                            q/*_mochaLocalTmp14*/ = 0;
+                            
+                            p/*length*/ = s/*_mochaLocalTmp13*/.length;
+                            
+                            if ( !( q/*_mochaLocalTmp14*/<p/*length*/ ) ){
+                              a/*_yieldState*/ = -1;
+                              break;
+                            };
+                          case 1 :
+                            
+                            a/*_yieldState*/ = 2;
+                            
+                            r/*x*/ = s/*_mochaLocalTmp13*/[q/*_mochaLocalTmp14*/];
+                            return r/*x*/;
+                          case 2 :
+                            
+                             ++ q/*_mochaLocalTmp14*/;
+                            
+                            if ( q/*_mochaLocalTmp14*/<p/*length*/ ){
+                              a/*_yieldState*/ = 1;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = -1;
+                            };
+                          case -1 :
+                            
+                            if ( i/*_isYieldSafe*/ )return undefined;
+                             else Runtime.throwStopIteration();
+                            
                         };
-                      case 1 :
-                        
-                        __LINE__ = 0;
-                        if ( !( ( x = _mochaLocalTmp8.__nothrowNext__(  ) ) ) ){
-                          __LINE__ = 0;
-                          _yieldState = 6;
-                          __LINE__ = 0;
-                          break;
-                        };
-                      case 2 :
-                        
-                        __LINE__ = 23;
-                        if ( x === "value2" ){
-                          __LINE__ = 0;
-                          _yieldState = 3;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = 4;
-                          __LINE__ = 0;
-                          break;
-                        };
-                      case 3 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = 4;
-                        __LINE__ = 0;
-                        return x;
-                      case 4 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = 5;
-                        __LINE__ = 0;
-                        break;
-                      case 5 :
-                        
-                        __LINE__ = 0;
-                        if ( ( x = _mochaLocalTmp8.__nothrowNext__(  ) ) ){
-                          __LINE__ = 0;
-                          _yieldState = 2;
-                          __LINE__ = 0;
-                          break;
-                        } else {
-                          __LINE__ = 0;
-                          _yieldState = 6;
-                        };
-                      case 6 :
-                        
-                        __LINE__ = 0;
-                        _yieldState = -1;
-                        __LINE__ = 0;
-                        break;
-                      case 7 :
-                        
-                        __LINE__ = 0;
-                        Runtime.exceptionHandler( 23,'./generator_expression_test.js','for of statement expect iterator or generator object.' );
-                      case 8 :
-                      case -1 :
-                        
-                        __LINE__ = 0;
-                        if ( _isYieldSafe ){
-                          __LINE__ = 0;
-                          return undefined;
-                        } else {
-                          __LINE__ = 0;
-                          Runtime.throwStopIteration();
-                        };
-                        
+                      };
                     };
-                  };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-          __LINE__ = 0;
-          return Runtime.createGenerator( _mochaGenerator,
-          function (  ) {
-            try {
-              __LINE__ = 0;
-              _yieldState = -1;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          },this);
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })();
+                return Runtime.createGenerator( t/*_mochaGenerator*/,
+                function (  ) {
+                  _yieldState = -1;
+                },this);
+              }();
+            });
+            return o/*_mochaLocalTmp15*/;
+          };
       
-      __LINE__ = 24;
-      Runtime.assert( true,test.next() === "value2","test.next() === \"value2\"",24,'./generator_expression_test.js' );
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
+      var w/*allValues*/ = q/*_mochaLocalExport*/.allValues = function w/*allValues*/( g/*obj*/ ) {
+            var o/*_mochaLocalTmp19*/ =  {
+                  
+                };
+            
+            l/*Runtime*/.createUnenumProp( o/*_mochaLocalTmp19*/,r/*iterator*/,
+            function () {
+              return function () {
+                var o/*_mochaIsNewBorn*/ = true;
+                
+                var p/*_yieldResult*/ = undefined;
+                
+                var a/*_yieldState*/ = 0;
+                
+                var q/*length*/;
+                
+                var r/*_mochaLocalTmp18*/;
+                
+                var s/*x*/;
+                
+                var t/*_mochaLocalTmp17*/ = [];
+                
+                var u/*_mochaGenerator*/ = function ( i/*_isYieldSend*/,j/*_isYieldSafe*/ ) {
+                      if ( !i/*_isYieldSend*/ ){
+                        o/*_mochaIsNewBorn*/ = false;
+                      } else if ( i/*_isYieldSend*/ && o/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+                        Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                      };
+                      
+                      while ( 1 ){
+                        switch ( a/*_yieldState*/ ) {
+                          case 0 :
+                            
+                            for ( var _mochaLocalTmp16 in obj )
+                            t/*_mochaLocalTmp17*/.push( _mochaLocalTmp16 );
+                            
+                            r/*_mochaLocalTmp18*/ = 0;
+                            
+                            q/*length*/ = t/*_mochaLocalTmp17*/.length;
+                            
+                            if ( !( r/*_mochaLocalTmp18*/<q/*length*/ ) ){
+                              a/*_yieldState*/ = -1;
+                              break;
+                            };
+                          case 1 :
+                            
+                            a/*_yieldState*/ = 2;
+                            
+                            s/*x*/ = t/*_mochaLocalTmp17*/[r/*_mochaLocalTmp18*/];
+                            return obj[s/*x*/];
+                          case 2 :
+                            
+                             ++ r/*_mochaLocalTmp18*/;
+                            
+                            if ( r/*_mochaLocalTmp18*/<q/*length*/ ){
+                              a/*_yieldState*/ = 1;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = -1;
+                            };
+                          case -1 :
+                            
+                            if ( j/*_isYieldSafe*/ )return undefined;
+                             else Runtime.throwStopIteration();
+                            
+                        };
+                      };
+                    };
+                return Runtime.createGenerator( u/*_mochaGenerator*/,
+                function (  ) {
+                  _yieldState = -1;
+                },this);
+              }();
+            });
+            return o/*_mochaLocalTmp19*/;
+          };
+      
+      var x/*allItems*/ = q/*_mochaLocalExport*/.allItems = function x/*allItems*/( g/*obj*/ ) {
+            var o/*_mochaLocalTmp23*/ =  {
+                  
+                };
+            
+            l/*Runtime*/.createUnenumProp( o/*_mochaLocalTmp23*/,r/*iterator*/,
+            function () {
+              return function () {
+                var o/*_mochaIsNewBorn*/ = true;
+                
+                var p/*_yieldResult*/ = undefined;
+                
+                var a/*_yieldState*/ = 0;
+                
+                var q/*length*/;
+                
+                var r/*_mochaLocalTmp22*/;
+                
+                var s/*x*/;
+                
+                var t/*_mochaLocalTmp21*/ = [];
+                
+                var u/*_mochaGenerator*/ = function ( i/*_isYieldSend*/,j/*_isYieldSafe*/ ) {
+                      if ( !i/*_isYieldSend*/ ){
+                        o/*_mochaIsNewBorn*/ = false;
+                      } else if ( i/*_isYieldSend*/ && o/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+                        Runtime.exceptionHandler( 'attempt to send to newborn generator.' );
+                      };
+                      
+                      while ( 1 ){
+                        switch ( a/*_yieldState*/ ) {
+                          case 0 :
+                            
+                            for ( var _mochaLocalTmp20 in obj )
+                            t/*_mochaLocalTmp21*/.push( _mochaLocalTmp20 );
+                            
+                            r/*_mochaLocalTmp22*/ = 0;
+                            
+                            q/*length*/ = t/*_mochaLocalTmp21*/.length;
+                            
+                            if ( !( r/*_mochaLocalTmp22*/<q/*length*/ ) ){
+                              a/*_yieldState*/ = -1;
+                              break;
+                            };
+                          case 1 :
+                            
+                            a/*_yieldState*/ = 2;
+                            
+                            s/*x*/ = t/*_mochaLocalTmp21*/[r/*_mochaLocalTmp22*/];
+                            return [s/*x*/,obj[s/*x*/]];
+                          case 2 :
+                            
+                             ++ r/*_mochaLocalTmp22*/;
+                            
+                            if ( r/*_mochaLocalTmp22*/<q/*length*/ ){
+                              a/*_yieldState*/ = 1;
+                              break;
+                            } else {
+                              a/*_yieldState*/ = -1;
+                            };
+                          case -1 :
+                            
+                            if ( j/*_isYieldSafe*/ )return undefined;
+                             else Runtime.throwStopIteration();
+                            
+                        };
+                      };
+                    };
+                return Runtime.createGenerator( u/*_mochaGenerator*/,
+                function (  ) {
+                  _yieldState = -1;
+                },this);
+              }();
+            });
+            return o/*_mochaLocalTmp23*/;
+          };
+      return q/*_mochaLocalExport*/;
+    })();
+  })();
+  
+  ( function () {
+    p/*_mochaGlobalExport*/['./generator_expression_test.js'] = {};
+    
+    var m/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./generator_expression_test.js'];
+    
+    var n/*_mochaLocalTmp0*/ = p/*_mochaGlobalExport*/['../../../../../../.mocha/module/iterators.js'],
+        o/*keys*/ = n/*_mochaLocalTmp0*/.keys,
+        q/*allItems*/ = n/*_mochaLocalTmp0*/.allItems;
+    
+    var r/*testObject*/ =  {
+          value1 : 100,
+          value2 : 200,
+          value3 : 300
+        };
+    
+    var s/*test*/ = ( function () {
+          var m/*_mochaIsNewBorn*/ = true;
+          
+          var n/*_yieldResult*/ = undefined;
+          
+          var a/*_yieldState*/ = 0;
+          
+          var o/*length*/;
+          
+          var p/*_mochaLocalTmp3*/;
+          
+          var i/*x*/;
+          
+          var q/*_mochaLocalTmp2*/ = [];
+          
+          var r/*_mochaGenerator*/ = function ( g/*_isYieldSend*/,h/*_isYieldSafe*/ ) {
+                if ( !g/*_isYieldSend*/ ){
+                  m/*_mochaIsNewBorn*/ = false;
+                } else if ( g/*_isYieldSend*/ && m/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+                  l/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+                };
+                
+                while ( 1 ){
+                  switch ( a/*_yieldState*/ ) {
+                    case 0 :
+                      
+                      for ( var _mochaLocalTmp1 in r/*testObject*/ )
+                      q/*_mochaLocalTmp2*/.push( _mochaLocalTmp1 );
+                      
+                      p/*_mochaLocalTmp3*/ = 0;
+                      
+                      o/*length*/ = q/*_mochaLocalTmp2*/.length;
+                      
+                      if ( !( p/*_mochaLocalTmp3*/<o/*length*/ ) ){
+                        a/*_yieldState*/ = -1;
+                        break;
+                      };
+                    case 1 :
+                      
+                      a/*_yieldState*/ = 2;
+                      
+                      i/*x*/ = q/*_mochaLocalTmp2*/[p/*_mochaLocalTmp3*/];
+                      
+                      i/*x*/ = r/*testObject*/[i/*x*/];
+                      return i/*x*/;
+                    case 2 :
+                      
+                       ++ p/*_mochaLocalTmp3*/;
+                      
+                      if ( p/*_mochaLocalTmp3*/<o/*length*/ ){
+                        a/*_yieldState*/ = 1;
+                        break;
+                      } else {
+                        a/*_yieldState*/ = -1;
+                      };
+                    case -1 :
+                      
+                      if ( h/*_isYieldSafe*/ )return undefined;
+                       else l/*Runtime*/.throwStopIteration();
+                      
+                  };
+                };
+              };
+          return l/*Runtime*/.createGenerator( r/*_mochaGenerator*/,
+          function (  ) {
+            _yieldState = -1;
+          },this);
+        })();
+    
+    s/*test*/ = ( function () {
+      var k/*_mochaIsNewBorn*/ = true;
+      
+      var m/*_yieldResult*/ = undefined;
+      
+      var a/*_yieldState*/ = 0;
+      
+      var n/*x*/;
+      
+      var o/*_mochaLocalTmp4*/ = o/*keys*/( r/*testObject*/ );
+      
+      var p/*_mochaGenerator*/ = function ( f/*_isYieldSend*/,g/*_isYieldSafe*/ ) {
+            if ( !f/*_isYieldSend*/ ){
+              k/*_mochaIsNewBorn*/ = false;
+            } else if ( f/*_isYieldSend*/ && k/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+              l/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+            };
+            
+            while ( 1 ){
+              switch ( a/*_yieldState*/ ) {
+                case 0 :
+                  
+                  o/*_mochaLocalTmp4*/ = l/*Runtime*/.hasIterator( o/*_mochaLocalTmp4*/ )?l/*Runtime*/.getIterator( o/*_mochaLocalTmp4*/ ) : o/*_mochaLocalTmp4*/;
+                  
+                  if ( o/*_mochaLocalTmp4*/.__nothrowNext__ ){
+                    a/*_yieldState*/ = 1;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = 5;
+                    break;
+                  };
+                case 1 :
+                  
+                  if ( !( ( n/*x*/ = o/*_mochaLocalTmp4*/.__nothrowNext__(  ) ) ) ){
+                    a/*_yieldState*/ = 4;
+                    break;
+                  };
+                case 2 :
+                  
+                  a/*_yieldState*/ = 3;
+                  return n/*x*/;
+                case 3 :
+                  
+                  if ( ( n/*x*/ = o/*_mochaLocalTmp4*/.__nothrowNext__(  ) ) ){
+                    a/*_yieldState*/ = 2;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = 4;
+                  };
+                case 4 :
+                  
+                  a/*_yieldState*/ = -1;
+                  break;
+                case 5 :
+                  
+                  l/*Runtime*/.exceptionHandler( 14,'./generator_expression_test.js','for of statement expect iterator or generator object.' );
+                case 6 :
+                case -1 :
+                  
+                  if ( g/*_isYieldSafe*/ )return undefined;
+                   else l/*Runtime*/.throwStopIteration();
+                  
+              };
+            };
+          };
+      return l/*Runtime*/.createGenerator( p/*_mochaGenerator*/,
+      function (  ) {
+        _yieldState = -1;
+      },this);
+    })();
+    
+    s/*test*/ = ( function () {
+      var m/*_mochaIsNewBorn*/ = true;
+      
+      var n/*_yieldResult*/ = undefined;
+      
+      var a/*_yieldState*/ = 0;
+      
+      var o/*length*/;
+      
+      var p/*_mochaLocalTmp7*/;
+      
+      var i/*x*/;
+      
+      var q/*_mochaLocalTmp6*/ = [];
+      
+      var r/*_mochaGenerator*/ = function ( g/*_isYieldSend*/,h/*_isYieldSafe*/ ) {
+            if ( !g/*_isYieldSend*/ ){
+              m/*_mochaIsNewBorn*/ = false;
+            } else if ( g/*_isYieldSend*/ && m/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+              l/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+            };
+            
+            while ( 1 ){
+              switch ( a/*_yieldState*/ ) {
+                case 0 :
+                  
+                  for ( var _mochaLocalTmp5 in r/*testObject*/ )
+                  q/*_mochaLocalTmp6*/.push( _mochaLocalTmp5 );
+                  
+                  p/*_mochaLocalTmp7*/ = 0;
+                  
+                  o/*length*/ = q/*_mochaLocalTmp6*/.length;
+                  
+                  if ( !( p/*_mochaLocalTmp7*/<o/*length*/ ) ){
+                    a/*_yieldState*/ = -1;
+                    break;
+                  };
+                case 1 :
+                  
+                  i/*x*/ = q/*_mochaLocalTmp6*/[p/*_mochaLocalTmp7*/];
+                  
+                  i/*x*/ = r/*testObject*/[i/*x*/];
+                  
+                  if ( i/*x*/ === 200 ){
+                    a/*_yieldState*/ = 2;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = 3;
+                    break;
+                  };
+                case 2 :
+                  
+                  a/*_yieldState*/ = 3;
+                  return i/*x*/;
+                case 3 :
+                  
+                  a/*_yieldState*/ = 4;
+                  break;
+                case 4 :
+                  
+                   ++ p/*_mochaLocalTmp7*/;
+                  
+                  if ( p/*_mochaLocalTmp7*/<o/*length*/ ){
+                    a/*_yieldState*/ = 1;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = -1;
+                  };
+                case -1 :
+                  
+                  if ( h/*_isYieldSafe*/ )return undefined;
+                   else l/*Runtime*/.throwStopIteration();
+                  
+              };
+            };
+          };
+      return l/*Runtime*/.createGenerator( r/*_mochaGenerator*/,
+      function (  ) {
+        _yieldState = -1;
+      },this);
+    })();
+    
+    s/*test*/ = ( function () {
+      var k/*_mochaIsNewBorn*/ = true;
+      
+      var m/*_yieldResult*/ = undefined;
+      
+      var a/*_yieldState*/ = 0;
+      
+      var n/*x*/;
+      
+      var o/*_mochaLocalTmp8*/ = o/*keys*/( r/*testObject*/ );
+      
+      var p/*_mochaGenerator*/ = function ( f/*_isYieldSend*/,g/*_isYieldSafe*/ ) {
+            if ( !f/*_isYieldSend*/ ){
+              k/*_mochaIsNewBorn*/ = false;
+            } else if ( f/*_isYieldSend*/ && k/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
+              l/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+            };
+            
+            while ( 1 ){
+              switch ( a/*_yieldState*/ ) {
+                case 0 :
+                  
+                  o/*_mochaLocalTmp8*/ = l/*Runtime*/.hasIterator( o/*_mochaLocalTmp8*/ )?l/*Runtime*/.getIterator( o/*_mochaLocalTmp8*/ ) : o/*_mochaLocalTmp8*/;
+                  
+                  if ( o/*_mochaLocalTmp8*/.__nothrowNext__ ){
+                    a/*_yieldState*/ = 1;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = 7;
+                    break;
+                  };
+                case 1 :
+                  
+                  if ( !( ( n/*x*/ = o/*_mochaLocalTmp8*/.__nothrowNext__(  ) ) ) ){
+                    a/*_yieldState*/ = 6;
+                    break;
+                  };
+                case 2 :
+                  
+                  if ( n/*x*/ === "value2" ){
+                    a/*_yieldState*/ = 3;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = 4;
+                    break;
+                  };
+                case 3 :
+                  
+                  a/*_yieldState*/ = 4;
+                  return n/*x*/;
+                case 4 :
+                  
+                  a/*_yieldState*/ = 5;
+                  break;
+                case 5 :
+                  
+                  if ( ( n/*x*/ = o/*_mochaLocalTmp8*/.__nothrowNext__(  ) ) ){
+                    a/*_yieldState*/ = 2;
+                    break;
+                  } else {
+                    a/*_yieldState*/ = 6;
+                  };
+                case 6 :
+                  
+                  a/*_yieldState*/ = -1;
+                  break;
+                case 7 :
+                  
+                  l/*Runtime*/.exceptionHandler( 23,'./generator_expression_test.js','for of statement expect iterator or generator object.' );
+                case 8 :
+                case -1 :
+                  
+                  if ( g/*_isYieldSafe*/ )return undefined;
+                   else l/*Runtime*/.throwStopIteration();
+                  
+              };
+            };
+          };
+      return l/*Runtime*/.createGenerator( p/*_mochaGenerator*/,
+      function (  ) {
+        _yieldState = -1;
+      },this);
+    })();
   })();
 })();

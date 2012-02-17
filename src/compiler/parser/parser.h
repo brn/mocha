@@ -44,7 +44,8 @@ class Parser{
   AstNode* ParseAssertStatement_();
   AstNode* ParseVariableStatement_();
   AstNode* ParseVariableDecl_( bool is_noin );
-  AstNode* ParseLetDeclOrLetStatement_(){return 0;};
+  AstNode* ParseLetExpressionOrLetStatement_();
+  AstNode* ParseLetExpressionExp_();
   AstNode* ParseDestructuringLeftHandSide_();
   AstNode* ParseArrayPattern_();
   AstNode* ParseObjectPattern_();
@@ -52,7 +53,7 @@ class Parser{
   AstNode* CheckLabellOrExpressionStatement_();
   AstNode* ParseIFStatement_( bool is_comprehensions );
   AstNode* ParseWhileStatement_();
-  AstNode* ParseDoWhileStatement_();
+  AstNode* ParseDoWhileStatement_( bool is_exp );
   AstNode* ParseForStatement_( bool is_comprehensions );
   void ParseForStatementCondition_( NodeList* list );
   void ParseForInStatementCondition_( NodeList* list );

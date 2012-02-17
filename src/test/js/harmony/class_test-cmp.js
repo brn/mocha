@@ -1,101 +1,226 @@
 (function() {
-  var __FILE__ = "Runtime",
-      __LINE__ = 0;
   
-  var _mochaGlobalExport = {};
+  var p/*_mochaGlobalExport*/ = {};
   
-  ( function () {
+  ( function ( g/*_mochaLocalTmp0*/,h/*_mochaLocalTmp1*/,i/*_mochaLocalTmp2*/,j/*_mochaLocalTmp3*/ ) {
+    var a/*stringProto*/ = g/*_mochaLocalTmp0*/.prototype,
+        k/*arrayProto*/ = h/*_mochaLocalTmp1*/.prototype,
+        l/*functionProto*/ = i/*_mochaLocalTmp2*/.prototype,
+        m/*dateProto*/ = j/*_mochaLocalTmp3*/.prototype;
+    
     "use strict";
     
-    function builtinTypeError( message ) {
+    function n/*builtinTypeError*/( d/*message*/ ) {
       try {
-        throw new TypeError( message );
+        throw new TypeError( d/*message*/ );
       } catch( e ){
         throw new Error( e );
       };
     };
     
-    function callbackCheck( callback,type ) {
+    function o/*callbackCheck*/( a/*callback*/,b/*type*/ ) {
       
-      Runtime.assert( true,typeof type === "string","typeof type === \"string\"",39,'./mocha_runtime.js' );
-      
-      if ( typeof callback !== "function" ){
-        builtinTypeError( type+" : first argument is not callable" );
+      if ( typeof a/*callback*/ !== "function" ){
+        n/*builtinTypeError*/( b/*type*/+" : first argument is not callable" );
       };
     };
     
-    if ( !String.prototype.trim ){
-      String.prototype.trim = function () {
-        return this.replace( String.prototype.trim.rtrim,"" );
+    if ( !Object.keys ){
+      Object.keys = function ( b/*obj*/ ) {
+        if ( !b/*obj*/ ){
+          n/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+        };
+        
+        var c/*ret*/ = [],
+            d/*iter*/ = -1;
+        
+        for ( var i in b/*obj*/ ){
+          if ( b/*obj*/.hasOwnProperty( i ) ){
+            c/*ret*/[ ++ d/*iter*/] = b/*obj*/[i];
+          };
+        };
+        return c/*ret*/;
       };
-      
-      String.prototype.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !Function.prototype.bind ){
-      Function.prototype.bind = function () {
-        var argArray = Array.prototype.slice.call( arguments ),
-            context = argArray.shift(),
-            ret = function () {
-              var args = argArray.concat( Array.prototype.slice.call( arguments ) );
+    if ( !Object.preventExtensions ){
+      Object.preventExtensions = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    if ( !Object.seal ){
+      Object.seal = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    if ( !Object.freeze ){
+      Object.freeze = function ( a/*o*/ ) {
+        return a/*o*/;
+      };
+    };
+    
+    var p/*hasRealEcma5*/ = ( function () {
+          var c/*ret*/;
+          
+          try {
+            var d/*obj*/ = {};
+            
+            Object.defineProperty( d/*obj*/,"test", {
+              configurable : false,
+              writable : false,
+              enumerable : false,
+              value : 0
+            });
+            
+            d/*obj*/.test = 200;
+            
+            c/*ret*/ = ( d/*obj*/.test === 200 )?false : true;
+          } catch( e ){
+            c/*ret*/ = false;
+          };
+          return c/*ret*/;
+        })();
+    
+    if ( !p/*hasRealEcma5*/ ){
+      Object.defineProperty = function ( a/*obj*/,b/*prop*/,c/*valobj*/ ) {
+        if ( c/*valobj*/.value ){
+          a/*obj*/[b/*prop*/] = c/*valobj*/.value;
+        };
+      };
+    };
+    
+    if ( !a/*stringProto*/.trim ){
+      a/*stringProto*/.trim = function () {
+        return this.replace( stringProto.trim.rtrim,"" );
+      };
+      
+      a/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+    };
+    
+    if ( !a/*stringProto*/.repeat ){
+      Object.defineProperty( a/*stringProto*/,"repeat", {
+        value : function q/*value*/( b/*num*/ ) {
+          return Array( b/*num*/+1 ).join( this.toString() );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.startsWith ){
+      Object.defineProperty( a/*stringProto*/,"startsWith", {
+        value : function q/*value*/( a/*str*/ ) {
+          return !this.indexOf( a/*str*/ );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.endsWith ){
+      Object.defineProperty( a/*stringProto*/,"endsWith", {
+        value : function q/*value*/( b/*str*/ ) {
+          var c/*t*/ = String( b/*str*/ );
+          
+          var d/*index*/ = this.lastIndexOf( c/*t*/ );
+          return d/*index*/ >= 0 && d/*index*/ === this.length-c/*t*/.length;
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.contains ){
+      Object.defineProperty( a/*stringProto*/,"contains", {
+        value : function q/*value*/( a/*str*/ ) {
+          return this.indexOf( a/*str*/ ) !== -1;
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !a/*stringProto*/.toArray ){
+      Object.defineProperty( a/*stringProto*/,"toArray", {
+        value : function q/*value*/( a/*str*/ ) {
+          return this.split( "" );
+        },
+        configurable : true,
+        enumerable : false,
+        writable : true
+      });
+    };
+    
+    if ( !l/*functionProto*/.bind ){
+      l/*functionProto*/.bind = function () {
+        var d/*argArray*/ = k/*arrayProto*/.slice.call( arguments ),
+            e/*context*/ = d/*argArray*/.shift(),
+            f/*ret*/ = function () {
+              var c/*args*/ = d/*argArray*/.concat( k/*arrayProto*/.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof ret ){
-                return ret.context.apply( this,args );
+              if ( this !== null && this !== window && this instanceof f/*ret*/ ){
+                return f/*ret*/.context.apply( this,c/*args*/ );
               } else {
-                return ret.context.apply( context,args );
+                return f/*ret*/.context.apply( e/*context*/,c/*args*/ );
               };
             };
         
-        ret.prototype = this.prototype;
+        f/*ret*/.prototype = this.prototype;
         
-        ret.context = this;
-        return ret;
+        f/*ret*/.context = this;
+        return f/*ret*/;
       };
     };
     
-    if ( !Array.prototype.forEach ){
-      Array.prototype.forEach = function ( callback,that ) {
-        callbackCheck( callback,"Array.forEach" );
+    if ( !k/*arrayProto*/.forEach ){
+      k/*arrayProto*/.forEach = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.forEach" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.forEach : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            callback.call( that,ta,iter,this );
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this );
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            callback( ta,iter,this );
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            b/*callback*/( e/*ta*/,d/*iter*/,this );
           };
         };
       };
     };
     
-    if ( !Array.prototype.every ){
-      Array.prototype.every = function ( callback,that ) {
-        callbackCheck( callback,"Array.every" );
+    if ( !k/*arrayProto*/.every ){
+      k/*arrayProto*/.every = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.every" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.every : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.every : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( callback.call( that,ta,iter,this ) ) ){
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( !( b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this ) ) ){
               return false;
             };
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( !( callback( ta,iter,this ) ) ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( !( b/*callback*/( e/*ta*/,d/*iter*/,this ) ) ){
               return false;
             };
           };
@@ -104,26 +229,26 @@
       };
     };
     
-    if ( !Array.prototype.some ){
-      Array.prototype.some = function ( callback,that ) {
-        callbackCheck( callback,"Array.some" );
+    if ( !k/*arrayProto*/.some ){
+      k/*arrayProto*/.some = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.some" );
         
-        var iter = -1,
-            ta;
+        var d/*iter*/ = -1,
+            e/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.some : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.some : this is null or not defined" );
         };
         
-        if ( that ){
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( callback.call( that,ta,iter,this ) ){
+        if ( c/*that*/ ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( b/*callback*/.call( c/*that*/,e/*ta*/,d/*iter*/,this ) ){
               return true;
             };
           };
         } else {
-          while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-            if ( callback( ta,iter,this ) ){
+          while ( ( e/*ta*/ = this[ ++ d/*iter*/] ) !== null && e/*ta*/ !== undefined ){
+            if ( b/*callback*/( e/*ta*/,d/*iter*/,this ) ){
               return true;
             };
           };
@@ -132,165 +257,165 @@
       };
     };
     
-    if ( !Array.prototype.filter ){
-      Array.prototype.filter = function ( callback,that ) {
-        callbackCheck( callback,"Array.filter" );
+    if ( !k/*arrayProto*/.filter ){
+      k/*arrayProto*/.filter = function ( c/*callback*/,d/*that*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.filter" );
         
-        var len = this.length,
-            iter = -1,
-            ret = [],
-            ta;
+        var e/*len*/ = this.length,
+            f/*iter*/ = -1,
+            g/*ret*/ = [],
+            h/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.filter : this is null or not defined" );
+          n/*builtinTypeError*/( "Array.filter : this is null or not defined" );
         };
         
-        if ( that ){
-          for ( var i = 0,len = this.length;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( callback.call( that,ta,i,this ) ){
-                ret[ ++ iter] = ta;
+        if ( d/*that*/ ){
+          for ( var i = 0,e/*len*/ = this.length;i<e/*len*/; ++ i ){
+            if ( ( h/*ta*/ = this[i] ) !== null && h/*ta*/ !== undefined ){
+              if ( c/*callback*/.call( d/*that*/,h/*ta*/,i,this ) ){
+                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
               };
             };
           };
         } else {
-          for ( var i = 0,len = this.length;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              if ( callback( ta,i,this ) ){
-                ret[ ++ iter] = ta;
+          for ( var i = 0,e/*len*/ = this.length;i<e/*len*/; ++ i ){
+            if ( ( h/*ta*/ = this[i] ) !== null && h/*ta*/ !== undefined ){
+              if ( c/*callback*/( h/*ta*/,i,this ) ){
+                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
               };
             };
           };
         };
-        return ret;
+        return g/*ret*/;
       };
     };
     
-    if ( !Array.prototype.indexOf ){
-      Array.prototype.indexOf = function ( subject,fromIndex ) {
-        var iter = ( fromIndex )?fromIndex-1 : -1,
-            index = -1,
-            ta;
+    if ( !k/*arrayProto*/.indexOf ){
+      k/*arrayProto*/.indexOf = function ( b/*subject*/,c/*fromIndex*/ ) {
+        var d/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/-1 : -1,
+            e/*index*/ = -1,
+            f/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.indexOf : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( ta === subject ){
-            index = iter;
+        while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
+          if ( f/*ta*/ === b/*subject*/ ){
+            e/*index*/ = d/*iter*/;
             break;
           };
         };
-        return index;
+        return e/*index*/;
       };
     };
     
-    if ( !Array.prototype.lastIndexOf ){
-      Array.prototype.lastIndexOf = function ( target,fromIndex ) {
-        var len = this.length,
-            iter = ( fromIndex )?fromIndex+1 : len,
-            index = -1,
-            ta;
+    if ( !k/*arrayProto*/.lastIndexOf ){
+      k/*arrayProto*/.lastIndexOf = function ( b/*target*/,c/*fromIndex*/ ) {
+        var d/*len*/ = this.length,
+            e/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/+1 : d/*len*/,
+            f/*index*/ = -1,
+            g/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-          if ( ta === target ){
-            index = iter;
+        while ( ( g/*ta*/ = this[ -- e/*iter*/] ) !== null && g/*ta*/ !== undefined ){
+          if ( g/*ta*/ === b/*target*/ ){
+            f/*index*/ = e/*iter*/;
             break;
           };
         };
-        return index;
+        return f/*index*/;
       };
     };
     
-    if ( !Array.prototype.map ){
-      Array.prototype.map = function ( callback,that ) {
-        callbackCheck( callback,"Array.map" );
+    if ( !k/*arrayProto*/.map ){
+      k/*arrayProto*/.map = function ( b/*callback*/,c/*that*/ ) {
+        o/*callbackCheck*/( b/*callback*/,"Array.map" );
         
-        var ret = [],
-            iter = -1,
-            len = this.length,
-            i = 0,
-            ta;
+        var d/*ret*/ = [],
+            e/*iter*/ = -1,
+            f/*len*/ = this.length,
+            g/*i*/ = 0,
+            h/*ta*/;
         
         if ( this === null ){
-          builtinTypeError( "Array.map : this is null or not defined." );
+          n/*builtinTypeError*/( "Array.map : this is null or not defined." );
         };
         
-        if ( that ){
-          for ( i;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = callback.call( that,ta,i,this );
+        if ( c/*that*/ ){
+          for ( g/*i*/;g/*i*/<f/*len*/; ++ g/*i*/ ){
+            if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+              d/*ret*/[ ++ e/*iter*/] = b/*callback*/.call( c/*that*/,h/*ta*/,g/*i*/,this );
             };
           };
         } else {
-          for ( i;i<len; ++ i ){
-            if ( ( ta = this[i] ) !== null && ta !== undefined ){
-              ret[ ++ iter] = callback( ta,i,this );
+          for ( g/*i*/;g/*i*/<f/*len*/; ++ g/*i*/ ){
+            if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+              d/*ret*/[ ++ e/*iter*/] = b/*callback*/( h/*ta*/,g/*i*/,this );
             };
           };
         };
-        return ret;
+        return d/*ret*/;
       };
     };
     
-    if ( !Array.prototype.reduce ){
-      Array.prototype.reduce = function ( callback,initial ) {
-        callbackCheck( callback,"Array.reduce" );
+    if ( !k/*arrayProto*/.reduce ){
+      k/*arrayProto*/.reduce = function ( c/*callback*/,d/*initial*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.reduce" );
         
-        var ret = initial || this[0],
-            i = ( initial )?0 : 1,
-            len = this.length,
-            ta;
+        var e/*ret*/ = d/*initial*/ || this[0],
+            f/*i*/ = ( d/*initial*/ )?0 : 1,
+            g/*len*/ = this.length,
+            h/*ta*/;
         
-        if ( ( len === 0 || len === null ) && arguments.length<2 ){
-          builtinTypeError( "Array length is 0 and no second argument" );
+        if ( ( g/*len*/ === 0 || g/*len*/ === null ) && arguments.length<2 ){
+          n/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( i;i<len; ++ i ){
-          if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = callback( ret,ta,i,this );
+        for ( f/*i*/;f/*i*/<g/*len*/; ++ f/*i*/ ){
+          if ( ( h/*ta*/ = this[f/*i*/] ) !== null && h/*ta*/ !== undefined ){
+            e/*ret*/ = c/*callback*/( e/*ret*/,h/*ta*/,f/*i*/,this );
           };
         };
-        return ret;
+        return e/*ret*/;
       };
     };
     
-    if ( !Array.prototype.reduceRight ){
-      Array.prototype.reduceRight = function ( callback,initial ) {
-        callbackCheck( callback,"Array.reduceRight" );
+    if ( !k/*arrayProto*/.reduceRight ){
+      k/*arrayProto*/.reduceRight = function ( c/*callback*/,d/*initial*/ ) {
+        o/*callbackCheck*/( c/*callback*/,"Array.reduceRight" );
         
-        var len = this.length,
-            ret = initial || this[len-1],
-            i = ( initial )?len-1 : len-2,
-            ta;
+        var e/*len*/ = this.length,
+            f/*ret*/ = d/*initial*/ || this[e/*len*/-1],
+            g/*i*/ = ( d/*initial*/ )?e/*len*/-1 : e/*len*/-2,
+            h/*ta*/;
         
-        if ( ( len === 0 || len === null ) && arguments.length<2 ){
-          builtinTypeError( "Array length is 0 and no second argument" );
+        if ( ( e/*len*/ === 0 || e/*len*/ === null ) && arguments.length<2 ){
+          n/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( i;i>-1; -- i ){
-          if ( ( ta = this[i] ) !== null && ta !== undefined ){
-            ret = callback( ret,ta,i,this );
+        for ( g/*i*/;g/*i*/>-1; -- g/*i*/ ){
+          if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
+            f/*ret*/ = c/*callback*/( f/*ret*/,h/*ta*/,g/*i*/,this );
           };
         };
-        return ret;
+        return f/*ret*/;
       };
     };
     
-    if ( !Date.prototype.toJSON ){
-      Date.prototype.toJSON = function () {
-        var _mochaLocalTmp0 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            month = _mochaLocalTmp0[0],
-            date = _mochaLocalTmp0[1],
-            hour = _mochaLocalTmp0[2],
-            minute = _mochaLocalTmp0[3],
-            second = _mochaLocalTmp0[4];
-        return '"'+this.getUTCFullYear()+'-'+( month>8?month+1 : "0"+( month+1 ) )+'-'+( date>9?date : "0"+date )+'T'+( hour>9?hour : "0"+hour )+':'+( minute>9?minute : "0"+minute )+':'+( second>9?second : "0"+second )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !m/*dateProto*/.toJSON ){
+      m/*dateProto*/.toJSON = function () {
+        var a/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            b/*month*/ = a/*_mochaLocalTmp4*/[0],
+            c/*date*/ = a/*_mochaLocalTmp4*/[1],
+            d/*hour*/ = a/*_mochaLocalTmp4*/[2],
+            e/*minute*/ = a/*_mochaLocalTmp4*/[3],
+            f/*second*/ = a/*_mochaLocalTmp4*/[4];
+        return '"'+this.getUTCFullYear()+'-'+( b/*month*/>8?b/*month*/+1 : "0"+( b/*month*/+1 ) )+'-'+( c/*date*/>9?c/*date*/ : "0"+c/*date*/ )+'T'+( d/*hour*/>9?d/*hour*/ : "0"+d/*hour*/ )+':'+( e/*minute*/>9?e/*minute*/ : "0"+e/*minute*/ )+':'+( f/*second*/>9?f/*second*/ : "0"+f/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -300,105 +425,44 @@
       };
     };
     
-    if ( !Object.keys ){
-      Object.keys = function ( obj ) {
-        if ( !obj ){
-          builtinTypeError( "Object.keys : first arguments is null or not defined." );
-        };
-        
-        var ret = [],
-            iter = -1;
-        
-        for ( var i in obj ){
-          if ( obj.hasOwnProperty( i ) ){
-            ret[ ++ iter] = obj[i];
-          };
-        };
-        return ret;
-      };
-    };
-    
-    if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( o ) {
-        return o;
-      };
-    };
-    
-    if ( !Object.seal ){
-      Object.seal = function ( o ) {
-        return o;
-      };
-    };
-    
-    if ( !Object.freeze ){
-      Object.freeze = function ( o ) {
-        return o;
-      };
-    };
-    
-    var hasRealEcma5 = ( function () {
-          try {
-            var obj = {};
-            
-            Object.defineProperty( obj,"test", {
-              configurable : false,
-              writable : false,
-              enumerable : false,
-              value : 0
-            });
-            
-            obj.test = 200;
-            return ( obj.test === 200 )?false : true;
-          } catch( e ){
-            return false;
-          };
-        })();
-    
-    if ( !hasRealEcma5 ){
-      Object.defineProperty = function ( obj,prop,valobj ) {
-        if ( valobj.value ){
-          obj[prop] = valobj.value;
-        };
-      };
-    };
-    
     if ( !Array.isArray ){
-      Array.isArray = function ( arr ) {
+      Array.isArray = function ( c/*arr*/ ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( arr )?Object.prototype.toString.call( arr ) === "[object Array]" : false;
+        return ( c/*arr*/ )?Object.prototype.toString.call( c/*arr*/ ) === "[object Array]" : false;
       };
     };
-  })();
+  }).call( this,String,Array,Function,Date );
   
-  var Runtime = ( function Runtime() {
-        var _mochaLocalExport = {};
+  var a/*Runtime*/ = ( function a/*Runtime*/() {
+        var k/*_mochaLocalExport*/ = {};
         
-        function Exception( line,file,e ) {
+        "use strict";
+        
+        function l/*Exception*/( d/*line*/,c/*file*/,b/*e*/ ) {
           this.toString = function () {
             return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
           };
         }
-        function fastMax( x,y ) {
-          return x>y?x : y;
-        }
-        var Runtime =  {
-              getErrorMessage : function getErrorMessage( e ) {
-                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        var m/*fastMax*/ = Math.max;
+        
+        var a/*Runtime*/ =  {
+              getErrorMessage : function n/*getErrorMessage*/( a/*e*/ ) {
+                return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
               },
-              exceptionHandler : function exceptionHandler( line,file,e ) {
-                if ( isStopIteration( e ) ){
-                  this.throwException( e );
+              exceptionHandler : function o/*exceptionHandler*/( a/*line*/,b/*file*/,c/*e*/ ) {
+                if ( K/*isStopIteration*/( c/*e*/ ) ){
+                  this.throwException( c/*e*/ );
                 } else {
-                  this.throwException( new Exception( line,file,e ) );
+                  this.throwException( new l/*Exception*/( a/*line*/,b/*file*/,c/*e*/ ) );
                 };
               },
-              throwException : function throwException( exception ) {
+              throwException : function p/*throwException*/( c/*exception*/ ) {
                 try {
-                  throw exception;
+                  throw c/*exception*/;
                 } catch( e ){
-                  if ( isStopIteration( e ) ){
+                  if ( K/*isStopIteration*/( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -408,148 +472,157 @@
               hasProto : "__proto__" in {}
             };
         
-        var slice = Array.prototype.slice;
+        var q/*slice*/ = Array.prototype.slice;
         
-        var createUnenumProp = _mochaLocalExport.createUnenumProp = function createUnenumProp( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+        var r/*createUnenumProp*/ = k/*_mochaLocalExport*/.createUnenumProp = function r/*createUnenumProp*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
+              return Object.defineProperty( b/*obj*/,c/*prop*/, {
                 configurable : true,
                 enumerable : false,
                 writable : true,
-                value : value
+                value : d/*value*/
               });
             };
         
-        var constant = _mochaLocalExport.constant = function constant( obj,prop,value ) {
-              return Object.defineProperty( obj,prop, {
+        var s/*constant*/ = k/*_mochaLocalExport*/.constant = function s/*constant*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
+              return Object.defineProperty( b/*obj*/,c/*prop*/, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
-                value : value
+                value : d/*value*/
               });
             };
         
-        var toArray = _mochaLocalExport.toArray = function toArray( likeArray,index ) {
-              return ( likeArray )?slice.call( likeArray,index ) : [];
+        var t/*toArray*/ = k/*_mochaLocalExport*/.toArray = function t/*toArray*/( a/*likeArray*/,b/*index*/ ) {
+              return ( a/*likeArray*/ )?q/*slice*/.call( a/*likeArray*/,b/*index*/ ) : [];
             };
         
-        var Generator = function (){};
+        var u/*Generator*/ = function (){};
         
-        var createGenerator = _mochaLocalExport.createGenerator = function createGenerator( generatorFn,closeFn,context ) {
-              var ret = new Generator;
+        var v/*createGenerator*/ = k/*_mochaLocalExport*/.createGenerator = function v/*createGenerator*/( b/*generatorFn*/,c/*closeFn*/,d/*context*/ ) {
+              var e/*ret*/ = new u/*Generator*/;
               
-              createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
+              r/*createUnenumProp*/( e/*ret*/,"next",b/*generatorFn*/.bind( d/*context*/,false,false ) );
               
-              createUnenumProp( ret,"send",generatorFn.bind( context,true,false ) );
+              r/*createUnenumProp*/( e/*ret*/,"send",b/*generatorFn*/.bind( d/*context*/,true,false ) );
               
-              createUnenumProp( ret,"close",closeFn.bind( context ) );
+              r/*createUnenumProp*/( e/*ret*/,"close",c/*closeFn*/.bind( d/*context*/ ) );
               
-              createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
+              r/*createUnenumProp*/( e/*ret*/,"__nothrowNext__",b/*generatorFn*/.bind( d/*context*/,false,true ) );
               
-              createUnenumProp( ret,"toString",
+              r/*createUnenumProp*/( e/*ret*/,"toString",
               function () {
                 return "[object Generator]";
               });
               
-              Object.freeze( ret );
-              return ret;
+              Object.freeze( e/*ret*/ );
+              return e/*ret*/;
             };
         
-        function getErrorMessage( e ) {
-          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        function n/*getErrorMessage*/( a/*e*/ ) {
+          return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
         }
-        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime );
+        var p/*throwException*/ = k/*_mochaLocalExport*/.throwException = a/*Runtime*/.throwException.bind( a/*Runtime*/ );
         
-        var exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        var o/*exceptionHandler*/ = k/*_mochaLocalExport*/.exceptionHandler = a/*Runtime*/.exceptionHandler.bind( a/*Runtime*/ );
         
-        var extend = _mochaLocalExport.extend = function extend( dest,source ) {
-              for ( var prop in source ){
-                dest[prop] = source[prop];
+        var w/*extend*/ = k/*_mochaLocalExport*/.extend = function w/*extend*/( b/*dest*/,c/*source*/ ) {
+              for ( var prop in c/*source*/ ){
+                b/*dest*/[prop] = c/*source*/[prop];
               };
-              return dest;
+              return b/*dest*/;
             };
         
-        function compareTuple( tuple ) {
-          var max = fastMax( tuple.length,this.length );
+        function x/*compareTuple*/( a/*tuple*/ ) {
+          var b/*max*/ = m/*fastMax*/( a/*tuple*/.length,this.length ),
+              c/*i*/ = -1;
           
-          i = 0;
-          
-          while ( i<max && tuple[i] === this[i] ){
-            i ++ ;
+          while (  ++ c/*i*/<b/*max*/ && a/*tuple*/[c/*i*/] === this[c/*i*/] ){
+            
           };
-          return max === i;
+          return b/*max*/ === c/*i*/;
         };
         
-        function tupleToArray() {
+        function y/*tupleToArray*/() {
           return Array.prototype.slice.call( this );
         };
         
-        var createTuple = _mochaLocalExport.createTuple = function createTuple( obj,size ) {
-              createUnenumProp( obj,"length",size );
+        var z/*createTuple*/ = k/*_mochaLocalExport*/.createTuple = function z/*createTuple*/( b/*obj*/,c/*size*/ ) {
+              r/*createUnenumProp*/( b/*obj*/,"length",c/*size*/ );
               
-              createUnenumProp( obj,"equal",compareTuple );
+              r/*createUnenumProp*/( b/*obj*/,"equal",x/*compareTuple*/ );
               
-              createUnenumProp( obj,"toArray",tupleToArray );
+              r/*createUnenumProp*/( b/*obj*/,"toArray",y/*tupleToArray*/ );
               
-              createUnenumProp( obj,"toString",
+              r/*createUnenumProp*/( b/*obj*/,"toString",
               function () {
                 return "[object Tuple]";
               });
-              return Object.freeze( obj );
+              return Object.freeze( b/*obj*/ );
             };
         
-        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
-              derived.prototype = base;
+        var A/*createRecord*/ = k/*_mochaLocalExport*/.createRecord = function A/*createRecord*/( b/*obj*/ ) {
+              if ( b/*obj*/.toString() === "[object Object]" ){
+                r/*createUnenumProp*/( b/*obj*/,"toString",
+                function () {
+                  return "[object Record]";
+                });
+              };
+              return Object.freeze( b/*obj*/ );
             };
         
-        var getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
-              return Object.getPrototypeOf( obj );
-            } : function ( obj ) {
-              var ret = {};
+        var B/*extendPrototype*/ = k/*_mochaLocalExport*/.extendPrototype = function ( a/*derived*/,b/*base*/ ) {
+              a/*derived*/.prototype = b/*base*/;
+            };
+        
+        var C/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
+              return Object.getPrototypeOf( b/*obj*/ );
+            } : function ( b/*obj*/ ) {
+              var c/*ret*/ = {};
               
-              for ( var i in obj ){
-                if ( !obj.hasOwnProperty( i ) ){
-                  ret[i] = obj[i];
+              for ( var i in b/*obj*/ ){
+                if ( !b/*obj*/.hasOwnProperty( i ) ){
+                  c/*ret*/[i] = b/*obj*/[i];
                 };
               };
-              return ret;
+              return c/*ret*/;
             };
         
-        var extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
-              if ( typeof base === 'function' ){
-                derived.prototype.__proto__ = base.prototype;
+        var D/*extendClass*/ = k/*_mochaLocalExport*/.extendClass = ( a/*Runtime*/.hasProto )?function ( b/*derived*/,c/*base*/ ) {
+              if ( typeof c/*base*/ === 'function' ){
+                b/*derived*/.prototype.__proto__ = c/*base*/.prototype;
                 
-                for ( var i in base ){
-                  derived[i] = base[i];
+                for ( var i in c/*base*/ ){
+                  b/*derived*/[i] = c/*base*/[i];
                 };
               } else {
-                derived.prototype.__proto__ = base.__proto__;
+                b/*derived*/.prototype.__proto__ = c/*base*/.__proto__;
               };
-            } : function ( derived,base ) {
-              var baseType = typeof base;
+            } : function ( b/*derived*/,c/*base*/ ) {
+              var d/*baseType*/ = typeof c/*base*/;
               
-              if ( baseType === "function" ){
-                var inherit = function (){};
+              if ( d/*baseType*/ === "function" ){
+                var e/*inherit*/ = function (){};
                 
-                inherit.prototype = base.prototype;
+                e/*inherit*/.prototype = c/*base*/.prototype;
                 
-                derived.prototype = new inherit;
+                b/*derived*/.prototype = new e/*inherit*/;
                 
-                for ( var i in base ){
-                  derived[i] = base[i];
+                for ( var i in c/*base*/ ){
+                  b/*derived*/[i] = c/*base*/[i];
                 };
               } else {
-                var inherit = function (){},
-                    proto = getPrototype( base );
+                var e/*inherit*/ = function (){},
+                    f/*proto*/ = C/*getPrototype*/( c/*base*/ );
                 
-                inherit.prototype = proto;
+                e/*inherit*/.prototype = f/*proto*/;
                 
-                derived.prototype = new inherit;
+                b/*derived*/.prototype = new e/*inherit*/;
               };
             };
         
-        var __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+        var E/*__ref_iterator__*/ = k/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
         
-        var throwStopIteration = _mochaLocalExport.throwStopIteration = function throwStopIteration() {
+        var F/*throwStopIteration*/ = k/*_mochaLocalExport*/.throwStopIteration = function F/*throwStopIteration*/() {
               try {
                 throw StopIteration;
               } catch( e ){
@@ -557,767 +630,472 @@
               };
             };
         
-        var isGenerator = _mochaLocalExport.isGenerator = function isGenerator( obj ) {
-              return obj instanceof Generator;
+        var G/*isGenerator*/ = k/*_mochaLocalExport*/.isGenerator = function G/*isGenerator*/( a/*obj*/ ) {
+              return a/*obj*/ instanceof u/*Generator*/;
             };
         
-        var getIterator = _mochaLocalExport.getIterator = function getIterator( obj ) {
-              var ret = obj[__ref_iterator__](),
-                  newObj;
+        var H/*getIterator*/ = k/*_mochaLocalExport*/.getIterator = function H/*getIterator*/( c/*obj*/ ) {
+              var d/*ret*/ = c/*obj*/[E/*__ref_iterator__*/](),
+                  e/*newObj*/;
               
-              if ( isGenerator( ret ) ){
-                return ret;
+              if ( G/*isGenerator*/( d/*ret*/ ) ){
+                return d/*ret*/;
               };
               
-              newObj = {};
+              e/*newObj*/ = {};
               
-              if ( ret.next ){
-                createUnenumProp( newObj,"next",
+              if ( d/*ret*/.next ){
+                r/*createUnenumProp*/( e/*newObj*/,"next",
                 function () {
-                  var result = ret.next();
+                  var b/*result*/ = d/*ret*/.next();
                   
-                  if ( result === undefined ){
-                    throwStopIteration();
+                  if ( b/*result*/ === undefined ){
+                    F/*throwStopIteration*/();
                   };
-                  return result;
+                  return b/*result*/;
                 });
               } else {
                 return {};
               };
               
-              if ( !( "__nothrowNext__" in ret ) ){
-                createUnenumProp( newObj,"__nothrowNext__",ret.next.bind( ret ) );
+              if ( !( "__nothrowNext__" in d/*ret*/ ) ){
+                r/*createUnenumProp*/( e/*newObj*/,"__nothrowNext__",d/*ret*/.next.bind( d/*ret*/ ) );
               };
               
-              for ( var prop in ret ){
+              for ( var prop in d/*ret*/ ){
                 if ( prop !== "next" && prop !== "__nothrowNext__" ){
-                  newObj[prop] = ret[prop];
+                  e/*newObj*/[prop] = d/*ret*/[prop];
                 };
               };
               
-              if ( !( "toString" in ret ) ){
-                createUnenumProp( newObj,"toString",
+              if ( !( "toString" in d/*ret*/ ) ){
+                r/*createUnenumProp*/( e/*newObj*/,"toString",
                 function () {
                   return "[object Iterator]";
                 });
               };
-              return newObj;
+              return e/*newObj*/;
             };
         
-        var hasIterator = _mochaLocalExport.hasIterator = function hasIterator( obj ) {
-              return __ref_iterator__ in obj;
+        var I/*hasIterator*/ = k/*_mochaLocalExport*/.hasIterator = function I/*hasIterator*/( a/*obj*/ ) {
+              return E/*__ref_iterator__*/ in a/*obj*/;
             };
         
-        var rstopIteration = /StopIteration/;
+        var J/*rstopIteration*/ = /StopIteration/;
         
-        var isStopIteration = _mochaLocalExport.isStopIteration = function isStopIteration( obj ) {
-              return obj === StopIteration || rstopIteration.test( obj );
+        var K/*isStopIteration*/ = k/*_mochaLocalExport*/.isStopIteration = function K/*isStopIteration*/( b/*obj*/ ) {
+              return b/*obj*/ === StopIteration || J/*rstopIteration*/.test( b/*obj*/ );
             };
         
-        var privateRecord,
-            createPrivateRecord,
-            getPrivateRecord;
+        var L/*privateRecord*/,
+            M/*createPrivateRecord*/,
+            N/*getPrivateRecord*/;
         
         if ( "WeakMap" in window ){
-          privateRecord = new WeakMap();
+          L/*privateRecord*/ = new WeakMap();
           
-          createPrivateRecord = function ( self,privateHolder ) {
-            var holder = new privateHolder;
+          M/*createPrivateRecord*/ = function ( a/*self*/,b/*privateHolder*/ ) {
+            var c/*holder*/ = new b/*privateHolder*/;
             
-            createUnenumProp( holder.constructor,"__is_private__",1 );
+            r/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
             
-            privateRecord.set( self,holder );
+            L/*privateRecord*/.set( a/*self*/,c/*holder*/ );
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( privateRecord.has( self ) ){
-              return privateRecord.get( self );
-            } else if ( self.constructor === "__is_private__" ){
-              return self;
+          N/*getPrivateRecord*/ = function ( a/*self*/ ) {
+            if ( L/*privateRecord*/.has( a/*self*/ ) ){
+              return L/*privateRecord*/.get( a/*self*/ );
+            } else if ( a/*self*/.constructor === "__is_private__" ){
+              return a/*self*/;
             };
           };
         } else {
-          createPrivateRecord = function ( self,privateHolder ) {
-            if ( !self.__typeid__ ){
-              var holder = new privateHolder;
+          M/*createPrivateRecord*/ = function ( a/*self*/,b/*privateHolder*/ ) {
+            if ( !a/*self*/.__typeid__ ){
+              var c/*holder*/ = new b/*privateHolder*/;
               
-              createUnenumProp( holder.constructor,"__is_private__",1 );
+              r/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
               
-              createUnenumProp( self,"__private__",holder );
+              r/*createUnenumProp*/( a/*self*/,"__private__",c/*holder*/ );
             };
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( self.__private__ ){
-              return self.__private__;
-            } else if ( self.constructor === "__is_private__" ){
-              return self;
+          N/*getPrivateRecord*/ = function ( a/*self*/ ) {
+            if ( a/*self*/.__private__ ){
+              return a/*self*/.__private__;
+            } else if ( a/*self*/.constructor === "__is_private__" ){
+              return a/*self*/;
             };
           };
         };
         
-        ( _mochaLocalExport.createPrivateRecord = createPrivateRecord );
+        k/*_mochaLocalExport*/.createPrivateRecord = M/*createPrivateRecord*/;
         
-        ( _mochaLocalExport.getPrivateRecord = getPrivateRecord );
+        k/*_mochaLocalExport*/.getPrivateRecord = N/*getPrivateRecord*/;
         
-        var getSuper = _mochaLocalExport.getSuper = function getSuper( obj ) {
-              var type = typeof obj,
-                  ret;
+        var O/*getSuper*/ = k/*_mochaLocalExport*/.getSuper = function O/*getSuper*/( a/*obj*/ ) {
+              var b/*type*/ = typeof a/*obj*/,
+                  c/*ret*/;
               
-              if ( type === "function" ){
-                ret = function (){};
+              if ( b/*type*/ === "function" ){
+                c/*ret*/ = function (){};
                 
-                ret.prototype = obj.prototype;
+                c/*ret*/.prototype = a/*obj*/.prototype;
                 
-                ret = new ret();
+                c/*ret*/ = new c/*ret*/();
                 
-                if ( obj.__harmony_class__ ){
-                  ret.constructor = obj.constructor;
+                if ( a/*obj*/.__harmony_class__ ){
+                  c/*ret*/.constructor = a/*obj*/.constructor;
                 } else {
-                  ret.constructor = obj;
+                  c/*ret*/.constructor = a/*obj*/;
                 };
-                return ret;
+                return c/*ret*/;
               };
-              return ret;
+              return c/*ret*/;
             };
         
-        var traitMixin = _mochaLocalExport.traitMixin = function traitMixin( dest,source,with_,without ) {
-              if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-                Runtime.throwException( "mixin only used for trait." );
+        var P/*traitMixin*/ = k/*_mochaLocalExport*/.traitMixin = function P/*traitMixin*/( c/*dest*/,d/*source*/,e/*with_*/,f/*without*/ ) {
+              if ( !c/*dest*/._mochaTraitMark || !d/*source*/._mochaTraitMark ){
+                a/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var destTraitPrivate = dest._mochaTraitPrivate,
-                    sourceTraitPrivate = source._mochaTraitPrivate,
-                    destTraitPublic = dest._mochaTraitPublic,
-                    sourceTraitPublic = source._mochaTraitPublic,
-                    sourceRequires = source._mochaRequires,
-                    destRequires = dest._mochaRequires,
-                    tmp;
+                var g/*destTraitPrivate*/ = c/*dest*/._mochaTraitPrivate,
+                    h/*sourceTraitPrivate*/ = d/*source*/._mochaTraitPrivate,
+                    i/*destTraitPublic*/ = c/*dest*/._mochaTraitPublic,
+                    j/*sourceTraitPublic*/ = d/*source*/._mochaTraitPublic,
+                    k/*sourceRequires*/ = d/*source*/._mochaRequires,
+                    l/*destRequires*/ = c/*dest*/._mochaRequires,
+                    m/*tmp*/;
                 
-                for ( var i in sourceTraitPrivate ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( var i in h/*sourceTraitPrivate*/ ){
+                  if ( !f/*without*/[i] ){
+                    m/*tmp*/ = ( !e/*with_*/[i] )?i : e/*with_*/[i];
                     
-                    destTraitPrivate[tmp] = sourceTraitPrivate[i];
+                    g/*destTraitPrivate*/[m/*tmp*/] = h/*sourceTraitPrivate*/[i];
                   };
                 };
                 
-                for ( i in sourceTraitPublic ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( i in j/*sourceTraitPublic*/ ){
+                  if ( !f/*without*/[i] ){
+                    m/*tmp*/ = ( !e/*with_*/[i] )?i : e/*with_*/[i];
                     
-                    destTraitPublic[tmp] = sourceTraitPublic[i];
+                    i/*destTraitPublic*/[m/*tmp*/] = j/*sourceTraitPublic*/[i];
                   };
                 };
                 
-                for ( i in sourceRequires ){
-                  destRequires[i] = sourceRequires[i];
+                for ( i in k/*sourceRequires*/ ){
+                  l/*destRequires*/[i] = k/*sourceRequires*/[i];
                 };
               };
             };
         
-        var classMixin = _mochaLocalExport.classMixin = function classMixin( _mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3,with_,without ) {
-              var constructorProto = _mochaLocalTmp1.prototype,
-                  privateProto = _mochaLocalTmp2.prototype,
-                  mark = _mochaLocalTmp3._mochaTraitMark,
-                  traitPublic = _mochaLocalTmp3._mochaTraitPublic,
-                  traitPrivate = _mochaLocalTmp3._mochaTraitPrivate;
+        var Q/*classMixin*/ = k/*_mochaLocalExport*/.classMixin = function Q/*classMixin*/( f/*_mochaLocalTmp5*/,g/*_mochaLocalTmp6*/,h/*_mochaLocalTmp7*/,i/*with_*/,j/*without*/ ) {
+              var k/*constructorProto*/ = f/*_mochaLocalTmp5*/.prototype,
+                  l/*privateProto*/ = g/*_mochaLocalTmp6*/.prototype,
+                  m/*mark*/ = h/*_mochaLocalTmp7*/._mochaTraitMark,
+                  n/*traitPublic*/ = h/*_mochaLocalTmp7*/._mochaTraitPublic,
+                  o/*traitPrivate*/ = h/*_mochaLocalTmp7*/._mochaTraitPrivate;
               
-              if ( !mark ){
-                Runtime.throwException( "mixin only used for trait." );
+              if ( !m/*mark*/ ){
+                a/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var tmp;
+                var p/*tmp*/;
                 
-                for ( var i in traitPublic ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( var i in n/*traitPublic*/ ){
+                  if ( !j/*without*/[i] ){
+                    p/*tmp*/ = ( !i/*with_*/[i] )?i : i/*with_*/[i];
                     
-                    constructorProto[tmp] = traitPublic[i];
+                    k/*constructorProto*/[p/*tmp*/] = n/*traitPublic*/[i];
                   };
                 };
                 
-                for ( i in traitPrivate ){
-                  if ( !without[i] ){
-                    tmp = ( !with_[i] )?i : with_[i];
+                for ( i in o/*traitPrivate*/ ){
+                  if ( !j/*without*/[i] ){
+                    p/*tmp*/ = ( !i/*with_*/[i] )?i : i/*with_*/[i];
                     
-                    privateProto[tmp] = traitPrivate[i];
+                    l/*privateProto*/[p/*tmp*/] = o/*traitPrivate*/[i];
                   };
                 };
               };
             };
         
-        var checkRequirements = _mochaLocalExport.checkRequirements = function checkRequirements( _mochaLocalTmp4,_mochaLocalTmp5,traits,file,line ) {
-              var proto1 = _mochaLocalTmp4.prototype,
-                  proto2 = _mochaLocalTmp5.prototype;
+        var R/*checkRequirements*/ = k/*_mochaLocalExport*/.checkRequirements = function R/*checkRequirements*/( d/*_mochaLocalTmp8*/,e/*_mochaLocalTmp9*/,f/*traits*/,g/*file*/,h/*line*/ ) {
+              var i/*proto1*/ = d/*_mochaLocalTmp8*/.prototype,
+                  j/*proto2*/ = e/*_mochaLocalTmp9*/.prototype;
               
-              for ( var i = 0,len = traits.length;i<len;i ++  ){
-                var _mochaLocalTmp6 = traits[i],
-                    _mochaRequires = _mochaLocalTmp6._mochaRequires;
+              for ( var i = 0,len = f/*traits*/.length;i<len;i ++  ){
+                var k/*_mochaLocalTmp10*/ = f/*traits*/[i],
+                    l/*_mochaRequires*/ = k/*_mochaLocalTmp10*/._mochaRequires;
                 
-                for ( var prop in _mochaRequires ){
-                  if ( !( prop in proto1 ) && !( prop in proto2 ) ){
-                    Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+                for ( var prop in l/*_mochaRequires*/ ){
+                  if ( !( prop in i/*proto1*/ ) && !( prop in j/*proto2*/ ) ){
+                    a/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+g/*file*/+" at line "+h/*line*/ );
                   };
                 };
               };
             };
-        
-        ( function () {
-          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
-                return console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
-              } : function ( expect,exp,str,line,filename ) {
-                if ( expect !== exp ){
-                  Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
-                };
-              };
-        })();
-        return _mochaLocalExport;
+        return k/*_mochaLocalExport*/;
       })();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function toString() {
+      toString : function r/*toString*/() {
         return "[object StopIteration]";
       }
     };
   };
   
-  __LINE__ = 0;
   ( function () {
-    try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/class_test.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      _mochaGlobalExport['./class_test.js'] = {};
-      
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./class_test.js'];
-      
-      __LINE__ = 1;
-      var Monster = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaPrivateHolder = function (){};
-              
-              __LINE__ = 1;
-              function Monster() {
-                try {
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                  
-                  __LINE__ = 0;
-                  constructor.apply( this,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function constructor( name,health ) {
-                try {
-                  
-                  __LINE__ = 8;
-                  this.name = name;
-                  
-                  __LINE__ = 9;
-                  Runtime.getPrivateRecord( this ).health = health;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              Monster.prototype.attack = function attack( target ) {
-                try {
-                  __LINE__ = 0;
-                  log( 'The monster attacks '+target );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              Monster.prototype.isAlive = function isAlive() {
-                try {
-                  __LINE__ = 23;
-                  return Runtime.getPrivateRecord( this ).health>0;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              Monster.prototype.health = function health( value ) {
-                try {
-                  __LINE__ = 0;
-                  if ( value<0 ){
-                    __LINE__ = 0;
-                    throw new Error( 'Health must be non-negative.' );
-                  };
-                  
-                  __LINE__ = 0;
-                  Runtime.getPrivateRecord( this ).health = value;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 38;
-              Monster.prototype.numAttacks = 0;
-              
-              __LINE__ = 43;
-              Runtime.constant( Monster.prototype,'attackMessage','The monster hits you!' );
-              
-              __LINE__ = 44;
-              Runtime.constant( Monster,'DEFAULT_LIFE',100 );
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( Monster.prototype,"constructor",constructor );
-              __LINE__ = 0;
-              return Monster;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-      
-      __LINE__ = 47;
-      var monster = new Monster( "slime",100 );
-      
-      __LINE__ = 48;
-      Runtime.assert( true,monster.isAlive(),"monster.isAlive()",48,'./class_test.js' );
-      
-      __LINE__ = 49;
-      Runtime.assert( 0,monster.numAttacks,"monster.numAttacks",49,'./class_test.js' );
-      
-      __LINE__ = 50;
-      Runtime.assert( 100,Monster.DEFAULT_LIFE,"Monster.DEFAULT_LIFE",50,'./class_test.js' );
-      
-      __LINE__ = 51;
-      Runtime.assert( undefined,Monster.health,"Monster.health",51,'./class_test.js' );
-      
-      __LINE__ = 52;
-      var BaseTest = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaPrivateHolder = function (){};
-              
-              __LINE__ = 52;
-              function BaseTest() {
-                try {
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                  
-                  __LINE__ = 0;
-                  constructor.apply( this,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function constructor( _mochaLocalTmp2,_mochaLocalTmp3,_mochaLocalTmp4 ) {
-                try {
-                  __LINE__ = 0;
-                  this.name = _mochaLocalTmp2 || 200;
-                  
-                  __LINE__ = 0;
-                  Runtime.getPrivateRecord( this ).addr = _mochaLocalTmp3 || "tokyo";
-                  
-                  __LINE__ = 0;
-                  Runtime.getPrivateRecord( this ).age = _mochaLocalTmp4;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              BaseTest.prototype.getName = function getName() {
-                try {
-                  __LINE__ = 55;
-                  return "hogehoge";
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              BaseTest.getName = function getName() {
-                try {
-                  __LINE__ = 57;
-                  return "static hogehoge";
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( BaseTest.prototype,"constructor",constructor );
-              __LINE__ = 0;
-              return BaseTest;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-      
-      __LINE__ = 60;
-      var DeriveTest = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaPrivateHolder = function (){};
-              
-              __LINE__ = 60;
-              function DeriveTest() {
-                try {
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                  
-                  __LINE__ = 0;
-                  constructor.apply( this,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              var _mochaLocalTmp6 = BaseTest;
-              
-              __LINE__ = 60;
-              Runtime.extendClass( DeriveTest,_mochaLocalTmp6 );
-              
-              __LINE__ = 0;
-              var _mochaSuper = Runtime.getSuper( _mochaLocalTmp6 );
-              
-              function constructor() {
-                try {
-                  __LINE__ = 0;
-                  _mochaSuper.constructor.call( this );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              _mochaPrivateHolder.prototype.getName = function getName() {
-                try {
-                  __LINE__ = 65;
-                  return _mochaSuper.getName.constructor.call( this );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( DeriveTest.prototype,"constructor",constructor );
-              __LINE__ = 0;
-              return DeriveTest;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-      
-      __LINE__ = 70;
-      var Derive2 = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaPrivateHolder = function (){};
-              
-              __LINE__ = 70;
-              function Derive2() {
-                try {
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                  
-                  __LINE__ = 0;
-                  constructor.apply( this,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              var _mochaLocalTmp8 = DeriveTest;
-              
-              __LINE__ = 70;
-              Runtime.extendClass( Derive2,_mochaLocalTmp8 );
-              
-              __LINE__ = 0;
-              var _mochaSuper = Runtime.getSuper( _mochaLocalTmp8 );
-              
-              function constructor() {
-                try {
-                  __LINE__ = 71;
-                  return _mochaSuper.constructor.call( this );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              Derive2.prototype.getAddr = function getAddr() {
-                try {
-                  __LINE__ = 0;
-                  return Runtime.getPrivateRecord( this ).addr;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( Derive2.prototype,"constructor",constructor );
-              __LINE__ = 0;
-              return Derive2;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-      
-      __LINE__ = 76;
-      var TestClass = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaPrivateHolder = function (){};
-              
-              __LINE__ = 85;
-              function _mochaLocalTmp10() {
-                try {
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                  
-                  __LINE__ = 0;
-                  constructor.apply( this,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function constructor( _mochaLocalTmp11,_mochaLocalTmp12 ) {
-                try {
-                  __LINE__ = 0;
-                  Runtime.getPrivateRecord( this )._name = _mochaLocalTmp11 || "test";
-                  
-                  __LINE__ = 0;
-                  Runtime.getPrivateRecord( this )._age = _mochaLocalTmp12 || 20;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              _mochaLocalTmp10.prototype.getName = function getName() {
-                try {
-                  __LINE__ = 0;
-                  return Runtime.getPrivateRecord( this )._name;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              _mochaLocalTmp10.prototype.getAge = function getAge() {
-                try {
-                  __LINE__ = 0;
-                  return Runtime.getPrivateRecord( this )._age;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 80;
-              _mochaPrivateHolder.prototype.Inner = ( function () {
-                try {
-                  __LINE__ = 0;
-                  var _mochaPrivateHolder = function (){};
-                  
-                  __LINE__ = 80;
-                  function Inner() {
-                    try {
-                      __LINE__ = 0;
-                      Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                      
-                      __LINE__ = 0;
-                      constructor.apply( this,arguments );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                  
-                  function constructor(){}
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-                  
-                  __LINE__ = 0;
-                  Runtime.createUnenumProp( Inner.prototype,"constructor",constructor );
-                  __LINE__ = 0;
-                  return Inner;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              })();
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( _mochaLocalTmp10.prototype,"constructor",constructor );
-              __LINE__ = 0;
-              return _mochaLocalTmp10;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-      
-      __LINE__ = 85;
-      Runtime.assert( true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",85,'./class_test.js' );
-      
-      __LINE__ = 86;
-      Runtime.assert( true,DeriveTest.getName() === "static hogehoge","DeriveTest.getName() === \"static hogehoge\"",86,'./class_test.js' );
-      
-      __LINE__ = 87;
-      Runtime.assert( true,new Derive2().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",87,'./class_test.js' );
-      
-      __LINE__ = 88;
-      var instance = new TestClass();
-      
-      __LINE__ = 89;
-      Runtime.assert( true,instance.getName() === "test","instance.getName() === \"test\"",89,'./class_test.js' );
-      
-      __LINE__ = 90;
-      Runtime.assert( true,instance.getAge() === 20,"instance.getAge() === 20",90,'./class_test.js' );
-      
-      __LINE__ = 0;
-      var TestTrait =  {
-            _mochaTraitPrivate :  {
-              
-            },
-            _mochaTraitPublic :  {
-              testm1 : function testm1(  ) {
-                try {
-                  __LINE__ = 0;
-                  var arg = Runtime.toArray( arguments,0 );
-                  __LINE__ = 94;
-                  return arg[0];
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-            },
-            _mochaRequires :  {
-              doTestm1 : true
-            },
-            _mochaTraitMark : true
+    p/*_mochaGlobalExport*/['./class_test.js'] = {};
+    
+    var f/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./class_test.js'];
+    
+    var g/*Monster*/ = ( function () {
+          var e/*_mochaPrivateHolder*/ = function (){};
+          
+          function f/*Monster*/() {
+            Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+            
+            constructor.apply( this,arguments );
           };
-      
-      __LINE__ = 0;
-      var TestTrait2 =  {
-            _mochaTraitPrivate :  {
-              
-            },
-            _mochaTraitPublic :  {
-              testm2 : function testm2(  ) {
-                try {
-                  __LINE__ = 0;
-                  var arg = Runtime.toArray( arguments,0 );
-                  __LINE__ = 99;
-                  return arg[0];
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              },
-              testm3 : function testm3() {
-                try {
-                  __LINE__ = 100;
-                  return "ok";
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-            },
-            _mochaRequires :  {
-              doTestm2 : true
-            },
-            _mochaTraitMark : true
+          
+          function g/*constructor*/( b/*name*/,c/*health*/ ) {
+            
+            this.name = b/*name*/;
+            
+            a/*Runtime*/.getPrivateRecord( this ).health = c/*health*/;
+          }
+          a/*Runtime*/.createUnenumProp( g/*constructor*/,"__harmony_class__",1 );
+          
+          f/*Monster*/.prototype.attack = function attack( b/*target*/ ) {
+            log( 'The monster attacks '+b/*target*/ );
           };
-      
-      __LINE__ = 103;
-      var MixinTest = ( function () {
-            try {
-              __LINE__ = 0;
-              var _mochaPrivateHolder = function (){};
+          
+          f/*Monster*/.prototype.isAlive = function isAlive() {
+            return Runtime.getPrivateRecord( this ).health>0;
+          };
+          
+          f/*Monster*/.prototype.health = function health( b/*value*/ ) {
+            if ( b/*value*/<0 ){
+              throw new Error( 'Health must be non-negative.' );
+            };
+            
+            a/*Runtime*/.getPrivateRecord( this ).health = b/*value*/;
+          };
+          
+          f/*Monster*/.prototype.numAttacks = 0;
+          
+          a/*Runtime*/.constant( f/*Monster*/.prototype,'attackMessage','The monster hits you!' );
+          
+          a/*Runtime*/.constant( f/*Monster*/,'DEFAULT_LIFE',100 );
+          
+          a/*Runtime*/.createUnenumProp( f/*Monster*/.prototype,"constructor",constructor );
+          return f/*Monster*/;
+        })();
+    
+    var h/*monster*/ = new g/*Monster*/( "slime",100 );
+    
+    var i/*BaseTest*/ = ( function () {
+          var d/*_mochaPrivateHolder*/ = function (){};
+          
+          function e/*BaseTest*/() {
+            Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+            
+            constructor.apply( this,arguments );
+          };
+          
+          function f/*constructor*/( b/*_mochaLocalTmp2*/,c/*_mochaLocalTmp3*/,d/*_mochaLocalTmp4*/ ) {
+            this.name = b/*_mochaLocalTmp2*/ || 200;
+            
+            a/*Runtime*/.getPrivateRecord( this ).addr = c/*_mochaLocalTmp3*/ || "tokyo";
+            
+            a/*Runtime*/.getPrivateRecord( this ).age = d/*_mochaLocalTmp4*/;
+          }
+          a/*Runtime*/.createUnenumProp( f/*constructor*/,"__harmony_class__",1 );
+          
+          e/*BaseTest*/.prototype.getName = function getName() {
+            return "hogehoge";
+          };
+          
+          e/*BaseTest*/.getName = function getName() {
+            return "static hogehoge";
+          };
+          
+          a/*Runtime*/.createUnenumProp( e/*BaseTest*/.prototype,"constructor",constructor );
+          return e/*BaseTest*/;
+        })();
+    
+    var j/*DeriveTest*/ = ( function () {
+          var d/*_mochaPrivateHolder*/ = function (){};
+          
+          function e/*DeriveTest*/() {
+            Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+            
+            constructor.apply( this,arguments );
+          };
+          
+          var f/*_mochaLocalTmp6*/ = i/*BaseTest*/;
+          
+          a/*Runtime*/.extendClass( e/*DeriveTest*/,f/*_mochaLocalTmp6*/ );
+          
+          var a/*_mochaSuper*/ = a/*Runtime*/.getSuper( f/*_mochaLocalTmp6*/ );
+          
+          function g/*constructor*/() {
+            _mochaSuper.constructor.call( this );
+          }
+          a/*Runtime*/.createUnenumProp( g/*constructor*/,"__harmony_class__",1 );
+          
+          d/*_mochaPrivateHolder*/.prototype.getName = function getName() {
+            return _mochaSuper.getName.constructor.call( this );
+          };
+          
+          a/*Runtime*/.createUnenumProp( e/*DeriveTest*/.prototype,"constructor",constructor );
+          return e/*DeriveTest*/;
+        })();
+    
+    var k/*Derive2*/ = ( function () {
+          var d/*_mochaPrivateHolder*/ = function (){};
+          
+          function e/*Derive2*/() {
+            Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+            
+            constructor.apply( this,arguments );
+          };
+          
+          var f/*_mochaLocalTmp8*/ = j/*DeriveTest*/;
+          
+          a/*Runtime*/.extendClass( e/*Derive2*/,f/*_mochaLocalTmp8*/ );
+          
+          var a/*_mochaSuper*/ = a/*Runtime*/.getSuper( f/*_mochaLocalTmp8*/ );
+          
+          function g/*constructor*/() {
+            return _mochaSuper.constructor.call( this );
+          }
+          a/*Runtime*/.createUnenumProp( g/*constructor*/,"__harmony_class__",1 );
+          
+          e/*Derive2*/.prototype.getAddr = function getAddr() {
+            return Runtime.getPrivateRecord( this ).addr;
+          };
+          
+          a/*Runtime*/.createUnenumProp( e/*Derive2*/.prototype,"constructor",constructor );
+          return e/*Derive2*/;
+        })();
+    
+    var l/*TestClass*/ = ( function () {
+          var d/*_mochaPrivateHolder*/ = function (){};
+          
+          function e/*_mochaLocalTmp10*/() {
+            Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+            
+            constructor.apply( this,arguments );
+          };
+          
+          function f/*constructor*/( b/*_mochaLocalTmp11*/,c/*_mochaLocalTmp12*/ ) {
+            a/*Runtime*/.getPrivateRecord( this )._name = b/*_mochaLocalTmp11*/ || "test";
+            
+            a/*Runtime*/.getPrivateRecord( this )._age = c/*_mochaLocalTmp12*/ || 20;
+          }
+          a/*Runtime*/.createUnenumProp( f/*constructor*/,"__harmony_class__",1 );
+          
+          e/*_mochaLocalTmp10*/.prototype.getName = function getName() {
+            return Runtime.getPrivateRecord( this )._name;
+          };
+          
+          e/*_mochaLocalTmp10*/.prototype.getAge = function getAge() {
+            return Runtime.getPrivateRecord( this )._age;
+          };
+          
+          d/*_mochaPrivateHolder*/.prototype.Inner = ( function () {
+            var d/*_mochaPrivateHolder*/ = function (){};
+            
+            function e/*Inner*/() {
+              Runtime.createPrivateRecord( this,_mochaPrivateHolder );
               
-              __LINE__ = 103;
-              function MixinTest() {
-                try {
-                  __LINE__ = 0;
-                  Runtime.createPrivateRecord( this,_mochaPrivateHolder );
-                  
-                  __LINE__ = 0;
-                  constructor.apply( this,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function constructor(){}
-              __LINE__ = 0;
-              Runtime.createUnenumProp( constructor,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              MixinTest.prototype.doTestm1 = function doTestm1() {
-                try {
-                  __LINE__ = 104;
-                  return "aaa";
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              MixinTest.prototype.doTestm2 = function doTestm2() {
-                try {
-                  __LINE__ = 106;
-                  return "bbb";
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait, {
-                testm1 : "m1"
-              },{});
-              
-              __LINE__ = 0;
-              Runtime.classMixin( MixinTest,_mochaPrivateHolder,TestTrait2,{}, {
-                testm2 : true,
-                testm3 : true
-              });
-              
-              __LINE__ = 0;
-              Runtime.checkRequirements( MixinTest,_mochaPrivateHolder,[TestTrait,TestTrait2],'./class_test.js',107 );
-              
-              __LINE__ = 0;
-              Runtime.createUnenumProp( MixinTest.prototype,"constructor",constructor );
-              __LINE__ = 0;
-              return MixinTest;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
+              constructor.apply( this,arguments );
+            };
+            
+            function f/*constructor*/(){}
+            a/*Runtime*/.createUnenumProp( f/*constructor*/,"__harmony_class__",1 );
+            
+            a/*Runtime*/.createUnenumProp( e/*Inner*/.prototype,"constructor",constructor );
+            return e/*Inner*/;
           })();
-      
-      __LINE__ = 109;
-      var instance2 = new MixinTest();
-      
-      __LINE__ = 110;
-      Runtime.assert( true,instance2.m1( "foo" ) === "foo","instance2.m1( \"foo\" ) === \"foo\"",110,'./class_test.js' );
-      
-      __LINE__ = 111;
-      Runtime.assert( true,instance2.m2 === undefined,"instance2.m2 === undefined",111,'./class_test.js' );
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
+          
+          a/*Runtime*/.createUnenumProp( e/*_mochaLocalTmp10*/.prototype,"constructor",constructor );
+          return e/*_mochaLocalTmp10*/;
+        })();
+    
+    var m/*instance*/ = new l/*TestClass*/();
+    
+    var o/*TestTrait*/ =  {
+          _mochaTraitPrivate :  {
+            
+          },
+          _mochaTraitPublic :  {
+            testm1 : function n/*testm1*/(  ) {
+              var c/*arg*/ = a/*Runtime*/.toArray( arguments,0 );
+              return c/*arg*/[0];
+            }
+          },
+          _mochaRequires :  {
+            doTestm1 : true
+          },
+          _mochaTraitMark : true
+        };
+    
+    var s/*TestTrait2*/ =  {
+          _mochaTraitPrivate :  {
+            
+          },
+          _mochaTraitPublic :  {
+            testm2 : function q/*testm2*/(  ) {
+              var c/*arg*/ = a/*Runtime*/.toArray( arguments,0 );
+              return c/*arg*/[0];
+            },
+            testm3 : function r/*testm3*/() {
+              return "ok";
+            }
+          },
+          _mochaRequires :  {
+            doTestm2 : true
+          },
+          _mochaTraitMark : true
+        };
+    
+    var t/*MixinTest*/ = ( function () {
+          var d/*_mochaPrivateHolder*/ = function (){};
+          
+          function e/*MixinTest*/() {
+            Runtime.createPrivateRecord( this,_mochaPrivateHolder );
+            
+            constructor.apply( this,arguments );
+          };
+          
+          function f/*constructor*/(){}
+          a/*Runtime*/.createUnenumProp( f/*constructor*/,"__harmony_class__",1 );
+          
+          e/*MixinTest*/.prototype.doTestm1 = function doTestm1() {
+            return "aaa";
+          };
+          
+          e/*MixinTest*/.prototype.doTestm2 = function doTestm2() {
+            return "bbb";
+          };
+          
+          a/*Runtime*/.classMixin( e/*MixinTest*/,d/*_mochaPrivateHolder*/,o/*TestTrait*/, {
+            testm1 : "m1"
+          },{});
+          
+          a/*Runtime*/.classMixin( e/*MixinTest*/,d/*_mochaPrivateHolder*/,s/*TestTrait2*/,{}, {
+            testm2 : true,
+            testm3 : true
+          });
+          
+          a/*Runtime*/.checkRequirements( e/*MixinTest*/,d/*_mochaPrivateHolder*/,[o/*TestTrait*/,s/*TestTrait2*/],'./class_test.js',107 );
+          
+          a/*Runtime*/.createUnenumProp( e/*MixinTest*/.prototype,"constructor",constructor );
+          return e/*MixinTest*/;
+        })();
+    
+    var u/*instance2*/ = new t/*MixinTest*/();
   })();
 })();

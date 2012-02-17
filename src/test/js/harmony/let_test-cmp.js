@@ -435,7 +435,7 @@
     };
   }).call( this,String,Array,Function,Date );
   
-  var q/*Runtime*/ = ( function q/*Runtime*/() {
+  var l/*Runtime*/ = ( function l/*Runtime*/() {
         var k/*_mochaLocalExport*/ = {};
         
         "use strict";
@@ -845,19 +845,23 @@
   };
   
   ( function () {
-    p/*_mochaGlobalExport*/['./try_test.js'] = {};
+    p/*_mochaGlobalExport*/['./let_test.js'] = {};
     
-    var c/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./try_test.js'];
+    var b/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./let_test.js'];
     
-    var d/*value*/ = 0;
+    var c/*x*/ = 0,
+        d/*ret*/ = [];
     
-    try {
-      d/*value*/ = 100;
-      throw new Error( "message" );
-    } catch( e ){
-      
-    } finally {
-      
+    for ( var i = 0;i<10;i ++  ){
+      ( function ( a/*i*/ ) {
+        d/*ret*/.push( function () {
+          return i;
+        });
+      }).call( this,i );
     };
+    
+    d/*ret*/.forEach( function ( a/*item*/,b/*index*/ ) {
+      
+    });
   })();
 })();

@@ -76,7 +76,9 @@ public :
     CallInternal_( path_info_ , Internal::kFatal , false );
     SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
-    //scope_.Rename();
+    if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
+      scope_.Rename();
+    }
     ast_root_.Accept( codegen_.Get() );
     Write_( codegen_->GetCode() );
     callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );

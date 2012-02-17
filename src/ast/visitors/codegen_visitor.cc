@@ -983,6 +983,9 @@ VISITOR_IMPL( ValueNode ) {
           if ( entry.first != 0 ) {
             TokenInfo *info = entry.first;
             stream_->Write( info->GetAnotherName() );
+            stream_->Write( "/*" );
+            stream_->Write( symbol );
+            stream_->Write( "*/" );
           } else {
             stream_->Write( symbol );
           }

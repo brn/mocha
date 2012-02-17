@@ -99,3 +99,7 @@ var object = {
   @assert( true , arr_value2[0] === 100 );
   @assert( true , arr_value2[1] === 200 );
 })( array );
+
+
+var fn = function() { return [ 0,1,2 ] }
+var [ret1,,re2] = fn();

@@ -167,7 +167,10 @@ void InnerScope::Rename() {
     while ( ref_iterator.HasNext() ) {
       RefTable::HashEntry entry = ref_iterator.Next();
       printf( "reference name = %s is there %d\n" , entry.Key().c_str() ,  table_.Find( entry.Key() ).IsEmpty() );
-      if ( table_.Find( entry.Key() ).IsEmpty() ) {
+      SymbolEntry symbol_ent = Find( entry.Value() );
+      if ( symbol_ent.first ) {
+        used_table_.Insert( symbol_ent.first->GetAnotherName() , 1 );
+      } else  {
         InnerScope* parent = up_;
         TokenInfo* info = entry.Value();
         const char* renamed = renamer_handle_->GetContractionName();
@@ -198,7 +201,7 @@ void InnerScope::Rename() {
     if ( !info->IsRenamed() ) {
       const char* renamed = renamer_handle_->GetContractionName();
       printf( "base name = %s , contraction = %s\n" , entry.Key().c_str() , renamed );
-      while ( !used_table_.Find( renamed ).IsEmpty() ) {
+      while ( !( used_table_.Find( renamed ).IsEmpty() ) ) {
         renamed = renamer_handle_->GetContractionName();
         printf( "rename base name = %s , contraction = %s\n" , entry.Key().c_str() , renamed );
       }

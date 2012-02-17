@@ -435,7 +435,7 @@
     };
   }).call( this,String,Array,Function,Date );
   
-  var q/*Runtime*/ = ( function q/*Runtime*/() {
+  var a/*Runtime*/ = ( function a/*Runtime*/() {
         var k/*_mochaLocalExport*/ = {};
         
         "use strict";
@@ -845,19 +845,13 @@
   };
   
   ( function () {
-    p/*_mochaGlobalExport*/['./try_test.js'] = {};
+    p/*_mochaGlobalExport*/['./do_test.js'] = {};
     
-    var c/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./try_test.js'];
+    var b/*_mochaGlobalAlias*/ = p/*_mochaGlobalExport*/['./do_test.js'];
     
-    var d/*value*/ = 0;
-    
-    try {
-      d/*value*/ = 100;
-      throw new Error( "message" );
-    } catch( e ){
-      
-    } finally {
-      
-    };
+    var c/*testvalue*/ = ( function () {
+          var a/*x*/ = 0;
+          return a/*x*/;
+        })();
   })();
 })();

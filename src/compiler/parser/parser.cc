@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <ast/ast.h>
+#include <ast/utils/ast_utils.h>
 #include <compiler/utils/error_reporter.h>
 #include <compiler/parser/parser.h>
 #include <compiler/scanner/token_stream.h>
@@ -161,17 +162,30 @@ void FormalParameterConvertor( AstNode *args , AstNode* list ) {
       } else if ( type == ValueNode::kSpread ) {
         //The spread convert to rest parameter.
         maybe_dst_or_spread->ValueType( ValueNode::kRest );
+      } else if ( type == ValueNode::kDst ||
+                  type == ValueNode::kDstArray ) {
+        ValueNode* dst = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+        dst->Line( item->Line() );
+        dst->Node( item );
+        item = dst;
       }
     } else if ( item->NodeType() == ValueNode::kAssignmentExp ) {
       //The assigment expression is convert to the default parameter.
       AssignmentExp* exp = item->CastToExpression()->CastToAssigment();
-      ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kIdentifier ) );
-      ValueNode* symbol = exp->Left()->CastToValue();
-      if ( symbol ) {
-        value->Symbol( symbol->Symbol() );
-        value->AddChild( exp->Right() );
-        item = value;
+      AstNode* left = exp->Left();
+      if ( left->CastToValue() ) {
+        ValueNode* maybe_dst = left->CastToValue();
+        if ( maybe_dst->ValueType() == ValueNode::kDst ||
+             maybe_dst->ValueType() == ValueNode::kDstArray ) {
+          ValueNode* dst = ManagedHandle::Retain( new ValueNode( ValueNode::kDst ) );
+          dst->Line( maybe_dst->Line() );
+          dst->Node( maybe_dst );
+          list->AddChild( dst );
+          continue;
+        }
       }
+      left->AddChild( exp->Right() );
+      item = left;
     }
     list->AddChild( item );
   }
@@ -359,8 +373,9 @@ AstNode* Parser::ParseSourceElement_() {
       //Now the let statement is parsable, but not create block scope,
       //same reasons with above const declaration.
     case Token::JS_LET :
-        result = ParseLetDeclOrLetStatement_();
+        result = ParseLetExpressionOrLetStatement_();
         CHECK_ERROR( result );
+        break;
         
     default :
       Undo_();
@@ -470,7 +485,7 @@ AstNode* Parser::ParseStatement_() {
       break;
       
     case Token::JS_DO :
-      result = ParseDoWhileStatement_();
+      result = ParseDoWhileStatement_( false );
       break;
       
     case Token::JS_CONTINUE :
@@ -991,6 +1006,81 @@ AstNode* Parser::ParseVariableDecl_( bool is_noin ) {
   return list;
 }
 
+
+AstNode* Parser::ParseLetExpressionOrLetStatement_() {
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  if ( type == '(' ) {
+    Advance_();
+    AstNode* exp_list = ParseLetExpressionExp_();
+    CHECK_ERROR( exp_list );
+    Advance_();
+    token = Seek_();
+    type = token->GetType();
+    Function* fn = ManagedHandle::Retain<Function>();
+    fn->Name( ManagedHandle::Retain<Empty>() );
+    AstNode* list = exp_list->FirstChild();
+    AstNode* args = list->NextSibling();
+    NodeList* valid_formal = ManagedHandle::Retain<NodeList>();
+    FormalParameterConvertor( list , valid_formal );
+    fn->Argv( valid_formal );
+    if ( type == '{' ) {
+      Advance_();
+      AstNode* node = ParseStatementList_( BlockBodyMatcher , "'}'" );
+      Advance_();
+      CHECK_ERROR( node );
+      fn->Append( node );
+    } else {
+      AstNode* node = ParseSourceElement_();
+      CHECK_ERROR( node );
+      fn->AddChild( node );
+    }
+    ValueNode* call_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
+                                                    Token::JS_PROPERTY , token->GetLineNumber() , ValueNode::kProperty );
+    ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                    Token::JS_THIS , token->GetLineNumber() , ValueNode::kThis );
+    Expression* fn_exp = ManagedHandle::Retain<Expression>();
+    fn_exp->AddChild( fn );
+    fn_exp->Paren();
+    args->InsertBefore( this_sym );
+    CallExp* dot_accessor = AstUtils::CreateDotAccessor( fn_exp , call_sym );
+    return AstUtils::CreateExpStmt( AstUtils::CreateNormalAccessor( dot_accessor , args ) );
+  } else {
+    return ParseVariableStatement_();
+  }
+}
+
+
+AstNode* Parser::ParseLetExpressionExp_() {
+  TokenInfo* token = Seek_();
+  int type = token->GetType();
+  NodeList* list = ManagedHandle::Retain<NodeList>();
+  NodeList* args = ManagedHandle::Retain<NodeList>();
+  while ( 1 ) {
+    AstNode* node = ParseAssignmentExpression_( false );
+    CHECK_ERROR( node );
+    AssignmentExp *assign = node->CastToExpression()->CastToAssigment();
+    if ( assign ) {
+      list->AddChild( assign->Left() );
+      args->AddChild( assign->Right() );
+    } else {
+      list->AddChild( node );
+      args->AddChild( AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
+                                                Token::JS_IDENTIFIER , token->GetLineNumber() , ValueNode::kIdentifier ) );
+    }
+    token = Seek_();
+    type = token->GetType();
+    if ( type != ',' ) {
+      break;
+    }
+    Advance_();
+    token = Seek_();
+    type = token->GetType();
+  }
+  return AstUtils::CreateNodeList( 2 , list , args );
+}
+
+
 //Parse destructuring assignment
 AstNode* Parser::ParseDestructuringLeftHandSide_() {
   ENTER(DestructuringLeftHandSide);
@@ -1289,21 +1379,24 @@ AstNode* Parser::ParseIFStatement_( bool is_comprehensions ) {
 }
 
 //Parse do while statement.
-AstNode* Parser::ParseDoWhileStatement_() {
+AstNode* Parser::ParseDoWhileStatement_( bool is_expression ) {
   /**
    * [bison/yacc compat syntax]
    * iteration_statement
    * : JS_DO statement JS_WHILE '(' expressio ')' terminator
    * ;
+   *
+   * do_expression
+   * | JS_DO statement
    */
   ENTER(DoWhileStatement);
   long line = Seek_( -1 )->GetLineNumber();
   AstNode* statement = ParseSourceElement_();
   CHECK_ERROR( statement );
-  TokenInfo* token = Advance_();
+  TokenInfo* token = Seek_();
   int type = token->GetType();
-  if ( type == Token::JS_WHILE ) {
-    TokenInfo* token = Advance_();
+  if ( type == Token::JS_WHILE && !is_expression ) {
+    TokenInfo* token = Advance_( 2 );
     int type = token->GetType();
     if ( type == '(' ) {
       AstNode* node = ParseExpression_( false );
@@ -1334,12 +1427,28 @@ AstNode* Parser::ParseDoWhileStatement_() {
       return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
     }
   } else {
-    SYNTAX_ERROR( "parse error got unexpected token "
-                  << TokenConverter( token )
-                  << " in 'do while statement conditional expression' expect 'while' \\nin file "
-                  << filename_ << " at line " << token->GetLineNumber() );
-    END(DoWhileStatementError);
-    return ManagedHandle::Retain( new IterationStmt( IterationStmt::kWhile ) );
+    //do expression.
+    token = Seek_();
+    Function* fn = ManagedHandle::Retain<Function>();
+    fn->Name( ManagedHandle::Retain<Empty>() );
+    if ( statement->NodeType() == AstNode::kBlockStmt ) {
+      fn->Append( statement->FirstChild() );
+    } else {
+      fn->AddChild( statement );
+    }
+    AstNode* node = fn->LastChild();
+    if ( node->CastToExpression() || node->NodeType() == AstNode::kExpressionStmt ) {
+      ReturnStmt* stmt = 0;//init after
+      if ( node->NodeType() == AstNode::kExpressionStmt ) {
+        stmt = AstUtils::CreateReturnStmt( node->FirstChild() );
+      } else {
+        stmt = AstUtils::CreateReturnStmt( node );
+      }
+      fn->ReplaceChild( node , stmt );
+    }
+    fn->Argv( ManagedHandle::Retain<Empty>() );
+    ExpressionStmt* ret_stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
+    return ( is_expression )? ret_stmt->FirstChild() : ret_stmt;
   }
 }
 
@@ -3208,6 +3317,12 @@ AstNode* Parser::ParsePrimaryExpression_() {
       elem->CastToExpression()->InValidLhs();
       elem->CastToValue()->ValueType( ValueNode::kTuple );
       return elem;
+    } else if ( type == '{' ) {
+      AstNode* elem = ParseObjectLiteral_();
+      CHECK_ERROR( elem );
+      elem->CastToExpression()->InValidLhs();
+      elem->CastToValue()->ValueType( ValueNode::kRecord );
+      return elem;
     } else {
       SYNTAX_ERROR( "got unexpected token "
                     << TokenConverter( token ) <<
@@ -3221,6 +3336,10 @@ AstNode* Parser::ParsePrimaryExpression_() {
     END(PrimaryExpression);
     fn->CastToExpression()->InValidLhs();
     return fn;
+  } else if ( type == Token::JS_DO ) {
+    AstNode* ret = ParseDoWhileStatement_( true );
+    CHECK_ERROR( ret );
+    return ret;
   } else {
     Undo_();
     END(PrimaryExpression);
@@ -3263,6 +3382,10 @@ AstNode* Parser::ParseObjectLiteral_() {
       } else if ( maybe_colon == ':' ) {
         AstNode* node = ParseLiteral_();
         CHECK_ERROR( node );
+        ValueNode* prop = node->CastToValue();
+        if ( prop->ValueType() == ValueNode::kIdentifier ) {
+          prop->ValueType( ValueNode::kProperty );
+        }
         Advance_();
         token = Seek_();
         type = token->GetType();
@@ -3306,6 +3429,7 @@ AstNode* Parser::ParseObjectLiteral_() {
         ValueNode* val = fn->CastToExpression()->CastToFunction()->Name()->Clone()->CastToValue();
         val->AddChild( fn );
         list->AddChild( val );
+        val->ValueType( ValueNode::kProperty );
         token = Seek_();
         type = token->GetType();
       } else {
@@ -3345,6 +3469,10 @@ AstNode* Parser::ParseObjectElement_( int type , TokenInfo* token , AstNode* lis
     Advance_();
     list->AddChild( node );
     END(ObjectElement);
+    ValueNode* name = node->CastToValue();
+    if ( name->ValueType() == ValueNode::kIdentifier ) {
+      name->ValueType( ValueNode::kProperty );
+    }
     return node;
   } else if ( type == '[' ) {
     Advance_();
