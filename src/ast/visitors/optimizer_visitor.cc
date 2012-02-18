@@ -3,10 +3,12 @@
 #include <ast/visitors/optimizer_visitor.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
+#include <compiler/utils/compile_info.h>
+#include <utils/pool/managed_handle.h>
 namespace mocha {
 
-#define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type( type* ast_node )
 
 #ifdef PRINTABLE
@@ -16,17 +18,15 @@ namespace mocha {
 #endif
 
 
-OptimizerVisitor::OptimizerVisitor( Scope* scope , Options* option ) :
-    depth_( 0 ), is_debug_( option->IsDebug() ), scope_( scope ){}
+OptimizerVisitor::OptimizerVisitor( CompileInfo* info ) :
+    depth_( 0 ), is_debug_( info->Debug() ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
-  ast_node->SetScope( scope_->Enter() );
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  scope_->Escape();
 }
 
 
@@ -78,7 +78,10 @@ VISITOR_IMPL( ImportStmt ) {
 
 VISITOR_IMPL( Statement ) {}
 
-VISITOR_IMPL( VersionStmt ) {}
+VISITOR_IMPL( VersionStmt ) {
+  ast_node->FirstChild()->Accept( this );
+}
+
 VISITOR_IMPL( AssertStmt ) {}
 
 VISITOR_IMPL(StatementList) {
@@ -249,7 +252,7 @@ VISITOR_IMPL( CallExp ) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  ast_node->Constructor()->Accept( this );
+  ast_node->FirstChild()->Accept( this );
 }
 
 
@@ -325,22 +328,16 @@ VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
   AstNode* name = ast_node->Name();
   ValueNode* name_node = name->CastToValue();
-  if ( !name->IsEmpty() ) {
-    //scope_->Insert( name_node->Symbol() );
-  }
-  ast_node->SetScope( scope_->Enter() );
-  NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
-  while ( arg_iterator.HasNext() ) {
-    ValueNode* arg = arg_iterator.Next()->CastToValue();
-    if ( arg ) {
-      //scope_->Insert( arg->Symbol() );
-    }
+  if ( is_debug_ ) {
+    InnerScope* scope = ast_node->GetScope();
+    TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kRuntime ) ,
+                                                               Token::JS_IDENTIFIER , ast_node->Line() ) );
+    scope->Ref( runtime );
   }
   NodeIterator body_iterator = ast_node->ChildNodes();
   while ( body_iterator.HasNext() ) {
     body_iterator.Next()->Accept( this );
   }
-  scope_->Escape();
 };
 
 
@@ -393,18 +390,12 @@ VISITOR_IMPL( ValueNode ) {
       break;
 
     case ValueNode::kVariable :
-      //scope_->Insert( ast_node->Symbol() );
       ast_node->FirstChild()->Accept( this );
       break;
       
     case ValueNode::kIdentifier : {
-      if ( strcmp( ast_node->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kScopeModule ) ) == 0 ) {
-        ast_node->Symbol()->SetToken( SymbolList::GetSymbol( SymbolList::kGlobalAlias ) );
-      }
-      scope_->Ref( ast_node->Symbol() );
-      AstNode* first_child = ast_node->FirstChild();
-      if ( first_child ) {
-        first_child->Accept( this );
+      if ( ast_node->ChildLength() > 0 ) {
+        ast_node->FirstChild()->Accept( this );
       }
     }
       break;

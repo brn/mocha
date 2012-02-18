@@ -124,7 +124,7 @@ VISITOR_IMPL(IFStmt) {
 
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
-  AstNode* exp = ast_node->FirstChild();
+  AstNode* exp = ast_node->Exp();
   if ( ast_node->NodeType() == AstNode::kWhile || ast_node->NodeType() == AstNode::kDoWhile ) {
     ast_node->Exp()->Accept( this );
   } else {
@@ -193,9 +193,14 @@ VISITOR_IMPL( ThrowStmt ) {
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
+  AstNode* catch_block = ast_node->Catch();
+  AstNode* finally_block = ast_node->Finally();
   ast_node->FirstChild()->Accept( this );
-  ast_node->Catch()->Accept( this );
-  ast_node->Finally()->Accept( this );
+  if ( !catch_block->IsEmpty() ) {
+    catch_block->FirstChild()->FirstChild()->Accept( this );
+  } else if ( !finally_block->IsEmpty() ) {
+    finally_block->FirstChild()->Accept( this );
+  }
 }
 
 
@@ -331,12 +336,13 @@ VISITOR_IMPL(Function){
   if ( !name->IsEmpty() ) {
     scope_->Insert( name_node->Symbol() , ast_node );
   }
-  ast_node->SetScope( scope_->Enter() );
+  InnerScope* scope = scope_->Enter();
+  ast_node->SetScope( scope );
   NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
   while ( arg_iterator.HasNext() ) {
     ValueNode* arg = arg_iterator.Next()->CastToValue();
     if ( arg ) {
-      scope_->Insert( arg->Symbol() , arg );
+      scope->Insert( arg->Symbol() , arg );
     }
   }
   NodeIterator body_iterator = ast_node->ChildNodes();

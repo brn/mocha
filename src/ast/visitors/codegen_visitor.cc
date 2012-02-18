@@ -979,6 +979,7 @@ VISITOR_IMPL( ValueNode ) {
         stream_->Write( tmp.c_str() );
       } else {
         if ( scope_ ) {
+          printf( "scope = %p , token = %s\n" , scope_ , symbol );
           SymbolEntry entry = scope_->Find( ast_node->Symbol() );
           if ( entry.first != 0 ) {
             TokenInfo *info = entry.first;

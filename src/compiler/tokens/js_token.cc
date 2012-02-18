@@ -93,6 +93,7 @@ char reserved_words[][ 20 ] = {
 
 char builtins[][ 30 ] = {
   "Array",
+  "JSON",
   "Boolean"
   "Date",
   "Error",
@@ -257,7 +258,9 @@ char builtins[][ 30 ] = {
   "Range",
   "RangeException",
   "XPathResult",
-  "XMLHttpRequest"
+  "XMLHttpRequest",
+  "importScript",
+  "WeakMap"
 };
 
 static bool binary_operator[] = {
@@ -521,6 +524,7 @@ bool JsToken::IsBinaryOperator( int token ) {
 }
 
 int JsToken::getType ( const char* token , bool is_operator ) {
+  MutexLock lock( mutex_ );
   if ( is_operator ) {
     if ( strlen( token ) == 1 ) {
       return token[ 0 ];
@@ -541,6 +545,7 @@ int JsToken::getType ( const char* token , bool is_operator ) {
 }
 
 bool JsToken::IsBuiltin( const char* token ) {
+  MutexLock lock( mutex_ );
   TokenMap::HashEntry find = builtin_map.Find( token );
   if ( !find.IsEmpty() ) {
     return true;
@@ -555,6 +560,8 @@ const char* JsToken::GetTokenFromNumber( int id ) {
   }
   return 0;
 }
+
+Mutex JsToken::mutex_;
 
 TokenConverter::TokenConverter( TokenInfo* token ) : info_( token ){}
 TokenConverter::~TokenConverter(){}

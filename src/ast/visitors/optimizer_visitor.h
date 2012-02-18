@@ -2,11 +2,11 @@
 #define mocha_optimizer_visitor_h_
 #include <ast/ast_foward_decl.h>
 #include <ast/visitors/ivisitor.h>
-#include <options/options.h>
 namespace mocha {
+class CompileInfo;
 class OptimizerVisitor : public IVisitor {
  public :
-  OptimizerVisitor( Scope* scope ,  Options* option );
+  OptimizerVisitor( CompileInfo* info );
   ~OptimizerVisitor(){}
 #include <ast/visitors/visitor_decl.h>
  private :
@@ -18,7 +18,6 @@ class OptimizerVisitor : public IVisitor {
   void ObjectProccessor_( ValueNode* ast_node );
   int depth_;
   bool is_debug_;
-  Scope* scope_;
 };
 }
 

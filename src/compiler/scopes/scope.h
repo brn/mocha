@@ -45,6 +45,7 @@ class InnerScope : public Managed {
   SymbolTable alias_table_;
   RefTable reference_table_;
   UsedTable used_table_;
+  UsedTable renamed_table_;
 };
 
 class Scope {

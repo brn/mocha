@@ -77,7 +77,8 @@ void ExportProcessor::CreateAssignment_( Expression* exp , VariableStmt* var_stm
   while ( iterator.HasNext() ) {
     AstNode *item = iterator.Next();
     TokenInfo *name_info = item->CastToValue()->Symbol();
-    ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , Token::JS_IDENTIFIER , stmt_->Line() , true );
+    ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , Token::JS_PROPERTY,
+                                                stmt_->Line(), ValueNode::kProperty );
     ValueNode *local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
                                                  Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
     CallExp *export_prop = AstUtils::CreateDotAccessor( local , name );

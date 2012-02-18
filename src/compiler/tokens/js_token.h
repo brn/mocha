@@ -2,6 +2,7 @@
 #ifndef mocha_js_token_h_
 #define mocha_js_token_h_
 #include <utils/class_traits/static.h>
+#include <utils/thread/thread.h>
 namespace mocha{
 
 //Bison compatible token list.
@@ -133,6 +134,8 @@ class JsToken : private Static {
   static bool IsBuiltin( const char* token );
   static const char* GetTokenFromNumber( int id );
   static void Initialize();
+ private :
+  static Mutex mutex_;
 };
 class TokenInfo;
 class TokenConverter {

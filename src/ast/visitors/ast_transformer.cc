@@ -712,6 +712,8 @@ VISITOR_IMPL( ValueNode ) {
       break;
 
     case ValueNode::kArrayComp : {
+      ValueNode* call_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
+                                                      Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
       ValueNode* tmp = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
       ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
       VariableStmt* var_stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarInitiliser( tmp->Symbol() , array ) );
@@ -747,16 +749,21 @@ VISITOR_IMPL( ValueNode ) {
       NodeList* body = AstUtils::CreateNodeList( 3 , var_stmt , first , stmt );
       Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
       fn->Accept( this );
-      ExpressionStmt* result = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
-      if ( ast_node->ParentNode()->CastToExpression() ) {
-        ast_node->ParentNode()->ReplaceChild( ast_node , result->FirstChild() );
-      } else {
-        ast_node->ParentNode()->ReplaceChild( ast_node , result );
-      }
+      Expression* exp = ManagedHandle::Retain<Expression>();
+      exp->AddChild( fn );
+      exp->Paren();
+      ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                      Token::JS_THIS , ast_node->Line() , ValueNode::kThis );
+      NodeList* arg = AstUtils::CreateNodeList( 1 , this_sym );
+      CallExp* dot = AstUtils::CreateDotAccessor( exp , call_sym );
+      CallExp* this_call = AstUtils::CreateNormalAccessor( dot , arg );
+      ast_node->ParentNode()->ReplaceChild( ast_node , this_call );
     }
       break;
 
     case ValueNode::kGenerator : {
+      ValueNode* call_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
+                                                      Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
       NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
       bool is_first = true;
       AstNode* first;
@@ -784,12 +791,15 @@ VISITOR_IMPL( ValueNode ) {
       NodeList* body = AstUtils::CreateNodeList( 1 , first );
       Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
       fn->Accept( this );
-      ExpressionStmt* result = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
-      if ( ast_node->ParentNode()->CastToExpression() ) {
-        ast_node->ParentNode()->ReplaceChild( ast_node , result->FirstChild() );
-      } else {
-        ast_node->ParentNode()->ReplaceChild( ast_node , result );
-      }
+      Expression* exp = ManagedHandle::Retain<Expression>();
+      exp->AddChild( fn );
+      exp->Paren();
+      ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                      Token::JS_THIS , ast_node->Line() , ValueNode::kThis );
+      NodeList* arg = AstUtils::CreateNodeList( 1 , this_sym );
+      CallExp* dot = AstUtils::CreateDotAccessor( exp , call_sym );
+      CallExp* this_call = AstUtils::CreateNormalAccessor( dot , arg );
+      ast_node->ParentNode()->ReplaceChild( ast_node , this_call );
     }
       break;
 

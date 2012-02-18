@@ -42,6 +42,7 @@
 #include <ast/ast.h>
 #include <ast/visitors/codegen_visitor.h>
 #include <ast/visitors/symbol_collector.h>
+#include <ast/visitors/optimizer_visitor.h>
 #include <options/setting.h>
 
 
@@ -74,8 +75,10 @@ public :
     //LoadRuntime_();
     ast_root_.AddChild( ExternalResource::SafeGetRuntime() );
     CallInternal_( path_info_ , Internal::kFatal , false );
+    OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
     SymbolCollector visitor( &scope_ );
     ast_root_.Accept( &visitor );
+    ast_root_.Accept( &opt_visitor );
     if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
       scope_.Rename();
     }

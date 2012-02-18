@@ -104,17 +104,14 @@ void AstNode::Append( AstNode* node ) {
 }
 
 void AstNode::RemoveAllChild() {
-  if ( first_child_ ) {
-    if ( first_child_->parent_ == this ) {
-      first_child_->parent_ = 0;
+  NodeIterator iterator = ChildNodes();
+  while ( iterator.HasNext() ) {
+    AstNode* item = iterator.Next();
+    if ( item->parent_ == this ) {
+      item->parent_ = 0;
     }
   }
   first_child_ = 0;
-  if ( last_child_ ) {
-    if ( last_child_->parent_ == this ) {
-      last_child_->parent_ = 0;
-    }
-  }
   last_child_ = 0;
   child_length_ = 0;
 }
@@ -271,7 +268,9 @@ AstNode* ImportStmt::Clone() {
 AstNode* VariableStmt::Clone() {
   VariableStmt* stmt = ManagedHandle::Retain<VariableStmt>();
   stmt->var_type_ = var_type_;
-  return CopyChildren( stmt , this );
+  if ( ChildLength() > 0 ) {
+    return CopyChildren( stmt , this );
+  }
 }
 
 AstNode* LetStmt::Clone() {
@@ -430,6 +429,13 @@ AstNode* Function::Clone() {
   fn->context_ = context_;
   fn->fn_attr_ = fn_attr_;
   fn->is_const_ = is_const_;
+  fn->is_decl_ = is_decl_;
+  fn->is_root_ = is_root_;
+  fn->has_yield_ = has_yield_;
+  fn->replaced_this_ = replaced_this_;
+  fn->iteration_list_ = iteration_list_;
+  fn->variable_list_ = variable_list_;
+  fn->try_list_ = try_list_;
   fn->Line( Line() );
   return CopyChildren( fn , this );
 }
@@ -624,8 +630,11 @@ AstNode* ValueNode::Clone() {
     case kVariable :
     case kRest :
     case kProperty :
+    case kSuper :
       if ( value_ ) {
-        ret->value_ = value_;
+        TokenInfo* info = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType(),
+                                                                value_->GetLineNumber() ) );
+        ret->value_ = info;
       } else if ( node_ ) {
         ret->node_ = node_->Clone();
       }
@@ -639,10 +648,15 @@ AstNode* ValueNode::Clone() {
     case kSpread :
     case kConstant :
     case kPrivateProperty :
+    case kGenerator :
+    case kTuple :
+    case kRecord :
       if ( node_ ) {
         ret->node_ = node_->Clone();
       } else if ( value_ ) {
-        ret->value_ = value_;
+        TokenInfo* info = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType(),
+                                                                value_->GetLineNumber() ) );
+        ret->value_ = info;
       }
       break;
   }
