@@ -68,14 +68,14 @@ inline void LineBreak( AstNode* ast_node , CodeStream* stream , CodeWriter* writ
 
 CodegenVisitor::CodegenVisitor( const char* filename , CompileInfo* info ) :
     tmp_index_( 0 ),depth_( 0 ),is_line_( info->Debug() ),has_rest_( false ),
-    filename_( filename ) , scope_( 0 ),
+    is_pretty_print_( info->PrettyPrint() ),filename_( filename ) , scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( info->PrettyPrint() , info->Debug() ) ),
     current_root_( 0 ) ,current_class_ ( 0 ){}
 
 CodegenVisitor::CodegenVisitor( const char* filename , bool is_pretty_print , bool is_debug ) :
     tmp_index_( 0 ),depth_( 0 ),is_line_( is_debug ),has_rest_( false ),
-    filename_( filename ) , scope_( 0 ),
+    is_pretty_print_( is_pretty_print ) , filename_( filename ) , scope_( 0 ),
     stream_( new CodeStream( &default_buffer_ ) ),
     writer_( new CodeWriter( is_pretty_print , is_debug ) ),
     current_root_( 0 ) ,current_class_ ( 0 ){}
@@ -265,11 +265,11 @@ VISITOR_IMPL(IFStmt) {
       writer_->WriteOp( ';' , 0 , stream_.Get() );
     }
   } else {
-    if ( is_line_ ) {
+    if ( is_line_ || is_pretty_print_ ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
     }
     ast_node->Then()->Accept( this );
-    if ( is_line_ ) {
+    if ( is_line_ || is_pretty_print_ ) {
       writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
       if ( maybeElse->IsEmpty() ) {
         writer_->WriteOp( ';' , 0 , stream_.Get() );
@@ -288,11 +288,11 @@ VISITOR_IMPL(IFStmt) {
     } else if ( maybeElse->NodeType() == AstNode::kIFStmt ) {
       maybeElse->Accept( this );
     } else {
-      if ( is_line_ ) {
+      if ( is_line_ || is_pretty_print_ ) {
         writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
       }
       maybeElse->Accept( this );
-      if ( is_line_ ) {
+      if ( is_line_ || is_pretty_print_ ) {
         writer_->WriteOp( '}' , CodeWriter::kElseBlockEnd , stream_.Get() );
         writer_->WriteOp( ';' , 0 , stream_.Get() );
       }

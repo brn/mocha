@@ -1,18 +1,16 @@
 (function() {
-  var __FILE__ = "Runtime",
-      __LINE__ = 0;
   
-  var b/*_mochaGlobalExport*/ = {};
+  var D/*_mochaGlobalExport*/ = {};
   
-  ( function ( g/*_mochaLocalTmp0*/,h/*_mochaLocalTmp1*/,i/*_mochaLocalTmp2*/,j/*_mochaLocalTmp3*/ ) {
-    var c/*stringProto*/ = g/*_mochaLocalTmp0*/.prototype,
-        d/*arrayProto*/ = h/*_mochaLocalTmp1*/.prototype,
-        k/*functionProto*/ = i/*_mochaLocalTmp2*/.prototype,
-        l/*dateProto*/ = j/*_mochaLocalTmp3*/.prototype;
+  ( function ( x/*_mochaLocalTmp0*/,y/*_mochaLocalTmp1*/,z/*_mochaLocalTmp2*/,A/*_mochaLocalTmp3*/ ) {
+    var n/*stringProto*/ = x/*_mochaLocalTmp0*/.prototype,
+        o/*arrayProto*/ = y/*_mochaLocalTmp1*/.prototype,
+        B/*functionProto*/ = z/*_mochaLocalTmp2*/.prototype,
+        C/*dateProto*/ = A/*_mochaLocalTmp3*/.prototype;
     
     "use strict";
     
-    function b/*builtinTypeError*/( b/*message*/ ) {
+    function m/*builtinTypeError*/( b/*message*/ ) {
       try {
         throw new TypeError( b/*message*/ );
       } catch( e ){
@@ -20,30 +18,28 @@
       };
     };
     
-    function e/*callbackCheck*/( c/*callback*/,d/*type*/ ) {
+    function s/*callbackCheck*/( n/*callback*/,o/*type*/ ) {
       
-      a/*Runtime*/.assert( true,typeof d/*type*/ === "string","typeof type === \"string\"",44,'./mocha_runtime.js' );
-      
-      if ( typeof c/*callback*/ !== "function" ){
-        b/*builtinTypeError*/( d/*type*/+" : first argument is not callable" );
+      if ( typeof n/*callback*/ !== "function" ){
+        m/*builtinTypeError*/( o/*type*/+" : first argument is not callable" );
       };
     };
     
     if ( !Object.keys ){
-      Object.keys = function ( c/*obj*/ ) {
-        if ( !c/*obj*/ ){
-          b/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+      Object.keys = function ( e/*obj*/ ) {
+        if ( !e/*obj*/ ){
+          m/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
         };
         
-        var d/*ret*/ = [],
-            e/*iter*/ = -1;
+        var f/*ret*/ = [],
+            g/*iter*/ = -1;
         
-        for ( var f/*i*/ in c/*obj*/ ){
-          if ( c/*obj*/.hasOwnProperty( f/*i*/ ) ){
-            d/*ret*/[ ++ e/*iter*/] = c/*obj*/[f/*i*/];
+        for ( var h/*i*/ in e/*obj*/ ){
+          if ( e/*obj*/.hasOwnProperty( h/*i*/ ) ){
+            f/*ret*/[ ++ g/*iter*/] = e/*obj*/[h/*i*/];
           };
         };
-        return d/*ret*/;
+        return f/*ret*/;
       };
     };
     
@@ -65,47 +61,47 @@
       };
     };
     
-    var m/*hasRealEcma5*/ = ( function () {
-          var b/*ret*/;
+    var D/*hasRealEcma5*/ = ( function () {
+          var c/*ret*/;
           
           try {
-            var c/*obj*/ = {};
+            var d/*obj*/ = {};
             
-            Object.defineProperty( c/*obj*/,"test", {
+            Object.defineProperty( d/*obj*/,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
               value : 0
             });
             
-            c/*obj*/.test = 200;
+            d/*obj*/.test = 200;
             
-            b/*ret*/ = ( c/*obj*/.test === 200 )?false : true;
+            c/*ret*/ = ( d/*obj*/.test === 200 )?false : true;
           } catch( e ){
-            b/*ret*/ = false;
+            c/*ret*/ = false;
           };
-          return b/*ret*/;
+          return c/*ret*/;
         })();
     
-    if ( !m/*hasRealEcma5*/ ){
-      Object.defineProperty = function ( b/*obj*/,c/*prop*/,d/*valobj*/ ) {
-        if ( d/*valobj*/.value ){
-          b/*obj*/[c/*prop*/] = d/*valobj*/.value;
+    if ( !D/*hasRealEcma5*/ ){
+      Object.defineProperty = function ( d/*obj*/,e/*prop*/,f/*valobj*/ ) {
+        if ( f/*valobj*/.value ){
+          d/*obj*/[e/*prop*/] = f/*valobj*/.value;
         };
       };
     };
     
-    if ( !c/*stringProto*/.trim ){
-      c/*stringProto*/.trim = function () {
-        return this.replace( c/*stringProto*/.trim.rtrim,"" );
+    if ( !n/*stringProto*/.trim ){
+      n/*stringProto*/.trim = function () {
+        return this.replace( n/*stringProto*/.trim.rtrim,"" );
       };
       
-      c/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+      n/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !c/*stringProto*/.repeat ){
-      Object.defineProperty( c/*stringProto*/,"repeat", {
-        value : function n/*value*/( b/*num*/ ) {
+    if ( !n/*stringProto*/.repeat ){
+      Object.defineProperty( n/*stringProto*/,"repeat", {
+        value : function E/*value*/( b/*num*/ ) {
           return Array( b/*num*/+1 ).join( this.toString() );
         },
         configurable : true,
@@ -114,9 +110,9 @@
       });
     };
     
-    if ( !c/*stringProto*/.startsWith ){
-      Object.defineProperty( c/*stringProto*/,"startsWith", {
-        value : function n/*value*/( b/*str*/ ) {
+    if ( !n/*stringProto*/.startsWith ){
+      Object.defineProperty( n/*stringProto*/,"startsWith", {
+        value : function E/*value*/( b/*str*/ ) {
           return !this.indexOf( b/*str*/ );
         },
         configurable : true,
@@ -125,13 +121,13 @@
       });
     };
     
-    if ( !c/*stringProto*/.endsWith ){
-      Object.defineProperty( c/*stringProto*/,"endsWith", {
-        value : function n/*value*/( b/*str*/ ) {
-          var c/*t*/ = String( b/*str*/ );
+    if ( !n/*stringProto*/.endsWith ){
+      Object.defineProperty( n/*stringProto*/,"endsWith", {
+        value : function E/*value*/( d/*str*/ ) {
+          var e/*t*/ = String( d/*str*/ );
           
-          var d/*index*/ = this.lastIndexOf( c/*t*/ );
-          return d/*index*/ >= 0 && d/*index*/ === this.length-c/*t*/.length;
+          var f/*index*/ = this.lastIndexOf( e/*t*/ );
+          return f/*index*/ >= 0 && f/*index*/ === this.length-e/*t*/.length;
         },
         configurable : true,
         enumerable : false,
@@ -139,9 +135,9 @@
       });
     };
     
-    if ( !c/*stringProto*/.contains ){
-      Object.defineProperty( c/*stringProto*/,"contains", {
-        value : function n/*value*/( b/*str*/ ) {
+    if ( !n/*stringProto*/.contains ){
+      Object.defineProperty( n/*stringProto*/,"contains", {
+        value : function E/*value*/( b/*str*/ ) {
           return this.indexOf( b/*str*/ ) !== -1;
         },
         configurable : true,
@@ -150,9 +146,9 @@
       });
     };
     
-    if ( !c/*stringProto*/.toArray ){
-      Object.defineProperty( c/*stringProto*/,"toArray", {
-        value : function n/*value*/( b/*str*/ ) {
+    if ( !n/*stringProto*/.toArray ){
+      Object.defineProperty( n/*stringProto*/,"toArray", {
+        value : function E/*value*/( a/*str*/ ) {
           return this.split( "" );
         },
         configurable : true,
@@ -161,70 +157,70 @@
       });
     };
     
-    if ( !k/*functionProto*/.bind ){
-      k/*functionProto*/.bind = function () {
-        var a/*argArray*/ = d/*arrayProto*/.slice.call( arguments ),
-            c/*context*/ = a/*argArray*/.shift(),
-            e/*ret*/ = function () {
-              var f/*args*/ = a/*argArray*/.concat( d/*arrayProto*/.slice.call( arguments ) );
+    if ( !B/*functionProto*/.bind ){
+      B/*functionProto*/.bind = function () {
+        var a/*argArray*/ = o/*arrayProto*/.slice.call( arguments ),
+            d/*context*/ = a/*argArray*/.shift(),
+            b/*ret*/ = function () {
+              var e/*args*/ = a/*argArray*/.concat( o/*arrayProto*/.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof e/*ret*/ ){
-                return e/*ret*/.context.apply( this,f/*args*/ );
+              if ( this !== null && this !== window && this instanceof b/*ret*/ ){
+                return b/*ret*/.context.apply( this,e/*args*/ );
               } else {
-                return e/*ret*/.context.apply( c/*context*/,f/*args*/ );
+                return b/*ret*/.context.apply( d/*context*/,e/*args*/ );
               };
             };
         
-        e/*ret*/.prototype = this.prototype;
+        b/*ret*/.prototype = this.prototype;
         
-        e/*ret*/.context = this;
-        return e/*ret*/;
+        b/*ret*/.context = this;
+        return b/*ret*/;
       };
     };
     
-    if ( !d/*arrayProto*/.forEach ){
-      d/*arrayProto*/.forEach = function ( g/*callback*/,h/*that*/ ) {
-        e/*callbackCheck*/( g/*callback*/,"Array.forEach" );
+    if ( !o/*arrayProto*/.forEach ){
+      o/*arrayProto*/.forEach = function ( x/*callback*/,y/*that*/ ) {
+        s/*callbackCheck*/( x/*callback*/,"Array.forEach" );
         
-        var i/*iter*/ = -1,
-            j/*ta*/;
+        var z/*iter*/ = -1,
+            A/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
+          m/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
         };
         
-        if ( h/*that*/ ){
-          while ( ( j/*ta*/ = this[ ++ i/*iter*/] ) !== null && j/*ta*/ !== undefined ){
-            g/*callback*/.call( h/*that*/,j/*ta*/,i/*iter*/,this );
+        if ( y/*that*/ ){
+          while ( ( A/*ta*/ = this[ ++ z/*iter*/] ) !== null && A/*ta*/ !== undefined ){
+            x/*callback*/.call( y/*that*/,A/*ta*/,z/*iter*/,this );
           };
         } else {
-          while ( ( j/*ta*/ = this[ ++ i/*iter*/] ) !== null && j/*ta*/ !== undefined ){
-            g/*callback*/( j/*ta*/,i/*iter*/,this );
+          while ( ( A/*ta*/ = this[ ++ z/*iter*/] ) !== null && A/*ta*/ !== undefined ){
+            x/*callback*/( A/*ta*/,z/*iter*/,this );
           };
         };
       };
     };
     
-    if ( !d/*arrayProto*/.every ){
-      d/*arrayProto*/.every = function ( b/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( b/*callback*/,"Array.every" );
+    if ( !o/*arrayProto*/.every ){
+      o/*arrayProto*/.every = function ( e/*callback*/,f/*that*/ ) {
+        s/*callbackCheck*/( e/*callback*/,"Array.every" );
         
-        var d/*iter*/ = -1,
-            f/*ta*/;
+        var g/*iter*/ = -1,
+            h/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.every : this is null or not defined" );
+          m/*builtinTypeError*/( "Array.every : this is null or not defined" );
         };
         
-        if ( c/*that*/ ){
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( !( b/*callback*/.call( c/*that*/,f/*ta*/,d/*iter*/,this ) ) ){
+        if ( f/*that*/ ){
+          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
+            if ( !( e/*callback*/.call( f/*that*/,h/*ta*/,g/*iter*/,this ) ) ){
               return false;
             };
           };
         } else {
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( !( b/*callback*/( f/*ta*/,d/*iter*/,this ) ) ){
+          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
+            if ( !( e/*callback*/( h/*ta*/,g/*iter*/,this ) ) ){
               return false;
             };
           };
@@ -233,26 +229,26 @@
       };
     };
     
-    if ( !d/*arrayProto*/.some ){
-      d/*arrayProto*/.some = function ( b/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( b/*callback*/,"Array.some" );
+    if ( !o/*arrayProto*/.some ){
+      o/*arrayProto*/.some = function ( e/*callback*/,f/*that*/ ) {
+        s/*callbackCheck*/( e/*callback*/,"Array.some" );
         
-        var d/*iter*/ = -1,
-            f/*ta*/;
+        var g/*iter*/ = -1,
+            h/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.some : this is null or not defined" );
+          m/*builtinTypeError*/( "Array.some : this is null or not defined" );
         };
         
-        if ( c/*that*/ ){
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( b/*callback*/.call( c/*that*/,f/*ta*/,d/*iter*/,this ) ){
+        if ( f/*that*/ ){
+          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
+            if ( e/*callback*/.call( f/*that*/,h/*ta*/,g/*iter*/,this ) ){
               return true;
             };
           };
         } else {
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( b/*callback*/( f/*ta*/,d/*iter*/,this ) ){
+          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
+            if ( e/*callback*/( h/*ta*/,g/*iter*/,this ) ){
               return true;
             };
           };
@@ -261,165 +257,165 @@
       };
     };
     
-    if ( !d/*arrayProto*/.filter ){
-      d/*arrayProto*/.filter = function ( b/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( b/*callback*/,"Array.filter" );
+    if ( !o/*arrayProto*/.filter ){
+      o/*arrayProto*/.filter = function ( h/*callback*/,i/*that*/ ) {
+        s/*callbackCheck*/( h/*callback*/,"Array.filter" );
         
-        var d/*len*/ = this.length,
-            f/*iter*/ = -1,
-            g/*ret*/ = [],
-            h/*ta*/;
+        var j/*len*/ = this.length,
+            k/*iter*/ = -1,
+            l/*ret*/ = [],
+            n/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.filter : this is null or not defined" );
+          m/*builtinTypeError*/( "Array.filter : this is null or not defined" );
         };
         
-        if ( c/*that*/ ){
-          for ( var i/*i*/ = 0,d/*len*/ = this.length;i/*i*/<d/*len*/; ++ i/*i*/ ){
-            if ( ( h/*ta*/ = this[i/*i*/] ) !== null && h/*ta*/ !== undefined ){
-              if ( b/*callback*/.call( c/*that*/,h/*ta*/,i/*i*/,this ) ){
-                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
+        if ( i/*that*/ ){
+          for ( var o/*i*/ = 0,j/*len*/ = this.length;o/*i*/<j/*len*/; ++ o/*i*/ ){
+            if ( ( n/*ta*/ = this[o/*i*/] ) !== null && n/*ta*/ !== undefined ){
+              if ( h/*callback*/.call( i/*that*/,n/*ta*/,o/*i*/,this ) ){
+                l/*ret*/[ ++ k/*iter*/] = n/*ta*/;
               };
             };
           };
         } else {
-          for ( var i/*i*/ = 0,d/*len*/ = this.length;i/*i*/<d/*len*/; ++ i/*i*/ ){
-            if ( ( h/*ta*/ = this[i/*i*/] ) !== null && h/*ta*/ !== undefined ){
-              if ( b/*callback*/( h/*ta*/,i/*i*/,this ) ){
-                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
+          for ( var o/*i*/ = 0,j/*len*/ = this.length;o/*i*/<j/*len*/; ++ o/*i*/ ){
+            if ( ( n/*ta*/ = this[o/*i*/] ) !== null && n/*ta*/ !== undefined ){
+              if ( h/*callback*/( n/*ta*/,o/*i*/,this ) ){
+                l/*ret*/[ ++ k/*iter*/] = n/*ta*/;
               };
             };
           };
         };
-        return g/*ret*/;
+        return l/*ret*/;
       };
     };
     
-    if ( !d/*arrayProto*/.indexOf ){
-      d/*arrayProto*/.indexOf = function ( c/*subject*/,d/*fromIndex*/ ) {
-        var e/*iter*/ = ( d/*fromIndex*/ )?d/*fromIndex*/-1 : -1,
-            f/*index*/ = -1,
-            g/*ta*/;
+    if ( !o/*arrayProto*/.indexOf ){
+      o/*arrayProto*/.indexOf = function ( f/*subject*/,g/*fromIndex*/ ) {
+        var h/*iter*/ = ( g/*fromIndex*/ )?g/*fromIndex*/-1 : -1,
+            i/*index*/ = -1,
+            j/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
+          m/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( g/*ta*/ = this[ ++ e/*iter*/] ) !== null && g/*ta*/ !== undefined ){
-          if ( g/*ta*/ === c/*subject*/ ){
-            f/*index*/ = e/*iter*/;
+        while ( ( j/*ta*/ = this[ ++ h/*iter*/] ) !== null && j/*ta*/ !== undefined ){
+          if ( j/*ta*/ === f/*subject*/ ){
+            i/*index*/ = h/*iter*/;
             break;
           };
         };
-        return f/*index*/;
+        return i/*index*/;
       };
     };
     
-    if ( !d/*arrayProto*/.lastIndexOf ){
-      d/*arrayProto*/.lastIndexOf = function ( c/*target*/,d/*fromIndex*/ ) {
-        var e/*len*/ = this.length,
-            f/*iter*/ = ( d/*fromIndex*/ )?d/*fromIndex*/+1 : e/*len*/,
-            g/*index*/ = -1,
-            h/*ta*/;
+    if ( !o/*arrayProto*/.lastIndexOf ){
+      o/*arrayProto*/.lastIndexOf = function ( g/*target*/,h/*fromIndex*/ ) {
+        var i/*len*/ = this.length,
+            j/*iter*/ = ( h/*fromIndex*/ )?h/*fromIndex*/+1 : i/*len*/,
+            k/*index*/ = -1,
+            l/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
+          m/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( h/*ta*/ = this[ -- f/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-          if ( h/*ta*/ === c/*target*/ ){
-            g/*index*/ = f/*iter*/;
+        while ( ( l/*ta*/ = this[ -- j/*iter*/] ) !== null && l/*ta*/ !== undefined ){
+          if ( l/*ta*/ === g/*target*/ ){
+            k/*index*/ = j/*iter*/;
             break;
           };
         };
-        return g/*index*/;
+        return k/*index*/;
       };
     };
     
-    if ( !d/*arrayProto*/.map ){
-      d/*arrayProto*/.map = function ( b/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( b/*callback*/,"Array.map" );
+    if ( !o/*arrayProto*/.map ){
+      o/*arrayProto*/.map = function ( h/*callback*/,i/*that*/ ) {
+        s/*callbackCheck*/( h/*callback*/,"Array.map" );
         
-        var d/*ret*/ = [],
-            f/*iter*/ = -1,
-            g/*len*/ = this.length,
-            h/*i*/ = 0,
-            i/*ta*/;
+        var j/*ret*/ = [],
+            k/*iter*/ = -1,
+            l/*len*/ = this.length,
+            n/*i*/ = 0,
+            o/*ta*/;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.map : this is null or not defined." );
+          m/*builtinTypeError*/( "Array.map : this is null or not defined." );
         };
         
-        if ( c/*that*/ ){
-          for ( h/*i*/;h/*i*/<g/*len*/; ++ h/*i*/ ){
-            if ( ( i/*ta*/ = this[h/*i*/] ) !== null && i/*ta*/ !== undefined ){
-              d/*ret*/[ ++ f/*iter*/] = b/*callback*/.call( c/*that*/,i/*ta*/,h/*i*/,this );
+        if ( i/*that*/ ){
+          for ( n/*i*/;n/*i*/<l/*len*/; ++ n/*i*/ ){
+            if ( ( o/*ta*/ = this[n/*i*/] ) !== null && o/*ta*/ !== undefined ){
+              j/*ret*/[ ++ k/*iter*/] = h/*callback*/.call( i/*that*/,o/*ta*/,n/*i*/,this );
             };
           };
         } else {
-          for ( h/*i*/;h/*i*/<g/*len*/; ++ h/*i*/ ){
-            if ( ( i/*ta*/ = this[h/*i*/] ) !== null && i/*ta*/ !== undefined ){
-              d/*ret*/[ ++ f/*iter*/] = b/*callback*/( i/*ta*/,h/*i*/,this );
+          for ( n/*i*/;n/*i*/<l/*len*/; ++ n/*i*/ ){
+            if ( ( o/*ta*/ = this[n/*i*/] ) !== null && o/*ta*/ !== undefined ){
+              j/*ret*/[ ++ k/*iter*/] = h/*callback*/( o/*ta*/,n/*i*/,this );
             };
           };
         };
-        return d/*ret*/;
+        return j/*ret*/;
       };
     };
     
-    if ( !d/*arrayProto*/.reduce ){
-      d/*arrayProto*/.reduce = function ( b/*callback*/,c/*initial*/ ) {
-        e/*callbackCheck*/( b/*callback*/,"Array.reduce" );
+    if ( !o/*arrayProto*/.reduce ){
+      o/*arrayProto*/.reduce = function ( g/*callback*/,h/*initial*/ ) {
+        s/*callbackCheck*/( g/*callback*/,"Array.reduce" );
         
-        var d/*ret*/ = c/*initial*/ || this[0],
-            f/*i*/ = ( c/*initial*/ )?0 : 1,
-            g/*len*/ = this.length,
-            h/*ta*/;
+        var i/*ret*/ = h/*initial*/ || this[0],
+            j/*i*/ = ( h/*initial*/ )?0 : 1,
+            k/*len*/ = this.length,
+            l/*ta*/;
         
-        if ( ( g/*len*/ === 0 || g/*len*/ === null ) && arguments.length<2 ){
-          b/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( k/*len*/ === 0 || k/*len*/ === null ) && arguments.length<2 ){
+          m/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( f/*i*/;f/*i*/<g/*len*/; ++ f/*i*/ ){
-          if ( ( h/*ta*/ = this[f/*i*/] ) !== null && h/*ta*/ !== undefined ){
-            d/*ret*/ = b/*callback*/( d/*ret*/,h/*ta*/,f/*i*/,this );
+        for ( j/*i*/;j/*i*/<k/*len*/; ++ j/*i*/ ){
+          if ( ( l/*ta*/ = this[j/*i*/] ) !== null && l/*ta*/ !== undefined ){
+            i/*ret*/ = g/*callback*/( i/*ret*/,l/*ta*/,j/*i*/,this );
           };
         };
-        return d/*ret*/;
+        return i/*ret*/;
       };
     };
     
-    if ( !d/*arrayProto*/.reduceRight ){
-      d/*arrayProto*/.reduceRight = function ( b/*callback*/,c/*initial*/ ) {
-        e/*callbackCheck*/( b/*callback*/,"Array.reduceRight" );
+    if ( !o/*arrayProto*/.reduceRight ){
+      o/*arrayProto*/.reduceRight = function ( g/*callback*/,h/*initial*/ ) {
+        s/*callbackCheck*/( g/*callback*/,"Array.reduceRight" );
         
-        var d/*len*/ = this.length,
-            f/*ret*/ = c/*initial*/ || this[d/*len*/-1],
-            g/*i*/ = ( c/*initial*/ )?d/*len*/-1 : d/*len*/-2,
-            h/*ta*/;
+        var i/*len*/ = this.length,
+            j/*ret*/ = h/*initial*/ || this[i/*len*/-1],
+            k/*i*/ = ( h/*initial*/ )?i/*len*/-1 : i/*len*/-2,
+            l/*ta*/;
         
-        if ( ( d/*len*/ === 0 || d/*len*/ === null ) && arguments.length<2 ){
-          b/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( i/*len*/ === 0 || i/*len*/ === null ) && arguments.length<2 ){
+          m/*builtinTypeError*/( "Array length is 0 and no second argument" );
         };
         
-        for ( g/*i*/;g/*i*/>-1; -- g/*i*/ ){
-          if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
-            f/*ret*/ = b/*callback*/( f/*ret*/,h/*ta*/,g/*i*/,this );
+        for ( k/*i*/;k/*i*/>-1; -- k/*i*/ ){
+          if ( ( l/*ta*/ = this[k/*i*/] ) !== null && l/*ta*/ !== undefined ){
+            j/*ret*/ = g/*callback*/( j/*ret*/,l/*ta*/,k/*i*/,this );
           };
         };
-        return f/*ret*/;
+        return j/*ret*/;
       };
     };
     
-    if ( !l/*dateProto*/.toJSON ){
-      l/*dateProto*/.toJSON = function () {
-        var b/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            c/*month*/ = b/*_mochaLocalTmp4*/[0],
-            d/*date*/ = b/*_mochaLocalTmp4*/[1],
-            e/*hour*/ = b/*_mochaLocalTmp4*/[2],
-            f/*minute*/ = b/*_mochaLocalTmp4*/[3],
-            g/*second*/ = b/*_mochaLocalTmp4*/[4];
-        return '"'+this.getUTCFullYear()+'-'+( c/*month*/>8?c/*month*/+1 : "0"+( c/*month*/+1 ) )+'-'+( d/*date*/>9?d/*date*/ : "0"+d/*date*/ )+'T'+( e/*hour*/>9?e/*hour*/ : "0"+e/*hour*/ )+':'+( f/*minute*/>9?f/*minute*/ : "0"+f/*minute*/ )+':'+( g/*second*/>9?g/*second*/ : "0"+g/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !C/*dateProto*/.toJSON ){
+      C/*dateProto*/.toJSON = function () {
+        var g/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            h/*month*/ = g/*_mochaLocalTmp4*/[0],
+            i/*date*/ = g/*_mochaLocalTmp4*/[1],
+            j/*hour*/ = g/*_mochaLocalTmp4*/[2],
+            k/*minute*/ = g/*_mochaLocalTmp4*/[3],
+            l/*second*/ = g/*_mochaLocalTmp4*/[4];
+        return '"'+this.getUTCFullYear()+'-'+( h/*month*/>8?h/*month*/+1 : "0"+( h/*month*/+1 ) )+'-'+( i/*date*/>9?i/*date*/ : "0"+i/*date*/ )+'T'+( j/*hour*/>9?j/*hour*/ : "0"+j/*hour*/ )+':'+( k/*minute*/>9?k/*minute*/ : "0"+k/*minute*/ )+':'+( l/*second*/>9?l/*second*/ : "0"+l/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -439,34 +435,34 @@
     };
   }).call( this,String,Array,Function,Date );
   
-  var a/*Runtime*/ = ( function a/*Runtime*/() {
-        var l/*_mochaLocalExport*/ = {};
+  var m/*Runtime*/ = ( function Runtime() {
+        var Z/*_mochaLocalExport*/ = {};
         
         "use strict";
         
-        function c/*Exception*/( d/*line*/,c/*file*/,b/*e*/ ) {
+        function h/*Exception*/( g/*line*/,f/*file*/,a/*e*/ ) {
           this.toString = function () {
-            return a/*Runtime*/.getErrorMessage( b/*e*/ )+" in file "+c/*file*/+" at : "+d/*line*/;
+            return b/*Runtime*/.getErrorMessage( a/*e*/ )+" in file "+f/*file*/+" at : "+g/*line*/;
           };
         }
-        var g/*fastMax*/ = Math.max;
+        var J/*fastMax*/ = Math.max;
         
-        var a/*Runtime*/ =  {
-              getErrorMessage : function n/*getErrorMessage*/( b/*e*/ ) {
+        var b/*Runtime*/ =  {
+              getErrorMessage : function _/*getErrorMessage*/( b/*e*/ ) {
                 return ( b/*e*/.message )?b/*e*/.message : ( b/*e*/.description )?b/*e*/.description : b/*e*/.toString();
               },
-              exceptionHandler : function o/*exceptionHandler*/( e/*line*/,f/*file*/,g/*e*/ ) {
-                if ( b/*isStopIteration*/( g/*e*/ ) ){
-                  this.throwException( g/*e*/ );
+              exceptionHandler : function $/*exceptionHandler*/( k/*line*/,l/*file*/,m/*e*/ ) {
+                if ( f/*isStopIteration*/( m/*e*/ ) ){
+                  this.throwException( m/*e*/ );
                 } else {
-                  this.throwException( new c/*Exception*/( e/*line*/,f/*file*/,g/*e*/ ) );
+                  this.throwException( new h/*Exception*/( k/*line*/,l/*file*/,m/*e*/ ) );
                 };
               },
-              throwException : function p/*throwException*/( c/*exception*/ ) {
+              throwException : function bb/*throwException*/( b/*exception*/ ) {
                 try {
-                  throw c/*exception*/;
+                  throw b/*exception*/;
                 } catch( e ){
-                  if ( b/*isStopIteration*/( e ) ){
+                  if ( f/*isStopIteration*/( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -476,157 +472,157 @@
               hasProto : "__proto__" in {}
             };
         
-        var d/*slice*/ = Array.prototype.slice;
+        var k/*slice*/ = Array.prototype.slice;
         
-        var f/*createUnenumProp*/ = l/*_mochaLocalExport*/.createUnenumProp = function f/*createUnenumProp*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
-              return Object.defineProperty( b/*obj*/,c/*prop*/, {
+        var E/*createUnenumProp*/ = Z/*_mochaLocalExport*/.createUnenumProp = function E/*createUnenumProp*/( d/*obj*/,e/*prop*/,f/*value*/ ) {
+              return Object.defineProperty( d/*obj*/,e/*prop*/, {
                 configurable : true,
                 enumerable : false,
                 writable : true,
-                value : d/*value*/
+                value : f/*value*/
               });
             };
         
-        var q/*constant*/ = l/*_mochaLocalExport*/.constant = function q/*constant*/( b/*obj*/,c/*prop*/,d/*value*/ ) {
-              return Object.defineProperty( b/*obj*/,c/*prop*/, {
+        var bc/*constant*/ = Z/*_mochaLocalExport*/.constant = function bc/*constant*/( d/*obj*/,e/*prop*/,f/*value*/ ) {
+              return Object.defineProperty( d/*obj*/,e/*prop*/, {
                 configurable : false,
                 enumerable : false,
                 writable : false,
-                value : d/*value*/
+                value : f/*value*/
               });
             };
         
-        var r/*toArray*/ = l/*_mochaLocalExport*/.toArray = function r/*toArray*/( f/*likeArray*/,g/*index*/ ) {
-              return ( f/*likeArray*/ )?d/*slice*/.call( f/*likeArray*/,g/*index*/ ) : [];
+        var bd/*toArray*/ = Z/*_mochaLocalExport*/.toArray = function bd/*toArray*/( m/*likeArray*/,n/*index*/ ) {
+              return ( m/*likeArray*/ )?k/*slice*/.call( m/*likeArray*/,n/*index*/ ) : [];
             };
         
-        var e/*Generator*/ = function (){};
+        var D/*Generator*/ = function (){};
         
-        var s/*createGenerator*/ = l/*_mochaLocalExport*/.createGenerator = function s/*createGenerator*/( h/*generatorFn*/,i/*closeFn*/,j/*context*/ ) {
-              var k/*ret*/ = new e/*Generator*/;
+        var be/*createGenerator*/ = Z/*_mochaLocalExport*/.createGenerator = function be/*createGenerator*/( J/*generatorFn*/,K/*closeFn*/,L/*context*/ ) {
+              var M/*ret*/ = new D/*Generator*/;
               
-              f/*createUnenumProp*/( k/*ret*/,"next",h/*generatorFn*/.bind( j/*context*/,false,false ) );
+              E/*createUnenumProp*/( M/*ret*/,"next",J/*generatorFn*/.bind( L/*context*/,false,false ) );
               
-              f/*createUnenumProp*/( k/*ret*/,"send",h/*generatorFn*/.bind( j/*context*/,true,false ) );
+              E/*createUnenumProp*/( M/*ret*/,"send",J/*generatorFn*/.bind( L/*context*/,true,false ) );
               
-              f/*createUnenumProp*/( k/*ret*/,"close",i/*closeFn*/.bind( j/*context*/ ) );
+              E/*createUnenumProp*/( M/*ret*/,"close",K/*closeFn*/.bind( L/*context*/ ) );
               
-              f/*createUnenumProp*/( k/*ret*/,"__nothrowNext__",h/*generatorFn*/.bind( j/*context*/,false,true ) );
+              E/*createUnenumProp*/( M/*ret*/,"__nothrowNext__",J/*generatorFn*/.bind( L/*context*/,false,true ) );
               
-              f/*createUnenumProp*/( k/*ret*/,"toString",
+              E/*createUnenumProp*/( M/*ret*/,"toString",
               function () {
                 return "[object Generator]";
               });
               
-              Object.freeze( k/*ret*/ );
-              return k/*ret*/;
+              Object.freeze( M/*ret*/ );
+              return M/*ret*/;
             };
         
-        function n/*getErrorMessage*/( b/*e*/ ) {
+        function _/*getErrorMessage*/( b/*e*/ ) {
           return ( b/*e*/.message )?b/*e*/.message : ( b/*e*/.description )?b/*e*/.description : b/*e*/.toString();
         }
-        var p/*throwException*/ = l/*_mochaLocalExport*/.throwException = a/*Runtime*/.throwException.bind( a/*Runtime*/ );
+        var bb/*throwException*/ = Z/*_mochaLocalExport*/.throwException = b/*Runtime*/.throwException.bind( b/*Runtime*/ );
         
-        var o/*exceptionHandler*/ = l/*_mochaLocalExport*/.exceptionHandler = a/*Runtime*/.exceptionHandler.bind( a/*Runtime*/ );
+        var $/*exceptionHandler*/ = Z/*_mochaLocalExport*/.exceptionHandler = b/*Runtime*/.exceptionHandler.bind( b/*Runtime*/ );
         
-        var t/*extend*/ = l/*_mochaLocalExport*/.extend = function t/*extend*/( b/*dest*/,c/*source*/ ) {
-              for ( var d/*prop*/ in c/*source*/ ){
-                b/*dest*/[d/*prop*/] = c/*source*/[d/*prop*/];
+        var bf/*extend*/ = Z/*_mochaLocalExport*/.extend = function bf/*extend*/( d/*dest*/,e/*source*/ ) {
+              for ( var f/*prop*/ in e/*source*/ ){
+                d/*dest*/[f/*prop*/] = e/*source*/[f/*prop*/];
               };
-              return b/*dest*/;
+              return d/*dest*/;
             };
         
-        function u/*compareTuple*/( i/*tuple*/ ) {
-          var j/*max*/ = g/*fastMax*/( i/*tuple*/.length,this.length ),
-              k/*i*/ = -1;
+        function N/*compareTuple*/( N/*tuple*/ ) {
+          var O/*max*/ = J/*fastMax*/( N/*tuple*/.length,this.length ),
+              P/*i*/ = -1;
           
-          while (  ++ k/*i*/<j/*max*/ && i/*tuple*/[k/*i*/] === this[k/*i*/] ){
+          while (  ++ P/*i*/<O/*max*/ && N/*tuple*/[P/*i*/] === this[P/*i*/] ){
             
           };
-          return j/*max*/ === k/*i*/;
+          return O/*max*/ === P/*i*/;
         };
         
-        function v/*tupleToArray*/() {
+        function O/*tupleToArray*/() {
           return Array.prototype.slice.call( this );
         };
         
-        var w/*createTuple*/ = l/*_mochaLocalExport*/.createTuple = function w/*createTuple*/( c/*obj*/,d/*size*/ ) {
-              f/*createUnenumProp*/( c/*obj*/,"length",d/*size*/ );
+        var bg/*createTuple*/ = Z/*_mochaLocalExport*/.createTuple = function bg/*createTuple*/( P/*obj*/,Q/*size*/ ) {
+              E/*createUnenumProp*/( P/*obj*/,"length",Q/*size*/ );
               
-              f/*createUnenumProp*/( c/*obj*/,"equal",u/*compareTuple*/ );
+              E/*createUnenumProp*/( P/*obj*/,"equal",N/*compareTuple*/ );
               
-              f/*createUnenumProp*/( c/*obj*/,"toArray",v/*tupleToArray*/ );
+              E/*createUnenumProp*/( P/*obj*/,"toArray",O/*tupleToArray*/ );
               
-              f/*createUnenumProp*/( c/*obj*/,"toString",
+              E/*createUnenumProp*/( P/*obj*/,"toString",
               function () {
                 return "[object Tuple]";
               });
-              return Object.freeze( c/*obj*/ );
+              return Object.freeze( P/*obj*/ );
             };
         
-        var x/*createRecord*/ = l/*_mochaLocalExport*/.createRecord = function x/*createRecord*/( c/*obj*/ ) {
-              if ( c/*obj*/.toString() === "[object Object]" ){
-                f/*createUnenumProp*/( c/*obj*/,"toString",
+        var bh/*createRecord*/ = Z/*_mochaLocalExport*/.createRecord = function bh/*createRecord*/( b/*obj*/ ) {
+              if ( b/*obj*/.toString() === "[object Object]" ){
+                E/*createUnenumProp*/( b/*obj*/,"toString",
                 function () {
                   return "[object Record]";
                 });
               };
-              return Object.freeze( c/*obj*/ );
+              return Object.freeze( b/*obj*/ );
             };
         
-        var y/*extendPrototype*/ = l/*_mochaLocalExport*/.extendPrototype = function ( b/*derived*/,c/*base*/ ) {
-              b/*derived*/.prototype = c/*base*/;
+        var bi/*extendPrototype*/ = Z/*_mochaLocalExport*/.extendPrototype = function ( c/*derived*/,d/*base*/ ) {
+              c/*derived*/.prototype = d/*base*/;
             };
         
-        var h/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
+        var P/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
               return Object.getPrototypeOf( b/*obj*/ );
-            } : function ( b/*obj*/ ) {
-              var c/*ret*/ = {};
+            } : function ( d/*obj*/ ) {
+              var e/*ret*/ = {};
               
-              for ( var d/*i*/ in b/*obj*/ ){
-                if ( !b/*obj*/.hasOwnProperty( d/*i*/ ) ){
-                  c/*ret*/[d/*i*/] = b/*obj*/[d/*i*/];
+              for ( var f/*i*/ in d/*obj*/ ){
+                if ( !d/*obj*/.hasOwnProperty( f/*i*/ ) ){
+                  e/*ret*/[f/*i*/] = d/*obj*/[f/*i*/];
                 };
               };
-              return c/*ret*/;
+              return e/*ret*/;
             };
         
-        var z/*extendClass*/ = l/*_mochaLocalExport*/.extendClass = ( a/*Runtime*/.hasProto )?function ( b/*derived*/,c/*base*/ ) {
-              if ( typeof c/*base*/ === 'function' ){
-                b/*derived*/.prototype.__proto__ = c/*base*/.prototype;
+        var bj/*extendClass*/ = Z/*_mochaLocalExport*/.extendClass = ( b/*Runtime*/.hasProto )?function ( d/*derived*/,e/*base*/ ) {
+              if ( typeof e/*base*/ === 'function' ){
+                d/*derived*/.prototype.__proto__ = e/*base*/.prototype;
                 
-                for ( var d/*i*/ in c/*base*/ ){
-                  b/*derived*/[d/*i*/] = c/*base*/[d/*i*/];
+                for ( var f/*i*/ in e/*base*/ ){
+                  d/*derived*/[f/*i*/] = e/*base*/[f/*i*/];
                 };
               } else {
-                b/*derived*/.prototype.__proto__ = c/*base*/.__proto__;
+                d/*derived*/.prototype.__proto__ = e/*base*/.__proto__;
               };
-            } : function ( i/*derived*/,j/*base*/ ) {
-              var k/*baseType*/ = typeof j/*base*/;
+            } : function ( R/*derived*/,S/*base*/ ) {
+              var T/*baseType*/ = typeof S/*base*/;
               
-              if ( k/*baseType*/ === "function" ){
-                var l/*inherit*/ = function (){};
+              if ( T/*baseType*/ === "function" ){
+                var U/*inherit*/ = function (){};
                 
-                l/*inherit*/.prototype = j/*base*/.prototype;
+                U/*inherit*/.prototype = S/*base*/.prototype;
                 
-                i/*derived*/.prototype = new l/*inherit*/;
+                R/*derived*/.prototype = new U/*inherit*/;
                 
-                for ( var m/*i*/ in j/*base*/ ){
-                  i/*derived*/[m/*i*/] = j/*base*/[m/*i*/];
+                for ( var V/*i*/ in S/*base*/ ){
+                  R/*derived*/[V/*i*/] = S/*base*/[V/*i*/];
                 };
               } else {
-                var l/*inherit*/ = function (){},
-                    n/*proto*/ = h/*getPrototype*/( j/*base*/ );
+                var U/*inherit*/ = function (){},
+                    W/*proto*/ = P/*getPrototype*/( S/*base*/ );
                 
-                l/*inherit*/.prototype = n/*proto*/;
+                U/*inherit*/.prototype = W/*proto*/;
                 
-                i/*derived*/.prototype = new l/*inherit*/;
+                R/*derived*/.prototype = new U/*inherit*/;
               };
             };
         
-        var i/*__ref_iterator__*/ = l/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
+        var R/*__ref_iterator__*/ = Z/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
         
-        var A/*throwStopIteration*/ = l/*_mochaLocalExport*/.throwStopIteration = function A/*throwStopIteration*/() {
+        var W/*throwStopIteration*/ = Z/*_mochaLocalExport*/.throwStopIteration = function W/*throwStopIteration*/() {
               try {
                 throw StopIteration;
               } catch( e ){
@@ -634,97 +630,97 @@
               };
             };
         
-        var j/*isGenerator*/ = l/*_mochaLocalExport*/.isGenerator = function j/*isGenerator*/( b/*obj*/ ) {
-              return b/*obj*/ instanceof e/*Generator*/;
+        var S/*isGenerator*/ = Z/*_mochaLocalExport*/.isGenerator = function S/*isGenerator*/( b/*obj*/ ) {
+              return b/*obj*/ instanceof D/*Generator*/;
             };
         
-        var B/*getIterator*/ = l/*_mochaLocalExport*/.getIterator = function B/*getIterator*/( l/*obj*/ ) {
-              var a/*ret*/ = l/*obj*/[i/*__ref_iterator__*/](),
-                  m/*newObj*/;
+        var bk/*getIterator*/ = Z/*_mochaLocalExport*/.getIterator = function bk/*getIterator*/( X/*obj*/ ) {
+              var b/*ret*/ = X/*obj*/[R/*__ref_iterator__*/](),
+                  Y/*newObj*/;
               
-              if ( j/*isGenerator*/( a/*ret*/ ) ){
-                return a/*ret*/;
+              if ( S/*isGenerator*/( b/*ret*/ ) ){
+                return b/*ret*/;
               };
               
-              m/*newObj*/ = {};
+              Y/*newObj*/ = {};
               
-              if ( a/*ret*/.next ){
-                f/*createUnenumProp*/( m/*newObj*/,"next",
+              if ( b/*ret*/.next ){
+                E/*createUnenumProp*/( Y/*newObj*/,"next",
                 function () {
-                  var c/*result*/ = a/*ret*/.next();
+                  var d/*result*/ = b/*ret*/.next();
                   
-                  if ( c/*result*/ === undefined ){
-                    A/*throwStopIteration*/();
+                  if ( d/*result*/ === undefined ){
+                    W/*throwStopIteration*/();
                   };
-                  return c/*result*/;
+                  return d/*result*/;
                 });
               } else {
                 return {};
               };
               
-              if ( !( "__nothrowNext__" in a/*ret*/ ) ){
-                f/*createUnenumProp*/( m/*newObj*/,"__nothrowNext__",a/*ret*/.next.bind( a/*ret*/ ) );
+              if ( !( "__nothrowNext__" in b/*ret*/ ) ){
+                E/*createUnenumProp*/( Y/*newObj*/,"__nothrowNext__",b/*ret*/.next.bind( b/*ret*/ ) );
               };
               
-              for ( var n/*prop*/ in a/*ret*/ ){
-                if ( n/*prop*/ !== "next" && n/*prop*/ !== "__nothrowNext__" ){
-                  m/*newObj*/[n/*prop*/] = a/*ret*/[n/*prop*/];
+              for ( var Z/*prop*/ in b/*ret*/ ){
+                if ( Z/*prop*/ !== "next" && Z/*prop*/ !== "__nothrowNext__" ){
+                  Y/*newObj*/[Z/*prop*/] = b/*ret*/[Z/*prop*/];
                 };
               };
               
-              if ( !( "toString" in a/*ret*/ ) ){
-                f/*createUnenumProp*/( m/*newObj*/,"toString",
+              if ( !( "toString" in b/*ret*/ ) ){
+                E/*createUnenumProp*/( Y/*newObj*/,"toString",
                 function () {
                   return "[object Iterator]";
                 });
               };
-              return m/*newObj*/;
+              return Y/*newObj*/;
             };
         
-        var C/*hasIterator*/ = l/*_mochaLocalExport*/.hasIterator = function C/*hasIterator*/( b/*obj*/ ) {
-              return i/*__ref_iterator__*/ in b/*obj*/;
+        var bl/*hasIterator*/ = Z/*_mochaLocalExport*/.hasIterator = function bl/*hasIterator*/( b/*obj*/ ) {
+              return R/*__ref_iterator__*/ in b/*obj*/;
             };
         
-        var D/*rstopIteration*/ = /StopIteration/;
+        var X/*rstopIteration*/ = /StopIteration/;
         
-        var b/*isStopIteration*/ = l/*_mochaLocalExport*/.isStopIteration = function b/*isStopIteration*/( b/*obj*/ ) {
-              return b/*obj*/ === StopIteration || D/*rstopIteration*/.test( b/*obj*/ );
+        var f/*isStopIteration*/ = Z/*_mochaLocalExport*/.isStopIteration = function f/*isStopIteration*/( Y/*obj*/ ) {
+              return Y/*obj*/ === StopIteration || X/*rstopIteration*/.test( Y/*obj*/ );
             };
         
-        var k/*privateRecord*/,
-            E/*createPrivateRecord*/,
-            F/*getPrivateRecord*/;
+        var Y/*privateRecord*/,
+            bm/*createPrivateRecord*/,
+            bn/*getPrivateRecord*/;
         
         if ( "WeakMap" in window ){
-          k/*privateRecord*/ = new WeakMap();
+          Y/*privateRecord*/ = new WeakMap();
           
-          E/*createPrivateRecord*/ = function ( self,b/*privateHolder*/ ) {
-            var c/*holder*/ = new b/*privateHolder*/;
+          bm/*createPrivateRecord*/ = function ( self,Z/*privateHolder*/ ) {
+            var _/*holder*/ = new Z/*privateHolder*/;
             
-            f/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
+            E/*createUnenumProp*/( _/*holder*/.constructor,"__is_private__",1 );
             
-            k/*privateRecord*/.set( self,c/*holder*/ );
+            Y/*privateRecord*/.set( self,_/*holder*/ );
           };
           
-          F/*getPrivateRecord*/ = function ( self ) {
-            if ( k/*privateRecord*/.has( self ) ){
-              return k/*privateRecord*/.get( self );
+          bn/*getPrivateRecord*/ = function ( self ) {
+            if ( Y/*privateRecord*/.has( self ) ){
+              return Y/*privateRecord*/.get( self );
             } else if ( self.constructor === "__is_private__" ){
               return self;
             };
           };
         } else {
-          E/*createPrivateRecord*/ = function ( self,b/*privateHolder*/ ) {
+          bm/*createPrivateRecord*/ = function ( self,c/*privateHolder*/ ) {
             if ( !self.__typeid__ ){
-              var c/*holder*/ = new b/*privateHolder*/;
+              var d/*holder*/ = new c/*privateHolder*/;
               
-              f/*createUnenumProp*/( c/*holder*/.constructor,"__is_private__",1 );
+              E/*createUnenumProp*/( d/*holder*/.constructor,"__is_private__",1 );
               
-              f/*createUnenumProp*/( self,"__private__",c/*holder*/ );
+              E/*createUnenumProp*/( self,"__private__",d/*holder*/ );
             };
           };
           
-          F/*getPrivateRecord*/ = function ( self ) {
+          bn/*getPrivateRecord*/ = function ( self ) {
             if ( self.__private__ ){
               return self.__private__;
             } else if ( self.constructor === "__is_private__" ){
@@ -733,6780 +729,3814 @@
           };
         };
         
-        l/*_mochaLocalExport*/.createPrivateRecord = E/*createPrivateRecord*/;
+        Z/*_mochaLocalExport*/.createPrivateRecord = bm/*createPrivateRecord*/;
         
-        l/*_mochaLocalExport*/.getPrivateRecord = F/*getPrivateRecord*/;
+        Z/*_mochaLocalExport*/.getPrivateRecord = bn/*getPrivateRecord*/;
         
-        var G/*getSuper*/ = l/*_mochaLocalExport*/.getSuper = function G/*getSuper*/( b/*obj*/ ) {
-              var c/*type*/ = typeof b/*obj*/,
-                  d/*ret*/;
+        var bo/*getSuper*/ = Z/*_mochaLocalExport*/.getSuper = function bo/*getSuper*/( d/*obj*/ ) {
+              var e/*type*/ = typeof d/*obj*/,
+                  f/*ret*/;
               
-              if ( c/*type*/ === "function" ){
-                d/*ret*/ = function (){};
+              if ( e/*type*/ === "function" ){
+                f/*ret*/ = function (){};
                 
-                d/*ret*/.prototype = b/*obj*/.prototype;
+                f/*ret*/.prototype = d/*obj*/.prototype;
                 
-                d/*ret*/ = new d/*ret*/();
+                f/*ret*/ = new f/*ret*/();
                 
-                if ( b/*obj*/.__harmony_class__ ){
-                  d/*ret*/.constructor = b/*obj*/.constructor;
+                if ( d/*obj*/.__harmony_class__ ){
+                  f/*ret*/.constructor = d/*obj*/.constructor;
                 } else {
-                  d/*ret*/.constructor = b/*obj*/;
+                  f/*ret*/.constructor = d/*obj*/;
                 };
-                return d/*ret*/;
+                return f/*ret*/;
               };
-              return d/*ret*/;
+              return f/*ret*/;
             };
         
-        var H/*traitMixin*/ = l/*_mochaLocalExport*/.traitMixin = function H/*traitMixin*/( b/*dest*/,c/*source*/,d/*with_*/,e/*without*/ ) {
-              if ( !b/*dest*/._mochaTraitMark || !c/*source*/._mochaTraitMark ){
-                a/*Runtime*/.throwException( "mixin only used for trait." );
+        var bp/*traitMixin*/ = Z/*_mochaLocalExport*/.traitMixin = function bp/*traitMixin*/( m/*dest*/,n/*source*/,o/*with_*/,p/*without*/ ) {
+              if ( !m/*dest*/._mochaTraitMark || !n/*source*/._mochaTraitMark ){
+                b/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var f/*destTraitPrivate*/ = b/*dest*/._mochaTraitPrivate,
-                    g/*sourceTraitPrivate*/ = c/*source*/._mochaTraitPrivate,
-                    h/*destTraitPublic*/ = b/*dest*/._mochaTraitPublic,
-                    i/*sourceTraitPublic*/ = c/*source*/._mochaTraitPublic,
-                    j/*sourceRequires*/ = c/*source*/._mochaRequires,
-                    k/*destRequires*/ = b/*dest*/._mochaRequires,
-                    l/*tmp*/;
+                var q/*destTraitPrivate*/ = m/*dest*/._mochaTraitPrivate,
+                    r/*sourceTraitPrivate*/ = n/*source*/._mochaTraitPrivate,
+                    s/*destTraitPublic*/ = m/*dest*/._mochaTraitPublic,
+                    t/*sourceTraitPublic*/ = n/*source*/._mochaTraitPublic,
+                    u/*sourceRequires*/ = n/*source*/._mochaRequires,
+                    v/*destRequires*/ = m/*dest*/._mochaRequires,
+                    w/*tmp*/;
                 
-                for ( var m/*i*/ in g/*sourceTraitPrivate*/ ){
-                  if ( !e/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !d/*with_*/[m/*i*/] )?m/*i*/ : d/*with_*/[m/*i*/];
+                for ( var x/*i*/ in r/*sourceTraitPrivate*/ ){
+                  if ( !p/*without*/[x/*i*/] ){
+                    w/*tmp*/ = ( !o/*with_*/[x/*i*/] )?x/*i*/ : o/*with_*/[x/*i*/];
                     
-                    f/*destTraitPrivate*/[l/*tmp*/] = g/*sourceTraitPrivate*/[m/*i*/];
+                    q/*destTraitPrivate*/[w/*tmp*/] = r/*sourceTraitPrivate*/[x/*i*/];
                   };
                 };
                 
-                for ( m/*i*/ in i/*sourceTraitPublic*/ ){
-                  if ( !e/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !d/*with_*/[m/*i*/] )?m/*i*/ : d/*with_*/[m/*i*/];
+                for ( x/*i*/ in t/*sourceTraitPublic*/ ){
+                  if ( !p/*without*/[x/*i*/] ){
+                    w/*tmp*/ = ( !o/*with_*/[x/*i*/] )?x/*i*/ : o/*with_*/[x/*i*/];
                     
-                    h/*destTraitPublic*/[l/*tmp*/] = i/*sourceTraitPublic*/[m/*i*/];
+                    s/*destTraitPublic*/[w/*tmp*/] = t/*sourceTraitPublic*/[x/*i*/];
                   };
                 };
                 
-                for ( m/*i*/ in j/*sourceRequires*/ ){
-                  k/*destRequires*/[m/*i*/] = j/*sourceRequires*/[m/*i*/];
+                for ( x/*i*/ in u/*sourceRequires*/ ){
+                  v/*destRequires*/[x/*i*/] = u/*sourceRequires*/[x/*i*/];
                 };
               };
             };
         
-        var I/*classMixin*/ = l/*_mochaLocalExport*/.classMixin = function I/*classMixin*/( b/*_mochaLocalTmp5*/,c/*_mochaLocalTmp6*/,d/*_mochaLocalTmp7*/,e/*with_*/,f/*without*/ ) {
-              var g/*constructorProto*/ = b/*_mochaLocalTmp5*/.prototype,
-                  h/*privateProto*/ = c/*_mochaLocalTmp6*/.prototype,
-                  i/*mark*/ = d/*_mochaLocalTmp7*/._mochaTraitMark,
-                  j/*traitPublic*/ = d/*_mochaLocalTmp7*/._mochaTraitPublic,
-                  k/*traitPrivate*/ = d/*_mochaLocalTmp7*/._mochaTraitPrivate;
+        var bq/*classMixin*/ = Z/*_mochaLocalExport*/.classMixin = function bq/*classMixin*/( m/*_mochaLocalTmp5*/,n/*_mochaLocalTmp6*/,o/*_mochaLocalTmp7*/,p/*with_*/,q/*without*/ ) {
+              var r/*constructorProto*/ = m/*_mochaLocalTmp5*/.prototype,
+                  s/*privateProto*/ = n/*_mochaLocalTmp6*/.prototype,
+                  t/*mark*/ = o/*_mochaLocalTmp7*/._mochaTraitMark,
+                  u/*traitPublic*/ = o/*_mochaLocalTmp7*/._mochaTraitPublic,
+                  v/*traitPrivate*/ = o/*_mochaLocalTmp7*/._mochaTraitPrivate;
               
-              if ( !i/*mark*/ ){
-                a/*Runtime*/.throwException( "mixin only used for trait." );
+              if ( !t/*mark*/ ){
+                b/*Runtime*/.throwException( "mixin only used for trait." );
               } else {
-                var l/*tmp*/;
+                var w/*tmp*/;
                 
-                for ( var m/*i*/ in j/*traitPublic*/ ){
-                  if ( !f/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !e/*with_*/[m/*i*/] )?m/*i*/ : e/*with_*/[m/*i*/];
+                for ( var x/*i*/ in u/*traitPublic*/ ){
+                  if ( !q/*without*/[x/*i*/] ){
+                    w/*tmp*/ = ( !p/*with_*/[x/*i*/] )?x/*i*/ : p/*with_*/[x/*i*/];
                     
-                    g/*constructorProto*/[l/*tmp*/] = j/*traitPublic*/[m/*i*/];
+                    r/*constructorProto*/[w/*tmp*/] = u/*traitPublic*/[x/*i*/];
                   };
                 };
                 
-                for ( m/*i*/ in k/*traitPrivate*/ ){
-                  if ( !f/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !e/*with_*/[m/*i*/] )?m/*i*/ : e/*with_*/[m/*i*/];
+                for ( x/*i*/ in v/*traitPrivate*/ ){
+                  if ( !q/*without*/[x/*i*/] ){
+                    w/*tmp*/ = ( !p/*with_*/[x/*i*/] )?x/*i*/ : p/*with_*/[x/*i*/];
                     
-                    h/*privateProto*/[l/*tmp*/] = k/*traitPrivate*/[m/*i*/];
+                    s/*privateProto*/[w/*tmp*/] = v/*traitPrivate*/[x/*i*/];
                   };
                 };
               };
             };
         
-        var J/*checkRequirements*/ = l/*_mochaLocalExport*/.checkRequirements = function J/*checkRequirements*/( b/*_mochaLocalTmp8*/,c/*_mochaLocalTmp9*/,d/*traits*/,e/*file*/,f/*line*/ ) {
-              var g/*proto1*/ = b/*_mochaLocalTmp8*/.prototype,
-                  h/*proto2*/ = c/*_mochaLocalTmp9*/.prototype;
+        var br/*checkRequirements*/ = Z/*_mochaLocalExport*/.checkRequirements = function br/*checkRequirements*/( m/*_mochaLocalTmp8*/,n/*_mochaLocalTmp9*/,o/*traits*/,p/*file*/,q/*line*/ ) {
+              var r/*proto1*/ = m/*_mochaLocalTmp8*/.prototype,
+                  s/*proto2*/ = n/*_mochaLocalTmp9*/.prototype;
               
-              for ( var i/*i*/ = 0,j/*len*/ = d/*traits*/.length;i/*i*/<j/*len*/;i/*i*/ ++  ){
-                var k/*_mochaLocalTmp10*/ = d/*traits*/[i/*i*/],
-                    l/*_mochaRequires*/ = k/*_mochaLocalTmp10*/._mochaRequires;
+              for ( var t/*i*/ = 0,u/*len*/ = o/*traits*/.length;t/*i*/<u/*len*/;t/*i*/ ++  ){
+                var v/*_mochaLocalTmp10*/ = o/*traits*/[t/*i*/],
+                    w/*_mochaRequires*/ = v/*_mochaLocalTmp10*/._mochaRequires;
                 
-                for ( var m/*prop*/ in l/*_mochaRequires*/ ){
-                  if ( !( m/*prop*/ in g/*proto1*/ ) && !( m/*prop*/ in h/*proto2*/ ) ){
-                    a/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m/*prop*/+"\nin file "+e/*file*/+" at line "+f/*line*/ );
+                for ( var x/*prop*/ in w/*_mochaRequires*/ ){
+                  if ( !( x/*prop*/ in r/*proto1*/ ) && !( x/*prop*/ in s/*proto2*/ ) ){
+                    b/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+x/*prop*/+"\nin file "+p/*file*/+" at line "+q/*line*/ );
                   };
                 };
               };
             };
-        
-        ( function () {
-          var n/*assert*/ = l/*_mochaLocalExport*/.assert = ( console && console.assert )?function ( b/*expect*/,c/*exp*/,d/*str*/,e/*line*/,f/*filename*/ ) {
-                return console.assert( b/*expect*/ === c/*exp*/,"assertion failed : "+d/*str*/+"\nexpect "+b/*expect*/+" but got "+c/*exp*/+"\nin file "+f/*filename*/+" at : "+e/*line*/ );
-              } : function ( b/*expect*/,c/*exp*/,d/*str*/,e/*line*/,f/*filename*/ ) {
-                if ( b/*expect*/ !== c/*exp*/ ){
-                  a/*Runtime*/.throwException( "assertion failed : "+d/*str*/+"\nexpect "+b/*expect*/+" but got "+c/*exp*/+"\nin file "+f/*filename*/+" at : "+e/*line*/ );
-                };
-              };
-        })();
-        return l/*_mochaLocalExport*/;
+        return Z/*_mochaLocalExport*/;
       })();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function d/*toString*/() {
+      toString : function N/*toString*/() {
         return "[object StopIteration]";
       }
     };
   };
   
-  __LINE__ = 0;
   ( function () {
-    try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/knockout-2.0.0.debug.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      b/*_mochaGlobalExport*/['./knockout-2.0.0.debug.js'] = {};
+    D/*_mochaGlobalExport*/['./knockout-2.0.0.debug.js'] = {};
+    
+    var N/*_mochaGlobalAlias*/ = D/*_mochaGlobalExport*/['./knockout-2.0.0.debug.js'];
+    
+    ( function ( i/*window*/,undefined ) {
+      var n/*ko*/ = i/*window*/["ko"] = {};
       
-      __LINE__ = 3;
-      var d/*_mochaGlobalAlias*/ = b/*_mochaGlobalExport*/['./knockout-2.0.0.debug.js'];
+      n/*ko*/.exportSymbol = function ( n/*publicPath*/,o/*object*/ ) {
+        var p/*tokens*/ = n/*publicPath*/.split( "." );
+        
+        var q/*target*/ = i/*window*/;
+        
+        for ( var r/*i*/ = 0;r/*i*/<p/*tokens*/.length-1;r/*i*/ ++  ){
+          q/*target*/ = q/*target*/[p/*tokens*/[r/*i*/]];
+        };
+        
+        q/*target*/[p/*tokens*/[p/*tokens*/.length-1]] = o/*object*/;
+      };
       
-      __LINE__ = 0;
-      ( function ( a/*window*/,undefined ) {
-        try {
-          __LINE__ = 6;
-          var b/*ko*/ = a/*window*/["ko"] = {};
+      n/*ko*/.exportProperty = function ( d/*owner*/,e/*publicName*/,f/*object*/ ) {
+        d/*owner*/[e/*publicName*/] = f/*object*/;
+      };
+      
+      n/*ko*/.utils = new ( function () {
+        var P/*stringTrimRegex*/ = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
+        
+        var bD/*knownEvents*/ = {},
+            bd/*knownEventTypesByEventName*/ = {};
+        
+        var bE/*keyEventTypeName*/ = /Firefox\/2/i.test( navigator.userAgent )?'KeyboardEvent' : 'UIEvents';
+        
+        bD/*knownEvents*/[bE/*keyEventTypeName*/] = ['keyup','keydown','keypress'];
+        
+        bD/*knownEvents*/['MouseEvents'] = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
+        
+        for ( var bb/*eventType*/ in bD/*knownEvents*/ ){
+          var bF/*knownEventsForType*/ = bD/*knownEvents*/[bb/*eventType*/];
           
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol = function ( c/*publicPath*/,d/*object*/ ) {
-            try {
-              __LINE__ = 9;
-              var e/*tokens*/ = c/*publicPath*/.split( "." );
-              
-              __LINE__ = 10;
-              var f/*target*/ = a/*window*/;
-              
-              __LINE__ = 11;
-              for ( var g/*i*/ = 0;g/*i*/<e/*tokens*/.length-1;g/*i*/ ++  ){
-                __LINE__ = 0;
-                f/*target*/ = f/*target*/[e/*tokens*/[g/*i*/]];
-              };
-              
-              __LINE__ = 0;
-              f/*target*/[e/*tokens*/[e/*tokens*/.length-1]] = d/*object*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
+          if ( bF/*knownEventsForType*/.length ){
+            for ( var bv/*i*/ = 0,bx/*j*/ = bF/*knownEventsForType*/.length;bv/*i*/<bx/*j*/;bv/*i*/ ++  ){
+              bd/*knownEventTypesByEventName*/[bF/*knownEventsForType*/[bv/*i*/]] = bb/*eventType*/;
+            };
           };
-          
-          __LINE__ = 0;
-          b/*ko*/.exportProperty = function ( b/*owner*/,c/*publicName*/,d/*object*/ ) {
-            try {
-              __LINE__ = 0;
-              b/*owner*/[c/*publicName*/] = d/*object*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.utils = new ( function () {
-            try {
-              __LINE__ = 19;
-              var c/*stringTrimRegex*/ = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
+        };
+        
+        var bj/*ieVersion*/ = ( function () {
+              var d/*version*/ = 3,
+                  e/*div*/ = document.createElement( 'div' ),
+                  f/*iElems*/ = e/*div*/.getElementsByTagName( 'i' );
               
-              __LINE__ = 22;
-              var f/*knownEvents*/ = {},
-                  g/*knownEventTypesByEventName*/ = {};
-              
-              __LINE__ = 23;
-              var h/*keyEventTypeName*/ = /Firefox\/2/i.test( navigator.userAgent )?'KeyboardEvent' : 'UIEvents';
-              
-              __LINE__ = 0;
-              f/*knownEvents*/[h/*keyEventTypeName*/] = ['keyup','keydown','keypress'];
-              
-              __LINE__ = 0;
-              f/*knownEvents*/['MouseEvents'] = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
-              
-              __LINE__ = 26;
-              for ( var i/*eventType*/ in f/*knownEvents*/ ){
-                __LINE__ = 27;
-                var j/*knownEventsForType*/ = f/*knownEvents*/[i/*eventType*/];
+              while ( e/*div*/.innerHTML = '<!--[if gt IE '+(  ++ d/*version*/ )+']><i></i><![endif]-->' , f/*iElems*/[0] ){
                 
-                __LINE__ = 28;
-                if ( j/*knownEventsForType*/.length ){
-                  __LINE__ = 29;
-                  for ( var k/*i*/ = 0,l/*j*/ = j/*knownEventsForType*/.length;k/*i*/<l/*j*/;k/*i*/ ++  ){
-                    __LINE__ = 0;
-                    g/*knownEventTypesByEventName*/[j/*knownEventsForType*/[k/*i*/]] = i/*eventType*/;
+              };
+              return d/*version*/>4?d/*version*/ : undefined;
+            }());
+        
+        var bG/*isIe6*/ = bj/*ieVersion*/ === 6,
+            bH/*isIe7*/ = bj/*ieVersion*/ === 7;
+        
+        function X/*isClickOnCheckableElement*/( m/*element*/,n/*eventType*/ ) {
+          if ( ( m/*element*/.tagName != "INPUT" ) || !m/*element*/.type ){
+            return false;
+          };
+          
+          if ( n/*eventType*/.toLowerCase() != "click" ){
+            return false;
+          };
+          
+          var o/*inputType*/ = m/*element*/.type.toLowerCase();
+          return ( o/*inputType*/ == "checkbox" ) || ( o/*inputType*/ == "radio" );
+        }return  {
+          fieldsIncludedWithJsonPost : ['authenticity_token',/^__RequestVerificationToken(_.*)?$/],
+          arrayForEach : function ( s/*array*/,t/*action*/ ) {
+            for ( var u/*i*/ = 0,v/*j*/ = s/*array*/.length;u/*i*/<v/*j*/;u/*i*/ ++  ){
+              t/*action*/( s/*array*/[u/*i*/] );
+            };
+          },
+          arrayIndexOf : function ( u/*array*/,v/*item*/ ) {
+            if ( typeof Array.prototype.indexOf == "function" ){
+              return Array.prototype.indexOf.call( u/*array*/,v/*item*/ );
+            };
+            
+            for ( var w/*i*/ = 0,x/*j*/ = u/*array*/.length;w/*i*/<x/*j*/;w/*i*/ ++  ){
+              if ( u/*array*/[w/*i*/] === v/*item*/ ){
+                return w/*i*/;
+              };
+            };
+            return -1;
+          },
+          arrayFirst : function ( y/*array*/,z/*predicate*/,A/*predicateOwner*/ ) {
+            for ( var B/*i*/ = 0,C/*j*/ = y/*array*/.length;B/*i*/<C/*j*/;B/*i*/ ++  ){
+              if ( z/*predicate*/.call( A/*predicateOwner*/,y/*array*/[B/*i*/] ) ){
+                return y/*array*/[B/*i*/];
+              };
+            };
+            return null;
+          },
+          arrayRemoveItem : function ( d/*array*/,e/*itemToRemove*/ ) {
+            var f/*index*/ = n/*ko*/.utils.arrayIndexOf( d/*array*/,e/*itemToRemove*/ );
+            
+            if ( f/*index*/ >= 0 ){
+              d/*array*/.splice( f/*index*/,1 );
+            };
+          },
+          arrayGetDistinctValues : function ( B/*array*/ ) {
+            B/*array*/ = B/*array*/ || [];
+            
+            var C/*result*/ = [];
+            
+            for ( var D/*i*/ = 0,E/*j*/ = B/*array*/.length;D/*i*/<E/*j*/;D/*i*/ ++  ){
+              if ( n/*ko*/.utils.arrayIndexOf( C/*result*/,B/*array*/[D/*i*/] )<0 ){
+                C/*result*/.push( B/*array*/[D/*i*/] );
+              };
+            };
+            return C/*result*/;
+          },
+          arrayMap : function ( F/*array*/,G/*mapping*/ ) {
+            F/*array*/ = F/*array*/ || [];
+            
+            var H/*result*/ = [];
+            
+            for ( var I/*i*/ = 0,J/*j*/ = F/*array*/.length;I/*i*/<J/*j*/;I/*i*/ ++  ){
+              H/*result*/.push( G/*mapping*/( F/*array*/[I/*i*/] ) );
+            };
+            return H/*result*/;
+          },
+          arrayFilter : function ( J/*array*/,K/*predicate*/ ) {
+            J/*array*/ = J/*array*/ || [];
+            
+            var L/*result*/ = [];
+            
+            for ( var M/*i*/ = 0,N/*j*/ = J/*array*/.length;M/*i*/<N/*j*/;M/*i*/ ++  ){
+              if ( K/*predicate*/( J/*array*/[M/*i*/] ) ){
+                L/*result*/.push( J/*array*/[M/*i*/] );
+              };
+            };
+            return L/*result*/;
+          },
+          arrayPushAll : function ( M/*array*/,N/*valuesToPush*/ ) {
+            for ( var O/*i*/ = 0,P/*j*/ = N/*valuesToPush*/.length;O/*i*/<P/*j*/;O/*i*/ ++  ){
+              M/*array*/.push( N/*valuesToPush*/[O/*i*/] );
+            };
+            return M/*array*/;
+          },
+          extend : function ( d/*target*/,e/*source*/ ) {
+            for ( var f/*prop*/ in e/*source*/ ){
+              if ( e/*source*/.hasOwnProperty( f/*prop*/ ) ){
+                d/*target*/[f/*prop*/] = e/*source*/[f/*prop*/];
+              };
+            };
+            return d/*target*/;
+          },
+          emptyDomNode : function ( b/*domNode*/ ) {
+            while ( b/*domNode*/.firstChild ){
+              n/*ko*/.removeNode( b/*domNode*/.firstChild );
+            };
+          },
+          setDomNodeChildren : function ( c/*domNode*/,e/*childNodes*/ ) {
+            n/*ko*/.utils.emptyDomNode( c/*domNode*/ );
+            
+            if ( e/*childNodes*/ ){
+              n/*ko*/.utils.arrayForEach( e/*childNodes*/,
+              function ( e/*childNode*/ ) {
+                c/*domNode*/.appendChild( e/*childNode*/ );
+              });
+            };
+          },
+          replaceDomNodes : function ( P/*nodeToReplaceOrNodeArray*/,Q/*newNodesArray*/ ) {
+            var R/*nodesToReplaceArray*/ = P/*nodeToReplaceOrNodeArray*/.nodeType?[P/*nodeToReplaceOrNodeArray*/] : P/*nodeToReplaceOrNodeArray*/;
+            
+            if ( R/*nodesToReplaceArray*/.length>0 ){
+              var S/*insertionPoint*/ = R/*nodesToReplaceArray*/[0];
+              
+              var T/*parent*/ = S/*insertionPoint*/.parentNode;
+              
+              for ( var U/*i*/ = 0,V/*j*/ = Q/*newNodesArray*/.length;U/*i*/<V/*j*/;U/*i*/ ++  ){
+                T/*parent*/.insertBefore( Q/*newNodesArray*/[U/*i*/],S/*insertionPoint*/ );
+              };
+              
+              for ( var U/*i*/ = 0,V/*j*/ = R/*nodesToReplaceArray*/.length;U/*i*/<V/*j*/;U/*i*/ ++  ){
+                n/*ko*/.removeNode( R/*nodesToReplaceArray*/[U/*i*/] );
+              };
+            };
+          },
+          setOptionNodeSelectionState : function ( c/*optionNode*/,d/*isSelected*/ ) {
+            if ( navigator.userAgent.indexOf( "MSIE 6" ) >= 0 ){
+              c/*optionNode*/.setAttribute( "selected",d/*isSelected*/ );
+            } else {
+              c/*optionNode*/.selected = d/*isSelected*/;
+            };
+          },
+          stringTrim : function ( Q/*string*/ ) {
+            return ( Q/*string*/ || "" ).replace( P/*stringTrimRegex*/,"" );
+          },
+          stringTokenize : function ( U/*string*/,V/*delimiter*/ ) {
+            var W/*result*/ = [];
+            
+            var X/*tokens*/ = ( U/*string*/ || "" ).split( V/*delimiter*/ );
+            
+            for ( var Y/*i*/ = 0,Z/*j*/ = X/*tokens*/.length;Y/*i*/<Z/*j*/;Y/*i*/ ++  ){
+              var _/*trimmed*/ = n/*ko*/.utils.stringTrim( X/*tokens*/[Y/*i*/] );
+              
+              if ( _/*trimmed*/ !== "" ){
+                W/*result*/.push( _/*trimmed*/ );
+              };
+            };
+            return W/*result*/;
+          },
+          stringStartsWith : function ( c/*string*/,d/*startsWith*/ ) {
+            c/*string*/ = c/*string*/ || "";
+            
+            if ( d/*startsWith*/.length>c/*string*/.length ){
+              return false;
+            };
+            return c/*string*/.substring( 0,d/*startsWith*/.length ) === d/*startsWith*/;
+          },
+          evalWithinScope : function ( X/*expression*/ ) {
+            var Y/*scopes*/ = Array.prototype.slice.call( arguments,1 );
+            
+            var Z/*functionBody*/ = "return ("+X/*expression*/+")";
+            
+            for ( var _/*i*/ = 0;_/*i*/<Y/*scopes*/.length;_/*i*/ ++  ){
+              if ( Y/*scopes*/[_/*i*/] && typeof Y/*scopes*/[_/*i*/] == "object" ){
+                Z/*functionBody*/ = "with(sc["+_/*i*/+"]) { "+Z/*functionBody*/+" } ";
+              };
+            };
+            return ( new Function( "sc",Z/*functionBody*/ ) )( Y/*scopes*/ );
+          },
+          domNodeIsContainedBy : function ( c/*node*/,d/*containedByNode*/ ) {
+            if ( d/*containedByNode*/.compareDocumentPosition ){
+              return ( d/*containedByNode*/.compareDocumentPosition( c/*node*/ )&16 ) == 16;
+            };
+            
+            while ( c/*node*/ != null ){
+              if ( c/*node*/ == d/*containedByNode*/ ){
+                return true;
+              };
+              
+              c/*node*/ = c/*node*/.parentNode;
+            };
+            return false;
+          },
+          domNodeIsAttachedToDocument : function ( b/*node*/ ) {
+            return n/*ko*/.utils.domNodeIsContainedBy( b/*node*/,document );
+          },
+          registerEventHandler : function ( f/*element*/,bb/*eventType*/,e/*handler*/ ) {
+            if ( typeof jQuery != "undefined" ){
+              if ( X/*isClickOnCheckableElement*/( f/*element*/,bb/*eventType*/ ) ){
+                var b/*originalHandler*/ = e/*handler*/;
+                
+                e/*handler*/ = function ( e/*event*/,f/*eventData*/ ) {
+                  var g/*jQuerySuppliedCheckedState*/ = this.checked;
+                  
+                  if ( f/*eventData*/ ){
+                    this.checked = f/*eventData*/.checkedStateBeforeEvent !== true;
                   };
+                  
+                  b/*originalHandler*/.call( this,e/*event*/ );
+                  
+                  this.checked = g/*jQuerySuppliedCheckedState*/;
                 };
               };
               
-              __LINE__ = 35;
-              var d/*ieVersion*/ = ( function () {
-                    try {
-                      __LINE__ = 36;
-                      var b/*version*/ = 3,
-                          c/*div*/ = document.createElement( 'div' ),
-                          d/*iElems*/ = c/*div*/.getElementsByTagName( 'i' );
-                      
-                      __LINE__ = 39;
-                      while ( c/*div*/.innerHTML = '<!--[if gt IE '+(  ++ b/*version*/ )+']><i></i><![endif]-->' , d/*iElems*/[0] ){
-                        
-                      };
-                      __LINE__ = 43;
-                      return b/*version*/>4?b/*version*/ : undefined;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  }());
+              jQuery( f/*element*/ )['bind']( bb/*eventType*/,e/*handler*/ );
+            } else if ( typeof f/*element*/.addEventListener == "function" ){
+              f/*element*/.addEventListener( bb/*eventType*/,e/*handler*/,false );
+            } else if ( typeof f/*element*/.attachEvent != "undefined" ){
+              f/*element*/.attachEvent( "on"+bb/*eventType*/,
+              function ( h/*event*/ ) {
+                e/*handler*/.call( f/*element*/,h/*event*/ );
+              });
+            } else {
+              throw new Error( "Browser doesn't support addEventListener or attachEvent" );
+            };
+          },
+          triggerEvent : function ( bg/*element*/,bh/*eventType*/ ) {
+            if ( !( bg/*element*/ && bg/*element*/.nodeType ) ){
+              throw new Error( "element must be a DOM node when calling triggerEvent" );
+            };
+            
+            if ( typeof jQuery != "undefined" ){
+              var bi/*eventData*/ = [];
               
-              __LINE__ = 45;
-              var m/*isIe6*/ = d/*ieVersion*/ === 6,
-                  n/*isIe7*/ = d/*ieVersion*/ === 7;
-              
-              function o/*isClickOnCheckableElement*/( b/*element*/,c/*eventType*/ ) {
-                try {
-                  __LINE__ = 49;
-                  if ( ( b/*element*/.tagName != "INPUT" ) || !b/*element*/.type ){
-                    __LINE__ = 49;
-                    return false;
-                  };
-                  
-                  __LINE__ = 50;
-                  if ( c/*eventType*/.toLowerCase() != "click" ){
-                    __LINE__ = 50;
-                    return false;
-                  };
-                  
-                  __LINE__ = 51;
-                  var d/*inputType*/ = b/*element*/.type.toLowerCase();
-                  __LINE__ = 52;
-                  return ( d/*inputType*/ == "checkbox" ) || ( d/*inputType*/ == "radio" );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }__LINE__ = 55;
-              return  {
-                fieldsIncludedWithJsonPost : ['authenticity_token',/^__RequestVerificationToken(_.*)?$/],
-                arrayForEach : function ( b/*array*/,c/*action*/ ) {
-                  try {
-                    __LINE__ = 59;
-                    for ( var d/*i*/ = 0,e/*j*/ = b/*array*/.length;d/*i*/<e/*j*/;d/*i*/ ++  ){
-                      __LINE__ = 0;
-                      c/*action*/( b/*array*/[d/*i*/] );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayIndexOf : function ( b/*array*/,c/*item*/ ) {
-                  try {
-                    __LINE__ = 64;
-                    if ( typeof Array.prototype.indexOf == "function" ){
-                      __LINE__ = 65;
-                      return Array.prototype.indexOf.call( b/*array*/,c/*item*/ );
-                    };
-                    
-                    __LINE__ = 66;
-                    for ( var d/*i*/ = 0,e/*j*/ = b/*array*/.length;d/*i*/<e/*j*/;d/*i*/ ++  ){
-                      __LINE__ = 67;
-                      if ( b/*array*/[d/*i*/] === c/*item*/ ){
-                        __LINE__ = 68;
-                        return d/*i*/;
-                      };
-                    };
-                    __LINE__ = 69;
-                    return -1;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayFirst : function ( b/*array*/,c/*predicate*/,d/*predicateOwner*/ ) {
-                  try {
-                    __LINE__ = 73;
-                    for ( var e/*i*/ = 0,f/*j*/ = b/*array*/.length;e/*i*/<f/*j*/;e/*i*/ ++  ){
-                      __LINE__ = 74;
-                      if ( c/*predicate*/.call( d/*predicateOwner*/,b/*array*/[e/*i*/] ) ){
-                        __LINE__ = 75;
-                        return b/*array*/[e/*i*/];
-                      };
-                    };
-                    __LINE__ = 76;
-                    return null;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayRemoveItem : function ( d/*array*/,e/*itemToRemove*/ ) {
-                  try {
-                    __LINE__ = 80;
-                    var f/*index*/ = b/*ko*/.utils.arrayIndexOf( d/*array*/,e/*itemToRemove*/ );
-                    
-                    __LINE__ = 81;
-                    if ( f/*index*/ >= 0 ){
-                      __LINE__ = 0;
-                      d/*array*/.splice( f/*index*/,1 );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayGetDistinctValues : function ( c/*array*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    c/*array*/ = c/*array*/ || [];
-                    
-                    __LINE__ = 87;
-                    var d/*result*/ = [];
-                    
-                    __LINE__ = 88;
-                    for ( var e/*i*/ = 0,f/*j*/ = c/*array*/.length;e/*i*/<f/*j*/;e/*i*/ ++  ){
-                      __LINE__ = 89;
-                      if ( b/*ko*/.utils.arrayIndexOf( d/*result*/,c/*array*/[e/*i*/] )<0 ){
-                        __LINE__ = 0;
-                        d/*result*/.push( c/*array*/[e/*i*/] );
-                      };
-                    };
-                    __LINE__ = 92;
-                    return d/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayMap : function ( b/*array*/,c/*mapping*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    b/*array*/ = b/*array*/ || [];
-                    
-                    __LINE__ = 97;
-                    var d/*result*/ = [];
-                    
-                    __LINE__ = 98;
-                    for ( var e/*i*/ = 0,f/*j*/ = b/*array*/.length;e/*i*/<f/*j*/;e/*i*/ ++  ){
-                      __LINE__ = 0;
-                      d/*result*/.push( c/*mapping*/( b/*array*/[e/*i*/] ) );
-                    };
-                    __LINE__ = 100;
-                    return d/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayFilter : function ( b/*array*/,c/*predicate*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    b/*array*/ = b/*array*/ || [];
-                    
-                    __LINE__ = 105;
-                    var d/*result*/ = [];
-                    
-                    __LINE__ = 106;
-                    for ( var e/*i*/ = 0,f/*j*/ = b/*array*/.length;e/*i*/<f/*j*/;e/*i*/ ++  ){
-                      __LINE__ = 107;
-                      if ( c/*predicate*/( b/*array*/[e/*i*/] ) ){
-                        __LINE__ = 0;
-                        d/*result*/.push( b/*array*/[e/*i*/] );
-                      };
-                    };
-                    __LINE__ = 109;
-                    return d/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                arrayPushAll : function ( b/*array*/,c/*valuesToPush*/ ) {
-                  try {
-                    __LINE__ = 113;
-                    for ( var d/*i*/ = 0,e/*j*/ = c/*valuesToPush*/.length;d/*i*/<e/*j*/;d/*i*/ ++  ){
-                      __LINE__ = 0;
-                      b/*array*/.push( c/*valuesToPush*/[d/*i*/] );
-                    };
-                    __LINE__ = 115;
-                    return b/*array*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                extend : function ( b/*target*/,c/*source*/ ) {
-                  try {
-                    __LINE__ = 119;
-                    for ( var d/*prop*/ in c/*source*/ ){
-                      __LINE__ = 120;
-                      if ( c/*source*/.hasOwnProperty( d/*prop*/ ) ){
-                        __LINE__ = 0;
-                        b/*target*/[d/*prop*/] = c/*source*/[d/*prop*/];
-                      };
-                    };
-                    __LINE__ = 124;
-                    return b/*target*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                emptyDomNode : function ( c/*domNode*/ ) {
-                  try {
-                    __LINE__ = 128;
-                    while ( c/*domNode*/.firstChild ){
-                      __LINE__ = 0;
-                      b/*ko*/.removeNode( c/*domNode*/.firstChild );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                setDomNodeChildren : function ( a/*domNode*/,c/*childNodes*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    b/*ko*/.utils.emptyDomNode( a/*domNode*/ );
-                    
-                    __LINE__ = 135;
-                    if ( c/*childNodes*/ ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.arrayForEach( c/*childNodes*/,
-                      function ( c/*childNode*/ ) {
-                        try {
-                          __LINE__ = 0;
-                          a/*domNode*/.appendChild( c/*childNode*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      });
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                replaceDomNodes : function ( c/*nodeToReplaceOrNodeArray*/,d/*newNodesArray*/ ) {
-                  try {
-                    __LINE__ = 143;
-                    var e/*nodesToReplaceArray*/ = c/*nodeToReplaceOrNodeArray*/.nodeType?[c/*nodeToReplaceOrNodeArray*/] : c/*nodeToReplaceOrNodeArray*/;
-                    
-                    __LINE__ = 144;
-                    if ( e/*nodesToReplaceArray*/.length>0 ){
-                      __LINE__ = 145;
-                      var f/*insertionPoint*/ = e/*nodesToReplaceArray*/[0];
-                      
-                      __LINE__ = 146;
-                      var g/*parent*/ = f/*insertionPoint*/.parentNode;
-                      
-                      __LINE__ = 147;
-                      for ( var h/*i*/ = 0,i/*j*/ = d/*newNodesArray*/.length;h/*i*/<i/*j*/;h/*i*/ ++  ){
-                        __LINE__ = 0;
-                        g/*parent*/.insertBefore( d/*newNodesArray*/[h/*i*/],f/*insertionPoint*/ );
-                      };
-                      
-                      __LINE__ = 149;
-                      for ( var h/*i*/ = 0,i/*j*/ = e/*nodesToReplaceArray*/.length;h/*i*/<i/*j*/;h/*i*/ ++  ){
-                        __LINE__ = 0;
-                        b/*ko*/.removeNode( e/*nodesToReplaceArray*/[h/*i*/] );
-                      };
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                setOptionNodeSelectionState : function ( b/*optionNode*/,c/*isSelected*/ ) {
-                  try {
-                    __LINE__ = 157;
-                    if ( navigator.userAgent.indexOf( "MSIE 6" ) >= 0 ){
-                      __LINE__ = 0;
-                      b/*optionNode*/.setAttribute( "selected",c/*isSelected*/ );
-                    } else {
-                      __LINE__ = 0;
-                      b/*optionNode*/.selected = c/*isSelected*/;
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                stringTrim : function ( e/*string*/ ) {
-                  try {
-                    __LINE__ = 164;
-                    return ( e/*string*/ || "" ).replace( c/*stringTrimRegex*/,"" );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                stringTokenize : function ( c/*string*/,d/*delimiter*/ ) {
-                  try {
-                    __LINE__ = 168;
-                    var e/*result*/ = [];
-                    
-                    __LINE__ = 169;
-                    var f/*tokens*/ = ( c/*string*/ || "" ).split( d/*delimiter*/ );
-                    
-                    __LINE__ = 170;
-                    for ( var g/*i*/ = 0,h/*j*/ = f/*tokens*/.length;g/*i*/<h/*j*/;g/*i*/ ++  ){
-                      __LINE__ = 171;
-                      var i/*trimmed*/ = b/*ko*/.utils.stringTrim( f/*tokens*/[g/*i*/] );
-                      
-                      __LINE__ = 172;
-                      if ( i/*trimmed*/ !== "" ){
-                        __LINE__ = 0;
-                        e/*result*/.push( i/*trimmed*/ );
-                      };
-                    };
-                    __LINE__ = 175;
-                    return e/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                stringStartsWith : function ( b/*string*/,c/*startsWith*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    b/*string*/ = b/*string*/ || "";
-                    
-                    __LINE__ = 180;
-                    if ( c/*startsWith*/.length>b/*string*/.length ){
-                      __LINE__ = 181;
-                      return false;
-                    };
-                    __LINE__ = 182;
-                    return b/*string*/.substring( 0,c/*startsWith*/.length ) === c/*startsWith*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                evalWithinScope : function ( b/*expression*/ ) {
-                  try {
-                    __LINE__ = 189;
-                    var c/*scopes*/ = Array.prototype.slice.call( arguments,1 );
-                    
-                    __LINE__ = 190;
-                    var d/*functionBody*/ = "return ("+b/*expression*/+")";
-                    
-                    __LINE__ = 191;
-                    for ( var e/*i*/ = 0;e/*i*/<c/*scopes*/.length;e/*i*/ ++  ){
-                      __LINE__ = 192;
-                      if ( c/*scopes*/[e/*i*/] && typeof c/*scopes*/[e/*i*/] == "object" ){
-                        __LINE__ = 0;
-                        d/*functionBody*/ = "with(sc["+e/*i*/+"]) { "+d/*functionBody*/+" } ";
-                      };
-                    };
-                    __LINE__ = 195;
-                    return ( new Function( "sc",d/*functionBody*/ ) )( c/*scopes*/ );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                domNodeIsContainedBy : function ( b/*node*/,c/*containedByNode*/ ) {
-                  try {
-                    __LINE__ = 199;
-                    if ( c/*containedByNode*/.compareDocumentPosition ){
-                      __LINE__ = 200;
-                      return ( c/*containedByNode*/.compareDocumentPosition( b/*node*/ )&16 ) == 16;
-                    };
-                    
-                    __LINE__ = 201;
-                    while ( b/*node*/ != null ){
-                      __LINE__ = 202;
-                      if ( b/*node*/ == c/*containedByNode*/ ){
-                        __LINE__ = 203;
-                        return true;
-                      };
-                      
-                      __LINE__ = 0;
-                      b/*node*/ = b/*node*/.parentNode;
-                    };
-                    __LINE__ = 206;
-                    return false;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                domNodeIsAttachedToDocument : function ( c/*node*/ ) {
-                  try {
-                    __LINE__ = 210;
-                    return b/*ko*/.utils.domNodeIsContainedBy( c/*node*/,document );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                registerEventHandler : function ( c/*element*/,e/*eventType*/,b/*handler*/ ) {
-                  try {
-                    __LINE__ = 214;
-                    if ( typeof jQuery != "undefined" ){
-                      __LINE__ = 215;
-                      if ( o/*isClickOnCheckableElement*/( c/*element*/,e/*eventType*/ ) ){
-                        __LINE__ = 220;
-                        var a/*originalHandler*/ = b/*handler*/;
-                        
-                        __LINE__ = 0;
-                        b/*handler*/ = function ( c/*event*/,d/*eventData*/ ) {
-                          try {
-                            __LINE__ = 222;
-                            var e/*jQuerySuppliedCheckedState*/ = this.checked;
-                            
-                            __LINE__ = 223;
-                            if ( d/*eventData*/ ){
-                              __LINE__ = 0;
-                              this.checked = d/*eventData*/.checkedStateBeforeEvent !== true;
-                            };
-                            
-                            __LINE__ = 0;
-                            a/*originalHandler*/.call( this,c/*event*/ );
-                            
-                            __LINE__ = 0;
-                            this.checked = e/*jQuerySuppliedCheckedState*/;
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        };
-                      };
-                      
-                      __LINE__ = 0;
-                      jQuery( c/*element*/ )['bind']( e/*eventType*/,b/*handler*/ );
-                    } else if ( typeof c/*element*/.addEventListener == "function" ){
-                      __LINE__ = 0;
-                      c/*element*/.addEventListener( e/*eventType*/,b/*handler*/,false );
-                    } else if ( typeof c/*element*/.attachEvent != "undefined" ){
-                      __LINE__ = 0;
-                      c/*element*/.attachEvent( "on"+e/*eventType*/,
-                      function ( e/*event*/ ) {
-                        try {
-                          __LINE__ = 0;
-                          b/*handler*/.call( c/*element*/,e/*event*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      });
-                    } else {
-                      __LINE__ = 237;
-                      throw new Error( "Browser doesn't support addEventListener or attachEvent" );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                triggerEvent : function ( b/*element*/,c/*eventType*/ ) {
-                  try {
-                    __LINE__ = 241;
-                    if ( !( b/*element*/ && b/*element*/.nodeType ) ){
-                      __LINE__ = 242;
-                      throw new Error( "element must be a DOM node when calling triggerEvent" );
-                    };
-                    
-                    __LINE__ = 244;
-                    if ( typeof jQuery != "undefined" ){
-                      __LINE__ = 245;
-                      var d/*eventData*/ = [];
-                      
-                      __LINE__ = 246;
-                      if ( o/*isClickOnCheckableElement*/( b/*element*/,c/*eventType*/ ) ){
-                        __LINE__ = 0;
-                        d/*eventData*/.push(  {
-                          checkedStateBeforeEvent : b/*element*/.checked
-                        });
-                      };
-                      
-                      __LINE__ = 0;
-                      jQuery( b/*element*/ )['trigger']( c/*eventType*/,d/*eventData*/ );
-                    } else if ( typeof document.createEvent == "function" ){
-                      if ( typeof b/*element*/.dispatchEvent == "function" ){
-                        __LINE__ = 253;
-                        var e/*eventCategory*/ = g/*knownEventTypesByEventName*/[c/*eventType*/] || "HTMLEvents";
-                        
-                        __LINE__ = 254;
-                        var f/*event*/ = document.createEvent( e/*eventCategory*/ );
-                        
-                        __LINE__ = 0;
-                        f/*event*/.initEvent( c/*eventType*/,true,true,a/*window*/,0,0,0,0,0,false,false,false,false,0,b/*element*/ );
-                        
-                        __LINE__ = 0;
-                        b/*element*/.dispatchEvent( f/*event*/ );
-                      } else {
-                        __LINE__ = 259;
-                        throw new Error( "The supplied element doesn't support dispatchEvent" );
-                      };
-                    } else if ( typeof b/*element*/.fireEvent != "undefined" ){
-                      if ( c/*eventType*/ == "click" ){
-                        if ( ( b/*element*/.tagName == "INPUT" ) && ( ( b/*element*/.type.toLowerCase() == "checkbox" ) || ( b/*element*/.type.toLowerCase() == "radio" ) ) ){
-                          __LINE__ = 0;
-                          b/*element*/.checked = b/*element*/.checked !== true;
-                        };
-                      };
-                      
-                      __LINE__ = 0;
-                      b/*element*/.fireEvent( "on"+c/*eventType*/ );
-                    } else {
-                      __LINE__ = 270;
-                      throw new Error( "Browser doesn't support triggering events" );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                unwrapObservable : function ( c/*value*/ ) {
-                  try {
-                    __LINE__ = 274;
-                    return b/*ko*/.isObservable( c/*value*/ )?c/*value*/() : c/*value*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                domNodeHasCssClass : function ( c/*node*/,d/*className*/ ) {
-                  try {
-                    __LINE__ = 278;
-                    var e/*currentClassNames*/ = ( c/*node*/.className || "" ).split( /\s+/ );
-                    __LINE__ = 279;
-                    return b/*ko*/.utils.arrayIndexOf( e/*currentClassNames*/,d/*className*/ ) >= 0;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                toggleDomNodeCssClass : function ( c/*node*/,d/*className*/,e/*shouldHaveClass*/ ) {
-                  try {
-                    __LINE__ = 283;
-                    var f/*hasClass*/ = b/*ko*/.utils.domNodeHasCssClass( c/*node*/,d/*className*/ );
-                    
-                    __LINE__ = 284;
-                    if ( e/*shouldHaveClass*/ && !f/*hasClass*/ ){
-                      __LINE__ = 0;
-                      c/*node*/.className = ( c/*node*/.className || "" )+" "+d/*className*/;
-                    } else if ( f/*hasClass*/ && !e/*shouldHaveClass*/ ){
-                      __LINE__ = 287;
-                      var g/*currentClassNames*/ = ( c/*node*/.className || "" ).split( /\s+/ );
-                      
-                      __LINE__ = 288;
-                      var h/*newClassName*/ = "";
-                      
-                      __LINE__ = 289;
-                      for ( var i/*i*/ = 0;i/*i*/<g/*currentClassNames*/.length;i/*i*/ ++  ){
-                        if ( g/*currentClassNames*/[i/*i*/] != d/*className*/ ){
-                          __LINE__ = 0;
-                          h/*newClassName*/ += g/*currentClassNames*/[i/*i*/]+" ";
-                        };
-                      };
-                      
-                      __LINE__ = 0;
-                      c/*node*/.className = b/*ko*/.utils.stringTrim( h/*newClassName*/ );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                outerHTML : function ( f/*node*/ ) {
-                  try {
-                    __LINE__ = 299;
-                    if ( d/*ieVersion*/ === undefined ){
-                      __LINE__ = 300;
-                      var g/*nativeOuterHtml*/ = f/*node*/.outerHTML;
-                      
-                      __LINE__ = 301;
-                      if ( typeof g/*nativeOuterHtml*/ == "string" ){
-                        __LINE__ = 302;
-                        return g/*nativeOuterHtml*/;
-                      };
-                    };
-                    
-                    __LINE__ = 306;
-                    var h/*dummyContainer*/ = a/*window*/.document.createElement( "div" );
-                    
-                    __LINE__ = 0;
-                    h/*dummyContainer*/.appendChild( f/*node*/.cloneNode( true ) );
-                    __LINE__ = 308;
-                    return h/*dummyContainer*/.innerHTML;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                setTextContent : function ( c/*element*/,d/*textContent*/ ) {
-                  try {
-                    __LINE__ = 312;
-                    var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*textContent*/ );
-                    
-                    __LINE__ = 313;
-                    if ( ( e/*value*/ === null ) || ( e/*value*/ === undefined ) ){
-                      __LINE__ = 0;
-                      e/*value*/ = "";
-                    };
-                    
-                    __LINE__ = 0;
-                    'innerText' in c/*element*/?c/*element*/.innerText = e/*value*/ : c/*element*/.textContent = e/*value*/;
-                    
-                    __LINE__ = 319;
-                    if ( d/*ieVersion*/ >= 9 ){
-                      __LINE__ = 0;
-                      c/*element*/.innerHTML = c/*element*/.innerHTML;
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                range : function ( c/*min*/,d/*max*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    c/*min*/ = b/*ko*/.utils.unwrapObservable( c/*min*/ );
-                    
-                    __LINE__ = 0;
-                    d/*max*/ = b/*ko*/.utils.unwrapObservable( d/*max*/ );
-                    
-                    __LINE__ = 328;
-                    var e/*result*/ = [];
-                    
-                    __LINE__ = 329;
-                    for ( var f/*i*/ = c/*min*/;f/*i*/ <= d/*max*/;f/*i*/ ++  ){
-                      __LINE__ = 0;
-                      e/*result*/.push( f/*i*/ );
-                    };
-                    __LINE__ = 331;
-                    return e/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                makeArray : function ( b/*arrayLikeObject*/ ) {
-                  try {
-                    __LINE__ = 335;
-                    var c/*result*/ = [];
-                    
-                    __LINE__ = 336;
-                    for ( var d/*i*/ = 0,e/*j*/ = b/*arrayLikeObject*/.length;d/*i*/<e/*j*/;d/*i*/ ++  ){
-                      __LINE__ = 0;
-                      c/*result*/.push( b/*arrayLikeObject*/[d/*i*/] );
-                    };
-                    __LINE__ = 339;
-                    return c/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                isIe6 : m/*isIe6*/,
-                isIe7 : n/*isIe7*/,
-                getFormFields : function ( c/*form*/,a/*fieldName*/ ) {
-                  try {
-                    __LINE__ = 346;
-                    var d/*fields*/ = b/*ko*/.utils.makeArray( c/*form*/.getElementsByTagName( "INPUT" ) ).concat( b/*ko*/.utils.makeArray( c/*form*/.getElementsByTagName( "TEXTAREA" ) ) );
-                    
-                    __LINE__ = 347;
-                    var e/*isMatchingField*/ = ( typeof a/*fieldName*/ == 'string' )?function ( c/*field*/ ) {
-                          try {
-                            __LINE__ = 348;
-                            return c/*field*/.name === a/*fieldName*/;
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        } : function ( b/*field*/ ) {
-                          try {
-                            __LINE__ = 349;
-                            return a/*fieldName*/.test( b/*field*/.name );
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        };
-                    
-                    __LINE__ = 350;
-                    var f/*matches*/ = [];
-                    
-                    __LINE__ = 351;
-                    for ( var g/*i*/ = d/*fields*/.length-1;g/*i*/ >= 0;g/*i*/ --  ){
-                      __LINE__ = 352;
-                      if ( e/*isMatchingField*/( d/*fields*/[g/*i*/] ) ){
-                        __LINE__ = 0;
-                        f/*matches*/.push( d/*fields*/[g/*i*/] );
-                      };
-                    };
-                    __LINE__ = 355;
-                    return f/*matches*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                parseJson : function ( c/*jsonString*/ ) {
-                  try {
-                    __LINE__ = 359;
-                    if ( typeof c/*jsonString*/ == "string" ){
-                      __LINE__ = 0;
-                      c/*jsonString*/ = b/*ko*/.utils.stringTrim( c/*jsonString*/ );
-                      
-                      __LINE__ = 361;
-                      if ( c/*jsonString*/ ){
-                        __LINE__ = 362;
-                        if ( a/*window*/.JSON && a/*window*/.JSON.parse ){
-                          __LINE__ = 363;
-                          return a/*window*/.JSON.parse( c/*jsonString*/ );
-                        };
-                        __LINE__ = 364;
-                        return ( new Function( "return "+c/*jsonString*/ ) )();
-                      };
-                    };
-                    __LINE__ = 367;
-                    return null;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                stringifyJson : function ( b/*data*/ ) {
-                  try {
-                    __LINE__ = 371;
-                    if ( ( typeof JSON == "undefined" ) || ( typeof JSON.stringify == "undefined" ) ){
-                      __LINE__ = 372;
-                      throw new Error( "Cannot find JSON.stringify(). Some browsers (e.g., IE < 8) don't support it natively, but you can overcome this by adding a script reference to json2.js, downloadable from http://www.json.org/json2.js" );
-                    };
-                    __LINE__ = 373;
-                    return JSON.stringify( b/*ko*/.utils.unwrapObservable( b/*data*/ ) );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                postJson : function ( c/*urlOrForm*/,d/*data*/,e/*options*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    e/*options*/ = e/*options*/ || {};
-                    
-                    __LINE__ = 378;
-                    var f/*params*/ = e/*options*/['params'] || {};
-                    
-                    __LINE__ = 379;
-                    var g/*includeFields*/ = e/*options*/['includeFields'] || this.fieldsIncludedWithJsonPost;
-                    
-                    __LINE__ = 380;
-                    var h/*url*/ = c/*urlOrForm*/;
-                    
-                    __LINE__ = 383;
-                    if ( ( typeof c/*urlOrForm*/ == 'object' ) && ( c/*urlOrForm*/.tagName == "FORM" ) ){
-                      __LINE__ = 384;
-                      var i/*originalForm*/ = c/*urlOrForm*/;
-                      
-                      __LINE__ = 0;
-                      h/*url*/ = i/*originalForm*/.action;
-                      
-                      __LINE__ = 386;
-                      for ( var j/*i*/ = g/*includeFields*/.length-1;j/*i*/ >= 0;j/*i*/ --  ){
-                        __LINE__ = 387;
-                        var k/*fields*/ = b/*ko*/.utils.getFormFields( i/*originalForm*/,g/*includeFields*/[j/*i*/] );
-                        
-                        __LINE__ = 388;
-                        for ( var l/*j*/ = k/*fields*/.length-1;l/*j*/ >= 0;l/*j*/ --  ){
-                          __LINE__ = 0;
-                          f/*params*/[k/*fields*/[l/*j*/].name] = k/*fields*/[l/*j*/].value;
-                        };
-                      };
-                    };
-                    
-                    __LINE__ = 0;
-                    d/*data*/ = b/*ko*/.utils.unwrapObservable( d/*data*/ );
-                    
-                    __LINE__ = 394;
-                    var a/*form*/ = document.createElement( "FORM" );
-                    
-                    __LINE__ = 0;
-                    a/*form*/.style.display = "none";
-                    
-                    __LINE__ = 0;
-                    a/*form*/.action = h/*url*/;
-                    
-                    __LINE__ = 0;
-                    a/*form*/.method = "post";
-                    
-                    __LINE__ = 398;
-                    for ( var m/*key*/ in d/*data*/ ){
-                      __LINE__ = 399;
-                      var n/*input*/ = document.createElement( "INPUT" );
-                      
-                      __LINE__ = 0;
-                      n/*input*/.name = m/*key*/;
-                      
-                      __LINE__ = 0;
-                      n/*input*/.value = b/*ko*/.utils.stringifyJson( b/*ko*/.utils.unwrapObservable( d/*data*/[m/*key*/] ) );
-                      
-                      __LINE__ = 0;
-                      a/*form*/.appendChild( n/*input*/ );
-                    };
-                    
-                    __LINE__ = 404;
-                    for ( var m/*key*/ in f/*params*/ ){
-                      __LINE__ = 405;
-                      var n/*input*/ = document.createElement( "INPUT" );
-                      
-                      __LINE__ = 0;
-                      n/*input*/.name = m/*key*/;
-                      
-                      __LINE__ = 0;
-                      n/*input*/.value = f/*params*/[m/*key*/];
-                      
-                      __LINE__ = 0;
-                      a/*form*/.appendChild( n/*input*/ );
-                    };
-                    
-                    __LINE__ = 0;
-                    document.body.appendChild( a/*form*/ );
-                    
-                    __LINE__ = 0;
-                    e/*options*/['submitter']?e/*options*/['submitter']( a/*form*/ ) : a/*form*/.submit();
-                    
-                    __LINE__ = 0;
-                    setTimeout( function () {
-                      try {
-                        __LINE__ = 0;
-                        a/*form*/.parentNode.removeChild( a/*form*/ );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    },0);
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
+              if ( X/*isClickOnCheckableElement*/( bg/*element*/,bh/*eventType*/ ) ){
+                bi/*eventData*/.push(  {
+                  checkedStateBeforeEvent : bg/*element*/.checked
+                });
               };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils',b/*ko*/.utils );
-          
-          __LINE__ = 0;
-          b/*ko*/.utils.arrayForEach( [['arrayForEach',b/*ko*/.utils.arrayForEach],['arrayFirst',b/*ko*/.utils.arrayFirst],['arrayFilter',b/*ko*/.utils.arrayFilter],['arrayGetDistinctValues',b/*ko*/.utils.arrayGetDistinctValues],['arrayIndexOf',b/*ko*/.utils.arrayIndexOf],['arrayMap',b/*ko*/.utils.arrayMap],['arrayPushAll',b/*ko*/.utils.arrayPushAll],['arrayRemoveItem',b/*ko*/.utils.arrayRemoveItem],['extend',b/*ko*/.utils.extend],['fieldsIncludedWithJsonPost',b/*ko*/.utils.fieldsIncludedWithJsonPost],['getFormFields',b/*ko*/.utils.getFormFields],['postJson',b/*ko*/.utils.postJson],['parseJson',b/*ko*/.utils.parseJson],['registerEventHandler',b/*ko*/.utils.registerEventHandler],['stringifyJson',b/*ko*/.utils.stringifyJson],['range',b/*ko*/.utils.range],['toggleDomNodeCssClass',b/*ko*/.utils.toggleDomNodeCssClass],['triggerEvent',b/*ko*/.utils.triggerEvent],['unwrapObservable',b/*ko*/.utils.unwrapObservable]],
-          function ( c/*item*/ ) {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.utils.'+c/*item*/[0],c/*item*/[1] );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          });
-          
-          __LINE__ = 442;
-          if ( !Function.prototype['bind'] ){
-            __LINE__ = 0;
-            Function.prototype['bind'] = function ( b/*object*/ ) {
-              try {
-                __LINE__ = 446;
-                var a/*originalFunction*/ = this,
-                    c/*args*/ = Array.prototype.slice.call( arguments ),
-                    b/*object*/ = c/*args*/.shift();
-                __LINE__ = 447;
-                return function () {
-                  try {
-                    __LINE__ = 448;
-                    return a/*originalFunction*/.apply( b/*object*/,c/*args*/.concat( Array.prototype.slice.call( arguments ) ) );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
+              
+              jQuery( bg/*element*/ )['trigger']( bh/*eventType*/,bi/*eventData*/ );
+            } else if ( typeof document.createEvent == "function" ){
+              if ( typeof bg/*element*/.dispatchEvent == "function" ){
+                var bj/*eventCategory*/ = bd/*knownEventTypesByEventName*/[bh/*eventType*/] || "HTMLEvents";
+                
+                var bk/*event*/ = document.createEvent( bj/*eventCategory*/ );
+                
+                bk/*event*/.initEvent( bh/*eventType*/,true,true,i/*window*/,0,0,0,0,0,false,false,false,false,0,bg/*element*/ );
+                
+                bg/*element*/.dispatchEvent( bk/*event*/ );
+              } else {
+                throw new Error( "The supplied element doesn't support dispatchEvent" );
+              };
+            } else if ( typeof bg/*element*/.fireEvent != "undefined" ){
+              if ( bh/*eventType*/ == "click" ){
+                if ( ( bg/*element*/.tagName == "INPUT" ) && ( ( bg/*element*/.type.toLowerCase() == "checkbox" ) || ( bg/*element*/.type.toLowerCase() == "radio" ) ) ){
+                  bg/*element*/.checked = bg/*element*/.checked !== true;
                 };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
+              };
+              
+              bg/*element*/.fireEvent( "on"+bh/*eventType*/ );
+            } else {
+              throw new Error( "Browser doesn't support triggering events" );
+            };
+          },
+          unwrapObservable : function ( b/*value*/ ) {
+            return n/*ko*/.isObservable( b/*value*/ )?b/*value*/() : b/*value*/;
+          },
+          domNodeHasCssClass : function ( d/*node*/,e/*className*/ ) {
+            var f/*currentClassNames*/ = ( d/*node*/.className || "" ).split( /\s+/ );
+            return n/*ko*/.utils.arrayIndexOf( f/*currentClassNames*/,e/*className*/ ) >= 0;
+          },
+          toggleDomNodeCssClass : function ( bj/*node*/,bk/*className*/,bl/*shouldHaveClass*/ ) {
+            var bm/*hasClass*/ = n/*ko*/.utils.domNodeHasCssClass( bj/*node*/,bk/*className*/ );
+            
+            if ( bl/*shouldHaveClass*/ && !bm/*hasClass*/ ){
+              bj/*node*/.className = ( bj/*node*/.className || "" )+" "+bk/*className*/;
+            } else if ( bm/*hasClass*/ && !bl/*shouldHaveClass*/ ){
+              var bn/*currentClassNames*/ = ( bj/*node*/.className || "" ).split( /\s+/ );
+              
+              var bo/*newClassName*/ = "";
+              
+              for ( var bp/*i*/ = 0;bp/*i*/<bn/*currentClassNames*/.length;bp/*i*/ ++  ){
+                if ( bn/*currentClassNames*/[bp/*i*/] != bk/*className*/ ){
+                  bo/*newClassName*/ += bn/*currentClassNames*/[bp/*i*/]+" ";
+                };
+              };
+              
+              bj/*node*/.className = n/*ko*/.utils.stringTrim( bo/*newClassName*/ );
+            };
+          },
+          outerHTML : function ( bn/*node*/ ) {
+            if ( bj/*ieVersion*/ === undefined ){
+              var bo/*nativeOuterHtml*/ = bn/*node*/.outerHTML;
+              
+              if ( typeof bo/*nativeOuterHtml*/ == "string" ){
+                return bo/*nativeOuterHtml*/;
+              };
+            };
+            
+            var bp/*dummyContainer*/ = i/*window*/.document.createElement( "div" );
+            
+            bp/*dummyContainer*/.appendChild( bn/*node*/.cloneNode( true ) );
+            return bp/*dummyContainer*/.innerHTML;
+          },
+          setTextContent : function ( d/*element*/,e/*textContent*/ ) {
+            var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*textContent*/ );
+            
+            if ( ( f/*value*/ === null ) || ( f/*value*/ === undefined ) ){
+              f/*value*/ = "";
+            };
+            
+            'innerText' in d/*element*/?d/*element*/.innerText = f/*value*/ : d/*element*/.textContent = f/*value*/;
+            
+            if ( bj/*ieVersion*/ >= 9 ){
+              d/*element*/.innerHTML = d/*element*/.innerHTML;
+            };
+          },
+          range : function ( bp/*min*/,bq/*max*/ ) {
+            bp/*min*/ = n/*ko*/.utils.unwrapObservable( bp/*min*/ );
+            
+            bq/*max*/ = n/*ko*/.utils.unwrapObservable( bq/*max*/ );
+            
+            var br/*result*/ = [];
+            
+            for ( var bs/*i*/ = bp/*min*/;bs/*i*/ <= bq/*max*/;bs/*i*/ ++  ){
+              br/*result*/.push( bs/*i*/ );
+            };
+            return br/*result*/;
+          },
+          makeArray : function ( bs/*arrayLikeObject*/ ) {
+            var bt/*result*/ = [];
+            
+            for ( var bu/*i*/ = 0,bv/*j*/ = bs/*arrayLikeObject*/.length;bu/*i*/<bv/*j*/;bu/*i*/ ++  ){
+              bt/*result*/.push( bs/*arrayLikeObject*/[bu/*i*/] );
+            };
+            return bt/*result*/;
+          },
+          isIe6 : bG/*isIe6*/,
+          isIe7 : bH/*isIe7*/,
+          getFormFields : function ( bv/*form*/,d/*fieldName*/ ) {
+            var bw/*fields*/ = n/*ko*/.utils.makeArray( bv/*form*/.getElementsByTagName( "INPUT" ) ).concat( n/*ko*/.utils.makeArray( bv/*form*/.getElementsByTagName( "TEXTAREA" ) ) );
+            
+            var bx/*isMatchingField*/ = ( typeof d/*fieldName*/ == 'string' )?function ( e/*field*/ ) {
+                  return e/*field*/.name === d/*fieldName*/;
+                } : function ( b/*field*/ ) {
+                  return d/*fieldName*/.test( b/*field*/.name );
+                };
+            
+            var by/*matches*/ = [];
+            
+            for ( var bz/*i*/ = bw/*fields*/.length-1;bz/*i*/ >= 0;bz/*i*/ --  ){
+              if ( bx/*isMatchingField*/( bw/*fields*/[bz/*i*/] ) ){
+                by/*matches*/.push( bw/*fields*/[bz/*i*/] );
+              };
+            };
+            return by/*matches*/;
+          },
+          parseJson : function ( b/*jsonString*/ ) {
+            if ( typeof b/*jsonString*/ == "string" ){
+              b/*jsonString*/ = n/*ko*/.utils.stringTrim( b/*jsonString*/ );
+              
+              if ( b/*jsonString*/ ){
+                if ( i/*window*/.JSON && i/*window*/.JSON.parse ){
+                  return i/*window*/.JSON.parse( b/*jsonString*/ );
+                };
+                return ( new Function( "return "+b/*jsonString*/ ) )();
+              };
+            };
+            return null;
+          },
+          stringifyJson : function ( b/*data*/ ) {
+            if ( ( typeof JSON == "undefined" ) || ( typeof JSON.stringify == "undefined" ) ){
+              throw new Error( "Cannot find JSON.stringify(). Some browsers (e.g., IE < 8) don't support it natively, but you can overcome this by adding a script reference to json2.js, downloadable from http://www.json.org/json2.js" );
+            };
+            return JSON.stringify( n/*ko*/.utils.unwrapObservable( b/*data*/ ) );
+          },
+          postJson : function ( bD/*urlOrForm*/,bE/*data*/,bF/*options*/ ) {
+            bF/*options*/ = bF/*options*/ || {};
+            
+            var bG/*params*/ = bF/*options*/['params'] || {};
+            
+            var bH/*includeFields*/ = bF/*options*/['includeFields'] || this.fieldsIncludedWithJsonPost;
+            
+            var bI/*url*/ = bD/*urlOrForm*/;
+            
+            if ( ( typeof bD/*urlOrForm*/ == 'object' ) && ( bD/*urlOrForm*/.tagName == "FORM" ) ){
+              var bJ/*originalForm*/ = bD/*urlOrForm*/;
+              
+              bI/*url*/ = bJ/*originalForm*/.action;
+              
+              for ( var bK/*i*/ = bH/*includeFields*/.length-1;bK/*i*/ >= 0;bK/*i*/ --  ){
+                var bL/*fields*/ = n/*ko*/.utils.getFormFields( bJ/*originalForm*/,bH/*includeFields*/[bK/*i*/] );
+                
+                for ( var bM/*j*/ = bL/*fields*/.length-1;bM/*j*/ >= 0;bM/*j*/ --  ){
+                  bG/*params*/[bL/*fields*/[bM/*j*/].name] = bL/*fields*/[bM/*j*/].value;
+                };
+              };
+            };
+            
+            bE/*data*/ = n/*ko*/.utils.unwrapObservable( bE/*data*/ );
+            
+            var f/*form*/ = document.createElement( "FORM" );
+            
+            f/*form*/.style.display = "none";
+            
+            f/*form*/.action = bI/*url*/;
+            
+            f/*form*/.method = "post";
+            
+            for ( var bN/*key*/ in bE/*data*/ ){
+              var bO/*input*/ = document.createElement( "INPUT" );
+              
+              bO/*input*/.name = bN/*key*/;
+              
+              bO/*input*/.value = n/*ko*/.utils.stringifyJson( n/*ko*/.utils.unwrapObservable( bE/*data*/[bN/*key*/] ) );
+              
+              f/*form*/.appendChild( bO/*input*/ );
+            };
+            
+            for ( var bN/*key*/ in bG/*params*/ ){
+              var bO/*input*/ = document.createElement( "INPUT" );
+              
+              bO/*input*/.name = bN/*key*/;
+              
+              bO/*input*/.value = bG/*params*/[bN/*key*/];
+              
+              f/*form*/.appendChild( bO/*input*/ );
+            };
+            
+            document.body.appendChild( f/*form*/ );
+            
+            bF/*options*/['submitter']?bF/*options*/['submitter']( f/*form*/ ) : f/*form*/.submit();
+            
+            setTimeout( function () {
+              f/*form*/.parentNode.removeChild( f/*form*/ );
+            },0);
+          }
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.utils',n/*ko*/.utils );
+      
+      n/*ko*/.utils.arrayForEach( [['arrayForEach',n/*ko*/.utils.arrayForEach],['arrayFirst',n/*ko*/.utils.arrayFirst],['arrayFilter',n/*ko*/.utils.arrayFilter],['arrayGetDistinctValues',n/*ko*/.utils.arrayGetDistinctValues],['arrayIndexOf',n/*ko*/.utils.arrayIndexOf],['arrayMap',n/*ko*/.utils.arrayMap],['arrayPushAll',n/*ko*/.utils.arrayPushAll],['arrayRemoveItem',n/*ko*/.utils.arrayRemoveItem],['extend',n/*ko*/.utils.extend],['fieldsIncludedWithJsonPost',n/*ko*/.utils.fieldsIncludedWithJsonPost],['getFormFields',n/*ko*/.utils.getFormFields],['postJson',n/*ko*/.utils.postJson],['parseJson',n/*ko*/.utils.parseJson],['registerEventHandler',n/*ko*/.utils.registerEventHandler],['stringifyJson',n/*ko*/.utils.stringifyJson],['range',n/*ko*/.utils.range],['toggleDomNodeCssClass',n/*ko*/.utils.toggleDomNodeCssClass],['triggerEvent',n/*ko*/.utils.triggerEvent],['unwrapObservable',n/*ko*/.utils.unwrapObservable]],
+      function ( b/*item*/ ) {
+        n/*ko*/.exportSymbol( 'ko.utils.'+b/*item*/[0],b/*item*/[1] );
+      });
+      
+      if ( !Function.prototype['bind'] ){
+        Function.prototype['bind'] = function ( e/*object*/ ) {
+          var d/*originalFunction*/ = this,
+              f/*args*/ = Array.prototype.slice.call( arguments ),
+              e/*object*/ = f/*args*/.shift();
+          return function () {
+            return d/*originalFunction*/.apply( e/*object*/,f/*args*/.concat( Array.prototype.slice.call( arguments ) ) );
+          };
+        };
+      };
+      
+      n/*ko*/.utils.domData = new ( function () {
+        var i/*uniqueId*/ = 0;
+        
+        var e/*dataStoreKeyExpandoPropertyName*/ = "__ko__"+( new Date ).getTime();
+        
+        var j/*dataStore*/ = {};
+        return  {
+          get : function ( d/*node*/,e/*key*/ ) {
+            var f/*allDataForNode*/ = n/*ko*/.utils.domData.getAll( d/*node*/,false );
+            return f/*allDataForNode*/ === undefined?undefined : f/*allDataForNode*/[e/*key*/];
+          },
+          set : function ( e/*node*/,f/*key*/,g/*value*/ ) {
+            if ( g/*value*/ === undefined ){
+              if ( n/*ko*/.utils.domData.getAll( e/*node*/,false ) === undefined ){
+                return ;
+              };
+            };
+            
+            var h/*allDataForNode*/ = n/*ko*/.utils.domData.getAll( e/*node*/,true );
+            
+            h/*allDataForNode*/[f/*key*/] = g/*value*/;
+          },
+          getAll : function ( k/*node*/,l/*createIfNotFound*/ ) {
+            var m/*dataStoreKey*/ = k/*node*/[e/*dataStoreKeyExpandoPropertyName*/];
+            
+            var n/*hasExistingDataStore*/ = m/*dataStoreKey*/ && ( m/*dataStoreKey*/ !== "null" );
+            
+            if ( !n/*hasExistingDataStore*/ ){
+              if ( !l/*createIfNotFound*/ ){
+                return undefined;
+              };
+              
+              m/*dataStoreKey*/ = k/*node*/[e/*dataStoreKeyExpandoPropertyName*/] = "ko"+i/*uniqueId*/ ++ ;
+              
+              j/*dataStore*/[m/*dataStoreKey*/] = {};
+            };
+            return j/*dataStore*/[m/*dataStoreKey*/];
+          },
+          clear : function ( c/*node*/ ) {
+            var d/*dataStoreKey*/ = c/*node*/[e/*dataStoreKeyExpandoPropertyName*/];
+            
+            if ( d/*dataStoreKey*/ ){
+              delete j/*dataStore*/[d/*dataStoreKey*/];
+              
+              c/*node*/[e/*dataStoreKeyExpandoPropertyName*/] = null;
+            };
+          }
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.utils.domData',n/*ko*/.utils.domData );
+      
+      n/*ko*/.exportSymbol( 'ko.utils.domData.clear',n/*ko*/.utils.domData.clear );
+      
+      n/*ko*/.utils.domNodeDisposal = new ( function () {
+        var e/*domDataKey*/ = "__ko_domNodeDisposal__"+( new Date ).getTime();
+        
+        function h/*getDisposeCallbacksCollection*/( h/*node*/,i/*createIfNotFound*/ ) {
+          var j/*allDisposeCallbacks*/ = n/*ko*/.utils.domData.get( h/*node*/,e/*domDataKey*/ );
+          
+          if ( ( j/*allDisposeCallbacks*/ === undefined ) && i/*createIfNotFound*/ ){
+            j/*allDisposeCallbacks*/ = [];
+            
+            n/*ko*/.utils.domData.set( h/*node*/,e/*domDataKey*/,j/*allDisposeCallbacks*/ );
+          };
+          return j/*allDisposeCallbacks*/;
+        }
+        function l/*destroyCallbacksCollection*/( b/*node*/ ) {
+          n/*ko*/.utils.domData.set( b/*node*/,e/*domDataKey*/,undefined );
+        }
+        function m/*cleanSingleNode*/( l/*node*/ ) {
+          var m/*callbacks*/ = h/*getDisposeCallbacksCollection*/( l/*node*/,false );
+          
+          if ( m/*callbacks*/ ){
+            m/*callbacks*/ = m/*callbacks*/.slice( 0 );
+            
+            for ( var o/*i*/ = 0;o/*i*/<m/*callbacks*/.length;o/*i*/ ++  ){
+              m/*callbacks*/[o/*i*/]( l/*node*/ );
             };
           };
           
-          __LINE__ = 0;
-          b/*ko*/.utils.domData = new ( function () {
-            try {
-              __LINE__ = 453;
-              var d/*uniqueId*/ = 0;
+          n/*ko*/.utils.domData.clear( l/*node*/ );
+          
+          if ( ( typeof jQuery == "function" ) && ( typeof jQuery['cleanData'] == "function" ) ){
+            jQuery['cleanData']( [l/*node*/] );
+          };
+        }return  {
+          addDisposeCallback : function ( c/*node*/,d/*callback*/ ) {
+            if ( typeof d/*callback*/ != "function" ){
+              throw new Error( "Callback must be a function" );
+            };
+            
+            h/*getDisposeCallbacksCollection*/( c/*node*/,true ).push( d/*callback*/ );
+          },
+          removeDisposeCallback : function ( m/*node*/,o/*callback*/ ) {
+            var p/*callbacksCollection*/ = h/*getDisposeCallbacksCollection*/( m/*node*/,false );
+            
+            if ( p/*callbacksCollection*/ ){
+              n/*ko*/.utils.arrayRemoveItem( p/*callbacksCollection*/,o/*callback*/ );
               
-              __LINE__ = 454;
-              var a/*dataStoreKeyExpandoPropertyName*/ = "__ko__"+( new Date ).getTime();
-              
-              __LINE__ = 455;
-              var e/*dataStore*/ = {};
-              __LINE__ = 456;
-              return  {
-                get : function ( c/*node*/,d/*key*/ ) {
-                  try {
-                    __LINE__ = 458;
-                    var e/*allDataForNode*/ = b/*ko*/.utils.domData.getAll( c/*node*/,false );
-                    __LINE__ = 459;
-                    return e/*allDataForNode*/ === undefined?undefined : e/*allDataForNode*/[d/*key*/];
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                set : function ( b/*node*/,c/*key*/,d/*value*/ ) {
-                  try {
-                    __LINE__ = 462;
-                    if ( d/*value*/ === undefined ){
-                      __LINE__ = 464;
-                      if ( b/*ko*/.utils.domData.getAll( b/*node*/,false ) === undefined ){
-                        __LINE__ = 465;
-                        return ;
-                      };
-                    };
-                    
-                    __LINE__ = 467;
-                    var e/*allDataForNode*/ = b/*ko*/.utils.domData.getAll( b/*node*/,true );
-                    
-                    __LINE__ = 0;
-                    e/*allDataForNode*/[c/*key*/] = d/*value*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                getAll : function ( c/*node*/,d/*createIfNotFound*/ ) {
-                  try {
-                    __LINE__ = 471;
-                    var e/*dataStoreKey*/ = c/*node*/[a/*dataStoreKeyExpandoPropertyName*/];
-                    
-                    __LINE__ = 472;
-                    var f/*hasExistingDataStore*/ = e/*dataStoreKey*/ && ( e/*dataStoreKey*/ !== "null" );
-                    
-                    __LINE__ = 473;
-                    if ( !f/*hasExistingDataStore*/ ){
-                      __LINE__ = 474;
-                      if ( !d/*createIfNotFound*/ ){
-                        __LINE__ = 475;
-                        return undefined;
-                      };
-                      
-                      __LINE__ = 0;
-                      e/*dataStoreKey*/ = c/*node*/[a/*dataStoreKeyExpandoPropertyName*/] = "ko"+d/*uniqueId*/ ++ ;
-                      
-                      __LINE__ = 0;
-                      e/*dataStore*/[e/*dataStoreKey*/] = {};
-                    };
-                    __LINE__ = 479;
-                    return e/*dataStore*/[e/*dataStoreKey*/];
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                clear : function ( b/*node*/ ) {
-                  try {
-                    __LINE__ = 482;
-                    var c/*dataStoreKey*/ = b/*node*/[a/*dataStoreKeyExpandoPropertyName*/];
-                    
-                    __LINE__ = 483;
-                    if ( c/*dataStoreKey*/ ){
-                      __LINE__ = 0;
-                      delete e/*dataStore*/[c/*dataStoreKey*/];
-                      
-                      __LINE__ = 0;
-                      b/*node*/[a/*dataStoreKeyExpandoPropertyName*/] = null;
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
+              if ( p/*callbacksCollection*/.length == 0 ){
+                l/*destroyCallbacksCollection*/( m/*node*/ );
               };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
+            };
+          },
+          cleanNode : function ( q/*node*/ ) {
+            if ( ( q/*node*/.nodeType != 1 ) && ( q/*node*/.nodeType != 9 ) ){
+              return ;
+            };
+            
+            m/*cleanSingleNode*/( q/*node*/ );
+            
+            var r/*descendants*/ = [];
+            
+            n/*ko*/.utils.arrayPushAll( r/*descendants*/,q/*node*/.getElementsByTagName( "*" ) );
+            
+            for ( var s/*i*/ = 0,t/*j*/ = r/*descendants*/.length;s/*i*/<t/*j*/;s/*i*/ ++  ){
+              m/*cleanSingleNode*/( r/*descendants*/[s/*i*/] );
+            };
+          },
+          removeNode : function ( b/*node*/ ) {
+            n/*ko*/.cleanNode( b/*node*/ );
+            
+            if ( b/*node*/.parentNode ){
+              b/*node*/.parentNode.removeChild( b/*node*/ );
+            };
+          }
+        };
+      })();
+      
+      n/*ko*/.cleanNode = n/*ko*/.utils.domNodeDisposal.cleanNode;
+      
+      n/*ko*/.removeNode = n/*ko*/.utils.domNodeDisposal.removeNode;
+      
+      n/*ko*/.exportSymbol( 'ko.cleanNode',n/*ko*/.cleanNode );
+      
+      n/*ko*/.exportSymbol( 'ko.removeNode',n/*ko*/.removeNode );
+      
+      n/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal',n/*ko*/.utils.domNodeDisposal );
+      
+      n/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal.addDisposeCallback',n/*ko*/.utils.domNodeDisposal.addDisposeCallback );
+      
+      n/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal.removeDisposeCallback',n/*ko*/.utils.domNodeDisposal.removeDisposeCallback );
+      
+      ( function () {
+        var j/*leadingCommentRegex*/ = /^(\s*)<!--(.*?)-->/;
+        
+        function h/*simpleHtmlParse*/( f/*html*/ ) {
+          var g/*tags*/ = n/*ko*/.utils.stringTrim( f/*html*/ ).toLowerCase(),
+              h/*div*/ = document.createElement( "div" );
+          
+          var j/*wrap*/ = g/*tags*/.match( /^<(thead|tbody|tfoot)/ ) && [1,"<table>","</table>"] || !g/*tags*/.indexOf( "<tr" ) && [2,"<table><tbody>","</tbody></table>"] || ( !g/*tags*/.indexOf( "<td" ) || !g/*tags*/.indexOf( "<th" ) ) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""];
+          
+          var k/*markup*/ = "ignored<div>"+j/*wrap*/[1]+f/*html*/+j/*wrap*/[2]+"</div>";
+          
+          if ( typeof i/*window*/['innerShiv'] == "function" ){
+            h/*div*/.appendChild( i/*window*/['innerShiv']( k/*markup*/ ) );
+          } else {
+            h/*div*/.innerHTML = k/*markup*/;
+          };
+          
+          while ( j/*wrap*/[0] --  ){
+            h/*div*/ = h/*div*/.lastChild;
+          };
+          return n/*ko*/.utils.makeArray( h/*div*/.lastChild.childNodes );
+        }
+        function f/*jQueryHtmlParse*/( d/*html*/ ) {
+          var e/*elems*/ = jQuery['clean']( [d/*html*/] );
+          
+          if ( e/*elems*/ && e/*elems*/[0] ){
+            var f/*elem*/ = e/*elems*/[0];
+            
+            while ( f/*elem*/.parentNode && f/*elem*/.parentNode.nodeType !== 11 ){
+              f/*elem*/ = f/*elem*/.parentNode;
+            };
+            
+            if ( f/*elem*/.parentNode ){
+              f/*elem*/.parentNode.removeChild( f/*elem*/ );
+            };
+          };
+          return e/*elems*/;
+        }
+        n/*ko*/.utils.parseHtmlFragment = function ( i/*html*/ ) {
+          return typeof jQuery != 'undefined'?f/*jQueryHtmlParse*/( i/*html*/ ) : h/*simpleHtmlParse*/( i/*html*/ );
+        };
+        
+        n/*ko*/.utils.setHtml = function ( e/*node*/,f/*html*/ ) {
+          n/*ko*/.utils.emptyDomNode( e/*node*/ );
+          
+          if ( ( f/*html*/ !== null ) && ( f/*html*/ !== undefined ) ){
+            if ( typeof f/*html*/ != 'string' ){
+              f/*html*/ = f/*html*/.toString();
+            };
+            
+            if ( typeof jQuery != 'undefined' ){
+              jQuery( e/*node*/ )['html']( f/*html*/ );
+            } else {
+              var g/*parsedNodes*/ = n/*ko*/.utils.parseHtmlFragment( f/*html*/ );
+              
+              for ( var h/*i*/ = 0;h/*i*/<g/*parsedNodes*/.length;h/*i*/ ++  ){
+                e/*node*/.appendChild( g/*parsedNodes*/[h/*i*/] );
+              };
+            };
+          };
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.utils.parseHtmlFragment',n/*ko*/.utils.parseHtmlFragment );
+      
+      n/*ko*/.exportSymbol( 'ko.utils.setHtml',n/*ko*/.utils.setHtml );
+      
+      n/*ko*/.memoization = ( function () {
+        var k/*memos*/ = {};
+        
+        function e/*randomMax8HexChars*/() {
+          return ( ( ( 1+Math.random() )*0x00000000 )|0 ).toString( 16 ).substring( 1 );
+        }
+        function h/*generateRandomId*/() {
+          return e/*randomMax8HexChars*/()+e/*randomMax8HexChars*/();
+        }
+        function g/*findMemoNodes*/( h/*rootNode*/,i/*appendToArray*/ ) {
+          if ( !h/*rootNode*/ ){
+            return ;
+          };
+          
+          if ( h/*rootNode*/.nodeType == 8 ){
+            var j/*memoId*/ = n/*ko*/.memoization.parseMemoText( h/*rootNode*/.nodeValue );
+            
+            if ( j/*memoId*/ != null ){
+              i/*appendToArray*/.push(  {
+                domNode : h/*rootNode*/,
+                memoId : j/*memoId*/
+              });
+            };
+          } else if ( h/*rootNode*/.nodeType == 1 ){
+            for ( var k/*i*/ = 0,l/*childNodes*/ = h/*rootNode*/.childNodes,m/*j*/ = l/*childNodes*/.length;k/*i*/<m/*j*/;k/*i*/ ++  ){
+              g/*findMemoNodes*/( l/*childNodes*/[k/*i*/],i/*appendToArray*/ );
+            };
+          };
+        }return  {
+          memoize : function ( k/*callback*/ ) {
+            if ( typeof k/*callback*/ != "function" ){
+              throw new Error( "You can only pass a function to ko.memoization.memoize()" );
+            };
+            
+            var l/*memoId*/ = h/*generateRandomId*/();
+            
+            k/*memos*/[l/*memoId*/] = k/*callback*/;
+            return "<!--[ko_memo:"+l/*memoId*/+"]-->";
+          },
+          unmemoize : function ( d/*memoId*/,e/*callbackParams*/ ) {
+            var f/*callback*/ = k/*memos*/[d/*memoId*/];
+            
+            if ( f/*callback*/ === undefined ){
+              throw new Error( "Couldn't find any memo with ID "+d/*memoId*/+". Perhaps it's already been unmemoized." );
+            };
+            
+            try {
+              f/*callback*/.apply( null,e/*callbackParams*/ || [] );
+              return true;
+            } finally {
+              delete k/*memos*/[d/*memoId*/];
+            };
+          },
+          unmemoizeDomNodeAndDescendants : function ( q/*domNode*/,r/*extraCallbackParamsArray*/ ) {
+            var s/*memos*/ = [];
+            
+            g/*findMemoNodes*/( q/*domNode*/,s/*memos*/ );
+            
+            for ( var t/*i*/ = 0,u/*j*/ = s/*memos*/.length;t/*i*/<u/*j*/;t/*i*/ ++  ){
+              var v/*node*/ = s/*memos*/[t/*i*/].domNode;
+              
+              var w/*combinedParams*/ = [v/*node*/];
+              
+              if ( r/*extraCallbackParamsArray*/ ){
+                n/*ko*/.utils.arrayPushAll( w/*combinedParams*/,r/*extraCallbackParamsArray*/ );
+              };
+              
+              n/*ko*/.memoization.unmemoize( s/*memos*/[t/*i*/].memoId,w/*combinedParams*/ );
+              
+              v/*node*/.nodeValue = "";
+              
+              if ( v/*node*/.parentNode ){
+                v/*node*/.parentNode.removeChild( v/*node*/ );
+              };
+            };
+          },
+          parseMemoText : function ( c/*memoText*/ ) {
+            var d/*match*/ = c/*memoText*/.match( /^\[ko_memo\:(.*?)\]$/ );
+            return d/*match*/?d/*match*/[1] : null;
+          }
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.memoization',n/*ko*/.memoization );
+      
+      n/*ko*/.exportSymbol( 'ko.memoization.memoize',n/*ko*/.memoization.memoize );
+      
+      n/*ko*/.exportSymbol( 'ko.memoization.unmemoize',n/*ko*/.memoization.unmemoize );
+      
+      n/*ko*/.exportSymbol( 'ko.memoization.parseMemoText',n/*ko*/.memoization.parseMemoText );
+      
+      n/*ko*/.exportSymbol( 'ko.memoization.unmemoizeDomNodeAndDescendants',n/*ko*/.memoization.unmemoizeDomNodeAndDescendants );
+      
+      n/*ko*/.extenders =  {
+        'throttle' : function ( f/*target*/,e/*timeout*/ ) {
+          f/*target*/['throttleEvaluation'] = e/*timeout*/;
+          
+          var d/*writeTimeoutInstance*/ = null;
+          return n/*ko*/.dependentObservable(  {
+            'read' : f/*target*/,
+            'write' : function ( a/*value*/ ) {
+              clearTimeout( d/*writeTimeoutInstance*/ );
+              
+              d/*writeTimeoutInstance*/ = setTimeout( function () {
+                f/*target*/( a/*value*/ );
+              },e/*timeout*/);
             }
-          })();
+          });
+        },
+        'notify' : function ( c/*target*/,d/*notifyWhen*/ ) {
+          c/*target*/["equalityComparer"] = d/*notifyWhen*/ == "always"?function () {
+            return false;
+          } : n/*ko*/.observable["fn"]["equalityComparer"];
+          return c/*target*/;
+        }
+      };
+      
+      function P/*applyExtenders*/( e/*requestedExtenders*/ ) {
+        var f/*target*/ = this;
+        
+        if ( e/*requestedExtenders*/ ){
+          for ( var g/*key*/ in e/*requestedExtenders*/ ){
+            var h/*extenderHandler*/ = n/*ko*/.extenders[g/*key*/];
+            
+            if ( typeof h/*extenderHandler*/ == 'function' ){
+              f/*target*/ = h/*extenderHandler*/( f/*target*/,e/*requestedExtenders*/[g/*key*/] );
+            };
+          };
+        };
+        return f/*target*/;
+      }
+      n/*ko*/.exportSymbol( 'ko.extenders',n/*ko*/.extenders );
+      
+      n/*ko*/.subscription = function ( c/*callback*/,d/*disposeCallback*/ ) {
+        this.callback = c/*callback*/;
+        
+        this.disposeCallback = d/*disposeCallback*/;
+        
+        n/*ko*/.exportProperty( this,'dispose',this.dispose );
+      };
+      
+      n/*ko*/.subscription.prototype.dispose = function () {
+        this.isDisposed = true;
+        
+        this.disposeCallback();
+      };
+      
+      n/*ko*/.subscribable = function () {
+        this._subscriptions = {};
+        
+        n/*ko*/.utils.extend( this,n/*ko*/.subscribable['fn'] );
+        
+        n/*ko*/.exportProperty( this,'subscribe',this.subscribe );
+        
+        n/*ko*/.exportProperty( this,'extend',this.extend );
+        
+        n/*ko*/.exportProperty( this,'getSubscriptionsCount',this.getSubscriptionsCount );
+      };
+      
+      var q/*defaultEvent*/ = "change";
+      
+      n/*ko*/.subscribable['fn'] =  {
+        subscribe : function ( v/*callback*/,w/*callbackTarget*/,b/*event*/ ) {
+          b/*event*/ = b/*event*/ || q/*defaultEvent*/;
           
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.domData',b/*ko*/.utils.domData );
+          var x/*boundCallback*/ = w/*callbackTarget*/?v/*callback*/.bind( w/*callbackTarget*/ ) : v/*callback*/;
           
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.domData.clear',b/*ko*/.utils.domData.clear );
+          var c/*subscription*/ = new n/*ko*/.subscription( x/*boundCallback*/,function () {
+                n/*ko*/.utils.arrayRemoveItem( this._subscriptions[b/*event*/],c/*subscription*/ );
+              }.bind( this ) );
           
-          __LINE__ = 0;
-          b/*ko*/.utils.domNodeDisposal = new ( function () {
-            try {
-              __LINE__ = 494;
-              var e/*domDataKey*/ = "__ko_domNodeDisposal__"+( new Date ).getTime();
+          if ( !this._subscriptions[b/*event*/] ){
+            this._subscriptions[b/*event*/] = [];
+          };
+          
+          this._subscriptions[b/*event*/].push( c/*subscription*/ );
+          return c/*subscription*/;
+        },
+        "notifySubscribers" : function ( c/*valueToNotify*/,d/*event*/ ) {
+          d/*event*/ = d/*event*/ || q/*defaultEvent*/;
+          
+          if ( this._subscriptions[d/*event*/] ){
+            n/*ko*/.utils.arrayForEach( this._subscriptions[d/*event*/].slice( 0 ),
+            function ( d/*subscription*/ ) {
+              if ( d/*subscription*/ && ( d/*subscription*/.isDisposed !== true ) ){
+                d/*subscription*/.callback( c/*valueToNotify*/ );
+              };
+            });
+          };
+        },
+        getSubscriptionsCount : function () {
+          var c/*total*/ = 0;
+          
+          for ( var d/*eventName*/ in this._subscriptions ){
+            if ( this._subscriptions.hasOwnProperty( d/*eventName*/ ) ){
+              c/*total*/ += this._subscriptions[d/*eventName*/].length;
+            };
+          };
+          return c/*total*/;
+        },
+        extend : P/*applyExtenders*/
+      };
+      
+      n/*ko*/.isSubscribable = function ( b/*instance*/ ) {
+        return typeof b/*instance*/.subscribe == "function" && typeof b/*instance*/["notifySubscribers"] == "function";
+      };
+      
+      n/*ko*/.exportSymbol( 'ko.subscribable',n/*ko*/.subscribable );
+      
+      n/*ko*/.exportSymbol( 'ko.isSubscribable',n/*ko*/.isSubscribable );
+      
+      n/*ko*/.dependencyDetection = ( function () {
+        var b/*_frames*/ = [];
+        return  {
+          begin : function ( d/*callback*/ ) {
+            b/*_frames*/.push(  {
+              callback : d/*callback*/,
+              distinctDependencies : []
+            });
+          },
+          end : function () {
+            b/*_frames*/.pop();
+          },
+          registerDependency : function ( c/*subscribable*/ ) {
+            if ( !n/*ko*/.isSubscribable( c/*subscribable*/ ) ){
+              throw "Only subscribable things can act as dependencies";
+            };
+            
+            if ( b/*_frames*/.length>0 ){
+              var d/*topFrame*/ = b/*_frames*/[b/*_frames*/.length-1];
               
-              function a/*getDisposeCallbacksCollection*/( c/*node*/,d/*createIfNotFound*/ ) {
-                try {
-                  __LINE__ = 497;
-                  var e/*allDisposeCallbacks*/ = b/*ko*/.utils.domData.get( c/*node*/,e/*domDataKey*/ );
+              if ( n/*ko*/.utils.arrayIndexOf( d/*topFrame*/.distinctDependencies,c/*subscribable*/ ) >= 0 ){
+                return ;
+              };
+              
+              d/*topFrame*/.distinctDependencies.push( c/*subscribable*/ );
+              
+              d/*topFrame*/.callback( c/*subscribable*/ );
+            };
+          }
+        };
+      })();
+      
+      var v/*primitiveTypes*/ =  {
+            'undefined' : true,
+            'boolean' : true,
+            'number' : true,
+            'string' : true
+          };
+      
+      n/*ko*/.observable = function ( f/*initialValue*/ ) {
+        var e/*_latestValue*/ = f/*initialValue*/;
+        
+        function d/*observable*/() {
+          if ( arguments.length>0 ){
+            if ( ( !d/*observable*/['equalityComparer'] ) || !d/*observable*/['equalityComparer']( e/*_latestValue*/,arguments[0] ) ){
+              d/*observable*/.valueWillMutate();
+              
+              e/*_latestValue*/ = arguments[0];
+              
+              d/*observable*/.valueHasMutated();
+            };
+            return this;
+          } else {
+            n/*ko*/.dependencyDetection.registerDependency( d/*observable*/ );
+            return e/*_latestValue*/;
+          };
+        }
+        n/*ko*/.subscribable.call( d/*observable*/ );
+        
+        d/*observable*/.valueHasMutated = function () {
+          d/*observable*/["notifySubscribers"]( e/*_latestValue*/ );
+        };
+        
+        d/*observable*/.valueWillMutate = function () {
+          d/*observable*/["notifySubscribers"]( e/*_latestValue*/,"beforeChange" );
+        };
+        
+        n/*ko*/.utils.extend( d/*observable*/,n/*ko*/.observable['fn'] );
+        
+        n/*ko*/.exportProperty( d/*observable*/,"valueHasMutated",d/*observable*/.valueHasMutated );
+        
+        n/*ko*/.exportProperty( d/*observable*/,"valueWillMutate",d/*observable*/.valueWillMutate );
+        return d/*observable*/;
+      };
+      
+      n/*ko*/.observable['fn'] =  {
+        __ko_proto__ : n/*ko*/.observable,
+        "equalityComparer" : function Q/*valuesArePrimitiveAndEqual*/( y/*a*/,z/*b*/ ) {
+          var A/*oldValueIsPrimitive*/ = ( y/*a*/ === null ) || ( typeof ( y/*a*/ ) in v/*primitiveTypes*/ );
+          return A/*oldValueIsPrimitive*/?( y/*a*/ === z/*b*/ ) : false;
+        }
+      };
+      
+      n/*ko*/.isObservable = function ( b/*instance*/ ) {
+        if ( ( b/*instance*/ === null ) || ( b/*instance*/ === undefined ) || ( b/*instance*/.__ko_proto__ === undefined ) ){
+          return false;
+        };
+        
+        if ( b/*instance*/.__ko_proto__ === n/*ko*/.observable ){
+          return true;
+        };
+        return n/*ko*/.isObservable( b/*instance*/.__ko_proto__ );
+      };
+      
+      n/*ko*/.isWriteableObservable = function ( b/*instance*/ ) {
+        if ( ( typeof b/*instance*/ == "function" ) && b/*instance*/.__ko_proto__ === n/*ko*/.observable ){
+          return true;
+        };
+        
+        if ( ( typeof b/*instance*/ == "function" ) && ( b/*instance*/.__ko_proto__ === n/*ko*/.dependentObservable ) && ( b/*instance*/.hasWriteFunction ) ){
+          return true;
+        };
+        return false;
+      };
+      
+      n/*ko*/.exportSymbol( 'ko.observable',n/*ko*/.observable );
+      
+      n/*ko*/.exportSymbol( 'ko.isObservable',n/*ko*/.isObservable );
+      
+      n/*ko*/.exportSymbol( 'ko.isWriteableObservable',n/*ko*/.isWriteableObservable );
+      
+      n/*ko*/.observableArray = function ( c/*initialValues*/ ) {
+        if ( arguments.length == 0 ){
+          c/*initialValues*/ = [];
+        };
+        
+        if ( ( c/*initialValues*/ !== null ) && ( c/*initialValues*/ !== undefined ) && !( 'length' in c/*initialValues*/ ) ){
+          throw new Error( "The argument passed when initializing an observable array must be an array, or null, or undefined." );
+        };
+        
+        var d/*result*/ = new n/*ko*/.observable( c/*initialValues*/ );
+        
+        n/*ko*/.utils.extend( d/*result*/,n/*ko*/.observableArray['fn'] );
+        
+        n/*ko*/.exportProperty( d/*result*/,"remove",d/*result*/.remove );
+        
+        n/*ko*/.exportProperty( d/*result*/,"removeAll",d/*result*/.removeAll );
+        
+        n/*ko*/.exportProperty( d/*result*/,"destroy",d/*result*/.destroy );
+        
+        n/*ko*/.exportProperty( d/*result*/,"destroyAll",d/*result*/.destroyAll );
+        
+        n/*ko*/.exportProperty( d/*result*/,"indexOf",d/*result*/.indexOf );
+        
+        n/*ko*/.exportProperty( d/*result*/,"replace",d/*result*/.replace );
+        return d/*result*/;
+      };
+      
+      n/*ko*/.observableArray['fn'] =  {
+        remove : function ( h/*valueOrPredicate*/ ) {
+          var i/*underlyingArray*/ = this();
+          
+          var j/*removedValues*/ = [];
+          
+          var k/*predicate*/ = typeof h/*valueOrPredicate*/ == "function"?h/*valueOrPredicate*/ : function ( i/*value*/ ) {
+                return i/*value*/ === h/*valueOrPredicate*/;
+              };
+          
+          for ( var l/*i*/ = 0;l/*i*/<i/*underlyingArray*/.length;l/*i*/ ++  ){
+            var g/*value*/ = i/*underlyingArray*/[l/*i*/];
+            
+            if ( k/*predicate*/( g/*value*/ ) ){
+              if ( j/*removedValues*/.length === 0 ){
+                this.valueWillMutate();
+              };
+              
+              j/*removedValues*/.push( g/*value*/ );
+              
+              i/*underlyingArray*/.splice( l/*i*/,1 );
+              
+              l/*i*/ -- ;
+            };
+          };
+          
+          if ( j/*removedValues*/.length ){
+            this.valueHasMutated();
+          };
+          return j/*removedValues*/;
+        },
+        removeAll : function ( d/*arrayOfValues*/ ) {
+          if ( d/*arrayOfValues*/ === undefined ){
+            var f/*underlyingArray*/ = this();
+            
+            var g/*allValues*/ = f/*underlyingArray*/.slice( 0 );
+            
+            this.valueWillMutate();
+            
+            f/*underlyingArray*/.splice( 0,f/*underlyingArray*/.length );
+            
+            this.valueHasMutated();
+            return g/*allValues*/;
+          };
+          
+          if ( !d/*arrayOfValues*/ ){
+            return [];
+          };
+          return this.remove( function ( f/*value*/ ) {
+            return n/*ko*/.utils.arrayIndexOf( d/*arrayOfValues*/,f/*value*/ ) >= 0;
+          });
+        },
+        destroy : function ( g/*valueOrPredicate*/ ) {
+          var h/*underlyingArray*/ = this();
+          
+          var i/*predicate*/ = typeof g/*valueOrPredicate*/ == "function"?g/*valueOrPredicate*/ : function ( h/*value*/ ) {
+                return h/*value*/ === g/*valueOrPredicate*/;
+              };
+          
+          this.valueWillMutate();
+          
+          for ( var j/*i*/ = h/*underlyingArray*/.length-1;j/*i*/ >= 0;j/*i*/ --  ){
+            var f/*value*/ = h/*underlyingArray*/[j/*i*/];
+            
+            if ( i/*predicate*/( f/*value*/ ) ){
+              h/*underlyingArray*/[j/*i*/]["_destroy"] = true;
+            };
+          };
+          
+          this.valueHasMutated();
+        },
+        destroyAll : function ( b/*arrayOfValues*/ ) {
+          if ( b/*arrayOfValues*/ === undefined ){
+            return this.destroy( function () {
+              return true;
+            });
+          };
+          
+          if ( !b/*arrayOfValues*/ ){
+            return [];
+          };
+          return this.destroy( function ( d/*value*/ ) {
+            return n/*ko*/.utils.arrayIndexOf( b/*arrayOfValues*/,d/*value*/ ) >= 0;
+          });
+        },
+        indexOf : function ( c/*item*/ ) {
+          var d/*underlyingArray*/ = this();
+          return n/*ko*/.utils.arrayIndexOf( d/*underlyingArray*/,c/*item*/ );
+        },
+        replace : function ( d/*oldItem*/,e/*newItem*/ ) {
+          var f/*index*/ = this.indexOf( d/*oldItem*/ );
+          
+          if ( f/*index*/ >= 0 ){
+            this.valueWillMutate();
+            
+            this()[f/*index*/] = e/*newItem*/;
+            
+            this.valueHasMutated();
+          };
+        }
+      };
+      
+      n/*ko*/.utils.arrayForEach( ["pop","push","reverse","shift","sort","splice","unshift"],
+      function ( b/*methodName*/ ) {
+        n/*ko*/.observableArray['fn'][b/*methodName*/] = function () {
+          var d/*underlyingArray*/ = this();
+          
+          this.valueWillMutate();
+          
+          var e/*methodCallResult*/ = d/*underlyingArray*/[b/*methodName*/].apply( d/*underlyingArray*/,arguments );
+          
+          this.valueHasMutated();
+          return e/*methodCallResult*/;
+        };
+      });
+      
+      n/*ko*/.utils.arrayForEach( ["slice"],
+      function ( b/*methodName*/ ) {
+        n/*ko*/.observableArray['fn'][b/*methodName*/] = function () {
+          var c/*underlyingArray*/ = this();
+          return c/*underlyingArray*/[b/*methodName*/].apply( c/*underlyingArray*/,arguments );
+        };
+      });
+      
+      n/*ko*/.exportSymbol( 'ko.observableArray',n/*ko*/.observableArray );
+      
+      function y/*prepareOptions*/( c/*evaluatorFunctionOrOptions*/,d/*evaluatorFunctionTarget*/,e/*options*/ ) {
+        if ( c/*evaluatorFunctionOrOptions*/ && typeof c/*evaluatorFunctionOrOptions*/ == "object" ){
+          e/*options*/ = c/*evaluatorFunctionOrOptions*/;
+        } else {
+          e/*options*/ = e/*options*/ || {};
+          
+          e/*options*/["read"] = c/*evaluatorFunctionOrOptions*/ || e/*options*/["read"];
+        };
+        
+        if ( typeof e/*options*/["read"] != "function" ){
+          throw "Pass a function that returns the value of the dependentObservable";
+        };
+        return e/*options*/;
+      }
+      n/*ko*/.dependentObservable = function ( N/*evaluatorFunctionOrOptions*/,j/*evaluatorFunctionTarget*/,h/*options*/ ) {
+        var l/*_latestValue*/,
+            g/*_hasBeenEvaluated*/ = false,
+            h/*options*/ = y/*prepareOptions*/( N/*evaluatorFunctionOrOptions*/,j/*evaluatorFunctionTarget*/,h/*options*/ );
+        
+        var b/*disposeWhenNodeIsRemoved*/ = ( typeof h/*options*/["disposeWhenNodeIsRemoved"] == "object" )?h/*options*/["disposeWhenNodeIsRemoved"] : null;
+        
+        var p/*disposeWhenNodeIsRemovedCallback*/ = null;
+        
+        if ( b/*disposeWhenNodeIsRemoved*/ ){
+          p/*disposeWhenNodeIsRemovedCallback*/ = function () {
+            a/*dependentObservable*/.dispose();
+          };
+          
+          n/*ko*/.utils.domNodeDisposal.addDisposeCallback( b/*disposeWhenNodeIsRemoved*/,p/*disposeWhenNodeIsRemovedCallback*/ );
+          
+          var c/*existingDisposeWhenFunction*/ = h/*options*/["disposeWhen"];
+          
+          h/*options*/["disposeWhen"] = function () {
+            return ( !n/*ko*/.utils.domNodeIsAttachedToDocument( b/*disposeWhenNodeIsRemoved*/ ) ) || ( ( typeof c/*existingDisposeWhenFunction*/ == "function" ) && c/*existingDisposeWhenFunction*/() );
+          };
+        };
+        
+        var d/*_subscriptionsToDependencies*/ = [];
+        
+        function i/*disposeAllSubscriptionsToDependencies*/() {
+          n/*ko*/.utils.arrayForEach( d/*_subscriptionsToDependencies*/,
+          function ( b/*subscription*/ ) {
+            b/*subscription*/.dispose();
+          });
+          
+          d/*_subscriptionsToDependencies*/ = [];
+        }
+        var e/*evaluationTimeoutInstance*/ = null;
+        
+        function o/*evaluatePossiblyAsync*/() {
+          var g/*throttleEvaluationTimeout*/ = a/*dependentObservable*/['throttleEvaluation'];
+          
+          if ( g/*throttleEvaluationTimeout*/ && g/*throttleEvaluationTimeout*/ >= 0 ){
+            clearTimeout( e/*evaluationTimeoutInstance*/ );
+            
+            e/*evaluationTimeoutInstance*/ = setTimeout( f/*evaluateImmediate*/,g/*throttleEvaluationTimeout*/ );
+          } else {
+            f/*evaluateImmediate*/();
+          };
+        }
+        function f/*evaluateImmediate*/() {
+          if ( ( g/*_hasBeenEvaluated*/ ) && typeof h/*options*/["disposeWhen"] == "function" ){
+            if ( h/*options*/["disposeWhen"]() ){
+              a/*dependentObservable*/.dispose();
+              return ;
+            };
+          };
+          
+          try {
+            i/*disposeAllSubscriptionsToDependencies*/();
+            
+            n/*ko*/.dependencyDetection.begin( function ( b/*subscribable*/ ) {
+              d/*_subscriptionsToDependencies*/.push( b/*subscribable*/.subscribe( o/*evaluatePossiblyAsync*/ ) );
+            });
+            
+            var p/*valueForThis*/ = h/*options*/["owner"] || j/*evaluatorFunctionTarget*/;
+            
+            var q/*newValue*/ = h/*options*/["read"].call( p/*valueForThis*/ );
+            
+            a/*dependentObservable*/["notifySubscribers"]( l/*_latestValue*/,"beforeChange" );
+            
+            l/*_latestValue*/ = q/*newValue*/;
+          } finally {
+            n/*ko*/.dependencyDetection.end();
+          };
+          
+          a/*dependentObservable*/["notifySubscribers"]( l/*_latestValue*/ );
+          
+          g/*_hasBeenEvaluated*/ = true;
+        }
+        function a/*dependentObservable*/() {
+          if ( arguments.length>0 ){
+            if ( typeof h/*options*/["write"] === "function" ){
+              var b/*valueForThis*/ = h/*options*/["owner"] || j/*evaluatorFunctionTarget*/;
+              
+              h/*options*/["write"].apply( b/*valueForThis*/,arguments );
+            } else {
+              throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
+            };
+          } else {
+            if ( !g/*_hasBeenEvaluated*/ ){
+              f/*evaluateImmediate*/();
+            };
+            
+            n/*ko*/.dependencyDetection.registerDependency( a/*dependentObservable*/ );
+            return l/*_latestValue*/;
+          };
+        }
+        a/*dependentObservable*/.getDependenciesCount = function () {
+          return d/*_subscriptionsToDependencies*/.length;
+        };
+        
+        a/*dependentObservable*/.hasWriteFunction = typeof h/*options*/["write"] === "function";
+        
+        a/*dependentObservable*/.dispose = function () {
+          if ( b/*disposeWhenNodeIsRemoved*/ ){
+            n/*ko*/.utils.domNodeDisposal.removeDisposeCallback( b/*disposeWhenNodeIsRemoved*/,p/*disposeWhenNodeIsRemovedCallback*/ );
+          };
+          
+          i/*disposeAllSubscriptionsToDependencies*/();
+        };
+        
+        n/*ko*/.subscribable.call( a/*dependentObservable*/ );
+        
+        n/*ko*/.utils.extend( a/*dependentObservable*/,n/*ko*/.dependentObservable['fn'] );
+        
+        if ( h/*options*/['deferEvaluation'] !== true ){
+          f/*evaluateImmediate*/();
+        };
+        
+        n/*ko*/.exportProperty( a/*dependentObservable*/,'dispose',a/*dependentObservable*/.dispose );
+        
+        n/*ko*/.exportProperty( a/*dependentObservable*/,'getDependenciesCount',a/*dependentObservable*/.getDependenciesCount );
+        return a/*dependentObservable*/;
+      };
+      
+      n/*ko*/.dependentObservable['fn'] =  {
+        __ko_proto__ : n/*ko*/.dependentObservable
+      };
+      
+      n/*ko*/.dependentObservable.__ko_proto__ = n/*ko*/.observable;
+      
+      n/*ko*/.exportSymbol( 'ko.dependentObservable',n/*ko*/.dependentObservable );
+      
+      n/*ko*/.exportSymbol( 'ko.computed',n/*ko*/.dependentObservable );
+      
+      ( function () {
+        var g/*maxNestedObservableDepth*/ = 10;
+        
+        n/*ko*/.toJS = function ( h/*rootObject*/ ) {
+          if ( arguments.length == 0 ){
+            throw new Error( "When calling ko.toJS, pass the object you want to convert." );
+          };
+          return e/*mapJsObjectGraph*/( h/*rootObject*/,
+          function ( c/*valueToMap*/ ) {
+            for ( var d/*i*/ = 0;n/*ko*/.isObservable( c/*valueToMap*/ ) && ( d/*i*/<g/*maxNestedObservableDepth*/ );d/*i*/ ++  ){
+              c/*valueToMap*/ = c/*valueToMap*/();
+            };
+            return c/*valueToMap*/;
+          });
+        };
+        
+        n/*ko*/.toJSON = function ( c/*rootObject*/ ) {
+          var d/*plainJavaScriptObject*/ = n/*ko*/.toJS( c/*rootObject*/ );
+          return n/*ko*/.utils.stringifyJson( d/*plainJavaScriptObject*/ );
+        };
+        
+        function e/*mapJsObjectGraph*/( c/*rootObject*/,b/*mapInputCallback*/,g/*visitedObjects*/ ) {
+          g/*visitedObjects*/ = g/*visitedObjects*/ || new h/*objectLookup*/();
+          
+          c/*rootObject*/ = b/*mapInputCallback*/( c/*rootObject*/ );
+          
+          var n/*canHaveProperties*/ = ( typeof c/*rootObject*/ == "object" ) && ( c/*rootObject*/ !== null ) && ( c/*rootObject*/ !== undefined ) && ( !( c/*rootObject*/ instanceof Date ) );
+          
+          if ( !n/*canHaveProperties*/ ){
+            return c/*rootObject*/;
+          };
+          
+          var f/*outputProperties*/ = c/*rootObject*/ instanceof Array?[] : {};
+          
+          g/*visitedObjects*/.save( c/*rootObject*/,f/*outputProperties*/ );
+          
+          m/*visitPropertiesOrArrayEntries*/( c/*rootObject*/,
+          function ( i/*indexer*/ ) {
+            var j/*propertyValue*/ = b/*mapInputCallback*/( c/*rootObject*/[i/*indexer*/] );
+            
+            switch ( typeof j/*propertyValue*/ ) {
+              case "boolean" :
+              case "number" :
+              case "string" :
+              case "function" :
+                
+                f/*outputProperties*/[i/*indexer*/] = j/*propertyValue*/;
+                break;
+              case "object" :
+              case "undefined" :
+                
+                var k/*previouslyMappedValue*/ = g/*visitedObjects*/.get( j/*propertyValue*/ );
+                
+                f/*outputProperties*/[i/*indexer*/] = ( k/*previouslyMappedValue*/ !== undefined )?k/*previouslyMappedValue*/ : e/*mapJsObjectGraph*/( j/*propertyValue*/,b/*mapInputCallback*/,g/*visitedObjects*/ );
+                break;
+                
+            };
+          });
+          return f/*outputProperties*/;
+        }
+        function m/*visitPropertiesOrArrayEntries*/( e/*rootObject*/,f/*visitorCallback*/ ) {
+          if ( e/*rootObject*/ instanceof Array ){
+            for ( var g/*i*/ = 0;g/*i*/<e/*rootObject*/.length;g/*i*/ ++  ){
+              f/*visitorCallback*/( g/*i*/ );
+            };
+          } else {
+            for ( var h/*propertyName*/ in e/*rootObject*/ ){
+              f/*visitorCallback*/( h/*propertyName*/ );
+            };
+          };
+        }
+        function h/*objectLookup*/() {
+          var c/*keys*/ = [];
+          
+          var f/*values*/ = [];
+          
+          this.save = function ( h/*key*/,i/*value*/ ) {
+            var j/*existingIndex*/ = n/*ko*/.utils.arrayIndexOf( c/*keys*/,h/*key*/ );
+            
+            if ( j/*existingIndex*/ >= 0 ){
+              f/*values*/[j/*existingIndex*/] = i/*value*/;
+            } else {
+              c/*keys*/.push( h/*key*/ );
+              
+              f/*values*/.push( i/*value*/ );
+            };
+          };
+          
+          this.get = function ( d/*key*/ ) {
+            var e/*existingIndex*/ = n/*ko*/.utils.arrayIndexOf( c/*keys*/,d/*key*/ );
+            return ( e/*existingIndex*/ >= 0 )?f/*values*/[e/*existingIndex*/] : undefined;
+          };
+        }
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.toJS',n/*ko*/.toJS );
+      
+      n/*ko*/.exportSymbol( 'ko.toJSON',n/*ko*/.toJSON );
+      
+      ( function () {
+        var b/*hasDomDataExpandoProperty*/ = '__ko__hasDomDataOptionValue__';
+        
+        n/*ko*/.selectExtensions =  {
+          readValue : function ( c/*element*/ ) {
+            if ( c/*element*/.tagName == 'OPTION' ){
+              if ( c/*element*/[b/*hasDomDataExpandoProperty*/] === true ){
+                return n/*ko*/.utils.domData.get( c/*element*/,n/*ko*/.bindingHandlers.options.optionValueDomDataKey );
+              };
+              return c/*element*/.getAttribute( "value" );
+            } else if ( c/*element*/.tagName == 'SELECT' ){
+              return c/*element*/.selectedIndex >= 0?n/*ko*/.selectExtensions.readValue( c/*element*/.options[c/*element*/.selectedIndex] ) : undefined;
+            } else {
+              return c/*element*/.value;
+            };
+          },
+          writeValue : function ( d/*element*/,e/*value*/ ) {
+            if ( d/*element*/.tagName == 'OPTION' ){
+              switch ( typeof e/*value*/ ) {
+                case "string" :
                   
-                  __LINE__ = 498;
-                  if ( ( e/*allDisposeCallbacks*/ === undefined ) && d/*createIfNotFound*/ ){
-                    __LINE__ = 0;
-                    e/*allDisposeCallbacks*/ = [];
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.domData.set( c/*node*/,e/*domDataKey*/,e/*allDisposeCallbacks*/ );
+                  n/*ko*/.utils.domData.set( d/*element*/,n/*ko*/.bindingHandlers.options.optionValueDomDataKey,undefined );
+                  
+                  if ( b/*hasDomDataExpandoProperty*/ in d/*element*/ ){
+                    delete d/*element*/[b/*hasDomDataExpandoProperty*/];
                   };
-                  __LINE__ = 502;
-                  return e/*allDisposeCallbacks*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function f/*destroyCallbacksCollection*/( c/*node*/ ) {
-                try {
-                  __LINE__ = 0;
-                  b/*ko*/.utils.domData.set( c/*node*/,e/*domDataKey*/,undefined );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function c/*cleanSingleNode*/( c/*node*/ ) {
-                try {
-                  __LINE__ = 510;
-                  var d/*callbacks*/ = a/*getDisposeCallbacksCollection*/( c/*node*/,false );
                   
-                  __LINE__ = 511;
-                  if ( d/*callbacks*/ ){
-                    __LINE__ = 0;
-                    d/*callbacks*/ = d/*callbacks*/.slice( 0 );
+                  d/*element*/.value = e/*value*/;
+                  break;
+                default :
+                  
+                  n/*ko*/.utils.domData.set( d/*element*/,n/*ko*/.bindingHandlers.options.optionValueDomDataKey,e/*value*/ );
+                  
+                  d/*element*/[b/*hasDomDataExpandoProperty*/] = true;
+                  
+                  d/*element*/.value = typeof e/*value*/ === "number"?e/*value*/ : "";
+                  break;
+                  
+              };
+            } else if ( d/*element*/.tagName == 'SELECT' ){
+              for ( var f/*i*/ = d/*element*/.options.length-1;f/*i*/ >= 0;f/*i*/ --  ){
+                if ( n/*ko*/.selectExtensions.readValue( d/*element*/.options[f/*i*/] ) == e/*value*/ ){
+                  d/*element*/.selectedIndex = f/*i*/;
+                  break;
+                };
+              };
+            } else {
+              if ( ( e/*value*/ === null ) || ( e/*value*/ === undefined ) ){
+                e/*value*/ = "";
+              };
+              
+              d/*element*/.value = e/*value*/;
+            };
+          }
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.selectExtensions',n/*ko*/.selectExtensions );
+      
+      n/*ko*/.exportSymbol( 'ko.selectExtensions.readValue',n/*ko*/.selectExtensions.readValue );
+      
+      n/*ko*/.exportSymbol( 'ko.selectExtensions.writeValue',n/*ko*/.selectExtensions.writeValue );
+      
+      n/*ko*/.jsonExpressionRewriting = ( function () {
+        var g/*restoreCapturedTokensRegex*/ = /\@ko_token_(\d+)\@/g;
+        
+        var k/*javaScriptAssignmentTarget*/ = /^[\_$a-z][\_$a-z0-9]*(\[.*?\])*(\.[\_$a-z][\_$a-z0-9]*(\[.*?\])*)*$/i;
+        
+        var i/*javaScriptReservedWords*/ = ["true","false"];
+        
+        function r/*restoreTokens*/( i/*string*/,c/*tokens*/ ) {
+          var j/*prevValue*/ = null;
+          
+          while ( i/*string*/ != j/*prevValue*/ ){
+            j/*prevValue*/ = i/*string*/;
+            
+            i/*string*/ = i/*string*/.replace( g/*restoreCapturedTokensRegex*/,
+            function ( e/*match*/,f/*tokenIndex*/ ) {
+              return c/*tokens*/[f/*tokenIndex*/];
+            });
+          };
+          return i/*string*/;
+        }
+        function x/*isWriteableValue*/( l/*expression*/ ) {
+          if ( n/*ko*/.utils.arrayIndexOf( i/*javaScriptReservedWords*/,n/*ko*/.utils.stringTrim( l/*expression*/ ).toLowerCase() ) >= 0 ){
+            return false;
+          };
+          return l/*expression*/.match( k/*javaScriptAssignmentTarget*/ ) !== null;
+        }
+        function u/*ensureQuoted*/( c/*key*/ ) {
+          var d/*trimmedKey*/ = n/*ko*/.utils.stringTrim( c/*key*/ );
+          
+          switch ( d/*trimmedKey*/.length && d/*trimmedKey*/.charAt( 0 ) ) {
+            case "'" :
+            case '"' :
+              return c/*key*/;
+            default :
+              return "'"+d/*trimmedKey*/+"'";
+              
+          };
+        }return  {
+          bindingRewriteValidators : [],
+          parseObjectLiteral : function ( u/*objectLiteralString*/ ) {
+            var v/*str*/ = n/*ko*/.utils.stringTrim( u/*objectLiteralString*/ );
+            
+            if ( v/*str*/.length<3 ){
+              return [];
+            };
+            
+            if ( v/*str*/.charAt( 0 ) === "{" ){
+              v/*str*/ = v/*str*/.substring( 1,v/*str*/.length-1 );
+            };
+            
+            var w/*tokens*/ = [];
+            
+            var x/*tokenStart*/ = null,
+                y/*tokenEndChar*/;
+            
+            for ( var z/*position*/ = 0;z/*position*/<v/*str*/.length;z/*position*/ ++  ){
+              var A/*c*/ = v/*str*/.charAt( z/*position*/ );
+              
+              if ( x/*tokenStart*/ === null ){
+                switch ( A/*c*/ ) {
+                  case '"' :
+                  case "'" :
+                  case "/" :
                     
-                    __LINE__ = 513;
-                    for ( var e/*i*/ = 0;e/*i*/<d/*callbacks*/.length;e/*i*/ ++  ){
-                      __LINE__ = 0;
-                      d/*callbacks*/[e/*i*/]( c/*node*/ );
-                    };
+                    x/*tokenStart*/ = z/*position*/;
+                    
+                    y/*tokenEndChar*/ = A/*c*/;
+                    break;
+                    
+                };
+              } else if ( ( A/*c*/ == y/*tokenEndChar*/ ) && ( v/*str*/.charAt( z/*position*/-1 ) !== "\\" ) ){
+                var B/*token*/ = v/*str*/.substring( x/*tokenStart*/,z/*position*/+1 );
+                
+                w/*tokens*/.push( B/*token*/ );
+                
+                var C/*replacement*/ = "@ko_token_"+( w/*tokens*/.length-1 )+"@";
+                
+                v/*str*/ = v/*str*/.substring( 0,x/*tokenStart*/ )+C/*replacement*/+v/*str*/.substring( z/*position*/+1 );
+                
+                z/*position*/ -= ( B/*token*/.length-C/*replacement*/.length );
+                
+                x/*tokenStart*/ = null;
+              };
+            };
+            
+            x/*tokenStart*/ = null;
+            
+            y/*tokenEndChar*/ = null;
+            
+            var D/*tokenDepth*/ = 0,
+                E/*tokenStartChar*/ = null;
+            
+            for ( var z/*position*/ = 0;z/*position*/<v/*str*/.length;z/*position*/ ++  ){
+              var A/*c*/ = v/*str*/.charAt( z/*position*/ );
+              
+              if ( x/*tokenStart*/ === null ){
+                switch ( A/*c*/ ) {
+                  case "{" :
+                    
+                    x/*tokenStart*/ = z/*position*/;
+                    
+                    E/*tokenStartChar*/ = A/*c*/;
+                    
+                    y/*tokenEndChar*/ = "}";
+                    break;
+                  case "(" :
+                    
+                    x/*tokenStart*/ = z/*position*/;
+                    
+                    E/*tokenStartChar*/ = A/*c*/;
+                    
+                    y/*tokenEndChar*/ = ")";
+                    break;
+                  case "[" :
+                    
+                    x/*tokenStart*/ = z/*position*/;
+                    
+                    E/*tokenStartChar*/ = A/*c*/;
+                    
+                    y/*tokenEndChar*/ = "]";
+                    break;
+                    
+                };
+              };
+              
+              if ( A/*c*/ === E/*tokenStartChar*/ ){
+                D/*tokenDepth*/ ++ ;
+              } else if ( A/*c*/ === y/*tokenEndChar*/ ){
+                D/*tokenDepth*/ -- ;
+                if ( D/*tokenDepth*/ === 0 ){
+                  var B/*token*/ = v/*str*/.substring( x/*tokenStart*/,z/*position*/+1 );
+                  
+                  w/*tokens*/.push( B/*token*/ );
+                  
+                  var C/*replacement*/ = "@ko_token_"+( w/*tokens*/.length-1 )+"@";
+                  
+                  v/*str*/ = v/*str*/.substring( 0,x/*tokenStart*/ )+C/*replacement*/+v/*str*/.substring( z/*position*/+1 );
+                  
+                  z/*position*/ -= ( B/*token*/.length-C/*replacement*/.length );
+                  
+                  x/*tokenStart*/ = null;
+                };
+              };
+            };
+            
+            var F/*result*/ = [];
+            
+            var G/*keyValuePairs*/ = v/*str*/.split( "," );
+            
+            for ( var H/*i*/ = 0,I/*j*/ = G/*keyValuePairs*/.length;H/*i*/<I/*j*/;H/*i*/ ++  ){
+              var J/*pair*/ = G/*keyValuePairs*/[H/*i*/];
+              
+              var K/*colonPos*/ = J/*pair*/.indexOf( ":" );
+              
+              if ( ( K/*colonPos*/>0 ) && ( K/*colonPos*/<J/*pair*/.length-1 ) ){
+                var L/*key*/ = J/*pair*/.substring( 0,K/*colonPos*/ );
+                
+                var M/*value*/ = J/*pair*/.substring( K/*colonPos*/+1 );
+                
+                F/*result*/.push(  {
+                  'key' : r/*restoreTokens*/( L/*key*/,w/*tokens*/ ),
+                  'value' : r/*restoreTokens*/( M/*value*/,w/*tokens*/ )
+                });
+              } else {
+                F/*result*/.push(  {
+                  'unknown' : r/*restoreTokens*/( J/*pair*/,w/*tokens*/ )
+                });
+              };
+            };
+            return F/*result*/;
+          },
+          insertPropertyAccessorsIntoJson : function ( B/*objectLiteralStringOrKeyValueArray*/ ) {
+            var C/*keyValueArray*/ = typeof B/*objectLiteralStringOrKeyValueArray*/ === "string"?n/*ko*/.jsonExpressionRewriting.parseObjectLiteral( B/*objectLiteralStringOrKeyValueArray*/ ) : B/*objectLiteralStringOrKeyValueArray*/;
+            
+            var D/*resultStrings*/ = [],
+                E/*propertyAccessorResultStrings*/ = [];
+            
+            var F/*keyValueEntry*/;
+            
+            for ( var G/*i*/ = 0;F/*keyValueEntry*/ = C/*keyValueArray*/[G/*i*/];G/*i*/ ++  ){
+              if ( D/*resultStrings*/.length>0 ){
+                D/*resultStrings*/.push( "," );
+              };
+              
+              if ( F/*keyValueEntry*/['key'] ){
+                var H/*quotedKey*/ = u/*ensureQuoted*/( F/*keyValueEntry*/['key'] ),
+                    I/*val*/ = F/*keyValueEntry*/['value'];
+                
+                D/*resultStrings*/.push( H/*quotedKey*/ );
+                
+                D/*resultStrings*/.push( ":" );
+                
+                D/*resultStrings*/.push( I/*val*/ );
+                
+                if ( x/*isWriteableValue*/( n/*ko*/.utils.stringTrim( I/*val*/ ) ) ){
+                  if ( E/*propertyAccessorResultStrings*/.length>0 ){
+                    E/*propertyAccessorResultStrings*/.push( ", " );
                   };
                   
-                  __LINE__ = 0;
-                  b/*ko*/.utils.domData.clear( c/*node*/ );
+                  E/*propertyAccessorResultStrings*/.push( H/*quotedKey*/+" : function(__ko_value) { "+I/*val*/+" = __ko_value; }" );
+                };
+              } else if ( F/*keyValueEntry*/['unknown'] ){
+                D/*resultStrings*/.push( F/*keyValueEntry*/['unknown'] );
+              };
+            };
+            
+            var J/*combinedResult*/ = D/*resultStrings*/.join( "" );
+            
+            if ( E/*propertyAccessorResultStrings*/.length>0 ){
+              var K/*allPropertyAccessors*/ = E/*propertyAccessorResultStrings*/.join( "" );
+              
+              J/*combinedResult*/ = J/*combinedResult*/+", '_ko_property_writers' : { "+K/*allPropertyAccessors*/+" } ";
+            };
+            return J/*combinedResult*/;
+          },
+          keyValueArrayContainsKey : function ( d/*keyValueArray*/,e/*key*/ ) {
+            for ( var f/*i*/ = 0;f/*i*/<d/*keyValueArray*/.length;f/*i*/ ++  ){
+              if ( n/*ko*/.utils.stringTrim( d/*keyValueArray*/[f/*i*/]['key'] ) == e/*key*/ ){
+                return true;
+              };
+            };
+            return false;
+          }
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting',n/*ko*/.jsonExpressionRewriting );
+      
+      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.bindingRewriteValidators',n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators );
+      
+      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.parseObjectLiteral',n/*ko*/.jsonExpressionRewriting.parseObjectLiteral );
+      
+      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson',n/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson );
+      
+      ( function () {
+        var k/*commentNodesHaveTextProperty*/ = document.createComment( "test" ).text === "<!--test-->";
+        
+        var l/*startCommentRegex*/ = k/*commentNodesHaveTextProperty*/?/^<!--\s*ko\s+(.*\:.*)\s*-->$/ : /^\s*ko\s+(.*\:.*)\s*$/;
+        
+        var m/*endCommentRegex*/ = k/*commentNodesHaveTextProperty*/?/^<!--\s*\/ko\s*-->$/ : /^\s*\/ko\s*$/;
+        
+        var C/*htmlTagsWithOptionallyClosingChildren*/ =  {
+              'ul' : true,
+              'ol' : true
+            };
+        
+        function r/*isStartComment*/( m/*node*/ ) {
+          return ( m/*node*/.nodeType == 8 ) && ( k/*commentNodesHaveTextProperty*/?m/*node*/.text : m/*node*/.nodeValue ).match( l/*startCommentRegex*/ );
+        }
+        function o/*isEndComment*/( n/*node*/ ) {
+          return ( n/*node*/.nodeType == 8 ) && ( k/*commentNodesHaveTextProperty*/?n/*node*/.text : n/*node*/.nodeValue ).match( m/*endCommentRegex*/ );
+        }
+        function t/*getVirtualChildren*/( t/*startComment*/,u/*allowUnbalanced*/ ) {
+          var v/*currentNode*/ = t/*startComment*/;
+          
+          var w/*depth*/ = 1;
+          
+          var x/*children*/ = [];
+          
+          while ( v/*currentNode*/ = v/*currentNode*/.nextSibling ){
+            if ( o/*isEndComment*/( v/*currentNode*/ ) ){
+              w/*depth*/ -- ;
+              
+              if ( w/*depth*/ === 0 ){
+                return x/*children*/;
+              };
+            };
+            
+            x/*children*/.push( v/*currentNode*/ );
+            
+            if ( r/*isStartComment*/( v/*currentNode*/ ) ){
+              w/*depth*/ ++ ;
+            };
+          };
+          
+          if ( !u/*allowUnbalanced*/ ){
+            throw new Error( "Cannot find closing comment tag to match: "+t/*startComment*/.nodeValue );
+          };
+          return null;
+        }
+        function x/*getMatchingEndComment*/( x/*startComment*/,y/*allowUnbalanced*/ ) {
+          var z/*allVirtualChildren*/ = t/*getVirtualChildren*/( x/*startComment*/,y/*allowUnbalanced*/ );
+          
+          if ( z/*allVirtualChildren*/ ){
+            if ( z/*allVirtualChildren*/.length>0 ){
+              return z/*allVirtualChildren*/[z/*allVirtualChildren*/.length-1].nextSibling;
+            };
+            return x/*startComment*/.nextSibling;
+          } else {
+            return null;
+          };
+        }
+        function z/*nodeArrayToText*/( f/*nodeArray*/,g/*cleanNodes*/ ) {
+          var h/*texts*/ = [];
+          
+          for ( var i/*i*/ = 0,j/*j*/ = f/*nodeArray*/.length;i/*i*/<j/*j*/;i/*i*/ ++  ){
+            if ( g/*cleanNodes*/ ){
+              n/*ko*/.utils.domNodeDisposal.cleanNode( f/*nodeArray*/[i/*i*/] );
+            };
+            
+            h/*texts*/.push( n/*ko*/.utils.outerHTML( f/*nodeArray*/[i/*i*/] ) );
+          };
+          return String.prototype.concat.apply( "",h/*texts*/ );
+        }
+        function F/*getUnbalancedChildTags*/( z/*node*/ ) {
+          var A/*childNode*/ = z/*node*/.firstChild,
+              B/*captureRemaining*/ = null;
+          
+          if ( A/*childNode*/ ){
+            do {
+              if ( B/*captureRemaining*/ ){
+                B/*captureRemaining*/.push( A/*childNode*/ );
+              } else if ( r/*isStartComment*/( A/*childNode*/ ) ){
+                var C/*matchingEndComment*/ = x/*getMatchingEndComment*/( A/*childNode*/,true );
+                if ( C/*matchingEndComment*/ ){
+                  A/*childNode*/ = C/*matchingEndComment*/;
+                } else {
+                  B/*captureRemaining*/ = [A/*childNode*/];
+                };
+              } else if ( o/*isEndComment*/( A/*childNode*/ ) ){
+                B/*captureRemaining*/ = [A/*childNode*/];
+              };
+            }while ( A/*childNode*/ = A/*childNode*/.nextSibling );
+          };
+          return B/*captureRemaining*/;
+        }
+        n/*ko*/.virtualElements =  {
+          allowedBindings : {},
+          childNodes : function ( b/*node*/ ) {
+            return r/*isStartComment*/( b/*node*/ )?t/*getVirtualChildren*/( b/*node*/ ) : b/*node*/.childNodes;
+          },
+          emptyNode : function ( e/*node*/ ) {
+            if ( !r/*isStartComment*/( e/*node*/ ) ){
+              n/*ko*/.utils.emptyDomNode( e/*node*/ );
+            } else {
+              var f/*virtualChildren*/ = n/*ko*/.virtualElements.childNodes( e/*node*/ );
+              
+              for ( var g/*i*/ = 0,h/*j*/ = f/*virtualChildren*/.length;g/*i*/<h/*j*/;g/*i*/ ++  ){
+                n/*ko*/.removeNode( f/*virtualChildren*/[g/*i*/] );
+              };
+            };
+          },
+          setDomNodeChildren : function ( f/*node*/,g/*childNodes*/ ) {
+            if ( !r/*isStartComment*/( f/*node*/ ) ){
+              n/*ko*/.utils.setDomNodeChildren( f/*node*/,g/*childNodes*/ );
+            } else {
+              n/*ko*/.virtualElements.emptyNode( f/*node*/ );
+              
+              var h/*endCommentNode*/ = f/*node*/.nextSibling;
+              
+              for ( var i/*i*/ = 0,j/*j*/ = g/*childNodes*/.length;i/*i*/<j/*j*/;i/*i*/ ++  ){
+                h/*endCommentNode*/.parentNode.insertBefore( g/*childNodes*/[i/*i*/],h/*endCommentNode*/ );
+              };
+            };
+          },
+          prepend : function ( c/*containerNode*/,d/*nodeToPrepend*/ ) {
+            if ( !r/*isStartComment*/( c/*containerNode*/ ) ){
+              if ( c/*containerNode*/.firstChild ){
+                c/*containerNode*/.insertBefore( d/*nodeToPrepend*/,c/*containerNode*/.firstChild );
+              } else {
+                c/*containerNode*/.appendChild( d/*nodeToPrepend*/ );
+              };
+            } else {
+              c/*containerNode*/.parentNode.insertBefore( d/*nodeToPrepend*/,c/*containerNode*/.nextSibling );
+            };
+          },
+          insertAfter : function ( d/*containerNode*/,e/*nodeToInsert*/,f/*insertAfterNode*/ ) {
+            if ( !r/*isStartComment*/( d/*containerNode*/ ) ){
+              if ( f/*insertAfterNode*/.nextSibling ){
+                d/*containerNode*/.insertBefore( e/*nodeToInsert*/,f/*insertAfterNode*/.nextSibling );
+              } else {
+                d/*containerNode*/.appendChild( e/*nodeToInsert*/ );
+              };
+            } else {
+              d/*containerNode*/.parentNode.insertBefore( e/*nodeToInsert*/,f/*insertAfterNode*/.nextSibling );
+            };
+          },
+          nextSibling : function ( b/*node*/ ) {
+            if ( !r/*isStartComment*/( b/*node*/ ) ){
+              if ( b/*node*/.nextSibling && o/*isEndComment*/( b/*node*/.nextSibling ) ){
+                return undefined;
+              };
+              return b/*node*/.nextSibling;
+            } else {
+              return x/*getMatchingEndComment*/( b/*node*/ ).nextSibling;
+            };
+          },
+          virtualNodeBindingValue : function ( c/*node*/ ) {
+            var d/*regexMatch*/ = r/*isStartComment*/( c/*node*/ );
+            return d/*regexMatch*/?d/*regexMatch*/[1] : null;
+          },
+          extractAnonymousTemplateIfVirtualElement : function ( C/*node*/ ) {
+            if ( n/*ko*/.virtualElements.virtualNodeBindingValue( C/*node*/ ) ){
+              var D/*virtualChildren*/ = n/*ko*/.virtualElements.childNodes( C/*node*/ );
+              
+              var E/*anonymousTemplateText*/ = z/*nodeArrayToText*/( D/*virtualChildren*/,true );
+              
+              n/*ko*/.virtualElements.emptyNode( C/*node*/ );
+              
+              new n/*ko*/.templateSources.anonymousTemplate( C/*node*/ ).text( E/*anonymousTemplateText*/ );
+            };
+          },
+          normaliseVirtualElementDomStructure : function ( J/*elementVerified*/ ) {
+            if ( !C/*htmlTagsWithOptionallyClosingChildren*/[J/*elementVerified*/.tagName.toLowerCase()] ){
+              return ;
+            };
+            
+            var K/*childNode*/ = J/*elementVerified*/.firstChild;
+            
+            if ( K/*childNode*/ ){
+              do {
+                if ( K/*childNode*/.nodeType === 1 ){
+                  var L/*unbalancedTags*/ = F/*getUnbalancedChildTags*/( K/*childNode*/ );
                   
-                  __LINE__ = 523;
-                  if ( ( typeof jQuery == "function" ) && ( typeof jQuery['cleanData'] == "function" ) ){
-                    __LINE__ = 0;
-                    jQuery['cleanData']( [c/*node*/] );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }__LINE__ = 527;
-              return  {
-                addDisposeCallback : function ( b/*node*/,c/*callback*/ ) {
-                  try {
-                    __LINE__ = 529;
-                    if ( typeof c/*callback*/ != "function" ){
-                      __LINE__ = 530;
-                      throw new Error( "Callback must be a function" );
-                    };
+                  if ( L/*unbalancedTags*/ ){
+                    var M/*nodeToInsertBefore*/ = K/*childNode*/.nextSibling;
                     
-                    __LINE__ = 0;
-                    a/*getDisposeCallbacksCollection*/( b/*node*/,true ).push( c/*callback*/ );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                removeDisposeCallback : function ( b/*node*/,c/*callback*/ ) {
-                  try {
-                    __LINE__ = 535;
-                    var d/*callbacksCollection*/ = a/*getDisposeCallbacksCollection*/( b/*node*/,false );
-                    
-                    __LINE__ = 536;
-                    if ( d/*callbacksCollection*/ ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.arrayRemoveItem( d/*callbacksCollection*/,c/*callback*/ );
-                      
-                      __LINE__ = 538;
-                      if ( d/*callbacksCollection*/.length == 0 ){
-                        __LINE__ = 0;
-                        f/*destroyCallbacksCollection*/( b/*node*/ );
+                    for ( var N/*i*/ = 0;N/*i*/<L/*unbalancedTags*/.length;N/*i*/ ++  ){
+                      if ( M/*nodeToInsertBefore*/ ){
+                        J/*elementVerified*/.insertBefore( L/*unbalancedTags*/[N/*i*/],M/*nodeToInsertBefore*/ );
+                      } else {
+                        J/*elementVerified*/.appendChild( L/*unbalancedTags*/[N/*i*/] );
                       };
                     };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                cleanNode : function ( e/*node*/ ) {
-                  try {
-                    __LINE__ = 544;
-                    if ( ( e/*node*/.nodeType != 1 ) && ( e/*node*/.nodeType != 9 ) ){
-                      __LINE__ = 545;
-                      return ;
-                    };
-                    
-                    __LINE__ = 0;
-                    c/*cleanSingleNode*/( e/*node*/ );
-                    
-                    __LINE__ = 549;
-                    var f/*descendants*/ = [];
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.arrayPushAll( f/*descendants*/,e/*node*/.getElementsByTagName( "*" ) );
-                    
-                    __LINE__ = 551;
-                    for ( var g/*i*/ = 0,h/*j*/ = f/*descendants*/.length;g/*i*/<h/*j*/;g/*i*/ ++  ){
-                      __LINE__ = 0;
-                      c/*cleanSingleNode*/( f/*descendants*/[g/*i*/] );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                removeNode : function ( c/*node*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    b/*ko*/.cleanNode( c/*node*/ );
-                    
-                    __LINE__ = 557;
-                    if ( c/*node*/.parentNode ){
-                      __LINE__ = 0;
-                      c/*node*/.parentNode.removeChild( c/*node*/ );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.cleanNode = b/*ko*/.utils.domNodeDisposal.cleanNode;
-          
-          __LINE__ = 0;
-          b/*ko*/.removeNode = b/*ko*/.utils.domNodeDisposal.removeNode;
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.cleanNode',b/*ko*/.cleanNode );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.removeNode',b/*ko*/.removeNode );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal',b/*ko*/.utils.domNodeDisposal );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal.addDisposeCallback',b/*ko*/.utils.domNodeDisposal.addDisposeCallback );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal.removeDisposeCallback',b/*ko*/.utils.domNodeDisposal.removeDisposeCallback );
-          
-          __LINE__ = 0;
-          ( function () {
+                  };
+                };
+              }while ( K/*childNode*/ = K/*childNode*/.nextSibling );
+            };
+          }
+        };
+      })();
+      
+      ( function () {
+        var b/*defaultBindingAttributeName*/ = "data-bind";
+        
+        n/*ko*/.bindingProvider = function (){};
+        
+        n/*ko*/.utils.extend( n/*ko*/.bindingProvider.prototype, {
+          'nodeHasBindings' : function ( c/*node*/ ) {
+            switch ( c/*node*/.nodeType ) {
+              case 1 :
+                return c/*node*/.getAttribute( b/*defaultBindingAttributeName*/ ) != null;
+              case 8 :
+                return n/*ko*/.virtualElements.virtualNodeBindingValue( c/*node*/ ) != null;
+              default :
+                return false;
+                
+            };
+          },
+          'getBindings' : function ( d/*node*/,e/*bindingContext*/ ) {
+            var f/*bindingsString*/ = this['getBindingsString']( d/*node*/,e/*bindingContext*/ );
+            return f/*bindingsString*/?this['parseBindingsString']( f/*bindingsString*/,e/*bindingContext*/ ) : null;
+          },
+          'getBindingsString' : function ( c/*node*/,d/*bindingContext*/ ) {
+            switch ( c/*node*/.nodeType ) {
+              case 1 :
+                return c/*node*/.getAttribute( b/*defaultBindingAttributeName*/ );
+              case 8 :
+                return n/*ko*/.virtualElements.virtualNodeBindingValue( c/*node*/ );
+              default :
+                return null;
+                
+            };
+          },
+          'parseBindingsString' : function ( e/*bindingsString*/,f/*bindingContext*/ ) {
             try {
-              __LINE__ = 569;
-              var c/*leadingCommentRegex*/ = /^(\s*)<!--(.*?)-->/;
+              var g/*viewModel*/ = f/*bindingContext*/['$data'];
               
-              function d/*simpleHtmlParse*/( c/*html*/ ) {
-                try {
-                  __LINE__ = 581;
-                  var d/*tags*/ = b/*ko*/.utils.stringTrim( c/*html*/ ).toLowerCase(),
-                      e/*div*/ = document.createElement( "div" );
+              var h/*rewrittenBindings*/ = " { "+n/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( e/*bindingsString*/ )+" } ";
+              return n/*ko*/.utils.evalWithinScope( h/*rewrittenBindings*/,g/*viewModel*/ === null?i/*window*/ : g/*viewModel*/,f/*bindingContext*/ );
+            } catch( ex ){
+              throw new Error( "Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+e/*bindingsString*/ );
+            };
+          }
+        });
+        
+        n/*ko*/.bindingProvider['instance'] = new n/*ko*/.bindingProvider();
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.bindingProvider',n/*ko*/.bindingProvider );
+      
+      ( function () {
+        n/*ko*/.bindingHandlers = {};
+        
+        n/*ko*/.bindingContext = function ( c/*dataItem*/,d/*parentBindingContext*/ ) {
+          this['$data'] = c/*dataItem*/;
+          
+          if ( d/*parentBindingContext*/ ){
+            this['$parent'] = d/*parentBindingContext*/['$data'];
+            
+            this['$parents'] = ( d/*parentBindingContext*/['$parents'] || [] ).slice( 0 );
+            
+            this['$parents'].unshift( this['$parent'] );
+            
+            this['$root'] = d/*parentBindingContext*/['$root'];
+          } else {
+            this['$parents'] = [];
+            
+            this['$root'] = c/*dataItem*/;
+          };
+        };
+        
+        n/*ko*/.bindingContext.prototype['createChildContext'] = function ( b/*dataItem*/ ) {
+          return new n/*ko*/.bindingContext( b/*dataItem*/,this );
+        };
+        
+        function k/*validateThatBindingIsAllowedForVirtualElements*/( c/*bindingName*/ ) {
+          var d/*validator*/ = n/*ko*/.virtualElements.allowedBindings[c/*bindingName*/];
+          
+          if ( !d/*validator*/ ){
+            throw new Error( "The binding '"+c/*bindingName*/+"' cannot be used with virtual elements" );
+          };
+        }
+        function j/*applyBindingsToDescendantsInternal*/( h/*viewModel*/,i/*elementVerified*/ ) {
+          var j/*currentChild*/,
+              k/*nextInQueue*/ = i/*elementVerified*/.childNodes[0];
+          
+          while ( j/*currentChild*/ = k/*nextInQueue*/ ){
+            k/*nextInQueue*/ = n/*ko*/.virtualElements.nextSibling( j/*currentChild*/ );
+            
+            f/*applyBindingsToNodeAndDescendantsInternal*/( h/*viewModel*/,j/*currentChild*/,false );
+          };
+        }
+        function f/*applyBindingsToNodeAndDescendantsInternal*/( k/*viewModel*/,l/*nodeVerified*/,m/*isRootNodeForBindingContext*/ ) {
+          var o/*shouldBindDescendants*/ = true;
+          
+          var p/*isElement*/ = ( l/*nodeVerified*/.nodeType == 1 );
+          
+          if ( p/*isElement*/ ){
+            n/*ko*/.virtualElements.normaliseVirtualElementDomStructure( l/*nodeVerified*/ );
+          };
+          
+          var q/*shouldApplyBindings*/ = ( p/*isElement*/ && m/*isRootNodeForBindingContext*/ ) || n/*ko*/.bindingProvider['instance']['nodeHasBindings']( l/*nodeVerified*/ );
+          
+          if ( q/*shouldApplyBindings*/ ){
+            o/*shouldBindDescendants*/ = h/*applyBindingsToNodeInternal*/( l/*nodeVerified*/,null,k/*viewModel*/,m/*isRootNodeForBindingContext*/ ).shouldBindDescendants;
+          };
+          
+          if ( p/*isElement*/ && o/*shouldBindDescendants*/ ){
+            j/*applyBindingsToDescendantsInternal*/( k/*viewModel*/,l/*nodeVerified*/ );
+          };
+        }
+        function h/*applyBindingsToNodeInternal*/( p/*node*/,q/*bindings*/,j/*viewModelOrBindingContext*/,o/*isRootNodeForBindingContext*/ ) {
+          var s/*initPhase*/ = 0;
+          
+          n/*ko*/.virtualElements.extractAnonymousTemplateIfVirtualElement( p/*node*/ );
+          
+          var h/*parsedBindings*/;
+          
+          function w/*makeValueAccessor*/( a/*bindingKey*/ ) {
+            return function () {
+              return h/*parsedBindings*/[a/*bindingKey*/];
+            };
+          }
+          function x/*parsedBindingsAccessor*/() {
+            return h/*parsedBindings*/;
+          }
+          var A/*bindingHandlerThatControlsDescendantBindings*/;
+          
+          new n/*ko*/.dependentObservable( function () {
+            var C/*bindingContextInstance*/ = j/*viewModelOrBindingContext*/ && ( j/*viewModelOrBindingContext*/ instanceof n/*ko*/.bindingContext )?j/*viewModelOrBindingContext*/ : new n/*ko*/.bindingContext( n/*ko*/.utils.unwrapObservable( j/*viewModelOrBindingContext*/ ) );
+            
+            var D/*viewModel*/ = C/*bindingContextInstance*/['$data'];
+            
+            if ( o/*isRootNodeForBindingContext*/ ){
+              n/*ko*/.storedBindingContextForNode( p/*node*/,C/*bindingContextInstance*/ );
+            };
+            
+            var E/*evaluatedBindings*/ = ( typeof q/*bindings*/ == "function" )?q/*bindings*/() : q/*bindings*/;
+            
+            h/*parsedBindings*/ = E/*evaluatedBindings*/ || n/*ko*/.bindingProvider['instance']['getBindings']( p/*node*/,C/*bindingContextInstance*/ );
+            
+            if ( h/*parsedBindings*/ ){
+              if ( s/*initPhase*/ === 0 ){
+                s/*initPhase*/ = 1;
+                
+                for ( var F/*bindingKey*/ in h/*parsedBindings*/ ){
+                  var G/*binding*/ = n/*ko*/.bindingHandlers[F/*bindingKey*/];
                   
-                  __LINE__ = 584;
-                  var f/*wrap*/ = d/*tags*/.match( /^<(thead|tbody|tfoot)/ ) && [1,"<table>","</table>"] || !d/*tags*/.indexOf( "<tr" ) && [2,"<table><tbody>","</tbody></table>"] || ( !d/*tags*/.indexOf( "<td" ) || !d/*tags*/.indexOf( "<th" ) ) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""];
-                  
-                  __LINE__ = 591;
-                  var g/*markup*/ = "ignored<div>"+f/*wrap*/[1]+c/*html*/+f/*wrap*/[2]+"</div>";
-                  
-                  __LINE__ = 592;
-                  if ( typeof a/*window*/['innerShiv'] == "function" ){
-                    __LINE__ = 0;
-                    e/*div*/.appendChild( a/*window*/['innerShiv']( g/*markup*/ ) );
-                  } else {
-                    __LINE__ = 0;
-                    e/*div*/.innerHTML = g/*markup*/;
+                  if ( G/*binding*/ && p/*node*/.nodeType === 8 ){
+                    k/*validateThatBindingIsAllowedForVirtualElements*/( F/*bindingKey*/ );
                   };
                   
-                  __LINE__ = 599;
-                  while ( f/*wrap*/[0] --  ){
-                    __LINE__ = 0;
-                    e/*div*/ = e/*div*/.lastChild;
-                  };
-                  __LINE__ = 602;
-                  return b/*ko*/.utils.makeArray( e/*div*/.lastChild.childNodes );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function e/*jQueryHtmlParse*/( b/*html*/ ) {
-                try {
-                  __LINE__ = 606;
-                  var c/*elems*/ = jQuery['clean']( [b/*html*/] );
-                  
-                  __LINE__ = 611;
-                  if ( c/*elems*/ && c/*elems*/[0] ){
-                    __LINE__ = 613;
-                    var d/*elem*/ = c/*elems*/[0];
+                  if ( G/*binding*/ && typeof G/*binding*/["init"] == "function" ){
+                    var H/*handlerInitFn*/ = G/*binding*/["init"];
                     
-                    __LINE__ = 614;
-                    while ( d/*elem*/.parentNode && d/*elem*/.parentNode.nodeType !== 11 ){
-                      __LINE__ = 0;
-                      d/*elem*/ = d/*elem*/.parentNode;
-                    };
+                    var I/*initResult*/ = H/*handlerInitFn*/( p/*node*/,w/*makeValueAccessor*/( F/*bindingKey*/ ),x/*parsedBindingsAccessor*/,D/*viewModel*/,C/*bindingContextInstance*/ );
                     
-                    __LINE__ = 617;
-                    if ( d/*elem*/.parentNode ){
-                      __LINE__ = 0;
-                      d/*elem*/.parentNode.removeChild( d/*elem*/ );
-                    };
-                  };
-                  __LINE__ = 621;
-                  return c/*elems*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.utils.parseHtmlFragment = function ( b/*html*/ ) {
-                try {
-                  __LINE__ = 625;
-                  return typeof jQuery != 'undefined'?e/*jQueryHtmlParse*/( b/*html*/ ) : d/*simpleHtmlParse*/( b/*html*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.utils.setHtml = function ( c/*node*/,d/*html*/ ) {
-                try {
-                  __LINE__ = 0;
-                  b/*ko*/.utils.emptyDomNode( c/*node*/ );
-                  
-                  __LINE__ = 632;
-                  if ( ( d/*html*/ !== null ) && ( d/*html*/ !== undefined ) ){
-                    __LINE__ = 633;
-                    if ( typeof d/*html*/ != 'string' ){
-                      __LINE__ = 0;
-                      d/*html*/ = d/*html*/.toString();
-                    };
-                    
-                    __LINE__ = 639;
-                    if ( typeof jQuery != 'undefined' ){
-                      __LINE__ = 0;
-                      jQuery( c/*node*/ )['html']( d/*html*/ );
-                    } else {
-                      __LINE__ = 643;
-                      var e/*parsedNodes*/ = b/*ko*/.utils.parseHtmlFragment( d/*html*/ );
-                      
-                      __LINE__ = 644;
-                      for ( var f/*i*/ = 0;f/*i*/<e/*parsedNodes*/.length;f/*i*/ ++  ){
-                        __LINE__ = 0;
-                        c/*node*/.appendChild( e/*parsedNodes*/[f/*i*/] );
+                    if ( I/*initResult*/ && I/*initResult*/['controlsDescendantBindings'] ){
+                      if ( A/*bindingHandlerThatControlsDescendantBindings*/ !== undefined ){
+                        throw new Error( "Multiple bindings ("+A/*bindingHandlerThatControlsDescendantBindings*/+" and "+F/*bindingKey*/+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element." );
                       };
+                      
+                      A/*bindingHandlerThatControlsDescendantBindings*/ = F/*bindingKey*/;
                     };
                   };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
+                };
+                
+                s/*initPhase*/ = 2;
               };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.parseHtmlFragment',b/*ko*/.utils.parseHtmlFragment );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.setHtml',b/*ko*/.utils.setHtml );
-          
-          __LINE__ = 0;
-          b/*ko*/.memoization = ( function () {
-            try {
-              __LINE__ = 654;
-              var c/*memos*/ = {};
               
-              function a/*randomMax8HexChars*/() {
-                try {
-                  __LINE__ = 657;
-                  return ( ( ( 1+Math.random() )*0x00000000 )|0 ).toString( 16 ).substring( 1 );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function e/*generateRandomId*/() {
-                try {
-                  __LINE__ = 660;
-                  return a/*randomMax8HexChars*/()+a/*randomMax8HexChars*/();
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function d/*findMemoNodes*/( c/*rootNode*/,d/*appendToArray*/ ) {
-                try {
-                  __LINE__ = 663;
-                  if ( !c/*rootNode*/ ){
-                    __LINE__ = 664;
+              if ( s/*initPhase*/ === 2 ){
+                for ( var F/*bindingKey*/ in h/*parsedBindings*/ ){
+                  var G/*binding*/ = n/*ko*/.bindingHandlers[F/*bindingKey*/];
+                  
+                  if ( G/*binding*/ && typeof G/*binding*/["update"] == "function" ){
+                    var J/*handlerUpdateFn*/ = G/*binding*/["update"];
+                    
+                    J/*handlerUpdateFn*/( p/*node*/,w/*makeValueAccessor*/( F/*bindingKey*/ ),x/*parsedBindingsAccessor*/,D/*viewModel*/,C/*bindingContextInstance*/ );
+                  };
+                };
+              };
+            };
+          },null, {
+            'disposeWhenNodeIsRemoved' : p/*node*/
+          });
+          return  {
+            shouldBindDescendants : A/*bindingHandlerThatControlsDescendantBindings*/ === undefined
+          };
+        }
+        var o/*storedBindingContextDomDataKey*/ = "__ko_bindingContext__";
+        
+        n/*ko*/.storedBindingContextForNode = function ( q/*node*/,r/*bindingContext*/ ) {
+          if ( arguments.length == 2 ){
+            n/*ko*/.utils.domData.set( q/*node*/,o/*storedBindingContextDomDataKey*/,r/*bindingContext*/ );
+          } else {
+            return n/*ko*/.utils.domData.get( q/*node*/,o/*storedBindingContextDomDataKey*/ );
+          };
+        };
+        
+        n/*ko*/.applyBindingsToNode = function ( d/*node*/,e/*bindings*/,f/*viewModel*/ ) {
+          if ( d/*node*/.nodeType === 1 ){
+            n/*ko*/.virtualElements.normaliseVirtualElementDomStructure( d/*node*/ );
+          };
+          return h/*applyBindingsToNodeInternal*/( d/*node*/,e/*bindings*/,f/*viewModel*/,true );
+        };
+        
+        n/*ko*/.applyBindingsToDescendants = function ( c/*viewModel*/,d/*rootNode*/ ) {
+          if ( d/*rootNode*/.nodeType === 1 ){
+            j/*applyBindingsToDescendantsInternal*/( c/*viewModel*/,d/*rootNode*/ );
+          };
+        };
+        
+        n/*ko*/.applyBindings = function ( c/*viewModel*/,d/*rootNode*/ ) {
+          if ( d/*rootNode*/ && ( d/*rootNode*/.nodeType !== 1 ) && ( d/*rootNode*/.nodeType !== 8 ) ){
+            throw new Error( "ko.applyBindings: first parameter should be your view model; second parameter should be a DOM node" );
+          };
+          
+          d/*rootNode*/ = d/*rootNode*/ || i/*window*/.document.body;
+          
+          f/*applyBindingsToNodeAndDescendantsInternal*/( c/*viewModel*/,d/*rootNode*/,true );
+        };
+        
+        n/*ko*/.contextFor = function ( c/*node*/ ) {
+          switch ( c/*node*/.nodeType ) {
+            case 1 :
+            case 8 :
+              
+              var d/*context*/ = n/*ko*/.storedBindingContextForNode( c/*node*/ );
+              
+              if ( d/*context*/ ){
+                return d/*context*/;
+              };
+              
+              if ( c/*node*/.parentNode ){
+                return n/*ko*/.contextFor( c/*node*/.parentNode );
+              };
+              break;
+              
+          };
+          return undefined;
+        };
+        
+        n/*ko*/.dataFor = function ( c/*node*/ ) {
+          var d/*context*/ = n/*ko*/.contextFor( c/*node*/ );
+          return d/*context*/?d/*context*/['$data'] : undefined;
+        };
+        
+        n/*ko*/.exportSymbol( 'ko.bindingHandlers',n/*ko*/.bindingHandlers );
+        
+        n/*ko*/.exportSymbol( 'ko.applyBindings',n/*ko*/.applyBindings );
+        
+        n/*ko*/.exportSymbol( 'ko.applyBindingsToDescendants',n/*ko*/.applyBindingsToDescendants );
+        
+        n/*ko*/.exportSymbol( 'ko.applyBindingsToNode',n/*ko*/.applyBindingsToNode );
+        
+        n/*ko*/.exportSymbol( 'ko.contextFor',n/*ko*/.contextFor );
+        
+        n/*ko*/.exportSymbol( 'ko.dataFor',n/*ko*/.dataFor );
+      })();
+      
+      var R/*eventHandlersWithShortcuts*/ = ['click'];
+      
+      n/*ko*/.utils.arrayForEach( R/*eventHandlersWithShortcuts*/,
+      function ( e/*eventName*/ ) {
+        n/*ko*/.bindingHandlers[e/*eventName*/] =  {
+          'init' : function ( h/*element*/,g/*valueAccessor*/,i/*allBindingsAccessor*/,j/*viewModel*/ ) {
+            var k/*newValueAccessor*/ = function () {
+                  var h/*result*/ = {};
+                  
+                  h/*result*/[e/*eventName*/] = g/*valueAccessor*/();
+                  return h/*result*/;
+                };
+            return n/*ko*/.bindingHandlers['event']['init'].call( this,h/*element*/,k/*newValueAccessor*/,i/*allBindingsAccessor*/,j/*viewModel*/ );
+          }
+        };
+      });
+      
+      n/*ko*/.bindingHandlers['event'] =  {
+        'init' : function ( i/*element*/,j/*valueAccessor*/,k/*allBindingsAccessor*/,l/*viewModel*/ ) {
+          var m/*eventsToHandle*/ = j/*valueAccessor*/() || {};
+          
+          for ( var g/*eventNameOutsideClosure*/ in m/*eventsToHandle*/ ){
+            ( function () {
+              var a/*eventName*/ = g/*eventNameOutsideClosure*/;
+              
+              if ( typeof a/*eventName*/ == "string" ){
+                n/*ko*/.utils.registerEventHandler( i/*element*/,a/*eventName*/,
+                function ( h/*event*/ ) {
+                  var i/*handlerReturnValue*/;
+                  
+                  var m/*handlerFunction*/ = j/*valueAccessor*/()[a/*eventName*/];
+                  
+                  if ( !m/*handlerFunction*/ ){
                     return ;
                   };
                   
-                  __LINE__ = 665;
-                  if ( c/*rootNode*/.nodeType == 8 ){
-                    __LINE__ = 666;
-                    var e/*memoId*/ = b/*ko*/.memoization.parseMemoText( c/*rootNode*/.nodeValue );
-                    
-                    __LINE__ = 667;
-                    if ( e/*memoId*/ != null ){
-                      __LINE__ = 0;
-                      d/*appendToArray*/.push(  {
-                        domNode : c/*rootNode*/,
-                        memoId : e/*memoId*/
-                      });
-                    };
-                  } else if ( c/*rootNode*/.nodeType == 1 ){
-                    __LINE__ = 670;
-                    for ( var f/*i*/ = 0,g/*childNodes*/ = c/*rootNode*/.childNodes,h/*j*/ = g/*childNodes*/.length;f/*i*/<h/*j*/;f/*i*/ ++  ){
-                      __LINE__ = 0;
-                      d/*findMemoNodes*/( g/*childNodes*/[f/*i*/],d/*appendToArray*/ );
-                    };
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }__LINE__ = 675;
-              return  {
-                memoize : function ( b/*callback*/ ) {
-                  try {
-                    __LINE__ = 677;
-                    if ( typeof b/*callback*/ != "function" ){
-                      __LINE__ = 678;
-                      throw new Error( "You can only pass a function to ko.memoization.memoize()" );
-                    };
-                    
-                    __LINE__ = 679;
-                    var c/*memoId*/ = e/*generateRandomId*/();
-                    
-                    __LINE__ = 0;
-                    c/*memos*/[c/*memoId*/] = b/*callback*/;
-                    __LINE__ = 681;
-                    return "<!--[ko_memo:"+c/*memoId*/+"]-->";
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                unmemoize : function ( e/*memoId*/,f/*callbackParams*/ ) {
-                  try {
-                    __LINE__ = 685;
-                    var g/*callback*/ = c/*memos*/[e/*memoId*/];
-                    
-                    __LINE__ = 686;
-                    if ( g/*callback*/ === undefined ){
-                      __LINE__ = 687;
-                      throw new Error( "Couldn't find any memo with ID "+e/*memoId*/+". Perhaps it's already been unmemoized." );
-                    };
-                    
-                    try {
-                      __LINE__ = 0;
-                      g/*callback*/.apply( null,f/*callbackParams*/ || [] );
-                      __LINE__ = 690;
-                      return true;
-                    } finally {
-                      __LINE__ = 0;
-                      delete c/*memos*/[e/*memoId*/];
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                unmemoizeDomNodeAndDescendants : function ( f/*domNode*/,g/*extraCallbackParamsArray*/ ) {
-                  try {
-                    __LINE__ = 696;
-                    var h/*memos*/ = [];
-                    
-                    __LINE__ = 0;
-                    d/*findMemoNodes*/( f/*domNode*/,h/*memos*/ );
-                    
-                    __LINE__ = 698;
-                    for ( var i/*i*/ = 0,j/*j*/ = h/*memos*/.length;i/*i*/<j/*j*/;i/*i*/ ++  ){
-                      __LINE__ = 699;
-                      var k/*node*/ = h/*memos*/[i/*i*/].domNode;
-                      
-                      __LINE__ = 700;
-                      var l/*combinedParams*/ = [k/*node*/];
-                      
-                      __LINE__ = 701;
-                      if ( g/*extraCallbackParamsArray*/ ){
-                        __LINE__ = 0;
-                        b/*ko*/.utils.arrayPushAll( l/*combinedParams*/,g/*extraCallbackParamsArray*/ );
-                      };
-                      
-                      __LINE__ = 0;
-                      b/*ko*/.memoization.unmemoize( h/*memos*/[i/*i*/].memoId,l/*combinedParams*/ );
-                      
-                      __LINE__ = 0;
-                      k/*node*/.nodeValue = "";
-                      
-                      __LINE__ = 705;
-                      if ( k/*node*/.parentNode ){
-                        __LINE__ = 0;
-                        k/*node*/.parentNode.removeChild( k/*node*/ );
-                      };
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                parseMemoText : function ( b/*memoText*/ ) {
-                  try {
-                    __LINE__ = 711;
-                    var c/*match*/ = b/*memoText*/.match( /^\[ko_memo\:(.*?)\]$/ );
-                    __LINE__ = 712;
-                    return c/*match*/?c/*match*/[1] : null;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.memoization',b/*ko*/.memoization );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.memoization.memoize',b/*ko*/.memoization.memoize );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.memoization.unmemoize',b/*ko*/.memoization.unmemoize );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.memoization.parseMemoText',b/*ko*/.memoization.parseMemoText );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.memoization.unmemoizeDomNodeAndDescendants',b/*ko*/.memoization.unmemoizeDomNodeAndDescendants );
-          
-          __LINE__ = 0;
-          b/*ko*/.extenders =  {
-            'throttle' : function ( a/*target*/,c/*timeout*/ ) {
-              try {
-                __LINE__ = 0;
-                a/*target*/['throttleEvaluation'] = c/*timeout*/;
-                
-                __LINE__ = 732;
-                var d/*writeTimeoutInstance*/ = null;
-                __LINE__ = 733;
-                return b/*ko*/.dependentObservable(  {
-                  'read' : a/*target*/,
-                  'write' : function ( b/*value*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      clearTimeout( d/*writeTimeoutInstance*/ );
-                      
-                      __LINE__ = 0;
-                      d/*writeTimeoutInstance*/ = setTimeout( function () {
-                        try {
-                          __LINE__ = 0;
-                          a/*target*/( b/*value*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      },c/*timeout*/);
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'notify' : function ( c/*target*/,d/*notifyWhen*/ ) {
-              try {
-                __LINE__ = 0;
-                c/*target*/["equalityComparer"] = d/*notifyWhen*/ == "always"?function () {
-                  try {
-                    __LINE__ = 746;
-                    return false;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                } : b/*ko*/.observable["fn"]["equalityComparer"];
-                __LINE__ = 748;
-                return c/*target*/;
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          function f/*applyExtenders*/( c/*requestedExtenders*/ ) {
-            try {
-              __LINE__ = 753;
-              var d/*target*/ = this;
-              
-              __LINE__ = 754;
-              if ( c/*requestedExtenders*/ ){
-                __LINE__ = 755;
-                for ( var e/*key*/ in c/*requestedExtenders*/ ){
-                  __LINE__ = 756;
-                  var f/*extenderHandler*/ = b/*ko*/.extenders[e/*key*/];
-                  
-                  __LINE__ = 757;
-                  if ( typeof f/*extenderHandler*/ == 'function' ){
-                    __LINE__ = 0;
-                    d/*target*/ = f/*extenderHandler*/( d/*target*/,c/*requestedExtenders*/[e/*key*/] );
-                  };
-                };
-              };
-              __LINE__ = 762;
-              return d/*target*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.extenders',b/*ko*/.extenders );
-          
-          __LINE__ = 0;
-          b/*ko*/.subscription = function ( c/*callback*/,d/*disposeCallback*/ ) {
-            try {
-              __LINE__ = 0;
-              this.callback = c/*callback*/;
-              
-              __LINE__ = 0;
-              this.disposeCallback = d/*disposeCallback*/;
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( this,'dispose',this.dispose );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.subscription.prototype.dispose = function () {
-            try {
-              __LINE__ = 0;
-              this.isDisposed = true;
-              
-              __LINE__ = 0;
-              this.disposeCallback();
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.subscribable = function () {
-            try {
-              __LINE__ = 0;
-              this._subscriptions = {};
-              
-              __LINE__ = 0;
-              b/*ko*/.utils.extend( this,b/*ko*/.subscribable['fn'] );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( this,'subscribe',this.subscribe );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( this,'extend',this.extend );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( this,'getSubscriptionsCount',this.getSubscriptionsCount );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 785;
-          var c/*defaultEvent*/ = "change";
-          
-          __LINE__ = 0;
-          b/*ko*/.subscribable['fn'] =  {
-            subscribe : function ( e/*callback*/,f/*callbackTarget*/,g/*event*/ ) {
-              try {
-                __LINE__ = 0;
-                g/*event*/ = g/*event*/ || c/*defaultEvent*/;
-                
-                __LINE__ = 790;
-                var h/*boundCallback*/ = f/*callbackTarget*/?e/*callback*/.bind( f/*callbackTarget*/ ) : e/*callback*/;
-                
-                __LINE__ = 792;
-                var i/*subscription*/ = new b/*ko*/.subscription( h/*boundCallback*/,function () {
-                      try {
-                        __LINE__ = 0;
-                        b/*ko*/.utils.arrayRemoveItem( this._subscriptions[g/*event*/],i/*subscription*/ );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    }.bind( this ) );
-                
-                __LINE__ = 796;
-                if ( !this._subscriptions[g/*event*/] ){
-                  __LINE__ = 0;
-                  this._subscriptions[g/*event*/] = [];
-                };
-                
-                __LINE__ = 0;
-                this._subscriptions[g/*event*/].push( i/*subscription*/ );
-                __LINE__ = 799;
-                return i/*subscription*/;
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            "notifySubscribers" : function ( a/*valueToNotify*/,d/*event*/ ) {
-              try {
-                __LINE__ = 0;
-                d/*event*/ = d/*event*/ || c/*defaultEvent*/;
-                
-                __LINE__ = 804;
-                if ( this._subscriptions[d/*event*/] ){
-                  __LINE__ = 0;
-                  b/*ko*/.utils.arrayForEach( this._subscriptions[d/*event*/].slice( 0 ),
-                  function ( c/*subscription*/ ) {
-                    try {
-                      __LINE__ = 808;
-                      if ( c/*subscription*/ && ( c/*subscription*/.isDisposed !== true ) ){
-                        __LINE__ = 0;
-                        c/*subscription*/.callback( a/*valueToNotify*/ );
-                      };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            getSubscriptionsCount : function () {
-              try {
-                __LINE__ = 815;
-                var b/*total*/ = 0;
-                
-                __LINE__ = 816;
-                for ( var c/*eventName*/ in this._subscriptions ){
-                  __LINE__ = 817;
-                  if ( this._subscriptions.hasOwnProperty( c/*eventName*/ ) ){
-                    __LINE__ = 0;
-                    b/*total*/ += this._subscriptions[c/*eventName*/].length;
-                  };
-                };
-                __LINE__ = 820;
-                return b/*total*/;
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            extend : f/*applyExtenders*/
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.isSubscribable = function ( b/*instance*/ ) {
-            try {
-              __LINE__ = 828;
-              return typeof b/*instance*/.subscribe == "function" && typeof b/*instance*/["notifySubscribers"] == "function";
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.subscribable',b/*ko*/.subscribable );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.isSubscribable',b/*ko*/.isSubscribable );
-          
-          __LINE__ = 0;
-          b/*ko*/.dependencyDetection = ( function () {
-            try {
-              __LINE__ = 835;
-              var a/*_frames*/ = [];
-              __LINE__ = 837;
-              return  {
-                begin : function ( c/*callback*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    a/*_frames*/.push(  {
-                      callback : c/*callback*/,
-                      distinctDependencies : []
-                    });
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                end : function () {
-                  try {
-                    __LINE__ = 0;
-                    a/*_frames*/.pop();
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                registerDependency : function ( c/*subscribable*/ ) {
-                  try {
-                    __LINE__ = 847;
-                    if ( !b/*ko*/.isSubscribable( c/*subscribable*/ ) ){
-                      __LINE__ = 848;
-                      throw "Only subscribable things can act as dependencies";
-                    };
-                    
-                    __LINE__ = 849;
-                    if ( a/*_frames*/.length>0 ){
-                      __LINE__ = 850;
-                      var d/*topFrame*/ = a/*_frames*/[a/*_frames*/.length-1];
-                      
-                      __LINE__ = 851;
-                      if ( b/*ko*/.utils.arrayIndexOf( d/*topFrame*/.distinctDependencies,c/*subscribable*/ ) >= 0 ){
-                        __LINE__ = 852;
-                        return ;
-                      };
-                      
-                      __LINE__ = 0;
-                      d/*topFrame*/.distinctDependencies.push( c/*subscribable*/ );
-                      
-                      __LINE__ = 0;
-                      d/*topFrame*/.callback( c/*subscribable*/ );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 858;
-          var d/*primitiveTypes*/ =  {
-                'undefined' : true,
-                'boolean' : true,
-                'number' : true,
-                'string' : true
-              };
-          
-          __LINE__ = 0;
-          b/*ko*/.observable = function ( d/*initialValue*/ ) {
-            try {
-              __LINE__ = 861;
-              var b/*_latestValue*/ = d/*initialValue*/;
-              
-              function a/*observable*/() {
-                try {
-                  __LINE__ = 864;
-                  if ( arguments.length>0 ){
-                    __LINE__ = 868;
-                    if ( ( !a/*observable*/['equalityComparer'] ) || !a/*observable*/['equalityComparer']( b/*_latestValue*/,arguments[0] ) ){
-                      __LINE__ = 0;
-                      a/*observable*/.valueWillMutate();
-                      
-                      __LINE__ = 0;
-                      b/*_latestValue*/ = arguments[0];
-                      
-                      __LINE__ = 0;
-                      a/*observable*/.valueHasMutated();
-                    };
-                    __LINE__ = 873;
-                    return this;
-                  } else {
-                    __LINE__ = 0;
-                    b/*ko*/.dependencyDetection.registerDependency( a/*observable*/ );
-                    __LINE__ = 878;
-                    return b/*_latestValue*/;
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.subscribable.call( a/*observable*/ );
-              
-              __LINE__ = 0;
-              a/*observable*/.valueHasMutated = function () {
-                try {
-                  __LINE__ = 0;
-                  a/*observable*/["notifySubscribers"]( b/*_latestValue*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              a/*observable*/.valueWillMutate = function () {
-                try {
-                  __LINE__ = 0;
-                  a/*observable*/["notifySubscribers"]( b/*_latestValue*/,"beforeChange" );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.utils.extend( a/*observable*/,b/*ko*/.observable['fn'] );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( a/*observable*/,"valueHasMutated",a/*observable*/.valueHasMutated );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( a/*observable*/,"valueWillMutate",a/*observable*/.valueWillMutate );
-              __LINE__ = 889;
-              return a/*observable*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.observable['fn'] =  {
-            __ko_proto__ : b/*ko*/.observable,
-            "equalityComparer" : function g/*valuesArePrimitiveAndEqual*/( f/*a*/,g/*b*/ ) {
-              try {
-                __LINE__ = 896;
-                var h/*oldValueIsPrimitive*/ = ( f/*a*/ === null ) || ( typeof ( f/*a*/ ) in d/*primitiveTypes*/ );
-                __LINE__ = 897;
-                return h/*oldValueIsPrimitive*/?( f/*a*/ === g/*b*/ ) : false;
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.isObservable = function ( b/*instance*/ ) {
-            try {
-              __LINE__ = 902;
-              if ( ( b/*instance*/ === null ) || ( b/*instance*/ === undefined ) || ( b/*instance*/.__ko_proto__ === undefined ) ){
-                __LINE__ = 902;
-                return false;
-              };
-              
-              __LINE__ = 903;
-              if ( b/*instance*/.__ko_proto__ === b/*ko*/.observable ){
-                __LINE__ = 903;
-                return true;
-              };
-              __LINE__ = 904;
-              return b/*ko*/.isObservable( b/*instance*/.__ko_proto__ );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.isWriteableObservable = function ( c/*instance*/ ) {
-            try {
-              __LINE__ = 908;
-              if ( ( typeof c/*instance*/ == "function" ) && c/*instance*/.__ko_proto__ === b/*ko*/.observable ){
-                __LINE__ = 909;
-                return true;
-              };
-              
-              __LINE__ = 911;
-              if ( ( typeof c/*instance*/ == "function" ) && ( c/*instance*/.__ko_proto__ === b/*ko*/.dependentObservable ) && ( c/*instance*/.hasWriteFunction ) ){
-                __LINE__ = 912;
-                return true;
-              };
-              __LINE__ = 914;
-              return false;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.observable',b/*ko*/.observable );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.isObservable',b/*ko*/.isObservable );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.isWriteableObservable',b/*ko*/.isWriteableObservable );
-          
-          __LINE__ = 0;
-          b/*ko*/.observableArray = function ( b/*initialValues*/ ) {
-            try {
-              __LINE__ = 922;
-              if ( arguments.length == 0 ){
-                __LINE__ = 0;
-                b/*initialValues*/ = [];
-              };
-              
-              __LINE__ = 926;
-              if ( ( b/*initialValues*/ !== null ) && ( b/*initialValues*/ !== undefined ) && !( 'length' in b/*initialValues*/ ) ){
-                __LINE__ = 927;
-                throw new Error( "The argument passed when initializing an observable array must be an array, or null, or undefined." );
-              };
-              
-              __LINE__ = 929;
-              var c/*result*/ = new b/*ko*/.observable( b/*initialValues*/ );
-              
-              __LINE__ = 0;
-              b/*ko*/.utils.extend( c/*result*/,b/*ko*/.observableArray['fn'] );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( c/*result*/,"remove",c/*result*/.remove );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( c/*result*/,"removeAll",c/*result*/.removeAll );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( c/*result*/,"destroy",c/*result*/.destroy );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( c/*result*/,"destroyAll",c/*result*/.destroyAll );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( c/*result*/,"indexOf",c/*result*/.indexOf );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( c/*result*/,"replace",c/*result*/.replace );
-              __LINE__ = 939;
-              return c/*result*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.observableArray['fn'] =  {
-            remove : function ( a/*valueOrPredicate*/ ) {
-              try {
-                __LINE__ = 944;
-                var b/*underlyingArray*/ = this();
-                
-                __LINE__ = 945;
-                var c/*removedValues*/ = [];
-                
-                __LINE__ = 946;
-                var d/*predicate*/ = typeof a/*valueOrPredicate*/ == "function"?a/*valueOrPredicate*/ : function ( c/*value*/ ) {
-                      try {
-                        __LINE__ = 946;
-                        return c/*value*/ === a/*valueOrPredicate*/;
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    };
-                
-                __LINE__ = 947;
-                for ( var e/*i*/ = 0;e/*i*/<b/*underlyingArray*/.length;e/*i*/ ++  ){
-                  __LINE__ = 948;
-                  var f/*value*/ = b/*underlyingArray*/[e/*i*/];
-                  
-                  __LINE__ = 949;
-                  if ( d/*predicate*/( f/*value*/ ) ){
-                    __LINE__ = 950;
-                    if ( c/*removedValues*/.length === 0 ){
-                      __LINE__ = 0;
-                      this.valueWillMutate();
-                    };
-                    
-                    __LINE__ = 0;
-                    c/*removedValues*/.push( f/*value*/ );
-                    
-                    __LINE__ = 0;
-                    b/*underlyingArray*/.splice( e/*i*/,1 );
-                    
-                    __LINE__ = 0;
-                    e/*i*/ -- ;
-                  };
-                };
-                
-                __LINE__ = 958;
-                if ( c/*removedValues*/.length ){
-                  __LINE__ = 0;
-                  this.valueHasMutated();
-                };
-                __LINE__ = 961;
-                return c/*removedValues*/;
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            removeAll : function ( c/*arrayOfValues*/ ) {
-              try {
-                __LINE__ = 966;
-                if ( c/*arrayOfValues*/ === undefined ){
-                  __LINE__ = 967;
-                  var d/*underlyingArray*/ = this();
-                  
-                  __LINE__ = 968;
-                  var e/*allValues*/ = d/*underlyingArray*/.slice( 0 );
-                  
-                  __LINE__ = 0;
-                  this.valueWillMutate();
-                  
-                  __LINE__ = 0;
-                  d/*underlyingArray*/.splice( 0,d/*underlyingArray*/.length );
-                  
-                  __LINE__ = 0;
-                  this.valueHasMutated();
-                  __LINE__ = 972;
-                  return e/*allValues*/;
-                };
-                
-                __LINE__ = 975;
-                if ( !c/*arrayOfValues*/ ){
-                  __LINE__ = 976;
-                  return [];
-                };
-                __LINE__ = 977;
-                return this.remove( function ( c/*value*/ ) {
-                  try {
-                    __LINE__ = 978;
-                    return b/*ko*/.utils.arrayIndexOf( c/*arrayOfValues*/,c/*value*/ ) >= 0;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            destroy : function ( a/*valueOrPredicate*/ ) {
-              try {
-                __LINE__ = 983;
-                var b/*underlyingArray*/ = this();
-                
-                __LINE__ = 984;
-                var c/*predicate*/ = typeof a/*valueOrPredicate*/ == "function"?a/*valueOrPredicate*/ : function ( c/*value*/ ) {
-                      try {
-                        __LINE__ = 984;
-                        return c/*value*/ === a/*valueOrPredicate*/;
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    };
-                
-                __LINE__ = 0;
-                this.valueWillMutate();
-                
-                __LINE__ = 986;
-                for ( var d/*i*/ = b/*underlyingArray*/.length-1;d/*i*/ >= 0;d/*i*/ --  ){
-                  __LINE__ = 987;
-                  var e/*value*/ = b/*underlyingArray*/[d/*i*/];
-                  
-                  __LINE__ = 988;
-                  if ( c/*predicate*/( e/*value*/ ) ){
-                    __LINE__ = 0;
-                    b/*underlyingArray*/[d/*i*/]["_destroy"] = true;
-                  };
-                };
-                
-                __LINE__ = 0;
-                this.valueHasMutated();
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            destroyAll : function ( d/*arrayOfValues*/ ) {
-              try {
-                __LINE__ = 996;
-                if ( d/*arrayOfValues*/ === undefined ){
-                  __LINE__ = 997;
-                  return this.destroy( function () {
-                    try {
-                      __LINE__ = 997;
-                      return true;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                };
-                
-                __LINE__ = 1000;
-                if ( !d/*arrayOfValues*/ ){
-                  __LINE__ = 1001;
-                  return [];
-                };
-                __LINE__ = 1002;
-                return this.destroy( function ( c/*value*/ ) {
-                  try {
-                    __LINE__ = 1003;
-                    return b/*ko*/.utils.arrayIndexOf( d/*arrayOfValues*/,c/*value*/ ) >= 0;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            indexOf : function ( c/*item*/ ) {
-              try {
-                __LINE__ = 1008;
-                var d/*underlyingArray*/ = this();
-                __LINE__ = 1009;
-                return b/*ko*/.utils.arrayIndexOf( d/*underlyingArray*/,c/*item*/ );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            replace : function ( b/*oldItem*/,c/*newItem*/ ) {
-              try {
-                __LINE__ = 1013;
-                var d/*index*/ = this.indexOf( b/*oldItem*/ );
-                
-                __LINE__ = 1014;
-                if ( d/*index*/ >= 0 ){
-                  __LINE__ = 0;
-                  this.valueWillMutate();
-                  
-                  __LINE__ = 0;
-                  this()[d/*index*/] = c/*newItem*/;
-                  
-                  __LINE__ = 0;
-                  this.valueHasMutated();
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.utils.arrayForEach( ["pop","push","reverse","shift","sort","splice","unshift"],
-          function ( a/*methodName*/ ) {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.observableArray['fn'][a/*methodName*/] = function () {
-                try {
-                  __LINE__ = 1025;
-                  var c/*underlyingArray*/ = this();
-                  
-                  __LINE__ = 0;
-                  this.valueWillMutate();
-                  
-                  __LINE__ = 1027;
-                  var d/*methodCallResult*/ = c/*underlyingArray*/[a/*methodName*/].apply( c/*underlyingArray*/,arguments );
-                  
-                  __LINE__ = 0;
-                  this.valueHasMutated();
-                  __LINE__ = 1029;
-                  return d/*methodCallResult*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          });
-          
-          __LINE__ = 0;
-          b/*ko*/.utils.arrayForEach( ["slice"],
-          function ( a/*methodName*/ ) {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.observableArray['fn'][a/*methodName*/] = function () {
-                try {
-                  __LINE__ = 1036;
-                  var c/*underlyingArray*/ = this();
-                  __LINE__ = 1037;
-                  return c/*underlyingArray*/[a/*methodName*/].apply( c/*underlyingArray*/,arguments );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          });
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.observableArray',b/*ko*/.observableArray );
-          
-          function h/*prepareOptions*/( b/*evaluatorFunctionOrOptions*/,c/*evaluatorFunctionTarget*/,d/*options*/ ) {
-            try {
-              __LINE__ = 1043;
-              if ( b/*evaluatorFunctionOrOptions*/ && typeof b/*evaluatorFunctionOrOptions*/ == "object" ){
-                __LINE__ = 0;
-                d/*options*/ = b/*evaluatorFunctionOrOptions*/;
-              } else {
-                __LINE__ = 0;
-                d/*options*/ = d/*options*/ || {};
-                
-                __LINE__ = 0;
-                d/*options*/["read"] = b/*evaluatorFunctionOrOptions*/ || d/*options*/["read"];
-              };
-              
-              __LINE__ = 1053;
-              if ( typeof d/*options*/["read"] != "function" ){
-                __LINE__ = 1054;
-                throw "Pass a function that returns the value of the dependentObservable";
-              };
-              __LINE__ = 1056;
-              return d/*options*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }
-          __LINE__ = 0;
-          b/*ko*/.dependentObservable = function ( i/*evaluatorFunctionOrOptions*/,j/*evaluatorFunctionTarget*/,f/*options*/ ) {
-            try {
-              __LINE__ = 1060;
-              var k/*_latestValue*/,
-                  e/*_hasBeenEvaluated*/ = false,
-                  f/*options*/ = h/*prepareOptions*/( i/*evaluatorFunctionOrOptions*/,j/*evaluatorFunctionTarget*/,f/*options*/ );
-              
-              __LINE__ = 1067;
-              var g/*disposeWhenNodeIsRemoved*/ = ( typeof f/*options*/["disposeWhenNodeIsRemoved"] == "object" )?f/*options*/["disposeWhenNodeIsRemoved"] : null;
-              
-              __LINE__ = 1068;
-              var l/*disposeWhenNodeIsRemovedCallback*/ = null;
-              
-              __LINE__ = 1069;
-              if ( g/*disposeWhenNodeIsRemoved*/ ){
-                __LINE__ = 0;
-                l/*disposeWhenNodeIsRemovedCallback*/ = function () {
-                  try {
-                    __LINE__ = 0;
-                    a/*dependentObservable*/.dispose();
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                };
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.domNodeDisposal.addDisposeCallback( g/*disposeWhenNodeIsRemoved*/,l/*disposeWhenNodeIsRemovedCallback*/ );
-                
-                __LINE__ = 1072;
-                var m/*existingDisposeWhenFunction*/ = f/*options*/["disposeWhen"];
-                
-                __LINE__ = 0;
-                f/*options*/["disposeWhen"] = function () {
-                  try {
-                    __LINE__ = 1074;
-                    return ( !b/*ko*/.utils.domNodeIsAttachedToDocument( g/*disposeWhenNodeIsRemoved*/ ) ) || ( ( typeof m/*existingDisposeWhenFunction*/ == "function" ) && m/*existingDisposeWhenFunction*/() );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                };
-              };
-              
-              __LINE__ = 1079;
-              var c/*_subscriptionsToDependencies*/ = [];
-              
-              function n/*disposeAllSubscriptionsToDependencies*/() {
-                try {
-                  __LINE__ = 0;
-                  b/*ko*/.utils.arrayForEach( c/*_subscriptionsToDependencies*/,
-                  function ( b/*subscription*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      b/*subscription*/.dispose();
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  
-                  __LINE__ = 0;
-                  c/*_subscriptionsToDependencies*/ = [];
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 1087;
-              var o/*evaluationTimeoutInstance*/ = null;
-              
-              function d/*evaluatePossiblyAsync*/() {
-                try {
-                  __LINE__ = 1089;
-                  var b/*throttleEvaluationTimeout*/ = a/*dependentObservable*/['throttleEvaluation'];
-                  
-                  __LINE__ = 1090;
-                  if ( b/*throttleEvaluationTimeout*/ && b/*throttleEvaluationTimeout*/ >= 0 ){
-                    __LINE__ = 0;
-                    clearTimeout( o/*evaluationTimeoutInstance*/ );
-                    
-                    __LINE__ = 0;
-                    o/*evaluationTimeoutInstance*/ = setTimeout( p/*evaluateImmediate*/,b/*throttleEvaluationTimeout*/ );
-                  } else {
-                    __LINE__ = 0;
-                    p/*evaluateImmediate*/();
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function p/*evaluateImmediate*/() {
-                try {
-                  __LINE__ = 1101;
-                  if ( ( e/*_hasBeenEvaluated*/ ) && typeof f/*options*/["disposeWhen"] == "function" ){
-                    __LINE__ = 1102;
-                    if ( f/*options*/["disposeWhen"]() ){
-                      __LINE__ = 0;
-                      a/*dependentObservable*/.dispose();
-                      __LINE__ = 1104;
-                      return ;
-                    };
-                  };
+                  var o/*allBindings*/ = k/*allBindingsAccessor*/();
                   
                   try {
-                    __LINE__ = 0;
-                    n/*disposeAllSubscriptionsToDependencies*/();
+                    var p/*argsForHandler*/ = n/*ko*/.utils.makeArray( arguments );
                     
-                    __LINE__ = 0;
-                    b/*ko*/.dependencyDetection.begin( function ( f/*subscribable*/ ) {
-                      try {
-                        __LINE__ = 0;
-                        c/*_subscriptionsToDependencies*/.push( f/*subscribable*/.subscribe( d/*evaluatePossiblyAsync*/ ) );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
+                    p/*argsForHandler*/.unshift( l/*viewModel*/ );
                     
-                    __LINE__ = 1113;
-                    var h/*valueForThis*/ = f/*options*/["owner"] || j/*evaluatorFunctionTarget*/;
-                    
-                    __LINE__ = 1114;
-                    var i/*newValue*/ = f/*options*/["read"].call( h/*valueForThis*/ );
-                    
-                    __LINE__ = 0;
-                    a/*dependentObservable*/["notifySubscribers"]( k/*_latestValue*/,"beforeChange" );
-                    
-                    __LINE__ = 0;
-                    k/*_latestValue*/ = i/*newValue*/;
+                    i/*handlerReturnValue*/ = m/*handlerFunction*/.apply( l/*viewModel*/,p/*argsForHandler*/ );
                   } finally {
-                    __LINE__ = 0;
-                    b/*ko*/.dependencyDetection.end();
-                  };
-                  
-                  __LINE__ = 0;
-                  a/*dependentObservable*/["notifySubscribers"]( k/*_latestValue*/ );
-                  
-                  __LINE__ = 0;
-                  e/*_hasBeenEvaluated*/ = true;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function a/*dependentObservable*/() {
-                try {
-                  __LINE__ = 1126;
-                  if ( arguments.length>0 ){
-                    __LINE__ = 1127;
-                    if ( typeof f/*options*/["write"] === "function" ){
-                      __LINE__ = 1129;
-                      var b/*valueForThis*/ = f/*options*/["owner"] || j/*evaluatorFunctionTarget*/;
-                      
-                      __LINE__ = 0;
-                      f/*options*/["write"].apply( b/*valueForThis*/,arguments );
-                    } else {
-                      __LINE__ = 1132;
-                      throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
-                    };
-                  } else {
-                    if ( !e/*_hasBeenEvaluated*/ ){
-                      __LINE__ = 0;
-                      p/*evaluateImmediate*/();
-                    };
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.dependencyDetection.registerDependency( a/*dependentObservable*/ );
-                    __LINE__ = 1139;
-                    return k/*_latestValue*/;
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a/*dependentObservable*/.getDependenciesCount = function () {
-                try {
-                  __LINE__ = 1142;
-                  return c/*_subscriptionsToDependencies*/.length;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              a/*dependentObservable*/.hasWriteFunction = typeof f/*options*/["write"] === "function";
-              
-              __LINE__ = 0;
-              a/*dependentObservable*/.dispose = function () {
-                try {
-                  __LINE__ = 1145;
-                  if ( g/*disposeWhenNodeIsRemoved*/ ){
-                    __LINE__ = 0;
-                    b/*ko*/.utils.domNodeDisposal.removeDisposeCallback( g/*disposeWhenNodeIsRemoved*/,l/*disposeWhenNodeIsRemovedCallback*/ );
-                  };
-                  
-                  __LINE__ = 0;
-                  n/*disposeAllSubscriptionsToDependencies*/();
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.subscribable.call( a/*dependentObservable*/ );
-              
-              __LINE__ = 0;
-              b/*ko*/.utils.extend( a/*dependentObservable*/,b/*ko*/.dependentObservable['fn'] );
-              
-              __LINE__ = 1153;
-              if ( f/*options*/['deferEvaluation'] !== true ){
-                __LINE__ = 0;
-                p/*evaluateImmediate*/();
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( a/*dependentObservable*/,'dispose',a/*dependentObservable*/.dispose );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportProperty( a/*dependentObservable*/,'getDependenciesCount',a/*dependentObservable*/.getDependenciesCount );
-              __LINE__ = 1159;
-              return a/*dependentObservable*/;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.dependentObservable['fn'] =  {
-            __ko_proto__ : b/*ko*/.dependentObservable
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.dependentObservable.__ko_proto__ = b/*ko*/.observable;
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.dependentObservable',b/*ko*/.dependentObservable );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.computed',b/*ko*/.dependentObservable );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 1171;
-              var c/*maxNestedObservableDepth*/ = 10;
-              
-              __LINE__ = 0;
-              b/*ko*/.toJS = function ( c/*rootObject*/ ) {
-                try {
-                  __LINE__ = 1174;
-                  if ( arguments.length == 0 ){
-                    __LINE__ = 1175;
-                    throw new Error( "When calling ko.toJS, pass the object you want to convert." );
-                  };
-                  __LINE__ = 1178;
-                  return d/*mapJsObjectGraph*/( c/*rootObject*/,
-                  function ( c/*valueToMap*/ ) {
-                    try {
-                      __LINE__ = 1180;
-                      for ( var d/*i*/ = 0;b/*ko*/.isObservable( c/*valueToMap*/ ) && ( d/*i*/<c/*maxNestedObservableDepth*/ );d/*i*/ ++  ){
-                        __LINE__ = 0;
-                        c/*valueToMap*/ = c/*valueToMap*/();
-                      };
-                      __LINE__ = 1182;
-                      return c/*valueToMap*/;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.toJSON = function ( c/*rootObject*/ ) {
-                try {
-                  __LINE__ = 1187;
-                  var d/*plainJavaScriptObject*/ = b/*ko*/.toJS( c/*rootObject*/ );
-                  __LINE__ = 1188;
-                  return b/*ko*/.utils.stringifyJson( d/*plainJavaScriptObject*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d/*mapJsObjectGraph*/( b/*rootObject*/,a/*mapInputCallback*/,d/*visitedObjects*/ ) {
-                try {
-                  __LINE__ = 0;
-                  d/*visitedObjects*/ = d/*visitedObjects*/ || new e/*objectLookup*/();
-                  
-                  __LINE__ = 0;
-                  b/*rootObject*/ = a/*mapInputCallback*/( b/*rootObject*/ );
-                  
-                  __LINE__ = 1195;
-                  var g/*canHaveProperties*/ = ( typeof b/*rootObject*/ == "object" ) && ( b/*rootObject*/ !== null ) && ( b/*rootObject*/ !== undefined ) && ( !( b/*rootObject*/ instanceof Date ) );
-                  
-                  __LINE__ = 1196;
-                  if ( !g/*canHaveProperties*/ ){
-                    __LINE__ = 1197;
-                    return b/*rootObject*/;
-                  };
-                  
-                  __LINE__ = 1199;
-                  var c/*outputProperties*/ = b/*rootObject*/ instanceof Array?[] : {};
-                  
-                  __LINE__ = 0;
-                  d/*visitedObjects*/.save( b/*rootObject*/,c/*outputProperties*/ );
-                  
-                  __LINE__ = 0;
-                  f/*visitPropertiesOrArrayEntries*/( b/*rootObject*/,
-                  function ( f/*indexer*/ ) {
-                    try {
-                      __LINE__ = 1203;
-                      var g/*propertyValue*/ = a/*mapInputCallback*/( b/*rootObject*/[f/*indexer*/] );
-                      
-                      __LINE__ = 0;
-                      switch ( typeof g/*propertyValue*/ ) {
-                        case "boolean" :
-                        case "number" :
-                        case "string" :
-                        case "function" :
-                          
-                          __LINE__ = 0;
-                          c/*outputProperties*/[f/*indexer*/] = g/*propertyValue*/;
-                          __LINE__ = 1211;
-                          break;
-                        case "object" :
-                        case "undefined" :
-                          
-                          __LINE__ = 1214;
-                          var h/*previouslyMappedValue*/ = d/*visitedObjects*/.get( g/*propertyValue*/ );
-                          
-                          __LINE__ = 0;
-                          c/*outputProperties*/[f/*indexer*/] = ( h/*previouslyMappedValue*/ !== undefined )?h/*previouslyMappedValue*/ : d/*mapJsObjectGraph*/( g/*propertyValue*/,a/*mapInputCallback*/,d/*visitedObjects*/ );
-                          __LINE__ = 1218;
-                          break;
-                          
-                      };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  __LINE__ = 1222;
-                  return c/*outputProperties*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function f/*visitPropertiesOrArrayEntries*/( b/*rootObject*/,c/*visitorCallback*/ ) {
-                try {
-                  __LINE__ = 1226;
-                  if ( b/*rootObject*/ instanceof Array ){
-                    __LINE__ = 1227;
-                    for ( var d/*i*/ = 0;d/*i*/<b/*rootObject*/.length;d/*i*/ ++  ){
-                      __LINE__ = 0;
-                      c/*visitorCallback*/( d/*i*/ );
-                    };
-                  } else {
-                    __LINE__ = 1230;
-                    for ( var e/*propertyName*/ in b/*rootObject*/ ){
-                      __LINE__ = 0;
-                      c/*visitorCallback*/( e/*propertyName*/ );
-                    };
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function e/*objectLookup*/() {
-                try {
-                  __LINE__ = 1236;
-                  var c/*keys*/ = [];
-                  
-                  __LINE__ = 1237;
-                  var d/*values*/ = [];
-                  
-                  __LINE__ = 0;
-                  this.save = function ( c/*key*/,d/*value*/ ) {
-                    try {
-                      __LINE__ = 1239;
-                      var e/*existingIndex*/ = b/*ko*/.utils.arrayIndexOf( c/*keys*/,c/*key*/ );
-                      
-                      __LINE__ = 1240;
-                      if ( e/*existingIndex*/ >= 0 ){
-                        __LINE__ = 0;
-                        d/*values*/[e/*existingIndex*/] = d/*value*/;
+                    if ( i/*handlerReturnValue*/ !== true ){
+                      if ( h/*event*/.preventDefault ){
+                        h/*event*/.preventDefault();
                       } else {
-                        __LINE__ = 0;
-                        c/*keys*/.push( c/*key*/ );
-                        
-                        __LINE__ = 0;
-                        d/*values*/.push( d/*value*/ );
+                        h/*event*/.returnValue = false;
                       };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
+                    };
                   };
                   
-                  __LINE__ = 0;
-                  this.get = function ( c/*key*/ ) {
-                    try {
-                      __LINE__ = 1248;
-                      var d/*existingIndex*/ = b/*ko*/.utils.arrayIndexOf( c/*keys*/,c/*key*/ );
-                      __LINE__ = 1249;
-                      return ( d/*existingIndex*/ >= 0 )?d/*values*/[d/*existingIndex*/] : undefined;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.toJS',b/*ko*/.toJS );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.toJSON',b/*ko*/.toJSON );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 1256;
-              var a/*hasDomDataExpandoProperty*/ = '__ko__hasDomDataOptionValue__';
-              
-              __LINE__ = 0;
-              b/*ko*/.selectExtensions =  {
-                readValue : function ( c/*element*/ ) {
-                  try {
-                    __LINE__ = 1263;
-                    if ( c/*element*/.tagName == 'OPTION' ){
-                      __LINE__ = 1264;
-                      if ( c/*element*/[a/*hasDomDataExpandoProperty*/] === true ){
-                        __LINE__ = 1265;
-                        return b/*ko*/.utils.domData.get( c/*element*/,b/*ko*/.bindingHandlers.options.optionValueDomDataKey );
-                      };
-                      __LINE__ = 1266;
-                      return c/*element*/.getAttribute( "value" );
-                    } else if ( c/*element*/.tagName == 'SELECT' ){
-                      __LINE__ = 1268;
-                      return c/*element*/.selectedIndex >= 0?b/*ko*/.selectExtensions.readValue( c/*element*/.options[c/*element*/.selectedIndex] ) : undefined;
-                    } else {
-                      __LINE__ = 1270;
-                      return c/*element*/.value;
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                writeValue : function ( c/*element*/,d/*value*/ ) {
-                  try {
-                    __LINE__ = 1274;
-                    if ( c/*element*/.tagName == 'OPTION' ){
-                      __LINE__ = 0;
-                      switch ( typeof d/*value*/ ) {
-                        case "string" :
-                          
-                          __LINE__ = 0;
-                          b/*ko*/.utils.domData.set( c/*element*/,b/*ko*/.bindingHandlers.options.optionValueDomDataKey,undefined );
-                          
-                          __LINE__ = 1278;
-                          if ( a/*hasDomDataExpandoProperty*/ in c/*element*/ ){
-                            __LINE__ = 0;
-                            delete c/*element*/[a/*hasDomDataExpandoProperty*/];
-                          };
-                          
-                          __LINE__ = 0;
-                          c/*element*/.value = d/*value*/;
-                          __LINE__ = 1282;
-                          break;
-                        default :
-                          
-                          __LINE__ = 0;
-                          b/*ko*/.utils.domData.set( c/*element*/,b/*ko*/.bindingHandlers.options.optionValueDomDataKey,d/*value*/ );
-                          
-                          __LINE__ = 0;
-                          c/*element*/[a/*hasDomDataExpandoProperty*/] = true;
-                          
-                          __LINE__ = 0;
-                          c/*element*/.value = typeof d/*value*/ === "number"?d/*value*/ : "";
-                          __LINE__ = 1290;
-                          break;
-                          
-                      };
-                    } else if ( c/*element*/.tagName == 'SELECT' ){
-                      __LINE__ = 1293;
-                      for ( var e/*i*/ = c/*element*/.options.length-1;e/*i*/ >= 0;e/*i*/ --  ){
-                        if ( b/*ko*/.selectExtensions.readValue( c/*element*/.options[e/*i*/] ) == d/*value*/ ){
-                          __LINE__ = 0;
-                          c/*element*/.selectedIndex = e/*i*/;
-                          __LINE__ = 1296;
-                          break;
-                        };
-                      };
-                    } else {
-                      if ( ( d/*value*/ === null ) || ( d/*value*/ === undefined ) ){
-                        __LINE__ = 0;
-                        d/*value*/ = "";
-                      };
-                      
-                      __LINE__ = 0;
-                      c/*element*/.value = d/*value*/;
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.selectExtensions',b/*ko*/.selectExtensions );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.selectExtensions.readValue',b/*ko*/.selectExtensions.readValue );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.selectExtensions.writeValue',b/*ko*/.selectExtensions.writeValue );
-          
-          __LINE__ = 0;
-          b/*ko*/.jsonExpressionRewriting = ( function () {
-            try {
-              __LINE__ = 1313;
-              var b/*restoreCapturedTokensRegex*/ = /\@ko_token_(\d+)\@/g;
-              
-              __LINE__ = 1314;
-              var c/*javaScriptAssignmentTarget*/ = /^[\_$a-z][\_$a-z0-9]*(\[.*?\])*(\.[\_$a-z][\_$a-z0-9]*(\[.*?\])*)*$/i;
-              
-              __LINE__ = 1315;
-              var d/*javaScriptReservedWords*/ = ["true","false"];
-              
-              function e/*restoreTokens*/( c/*string*/,a/*tokens*/ ) {
-                try {
-                  __LINE__ = 1318;
-                  var d/*prevValue*/ = null;
+                  var q/*bubble*/ = o/*allBindings*/[a/*eventName*/+'Bubble'] !== false;
                   
-                  __LINE__ = 1319;
-                  while ( c/*string*/ != d/*prevValue*/ ){
-                    __LINE__ = 0;
-                    d/*prevValue*/ = c/*string*/;
+                  if ( !q/*bubble*/ ){
+                    h/*event*/.cancelBubble = true;
                     
-                    __LINE__ = 0;
-                    c/*string*/ = c/*string*/.replace( b/*restoreCapturedTokensRegex*/,
-                    function ( c/*match*/,d/*tokenIndex*/ ) {
-                      try {
-                        __LINE__ = 1322;
-                        return a/*tokens*/[d/*tokenIndex*/];
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
+                    if ( h/*event*/.stopPropagation ){
+                      h/*event*/.stopPropagation();
+                    };
                   };
-                  __LINE__ = 1325;
-                  return c/*string*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function f/*isWriteableValue*/( c/*expression*/ ) {
-                try {
-                  __LINE__ = 1329;
-                  if ( b/*ko*/.utils.arrayIndexOf( d/*javaScriptReservedWords*/,b/*ko*/.utils.stringTrim( c/*expression*/ ).toLowerCase() ) >= 0 ){
-                    __LINE__ = 1330;
-                    return false;
+                });
+              };
+            })();
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['submit'] =  {
+        'init' : function ( h/*element*/,d/*valueAccessor*/,j/*allBindingsAccessor*/,g/*viewModel*/ ) {
+          if ( typeof d/*valueAccessor*/() != "function" ){
+            throw new Error( "The value for a submit binding must be a function" );
+          };
+          
+          n/*ko*/.utils.registerEventHandler( h/*element*/,"submit",
+          function ( j/*event*/ ) {
+            var k/*handlerReturnValue*/;
+            
+            var l/*value*/ = d/*valueAccessor*/();
+            
+            try {
+              k/*handlerReturnValue*/ = l/*value*/.call( g/*viewModel*/,h/*element*/ );
+            } finally {
+              if ( k/*handlerReturnValue*/ !== true ){
+                if ( j/*event*/.preventDefault ){
+                  j/*event*/.preventDefault();
+                } else {
+                  j/*event*/.returnValue = false;
+                };
+              };
+            };
+          });
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['visible'] =  {
+        'update' : function ( e/*element*/,f/*valueAccessor*/ ) {
+          var g/*value*/ = n/*ko*/.utils.unwrapObservable( f/*valueAccessor*/() );
+          
+          var h/*isCurrentlyVisible*/ = !( e/*element*/.style.display == "none" );
+          
+          if ( g/*value*/ && !h/*isCurrentlyVisible*/ ){
+            e/*element*/.style.display = "";
+          } else if ( ( !g/*value*/ ) && h/*isCurrentlyVisible*/ ){
+            e/*element*/.style.display = "none";
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['enable'] =  {
+        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
+          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+          
+          if ( f/*value*/ && d/*element*/.disabled ){
+            d/*element*/.removeAttribute( "disabled" );
+          } else if ( ( !f/*value*/ ) && ( !d/*element*/.disabled ) ){
+            d/*element*/.disabled = true;
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['disable'] =  {
+        'update' : function ( d/*element*/,c/*valueAccessor*/ ) {
+          n/*ko*/.bindingHandlers['enable']['update']( d/*element*/,
+          function () {
+            return !n/*ko*/.utils.unwrapObservable( c/*valueAccessor*/() );
+          });
+        }
+      };
+      
+      function N/*ensureDropdownSelectionIsConsistentWithModelValue*/( d/*element*/,e/*modelValue*/,f/*preferModelValue*/ ) {
+        if ( f/*preferModelValue*/ ){
+          if ( e/*modelValue*/ !== n/*ko*/.selectExtensions.readValue( d/*element*/ ) ){
+            n/*ko*/.selectExtensions.writeValue( d/*element*/,e/*modelValue*/ );
+          };
+        };
+        
+        if ( e/*modelValue*/ !== n/*ko*/.selectExtensions.readValue( d/*element*/ ) ){
+          n/*ko*/.utils.triggerEvent( d/*element*/,"change" );
+        };
+      }
+      n/*ko*/.bindingHandlers['value'] =  {
+        'init' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/ ) {
+          var j/*eventsToCatch*/ = ["change"];
+          
+          var k/*requestedEventsToCatch*/ = h/*allBindingsAccessor*/()["valueUpdate"];
+          
+          if ( k/*requestedEventsToCatch*/ ){
+            if ( typeof k/*requestedEventsToCatch*/ == "string" ){
+              k/*requestedEventsToCatch*/ = [k/*requestedEventsToCatch*/];
+            };
+            
+            n/*ko*/.utils.arrayPushAll( j/*eventsToCatch*/,k/*requestedEventsToCatch*/ );
+            
+            j/*eventsToCatch*/ = n/*ko*/.utils.arrayGetDistinctValues( j/*eventsToCatch*/ );
+          };
+          
+          n/*ko*/.utils.arrayForEach( j/*eventsToCatch*/,
+          function ( j/*eventName*/ ) {
+            var k/*handleEventAsynchronously*/ = false;
+            
+            if ( n/*ko*/.utils.stringStartsWith( j/*eventName*/,"after" ) ){
+              k/*handleEventAsynchronously*/ = true;
+              
+              j/*eventName*/ = j/*eventName*/.substring( "after".length );
+            };
+            
+            var c/*runEventHandler*/ = k/*handleEventAsynchronously*/?function ( b/*handler*/ ) {
+                  setTimeout( b/*handler*/,0 );
+                } : function ( b/*handler*/ ) {
+                  b/*handler*/();
+                };
+            
+            n/*ko*/.utils.registerEventHandler( f/*element*/,j/*eventName*/,
+            function () {
+              c/*runEventHandler*/( function () {
+                var d/*modelValue*/ = g/*valueAccessor*/();
+                
+                var e/*elementValue*/ = n/*ko*/.selectExtensions.readValue( f/*element*/ );
+                
+                if ( n/*ko*/.isWriteableObservable( d/*modelValue*/ ) ){
+                  d/*modelValue*/( e/*elementValue*/ );
+                } else {
+                  var i/*allBindings*/ = h/*allBindingsAccessor*/();
+                  if ( i/*allBindings*/['_ko_property_writers'] && i/*allBindings*/['_ko_property_writers']['value'] ){
+                    i/*allBindings*/['_ko_property_writers']['value']( e/*elementValue*/ );
                   };
-                  __LINE__ = 1331;
-                  return c/*expression*/.match( c/*javaScriptAssignmentTarget*/ ) !== null;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function g/*ensureQuoted*/( c/*key*/ ) {
-                try {
-                  __LINE__ = 1335;
-                  var d/*trimmedKey*/ = b/*ko*/.utils.stringTrim( c/*key*/ );
+                };
+              });
+            });
+          });
+        },
+        'update' : function ( h/*element*/,O/*valueAccessor*/ ) {
+          var i/*newValue*/ = n/*ko*/.utils.unwrapObservable( O/*valueAccessor*/() );
+          
+          var P/*elementValue*/ = n/*ko*/.selectExtensions.readValue( h/*element*/ );
+          
+          var Q/*valueHasChanged*/ = ( i/*newValue*/ != P/*elementValue*/ );
+          
+          if ( ( i/*newValue*/ === 0 ) && ( P/*elementValue*/ !== 0 ) && ( P/*elementValue*/ !== "0" ) ){
+            Q/*valueHasChanged*/ = true;
+          };
+          
+          if ( Q/*valueHasChanged*/ ){
+            var R/*applyValueAction*/ = function () {
+                  n/*ko*/.selectExtensions.writeValue( h/*element*/,i/*newValue*/ );
+                };
+            
+            R/*applyValueAction*/();
+            
+            var S/*alsoApplyAsynchronously*/ = h/*element*/.tagName == "SELECT";
+            
+            if ( S/*alsoApplyAsynchronously*/ ){
+              setTimeout( R/*applyValueAction*/,0 );
+            };
+          };
+          
+          if ( ( h/*element*/.tagName == "SELECT" ) && ( h/*element*/.length>0 ) ){
+            N/*ensureDropdownSelectionIsConsistentWithModelValue*/( h/*element*/,i/*newValue*/,false );
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['options'] =  {
+        'update' : function ( q/*element*/,r/*valueAccessor*/,s/*allBindingsAccessor*/ ) {
+          if ( q/*element*/.tagName != "SELECT" ){
+            throw new Error( "options binding applies only to SELECT elements" );
+          };
+          
+          var t/*selectWasPreviouslyEmpty*/ = q/*element*/.length == 0;
+          
+          var u/*previousSelectedValues*/ = n/*ko*/.utils.arrayMap( n/*ko*/.utils.arrayFilter( q/*element*/.childNodes,
+              function ( b/*node*/ ) {
+                return b/*node*/.tagName && b/*node*/.tagName == "OPTION" && b/*node*/.selected;
+              }),
+              function ( b/*node*/ ) {
+                return n/*ko*/.selectExtensions.readValue( b/*node*/ ) || b/*node*/.innerText || b/*node*/.textContent;
+              });
+          
+          var v/*previousScrollTop*/ = q/*element*/.scrollTop;
+          
+          q/*element*/.scrollTop = 0;
+          
+          var w/*value*/ = n/*ko*/.utils.unwrapObservable( r/*valueAccessor*/() );
+          
+          var x/*selectedValue*/ = q/*element*/.value;
+          
+          while ( q/*element*/.length>0 ){
+            n/*ko*/.cleanNode( q/*element*/.options[0] );
+            
+            q/*element*/.remove( 0 );
+          };
+          
+          if ( w/*value*/ ){
+            var y/*allBindings*/ = s/*allBindingsAccessor*/();
+            
+            if ( typeof w/*value*/.length != "number" ){
+              w/*value*/ = [w/*value*/];
+            };
+            
+            if ( y/*allBindings*/['optionsCaption'] ){
+              var z/*option*/ = document.createElement( "OPTION" );
+              
+              n/*ko*/.utils.setHtml( z/*option*/,y/*allBindings*/['optionsCaption'] );
+              
+              n/*ko*/.selectExtensions.writeValue( z/*option*/,undefined );
+              
+              q/*element*/.appendChild( z/*option*/ );
+            };
+            
+            for ( var A/*i*/ = 0,B/*j*/ = w/*value*/.length;A/*i*/<B/*j*/;A/*i*/ ++  ){
+              var z/*option*/ = document.createElement( "OPTION" );
+              
+              var C/*optionValue*/ = typeof y/*allBindings*/['optionsValue'] == "string"?w/*value*/[A/*i*/][y/*allBindings*/['optionsValue']] : w/*value*/[A/*i*/];
+              
+              C/*optionValue*/ = n/*ko*/.utils.unwrapObservable( C/*optionValue*/ );
+              
+              n/*ko*/.selectExtensions.writeValue( z/*option*/,C/*optionValue*/ );
+              
+              var D/*optionsTextValue*/ = y/*allBindings*/['optionsText'];
+              
+              var E/*optionText*/;
+              
+              if ( typeof D/*optionsTextValue*/ == "function" ){
+                E/*optionText*/ = D/*optionsTextValue*/( w/*value*/[A/*i*/] );
+              } else if ( typeof D/*optionsTextValue*/ == "string" ){
+                E/*optionText*/ = w/*value*/[A/*i*/][D/*optionsTextValue*/];
+              } else {
+                E/*optionText*/ = C/*optionValue*/;
+              };
+              
+              if ( ( E/*optionText*/ === null ) || ( E/*optionText*/ === undefined ) ){
+                E/*optionText*/ = "";
+              };
+              
+              n/*ko*/.utils.setTextContent( z/*option*/,E/*optionText*/ );
+              
+              q/*element*/.appendChild( z/*option*/ );
+            };
+            
+            var F/*newOptions*/ = q/*element*/.getElementsByTagName( "OPTION" );
+            
+            var G/*countSelectionsRetained*/ = 0;
+            
+            for ( var A/*i*/ = 0,B/*j*/ = F/*newOptions*/.length;A/*i*/<B/*j*/;A/*i*/ ++  ){
+              if ( n/*ko*/.utils.arrayIndexOf( u/*previousSelectedValues*/,n/*ko*/.selectExtensions.readValue( F/*newOptions*/[A/*i*/] ) ) >= 0 ){
+                n/*ko*/.utils.setOptionNodeSelectionState( F/*newOptions*/[A/*i*/],true );
+                
+                G/*countSelectionsRetained*/ ++ ;
+              };
+            };
+            
+            if ( v/*previousScrollTop*/ ){
+              q/*element*/.scrollTop = v/*previousScrollTop*/;
+            };
+            
+            if ( t/*selectWasPreviouslyEmpty*/ && ( 'value' in y/*allBindings*/ ) ){
+              N/*ensureDropdownSelectionIsConsistentWithModelValue*/( q/*element*/,n/*ko*/.utils.unwrapObservable( y/*allBindings*/['value'] ),true );
+            };
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['options'].optionValueDomDataKey = '__ko.optionValueDomData__';
+      
+      n/*ko*/.bindingHandlers['selectedOptions'] =  {
+        getSelectedValuesFromSelectNode : function ( g/*selectNode*/ ) {
+          var h/*result*/ = [];
+          
+          var i/*nodes*/ = g/*selectNode*/.childNodes;
+          
+          for ( var j/*i*/ = 0,k/*j*/ = i/*nodes*/.length;j/*i*/<k/*j*/;j/*i*/ ++  ){
+            var l/*node*/ = i/*nodes*/[j/*i*/];
+            
+            if ( ( l/*node*/.tagName == "OPTION" ) && l/*node*/.selected ){
+              h/*result*/.push( n/*ko*/.selectExtensions.readValue( l/*node*/ ) );
+            };
+          };
+          return h/*result*/;
+        },
+        'init' : function ( h/*element*/,d/*valueAccessor*/,f/*allBindingsAccessor*/ ) {
+          n/*ko*/.utils.registerEventHandler( h/*element*/,"change",
+          function () {
+            var h/*value*/ = d/*valueAccessor*/();
+            
+            if ( n/*ko*/.isWriteableObservable( h/*value*/ ) ){
+              h/*value*/( n/*ko*/.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
+            } else {
+              var i/*allBindings*/ = f/*allBindingsAccessor*/();
+              if ( i/*allBindings*/['_ko_property_writers'] && i/*allBindings*/['_ko_property_writers']['value'] ){
+                i/*allBindings*/['_ko_property_writers']['value']( n/*ko*/.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
+              };
+            };
+          });
+        },
+        'update' : function ( h/*element*/,i/*valueAccessor*/ ) {
+          if ( h/*element*/.tagName != "SELECT" ){
+            throw new Error( "values binding applies only to SELECT elements" );
+          };
+          
+          var j/*newValue*/ = n/*ko*/.utils.unwrapObservable( i/*valueAccessor*/() );
+          
+          if ( j/*newValue*/ && typeof j/*newValue*/.length == "number" ){
+            var k/*nodes*/ = h/*element*/.childNodes;
+            
+            for ( var l/*i*/ = 0,m/*j*/ = k/*nodes*/.length;l/*i*/<m/*j*/;l/*i*/ ++  ){
+              var o/*node*/ = k/*nodes*/[l/*i*/];
+              
+              if ( o/*node*/.tagName == "OPTION" ){
+                n/*ko*/.utils.setOptionNodeSelectionState( o/*node*/,n/*ko*/.utils.arrayIndexOf( j/*newValue*/,n/*ko*/.selectExtensions.readValue( o/*node*/ ) ) >= 0 );
+              };
+            };
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['text'] =  {
+        'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
+          n/*ko*/.utils.setTextContent( c/*element*/,d/*valueAccessor*/() );
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['html'] =  {
+        'init' : function () {
+          return  {
+            'controlsDescendantBindings' : true
+          };
+        },
+        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
+          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+          
+          n/*ko*/.utils.setHtml( d/*element*/,f/*value*/ );
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['css'] =  {
+        'update' : function ( f/*element*/,g/*valueAccessor*/ ) {
+          var h/*value*/ = n/*ko*/.utils.unwrapObservable( g/*valueAccessor*/() || {} );
+          
+          for ( var i/*className*/ in h/*value*/ ){
+            if ( typeof i/*className*/ == "string" ){
+              var j/*shouldHaveClass*/ = n/*ko*/.utils.unwrapObservable( h/*value*/[i/*className*/] );
+              
+              n/*ko*/.utils.toggleDomNodeCssClass( f/*element*/,i/*className*/,j/*shouldHaveClass*/ );
+            };
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['style'] =  {
+        'update' : function ( f/*element*/,g/*valueAccessor*/ ) {
+          var h/*value*/ = n/*ko*/.utils.unwrapObservable( g/*valueAccessor*/() || {} );
+          
+          for ( var i/*styleName*/ in h/*value*/ ){
+            if ( typeof i/*styleName*/ == "string" ){
+              var j/*styleValue*/ = n/*ko*/.utils.unwrapObservable( h/*value*/[i/*styleName*/] );
+              
+              f/*element*/.style[i/*styleName*/] = j/*styleValue*/ || "";
+            };
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['uniqueName'] =  {
+        'init' : function ( c/*element*/,d/*valueAccessor*/ ) {
+          if ( d/*valueAccessor*/() ){
+            c/*element*/.name = "ko_unique_"+(  ++ n/*ko*/.bindingHandlers['uniqueName'].currentIndex );
+            
+            if ( n/*ko*/.utils.isIe6 || n/*ko*/.utils.isIe7 ){
+              c/*element*/.mergeAttributes( document.createElement( "<input name='"+c/*element*/.name+"'/>" ),false );
+            };
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['uniqueName'].currentIndex = 0;
+      
+      n/*ko*/.bindingHandlers['checked'] =  {
+        'init' : function ( e/*element*/,g/*valueAccessor*/,j/*allBindingsAccessor*/ ) {
+          var l/*updateHandler*/ = function () {
+                var l/*valueToWrite*/;
+                
+                if ( e/*element*/.type == "checkbox" ){
+                  l/*valueToWrite*/ = e/*element*/.checked;
+                } else if ( ( e/*element*/.type == "radio" ) && ( e/*element*/.checked ) ){
+                  l/*valueToWrite*/ = e/*element*/.value;
+                } else {
+                  return ;
+                };
+                
+                var m/*modelValue*/ = g/*valueAccessor*/();
+                
+                if ( ( e/*element*/.type == "checkbox" ) && ( n/*ko*/.utils.unwrapObservable( m/*modelValue*/ ) instanceof Array ) ){
+                  var o/*existingEntryIndex*/ = n/*ko*/.utils.arrayIndexOf( n/*ko*/.utils.unwrapObservable( m/*modelValue*/ ),e/*element*/.value );
                   
-                  __LINE__ = 0;
-                  switch ( d/*trimmedKey*/.length && d/*trimmedKey*/.charAt( 0 ) ) {
-                    case "'" :
-                    case '"' :
-                      __LINE__ = 1339;
-                      return c/*key*/;
-                    default :
-                      __LINE__ = 1341;
-                      return "'"+d/*trimmedKey*/+"'";
-                      
+                  if ( e/*element*/.checked && ( o/*existingEntryIndex*/<0 ) ){
+                    m/*modelValue*/.push( e/*element*/.value );
+                  } else if ( ( !e/*element*/.checked ) && ( o/*existingEntryIndex*/ >= 0 ) ){
+                    m/*modelValue*/.splice( o/*existingEntryIndex*/,1 );
                   };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }__LINE__ = 1345;
+                } else if ( n/*ko*/.isWriteableObservable( m/*modelValue*/ ) ){
+                  if ( m/*modelValue*/() !== l/*valueToWrite*/ ){
+                    m/*modelValue*/( l/*valueToWrite*/ );
+                  };
+                } else {
+                  var p/*allBindings*/ = j/*allBindingsAccessor*/();
+                  if ( p/*allBindings*/['_ko_property_writers'] && p/*allBindings*/['_ko_property_writers']['checked'] ){
+                    p/*allBindings*/['_ko_property_writers']['checked']( l/*valueToWrite*/ );
+                  };
+                };
+              };
+          
+          n/*ko*/.utils.registerEventHandler( e/*element*/,"click",l/*updateHandler*/ );
+          
+          if ( ( e/*element*/.type == "radio" ) && !e/*element*/.name ){
+            n/*ko*/.bindingHandlers['uniqueName']['init']( e/*element*/,
+            function () {
+              return true;
+            });
+          };
+        },
+        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
+          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+          
+          if ( d/*element*/.type == "checkbox" ){
+            if ( f/*value*/ instanceof Array ){
+              d/*element*/.checked = n/*ko*/.utils.arrayIndexOf( f/*value*/,d/*element*/.value ) >= 0;
+            } else {
+              d/*element*/.checked = f/*value*/;
+            };
+          } else if ( d/*element*/.type == "radio" ){
+            d/*element*/.checked = ( d/*element*/.value == f/*value*/ );
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['attr'] =  {
+        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/ ) {
+          var i/*value*/ = n/*ko*/.utils.unwrapObservable( g/*valueAccessor*/() ) || {};
+          
+          for ( var j/*attrName*/ in i/*value*/ ){
+            if ( typeof j/*attrName*/ == "string" ){
+              var k/*attrValue*/ = n/*ko*/.utils.unwrapObservable( i/*value*/[j/*attrName*/] );
+              
+              if ( ( k/*attrValue*/ === false ) || ( k/*attrValue*/ === null ) || ( k/*attrValue*/ === undefined ) ){
+                f/*element*/.removeAttribute( j/*attrName*/ );
+              } else {
+                f/*element*/.setAttribute( j/*attrName*/,k/*attrValue*/.toString() );
+              };
+            };
+          };
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['hasfocus'] =  {
+        'init' : function ( k/*element*/,e/*valueAccessor*/,h/*allBindingsAccessor*/ ) {
+          var j/*writeValue*/ = function ( j/*valueToWrite*/ ) {
+                var k/*modelValue*/ = e/*valueAccessor*/();
+                
+                if ( j/*valueToWrite*/ == n/*ko*/.utils.unwrapObservable( k/*modelValue*/ ) ){
+                  return ;
+                };
+                
+                if ( n/*ko*/.isWriteableObservable( k/*modelValue*/ ) ){
+                  k/*modelValue*/( j/*valueToWrite*/ );
+                } else {
+                  var l/*allBindings*/ = h/*allBindingsAccessor*/();
+                  if ( l/*allBindings*/['_ko_property_writers'] && l/*allBindings*/['_ko_property_writers']['hasfocus'] ){
+                    l/*allBindings*/['_ko_property_writers']['hasfocus']( j/*valueToWrite*/ );
+                  };
+                };
+              };
+          
+          n/*ko*/.utils.registerEventHandler( k/*element*/,"focus",
+          function () {
+            j/*writeValue*/( true );
+          });
+          
+          n/*ko*/.utils.registerEventHandler( k/*element*/,"focusin",
+          function () {
+            j/*writeValue*/( true );
+          });
+          
+          n/*ko*/.utils.registerEventHandler( k/*element*/,"blur",
+          function () {
+            j/*writeValue*/( false );
+          });
+          
+          n/*ko*/.utils.registerEventHandler( k/*element*/,"focusout",
+          function () {
+            j/*writeValue*/( false );
+          });
+        },
+        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
+          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+          
+          f/*value*/?d/*element*/.focus() : d/*element*/.blur();
+          
+          n/*ko*/.utils.triggerEvent( d/*element*/,f/*value*/?"focusin" : "focusout" );
+        }
+      };
+      
+      n/*ko*/.bindingHandlers['with'] =  {
+        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+          return function () {
+            var d/*value*/ = b/*valueAccessor*/();
+            return  {
+              'if' : d/*value*/,
+              'data' : d/*value*/,
+              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+            };
+          };
+        },
+        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['with'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        },
+        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['with'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        }
+      };
+      
+      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['with'] = false;
+      
+      n/*ko*/.virtualElements.allowedBindings['with'] = true;
+      
+      n/*ko*/.bindingHandlers['if'] =  {
+        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+          return function () {
+            return  {
+              'if' : b/*valueAccessor*/(),
+              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+            };
+          };
+        },
+        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['if'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        },
+        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['if'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        }
+      };
+      
+      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['if'] = false;
+      
+      n/*ko*/.virtualElements.allowedBindings['if'] = true;
+      
+      n/*ko*/.bindingHandlers['ifnot'] =  {
+        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+          return function () {
+            return  {
+              'ifnot' : b/*valueAccessor*/(),
+              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+            };
+          };
+        },
+        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['ifnot'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        },
+        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['ifnot'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        }
+      };
+      
+      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['ifnot'] = false;
+      
+      n/*ko*/.virtualElements.allowedBindings['ifnot'] = true;
+      
+      n/*ko*/.bindingHandlers['foreach'] =  {
+        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+          return function () {
+            var d/*bindingValue*/ = n/*ko*/.utils.unwrapObservable( b/*valueAccessor*/() );
+            
+            if ( ( !d/*bindingValue*/ ) || typeof d/*bindingValue*/.length == "number" ){
               return  {
-                bindingRewriteValidators : [],
-                parseObjectLiteral : function ( c/*objectLiteralString*/ ) {
-                  try {
-                    __LINE__ = 1352;
-                    var d/*str*/ = b/*ko*/.utils.stringTrim( c/*objectLiteralString*/ );
-                    
-                    __LINE__ = 1353;
-                    if ( d/*str*/.length<3 ){
-                      __LINE__ = 1354;
-                      return [];
-                    };
-                    
-                    __LINE__ = 1355;
-                    if ( d/*str*/.charAt( 0 ) === "{" ){
-                      __LINE__ = 0;
-                      d/*str*/ = d/*str*/.substring( 1,d/*str*/.length-1 );
-                    };
-                    
-                    __LINE__ = 1359;
-                    var e/*tokens*/ = [];
-                    
-                    __LINE__ = 1360;
-                    var f/*tokenStart*/ = null,
-                        g/*tokenEndChar*/;
-                    
-                    __LINE__ = 1361;
-                    for ( var h/*position*/ = 0;h/*position*/<d/*str*/.length;h/*position*/ ++  ){
-                      __LINE__ = 1362;
-                      var i/*c*/ = d/*str*/.charAt( h/*position*/ );
-                      
-                      __LINE__ = 1363;
-                      if ( f/*tokenStart*/ === null ){
-                        __LINE__ = 0;
-                        switch ( i/*c*/ ) {
-                          case '"' :
-                          case "'" :
-                          case "/" :
-                            
-                            __LINE__ = 0;
-                            f/*tokenStart*/ = h/*position*/;
-                            
-                            __LINE__ = 0;
-                            g/*tokenEndChar*/ = i/*c*/;
-                            __LINE__ = 1370;
-                            break;
-                            
-                        };
-                      } else if ( ( i/*c*/ == g/*tokenEndChar*/ ) && ( d/*str*/.charAt( h/*position*/-1 ) !== "\\" ) ){
-                        __LINE__ = 1373;
-                        var j/*token*/ = d/*str*/.substring( f/*tokenStart*/,h/*position*/+1 );
-                        
-                        __LINE__ = 0;
-                        e/*tokens*/.push( j/*token*/ );
-                        
-                        __LINE__ = 1375;
-                        var k/*replacement*/ = "@ko_token_"+( e/*tokens*/.length-1 )+"@";
-                        
-                        __LINE__ = 0;
-                        d/*str*/ = d/*str*/.substring( 0,f/*tokenStart*/ )+k/*replacement*/+d/*str*/.substring( h/*position*/+1 );
-                        
-                        __LINE__ = 0;
-                        h/*position*/ -= ( j/*token*/.length-k/*replacement*/.length );
-                        
-                        __LINE__ = 0;
-                        f/*tokenStart*/ = null;
-                      };
-                    };
-                    
-                    __LINE__ = 0;
-                    f/*tokenStart*/ = null;
-                    
-                    __LINE__ = 0;
-                    g/*tokenEndChar*/ = null;
-                    
-                    __LINE__ = 1385;
-                    var l/*tokenDepth*/ = 0,
-                        m/*tokenStartChar*/ = null;
-                    
-                    __LINE__ = 1386;
-                    for ( var h/*position*/ = 0;h/*position*/<d/*str*/.length;h/*position*/ ++  ){
-                      __LINE__ = 1387;
-                      var i/*c*/ = d/*str*/.charAt( h/*position*/ );
-                      
-                      __LINE__ = 1388;
-                      if ( f/*tokenStart*/ === null ){
-                        __LINE__ = 0;
-                        switch ( i/*c*/ ) {
-                          case "{" :
-                            
-                            __LINE__ = 0;
-                            f/*tokenStart*/ = h/*position*/;
-                            
-                            __LINE__ = 0;
-                            m/*tokenStartChar*/ = i/*c*/;
-                            
-                            __LINE__ = 0;
-                            g/*tokenEndChar*/ = "}";
-                            __LINE__ = 1392;
-                            break;
-                          case "(" :
-                            
-                            __LINE__ = 0;
-                            f/*tokenStart*/ = h/*position*/;
-                            
-                            __LINE__ = 0;
-                            m/*tokenStartChar*/ = i/*c*/;
-                            
-                            __LINE__ = 0;
-                            g/*tokenEndChar*/ = ")";
-                            __LINE__ = 1395;
-                            break;
-                          case "[" :
-                            
-                            __LINE__ = 0;
-                            f/*tokenStart*/ = h/*position*/;
-                            
-                            __LINE__ = 0;
-                            m/*tokenStartChar*/ = i/*c*/;
-                            
-                            __LINE__ = 0;
-                            g/*tokenEndChar*/ = "]";
-                            __LINE__ = 1398;
-                            break;
-                            
-                        };
-                      };
-                      
-                      __LINE__ = 1402;
-                      if ( i/*c*/ === m/*tokenStartChar*/ ){
-                        __LINE__ = 0;
-                        l/*tokenDepth*/ ++ ;
-                      } else if ( i/*c*/ === g/*tokenEndChar*/ ){
-                        __LINE__ = 0;
-                        l/*tokenDepth*/ -- ;
-                        if ( l/*tokenDepth*/ === 0 ){
-                          __LINE__ = 1407;
-                          var j/*token*/ = d/*str*/.substring( f/*tokenStart*/,h/*position*/+1 );
-                          
-                          __LINE__ = 0;
-                          e/*tokens*/.push( j/*token*/ );
-                          
-                          __LINE__ = 1409;
-                          var k/*replacement*/ = "@ko_token_"+( e/*tokens*/.length-1 )+"@";
-                          
-                          __LINE__ = 0;
-                          d/*str*/ = d/*str*/.substring( 0,f/*tokenStart*/ )+k/*replacement*/+d/*str*/.substring( h/*position*/+1 );
-                          
-                          __LINE__ = 0;
-                          h/*position*/ -= ( j/*token*/.length-k/*replacement*/.length );
-                          
-                          __LINE__ = 0;
-                          f/*tokenStart*/ = null;
-                        };
-                      };
-                    };
-                    
-                    __LINE__ = 1418;
-                    var n/*result*/ = [];
-                    
-                    __LINE__ = 1419;
-                    var o/*keyValuePairs*/ = d/*str*/.split( "," );
-                    
-                    __LINE__ = 1420;
-                    for ( var p/*i*/ = 0,q/*j*/ = o/*keyValuePairs*/.length;p/*i*/<q/*j*/;p/*i*/ ++  ){
-                      __LINE__ = 1421;
-                      var r/*pair*/ = o/*keyValuePairs*/[p/*i*/];
-                      
-                      __LINE__ = 1422;
-                      var s/*colonPos*/ = r/*pair*/.indexOf( ":" );
-                      
-                      __LINE__ = 1423;
-                      if ( ( s/*colonPos*/>0 ) && ( s/*colonPos*/<r/*pair*/.length-1 ) ){
-                        __LINE__ = 1424;
-                        var t/*key*/ = r/*pair*/.substring( 0,s/*colonPos*/ );
-                        
-                        __LINE__ = 1425;
-                        var u/*value*/ = r/*pair*/.substring( s/*colonPos*/+1 );
-                        
-                        __LINE__ = 0;
-                        n/*result*/.push(  {
-                          'key' : e/*restoreTokens*/( t/*key*/,e/*tokens*/ ),
-                          'value' : e/*restoreTokens*/( u/*value*/,e/*tokens*/ )
-                        });
-                      } else {
-                        __LINE__ = 0;
-                        n/*result*/.push(  {
-                          'unknown' : e/*restoreTokens*/( r/*pair*/,e/*tokens*/ )
-                        });
-                      };
-                    };
-                    __LINE__ = 1431;
-                    return n/*result*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                insertPropertyAccessorsIntoJson : function ( c/*objectLiteralStringOrKeyValueArray*/ ) {
-                  try {
-                    __LINE__ = 1435;
-                    var d/*keyValueArray*/ = typeof c/*objectLiteralStringOrKeyValueArray*/ === "string"?b/*ko*/.jsonExpressionRewriting.parseObjectLiteral( c/*objectLiteralStringOrKeyValueArray*/ ) : c/*objectLiteralStringOrKeyValueArray*/;
-                    
-                    __LINE__ = 1438;
-                    var e/*resultStrings*/ = [],
-                        f/*propertyAccessorResultStrings*/ = [];
-                    
-                    __LINE__ = 1440;
-                    var g/*keyValueEntry*/;
-                    
-                    __LINE__ = 1441;
-                    for ( var h/*i*/ = 0;g/*keyValueEntry*/ = d/*keyValueArray*/[h/*i*/];h/*i*/ ++  ){
-                      __LINE__ = 1442;
-                      if ( e/*resultStrings*/.length>0 ){
-                        __LINE__ = 0;
-                        e/*resultStrings*/.push( "," );
-                      };
-                      
-                      __LINE__ = 1445;
-                      if ( g/*keyValueEntry*/['key'] ){
-                        __LINE__ = 1446;
-                        var i/*quotedKey*/ = g/*ensureQuoted*/( g/*keyValueEntry*/['key'] ),
-                            j/*val*/ = g/*keyValueEntry*/['value'];
-                        
-                        __LINE__ = 0;
-                        e/*resultStrings*/.push( i/*quotedKey*/ );
-                        
-                        __LINE__ = 0;
-                        e/*resultStrings*/.push( ":" );
-                        
-                        __LINE__ = 0;
-                        e/*resultStrings*/.push( j/*val*/ );
-                        
-                        __LINE__ = 1451;
-                        if ( f/*isWriteableValue*/( b/*ko*/.utils.stringTrim( j/*val*/ ) ) ){
-                          __LINE__ = 1452;
-                          if ( f/*propertyAccessorResultStrings*/.length>0 ){
-                            __LINE__ = 0;
-                            f/*propertyAccessorResultStrings*/.push( ", " );
-                          };
-                          
-                          __LINE__ = 0;
-                          f/*propertyAccessorResultStrings*/.push( i/*quotedKey*/+" : function(__ko_value) { "+j/*val*/+" = __ko_value; }" );
-                        };
-                      } else if ( g/*keyValueEntry*/['unknown'] ){
-                        __LINE__ = 0;
-                        e/*resultStrings*/.push( g/*keyValueEntry*/['unknown'] );
-                      };
-                    };
-                    
-                    __LINE__ = 1461;
-                    var k/*combinedResult*/ = e/*resultStrings*/.join( "" );
-                    
-                    __LINE__ = 1462;
-                    if ( f/*propertyAccessorResultStrings*/.length>0 ){
-                      __LINE__ = 1463;
-                      var l/*allPropertyAccessors*/ = f/*propertyAccessorResultStrings*/.join( "" );
-                      
-                      __LINE__ = 0;
-                      k/*combinedResult*/ = k/*combinedResult*/+", '_ko_property_writers' : { "+l/*allPropertyAccessors*/+" } ";
-                    };
-                    __LINE__ = 1467;
-                    return k/*combinedResult*/;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                keyValueArrayContainsKey : function ( c/*keyValueArray*/,d/*key*/ ) {
-                  try {
-                    __LINE__ = 1471;
-                    for ( var e/*i*/ = 0;e/*i*/<c/*keyValueArray*/.length;e/*i*/ ++  ){
-                      __LINE__ = 1472;
-                      if ( b/*ko*/.utils.stringTrim( c/*keyValueArray*/[e/*i*/]['key'] ) == d/*key*/ ){
-                        __LINE__ = 1473;
-                        return true;
-                      };
-                    };
-                    __LINE__ = 1474;
-                    return false;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
+                'foreach' : d/*bindingValue*/,
+                'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
               };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
+            };
+            return  {
+              'foreach' : d/*bindingValue*/['data'],
+              'includeDestroyed' : d/*bindingValue*/['includeDestroyed'],
+              'afterAdd' : d/*bindingValue*/['afterAdd'],
+              'beforeRemove' : d/*bindingValue*/['beforeRemove'],
+              'afterRender' : d/*bindingValue*/['afterRender'],
+              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+            };
+          };
+        },
+        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['foreach'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        },
+        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
+          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['foreach'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        }
+      };
+      
+      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['foreach'] = false;
+      
+      n/*ko*/.virtualElements.allowedBindings['foreach'] = true;
+      
+      n/*ko*/.exportSymbol( 'ko.allowedVirtualElementBindings',n/*ko*/.virtualElements.allowedBindings );
+      
+      n/*ko*/.templateEngine = function (){};
+      
+      n/*ko*/.templateEngine.prototype['renderTemplateSource'] = function ( a/*templateSource*/,b/*bindingContext*/,c/*options*/ ) {
+        throw "Override renderTemplateSource";
+      };
+      
+      n/*ko*/.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function ( a/*script*/ ) {
+        throw "Override createJavaScriptEvaluatorBlock";
+      };
+      
+      n/*ko*/.templateEngine.prototype['makeTemplateSource'] = function ( c/*template*/ ) {
+        if ( typeof c/*template*/ == "string" ){
+          var d/*elem*/ = document.getElementById( c/*template*/ );
           
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting',b/*ko*/.jsonExpressionRewriting );
+          if ( !d/*elem*/ ){
+            throw new Error( "Cannot find template with ID "+c/*template*/ );
+          };
+          return new n/*ko*/.templateSources.domElement( d/*elem*/ );
+        } else if ( ( c/*template*/.nodeType == 1 ) || ( c/*template*/.nodeType == 8 ) ){
+          return new n/*ko*/.templateSources.anonymousTemplate( c/*template*/ );
+        } else {
+          throw new Error( "Unknown template type: "+c/*template*/ );
+        };
+      };
+      
+      n/*ko*/.templateEngine.prototype['renderTemplate'] = function ( e/*template*/,f/*bindingContext*/,g/*options*/ ) {
+        var h/*templateSource*/ = this['makeTemplateSource']( e/*template*/ );
+        return this['renderTemplateSource']( h/*templateSource*/,f/*bindingContext*/,g/*options*/ );
+      };
+      
+      n/*ko*/.templateEngine.prototype['isTemplateRewritten'] = function ( b/*template*/ ) {
+        if ( this['allowTemplateRewriting'] === false ){
+          return true;
+        };
+        
+        if ( this.knownRewrittenTemplates && this.knownRewrittenTemplates[b/*template*/] ){
+          return true;
+        };
+        return this['makeTemplateSource']( b/*template*/ )['data']( "isRewritten" );
+      };
+      
+      n/*ko*/.templateEngine.prototype['rewriteTemplate'] = function ( e/*template*/,f/*rewriterCallback*/ ) {
+        var g/*templateSource*/ = this['makeTemplateSource']( e/*template*/ );
+        
+        var h/*rewritten*/ = f/*rewriterCallback*/( g/*templateSource*/['text']() );
+        
+        g/*templateSource*/['text']( h/*rewritten*/ );
+        
+        g/*templateSource*/['data']( "isRewritten",true );
+        
+        if ( typeof e/*template*/ == "string" ){
+          this.knownRewrittenTemplates = this.knownRewrittenTemplates || {};
           
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.bindingRewriteValidators',b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators );
+          this.knownRewrittenTemplates[e/*template*/] = true;
+        };
+      };
+      
+      n/*ko*/.exportSymbol( 'ko.templateEngine',n/*ko*/.templateEngine );
+      
+      n/*ko*/.templateRewriting = ( function () {
+        var m/*memoizeDataBindingAttributeSyntaxRegex*/ = /(<[a-z]+\d*(\s+(?!data-bind=)[a-z0-9\-]+(=(\"[^\"]*\"|\'[^\']*\'))?)*\s+)data-bind=(["'])([\s\S]*?)\5/gi;
+        
+        var o/*memoizeVirtualContainerBindingSyntaxRegex*/ = /<!--\s*ko\b\s*([\s\S]*?)\s*-->/g;
+        
+        function g/*validateDataBindValuesForRewriting*/( g/*keyValueArray*/ ) {
+          var h/*allValidators*/ = n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators;
           
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.parseObjectLiteral',b/*ko*/.jsonExpressionRewriting.parseObjectLiteral );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson',b/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 1495;
-              var a/*commentNodesHaveTextProperty*/ = document.createComment( "test" ).text === "<!--test-->";
+          for ( var i/*i*/ = 0;i/*i*/<g/*keyValueArray*/.length;i/*i*/ ++  ){
+            var j/*key*/ = g/*keyValueArray*/[i/*i*/]['key'];
+            
+            if ( h/*allValidators*/.hasOwnProperty( j/*key*/ ) ){
+              var k/*validator*/ = h/*allValidators*/[j/*key*/];
               
-              __LINE__ = 1497;
-              var b/*startCommentRegex*/ = a/*commentNodesHaveTextProperty*/?/^<!--\s*ko\s+(.*\:.*)\s*-->$/ : /^\s*ko\s+(.*\:.*)\s*$/;
-              
-              __LINE__ = 1498;
-              var i/*endCommentRegex*/ = a/*commentNodesHaveTextProperty*/?/^<!--\s*\/ko\s*-->$/ : /^\s*\/ko\s*$/;
-              
-              __LINE__ = 1499;
-              var f/*htmlTagsWithOptionallyClosingChildren*/ =  {
-                    'ul' : true,
-                    'ol' : true
-                  };
-              
-              function d/*isStartComment*/( d/*node*/ ) {
-                try {
-                  __LINE__ = 1502;
-                  return ( d/*node*/.nodeType == 8 ) && ( a/*commentNodesHaveTextProperty*/?d/*node*/.text : d/*node*/.nodeValue ).match( b/*startCommentRegex*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function c/*isEndComment*/( b/*node*/ ) {
-                try {
-                  __LINE__ = 1506;
-                  return ( b/*node*/.nodeType == 8 ) && ( a/*commentNodesHaveTextProperty*/?b/*node*/.text : b/*node*/.nodeValue ).match( i/*endCommentRegex*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function e/*getVirtualChildren*/( f/*startComment*/,g/*allowUnbalanced*/ ) {
-                try {
-                  __LINE__ = 1510;
-                  var h/*currentNode*/ = f/*startComment*/;
-                  
-                  __LINE__ = 1511;
-                  var i/*depth*/ = 1;
-                  
-                  __LINE__ = 1512;
-                  var j/*children*/ = [];
-                  
-                  __LINE__ = 1513;
-                  while ( h/*currentNode*/ = h/*currentNode*/.nextSibling ){
-                    __LINE__ = 1514;
-                    if ( c/*isEndComment*/( h/*currentNode*/ ) ){
-                      __LINE__ = 0;
-                      i/*depth*/ -- ;
-                      
-                      __LINE__ = 1516;
-                      if ( i/*depth*/ === 0 ){
-                        __LINE__ = 1517;
-                        return j/*children*/;
-                      };
-                    };
-                    
-                    __LINE__ = 0;
-                    j/*children*/.push( h/*currentNode*/ );
-                    
-                    __LINE__ = 1522;
-                    if ( d/*isStartComment*/( h/*currentNode*/ ) ){
-                      __LINE__ = 0;
-                      i/*depth*/ ++ ;
-                    };
-                  };
-                  
-                  __LINE__ = 1525;
-                  if ( !g/*allowUnbalanced*/ ){
-                    __LINE__ = 1526;
-                    throw new Error( "Cannot find closing comment tag to match: "+f/*startComment*/.nodeValue );
-                  };
-                  __LINE__ = 1527;
-                  return null;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function j/*getMatchingEndComment*/( g/*startComment*/,h/*allowUnbalanced*/ ) {
-                try {
-                  __LINE__ = 1531;
-                  var i/*allVirtualChildren*/ = e/*getVirtualChildren*/( g/*startComment*/,h/*allowUnbalanced*/ );
-                  
-                  __LINE__ = 1532;
-                  if ( i/*allVirtualChildren*/ ){
-                    __LINE__ = 1533;
-                    if ( i/*allVirtualChildren*/.length>0 ){
-                      __LINE__ = 1534;
-                      return i/*allVirtualChildren*/[i/*allVirtualChildren*/.length-1].nextSibling;
-                    };
-                    __LINE__ = 1535;
-                    return g/*startComment*/.nextSibling;
-                  } else {
-                    __LINE__ = 1537;
-                    return null;
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function k/*nodeArrayToText*/( c/*nodeArray*/,d/*cleanNodes*/ ) {
-                try {
-                  __LINE__ = 1541;
-                  var e/*texts*/ = [];
-                  
-                  __LINE__ = 1542;
-                  for ( var f/*i*/ = 0,g/*j*/ = c/*nodeArray*/.length;f/*i*/<g/*j*/;f/*i*/ ++  ){
-                    __LINE__ = 1543;
-                    if ( d/*cleanNodes*/ ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.domNodeDisposal.cleanNode( c/*nodeArray*/[f/*i*/] );
-                    };
-                    
-                    __LINE__ = 0;
-                    e/*texts*/.push( b/*ko*/.utils.outerHTML( c/*nodeArray*/[f/*i*/] ) );
-                  };
-                  __LINE__ = 1547;
-                  return String.prototype.concat.apply( "",e/*texts*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function g/*getUnbalancedChildTags*/( b/*node*/ ) {
-                try {
-                  __LINE__ = 1553;
-                  var c/*childNode*/ = b/*node*/.firstChild,
-                      e/*captureRemaining*/ = null;
-                  
-                  __LINE__ = 1554;
-                  if ( c/*childNode*/ ){
-                    __LINE__ = 1555;
-                    do {
-                      __LINE__ = 1556;
-                      if ( e/*captureRemaining*/ ){
-                        __LINE__ = 0;
-                        e/*captureRemaining*/.push( c/*childNode*/ );
-                      } else if ( d/*isStartComment*/( c/*childNode*/ ) ){
-                        __LINE__ = 1559;
-                        var f/*matchingEndComment*/ = j/*getMatchingEndComment*/( c/*childNode*/,true );
-                        if ( f/*matchingEndComment*/ ){
-                          __LINE__ = 0;
-                          c/*childNode*/ = f/*matchingEndComment*/;
-                        } else {
-                          __LINE__ = 0;
-                          e/*captureRemaining*/ = [c/*childNode*/];
-                        };
-                      } else if ( c/*isEndComment*/( c/*childNode*/ ) ){
-                        __LINE__ = 0;
-                        e/*captureRemaining*/ = [c/*childNode*/];
-                      };
-                    }while ( c/*childNode*/ = c/*childNode*/.nextSibling );
-                  };
-                  __LINE__ = 1569;
-                  return e/*captureRemaining*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.virtualElements =  {
-                allowedBindings : {},
-                childNodes : function ( b/*node*/ ) {
-                  try {
-                    __LINE__ = 1576;
-                    return d/*isStartComment*/( b/*node*/ )?e/*getVirtualChildren*/( b/*node*/ ) : b/*node*/.childNodes;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                emptyNode : function ( b/*node*/ ) {
-                  try {
-                    __LINE__ = 1580;
-                    if ( !d/*isStartComment*/( b/*node*/ ) ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.emptyDomNode( b/*node*/ );
-                    } else {
-                      __LINE__ = 1583;
-                      var c/*virtualChildren*/ = b/*ko*/.virtualElements.childNodes( b/*node*/ );
-                      
-                      __LINE__ = 1584;
-                      for ( var e/*i*/ = 0,f/*j*/ = c/*virtualChildren*/.length;e/*i*/<f/*j*/;e/*i*/ ++  ){
-                        __LINE__ = 0;
-                        b/*ko*/.removeNode( c/*virtualChildren*/[e/*i*/] );
-                      };
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                setDomNodeChildren : function ( b/*node*/,c/*childNodes*/ ) {
-                  try {
-                    __LINE__ = 1590;
-                    if ( !d/*isStartComment*/( b/*node*/ ) ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.setDomNodeChildren( b/*node*/,c/*childNodes*/ );
-                    } else {
-                      __LINE__ = 0;
-                      b/*ko*/.virtualElements.emptyNode( b/*node*/ );
-                      
-                      __LINE__ = 1594;
-                      var e/*endCommentNode*/ = b/*node*/.nextSibling;
-                      
-                      __LINE__ = 1595;
-                      for ( var f/*i*/ = 0,g/*j*/ = c/*childNodes*/.length;f/*i*/<g/*j*/;f/*i*/ ++  ){
-                        __LINE__ = 0;
-                        e/*endCommentNode*/.parentNode.insertBefore( c/*childNodes*/[f/*i*/],e/*endCommentNode*/ );
-                      };
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                prepend : function ( b/*containerNode*/,c/*nodeToPrepend*/ ) {
-                  try {
-                    __LINE__ = 1601;
-                    if ( !d/*isStartComment*/( b/*containerNode*/ ) ){
-                      __LINE__ = 1602;
-                      if ( b/*containerNode*/.firstChild ){
-                        __LINE__ = 0;
-                        b/*containerNode*/.insertBefore( c/*nodeToPrepend*/,b/*containerNode*/.firstChild );
-                      } else {
-                        __LINE__ = 0;
-                        b/*containerNode*/.appendChild( c/*nodeToPrepend*/ );
-                      };
-                    } else {
-                      __LINE__ = 0;
-                      b/*containerNode*/.parentNode.insertBefore( c/*nodeToPrepend*/,b/*containerNode*/.nextSibling );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                insertAfter : function ( b/*containerNode*/,c/*nodeToInsert*/,e/*insertAfterNode*/ ) {
-                  try {
-                    __LINE__ = 1613;
-                    if ( !d/*isStartComment*/( b/*containerNode*/ ) ){
-                      __LINE__ = 1615;
-                      if ( e/*insertAfterNode*/.nextSibling ){
-                        __LINE__ = 0;
-                        b/*containerNode*/.insertBefore( c/*nodeToInsert*/,e/*insertAfterNode*/.nextSibling );
-                      } else {
-                        __LINE__ = 0;
-                        b/*containerNode*/.appendChild( c/*nodeToInsert*/ );
-                      };
-                    } else {
-                      __LINE__ = 0;
-                      b/*containerNode*/.parentNode.insertBefore( c/*nodeToInsert*/,e/*insertAfterNode*/.nextSibling );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                nextSibling : function ( b/*node*/ ) {
-                  try {
-                    __LINE__ = 1626;
-                    if ( !d/*isStartComment*/( b/*node*/ ) ){
-                      __LINE__ = 1627;
-                      if ( b/*node*/.nextSibling && c/*isEndComment*/( b/*node*/.nextSibling ) ){
-                        __LINE__ = 1628;
-                        return undefined;
-                      };
-                      __LINE__ = 1629;
-                      return b/*node*/.nextSibling;
-                    } else {
-                      __LINE__ = 1631;
-                      return j/*getMatchingEndComment*/( b/*node*/ ).nextSibling;
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                virtualNodeBindingValue : function ( b/*node*/ ) {
-                  try {
-                    __LINE__ = 1636;
-                    var c/*regexMatch*/ = d/*isStartComment*/( b/*node*/ );
-                    __LINE__ = 1637;
-                    return c/*regexMatch*/?c/*regexMatch*/[1] : null;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                extractAnonymousTemplateIfVirtualElement : function ( c/*node*/ ) {
-                  try {
-                    __LINE__ = 1641;
-                    if ( b/*ko*/.virtualElements.virtualNodeBindingValue( c/*node*/ ) ){
-                      __LINE__ = 1643;
-                      var d/*virtualChildren*/ = b/*ko*/.virtualElements.childNodes( c/*node*/ );
-                      
-                      __LINE__ = 1644;
-                      var e/*anonymousTemplateText*/ = k/*nodeArrayToText*/( d/*virtualChildren*/,true );
-                      
-                      __LINE__ = 0;
-                      b/*ko*/.virtualElements.emptyNode( c/*node*/ );
-                      
-                      __LINE__ = 0;
-                      new b/*ko*/.templateSources.anonymousTemplate( c/*node*/ ).text( e/*anonymousTemplateText*/ );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                normaliseVirtualElementDomStructure : function ( i/*elementVerified*/ ) {
-                  try {
-                    __LINE__ = 1654;
-                    if ( !f/*htmlTagsWithOptionallyClosingChildren*/[i/*elementVerified*/.tagName.toLowerCase()] ){
-                      __LINE__ = 1655;
-                      return ;
-                    };
-                    
-                    __LINE__ = 1659;
-                    var j/*childNode*/ = i/*elementVerified*/.firstChild;
-                    
-                    __LINE__ = 1660;
-                    if ( j/*childNode*/ ){
-                      __LINE__ = 1661;
-                      do {
-                        __LINE__ = 1662;
-                        if ( j/*childNode*/.nodeType === 1 ){
-                          __LINE__ = 1663;
-                          var k/*unbalancedTags*/ = g/*getUnbalancedChildTags*/( j/*childNode*/ );
-                          
-                          __LINE__ = 1664;
-                          if ( k/*unbalancedTags*/ ){
-                            __LINE__ = 1666;
-                            var l/*nodeToInsertBefore*/ = j/*childNode*/.nextSibling;
-                            
-                            __LINE__ = 1667;
-                            for ( var m/*i*/ = 0;m/*i*/<k/*unbalancedTags*/.length;m/*i*/ ++  ){
-                              __LINE__ = 1668;
-                              if ( l/*nodeToInsertBefore*/ ){
-                                __LINE__ = 0;
-                                i/*elementVerified*/.insertBefore( k/*unbalancedTags*/[m/*i*/],l/*nodeToInsertBefore*/ );
-                              } else {
-                                __LINE__ = 0;
-                                i/*elementVerified*/.appendChild( k/*unbalancedTags*/[m/*i*/] );
-                              };
-                            };
-                          };
-                        };
-                      }while ( j/*childNode*/ = j/*childNode*/.nextSibling );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
+              if ( typeof k/*validator*/ === "function" ){
+                var l/*possibleErrorMessage*/ = k/*validator*/( g/*keyValueArray*/[i/*i*/]['value'] );
+                
+                if ( l/*possibleErrorMessage*/ ){
+                  throw new Error( l/*possibleErrorMessage*/ );
+                };
+              } else if ( !k/*validator*/ ){
+                throw new Error( "This template engine does not support the '"+j/*key*/+"' binding within its templates" );
               };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
+            };
+          };
+        }
+        function p/*constructMemoizedTagReplacement*/( m/*dataBindAttributeValue*/,o/*tagToRetain*/,p/*templateEngine*/ ) {
+          var q/*dataBindKeyValueArray*/ = n/*ko*/.jsonExpressionRewriting.parseObjectLiteral( m/*dataBindAttributeValue*/ );
           
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 1681;
-              var b/*defaultBindingAttributeName*/ = "data-bind";
+          g/*validateDataBindValuesForRewriting*/( q/*dataBindKeyValueArray*/ );
+          
+          var r/*rewrittenDataBindAttributeValue*/ = n/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( q/*dataBindKeyValueArray*/ );
+          
+          var s/*applyBindingsToNextSiblingScript*/ = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
+            return (function() { return { "+r/*rewrittenDataBindAttributeValue*/+" } })() \
+        })";
+          return p/*templateEngine*/['createJavaScriptEvaluatorBlock']( s/*applyBindingsToNextSiblingScript*/ )+o/*tagToRetain*/;
+        }return  {
+          ensureTemplateIsRewritten : function ( d/*template*/,c/*templateEngine*/ ) {
+            if ( !c/*templateEngine*/['isTemplateRewritten']( d/*template*/ ) ){
+              c/*templateEngine*/['rewriteTemplate']( d/*template*/,
+              function ( d/*htmlString*/ ) {
+                return n/*ko*/.templateRewriting.memoizeBindingAttributeSyntax( d/*htmlString*/,c/*templateEngine*/ );
+              });
+            };
+          },
+          memoizeBindingAttributeSyntax : function ( r/*htmlString*/,b/*templateEngine*/ ) {
+            return r/*htmlString*/.replace( m/*memoizeDataBindingAttributeSyntaxRegex*/,
+            function () {
+              return p/*constructMemoizedTagReplacement*/( arguments[6],arguments[1],b/*templateEngine*/ );
+            }).replace( o/*memoizeVirtualContainerBindingSyntaxRegex*/,
+            function () {
+              return p/*constructMemoizedTagReplacement*/( arguments[1],"<!-- ko -->",b/*templateEngine*/ );
+            });
+          },
+          applyMemoizedBindingsToNextSibling : function ( b/*bindings*/ ) {
+            return n/*ko*/.memoization.memoize( function ( d/*domNode*/,e/*bindingContext*/ ) {
+              if ( d/*domNode*/.nextSibling ){
+                n/*ko*/.applyBindingsToNode( d/*domNode*/.nextSibling,b/*bindings*/,e/*bindingContext*/ );
+              };
+            });
+          }
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.templateRewriting',n/*ko*/.templateRewriting );
+      
+      n/*ko*/.exportSymbol( 'ko.templateRewriting.applyMemoizedBindingsToNextSibling',n/*ko*/.templateRewriting.applyMemoizedBindingsToNextSibling );
+      
+      ( function () {
+        n/*ko*/.templateSources = {};
+        
+        n/*ko*/.templateSources.domElement = function ( b/*element*/ ) {
+          this.domElement = b/*element*/;
+        };
+        
+        n/*ko*/.templateSources.domElement.prototype['text'] = function () {
+          if ( arguments.length == 0 ){
+            return this.domElement.tagName.toLowerCase() == "script"?this.domElement.text : this.domElement.innerHTML;
+          } else {
+            var b/*valueToWrite*/ = arguments[0];
+            if ( this.domElement.tagName.toLowerCase() == "script" ){
+              this.domElement.text = b/*valueToWrite*/;
+            } else {
+              n/*ko*/.utils.setHtml( this.domElement,b/*valueToWrite*/ );
+            };
+          };
+        };
+        
+        n/*ko*/.templateSources.domElement.prototype['data'] = function ( b/*key*/ ) {
+          if ( arguments.length === 1 ){
+            return n/*ko*/.utils.domData.get( this.domElement,"templateSourceData_"+b/*key*/ );
+          } else {
+            n/*ko*/.utils.domData.set( this.domElement,"templateSourceData_"+b/*key*/,arguments[1] );
+          };
+        };
+        
+        var b/*anonymousTemplatesDomDataKey*/ = "__ko_anon_template__";
+        
+        n/*ko*/.templateSources.anonymousTemplate = function ( b/*element*/ ) {
+          this.domElement = b/*element*/;
+        };
+        
+        n/*ko*/.templateSources.anonymousTemplate.prototype = new n/*ko*/.templateSources.domElement();
+        
+        n/*ko*/.templateSources.anonymousTemplate.prototype['text'] = function () {
+          if ( arguments.length == 0 ){
+            return n/*ko*/.utils.domData.get( this.domElement,b/*anonymousTemplatesDomDataKey*/ );
+          } else {
+            var d/*valueToWrite*/ = arguments[0];
+            
+            n/*ko*/.utils.domData.set( this.domElement,b/*anonymousTemplatesDomDataKey*/,d/*valueToWrite*/ );
+          };
+        };
+        
+        n/*ko*/.exportSymbol( 'ko.templateSources',n/*ko*/.templateSources );
+        
+        n/*ko*/.exportSymbol( 'ko.templateSources.domElement',n/*ko*/.templateSources.domElement );
+        
+        n/*ko*/.exportSymbol( 'ko.templateSources.anonymousTemplate',n/*ko*/.templateSources.anonymousTemplate );
+      })();
+      
+      ( function () {
+        var g/*_templateEngine*/;
+        
+        n/*ko*/.setTemplateEngine = function ( h/*templateEngine*/ ) {
+          if ( ( h/*templateEngine*/ != undefined ) && !( h/*templateEngine*/ instanceof n/*ko*/.templateEngine ) ){
+            throw "templateEngine must inherit from ko.templateEngine";
+          };
+          
+          g/*_templateEngine*/ = h/*templateEngine*/;
+        };
+        
+        function h/*invokeForEachNodeOrCommentInParent*/( e/*nodeArray*/,f/*parent*/,g/*action*/ ) {
+          for ( var h/*i*/ = 0;node = e/*nodeArray*/[h/*i*/];h/*i*/ ++  ){
+            if ( node.parentNode !== f/*parent*/ ){
+              continue ;
+            };
+            
+            if ( ( node.nodeType === 1 ) || ( node.nodeType === 8 ) ){
+              g/*action*/( node );
+            };
+          };
+        }
+        n/*ko*/.activateBindingsOnTemplateRenderedNodes = function ( l/*nodeArray*/,b/*bindingContext*/ ) {
+          var m/*nodeArrayClone*/ = n/*ko*/.utils.arrayPushAll( [],l/*nodeArray*/ );
+          
+          var o/*commonParentElement*/ = ( l/*nodeArray*/.length>0 )?l/*nodeArray*/[0].parentNode : null;
+          
+          h/*invokeForEachNodeOrCommentInParent*/( m/*nodeArrayClone*/,o/*commonParentElement*/,
+          function ( d/*node*/ ) {
+            n/*ko*/.applyBindings( b/*bindingContext*/,d/*node*/ );
+          });
+          
+          h/*invokeForEachNodeOrCommentInParent*/( m/*nodeArrayClone*/,o/*commonParentElement*/,
+          function ( c/*node*/ ) {
+            n/*ko*/.memoization.unmemoizeDomNodeAndDescendants( c/*node*/,[b/*bindingContext*/] );
+          });
+        };
+        
+        function l/*getFirstNodeFromPossibleArray*/( b/*nodeOrNodeArray*/ ) {
+          return b/*nodeOrNodeArray*/.nodeType?b/*nodeOrNodeArray*/ : b/*nodeOrNodeArray*/.length>0?b/*nodeOrNodeArray*/[0] : null;
+        }
+        function r/*executeTemplate*/( i/*targetNodeOrNodeArray*/,j/*renderMode*/,k/*template*/,l/*bindingContext*/,m/*options*/ ) {
+          m/*options*/ = m/*options*/ || {};
+          
+          var o/*templateEngineToUse*/ = ( m/*options*/['templateEngine'] || g/*_templateEngine*/ );
+          
+          n/*ko*/.templateRewriting.ensureTemplateIsRewritten( k/*template*/,o/*templateEngineToUse*/ );
+          
+          var p/*renderedNodesArray*/ = o/*templateEngineToUse*/['renderTemplate']( k/*template*/,l/*bindingContext*/,m/*options*/ );
+          
+          if ( ( typeof p/*renderedNodesArray*/.length != "number" ) || ( p/*renderedNodesArray*/.length>0 && typeof p/*renderedNodesArray*/[0].nodeType != "number" ) ){
+            throw "Template engine must return an array of DOM nodes";
+          };
+          
+          var q/*haveAddedNodesToParent*/ = false;
+          
+          switch ( j/*renderMode*/ ) {
+            case "replaceChildren" :
               
-              __LINE__ = 0;
-              b/*ko*/.bindingProvider = function (){};
+              n/*ko*/.virtualElements.setDomNodeChildren( i/*targetNodeOrNodeArray*/,p/*renderedNodesArray*/ );
               
-              __LINE__ = 0;
-              b/*ko*/.utils.extend( b/*ko*/.bindingProvider.prototype, {
-                'nodeHasBindings' : function ( d/*node*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    switch ( d/*node*/.nodeType ) {
-                      case 1 :
-                        __LINE__ = 1688;
-                        return d/*node*/.getAttribute( b/*defaultBindingAttributeName*/ ) != null;
-                      case 8 :
-                        __LINE__ = 1689;
-                        return b/*ko*/.virtualElements.virtualNodeBindingValue( d/*node*/ ) != null;
-                      default :
-                        __LINE__ = 1690;
-                        return false;
-                        
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                'getBindings' : function ( b/*node*/,c/*bindingContext*/ ) {
-                  try {
-                    __LINE__ = 1695;
-                    var d/*bindingsString*/ = this['getBindingsString']( b/*node*/,c/*bindingContext*/ );
-                    __LINE__ = 1696;
-                    return d/*bindingsString*/?this['parseBindingsString']( d/*bindingsString*/,c/*bindingContext*/ ) : null;
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                'getBindingsString' : function ( c/*node*/,d/*bindingContext*/ ) {
-                  try {
-                    __LINE__ = 0;
-                    switch ( c/*node*/.nodeType ) {
-                      case 1 :
-                        __LINE__ = 1703;
-                        return c/*node*/.getAttribute( b/*defaultBindingAttributeName*/ );
-                      case 8 :
-                        __LINE__ = 1704;
-                        return b/*ko*/.virtualElements.virtualNodeBindingValue( c/*node*/ );
-                      default :
-                        __LINE__ = 1705;
-                        return null;
-                        
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                'parseBindingsString' : function ( c/*bindingsString*/,d/*bindingContext*/ ) {
-                  try {
-                    try {
-                      __LINE__ = 1713;
-                      var e/*viewModel*/ = d/*bindingContext*/['$data'];
-                      
-                      __LINE__ = 1714;
-                      var f/*rewrittenBindings*/ = " { "+b/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( c/*bindingsString*/ )+" } ";
-                      __LINE__ = 1715;
-                      return b/*ko*/.utils.evalWithinScope( f/*rewrittenBindings*/,e/*viewModel*/ === null?a/*window*/ : e/*viewModel*/,d/*bindingContext*/ );
-                    } catch( ex ){
-                      __LINE__ = 1717;
-                      throw new Error( "Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+c/*bindingsString*/ );
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
+              q/*haveAddedNodesToParent*/ = true;
+              break;
+            case "replaceNode" :
+              
+              n/*ko*/.utils.replaceDomNodes( i/*targetNodeOrNodeArray*/,p/*renderedNodesArray*/ );
+              
+              q/*haveAddedNodesToParent*/ = true;
+              break;
+            case "ignoreTargetNode" :
+              break;
+            default :
+              throw new Error( "Unknown renderMode: "+j/*renderMode*/ );
+              
+          };
+          
+          if ( q/*haveAddedNodesToParent*/ ){
+            n/*ko*/.activateBindingsOnTemplateRenderedNodes( p/*renderedNodesArray*/,l/*bindingContext*/ );
+            
+            if ( m/*options*/['afterRender'] ){
+              m/*options*/['afterRender']( p/*renderedNodesArray*/,l/*bindingContext*/['$data'] );
+            };
+          };
+          return p/*renderedNodesArray*/;
+        }
+        n/*ko*/.renderTemplate = function ( f/*template*/,e/*dataOrBindingContext*/,k/*options*/,h/*targetNodeOrNodeArray*/,i/*renderMode*/ ) {
+          k/*options*/ = k/*options*/ || {};
+          
+          if ( ( k/*options*/['templateEngine'] || g/*_templateEngine*/ ) == undefined ){
+            throw "Set a template engine before calling renderTemplate";
+          };
+          
+          i/*renderMode*/ = i/*renderMode*/ || "replaceChildren";
+          
+          if ( h/*targetNodeOrNodeArray*/ ){
+            var d/*firstTargetNode*/ = l/*getFirstNodeFromPossibleArray*/( h/*targetNodeOrNodeArray*/ );
+            
+            var s/*whenToDispose*/ = function () {
+                  return ( !d/*firstTargetNode*/ ) || !n/*ko*/.utils.domNodeIsAttachedToDocument( d/*firstTargetNode*/ );
+                };
+            
+            var t/*activelyDisposeWhenNodeIsRemoved*/ = ( d/*firstTargetNode*/ && i/*renderMode*/ == "replaceNode" )?d/*firstTargetNode*/.parentNode : d/*firstTargetNode*/;
+            return new n/*ko*/.dependentObservable( function () {
+              var m/*bindingContext*/ = ( e/*dataOrBindingContext*/ && ( e/*dataOrBindingContext*/ instanceof n/*ko*/.bindingContext ) )?e/*dataOrBindingContext*/ : new n/*ko*/.bindingContext( n/*ko*/.utils.unwrapObservable( e/*dataOrBindingContext*/ ) );
+              
+              var o/*templateName*/ = typeof ( f/*template*/ ) == 'function'?f/*template*/( m/*bindingContext*/['$data'] ) : f/*template*/;
+              
+              var p/*renderedNodesArray*/ = r/*executeTemplate*/( h/*targetNodeOrNodeArray*/,i/*renderMode*/,o/*templateName*/,m/*bindingContext*/,k/*options*/ );
+              
+              if ( i/*renderMode*/ == "replaceNode" ){
+                h/*targetNodeOrNodeArray*/ = p/*renderedNodesArray*/;
+                
+                d/*firstTargetNode*/ = l/*getFirstNodeFromPossibleArray*/( h/*targetNodeOrNodeArray*/ );
+              };
+            },null, {
+              'disposeWhen' : s/*whenToDispose*/,
+              'disposeWhenNodeIsRemoved' : t/*activelyDisposeWhenNodeIsRemoved*/
+            });
+          } else {
+            return n/*ko*/.memoization.memoize( function ( b/*domNode*/ ) {
+              n/*ko*/.renderTemplate( f/*template*/,e/*dataOrBindingContext*/,k/*options*/,b/*domNode*/,"replaceNode" );
+            });
+          };
+        };
+        
+        n/*ko*/.renderTemplateForEach = function ( v/*template*/,p/*arrayOrObservableArray*/,o/*options*/,s/*targetNode*/,h/*parentBindingContext*/ ) {
+          var j/*createInnerBindingContext*/ = function ( j/*arrayValue*/ ) {
+                return h/*parentBindingContext*/['createChildContext']( n/*ko*/.utils.unwrapObservable( j/*arrayValue*/ ) );
+              };
+          
+          var u/*activateBindingsCallback*/ = function ( p/*arrayValue*/,q/*addedNodesArray*/ ) {
+                var r/*bindingContext*/ = j/*createInnerBindingContext*/( p/*arrayValue*/ );
+                
+                n/*ko*/.activateBindingsOnTemplateRenderedNodes( q/*addedNodesArray*/,r/*bindingContext*/ );
+                
+                if ( o/*options*/['afterRender'] ){
+                  o/*options*/['afterRender']( q/*addedNodesArray*/,r/*bindingContext*/['$data'] );
+                };
+              };
+          return new n/*ko*/.dependentObservable( function () {
+            var w/*unwrappedArray*/ = n/*ko*/.utils.unwrapObservable( p/*arrayOrObservableArray*/ ) || [];
+            
+            if ( typeof w/*unwrappedArray*/.length == "undefined" ){
+              w/*unwrappedArray*/ = [w/*unwrappedArray*/];
+            };
+            
+            var x/*filteredArray*/ = n/*ko*/.utils.arrayFilter( w/*unwrappedArray*/,
+                function ( b/*item*/ ) {
+                  return o/*options*/['includeDestroyed'] || b/*item*/ === undefined || b/*item*/ === null || !n/*ko*/.utils.unwrapObservable( b/*item*/['_destroy'] );
+                });
+            
+            n/*ko*/.utils.setDomNodeChildrenFromArrayMapping( s/*targetNode*/,x/*filteredArray*/,
+            function ( c/*arrayValue*/ ) {
+              var d/*templateName*/ = typeof ( v/*template*/ ) == 'function'?v/*template*/( c/*arrayValue*/ ) : v/*template*/;
+              return r/*executeTemplate*/( null,"ignoreTargetNode",d/*templateName*/,j/*createInnerBindingContext*/( c/*arrayValue*/ ),o/*options*/ );
+            },o/*options*/,u/*activateBindingsCallback*/);
+          },null, {
+            'disposeWhenNodeIsRemoved' : s/*targetNode*/
+          });
+        };
+        
+        var s/*templateSubscriptionDomDataKey*/ = '__ko__templateSubscriptionDomDataKey__';
+        
+        function v/*disposeOldSubscriptionAndStoreNewOne*/( v/*element*/,w/*newSubscription*/ ) {
+          var x/*oldSubscription*/ = n/*ko*/.utils.domData.get( v/*element*/,s/*templateSubscriptionDomDataKey*/ );
+          
+          if ( x/*oldSubscription*/ && ( typeof ( x/*oldSubscription*/.dispose ) == 'function' ) ){
+            x/*oldSubscription*/.dispose();
+          };
+          
+          n/*ko*/.utils.domData.set( v/*element*/,s/*templateSubscriptionDomDataKey*/,w/*newSubscription*/ );
+        }
+        n/*ko*/.bindingHandlers['template'] =  {
+          'init' : function ( d/*element*/,e/*valueAccessor*/ ) {
+            var f/*bindingValue*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+            
+            if ( ( typeof f/*bindingValue*/ != "string" ) && ( !f/*bindingValue*/.name ) && ( d/*element*/.nodeType == 1 ) ){
+              new n/*ko*/.templateSources.anonymousTemplate( d/*element*/ ).text( d/*element*/.innerHTML );
+              
+              n/*ko*/.utils.emptyDomNode( d/*element*/ );
+            };
+            return  {
+              'controlsDescendantBindings' : true
+            };
+          },
+          'update' : function ( w/*element*/,x/*valueAccessor*/,y/*allBindingsAccessor*/,z/*viewModel*/,A/*bindingContext*/ ) {
+            var B/*bindingValue*/ = n/*ko*/.utils.unwrapObservable( x/*valueAccessor*/() );
+            
+            var C/*templateName*/;
+            
+            var D/*shouldDisplay*/ = true;
+            
+            if ( typeof B/*bindingValue*/ == "string" ){
+              C/*templateName*/ = B/*bindingValue*/;
+            } else {
+              C/*templateName*/ = B/*bindingValue*/.name;
+              if ( 'if' in B/*bindingValue*/ ){
+                D/*shouldDisplay*/ = D/*shouldDisplay*/ && n/*ko*/.utils.unwrapObservable( B/*bindingValue*/['if'] );
+              };
+              if ( 'ifnot' in B/*bindingValue*/ ){
+                D/*shouldDisplay*/ = D/*shouldDisplay*/ && !n/*ko*/.utils.unwrapObservable( B/*bindingValue*/['ifnot'] );
+              };
+            };
+            
+            var E/*templateSubscription*/ = null;
+            
+            if ( ( typeof B/*bindingValue*/ === 'object' ) && ( 'foreach' in B/*bindingValue*/ ) ){
+              var F/*dataArray*/ = ( D/*shouldDisplay*/ && B/*bindingValue*/['foreach'] ) || [];
+              
+              E/*templateSubscription*/ = n/*ko*/.renderTemplateForEach( C/*templateName*/ || w/*element*/,F/*dataArray*/,B/*bindingValue*/,w/*element*/,A/*bindingContext*/ );
+            } else {
+              if ( D/*shouldDisplay*/ ){
+                var G/*innerBindingContext*/ = ( typeof B/*bindingValue*/ == 'object' ) && ( 'data' in B/*bindingValue*/ )?A/*bindingContext*/['createChildContext']( n/*ko*/.utils.unwrapObservable( B/*bindingValue*/['data'] ) ) : A/*bindingContext*/;
+                
+                E/*templateSubscription*/ = n/*ko*/.renderTemplate( C/*templateName*/ || w/*element*/,G/*innerBindingContext*/,B/*bindingValue*/,w/*element*/ );
+              } else {
+                n/*ko*/.virtualElements.emptyNode( w/*element*/ );
+              };
+            };
+            
+            v/*disposeOldSubscriptionAndStoreNewOne*/( w/*element*/,E/*templateSubscription*/ );
+          }
+        };
+        
+        n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['template'] = function ( c/*bindingValue*/ ) {
+          var d/*parsedBindingValue*/ = n/*ko*/.jsonExpressionRewriting.parseObjectLiteral( c/*bindingValue*/ );
+          
+          if ( ( d/*parsedBindingValue*/.length == 1 ) && d/*parsedBindingValue*/[0]['unknown'] ){
+            return null;
+          };
+          
+          if ( n/*ko*/.jsonExpressionRewriting.keyValueArrayContainsKey( d/*parsedBindingValue*/,"name" ) ){
+            return null;
+          };
+          return "This template engine does not support anonymous templates nested within its templates";
+        };
+        
+        n/*ko*/.virtualElements.allowedBindings['template'] = true;
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.setTemplateEngine',n/*ko*/.setTemplateEngine );
+      
+      n/*ko*/.exportSymbol( 'ko.renderTemplate',n/*ko*/.renderTemplate );
+      
+      ( function () {
+        function o/*calculateEditDistanceMatrix*/( o/*oldArray*/,p/*newArray*/,q/*maxAllowedDistance*/ ) {
+          var r/*distances*/ = [];
+          
+          for ( var s/*i*/ = 0;s/*i*/ <= p/*newArray*/.length;s/*i*/ ++  ){
+            r/*distances*/[s/*i*/] = [];
+          };
+          
+          for ( var s/*i*/ = 0,t/*j*/ = Math.min( o/*oldArray*/.length,q/*maxAllowedDistance*/ );s/*i*/ <= t/*j*/;s/*i*/ ++  ){
+            r/*distances*/[0][s/*i*/] = s/*i*/;
+          };
+          
+          for ( var s/*i*/ = 1,t/*j*/ = Math.min( p/*newArray*/.length,q/*maxAllowedDistance*/ );s/*i*/ <= t/*j*/;s/*i*/ ++  ){
+            r/*distances*/[s/*i*/][0] = s/*i*/;
+          };
+          
+          var u/*oldIndex*/,
+              v/*oldIndexMax*/ = o/*oldArray*/.length,
+              w/*newIndex*/,
+              x/*newIndexMax*/ = p/*newArray*/.length;
+          
+          var y/*distanceViaAddition*/,
+              z/*distanceViaDeletion*/;
+          
+          for ( u/*oldIndex*/ = 1;u/*oldIndex*/ <= v/*oldIndexMax*/;u/*oldIndex*/ ++  ){
+            var A/*newIndexMinForRow*/ = Math.max( 1,u/*oldIndex*/-q/*maxAllowedDistance*/ );
+            
+            var B/*newIndexMaxForRow*/ = Math.min( x/*newIndexMax*/,u/*oldIndex*/+q/*maxAllowedDistance*/ );
+            
+            for ( w/*newIndex*/ = A/*newIndexMinForRow*/;w/*newIndex*/ <= B/*newIndexMaxForRow*/;w/*newIndex*/ ++  ){
+              if ( o/*oldArray*/[u/*oldIndex*/-1] === p/*newArray*/[w/*newIndex*/-1] ){
+                r/*distances*/[w/*newIndex*/][u/*oldIndex*/] = r/*distances*/[w/*newIndex*/-1][u/*oldIndex*/-1];
+              } else {
+                var C/*northDistance*/ = r/*distances*/[w/*newIndex*/-1][u/*oldIndex*/] === undefined?Number.MAX_VALUE : r/*distances*/[w/*newIndex*/-1][u/*oldIndex*/]+1;
+                
+                var D/*westDistance*/ = r/*distances*/[w/*newIndex*/][u/*oldIndex*/-1] === undefined?Number.MAX_VALUE : r/*distances*/[w/*newIndex*/][u/*oldIndex*/-1]+1;
+                
+                r/*distances*/[w/*newIndex*/][u/*oldIndex*/] = Math.min( C/*northDistance*/,D/*westDistance*/ );
+              };
+            };
+          };
+          return r/*distances*/;
+        }
+        function p/*findEditScriptFromEditDistanceMatrix*/( l/*editDistanceMatrix*/,m/*oldArray*/,n/*newArray*/ ) {
+          var o/*oldIndex*/ = m/*oldArray*/.length;
+          
+          var p/*newIndex*/ = n/*newArray*/.length;
+          
+          var q/*editScript*/ = [];
+          
+          var r/*maxDistance*/ = l/*editDistanceMatrix*/[p/*newIndex*/][o/*oldIndex*/];
+          
+          if ( r/*maxDistance*/ === undefined ){
+            return null;
+          };
+          
+          while ( ( o/*oldIndex*/>0 ) || ( p/*newIndex*/>0 ) ){
+            var s/*me*/ = l/*editDistanceMatrix*/[p/*newIndex*/][o/*oldIndex*/];
+            
+            var t/*distanceViaAdd*/ = ( p/*newIndex*/>0 )?l/*editDistanceMatrix*/[p/*newIndex*/-1][o/*oldIndex*/] : r/*maxDistance*/+1;
+            
+            var u/*distanceViaDelete*/ = ( o/*oldIndex*/>0 )?l/*editDistanceMatrix*/[p/*newIndex*/][o/*oldIndex*/-1] : r/*maxDistance*/+1;
+            
+            var v/*distanceViaRetain*/ = ( p/*newIndex*/>0 ) && ( o/*oldIndex*/>0 )?l/*editDistanceMatrix*/[p/*newIndex*/-1][o/*oldIndex*/-1] : r/*maxDistance*/+1;
+            
+            if ( ( t/*distanceViaAdd*/ === undefined ) || ( t/*distanceViaAdd*/<s/*me*/-1 ) ){
+              t/*distanceViaAdd*/ = r/*maxDistance*/+1;
+            };
+            
+            if ( ( u/*distanceViaDelete*/ === undefined ) || ( u/*distanceViaDelete*/<s/*me*/-1 ) ){
+              u/*distanceViaDelete*/ = r/*maxDistance*/+1;
+            };
+            
+            if ( v/*distanceViaRetain*/<s/*me*/-1 ){
+              v/*distanceViaRetain*/ = r/*maxDistance*/+1;
+            };
+            
+            if ( ( t/*distanceViaAdd*/ <= u/*distanceViaDelete*/ ) && ( t/*distanceViaAdd*/<v/*distanceViaRetain*/ ) ){
+              q/*editScript*/.push(  {
+                status : "added",
+                value : n/*newArray*/[p/*newIndex*/-1]
               });
               
-              __LINE__ = 0;
-              b/*ko*/.bindingProvider['instance'] = new b/*ko*/.bindingProvider();
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.bindingProvider',b/*ko*/.bindingProvider );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.bindingHandlers = {};
+              p/*newIndex*/ -- ;
+            } else if ( ( u/*distanceViaDelete*/<t/*distanceViaAdd*/ ) && ( u/*distanceViaDelete*/<v/*distanceViaRetain*/ ) ){
+              q/*editScript*/.push(  {
+                status : "deleted",
+                value : m/*oldArray*/[o/*oldIndex*/-1]
+              });
               
-              __LINE__ = 0;
-              b/*ko*/.bindingContext = function ( b/*dataItem*/,c/*parentBindingContext*/ ) {
-                try {
-                  __LINE__ = 0;
-                  this['$data'] = b/*dataItem*/;
-                  
-                  __LINE__ = 1730;
-                  if ( c/*parentBindingContext*/ ){
-                    __LINE__ = 0;
-                    this['$parent'] = c/*parentBindingContext*/['$data'];
-                    
-                    __LINE__ = 0;
-                    this['$parents'] = ( c/*parentBindingContext*/['$parents'] || [] ).slice( 0 );
-                    
-                    __LINE__ = 0;
-                    this['$parents'].unshift( this['$parent'] );
-                    
-                    __LINE__ = 0;
-                    this['$root'] = c/*parentBindingContext*/['$root'];
-                  } else {
-                    __LINE__ = 0;
-                    this['$parents'] = [];
-                    
-                    __LINE__ = 0;
-                    this['$root'] = b/*dataItem*/;
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
+              o/*oldIndex*/ -- ;
+            } else {
+              q/*editScript*/.push(  {
+                status : "retained",
+                value : m/*oldArray*/[o/*oldIndex*/-1]
+              });
+              
+              p/*newIndex*/ -- ;
+              
+              o/*oldIndex*/ -- ;
+            };
+          };
+          return q/*editScript*/.reverse();
+        }
+        n/*ko*/.utils.compareArrays = function ( r/*oldArray*/,s/*newArray*/,t/*maxEditsToConsider*/ ) {
+          if ( t/*maxEditsToConsider*/ === undefined ){
+            return n/*ko*/.utils.compareArrays( r/*oldArray*/,s/*newArray*/,1 ) || n/*ko*/.utils.compareArrays( r/*oldArray*/,s/*newArray*/,10 ) || n/*ko*/.utils.compareArrays( r/*oldArray*/,s/*newArray*/,Number.MAX_VALUE );
+          } else {
+            r/*oldArray*/ = r/*oldArray*/ || [];
+            
+            s/*newArray*/ = s/*newArray*/ || [];
+            
+            var u/*editDistanceMatrix*/ = o/*calculateEditDistanceMatrix*/( r/*oldArray*/,s/*newArray*/,t/*maxEditsToConsider*/ );
+            return p/*findEditScriptFromEditDistanceMatrix*/( u/*editDistanceMatrix*/,r/*oldArray*/,s/*newArray*/ );
+          };
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.utils.compareArrays',n/*ko*/.utils.compareArrays );
+      
+      ( function () {
+        function f/*fixUpVirtualElements*/( e/*contiguousNodeArray*/ ) {
+          if ( e/*contiguousNodeArray*/.length>2 ){
+            var f/*current*/ = e/*contiguousNodeArray*/[0],
+                g/*last*/ = e/*contiguousNodeArray*/[e/*contiguousNodeArray*/.length-1],
+                h/*newContiguousSet*/ = [f/*current*/];
+            
+            while ( f/*current*/ !== g/*last*/ ){
+              f/*current*/ = f/*current*/.nextSibling;
+              
+              if ( !f/*current*/ ){
+                return ;
               };
               
-              __LINE__ = 0;
-              b/*ko*/.bindingContext.prototype['createChildContext'] = function ( c/*dataItem*/ ) {
-                try {
-                  __LINE__ = 1741;
-                  return new b/*ko*/.bindingContext( c/*dataItem*/,this );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
+              h/*newContiguousSet*/.push( f/*current*/ );
+            };
+            
+            Array.prototype.splice.apply( e/*contiguousNodeArray*/,[0,e/*contiguousNodeArray*/.length].concat( h/*newContiguousSet*/ ) );
+          };
+        }
+        function r/*mapNodeAndRefreshWhenChanged*/( m/*containerNode*/,h/*mapping*/,i/*valueToMap*/,l/*callbackAfterAddingNodes*/ ) {
+          var j/*mappedNodes*/ = [];
+          
+          var o/*dependentObservable*/ = n/*ko*/.dependentObservable( function () {
+                var m/*newMappedNodes*/ = h/*mapping*/( i/*valueToMap*/ ) || [];
+                
+                if ( j/*mappedNodes*/.length>0 ){
+                  f/*fixUpVirtualElements*/( j/*mappedNodes*/ );
+                  
+                  n/*ko*/.utils.replaceDomNodes( j/*mappedNodes*/,m/*newMappedNodes*/ );
+                  
+                  if ( l/*callbackAfterAddingNodes*/ ){
+                    l/*callbackAfterAddingNodes*/( i/*valueToMap*/,m/*newMappedNodes*/ );
+                  };
+                };
+                
+                j/*mappedNodes*/.splice( 0,j/*mappedNodes*/.length );
+                
+                n/*ko*/.utils.arrayPushAll( j/*mappedNodes*/,m/*newMappedNodes*/ );
+              },null, {
+                'disposeWhenNodeIsRemoved' : m/*containerNode*/,
+                'disposeWhen' : function () {
+                  return ( j/*mappedNodes*/.length == 0 ) || !n/*ko*/.utils.domNodeIsAttachedToDocument( j/*mappedNodes*/[0] );
                 }
-              };
-              
-              function d/*validateThatBindingIsAllowedForVirtualElements*/( c/*bindingName*/ ) {
-                try {
-                  __LINE__ = 1745;
-                  var d/*validator*/ = b/*ko*/.virtualElements.allowedBindings[c/*bindingName*/];
-                  
-                  __LINE__ = 1746;
-                  if ( !d/*validator*/ ){
-                    __LINE__ = 1747;
-                    throw new Error( "The binding '"+c/*bindingName*/+"' cannot be used with virtual elements" );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function c/*applyBindingsToDescendantsInternal*/( c/*viewModel*/,d/*elementVerified*/ ) {
-                try {
-                  __LINE__ = 1751;
-                  var e/*currentChild*/,
-                      f/*nextInQueue*/ = d/*elementVerified*/.childNodes[0];
-                  
-                  __LINE__ = 1752;
-                  while ( e/*currentChild*/ = f/*nextInQueue*/ ){
-                    __LINE__ = 0;
-                    f/*nextInQueue*/ = b/*ko*/.virtualElements.nextSibling( e/*currentChild*/ );
-                    
-                    __LINE__ = 0;
-                    e/*applyBindingsToNodeAndDescendantsInternal*/( c/*viewModel*/,e/*currentChild*/,false );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function e/*applyBindingsToNodeAndDescendantsInternal*/( c/*viewModel*/,d/*nodeVerified*/,e/*isRootNodeForBindingContext*/ ) {
-                try {
-                  __LINE__ = 1760;
-                  var f/*shouldBindDescendants*/ = true;
-                  
-                  __LINE__ = 1766;
-                  var g/*isElement*/ = ( d/*nodeVerified*/.nodeType == 1 );
-                  
-                  __LINE__ = 1767;
-                  if ( g/*isElement*/ ){
-                    __LINE__ = 0;
-                    b/*ko*/.virtualElements.normaliseVirtualElementDomStructure( d/*nodeVerified*/ );
-                  };
-                  
-                  __LINE__ = 1770;
-                  var h/*shouldApplyBindings*/ = ( g/*isElement*/ && e/*isRootNodeForBindingContext*/ ) || b/*ko*/.bindingProvider['instance']['nodeHasBindings']( d/*nodeVerified*/ );
-                  
-                  __LINE__ = 1772;
-                  if ( h/*shouldApplyBindings*/ ){
-                    __LINE__ = 0;
-                    f/*shouldBindDescendants*/ = f/*applyBindingsToNodeInternal*/( d/*nodeVerified*/,null,c/*viewModel*/,e/*isRootNodeForBindingContext*/ ).shouldBindDescendants;
-                  };
-                  
-                  __LINE__ = 1775;
-                  if ( g/*isElement*/ && f/*shouldBindDescendants*/ ){
-                    __LINE__ = 0;
-                    c/*applyBindingsToDescendantsInternal*/( c/*viewModel*/,d/*nodeVerified*/ );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function f/*applyBindingsToNodeInternal*/( d/*node*/,e/*bindings*/,b/*viewModelOrBindingContext*/,f/*isRootNodeForBindingContext*/ ) {
-                try {
-                  __LINE__ = 1781;
-                  var g/*initPhase*/ = 0;
-                  
-                  __LINE__ = 0;
-                  b/*ko*/.virtualElements.extractAnonymousTemplateIfVirtualElement( d/*node*/ );
-                  
-                  __LINE__ = 1792;
-                  var a/*parsedBindings*/;
-                  
-                  function h/*makeValueAccessor*/( b/*bindingKey*/ ) {
-                    try {
-                      __LINE__ = 1794;
-                      return function () {
-                        try {
-                          __LINE__ = 1794;
-                          return a/*parsedBindings*/[b/*bindingKey*/];
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  }
-                  function i/*parsedBindingsAccessor*/() {
-                    try {
-                      __LINE__ = 1797;
-                      return a/*parsedBindings*/;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  }
-                  __LINE__ = 1800;
-                  var j/*bindingHandlerThatControlsDescendantBindings*/;
-                  
-                  __LINE__ = 0;
-                  new b/*ko*/.dependentObservable( function () {
-                    try {
-                      __LINE__ = 1804;
-                      var d/*bindingContextInstance*/ = b/*viewModelOrBindingContext*/ && ( b/*viewModelOrBindingContext*/ instanceof b/*ko*/.bindingContext )?b/*viewModelOrBindingContext*/ : new b/*ko*/.bindingContext( b/*ko*/.utils.unwrapObservable( b/*viewModelOrBindingContext*/ ) );
-                      
-                      __LINE__ = 1807;
-                      var e/*viewModel*/ = d/*bindingContextInstance*/['$data'];
-                      
-                      __LINE__ = 1811;
-                      if ( f/*isRootNodeForBindingContext*/ ){
-                        __LINE__ = 0;
-                        b/*ko*/.storedBindingContextForNode( d/*node*/,d/*bindingContextInstance*/ );
-                      };
-                      
-                      __LINE__ = 1815;
-                      var f/*evaluatedBindings*/ = ( typeof e/*bindings*/ == "function" )?e/*bindings*/() : e/*bindings*/;
-                      
-                      __LINE__ = 0;
-                      a/*parsedBindings*/ = f/*evaluatedBindings*/ || b/*ko*/.bindingProvider['instance']['getBindings']( d/*node*/,d/*bindingContextInstance*/ );
-                      
-                      __LINE__ = 1818;
-                      if ( a/*parsedBindings*/ ){
-                        __LINE__ = 1820;
-                        if ( g/*initPhase*/ === 0 ){
-                          __LINE__ = 0;
-                          g/*initPhase*/ = 1;
-                          
-                          __LINE__ = 1822;
-                          for ( var g/*bindingKey*/ in a/*parsedBindings*/ ){
-                            __LINE__ = 1823;
-                            var h/*binding*/ = b/*ko*/.bindingHandlers[g/*bindingKey*/];
-                            
-                            __LINE__ = 1824;
-                            if ( h/*binding*/ && d/*node*/.nodeType === 8 ){
-                              __LINE__ = 0;
-                              d/*validateThatBindingIsAllowedForVirtualElements*/( g/*bindingKey*/ );
-                            };
-                            
-                            __LINE__ = 1827;
-                            if ( h/*binding*/ && typeof h/*binding*/["init"] == "function" ){
-                              __LINE__ = 1828;
-                              var i/*handlerInitFn*/ = h/*binding*/["init"];
-                              
-                              __LINE__ = 1829;
-                              var j/*initResult*/ = i/*handlerInitFn*/( d/*node*/,h/*makeValueAccessor*/( g/*bindingKey*/ ),i/*parsedBindingsAccessor*/,e/*viewModel*/,d/*bindingContextInstance*/ );
-                              
-                              __LINE__ = 1832;
-                              if ( j/*initResult*/ && j/*initResult*/['controlsDescendantBindings'] ){
-                                __LINE__ = 1833;
-                                if ( j/*bindingHandlerThatControlsDescendantBindings*/ !== undefined ){
-                                  __LINE__ = 1834;
-                                  throw new Error( "Multiple bindings ("+j/*bindingHandlerThatControlsDescendantBindings*/+" and "+g/*bindingKey*/+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element." );
-                                };
-                                
-                                __LINE__ = 0;
-                                j/*bindingHandlerThatControlsDescendantBindings*/ = g/*bindingKey*/;
-                              };
-                            };
-                          };
-                          
-                          __LINE__ = 0;
-                          g/*initPhase*/ = 2;
-                        };
-                        
-                        __LINE__ = 1843;
-                        if ( g/*initPhase*/ === 2 ){
-                          __LINE__ = 1844;
-                          for ( var g/*bindingKey*/ in a/*parsedBindings*/ ){
-                            __LINE__ = 1845;
-                            var h/*binding*/ = b/*ko*/.bindingHandlers[g/*bindingKey*/];
-                            
-                            __LINE__ = 1846;
-                            if ( h/*binding*/ && typeof h/*binding*/["update"] == "function" ){
-                              __LINE__ = 1847;
-                              var k/*handlerUpdateFn*/ = h/*binding*/["update"];
-                              
-                              __LINE__ = 0;
-                              k/*handlerUpdateFn*/( d/*node*/,h/*makeValueAccessor*/( g/*bindingKey*/ ),i/*parsedBindingsAccessor*/,e/*viewModel*/,d/*bindingContextInstance*/ );
-                            };
-                          };
-                        };
-                      };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  },null, {
-                    'disposeWhenNodeIsRemoved' : d/*node*/
+              });
+          return  {
+            mappedNodes : j/*mappedNodes*/,
+            dependentObservable : o/*dependentObservable*/
+          };
+        }
+        var h/*lastMappingResultDomDataKey*/ = "setDomNodeChildrenFromArrayMapping_lastMappingResult";
+        
+        n/*ko*/.utils.setDomNodeChildrenFromArrayMapping = function ( I/*domNode*/,J/*array*/,K/*mapping*/,L/*options*/,M/*callbackAfterAddingNodes*/ ) {
+          J/*array*/ = J/*array*/ || [];
+          
+          L/*options*/ = L/*options*/ || {};
+          
+          var N/*isFirstExecution*/ = n/*ko*/.utils.domData.get( I/*domNode*/,h/*lastMappingResultDomDataKey*/ ) === undefined;
+          
+          var O/*lastMappingResult*/ = n/*ko*/.utils.domData.get( I/*domNode*/,h/*lastMappingResultDomDataKey*/ ) || [];
+          
+          var P/*lastArray*/ = n/*ko*/.utils.arrayMap( O/*lastMappingResult*/,
+              function ( b/*x*/ ) {
+                return b/*x*/.arrayEntry;
+              });
+          
+          var E/*editScript*/ = n/*ko*/.utils.compareArrays( P/*lastArray*/,J/*array*/ );
+          
+          var Q/*newMappingResult*/ = [];
+          
+          var R/*lastMappingResultIndex*/ = 0;
+          
+          var d/*nodesToDelete*/ = [];
+          
+          var S/*nodesAdded*/ = [];
+          
+          var F/*insertAfterNode*/ = null;
+          
+          for ( var g/*i*/ = 0,T/*j*/ = E/*editScript*/.length;g/*i*/<T/*j*/;g/*i*/ ++  ){
+            switch ( E/*editScript*/[g/*i*/].status ) {
+              case "retained" :
+                
+                var U/*dataToRetain*/ = O/*lastMappingResult*/[R/*lastMappingResultIndex*/];
+                
+                Q/*newMappingResult*/.push( U/*dataToRetain*/ );
+                
+                if ( U/*dataToRetain*/.domNodes.length>0 ){
+                  F/*insertAfterNode*/ = U/*dataToRetain*/.domNodes[U/*dataToRetain*/.domNodes.length-1];
+                };
+                
+                R/*lastMappingResultIndex*/ ++ ;
+                break;
+              case "deleted" :
+                
+                O/*lastMappingResult*/[R/*lastMappingResultIndex*/].dependentObservable.dispose();
+                
+                f/*fixUpVirtualElements*/( O/*lastMappingResult*/[R/*lastMappingResultIndex*/].domNodes );
+                
+                n/*ko*/.utils.arrayForEach( O/*lastMappingResult*/[R/*lastMappingResultIndex*/].domNodes,
+                function ( G/*node*/ ) {
+                  d/*nodesToDelete*/.push(  {
+                    element : G/*node*/,
+                    index : g/*i*/,
+                    value : E/*editScript*/[g/*i*/].value
                   });
-                  __LINE__ = 1858;
-                  return  {
-                    shouldBindDescendants : j/*bindingHandlerThatControlsDescendantBindings*/ === undefined
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 1863;
-              var g/*storedBindingContextDomDataKey*/ = "__ko_bindingContext__";
-              
-              __LINE__ = 0;
-              b/*ko*/.storedBindingContextForNode = function ( b/*node*/,c/*bindingContext*/ ) {
-                try {
-                  __LINE__ = 1865;
-                  if ( arguments.length == 2 ){
-                    __LINE__ = 0;
-                    b/*ko*/.utils.domData.set( b/*node*/,g/*storedBindingContextDomDataKey*/,c/*bindingContext*/ );
+                  
+                  F/*insertAfterNode*/ = G/*node*/;
+                });
+                
+                R/*lastMappingResultIndex*/ ++ ;
+                break;
+              case "added" :
+                
+                var V/*valueToMap*/ = E/*editScript*/[g/*i*/].value;
+                
+                var W/*mapData*/ = r/*mapNodeAndRefreshWhenChanged*/( I/*domNode*/,K/*mapping*/,V/*valueToMap*/,M/*callbackAfterAddingNodes*/ );
+                
+                var X/*mappedNodes*/ = W/*mapData*/.mappedNodes;
+                
+                Q/*newMappingResult*/.push(  {
+                  arrayEntry : E/*editScript*/[g/*i*/].value,
+                  domNodes : X/*mappedNodes*/,
+                  dependentObservable : W/*mapData*/.dependentObservable
+                });
+                
+                for ( var Y/*nodeIndex*/ = 0,Z/*nodeIndexMax*/ = X/*mappedNodes*/.length;Y/*nodeIndex*/<Z/*nodeIndexMax*/;Y/*nodeIndex*/ ++  ){
+                  var H/*node*/ = X/*mappedNodes*/[Y/*nodeIndex*/];
+                  
+                  S/*nodesAdded*/.push(  {
+                    element : H/*node*/,
+                    index : g/*i*/,
+                    value : E/*editScript*/[g/*i*/].value
+                  });
+                  
+                  if ( F/*insertAfterNode*/ == null ){
+                    n/*ko*/.virtualElements.prepend( I/*domNode*/,H/*node*/ );
                   } else {
-                    __LINE__ = 1868;
-                    return b/*ko*/.utils.domData.get( b/*node*/,g/*storedBindingContextDomDataKey*/ );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.applyBindingsToNode = function ( c/*node*/,d/*bindings*/,e/*viewModel*/ ) {
-                try {
-                  __LINE__ = 1872;
-                  if ( c/*node*/.nodeType === 1 ){
-                    __LINE__ = 0;
-                    b/*ko*/.virtualElements.normaliseVirtualElementDomStructure( c/*node*/ );
-                  };
-                  __LINE__ = 1874;
-                  return f/*applyBindingsToNodeInternal*/( c/*node*/,d/*bindings*/,e/*viewModel*/,true );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.applyBindingsToDescendants = function ( e/*viewModel*/,f/*rootNode*/ ) {
-                try {
-                  __LINE__ = 1878;
-                  if ( f/*rootNode*/.nodeType === 1 ){
-                    __LINE__ = 0;
-                    c/*applyBindingsToDescendantsInternal*/( e/*viewModel*/,f/*rootNode*/ );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.applyBindings = function ( b/*viewModel*/,c/*rootNode*/ ) {
-                try {
-                  __LINE__ = 1883;
-                  if ( c/*rootNode*/ && ( c/*rootNode*/.nodeType !== 1 ) && ( c/*rootNode*/.nodeType !== 8 ) ){
-                    __LINE__ = 1884;
-                    throw new Error( "ko.applyBindings: first parameter should be your view model; second parameter should be a DOM node" );
+                    n/*ko*/.virtualElements.insertAfter( I/*domNode*/,H/*node*/,F/*insertAfterNode*/ );
                   };
                   
-                  __LINE__ = 0;
-                  c/*rootNode*/ = c/*rootNode*/ || a/*window*/.document.body;
-                  
-                  __LINE__ = 0;
-                  e/*applyBindingsToNodeAndDescendantsInternal*/( b/*viewModel*/,c/*rootNode*/,true );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.contextFor = function ( c/*node*/ ) {
-                try {
-                  __LINE__ = 0;
-                  switch ( c/*node*/.nodeType ) {
-                    case 1 :
-                    case 8 :
-                      
-                      __LINE__ = 1896;
-                      var d/*context*/ = b/*ko*/.storedBindingContextForNode( c/*node*/ );
-                      
-                      __LINE__ = 1897;
-                      if ( d/*context*/ ){
-                        __LINE__ = 1897;
-                        return d/*context*/;
-                      };
-                      
-                      __LINE__ = 1898;
-                      if ( c/*node*/.parentNode ){
-                        __LINE__ = 1898;
-                        return b/*ko*/.contextFor( c/*node*/.parentNode );
-                      };
-                      __LINE__ = 1899;
-                      break;
-                      
-                  };
-                  __LINE__ = 1901;
-                  return undefined;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.dataFor = function ( c/*node*/ ) {
-                try {
-                  __LINE__ = 1904;
-                  var d/*context*/ = b/*ko*/.contextFor( c/*node*/ );
-                  __LINE__ = 1905;
-                  return d/*context*/?d/*context*/['$data'] : undefined;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.bindingHandlers',b/*ko*/.bindingHandlers );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.applyBindings',b/*ko*/.applyBindings );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.applyBindingsToDescendants',b/*ko*/.applyBindingsToDescendants );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.applyBindingsToNode',b/*ko*/.applyBindingsToNode );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.contextFor',b/*ko*/.contextFor );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.dataFor',b/*ko*/.dataFor );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
+                  F/*insertAfterNode*/ = H/*node*/;
+                };
+                
+                if ( M/*callbackAfterAddingNodes*/ ){
+                  M/*callbackAfterAddingNodes*/( V/*valueToMap*/,X/*mappedNodes*/ );
+                };
+                break;
+                
+            };
+          };
           
-          __LINE__ = 1916;
-          var i/*eventHandlersWithShortcuts*/ = ['click'];
-          
-          __LINE__ = 0;
-          b/*ko*/.utils.arrayForEach( i/*eventHandlersWithShortcuts*/,
-          function ( a/*eventName*/ ) {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.bindingHandlers[a/*eventName*/] =  {
-                'init' : function ( d/*element*/,b/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/ ) {
-                  try {
-                    __LINE__ = 1920;
-                    var g/*newValueAccessor*/ = function () {
-                          try {
-                            __LINE__ = 1921;
-                            var d/*result*/ = {};
-                            
-                            __LINE__ = 0;
-                            d/*result*/[a/*eventName*/] = b/*valueAccessor*/();
-                            __LINE__ = 1923;
-                            return d/*result*/;
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        };
-                    __LINE__ = 1925;
-                    return b/*ko*/.bindingHandlers['event']['init'].call( this,d/*element*/,g/*newValueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/ );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
+          n/*ko*/.utils.arrayForEach( d/*nodesToDelete*/,
+          function ( H/*node*/ ) {
+            n/*ko*/.cleanNode( H/*node*/.element );
           });
           
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['event'] =  {
-            'init' : function ( e/*element*/,a/*valueAccessor*/,c/*allBindingsAccessor*/,f/*viewModel*/ ) {
-              try {
-                __LINE__ = 1933;
-                var g/*eventsToHandle*/ = a/*valueAccessor*/() || {};
-                
-                __LINE__ = 1934;
-                for ( var d/*eventNameOutsideClosure*/ in g/*eventsToHandle*/ ){
-                  __LINE__ = 0;
-                  ( function () {
-                    try {
-                      __LINE__ = 1936;
-                      var b/*eventName*/ = d/*eventNameOutsideClosure*/;
-                      
-                      __LINE__ = 1937;
-                      if ( typeof b/*eventName*/ == "string" ){
-                        __LINE__ = 0;
-                        b/*ko*/.utils.registerEventHandler( e/*element*/,b/*eventName*/,
-                        function ( e/*event*/ ) {
-                          try {
-                            __LINE__ = 1939;
-                            var f/*handlerReturnValue*/;
-                            
-                            __LINE__ = 1940;
-                            var g/*handlerFunction*/ = a/*valueAccessor*/()[b/*eventName*/];
-                            
-                            __LINE__ = 1941;
-                            if ( !g/*handlerFunction*/ ){
-                              __LINE__ = 1942;
-                              return ;
-                            };
-                            
-                            __LINE__ = 1943;
-                            var h/*allBindings*/ = c/*allBindingsAccessor*/();
-                            
-                            try {
-                              __LINE__ = 1947;
-                              var i/*argsForHandler*/ = b/*ko*/.utils.makeArray( arguments );
-                              
-                              __LINE__ = 0;
-                              i/*argsForHandler*/.unshift( f/*viewModel*/ );
-                              
-                              __LINE__ = 0;
-                              f/*handlerReturnValue*/ = g/*handlerFunction*/.apply( f/*viewModel*/,i/*argsForHandler*/ );
-                            } finally {
-                              __LINE__ = 1951;
-                              if ( f/*handlerReturnValue*/ !== true ){
-                                __LINE__ = 1952;
-                                if ( e/*event*/.preventDefault ){
-                                  __LINE__ = 0;
-                                  e/*event*/.preventDefault();
-                                } else {
-                                  __LINE__ = 0;
-                                  e/*event*/.returnValue = false;
-                                };
-                              };
-                            };
-                            
-                            __LINE__ = 1959;
-                            var j/*bubble*/ = h/*allBindings*/[b/*eventName*/+'Bubble'] !== false;
-                            
-                            __LINE__ = 1960;
-                            if ( !j/*bubble*/ ){
-                              __LINE__ = 0;
-                              e/*event*/.cancelBubble = true;
-                              
-                              __LINE__ = 1962;
-                              if ( e/*event*/.stopPropagation ){
-                                __LINE__ = 0;
-                                e/*event*/.stopPropagation();
-                              };
-                            };
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        });
-                      };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  })();
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
+          var _/*invokedBeforeRemoveCallback*/ = false;
           
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['submit'] =  {
-            'init' : function ( c/*element*/,a/*valueAccessor*/,e/*allBindingsAccessor*/,b/*viewModel*/ ) {
-              try {
-                __LINE__ = 1974;
-                if ( typeof a/*valueAccessor*/() != "function" ){
-                  __LINE__ = 1975;
-                  throw new Error( "The value for a submit binding must be a function" );
-                };
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( c/*element*/,"submit",
-                function ( e/*event*/ ) {
-                  try {
-                    __LINE__ = 1977;
-                    var f/*handlerReturnValue*/;
-                    
-                    __LINE__ = 1978;
-                    var g/*value*/ = a/*valueAccessor*/();
-                    
-                    try {
-                      __LINE__ = 0;
-                      f/*handlerReturnValue*/ = g/*value*/.call( b/*viewModel*/,c/*element*/ );
-                    } finally {
-                      __LINE__ = 1981;
-                      if ( f/*handlerReturnValue*/ !== true ){
-                        __LINE__ = 1982;
-                        if ( e/*event*/.preventDefault ){
-                          __LINE__ = 0;
-                          e/*event*/.preventDefault();
-                        } else {
-                          __LINE__ = 0;
-                          e/*event*/.returnValue = false;
-                        };
-                      };
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['visible'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 1994;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                
-                __LINE__ = 1995;
-                var f/*isCurrentlyVisible*/ = !( c/*element*/.style.display == "none" );
-                
-                __LINE__ = 1996;
-                if ( e/*value*/ && !f/*isCurrentlyVisible*/ ){
-                  __LINE__ = 0;
-                  c/*element*/.style.display = "";
-                } else if ( ( !e/*value*/ ) && f/*isCurrentlyVisible*/ ){
-                  __LINE__ = 0;
-                  c/*element*/.style.display = "none";
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['enable'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2005;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                
-                __LINE__ = 2006;
-                if ( e/*value*/ && c/*element*/.disabled ){
-                  __LINE__ = 0;
-                  c/*element*/.removeAttribute( "disabled" );
-                } else if ( ( !e/*value*/ ) && ( !c/*element*/.disabled ) ){
-                  __LINE__ = 0;
-                  c/*element*/.disabled = true;
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['disable'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 0;
-                b/*ko*/.bindingHandlers['enable']['update']( c/*element*/,
-                function () {
-                  try {
-                    __LINE__ = 2015;
-                    return !b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          function j/*ensureDropdownSelectionIsConsistentWithModelValue*/( c/*element*/,d/*modelValue*/,e/*preferModelValue*/ ) {
-            try {
-              __LINE__ = 2020;
-              if ( e/*preferModelValue*/ ){
-                __LINE__ = 2021;
-                if ( d/*modelValue*/ !== b/*ko*/.selectExtensions.readValue( c/*element*/ ) ){
-                  __LINE__ = 0;
-                  b/*ko*/.selectExtensions.writeValue( c/*element*/,d/*modelValue*/ );
-                };
+          if ( !N/*isFirstExecution*/ ){
+            if ( L/*options*/['afterAdd'] ){
+              for ( var g/*i*/ = 0;g/*i*/<S/*nodesAdded*/.length;g/*i*/ ++  ){
+                L/*options*/['afterAdd']( S/*nodesAdded*/[g/*i*/].element,S/*nodesAdded*/[g/*i*/].index,S/*nodesAdded*/[g/*i*/].value );
+              };
+            };
+            
+            if ( L/*options*/['beforeRemove'] ){
+              for ( var g/*i*/ = 0;g/*i*/<d/*nodesToDelete*/.length;g/*i*/ ++  ){
+                L/*options*/['beforeRemove']( d/*nodesToDelete*/[g/*i*/].element,d/*nodesToDelete*/[g/*i*/].index,d/*nodesToDelete*/[g/*i*/].value );
               };
               
-              __LINE__ = 2028;
-              if ( d/*modelValue*/ !== b/*ko*/.selectExtensions.readValue( c/*element*/ ) ){
-                __LINE__ = 0;
-                b/*ko*/.utils.triggerEvent( c/*element*/,"change" );
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
+              _/*invokedBeforeRemoveCallback*/ = true;
+            };
+          };
+          
+          if ( !_/*invokedBeforeRemoveCallback*/ ){
+            n/*ko*/.utils.arrayForEach( d/*nodesToDelete*/,
+            function ( I/*node*/ ) {
+              n/*ko*/.removeNode( I/*node*/.element );
+            });
+          };
+          
+          n/*ko*/.utils.domData.set( I/*domNode*/,h/*lastMappingResultDomDataKey*/,Q/*newMappingResult*/ );
+        };
+      })();
+      
+      n/*ko*/.exportSymbol( 'ko.utils.setDomNodeChildrenFromArrayMapping',n/*ko*/.utils.setDomNodeChildrenFromArrayMapping );
+      
+      n/*ko*/.nativeTemplateEngine = function () {
+        this['allowTemplateRewriting'] = false;
+      };
+      
+      n/*ko*/.nativeTemplateEngine.prototype = new n/*ko*/.templateEngine();
+      
+      n/*ko*/.nativeTemplateEngine.prototype['renderTemplateSource'] = function ( c/*templateSource*/,d/*bindingContext*/,e/*options*/ ) {
+        var f/*templateText*/ = c/*templateSource*/.text();
+        return n/*ko*/.utils.parseHtmlFragment( f/*templateText*/ );
+      };
+      
+      n/*ko*/.nativeTemplateEngine.instance = new n/*ko*/.nativeTemplateEngine();
+      
+      n/*ko*/.setTemplateEngine( n/*ko*/.nativeTemplateEngine.instance );
+      
+      n/*ko*/.exportSymbol( 'ko.nativeTemplateEngine',n/*ko*/.nativeTemplateEngine );
+      
+      ( function () {
+        n/*ko*/.jqueryTmplTemplateEngine = function () {
+          var d/*jQueryTmplVersion*/ = this.jQueryTmplVersion = ( function () {
+                if ( ( typeof ( jQuery ) == "undefined" ) || !( jQuery['tmpl'] ) ){
+                  return 0;
+                };
+                
+                try {
+                  if ( jQuery['tmpl']['tag']['tmpl']['open'].toString().indexOf( '__' ) >= 0 ){
+                    return 2;
+                  };
+                } catch( ex ){
+                  
+                };
+                return 1;
+              })();
+          
+          function e/*ensureHasReferencedJQueryTemplates*/() {
+            if ( d/*jQueryTmplVersion*/<2 ){
+              throw new Error( "Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later." );
+            };
           }
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['value'] =  {
-            'init' : function ( d/*element*/,b/*valueAccessor*/,c/*allBindingsAccessor*/ ) {
-              try {
-                __LINE__ = 2035;
-                var e/*eventsToCatch*/ = ["change"];
-                
-                __LINE__ = 2036;
-                var f/*requestedEventsToCatch*/ = c/*allBindingsAccessor*/()["valueUpdate"];
-                
-                __LINE__ = 2037;
-                if ( f/*requestedEventsToCatch*/ ){
-                  __LINE__ = 2038;
-                  if ( typeof f/*requestedEventsToCatch*/ == "string" ){
-                    __LINE__ = 0;
-                    f/*requestedEventsToCatch*/ = [f/*requestedEventsToCatch*/];
-                  };
-                  
-                  __LINE__ = 0;
-                  b/*ko*/.utils.arrayPushAll( e/*eventsToCatch*/,f/*requestedEventsToCatch*/ );
-                  
-                  __LINE__ = 0;
-                  e/*eventsToCatch*/ = b/*ko*/.utils.arrayGetDistinctValues( e/*eventsToCatch*/ );
-                };
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.arrayForEach( e/*eventsToCatch*/,
-                function ( e/*eventName*/ ) {
-                  try {
-                    __LINE__ = 2048;
-                    var f/*handleEventAsynchronously*/ = false;
-                    
-                    __LINE__ = 2049;
-                    if ( b/*ko*/.utils.stringStartsWith( e/*eventName*/,"after" ) ){
-                      __LINE__ = 0;
-                      f/*handleEventAsynchronously*/ = true;
-                      
-                      __LINE__ = 0;
-                      e/*eventName*/ = e/*eventName*/.substring( "after".length );
-                    };
-                    
-                    __LINE__ = 2053;
-                    var c/*runEventHandler*/ = f/*handleEventAsynchronously*/?function ( b/*handler*/ ) {
-                          try {
-                            __LINE__ = 0;
-                            setTimeout( b/*handler*/,0 );
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        } : function ( b/*handler*/ ) {
-                          try {
-                            __LINE__ = 0;
-                            b/*handler*/();
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        };
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.registerEventHandler( d/*element*/,e/*eventName*/,
-                    function () {
-                      try {
-                        __LINE__ = 0;
-                        c/*runEventHandler*/( function () {
-                          try {
-                            __LINE__ = 2058;
-                            var d/*modelValue*/ = b/*valueAccessor*/();
-                            
-                            __LINE__ = 2059;
-                            var e/*elementValue*/ = b/*ko*/.selectExtensions.readValue( d/*element*/ );
-                            
-                            __LINE__ = 2060;
-                            if ( b/*ko*/.isWriteableObservable( d/*modelValue*/ ) ){
-                              __LINE__ = 0;
-                              d/*modelValue*/( e/*elementValue*/ );
-                            } else {
-                              __LINE__ = 2063;
-                              var f/*allBindings*/ = c/*allBindingsAccessor*/();
-                              if ( f/*allBindings*/['_ko_property_writers'] && f/*allBindings*/['_ko_property_writers']['value'] ){
-                                __LINE__ = 0;
-                                f/*allBindings*/['_ko_property_writers']['value']( e/*elementValue*/ );
-                              };
-                            };
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        });
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2072;
-                var e/*newValue*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                
-                __LINE__ = 2073;
-                var f/*elementValue*/ = b/*ko*/.selectExtensions.readValue( c/*element*/ );
-                
-                __LINE__ = 2074;
-                var g/*valueHasChanged*/ = ( e/*newValue*/ != f/*elementValue*/ );
-                
-                __LINE__ = 2078;
-                if ( ( e/*newValue*/ === 0 ) && ( f/*elementValue*/ !== 0 ) && ( f/*elementValue*/ !== "0" ) ){
-                  __LINE__ = 0;
-                  g/*valueHasChanged*/ = true;
-                };
-                
-                __LINE__ = 2081;
-                if ( g/*valueHasChanged*/ ){
-                  __LINE__ = 2082;
-                  var h/*applyValueAction*/ = function () {
-                        try {
-                          __LINE__ = 0;
-                          b/*ko*/.selectExtensions.writeValue( c/*element*/,e/*newValue*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      };
-                  
-                  __LINE__ = 0;
-                  h/*applyValueAction*/();
-                  
-                  __LINE__ = 2088;
-                  var i/*alsoApplyAsynchronously*/ = c/*element*/.tagName == "SELECT";
-                  
-                  __LINE__ = 2089;
-                  if ( i/*alsoApplyAsynchronously*/ ){
-                    __LINE__ = 0;
-                    setTimeout( h/*applyValueAction*/,0 );
-                  };
-                };
-                
-                __LINE__ = 2095;
-                if ( ( c/*element*/.tagName == "SELECT" ) && ( c/*element*/.length>0 ) ){
-                  __LINE__ = 0;
-                  j/*ensureDropdownSelectionIsConsistentWithModelValue*/( c/*element*/,e/*newValue*/,false );
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
+          function j/*executeTemplate*/( d/*compiledTemplate*/,e/*data*/,f/*jQueryTemplateOptions*/ ) {
+            return jQuery['tmpl']( d/*compiledTemplate*/,e/*data*/,f/*jQueryTemplateOptions*/ );
+          }
+          this['renderTemplateSource'] = function ( n/*templateSource*/,o/*bindingContext*/,p/*options*/ ) {
+            p/*options*/ = p/*options*/ || {};
+            
+            e/*ensureHasReferencedJQueryTemplates*/();
+            
+            var q/*precompiled*/ = n/*templateSource*/['data']( 'precompiled' );
+            
+            if ( !q/*precompiled*/ ){
+              var r/*templateText*/ = n/*templateSource*/.text() || "";
+              
+              r/*templateText*/ = "{{ko_with $item.koBindingContext}}"+r/*templateText*/+"{{/ko_with}}";
+              
+              q/*precompiled*/ = jQuery['template']( null,r/*templateText*/ );
+              
+              n/*templateSource*/['data']( 'precompiled',q/*precompiled*/ );
+            };
+            
+            var s/*data*/ = [o/*bindingContext*/['$data']];
+            
+            var t/*jQueryTemplateOptions*/ = jQuery['extend'](  {
+                  'koBindingContext' : o/*bindingContext*/
+                },p/*options*/['templateOptions'] );
+            
+            var u/*resultNodes*/ = j/*executeTemplate*/( q/*precompiled*/,s/*data*/,t/*jQueryTemplateOptions*/ );
+            
+            u/*resultNodes*/['appendTo']( document.createElement( "div" ) );
+            
+            jQuery['fragments'] = {};
+            return u/*resultNodes*/;
           };
           
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['options'] =  {
-            'update' : function ( d/*element*/,e/*valueAccessor*/,f/*allBindingsAccessor*/ ) {
-              try {
-                __LINE__ = 2102;
-                if ( d/*element*/.tagName != "SELECT" ){
-                  __LINE__ = 2103;
-                  throw new Error( "options binding applies only to SELECT elements" );
-                };
-                
-                __LINE__ = 2105;
-                var g/*selectWasPreviouslyEmpty*/ = d/*element*/.length == 0;
-                
-                __LINE__ = 2106;
-                var h/*previousSelectedValues*/ = b/*ko*/.utils.arrayMap( b/*ko*/.utils.arrayFilter( d/*element*/.childNodes,
-                    function ( b/*node*/ ) {
-                      try {
-                        __LINE__ = 2107;
-                        return b/*node*/.tagName && b/*node*/.tagName == "OPTION" && b/*node*/.selected;
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    }),
-                    function ( c/*node*/ ) {
-                      try {
-                        __LINE__ = 2109;
-                        return b/*ko*/.selectExtensions.readValue( c/*node*/ ) || c/*node*/.innerText || c/*node*/.textContent;
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
-                
-                __LINE__ = 2111;
-                var i/*previousScrollTop*/ = d/*element*/.scrollTop;
-                
-                __LINE__ = 0;
-                d/*element*/.scrollTop = 0;
-                
-                __LINE__ = 2114;
-                var j/*value*/ = b/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
-                
-                __LINE__ = 2115;
-                var k/*selectedValue*/ = d/*element*/.value;
-                
-                __LINE__ = 2119;
-                while ( d/*element*/.length>0 ){
-                  __LINE__ = 0;
-                  b/*ko*/.cleanNode( d/*element*/.options[0] );
-                  
-                  __LINE__ = 0;
-                  d/*element*/.remove( 0 );
-                };
-                
-                __LINE__ = 2124;
-                if ( j/*value*/ ){
-                  __LINE__ = 2125;
-                  var l/*allBindings*/ = f/*allBindingsAccessor*/();
-                  
-                  __LINE__ = 2126;
-                  if ( typeof j/*value*/.length != "number" ){
-                    __LINE__ = 0;
-                    j/*value*/ = [j/*value*/];
-                  };
-                  
-                  __LINE__ = 2128;
-                  if ( l/*allBindings*/['optionsCaption'] ){
-                    __LINE__ = 2129;
-                    var m/*option*/ = document.createElement( "OPTION" );
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.setHtml( m/*option*/,l/*allBindings*/['optionsCaption'] );
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.selectExtensions.writeValue( m/*option*/,undefined );
-                    
-                    __LINE__ = 0;
-                    d/*element*/.appendChild( m/*option*/ );
-                  };
-                  
-                  __LINE__ = 2134;
-                  for ( var n/*i*/ = 0,o/*j*/ = j/*value*/.length;n/*i*/<o/*j*/;n/*i*/ ++  ){
-                    __LINE__ = 2135;
-                    var m/*option*/ = document.createElement( "OPTION" );
-                    
-                    __LINE__ = 2138;
-                    var p/*optionValue*/ = typeof l/*allBindings*/['optionsValue'] == "string"?j/*value*/[n/*i*/][l/*allBindings*/['optionsValue']] : j/*value*/[n/*i*/];
-                    
-                    __LINE__ = 0;
-                    p/*optionValue*/ = b/*ko*/.utils.unwrapObservable( p/*optionValue*/ );
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.selectExtensions.writeValue( m/*option*/,p/*optionValue*/ );
-                    
-                    __LINE__ = 2143;
-                    var q/*optionsTextValue*/ = l/*allBindings*/['optionsText'];
-                    
-                    __LINE__ = 2144;
-                    var r/*optionText*/;
-                    
-                    __LINE__ = 2145;
-                    if ( typeof q/*optionsTextValue*/ == "function" ){
-                      __LINE__ = 0;
-                      r/*optionText*/ = q/*optionsTextValue*/( j/*value*/[n/*i*/] );
-                    } else if ( typeof q/*optionsTextValue*/ == "string" ){
-                      __LINE__ = 0;
-                      r/*optionText*/ = j/*value*/[n/*i*/][q/*optionsTextValue*/];
-                    } else {
-                      __LINE__ = 0;
-                      r/*optionText*/ = p/*optionValue*/;
-                    };
-                    
-                    __LINE__ = 2151;
-                    if ( ( r/*optionText*/ === null ) || ( r/*optionText*/ === undefined ) ){
-                      __LINE__ = 0;
-                      r/*optionText*/ = "";
-                    };
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.setTextContent( m/*option*/,r/*optionText*/ );
-                    
-                    __LINE__ = 0;
-                    d/*element*/.appendChild( m/*option*/ );
-                  };
-                  
-                  __LINE__ = 2161;
-                  var s/*newOptions*/ = d/*element*/.getElementsByTagName( "OPTION" );
-                  
-                  __LINE__ = 2162;
-                  var t/*countSelectionsRetained*/ = 0;
-                  
-                  __LINE__ = 2163;
-                  for ( var n/*i*/ = 0,o/*j*/ = s/*newOptions*/.length;n/*i*/<o/*j*/;n/*i*/ ++  ){
-                    __LINE__ = 2164;
-                    if ( b/*ko*/.utils.arrayIndexOf( h/*previousSelectedValues*/,b/*ko*/.selectExtensions.readValue( s/*newOptions*/[n/*i*/] ) ) >= 0 ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.setOptionNodeSelectionState( s/*newOptions*/[n/*i*/],true );
-                      
-                      __LINE__ = 0;
-                      t/*countSelectionsRetained*/ ++ ;
-                    };
-                  };
-                  
-                  __LINE__ = 2170;
-                  if ( i/*previousScrollTop*/ ){
-                    __LINE__ = 0;
-                    d/*element*/.scrollTop = i/*previousScrollTop*/;
-                  };
-                  
-                  __LINE__ = 2173;
-                  if ( g/*selectWasPreviouslyEmpty*/ && ( 'value' in l/*allBindings*/ ) ){
-                    __LINE__ = 0;
-                    j/*ensureDropdownSelectionIsConsistentWithModelValue*/( d/*element*/,b/*ko*/.utils.unwrapObservable( l/*allBindings*/['value'] ),true );
-                  };
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
+          this['createJavaScriptEvaluatorBlock'] = function ( b/*script*/ ) {
+            return "{{ko_code ((function() { return "+b/*script*/+" })()) }}";
           };
           
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['options'].optionValueDomDataKey = '__ko.optionValueDomData__';
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['selectedOptions'] =  {
-            getSelectedValuesFromSelectNode : function ( c/*selectNode*/ ) {
-              try {
-                __LINE__ = 2186;
-                var d/*result*/ = [];
-                
-                __LINE__ = 2187;
-                var e/*nodes*/ = c/*selectNode*/.childNodes;
-                
-                __LINE__ = 2188;
-                for ( var f/*i*/ = 0,g/*j*/ = e/*nodes*/.length;f/*i*/<g/*j*/;f/*i*/ ++  ){
-                  __LINE__ = 2189;
-                  var h/*node*/ = e/*nodes*/[f/*i*/];
-                  
-                  __LINE__ = 2190;
-                  if ( ( h/*node*/.tagName == "OPTION" ) && h/*node*/.selected ){
-                    __LINE__ = 0;
-                    d/*result*/.push( b/*ko*/.selectExtensions.readValue( h/*node*/ ) );
-                  };
-                };
-                __LINE__ = 2193;
-                return d/*result*/;
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'init' : function ( d/*element*/,a/*valueAccessor*/,e/*allBindingsAccessor*/ ) {
-              try {
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( d/*element*/,"change",
-                function () {
-                  try {
-                    __LINE__ = 2197;
-                    var c/*value*/ = a/*valueAccessor*/();
-                    
-                    __LINE__ = 2198;
-                    if ( b/*ko*/.isWriteableObservable( c/*value*/ ) ){
-                      __LINE__ = 0;
-                      c/*value*/( b/*ko*/.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
-                    } else {
-                      __LINE__ = 2201;
-                      var d/*allBindings*/ = e/*allBindingsAccessor*/();
-                      if ( d/*allBindings*/['_ko_property_writers'] && d/*allBindings*/['_ko_property_writers']['value'] ){
-                        __LINE__ = 0;
-                        d/*allBindings*/['_ko_property_writers']['value']( b/*ko*/.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
-                      };
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( b/*element*/,c/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2208;
-                if ( b/*element*/.tagName != "SELECT" ){
-                  __LINE__ = 2209;
-                  throw new Error( "values binding applies only to SELECT elements" );
-                };
-                
-                __LINE__ = 2211;
-                var d/*newValue*/ = b/*ko*/.utils.unwrapObservable( c/*valueAccessor*/() );
-                
-                __LINE__ = 2212;
-                if ( d/*newValue*/ && typeof d/*newValue*/.length == "number" ){
-                  __LINE__ = 2213;
-                  var e/*nodes*/ = b/*element*/.childNodes;
-                  
-                  __LINE__ = 2214;
-                  for ( var f/*i*/ = 0,g/*j*/ = e/*nodes*/.length;f/*i*/<g/*j*/;f/*i*/ ++  ){
-                    __LINE__ = 2215;
-                    var h/*node*/ = e/*nodes*/[f/*i*/];
-                    
-                    __LINE__ = 2216;
-                    if ( h/*node*/.tagName == "OPTION" ){
-                      __LINE__ = 0;
-                      b/*ko*/.utils.setOptionNodeSelectionState( h/*node*/,b/*ko*/.utils.arrayIndexOf( d/*newValue*/,b/*ko*/.selectExtensions.readValue( h/*node*/ ) ) >= 0 );
-                    };
-                  };
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
+          this['addTemplate'] = function ( c/*templateName*/,d/*templateMarkup*/ ) {
+            document.write( "<script type='text/html' id='"+c/*templateName*/+"'>"+d/*templateMarkup*/+"</script>" );
           };
           
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['text'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 0;
-                b/*ko*/.utils.setTextContent( c/*element*/,d/*valueAccessor*/() );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
+          if ( d/*jQueryTmplVersion*/>0 ){
+            jQuery['tmpl']['tag']['ko_code'] =  {
+              open : "__.push($1 || '');"
+            };
+            
+            jQuery['tmpl']['tag']['ko_with'] =  {
+              open : "with($1) {",
+              close : "} "
+            };
           };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['html'] =  {
-            'init' : function () {
-              try {
-                __LINE__ = 2232;
-                return  {
-                  'controlsDescendantBindings' : true
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2235;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.setHtml( c/*element*/,e/*value*/ );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['css'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2242;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() || {} );
-                
-                __LINE__ = 2243;
-                for ( var f/*className*/ in e/*value*/ ){
-                  __LINE__ = 2244;
-                  if ( typeof f/*className*/ == "string" ){
-                    __LINE__ = 2245;
-                    var g/*shouldHaveClass*/ = b/*ko*/.utils.unwrapObservable( e/*value*/[f/*className*/] );
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.toggleDomNodeCssClass( c/*element*/,f/*className*/,g/*shouldHaveClass*/ );
-                  };
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['style'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2254;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() || {} );
-                
-                __LINE__ = 2255;
-                for ( var f/*styleName*/ in e/*value*/ ){
-                  __LINE__ = 2256;
-                  if ( typeof f/*styleName*/ == "string" ){
-                    __LINE__ = 2257;
-                    var g/*styleValue*/ = b/*ko*/.utils.unwrapObservable( e/*value*/[f/*styleName*/] );
-                    
-                    __LINE__ = 0;
-                    c/*element*/.style[f/*styleName*/] = g/*styleValue*/ || "";
-                  };
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['uniqueName'] =  {
-            'init' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2266;
-                if ( d/*valueAccessor*/() ){
-                  __LINE__ = 0;
-                  c/*element*/.name = "ko_unique_"+(  ++ b/*ko*/.bindingHandlers['uniqueName'].currentIndex );
-                  
-                  __LINE__ = 2272;
-                  if ( b/*ko*/.utils.isIe6 || b/*ko*/.utils.isIe7 ){
-                    __LINE__ = 0;
-                    c/*element*/.mergeAttributes( document.createElement( "<input name='"+c/*element*/.name+"'/>" ),false );
-                  };
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['uniqueName'].currentIndex = 0;
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['checked'] =  {
-            'init' : function ( a/*element*/,b/*valueAccessor*/,c/*allBindingsAccessor*/ ) {
-              try {
-                __LINE__ = 2281;
-                var d/*updateHandler*/ = function () {
-                      try {
-                        __LINE__ = 2282;
-                        var d/*valueToWrite*/;
-                        
-                        __LINE__ = 2283;
-                        if ( a/*element*/.type == "checkbox" ){
-                          __LINE__ = 0;
-                          d/*valueToWrite*/ = a/*element*/.checked;
-                        } else if ( ( a/*element*/.type == "radio" ) && ( a/*element*/.checked ) ){
-                          __LINE__ = 0;
-                          d/*valueToWrite*/ = a/*element*/.value;
-                        } else {
-                          __LINE__ = 2288;
-                          return ;
-                        };
-                        
-                        __LINE__ = 2291;
-                        var e/*modelValue*/ = b/*valueAccessor*/();
-                        
-                        __LINE__ = 2292;
-                        if ( ( a/*element*/.type == "checkbox" ) && ( b/*ko*/.utils.unwrapObservable( e/*modelValue*/ ) instanceof Array ) ){
-                          __LINE__ = 2295;
-                          var f/*existingEntryIndex*/ = b/*ko*/.utils.arrayIndexOf( b/*ko*/.utils.unwrapObservable( e/*modelValue*/ ),a/*element*/.value );
-                          
-                          __LINE__ = 2296;
-                          if ( a/*element*/.checked && ( f/*existingEntryIndex*/<0 ) ){
-                            __LINE__ = 0;
-                            e/*modelValue*/.push( a/*element*/.value );
-                          } else if ( ( !a/*element*/.checked ) && ( f/*existingEntryIndex*/ >= 0 ) ){
-                            __LINE__ = 0;
-                            e/*modelValue*/.splice( f/*existingEntryIndex*/,1 );
-                          };
-                        } else if ( b/*ko*/.isWriteableObservable( e/*modelValue*/ ) ){
-                          if ( e/*modelValue*/() !== d/*valueToWrite*/ ){
-                            __LINE__ = 0;
-                            e/*modelValue*/( d/*valueToWrite*/ );
-                          };
-                        } else {
-                          __LINE__ = 2305;
-                          var g/*allBindings*/ = c/*allBindingsAccessor*/();
-                          if ( g/*allBindings*/['_ko_property_writers'] && g/*allBindings*/['_ko_property_writers']['checked'] ){
-                            __LINE__ = 0;
-                            g/*allBindings*/['_ko_property_writers']['checked']( d/*valueToWrite*/ );
-                          };
-                        };
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    };
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( a/*element*/,"click",d/*updateHandler*/ );
-                
-                __LINE__ = 2314;
-                if ( ( a/*element*/.type == "radio" ) && !a/*element*/.name ){
-                  __LINE__ = 0;
-                  b/*ko*/.bindingHandlers['uniqueName']['init']( a/*element*/,
-                  function () {
-                    try {
-                      __LINE__ = 2315;
-                      return true;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2318;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                
-                __LINE__ = 2320;
-                if ( c/*element*/.type == "checkbox" ){
-                  __LINE__ = 2321;
-                  if ( e/*value*/ instanceof Array ){
-                    __LINE__ = 0;
-                    c/*element*/.checked = b/*ko*/.utils.arrayIndexOf( e/*value*/,c/*element*/.value ) >= 0;
-                  } else {
-                    __LINE__ = 0;
-                    c/*element*/.checked = e/*value*/;
-                  };
-                } else if ( c/*element*/.type == "radio" ){
-                  __LINE__ = 0;
-                  c/*element*/.checked = ( c/*element*/.value == e/*value*/ );
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['attr'] =  {
-            'update' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/ ) {
-              try {
-                __LINE__ = 2336;
-                var f/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() ) || {};
-                
-                __LINE__ = 2337;
-                for ( var g/*attrName*/ in f/*value*/ ){
-                  __LINE__ = 2338;
-                  if ( typeof g/*attrName*/ == "string" ){
-                    __LINE__ = 2339;
-                    var h/*attrValue*/ = b/*ko*/.utils.unwrapObservable( f/*value*/[g/*attrName*/] );
-                    
-                    __LINE__ = 2344;
-                    if ( ( h/*attrValue*/ === false ) || ( h/*attrValue*/ === null ) || ( h/*attrValue*/ === undefined ) ){
-                      __LINE__ = 0;
-                      c/*element*/.removeAttribute( g/*attrName*/ );
-                    } else {
-                      __LINE__ = 0;
-                      c/*element*/.setAttribute( g/*attrName*/,h/*attrValue*/.toString() );
-                    };
-                  };
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['hasfocus'] =  {
-            'init' : function ( d/*element*/,a/*valueAccessor*/,e/*allBindingsAccessor*/ ) {
-              try {
-                __LINE__ = 2355;
-                var c/*writeValue*/ = function ( c/*valueToWrite*/ ) {
-                      try {
-                        __LINE__ = 2356;
-                        var d/*modelValue*/ = a/*valueAccessor*/();
-                        
-                        __LINE__ = 2357;
-                        if ( c/*valueToWrite*/ == b/*ko*/.utils.unwrapObservable( d/*modelValue*/ ) ){
-                          __LINE__ = 2358;
-                          return ;
-                        };
-                        
-                        __LINE__ = 2360;
-                        if ( b/*ko*/.isWriteableObservable( d/*modelValue*/ ) ){
-                          __LINE__ = 0;
-                          d/*modelValue*/( c/*valueToWrite*/ );
-                        } else {
-                          __LINE__ = 2363;
-                          var e/*allBindings*/ = e/*allBindingsAccessor*/();
-                          if ( e/*allBindings*/['_ko_property_writers'] && e/*allBindings*/['_ko_property_writers']['hasfocus'] ){
-                            __LINE__ = 0;
-                            e/*allBindings*/['_ko_property_writers']['hasfocus']( c/*valueToWrite*/ );
-                          };
-                        };
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    };
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( d/*element*/,"focus",
-                function () {
-                  try {
-                    __LINE__ = 0;
-                    c/*writeValue*/( true );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( d/*element*/,"focusin",
-                function () {
-                  try {
-                    __LINE__ = 0;
-                    c/*writeValue*/( true );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( d/*element*/,"blur",
-                function () {
-                  try {
-                    __LINE__ = 0;
-                    c/*writeValue*/( false );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.registerEventHandler( d/*element*/,"focusout",
-                function () {
-                  try {
-                    __LINE__ = 0;
-                    c/*writeValue*/( false );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                });
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2375;
-                var e/*value*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                
-                __LINE__ = 0;
-                e/*value*/?c/*element*/.focus() : c/*element*/.blur();
-                
-                __LINE__ = 0;
-                b/*ko*/.utils.triggerEvent( c/*element*/,e/*value*/?"focusin" : "focusout" );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['with'] =  {
-            makeTemplateValueAccessor : function ( a/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2384;
-                return function () {
-                  try {
-                    __LINE__ = 2384;
-                    var c/*value*/ = a/*valueAccessor*/();
-                    __LINE__ = 2384;
-                    return  {
-                      'if' : c/*value*/,
-                      'data' : c/*value*/,
-                      'templateEngine' : b/*ko*/.nativeTemplateEngine.instance
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2387;
-                return b/*ko*/.bindingHandlers['template']['init']( c/*element*/,b/*ko*/.bindingHandlers['with'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2390;
-                return b/*ko*/.bindingHandlers['template']['update']( c/*element*/,b/*ko*/.bindingHandlers['with'].makeTemplateValueAccessor( d/*valueAccessor*/ ),e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['with'] = false;
-          
-          __LINE__ = 0;
-          b/*ko*/.virtualElements.allowedBindings['with'] = true;
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['if'] =  {
-            makeTemplateValueAccessor : function ( a/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2399;
-                return function () {
-                  try {
-                    __LINE__ = 2399;
-                    return  {
-                      'if' : a/*valueAccessor*/(),
-                      'templateEngine' : b/*ko*/.nativeTemplateEngine.instance
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2402;
-                return b/*ko*/.bindingHandlers['template']['init']( c/*element*/,b/*ko*/.bindingHandlers['if'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2405;
-                return b/*ko*/.bindingHandlers['template']['update']( c/*element*/,b/*ko*/.bindingHandlers['if'].makeTemplateValueAccessor( d/*valueAccessor*/ ),e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['if'] = false;
-          
-          __LINE__ = 0;
-          b/*ko*/.virtualElements.allowedBindings['if'] = true;
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['ifnot'] =  {
-            makeTemplateValueAccessor : function ( a/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2414;
-                return function () {
-                  try {
-                    __LINE__ = 2414;
-                    return  {
-                      'ifnot' : a/*valueAccessor*/(),
-                      'templateEngine' : b/*ko*/.nativeTemplateEngine.instance
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2417;
-                return b/*ko*/.bindingHandlers['template']['init']( c/*element*/,b/*ko*/.bindingHandlers['ifnot'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2420;
-                return b/*ko*/.bindingHandlers['template']['update']( c/*element*/,b/*ko*/.bindingHandlers['ifnot'].makeTemplateValueAccessor( d/*valueAccessor*/ ),e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['ifnot'] = false;
-          
-          __LINE__ = 0;
-          b/*ko*/.virtualElements.allowedBindings['ifnot'] = true;
-          
-          __LINE__ = 0;
-          b/*ko*/.bindingHandlers['foreach'] =  {
-            makeTemplateValueAccessor : function ( c/*valueAccessor*/ ) {
-              try {
-                __LINE__ = 2430;
-                return function () {
-                  try {
-                    __LINE__ = 2431;
-                    var c/*bindingValue*/ = b/*ko*/.utils.unwrapObservable( c/*valueAccessor*/() );
-                    
-                    __LINE__ = 2434;
-                    if ( ( !c/*bindingValue*/ ) || typeof c/*bindingValue*/.length == "number" ){
-                      __LINE__ = 2435;
-                      return  {
-                        'foreach' : c/*bindingValue*/,
-                        'templateEngine' : b/*ko*/.nativeTemplateEngine.instance
-                      };
-                    };
-                    __LINE__ = 2438;
-                    return  {
-                      'foreach' : c/*bindingValue*/['data'],
-                      'includeDestroyed' : c/*bindingValue*/['includeDestroyed'],
-                      'afterAdd' : c/*bindingValue*/['afterAdd'],
-                      'beforeRemove' : c/*bindingValue*/['beforeRemove'],
-                      'afterRender' : c/*bindingValue*/['afterRender'],
-                      'templateEngine' : b/*ko*/.nativeTemplateEngine.instance
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                };
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2449;
-                return b/*ko*/.bindingHandlers['template']['init']( c/*element*/,b/*ko*/.bindingHandlers['foreach'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            },
-            'update' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-              try {
-                __LINE__ = 2452;
-                return b/*ko*/.bindingHandlers['template']['update']( c/*element*/,b/*ko*/.bindingHandlers['foreach'].makeTemplateValueAccessor( d/*valueAccessor*/ ),e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ );
-              } catch( e ){
-                a.exceptionHandler( __LINE__ , __FILE__ , e );
-              }
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['foreach'] = false;
-          
-          __LINE__ = 0;
-          b/*ko*/.virtualElements.allowedBindings['foreach'] = true;
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.allowedVirtualElementBindings',b/*ko*/.virtualElements.allowedBindings );
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine = function (){};
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine.prototype['renderTemplateSource'] = function ( b/*templateSource*/,c/*bindingContext*/,d/*options*/ ) {
-            try {
-              __LINE__ = 2486;
-              throw "Override renderTemplateSource";
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function ( b/*script*/ ) {
-            try {
-              __LINE__ = 2490;
-              throw "Override createJavaScriptEvaluatorBlock";
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine.prototype['makeTemplateSource'] = function ( b/*template*/ ) {
-            try {
-              __LINE__ = 2495;
-              if ( typeof b/*template*/ == "string" ){
-                __LINE__ = 2496;
-                var c/*elem*/ = document.getElementById( b/*template*/ );
-                
-                __LINE__ = 2497;
-                if ( !c/*elem*/ ){
-                  __LINE__ = 2498;
-                  throw new Error( "Cannot find template with ID "+b/*template*/ );
-                };
-                __LINE__ = 2499;
-                return new b/*ko*/.templateSources.domElement( c/*elem*/ );
-              } else if ( ( b/*template*/.nodeType == 1 ) || ( b/*template*/.nodeType == 8 ) ){
-                __LINE__ = 2502;
-                return new b/*ko*/.templateSources.anonymousTemplate( b/*template*/ );
-              } else {
-                __LINE__ = 2504;
-                throw new Error( "Unknown template type: "+b/*template*/ );
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine.prototype['renderTemplate'] = function ( b/*template*/,c/*bindingContext*/,d/*options*/ ) {
-            try {
-              __LINE__ = 2508;
-              var e/*templateSource*/ = this['makeTemplateSource']( b/*template*/ );
-              __LINE__ = 2509;
-              return this['renderTemplateSource']( e/*templateSource*/,c/*bindingContext*/,d/*options*/ );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine.prototype['isTemplateRewritten'] = function ( b/*template*/ ) {
-            try {
-              __LINE__ = 2514;
-              if ( this['allowTemplateRewriting'] === false ){
-                __LINE__ = 2515;
-                return true;
-              };
-              
-              __LINE__ = 2518;
-              if ( this.knownRewrittenTemplates && this.knownRewrittenTemplates[b/*template*/] ){
-                __LINE__ = 2519;
-                return true;
-              };
-              __LINE__ = 2521;
-              return this['makeTemplateSource']( b/*template*/ )['data']( "isRewritten" );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.templateEngine.prototype['rewriteTemplate'] = function ( b/*template*/,c/*rewriterCallback*/ ) {
-            try {
-              __LINE__ = 2525;
-              var d/*templateSource*/ = this['makeTemplateSource']( b/*template*/ );
-              
-              __LINE__ = 2526;
-              var e/*rewritten*/ = c/*rewriterCallback*/( d/*templateSource*/['text']() );
-              
-              __LINE__ = 0;
-              d/*templateSource*/['text']( e/*rewritten*/ );
-              
-              __LINE__ = 0;
-              d/*templateSource*/['data']( "isRewritten",true );
-              
-              __LINE__ = 2532;
-              if ( typeof b/*template*/ == "string" ){
-                __LINE__ = 0;
-                this.knownRewrittenTemplates = this.knownRewrittenTemplates || {};
-                
-                __LINE__ = 0;
-                this.knownRewrittenTemplates[b/*template*/] = true;
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.templateEngine',b/*ko*/.templateEngine );
-          
-          __LINE__ = 0;
-          b/*ko*/.templateRewriting = ( function () {
-            try {
-              __LINE__ = 2540;
-              var d/*memoizeDataBindingAttributeSyntaxRegex*/ = /(<[a-z]+\d*(\s+(?!data-bind=)[a-z0-9\-]+(=(\"[^\"]*\"|\'[^\']*\'))?)*\s+)data-bind=(["'])([\s\S]*?)\5/gi;
-              
-              __LINE__ = 2541;
-              var e/*memoizeVirtualContainerBindingSyntaxRegex*/ = /<!--\s*ko\b\s*([\s\S]*?)\s*-->/g;
-              
-              function f/*validateDataBindValuesForRewriting*/( c/*keyValueArray*/ ) {
-                try {
-                  __LINE__ = 2544;
-                  var d/*allValidators*/ = b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators;
-                  
-                  __LINE__ = 2545;
-                  for ( var e/*i*/ = 0;e/*i*/<c/*keyValueArray*/.length;e/*i*/ ++  ){
-                    __LINE__ = 2546;
-                    var f/*key*/ = c/*keyValueArray*/[e/*i*/]['key'];
-                    
-                    __LINE__ = 2547;
-                    if ( d/*allValidators*/.hasOwnProperty( f/*key*/ ) ){
-                      __LINE__ = 2548;
-                      var g/*validator*/ = d/*allValidators*/[f/*key*/];
-                      
-                      __LINE__ = 2550;
-                      if ( typeof g/*validator*/ === "function" ){
-                        __LINE__ = 2551;
-                        var h/*possibleErrorMessage*/ = g/*validator*/( c/*keyValueArray*/[e/*i*/]['value'] );
-                        
-                        __LINE__ = 2552;
-                        if ( h/*possibleErrorMessage*/ ){
-                          __LINE__ = 2553;
-                          throw new Error( h/*possibleErrorMessage*/ );
-                        };
-                      } else if ( !g/*validator*/ ){
-                        __LINE__ = 2555;
-                        throw new Error( "This template engine does not support the '"+f/*key*/+"' binding within its templates" );
-                      };
-                    };
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function c/*constructMemoizedTagReplacement*/( c/*dataBindAttributeValue*/,d/*tagToRetain*/,e/*templateEngine*/ ) {
-                try {
-                  __LINE__ = 2562;
-                  var f/*dataBindKeyValueArray*/ = b/*ko*/.jsonExpressionRewriting.parseObjectLiteral( c/*dataBindAttributeValue*/ );
-                  
-                  __LINE__ = 0;
-                  f/*validateDataBindValuesForRewriting*/( f/*dataBindKeyValueArray*/ );
-                  
-                  __LINE__ = 2564;
-                  var g/*rewrittenDataBindAttributeValue*/ = b/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( f/*dataBindKeyValueArray*/ );
-                  
-                  __LINE__ = 2569;
-                  var h/*applyBindingsToNextSiblingScript*/ = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
-            return (function() { return { "+g/*rewrittenDataBindAttributeValue*/+" } })() \
-        })";
-                  __LINE__ = 2570;
-                  return e/*templateEngine*/['createJavaScriptEvaluatorBlock']( h/*applyBindingsToNextSiblingScript*/ )+d/*tagToRetain*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }__LINE__ = 2573;
-              return  {
-                ensureTemplateIsRewritten : function ( c/*template*/,d/*templateEngine*/ ) {
-                  try {
-                    __LINE__ = 2575;
-                    if ( !d/*templateEngine*/['isTemplateRewritten']( c/*template*/ ) ){
-                      __LINE__ = 0;
-                      d/*templateEngine*/['rewriteTemplate']( c/*template*/,
-                      function ( c/*htmlString*/ ) {
-                        try {
-                          __LINE__ = 2577;
-                          return b/*ko*/.templateRewriting.memoizeBindingAttributeSyntax( c/*htmlString*/,d/*templateEngine*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      });
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                memoizeBindingAttributeSyntax : function ( g/*htmlString*/,h/*templateEngine*/ ) {
-                  try {
-                    __LINE__ = 2582;
-                    return g/*htmlString*/.replace( d/*memoizeDataBindingAttributeSyntaxRegex*/,
-                    function () {
-                      try {
-                        __LINE__ = 2583;
-                        return c/*constructMemoizedTagReplacement*/( arguments[6],arguments[1],h/*templateEngine*/ );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    }).replace( e/*memoizeVirtualContainerBindingSyntaxRegex*/,
-                    function () {
-                      try {
-                        __LINE__ = 2585;
-                        return c/*constructMemoizedTagReplacement*/( arguments[1],"<!-- ko -->",h/*templateEngine*/ );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                applyMemoizedBindingsToNextSibling : function ( c/*bindings*/ ) {
-                  try {
-                    __LINE__ = 2590;
-                    return b/*ko*/.memoization.memoize( function ( c/*domNode*/,d/*bindingContext*/ ) {
-                      try {
-                        __LINE__ = 2591;
-                        if ( c/*domNode*/.nextSibling ){
-                          __LINE__ = 0;
-                          b/*ko*/.applyBindingsToNode( c/*domNode*/.nextSibling,c/*bindings*/,d/*bindingContext*/ );
-                        };
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.templateRewriting',b/*ko*/.templateRewriting );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.templateRewriting.applyMemoizedBindingsToNextSibling',b/*ko*/.templateRewriting.applyMemoizedBindingsToNextSibling );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.templateSources = {};
-              
-              __LINE__ = 0;
-              b/*ko*/.templateSources.domElement = function ( b/*element*/ ) {
-                try {
-                  __LINE__ = 0;
-                  this.domElement = b/*element*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.templateSources.domElement.prototype['text'] = function () {
-                try {
-                  __LINE__ = 2628;
-                  if ( arguments.length == 0 ){
-                    __LINE__ = 2629;
-                    return this.domElement.tagName.toLowerCase() == "script"?this.domElement.text : this.domElement.innerHTML;
-                  } else {
-                    __LINE__ = 2631;
-                    var b/*valueToWrite*/ = arguments[0];
-                    if ( this.domElement.tagName.toLowerCase() == "script" ){
-                      __LINE__ = 0;
-                      this.domElement.text = b/*valueToWrite*/;
-                    } else {
-                      __LINE__ = 0;
-                      b/*ko*/.utils.setHtml( this.domElement,b/*valueToWrite*/ );
-                    };
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.templateSources.domElement.prototype['data'] = function ( b/*key*/ ) {
-                try {
-                  __LINE__ = 2640;
-                  if ( arguments.length === 1 ){
-                    __LINE__ = 2641;
-                    return b/*ko*/.utils.domData.get( this.domElement,"templateSourceData_"+b/*key*/ );
-                  } else {
-                    __LINE__ = 0;
-                    b/*ko*/.utils.domData.set( this.domElement,"templateSourceData_"+b/*key*/,arguments[1] );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 2649;
-              var c/*anonymousTemplatesDomDataKey*/ = "__ko_anon_template__";
-              
-              __LINE__ = 0;
-              b/*ko*/.templateSources.anonymousTemplate = function ( b/*element*/ ) {
-                try {
-                  __LINE__ = 0;
-                  this.domElement = b/*element*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.templateSources.anonymousTemplate.prototype = new b/*ko*/.templateSources.domElement();
-              
-              __LINE__ = 0;
-              b/*ko*/.templateSources.anonymousTemplate.prototype['text'] = function () {
-                try {
-                  __LINE__ = 2655;
-                  if ( arguments.length == 0 ){
-                    __LINE__ = 2656;
-                    return b/*ko*/.utils.domData.get( this.domElement,c/*anonymousTemplatesDomDataKey*/ );
-                  } else {
-                    __LINE__ = 2658;
-                    var b/*valueToWrite*/ = arguments[0];
-                    
-                    __LINE__ = 0;
-                    b/*ko*/.utils.domData.set( this.domElement,c/*anonymousTemplatesDomDataKey*/,b/*valueToWrite*/ );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.templateSources',b/*ko*/.templateSources );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.templateSources.domElement',b/*ko*/.templateSources.domElement );
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.templateSources.anonymousTemplate',b/*ko*/.templateSources.anonymousTemplate );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 2668;
-              var c/*_templateEngine*/;
-              
-              __LINE__ = 0;
-              b/*ko*/.setTemplateEngine = function ( b/*templateEngine*/ ) {
-                try {
-                  __LINE__ = 2670;
-                  if ( ( b/*templateEngine*/ != undefined ) && !( b/*templateEngine*/ instanceof b/*ko*/.templateEngine ) ){
-                    __LINE__ = 2671;
-                    throw "templateEngine must inherit from ko.templateEngine";
-                  };
-                  
-                  __LINE__ = 0;
-                  c/*_templateEngine*/ = b/*templateEngine*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function a/*invokeForEachNodeOrCommentInParent*/( b/*nodeArray*/,c/*parent*/,d/*action*/ ) {
-                try {
-                  __LINE__ = 2676;
-                  for ( var e/*i*/ = 0;node = b/*nodeArray*/[e/*i*/];e/*i*/ ++  ){
-                    __LINE__ = 2677;
-                    if ( node.parentNode !== c/*parent*/ ){
-                      __LINE__ = 2678;
-                      continue ;
-                    };
-                    
-                    __LINE__ = 2679;
-                    if ( ( node.nodeType === 1 ) || ( node.nodeType === 8 ) ){
-                      __LINE__ = 0;
-                      d/*action*/( node );
-                    };
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.activateBindingsOnTemplateRenderedNodes = function ( d/*nodeArray*/,e/*bindingContext*/ ) {
-                try {
-                  __LINE__ = 2691;
-                  var f/*nodeArrayClone*/ = b/*ko*/.utils.arrayPushAll( [],d/*nodeArray*/ );
-                  
-                  __LINE__ = 2692;
-                  var g/*commonParentElement*/ = ( d/*nodeArray*/.length>0 )?d/*nodeArray*/[0].parentNode : null;
-                  
-                  __LINE__ = 0;
-                  a/*invokeForEachNodeOrCommentInParent*/( f/*nodeArrayClone*/,g/*commonParentElement*/,
-                  function ( c/*node*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      b/*ko*/.applyBindings( e/*bindingContext*/,c/*node*/ );
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  
-                  __LINE__ = 0;
-                  a/*invokeForEachNodeOrCommentInParent*/( f/*nodeArrayClone*/,g/*commonParentElement*/,
-                  function ( c/*node*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      b/*ko*/.memoization.unmemoizeDomNodeAndDescendants( c/*node*/,[e/*bindingContext*/] );
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d/*getFirstNodeFromPossibleArray*/( b/*nodeOrNodeArray*/ ) {
-                try {
-                  __LINE__ = 2706;
-                  return b/*nodeOrNodeArray*/.nodeType?b/*nodeOrNodeArray*/ : b/*nodeOrNodeArray*/.length>0?b/*nodeOrNodeArray*/[0] : null;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function f/*executeTemplate*/( e/*targetNodeOrNodeArray*/,f/*renderMode*/,g/*template*/,h/*bindingContext*/,i/*options*/ ) {
-                try {
-                  __LINE__ = 0;
-                  i/*options*/ = i/*options*/ || {};
-                  
-                  __LINE__ = 2713;
-                  var j/*templateEngineToUse*/ = ( i/*options*/['templateEngine'] || c/*_templateEngine*/ );
-                  
-                  __LINE__ = 0;
-                  b/*ko*/.templateRewriting.ensureTemplateIsRewritten( g/*template*/,j/*templateEngineToUse*/ );
-                  
-                  __LINE__ = 2715;
-                  var k/*renderedNodesArray*/ = j/*templateEngineToUse*/['renderTemplate']( g/*template*/,h/*bindingContext*/,i/*options*/ );
-                  
-                  __LINE__ = 2718;
-                  if ( ( typeof k/*renderedNodesArray*/.length != "number" ) || ( k/*renderedNodesArray*/.length>0 && typeof k/*renderedNodesArray*/[0].nodeType != "number" ) ){
-                    __LINE__ = 2719;
-                    throw "Template engine must return an array of DOM nodes";
-                  };
-                  
-                  __LINE__ = 2721;
-                  var l/*haveAddedNodesToParent*/ = false;
-                  
-                  __LINE__ = 0;
-                  switch ( f/*renderMode*/ ) {
-                    case "replaceChildren" :
-                      
-                      __LINE__ = 0;
-                      b/*ko*/.virtualElements.setDomNodeChildren( e/*targetNodeOrNodeArray*/,k/*renderedNodesArray*/ );
-                      
-                      __LINE__ = 0;
-                      l/*haveAddedNodesToParent*/ = true;
-                      __LINE__ = 2726;
-                      break;
-                    case "replaceNode" :
-                      
-                      __LINE__ = 0;
-                      b/*ko*/.utils.replaceDomNodes( e/*targetNodeOrNodeArray*/,k/*renderedNodesArray*/ );
-                      
-                      __LINE__ = 0;
-                      l/*haveAddedNodesToParent*/ = true;
-                      __LINE__ = 2730;
-                      break;
-                    case "ignoreTargetNode" :
-                      __LINE__ = 2731;
-                      break;
-                    default :
-                      __LINE__ = 2733;
-                      throw new Error( "Unknown renderMode: "+f/*renderMode*/ );
-                      
-                  };
-                  
-                  __LINE__ = 2736;
-                  if ( l/*haveAddedNodesToParent*/ ){
-                    __LINE__ = 0;
-                    b/*ko*/.activateBindingsOnTemplateRenderedNodes( k/*renderedNodesArray*/,h/*bindingContext*/ );
-                    
-                    __LINE__ = 2738;
-                    if ( i/*options*/['afterRender'] ){
-                      __LINE__ = 0;
-                      i/*options*/['afterRender']( k/*renderedNodesArray*/,h/*bindingContext*/['$data'] );
-                    };
-                  };
-                  __LINE__ = 2742;
-                  return k/*renderedNodesArray*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.renderTemplate = function ( e/*template*/,c/*dataOrBindingContext*/,f/*options*/,g/*targetNodeOrNodeArray*/,h/*renderMode*/ ) {
-                try {
-                  __LINE__ = 0;
-                  f/*options*/ = f/*options*/ || {};
-                  
-                  __LINE__ = 2747;
-                  if ( ( f/*options*/['templateEngine'] || c/*_templateEngine*/ ) == undefined ){
-                    __LINE__ = 2748;
-                    throw "Set a template engine before calling renderTemplate";
-                  };
-                  
-                  __LINE__ = 0;
-                  h/*renderMode*/ = h/*renderMode*/ || "replaceChildren";
-                  
-                  __LINE__ = 2751;
-                  if ( g/*targetNodeOrNodeArray*/ ){
-                    __LINE__ = 2752;
-                    var a/*firstTargetNode*/ = d/*getFirstNodeFromPossibleArray*/( g/*targetNodeOrNodeArray*/ );
-                    
-                    __LINE__ = 2754;
-                    var i/*whenToDispose*/ = function () {
-                          try {
-                            __LINE__ = 2754;
-                            return ( !a/*firstTargetNode*/ ) || !b/*ko*/.utils.domNodeIsAttachedToDocument( a/*firstTargetNode*/ );
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        };
-                    
-                    __LINE__ = 2755;
-                    var j/*activelyDisposeWhenNodeIsRemoved*/ = ( a/*firstTargetNode*/ && h/*renderMode*/ == "replaceNode" )?a/*firstTargetNode*/.parentNode : a/*firstTargetNode*/;
-                    __LINE__ = 2757;
-                    return new b/*ko*/.dependentObservable( function () {
-                      try {
-                        __LINE__ = 2760;
-                        var e/*bindingContext*/ = ( c/*dataOrBindingContext*/ && ( c/*dataOrBindingContext*/ instanceof b/*ko*/.bindingContext ) )?c/*dataOrBindingContext*/ : new b/*ko*/.bindingContext( b/*ko*/.utils.unwrapObservable( c/*dataOrBindingContext*/ ) );
-                        
-                        __LINE__ = 2765;
-                        var f/*templateName*/ = typeof ( e/*template*/ ) == 'function'?e/*template*/( e/*bindingContext*/['$data'] ) : e/*template*/;
-                        
-                        __LINE__ = 2767;
-                        var g/*renderedNodesArray*/ = f/*executeTemplate*/( g/*targetNodeOrNodeArray*/,h/*renderMode*/,f/*templateName*/,e/*bindingContext*/,f/*options*/ );
-                        
-                        __LINE__ = 2768;
-                        if ( h/*renderMode*/ == "replaceNode" ){
-                          __LINE__ = 0;
-                          g/*targetNodeOrNodeArray*/ = g/*renderedNodesArray*/;
-                          
-                          __LINE__ = 0;
-                          a/*firstTargetNode*/ = d/*getFirstNodeFromPossibleArray*/( g/*targetNodeOrNodeArray*/ );
-                        };
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    },null, {
-                      'disposeWhen' : i/*whenToDispose*/,
-                      'disposeWhenNodeIsRemoved' : j/*activelyDisposeWhenNodeIsRemoved*/
-                    });
-                  } else {
-                    __LINE__ = 2778;
-                    return b/*ko*/.memoization.memoize( function ( c/*domNode*/ ) {
-                      try {
-                        __LINE__ = 0;
-                        b/*ko*/.renderTemplate( e/*template*/,c/*dataOrBindingContext*/,f/*options*/,c/*domNode*/,"replaceNode" );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.renderTemplateForEach = function ( e/*template*/,h/*arrayOrObservableArray*/,d/*options*/,i/*targetNode*/,a/*parentBindingContext*/ ) {
-                try {
-                  __LINE__ = 2785;
-                  var c/*createInnerBindingContext*/ = function ( c/*arrayValue*/ ) {
-                        try {
-                          __LINE__ = 2786;
-                          return a/*parentBindingContext*/['createChildContext']( b/*ko*/.utils.unwrapObservable( c/*arrayValue*/ ) );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      };
-                  
-                  __LINE__ = 2790;
-                  var j/*activateBindingsCallback*/ = function ( e/*arrayValue*/,f/*addedNodesArray*/ ) {
-                        try {
-                          __LINE__ = 2791;
-                          var g/*bindingContext*/ = c/*createInnerBindingContext*/( e/*arrayValue*/ );
-                          
-                          __LINE__ = 0;
-                          b/*ko*/.activateBindingsOnTemplateRenderedNodes( f/*addedNodesArray*/,g/*bindingContext*/ );
-                          
-                          __LINE__ = 2793;
-                          if ( d/*options*/['afterRender'] ){
-                            __LINE__ = 0;
-                            d/*options*/['afterRender']( f/*addedNodesArray*/,g/*bindingContext*/['$data'] );
-                          };
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      };
-                  __LINE__ = 2797;
-                  return new b/*ko*/.dependentObservable( function () {
-                    try {
-                      __LINE__ = 2798;
-                      var g/*unwrappedArray*/ = b/*ko*/.utils.unwrapObservable( h/*arrayOrObservableArray*/ ) || [];
-                      
-                      __LINE__ = 2799;
-                      if ( typeof g/*unwrappedArray*/.length == "undefined" ){
-                        __LINE__ = 0;
-                        g/*unwrappedArray*/ = [g/*unwrappedArray*/];
-                      };
-                      
-                      __LINE__ = 2803;
-                      var h/*filteredArray*/ = b/*ko*/.utils.arrayFilter( g/*unwrappedArray*/,
-                          function ( f/*item*/ ) {
-                            try {
-                              __LINE__ = 2804;
-                              return d/*options*/['includeDestroyed'] || f/*item*/ === undefined || f/*item*/ === null || !b/*ko*/.utils.unwrapObservable( f/*item*/['_destroy'] );
-                            } catch( e ){
-                              a.exceptionHandler( __LINE__ , __FILE__ , e );
-                            }
-                          });
-                      
-                      __LINE__ = 0;
-                      b/*ko*/.utils.setDomNodeChildrenFromArrayMapping( i/*targetNode*/,h/*filteredArray*/,
-                      function ( h/*arrayValue*/ ) {
-                        try {
-                          __LINE__ = 2809;
-                          var i/*templateName*/ = typeof ( e/*template*/ ) == 'function'?e/*template*/( h/*arrayValue*/ ) : e/*template*/;
-                          __LINE__ = 2810;
-                          return f/*executeTemplate*/( null,"ignoreTargetNode",i/*templateName*/,c/*createInnerBindingContext*/( h/*arrayValue*/ ),d/*options*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      },d/*options*/,j/*activateBindingsCallback*/);
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  },null, {
-                    'disposeWhenNodeIsRemoved' : i/*targetNode*/
-                  });
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 2816;
-              var e/*templateSubscriptionDomDataKey*/ = '__ko__templateSubscriptionDomDataKey__';
-              
-              function g/*disposeOldSubscriptionAndStoreNewOne*/( c/*element*/,d/*newSubscription*/ ) {
-                try {
-                  __LINE__ = 2818;
-                  var e/*oldSubscription*/ = b/*ko*/.utils.domData.get( c/*element*/,e/*templateSubscriptionDomDataKey*/ );
-                  
-                  __LINE__ = 2819;
-                  if ( e/*oldSubscription*/ && ( typeof ( e/*oldSubscription*/.dispose ) == 'function' ) ){
-                    __LINE__ = 0;
-                    e/*oldSubscription*/.dispose();
-                  };
-                  
-                  __LINE__ = 0;
-                  b/*ko*/.utils.domData.set( c/*element*/,e/*templateSubscriptionDomDataKey*/,d/*newSubscription*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.bindingHandlers['template'] =  {
-                'init' : function ( c/*element*/,d/*valueAccessor*/ ) {
-                  try {
-                    __LINE__ = 2827;
-                    var e/*bindingValue*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                    
-                    __LINE__ = 2828;
-                    if ( ( typeof e/*bindingValue*/ != "string" ) && ( !e/*bindingValue*/.name ) && ( c/*element*/.nodeType == 1 ) ){
-                      __LINE__ = 0;
-                      new b/*ko*/.templateSources.anonymousTemplate( c/*element*/ ).text( c/*element*/.innerHTML );
-                      
-                      __LINE__ = 0;
-                      b/*ko*/.utils.emptyDomNode( c/*element*/ );
-                    };
-                    __LINE__ = 2833;
-                    return  {
-                      'controlsDescendantBindings' : true
-                    };
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                },
-                'update' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-                  try {
-                    __LINE__ = 2836;
-                    var h/*bindingValue*/ = b/*ko*/.utils.unwrapObservable( d/*valueAccessor*/() );
-                    
-                    __LINE__ = 2837;
-                    var i/*templateName*/;
-                    
-                    __LINE__ = 2838;
-                    var j/*shouldDisplay*/ = true;
-                    
-                    __LINE__ = 2840;
-                    if ( typeof h/*bindingValue*/ == "string" ){
-                      __LINE__ = 0;
-                      i/*templateName*/ = h/*bindingValue*/;
-                    } else {
-                      __LINE__ = 0;
-                      i/*templateName*/ = h/*bindingValue*/.name;
-                      if ( 'if' in h/*bindingValue*/ ){
-                        __LINE__ = 0;
-                        j/*shouldDisplay*/ = j/*shouldDisplay*/ && b/*ko*/.utils.unwrapObservable( h/*bindingValue*/['if'] );
-                      };
-                      if ( 'ifnot' in h/*bindingValue*/ ){
-                        __LINE__ = 0;
-                        j/*shouldDisplay*/ = j/*shouldDisplay*/ && !b/*ko*/.utils.unwrapObservable( h/*bindingValue*/['ifnot'] );
-                      };
-                    };
-                    
-                    __LINE__ = 2852;
-                    var k/*templateSubscription*/ = null;
-                    
-                    __LINE__ = 2854;
-                    if ( ( typeof h/*bindingValue*/ === 'object' ) && ( 'foreach' in h/*bindingValue*/ ) ){
-                      __LINE__ = 2856;
-                      var l/*dataArray*/ = ( j/*shouldDisplay*/ && h/*bindingValue*/['foreach'] ) || [];
-                      
-                      __LINE__ = 0;
-                      k/*templateSubscription*/ = b/*ko*/.renderTemplateForEach( i/*templateName*/ || c/*element*/,l/*dataArray*/,h/*bindingValue*/,c/*element*/,g/*bindingContext*/ );
-                    } else {
-                      if ( j/*shouldDisplay*/ ){
-                        __LINE__ = 2861;
-                        var m/*innerBindingContext*/ = ( typeof h/*bindingValue*/ == 'object' ) && ( 'data' in h/*bindingValue*/ )?g/*bindingContext*/['createChildContext']( b/*ko*/.utils.unwrapObservable( h/*bindingValue*/['data'] ) ) : g/*bindingContext*/;
-                        
-                        __LINE__ = 0;
-                        k/*templateSubscription*/ = b/*ko*/.renderTemplate( i/*templateName*/ || c/*element*/,m/*innerBindingContext*/,h/*bindingValue*/,c/*element*/ );
-                      } else {
-                        __LINE__ = 0;
-                        b/*ko*/.virtualElements.emptyNode( c/*element*/ );
-                      };
-                    };
-                    
-                    __LINE__ = 0;
-                    g/*disposeOldSubscriptionAndStoreNewOne*/( c/*element*/,k/*templateSubscription*/ );
-                  } catch( e ){
-                    a.exceptionHandler( __LINE__ , __FILE__ , e );
-                  }
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['template'] = function ( c/*bindingValue*/ ) {
-                try {
-                  __LINE__ = 2876;
-                  var d/*parsedBindingValue*/ = b/*ko*/.jsonExpressionRewriting.parseObjectLiteral( c/*bindingValue*/ );
-                  
-                  __LINE__ = 2878;
-                  if ( ( d/*parsedBindingValue*/.length == 1 ) && d/*parsedBindingValue*/[0]['unknown'] ){
-                    __LINE__ = 2879;
-                    return null;
-                  };
-                  
-                  __LINE__ = 2881;
-                  if ( b/*ko*/.jsonExpressionRewriting.keyValueArrayContainsKey( d/*parsedBindingValue*/,"name" ) ){
-                    __LINE__ = 2882;
-                    return null;
-                  };
-                  __LINE__ = 2883;
-                  return "This template engine does not support anonymous templates nested within its templates";
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.virtualElements.allowedBindings['template'] = true;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.setTemplateEngine',b/*ko*/.setTemplateEngine );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.renderTemplate',b/*ko*/.renderTemplate );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              function c/*calculateEditDistanceMatrix*/( b/*oldArray*/,c/*newArray*/,d/*maxAllowedDistance*/ ) {
-                try {
-                  __LINE__ = 2894;
-                  var e/*distances*/ = [];
-                  
-                  __LINE__ = 2895;
-                  for ( var f/*i*/ = 0;f/*i*/ <= c/*newArray*/.length;f/*i*/ ++  ){
-                    __LINE__ = 0;
-                    e/*distances*/[f/*i*/] = [];
-                  };
-                  
-                  __LINE__ = 2899;
-                  for ( var f/*i*/ = 0,g/*j*/ = Math.min( b/*oldArray*/.length,d/*maxAllowedDistance*/ );f/*i*/ <= g/*j*/;f/*i*/ ++  ){
-                    __LINE__ = 0;
-                    e/*distances*/[0][f/*i*/] = f/*i*/;
-                  };
-                  
-                  __LINE__ = 2903;
-                  for ( var f/*i*/ = 1,g/*j*/ = Math.min( c/*newArray*/.length,d/*maxAllowedDistance*/ );f/*i*/ <= g/*j*/;f/*i*/ ++  ){
-                    __LINE__ = 0;
-                    e/*distances*/[f/*i*/][0] = f/*i*/;
-                  };
-                  
-                  __LINE__ = 2908;
-                  var h/*oldIndex*/,
-                      i/*oldIndexMax*/ = b/*oldArray*/.length,
-                      j/*newIndex*/,
-                      k/*newIndexMax*/ = c/*newArray*/.length;
-                  
-                  __LINE__ = 2909;
-                  var l/*distanceViaAddition*/,
-                      m/*distanceViaDeletion*/;
-                  
-                  __LINE__ = 2910;
-                  for ( h/*oldIndex*/ = 1;h/*oldIndex*/ <= i/*oldIndexMax*/;h/*oldIndex*/ ++  ){
-                    __LINE__ = 2911;
-                    var n/*newIndexMinForRow*/ = Math.max( 1,h/*oldIndex*/-d/*maxAllowedDistance*/ );
-                    
-                    __LINE__ = 2912;
-                    var o/*newIndexMaxForRow*/ = Math.min( k/*newIndexMax*/,h/*oldIndex*/+d/*maxAllowedDistance*/ );
-                    
-                    __LINE__ = 2913;
-                    for ( j/*newIndex*/ = n/*newIndexMinForRow*/;j/*newIndex*/ <= o/*newIndexMaxForRow*/;j/*newIndex*/ ++  ){
-                      __LINE__ = 2914;
-                      if ( b/*oldArray*/[h/*oldIndex*/-1] === c/*newArray*/[j/*newIndex*/-1] ){
-                        __LINE__ = 0;
-                        e/*distances*/[j/*newIndex*/][h/*oldIndex*/] = e/*distances*/[j/*newIndex*/-1][h/*oldIndex*/-1];
-                      } else {
-                        __LINE__ = 2917;
-                        var p/*northDistance*/ = e/*distances*/[j/*newIndex*/-1][h/*oldIndex*/] === undefined?Number.MAX_VALUE : e/*distances*/[j/*newIndex*/-1][h/*oldIndex*/]+1;
-                        
-                        __LINE__ = 2918;
-                        var q/*westDistance*/ = e/*distances*/[j/*newIndex*/][h/*oldIndex*/-1] === undefined?Number.MAX_VALUE : e/*distances*/[j/*newIndex*/][h/*oldIndex*/-1]+1;
-                        
-                        __LINE__ = 0;
-                        e/*distances*/[j/*newIndex*/][h/*oldIndex*/] = Math.min( p/*northDistance*/,q/*westDistance*/ );
-                      };
-                    };
-                  };
-                  __LINE__ = 2924;
-                  return e/*distances*/;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function d/*findEditScriptFromEditDistanceMatrix*/( b/*editDistanceMatrix*/,c/*oldArray*/,d/*newArray*/ ) {
-                try {
-                  __LINE__ = 2928;
-                  var e/*oldIndex*/ = c/*oldArray*/.length;
-                  
-                  __LINE__ = 2929;
-                  var f/*newIndex*/ = d/*newArray*/.length;
-                  
-                  __LINE__ = 2930;
-                  var g/*editScript*/ = [];
-                  
-                  __LINE__ = 2931;
-                  var h/*maxDistance*/ = b/*editDistanceMatrix*/[f/*newIndex*/][e/*oldIndex*/];
-                  
-                  __LINE__ = 2932;
-                  if ( h/*maxDistance*/ === undefined ){
-                    __LINE__ = 2933;
-                    return null;
-                  };
-                  
-                  __LINE__ = 2934;
-                  while ( ( e/*oldIndex*/>0 ) || ( f/*newIndex*/>0 ) ){
-                    __LINE__ = 2935;
-                    var i/*me*/ = b/*editDistanceMatrix*/[f/*newIndex*/][e/*oldIndex*/];
-                    
-                    __LINE__ = 2936;
-                    var j/*distanceViaAdd*/ = ( f/*newIndex*/>0 )?b/*editDistanceMatrix*/[f/*newIndex*/-1][e/*oldIndex*/] : h/*maxDistance*/+1;
-                    
-                    __LINE__ = 2937;
-                    var k/*distanceViaDelete*/ = ( e/*oldIndex*/>0 )?b/*editDistanceMatrix*/[f/*newIndex*/][e/*oldIndex*/-1] : h/*maxDistance*/+1;
-                    
-                    __LINE__ = 2938;
-                    var l/*distanceViaRetain*/ = ( f/*newIndex*/>0 ) && ( e/*oldIndex*/>0 )?b/*editDistanceMatrix*/[f/*newIndex*/-1][e/*oldIndex*/-1] : h/*maxDistance*/+1;
-                    
-                    __LINE__ = 2939;
-                    if ( ( j/*distanceViaAdd*/ === undefined ) || ( j/*distanceViaAdd*/<i/*me*/-1 ) ){
-                      __LINE__ = 0;
-                      j/*distanceViaAdd*/ = h/*maxDistance*/+1;
-                    };
-                    
-                    __LINE__ = 2940;
-                    if ( ( k/*distanceViaDelete*/ === undefined ) || ( k/*distanceViaDelete*/<i/*me*/-1 ) ){
-                      __LINE__ = 0;
-                      k/*distanceViaDelete*/ = h/*maxDistance*/+1;
-                    };
-                    
-                    __LINE__ = 2941;
-                    if ( l/*distanceViaRetain*/<i/*me*/-1 ){
-                      __LINE__ = 0;
-                      l/*distanceViaRetain*/ = h/*maxDistance*/+1;
-                    };
-                    
-                    __LINE__ = 2943;
-                    if ( ( j/*distanceViaAdd*/ <= k/*distanceViaDelete*/ ) && ( j/*distanceViaAdd*/<l/*distanceViaRetain*/ ) ){
-                      __LINE__ = 0;
-                      g/*editScript*/.push(  {
-                        status : "added",
-                        value : d/*newArray*/[f/*newIndex*/-1]
-                      });
-                      
-                      __LINE__ = 0;
-                      f/*newIndex*/ -- ;
-                    } else if ( ( k/*distanceViaDelete*/<j/*distanceViaAdd*/ ) && ( k/*distanceViaDelete*/<l/*distanceViaRetain*/ ) ){
-                      __LINE__ = 0;
-                      g/*editScript*/.push(  {
-                        status : "deleted",
-                        value : c/*oldArray*/[e/*oldIndex*/-1]
-                      });
-                      
-                      __LINE__ = 0;
-                      e/*oldIndex*/ -- ;
-                    } else {
-                      __LINE__ = 0;
-                      g/*editScript*/.push(  {
-                        status : "retained",
-                        value : c/*oldArray*/[e/*oldIndex*/-1]
-                      });
-                      
-                      __LINE__ = 0;
-                      f/*newIndex*/ -- ;
-                      
-                      __LINE__ = 0;
-                      e/*oldIndex*/ -- ;
-                    };
-                  };
-                  __LINE__ = 2955;
-                  return g/*editScript*/.reverse();
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              b/*ko*/.utils.compareArrays = function ( b/*oldArray*/,c/*newArray*/,d/*maxEditsToConsider*/ ) {
-                try {
-                  __LINE__ = 2959;
-                  if ( d/*maxEditsToConsider*/ === undefined ){
-                    __LINE__ = 2960;
-                    return b/*ko*/.utils.compareArrays( b/*oldArray*/,c/*newArray*/,1 ) || b/*ko*/.utils.compareArrays( b/*oldArray*/,c/*newArray*/,10 ) || b/*ko*/.utils.compareArrays( b/*oldArray*/,c/*newArray*/,Number.MAX_VALUE );
-                  } else {
-                    __LINE__ = 0;
-                    b/*oldArray*/ = b/*oldArray*/ || [];
-                    
-                    __LINE__ = 0;
-                    c/*newArray*/ = c/*newArray*/ || [];
-                    
-                    __LINE__ = 2966;
-                    var e/*editDistanceMatrix*/ = c/*calculateEditDistanceMatrix*/( b/*oldArray*/,c/*newArray*/,d/*maxEditsToConsider*/ );
-                    __LINE__ = 2967;
-                    return d/*findEditScriptFromEditDistanceMatrix*/( e/*editDistanceMatrix*/,b/*oldArray*/,c/*newArray*/ );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.compareArrays',b/*ko*/.utils.compareArrays );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              function d/*fixUpVirtualElements*/( b/*contiguousNodeArray*/ ) {
-                try {
-                  __LINE__ = 2991;
-                  if ( b/*contiguousNodeArray*/.length>2 ){
-                    __LINE__ = 2993;
-                    var c/*current*/ = b/*contiguousNodeArray*/[0],
-                        d/*last*/ = b/*contiguousNodeArray*/[b/*contiguousNodeArray*/.length-1],
-                        e/*newContiguousSet*/ = [c/*current*/];
-                    
-                    __LINE__ = 2994;
-                    while ( c/*current*/ !== d/*last*/ ){
-                      __LINE__ = 0;
-                      c/*current*/ = c/*current*/.nextSibling;
-                      
-                      __LINE__ = 2996;
-                      if ( !c/*current*/ ){
-                        __LINE__ = 2997;
-                        return ;
-                      };
-                      
-                      __LINE__ = 0;
-                      e/*newContiguousSet*/.push( c/*current*/ );
-                    };
-                    
-                    __LINE__ = 0;
-                    Array.prototype.splice.apply( b/*contiguousNodeArray*/,[0,b/*contiguousNodeArray*/.length].concat( e/*newContiguousSet*/ ) );
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              function c/*mapNodeAndRefreshWhenChanged*/( f/*containerNode*/,a/*mapping*/,b/*valueToMap*/,g/*callbackAfterAddingNodes*/ ) {
-                try {
-                  __LINE__ = 3009;
-                  var c/*mappedNodes*/ = [];
-                  
-                  __LINE__ = 3010;
-                  var h/*dependentObservable*/ = b/*ko*/.dependentObservable( function () {
-                        try {
-                          __LINE__ = 3011;
-                          var f/*newMappedNodes*/ = a/*mapping*/( b/*valueToMap*/ ) || [];
-                          
-                          __LINE__ = 3014;
-                          if ( c/*mappedNodes*/.length>0 ){
-                            __LINE__ = 0;
-                            d/*fixUpVirtualElements*/( c/*mappedNodes*/ );
-                            
-                            __LINE__ = 0;
-                            b/*ko*/.utils.replaceDomNodes( c/*mappedNodes*/,f/*newMappedNodes*/ );
-                            
-                            __LINE__ = 3017;
-                            if ( g/*callbackAfterAddingNodes*/ ){
-                              __LINE__ = 0;
-                              g/*callbackAfterAddingNodes*/( b/*valueToMap*/,f/*newMappedNodes*/ );
-                            };
-                          };
-                          
-                          __LINE__ = 0;
-                          c/*mappedNodes*/.splice( 0,c/*mappedNodes*/.length );
-                          
-                          __LINE__ = 0;
-                          b/*ko*/.utils.arrayPushAll( c/*mappedNodes*/,f/*newMappedNodes*/ );
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      },null, {
-                        'disposeWhenNodeIsRemoved' : f/*containerNode*/,
-                        'disposeWhen' : function () {
-                          try {
-                            __LINE__ = 3025;
-                            return ( c/*mappedNodes*/.length == 0 ) || !b/*ko*/.utils.domNodeIsAttachedToDocument( c/*mappedNodes*/[0] );
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        }
-                      });
-                  __LINE__ = 3026;
-                  return  {
-                    mappedNodes : c/*mappedNodes*/,
-                    dependentObservable : h/*dependentObservable*/
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 3029;
-              var f/*lastMappingResultDomDataKey*/ = "setDomNodeChildrenFromArrayMapping_lastMappingResult";
-              
-              __LINE__ = 0;
-              b/*ko*/.utils.setDomNodeChildrenFromArrayMapping = function ( h/*domNode*/,i/*array*/,j/*mapping*/,k/*options*/,l/*callbackAfterAddingNodes*/ ) {
-                try {
-                  __LINE__ = 0;
-                  i/*array*/ = i/*array*/ || [];
-                  
-                  __LINE__ = 0;
-                  k/*options*/ = k/*options*/ || {};
-                  
-                  __LINE__ = 3035;
-                  var m/*isFirstExecution*/ = b/*ko*/.utils.domData.get( h/*domNode*/,f/*lastMappingResultDomDataKey*/ ) === undefined;
-                  
-                  __LINE__ = 3036;
-                  var n/*lastMappingResult*/ = b/*ko*/.utils.domData.get( h/*domNode*/,f/*lastMappingResultDomDataKey*/ ) || [];
-                  
-                  __LINE__ = 3037;
-                  var o/*lastArray*/ = b/*ko*/.utils.arrayMap( n/*lastMappingResult*/,
-                      function ( b/*x*/ ) {
-                        try {
-                          __LINE__ = 3037;
-                          return b/*x*/.arrayEntry;
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      });
-                  
-                  __LINE__ = 3038;
-                  var d/*editScript*/ = b/*ko*/.utils.compareArrays( o/*lastArray*/,i/*array*/ );
-                  
-                  __LINE__ = 3041;
-                  var p/*newMappingResult*/ = [];
-                  
-                  __LINE__ = 3042;
-                  var q/*lastMappingResultIndex*/ = 0;
-                  
-                  __LINE__ = 3043;
-                  var b/*nodesToDelete*/ = [];
-                  
-                  __LINE__ = 3044;
-                  var r/*nodesAdded*/ = [];
-                  
-                  __LINE__ = 3045;
-                  var e/*insertAfterNode*/ = null;
-                  
-                  __LINE__ = 3046;
-                  for ( var c/*i*/ = 0,s/*j*/ = d/*editScript*/.length;c/*i*/<s/*j*/;c/*i*/ ++  ){
-                    __LINE__ = 0;
-                    switch ( d/*editScript*/[c/*i*/].status ) {
-                      case "retained" :
-                        
-                        __LINE__ = 3050;
-                        var t/*dataToRetain*/ = n/*lastMappingResult*/[q/*lastMappingResultIndex*/];
-                        
-                        __LINE__ = 0;
-                        p/*newMappingResult*/.push( t/*dataToRetain*/ );
-                        
-                        __LINE__ = 3052;
-                        if ( t/*dataToRetain*/.domNodes.length>0 ){
-                          __LINE__ = 0;
-                          e/*insertAfterNode*/ = t/*dataToRetain*/.domNodes[t/*dataToRetain*/.domNodes.length-1];
-                        };
-                        
-                        __LINE__ = 0;
-                        q/*lastMappingResultIndex*/ ++ ;
-                        __LINE__ = 3055;
-                        break;
-                      case "deleted" :
-                        
-                        __LINE__ = 0;
-                        n/*lastMappingResult*/[q/*lastMappingResultIndex*/].dependentObservable.dispose();
-                        
-                        __LINE__ = 0;
-                        d/*fixUpVirtualElements*/( n/*lastMappingResult*/[q/*lastMappingResultIndex*/].domNodes );
-                        
-                        __LINE__ = 0;
-                        b/*ko*/.utils.arrayForEach( n/*lastMappingResult*/[q/*lastMappingResultIndex*/].domNodes,
-                        function ( g/*node*/ ) {
-                          try {
-                            __LINE__ = 0;
-                            b/*nodesToDelete*/.push(  {
-                              element : g/*node*/,
-                              index : c/*i*/,
-                              value : d/*editScript*/[c/*i*/].value
-                            });
-                            
-                            __LINE__ = 0;
-                            e/*insertAfterNode*/ = g/*node*/;
-                          } catch( e ){
-                            a.exceptionHandler( __LINE__ , __FILE__ , e );
-                          }
-                        });
-                        
-                        __LINE__ = 0;
-                        q/*lastMappingResultIndex*/ ++ ;
-                        __LINE__ = 3072;
-                        break;
-                      case "added" :
-                        
-                        __LINE__ = 3075;
-                        var u/*valueToMap*/ = d/*editScript*/[c/*i*/].value;
-                        
-                        __LINE__ = 3076;
-                        var v/*mapData*/ = c/*mapNodeAndRefreshWhenChanged*/( h/*domNode*/,j/*mapping*/,u/*valueToMap*/,l/*callbackAfterAddingNodes*/ );
-                        
-                        __LINE__ = 3077;
-                        var w/*mappedNodes*/ = v/*mapData*/.mappedNodes;
-                        
-                        __LINE__ = 0;
-                        p/*newMappingResult*/.push(  {
-                          arrayEntry : d/*editScript*/[c/*i*/].value,
-                          domNodes : w/*mappedNodes*/,
-                          dependentObservable : v/*mapData*/.dependentObservable
-                        });
-                        
-                        __LINE__ = 3081;
-                        for ( var x/*nodeIndex*/ = 0,y/*nodeIndexMax*/ = w/*mappedNodes*/.length;x/*nodeIndex*/<y/*nodeIndexMax*/;x/*nodeIndex*/ ++  ){
-                          __LINE__ = 3082;
-                          var z/*node*/ = w/*mappedNodes*/[x/*nodeIndex*/];
-                          
-                          __LINE__ = 0;
-                          r/*nodesAdded*/.push(  {
-                            element : z/*node*/,
-                            index : c/*i*/,
-                            value : d/*editScript*/[c/*i*/].value
-                          });
-                          
-                          __LINE__ = 3088;
-                          if ( e/*insertAfterNode*/ == null ){
-                            __LINE__ = 0;
-                            b/*ko*/.virtualElements.prepend( h/*domNode*/,z/*node*/ );
-                          } else {
-                            __LINE__ = 0;
-                            b/*ko*/.virtualElements.insertAfter( h/*domNode*/,z/*node*/,e/*insertAfterNode*/ );
-                          };
-                          
-                          __LINE__ = 0;
-                          e/*insertAfterNode*/ = z/*node*/;
-                        };
-                        
-                        __LINE__ = 3097;
-                        if ( l/*callbackAfterAddingNodes*/ ){
-                          __LINE__ = 0;
-                          l/*callbackAfterAddingNodes*/( u/*valueToMap*/,w/*mappedNodes*/ );
-                        };
-                        __LINE__ = 3099;
-                        break;
-                        
-                    };
-                  };
-                  
-                  __LINE__ = 0;
-                  b/*ko*/.utils.arrayForEach( b/*nodesToDelete*/,
-                  function ( c/*node*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      b/*ko*/.cleanNode( c/*node*/.element );
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  });
-                  
-                  __LINE__ = 3105;
-                  var A/*invokedBeforeRemoveCallback*/ = false;
-                  
-                  __LINE__ = 3106;
-                  if ( !m/*isFirstExecution*/ ){
-                    __LINE__ = 3107;
-                    if ( k/*options*/['afterAdd'] ){
-                      __LINE__ = 3108;
-                      for ( var c/*i*/ = 0;c/*i*/<r/*nodesAdded*/.length;c/*i*/ ++  ){
-                        __LINE__ = 0;
-                        k/*options*/['afterAdd']( r/*nodesAdded*/[c/*i*/].element,r/*nodesAdded*/[c/*i*/].index,r/*nodesAdded*/[c/*i*/].value );
-                      };
-                    };
-                    
-                    __LINE__ = 3111;
-                    if ( k/*options*/['beforeRemove'] ){
-                      __LINE__ = 3112;
-                      for ( var c/*i*/ = 0;c/*i*/<b/*nodesToDelete*/.length;c/*i*/ ++  ){
-                        __LINE__ = 0;
-                        k/*options*/['beforeRemove']( b/*nodesToDelete*/[c/*i*/].element,b/*nodesToDelete*/[c/*i*/].index,b/*nodesToDelete*/[c/*i*/].value );
-                      };
-                      
-                      __LINE__ = 0;
-                      A/*invokedBeforeRemoveCallback*/ = true;
-                    };
-                  };
-                  
-                  __LINE__ = 3117;
-                  if ( !A/*invokedBeforeRemoveCallback*/ ){
-                    __LINE__ = 0;
-                    b/*ko*/.utils.arrayForEach( b/*nodesToDelete*/,
-                    function ( c/*node*/ ) {
-                      try {
-                        __LINE__ = 0;
-                        b/*ko*/.removeNode( c/*node*/.element );
-                      } catch( e ){
-                        a.exceptionHandler( __LINE__ , __FILE__ , e );
-                      }
-                    });
-                  };
-                  
-                  __LINE__ = 0;
-                  b/*ko*/.utils.domData.set( h/*domNode*/,f/*lastMappingResultDomDataKey*/,p/*newMappingResult*/ );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.utils.setDomNodeChildrenFromArrayMapping',b/*ko*/.utils.setDomNodeChildrenFromArrayMapping );
-          
-          __LINE__ = 0;
-          b/*ko*/.nativeTemplateEngine = function () {
-            try {
-              __LINE__ = 0;
-              this['allowTemplateRewriting'] = false;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.nativeTemplateEngine.prototype = new b/*ko*/.templateEngine();
-          
-          __LINE__ = 0;
-          b/*ko*/.nativeTemplateEngine.prototype['renderTemplateSource'] = function ( c/*templateSource*/,d/*bindingContext*/,e/*options*/ ) {
-            try {
-              __LINE__ = 3134;
-              var f/*templateText*/ = c/*templateSource*/.text();
-              __LINE__ = 3135;
-              return b/*ko*/.utils.parseHtmlFragment( f/*templateText*/ );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          };
-          
-          __LINE__ = 0;
-          b/*ko*/.nativeTemplateEngine.instance = new b/*ko*/.nativeTemplateEngine();
-          
-          __LINE__ = 0;
-          b/*ko*/.setTemplateEngine( b/*ko*/.nativeTemplateEngine.instance );
-          
-          __LINE__ = 0;
-          b/*ko*/.exportSymbol( 'ko.nativeTemplateEngine',b/*ko*/.nativeTemplateEngine );
-          
-          __LINE__ = 0;
-          ( function () {
-            try {
-              __LINE__ = 0;
-              b/*ko*/.jqueryTmplTemplateEngine = function () {
-                try {
-                  __LINE__ = 3147;
-                  var a/*jQueryTmplVersion*/ = this.jQueryTmplVersion = ( function () {
-                        try {
-                          __LINE__ = 3148;
-                          if ( ( typeof ( jQuery ) == "undefined" ) || !( jQuery['tmpl'] ) ){
-                            __LINE__ = 3149;
-                            return 0;
-                          };
-                          
-                          try {
-                            __LINE__ = 3152;
-                            if ( jQuery['tmpl']['tag']['tmpl']['open'].toString().indexOf( '__' ) >= 0 ){
-                              __LINE__ = 3154;
-                              return 2;
-                            };
-                          } catch( ex ){
-                            
-                          };
-                          __LINE__ = 3158;
-                          return 1;
-                        } catch( e ){
-                          a.exceptionHandler( __LINE__ , __FILE__ , e );
-                        }
-                      })();
-                  
-                  function b/*ensureHasReferencedJQueryTemplates*/() {
-                    try {
-                      __LINE__ = 3162;
-                      if ( a/*jQueryTmplVersion*/<2 ){
-                        __LINE__ = 3163;
-                        throw new Error( "Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later." );
-                      };
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  }
-                  function d/*executeTemplate*/( b/*compiledTemplate*/,c/*data*/,d/*jQueryTemplateOptions*/ ) {
-                    try {
-                      __LINE__ = 3167;
-                      return jQuery['tmpl']( b/*compiledTemplate*/,c/*data*/,d/*jQueryTemplateOptions*/ );
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  }
-                  __LINE__ = 0;
-                  this['renderTemplateSource'] = function ( d/*templateSource*/,e/*bindingContext*/,f/*options*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      f/*options*/ = f/*options*/ || {};
-                      
-                      __LINE__ = 0;
-                      b/*ensureHasReferencedJQueryTemplates*/();
-                      
-                      __LINE__ = 3175;
-                      var g/*precompiled*/ = d/*templateSource*/['data']( 'precompiled' );
-                      
-                      __LINE__ = 3176;
-                      if ( !g/*precompiled*/ ){
-                        __LINE__ = 3177;
-                        var h/*templateText*/ = d/*templateSource*/.text() || "";
-                        
-                        __LINE__ = 0;
-                        h/*templateText*/ = "{{ko_with $item.koBindingContext}}"+h/*templateText*/+"{{/ko_with}}";
-                        
-                        __LINE__ = 0;
-                        g/*precompiled*/ = jQuery['template']( null,h/*templateText*/ );
-                        
-                        __LINE__ = 0;
-                        d/*templateSource*/['data']( 'precompiled',g/*precompiled*/ );
-                      };
-                      
-                      __LINE__ = 3185;
-                      var i/*data*/ = [e/*bindingContext*/['$data']];
-                      
-                      __LINE__ = 3186;
-                      var j/*jQueryTemplateOptions*/ = jQuery['extend'](  {
-                            'koBindingContext' : e/*bindingContext*/
-                          },f/*options*/['templateOptions'] );
-                      
-                      __LINE__ = 3188;
-                      var k/*resultNodes*/ = d/*executeTemplate*/( g/*precompiled*/,i/*data*/,j/*jQueryTemplateOptions*/ );
-                      
-                      __LINE__ = 0;
-                      k/*resultNodes*/['appendTo']( document.createElement( "div" ) );
-                      
-                      __LINE__ = 0;
-                      jQuery['fragments'] = {};
-                      __LINE__ = 3191;
-                      return k/*resultNodes*/;
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                  
-                  __LINE__ = 0;
-                  this['createJavaScriptEvaluatorBlock'] = function ( b/*script*/ ) {
-                    try {
-                      __LINE__ = 3195;
-                      return "{{ko_code ((function() { return "+b/*script*/+" })()) }}";
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                  
-                  __LINE__ = 0;
-                  this['addTemplate'] = function ( b/*templateName*/,c/*templateMarkup*/ ) {
-                    try {
-                      __LINE__ = 0;
-                      document.write( "<script type='text/html' id='"+b/*templateName*/+"'>"+c/*templateMarkup*/+"</script>" );
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                  
-                  __LINE__ = 3202;
-                  if ( a/*jQueryTmplVersion*/>0 ){
-                    __LINE__ = 0;
-                    jQuery['tmpl']['tag']['ko_code'] =  {
-                      open : "__.push($1 || '');"
-                    };
-                    
-                    __LINE__ = 0;
-                    jQuery['tmpl']['tag']['ko_with'] =  {
-                      open : "with($1) {",
-                      close : "} "
-                    };
-                  };
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.jqueryTmplTemplateEngine.prototype = new b/*ko*/.templateEngine();
-              
-              __LINE__ = 3216;
-              var c/*jqueryTmplTemplateEngineInstance*/ = new b/*ko*/.jqueryTmplTemplateEngine();
-              
-              __LINE__ = 3217;
-              if ( c/*jqueryTmplTemplateEngineInstance*/.jQueryTmplVersion>0 ){
-                __LINE__ = 0;
-                b/*ko*/.setTemplateEngine( c/*jqueryTmplTemplateEngineInstance*/ );
-              };
-              
-              __LINE__ = 0;
-              b/*ko*/.exportSymbol( 'ko.jqueryTmplTemplateEngine',b/*ko*/.jqueryTmplTemplateEngine );
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          })();
-        } catch( e ){
-          a.exceptionHandler( __LINE__ , __FILE__ , e );
-        }
-      })( window );
-    } catch( e ){
-      a.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
+        };
+        
+        n/*ko*/.jqueryTmplTemplateEngine.prototype = new n/*ko*/.templateEngine();
+        
+        var d/*jqueryTmplTemplateEngineInstance*/ = new n/*ko*/.jqueryTmplTemplateEngine();
+        
+        if ( d/*jqueryTmplTemplateEngineInstance*/.jQueryTmplVersion>0 ){
+          n/*ko*/.setTemplateEngine( d/*jqueryTmplTemplateEngineInstance*/ );
+        };
+        
+        n/*ko*/.exportSymbol( 'ko.jqueryTmplTemplateEngine',n/*ko*/.jqueryTmplTemplateEngine );
+      })();
+    })( window );
   })();
 })();

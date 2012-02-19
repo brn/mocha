@@ -61,10 +61,10 @@ void RunTest() {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     int i = 0;
-    if ( strstr( fullpath , "-cmp.js" ) == NULL ) {
+    if ( strstr( fullpath , "json2_compiled.js" ) != NULL && strstr( fullpath , ".js" ) != NULL ) {
       ExternalResource::UnsafeSet( fullpath );
       CompileInfo* info = ExternalResource::UnsafeGet( fullpath )->GetCompileInfo();
-      info->SetDebug();
+      //info->SetDebug();
       info->SetPrettyPrint();
       info->SetCompress();
       facade.AddCompileList( fullpath , true );

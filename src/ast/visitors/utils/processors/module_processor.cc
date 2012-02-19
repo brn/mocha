@@ -35,6 +35,10 @@ void ModuleProcessor::ProcessNode() {
   fn_node->Line( stmt_->Line() );
   //For anonymous module.
   if ( !name->IsEmpty() ) {
+    ValueNode* maybe_value = name->CastToValue();
+    if ( maybe_value ) {
+      maybe_value->ValueType( ValueNode::kProperty );
+    }
     ProcessAnonymousModule_( an_stmt_node , name , is_runtime );
   } else {
     an_stmt_node->Line( stmt_->Line() );

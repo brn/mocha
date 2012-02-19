@@ -2,8 +2,10 @@
 #include <ast/ast.h>
 #include <ast/visitors/symbol_collector.h>
 #include <compiler/tokens/symbol_list.h>
+#include <compiler/tokens/js_token.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
+#include <utils/pool/managed_handle.h>
 namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
@@ -16,7 +18,7 @@ namespace mocha {
 #endif
 
 
-SymbolCollector::SymbolCollector( Scope* scope ) : depth_( 0 ), scope_( scope ){}
+SymbolCollector::SymbolCollector( Scope* scope , bool is_debug_ ) : depth_( 0 ) , is_debug_( is_debug_ ), scope_( scope ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
@@ -181,7 +183,9 @@ VISITOR_IMPL( CaseClause ) {
 
 VISITOR_IMPL( LabelledStmt ) {
   PRINT_NODE_NAME;
-  ast_node->LastChild()->Accept( this );
+  AstNode* sym = ast_node->FirstChild();
+  AstNode* stmt = sym->NextSibling();
+  stmt->Accept( this );
 }
 
 
@@ -338,6 +342,11 @@ VISITOR_IMPL(Function){
   }
   InnerScope* scope = scope_->Enter();
   ast_node->SetScope( scope );
+  if ( is_debug_ ) {
+    TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kRuntime ) ,
+                                                               Token::JS_IDENTIFIER , ast_node->Line() ) );
+    scope->Ref( runtime );
+  }
   NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
   while ( arg_iterator.HasNext() ) {
     ValueNode* arg = arg_iterator.Next()->CastToValue();
@@ -404,6 +413,9 @@ VISITOR_IMPL( ValueNode ) {
     case ValueNode::kVariable :
       ast_node->FirstChild()->Accept( this );
       scope_->Insert( ast_node->Symbol() , ast_node->FirstChild() );
+      break;
+
+    case ValueNode::kProperty :
       break;
       
     case ValueNode::kIdentifier : {

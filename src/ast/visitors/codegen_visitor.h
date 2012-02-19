@@ -47,6 +47,7 @@ class CodegenVisitor : public IVisitor {
   int depth_;
   bool is_line_;
   bool has_rest_;
+  bool is_pretty_print_;
   const char* filename_;
   std::vector<int> state_;
   std::string rest_ref_;

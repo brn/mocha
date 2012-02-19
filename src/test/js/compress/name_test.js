@@ -1,3 +1,11 @@
-var highFn = function () { return inner1; }
-var inner1 = function () { return inner2 }
-var inner2 = function () {}
+function b () {};
+(function () {
+  var c = 0;
+  var test1 = function (){
+    b();
+  }
+  var test2 = function () {
+        var c,l;
+        l = b();
+      };
+})();

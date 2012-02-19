@@ -7,12 +7,16 @@ if ( phantom.args.length > 0 ) {
       var ifr = document.createElement( "iframe" );
       try {
         document.body.appendChild( ifr );
-        ifr.contentDocument.write( "<script type = \"text/javascript\">\nvar begin = new Date();\n" + fs.read( filename , "read" ) + "\nconsole.log( 'elapsed : ' + ( new Date() - begin ) / 1000 );</script>" );
+        ifr.contentDocument.open();
+        ifr.contentDocument.write( "<!doctype html><html><head><title>mocha test</title>" );
+        ifr.contentDocument.write( "<script type = \"text/javascript\">\n//<![CDATA[\nvar runtest=function(){var begin = new Date();\n" + fs.read( filename , "read" ) + "\nconsole.log( 'elapsed : ' + ( new Date() - begin ) / 1000 );};\n//]]>\n</script>" );
+        ifr.contentDocument.write( "</head><body><script type=\"text/javascript\">runtest()</script></body></html>" );
       } catch( e ) {
         console.log( "test failed." );
         console.log( e );
         continue;
       } finally {
+        ifr.contentDocument.close();
         document.body.removeChild( ifr );
       }
       console.log( "test success." );

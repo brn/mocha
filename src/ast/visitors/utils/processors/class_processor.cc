@@ -69,7 +69,7 @@ class ClassProcessorUtils {
     ValueNode* create_record = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreatePrivateRecord ),
                                                          Token::JS_PROPERTY , line , ValueNode::kProperty );
     ValueNode* private_holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
-                                                          Token::JS_PROPERTY , line , ValueNode::kProperty );
+                                                          Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
     NodeList* args = AstUtils::CreateNodeList( 2 , this_sym , private_holder );
     CallExp* normal = AstUtils::CreateNormalAccessor( create_record , args );
     CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
@@ -109,7 +109,7 @@ class ClassProcessorUtils {
   
   inline AstNode* CreateConstructorInitializer( const char* name , long line ) {
     ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
-                                                           Token::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                                           Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
     ValueNode* apply_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kApply ),
                                                      Token::JS_IDENTIFIER , line , ValueNode::kProperty );
     NodeList *args = ManagedHandle::Retain<NodeList>();

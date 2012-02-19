@@ -328,12 +328,6 @@ VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
   AstNode* name = ast_node->Name();
   ValueNode* name_node = name->CastToValue();
-  if ( is_debug_ ) {
-    InnerScope* scope = ast_node->GetScope();
-    TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kRuntime ) ,
-                                                               Token::JS_IDENTIFIER , ast_node->Line() ) );
-    scope->Ref( runtime );
-  }
   NodeIterator body_iterator = ast_node->ChildNodes();
   while ( body_iterator.HasNext() ) {
     body_iterator.Next()->Accept( this );

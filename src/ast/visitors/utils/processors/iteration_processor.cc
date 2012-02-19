@@ -237,7 +237,7 @@ void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , Processor
     ValueNode *value = index_exp->Clone()->CastToValue();
     value->ValueType( ValueNode::kIdentifier );
     CallExp* call = AstUtils::CreateArrayAccessor( target_exp->Clone() , value );
-    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , index_exp->Clone() , call );
+    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , value->Clone() , call );
     stmt = AstUtils::CreateExpStmt( exp );
   } else {
     CallExp* call = AstUtils::CreateArrayAccessor( target_exp->Clone() , index_exp->Clone() );

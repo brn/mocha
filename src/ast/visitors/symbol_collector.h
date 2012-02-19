@@ -6,7 +6,7 @@ namespace mocha {
 class Scope;
 class SymbolCollector : public IVisitor {
  public :
-  SymbolCollector( Scope* scope );
+  SymbolCollector( Scope* scope , bool is_debug );
   ~SymbolCollector(){};
 #include <ast/visitors/visitor_decl.h>
  private :
@@ -17,6 +17,7 @@ class SymbolCollector : public IVisitor {
   void ArrayProccessor_( ValueNode* ast_node );
   void ObjectProccessor_( ValueNode* ast_node );
   int depth_;
+  bool is_debug_;
   Scope* scope_;
 };
 

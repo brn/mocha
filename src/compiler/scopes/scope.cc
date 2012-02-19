@@ -128,7 +128,7 @@ void InnerScope::Insert ( TokenInfo* info , AstNode* ast_node ) {
     return;
   }
   SymbolTable::HashEntry entry = table_.Find( ident );
-  printf( "insert %s to %p is empty = %d\n" , ident , this , entry.IsEmpty() );
+  printf( "insert %s to %p is empty = %d , %s %s\n" , ident , this , entry.IsEmpty() , ast_node->GetName() , ast_node->ParentNode()->GetName() );
   if ( entry.IsEmpty() ) {
     SymbolEntry entry( info , ast_node );
     table_.Insert( ident , entry );
@@ -137,7 +137,11 @@ void InnerScope::Insert ( TokenInfo* info , AstNode* ast_node ) {
 
 void InnerScope::Ref ( TokenInfo* info ) {
   const char* ident = info->GetToken();
+  if ( JsToken::IsBuiltin( ident ) ) {
+    return;
+  }
   RefTable::HashEntry entry = reference_table_.Find( ident );
+  printf( "reference %s to %p is empty = %d\n" , ident , this , entry.IsEmpty() );
   if ( entry.IsEmpty() ) {
     reference_table_.Insert( ident , info );
   }
@@ -166,83 +170,48 @@ SymbolEntry InnerScope::Find ( TokenInfo* info ) {
 }
 
 void InnerScope::Rename() {
+  SetReferece_();
+  DoRename_();
+}
+
+void InnerScope::DoRename_() {
   printf( "scope renaming %p %d\n" , this , table_.Size() );
+  if ( reference_table_.Size() > 0 ) {
+    FindRenamedReferenceEntry_();
+  }
   std::list<InnerScope*>::iterator begin = children_.begin(),end = children_.end();
   while ( begin != end ) {
     (*begin)->Rename();
     ++begin;
   }
-  HashMap<const char*,int> used_map;
-  if ( reference_table_.Size() > 0 ) {
+  RenameDeclaration_();
+}
+
+void InnerScope::SetReferece_() {
+  std::list<InnerScope*>::iterator begin = children_.begin(),end = children_.end();
+  while ( begin != end ) {
+    (*begin)->SetReferece_();
+    ++begin;
+  }
+  InnerScope* parent = up_;
+  while ( parent ) {
     RefTable::EntryIterator ref_iterator = reference_table_.Entries();
     while ( ref_iterator.HasNext() ) {
       RefTable::HashEntry entry = ref_iterator.Next();
-      printf( "reference name = %s is there %d %p\n" , entry.Key().c_str() ,  table_.Find( entry.Key() ).IsEmpty() , this );
       const char* ident = entry.Key().c_str();
-      SymbolTable::HashEntry symbol_ent = table_.Find( ident );
-      UsedTable::HashEntry renamed_ent = renamed_table_.Find( ident );
-      if ( symbol_ent.IsEmpty() && renamed_ent.IsEmpty() ) {
-        InnerScope* parent = up_;
-        TokenInfo* info = entry.Value();
-        const char* renamed = renamer_handle_->GetContractionName();
-        while ( !( used_table_.Find( renamed ).IsEmpty() ) ) {
-          renamed = renamer_handle_->GetContractionName();
-        }
-        while ( parent ) {
-          SymbolTable::HashEntry ent = parent->table_.Find( ident );
-          if ( ent.IsEmpty() ) {
-            if ( parent->up_ ) {
-              parent = parent->up_;
-            } else {
-              goto CURRENT_RENAMING;
-            }
-          } else {
-            TokenInfo* info = ent.Value().first;
-            if ( info->IsRenamed() ) {
-              used_table_.Insert( info->GetAnotherName() , 1 );
-              renamed_table_.Insert( ident , 1 );
-              InnerScope* tmp = up_;
-              while ( tmp ) {
-                if ( tmp->renamed_table_.Find( ident ).IsEmpty() ) {
-                  tmp->used_table_.Insert( info->GetAnotherName() , 1 );
-                  tmp->renamed_table_.Insert( ident , 1 );
-                } else {
-                  break;
-                }
-                tmp = tmp->up_;
-              }
-              goto CURRENT_RENAMING;
-            } else {
-              while ( !( parent->used_table_.Find( renamed ).IsEmpty() ) ) {
-                renamed = renamer_handle_->GetContractionName();
-              }
-              parent->used_table_.Insert( renamed , 1 );
-              break;
-            }
-          }
-        }
-        printf( "reference name = %s contraction = %s %d\n" , ident , renamed , this );
-        parent = up_;
-        used_table_.Insert( renamed , 1 );
-        renamed_table_.Insert( ident , 1 );
-        while ( parent ) {
-          SymbolTable::HashEntry parent_entry = parent->table_.Find( entry.Key() );
-          if ( !parent_entry.IsEmpty() ) {
-            parent_entry.Value().first->Rename( renamed );
-            parent->used_table_.Insert( renamed , 1 );
-            parent->renamed_table_.Insert( ident , 1 );
-            break;
-          } else {
-            parent->used_table_.Insert( renamed , 1 );
-            parent->renamed_table_.Insert( ident , 1 );
-          }
-          parent = parent->up_;
-        }
+      if ( parent->reference_table_.Find( ident ).IsEmpty() && table_.Find( ident ).IsEmpty() ) {
+        parent->reference_table_.Insert( entry.Key().c_str() , entry.Value() );
       }
     }
+    parent = parent->up_;
   }
+}
 
-CURRENT_RENAMING :
+void InnerScope::RenameDeclaration_() {
+  UsedTable::EntryIterator test_iter = used_table_.Entries();
+  while ( test_iter.HasNext() ) {
+    printf( "used name = %s %p\n" , test_iter.Next().Key().c_str() , this );
+  }
   SymbolTable::EntryIterator var_iterator = table_.Entries();
   while ( var_iterator.HasNext() ) {
     SymbolTable::HashEntry entry = var_iterator.Next();
@@ -254,12 +223,102 @@ CURRENT_RENAMING :
         renamed = renamer_handle_->GetContractionName();
         printf( "rename base name = %s , contraction = %s\n" , entry.Key().c_str() , renamed );
       }
+      used_table_.Insert( renamed , info );
+      renamed_table_.Insert( entry.Key().c_str() , info );
       info->Rename( renamed );
     } else {
       printf( "replaced base name = %s , contraction = %s %d\n" , entry.Key().c_str() , entry.Value().first->GetAnotherName() , this );
     }
   }
 }
+
+void InnerScope::FindRenamedReferenceEntry_() {
+  RefTable::EntryIterator ref_iterator = reference_table_.Entries();
+  while ( ref_iterator.HasNext() ) {
+    RefTable::HashEntry entry = ref_iterator.Next();
+    printf( "reference name = %s is there %d %p\n" , entry.Key().c_str() ,  table_.Find( entry.Key() ).IsEmpty() , this );
+    RenameReference_( entry );
+  }
+}
+
+void InnerScope::RenameReference_( RefTable::HashEntry entry ) {
+  const char* ident = entry.Key().c_str();
+  TokenInfo* info = entry.Value();
+  SymbolTable::HashEntry current_ent = table_.Find( ident );
+  UsedTable::HashEntry renamed_ent = renamed_table_.Find( ident );
+  SymbolEntry symbol_ent = Find( info );
+  if ( ( current_ent.IsEmpty() && renamed_ent.IsEmpty() ) ) {
+    InnerScope* parent = up_;
+    if ( symbol_ent.first ) {
+      if ( !symbol_ent.first->IsRenamed() ) {
+        const char* renamed = renamer_handle_->GetContractionName();
+        typedef std::vector<UsedTable*> TableArray;
+        TableArray table_array;
+        table_array.push_back( &used_table_ );
+        while ( parent ) {
+          SymbolTable::HashEntry parent_entry = parent->table_.Find( ident );
+          table_array.push_back( &( parent->used_table_ ) );
+          if ( !parent_entry.IsEmpty() ) {
+            printf( "parent scope = %p ident = %s\n" , parent , ident );
+            bool is_unique = false;
+            while ( !is_unique ) {
+              is_unique = true;
+              for ( int i = 0,len = table_array.size(); i < len; i++ ) {
+                if ( !( table_array.at( i )->Find( renamed ).IsEmpty() ) ) {
+                  is_unique = false;
+                }
+              }
+              if ( !is_unique ) {
+                renamed = renamer_handle_->GetContractionName();
+              }
+              printf( "%d %s %p\n" , used_table_.Find( renamed ).IsEmpty() , renamed , this );
+            }
+            break;
+          }
+          parent = parent->up_;
+        }
+        printf( "ref name = %s , contraction = %s\n" , ident , renamed );
+        used_table_.Insert( renamed , info );
+        renamed_table_.Insert( ident , info );
+        InnerScope* end = parent;
+        parent = up_;
+        while ( parent ) {
+          printf( "rename reference %s to %s %p\n" , ident , renamed , parent );
+          SymbolTable::HashEntry parent_entry = parent->table_.Find( ident );
+          if ( !( parent_entry.IsEmpty() ) ) {
+            printf( "end rename reference %s to %s\n" , ident , renamed );
+            SymbolTable::HashEntry parent_entry = parent->table_.Find( ident );
+            parent_entry.Value().first->Rename( renamed );
+            parent->used_table_.Insert( renamed , info );
+            parent->renamed_table_.Insert( ident , info );
+            break;
+          } else {
+            parent->used_table_.Insert( renamed , info );
+            parent->renamed_table_.Insert( ident , info );
+          }
+          parent = parent->up_;
+        }
+      } else {
+        const char* renamed = symbol_ent.first->GetAnotherName();
+        used_table_.Insert( renamed , symbol_ent.first );
+        renamed_table_.Insert( ident , symbol_ent.first );
+        printf( "renamed ref name = %s , contraction = %s\n" , ident , renamed );
+        TokenInfo* info;
+        while ( parent ) {
+          UsedTable::HashEntry renamed_entry = parent->renamed_table_.Find( ident );
+          if ( renamed_entry.IsEmpty() ) {
+            parent->used_table_.Insert( renamed , symbol_ent.first );
+            parent->renamed_table_.Insert( ident , symbol_ent.first );
+          } else {
+            break;
+          }
+          parent = parent->up_;
+        }
+      }
+    }
+  }
+}
+
 
 bool InnerScope::IsGlobal() const {
   return head_ == this;

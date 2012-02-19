@@ -17,7 +17,8 @@ class TokenInfo : public Managed {
   inline const char* GetAnotherName() const { return ( renamed_.size() > 0 )? renamed_.c_str() : token_.c_str(); };
   inline void Rename( const char* token ) { renamed_ = token; }
   inline void SetToken( const char* token ) { token_ = token; }
-  inline bool IsRenamed() { return renamed_.size() > 0; }
+  inline bool IsRenamed() { return !renamed_.empty(); }
+  inline void Rollback() { renamed_.clear(); }
   int GetType() const;
   void SetType( int type );
   int GetLineNumber() const;

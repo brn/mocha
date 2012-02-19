@@ -16,6 +16,7 @@ class CodeWriter {
     kSwitchEndBrace,
     kBlockBeginBrace,
     kBlockEndBrace,
+    kDoWhileBlockEnd,
     kArgs,
     kFor,
     kVarsComma,

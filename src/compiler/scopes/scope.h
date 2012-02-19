@@ -23,7 +23,7 @@ class InnerScope : public Managed {
  public :
   typedef HashMap<const char*,SymbolEntry> SymbolTable;
   typedef HashMap<const char*,TokenInfo*> RefTable;
-  typedef HashMap<const char*,int> UsedTable;
+  typedef HashMap<const char*,TokenInfo*> UsedTable;
   InnerScope();
   ~InnerScope();
 
@@ -37,6 +37,12 @@ class InnerScope : public Managed {
   bool IsGlobal() const;
   
  private :
+  void DoRename_();
+  void SetReferece_();
+  void RenameDeclaration_();
+  void FindRenamedReferenceEntry_();
+  void RenameReference_( RefTable::HashEntry entry );
+  
   std::list<InnerScope*> children_;
   InnerScope* head_;
   InnerScope* up_;
