@@ -8,6 +8,8 @@
         j = h.prototype,
         k = i.prototype;
     
+    "use strict";
+    
     function b( a ) {
       try {
         throw new TypeError( a );
@@ -414,24 +416,20 @@
             return a.getErrorMessage( b )+" in file "+c+" at : "+d;
           };
         }
-        var q = Math,
-            g = q.max;
-        
-        var r = Array.prototype,
-            d = r.slice;
+        var g = Math.max;
         
         var a =  {
-              getErrorMessage : function s( a ) {
+              getErrorMessage : function q( a ) {
                 return ( a.message )?a.message : ( a.description )?a.description : a.toString();
               },
-              exceptionHandler : function t( d,e,f ) {
+              exceptionHandler : function r( d,e,f ) {
                 if ( b( f ) ){
                   this.throwException( f );
                 } else {
                   this.throwException( new c( d,e,f ) );
                 };
               },
-              throwException : function u( a ) {
+              throwException : function s( a ) {
                 try {
                   throw a;
                 } catch( e ){
@@ -445,6 +443,8 @@
               hasProto : "__proto__" in {}
             };
         
+        var d = Array.prototype.slice;
+        
         function f( a,b,c ) {
           return Object.defineProperty( a,b, {
             configurable : true,
@@ -456,7 +456,7 @@
         
         p.createUnenumProp = f;
         
-        function v( a,b,c ) {
+        function t( a,b,c ) {
           return Object.defineProperty( a,b, {
             configurable : false,
             enumerable : false,
@@ -465,17 +465,17 @@
           });
         };
         
-        p.constant = v;
+        p.constant = t;
         
-        function w( e,f ) {
+        function u( e,f ) {
           return ( e )?d.call( e,f ) : [];
         };
         
-        p.toArray = w;
+        p.toArray = u;
         
-        function e(  ){};
+        var e = function (){};
         
-        function x( g,h,i ) {
+        function v( g,h,i ) {
           var j = new e;
           
           f( j,"next",g.bind( i,false,false ) );
@@ -495,38 +495,35 @@
           return j;
         };
         
-        p.createGenerator = x;
+        p.createGenerator = v;
         
-        function s( a ) {
+        function q( a ) {
           return ( a.message )?a.message : ( a.description )?a.description : a.toString();
         }
-        var u = p.throwException = a.throwException.bind( a );
+        var s = p.throwException = a.throwException.bind( a );
         
-        var t = p.exceptionHandler = a.exceptionHandler.bind( a );
+        var r = p.exceptionHandler = a.exceptionHandler.bind( a );
         
-        function y( a,b ) {
+        function w( a,b ) {
           for ( var c in b )
           a[c] = b[c];
           return a;
         };
         
-        p.extend = y;
+        p.extend = w;
         
         function h( h ) {
           var i = g( h.length,this.length ),
               j = -1;
           
-          while (  ++ j<i && h[j] === this[j] ){
-            
-          };
-          return i === j;
+          while (  ++ j<i && h[j] === this[j] )return i === j;
         };
         
         function i() {
           return Array.prototype.slice.call( this );
         };
         
-        function z( j,k ) {
+        function x( j,k ) {
           f( j,"length",k );
           
           f( j,"equal",h );
@@ -540,9 +537,9 @@
           return Object.freeze( j );
         };
         
-        p.createTuple = z;
+        p.createTuple = x;
         
-        function A( a ) {
+        function y( a ) {
           if ( a.toString() === "[object Object]" ){
             f( a,"toString",
             function () {
@@ -552,9 +549,9 @@
           return Object.freeze( a );
         };
         
-        p.createRecord = A;
+        p.createRecord = y;
         
-        var B = p.extendPrototype = function ( a,b ) {
+        var z = p.extendPrototype = function ( a,b ) {
               a.prototype = b;
             };
         
@@ -570,7 +567,7 @@
               return b;
             };
         
-        var C = p.extendClass = ( a.hasProto )?function ( a,b ) {
+        var A = p.extendClass = ( a.hasProto )?function ( a,b ) {
               if ( typeof b === 'function' ){
                 a.prototype.__proto__ = b.prototype;
                 
@@ -619,7 +616,7 @@
         
         p.isGenerator = l;
         
-        function D( n ) {
+        function B( n ) {
           var a = n[k](),
               o;
           
@@ -661,13 +658,13 @@
           return o;
         };
         
-        p.getIterator = D;
+        p.getIterator = B;
         
-        function E( a ) {
+        function C( a ) {
           return k in a;
         };
         
-        p.hasIterator = E;
+        p.hasIterator = C;
         
         var n = /StopIteration/;
         
@@ -678,13 +675,13 @@
         p.isStopIteration = b;
         
         var o,
-            F,
-            G;
+            D,
+            E;
         
         if ( "WeakMap" in window ){
           o = new WeakMap();
           
-          F = function ( self,p ) {
+          D = function ( self,p ) {
             var q = new p;
             
             f( q.constructor,"__is_private__",1 );
@@ -692,7 +689,7 @@
             o.set( self,q );
           };
           
-          G = function ( self ) {
+          E = function ( self ) {
             if ( o.has( self ) ){
               return o.get( self );
             } else if ( self.constructor === "__is_private__" ){
@@ -700,7 +697,7 @@
             };
           };
         } else {
-          F = function ( self,a ) {
+          D = function ( self,a ) {
             if ( !self.__typeid__ ){
               var b = new a;
               
@@ -710,7 +707,7 @@
             };
           };
           
-          G = function ( self ) {
+          E = function ( self ) {
             if ( self.__private__ ){
               return self.__private__;
             } else if ( self.constructor === "__is_private__" ){
@@ -719,11 +716,11 @@
           };
         };
         
-        p.createPrivateRecord = F;
+        p.createPrivateRecord = D;
         
-        p.getPrivateRecord = G;
+        p.getPrivateRecord = E;
         
-        function H( a ) {
+        function F( a ) {
           var b = typeof a,
               c;
           
@@ -744,9 +741,9 @@
           return c;
         };
         
-        p.getSuper = H;
+        p.getSuper = F;
         
-        function I( b,c,d,e ) {
+        function G( b,c,d,e ) {
           if ( !b._mochaTraitMark || !c._mochaTraitMark ){
             a.throwException( "mixin only used for trait." );
           } else {
@@ -774,9 +771,9 @@
           };
         };
         
-        p.traitMixin = I;
+        p.traitMixin = G;
         
-        function J( b,c,d,e,f ) {
+        function H( b,c,d,e,f ) {
           var g = b.prototype,
               h = c.prototype,
               i = d._mochaTraitMark,
@@ -802,9 +799,9 @@
           };
         };
         
-        p.classMixin = J;
+        p.classMixin = H;
         
-        function K( b,c,d,e,f ) {
+        function I( b,c,d,e,f ) {
           var g = b.prototype,
               h = c.prototype;
           
@@ -819,7 +816,7 @@
           };
         };
         
-        p.checkRequirements = K;
+        p.checkRequirements = I;
         return p;
       }();
   
@@ -831,27 +828,10 @@
     };
   };
   
-  function d(  ) {
-    var b = a.toArray( arguments,0 );
-    
-    var c = {};
-    
-    c.length = 0;
-    
-    Array.prototype.push.apply( c,b );
-    
-    a.createTuple( c,arguments.length );
-    return c;
-  };
-  
-  function e( b ) {
-    return a.createRecord( b );
-  };
-  
   !function () {
-    b['../../../../../../.mocha/module/iterators.js'] = {};
+    b['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
     
-    var c = b['../../../../../../.mocha/module/iterators.js'];
+    var c = b['../../../../../../../home/brn/.mocha/module/iterators.js'];
     
     !function () {
       var e = c;
@@ -1387,7 +1367,7 @@
     
     var e = b['./array_comprehensions_test.js'];
     
-    var f = b['../../../../../../.mocha/module/iterators.js'],
+    var f = b['../../../../../../../home/brn/.mocha/module/iterators.js'],
         d = f.items;
     
     var c =  {

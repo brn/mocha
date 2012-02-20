@@ -144,13 +144,16 @@ VISITOR_IMPL(IterationStmt) {
   ast_node->FirstChild()->Accept( this );
 }
 
+
 VISITOR_IMPL( ContinueStmt ) {
   PRINT_NODE_NAME;
 }
 
+
 VISITOR_IMPL( BreakStmt ) {
   PRINT_NODE_NAME;
 }
+
 
 VISITOR_IMPL( ReturnStmt ) {
   PRINT_NODE_NAME;
@@ -165,6 +168,7 @@ VISITOR_IMPL( WithStmt ) {
   ast_node->FirstChild()->Accept( this );
 }
 
+
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
@@ -173,6 +177,7 @@ VISITOR_IMPL( SwitchStmt ) {
     iterator.Next()->Accept( this );
   }
 }
+
 
 VISITOR_IMPL( CaseClause ) {
   PRINT_NODE_NAME;
@@ -219,6 +224,7 @@ void SymbolCollector::DotAccessorProccessor_( CallExp* exp ) {
   exp->Args()->Accept( this );
 }
 
+
 void SymbolCollector::NewCallProccessor_( CallExp* exp ) {
   exp->Callable()->Accept( this );
   NodeIterator iterator = exp->Args()->ChildNodes();
@@ -226,6 +232,7 @@ void SymbolCollector::NewCallProccessor_( CallExp* exp ) {
     iterator.Next()->Accept( this );
   }
 }
+
 
 void SymbolCollector::NormalFunctionCall_( CallExp* exp ) {
   AstNode* args = exp->Args();
