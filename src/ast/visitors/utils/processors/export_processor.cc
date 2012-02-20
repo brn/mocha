@@ -41,13 +41,12 @@ void ExportProcessor::ProcessFunction_( AstNode* node ) {
   ValueNode* property_name = name->Clone()->CastToValue();
   property_name->ValueType( ValueNode::kProperty );
   CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name );
-  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , fn );
-  ValueNode *var_name = name->Clone()->CastToValue();
-  var_name->ValueType( ValueNode::kVariable );
-  var_name->RemoveAllChild();
-  var_name->AddChild( assign );
-  VariableStmt* exp_stmt_node = AstUtils::CreateVarStmt( var_name );
-  stmt_->ParentNode()->ReplaceChild( stmt_ , exp_stmt_node );
+  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , name->Clone() );
+  ExpressionStmt* fn_stmt = AstUtils::CreateExpStmt( fn );
+  ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
+  AstNode* parent = stmt_->ParentNode();
+  parent->ReplaceChild( stmt_ , fn_stmt );
+  parent->InsertAfter( exp_stmt , fn_stmt );
 }
 
 

@@ -31,6 +31,8 @@ void ModuleProcessor::ProcessNode() {
     body = list;
   }
   Function* fn_node = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , body );
+  fn_node->Name( ManagedHandle::Retain<Empty>() );
+  AstUtils::FindDirectivePrologue( fn_node , fn_node );
   ExpressionStmt* an_stmt_node = ProcessBody_( body , fn_node , name );
   fn_node->Line( stmt_->Line() );
   //For anonymous module.

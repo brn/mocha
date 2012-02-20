@@ -387,15 +387,15 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
 
       case Token::JS_ELSE :
-        stream->Write( " else " );
+        stream->Write( "else " );
         break;
 
       case Token::JS_FINALLY :
-        stream->Write( " finally " );
+        stream->Write( " finally" );
         break;
 
       case Token::JS_FOR :
-        stream->Write( "for " );
+        stream->Write( "for" );
         break;
 
       case Token::JS_FUNCTION :
@@ -407,19 +407,19 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
         
       case Token::JS_IF :
-        stream->Write( "if " );
+        stream->Write( "if" );
         break;
 
       case Token::JS_TRY :
-        stream->Write( "try " );
+        stream->Write( "try" );
         break;
 
       case Token::JS_WITH :
-        stream->Write( "with " );
+        stream->Write( "with" );
         break;
 
       case Token::JS_SWITCH :
-        stream->Write( "switch " );
+        stream->Write( "switch" );
         break;
 
       case Token::JS_THROW :
@@ -427,7 +427,7 @@ class CompressWriter : public CodeWriter::WriterBase {
         break;
         
       case Token::JS_WHILE :
-        stream->Write( "while " );
+        stream->Write( "while" );
         break;
 
       case Token::JS_VAR :

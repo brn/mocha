@@ -221,4 +221,27 @@ BlockStmt* AstUtils::CreateBlockStmt( int num , ... ) {
   return block;
 }
 
+template<typename T>
+void FindDirectivePrologueCommon( AstNode* node , T* target ) {
+  if ( node->FirstChild() && node->FirstChild()->NodeType() == AstNode::kExpressionStmt ) {
+    if ( node->FirstChild()->FirstChild() && node->FirstChild()->FirstChild()->FirstChild() &&
+         node->FirstChild()->FirstChild()->FirstChild()->NodeType() == AstNode::kValueNode ) {
+      ValueNode* directive = node->FirstChild()->FirstChild()->FirstChild()->CastToValue();
+      if ( strcmp( directive->Symbol()->GetToken() , "'use strict'"  ) == 0 || strcmp( directive->Symbol()->GetToken() , "\"use strict\""  ) == 0 ) {
+        node->RemoveChild( node->FirstChild() );
+        target->SetStrict();
+      }
+    }
+  }
+}
+
+void AstUtils::FindDirectivePrologue( AstNode* node , FileRoot* root ) {
+  FindDirectivePrologueCommon( node , root );
+}
+
+void AstUtils::FindDirectivePrologue( AstNode* node , Function* fn ) {
+  FindDirectivePrologueCommon( node , fn );
+}
+
+
 }

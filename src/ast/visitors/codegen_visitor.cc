@@ -84,7 +84,7 @@ CodegenVisitor::CodegenVisitor( const char* filename , bool is_pretty_print , bo
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
   scope_ = ast_node->GetScope();
-  stream_->Write( "(function()" );
+  stream_->Write( "!function()" );
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
   writer_->InitializeFileName( "Runtime" , stream_.Get() );
   NodeIterator iterator = ast_node->ChildNodes();
@@ -92,7 +92,7 @@ VISITOR_IMPL( AstRoot ) {
     iterator.Next()->Accept( this );
   }
   writer_->WriteOp( '}' , CodeWriter::kArgs , stream_.Get() );
-  stream_->Write( ")()" );
+  stream_->Write( "()" );
   writer_->WriteOp( ';' , 0 , stream_.Get() );
 }
 
@@ -100,6 +100,10 @@ VISITOR_IMPL( AstRoot ) {
 VISITOR_IMPL( FileRoot ) {
   PRINT_NODE_NAME;
   current_root_ = ast_node;
+  if ( ast_node->HasStrict() ) {
+    stream_->Write( "\"use strict\"" );
+    writer_->WriteOp( ';' , 0 , stream_.Get() );
+  }
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
@@ -844,6 +848,10 @@ VISITOR_IMPL(Function){
     stream_->Write( "{}" );
   } else {
     writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
+    if ( ast_node->HasStrict() ) {
+      stream_->Write( "\"use strict\"" );
+      writer_->WriteOp( ';' , 0 , stream_.Get() );
+    }
     if ( current_root_ && !current_root_->IsRuntime() ) {
       writer_->DebugBlockBegin( stream_.Get() );
     }
@@ -984,9 +992,9 @@ VISITOR_IMPL( ValueNode ) {
           if ( entry.first != 0 ) {
             TokenInfo *info = entry.first;
             stream_->Write( info->GetAnotherName() );
-            stream_->Write( "/*" );
-            stream_->Write( symbol );
-            stream_->Write( "*/" );
+            //stream_->Write( "/*" );
+            //stream_->Write( symbol );
+            //stream_->Write( "*/" );
           } else {
             stream_->Write( symbol );
           }

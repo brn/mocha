@@ -60,3 +60,6 @@ cmpTest = [ x for each ( prop in testTarget ) for ( x of items( prop ) ) ];
 @assert( true , cmpTest[ 2 ][ 1 ] === 300 );
 
 
+var m = ({v}) -> {
+      "use strict";
+    }

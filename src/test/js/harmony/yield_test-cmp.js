@@ -1,108 +1,105 @@
-(function() {
+!function() {
   
-  var D/*_mochaGlobalExport*/ = {};
+  var b = {};
   
-  ( function ( x/*_mochaLocalTmp0*/,y/*_mochaLocalTmp1*/,z/*_mochaLocalTmp2*/,A/*_mochaLocalTmp3*/ ) {
-    var n/*stringProto*/ = x/*_mochaLocalTmp0*/.prototype,
-        o/*arrayProto*/ = y/*_mochaLocalTmp1*/.prototype,
-        B/*functionProto*/ = z/*_mochaLocalTmp2*/.prototype,
-        C/*dateProto*/ = A/*_mochaLocalTmp3*/.prototype;
+  !function ( f,g,h,i ) {
+    var c = f.prototype,
+        d = g.prototype,
+        j = h.prototype,
+        k = i.prototype;
     
-    "use strict";
-    
-    function m/*builtinTypeError*/( b/*message*/ ) {
+    function b( a ) {
       try {
-        throw new TypeError( b/*message*/ );
+        throw new TypeError( a );
       } catch( e ){
         throw new Error( e );
       };
     };
     
-    function s/*callbackCheck*/( n/*callback*/,o/*type*/ ) {
+    function e( c,d ) {
       
-      if ( typeof n/*callback*/ !== "function" ){
-        m/*builtinTypeError*/( o/*type*/+" : first argument is not callable" );
+      if ( typeof c !== "function" ){
+        b( d+" : first argument is not callable" );
       };
     };
     
     if ( !Object.keys ){
-      Object.keys = function ( e/*obj*/ ) {
-        if ( !e/*obj*/ ){
-          m/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+      Object.keys = function ( a ) {
+        if ( !a ){
+          b( "Object.keys : first arguments is null or not defined." );
         };
         
-        var f/*ret*/ = [],
-            g/*iter*/ = -1;
+        var c = [],
+            d = -1;
         
-        for ( var h/*i*/ in e/*obj*/ ){
-          if ( e/*obj*/.hasOwnProperty( h/*i*/ ) ){
-            f/*ret*/[ ++ g/*iter*/] = e/*obj*/[h/*i*/];
-          };
+        for ( var e in a )
+        if ( a.hasOwnProperty( e ) ){
+          c[ ++ d] = a[e];
         };
-        return f/*ret*/;
+        return c;
       };
     };
     
     if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( b/*o*/ ) {
-        return b/*o*/;
+      Object.preventExtensions = function ( a ) {
+        return a;
       };
     };
     
     if ( !Object.seal ){
-      Object.seal = function ( b/*o*/ ) {
-        return b/*o*/;
+      Object.seal = function ( a ) {
+        return a;
       };
     };
     
     if ( !Object.freeze ){
-      Object.freeze = function ( b/*o*/ ) {
-        return b/*o*/;
+      Object.freeze = function ( a ) {
+        return a;
       };
     };
     
-    var D/*hasRealEcma5*/ = ( function () {
-          var c/*ret*/;
+    var l = function () {
+          var a;
           
           try {
-            var d/*obj*/ = {};
+            var b = {};
             
-            Object.defineProperty( d/*obj*/,"test", {
+            Object.defineProperty( b,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
               value : 0
             });
             
-            d/*obj*/.test = 200;
+            b.test = 200;
             
-            c/*ret*/ = ( d/*obj*/.test === 200 )?false : true;
+            a = ( b.test === 200 )?false : true;
           } catch( e ){
-            c/*ret*/ = false;
+            a = false;
           };
-          return c/*ret*/;
-        })();
+          return a;
+        }();
     
-    if ( !D/*hasRealEcma5*/ ){
-      Object.defineProperty = function ( d/*obj*/,e/*prop*/,f/*valobj*/ ) {
-        if ( f/*valobj*/.value ){
-          d/*obj*/[e/*prop*/] = f/*valobj*/.value;
+    if ( !l ){
+      Object.defineProperty = function ( a,b,c ) {
+        if ( c.value ){
+          a[b] = c.value;
         };
       };
     };
     
-    if ( !n/*stringProto*/.trim ){
-      n/*stringProto*/.trim = function () {
-        return this.replace( n/*stringProto*/.trim.rtrim,"" );
+    if ( !c.trim ){
+      c.trim = function () {
+        return this.replace( c.trim.rtrim,"" );
       };
       
-      n/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+      c.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !n/*stringProto*/.repeat ){
-      Object.defineProperty( n/*stringProto*/,"repeat", {
-        value : function E/*value*/( b/*num*/ ) {
-          return Array( b/*num*/+1 ).join( this.toString() );
+    if ( !c.repeat ){
+      Object.defineProperty( c,"repeat", {
+        value : function m( a ) {
+          return Array( a+1 ).join( this.toString() );
         },
         configurable : true,
         enumerable : false,
@@ -110,10 +107,10 @@
       });
     };
     
-    if ( !n/*stringProto*/.startsWith ){
-      Object.defineProperty( n/*stringProto*/,"startsWith", {
-        value : function E/*value*/( b/*str*/ ) {
-          return !this.indexOf( b/*str*/ );
+    if ( !c.startsWith ){
+      Object.defineProperty( c,"startsWith", {
+        value : function m( a ) {
+          return !this.indexOf( a );
         },
         configurable : true,
         enumerable : false,
@@ -121,13 +118,13 @@
       });
     };
     
-    if ( !n/*stringProto*/.endsWith ){
-      Object.defineProperty( n/*stringProto*/,"endsWith", {
-        value : function E/*value*/( d/*str*/ ) {
-          var e/*t*/ = String( d/*str*/ );
+    if ( !c.endsWith ){
+      Object.defineProperty( c,"endsWith", {
+        value : function m( a ) {
+          var b = String( a );
           
-          var f/*index*/ = this.lastIndexOf( e/*t*/ );
-          return f/*index*/ >= 0 && f/*index*/ === this.length-e/*t*/.length;
+          var c = this.lastIndexOf( b );
+          return c >= 0 && c === this.length-b.length;
         },
         configurable : true,
         enumerable : false,
@@ -135,10 +132,10 @@
       });
     };
     
-    if ( !n/*stringProto*/.contains ){
-      Object.defineProperty( n/*stringProto*/,"contains", {
-        value : function E/*value*/( b/*str*/ ) {
-          return this.indexOf( b/*str*/ ) !== -1;
+    if ( !c.contains ){
+      Object.defineProperty( c,"contains", {
+        value : function m( a ) {
+          return this.indexOf( a ) !== -1;
         },
         configurable : true,
         enumerable : false,
@@ -146,9 +143,9 @@
       });
     };
     
-    if ( !n/*stringProto*/.toArray ){
-      Object.defineProperty( n/*stringProto*/,"toArray", {
-        value : function E/*value*/( a/*str*/ ) {
+    if ( !c.toArray ){
+      Object.defineProperty( c,"toArray", {
+        value : function m( a ) {
           return this.split( "" );
         },
         configurable : true,
@@ -157,265 +154,238 @@
       });
     };
     
-    if ( !B/*functionProto*/.bind ){
-      B/*functionProto*/.bind = function () {
-        var a/*argArray*/ = o/*arrayProto*/.slice.call( arguments ),
-            d/*context*/ = a/*argArray*/.shift(),
-            b/*ret*/ = function () {
-              var e/*args*/ = a/*argArray*/.concat( o/*arrayProto*/.slice.call( arguments ) );
+    if ( !j.bind ){
+      j.bind = function () {
+        var a = d.slice.call( arguments ),
+            c = a.shift(),
+            b = function () {
+              var e = a.concat( d.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof b/*ret*/ ){
-                return b/*ret*/.context.apply( this,e/*args*/ );
+              if ( this !== null && this !== window && this instanceof b ){
+                return b.context.apply( this,e );
               } else {
-                return b/*ret*/.context.apply( d/*context*/,e/*args*/ );
+                return b.context.apply( c,e );
               };
             };
         
-        b/*ret*/.prototype = this.prototype;
+        b.prototype = this.prototype;
         
-        b/*ret*/.context = this;
-        return b/*ret*/;
+        b.context = this;
+        return b;
       };
     };
     
-    if ( !o/*arrayProto*/.forEach ){
-      o/*arrayProto*/.forEach = function ( x/*callback*/,y/*that*/ ) {
-        s/*callbackCheck*/( x/*callback*/,"Array.forEach" );
+    if ( !d.forEach ){
+      d.forEach = function ( f,g ) {
+        e( f,"Array.forEach" );
         
-        var z/*iter*/ = -1,
-            A/*ta*/;
+        var h = -1,
+            i;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
+          b( "Array.forEach : this is null or not defined" );
         };
         
-        if ( y/*that*/ ){
-          while ( ( A/*ta*/ = this[ ++ z/*iter*/] ) !== null && A/*ta*/ !== undefined ){
-            x/*callback*/.call( y/*that*/,A/*ta*/,z/*iter*/,this );
-          };
+        if ( g ){
+          while ( ( i = this[ ++ h] ) !== null && i !== undefined )f.call( g,i,h,this );
         } else {
-          while ( ( A/*ta*/ = this[ ++ z/*iter*/] ) !== null && A/*ta*/ !== undefined ){
-            x/*callback*/( A/*ta*/,z/*iter*/,this );
-          };
+          while ( ( i = this[ ++ h] ) !== null && i !== undefined )f( i,h,this );
         };
       };
     };
     
-    if ( !o/*arrayProto*/.every ){
-      o/*arrayProto*/.every = function ( e/*callback*/,f/*that*/ ) {
-        s/*callbackCheck*/( e/*callback*/,"Array.every" );
+    if ( !d.every ){
+      d.every = function ( a,c ) {
+        e( a,"Array.every" );
         
-        var g/*iter*/ = -1,
-            h/*ta*/;
+        var d = -1,
+            f;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.every : this is null or not defined" );
+          b( "Array.every : this is null or not defined" );
         };
         
-        if ( f/*that*/ ){
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( !( e/*callback*/.call( f/*that*/,h/*ta*/,g/*iter*/,this ) ) ){
-              return false;
-            };
+        if ( c ){
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a.call( c,f,d,this ) ) ){
+            return false;
           };
         } else {
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( !( e/*callback*/( h/*ta*/,g/*iter*/,this ) ) ){
-              return false;
-            };
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a( f,d,this ) ) ){
+            return false;
           };
         };
         return true;
       };
     };
     
-    if ( !o/*arrayProto*/.some ){
-      o/*arrayProto*/.some = function ( e/*callback*/,f/*that*/ ) {
-        s/*callbackCheck*/( e/*callback*/,"Array.some" );
+    if ( !d.some ){
+      d.some = function ( a,c ) {
+        e( a,"Array.some" );
         
-        var g/*iter*/ = -1,
-            h/*ta*/;
+        var d = -1,
+            f;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.some : this is null or not defined" );
+          b( "Array.some : this is null or not defined" );
         };
         
-        if ( f/*that*/ ){
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( e/*callback*/.call( f/*that*/,h/*ta*/,g/*iter*/,this ) ){
-              return true;
-            };
+        if ( c ){
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a.call( c,f,d,this ) ){
+            return true;
           };
         } else {
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( e/*callback*/( h/*ta*/,g/*iter*/,this ) ){
-              return true;
-            };
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a( f,d,this ) ){
+            return true;
           };
         };
         return false;
       };
     };
     
-    if ( !o/*arrayProto*/.filter ){
-      o/*arrayProto*/.filter = function ( h/*callback*/,i/*that*/ ) {
-        s/*callbackCheck*/( h/*callback*/,"Array.filter" );
+    if ( !d.filter ){
+      d.filter = function ( a,c ) {
+        e( a,"Array.filter" );
         
-        var j/*len*/ = this.length,
-            k/*iter*/ = -1,
-            l/*ret*/ = [],
-            n/*ta*/;
+        var d = this.length,
+            f = -1,
+            g = [],
+            h;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.filter : this is null or not defined" );
+          b( "Array.filter : this is null or not defined" );
         };
         
-        if ( i/*that*/ ){
-          for ( var o/*i*/ = 0,j/*len*/ = this.length;o/*i*/<j/*len*/; ++ o/*i*/ ){
-            if ( ( n/*ta*/ = this[o/*i*/] ) !== null && n/*ta*/ !== undefined ){
-              if ( h/*callback*/.call( i/*that*/,n/*ta*/,o/*i*/,this ) ){
-                l/*ret*/[ ++ k/*iter*/] = n/*ta*/;
-              };
+        if ( c ){
+          for ( var i = 0,d = this.length;i<d; ++ i )
+          if ( ( h = this[i] ) !== null && h !== undefined ){
+            if ( a.call( c,h,i,this ) ){
+              g[ ++ f] = h;
             };
           };
         } else {
-          for ( var o/*i*/ = 0,j/*len*/ = this.length;o/*i*/<j/*len*/; ++ o/*i*/ ){
-            if ( ( n/*ta*/ = this[o/*i*/] ) !== null && n/*ta*/ !== undefined ){
-              if ( h/*callback*/( n/*ta*/,o/*i*/,this ) ){
-                l/*ret*/[ ++ k/*iter*/] = n/*ta*/;
-              };
+          for ( var i = 0,d = this.length;i<d; ++ i )if ( ( h = this[i] ) !== null && h !== undefined ){
+            if ( a( h,i,this ) ){
+              g[ ++ f] = h;
             };
           };
         };
-        return l/*ret*/;
+        return g;
       };
     };
     
-    if ( !o/*arrayProto*/.indexOf ){
-      o/*arrayProto*/.indexOf = function ( f/*subject*/,g/*fromIndex*/ ) {
-        var h/*iter*/ = ( g/*fromIndex*/ )?g/*fromIndex*/-1 : -1,
-            i/*index*/ = -1,
-            j/*ta*/;
+    if ( !d.indexOf ){
+      d.indexOf = function ( a,c ) {
+        var d = ( c )?c-1 : -1,
+            e = -1,
+            f;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
+          b( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( j/*ta*/ = this[ ++ h/*iter*/] ) !== null && j/*ta*/ !== undefined ){
-          if ( j/*ta*/ === f/*subject*/ ){
-            i/*index*/ = h/*iter*/;
-            break;
-          };
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( f === a ){
+          e = d;
+          break;
         };
-        return i/*index*/;
+        return e;
       };
     };
     
-    if ( !o/*arrayProto*/.lastIndexOf ){
-      o/*arrayProto*/.lastIndexOf = function ( g/*target*/,h/*fromIndex*/ ) {
-        var i/*len*/ = this.length,
-            j/*iter*/ = ( h/*fromIndex*/ )?h/*fromIndex*/+1 : i/*len*/,
-            k/*index*/ = -1,
-            l/*ta*/;
+    if ( !d.lastIndexOf ){
+      d.lastIndexOf = function ( a,c ) {
+        var d = this.length,
+            e = ( c )?c+1 : d,
+            f = -1,
+            g;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
+          b( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( l/*ta*/ = this[ -- j/*iter*/] ) !== null && l/*ta*/ !== undefined ){
-          if ( l/*ta*/ === g/*target*/ ){
-            k/*index*/ = j/*iter*/;
-            break;
-          };
+        while ( ( g = this[ -- e] ) !== null && g !== undefined )if ( g === a ){
+          f = e;
+          break;
         };
-        return k/*index*/;
+        return f;
       };
     };
     
-    if ( !o/*arrayProto*/.map ){
-      o/*arrayProto*/.map = function ( h/*callback*/,i/*that*/ ) {
-        s/*callbackCheck*/( h/*callback*/,"Array.map" );
+    if ( !d.map ){
+      d.map = function ( a,c ) {
+        e( a,"Array.map" );
         
-        var j/*ret*/ = [],
-            k/*iter*/ = -1,
-            l/*len*/ = this.length,
-            n/*i*/ = 0,
-            o/*ta*/;
+        var d = [],
+            f = -1,
+            g = this.length,
+            h = 0,
+            i;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.map : this is null or not defined." );
+          b( "Array.map : this is null or not defined." );
         };
         
-        if ( i/*that*/ ){
-          for ( n/*i*/;n/*i*/<l/*len*/; ++ n/*i*/ ){
-            if ( ( o/*ta*/ = this[n/*i*/] ) !== null && o/*ta*/ !== undefined ){
-              j/*ret*/[ ++ k/*iter*/] = h/*callback*/.call( i/*that*/,o/*ta*/,n/*i*/,this );
-            };
+        if ( c ){
+          for ( h;h<g; ++ h )if ( ( i = this[h] ) !== null && i !== undefined ){
+            d[ ++ f] = a.call( c,i,h,this );
           };
         } else {
-          for ( n/*i*/;n/*i*/<l/*len*/; ++ n/*i*/ ){
-            if ( ( o/*ta*/ = this[n/*i*/] ) !== null && o/*ta*/ !== undefined ){
-              j/*ret*/[ ++ k/*iter*/] = h/*callback*/( o/*ta*/,n/*i*/,this );
-            };
+          for ( h;h<g; ++ h )if ( ( i = this[h] ) !== null && i !== undefined ){
+            d[ ++ f] = a( i,h,this );
           };
         };
-        return j/*ret*/;
+        return d;
       };
     };
     
-    if ( !o/*arrayProto*/.reduce ){
-      o/*arrayProto*/.reduce = function ( g/*callback*/,h/*initial*/ ) {
-        s/*callbackCheck*/( g/*callback*/,"Array.reduce" );
+    if ( !d.reduce ){
+      d.reduce = function ( a,c ) {
+        e( a,"Array.reduce" );
         
-        var i/*ret*/ = h/*initial*/ || this[0],
-            j/*i*/ = ( h/*initial*/ )?0 : 1,
-            k/*len*/ = this.length,
-            l/*ta*/;
+        var d = c || this[0],
+            f = ( c )?0 : 1,
+            g = this.length,
+            h;
         
-        if ( ( k/*len*/ === 0 || k/*len*/ === null ) && arguments.length<2 ){
-          m/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( g === 0 || g === null ) && arguments.length<2 ){
+          b( "Array length is 0 and no second argument" );
         };
         
-        for ( j/*i*/;j/*i*/<k/*len*/; ++ j/*i*/ ){
-          if ( ( l/*ta*/ = this[j/*i*/] ) !== null && l/*ta*/ !== undefined ){
-            i/*ret*/ = g/*callback*/( i/*ret*/,l/*ta*/,j/*i*/,this );
-          };
+        for ( f;f<g; ++ f )if ( ( h = this[f] ) !== null && h !== undefined ){
+          d = a( d,h,f,this );
         };
-        return i/*ret*/;
+        return d;
       };
     };
     
-    if ( !o/*arrayProto*/.reduceRight ){
-      o/*arrayProto*/.reduceRight = function ( g/*callback*/,h/*initial*/ ) {
-        s/*callbackCheck*/( g/*callback*/,"Array.reduceRight" );
+    if ( !d.reduceRight ){
+      d.reduceRight = function ( a,c ) {
+        e( a,"Array.reduceRight" );
         
-        var i/*len*/ = this.length,
-            j/*ret*/ = h/*initial*/ || this[i/*len*/-1],
-            k/*i*/ = ( h/*initial*/ )?i/*len*/-1 : i/*len*/-2,
-            l/*ta*/;
+        var d = this.length,
+            f = c || this[d-1],
+            g = ( c )?d-1 : d-2,
+            h;
         
-        if ( ( i/*len*/ === 0 || i/*len*/ === null ) && arguments.length<2 ){
-          m/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( d === 0 || d === null ) && arguments.length<2 ){
+          b( "Array length is 0 and no second argument" );
         };
         
-        for ( k/*i*/;k/*i*/>-1; -- k/*i*/ ){
-          if ( ( l/*ta*/ = this[k/*i*/] ) !== null && l/*ta*/ !== undefined ){
-            j/*ret*/ = g/*callback*/( j/*ret*/,l/*ta*/,k/*i*/,this );
-          };
+        for ( g;g>-1; -- g )if ( ( h = this[g] ) !== null && h !== undefined ){
+          f = a( f,h,g,this );
         };
-        return j/*ret*/;
+        return f;
       };
     };
     
-    if ( !C/*dateProto*/.toJSON ){
-      C/*dateProto*/.toJSON = function () {
-        var g/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            h/*month*/ = g/*_mochaLocalTmp4*/[0],
-            i/*date*/ = g/*_mochaLocalTmp4*/[1],
-            j/*hour*/ = g/*_mochaLocalTmp4*/[2],
-            k/*minute*/ = g/*_mochaLocalTmp4*/[3],
-            l/*second*/ = g/*_mochaLocalTmp4*/[4];
-        return '"'+this.getUTCFullYear()+'-'+( h/*month*/>8?h/*month*/+1 : "0"+( h/*month*/+1 ) )+'-'+( i/*date*/>9?i/*date*/ : "0"+i/*date*/ )+'T'+( j/*hour*/>9?j/*hour*/ : "0"+j/*hour*/ )+':'+( k/*minute*/>9?k/*minute*/ : "0"+k/*minute*/ )+':'+( l/*second*/>9?l/*second*/ : "0"+l/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !k.toJSON ){
+      k.toJSON = function () {
+        var a = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            b = a[0],
+            c = a[1],
+            d = a[2],
+            e = a[3],
+            f = a[4];
+        return '"'+this.getUTCFullYear()+'-'+( b>8?b+1 : "0"+( b+1 ) )+'-'+( c>9?c : "0"+c )+'T'+( d>9?d : "0"+d )+':'+( e>9?e : "0"+e )+':'+( f>9?f : "0"+f )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -426,43 +396,46 @@
     };
     
     if ( !Array.isArray ){
-      Array.isArray = function ( b/*arr*/ ) {
+      Array.isArray = function ( a ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( b/*arr*/ )?Object.prototype.toString.call( b/*arr*/ ) === "[object Array]" : false;
+        return ( a )?Object.prototype.toString.call( a ) === "[object Array]" : false;
       };
     };
-  }).call( this,String,Array,Function,Date );
+  }.call( this,String,Array,Function,Date );
   
-  var m/*Runtime*/ = ( function Runtime() {
-        var Z/*_mochaLocalExport*/ = {};
-        
+  var a = function () {
         "use strict";
+        var p = {};
         
-        function h/*Exception*/( g/*line*/,f/*file*/,a/*e*/ ) {
+        function c( d,c,b ) {
           this.toString = function () {
-            return b/*Runtime*/.getErrorMessage( a/*e*/ )+" in file "+f/*file*/+" at : "+g/*line*/;
+            return a.getErrorMessage( b )+" in file "+c+" at : "+d;
           };
         }
-        var J/*fastMax*/ = Math.max;
+        var q = Math,
+            g = q.max;
         
-        var b/*Runtime*/ =  {
-              getErrorMessage : function _/*getErrorMessage*/( b/*e*/ ) {
-                return ( b/*e*/.message )?b/*e*/.message : ( b/*e*/.description )?b/*e*/.description : b/*e*/.toString();
+        var r = Array.prototype,
+            d = r.slice;
+        
+        var a =  {
+              getErrorMessage : function s( a ) {
+                return ( a.message )?a.message : ( a.description )?a.description : a.toString();
               },
-              exceptionHandler : function $/*exceptionHandler*/( k/*line*/,l/*file*/,m/*e*/ ) {
-                if ( f/*isStopIteration*/( m/*e*/ ) ){
-                  this.throwException( m/*e*/ );
+              exceptionHandler : function t( d,e,f ) {
+                if ( b( f ) ){
+                  this.throwException( f );
                 } else {
-                  this.throwException( new h/*Exception*/( k/*line*/,l/*file*/,m/*e*/ ) );
+                  this.throwException( new c( d,e,f ) );
                 };
               },
-              throwException : function bb/*throwException*/( b/*exception*/ ) {
+              throwException : function u( a ) {
                 try {
-                  throw b/*exception*/;
+                  throw a;
                 } catch( e ){
-                  if ( f/*isStopIteration*/( e ) ){
+                  if ( b( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -472,255 +445,272 @@
               hasProto : "__proto__" in {}
             };
         
-        var k/*slice*/ = Array.prototype.slice;
-        
-        var E/*createUnenumProp*/ = Z/*_mochaLocalExport*/.createUnenumProp = function E/*createUnenumProp*/( d/*obj*/,e/*prop*/,f/*value*/ ) {
-              return Object.defineProperty( d/*obj*/,e/*prop*/, {
-                configurable : true,
-                enumerable : false,
-                writable : true,
-                value : f/*value*/
-              });
-            };
-        
-        var bc/*constant*/ = Z/*_mochaLocalExport*/.constant = function bc/*constant*/( d/*obj*/,e/*prop*/,f/*value*/ ) {
-              return Object.defineProperty( d/*obj*/,e/*prop*/, {
-                configurable : false,
-                enumerable : false,
-                writable : false,
-                value : f/*value*/
-              });
-            };
-        
-        var bd/*toArray*/ = Z/*_mochaLocalExport*/.toArray = function bd/*toArray*/( m/*likeArray*/,n/*index*/ ) {
-              return ( m/*likeArray*/ )?k/*slice*/.call( m/*likeArray*/,n/*index*/ ) : [];
-            };
-        
-        var D/*Generator*/ = function (){};
-        
-        var be/*createGenerator*/ = Z/*_mochaLocalExport*/.createGenerator = function be/*createGenerator*/( J/*generatorFn*/,K/*closeFn*/,L/*context*/ ) {
-              var M/*ret*/ = new D/*Generator*/;
-              
-              E/*createUnenumProp*/( M/*ret*/,"next",J/*generatorFn*/.bind( L/*context*/,false,false ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"send",J/*generatorFn*/.bind( L/*context*/,true,false ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"close",K/*closeFn*/.bind( L/*context*/ ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"__nothrowNext__",J/*generatorFn*/.bind( L/*context*/,false,true ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"toString",
-              function () {
-                return "[object Generator]";
-              });
-              
-              Object.freeze( M/*ret*/ );
-              return M/*ret*/;
-            };
-        
-        function _/*getErrorMessage*/( b/*e*/ ) {
-          return ( b/*e*/.message )?b/*e*/.message : ( b/*e*/.description )?b/*e*/.description : b/*e*/.toString();
-        }
-        var bb/*throwException*/ = Z/*_mochaLocalExport*/.throwException = b/*Runtime*/.throwException.bind( b/*Runtime*/ );
-        
-        var $/*exceptionHandler*/ = Z/*_mochaLocalExport*/.exceptionHandler = b/*Runtime*/.exceptionHandler.bind( b/*Runtime*/ );
-        
-        var bf/*extend*/ = Z/*_mochaLocalExport*/.extend = function bf/*extend*/( d/*dest*/,e/*source*/ ) {
-              for ( var f/*prop*/ in e/*source*/ ){
-                d/*dest*/[f/*prop*/] = e/*source*/[f/*prop*/];
-              };
-              return d/*dest*/;
-            };
-        
-        function N/*compareTuple*/( N/*tuple*/ ) {
-          var O/*max*/ = J/*fastMax*/( N/*tuple*/.length,this.length ),
-              P/*i*/ = -1;
-          
-          while (  ++ P/*i*/<O/*max*/ && N/*tuple*/[P/*i*/] === this[P/*i*/] ){
-            
-          };
-          return O/*max*/ === P/*i*/;
+        function f( a,b,c ) {
+          return Object.defineProperty( a,b, {
+            configurable : true,
+            enumerable : false,
+            writable : true,
+            value : c
+          });
         };
         
-        function O/*tupleToArray*/() {
+        p.createUnenumProp = f;
+        
+        function v( a,b,c ) {
+          return Object.defineProperty( a,b, {
+            configurable : false,
+            enumerable : false,
+            writable : false,
+            value : c
+          });
+        };
+        
+        p.constant = v;
+        
+        function w( e,f ) {
+          return ( e )?d.call( e,f ) : [];
+        };
+        
+        p.toArray = w;
+        
+        function e(  ){};
+        
+        function x( g,h,i ) {
+          var j = new e;
+          
+          f( j,"next",g.bind( i,false,false ) );
+          
+          f( j,"send",g.bind( i,true,false ) );
+          
+          f( j,"close",h.bind( i ) );
+          
+          f( j,"__nothrowNext__",g.bind( i,false,true ) );
+          
+          f( j,"toString",
+          function () {
+            return "[object Generator]";
+          });
+          
+          Object.freeze( j );
+          return j;
+        };
+        
+        p.createGenerator = x;
+        
+        function s( a ) {
+          return ( a.message )?a.message : ( a.description )?a.description : a.toString();
+        }
+        var u = p.throwException = a.throwException.bind( a );
+        
+        var t = p.exceptionHandler = a.exceptionHandler.bind( a );
+        
+        function y( a,b ) {
+          for ( var c in b )
+          a[c] = b[c];
+          return a;
+        };
+        
+        p.extend = y;
+        
+        function h( h ) {
+          var i = g( h.length,this.length ),
+              j = -1;
+          
+          while (  ++ j<i && h[j] === this[j] ){
+            
+          };
+          return i === j;
+        };
+        
+        function i() {
           return Array.prototype.slice.call( this );
         };
         
-        var bg/*createTuple*/ = Z/*_mochaLocalExport*/.createTuple = function bg/*createTuple*/( P/*obj*/,Q/*size*/ ) {
-              E/*createUnenumProp*/( P/*obj*/,"length",Q/*size*/ );
-              
-              E/*createUnenumProp*/( P/*obj*/,"equal",N/*compareTuple*/ );
-              
-              E/*createUnenumProp*/( P/*obj*/,"toArray",O/*tupleToArray*/ );
-              
-              E/*createUnenumProp*/( P/*obj*/,"toString",
-              function () {
-                return "[object Tuple]";
-              });
-              return Object.freeze( P/*obj*/ );
-            };
-        
-        var bh/*createRecord*/ = Z/*_mochaLocalExport*/.createRecord = function bh/*createRecord*/( b/*obj*/ ) {
-              if ( b/*obj*/.toString() === "[object Object]" ){
-                E/*createUnenumProp*/( b/*obj*/,"toString",
-                function () {
-                  return "[object Record]";
-                });
-              };
-              return Object.freeze( b/*obj*/ );
-            };
-        
-        var bi/*extendPrototype*/ = Z/*_mochaLocalExport*/.extendPrototype = function ( c/*derived*/,d/*base*/ ) {
-              c/*derived*/.prototype = d/*base*/;
-            };
-        
-        var P/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
-              return Object.getPrototypeOf( b/*obj*/ );
-            } : function ( d/*obj*/ ) {
-              var e/*ret*/ = {};
-              
-              for ( var f/*i*/ in d/*obj*/ ){
-                if ( !d/*obj*/.hasOwnProperty( f/*i*/ ) ){
-                  e/*ret*/[f/*i*/] = d/*obj*/[f/*i*/];
-                };
-              };
-              return e/*ret*/;
-            };
-        
-        var bj/*extendClass*/ = Z/*_mochaLocalExport*/.extendClass = ( b/*Runtime*/.hasProto )?function ( d/*derived*/,e/*base*/ ) {
-              if ( typeof e/*base*/ === 'function' ){
-                d/*derived*/.prototype.__proto__ = e/*base*/.prototype;
-                
-                for ( var f/*i*/ in e/*base*/ ){
-                  d/*derived*/[f/*i*/] = e/*base*/[f/*i*/];
-                };
-              } else {
-                d/*derived*/.prototype.__proto__ = e/*base*/.__proto__;
-              };
-            } : function ( R/*derived*/,S/*base*/ ) {
-              var T/*baseType*/ = typeof S/*base*/;
-              
-              if ( T/*baseType*/ === "function" ){
-                var U/*inherit*/ = function (){};
-                
-                U/*inherit*/.prototype = S/*base*/.prototype;
-                
-                R/*derived*/.prototype = new U/*inherit*/;
-                
-                for ( var V/*i*/ in S/*base*/ ){
-                  R/*derived*/[V/*i*/] = S/*base*/[V/*i*/];
-                };
-              } else {
-                var U/*inherit*/ = function (){},
-                    W/*proto*/ = P/*getPrototype*/( S/*base*/ );
-                
-                U/*inherit*/.prototype = W/*proto*/;
-                
-                R/*derived*/.prototype = new U/*inherit*/;
-              };
-            };
-        
-        var R/*__ref_iterator__*/ = Z/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
-        
-        var W/*throwStopIteration*/ = Z/*_mochaLocalExport*/.throwStopIteration = function W/*throwStopIteration*/() {
-              try {
-                throw StopIteration;
-              } catch( e ){
-                throw new Error( e.toString() );
-              };
-            };
-        
-        var S/*isGenerator*/ = Z/*_mochaLocalExport*/.isGenerator = function S/*isGenerator*/( b/*obj*/ ) {
-              return b/*obj*/ instanceof D/*Generator*/;
-            };
-        
-        var bk/*getIterator*/ = Z/*_mochaLocalExport*/.getIterator = function bk/*getIterator*/( X/*obj*/ ) {
-              var b/*ret*/ = X/*obj*/[R/*__ref_iterator__*/](),
-                  Y/*newObj*/;
-              
-              if ( S/*isGenerator*/( b/*ret*/ ) ){
-                return b/*ret*/;
-              };
-              
-              Y/*newObj*/ = {};
-              
-              if ( b/*ret*/.next ){
-                E/*createUnenumProp*/( Y/*newObj*/,"next",
-                function () {
-                  var d/*result*/ = b/*ret*/.next();
-                  
-                  if ( d/*result*/ === undefined ){
-                    W/*throwStopIteration*/();
-                  };
-                  return d/*result*/;
-                });
-              } else {
-                return {};
-              };
-              
-              if ( !( "__nothrowNext__" in b/*ret*/ ) ){
-                E/*createUnenumProp*/( Y/*newObj*/,"__nothrowNext__",b/*ret*/.next.bind( b/*ret*/ ) );
-              };
-              
-              for ( var Z/*prop*/ in b/*ret*/ ){
-                if ( Z/*prop*/ !== "next" && Z/*prop*/ !== "__nothrowNext__" ){
-                  Y/*newObj*/[Z/*prop*/] = b/*ret*/[Z/*prop*/];
-                };
-              };
-              
-              if ( !( "toString" in b/*ret*/ ) ){
-                E/*createUnenumProp*/( Y/*newObj*/,"toString",
-                function () {
-                  return "[object Iterator]";
-                });
-              };
-              return Y/*newObj*/;
-            };
-        
-        var bl/*hasIterator*/ = Z/*_mochaLocalExport*/.hasIterator = function bl/*hasIterator*/( b/*obj*/ ) {
-              return R/*__ref_iterator__*/ in b/*obj*/;
-            };
-        
-        var X/*rstopIteration*/ = /StopIteration/;
-        
-        var f/*isStopIteration*/ = Z/*_mochaLocalExport*/.isStopIteration = function f/*isStopIteration*/( Y/*obj*/ ) {
-              return Y/*obj*/ === StopIteration || X/*rstopIteration*/.test( Y/*obj*/ );
-            };
-        
-        var Y/*privateRecord*/,
-            bm/*createPrivateRecord*/,
-            bn/*getPrivateRecord*/;
-        
-        if ( "WeakMap" in window ){
-          Y/*privateRecord*/ = new WeakMap();
+        function z( j,k ) {
+          f( j,"length",k );
           
-          bm/*createPrivateRecord*/ = function ( self,Z/*privateHolder*/ ) {
-            var _/*holder*/ = new Z/*privateHolder*/;
-            
-            E/*createUnenumProp*/( _/*holder*/.constructor,"__is_private__",1 );
-            
-            Y/*privateRecord*/.set( self,_/*holder*/ );
+          f( j,"equal",h );
+          
+          f( j,"toArray",i );
+          
+          f( j,"toString",
+          function () {
+            return "[object Tuple]";
+          });
+          return Object.freeze( j );
+        };
+        
+        p.createTuple = z;
+        
+        function A( a ) {
+          if ( a.toString() === "[object Object]" ){
+            f( a,"toString",
+            function () {
+              return "[object Record]";
+            });
+          };
+          return Object.freeze( a );
+        };
+        
+        p.createRecord = A;
+        
+        var B = p.extendPrototype = function ( a,b ) {
+              a.prototype = b;
+            };
+        
+        var j = ( "getPrototypeOf" in Object )?function ( a ) {
+              return Object.getPrototypeOf( a );
+            } : function ( a ) {
+              var b = {};
+              
+              for ( var c in a )
+              if ( !a.hasOwnProperty( c ) ){
+                b[c] = a[c];
+              };
+              return b;
+            };
+        
+        var C = p.extendClass = ( a.hasProto )?function ( a,b ) {
+              if ( typeof b === 'function' ){
+                a.prototype.__proto__ = b.prototype;
+                
+                for ( var c in b )
+                a[c] = b[c];
+              } else {
+                a.prototype.__proto__ = b.__proto__;
+              };
+            } : function ( k,l ) {
+              var m = typeof l;
+              
+              if ( m === "function" ){
+                var n = function (){};
+                
+                n.prototype = l.prototype;
+                
+                k.prototype = new n;
+                
+                for ( var o in l )
+                k[o] = l[o];
+              } else {
+                var n = function (){},
+                    p = j( l );
+                
+                n.prototype = p;
+                
+                k.prototype = new n;
+              };
+            };
+        
+        var k = p.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        function m() {
+          try {
+            throw StopIteration;
+          } catch( e ){
+            throw new Error( e.toString() );
+          };
+        };
+        
+        p.throwStopIteration = m;
+        
+        function l( a ) {
+          return a instanceof e;
+        };
+        
+        p.isGenerator = l;
+        
+        function D( n ) {
+          var a = n[k](),
+              o;
+          
+          if ( l( a ) ){
+            return a;
           };
           
-          bn/*getPrivateRecord*/ = function ( self ) {
-            if ( Y/*privateRecord*/.has( self ) ){
-              return Y/*privateRecord*/.get( self );
+          o = {};
+          
+          if ( a.next ){
+            f( o,"next",
+            function () {
+              var b = a.next();
+              
+              if ( b === undefined ){
+                m();
+              };
+              return b;
+            });
+          } else {
+            return {};
+          };
+          
+          if ( !( "__nothrowNext__" in a ) ){
+            f( o,"__nothrowNext__",a.next.bind( a ) );
+          };
+          
+          for ( var p in a )
+          if ( p !== "next" && p !== "__nothrowNext__" ){
+            o[p] = a[p];
+          };
+          
+          if ( !( "toString" in a ) ){
+            f( o,"toString",
+            function () {
+              return "[object Iterator]";
+            });
+          };
+          return o;
+        };
+        
+        p.getIterator = D;
+        
+        function E( a ) {
+          return k in a;
+        };
+        
+        p.hasIterator = E;
+        
+        var n = /StopIteration/;
+        
+        function b( o ) {
+          return o === StopIteration || n.test( o );
+        };
+        
+        p.isStopIteration = b;
+        
+        var o,
+            F,
+            G;
+        
+        if ( "WeakMap" in window ){
+          o = new WeakMap();
+          
+          F = function ( self,p ) {
+            var q = new p;
+            
+            f( q.constructor,"__is_private__",1 );
+            
+            o.set( self,q );
+          };
+          
+          G = function ( self ) {
+            if ( o.has( self ) ){
+              return o.get( self );
             } else if ( self.constructor === "__is_private__" ){
               return self;
             };
           };
         } else {
-          bm/*createPrivateRecord*/ = function ( self,c/*privateHolder*/ ) {
+          F = function ( self,a ) {
             if ( !self.__typeid__ ){
-              var d/*holder*/ = new c/*privateHolder*/;
+              var b = new a;
               
-              E/*createUnenumProp*/( d/*holder*/.constructor,"__is_private__",1 );
+              f( b.constructor,"__is_private__",1 );
               
-              E/*createUnenumProp*/( self,"__private__",d/*holder*/ );
+              f( self,"__private__",b );
             };
           };
           
-          bn/*getPrivateRecord*/ = function ( self ) {
+          G = function ( self ) {
             if ( self.__private__ ){
               return self.__private__;
             } else if ( self.constructor === "__is_private__" ){
@@ -729,907 +719,905 @@
           };
         };
         
-        Z/*_mochaLocalExport*/.createPrivateRecord = bm/*createPrivateRecord*/;
+        p.createPrivateRecord = F;
         
-        Z/*_mochaLocalExport*/.getPrivateRecord = bn/*getPrivateRecord*/;
+        p.getPrivateRecord = G;
         
-        var bo/*getSuper*/ = Z/*_mochaLocalExport*/.getSuper = function bo/*getSuper*/( d/*obj*/ ) {
-              var e/*type*/ = typeof d/*obj*/,
-                  f/*ret*/;
+        function H( a ) {
+          var b = typeof a,
+              c;
+          
+          if ( b === "function" ){
+            c = function (){};
+            
+            c.prototype = a.prototype;
+            
+            c = new c();
+            
+            if ( a.__harmony_class__ ){
+              c.constructor = a.constructor;
+            } else {
+              c.constructor = a;
+            };
+            return c;
+          };
+          return c;
+        };
+        
+        p.getSuper = H;
+        
+        function I( b,c,d,e ) {
+          if ( !b._mochaTraitMark || !c._mochaTraitMark ){
+            a.throwException( "mixin only used for trait." );
+          } else {
+            var f = b._mochaTraitPrivate,
+                g = c._mochaTraitPrivate,
+                h = b._mochaTraitPublic,
+                i = c._mochaTraitPublic,
+                j = c._mochaRequires,
+                k = b._mochaRequires,
+                l;
+            
+            for ( var m in g )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
               
-              if ( e/*type*/ === "function" ){
-                f/*ret*/ = function (){};
-                
-                f/*ret*/.prototype = d/*obj*/.prototype;
-                
-                f/*ret*/ = new f/*ret*/();
-                
-                if ( d/*obj*/.__harmony_class__ ){
-                  f/*ret*/.constructor = d/*obj*/.constructor;
-                } else {
-                  f/*ret*/.constructor = d/*obj*/;
-                };
-                return f/*ret*/;
-              };
-              return f/*ret*/;
+              f[l] = g[m];
             };
-        
-        var bp/*traitMixin*/ = Z/*_mochaLocalExport*/.traitMixin = function bp/*traitMixin*/( m/*dest*/,n/*source*/,o/*with_*/,p/*without*/ ) {
-              if ( !m/*dest*/._mochaTraitMark || !n/*source*/._mochaTraitMark ){
-                b/*Runtime*/.throwException( "mixin only used for trait." );
-              } else {
-                var q/*destTraitPrivate*/ = m/*dest*/._mochaTraitPrivate,
-                    r/*sourceTraitPrivate*/ = n/*source*/._mochaTraitPrivate,
-                    s/*destTraitPublic*/ = m/*dest*/._mochaTraitPublic,
-                    t/*sourceTraitPublic*/ = n/*source*/._mochaTraitPublic,
-                    u/*sourceRequires*/ = n/*source*/._mochaRequires,
-                    v/*destRequires*/ = m/*dest*/._mochaRequires,
-                    w/*tmp*/;
-                
-                for ( var x/*i*/ in r/*sourceTraitPrivate*/ ){
-                  if ( !p/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !o/*with_*/[x/*i*/] )?x/*i*/ : o/*with_*/[x/*i*/];
-                    
-                    q/*destTraitPrivate*/[w/*tmp*/] = r/*sourceTraitPrivate*/[x/*i*/];
-                  };
-                };
-                
-                for ( x/*i*/ in t/*sourceTraitPublic*/ ){
-                  if ( !p/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !o/*with_*/[x/*i*/] )?x/*i*/ : o/*with_*/[x/*i*/];
-                    
-                    s/*destTraitPublic*/[w/*tmp*/] = t/*sourceTraitPublic*/[x/*i*/];
-                  };
-                };
-                
-                for ( x/*i*/ in u/*sourceRequires*/ ){
-                  v/*destRequires*/[x/*i*/] = u/*sourceRequires*/[x/*i*/];
-                };
-              };
-            };
-        
-        var bq/*classMixin*/ = Z/*_mochaLocalExport*/.classMixin = function bq/*classMixin*/( m/*_mochaLocalTmp5*/,n/*_mochaLocalTmp6*/,o/*_mochaLocalTmp7*/,p/*with_*/,q/*without*/ ) {
-              var r/*constructorProto*/ = m/*_mochaLocalTmp5*/.prototype,
-                  s/*privateProto*/ = n/*_mochaLocalTmp6*/.prototype,
-                  t/*mark*/ = o/*_mochaLocalTmp7*/._mochaTraitMark,
-                  u/*traitPublic*/ = o/*_mochaLocalTmp7*/._mochaTraitPublic,
-                  v/*traitPrivate*/ = o/*_mochaLocalTmp7*/._mochaTraitPrivate;
+            
+            for ( m in i )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
               
-              if ( !t/*mark*/ ){
-                b/*Runtime*/.throwException( "mixin only used for trait." );
-              } else {
-                var w/*tmp*/;
-                
-                for ( var x/*i*/ in u/*traitPublic*/ ){
-                  if ( !q/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !p/*with_*/[x/*i*/] )?x/*i*/ : p/*with_*/[x/*i*/];
-                    
-                    r/*constructorProto*/[w/*tmp*/] = u/*traitPublic*/[x/*i*/];
-                  };
-                };
-                
-                for ( x/*i*/ in v/*traitPrivate*/ ){
-                  if ( !q/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !p/*with_*/[x/*i*/] )?x/*i*/ : p/*with_*/[x/*i*/];
-                    
-                    s/*privateProto*/[w/*tmp*/] = v/*traitPrivate*/[x/*i*/];
-                  };
-                };
-              };
+              h[l] = i[m];
             };
+            
+            for ( m in j )k[m] = j[m];
+          };
+        };
         
-        var br/*checkRequirements*/ = Z/*_mochaLocalExport*/.checkRequirements = function br/*checkRequirements*/( m/*_mochaLocalTmp8*/,n/*_mochaLocalTmp9*/,o/*traits*/,p/*file*/,q/*line*/ ) {
-              var r/*proto1*/ = m/*_mochaLocalTmp8*/.prototype,
-                  s/*proto2*/ = n/*_mochaLocalTmp9*/.prototype;
+        p.traitMixin = I;
+        
+        function J( b,c,d,e,f ) {
+          var g = b.prototype,
+              h = c.prototype,
+              i = d._mochaTraitMark,
+              j = d._mochaTraitPublic,
+              k = d._mochaTraitPrivate;
+          
+          if ( !i ){
+            a.throwException( "mixin only used for trait." );
+          } else {
+            var l;
+            
+            for ( var m in j )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
               
-              for ( var t/*i*/ = 0,u/*len*/ = o/*traits*/.length;t/*i*/<u/*len*/;t/*i*/ ++  ){
-                var v/*_mochaLocalTmp10*/ = o/*traits*/[t/*i*/],
-                    w/*_mochaRequires*/ = v/*_mochaLocalTmp10*/._mochaRequires;
-                
-                for ( var x/*prop*/ in w/*_mochaRequires*/ ){
-                  if ( !( x/*prop*/ in r/*proto1*/ ) && !( x/*prop*/ in s/*proto2*/ ) ){
-                    b/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+x/*prop*/+"\nin file "+p/*file*/+" at line "+q/*line*/ );
-                  };
-                };
-              };
+              g[l] = j[m];
             };
-        return Z/*_mochaLocalExport*/;
-      })();
+            
+            for ( m in k )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
+              
+              h[l] = k[m];
+            };
+          };
+        };
+        
+        p.classMixin = J;
+        
+        function K( b,c,d,e,f ) {
+          var g = b.prototype,
+              h = c.prototype;
+          
+          for ( var i = 0,j = d.length;i<j;i ++  ){
+            var k = d[i],
+                l = k._mochaRequires;
+            
+            for ( var m in l )
+            if ( !( m in g ) && !( m in h ) ){
+              a.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m+"\nin file "+e+" at line "+f );
+            };
+          };
+        };
+        
+        p.checkRequirements = K;
+        return p;
+      }();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function J/*toString*/() {
+      toString : function c() {
         return "[object StopIteration]";
       }
     };
   };
   
-  ( function () {
-    D/*_mochaGlobalExport*/['./yield_test.js'] = {};
+  function d(  ) {
+    var b = a.toArray( arguments,0 );
     
-    var K/*_mochaGlobalAlias*/ = D/*_mochaGlobalExport*/['./yield_test.js'];
+    var c = {};
     
-    var Y/*tests*/ =  {
-          case1 : function L/*case1*/() {
-            function e/*yieldTest2*/(  ) {
-              var e/*_mochaIsNewBorn*/ = true;
+    c.length = 0;
+    
+    Array.prototype.push.apply( c,b );
+    
+    a.createTuple( c,arguments.length );
+    return c;
+  };
+  
+  function e( b ) {
+    return a.createRecord( b );
+  };
+  
+  !function () {
+    b['./yield_test.js'] = {};
+    
+    var d = b['./yield_test.js'];
+    
+    var r =  {
+          case1 : function e() {
+            function d(  ) {
+              var b = true;
               
-              var i/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var f/*_yieldState*/ = 0;
+              var c = 0;
               
-              var g/*i*/;
+              var d;
               
-              var j/*_mochaGenerator*/ = function ( i/*_isYieldSend*/,j/*_isYieldSafe*/ ) {
-                    if ( !i/*_isYieldSend*/ ){
-                      e/*_mochaIsNewBorn*/ = false;
-                    } else if ( i/*_isYieldSend*/ && e/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var f = function ( e,f ) {
+                    if ( !e ){
+                      b = false;
+                    } else if ( e && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( f/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          g/*i*/ = 0;
-                          
-                          if ( !( g/*i*/<10 ) ){
-                            f/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          f/*_yieldState*/ = 2;
-                          return g/*i*/;
-                        case 2 :
-                          
-                          g/*i*/ ++ ;
-                          
-                          if ( g/*i*/<10 ){
-                            f/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            f/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( j/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
+                          break;
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        return d;
+                      case 2 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( f ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( j/*_mochaGenerator*/,
+              return a.createGenerator( f,
               function (  ) {
-                f/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            var f/*generator*/ = e/*yieldTest2*/();
+            var e = d();
           },
-          case2 : function M/*case2*/() {
-            function f/*yieldTest3*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case2 : function f() {
+            function b(  ) {
+              var b = true;
               
-              var i/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var f/*_yieldState*/ = 0;
+              var c = 0;
               
-              var g/*i*/;
+              var d;
               
-              var j/*_mochaGenerator*/ = function ( i/*_isYieldSend*/,j/*_isYieldSafe*/ ) {
-                    if ( !i/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( i/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var f = function ( e,f ) {
+                    if ( !e ){
+                      b = false;
+                    } else if ( e && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( f/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          g/*i*/ = 0;
-                          
-                          if ( !( g/*i*/<10 ) ){
-                            f/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          if ( g/*i*/%2 === 0 ){
-                            f/*_yieldState*/ = 2;
-                            break;
-                          } else {
-                            f/*_yieldState*/ = 3;
-                            break;
-                          };
-                        case 2 :
-                          
-                          f/*_yieldState*/ = 3;
-                          return g/*i*/;
-                        case 3 :
-                          
-                          f/*_yieldState*/ = 4;
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
                           break;
-                        case 4 :
-                          
-                          g/*i*/ ++ ;
-                          
-                          if ( g/*i*/<10 ){
-                            f/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            f/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( j/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                        };
+                      case 1 :
+                        
+                        if ( d%2 === 0 ){
+                          c = 2;
+                          break;
+                        } else {
+                          c = 3;
+                          break;
+                        };
+                      case 2 :
+                        
+                        c = 3;
+                        return d;
+                      case 3 :
+                        
+                        c = 4;
+                        break;
+                      case 4 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( f ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( j/*_mochaGenerator*/,
+              return a.createGenerator( f,
               function (  ) {
-                f/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = f/*yieldTest3*/();
+            generator = b();
           },
-          case3 : function N/*case3*/() {
-            function d/*yieldTest4*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case3 : function g() {
+            function b(  ) {
+              var b = true;
               
-              var k/*_yieldResult*/ = undefined;
+              var f = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var i/*j*/;
+              var e;
               
-              var h/*i*/;
+              var d;
               
-              var l/*_mochaGenerator*/ = function ( k/*_isYieldSend*/,l/*_isYieldSafe*/ ) {
-                    if ( !k/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( k/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var g = function ( f,g ) {
+                    if ( !f ){
+                      b = false;
+                    } else if ( f && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          h/*i*/ = 0;
-                          
-                          if ( !( h/*i*/<10 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          i/*j*/ = 0;
-                          
-                          if ( !( i/*j*/<10 ) ){
-                            e/*_yieldState*/ = 6;
-                            break;
-                          };
-                        case 2 :
-                          
-                          if ( i/*j*/%2 === 0 ){
-                            e/*_yieldState*/ = 3;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 4;
-                            break;
-                          };
-                        case 3 :
-                          
-                          e/*_yieldState*/ = 4;
-                          return i/*j*/;
-                        case 4 :
-                          
-                          e/*_yieldState*/ = 5;
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
                           break;
-                        case 5 :
-                          
-                          i/*j*/ ++ ;
-                          
-                          if ( i/*j*/<10 ){
-                            e/*_yieldState*/ = 2;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 6;
-                          };
-                        case 6 :
-                          
-                          h/*i*/ ++ ;
-                          
-                          if ( h/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( l/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                        };
+                      case 1 :
+                        
+                        e = 0;
+                        
+                        if ( !( e<10 ) ){
+                          c = 6;
+                          break;
+                        };
+                      case 2 :
+                        
+                        if ( e%2 === 0 ){
+                          c = 3;
+                          break;
+                        } else {
+                          c = 4;
+                          break;
+                        };
+                      case 3 :
+                        
+                        c = 4;
+                        return e;
+                      case 4 :
+                        
+                        c = 5;
+                        break;
+                      case 5 :
+                        
+                        e ++ ;
+                        
+                        if ( e<10 ){
+                          c = 2;
+                          break;
+                        } else {
+                          c = 6;
+                        };
+                      case 6 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( g ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( l/*_mochaGenerator*/,
+              return a.createGenerator( g,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest4*/();
+            generator = b();
           },
-          case4 : function O/*case4*/() {
-            function d/*yieldTest5*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case4 : function h() {
+            function b(  ) {
+              var b = true;
               
-              var j/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var f/*i*/;
+              var d;
               
-              var k/*_mochaGenerator*/ = function ( h/*_isYieldSend*/,i/*_isYieldSafe*/ ) {
-                    if ( !h/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( h/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var f = function ( e,f ) {
+                    if ( !e ){
+                      b = false;
+                    } else if ( e && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                          
-                          if ( !(  ++ f/*i*/<10 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          e/*_yieldState*/ = 2;
-                          return f/*i*/;
-                        case 2 :
-                          
-                          if (  ++ f/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( i/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !(  ++ d<10 ) ){
+                          c = -1;
+                          break;
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        return d;
+                      case 2 :
+                        
+                        if (  ++ d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( f ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( k/*_mochaGenerator*/,
+              return a.createGenerator( f,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest5*/();
+            generator = b();
           },
-          case5 : function P/*case5*/() {
-            function d/*yieldTest6*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case5 : function i() {
+            function b(  ) {
+              var b = true;
               
-              var l/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var f/*i*/;
+              var d;
               
-              var n/*_mochaGenerator*/ = function ( h/*_isYieldSend*/,i/*_isYieldSafe*/ ) {
-                    if ( !h/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( h/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var f = function ( e,f ) {
+                    if ( !e ){
+                      b = false;
+                    } else if ( e && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                        case 1 :
-                          
-                          e/*_yieldState*/ = 2;
-                          return f/*i*/;
-                        case 2 :
-                          
-                          if (  ++ f/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 3;
-                          };
-                        case 3 :
-                        case -1 :
-                          
-                          if ( i/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                      case 1 :
+                        
+                        c = 2;
+                        return d;
+                      case 2 :
+                        
+                        if (  ++ d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = 3;
+                        };
+                      case 3 :
+                      case -1 :
+                        
+                        if ( f ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( n/*_mochaGenerator*/,
+              return a.createGenerator( f,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest6*/();
+            generator = b();
           },
-          case6 : function Q/*case6*/() {
-            function d/*yieldTest7*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case6 : function j() {
+            function b(  ) {
+              var b = true;
               
-              var g/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var h/*m*/;
+              var f;
               
-              var f/*i*/;
+              var d;
               
-              var o/*_mochaGenerator*/ = function ( j/*_isYieldSend*/,k/*_isYieldSafe*/ ) {
-                    if ( !j/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( j/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var g = function ( g,h ) {
+                    if ( !g ){
+                      b = false;
+                    } else if ( g && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                          
-                          if ( !( f/*i*/<10 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          e/*_yieldState*/ = 2;
-                          return f/*i*/;
-                        case 2 :
-                          
-                          g/*_yieldResult*/ = j/*_isYieldSend*/ && arguments.length>2?m/*Runtime*/.toArray( arguments,2 )[0] : j/*_isYieldSend*/?f/*i*/ : undefined;
-                          
-                          h/*m*/ = g/*_yieldResult*/;
-                          
-                          if ( h/*m*/ === true ){
-                            e/*_yieldState*/ = 3;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 5;
-                            break;
-                          };
-                        case 3 :
-                          
-                          e/*_yieldState*/ = 4;
-                          return f/*i*/+1;
-                        case 4 :
-                          
-                          e/*_yieldState*/ = 9;
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
                           break;
-                        case 5 :
-                          
-                          if ( h/*m*/ === false ){
-                            e/*_yieldState*/ = 6;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 8;
-                            break;
-                          };
-                        case 6 :
-                          
-                          e/*_yieldState*/ = 7;
-                          return f/*i*/-1;
-                        case 7 :
-                          
-                          e/*_yieldState*/ = 9;
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        return d;
+                      case 2 :
+                        
+                        e = g && arguments.length>2?a.toArray( arguments,2 )[0] : g?d : undefined;
+                        
+                        f = e;
+                        
+                        if ( f === true ){
+                          c = 3;
                           break;
-                        case 8 :
-                          
-                          e/*_yieldState*/ = 9;
-                          return f/*i*/;
-                        case 9 :
-                          
-                          f/*i*/ ++ ;
-                          
-                          if ( f/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( k/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                        } else {
+                          c = 5;
+                          break;
+                        };
+                      case 3 :
+                        
+                        c = 4;
+                        return d+1;
+                      case 4 :
+                        
+                        c = 9;
+                        break;
+                      case 5 :
+                        
+                        if ( f === false ){
+                          c = 6;
+                          break;
+                        } else {
+                          c = 8;
+                          break;
+                        };
+                      case 6 :
+                        
+                        c = 7;
+                        return d-1;
+                      case 7 :
+                        
+                        c = 9;
+                        break;
+                      case 8 :
+                        
+                        c = 9;
+                        return d;
+                      case 9 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( h ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( o/*_mochaGenerator*/,
+              return a.createGenerator( g,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest7*/();
+            generator = b();
           },
-          case7 : function R/*case7*/() {
-            function d/*yieldTest8*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case7 : function k() {
+            function b(  ) {
+              var b = true;
               
-              var g/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var i/*j*/;
+              var g;
               
-              var h/*m*/;
+              var f;
               
-              var f/*i*/;
+              var d;
               
-              var s/*_mochaGenerator*/ = function ( k/*_isYieldSend*/,l/*_isYieldSafe*/ ) {
-                    if ( !k/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( k/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var h = function ( h,i ) {
+                    if ( !h ){
+                      b = false;
+                    } else if ( h && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                          
-                          if ( !( f/*i*/<10 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          e/*_yieldState*/ = 2;
-                          return f/*i*/;
-                        case 2 :
-                          
-                          g/*_yieldResult*/ = k/*_isYieldSend*/ && arguments.length>2?m/*Runtime*/.toArray( arguments,2 )[0] : k/*_isYieldSend*/?f/*i*/ : undefined;
-                          
-                          h/*m*/ = g/*_yieldResult*/;
-                          
-                          i/*j*/ = 0;
-                          
-                          if ( !( i/*j*/<10 ) ){
-                            e/*_yieldState*/ = 11;
-                            break;
-                          };
-                        case 3 :
-                          
-                          if ( h/*m*/ === true ){
-                            e/*_yieldState*/ = 4;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 6;
-                            break;
-                          };
-                        case 4 :
-                          
-                          e/*_yieldState*/ = 5;
-                          return i/*j*/*2;
-                        case 5 :
-                          
-                          e/*_yieldState*/ = 10;
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
                           break;
-                        case 6 :
-                          
-                          if ( h/*m*/ === false ){
-                            e/*_yieldState*/ = 7;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 9;
-                            break;
-                          };
-                        case 7 :
-                          
-                          e/*_yieldState*/ = 8;
-                          return i/*j*//2;
-                        case 8 :
-                          
-                          e/*_yieldState*/ = 10;
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        return d;
+                      case 2 :
+                        
+                        e = h && arguments.length>2?a.toArray( arguments,2 )[0] : h?d : undefined;
+                        
+                        f = e;
+                        
+                        g = 0;
+                        
+                        if ( !( g<10 ) ){
+                          c = 11;
                           break;
-                        case 9 :
-                          
-                          e/*_yieldState*/ = 10;
-                          return i/*j*/;
-                        case 10 :
-                          
-                          i/*j*/ ++ ;
-                          
-                          if ( i/*j*/<10 ){
-                            e/*_yieldState*/ = 3;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 11;
-                          };
-                        case 11 :
-                          
-                          f/*i*/ ++ ;
-                          
-                          if ( f/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( l/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                        };
+                      case 3 :
+                        
+                        if ( f === true ){
+                          c = 4;
+                          break;
+                        } else {
+                          c = 6;
+                          break;
+                        };
+                      case 4 :
+                        
+                        c = 5;
+                        return g*2;
+                      case 5 :
+                        
+                        c = 10;
+                        break;
+                      case 6 :
+                        
+                        if ( f === false ){
+                          c = 7;
+                          break;
+                        } else {
+                          c = 9;
+                          break;
+                        };
+                      case 7 :
+                        
+                        c = 8;
+                        return g/2;
+                      case 8 :
+                        
+                        c = 10;
+                        break;
+                      case 9 :
+                        
+                        c = 10;
+                        return g;
+                      case 10 :
+                        
+                        g ++ ;
+                        
+                        if ( g<10 ){
+                          c = 3;
+                          break;
+                        } else {
+                          c = 11;
+                        };
+                      case 11 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( i ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( s/*_mochaGenerator*/,
+              return a.createGenerator( h,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest8*/();
+            generator = b();
           },
-          case8 : function S/*case8*/() {
-            function d/*yieldTest9*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case8 : function l() {
+            function b(  ) {
+              var b = true;
               
-              var h/*_yieldResult*/ = undefined;
+              var f = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var i/*m*/;
+              var g;
               
-              var g/*j*/;
+              var e;
               
-              var f/*i*/;
+              var d;
               
-              var w/*_mochaGenerator*/ = function ( k/*_isYieldSend*/,l/*_isYieldSafe*/ ) {
-                    if ( !k/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( k/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var h = function ( h,i ) {
+                    if ( !h ){
+                      b = false;
+                    } else if ( h && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                          
-                          if ( !( f/*i*/<10 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          g/*j*/ = 0;
-                          
-                          if ( !( g/*j*/<10 ) ){
-                            e/*_yieldState*/ = 11;
-                            break;
-                          };
-                        case 2 :
-                          
-                          e/*_yieldState*/ = 3;
-                          return f/*i*/;
-                        case 3 :
-                          
-                          h/*_yieldResult*/ = k/*_isYieldSend*/ && arguments.length>2?m/*Runtime*/.toArray( arguments,2 )[0] : k/*_isYieldSend*/?f/*i*/ : undefined;
-                          
-                          i/*m*/ = h/*_yieldResult*/;
-                          
-                          if ( i/*m*/ === true ){
-                            e/*_yieldState*/ = 4;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 6;
-                            break;
-                          };
-                        case 4 :
-                          
-                          e/*_yieldState*/ = 5;
-                          return g/*j*/*2;
-                        case 5 :
-                          
-                          e/*_yieldState*/ = 10;
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
                           break;
-                        case 6 :
-                          
-                          if ( i/*m*/ === false ){
-                            e/*_yieldState*/ = 7;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 9;
-                            break;
-                          };
-                        case 7 :
-                          
-                          e/*_yieldState*/ = 8;
-                          return g/*j*//2;
-                        case 8 :
-                          
-                          e/*_yieldState*/ = 10;
+                        };
+                      case 1 :
+                        
+                        e = 0;
+                        
+                        if ( !( e<10 ) ){
+                          c = 11;
                           break;
-                        case 9 :
-                          
-                          e/*_yieldState*/ = 10;
-                          return g/*j*/;
-                        case 10 :
-                          
-                          g/*j*/ ++ ;
-                          
-                          if ( g/*j*/<10 ){
-                            e/*_yieldState*/ = 2;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = 11;
-                          };
-                        case 11 :
-                          
-                          f/*i*/ ++ ;
-                          
-                          if ( f/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( l/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                        };
+                      case 2 :
+                        
+                        c = 3;
+                        return d;
+                      case 3 :
+                        
+                        f = h && arguments.length>2?a.toArray( arguments,2 )[0] : h?d : undefined;
+                        
+                        g = f;
+                        
+                        if ( g === true ){
+                          c = 4;
+                          break;
+                        } else {
+                          c = 6;
+                          break;
+                        };
+                      case 4 :
+                        
+                        c = 5;
+                        return e*2;
+                      case 5 :
+                        
+                        c = 10;
+                        break;
+                      case 6 :
+                        
+                        if ( g === false ){
+                          c = 7;
+                          break;
+                        } else {
+                          c = 9;
+                          break;
+                        };
+                      case 7 :
+                        
+                        c = 8;
+                        return e/2;
+                      case 8 :
+                        
+                        c = 10;
+                        break;
+                      case 9 :
+                        
+                        c = 10;
+                        return e;
+                      case 10 :
+                        
+                        e ++ ;
+                        
+                        if ( e<10 ){
+                          c = 2;
+                          break;
+                        } else {
+                          c = 11;
+                        };
+                      case 11 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( i ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( w/*_mochaGenerator*/,
+              return a.createGenerator( h,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest9*/();
+            generator = b();
           },
-          case9 : function T/*case9*/() {
-            function e/*yieldTest10*/(  ) {
-              var e/*_mochaIsNewBorn*/ = true;
+          case9 : function m() {
+            function b(  ) {
+              var b = true;
               
-              var A/*_yieldResult*/ = undefined;
+              var i = undefined;
               
-              var f/*_yieldState*/ = 0;
+              var c = 0;
               
-              var j/*_mochaFinallyCache*/;
+              var g;
               
-              var i/*_mochaCatchCache*/;
+              var f;
               
-              var k/*m*/;
+              var h;
               
-              var h/*i*/;
+              var e;
               
-              var g/*flg*/;
+              var d;
               
-              var B/*_mochaGenerator*/ = function ( n/*_isYieldSend*/,o/*_isYieldSafe*/ ) {
-                    if ( !n/*_isYieldSend*/ ){
-                      e/*_mochaIsNewBorn*/ = false;
-                    } else if ( n/*_isYieldSend*/ && e/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var j = function ( i,j ) {
+                    if ( !i ){
+                      b = false;
+                    } else if ( i && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
                     while ( 1 )try {
-                      switch ( f/*_yieldState*/ ) {
+                      switch ( c ) {
                         case 0 :
                           
-                          g/*flg*/ = false;
+                          d = false;
                           
-                          h/*i*/ = 0;
+                          e = 0;
                           
-                          if ( !( h/*i*/<10 ) ){
-                            f/*_yieldState*/ = -1;
+                          if ( !( e<10 ) ){
+                            c = -1;
                             break;
                           };
                         case 1 :
                           
-                          f/*_yieldState*/ = 2;
+                          c = 2;
                           
-                          i/*_mochaCatchCache*/ = function ( a/*e*/ ) {
-                            f/*_yieldState*/ = 3;
+                          f = function ( a ) {
+                            c = 3;
                           };
                           
-                          j/*_mochaFinallyCache*/ = function (  ) {
-                            g/*flg*/ = true;
+                          g = function (  ) {
+                            d = true;
                           };
                           
-                          k/*m*/ = ( g/*flg*/ )?1 : 0;
-                          return k/*m*/;
+                          h = ( d )?1 : 0;
+                          return h;
                         case 2 :
                           
                           ddddd();
                           
-                          i/*_mochaCatchCache*/ = undefined;
+                          f = undefined;
                           
-                          j/*_mochaFinallyCache*/ = undefined;
+                          g = undefined;
                         case 3 :
                           
-                          h/*i*/ ++ ;
+                          e ++ ;
                           
-                          if ( h/*i*/<10 ){
-                            f/*_yieldState*/ = 1;
+                          if ( e<10 ){
+                            c = 1;
                             break;
                           } else {
-                            f/*_yieldState*/ = -1;
+                            c = -1;
                           };
                         case -1 :
                           
-                          if ( o/*_isYieldSafe*/ ){
+                          if ( j ){
                             return undefined;
                           } else {
-                            m/*Runtime*/.throwStopIteration();
+                            a.throwStopIteration();
                           };
                           
                       };
                     } catch( _mochaException ){
-                      if ( i/*_mochaCatchCache*/ ){
-                        var p/*_mochaLocalTmp0*/ = i/*_mochaCatchCache*/( _mochaException );
+                      if ( f ){
+                        var k = f( _mochaException );
                         
-                        if ( p/*_mochaLocalTmp0*/ !== undefined ){
-                          return p/*_mochaLocalTmp0*/;
+                        if ( k !== undefined ){
+                          return k;
                         };
                       } else {
-                        m/*Runtime*/.throwException( _mochaException );
+                        a.throwException( _mochaException );
                       };
                     } finally {
-                      if ( j/*_mochaFinallyCache*/ ){
-                        var _mochaLocalTmp1 = j/*_mochaFinallyCache*/(  );
+                      if ( g ){
+                        var _mochaLocalTmp1 = g(  );
                         
                         if ( _mochaLocalTmp1 !== undefined ){
                           return _mochaLocalTmp1;
@@ -1637,121 +1625,119 @@
                       };
                     };
                   };
-              return m/*Runtime*/.createGenerator( B/*_mochaGenerator*/,
+              return a.createGenerator( j,
               function (  ) {
-                f/*_yieldState*/ = -1;
+                c = -1;
                 
-                if ( j/*_mochaFinallyCache*/ ){
-                  j/*_mochaFinallyCache*/(  );
+                if ( g ){
+                  g(  );
                 };
               },this);
             };
             
-            generator = e/*yieldTest10*/();
+            generator = b();
           },
-          case10 : function U/*case10*/() {
-            function d/*yieldTest11*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case10 : function n() {
+            function b(  ) {
+              var b = true;
               
-              var g/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var h/*type*/;
+              var f;
               
-              var f/*i*/;
+              var d;
               
-              var D/*_mochaGenerator*/ = function ( j/*_isYieldSend*/,k/*_isYieldSafe*/ ) {
-                    if ( !j/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( j/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var g = function ( g,h ) {
+                    if ( !g ){
+                      b = false;
+                    } else if ( g && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                          
-                          if ( !( f/*i*/<10 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          e/*_yieldState*/ = 2;
-                          return ;
-                        case 2 :
-                          
-                          g/*_yieldResult*/ = j/*_isYieldSend*/ && arguments.length>2?m/*Runtime*/.toArray( arguments,2 )[0] : undefined;
-                          
-                          h/*type*/ = g/*_yieldResult*/;
-                          
-                          switch ( h/*type*/ ) {
-                            case 0 :
-                              
-                              e/*_yieldState*/ = 3;
-                              break;
-                            case 2 :
-                              
-                              e/*_yieldState*/ = 4;
-                              break;
-                            case 3 :
-                              
-                              e/*_yieldState*/ = 5;
-                              break;
-                            default :
-                              
-                              e/*_yieldState*/ = 6;
-                              break;
-                              
-                          };
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<10 ) ){
+                          c = -1;
                           break;
-                        case 3 :
-                          
-                          e/*_yieldState*/ = 7;
-                          return 200;
-                        case 4 :
-                          
-                          e/*_yieldState*/ = 7;
-                          return 400;
-                        case 5 :
-                          
-                          e/*_yieldState*/ = 7;
-                          return 600;
-                        case 6 :
-                          
-                          e/*_yieldState*/ = 7;
-                          return 700;
-                        case 7 :
-                          
-                          f/*i*/ ++ ;
-                          
-                          if ( f/*i*/<10 ){
-                            e/*_yieldState*/ = 1;
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        return ;
+                      case 2 :
+                        
+                        e = g && arguments.length>2?a.toArray( arguments,2 )[0] : undefined;
+                        
+                        f = e;
+                        
+                        switch ( f ) {
+                          case 0 :
+                            
+                            c = 3;
                             break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( k/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                          case 2 :
+                            
+                            c = 4;
+                            break;
+                          case 3 :
+                            
+                            c = 5;
+                            break;
+                          default :
+                            
+                            c = 6;
+                            break;
+                            
+                        };
+                        break;
+                      case 3 :
+                        
+                        c = 7;
+                        return 200;
+                      case 4 :
+                        
+                        c = 7;
+                        return 400;
+                      case 5 :
+                        
+                        c = 7;
+                        return 600;
+                      case 6 :
+                        
+                        c = 7;
+                        return 700;
+                      case 7 :
+                        
+                        d ++ ;
+                        
+                        if ( d<10 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( h ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( D/*_mochaGenerator*/,
+              return a.createGenerator( g,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest11*/();
+            generator = b();
             
             generator.next();
             
@@ -1761,119 +1747,117 @@
             
             generator.next();
           },
-          case11 : function V/*case11*/() {
-            function d/*yieldTest12*/(  ) {
-              var d/*_mochaIsNewBorn*/ = true;
+          case11 : function o() {
+            function b(  ) {
+              var b = true;
               
-              var g/*_yieldResult*/ = undefined;
+              var e = undefined;
               
-              var e/*_yieldState*/ = 0;
+              var c = 0;
               
-              var h/*type*/;
+              var f;
               
-              var f/*i*/;
+              var d;
               
-              var J/*_mochaGenerator*/ = function ( j/*_isYieldSend*/,k/*_isYieldSafe*/ ) {
-                    if ( !j/*_isYieldSend*/ ){
-                      d/*_mochaIsNewBorn*/ = false;
-                    } else if ( j/*_isYieldSend*/ && d/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var g = function ( g,h ) {
+                    if ( !g ){
+                      b = false;
+                    } else if ( g && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( e/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          f/*i*/ = 0;
-                          
-                          if ( !( f/*i*/<15 ) ){
-                            e/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          e/*_yieldState*/ = 2;
-                          return ;
-                        case 2 :
-                          
-                          g/*_yieldResult*/ = j/*_isYieldSend*/ && arguments.length>2?m/*Runtime*/.toArray( arguments,2 )[0] : undefined;
-                          
-                          h/*type*/ = g/*_yieldResult*/;
-                          
-                          switch ( h/*type*/ ) {
-                            case 4 :
-                            case 0 :
-                              
-                              e/*_yieldState*/ = 3;
-                              break;
-                            case 5 :
-                              
-                              e/*_yieldState*/ = 7;
-                              break;
-                            case 6 :
-                            case 2 :
-                              
-                              e/*_yieldState*/ = 4;
-                              break;
-                            case 3 :
-                              
-                              e/*_yieldState*/ = 5;
-                              break;
-                            default :
-                              
-                              e/*_yieldState*/ = 6;
-                              break;
-                              
-                          };
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d = 0;
+                        
+                        if ( !( d<15 ) ){
+                          c = -1;
                           break;
-                        case 3 :
-                          
-                          e/*_yieldState*/ = 8;
-                          return 200;
-                        case 4 :
-                          
-                          e/*_yieldState*/ = 8;
-                          return 400;
-                        case 5 :
-                          
-                          e/*_yieldState*/ = 8;
-                          return 600;
-                        case 6 :
-                          
-                          e/*_yieldState*/ = 8;
-                          return 700;
-                        case 7 :
-                          
-                          e/*_yieldState*/ = 8;
-                          break;
-                        case 8 :
-                          
-                          f/*i*/ ++ ;
-                          
-                          if ( f/*i*/<15 ){
-                            e/*_yieldState*/ = 1;
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        return ;
+                      case 2 :
+                        
+                        e = g && arguments.length>2?a.toArray( arguments,2 )[0] : undefined;
+                        
+                        f = e;
+                        
+                        switch ( f ) {
+                          case 4 :
+                          case 0 :
+                            
+                            c = 3;
                             break;
-                          } else {
-                            e/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( k/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                          case 5 :
+                            
+                            c = 7;
+                            break;
+                          case 6 :
+                          case 2 :
+                            
+                            c = 4;
+                            break;
+                          case 3 :
+                            
+                            c = 5;
+                            break;
+                          default :
+                            
+                            c = 6;
+                            break;
+                            
+                        };
+                        break;
+                      case 3 :
+                        
+                        c = 8;
+                        return 200;
+                      case 4 :
+                        
+                        c = 8;
+                        return 400;
+                      case 5 :
+                        
+                        c = 8;
+                        return 600;
+                      case 6 :
+                        
+                        c = 8;
+                        return 700;
+                      case 7 :
+                        
+                        c = 8;
+                        break;
+                      case 8 :
+                        
+                        d ++ ;
+                        
+                        if ( d<15 ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( h ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( J/*_mochaGenerator*/,
+              return a.createGenerator( g,
               function (  ) {
-                e/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            generator = d/*yieldTest12*/();
+            generator = b();
             
             generator.next();
             
@@ -1885,178 +1869,174 @@
             
             generator.next();
           },
-          case12 : function W/*case12*/() {
-            function h/*yieldTest13*/() {
-              var h/*_mochaIsNewBorn*/ = true;
+          case12 : function p() {
+            function b() {
+              var b = true;
               
-              var K/*_yieldResult*/ = undefined;
+              var i = undefined;
               
-              var i/*_yieldState*/ = 0;
+              var c = 0;
               
-              var o/*length*/;
+              var g;
               
-              var n/*_mochaLocalTmp4*/;
+              var f;
               
-              var p/*i*/;
+              var h;
               
-              var j/*obj*/;
+              var d;
               
-              var k/*_mochaLocalTmp3*/ = [];
+              var e = [];
               
-              var L/*_mochaGenerator*/ = function ( r/*_isYieldSend*/,s/*_isYieldSafe*/ ) {
-                    if ( !r/*_isYieldSend*/ ){
-                      h/*_mochaIsNewBorn*/ = false;
-                    } else if ( r/*_isYieldSend*/ && h/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
+              var j = function ( i,j ) {
+                    if ( !i ){
+                      b = false;
+                    } else if ( i && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
                     };
                     
-                    while ( 1 ){
-                      switch ( i/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          j/*obj*/ =  {
-                            x : 200,
-                            y : 300,
-                            z : 400
-                          };
-                          
-                          for ( var t/*_mochaLocalTmp2*/ in j/*obj*/ )
-                          k/*_mochaLocalTmp3*/.push( t/*_mochaLocalTmp2*/ );
-                          
-                          n/*_mochaLocalTmp4*/ = 0;
-                          
-                          o/*length*/ = k/*_mochaLocalTmp3*/.length;
-                          
-                          if ( !( n/*_mochaLocalTmp4*/<o/*length*/ ) ){
-                            i/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          i/*_yieldState*/ = 2;
-                          
-                          p/*i*/ = k/*_mochaLocalTmp3*/[n/*_mochaLocalTmp4*/];
-                          return [p/*i*/,j/*obj*/[p/*i*/]];
-                        case 2 :
-                          
-                           ++ n/*_mochaLocalTmp4*/;
-                          
-                          if ( n/*_mochaLocalTmp4*/<o/*length*/ ){
-                            i/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            i/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( s/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
-                    };
-                  };
-              return m/*Runtime*/.createGenerator( L/*_mochaGenerator*/,
-              function (  ) {
-                i/*_yieldState*/ = -1;
-              },this);
-            };
-            
-            generator = h/*yieldTest13*/();
-            
-            var i/*ret*/ = generator.next();
-            
-            i/*ret*/ = generator.next();
-            
-            i/*ret*/ = generator.next();
-          },
-          case13 : function X/*case13*/() {
-            function i/*keys*/( k/*obj*/ ) {
-              var i/*_mochaIsNewBorn*/ = true;
-              
-              var r/*_yieldResult*/ = undefined;
-              
-              var j/*_yieldState*/ = 0;
-              
-              var o/*length*/;
-              
-              var n/*_mochaLocalTmp7*/;
-              
-              var p/*prop*/;
-              
-              var l/*_mochaLocalTmp6*/ = [];
-              
-              var s/*_mochaGenerator*/ = function ( r/*_isYieldSend*/,s/*_isYieldSafe*/ ) {
-                    if ( !r/*_isYieldSend*/ ){
-                      i/*_mochaIsNewBorn*/ = false;
-                    } else if ( r/*_isYieldSend*/ && i/*_mochaIsNewBorn*/ && arguments[1] !== undefined ){
-                      m/*Runtime*/.exceptionHandler( 'attempt to send to newborn generator.' );
-                    };
-                    
-                    while ( 1 ){
-                      switch ( j/*_yieldState*/ ) {
-                        case 0 :
-                          
-                          for ( var t/*_mochaLocalTmp5*/ in k/*obj*/ )
-                          l/*_mochaLocalTmp6*/.push( t/*_mochaLocalTmp5*/ );
-                          
-                          n/*_mochaLocalTmp7*/ = 0;
-                          
-                          o/*length*/ = l/*_mochaLocalTmp6*/.length;
-                          
-                          if ( !( n/*_mochaLocalTmp7*/<o/*length*/ ) ){
-                            j/*_yieldState*/ = -1;
-                            break;
-                          };
-                        case 1 :
-                          
-                          p/*prop*/ = l/*_mochaLocalTmp6*/[n/*_mochaLocalTmp7*/];
-                          
-                          if ( k/*obj*/.hasOwnProperty( p/*prop*/ ) ){
-                            j/*_yieldState*/ = 2;
-                            break;
-                          } else {
-                            j/*_yieldState*/ = 3;
-                            break;
-                          };
-                        case 2 :
-                          
-                          j/*_yieldState*/ = 3;
-                          return p/*prop*/;
-                        case 3 :
-                          
-                          j/*_yieldState*/ = 4;
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        d =  {
+                          x : 200,
+                          y : 300,
+                          z : 400
+                        };
+                        
+                        for ( var k in d )
+                        e.push( k );
+                        
+                        f = 0;
+                        
+                        g = e.length;
+                        
+                        if ( !( f<g ) ){
+                          c = -1;
                           break;
-                        case 4 :
-                          
-                           ++ n/*_mochaLocalTmp7*/;
-                          
-                          if ( n/*_mochaLocalTmp7*/<o/*length*/ ){
-                            j/*_yieldState*/ = 1;
-                            break;
-                          } else {
-                            j/*_yieldState*/ = -1;
-                          };
-                        case -1 :
-                          
-                          if ( s/*_isYieldSafe*/ ){
-                            return undefined;
-                          } else {
-                            m/*Runtime*/.throwStopIteration();
-                          };
-                          
-                      };
+                        };
+                      case 1 :
+                        
+                        c = 2;
+                        
+                        h = e[f];
+                        return [h,d[h]];
+                      case 2 :
+                        
+                         ++ f;
+                        
+                        if ( f<g ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( j ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
                     };
                   };
-              return m/*Runtime*/.createGenerator( s/*_mochaGenerator*/,
+              return a.createGenerator( j,
               function (  ) {
-                j/*_yieldState*/ = -1;
+                c = -1;
               },this);
             };
             
-            var j/*testObject*/ =  {
+            generator = b();
+            
+            var d = generator.next();
+            
+            d = generator.next();
+            
+            d = generator.next();
+          },
+          case13 : function q() {
+            function b( d ) {
+              var b = true;
+              
+              var i = undefined;
+              
+              var c = 0;
+              
+              var g;
+              
+              var f;
+              
+              var h;
+              
+              var e = [];
+              
+              var j = function ( i,j ) {
+                    if ( !i ){
+                      b = false;
+                    } else if ( i && b && arguments[1] !== undefined ){
+                      a.exceptionHandler( 'attempt to send to newborn generator.' );
+                    };
+                    
+                    while ( 1 )switch ( c ) {
+                      case 0 :
+                        
+                        for ( var k in d )
+                        e.push( k );
+                        
+                        f = 0;
+                        
+                        g = e.length;
+                        
+                        if ( !( f<g ) ){
+                          c = -1;
+                          break;
+                        };
+                      case 1 :
+                        
+                        h = e[f];
+                        
+                        if ( d.hasOwnProperty( h ) ){
+                          c = 2;
+                          break;
+                        } else {
+                          c = 3;
+                          break;
+                        };
+                      case 2 :
+                        
+                        c = 3;
+                        return h;
+                      case 3 :
+                        
+                        c = 4;
+                        break;
+                      case 4 :
+                        
+                         ++ f;
+                        
+                        if ( f<g ){
+                          c = 1;
+                          break;
+                        } else {
+                          c = -1;
+                        };
+                      case -1 :
+                        
+                        if ( j ){
+                          return undefined;
+                        } else {
+                          a.throwStopIteration();
+                        };
+                        
+                    };
+                  };
+              return a.createGenerator( j,
+              function (  ) {
+                c = -1;
+              },this);
+            };
+            
+            var c =  {
                   value1 : 1,
                   value2 : 2,
                   value3 : 3,
@@ -2064,15 +2044,14 @@
                 };
             
             try {
-              var k/*itemGen*/ = i/*keys*/( j/*testObject*/ );
+              var d = b( c );
             } catch( e ){
               
             };
           }
         };
     
-    for ( var J/*i*/ = 1;J/*i*/<13;J/*i*/ ++  ){
-      Y/*tests*/["case"+J/*i*/]();
-    };
-  })();
-})();
+    for ( var c = 1;c<13;c ++  )
+    r["case"+c]();
+  }();
+}();

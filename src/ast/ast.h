@@ -396,7 +396,7 @@ class AstNode : public Managed {
    * @returns {AstNode*}
    * Clone node.
    */
-  inline virtual AstNode* Clone() { return 0; };
+  inline virtual AstNode* Clone() {return 0;};
 
   /**
    * @returns {bool}
@@ -489,7 +489,7 @@ class AstRoot : public AstNode {
  */
 class FileRoot : public AstNode {
  public :
-  inline FileRoot() : AstNode( AstNode::kFileRoot , "FileRoot" ) ,is_file_root_( false ) {}
+  inline FileRoot() : AstNode( AstNode::kFileRoot , "FileRoot" ) ,is_file_root_( false ) , has_directive_( false ) {}
   inline ~FileRoot(){};
   /**
    * @param {const char*}
@@ -503,9 +503,12 @@ class FileRoot : public AstNode {
   inline const char* FileName() const { return filepath_.c_str(); }
   bool IsRuntime() { return is_file_root_; }
   void SetFileRoot() { is_file_root_ = true; }
+  void SetStrict() { has_directive_ = true; }
+  bool HasStrict() { return has_directive_; }
   CLONE( FileRoot );
  private :
   bool is_file_root_;
+  bool has_directive_;
   std::string filepath_;
   CALL_ACCEPTOR( FileRoot );
 };
@@ -1026,6 +1029,7 @@ class Expression : public AstNode {
   virtual inline ~Expression(){};
   inline void Paren() { paren_ = true; };
   inline bool IsParen() { return paren_; };
+  inline void NoParen() { paren_ = false; };
   inline bool IsValidLhs() { return is_valid_lhs_; }
   inline void InValidLhs() { is_valid_lhs_ = false; }
   inline void ValidLhs() { is_valid_lhs_ = true; }
@@ -1232,7 +1236,7 @@ class Function : public Expression {
   inline Function() : Expression( NAME_PARAMETER( Function ) ),
                       fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_decl_( false ),
                       is_root_( false ),
-                      has_yield_( false ),
+                      has_yield_( false ),has_directive_( false ),
                       name_( 0 ) , argv_( 0 ) , replaced_this_( 0 ) , iteration_list_( 0 ) {};
   inline ~Function(){};
   inline Function* CastToFunction() { return this; }
@@ -1265,6 +1269,8 @@ class Function : public Expression {
   inline VariableList& GetVariable() { return variable_list_; }
   inline void SetReplacedThis( ValueNode* val ) { replaced_this_ = val; }
   inline ValueNode* GetReplacedThis() { return replaced_this_; }
+  inline void SetStrict() { has_directive_ = true;}
+  inline bool HasStrict() { return has_directive_; }
   CLONE( Function );
  private :
   int fn_type_;
@@ -1274,6 +1280,7 @@ class Function : public Expression {
   bool is_decl_;
   bool is_root_;
   bool has_yield_;
+  bool has_directive_;
   AstNode* name_;
   AstNode* argv_;
   ValueNode* replaced_this_;
@@ -1373,7 +1380,7 @@ class PostfixExp : public Expression {
   inline PostfixExp( int type ) : Expression( NAME_PARAMETER( PostfixExp ) ) , post_type_( type ) , exp_( 0 ){};
   inline ~PostfixExp(){};
   inline int PostType() { return post_type_; };
-  inline void Exp( AstNode* exp ) { exp_ = exp; }
+  inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( PostfixExp );
@@ -1399,7 +1406,7 @@ class UnaryExp : public Expression {
   };
   inline UnaryExp( int op ) : Expression( NAME_PARAMETER( UnaryExp ) ) , op_( op ) , exp_( 0 ){};
   inline ~UnaryExp() {};
-  inline void Exp( AstNode* exp ) { exp_ = exp; }
+  inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   inline int Op() { return op_; };
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
@@ -1426,7 +1433,10 @@ class BinaryExp : public Expression {
     kXor,
     kOr
   };
-  inline BinaryExp( int op , AstNode* left , AstNode* right ) : Expression( NAME_PARAMETER( BinaryExp ) ) , op_( op ) , left_( left ) , right_( right ){};
+  inline BinaryExp( int op , AstNode* left , AstNode* right ) : Expression( NAME_PARAMETER( BinaryExp ) ) , op_( op ) , left_( left ) , right_( right ){
+    left->ParentNode( this );
+    right->ParentNode( this );
+  };
   inline ~BinaryExp() {};
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
@@ -1457,7 +1467,10 @@ class CompareExp : public Expression {
     kLogicalAND,
     kLogicalOR
   };
-  inline CompareExp( int op , AstNode* left , AstNode* right ) : Expression( NAME_PARAMETER( CompareExp ) ) , op_( op ) , left_( left ) , right_( right ){};
+  inline CompareExp( int op , AstNode* left , AstNode* right ) : Expression( NAME_PARAMETER( CompareExp ) ) , op_( op ) , left_( left ) , right_( right ){
+    left->ParentNode( this );
+    right->ParentNode( this );
+  };
   inline ~CompareExp(){};
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
@@ -1476,7 +1489,10 @@ class ConditionalExp : public Expression {
  public :
   inline ConditionalExp( AstNode* cond , AstNode* case_true , AstNode* case_false ) :
       Expression( NAME_PARAMETER( ConditionalExp ) ),
-      cond_( cond ) , case_true_( case_true ) , case_false_( case_false ){};
+      cond_( cond ) , case_true_( case_true ) , case_false_( case_false ){
+    case_true->ParentNode( this );
+    
+  };
   inline ~ConditionalExp(){};
   inline AstNode* True() { return case_true_; };
   inline AstNode* False() { return case_false_; };

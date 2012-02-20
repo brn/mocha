@@ -28,10 +28,9 @@ var _mochaGlobalExport = {};
 //and harmoy's some extras.
 let ( { prototype : stringProto } = String,
       { prototype : arrayProto } = Array,
-      { prototype : functionProto } = Function, 
+      { prototype : functionProto } = Function,
       { prototype : dateProto } = Date )
 {
-  "use strict";
   builtinTypeError( message ) -> {
     try {
       throw new TypeError( message );
@@ -39,14 +38,14 @@ let ( { prototype : stringProto } = String,
       throw new  Error( e );
     }
   }
-  
+
   callbackCheck( callback , type ) -> {
     @assert( true , typeof type === "string" );
     if ( typeof callback !== "function" ) {
       builtinTypeError( type + " : first argument is not callable" );
     }
   }
-  
+
   if ( !Object.keys ) {
     /**
      * Returns an array of all own enumerable properties found upon a given object,
@@ -93,7 +92,7 @@ let ( { prototype : stringProto } = String,
      */
     Object.freeze = ( o ) -> o;
   }
-  
+
   //Check that given enviorment has real ecma262 5th edition.
   //i.e. Internet Explorer 8 has Object.definedProperty,
   //but that couldn't apply to the javascript object.
@@ -123,7 +122,7 @@ let ( { prototype : stringProto } = String,
      * and only set property to object.
      * @param {*} obj
      * @param {String} prop
-     * @param {*} valobj 
+     * @param {*} valobj
      */
     Object.defineProperty = ( obj , prop , valobj ) -> {
       if ( valobj.value ) {
@@ -131,7 +130,7 @@ let ( { prototype : stringProto } = String,
       }
     }
   }
-  
+
   if( !stringProto.trim ){
     /**
      * [MDN String/Trim]
@@ -142,7 +141,7 @@ let ( { prototype : stringProto } = String,
     //To avoid closure, we set regular expression to function's property.
     stringProto.trim.rtrim = /^\s*|\s*$/g;
   }
-  
+
   //Harmony extras begin
   if ( !stringProto.repeat ) {
     Object.defineProperty( stringProto , "repeat" , {
@@ -152,7 +151,7 @@ let ( { prototype : stringProto } = String,
       writable : true
     });
   }
-  
+
   if ( !stringProto.startsWith ) {
     Object.defineProperty( stringProto , "startsWith" , {
       value( str ) -> !this.indexOf( str ) ,
@@ -161,7 +160,7 @@ let ( { prototype : stringProto } = String,
       writable : true
     });
   }
-  
+
   if ( !stringProto.endsWith ) {
     Object.defineProperty( stringProto , "endsWith" , {
       value( str ) -> {
@@ -174,7 +173,7 @@ let ( { prototype : stringProto } = String,
       writable : true
     });
   }
-  
+
   if ( !stringProto.contains ) {
     Object.defineProperty( stringProto , "contains" , {
       value( str ) -> this.indexOf( str ) !== -1,
@@ -183,7 +182,7 @@ let ( { prototype : stringProto } = String,
       writable : true
     });
   }
-  
+
   if ( !stringProto.toArray ) {
     Object.defineProperty( stringProto , "toArray" , {
       value( str ) -> this.split(""),
@@ -193,7 +192,7 @@ let ( { prototype : stringProto } = String,
     });
   }
   //Harmony extras end.
-  
+
   if( !functionProto.bind ){
     /**
      * [MDN Function/Bind]
@@ -221,8 +220,8 @@ let ( { prototype : stringProto } = String,
       return ret;
     }
   }
-  
-  
+
+
   if( !arrayProto.forEach ){
     /**
      * [MDN Array/ForEach]
@@ -235,7 +234,7 @@ let ( { prototype : stringProto } = String,
      *   |- The index of the current element begin processed in array.
      * array
      *   |- The array map was called upon.
-     * @param {*} that -> context object. 
+     * @param {*} that -> context object.
      */
     arrayProto.forEach = ( callback , that ) -> {
       callbackCheck( callback , "Array.forEach" );
@@ -425,9 +424,9 @@ let ( { prototype : stringProto } = String,
       return index;
     }
   }
-  
-  
-  
+
+
+
   if( !arrayProto.map ){
     /**
      * [MDN Array/map]
@@ -468,9 +467,9 @@ let ( { prototype : stringProto } = String,
       return ret;
     };
   }
-  
-  
-  
+
+
+
   if( !arrayProto.reduce ){
     /**
      * [MDN Array/Reduce]
@@ -485,7 +484,7 @@ let ( { prototype : stringProto } = String,
      * index
      *   |- The index of the current element being processed in the array.
      * array
-     *   |- The array reduce was called upon. 
+     *   |- The array reduce was called upon.
      * @param {Number} initial -> Object to use as the first argument to the first call of the callback.
      */
     arrayProto.reduce = ( callback , initial ) -> {
@@ -505,8 +504,8 @@ let ( { prototype : stringProto } = String,
       return ret;
     };
   }
-  
-  
+
+
 
   if( !arrayProto.reduceRight ){
     /**
@@ -522,7 +521,7 @@ let ( { prototype : stringProto } = String,
      * index
      *   |- The index of the current element being processed in the array.
      * array
-     *   |- The array reduce was called upon. 
+     *   |- The array reduce was called upon.
      * @param {Number} initial -> Object to use as the first argument to the first call of the callback.
      */
     arrayProto.reduceRight = ( callback , initial ) -> {
@@ -542,9 +541,9 @@ let ( { prototype : stringProto } = String,
       return ret;
     };
   }
-  
-  
-  
+
+
+
   if ( !dateProto.toJSON ) {
     /**
      * [MDN Date/toJSON]
@@ -577,7 +576,7 @@ let ( { prototype : stringProto } = String,
      */
     Date.now = -> +new Date ();
   }
-  
+
 
   if ( !Array.isArray ) {
     /**
@@ -613,53 +612,50 @@ module Runtime {
   const Exception( line , file , e ) {
           this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
         }
-  
-  const fastMax = Math.max;
-  
+  const {max} = Math;
+  const {slice} = Array.prototype;
+
   //Minimal runtime.
-  var Runtime = {
-        getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
-        exceptionHandler ( line , file , e ){
-          if ( isStopIteration( e ) ) {
-            this.throwException( e );
-          } else {
-            this.throwException( new Exception( line , file , e ) );
-          }
-        },
-        throwException ( exception ) {
-          try {
-            throw exception;
-          } catch( e ) {
+  const Runtime = {
+          getErrorMessage ( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString(),
+          exceptionHandler ( line , file , e ){
             if ( isStopIteration( e ) ) {
-              throw new Error( e );
+              this.throwException( e );
             } else {
-              throw new Error( this.getErrorMessage( e ) );
+              this.throwException( new Exception( line , file , e ) );
             }
-          }
-        },
-        hasProto : "__proto__" in {}
-      }
-  
-  var slice = Array.prototype.slice;
-  
+          },
+          throwException ( exception ) {
+            try {
+              throw exception;
+            } catch( e ) {
+              if ( isStopIteration( e ) ) {
+                throw new Error( e );
+              } else {
+                throw new Error( this.getErrorMessage( e ) );
+              }
+            }
+          },
+          hasProto : "__proto__" in {}
+        }
+
   export createUnenumProp( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : true,
     enumerable : false,
     writable : true,
     value : value
   });
-  
+
   export constant( obj , prop , value ) -> Object.defineProperty( obj , prop , {
     configurable : false,
     enumerable : false,
     writable : false,
     value : value
   });
-  
+
   export toArray( likeArray , index ) -> ( likeArray )? slice.call( likeArray , index ) : [];
-  
-  var Generator = function () {}
-  
+
+  Generator()->{}
   export createGenerator( generatorFn , closeFn , context ) -> {
     var ret = new Generator;
     createUnenumProp( ret , "next" , generatorFn.bind( context , false , false ) );
@@ -670,29 +666,29 @@ module Runtime {
     Object.freeze( ret );
     return ret;
   }
-  
+
   const getErrorMessage( e ) -> ( e.message )? e.message : ( e.description )? e.description : e.toString();
-  
+
   export throwException = Runtime.throwException.bind( Runtime );
-  
+
   export exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
-  
+
   export extend( dest , source ) {
     for ( var prop in source ) {
       dest[ prop ] = source[ prop ];
     }
     return dest;
   }
-  
+
   compareTuple( tuple ) -> {
-    var max = fastMax( tuple.length , this.length ),
+    var maxIndex = max( tuple.length , this.length ),
         i = -1;
-    while ( ++i < max && tuple[ i ] === this[ i ] );
-    return max === i;
+    while ( ++i < maxIndex && tuple[ i ] === this[ i ] ){}
+    return maxIndex === i;
   }
-  
+
   tupleToArray -> Array.prototype.slice.call( this );
-  
+
   export createTuple( obj , size ) {
     createUnenumProp( obj , "length" , size );
     createUnenumProp( obj , "equal" , compareTuple );
@@ -700,18 +696,18 @@ module Runtime {
     createUnenumProp( obj , "toString" , -> "[object Tuple]" );
     return Object.freeze( obj );
   }
-  
+
   export createRecord( obj ) {
     if ( obj.toString() === "[object Object]" ) {
       createUnenumProp( obj , "toString" , -> "[object Record]" );
     }
     return Object.freeze( obj );
   }
-  
+
   export extendPrototype = ( derived , base ) -> {
     derived.prototype = base;
   }
-  
+
   const getPrototype = ( "getPrototypeOf" in Object )?
     ( obj ) -> Object.getPrototypeOf( obj ) :
     ( obj ) -> {
@@ -723,7 +719,7 @@ module Runtime {
       }
       return ret;
     }
-  
+
   export extendClass = ( Runtime.hasProto )?
     ( derived , base ) -> {
       if ( typeof base === 'function' ) {
@@ -751,9 +747,9 @@ module Runtime {
         derived.prototype = new inherit;
       }
     }
-  
+
   export __ref_iterator__ = "__mocha_iterator_special_key__";
-  
+
   export throwStopIteration() {
     try {
       throw StopIteration;
@@ -761,11 +757,11 @@ module Runtime {
       throw new Error( e.toString() );
     }
   }
-  
+
   export isGenerator( obj ) {
     return obj instanceof Generator;
   }
-  
+
   export getIterator( obj ) {
     var ret = obj[__ref_iterator__](),
         newObj;
@@ -797,16 +793,16 @@ module Runtime {
     }
     return newObj;
   }
-  
+
   export hasIterator( obj ) {
     return __ref_iterator__ in obj;
   }
-  
+
   const rstopIteration = /StopIteration/;
   export isStopIteration( obj ) {
     return obj === StopIteration || rstopIteration.test( obj );
   }
-  
+
   var privateRecord,
       createPrivateRecord,
       getPrivateRecord;
@@ -840,7 +836,7 @@ module Runtime {
       }
     }
   }
-  
+
   export createPrivateRecord;
   export getPrivateRecord;
   export getSuper( obj ) {
@@ -859,8 +855,8 @@ module Runtime {
     }
     return ret;
   }
-  
-  
+
+
   export traitMixin( dest , source , with_ , without ) {
     if ( !dest._mochaTraitMark || !source._mochaTraitMark ) {
       Runtime.throwException( "mixin only used for trait." );
@@ -889,7 +885,7 @@ module Runtime {
       }
     }
   }
-  
+
   export classMixin( { prototype : constructorProto } , { prototype : privateProto },
                      { _mochaTraitMark : mark , _mochaTraitPublic : traitPublic , _mochaTraitPrivate : traitPrivate },
                      with_ , without )
@@ -912,7 +908,7 @@ module Runtime {
       }
     }
   }
-  
+
   export checkRequirements( {prototype:proto1}, {prototype:proto2} , traits , file , line ) {
     for ( var i = 0,len = traits.length; i < len; i++ ) {
       var {_mochaRequires} = traits[ i ];
@@ -924,7 +920,7 @@ module Runtime {
       }
     }
   }
-  
+
   @version( debug ) {
     export assert = ( console && console.assert )?
       ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
@@ -941,3 +937,12 @@ if ( !( "StopIteration" in window ) ) {
     toString() { return "[object StopIteration]"; }
   }
 }
+
+Tuple ( ...args )-> {
+  var ret = {}
+  ret.length = 0;
+  Array.prototype.push.apply( ret , args )
+  Runtime.createTuple( ret , arguments.length );
+  return ret;
+}
+Record( member ) -> Runtime.createRecord( member );

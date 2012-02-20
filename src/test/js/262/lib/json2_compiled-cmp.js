@@ -1,108 +1,105 @@
-(function() {
+!function() {
   
-  var b/*_mochaGlobalExport*/ = {};
+  var b = {};
   
-  ( function ( f/*_mochaLocalTmp0*/,g/*_mochaLocalTmp1*/,h/*_mochaLocalTmp2*/,i/*_mochaLocalTmp3*/ ) {
-    var c/*stringProto*/ = f/*_mochaLocalTmp0*/.prototype,
-        d/*arrayProto*/ = g/*_mochaLocalTmp1*/.prototype,
-        j/*functionProto*/ = h/*_mochaLocalTmp2*/.prototype,
-        k/*dateProto*/ = i/*_mochaLocalTmp3*/.prototype;
+  !function ( f,g,h,i ) {
+    var c = f.prototype,
+        d = g.prototype,
+        j = h.prototype,
+        k = i.prototype;
     
-    "use strict";
-    
-    function b/*builtinTypeError*/( a/*message*/ ) {
+    function b( a ) {
       try {
-        throw new TypeError( a/*message*/ );
+        throw new TypeError( a );
       } catch( e ){
         throw new Error( e );
       };
     };
     
-    function e/*callbackCheck*/( c/*callback*/,d/*type*/ ) {
+    function e( c,d ) {
       
-      if ( typeof c/*callback*/ !== "function" ){
-        b/*builtinTypeError*/( d/*type*/+" : first argument is not callable" );
+      if ( typeof c !== "function" ){
+        b( d+" : first argument is not callable" );
       };
     };
     
     if ( !Object.keys ){
-      Object.keys = function ( a/*obj*/ ) {
-        if ( !a/*obj*/ ){
-          b/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+      Object.keys = function ( a ) {
+        if ( !a ){
+          b( "Object.keys : first arguments is null or not defined." );
         };
         
-        var c/*ret*/ = [],
-            d/*iter*/ = -1;
+        var c = [],
+            d = -1;
         
-        for ( var e/*i*/ in a/*obj*/ ){
-          if ( a/*obj*/.hasOwnProperty( e/*i*/ ) ){
-            c/*ret*/[ ++ d/*iter*/] = a/*obj*/[e/*i*/];
-          };
+        for ( var e in a )
+        if ( a.hasOwnProperty( e ) ){
+          c[ ++ d] = a[e];
         };
-        return c/*ret*/;
+        return c;
       };
     };
     
     if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( a/*o*/ ) {
-        return a/*o*/;
+      Object.preventExtensions = function ( a ) {
+        return a;
       };
     };
     
     if ( !Object.seal ){
-      Object.seal = function ( a/*o*/ ) {
-        return a/*o*/;
+      Object.seal = function ( a ) {
+        return a;
       };
     };
     
     if ( !Object.freeze ){
-      Object.freeze = function ( a/*o*/ ) {
-        return a/*o*/;
+      Object.freeze = function ( a ) {
+        return a;
       };
     };
     
-    var l/*hasRealEcma5*/ = ( function () {
-          var a/*ret*/;
+    var l = function () {
+          var a;
           
           try {
-            var b/*obj*/ = {};
+            var b = {};
             
-            Object.defineProperty( b/*obj*/,"test", {
+            Object.defineProperty( b,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
               value : 0
             });
             
-            b/*obj*/.test = 200;
+            b.test = 200;
             
-            a/*ret*/ = ( b/*obj*/.test === 200 )?false : true;
+            a = ( b.test === 200 )?false : true;
           } catch( e ){
-            a/*ret*/ = false;
+            a = false;
           };
-          return a/*ret*/;
-        })();
+          return a;
+        }();
     
-    if ( !l/*hasRealEcma5*/ ){
-      Object.defineProperty = function ( a/*obj*/,b/*prop*/,c/*valobj*/ ) {
-        if ( c/*valobj*/.value ){
-          a/*obj*/[b/*prop*/] = c/*valobj*/.value;
+    if ( !l ){
+      Object.defineProperty = function ( a,b,c ) {
+        if ( c.value ){
+          a[b] = c.value;
         };
       };
     };
     
-    if ( !c/*stringProto*/.trim ){
-      c/*stringProto*/.trim = function () {
-        return this.replace( c/*stringProto*/.trim.rtrim,"" );
+    if ( !c.trim ){
+      c.trim = function () {
+        return this.replace( c.trim.rtrim,"" );
       };
       
-      c/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+      c.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !c/*stringProto*/.repeat ){
-      Object.defineProperty( c/*stringProto*/,"repeat", {
-        value : function m/*value*/( a/*num*/ ) {
-          return Array( a/*num*/+1 ).join( this.toString() );
+    if ( !c.repeat ){
+      Object.defineProperty( c,"repeat", {
+        value : function m( a ) {
+          return Array( a+1 ).join( this.toString() );
         },
         configurable : true,
         enumerable : false,
@@ -110,10 +107,10 @@
       });
     };
     
-    if ( !c/*stringProto*/.startsWith ){
-      Object.defineProperty( c/*stringProto*/,"startsWith", {
-        value : function m/*value*/( a/*str*/ ) {
-          return !this.indexOf( a/*str*/ );
+    if ( !c.startsWith ){
+      Object.defineProperty( c,"startsWith", {
+        value : function m( a ) {
+          return !this.indexOf( a );
         },
         configurable : true,
         enumerable : false,
@@ -121,13 +118,13 @@
       });
     };
     
-    if ( !c/*stringProto*/.endsWith ){
-      Object.defineProperty( c/*stringProto*/,"endsWith", {
-        value : function m/*value*/( a/*str*/ ) {
-          var b/*t*/ = String( a/*str*/ );
+    if ( !c.endsWith ){
+      Object.defineProperty( c,"endsWith", {
+        value : function m( a ) {
+          var b = String( a );
           
-          var c/*index*/ = this.lastIndexOf( b/*t*/ );
-          return c/*index*/ >= 0 && c/*index*/ === this.length-b/*t*/.length;
+          var c = this.lastIndexOf( b );
+          return c >= 0 && c === this.length-b.length;
         },
         configurable : true,
         enumerable : false,
@@ -135,10 +132,10 @@
       });
     };
     
-    if ( !c/*stringProto*/.contains ){
-      Object.defineProperty( c/*stringProto*/,"contains", {
-        value : function m/*value*/( a/*str*/ ) {
-          return this.indexOf( a/*str*/ ) !== -1;
+    if ( !c.contains ){
+      Object.defineProperty( c,"contains", {
+        value : function m( a ) {
+          return this.indexOf( a ) !== -1;
         },
         configurable : true,
         enumerable : false,
@@ -146,9 +143,9 @@
       });
     };
     
-    if ( !c/*stringProto*/.toArray ){
-      Object.defineProperty( c/*stringProto*/,"toArray", {
-        value : function m/*value*/( a/*str*/ ) {
+    if ( !c.toArray ){
+      Object.defineProperty( c,"toArray", {
+        value : function m( a ) {
           return this.split( "" );
         },
         configurable : true,
@@ -157,265 +154,238 @@
       });
     };
     
-    if ( !j/*functionProto*/.bind ){
-      j/*functionProto*/.bind = function () {
-        var a/*argArray*/ = d/*arrayProto*/.slice.call( arguments ),
-            c/*context*/ = a/*argArray*/.shift(),
-            b/*ret*/ = function () {
-              var e/*args*/ = a/*argArray*/.concat( d/*arrayProto*/.slice.call( arguments ) );
+    if ( !j.bind ){
+      j.bind = function () {
+        var a = d.slice.call( arguments ),
+            c = a.shift(),
+            b = function () {
+              var e = a.concat( d.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof b/*ret*/ ){
-                return b/*ret*/.context.apply( this,e/*args*/ );
+              if ( this !== null && this !== window && this instanceof b ){
+                return b.context.apply( this,e );
               } else {
-                return b/*ret*/.context.apply( c/*context*/,e/*args*/ );
+                return b.context.apply( c,e );
               };
             };
         
-        b/*ret*/.prototype = this.prototype;
+        b.prototype = this.prototype;
         
-        b/*ret*/.context = this;
-        return b/*ret*/;
+        b.context = this;
+        return b;
       };
     };
     
-    if ( !d/*arrayProto*/.forEach ){
-      d/*arrayProto*/.forEach = function ( f/*callback*/,g/*that*/ ) {
-        e/*callbackCheck*/( f/*callback*/,"Array.forEach" );
+    if ( !d.forEach ){
+      d.forEach = function ( f,g ) {
+        e( f,"Array.forEach" );
         
-        var h/*iter*/ = -1,
-            i/*ta*/;
+        var h = -1,
+            i;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
+          b( "Array.forEach : this is null or not defined" );
         };
         
-        if ( g/*that*/ ){
-          while ( ( i/*ta*/ = this[ ++ h/*iter*/] ) !== null && i/*ta*/ !== undefined ){
-            f/*callback*/.call( g/*that*/,i/*ta*/,h/*iter*/,this );
-          };
+        if ( g ){
+          while ( ( i = this[ ++ h] ) !== null && i !== undefined )f.call( g,i,h,this );
         } else {
-          while ( ( i/*ta*/ = this[ ++ h/*iter*/] ) !== null && i/*ta*/ !== undefined ){
-            f/*callback*/( i/*ta*/,h/*iter*/,this );
-          };
+          while ( ( i = this[ ++ h] ) !== null && i !== undefined )f( i,h,this );
         };
       };
     };
     
-    if ( !d/*arrayProto*/.every ){
-      d/*arrayProto*/.every = function ( a/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( a/*callback*/,"Array.every" );
+    if ( !d.every ){
+      d.every = function ( a,c ) {
+        e( a,"Array.every" );
         
-        var d/*iter*/ = -1,
-            f/*ta*/;
+        var d = -1,
+            f;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.every : this is null or not defined" );
+          b( "Array.every : this is null or not defined" );
         };
         
-        if ( c/*that*/ ){
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( !( a/*callback*/.call( c/*that*/,f/*ta*/,d/*iter*/,this ) ) ){
-              return false;
-            };
+        if ( c ){
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a.call( c,f,d,this ) ) ){
+            return false;
           };
         } else {
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( !( a/*callback*/( f/*ta*/,d/*iter*/,this ) ) ){
-              return false;
-            };
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a( f,d,this ) ) ){
+            return false;
           };
         };
         return true;
       };
     };
     
-    if ( !d/*arrayProto*/.some ){
-      d/*arrayProto*/.some = function ( a/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( a/*callback*/,"Array.some" );
+    if ( !d.some ){
+      d.some = function ( a,c ) {
+        e( a,"Array.some" );
         
-        var d/*iter*/ = -1,
-            f/*ta*/;
+        var d = -1,
+            f;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.some : this is null or not defined" );
+          b( "Array.some : this is null or not defined" );
         };
         
-        if ( c/*that*/ ){
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( a/*callback*/.call( c/*that*/,f/*ta*/,d/*iter*/,this ) ){
-              return true;
-            };
+        if ( c ){
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a.call( c,f,d,this ) ){
+            return true;
           };
         } else {
-          while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-            if ( a/*callback*/( f/*ta*/,d/*iter*/,this ) ){
-              return true;
-            };
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a( f,d,this ) ){
+            return true;
           };
         };
         return false;
       };
     };
     
-    if ( !d/*arrayProto*/.filter ){
-      d/*arrayProto*/.filter = function ( a/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( a/*callback*/,"Array.filter" );
+    if ( !d.filter ){
+      d.filter = function ( a,c ) {
+        e( a,"Array.filter" );
         
-        var d/*len*/ = this.length,
-            f/*iter*/ = -1,
-            g/*ret*/ = [],
-            h/*ta*/;
+        var d = this.length,
+            f = -1,
+            g = [],
+            h;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.filter : this is null or not defined" );
+          b( "Array.filter : this is null or not defined" );
         };
         
-        if ( c/*that*/ ){
-          for ( var i/*i*/ = 0,d/*len*/ = this.length;i/*i*/<d/*len*/; ++ i/*i*/ ){
-            if ( ( h/*ta*/ = this[i/*i*/] ) !== null && h/*ta*/ !== undefined ){
-              if ( a/*callback*/.call( c/*that*/,h/*ta*/,i/*i*/,this ) ){
-                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
-              };
+        if ( c ){
+          for ( var i = 0,d = this.length;i<d; ++ i )
+          if ( ( h = this[i] ) !== null && h !== undefined ){
+            if ( a.call( c,h,i,this ) ){
+              g[ ++ f] = h;
             };
           };
         } else {
-          for ( var i/*i*/ = 0,d/*len*/ = this.length;i/*i*/<d/*len*/; ++ i/*i*/ ){
-            if ( ( h/*ta*/ = this[i/*i*/] ) !== null && h/*ta*/ !== undefined ){
-              if ( a/*callback*/( h/*ta*/,i/*i*/,this ) ){
-                g/*ret*/[ ++ f/*iter*/] = h/*ta*/;
-              };
+          for ( var i = 0,d = this.length;i<d; ++ i )if ( ( h = this[i] ) !== null && h !== undefined ){
+            if ( a( h,i,this ) ){
+              g[ ++ f] = h;
             };
           };
         };
-        return g/*ret*/;
+        return g;
       };
     };
     
-    if ( !d/*arrayProto*/.indexOf ){
-      d/*arrayProto*/.indexOf = function ( a/*subject*/,c/*fromIndex*/ ) {
-        var d/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/-1 : -1,
-            e/*index*/ = -1,
-            f/*ta*/;
+    if ( !d.indexOf ){
+      d.indexOf = function ( a,c ) {
+        var d = ( c )?c-1 : -1,
+            e = -1,
+            f;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
+          b( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( f/*ta*/ = this[ ++ d/*iter*/] ) !== null && f/*ta*/ !== undefined ){
-          if ( f/*ta*/ === a/*subject*/ ){
-            e/*index*/ = d/*iter*/;
-            break;
-          };
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( f === a ){
+          e = d;
+          break;
         };
-        return e/*index*/;
+        return e;
       };
     };
     
-    if ( !d/*arrayProto*/.lastIndexOf ){
-      d/*arrayProto*/.lastIndexOf = function ( a/*target*/,c/*fromIndex*/ ) {
-        var d/*len*/ = this.length,
-            e/*iter*/ = ( c/*fromIndex*/ )?c/*fromIndex*/+1 : d/*len*/,
-            f/*index*/ = -1,
-            g/*ta*/;
+    if ( !d.lastIndexOf ){
+      d.lastIndexOf = function ( a,c ) {
+        var d = this.length,
+            e = ( c )?c+1 : d,
+            f = -1,
+            g;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
+          b( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( g/*ta*/ = this[ -- e/*iter*/] ) !== null && g/*ta*/ !== undefined ){
-          if ( g/*ta*/ === a/*target*/ ){
-            f/*index*/ = e/*iter*/;
-            break;
-          };
+        while ( ( g = this[ -- e] ) !== null && g !== undefined )if ( g === a ){
+          f = e;
+          break;
         };
-        return f/*index*/;
+        return f;
       };
     };
     
-    if ( !d/*arrayProto*/.map ){
-      d/*arrayProto*/.map = function ( a/*callback*/,c/*that*/ ) {
-        e/*callbackCheck*/( a/*callback*/,"Array.map" );
+    if ( !d.map ){
+      d.map = function ( a,c ) {
+        e( a,"Array.map" );
         
-        var d/*ret*/ = [],
-            f/*iter*/ = -1,
-            g/*len*/ = this.length,
-            h/*i*/ = 0,
-            i/*ta*/;
+        var d = [],
+            f = -1,
+            g = this.length,
+            h = 0,
+            i;
         
         if ( this === null ){
-          b/*builtinTypeError*/( "Array.map : this is null or not defined." );
+          b( "Array.map : this is null or not defined." );
         };
         
-        if ( c/*that*/ ){
-          for ( h/*i*/;h/*i*/<g/*len*/; ++ h/*i*/ ){
-            if ( ( i/*ta*/ = this[h/*i*/] ) !== null && i/*ta*/ !== undefined ){
-              d/*ret*/[ ++ f/*iter*/] = a/*callback*/.call( c/*that*/,i/*ta*/,h/*i*/,this );
-            };
+        if ( c ){
+          for ( h;h<g; ++ h )if ( ( i = this[h] ) !== null && i !== undefined ){
+            d[ ++ f] = a.call( c,i,h,this );
           };
         } else {
-          for ( h/*i*/;h/*i*/<g/*len*/; ++ h/*i*/ ){
-            if ( ( i/*ta*/ = this[h/*i*/] ) !== null && i/*ta*/ !== undefined ){
-              d/*ret*/[ ++ f/*iter*/] = a/*callback*/( i/*ta*/,h/*i*/,this );
-            };
+          for ( h;h<g; ++ h )if ( ( i = this[h] ) !== null && i !== undefined ){
+            d[ ++ f] = a( i,h,this );
           };
         };
-        return d/*ret*/;
+        return d;
       };
     };
     
-    if ( !d/*arrayProto*/.reduce ){
-      d/*arrayProto*/.reduce = function ( a/*callback*/,c/*initial*/ ) {
-        e/*callbackCheck*/( a/*callback*/,"Array.reduce" );
+    if ( !d.reduce ){
+      d.reduce = function ( a,c ) {
+        e( a,"Array.reduce" );
         
-        var d/*ret*/ = c/*initial*/ || this[0],
-            f/*i*/ = ( c/*initial*/ )?0 : 1,
-            g/*len*/ = this.length,
-            h/*ta*/;
+        var d = c || this[0],
+            f = ( c )?0 : 1,
+            g = this.length,
+            h;
         
-        if ( ( g/*len*/ === 0 || g/*len*/ === null ) && arguments.length<2 ){
-          b/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( g === 0 || g === null ) && arguments.length<2 ){
+          b( "Array length is 0 and no second argument" );
         };
         
-        for ( f/*i*/;f/*i*/<g/*len*/; ++ f/*i*/ ){
-          if ( ( h/*ta*/ = this[f/*i*/] ) !== null && h/*ta*/ !== undefined ){
-            d/*ret*/ = a/*callback*/( d/*ret*/,h/*ta*/,f/*i*/,this );
-          };
+        for ( f;f<g; ++ f )if ( ( h = this[f] ) !== null && h !== undefined ){
+          d = a( d,h,f,this );
         };
-        return d/*ret*/;
+        return d;
       };
     };
     
-    if ( !d/*arrayProto*/.reduceRight ){
-      d/*arrayProto*/.reduceRight = function ( a/*callback*/,c/*initial*/ ) {
-        e/*callbackCheck*/( a/*callback*/,"Array.reduceRight" );
+    if ( !d.reduceRight ){
+      d.reduceRight = function ( a,c ) {
+        e( a,"Array.reduceRight" );
         
-        var d/*len*/ = this.length,
-            f/*ret*/ = c/*initial*/ || this[d/*len*/-1],
-            g/*i*/ = ( c/*initial*/ )?d/*len*/-1 : d/*len*/-2,
-            h/*ta*/;
+        var d = this.length,
+            f = c || this[d-1],
+            g = ( c )?d-1 : d-2,
+            h;
         
-        if ( ( d/*len*/ === 0 || d/*len*/ === null ) && arguments.length<2 ){
-          b/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( d === 0 || d === null ) && arguments.length<2 ){
+          b( "Array length is 0 and no second argument" );
         };
         
-        for ( g/*i*/;g/*i*/>-1; -- g/*i*/ ){
-          if ( ( h/*ta*/ = this[g/*i*/] ) !== null && h/*ta*/ !== undefined ){
-            f/*ret*/ = a/*callback*/( f/*ret*/,h/*ta*/,g/*i*/,this );
-          };
+        for ( g;g>-1; -- g )if ( ( h = this[g] ) !== null && h !== undefined ){
+          f = a( f,h,g,this );
         };
-        return f/*ret*/;
+        return f;
       };
     };
     
-    if ( !k/*dateProto*/.toJSON ){
-      k/*dateProto*/.toJSON = function () {
-        var a/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            b/*month*/ = a/*_mochaLocalTmp4*/[0],
-            c/*date*/ = a/*_mochaLocalTmp4*/[1],
-            d/*hour*/ = a/*_mochaLocalTmp4*/[2],
-            e/*minute*/ = a/*_mochaLocalTmp4*/[3],
-            f/*second*/ = a/*_mochaLocalTmp4*/[4];
-        return '"'+this.getUTCFullYear()+'-'+( b/*month*/>8?b/*month*/+1 : "0"+( b/*month*/+1 ) )+'-'+( c/*date*/>9?c/*date*/ : "0"+c/*date*/ )+'T'+( d/*hour*/>9?d/*hour*/ : "0"+d/*hour*/ )+':'+( e/*minute*/>9?e/*minute*/ : "0"+e/*minute*/ )+':'+( f/*second*/>9?f/*second*/ : "0"+f/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !k.toJSON ){
+      k.toJSON = function () {
+        var a = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            b = a[0],
+            c = a[1],
+            d = a[2],
+            e = a[3],
+            f = a[4];
+        return '"'+this.getUTCFullYear()+'-'+( b>8?b+1 : "0"+( b+1 ) )+'-'+( c>9?c : "0"+c )+'T'+( d>9?d : "0"+d )+':'+( e>9?e : "0"+e )+':'+( f>9?f : "0"+f )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -426,43 +396,46 @@
     };
     
     if ( !Array.isArray ){
-      Array.isArray = function ( a/*arr*/ ) {
+      Array.isArray = function ( a ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( a/*arr*/ )?Object.prototype.toString.call( a/*arr*/ ) === "[object Array]" : false;
+        return ( a )?Object.prototype.toString.call( a ) === "[object Array]" : false;
       };
     };
-  }).call( this,String,Array,Function,Date );
+  }.call( this,String,Array,Function,Date );
   
-  var a/*Runtime*/ = ( function Runtime() {
-        var p/*_mochaLocalExport*/ = {};
-        
+  var a = function () {
         "use strict";
+        var p = {};
         
-        function c/*Exception*/( d/*line*/,c/*file*/,b/*e*/ ) {
+        function c( d,c,b ) {
           this.toString = function () {
-            return a/*Runtime*/.getErrorMessage( b/*e*/ )+" in file "+c/*file*/+" at : "+d/*line*/;
+            return a.getErrorMessage( b )+" in file "+c+" at : "+d;
           };
         }
-        var g/*fastMax*/ = Math.max;
+        var q = Math,
+            g = q.max;
         
-        var a/*Runtime*/ =  {
-              getErrorMessage : function q/*getErrorMessage*/( a/*e*/ ) {
-                return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
+        var r = Array.prototype,
+            d = r.slice;
+        
+        var a =  {
+              getErrorMessage : function s( a ) {
+                return ( a.message )?a.message : ( a.description )?a.description : a.toString();
               },
-              exceptionHandler : function r/*exceptionHandler*/( d/*line*/,e/*file*/,f/*e*/ ) {
-                if ( b/*isStopIteration*/( f/*e*/ ) ){
-                  this.throwException( f/*e*/ );
+              exceptionHandler : function t( d,e,f ) {
+                if ( b( f ) ){
+                  this.throwException( f );
                 } else {
-                  this.throwException( new c/*Exception*/( d/*line*/,e/*file*/,f/*e*/ ) );
+                  this.throwException( new c( d,e,f ) );
                 };
               },
-              throwException : function s/*throwException*/( a/*exception*/ ) {
+              throwException : function u( a ) {
                 try {
-                  throw a/*exception*/;
+                  throw a;
                 } catch( e ){
-                  if ( b/*isStopIteration*/( e ) ){
+                  if ( b( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -472,255 +445,272 @@
               hasProto : "__proto__" in {}
             };
         
-        var d/*slice*/ = Array.prototype.slice;
-        
-        var f/*createUnenumProp*/ = p/*_mochaLocalExport*/.createUnenumProp = function f/*createUnenumProp*/( a/*obj*/,b/*prop*/,c/*value*/ ) {
-              return Object.defineProperty( a/*obj*/,b/*prop*/, {
-                configurable : true,
-                enumerable : false,
-                writable : true,
-                value : c/*value*/
-              });
-            };
-        
-        var t/*constant*/ = p/*_mochaLocalExport*/.constant = function t/*constant*/( a/*obj*/,b/*prop*/,c/*value*/ ) {
-              return Object.defineProperty( a/*obj*/,b/*prop*/, {
-                configurable : false,
-                enumerable : false,
-                writable : false,
-                value : c/*value*/
-              });
-            };
-        
-        var u/*toArray*/ = p/*_mochaLocalExport*/.toArray = function u/*toArray*/( e/*likeArray*/,f/*index*/ ) {
-              return ( e/*likeArray*/ )?d/*slice*/.call( e/*likeArray*/,f/*index*/ ) : [];
-            };
-        
-        var e/*Generator*/ = function (){};
-        
-        var v/*createGenerator*/ = p/*_mochaLocalExport*/.createGenerator = function v/*createGenerator*/( g/*generatorFn*/,h/*closeFn*/,i/*context*/ ) {
-              var j/*ret*/ = new e/*Generator*/;
-              
-              f/*createUnenumProp*/( j/*ret*/,"next",g/*generatorFn*/.bind( i/*context*/,false,false ) );
-              
-              f/*createUnenumProp*/( j/*ret*/,"send",g/*generatorFn*/.bind( i/*context*/,true,false ) );
-              
-              f/*createUnenumProp*/( j/*ret*/,"close",h/*closeFn*/.bind( i/*context*/ ) );
-              
-              f/*createUnenumProp*/( j/*ret*/,"__nothrowNext__",g/*generatorFn*/.bind( i/*context*/,false,true ) );
-              
-              f/*createUnenumProp*/( j/*ret*/,"toString",
-              function () {
-                return "[object Generator]";
-              });
-              
-              Object.freeze( j/*ret*/ );
-              return j/*ret*/;
-            };
-        
-        function q/*getErrorMessage*/( a/*e*/ ) {
-          return ( a/*e*/.message )?a/*e*/.message : ( a/*e*/.description )?a/*e*/.description : a/*e*/.toString();
-        }
-        var s/*throwException*/ = p/*_mochaLocalExport*/.throwException = a/*Runtime*/.throwException.bind( a/*Runtime*/ );
-        
-        var r/*exceptionHandler*/ = p/*_mochaLocalExport*/.exceptionHandler = a/*Runtime*/.exceptionHandler.bind( a/*Runtime*/ );
-        
-        var w/*extend*/ = p/*_mochaLocalExport*/.extend = function w/*extend*/( a/*dest*/,b/*source*/ ) {
-              for ( var c/*prop*/ in b/*source*/ ){
-                a/*dest*/[c/*prop*/] = b/*source*/[c/*prop*/];
-              };
-              return a/*dest*/;
-            };
-        
-        function h/*compareTuple*/( h/*tuple*/ ) {
-          var i/*max*/ = g/*fastMax*/( h/*tuple*/.length,this.length ),
-              j/*i*/ = -1;
-          
-          while (  ++ j/*i*/<i/*max*/ && h/*tuple*/[j/*i*/] === this[j/*i*/] ){
-            
-          };
-          return i/*max*/ === j/*i*/;
+        function f( a,b,c ) {
+          return Object.defineProperty( a,b, {
+            configurable : true,
+            enumerable : false,
+            writable : true,
+            value : c
+          });
         };
         
-        function i/*tupleToArray*/() {
+        p.createUnenumProp = f;
+        
+        function v( a,b,c ) {
+          return Object.defineProperty( a,b, {
+            configurable : false,
+            enumerable : false,
+            writable : false,
+            value : c
+          });
+        };
+        
+        p.constant = v;
+        
+        function w( e,f ) {
+          return ( e )?d.call( e,f ) : [];
+        };
+        
+        p.toArray = w;
+        
+        function e(  ){};
+        
+        function x( g,h,i ) {
+          var j = new e;
+          
+          f( j,"next",g.bind( i,false,false ) );
+          
+          f( j,"send",g.bind( i,true,false ) );
+          
+          f( j,"close",h.bind( i ) );
+          
+          f( j,"__nothrowNext__",g.bind( i,false,true ) );
+          
+          f( j,"toString",
+          function () {
+            return "[object Generator]";
+          });
+          
+          Object.freeze( j );
+          return j;
+        };
+        
+        p.createGenerator = x;
+        
+        function s( a ) {
+          return ( a.message )?a.message : ( a.description )?a.description : a.toString();
+        }
+        var u = p.throwException = a.throwException.bind( a );
+        
+        var t = p.exceptionHandler = a.exceptionHandler.bind( a );
+        
+        function y( a,b ) {
+          for ( var c in b )
+          a[c] = b[c];
+          return a;
+        };
+        
+        p.extend = y;
+        
+        function h( h ) {
+          var i = g( h.length,this.length ),
+              j = -1;
+          
+          while (  ++ j<i && h[j] === this[j] ){
+            
+          };
+          return i === j;
+        };
+        
+        function i() {
           return Array.prototype.slice.call( this );
         };
         
-        var x/*createTuple*/ = p/*_mochaLocalExport*/.createTuple = function x/*createTuple*/( j/*obj*/,k/*size*/ ) {
-              f/*createUnenumProp*/( j/*obj*/,"length",k/*size*/ );
-              
-              f/*createUnenumProp*/( j/*obj*/,"equal",h/*compareTuple*/ );
-              
-              f/*createUnenumProp*/( j/*obj*/,"toArray",i/*tupleToArray*/ );
-              
-              f/*createUnenumProp*/( j/*obj*/,"toString",
-              function () {
-                return "[object Tuple]";
-              });
-              return Object.freeze( j/*obj*/ );
-            };
-        
-        var y/*createRecord*/ = p/*_mochaLocalExport*/.createRecord = function y/*createRecord*/( a/*obj*/ ) {
-              if ( a/*obj*/.toString() === "[object Object]" ){
-                f/*createUnenumProp*/( a/*obj*/,"toString",
-                function () {
-                  return "[object Record]";
-                });
-              };
-              return Object.freeze( a/*obj*/ );
-            };
-        
-        var z/*extendPrototype*/ = p/*_mochaLocalExport*/.extendPrototype = function ( a/*derived*/,b/*base*/ ) {
-              a/*derived*/.prototype = b/*base*/;
-            };
-        
-        var j/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( a/*obj*/ ) {
-              return Object.getPrototypeOf( a/*obj*/ );
-            } : function ( a/*obj*/ ) {
-              var b/*ret*/ = {};
-              
-              for ( var c/*i*/ in a/*obj*/ ){
-                if ( !a/*obj*/.hasOwnProperty( c/*i*/ ) ){
-                  b/*ret*/[c/*i*/] = a/*obj*/[c/*i*/];
-                };
-              };
-              return b/*ret*/;
-            };
-        
-        var A/*extendClass*/ = p/*_mochaLocalExport*/.extendClass = ( a/*Runtime*/.hasProto )?function ( a/*derived*/,b/*base*/ ) {
-              if ( typeof b/*base*/ === 'function' ){
-                a/*derived*/.prototype.__proto__ = b/*base*/.prototype;
-                
-                for ( var c/*i*/ in b/*base*/ ){
-                  a/*derived*/[c/*i*/] = b/*base*/[c/*i*/];
-                };
-              } else {
-                a/*derived*/.prototype.__proto__ = b/*base*/.__proto__;
-              };
-            } : function ( k/*derived*/,l/*base*/ ) {
-              var m/*baseType*/ = typeof l/*base*/;
-              
-              if ( m/*baseType*/ === "function" ){
-                var n/*inherit*/ = function (){};
-                
-                n/*inherit*/.prototype = l/*base*/.prototype;
-                
-                k/*derived*/.prototype = new n/*inherit*/;
-                
-                for ( var o/*i*/ in l/*base*/ ){
-                  k/*derived*/[o/*i*/] = l/*base*/[o/*i*/];
-                };
-              } else {
-                var n/*inherit*/ = function (){},
-                    p/*proto*/ = j/*getPrototype*/( l/*base*/ );
-                
-                n/*inherit*/.prototype = p/*proto*/;
-                
-                k/*derived*/.prototype = new n/*inherit*/;
-              };
-            };
-        
-        var k/*__ref_iterator__*/ = p/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
-        
-        var m/*throwStopIteration*/ = p/*_mochaLocalExport*/.throwStopIteration = function m/*throwStopIteration*/() {
-              try {
-                throw StopIteration;
-              } catch( e ){
-                throw new Error( e.toString() );
-              };
-            };
-        
-        var l/*isGenerator*/ = p/*_mochaLocalExport*/.isGenerator = function l/*isGenerator*/( a/*obj*/ ) {
-              return a/*obj*/ instanceof e/*Generator*/;
-            };
-        
-        var B/*getIterator*/ = p/*_mochaLocalExport*/.getIterator = function B/*getIterator*/( n/*obj*/ ) {
-              var a/*ret*/ = n/*obj*/[k/*__ref_iterator__*/](),
-                  o/*newObj*/;
-              
-              if ( l/*isGenerator*/( a/*ret*/ ) ){
-                return a/*ret*/;
-              };
-              
-              o/*newObj*/ = {};
-              
-              if ( a/*ret*/.next ){
-                f/*createUnenumProp*/( o/*newObj*/,"next",
-                function () {
-                  var b/*result*/ = a/*ret*/.next();
-                  
-                  if ( b/*result*/ === undefined ){
-                    m/*throwStopIteration*/();
-                  };
-                  return b/*result*/;
-                });
-              } else {
-                return {};
-              };
-              
-              if ( !( "__nothrowNext__" in a/*ret*/ ) ){
-                f/*createUnenumProp*/( o/*newObj*/,"__nothrowNext__",a/*ret*/.next.bind( a/*ret*/ ) );
-              };
-              
-              for ( var p/*prop*/ in a/*ret*/ ){
-                if ( p/*prop*/ !== "next" && p/*prop*/ !== "__nothrowNext__" ){
-                  o/*newObj*/[p/*prop*/] = a/*ret*/[p/*prop*/];
-                };
-              };
-              
-              if ( !( "toString" in a/*ret*/ ) ){
-                f/*createUnenumProp*/( o/*newObj*/,"toString",
-                function () {
-                  return "[object Iterator]";
-                });
-              };
-              return o/*newObj*/;
-            };
-        
-        var C/*hasIterator*/ = p/*_mochaLocalExport*/.hasIterator = function C/*hasIterator*/( a/*obj*/ ) {
-              return k/*__ref_iterator__*/ in a/*obj*/;
-            };
-        
-        var n/*rstopIteration*/ = /StopIteration/;
-        
-        var b/*isStopIteration*/ = p/*_mochaLocalExport*/.isStopIteration = function b/*isStopIteration*/( o/*obj*/ ) {
-              return o/*obj*/ === StopIteration || n/*rstopIteration*/.test( o/*obj*/ );
-            };
-        
-        var o/*privateRecord*/,
-            D/*createPrivateRecord*/,
-            E/*getPrivateRecord*/;
-        
-        if ( "WeakMap" in window ){
-          o/*privateRecord*/ = new WeakMap();
+        function z( j,k ) {
+          f( j,"length",k );
           
-          D/*createPrivateRecord*/ = function ( self,p/*privateHolder*/ ) {
-            var q/*holder*/ = new p/*privateHolder*/;
-            
-            f/*createUnenumProp*/( q/*holder*/.constructor,"__is_private__",1 );
-            
-            o/*privateRecord*/.set( self,q/*holder*/ );
+          f( j,"equal",h );
+          
+          f( j,"toArray",i );
+          
+          f( j,"toString",
+          function () {
+            return "[object Tuple]";
+          });
+          return Object.freeze( j );
+        };
+        
+        p.createTuple = z;
+        
+        function A( a ) {
+          if ( a.toString() === "[object Object]" ){
+            f( a,"toString",
+            function () {
+              return "[object Record]";
+            });
+          };
+          return Object.freeze( a );
+        };
+        
+        p.createRecord = A;
+        
+        var B = p.extendPrototype = function ( a,b ) {
+              a.prototype = b;
+            };
+        
+        var j = ( "getPrototypeOf" in Object )?function ( a ) {
+              return Object.getPrototypeOf( a );
+            } : function ( a ) {
+              var b = {};
+              
+              for ( var c in a )
+              if ( !a.hasOwnProperty( c ) ){
+                b[c] = a[c];
+              };
+              return b;
+            };
+        
+        var C = p.extendClass = ( a.hasProto )?function ( a,b ) {
+              if ( typeof b === 'function' ){
+                a.prototype.__proto__ = b.prototype;
+                
+                for ( var c in b )
+                a[c] = b[c];
+              } else {
+                a.prototype.__proto__ = b.__proto__;
+              };
+            } : function ( k,l ) {
+              var m = typeof l;
+              
+              if ( m === "function" ){
+                var n = function (){};
+                
+                n.prototype = l.prototype;
+                
+                k.prototype = new n;
+                
+                for ( var o in l )
+                k[o] = l[o];
+              } else {
+                var n = function (){},
+                    p = j( l );
+                
+                n.prototype = p;
+                
+                k.prototype = new n;
+              };
+            };
+        
+        var k = p.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        function m() {
+          try {
+            throw StopIteration;
+          } catch( e ){
+            throw new Error( e.toString() );
+          };
+        };
+        
+        p.throwStopIteration = m;
+        
+        function l( a ) {
+          return a instanceof e;
+        };
+        
+        p.isGenerator = l;
+        
+        function D( n ) {
+          var a = n[k](),
+              o;
+          
+          if ( l( a ) ){
+            return a;
           };
           
-          E/*getPrivateRecord*/ = function ( self ) {
-            if ( o/*privateRecord*/.has( self ) ){
-              return o/*privateRecord*/.get( self );
+          o = {};
+          
+          if ( a.next ){
+            f( o,"next",
+            function () {
+              var b = a.next();
+              
+              if ( b === undefined ){
+                m();
+              };
+              return b;
+            });
+          } else {
+            return {};
+          };
+          
+          if ( !( "__nothrowNext__" in a ) ){
+            f( o,"__nothrowNext__",a.next.bind( a ) );
+          };
+          
+          for ( var p in a )
+          if ( p !== "next" && p !== "__nothrowNext__" ){
+            o[p] = a[p];
+          };
+          
+          if ( !( "toString" in a ) ){
+            f( o,"toString",
+            function () {
+              return "[object Iterator]";
+            });
+          };
+          return o;
+        };
+        
+        p.getIterator = D;
+        
+        function E( a ) {
+          return k in a;
+        };
+        
+        p.hasIterator = E;
+        
+        var n = /StopIteration/;
+        
+        function b( o ) {
+          return o === StopIteration || n.test( o );
+        };
+        
+        p.isStopIteration = b;
+        
+        var o,
+            F,
+            G;
+        
+        if ( "WeakMap" in window ){
+          o = new WeakMap();
+          
+          F = function ( self,p ) {
+            var q = new p;
+            
+            f( q.constructor,"__is_private__",1 );
+            
+            o.set( self,q );
+          };
+          
+          G = function ( self ) {
+            if ( o.has( self ) ){
+              return o.get( self );
             } else if ( self.constructor === "__is_private__" ){
               return self;
             };
           };
         } else {
-          D/*createPrivateRecord*/ = function ( self,a/*privateHolder*/ ) {
+          F = function ( self,a ) {
             if ( !self.__typeid__ ){
-              var b/*holder*/ = new a/*privateHolder*/;
+              var b = new a;
               
-              f/*createUnenumProp*/( b/*holder*/.constructor,"__is_private__",1 );
+              f( b.constructor,"__is_private__",1 );
               
-              f/*createUnenumProp*/( self,"__private__",b/*holder*/ );
+              f( self,"__private__",b );
             };
           };
           
-          E/*getPrivateRecord*/ = function ( self ) {
+          G = function ( self ) {
             if ( self.__private__ ){
               return self.__private__;
             } else if ( self.constructor === "__is_private__" ){
@@ -729,240 +719,244 @@
           };
         };
         
-        p/*_mochaLocalExport*/.createPrivateRecord = D/*createPrivateRecord*/;
+        p.createPrivateRecord = F;
         
-        p/*_mochaLocalExport*/.getPrivateRecord = E/*getPrivateRecord*/;
+        p.getPrivateRecord = G;
         
-        var F/*getSuper*/ = p/*_mochaLocalExport*/.getSuper = function F/*getSuper*/( a/*obj*/ ) {
-              var b/*type*/ = typeof a/*obj*/,
-                  c/*ret*/;
+        function H( a ) {
+          var b = typeof a,
+              c;
+          
+          if ( b === "function" ){
+            c = function (){};
+            
+            c.prototype = a.prototype;
+            
+            c = new c();
+            
+            if ( a.__harmony_class__ ){
+              c.constructor = a.constructor;
+            } else {
+              c.constructor = a;
+            };
+            return c;
+          };
+          return c;
+        };
+        
+        p.getSuper = H;
+        
+        function I( b,c,d,e ) {
+          if ( !b._mochaTraitMark || !c._mochaTraitMark ){
+            a.throwException( "mixin only used for trait." );
+          } else {
+            var f = b._mochaTraitPrivate,
+                g = c._mochaTraitPrivate,
+                h = b._mochaTraitPublic,
+                i = c._mochaTraitPublic,
+                j = c._mochaRequires,
+                k = b._mochaRequires,
+                l;
+            
+            for ( var m in g )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
               
-              if ( b/*type*/ === "function" ){
-                c/*ret*/ = function (){};
-                
-                c/*ret*/.prototype = a/*obj*/.prototype;
-                
-                c/*ret*/ = new c/*ret*/();
-                
-                if ( a/*obj*/.__harmony_class__ ){
-                  c/*ret*/.constructor = a/*obj*/.constructor;
-                } else {
-                  c/*ret*/.constructor = a/*obj*/;
-                };
-                return c/*ret*/;
-              };
-              return c/*ret*/;
+              f[l] = g[m];
             };
-        
-        var G/*traitMixin*/ = p/*_mochaLocalExport*/.traitMixin = function G/*traitMixin*/( b/*dest*/,c/*source*/,d/*with_*/,e/*without*/ ) {
-              if ( !b/*dest*/._mochaTraitMark || !c/*source*/._mochaTraitMark ){
-                a/*Runtime*/.throwException( "mixin only used for trait." );
-              } else {
-                var f/*destTraitPrivate*/ = b/*dest*/._mochaTraitPrivate,
-                    g/*sourceTraitPrivate*/ = c/*source*/._mochaTraitPrivate,
-                    h/*destTraitPublic*/ = b/*dest*/._mochaTraitPublic,
-                    i/*sourceTraitPublic*/ = c/*source*/._mochaTraitPublic,
-                    j/*sourceRequires*/ = c/*source*/._mochaRequires,
-                    k/*destRequires*/ = b/*dest*/._mochaRequires,
-                    l/*tmp*/;
-                
-                for ( var m/*i*/ in g/*sourceTraitPrivate*/ ){
-                  if ( !e/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !d/*with_*/[m/*i*/] )?m/*i*/ : d/*with_*/[m/*i*/];
-                    
-                    f/*destTraitPrivate*/[l/*tmp*/] = g/*sourceTraitPrivate*/[m/*i*/];
-                  };
-                };
-                
-                for ( m/*i*/ in i/*sourceTraitPublic*/ ){
-                  if ( !e/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !d/*with_*/[m/*i*/] )?m/*i*/ : d/*with_*/[m/*i*/];
-                    
-                    h/*destTraitPublic*/[l/*tmp*/] = i/*sourceTraitPublic*/[m/*i*/];
-                  };
-                };
-                
-                for ( m/*i*/ in j/*sourceRequires*/ ){
-                  k/*destRequires*/[m/*i*/] = j/*sourceRequires*/[m/*i*/];
-                };
-              };
-            };
-        
-        var H/*classMixin*/ = p/*_mochaLocalExport*/.classMixin = function H/*classMixin*/( b/*_mochaLocalTmp5*/,c/*_mochaLocalTmp6*/,d/*_mochaLocalTmp7*/,e/*with_*/,f/*without*/ ) {
-              var g/*constructorProto*/ = b/*_mochaLocalTmp5*/.prototype,
-                  h/*privateProto*/ = c/*_mochaLocalTmp6*/.prototype,
-                  i/*mark*/ = d/*_mochaLocalTmp7*/._mochaTraitMark,
-                  j/*traitPublic*/ = d/*_mochaLocalTmp7*/._mochaTraitPublic,
-                  k/*traitPrivate*/ = d/*_mochaLocalTmp7*/._mochaTraitPrivate;
+            
+            for ( m in i )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
               
-              if ( !i/*mark*/ ){
-                a/*Runtime*/.throwException( "mixin only used for trait." );
-              } else {
-                var l/*tmp*/;
-                
-                for ( var m/*i*/ in j/*traitPublic*/ ){
-                  if ( !f/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !e/*with_*/[m/*i*/] )?m/*i*/ : e/*with_*/[m/*i*/];
-                    
-                    g/*constructorProto*/[l/*tmp*/] = j/*traitPublic*/[m/*i*/];
-                  };
-                };
-                
-                for ( m/*i*/ in k/*traitPrivate*/ ){
-                  if ( !f/*without*/[m/*i*/] ){
-                    l/*tmp*/ = ( !e/*with_*/[m/*i*/] )?m/*i*/ : e/*with_*/[m/*i*/];
-                    
-                    h/*privateProto*/[l/*tmp*/] = k/*traitPrivate*/[m/*i*/];
-                  };
-                };
-              };
+              h[l] = i[m];
             };
+            
+            for ( m in j )k[m] = j[m];
+          };
+        };
         
-        var I/*checkRequirements*/ = p/*_mochaLocalExport*/.checkRequirements = function I/*checkRequirements*/( b/*_mochaLocalTmp8*/,c/*_mochaLocalTmp9*/,d/*traits*/,e/*file*/,f/*line*/ ) {
-              var g/*proto1*/ = b/*_mochaLocalTmp8*/.prototype,
-                  h/*proto2*/ = c/*_mochaLocalTmp9*/.prototype;
+        p.traitMixin = I;
+        
+        function J( b,c,d,e,f ) {
+          var g = b.prototype,
+              h = c.prototype,
+              i = d._mochaTraitMark,
+              j = d._mochaTraitPublic,
+              k = d._mochaTraitPrivate;
+          
+          if ( !i ){
+            a.throwException( "mixin only used for trait." );
+          } else {
+            var l;
+            
+            for ( var m in j )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
               
-              for ( var i/*i*/ = 0,j/*len*/ = d/*traits*/.length;i/*i*/<j/*len*/;i/*i*/ ++  ){
-                var k/*_mochaLocalTmp10*/ = d/*traits*/[i/*i*/],
-                    l/*_mochaRequires*/ = k/*_mochaLocalTmp10*/._mochaRequires;
-                
-                for ( var m/*prop*/ in l/*_mochaRequires*/ ){
-                  if ( !( m/*prop*/ in g/*proto1*/ ) && !( m/*prop*/ in h/*proto2*/ ) ){
-                    a/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m/*prop*/+"\nin file "+e/*file*/+" at line "+f/*line*/ );
-                  };
-                };
-              };
+              g[l] = j[m];
             };
-        return p/*_mochaLocalExport*/;
-      })();
+            
+            for ( m in k )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
+              
+              h[l] = k[m];
+            };
+          };
+        };
+        
+        p.classMixin = J;
+        
+        function K( b,c,d,e,f ) {
+          var g = b.prototype,
+              h = c.prototype;
+          
+          for ( var i = 0,j = d.length;i<j;i ++  ){
+            var k = d[i],
+                l = k._mochaRequires;
+            
+            for ( var m in l )
+            if ( !( m in g ) && !( m in h ) ){
+              a.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m+"\nin file "+e+" at line "+f );
+            };
+          };
+        };
+        
+        p.checkRequirements = K;
+        return p;
+      }();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function c/*toString*/() {
+      toString : function c() {
         return "[object StopIteration]";
       }
     };
   };
   
-  ( function () {
-    b/*_mochaGlobalExport*/['./json2_compiled.js'] = {};
+  function d(  ) {
+    var b = a.toArray( arguments,0 );
     
-    var e/*_mochaGlobalAlias*/ = b/*_mochaGlobalExport*/['./json2_compiled.js'];
+    var c = {};
     
-    var c/*g*/ = null;
+    c.length = 0;
     
-    var d/*json_parse*/ = function () {
-          function l/*o*/() {
-            switch ( a/*a*/ ) {
+    Array.prototype.push.apply( c,b );
+    
+    a.createTuple( c,arguments.length );
+    return c;
+  };
+  
+  function e( b ) {
+    return a.createRecord( b );
+  };
+  
+  !function () {
+    b['./json2_compiled.js'] = {};
+    
+    var e = b['./json2_compiled.js'];
+    
+    var c = null;
+    
+    var d = function () {
+          function l() {
+            switch ( a ) {
               case "t" :
-                return b/*b*/( "t" ) , b/*b*/( "r" ) , b/*b*/( "u" ) , b/*b*/( "e" ) , !0;
+                return b( "t" ) , b( "r" ) , b( "u" ) , b( "e" ) , !0;
               case "f" :
-                return b/*b*/( "f" ) , b/*b*/( "a" ) , b/*b*/( "l" ) , b/*b*/( "s" ) , b/*b*/( "e" ) , !1;
+                return b( "f" ) , b( "a" ) , b( "l" ) , b( "s" ) , b( "e" ) , !1;
               case "n" :
-                return b/*b*/( "n" ) , b/*b*/( "u" ) , b/*b*/( "l" ) , b/*b*/( "l" ) , c/*g*/;
+                return b( "n" ) , b( "u" ) , b( "l" ) , b( "l" ) , c;
                 
             };
             
-            d/*h*/( "Unexpected '"+a/*a*/+"'" );
+            d( "Unexpected '"+a+"'" );
           }
-          function h/*e*/() {
-            for ( ;a/*a*/ && a/*a*/ <= " "; ){
-              b/*b*/( c/*g*/ );
-            };
+          function h() {
+            for ( ;a && a <= " "; )b( c );
           }
-          function i/*l*/() {
-            var f/*c*/,
-                g/*f*/,
-                h/*d*/ = "",
-                i/*e*/;
+          function i() {
+            var f,
+                g,
+                h = "",
+                i;
             
-            if ( a/*a*/ === '"' ){
-              for ( ;b/*b*/( c/*g*/ ); ){
-                if ( a/*a*/ === '"' ){
-                  return b/*b*/( c/*g*/ ) , h/*d*/;
-                } else if ( a/*a*/ === "\\" ){
-                  if ( b/*b*/( c/*g*/ ) , a/*a*/ === "u" ){
-                    for ( g/*f*/ = i/*e*/ = 0;g/*f*/<4;g/*f*/ += 1 ){
-                      f/*c*/ = parseInt( b/*b*/( c/*g*/ ),16 );
-                      if ( !isFinite( f/*c*/ ) ){
-                        break;
-                      };
-                      
-                      i/*e*/ = i/*e*/*16+f/*c*/;
+            if ( a === '"' ){
+              for ( ;b( c ); )if ( a === '"' ){
+                return b( c ) , h;
+              } else if ( a === "\\" ){
+                if ( b( c ) , a === "u" ){
+                  for ( g = i = 0;g<4;g += 1 ){
+                    f = parseInt( b( c ),16 );
+                    if ( !isFinite( f ) ){
+                      break;
                     };
                     
-                    h/*d*/ += String.fromCharCode( i/*e*/ );
-                  } else if ( typeof e/*m*/[a/*a*/] === "string" ){
-                    h/*d*/ += e/*m*/[a/*a*/];
-                  } else {
-                    break;
+                    i = i*16+f;
                   };
+                  
+                  h += String.fromCharCode( i );
+                } else if ( typeof e[a] === "string" ){
+                  h += e[a];
                 } else {
-                  h/*d*/ += a/*a*/;
+                  break;
                 };
+              } else {
+                h += a;
               };
             };
             
-            d/*h*/( "Bad string" );
+            d( "Bad string" );
           }
-          function k/*n*/() {
-            var e/*c*/;
+          function k() {
+            var e;
             
-            e/*c*/ = "";
+            e = "";
             
-            a/*a*/ === "-" && ( e/*c*/ = "-" , b/*b*/( "-" ) );
+            a === "-" && ( e = "-" , b( "-" ) );
             
-            for ( ;a/*a*/ >= "0" && a/*a*/ <= "9"; ){
-              e/*c*/ += a/*a*/ , b/*b*/( c/*g*/ );
+            for ( ;a >= "0" && a <= "9"; )e += a , b( c );
+            
+            if ( a === "." ){
+              for ( e += ".";b( c ) && a >= "0" && a <= "9"; )e += a;
             };
             
-            if ( a/*a*/ === "." ){
-              for ( e/*c*/ += ".";b/*b*/( c/*g*/ ) && a/*a*/ >= "0" && a/*a*/ <= "9"; ){
-                e/*c*/ += a/*a*/;
+            if ( a === "e" || a === "E" ){
+              e += a;
+              
+              b( c );
+              
+              if ( a === "-" || a === "+" ){
+                e += a , b( c );
               };
+              
+              for ( ;a >= "0" && a <= "9"; )e += a , b( c );
             };
             
-            if ( a/*a*/ === "e" || a/*a*/ === "E" ){
-              e/*c*/ += a/*a*/;
-              
-              b/*b*/( c/*g*/ );
-              
-              if ( a/*a*/ === "-" || a/*a*/ === "+" ){
-                e/*c*/ += a/*a*/ , b/*b*/( c/*g*/ );
-              };
-              
-              for ( ;a/*a*/ >= "0" && a/*a*/ <= "9"; ){
-                e/*c*/ += a/*a*/ , b/*b*/( c/*g*/ );
-              };
-            };
+            e = +e;
             
-            e/*c*/ = +e/*c*/;
-            
-            if ( isFinite( e/*c*/ ) ){
-              return e/*c*/;
+            if ( isFinite( e ) ){
+              return e;
             } else {
-              d/*h*/( "Bad number" );
+              d( "Bad number" );
             };
           }
-          function b/*b*/( h/*b*/ ) {
-            h/*b*/ && h/*b*/ !== a/*a*/ && d/*h*/( "Expected '"+h/*b*/+"' instead of '"+a/*a*/+"'" );
+          function b( h ) {
+            h && h !== a && d( "Expected '"+h+"' instead of '"+a+"'" );
             
-            a/*a*/ = f/*k*/.charAt( g/*i*/ );
+            a = f.charAt( g );
             
-            g/*i*/ += 1;
-            return a/*a*/;
+            g += 1;
+            return a;
           }
-          function d/*h*/( a/*a*/ ) {
+          function d( a ) {
             throw  {
               name : "SyntaxError",
-              message : a/*a*/,
-              a : g/*i*/,
-              text : f/*k*/
+              message : a,
+              a : g,
+              text : f
             };
           }
-          var g/*i*/,
-              a/*a*/,
-              e/*m*/ =  {
+          var g,
+              a,
+              e =  {
                 '"' : '"',
                 "\\" : "\\",
                 "/" : "/",
@@ -972,144 +966,142 @@
                 r : "\r",
                 t : "\t"
               },
-              f/*k*/,
-              j/*ja*/;
+              f,
+              j;
           
-          j/*ja*/ = function () {
-            h/*e*/();
+          j = function () {
+            h();
             
-            switch ( a/*a*/ ) {
+            switch ( a ) {
               case "{" :
                 
-                var m/*cv*/;
+                var m;
                 a : 
                 {
-                  var n/*f*/,
-                      o/*d*/ = {};
+                  var n,
+                      o = {};
                   
-                  if ( a/*a*/ === "{" ){
-                    b/*b*/( "{" );
+                  if ( a === "{" ){
+                    b( "{" );
                     
-                    h/*e*/();
+                    h();
                     
-                    if ( a/*a*/ === "}" ){
-                      b/*b*/( "}" );
+                    if ( a === "}" ){
+                      b( "}" );
                       
-                      m/*cv*/ = o/*d*/;
+                      m = o;
                       break a;
                     };
                     
-                    for ( ;a/*a*/; ){
-                      n/*f*/ = i/*l*/();
+                    for ( ;a; ){
+                      n = i();
                       
-                      h/*e*/();
+                      h();
                       
-                      b/*b*/( ":" );
+                      b( ":" );
                       
-                      Object.hasOwnProperty.call( o/*d*/,n/*f*/ ) && d/*h*/( 'Duplicate key "'+n/*f*/+'"' );
+                      Object.hasOwnProperty.call( o,n ) && d( 'Duplicate key "'+n+'"' );
                       
-                      o/*d*/[n/*f*/] = j/*ja*/();
+                      o[n] = j();
                       
-                      h/*e*/();
+                      h();
                       
-                      if ( a/*a*/ === "}" ){
-                        b/*b*/( "}" );
+                      if ( a === "}" ){
+                        b( "}" );
                         
-                        m/*cv*/ = o/*d*/;
+                        m = o;
                         break a;
                       };
                       
-                      b/*b*/( "," );
+                      b( "," );
                       
-                      h/*e*/();
+                      h();
                     };
                   };
                   
-                  d/*h*/( "Bad object" );
+                  d( "Bad object" );
                 };
-                return m/*cv*/;
+                return m;
               case "[" :
                 a : 
                 {
-                  m/*cv*/ = [];
+                  m = [];
                   
-                  if ( a/*a*/ === "[" ){
-                    b/*b*/( "[" );
+                  if ( a === "[" ){
+                    b( "[" );
                     
-                    h/*e*/();
+                    h();
                     
-                    if ( a/*a*/ === "]" ){
-                      b/*b*/( "]" );
+                    if ( a === "]" ){
+                      b( "]" );
                       
-                      n/*f*/ = m/*cv*/;
+                      n = m;
                       break a;
                     };
                     
-                    for ( ;a/*a*/; ){
-                      m/*cv*/.push( j/*ja*/() );
+                    for ( ;a; ){
+                      m.push( j() );
                       
-                      h/*e*/();
+                      h();
                       
-                      if ( a/*a*/ === "]" ){
-                        b/*b*/( "]" );
+                      if ( a === "]" ){
+                        b( "]" );
                         
-                        n/*f*/ = m/*cv*/;
+                        n = m;
                         break a;
                       };
                       
-                      b/*b*/( "," );
+                      b( "," );
                       
-                      h/*e*/();
+                      h();
                     };
                   };
                   
-                  d/*h*/( "Bad array" );
+                  d( "Bad array" );
                 };
-                return n/*f*/;
+                return n;
               case '"' :
-                return i/*l*/();
+                return i();
               case "-" :
-                return k/*n*/();
+                return k();
               default :
-                return a/*a*/ >= "0" && a/*a*/ <= "9"?k/*n*/() : l/*o*/();
+                return a >= "0" && a <= "9"?k() : l();
                 
             };
           };
-          return function ( e/*b*/,c/*f*/ ) {
-            var i/*d*/;
+          return function ( e,c ) {
+            var i;
             
-            f/*k*/ = e/*b*/;
+            f = e;
             
-            g/*i*/ = 0;
+            g = 0;
             
-            a/*a*/ = " ";
+            a = " ";
             
-            i/*d*/ = j/*ja*/();
+            i = j();
             
-            h/*e*/();
+            h();
             
-            a/*a*/ && d/*h*/( "Syntax error" );
-            return typeof c/*f*/ === "function"?function b/*p*/( d/*a*/,e/*b*/ ) {
-              var f/*c*/,
-                  g/*e*/,
-                  h/*d*/ = d/*a*/[e/*b*/];
+            a && d( "Syntax error" );
+            return typeof c === "function"?function b( d,e ) {
+              var f,
+                  g,
+                  h = d[e];
               
-              if ( h/*d*/ && typeof h/*d*/ === "object" ){
-                for ( f/*c*/ in h/*d*/ ){
-                  Object.prototype.hasOwnProperty.call( h/*d*/,f/*c*/ ) && ( g/*e*/ = b/*p*/( h/*d*/,f/*c*/ ) , g/*e*/ !== void 0?h/*d*/[f/*c*/] = g/*e*/ : delete h/*d*/[f/*c*/] );
-                };
+              if ( h && typeof h === "object" ){
+                for ( f in h )Object.prototype.hasOwnProperty.call( h,f ) && ( g = b( h,f ) , g !== void 0?h[f] = g : delete h[f] );
               };
-              return c/*f*/.call( d/*a*/,e/*b*/,h/*d*/ );
+              return c.call( d,e,h );
             }(  {
-              "" : i/*d*/
-            },"") : i/*d*/;
+              "" : i
+            },"") : i;
           };
         }();
     
-    ( function () {
-      var e/*json_str*/ = '{"test" : 1,"test2":"test2","test3":null,"test4":{"test5":5}}';
+    !function () {
+      var e = '{"test" : 1,"test2":"test2","test3":null,"test4":{"test5":5}}';
       
-      var f/*json*/ = d/*json_parse*/( e/*json_str*/ );
-    })();
-  })();
-})();
+      var f = d( e );
+    }();
+  }();
+}();

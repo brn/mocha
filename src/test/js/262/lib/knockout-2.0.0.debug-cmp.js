@@ -1,108 +1,105 @@
-(function() {
+!function() {
   
-  var D/*_mochaGlobalExport*/ = {};
+  var b = {};
   
-  ( function ( x/*_mochaLocalTmp0*/,y/*_mochaLocalTmp1*/,z/*_mochaLocalTmp2*/,A/*_mochaLocalTmp3*/ ) {
-    var n/*stringProto*/ = x/*_mochaLocalTmp0*/.prototype,
-        o/*arrayProto*/ = y/*_mochaLocalTmp1*/.prototype,
-        B/*functionProto*/ = z/*_mochaLocalTmp2*/.prototype,
-        C/*dateProto*/ = A/*_mochaLocalTmp3*/.prototype;
+  !function ( f,g,h,i ) {
+    var c = f.prototype,
+        d = g.prototype,
+        j = h.prototype,
+        k = i.prototype;
     
-    "use strict";
-    
-    function m/*builtinTypeError*/( b/*message*/ ) {
+    function b( a ) {
       try {
-        throw new TypeError( b/*message*/ );
+        throw new TypeError( a );
       } catch( e ){
         throw new Error( e );
       };
     };
     
-    function s/*callbackCheck*/( n/*callback*/,o/*type*/ ) {
+    function e( c,d ) {
       
-      if ( typeof n/*callback*/ !== "function" ){
-        m/*builtinTypeError*/( o/*type*/+" : first argument is not callable" );
+      if ( typeof c !== "function" ){
+        b( d+" : first argument is not callable" );
       };
     };
     
     if ( !Object.keys ){
-      Object.keys = function ( e/*obj*/ ) {
-        if ( !e/*obj*/ ){
-          m/*builtinTypeError*/( "Object.keys : first arguments is null or not defined." );
+      Object.keys = function ( a ) {
+        if ( !a ){
+          b( "Object.keys : first arguments is null or not defined." );
         };
         
-        var f/*ret*/ = [],
-            g/*iter*/ = -1;
+        var c = [],
+            d = -1;
         
-        for ( var h/*i*/ in e/*obj*/ ){
-          if ( e/*obj*/.hasOwnProperty( h/*i*/ ) ){
-            f/*ret*/[ ++ g/*iter*/] = e/*obj*/[h/*i*/];
-          };
+        for ( var e in a )
+        if ( a.hasOwnProperty( e ) ){
+          c[ ++ d] = a[e];
         };
-        return f/*ret*/;
+        return c;
       };
     };
     
     if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( b/*o*/ ) {
-        return b/*o*/;
+      Object.preventExtensions = function ( a ) {
+        return a;
       };
     };
     
     if ( !Object.seal ){
-      Object.seal = function ( b/*o*/ ) {
-        return b/*o*/;
+      Object.seal = function ( a ) {
+        return a;
       };
     };
     
     if ( !Object.freeze ){
-      Object.freeze = function ( b/*o*/ ) {
-        return b/*o*/;
+      Object.freeze = function ( a ) {
+        return a;
       };
     };
     
-    var D/*hasRealEcma5*/ = ( function () {
-          var c/*ret*/;
+    var l = function () {
+          var a;
           
           try {
-            var d/*obj*/ = {};
+            var b = {};
             
-            Object.defineProperty( d/*obj*/,"test", {
+            Object.defineProperty( b,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
               value : 0
             });
             
-            d/*obj*/.test = 200;
+            b.test = 200;
             
-            c/*ret*/ = ( d/*obj*/.test === 200 )?false : true;
+            a = ( b.test === 200 )?false : true;
           } catch( e ){
-            c/*ret*/ = false;
+            a = false;
           };
-          return c/*ret*/;
-        })();
+          return a;
+        }();
     
-    if ( !D/*hasRealEcma5*/ ){
-      Object.defineProperty = function ( d/*obj*/,e/*prop*/,f/*valobj*/ ) {
-        if ( f/*valobj*/.value ){
-          d/*obj*/[e/*prop*/] = f/*valobj*/.value;
+    if ( !l ){
+      Object.defineProperty = function ( a,b,c ) {
+        if ( c.value ){
+          a[b] = c.value;
         };
       };
     };
     
-    if ( !n/*stringProto*/.trim ){
-      n/*stringProto*/.trim = function () {
-        return this.replace( n/*stringProto*/.trim.rtrim,"" );
+    if ( !c.trim ){
+      c.trim = function () {
+        return this.replace( c.trim.rtrim,"" );
       };
       
-      n/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+      c.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !n/*stringProto*/.repeat ){
-      Object.defineProperty( n/*stringProto*/,"repeat", {
-        value : function E/*value*/( b/*num*/ ) {
-          return Array( b/*num*/+1 ).join( this.toString() );
+    if ( !c.repeat ){
+      Object.defineProperty( c,"repeat", {
+        value : function m( a ) {
+          return Array( a+1 ).join( this.toString() );
         },
         configurable : true,
         enumerable : false,
@@ -110,10 +107,10 @@
       });
     };
     
-    if ( !n/*stringProto*/.startsWith ){
-      Object.defineProperty( n/*stringProto*/,"startsWith", {
-        value : function E/*value*/( b/*str*/ ) {
-          return !this.indexOf( b/*str*/ );
+    if ( !c.startsWith ){
+      Object.defineProperty( c,"startsWith", {
+        value : function m( a ) {
+          return !this.indexOf( a );
         },
         configurable : true,
         enumerable : false,
@@ -121,13 +118,13 @@
       });
     };
     
-    if ( !n/*stringProto*/.endsWith ){
-      Object.defineProperty( n/*stringProto*/,"endsWith", {
-        value : function E/*value*/( d/*str*/ ) {
-          var e/*t*/ = String( d/*str*/ );
+    if ( !c.endsWith ){
+      Object.defineProperty( c,"endsWith", {
+        value : function m( a ) {
+          var b = String( a );
           
-          var f/*index*/ = this.lastIndexOf( e/*t*/ );
-          return f/*index*/ >= 0 && f/*index*/ === this.length-e/*t*/.length;
+          var c = this.lastIndexOf( b );
+          return c >= 0 && c === this.length-b.length;
         },
         configurable : true,
         enumerable : false,
@@ -135,10 +132,10 @@
       });
     };
     
-    if ( !n/*stringProto*/.contains ){
-      Object.defineProperty( n/*stringProto*/,"contains", {
-        value : function E/*value*/( b/*str*/ ) {
-          return this.indexOf( b/*str*/ ) !== -1;
+    if ( !c.contains ){
+      Object.defineProperty( c,"contains", {
+        value : function m( a ) {
+          return this.indexOf( a ) !== -1;
         },
         configurable : true,
         enumerable : false,
@@ -146,9 +143,9 @@
       });
     };
     
-    if ( !n/*stringProto*/.toArray ){
-      Object.defineProperty( n/*stringProto*/,"toArray", {
-        value : function E/*value*/( a/*str*/ ) {
+    if ( !c.toArray ){
+      Object.defineProperty( c,"toArray", {
+        value : function m( a ) {
           return this.split( "" );
         },
         configurable : true,
@@ -157,265 +154,238 @@
       });
     };
     
-    if ( !B/*functionProto*/.bind ){
-      B/*functionProto*/.bind = function () {
-        var a/*argArray*/ = o/*arrayProto*/.slice.call( arguments ),
-            d/*context*/ = a/*argArray*/.shift(),
-            b/*ret*/ = function () {
-              var e/*args*/ = a/*argArray*/.concat( o/*arrayProto*/.slice.call( arguments ) );
+    if ( !j.bind ){
+      j.bind = function () {
+        var a = d.slice.call( arguments ),
+            c = a.shift(),
+            b = function () {
+              var e = a.concat( d.slice.call( arguments ) );
               
-              if ( this !== null && this !== window && this instanceof b/*ret*/ ){
-                return b/*ret*/.context.apply( this,e/*args*/ );
+              if ( this !== null && this !== window && this instanceof b ){
+                return b.context.apply( this,e );
               } else {
-                return b/*ret*/.context.apply( d/*context*/,e/*args*/ );
+                return b.context.apply( c,e );
               };
             };
         
-        b/*ret*/.prototype = this.prototype;
+        b.prototype = this.prototype;
         
-        b/*ret*/.context = this;
-        return b/*ret*/;
+        b.context = this;
+        return b;
       };
     };
     
-    if ( !o/*arrayProto*/.forEach ){
-      o/*arrayProto*/.forEach = function ( x/*callback*/,y/*that*/ ) {
-        s/*callbackCheck*/( x/*callback*/,"Array.forEach" );
+    if ( !d.forEach ){
+      d.forEach = function ( f,g ) {
+        e( f,"Array.forEach" );
         
-        var z/*iter*/ = -1,
-            A/*ta*/;
+        var h = -1,
+            i;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.forEach : this is null or not defined" );
+          b( "Array.forEach : this is null or not defined" );
         };
         
-        if ( y/*that*/ ){
-          while ( ( A/*ta*/ = this[ ++ z/*iter*/] ) !== null && A/*ta*/ !== undefined ){
-            x/*callback*/.call( y/*that*/,A/*ta*/,z/*iter*/,this );
-          };
+        if ( g ){
+          while ( ( i = this[ ++ h] ) !== null && i !== undefined )f.call( g,i,h,this );
         } else {
-          while ( ( A/*ta*/ = this[ ++ z/*iter*/] ) !== null && A/*ta*/ !== undefined ){
-            x/*callback*/( A/*ta*/,z/*iter*/,this );
-          };
+          while ( ( i = this[ ++ h] ) !== null && i !== undefined )f( i,h,this );
         };
       };
     };
     
-    if ( !o/*arrayProto*/.every ){
-      o/*arrayProto*/.every = function ( e/*callback*/,f/*that*/ ) {
-        s/*callbackCheck*/( e/*callback*/,"Array.every" );
+    if ( !d.every ){
+      d.every = function ( a,c ) {
+        e( a,"Array.every" );
         
-        var g/*iter*/ = -1,
-            h/*ta*/;
+        var d = -1,
+            f;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.every : this is null or not defined" );
+          b( "Array.every : this is null or not defined" );
         };
         
-        if ( f/*that*/ ){
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( !( e/*callback*/.call( f/*that*/,h/*ta*/,g/*iter*/,this ) ) ){
-              return false;
-            };
+        if ( c ){
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a.call( c,f,d,this ) ) ){
+            return false;
           };
         } else {
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( !( e/*callback*/( h/*ta*/,g/*iter*/,this ) ) ){
-              return false;
-            };
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a( f,d,this ) ) ){
+            return false;
           };
         };
         return true;
       };
     };
     
-    if ( !o/*arrayProto*/.some ){
-      o/*arrayProto*/.some = function ( e/*callback*/,f/*that*/ ) {
-        s/*callbackCheck*/( e/*callback*/,"Array.some" );
+    if ( !d.some ){
+      d.some = function ( a,c ) {
+        e( a,"Array.some" );
         
-        var g/*iter*/ = -1,
-            h/*ta*/;
+        var d = -1,
+            f;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.some : this is null or not defined" );
+          b( "Array.some : this is null or not defined" );
         };
         
-        if ( f/*that*/ ){
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( e/*callback*/.call( f/*that*/,h/*ta*/,g/*iter*/,this ) ){
-              return true;
-            };
+        if ( c ){
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a.call( c,f,d,this ) ){
+            return true;
           };
         } else {
-          while ( ( h/*ta*/ = this[ ++ g/*iter*/] ) !== null && h/*ta*/ !== undefined ){
-            if ( e/*callback*/( h/*ta*/,g/*iter*/,this ) ){
-              return true;
-            };
+          while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a( f,d,this ) ){
+            return true;
           };
         };
         return false;
       };
     };
     
-    if ( !o/*arrayProto*/.filter ){
-      o/*arrayProto*/.filter = function ( h/*callback*/,i/*that*/ ) {
-        s/*callbackCheck*/( h/*callback*/,"Array.filter" );
+    if ( !d.filter ){
+      d.filter = function ( a,c ) {
+        e( a,"Array.filter" );
         
-        var j/*len*/ = this.length,
-            k/*iter*/ = -1,
-            l/*ret*/ = [],
-            n/*ta*/;
+        var d = this.length,
+            f = -1,
+            g = [],
+            h;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.filter : this is null or not defined" );
+          b( "Array.filter : this is null or not defined" );
         };
         
-        if ( i/*that*/ ){
-          for ( var o/*i*/ = 0,j/*len*/ = this.length;o/*i*/<j/*len*/; ++ o/*i*/ ){
-            if ( ( n/*ta*/ = this[o/*i*/] ) !== null && n/*ta*/ !== undefined ){
-              if ( h/*callback*/.call( i/*that*/,n/*ta*/,o/*i*/,this ) ){
-                l/*ret*/[ ++ k/*iter*/] = n/*ta*/;
-              };
+        if ( c ){
+          for ( var i = 0,d = this.length;i<d; ++ i )
+          if ( ( h = this[i] ) !== null && h !== undefined ){
+            if ( a.call( c,h,i,this ) ){
+              g[ ++ f] = h;
             };
           };
         } else {
-          for ( var o/*i*/ = 0,j/*len*/ = this.length;o/*i*/<j/*len*/; ++ o/*i*/ ){
-            if ( ( n/*ta*/ = this[o/*i*/] ) !== null && n/*ta*/ !== undefined ){
-              if ( h/*callback*/( n/*ta*/,o/*i*/,this ) ){
-                l/*ret*/[ ++ k/*iter*/] = n/*ta*/;
-              };
+          for ( var i = 0,d = this.length;i<d; ++ i )if ( ( h = this[i] ) !== null && h !== undefined ){
+            if ( a( h,i,this ) ){
+              g[ ++ f] = h;
             };
           };
         };
-        return l/*ret*/;
+        return g;
       };
     };
     
-    if ( !o/*arrayProto*/.indexOf ){
-      o/*arrayProto*/.indexOf = function ( f/*subject*/,g/*fromIndex*/ ) {
-        var h/*iter*/ = ( g/*fromIndex*/ )?g/*fromIndex*/-1 : -1,
-            i/*index*/ = -1,
-            j/*ta*/;
+    if ( !d.indexOf ){
+      d.indexOf = function ( a,c ) {
+        var d = ( c )?c-1 : -1,
+            e = -1,
+            f;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.indexOf : this is null or not defined." );
+          b( "Array.indexOf : this is null or not defined." );
         };
         
-        while ( ( j/*ta*/ = this[ ++ h/*iter*/] ) !== null && j/*ta*/ !== undefined ){
-          if ( j/*ta*/ === f/*subject*/ ){
-            i/*index*/ = h/*iter*/;
-            break;
-          };
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( f === a ){
+          e = d;
+          break;
         };
-        return i/*index*/;
+        return e;
       };
     };
     
-    if ( !o/*arrayProto*/.lastIndexOf ){
-      o/*arrayProto*/.lastIndexOf = function ( g/*target*/,h/*fromIndex*/ ) {
-        var i/*len*/ = this.length,
-            j/*iter*/ = ( h/*fromIndex*/ )?h/*fromIndex*/+1 : i/*len*/,
-            k/*index*/ = -1,
-            l/*ta*/;
+    if ( !d.lastIndexOf ){
+      d.lastIndexOf = function ( a,c ) {
+        var d = this.length,
+            e = ( c )?c+1 : d,
+            f = -1,
+            g;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.lastIndexOf : this is null or not defined." );
+          b( "Array.lastIndexOf : this is null or not defined." );
         };
         
-        while ( ( l/*ta*/ = this[ -- j/*iter*/] ) !== null && l/*ta*/ !== undefined ){
-          if ( l/*ta*/ === g/*target*/ ){
-            k/*index*/ = j/*iter*/;
-            break;
-          };
+        while ( ( g = this[ -- e] ) !== null && g !== undefined )if ( g === a ){
+          f = e;
+          break;
         };
-        return k/*index*/;
+        return f;
       };
     };
     
-    if ( !o/*arrayProto*/.map ){
-      o/*arrayProto*/.map = function ( h/*callback*/,i/*that*/ ) {
-        s/*callbackCheck*/( h/*callback*/,"Array.map" );
+    if ( !d.map ){
+      d.map = function ( a,c ) {
+        e( a,"Array.map" );
         
-        var j/*ret*/ = [],
-            k/*iter*/ = -1,
-            l/*len*/ = this.length,
-            n/*i*/ = 0,
-            o/*ta*/;
+        var d = [],
+            f = -1,
+            g = this.length,
+            h = 0,
+            i;
         
         if ( this === null ){
-          m/*builtinTypeError*/( "Array.map : this is null or not defined." );
+          b( "Array.map : this is null or not defined." );
         };
         
-        if ( i/*that*/ ){
-          for ( n/*i*/;n/*i*/<l/*len*/; ++ n/*i*/ ){
-            if ( ( o/*ta*/ = this[n/*i*/] ) !== null && o/*ta*/ !== undefined ){
-              j/*ret*/[ ++ k/*iter*/] = h/*callback*/.call( i/*that*/,o/*ta*/,n/*i*/,this );
-            };
+        if ( c ){
+          for ( h;h<g; ++ h )if ( ( i = this[h] ) !== null && i !== undefined ){
+            d[ ++ f] = a.call( c,i,h,this );
           };
         } else {
-          for ( n/*i*/;n/*i*/<l/*len*/; ++ n/*i*/ ){
-            if ( ( o/*ta*/ = this[n/*i*/] ) !== null && o/*ta*/ !== undefined ){
-              j/*ret*/[ ++ k/*iter*/] = h/*callback*/( o/*ta*/,n/*i*/,this );
-            };
+          for ( h;h<g; ++ h )if ( ( i = this[h] ) !== null && i !== undefined ){
+            d[ ++ f] = a( i,h,this );
           };
         };
-        return j/*ret*/;
+        return d;
       };
     };
     
-    if ( !o/*arrayProto*/.reduce ){
-      o/*arrayProto*/.reduce = function ( g/*callback*/,h/*initial*/ ) {
-        s/*callbackCheck*/( g/*callback*/,"Array.reduce" );
+    if ( !d.reduce ){
+      d.reduce = function ( a,c ) {
+        e( a,"Array.reduce" );
         
-        var i/*ret*/ = h/*initial*/ || this[0],
-            j/*i*/ = ( h/*initial*/ )?0 : 1,
-            k/*len*/ = this.length,
-            l/*ta*/;
+        var d = c || this[0],
+            f = ( c )?0 : 1,
+            g = this.length,
+            h;
         
-        if ( ( k/*len*/ === 0 || k/*len*/ === null ) && arguments.length<2 ){
-          m/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( g === 0 || g === null ) && arguments.length<2 ){
+          b( "Array length is 0 and no second argument" );
         };
         
-        for ( j/*i*/;j/*i*/<k/*len*/; ++ j/*i*/ ){
-          if ( ( l/*ta*/ = this[j/*i*/] ) !== null && l/*ta*/ !== undefined ){
-            i/*ret*/ = g/*callback*/( i/*ret*/,l/*ta*/,j/*i*/,this );
-          };
+        for ( f;f<g; ++ f )if ( ( h = this[f] ) !== null && h !== undefined ){
+          d = a( d,h,f,this );
         };
-        return i/*ret*/;
+        return d;
       };
     };
     
-    if ( !o/*arrayProto*/.reduceRight ){
-      o/*arrayProto*/.reduceRight = function ( g/*callback*/,h/*initial*/ ) {
-        s/*callbackCheck*/( g/*callback*/,"Array.reduceRight" );
+    if ( !d.reduceRight ){
+      d.reduceRight = function ( a,c ) {
+        e( a,"Array.reduceRight" );
         
-        var i/*len*/ = this.length,
-            j/*ret*/ = h/*initial*/ || this[i/*len*/-1],
-            k/*i*/ = ( h/*initial*/ )?i/*len*/-1 : i/*len*/-2,
-            l/*ta*/;
+        var d = this.length,
+            f = c || this[d-1],
+            g = ( c )?d-1 : d-2,
+            h;
         
-        if ( ( i/*len*/ === 0 || i/*len*/ === null ) && arguments.length<2 ){
-          m/*builtinTypeError*/( "Array length is 0 and no second argument" );
+        if ( ( d === 0 || d === null ) && arguments.length<2 ){
+          b( "Array length is 0 and no second argument" );
         };
         
-        for ( k/*i*/;k/*i*/>-1; -- k/*i*/ ){
-          if ( ( l/*ta*/ = this[k/*i*/] ) !== null && l/*ta*/ !== undefined ){
-            j/*ret*/ = g/*callback*/( j/*ret*/,l/*ta*/,k/*i*/,this );
-          };
+        for ( g;g>-1; -- g )if ( ( h = this[g] ) !== null && h !== undefined ){
+          f = a( f,h,g,this );
         };
-        return j/*ret*/;
+        return f;
       };
     };
     
-    if ( !C/*dateProto*/.toJSON ){
-      C/*dateProto*/.toJSON = function () {
-        var g/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            h/*month*/ = g/*_mochaLocalTmp4*/[0],
-            i/*date*/ = g/*_mochaLocalTmp4*/[1],
-            j/*hour*/ = g/*_mochaLocalTmp4*/[2],
-            k/*minute*/ = g/*_mochaLocalTmp4*/[3],
-            l/*second*/ = g/*_mochaLocalTmp4*/[4];
-        return '"'+this.getUTCFullYear()+'-'+( h/*month*/>8?h/*month*/+1 : "0"+( h/*month*/+1 ) )+'-'+( i/*date*/>9?i/*date*/ : "0"+i/*date*/ )+'T'+( j/*hour*/>9?j/*hour*/ : "0"+j/*hour*/ )+':'+( k/*minute*/>9?k/*minute*/ : "0"+k/*minute*/ )+':'+( l/*second*/>9?l/*second*/ : "0"+l/*second*/ )+'.'+this.getUTCMilliseconds()+'Z"';
+    if ( !k.toJSON ){
+      k.toJSON = function () {
+        var a = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+            b = a[0],
+            c = a[1],
+            d = a[2],
+            e = a[3],
+            f = a[4];
+        return '"'+this.getUTCFullYear()+'-'+( b>8?b+1 : "0"+( b+1 ) )+'-'+( c>9?c : "0"+c )+'T'+( d>9?d : "0"+d )+':'+( e>9?e : "0"+e )+':'+( f>9?f : "0"+f )+'.'+this.getUTCMilliseconds()+'Z"';
       };
     };
     
@@ -426,43 +396,46 @@
     };
     
     if ( !Array.isArray ){
-      Array.isArray = function ( b/*arr*/ ) {
+      Array.isArray = function ( a ) {
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( b/*arr*/ )?Object.prototype.toString.call( b/*arr*/ ) === "[object Array]" : false;
+        return ( a )?Object.prototype.toString.call( a ) === "[object Array]" : false;
       };
     };
-  }).call( this,String,Array,Function,Date );
+  }.call( this,String,Array,Function,Date );
   
-  var m/*Runtime*/ = ( function Runtime() {
-        var Z/*_mochaLocalExport*/ = {};
-        
+  var a = function () {
         "use strict";
+        var p = {};
         
-        function h/*Exception*/( g/*line*/,f/*file*/,a/*e*/ ) {
+        function c( d,c,b ) {
           this.toString = function () {
-            return b/*Runtime*/.getErrorMessage( a/*e*/ )+" in file "+f/*file*/+" at : "+g/*line*/;
+            return a.getErrorMessage( b )+" in file "+c+" at : "+d;
           };
         }
-        var J/*fastMax*/ = Math.max;
+        var q = Math,
+            g = q.max;
         
-        var b/*Runtime*/ =  {
-              getErrorMessage : function _/*getErrorMessage*/( b/*e*/ ) {
-                return ( b/*e*/.message )?b/*e*/.message : ( b/*e*/.description )?b/*e*/.description : b/*e*/.toString();
+        var r = Array.prototype,
+            d = r.slice;
+        
+        var a =  {
+              getErrorMessage : function s( a ) {
+                return ( a.message )?a.message : ( a.description )?a.description : a.toString();
               },
-              exceptionHandler : function $/*exceptionHandler*/( k/*line*/,l/*file*/,m/*e*/ ) {
-                if ( f/*isStopIteration*/( m/*e*/ ) ){
-                  this.throwException( m/*e*/ );
+              exceptionHandler : function t( d,e,f ) {
+                if ( b( f ) ){
+                  this.throwException( f );
                 } else {
-                  this.throwException( new h/*Exception*/( k/*line*/,l/*file*/,m/*e*/ ) );
+                  this.throwException( new c( d,e,f ) );
                 };
               },
-              throwException : function bb/*throwException*/( b/*exception*/ ) {
+              throwException : function u( a ) {
                 try {
-                  throw b/*exception*/;
+                  throw a;
                 } catch( e ){
-                  if ( f/*isStopIteration*/( e ) ){
+                  if ( b( e ) ){
                     throw new Error( e );
                   } else {
                     throw new Error( this.getErrorMessage( e ) );
@@ -472,255 +445,272 @@
               hasProto : "__proto__" in {}
             };
         
-        var k/*slice*/ = Array.prototype.slice;
-        
-        var E/*createUnenumProp*/ = Z/*_mochaLocalExport*/.createUnenumProp = function E/*createUnenumProp*/( d/*obj*/,e/*prop*/,f/*value*/ ) {
-              return Object.defineProperty( d/*obj*/,e/*prop*/, {
-                configurable : true,
-                enumerable : false,
-                writable : true,
-                value : f/*value*/
-              });
-            };
-        
-        var bc/*constant*/ = Z/*_mochaLocalExport*/.constant = function bc/*constant*/( d/*obj*/,e/*prop*/,f/*value*/ ) {
-              return Object.defineProperty( d/*obj*/,e/*prop*/, {
-                configurable : false,
-                enumerable : false,
-                writable : false,
-                value : f/*value*/
-              });
-            };
-        
-        var bd/*toArray*/ = Z/*_mochaLocalExport*/.toArray = function bd/*toArray*/( m/*likeArray*/,n/*index*/ ) {
-              return ( m/*likeArray*/ )?k/*slice*/.call( m/*likeArray*/,n/*index*/ ) : [];
-            };
-        
-        var D/*Generator*/ = function (){};
-        
-        var be/*createGenerator*/ = Z/*_mochaLocalExport*/.createGenerator = function be/*createGenerator*/( J/*generatorFn*/,K/*closeFn*/,L/*context*/ ) {
-              var M/*ret*/ = new D/*Generator*/;
-              
-              E/*createUnenumProp*/( M/*ret*/,"next",J/*generatorFn*/.bind( L/*context*/,false,false ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"send",J/*generatorFn*/.bind( L/*context*/,true,false ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"close",K/*closeFn*/.bind( L/*context*/ ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"__nothrowNext__",J/*generatorFn*/.bind( L/*context*/,false,true ) );
-              
-              E/*createUnenumProp*/( M/*ret*/,"toString",
-              function () {
-                return "[object Generator]";
-              });
-              
-              Object.freeze( M/*ret*/ );
-              return M/*ret*/;
-            };
-        
-        function _/*getErrorMessage*/( b/*e*/ ) {
-          return ( b/*e*/.message )?b/*e*/.message : ( b/*e*/.description )?b/*e*/.description : b/*e*/.toString();
-        }
-        var bb/*throwException*/ = Z/*_mochaLocalExport*/.throwException = b/*Runtime*/.throwException.bind( b/*Runtime*/ );
-        
-        var $/*exceptionHandler*/ = Z/*_mochaLocalExport*/.exceptionHandler = b/*Runtime*/.exceptionHandler.bind( b/*Runtime*/ );
-        
-        var bf/*extend*/ = Z/*_mochaLocalExport*/.extend = function bf/*extend*/( d/*dest*/,e/*source*/ ) {
-              for ( var f/*prop*/ in e/*source*/ ){
-                d/*dest*/[f/*prop*/] = e/*source*/[f/*prop*/];
-              };
-              return d/*dest*/;
-            };
-        
-        function N/*compareTuple*/( N/*tuple*/ ) {
-          var O/*max*/ = J/*fastMax*/( N/*tuple*/.length,this.length ),
-              P/*i*/ = -1;
-          
-          while (  ++ P/*i*/<O/*max*/ && N/*tuple*/[P/*i*/] === this[P/*i*/] ){
-            
-          };
-          return O/*max*/ === P/*i*/;
+        function f( a,b,c ) {
+          return Object.defineProperty( a,b, {
+            configurable : true,
+            enumerable : false,
+            writable : true,
+            value : c
+          });
         };
         
-        function O/*tupleToArray*/() {
+        p.createUnenumProp = f;
+        
+        function v( a,b,c ) {
+          return Object.defineProperty( a,b, {
+            configurable : false,
+            enumerable : false,
+            writable : false,
+            value : c
+          });
+        };
+        
+        p.constant = v;
+        
+        function w( e,f ) {
+          return ( e )?d.call( e,f ) : [];
+        };
+        
+        p.toArray = w;
+        
+        function e(  ){};
+        
+        function x( g,h,i ) {
+          var j = new e;
+          
+          f( j,"next",g.bind( i,false,false ) );
+          
+          f( j,"send",g.bind( i,true,false ) );
+          
+          f( j,"close",h.bind( i ) );
+          
+          f( j,"__nothrowNext__",g.bind( i,false,true ) );
+          
+          f( j,"toString",
+          function () {
+            return "[object Generator]";
+          });
+          
+          Object.freeze( j );
+          return j;
+        };
+        
+        p.createGenerator = x;
+        
+        function s( a ) {
+          return ( a.message )?a.message : ( a.description )?a.description : a.toString();
+        }
+        var u = p.throwException = a.throwException.bind( a );
+        
+        var t = p.exceptionHandler = a.exceptionHandler.bind( a );
+        
+        function y( a,b ) {
+          for ( var c in b )
+          a[c] = b[c];
+          return a;
+        };
+        
+        p.extend = y;
+        
+        function h( h ) {
+          var i = g( h.length,this.length ),
+              j = -1;
+          
+          while (  ++ j<i && h[j] === this[j] ){
+            
+          };
+          return i === j;
+        };
+        
+        function i() {
           return Array.prototype.slice.call( this );
         };
         
-        var bg/*createTuple*/ = Z/*_mochaLocalExport*/.createTuple = function bg/*createTuple*/( P/*obj*/,Q/*size*/ ) {
-              E/*createUnenumProp*/( P/*obj*/,"length",Q/*size*/ );
-              
-              E/*createUnenumProp*/( P/*obj*/,"equal",N/*compareTuple*/ );
-              
-              E/*createUnenumProp*/( P/*obj*/,"toArray",O/*tupleToArray*/ );
-              
-              E/*createUnenumProp*/( P/*obj*/,"toString",
-              function () {
-                return "[object Tuple]";
-              });
-              return Object.freeze( P/*obj*/ );
-            };
-        
-        var bh/*createRecord*/ = Z/*_mochaLocalExport*/.createRecord = function bh/*createRecord*/( b/*obj*/ ) {
-              if ( b/*obj*/.toString() === "[object Object]" ){
-                E/*createUnenumProp*/( b/*obj*/,"toString",
-                function () {
-                  return "[object Record]";
-                });
-              };
-              return Object.freeze( b/*obj*/ );
-            };
-        
-        var bi/*extendPrototype*/ = Z/*_mochaLocalExport*/.extendPrototype = function ( c/*derived*/,d/*base*/ ) {
-              c/*derived*/.prototype = d/*base*/;
-            };
-        
-        var P/*getPrototype*/ = ( "getPrototypeOf" in Object )?function ( b/*obj*/ ) {
-              return Object.getPrototypeOf( b/*obj*/ );
-            } : function ( d/*obj*/ ) {
-              var e/*ret*/ = {};
-              
-              for ( var f/*i*/ in d/*obj*/ ){
-                if ( !d/*obj*/.hasOwnProperty( f/*i*/ ) ){
-                  e/*ret*/[f/*i*/] = d/*obj*/[f/*i*/];
-                };
-              };
-              return e/*ret*/;
-            };
-        
-        var bj/*extendClass*/ = Z/*_mochaLocalExport*/.extendClass = ( b/*Runtime*/.hasProto )?function ( d/*derived*/,e/*base*/ ) {
-              if ( typeof e/*base*/ === 'function' ){
-                d/*derived*/.prototype.__proto__ = e/*base*/.prototype;
-                
-                for ( var f/*i*/ in e/*base*/ ){
-                  d/*derived*/[f/*i*/] = e/*base*/[f/*i*/];
-                };
-              } else {
-                d/*derived*/.prototype.__proto__ = e/*base*/.__proto__;
-              };
-            } : function ( R/*derived*/,S/*base*/ ) {
-              var T/*baseType*/ = typeof S/*base*/;
-              
-              if ( T/*baseType*/ === "function" ){
-                var U/*inherit*/ = function (){};
-                
-                U/*inherit*/.prototype = S/*base*/.prototype;
-                
-                R/*derived*/.prototype = new U/*inherit*/;
-                
-                for ( var V/*i*/ in S/*base*/ ){
-                  R/*derived*/[V/*i*/] = S/*base*/[V/*i*/];
-                };
-              } else {
-                var U/*inherit*/ = function (){},
-                    W/*proto*/ = P/*getPrototype*/( S/*base*/ );
-                
-                U/*inherit*/.prototype = W/*proto*/;
-                
-                R/*derived*/.prototype = new U/*inherit*/;
-              };
-            };
-        
-        var R/*__ref_iterator__*/ = Z/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
-        
-        var W/*throwStopIteration*/ = Z/*_mochaLocalExport*/.throwStopIteration = function W/*throwStopIteration*/() {
-              try {
-                throw StopIteration;
-              } catch( e ){
-                throw new Error( e.toString() );
-              };
-            };
-        
-        var S/*isGenerator*/ = Z/*_mochaLocalExport*/.isGenerator = function S/*isGenerator*/( b/*obj*/ ) {
-              return b/*obj*/ instanceof D/*Generator*/;
-            };
-        
-        var bk/*getIterator*/ = Z/*_mochaLocalExport*/.getIterator = function bk/*getIterator*/( X/*obj*/ ) {
-              var b/*ret*/ = X/*obj*/[R/*__ref_iterator__*/](),
-                  Y/*newObj*/;
-              
-              if ( S/*isGenerator*/( b/*ret*/ ) ){
-                return b/*ret*/;
-              };
-              
-              Y/*newObj*/ = {};
-              
-              if ( b/*ret*/.next ){
-                E/*createUnenumProp*/( Y/*newObj*/,"next",
-                function () {
-                  var d/*result*/ = b/*ret*/.next();
-                  
-                  if ( d/*result*/ === undefined ){
-                    W/*throwStopIteration*/();
-                  };
-                  return d/*result*/;
-                });
-              } else {
-                return {};
-              };
-              
-              if ( !( "__nothrowNext__" in b/*ret*/ ) ){
-                E/*createUnenumProp*/( Y/*newObj*/,"__nothrowNext__",b/*ret*/.next.bind( b/*ret*/ ) );
-              };
-              
-              for ( var Z/*prop*/ in b/*ret*/ ){
-                if ( Z/*prop*/ !== "next" && Z/*prop*/ !== "__nothrowNext__" ){
-                  Y/*newObj*/[Z/*prop*/] = b/*ret*/[Z/*prop*/];
-                };
-              };
-              
-              if ( !( "toString" in b/*ret*/ ) ){
-                E/*createUnenumProp*/( Y/*newObj*/,"toString",
-                function () {
-                  return "[object Iterator]";
-                });
-              };
-              return Y/*newObj*/;
-            };
-        
-        var bl/*hasIterator*/ = Z/*_mochaLocalExport*/.hasIterator = function bl/*hasIterator*/( b/*obj*/ ) {
-              return R/*__ref_iterator__*/ in b/*obj*/;
-            };
-        
-        var X/*rstopIteration*/ = /StopIteration/;
-        
-        var f/*isStopIteration*/ = Z/*_mochaLocalExport*/.isStopIteration = function f/*isStopIteration*/( Y/*obj*/ ) {
-              return Y/*obj*/ === StopIteration || X/*rstopIteration*/.test( Y/*obj*/ );
-            };
-        
-        var Y/*privateRecord*/,
-            bm/*createPrivateRecord*/,
-            bn/*getPrivateRecord*/;
-        
-        if ( "WeakMap" in window ){
-          Y/*privateRecord*/ = new WeakMap();
+        function z( j,k ) {
+          f( j,"length",k );
           
-          bm/*createPrivateRecord*/ = function ( self,Z/*privateHolder*/ ) {
-            var _/*holder*/ = new Z/*privateHolder*/;
-            
-            E/*createUnenumProp*/( _/*holder*/.constructor,"__is_private__",1 );
-            
-            Y/*privateRecord*/.set( self,_/*holder*/ );
+          f( j,"equal",h );
+          
+          f( j,"toArray",i );
+          
+          f( j,"toString",
+          function () {
+            return "[object Tuple]";
+          });
+          return Object.freeze( j );
+        };
+        
+        p.createTuple = z;
+        
+        function A( a ) {
+          if ( a.toString() === "[object Object]" ){
+            f( a,"toString",
+            function () {
+              return "[object Record]";
+            });
+          };
+          return Object.freeze( a );
+        };
+        
+        p.createRecord = A;
+        
+        var B = p.extendPrototype = function ( a,b ) {
+              a.prototype = b;
+            };
+        
+        var j = ( "getPrototypeOf" in Object )?function ( a ) {
+              return Object.getPrototypeOf( a );
+            } : function ( a ) {
+              var b = {};
+              
+              for ( var c in a )
+              if ( !a.hasOwnProperty( c ) ){
+                b[c] = a[c];
+              };
+              return b;
+            };
+        
+        var C = p.extendClass = ( a.hasProto )?function ( a,b ) {
+              if ( typeof b === 'function' ){
+                a.prototype.__proto__ = b.prototype;
+                
+                for ( var c in b )
+                a[c] = b[c];
+              } else {
+                a.prototype.__proto__ = b.__proto__;
+              };
+            } : function ( k,l ) {
+              var m = typeof l;
+              
+              if ( m === "function" ){
+                var n = function (){};
+                
+                n.prototype = l.prototype;
+                
+                k.prototype = new n;
+                
+                for ( var o in l )
+                k[o] = l[o];
+              } else {
+                var n = function (){},
+                    p = j( l );
+                
+                n.prototype = p;
+                
+                k.prototype = new n;
+              };
+            };
+        
+        var k = p.__ref_iterator__ = "__mocha_iterator_special_key__";
+        
+        function m() {
+          try {
+            throw StopIteration;
+          } catch( e ){
+            throw new Error( e.toString() );
+          };
+        };
+        
+        p.throwStopIteration = m;
+        
+        function l( a ) {
+          return a instanceof e;
+        };
+        
+        p.isGenerator = l;
+        
+        function D( n ) {
+          var a = n[k](),
+              o;
+          
+          if ( l( a ) ){
+            return a;
           };
           
-          bn/*getPrivateRecord*/ = function ( self ) {
-            if ( Y/*privateRecord*/.has( self ) ){
-              return Y/*privateRecord*/.get( self );
+          o = {};
+          
+          if ( a.next ){
+            f( o,"next",
+            function () {
+              var b = a.next();
+              
+              if ( b === undefined ){
+                m();
+              };
+              return b;
+            });
+          } else {
+            return {};
+          };
+          
+          if ( !( "__nothrowNext__" in a ) ){
+            f( o,"__nothrowNext__",a.next.bind( a ) );
+          };
+          
+          for ( var p in a )
+          if ( p !== "next" && p !== "__nothrowNext__" ){
+            o[p] = a[p];
+          };
+          
+          if ( !( "toString" in a ) ){
+            f( o,"toString",
+            function () {
+              return "[object Iterator]";
+            });
+          };
+          return o;
+        };
+        
+        p.getIterator = D;
+        
+        function E( a ) {
+          return k in a;
+        };
+        
+        p.hasIterator = E;
+        
+        var n = /StopIteration/;
+        
+        function b( o ) {
+          return o === StopIteration || n.test( o );
+        };
+        
+        p.isStopIteration = b;
+        
+        var o,
+            F,
+            G;
+        
+        if ( "WeakMap" in window ){
+          o = new WeakMap();
+          
+          F = function ( self,p ) {
+            var q = new p;
+            
+            f( q.constructor,"__is_private__",1 );
+            
+            o.set( self,q );
+          };
+          
+          G = function ( self ) {
+            if ( o.has( self ) ){
+              return o.get( self );
             } else if ( self.constructor === "__is_private__" ){
               return self;
             };
           };
         } else {
-          bm/*createPrivateRecord*/ = function ( self,c/*privateHolder*/ ) {
+          F = function ( self,a ) {
             if ( !self.__typeid__ ){
-              var d/*holder*/ = new c/*privateHolder*/;
+              var b = new a;
               
-              E/*createUnenumProp*/( d/*holder*/.constructor,"__is_private__",1 );
+              f( b.constructor,"__is_private__",1 );
               
-              E/*createUnenumProp*/( self,"__private__",d/*holder*/ );
+              f( self,"__private__",b );
             };
           };
           
-          bn/*getPrivateRecord*/ = function ( self ) {
+          G = function ( self ) {
             if ( self.__private__ ){
               return self.__private__;
             } else if ( self.constructor === "__is_private__" ){
@@ -729,2290 +719,2260 @@
           };
         };
         
-        Z/*_mochaLocalExport*/.createPrivateRecord = bm/*createPrivateRecord*/;
+        p.createPrivateRecord = F;
         
-        Z/*_mochaLocalExport*/.getPrivateRecord = bn/*getPrivateRecord*/;
+        p.getPrivateRecord = G;
         
-        var bo/*getSuper*/ = Z/*_mochaLocalExport*/.getSuper = function bo/*getSuper*/( d/*obj*/ ) {
-              var e/*type*/ = typeof d/*obj*/,
-                  f/*ret*/;
+        function H( a ) {
+          var b = typeof a,
+              c;
+          
+          if ( b === "function" ){
+            c = function (){};
+            
+            c.prototype = a.prototype;
+            
+            c = new c();
+            
+            if ( a.__harmony_class__ ){
+              c.constructor = a.constructor;
+            } else {
+              c.constructor = a;
+            };
+            return c;
+          };
+          return c;
+        };
+        
+        p.getSuper = H;
+        
+        function I( b,c,d,e ) {
+          if ( !b._mochaTraitMark || !c._mochaTraitMark ){
+            a.throwException( "mixin only used for trait." );
+          } else {
+            var f = b._mochaTraitPrivate,
+                g = c._mochaTraitPrivate,
+                h = b._mochaTraitPublic,
+                i = c._mochaTraitPublic,
+                j = c._mochaRequires,
+                k = b._mochaRequires,
+                l;
+            
+            for ( var m in g )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
               
-              if ( e/*type*/ === "function" ){
-                f/*ret*/ = function (){};
-                
-                f/*ret*/.prototype = d/*obj*/.prototype;
-                
-                f/*ret*/ = new f/*ret*/();
-                
-                if ( d/*obj*/.__harmony_class__ ){
-                  f/*ret*/.constructor = d/*obj*/.constructor;
-                } else {
-                  f/*ret*/.constructor = d/*obj*/;
-                };
-                return f/*ret*/;
-              };
-              return f/*ret*/;
+              f[l] = g[m];
             };
-        
-        var bp/*traitMixin*/ = Z/*_mochaLocalExport*/.traitMixin = function bp/*traitMixin*/( m/*dest*/,n/*source*/,o/*with_*/,p/*without*/ ) {
-              if ( !m/*dest*/._mochaTraitMark || !n/*source*/._mochaTraitMark ){
-                b/*Runtime*/.throwException( "mixin only used for trait." );
-              } else {
-                var q/*destTraitPrivate*/ = m/*dest*/._mochaTraitPrivate,
-                    r/*sourceTraitPrivate*/ = n/*source*/._mochaTraitPrivate,
-                    s/*destTraitPublic*/ = m/*dest*/._mochaTraitPublic,
-                    t/*sourceTraitPublic*/ = n/*source*/._mochaTraitPublic,
-                    u/*sourceRequires*/ = n/*source*/._mochaRequires,
-                    v/*destRequires*/ = m/*dest*/._mochaRequires,
-                    w/*tmp*/;
-                
-                for ( var x/*i*/ in r/*sourceTraitPrivate*/ ){
-                  if ( !p/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !o/*with_*/[x/*i*/] )?x/*i*/ : o/*with_*/[x/*i*/];
-                    
-                    q/*destTraitPrivate*/[w/*tmp*/] = r/*sourceTraitPrivate*/[x/*i*/];
-                  };
-                };
-                
-                for ( x/*i*/ in t/*sourceTraitPublic*/ ){
-                  if ( !p/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !o/*with_*/[x/*i*/] )?x/*i*/ : o/*with_*/[x/*i*/];
-                    
-                    s/*destTraitPublic*/[w/*tmp*/] = t/*sourceTraitPublic*/[x/*i*/];
-                  };
-                };
-                
-                for ( x/*i*/ in u/*sourceRequires*/ ){
-                  v/*destRequires*/[x/*i*/] = u/*sourceRequires*/[x/*i*/];
-                };
-              };
-            };
-        
-        var bq/*classMixin*/ = Z/*_mochaLocalExport*/.classMixin = function bq/*classMixin*/( m/*_mochaLocalTmp5*/,n/*_mochaLocalTmp6*/,o/*_mochaLocalTmp7*/,p/*with_*/,q/*without*/ ) {
-              var r/*constructorProto*/ = m/*_mochaLocalTmp5*/.prototype,
-                  s/*privateProto*/ = n/*_mochaLocalTmp6*/.prototype,
-                  t/*mark*/ = o/*_mochaLocalTmp7*/._mochaTraitMark,
-                  u/*traitPublic*/ = o/*_mochaLocalTmp7*/._mochaTraitPublic,
-                  v/*traitPrivate*/ = o/*_mochaLocalTmp7*/._mochaTraitPrivate;
+            
+            for ( m in i )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
               
-              if ( !t/*mark*/ ){
-                b/*Runtime*/.throwException( "mixin only used for trait." );
-              } else {
-                var w/*tmp*/;
-                
-                for ( var x/*i*/ in u/*traitPublic*/ ){
-                  if ( !q/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !p/*with_*/[x/*i*/] )?x/*i*/ : p/*with_*/[x/*i*/];
-                    
-                    r/*constructorProto*/[w/*tmp*/] = u/*traitPublic*/[x/*i*/];
-                  };
-                };
-                
-                for ( x/*i*/ in v/*traitPrivate*/ ){
-                  if ( !q/*without*/[x/*i*/] ){
-                    w/*tmp*/ = ( !p/*with_*/[x/*i*/] )?x/*i*/ : p/*with_*/[x/*i*/];
-                    
-                    s/*privateProto*/[w/*tmp*/] = v/*traitPrivate*/[x/*i*/];
-                  };
-                };
-              };
+              h[l] = i[m];
             };
+            
+            for ( m in j )k[m] = j[m];
+          };
+        };
         
-        var br/*checkRequirements*/ = Z/*_mochaLocalExport*/.checkRequirements = function br/*checkRequirements*/( m/*_mochaLocalTmp8*/,n/*_mochaLocalTmp9*/,o/*traits*/,p/*file*/,q/*line*/ ) {
-              var r/*proto1*/ = m/*_mochaLocalTmp8*/.prototype,
-                  s/*proto2*/ = n/*_mochaLocalTmp9*/.prototype;
+        p.traitMixin = I;
+        
+        function J( b,c,d,e,f ) {
+          var g = b.prototype,
+              h = c.prototype,
+              i = d._mochaTraitMark,
+              j = d._mochaTraitPublic,
+              k = d._mochaTraitPrivate;
+          
+          if ( !i ){
+            a.throwException( "mixin only used for trait." );
+          } else {
+            var l;
+            
+            for ( var m in j )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
               
-              for ( var t/*i*/ = 0,u/*len*/ = o/*traits*/.length;t/*i*/<u/*len*/;t/*i*/ ++  ){
-                var v/*_mochaLocalTmp10*/ = o/*traits*/[t/*i*/],
-                    w/*_mochaRequires*/ = v/*_mochaLocalTmp10*/._mochaRequires;
-                
-                for ( var x/*prop*/ in w/*_mochaRequires*/ ){
-                  if ( !( x/*prop*/ in r/*proto1*/ ) && !( x/*prop*/ in s/*proto2*/ ) ){
-                    b/*Runtime*/.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+x/*prop*/+"\nin file "+p/*file*/+" at line "+q/*line*/ );
-                  };
-                };
-              };
+              g[l] = j[m];
             };
-        return Z/*_mochaLocalExport*/;
-      })();
+            
+            for ( m in k )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
+              
+              h[l] = k[m];
+            };
+          };
+        };
+        
+        p.classMixin = J;
+        
+        function K( b,c,d,e,f ) {
+          var g = b.prototype,
+              h = c.prototype;
+          
+          for ( var i = 0,j = d.length;i<j;i ++  ){
+            var k = d[i],
+                l = k._mochaRequires;
+            
+            for ( var m in l )
+            if ( !( m in g ) && !( m in h ) ){
+              a.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m+"\nin file "+e+" at line "+f );
+            };
+          };
+        };
+        
+        p.checkRequirements = K;
+        return p;
+      }();
   
   if ( !( "StopIteration" in window ) ){
     window.StopIteration =  {
-      toString : function N/*toString*/() {
+      toString : function c() {
         return "[object StopIteration]";
       }
     };
   };
   
-  ( function () {
-    D/*_mochaGlobalExport*/['./knockout-2.0.0.debug.js'] = {};
+  function d(  ) {
+    var b = a.toArray( arguments,0 );
     
-    var N/*_mochaGlobalAlias*/ = D/*_mochaGlobalExport*/['./knockout-2.0.0.debug.js'];
+    var c = {};
     
-    ( function ( i/*window*/,undefined ) {
-      var n/*ko*/ = i/*window*/["ko"] = {};
+    c.length = 0;
+    
+    Array.prototype.push.apply( c,b );
+    
+    a.createTuple( c,arguments.length );
+    return c;
+  };
+  
+  function e( b ) {
+    return a.createRecord( b );
+  };
+  
+  !function () {
+    b['./knockout-2.0.0.debug.js'] = {};
+    
+    var c = b['./knockout-2.0.0.debug.js'];
+    
+    !function ( a,undefined ) {
+      var b = a["ko"] = {};
       
-      n/*ko*/.exportSymbol = function ( n/*publicPath*/,o/*object*/ ) {
-        var p/*tokens*/ = n/*publicPath*/.split( "." );
+      b.exportSymbol = function ( b,c ) {
+        var d = b.split( "." );
         
-        var q/*target*/ = i/*window*/;
+        var e = a;
         
-        for ( var r/*i*/ = 0;r/*i*/<p/*tokens*/.length-1;r/*i*/ ++  ){
-          q/*target*/ = q/*target*/[p/*tokens*/[r/*i*/]];
-        };
+        for ( var f = 0;f<d.length-1;f ++  )
+        e = e[d[f]];
         
-        q/*target*/[p/*tokens*/[p/*tokens*/.length-1]] = o/*object*/;
+        e[d[d.length-1]] = c;
       };
       
-      n/*ko*/.exportProperty = function ( d/*owner*/,e/*publicName*/,f/*object*/ ) {
-        d/*owner*/[e/*publicName*/] = f/*object*/;
+      b.exportProperty = function ( a,b,c ) {
+        a[b] = c;
       };
       
-      n/*ko*/.utils = new ( function () {
-        var P/*stringTrimRegex*/ = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
+      b.utils = new function () {
+        var c = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
         
-        var bD/*knownEvents*/ = {},
-            bd/*knownEventTypesByEventName*/ = {};
+        var g = {},
+            e = {};
         
-        var bE/*keyEventTypeName*/ = /Firefox\/2/i.test( navigator.userAgent )?'KeyboardEvent' : 'UIEvents';
+        var h = /Firefox\/2/i.test( navigator.userAgent )?'KeyboardEvent' : 'UIEvents';
         
-        bD/*knownEvents*/[bE/*keyEventTypeName*/] = ['keyup','keydown','keypress'];
+        g[h] = ['keyup','keydown','keypress'];
         
-        bD/*knownEvents*/['MouseEvents'] = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
+        g['MouseEvents'] = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
         
-        for ( var bb/*eventType*/ in bD/*knownEvents*/ ){
-          var bF/*knownEventsForType*/ = bD/*knownEvents*/[bb/*eventType*/];
+        for ( var i in g ){
+          var j = g[i];
           
-          if ( bF/*knownEventsForType*/.length ){
-            for ( var bv/*i*/ = 0,bx/*j*/ = bF/*knownEventsForType*/.length;bv/*i*/<bx/*j*/;bv/*i*/ ++  ){
-              bd/*knownEventTypesByEventName*/[bF/*knownEventsForType*/[bv/*i*/]] = bb/*eventType*/;
-            };
+          if ( j.length ){
+            for ( var k = 0,l = j.length;k<l;k ++  )
+            e[j[k]] = i;
           };
         };
         
-        var bj/*ieVersion*/ = ( function () {
-              var d/*version*/ = 3,
-                  e/*div*/ = document.createElement( 'div' ),
-                  f/*iElems*/ = e/*div*/.getElementsByTagName( 'i' );
+        var f = ( function () {
+              var a = 3,
+                  b = document.createElement( 'div' ),
+                  c = b.getElementsByTagName( 'i' );
               
-              while ( e/*div*/.innerHTML = '<!--[if gt IE '+(  ++ d/*version*/ )+']><i></i><![endif]-->' , f/*iElems*/[0] ){
-                
-              };
-              return d/*version*/>4?d/*version*/ : undefined;
+              while ( b.innerHTML = '<!--[if gt IE '+(  ++ a )+']><i></i><![endif]-->' , c[0] )return a>4?a : undefined;
             }());
         
-        var bG/*isIe6*/ = bj/*ieVersion*/ === 6,
-            bH/*isIe7*/ = bj/*ieVersion*/ === 7;
+        var m = f === 6,
+            n = f === 7;
         
-        function X/*isClickOnCheckableElement*/( m/*element*/,n/*eventType*/ ) {
-          if ( ( m/*element*/.tagName != "INPUT" ) || !m/*element*/.type ){
+        function d( a,b ) {
+          if ( ( a.tagName != "INPUT" ) || !a.type ){
             return false;
           };
           
-          if ( n/*eventType*/.toLowerCase() != "click" ){
+          if ( b.toLowerCase() != "click" ){
             return false;
           };
           
-          var o/*inputType*/ = m/*element*/.type.toLowerCase();
-          return ( o/*inputType*/ == "checkbox" ) || ( o/*inputType*/ == "radio" );
+          var c = a.type.toLowerCase();
+          return ( c == "checkbox" ) || ( c == "radio" );
         }return  {
           fieldsIncludedWithJsonPost : ['authenticity_token',/^__RequestVerificationToken(_.*)?$/],
-          arrayForEach : function ( s/*array*/,t/*action*/ ) {
-            for ( var u/*i*/ = 0,v/*j*/ = s/*array*/.length;u/*i*/<v/*j*/;u/*i*/ ++  ){
-              t/*action*/( s/*array*/[u/*i*/] );
-            };
+          arrayForEach : function ( a,b ) {
+            for ( var c = 0,d = a.length;c<d;c ++  )
+            b( a[c] );
           },
-          arrayIndexOf : function ( u/*array*/,v/*item*/ ) {
+          arrayIndexOf : function ( a,b ) {
             if ( typeof Array.prototype.indexOf == "function" ){
-              return Array.prototype.indexOf.call( u/*array*/,v/*item*/ );
+              return Array.prototype.indexOf.call( a,b );
             };
             
-            for ( var w/*i*/ = 0,x/*j*/ = u/*array*/.length;w/*i*/<x/*j*/;w/*i*/ ++  ){
-              if ( u/*array*/[w/*i*/] === v/*item*/ ){
-                return w/*i*/;
-              };
+            for ( var c = 0,d = a.length;c<d;c ++  )
+            if ( a[c] === b ){
+              return c;
             };
             return -1;
           },
-          arrayFirst : function ( y/*array*/,z/*predicate*/,A/*predicateOwner*/ ) {
-            for ( var B/*i*/ = 0,C/*j*/ = y/*array*/.length;B/*i*/<C/*j*/;B/*i*/ ++  ){
-              if ( z/*predicate*/.call( A/*predicateOwner*/,y/*array*/[B/*i*/] ) ){
-                return y/*array*/[B/*i*/];
-              };
+          arrayFirst : function ( a,b,c ) {
+            for ( var d = 0,e = a.length;d<e;d ++  )
+            if ( b.call( c,a[d] ) ){
+              return a[d];
             };
             return null;
           },
-          arrayRemoveItem : function ( d/*array*/,e/*itemToRemove*/ ) {
-            var f/*index*/ = n/*ko*/.utils.arrayIndexOf( d/*array*/,e/*itemToRemove*/ );
+          arrayRemoveItem : function ( a,c ) {
+            var d = b.utils.arrayIndexOf( a,c );
             
-            if ( f/*index*/ >= 0 ){
-              d/*array*/.splice( f/*index*/,1 );
+            if ( d >= 0 ){
+              a.splice( d,1 );
             };
           },
-          arrayGetDistinctValues : function ( B/*array*/ ) {
-            B/*array*/ = B/*array*/ || [];
+          arrayGetDistinctValues : function ( a ) {
+            a = a || [];
             
-            var C/*result*/ = [];
+            var c = [];
             
-            for ( var D/*i*/ = 0,E/*j*/ = B/*array*/.length;D/*i*/<E/*j*/;D/*i*/ ++  ){
-              if ( n/*ko*/.utils.arrayIndexOf( C/*result*/,B/*array*/[D/*i*/] )<0 ){
-                C/*result*/.push( B/*array*/[D/*i*/] );
-              };
+            for ( var d = 0,e = a.length;d<e;d ++  )
+            if ( b.utils.arrayIndexOf( c,a[d] )<0 ){
+              c.push( a[d] );
             };
-            return C/*result*/;
+            return c;
           },
-          arrayMap : function ( F/*array*/,G/*mapping*/ ) {
-            F/*array*/ = F/*array*/ || [];
+          arrayMap : function ( a,b ) {
+            a = a || [];
             
-            var H/*result*/ = [];
+            var c = [];
             
-            for ( var I/*i*/ = 0,J/*j*/ = F/*array*/.length;I/*i*/<J/*j*/;I/*i*/ ++  ){
-              H/*result*/.push( G/*mapping*/( F/*array*/[I/*i*/] ) );
-            };
-            return H/*result*/;
+            for ( var d = 0,e = a.length;d<e;d ++  )
+            c.push( b( a[d] ) );
+            return c;
           },
-          arrayFilter : function ( J/*array*/,K/*predicate*/ ) {
-            J/*array*/ = J/*array*/ || [];
+          arrayFilter : function ( a,b ) {
+            a = a || [];
             
-            var L/*result*/ = [];
+            var c = [];
             
-            for ( var M/*i*/ = 0,N/*j*/ = J/*array*/.length;M/*i*/<N/*j*/;M/*i*/ ++  ){
-              if ( K/*predicate*/( J/*array*/[M/*i*/] ) ){
-                L/*result*/.push( J/*array*/[M/*i*/] );
-              };
+            for ( var d = 0,e = a.length;d<e;d ++  )
+            if ( b( a[d] ) ){
+              c.push( a[d] );
             };
-            return L/*result*/;
+            return c;
           },
-          arrayPushAll : function ( M/*array*/,N/*valuesToPush*/ ) {
-            for ( var O/*i*/ = 0,P/*j*/ = N/*valuesToPush*/.length;O/*i*/<P/*j*/;O/*i*/ ++  ){
-              M/*array*/.push( N/*valuesToPush*/[O/*i*/] );
+          arrayPushAll : function ( a,b ) {
+            for ( var c = 0,d = b.length;c<d;c ++  )
+            a.push( b[c] );
+            return a;
+          },
+          extend : function ( a,b ) {
+            for ( var c in b )
+            if ( b.hasOwnProperty( c ) ){
+              a[c] = b[c];
             };
-            return M/*array*/;
+            return a;
           },
-          extend : function ( d/*target*/,e/*source*/ ) {
-            for ( var f/*prop*/ in e/*source*/ ){
-              if ( e/*source*/.hasOwnProperty( f/*prop*/ ) ){
-                d/*target*/[f/*prop*/] = e/*source*/[f/*prop*/];
-              };
-            };
-            return d/*target*/;
+          emptyDomNode : function ( a ) {
+            while ( a.firstChild )b.removeNode( a.firstChild );
           },
-          emptyDomNode : function ( b/*domNode*/ ) {
-            while ( b/*domNode*/.firstChild ){
-              n/*ko*/.removeNode( b/*domNode*/.firstChild );
-            };
-          },
-          setDomNodeChildren : function ( c/*domNode*/,e/*childNodes*/ ) {
-            n/*ko*/.utils.emptyDomNode( c/*domNode*/ );
+          setDomNodeChildren : function ( a,c ) {
+            b.utils.emptyDomNode( a );
             
-            if ( e/*childNodes*/ ){
-              n/*ko*/.utils.arrayForEach( e/*childNodes*/,
-              function ( e/*childNode*/ ) {
-                c/*domNode*/.appendChild( e/*childNode*/ );
+            if ( c ){
+              b.utils.arrayForEach( c,
+              function ( b ) {
+                a.appendChild( b );
               });
             };
           },
-          replaceDomNodes : function ( P/*nodeToReplaceOrNodeArray*/,Q/*newNodesArray*/ ) {
-            var R/*nodesToReplaceArray*/ = P/*nodeToReplaceOrNodeArray*/.nodeType?[P/*nodeToReplaceOrNodeArray*/] : P/*nodeToReplaceOrNodeArray*/;
+          replaceDomNodes : function ( a,c ) {
+            var d = a.nodeType?[a] : a;
             
-            if ( R/*nodesToReplaceArray*/.length>0 ){
-              var S/*insertionPoint*/ = R/*nodesToReplaceArray*/[0];
+            if ( d.length>0 ){
+              var e = d[0];
               
-              var T/*parent*/ = S/*insertionPoint*/.parentNode;
+              var f = e.parentNode;
               
-              for ( var U/*i*/ = 0,V/*j*/ = Q/*newNodesArray*/.length;U/*i*/<V/*j*/;U/*i*/ ++  ){
-                T/*parent*/.insertBefore( Q/*newNodesArray*/[U/*i*/],S/*insertionPoint*/ );
-              };
+              for ( var g = 0,h = c.length;g<h;g ++  )
+              f.insertBefore( c[g],e );
               
-              for ( var U/*i*/ = 0,V/*j*/ = R/*nodesToReplaceArray*/.length;U/*i*/<V/*j*/;U/*i*/ ++  ){
-                n/*ko*/.removeNode( R/*nodesToReplaceArray*/[U/*i*/] );
-              };
+              for ( var g = 0,h = d.length;g<h;g ++  )
+              b.removeNode( d[g] );
             };
           },
-          setOptionNodeSelectionState : function ( c/*optionNode*/,d/*isSelected*/ ) {
+          setOptionNodeSelectionState : function ( a,b ) {
             if ( navigator.userAgent.indexOf( "MSIE 6" ) >= 0 ){
-              c/*optionNode*/.setAttribute( "selected",d/*isSelected*/ );
+              a.setAttribute( "selected",b );
             } else {
-              c/*optionNode*/.selected = d/*isSelected*/;
+              a.selected = b;
             };
           },
-          stringTrim : function ( Q/*string*/ ) {
-            return ( Q/*string*/ || "" ).replace( P/*stringTrimRegex*/,"" );
+          stringTrim : function ( d ) {
+            return ( d || "" ).replace( c,"" );
           },
-          stringTokenize : function ( U/*string*/,V/*delimiter*/ ) {
-            var W/*result*/ = [];
+          stringTokenize : function ( a,c ) {
+            var d = [];
             
-            var X/*tokens*/ = ( U/*string*/ || "" ).split( V/*delimiter*/ );
+            var e = ( a || "" ).split( c );
             
-            for ( var Y/*i*/ = 0,Z/*j*/ = X/*tokens*/.length;Y/*i*/<Z/*j*/;Y/*i*/ ++  ){
-              var _/*trimmed*/ = n/*ko*/.utils.stringTrim( X/*tokens*/[Y/*i*/] );
+            for ( var f = 0,g = e.length;f<g;f ++  ){
+              var h = b.utils.stringTrim( e[f] );
               
-              if ( _/*trimmed*/ !== "" ){
-                W/*result*/.push( _/*trimmed*/ );
+              if ( h !== "" ){
+                d.push( h );
               };
             };
-            return W/*result*/;
+            return d;
           },
-          stringStartsWith : function ( c/*string*/,d/*startsWith*/ ) {
-            c/*string*/ = c/*string*/ || "";
+          stringStartsWith : function ( a,b ) {
+            a = a || "";
             
-            if ( d/*startsWith*/.length>c/*string*/.length ){
+            if ( b.length>a.length ){
               return false;
             };
-            return c/*string*/.substring( 0,d/*startsWith*/.length ) === d/*startsWith*/;
+            return a.substring( 0,b.length ) === b;
           },
-          evalWithinScope : function ( X/*expression*/ ) {
-            var Y/*scopes*/ = Array.prototype.slice.call( arguments,1 );
+          evalWithinScope : function ( a ) {
+            var b = Array.prototype.slice.call( arguments,1 );
             
-            var Z/*functionBody*/ = "return ("+X/*expression*/+")";
+            var c = "return ("+a+")";
             
-            for ( var _/*i*/ = 0;_/*i*/<Y/*scopes*/.length;_/*i*/ ++  ){
-              if ( Y/*scopes*/[_/*i*/] && typeof Y/*scopes*/[_/*i*/] == "object" ){
-                Z/*functionBody*/ = "with(sc["+_/*i*/+"]) { "+Z/*functionBody*/+" } ";
-              };
+            for ( var d = 0;d<b.length;d ++  )
+            if ( b[d] && typeof b[d] == "object" ){
+              c = "with(sc["+d+"]) { "+c+" } ";
             };
-            return ( new Function( "sc",Z/*functionBody*/ ) )( Y/*scopes*/ );
+            return ( new Function( "sc",c ) )( b );
           },
-          domNodeIsContainedBy : function ( c/*node*/,d/*containedByNode*/ ) {
-            if ( d/*containedByNode*/.compareDocumentPosition ){
-              return ( d/*containedByNode*/.compareDocumentPosition( c/*node*/ )&16 ) == 16;
+          domNodeIsContainedBy : function ( a,b ) {
+            if ( b.compareDocumentPosition ){
+              return ( b.compareDocumentPosition( a )&16 ) == 16;
             };
             
-            while ( c/*node*/ != null ){
-              if ( c/*node*/ == d/*containedByNode*/ ){
+            while ( a != null ){
+              if ( a == b ){
                 return true;
               };
               
-              c/*node*/ = c/*node*/.parentNode;
+              a = a.parentNode;
             };
             return false;
           },
-          domNodeIsAttachedToDocument : function ( b/*node*/ ) {
-            return n/*ko*/.utils.domNodeIsContainedBy( b/*node*/,document );
+          domNodeIsAttachedToDocument : function ( a ) {
+            return b.utils.domNodeIsContainedBy( a,document );
           },
-          registerEventHandler : function ( f/*element*/,bb/*eventType*/,e/*handler*/ ) {
+          registerEventHandler : function ( c,e,b ) {
             if ( typeof jQuery != "undefined" ){
-              if ( X/*isClickOnCheckableElement*/( f/*element*/,bb/*eventType*/ ) ){
-                var b/*originalHandler*/ = e/*handler*/;
+              if ( d( c,e ) ){
+                var a = b;
                 
-                e/*handler*/ = function ( e/*event*/,f/*eventData*/ ) {
-                  var g/*jQuerySuppliedCheckedState*/ = this.checked;
+                b = function ( b,c ) {
+                  var d = this.checked;
                   
-                  if ( f/*eventData*/ ){
-                    this.checked = f/*eventData*/.checkedStateBeforeEvent !== true;
+                  if ( c ){
+                    this.checked = c.checkedStateBeforeEvent !== true;
                   };
                   
-                  b/*originalHandler*/.call( this,e/*event*/ );
+                  a.call( this,b );
                   
-                  this.checked = g/*jQuerySuppliedCheckedState*/;
+                  this.checked = d;
                 };
               };
               
-              jQuery( f/*element*/ )['bind']( bb/*eventType*/,e/*handler*/ );
-            } else if ( typeof f/*element*/.addEventListener == "function" ){
-              f/*element*/.addEventListener( bb/*eventType*/,e/*handler*/,false );
-            } else if ( typeof f/*element*/.attachEvent != "undefined" ){
-              f/*element*/.attachEvent( "on"+bb/*eventType*/,
-              function ( h/*event*/ ) {
-                e/*handler*/.call( f/*element*/,h/*event*/ );
+              jQuery( c )['bind']( e,b );
+            } else if ( typeof c.addEventListener == "function" ){
+              c.addEventListener( e,b,false );
+            } else if ( typeof c.attachEvent != "undefined" ){
+              c.attachEvent( "on"+e,
+              function ( d ) {
+                b.call( c,d );
               });
             } else {
               throw new Error( "Browser doesn't support addEventListener or attachEvent" );
             };
           },
-          triggerEvent : function ( bg/*element*/,bh/*eventType*/ ) {
-            if ( !( bg/*element*/ && bg/*element*/.nodeType ) ){
+          triggerEvent : function ( f,g ) {
+            if ( !( f && f.nodeType ) ){
               throw new Error( "element must be a DOM node when calling triggerEvent" );
             };
             
             if ( typeof jQuery != "undefined" ){
-              var bi/*eventData*/ = [];
+              var h = [];
               
-              if ( X/*isClickOnCheckableElement*/( bg/*element*/,bh/*eventType*/ ) ){
-                bi/*eventData*/.push(  {
-                  checkedStateBeforeEvent : bg/*element*/.checked
+              if ( d( f,g ) ){
+                h.push(  {
+                  checkedStateBeforeEvent : f.checked
                 });
               };
               
-              jQuery( bg/*element*/ )['trigger']( bh/*eventType*/,bi/*eventData*/ );
+              jQuery( f )['trigger']( g,h );
             } else if ( typeof document.createEvent == "function" ){
-              if ( typeof bg/*element*/.dispatchEvent == "function" ){
-                var bj/*eventCategory*/ = bd/*knownEventTypesByEventName*/[bh/*eventType*/] || "HTMLEvents";
+              if ( typeof f.dispatchEvent == "function" ){
+                var i = e[g] || "HTMLEvents";
                 
-                var bk/*event*/ = document.createEvent( bj/*eventCategory*/ );
+                var j = document.createEvent( i );
                 
-                bk/*event*/.initEvent( bh/*eventType*/,true,true,i/*window*/,0,0,0,0,0,false,false,false,false,0,bg/*element*/ );
+                j.initEvent( g,true,true,a,0,0,0,0,0,false,false,false,false,0,f );
                 
-                bg/*element*/.dispatchEvent( bk/*event*/ );
+                f.dispatchEvent( j );
               } else {
                 throw new Error( "The supplied element doesn't support dispatchEvent" );
               };
-            } else if ( typeof bg/*element*/.fireEvent != "undefined" ){
-              if ( bh/*eventType*/ == "click" ){
-                if ( ( bg/*element*/.tagName == "INPUT" ) && ( ( bg/*element*/.type.toLowerCase() == "checkbox" ) || ( bg/*element*/.type.toLowerCase() == "radio" ) ) ){
-                  bg/*element*/.checked = bg/*element*/.checked !== true;
+            } else if ( typeof f.fireEvent != "undefined" ){
+              if ( g == "click" ){
+                if ( ( f.tagName == "INPUT" ) && ( ( f.type.toLowerCase() == "checkbox" ) || ( f.type.toLowerCase() == "radio" ) ) ){
+                  f.checked = f.checked !== true;
                 };
               };
               
-              bg/*element*/.fireEvent( "on"+bh/*eventType*/ );
+              f.fireEvent( "on"+g );
             } else {
               throw new Error( "Browser doesn't support triggering events" );
             };
           },
-          unwrapObservable : function ( b/*value*/ ) {
-            return n/*ko*/.isObservable( b/*value*/ )?b/*value*/() : b/*value*/;
+          unwrapObservable : function ( a ) {
+            return b.isObservable( a )?a() : a;
           },
-          domNodeHasCssClass : function ( d/*node*/,e/*className*/ ) {
-            var f/*currentClassNames*/ = ( d/*node*/.className || "" ).split( /\s+/ );
-            return n/*ko*/.utils.arrayIndexOf( f/*currentClassNames*/,e/*className*/ ) >= 0;
+          domNodeHasCssClass : function ( a,c ) {
+            var d = ( a.className || "" ).split( /\s+/ );
+            return b.utils.arrayIndexOf( d,c ) >= 0;
           },
-          toggleDomNodeCssClass : function ( bj/*node*/,bk/*className*/,bl/*shouldHaveClass*/ ) {
-            var bm/*hasClass*/ = n/*ko*/.utils.domNodeHasCssClass( bj/*node*/,bk/*className*/ );
+          toggleDomNodeCssClass : function ( a,c,d ) {
+            var e = b.utils.domNodeHasCssClass( a,c );
             
-            if ( bl/*shouldHaveClass*/ && !bm/*hasClass*/ ){
-              bj/*node*/.className = ( bj/*node*/.className || "" )+" "+bk/*className*/;
-            } else if ( bm/*hasClass*/ && !bl/*shouldHaveClass*/ ){
-              var bn/*currentClassNames*/ = ( bj/*node*/.className || "" ).split( /\s+/ );
+            if ( d && !e ){
+              a.className = ( a.className || "" )+" "+c;
+            } else if ( e && !d ){
+              var f = ( a.className || "" ).split( /\s+/ );
               
-              var bo/*newClassName*/ = "";
+              var g = "";
               
-              for ( var bp/*i*/ = 0;bp/*i*/<bn/*currentClassNames*/.length;bp/*i*/ ++  ){
-                if ( bn/*currentClassNames*/[bp/*i*/] != bk/*className*/ ){
-                  bo/*newClassName*/ += bn/*currentClassNames*/[bp/*i*/]+" ";
-                };
+              for ( var h = 0;h<f.length;h ++  )if ( f[h] != c ){
+                g += f[h]+" ";
               };
               
-              bj/*node*/.className = n/*ko*/.utils.stringTrim( bo/*newClassName*/ );
+              a.className = b.utils.stringTrim( g );
             };
           },
-          outerHTML : function ( bn/*node*/ ) {
-            if ( bj/*ieVersion*/ === undefined ){
-              var bo/*nativeOuterHtml*/ = bn/*node*/.outerHTML;
+          outerHTML : function ( g ) {
+            if ( f === undefined ){
+              var h = g.outerHTML;
               
-              if ( typeof bo/*nativeOuterHtml*/ == "string" ){
-                return bo/*nativeOuterHtml*/;
+              if ( typeof h == "string" ){
+                return h;
               };
             };
             
-            var bp/*dummyContainer*/ = i/*window*/.document.createElement( "div" );
+            var i = a.document.createElement( "div" );
             
-            bp/*dummyContainer*/.appendChild( bn/*node*/.cloneNode( true ) );
-            return bp/*dummyContainer*/.innerHTML;
+            i.appendChild( g.cloneNode( true ) );
+            return i.innerHTML;
           },
-          setTextContent : function ( d/*element*/,e/*textContent*/ ) {
-            var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*textContent*/ );
+          setTextContent : function ( a,c ) {
+            var d = b.utils.unwrapObservable( c );
             
-            if ( ( f/*value*/ === null ) || ( f/*value*/ === undefined ) ){
-              f/*value*/ = "";
+            if ( ( d === null ) || ( d === undefined ) ){
+              d = "";
             };
             
-            'innerText' in d/*element*/?d/*element*/.innerText = f/*value*/ : d/*element*/.textContent = f/*value*/;
+            'innerText' in a?a.innerText = d : a.textContent = d;
             
-            if ( bj/*ieVersion*/ >= 9 ){
-              d/*element*/.innerHTML = d/*element*/.innerHTML;
+            if ( f >= 9 ){
+              a.innerHTML = a.innerHTML;
             };
           },
-          range : function ( bp/*min*/,bq/*max*/ ) {
-            bp/*min*/ = n/*ko*/.utils.unwrapObservable( bp/*min*/ );
+          range : function ( a,c ) {
+            a = b.utils.unwrapObservable( a );
             
-            bq/*max*/ = n/*ko*/.utils.unwrapObservable( bq/*max*/ );
+            c = b.utils.unwrapObservable( c );
             
-            var br/*result*/ = [];
+            var d = [];
             
-            for ( var bs/*i*/ = bp/*min*/;bs/*i*/ <= bq/*max*/;bs/*i*/ ++  ){
-              br/*result*/.push( bs/*i*/ );
-            };
-            return br/*result*/;
+            for ( var e = a;e <= c;e ++  )
+            d.push( e );
+            return d;
           },
-          makeArray : function ( bs/*arrayLikeObject*/ ) {
-            var bt/*result*/ = [];
+          makeArray : function ( a ) {
+            var b = [];
             
-            for ( var bu/*i*/ = 0,bv/*j*/ = bs/*arrayLikeObject*/.length;bu/*i*/<bv/*j*/;bu/*i*/ ++  ){
-              bt/*result*/.push( bs/*arrayLikeObject*/[bu/*i*/] );
-            };
-            return bt/*result*/;
+            for ( var c = 0,d = a.length;c<d;c ++  )
+            b.push( a[c] );
+            return b;
           },
-          isIe6 : bG/*isIe6*/,
-          isIe7 : bH/*isIe7*/,
-          getFormFields : function ( bv/*form*/,d/*fieldName*/ ) {
-            var bw/*fields*/ = n/*ko*/.utils.makeArray( bv/*form*/.getElementsByTagName( "INPUT" ) ).concat( n/*ko*/.utils.makeArray( bv/*form*/.getElementsByTagName( "TEXTAREA" ) ) );
+          isIe6 : m,
+          isIe7 : n,
+          getFormFields : function ( c,a ) {
+            var d = b.utils.makeArray( c.getElementsByTagName( "INPUT" ) ).concat( b.utils.makeArray( c.getElementsByTagName( "TEXTAREA" ) ) );
             
-            var bx/*isMatchingField*/ = ( typeof d/*fieldName*/ == 'string' )?function ( e/*field*/ ) {
-                  return e/*field*/.name === d/*fieldName*/;
-                } : function ( b/*field*/ ) {
-                  return d/*fieldName*/.test( b/*field*/.name );
+            var e = ( typeof a == 'string' )?function ( b ) {
+                  return b.name === a;
+                } : function ( b ) {
+                  return a.test( b.name );
                 };
             
-            var by/*matches*/ = [];
+            var f = [];
             
-            for ( var bz/*i*/ = bw/*fields*/.length-1;bz/*i*/ >= 0;bz/*i*/ --  ){
-              if ( bx/*isMatchingField*/( bw/*fields*/[bz/*i*/] ) ){
-                by/*matches*/.push( bw/*fields*/[bz/*i*/] );
-              };
+            for ( var g = d.length-1;g >= 0;g --  )
+            if ( e( d[g] ) ){
+              f.push( d[g] );
             };
-            return by/*matches*/;
+            return f;
           },
-          parseJson : function ( b/*jsonString*/ ) {
-            if ( typeof b/*jsonString*/ == "string" ){
-              b/*jsonString*/ = n/*ko*/.utils.stringTrim( b/*jsonString*/ );
+          parseJson : function ( c ) {
+            if ( typeof c == "string" ){
+              c = b.utils.stringTrim( c );
               
-              if ( b/*jsonString*/ ){
-                if ( i/*window*/.JSON && i/*window*/.JSON.parse ){
-                  return i/*window*/.JSON.parse( b/*jsonString*/ );
+              if ( c ){
+                if ( a.JSON && a.JSON.parse ){
+                  return a.JSON.parse( c );
                 };
-                return ( new Function( "return "+b/*jsonString*/ ) )();
+                return ( new Function( "return "+c ) )();
               };
             };
             return null;
           },
-          stringifyJson : function ( b/*data*/ ) {
+          stringifyJson : function ( a ) {
             if ( ( typeof JSON == "undefined" ) || ( typeof JSON.stringify == "undefined" ) ){
               throw new Error( "Cannot find JSON.stringify(). Some browsers (e.g., IE < 8) don't support it natively, but you can overcome this by adding a script reference to json2.js, downloadable from http://www.json.org/json2.js" );
             };
-            return JSON.stringify( n/*ko*/.utils.unwrapObservable( b/*data*/ ) );
+            return JSON.stringify( b.utils.unwrapObservable( a ) );
           },
-          postJson : function ( bD/*urlOrForm*/,bE/*data*/,bF/*options*/ ) {
-            bF/*options*/ = bF/*options*/ || {};
+          postJson : function ( c,d,e ) {
+            e = e || {};
             
-            var bG/*params*/ = bF/*options*/['params'] || {};
+            var f = e['params'] || {};
             
-            var bH/*includeFields*/ = bF/*options*/['includeFields'] || this.fieldsIncludedWithJsonPost;
+            var g = e['includeFields'] || this.fieldsIncludedWithJsonPost;
             
-            var bI/*url*/ = bD/*urlOrForm*/;
+            var h = c;
             
-            if ( ( typeof bD/*urlOrForm*/ == 'object' ) && ( bD/*urlOrForm*/.tagName == "FORM" ) ){
-              var bJ/*originalForm*/ = bD/*urlOrForm*/;
+            if ( ( typeof c == 'object' ) && ( c.tagName == "FORM" ) ){
+              var i = c;
               
-              bI/*url*/ = bJ/*originalForm*/.action;
+              h = i.action;
               
-              for ( var bK/*i*/ = bH/*includeFields*/.length-1;bK/*i*/ >= 0;bK/*i*/ --  ){
-                var bL/*fields*/ = n/*ko*/.utils.getFormFields( bJ/*originalForm*/,bH/*includeFields*/[bK/*i*/] );
+              for ( var j = g.length-1;j >= 0;j --  ){
+                var k = b.utils.getFormFields( i,g[j] );
                 
-                for ( var bM/*j*/ = bL/*fields*/.length-1;bM/*j*/ >= 0;bM/*j*/ --  ){
-                  bG/*params*/[bL/*fields*/[bM/*j*/].name] = bL/*fields*/[bM/*j*/].value;
-                };
+                for ( var l = k.length-1;l >= 0;l --  )
+                f[k[l].name] = k[l].value;
               };
             };
             
-            bE/*data*/ = n/*ko*/.utils.unwrapObservable( bE/*data*/ );
+            d = b.utils.unwrapObservable( d );
             
-            var f/*form*/ = document.createElement( "FORM" );
+            var a = document.createElement( "FORM" );
             
-            f/*form*/.style.display = "none";
+            a.style.display = "none";
             
-            f/*form*/.action = bI/*url*/;
+            a.action = h;
             
-            f/*form*/.method = "post";
+            a.method = "post";
             
-            for ( var bN/*key*/ in bE/*data*/ ){
-              var bO/*input*/ = document.createElement( "INPUT" );
+            for ( var m in d ){
+              var n = document.createElement( "INPUT" );
               
-              bO/*input*/.name = bN/*key*/;
+              n.name = m;
               
-              bO/*input*/.value = n/*ko*/.utils.stringifyJson( n/*ko*/.utils.unwrapObservable( bE/*data*/[bN/*key*/] ) );
+              n.value = b.utils.stringifyJson( b.utils.unwrapObservable( d[m] ) );
               
-              f/*form*/.appendChild( bO/*input*/ );
+              a.appendChild( n );
             };
             
-            for ( var bN/*key*/ in bG/*params*/ ){
-              var bO/*input*/ = document.createElement( "INPUT" );
+            for ( var m in f ){
+              var n = document.createElement( "INPUT" );
               
-              bO/*input*/.name = bN/*key*/;
+              n.name = m;
               
-              bO/*input*/.value = bG/*params*/[bN/*key*/];
+              n.value = f[m];
               
-              f/*form*/.appendChild( bO/*input*/ );
+              a.appendChild( n );
             };
             
-            document.body.appendChild( f/*form*/ );
+            document.body.appendChild( a );
             
-            bF/*options*/['submitter']?bF/*options*/['submitter']( f/*form*/ ) : f/*form*/.submit();
+            e['submitter']?e['submitter']( a ) : a.submit();
             
             setTimeout( function () {
-              f/*form*/.parentNode.removeChild( f/*form*/ );
+              a.parentNode.removeChild( a );
             },0);
           }
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.utils',n/*ko*/.utils );
+      b.exportSymbol( 'ko.utils',b.utils );
       
-      n/*ko*/.utils.arrayForEach( [['arrayForEach',n/*ko*/.utils.arrayForEach],['arrayFirst',n/*ko*/.utils.arrayFirst],['arrayFilter',n/*ko*/.utils.arrayFilter],['arrayGetDistinctValues',n/*ko*/.utils.arrayGetDistinctValues],['arrayIndexOf',n/*ko*/.utils.arrayIndexOf],['arrayMap',n/*ko*/.utils.arrayMap],['arrayPushAll',n/*ko*/.utils.arrayPushAll],['arrayRemoveItem',n/*ko*/.utils.arrayRemoveItem],['extend',n/*ko*/.utils.extend],['fieldsIncludedWithJsonPost',n/*ko*/.utils.fieldsIncludedWithJsonPost],['getFormFields',n/*ko*/.utils.getFormFields],['postJson',n/*ko*/.utils.postJson],['parseJson',n/*ko*/.utils.parseJson],['registerEventHandler',n/*ko*/.utils.registerEventHandler],['stringifyJson',n/*ko*/.utils.stringifyJson],['range',n/*ko*/.utils.range],['toggleDomNodeCssClass',n/*ko*/.utils.toggleDomNodeCssClass],['triggerEvent',n/*ko*/.utils.triggerEvent],['unwrapObservable',n/*ko*/.utils.unwrapObservable]],
-      function ( b/*item*/ ) {
-        n/*ko*/.exportSymbol( 'ko.utils.'+b/*item*/[0],b/*item*/[1] );
+      b.utils.arrayForEach( [['arrayForEach',b.utils.arrayForEach],['arrayFirst',b.utils.arrayFirst],['arrayFilter',b.utils.arrayFilter],['arrayGetDistinctValues',b.utils.arrayGetDistinctValues],['arrayIndexOf',b.utils.arrayIndexOf],['arrayMap',b.utils.arrayMap],['arrayPushAll',b.utils.arrayPushAll],['arrayRemoveItem',b.utils.arrayRemoveItem],['extend',b.utils.extend],['fieldsIncludedWithJsonPost',b.utils.fieldsIncludedWithJsonPost],['getFormFields',b.utils.getFormFields],['postJson',b.utils.postJson],['parseJson',b.utils.parseJson],['registerEventHandler',b.utils.registerEventHandler],['stringifyJson',b.utils.stringifyJson],['range',b.utils.range],['toggleDomNodeCssClass',b.utils.toggleDomNodeCssClass],['triggerEvent',b.utils.triggerEvent],['unwrapObservable',b.utils.unwrapObservable]],
+      function ( a ) {
+        b.exportSymbol( 'ko.utils.'+a[0],a[1] );
       });
       
       if ( !Function.prototype['bind'] ){
-        Function.prototype['bind'] = function ( e/*object*/ ) {
-          var d/*originalFunction*/ = this,
-              f/*args*/ = Array.prototype.slice.call( arguments ),
-              e/*object*/ = f/*args*/.shift();
+        Function.prototype['bind'] = function ( b ) {
+          var a = this,
+              c = Array.prototype.slice.call( arguments ),
+              b = c.shift();
           return function () {
-            return d/*originalFunction*/.apply( e/*object*/,f/*args*/.concat( Array.prototype.slice.call( arguments ) ) );
+            return a.apply( b,c.concat( Array.prototype.slice.call( arguments ) ) );
           };
         };
       };
       
-      n/*ko*/.utils.domData = new ( function () {
-        var i/*uniqueId*/ = 0;
+      b.utils.domData = new function () {
+        var c = 0;
         
-        var e/*dataStoreKeyExpandoPropertyName*/ = "__ko__"+( new Date ).getTime();
+        var a = "__ko__"+( new Date ).getTime();
         
-        var j/*dataStore*/ = {};
+        var d = {};
         return  {
-          get : function ( d/*node*/,e/*key*/ ) {
-            var f/*allDataForNode*/ = n/*ko*/.utils.domData.getAll( d/*node*/,false );
-            return f/*allDataForNode*/ === undefined?undefined : f/*allDataForNode*/[e/*key*/];
+          get : function ( a,c ) {
+            var d = b.utils.domData.getAll( a,false );
+            return d === undefined?undefined : d[c];
           },
-          set : function ( e/*node*/,f/*key*/,g/*value*/ ) {
-            if ( g/*value*/ === undefined ){
-              if ( n/*ko*/.utils.domData.getAll( e/*node*/,false ) === undefined ){
+          set : function ( a,c,d ) {
+            if ( d === undefined ){
+              if ( b.utils.domData.getAll( a,false ) === undefined ){
                 return ;
               };
             };
             
-            var h/*allDataForNode*/ = n/*ko*/.utils.domData.getAll( e/*node*/,true );
+            var e = b.utils.domData.getAll( a,true );
             
-            h/*allDataForNode*/[f/*key*/] = g/*value*/;
+            e[c] = d;
           },
-          getAll : function ( k/*node*/,l/*createIfNotFound*/ ) {
-            var m/*dataStoreKey*/ = k/*node*/[e/*dataStoreKeyExpandoPropertyName*/];
+          getAll : function ( e,f ) {
+            var g = e[a];
             
-            var n/*hasExistingDataStore*/ = m/*dataStoreKey*/ && ( m/*dataStoreKey*/ !== "null" );
+            var h = g && ( g !== "null" );
             
-            if ( !n/*hasExistingDataStore*/ ){
-              if ( !l/*createIfNotFound*/ ){
+            if ( !h ){
+              if ( !f ){
                 return undefined;
               };
               
-              m/*dataStoreKey*/ = k/*node*/[e/*dataStoreKeyExpandoPropertyName*/] = "ko"+i/*uniqueId*/ ++ ;
+              g = e[a] = "ko"+c ++ ;
               
-              j/*dataStore*/[m/*dataStoreKey*/] = {};
+              d[g] = {};
             };
-            return j/*dataStore*/[m/*dataStoreKey*/];
+            return d[g];
           },
-          clear : function ( c/*node*/ ) {
-            var d/*dataStoreKey*/ = c/*node*/[e/*dataStoreKeyExpandoPropertyName*/];
+          clear : function ( b ) {
+            var c = b[a];
             
-            if ( d/*dataStoreKey*/ ){
-              delete j/*dataStore*/[d/*dataStoreKey*/];
+            if ( c ){
+              delete d[c];
               
-              c/*node*/[e/*dataStoreKeyExpandoPropertyName*/] = null;
+              b[a] = null;
             };
           }
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.utils.domData',n/*ko*/.utils.domData );
+      b.exportSymbol( 'ko.utils.domData',b.utils.domData );
       
-      n/*ko*/.exportSymbol( 'ko.utils.domData.clear',n/*ko*/.utils.domData.clear );
+      b.exportSymbol( 'ko.utils.domData.clear',b.utils.domData.clear );
       
-      n/*ko*/.utils.domNodeDisposal = new ( function () {
-        var e/*domDataKey*/ = "__ko_domNodeDisposal__"+( new Date ).getTime();
+      b.utils.domNodeDisposal = new function () {
+        var a = "__ko_domNodeDisposal__"+( new Date ).getTime();
         
-        function h/*getDisposeCallbacksCollection*/( h/*node*/,i/*createIfNotFound*/ ) {
-          var j/*allDisposeCallbacks*/ = n/*ko*/.utils.domData.get( h/*node*/,e/*domDataKey*/ );
+        function c( c,d ) {
+          var e = b.utils.domData.get( c,a );
           
-          if ( ( j/*allDisposeCallbacks*/ === undefined ) && i/*createIfNotFound*/ ){
-            j/*allDisposeCallbacks*/ = [];
+          if ( ( e === undefined ) && d ){
+            e = [];
             
-            n/*ko*/.utils.domData.set( h/*node*/,e/*domDataKey*/,j/*allDisposeCallbacks*/ );
+            b.utils.domData.set( c,a,e );
           };
-          return j/*allDisposeCallbacks*/;
+          return e;
         }
-        function l/*destroyCallbacksCollection*/( b/*node*/ ) {
-          n/*ko*/.utils.domData.set( b/*node*/,e/*domDataKey*/,undefined );
+        function d( c ) {
+          b.utils.domData.set( c,a,undefined );
         }
-        function m/*cleanSingleNode*/( l/*node*/ ) {
-          var m/*callbacks*/ = h/*getDisposeCallbacksCollection*/( l/*node*/,false );
+        function e( d ) {
+          var e = c( d,false );
           
-          if ( m/*callbacks*/ ){
-            m/*callbacks*/ = m/*callbacks*/.slice( 0 );
+          if ( e ){
+            e = e.slice( 0 );
             
-            for ( var o/*i*/ = 0;o/*i*/<m/*callbacks*/.length;o/*i*/ ++  ){
-              m/*callbacks*/[o/*i*/]( l/*node*/ );
-            };
+            for ( var f = 0;f<e.length;f ++  )
+            e[f]( d );
           };
           
-          n/*ko*/.utils.domData.clear( l/*node*/ );
+          b.utils.domData.clear( d );
           
           if ( ( typeof jQuery == "function" ) && ( typeof jQuery['cleanData'] == "function" ) ){
-            jQuery['cleanData']( [l/*node*/] );
+            jQuery['cleanData']( [d] );
           };
         }return  {
-          addDisposeCallback : function ( c/*node*/,d/*callback*/ ) {
-            if ( typeof d/*callback*/ != "function" ){
+          addDisposeCallback : function ( a,b ) {
+            if ( typeof b != "function" ){
               throw new Error( "Callback must be a function" );
             };
             
-            h/*getDisposeCallbacksCollection*/( c/*node*/,true ).push( d/*callback*/ );
+            c( a,true ).push( b );
           },
-          removeDisposeCallback : function ( m/*node*/,o/*callback*/ ) {
-            var p/*callbacksCollection*/ = h/*getDisposeCallbacksCollection*/( m/*node*/,false );
+          removeDisposeCallback : function ( e,f ) {
+            var g = c( e,false );
             
-            if ( p/*callbacksCollection*/ ){
-              n/*ko*/.utils.arrayRemoveItem( p/*callbacksCollection*/,o/*callback*/ );
+            if ( g ){
+              b.utils.arrayRemoveItem( g,f );
               
-              if ( p/*callbacksCollection*/.length == 0 ){
-                l/*destroyCallbacksCollection*/( m/*node*/ );
+              if ( g.length == 0 ){
+                d( e );
               };
             };
           },
-          cleanNode : function ( q/*node*/ ) {
-            if ( ( q/*node*/.nodeType != 1 ) && ( q/*node*/.nodeType != 9 ) ){
+          cleanNode : function ( f ) {
+            if ( ( f.nodeType != 1 ) && ( f.nodeType != 9 ) ){
               return ;
             };
             
-            m/*cleanSingleNode*/( q/*node*/ );
+            e( f );
             
-            var r/*descendants*/ = [];
+            var g = [];
             
-            n/*ko*/.utils.arrayPushAll( r/*descendants*/,q/*node*/.getElementsByTagName( "*" ) );
+            b.utils.arrayPushAll( g,f.getElementsByTagName( "*" ) );
             
-            for ( var s/*i*/ = 0,t/*j*/ = r/*descendants*/.length;s/*i*/<t/*j*/;s/*i*/ ++  ){
-              m/*cleanSingleNode*/( r/*descendants*/[s/*i*/] );
-            };
+            for ( var h = 0,i = g.length;h<i;h ++  )
+            e( g[h] );
           },
-          removeNode : function ( b/*node*/ ) {
-            n/*ko*/.cleanNode( b/*node*/ );
+          removeNode : function ( a ) {
+            b.cleanNode( a );
             
-            if ( b/*node*/.parentNode ){
-              b/*node*/.parentNode.removeChild( b/*node*/ );
+            if ( a.parentNode ){
+              a.parentNode.removeChild( a );
             };
           }
         };
-      })();
+      }();
       
-      n/*ko*/.cleanNode = n/*ko*/.utils.domNodeDisposal.cleanNode;
+      b.cleanNode = b.utils.domNodeDisposal.cleanNode;
       
-      n/*ko*/.removeNode = n/*ko*/.utils.domNodeDisposal.removeNode;
+      b.removeNode = b.utils.domNodeDisposal.removeNode;
       
-      n/*ko*/.exportSymbol( 'ko.cleanNode',n/*ko*/.cleanNode );
+      b.exportSymbol( 'ko.cleanNode',b.cleanNode );
       
-      n/*ko*/.exportSymbol( 'ko.removeNode',n/*ko*/.removeNode );
+      b.exportSymbol( 'ko.removeNode',b.removeNode );
       
-      n/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal',n/*ko*/.utils.domNodeDisposal );
+      b.exportSymbol( 'ko.utils.domNodeDisposal',b.utils.domNodeDisposal );
       
-      n/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal.addDisposeCallback',n/*ko*/.utils.domNodeDisposal.addDisposeCallback );
+      b.exportSymbol( 'ko.utils.domNodeDisposal.addDisposeCallback',b.utils.domNodeDisposal.addDisposeCallback );
       
-      n/*ko*/.exportSymbol( 'ko.utils.domNodeDisposal.removeDisposeCallback',n/*ko*/.utils.domNodeDisposal.removeDisposeCallback );
+      b.exportSymbol( 'ko.utils.domNodeDisposal.removeDisposeCallback',b.utils.domNodeDisposal.removeDisposeCallback );
       
-      ( function () {
-        var j/*leadingCommentRegex*/ = /^(\s*)<!--(.*?)-->/;
+      !function () {
+        var e = /^(\s*)<!--(.*?)-->/;
         
-        function h/*simpleHtmlParse*/( f/*html*/ ) {
-          var g/*tags*/ = n/*ko*/.utils.stringTrim( f/*html*/ ).toLowerCase(),
-              h/*div*/ = document.createElement( "div" );
+        function d( c ) {
+          var d = b.utils.stringTrim( c ).toLowerCase(),
+              e = document.createElement( "div" );
           
-          var j/*wrap*/ = g/*tags*/.match( /^<(thead|tbody|tfoot)/ ) && [1,"<table>","</table>"] || !g/*tags*/.indexOf( "<tr" ) && [2,"<table><tbody>","</tbody></table>"] || ( !g/*tags*/.indexOf( "<td" ) || !g/*tags*/.indexOf( "<th" ) ) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""];
+          var f = d.match( /^<(thead|tbody|tfoot)/ ) && [1,"<table>","</table>"] || !d.indexOf( "<tr" ) && [2,"<table><tbody>","</tbody></table>"] || ( !d.indexOf( "<td" ) || !d.indexOf( "<th" ) ) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""];
           
-          var k/*markup*/ = "ignored<div>"+j/*wrap*/[1]+f/*html*/+j/*wrap*/[2]+"</div>";
+          var g = "ignored<div>"+f[1]+c+f[2]+"</div>";
           
-          if ( typeof i/*window*/['innerShiv'] == "function" ){
-            h/*div*/.appendChild( i/*window*/['innerShiv']( k/*markup*/ ) );
+          if ( typeof a['innerShiv'] == "function" ){
+            e.appendChild( a['innerShiv']( g ) );
           } else {
-            h/*div*/.innerHTML = k/*markup*/;
+            e.innerHTML = g;
           };
           
-          while ( j/*wrap*/[0] --  ){
-            h/*div*/ = h/*div*/.lastChild;
-          };
-          return n/*ko*/.utils.makeArray( h/*div*/.lastChild.childNodes );
+          while ( f[0] --  )e = e.lastChild;
+          return b.utils.makeArray( e.lastChild.childNodes );
         }
-        function f/*jQueryHtmlParse*/( d/*html*/ ) {
-          var e/*elems*/ = jQuery['clean']( [d/*html*/] );
+        function c( a ) {
+          var b = jQuery['clean']( [a] );
           
-          if ( e/*elems*/ && e/*elems*/[0] ){
-            var f/*elem*/ = e/*elems*/[0];
+          if ( b && b[0] ){
+            var c = b[0];
             
-            while ( f/*elem*/.parentNode && f/*elem*/.parentNode.nodeType !== 11 ){
-              f/*elem*/ = f/*elem*/.parentNode;
-            };
+            while ( c.parentNode && c.parentNode.nodeType !== 11 )c = c.parentNode;
             
-            if ( f/*elem*/.parentNode ){
-              f/*elem*/.parentNode.removeChild( f/*elem*/ );
+            if ( c.parentNode ){
+              c.parentNode.removeChild( c );
             };
           };
-          return e/*elems*/;
+          return b;
         }
-        n/*ko*/.utils.parseHtmlFragment = function ( i/*html*/ ) {
-          return typeof jQuery != 'undefined'?f/*jQueryHtmlParse*/( i/*html*/ ) : h/*simpleHtmlParse*/( i/*html*/ );
+        b.utils.parseHtmlFragment = function ( e ) {
+          return typeof jQuery != 'undefined'?c( e ) : d( e );
         };
         
-        n/*ko*/.utils.setHtml = function ( e/*node*/,f/*html*/ ) {
-          n/*ko*/.utils.emptyDomNode( e/*node*/ );
+        b.utils.setHtml = function ( a,c ) {
+          b.utils.emptyDomNode( a );
           
-          if ( ( f/*html*/ !== null ) && ( f/*html*/ !== undefined ) ){
-            if ( typeof f/*html*/ != 'string' ){
-              f/*html*/ = f/*html*/.toString();
+          if ( ( c !== null ) && ( c !== undefined ) ){
+            if ( typeof c != 'string' ){
+              c = c.toString();
             };
             
             if ( typeof jQuery != 'undefined' ){
-              jQuery( e/*node*/ )['html']( f/*html*/ );
+              jQuery( a )['html']( c );
             } else {
-              var g/*parsedNodes*/ = n/*ko*/.utils.parseHtmlFragment( f/*html*/ );
+              var d = b.utils.parseHtmlFragment( c );
               
-              for ( var h/*i*/ = 0;h/*i*/<g/*parsedNodes*/.length;h/*i*/ ++  ){
-                e/*node*/.appendChild( g/*parsedNodes*/[h/*i*/] );
-              };
+              for ( var e = 0;e<d.length;e ++  )
+              a.appendChild( d[e] );
             };
           };
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.utils.parseHtmlFragment',n/*ko*/.utils.parseHtmlFragment );
+      b.exportSymbol( 'ko.utils.parseHtmlFragment',b.utils.parseHtmlFragment );
       
-      n/*ko*/.exportSymbol( 'ko.utils.setHtml',n/*ko*/.utils.setHtml );
+      b.exportSymbol( 'ko.utils.setHtml',b.utils.setHtml );
       
-      n/*ko*/.memoization = ( function () {
-        var k/*memos*/ = {};
+      b.memoization = function () {
+        var e = {};
         
-        function e/*randomMax8HexChars*/() {
+        function a() {
           return ( ( ( 1+Math.random() )*0x00000000 )|0 ).toString( 16 ).substring( 1 );
         }
-        function h/*generateRandomId*/() {
-          return e/*randomMax8HexChars*/()+e/*randomMax8HexChars*/();
+        function d() {
+          return a()+a();
         }
-        function g/*findMemoNodes*/( h/*rootNode*/,i/*appendToArray*/ ) {
-          if ( !h/*rootNode*/ ){
+        function c( d,e ) {
+          if ( !d ){
             return ;
           };
           
-          if ( h/*rootNode*/.nodeType == 8 ){
-            var j/*memoId*/ = n/*ko*/.memoization.parseMemoText( h/*rootNode*/.nodeValue );
+          if ( d.nodeType == 8 ){
+            var f = b.memoization.parseMemoText( d.nodeValue );
             
-            if ( j/*memoId*/ != null ){
-              i/*appendToArray*/.push(  {
-                domNode : h/*rootNode*/,
-                memoId : j/*memoId*/
+            if ( f != null ){
+              e.push(  {
+                domNode : d,
+                memoId : f
               });
             };
-          } else if ( h/*rootNode*/.nodeType == 1 ){
-            for ( var k/*i*/ = 0,l/*childNodes*/ = h/*rootNode*/.childNodes,m/*j*/ = l/*childNodes*/.length;k/*i*/<m/*j*/;k/*i*/ ++  ){
-              g/*findMemoNodes*/( l/*childNodes*/[k/*i*/],i/*appendToArray*/ );
-            };
+          } else if ( d.nodeType == 1 ){
+            for ( var g = 0,h = d.childNodes,i = h.length;g<i;g ++  )
+            c( h[g],e );
           };
         }return  {
-          memoize : function ( k/*callback*/ ) {
-            if ( typeof k/*callback*/ != "function" ){
+          memoize : function ( f ) {
+            if ( typeof f != "function" ){
               throw new Error( "You can only pass a function to ko.memoization.memoize()" );
             };
             
-            var l/*memoId*/ = h/*generateRandomId*/();
+            var g = d();
             
-            k/*memos*/[l/*memoId*/] = k/*callback*/;
-            return "<!--[ko_memo:"+l/*memoId*/+"]-->";
+            e[g] = f;
+            return "<!--[ko_memo:"+g+"]-->";
           },
-          unmemoize : function ( d/*memoId*/,e/*callbackParams*/ ) {
-            var f/*callback*/ = k/*memos*/[d/*memoId*/];
+          unmemoize : function ( a,b ) {
+            var c = e[a];
             
-            if ( f/*callback*/ === undefined ){
-              throw new Error( "Couldn't find any memo with ID "+d/*memoId*/+". Perhaps it's already been unmemoized." );
+            if ( c === undefined ){
+              throw new Error( "Couldn't find any memo with ID "+a+". Perhaps it's already been unmemoized." );
             };
             
             try {
-              f/*callback*/.apply( null,e/*callbackParams*/ || [] );
+              c.apply( null,b || [] );
               return true;
             } finally {
-              delete k/*memos*/[d/*memoId*/];
+              delete e[a];
             };
           },
-          unmemoizeDomNodeAndDescendants : function ( q/*domNode*/,r/*extraCallbackParamsArray*/ ) {
-            var s/*memos*/ = [];
+          unmemoizeDomNodeAndDescendants : function ( a,d ) {
+            var e = [];
             
-            g/*findMemoNodes*/( q/*domNode*/,s/*memos*/ );
+            c( a,e );
             
-            for ( var t/*i*/ = 0,u/*j*/ = s/*memos*/.length;t/*i*/<u/*j*/;t/*i*/ ++  ){
-              var v/*node*/ = s/*memos*/[t/*i*/].domNode;
+            for ( var f = 0,g = e.length;f<g;f ++  ){
+              var h = e[f].domNode;
               
-              var w/*combinedParams*/ = [v/*node*/];
+              var i = [h];
               
-              if ( r/*extraCallbackParamsArray*/ ){
-                n/*ko*/.utils.arrayPushAll( w/*combinedParams*/,r/*extraCallbackParamsArray*/ );
+              if ( d ){
+                b.utils.arrayPushAll( i,d );
               };
               
-              n/*ko*/.memoization.unmemoize( s/*memos*/[t/*i*/].memoId,w/*combinedParams*/ );
+              b.memoization.unmemoize( e[f].memoId,i );
               
-              v/*node*/.nodeValue = "";
+              h.nodeValue = "";
               
-              if ( v/*node*/.parentNode ){
-                v/*node*/.parentNode.removeChild( v/*node*/ );
+              if ( h.parentNode ){
+                h.parentNode.removeChild( h );
               };
             };
           },
-          parseMemoText : function ( c/*memoText*/ ) {
-            var d/*match*/ = c/*memoText*/.match( /^\[ko_memo\:(.*?)\]$/ );
-            return d/*match*/?d/*match*/[1] : null;
+          parseMemoText : function ( a ) {
+            var b = a.match( /^\[ko_memo\:(.*?)\]$/ );
+            return b?b[1] : null;
           }
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.memoization',n/*ko*/.memoization );
+      b.exportSymbol( 'ko.memoization',b.memoization );
       
-      n/*ko*/.exportSymbol( 'ko.memoization.memoize',n/*ko*/.memoization.memoize );
+      b.exportSymbol( 'ko.memoization.memoize',b.memoization.memoize );
       
-      n/*ko*/.exportSymbol( 'ko.memoization.unmemoize',n/*ko*/.memoization.unmemoize );
+      b.exportSymbol( 'ko.memoization.unmemoize',b.memoization.unmemoize );
       
-      n/*ko*/.exportSymbol( 'ko.memoization.parseMemoText',n/*ko*/.memoization.parseMemoText );
+      b.exportSymbol( 'ko.memoization.parseMemoText',b.memoization.parseMemoText );
       
-      n/*ko*/.exportSymbol( 'ko.memoization.unmemoizeDomNodeAndDescendants',n/*ko*/.memoization.unmemoizeDomNodeAndDescendants );
+      b.exportSymbol( 'ko.memoization.unmemoizeDomNodeAndDescendants',b.memoization.unmemoizeDomNodeAndDescendants );
       
-      n/*ko*/.extenders =  {
-        'throttle' : function ( f/*target*/,e/*timeout*/ ) {
-          f/*target*/['throttleEvaluation'] = e/*timeout*/;
+      b.extenders =  {
+        'throttle' : function ( d,c ) {
+          d['throttleEvaluation'] = c;
           
-          var d/*writeTimeoutInstance*/ = null;
-          return n/*ko*/.dependentObservable(  {
-            'read' : f/*target*/,
-            'write' : function ( a/*value*/ ) {
-              clearTimeout( d/*writeTimeoutInstance*/ );
+          var a = null;
+          return b.dependentObservable(  {
+            'read' : d,
+            'write' : function ( b ) {
+              clearTimeout( a );
               
-              d/*writeTimeoutInstance*/ = setTimeout( function () {
-                f/*target*/( a/*value*/ );
-              },e/*timeout*/);
+              a = setTimeout( function () {
+                d( b );
+              },c);
             }
           });
         },
-        'notify' : function ( c/*target*/,d/*notifyWhen*/ ) {
-          c/*target*/["equalityComparer"] = d/*notifyWhen*/ == "always"?function () {
+        'notify' : function ( a,c ) {
+          a["equalityComparer"] = c == "always"?function () {
             return false;
-          } : n/*ko*/.observable["fn"]["equalityComparer"];
-          return c/*target*/;
+          } : b.observable["fn"]["equalityComparer"];
+          return a;
         }
       };
       
-      function P/*applyExtenders*/( e/*requestedExtenders*/ ) {
-        var f/*target*/ = this;
+      function g( a ) {
+        var c = this;
         
-        if ( e/*requestedExtenders*/ ){
-          for ( var g/*key*/ in e/*requestedExtenders*/ ){
-            var h/*extenderHandler*/ = n/*ko*/.extenders[g/*key*/];
+        if ( a ){
+          for ( var d in a ){
+            var e = b.extenders[d];
             
-            if ( typeof h/*extenderHandler*/ == 'function' ){
-              f/*target*/ = h/*extenderHandler*/( f/*target*/,e/*requestedExtenders*/[g/*key*/] );
+            if ( typeof e == 'function' ){
+              c = e( c,a[d] );
             };
           };
         };
-        return f/*target*/;
+        return c;
       }
-      n/*ko*/.exportSymbol( 'ko.extenders',n/*ko*/.extenders );
+      b.exportSymbol( 'ko.extenders',b.extenders );
       
-      n/*ko*/.subscription = function ( c/*callback*/,d/*disposeCallback*/ ) {
-        this.callback = c/*callback*/;
+      b.subscription = function ( a,c ) {
+        this.callback = a;
         
-        this.disposeCallback = d/*disposeCallback*/;
+        this.disposeCallback = c;
         
-        n/*ko*/.exportProperty( this,'dispose',this.dispose );
+        b.exportProperty( this,'dispose',this.dispose );
       };
       
-      n/*ko*/.subscription.prototype.dispose = function () {
+      b.subscription.prototype.dispose = function () {
         this.isDisposed = true;
         
         this.disposeCallback();
       };
       
-      n/*ko*/.subscribable = function () {
+      b.subscribable = function () {
         this._subscriptions = {};
         
-        n/*ko*/.utils.extend( this,n/*ko*/.subscribable['fn'] );
+        b.utils.extend( this,b.subscribable['fn'] );
         
-        n/*ko*/.exportProperty( this,'subscribe',this.subscribe );
+        b.exportProperty( this,'subscribe',this.subscribe );
         
-        n/*ko*/.exportProperty( this,'extend',this.extend );
+        b.exportProperty( this,'extend',this.extend );
         
-        n/*ko*/.exportProperty( this,'getSubscriptionsCount',this.getSubscriptionsCount );
+        b.exportProperty( this,'getSubscriptionsCount',this.getSubscriptionsCount );
       };
       
-      var q/*defaultEvent*/ = "change";
+      var c = "change";
       
-      n/*ko*/.subscribable['fn'] =  {
-        subscribe : function ( v/*callback*/,w/*callbackTarget*/,b/*event*/ ) {
-          b/*event*/ = b/*event*/ || q/*defaultEvent*/;
+      b.subscribable['fn'] =  {
+        subscribe : function ( e,f,a ) {
+          a = a || c;
           
-          var x/*boundCallback*/ = w/*callbackTarget*/?v/*callback*/.bind( w/*callbackTarget*/ ) : v/*callback*/;
+          var g = f?e.bind( f ) : e;
           
-          var c/*subscription*/ = new n/*ko*/.subscription( x/*boundCallback*/,function () {
-                n/*ko*/.utils.arrayRemoveItem( this._subscriptions[b/*event*/],c/*subscription*/ );
+          var d = new b.subscription( g,function () {
+                b.utils.arrayRemoveItem( this._subscriptions[a],d );
               }.bind( this ) );
           
-          if ( !this._subscriptions[b/*event*/] ){
-            this._subscriptions[b/*event*/] = [];
+          if ( !this._subscriptions[a] ){
+            this._subscriptions[a] = [];
           };
           
-          this._subscriptions[b/*event*/].push( c/*subscription*/ );
-          return c/*subscription*/;
+          this._subscriptions[a].push( d );
+          return d;
         },
-        "notifySubscribers" : function ( c/*valueToNotify*/,d/*event*/ ) {
-          d/*event*/ = d/*event*/ || q/*defaultEvent*/;
+        "notifySubscribers" : function ( a,d ) {
+          d = d || c;
           
-          if ( this._subscriptions[d/*event*/] ){
-            n/*ko*/.utils.arrayForEach( this._subscriptions[d/*event*/].slice( 0 ),
-            function ( d/*subscription*/ ) {
-              if ( d/*subscription*/ && ( d/*subscription*/.isDisposed !== true ) ){
-                d/*subscription*/.callback( c/*valueToNotify*/ );
+          if ( this._subscriptions[d] ){
+            b.utils.arrayForEach( this._subscriptions[d].slice( 0 ),
+            function ( b ) {
+              if ( b && ( b.isDisposed !== true ) ){
+                b.callback( a );
               };
             });
           };
         },
         getSubscriptionsCount : function () {
-          var c/*total*/ = 0;
+          var a = 0;
           
-          for ( var d/*eventName*/ in this._subscriptions ){
-            if ( this._subscriptions.hasOwnProperty( d/*eventName*/ ) ){
-              c/*total*/ += this._subscriptions[d/*eventName*/].length;
-            };
+          for ( var b in this._subscriptions )
+          if ( this._subscriptions.hasOwnProperty( b ) ){
+            a += this._subscriptions[b].length;
           };
-          return c/*total*/;
+          return a;
         },
-        extend : P/*applyExtenders*/
+        extend : g
       };
       
-      n/*ko*/.isSubscribable = function ( b/*instance*/ ) {
-        return typeof b/*instance*/.subscribe == "function" && typeof b/*instance*/["notifySubscribers"] == "function";
+      b.isSubscribable = function ( a ) {
+        return typeof a.subscribe == "function" && typeof a["notifySubscribers"] == "function";
       };
       
-      n/*ko*/.exportSymbol( 'ko.subscribable',n/*ko*/.subscribable );
+      b.exportSymbol( 'ko.subscribable',b.subscribable );
       
-      n/*ko*/.exportSymbol( 'ko.isSubscribable',n/*ko*/.isSubscribable );
+      b.exportSymbol( 'ko.isSubscribable',b.isSubscribable );
       
-      n/*ko*/.dependencyDetection = ( function () {
-        var b/*_frames*/ = [];
+      b.dependencyDetection = function () {
+        var a = [];
         return  {
-          begin : function ( d/*callback*/ ) {
-            b/*_frames*/.push(  {
-              callback : d/*callback*/,
+          begin : function ( b ) {
+            a.push(  {
+              callback : b,
               distinctDependencies : []
             });
           },
           end : function () {
-            b/*_frames*/.pop();
+            a.pop();
           },
-          registerDependency : function ( c/*subscribable*/ ) {
-            if ( !n/*ko*/.isSubscribable( c/*subscribable*/ ) ){
+          registerDependency : function ( c ) {
+            if ( !b.isSubscribable( c ) ){
               throw "Only subscribable things can act as dependencies";
             };
             
-            if ( b/*_frames*/.length>0 ){
-              var d/*topFrame*/ = b/*_frames*/[b/*_frames*/.length-1];
+            if ( a.length>0 ){
+              var d = a[a.length-1];
               
-              if ( n/*ko*/.utils.arrayIndexOf( d/*topFrame*/.distinctDependencies,c/*subscribable*/ ) >= 0 ){
+              if ( b.utils.arrayIndexOf( d.distinctDependencies,c ) >= 0 ){
                 return ;
               };
               
-              d/*topFrame*/.distinctDependencies.push( c/*subscribable*/ );
+              d.distinctDependencies.push( c );
               
-              d/*topFrame*/.callback( c/*subscribable*/ );
+              d.callback( c );
             };
           }
         };
-      })();
+      }();
       
-      var v/*primitiveTypes*/ =  {
+      var d =  {
             'undefined' : true,
             'boolean' : true,
             'number' : true,
             'string' : true
           };
       
-      n/*ko*/.observable = function ( f/*initialValue*/ ) {
-        var e/*_latestValue*/ = f/*initialValue*/;
+      b.observable = function ( d ) {
+        var c = d;
         
-        function d/*observable*/() {
+        function a() {
           if ( arguments.length>0 ){
-            if ( ( !d/*observable*/['equalityComparer'] ) || !d/*observable*/['equalityComparer']( e/*_latestValue*/,arguments[0] ) ){
-              d/*observable*/.valueWillMutate();
+            if ( ( !a['equalityComparer'] ) || !a['equalityComparer']( c,arguments[0] ) ){
+              a.valueWillMutate();
               
-              e/*_latestValue*/ = arguments[0];
+              c = arguments[0];
               
-              d/*observable*/.valueHasMutated();
+              a.valueHasMutated();
             };
             return this;
           } else {
-            n/*ko*/.dependencyDetection.registerDependency( d/*observable*/ );
-            return e/*_latestValue*/;
+            b.dependencyDetection.registerDependency( a );
+            return c;
           };
         }
-        n/*ko*/.subscribable.call( d/*observable*/ );
+        b.subscribable.call( a );
         
-        d/*observable*/.valueHasMutated = function () {
-          d/*observable*/["notifySubscribers"]( e/*_latestValue*/ );
+        a.valueHasMutated = function () {
+          a["notifySubscribers"]( c );
         };
         
-        d/*observable*/.valueWillMutate = function () {
-          d/*observable*/["notifySubscribers"]( e/*_latestValue*/,"beforeChange" );
+        a.valueWillMutate = function () {
+          a["notifySubscribers"]( c,"beforeChange" );
         };
         
-        n/*ko*/.utils.extend( d/*observable*/,n/*ko*/.observable['fn'] );
+        b.utils.extend( a,b.observable['fn'] );
         
-        n/*ko*/.exportProperty( d/*observable*/,"valueHasMutated",d/*observable*/.valueHasMutated );
+        b.exportProperty( a,"valueHasMutated",a.valueHasMutated );
         
-        n/*ko*/.exportProperty( d/*observable*/,"valueWillMutate",d/*observable*/.valueWillMutate );
-        return d/*observable*/;
+        b.exportProperty( a,"valueWillMutate",a.valueWillMutate );
+        return a;
       };
       
-      n/*ko*/.observable['fn'] =  {
-        __ko_proto__ : n/*ko*/.observable,
-        "equalityComparer" : function Q/*valuesArePrimitiveAndEqual*/( y/*a*/,z/*b*/ ) {
-          var A/*oldValueIsPrimitive*/ = ( y/*a*/ === null ) || ( typeof ( y/*a*/ ) in v/*primitiveTypes*/ );
-          return A/*oldValueIsPrimitive*/?( y/*a*/ === z/*b*/ ) : false;
+      b.observable['fn'] =  {
+        __ko_proto__ : b.observable,
+        "equalityComparer" : function h( e,f ) {
+          var g = ( e === null ) || ( typeof ( e ) in d );
+          return g?( e === f ) : false;
         }
       };
       
-      n/*ko*/.isObservable = function ( b/*instance*/ ) {
-        if ( ( b/*instance*/ === null ) || ( b/*instance*/ === undefined ) || ( b/*instance*/.__ko_proto__ === undefined ) ){
+      b.isObservable = function ( a ) {
+        if ( ( a === null ) || ( a === undefined ) || ( a.__ko_proto__ === undefined ) ){
           return false;
         };
         
-        if ( b/*instance*/.__ko_proto__ === n/*ko*/.observable ){
+        if ( a.__ko_proto__ === b.observable ){
           return true;
         };
-        return n/*ko*/.isObservable( b/*instance*/.__ko_proto__ );
+        return b.isObservable( a.__ko_proto__ );
       };
       
-      n/*ko*/.isWriteableObservable = function ( b/*instance*/ ) {
-        if ( ( typeof b/*instance*/ == "function" ) && b/*instance*/.__ko_proto__ === n/*ko*/.observable ){
+      b.isWriteableObservable = function ( a ) {
+        if ( ( typeof a == "function" ) && a.__ko_proto__ === b.observable ){
           return true;
         };
         
-        if ( ( typeof b/*instance*/ == "function" ) && ( b/*instance*/.__ko_proto__ === n/*ko*/.dependentObservable ) && ( b/*instance*/.hasWriteFunction ) ){
+        if ( ( typeof a == "function" ) && ( a.__ko_proto__ === b.dependentObservable ) && ( a.hasWriteFunction ) ){
           return true;
         };
         return false;
       };
       
-      n/*ko*/.exportSymbol( 'ko.observable',n/*ko*/.observable );
+      b.exportSymbol( 'ko.observable',b.observable );
       
-      n/*ko*/.exportSymbol( 'ko.isObservable',n/*ko*/.isObservable );
+      b.exportSymbol( 'ko.isObservable',b.isObservable );
       
-      n/*ko*/.exportSymbol( 'ko.isWriteableObservable',n/*ko*/.isWriteableObservable );
+      b.exportSymbol( 'ko.isWriteableObservable',b.isWriteableObservable );
       
-      n/*ko*/.observableArray = function ( c/*initialValues*/ ) {
+      b.observableArray = function ( a ) {
         if ( arguments.length == 0 ){
-          c/*initialValues*/ = [];
+          a = [];
         };
         
-        if ( ( c/*initialValues*/ !== null ) && ( c/*initialValues*/ !== undefined ) && !( 'length' in c/*initialValues*/ ) ){
+        if ( ( a !== null ) && ( a !== undefined ) && !( 'length' in a ) ){
           throw new Error( "The argument passed when initializing an observable array must be an array, or null, or undefined." );
         };
         
-        var d/*result*/ = new n/*ko*/.observable( c/*initialValues*/ );
+        var c = new b.observable( a );
         
-        n/*ko*/.utils.extend( d/*result*/,n/*ko*/.observableArray['fn'] );
+        b.utils.extend( c,b.observableArray['fn'] );
         
-        n/*ko*/.exportProperty( d/*result*/,"remove",d/*result*/.remove );
+        b.exportProperty( c,"remove",c.remove );
         
-        n/*ko*/.exportProperty( d/*result*/,"removeAll",d/*result*/.removeAll );
+        b.exportProperty( c,"removeAll",c.removeAll );
         
-        n/*ko*/.exportProperty( d/*result*/,"destroy",d/*result*/.destroy );
+        b.exportProperty( c,"destroy",c.destroy );
         
-        n/*ko*/.exportProperty( d/*result*/,"destroyAll",d/*result*/.destroyAll );
+        b.exportProperty( c,"destroyAll",c.destroyAll );
         
-        n/*ko*/.exportProperty( d/*result*/,"indexOf",d/*result*/.indexOf );
+        b.exportProperty( c,"indexOf",c.indexOf );
         
-        n/*ko*/.exportProperty( d/*result*/,"replace",d/*result*/.replace );
-        return d/*result*/;
+        b.exportProperty( c,"replace",c.replace );
+        return c;
       };
       
-      n/*ko*/.observableArray['fn'] =  {
-        remove : function ( h/*valueOrPredicate*/ ) {
-          var i/*underlyingArray*/ = this();
+      b.observableArray['fn'] =  {
+        remove : function ( a ) {
+          var b = this();
           
-          var j/*removedValues*/ = [];
+          var c = [];
           
-          var k/*predicate*/ = typeof h/*valueOrPredicate*/ == "function"?h/*valueOrPredicate*/ : function ( i/*value*/ ) {
-                return i/*value*/ === h/*valueOrPredicate*/;
+          var d = typeof a == "function"?a : function ( b ) {
+                return b === a;
               };
           
-          for ( var l/*i*/ = 0;l/*i*/<i/*underlyingArray*/.length;l/*i*/ ++  ){
-            var g/*value*/ = i/*underlyingArray*/[l/*i*/];
+          for ( var e = 0;e<b.length;e ++  ){
+            var f = b[e];
             
-            if ( k/*predicate*/( g/*value*/ ) ){
-              if ( j/*removedValues*/.length === 0 ){
+            if ( d( f ) ){
+              if ( c.length === 0 ){
                 this.valueWillMutate();
               };
               
-              j/*removedValues*/.push( g/*value*/ );
+              c.push( f );
               
-              i/*underlyingArray*/.splice( l/*i*/,1 );
+              b.splice( e,1 );
               
-              l/*i*/ -- ;
+              e -- ;
             };
           };
           
-          if ( j/*removedValues*/.length ){
+          if ( c.length ){
             this.valueHasMutated();
           };
-          return j/*removedValues*/;
+          return c;
         },
-        removeAll : function ( d/*arrayOfValues*/ ) {
-          if ( d/*arrayOfValues*/ === undefined ){
-            var f/*underlyingArray*/ = this();
+        removeAll : function ( a ) {
+          if ( a === undefined ){
+            var c = this();
             
-            var g/*allValues*/ = f/*underlyingArray*/.slice( 0 );
+            var d = c.slice( 0 );
             
             this.valueWillMutate();
             
-            f/*underlyingArray*/.splice( 0,f/*underlyingArray*/.length );
+            c.splice( 0,c.length );
             
             this.valueHasMutated();
-            return g/*allValues*/;
+            return d;
           };
           
-          if ( !d/*arrayOfValues*/ ){
+          if ( !a ){
             return [];
           };
-          return this.remove( function ( f/*value*/ ) {
-            return n/*ko*/.utils.arrayIndexOf( d/*arrayOfValues*/,f/*value*/ ) >= 0;
+          return this.remove( function ( c ) {
+            return b.utils.arrayIndexOf( a,c ) >= 0;
           });
         },
-        destroy : function ( g/*valueOrPredicate*/ ) {
-          var h/*underlyingArray*/ = this();
+        destroy : function ( a ) {
+          var b = this();
           
-          var i/*predicate*/ = typeof g/*valueOrPredicate*/ == "function"?g/*valueOrPredicate*/ : function ( h/*value*/ ) {
-                return h/*value*/ === g/*valueOrPredicate*/;
+          var c = typeof a == "function"?a : function ( b ) {
+                return b === a;
               };
           
           this.valueWillMutate();
           
-          for ( var j/*i*/ = h/*underlyingArray*/.length-1;j/*i*/ >= 0;j/*i*/ --  ){
-            var f/*value*/ = h/*underlyingArray*/[j/*i*/];
+          for ( var d = b.length-1;d >= 0;d --  ){
+            var e = b[d];
             
-            if ( i/*predicate*/( f/*value*/ ) ){
-              h/*underlyingArray*/[j/*i*/]["_destroy"] = true;
+            if ( c( e ) ){
+              b[d]["_destroy"] = true;
             };
           };
           
           this.valueHasMutated();
         },
-        destroyAll : function ( b/*arrayOfValues*/ ) {
-          if ( b/*arrayOfValues*/ === undefined ){
+        destroyAll : function ( a ) {
+          if ( a === undefined ){
             return this.destroy( function () {
               return true;
             });
           };
           
-          if ( !b/*arrayOfValues*/ ){
+          if ( !a ){
             return [];
           };
-          return this.destroy( function ( d/*value*/ ) {
-            return n/*ko*/.utils.arrayIndexOf( b/*arrayOfValues*/,d/*value*/ ) >= 0;
+          return this.destroy( function ( c ) {
+            return b.utils.arrayIndexOf( a,c ) >= 0;
           });
         },
-        indexOf : function ( c/*item*/ ) {
-          var d/*underlyingArray*/ = this();
-          return n/*ko*/.utils.arrayIndexOf( d/*underlyingArray*/,c/*item*/ );
+        indexOf : function ( a ) {
+          var c = this();
+          return b.utils.arrayIndexOf( c,a );
         },
-        replace : function ( d/*oldItem*/,e/*newItem*/ ) {
-          var f/*index*/ = this.indexOf( d/*oldItem*/ );
+        replace : function ( a,b ) {
+          var c = this.indexOf( a );
           
-          if ( f/*index*/ >= 0 ){
+          if ( c >= 0 ){
             this.valueWillMutate();
             
-            this()[f/*index*/] = e/*newItem*/;
+            this()[c] = b;
             
             this.valueHasMutated();
           };
         }
       };
       
-      n/*ko*/.utils.arrayForEach( ["pop","push","reverse","shift","sort","splice","unshift"],
-      function ( b/*methodName*/ ) {
-        n/*ko*/.observableArray['fn'][b/*methodName*/] = function () {
-          var d/*underlyingArray*/ = this();
+      b.utils.arrayForEach( ["pop","push","reverse","shift","sort","splice","unshift"],
+      function ( a ) {
+        b.observableArray['fn'][a] = function () {
+          var b = this();
           
           this.valueWillMutate();
           
-          var e/*methodCallResult*/ = d/*underlyingArray*/[b/*methodName*/].apply( d/*underlyingArray*/,arguments );
+          var c = b[a].apply( b,arguments );
           
           this.valueHasMutated();
-          return e/*methodCallResult*/;
+          return c;
         };
       });
       
-      n/*ko*/.utils.arrayForEach( ["slice"],
-      function ( b/*methodName*/ ) {
-        n/*ko*/.observableArray['fn'][b/*methodName*/] = function () {
-          var c/*underlyingArray*/ = this();
-          return c/*underlyingArray*/[b/*methodName*/].apply( c/*underlyingArray*/,arguments );
+      b.utils.arrayForEach( ["slice"],
+      function ( a ) {
+        b.observableArray['fn'][a] = function () {
+          var b = this();
+          return b[a].apply( b,arguments );
         };
       });
       
-      n/*ko*/.exportSymbol( 'ko.observableArray',n/*ko*/.observableArray );
+      b.exportSymbol( 'ko.observableArray',b.observableArray );
       
-      function y/*prepareOptions*/( c/*evaluatorFunctionOrOptions*/,d/*evaluatorFunctionTarget*/,e/*options*/ ) {
-        if ( c/*evaluatorFunctionOrOptions*/ && typeof c/*evaluatorFunctionOrOptions*/ == "object" ){
-          e/*options*/ = c/*evaluatorFunctionOrOptions*/;
+      function e( a,b,c ) {
+        if ( a && typeof a == "object" ){
+          c = a;
         } else {
-          e/*options*/ = e/*options*/ || {};
+          c = c || {};
           
-          e/*options*/["read"] = c/*evaluatorFunctionOrOptions*/ || e/*options*/["read"];
+          c["read"] = a || c["read"];
         };
         
-        if ( typeof e/*options*/["read"] != "function" ){
+        if ( typeof c["read"] != "function" ){
           throw "Pass a function that returns the value of the dependentObservable";
         };
-        return e/*options*/;
+        return c;
       }
-      n/*ko*/.dependentObservable = function ( N/*evaluatorFunctionOrOptions*/,j/*evaluatorFunctionTarget*/,h/*options*/ ) {
-        var l/*_latestValue*/,
-            g/*_hasBeenEvaluated*/ = false,
-            h/*options*/ = y/*prepareOptions*/( N/*evaluatorFunctionOrOptions*/,j/*evaluatorFunctionTarget*/,h/*options*/ );
+      b.dependentObservable = function ( p,l,j ) {
+        var m,
+            i = false,
+            j = e( p,l,j );
         
-        var b/*disposeWhenNodeIsRemoved*/ = ( typeof h/*options*/["disposeWhenNodeIsRemoved"] == "object" )?h/*options*/["disposeWhenNodeIsRemoved"] : null;
+        var c = ( typeof j["disposeWhenNodeIsRemoved"] == "object" )?j["disposeWhenNodeIsRemoved"] : null;
         
-        var p/*disposeWhenNodeIsRemovedCallback*/ = null;
+        var o = null;
         
-        if ( b/*disposeWhenNodeIsRemoved*/ ){
-          p/*disposeWhenNodeIsRemovedCallback*/ = function () {
-            a/*dependentObservable*/.dispose();
+        if ( c ){
+          o = function () {
+            a.dispose();
           };
           
-          n/*ko*/.utils.domNodeDisposal.addDisposeCallback( b/*disposeWhenNodeIsRemoved*/,p/*disposeWhenNodeIsRemovedCallback*/ );
+          b.utils.domNodeDisposal.addDisposeCallback( c,o );
           
-          var c/*existingDisposeWhenFunction*/ = h/*options*/["disposeWhen"];
+          var d = j["disposeWhen"];
           
-          h/*options*/["disposeWhen"] = function () {
-            return ( !n/*ko*/.utils.domNodeIsAttachedToDocument( b/*disposeWhenNodeIsRemoved*/ ) ) || ( ( typeof c/*existingDisposeWhenFunction*/ == "function" ) && c/*existingDisposeWhenFunction*/() );
+          j["disposeWhen"] = function () {
+            return ( !b.utils.domNodeIsAttachedToDocument( c ) ) || ( ( typeof d == "function" ) && d() );
           };
         };
         
-        var d/*_subscriptionsToDependencies*/ = [];
+        var f = [];
         
-        function i/*disposeAllSubscriptionsToDependencies*/() {
-          n/*ko*/.utils.arrayForEach( d/*_subscriptionsToDependencies*/,
-          function ( b/*subscription*/ ) {
-            b/*subscription*/.dispose();
+        function k() {
+          b.utils.arrayForEach( f,
+          function ( a ) {
+            a.dispose();
           });
           
-          d/*_subscriptionsToDependencies*/ = [];
+          f = [];
         }
-        var e/*evaluationTimeoutInstance*/ = null;
+        var g = null;
         
-        function o/*evaluatePossiblyAsync*/() {
-          var g/*throttleEvaluationTimeout*/ = a/*dependentObservable*/['throttleEvaluation'];
+        function n() {
+          var i = a['throttleEvaluation'];
           
-          if ( g/*throttleEvaluationTimeout*/ && g/*throttleEvaluationTimeout*/ >= 0 ){
-            clearTimeout( e/*evaluationTimeoutInstance*/ );
+          if ( i && i >= 0 ){
+            clearTimeout( g );
             
-            e/*evaluationTimeoutInstance*/ = setTimeout( f/*evaluateImmediate*/,g/*throttleEvaluationTimeout*/ );
+            g = setTimeout( h,i );
           } else {
-            f/*evaluateImmediate*/();
+            h();
           };
         }
-        function f/*evaluateImmediate*/() {
-          if ( ( g/*_hasBeenEvaluated*/ ) && typeof h/*options*/["disposeWhen"] == "function" ){
-            if ( h/*options*/["disposeWhen"]() ){
-              a/*dependentObservable*/.dispose();
+        function h() {
+          if ( ( i ) && typeof j["disposeWhen"] == "function" ){
+            if ( j["disposeWhen"]() ){
+              a.dispose();
               return ;
             };
           };
           
           try {
-            i/*disposeAllSubscriptionsToDependencies*/();
+            k();
             
-            n/*ko*/.dependencyDetection.begin( function ( b/*subscribable*/ ) {
-              d/*_subscriptionsToDependencies*/.push( b/*subscribable*/.subscribe( o/*evaluatePossiblyAsync*/ ) );
+            b.dependencyDetection.begin( function ( a ) {
+              f.push( a.subscribe( n ) );
             });
             
-            var p/*valueForThis*/ = h/*options*/["owner"] || j/*evaluatorFunctionTarget*/;
+            var o = j["owner"] || l;
             
-            var q/*newValue*/ = h/*options*/["read"].call( p/*valueForThis*/ );
+            var p = j["read"].call( o );
             
-            a/*dependentObservable*/["notifySubscribers"]( l/*_latestValue*/,"beforeChange" );
+            a["notifySubscribers"]( m,"beforeChange" );
             
-            l/*_latestValue*/ = q/*newValue*/;
+            m = p;
           } finally {
-            n/*ko*/.dependencyDetection.end();
+            b.dependencyDetection.end();
           };
           
-          a/*dependentObservable*/["notifySubscribers"]( l/*_latestValue*/ );
+          a["notifySubscribers"]( m );
           
-          g/*_hasBeenEvaluated*/ = true;
+          i = true;
         }
-        function a/*dependentObservable*/() {
+        function a() {
           if ( arguments.length>0 ){
-            if ( typeof h/*options*/["write"] === "function" ){
-              var b/*valueForThis*/ = h/*options*/["owner"] || j/*evaluatorFunctionTarget*/;
+            if ( typeof j["write"] === "function" ){
+              var c = j["owner"] || l;
               
-              h/*options*/["write"].apply( b/*valueForThis*/,arguments );
+              j["write"].apply( c,arguments );
             } else {
               throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
             };
           } else {
-            if ( !g/*_hasBeenEvaluated*/ ){
-              f/*evaluateImmediate*/();
+            if ( !i ){
+              h();
             };
             
-            n/*ko*/.dependencyDetection.registerDependency( a/*dependentObservable*/ );
-            return l/*_latestValue*/;
+            b.dependencyDetection.registerDependency( a );
+            return m;
           };
         }
-        a/*dependentObservable*/.getDependenciesCount = function () {
-          return d/*_subscriptionsToDependencies*/.length;
+        a.getDependenciesCount = function () {
+          return f.length;
         };
         
-        a/*dependentObservable*/.hasWriteFunction = typeof h/*options*/["write"] === "function";
+        a.hasWriteFunction = typeof j["write"] === "function";
         
-        a/*dependentObservable*/.dispose = function () {
-          if ( b/*disposeWhenNodeIsRemoved*/ ){
-            n/*ko*/.utils.domNodeDisposal.removeDisposeCallback( b/*disposeWhenNodeIsRemoved*/,p/*disposeWhenNodeIsRemovedCallback*/ );
+        a.dispose = function () {
+          if ( c ){
+            b.utils.domNodeDisposal.removeDisposeCallback( c,o );
           };
           
-          i/*disposeAllSubscriptionsToDependencies*/();
+          k();
         };
         
-        n/*ko*/.subscribable.call( a/*dependentObservable*/ );
+        b.subscribable.call( a );
         
-        n/*ko*/.utils.extend( a/*dependentObservable*/,n/*ko*/.dependentObservable['fn'] );
+        b.utils.extend( a,b.dependentObservable['fn'] );
         
-        if ( h/*options*/['deferEvaluation'] !== true ){
-          f/*evaluateImmediate*/();
+        if ( j['deferEvaluation'] !== true ){
+          h();
         };
         
-        n/*ko*/.exportProperty( a/*dependentObservable*/,'dispose',a/*dependentObservable*/.dispose );
+        b.exportProperty( a,'dispose',a.dispose );
         
-        n/*ko*/.exportProperty( a/*dependentObservable*/,'getDependenciesCount',a/*dependentObservable*/.getDependenciesCount );
-        return a/*dependentObservable*/;
+        b.exportProperty( a,'getDependenciesCount',a.getDependenciesCount );
+        return a;
       };
       
-      n/*ko*/.dependentObservable['fn'] =  {
-        __ko_proto__ : n/*ko*/.dependentObservable
+      b.dependentObservable['fn'] =  {
+        __ko_proto__ : b.dependentObservable
       };
       
-      n/*ko*/.dependentObservable.__ko_proto__ = n/*ko*/.observable;
+      b.dependentObservable.__ko_proto__ = b.observable;
       
-      n/*ko*/.exportSymbol( 'ko.dependentObservable',n/*ko*/.dependentObservable );
+      b.exportSymbol( 'ko.dependentObservable',b.dependentObservable );
       
-      n/*ko*/.exportSymbol( 'ko.computed',n/*ko*/.dependentObservable );
+      b.exportSymbol( 'ko.computed',b.dependentObservable );
       
-      ( function () {
-        var g/*maxNestedObservableDepth*/ = 10;
+      !function () {
+        var c = 10;
         
-        n/*ko*/.toJS = function ( h/*rootObject*/ ) {
+        b.toJS = function ( d ) {
           if ( arguments.length == 0 ){
             throw new Error( "When calling ko.toJS, pass the object you want to convert." );
           };
-          return e/*mapJsObjectGraph*/( h/*rootObject*/,
-          function ( c/*valueToMap*/ ) {
-            for ( var d/*i*/ = 0;n/*ko*/.isObservable( c/*valueToMap*/ ) && ( d/*i*/<g/*maxNestedObservableDepth*/ );d/*i*/ ++  ){
-              c/*valueToMap*/ = c/*valueToMap*/();
-            };
-            return c/*valueToMap*/;
+          return a( d,
+          function ( a ) {
+            for ( var d = 0;b.isObservable( a ) && ( d<c );d ++  )
+            a = a();
+            return a;
           });
         };
         
-        n/*ko*/.toJSON = function ( c/*rootObject*/ ) {
-          var d/*plainJavaScriptObject*/ = n/*ko*/.toJS( c/*rootObject*/ );
-          return n/*ko*/.utils.stringifyJson( d/*plainJavaScriptObject*/ );
+        b.toJSON = function ( a ) {
+          var c = b.toJS( a );
+          return b.utils.stringifyJson( c );
         };
         
-        function e/*mapJsObjectGraph*/( c/*rootObject*/,b/*mapInputCallback*/,g/*visitedObjects*/ ) {
-          g/*visitedObjects*/ = g/*visitedObjects*/ || new h/*objectLookup*/();
+        function a( c,b,g ) {
+          g = g || new d();
           
-          c/*rootObject*/ = b/*mapInputCallback*/( c/*rootObject*/ );
+          c = b( c );
           
-          var n/*canHaveProperties*/ = ( typeof c/*rootObject*/ == "object" ) && ( c/*rootObject*/ !== null ) && ( c/*rootObject*/ !== undefined ) && ( !( c/*rootObject*/ instanceof Date ) );
+          var h = ( typeof c == "object" ) && ( c !== null ) && ( c !== undefined ) && ( !( c instanceof Date ) );
           
-          if ( !n/*canHaveProperties*/ ){
-            return c/*rootObject*/;
+          if ( !h ){
+            return c;
           };
           
-          var f/*outputProperties*/ = c/*rootObject*/ instanceof Array?[] : {};
+          var f = c instanceof Array?[] : {};
           
-          g/*visitedObjects*/.save( c/*rootObject*/,f/*outputProperties*/ );
+          g.save( c,f );
           
-          m/*visitPropertiesOrArrayEntries*/( c/*rootObject*/,
-          function ( i/*indexer*/ ) {
-            var j/*propertyValue*/ = b/*mapInputCallback*/( c/*rootObject*/[i/*indexer*/] );
+          e( c,
+          function ( h ) {
+            var i = b( c[h] );
             
-            switch ( typeof j/*propertyValue*/ ) {
+            switch ( typeof i ) {
               case "boolean" :
               case "number" :
               case "string" :
               case "function" :
                 
-                f/*outputProperties*/[i/*indexer*/] = j/*propertyValue*/;
+                f[h] = i;
                 break;
               case "object" :
               case "undefined" :
                 
-                var k/*previouslyMappedValue*/ = g/*visitedObjects*/.get( j/*propertyValue*/ );
+                var j = g.get( i );
                 
-                f/*outputProperties*/[i/*indexer*/] = ( k/*previouslyMappedValue*/ !== undefined )?k/*previouslyMappedValue*/ : e/*mapJsObjectGraph*/( j/*propertyValue*/,b/*mapInputCallback*/,g/*visitedObjects*/ );
+                f[h] = ( j !== undefined )?j : a( i,b,g );
                 break;
                 
             };
           });
-          return f/*outputProperties*/;
+          return f;
         }
-        function m/*visitPropertiesOrArrayEntries*/( e/*rootObject*/,f/*visitorCallback*/ ) {
-          if ( e/*rootObject*/ instanceof Array ){
-            for ( var g/*i*/ = 0;g/*i*/<e/*rootObject*/.length;g/*i*/ ++  ){
-              f/*visitorCallback*/( g/*i*/ );
-            };
+        function e( a,b ) {
+          if ( a instanceof Array ){
+            for ( var c = 0;c<a.length;c ++  )
+            b( c );
           } else {
-            for ( var h/*propertyName*/ in e/*rootObject*/ ){
-              f/*visitorCallback*/( h/*propertyName*/ );
-            };
+            for ( var d in a )
+            b( d );
           };
         }
-        function h/*objectLookup*/() {
-          var c/*keys*/ = [];
+        function d() {
+          var a = [];
           
-          var f/*values*/ = [];
+          var c = [];
           
-          this.save = function ( h/*key*/,i/*value*/ ) {
-            var j/*existingIndex*/ = n/*ko*/.utils.arrayIndexOf( c/*keys*/,h/*key*/ );
+          this.save = function ( d,e ) {
+            var f = b.utils.arrayIndexOf( a,d );
             
-            if ( j/*existingIndex*/ >= 0 ){
-              f/*values*/[j/*existingIndex*/] = i/*value*/;
+            if ( f >= 0 ){
+              c[f] = e;
             } else {
-              c/*keys*/.push( h/*key*/ );
+              a.push( d );
               
-              f/*values*/.push( i/*value*/ );
+              c.push( e );
             };
           };
           
-          this.get = function ( d/*key*/ ) {
-            var e/*existingIndex*/ = n/*ko*/.utils.arrayIndexOf( c/*keys*/,d/*key*/ );
-            return ( e/*existingIndex*/ >= 0 )?f/*values*/[e/*existingIndex*/] : undefined;
+          this.get = function ( d ) {
+            var e = b.utils.arrayIndexOf( a,d );
+            return ( e >= 0 )?c[e] : undefined;
           };
         }
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.toJS',n/*ko*/.toJS );
+      b.exportSymbol( 'ko.toJS',b.toJS );
       
-      n/*ko*/.exportSymbol( 'ko.toJSON',n/*ko*/.toJSON );
+      b.exportSymbol( 'ko.toJSON',b.toJSON );
       
-      ( function () {
-        var b/*hasDomDataExpandoProperty*/ = '__ko__hasDomDataOptionValue__';
+      !function () {
+        var a = '__ko__hasDomDataOptionValue__';
         
-        n/*ko*/.selectExtensions =  {
-          readValue : function ( c/*element*/ ) {
-            if ( c/*element*/.tagName == 'OPTION' ){
-              if ( c/*element*/[b/*hasDomDataExpandoProperty*/] === true ){
-                return n/*ko*/.utils.domData.get( c/*element*/,n/*ko*/.bindingHandlers.options.optionValueDomDataKey );
+        b.selectExtensions =  {
+          readValue : function ( c ) {
+            if ( c.tagName == 'OPTION' ){
+              if ( c[a] === true ){
+                return b.utils.domData.get( c,b.bindingHandlers.options.optionValueDomDataKey );
               };
-              return c/*element*/.getAttribute( "value" );
-            } else if ( c/*element*/.tagName == 'SELECT' ){
-              return c/*element*/.selectedIndex >= 0?n/*ko*/.selectExtensions.readValue( c/*element*/.options[c/*element*/.selectedIndex] ) : undefined;
+              return c.getAttribute( "value" );
+            } else if ( c.tagName == 'SELECT' ){
+              return c.selectedIndex >= 0?b.selectExtensions.readValue( c.options[c.selectedIndex] ) : undefined;
             } else {
-              return c/*element*/.value;
+              return c.value;
             };
           },
-          writeValue : function ( d/*element*/,e/*value*/ ) {
-            if ( d/*element*/.tagName == 'OPTION' ){
-              switch ( typeof e/*value*/ ) {
+          writeValue : function ( c,d ) {
+            if ( c.tagName == 'OPTION' ){
+              switch ( typeof d ) {
                 case "string" :
                   
-                  n/*ko*/.utils.domData.set( d/*element*/,n/*ko*/.bindingHandlers.options.optionValueDomDataKey,undefined );
+                  b.utils.domData.set( c,b.bindingHandlers.options.optionValueDomDataKey,undefined );
                   
-                  if ( b/*hasDomDataExpandoProperty*/ in d/*element*/ ){
-                    delete d/*element*/[b/*hasDomDataExpandoProperty*/];
+                  if ( a in c ){
+                    delete c[a];
                   };
                   
-                  d/*element*/.value = e/*value*/;
+                  c.value = d;
                   break;
                 default :
                   
-                  n/*ko*/.utils.domData.set( d/*element*/,n/*ko*/.bindingHandlers.options.optionValueDomDataKey,e/*value*/ );
+                  b.utils.domData.set( c,b.bindingHandlers.options.optionValueDomDataKey,d );
                   
-                  d/*element*/[b/*hasDomDataExpandoProperty*/] = true;
+                  c[a] = true;
                   
-                  d/*element*/.value = typeof e/*value*/ === "number"?e/*value*/ : "";
+                  c.value = typeof d === "number"?d : "";
                   break;
                   
               };
-            } else if ( d/*element*/.tagName == 'SELECT' ){
-              for ( var f/*i*/ = d/*element*/.options.length-1;f/*i*/ >= 0;f/*i*/ --  ){
-                if ( n/*ko*/.selectExtensions.readValue( d/*element*/.options[f/*i*/] ) == e/*value*/ ){
-                  d/*element*/.selectedIndex = f/*i*/;
-                  break;
-                };
+            } else if ( c.tagName == 'SELECT' ){
+              for ( var e = c.options.length-1;e >= 0;e --  )if ( b.selectExtensions.readValue( c.options[e] ) == d ){
+                c.selectedIndex = e;
+                break;
               };
             } else {
-              if ( ( e/*value*/ === null ) || ( e/*value*/ === undefined ) ){
-                e/*value*/ = "";
+              if ( ( d === null ) || ( d === undefined ) ){
+                d = "";
               };
               
-              d/*element*/.value = e/*value*/;
+              c.value = d;
             };
           }
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.selectExtensions',n/*ko*/.selectExtensions );
+      b.exportSymbol( 'ko.selectExtensions',b.selectExtensions );
       
-      n/*ko*/.exportSymbol( 'ko.selectExtensions.readValue',n/*ko*/.selectExtensions.readValue );
+      b.exportSymbol( 'ko.selectExtensions.readValue',b.selectExtensions.readValue );
       
-      n/*ko*/.exportSymbol( 'ko.selectExtensions.writeValue',n/*ko*/.selectExtensions.writeValue );
+      b.exportSymbol( 'ko.selectExtensions.writeValue',b.selectExtensions.writeValue );
       
-      n/*ko*/.jsonExpressionRewriting = ( function () {
-        var g/*restoreCapturedTokensRegex*/ = /\@ko_token_(\d+)\@/g;
+      b.jsonExpressionRewriting = function () {
+        var a = /\@ko_token_(\d+)\@/g;
         
-        var k/*javaScriptAssignmentTarget*/ = /^[\_$a-z][\_$a-z0-9]*(\[.*?\])*(\.[\_$a-z][\_$a-z0-9]*(\[.*?\])*)*$/i;
+        var d = /^[\_$a-z][\_$a-z0-9]*(\[.*?\])*(\.[\_$a-z][\_$a-z0-9]*(\[.*?\])*)*$/i;
         
-        var i/*javaScriptReservedWords*/ = ["true","false"];
+        var c = ["true","false"];
         
-        function r/*restoreTokens*/( i/*string*/,c/*tokens*/ ) {
-          var j/*prevValue*/ = null;
+        function e( c,b ) {
+          var d = null;
           
-          while ( i/*string*/ != j/*prevValue*/ ){
-            j/*prevValue*/ = i/*string*/;
+          while ( c != d ){
+            d = c;
             
-            i/*string*/ = i/*string*/.replace( g/*restoreCapturedTokensRegex*/,
-            function ( e/*match*/,f/*tokenIndex*/ ) {
-              return c/*tokens*/[f/*tokenIndex*/];
+            c = c.replace( a,
+            function ( c,d ) {
+              return b[d];
             });
           };
-          return i/*string*/;
+          return c;
         }
-        function x/*isWriteableValue*/( l/*expression*/ ) {
-          if ( n/*ko*/.utils.arrayIndexOf( i/*javaScriptReservedWords*/,n/*ko*/.utils.stringTrim( l/*expression*/ ).toLowerCase() ) >= 0 ){
+        function g( e ) {
+          if ( b.utils.arrayIndexOf( c,b.utils.stringTrim( e ).toLowerCase() ) >= 0 ){
             return false;
           };
-          return l/*expression*/.match( k/*javaScriptAssignmentTarget*/ ) !== null;
+          return e.match( d ) !== null;
         }
-        function u/*ensureQuoted*/( c/*key*/ ) {
-          var d/*trimmedKey*/ = n/*ko*/.utils.stringTrim( c/*key*/ );
+        function f( a ) {
+          var c = b.utils.stringTrim( a );
           
-          switch ( d/*trimmedKey*/.length && d/*trimmedKey*/.charAt( 0 ) ) {
+          switch ( c.length && c.charAt( 0 ) ) {
             case "'" :
             case '"' :
-              return c/*key*/;
+              return a;
             default :
-              return "'"+d/*trimmedKey*/+"'";
+              return "'"+c+"'";
               
           };
         }return  {
           bindingRewriteValidators : [],
-          parseObjectLiteral : function ( u/*objectLiteralString*/ ) {
-            var v/*str*/ = n/*ko*/.utils.stringTrim( u/*objectLiteralString*/ );
+          parseObjectLiteral : function ( f ) {
+            var g = b.utils.stringTrim( f );
             
-            if ( v/*str*/.length<3 ){
+            if ( g.length<3 ){
               return [];
             };
             
-            if ( v/*str*/.charAt( 0 ) === "{" ){
-              v/*str*/ = v/*str*/.substring( 1,v/*str*/.length-1 );
+            if ( g.charAt( 0 ) === "{" ){
+              g = g.substring( 1,g.length-1 );
             };
             
-            var w/*tokens*/ = [];
+            var h = [];
             
-            var x/*tokenStart*/ = null,
-                y/*tokenEndChar*/;
+            var i = null,
+                j;
             
-            for ( var z/*position*/ = 0;z/*position*/<v/*str*/.length;z/*position*/ ++  ){
-              var A/*c*/ = v/*str*/.charAt( z/*position*/ );
+            for ( var k = 0;k<g.length;k ++  ){
+              var l = g.charAt( k );
               
-              if ( x/*tokenStart*/ === null ){
-                switch ( A/*c*/ ) {
+              if ( i === null ){
+                switch ( l ) {
                   case '"' :
                   case "'" :
                   case "/" :
                     
-                    x/*tokenStart*/ = z/*position*/;
+                    i = k;
                     
-                    y/*tokenEndChar*/ = A/*c*/;
+                    j = l;
                     break;
                     
                 };
-              } else if ( ( A/*c*/ == y/*tokenEndChar*/ ) && ( v/*str*/.charAt( z/*position*/-1 ) !== "\\" ) ){
-                var B/*token*/ = v/*str*/.substring( x/*tokenStart*/,z/*position*/+1 );
+              } else if ( ( l == j ) && ( g.charAt( k-1 ) !== "\\" ) ){
+                var m = g.substring( i,k+1 );
                 
-                w/*tokens*/.push( B/*token*/ );
+                h.push( m );
                 
-                var C/*replacement*/ = "@ko_token_"+( w/*tokens*/.length-1 )+"@";
+                var n = "@ko_token_"+( h.length-1 )+"@";
                 
-                v/*str*/ = v/*str*/.substring( 0,x/*tokenStart*/ )+C/*replacement*/+v/*str*/.substring( z/*position*/+1 );
+                g = g.substring( 0,i )+n+g.substring( k+1 );
                 
-                z/*position*/ -= ( B/*token*/.length-C/*replacement*/.length );
+                k -= ( m.length-n.length );
                 
-                x/*tokenStart*/ = null;
+                i = null;
               };
             };
             
-            x/*tokenStart*/ = null;
+            i = null;
             
-            y/*tokenEndChar*/ = null;
+            j = null;
             
-            var D/*tokenDepth*/ = 0,
-                E/*tokenStartChar*/ = null;
+            var o = 0,
+                p = null;
             
-            for ( var z/*position*/ = 0;z/*position*/<v/*str*/.length;z/*position*/ ++  ){
-              var A/*c*/ = v/*str*/.charAt( z/*position*/ );
+            for ( var k = 0;k<g.length;k ++  ){
+              var l = g.charAt( k );
               
-              if ( x/*tokenStart*/ === null ){
-                switch ( A/*c*/ ) {
+              if ( i === null ){
+                switch ( l ) {
                   case "{" :
                     
-                    x/*tokenStart*/ = z/*position*/;
+                    i = k;
                     
-                    E/*tokenStartChar*/ = A/*c*/;
+                    p = l;
                     
-                    y/*tokenEndChar*/ = "}";
+                    j = "}";
                     break;
                   case "(" :
                     
-                    x/*tokenStart*/ = z/*position*/;
+                    i = k;
                     
-                    E/*tokenStartChar*/ = A/*c*/;
+                    p = l;
                     
-                    y/*tokenEndChar*/ = ")";
+                    j = ")";
                     break;
                   case "[" :
                     
-                    x/*tokenStart*/ = z/*position*/;
+                    i = k;
                     
-                    E/*tokenStartChar*/ = A/*c*/;
+                    p = l;
                     
-                    y/*tokenEndChar*/ = "]";
+                    j = "]";
                     break;
                     
                 };
               };
               
-              if ( A/*c*/ === E/*tokenStartChar*/ ){
-                D/*tokenDepth*/ ++ ;
-              } else if ( A/*c*/ === y/*tokenEndChar*/ ){
-                D/*tokenDepth*/ -- ;
-                if ( D/*tokenDepth*/ === 0 ){
-                  var B/*token*/ = v/*str*/.substring( x/*tokenStart*/,z/*position*/+1 );
+              if ( l === p ){
+                o ++ ;
+              } else if ( l === j ){
+                o -- ;
+                if ( o === 0 ){
+                  var m = g.substring( i,k+1 );
                   
-                  w/*tokens*/.push( B/*token*/ );
+                  h.push( m );
                   
-                  var C/*replacement*/ = "@ko_token_"+( w/*tokens*/.length-1 )+"@";
+                  var n = "@ko_token_"+( h.length-1 )+"@";
                   
-                  v/*str*/ = v/*str*/.substring( 0,x/*tokenStart*/ )+C/*replacement*/+v/*str*/.substring( z/*position*/+1 );
+                  g = g.substring( 0,i )+n+g.substring( k+1 );
                   
-                  z/*position*/ -= ( B/*token*/.length-C/*replacement*/.length );
+                  k -= ( m.length-n.length );
                   
-                  x/*tokenStart*/ = null;
+                  i = null;
                 };
               };
             };
             
-            var F/*result*/ = [];
+            var q = [];
             
-            var G/*keyValuePairs*/ = v/*str*/.split( "," );
+            var r = g.split( "," );
             
-            for ( var H/*i*/ = 0,I/*j*/ = G/*keyValuePairs*/.length;H/*i*/<I/*j*/;H/*i*/ ++  ){
-              var J/*pair*/ = G/*keyValuePairs*/[H/*i*/];
+            for ( var s = 0,t = r.length;s<t;s ++  ){
+              var u = r[s];
               
-              var K/*colonPos*/ = J/*pair*/.indexOf( ":" );
+              var v = u.indexOf( ":" );
               
-              if ( ( K/*colonPos*/>0 ) && ( K/*colonPos*/<J/*pair*/.length-1 ) ){
-                var L/*key*/ = J/*pair*/.substring( 0,K/*colonPos*/ );
+              if ( ( v>0 ) && ( v<u.length-1 ) ){
+                var w = u.substring( 0,v );
                 
-                var M/*value*/ = J/*pair*/.substring( K/*colonPos*/+1 );
+                var x = u.substring( v+1 );
                 
-                F/*result*/.push(  {
-                  'key' : r/*restoreTokens*/( L/*key*/,w/*tokens*/ ),
-                  'value' : r/*restoreTokens*/( M/*value*/,w/*tokens*/ )
+                q.push(  {
+                  'key' : e( w,h ),
+                  'value' : e( x,h )
                 });
               } else {
-                F/*result*/.push(  {
-                  'unknown' : r/*restoreTokens*/( J/*pair*/,w/*tokens*/ )
+                q.push(  {
+                  'unknown' : e( u,h )
                 });
               };
             };
-            return F/*result*/;
+            return q;
           },
-          insertPropertyAccessorsIntoJson : function ( B/*objectLiteralStringOrKeyValueArray*/ ) {
-            var C/*keyValueArray*/ = typeof B/*objectLiteralStringOrKeyValueArray*/ === "string"?n/*ko*/.jsonExpressionRewriting.parseObjectLiteral( B/*objectLiteralStringOrKeyValueArray*/ ) : B/*objectLiteralStringOrKeyValueArray*/;
+          insertPropertyAccessorsIntoJson : function ( h ) {
+            var i = typeof h === "string"?b.jsonExpressionRewriting.parseObjectLiteral( h ) : h;
             
-            var D/*resultStrings*/ = [],
-                E/*propertyAccessorResultStrings*/ = [];
+            var j = [],
+                k = [];
             
-            var F/*keyValueEntry*/;
+            var l;
             
-            for ( var G/*i*/ = 0;F/*keyValueEntry*/ = C/*keyValueArray*/[G/*i*/];G/*i*/ ++  ){
-              if ( D/*resultStrings*/.length>0 ){
-                D/*resultStrings*/.push( "," );
+            for ( var m = 0;l = i[m];m ++  ){
+              if ( j.length>0 ){
+                j.push( "," );
               };
               
-              if ( F/*keyValueEntry*/['key'] ){
-                var H/*quotedKey*/ = u/*ensureQuoted*/( F/*keyValueEntry*/['key'] ),
-                    I/*val*/ = F/*keyValueEntry*/['value'];
+              if ( l['key'] ){
+                var n = f( l['key'] ),
+                    o = l['value'];
                 
-                D/*resultStrings*/.push( H/*quotedKey*/ );
+                j.push( n );
                 
-                D/*resultStrings*/.push( ":" );
+                j.push( ":" );
                 
-                D/*resultStrings*/.push( I/*val*/ );
+                j.push( o );
                 
-                if ( x/*isWriteableValue*/( n/*ko*/.utils.stringTrim( I/*val*/ ) ) ){
-                  if ( E/*propertyAccessorResultStrings*/.length>0 ){
-                    E/*propertyAccessorResultStrings*/.push( ", " );
+                if ( g( b.utils.stringTrim( o ) ) ){
+                  if ( k.length>0 ){
+                    k.push( ", " );
                   };
                   
-                  E/*propertyAccessorResultStrings*/.push( H/*quotedKey*/+" : function(__ko_value) { "+I/*val*/+" = __ko_value; }" );
+                  k.push( n+" : function(__ko_value) { "+o+" = __ko_value; }" );
                 };
-              } else if ( F/*keyValueEntry*/['unknown'] ){
-                D/*resultStrings*/.push( F/*keyValueEntry*/['unknown'] );
+              } else if ( l['unknown'] ){
+                j.push( l['unknown'] );
               };
             };
             
-            var J/*combinedResult*/ = D/*resultStrings*/.join( "" );
+            var p = j.join( "" );
             
-            if ( E/*propertyAccessorResultStrings*/.length>0 ){
-              var K/*allPropertyAccessors*/ = E/*propertyAccessorResultStrings*/.join( "" );
+            if ( k.length>0 ){
+              var q = k.join( "" );
               
-              J/*combinedResult*/ = J/*combinedResult*/+", '_ko_property_writers' : { "+K/*allPropertyAccessors*/+" } ";
+              p = p+", '_ko_property_writers' : { "+q+" } ";
             };
-            return J/*combinedResult*/;
+            return p;
           },
-          keyValueArrayContainsKey : function ( d/*keyValueArray*/,e/*key*/ ) {
-            for ( var f/*i*/ = 0;f/*i*/<d/*keyValueArray*/.length;f/*i*/ ++  ){
-              if ( n/*ko*/.utils.stringTrim( d/*keyValueArray*/[f/*i*/]['key'] ) == e/*key*/ ){
-                return true;
-              };
+          keyValueArrayContainsKey : function ( a,c ) {
+            for ( var d = 0;d<a.length;d ++  )
+            if ( b.utils.stringTrim( a[d]['key'] ) == c ){
+              return true;
             };
             return false;
           }
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting',n/*ko*/.jsonExpressionRewriting );
+      b.exportSymbol( 'ko.jsonExpressionRewriting',b.jsonExpressionRewriting );
       
-      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.bindingRewriteValidators',n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators );
+      b.exportSymbol( 'ko.jsonExpressionRewriting.bindingRewriteValidators',b.jsonExpressionRewriting.bindingRewriteValidators );
       
-      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.parseObjectLiteral',n/*ko*/.jsonExpressionRewriting.parseObjectLiteral );
+      b.exportSymbol( 'ko.jsonExpressionRewriting.parseObjectLiteral',b.jsonExpressionRewriting.parseObjectLiteral );
       
-      n/*ko*/.exportSymbol( 'ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson',n/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson );
+      b.exportSymbol( 'ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson',b.jsonExpressionRewriting.insertPropertyAccessorsIntoJson );
       
-      ( function () {
-        var k/*commentNodesHaveTextProperty*/ = document.createComment( "test" ).text === "<!--test-->";
+      !function () {
+        var a = document.createComment( "test" ).text === "<!--test-->";
         
-        var l/*startCommentRegex*/ = k/*commentNodesHaveTextProperty*/?/^<!--\s*ko\s+(.*\:.*)\s*-->$/ : /^\s*ko\s+(.*\:.*)\s*$/;
+        var c = a?/^<!--\s*ko\s+(.*\:.*)\s*-->$/ : /^\s*ko\s+(.*\:.*)\s*$/;
         
-        var m/*endCommentRegex*/ = k/*commentNodesHaveTextProperty*/?/^<!--\s*\/ko\s*-->$/ : /^\s*\/ko\s*$/;
+        var d = a?/^<!--\s*\/ko\s*-->$/ : /^\s*\/ko\s*$/;
         
-        var C/*htmlTagsWithOptionallyClosingChildren*/ =  {
+        var j =  {
               'ul' : true,
               'ol' : true
             };
         
-        function r/*isStartComment*/( m/*node*/ ) {
-          return ( m/*node*/.nodeType == 8 ) && ( k/*commentNodesHaveTextProperty*/?m/*node*/.text : m/*node*/.nodeValue ).match( l/*startCommentRegex*/ );
+        function f( d ) {
+          return ( d.nodeType == 8 ) && ( a?d.text : d.nodeValue ).match( c );
         }
-        function o/*isEndComment*/( n/*node*/ ) {
-          return ( n/*node*/.nodeType == 8 ) && ( k/*commentNodesHaveTextProperty*/?n/*node*/.text : n/*node*/.nodeValue ).match( m/*endCommentRegex*/ );
+        function e( e ) {
+          return ( e.nodeType == 8 ) && ( a?e.text : e.nodeValue ).match( d );
         }
-        function t/*getVirtualChildren*/( t/*startComment*/,u/*allowUnbalanced*/ ) {
-          var v/*currentNode*/ = t/*startComment*/;
+        function g( g,h ) {
+          var i = g;
           
-          var w/*depth*/ = 1;
+          var j = 1;
           
-          var x/*children*/ = [];
+          var k = [];
           
-          while ( v/*currentNode*/ = v/*currentNode*/.nextSibling ){
-            if ( o/*isEndComment*/( v/*currentNode*/ ) ){
-              w/*depth*/ -- ;
+          while ( i = i.nextSibling ){
+            if ( e( i ) ){
+              j -- ;
               
-              if ( w/*depth*/ === 0 ){
-                return x/*children*/;
+              if ( j === 0 ){
+                return k;
               };
             };
             
-            x/*children*/.push( v/*currentNode*/ );
+            k.push( i );
             
-            if ( r/*isStartComment*/( v/*currentNode*/ ) ){
-              w/*depth*/ ++ ;
+            if ( f( i ) ){
+              j ++ ;
             };
           };
           
-          if ( !u/*allowUnbalanced*/ ){
-            throw new Error( "Cannot find closing comment tag to match: "+t/*startComment*/.nodeValue );
+          if ( !h ){
+            throw new Error( "Cannot find closing comment tag to match: "+g.nodeValue );
           };
           return null;
         }
-        function x/*getMatchingEndComment*/( x/*startComment*/,y/*allowUnbalanced*/ ) {
-          var z/*allVirtualChildren*/ = t/*getVirtualChildren*/( x/*startComment*/,y/*allowUnbalanced*/ );
+        function h( h,i ) {
+          var j = g( h,i );
           
-          if ( z/*allVirtualChildren*/ ){
-            if ( z/*allVirtualChildren*/.length>0 ){
-              return z/*allVirtualChildren*/[z/*allVirtualChildren*/.length-1].nextSibling;
+          if ( j ){
+            if ( j.length>0 ){
+              return j[j.length-1].nextSibling;
             };
-            return x/*startComment*/.nextSibling;
+            return h.nextSibling;
           } else {
             return null;
           };
         }
-        function z/*nodeArrayToText*/( f/*nodeArray*/,g/*cleanNodes*/ ) {
-          var h/*texts*/ = [];
+        function i( a,c ) {
+          var d = [];
           
-          for ( var i/*i*/ = 0,j/*j*/ = f/*nodeArray*/.length;i/*i*/<j/*j*/;i/*i*/ ++  ){
-            if ( g/*cleanNodes*/ ){
-              n/*ko*/.utils.domNodeDisposal.cleanNode( f/*nodeArray*/[i/*i*/] );
+          for ( var e = 0,f = a.length;e<f;e ++  ){
+            if ( c ){
+              b.utils.domNodeDisposal.cleanNode( a[e] );
             };
             
-            h/*texts*/.push( n/*ko*/.utils.outerHTML( f/*nodeArray*/[i/*i*/] ) );
+            d.push( b.utils.outerHTML( a[e] ) );
           };
-          return String.prototype.concat.apply( "",h/*texts*/ );
+          return String.prototype.concat.apply( "",d );
         }
-        function F/*getUnbalancedChildTags*/( z/*node*/ ) {
-          var A/*childNode*/ = z/*node*/.firstChild,
-              B/*captureRemaining*/ = null;
+        function k( i ) {
+          var j = i.firstChild,
+              k = null;
           
-          if ( A/*childNode*/ ){
-            do {
-              if ( B/*captureRemaining*/ ){
-                B/*captureRemaining*/.push( A/*childNode*/ );
-              } else if ( r/*isStartComment*/( A/*childNode*/ ) ){
-                var C/*matchingEndComment*/ = x/*getMatchingEndComment*/( A/*childNode*/,true );
-                if ( C/*matchingEndComment*/ ){
-                  A/*childNode*/ = C/*matchingEndComment*/;
-                } else {
-                  B/*captureRemaining*/ = [A/*childNode*/];
-                };
-              } else if ( o/*isEndComment*/( A/*childNode*/ ) ){
-                B/*captureRemaining*/ = [A/*childNode*/];
+          if ( j ){
+            do if ( k ){
+              k.push( j );
+            } else if ( f( j ) ){
+              var l = h( j,true );
+              if ( l ){
+                j = l;
+              } else {
+                k = [j];
               };
-            }while ( A/*childNode*/ = A/*childNode*/.nextSibling );
+            } else if ( e( j ) ){
+              k = [j];
+            };
+            while ( j = j.nextSibling );
           };
-          return B/*captureRemaining*/;
+          return k;
         }
-        n/*ko*/.virtualElements =  {
+        b.virtualElements =  {
           allowedBindings : {},
-          childNodes : function ( b/*node*/ ) {
-            return r/*isStartComment*/( b/*node*/ )?t/*getVirtualChildren*/( b/*node*/ ) : b/*node*/.childNodes;
+          childNodes : function ( a ) {
+            return f( a )?g( a ) : a.childNodes;
           },
-          emptyNode : function ( e/*node*/ ) {
-            if ( !r/*isStartComment*/( e/*node*/ ) ){
-              n/*ko*/.utils.emptyDomNode( e/*node*/ );
+          emptyNode : function ( a ) {
+            if ( !f( a ) ){
+              b.utils.emptyDomNode( a );
             } else {
-              var f/*virtualChildren*/ = n/*ko*/.virtualElements.childNodes( e/*node*/ );
+              var c = b.virtualElements.childNodes( a );
               
-              for ( var g/*i*/ = 0,h/*j*/ = f/*virtualChildren*/.length;g/*i*/<h/*j*/;g/*i*/ ++  ){
-                n/*ko*/.removeNode( f/*virtualChildren*/[g/*i*/] );
-              };
+              for ( var d = 0,e = c.length;d<e;d ++  )
+              b.removeNode( c[d] );
             };
           },
-          setDomNodeChildren : function ( f/*node*/,g/*childNodes*/ ) {
-            if ( !r/*isStartComment*/( f/*node*/ ) ){
-              n/*ko*/.utils.setDomNodeChildren( f/*node*/,g/*childNodes*/ );
+          setDomNodeChildren : function ( a,c ) {
+            if ( !f( a ) ){
+              b.utils.setDomNodeChildren( a,c );
             } else {
-              n/*ko*/.virtualElements.emptyNode( f/*node*/ );
+              b.virtualElements.emptyNode( a );
               
-              var h/*endCommentNode*/ = f/*node*/.nextSibling;
+              var d = a.nextSibling;
               
-              for ( var i/*i*/ = 0,j/*j*/ = g/*childNodes*/.length;i/*i*/<j/*j*/;i/*i*/ ++  ){
-                h/*endCommentNode*/.parentNode.insertBefore( g/*childNodes*/[i/*i*/],h/*endCommentNode*/ );
-              };
+              for ( var e = 0,g = c.length;e<g;e ++  )
+              d.parentNode.insertBefore( c[e],d );
             };
           },
-          prepend : function ( c/*containerNode*/,d/*nodeToPrepend*/ ) {
-            if ( !r/*isStartComment*/( c/*containerNode*/ ) ){
-              if ( c/*containerNode*/.firstChild ){
-                c/*containerNode*/.insertBefore( d/*nodeToPrepend*/,c/*containerNode*/.firstChild );
+          prepend : function ( a,b ) {
+            if ( !f( a ) ){
+              if ( a.firstChild ){
+                a.insertBefore( b,a.firstChild );
               } else {
-                c/*containerNode*/.appendChild( d/*nodeToPrepend*/ );
+                a.appendChild( b );
               };
             } else {
-              c/*containerNode*/.parentNode.insertBefore( d/*nodeToPrepend*/,c/*containerNode*/.nextSibling );
+              a.parentNode.insertBefore( b,a.nextSibling );
             };
           },
-          insertAfter : function ( d/*containerNode*/,e/*nodeToInsert*/,f/*insertAfterNode*/ ) {
-            if ( !r/*isStartComment*/( d/*containerNode*/ ) ){
-              if ( f/*insertAfterNode*/.nextSibling ){
-                d/*containerNode*/.insertBefore( e/*nodeToInsert*/,f/*insertAfterNode*/.nextSibling );
+          insertAfter : function ( a,b,c ) {
+            if ( !f( a ) ){
+              if ( c.nextSibling ){
+                a.insertBefore( b,c.nextSibling );
               } else {
-                d/*containerNode*/.appendChild( e/*nodeToInsert*/ );
+                a.appendChild( b );
               };
             } else {
-              d/*containerNode*/.parentNode.insertBefore( e/*nodeToInsert*/,f/*insertAfterNode*/.nextSibling );
+              a.parentNode.insertBefore( b,c.nextSibling );
             };
           },
-          nextSibling : function ( b/*node*/ ) {
-            if ( !r/*isStartComment*/( b/*node*/ ) ){
-              if ( b/*node*/.nextSibling && o/*isEndComment*/( b/*node*/.nextSibling ) ){
+          nextSibling : function ( a ) {
+            if ( !f( a ) ){
+              if ( a.nextSibling && e( a.nextSibling ) ){
                 return undefined;
               };
-              return b/*node*/.nextSibling;
+              return a.nextSibling;
             } else {
-              return x/*getMatchingEndComment*/( b/*node*/ ).nextSibling;
+              return h( a ).nextSibling;
             };
           },
-          virtualNodeBindingValue : function ( c/*node*/ ) {
-            var d/*regexMatch*/ = r/*isStartComment*/( c/*node*/ );
-            return d/*regexMatch*/?d/*regexMatch*/[1] : null;
+          virtualNodeBindingValue : function ( a ) {
+            var b = f( a );
+            return b?b[1] : null;
           },
-          extractAnonymousTemplateIfVirtualElement : function ( C/*node*/ ) {
-            if ( n/*ko*/.virtualElements.virtualNodeBindingValue( C/*node*/ ) ){
-              var D/*virtualChildren*/ = n/*ko*/.virtualElements.childNodes( C/*node*/ );
+          extractAnonymousTemplateIfVirtualElement : function ( j ) {
+            if ( b.virtualElements.virtualNodeBindingValue( j ) ){
+              var k = b.virtualElements.childNodes( j );
               
-              var E/*anonymousTemplateText*/ = z/*nodeArrayToText*/( D/*virtualChildren*/,true );
+              var l = i( k,true );
               
-              n/*ko*/.virtualElements.emptyNode( C/*node*/ );
+              b.virtualElements.emptyNode( j );
               
-              new n/*ko*/.templateSources.anonymousTemplate( C/*node*/ ).text( E/*anonymousTemplateText*/ );
+              new b.templateSources.anonymousTemplate( j ).text( l );
             };
           },
-          normaliseVirtualElementDomStructure : function ( J/*elementVerified*/ ) {
-            if ( !C/*htmlTagsWithOptionallyClosingChildren*/[J/*elementVerified*/.tagName.toLowerCase()] ){
+          normaliseVirtualElementDomStructure : function ( l ) {
+            if ( !j[l.tagName.toLowerCase()] ){
               return ;
             };
             
-            var K/*childNode*/ = J/*elementVerified*/.firstChild;
+            var m = l.firstChild;
             
-            if ( K/*childNode*/ ){
-              do {
-                if ( K/*childNode*/.nodeType === 1 ){
-                  var L/*unbalancedTags*/ = F/*getUnbalancedChildTags*/( K/*childNode*/ );
+            if ( m ){
+              do if ( m.nodeType === 1 ){
+                var n = k( m );
+                
+                if ( n ){
+                  var o = m.nextSibling;
                   
-                  if ( L/*unbalancedTags*/ ){
-                    var M/*nodeToInsertBefore*/ = K/*childNode*/.nextSibling;
-                    
-                    for ( var N/*i*/ = 0;N/*i*/<L/*unbalancedTags*/.length;N/*i*/ ++  ){
-                      if ( M/*nodeToInsertBefore*/ ){
-                        J/*elementVerified*/.insertBefore( L/*unbalancedTags*/[N/*i*/],M/*nodeToInsertBefore*/ );
-                      } else {
-                        J/*elementVerified*/.appendChild( L/*unbalancedTags*/[N/*i*/] );
-                      };
-                    };
+                  for ( var p = 0;p<n.length;p ++  )
+                  if ( o ){
+                    l.insertBefore( n[p],o );
+                  } else {
+                    l.appendChild( n[p] );
                   };
                 };
-              }while ( K/*childNode*/ = K/*childNode*/.nextSibling );
+              };
+              while ( m = m.nextSibling );
             };
           }
         };
-      })();
+      }();
       
-      ( function () {
-        var b/*defaultBindingAttributeName*/ = "data-bind";
+      !function () {
+        var c = "data-bind";
         
-        n/*ko*/.bindingProvider = function (){};
+        b.bindingProvider = function (){};
         
-        n/*ko*/.utils.extend( n/*ko*/.bindingProvider.prototype, {
-          'nodeHasBindings' : function ( c/*node*/ ) {
-            switch ( c/*node*/.nodeType ) {
+        b.utils.extend( b.bindingProvider.prototype, {
+          'nodeHasBindings' : function ( d ) {
+            switch ( d.nodeType ) {
               case 1 :
-                return c/*node*/.getAttribute( b/*defaultBindingAttributeName*/ ) != null;
+                return d.getAttribute( c ) != null;
               case 8 :
-                return n/*ko*/.virtualElements.virtualNodeBindingValue( c/*node*/ ) != null;
+                return b.virtualElements.virtualNodeBindingValue( d ) != null;
               default :
                 return false;
                 
             };
           },
-          'getBindings' : function ( d/*node*/,e/*bindingContext*/ ) {
-            var f/*bindingsString*/ = this['getBindingsString']( d/*node*/,e/*bindingContext*/ );
-            return f/*bindingsString*/?this['parseBindingsString']( f/*bindingsString*/,e/*bindingContext*/ ) : null;
+          'getBindings' : function ( a,b ) {
+            var c = this['getBindingsString']( a,b );
+            return c?this['parseBindingsString']( c,b ) : null;
           },
-          'getBindingsString' : function ( c/*node*/,d/*bindingContext*/ ) {
-            switch ( c/*node*/.nodeType ) {
+          'getBindingsString' : function ( a,d ) {
+            switch ( a.nodeType ) {
               case 1 :
-                return c/*node*/.getAttribute( b/*defaultBindingAttributeName*/ );
+                return a.getAttribute( c );
               case 8 :
-                return n/*ko*/.virtualElements.virtualNodeBindingValue( c/*node*/ );
+                return b.virtualElements.virtualNodeBindingValue( a );
               default :
                 return null;
                 
             };
           },
-          'parseBindingsString' : function ( e/*bindingsString*/,f/*bindingContext*/ ) {
+          'parseBindingsString' : function ( c,d ) {
             try {
-              var g/*viewModel*/ = f/*bindingContext*/['$data'];
+              var e = d['$data'];
               
-              var h/*rewrittenBindings*/ = " { "+n/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( e/*bindingsString*/ )+" } ";
-              return n/*ko*/.utils.evalWithinScope( h/*rewrittenBindings*/,g/*viewModel*/ === null?i/*window*/ : g/*viewModel*/,f/*bindingContext*/ );
+              var f = " { "+b.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( c )+" } ";
+              return b.utils.evalWithinScope( f,e === null?a : e,d );
             } catch( ex ){
-              throw new Error( "Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+e/*bindingsString*/ );
+              throw new Error( "Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+c );
             };
           }
         });
         
-        n/*ko*/.bindingProvider['instance'] = new n/*ko*/.bindingProvider();
-      })();
+        b.bindingProvider['instance'] = new b.bindingProvider();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.bindingProvider',n/*ko*/.bindingProvider );
+      b.exportSymbol( 'ko.bindingProvider',b.bindingProvider );
       
-      ( function () {
-        n/*ko*/.bindingHandlers = {};
+      !function () {
+        b.bindingHandlers = {};
         
-        n/*ko*/.bindingContext = function ( c/*dataItem*/,d/*parentBindingContext*/ ) {
-          this['$data'] = c/*dataItem*/;
+        b.bindingContext = function ( a,b ) {
+          this['$data'] = a;
           
-          if ( d/*parentBindingContext*/ ){
-            this['$parent'] = d/*parentBindingContext*/['$data'];
+          if ( b ){
+            this['$parent'] = b['$data'];
             
-            this['$parents'] = ( d/*parentBindingContext*/['$parents'] || [] ).slice( 0 );
+            this['$parents'] = ( b['$parents'] || [] ).slice( 0 );
             
             this['$parents'].unshift( this['$parent'] );
             
-            this['$root'] = d/*parentBindingContext*/['$root'];
+            this['$root'] = b['$root'];
           } else {
             this['$parents'] = [];
             
-            this['$root'] = c/*dataItem*/;
+            this['$root'] = a;
           };
         };
         
-        n/*ko*/.bindingContext.prototype['createChildContext'] = function ( b/*dataItem*/ ) {
-          return new n/*ko*/.bindingContext( b/*dataItem*/,this );
+        b.bindingContext.prototype['createChildContext'] = function ( a ) {
+          return new b.bindingContext( a,this );
         };
         
-        function k/*validateThatBindingIsAllowedForVirtualElements*/( c/*bindingName*/ ) {
-          var d/*validator*/ = n/*ko*/.virtualElements.allowedBindings[c/*bindingName*/];
+        function f( a ) {
+          var c = b.virtualElements.allowedBindings[a];
           
-          if ( !d/*validator*/ ){
-            throw new Error( "The binding '"+c/*bindingName*/+"' cannot be used with virtual elements" );
+          if ( !c ){
+            throw new Error( "The binding '"+a+"' cannot be used with virtual elements" );
           };
         }
-        function j/*applyBindingsToDescendantsInternal*/( h/*viewModel*/,i/*elementVerified*/ ) {
-          var j/*currentChild*/,
-              k/*nextInQueue*/ = i/*elementVerified*/.childNodes[0];
+        function e( d,e ) {
+          var f,
+              g = e.childNodes[0];
           
-          while ( j/*currentChild*/ = k/*nextInQueue*/ ){
-            k/*nextInQueue*/ = n/*ko*/.virtualElements.nextSibling( j/*currentChild*/ );
+          while ( f = g ){
+            g = b.virtualElements.nextSibling( f );
             
-            f/*applyBindingsToNodeAndDescendantsInternal*/( h/*viewModel*/,j/*currentChild*/,false );
+            c( d,f,false );
           };
         }
-        function f/*applyBindingsToNodeAndDescendantsInternal*/( k/*viewModel*/,l/*nodeVerified*/,m/*isRootNodeForBindingContext*/ ) {
-          var o/*shouldBindDescendants*/ = true;
+        function c( f,g,h ) {
+          var i = true;
           
-          var p/*isElement*/ = ( l/*nodeVerified*/.nodeType == 1 );
+          var j = ( g.nodeType == 1 );
           
-          if ( p/*isElement*/ ){
-            n/*ko*/.virtualElements.normaliseVirtualElementDomStructure( l/*nodeVerified*/ );
+          if ( j ){
+            b.virtualElements.normaliseVirtualElementDomStructure( g );
           };
           
-          var q/*shouldApplyBindings*/ = ( p/*isElement*/ && m/*isRootNodeForBindingContext*/ ) || n/*ko*/.bindingProvider['instance']['nodeHasBindings']( l/*nodeVerified*/ );
+          var k = ( j && h ) || b.bindingProvider['instance']['nodeHasBindings']( g );
           
-          if ( q/*shouldApplyBindings*/ ){
-            o/*shouldBindDescendants*/ = h/*applyBindingsToNodeInternal*/( l/*nodeVerified*/,null,k/*viewModel*/,m/*isRootNodeForBindingContext*/ ).shouldBindDescendants;
+          if ( k ){
+            i = d( g,null,f,h ).shouldBindDescendants;
           };
           
-          if ( p/*isElement*/ && o/*shouldBindDescendants*/ ){
-            j/*applyBindingsToDescendantsInternal*/( k/*viewModel*/,l/*nodeVerified*/ );
+          if ( j && i ){
+            e( f,g );
           };
         }
-        function h/*applyBindingsToNodeInternal*/( p/*node*/,q/*bindings*/,j/*viewModelOrBindingContext*/,o/*isRootNodeForBindingContext*/ ) {
-          var s/*initPhase*/ = 0;
+        function d( e,g,c,d ) {
+          var h = 0;
           
-          n/*ko*/.virtualElements.extractAnonymousTemplateIfVirtualElement( p/*node*/ );
+          b.virtualElements.extractAnonymousTemplateIfVirtualElement( e );
           
-          var h/*parsedBindings*/;
+          var a;
           
-          function w/*makeValueAccessor*/( a/*bindingKey*/ ) {
+          function i( b ) {
             return function () {
-              return h/*parsedBindings*/[a/*bindingKey*/];
+              return a[b];
             };
           }
-          function x/*parsedBindingsAccessor*/() {
-            return h/*parsedBindings*/;
+          function j() {
+            return a;
           }
-          var A/*bindingHandlerThatControlsDescendantBindings*/;
+          var k;
           
-          new n/*ko*/.dependentObservable( function () {
-            var C/*bindingContextInstance*/ = j/*viewModelOrBindingContext*/ && ( j/*viewModelOrBindingContext*/ instanceof n/*ko*/.bindingContext )?j/*viewModelOrBindingContext*/ : new n/*ko*/.bindingContext( n/*ko*/.utils.unwrapObservable( j/*viewModelOrBindingContext*/ ) );
+          new b.dependentObservable( function () {
+            var l = c && ( c instanceof b.bindingContext )?c : new b.bindingContext( b.utils.unwrapObservable( c ) );
             
-            var D/*viewModel*/ = C/*bindingContextInstance*/['$data'];
+            var m = l['$data'];
             
-            if ( o/*isRootNodeForBindingContext*/ ){
-              n/*ko*/.storedBindingContextForNode( p/*node*/,C/*bindingContextInstance*/ );
+            if ( d ){
+              b.storedBindingContextForNode( e,l );
             };
             
-            var E/*evaluatedBindings*/ = ( typeof q/*bindings*/ == "function" )?q/*bindings*/() : q/*bindings*/;
+            var n = ( typeof g == "function" )?g() : g;
             
-            h/*parsedBindings*/ = E/*evaluatedBindings*/ || n/*ko*/.bindingProvider['instance']['getBindings']( p/*node*/,C/*bindingContextInstance*/ );
+            a = n || b.bindingProvider['instance']['getBindings']( e,l );
             
-            if ( h/*parsedBindings*/ ){
-              if ( s/*initPhase*/ === 0 ){
-                s/*initPhase*/ = 1;
+            if ( a ){
+              if ( h === 0 ){
+                h = 1;
                 
-                for ( var F/*bindingKey*/ in h/*parsedBindings*/ ){
-                  var G/*binding*/ = n/*ko*/.bindingHandlers[F/*bindingKey*/];
+                for ( var o in a ){
+                  var p = b.bindingHandlers[o];
                   
-                  if ( G/*binding*/ && p/*node*/.nodeType === 8 ){
-                    k/*validateThatBindingIsAllowedForVirtualElements*/( F/*bindingKey*/ );
+                  if ( p && e.nodeType === 8 ){
+                    f( o );
                   };
                   
-                  if ( G/*binding*/ && typeof G/*binding*/["init"] == "function" ){
-                    var H/*handlerInitFn*/ = G/*binding*/["init"];
+                  if ( p && typeof p["init"] == "function" ){
+                    var q = p["init"];
                     
-                    var I/*initResult*/ = H/*handlerInitFn*/( p/*node*/,w/*makeValueAccessor*/( F/*bindingKey*/ ),x/*parsedBindingsAccessor*/,D/*viewModel*/,C/*bindingContextInstance*/ );
+                    var r = q( e,i( o ),j,m,l );
                     
-                    if ( I/*initResult*/ && I/*initResult*/['controlsDescendantBindings'] ){
-                      if ( A/*bindingHandlerThatControlsDescendantBindings*/ !== undefined ){
-                        throw new Error( "Multiple bindings ("+A/*bindingHandlerThatControlsDescendantBindings*/+" and "+F/*bindingKey*/+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element." );
+                    if ( r && r['controlsDescendantBindings'] ){
+                      if ( k !== undefined ){
+                        throw new Error( "Multiple bindings ("+k+" and "+o+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element." );
                       };
                       
-                      A/*bindingHandlerThatControlsDescendantBindings*/ = F/*bindingKey*/;
+                      k = o;
                     };
                   };
                 };
                 
-                s/*initPhase*/ = 2;
+                h = 2;
               };
               
-              if ( s/*initPhase*/ === 2 ){
-                for ( var F/*bindingKey*/ in h/*parsedBindings*/ ){
-                  var G/*binding*/ = n/*ko*/.bindingHandlers[F/*bindingKey*/];
+              if ( h === 2 ){
+                for ( var o in a ){
+                  var p = b.bindingHandlers[o];
                   
-                  if ( G/*binding*/ && typeof G/*binding*/["update"] == "function" ){
-                    var J/*handlerUpdateFn*/ = G/*binding*/["update"];
+                  if ( p && typeof p["update"] == "function" ){
+                    var s = p["update"];
                     
-                    J/*handlerUpdateFn*/( p/*node*/,w/*makeValueAccessor*/( F/*bindingKey*/ ),x/*parsedBindingsAccessor*/,D/*viewModel*/,C/*bindingContextInstance*/ );
+                    s( e,i( o ),j,m,l );
                   };
                 };
               };
             };
           },null, {
-            'disposeWhenNodeIsRemoved' : p/*node*/
+            'disposeWhenNodeIsRemoved' : e
           });
           return  {
-            shouldBindDescendants : A/*bindingHandlerThatControlsDescendantBindings*/ === undefined
+            shouldBindDescendants : k === undefined
           };
         }
-        var o/*storedBindingContextDomDataKey*/ = "__ko_bindingContext__";
+        var g = "__ko_bindingContext__";
         
-        n/*ko*/.storedBindingContextForNode = function ( q/*node*/,r/*bindingContext*/ ) {
+        b.storedBindingContextForNode = function ( h,i ) {
           if ( arguments.length == 2 ){
-            n/*ko*/.utils.domData.set( q/*node*/,o/*storedBindingContextDomDataKey*/,r/*bindingContext*/ );
+            b.utils.domData.set( h,g,i );
           } else {
-            return n/*ko*/.utils.domData.get( q/*node*/,o/*storedBindingContextDomDataKey*/ );
+            return b.utils.domData.get( h,g );
           };
         };
         
-        n/*ko*/.applyBindingsToNode = function ( d/*node*/,e/*bindings*/,f/*viewModel*/ ) {
-          if ( d/*node*/.nodeType === 1 ){
-            n/*ko*/.virtualElements.normaliseVirtualElementDomStructure( d/*node*/ );
+        b.applyBindingsToNode = function ( a,c,e ) {
+          if ( a.nodeType === 1 ){
+            b.virtualElements.normaliseVirtualElementDomStructure( a );
           };
-          return h/*applyBindingsToNodeInternal*/( d/*node*/,e/*bindings*/,f/*viewModel*/,true );
+          return d( a,c,e,true );
         };
         
-        n/*ko*/.applyBindingsToDescendants = function ( c/*viewModel*/,d/*rootNode*/ ) {
-          if ( d/*rootNode*/.nodeType === 1 ){
-            j/*applyBindingsToDescendantsInternal*/( c/*viewModel*/,d/*rootNode*/ );
+        b.applyBindingsToDescendants = function ( a,b ) {
+          if ( b.nodeType === 1 ){
+            e( a,b );
           };
         };
         
-        n/*ko*/.applyBindings = function ( c/*viewModel*/,d/*rootNode*/ ) {
-          if ( d/*rootNode*/ && ( d/*rootNode*/.nodeType !== 1 ) && ( d/*rootNode*/.nodeType !== 8 ) ){
+        b.applyBindings = function ( b,d ) {
+          if ( d && ( d.nodeType !== 1 ) && ( d.nodeType !== 8 ) ){
             throw new Error( "ko.applyBindings: first parameter should be your view model; second parameter should be a DOM node" );
           };
           
-          d/*rootNode*/ = d/*rootNode*/ || i/*window*/.document.body;
+          d = d || a.document.body;
           
-          f/*applyBindingsToNodeAndDescendantsInternal*/( c/*viewModel*/,d/*rootNode*/,true );
+          c( b,d,true );
         };
         
-        n/*ko*/.contextFor = function ( c/*node*/ ) {
-          switch ( c/*node*/.nodeType ) {
+        b.contextFor = function ( a ) {
+          switch ( a.nodeType ) {
             case 1 :
             case 8 :
               
-              var d/*context*/ = n/*ko*/.storedBindingContextForNode( c/*node*/ );
+              var c = b.storedBindingContextForNode( a );
               
-              if ( d/*context*/ ){
-                return d/*context*/;
+              if ( c ){
+                return c;
               };
               
-              if ( c/*node*/.parentNode ){
-                return n/*ko*/.contextFor( c/*node*/.parentNode );
+              if ( a.parentNode ){
+                return b.contextFor( a.parentNode );
               };
               break;
               
@@ -3020,114 +2980,113 @@
           return undefined;
         };
         
-        n/*ko*/.dataFor = function ( c/*node*/ ) {
-          var d/*context*/ = n/*ko*/.contextFor( c/*node*/ );
-          return d/*context*/?d/*context*/['$data'] : undefined;
+        b.dataFor = function ( a ) {
+          var c = b.contextFor( a );
+          return c?c['$data'] : undefined;
         };
         
-        n/*ko*/.exportSymbol( 'ko.bindingHandlers',n/*ko*/.bindingHandlers );
+        b.exportSymbol( 'ko.bindingHandlers',b.bindingHandlers );
         
-        n/*ko*/.exportSymbol( 'ko.applyBindings',n/*ko*/.applyBindings );
+        b.exportSymbol( 'ko.applyBindings',b.applyBindings );
         
-        n/*ko*/.exportSymbol( 'ko.applyBindingsToDescendants',n/*ko*/.applyBindingsToDescendants );
+        b.exportSymbol( 'ko.applyBindingsToDescendants',b.applyBindingsToDescendants );
         
-        n/*ko*/.exportSymbol( 'ko.applyBindingsToNode',n/*ko*/.applyBindingsToNode );
+        b.exportSymbol( 'ko.applyBindingsToNode',b.applyBindingsToNode );
         
-        n/*ko*/.exportSymbol( 'ko.contextFor',n/*ko*/.contextFor );
+        b.exportSymbol( 'ko.contextFor',b.contextFor );
         
-        n/*ko*/.exportSymbol( 'ko.dataFor',n/*ko*/.dataFor );
-      })();
+        b.exportSymbol( 'ko.dataFor',b.dataFor );
+      }();
       
-      var R/*eventHandlersWithShortcuts*/ = ['click'];
+      var i = ['click'];
       
-      n/*ko*/.utils.arrayForEach( R/*eventHandlersWithShortcuts*/,
-      function ( e/*eventName*/ ) {
-        n/*ko*/.bindingHandlers[e/*eventName*/] =  {
-          'init' : function ( h/*element*/,g/*valueAccessor*/,i/*allBindingsAccessor*/,j/*viewModel*/ ) {
-            var k/*newValueAccessor*/ = function () {
-                  var h/*result*/ = {};
+      b.utils.arrayForEach( i,
+      function ( a ) {
+        b.bindingHandlers[a] =  {
+          'init' : function ( d,c,e,f ) {
+            var g = function () {
+                  var d = {};
                   
-                  h/*result*/[e/*eventName*/] = g/*valueAccessor*/();
-                  return h/*result*/;
+                  d[a] = c();
+                  return d;
                 };
-            return n/*ko*/.bindingHandlers['event']['init'].call( this,h/*element*/,k/*newValueAccessor*/,i/*allBindingsAccessor*/,j/*viewModel*/ );
+            return b.bindingHandlers['event']['init'].call( this,d,g,e,f );
           }
         };
       });
       
-      n/*ko*/.bindingHandlers['event'] =  {
-        'init' : function ( i/*element*/,j/*valueAccessor*/,k/*allBindingsAccessor*/,l/*viewModel*/ ) {
-          var m/*eventsToHandle*/ = j/*valueAccessor*/() || {};
+      b.bindingHandlers['event'] =  {
+        'init' : function ( c,d,e,f ) {
+          var g = d() || {};
           
-          for ( var g/*eventNameOutsideClosure*/ in m/*eventsToHandle*/ ){
-            ( function () {
-              var a/*eventName*/ = g/*eventNameOutsideClosure*/;
-              
-              if ( typeof a/*eventName*/ == "string" ){
-                n/*ko*/.utils.registerEventHandler( i/*element*/,a/*eventName*/,
-                function ( h/*event*/ ) {
-                  var i/*handlerReturnValue*/;
+          for ( var a in g )
+          !function () {
+            var g = a;
+            
+            if ( typeof g == "string" ){
+              b.utils.registerEventHandler( c,g,
+              function ( h ) {
+                var i;
+                
+                var j = d()[g];
+                
+                if ( !j ){
+                  return ;
+                };
+                
+                var k = e();
+                
+                try {
+                  var l = b.utils.makeArray( arguments );
                   
-                  var m/*handlerFunction*/ = j/*valueAccessor*/()[a/*eventName*/];
+                  l.unshift( f );
                   
-                  if ( !m/*handlerFunction*/ ){
-                    return ;
-                  };
-                  
-                  var o/*allBindings*/ = k/*allBindingsAccessor*/();
-                  
-                  try {
-                    var p/*argsForHandler*/ = n/*ko*/.utils.makeArray( arguments );
-                    
-                    p/*argsForHandler*/.unshift( l/*viewModel*/ );
-                    
-                    i/*handlerReturnValue*/ = m/*handlerFunction*/.apply( l/*viewModel*/,p/*argsForHandler*/ );
-                  } finally {
-                    if ( i/*handlerReturnValue*/ !== true ){
-                      if ( h/*event*/.preventDefault ){
-                        h/*event*/.preventDefault();
-                      } else {
-                        h/*event*/.returnValue = false;
-                      };
+                  i = j.apply( f,l );
+                } finally {
+                  if ( i !== true ){
+                    if ( h.preventDefault ){
+                      h.preventDefault();
+                    } else {
+                      h.returnValue = false;
                     };
                   };
+                };
+                
+                var m = k[g+'Bubble'] !== false;
+                
+                if ( !m ){
+                  h.cancelBubble = true;
                   
-                  var q/*bubble*/ = o/*allBindings*/[a/*eventName*/+'Bubble'] !== false;
-                  
-                  if ( !q/*bubble*/ ){
-                    h/*event*/.cancelBubble = true;
-                    
-                    if ( h/*event*/.stopPropagation ){
-                      h/*event*/.stopPropagation();
-                    };
+                  if ( h.stopPropagation ){
+                    h.stopPropagation();
                   };
-                });
-              };
-            })();
-          };
+                };
+              });
+            };
+          }();
         }
       };
       
-      n/*ko*/.bindingHandlers['submit'] =  {
-        'init' : function ( h/*element*/,d/*valueAccessor*/,j/*allBindingsAccessor*/,g/*viewModel*/ ) {
-          if ( typeof d/*valueAccessor*/() != "function" ){
+      b.bindingHandlers['submit'] =  {
+        'init' : function ( d,a,e,c ) {
+          if ( typeof a() != "function" ){
             throw new Error( "The value for a submit binding must be a function" );
           };
           
-          n/*ko*/.utils.registerEventHandler( h/*element*/,"submit",
-          function ( j/*event*/ ) {
-            var k/*handlerReturnValue*/;
+          b.utils.registerEventHandler( d,"submit",
+          function ( e ) {
+            var f;
             
-            var l/*value*/ = d/*valueAccessor*/();
+            var g = a();
             
             try {
-              k/*handlerReturnValue*/ = l/*value*/.call( g/*viewModel*/,h/*element*/ );
+              f = g.call( c,d );
             } finally {
-              if ( k/*handlerReturnValue*/ !== true ){
-                if ( j/*event*/.preventDefault ){
-                  j/*event*/.preventDefault();
+              if ( f !== true ){
+                if ( e.preventDefault ){
+                  e.preventDefault();
                 } else {
-                  j/*event*/.returnValue = false;
+                  e.returnValue = false;
                 };
               };
             };
@@ -3135,1325 +3094,1311 @@
         }
       };
       
-      n/*ko*/.bindingHandlers['visible'] =  {
-        'update' : function ( e/*element*/,f/*valueAccessor*/ ) {
-          var g/*value*/ = n/*ko*/.utils.unwrapObservable( f/*valueAccessor*/() );
+      b.bindingHandlers['visible'] =  {
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() );
           
-          var h/*isCurrentlyVisible*/ = !( e/*element*/.style.display == "none" );
+          var e = !( a.style.display == "none" );
           
-          if ( g/*value*/ && !h/*isCurrentlyVisible*/ ){
-            e/*element*/.style.display = "";
-          } else if ( ( !g/*value*/ ) && h/*isCurrentlyVisible*/ ){
-            e/*element*/.style.display = "none";
+          if ( d && !e ){
+            a.style.display = "";
+          } else if ( ( !d ) && e ){
+            a.style.display = "none";
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['enable'] =  {
-        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
-          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+      b.bindingHandlers['enable'] =  {
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() );
           
-          if ( f/*value*/ && d/*element*/.disabled ){
-            d/*element*/.removeAttribute( "disabled" );
-          } else if ( ( !f/*value*/ ) && ( !d/*element*/.disabled ) ){
-            d/*element*/.disabled = true;
+          if ( d && a.disabled ){
+            a.removeAttribute( "disabled" );
+          } else if ( ( !d ) && ( !a.disabled ) ){
+            a.disabled = true;
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['disable'] =  {
-        'update' : function ( d/*element*/,c/*valueAccessor*/ ) {
-          n/*ko*/.bindingHandlers['enable']['update']( d/*element*/,
+      b.bindingHandlers['disable'] =  {
+        'update' : function ( c,a ) {
+          b.bindingHandlers['enable']['update']( c,
           function () {
-            return !n/*ko*/.utils.unwrapObservable( c/*valueAccessor*/() );
+            return !b.utils.unwrapObservable( a() );
           });
         }
       };
       
-      function N/*ensureDropdownSelectionIsConsistentWithModelValue*/( d/*element*/,e/*modelValue*/,f/*preferModelValue*/ ) {
-        if ( f/*preferModelValue*/ ){
-          if ( e/*modelValue*/ !== n/*ko*/.selectExtensions.readValue( d/*element*/ ) ){
-            n/*ko*/.selectExtensions.writeValue( d/*element*/,e/*modelValue*/ );
+      function f( a,c,d ) {
+        if ( d ){
+          if ( c !== b.selectExtensions.readValue( a ) ){
+            b.selectExtensions.writeValue( a,c );
           };
         };
         
-        if ( e/*modelValue*/ !== n/*ko*/.selectExtensions.readValue( d/*element*/ ) ){
-          n/*ko*/.utils.triggerEvent( d/*element*/,"change" );
+        if ( c !== b.selectExtensions.readValue( a ) ){
+          b.utils.triggerEvent( a,"change" );
         };
       }
-      n/*ko*/.bindingHandlers['value'] =  {
-        'init' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/ ) {
-          var j/*eventsToCatch*/ = ["change"];
+      b.bindingHandlers['value'] =  {
+        'init' : function ( a,c,d ) {
+          var e = ["change"];
           
-          var k/*requestedEventsToCatch*/ = h/*allBindingsAccessor*/()["valueUpdate"];
+          var f = d()["valueUpdate"];
           
-          if ( k/*requestedEventsToCatch*/ ){
-            if ( typeof k/*requestedEventsToCatch*/ == "string" ){
-              k/*requestedEventsToCatch*/ = [k/*requestedEventsToCatch*/];
+          if ( f ){
+            if ( typeof f == "string" ){
+              f = [f];
             };
             
-            n/*ko*/.utils.arrayPushAll( j/*eventsToCatch*/,k/*requestedEventsToCatch*/ );
+            b.utils.arrayPushAll( e,f );
             
-            j/*eventsToCatch*/ = n/*ko*/.utils.arrayGetDistinctValues( j/*eventsToCatch*/ );
+            e = b.utils.arrayGetDistinctValues( e );
           };
           
-          n/*ko*/.utils.arrayForEach( j/*eventsToCatch*/,
-          function ( j/*eventName*/ ) {
-            var k/*handleEventAsynchronously*/ = false;
+          b.utils.arrayForEach( e,
+          function ( f ) {
+            var g = false;
             
-            if ( n/*ko*/.utils.stringStartsWith( j/*eventName*/,"after" ) ){
-              k/*handleEventAsynchronously*/ = true;
+            if ( b.utils.stringStartsWith( f,"after" ) ){
+              g = true;
               
-              j/*eventName*/ = j/*eventName*/.substring( "after".length );
+              f = f.substring( "after".length );
             };
             
-            var c/*runEventHandler*/ = k/*handleEventAsynchronously*/?function ( b/*handler*/ ) {
-                  setTimeout( b/*handler*/,0 );
-                } : function ( b/*handler*/ ) {
-                  b/*handler*/();
+            var e = g?function ( a ) {
+                  setTimeout( a,0 );
+                } : function ( a ) {
+                  a();
                 };
             
-            n/*ko*/.utils.registerEventHandler( f/*element*/,j/*eventName*/,
+            b.utils.registerEventHandler( a,f,
             function () {
-              c/*runEventHandler*/( function () {
-                var d/*modelValue*/ = g/*valueAccessor*/();
+              e( function () {
+                var e = c();
                 
-                var e/*elementValue*/ = n/*ko*/.selectExtensions.readValue( f/*element*/ );
+                var f = b.selectExtensions.readValue( a );
                 
-                if ( n/*ko*/.isWriteableObservable( d/*modelValue*/ ) ){
-                  d/*modelValue*/( e/*elementValue*/ );
+                if ( b.isWriteableObservable( e ) ){
+                  e( f );
                 } else {
-                  var i/*allBindings*/ = h/*allBindingsAccessor*/();
-                  if ( i/*allBindings*/['_ko_property_writers'] && i/*allBindings*/['_ko_property_writers']['value'] ){
-                    i/*allBindings*/['_ko_property_writers']['value']( e/*elementValue*/ );
+                  var g = d();
+                  if ( g['_ko_property_writers'] && g['_ko_property_writers']['value'] ){
+                    g['_ko_property_writers']['value']( f );
                   };
                 };
               });
             });
           });
         },
-        'update' : function ( h/*element*/,O/*valueAccessor*/ ) {
-          var i/*newValue*/ = n/*ko*/.utils.unwrapObservable( O/*valueAccessor*/() );
+        'update' : function ( a,g ) {
+          var c = b.utils.unwrapObservable( g() );
           
-          var P/*elementValue*/ = n/*ko*/.selectExtensions.readValue( h/*element*/ );
+          var h = b.selectExtensions.readValue( a );
           
-          var Q/*valueHasChanged*/ = ( i/*newValue*/ != P/*elementValue*/ );
+          var i = ( c != h );
           
-          if ( ( i/*newValue*/ === 0 ) && ( P/*elementValue*/ !== 0 ) && ( P/*elementValue*/ !== "0" ) ){
-            Q/*valueHasChanged*/ = true;
+          if ( ( c === 0 ) && ( h !== 0 ) && ( h !== "0" ) ){
+            i = true;
           };
           
-          if ( Q/*valueHasChanged*/ ){
-            var R/*applyValueAction*/ = function () {
-                  n/*ko*/.selectExtensions.writeValue( h/*element*/,i/*newValue*/ );
+          if ( i ){
+            var j = function () {
+                  b.selectExtensions.writeValue( a,c );
                 };
             
-            R/*applyValueAction*/();
+            j();
             
-            var S/*alsoApplyAsynchronously*/ = h/*element*/.tagName == "SELECT";
+            var k = a.tagName == "SELECT";
             
-            if ( S/*alsoApplyAsynchronously*/ ){
-              setTimeout( R/*applyValueAction*/,0 );
+            if ( k ){
+              setTimeout( j,0 );
             };
           };
           
-          if ( ( h/*element*/.tagName == "SELECT" ) && ( h/*element*/.length>0 ) ){
-            N/*ensureDropdownSelectionIsConsistentWithModelValue*/( h/*element*/,i/*newValue*/,false );
+          if ( ( a.tagName == "SELECT" ) && ( a.length>0 ) ){
+            f( a,c,false );
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['options'] =  {
-        'update' : function ( q/*element*/,r/*valueAccessor*/,s/*allBindingsAccessor*/ ) {
-          if ( q/*element*/.tagName != "SELECT" ){
+      b.bindingHandlers['options'] =  {
+        'update' : function ( a,c,d ) {
+          if ( a.tagName != "SELECT" ){
             throw new Error( "options binding applies only to SELECT elements" );
           };
           
-          var t/*selectWasPreviouslyEmpty*/ = q/*element*/.length == 0;
+          var e = a.length == 0;
           
-          var u/*previousSelectedValues*/ = n/*ko*/.utils.arrayMap( n/*ko*/.utils.arrayFilter( q/*element*/.childNodes,
-              function ( b/*node*/ ) {
-                return b/*node*/.tagName && b/*node*/.tagName == "OPTION" && b/*node*/.selected;
+          var g = b.utils.arrayMap( b.utils.arrayFilter( a.childNodes,
+              function ( a ) {
+                return a.tagName && a.tagName == "OPTION" && a.selected;
               }),
-              function ( b/*node*/ ) {
-                return n/*ko*/.selectExtensions.readValue( b/*node*/ ) || b/*node*/.innerText || b/*node*/.textContent;
+              function ( a ) {
+                return b.selectExtensions.readValue( a ) || a.innerText || a.textContent;
               });
           
-          var v/*previousScrollTop*/ = q/*element*/.scrollTop;
+          var h = a.scrollTop;
           
-          q/*element*/.scrollTop = 0;
+          a.scrollTop = 0;
           
-          var w/*value*/ = n/*ko*/.utils.unwrapObservable( r/*valueAccessor*/() );
+          var i = b.utils.unwrapObservable( c() );
           
-          var x/*selectedValue*/ = q/*element*/.value;
+          var j = a.value;
           
-          while ( q/*element*/.length>0 ){
-            n/*ko*/.cleanNode( q/*element*/.options[0] );
+          while ( a.length>0 ){
+            b.cleanNode( a.options[0] );
             
-            q/*element*/.remove( 0 );
+            a.remove( 0 );
           };
           
-          if ( w/*value*/ ){
-            var y/*allBindings*/ = s/*allBindingsAccessor*/();
+          if ( i ){
+            var k = d();
             
-            if ( typeof w/*value*/.length != "number" ){
-              w/*value*/ = [w/*value*/];
+            if ( typeof i.length != "number" ){
+              i = [i];
             };
             
-            if ( y/*allBindings*/['optionsCaption'] ){
-              var z/*option*/ = document.createElement( "OPTION" );
+            if ( k['optionsCaption'] ){
+              var l = document.createElement( "OPTION" );
               
-              n/*ko*/.utils.setHtml( z/*option*/,y/*allBindings*/['optionsCaption'] );
+              b.utils.setHtml( l,k['optionsCaption'] );
               
-              n/*ko*/.selectExtensions.writeValue( z/*option*/,undefined );
+              b.selectExtensions.writeValue( l,undefined );
               
-              q/*element*/.appendChild( z/*option*/ );
+              a.appendChild( l );
             };
             
-            for ( var A/*i*/ = 0,B/*j*/ = w/*value*/.length;A/*i*/<B/*j*/;A/*i*/ ++  ){
-              var z/*option*/ = document.createElement( "OPTION" );
+            for ( var m = 0,n = i.length;m<n;m ++  ){
+              var l = document.createElement( "OPTION" );
               
-              var C/*optionValue*/ = typeof y/*allBindings*/['optionsValue'] == "string"?w/*value*/[A/*i*/][y/*allBindings*/['optionsValue']] : w/*value*/[A/*i*/];
+              var o = typeof k['optionsValue'] == "string"?i[m][k['optionsValue']] : i[m];
               
-              C/*optionValue*/ = n/*ko*/.utils.unwrapObservable( C/*optionValue*/ );
+              o = b.utils.unwrapObservable( o );
               
-              n/*ko*/.selectExtensions.writeValue( z/*option*/,C/*optionValue*/ );
+              b.selectExtensions.writeValue( l,o );
               
-              var D/*optionsTextValue*/ = y/*allBindings*/['optionsText'];
+              var p = k['optionsText'];
               
-              var E/*optionText*/;
+              var q;
               
-              if ( typeof D/*optionsTextValue*/ == "function" ){
-                E/*optionText*/ = D/*optionsTextValue*/( w/*value*/[A/*i*/] );
-              } else if ( typeof D/*optionsTextValue*/ == "string" ){
-                E/*optionText*/ = w/*value*/[A/*i*/][D/*optionsTextValue*/];
+              if ( typeof p == "function" ){
+                q = p( i[m] );
+              } else if ( typeof p == "string" ){
+                q = i[m][p];
               } else {
-                E/*optionText*/ = C/*optionValue*/;
+                q = o;
               };
               
-              if ( ( E/*optionText*/ === null ) || ( E/*optionText*/ === undefined ) ){
-                E/*optionText*/ = "";
+              if ( ( q === null ) || ( q === undefined ) ){
+                q = "";
               };
               
-              n/*ko*/.utils.setTextContent( z/*option*/,E/*optionText*/ );
+              b.utils.setTextContent( l,q );
               
-              q/*element*/.appendChild( z/*option*/ );
+              a.appendChild( l );
             };
             
-            var F/*newOptions*/ = q/*element*/.getElementsByTagName( "OPTION" );
+            var r = a.getElementsByTagName( "OPTION" );
             
-            var G/*countSelectionsRetained*/ = 0;
+            var s = 0;
             
-            for ( var A/*i*/ = 0,B/*j*/ = F/*newOptions*/.length;A/*i*/<B/*j*/;A/*i*/ ++  ){
-              if ( n/*ko*/.utils.arrayIndexOf( u/*previousSelectedValues*/,n/*ko*/.selectExtensions.readValue( F/*newOptions*/[A/*i*/] ) ) >= 0 ){
-                n/*ko*/.utils.setOptionNodeSelectionState( F/*newOptions*/[A/*i*/],true );
-                
-                G/*countSelectionsRetained*/ ++ ;
-              };
+            for ( var m = 0,n = r.length;m<n;m ++  )
+            if ( b.utils.arrayIndexOf( g,b.selectExtensions.readValue( r[m] ) ) >= 0 ){
+              b.utils.setOptionNodeSelectionState( r[m],true );
+              
+              s ++ ;
             };
             
-            if ( v/*previousScrollTop*/ ){
-              q/*element*/.scrollTop = v/*previousScrollTop*/;
+            if ( h ){
+              a.scrollTop = h;
             };
             
-            if ( t/*selectWasPreviouslyEmpty*/ && ( 'value' in y/*allBindings*/ ) ){
-              N/*ensureDropdownSelectionIsConsistentWithModelValue*/( q/*element*/,n/*ko*/.utils.unwrapObservable( y/*allBindings*/['value'] ),true );
+            if ( e && ( 'value' in k ) ){
+              f( a,b.utils.unwrapObservable( k['value'] ),true );
             };
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['options'].optionValueDomDataKey = '__ko.optionValueDomData__';
+      b.bindingHandlers['options'].optionValueDomDataKey = '__ko.optionValueDomData__';
       
-      n/*ko*/.bindingHandlers['selectedOptions'] =  {
-        getSelectedValuesFromSelectNode : function ( g/*selectNode*/ ) {
-          var h/*result*/ = [];
+      b.bindingHandlers['selectedOptions'] =  {
+        getSelectedValuesFromSelectNode : function ( a ) {
+          var c = [];
           
-          var i/*nodes*/ = g/*selectNode*/.childNodes;
+          var d = a.childNodes;
           
-          for ( var j/*i*/ = 0,k/*j*/ = i/*nodes*/.length;j/*i*/<k/*j*/;j/*i*/ ++  ){
-            var l/*node*/ = i/*nodes*/[j/*i*/];
+          for ( var e = 0,f = d.length;e<f;e ++  ){
+            var g = d[e];
             
-            if ( ( l/*node*/.tagName == "OPTION" ) && l/*node*/.selected ){
-              h/*result*/.push( n/*ko*/.selectExtensions.readValue( l/*node*/ ) );
+            if ( ( g.tagName == "OPTION" ) && g.selected ){
+              c.push( b.selectExtensions.readValue( g ) );
             };
           };
-          return h/*result*/;
+          return c;
         },
-        'init' : function ( h/*element*/,d/*valueAccessor*/,f/*allBindingsAccessor*/ ) {
-          n/*ko*/.utils.registerEventHandler( h/*element*/,"change",
+        'init' : function ( d,a,c ) {
+          b.utils.registerEventHandler( d,"change",
           function () {
-            var h/*value*/ = d/*valueAccessor*/();
+            var d = a();
             
-            if ( n/*ko*/.isWriteableObservable( h/*value*/ ) ){
-              h/*value*/( n/*ko*/.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
+            if ( b.isWriteableObservable( d ) ){
+              d( b.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
             } else {
-              var i/*allBindings*/ = f/*allBindingsAccessor*/();
-              if ( i/*allBindings*/['_ko_property_writers'] && i/*allBindings*/['_ko_property_writers']['value'] ){
-                i/*allBindings*/['_ko_property_writers']['value']( n/*ko*/.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
+              var e = c();
+              if ( e['_ko_property_writers'] && e['_ko_property_writers']['value'] ){
+                e['_ko_property_writers']['value']( b.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
               };
             };
           });
         },
-        'update' : function ( h/*element*/,i/*valueAccessor*/ ) {
-          if ( h/*element*/.tagName != "SELECT" ){
+        'update' : function ( a,c ) {
+          if ( a.tagName != "SELECT" ){
             throw new Error( "values binding applies only to SELECT elements" );
           };
           
-          var j/*newValue*/ = n/*ko*/.utils.unwrapObservable( i/*valueAccessor*/() );
+          var d = b.utils.unwrapObservable( c() );
           
-          if ( j/*newValue*/ && typeof j/*newValue*/.length == "number" ){
-            var k/*nodes*/ = h/*element*/.childNodes;
+          if ( d && typeof d.length == "number" ){
+            var e = a.childNodes;
             
-            for ( var l/*i*/ = 0,m/*j*/ = k/*nodes*/.length;l/*i*/<m/*j*/;l/*i*/ ++  ){
-              var o/*node*/ = k/*nodes*/[l/*i*/];
+            for ( var f = 0,g = e.length;f<g;f ++  ){
+              var h = e[f];
               
-              if ( o/*node*/.tagName == "OPTION" ){
-                n/*ko*/.utils.setOptionNodeSelectionState( o/*node*/,n/*ko*/.utils.arrayIndexOf( j/*newValue*/,n/*ko*/.selectExtensions.readValue( o/*node*/ ) ) >= 0 );
+              if ( h.tagName == "OPTION" ){
+                b.utils.setOptionNodeSelectionState( h,b.utils.arrayIndexOf( d,b.selectExtensions.readValue( h ) ) >= 0 );
               };
             };
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['text'] =  {
-        'update' : function ( c/*element*/,d/*valueAccessor*/ ) {
-          n/*ko*/.utils.setTextContent( c/*element*/,d/*valueAccessor*/() );
+      b.bindingHandlers['text'] =  {
+        'update' : function ( a,c ) {
+          b.utils.setTextContent( a,c() );
         }
       };
       
-      n/*ko*/.bindingHandlers['html'] =  {
+      b.bindingHandlers['html'] =  {
         'init' : function () {
           return  {
             'controlsDescendantBindings' : true
           };
         },
-        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
-          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() );
           
-          n/*ko*/.utils.setHtml( d/*element*/,f/*value*/ );
+          b.utils.setHtml( a,d );
         }
       };
       
-      n/*ko*/.bindingHandlers['css'] =  {
-        'update' : function ( f/*element*/,g/*valueAccessor*/ ) {
-          var h/*value*/ = n/*ko*/.utils.unwrapObservable( g/*valueAccessor*/() || {} );
+      b.bindingHandlers['css'] =  {
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() || {} );
           
-          for ( var i/*className*/ in h/*value*/ ){
-            if ( typeof i/*className*/ == "string" ){
-              var j/*shouldHaveClass*/ = n/*ko*/.utils.unwrapObservable( h/*value*/[i/*className*/] );
-              
-              n/*ko*/.utils.toggleDomNodeCssClass( f/*element*/,i/*className*/,j/*shouldHaveClass*/ );
-            };
-          };
-        }
-      };
-      
-      n/*ko*/.bindingHandlers['style'] =  {
-        'update' : function ( f/*element*/,g/*valueAccessor*/ ) {
-          var h/*value*/ = n/*ko*/.utils.unwrapObservable( g/*valueAccessor*/() || {} );
-          
-          for ( var i/*styleName*/ in h/*value*/ ){
-            if ( typeof i/*styleName*/ == "string" ){
-              var j/*styleValue*/ = n/*ko*/.utils.unwrapObservable( h/*value*/[i/*styleName*/] );
-              
-              f/*element*/.style[i/*styleName*/] = j/*styleValue*/ || "";
-            };
-          };
-        }
-      };
-      
-      n/*ko*/.bindingHandlers['uniqueName'] =  {
-        'init' : function ( c/*element*/,d/*valueAccessor*/ ) {
-          if ( d/*valueAccessor*/() ){
-            c/*element*/.name = "ko_unique_"+(  ++ n/*ko*/.bindingHandlers['uniqueName'].currentIndex );
+          for ( var e in d )
+          if ( typeof e == "string" ){
+            var f = b.utils.unwrapObservable( d[e] );
             
-            if ( n/*ko*/.utils.isIe6 || n/*ko*/.utils.isIe7 ){
-              c/*element*/.mergeAttributes( document.createElement( "<input name='"+c/*element*/.name+"'/>" ),false );
+            b.utils.toggleDomNodeCssClass( a,e,f );
+          };
+        }
+      };
+      
+      b.bindingHandlers['style'] =  {
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() || {} );
+          
+          for ( var e in d )
+          if ( typeof e == "string" ){
+            var f = b.utils.unwrapObservable( d[e] );
+            
+            a.style[e] = f || "";
+          };
+        }
+      };
+      
+      b.bindingHandlers['uniqueName'] =  {
+        'init' : function ( a,c ) {
+          if ( c() ){
+            a.name = "ko_unique_"+(  ++ b.bindingHandlers['uniqueName'].currentIndex );
+            
+            if ( b.utils.isIe6 || b.utils.isIe7 ){
+              a.mergeAttributes( document.createElement( "<input name='"+a.name+"'/>" ),false );
             };
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['uniqueName'].currentIndex = 0;
+      b.bindingHandlers['uniqueName'].currentIndex = 0;
       
-      n/*ko*/.bindingHandlers['checked'] =  {
-        'init' : function ( e/*element*/,g/*valueAccessor*/,j/*allBindingsAccessor*/ ) {
-          var l/*updateHandler*/ = function () {
-                var l/*valueToWrite*/;
+      b.bindingHandlers['checked'] =  {
+        'init' : function ( a,c,d ) {
+          var e = function () {
+                var e;
                 
-                if ( e/*element*/.type == "checkbox" ){
-                  l/*valueToWrite*/ = e/*element*/.checked;
-                } else if ( ( e/*element*/.type == "radio" ) && ( e/*element*/.checked ) ){
-                  l/*valueToWrite*/ = e/*element*/.value;
+                if ( a.type == "checkbox" ){
+                  e = a.checked;
+                } else if ( ( a.type == "radio" ) && ( a.checked ) ){
+                  e = a.value;
                 } else {
                   return ;
                 };
                 
-                var m/*modelValue*/ = g/*valueAccessor*/();
+                var f = c();
                 
-                if ( ( e/*element*/.type == "checkbox" ) && ( n/*ko*/.utils.unwrapObservable( m/*modelValue*/ ) instanceof Array ) ){
-                  var o/*existingEntryIndex*/ = n/*ko*/.utils.arrayIndexOf( n/*ko*/.utils.unwrapObservable( m/*modelValue*/ ),e/*element*/.value );
+                if ( ( a.type == "checkbox" ) && ( b.utils.unwrapObservable( f ) instanceof Array ) ){
+                  var g = b.utils.arrayIndexOf( b.utils.unwrapObservable( f ),a.value );
                   
-                  if ( e/*element*/.checked && ( o/*existingEntryIndex*/<0 ) ){
-                    m/*modelValue*/.push( e/*element*/.value );
-                  } else if ( ( !e/*element*/.checked ) && ( o/*existingEntryIndex*/ >= 0 ) ){
-                    m/*modelValue*/.splice( o/*existingEntryIndex*/,1 );
+                  if ( a.checked && ( g<0 ) ){
+                    f.push( a.value );
+                  } else if ( ( !a.checked ) && ( g >= 0 ) ){
+                    f.splice( g,1 );
                   };
-                } else if ( n/*ko*/.isWriteableObservable( m/*modelValue*/ ) ){
-                  if ( m/*modelValue*/() !== l/*valueToWrite*/ ){
-                    m/*modelValue*/( l/*valueToWrite*/ );
+                } else if ( b.isWriteableObservable( f ) ){
+                  if ( f() !== e ){
+                    f( e );
                   };
                 } else {
-                  var p/*allBindings*/ = j/*allBindingsAccessor*/();
-                  if ( p/*allBindings*/['_ko_property_writers'] && p/*allBindings*/['_ko_property_writers']['checked'] ){
-                    p/*allBindings*/['_ko_property_writers']['checked']( l/*valueToWrite*/ );
+                  var h = d();
+                  if ( h['_ko_property_writers'] && h['_ko_property_writers']['checked'] ){
+                    h['_ko_property_writers']['checked']( e );
                   };
                 };
               };
           
-          n/*ko*/.utils.registerEventHandler( e/*element*/,"click",l/*updateHandler*/ );
+          b.utils.registerEventHandler( a,"click",e );
           
-          if ( ( e/*element*/.type == "radio" ) && !e/*element*/.name ){
-            n/*ko*/.bindingHandlers['uniqueName']['init']( e/*element*/,
+          if ( ( a.type == "radio" ) && !a.name ){
+            b.bindingHandlers['uniqueName']['init']( a,
             function () {
               return true;
             });
           };
         },
-        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
-          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() );
           
-          if ( d/*element*/.type == "checkbox" ){
-            if ( f/*value*/ instanceof Array ){
-              d/*element*/.checked = n/*ko*/.utils.arrayIndexOf( f/*value*/,d/*element*/.value ) >= 0;
+          if ( a.type == "checkbox" ){
+            if ( d instanceof Array ){
+              a.checked = b.utils.arrayIndexOf( d,a.value ) >= 0;
             } else {
-              d/*element*/.checked = f/*value*/;
+              a.checked = d;
             };
-          } else if ( d/*element*/.type == "radio" ){
-            d/*element*/.checked = ( d/*element*/.value == f/*value*/ );
+          } else if ( a.type == "radio" ){
+            a.checked = ( a.value == d );
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['attr'] =  {
-        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/ ) {
-          var i/*value*/ = n/*ko*/.utils.unwrapObservable( g/*valueAccessor*/() ) || {};
+      b.bindingHandlers['attr'] =  {
+        'update' : function ( a,c,d ) {
+          var e = b.utils.unwrapObservable( c() ) || {};
           
-          for ( var j/*attrName*/ in i/*value*/ ){
-            if ( typeof j/*attrName*/ == "string" ){
-              var k/*attrValue*/ = n/*ko*/.utils.unwrapObservable( i/*value*/[j/*attrName*/] );
-              
-              if ( ( k/*attrValue*/ === false ) || ( k/*attrValue*/ === null ) || ( k/*attrValue*/ === undefined ) ){
-                f/*element*/.removeAttribute( j/*attrName*/ );
-              } else {
-                f/*element*/.setAttribute( j/*attrName*/,k/*attrValue*/.toString() );
-              };
+          for ( var f in e )
+          if ( typeof f == "string" ){
+            var g = b.utils.unwrapObservable( e[f] );
+            
+            if ( ( g === false ) || ( g === null ) || ( g === undefined ) ){
+              a.removeAttribute( f );
+            } else {
+              a.setAttribute( f,g.toString() );
             };
           };
         }
       };
       
-      n/*ko*/.bindingHandlers['hasfocus'] =  {
-        'init' : function ( k/*element*/,e/*valueAccessor*/,h/*allBindingsAccessor*/ ) {
-          var j/*writeValue*/ = function ( j/*valueToWrite*/ ) {
-                var k/*modelValue*/ = e/*valueAccessor*/();
+      b.bindingHandlers['hasfocus'] =  {
+        'init' : function ( e,a,c ) {
+          var d = function ( d ) {
+                var e = a();
                 
-                if ( j/*valueToWrite*/ == n/*ko*/.utils.unwrapObservable( k/*modelValue*/ ) ){
+                if ( d == b.utils.unwrapObservable( e ) ){
                   return ;
                 };
                 
-                if ( n/*ko*/.isWriteableObservable( k/*modelValue*/ ) ){
-                  k/*modelValue*/( j/*valueToWrite*/ );
+                if ( b.isWriteableObservable( e ) ){
+                  e( d );
                 } else {
-                  var l/*allBindings*/ = h/*allBindingsAccessor*/();
-                  if ( l/*allBindings*/['_ko_property_writers'] && l/*allBindings*/['_ko_property_writers']['hasfocus'] ){
-                    l/*allBindings*/['_ko_property_writers']['hasfocus']( j/*valueToWrite*/ );
+                  var f = c();
+                  if ( f['_ko_property_writers'] && f['_ko_property_writers']['hasfocus'] ){
+                    f['_ko_property_writers']['hasfocus']( d );
                   };
                 };
               };
           
-          n/*ko*/.utils.registerEventHandler( k/*element*/,"focus",
+          b.utils.registerEventHandler( e,"focus",
           function () {
-            j/*writeValue*/( true );
+            d( true );
           });
           
-          n/*ko*/.utils.registerEventHandler( k/*element*/,"focusin",
+          b.utils.registerEventHandler( e,"focusin",
           function () {
-            j/*writeValue*/( true );
+            d( true );
           });
           
-          n/*ko*/.utils.registerEventHandler( k/*element*/,"blur",
+          b.utils.registerEventHandler( e,"blur",
           function () {
-            j/*writeValue*/( false );
+            d( false );
           });
           
-          n/*ko*/.utils.registerEventHandler( k/*element*/,"focusout",
+          b.utils.registerEventHandler( e,"focusout",
           function () {
-            j/*writeValue*/( false );
+            d( false );
           });
         },
-        'update' : function ( d/*element*/,e/*valueAccessor*/ ) {
-          var f/*value*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+        'update' : function ( a,c ) {
+          var d = b.utils.unwrapObservable( c() );
           
-          f/*value*/?d/*element*/.focus() : d/*element*/.blur();
+          d?a.focus() : a.blur();
           
-          n/*ko*/.utils.triggerEvent( d/*element*/,f/*value*/?"focusin" : "focusout" );
+          b.utils.triggerEvent( a,d?"focusin" : "focusout" );
         }
       };
       
-      n/*ko*/.bindingHandlers['with'] =  {
-        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+      b.bindingHandlers['with'] =  {
+        makeTemplateValueAccessor : function ( a ) {
           return function () {
-            var d/*value*/ = b/*valueAccessor*/();
+            var c = a();
             return  {
-              'if' : d/*value*/,
-              'data' : d/*value*/,
-              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+              'if' : c,
+              'data' : c,
+              'templateEngine' : b.nativeTemplateEngine.instance
             };
           };
         },
-        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['with'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        'init' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['init']( a,b.bindingHandlers['with'].makeTemplateValueAccessor( c ) );
         },
-        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['with'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        'update' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['update']( a,b.bindingHandlers['with'].makeTemplateValueAccessor( c ),d,e,f );
         }
       };
       
-      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['with'] = false;
+      b.jsonExpressionRewriting.bindingRewriteValidators['with'] = false;
       
-      n/*ko*/.virtualElements.allowedBindings['with'] = true;
+      b.virtualElements.allowedBindings['with'] = true;
       
-      n/*ko*/.bindingHandlers['if'] =  {
-        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+      b.bindingHandlers['if'] =  {
+        makeTemplateValueAccessor : function ( a ) {
           return function () {
             return  {
-              'if' : b/*valueAccessor*/(),
-              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+              'if' : a(),
+              'templateEngine' : b.nativeTemplateEngine.instance
             };
           };
         },
-        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['if'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        'init' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['init']( a,b.bindingHandlers['if'].makeTemplateValueAccessor( c ) );
         },
-        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['if'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        'update' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['update']( a,b.bindingHandlers['if'].makeTemplateValueAccessor( c ),d,e,f );
         }
       };
       
-      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['if'] = false;
+      b.jsonExpressionRewriting.bindingRewriteValidators['if'] = false;
       
-      n/*ko*/.virtualElements.allowedBindings['if'] = true;
+      b.virtualElements.allowedBindings['if'] = true;
       
-      n/*ko*/.bindingHandlers['ifnot'] =  {
-        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+      b.bindingHandlers['ifnot'] =  {
+        makeTemplateValueAccessor : function ( a ) {
           return function () {
             return  {
-              'ifnot' : b/*valueAccessor*/(),
-              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+              'ifnot' : a(),
+              'templateEngine' : b.nativeTemplateEngine.instance
             };
           };
         },
-        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['ifnot'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        'init' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['init']( a,b.bindingHandlers['ifnot'].makeTemplateValueAccessor( c ) );
         },
-        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['ifnot'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        'update' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['update']( a,b.bindingHandlers['ifnot'].makeTemplateValueAccessor( c ),d,e,f );
         }
       };
       
-      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['ifnot'] = false;
+      b.jsonExpressionRewriting.bindingRewriteValidators['ifnot'] = false;
       
-      n/*ko*/.virtualElements.allowedBindings['ifnot'] = true;
+      b.virtualElements.allowedBindings['ifnot'] = true;
       
-      n/*ko*/.bindingHandlers['foreach'] =  {
-        makeTemplateValueAccessor : function ( b/*valueAccessor*/ ) {
+      b.bindingHandlers['foreach'] =  {
+        makeTemplateValueAccessor : function ( a ) {
           return function () {
-            var d/*bindingValue*/ = n/*ko*/.utils.unwrapObservable( b/*valueAccessor*/() );
+            var c = b.utils.unwrapObservable( a() );
             
-            if ( ( !d/*bindingValue*/ ) || typeof d/*bindingValue*/.length == "number" ){
+            if ( ( !c ) || typeof c.length == "number" ){
               return  {
-                'foreach' : d/*bindingValue*/,
-                'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+                'foreach' : c,
+                'templateEngine' : b.nativeTemplateEngine.instance
               };
             };
             return  {
-              'foreach' : d/*bindingValue*/['data'],
-              'includeDestroyed' : d/*bindingValue*/['includeDestroyed'],
-              'afterAdd' : d/*bindingValue*/['afterAdd'],
-              'beforeRemove' : d/*bindingValue*/['beforeRemove'],
-              'afterRender' : d/*bindingValue*/['afterRender'],
-              'templateEngine' : n/*ko*/.nativeTemplateEngine.instance
+              'foreach' : c['data'],
+              'includeDestroyed' : c['includeDestroyed'],
+              'afterAdd' : c['afterAdd'],
+              'beforeRemove' : c['beforeRemove'],
+              'afterRender' : c['afterRender'],
+              'templateEngine' : b.nativeTemplateEngine.instance
             };
           };
         },
-        'init' : function ( c/*element*/,d/*valueAccessor*/,e/*allBindingsAccessor*/,f/*viewModel*/,g/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['init']( c/*element*/,n/*ko*/.bindingHandlers['foreach'].makeTemplateValueAccessor( d/*valueAccessor*/ ) );
+        'init' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['init']( a,b.bindingHandlers['foreach'].makeTemplateValueAccessor( c ) );
         },
-        'update' : function ( f/*element*/,g/*valueAccessor*/,h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ ) {
-          return n/*ko*/.bindingHandlers['template']['update']( f/*element*/,n/*ko*/.bindingHandlers['foreach'].makeTemplateValueAccessor( g/*valueAccessor*/ ),h/*allBindingsAccessor*/,i/*viewModel*/,j/*bindingContext*/ );
+        'update' : function ( a,c,d,e,f ) {
+          return b.bindingHandlers['template']['update']( a,b.bindingHandlers['foreach'].makeTemplateValueAccessor( c ),d,e,f );
         }
       };
       
-      n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['foreach'] = false;
+      b.jsonExpressionRewriting.bindingRewriteValidators['foreach'] = false;
       
-      n/*ko*/.virtualElements.allowedBindings['foreach'] = true;
+      b.virtualElements.allowedBindings['foreach'] = true;
       
-      n/*ko*/.exportSymbol( 'ko.allowedVirtualElementBindings',n/*ko*/.virtualElements.allowedBindings );
+      b.exportSymbol( 'ko.allowedVirtualElementBindings',b.virtualElements.allowedBindings );
       
-      n/*ko*/.templateEngine = function (){};
+      b.templateEngine = function (){};
       
-      n/*ko*/.templateEngine.prototype['renderTemplateSource'] = function ( a/*templateSource*/,b/*bindingContext*/,c/*options*/ ) {
+      b.templateEngine.prototype['renderTemplateSource'] = function ( a,b,c ) {
         throw "Override renderTemplateSource";
       };
       
-      n/*ko*/.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function ( a/*script*/ ) {
+      b.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function ( a ) {
         throw "Override createJavaScriptEvaluatorBlock";
       };
       
-      n/*ko*/.templateEngine.prototype['makeTemplateSource'] = function ( c/*template*/ ) {
-        if ( typeof c/*template*/ == "string" ){
-          var d/*elem*/ = document.getElementById( c/*template*/ );
+      b.templateEngine.prototype['makeTemplateSource'] = function ( a ) {
+        if ( typeof a == "string" ){
+          var c = document.getElementById( a );
           
-          if ( !d/*elem*/ ){
-            throw new Error( "Cannot find template with ID "+c/*template*/ );
+          if ( !c ){
+            throw new Error( "Cannot find template with ID "+a );
           };
-          return new n/*ko*/.templateSources.domElement( d/*elem*/ );
-        } else if ( ( c/*template*/.nodeType == 1 ) || ( c/*template*/.nodeType == 8 ) ){
-          return new n/*ko*/.templateSources.anonymousTemplate( c/*template*/ );
+          return new b.templateSources.domElement( c );
+        } else if ( ( a.nodeType == 1 ) || ( a.nodeType == 8 ) ){
+          return new b.templateSources.anonymousTemplate( a );
         } else {
-          throw new Error( "Unknown template type: "+c/*template*/ );
+          throw new Error( "Unknown template type: "+a );
         };
       };
       
-      n/*ko*/.templateEngine.prototype['renderTemplate'] = function ( e/*template*/,f/*bindingContext*/,g/*options*/ ) {
-        var h/*templateSource*/ = this['makeTemplateSource']( e/*template*/ );
-        return this['renderTemplateSource']( h/*templateSource*/,f/*bindingContext*/,g/*options*/ );
+      b.templateEngine.prototype['renderTemplate'] = function ( a,b,c ) {
+        var d = this['makeTemplateSource']( a );
+        return this['renderTemplateSource']( d,b,c );
       };
       
-      n/*ko*/.templateEngine.prototype['isTemplateRewritten'] = function ( b/*template*/ ) {
+      b.templateEngine.prototype['isTemplateRewritten'] = function ( a ) {
         if ( this['allowTemplateRewriting'] === false ){
           return true;
         };
         
-        if ( this.knownRewrittenTemplates && this.knownRewrittenTemplates[b/*template*/] ){
+        if ( this.knownRewrittenTemplates && this.knownRewrittenTemplates[a] ){
           return true;
         };
-        return this['makeTemplateSource']( b/*template*/ )['data']( "isRewritten" );
+        return this['makeTemplateSource']( a )['data']( "isRewritten" );
       };
       
-      n/*ko*/.templateEngine.prototype['rewriteTemplate'] = function ( e/*template*/,f/*rewriterCallback*/ ) {
-        var g/*templateSource*/ = this['makeTemplateSource']( e/*template*/ );
+      b.templateEngine.prototype['rewriteTemplate'] = function ( a,b ) {
+        var c = this['makeTemplateSource']( a );
         
-        var h/*rewritten*/ = f/*rewriterCallback*/( g/*templateSource*/['text']() );
+        var d = b( c['text']() );
         
-        g/*templateSource*/['text']( h/*rewritten*/ );
+        c['text']( d );
         
-        g/*templateSource*/['data']( "isRewritten",true );
+        c['data']( "isRewritten",true );
         
-        if ( typeof e/*template*/ == "string" ){
+        if ( typeof a == "string" ){
           this.knownRewrittenTemplates = this.knownRewrittenTemplates || {};
           
-          this.knownRewrittenTemplates[e/*template*/] = true;
+          this.knownRewrittenTemplates[a] = true;
         };
       };
       
-      n/*ko*/.exportSymbol( 'ko.templateEngine',n/*ko*/.templateEngine );
+      b.exportSymbol( 'ko.templateEngine',b.templateEngine );
       
-      n/*ko*/.templateRewriting = ( function () {
-        var m/*memoizeDataBindingAttributeSyntaxRegex*/ = /(<[a-z]+\d*(\s+(?!data-bind=)[a-z0-9\-]+(=(\"[^\"]*\"|\'[^\']*\'))?)*\s+)data-bind=(["'])([\s\S]*?)\5/gi;
+      b.templateRewriting = function () {
+        var c = /(<[a-z]+\d*(\s+(?!data-bind=)[a-z0-9\-]+(=(\"[^\"]*\"|\'[^\']*\'))?)*\s+)data-bind=(["'])([\s\S]*?)\5/gi;
         
-        var o/*memoizeVirtualContainerBindingSyntaxRegex*/ = /<!--\s*ko\b\s*([\s\S]*?)\s*-->/g;
+        var d = /<!--\s*ko\b\s*([\s\S]*?)\s*-->/g;
         
-        function g/*validateDataBindValuesForRewriting*/( g/*keyValueArray*/ ) {
-          var h/*allValidators*/ = n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators;
+        function a( a ) {
+          var c = b.jsonExpressionRewriting.bindingRewriteValidators;
           
-          for ( var i/*i*/ = 0;i/*i*/<g/*keyValueArray*/.length;i/*i*/ ++  ){
-            var j/*key*/ = g/*keyValueArray*/[i/*i*/]['key'];
+          for ( var d = 0;d<a.length;d ++  ){
+            var e = a[d]['key'];
             
-            if ( h/*allValidators*/.hasOwnProperty( j/*key*/ ) ){
-              var k/*validator*/ = h/*allValidators*/[j/*key*/];
+            if ( c.hasOwnProperty( e ) ){
+              var f = c[e];
               
-              if ( typeof k/*validator*/ === "function" ){
-                var l/*possibleErrorMessage*/ = k/*validator*/( g/*keyValueArray*/[i/*i*/]['value'] );
+              if ( typeof f === "function" ){
+                var g = f( a[d]['value'] );
                 
-                if ( l/*possibleErrorMessage*/ ){
-                  throw new Error( l/*possibleErrorMessage*/ );
+                if ( g ){
+                  throw new Error( g );
                 };
-              } else if ( !k/*validator*/ ){
-                throw new Error( "This template engine does not support the '"+j/*key*/+"' binding within its templates" );
+              } else if ( !f ){
+                throw new Error( "This template engine does not support the '"+e+"' binding within its templates" );
               };
             };
           };
         }
-        function p/*constructMemoizedTagReplacement*/( m/*dataBindAttributeValue*/,o/*tagToRetain*/,p/*templateEngine*/ ) {
-          var q/*dataBindKeyValueArray*/ = n/*ko*/.jsonExpressionRewriting.parseObjectLiteral( m/*dataBindAttributeValue*/ );
+        function e( c,d,e ) {
+          var f = b.jsonExpressionRewriting.parseObjectLiteral( c );
           
-          g/*validateDataBindValuesForRewriting*/( q/*dataBindKeyValueArray*/ );
+          a( f );
           
-          var r/*rewrittenDataBindAttributeValue*/ = n/*ko*/.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( q/*dataBindKeyValueArray*/ );
+          var g = b.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( f );
           
-          var s/*applyBindingsToNextSiblingScript*/ = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
-            return (function() { return { "+r/*rewrittenDataBindAttributeValue*/+" } })() \
+          var h = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
+            return (function() { return { "+g+" } })() \
         })";
-          return p/*templateEngine*/['createJavaScriptEvaluatorBlock']( s/*applyBindingsToNextSiblingScript*/ )+o/*tagToRetain*/;
+          return e['createJavaScriptEvaluatorBlock']( h )+d;
         }return  {
-          ensureTemplateIsRewritten : function ( d/*template*/,c/*templateEngine*/ ) {
-            if ( !c/*templateEngine*/['isTemplateRewritten']( d/*template*/ ) ){
-              c/*templateEngine*/['rewriteTemplate']( d/*template*/,
-              function ( d/*htmlString*/ ) {
-                return n/*ko*/.templateRewriting.memoizeBindingAttributeSyntax( d/*htmlString*/,c/*templateEngine*/ );
+          ensureTemplateIsRewritten : function ( c,a ) {
+            if ( !a['isTemplateRewritten']( c ) ){
+              a['rewriteTemplate']( c,
+              function ( c ) {
+                return b.templateRewriting.memoizeBindingAttributeSyntax( c,a );
               });
             };
           },
-          memoizeBindingAttributeSyntax : function ( r/*htmlString*/,b/*templateEngine*/ ) {
-            return r/*htmlString*/.replace( m/*memoizeDataBindingAttributeSyntaxRegex*/,
+          memoizeBindingAttributeSyntax : function ( f,a ) {
+            return f.replace( c,
             function () {
-              return p/*constructMemoizedTagReplacement*/( arguments[6],arguments[1],b/*templateEngine*/ );
-            }).replace( o/*memoizeVirtualContainerBindingSyntaxRegex*/,
+              return e( arguments[6],arguments[1],a );
+            }).replace( d,
             function () {
-              return p/*constructMemoizedTagReplacement*/( arguments[1],"<!-- ko -->",b/*templateEngine*/ );
+              return e( arguments[1],"<!-- ko -->",a );
             });
           },
-          applyMemoizedBindingsToNextSibling : function ( b/*bindings*/ ) {
-            return n/*ko*/.memoization.memoize( function ( d/*domNode*/,e/*bindingContext*/ ) {
-              if ( d/*domNode*/.nextSibling ){
-                n/*ko*/.applyBindingsToNode( d/*domNode*/.nextSibling,b/*bindings*/,e/*bindingContext*/ );
+          applyMemoizedBindingsToNextSibling : function ( a ) {
+            return b.memoization.memoize( function ( c,d ) {
+              if ( c.nextSibling ){
+                b.applyBindingsToNode( c.nextSibling,a,d );
               };
             });
           }
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.templateRewriting',n/*ko*/.templateRewriting );
+      b.exportSymbol( 'ko.templateRewriting',b.templateRewriting );
       
-      n/*ko*/.exportSymbol( 'ko.templateRewriting.applyMemoizedBindingsToNextSibling',n/*ko*/.templateRewriting.applyMemoizedBindingsToNextSibling );
+      b.exportSymbol( 'ko.templateRewriting.applyMemoizedBindingsToNextSibling',b.templateRewriting.applyMemoizedBindingsToNextSibling );
       
-      ( function () {
-        n/*ko*/.templateSources = {};
+      !function () {
+        b.templateSources = {};
         
-        n/*ko*/.templateSources.domElement = function ( b/*element*/ ) {
-          this.domElement = b/*element*/;
+        b.templateSources.domElement = function ( a ) {
+          this.domElement = a;
         };
         
-        n/*ko*/.templateSources.domElement.prototype['text'] = function () {
+        b.templateSources.domElement.prototype['text'] = function () {
           if ( arguments.length == 0 ){
             return this.domElement.tagName.toLowerCase() == "script"?this.domElement.text : this.domElement.innerHTML;
           } else {
-            var b/*valueToWrite*/ = arguments[0];
+            var a = arguments[0];
             if ( this.domElement.tagName.toLowerCase() == "script" ){
-              this.domElement.text = b/*valueToWrite*/;
+              this.domElement.text = a;
             } else {
-              n/*ko*/.utils.setHtml( this.domElement,b/*valueToWrite*/ );
+              b.utils.setHtml( this.domElement,a );
             };
           };
         };
         
-        n/*ko*/.templateSources.domElement.prototype['data'] = function ( b/*key*/ ) {
+        b.templateSources.domElement.prototype['data'] = function ( a ) {
           if ( arguments.length === 1 ){
-            return n/*ko*/.utils.domData.get( this.domElement,"templateSourceData_"+b/*key*/ );
+            return b.utils.domData.get( this.domElement,"templateSourceData_"+a );
           } else {
-            n/*ko*/.utils.domData.set( this.domElement,"templateSourceData_"+b/*key*/,arguments[1] );
+            b.utils.domData.set( this.domElement,"templateSourceData_"+a,arguments[1] );
           };
         };
         
-        var b/*anonymousTemplatesDomDataKey*/ = "__ko_anon_template__";
+        var a = "__ko_anon_template__";
         
-        n/*ko*/.templateSources.anonymousTemplate = function ( b/*element*/ ) {
-          this.domElement = b/*element*/;
+        b.templateSources.anonymousTemplate = function ( a ) {
+          this.domElement = a;
         };
         
-        n/*ko*/.templateSources.anonymousTemplate.prototype = new n/*ko*/.templateSources.domElement();
+        b.templateSources.anonymousTemplate.prototype = new b.templateSources.domElement();
         
-        n/*ko*/.templateSources.anonymousTemplate.prototype['text'] = function () {
+        b.templateSources.anonymousTemplate.prototype['text'] = function () {
           if ( arguments.length == 0 ){
-            return n/*ko*/.utils.domData.get( this.domElement,b/*anonymousTemplatesDomDataKey*/ );
+            return b.utils.domData.get( this.domElement,a );
           } else {
-            var d/*valueToWrite*/ = arguments[0];
+            var c = arguments[0];
             
-            n/*ko*/.utils.domData.set( this.domElement,b/*anonymousTemplatesDomDataKey*/,d/*valueToWrite*/ );
+            b.utils.domData.set( this.domElement,a,c );
           };
         };
         
-        n/*ko*/.exportSymbol( 'ko.templateSources',n/*ko*/.templateSources );
+        b.exportSymbol( 'ko.templateSources',b.templateSources );
         
-        n/*ko*/.exportSymbol( 'ko.templateSources.domElement',n/*ko*/.templateSources.domElement );
+        b.exportSymbol( 'ko.templateSources.domElement',b.templateSources.domElement );
         
-        n/*ko*/.exportSymbol( 'ko.templateSources.anonymousTemplate',n/*ko*/.templateSources.anonymousTemplate );
-      })();
+        b.exportSymbol( 'ko.templateSources.anonymousTemplate',b.templateSources.anonymousTemplate );
+      }();
       
-      ( function () {
-        var g/*_templateEngine*/;
+      !function () {
+        var a;
         
-        n/*ko*/.setTemplateEngine = function ( h/*templateEngine*/ ) {
-          if ( ( h/*templateEngine*/ != undefined ) && !( h/*templateEngine*/ instanceof n/*ko*/.templateEngine ) ){
+        b.setTemplateEngine = function ( c ) {
+          if ( ( c != undefined ) && !( c instanceof b.templateEngine ) ){
             throw "templateEngine must inherit from ko.templateEngine";
           };
           
-          g/*_templateEngine*/ = h/*templateEngine*/;
+          a = c;
         };
         
-        function h/*invokeForEachNodeOrCommentInParent*/( e/*nodeArray*/,f/*parent*/,g/*action*/ ) {
-          for ( var h/*i*/ = 0;node = e/*nodeArray*/[h/*i*/];h/*i*/ ++  ){
-            if ( node.parentNode !== f/*parent*/ ){
+        function c( a,b,c ) {
+          for ( var d = 0;node = a[d];d ++  ){
+            if ( node.parentNode !== b ){
               continue ;
             };
             
             if ( ( node.nodeType === 1 ) || ( node.nodeType === 8 ) ){
-              g/*action*/( node );
+              c( node );
             };
           };
         }
-        n/*ko*/.activateBindingsOnTemplateRenderedNodes = function ( l/*nodeArray*/,b/*bindingContext*/ ) {
-          var m/*nodeArrayClone*/ = n/*ko*/.utils.arrayPushAll( [],l/*nodeArray*/ );
+        b.activateBindingsOnTemplateRenderedNodes = function ( d,a ) {
+          var e = b.utils.arrayPushAll( [],d );
           
-          var o/*commonParentElement*/ = ( l/*nodeArray*/.length>0 )?l/*nodeArray*/[0].parentNode : null;
+          var f = ( d.length>0 )?d[0].parentNode : null;
           
-          h/*invokeForEachNodeOrCommentInParent*/( m/*nodeArrayClone*/,o/*commonParentElement*/,
-          function ( d/*node*/ ) {
-            n/*ko*/.applyBindings( b/*bindingContext*/,d/*node*/ );
+          c( e,f,
+          function ( c ) {
+            b.applyBindings( a,c );
           });
           
-          h/*invokeForEachNodeOrCommentInParent*/( m/*nodeArrayClone*/,o/*commonParentElement*/,
-          function ( c/*node*/ ) {
-            n/*ko*/.memoization.unmemoizeDomNodeAndDescendants( c/*node*/,[b/*bindingContext*/] );
+          c( e,f,
+          function ( c ) {
+            b.memoization.unmemoizeDomNodeAndDescendants( c,[a] );
           });
         };
         
-        function l/*getFirstNodeFromPossibleArray*/( b/*nodeOrNodeArray*/ ) {
-          return b/*nodeOrNodeArray*/.nodeType?b/*nodeOrNodeArray*/ : b/*nodeOrNodeArray*/.length>0?b/*nodeOrNodeArray*/[0] : null;
+        function d( a ) {
+          return a.nodeType?a : a.length>0?a[0] : null;
         }
-        function r/*executeTemplate*/( i/*targetNodeOrNodeArray*/,j/*renderMode*/,k/*template*/,l/*bindingContext*/,m/*options*/ ) {
-          m/*options*/ = m/*options*/ || {};
+        function e( c,d,e,f,g ) {
+          g = g || {};
           
-          var o/*templateEngineToUse*/ = ( m/*options*/['templateEngine'] || g/*_templateEngine*/ );
+          var h = ( g['templateEngine'] || a );
           
-          n/*ko*/.templateRewriting.ensureTemplateIsRewritten( k/*template*/,o/*templateEngineToUse*/ );
+          b.templateRewriting.ensureTemplateIsRewritten( e,h );
           
-          var p/*renderedNodesArray*/ = o/*templateEngineToUse*/['renderTemplate']( k/*template*/,l/*bindingContext*/,m/*options*/ );
+          var i = h['renderTemplate']( e,f,g );
           
-          if ( ( typeof p/*renderedNodesArray*/.length != "number" ) || ( p/*renderedNodesArray*/.length>0 && typeof p/*renderedNodesArray*/[0].nodeType != "number" ) ){
+          if ( ( typeof i.length != "number" ) || ( i.length>0 && typeof i[0].nodeType != "number" ) ){
             throw "Template engine must return an array of DOM nodes";
           };
           
-          var q/*haveAddedNodesToParent*/ = false;
+          var j = false;
           
-          switch ( j/*renderMode*/ ) {
+          switch ( d ) {
             case "replaceChildren" :
               
-              n/*ko*/.virtualElements.setDomNodeChildren( i/*targetNodeOrNodeArray*/,p/*renderedNodesArray*/ );
+              b.virtualElements.setDomNodeChildren( c,i );
               
-              q/*haveAddedNodesToParent*/ = true;
+              j = true;
               break;
             case "replaceNode" :
               
-              n/*ko*/.utils.replaceDomNodes( i/*targetNodeOrNodeArray*/,p/*renderedNodesArray*/ );
+              b.utils.replaceDomNodes( c,i );
               
-              q/*haveAddedNodesToParent*/ = true;
+              j = true;
               break;
             case "ignoreTargetNode" :
               break;
             default :
-              throw new Error( "Unknown renderMode: "+j/*renderMode*/ );
+              throw new Error( "Unknown renderMode: "+d );
               
           };
           
-          if ( q/*haveAddedNodesToParent*/ ){
-            n/*ko*/.activateBindingsOnTemplateRenderedNodes( p/*renderedNodesArray*/,l/*bindingContext*/ );
+          if ( j ){
+            b.activateBindingsOnTemplateRenderedNodes( i,f );
             
-            if ( m/*options*/['afterRender'] ){
-              m/*options*/['afterRender']( p/*renderedNodesArray*/,l/*bindingContext*/['$data'] );
+            if ( g['afterRender'] ){
+              g['afterRender']( i,f['$data'] );
             };
           };
-          return p/*renderedNodesArray*/;
+          return i;
         }
-        n/*ko*/.renderTemplate = function ( f/*template*/,e/*dataOrBindingContext*/,k/*options*/,h/*targetNodeOrNodeArray*/,i/*renderMode*/ ) {
-          k/*options*/ = k/*options*/ || {};
+        b.renderTemplate = function ( g,f,j,h,i ) {
+          j = j || {};
           
-          if ( ( k/*options*/['templateEngine'] || g/*_templateEngine*/ ) == undefined ){
+          if ( ( j['templateEngine'] || a ) == undefined ){
             throw "Set a template engine before calling renderTemplate";
           };
           
-          i/*renderMode*/ = i/*renderMode*/ || "replaceChildren";
+          i = i || "replaceChildren";
           
-          if ( h/*targetNodeOrNodeArray*/ ){
-            var d/*firstTargetNode*/ = l/*getFirstNodeFromPossibleArray*/( h/*targetNodeOrNodeArray*/ );
+          if ( h ){
+            var c = d( h );
             
-            var s/*whenToDispose*/ = function () {
-                  return ( !d/*firstTargetNode*/ ) || !n/*ko*/.utils.domNodeIsAttachedToDocument( d/*firstTargetNode*/ );
+            var k = function () {
+                  return ( !c ) || !b.utils.domNodeIsAttachedToDocument( c );
                 };
             
-            var t/*activelyDisposeWhenNodeIsRemoved*/ = ( d/*firstTargetNode*/ && i/*renderMode*/ == "replaceNode" )?d/*firstTargetNode*/.parentNode : d/*firstTargetNode*/;
-            return new n/*ko*/.dependentObservable( function () {
-              var m/*bindingContext*/ = ( e/*dataOrBindingContext*/ && ( e/*dataOrBindingContext*/ instanceof n/*ko*/.bindingContext ) )?e/*dataOrBindingContext*/ : new n/*ko*/.bindingContext( n/*ko*/.utils.unwrapObservable( e/*dataOrBindingContext*/ ) );
+            var l = ( c && i == "replaceNode" )?c.parentNode : c;
+            return new b.dependentObservable( function () {
+              var k = ( f && ( f instanceof b.bindingContext ) )?f : new b.bindingContext( b.utils.unwrapObservable( f ) );
               
-              var o/*templateName*/ = typeof ( f/*template*/ ) == 'function'?f/*template*/( m/*bindingContext*/['$data'] ) : f/*template*/;
+              var l = typeof ( g ) == 'function'?g( k['$data'] ) : g;
               
-              var p/*renderedNodesArray*/ = r/*executeTemplate*/( h/*targetNodeOrNodeArray*/,i/*renderMode*/,o/*templateName*/,m/*bindingContext*/,k/*options*/ );
+              var m = e( h,i,l,k,j );
               
-              if ( i/*renderMode*/ == "replaceNode" ){
-                h/*targetNodeOrNodeArray*/ = p/*renderedNodesArray*/;
+              if ( i == "replaceNode" ){
+                h = m;
                 
-                d/*firstTargetNode*/ = l/*getFirstNodeFromPossibleArray*/( h/*targetNodeOrNodeArray*/ );
+                c = d( h );
               };
             },null, {
-              'disposeWhen' : s/*whenToDispose*/,
-              'disposeWhenNodeIsRemoved' : t/*activelyDisposeWhenNodeIsRemoved*/
+              'disposeWhen' : k,
+              'disposeWhenNodeIsRemoved' : l
             });
           } else {
-            return n/*ko*/.memoization.memoize( function ( b/*domNode*/ ) {
-              n/*ko*/.renderTemplate( f/*template*/,e/*dataOrBindingContext*/,k/*options*/,b/*domNode*/,"replaceNode" );
+            return b.memoization.memoize( function ( a ) {
+              b.renderTemplate( g,f,j,a,"replaceNode" );
             });
           };
         };
         
-        n/*ko*/.renderTemplateForEach = function ( v/*template*/,p/*arrayOrObservableArray*/,o/*options*/,s/*targetNode*/,h/*parentBindingContext*/ ) {
-          var j/*createInnerBindingContext*/ = function ( j/*arrayValue*/ ) {
-                return h/*parentBindingContext*/['createChildContext']( n/*ko*/.utils.unwrapObservable( j/*arrayValue*/ ) );
+        b.renderTemplateForEach = function ( i,f,d,g,a ) {
+          var c = function ( c ) {
+                return a['createChildContext']( b.utils.unwrapObservable( c ) );
               };
           
-          var u/*activateBindingsCallback*/ = function ( p/*arrayValue*/,q/*addedNodesArray*/ ) {
-                var r/*bindingContext*/ = j/*createInnerBindingContext*/( p/*arrayValue*/ );
+          var h = function ( e,f ) {
+                var g = c( e );
                 
-                n/*ko*/.activateBindingsOnTemplateRenderedNodes( q/*addedNodesArray*/,r/*bindingContext*/ );
+                b.activateBindingsOnTemplateRenderedNodes( f,g );
                 
-                if ( o/*options*/['afterRender'] ){
-                  o/*options*/['afterRender']( q/*addedNodesArray*/,r/*bindingContext*/['$data'] );
+                if ( d['afterRender'] ){
+                  d['afterRender']( f,g['$data'] );
                 };
               };
-          return new n/*ko*/.dependentObservable( function () {
-            var w/*unwrappedArray*/ = n/*ko*/.utils.unwrapObservable( p/*arrayOrObservableArray*/ ) || [];
+          return new b.dependentObservable( function () {
+            var j = b.utils.unwrapObservable( f ) || [];
             
-            if ( typeof w/*unwrappedArray*/.length == "undefined" ){
-              w/*unwrappedArray*/ = [w/*unwrappedArray*/];
+            if ( typeof j.length == "undefined" ){
+              j = [j];
             };
             
-            var x/*filteredArray*/ = n/*ko*/.utils.arrayFilter( w/*unwrappedArray*/,
-                function ( b/*item*/ ) {
-                  return o/*options*/['includeDestroyed'] || b/*item*/ === undefined || b/*item*/ === null || !n/*ko*/.utils.unwrapObservable( b/*item*/['_destroy'] );
+            var k = b.utils.arrayFilter( j,
+                function ( a ) {
+                  return d['includeDestroyed'] || a === undefined || a === null || !b.utils.unwrapObservable( a['_destroy'] );
                 });
             
-            n/*ko*/.utils.setDomNodeChildrenFromArrayMapping( s/*targetNode*/,x/*filteredArray*/,
-            function ( c/*arrayValue*/ ) {
-              var d/*templateName*/ = typeof ( v/*template*/ ) == 'function'?v/*template*/( c/*arrayValue*/ ) : v/*template*/;
-              return r/*executeTemplate*/( null,"ignoreTargetNode",d/*templateName*/,j/*createInnerBindingContext*/( c/*arrayValue*/ ),o/*options*/ );
-            },o/*options*/,u/*activateBindingsCallback*/);
+            b.utils.setDomNodeChildrenFromArrayMapping( g,k,
+            function ( a ) {
+              var b = typeof ( i ) == 'function'?i( a ) : i;
+              return e( null,"ignoreTargetNode",b,c( a ),d );
+            },d,h);
           },null, {
-            'disposeWhenNodeIsRemoved' : s/*targetNode*/
+            'disposeWhenNodeIsRemoved' : g
           });
         };
         
-        var s/*templateSubscriptionDomDataKey*/ = '__ko__templateSubscriptionDomDataKey__';
+        var f = '__ko__templateSubscriptionDomDataKey__';
         
-        function v/*disposeOldSubscriptionAndStoreNewOne*/( v/*element*/,w/*newSubscription*/ ) {
-          var x/*oldSubscription*/ = n/*ko*/.utils.domData.get( v/*element*/,s/*templateSubscriptionDomDataKey*/ );
+        function g( g,h ) {
+          var i = b.utils.domData.get( g,f );
           
-          if ( x/*oldSubscription*/ && ( typeof ( x/*oldSubscription*/.dispose ) == 'function' ) ){
-            x/*oldSubscription*/.dispose();
+          if ( i && ( typeof ( i.dispose ) == 'function' ) ){
+            i.dispose();
           };
           
-          n/*ko*/.utils.domData.set( v/*element*/,s/*templateSubscriptionDomDataKey*/,w/*newSubscription*/ );
+          b.utils.domData.set( g,f,h );
         }
-        n/*ko*/.bindingHandlers['template'] =  {
-          'init' : function ( d/*element*/,e/*valueAccessor*/ ) {
-            var f/*bindingValue*/ = n/*ko*/.utils.unwrapObservable( e/*valueAccessor*/() );
+        b.bindingHandlers['template'] =  {
+          'init' : function ( a,c ) {
+            var d = b.utils.unwrapObservable( c() );
             
-            if ( ( typeof f/*bindingValue*/ != "string" ) && ( !f/*bindingValue*/.name ) && ( d/*element*/.nodeType == 1 ) ){
-              new n/*ko*/.templateSources.anonymousTemplate( d/*element*/ ).text( d/*element*/.innerHTML );
+            if ( ( typeof d != "string" ) && ( !d.name ) && ( a.nodeType == 1 ) ){
+              new b.templateSources.anonymousTemplate( a ).text( a.innerHTML );
               
-              n/*ko*/.utils.emptyDomNode( d/*element*/ );
+              b.utils.emptyDomNode( a );
             };
             return  {
               'controlsDescendantBindings' : true
             };
           },
-          'update' : function ( w/*element*/,x/*valueAccessor*/,y/*allBindingsAccessor*/,z/*viewModel*/,A/*bindingContext*/ ) {
-            var B/*bindingValue*/ = n/*ko*/.utils.unwrapObservable( x/*valueAccessor*/() );
+          'update' : function ( h,i,j,k,l ) {
+            var m = b.utils.unwrapObservable( i() );
             
-            var C/*templateName*/;
+            var n;
             
-            var D/*shouldDisplay*/ = true;
+            var o = true;
             
-            if ( typeof B/*bindingValue*/ == "string" ){
-              C/*templateName*/ = B/*bindingValue*/;
+            if ( typeof m == "string" ){
+              n = m;
             } else {
-              C/*templateName*/ = B/*bindingValue*/.name;
-              if ( 'if' in B/*bindingValue*/ ){
-                D/*shouldDisplay*/ = D/*shouldDisplay*/ && n/*ko*/.utils.unwrapObservable( B/*bindingValue*/['if'] );
+              n = m.name;
+              if ( 'if' in m ){
+                o = o && b.utils.unwrapObservable( m['if'] );
               };
-              if ( 'ifnot' in B/*bindingValue*/ ){
-                D/*shouldDisplay*/ = D/*shouldDisplay*/ && !n/*ko*/.utils.unwrapObservable( B/*bindingValue*/['ifnot'] );
+              if ( 'ifnot' in m ){
+                o = o && !b.utils.unwrapObservable( m['ifnot'] );
               };
             };
             
-            var E/*templateSubscription*/ = null;
+            var p = null;
             
-            if ( ( typeof B/*bindingValue*/ === 'object' ) && ( 'foreach' in B/*bindingValue*/ ) ){
-              var F/*dataArray*/ = ( D/*shouldDisplay*/ && B/*bindingValue*/['foreach'] ) || [];
+            if ( ( typeof m === 'object' ) && ( 'foreach' in m ) ){
+              var q = ( o && m['foreach'] ) || [];
               
-              E/*templateSubscription*/ = n/*ko*/.renderTemplateForEach( C/*templateName*/ || w/*element*/,F/*dataArray*/,B/*bindingValue*/,w/*element*/,A/*bindingContext*/ );
+              p = b.renderTemplateForEach( n || h,q,m,h,l );
+            } else if ( o ){
+              var r = ( typeof m == 'object' ) && ( 'data' in m )?l['createChildContext']( b.utils.unwrapObservable( m['data'] ) ) : l;
+              
+              p = b.renderTemplate( n || h,r,m,h );
             } else {
-              if ( D/*shouldDisplay*/ ){
-                var G/*innerBindingContext*/ = ( typeof B/*bindingValue*/ == 'object' ) && ( 'data' in B/*bindingValue*/ )?A/*bindingContext*/['createChildContext']( n/*ko*/.utils.unwrapObservable( B/*bindingValue*/['data'] ) ) : A/*bindingContext*/;
-                
-                E/*templateSubscription*/ = n/*ko*/.renderTemplate( C/*templateName*/ || w/*element*/,G/*innerBindingContext*/,B/*bindingValue*/,w/*element*/ );
-              } else {
-                n/*ko*/.virtualElements.emptyNode( w/*element*/ );
-              };
+              b.virtualElements.emptyNode( h );
             };
             
-            v/*disposeOldSubscriptionAndStoreNewOne*/( w/*element*/,E/*templateSubscription*/ );
+            g( h,p );
           }
         };
         
-        n/*ko*/.jsonExpressionRewriting.bindingRewriteValidators['template'] = function ( c/*bindingValue*/ ) {
-          var d/*parsedBindingValue*/ = n/*ko*/.jsonExpressionRewriting.parseObjectLiteral( c/*bindingValue*/ );
+        b.jsonExpressionRewriting.bindingRewriteValidators['template'] = function ( a ) {
+          var c = b.jsonExpressionRewriting.parseObjectLiteral( a );
           
-          if ( ( d/*parsedBindingValue*/.length == 1 ) && d/*parsedBindingValue*/[0]['unknown'] ){
+          if ( ( c.length == 1 ) && c[0]['unknown'] ){
             return null;
           };
           
-          if ( n/*ko*/.jsonExpressionRewriting.keyValueArrayContainsKey( d/*parsedBindingValue*/,"name" ) ){
+          if ( b.jsonExpressionRewriting.keyValueArrayContainsKey( c,"name" ) ){
             return null;
           };
           return "This template engine does not support anonymous templates nested within its templates";
         };
         
-        n/*ko*/.virtualElements.allowedBindings['template'] = true;
-      })();
+        b.virtualElements.allowedBindings['template'] = true;
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.setTemplateEngine',n/*ko*/.setTemplateEngine );
+      b.exportSymbol( 'ko.setTemplateEngine',b.setTemplateEngine );
       
-      n/*ko*/.exportSymbol( 'ko.renderTemplate',n/*ko*/.renderTemplate );
+      b.exportSymbol( 'ko.renderTemplate',b.renderTemplate );
       
-      ( function () {
-        function o/*calculateEditDistanceMatrix*/( o/*oldArray*/,p/*newArray*/,q/*maxAllowedDistance*/ ) {
-          var r/*distances*/ = [];
+      !function () {
+        function a( a,b,c ) {
+          var d = [];
           
-          for ( var s/*i*/ = 0;s/*i*/ <= p/*newArray*/.length;s/*i*/ ++  ){
-            r/*distances*/[s/*i*/] = [];
-          };
+          for ( var e = 0;e <= b.length;e ++  )
+          d[e] = [];
           
-          for ( var s/*i*/ = 0,t/*j*/ = Math.min( o/*oldArray*/.length,q/*maxAllowedDistance*/ );s/*i*/ <= t/*j*/;s/*i*/ ++  ){
-            r/*distances*/[0][s/*i*/] = s/*i*/;
-          };
+          for ( var e = 0,f = Math.min( a.length,c );e <= f;e ++  )
+          d[0][e] = e;
           
-          for ( var s/*i*/ = 1,t/*j*/ = Math.min( p/*newArray*/.length,q/*maxAllowedDistance*/ );s/*i*/ <= t/*j*/;s/*i*/ ++  ){
-            r/*distances*/[s/*i*/][0] = s/*i*/;
-          };
+          for ( var e = 1,f = Math.min( b.length,c );e <= f;e ++  )
+          d[e][0] = e;
           
-          var u/*oldIndex*/,
-              v/*oldIndexMax*/ = o/*oldArray*/.length,
-              w/*newIndex*/,
-              x/*newIndexMax*/ = p/*newArray*/.length;
+          var g,
+              h = a.length,
+              i,
+              j = b.length;
           
-          var y/*distanceViaAddition*/,
-              z/*distanceViaDeletion*/;
+          var k,
+              l;
           
-          for ( u/*oldIndex*/ = 1;u/*oldIndex*/ <= v/*oldIndexMax*/;u/*oldIndex*/ ++  ){
-            var A/*newIndexMinForRow*/ = Math.max( 1,u/*oldIndex*/-q/*maxAllowedDistance*/ );
+          for ( g = 1;g <= h;g ++  ){
+            var m = Math.max( 1,g-c );
             
-            var B/*newIndexMaxForRow*/ = Math.min( x/*newIndexMax*/,u/*oldIndex*/+q/*maxAllowedDistance*/ );
+            var n = Math.min( j,g+c );
             
-            for ( w/*newIndex*/ = A/*newIndexMinForRow*/;w/*newIndex*/ <= B/*newIndexMaxForRow*/;w/*newIndex*/ ++  ){
-              if ( o/*oldArray*/[u/*oldIndex*/-1] === p/*newArray*/[w/*newIndex*/-1] ){
-                r/*distances*/[w/*newIndex*/][u/*oldIndex*/] = r/*distances*/[w/*newIndex*/-1][u/*oldIndex*/-1];
-              } else {
-                var C/*northDistance*/ = r/*distances*/[w/*newIndex*/-1][u/*oldIndex*/] === undefined?Number.MAX_VALUE : r/*distances*/[w/*newIndex*/-1][u/*oldIndex*/]+1;
-                
-                var D/*westDistance*/ = r/*distances*/[w/*newIndex*/][u/*oldIndex*/-1] === undefined?Number.MAX_VALUE : r/*distances*/[w/*newIndex*/][u/*oldIndex*/-1]+1;
-                
-                r/*distances*/[w/*newIndex*/][u/*oldIndex*/] = Math.min( C/*northDistance*/,D/*westDistance*/ );
-              };
+            for ( i = m;i <= n;i ++  )if ( a[g-1] === b[i-1] ){
+              d[i][g] = d[i-1][g-1];
+            } else {
+              var o = d[i-1][g] === undefined?Number.MAX_VALUE : d[i-1][g]+1;
+              
+              var p = d[i][g-1] === undefined?Number.MAX_VALUE : d[i][g-1]+1;
+              
+              d[i][g] = Math.min( o,p );
             };
           };
-          return r/*distances*/;
+          return d;
         }
-        function p/*findEditScriptFromEditDistanceMatrix*/( l/*editDistanceMatrix*/,m/*oldArray*/,n/*newArray*/ ) {
-          var o/*oldIndex*/ = m/*oldArray*/.length;
+        function c( a,b,c ) {
+          var d = b.length;
           
-          var p/*newIndex*/ = n/*newArray*/.length;
+          var e = c.length;
           
-          var q/*editScript*/ = [];
+          var f = [];
           
-          var r/*maxDistance*/ = l/*editDistanceMatrix*/[p/*newIndex*/][o/*oldIndex*/];
+          var g = a[e][d];
           
-          if ( r/*maxDistance*/ === undefined ){
+          if ( g === undefined ){
             return null;
           };
           
-          while ( ( o/*oldIndex*/>0 ) || ( p/*newIndex*/>0 ) ){
-            var s/*me*/ = l/*editDistanceMatrix*/[p/*newIndex*/][o/*oldIndex*/];
+          while ( ( d>0 ) || ( e>0 ) ){
+            var h = a[e][d];
             
-            var t/*distanceViaAdd*/ = ( p/*newIndex*/>0 )?l/*editDistanceMatrix*/[p/*newIndex*/-1][o/*oldIndex*/] : r/*maxDistance*/+1;
+            var i = ( e>0 )?a[e-1][d] : g+1;
             
-            var u/*distanceViaDelete*/ = ( o/*oldIndex*/>0 )?l/*editDistanceMatrix*/[p/*newIndex*/][o/*oldIndex*/-1] : r/*maxDistance*/+1;
+            var j = ( d>0 )?a[e][d-1] : g+1;
             
-            var v/*distanceViaRetain*/ = ( p/*newIndex*/>0 ) && ( o/*oldIndex*/>0 )?l/*editDistanceMatrix*/[p/*newIndex*/-1][o/*oldIndex*/-1] : r/*maxDistance*/+1;
+            var k = ( e>0 ) && ( d>0 )?a[e-1][d-1] : g+1;
             
-            if ( ( t/*distanceViaAdd*/ === undefined ) || ( t/*distanceViaAdd*/<s/*me*/-1 ) ){
-              t/*distanceViaAdd*/ = r/*maxDistance*/+1;
+            if ( ( i === undefined ) || ( i<h-1 ) ){
+              i = g+1;
             };
             
-            if ( ( u/*distanceViaDelete*/ === undefined ) || ( u/*distanceViaDelete*/<s/*me*/-1 ) ){
-              u/*distanceViaDelete*/ = r/*maxDistance*/+1;
+            if ( ( j === undefined ) || ( j<h-1 ) ){
+              j = g+1;
             };
             
-            if ( v/*distanceViaRetain*/<s/*me*/-1 ){
-              v/*distanceViaRetain*/ = r/*maxDistance*/+1;
+            if ( k<h-1 ){
+              k = g+1;
             };
             
-            if ( ( t/*distanceViaAdd*/ <= u/*distanceViaDelete*/ ) && ( t/*distanceViaAdd*/<v/*distanceViaRetain*/ ) ){
-              q/*editScript*/.push(  {
+            if ( ( i <= j ) && ( i<k ) ){
+              f.push(  {
                 status : "added",
-                value : n/*newArray*/[p/*newIndex*/-1]
+                value : c[e-1]
               });
               
-              p/*newIndex*/ -- ;
-            } else if ( ( u/*distanceViaDelete*/<t/*distanceViaAdd*/ ) && ( u/*distanceViaDelete*/<v/*distanceViaRetain*/ ) ){
-              q/*editScript*/.push(  {
+              e -- ;
+            } else if ( ( j<i ) && ( j<k ) ){
+              f.push(  {
                 status : "deleted",
-                value : m/*oldArray*/[o/*oldIndex*/-1]
+                value : b[d-1]
               });
               
-              o/*oldIndex*/ -- ;
+              d -- ;
             } else {
-              q/*editScript*/.push(  {
+              f.push(  {
                 status : "retained",
-                value : m/*oldArray*/[o/*oldIndex*/-1]
+                value : b[d-1]
               });
               
-              p/*newIndex*/ -- ;
+              e -- ;
               
-              o/*oldIndex*/ -- ;
+              d -- ;
             };
           };
-          return q/*editScript*/.reverse();
+          return f.reverse();
         }
-        n/*ko*/.utils.compareArrays = function ( r/*oldArray*/,s/*newArray*/,t/*maxEditsToConsider*/ ) {
-          if ( t/*maxEditsToConsider*/ === undefined ){
-            return n/*ko*/.utils.compareArrays( r/*oldArray*/,s/*newArray*/,1 ) || n/*ko*/.utils.compareArrays( r/*oldArray*/,s/*newArray*/,10 ) || n/*ko*/.utils.compareArrays( r/*oldArray*/,s/*newArray*/,Number.MAX_VALUE );
+        b.utils.compareArrays = function ( d,e,f ) {
+          if ( f === undefined ){
+            return b.utils.compareArrays( d,e,1 ) || b.utils.compareArrays( d,e,10 ) || b.utils.compareArrays( d,e,Number.MAX_VALUE );
           } else {
-            r/*oldArray*/ = r/*oldArray*/ || [];
+            d = d || [];
             
-            s/*newArray*/ = s/*newArray*/ || [];
+            e = e || [];
             
-            var u/*editDistanceMatrix*/ = o/*calculateEditDistanceMatrix*/( r/*oldArray*/,s/*newArray*/,t/*maxEditsToConsider*/ );
-            return p/*findEditScriptFromEditDistanceMatrix*/( u/*editDistanceMatrix*/,r/*oldArray*/,s/*newArray*/ );
+            var g = a( d,e,f );
+            return c( g,d,e );
           };
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.utils.compareArrays',n/*ko*/.utils.compareArrays );
+      b.exportSymbol( 'ko.utils.compareArrays',b.utils.compareArrays );
       
-      ( function () {
-        function f/*fixUpVirtualElements*/( e/*contiguousNodeArray*/ ) {
-          if ( e/*contiguousNodeArray*/.length>2 ){
-            var f/*current*/ = e/*contiguousNodeArray*/[0],
-                g/*last*/ = e/*contiguousNodeArray*/[e/*contiguousNodeArray*/.length-1],
-                h/*newContiguousSet*/ = [f/*current*/];
+      !function () {
+        function a( a ) {
+          if ( a.length>2 ){
+            var b = a[0],
+                c = a[a.length-1],
+                d = [b];
             
-            while ( f/*current*/ !== g/*last*/ ){
-              f/*current*/ = f/*current*/.nextSibling;
+            while ( b !== c ){
+              b = b.nextSibling;
               
-              if ( !f/*current*/ ){
+              if ( !b ){
                 return ;
               };
               
-              h/*newContiguousSet*/.push( f/*current*/ );
+              d.push( b );
             };
             
-            Array.prototype.splice.apply( e/*contiguousNodeArray*/,[0,e/*contiguousNodeArray*/.length].concat( h/*newContiguousSet*/ ) );
+            Array.prototype.splice.apply( a,[0,a.length].concat( d ) );
           };
         }
-        function r/*mapNodeAndRefreshWhenChanged*/( m/*containerNode*/,h/*mapping*/,i/*valueToMap*/,l/*callbackAfterAddingNodes*/ ) {
-          var j/*mappedNodes*/ = [];
+        function d( g,c,d,f ) {
+          var e = [];
           
-          var o/*dependentObservable*/ = n/*ko*/.dependentObservable( function () {
-                var m/*newMappedNodes*/ = h/*mapping*/( i/*valueToMap*/ ) || [];
+          var h = b.dependentObservable( function () {
+                var g = c( d ) || [];
                 
-                if ( j/*mappedNodes*/.length>0 ){
-                  f/*fixUpVirtualElements*/( j/*mappedNodes*/ );
+                if ( e.length>0 ){
+                  a( e );
                   
-                  n/*ko*/.utils.replaceDomNodes( j/*mappedNodes*/,m/*newMappedNodes*/ );
+                  b.utils.replaceDomNodes( e,g );
                   
-                  if ( l/*callbackAfterAddingNodes*/ ){
-                    l/*callbackAfterAddingNodes*/( i/*valueToMap*/,m/*newMappedNodes*/ );
+                  if ( f ){
+                    f( d,g );
                   };
                 };
                 
-                j/*mappedNodes*/.splice( 0,j/*mappedNodes*/.length );
+                e.splice( 0,e.length );
                 
-                n/*ko*/.utils.arrayPushAll( j/*mappedNodes*/,m/*newMappedNodes*/ );
+                b.utils.arrayPushAll( e,g );
               },null, {
-                'disposeWhenNodeIsRemoved' : m/*containerNode*/,
+                'disposeWhenNodeIsRemoved' : g,
                 'disposeWhen' : function () {
-                  return ( j/*mappedNodes*/.length == 0 ) || !n/*ko*/.utils.domNodeIsAttachedToDocument( j/*mappedNodes*/[0] );
+                  return ( e.length == 0 ) || !b.utils.domNodeIsAttachedToDocument( e[0] );
                 }
               });
           return  {
-            mappedNodes : j/*mappedNodes*/,
-            dependentObservable : o/*dependentObservable*/
+            mappedNodes : e,
+            dependentObservable : h
           };
         }
-        var h/*lastMappingResultDomDataKey*/ = "setDomNodeChildrenFromArrayMapping_lastMappingResult";
+        var c = "setDomNodeChildrenFromArrayMapping_lastMappingResult";
         
-        n/*ko*/.utils.setDomNodeChildrenFromArrayMapping = function ( I/*domNode*/,J/*array*/,K/*mapping*/,L/*options*/,M/*callbackAfterAddingNodes*/ ) {
-          J/*array*/ = J/*array*/ || [];
+        b.utils.setDomNodeChildrenFromArrayMapping = function ( i,j,k,l,m ) {
+          j = j || [];
           
-          L/*options*/ = L/*options*/ || {};
+          l = l || {};
           
-          var N/*isFirstExecution*/ = n/*ko*/.utils.domData.get( I/*domNode*/,h/*lastMappingResultDomDataKey*/ ) === undefined;
+          var n = b.utils.domData.get( i,c ) === undefined;
           
-          var O/*lastMappingResult*/ = n/*ko*/.utils.domData.get( I/*domNode*/,h/*lastMappingResultDomDataKey*/ ) || [];
+          var o = b.utils.domData.get( i,c ) || [];
           
-          var P/*lastArray*/ = n/*ko*/.utils.arrayMap( O/*lastMappingResult*/,
-              function ( b/*x*/ ) {
-                return b/*x*/.arrayEntry;
+          var p = b.utils.arrayMap( o,
+              function ( a ) {
+                return a.arrayEntry;
               });
           
-          var E/*editScript*/ = n/*ko*/.utils.compareArrays( P/*lastArray*/,J/*array*/ );
+          var g = b.utils.compareArrays( p,j );
           
-          var Q/*newMappingResult*/ = [];
+          var q = [];
           
-          var R/*lastMappingResultIndex*/ = 0;
+          var r = 0;
           
-          var d/*nodesToDelete*/ = [];
+          var e = [];
           
-          var S/*nodesAdded*/ = [];
+          var s = [];
           
-          var F/*insertAfterNode*/ = null;
+          var h = null;
           
-          for ( var g/*i*/ = 0,T/*j*/ = E/*editScript*/.length;g/*i*/<T/*j*/;g/*i*/ ++  ){
-            switch ( E/*editScript*/[g/*i*/].status ) {
-              case "retained" :
-                
-                var U/*dataToRetain*/ = O/*lastMappingResult*/[R/*lastMappingResultIndex*/];
-                
-                Q/*newMappingResult*/.push( U/*dataToRetain*/ );
-                
-                if ( U/*dataToRetain*/.domNodes.length>0 ){
-                  F/*insertAfterNode*/ = U/*dataToRetain*/.domNodes[U/*dataToRetain*/.domNodes.length-1];
-                };
-                
-                R/*lastMappingResultIndex*/ ++ ;
-                break;
-              case "deleted" :
-                
-                O/*lastMappingResult*/[R/*lastMappingResultIndex*/].dependentObservable.dispose();
-                
-                f/*fixUpVirtualElements*/( O/*lastMappingResult*/[R/*lastMappingResultIndex*/].domNodes );
-                
-                n/*ko*/.utils.arrayForEach( O/*lastMappingResult*/[R/*lastMappingResultIndex*/].domNodes,
-                function ( G/*node*/ ) {
-                  d/*nodesToDelete*/.push(  {
-                    element : G/*node*/,
-                    index : g/*i*/,
-                    value : E/*editScript*/[g/*i*/].value
-                  });
-                  
-                  F/*insertAfterNode*/ = G/*node*/;
-                });
-                
-                R/*lastMappingResultIndex*/ ++ ;
-                break;
-              case "added" :
-                
-                var V/*valueToMap*/ = E/*editScript*/[g/*i*/].value;
-                
-                var W/*mapData*/ = r/*mapNodeAndRefreshWhenChanged*/( I/*domNode*/,K/*mapping*/,V/*valueToMap*/,M/*callbackAfterAddingNodes*/ );
-                
-                var X/*mappedNodes*/ = W/*mapData*/.mappedNodes;
-                
-                Q/*newMappingResult*/.push(  {
-                  arrayEntry : E/*editScript*/[g/*i*/].value,
-                  domNodes : X/*mappedNodes*/,
-                  dependentObservable : W/*mapData*/.dependentObservable
-                });
-                
-                for ( var Y/*nodeIndex*/ = 0,Z/*nodeIndexMax*/ = X/*mappedNodes*/.length;Y/*nodeIndex*/<Z/*nodeIndexMax*/;Y/*nodeIndex*/ ++  ){
-                  var H/*node*/ = X/*mappedNodes*/[Y/*nodeIndex*/];
-                  
-                  S/*nodesAdded*/.push(  {
-                    element : H/*node*/,
-                    index : g/*i*/,
-                    value : E/*editScript*/[g/*i*/].value
-                  });
-                  
-                  if ( F/*insertAfterNode*/ == null ){
-                    n/*ko*/.virtualElements.prepend( I/*domNode*/,H/*node*/ );
-                  } else {
-                    n/*ko*/.virtualElements.insertAfter( I/*domNode*/,H/*node*/,F/*insertAfterNode*/ );
-                  };
-                  
-                  F/*insertAfterNode*/ = H/*node*/;
-                };
-                
-                if ( M/*callbackAfterAddingNodes*/ ){
-                  M/*callbackAfterAddingNodes*/( V/*valueToMap*/,X/*mappedNodes*/ );
-                };
-                break;
-                
-            };
-          };
-          
-          n/*ko*/.utils.arrayForEach( d/*nodesToDelete*/,
-          function ( H/*node*/ ) {
-            n/*ko*/.cleanNode( H/*node*/.element );
-          });
-          
-          var _/*invokedBeforeRemoveCallback*/ = false;
-          
-          if ( !N/*isFirstExecution*/ ){
-            if ( L/*options*/['afterAdd'] ){
-              for ( var g/*i*/ = 0;g/*i*/<S/*nodesAdded*/.length;g/*i*/ ++  ){
-                L/*options*/['afterAdd']( S/*nodesAdded*/[g/*i*/].element,S/*nodesAdded*/[g/*i*/].index,S/*nodesAdded*/[g/*i*/].value );
-              };
-            };
-            
-            if ( L/*options*/['beforeRemove'] ){
-              for ( var g/*i*/ = 0;g/*i*/<d/*nodesToDelete*/.length;g/*i*/ ++  ){
-                L/*options*/['beforeRemove']( d/*nodesToDelete*/[g/*i*/].element,d/*nodesToDelete*/[g/*i*/].index,d/*nodesToDelete*/[g/*i*/].value );
+          for ( var f = 0,t = g.length;f<t;f ++  )
+          switch ( g[f].status ) {
+            case "retained" :
+              
+              var u = o[r];
+              
+              q.push( u );
+              
+              if ( u.domNodes.length>0 ){
+                h = u.domNodes[u.domNodes.length-1];
               };
               
-              _/*invokedBeforeRemoveCallback*/ = true;
+              r ++ ;
+              break;
+            case "deleted" :
+              
+              o[r].dependentObservable.dispose();
+              
+              a( o[r].domNodes );
+              
+              b.utils.arrayForEach( o[r].domNodes,
+              function ( i ) {
+                e.push(  {
+                  element : i,
+                  index : f,
+                  value : g[f].value
+                });
+                
+                h = i;
+              });
+              
+              r ++ ;
+              break;
+            case "added" :
+              
+              var v = g[f].value;
+              
+              var w = d( i,k,v,m );
+              
+              var x = w.mappedNodes;
+              
+              q.push(  {
+                arrayEntry : g[f].value,
+                domNodes : x,
+                dependentObservable : w.dependentObservable
+              });
+              
+              for ( var y = 0,z = x.length;y<z;y ++  ){
+                var A = x[y];
+                
+                s.push(  {
+                  element : A,
+                  index : f,
+                  value : g[f].value
+                });
+                
+                if ( h == null ){
+                  b.virtualElements.prepend( i,A );
+                } else {
+                  b.virtualElements.insertAfter( i,A,h );
+                };
+                
+                h = A;
+              };
+              
+              if ( m ){
+                m( v,x );
+              };
+              break;
+              
+          };
+          
+          b.utils.arrayForEach( e,
+          function ( a ) {
+            b.cleanNode( a.element );
+          });
+          
+          var B = false;
+          
+          if ( !n ){
+            if ( l['afterAdd'] ){
+              for ( var f = 0;f<s.length;f ++  )
+              l['afterAdd']( s[f].element,s[f].index,s[f].value );
+            };
+            
+            if ( l['beforeRemove'] ){
+              for ( var f = 0;f<e.length;f ++  )
+              l['beforeRemove']( e[f].element,e[f].index,e[f].value );
+              
+              B = true;
             };
           };
           
-          if ( !_/*invokedBeforeRemoveCallback*/ ){
-            n/*ko*/.utils.arrayForEach( d/*nodesToDelete*/,
-            function ( I/*node*/ ) {
-              n/*ko*/.removeNode( I/*node*/.element );
+          if ( !B ){
+            b.utils.arrayForEach( e,
+            function ( a ) {
+              b.removeNode( a.element );
             });
           };
           
-          n/*ko*/.utils.domData.set( I/*domNode*/,h/*lastMappingResultDomDataKey*/,Q/*newMappingResult*/ );
+          b.utils.domData.set( i,c,q );
         };
-      })();
+      }();
       
-      n/*ko*/.exportSymbol( 'ko.utils.setDomNodeChildrenFromArrayMapping',n/*ko*/.utils.setDomNodeChildrenFromArrayMapping );
+      b.exportSymbol( 'ko.utils.setDomNodeChildrenFromArrayMapping',b.utils.setDomNodeChildrenFromArrayMapping );
       
-      n/*ko*/.nativeTemplateEngine = function () {
+      b.nativeTemplateEngine = function () {
         this['allowTemplateRewriting'] = false;
       };
       
-      n/*ko*/.nativeTemplateEngine.prototype = new n/*ko*/.templateEngine();
+      b.nativeTemplateEngine.prototype = new b.templateEngine();
       
-      n/*ko*/.nativeTemplateEngine.prototype['renderTemplateSource'] = function ( c/*templateSource*/,d/*bindingContext*/,e/*options*/ ) {
-        var f/*templateText*/ = c/*templateSource*/.text();
-        return n/*ko*/.utils.parseHtmlFragment( f/*templateText*/ );
+      b.nativeTemplateEngine.prototype['renderTemplateSource'] = function ( a,c,d ) {
+        var e = a.text();
+        return b.utils.parseHtmlFragment( e );
       };
       
-      n/*ko*/.nativeTemplateEngine.instance = new n/*ko*/.nativeTemplateEngine();
+      b.nativeTemplateEngine.instance = new b.nativeTemplateEngine();
       
-      n/*ko*/.setTemplateEngine( n/*ko*/.nativeTemplateEngine.instance );
+      b.setTemplateEngine( b.nativeTemplateEngine.instance );
       
-      n/*ko*/.exportSymbol( 'ko.nativeTemplateEngine',n/*ko*/.nativeTemplateEngine );
+      b.exportSymbol( 'ko.nativeTemplateEngine',b.nativeTemplateEngine );
       
-      ( function () {
-        n/*ko*/.jqueryTmplTemplateEngine = function () {
-          var d/*jQueryTmplVersion*/ = this.jQueryTmplVersion = ( function () {
+      !function () {
+        b.jqueryTmplTemplateEngine = function () {
+          var a = this.jQueryTmplVersion = function () {
                 if ( ( typeof ( jQuery ) == "undefined" ) || !( jQuery['tmpl'] ) ){
                   return 0;
                 };
@@ -4466,56 +4411,56 @@
                   
                 };
                 return 1;
-              })();
+              }();
           
-          function e/*ensureHasReferencedJQueryTemplates*/() {
-            if ( d/*jQueryTmplVersion*/<2 ){
+          function b() {
+            if ( a<2 ){
               throw new Error( "Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later." );
             };
           }
-          function j/*executeTemplate*/( d/*compiledTemplate*/,e/*data*/,f/*jQueryTemplateOptions*/ ) {
-            return jQuery['tmpl']( d/*compiledTemplate*/,e/*data*/,f/*jQueryTemplateOptions*/ );
+          function c( a,b,c ) {
+            return jQuery['tmpl']( a,b,c );
           }
-          this['renderTemplateSource'] = function ( n/*templateSource*/,o/*bindingContext*/,p/*options*/ ) {
-            p/*options*/ = p/*options*/ || {};
+          this['renderTemplateSource'] = function ( d,e,f ) {
+            f = f || {};
             
-            e/*ensureHasReferencedJQueryTemplates*/();
+            b();
             
-            var q/*precompiled*/ = n/*templateSource*/['data']( 'precompiled' );
+            var g = d['data']( 'precompiled' );
             
-            if ( !q/*precompiled*/ ){
-              var r/*templateText*/ = n/*templateSource*/.text() || "";
+            if ( !g ){
+              var h = d.text() || "";
               
-              r/*templateText*/ = "{{ko_with $item.koBindingContext}}"+r/*templateText*/+"{{/ko_with}}";
+              h = "{{ko_with $item.koBindingContext}}"+h+"{{/ko_with}}";
               
-              q/*precompiled*/ = jQuery['template']( null,r/*templateText*/ );
+              g = jQuery['template']( null,h );
               
-              n/*templateSource*/['data']( 'precompiled',q/*precompiled*/ );
+              d['data']( 'precompiled',g );
             };
             
-            var s/*data*/ = [o/*bindingContext*/['$data']];
+            var i = [e['$data']];
             
-            var t/*jQueryTemplateOptions*/ = jQuery['extend'](  {
-                  'koBindingContext' : o/*bindingContext*/
-                },p/*options*/['templateOptions'] );
+            var j = jQuery['extend'](  {
+                  'koBindingContext' : e
+                },f['templateOptions'] );
             
-            var u/*resultNodes*/ = j/*executeTemplate*/( q/*precompiled*/,s/*data*/,t/*jQueryTemplateOptions*/ );
+            var k = c( g,i,j );
             
-            u/*resultNodes*/['appendTo']( document.createElement( "div" ) );
+            k['appendTo']( document.createElement( "div" ) );
             
             jQuery['fragments'] = {};
-            return u/*resultNodes*/;
+            return k;
           };
           
-          this['createJavaScriptEvaluatorBlock'] = function ( b/*script*/ ) {
-            return "{{ko_code ((function() { return "+b/*script*/+" })()) }}";
+          this['createJavaScriptEvaluatorBlock'] = function ( a ) {
+            return "{{ko_code ((function() { return "+a+" })()) }}";
           };
           
-          this['addTemplate'] = function ( c/*templateName*/,d/*templateMarkup*/ ) {
-            document.write( "<script type='text/html' id='"+c/*templateName*/+"'>"+d/*templateMarkup*/+"</script>" );
+          this['addTemplate'] = function ( a,b ) {
+            document.write( "<script type='text/html' id='"+a+"'>"+b+"</script>" );
           };
           
-          if ( d/*jQueryTmplVersion*/>0 ){
+          if ( a>0 ){
             jQuery['tmpl']['tag']['ko_code'] =  {
               open : "__.push($1 || '');"
             };
@@ -4527,16 +4472,16 @@
           };
         };
         
-        n/*ko*/.jqueryTmplTemplateEngine.prototype = new n/*ko*/.templateEngine();
+        b.jqueryTmplTemplateEngine.prototype = new b.templateEngine();
         
-        var d/*jqueryTmplTemplateEngineInstance*/ = new n/*ko*/.jqueryTmplTemplateEngine();
+        var a = new b.jqueryTmplTemplateEngine();
         
-        if ( d/*jqueryTmplTemplateEngineInstance*/.jQueryTmplVersion>0 ){
-          n/*ko*/.setTemplateEngine( d/*jqueryTmplTemplateEngineInstance*/ );
+        if ( a.jQueryTmplVersion>0 ){
+          b.setTemplateEngine( a );
         };
         
-        n/*ko*/.exportSymbol( 'ko.jqueryTmplTemplateEngine',n/*ko*/.jqueryTmplTemplateEngine );
-      })();
-    })( window );
-  })();
-})();
+        b.exportSymbol( 'ko.jqueryTmplTemplateEngine',b.jqueryTmplTemplateEngine );
+      }();
+    }( window );
+  }();
+}();

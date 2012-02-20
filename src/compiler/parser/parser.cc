@@ -244,6 +244,7 @@ FileRoot* Parser::Parse() {
   FileRoot* root = ManagedHandle::Retain<FileRoot>();
   root->FileName( filename_ );
   root->Append( ParseProgram_() );
+  AstUtils::FindDirectivePrologue( root , root );
   return root;
 }
 
@@ -3734,6 +3735,8 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
       bits_.UnSet( RETURN_FLG );
       bits_.UnSet( YIELD_FLG );
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
+      CHECK_ERROR( body );
+      AstUtils::FindDirectivePrologue( body , fn );
       if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
         SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
@@ -3767,6 +3770,8 @@ AstNode* Parser::ParseFunctionDecl_( bool is_const ) {
       bits_.UnSet( RETURN_FLG );
       bits_.UnSet( YIELD_FLG );
       AstNode* body = ParseStatementList_( BlockBodyMatcher , "}" );
+      CHECK_ERROR( body );
+      AstUtils::FindDirectivePrologue( body , fn );
       if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
         SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
                       << filename_ << " at line " << token->GetLineNumber() );
@@ -3960,6 +3965,8 @@ AstNode* Parser::ParseArrowFunctionBody_( Function* fn ) {
     bits_.UnSet( RETURN_FLG );
     bits_.UnSet( YIELD_FLG );
     AstNode* list = ParseStatementList_( BlockBodyMatcher , "}" );
+    CHECK_ERROR( list );
+    AstUtils::FindDirectivePrologue( list , fn );
     if ( bits_.At( RETURN_FLG ) && bits_.At( YIELD_FLG ) ) {
       SYNTAX_ERROR( "return statement not allowed in 'generator function'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );

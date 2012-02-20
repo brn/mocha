@@ -10,7 +10,6 @@
 namespace mocha {
 
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type( type* ast_node )
-
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME printf( "depth = %d name = %s\n" , depth_++ , ast_node->GetName() )
 #else
@@ -117,14 +116,28 @@ VISITOR_IMPL(ExpressionStmt) {
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  ast_node->Then()->Accept( this );
-  ast_node->Else()->Accept( this );
+  AstNode* then = ast_node->Then();
+  if ( then->NodeType() == AstNode::kBlockStmt ) {
+    if ( then->FirstChild()->ChildLength() == 1 ) {
+      then = then->FirstChild()->FirstChild();
+      ast_node->Then( then );
+    }
+  }
+  then->Accept( this );
+  AstNode* else_block = ast_node->Else();
+  if ( else_block->NodeType() == AstNode::kBlockStmt ) {
+    if ( else_block->FirstChild()->ChildLength() == 1 ) {
+      else_block = else_block->FirstChild()->FirstChild();
+      ast_node->Else( else_block );
+    }
+  }
+  else_block->Accept( this );
 }
 
 
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
-  AstNode* exp = ast_node->FirstChild();
+  AstNode* exp = ast_node->Exp();
   if ( ast_node->NodeType() == AstNode::kWhile || ast_node->NodeType() == AstNode::kDoWhile ) {
     ast_node->Exp()->Accept( this );
   } else {
@@ -139,7 +152,15 @@ VISITOR_IMPL(IterationStmt) {
       incr_exp->Accept( this );
     }
   }
-  ast_node->FirstChild()->Accept( this );
+  AstNode* body = ast_node->FirstChild();
+  if ( body->NodeType() == AstNode::kBlockStmt ) {
+    if ( body->FirstChild()->ChildLength() == 1 ) {
+      body = body->FirstChild()->FirstChild();
+      ast_node->RemoveAllChild();
+      ast_node->AddChild( body );
+    }
+  }
+  body->Accept( this );
 }
 
 VISITOR_IMPL( ContinueStmt ) {
@@ -326,11 +347,48 @@ VISITOR_IMPL(ClassMember) {}
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
+  AstNode* parent = ast_node->ParentNode();
+  bool is_exp = false;
+  AstNode* exp = parent;
+  bool is_unary_convertable = true;
+  while ( parent ) {
+    if ( parent->NodeType() == AstNode::kAssignmentExp ||
+         parent->NodeType() == AstNode::kValueNode ) {
+      is_unary_convertable = false;
+      is_exp = true;
+      break;
+    } else if ( parent->NodeType() != AstNode::kExpressionStmt &&
+                parent->NodeType() != AstNode::kExpression &&
+                parent->NodeType() != AstNode::kCallExp ) {
+      is_unary_convertable = false;
+    } else if ( parent->NodeType() == AstNode::kExpressionStmt &&
+                is_unary_convertable == true ) {
+      break;
+    }
+    parent = parent->ParentNode();
+  }
+  
+  if ( is_exp && exp && exp->NodeType() == AstNode::kExpression ) {
+    Expression* expression = exp->CastToExpression();
+    if ( expression && expression->ChildLength() == 1 && expression->IsParen() ) {
+      exp->CastToExpression()->NoParen();
+    }
+  } else if ( exp && is_unary_convertable ) {
+    Expression* expression = exp->CastToExpression();
+    if ( expression && expression->ChildLength() == 1 && expression->IsParen() ) {
+      exp->CastToExpression()->NoParen();
+      UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( '!' ) );
+      unary->Exp( exp->FirstChild() );
+      exp->RemoveAllChild();
+      exp->AddChild( unary );
+    }
+  }
   AstNode* name = ast_node->Name();
   ValueNode* name_node = name->CastToValue();
   NodeIterator body_iterator = ast_node->ChildNodes();
   while ( body_iterator.HasNext() ) {
-    body_iterator.Next()->Accept( this );
+    AstNode* node = body_iterator.Next();
+    node->Accept( this );
   }
 };
 

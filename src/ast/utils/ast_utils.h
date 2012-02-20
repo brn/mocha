@@ -62,6 +62,8 @@ class AstUtils : private Static {
   static ValueNode* CreateTmpNode( int index );
   static IFStmt* CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt );
   static BlockStmt* CreateBlockStmt( int num , ... );
+  static void FindDirectivePrologue( AstNode* node , Function* fn );
+  static void FindDirectivePrologue( AstNode* node , FileRoot* fn );
 };
 
 }
