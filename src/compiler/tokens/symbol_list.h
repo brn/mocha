@@ -79,7 +79,12 @@ class SymbolList : private Static {
     kTrait,
     kFrom,
     kOf,
-    kNaN
+    kNaN,
+    kFunctionConstructor,
+    kArrayConstructor,
+    kObjectConstructor,
+    kStringConstructor,
+    kNumberConstructor
   } BuiltinSymbol;
   
   static const char* GetSymbol( RuntimeSymbol runtime_symbol );

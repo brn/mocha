@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ast/ast.h>
+#include <ast/utils/ast_utils.h>
 #include <ast/visitors/optimizer_visitor.h>
 #include <ast/visitors/utils/opt/constant_optimizer.h>
 #include <compiler/tokens/symbol_list.h>
@@ -274,7 +275,69 @@ VISITOR_IMPL( CallExp ) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  AstNode* member = ast_node->FirstChild();
+  if ( member->NodeType() == AstNode::kCallExp || member->NodeType() == AstNode::kValueNode ) {
+    AstNode* callable;
+    AstNode* args;
+    if ( member->NodeType() == AstNode::kCallExp ) {
+      CallExp* exp = member->CastToExpression()->CastToCallExp();
+      callable = exp->Callable();
+      args = exp->Args();
+      if ( args->NodeType() == AstNode::kValueNode &&
+           strcmp( args->CastToValue()->Symbol()->GetToken(),
+                   SymbolList::GetSymbol( SymbolList::kPrototype ) ) == 0 ) {
+        args = 0;
+      }
+    } else {
+      callable = member;
+      args = 0;
+    }
+    if ( callable->NodeType() == AstNode::kValueNode ) {
+      ValueNode* value = callable->CastToValue();
+      if ( value->ValueType() == ValueNode::kIdentifier ) {
+        const char* ident = value->Symbol()->GetToken();
+        if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kFunctionConstructor ) ) == 0 ) {
+          ast_node->ParentNode()->ReplaceChild( ast_node , member );
+        } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kArrayConstructor ) ) == 0 ) {
+          if ( !args || args->IsEmpty() ) {
+            ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+            ast_node->ParentNode()->ReplaceChild( ast_node , array );
+            return;
+          } else {
+            ast_node->ParentNode()->ReplaceChild( ast_node , member );
+          }
+        } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kObjectConstructor ) ) == 0 ) {
+          if ( !args || args->IsEmpty() ) {
+            ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+            object->Node( ManagedHandle::Retain<Empty>() );
+            ast_node->ParentNode()->ReplaceChild( ast_node , object );
+            return;
+          } else {
+            ast_node->ParentNode()->ReplaceChild( ast_node , member );
+          }
+        } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kStringConstructor ) ) == 0 ) {
+          if ( !args || args->IsEmpty() ) {
+            ValueNode* string = AstUtils::CreateNameNode( "''" , Token::JS_STRING_LITERAL , ast_node->Line(),
+                                                          ValueNode::kString );
+            ast_node->ParentNode()->ReplaceChild( ast_node , string );
+            return;
+          } else {
+            ast_node->ParentNode()->ReplaceChild( ast_node , member );
+          }
+        } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kNumberConstructor ) ) == 0 ) {
+          if ( !args || args->IsEmpty() ) {
+            ValueNode* number = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , ast_node->Line(),
+                                                          ValueNode::kNumeric );
+            ast_node->ParentNode()->ReplaceChild( ast_node , number );
+            return;
+          } else {
+            ast_node->ParentNode()->ReplaceChild( ast_node , member );
+          }
+        }
+      }
+    }
+  }
+  member->Accept( this );
 }
 
 

@@ -862,5 +862,27 @@
     var h = 200;
     
     var i = NaN;
+    
+    var j = "aaaaaaa222";
+    
+    var k = {};
+    
+    k = {};
+    
+    k = '';
+    
+    k = '';
+    
+    k = [];
+    
+    k = [];
+    
+    k = Array( 3 );
+    
+    k = Function( "" );
+    
+    k = 0;
+    
+    k = 0;
   }();
 }();

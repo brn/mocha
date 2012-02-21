@@ -76,7 +76,12 @@ static const char builtin[][50] = {
   "trait",
   "from",
   "of",
-  "NaN"
+  "NaN",
+  "Function",
+  "Array",
+  "Object",
+  "String",
+  "Number"
 };
 
 

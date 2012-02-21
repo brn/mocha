@@ -829,27 +829,58 @@
   };
   
   !function () {
-    b['./with_test.js'] = {};
+    b['./#name_test.js#'] = {};
     
-    var d = b['./with_test.js'];
+    var c = b['./#name_test.js#'];
     
-    var e =  {
-          prop : 200
-        };
-    
-    with ( e ){
+    function a(){}
+    !function () {
+      var b = 0;
       
-    };
+      var c = function () {
+            a();
+          };
+      
+      var d = function () {
+            var b,
+                c;
+            
+            c = a();
+          };
+    }();
     
-    var f = [];
+    var d = 700;
     
-    for ( var c = 0;c<10;c ++  )
-    with (  {
-      i : c
-    }){
-      f.push( function () {
-        return c;
-      });
-    };
+    var e = 210.640300;
+    
+    var f = 2340.879050;
+    
+    e = 249000.132134;
+    
+    var g = 100+200*e;
+    
+    var h = 200;
+    
+    var i = NaN;
+    
+    var j = {};
+    
+    j = {};
+    
+    j = '';
+    
+    j = '';
+    
+    j = [];
+    
+    j = [];
+    
+    j = Array( 3 );
+    
+    j = Function( "" );
+    
+    j = 0;
+    
+    j = 0;
   }();
 }();

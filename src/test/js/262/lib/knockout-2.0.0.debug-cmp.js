@@ -277,7 +277,7 @@
     
     if ( !d.indexOf ){
       d.indexOf = function ( a,c ) {
-        var d = ( c )?c-1 : -1,
+        var d = c?c-1 : -1,
             e = -1,
             f;
         
@@ -296,7 +296,7 @@
     if ( !d.lastIndexOf ){
       d.lastIndexOf = function ( a,c ) {
         var d = this.length,
-            e = ( c )?c+1 : d,
+            e = c?c+1 : d,
             f = -1,
             g;
         
@@ -344,7 +344,7 @@
         e( a,"Array.reduce" );
         
         var d = c || this[0],
-            f = ( c )?0 : 1,
+            f = c?0 : 1,
             g = this.length,
             h;
         
@@ -365,7 +365,7 @@
         
         var d = this.length,
             f = c || this[d-1],
-            g = ( c )?d-1 : d-2,
+            g = c?d-1 : d-2,
             h;
         
         if ( ( d === 0 || d === null ) && arguments.length<2 ){
@@ -402,7 +402,7 @@
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( a )?Object.prototype.toString.call( a ) === "[object Array]" : false;
+        return a?Object.prototype.toString.call( a ) === "[object Array]" : false;
       };
     };
   }.call( this,String,Array,Function,Date );
@@ -468,7 +468,7 @@
         p.constant = t;
         
         function u( e,f ) {
-          return ( e )?d.call( e,f ) : [];
+          return e?d.call( e,f ) : [];
         };
         
         p.toArray = u;
@@ -1037,7 +1037,7 @@
             if ( b[d] && typeof b[d] == "object" ){
               c = "with(sc["+d+"]) { "+c+" } ";
             };
-            return ( new Function( "sc",c ) )( b );
+            return ( Function( "sc",c ) )( b );
           },
           domNodeIsContainedBy : function ( a,b ) {
             if ( b.compareDocumentPosition ){
@@ -1221,7 +1221,7 @@
                 if ( a.JSON && a.JSON.parse ){
                   return a.JSON.parse( c );
                 };
-                return ( new Function( "return "+c ) )();
+                return ( Function( "return "+c ) )();
               };
             };
             return null;
@@ -1804,7 +1804,7 @@
       b.observable['fn'] =  {
         __ko_proto__ : b.observable,
         "equalityComparer" : function h( e,f ) {
-          var g = ( e === null ) || ( typeof ( e ) in d );
+          var g = ( e === null ) || ( typeof e in d );
           return g?( e === f ) : false;
         }
       };
@@ -2051,7 +2051,7 @@
           };
         }
         function h() {
-          if ( ( i ) && typeof j["disposeWhen"] == "function" ){
+          if ( i && typeof j["disposeWhen"] == "function" ){
             if ( j["disposeWhen"]() ){
               a.dispose();
               return ;
@@ -3923,7 +3923,7 @@
             return new b.dependentObservable( function () {
               var k = ( f && ( f instanceof b.bindingContext ) )?f : new b.bindingContext( b.utils.unwrapObservable( f ) );
               
-              var l = typeof ( g ) == 'function'?g( k['$data'] ) : g;
+              var l = typeof g == 'function'?g( k['$data'] ) : g;
               
               var m = e( h,i,l,k,j );
               
@@ -3971,7 +3971,7 @@
             
             b.utils.setDomNodeChildrenFromArrayMapping( g,k,
             function ( a ) {
-              var b = typeof ( i ) == 'function'?i( a ) : i;
+              var b = typeof i == 'function'?i( a ) : i;
               return e( null,"ignoreTargetNode",b,c( a ),d );
             },d,h);
           },null, {
@@ -4379,7 +4379,7 @@
       !function () {
         b.jqueryTmplTemplateEngine = function () {
           var a = this.jQueryTmplVersion = function () {
-                if ( ( typeof ( jQuery ) == "undefined" ) || !( jQuery['tmpl'] ) ){
+                if ( ( typeof jQuery == "undefined" ) || !( jQuery['tmpl'] ) ){
                   return 0;
                 };
                 

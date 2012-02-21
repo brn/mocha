@@ -277,7 +277,7 @@
     
     if ( !d.indexOf ){
       d.indexOf = function ( a,c ) {
-        var d = ( c )?c-1 : -1,
+        var d = c?c-1 : -1,
             e = -1,
             f;
         
@@ -296,7 +296,7 @@
     if ( !d.lastIndexOf ){
       d.lastIndexOf = function ( a,c ) {
         var d = this.length,
-            e = ( c )?c+1 : d,
+            e = c?c+1 : d,
             f = -1,
             g;
         
@@ -344,7 +344,7 @@
         e( a,"Array.reduce" );
         
         var d = c || this[0],
-            f = ( c )?0 : 1,
+            f = c?0 : 1,
             g = this.length,
             h;
         
@@ -365,7 +365,7 @@
         
         var d = this.length,
             f = c || this[d-1],
-            g = ( c )?d-1 : d-2,
+            g = c?d-1 : d-2,
             h;
         
         if ( ( d === 0 || d === null ) && arguments.length<2 ){
@@ -402,7 +402,7 @@
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( a )?Object.prototype.toString.call( a ) === "[object Array]" : false;
+        return a?Object.prototype.toString.call( a ) === "[object Array]" : false;
       };
     };
   }.call( this,String,Array,Function,Date );
@@ -468,7 +468,7 @@
         p.constant = t;
         
         function u( e,f ) {
-          return ( e )?d.call( e,f ) : [];
+          return e?d.call( e,f ) : [];
         };
         
         p.toArray = u;
@@ -1220,7 +1220,7 @@
                 };
                 
                 if ( p.test( t.replace( q,"@" ).replace( r,"]" ).replace( s,"" ) ) ){
-                  return ( new Function( "return "+t ) )();
+                  return ( Function( "return "+t ) )();
                 };
                 
                 b.error( "Invalid JSON: "+t );
@@ -1790,7 +1790,7 @@
           var a = f.call( arguments,0 ),
               i = 0,
               j = a.length,
-              d = new Array( j ),
+              d = Array( j ),
               b = j,
               k = j,
               c = j <= 1 && h && e.isFunction( h.promise )?h : e.Deferred(),
@@ -2002,7 +2002,7 @@
           
           p = "style='"+n+"border:5px solid #000;padding:0;'";
           
-          q = "<div "+p+"><div></div></div>"+"<table "+p+" cellpadding='0' cellspacing='0'>"+"<tr><td></td></tr></table>";
+          q = "<div "+p+"><div></div></div><table "+p+" cellpadding='0' cellspacing='0'><tr><td></td></tr></table>";
           
           g = document.createElement( "div" );
           
@@ -4034,7 +4034,7 @@
         }
       });
       
-      e.each( ( "blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu" ).split( " " ),
+      e.each( "blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split( " " ),
       function ( I,a ) {
         e.fn[a] = function ( b,c ) {
           if ( c == null ){
@@ -4632,7 +4632,7 @@
                   return !!b( d[3],a ).length;
                 },
                 header : function ( a ) {
-                  return ( /h\d/i ).test( a.nodeName );
+                  return /h\d/i.test( a.nodeName );
                 },
                 text : function ( a ) {
                   var b = a.getAttribute( "type" ),
@@ -4667,7 +4667,7 @@
                   return b === "input" && "button" === a.type || b === "button";
                 },
                 input : function ( a ) {
-                  return ( /input|select|textarea|button/i ).test( a.nodeName );
+                  return /input|select|textarea|button/i.test( a.nodeName );
                 },
                 focus : function ( a ) {
                   return a === a.ownerDocument.activeElement;
@@ -4813,7 +4813,7 @@
         
         var d = f.match.POS,
             u = function ( a,b ) {
-              return "\\"+( b-0+1 );
+              return "\\"+( b-1 );
             };
         
         for ( var v in f.match ){
@@ -6353,7 +6353,7 @@
           set : function ( bv,bw ) {
             var bx = bv.style,
                 by = bv.currentStyle,
-                bz = e.isNumeric( bw )?"alpha(opacity="+bw*100+")" : "",
+                bz = e.isNumeric( bw )?"alpha(opacity="+bw*"100)" : "",
                 bA = by && by.filter || bx.filter || "";
             
             bx.zoom = 1;

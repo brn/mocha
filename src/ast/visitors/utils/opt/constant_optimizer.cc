@@ -106,10 +106,20 @@ AstNode* ConstantOptimizer::Optimize( AstNode* left , AstNode* right , int op ) 
   } else {
     if ( op == '+' ) {
       std::string ret = lvalue->Symbol()->GetToken();
-      ret.erase( ret.size() - 1 , ret.size() );
-      ret += &( rvalue->Symbol()->GetToken()[ 1 ] );
-      if ( ret[ 0 ] != ret[ ret.size() - 1 ] ) {
-        ret[ 0 ] = ret[ ret.size() - 1 ];
+      if ( ltype == ValueNode::kString && rtype == ValueNode::kString ) {
+        ret.erase( ret.size() - 1 , ret.size() );
+        ret += &( rvalue->Symbol()->GetToken()[ 1 ] );
+        if ( ret[ 0 ] != ret[ ret.size() - 1 ] ) {
+          ret[ 0 ] = ret[ ret.size() - 1 ];
+        }
+      } else if ( ltype == ValueNode::kString ) {
+        ret.erase( ret.size() - 1 , ret.size() );
+        ret += rvalue->Symbol()->GetToken();
+        ret += ret[ 0 ];
+      } else {
+        const char* str = rvalue->Symbol()->GetToken();
+        ret.insert( 0 , 1 , str[ 0 ] );
+        ret += &str[ 1 ];
       }
       return AstUtils::CreateNameNode( ret.c_str() , Token::JS_STRING_LITERAL,
                                        left->Line() , ValueNode::kString );

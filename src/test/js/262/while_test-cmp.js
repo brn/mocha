@@ -277,7 +277,7 @@
     
     if ( !d.indexOf ){
       d.indexOf = function ( a,c ) {
-        var d = ( c )?c-1 : -1,
+        var d = c?c-1 : -1,
             e = -1,
             f;
         
@@ -296,7 +296,7 @@
     if ( !d.lastIndexOf ){
       d.lastIndexOf = function ( a,c ) {
         var d = this.length,
-            e = ( c )?c+1 : d,
+            e = c?c+1 : d,
             f = -1,
             g;
         
@@ -344,7 +344,7 @@
         e( a,"Array.reduce" );
         
         var d = c || this[0],
-            f = ( c )?0 : 1,
+            f = c?0 : 1,
             g = this.length,
             h;
         
@@ -365,7 +365,7 @@
         
         var d = this.length,
             f = c || this[d-1],
-            g = ( c )?d-1 : d-2,
+            g = c?d-1 : d-2,
             h;
         
         if ( ( d === 0 || d === null ) && arguments.length<2 ){
@@ -402,7 +402,7 @@
         if ( arguments.length === 0 ){
           return false;
         };
-        return ( a )?Object.prototype.toString.call( a ) === "[object Array]" : false;
+        return a?Object.prototype.toString.call( a ) === "[object Array]" : false;
       };
     };
   }.call( this,String,Array,Function,Date );
@@ -468,7 +468,7 @@
         p.constant = t;
         
         function u( e,f ) {
-          return ( e )?d.call( e,f ) : [];
+          return e?d.call( e,f ) : [];
         };
         
         p.toArray = u;
