@@ -1039,6 +1039,7 @@ class Expression : public AstNode {
   inline virtual Function* CastToFunction() { return 0; }
   inline virtual Property* CastToProperty() { return 0; }
   inline virtual Trait* CastToTrait() { return 0; }
+  inline virtual BinaryExp* CastToBinary() { return 0; }
   inline virtual TraitMember* CastToTraitMember() { return 0; }
   inline virtual MixinMember* CastToMixinMember() { return 0; }
   virtual CLONE( Expression );
@@ -1441,6 +1442,7 @@ class BinaryExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
+  inline BinaryExp* CastToBinary() { return this; }
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( BinaryExp );
  private :
@@ -1491,7 +1493,8 @@ class ConditionalExp : public Expression {
       Expression( NAME_PARAMETER( ConditionalExp ) ),
       cond_( cond ) , case_true_( case_true ) , case_false_( case_false ){
     case_true->ParentNode( this );
-    
+    case_false->ParentNode( this );
+    cond->ParentNode( this );
   };
   inline ~ConditionalExp(){};
   inline AstNode* True() { return case_true_; };
@@ -1557,7 +1560,8 @@ class ValueNode : public Expression {
     kSuper,
     kGenerator,
     kTuple,
-    kRecord
+    kRecord,
+    kNaN
   };
   inline ValueNode( int type ) :
       Expression( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};

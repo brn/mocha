@@ -54,6 +54,7 @@ char reserved_words[][ 20 ] = {
   "let",
   "long" ,
   "module",
+  "NaN",
   "native",
   "new" ,
   "null" ,

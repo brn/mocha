@@ -366,6 +366,9 @@ class Scanner::InternalScanner {
       if ( isdigit ( next ) ) {
         token_str_ += next;
         last = next;
+      } else if ( next == '.' ) {
+        token_str_ += next;
+        return CaseDigitFloat_( Advance_() );
       } else if ( next == 'e' &&
                   !hasIndex &&
                   last != 'e' ) {

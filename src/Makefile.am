@@ -38,6 +38,8 @@ ast/visitors/utils/processors/trait_processor.h\
 ast/visitors/utils/processors/yield_processor.cc\
 ast/visitors/utils/processors/yield_processor.h\
 ast/visitors/utils/processors/processor_info.h\
+ast/visitors/utils/opt/constant_optimizer.h\
+ast/visitors/utils/opt/constant_optimizer.cc\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
 utils/format.h\

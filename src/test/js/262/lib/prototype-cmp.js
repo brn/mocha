@@ -3732,7 +3732,7 @@
       
       Element._attributeTranslations.has = {};
       
-      q( 'colSpan rowSpan vAlign dateTime accessKey tabIndex '+'encType maxLength readOnly longDesc frameBorder' ).each( function ( a ) {
+      q( 'colSpan rowSpan vAlign dateTime accessKey tabIndex encType maxLength readOnly longDesc frameBorder' ).each( function ( a ) {
         Element._attributeTranslations.write.names[a.toLowerCase()] = a;
         
         Element._attributeTranslations.has[a.toLowerCase()] = a;

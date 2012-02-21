@@ -45,6 +45,7 @@ class Token : private Static {
     JS_LET,
     JS_LONG,
     JS_MODULE,
+    JS_NAN,
     JS_NATIVE,
     JS_NEW,
     JS_K_NULL,

@@ -4034,7 +4034,7 @@
         }
       });
       
-      e.each( ( "blur focus focusin focusout load resize scroll unload click dblclick "+"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave "+"change select submit keydown keypress keyup error contextmenu" ).split( " " ),
+      e.each( ( "blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu" ).split( " " ),
       function ( I,a ) {
         e.fn[a] = function ( b,c ) {
           if ( c == null ){
@@ -5538,7 +5538,7 @@
         };
         return T;
       }
-      var R = "abbr|article|aside|audio|canvas|datalist|details|figcaption|figure|footer|"+"header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",
+      var R = "abbr|article|aside|audio|canvas|datalist|details|figcaption|figure|footer|header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",
           S = / jQuery\d+="(?:\d+|null)"/g,
           U = /^\s+/,
           X = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,

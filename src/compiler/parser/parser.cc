@@ -3613,6 +3613,11 @@ AstNode* Parser::ParseLiteral_() {
   int value_type = 0;
   bool is_invalid_lhs = false;
   switch ( type ) {
+    case Token::JS_NAN :
+      value_type = ValueNode::kNaN;
+      is_invalid_lhs = true;
+      break;
+      
     case Token::JS_SUPER :
       value_type = ValueNode::kSuper;
       is_invalid_lhs = true;

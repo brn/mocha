@@ -18,6 +18,7 @@ class OptimizerVisitor : public IVisitor {
   void ObjectProccessor_( ValueNode* ast_node );
   int depth_;
   bool is_debug_;
+  CompileInfo* info_;
 };
 }
 

@@ -78,7 +78,8 @@ class SymbolList : private Static {
     kPush,
     kTrait,
     kFrom,
-    kOf
+    kOf,
+    kNaN
   } BuiltinSymbol;
   
   static const char* GetSymbol( RuntimeSymbol runtime_symbol );

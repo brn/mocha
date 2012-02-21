@@ -836,10 +836,10 @@
     /aaaa/.test( "aaaa" );
     
     function d() {
-      var b = .200*10;
+      var b = 2.000000;
       
       b = function () {
-        return .200*10;
+        return 2.000000;
       };
       
       b = function () {

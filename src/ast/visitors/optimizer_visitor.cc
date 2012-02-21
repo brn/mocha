@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ast/ast.h>
 #include <ast/visitors/optimizer_visitor.h>
+#include <ast/visitors/utils/opt/constant_optimizer.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/js_token.h>
@@ -18,7 +19,7 @@ namespace mocha {
 
 
 OptimizerVisitor::OptimizerVisitor( CompileInfo* info ) :
-    depth_( 0 ), is_debug_( info->Debug() ){}
+    depth_( 0 ), is_debug_( info->Debug() ) , info_( info ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
@@ -294,8 +295,37 @@ VISITOR_IMPL(UnaryExp) {
 
 VISITOR_IMPL(BinaryExp) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  int op = ast_node->Op();
+  AstNode* left = ast_node->Left();
+  AstNode* right = ast_node->Right();
+  AstNode* parent = ast_node->ParentNode();
+  Expression* exp = parent->CastToExpression();
+  BinaryExp* binary = ( exp )? exp->CastToBinary() : 0;
+  bool op_assoc = ( binary )? ConstantOptimizer::CheckOperatorAssoc( op , binary->Op() ) : true;
+  if ( op_assoc && ConstantOptimizer::IsOptimizable( left , right , op ) ) {
+    AstNode* ret = ConstantOptimizer::Optimize( left , right , op );
+    ast_node->ParentNode()->ReplaceChild( ast_node , ret );
+    return;
+  }
+  left->Accept( this );
+  right->Accept( this );
+  left = ast_node->Left();
+  right = ast_node->Right();
+  if ( op_assoc && ConstantOptimizer::IsOptimizable( left , right , op ) ) {
+    AstNode* ret = ConstantOptimizer::Optimize( left , right , op );
+    ast_node->ParentNode()->ReplaceChild( ast_node , ret );
+  }
+  exp = left->CastToExpression();
+  binary = ( exp )? exp->CastToBinary() : 0;
+  if ( binary ) {
+    int lop = binary->Op();
+    if ( op_assoc && ConstantOptimizer::IsOptimizable( binary->Right() , right , op ) ) {
+      AstNode* ret = ConstantOptimizer::Optimize( binary->Right() , right , op );
+      binary->ReplaceChild( binary->Right() , ret );
+      ast_node->ParentNode()->ReplaceChild( ast_node , binary );
+      binary->Accept( this );
+    }
+  }
 }
 
 
@@ -326,6 +356,11 @@ VISITOR_IMPL(Expression) {
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
+  }
+  if ( ast_node->ChildLength() == 1 &&
+       ast_node->FirstChild()->NodeType() == AstNode::kValueNode &&
+       ast_node->IsParen() ) {
+    ast_node->ParentNode()->ReplaceChild( ast_node , ast_node->FirstChild() );
   }
 }
 

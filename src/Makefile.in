@@ -53,11 +53,11 @@ am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	fileroot_processor.$(OBJEXT) module_processor.$(OBJEXT) \
 	export_processor.$(OBJEXT) import_processor.$(OBJEXT) \
 	call_processor.$(OBJEXT) trait_processor.$(OBJEXT) \
-	yield_processor.$(OBJEXT) ast_utils.$(OBJEXT) format.$(OBJEXT) \
-	bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
-	codegen_visitor.$(OBJEXT) symbol_collector.$(OBJEXT) \
-	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
-	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	yield_processor.$(OBJEXT) constant_optimizer.$(OBJEXT) \
+	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
+	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
+	symbol_collector.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
+	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	compile_result.$(OBJEXT) external_resource.$(OBJEXT) \
 	compile_info.$(OBJEXT) consts.$(OBJEXT) parser.$(OBJEXT) \
 	external_ast.$(OBJEXT) compile_runner.$(OBJEXT) \
@@ -230,6 +230,8 @@ ast/visitors/utils/processors/trait_processor.h\
 ast/visitors/utils/processors/yield_processor.cc\
 ast/visitors/utils/processors/yield_processor.h\
 ast/visitors/utils/processors/processor_info.h\
+ast/visitors/utils/opt/constant_optimizer.h\
+ast/visitors/utils/opt/constant_optimizer.cc\
 ast/utils/ast_utils.h\
 ast/utils/ast_utils.cc\
 utils/format.h\
@@ -484,6 +486,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_facade.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/constant_optimizer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/directory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dsta_processor.Po@am__quote@
@@ -766,6 +769,20 @@ yield_processor.obj: ast/visitors/utils/processors/yield_processor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/yield_processor.cc' object='yield_processor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o yield_processor.obj `if test -f 'ast/visitors/utils/processors/yield_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/yield_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/yield_processor.cc'; fi`
+
+constant_optimizer.o: ast/visitors/utils/opt/constant_optimizer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT constant_optimizer.o -MD -MP -MF $(DEPDIR)/constant_optimizer.Tpo -c -o constant_optimizer.o `test -f 'ast/visitors/utils/opt/constant_optimizer.cc' || echo '$(srcdir)/'`ast/visitors/utils/opt/constant_optimizer.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/constant_optimizer.Tpo $(DEPDIR)/constant_optimizer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/opt/constant_optimizer.cc' object='constant_optimizer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o constant_optimizer.o `test -f 'ast/visitors/utils/opt/constant_optimizer.cc' || echo '$(srcdir)/'`ast/visitors/utils/opt/constant_optimizer.cc
+
+constant_optimizer.obj: ast/visitors/utils/opt/constant_optimizer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT constant_optimizer.obj -MD -MP -MF $(DEPDIR)/constant_optimizer.Tpo -c -o constant_optimizer.obj `if test -f 'ast/visitors/utils/opt/constant_optimizer.cc'; then $(CYGPATH_W) 'ast/visitors/utils/opt/constant_optimizer.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/opt/constant_optimizer.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/constant_optimizer.Tpo $(DEPDIR)/constant_optimizer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/opt/constant_optimizer.cc' object='constant_optimizer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o constant_optimizer.obj `if test -f 'ast/visitors/utils/opt/constant_optimizer.cc'; then $(CYGPATH_W) 'ast/visitors/utils/opt/constant_optimizer.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/opt/constant_optimizer.cc'; fi`
 
 ast_utils.o: ast/utils/ast_utils.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'ast/utils/ast_utils.cc' || echo '$(srcdir)/'`ast/utils/ast_utils.cc
