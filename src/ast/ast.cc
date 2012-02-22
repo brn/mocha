@@ -394,7 +394,7 @@ AstNode* CaseClause::Clone() {
 
 AstNode* Expression::Clone() {
   Expression* exp = ManagedHandle::Retain<Expression>();
-  exp->paren_ = paren_;
+  exp->flags_ = flags_;
   return CopyChildren( exp , this );
 }
 

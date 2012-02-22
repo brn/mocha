@@ -19,6 +19,8 @@ var sssss = ( 100 + 100 - 100 ) * 2;
 var sss = "aaaa" - "aaaaa";
 var ssssss = "aaaaaaa" + 222;
 var test2 = new Object;
+Array.prototype.x = 200;
+delete Array.property.x;
 test2 = new Object();
 test2 = new String;
 test2 = new String();
@@ -28,4 +30,3 @@ test2 = new Array(3);
 test2 = new Function("");
 test2 = new Number;
 test2 = new Number();
-

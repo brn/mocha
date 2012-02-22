@@ -1023,16 +1023,31 @@ class CaseClause : public AstNode {
 
 
 class Expression : public AstNode {
+ private :
+  enum {
+    kParenFlg,
+    kValidLhsFlg,
+    kLhsFlg,
+    kUnaryExpFlg
+  };
  public :
-  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) , is_valid_lhs_( true ) , paren_( false ){};
-  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) , is_valid_lhs_( true ) , paren_( false ){};
+  inline Expression() : AstNode( AstNode::kExpression , "Expression" ) {
+    flags_.Set( kValidLhsFlg );
+  };
+  inline Expression( int type , const char* name = "Expression" ) : AstNode( type , name ) {
+    flags_.Set( kValidLhsFlg );
+  };
   virtual inline ~Expression(){};
-  inline void Paren() { paren_ = true; };
-  inline bool IsParen() { return paren_; };
-  inline void NoParen() { paren_ = false; };
-  inline bool IsValidLhs() { return is_valid_lhs_; }
-  inline void InValidLhs() { is_valid_lhs_ = false; }
-  inline void ValidLhs() { is_valid_lhs_ = true; }
+  inline void Paren() { flags_.Set( kParenFlg ); };
+  inline bool IsParen() { return flags_.At( kParenFlg );; };
+  inline void NoParen() { flags_.UnSet( kParenFlg ); };
+  inline bool IsValidLhs() { return flags_.At( kValidLhsFlg ); }
+  inline void InValidLhs() { flags_.UnSet( kValidLhsFlg ); }
+  inline void ValidLhs() { flags_.Set( kValidLhsFlg ); }
+  inline void Lhs() { flags_.Set( kLhsFlg ); }
+  inline bool IsLhs() { return flags_.At( kLhsFlg ); }
+  inline void Unary() { flags_.Set( kUnaryExpFlg ); }
+  inline bool IsUnary() { return flags_.At( kUnaryExpFlg ); }
   inline Expression* CastToExpression() { return this; }
   inline virtual AssignmentExp* CastToAssigment() { return 0; }
   inline virtual CallExp* CastToCallExp() { return 0; }
@@ -1040,12 +1055,12 @@ class Expression : public AstNode {
   inline virtual Property* CastToProperty() { return 0; }
   inline virtual Trait* CastToTrait() { return 0; }
   inline virtual BinaryExp* CastToBinary() { return 0; }
+  inline virtual UnaryExp* CastToUnaryExp() { return 0; }
   inline virtual TraitMember* CastToTraitMember() { return 0; }
   inline virtual MixinMember* CastToMixinMember() { return 0; }
   virtual CLONE( Expression );
  private :
-  bool is_valid_lhs_;
-  bool paren_;
+  BitVector8 flags_;
   virtual CALL_ACCEPTOR( Expression );
 };
 
@@ -1411,6 +1426,7 @@ class UnaryExp : public Expression {
   inline AstNode* Exp() { return exp_; }
   inline int Op() { return op_; };
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
+  inline UnaryExp* CastToUnaryExp() { return this; }
   CLONE( UnaryExp );
  private :
   int op_;

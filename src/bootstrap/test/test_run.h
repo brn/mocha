@@ -65,7 +65,7 @@ void RunTest() {
       ExternalResource::UnsafeSet( fullpath );
       CompileInfo* info = ExternalResource::UnsafeGet( fullpath )->GetCompileInfo();
       //info->SetDebug();
-      info->SetPrettyPrint();
+      //info->SetPrettyPrint();
       info->SetCompress();
       facade.AddCompileList( fullpath , true );
       i++;

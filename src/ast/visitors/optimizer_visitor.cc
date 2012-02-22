@@ -229,8 +229,53 @@ void OptimizerVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
 
 
 void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
-  exp->Callable()->Accept( this );
-  exp->Args()->Accept( this );
+  AstNode* callable = exp->Callable();
+  AstNode* args = exp->Args();
+  bool is_delete;
+  bool is_lhs = exp->IsLhs();
+  AstNode* parent = exp->ParentNode();
+  while ( parent ) {
+    if ( parent->CastToExpression() ) {
+      UnaryExp* exp = parent->CastToExpression()->CastToUnaryExp();
+      if ( exp ) {
+        if ( exp->Op() == Token::JS_DELETE ) {
+          is_delete = true;
+        }
+      }
+      if ( parent->CastToExpression()->IsLhs() ) {
+        is_lhs = true;
+      }
+    }
+    parent = parent->ParentNode();
+  }
+  if ( !is_lhs &&
+       !is_delete &&
+       callable->NodeType() == AstNode::kValueNode &&
+       args->NodeType() == AstNode::kValueNode ) {
+    ValueNode* ident = callable->CastToValue();
+    ValueNode* prototype = args->CastToValue();
+    if ( ident->ValueType() == ValueNode::kIdentifier &&
+         prototype->ValueType() == ValueNode::kProperty ) {
+      if ( strcmp( prototype->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kPrototype ) ) == 0 ) {
+        if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kArrayConstructor ) ) == 0 ) {
+          ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+          exp->ParentNode()->ReplaceChild( exp , array );
+          return;
+        } else if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kObjectConstructor ) ) == 0 ) {
+          ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+          object->Node( ManagedHandle::Retain<Empty>() );
+          exp->ParentNode()->ReplaceChild( exp , object );
+          return;
+        } else if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kStringConstructor ) ) == 0 ) {
+          ValueNode* str = AstUtils::CreateNameNode( "''" , Token::JS_STRING_LITERAL , exp->Line() , ValueNode::kString );
+          exp->ParentNode()->ReplaceChild( exp , str );
+          return;
+        }
+      }
+    }
+  }
+  callable->Accept( this );
+  args->Accept( this );
 }
 
 void OptimizerVisitor::NewCallProccessor_( CallExp* exp ) {
@@ -352,7 +397,9 @@ VISITOR_IMPL(PostfixExp) {
 
 VISITOR_IMPL(UnaryExp) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  AstNode* exp = ast_node->Exp();
+  exp->CastToExpression()->Unary();
+  exp->Accept( this );
 }
 
 
@@ -409,6 +456,11 @@ VISITOR_IMPL(ConditionalExp) {
 
 VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
+  AstNode* left = ast_node->Left();
+  Expression* exp = left->CastToExpression();
+  if ( exp ) {
+    exp->Lhs();
+  }
   ast_node->Left()->Accept( this );
   ast_node->Right()->Accept( this );
 }
@@ -451,7 +503,9 @@ VISITOR_IMPL(Function){
   bool is_unary_convertable = true;
   while ( parent ) {
     if ( parent->NodeType() == AstNode::kAssignmentExp ||
-         parent->NodeType() == AstNode::kValueNode ) {
+         parent->NodeType() == AstNode::kValueNode ||
+         ( parent->NodeType() == AstNode::kNodeList &&
+           parent->ParentNode() && parent->ParentNode()->NodeType() == AstNode::kFunction ) ) {
       is_unary_convertable = false;
       is_exp = true;
       break;
@@ -484,9 +538,19 @@ VISITOR_IMPL(Function){
   AstNode* name = ast_node->Name();
   ValueNode* name_node = name->CastToValue();
   NodeIterator body_iterator = ast_node->ChildNodes();
+  AstNode* last = 0;
   while ( body_iterator.HasNext() ) {
     AstNode* node = body_iterator.Next();
-    node->Accept( this );
+    if ( last &&
+         node->NodeType() == AstNode::kVariableStmt &&
+         last->NodeType() == AstNode::kVariableStmt ) {
+      node->Accept( this );
+      last->Append( node );
+      ast_node->RemoveChild( node );
+    } else {
+      node->Accept( this );
+    }
+    last = node;
   }
 };
 
