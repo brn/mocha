@@ -1,6 +1,4 @@
 !function() {
-  var __FILE__ = "Runtime",
-      __LINE__ = 0;
   
   var b = {};
   
@@ -10,9 +8,9 @@
         j = h.prototype,
         k = i.prototype;
     
-    function b( b ) {
+    function b( a ) {
       try {
-        throw new TypeError( b );
+        throw new TypeError( a );
       } catch( e ){
         throw new Error( e );
       };
@@ -20,79 +18,57 @@
     
     function e( c,d ) {
       
-      a.assert( true,typeof d === "string","typeof type === \"string\"",43,'./mocha_runtime.js' );
+      typeof c !== "function" && b( d+" : first argument is not callable" );
+    };
+    
+    !Object.keys && ( Object.keys = function ( a ) {
+      !a && b( "Object.keys : first arguments is null or not defined." );
       
-      if ( typeof c !== "function" ){
-        b( d+" : first argument is not callable" );
-      };
-    };
+      var c = [],
+          d = -1;
+      
+      for ( var e in a )
+      a.hasOwnProperty( e ) && ( c[ ++ d] = a[e] );
+      return c;
+    });
     
-    if ( !Object.keys ){
-      Object.keys = function ( c ) {
-        if ( !c ){
-          b( "Object.keys : first arguments is null or not defined." );
-        };
-        
-        var d = [],
-            e = -1;
-        
-        for ( var f in c ){
-          
-          if ( c.hasOwnProperty( f ) ){
-            d[ ++ e] = c[f];
-          };
-        };
-        return d;
-      };
-    };
+    !Object.preventExtensions && ( Object.preventExtensions = function ( a ) {
+      return a;
+    });
     
-    if ( !Object.preventExtensions ){
-      Object.preventExtensions = function ( b ) {
-        return b;
-      };
-    };
+    !Object.seal && ( Object.seal = function ( a ) {
+      return a;
+    });
     
-    if ( !Object.seal ){
-      Object.seal = function ( b ) {
-        return b;
-      };
-    };
-    
-    if ( !Object.freeze ){
-      Object.freeze = function ( b ) {
-        return b;
-      };
-    };
+    !Object.freeze && ( Object.freeze = function ( a ) {
+      return a;
+    });
     
     var l = function () {
-          var b;
+          var a;
           
           try {
-            var c = {};
+            var b = {};
             
-            Object.defineProperty( c,"test", {
+            Object.defineProperty( b,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
               value : 0
             });
             
-            c.test = 200;
+            b.test = 200;
             
-            b = ( c.test === 200 )?false : true;
+            a = ( b.test === 200 )?false : true;
           } catch( e ){
-            b = false;
+            a = false;
           };
-          return b;
+          return a;
         }();
     
-    if ( !l ){
-      Object.defineProperty = function ( b,c,d ) {
-        if ( d.value ){
-          b[c] = d.value;
-        };
-      };
-    };
+    !l && ( Object.defineProperty = function ( a,b,c ) {
+      c.value && ( a[b] = c.value );
+    });
     
     if ( !c.trim ){
       c.trim = function () {
@@ -102,343 +78,242 @@
       c.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    if ( !c.repeat ){
-      Object.defineProperty( c,"repeat", {
-        value : function m( b ) {
-          return Array( b+1 ).join( this.toString() );
-        },
-        configurable : true,
-        enumerable : false,
-        writable : true
-      });
-    };
+    !c.repeat && Object.defineProperty( c,"repeat", {
+      value : function m( a ) {
+        return Array( a+1 ).join( this.toString() );
+      },
+      configurable : true,
+      enumerable : false,
+      writable : true
+    });
     
-    if ( !c.startsWith ){
-      Object.defineProperty( c,"startsWith", {
-        value : function m( b ) {
-          return !this.indexOf( b );
-        },
-        configurable : true,
-        enumerable : false,
-        writable : true
-      });
-    };
+    !c.startsWith && Object.defineProperty( c,"startsWith", {
+      value : function m( a ) {
+        return !this.indexOf( a );
+      },
+      configurable : true,
+      enumerable : false,
+      writable : true
+    });
     
-    if ( !c.endsWith ){
-      Object.defineProperty( c,"endsWith", {
-        value : function m( b ) {
-          var c = String( b ),
-              d = this.lastIndexOf( c );
-          return d >= 0 && d === this.length-c.length;
-        },
-        configurable : true,
-        enumerable : false,
-        writable : true
-      });
-    };
+    !c.endsWith && Object.defineProperty( c,"endsWith", {
+      value : function m( a ) {
+        var b = String( a ),
+            c = this.lastIndexOf( b );
+        return c >= 0 && c === this.length-b.length;
+      },
+      configurable : true,
+      enumerable : false,
+      writable : true
+    });
     
-    if ( !c.contains ){
-      Object.defineProperty( c,"contains", {
-        value : function m( b ) {
-          return this.indexOf( b ) !== -1;
-        },
-        configurable : true,
-        enumerable : false,
-        writable : true
-      });
-    };
+    !c.contains && Object.defineProperty( c,"contains", {
+      value : function m( a ) {
+        return this.indexOf( a ) !== -1;
+      },
+      configurable : true,
+      enumerable : false,
+      writable : true
+    });
     
-    if ( !c.toArray ){
-      Object.defineProperty( c,"toArray", {
-        value : function m( b ) {
-          return this.split( "" );
-        },
-        configurable : true,
-        enumerable : false,
-        writable : true
-      });
-    };
+    !c.toArray && Object.defineProperty( c,"toArray", {
+      value : function m( a ) {
+        return this.split( "" );
+      },
+      configurable : true,
+      enumerable : false,
+      writable : true
+    });
     
-    if ( !j.bind ){
-      j.bind = function () {
-        var b = d.slice.call( arguments ),
-            e = b.shift(),
-            c = function () {
-              var f = b.concat( d.slice.call( arguments ) );
-              
-              if ( this !== null && this !== window && this instanceof c ){
-                return c.context.apply( this,f );
-              } else {
-                return c.context.apply( e,f );
-              };
-            };
-        
-        c.prototype = this.prototype;
-        
-        c.context = this;
-        return c;
+    !j.bind && ( j.bind = function () {
+      var a = d.slice.call( arguments ),
+          c = a.shift(),
+          b = function () {
+            var e = a.concat( d.slice.call( arguments ) );
+            return this !== null && this !== window && this instanceof b?b.context.apply( this,e ) : b.context.apply( c,e );
+          };
+      
+      b.prototype = this.prototype;
+      
+      b.context = this;
+      return b;
+    });
+    
+    !d.forEach && ( d.forEach = function ( f,g ) {
+      e( f,"Array.forEach" );
+      
+      var h = -1,
+          i;
+      
+      this === null && b( "Array.forEach : this is null or not defined" );
+      
+      if ( g ){
+        while ( ( i = this[ ++ h] ) !== null && i !== undefined )f.call( g,i,h,this );
+      } else {
+        while ( ( i = this[ ++ h] ) !== null && i !== undefined )f( i,h,this );
       };
-    };
+    });
     
-    if ( !d.forEach ){
-      d.forEach = function ( f,g ) {
-        e( f,"Array.forEach" );
-        
-        var h = -1,
-            i;
-        
-        if ( this === null ){
-          b( "Array.forEach : this is null or not defined" );
-        };
-        
-        if ( g ){
-          while ( ( i = this[ ++ h] ) !== null && i !== undefined ){
-            f.call( g,i,h,this );
-          };
-        } else {
-          while ( ( i = this[ ++ h] ) !== null && i !== undefined ){
-            f( i,h,this );
-          };
-        };
-      };
-    };
-    
-    if ( !d.every ){
-      d.every = function ( c,d ) {
-        e( c,"Array.every" );
-        
-        var f = -1,
-            g;
-        
-        if ( this === null ){
-          b( "Array.every : this is null or not defined" );
-        };
-        
-        if ( d ){
-          while ( ( g = this[ ++ f] ) !== null && g !== undefined ){
-            if ( !( c.call( d,g,f,this ) ) ){
-              return false;
-            };
-          };
-        } else {
-          while ( ( g = this[ ++ f] ) !== null && g !== undefined ){
-            if ( !( c( g,f,this ) ) ){
-              return false;
-            };
-          };
-        };
-        return true;
-      };
-    };
-    
-    if ( !d.some ){
-      d.some = function ( c,d ) {
-        e( c,"Array.some" );
-        
-        var f = -1,
-            g;
-        
-        if ( this === null ){
-          b( "Array.some : this is null or not defined" );
-        };
-        
-        if ( d ){
-          while ( ( g = this[ ++ f] ) !== null && g !== undefined ){
-            if ( c.call( d,g,f,this ) ){
-              return true;
-            };
-          };
-        } else {
-          while ( ( g = this[ ++ f] ) !== null && g !== undefined ){
-            if ( c( g,f,this ) ){
-              return true;
-            };
-          };
-        };
-        return false;
-      };
-    };
-    
-    if ( !d.filter ){
-      d.filter = function ( c,d ) {
-        e( c,"Array.filter" );
-        
-        var f = this.length,
-            g = -1,
-            h = [],
-            i;
-        
-        if ( this === null ){
-          b( "Array.filter : this is null or not defined" );
-        };
-        
-        if ( d ){
-          for ( var j = 0,f = this.length;j<f; ++ j ){
-            
-            if ( ( i = this[j] ) !== null && i !== undefined ){
-              if ( c.call( d,i,j,this ) ){
-                h[ ++ g] = i;
-              };
-            };
-          };
-        } else {
-          for ( var j = 0,f = this.length;j<f; ++ j ){
-            if ( ( i = this[j] ) !== null && i !== undefined ){
-              if ( c( i,j,this ) ){
-                h[ ++ g] = i;
-              };
-            };
-          };
-        };
-        return h;
-      };
-    };
-    
-    if ( !d.indexOf ){
-      d.indexOf = function ( c,d ) {
-        var e = d?d-1 : -1,
-            f = -1,
-            g;
-        
-        if ( this === null ){
-          b( "Array.indexOf : this is null or not defined." );
-        };
-        
-        while ( ( g = this[ ++ e] ) !== null && g !== undefined ){
-          if ( g === c ){
-            f = e;
-            break;
-          };
-        };
-        return f;
-      };
-    };
-    
-    if ( !d.lastIndexOf ){
-      d.lastIndexOf = function ( c,d ) {
-        var e = this.length,
-            f = d?d+1 : e,
-            g = -1,
-            h;
-        
-        if ( this === null ){
-          b( "Array.lastIndexOf : this is null or not defined." );
-        };
-        
-        while ( ( h = this[ -- f] ) !== null && h !== undefined ){
-          if ( h === c ){
-            g = f;
-            break;
-          };
-        };
-        return g;
-      };
-    };
-    
-    if ( !d.map ){
-      d.map = function ( c,d ) {
-        e( c,"Array.map" );
-        
-        var f = [],
-            g = -1,
-            h = this.length,
-            i = 0,
-            j;
-        
-        if ( this === null ){
-          b( "Array.map : this is null or not defined." );
-        };
-        
-        if ( d ){
-          for ( i;i<h; ++ i ){
-            if ( ( j = this[i] ) !== null && j !== undefined ){
-              f[ ++ g] = c.call( d,j,i,this );
-            };
-          };
-        } else {
-          for ( i;i<h; ++ i ){
-            if ( ( j = this[i] ) !== null && j !== undefined ){
-              f[ ++ g] = c( j,i,this );
-            };
-          };
-        };
-        return f;
-      };
-    };
-    
-    if ( !d.reduce ){
-      d.reduce = function ( c,d ) {
-        e( c,"Array.reduce" );
-        
-        var f = d || this[0],
-            g = d?0 : 1,
-            h = this.length,
-            i;
-        
-        if ( ( h === 0 || h === null ) && arguments.length<2 ){
-          b( "Array length is 0 and no second argument" );
-        };
-        
-        for ( g;g<h; ++ g ){
-          if ( ( i = this[g] ) !== null && i !== undefined ){
-            f = c( f,i,g,this );
-          };
-        };
-        return f;
-      };
-    };
-    
-    if ( !d.reduceRight ){
-      d.reduceRight = function ( c,d ) {
-        e( c,"Array.reduceRight" );
-        
-        var f = this.length,
-            g = d || this[f-1],
-            h = d?f-1 : f-2,
-            i;
-        
-        if ( ( f === 0 || f === null ) && arguments.length<2 ){
-          b( "Array length is 0 and no second argument" );
-        };
-        
-        for ( h;h>-1; -- h ){
-          if ( ( i = this[h] ) !== null && i !== undefined ){
-            g = c( g,i,h,this );
-          };
-        };
-        return g;
-      };
-    };
-    
-    if ( !k.toJSON ){
-      k.toJSON = function () {
-        var b = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            c = b[0],
-            d = b[1],
-            e = b[2],
-            f = b[3],
-            g = b[4];
-        return '"'+this.getUTCFullYear()+'-'+( c>8?c+1 : "0"+( c+1 ) )+'-'+( d>9?d : "0"+d )+'T'+( e>9?e : "0"+e )+':'+( f>9?f : "0"+f )+':'+( g>9?g : "0"+g )+'.'+this.getUTCMilliseconds()+'Z"';
-      };
-    };
-    
-    if ( !Date.now ){
-      Date.now = function () {
-        return +new Date();
-      };
-    };
-    
-    if ( !Array.isArray ){
-      Array.isArray = function ( b ) {
-        if ( arguments.length === 0 ){
+    !d.every && ( d.every = function ( a,c ) {
+      e( a,"Array.every" );
+      
+      var d = -1,
+          f;
+      
+      this === null && b( "Array.every : this is null or not defined" );
+      
+      if ( c ){
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a.call( c,f,d,this ) ) ){
           return false;
         };
-        return b?( {} ).toString.call( b ) === "[object Array]" : false;
+      } else {
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( !( a( f,d,this ) ) ){
+          return false;
+        };
       };
-    };
+      return true;
+    });
+    
+    !d.some && ( d.some = function ( a,c ) {
+      e( a,"Array.some" );
+      
+      var d = -1,
+          f;
+      
+      this === null && b( "Array.some : this is null or not defined" );
+      
+      if ( c ){
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a.call( c,f,d,this ) ){
+          return true;
+        };
+      } else {
+        while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( a( f,d,this ) ){
+          return true;
+        };
+      };
+      return false;
+    });
+    
+    !d.filter && ( d.filter = function ( a,c ) {
+      e( a,"Array.filter" );
+      
+      var d = this.length,
+          f = -1,
+          g = [],
+          h;
+      
+      this === null && b( "Array.filter : this is null or not defined" );
+      
+      if ( c ){
+        for ( var i = 0,d = this.length;i<d; ++ i )
+        ( h = this[i] ) !== null && h !== undefined && a.call( c,h,i,this ) && ( g[ ++ f] = h );
+      } else {
+        for ( var i = 0,d = this.length;i<d; ++ i )
+        ( h = this[i] ) !== null && h !== undefined && a( h,i,this ) && ( g[ ++ f] = h );
+      };
+      return g;
+    });
+    
+    !d.indexOf && ( d.indexOf = function ( a,c ) {
+      var d = ( c )?c-1 : -1,
+          e = -1,
+          f;
+      
+      this === null && b( "Array.indexOf : this is null or not defined." );
+      
+      while ( ( f = this[ ++ d] ) !== null && f !== undefined )if ( f === a ){
+        e = d;
+        break;
+      };
+      return e;
+    });
+    
+    !d.lastIndexOf && ( d.lastIndexOf = function ( a,c ) {
+      var d = this.length,
+          e = ( c )?c+1 : d,
+          f = -1,
+          g;
+      
+      this === null && b( "Array.lastIndexOf : this is null or not defined." );
+      
+      while ( ( g = this[ -- e] ) !== null && g !== undefined )if ( g === a ){
+        f = e;
+        break;
+      };
+      return f;
+    });
+    
+    !d.map && ( d.map = function ( a,c ) {
+      e( a,"Array.map" );
+      
+      var d = [],
+          f = -1,
+          g = this.length,
+          h = 0,
+          i;
+      
+      this === null && b( "Array.map : this is null or not defined." );
+      
+      if ( c ){
+        for ( h;h<g; ++ h )( i = this[h] ) !== null && i !== undefined && ( d[ ++ f] = a.call( c,i,h,this ) );
+      } else {
+        for ( h;h<g; ++ h )( i = this[h] ) !== null && i !== undefined && ( d[ ++ f] = a( i,h,this ) );
+      };
+      return d;
+    });
+    
+    !d.reduce && ( d.reduce = function ( a,c ) {
+      e( a,"Array.reduce" );
+      
+      var d = c || this[0],
+          f = ( c )?0 : 1,
+          g = this.length,
+          h;
+      
+      ( g === 0 || g === null ) && arguments.length<2 && b( "Array length is 0 and no second argument" );
+      
+      for ( f;f<g; ++ f )( h = this[f] ) !== null && h !== undefined && ( d = a( d,h,f,this ) );
+      return d;
+    });
+    
+    !d.reduceRight && ( d.reduceRight = function ( a,c ) {
+      e( a,"Array.reduceRight" );
+      
+      var d = this.length,
+          f = c || this[d-1],
+          g = ( c )?d-1 : d-2,
+          h;
+      
+      ( d === 0 || d === null ) && arguments.length<2 && b( "Array length is 0 and no second argument" );
+      
+      for ( g;g>-1; -- g )( h = this[g] ) !== null && h !== undefined && ( f = a( f,h,g,this ) );
+      return f;
+    });
+    
+    !k.toJSON && ( k.toJSON = function () {
+      var a = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+          b = a[0],
+          c = a[1],
+          d = a[2],
+          e = a[3],
+          f = a[4];
+      return '"'+this.getUTCFullYear()+'-'+( b>8?b+1 : "0"+( b+1 ) )+'-'+( c>9?c : "0"+c )+'T'+( d>9?d : "0"+d )+':'+( e>9?e : "0"+e )+':'+( f>9?f : "0"+f )+'.'+this.getUTCMilliseconds()+'Z"';
+    });
+    
+    !Date.now && ( Date.now = function () {
+      return +new Date();
+    });
+    
+    !Array.isArray && ( Array.isArray = function ( a ) {
+      if ( arguments.length === 0 ){
+        return false;
+      };
+      return ( a )?( {} ).toString.call( a ) === "[object Array]" : false;
+    });
   }.call( this,String,Array,Function,Date );
   
   var a = function () {
+        "use strict";
         var r = {};
         
         function c( d,c,b ) {
@@ -448,57 +323,52 @@
         }
         var s = Math,
             g = s.max,
-            t = [],
+            t = Array.prototype,
             d = t.slice,
             a =  {
-              getErrorMessage : function u( b ) {
-                return ( b.message )?b.message : ( b.description )?b.description : b.toString();
+              getErrorMessage : function u( a ) {
+                return ( a.message )?a.message : ( a.description )?a.description : a.toString();
               },
               exceptionHandler : function v( d,e,f ) {
-                if ( b( f ) ){
-                  this.throwException( f );
-                } else {
-                  this.throwException( new c( d,e,f ) );
-                };
+                b( f )?this.throwException( f ) : this.throwException( new c( d,e,f ) );
               },
-              throwException : function p( c ) {
+              throwException : function p( a ) {
                 try {
-                  throw c;
+                  throw a;
                 } catch( e ){
                   if ( b( e ) ){
                     throw new Error( e );
-                  } else {
-                    throw new Error( this.getErrorMessage( e ) );
                   };
+                  throw new Error( this.getErrorMessage( e ) );
                 };
               },
               hasProto : "__proto__" in {}
             };
         
-        function f( b,c,d ) {
-          return Object.defineProperty( b,c, {
+        function f( a,b,c ) {
+          return Object.defineProperty( a,b, {
             configurable : true,
             enumerable : false,
             writable : true,
-            value : d
+            value : c
           });
         };
         
         r.createUnenumProp = f;
         
-        function w( b,c,d ) {
-          return Object.defineProperty( b,c, {
+        function w( a,b,c ) {
+          return Object.defineProperty( a,b, {
             configurable : false,
             enumerable : false,
             writable : false,
-            value : d
+            value : c
           });
         };
         
         r.constant = w;
         
         function x( e,f ) {
-          return e?d.call( e,f ) : [];
+          return ( e )?d.call( e,f ) : [];
         };
         
         r.toArray = x;
@@ -527,18 +397,16 @@
         
         r.createGenerator = y;
         
-        function u( b ) {
-          return ( b.message )?b.message : ( b.description )?b.description : b.toString();
+        function u( a ) {
+          return ( a.message )?a.message : ( a.description )?a.description : a.toString();
         }
         var p = r.throwException = a.throwException.bind( a ),
             v = r.exceptionHandler = a.exceptionHandler.bind( a );
         
-        function z( b,c ) {
-          for ( var d in c ){
-            
-            b[d] = c[d];
-          };
-          return b;
+        function z( a,b ) {
+          for ( var c in b )
+          a[c] = b[c];
+          return a;
         };
         
         r.extend = z;
@@ -573,44 +441,36 @@
         
         r.createTuple = A;
         
-        function B( b ) {
-          if ( b.toString() === "[object Object]" ){
-            f( b,"toString",
-            function () {
-              return "[object Record]";
-            });
-          };
-          return Object.freeze( b );
+        function B( a ) {
+          a.toString() === "[object Object]" && f( a,"toString",
+          function () {
+            return "[object Record]";
+          });
+          return Object.freeze( a );
         };
         
         r.createRecord = B;
         
-        var C = r.extendPrototype = function ( b,c ) {
-              b.prototype = c;
+        var C = r.extendPrototype = function ( a,b ) {
+              a.prototype = b;
             },
-            j = ( "getPrototypeOf" in Object )?function ( b ) {
-              return Object.getPrototypeOf( b );
-            } : function ( b ) {
-              var c = {};
+            j = ( "getPrototypeOf" in Object )?function ( a ) {
+              return Object.getPrototypeOf( a );
+            } : function ( a ) {
+              var b = {};
               
-              for ( var d in b ){
-                
-                if ( !b.hasOwnProperty( d ) ){
-                  c[d] = b[d];
-                };
-              };
-              return c;
+              for ( var c in a )
+              !a.hasOwnProperty( c ) && ( b[c] = a[c] );
+              return b;
             },
-            D = r.extendClass = ( a.hasProto )?function ( b,c ) {
-              if ( typeof c === 'function' ){
-                b.prototype.__proto__ = c.prototype;
+            D = r.extendClass = ( a.hasProto )?function ( a,b ) {
+              if ( typeof b === 'function' ){
+                a.prototype.__proto__ = b.prototype;
                 
-                for ( var d in c ){
-                  
-                  b[d] = c[d];
-                };
+                for ( var c in b )
+                a[c] = b[c];
               } else {
-                b.prototype.__proto__ = c.__proto__;
+                a.prototype.__proto__ = b.__proto__;
               };
             } : function ( k,l ) {
               var m = typeof l;
@@ -622,10 +482,8 @@
                 
                 k.prototype = new n;
                 
-                for ( var o in l ){
-                  
-                  k[o] = l[o];
-                };
+                for ( var o in l )
+                k[o] = l[o];
               } else {
                 var n = function (){},
                     p = j( l );
@@ -647,60 +505,50 @@
         
         r.throwStopIteration = m;
         
-        function l( b ) {
-          return b instanceof e;
+        function l( a ) {
+          return a instanceof e;
         };
         
         r.isGenerator = l;
         
         function E( n ) {
-          var b = n[k](),
+          var a = n[k](),
               o;
           
-          if ( l( b ) ){
-            return b;
+          if ( l( a ) ){
+            return a;
           };
           
           o = {};
           
-          if ( b.next ){
+          if ( a.next ){
             f( o,"next",
             function () {
-              var c = b.next();
+              var b = a.next();
               
-              if ( c === undefined ){
-                m();
-              };
-              return c;
+              b === undefined && m();
+              return b;
             });
           } else {
             return {};
           };
           
-          if ( !( "__nothrowNext__" in b ) ){
-            f( o,"__nothrowNext__",b.next.bind( b ) );
-          };
+          !( "__nothrowNext__" in a ) && f( o,"__nothrowNext__",a.next.bind( a ) );
           
-          for ( var p in b ){
-            
-            if ( p !== "next" && p !== "__nothrowNext__" ){
-              o[p] = b[p];
-            };
-          };
+          for ( var p in a )
+          p !== "next" && p !== "__nothrowNext__" && ( o[p] = a[p] );
           
-          if ( !( "toString" in b ) ){
-            f( o,"toString",
-            function () {
-              return "[object Iterator]";
-            });
-          };
+          !( "toString" in a ) && f( o,"toString",
+          function () {
+            return "[object Iterator]";
+          });
           return o;
         };
         
         r.getIterator = E;
         
-        function F( b ) {
-          return k in b;
+        function F( a ) {
+          return k in a;
         };
         
         r.hasIterator = F;
@@ -736,13 +584,13 @@
             };
           };
         } else {
-          q = function ( self,b ) {
+          q = function ( self,a ) {
             if ( !self.__typeid__ ){
-              var c = new b;
+              var b = new a;
               
-              f( c.constructor,"__is_private__",1 );
+              f( b.constructor,"__is_private__",1 );
               
-              f( self,"__private__",c );
+              f( self,"__private__",b );
             };
           };
           
@@ -758,9 +606,7 @@
         r.getPrivateRecord = G;
         
         function H( r,s,t,u,v,w,x ) {
-          if ( !r || !( r instanceof s ) ){
-            p( "class "+w+" must be called by new. line : "+x );
-          };
+          ( !r || !( r instanceof s ) ) && p( "class "+w+" must be called by new. line : "+x );
           
           q( r,t );
           
@@ -769,25 +615,21 @@
         
         r.initializeClass = H;
         
-        function I( b ) {
-          var c = typeof b,
-              d;
+        function I( a ) {
+          var b = typeof a,
+              c;
           
-          if ( c === "function" ){
-            d = function (){};
+          if ( b === "function" ){
+            c = function (){};
             
-            d.prototype = b.prototype;
+            c.prototype = a.prototype;
             
-            d = new d();
+            c = new c();
             
-            if ( b.__harmony_class__ ){
-              d.constructor = b.constructor;
-            } else {
-              d.constructor = b;
-            };
-            return d;
+            a.__harmony_class__?c.constructor = a.constructor : c.constructor = a;
+            return c;
           };
-          return d;
+          return c;
         };
         
         r.getSuper = I;
@@ -804,25 +646,19 @@
                 k = b._mochaRequires,
                 l;
             
-            for ( var m in g ){
-              if ( !e[m] ){
-                l = ( !d[m] )?m : d[m];
-                
-                f[l] = g[m];
-              };
+            for ( var m in g )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
+              
+              f[l] = g[m];
             };
             
-            for ( m in i ){
-              if ( !e[m] ){
-                l = ( !d[m] )?m : d[m];
-                
-                h[l] = i[m];
-              };
+            for ( m in i )if ( !e[m] ){
+              l = ( !d[m] )?m : d[m];
+              
+              h[l] = i[m];
             };
             
-            for ( m in j ){
-              k[m] = j[m];
-            };
+            for ( m in j )k[m] = j[m];
           };
         };
         
@@ -840,20 +676,16 @@
           } else {
             var l;
             
-            for ( var m in j ){
-              if ( !f[m] ){
-                l = ( !e[m] )?m : e[m];
-                
-                g[l] = j[m];
-              };
+            for ( var m in j )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
+              
+              g[l] = j[m];
             };
             
-            for ( m in k ){
-              if ( !f[m] ){
-                l = ( !e[m] )?m : e[m];
-                
-                h[l] = k[m];
-              };
+            for ( m in k )if ( !f[m] ){
+              l = ( !e[m] )?m : e[m];
+              
+              h[l] = k[m];
             };
           };
         };
@@ -868,36 +700,20 @@
             var k = d[i],
                 l = k._mochaRequires;
             
-            for ( var m in l ){
-              
-              if ( !( m in g ) && !( m in h ) ){
-                a.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m+"\nin file "+e+" at line "+f );
-              };
-            };
+            for ( var m in l )
+            !( m in g ) && !( m in h ) && a.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+m+"\nin file "+e+" at line "+f );
           };
         };
         
         r.checkRequirements = L;
-        
-        !function () {
-          var s = r.assert = ( console && console.assert )?function ( b,c,d,e,f ) {
-                return console.assert( b === c,"assertion failed : "+d+"\nexpect "+b+" but got "+c+"\nin file "+f+" at : "+e );
-              } : function ( b,c,d,e,f ) {
-                if ( b !== c ){
-                  a.throwException( "assertion failed : "+d+"\nexpect "+b+" but got "+c+"\nin file "+f+" at : "+e );
-                };
-              };
-        }();
         return r;
       }();
   
-  if ( !( "StopIteration" in window ) ){
-    window.StopIteration =  {
-      toString : function c() {
-        return "[object StopIteration]";
-      }
-    };
-  };
+  !( "StopIteration" in window ) && ( window.StopIteration =  {
+    toString : function c() {
+      return "[object StopIteration]";
+    }
+  });
   
   function d(  ) {
     var b = a.toArray( arguments,0 ),
@@ -915,565 +731,262 @@
     return a.createRecord( b );
   };
   
-  __LINE__ = 0;
   !function () {
-    try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
-          __LINE__ = 0;
-      __LINE__ = 2;
-      b['./class_test.js'] = {};
-      
-      __LINE__ = 3;
-      var g = b['./class_test.js'],
-          h = function () {
-            try {
-              __LINE__ = 0;
-              var c = function (){};
-              
-              __LINE__ = 1;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,c,d,arguments,'Monster','1' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d( b,c ) {
-                try {
-                  
-                  __LINE__ = 8;
-                  this.name = b;
-                  
-                  __LINE__ = 9;
-                  a.getPrivateRecord( this ).health = c;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a.createUnenumProp( d,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              b.prototype.attack = function attack( b ) {
-                try {
-                  __LINE__ = 0;
-                  log( 'The monster attacks '+b );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b.prototype.isAlive = function isAlive() {
-                try {
-                  __LINE__ = 23;
-                  return a.getPrivateRecord( this ).health>0;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b.prototype.health = function health( b ) {
-                try {
-                  __LINE__ = 0;
-                  if ( b<0 ){
-                    __LINE__ = 0;
-                    throw new Error( 'Health must be non-negative.' );
-                  };
-                  
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this ).health = b;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 38;
-              b.prototype.numAttacks = 0;
-              
-              __LINE__ = 43;
-              a.constant( b.prototype,'attackMessage','The monster hits you!' );
-              
-              __LINE__ = 44;
-              a.constant( b,'DEFAULT_LIFE',100 );
-              
-              __LINE__ = 1;
-              a.createUnenumProp( b.prototype,"constructor",d );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }(),
-          i = new h( "slime",100 );
-      
-      __LINE__ = 48;
-      a.assert( true,i.isAlive(),"monster.isAlive()",48,'./class_test.js' );
-      
-      __LINE__ = 49;
-      a.assert( 0,i.numAttacks,"monster.numAttacks",49,'./class_test.js' );
-      
-      __LINE__ = 50;
-      a.assert( 100,h.DEFAULT_LIFE,"Monster.DEFAULT_LIFE",50,'./class_test.js' );
-      
-      __LINE__ = 51;
-      a.assert( undefined,h.health,"Monster.health",51,'./class_test.js' );
-      
-      __LINE__ = 52;
-      var c = function () {
-            try {
-              __LINE__ = 0;
-              var c = function (){};
-              
-              __LINE__ = 52;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,c,d,arguments,'BaseTest','52' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d( b,c,d ) {
-                try {
-                  __LINE__ = 0;
-                  this.name = b || 200;
-                  
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this ).addr = c || "tokyo";
-                  
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this ).age = d;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a.createUnenumProp( d,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              b.prototype.getName = function getName() {
-                try {
-                  __LINE__ = 55;
-                  return "hogehoge";
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b.getName = function getName() {
-                try {
-                  __LINE__ = 57;
-                  return "static hogehoge";
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 52;
-              a.createUnenumProp( b.prototype,"constructor",d );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }(),
-          d = function () {
-            try {
-              __LINE__ = 0;
-              var d = function (){};
-              
-              __LINE__ = 60;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,d,e,arguments,'DeriveTest','60' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              var g = c;
-              
-              __LINE__ = 60;
-              a.extendClass( b,g );
-              
-              __LINE__ = 0;
-              var f = a.getSuper( g );
-              
-              function e() {
-                try {
-                  __LINE__ = 0;
-                  f.constructor.call( this );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a.createUnenumProp( e,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              d.prototype.getName = function getName() {
-                try {
-                  __LINE__ = 65;
-                  return f.getName.constructor.call( this );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 60;
-              a.createUnenumProp( b.prototype,"constructor",e );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }(),
-          j = function () {
-            try {
-              __LINE__ = 0;
-              var c = function (){};
-              
-              __LINE__ = 70;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,c,e,arguments,'Derive2','70' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              var g = d;
-              
-              __LINE__ = 70;
-              a.extendClass( b,g );
-              
-              __LINE__ = 0;
-              var f = a.getSuper( g );
-              
-              function e() {
-                try {
-                  __LINE__ = 71;
-                  return f.constructor.call( this );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a.createUnenumProp( e,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              b.prototype.getAddr = function getAddr() {
-                try {
-                  __LINE__ = 0;
-                  return a.getPrivateRecord( this ).addr;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 70;
-              a.createUnenumProp( b.prototype,"constructor",e );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }(),
-          k = function () {
-            try {
-              __LINE__ = 0;
-              var c = function (){};
-              
-              __LINE__ = 85;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,c,d,arguments,'_mochaLocalTmp10','85' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d( b,c ) {
-                try {
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this )._name = b || "test";
-                  
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this )._age = c || 20;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a.createUnenumProp( d,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              b.prototype.getName = function getName() {
-                try {
-                  __LINE__ = 0;
-                  return a.getPrivateRecord( this )._name;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b.prototype.getAge = function getAge() {
-                try {
-                  __LINE__ = 0;
-                  return a.getPrivateRecord( this )._age;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 80;
-              c.prototype.Inner = function () {
-                try {
-                  __LINE__ = 0;
-                  var c = function (){};
-                  
-                  __LINE__ = 80;
-                  function b() {
-                    try {
-                      __LINE__ = 0;
-                      a.initializeClass( this,b,c,d,arguments,'Inner','80' );
-                    } catch( e ){
-                      a.exceptionHandler( __LINE__ , __FILE__ , e );
-                    }
-                  };
-                  
-                  function d(){}
-                  __LINE__ = 0;
-                  a.createUnenumProp( d,"__harmony_class__",1 );
-                  
-                  __LINE__ = 80;
-                  a.createUnenumProp( b.prototype,"constructor",d );
-                  __LINE__ = 0;
-                  return b;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }();
-              
-              __LINE__ = 85;
-              a.createUnenumProp( b.prototype,"constructor",d );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
+    b['./class_test.js'] = {};
+    
+    var g = b['./class_test.js'],
+        h = function () {
+          var c = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,c,d,arguments,'Monster','1' );
+          };
+          
+          function d( b,c ) {
+            
+            this.name = b;
+            
+            a.getPrivateRecord( this ).health = c;
+          }
+          a.createUnenumProp( d,"__harmony_class__",1 );
+          
+          b.prototype.attack = function attack( a ) {
+            log( 'The monster attacks '+a );
+          };
+          
+          b.prototype.isAlive = function isAlive() {
+            return a.getPrivateRecord( this ).health>0;
+          };
+          
+          b.prototype.health = function health( b ) {
+            if ( b<0 ){
+              throw new Error( 'Health must be non-negative.' );
+            };
+            
+            a.getPrivateRecord( this ).health = b;
+          };
+          
+          b.prototype.numAttacks = 0;
+          
+          a.constant( b.prototype,'attackMessage','The monster hits you!' );
+          
+          a.constant( b,'DEFAULT_LIFE',100 );
+          
+          a.createUnenumProp( b.prototype,"constructor",d );
+          return b;
+        }(),
+        i = new h( "slime",100 );
+    
+    var c = function () {
+          var c = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,c,d,arguments,'BaseTest','52' );
+          };
+          
+          function d( b,c,d ) {
+            this.name = b || 200;
+            
+            a.getPrivateRecord( this ).addr = c || "tokyo";
+            
+            a.getPrivateRecord( this ).age = d;
+          }
+          a.createUnenumProp( d,"__harmony_class__",1 );
+          
+          b.prototype.getName = function getName() {
+            return "hogehoge";
+          };
+          
+          b.getName = function getName() {
+            return "static hogehoge";
+          };
+          
+          a.createUnenumProp( b.prototype,"constructor",d );
+          return b;
+        }(),
+        d = function () {
+          var d = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,d,e,arguments,'DeriveTest','60' );
+          };
+          
+          var g = c;
+          
+          a.extendClass( b,g );
+          
+          var f = a.getSuper( g );
+          
+          function e() {
+            f.constructor.call( this );
+          }
+          a.createUnenumProp( e,"__harmony_class__",1 );
+          
+          d.prototype.getName = function getName() {
+            return f.getName.constructor.call( this );
+          };
+          
+          a.createUnenumProp( b.prototype,"constructor",e );
+          return b;
+        }(),
+        j = function () {
+          var c = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,c,e,arguments,'Derive2','70' );
+          };
+          
+          var g = d;
+          
+          a.extendClass( b,g );
+          
+          var f = a.getSuper( g );
+          
+          function e() {
+            return f.constructor.call( this );
+          }
+          a.createUnenumProp( e,"__harmony_class__",1 );
+          
+          b.prototype.getAddr = function getAddr() {
+            return a.getPrivateRecord( this ).addr;
+          };
+          
+          a.createUnenumProp( b.prototype,"constructor",e );
+          return b;
+        }(),
+        k = function () {
+          var c = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,c,d,arguments,'_mochaLocalTmp10','85' );
+          };
+          
+          function d( b,c ) {
+            a.getPrivateRecord( this )._name = b || "test";
+            
+            a.getPrivateRecord( this )._age = c || 20;
+          }
+          a.createUnenumProp( d,"__harmony_class__",1 );
+          
+          b.prototype.getName = function getName() {
+            return a.getPrivateRecord( this )._name;
+          };
+          
+          b.prototype.getAge = function getAge() {
+            return a.getPrivateRecord( this )._age;
+          };
+          
+          c.prototype.Inner = function () {
+            var c = function (){};
+            
+            function b() {
+              a.initializeClass( this,b,c,d,arguments,'Inner','80' );
+            };
+            
+            function d(){}
+            a.createUnenumProp( d,"__harmony_class__",1 );
+            
+            a.createUnenumProp( b.prototype,"constructor",d );
+            return b;
           }();
-      
-      __LINE__ = 85;
-      a.assert( true,new d().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",85,'./class_test.js' );
-      
-      __LINE__ = 86;
-      a.assert( true,d.getName() === "static hogehoge","DeriveTest.getName() === \"static hogehoge\"",86,'./class_test.js' );
-      
-      __LINE__ = 87;
-      a.assert( true,new j().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",87,'./class_test.js' );
-      
-      __LINE__ = 88;
-      var l = new k();
-      
-      __LINE__ = 89;
-      a.assert( true,l.getName() === "test","instance.getName() === \"test\"",89,'./class_test.js' );
-      
-      __LINE__ = 90;
-      a.assert( true,l.getAge() === 20,"instance.getAge() === 20",90,'./class_test.js' );
-      
-      __LINE__ = 0;
-      var e =  {
-            _mochaTraitPrivate :  {
-              
-            },
-            _mochaTraitPublic :  {
-              testm1 : function m(  ) {
-                try {
-                  __LINE__ = 0;
-                  var b = a.toArray( arguments,0 );
-                  __LINE__ = 94;
-                  return b[0];
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-            },
-            _mochaRequires :  {
-              doTestm1 : true
-            },
-            _mochaTraitMark : true
+          
+          a.createUnenumProp( b.prototype,"constructor",d );
+          return b;
+        }();
+    
+    var l = new k();
+    
+    var e =  {
+          _mochaTraitPrivate :  {
+            
           },
-          f =  {
-            _mochaTraitPrivate :  {
-              
-            },
-            _mochaTraitPublic :  {
-              testm2 : function n(  ) {
-                try {
-                  __LINE__ = 0;
-                  var b = a.toArray( arguments,0 );
-                  __LINE__ = 99;
-                  return b[0];
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              },
-              testm3 : function o() {
-                try {
-                  __LINE__ = 100;
-                  return "ok";
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-            },
-            _mochaRequires :  {
-              doTestm2 : true
-            },
-            _mochaTraitMark : true
+          _mochaTraitPublic :  {
+            testm1 : function m(  ) {
+              var b = a.toArray( arguments,0 );
+              return b[0];
+            }
           },
-          p = function () {
-            try {
-              __LINE__ = 0;
-              var c = function (){};
-              
-              __LINE__ = 103;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,c,d,arguments,'MixinTest','103' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d(){}
-              __LINE__ = 0;
-              a.createUnenumProp( d,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              b.prototype.doTestm1 = function doTestm1() {
-                try {
-                  __LINE__ = 104;
-                  return "aaa";
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b.prototype.doTestm2 = function doTestm2() {
-                try {
-                  __LINE__ = 106;
-                  return "bbb";
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              a.classMixin( b,c,e, {
-                testm1 : "m1"
-              },{});
-              
-              __LINE__ = 0;
-              a.classMixin( b,c,f,{}, {
-                testm2 : true,
-                testm3 : true
-              });
-              
-              __LINE__ = 0;
-              a.checkRequirements( b,c,[e,f],'./class_test.js',107 );
-              
-              __LINE__ = 103;
-              a.createUnenumProp( b.prototype,"constructor",d );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
+          _mochaRequires :  {
+            doTestm1 : true
+          },
+          _mochaTraitMark : true
+        },
+        f =  {
+          _mochaTraitPrivate :  {
+            
+          },
+          _mochaTraitPublic :  {
+            testm2 : function n(  ) {
+              var b = a.toArray( arguments,0 );
+              return b[0];
+            },
+            testm3 : function o() {
+              return "ok";
             }
-          }(),
-          q = new p();
-      
-      __LINE__ = 110;
-      a.assert( true,q.m1( "foo" ) === "foo","instance2.m1( \"foo\" ) === \"foo\"",110,'./class_test.js' );
-      
-      __LINE__ = 111;
-      a.assert( true,q.m2 === undefined,"instance2.m2 === undefined",111,'./class_test.js' );
-      
-      __LINE__ = 114;
-      var r = function () {
-            try {
-              __LINE__ = 0;
-              var c = function (){};
-              
-              __LINE__ = 114;
-              function b() {
-                try {
-                  __LINE__ = 0;
-                  a.initializeClass( this,b,c,d,arguments,'Box','114' );
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              function d( b,c ) {
-                try {
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this ).width = b || 100;
-                  
-                  __LINE__ = 0;
-                  a.getPrivateRecord( this ).height = c || 100;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              }
-              __LINE__ = 0;
-              a.createUnenumProp( d,"__harmony_class__",1 );
-              
-              __LINE__ = 0;
-              b.prototype.height = function height() {
-                try {
-                  __LINE__ = 0;
-                  return a.getPrivateRecord( this ).height;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 0;
-              b.prototype.width = function width() {
-                try {
-                  __LINE__ = 0;
-                  return a.getPrivateRecord( this ).width;
-                } catch( e ){
-                  a.exceptionHandler( __LINE__ , __FILE__ , e );
-                }
-              };
-              
-              __LINE__ = 114;
-              a.createUnenumProp( b.prototype,"constructor",d );
-              __LINE__ = 0;
-              return b;
-            } catch( e ){
-              a.exceptionHandler( __LINE__ , __FILE__ , e );
-            }
-          }();
-    } catch( e ){
-      a.exceptionHandler( __LINE__ , __FILE__ , e );
-    }
+          },
+          _mochaRequires :  {
+            doTestm2 : true
+          },
+          _mochaTraitMark : true
+        },
+        p = function () {
+          var c = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,c,d,arguments,'MixinTest','103' );
+          };
+          
+          function d(){}
+          a.createUnenumProp( d,"__harmony_class__",1 );
+          
+          b.prototype.doTestm1 = function doTestm1() {
+            return "aaa";
+          };
+          
+          b.prototype.doTestm2 = function doTestm2() {
+            return "bbb";
+          };
+          
+          a.classMixin( b,c,e, {
+            testm1 : "m1"
+          },{});
+          
+          a.classMixin( b,c,f,{}, {
+            testm2 : true,
+            testm3 : true
+          });
+          
+          a.checkRequirements( b,c,[e,f],'./class_test.js',107 );
+          
+          a.createUnenumProp( b.prototype,"constructor",d );
+          return b;
+        }(),
+        q = new p();
+    
+    var r = function () {
+          var c = function (){};
+          
+          function b() {
+            a.initializeClass( this,b,c,d,arguments,'Box','114' );
+          };
+          
+          function d( b,c ) {
+            a.getPrivateRecord( this ).width = b || 100;
+            
+            a.getPrivateRecord( this ).height = c || 100;
+          }
+          a.createUnenumProp( d,"__harmony_class__",1 );
+          
+          b.prototype.height = function height() {
+            return a.getPrivateRecord( this ).height;
+          };
+          
+          b.prototype.width = function width() {
+            return a.getPrivateRecord( this ).width;
+          };
+          
+          a.createUnenumProp( b.prototype,"constructor",d );
+          return b;
+        }();
   }();
 }();

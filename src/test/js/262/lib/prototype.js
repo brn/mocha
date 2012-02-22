@@ -1438,6 +1438,7 @@ Ajax.Responders = {
   responders: [],
 
   _each: function(iterator) {
+    console.log(this , this.responders._each);
     this.responders._each(iterator);
   },
 

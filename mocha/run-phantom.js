@@ -4,6 +4,8 @@ if ( phantom.args.length > 0 ) {
     var filename = phantom.args[i];
     if ( fs.isFile( filename ) ) {
       console.log( "run " + filename );
+      phantom.injectJs( filename );
+      /*
       var ifr = document.createElement( "iframe" );
       try {
         document.body.appendChild( ifr );
@@ -19,7 +21,7 @@ if ( phantom.args.length > 0 ) {
         ifr.contentDocument.close();
         document.body.removeChild( ifr );
       }
-      console.log( "test success." );
+      console.log( "test success." );*/
     }
   }
   phantom.exit();

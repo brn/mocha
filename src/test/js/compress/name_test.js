@@ -19,6 +19,7 @@ var sssss = ( 100 + 100 - 100 ) * 2;
 var sss = "aaaa" - "aaaaa";
 var ssssss = "aaaaaaa" + 222;
 var test2 = new Object;
+( x === 1 || m === 2 ) && b();
 Array.prototype.x = 200;
 delete Array.prototype.x;
 test2 = new Object();

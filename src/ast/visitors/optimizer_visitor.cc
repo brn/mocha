@@ -3,6 +3,7 @@
 #include <ast/utils/ast_utils.h>
 #include <ast/visitors/optimizer_visitor.h>
 #include <ast/visitors/utils/opt/constant_optimizer.h>
+#include <ast/visitors/utils/opt/ifstatement_optimizer.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/js_token.h>
@@ -117,23 +118,8 @@ VISITOR_IMPL(ExpressionStmt) {
 
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
-  AstNode* then = ast_node->Then();
-  if ( then->NodeType() == AstNode::kBlockStmt ) {
-    if ( then->FirstChild()->ChildLength() == 1 ) {
-      then = then->FirstChild()->FirstChild();
-      ast_node->Then( then );
-    }
-  }
-  then->Accept( this );
-  AstNode* else_block = ast_node->Else();
-  if ( else_block->NodeType() == AstNode::kBlockStmt ) {
-    if ( else_block->FirstChild()->ChildLength() == 1 ) {
-      else_block = else_block->FirstChild()->FirstChild();
-      ast_node->Else( else_block );
-    }
-  }
-  else_block->Accept( this );
+  IFStmtOptimizer opt( info_ , ast_node );
+  opt.Optimize( this );
 }
 
 
@@ -258,7 +244,8 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
   if ( !is_lhs &&
        !is_delete &&
        callable->NodeType() == AstNode::kValueNode &&
-       args->NodeType() == AstNode::kValueNode ) {
+       args->NodeType() == AstNode::kValueNode &&
+       exp->ParentNode()->NodeType() == AstNode::kCallExp ) {
     ValueNode* ident = callable->CastToValue();
     ValueNode* prototype = args->CastToValue();
     if ( ident->ValueType() == ValueNode::kIdentifier &&
@@ -486,9 +473,7 @@ VISITOR_IMPL(Expression) {
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  if ( ast_node->ChildLength() == 1 &&
-       ast_node->FirstChild()->NodeType() == AstNode::kValueNode &&
-       ast_node->IsParen() ) {
+  if ( ast_node->ChildLength() == 1 && !( ast_node->IsParen() ) ) {
     ast_node->ParentNode()->ReplaceChild( ast_node , ast_node->FirstChild() );
   }
 }

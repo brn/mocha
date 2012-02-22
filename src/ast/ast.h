@@ -937,7 +937,7 @@ class WithStmt : public Statement {
  public :
   inline WithStmt() : Statement( NAME_PARAMETER(WithStmt) ) , exp_( 0 ){};
   inline ~WithStmt(){};
-  inline void Exp( AstNode* node ) { exp_ = node; }
+  inline void Exp( AstNode* node ) { exp_ = node;exp_->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   CLONE( WithStmt );
  private :
@@ -961,7 +961,7 @@ class SwitchStmt : public Statement {
  public :
   inline SwitchStmt() : Statement( NAME_PARAMETER(SwitchStmt) ) , exp_( 0 ){};
   inline ~SwitchStmt() {};
-  inline void Exp( AstNode* node ) { exp_ = node; }
+  inline void Exp( AstNode* node ) { exp_ = node;exp_->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   inline SwitchStmt* CastToSwitchStmt() { return this; }
   CLONE( SwitchStmt );
@@ -976,7 +976,7 @@ class ThrowStmt : public Statement {
  public :
   inline ThrowStmt() : Statement( NAME_PARAMETER(ThrowStmt) ) , exp_( 0 ){};
   inline ~ThrowStmt(){};
-  inline void Exp( AstNode* exp ) { exp_ = exp; }
+  inline void Exp( AstNode* exp ) { exp_ = exp;exp_->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   CLONE( ThrowStmt );
  private :
@@ -1013,7 +1013,7 @@ class CaseClause : public AstNode {
  public :
   inline CaseClause() : AstNode( AstNode::kCase , "CaseClause" ) , exp_( 0 ){}
   inline ~CaseClause(){}
-  inline void Exp( AstNode* node ) { exp_ = node; }
+  inline void Exp( AstNode* node ) { exp_ = node;exp_->ParentNode( this ); }
   inline AstNode* Exp() { return exp_; }
   CLONE( CaseClause );
  private :
@@ -1058,6 +1058,7 @@ class Expression : public AstNode {
   inline virtual UnaryExp* CastToUnaryExp() { return 0; }
   inline virtual TraitMember* CastToTraitMember() { return 0; }
   inline virtual MixinMember* CastToMixinMember() { return 0; }
+  inline virtual CompareExp* CastToCompareExp() { return 0; }
   virtual CLONE( Expression );
  private :
   BitVector8 flags_;
@@ -1493,6 +1494,7 @@ class CompareExp : public Expression {
   inline AstNode* Left() { return left_; };
   inline AstNode* Right() { return right_; };
   inline int Op() { return op_; };
+  inline CompareExp* CastToCompareExp() { return this; }
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( CompareExp );
  private :
