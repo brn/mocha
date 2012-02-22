@@ -76,6 +76,33 @@ class ClassProcessorUtils {
     return runtime_call;
   }
 
+  inline CallExp* CreateInitializer( long line ) {
+    ValueNode* this_sym = CreateThisNode( line );
+    ValueNode* init = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kInitializeClass ),
+                                                Token::JS_PROPERTY , line , ValueNode::kProperty );
+    ValueNode* private_holder = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrivateHolder ),
+                                                          Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+    ValueNode* constructor = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
+                                                       Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+    ValueNode* arguments = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
+                                                       Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+    ValueNode* name = AstUtils::CreateNameNode( processor_->GetName(),
+                                                Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
+    std::string tmp = "'";
+    tmp += processor_->GetName();
+    tmp += "'";
+    char line_str[100];
+    sprintf( line_str , "'%ld'" , line );
+    ValueNode* name_string = AstUtils::CreateNameNode( tmp.c_str(),
+                                                       Token::JS_STRING_LITERAL , line , ValueNode::kString );
+    ValueNode* line_string = AstUtils::CreateNameNode( line_str,
+                                                       Token::JS_STRING_LITERAL , line , ValueNode::kString );
+    NodeList* args = AstUtils::CreateNodeList( 7 , this_sym , name , private_holder , constructor , arguments , name_string , line_string );
+    CallExp* runtime_call = AstUtils::CreateRuntimeMod( init );
+    CallExp* normal = AstUtils::CreateNormalAccessor( runtime_call , args );
+    return normal;
+  }
+
   inline ExpressionStmt* SetMark( Function* fn ) {
     std::stringstream str_st;
     str_st << "\"" << SymbolList::GetSymbol( SymbolList::kClassMark ) << "\"";
@@ -95,7 +122,7 @@ class ClassProcessorUtils {
     ValueNode* name_sym = AstUtils::CreateNameNode( name , Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
     CallExp* prototype = AstUtils::CreatePrototypeNode( name_sym );
     ValueNode* constructor_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
-                                                           Token::JS_IDENTIFIER , line , ValueNode::kProperty );
+                                                           Token::JS_IDENTIFIER , line , ValueNode::kIdentifier );
     std::string constructor_string_expression = "\"";
     constructor_string_expression += SymbolList::GetSymbol( SymbolList::kConstructor );
     constructor_string_expression += "\"";
@@ -491,13 +518,14 @@ void ClassProcessor::ProcessNode() {
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( fn );
   stmt->Line( class_->Line() );
   closure_body_->InsertBefore( utils_->CreatePrivateHolder( class_ , info_ ) );
-  ExpressionStmt *create_record = AstUtils::CreateExpStmt( utils_->CreateRecord( class_->Line() ) );
-  fn->AddChild( create_record );
-  fn->AddChild( utils_->CreateConstructorInitializer( name_.c_str() , class_->Line() ) );
+  ExpressionStmt *init = AstUtils::CreateExpStmt( utils_->CreateInitializer( class_->Line() ) );
+  fn->AddChild( init );
   closure_body_->AddChild( stmt );
   ProcessExtends_( class_->Expandar() );
   ProcessBody_( body );
-  closure_body_->AddChild( utils_->CreateHiddenConstructor( name_.c_str() , class_->Line() ) );
+  AstNode* hidden = utils_->CreateHiddenConstructor( name_.c_str() , class_->Line() );
+  hidden->Line( class_->Line() );
+  closure_body_->AddChild( hidden );
   ReturnStmt* ret = AstUtils::CreateReturnStmt( name->Clone() );
   closure_body_->AddChild( ret );
   utils_->Finish( name_.c_str() , class_ , closure_ , info_ );

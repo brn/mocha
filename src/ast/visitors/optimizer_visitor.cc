@@ -233,6 +233,7 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
   AstNode* args = exp->Args();
   bool is_delete;
   bool is_lhs = exp->IsLhs();
+  bool in_assignment = false;
   AstNode* parent = exp->ParentNode();
   while ( parent ) {
     if ( parent->CastToExpression() ) {
@@ -245,6 +246,12 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
       if ( parent->CastToExpression()->IsLhs() ) {
         is_lhs = true;
       }
+    } else if ( parent->NodeType() == AstNode::kAssignmentExp ||
+                parent->NodeType() == AstNode::kVariableStmt ) {
+      in_assignment = true;
+      break;
+    } else if ( parent->CastToStatement() ) {
+      break;
     }
     parent = parent->ParentNode();
   }
@@ -264,6 +271,13 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
         } else if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kObjectConstructor ) ) == 0 ) {
           ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
           object->Node( ManagedHandle::Retain<Empty>() );
+          if ( !in_assignment ) {
+            Expression* expression = ManagedHandle::Retain<Expression>();
+            expression->AddChild( object );
+            expression->Paren();
+            exp->ParentNode()->ReplaceChild( exp , expression );
+            return;
+          }
           exp->ParentNode()->ReplaceChild( exp , object );
           return;
         } else if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kStringConstructor ) ) == 0 ) {

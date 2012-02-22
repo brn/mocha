@@ -57,7 +57,8 @@ static const char runtime[][50] = {
   "classMixin",
   "checkRequirements",
   "createTuple",
-  "createRecord"
+  "createRecord",
+  "initializeClass"
 };
 
 static const char builtin[][50] = {

@@ -3628,8 +3628,34 @@ AstNode* Parser::ParseLiteral_() {
       is_invalid_lhs = true;
       break;
 
-    case Token::JS_IDENTIFIER :
+    case Token::JS_IDENTIFIER : {
       value_type = ValueNode::kIdentifier;
+      const char* ident = token->GetToken();
+      int len = strlen( ident );
+      if ( ident[ 0 ] == '@' ) {
+        ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
+                                                        Token::JS_THIS , token->GetLineNumber() , ValueNode::kThis );
+        if ( len > 1 ) {
+          ValueNode* value = AstUtils::CreateNameNode( &ident[ 1 ] , Token::JS_PROPERTY , token->GetLineNumber() , ValueNode::kProperty );
+          CallExp* this_accessor = AstUtils::CreateDotAccessor( this_sym , value );
+          return this_accessor;
+        } else {
+          return this_sym;
+        }
+      } else if ( len > 1 && ident[ 0 ] == '_' && ident[ 1 ] == '@' ) {
+        ValueNode* private_sym = AstUtils::CreateNameNode( JsToken::GetTokenFromNumber( Token::JS_PRIVATE ),
+                                                           Token::JS_PRIVATE , token->GetLineNumber() , ValueNode::kIdentifier );
+        if ( len > 2 ) {
+          ValueNode* value = AstUtils::CreateNameNode( &ident[ 2 ] , Token::JS_PROPERTY , token->GetLineNumber() , ValueNode::kProperty );
+          CallExp* private_accessor = ManagedHandle::Retain( new CallExp( CallExp::kPrivate ) );
+          private_accessor->Callable( private_sym );
+          private_accessor->Args( value );
+          return private_accessor;
+        } else {
+          return private_sym;
+        }
+      }
+    }
       break;
 
     case Token::JS_TRUE :

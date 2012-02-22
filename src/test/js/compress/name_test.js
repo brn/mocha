@@ -20,7 +20,7 @@ var sss = "aaaa" - "aaaaa";
 var ssssss = "aaaaaaa" + 222;
 var test2 = new Object;
 Array.prototype.x = 200;
-delete Array.property.x;
+delete Array.prototype.x;
 test2 = new Object();
 test2 = new String;
 test2 = new String();

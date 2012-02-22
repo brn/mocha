@@ -837,8 +837,16 @@ module Runtime {
     }
   }
 
-  export createPrivateRecord;
   export getPrivateRecord;
+
+  export initializeClass( instance , classObject , privateHolder , constructor , args , name , line ) {
+    if ( !instance || !( instance instanceof classObject ) ) {
+      throwException( "class " + name + " must be called by new. line : " + line );
+    }
+    createPrivateRecord( instance , privateHolder );
+    constructor.apply( instance , args );
+  }
+
   export getSuper( obj ) {
     var type = typeof obj,
         ret;

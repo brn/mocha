@@ -100,7 +100,7 @@ VISITOR_IMPL( AstRoot ) {
 VISITOR_IMPL( FileRoot ) {
   PRINT_NODE_NAME;
   current_root_ = ast_node;
-  if ( ast_node->HasStrict() ) {
+  if ( ast_node->HasStrict() && !is_line_ ) {
     stream_->Write( "\"use strict\"" );
     writer_->WriteOp( ';' , 0 , stream_.Get() );
   }
@@ -848,7 +848,7 @@ VISITOR_IMPL(Function){
     stream_->Write( "{}" );
   } else {
     writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
-    if ( ast_node->HasStrict() ) {
+    if ( ast_node->HasStrict() && !is_line_ ) {
       stream_->Write( "\"use strict\"" );
       writer_->WriteOp( ';' , 0 , stream_.Get() );
     }
