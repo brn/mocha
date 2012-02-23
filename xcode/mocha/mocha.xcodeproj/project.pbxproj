@@ -22,6 +22,7 @@
 		42E9C10914CD27E00043DAE1 /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10614CD27E00043DAE1 /* libicui18n.a */; };
 		42E9C10A14CD27E00043DAE1 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10714CD27E00043DAE1 /* libicuuc.a */; };
 		42F5CBD814EB52C500249737 /* trait_processor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42F5CBD614EB52C500249737 /* trait_processor.cc */; };
+		42FAFD2414F5BDC30031DC83 /* ifstatement_optimizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FAFD2214F5BDC30031DC83 /* ifstatement_optimizer.cc */; };
 		42FB786A14DF55A70011C1C4 /* consts.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FB786814DF55A70011C1C4 /* consts.cc */; };
 		42FB786E14DF55B70011C1C4 /* external_resource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FB786C14DF55B70011C1C4 /* external_resource.cc */; };
 		42FB787114DF55C70011C1C4 /* compile_info.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FB786F14DF55C70011C1C4 /* compile_info.cc */; };
@@ -133,6 +134,8 @@
 		42E9C10714CD27E00043DAE1 /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = "../../src/third_party/icu/lib-osx/libicuuc.a"; sourceTree = "<group>"; };
 		42F5CBD614EB52C500249737 /* trait_processor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trait_processor.cc; sourceTree = "<group>"; };
 		42F5CBD714EB52C500249737 /* trait_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trait_processor.h; sourceTree = "<group>"; };
+		42FAFD2214F5BDC30031DC83 /* ifstatement_optimizer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ifstatement_optimizer.cc; sourceTree = "<group>"; };
+		42FAFD2314F5BDC30031DC83 /* ifstatement_optimizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ifstatement_optimizer.h; sourceTree = "<group>"; };
 		42FB786814DF55A70011C1C4 /* consts.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = consts.cc; sourceTree = "<group>"; };
 		42FB786914DF55A70011C1C4 /* consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = consts.h; sourceTree = "<group>"; };
 		42FB786C14DF55B70011C1C4 /* external_resource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = external_resource.cc; sourceTree = "<group>"; };
@@ -378,6 +381,8 @@
 		425E28EB14F469B300B380E4 /* opt */ = {
 			isa = PBXGroup;
 			children = (
+				42FAFD2214F5BDC30031DC83 /* ifstatement_optimizer.cc */,
+				42FAFD2314F5BDC30031DC83 /* ifstatement_optimizer.h */,
 				425E28EC14F469B300B380E4 /* constant_optimizer.cc */,
 				425E28ED14F469B300B380E4 /* constant_optimizer.h */,
 			);
@@ -1388,6 +1393,7 @@
 				4243B78914DF82B0000813B6 /* external_ast.cc in Sources */,
 				42F5CBD814EB52C500249737 /* trait_processor.cc in Sources */,
 				425E28EE14F469B300B380E4 /* constant_optimizer.cc in Sources */,
+				42FAFD2414F5BDC30031DC83 /* ifstatement_optimizer.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

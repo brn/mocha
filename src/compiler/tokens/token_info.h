@@ -3,12 +3,15 @@
 #define mocha_token_info_h_
 #include <string>
 #include <utils/pool/managed.h>
+#include <utils/pool/managed_handle.h>
 #include <utils/bits.h>
 namespace mocha {
 class CompilerInfo;
 class TokenInfo : public Managed {
     
  public:
+  static inline TokenInfo* New( const char* val , int type , int line ) { return ManagedHandle::Retain( new TokenInfo( val , type , line ) ); }
+  static inline TokenInfo* New() { return ManagedHandle::Retain( new TokenInfo() ); }
   TokenInfo();
   TokenInfo( const char* val , int type , int line );
   TokenInfo& operator = ( const TokenInfo& info );

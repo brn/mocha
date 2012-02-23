@@ -42,11 +42,11 @@ void ExportProcessor::ProcessFunction_( AstNode* node ) {
   property_name->ValueType( ValueNode::kProperty );
   CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name );
   AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , name->Clone() );
-  ExpressionStmt* fn_stmt = AstUtils::CreateExpStmt( fn );
+  fn->Decl();
   ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
   AstNode* parent = stmt_->ParentNode();
-  parent->ReplaceChild( stmt_ , fn_stmt );
-  parent->InsertAfter( exp_stmt , fn_stmt );
+  parent->ReplaceChild( stmt_ , fn );
+  parent->InsertAfter( exp_stmt , fn );
 }
 
 

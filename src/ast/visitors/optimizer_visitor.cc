@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdio.h>
 #include <ast/ast.h>
 #include <ast/utils/ast_utils.h>
@@ -35,16 +36,38 @@ VISITOR_IMPL( AstRoot ) {
 VISITOR_IMPL( FileRoot ) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
+  AstNode* last = 0;//init after.
   while ( iterator.HasNext() ) {
-    iterator.Next()->Accept( this );
+    AstNode* node = iterator.Next();
+    if ( last &&
+         node->NodeType() == AstNode::kVariableStmt &&
+         last->NodeType() == AstNode::kVariableStmt ) {
+      node->Accept( this );
+      last->Append( node );
+      ast_node->RemoveChild( node );
+    } else {
+      node->Accept( this );
+    }
+    last = node;
   }
 }
 
 
 VISITOR_IMPL( NodeList ) {
   NodeIterator iterator = ast_node->ChildNodes();
+  AstNode* last = 0;//init after.
   while ( iterator.HasNext() ) {
-    iterator.Next()->Accept( this );
+    AstNode* node = iterator.Next();
+    if ( last &&
+         node->NodeType() == AstNode::kVariableStmt &&
+         last->NodeType() == AstNode::kVariableStmt ) {
+      node->Accept( this );
+      last->Append( node );
+      ast_node->RemoveChild( node );
+    } else {
+      node->Accept( this );
+    }
+    last = node;
   }
 }
 
@@ -89,9 +112,19 @@ VISITOR_IMPL( AssertStmt ) {}
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
+  AstNode* last = 0;//init after
   while ( iterator.HasNext() ) {
-    AstNode* statement = iterator.Next();
-    statement->Accept( this );
+    AstNode* node = iterator.Next();
+    if ( last &&
+         node->NodeType() == AstNode::kVariableStmt &&
+         last->NodeType() == AstNode::kVariableStmt ) {
+      node->Accept( this );
+      last->Append( node );
+      ast_node->RemoveChild( node );
+    } else {
+      node->Accept( this );
+    }
+    last = node;
   }
 }
 
@@ -209,8 +242,39 @@ VISITOR_IMPL(TryStmt) {
 
 
 void OptimizerVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
-  exp->Callable()->Accept( this );
-  exp->Args()->Accept( this );
+  AstNode* callable = exp->Callable();
+  AstNode* arg = exp->Args();
+  callable->Accept( this );
+  arg->Accept( this );
+  callable = exp->Callable();
+  arg = exp->Args();
+  if ( arg->NodeType() == AstNode::kValueNode ) {
+    ValueNode* value = arg->CastToValue();
+    if ( value->ValueType() == ValueNode::kString ) {
+      bool is_valid_property_name = true;
+      std::string tmp = value->Symbol()->GetToken();
+      tmp.erase( tmp.size() - 1 , tmp.size() );
+      if ( !isalpha( tmp[ 1 ] ) && tmp[ 1 ] != '_' && tmp[ 1 ] != '$' ) {
+        is_valid_property_name = false;
+      }
+      if ( is_valid_property_name ) {
+        for ( int i = 2,len = tmp.size(); i < len; i++ ) {
+          if ( !isalpha( tmp[ i ] ) && tmp[ i ] != '_' && tmp[ i ] != '$' && !isdigit( tmp[ i ] ) ) {
+            is_valid_property_name = false;
+          }
+        }
+      }
+      if ( is_valid_property_name ) {
+        ValueNode* ident = AstUtils::CreateNameNode( &tmp[ 1 ] , Token::JS_PROPERTY , exp->Line() , ValueNode::kProperty );
+        CallExp* call_exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
+        call_exp->Callable( callable );
+        call_exp->Args( ident );
+        exp->ParentNode()->ReplaceChild( exp , call_exp );
+        arg = ident;
+        ident->Accept( this );
+      }
+    }
+  }
 }
 
 
@@ -538,6 +602,7 @@ VISITOR_IMPL(Function){
   ValueNode* name_node = name->CastToValue();
   NodeIterator body_iterator = ast_node->ChildNodes();
   AstNode* last = 0;
+  NodeList* functions = ManagedHandle::Retain<NodeList>();
   while ( body_iterator.HasNext() ) {
     AstNode* node = body_iterator.Next();
     if ( last &&
@@ -549,7 +614,15 @@ VISITOR_IMPL(Function){
     } else {
       node->Accept( this );
     }
+    if ( node->NodeType() == AstNode::kFunction ) {
+      ast_node->RemoveChild( node );
+      functions->AddChild( node );
+    }
     last = node;
+  }
+  NodeIterator function_iterator = functions->ChildNodes();
+  while ( function_iterator.HasNext() ) {
+    ast_node->InsertBefore( function_iterator.Next() );
   }
 };
 

@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <utils/pool/managed.h>
+#include <utils/pool/managed_handle.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
 #include <ast/ast_foward_decl.h>
@@ -418,6 +419,7 @@ class AstNode : public Managed {
 };
 
 #define CLONE( name ) AstNode* Clone();
+#define FACTORY( name ) static inline name* New() { return ManagedHandle::Retain<name>(); }
 
 
 /**
@@ -430,6 +432,7 @@ class AstNode : public Managed {
  */
 class NodeList : public AstNode {
  public :
+  FACTORY( NodeList );
   inline NodeList() : AstNode( AstNode::kNodeList , "NodeList" ){}
   inline ~NodeList(){}
   NodeList* CastToNodeList() { return this; }
@@ -446,6 +449,7 @@ class NodeList : public AstNode {
  */
 class Empty : public AstNode {
  public :
+  FACTORY( Empty );
   Empty() : AstNode( AstNode::kEmpty , "Empty" ){}
   /**
    * @param {bool}
@@ -464,6 +468,7 @@ class Empty : public AstNode {
  */
 class AstRoot : public AstNode {
  public :
+  FACTORY( AstRoot );
   inline AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" ) {}
   inline ~AstRoot(){};
   /**
@@ -489,6 +494,7 @@ class AstRoot : public AstNode {
  */
 class FileRoot : public AstNode {
  public :
+  FACTORY( FileRoot );
   inline FileRoot() : AstNode( AstNode::kFileRoot , "FileRoot" ) ,is_file_root_( false ) , has_directive_( false ) {}
   inline ~FileRoot(){};
   /**
@@ -521,6 +527,7 @@ class FileRoot : public AstNode {
  */
 class Statement : public AstNode {
  public :
+  FACTORY( Statement );
   inline Statement() : AstNode( AstNode::kStatement , "Statement" ),
                        has_dsta_( false ) , has_yield_( false ) , dsta_exp_( 0 ){}
   inline Statement( int type , const char* name ) :
@@ -583,6 +590,7 @@ class Statement : public AstNode {
  */
 class StatementList : public AstNode {
  public :
+  FACTORY( StatementList );
   inline StatementList() : AstNode( AstNode::kStatementList , "StatementList" ){}
   inline ~StatementList(){}
   CLONE( StatementList );
@@ -596,6 +604,7 @@ class StatementList : public AstNode {
 
 class YieldMark : public Statement {
  public :
+  FACTORY( YieldMark );
   YieldMark() : Statement( NAME_PARAMETER( YieldMark ) ) , adjustment_( 0 ) , is_state_injection_( false ), state_( 0 ){}
   ~YieldMark() {}
   inline void ReEntrantNode( ValueNode* val ){ state_ = val; }
@@ -614,6 +623,7 @@ class YieldMark : public Statement {
 
 class ExYieldStateNode : public Statement {
  public :
+  FACTORY( ExYieldStateNode );
   inline ExYieldStateNode() :
       Statement( NAME_PARAMETER( ExYieldStateNode ) ) , loopback_ptr_( 0 ),
       next_ptr_( 0 ) , escape_ptr_( 0 ) , if_stmt_ptr_( 0 ) {}
@@ -658,6 +668,7 @@ class PragmaStmt : public Statement {
  */
 class BlockStmt : public Statement {
  public :
+  FACTORY( BlockStmt );
   inline BlockStmt() : Statement( NAME_PARAMETER(BlockStmt) ){};
   inline ~BlockStmt() {};
   CLONE( BlockStmt );
@@ -672,6 +683,7 @@ class BlockStmt : public Statement {
  */
 class ModuleStmt : public Statement {
  public :
+  FACTORY( ModuleStmt );
   inline ModuleStmt() : Statement( NAME_PARAMETER(ModuleStmt) ) , name_( 0 ){};
   inline ~ModuleStmt() {};
 
@@ -699,6 +711,7 @@ class ModuleStmt : public Statement {
  */
 class ExportStmt : public Statement {
  public :
+  FACTORY( ExportStmt );
   inline ExportStmt() : Statement( NAME_PARAMETER(ExportStmt) ){};
   inline ~ExportStmt() {};
   CLONE(ExportStmt);
@@ -724,6 +737,9 @@ class ImportStmt : public Statement {
     kDst,
     kAll
   };
+  static inline ImportStmt* New( int var_type , int mod_type ) {
+    return ManagedHandle::Retain( new ImportStmt( var_type , mod_type ) );
+  }
   inline ImportStmt( int var_type , int mod_type ) :
       Statement( NAME_PARAMETER( ImportStmt ) ),
       var_type_( var_type ) , mod_type_( mod_type ) , exp_( 0 ) , from_( 0 ),key_( 0 ){}
@@ -797,6 +813,7 @@ class VariableStmt : public Statement {
     kConst,
     kLet
   };
+  FACTORY( VariableStmt );
   inline VariableStmt() : Statement( NAME_PARAMETER(VariableStmt) ){};
   inline ~VariableStmt(){};
 
@@ -825,6 +842,7 @@ class VariableStmt : public Statement {
  */
 class LetStmt : public Statement {
  public :
+  FACTORY( LetStmt );
   inline LetStmt() : Statement( NAME_PARAMETER(LetStmt) ) , exp_( 0 ) {}
   inline ~LetStmt(){}
   inline void Exp( AstNode* exp ) { exp_ = exp; }
@@ -842,6 +860,7 @@ class LetStmt : public Statement {
  */
 class ExpressionStmt : public Statement {
  public :
+  FACTORY( ExpressionStmt );
   inline ExpressionStmt() : Statement( AstNode::kExpressionStmt , "ExpressionStmt" ) {};
   inline ~ExpressionStmt(){};
   CLONE( ExpressionStmt );
@@ -856,6 +875,7 @@ class ExpressionStmt : public Statement {
  */
 class IFStmt : public Statement {
  public :
+  FACTORY( IFStmt );
   inline IFStmt() : Statement( NAME_PARAMETER(IFStmt) ) , exp_( 0 ) , then_( 0 ), else_( 0 ){};
   inline ~IFStmt() {};
   inline IFStmt* CastToIFStmt() { return this; }
@@ -889,6 +909,7 @@ class IFStmt : public Statement {
 
 class IterationStmt : public Statement {
  public :
+  static inline IterationStmt* New( int type ) { return ManagedHandle::Retain( new IterationStmt( type ) ); }
   inline IterationStmt( int type ) : Statement( type , "IterationStmt" ) , exp_( 0 ){};
   inline ~IterationStmt(){};
   inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
@@ -903,6 +924,7 @@ class IterationStmt : public Statement {
 
 class ContinueStmt : public Statement {
  public :
+  FACTORY( ContinueStmt );
   inline ContinueStmt() : Statement( NAME_PARAMETER(ContinueStmt) ){};
   inline ~ContinueStmt() {};
   CLONE( ContinueStmt );
@@ -914,6 +936,7 @@ class ContinueStmt : public Statement {
 
 class BreakStmt : public Statement {
  public :
+  FACTORY( BreakStmt );
   inline BreakStmt() : Statement( NAME_PARAMETER(BreakStmt) ) {};
   inline ~BreakStmt() {};
   CLONE( BreakStmt );
@@ -925,6 +948,7 @@ class BreakStmt : public Statement {
 
 class ReturnStmt : public Statement {
  public :
+  FACTORY( ReturnStmt );
   inline ReturnStmt() : Statement( NAME_PARAMETER(ReturnStmt) ){};
   inline ~ReturnStmt() {};
   CLONE( ReturnStmt );
@@ -935,6 +959,7 @@ class ReturnStmt : public Statement {
 
 class WithStmt : public Statement {
  public :
+  FACTORY( WithStmt );
   inline WithStmt() : Statement( NAME_PARAMETER(WithStmt) ) , exp_( 0 ){};
   inline ~WithStmt(){};
   inline void Exp( AstNode* node ) { exp_ = node;exp_->ParentNode( this ); }
@@ -948,6 +973,7 @@ class WithStmt : public Statement {
 
 class LabelledStmt : public Statement {
  public :
+  FACTORY( LabelledStmt );
   inline LabelledStmt() : Statement( NAME_PARAMETER(LabelledStmt) ){};
   inline ~LabelledStmt() {};
   CLONE( LabelledStmt );
@@ -959,6 +985,7 @@ class LabelledStmt : public Statement {
 
 class SwitchStmt : public Statement {
  public :
+  FACTORY( SwitchStmt );
   inline SwitchStmt() : Statement( NAME_PARAMETER(SwitchStmt) ) , exp_( 0 ){};
   inline ~SwitchStmt() {};
   inline void Exp( AstNode* node ) { exp_ = node;exp_->ParentNode( this ); }
@@ -974,6 +1001,7 @@ class SwitchStmt : public Statement {
 
 class ThrowStmt : public Statement {
  public :
+  FACTORY( ThrowStmt );
   inline ThrowStmt() : Statement( NAME_PARAMETER(ThrowStmt) ) , exp_( 0 ){};
   inline ~ThrowStmt(){};
   inline void Exp( AstNode* exp ) { exp_ = exp;exp_->ParentNode( this ); }
@@ -987,6 +1015,7 @@ class ThrowStmt : public Statement {
 
 class TryStmt : public Statement {
  public :
+  FACTORY( TryStmt );
   inline TryStmt() : Statement( NAME_PARAMETER(TryStmt) ) , catch_( 0 ) , finally_( 0 ){};
   inline ~TryStmt(){};
   inline void Catch( AstNode* catch_stmt ) { catch_ = catch_stmt;catch_stmt->ParentNode( this ); }
@@ -1002,6 +1031,7 @@ class TryStmt : public Statement {
 
 class AssertStmt : public Statement {
  public :
+  FACTORY( AssertStmt );
   inline AssertStmt() : Statement( NAME_PARAMETER(AssertStmt) ){}
   inline ~AssertStmt(){}
   CLONE( AssertStmt );
@@ -1011,6 +1041,7 @@ class AssertStmt : public Statement {
 
 class CaseClause : public AstNode {
  public :
+  FACTORY( CaseClause );
   inline CaseClause() : AstNode( AstNode::kCase , "CaseClause" ) , exp_( 0 ){}
   inline ~CaseClause(){}
   inline void Exp( AstNode* node ) { exp_ = node;exp_->ParentNode( this ); }
@@ -1031,6 +1062,7 @@ class Expression : public AstNode {
     kUnaryExpFlg
   };
  public :
+  FACTORY( Expression );
   inline Expression() : AstNode( AstNode::kExpression , "Expression" ) {
     flags_.Set( kValidLhsFlg );
   };
@@ -1072,6 +1104,9 @@ class TraitMember : public Expression {
     kPublic,
     kPrivate
   } TraitAttr;
+  static inline TraitMember* New( TraitAttr type , AstNode* property ) {
+    return ManagedHandle::Retain( new TraitMember( type , property ) );
+  }
   TraitMember( TraitAttr type , AstNode* property ) : Expression( NAME_PARAMETER( TraitMember ) ),
                                                       type_( type ) , property_( property ){}
   ~TraitMember(){}
@@ -1087,6 +1122,7 @@ class TraitMember : public Expression {
 
 class MixinMember : public Expression {
  public :
+  FACTORY( MixinMember );
   MixinMember() : Expression( NAME_PARAMETER( MixinMember ) ) , name_( 0 ){}
   ~MixinMember(){}
   void SetName( AstNode* name ) { name_ = name;name->ParentNode( this ); }
@@ -1104,6 +1140,7 @@ class MixinMember : public Expression {
 
 class Trait : public Expression {
  public :
+  FACTORY( Trait );
   Trait() : Expression( NAME_PARAMETER( Trait ) ) ,is_decl_( false ) , name_( 0 ){}
   ~Trait(){};
   void SetMember( TraitMember* member ) {
@@ -1137,6 +1174,9 @@ class Trait : public Expression {
 
 class Class : public Expression {
  public :
+  static inline Class* New( AstNode* expandar , bool is_const ) {
+    return ManagedHandle::Retain( new Class( expandar , is_const ) );
+  }
   Class( AstNode* expandar , bool is_const ) :
       Expression( NAME_PARAMETER( Class ) ) , is_const_( is_const ),
       is_decl_( true ) , is_inner_( false ) ,name_( 0 ),body_( 0 ), expandar_( expandar ){}
@@ -1168,6 +1208,7 @@ class Class : public Expression {
 
 class ClassProperties : public AstNode {
  public :
+  FACTORY( ClassProperties );
   ClassProperties() : AstNode( NAME_PARAMETER( ClassProperties ) ),constructor_( 0 ){};
   ~ClassProperties(){};
   void Public( AstNode* pb ) { public_.AddChild( pb ); }
@@ -1202,6 +1243,7 @@ class ClassExpandar : public AstNode {
     kExtends,
     kPrototype
   } ExpandAttr;
+  static inline ClassExpandar* New( ExpandAttr attr ) { return ManagedHandle::Retain( new ClassExpandar( attr ) ); }
   ClassExpandar( ExpandAttr attr ) : AstNode( NAME_PARAMETER( ClassExpandar ) ) , attr_( attr ){};
   ~ClassExpandar(){};
   ExpandAttr Type() { return attr_; }
@@ -1223,6 +1265,7 @@ class ClassMember : public AstNode {
     kConstructor,
     kMixin
   } MemberAttr;
+  static inline ClassMember* New( MemberAttr attr ) { return ManagedHandle::Retain( new ClassMember( attr ) ); }
   ClassMember( MemberAttr attr ) : AstNode( NAME_PARAMETER( ClassMember ) ) , attr_( attr ){}
   ~ClassMember(){}
   MemberAttr Attr() { return attr_; }
@@ -1250,6 +1293,7 @@ class Function : public Expression {
     kGlobal,
     kThis
   };
+  FACTORY( Function );
   inline Function() : Expression( NAME_PARAMETER( Function ) ),
                       fn_type_( kNormal ) , context_( kGlobal ) , is_const_( false ),is_decl_( false ),
                       is_root_( false ),
@@ -1309,23 +1353,6 @@ class Function : public Expression {
 };
 
 
-class Property : public Expression {
- public :
-  enum {
-    kDot,
-    kBracket,
-    kExtend,
-    kNew
-  };
-  Property( int type ) : Expression( NAME_PARAMETER( Property ) ) , type_( type ){}
-  ~Property(){}
-  int Type() { return type_; }
-  inline Property* CastToProperty(){ return this; }
- private :
-  int type_;
-};
-
-
 class CallExp : public Expression {
  public :
   enum {
@@ -1337,6 +1364,7 @@ class CallExp : public Expression {
     kPrivate,
     kExtend
   };
+  static inline CallExp* New( int type ) { return ManagedHandle::Retain( new CallExp( type ) ); }
   inline CallExp( int type ) : Expression( NAME_PARAMETER( CallExp ) ) , call_type_( type ) , depth_( 0 ),
                                is_call_( false ) , is_rest_( false ) , callable_( 0 ) , args_( 0 ){};
   inline ~CallExp() {};
@@ -1368,6 +1396,7 @@ class CallExp : public Expression {
 
 class NewExp : public Expression {
  public :
+  FACTORY( NewExp );
   inline NewExp() : Expression( NAME_PARAMETER( NewExp ) ) , constructor_( 0 ){};
   inline ~NewExp(){};
   inline void Constructor( AstNode* node ) { constructor_ = node; };
@@ -1380,6 +1409,7 @@ class NewExp : public Expression {
 
 class YieldExp : public Expression {
  public :
+  FACTORY( YieldExp );
   inline YieldExp() : Expression( NAME_PARAMETER( YieldExp ) ){}
   inline ~YieldExp(){}
   CLONE( YieldExp );
@@ -1394,6 +1424,7 @@ class PostfixExp : public Expression {
     kIncrement,
     kDecrement
   };
+  static inline PostfixExp* New( int type ) { return ManagedHandle::Retain( new PostfixExp( type ) ); }
   inline PostfixExp( int type ) : Expression( NAME_PARAMETER( PostfixExp ) ) , post_type_( type ) , exp_( 0 ){};
   inline ~PostfixExp(){};
   inline int PostType() { return post_type_; };
@@ -1421,6 +1452,7 @@ class UnaryExp : public Expression {
     kComp,
     kNot
   };
+  static inline UnaryExp* New( int type ) { return ManagedHandle::Retain( new UnaryExp( type ) ); }
   inline UnaryExp( int op ) : Expression( NAME_PARAMETER( UnaryExp ) ) , op_( op ) , exp_( 0 ){};
   inline ~UnaryExp() {};
   inline void Exp( AstNode* exp ) { exp_ = exp;exp->ParentNode( this ); }
@@ -1451,6 +1483,9 @@ class BinaryExp : public Expression {
     kXor,
     kOr
   };
+  static inline BinaryExp* New( int type , AstNode* left , AstNode* right ) {
+    return ManagedHandle::Retain( new BinaryExp( type , left , right ) );
+  }
   inline BinaryExp( int op , AstNode* left , AstNode* right ) : Expression( NAME_PARAMETER( BinaryExp ) ) , op_( op ) , left_( left ) , right_( right ){
     left->ParentNode( this );
     right->ParentNode( this );
@@ -1486,6 +1521,9 @@ class CompareExp : public Expression {
     kLogicalAND,
     kLogicalOR
   };
+  static inline CompareExp* New( int op , AstNode* left , AstNode* right ) {
+    return ManagedHandle::Retain( new CompareExp( op , left , right ) );
+  }
   inline CompareExp( int op , AstNode* left , AstNode* right ) : Expression( NAME_PARAMETER( CompareExp ) ) , op_( op ) , left_( left ) , right_( right ){
     left->ParentNode( this );
     right->ParentNode( this );
@@ -1507,6 +1545,9 @@ class CompareExp : public Expression {
 
 class ConditionalExp : public Expression {
  public :
+  static inline ConditionalExp* New( AstNode* cond , AstNode* case_true , AstNode* case_false ) {
+    return ManagedHandle::Retain( new ConditionalExp( cond , case_true , case_false ) );
+  }
   inline ConditionalExp( AstNode* cond , AstNode* case_true , AstNode* case_false ) :
       Expression( NAME_PARAMETER( ConditionalExp ) ),
       cond_( cond ) , case_true_( case_true ) , case_false_( case_false ){
@@ -1531,6 +1572,9 @@ class ConditionalExp : public Expression {
 
 class AssignmentExp : public Expression {
  public :
+  static inline AssignmentExp* New( int op , AstNode* left , AstNode* right ) {
+    return ManagedHandle::Retain( new AssignmentExp( op , left , right ) );
+  }
   inline AssignmentExp( int op , AstNode* left , AstNode* right ) :
       Expression( NAME_PARAMETER( AssignmentExp ) ),
       op_( op ) , left_( left ) , right_( right ){
@@ -1581,6 +1625,9 @@ class ValueNode : public Expression {
     kRecord,
     kNaN
   };
+  static inline ValueNode* New( int type ) {
+    return ManagedHandle::Retain( new ValueNode( type ) );
+  }
   inline ValueNode( int type ) :
       Expression( AstNode::kValueNode , "ValueNode" ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
   inline ~ValueNode() {};
@@ -1601,6 +1648,7 @@ class ValueNode : public Expression {
 
 class DstaTree : public AstNode {
  public :
+  FACTORY( DstaTree );
   DstaTree() : AstNode( NAME_PARAMETER( DstaTree ) ) , symbol_( 0 ){};
   ~DstaTree(){};
   void Symbol( ValueNode* name_node ) { symbol_ = name_node; }
@@ -1613,6 +1661,9 @@ class DstaTree : public AstNode {
 
 class VersionStmt : public Statement {
  public :
+  static inline VersionStmt* New( TokenInfo* info ) {
+    return ManagedHandle::Retain( new VersionStmt( info ) );
+  }
   VersionStmt( TokenInfo* info ) : Statement( NAME_PARAMETER( VersionStmt ) ) , ver_( info ){};
   ~VersionStmt() {}
   TokenInfo* Ver() { return ver_; }
@@ -1624,6 +1675,7 @@ class VersionStmt : public Statement {
 
 class DstaExtractedExpressions : public AstNode {
  public :
+  FACTORY( DstaExtractedExpressions );
   DstaExtractedExpressions() : AstNode( NAME_PARAMETER( DstaExtractedExpressions ) ) {};
   ~DstaExtractedExpressions(){}
   NodeList* Refs() { return &refs_; }

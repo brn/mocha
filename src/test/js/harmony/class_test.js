@@ -115,4 +115,9 @@ class Box {
   constructor( _@width = 100 , _@height = 100 ) {}
   public height -> _@height;
   public width -> _@width;
+  private {_type,_max} = {type:200,_max:400};
 }
+
+var inst = new Box();
+console.log( inst.height() );
+console.log( inst.width() );

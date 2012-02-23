@@ -25,7 +25,7 @@
 var _mochaGlobalExport = {};
 
 //ecma262 5th edition compatible buitin extensions,
-//and harmoy's some extras.
+//and some extras from both strawman and harmony.
 let ( { prototype : stringProto } = String,
       { prototype : arrayProto } = Array,
       { prototype : functionProto } = Function,
@@ -45,6 +45,13 @@ let ( { prototype : stringProto } = String,
       builtinTypeError( type + " : first argument is not callable" );
     }
   }
+
+  defineBuiltin( obj , name , value ) -> Object.defineProperty( obj , name , {
+    value : value,
+    configurable : true,
+    enumerable : false,
+    writable : true
+  })
 
   if ( !Object.keys ) {
     /**
@@ -125,7 +132,7 @@ let ( { prototype : stringProto } = String,
      * @param {*} valobj
      */
     Object.defineProperty = ( obj , prop , valobj ) -> {
-      if ( valobj.value ) {
+      if ( "value" in valobj ) {
         obj[ prop ] = valobj.value;
       }
     }
@@ -142,56 +149,32 @@ let ( { prototype : stringProto } = String,
     stringProto.trim.rtrim = /^\s*|\s*$/g;
   }
 
-  //Harmony extras begin
+  //Harmony extras ( from strawman ) begin
   if ( !stringProto.repeat ) {
-    Object.defineProperty( stringProto , "repeat" , {
-      value( num ) -> Array( num + 1 ).join( this.toString() ),
-      configurable : true,
-      enumerable : false,
-      writable : true
-    });
+    defineBuiltin( stringProto , "repeat" , ( num ) -> Array( num + 1 ).join( this.toString() ) );
   }
 
   if ( !stringProto.startsWith ) {
-    Object.defineProperty( stringProto , "startsWith" , {
-      value( str ) -> !this.indexOf( str ) ,
-      configurable : true,
-      enumerable : false,
-      writable : true
-    });
+    defineBuiltin( stringProto , "startsWith" , ( str ) -> !this.indexOf( str ) );
   }
 
   if ( !stringProto.endsWith ) {
-    Object.defineProperty( stringProto , "endsWith" , {
-      value( str ) -> {
-        var t = String( str );
-        var index = this.lastIndexOf( t );
-        return index >= 0 && index === this.length - t.length;
-      },
-      configurable : true,
-      enumerable : false,
-      writable : true
+    defineBuiltin( stringProto , "endsWith" , ( str ) -> {
+      var t = String( str ),
+          index = this.lastIndexOf( t );
+      return index >= 0 && index === this.length - t.length;
     });
   }
 
   if ( !stringProto.contains ) {
-    Object.defineProperty( stringProto , "contains" , {
-      value( str ) -> this.indexOf( str ) !== -1,
-      configurable : true,
-      enumerable : false,
-      writable : true
-    });
+    defineBuiltin( stringProto , "contains" ,( str ) -> this.indexOf( str ) !== -1 );
   }
 
   if ( !stringProto.toArray ) {
-    Object.defineProperty( stringProto , "toArray" , {
-      value( str ) -> this.split(""),
-      configurable : true,
-      enumerable : false,
-      writable : true
-    });
+    defineBuiltin( stringProto , "toArray" , ( str ) -> this.split("") );
   }
   //Harmony extras end.
+
 
   if( !functionProto.bind ){
     /**
@@ -203,7 +186,7 @@ let ( { prototype : stringProto } = String,
      * @param {...args} -> binding arguments list.
      * @return {Function}
      */
-    functionProto.bind = -> {
+    defineBuiltin( functionProto , "bind" , -> {
       var argArray = arrayProto.slice.call ( arguments ),
           context = argArray.shift (),
           ret = ->{
@@ -218,7 +201,7 @@ let ( { prototype : stringProto } = String,
       ret.prototype = this.prototype;
       ret.context = this;
       return ret;
-    }
+    });
   }
 
 
@@ -236,7 +219,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array map was called upon.
      * @param {*} that -> context object.
      */
-    arrayProto.forEach = ( callback , that ) -> {
+    defineBuiltin( arrayProto , "forEach" , ( callback , that ) -> {
       callbackCheck( callback , "Array.forEach" );
       var iter = -1,
           ta;
@@ -252,7 +235,7 @@ let ( { prototype : stringProto } = String,
           callback( ta , iter , this );
         }
       }
-    }
+    });
   }
 
   if( !arrayProto.every ){
@@ -269,7 +252,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array map was called upon.
      * @param {*} that -> context object.
      */
-    arrayProto.every = ( callback , that ) -> {
+    defineBuiltin( arrayProto , "every" , ( callback , that ) -> {
       callbackCheck( callback , "Array.every" );
       var iter = -1,
           ta;
@@ -290,7 +273,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return true;
-    }
+    });
   }
 
   if( !arrayProto.some ){
@@ -307,7 +290,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array map was called upon.
      * @param {*} that -> context object.
      */
-    arrayProto.some = ( callback , that ) -> {
+    defineBuiltin( arrayProto , "some" , ( callback , that ) -> {
       callbackCheck( callback , "Array.some" );
       var iter = -1,
           ta;
@@ -328,7 +311,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return false;
-    }
+    });
   }
 
   if( !arrayProto.filter ){
@@ -345,7 +328,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array map was called upon.
      * @param {*} that -> context object
      */
-    arrayProto.filter = ( callback , that ) -> {
+    defineBuiltin( arrayProto , "filter" , ( callback , that ) -> {
       callbackCheck( callback , "Array.filter" );
       var len = this.length,
           iter = -1,
@@ -372,7 +355,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return ret;
-    }
+    });
   }
 
   if( !arrayProto.indexOf ){
@@ -382,7 +365,7 @@ let ( { prototype : stringProto } = String,
      * @param {*} subject
      * @param {Number} fromIndex -> Index that begin search.
      */
-    arrayProto.indexOf = ( subject , fromIndex ) -> {
+    defineBuiltin( arrayProto , "indexOf" , ( subject , fromIndex ) -> {
       var iter = ( fromIndex )? fromIndex - 1 : -1,
           index = -1,
           ta;
@@ -396,7 +379,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return index;
-    }
+    });
   }
 
   if( !arrayProto.lastIndexOf ){
@@ -407,7 +390,7 @@ let ( { prototype : stringProto } = String,
      * @param {*} target
      * @param {Number} fromIndex -> Index that begin search.
      */
-    arrayProto.lastIndexOf = ( target , fromIndex ) -> {
+    defineBuiltin( arrayProto , "lastIndexOf" , ( target , fromIndex ) -> {
       var len = this.length,
           iter = ( fromIndex )? fromIndex + 1 : len,
           index = -1,
@@ -422,7 +405,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return index;
-    }
+    });
   }
 
 
@@ -441,7 +424,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array map was called upon.
      * @param {*} that -> context object
      */
-    arrayProto.map = ( callback , that ) -> {
+    defineBuiltin( arrayProto , "map" , ( callback , that ) -> {
       callbackCheck( callback , "Array.map" );
       var ret = [],
           iter = -1,
@@ -465,7 +448,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return ret;
-    };
+    });
   }
 
 
@@ -487,7 +470,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array reduce was called upon.
      * @param {Number} initial -> Object to use as the first argument to the first call of the callback.
      */
-    arrayProto.reduce = ( callback , initial ) -> {
+    defineBuiltin( arrayProto , "reduce" , ( callback , initial ) -> {
       callbackCheck( callback , "Array.reduce" );
       var ret = initial || this[ 0 ],
           i = ( initial )? 0 : 1,
@@ -502,7 +485,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return ret;
-    };
+    });
   }
 
 
@@ -524,7 +507,7 @@ let ( { prototype : stringProto } = String,
      *   |- The array reduce was called upon.
      * @param {Number} initial -> Object to use as the first argument to the first call of the callback.
      */
-    arrayProto.reduceRight = ( callback , initial ) -> {
+    defineBuiltin( arrayProto "reduceRight" , ( callback , initial ) -> {
       callbackCheck( callback , "Array.reduceRight" );
       var len = this.length,
           ret = initial || this[ len - 1 ],
@@ -539,7 +522,7 @@ let ( { prototype : stringProto } = String,
         }
       }
       return ret;
-    };
+    });
   }
 
 
@@ -550,7 +533,7 @@ let ( { prototype : stringProto } = String,
      * Returns a JSON representation of the Date object.
      * @returns {String}
      */
-    dateProto.toJSON = -> {
+    defineBuiltin( dateProto , "toJSON" , -> {
       var [month, date, hour, minute, second] = [
             this.getUTCMonth(),
             this.getUTCDate(),
@@ -565,7 +548,7 @@ let ( { prototype : stringProto } = String,
         ( minute > 9? minute : "0" + minute ) + ':' +
         ( second > 9? second : "0" + second ) + '.' +
         this.getUTCMilliseconds () + 'Z"';
-    }
+    });
   }
 
   if ( !Date.now ) {
@@ -574,7 +557,7 @@ let ( { prototype : stringProto } = String,
      * Returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
      * @return {String}
      */
-    Date.now = -> +new Date ();
+    defineBuiltin( Date , "now" , -> +new Date () );
   }
 
 
@@ -584,12 +567,12 @@ let ( { prototype : stringProto } = String,
      * Returns true if an object is an array, false if it is not.
      * @param {*} arr
      */
-    Array.isArray = ( arr ) -> {
+    defineBuiltin( Array , "isArray" , ( arr ) -> {
       if  ( arguments.length === 0 ) {
         return false;
       }
       return ( arr )? Object.prototype.toString.call ( arr ) === "[object Array]" : false;
-    }
+    });
   }
 };
 

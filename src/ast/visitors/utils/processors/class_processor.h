@@ -25,6 +25,7 @@
 #include <string>
 #include <boost/unordered_map.hpp>
 #include <utils/pool/managed.h>
+#include <utils/pool/managed_handle.h>
 #include <utils/hash/hash_map/hash_map.h>
 #include <ast/ast_foward_decl.h>
 
@@ -38,39 +39,40 @@ typedef void (ClassProcessorUtils::*DstaCallback)( const char* class_name,
                                                    bool is_const );
 class ClassProcessor : public Managed {
  public :
+  inline static ClassProcessor* New( ProcessorInfo* info , Class* ast_node , Statement* tmp_stmt ) {
+    return ManagedHandle::Retain( new ClassProcessor( info , ast_node , tmp_stmt ) );
+  }
   ClassProcessor( ProcessorInfo* info , Class* ast_node , Statement* tmp_stmt );
   ~ClassProcessor();
   void ProcessNode();
-  const char* GetPrivateFieldName() { return random_field_.c_str(); }
   const char* GetName() { return name_.c_str(); }
-  inline void SetPrivateStaticMap( const char* name ) { private_static_map_.Insert( name ,true ); }
-  inline bool HasPrivateStaticMap( const char* name ) { return !( private_static_map_.Find( name ).IsEmpty() ); }
  private :
 
-  inline void ProcessExtends_( AstNode* node );
-  inline void ProcessBody_( AstNode* body );
-  inline void ProcessMember_( ClassProperties* body );
-  inline void IterateMember_( AstNode* list , bool is_prototype , bool is_private , bool is_instance );
-  inline void ProcessEachMember_( AstNode* node , bool is_prototype , bool is_private , bool is_instance );
-  inline void ProcessVariable_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
-  inline void ProcessFunction_( Function* function , bool is_prottoype , bool is_private , bool is_instance );
-  inline void ProcessConstructor_( Function* constructor );
-  inline void CreateEmptyConstructor_();
-  inline void ProcessDsta_( ValueNode* value ,bool is_const , DstaCallback callback );
-  inline void SimpleVariables_( AstNode* node , bool is_const );
-  inline void NoSimpleVariables_( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
-  int class_id_;
+  inline void Initialize();
+  inline void SetName( AstNode* node );
+  inline Function* CreateBaseConstructor();
+  inline void ProcessExtends( AstNode* node );
+  inline void ProcessBody( AstNode* body );
+  inline void ProcessMember( ClassProperties* body );
+  inline void IterateMember( AstNode* list , bool is_prototype , bool is_private , bool is_instance );
+  inline void ProcessEachMember( AstNode* node , bool is_prototype , bool is_private , bool is_instance );
+  inline void ProcessVariable( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
+  inline void ProcessFunction( Function* function , bool is_prottoype , bool is_private , bool is_instance );
+  inline void ProcessConstructor( Function* constructor );
+  inline void CreateEmptyConstructor();
+  inline void ProcessDsta( ValueNode* value ,bool is_const , DstaCallback callback );
+  inline void SimpleVariables( AstNode* node , bool is_const );
+  inline void NoSimpleVariables( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
+
+
   std::string name_;
-  std::string random_field_;
   ProcessorInfo *info_;
   AstNode* closure_;
-  Function* common_constructor_;
   Class* class_;
   ClassProcessorUtils* utils_;
   Function* closure_body_;
   Statement* tmp_stmt_;
   Function* constructor_;
-  HashMap<const char*,bool> private_static_map_;
 };
 
 };

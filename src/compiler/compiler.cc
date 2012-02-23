@@ -37,6 +37,7 @@
 #include <utils/io/file_io.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
+#include <utils/file_system/stat.h>
 #include <utils/xml/xml_reader.h>
 #include <utils/xml/xml_setting_info.h>
 #include <ast/ast.h>
@@ -119,10 +120,23 @@ public :
     //Current directory -> main js file path.
     //Get file name of main js file.
     char tmp[ 1000 ];
-    sprintf( tmp , "%s/%s" , path_info_->GetDirPath().Get() , path_info_->GetFileName().Get() );
+    Resources* res = ExternalResource::SafeGet( main_file_path_.c_str() );
+    if ( res->GetDeploy() ) {
+      const char* dir = res->GetDeploy();
+      Stat stat( dir );
+      if ( stat.IsExist() && stat.IsDir() ) {
+        sprintf( tmp , "%s/%s" , res->GetDeploy() , path_info_->GetFileName().Get() );
+      } else {
+        FileSystem::Mkdir( dir , 0777 );
+        FileSystem::Chmod( dir , 0777 );
+        sprintf( tmp , "%s/%s" , res->GetDeploy() , path_info_->GetFileName().Get() );
+      }
+    } else {
+      sprintf( tmp , "%s/%s" , path_info_->GetDirPath().Get() , path_info_->GetFileName().Get() );
+    }
 
     //Get deploy path of -cmp.js file.
-    StrHandle handle = ExternalResource::SafeGet( main_file_path_.c_str() )->GetDeployName( tmp );
+    StrHandle handle = res->GetDeployName( tmp );
     
     Handle<File> ret = FileIO::Open ( handle.Get(),
                                       "rwn",

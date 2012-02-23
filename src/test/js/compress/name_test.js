@@ -1,3 +1,4 @@
+Array["prototype"]["x"] = 0;
 function b () {};
 (function () {
   var c = 0;

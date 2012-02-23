@@ -27,33 +27,25 @@ void* ThreadRunner( void* args ) {
   
 }
 
-void RunJS() {
-  Directory directory( CURRENT_DIR"/test/js" );
+void RunJS( const char* dir ) {
+  Directory directory( dir );
   DirectoryIterator iterator = directory.GetFileList( true , false );
   std::string args;
-  int count = 0;
-BEGIN :
   while ( iterator.HasNext() ) {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
       args += fullpath;
       args += " ";
-      count++;
     }
     
   }
   Thread thread;
   thread.Create( ThreadRunner , &args );
   thread.Join();
-  count = 0;
-  args = "";
-  if ( iterator.HasNext() ) {
-    goto BEGIN;
-  }
 }
 
-void RunTest() {
+void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* dir ) {
   Directory directory( CURRENT_DIR"/test/js" );
   DirectoryIterator iterator = directory.GetFileList( true , false );
   CompilerFacade facade;
@@ -63,18 +55,32 @@ void RunTest() {
     int i = 0;
     if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
       ExternalResource::UnsafeSet( fullpath );
-      CompileInfo* info = ExternalResource::UnsafeGet( fullpath )->GetCompileInfo();
-      //info->SetDebug();
-      info->SetPrettyPrint();
-      info->SetCompress();
+      Resources* res = ExternalResource::UnsafeGet( fullpath );
+      res->SetDeploy( dir );
+      CompileInfo* info = res->GetCompileInfo();
+      if ( is_debug ) {
+        info->SetDebug();
+      }
+      if ( is_pretty ) {
+        info->SetPrettyPrint();
+      }
+      if ( is_compress ) {
+        info->SetCompress();
+      }
       facade.AddCompileList( fullpath , true );
       i++;
     }
   }
   facade.Compile();
-  RunJS();
+  RunJS( dir );
 }
 
+void RunTest() {
+  RunTest( true , true , false , CURRENT_DIR"/test/js/out/devel" );
+  fprintf( stderr , "------------------end devel test------------------\n" );
+  RunTest( false , false , true , CURRENT_DIR"/test/js/out/compressed" );
+  fprintf( stderr , "------------------end compress test------------------\n" );
+}
 
 }}
 #endif
