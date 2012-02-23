@@ -53,6 +53,8 @@ FOWARD_DECL(CompareExp);
 FOWARD_DECL(ConditionalExp);
 FOWARD_DECL(AssignmentExp);
 FOWARD_DECL(ValueNode);
+FOWARD_DECL(PropertyArray);
+FOWARD_DECL(PropertyMap);
 FOWARD_DECL(TokenInfo);
 FOWARD_DECL(DstaTree);
 FOWARD_DECL(DstaExtractedExpressions);

@@ -28,6 +28,7 @@
 #include <vector>
 #include <utils/pool/managed.h>
 #include <utils/pool/managed_handle.h>
+#include <utils/hash/hash_map/hash_map.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
 #include <ast/ast_foward_decl.h>
@@ -168,6 +169,8 @@ class AstNode : public Managed {
     kCompareExp,
     kConditionalExp,
     kAssignmentExp,
+    kPropertyArray,
+    kPropertyMap,
     kDstaTree,
     kDstaExtractedExpressions
   };
@@ -1645,6 +1648,53 @@ class ValueNode : public Expression {
   AstNode* node_;
   CALL_ACCEPTOR( ValueNode );
 };
+
+
+class PropertyArray : public Expression {
+  typedef std::vector<AstNode*> ArrayElements;
+ public :
+  FACTORY( PropertyArray );
+  PropertyArray() : Expression( NAME_PARAMETER( PropertyArray ) ){}
+  inline void element( AstNode* node ) {
+    elements_.push_back( node );
+    node->ParentNode( this );
+  }
+  inline AstNode* element( int index ) const { return elements_.at( index ); }
+  inline int Size() { return elements_.size(); }
+  CLONE( PropertyArray );
+ private :
+  ArrayElements elements_;
+};
+
+
+class PropertyMap : public Expression {
+  typedef HashMap<const char*,AstNode*> PropertyList;
+  typedef PropertyList::EntryIterator PropertyIterator;
+  typedef PropertyList::HashEntry Entry;
+ public :
+  FACTORY( PropertyMap );
+  PropertyMap() : Expression( NAME_PARAMETER( PropertyMap ) ),
+                  sentinel_( Empty::New() ) , array_( 0 ){}
+  inline void property( const char* key , AstNode* node ) {
+    node->ParentNode( this );
+    properties_.Insert( key , node );
+  }
+  inline AstNode* property( const char* key ) { return Find( key ); }
+  inline PropertyIterator Properties() { return properties_.Entries(); }
+  inline bool HasIndexedProperty() { return array_.Size() != 0; }
+  inline void SetIndexedProperty( int index , AstNode* element ) { array_->element( element ); }
+  inline int IndexedPropertySize() { return array_->Size(); }
+  CLONE( PropertyMap );
+ private :
+  inline AstNode* Find( const char* key ) {
+    Entry ent = properties_.Find( key );
+    return ( ent.IsEmpty() )? sentinel_ : ent.Value();
+  }
+  Empty* sentinel_;
+  PropertyList properties_;
+  PropertyArray* array_;
+};
+
 
 class DstaTree : public AstNode {
  public :
