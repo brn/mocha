@@ -19,6 +19,7 @@ class OptimizerVisitor : public IVisitor {
   int depth_;
   bool is_debug_;
   CompileInfo* info_;
+  InnerScope* scope_;
 };
 }
 

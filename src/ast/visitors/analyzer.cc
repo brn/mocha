@@ -1,10 +1,14 @@
 #include <ast/visitors/analyzer.h>
+#include <ast/visitors/optimizer_visitor.h>
 #include <ast/ast.h>
+#include <compiler/scopes/scope.h>
+#include <ast/visitors/utils/opt/constant_optimizer.h>
+
 namespace mocha {
 
 #define VISITOR_IMPL(name) JSValue* Analyzer::Analyze##name( name* ast_node )
 
-Analyzer::Analyzer(){}
+Analyzer::Analyzer( InnerScope* scope , OptimizeVisitor* visitor ) , scope_( scope ) , visitor_( visitor ){}
 
 VISITOR_IMPL( Expression ) {
   NodeIterator iterator = ast_node->ChildNodes();
@@ -16,8 +20,22 @@ VISITOR_IMPL( Expression ) {
 }
 
 VISITOR_IMPL( AssignmentExp ){
+  bool is_ident = false;
   JSValue* lvalue = ast_node->Left()->CastToExpression()->Analyze( this );
+  if ( lvalue->type() == JSValue::kLiteral ) {
+    JSLiteral literal = lvalue->CastToJSLiteral();
+    int type = literal->value()->ValueType();
+    if ( type == ValueNode::kIdentifier ) {
+      is_ident = true;
+    } else if ( type == ValueNode::kProperty ) {
+      
+    }
+  }
+  
   JSValue* rvalue = ast_node->Right()->CastToExpression()->Analyze( this );
+  if ( is_ident && ast_node->Op() == '=' ) {
+    scope_->InsertAlias( literal->value()->Symbol() , rvalue->ref() );
+  }
   return lvalue;
 }
 
@@ -26,8 +44,23 @@ VISITOR_IMPL( Function ){
 }
 
 VISITOR_IMPL( BinaryExp ){
-  ast_node->Left()->CastToExpression()->Analyze( this );
-  return ast_node->Right()->CastToExpression()->Analyze( this );
+  JSValue* lvalue = ast_node->Left()->CastToExpression()->Analyze( this );
+  JSValue* rvalue = ast_node->Right()->CastToExpression()->Analyze( this );
+  if ( lvalue->type() != JSValue::kNoStatic && rvalue->type() != JSValue::kNoStatic ) {
+    AstNode* left = lvalue->ref();
+    AstNode* right = rvalue->ref();
+    int op = ast_node->Op();
+    AstNode* parent = ast_node->ParentNode();
+    Expression* exp = parent->CastToExpression();
+    BinaryExp* binary = ( exp )? exp->CastToBinary() : 0;
+    bool op_assoc = ( binary )? ConstantOptimizer::CheckOperatorAssoc( op , binary->Op() ) : true;
+    if ( op_assoc && ConstantOptimizer::IsOptimizable( left , right , op ) ) {
+      AstNode* ret = ConstantOptimizer::Optimize( left , right , op );
+      ast_node->ParentNode()->ReplaceChild( ast_node , ret );
+      return;
+    }
+  }
+  
 }
 
 VISITOR_IMPL( UnaryExp ){

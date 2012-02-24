@@ -21,21 +21,26 @@ class JSValue : public Managed {
     kNoStatic,
     kJSLiteral
   };
-  ~JSValue(){}
+  virtual JSObject* CastToJSObject() { return 0; }
+  virtual NoStatic* CastToNoStatic() { return 0; }
+  virtual ~JSValue(){}
   int type() { return type_; }
   const char* name() { return name_; }
   virtual bool Decidable() { return false; }
   void ref( AstNode* ast ) { ref_ = ast; }
   AstNode* ref() { return ref_; }
   virtual CLONE( JSValue ) = 0;
+  JSValue* ParentNode() { return parent_; }
+  void ParentNode( JSValue* value ) { parent_ = value; }
  protected :
-  JSValue( int type , const char* name ) : Managed(),
-      type_( type ) , name_( name ){}
+  JSValue( int type , const char* name ) :
+      Managed(), type_( type ) , name_( name ) , ref_( 0 ) , parent_( 0 ){}
  private :
   JSValue(){}
   int type_;
   const char* name_;
   AstNode* ref_;
+  JSValue* parent_;
 };
 
 typedef HashMap<const char*,JSValue*> JSPropertyList;
@@ -45,10 +50,15 @@ typedef JSPropertyList::HashEntry JSPropertyEntry;
 class JSObject : public JSValue {
  public :
   FACTORY( JSObject );
-  inline void property( const char* key , JSValue* node ) { properties_.Insert( key , node ); }
+  virtual ~JSObject(){}
+  inline void property( const char* key , JSValue* node ) { node->ParentNode( this );properties_.Insert( key , node ); }
   inline JSValue* property( const char* key ) { return Find( key ); }
   inline JSPropertyIterator Properties() { return properties_.Entries(); }
   virtual bool Decidable() { return false; }
+  JSObject* CastToJSObject() { return this; }
+  virtual JSArray* CastToJSArray() { return 0; }
+  virtual JSFunction* CastToJSFunction() { return 0; }
+  virtual JSLiteral* CastToJSArray() { return 0; }
   CLONE(JSObject);
  protected :
   JSObject() : JSValue( JSValue::kJSObject , "JSObject" ){}
@@ -68,10 +78,12 @@ class JSArray : public JSObject {
  public :
   FACTORY( JSArray );
   inline void element( JSValue* val ) {
+    val->ParentNode( this );
     elements_.push_back( val );
   }
   inline JSValue* element( int index ) const { return elements_.at( index ); }
   inline int Size() { return elements_.size(); }
+  JSArray* CastToJSArray() { return this; }
   CLONE(JSArray);
  private :
   JSArray() : JSObject( kJSArray , "JSArray" ){}
@@ -96,6 +108,7 @@ class JSFunction : public JSObject {
   inline bool decl() { return flgs_.At( 4 ); };
   inline void decl( bool flg ) { FLAGS( flg , 4 ); };
   inline AstNode* name();
+  virtual JSFunction* CastToJSFunction() { return this; }
 #undef FLAGS
   CLONE(JSFunction);
  private :
@@ -104,19 +117,23 @@ class JSFunction : public JSObject {
   AstNode* name_;
 };
 
+
 class NoStatic : public JSObject {
  public :
   FACTORY( NoStatic );
   NoStatic() : JSObject( JSValue::kNoStatic , "NoStatic" ){}
   ~NoStatic(){}
+  NoStatic* CastToNoStatic() { return this; }
   bool Decidable() { return false; }
 };
+
 
 class JSLiteral : public JSValue {
  public :
   inline static JSLiteral* New( ValueNode* value ) { return ManagedHandle::Retain( new JSLiteral( value ) ); }
   ~JSLiteral(){}
   ValueNode* value() { return value_; }
+  virtual JSLiteral* CastToJSLiteral() { return this; }
   CLONE( Literal );
  private :
   JSLiteral( ValueNode* value ) : JSValue( kJSLiteral , "JSLiteral" ) , value_( value ){}

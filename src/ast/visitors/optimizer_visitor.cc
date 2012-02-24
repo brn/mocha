@@ -27,6 +27,7 @@ OptimizerVisitor::OptimizerVisitor( CompileInfo* info ) :
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
+  scope_ = ast_node->GetScope();
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
@@ -147,7 +148,7 @@ VISITOR_IMPL(LetStmt) {}
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   ast_node->FirstChild()->Accept( this );
-  Analyzer analyzer;
+  Analyzer analyzer( scope_ );
   JSValue* value = ast_node->FirstChild()->CastToExpression()->Analyze( &analyzer );
   printf( "@@@@@@@@@@@@@@@@@@@@@@@@ --- %s\n" , value->name() );
 }
@@ -564,6 +565,7 @@ VISITOR_IMPL(ClassMember) {}
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
+  scope_ = ast_node->GetScope();
   AstNode* parent = ast_node->ParentNode();
   bool is_exp = false;
   AstNode* exp = parent;
@@ -628,6 +630,7 @@ VISITOR_IMPL(Function){
   while ( function_iterator.HasNext() ) {
     ast_node->InsertBefore( function_iterator.Next() );
   }
+  scope_ = scope_->Escape();
 };
 
 

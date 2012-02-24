@@ -169,6 +169,39 @@ SymbolEntry InnerScope::Find ( TokenInfo* info ) {
   }
 }
 
+void InnerScope::InsertAlias( TokeInfo* info , AstNode* ast_node ) {
+  const char* ident = info->GetToken();
+  if ( JsToken::IsBuiltin( ident ) ) {
+    return;
+  }
+  SymbolTable::HashEntry entry = alias_table_.Find( ident );
+  if ( entry.IsEmpty() ) {
+    SymbolEntry entry( info , ast_node );
+    alias_table_.Insert( ident , entry );
+  }
+}
+
+SymbolEntry InnerScope::FindAlias( TokenInfo* info ) {
+  if ( alias_table_.Size() > 0 ) {
+    const char* ident = info->GetToken();
+    SymbolTable::HashEntry entry = alias_table_.Find( ident );
+    if ( !entry.IsEmpty() ) {
+      return entry.Value();
+    } else {
+      if ( up_ ) {
+        return up_->FindAlias( info );
+      }
+      return GetEmpty();
+    }
+  } else {
+    if ( up_ ) {
+      return up_->FindAlias( info );
+    } else {
+      return GetEmpty();
+    }
+  }
+}
+
 void InnerScope::Rename() {
   SetReferece_();
   DoRename_();

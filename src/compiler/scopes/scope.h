@@ -30,6 +30,8 @@ class InnerScope : public Managed {
   InnerScope* Enter();
   InnerScope* Escape();
   void Insert ( TokenInfo* info , AstNode* ast_node );
+  void InsertAlias( TokeInfo* info , AstNode* ast_node );
+  SymbolEntry FindAlias( TokenInfo* info );
   SymbolEntry Find ( TokenInfo* info );
   SymbolEntry& FindAlias( TokenInfo* info );
   void Ref( TokenInfo* info );
