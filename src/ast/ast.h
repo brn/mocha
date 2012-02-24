@@ -25,19 +25,20 @@
 #define mocha_ast_h_
 #include <stdio.h>
 #include <string>
-#include <vector>
 #include <utils/pool/managed.h>
 #include <utils/pool/managed_handle.h>
-#include <utils/hash/hash_map/hash_map.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
 #include <ast/ast_foward_decl.h>
 #include <ast/visitors/ivisitor.h>
+#include <ast/values/js_values.h>
+#include <ast/visitors/analyzer.h>
 
 namespace mocha {
 #define NVI_ACCEPTOR_DECL void NVIAccept_( IVisitor* visitor )
+#define NVI_ACCEPT_WITH_RETURN_DECL JSValue* NVIAcceptWithReturn( Analyzer* analyzer )
 #define CALL_ACCEPTOR(name) inline NVI_ACCEPTOR_DECL{visitor->Visit##name( this );}
-
+#define CALL_ACCEPTOR_WITH_RETURN(name) inline NVI_ACCEPT_WITH_RETURN_DECL{ return analyzer->Analyze##name( this );}
 /**
  * @class
  * Iterator of node lists.
@@ -1094,10 +1095,12 @@ class Expression : public AstNode {
   inline virtual TraitMember* CastToTraitMember() { return 0; }
   inline virtual MixinMember* CastToMixinMember() { return 0; }
   inline virtual CompareExp* CastToCompareExp() { return 0; }
+  inline JSValue* Analyze( Analyzer* analyzer ) { return NVIAcceptWithReturn( analyzer ); }
   virtual CLONE( Expression );
  private :
   BitVector8 flags_;
   virtual CALL_ACCEPTOR( Expression );
+  virtual CALL_ACCEPTOR_WITH_RETURN( Expression );
 };
 
 
@@ -1353,6 +1356,7 @@ class Function : public Expression {
   VariableList variable_list_;
   TryList try_list_;
   CALL_ACCEPTOR( Function );
+  CALL_ACCEPTOR_WITH_RETURN( Function );
 };
 
 
@@ -1394,6 +1398,7 @@ class CallExp : public Expression {
   AstNode* callable_;
   AstNode* args_;
   CALL_ACCEPTOR( CallExp );
+  CALL_ACCEPTOR_WITH_RETURN( CallExp );
 };
 
 
@@ -1408,6 +1413,7 @@ class NewExp : public Expression {
  private :
   AstNode* constructor_;
   CALL_ACCEPTOR( NewExp );
+  CALL_ACCEPTOR_WITH_RETURN( NewExp );
 };
 
 class YieldExp : public Expression {
@@ -1439,6 +1445,7 @@ class PostfixExp : public Expression {
   int post_type_;
   AstNode* exp_;
   CALL_ACCEPTOR( PostfixExp );
+  CALL_ACCEPTOR_WITH_RETURN( PostfixExp );
 };
 
 
@@ -1468,6 +1475,7 @@ class UnaryExp : public Expression {
   int op_;
   AstNode* exp_;
   CALL_ACCEPTOR( UnaryExp );
+  CALL_ACCEPTOR_WITH_RETURN( UnaryExp );
 };
 
 
@@ -1505,6 +1513,7 @@ class BinaryExp : public Expression {
   AstNode* left_;
   AstNode* right_;
   CALL_ACCEPTOR( BinaryExp );
+  CALL_ACCEPTOR_WITH_RETURN( BinaryExp );
 };
 
 
@@ -1543,6 +1552,7 @@ class CompareExp : public Expression {
   AstNode* left_;
   AstNode* right_;
   CALL_ACCEPTOR( CompareExp );
+  CALL_ACCEPTOR_WITH_RETURN( CompareExp );
 };
 
 
@@ -1569,6 +1579,7 @@ class ConditionalExp : public Expression {
   AstNode* case_true_;
   AstNode* case_false_;
   CALL_ACCEPTOR( ConditionalExp );
+  CALL_ACCEPTOR_WITH_RETURN( ConditionalExp );
 };
 
 
@@ -1595,6 +1606,7 @@ class AssignmentExp : public Expression {
   AstNode* left_;
   AstNode* right_;
   CALL_ACCEPTOR( AssignmentExp );
+  CALL_ACCEPTOR_WITH_RETURN( AssignmentExp );
 };
 
 
@@ -1647,53 +1659,9 @@ class ValueNode : public Expression {
   TokenInfo* value_;
   AstNode* node_;
   CALL_ACCEPTOR( ValueNode );
+  CALL_ACCEPTOR_WITH_RETURN( ValueNode );
 };
 
-
-class PropertyArray : public Expression {
-  typedef std::vector<AstNode*> ArrayElements;
- public :
-  FACTORY( PropertyArray );
-  PropertyArray() : Expression( NAME_PARAMETER( PropertyArray ) ){}
-  inline void element( AstNode* node ) {
-    elements_.push_back( node );
-    node->ParentNode( this );
-  }
-  inline AstNode* element( int index ) const { return elements_.at( index ); }
-  inline int Size() { return elements_.size(); }
-  CLONE( PropertyArray );
- private :
-  ArrayElements elements_;
-};
-
-
-class PropertyMap : public Expression {
-  typedef HashMap<const char*,AstNode*> PropertyList;
-  typedef PropertyList::EntryIterator PropertyIterator;
-  typedef PropertyList::HashEntry Entry;
- public :
-  FACTORY( PropertyMap );
-  PropertyMap() : Expression( NAME_PARAMETER( PropertyMap ) ),
-                  sentinel_( Empty::New() ) , array_( 0 ){}
-  inline void property( const char* key , AstNode* node ) {
-    node->ParentNode( this );
-    properties_.Insert( key , node );
-  }
-  inline AstNode* property( const char* key ) { return Find( key ); }
-  inline PropertyIterator Properties() { return properties_.Entries(); }
-  inline bool HasIndexedProperty() { return array_.Size() != 0; }
-  inline void SetIndexedProperty( int index , AstNode* element ) { array_->element( element ); }
-  inline int IndexedPropertySize() { return array_->Size(); }
-  CLONE( PropertyMap );
- private :
-  inline AstNode* Find( const char* key ) {
-    Entry ent = properties_.Find( key );
-    return ( ent.IsEmpty() )? sentinel_ : ent.Value();
-  }
-  Empty* sentinel_;
-  PropertyList properties_;
-  PropertyArray* array_;
-};
 
 
 class DstaTree : public AstNode {
@@ -1746,8 +1714,11 @@ void PragmaStmt::Op( ValueNode* op ) { op_ = op;op->ParentNode( this ); }
 
 }//namespace mocha
 
+#undef NVI_ACCEPT_WITH_RETURN_DECL
 #undef NVI_ACCEPTOR_DECL
 #undef CALL_ACCEPTOR
+#undef CALL_ACCEPTOR_WITH_RETURN
 #undef NAME_PARAMETER
+#undef FACTORY
 
 #endif //mocha_ast_h_

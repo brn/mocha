@@ -693,28 +693,7 @@ AstNode* ValueNode::Clone() {
   return CopyChildren( ret , this );
 }
 
-AstNode* PropertyArray::Clone() {
-  PropertyArray* array = PropertyArray::New();
-  for ( int i = 0,len = elements_.size(); i < len; i++ ) {
-    AstNode* item = elements_.at( i )->Clone();
-    item->ParentNode( this );
-    array->element( item );
-  }
-  return array;
-}
 
-
-AstNode* PropertyMap::Clone() {
-  PropertyMap* map = PropertyMap::New();
-  PropertyIterator iterator = Properties();
-  while ( iterator.HasNext() ) {
-    Entry ent = iterator.Next();
-    AstNode* item = ent.Value()->Clone();
-    item->ParentNode( this );
-    map->property( ent.Key().c_str() , item );
-  }
-  return map;
-}
 
 
 AstNode* DstaTree::Clone() {
