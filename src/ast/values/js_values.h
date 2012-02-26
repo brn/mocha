@@ -130,13 +130,15 @@ class NoStatic : public JSObject {
 
 class JSLiteral : public JSValue {
  public :
-  inline static JSLiteral* New( ValueNode* value ) { return ManagedHandle::Retain( new JSLiteral( value ) ); }
+  inline static JSLiteral* New( int type , ValueNode* value ) { return ManagedHandle::Retain( new JSLiteral( type , value ) ); }
   ~JSLiteral(){}
   ValueNode* value() { return value_; }
   virtual JSLiteral* CastToJSLiteral() { return this; }
+  inline int type(){ return type_; }
   CLONE( Literal );
  private :
-  JSLiteral( ValueNode* value ) : JSValue( kJSLiteral , "JSLiteral" ) , value_( value ){}
+  JSLiteral( int type , ValueNode* value ) : JSValue( kJSLiteral , "JSLiteral" ) , type_( type ) , value_( value ){}
+  int type_;
   ValueNode* value_;
 };
 

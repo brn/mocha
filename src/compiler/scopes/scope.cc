@@ -107,22 +107,14 @@ char Renamer::table_ [] = {
 };
 
 
-InnerScope::InnerScope() : Managed() , head_( this ) , up_( 0 ) , renamer_handle_( new Renamer ){}
-InnerScope::~InnerScope() {}
-
-InnerScope* InnerScope::Enter() {
-  InnerScope* scope = ManagedHandle::Retain<InnerScope>();
-  children_.push_back( scope );
-  scope->up_ = this;
-  scope->head_ = head_;
-  return scope;
-}
+Scope::Scope() : Managed() , head_( this ) , parent_( 0 ) , renamer_handle_( new Renamer ){}
+Scope::~Scope() {}
   
-InnerScope* InnerScope::Escape() {
-  return up_;
+Scope* Scope::Parent() {
+  return parent_;
 }
 
-void InnerScope::Insert ( TokenInfo* info , AstNode* ast_node ) {
+void Scope::Insert ( TokenInfo* info , AstNode* ast_node ) {
   const char* ident = info->GetToken();
   if ( JsToken::IsBuiltin( ident ) ) {
     return;
@@ -135,7 +127,7 @@ void InnerScope::Insert ( TokenInfo* info , AstNode* ast_node ) {
   }
 }
 
-void InnerScope::Ref ( TokenInfo* info ) {
+void Scope::Ref ( TokenInfo* info ) {
   const char* ident = info->GetToken();
   if ( JsToken::IsBuiltin( ident ) ) {
     return;
@@ -148,7 +140,7 @@ void InnerScope::Ref ( TokenInfo* info ) {
 }
 
 
-SymbolEntry InnerScope::Find ( TokenInfo* info ) {
+SymbolEntry Scope::Find ( TokenInfo* info ) {
   if ( table_.Size() > 0 ) {
     const char* ident = info->GetToken();
     SymbolTable::HashEntry entry = table_.Find( ident );
@@ -169,19 +161,17 @@ SymbolEntry InnerScope::Find ( TokenInfo* info ) {
   }
 }
 
-void InnerScope::InsertAlias( TokeInfo* info , AstNode* ast_node ) {
+void Scope::InsertAlias( TokeInfo* info , AstNode* ast_node ) {
   const char* ident = info->GetToken();
   if ( JsToken::IsBuiltin( ident ) ) {
     return;
   }
   SymbolTable::HashEntry entry = alias_table_.Find( ident );
-  if ( entry.IsEmpty() ) {
-    SymbolEntry entry( info , ast_node );
-    alias_table_.Insert( ident , entry );
-  }
+  SymbolEntry entry( info , ast_node );
+  alias_table_.Insert( ident , entry );
 }
 
-SymbolEntry InnerScope::FindAlias( TokenInfo* info ) {
+SymbolEntry Scope::FindAlias( TokenInfo* info ) {
   if ( alias_table_.Size() > 0 ) {
     const char* ident = info->GetToken();
     SymbolTable::HashEntry entry = alias_table_.Find( ident );
@@ -202,17 +192,17 @@ SymbolEntry InnerScope::FindAlias( TokenInfo* info ) {
   }
 }
 
-void InnerScope::Rename() {
+void Scope::Rename() {
   SetReferece_();
   DoRename_();
 }
 
-void InnerScope::DoRename_() {
+void Scope::DoRename_() {
   printf( "scope renaming %p %d\n" , this , table_.Size() );
   if ( reference_table_.Size() > 0 ) {
     FindRenamedReferenceEntry_();
   }
-  std::list<InnerScope*>::iterator begin = children_.begin(),end = children_.end();
+  std::list<Scope*>::iterator begin = children_.begin(),end = children_.end();
   while ( begin != end ) {
     (*begin)->Rename();
     ++begin;
@@ -220,13 +210,13 @@ void InnerScope::DoRename_() {
   RenameDeclaration_();
 }
 
-void InnerScope::SetReferece_() {
-  std::list<InnerScope*>::iterator begin = children_.begin(),end = children_.end();
+void Scope::SetReferece_() {
+  std::list<Scope*>::iterator begin = children_.begin(),end = children_.end();
   while ( begin != end ) {
     (*begin)->SetReferece_();
     ++begin;
   }
-  InnerScope* parent = up_;
+  Scope* parent = up_;
   while ( parent ) {
     RefTable::EntryIterator ref_iterator = reference_table_.Entries();
     while ( ref_iterator.HasNext() ) {
@@ -240,7 +230,7 @@ void InnerScope::SetReferece_() {
   }
 }
 
-void InnerScope::RenameDeclaration_() {
+void Scope::RenameDeclaration_() {
   UsedTable::EntryIterator test_iter = used_table_.Entries();
   while ( test_iter.HasNext() ) {
     printf( "used name = %s %p\n" , test_iter.Next().Key().c_str() , this );
@@ -265,7 +255,7 @@ void InnerScope::RenameDeclaration_() {
   }
 }
 
-void InnerScope::FindRenamedReferenceEntry_() {
+void Scope::FindRenamedReferenceEntry_() {
   RefTable::EntryIterator ref_iterator = reference_table_.Entries();
   while ( ref_iterator.HasNext() ) {
     RefTable::HashEntry entry = ref_iterator.Next();
@@ -274,14 +264,14 @@ void InnerScope::FindRenamedReferenceEntry_() {
   }
 }
 
-void InnerScope::RenameReference_( RefTable::HashEntry entry ) {
+void Scope::RenameReference_( RefTable::HashEntry entry ) {
   const char* ident = entry.Key().c_str();
   TokenInfo* info = entry.Value();
   SymbolTable::HashEntry current_ent = table_.Find( ident );
   UsedTable::HashEntry renamed_ent = renamed_table_.Find( ident );
   SymbolEntry symbol_ent = Find( info );
   if ( ( current_ent.IsEmpty() && renamed_ent.IsEmpty() ) ) {
-    InnerScope* parent = up_;
+    Scope* parent = up_;
     if ( symbol_ent.first ) {
       if ( !symbol_ent.first->IsRenamed() ) {
         const char* renamed = renamer_handle_->GetContractionName();
@@ -313,7 +303,7 @@ void InnerScope::RenameReference_( RefTable::HashEntry entry ) {
         printf( "ref name = %s , contraction = %s\n" , ident , renamed );
         used_table_.Insert( renamed , info );
         renamed_table_.Insert( ident , info );
-        InnerScope* end = parent;
+        Scope* end = parent;
         parent = up_;
         while ( parent ) {
           printf( "rename reference %s to %s %p\n" , ident , renamed , parent );
@@ -353,48 +343,38 @@ void InnerScope::RenameReference_( RefTable::HashEntry entry ) {
 }
 
 
-bool InnerScope::IsGlobal() const {
+bool Scope::IsGlobal() const {
   return head_ == this;
 }
 
-Scope::Scope () : head_ ( new InnerScope ) , current_( head_ ) {};
+ScopeRegistry::ScopeRegistry () : head_( 0 ) , current_( head_ ) {};
 
-Scope::~Scope () {
-  delete head_;
+ScopeRegistry::~ScopeRegistry () {}
+
+ScopeRegistry* ScopeRegistry::Assign() {
+  Scope* scope = ManagedHandle::Retain<Scope>();
+  if ( head_ == 0 ) {
+    head_ = scope;
+    current_ = head_;
+  } else {
+    current_->children.push_back( scope );
+    scope->head_( head_ );
+    scope->parent_ = current_;
+    current_ = scope;
+  }
+  return scope;
 }
 
-InnerScope* Scope::Enter () {
-  current_ = current_->Enter();
+ScopeRegistry* ScopeRegistry::Return(){
+  return ( current_ = current_->parent_ );
+}
+
+ScopeRegistry* ScopeRegistry::Current() {
   return current_;
 }
 
-InnerScope* Scope::Escape () {
-  current_ = current_->Escape();
-  return current_;
-}
-
-void Scope::Insert ( TokenInfo* info , AstNode* ast_node ) {
-  current_->Insert( info , ast_node );
-}
-
-InnerScope* Scope::Current() {
-  return current_;
-}
-
-void Scope::Ref ( TokenInfo* info ) {
-  current_->Ref( info );
-}
-
-SymbolEntry Scope::Find ( TokenInfo* info ) {
-  return current_->Find( info );
-}
-
-void Scope::Rename() {
+void ScopeRegistry::Rename() {
   head_->Rename();
-}
-
-bool Scope::IsGlobal() const {
-  return current_->IsGlobal();
 }
 
 }

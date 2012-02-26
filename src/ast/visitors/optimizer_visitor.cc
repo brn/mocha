@@ -5,7 +5,6 @@
 #include <ast/visitors/optimizer_visitor.h>
 #include <ast/visitors/utils/opt/constant_optimizer.h>
 #include <ast/visitors/utils/opt/ifstatement_optimizer.h>
-#include <ast/visitors/analyzer.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/js_token.h>
@@ -148,9 +147,9 @@ VISITOR_IMPL(LetStmt) {}
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   ast_node->FirstChild()->Accept( this );
-  Analyzer analyzer( scope_ );
-  JSValue* value = ast_node->FirstChild()->CastToExpression()->Analyze( &analyzer );
-  printf( "@@@@@@@@@@@@@@@@@@@@@@@@ --- %s\n" , value->name() );
+  //Analyzer analyzer( scope_ );
+  //JSValue* value = ast_node->FirstChild()->CastToExpression()->Analyze( &analyzer );
+  //printf( "@@@@@@@@@@@@@@@@@@@@@@@@ --- %s\n" , value->name() );
 }
 
 

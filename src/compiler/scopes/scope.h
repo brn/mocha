@@ -18,17 +18,17 @@ namespace mocha {
 class TokenInfo;
 class Renamer;
 class AstNode;
+class ScopeRegistry;
+
 typedef std::pair<TokenInfo* , AstNode*> SymbolEntry;
-class InnerScope : public Managed {
+class Scope : public Managed {
+  friend class ScopeRegistry;
+  typedef ChildrenScopes = std::vector<Scope*>;
  public :
   typedef HashMap<const char*,SymbolEntry> SymbolTable;
   typedef HashMap<const char*,TokenInfo*> RefTable;
   typedef HashMap<const char*,TokenInfo*> UsedTable;
-  InnerScope();
-  ~InnerScope();
-
-  InnerScope* Enter();
-  InnerScope* Escape();
+  ~Scope();
   void Insert ( TokenInfo* info , AstNode* ast_node );
   void InsertAlias( TokeInfo* info , AstNode* ast_node );
   SymbolEntry FindAlias( TokenInfo* info );
@@ -39,15 +39,16 @@ class InnerScope : public Managed {
   bool IsGlobal() const;
   
  private :
+  Scope();
   void DoRename_();
   void SetReferece_();
   void RenameDeclaration_();
   void FindRenamedReferenceEntry_();
   void RenameReference_( RefTable::HashEntry entry );
   
-  std::list<InnerScope*> children_;
-  InnerScope* head_;
-  InnerScope* up_;
+  ChildrenScopes children_;
+  Scope* head_;
+  Scope* up_;
   ScopedPtr<Renamer> renamer_handle_;
   SymbolTable table_;
   SymbolTable alias_table_;
@@ -56,22 +57,18 @@ class InnerScope : public Managed {
   UsedTable renamed_table_;
 };
 
-class Scope {
+class ScopeRegistry {
  public :
-  Scope ();
-  ~Scope ();
-  InnerScope* Escape();
-  InnerScope* Enter();
-  InnerScope* Current();
-  void Insert ( TokenInfo* info , AstNode* ast_node );
-  void Ref( TokenInfo* info );
-  SymbolEntry Find ( TokenInfo* info );
-  SymbolEntry& FindAlias( TokenInfo* info );
+  ScopeRegistry ();
+  ~ScopeRegistry();
+  Scope* Assign();
+  Scope* Return();
+  Scope* Current();
   void Rename();
   bool IsGlobal() const;
  private:
-  InnerScope* head_;
-  InnerScope* current_;
+  Scope* head_;
+  Scope* current_;
 };
 
 }

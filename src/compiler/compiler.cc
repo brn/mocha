@@ -76,13 +76,13 @@ public :
     //LoadRuntime_();
     ast_root_.AddChild( ExternalResource::SafeGetRuntime() );
     CallInternal_( path_info_ , Internal::kFatal , false );
-    OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
-    SymbolCollector visitor( &scope_ , ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Debug() );
-    ast_root_.Accept( &visitor );
-    ast_root_.Accept( &opt_visitor );
-    if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
-      scope_.Rename();
-    }
+    //OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
+    //SymbolCollector visitor( &scope_ , ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Debug() );
+    //ast_root_.Accept( &visitor );
+    //ast_root_.Accept( &opt_visitor );
+    //if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
+    //scope_.Rename();
+    //}
     ast_root_.Accept( codegen_.Get() );
     Write_( codegen_->GetCode() );
     callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );

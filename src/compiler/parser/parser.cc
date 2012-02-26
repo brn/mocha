@@ -114,7 +114,7 @@ void DstaRewriter( AstNode *dst ) {
       if ( type == ValueNode::kArray ) {
         //array literal.
         value->ValueType( ValueNode::kDstArray );
-        DstaRewriter( value->FirstChild() );
+        DstaRewriter( value->first_child() );
       } else if ( type == ValueNode::kObject ) {
         //object literal.
         value->ValueType( ValueNode::kDst );
@@ -150,7 +150,7 @@ void FormalParameterConvertor( AstNode *args , AstNode* list ) {
         AstNode* target = maybe_dst_or_spread->Node();
         maybe_dst_or_spread->ValueType( type );
         if ( !target ) {
-          DstaRewriter( maybe_dst_or_spread->FirstChild() );
+          DstaRewriter( maybe_dst_or_spread->first_child() );
         } else {
           DstaRewriter( target );
         }
@@ -198,7 +198,7 @@ void AssignmentDstaConvertor( AstNode* exp ) {
     if ( type == ValueNode::kObject || type == ValueNode::kArray ) {
       if ( type == ValueNode::kArray ) {
         dsta->ValueType( ValueNode::kDstArray );
-        DstaRewriter( dsta->FirstChild() );
+        DstaRewriter( dsta->first_child() );
       } else {
         dsta->ValueType( ValueNode::kDst );
         DstaRewriter( dsta->Node() );
@@ -364,7 +364,7 @@ AstNode* Parser::ParseSourceElement() {
           result = ParseFunctionDecl( true );
           CHECK_ERROR(result);
           Function* fn = result->CastToExpression()->CastToFunction();
-          fn->Decl();
+          fn->set_const_declaration();
         } else {
           result = ParseVariableStatement();
         }
@@ -535,7 +535,7 @@ AstNode* Parser::ParseStatement() {
       result = ParseFunctionDecl( false );
       CHECK_ERROR(result);
       Function* fn = result->CastToExpression()->CastToFunction();
-      fn->Decl();
+      fn->set_declaration();
     }
       break;
       
@@ -578,15 +578,15 @@ AstNode* Parser::ParseStatement() {
       //If shorten function expression is parsed as expression,
       //we mark as function declaration.
       if ( result->NodeType() == AstNode::kExpressionStmt ) {
-        Expression* exp = result->FirstChild()->CastToExpression();
-        if ( !exp->IsParen() && exp->ChildLength() == 1 ) {
-          AstNode* item = exp->FirstChild();
+        Expression* exp = result->first_child()->CastToExpression();
+        if ( !exp->IsParen() && exp->child_length() == 1 ) {
+          AstNode* item = exp->first_child();
           if ( item->NodeType() == AstNode::kFunction ) {
             item->CastToExpression()->CastToFunction()->Decl();
             result = item;
           }
-        } else if ( !exp->IsParen() && exp->ChildLength() > 1 ) {
-          if ( exp->FirstChild()->NodeType() == AstNode::kFunction ) {
+        } else if ( !exp->IsParen() && exp->child_length() > 1 ) {
+          if ( exp->first_child()->NodeType() == AstNode::kFunction ) {
             SYNTAX_ERROR( "illegal trailing comma after function declaration.\\nIn file"
                           << filename_ << " at line " << exp->Line() );
           }
@@ -713,7 +713,7 @@ AstNode* Parser::ParseImportStatement() {
        strcmp( ident , SymbolList::GetSymbol( SymbolList::kFrom ) ) == 0 ) {
     AstNode* from_exp = ParseImportExpression();
     CHECK_ERROR( from_exp );
-    ValueNode* maybe_file = from_exp->FirstChild()->CastToValue();
+    ValueNode* maybe_file = from_exp->first_child()->CastToValue();
     int from_type;
     //The import statement could accept the filename or the module name.
     if ( maybe_file && maybe_file->ValueType() == ValueNode::kString ) {
@@ -1023,7 +1023,7 @@ AstNode* Parser::ParseLetExpressionOrLetStatement() {
     type = token->GetType();
     Function* fn = Function::New();
     fn->Name( Empty::New() );
-    AstNode* list = exp_list->FirstChild();
+    AstNode* list = exp_list->first_child();
     AstNode* args = list->NextSibling();
     NodeList* valid_formal = NodeList::New();
     FormalParameterConvertor( list , valid_formal );
@@ -1436,15 +1436,15 @@ AstNode* Parser::ParseDoWhileStatement( bool is_expression ) {
     Function* fn = Function::New();
     fn->Name( Empty::New() );
     if ( statement->NodeType() == AstNode::kBlockStmt ) {
-      fn->Append( statement->FirstChild() );
+      fn->Append( statement->first_child() );
     } else {
       fn->AddChild( statement );
     }
-    AstNode* node = fn->LastChild();
+    AstNode* node = fn->last_child();
     if ( node->CastToExpression() || node->NodeType() == AstNode::kExpressionStmt ) {
       ReturnStmt* stmt = 0;//init after
       if ( node->NodeType() == AstNode::kExpressionStmt ) {
-        stmt = AstUtils::CreateReturnStmt( node->FirstChild() );
+        stmt = AstUtils::CreateReturnStmt( node->first_child() );
       } else {
         stmt = AstUtils::CreateReturnStmt( node );
       }
@@ -1452,7 +1452,7 @@ AstNode* Parser::ParseDoWhileStatement( bool is_expression ) {
     }
     fn->Argv( Empty::New() );
     ExpressionStmt* ret_stmt = AstUtils::CreateAnonymousFnCall( fn , Empty::New() );
-    return ( is_expression )? ret_stmt->FirstChild() : ret_stmt;
+    return ( is_expression )? ret_stmt->first_child() : ret_stmt;
   }
 }
 
@@ -1558,14 +1558,14 @@ AstNode* Parser::ParseForStatement( bool is_comprehensions ) {
         AstNode* var_decl = ParseVariableDecl( true );
         CHECK_ERROR( var_decl );
         exp_list->AddChild( var_decl );
-        var_decl_len = var_decl->ChildLength();
+        var_decl_len = var_decl->child_length();
       }
     } else if ( next_type != ';' ) {
       AstNode* exp = ParseExpression( true );
       CHECK_ERROR( exp );
-      if ( exp->FirstChild()->NodeType() == AstNode::kValueNode && is_comprehensions ) {
-        AstNode* first = exp->FirstChild();
-        if ( first->ChildLength() == 0 ) {
+      if ( exp->first_child()->NodeType() == AstNode::kValueNode && is_comprehensions ) {
+        AstNode* first = exp->first_child();
+        if ( first->child_length() == 0 ) {
           first->AddChild( Empty::New() );
         }
         first->CastToValue()->ValueType( ValueNode::kVariable );
@@ -1603,8 +1603,8 @@ AstNode* Parser::ParseForStatement( bool is_comprehensions ) {
         return IterationStmt::New( IterationStmt::kFor );
       }
       if ( is_var_decl ) {
-        AstNode* initialiser = exp_list->FirstChild()->FirstChild();
-        exp_list->ReplaceChild( exp_list->FirstChild() , initialiser );
+        AstNode* initialiser = exp_list->first_child()->first_child();
+        exp_list->ReplaceChild( exp_list->first_child() , initialiser );
       }
       if ( is_each == false ) {
         int iter_type = ( is_var_decl || is_comprehensions )? IterationStmt::kForInWithVar : IterationStmt::kForIn;
@@ -1629,8 +1629,8 @@ AstNode* Parser::ParseForStatement( bool is_comprehensions ) {
         return IterationStmt::New( IterationStmt::kFor );
       }
       if ( is_var_decl ) {
-        AstNode* initialiser = exp_list->FirstChild()->FirstChild();
-        exp_list->ReplaceChild( exp_list->FirstChild() , initialiser );
+        AstNode* initialiser = exp_list->first_child()->first_child();
+        exp_list->ReplaceChild( exp_list->first_child() , initialiser );
       }
       if ( is_each == false ) {
         int iter_type = ( is_var_decl || is_comprehensions )? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
@@ -2381,33 +2381,33 @@ AstNode* Parser::ParseClassBody() {
     while ( type != '}' ) {
       ClassMember* mem = ParseClassMember();
       CHECK_ERROR( mem );
-      switch ( mem->Attr() ) {
+      switch ( mem->attr() ) {
         case ClassMember::kPrivate :
-          list->Private( mem );
+          list->set_private_member( mem );
           break;
           
         case ClassMember::kPublic :
-          list->Public( mem );
+          list->set_public_member( mem );
           break;
 
         case ClassMember::kPublicStatic :
-          list->PublicStatic( mem );
+          list->set_public_static_member( mem );
           break;
 
         case ClassMember::kPrivateStatic :
-          list->PrivateStatic( mem );
+          list->set_private_static_member( mem );
           break;
 
         case ClassMember::kPrototype :
-          list->Prototype( mem );
+          list->set_prototype_member( mem );
           break;
 
         case ClassMember::kConstructor :
-          list->Constructor( mem );
+          list->set_constructor( mem );
           break;
 
         case ClassMember::kMixin :
-          list->Mixin( mem->FirstChild() );
+          list->set_mixin_member( mem->first_child() );
           break;
       }
       token = Seek();
@@ -2455,7 +2455,7 @@ ClassMember* Parser::ParseClassMember() {
     CHECK_ERROR( ClassMember::New( ClassMember::kConstructor ) );
     ParseTerminator();
     CHECK_ERROR( ClassMember::New( ClassMember::kConstructor ) );
-    exp->CastToExpression()->CastToFunction()->Decl();
+    exp->CastToExpression()->CastToFunction()->set_declaration();
     member_type = ClassMember::kConstructor;
   } else if ( type == Token::JS_STATIC ) {
     Advance();
@@ -2550,13 +2550,13 @@ AstNode* Parser::ParseExportableDefinition() {
     } else if ( type == Token::JS_GET ) {
       AstNode* fn = ParseFunctionDecl( false );
       CHECK_ERROR( fn );
-      fn->CastToExpression()->CastToFunction()->Attr( Function::kGet );
+      fn->CastToExpression()->CastToFunction()->set_attr( Function::kGet );
       END(ExportableDefinition);
       return fn;
     } else if ( type == Token::JS_SET ) {
       AstNode* fn = ParseFunctionDecl( false );
       CHECK_ERROR( fn );
-      fn->CastToExpression()->CastToFunction()->Attr( Function::kSet );
+      fn->CastToExpression()->CastToFunction()->set_attr( Function::kSet );
       END(ExportableDefinition);
       return fn;
     } else {
@@ -2622,8 +2622,8 @@ AstNode* Parser::ParseAssignmentExpression( bool is_noin ) {
     Expression* dsta_object_pattern = exp->CastToExpression();
     if ( maybeDst ) {
       AssignmentDstaConvertor( maybeDst );
-    } else if ( dsta_object_pattern && dsta_object_pattern->IsParen() && dsta_object_pattern->ChildLength() > 0 ) {
-      AstNode* last = dsta_object_pattern->LastChild();
+    } else if ( dsta_object_pattern && dsta_object_pattern->IsParen() && dsta_object_pattern->child_length() > 0 ) {
+      AstNode* last = dsta_object_pattern->last_child();
       maybeDst = last->CastToValue();
       if ( maybeDst && maybeDst->ValueType() == ValueNode::kObject ) {
         AssignmentDstaConvertor( maybeDst );
@@ -2854,9 +2854,8 @@ AstNode* Parser::ParsePostfixExpression() {
   int type = token->GetType();
   if ( !token->HasLineBreakBefore() && ( type == Token::JS_INCREMENT || type == Token::JS_DECREMENT ) ) {
     lhs->CastToExpression()->InValidLhs();
-    PostfixExp* post = PostfixExp::New( type );
+    PostfixExp* post = PostfixExp::New( type , lhs );
     post->Line( token->GetLineNumber() );
-    post->Exp( lhs );
     Advance();
     END(PostfixExpression);
     return post;
@@ -2935,11 +2934,9 @@ AstNode* Parser::ParseCallExpression() {
       SYNTAX_ERROR( "parse error arrow function expression name must be 'identifier'\\nin file "
                     << filename_ << " at line " << token->GetLineNumber() );
     }
-    int depth = 0;
     CallExp* exp = CallExp::New( CallExp::kNormal );
-    exp->Callable( member );
-    exp->Args( arguments );
-    exp->Depth( depth );
+    exp->set_callable( member );
+    exp->set_args( arguments );
     token = Seek();
     type = token->GetType();
     if ( type == '.' || type == '[' || type == '(' ) {
@@ -2949,7 +2946,6 @@ AstNode* Parser::ParseCallExpression() {
       token = Seek();
       type = token->GetType();
       while ( 1 ) {
-        depth++;
         CallExp* ret = 0;
         if ( type != '(' ) {
           ret = ParseEachMember( type , false , exp );
@@ -2968,9 +2964,9 @@ AstNode* Parser::ParseCallExpression() {
             return exp;
           }
           ret = CallExp::New( CallExp::kNormal );
-          ret->Callable( exp );
+          ret->set_callable( exp );
           ret->InValidLhs();
-          if ( arguments->ChildLength() == 0 ) {
+          if ( arguments->child_length() == 0 ) {
             ret->Args( Empty::New() );
           } else {
             ret->Args( arguments );
@@ -2982,7 +2978,6 @@ AstNode* Parser::ParseCallExpression() {
         } else {
           exp = ret;
         }
-        exp->Depth( depth );
         token = Seek();
         type = token->GetType();
       }
@@ -3055,7 +3050,6 @@ AstNode* Parser::ParseMemberExpression() {
   TokenInfo* token = Seek();
   int type = token->GetType();
   CallExp* exp;
-  int depth = 0;
   if ( type == Token::JS_PRIVATE ) {
     TokenInfo* pr_sym = token;
     int type_cache = type;
@@ -3070,9 +3064,8 @@ AstNode* Parser::ParseMemberExpression() {
     if ( primary->CastToValue() && primary->CastToValue()->ValueType() == ValueNode::kIdentifier ) {
       primary->CastToValue()->ValueType( ValueNode::kProperty );
     }
-    exp->Callable( private_literal );
-    exp->Args( primary );
-    exp->Depth( depth );
+    exp->set_callable( private_literal );
+    exp->set_args( primary );
     token = Seek();
     type = token->GetType();
     if ( type != '.' && type != '[' ) {
@@ -3090,15 +3083,13 @@ AstNode* Parser::ParseMemberExpression() {
     }
     int call_type = ( type == '.' )? CallExp::kDot : CallExp::kBracket;
     exp = CallExp::New( call_type );
-    exp->Callable( primary );
-    exp->Depth( depth );
+    exp->set_callable( primary );
     ParseEachMember( type , true , exp );
     token = Seek();
     type = token->GetType();
   }
   CallExp* first = exp;
   while ( 1 ) {
-    depth++;
     CallExp* ret = ParseEachMember( type , false , exp );
     if ( ret == 0 ) {
       END(MemberExpression);
@@ -3106,7 +3097,6 @@ AstNode* Parser::ParseMemberExpression() {
     } else {
       exp = ret;
     }
-    exp->Depth( depth );
     token = Seek();
     type = token->GetType();
   }
@@ -3173,10 +3163,10 @@ CallExp* Parser::ParseEachMember( int type , bool is_first , CallExp* exp ) {
     AstNode* node = ParseBracketMember();
     CHECK_ERROR( exp );
     if ( is_first ) {
-      if ( exp->CallType() == CallExp::kNormal ) {
+      if ( exp->call_type() == CallExp::kNormal ) {
         CallExp* accessor = CallExp::New( CallExp::kBracket );
-        accessor->Callable( exp );
-        accessor->Args( node );
+        accessor->set_callable( exp );
+        accessor->set_args( node );
         return accessor;
       } else {
         exp->Args( node );
@@ -3185,12 +3175,12 @@ CallExp* Parser::ParseEachMember( int type , bool is_first , CallExp* exp ) {
       }
     } else {
       CallExp* accessor = CallExp::New( CallExp::kBracket );
-      if ( exp->CallType() == CallExp::kNormal ) {
-        accessor->Callable( exp );
-        accessor->Args( node );
+      if ( exp->call_type() == CallExp::kNormal ) {
+        accessor->set_callable( exp );
+        accessor->set_args( node );
       } else {
-        accessor->Callable( exp );
-        accessor->Args( node );
+        accessor->set_callable( exp );
+        accessor->set_args( node );
       }
       END(EachMember);
       return accessor;
@@ -3200,11 +3190,11 @@ CallExp* Parser::ParseEachMember( int type , bool is_first , CallExp* exp ) {
     AstNode* node = ParseDotMember( &is_extend );
     CHECK_ERROR( exp );
     if ( is_first ) {
-      if ( exp->CallType() == CallExp::kNormal ) {
+      if ( exp->call_type() == CallExp::kNormal ) {
         int type = ( is_extend )? CallExp::kExtend : CallExp::kDot;
         CallExp* accessor = CallExp::New( type );
-        accessor->Callable( exp );
-        accessor->Args( node );
+        accessor->set_callable( exp );
+        accessor->set_args( node );
         return accessor;
       } else {
         exp->Args( node );
@@ -3214,12 +3204,12 @@ CallExp* Parser::ParseEachMember( int type , bool is_first , CallExp* exp ) {
     } else {
       int type = ( is_extend )? CallExp::kExtend : CallExp::kDot;
       CallExp* accessor = CallExp::New( type );
-      if ( exp->CallType() == CallExp::kNormal ) {
-        accessor->Callable( exp );
-        accessor->Args( node );
+      if ( exp->call_type() == CallExp::kNormal ) {
+        accessor->set_callable( exp );
+        accessor->set_args( node );
       } else {
-        accessor->Callable( exp );
-        accessor->Args( node );
+        accessor->set_callable( exp );
+        accessor->set_args( node );
       }
       END(EachMember);
       return accessor;
@@ -3273,7 +3263,7 @@ AstNode* Parser::ParsePrimaryExpression() {
   } else if ( type == '(' ) {
     AstNode* exp = ParseExpression( false );
     CHECK_ERROR( exp );
-    if ( exp->ChildLength() > 1 ) {
+    if ( exp->child_length() > 1 ) {
       exp->CastToExpression()->InValidLhs();
     }
     token = Seek();
@@ -3651,8 +3641,8 @@ AstNode* Parser::ParseLiteral() {
         if ( len > 2 ) {
           ValueNode* value = AstUtils::CreateNameNode( &ident[ 2 ] , Token::JS_PROPERTY , token->GetLineNumber() , ValueNode::kProperty );
           CallExp* private_accessor = CallExp::New( CallExp::kPrivate );
-          private_accessor->Callable( private_sym );
-          private_accessor->Args( value );
+          private_accessor->set_callable( private_sym );
+          private_accessor->set_args( value );
           return private_accessor;
         } else {
           return private_sym;
