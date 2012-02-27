@@ -51,11 +51,10 @@ FOWARD_DECL(BinaryExp);
 FOWARD_DECL(CompareExp);
 FOWARD_DECL(ConditionalExp);
 FOWARD_DECL(AssignmentExp);
-FOWARD_DECL(ValueNode);
+FOWARD_DECL(Literal);
 FOWARD_DECL(ArrayLikeLiteral);
 FOWARD_DECL(ObjectLikeLiteral);
 FOWARD_DECL(GeneratorExpression);
-FOWARD_DECL(TokenInfo);
 FOWARD_DECL(DstaTree);
 FOWARD_DECL(DstaExtractedExpressions);
 #undef FOWARD_DECL

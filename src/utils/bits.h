@@ -29,12 +29,12 @@ class BitVector {
     assert( bit_bands >= val && val > -1 );
     set_ ^= ( 1 << val );
   }
-  inline bool At( int val ) {
+  inline bool At( int val ) const {
     assert( bit_bands >= val );
     T tmp = ( 1 << val );
     return ( set_ & tmp ) == tmp;
   }
-  inline bool operator[] ( int val ) {
+  inline bool operator[] ( int val ) const {
     return At( val );
   }
  private :

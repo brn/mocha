@@ -13,69 +13,68 @@
 
 namespace mocha{
 
-Function* AstUtils::CreateFunctionDecl( AstNode* name , AstNode* argv , AstNode* body ) {
-  Function *fn = ManagedHandle::Retain<Function>();
-  fn->Name( name );
-  fn->Argv( argv );
+Function* AstUtils::CreateFunctionDecl( AstNode* name , AstNode* argv , AstNode* body , int64_t line ) {
+  Function *fn = Function::New( line );
+  fn->set_name( name );
+  fn->set_argv( argv );
   fn->Append( body );
   return fn;
 }
 
-CallExp* AstUtils::CreateArrayAccessor( AstNode* callable , AstNode* args ) {
-  CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kBracket ) );
-  exp->Callable( callable );
-  exp->Args( args );
+CallExp* AstUtils::CreateArrayAccessor( AstNode* callable , AstNode* args , int64_t line ) {
+  CallExp* exp = CallExp::New( CallExp::kBracket , line );
+  exp->set_callable( callable );
+  exp->set_args( args );
   return exp;
 }
 
-CallExp* AstUtils::CreateDotAccessor( AstNode* callable , AstNode* args ) {
-  CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
-  exp->Callable( callable );
-  exp->Args( args );
+CallExp* AstUtils::CreateDotAccessor( AstNode* callable , AstNode* args , int64_t line ) {
+  CallExp* exp = CallExp::New( CallExp::kDot , line );
+  exp->set_callable( callable );
+  exp->set_args( args );
   return exp;
 }
 
 static const char prototype[] = { "prototype" };
 
-CallExp* AstUtils::CreatePrototypeAccessor( AstNode* callable , AstNode* args ) {
-  ValueNode* prototype_node = CreateNameNode( prototype , Token::JS_IDENTIFIER , callable->Line() , ValueNode::kProperty );
-  CallExp* depth1 = CreateDotAccessor( callable , prototype_node );
-  CallExp* depth2 = CreateDotAccessor( depth1 , args );
+CallExp* AstUtils::CreatePrototypeAccessor( AstNode* callable , AstNode* args , int64_t line ) {
+  Literal* prototype_node = CreateNameNode( prototype , Token::JS_PROPERTY , line , Literal::kProperty );
+  CallExp* depth1 = CreateDotAccessor( callable , prototype_node , line );
+  CallExp* depth2 = CreateDotAccessor( depth1 , args , line );
   return depth2;
 }
 
-CallExp* AstUtils::CreateNormalAccessor( AstNode* callable , AstNode* args ) {
-  CallExp* exp = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
-  exp->Callable( callable );
-  exp->Args( args );
+CallExp* AstUtils::CreateNormalAccessor( AstNode* callable , AstNode* args , int64_t line ) {
+  CallExp* exp = CallExp::New( CallExp::kNormal , line );
+  exp->set_callable( callable );
+  exp->set_args( args );
   return exp;
 }
 
-ValueNode* AstUtils::CreateNameNode( const char* name , int type , long line , int value_type , bool is_empty ) {
-  TokenInfo* info = ManagedHandle::Retain( new TokenInfo( name , type , line ) );
-  ValueNode* value = ManagedHandle::Retain( new ValueNode( value_type ) );
+Literal* AstUtils::CreateNameNode( const char* name , int type , long line , int value_type , bool is_empty ) {
+  TokenInfo* info = TokenInfo::New( name , type , line );
+  Literal* value = Literal::New( value_type , line );
   if ( is_empty ) {
-    value->AddChild( ManagedHandle::Retain<Empty>() );
+    value->AddChild( Empty::New() );
   }
-  value->Symbol( info );
+  value->set_value( info );
   return value;
 }
 
-AssignmentExp* AstUtils::CreateAssignment( int type , AstNode* lhs , AstNode* rhs ) {
-  AssignmentExp* assign = ManagedHandle::Retain( new AssignmentExp( type , lhs , rhs ) );
+AssignmentExp* AstUtils::CreateAssignment( int type , AstNode* lhs , AstNode* rhs , int64_t line ) {
+  AssignmentExp* assign = AssignmentExp::New( type , lhs , rhs , line );
   return assign;
 }
 
-UnaryExp* AstUtils::CreateUnaryExp( int type , AstNode* exp ) {
-  UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( type ) );
-  unary->Exp( exp );
+UnaryExp* AstUtils::CreateUnaryExp( int type , AstNode* exp , int64_t line ) {
+  UnaryExp* unary = UnaryExp::New( type , exp , line );
   return unary;
 }
 
 NodeList* AstUtils::CreateNodeList( int num , ... ) {
   va_list list;
   va_start( list , num );
-  NodeList* node_list = ManagedHandle::Retain<NodeList>();
+  NodeList* node_list = NodeList::New();
   for ( int i = 0; i < num; i++ ) {
     AstNode* node = va_arg( list , AstNode* );
     node_list->AddChild( node );
@@ -83,109 +82,107 @@ NodeList* AstUtils::CreateNodeList( int num , ... ) {
   return node_list;
 }
 
-ValueNode* AstUtils::CreateObjectLiteral( AstNode* body ) {
-  ValueNode* value = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
-  value->Node( body );
-  return value;
+ObjectLikeLiteral* AstUtils::CreateObjectLiteral( AstNode* body , int64_t line ) {
+  ObjectLikeLiteral* object = ObjectLikeLiteral::New( line );
+  object->Append( body );
+  return object;
 }
 
-ExpressionStmt* AstUtils::CreateAnonymousFnCall( Function *fn , AstNode* args ) {
-  Expression* exp = ManagedHandle::Retain<Expression>();
-  CallExp* call = ManagedHandle::Retain( new CallExp( CallExp::kNormal ) );
+ExpressionStmt* AstUtils::CreateAnonymousFnCall( Function *fn , AstNode* args , int64_t line ) {
+  Expression* exp = Expression::New( line );
+  CallExp* call = CallExp::New( CallExp::kNormal , line );
   exp->AddChild( fn );
-  exp->Paren();
-  call->Callable( exp );
-  call->Args( args );
-  Expression* ret_exp = ManagedHandle::Retain<Expression>();
+  exp->paren();
+  call->set_callable( exp );
+  call->set_args( args );
+  Expression* ret_exp = Expression::New( line );
   ret_exp->AddChild( call );
-  ExpressionStmt* ret_stmt = ManagedHandle::Retain<ExpressionStmt>();
+  ExpressionStmt* ret_stmt = ExpressionStmt::New( line );
   ret_stmt->AddChild( ret_exp );
   return ret_stmt;
 }
 
-ExpressionStmt* AstUtils::CreateExpStmt( AstNode* node ) {
-  Expression* exp = ManagedHandle::Retain<Expression>();
+ExpressionStmt* AstUtils::CreateExpStmt( AstNode* node , int64_t line ) {
+  Expression* exp = Expression::New( line );
   exp->AddChild( node );
-  ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
+  ExpressionStmt* stmt = ExpressionStmt::New( line );
   stmt->AddChild( exp );
   return stmt;
 }
 
-VariableStmt* AstUtils::CreateVarStmt( NodeList* list  ) {
-  VariableStmt* var = ManagedHandle::Retain<VariableStmt>();
-  var->VarType( VariableStmt::kNormal );
-  var->Line( list->Line() );
+VariableStmt* AstUtils::CreateVarStmt( NodeList* list , int64_t line ) {
+  VariableStmt* var = VariableStmt::New( line );
+  var->set_var_type( VariableStmt::kNormal );
   var->Append( list );
   return var;
 }
 
-VariableStmt* AstUtils::CreateVarStmt( AstNode* mem ) {
-  NodeList* list = ManagedHandle::Retain<NodeList>();
-  list->AddChild( mem );
-  return CreateVarStmt( list );
+VariableStmt* AstUtils::CreateVarStmt( AstNode* mem , int64_t line ) {
+  VariableStmt* var = VariableStmt::New( line );
+  var->set_var_type( VariableStmt::kNormal );
+  var->AddChild( mem );
+  return var;
 }
 
-ValueNode* AstUtils::CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs ) {
-  ValueNode* node = ManagedHandle::Retain( new ValueNode( ValueNode::kVariable ) );
-  node->Line( lhs->GetLineNumber() );
-  node->Symbol( lhs );
+Literal* AstUtils::CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs , int64_t line ) {
+  Literal* node = Literal::New( Literal::kVariable , line );
+  node->set_value( lhs );
   node->AddChild( rhs );
   return node;
 }
 
-ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp ) {
-  ReturnStmt* return_stmt = ManagedHandle::Retain<ReturnStmt>();
+ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp , int64_t line ) {
+  ReturnStmt* return_stmt = ReturnStmt::New( line );
   return_stmt->AddChild( exp );
   return return_stmt;
 }
 
 
-CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value ) {
-  ValueNode* constant = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstant ),
-                                                  Token::JS_IDENTIFIER , lhs->Line() , ValueNode::kIdentifier );
-  ValueNode* prop_str = prop->CastToValue();
+CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value , int64_t line ) {
+  Literal* constant = AstUtils::CreateNameNode( valueList::Getvalue( valueList::kConstant ),
+                                                  Token::JS_IDENTIFIER , line , Literal::kIdentifier );
+  Literal* prop_str = prop->CastToValue();
   AstNode* property = prop;
-  if ( prop_str && ( prop_str->ValueType() == ValueNode::kIdentifier || prop_str->ValueType() == ValueNode::kProperty ) ) {
+  if ( prop_str && ( prop_str->value_type() == Literal::kIdentifier || prop_str->value_type() == Literal::kProperty ) ) {
     char tmp[50];
-    sprintf( tmp , "'%s'" , prop_str->Symbol()->GetToken() );
-    property = AstUtils::CreateNameNode( tmp , Token::JS_STRING_LITERAL , prop_str->Line() , ValueNode::kString );
+    sprintf( tmp , "'%s'" , prop_str->value()->token() );
+    property = AstUtils::CreateNameNode( tmp , Token::JS_STRING_LITERAL , line , Literal::kString );
   }
-  NodeList* args = ManagedHandle::Retain<NodeList>();
+  NodeList* args = NodeList::New( line );
   args->AddChild( lhs );
   args->AddChild( property );
   args->AddChild( value );
-  CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( constant );
-  return AstUtils::CreateNormalAccessor( runtime_accessor , args );
+  CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( constant , line );
+  return AstUtils::CreateNormalAccessor( runtime_accessor , args , line );
 }
 
 
-CallExp* AstUtils::CreatePrototypeNode( AstNode* lhs ) {
-  ValueNode* prototype = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPrototype ),
-                                                   Token::JS_IDENTIFIER , lhs->Line() , ValueNode::kProperty );
-  return AstUtils::CreateDotAccessor( lhs , prototype );
+CallExp* AstUtils::CreatePrototypeNode( AstNode* lhs , int64_t line ) {
+  Literal* prototype = AstUtils::CreateNameNode( valueList::Getvalue( valueList::kPrototype ),
+                                                   Token::JS_IDENTIFIER , line , Literal::kProperty );
+  return AstUtils::CreateDotAccessor( lhs , prototype , line );
 }
 
 
-CallExp* AstUtils::CreateRuntimeMod( AstNode* member ) {
-  ValueNode* value = CreateNameNode( SymbolList::GetSymbol( SymbolList::kRuntime ),
-                                     Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
-  CallExp* exp = CreateDotAccessor( value , member );
-  return exp;
+CallExp* AstUtils::CreateRuntimeMod( AstNode* member , int64_t line ) {
+  Literal* value = CreateNameNode( valueList::Getvalue( valueList::kRuntime ),
+                                     Token::JS_IDENTIFIER , line , Literal::kIdentifier );
+  return CreateDotAccessor( value , member , line );
 }
 
 const char* AstUtils::CreateTmpRef( char* buf , int index ) {
-  sprintf( buf , "%s%d", SymbolList::GetSymbol( SymbolList::kLocalTmp ) , index );
+  sprintf( buf , "%s%d", valueList::symbol( valueList::kLocalTmp ) , index );
   return buf;
 }
 
-ValueNode* AstUtils::CreateTmpNode( int index ) {
+Literal* AstUtils::CreateTmpNode( int index , int64_t line ) {
   char buf[ 100 ];
   const char* tmp = AstUtils::CreateTmpRef( buf , index );
-  return AstUtils::CreateNameNode( tmp , Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+  return AstUtils::CreateNameNode( tmp , Token::JS_IDENTIFIER , line , Literal::kIdentifier );
 }
 
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visitor_info,
-                                           const char* base , const char* filename ) {
+                                           const char* base , const char* filename , int64_t line ) {
   Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->GetMainPath() );
   Handle<PathInfo> target_path_info = FileSystem::GetPathInfo( filename );
   StrHandle handle = FileSystem::GetModuleKey( base_path_info->GetDirPath().Get() , target_path_info->GetDirPath().Get() );
@@ -193,43 +190,40 @@ CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visi
   modkey += handle.Get();
   modkey += target_path_info->GetFileName().Get();
   modkey += "'";
-  ValueNode* value = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                               Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-  ValueNode* name = AstUtils::CreateNameNode( modkey.c_str() , Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kString );
-  CallExp* arr = AstUtils::CreateArrayAccessor( value , name );
-  return arr;
+  Literal* value = AstUtils::CreateNameNode( valueList::Getvalue( valueList::kGlobalExport ),
+                                               Token::JS_IDENTIFIER , line , Literal::kIdentifier );
+  Literal* name = AstUtils::CreateNameNode( modkey.c_str() , Token::JS_IDENTIFIER , line , Literal::kString );
+  return AstUtils::CreateArrayAccessor( value , name );
 }
 
-IFStmt* AstUtils::CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt ) {
-  IFStmt* if_stmt = ManagedHandle::Retain<IFStmt>();
-  if_stmt->Exp( exp );
-  if_stmt->Then( then_stmt );
-  if_stmt->Else( else_stmt );
+IFStmt* AstUtils::CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt , int64_t line ) {
+  IFStmt* if_stmt = IFStmt::New( line );
+  if_stmt->set_expression( exp );
+  if_stmt->set_then_statement( then_stmt );
+  if_stmt->set_else_statement( else_stmt );
   return if_stmt;
 }
 
-BlockStmt* AstUtils::CreateBlockStmt( int num , ... ) {
+BlockStmt* AstUtils::CreateBlockStmt( int64_t line , int num , ... ) {
   va_list list;
   va_start( list ,  num );
-  StatementList* stmt_list = ManagedHandle::Retain<StatementList>();
+  BlockStmt* block = BlockStmt::New( line );
   for ( int i = 0; i < num; i++ ) {
     AstNode* stmt = va_arg( list , AstNode* );
-    stmt_list->AddChild( stmt );
+    block->AddChild( stmt );
   }
-  BlockStmt* block = ManagedHandle::Retain<BlockStmt>();
-  block->AddChild( stmt_list );
   return block;
 }
 
 template<typename T>
 void FindDirectivePrologueCommon( AstNode* node , T* target ) {
-  if ( node->FirstChild() && node->FirstChild()->NodeType() == AstNode::kExpressionStmt ) {
-    if ( node->FirstChild()->FirstChild() && node->FirstChild()->FirstChild()->FirstChild() &&
-         node->FirstChild()->FirstChild()->FirstChild()->NodeType() == AstNode::kValueNode ) {
-      ValueNode* directive = node->FirstChild()->FirstChild()->FirstChild()->CastToValue();
-      if ( strcmp( directive->Symbol()->GetToken() , "'use strict'"  ) == 0 || strcmp( directive->Symbol()->GetToken() , "\"use strict\""  ) == 0 ) {
-        node->RemoveChild( node->FirstChild() );
-        target->SetStrict();
+  if ( node->first_child() && node->first_child()->node_type() == AstNode::kExpressionStmt ) {
+    if ( node->first_child()->first_child() && node->first_child()->first_child()->first_child() &&
+         node->first_child()->first_child()->first_child()->node_type() == AstNode::kLiteral ) {
+      Literal* directive = node->first_child()->first_child()->first_child()->CastToLiteral();
+      if ( strcmp( directive->value()->token() , "'use strict'"  ) == 0 || strcmp( directive->value()->toke() , "\"use strict\""  ) == 0 ) {
+        node->RemoveChild( node->first_child() );
+        target->set_strict();
       }
     }
   }

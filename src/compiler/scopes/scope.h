@@ -5,6 +5,7 @@
 #include <useconfig.h>
 
 #include <list>
+#include <vector>
 #include <utility>
 #include <string>
 #include <define.h>
@@ -18,22 +19,22 @@ namespace mocha {
 class TokenInfo;
 class Renamer;
 class AstNode;
+class TokenInfo;
 class ScopeRegistry;
 
 typedef std::pair<TokenInfo* , AstNode*> SymbolEntry;
 class Scope : public Managed {
   friend class ScopeRegistry;
-  typedef ChildrenScopes = std::vector<Scope*>;
+  typedef std::vector<Scope*> ChildrenScopes;
  public :
   typedef HashMap<const char*,SymbolEntry> SymbolTable;
   typedef HashMap<const char*,TokenInfo*> RefTable;
   typedef HashMap<const char*,TokenInfo*> UsedTable;
   ~Scope();
   void Insert ( TokenInfo* info , AstNode* ast_node );
-  void InsertAlias( TokeInfo* info , AstNode* ast_node );
+  void InsertAlias( TokenInfo* info , AstNode* ast_node );
   SymbolEntry FindAlias( TokenInfo* info );
   SymbolEntry Find ( TokenInfo* info );
-  SymbolEntry& FindAlias( TokenInfo* info );
   void Ref( TokenInfo* info );
   void Rename();
   bool IsGlobal() const;

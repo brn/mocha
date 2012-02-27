@@ -389,11 +389,7 @@ VISITOR_IMPL( LabelledStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   AstNode* symbol = ast_node->first_child();
-  AstNode* statement = symbol->NextSibling();
-  if ( statement->NodeType() != AstNode::kBlockStmt ) {
-    BlockStmt* stmt = AstUtils::CreateBlockStmt( 1 , statement->Clone() );
-    ast_node->ReplaceChild( statement , stmt );
-  }
+  AstNode* statement = symbol->next_sibling();
   symbol->Accept( this );
   statement->Accept( this );
 }
@@ -402,24 +398,24 @@ VISITOR_IMPL( LabelledStmt ) {
 VISITOR_IMPL( ThrowStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  AstNode* val = ast_node->Exp();
+  AstNode* val = ast_node->expression();
   Expression* exp = val->CastToExpression();
   if ( exp && !visitor_info_->IsRuntime() ) {
-    if ( exp->ChildLength() == 1 ) {
+    if ( exp->child_length() == 1 ) {
       Literal* name = exp->first_child()->CastToLiteral();
-      if ( name && name->ValueType() == Literal::kIdentifier && strcmp( name->Symbol()->GetToken() , "StopIteration" ) == 0 ) {
+      if ( name && name->value_type() == Literal::kIdentifier && strcmp( name->value()->token() , "StopIteration" ) == 0 ) {
         Literal* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
                                                          Token::JS_IDENTIFIER , ast_node->Line() , Literal::kIdentifier );
         ReturnStmt* stmt = AstUtils::CreateReturnStmt( undefined );
         ast_node->parent_node()->ReplaceChild( ast_node , stmt );
       } else {
-        ast_node->Exp()->Accept( this );
+        ast_node->expression()->Accept( this );
       }
     } else {
-      ast_node->Exp()->Accept( this );
+      ast_node->expression()->Accept( this );
     }
   } else {
-    ast_node->Exp()->Accept( this );
+    ast_node->expression()->Accept( this );
   }
 }
 
@@ -428,13 +424,13 @@ VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ast_node->first_child()->Accept( this );
-  if ( !ast_node->Catch()->IsEmpty() ) {
-    ast_node->Catch()->Accept( this );
-    ast_node->Catch()->first_child()->Accept( this );
+  if ( !ast_node->catch_block()->empty() ) {
+    ast_node->catch_block()->Accept( this );
+    ast_node->catch_block()->first_child()->Accept( this );
   }
-  ast_node->Finally()->Accept( this );
-  if ( ast_node->GetYieldFlag() ) {
-    visitor_info_->GetFunction()->SetTryCatch( ast_node );
+  ast_node->finally_block()->Accept( this );
+  if ( ast_node->generator() ) {
+    visitor_info_->GetFunction()->set_try_catch_list( ast_node );
   }
 }
 
@@ -446,7 +442,7 @@ VISITOR_IMPL(AssertStmt) {
                                             Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
   CodegenVisitor visitor( visitor_info_->GetFileName() , true , false );
   AstNode* expect = ast_node->first_child();
-  AstNode* expression = expect->NextSibling();
+  AstNode* expression = expect->next_sibling();
   ast_node->RemoveAllChild();
   expect->Accept( this );
   expression->Accept( this );
@@ -483,8 +479,7 @@ VISITOR_IMPL(AssertStmt) {
   CallExp* call = AstUtils::CreateNormalAccessor( exp , arg );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( call );
   ast_node->AddChild( stmt );
-  stmt->Line( ast_node->Line() );
-  if ( ast_node->HasDsta() ) {
+  if ( ast_node->dsta_flag() ) {
     AstNode* dsta_exp = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
     ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( dsta_exp );
     ast_node->AddChild( exp_stmt );
@@ -502,11 +497,11 @@ VISITOR_IMPL( CallExp ) {
     case CallExp::kDot :
     case CallExp::kBracket : {
       AstNode* args = ast_node->Args();
-      if ( args->CastToLiteral() && args->CastToLiteral()->ValueType() == Literal::kObject ) {
+      if ( args->CastToLiteral() && args->CastToLiteral()->value_type() == Literal::kObject ) {
         CallProcessor::ProcessExtendAccessor( ast_node , proc_info_.Get() );
       } else {
-        ast_node->Callable()->Accept( this );
-        ast_node->Args()->Accept( this );
+        ast_node->callable()->Accept( this );
+        ast_node->args()->Accept( this );
       }
     }
       break;
@@ -536,35 +531,35 @@ VISITOR_IMPL(YieldExp) {
 
 VISITOR_IMPL(PostfixExp) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
 }
 
 
 VISITOR_IMPL(UnaryExp) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
 }
 
 
 VISITOR_IMPL(BinaryExp) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  ast_node->left_value()->Accept( this );
+  ast_node->right_value()->Accept( this );
 }
 
 VISITOR_IMPL(CompareExp) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  ast_node->left_value()->Accept( this );
+  ast_node->right_value()->Accept( this );
 }
 
 
 
 VISITOR_IMPL(ConditionalExp) {
   PRINT_NODE_NAME;
-  ast_node->Cond()->Accept( this );
-  ast_node->True()->Accept( this );
-  ast_node->False()->Accept( this );
+  ast_node->condition()->Accept( this );
+  ast_node->case_true()->Accept( this );
+  ast_node->case_false()->Accept( this );
 }
 
 
@@ -611,269 +606,11 @@ VISITOR_IMPL(Function){
 };
 
 
-void AstTransformer::ArrayProccessor_( Literal* ast_node ) {
-  PRINT_NODE_NAME;
-  AstNode* list_child = ast_node->first_child();
-  while ( list_child ) {
-    if ( !list_child->IsEmpty() ) {
-      NodeIterator iter = list_child->ChildNodes();
-      while ( iter.HasNext() ) {
-        AstNode* element = iter.Next();
-        if ( !element->IsEmpty() ) {
-          element->Accept( this );
-        }
-      }
-      if ( list_child->HasNext() ) {
-        list_child = list_child->NextSibling();
-      } else {
-        break;
-      }
-    } else {
-      break;
-    }
-  }
-}
-
-
-void AstTransformer::ObjectProccessor_( Literal* ast_node ) {
-  PRINT_NODE_NAME;
-  AstNode* element_list = ast_node->Node();
-  if ( !element_list->IsEmpty() ) {
-    NodeIterator iterator = element_list->ChildNodes();
-    while ( iterator.HasNext() ) {
-      AstNode* element = iterator.Next();
-      element->first_child()->Accept( this );
-      element->Accept( this );
-    }
-  }
-}
-
 
 
 VISITOR_IMPL( Literal ) {
   PRINT_NODE_NAME;
-  switch ( ast_node->ValueType() ) {
-    case Literal::kArray :
-      ArrayProccessor_( ast_node );
-      break;
-
-    case Literal::kArrayComp : {
-      Literal* call_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
-                                                      Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
-      Literal* tmp = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
-      Literal* array = ManagedHandle::Retain( new Literal( Literal::kArray ) );
-      VariableStmt* var_stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarInitiliser( tmp->Symbol() , array ) );
-      NodeIterator iterator = ast_node->first_child()->ChildNodes();
-      bool is_first = true;
-      AstNode* first;
-      AstNode* current;
-      while ( iterator.HasNext() ) {
-        if ( is_first ) {
-          current = first = iterator.Next();
-          is_first = false;
-        } else {
-          AstNode* item = iterator.Next();
-          current->AddChild( item );
-          current = item;
-        }
-      }
-      Literal* push = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kPush ),
-                                                  Token::JS_PROPERTY , 0 , Literal::kProperty );
-      NodeList* list = ManagedHandle::Retain<NodeList>();
-      list->AddChild( ast_node->Node()->Clone() );
-      CallExp* push_accessor = AstUtils::CreateDotAccessor( tmp->Clone() , push );
-      CallExp* push_call = AstUtils::CreateNormalAccessor( push_accessor , list );
-      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( push_call );
-      if ( current->NodeType() == AstNode::kIFStmt ) {
-        IFStmt* if_stmt = current->CastToStatement()->CastToIFStmt();
-        if_stmt->Then( exp_stmt );
-        if_stmt->Else( ManagedHandle::Retain<Empty>() );
-      } else {
-        current->AddChild( exp_stmt );
-      }
-      ReturnStmt* stmt = AstUtils::CreateReturnStmt( tmp->Clone() );
-      NodeList* body = AstUtils::CreateNodeList( 3 , var_stmt , first , stmt );
-      Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
-      fn->Accept( this );
-      Expression* exp = ManagedHandle::Retain<Expression>();
-      exp->AddChild( fn );
-      exp->Paren();
-      Literal* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                      Token::JS_THIS , ast_node->Line() , Literal::kThis );
-      NodeList* arg = AstUtils::CreateNodeList( 1 , this_sym );
-      CallExp* dot = AstUtils::CreateDotAccessor( exp , call_sym );
-      CallExp* this_call = AstUtils::CreateNormalAccessor( dot , arg );
-      ast_node->parent_node()->ReplaceChild( ast_node , this_call );
-    }
-      break;
-
-    case Literal::kGenerator : {
-      Literal* call_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
-                                                      Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
-      NodeIterator iterator = ast_node->first_child()->ChildNodes();
-      bool is_first = true;
-      AstNode* first;
-      AstNode* current;
-      while ( iterator.HasNext() ) {
-        if ( is_first ) {
-          current = first = iterator.Next();
-          is_first = false;
-        } else {
-          AstNode* item = iterator.Next();
-          current->AddChild( item );
-          current = item;
-        }
-      }
-      YieldExp* yield_exp = ManagedHandle::Retain<YieldExp>();
-      yield_exp->AddChild( ast_node->Node()->Clone() );
-      ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( yield_exp );
-      if ( current->NodeType() == AstNode::kIFStmt ) {
-        IFStmt* if_stmt = current->CastToStatement()->CastToIFStmt();
-        if_stmt->Then( exp_stmt );
-        if_stmt->Else( ManagedHandle::Retain<Empty>() );
-      } else {
-        current->AddChild( exp_stmt );
-      }
-      NodeList* body = AstUtils::CreateNodeList( 1 , first );
-      Function* fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>() , ManagedHandle::Retain<Empty>() , body );
-      fn->Accept( this );
-      Expression* exp = ManagedHandle::Retain<Expression>();
-      exp->AddChild( fn );
-      exp->Paren();
-      Literal* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                      Token::JS_THIS , ast_node->Line() , Literal::kThis );
-      NodeList* arg = AstUtils::CreateNodeList( 1 , this_sym );
-      CallExp* dot = AstUtils::CreateDotAccessor( exp , call_sym );
-      CallExp* this_call = AstUtils::CreateNormalAccessor( dot , arg );
-      ast_node->parent_node()->ReplaceChild( ast_node , this_call );
-    }
-      break;
-
-    case Literal::kTuple : {
-      Literal* object = ManagedHandle::Retain( new Literal( Literal::kObject ) );
-      NodeList* list = ManagedHandle::Retain<NodeList>();
-      NodeIterator iterator = ast_node->first_child()->ChildNodes();
-      int count = 0;
-      while ( iterator.HasNext() ) {
-        char tmp[500];
-        sprintf( tmp , "%d" , count );
-        Literal* num = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , Literal::kNumeric );
-        AstNode* item = iterator.Next();
-        item->Accept( this );
-        num->AddChild( item );
-        list->AddChild( num );
-        count++;
-      }
-      char tmp[500];
-      sprintf( tmp , "%d" , count );
-      Literal* num = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , Literal::kNumeric );
-      object->Node( list );
-      Literal* create_tuple = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateTuple ),
-                                                          Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
-      CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( create_tuple );
-      NodeList* args = AstUtils::CreateNodeList( 2 , object , num );
-      CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args );
-      ast_node->parent_node()->ReplaceChild( ast_node , runtime_call );
-    }
-      break;
-
-    case Literal::kRecord : {
-      visitor_info_->EnterObject();
-      ObjectProccessor_( ast_node );
-      visitor_info_->EscapeObject();
-      ast_node->ValueType( Literal::kObject );
-      AstNode* parent = ast_node->parent_node();
-      Literal* create_record = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateRecord ),
-                                                          Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
-      CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( create_record );
-      NodeList* args = AstUtils::CreateNodeList( 1 , ast_node );
-      CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args );
-      parent->ReplaceChild( ast_node , runtime_call );
-    }
-      break;
-      
-    case Literal::kObject : {
-      visitor_info_->EnterObject();
-      ObjectProccessor_( ast_node );
-      visitor_info_->EscapeObject();
-      
-      if ( !visitor_info_->IsInObject() ) {
-        if ( visitor_info_->GetObjectPrivateList().size() > 0 ) {
-          AstNode* parent = ast_node->parent_node();
-          while ( !parent->CastToStatement() ) {
-            parent = parent->parent_node();
-          }
-          Literal* name = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
-          Literal* exp = AstUtils::CreateVarInitiliser( name->Symbol() , ast_node->Clone() );
-          VariableStmt* stmt = AstUtils::CreateVarStmt( exp );
-          parent->parent_node()->InsertBefore( stmt , parent );
-          ast_node->Symbol( name->Symbol() );
-          ast_node->ValueType( Literal::kIdentifier );
-          ast_node->RemoveAllChild();
-          ast_node->AddChild( name->Clone() );
-          VisitorInfo::PrivateNameList &list = visitor_info_->GetObjectPrivateList();
-          VisitorInfo::PrivateNameList::reverse_iterator begin = list.rbegin(),end = list.rend();
-          while ( begin != end ) {
-            std::list<Literal*> exp_list;
-            AstNode* cur_name = (*begin).first;
-            exp_list.push_back( cur_name->CastToLiteral() );
-            //CallExp* exp =  AstUtils::CreateArrayAccessor( name->Clone() , cur_name->CastToLiteral()->Node()->Clone() );
-            AstNode* name_parent = cur_name->parent_node();
-            Literal* maybeValue = name_parent->CastToLiteral();
-            while ( name_parent && ( ( name_parent->NodeType() == AstNode::kNodeList ) ||
-                                     ( maybeValue && ( maybeValue->ValueType() == Literal::kPrivateProperty ||
-                                                       maybeValue->ValueType() == Literal::kProperty ||
-                                                       maybeValue->ValueType() == Literal::kString ||
-                                                       maybeValue->ValueType() == Literal::kNumeric ||
-                                                       maybeValue->ValueType() == Literal::kObject ) ) ) ) {
-              Literal* val = name_parent->CastToLiteral();
-              if ( val && val->ValueType() != Literal::kObject ) {
-                exp_list.push_back( val );
-              }
-              name_parent = name_parent->parent_node();
-              maybeValue = name_parent->CastToLiteral();
-            }
-            std::list<Literal*>::reverse_iterator exp_begin = exp_list.rbegin(),exp_end = exp_list.rend();
-            CallExp* exp = 0;
-            while ( exp_begin != exp_end ) {
-              Literal* val = (*exp_begin);
-              if ( val->ValueType() == Literal::kPrivateProperty ) {
-                if ( exp == 0 ) {
-                  exp =  AstUtils::CreateArrayAccessor( name->Clone() , (*exp_begin)->Node()->Clone() );
-                } else {
-                  exp =  AstUtils::CreateArrayAccessor( exp , (*exp_begin)->Node()->Clone() );
-                }
-              } else if ( val->ValueType() == Literal::kIdentifier || val->ValueType() == Literal::kProperty ) {
-                val->ValueType( Literal::kProperty );
-                if ( exp == 0 ) {
-                  exp =  AstUtils::CreateDotAccessor( name->Clone() , (*exp_begin)->Clone() );
-                } else {
-                  exp =  AstUtils::CreateDotAccessor( exp , (*exp_begin)->Clone() );
-                }
-              } else {
-                if ( exp == 0 ) {
-                  exp =  AstUtils::CreateArrayAccessor( name->Clone() , (*exp_begin)->Clone() );
-                } else {
-                  exp =  AstUtils::CreateArrayAccessor( exp , (*exp_begin)->Clone() );
-                }
-              }
-              ++exp_begin;
-            }
-            Literal* unenum = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateUnenumProp ),
-                                                          Token::JS_PROPERTY , 0 , Literal::kProperty );
-            CallExp* runtime_call = AstUtils::CreateRuntimeMod( unenum );
-            NodeList* args = AstUtils::CreateNodeList( 3 , exp->Callable() , exp->Args() , (*begin).second->Clone() );
-            CallExp* runtime_normal_call = AstUtils::CreateNormalAccessor( runtime_call , args );
-            ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime_normal_call );
-            parent->parent_node()->InsertBefore( stmt , parent );
-            ++begin;
-          }
-          list.clear();
-        }
-      }
-    }
-      break;
-
+  switch ( ast_node->value_type() ) {
     case Literal::kPrivateProperty : {
       AstNode* node = ast_node->first_child();
       Literal* maybeObject = node->CastToLiteral();
@@ -914,5 +651,23 @@ VISITOR_IMPL( Literal ) {
       break;
   }
 }
+
+
+VISITOR_IMPL( ArrayLikeLiteral ) {
+  PRINT_NODE_NAME;
+  ArrayProccessor::ProcessNode( ast_node , proc_info_.Get() );
+}
+
+VISITOR_IMPL( ObjectLikeLiteral ) {
+  PRINT_NODE_NAME;
+  ObjectProccessor processor( ast_node , proc_info_.Get() );
+  processor.ProcessNode();
+}
+
+VISITOR_IMPL( GeneratorExpression ) {
+  PRINT_NODE_NAME;
+  SyntaxSugarProcessor::ProcessGeneratorExpression( ast_node , proc_info_.Get() );
+}
+
 }
 

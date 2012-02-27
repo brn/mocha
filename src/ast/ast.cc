@@ -3,9 +3,9 @@
 #include <compiler/tokens/token_info.h>
 namespace mocha {
 
-AstNode::AstNode( int type , const char* name ) :
+AstNode::AstNode( int type , const char* name , int64_t line ) :
     Managed(),
-    type_( type ) , child_length_( 0 ) ,line_( 0 ) , name_( name ),
+    type_( type ) , child_length_( 0 ) ,line_( line ) , name_( name ),
     parent_( 0 ), first_child_( 0 ) , last_child_( 0 ),
     next_sibling_( 0 ) , prev_sibling_( 0 ) {}
 
@@ -118,14 +118,14 @@ void AstNode::RemoveAllChild() {
 
 AstNode* NodeIterator::Next() {
   AstNode* ret = node_;
-  node_ = node_->NextSibling();
+  node_ = node_->next_sibling();
   return ret;
 }
 
 
 AstNode* ReverseNodeIterator::Next() {
   AstNode* ret = node_;
-  node_ = node_->PreviousSibling();
+  node_ = node_->previous_sibling();
   return ret;
 }
 
@@ -194,12 +194,12 @@ void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
     }
     old_node->ReplaceWith( new_node );
   }
-  new_node->ParentNode( this );
+  new_node->set_parent_node( this );
 }
 
 template <typename T , typename T2>
 inline T2* CopyChildren( T* dest , T2* source ) {
-  dest->ParentNode( source->ParentNode() );
+  dest->set_parent_node( source->parent_node() );
   NodeIterator iter = source->ChildNodes();
   while ( iter.HasNext() ) {
     dest->AddChild( iter.Next()->Clone() );
@@ -209,8 +209,13 @@ inline T2* CopyChildren( T* dest , T2* source ) {
 
 #define NORMAL_CLONE( name )                    \
   AstNode* name::Clone() {                      \
-    name* ret = ManagedHandle::Retain<name>();  \
-    ret->Line( Line() );                        \
+    name* ret = name::New();                    \
+    return CopyChildren( ret , this );          \
+  }
+
+#define LINED_CLONE( name )                     \
+  AstNode* name::Clone() {                      \
+    name* ret = name::New( line_number() );     \
     return CopyChildren( ret , this );          \
   }
 
@@ -218,241 +223,218 @@ NORMAL_CLONE(NodeList);
 NORMAL_CLONE(Empty);
 NORMAL_CLONE(AstRoot);
 AstNode* FileRoot::Clone() {
-  FileRoot* root = ManagedHandle::Retain<FileRoot>();
+  FileRoot* root = FileRoot::New( filename_.c_str() );
   root->is_file_root_ = is_file_root_;
-  root->filepath_ = filepath_;
   return CopyChildren( root , this );
 }
 NORMAL_CLONE(StatementList);
 
 AstNode* VersionStmt::Clone() {
-  TokenInfo *info = new TokenInfo( ver_->GetToken() , ver_->GetType() , ver_->GetLineNumber() );
-  VersionStmt* stmt = ManagedHandle::Retain( new VersionStmt( info ) );
+  TokenInfo *info = TokenInfo::New( version_->token() , version_->type() , version_->line_number() );
+  VersionStmt* stmt = VersionStmt::New( info , line_number() );
   return CopyChildren( stmt , this );
 }
 
-AstNode* PragmaStmt::Clone() {
-  AstNode* op = op_->Clone();
-  PragmaStmt* prg_stmt = ManagedHandle::Retain<PragmaStmt>();
-  prg_stmt->Op( op->CastToValue() );
-  return CopyChildren( prg_stmt , this );
+LINED_CLONE(BlockStmt);
+
+AstNode* ModuleStmt::Clone() {
+  ModuleStmt* stmt = ModuleStmt::New( name_ , line_number() );
+  return CopyChildren( stmt , this );
 }
 
-void PragmaStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( op_ == old_node ) {
-    op_ = new_node;
-    new_node->After( old_node->NextSibling() );
-    new_node->Before( old_node->PreviousSibling() );
-    new_node->ParentNode( this );
-  } else {
-    AstNode::ReplaceChild( old_node , new_node );
-  }
-}
-
-NORMAL_CLONE(BlockStmt);
-NORMAL_CLONE(ModuleStmt);
-NORMAL_CLONE(ExportStmt);
+LINED_CLONE(ExportStmt);
 
 AstNode* ImportStmt::Clone() {
-  ImportStmt* ret = ManagedHandle::Retain( new ImportStmt( var_type_ , mod_type_ ) );
-  if ( exp_ ) {
-    ret->exp_ = exp_->Clone();
-    ret->exp_->ParentNode( ret );
+  ImportStmt* ret = ImportStmt::New( expression_type_ , module_type_ , line_number() );
+  if ( expression_ ) {
+    ret->expression_ = expression_->Clone();
+    ret->expression_->set_parent_node( ret );
   }
   if ( from_ ) {
     ret->from_ = from_->Clone();
-    ret->from_->ParentNode( ret );
+    ret->from_->set_parent_node( ret );
   }
-  if ( key_ ) {
-    ret->key_ = ManagedHandle::Retain( new TokenInfo( key_->GetToken() , key_->GetType() , key_->GetLineNumber() ) );
+  if ( module_key_ ) {
+    ret->module_key_ = TokenInfo::New( module_key_->token() , module_key_->type() , module_key_->line_number() );
   }
   return CopyChildren( ret , this );
 }
 
 AstNode* VariableStmt::Clone() {
-  VariableStmt* stmt = ManagedHandle::Retain<VariableStmt>();
-  stmt->var_type_ = var_type_;
-  if ( ChildLength() > 0 ) {
-    return CopyChildren( stmt , this );
-  }
+  VariableStmt* stmt = VariableStmt::New( line_number() );
+  stmt->declaration_type_ = declaration_type_;
+  return CopyChildren( stmt , this );
 }
 
 AstNode* LetStmt::Clone() {
-  LetStmt* stmt = ManagedHandle::Retain<LetStmt>();
-  if ( exp_ ) {
-    stmt->exp_ = exp_->Clone();
-    stmt->exp_->ParentNode( stmt );
-  }
+  LetStmt* stmt = LetStmt::New( expression_ , line_number() );
   return CopyChildren( stmt ,this );
 }
 
-NORMAL_CLONE(ExpressionStmt);
+LINED_CLONE(ExpressionStmt);
 
 void IFStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( exp_ == old_node ) {
-    exp_ = new_node;
-    new_node->After( old_node->NextSibling() );
-    new_node->Before( old_node->PreviousSibling() );
-    new_node->ParentNode( this );
-  } else if ( then_ == old_node ) {
-    then_ = new_node;
-    new_node->After( old_node->NextSibling() );
-    new_node->Before( old_node->PreviousSibling() );
-    new_node->ParentNode( this );
-  } else if ( else_ == old_node ) {
-    else_ = new_node;
-    new_node->After( old_node->NextSibling() );
-    new_node->Before( old_node->PreviousSibling() );
-    new_node->ParentNode( this );
+  if ( condition_ == old_node ) {
+    condition_ = new_node;
+    new_node->After( old_node->next_sibling() );
+    new_node->Before( old_node->previous_sibling() );
+    new_node->set_parent_node( this );
+  } else if ( then_statement_ == old_node ) {
+    then_statement_ = new_node;
+    new_node->After( old_node->next_sibling() );
+    new_node->Before( old_node->previous_sibling() );
+    new_node->set_parent_node( this );
+  } else if ( else_statement_ == old_node ) {
+    else_statement_ = new_node;
+    new_node->After( old_node->next_sibling() );
+    new_node->Before( old_node->previous_sibling() );
+    new_node->set_parent_node( this );
   } else {
     AstNode::ReplaceChild( old_node , new_node );
   }
 }
 
 AstNode* IFStmt::Clone() {
-  IFStmt* stmt = ManagedHandle::Retain<IFStmt>();
-  if ( exp_ ) {
-    stmt->exp_ = exp_->Clone();
-    stmt->exp_->ParentNode( stmt );
+  IFStmt* stmt = IFStmt::New( line_number() );
+  if ( condition_ ) {
+    stmt->condition_ = condition_->Clone();
+    stmt->condition_->set_parent_node( stmt );
   }
-  if ( then_ ) {
-    stmt->then_ = then_->Clone();
-    stmt->then_->ParentNode( stmt );
+  if ( then_statement_ ) {
+    stmt->then_statement_ = then_statement_->Clone();
+    stmt->then_statement_->set_parent_node( stmt );
   }
-  if ( else_ ) {
-    stmt->else_ = else_->Clone();
-    stmt->else_->ParentNode( stmt );
+  if ( else_statement_ ) {
+    stmt->else_statement_ = else_statement_->Clone();
+    stmt->else_statement_->set_parent_node( stmt );
   }
   return CopyChildren( stmt ,this );
 }
 
 AstNode* IterationStmt::Clone() {
-  IterationStmt* stmt = ManagedHandle::Retain( new IterationStmt( NodeType() ) );
-  if ( exp_ ) {
-    stmt->exp_ = exp_->Clone();
-    stmt->exp_->ParentNode( stmt );
+  IterationStmt* stmt = IterationStmt::New( node_type() , line_number() );
+  if ( expression_ ) {
+    stmt->expression_ = expression_->Clone();
+    stmt->expression_->set_parent_node( stmt );
   }
   return CopyChildren( stmt , this );
 }
 
-NORMAL_CLONE(ContinueStmt);
-NORMAL_CLONE(BreakStmt);
-NORMAL_CLONE(ReturnStmt);
+LINED_CLONE(ContinueStmt);
+LINED_CLONE(BreakStmt);
+LINED_CLONE(ReturnStmt);
 
 AstNode* WithStmt::Clone() {
-  WithStmt* stmt = ManagedHandle::Retain<WithStmt>();
-  if ( exp_ ) {
-    stmt->exp_ = exp_->Clone();
-    stmt->exp_->ParentNode( stmt );
+  WithStmt* stmt = WithStmt::New( line_number() );
+  if ( expression_ ) {
+    stmt->expression_ = expression_->Clone();
+    stmt->expression_->set_parent_node( stmt );
   }
   return CopyChildren( stmt , this );
 }
 
-NORMAL_CLONE(LabelledStmt);
+LINED_CLONE(LabelledStmt);
 
 AstNode* SwitchStmt::Clone() {
-  SwitchStmt* stmt = ManagedHandle::Retain<SwitchStmt>();
-  if ( exp_ ) {
-    stmt->exp_ = exp_->Clone();
-    stmt->exp_->ParentNode( stmt );
+  SwitchStmt* stmt = SwitchStmt::New( line_number() );
+  if ( expression_ ) {
+    stmt->expression_ = expression_->Clone();
+    stmt->expression_->set_parent_node( stmt );
   }
   return CopyChildren( stmt ,this );
 }
 
 AstNode* ThrowStmt::Clone() {
-  ThrowStmt* stmt = ManagedHandle::Retain<ThrowStmt>();
-  if ( exp_ ) {
-    stmt->exp_ = exp_->Clone();
-    stmt->exp_->ParentNode( stmt );
+  ThrowStmt* stmt = ThrowStmt::New( line_number() );
+  if ( expression_ ) {
+    stmt->expression_ = expression_->Clone();
+    stmt->expression_->set_parent_node( stmt );
   }
   return CopyChildren( stmt , this );
 }
 
 AstNode* TryStmt::Clone() {
-  TryStmt* stmt = ManagedHandle::Retain<TryStmt>();
-  if ( catch_ ) {
-    stmt->catch_ = catch_->Clone();
-    stmt->catch_->ParentNode( stmt );
+  TryStmt* stmt = TryStmt::New( line_number() );
+  if ( catch_block_ ) {
+    stmt->catch_block_ = catch_block_->Clone();
+    stmt->catch_block_->set_parent_node( stmt );
   }
-  if ( finally_ ) {
-    stmt->finally_ = finally_->Clone();
-    stmt->finally_->ParentNode( stmt );
+  if ( finally_block_ ) {
+    stmt->finally_block_ = finally_block_->Clone();
+    stmt->finally_block_->set_parent_node( stmt );
   }
   return CopyChildren( stmt , this );
 }
 
-NORMAL_CLONE(AssertStmt);
+LINED_CLONE(AssertStmt);
 
 AstNode* CaseClause::Clone() {
-  CaseClause* clause = ManagedHandle::Retain<CaseClause>();
-  if ( exp_ ) {
-    clause->exp_ = exp_->Clone();
-    clause->exp_->ParentNode( clause );
+  CaseClause* clause = CaseClause::New( line_number() );
+  if ( expression_ ) {
+    clause->expression_ = expression_->Clone();
+    clause->expression_->set_parent_node( clause );
   }
   return CopyChildren( clause , this );
 }
 
 AstNode* Expression::Clone() {
-  Expression* exp = ManagedHandle::Retain<Expression>();
+  Expression* exp = Expression::New( line_number() );
   exp->flags_ = flags_;
   return CopyChildren( exp , this );
 }
 
 AstNode* Class::Clone() {
-  Class* cls = ManagedHandle::Retain( new Class( expandar_->Clone() , is_const_ ) );
+  Class* cls = Class::New( expandar_->Clone() , line_number() );
   if ( name_ ) {
     cls->name_ = name_->Clone();
+    cls->name_->set_parent_node( cls );
   }
   if ( body_ ) {
     cls->body_ = body_->Clone();
-    cls->body_->ParentNode( cls );
+    cls->body_->set_parent_node( cls );
   }
+  cls->flags_ = flags_;
   return CopyChildren( cls , this );
 }
 
 AstNode* ClassProperties::Clone() {
-  ClassProperties *prop = ManagedHandle::Retain<ClassProperties>();
+  ClassProperties *prop = ClassProperties::New( line_number() );
   CopyChildren( &( prop->public_ ) , &public_ );
   CopyChildren( &( prop->private_ ) , &private_ );
   CopyChildren( &( prop->public_static_ ) , &public_static_ );
   CopyChildren( &( prop->private_static_ ) , &private_static_ );
   CopyChildren( &( prop->prototype_ ) , &prototype_ );
-  CopyChildren( prop->constructor_ , constructor_ );
+  prop->constructor_ = constructor_->Clone();
   return CopyChildren( prop , this );
 }
 
 AstNode* ClassExpandar::Clone() {
-  ClassExpandar* exp = ManagedHandle::Retain( new ClassExpandar( attr_ ) );
+  ClassExpandar* exp = ClassExpandar::New( attr_ , line_number() );
   return CopyChildren( exp , this );
 }
 
 AstNode* ClassMember::Clone() {
-  ClassMember* member = ManagedHandle::Retain( new ClassMember( attr_ ) );
+  ClassMember* member = ClassMember::New( attr_ , line_number() );
   return CopyChildren( member , this );
 }
 
 AstNode* Function::Clone() {
-  Function *fn = ManagedHandle::Retain<Function>();
+  Function *fn = Function::New( line_number() );
   if ( name_ ) {
-    fn->Name( name_->Clone() );
+    fn->set_name( name_->Clone() );
   }
   if ( argv_ ) {
-    fn->Argv( argv_->Clone() );
-    fn->argv_->ParentNode( fn );
+    fn->set_argv( argv_->Clone() );
+    fn->argv_->set_parent_node( fn );
   }
   fn->fn_type_ = fn_type_;
   fn->context_ = context_;
   fn->fn_attr_ = fn_attr_;
-  fn->is_const_ = is_const_;
-  fn->is_decl_ = is_decl_;
-  fn->is_root_ = is_root_;
-  fn->has_directive_ = has_directive_;
-  fn->has_yield_ = has_yield_;
+  fn->flags_ = flags_;
   fn->replaced_this_ = replaced_this_;
-  fn->iteration_list_ = iteration_list_;
+  fn->statement_list_ = statement_list_;
   fn->variable_list_ = variable_list_;
-  fn->try_list_ = try_list_;
-  fn->Line( Line() );
+  fn->try_catch_list_ = try_catch_list_;
   return CopyChildren( fn , this );
 }
 
@@ -460,12 +442,12 @@ void CallExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
   if ( old_node == callable_ ) {
     new_node->Before( 0 );
     new_node->After( 0 );
-    new_node->ParentNode( this );
+    new_node->set_parent_node( this );
     callable_ = new_node;
   } else if ( old_node == args_ ) {
     new_node->Before( 0 );
     new_node->After( 0 );
-    new_node->ParentNode( this );
+    new_node->set_parent_node( this );
     args_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
@@ -473,36 +455,32 @@ void CallExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
 }
 
 AstNode* CallExp::Clone() {
-  CallExp *exp = ManagedHandle::Retain( new CallExp( call_type_ ) );
+  CallExp *exp = CallExp::New( call_type_ , line_number() );
   if ( callable_ ) {
     exp->callable_ = callable_->Clone();
-    exp->callable_->ParentNode( exp );
+    exp->callable_->set_parent_node( exp );
   }
   if ( args_ ) {
     exp->args_ = args_->Clone();
-    exp->args_->ParentNode( exp );
+    exp->args_->set_parent_node( exp );
   }
-  exp->depth_ = depth_;
   return CopyChildren( exp , this );
 }
 
 AstNode* NewExp::Clone() {
-  NewExp* exp = ManagedHandle::Retain<NewExp>();
-  if ( constructor_ ) {
-    exp->constructor_ = constructor_->Clone();
-  }
+  NewExp* exp = NewExp::New( line_number() );
   return CopyChildren( exp , this );
 }
 
-NORMAL_CLONE(YieldExp);
+LINED_CLONE(YieldExp);
 
 
 void PostfixExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == exp_ ) {
-    new_node->Before( exp_->PreviousSibling() );
-    new_node->After( exp_->NextSibling() );
-    new_node->ParentNode( this );
-    exp_ = new_node;
+  if ( old_node == expression_ ) {
+    new_node->Before( expression_->previous_sibling() );
+    new_node->After( expression_->next_sibling() );
+    new_node->set_parent_node( this );
+    expression_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
   }
@@ -510,21 +488,17 @@ void PostfixExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
 
 
 AstNode* PostfixExp::Clone() {
-  PostfixExp* exp = ManagedHandle::Retain( new PostfixExp( post_type_ ) );
-  if ( exp_ ) {
-    exp->exp_ = exp_->Clone();
-    exp->exp_->ParentNode( exp );
-  }
+  PostfixExp* exp = PostfixExp::New( operand_ , expression_ , line_number() );
   return CopyChildren( exp , this );
 }
 
 
 void UnaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == exp_ ) {
-    new_node->Before( exp_->PreviousSibling() );
-    new_node->After( exp_->NextSibling() );
-    new_node->ParentNode( this );
-    exp_ = new_node;
+  if ( old_node == expression_ ) {
+    new_node->Before( expression_->previous_sibling() );
+    new_node->After( expression_->next_sibling() );
+    new_node->set_parent_node( this );
+    expression_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
   }
@@ -532,49 +506,45 @@ void UnaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
 
 
 AstNode* UnaryExp::Clone() {
-  UnaryExp* exp = ManagedHandle::Retain( new UnaryExp( op_ ) );
-  if ( exp_ ) {
-    exp->exp_ = exp_->Clone();
-    exp->exp_->ParentNode( exp );
-  }
+  UnaryExp* exp = UnaryExp::New( operand_ , expression_ , line_number() );
   return CopyChildren( exp , this );
 }
 
 void BinaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == left_ ) {
-    new_node->Before( left_->PreviousSibling() );
-    new_node->After( left_->NextSibling() );
-    new_node->ParentNode( this );
-    left_ = new_node;
-  } else if ( old_node == right_ ) {
-    new_node->Before( right_->PreviousSibling() );
-    new_node->After( right_->NextSibling() );
-    new_node->ParentNode( this );
-    right_ = new_node;
+  if ( old_node == left_value_ ) {
+    new_node->Before( left_value_->previous_sibling() );
+    new_node->After( left_value_->next_sibling() );
+    new_node->set_parent_node( this );
+    left_value_ = new_node;
+  } else if ( old_node == right_value_ ) {
+    new_node->Before( right_value_->previous_sibling() );
+    new_node->After( right_value_->next_sibling() );
+    new_node->set_parent_node( this );
+    right_value_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
   }
 }
 
 AstNode* BinaryExp::Clone() {
-  BinaryExp* exp = ManagedHandle::Retain( new BinaryExp( op_ , left_->Clone() , right_->Clone() ) );
-  exp->Left()->ParentNode( exp );
-  exp->Right()->ParentNode( exp );
+  BinaryExp* exp = BinaryExp::New( operand_ , left_value_->Clone() , right_value_->Clone() , line_number() );
+  exp->left_value()->set_parent_node( exp );
+  exp->right_value()->set_parent_node( exp );
   return CopyChildren( exp , this );
 }
 
 
 void CompareExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == left_ ) {
-    new_node->Before( left_->PreviousSibling() );
-    new_node->After( left_->NextSibling() );
-    new_node->ParentNode( this );
-    left_ = new_node;
-  } else if ( old_node == right_ ) {
-    new_node->Before( right_->PreviousSibling() );
-    new_node->After( right_->NextSibling() );
-    new_node->ParentNode( this );
-    right_ = new_node;
+  if ( old_node == left_value_ ) {
+    new_node->Before( left_value_->previous_sibling() );
+    new_node->After( left_value_->next_sibling() );
+    new_node->set_parent_node( this );
+    left_value_ = new_node;
+  } else if ( old_node == right_value_ ) {
+    new_node->Before( right_value_->previous_sibling() );
+    new_node->After( right_value_->next_sibling() );
+    new_node->set_parent_node( this );
+    right_value_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
   }
@@ -582,28 +552,28 @@ void CompareExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
 
 
 AstNode* CompareExp::Clone() {
-  CompareExp* exp = ManagedHandle::Retain( new CompareExp( op_ , left_->Clone() , right_->Clone() ) );
-  exp->Left()->ParentNode( exp );
-  exp->Right()->ParentNode( exp );
+  CompareExp* exp = CompareExp::New( operand_ , left_value_->Clone() , right_value_->Clone() , line_number() );
+  exp->left_value()->set_parent_node( exp );
+  exp->right_value()->set_parent_node( exp );
   return CopyChildren( exp , this );
 }
 
 
 void ConditionalExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == cond_ ) {
-    new_node->Before( cond_->PreviousSibling() );
-    new_node->After( cond_->NextSibling() );
-    new_node->ParentNode( this );
-    cond_ = new_node;
+  if ( old_node == condition_ ) {
+    new_node->Before( condition_->previous_sibling() );
+    new_node->After( condition_->next_sibling() );
+    new_node->set_parent_node( this );
+    condition_ = new_node;
   } else if ( old_node == case_true_ ) {
-    new_node->Before( case_true_->PreviousSibling() );
-    new_node->After( case_true_->NextSibling() );
-    new_node->ParentNode( this );
+    new_node->Before( case_true_->previous_sibling() );
+    new_node->After( case_true_->next_sibling() );
+    new_node->set_parent_node( this );
     case_true_ = new_node;
   } else if ( old_node == case_false_ ) {
-    new_node->Before( case_false_->PreviousSibling() );
-    new_node->After( case_false_->NextSibling() );
-    new_node->ParentNode( this );
+    new_node->Before( case_false_->previous_sibling() );
+    new_node->After( case_false_->next_sibling() );
+    new_node->set_parent_node( this );
     case_false_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
@@ -612,100 +582,70 @@ void ConditionalExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
 
 
 AstNode* ConditionalExp::Clone() {
-  ConditionalExp* exp = ManagedHandle::Retain( new ConditionalExp( cond_->Clone(),
-                                                                   case_true_->Clone() , case_false_->Clone() ) );
-  exp->Cond()->ParentNode( exp );
-  exp->True()->ParentNode( exp );
-  exp->False()->ParentNode( exp );
+  ConditionalExp* exp = ConditionalExp::New( condition_->Clone(), case_true_->Clone() , case_false_->Clone() , line_number() );
+  exp->condition()->set_parent_node( exp );
+  exp->case_true()->set_parent_node( exp );
+  exp->case_false()->set_parent_node( exp );
   return CopyChildren( exp , this );
 }
 
 
 void AssignmentExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == left_ ) {
-    new_node->Before( left_->PreviousSibling() );
-    new_node->After( left_->NextSibling() );
-    new_node->ParentNode( this );
-    left_ = new_node;
-  } else if ( old_node == right_ ) {
-    new_node->Before( right_->PreviousSibling() );
-    new_node->After( right_->NextSibling() );
-    new_node->ParentNode( this );
-    right_ = new_node;
+  if ( old_node == left_value_ ) {
+    new_node->Before( left_value_->previous_sibling() );
+    new_node->After( left_value_->next_sibling() );
+    new_node->set_parent_node( this );
+    left_value_ = new_node;
+  } else if ( old_node == right_value_ ) {
+    new_node->Before( right_value_->previous_sibling() );
+    new_node->After( right_value_->next_sibling() );
+    new_node->set_parent_node( this );
+    right_value_ = new_node;
   } else {
     AstNode::ReplaceChild( old_node , new_node );
   }
 }
 
 AstNode* AssignmentExp::Clone() {
-  AssignmentExp* exp = ManagedHandle::Retain( new AssignmentExp( op_ , left_->Clone() , right_->Clone() ) );
-  exp->Left()->ParentNode( exp );
-  exp->Right()->ParentNode( exp );
+  AssignmentExp* exp = AssignmentExp::New( operand_ , left_value_->Clone() , right_value_->Clone() , line_number() );
+  exp->left_value()->set_parent_node( exp );
+  exp->right_value()->set_parent_node( exp );
   return CopyChildren( exp , this );
 }
 
-AstNode* ValueNode::Clone() {
-  ValueNode* ret = ManagedHandle::Retain( new ValueNode( value_type_ ) );
-  switch ( value_type_ ) {
-    case kNull :
-    case kTrue :
-    case kFalse :
-    case kNumeric :
-    case kString :
-    case kRegExp :
-    case kThis : 
-    case kIdentifier :
-    case kPropertyName :
-    case kVariable :
-    case kRest :
-    case kProperty :
-    case kSuper :
-      if ( value_ ) {
-        TokenInfo* info = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType(),
-                                                                value_->GetLineNumber() ) );
-        ret->value_ = info;
-      } else if ( node_ ) {
-        ret->node_ = node_->Clone();
-      }
-      break;
-      
-    case kArray :
-    case kArrayComp :
-    case kObject :
-    case kDst :
-    case kDstArray :
-    case kSpread :
-    case kConstant :
-    case kPrivateProperty :
-    case kGenerator :
-    case kTuple :
-    case kRecord :
-      if ( node_ ) {
-        ret->node_ = node_->Clone();
-      } else if ( value_ ) {
-        TokenInfo* info = ManagedHandle::Retain( new TokenInfo( value_->GetToken() , value_->GetType(),
-                                                                value_->GetLineNumber() ) );
-        ret->value_ = info;
-      }
-      break;
-  }
-  ret->Line( Line() );
+AstNode* Literal::Clone() {
+  Literal* ret = Literal::New( value_type_ , line_number() );
+  ret->set_value( value_ );
   return CopyChildren( ret , this );
 }
 
+AstNode* ArrayLikeLiteral::Clone() {
+  ArrayLikeLiteral* array = ArrayLikeLiteral::New( line_number() );
+  array->flags_ = flags_;
+  return CopyChildren( array , this );
+}
 
+AstNode* ObjectLikeLiteral::Clone() {
+  ObjectLikeLiteral* object = ObjectLikeLiteral::New( line_number() );
+  object->record_ = record_;
+  return CopyChildren( object , this );
+}
 
+AstNode* GeneratorExpression::Clone() {
+  GeneratorExpression* generator = GeneratorExpression::New( expression_ , line_number() );
+  return CopyChildren( generator , this );
+}
 
 AstNode* DstaTree::Clone() {
-  DstaTree* tree = ManagedHandle::Retain<DstaTree>();
+  DstaTree* tree = DstaTree::New();
   if ( symbol_ ) {
-    tree->symbol_ = symbol_->Clone()->CastToValue();
+    tree->symbol_ = symbol_->Clone()->CastToLiteral();
   }
   return CopyChildren( tree , this );
 }
 
 AstNode* DstaExtractedExpressions::Clone() {
-  DstaExtractedExpressions* exp = ManagedHandle::Retain<DstaExtractedExpressions>();
+  DstaExtractedExpressions* exp = DstaExtractedExpressions::New();
   CopyChildren( &exp->refs_ , &refs_ );
   return CopyChildren( exp , this );
 }
