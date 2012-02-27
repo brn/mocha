@@ -8,7 +8,7 @@ class TokenInfo;
 class TokenStream : public Managed {
  public :
   ~TokenStream();
-  static TokenStream* Create();
+  static TokenStream* New();
   TokenInfo* Advance( int index = 1 );
   TokenInfo* Seek( int index );
   TokenInfo* Undo( int index = 0 );

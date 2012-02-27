@@ -33,7 +33,7 @@ class TokenContainer {
 };
 
 
-TokenStream* TokenStream::Create() {
+TokenStream* TokenStream::New() {
   return ManagedHandle::Retain( new TokenStream );
 }
 

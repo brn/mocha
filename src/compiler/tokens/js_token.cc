@@ -490,16 +490,9 @@ static bool binary_operator[] = {
   false,//TOKEN::JS_LINE_BREAK,
   false,//TOKEN::JS_SET,
   false,//TOKEN::JS_GET,
-  false,//TOKEN::JS_PARAMETER_REST,
-  false,//TOKEN::JS_PARAM_BEGIN,
-  false,//TOKEN::JS_PARAM_END,
-  false,//TOKEN::JS_DSTA_BEGIN,
-  false,//TOKEN::JS_DSTA_END,
-  false,//TOKEN::JS_DSTO_BEGIN,
-  false,//TOKEN::JS_DSTO_END,
-  false,//TOKEN::JS_CONSTRUCTOR,
-  false,//TOKEN::JS_PROTOTYPE,
-  false,//TOKEN::JS_EXP_CLOSURE_BEGIN
+  false,//ILLEGAL
+  false,//END_OF_INPUT
+  false//END_TOKEN
 };
 
 int keywords_length = sizeof ( reserved_words ) / sizeof ( reserved_words[ 0 ] );
@@ -516,15 +509,15 @@ void JsToken::Initialize() {
   }
 }
 
-bool JsToken::IsBinaryOperatorNoIn( int token ) {
+bool JsToken::BinaryOperatorNoIn( int token ) {
   return binary_operator[ token ];
 }
 
-bool JsToken::IsBinaryOperator( int token ) {
+bool JsToken::BinaryOperator( int token ) {
   return ( token == Token::JS_IN || token == Token::JS_INSTANCEOF )? true : binary_operator[ token ];
 }
 
-int JsToken::getType ( const char* token , bool is_operator ) {
+int JsToken::GetType ( const char* token , bool is_operator ) {
   MutexLock lock( mutex_ );
   if ( is_operator ) {
     if ( strlen( token ) == 1 ) {
@@ -545,7 +538,7 @@ int JsToken::getType ( const char* token , bool is_operator ) {
   }
 }
 
-bool JsToken::IsBuiltin( const char* token ) {
+bool JsToken::Builtin( const char* token ) {
   MutexLock lock( mutex_ );
   TokenMap::HashEntry find = builtin_map.Find( token );
   if ( !find.IsEmpty() ) {
@@ -563,21 +556,3 @@ const char* JsToken::GetTokenFromNumber( int id ) {
 }
 
 Mutex JsToken::mutex_;
-
-TokenConverter::TokenConverter( TokenInfo* token ) : info_( token ){}
-TokenConverter::~TokenConverter(){}
-TokenConverter::operator const char*() {
-  buf_.clear();
-  if ( info_ != 0 ) {
-    int type = info_->GetType();
-    if ( type > 127 ) {
-      return info_->GetToken();
-    } else {
-      buf_ += static_cast<char>( info_->GetType() );
-      return buf_.c_str();
-    }
-  } else {
-    return "empty";
-  }
-}
-}

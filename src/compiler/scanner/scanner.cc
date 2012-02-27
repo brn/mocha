@@ -34,8 +34,8 @@ class Scanner::InternalScanner {
    * Collect token and push into the token queue.
    */
   inline void CollectToken() {
-    while ( !IsEof_() ) {
-      Skip_();
+    while ( !IsEof() ) {
+      Skip();
       if ( flags_.At( FLAG_LB ) ) {
         TokenInfo* info = token_stream_->Last();
         if ( info ) {
@@ -43,31 +43,31 @@ class Scanner::InternalScanner {
         }
         flags_.UnSet( FLAG_LB );
       }
-      char ch = Advance_();
-      if ( IsIdentStart_( ch , true ) ) {
+      char ch = Advance();
+      if ( IsIdentStart( ch , true ) ) {
         //identifier
-        CaseIdent_( ch );
+        CaseIdent( ch );
       } else if ( isdigit( ch ) ) {
         //numeric begin with 0...9
-        CaseDigit_( ch );
+        CaseDigit( ch );
       } else if ( flags_.At( FLAG_NUMERIC ) && ch == '.' ) {
         //numeric begin with '.'
         //treat as float.
-        CaseDigitBeginWithDot_( ch );
-      } else if ( IsSingleOperator_( ch ) ) {
+        CaseDigitBeginWithDot( ch );
+      } else if ( IsSingleOperator( ch ) ) {
         //operator that is not continue after operator. Like { } [ ]
         token_stream_->Append( "" , ch , line_ );
-      } else if ( IsNotSingleOperator_( ch ) ) {
+      } else if ( IsNotSingleOperator( ch ) ) {
         //operator like + - =
-        CaseNotSingleOperator_( ch );
+        CaseNotSingleOperator( ch );
       } else if ( ch != 0 && ch != Token::END_OF_INPUT ){
         std::stringstream st;
         st << "Illegal token '"
            << ch << "' in " << filename_ << " at : " << line_;
         reporter_->ReportSyntaxError( st.str().c_str() );
       }
-      SetRegExpAfter_();
-      SetNumericAfter_();
+      SetRegExpAfter();
+      SetNumericAfter();
     }
     TokenInfo* last = token_stream_->Last();
     if ( last ) {
@@ -87,7 +87,7 @@ class Scanner::InternalScanner {
    * @private
    * Check char is unicode's byte order mark or not.
    */
-  bool IsByteOrderMark_( char data ) {
+  bool IsByteOrderMark( char data ) {
     return ( data == 0xFEFF || data == 0xFFFE );
   }
   
@@ -95,12 +95,12 @@ class Scanner::InternalScanner {
    * @private
    * Check source end or not.
    */
-  inline bool IsEof_ () {
+  inline bool IsEof() {
     return source_stream_->Seek( 1 ) == Token::END_OF_INPUT;
   }
 
 
-  inline uint8_t Seek_( int len ) {
+  inline char Seek( int len ) {
     return source_stream_->Seek( len );
   }
 
@@ -108,8 +108,8 @@ class Scanner::InternalScanner {
    * @private
    * Get next char form source.
    */
-  inline uint8_t Advance_ ( int len = 1 ) {
-    if ( IsEof_() ) {
+  inline char Advance( int len = 1 ) {
+    if ( IsEof() ) {
       return 0;
     } else {
       return source_stream_->Advance( len );
@@ -120,7 +120,7 @@ class Scanner::InternalScanner {
    * @private
    * Decrement source index.
    */
-  inline void Undo_ ( int len = 1 ) {
+  inline void Undo( int len = 1 ) {
     source_stream_->Undo( len );
   }
   
@@ -128,13 +128,13 @@ class Scanner::InternalScanner {
    * @private
    * Skip all comment , unicode's byte order mark , whitespace and linebreak.
    */
-  void Skip_() {
-    uint8_t ch = Seek_( 1 );
-    uint8_t next = Seek_( 2 );
-    bool isbreak = IsBreak_ ( ch );
+  void Skip() {
+    char ch = Seek( 1 );
+    char next = Seek( 2 );
+    bool isbreak = IsBreak( ch );
     //Check that token is whitespace or line break.
-    if ( IsWhiteSpace_ ( ch ) || IsByteOrderMark_( ch ) || isbreak ) {
-      Advance_();
+    if ( IsWhiteSpace( ch ) || IsByteOrderMark( ch ) || isbreak ) {
+      Advance();
       //Add line number.
       if ( isbreak ) {
         flags_.Set( FLAG_LB );
@@ -143,13 +143,13 @@ class Scanner::InternalScanner {
       isbreak = false;
       Skip_ ();
     } else if ( ch == '/' && next == '*' ) {
-      Advance_( 2 );
+      Advance( 2 );
       //Process multiline comment.
       SkipMultiLineComment_ ();
       //Check is whitespace or singleline comment continue.
       Skip_ ();
     } else if ( ch == '/' && next == '/' ) {
-      Advance_( 2 );
+      Advance( 2 );
       //Process single line comment.
       SkipComment_ ();
       //Check is whitespace or multiline comment continue.
@@ -163,7 +163,7 @@ class Scanner::InternalScanner {
    * @returns {bool}
    * Check is whitespace or not.
    */
-  inline bool IsWhiteSpace_ ( char ch ) {
+  inline bool IsWhiteSpace( char ch ) {
     if ( ch == ' ' ||
          ch == '\t'||
          ch == '\r' ) {
@@ -179,7 +179,7 @@ class Scanner::InternalScanner {
    * @return {bool}
    * Check is line break or not.
    */
-  inline bool IsBreak_ ( char ch ) {
+  inline bool IsBreak( char ch ) {
     if ( ch == '\n' ) {
       return true;
     }
@@ -190,11 +190,11 @@ class Scanner::InternalScanner {
    * @private
    * cosume token while multiline comment block is continue.
    */
-  inline void SkipMultiLineComment_ () {
+  inline void SkipMultiLineComment() {
     int ch;
-    while ( !IsEof_ () ) {
-      ch = Advance_();
-      uint8_t next = Advance_();
+    while ( !IsEof() ) {
+      ch = Advance();
+      char next = Advance();
       //End of multiline comment.
       if ( ch == '*' && next == '/' ) {
         return;
@@ -214,8 +214,8 @@ class Scanner::InternalScanner {
    */
   inline void SkipComment_ () {
     int ch;
-    while ( !IsEof_ () ) {
-      ch = Advance_ ();
+    while ( !IsEof() ) {
+      ch = Advance();
       if ( ch == '\n' ) {
         line_++;
         flags_.Set( FLAG_LB );
@@ -230,9 +230,9 @@ class Scanner::InternalScanner {
    * @returns {bool}
    * Check is identifier token start or not.
    */
-  inline bool IsIdentStart_ ( char ch , bool is_begin ) {
-    char next = Seek_( 1 );
-    if ( isalpha ( ch ) || 
+  inline bool IsIdentStart( char ch , bool is_begin ) {
+    char next = Seek( 1 );
+    if ( isalpha( ch ) || 
          ch == '_' || 
          ch == '$' ||
          //treat special token.
@@ -251,15 +251,15 @@ class Scanner::InternalScanner {
    * @param {char}
    * Collect identifier.
    */
-  inline void CaseIdent_ ( char ch ) {
+  inline void CaseIdent( char ch ) {
     token_str_ = ch;
-    char next = Advance_();
-    while ( IsIdentStart_ ( next , false ) || isdigit ( next ) ) {
+    char next = Advance();
+    while ( IsIdentStart( next , false ) || isdigit( next ) ) {
       token_str_ += next;
-      next = Advance_();
+      next = Advance();
     }
-    Undo_();
-    PushBack_( token_str_.c_str() );
+    Undo();
+    PushBack( token_str_.c_str() );
   }
 
 
@@ -268,20 +268,20 @@ class Scanner::InternalScanner {
    * @param {char}
    * In case of numeric literal.
    */
-  inline void CaseDigit_ ( char ch ) {
+  inline void CaseDigit( char ch ) {
     token_str_ = ch;
-    char next = tolower ( Advance_() );
+    char next = tolower( Advance() );
       
     if ( next == '.' ) {
-      CaseDigitFloat_ ( next );
+      CaseDigitFloat( next );
     } else if ( next == 'x' && ch == '0' ) {
-      CaseDigitHex_ ( next );
+      CaseDigitHex( next );
     } else if ( isdigit ( next ) || next == 'e' ) {
-      CaseDigitNumber_ ( next );
+      CaseDigitNumber( next );
     } else {
-      Undo_ ();
+      Undo();
     }
-    PushBack_( token_str_.c_str() , Token::JS_NUMERIC_LITERAL );
+    PushBack( token_str_.c_str() , Token::JS_NUMERIC_LITERAL );
   }
 
 
@@ -296,7 +296,7 @@ class Scanner::InternalScanner {
     char next;
     char last;
     
-    while ( ( next = Advance_() ) ) {
+    while ( ( next = Advance() ) ) {
       next = tolower ( next );
     
       if ( isdigit ( next ) ) {
@@ -320,8 +320,8 @@ class Scanner::InternalScanner {
   }
 
 
-  inline bool IsHex_( char ch ) {
-    if ( isdigit ( ch ) ||
+  inline bool IsHex( char ch ) {
+    if ( isdigit( ch ) ||
          ch == 'a' ||
          ch == 'b' ||
          ch == 'c' ||
@@ -334,33 +334,33 @@ class Scanner::InternalScanner {
   }
 
 
-  inline void CaseDigitHex_ ( char ch ) {
+  inline void CaseDigitHex( char ch ) {
 
     char next;
     token_str_ += ch;
-    Advance_();
-    while ( ( next = Advance_ () ) ) {
+    Advance();
+    while ( ( next = Advance() ) ) {
       next = tolower ( next );
     
-      if ( IsHex_ ( next ) ) {
+      if ( IsHex( next ) ) {
         token_str_ += next;
       } else if ( isdigit( next ) ) {
         token_str_ += next;
       } else {
-        Undo_ ();
+        Undo();
         break;
       }
     }
   }
 
 
-  inline void CaseDigitNumber_ ( char ch ) {
+  inline void CaseDigitNumber( char ch ) {
     token_str_ += ch;
     bool hasIndex = ( ch == 'e' )? true : false;
     char last = ch;
     char next;
         
-    while ( ( next = Advance_() ) ) {
+    while ( ( next = Advance() ) ) {
       next = tolower ( next );
     
       if ( isdigit ( next ) ) {
@@ -368,7 +368,7 @@ class Scanner::InternalScanner {
         last = next;
       } else if ( next == '.' ) {
         token_str_ += next;
-        return CaseDigitFloat_( Advance_() );
+        return CaseDigitFloat( Advance() );
       } else if ( next == 'e' &&
                   !hasIndex &&
                   last != 'e' ) {
@@ -379,31 +379,31 @@ class Scanner::InternalScanner {
         token_str_ += next;
         last = next;
       } else {
-        Undo_ ();
+        Undo();
         break;
       }
     }
   }
 
 
-  inline void CaseDigitBeginWithDot_ ( char ch ) {
+  inline void CaseDigitBeginWithDot( char ch ) {
     token_str_ = ch;
     bool hasIndex = false;
     char last;
     char next;
     int index = 0;
   
-    while ( ( next = Advance_() ) ) {
+    while ( ( next = Advance() ) ) {
       if ( isdigit ( next ) ) {
         token_str_ += next;
         last = next;
       } else if ( next == '.' && index == 0 ) {
-        if ( Advance_() == '.' ) {
+        if ( Advance() == '.' ) {
           token_str_ += "..";
-          PushBack_( token_str_.c_str() , Token::JS_PARAMETER_REST );
+          PushBack( token_str_.c_str() , Token::JS_PARAMETER_REST );
           return;
         } else {
-          Undo_( 1 );
+          Undo( 1 );
         }
       } else if ( next == 'e' &&
                   !hasIndex &&
@@ -415,12 +415,12 @@ class Scanner::InternalScanner {
         token_str_ += next;
         last = next;
       } else {
-        Undo_ ();
+        Undo();
         break;
       }
       index++;
     }
-    PushBack_( token_str_.c_str() , Token::JS_NUMERIC_LITERAL );
+    PushBack( token_str_.c_str() , Token::JS_NUMERIC_LITERAL );
   }
   
   
@@ -430,7 +430,7 @@ class Scanner::InternalScanner {
    * @returns {bool}
    * Distinct parameter char is operators that is continue after operator. 
    */
-  inline bool IsSingleOperator_ ( char ch ) {
+  inline bool IsSingleOperator( char ch ) {
     if ( ch == '(' || ch == ')' ||
          ch == '{' || ch == '}' ||
          ch == '[' || ch == ']' ||
@@ -438,8 +438,8 @@ class Scanner::InternalScanner {
          ch == '.' || ch == ':' ||
          ch == ';' || ch == '?' ||
          ch == '#') {
-      char next = Seek_( 1 );
-      char next_after_ = Seek_( 2 );
+      char next = Seek( 1 );
+      char next_after_ = Seek( 2 );
       if ( ch == '.' && next == ch && next_after_ == ch ) {
         flags_.Set( FLAG_REST );
         return false;
@@ -456,8 +456,8 @@ class Scanner::InternalScanner {
    * @returns {bool}
    * Check operator like + = -
    */
-  inline bool IsNotSingleOperator_ ( char ch ) {
-    if ( !IsSingleOperator_ ( ch ) && 
+  inline bool IsNotSingleOperator( char ch ) {
+    if ( !IsSingleOperator( ch ) && 
          ( ( ch > 32 && ch < 48 ) ||
            ( ch > 57 && ch < 65 ) ||
            ( ch > 90 && ch < 97 ) ||
@@ -472,16 +472,16 @@ class Scanner::InternalScanner {
   }
 
 
-  inline void CaseNotSingleOperator_ ( char ch ) {
+  inline void CaseNotSingleOperator( char ch ) {
     token_str_ = ch;
     
     switch ( ch ) {
       case '.' :
         {
           if ( flags_.At( FLAG_REST ) ) {
-            token_str_ += Advance_();
-            token_str_ += Advance_();
-            PushBack_( token_str_.c_str() , Token::JS_PARAMETER_REST );
+            token_str_ += Advance();
+            token_str_ += Advance();
+            PushBack( token_str_.c_str() , Token::JS_PARAMETER_REST );
             flags_.UnSet( FLAG_REST );
           }
         }
@@ -490,21 +490,21 @@ class Scanner::InternalScanner {
       case '"' :
       case '\'' :
         {
-          CaseStringLiteral_ ( ch );
+          CaseStringLiteral( ch );
         }
         break;
         
       case '=' :
       case '!' :
         {
-          CaseEqualitiesORFunGlyph_ ();
+          CaseEqualitiesORFunGlyph();
         }
         break;
         
       case '-' :
       case '+' :
         {
-          CaseAddAndSubORFunGlyph_ ( ch );
+          CaseAddAndSubORFunGlyph( ch );
         }
         break;
         
@@ -514,9 +514,9 @@ class Scanner::InternalScanner {
         {
           if ( ch == '/' &&
                flags_.At( FLAG_REGEXP ) ) {
-            CaseRegExpLiteral_ ();
+            CaseRegExpLiteral();
           } else {
-            CaseUnary_ ();
+            CaseUnary();
           }
         }
         break;
@@ -526,47 +526,46 @@ class Scanner::InternalScanner {
       case '^' :
       case '<' :
         {
-          CaseLogical_ ( ch );
+          CaseLogical( ch );
         }
         break;
         
       case '>' :
         {
-          CaseShiftRight_ ();
+          CaseShiftRight();
         }
         break;
     }
   }
 
   
-  inline void CaseStringLiteral_ ( char ch ) {
-    char next = Seek_( 1 );
-    char next_after_ = Seek_( 2 );
+  inline void CaseStringLiteral( char ch ) {
+    char next = Seek( 1 );
+    char next_after_ = Seek( 2 );
     bool escaped = false;
 
     if ( next == ch && next_after_ == ch ) {
-      Advance_( 2 );
-      while ( ( next = Advance_() ) ) {
+      Advance( 2 );
+      while ( ( next = Advance() ) ) {
         if ( next == '\n' ) {
           line_++;
         } else if ( next != '\r' ) {
           token_str_ += next;
-        }
-          
-        char next_after = Advance_();
-        char next_after_after = Advance_();
+        }          
+        char next_after = Advance();
+        char next_after_after = Advance();
         if ( next == ch && next_after == ch && next_after_after == ch ) {
           break;
         } else {
-          Undo_( 2 );
+          Undo( 2 );
         }
       }
     } else {
       if ( next == ch ) {
         token_str_ += ch;
-        Advance_();
+        Advance();
       } else {
-        while ( ( next = Advance_() ) ) {
+        while ( ( next = Advance() ) ) {
           if ( !escaped && next == '\\' ) {
             escaped = true;
           } else {
@@ -574,7 +573,7 @@ class Scanner::InternalScanner {
           }
       
           token_str_ += next;
-          next = Seek_(1);
+          next = Seek(1);
         
           if ( !escaped && next == '\n' ) {
             break;
@@ -582,56 +581,56 @@ class Scanner::InternalScanner {
 
           if ( !escaped && next == ch ) {
             token_str_ += next;
-            Advance_();
+            Advance();
             break;
           }
         }
       }
     }
-    PushBack_( token_str_.c_str() , Token::JS_STRING_LITERAL );
+    PushBack( token_str_.c_str() , Token::JS_STRING_LITERAL );
   }
 
 
-  inline void CaseEqualitiesORFunGlyph_ () {
-    char next = Advance_();
+  inline void CaseEqualitiesORFunGlyph() {
+    char next = Advance();
     if ( next == '=' ) {
       token_str_ += next;
-      next = Advance_ ();
+      next = Advance();
       if ( next == '=' ) {
         token_str_ += next;
       } else {
-        Undo_();
+        Undo();
       }
     } else if ( next == '>' ) {
       token_str_ += next;
     } else {
-      Undo_();
+      Undo();
     }
 
-    PushBack_( token_str_.c_str() , JsToken::getType ( token_str_.c_str () , true ) );
+    PushBack( token_str_.c_str() , JsToken::GetType ( token_str_.c_str () , true ) );
   }
 
 
   
-  inline void CaseAddAndSubORFunGlyph_ ( char ch ) {
-    char next = Advance_();
+  inline void CaseAddAndSubORFunGlyph( char ch ) {
+    char next = Advance();
     if ( next == ch || next == '=' ) {
       token_str_ += next;
     } else if ( ch == '-' && next == '>' ) {
       token_str_ += next;
     } else {
-      Undo_ ();
+      Undo();
     }
-    PushBack_( token_str_.c_str() , JsToken::getType ( token_str_.c_str () , true ) );
+    PushBack( token_str_.c_str() , JsToken::GetType ( token_str_.c_str () , true ) );
   }
   
   
-  inline void CaseRegExpLiteral_ () {            
+  inline void CaseRegExpLiteral() {            
     bool isescaped = false;
     bool ischar_class = false;
     char next;
     
-    while ( ( next = Advance_ () ) ) {
+    while ( ( next = Advance() ) ) {
       if ( !isescaped &&
            next == '\\' ) {
         isescaped = true;
@@ -652,7 +651,7 @@ class Scanner::InternalScanner {
       } else if ( !isescaped &&
                   !ischar_class &&
                   next == '/' ) {           
-        CaseRegExpFlag_ ( next );
+        CaseRegExpFlag( next );
         break;
       } else {  
         isescaped = false;
@@ -662,9 +661,9 @@ class Scanner::InternalScanner {
   }
 
   
-  inline void CaseRegExpFlag_ ( char ch ) {
+  inline void CaseRegExpFlag( char ch ) {
     token_str_ += ch;
-    char flag = Seek_( 1 );
+    char flag = Seek( 1 );
     bool has_error = false;
     std::string flag_list;
     BitVector8 flags;
@@ -672,7 +671,7 @@ class Scanner::InternalScanner {
       if ( flag == 'i' ||
            flag == 'g' ||
            flag == 'm' ) {
-        if ( !CheckRegExpFlags_( &flags , flag , &flag_list ) ) {
+        if ( !CheckRegExpFlags( &flags , flag , &flag_list ) ) {
           has_error = true;
         } else {
         }
@@ -680,8 +679,8 @@ class Scanner::InternalScanner {
         has_error = true;
         flag_list += flag;
       }
-      Advance_();
-      flag = Seek_( 1 );
+      Advance();
+      flag = Seek( 1 );
     }
     if ( has_error ) {
       std::stringstream st;
@@ -689,23 +688,23 @@ class Scanner::InternalScanner {
          << flag_list << "' in " << filename_ << " at : " << line_;
       reporter_->ReportSyntaxError( st.str().c_str() );
     } else {
-      PushBack_( token_str_.c_str() , Token::JS_REGEXP_LITERAL );
+      PushBack( token_str_.c_str() , Token::JS_REGEXP_LITERAL );
     }
   }
 
   
-  inline bool CheckRegExpFlags_( BitVector8 *flags , char flag , std::string *flag_list ) {
+  inline bool CheckRegExpFlags( BitVector8 *flags , char flag , std::string *flag_list ) {
     if ( flag == 'i' ) {
-      return SetRegExpFlags_( flags , flag , flag_list , 0 );
+      return SetRegExpFlags( flags , flag , flag_list , 0 );
     } else if ( flag == 'g' ) {
-      return SetRegExpFlags_( flags , flag , flag_list , 1 );
+      return SetRegExpFlags( flags , flag , flag_list , 1 );
     } else if ( flag == 'm' ) {
-      return SetRegExpFlags_( flags , flag , flag_list , 2 );
+      return SetRegExpFlags( flags , flag , flag_list , 2 );
     }
   }
 
   
-  inline bool SetRegExpFlags_( BitVector8 *flags , char flag , std::string *flag_list , int pos ) {
+  inline bool SetRegExpFlags( BitVector8 *flags , char flag , std::string *flag_list , int pos ) {
     if ( !flags->At( pos ) ) {
       flags->Set( pos );
       token_str_ += flag;
@@ -718,27 +717,27 @@ class Scanner::InternalScanner {
   }
 
   
-  inline void CaseUnary_ () {
-    char next = Advance_ ();
+  inline void CaseUnary() {
+    char next = Advance();
     if ( next == '=' ) {
       token_str_ += next;
     } else {
-      Undo_ ();
+      Undo();
     }
-    PushBack_( token_str_.c_str() ,  JsToken::getType ( token_str_.c_str () , true ) );
+    PushBack( token_str_.c_str() ,  JsToken::GetType ( token_str_.c_str () , true ) );
   }
 
 
-  inline void CaseLogical_ ( char ch ) {
-    char next = Advance_ ();
+  inline void CaseLogical( char ch ) {
+    char next = Advance();
   
     if ( next == ch ) {
       token_str_ += next;
       if ( ch == '<' && next == '<' ) {
-        next = Seek_(1);
+        next = Seek(1);
         if ( next == '=' ) {
           token_str_ += next;
-          Advance_();
+          Advance();
         }
       }
     } else if ( ( ch == '|' ||
@@ -748,39 +747,39 @@ class Scanner::InternalScanner {
                 next == '=' ) {
       token_str_ += next;
     } else {
-      Undo_ ();
+      Undo();
     }
-    PushBack_( token_str_.c_str() , JsToken::getType ( token_str_.c_str() , true ) );
+    PushBack( token_str_.c_str() , JsToken::GetType ( token_str_.c_str() , true ) );
   }
 
 
-  inline void CaseShiftRight_ () {
-    char next = Advance_ ();
+  inline void CaseShiftRight() {
+    char next = Advance();
     if ( next == '>' ) {
       token_str_ += next;
-      next = Advance_ ();
+      next = Advance();
       if ( next == '>' ) {
         token_str_ += next;
-        next = Seek_( 1 );
+        next = Seek( 1 );
         if ( next == '=' ) {
           token_str_ += next;
-          Advance_();
+          Advance();
         }
       } else if ( next == '=' ) {
         token_str_ += next;
       } else {
-        Undo_ ();
+        Undo();
       }
     } else if ( next == '=' ) {
       token_str_ += next;
     } else {
-      Undo_ ();
+      Undo();
     }
-    PushBack_( token_str_.c_str() , JsToken::getType ( token_str_.c_str() , true ) );
+    PushBack( token_str_.c_str() , JsToken::GetType ( token_str_.c_str() , true ) );
   }
 
 
-  inline void SetNumericAfter_ () {
+  inline void SetNumericAfter() {
     int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->GetType() : 0;
     if ( JsToken::IsBinaryOperatorNoIn( type ) ||
          type == '[' ||
@@ -809,7 +808,7 @@ class Scanner::InternalScanner {
   }
 
 
-  inline void SetRegExpAfter_ () {
+  inline void SetRegExpAfter() {
     int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->GetType() : 0;
     if ( JsToken::IsBinaryOperator( type ) ||
          type == '}' ||
@@ -846,14 +845,14 @@ class Scanner::InternalScanner {
    * @param {const char*}
    * Get type of token and call DoPushBack_.
    */
-  inline void PushBack_( const char* ctoken , int opt_type = 0 ) {
-    int type = ( opt_type == 0 )? JsToken::getType( ctoken ) : opt_type;
+  inline void PushBack( const char* ctoken , int opt_type = 0 ) {
+    int type = ( opt_type == 0 )? JsToken::GetType( ctoken ) : opt_type;
     if ( type == Token::JS_EACH ) {
       if ( token_stream_->Size() > 0 && token_stream_->Last()->GetType() != Token::JS_FOR ) {
         type = Token::JS_IDENTIFIER;
       }
     }
-    DoPushBack_( ctoken , type );
+    DoPushBack( ctoken , type );
   }
 
   /**
@@ -861,7 +860,7 @@ class Scanner::InternalScanner {
    * @param {char}
    * Call DoPushBack_ with set type to arguments.
    */
-  inline void PushBack_( int ch ) {
+  inline void PushBack( int ch ) {
     if ( ch == '(' && token_stream_->Size() >= 2 ) {
       TokenInfo* info = token_stream_->Seek( 2 );
       if ( info != Scanner::kEmpty && info->GetType() == Token::JS_IDENTIFIER ) {
@@ -872,7 +871,7 @@ class Scanner::InternalScanner {
         }
       }
     }
-    DoPushBack_( "" , ch );
+    DoPushBack( "" , ch );
   }
 
   /**
@@ -881,7 +880,7 @@ class Scanner::InternalScanner {
    * @param {int}
    * Push back a pointer of TokenInfo to token_stream_.
    */
-  inline void DoPushBack_( const char* ctoken , int type ) {
+  inline void DoPushBack( const char* ctoken , int type ) {
     TokenInfo* info = token_stream_->Last();
     token_stream_->Append( ctoken , type , line_ );
     if ( info && info->HasLineBreakAfter() ) {

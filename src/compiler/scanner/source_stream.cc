@@ -20,10 +20,10 @@ StrHandle Encode( const char* source , const char* path ) {
   }
 }
 
-SourceStream* SourceStream::Create( const char* source , const char* path ) {
+SourceStream* SourceStream::New( const char* source , const char* path ) {
   StrHandle str_handle = Encode( source , path );
   SourceStream* stream = ManagedHandle::Retain( new SourceStream() );
-  stream->CreateStream_( str_handle.Get() );
+  stream->CreateStream( str_handle.Get() );
   return stream;
 }
 
@@ -36,10 +36,10 @@ SourceStream::~SourceStream() {
 }
 
 
-void SourceStream::CreateStream_( const char* utf8_str ) {
+void SourceStream::CreateStream( const char* utf8_str ) {
   int size = strlen( utf8_str );
   int count = 0;
-  stream_ = reinterpret_cast<uint8_t*>( malloc( sizeof( char ) * size + sizeof( char ) ) );
+  stream_ = reinterpret_cast<char*>( malloc( sizeof( char ) * size + sizeof( char ) ) );
   for ( int i = 0; i < size; i++ ) {
     if ( utf8_str[ i ] == '\n' ) line_++;
     if ( utf8_str[ i ] != '\r' ) {
@@ -52,25 +52,25 @@ void SourceStream::CreateStream_( const char* utf8_str ) {
 }
 
 
-uint8_t SourceStream::At( int index ) const {
+char SourceStream::At( int index ) const {
   return ( index > 0 && index < size_ )? stream_[ index ] : ( index < 0 )? Token::ILLEGAL : Token::END_OF_INPUT;
 }
 
 
-uint8_t SourceStream::Advance( int index ) {
+char SourceStream::Advance( int index ) {
   if ( index < 0 ) return Token::ILLEGAL;
   if ( cursor_ == size_ ) {
     cursor_++;
     return Token::END_OF_INPUT;
   } else {
     cursor_ += index;
-    uint8_t ret = stream_[ cursor_ ];
+    char ret = stream_[ cursor_ ];
     return ret;
   }
 }
 
 
-uint8_t SourceStream::Undo( int index ) {
+char SourceStream::Undo( int index ) {
   if ( index < 0 ) return Token::ILLEGAL;
   int i = 0;
   for ( ; i < index; i++ ) {}
@@ -79,7 +79,7 @@ uint8_t SourceStream::Undo( int index ) {
 }
 
 
-uint8_t SourceStream::Seek( int index ) const {
+char SourceStream::Seek( int index ) const {
   int i = 0,pos = 0;
   if ( index > 0 ) {
     for ( ; i < index; i++ ) {}
@@ -94,12 +94,12 @@ uint8_t SourceStream::Seek( int index ) const {
 }
 
 
-uint8_t SourceStream::Last() const {
+char SourceStream::Last() const {
   return stream_[ size_ - 1 ];
 }
 
 
-uint8_t SourceStream::First() const {
+char SourceStream::First() const {
   return stream_[ 0 ];
 }
 
@@ -107,7 +107,7 @@ uint8_t SourceStream::First() const {
 int SourceStream::Size() const { return size_; }
 
 
-Handle<uint8_t> SourceStream::GetSourceFragment( int begin_col , int end_col , int row ) {
+StrHandle SourceStream::GetSourceFragment( int begin_col , int end_col , int row ) {
   if ( line_ >= row ) {
     int line = 1;
     int begin = 0;
@@ -117,17 +117,17 @@ Handle<uint8_t> SourceStream::GetSourceFragment( int begin_col , int end_col , i
         end = i + 1;
         if ( line == row ) {
           int size = ( end - begin );
-          uint8_t *ret = reinterpret_cast<uint8_t*>( malloc( sizeof( uint8_t ) * ( size + 1 ) ) );
+          char *ret = reinterpret_cast<char*>( malloc( sizeof( char ) * ( size + 1 ) ) );
           memcpy( ret , stream_ + begin , size - 1 );
           ret[ size ] = 0;
-          return Handle<uint8_t>( ret , PtrDeleter<uint8_t>::Free );
+          return StrHandle( ret );
         }
         begin = i + 1;
         line++;
       }
     }
   } else {
-    return Handle<uint8_t>( new uint8_t[0] , PtrDeleter<uint8_t>::DeleteArray );
+    return StrHandle( new char[0] );
   }
 }
 

@@ -5,7 +5,6 @@ DECL_VISITOR(Statement);
 DECL_VISITOR(NodeList);
 DECL_VISITOR(StatementList);
 DECL_VISITOR(VersionStmt);
-DECL_VISITOR(PragmaStmt);
 DECL_VISITOR(BlockStmt);
 DECL_VISITOR(ModuleStmt);
 DECL_VISITOR(ExportStmt);
@@ -41,5 +40,8 @@ DECL_VISITOR(BinaryExp);
 DECL_VISITOR(CompareExp);
 DECL_VISITOR(ConditionalExp);
 DECL_VISITOR(AssignmentExp);
-DECL_VISITOR(ValueNode);
+DECL_VISITOR(Literal);
+DECL_VISITOR(ArrayLikeLiteral);
+DECL_VISITOR(ObjectLikeLiteral);
+DECL_VISITOR(GeneratorExpression);
 #undef DECL_VISITOR

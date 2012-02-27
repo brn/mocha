@@ -1,4 +1,3 @@
-
 #ifndef mocha_js_token_h_
 #define mocha_js_token_h_
 #include <utils/class_traits/static.h>
@@ -110,17 +109,6 @@ class Token : private Static {
     JS_SET,
     JS_GET,
     JS_PARAMETER_REST,
-    JS_PARAM_BEGIN,
-    JS_PARAM_END,
-    JS_DSTA_BEGIN,
-    JS_DSTA_END,
-    JS_DSTO_BEGIN,
-    JS_DSTO_END,
-    JS_CONSTRUCTOR,
-    JS_PROTOTYPE,
-    JS_EXP_CLOSURE_BEGIN,
-    JS_PROPERTY,
-    JS_YIELD_SENTINEL,
     ILLEGAL,
     END_OF_INPUT,
     END_TOKEN = -1,
@@ -129,24 +117,14 @@ class Token : private Static {
 
 class JsToken : private Static {
  public:
-  static bool IsBinaryOperatorNoIn( int token );
-  static bool IsBinaryOperator( int token );
-  static int getType ( const char* token , bool isOperator = false );
-  static bool IsBuiltin( const char* token );
+  static bool BinaryOperatorNoIn( int token );
+  static bool BinaryOperator( int token );
+  static int GetType( const char* token , bool isOperator = false );
+  static bool Builtin( const char* token );
   static const char* GetTokenFromNumber( int id );
   static void Initialize();
  private :
   static Mutex mutex_;
-};
-class TokenInfo;
-class TokenConverter {
- public :
-  TokenConverter( TokenInfo* token );
-  ~TokenConverter();
-  operator const char*();
- private :
-  std::string buf_;
-  TokenInfo* info_;
 };
 }
 

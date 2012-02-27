@@ -86,10 +86,10 @@ static const char builtin[][50] = {
 };
 
 
-const char* SymbolList::GetSymbol( RuntimeSymbol runtime_symbol ) {
+const char* SymbolList::symbol( RuntimeSymbol runtime_symbol ) {
   return runtime[ runtime_symbol ];
 }
-const char* SymbolList::GetSymbol( BuiltinSymbol builtin_symbol ) {
+const char* SymbolList::symbol( BuiltinSymbol builtin_symbol ) {
   return builtin[ builtin_symbol ];
 }
 

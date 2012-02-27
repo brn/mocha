@@ -121,10 +121,9 @@ class AstNode : public Managed {
     kVersionStmt,
     kAssertStmt,
     kExpression,
-    kValueNode,
+    kLiteral,
     kCase,
     kNodeList,
-    kPragmaStmt,
     kBlockStmt,
     kModuleStmt,
     kExportStmt,
@@ -172,8 +171,9 @@ class AstNode : public Managed {
     kCompareExp,
     kConditionalExp,
     kAssignmentExp,
-    kPropertyArray,
-    kPropertyMap,
+    kArrayLikeLiteral,
+    kObjectLikeLiteral,
+    kGeneratorExpression,
     kDstaTree,
     kDstaExtractedExpressions,
     kUndefined
@@ -373,7 +373,7 @@ class AstNode : public Managed {
    * Return 0 by default.
    */
   virtual Expression* CastToExpression() { return 0; };
-  virtual ValueNode* CastToValue() { return 0; };
+  virtual Literal* CastToLiteral() { return 0; };
   virtual DstaTree* CastToDstaTree() { return 0; }
   virtual NodeList* CastToNodeList() { return 0; }
   
@@ -563,7 +563,7 @@ class Statement : public AstNode {
   
   inline void set_generator() { SET(1); }
   inline bool generator() { return HAS(1); }
-
+  
   /**
    * Set 0 to all destructuring assignment block.
    */
@@ -603,8 +603,8 @@ class YieldMark : public Statement {
   FACTORY( YieldMark );
   YieldMark() : Statement( NAME_PARAMETER( YieldMark ) , 0 ) , adjustment_( 0 ) , is_state_injection_( false ), state_( 0 ){}
   ~YieldMark() {}
-  inline void ReEntrantNode( ValueNode* val ){ state_ = val; }
-  inline ValueNode* ReEntrantNode(){ return state_; }
+  inline void ReEntrantNode( Literal* val ){ state_ = val; }
+  inline Literal* ReEntrantNode(){ return state_; }
   inline YieldMark* CastToYieldMark() { return this; }
   inline int Adjust( int val ) { return val + adjustment_; }
   inline void SetAdjust( int val ) { adjustment_ = val; }
@@ -613,7 +613,7 @@ class YieldMark : public Statement {
  private :
   int adjustment_;
   bool is_state_injection_;
-  ValueNode* state_;
+  Literal* state_;
 };
 
 
@@ -625,18 +625,18 @@ class ExYieldStateNode : public Statement {
       next_ptr_( 0 ) , escape_ptr_( 0 ) , if_stmt_ptr_( 0 ) {}
   inline ~ExYieldStateNode(){};
   inline ExYieldStateNode* CastToYieldState() { return this; }
-  inline void EscapePtr( ValueNode* ptr ) { escape_ptr_ = ptr; }
-  inline ValueNode* EscapePtr() { return escape_ptr_; }
-  inline void LoopBackPtr( ValueNode* ptr ) { loopback_ptr_ = ptr; }
-  inline ValueNode* LoopBackPtr() { return loopback_ptr_; }
-  inline void NextPtr( ValueNode* ptr ) { next_ptr_ = ptr; }
-  inline ValueNode* NextPtr() { return next_ptr_; }
+  inline void EscapePtr( Literal* ptr ) { escape_ptr_ = ptr; }
+  inline Literal* EscapePtr() { return escape_ptr_; }
+  inline void LoopBackPtr( Literal* ptr ) { loopback_ptr_ = ptr; }
+  inline Literal* LoopBackPtr() { return loopback_ptr_; }
+  inline void NextPtr( Literal* ptr ) { next_ptr_ = ptr; }
+  inline Literal* NextPtr() { return next_ptr_; }
   inline void IfStmtPtr( IFStmt* ptr ) { if_stmt_ptr_ = ptr; }
   inline IFStmt* IfStmtPtr() { return if_stmt_ptr_; }
  private :
-  ValueNode* loopback_ptr_;
-  ValueNode* next_ptr_;
-  ValueNode* escape_ptr_;
+  Literal* loopback_ptr_;
+  Literal* next_ptr_;
+  Literal* escape_ptr_;
   IFStmt* if_stmt_ptr_;
 };
 
@@ -1065,6 +1065,8 @@ class Expression : public AstNode {
   inline virtual TraitMember* CastToTraitMember() { return 0; }
   inline virtual MixinMember* CastToMixinMember() { return 0; }
   inline virtual CompareExp* CastToCompareExp() { return 0; }
+  inline virtual ArrayLikeLiteral* CastToArrayLikeLiteral() { return 0; }
+  inline virtual ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
   virtual CLONE( Expression );
  private :
   inline Expression( int64_t line ) : AstNode( AstNode::kExpression , "Expression" , line ) {
@@ -1270,7 +1272,7 @@ typedef PropertyMap::HashEntry PropertyEntry;
 class Function : public Expression {
  public :
   typedef std::vector<AstNode*> StmtList;
-  typedef std::vector<ValueNode*> VariableList;
+  typedef std::vector<Literal*> VariableList;
   typedef std::vector<TryStmt*> TryCatchList;
   enum {
     kNormal,
@@ -1310,10 +1312,10 @@ class Function : public Expression {
   inline StmtList& statement_list() { return statement_list_; }
   inline void set_try_catch_list( TryStmt* try_stmt ) { try_catch_list_.push_back( try_stmt ); }
   inline TryList& try_catch_list() { return try_catch_list_; }
-  inline void set_variable_list( ValueNode* node ) { variable_list_.push_back( node ); }
+  inline void set_variable_list( Literal* node ) { variable_list_.push_back( node ); }
   inline VariableList& variable_list() { return variable_list_; }
-  inline void set_replaced_this( ValueNode* val ) { replaced_this_ = val; }
-  inline ValueNode* replaced_this() const { return replaced_this_; }
+  inline void set_replaced_this( Literal* val ) { replaced_this_ = val; }
+  inline Literal* replaced_this() const { return replaced_this_; }
   inline void set_strict() { SET(4);}
   inline bool strict() const { return HAS(4); }
   inline void set_attribute( int type ) {
@@ -1324,13 +1326,6 @@ class Function : public Expression {
     }
   }
   inline bool attribute( int type ) { return ( type == kGet )? HAS(5) : ( type == kSet )? HAS(6) : false; }
-  inline void set_prototype( ValueNode* property_name , AstNode* node ) {
-    prototype_.Insert( property_name->value()->token() , node );
-  }
-  inline AstNode* prototype( ValueNode* property_name ) {
-    PropertyEntry entry = property_.Find( property_name->value()->token() );
-    return ( !entry.IsEmpty() )? entry.Value() : 0;
-  }
   CLONE( Function );
  private :
   inline Function( int64_t line ) : Expression( NAME_PARAMETER( Function ) , line ),
@@ -1342,7 +1337,7 @@ class Function : public Expression {
   BitVector8 flags_;
   AstNode* name_;
   AstNode* argv_;
-  ValueNode* replaced_this_;
+  Literal* replaced_this_;
   Scope* scope_;
   StmtList statement_list_;
   VariableList variable_list_;
@@ -1577,72 +1572,79 @@ class Literal : public Expression {
     kPrivateProperty,
     kSuper,
     kGenerator,
-    kNaN,
-    kArrayLikeLiteral,
-    kObjectLikeLiteral
+    kNaN
   };
-  static inline ValueNode* New( int type , int64_t line ) {
-    return ManagedHandle::Retain( new ValueNode( type , line ) );
+  static inline Literal* New( int type , int64_t line ) {
+    return ManagedHandle::Retain( new Literal( type , line ) );
   }
   inline ~Literal() {};
   inline void set_value_type( int value_type ) { value_type_ = value_type; }
   inline int value_type() const { return value_type_; };
-  inline ValueNode* CastToLiteral() { return this; }
-  virtual inline Symbol* CastToSymbol() { return 0; }
-  virtual inline ArrayLikeLiteral* CastToArrayLikeLiteral() { return 0; }
-  virtual inline ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
-  CLONE( ValueNode );
+  inline Literal* CastToLiteral() { return this; }
+  inline void set_value( TokenInfo* value ) { value_ = value; };
+  inline TokenInfo* value() const { return value_; };
+  CLONE( Literal );
  protected :
   inline Literal( int type , int64_t line ) :
       Expression( AstNode::kLiteral , "Literal" , line ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
  private :
   int value_type_;
-  CALL_ACCEPTOR( ValueNode );
+  TokenInfo* value_;
+  CALL_ACCEPTOR( Literal );
 };
 
 
-class Symbol : public Literal {
- public :
-  inline static Symbol* New( int type , int64_t line ) {
-    return ManagedHandle::Retain( new Symbol( line ) );
-  }
-  inline void set_value( TokenInfo* value ) { value_ = value; };
-  inline TokenInfo* value() const { return value_; };
-  virtual inline Symbol* CastToSymbol() { return this; }
- private :
-  Symbol( int type , int64_t line ) : Literal( type , line ){}
-  TokenInfo* value_;
-}
 
-
-class ArrayLikeLiteral : public Literal {
+class ArrayLikeLiteral : public Expression {
  public :
   LINED_FACTORY( ArrayLikeLiteral );
   inline void set_tuple() { SET(0); }
   inline bool tuple() const { return HAS(0); }
   inline void set_comprehensions() { SET(1); }
   inline bool comprehensions() { return GET(1); }
-  virtual inline ArrayLikeLiteral* CastToArrayLikeLiteral() { return this; }
+  inline ArrayLikeLiteral* CastToArrayLikeLiteral() { return this; }
+  CLONE( ArrayLikeLiteral );
  private :
   explicit ArrayLikeLiteral( int64_t line ) :
-      Literal( ValueNode::kArrayLikeLiteral , line ){}
+      Literal( NAME_PARAMETER( ArrayLikeLiteral ) , line ){}
+  CALL_ACCEPTOR( ArrayLikeLiteral );
   BitVector8 flags_;
 };
 
 
-class ObjectLikeLiteral : public Literal {
+class ObjectLikeLiteral : public Expression {
  public :
-  inline static ArrayLikeLiteral* New( bool is_record ) {
-    return ManagedHandle::Retain( new ObjectLikeLiteral( is_record ) );
+  inline static ArrayLikeLiteral* New( int64_t line ) {
+    return ManagedHandle::Retain( new ObjectLikeLiteral( is_record , line ) );
   }
+  inline void set_record() { record_ = true; }
   inline bool record() const { return record_; }
-  virtual inline ObjectLikeLiteral* CastToObjectLikeLiteral() { return this; }
+  inline ObjectLikeLiteral* CastToObjectLikeLiteral() { return this; }
+  CLONE( ObjectLikeLiteral );
  private :
-  ObjectLikeLiteral( bool is_record , int64_t line ) :
-      Literal( ValueNode::kObjectLikeLiteral, line ) , record_( is_record ){}
+  ObjectLikeLiteral( int64_t line ) :
+      Literal( NAME_PARAMETER( ObjectLikeLiteral ), line ) , record_( false ){}
+  CALL_ACCEPTOR( ObjectLikeLiteral );
   bool record_;
 };
 
+
+class GeneratorExpression : public Expression {
+ public :
+  inline static GeneratorExpression* New( AstNode* expression , int64_t line ) {
+    return ManagedHandle::Return( new GeneratorExpression( expression , line ) );
+  }
+  inline AstNode* expression() { return expression_; }
+  inline GeneratorExpression* CastToGenerator() { return this; }
+  CLONE( GeneratorExpression );
+ private :
+  GeneratorExpression( AstNode* expression , int64_t line ) :
+      Expression( NAME_PARAMETER( GeneratorExpression ) , line ) , expression_( expression ){
+    unset_valid_lhs();
+  }
+  CALL_ACCEPTOR( GeneratorExpression );
+  AstNode* expression_;
+};
 
 class VersionStmt : public Statement {
  public :
@@ -1664,12 +1666,12 @@ class DstaTree : public AstNode {
   FACTORY( DstaTree );
   DstaTree() : AstNode( NAME_PARAMETER( DstaTree ) ) , symbol_( 0 ){};
   ~DstaTree(){};
-  void Symbol( ValueNode* name_node ) { symbol_ = name_node; }
-  ValueNode* Symbol() { return symbol_; }
+  void Symbol( Literal* name_node ) { symbol_ = name_node; }
+  Literal* Symbol() { return symbol_; }
   inline DstaTree* CastToDstaTree() { return this; }
   CLONE( DstaTree );
  private :
-  ValueNode* symbol_;
+  Literal* symbol_;
 };
 
 
@@ -1678,7 +1680,7 @@ class DstaExtractedExpressions : public AstNode {
   LINED_FACTORY( DstaExtractedExpressions );
   ~DstaExtractedExpressions(){}
   NodeList* refs() { return &refs_; }
-  void set_refs( ValueNode* tmp_name_node ) { refs_.AddChild( tmp_name_node ); }
+  void set_refs( Literal* tmp_name_node ) { refs_.AddChild( tmp_name_node ); }
   CLONE( DstaExtractedExpressions );
  private :
   DstaExtractedExpressions( int64_t line ) : AstNode( NAME_PARAMETER( DstaExtractedExpressions ) , line ) {};
