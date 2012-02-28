@@ -6,7 +6,7 @@
 #include <ast/visitors/utils/codegenerator_utils.h>
 
 namespace mocha {
-class InnerScope;
+class Scope;
 class CodeWriter {
  public :
   enum {
@@ -37,7 +37,7 @@ class CodeWriter {
   void InsertDebugSymbol( CodeStream* stream_ );
   void InitializeFileName( const char* file , CodeStream* stream_ );
   void DebugBlockBegin( CodeStream* stream );
-  void DebugBlockEnd( CodeStream* stream , InnerScope* scope );
+  void DebugBlockEnd( CodeStream* stream , Scope* scope );
   void SetFileName( CodeStream* stream_ );
   void SetLine( long line , CodeStream* stream_ , FileRoot* root );
   void ModuleBeginProccessor( const char* key , const char* name , CodeStream* stream_ );

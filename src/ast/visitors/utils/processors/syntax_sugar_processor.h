@@ -5,8 +5,8 @@
 namespace mocha {
 class SyntaxSugarProcessor : private Static {
  public :
-  void ProcessArrayComprehensions( ArrayLikeLiteral* literal );
-  void ProcessGeneratorExpression( GeneratorExpression* generator );
+  static void ProcessArrayComprehensions( ArrayLikeLiteral* literal, ProcessorInfo* info );
+  static void ProcessGeneratorExpression( GeneratorExpression* generator , ProcessorInfo* info );
 };
 }
 

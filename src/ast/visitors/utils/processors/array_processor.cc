@@ -8,7 +8,7 @@ void ArrayProccessor::ProcessNode( ArrayLikeLiteral* literal , ProcessorInfo* in
   } else if ( ast_node->tuple() ) {
     ProcessTuple( literal , info );
   } else {
-    NodeIterator iterator = ast_node->ChildNodes();
+    NodeIterator iterator = ast_node->elements()->ChildNodes();
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
       element->Accept( visitor );
@@ -20,7 +20,7 @@ void ArrayProccessor::ProcessTuple( ArrayLikeLiteral* literal , ProcessorInfo* i
   IVisitor* visitor = info->GetVisitor();
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( literal->line_number() );
   NodeList* list = NodeList::New();
-  NodeIterator iterator = ast_node->ChildNodes();
+  NodeIterator iterator = ast_node->elements()->ChildNodes();
   int count = 0;
   while ( iterator.HasNext() ) {
     char tmp[500];

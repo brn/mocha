@@ -34,6 +34,7 @@ class IVisitor {
   DECL_VISITOR(AssertStmt);
   DECL_VISITOR(CaseClause);
   DECL_VISITOR(Expression);
+  DECL_VISITOR(VariableDeclarationList);
   DECL_VISITOR(Trait);
   DECL_VISITOR(Class);
   DECL_VISITOR(ClassProperties);

@@ -9,9 +9,6 @@
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/tokens/token_info.h>
-#include <grammar/grammar.tab.hh>
-
-#define TOKEN yy::ParserImplementation::token
 
 namespace mocha {
 

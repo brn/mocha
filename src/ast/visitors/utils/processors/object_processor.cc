@@ -8,7 +8,7 @@ ObjectProccessor::ObjectProccessor( ObjectLikeLiteral* literal , ProcessorInfo* 
 void ObjectProccessor::ProcessNode() {
   VisitorInfo* visitor_info = info->GetInfo();
   visitor_info->EnterObject();
-  NodeIterator iterator = element_list->ChildNodes();
+  NodeIterator iterator = element_list->elements()->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* element = iterator.Next();
     element->first_child()->Accept( this );

@@ -7,7 +7,6 @@
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/tokens/token_info.h>
 #include <utils/pool/managed_handle.h>
-#include <grammar/grammar.tab.hh>
 
 namespace mocha {
 
@@ -18,82 +17,84 @@ ExportProcessor::ExportProcessor( ExportStmt* stmt , ProcessorInfo* info ) :
 
 void ExportProcessor::ProcessNode() {
   IVisitor *visitor = info_->GetVisitor();
-  AstNode* node = stmt_->FirstChild();
-  ValueNode* name_node = node->CastToValue();
-  if ( name_node && name_node->ValueType() == ValueNode::kConstant ) {
-    node = name_node->Node();
-  }
+  AstNode* node = stmt_->first_child();
   node->Accept( visitor );
-  if ( node->NodeType() == AstNode::kFunction ) {
-    ProcessFunction_( node );
-  } else if ( node->NodeType() == AstNode::kNodeList ) {
-    ProcessNodeList_( node );
+  if ( node->node_type() == AstNode::kFunction ) {
+    ProcessFunction( node );
+  } else if ( node->node_type() == AstNode::kVariableDeclarationList ) {
+    ProcessNodeList( node );
   }
 }
 
 
-void ExportProcessor::ProcessFunction_( AstNode* node ) {
-  Function* fn = reinterpret_cast<Function*>( node );
+void ExportProcessor::ProcessFunction( AstNode* node ) {
+  Function* fn = node->CastToExpression()->CastToFunction();
   info_->GetInfo()->SetFunction( fn );
-  ValueNode* name = fn->Name()->CastToValue();
-  ValueNode* local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                               Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-  ValueNode* property_name = name->Clone()->CastToValue();
-  property_name->ValueType( ValueNode::kProperty );
-  CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name );
-  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , name->Clone() );
-  fn->Decl();
-  ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign );
-  AstNode* parent = stmt_->ParentNode();
+  Literal* name = fn->name()->CastToLiteral();
+  Literal* local = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kLocalExport ),
+                                             Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
+  Literal* property_name = name->Clone()->CastToLiteral();
+  property_name->set_value_type( Literal::kProperty );
+  CallExp *export_prop = AstUtils::CreateDotAccessor( local , property_name , node->line_number() );
+  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , export_prop , name->Clone() , node->line_number() );
+  fn->set_declaration();
+  ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( assign , node->line_number() );
+  AstNode* parent = stmt_->parent_node();
   parent->ReplaceChild( stmt_ , fn );
   parent->InsertAfter( exp_stmt , fn );
 }
 
 
 
-void ExportProcessor::ProcessNodeList_( AstNode* node ) {
-  VariableStmt* var_stmt = ManagedHandle::Retain<VariableStmt>();
-  Expression* exp = ManagedHandle::Retain<Expression>();
-  var_stmt->Line( stmt_->Line() );
-  CreateAssignment_( exp , var_stmt , node );
-  if ( var_stmt->ChildLength() > 0 ) {
-    stmt_->ParentNode()->ReplaceChild( stmt_ , var_stmt );
-  }
-  if ( exp->ChildLength() > 0 ) {
-    ExpressionStmt* stmt = ManagedHandle::Retain<ExpressionStmt>();
-    stmt->AddChild( exp );
-    if ( var_stmt->ChildLength() > 0 ) {
-      stmt_->ParentNode()->InsertBefore( stmt , var_stmt );
-    } else {
-      stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
-    }
-  }
+void ExportProcessor::ProcessNodeList( AstNode* node ) {
+  AstNode* stmt = CreateAssignment( node );
+  stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
 }
 
 
-void ExportProcessor::CreateAssignment_( Expression* exp , VariableStmt* var_stmt , AstNode* node ) {
+AstNode* ExportProcessor::CreateAssignment( AstNode* node ) {
   NodeIterator iterator = node->ChildNodes();
+  VariableDeclarationList* list = node->CastToExpression()->CastToVariableDeclarationList();
+  bool is_const = list->const_declaration();
   while ( iterator.HasNext() ) {
     AstNode *item = iterator.Next();
-    TokenInfo *name_info = item->CastToValue()->Symbol();
-    ValueNode *name = AstUtils::CreateNameNode( name_info->GetToken() , Token::JS_PROPERTY,
-                                                stmt_->Line(), ValueNode::kProperty );
-    ValueNode *local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                 Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-    CallExp *export_prop = AstUtils::CreateDotAccessor( local , name );
-    AssignmentExp* assign;
-    if ( !item->FirstChild()->IsEmpty() ) {
-      assign = AstUtils::CreateAssignment( '=' , export_prop , item->FirstChild() );
-      ValueNode *val = AstUtils::CreateVarInitiliser( name->Symbol() , assign );
-      var_stmt->AddChild( val);
-    } else {
-      AstNode* target = name->Clone();
-      if ( target->CastToValue() ) {
-        ValueNode* target_name = target->CastToValue();
-        target_name->ValueType( ValueNode::kIdentifier );
+    TokenInfo *name_info = item->CastToLiteral()->value();
+    Literal *name = AstUtils::CreateNameNode( name_info->token() , Token::JS_IDENTIFIER,
+                                              stmt_->line_number(), Literal::kProperty );
+    Literal *local = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kLocalExport ),
+                                               Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
+    CallExp *export_prop = AstUtils::CreateDotAccessor( local , name , node->line_number() );
+    if ( is_const ) {
+      if ( !item->first_child()->empty() ) {
+        CallExp* constant_prop = AstUtils::CreateConstantProp( local , name , item->first_child() , node->line_number() );
+        return AstUtils::CreateExpStmt( constant_prop , node->line_number() );
+      } else {
+        AstNode* target = name->Clone();
+        if ( target->CastToLiteral() ) {
+          Literal* target_name = target->CastToLiteral();
+          target_name->set_value_type( Literal::kIdentifier );
+        }
+        CallExp* constant_prop = AstUtils::CreateConstantProp( local , name , target , node->line_number() );
+        return AstUtils::CreateExpStmt( constant_prop , node->line_number() );
       }
-      assign = AstUtils::CreateAssignment( '=' , export_prop , target );
-      exp->AddChild( assign );
+    } else {
+      AssignmentExp* assign;
+      if ( !item->first_child()->empty() ) {
+        assign = AstUtils::CreateAssignment( '=' , export_prop , item->first_child() , node->line_number() );
+        Literal *val = AstUtils::CreateVarInitiliser( name->value() , assign , node->line_number() );
+        VariableStmt* var_stmt = VariableStmt::New( node->line_number() );
+        var_stmt->AddChild( val);
+        return var_stmt;
+      } else {
+        Expression* exp = Expression::New( node->line_number() );
+        AstNode* target = name->Clone();
+        if ( target->CastToLiteral() ) {
+          Literal* target_name = target->CastToLiteral();
+          target_name->set_value_type( Literal::kIdentifier );
+        }
+        assign = AstUtils::CreateAssignment( '=' , export_prop , target , node->line_number() );
+        return AstUtils::CreateExpStmt( assign , node->line_number() );
+      }
     }
   }
 }

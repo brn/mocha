@@ -7,11 +7,8 @@
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
 #include <compiler/tokens/token_info.h>
-#include <grammar/grammar.tab.hh>
 #include <ast/ast.h>
 namespace mocha {
-
-#define TOKEN yy::ParserImplementation::token
 
 ModuleProcessor::ModuleProcessor( ModuleStmt* stmt , ProcessorInfo* info ) :
     stmt_( stmt ) , info_( info ){};

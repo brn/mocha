@@ -41,9 +41,6 @@
 #include <utils/xml/xml_reader.h>
 #include <utils/xml/xml_setting_info.h>
 #include <ast/ast.h>
-#include <ast/visitors/codegen_visitor.h>
-#include <ast/visitors/symbol_collector.h>
-#include <ast/visitors/optimizer_visitor.h>
 #include <options/setting.h>
 
 
@@ -63,7 +60,7 @@ public :
   PtrImpl( Compiler* compiler , const char* main_file_path , FinishDelegator* callback ) :
       compiler_( compiler ),
       main_file_path_( main_file_path ),
-      codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
+      //codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
     SetPath_( main_file_path );
     //Change direcotry to main js path.
@@ -83,9 +80,9 @@ public :
     //if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
     //scope_.Rename();
     //}
-    ast_root_.Accept( codegen_.Get() );
-    Write_( codegen_->GetCode() );
-    callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );
+    //ast_root_.Accept( codegen_.Get() );
+    //Write_( codegen_->GetCode() );
+    //callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );
     return;
   }
 
@@ -184,7 +181,7 @@ private :
   Compiler *compiler_;
   AstRoot ast_root_;
   Handle<PathInfo> path_info_;
-  Handle<CodegenVisitor> codegen_;
+  //Handle<CodegenVisitor> codegen_;
   Scope scope_;
   FinishDelegator* callback_;
 };

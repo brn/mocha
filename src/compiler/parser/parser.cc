@@ -336,6 +336,7 @@ AstNode* Parser::ParseSourceElement() {
           fn->set_const_declaration();
         } else {
           result = ParseVariableStatement();
+          result->FirstChild()->CastToExpression()->CastToVariableDeclarationList()->set_const_declaration();
         }
       }
       break;
@@ -437,8 +438,6 @@ AstNode* Parser::ParseStatement() {
 
       //The let and const variable statement is not create block scope.
     case Token::JS_VAR :
-    case Token::JS_LET :
-    case Token::JS_CONST :
       result = ParseVariableStatement();
       break;
       
@@ -905,26 +904,13 @@ AstNode* Parser::ParseVariableStatement() {
    */
   TokenInfo* token = Seek( -1 );
   VariableStmt* stmt = VariableStmt::New( token->line_number() );
-  int var_type = Seek( -1 )->type();
-  switch ( var_type ) {
-    case Token::JS_VAR :
-      stmt->set_declaration_type( VariableStmt::kNormal );
-      break;
-
-    case Token::JS_LET :
-      stmt->set_declaration_type( VariableStmt::kLet );
-      break;
-
-    case Token::JS_CONST :
-      stmt->set_declaration_type( VariableStmt::kConst );
-  }
   AstNode* list = ParseVariableDecl( false );
   CHECK_ERROR(stmt);
   token = Seek();
   if ( token->type() == ';' ) {
     Advance();
   }
-  stmt->Append( list );
+  stmt->AddChild( list );
   END(VariableStatement);
   /**
    * The finally data structure image.
@@ -951,7 +937,7 @@ AstNode* Parser::ParseVariableDecl( bool is_noin ) {
    * ;
    */
   TokenInfo* maybe_assign_op = Seek( 2 );
-  NodeList* list = NodeList::New();
+  VariableDeclarationList* list = VariableDeclarationList::New();
   TokenInfo* next = Seek();
   //Get all declarations.
   //Like var x , y = 200 , z;
@@ -1135,7 +1121,7 @@ AstNode* Parser::ParseArrayPattern() {
     if ( type == '[' || type == '{' ) {
       AstNode* elem = ParseDestructuringLeftHandSide();
       CHECK_ERROR(list);
-      destructuring->AddChild( elem );
+      destructuring->set_element( elem );
       token = Seek();
       if ( token->type() == ',' ) {
         Advance();
@@ -1145,18 +1131,18 @@ AstNode* Parser::ParseArrayPattern() {
       break;
     } else {
       if ( type == ',' ) {
-        destructuring->AddChild( Empty::New() );
+        destructuring->set_element( Empty::New() );
         Advance();
         token = Seek();
         if ( token->type() == ']' ) {
-          destructuring->AddChild( Empty::New() );
+          destructuring->set_element( Empty::New() );
           Advance();
           break;
         }
       } else if ( token->type() == Token::JS_IDENTIFIER ) {
         AstNode* value = ParseLiteral();
         CHECK_ERROR( list );
-        destructuring->AddChild( value );
+        destructuring->set_element( value );
         token = Seek();
         if ( token->type() == ',' ) {
           Advance();
@@ -1166,7 +1152,7 @@ AstNode* Parser::ParseArrayPattern() {
         if ( token->type() == Token::JS_IDENTIFIER ) {
           Literal* rest = Literal::New( Literal::kRest , token->line_number() );
           rest->set_value( token );
-          destructuring->AddChild( rest );
+          destructuring->set_element( rest );
         } else {
           SYNTAX_ERROR( "parse error got undexpected token "
                         << TokenConverter( token )
@@ -1215,7 +1201,7 @@ AstNode* Parser::ParseObjectPattern() {
    */
   TokenInfo* token = Seek();
   int maybe_colon = Seek( 2 )->type();
-  ObjectLikeLiteral* destructuring = ObjectLikeLiteral::New( Literal::kDst , token->line_number() );
+  ObjectLikeLiteral* destructuring = ObjectLikeLiteral::New( token->line_number() );
   destructuring->Line( token->GetLineNumber() );
   while ( 1 ) {
     if ( maybe_colon == '}' ) {
@@ -1240,7 +1226,7 @@ AstNode* Parser::ParseObjectPattern() {
         ParseObjectPatternElement( type , token , node );
         CHECK_ERROR( destructuring );
       }
-      destructuring->AddChild( node );
+      destructuring->set_element( node );
       token = Advance();
       if ( token->type() == '}' ) {
         break;
@@ -1261,12 +1247,12 @@ AstNode* Parser::ParseObjectPattern() {
 }
 
 //Parse destructuring assignment object patter's each element.
-AstNode* Parser::ParseObjectPatternElement( int type , TokenInfo* token , AstNode* list ) {
+AstNode* Parser::ParseObjectPatternElement( int type , TokenInfo* token , ObjectLikeLiteral* object ) {
   ENTER(ObjectPatternElement);
   if ( type == Token::JS_IDENTIFIER ) {
     AstNode* node = ParseLiteral();
     CHECK_ERROR( node );
-    list->AddChild( node );
+    object->set_element( node );
     END(ObjectPatternElement);
     return node;
   } else {
@@ -2454,6 +2440,7 @@ AstNode* Parser::ParseExportableDefinition() {
         CHECK_ERROR( ret );
         ParseTerminator();
         CHECK_ERROR( ret );
+        ret->CastToExpression()->CastToFunction()->set_const_declaration();
         return ret;
       } else {
         Advance();
@@ -2462,7 +2449,7 @@ AstNode* Parser::ParseExportableDefinition() {
         ParseTerminator();
         CHECK_ERROR( ret );
         END(ExportableDefinition);
-        ret->CastToLiteral()->set_const_declaration();
+        ret->CastToExpression()->CastToVariableDeclarationList()->set_const_declaration();
         return value;
       }
     } else if ( token->type() == Token::JS_GET ) {
@@ -3243,7 +3230,7 @@ AstNode* Parser::ParseObjectLiteral() {
         }
         CHECK_ERROR( assign );
         node->AddChild( assign );
-        object->AddChild( node );
+        object->set_element( node );
         token = Seek();
       } else if ( token->type() == '[' ) {
         AstNode* node = ParseObjectElement( type , token , list );
@@ -3260,7 +3247,7 @@ AstNode* Parser::ParseObjectLiteral() {
           }
           CHECK_ERROR(assign);
           node->AddChild( assign );
-          object->AddChild( node );
+          object->set_element( node );
           token = Seek();
         }
       } else if ( maybe_colon == '(' || maybe_colon == Token::JS_FUNCTION_GLYPH ||
@@ -3268,9 +3255,10 @@ AstNode* Parser::ParseObjectLiteral() {
         AstNode* fn = ParseFunctionDecl( false );
         CHECK_ERROR( fn );
         Literal* val = fn->CastToExpression()->CastToFunction()->name()->Clone()->CastToLiteral();
+        val->set_value_type( Literal::kProperty );
         fn->set_name( Empty::New() );
         val->AddChild( fn );
-        object->AddChild( val );
+        object->set_element( val );
         val->value_type( Literal::kProperty );
         token = Seek();
         object->unset_valid_lhs();
@@ -3292,10 +3280,8 @@ AstNode* Parser::ParseObjectLiteral() {
       type = token->GetType();
       maybe_colon = Seek( 2 )->GetType();
     }
-    object->Node( list );
   } else {
     Advance();
-    object->Node( Empty::New() );
   }
   END(ObjectLiteral);
   return object;  
@@ -3303,13 +3289,13 @@ AstNode* Parser::ParseObjectLiteral() {
 
 
 
-AstNode* Parser::ParseObjectElement( int type , TokenInfo* token , AstNode* list ) {
+AstNode* Parser::ParseObjectElement( int type , TokenInfo* token , ObjectLikeLiteral* list ) {
   ENTER(ObjectElement);
   if ( IsValidPropertyName( type ) ) {
     AstNode* node = ParseLiteral();
     CHECK_ERROR( node );
     Advance();
-    list->AddChild( node );
+    list->set_element( node );
     END(ObjectElement);
     Literal* name = node->CastToLiteral();
     if ( name->value_type() == Literal::kIdentifier ) {
@@ -3355,13 +3341,13 @@ AstNode* Parser::ParseArrayLiteral() {
   } else {
     while ( 1 ) {
       if ( token->type() == ',' ) {
-        array->AddChild( Empty::New() );
+        array->set_element( Empty::New() );
         int last_type = Seek( -1 )->type();
         token = Advance();
         if ( token->type() == ']' ) {
           Advance();
           if ( last_type == '[' ) {
-            array->AddChild( Empty::New() );
+            array->set_element( Empty::New() );
           }
           break;
         }
@@ -3370,7 +3356,7 @@ AstNode* Parser::ParseArrayLiteral() {
         if ( token->type() == Token::JS_IDENTIFIER ) {
           Literal* rest = Literal::New( Literal::kRest , token->line_number() );
           rest->set_value( token );
-          array->AddChild( rest );
+          array->set_element( rest );
           token = Seek();
           if ( token->type() == ']' ) {
             Advance();
@@ -3387,7 +3373,7 @@ AstNode* Parser::ParseArrayLiteral() {
       } else {
         AstNode* node = ParseAssignmentExpression( false );
         CHECK_ERROR( node );
-        array->AddChild( node );
+        array->set_element( node );
         token = Seek();
         if ( token->type() == Token::JS_FOR ) {
           if ( count > 0 ) {
@@ -3400,14 +3386,14 @@ AstNode* Parser::ParseArrayLiteral() {
           }
           AstNode* cmp_node = ParseArrayComprehensions();
           CHECK_ERROR( cmp_node );
-          array->RemoveChild( node );
+          array->elements()->RemoveChild( node );
           NodeList* children = NodeList::New();
           children->AddChild( node );
           children->AddChild( cmp_node );
-          array->AddChild( children );
+          array->set_element( children );
           array->set_comprehensions();
           token = Seek();
-          if ( array != ']' ) {
+          if ( token->type() != ']' ) {
             SYNTAX_ERROR( "parse error got unexpected token "
                           << TokenConverter( token )
                           << " in 'array comprehensions expect' ']'\\nin file "

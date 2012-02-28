@@ -36,6 +36,7 @@ namespace mocha {
   Format( buf , "%s at %d\n" , message , __LINE__ );                    \
   info->GetCompiler()->CatchException( ExceptionHandler::CreateException( buf ) )
 class VisitorInfo;
+class TokenInfo;
 class AstUtils : private Static {
  public :
   static Function* CreateFunctionDecl( AstNode* name , AstNode* argv , AstNode* body , int64_t line );
@@ -43,27 +44,28 @@ class AstUtils : private Static {
   static CallExp* CreateDotAccessor( AstNode* callable , AstNode* args , int64_t line );
   static CallExp* CreatePrototypeAccessor( AstNode* callable , AstNode* args , int64_t line );
   static CallExp* CreateNormalAccessor( AstNode* callable , AstNode* args , int64_t line );
-  static ValueNode* CreateNameNode( const char* name , int type , int64_t line , int value_type , bool is_empty = false );
+  static Literal* CreateNameNode( const char* name , int type , int64_t line , int value_type , bool is_empty = false );
   static AssignmentExp* CreateAssignment( int type , AstNode* lhs , AstNode* rhs , int64_t line );
   static UnaryExp* CreateUnaryExp( int type , AstNode* exp , int64_t line );
   static NodeList* CreateNodeList( int num , ... );
-  static ValueNode* CreateObjectLiteral( AstNode* body , int64_t line );
+  static ObjectLikeLiteral* CreateObjectLiteral( AstNode* body , int64_t line );
   static ExpressionStmt* CreateAnonymousFnCall( Function *fn , AstNode* args , int64_t line );
   static ExpressionStmt* CreateExpStmt( AstNode* node , int64_t line );
-  static VariableStmt* CreateVarStmt( NodeList* list , int64_t line );
+  static VariableStmt* CreateVarStmt( VariableDeclarationList* list , int64_t line );
   static VariableStmt* CreateVarStmt( AstNode* mem , int64_t line );
-  static ValueNode* CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs , int64_t line );
+  static Literal* CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs , int64_t line );
   static ReturnStmt* CreateReturnStmt( AstNode* exp , int64_t line );
   static CallExp* CreateRuntimeMod( AstNode* member , int64_t line );
   static CallExp* CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value , int64_t line );
   static CallExp* CreatePrototypeNode( AstNode* lhs , int64_t line );
   static CallExp* CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visitor_info , const char* base ,  const char* filename , int64_t line );
   static const char* CreateTmpRef( char* buf , int index );
-  static ValueNode* CreateTmpNode( int index , int64_t line );
+  static Literal* CreateTmpNode( int index , int64_t line );
   static IFStmt* CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt , int64_t line );
   static BlockStmt* CreateBlockStmt( int64_t line , int num , ... );
   static void FindDirectivePrologue( AstNode* node , Function* fn );
   static void FindDirectivePrologue( AstNode* node , FileRoot* fn );
+  static bool IsDestructringLeftHandSide( AstNode* node );
 };
 
 }

@@ -10,73 +10,73 @@ namespace mocha {
 
 void CallProcessor::ProcessPrivateAccessor( CallExp* ast_node , ProcessorInfo* info ) {
   VisitorInfo* visitor_info = info->GetInfo();
-  ValueNode* maybeIdent = ast_node->Callable()->CastToValue();
-  if ( maybeIdent ) {
-    ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                    Token::JS_THIS , maybeIdent->Line() , ValueNode::kThis );
-    ValueNode* private_field = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGetPrivateRecord ),
-                                                         Token::JS_PROPERTY , maybeIdent->Line() , ValueNode::kProperty );
+  Literal* maybe_ident = ast_node->callable()->CastToLiteral();
+  if ( maybe_ident ) {
+    Literal* this_sym = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kThis ),
+                                                    Token::JS_THIS , maybe_ident->line_number() , Literal::kThis );
+    Literal* private_field = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGetPrivateRecord ),
+                                                         Token::JS_IDENTIFIER , maybe_ident->line_number() , Literal::kProperty );
     NodeList* args = AstUtils::CreateNodeList( 1 , this_sym->Clone() );
-    CallExp* normal = AstUtils::CreateNormalAccessor( private_field , args );
-    CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
-    ast_node->Callable( runtime_call );
-    maybeIdent = ast_node->Args()->CastToValue();
-    if ( maybeIdent && maybeIdent->ValueType() == ValueNode::kProperty ) {
-      ast_node->CallType( CallExp::kDot );
+    CallExp* normal = AstUtils::CreateNormalAccessor( private_field , args , ast_node->line_number() );
+    CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal , ast_node->line_number() );
+    ast_node->set_callable( runtime_call );
+    maybe_ident = ast_node->args()->CastToLiteral();
+    if ( maybe_ident && maybe_ident->value_type() == Literal::kProperty ) {
+      ast_node->set_call_type( CallExp::kDot );
     } else {
-      ast_node->CallType( CallExp::kBracket );
+      ast_node->set_call_type( CallExp::kBracket );
     }
   }
 }
 
 
 void CallSuper ( CallExp* ast_node ) {
-  AstNode* args = ast_node->Args();
-  ValueNode* this_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kThis ),
-                                                  Token::JS_THIS , ast_node->Line() , ValueNode::kThis );
-  ValueNode* call = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCall ),
-                                              Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
-  ValueNode* constructor = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kConstructor ),
-                                                     Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
-  CallExp* constructor_accessor = AstUtils::CreateDotAccessor( ast_node->Callable(), constructor );
-  CallExp* normal = AstUtils::CreateDotAccessor( constructor_accessor , call );
-  ast_node->Callable( normal );
-  if ( !args->IsEmpty() ) {
-    ast_node->Args()->InsertBefore( this_sym );
+  AstNode* args = ast_node->args();
+  Literal* this_sym = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kThis ),
+                                                Token::JS_THIS , ast_node->line_number() , Literal::kThis );
+  Literal* call = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kCall ),
+                                            Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kProperty );
+  Literal* constructor = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kConstructor ),
+                                                   Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kProperty );
+  CallExp* constructor_accessor = AstUtils::CreateDotAccessor( ast_node->callable(), constructor , ast_node->line_number() );
+  CallExp* normal = AstUtils::CreateDotAccessor( constructor_accessor , call , ast_node->line_number() );
+  ast_node->set_callable( normal );
+  if ( !args->empty() ) {
+    ast_node->args()->InsertBefore( this_sym );
   } else {
     NodeList* args = AstUtils::CreateNodeList( 1 , this_sym );
-    ast_node->Args( args );
+    ast_node->set_args( args );
   }
 }
 
 
 void CallProcessor::ProcessFnCall( CallExp* ast_node , ProcessorInfo* info ) {
   IVisitor *visitor = info->GetVisitor();
-  AstNode* args = ast_node->Args();
-  AstNode* callable = ast_node->Callable();
-  if ( callable->NodeType() == AstNode::kValueNode &&
-       callable->CastToValue()->ValueType() == ValueNode::kSuper ) {
-    ast_node->Callable()->Accept( visitor );
+  AstNode* args = ast_node->args();
+  AstNode* callable = ast_node->callable();
+  if ( callable->node_type() == AstNode::kLiteral &&
+       callable->CastToLiteral()->value_type() == Literal::kSuper ) {
+    ast_node->callable()->Accept( visitor );
     CallSuper( ast_node );
   } else {
-    AstNode* tmp = ast_node->Callable();
-    while ( tmp->NodeType() != AstNode::kValueNode ) {
-      if ( tmp->NodeType() == AstNode::kCallExp ) {
-        tmp = tmp->CastToExpression()->CastToCallExp()->Callable();
+    AstNode* tmp = ast_node->callable();
+    while ( tmp->node_type() != AstNode::kLiteral ) {
+      if ( tmp->node_type() == AstNode::kCallExp ) {
+        tmp = tmp->CastToExpression()->CastToCallExp()->callable();
       } else {
         break;
       }
     }
-    if ( tmp->NodeType() == AstNode::kValueNode ) {
-      ValueNode* val = tmp->CastToValue();
-      if ( val->ValueType() == ValueNode::kSuper ) {
+    if ( tmp->node_type() == AstNode::kLiteral ) {
+      Literal* val = tmp->CastToLiteral();
+      if ( val->value_type() == Literal::kSuper ) {
         CallSuper( ast_node );
       }
     }
-    ast_node->Callable()->Accept( visitor );
+    ast_node->callable()->Accept( visitor );
   }
-  if ( !args->IsEmpty() ) {
-    NodeIterator iterator = ast_node->Args()->ChildNodes();
+  if ( !args->empty() ) {
+    NodeIterator iterator = ast_node->args()->ChildNodes();
     while ( iterator.HasNext() ) {
       iterator.Next()->Accept( visitor );
     }
@@ -85,15 +85,15 @@ void CallProcessor::ProcessFnCall( CallExp* ast_node , ProcessorInfo* info ) {
 
 void CallProcessor::ProcessExtendAccessor( CallExp* ast_node , ProcessorInfo* info ) {
   IVisitor *visitor = info->GetVisitor();
-  ast_node->Callable()->Accept( visitor );
-  ast_node->Args()->Accept( visitor );
+  ast_node->callable()->Accept( visitor );
+  ast_node->args()->Accept( visitor );
   CallExp* clone = ast_node->Clone()->CastToExpression()->CastToCallExp();
-  ValueNode* extend = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kExtend ),
-                                                Token::JS_PROPERTY , ast_node->Line() , ValueNode::kProperty );
-  NodeList* args = AstUtils::CreateNodeList( 2 , clone->Callable() , ast_node->Args() );
-  CallExp* extend_call = AstUtils::CreateNormalAccessor( extend , args );
-  CallExp* extend_acessor = AstUtils::CreateRuntimeMod( extend_call );
-  ast_node->ParentNode()->ReplaceChild( ast_node , extend_acessor );
+  Literal* extend = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kExtend ),
+                                                Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kProperty );
+  NodeList* args = AstUtils::CreateNodeList( 2 , clone->callable() , ast_node->args() );
+  CallExp* extend_call = AstUtils::CreateNormalAccessor( extend , args , ast_node->line_number() );
+  CallExp* extend_acessor = AstUtils::CreateRuntimeMod( extend_call , ast_node->line_number() );
+  ast_node->parent_node()->ReplaceChild( ast_node , extend_acessor );
 }
 
 }

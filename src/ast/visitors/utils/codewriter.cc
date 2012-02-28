@@ -1,6 +1,6 @@
 #include <iostream>
+#include <ast/ast.h>
 #include <ast/visitors/utils/codewriter.h>
-#include <grammar/grammar.tab.hh>
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/token_info.h>
 #include <compiler/scopes/scope.h>
@@ -497,7 +497,7 @@ void CodeWriter::SetFileName( CodeStream* stream ) {
 }
 
 void CodeWriter::SetLine( long line , CodeStream* stream , FileRoot* root ) {
-  if ( root && is_line_ && !root->IsRuntime() ) {
+  if ( root && is_line_ && !root->runtime() ) {
     char tmp[50];
     sprintf( tmp , "%ld" , line );
     stream->Write( "__LINE__" );
@@ -551,7 +551,7 @@ void CodeWriter::DebugBlockBegin( CodeStream* stream ) {
 }
 
 
-void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
+void CodeWriter::DebugBlockEnd( CodeStream* stream , Scope* scope ) {
   if ( is_line_ ) {
     if ( is_pretty_print_ ) {
       base_->WriteOp( '}' , kBlockEndBrace , stream );
@@ -561,11 +561,11 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
       stream->Write( "}catch(e){" );
     }
     if ( is_pretty_print_ ) {
-      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
+      TokenInfo* runtime = TokenInfo::New( "Runtime" , Token::JS_IDENTIFIER , 0 );
       SymbolEntry entry = scope->Find( runtime );
       if ( entry.first != 0 ) {
         TokenInfo* info = entry.first;
-        stream->Write( info->GetAnotherName() );
+        stream->Write( info->compressed_name() );
       } else {
         stream->Write( "Runtime" );
       }
@@ -574,11 +574,11 @@ void CodeWriter::DebugBlockEnd( CodeStream* stream , InnerScope* scope ) {
       base_->WriteOp( '}' , kBlockEndBrace , stream );
     } else {
       stream->Write( "}catch(e){" );
-      TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( "Runtime" , Token::JS_IDENTIFIER , 0 ) );
+      TokenInfo* runtime = TokenInfo::New( "Runtime" , Token::JS_IDENTIFIER , 0 );
       SymbolEntry entry = scope->Find( runtime );
       if ( entry.first != 0 ) {
         TokenInfo* info = entry.first;
-        stream->Write( info->GetAnotherName() );
+        stream->Write( info->compressed_name() );
       } else {
         stream->Write( "Runtime" );
       }

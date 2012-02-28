@@ -224,7 +224,7 @@ NORMAL_CLONE(Empty);
 NORMAL_CLONE(AstRoot);
 AstNode* FileRoot::Clone() {
   FileRoot* root = FileRoot::New( filename_.c_str() );
-  root->is_file_root_ = is_file_root_;
+  root->flags_ = flags_;
   return CopyChildren( root , this );
 }
 NORMAL_CLONE(StatementList);
@@ -262,7 +262,6 @@ AstNode* ImportStmt::Clone() {
 
 AstNode* VariableStmt::Clone() {
   VariableStmt* stmt = VariableStmt::New( line_number() );
-  stmt->declaration_type_ = declaration_type_;
   return CopyChildren( stmt , this );
 }
 
@@ -622,18 +621,29 @@ AstNode* Literal::Clone() {
 AstNode* ArrayLikeLiteral::Clone() {
   ArrayLikeLiteral* array = ArrayLikeLiteral::New( line_number() );
   array->flags_ = flags_;
+  CopyChildren( &( array->elements_ ) , &elements_ );
   return CopyChildren( array , this );
 }
 
 AstNode* ObjectLikeLiteral::Clone() {
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( line_number() );
-  object->record_ = record_;
+  object->flags_ = flags_;
+  CopyChildren( &( object->elements_ ) , &elements_ );
   return CopyChildren( object , this );
 }
 
 AstNode* GeneratorExpression::Clone() {
   GeneratorExpression* generator = GeneratorExpression::New( expression_ , line_number() );
   return CopyChildren( generator , this );
+}
+
+void GeneratorExpression::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( expression_ == old_node ) {
+    old_node->ReplaceWith( new_node );
+    expression_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
 }
 
 AstNode* DstaTree::Clone() {

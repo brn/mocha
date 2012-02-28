@@ -10,9 +10,9 @@ class ExportProcessor : private Uncopyable {
   ~ExportProcessor(){};
   void ProcessNode();
  private :
-  void ProcessFunction_( AstNode* node );
-  void ProcessNodeList_( AstNode* node );
-  void CreateAssignment_( Expression* exp , VariableStmt* var_stmt , AstNode* node );
+  void ProcessFunction( AstNode* node );
+  void ProcessNodeList( AstNode* node );
+  AstNode* CreateAssignment( AstNode* node );
   ExportStmt* stmt_;
   ProcessorInfo* info_;
 };

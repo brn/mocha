@@ -5,9 +5,9 @@ namespace mocha {
 
 class ArrayProcessor : private Static {
  public :
-  ProcessNode( ArrayLikeLiteral* literal , ProcessorInfo* info );
+  static void ProcessNode( ArrayLikeLiteral* literal , ProcessorInfo* info );
  private :
-  ProcessTuple( ArrayLikeLiteral* literal , ProcessorInfo* info );
+  static void ProcessTuple( ArrayLikeLiteral* literal , ProcessorInfo* info );
 };
 
 }

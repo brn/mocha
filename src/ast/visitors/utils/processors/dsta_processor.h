@@ -42,13 +42,13 @@ class DstaProcessor : private Static {
     kError
   };
   /**
-   * @param {ValueNode*} ast_node
+   * @param {AstNode*} ast_node
    * @param {ProcessorInfo*} info
    * @returns {int}
    * Begin process.
    * NO THROW
    */
-  static int ProcessNode( ValueNode* ast_node , ProcessorInfo* info );
+  static Literal* ProcessNode( AstNode* ast_node , ProcessorInfo* info );
 
   /**
    * @param {Statement*} stmt

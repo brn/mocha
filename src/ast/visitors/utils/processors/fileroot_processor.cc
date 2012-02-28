@@ -6,7 +6,6 @@
 #include <utils/pool/managed_handle.h>
 #include <compiler/tokens/js_token.h>
 #include <compiler/tokens/symbol_list.h>
-#include <grammar/grammar.tab.hh>
 namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
@@ -20,35 +19,28 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
     iterator.Next()->Accept( visitor );
   }
   if ( !is_runtime ) {
-    Function *fn = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
-                                                 ManagedHandle::Retain<Empty>() , ast_node );
-    fn->Line( 1 );
-    ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , ManagedHandle::Retain<Empty>() );
-    ValueNode* global_export = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                         Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
-    ValueNode* object_literal = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
-    object_literal->Node( ManagedHandle::Retain<Empty>() );
-    ValueNode* key = AstUtils::CreateNameNode( visitor_info->GetRelativePath() , Token::JS_STRING_LITERAL , ast_node->Line() , ValueNode::kString );
+    Function *fn = AstUtils::CreateFunctionDecl( Empty::New(),
+                                                 Empty::New() , ast_node , 1 );
+    ExpressionStmt *stmt = AstUtils::CreateAnonymousFnCall( fn , Empty::New() , ast_node->line_number() );
+    Literal* global_export = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalExport ),
+                                                         Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kIdentifier );
+    ObjectLikeLiteral* object_literal = ObjectLikeLiteral::New( ast_node->line_number() );
+    Literal* key = AstUtils::CreateNameNode( visitor_info->GetRelativePath() , Token::JS_STRING_LITERAL , ast_node->line_number() , Literal::kString );
     
-    CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key );
-    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal );
+    CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key , ast_node->line_number() );
+    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal , ast_node->line_number() );
 
-    ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 Token::JS_IDENTIFIER , ast_node->Line() , ValueNode::kIdentifier );
+    Literal* alias = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalAlias ),
+                                                 Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kIdentifier );
     VariableStmt* var_stmt = AstUtils::CreateVarStmt(
-        AstUtils::CreateVarInitiliser( alias->Symbol() , global_export_accessor->Clone() ) );
-    ExpressionStmt* extend_global = AstUtils::CreateExpStmt( exp );
-    FileRoot* root = ManagedHandle::Retain<FileRoot>();
-    root->FileName( ast_node->FileName() );
+        AstUtils::CreateVarInitiliser( alias->value() , global_export_accessor->Clone() , ast_node->line_number() ) , 3 );
+    ExpressionStmt* extend_global = AstUtils::CreateExpStmt( exp , 2 );
+    FileRoot* root = FileRoot::New( ast_node->filename() );
     root->AddChild( stmt );
-    extend_global->Line( 2 );
-    var_stmt->Line( 3 );
     fn->InsertBefore( var_stmt );
     fn->InsertBefore( extend_global );
-    fn->Root( true );
-    ast_node->ParentNode()->ReplaceChild( ast_node , root );
-  } else {
-    ast_node->SetFileRoot();
+    fn->set_root();
+    ast_node->parent_node()->ReplaceChild( ast_node , root );
   }
 }
 

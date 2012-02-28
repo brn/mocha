@@ -49,10 +49,11 @@
 #include <ast/visitors/utils/processors/import_processor.h>
 #include <ast/visitors/utils/processors/call_processor.h>
 #include <ast/visitors/utils/processors/yield_processor.h>
+#include <ast/visitors/utils/processors/array_processor.h>
+#include <ast/visitors/utils/processors/object_processor.h>
+#include <ast/visitors/utils/processors/syntax_sugar_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <utils/xml/xml_setting_info.h>
-#include <grammar/grammar.tab.hh>
-#include <third_party/v8/include/v8.h>
 
 namespace mocha {
 
@@ -74,7 +75,7 @@ AstTransformer::AstTransformer( bool is_runtime , Scope* scope , Compiler* compi
     visitor_info_( new VisitorInfo( is_runtime,
                                     scope,
                                     compiler,
-                                    ManagedHandle::Retain<DstaExtractedExpressions>() , main_file_path , filename ) ) {
+                                    DstaExtractedExpressions::New() , main_file_path , filename ) ) {
   proc_info_( new ProcessorInfo( this , scope , visitor_info_.Get() ) );
 }
 
@@ -108,9 +109,8 @@ VISITOR_IMPL( VersionStmt ) {
   REGIST(ast_node);
   AstNode* body = ast_node->first_child();
   ast_node->RemoveAllChild();
-  Function *fn_node = AstUtils::CreateFunctionDecl( ManagedHandle::Retain<Empty>(),
-                                                    ManagedHandle::Retain<Empty>() , body );
-  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
+  Function *fn_node = AstUtils::CreateFunctionDecl( Empty::New(), Empty::New() , body , ast_node->line_number() );
+  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , Empty::New() , ast_node->line_number() );
   ast_node->AddChild( an_stmt_node );
   body->Accept( this );
 }
@@ -184,20 +184,20 @@ VISITOR_IMPL(ExpressionStmt) {
   REGIST(ast_node);
   ast_node->first_child()->Accept( this );
   if ( ast_node->dsta_flag() ) {
-    NodeIterator iterator = ast_node->dsta_node()->Refs()->ChildNodes();
-    NodeList* var_list = ManagedHandle::Retain<NodeList>();
+    NodeIterator iterator = ast_node->dsta_node()->refs()->ChildNodes();
+    NodeList* var_list = NodeList::New();
     while ( iterator.HasNext() ) {
-      Literal* node = AstUtils::CreateVarInitiliser( iterator.Next()->CastToLiteral()->value() , ManagedHandle::Retain<Empty>() );
+      Literal* node = AstUtils::CreateVarInitiliser( iterator.Next()->CastToLiteral()->value() , Empty::New(), ast_node->line_number() );
       var_list->AddChild( node );
     }
-    VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_list );
+    VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_list , ast_node->line_number() );
     ast_node->parent_node()->InsertBefore( var_stmt , ast_node );
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
     NodeIterator iter = list->ChildNodes();
     AstNode* last = 0;
     while ( iter.HasNext() ) {
       AstNode* item = iter.Next();
-      ExpressionStmt* stmt = AstUtils::CreateExpStmt( item );
+      ExpressionStmt* stmt = AstUtils::CreateExpStmt( item , ast_node->line_number() );
       if ( last ) {
         ast_node->parent_node()->InsertAfter( stmt , last );
         last = stmt;
@@ -217,19 +217,19 @@ VISITOR_IMPL(IFStmt) {
   AstNode* then_statement = ast_node->then_statement();
   AstNode* maybe_else_statement = ast_node->else_statement();
   if ( then_statement->node_type() != AstNode::kBlockStmt ) {
-    BlockStmt* block = AstUtils::CreateBlockStmt( 1 , then_statement );
+    BlockStmt* block = AstUtils::CreateBlockStmt( then_statement->line_number() , 1 , then_statement );
     ast_node->set_then_statement( block );
     then_statement = block;
   }
   then_statement->Accept( this );
   if ( ast_node->dsta_flag() ) {
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
-    Expression* exp = ManagedHandle::Retain<Expression>();
+    Expression* exp = Expression::New( ast_node->line_number() );
     exp->Append( list );
     exp->paren();
-    ExpressionStmt* exp_stmt = ManagedHandle::Retain<ExpressionStmt>();
+    ExpressionStmt* exp_stmt = ExpressionStmt::New( ast_node->line_number() );
     exp_stmt->AddChild( exp );
-    maybeBlock->first_child()->InsertBefore( exp_stmt );
+    then_statement->first_child()->InsertBefore( exp_stmt );
     AstNode* parent = ast_node;
     AstNode* first_if = ast_node;
     while ( parent->node_type() == AstNode::kIFStmt ) {
@@ -256,7 +256,7 @@ VISITOR_IMPL(IFStmt) {
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  switch ( ast_node->NodeType() ) {
+  switch ( ast_node->node_type() ) {
     case AstNode::kFor : //Fall Through
     case AstNode::kForWithVar :
       IterationProcessor::ProcessForNode( ast_node , proc_info_.Get() );
@@ -308,8 +308,8 @@ VISITOR_IMPL( WithStmt ) {
   REGIST(ast_node);
   AstNode* exp = ast_node->expression();
   AstNode* body = ast_node->first_child();
-  if ( body->node_type != AstNode::kBlockStmt ) {
-    BlockStmt* block = AstUtils::CreateBlockStmt( 1 , body );
+  if ( body->node_type() != AstNode::kBlockStmt ) {
+    BlockStmt* block = AstUtils::CreateBlockStmt( body->line_number() , 1 , body );
     ast_node->RemoveAllChild();
     ast_node->AddChild( block );
     body = block;
@@ -320,9 +320,9 @@ VISITOR_IMPL( WithStmt ) {
     VariableStmt* var_stmt = DstaProcessor::CreateTmpVarDecl( ast_node , proc_info_.Get() );
     ast_node->parent_node()->InsertBefore( var_stmt , ast_node );
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
-    Expression* exp = ManagedHandle::Retain<Expression>();
+    Expression* exp = Expression::New( ast_node->line_number() );
     exp->Append( list );
-    ExpressionStmt* exp_stmt = ManagedHandle::Retain<ExpressionStmt>();
+    ExpressionStmt* exp_stmt = ExpressionStmt::New( ast_node->line_number() );
     exp_stmt->AddChild( exp );
     body->first_child()->InsertBefore( exp_stmt );
   }
@@ -331,7 +331,7 @@ VISITOR_IMPL( WithStmt ) {
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  AstNode* exp = ast_node->Exp();
+  AstNode* exp = ast_node->expression();
   exp->Accept( this );
   NodeIterator iterator = ast_node->first_child()->ChildNodes();
   while ( iterator.HasNext() ) {
@@ -345,7 +345,7 @@ VISITOR_IMPL( SwitchStmt ) {
 
 VISITOR_IMPL( CaseClause ) {
   PRINT_NODE_NAME;
-  Statement* stmt_tmp = ManagedHandle::Retain<Statement>();
+  Statement* stmt_tmp = Statement::New();
   REGIST(stmt_tmp);
   AstNode *parent = ast_node->parent_node();
   SwitchStmt *switch_stmt = reinterpret_cast<SwitchStmt* >( parent->parent_node() );
@@ -358,11 +358,11 @@ VISITOR_IMPL( CaseClause ) {
   ExpressionStmt* cond_exp_stmt = 0;
   if ( stmt_tmp->dsta_flag() ) {
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( stmt_tmp , proc_info_.Get() );
-    Expression* exp = ManagedHandle::Retain<Expression>();
+    Expression* exp = Expression::New( ast_node->line_number() );
     exp->Append( list );
-    case_exp_stmt = ManagedHandle::Retain<ExpressionStmt>();
+    case_exp_stmt = ExpressionStmt::New( ast_node->line_number() );
     case_exp_stmt->AddChild( exp );
-    if ( ast_node->ChildLength() > 0 ) {
+    if ( ast_node->child_length() > 0 ) {
       ast_node->InsertBefore( case_exp_stmt );
     } else {
       ast_node->AddChild( case_exp_stmt ); 
@@ -370,12 +370,12 @@ VISITOR_IMPL( CaseClause ) {
   }
   if ( switch_stmt->dsta_flag() ) {
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( switch_stmt , proc_info_.Get() );
-    Expression* exp = ManagedHandle::Retain<Expression>();
+    Expression* exp = Expression::New( ast_node->line_number() );
     exp->Append( list );
     exp->paren();
-    cond_exp_stmt = ManagedHandle::Retain<ExpressionStmt>();
+    cond_exp_stmt = ExpressionStmt::New( ast_node->line_number() );
     cond_exp_stmt->AddChild( exp );
-    if ( ast_node->ChildLength() > 0 ) {
+    if ( ast_node->child_length() > 0 ) {
       ast_node->InsertBefore( cond_exp_stmt );
     } else {
       ast_node->AddChild( cond_exp_stmt ); 
@@ -404,9 +404,9 @@ VISITOR_IMPL( ThrowStmt ) {
     if ( exp->child_length() == 1 ) {
       Literal* name = exp->first_child()->CastToLiteral();
       if ( name && name->value_type() == Literal::kIdentifier && strcmp( name->value()->token() , "StopIteration" ) == 0 ) {
-        Literal* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                                         Token::JS_IDENTIFIER , ast_node->Line() , Literal::kIdentifier );
-        ReturnStmt* stmt = AstUtils::CreateReturnStmt( undefined );
+        Literal* undefined = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kUndefined ),
+                                                         Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kIdentifier );
+        ReturnStmt* stmt = AstUtils::CreateReturnStmt( undefined , ast_node->line_number() );
         ast_node->parent_node()->ReplaceChild( ast_node , stmt );
       } else {
         ast_node->expression()->Accept( this );
@@ -438,8 +438,8 @@ VISITOR_IMPL(TryStmt) {
 VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  AstNode* name = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kAssert ),
-                                            Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
+  AstNode* name = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kAssert ),
+                                            Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kProperty );
   CodegenVisitor visitor( visitor_info_->GetFileName() , true , false );
   AstNode* expect = ast_node->first_child();
   AstNode* expression = expect->next_sibling();
@@ -468,20 +468,20 @@ VISITOR_IMPL(AssertStmt) {
   }
   str += "\"";
   char tmp[100];
-  sprintf( tmp , "%ld" , ast_node->Line() );
-  Literal* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->Line() , Literal::kNumeric );
+  sprintf( tmp , "%lld" , ast_node->line_number() );
+  Literal* line = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , ast_node->line_number() , Literal::kNumeric );
   Literal* string_expression = AstUtils::CreateNameNode( str.c_str() , Token::JS_STRING_LITERAL,
-                                                           ast_node->Line() , Literal::kString );
+                                                           ast_node->line_number() , Literal::kString );
   Literal* filename = AstUtils::CreateNameNode( visitor_info_->GetRelativePath() , Token::JS_STRING_LITERAL,
-                                                  ast_node->Line() , Literal::kString );
+                                                  ast_node->line_number() , Literal::kString );
   AstNode* arg = AstUtils::CreateNodeList( 5 , expect , expression , string_expression , line , filename );
-  CallExp* exp = AstUtils::CreateRuntimeMod( name );
-  CallExp* call = AstUtils::CreateNormalAccessor( exp , arg );
-  ExpressionStmt* stmt = AstUtils::CreateExpStmt( call );
+  CallExp* exp = AstUtils::CreateRuntimeMod( name , ast_node->line_number() );
+  CallExp* call = AstUtils::CreateNormalAccessor( exp , arg , ast_node->line_number() );
+  ExpressionStmt* stmt = AstUtils::CreateExpStmt( call , ast_node->line_number() );
   ast_node->AddChild( stmt );
   if ( ast_node->dsta_flag() ) {
     AstNode* dsta_exp = DstaProcessor::CreateDstaExtractedAssignment( ast_node , proc_info_.Get() );
-    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( dsta_exp );
+    ExpressionStmt* exp_stmt = AstUtils::CreateExpStmt( dsta_exp , ast_node->line_number() );
     ast_node->AddChild( exp_stmt );
   }
 }
@@ -489,15 +489,15 @@ VISITOR_IMPL(AssertStmt) {
 
 VISITOR_IMPL( CallExp ) {
   PRINT_NODE_NAME;
-  switch ( ast_node->CallType() ) {
+  switch ( ast_node->call_type() ) {
     case CallExp::kNormal :
       CallProcessor::ProcessFnCall( ast_node , proc_info_.Get() );
       break;
 
     case CallExp::kDot :
     case CallExp::kBracket : {
-      AstNode* args = ast_node->Args();
-      if ( args->CastToLiteral() && args->CastToLiteral()->value_type() == Literal::kObject ) {
+      AstNode* args = ast_node->args();
+      if ( args->CastToExpression()->CastToObjectLikeLiteral() ) {
         CallProcessor::ProcessExtendAccessor( ast_node , proc_info_.Get() );
       } else {
         ast_node->callable()->Accept( this );
@@ -565,8 +565,12 @@ VISITOR_IMPL(ConditionalExp) {
 
 VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  AstNode* left = ast_node->left_value();
+  if ( AstUtils::IsDestructringLeftHandSide( left ) ) {
+    DstaProcessor::ProcessNode( left , proc_info_.Get() );    
+  }
+  ast_node->left_value()->Accept( this );
+  ast_node->right_value()->Accept( this );
 }
 
 
@@ -580,7 +584,7 @@ VISITOR_IMPL(Expression) {
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
-  Statement *tmp_stmt = ManagedHandle::Retain<Statement>();
+  Statement *tmp_stmt = Statement::New();
   REGIST(tmp_stmt);
   ClassProcessor *cls = ManagedHandle::Retain( new ClassProcessor( proc_info_.Get() , ast_node , tmp_stmt ) );
   visitor_info_->SetClass( cls );
@@ -612,8 +616,6 @@ VISITOR_IMPL( Literal ) {
   PRINT_NODE_NAME;
   switch ( ast_node->value_type() ) {
     case Literal::kPrivateProperty : {
-      AstNode* node = ast_node->first_child();
-      Literal* maybeObject = node->CastToLiteral();
       visitor_info_->SetObjectPrivate( VisitorInfo::AstPair( ast_node , ast_node->first_child() ) );
     }
       break;
@@ -622,31 +624,31 @@ VISITOR_IMPL( Literal ) {
       VariableProcessor::ProcessVarInitialiser( ast_node , proc_info_.Get() );
       break;
 
-    case Literal::kDst :
+      /*case Literal::kDst :
     case Literal::kDstArray :
       DstaProcessor::ProcessNode( ast_node , proc_info_.Get() );
-      break;
+      break;*/
 
     case Literal::kRest : {
       visitor_info_->SetRestInjection( true );
-      ast_node->ValueType( Literal::kIdentifier );
+      ast_node->set_value_type( Literal::kIdentifier );
       ast_node->parent_node()->RemoveChild( ast_node );
-      visitor_info_->SetRestExp( ast_node->Symbol() );
+      visitor_info_->SetRestExp( ast_node->value() );
     }
       break;
 
     case Literal::kThis : {
       Function* fn = visitor_info_->GetFunction();
-      if ( fn && fn->GetReplacedThis() ) {
-        ast_node->Symbol( fn->GetReplacedThis()->Symbol() );
+      if ( fn && fn->replaced_this() ) {
+        ast_node->set_value( fn->replaced_this()->value() );
       }
     }
       break;
 
     case Literal::kSuper : {
-      TokenInfo* info = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kSuper ) , Token::JS_IDENTIFIER , ast_node->Line() ) );
-      ast_node->Symbol( info );
-      ast_node->ValueType( Literal::kIdentifier );
+      TokenInfo* info = TokenInfo::New( SymbolList::symbol( SymbolList::kSuper ) , Token::JS_IDENTIFIER , ast_node->line_number() );
+      ast_node->set_value( info );
+      ast_node->set_value_type( Literal::kIdentifier );
     }
       break;
   }
@@ -655,7 +657,7 @@ VISITOR_IMPL( Literal ) {
 
 VISITOR_IMPL( ArrayLikeLiteral ) {
   PRINT_NODE_NAME;
-  ArrayProccessor::ProcessNode( ast_node , proc_info_.Get() );
+  ArrayProcessor::ProcessNode( ast_node , proc_info_.Get() );
 }
 
 VISITOR_IMPL( ObjectLikeLiteral ) {

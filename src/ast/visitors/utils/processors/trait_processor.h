@@ -19,7 +19,7 @@ class TraitProcessor {
   void CreateMixinStmt_( AstNode* mixin_list , AstNode* mark );
   Trait* trait_;
   ProcessorInfo* info_;
-  ValueNode* name_;
+  Literal* name_;
   AstNode* body_;
 };
 

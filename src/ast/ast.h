@@ -117,6 +117,7 @@ class AstNode : public Managed {
     kVersionStmt,
     kAssertStmt,
     kExpression,
+    kVariableDeclarationList,
     kLiteral,
     kCase,
     kNodeList,
@@ -500,7 +501,7 @@ class FileRoot : public AstNode {
    * @returns {const char*}
    * Get file name.
    */
-  inline const char* file_name() const { return filename_.c_str(); }
+  inline const char* filename() const { return filename_.c_str(); }
   bool runtime() { return HAS(0); }
   void set_runtime() { SET(0); }
   bool strict() { return HAS(1); }
@@ -510,8 +511,6 @@ class FileRoot : public AstNode {
   inline FileRoot( const char* filename ) :
       AstNode( AstNode::kFileRoot , "FileRoot" , 0 ), filename_( filename ) {}
   BitVector8 flags_;
-  bool is_file_root_;
-  bool has_directive_;
   std::string filename_;
   CALL_ACCEPTOR( FileRoot );
 };
@@ -525,7 +524,7 @@ class FileRoot : public AstNode {
 class Statement : public AstNode {
  public :
   virtual inline ~Statement() {};
-
+  FACTORY(Statement);
   /**
    * @returns {Statement*}
    * Cast to statement.
@@ -786,22 +785,9 @@ class VariableStmt : public Statement {
   };
   LINED_FACTORY( VariableStmt );
   inline ~VariableStmt(){};
-
-  /**
-   * @param {int} type
-   * Set decl type.
-   */
-  inline void set_declaration_type( int type ){ declaration_type_ = type; };
-
-  /**
-   * @returns {int}
-   * Get decl type.
-   */
-  inline int declaration_type() { return declaration_type_; };
   CLONE( VariableStmt );
  private :
   inline VariableStmt( int64_t line ) : Statement( NAME_PARAMETER(VariableStmt) , line ){};
-  int declaration_type_;
   CALL_ACCEPTOR( VariableStmt );
 };
 
@@ -862,7 +848,7 @@ class IFStmt : public Statement {
    *        |
    *       this
    */
-  inline void set_conditional( AstNode* exp ) { condition_ = exp;exp->set_parent_node( this ); }
+  inline void set_condition( AstNode* exp ) { condition_ = exp;exp->set_parent_node( this ); }
 
   /**
    * @returns {AstNode*}
@@ -1043,11 +1029,11 @@ class Expression : public AstNode {
   LINED_FACTORY( Expression );
   virtual inline ~Expression(){};
   inline void set_paren() { flags_.Set( kParenFlg ); };
-  inline bool paren() { return flags_.At( kParenFlg );; };
+  inline bool paren() { return flags_.At( kParenFlg ); };
   inline void unset_paren() { flags_.UnSet( kParenFlg ); };
   inline bool set_valid_lhs() { return flags_.At( kValidLhsFlg ); }
   inline void unset_valid_lhs() { flags_.UnSet( kValidLhsFlg ); }
-  inline void valid_lhs() { flags_.Set( kValidLhsFlg ); }
+  inline bool valid_lhs() { return flags_.At( kValidLhsFlg ); }
   inline void set_lhs() { flags_.Set( kLhsFlg ); }
   inline bool lhs() { return flags_.At( kLhsFlg ); }
   inline void set_unary() { flags_.Set( kUnaryExpFlg ); }
@@ -1065,6 +1051,7 @@ class Expression : public AstNode {
   inline virtual CompareExp* CastToCompareExp() { return 0; }
   inline virtual ArrayLikeLiteral* CastToArrayLikeLiteral() { return 0; }
   inline virtual ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
+  inline virtual VariableDeclarationList* CastToVariableDeclarationList() { return 0; }
   virtual CLONE( Expression );
  protected :
   inline Expression( int type , const char* name , int64_t line ) : AstNode( type , name , line ) {
@@ -1076,6 +1063,22 @@ class Expression : public AstNode {
   };
   BitVector8 flags_;
   virtual CALL_ACCEPTOR( Expression );
+};
+
+
+class VariableDeclarationList : public Expression {
+ public :
+  LINED_FACTORY(VariableDeclarationList);
+  inline void set_const_declaration() { SET(0); }
+  inline void set_let_declaration() { SET(1); }
+  inline bool const_declaration() { return HAS(0); }
+  inline bool let_declaration() { return HAS(1); }
+  inline VariableDeclarationList* CastToVariableDeclarationList() { return this; }
+  CLONE(VariableDeclarationList);
+ private :
+  CALL_ACCEPTOR(VariableDeclarationList);
+  VariableDeclarationList( int64_t line ) : Expression( NAME_PARAMETER(VariableDeclarationList) , line ){}
+  BitVector8 flags_;
 };
 
 
@@ -1364,15 +1367,17 @@ class CallExp : public Expression {
   inline AstNode* args() { return args_; };
   inline int call_type() { return call_type_; }
   inline void set_call_type( int type ) { call_type_ = type; }
+  inline void set_rest() { rest_ = true; }
+  inline bool rest() { return rest_; }
   inline CallExp* CastToCallExp() { return this; }
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE(CallExp);
  private :
   inline CallExp( int type , int64_t line ) :
       Expression( NAME_PARAMETER( CallExp ) , line ) , call_type_( type ),
-      callable_( 0 ) , args_( 0 ){};
+      rest_( false ) , callable_( 0 ) , args_( 0 ){};
   int call_type_;
-  bool is_rest_;
+  bool rest_;
   AstNode* callable_;
   AstNode* args_;
   CALL_ACCEPTOR( CallExp );
@@ -1596,12 +1601,17 @@ class ArrayLikeLiteral : public Expression {
   inline bool tuple() const { return HAS(0); }
   inline void set_comprehensions() { SET(1); }
   inline bool comprehensions() { return HAS(1); }
+  inline void set_dsta() { SET(2); }
+  inline bool dsta() { return HAS(2); }
+  inline void set_element( AstNode* element ) { elements_.AddChild( element ); }
+  inline NodeList* elements() { return &elements_; }
   inline ArrayLikeLiteral* CastToArrayLikeLiteral() { return this; }
   CLONE( ArrayLikeLiteral );
  private :
   explicit ArrayLikeLiteral( int64_t line ) :
       Expression( NAME_PARAMETER( ArrayLikeLiteral ) , line ){}
   CALL_ACCEPTOR( ArrayLikeLiteral );
+  NodeList elements_;
   BitVector8 flags_;
 };
 
@@ -1611,15 +1621,20 @@ class ObjectLikeLiteral : public Expression {
   inline static ObjectLikeLiteral* New( int64_t line ) {
     return ManagedHandle::Retain( new ObjectLikeLiteral( line ) );
   }
-  inline void set_record() { record_ = true; }
-  inline bool record() const { return record_; }
+  inline void set_record() { SET(0); }
+  inline bool record() const { return HAS(0); }
+  inline void set_dsta() { SET(1); }
+  inline bool dsta() { return HAS(1); }
+  inline void set_element( AstNode* element ) { elements_.AddChild( element ); }
+  inline NodeList* elements() { return &elements_; }
   inline ObjectLikeLiteral* CastToObjectLikeLiteral() { return this; }
   CLONE( ObjectLikeLiteral );
  private :
   ObjectLikeLiteral( int64_t line ) :
-      Expression( NAME_PARAMETER( ObjectLikeLiteral ), line ) , record_( false ){}
+      Expression( NAME_PARAMETER( ObjectLikeLiteral ), line ){}
   CALL_ACCEPTOR( ObjectLikeLiteral );
-  bool record_;
+  NodeList elements_;
+  BitVector8 flags_;
 };
 
 
@@ -1630,6 +1645,7 @@ class GeneratorExpression : public Expression {
   }
   inline AstNode* expression() { return expression_; }
   inline GeneratorExpression* CastToGenerator() { return this; }
+  void ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE( GeneratorExpression );
  private :
   GeneratorExpression( AstNode* expression , int64_t line ) :
@@ -1659,8 +1675,8 @@ class DstaTree : public AstNode {
  public :
   FACTORY( DstaTree );
   ~DstaTree(){};
-  void Symbol( Literal* name_node ) { symbol_ = name_node; }
-  Literal* Symbol() { return symbol_; }
+  void set_symbol( Literal* name_node ) { symbol_ = name_node; }
+  Literal* symbol() { return symbol_; }
   inline DstaTree* CastToDstaTree() { return this; }
   CLONE( DstaTree );
  private :

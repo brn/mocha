@@ -12,79 +12,76 @@
 #include <ast/visitors/utils/processors/dsta_processor.h>
 #include <ast/visitors/utils/processors/processor_info.h>
 #include <ast/visitors/utils/processors/import_processor.h>
-#include <grammar/grammar.tab.hh>
 
 namespace mocha {
-#define TOKEN yy::ParserImplementation::token
+
 ImportProccessor::ImportProccessor( ImportStmt* stmt , ProcessorInfo* info ) :
     stmt_( stmt ) , info_( info ) {}
 
 void ImportProccessor::ProcessNode() {
   IVisitor *visitor = info_->GetVisitor();
-  stmt_->Exp()->Accept( visitor );
+  stmt_->expression()->Accept( visitor );
   AstNode* exp = 0;//init after;
-  if ( stmt_->ModType() == ImportStmt::kFile ) {
+  if ( stmt_->module_type() == ImportStmt::kFile ) {
     LoadModule_();
-    AstNode *name = AstUtils::CreateNameNode( stmt_->ModKey()->GetToken(),
-                                              Token::JS_STRING_LITERAL , stmt_->Line() , ValueNode::kString );
-    ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalExport ),
-                                                  Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-    exp = AstUtils::CreateArrayAccessor( global , name );
+    AstNode *name = AstUtils::CreateNameNode( stmt_->module_key()->token(),
+                                              Token::JS_STRING_LITERAL , stmt_->line_number() , Literal::kString );
+    Literal *global = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalExport ),
+                                                  Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
+    exp = AstUtils::CreateArrayAccessor( global , name , stmt_->line_number() );
   } else {
-    if ( !stmt_->HasDsta() ) {
-      ValueNode *global = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                    Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-      CallExp* dot = AstUtils::CreateDotAccessor( stmt_->From() , stmt_->Exp() );
-      exp = AstUtils::CreateDotAccessor( global , dot );
+    if ( !stmt_->dsta_flag() ) {
+      Literal *global = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalAlias ),
+                                                    Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
+      CallExp* dot = AstUtils::CreateDotAccessor( stmt_->from() , stmt_->expression() , stmt_->line_number() );
+      exp = AstUtils::CreateDotAccessor( global , dot , stmt_->line_number() );
     } else {
-      exp = stmt_->From();
+      exp = stmt_->from();
     }
   }
-  if ( stmt_->From()->ChildLength() > 1 && stmt_->ModType() == ImportStmt::kFile ) {
-    NodeIterator iter = stmt_->From()->ChildNodes();
+  if ( stmt_->from()->child_length() > 1 && stmt_->module_type() == ImportStmt::kFile ) {
+    NodeIterator iter = stmt_->from()->ChildNodes();
     iter.Next();
     while ( iter.HasNext() ) {
-      ValueNode* item = iter.Next()->CastToValue();
-      if ( !item->IsEmpty() ) {
-        if ( item->ValueType() == ValueNode::kString ) {
-          exp = AstUtils::CreateArrayAccessor( exp , item );
+      Literal* item = iter.Next()->CastToLiteral();
+      if ( !item->empty() ) {
+        if ( item->value_type() == Literal::kString ) {
+          exp = AstUtils::CreateArrayAccessor( exp , item , stmt_->line_number() );
         } else {
-          item->ValueType( ValueNode::kProperty );
-          exp = AstUtils::CreateDotAccessor( exp , item );
+          item->set_value_type( Literal::kProperty );
+          exp = AstUtils::CreateDotAccessor( exp , item , stmt_->line_number() );
         }
       }
     }
   }
-  if ( stmt_->HasDsta() ) {
-    ValueNode* value = AstUtils::CreateVarInitiliser( stmt_->Exp()->CastToValue()->Symbol() , exp );
-    NodeList* list = ManagedHandle::Retain<NodeList>();
+  if ( stmt_->dsta_flag() ) {
+    Literal* value = AstUtils::CreateVarInitiliser( stmt_->expression()->CastToLiteral()->value() , exp , stmt_->line_number() );
+    NodeList* list = NodeList::New();
     NodeList* var_list = DstaProcessor::CreateDstaExtractedVarStmt( stmt_ , info_ );
     list->AddChild( value );
     list->Append( var_list );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( list );
-    stmt->Line( stmt_->Line() );
-    stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( list , stmt_->line_number() );
+    stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
   } else {
-    ValueNode* value = AstUtils::CreateVarInitiliser( stmt_->Exp()->CastToValue()->Symbol() , exp );
-    NodeList* list = ManagedHandle::Retain<NodeList>();
+    Literal* value = AstUtils::CreateVarInitiliser( stmt_->expression()->CastToLiteral()->value() , exp , stmt_->line_number() );
+    NodeList* list = NodeList::New();
     list->AddChild( value );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( list );
-    stmt->Line( stmt_->Line() );
-    stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( list , stmt_->line_number() );
+    stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
   }
 }
 
 
 void ImportProccessor::LoadModule_() {
   VisitorInfo* visitor_info = info_->GetInfo();
-  AstNode* from = stmt_->From();
-  AstNode* file = from->FirstChild();
-  ValueNode* value = file->CastToValue();
+  AstNode* from = stmt_->from();
+  AstNode* file = from->first_child();
+  Literal* value = file->CastToLiteral();
 
-  if ( value && value->ValueType() == ValueNode::kString ) {
+  if ( value && value->value_type() == Literal::kString ) {
     //Create path from js string literal.
-    TokenInfo* info = value->Symbol();
-    std::string js_path = info->GetToken();
+    TokenInfo* info = value->value();
+    std::string js_path = info->token();
     js_path.erase( 0 , 1 );
     //"path to file" -> path to file
     js_path.erase( js_path.size() - 1 , js_path.size() );
@@ -104,10 +101,10 @@ void ImportProccessor::LoadModule_() {
     modkey += handle.Get();
     modkey += target_path_info->GetFileName().Get();
     modkey += "'";
-    TokenInfo* key = ManagedHandle::Retain( new TokenInfo( modkey.c_str() , Token::JS_IDENTIFIER , stmt_->Line() ) );
+    TokenInfo* key = TokenInfo::New( modkey.c_str() , Token::JS_IDENTIFIER , stmt_->line_number() );
 
     //Reserve module key string for later code generation.
-    stmt_->ModKey( key );
+    stmt_->set_module_key( key );
   }
 }
 

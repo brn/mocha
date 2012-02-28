@@ -44,4 +44,5 @@ DECL_VISITOR(Literal);
 DECL_VISITOR(ArrayLikeLiteral);
 DECL_VISITOR(ObjectLikeLiteral);
 DECL_VISITOR(GeneratorExpression);
+DECL_VISITOR(VariableDeclarationList);
 #undef DECL_VISITOR

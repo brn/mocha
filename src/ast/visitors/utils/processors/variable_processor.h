@@ -11,7 +11,7 @@ class ProcessorInfo;
 class VariableProcessor : private Static {
  public :
   static void ProcessVarList( AstNode* ast_node , ProcessorInfo* info );
-  static void ProcessVarInitialiser( ValueNode* ast_node , ProcessorInfo* info );
+  static void ProcessVarInitialiser( Literal* ast_node , ProcessorInfo* info );
 };
 }
 

@@ -61,8 +61,6 @@ class AstTransformer : public IVisitor {
   
  private:
   void JumpStmt_( AstNode* ast_node , int type );
-  void ArrayProccessor_( ValueNode* ast_node );
-  void ObjectProccessor_( ValueNode* ast_node );
   
   ScopedPtr<VisitorInfo> visitor_info_;
   ScopedPtr<ProcessorInfo> proc_info_;

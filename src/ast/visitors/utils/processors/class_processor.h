@@ -35,7 +35,7 @@ class ProcessorInfo;
 class ClassProcessorUtils;
 typedef void (ClassProcessorUtils::*DstaCallback)( const char* class_name,
                                                    Function* closure_body,
-                                                   ValueNode* exp,
+                                                   Literal* exp,
                                                    bool is_const );
 class ClassProcessor : public Managed {
  public :
@@ -60,7 +60,7 @@ class ClassProcessor : public Managed {
   inline void ProcessFunction( Function* function , bool is_prottoype , bool is_private , bool is_instance );
   inline void ProcessConstructor( Function* constructor );
   inline void CreateEmptyConstructor();
-  inline void ProcessDsta( ValueNode* value ,bool is_const , DstaCallback callback );
+  inline void ProcessDsta( AstNode* value ,bool is_const , DstaCallback callback );
   inline void SimpleVariables( AstNode* node , bool is_const );
   inline void NoSimpleVariables( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
 

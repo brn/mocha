@@ -7,7 +7,6 @@
 #include <compiler/tokens/symbol_list.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/file_system/file_system.h>
-#include <grammar/grammar.tab.hh>
 
 #define TOKEN yy::ParserImplementation::token
 
@@ -38,7 +37,7 @@ CallExp* AstUtils::CreateDotAccessor( AstNode* callable , AstNode* args , int64_
 static const char prototype[] = { "prototype" };
 
 CallExp* AstUtils::CreatePrototypeAccessor( AstNode* callable , AstNode* args , int64_t line ) {
-  Literal* prototype_node = CreateNameNode( prototype , Token::JS_PROPERTY , line , Literal::kProperty );
+  Literal* prototype_node = CreateNameNode( prototype , Token::JS_IDENTIFIER , line , Literal::kProperty );
   CallExp* depth1 = CreateDotAccessor( callable , prototype_node , line );
   CallExp* depth2 = CreateDotAccessor( depth1 , args , line );
   return depth2;
@@ -51,7 +50,7 @@ CallExp* AstUtils::CreateNormalAccessor( AstNode* callable , AstNode* args , int
   return exp;
 }
 
-Literal* AstUtils::CreateNameNode( const char* name , int type , long line , int value_type , bool is_empty ) {
+Literal* AstUtils::CreateNameNode( const char* name , int type , int64_t line , int value_type , bool is_empty ) {
   TokenInfo* info = TokenInfo::New( name , type , line );
   Literal* value = Literal::New( value_type , line );
   if ( is_empty ) {
@@ -110,18 +109,16 @@ ExpressionStmt* AstUtils::CreateExpStmt( AstNode* node , int64_t line ) {
   return stmt;
 }
 
-VariableStmt* AstUtils::CreateVarStmt( NodeList* list , int64_t line ) {
+VariableStmt* AstUtils::CreateVarStmt( VariableDeclarationList* list , int64_t line ) {
   VariableStmt* var = VariableStmt::New( line );
-  var->set_var_type( VariableStmt::kNormal );
-  var->Append( list );
+  var->AddChild( list );
   return var;
 }
 
 VariableStmt* AstUtils::CreateVarStmt( AstNode* mem , int64_t line ) {
-  VariableStmt* var = VariableStmt::New( line );
-  var->set_var_type( VariableStmt::kNormal );
-  var->AddChild( mem );
-  return var;
+  VariableDeclarationList* decl_list = VariableDeclarationList::New( line );
+  decl_list->AddChild( mem );
+  return CreateVarStmt( decl_list , line );
 }
 
 Literal* AstUtils::CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs , int64_t line ) {
@@ -139,16 +136,16 @@ ReturnStmt* AstUtils::CreateReturnStmt( AstNode* exp , int64_t line ) {
 
 
 CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* value , int64_t line ) {
-  Literal* constant = AstUtils::CreateNameNode( valueList::Getvalue( valueList::kConstant ),
+  Literal* constant = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kConstant ),
                                                   Token::JS_IDENTIFIER , line , Literal::kIdentifier );
-  Literal* prop_str = prop->CastToValue();
+  Literal* prop_str = prop->CastToLiteral();
   AstNode* property = prop;
   if ( prop_str && ( prop_str->value_type() == Literal::kIdentifier || prop_str->value_type() == Literal::kProperty ) ) {
     char tmp[50];
     sprintf( tmp , "'%s'" , prop_str->value()->token() );
     property = AstUtils::CreateNameNode( tmp , Token::JS_STRING_LITERAL , line , Literal::kString );
   }
-  NodeList* args = NodeList::New( line );
+  NodeList* args = NodeList::New();
   args->AddChild( lhs );
   args->AddChild( property );
   args->AddChild( value );
@@ -158,20 +155,20 @@ CallExp* AstUtils::CreateConstantProp( AstNode* lhs , AstNode* prop , AstNode* v
 
 
 CallExp* AstUtils::CreatePrototypeNode( AstNode* lhs , int64_t line ) {
-  Literal* prototype = AstUtils::CreateNameNode( valueList::Getvalue( valueList::kPrototype ),
+  Literal* prototype = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kPrototype ),
                                                    Token::JS_IDENTIFIER , line , Literal::kProperty );
   return AstUtils::CreateDotAccessor( lhs , prototype , line );
 }
 
 
 CallExp* AstUtils::CreateRuntimeMod( AstNode* member , int64_t line ) {
-  Literal* value = CreateNameNode( valueList::Getvalue( valueList::kRuntime ),
+  Literal* value = CreateNameNode( SymbolList::symbol( SymbolList::kRuntime ),
                                      Token::JS_IDENTIFIER , line , Literal::kIdentifier );
   return CreateDotAccessor( value , member , line );
 }
 
 const char* AstUtils::CreateTmpRef( char* buf , int index ) {
-  sprintf( buf , "%s%d", valueList::symbol( valueList::kLocalTmp ) , index );
+  sprintf( buf , "%s%d", SymbolList::symbol( SymbolList::kLocalTmp ) , index );
   return buf;
 }
 
@@ -190,15 +187,15 @@ CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visi
   modkey += handle.Get();
   modkey += target_path_info->GetFileName().Get();
   modkey += "'";
-  Literal* value = AstUtils::CreateNameNode( valueList::Getvalue( valueList::kGlobalExport ),
+  Literal* value = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalExport ),
                                                Token::JS_IDENTIFIER , line , Literal::kIdentifier );
   Literal* name = AstUtils::CreateNameNode( modkey.c_str() , Token::JS_IDENTIFIER , line , Literal::kString );
-  return AstUtils::CreateArrayAccessor( value , name );
+  return AstUtils::CreateArrayAccessor( value , name , line );
 }
 
 IFStmt* AstUtils::CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt , int64_t line ) {
   IFStmt* if_stmt = IFStmt::New( line );
-  if_stmt->set_expression( exp );
+  if_stmt->set_condition( exp );
   if_stmt->set_then_statement( then_stmt );
   if_stmt->set_else_statement( else_stmt );
   return if_stmt;
@@ -221,7 +218,7 @@ void FindDirectivePrologueCommon( AstNode* node , T* target ) {
     if ( node->first_child()->first_child() && node->first_child()->first_child()->first_child() &&
          node->first_child()->first_child()->first_child()->node_type() == AstNode::kLiteral ) {
       Literal* directive = node->first_child()->first_child()->first_child()->CastToLiteral();
-      if ( strcmp( directive->value()->token() , "'use strict'"  ) == 0 || strcmp( directive->value()->toke() , "\"use strict\""  ) == 0 ) {
+      if ( strcmp( directive->value()->token() , "'use strict'"  ) == 0 || strcmp( directive->value()->token() , "\"use strict\""  ) == 0 ) {
         node->RemoveChild( node->first_child() );
         target->set_strict();
       }
@@ -237,5 +234,10 @@ void AstUtils::FindDirectivePrologue( AstNode* node , Function* fn ) {
   FindDirectivePrologueCommon( node , fn );
 }
 
+bool AstUtils::IsDestructringLeftHandSide( AstNode* node ) {
+  return ( node->node_type() == AstNode::kArrayLikeLiteral ||
+           node->node_type() == AstNode::kObjectLikeLiteral ) &&
+      node->CastToExpression() && node->CastToExpression()->valid_lhs();
+}
 
 }

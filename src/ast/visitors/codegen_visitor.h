@@ -33,9 +33,9 @@ class CodegenVisitor : public IVisitor {
   void DotAccessorProccessor_( CallExp* exp );
   void NewCallProccessor_( CallExp* exp );
   void NormalFunctionCall_( CallExp* exp );
-  void ArrayProccessor_( ValueNode* ast_node );
-  void ObjectProccessor_( ValueNode* ast_node );
-  void VarInitialiserProccessor_( ValueNode* ast_node );
+  void ArrayProccessor_( Literal* ast_node );
+  void ObjectProccessor_( Literal* ast_node );
+  void VarInitialiserProccessor_( Literal* ast_node );
   void PrototypeMemberProccessor( NodeIterator& iterator , AstNode* name_node , bool is_private );
   void StaticMemberProccessor( NodeIterator& iterator , AstNode* node );
   void BeginState_( int state );

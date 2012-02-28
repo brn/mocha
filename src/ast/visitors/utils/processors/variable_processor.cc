@@ -3,6 +3,8 @@
 #include <ast/visitors/utils/visitor_info.h>
 #include <ast/visitors/ivisitor.h>
 #include <ast/ast.h>
+#include <ast/utils/ast_utils.h>
+#include <ast/visitors/utils/processors/dsta_processor.h>
 #include <compiler/tokens/token_info.h>
 namespace mocha {
 
@@ -12,23 +14,21 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
   Function* fn = info->GetInfo()->GetFunction();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
-    if ( !item->IsEmpty() ) {
-      ValueNode* value = item->CastToValue();
-      if ( value && ( value->ValueType() == ValueNode::kDst || value->ValueType() == ValueNode::kDstArray ) ) {
-        value->Node()->Accept( visitor );
-        value->ValueType( ValueNode::kVariable );
-        value->Symbol( value->Node()->CastToValue()->Symbol() );
-        AstNode* initialiser = item->FirstChild();
-        if ( !initialiser->IsEmpty() ) {
+    if ( !item->empty() ) {
+      if ( AstUtils::IsDestructringLeftHandSide( item ) ) {
+        Literal* value = DstaProcessor::ProcessNode( item , info );
+        value->set_value_type( Literal::kVariable );
+        AstNode* initialiser = value->first_child();
+        if ( !initialiser->empty() ) {
           initialiser->Accept( visitor );
         }
         Function* fn = info->GetInfo()->GetFunction();
         if ( fn ) {
-          fn->SetVariable( value );
+          fn->set_variable_list( value );
         }
       } else {
-        if ( !item->IsEmpty() ) {
-          ProcessVarInitialiser( item->CastToValue() , info );
+        if ( !item->empty() ) {
+          ProcessVarInitialiser( item->CastToLiteral() , info );
         }
       }
     }
@@ -36,13 +36,13 @@ void VariableProcessor::ProcessVarList( AstNode* ast_node , ProcessorInfo* info 
 }
 
 
-void VariableProcessor::ProcessVarInitialiser( ValueNode* ast_node , ProcessorInfo* info ) {
+void VariableProcessor::ProcessVarInitialiser( Literal* ast_node , ProcessorInfo* info ) {
   Function* fn = info->GetInfo()->GetFunction();
   if ( fn ) {
-    fn->SetVariable( ast_node );
+    fn->set_variable_list( ast_node );
   }
-  AstNode* initialiser = ast_node->FirstChild();
-  if ( initialiser && !initialiser->IsEmpty() ) {
+  AstNode* initialiser = ast_node->first_child();
+  if ( initialiser && !initialiser->empty() ) {
     initialiser->Accept( info->GetVisitor() );
   }  
 }
