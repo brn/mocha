@@ -11,10 +11,10 @@ namespace mocha {
 #define TOKEN yy::ParserImplementation::token
 
 void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) {
-  VisitorInfo *visitor_info = info->GetInfo();
-  IVisitor* visitor = info->GetVisitor();
+  VisitorInfo *visitor_info = info->visitor_info();
+  IVisitor* visitor = info->visitor();
   NodeIterator iterator = ast_node->ChildNodes();
-  bool is_runtime = visitor_info->IsRuntime();
+  bool is_runtime = visitor_info->runtime();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( visitor );
   }
@@ -25,21 +25,22 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
     Literal* global_export = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalExport ),
                                                          Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kIdentifier );
     ObjectLikeLiteral* object_literal = ObjectLikeLiteral::New( ast_node->line_number() );
-    Literal* key = AstUtils::CreateNameNode( visitor_info->GetRelativePath() , Token::JS_STRING_LITERAL , ast_node->line_number() , Literal::kString );
+    Literal* key = AstUtils::CreateNameNode( visitor_info->relative_path() , Token::JS_STRING_LITERAL , ast_node->line_number() , Literal::kString );
     
     CallExp* global_export_accessor = AstUtils::CreateArrayAccessor( global_export , key , ast_node->line_number() );
     AssignmentExp* exp = AstUtils::CreateAssignment( '=' , global_export_accessor , object_literal , ast_node->line_number() );
 
     Literal* alias = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalAlias ),
                                                  Token::JS_IDENTIFIER , ast_node->line_number() , Literal::kIdentifier );
-    VariableStmt* var_stmt = AstUtils::CreateVarStmt(
-        AstUtils::CreateVarInitiliser( alias->value() , global_export_accessor->Clone() , ast_node->line_number() ) , 3 );
+    Literal* init = AstUtils::CreateVarInitiliser( alias->value() , global_export_accessor->Clone() , ast_node->line_number() );
+    VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( ast_node->line_number() , 1 , init );
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt( decl_list , 3 );
     ExpressionStmt* extend_global = AstUtils::CreateExpStmt( exp , 2 );
     FileRoot* root = FileRoot::New( ast_node->filename() );
     root->AddChild( stmt );
     fn->InsertBefore( var_stmt );
     fn->InsertBefore( extend_global );
-    fn->set_root();
+    fn->MarkAsRoot();
     ast_node->parent_node()->ReplaceChild( ast_node , root );
   }
 }

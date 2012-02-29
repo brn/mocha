@@ -14,8 +14,8 @@
 namespace mocha {
 
 bool IsOptimizableBlock( AstNode* block ) {
-  if ( block->NodeType() == AstNode::kBlockStmt ) {
-    if ( block->FirstChild()->ChildLength() == 1 ) {
+  if ( block->node_type() == AstNode::kBlockStmt ) {
+    if ( block->first_child()->child_length() == 1 ) {
       return true;
     }
   }
@@ -25,27 +25,27 @@ bool IsOptimizableBlock( AstNode* block ) {
 AstNode* GetReturnValue( AstNode* node ) {
   if ( node->IsEmpty() ) {
     return AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                     Token::JS_IDENTIFIER , node->Line() , ValueNode::kIdentifier );
+                                     Token::JS_IDENTIFIER , node->Line() , Literal::kIdentifier );
   }
   return node;
 }
 
 
 bool CheckAssoc( AstNode* node ) {
-  if ( node->NodeType() == AstNode::kValueNode ) {
-    ValueNode* value = node->CastToValue();
-    if ( value->ValueType() == ValueNode::kObject ) {
+  if ( node->node_type() == AstNode::kLiteral ) {
+    Literal* value = node->CastToLiteral();
+    if ( value->ValueType() == Literal::kObject ) {
       return true;
     }
-  } else if ( node->NodeType() == AstNode::kAssignmentExp ) {
+  } else if ( node->node_type() == AstNode::kAssignmentExp ) {
     return true;
-  } else if ( node->NodeType() == AstNode::kCompareExp ) {
+  } else if ( node->node_type() == AstNode::kCompareExp ) {
     CompareExp* comp = node->CastToExpression()->CastToCompareExp();
     if ( comp->Op() == Token::JS_LOGICAL_OR ) {
       return true;
     }
-  } else if ( node->NodeType() == AstNode::kExpression ) {
-    if ( node->ChildLength() > 1 ) {
+  } else if ( node->node_type() == AstNode::kExpression ) {
+    if ( node->child_length() > 1 ) {
       return true;
     }
   }
@@ -54,7 +54,7 @@ bool CheckAssoc( AstNode* node ) {
 
 AstNode* ToExpression( AstNode* node ) {
   if ( CheckAssoc( node ) ) {
-    if ( node->NodeType() == AstNode::kExpression ) {
+    if ( node->node_type() == AstNode::kExpression ) {
       node->CastToExpression()->Paren();
       return node;
     } else {
@@ -94,9 +94,9 @@ int IFStmtOptimizer::IsConvertableToExpression_( AstNode* then_stmt , AstNode* e
   if ( IsOptimizableBlock( else_stmt ) ) {
     return kNone;
   }
-  if ( else_stmt->NodeType() != AstNode::kIFStmt ) {
-    int then_type = then_stmt->NodeType();
-    int else_type = else_stmt->NodeType();
+  if ( else_stmt->node_type() != AstNode::kIFStmt ) {
+    int then_type = then_stmt->node_type();
+    int else_type = else_stmt->node_type();
     if ( then_type == AstNode::kReturnStmt &&
          else_type == AstNode::kReturnStmt ) {
       return kCondtionalReturn;
@@ -119,7 +119,7 @@ int IFStmtOptimizer::IsConvertableToExpression_( AstNode* then_stmt , AstNode* e
 
 void IFStmtOptimizer::OptimizeBlock_( AstNode* block , int type ) {
   if ( IsOptimizableBlock( block ) ) {
-    AstNode* insert = block->FirstChild()->FirstChild();
+    AstNode* insert = block->first_child()->first_child();
     if ( type == kThen ) {
       stmt_->Then( insert );
     } else {
@@ -152,8 +152,8 @@ void IFStmtOptimizer::ToIFStmtCompatibleExpression_() {
 }
 
 void IFStmtOptimizer::ToConditionalReturn_( AstNode* then_stmt , AstNode* else_stmt ) {
-  AstNode* then_return = GetReturnValue( then_stmt->FirstChild() );
-  AstNode* else_return = GetReturnValue( else_stmt->FirstChild() );
+  AstNode* then_return = GetReturnValue( then_stmt->first_child() );
+  AstNode* else_return = GetReturnValue( else_stmt->first_child() );
   ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( stmt_->Exp(),
                                                                     then_return,
                                                                     else_return ) );
@@ -165,7 +165,7 @@ void IFStmtOptimizer::ToConditionalReturn_( AstNode* then_stmt , AstNode* else_s
 
 void IFStmtOptimizer::ToLogical_( AstNode* then_stmt ) {
   AstNode* cond = ToExpression( stmt_->Exp() );
-  AstNode* then_exp = ToExpression( then_stmt->FirstChild() );
+  AstNode* then_exp = ToExpression( then_stmt->first_child() );
   CompareExp* logical = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , cond , then_exp ) );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( logical );
   stmt->Line( stmt_->Line() );
@@ -179,8 +179,8 @@ void IFStmtOptimizer::ToNoElse_( AstNode* then_stmt , AstNode* else_stmt ) {
 
 void IFStmtOptimizer::ToConditional_( AstNode* then_stmt , AstNode* else_stmt ) {
   ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( stmt_->Exp(),
-                                                                    then_stmt->FirstChild(),
-                                                                    else_stmt->FirstChild() ) );
+                                                                    then_stmt->first_child(),
+                                                                    else_stmt->first_child() ) );
   ExpressionStmt* stmt = AstUtils::CreateExpStmt( cond );
   stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
 }

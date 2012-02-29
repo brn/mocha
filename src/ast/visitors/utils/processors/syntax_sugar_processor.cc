@@ -24,7 +24,7 @@ void CreateClosure( AstNode* body , IVisitor* visitor , int64_t line ) {
   fn->Accept( visitor );
   Expression* exp = ManagedHandle::Retain<Expression>();
   exp->AddChild( fn );
-  exp->paren();
+  exp->IsParenthesis();
   Literal* this_sym = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kThis ),
                                                 Token::JS_THIS , line , Literal::kThis );
   NodeList* arg = AstUtils::CreateNodeList( 1 , this_sym );
@@ -34,10 +34,10 @@ void CreateClosure( AstNode* body , IVisitor* visitor , int64_t line ) {
 }
 
 void SyntaxSugarProcessor::ProcessArrayComprehensions( ArrayLikeLiteral* literal , ProcessorInfo* info ) {
-  IVisitor* visitor = info->GetVisitor();
+  IVisitor* visitor = info->visitor();
   Literal* call_sym = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kCall ),
                                                 Token::JS_PROPERTY , literal->line_number() , Literal::kProperty );
-  Literal* tmp = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
+  Literal* tmp = AstUtils::CreateTmpNode( visitor_info_->tmp_index() );
   ArrayLikeLiteral* array = ArrayLikeLiteral::New( literal->line_number() );
   VariableStmt* var_stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarInitiliser( tmp->value() , array ) );
   AstNode* expression = ast_node->first_child();
@@ -62,7 +62,7 @@ void SyntaxSugarProcessor::ProcessArrayComprehensions( ArrayLikeLiteral* literal
 }
 
 void SyntaxSugarProcessor::ProcessGeneratorExpression( GeneratorExpression* generator , ProcessorInfo* info ) {
-  IVisitor* visitor = info->GetVisitor();
+  IVisitor* visitor = info->visitor();
   Literal* call_sym = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kCall ),
                                                 Token::JS_PROPERTY , generator->line_number() , Literal::kProperty );
   NodeIterator iterator = generator->first_child()->ChildNodes();

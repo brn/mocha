@@ -35,7 +35,7 @@
 #include <compiler/utils/exception_handler.h>
 
 #define ERROR(info,func)                                                \
-  //AST_ERROR( ( info->GetInfo() ) , "mocha bugs in DstaProcessor::"#func"." )
+  //AST_ERROR( ( info->visitor_info() ) , "mocha bugs in DstaProcessor::"#func"." )
 
 namespace mocha {
 
@@ -80,7 +80,7 @@ void ProcessArray( ArrayLikeLiteral* ast_node , DstaTree* tree , int depth , Pro
  * Create an accessor for conditional_expression, like _mochaLocalTmp.x[0].y
  */
 void ProcessMember( Literal* ast_node , DstaTree* tree , ProcessorInfo* proc_info ) {
-  VisitorInfo *visitor_info = proc_info->GetInfo();
+  VisitorInfo *visitor_info = proc_info->visitor_info();
   TokenInfo* info = ast_node->value();
   switch( info->type() ) {
     //In case of { Identifier : ... } or { Identifier }
@@ -97,7 +97,7 @@ void ProcessMember( Literal* ast_node , DstaTree* tree , ProcessorInfo* proc_inf
          * If the Tree hasn't children,
          * add first identifier accessor to tree.
          */
-        AstNode* node = visitor_info->GetCurrentStmt()->dsta_node()->refs()->last_child()->Clone();
+        AstNode* node = visitor_info->current_statement()->destructuring_node()->refs()->last_child()->Clone();
         CallExp* dot_accessor = AstUtils::CreateDotAccessor( node , ast_node , ast_node->line_number() );
         tree->AddChild( dot_accessor );
       }
@@ -112,7 +112,7 @@ void ProcessMember( Literal* ast_node , DstaTree* tree , ProcessorInfo* proc_inf
         tree->AddChild( arr_accessor );
       } else {
         //Same as above.
-        AstNode* node = visitor_info->GetCurrentStmt()->dsta_node()->refs()->last_child();
+        AstNode* node = visitor_info->current_statement()->destructuring_node()->refs()->last_child();
         CallExp* arr_accessor = AstUtils::CreateArrayAccessor( node , ast_node , ast_node->line_number() );
         tree->AddChild( arr_accessor );
       }
@@ -127,7 +127,7 @@ void ProcessMember( Literal* ast_node , DstaTree* tree , ProcessorInfo* proc_inf
  * Process { x : <...> } or { <...> }
  */
 DstaTree* ProcessPropertyMember( Literal* value , DstaTree* tree , ProcessorInfo* info , int depth ) {
-  VisitorInfo* visitor_info = info->GetInfo();
+  VisitorInfo* visitor_info = info->visitor_info();
   if ( value->child_length() > 0 ) {
     ProcessMember( value , tree , info );
     AstNode* child_node = value->first_child();
@@ -144,7 +144,7 @@ DstaTree* ProcessPropertyMember( Literal* value , DstaTree* tree , ProcessorInfo
       } else {
         prop->set_value_type( Literal::kProperty );
         tree->set_symbol( prop );
-        visitor_info->GetCurrentStmt()->dsta_node()->last_child()->AddChild( tree );
+        visitor_info->current_statement()->destructuring_node()->last_child()->AddChild( tree );
         UPDATE_TREE;
       }
     }
@@ -152,7 +152,7 @@ DstaTree* ProcessPropertyMember( Literal* value , DstaTree* tree , ProcessorInfo
     value->set_value_type( Literal::kProperty );
     tree->set_symbol( value );
     ProcessMember( value , tree , info );
-    visitor_info->GetCurrentStmt()->dsta_node()->last_child()->AddChild( tree );
+    visitor_info->current_statement()->destructuring_node()->last_child()->AddChild( tree );
     UPDATE_TREE;
   }
   return tree;
@@ -208,7 +208,7 @@ void ArrayHelper( ArrayLikeLiteral* ast_node,
     if ( tree->child_length() > 0 ) {
       list->AddChild( tree->last_child()->Clone() );
     } else {
-      list->AddChild( visitor_info->GetCurrentStmt()->dsta_node()->refs()->last_child()->Clone() );
+      list->AddChild( visitor_info->current_statement()->destructuring_node()->refs()->last_child()->Clone() );
     }
     list->AddChild( arg );
     CallExp* nrm = AstUtils::CreateNormalAccessor( to_array , list , ast_node->line_number() );
@@ -221,7 +221,7 @@ void ArrayHelper( ArrayLikeLiteral* ast_node,
     if ( tree->child_length() > 0 ) {
       exp = AstUtils::CreateArrayAccessor( tree->last_child() , accessor_index , ast_node->line_number() );
     } else {
-      exp = AstUtils::CreateArrayAccessor( visitor_info->GetCurrentStmt()->dsta_node()->refs()->last_child(),
+      exp = AstUtils::CreateArrayAccessor( visitor_info->current_statement()->destructuring_node()->refs()->last_child(),
                                            accessor_index , ast_node->line_number() );
     }
   }
@@ -242,8 +242,8 @@ DstaTree* ProcessArrayElement( ArrayLikeLiteral* ast_node,
                                int depth,
                                int index,
                                ProcessorInfo* info ) {
-  VisitorInfo* visitor_info = info->GetInfo();
-  if ( !element->empty() ) {
+  VisitorInfo* visitor_info = info->visitor_info();
+  if ( !element->IsEmpty() ) {
     if ( element->node_type() == AstNode::kLiteral ) {
       Literal* elem = element->CastToLiteral();
       ObjectLikeLiteral* object = element->CastToExpression()->CastToObjectLikeLiteral();
@@ -254,14 +254,14 @@ DstaTree* ProcessArrayElement( ArrayLikeLiteral* ast_node,
           case Literal::kIdentifier : //fall through
           case Literal::kProperty : {
             ArrayHelper( ast_node , visitor_info , tree , index , elem , false );
-            visitor_info->GetCurrentStmt()->dsta_node()->last_child()->AddChild( tree );
+            visitor_info->current_statement()->destructuring_node()->last_child()->AddChild( tree );
             UPDATE_TREE;
           }
             break;
             //In case of [ x ,y ,...rest ]
           case Literal::kRest : {
             ArrayHelper( ast_node , visitor_info , tree , index , elem , true );
-            visitor_info->GetCurrentStmt()->dsta_node()->last_child()->AddChild( tree );
+            visitor_info->current_statement()->destructuring_node()->last_child()->AddChild( tree );
             UPDATE_TREE;
           }
             break;
@@ -296,7 +296,7 @@ void ProcessArray( ArrayLikeLiteral* ast_node , DstaTree* tree , int depth , Pro
   NodeIterator iterator = ast_node->elements()->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* element = iterator.Next();
-    if ( !element->empty() ) {
+    if ( !element->IsEmpty() ) {
       tree = ProcessArrayElement( ast_node , element , tree , depth , index , info );
       if ( iterator.HasNext() ) {
         index++;
@@ -322,7 +322,7 @@ inline AstNode* CreateConditional( AstNode* last_exp , AstNode* first , Processo
     Literal* var = Literal::New( Literal::kVariable , last_exp->line_number() );
     var->set_value( tree->symbol()->value() );
     var->AddChild( cond );
-    Function* fn = info->GetInfo()->GetFunction();
+    Function* fn = info->visitor_info()->function();
     if ( fn ) {
       fn->set_variable_list( var );
     }
@@ -407,7 +407,7 @@ AstNode* CreateSimpleAccessor( AstNode* first , VisitorInfo* info , bool is_assi
     Literal* var = Literal::New( Literal::kVariable , first->line_number() );
     DstaTree* tree = first->CastToDstaTree();
     var->set_value( tree->symbol()->value() );
-    Function* fn = info->GetFunction();
+    Function* fn = info->function();
     if ( fn ) {
       fn->set_variable_list( var );
     }
@@ -428,7 +428,7 @@ AstNode* CreateSimpleAccessor( AstNode* first , VisitorInfo* info , bool is_assi
  */
 NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool is_assign ) {
   NodeList* result = NodeList::New();
-  DstaExtractedExpressions* extr = stmt->dsta_node();
+  DstaExtractedExpressions* extr = stmt->destructuring_node();
   if ( extr == 0 ) {
     ERROR( info , "CreateDstaExtractedVarStmt" );
     return 0;
@@ -459,7 +459,7 @@ NodeList* CreateDstaExtractedNode( Statement* stmt , ProcessorInfo* info , bool 
         return 0;
       }
     } else {
-      AstNode* ret = CreateSimpleAccessor( first , info->GetInfo() , is_assign );
+      AstNode* ret = CreateSimpleAccessor( first , info->visitor_info() , is_assign );
       result->AddChild( ret );
     }
   }
@@ -494,8 +494,8 @@ Literal* DstaProcessor::ProcessNode( AstNode* ast_node , ProcessorInfo* info ) {
    * That like this -> _mochaLocalTmp<current number of tmporary variable> = <LHS>
    */
   char buf[50];
-  VisitorInfo* visitor_info = info->GetInfo();
-  const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info->GetTmpIndex() );
+  VisitorInfo* visitor_info = info->visitor_info();
+  const char *tmp_ref = AstUtils::CreateTmpRef( buf , visitor_info->tmp_index() );
   Literal* value = AstUtils::CreateNameNode( tmp_ref , Token::JS_IDENTIFIER , ast_node->line_number(),
                                              Literal::kIdentifier , true );
   /**
@@ -506,10 +506,10 @@ Literal* DstaProcessor::ProcessNode( AstNode* ast_node , ProcessorInfo* info ) {
    * If we have not dsta yet,
    * add DstaExtractedAssignment to current active statement.
    */
-  Statement* stmt = visitor_info->GetCurrentStmt();
-  if ( stmt && !stmt->dsta_flag() ) {
-    visitor_info->GetCurrentStmt()->set_dsta( DstaExtractedExpressions::New() );
-    visitor_info->GetCurrentStmt()->dsta_node()->AddChild( NodeList::New() );
+  Statement* stmt = visitor_info->current_statement();
+  if ( stmt && !stmt->IsContainDestructuring() ) {
+    visitor_info->current_statement()->set_destructuring( DstaExtractedExpressions::New() );
+    visitor_info->current_statement()->destructuring_node()->AddChild( NodeList::New() );
   } else if ( !stmt ) {
     ERROR( info , "ProcessNode" );
     return 0;
@@ -517,7 +517,7 @@ Literal* DstaProcessor::ProcessNode( AstNode* ast_node , ProcessorInfo* info ) {
   /**
    * Now add a temporary referrence variable to Refs node.
    */
-  visitor_info->GetCurrentStmt()->dsta_node()->set_refs( value );
+  visitor_info->current_statement()->destructuring_node()->set_refs( value );
   if ( ast_node->node_type() == AstNode::kArrayLikeLiteral ) {
     ProcessArray( ast_node->CastToExpression()->CastToArrayLikeLiteral() , tree , 0 , info );
   } else {
@@ -538,14 +538,14 @@ Literal* DstaProcessor::ProcessNode( AstNode* ast_node , ProcessorInfo* info ) {
  * Create temporary referrence variable.
  */
 VariableStmt* DstaProcessor::CreateTmpVarDecl( Statement* stmt , ProcessorInfo* info ) {
-  DstaExtractedExpressions* dsta_extr = stmt->dsta_node();
+  DstaExtractedExpressions* dsta_extr = stmt->destructuring_node();
   if ( dsta_extr == 0 ) {
     ERROR( info , "CreateTmpVarDecl" );
     return 0;
   }
   NodeList* list = dsta_extr->refs();
   NodeIterator iterator = list->ChildNodes();
-  NodeList* var_list = NodeList::New();
+  VariableDeclarationList* var_list = VariableDeclarationList::New( stmt->line_number() );
   /**
    * Iterate all Refs node, and create variable_declaration node.
    */

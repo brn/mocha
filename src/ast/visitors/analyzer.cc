@@ -33,9 +33,9 @@ VISITOR_IMPL( AssignmentExp ){
   if ( lvalue->type() == JSValue::kLiteral ) {
     JSLiteral literal = lvalue->CastToJSLiteral();
     int type = literal->value()->ValueType();
-    if ( type == ValueNode::kIdentifier ) {
+    if ( type == Literal::kIdentifier ) {
       is_ident = true;
-    } else if ( type == ValueNode::kProperty ) {
+    } else if ( type == Literal::kProperty ) {
       
     }
   }
@@ -90,71 +90,71 @@ VISITOR_IMPL( UnaryExp ){
     case kLiteral : {
       type = value->CastToJSLiteral()->type();
       switch ( type ) {
-        case ValueNode::kObject :
-        case ValueNode::kArray :
+        case Literal::kObject :
+        case Literal::kArray :
           if ( op == '!' ) {
-            return JSLiteral::New( ValueNode::kFalse , ast_node );
+            return JSLiteral::New( Literal::kFalse , ast_node );
           } else if ( op == Token::JS_DELETE ) {
-            ValueNode* true_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kTrue ) , Token::JS_TRUE,
-                                                            ast_node->Line() , ValueNode::kTrue );
+            Literal* true_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kTrue ) , Token::JS_TRUE,
+                                                            ast_node->Line() , Literal::kTrue );
             ast_node->ParentNode()->ReplaceChild( ast_node , true_sym );
-            return JSLiteral::New( ValueNode::kTrue , true_sym );
+            return JSLiteral::New( Literal::kTrue , true_sym );
           } else if ( op == Token::JS_VOID ) {
-            ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kUndefined ) , Token::JS_IDENTIFIER,
-                                                             ast_node->Line() , ValueNode::kIdentifier );
+            Literal* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kUndefined ) , Token::JS_IDENTIFIER,
+                                                             ast_node->Line() , Literal::kIdentifier );
             ast_node->ParentNode()->ReplaceChild( ast_node , undefined );
-            return JSLiteral::New( ValueNode::kIdentifier , undefined );
+            return JSLiteral::New( Literal::kIdentifier , undefined );
           } else if ( op == Token::JS_TYPEOF ) {
-            ValueNode* str = AstUtils::CreateNameNode( "\"[object Object]\"" , Token::JS_STRING_LITERAL,
-                                                       ast_node->Line() , ValueNode::kString );
+            Literal* str = AstUtils::CreateNameNode( "\"[object Object]\"" , Token::JS_STRING_LITERAL,
+                                                       ast_node->Line() , Literal::kString );
             ast_node->ParentNode()->ReplaceChild( ast_node , str );
-            return JSLiteral( ValueNode::kString , str );
+            return JSLiteral( Literal::kString , str );
           } else if ( op == Token::JS_INCREMENT || op == Token::JS_DECREMENT || op == '+' || op == '-' ) {
-            ValueNode* nan = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNaN ) , Token::JS_STRING_LITERAL,
-                                                       ast_node->Line() , ValueNode::kString );
+            Literal* nan = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNaN ) , Token::JS_STRING_LITERAL,
+                                                       ast_node->Line() , Literal::kString );
             ast_node->ParentNode()->ReplaceChild( ast_node , nan );
-            return JSLiteral( ValueNode::kNaN , nan );
+            return JSLiteral( Literal::kNaN , nan );
           }
           break;
-        case ValueNode::kIdentifier :
+        case Literal::kIdentifier :
           if ( op == '!' ) {
-            return JSLiteral::New( ValueNode::kFalse , ast_node );
+            return JSLiteral::New( Literal::kFalse , ast_node );
           } else if ( op == Token::JS_DELETE ) {
-            ValueNode* true_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kTrue ) , Token::JS_TRUE,
-                                                            ast_node->Line() , ValueNode::kTrue );
+            Literal* true_sym = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kTrue ) , Token::JS_TRUE,
+                                                            ast_node->Line() , Literal::kTrue );
             ast_node->ParentNode()->ReplaceChild( ast_node , true_sym );
-            return JSLiteral::New( ValueNode::kTrue , true_sym );
+            return JSLiteral::New( Literal::kTrue , true_sym );
           } else if ( op == Token::JS_VOID ) {
-            ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kUndefined ) , Token::JS_IDENTIFIER,
-                                                             ast_node->Line() , ValueNode::kIdentifier );
+            Literal* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( Symbol::kUndefined ) , Token::JS_IDENTIFIER,
+                                                             ast_node->Line() , Literal::kIdentifier );
             ast_node->ParentNode()->ReplaceChild( ast_node , undefined );
-            return JSLiteral::New( ValueNode::kIdentifier , undefined );
+            return JSLiteral::New( Literal::kIdentifier , undefined );
           } else if ( op == Token::JS_TYPEOF ) {
-            ValueNode* str = AstUtils::CreateNameNode( "\"[object Object]\"" , Token::JS_STRING_LITERAL,
-                                                       ast_node->Line() , ValueNode::kString );
+            Literal* str = AstUtils::CreateNameNode( "\"[object Object]\"" , Token::JS_STRING_LITERAL,
+                                                       ast_node->Line() , Literal::kString );
             ast_node->ParentNode()->ReplaceChild( ast_node , str );
-            return JSLiteral( ValueNode::kString , str );
+            return JSLiteral( Literal::kString , str );
           } else if ( op == Token::JS_INCREMENT || op == Token::JS_DECREMENT || op == '+' || op == '-' ) {
-            ValueNode* nan = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNaN ) , Token::JS_STRING_LITERAL,
-                                                       ast_node->Line() , ValueNode::kString );
+            Literal* nan = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNaN ) , Token::JS_STRING_LITERAL,
+                                                       ast_node->Line() , Literal::kString );
             ast_node->ParentNode()->ReplaceChild( ast_node , nan );
-            return JSLiteral( ValueNode::kNaN , nan );
+            return JSLiteral( Literal::kNaN , nan );
           }
           break;
           return JSLiteral::New( ast_node );
-        case ValueNode::kProperty :
+        case Literal::kProperty :
           return JSLiteral::New( ast_node );
-        case ValueNode::kNull :
+        case Literal::kNull :
           return JSLiteral::New( ast_node );
-        case ValueNode::kNumeric :
+        case Literal::kNumeric :
           return JSLiteral::New( ast_node );
-        case ValueNode::kString :
+        case Literal::kString :
           return JSLiteral::New( ast_node );
-        case ValueNode::kRegExp :
+        case Literal::kRegExp :
           return JSLiteral::New( ast_node );
-        case ValueNode::kNaN :
+        case Literal::kNaN :
           return JSLiteral::New( ast_node );
-        case ValueNode::kThis :
+        case Literal::kThis :
           return JSLiteral::New( ast_node );
       }
     }
@@ -181,7 +181,7 @@ VISITOR_IMPL( CallExp ) {
 }
 
 VISITOR_IMPL( NewExp ) {
-  return ast_node->FirstChild()->CastToExpression()->Analyze( this );
+  return ast_node->first_child()->CastToExpression()->Analyze( this );
 }
 
 VISITOR_IMPL( PostfixExp ) {
@@ -194,28 +194,28 @@ VISITOR_IMPL( ConditionalExp ){
   return ast_node->False()->CastToExpression()->Analyze( this );
 }
 
-VISITOR_IMPL( ValueNode ) {
+VISITOR_IMPL( Literal ) {
   int type = ast_node->ValueType();
   switch ( type ) {
-    case ValueNode::kArray :
+    case Literal::kArray :
       return JSArray::New();
-    case ValueNode::kObject :
+    case Literal::kObject :
       return JSObject::New();
-    case ValueNode::kIdentifier :
+    case Literal::kIdentifier :
       return JSLiteral::New( ast_node );
-    case ValueNode::kProperty :
+    case Literal::kProperty :
       return JSLiteral::New( ast_node );
-    case ValueNode::kNull :
+    case Literal::kNull :
       return JSLiteral::New( ast_node );
-    case ValueNode::kNumeric :
+    case Literal::kNumeric :
       return JSLiteral::New( ast_node );
-    case ValueNode::kString :
+    case Literal::kString :
       return JSLiteral::New( ast_node );
-    case ValueNode::kRegExp :
+    case Literal::kRegExp :
       return JSLiteral::New( ast_node );
-    case ValueNode::kNaN :
+    case Literal::kNaN :
       return JSLiteral::New( ast_node );
-    case ValueNode::kThis :
+    case Literal::kThis :
       return JSLiteral::New( ast_node );
   }
 }

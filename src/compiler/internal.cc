@@ -30,7 +30,7 @@ Internal::Internal ( const char* main_file_path,
                      bool is_runtime,
                      Handle<PathInfo> path_info ,
                      Compiler* compiler,
-                     Scope *scope,
+                     ScopeRegistry *scope_registry,
                      CodegenVisitor *codegen,
                      AstRoot* ast_root ) :
 
@@ -38,7 +38,7 @@ Internal::Internal ( const char* main_file_path,
     is_runtime_( is_runtime ),
     file_exist_ ( false ),
     compiler_ ( compiler ),
-    scope_ ( scope ),
+    scope_registry_ ( scope_registry ),
     ast_root_( ast_root ),
     codegen_ ( codegen ),
     path_info_( path_info ){}
@@ -100,18 +100,18 @@ inline void Internal::LoadFile_ () {
 inline void Internal::GetAst_ ( ErrorReporter *reporter ) {
   std::string buf;
   file_->GetFileContents( buf );
-  SourceStream *source_stream = SourceStream::Create( buf.c_str() , main_file_path_ );
-  Scanner *scanner = Scanner::Create( source_stream , reporter , file_->GetFileName() );
+  SourceStream *source_stream = SourceStream::New( buf.c_str() , main_file_path_ );
+  Scanner *scanner = Scanner::New( source_stream , reporter , file_->GetFileName() );
   ParserConnector connector( compiler_ , ast_root_ , scanner , source_stream , reporter );
   Parser parser( &connector , reporter , file_->GetFileName() );
   FileRoot* root = parser.Parse();
-  AstTransformer visitor ( is_runtime_ , scope_ , compiler_,
+  AstTransformer visitor ( is_runtime_ , scope_registry_ , compiler_,
                            main_file_path_ , file_->GetFileName() );
   if ( !reporter->Error() ) {
-    AstRoot tmp_root;
-    tmp_root.AddChild( root );
-    tmp_root.Accept ( &visitor );
-    ast_root_->AddChild( tmp_root.FirstChild() );
+    AstRoot *tmp_root = AstRoot::New();
+    tmp_root->AddChild( root );
+    tmp_root->Accept ( &visitor );
+    ast_root_->AddChild( tmp_root->first_child() );
   } else {
     std::string error;
     reporter->SetError( &error );
@@ -125,19 +125,19 @@ inline void Internal::ParseStart_ () {
   std::string buf;
   file_->GetFileContents( buf );
   ErrorHandler reporter( new ErrorReporter );
-  SourceStream *source_stream = SourceStream::Create( buf.c_str() , main_file_path_ );
-  Scanner *scanner = Scanner::Create( source_stream , reporter.Get() , file_->GetFileName() );
+  SourceStream *source_stream = SourceStream::New( buf.c_str() , main_file_path_ );
+  Scanner *scanner = Scanner::New( source_stream , reporter.Get() , file_->GetFileName() );
   ParserConnector connector( compiler_ , ast_root_ , scanner , source_stream , reporter.Get() );
   Parser parser( &connector , reporter.Get() , file_->GetFileName() );
   FileRoot* root = parser.Parse();
-  AstTransformer visitor ( is_runtime_ , scope_ , compiler_,
+  AstTransformer visitor ( is_runtime_ , scope_registry_ , compiler_,
                            main_file_path_ , file_->GetFileName() );
   compiler_->CatchException( file_->GetFileName() , reporter );
   if ( !reporter->Error() ) {
-    AstRoot tmp_root;
-    tmp_root.AddChild( root );
-    tmp_root.Accept ( &visitor );
-    ast_root_->AddChild( tmp_root.FirstChild() );
+    AstRoot *tmp_root = AstRoot::New();
+    tmp_root->AddChild( root );
+    tmp_root->Accept ( &visitor );
+    ast_root_->AddChild( tmp_root->first_child() );
   } else {
     std::string buf;
     reporter->SetError( &buf );

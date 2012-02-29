@@ -14,34 +14,32 @@ ModuleProcessor::ModuleProcessor( ModuleStmt* stmt , ProcessorInfo* info ) :
     stmt_( stmt ) , info_( info ){};
 
 void ModuleProcessor::ProcessNode() {
-  VisitorInfo* visitor_info = info_->GetInfo();
-  AstNode* body = stmt_->FirstChild();
-  AstNode* name = stmt_->Name();
-  bool is_runtime = visitor_info->IsRuntime();
-  if ( body->NodeType() == AstNode::kBlockStmt ) {
+  VisitorInfo* visitor_info = info_->visitor_info();
+  AstNode* body = stmt_->first_child();
+  AstNode* name = stmt_->name();
+  bool is_runtime = visitor_info->runtime();
+  if ( body->node_type() == AstNode::kBlockStmt ) {
     //Get block inner node.
-    body = body->FirstChild();
+    body = body->first_child();
   } else {
     //Create node list.
-    StatementList *list = ManagedHandle::Retain<StatementList>();
+    NodeList *list = NodeList::New();
     list->AddChild( body );
     body = list;
   }
-  Function* fn_node = AstUtils::CreateFunctionDecl( name , ManagedHandle::Retain<Empty>() , body );
-  fn_node->Name( ManagedHandle::Retain<Empty>() );
+  Function* fn_node = AstUtils::CreateFunctionDecl( name , Empty::New() , body , stmt_->line_number() );
+  fn_node->set_name( Empty::New() );
   AstUtils::FindDirectivePrologue( fn_node , fn_node );
   ExpressionStmt* an_stmt_node = ProcessBody_( body , fn_node , name );
-  fn_node->Line( stmt_->Line() );
   //For anonymous module.
   if ( !name->IsEmpty() ) {
-    ValueNode* maybe_value = name->CastToValue();
+    Literal* maybe_value = name->CastToLiteral();
     if ( maybe_value ) {
-      maybe_value->ValueType( ValueNode::kProperty );
+      maybe_value->set_value_type( Literal::kProperty );
     }
     ProcessAnonymousModule_( an_stmt_node , name , is_runtime );
   } else {
-    an_stmt_node->Line( stmt_->Line() );
-    stmt_->ParentNode()->ReplaceChild( stmt_ , an_stmt_node );
+    stmt_->parent_node()->ReplaceChild( stmt_ , an_stmt_node );
   }
   Finish_( name , fn_node );
 }
@@ -52,31 +50,30 @@ void ModuleProcessor::ProcessNode() {
  * Like this -> __MC_global_alias__.<name> = ...;
  */
 void ModuleProcessor::ProcessAnonymousModule_( ExpressionStmt* an_stmt_node , AstNode* name , bool is_runtime ) {
-  VisitorInfo* visitor_info = info_->GetInfo();
+  VisitorInfo* visitor_info = info_->visitor_info();
   if ( !is_runtime ) {
-    ValueNode* alias = 0;
+    Literal* alias = 0;
     if ( visitor_info->IsInModules() ) {
-      alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                        Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+      alias = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kLocalExport ),
+                                        Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
     } else {
-      alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                        Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
+      alias = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalAlias ),
+                                        Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
     }
-    CallExp* dot_accessor = AstUtils::CreateDotAccessor( alias , name );
-    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , dot_accessor , an_stmt_node->FirstChild() );
+    CallExp* dot_accessor = AstUtils::CreateDotAccessor( alias , name , stmt_->line_number() );
+    AssignmentExp* exp = AstUtils::CreateAssignment( '=' , dot_accessor , an_stmt_node->first_child() , stmt_->line_number() );
     AstNode* stmt = 0;//init after.
     if ( !name->IsEmpty() ) {
-      ValueNode* var_node = AstUtils::CreateVarInitiliser( name->CastToValue()->Symbol() , exp );
-      stmt = AstUtils::CreateVarStmt( var_node );
+      Literal* var_node = AstUtils::CreateVarInitiliser( name->CastToLiteral()->value() , exp , stmt_->line_number() );
+      stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarDeclList( stmt_->line_number() , 1 , var_node ) , stmt_->line_number() );
     } else {
-      AstUtils::CreateExpStmt( exp );
+      stmt = AstUtils::CreateExpStmt( exp , stmt_->line_number() );
     }
-    stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
+    stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
   } else {
-    ValueNode *var_node = AstUtils::CreateVarInitiliser( name->CastToValue()->Symbol() , an_stmt_node->FirstChild() );
-    VariableStmt *var_stmt = AstUtils::CreateVarStmt( var_node );
-    var_stmt->Line( stmt_->Line() );
-    stmt_->ParentNode()->ReplaceChild( stmt_ , var_stmt );
+    Literal *var_node = AstUtils::CreateVarInitiliser( name->CastToLiteral()->value() , an_stmt_node->first_child() , stmt_->line_number() );
+    VariableStmt *var_stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarDeclList( stmt_->line_number() , 1 , var_node ) , stmt_->line_number() );
+    stmt_->parent_node()->ReplaceChild( stmt_ , var_stmt );
   }
 }
 
@@ -85,9 +82,9 @@ void ModuleProcessor::ProcessAnonymousModule_( ExpressionStmt* an_stmt_node , As
  * to create module scopes.
  */
 ExpressionStmt* ModuleProcessor::ProcessBody_( AstNode* body , Function* fn_node , AstNode* name ) {
-  VisitorInfo* visitor_info = info_->GetInfo();
-  IVisitor* visitor = info_->GetVisitor();
-  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , ManagedHandle::Retain<Empty>() );
+  VisitorInfo* visitor_info = info_->visitor_info();
+  IVisitor* visitor = info_->visitor();
+  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , Empty::New() , stmt_->line_number() );
   visitor_info->EnterModuel();
   body->Accept( visitor );
   visitor_info->EscapeModuel();
@@ -96,25 +93,23 @@ ExpressionStmt* ModuleProcessor::ProcessBody_( AstNode* body , Function* fn_node
 
 
 void ModuleProcessor::Finish_( AstNode* name , Function* fn_node ) {
-  TokenInfo* local = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                           Token::JS_IDENTIFIER , stmt_->Line() ) );
-  ValueNode* ret_local = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLocalExport ),
-                                                   Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-  ValueNode* init = 0;//init after.
+  TokenInfo* local = TokenInfo::New( SymbolList::symbol( SymbolList::kLocalExport ),
+                                                           Token::JS_IDENTIFIER , stmt_->line_number() );
+  Literal* ret_local = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kLocalExport ),
+                                                   Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
+  Literal* init = 0;//init after.
   if ( !name->IsEmpty() ) {
     init = AstUtils::CreateVarInitiliser( local,
-                                          AstUtils::CreateObjectLiteral( ManagedHandle::Retain<Empty>() ) );
+                                          AstUtils::CreateObjectLiteral( Empty::New() , stmt_->line_number() ) , stmt_->line_number() );
   } else {
-    ValueNode* alias = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kGlobalAlias ),
-                                                 Token::JS_IDENTIFIER , stmt_->Line() , ValueNode::kIdentifier );
-    init = AstUtils::CreateVarInitiliser( local,
-                                          alias );
+    Literal* alias = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalAlias ),
+                                               Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
+    init = AstUtils::CreateVarInitiliser( local , alias , stmt_->line_number() );
   }
-  NodeList* list = ManagedHandle::Retain<NodeList>();
-  ReturnStmt* ret = AstUtils::CreateReturnStmt( ret_local );
+  VariableDeclarationList* list = VariableDeclarationList::New( stmt_->line_number() );
+  ReturnStmt* ret = AstUtils::CreateReturnStmt( ret_local , stmt_->line_number() );
   list->AddChild( init );
-  VariableStmt* var_stmt = AstUtils::CreateVarStmt( list );
-  var_stmt->Line( stmt_->Line() );
+  VariableStmt* var_stmt = AstUtils::CreateVarStmt( list , stmt_->line_number() );
   fn_node->InsertBefore( var_stmt );
   fn_node->AddChild( ret );
 }

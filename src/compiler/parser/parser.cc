@@ -128,11 +128,11 @@ NodeList* FormalParameterConvertor( AstNode *args ) {
          !maybe_dst &&
          !maybe_dst_array &&
          !maybe_member &&
-         item->NodeType() != Literal::kAssignmentExp ) {
+         item->node_type() != Literal::kAssignmentExp ) {
       SYNTAX_ERROR( "malformed formal parameter list\\nin file "
                     << filename_ << " at line " << Seek( -1 )->line_number() );
       return result;
-    } else if ( item->NodeType() == Literal::kAssignmentExp ) {
+    } else if ( item->node_type() == Literal::kAssignmentExp ) {
       AssignmentExp* assign = item->CastToExpression()->CastToAssigment();
       AstNode* left = assign->left_value();
       maybe_ident = left->CastToLiteral();
@@ -333,10 +333,10 @@ AstNode* Parser::ParseSourceElement() {
           result = ParseFunctionDecl( true );
           CHECK_ERROR(result);
           Function* fn = result->CastToExpression()->CastToFunction();
-          fn->set_const_declaration();
+          fn->MarkAsConstDeclaration();
         } else {
           result = ParseVariableStatement();
-          result->FirstChild()->CastToExpression()->CastToVariableDeclarationList()->set_const_declaration();
+          result->first_child()->CastToExpression()->CastToVariableDeclarationList()->MarkAsConstDeclaration();
         }
       }
       break;
@@ -507,7 +507,7 @@ AstNode* Parser::ParseStatement() {
       result = ParseFunctionDecl( false );
       CHECK_ERROR(result);
       Function* fn = result->CastToExpression()->CastToFunction();
-      fn->set_declaration();
+      fn->MarkAsDeclaration();
     }
       break;
       
@@ -538,7 +538,7 @@ AstNode* Parser::ParseStatement() {
         if ( strcmp( token->token() , SymbolList::symbol( SymbolList::kTrait ) ) == 0 && token->type() == '{' ) {
           result = ParseTrait();
           CHECK_ERROR( result );
-          result->CastToExpression()->CastToTrait()->set_declaration();
+          result->CastToExpression()->CastToTrait()->MarkAsDeclaration();
           break;
         }
       }
@@ -546,15 +546,15 @@ AstNode* Parser::ParseStatement() {
       CHECK_ERROR(result);
       //If shorten function expression is parsed as expression,
       //we mark as function declaration.
-      if ( result->NodeType() == AstNode::kExpressionStmt ) {
+      if ( result->node_type() == AstNode::kExpressionStmt ) {
         Expression* exp = result->first_child()->CastToExpression();
-        if ( !exp->paren() && exp->child_length() == 1 ) {
+        if ( !exp->IsParenthesis() && exp->child_length() == 1 ) {
           AstNode* item = exp->first_child();
           if ( item->node_type() == AstNode::kFunction ) {
-            item->CastToExpression()->CastToFunction()->set_declaration();
+            item->CastToExpression()->CastToFunction()->MarkAsDeclaration();
             result = item;
           }
-        } else if ( !exp->paren() && exp->child_length() > 1 ) {
+        } else if ( !exp->IsParenthesis() && exp->child_length() > 1 ) {
           if ( exp->first_child()->node_type() == AstNode::kFunction ) {
             SYNTAX_ERROR( "illegal trailing comma after function declaration.\\nIn file"
                           << filename_ << " at line " << exp->line() );
@@ -1030,7 +1030,7 @@ AstNode* Parser::ParseLetExpressionOrLetStatement() {
                                                     Token::JS_THIS , token->GetLineNumber() , Literal::kThis );
     Expression* fn_exp = Expression::New( fn->line() );
     fn_exp->AddChild( fn );
-    fn_exp->paren();
+    fn_exp->IsParenthesis();
     args->InsertBefore( this_sym );
     CallExp* dot_accessor = AstUtils::CreateDotAccessor( fn_exp , call_sym );
     /**
@@ -2363,7 +2363,7 @@ ClassMember* Parser::ParseClassMember() {
     CHECK_ERROR( ClassMember::New( ClassMember::kConstructor , token->line_number() ) );
     ParseTerminator();
     CHECK_ERROR( ClassMember::New( ClassMember::kConstructor , token->line_number() ) );
-    exp->CastToExpression()->CastToFunction()->set_declaration();
+    exp->CastToExpression()->CastToFunction()->MarkAsDeclaration();
     member_type = ClassMember::kConstructor;
   } else if ( token->type() == Token::JS_STATIC ) {
     Advance();
@@ -2440,7 +2440,7 @@ AstNode* Parser::ParseExportableDefinition() {
         CHECK_ERROR( ret );
         ParseTerminator();
         CHECK_ERROR( ret );
-        ret->CastToExpression()->CastToFunction()->set_const_declaration();
+        ret->CastToExpression()->CastToFunction()->MarkAsConstDeclaration();
         return ret;
       } else {
         Advance();
@@ -2449,7 +2449,7 @@ AstNode* Parser::ParseExportableDefinition() {
         ParseTerminator();
         CHECK_ERROR( ret );
         END(ExportableDefinition);
-        ret->CastToExpression()->CastToVariableDeclarationList()->set_const_declaration();
+        ret->CastToExpression()->CastToVariableDeclarationList()->MarkAsConstDeclaration();
         return value;
       }
     } else if ( token->type() == Token::JS_GET ) {
@@ -2517,7 +2517,7 @@ AstNode* Parser::ParseAssignmentExpression( bool is_noin ) {
   TokenInfo *token = Seek();
   if ( IsAssignmentOp( token->type() ) ) {
     Advance();
-    if ( exp->CastToExpression() && exp->CastToExpression()->valid_lhs() ) {
+    if ( exp->CastToExpression() && exp->CastToExpression()->IsValidLhs() ) {
       AstNode* rhs = ParseAssignmentExpression( is_noin );
       CHECK_ERROR( rhs );
       AssignmentExp* assign_exp = AssignmentExp::New( type , exp , rhs , rhs->line() );
@@ -2590,7 +2590,7 @@ AstNode* Parser::ParseConditional( bool is_noin ) {
       CHECK_ERROR( exp );
       ConditionalExp* cond = ConditionalExp::New( exp , left , right );
       END(Conditional);
-      cond->unset_valid_lhs();
+      cond->MarkAsInValidLhs();
       return cond;
     } else {
       SYNTAX_ERROR( "parse error got unexpected token "
@@ -2637,7 +2637,7 @@ AstNode* Parser::ParseBinaryExpression( bool is_noin ) {
         } else {
           exp = CompareExp::New( type , last , rhs , token->line_number() );
         }
-        exp->CastToExpression()->unset_valid_lhs();
+        exp->CastToExpression()->MarkAsInValidLhs();
         last = exp;
       }
         break;
@@ -2653,7 +2653,7 @@ AstNode* Parser::ParseBinaryExpression( bool is_noin ) {
           } else {
             exp = CompareExp::New( type , last , rhs , token->line_number() );
           }
-          exp->CastToExpression()->unset_valid_lhs();
+          exp->CastToExpression()->MarkAsInValidLhs();
           last = exp;
         } else {
           END( BinaryExpressionNoIn );
@@ -2682,7 +2682,7 @@ AstNode* Parser::ParseBinaryExpression( bool is_noin ) {
         } else {
           exp = BinaryExp::New( type , last , rhs , token->line_number() );
         }
-        exp->CastToExpression()->unset_valid_lhs();
+        exp->CastToExpression()->MarkAsInValidLhs();
         last = exp;
       }
         break;
@@ -2711,9 +2711,9 @@ AstNode* Parser::ParseUnaryExpression() {
     Advance();
     AstNode* post_exp = ParseUnaryExpression();
     CHECK_ERROR( post_exp );
-    post_exp->CastToExpression()->unset_valid_lhs();
+    post_exp->CastToExpression()->MarkAsInValidLhs();
     UnaryExp* unary = UnaryExp::New( type , post_exp , token->line_number() );
-    post_exp->set_unary();
+    post_exp->MarkAsUnary();
     END(UnaryExpression);
     return unary;
   } else {
@@ -2729,7 +2729,7 @@ AstNode* Parser::ParsePostfixExpression() {
   CHECK_ERROR( lhs );
   TokenInfo *token = Seek();
   if ( !token->HasLineBreakBefore() && ( token->type() == Token::JS_INCREMENT || token->type() == Token::JS_DECREMENT ) ) {
-    lhs->CastToExpression()->unset_valid_lhs();
+    lhs->CastToExpression()->MarkAsInValidLhs();
     PostfixExp* post = PostfixExp::New( type , lhs , token->line_number() );
     Advance();
     END(PostfixExpression);
@@ -2746,7 +2746,7 @@ AstNode* Parser::ParseLeftHandSideExpression() {
   AstNode* node;
   if ( token->type() == Token::JS_NEW ) {
     node = ParseNewExpression();
-    node->CastToExpression()->unset_valid_lhs();
+    node->CastToExpression()->MarkAsInValidLhs();
   } else {
     node = ParseCallExpression();
   }
@@ -2831,7 +2831,7 @@ AstNode* Parser::ParseCallExpression() {
           }
           ret = CallExp::New( CallExp::kNormal , token->line_number() );
           ret->set_callable( exp );
-          ret->unset_valid_lhs();
+          ret->MarkAsInValidLhs();
           if ( arguments->child_length() == 0 ) {
             ret->set_args( Empty::New() );
           } else {
@@ -2854,7 +2854,7 @@ AstNode* Parser::ParseCallExpression() {
       return ParseArrowFunctionExpression( member , arguments , type );
     } else {
       END(CallExpression);
-      exp->CastToExpression()->unset_valid_lhs();
+      exp->CastToExpression()->MarkAsInValidLhs();
       return exp;
     }
   } else {
@@ -3072,13 +3072,13 @@ AstNode* Parser::ParsePrimaryExpression() {
   if ( token->type() == Token::JS_FUNCTION ) {
     AstNode* fn = ParseFunctionDecl( false );
     CHECK_ERROR( fn );
-    fn->CastToExpression()->unset_valid_lhs();
+    fn->CastToExpression()->MarkAsInValidLhs();
     END(MemberExpression);
     return fn;
   } else if ( token->type() == Token::JS_CLASS  ) {
     AstNode* class_exp = ParseClassDecl( false );
     CHECK_ERROR( class_exp );
-    class_exp->CastToExpression()->unset_valid_lhs();
+    class_exp->CastToExpression()->MarkAsInValidLhs();
     return class_exp;
   } else if ( token->type() == Token::JS_IDENTIFIER && strcmp( token->token() , "trait" ) == 0 &&
               ( Seek()->type()  == '{' || Seek( 2 )->type() == '{' ) ) {
@@ -3088,7 +3088,7 @@ AstNode* Parser::ParsePrimaryExpression() {
   } else if ( token->type() == Token::JS_FUNCTION_GLYPH || token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression( type );
     CHECK_ERROR( fn );
-    fn->CastToExpression()->unset_valid_lhs();
+    fn->CastToExpression()->MarkAsInValidLhs();
     END(MemberExpression);
     return fn;
   } else if ( token->type() == Token::JS_IDENTIFIER && ( fn_signature->type() == Token::JS_FUNCTION_GLYPH ||
@@ -3106,14 +3106,14 @@ AstNode* Parser::ParsePrimaryExpression() {
     AstNode* exp = ParseExpression( false );
     CHECK_ERROR( exp );
     if ( exp->child_length() > 1 ) {
-      exp->CastToExpression()->unset_valid_lhs();
+      exp->CastToExpression()->MarkAsInValidLhs();
     }
     token = Seek();
     if ( token->type() == ')' ) {
       Advance();
       token = Seek();
       Expression *expression = exp->CastToExpression();
-      expression->set_paren();
+      expression->MarkParenthesis();
     } else if ( token->type() == Token::JS_FOR ) {
       AstNode* generator = ParseGeneratorExpression( exp );
       CHECK_ERROR(generator);
@@ -3134,7 +3134,7 @@ AstNode* Parser::ParsePrimaryExpression() {
       END(PrimaryExpression);
       AstNode* ret = ParseArrowFunctionExpression( exp , type );
       CHECK_ERROR( ret );
-      ret->CastToExpression()->unset_valid_lhs();
+      ret->CastToExpression()->MarkAsInValidLhs();
       return ret;
     } else {
       END(PrimaryExpression);
@@ -3145,14 +3145,14 @@ AstNode* Parser::ParsePrimaryExpression() {
     if ( token->type() == '[' ) {
       AstNode* elem = ParseArrayLiteral();
       CHECK_ERROR( elem );
-      elem->CastToExpression()->unset_valid_lhs();
-      elem->CastToArrayLikeLiteral()->set_tuple();
+      elem->CastToExpression()->MarkAsInValidLhs();
+      elem->CastToArrayLikeLiteral()->MarkAsTuple();
       return elem;
     } else if ( type == '{' ) {
       AstNode* elem = ParseObjectLiteral();
       CHECK_ERROR( elem );
-      elem->CastToExpression()->unset_valid_lhs();
-      elem->CastToObjectLikeLiteral()->set_record();
+      elem->CastToExpression()->MarkAsInValidLhs();
+      elem->CastToObjectLikeLiteral()->MarkAsRecord();
       return elem;
     } else {
       SYNTAX_ERROR( "got unexpected token "
@@ -3165,7 +3165,7 @@ AstNode* Parser::ParsePrimaryExpression() {
               token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT ) {
     AstNode* fn = ParseArrowFunctionExpression( type );
     END(PrimaryExpression);
-    fn->CastToExpression()->unset_valid_lhs();
+    fn->CastToExpression()->MarkAsInValidLhs();
     return fn;
   } else if ( token->type() == Token::JS_DO ) {
     AstNode* ret = ParseDoWhileStatement( true );
@@ -3218,13 +3218,13 @@ AstNode* Parser::ParseObjectLiteral() {
         if ( token->type() == '{' ) {
           Advance();
           assign = ParseObjectLiteral();
-          object->unset_valid_lhs();
+          object->MarkAsInValidLhs();
         } else {
           assign = ParseAssignmentExpression( false );
           if ( assign->CastToLiteral() ) {
             Literal* literal = assign->CastToLiteral();
             if ( literal->value_type() != Literal::kIdentifier ) {
-              object->unset_valid_lhs();
+              object->MarkAsInValidLhs();
             }
           }
         }
@@ -3261,7 +3261,7 @@ AstNode* Parser::ParseObjectLiteral() {
         object->set_element( val );
         val->value_type( Literal::kProperty );
         token = Seek();
-        object->unset_valid_lhs();
+        object->MarkAsInValidLhs();
       } else {
         SYNTAX_ERROR( "parse error got unexpected token "
                       << TokenConverter( token )
@@ -3391,7 +3391,7 @@ AstNode* Parser::ParseArrayLiteral() {
           children->AddChild( node );
           children->AddChild( cmp_node );
           array->set_element( children );
-          array->set_comprehensions();
+          array->MarkAsComprehensions();
           token = Seek();
           if ( token->type() != ']' ) {
             SYNTAX_ERROR( "parse error got unexpected token "
@@ -3514,7 +3514,7 @@ AstNode* Parser::ParseLiteral() {
   Literal* value = Literal::New( value_type , token->line_number() );
   value->set_value( token );
   if ( is_invalid_lhs ) {
-    value->unset_valid_lhs();
+    value->MarkAsInValidLhs();
   }
   END(Literal);
   return value;

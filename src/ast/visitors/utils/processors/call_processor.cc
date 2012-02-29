@@ -9,7 +9,7 @@
 namespace mocha {
 
 void CallProcessor::ProcessPrivateAccessor( CallExp* ast_node , ProcessorInfo* info ) {
-  VisitorInfo* visitor_info = info->GetInfo();
+  VisitorInfo* visitor_info = info->visitor_info();
   Literal* maybe_ident = ast_node->callable()->CastToLiteral();
   if ( maybe_ident ) {
     Literal* this_sym = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kThis ),
@@ -41,7 +41,7 @@ void CallSuper ( CallExp* ast_node ) {
   CallExp* constructor_accessor = AstUtils::CreateDotAccessor( ast_node->callable(), constructor , ast_node->line_number() );
   CallExp* normal = AstUtils::CreateDotAccessor( constructor_accessor , call , ast_node->line_number() );
   ast_node->set_callable( normal );
-  if ( !args->empty() ) {
+  if ( !args->IsEmpty() ) {
     ast_node->args()->InsertBefore( this_sym );
   } else {
     NodeList* args = AstUtils::CreateNodeList( 1 , this_sym );
@@ -51,7 +51,7 @@ void CallSuper ( CallExp* ast_node ) {
 
 
 void CallProcessor::ProcessFnCall( CallExp* ast_node , ProcessorInfo* info ) {
-  IVisitor *visitor = info->GetVisitor();
+  IVisitor *visitor = info->visitor();
   AstNode* args = ast_node->args();
   AstNode* callable = ast_node->callable();
   if ( callable->node_type() == AstNode::kLiteral &&
@@ -75,7 +75,7 @@ void CallProcessor::ProcessFnCall( CallExp* ast_node , ProcessorInfo* info ) {
     }
     ast_node->callable()->Accept( visitor );
   }
-  if ( !args->empty() ) {
+  if ( !args->IsEmpty() ) {
     NodeIterator iterator = ast_node->args()->ChildNodes();
     while ( iterator.HasNext() ) {
       iterator.Next()->Accept( visitor );
@@ -84,7 +84,7 @@ void CallProcessor::ProcessFnCall( CallExp* ast_node , ProcessorInfo* info ) {
 }
 
 void CallProcessor::ProcessExtendAccessor( CallExp* ast_node , ProcessorInfo* info ) {
-  IVisitor *visitor = info->GetVisitor();
+  IVisitor *visitor = info->visitor();
   ast_node->callable()->Accept( visitor );
   ast_node->args()->Accept( visitor );
   CallExp* clone = ast_node->Clone()->CastToExpression()->CastToCallExp();

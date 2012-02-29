@@ -19,7 +19,7 @@ ImportProccessor::ImportProccessor( ImportStmt* stmt , ProcessorInfo* info ) :
     stmt_( stmt ) , info_( info ) {}
 
 void ImportProccessor::ProcessNode() {
-  IVisitor *visitor = info_->GetVisitor();
+  IVisitor *visitor = info_->visitor();
   stmt_->expression()->Accept( visitor );
   AstNode* exp = 0;//init after;
   if ( stmt_->module_type() == ImportStmt::kFile ) {
@@ -30,7 +30,7 @@ void ImportProccessor::ProcessNode() {
                                                   Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
     exp = AstUtils::CreateArrayAccessor( global , name , stmt_->line_number() );
   } else {
-    if ( !stmt_->dsta_flag() ) {
+    if ( !stmt_->IsContainDestructuring() ) {
       Literal *global = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kGlobalAlias ),
                                                     Token::JS_IDENTIFIER , stmt_->line_number() , Literal::kIdentifier );
       CallExp* dot = AstUtils::CreateDotAccessor( stmt_->from() , stmt_->expression() , stmt_->line_number() );
@@ -44,7 +44,7 @@ void ImportProccessor::ProcessNode() {
     iter.Next();
     while ( iter.HasNext() ) {
       Literal* item = iter.Next()->CastToLiteral();
-      if ( !item->empty() ) {
+      if ( !item->IsEmpty() ) {
         if ( item->value_type() == Literal::kString ) {
           exp = AstUtils::CreateArrayAccessor( exp , item , stmt_->line_number() );
         } else {
@@ -54,9 +54,9 @@ void ImportProccessor::ProcessNode() {
       }
     }
   }
-  if ( stmt_->dsta_flag() ) {
+  VariableDeclarationList* list = VariableDeclarationList::New( stmt_->line_number() );
+  if ( stmt_->IsContainDestructuring() ) {
     Literal* value = AstUtils::CreateVarInitiliser( stmt_->expression()->CastToLiteral()->value() , exp , stmt_->line_number() );
-    NodeList* list = NodeList::New();
     NodeList* var_list = DstaProcessor::CreateDstaExtractedVarStmt( stmt_ , info_ );
     list->AddChild( value );
     list->Append( var_list );
@@ -64,7 +64,6 @@ void ImportProccessor::ProcessNode() {
     stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
   } else {
     Literal* value = AstUtils::CreateVarInitiliser( stmt_->expression()->CastToLiteral()->value() , exp , stmt_->line_number() );
-    NodeList* list = NodeList::New();
     list->AddChild( value );
     VariableStmt* stmt = AstUtils::CreateVarStmt( list , stmt_->line_number() );
     stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
@@ -73,7 +72,7 @@ void ImportProccessor::ProcessNode() {
 
 
 void ImportProccessor::LoadModule_() {
-  VisitorInfo* visitor_info = info_->GetInfo();
+  VisitorInfo* visitor_info = info_->visitor_info();
   AstNode* from = stmt_->from();
   AstNode* file = from->first_child();
   Literal* value = file->CastToLiteral();
@@ -88,13 +87,13 @@ void ImportProccessor::LoadModule_() {
     
     StrHandle current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
     //Get full path of module.
-    StrHandle real_path = visitor_info->GetCompiler()->Load( js_path.c_str() );
+    StrHandle real_path = visitor_info->compiler()->Load( js_path.c_str() );
 
     //Set virtual dir to current context dir.
     VirtualDirectory::GetInstance()->Chdir( current_dir.Get() );
 
     //Get module uuid key.
-    Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->GetMainPath() );
+    Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->main_file_path() );
     Handle<PathInfo> target_path_info = FileSystem::GetPathInfo( real_path.Get() );
     StrHandle handle = FileSystem::GetModuleKey( base_path_info->GetDirPath().Get() , target_path_info->GetDirPath().Get() );
     std::string modkey = "'";

@@ -25,21 +25,21 @@ bool ConstantOptimizer::CheckOperatorAssoc( int left , int right ) {
 }
 
 bool ConstantOptimizer::IsOptimizable( AstNode* left , AstNode* right , int op ) {
-  ValueNode* lvalue = 0;//init after;
-  ValueNode* rvalue = 0;//init after;
-  if ( left->NodeType() == AstNode::kValueNode ) {
-    lvalue = left->CastToValue();
+  Literal* lvalue = 0;//init after;
+  Literal* rvalue = 0;//init after;
+  if ( left->node_type() == AstNode::kLiteral ) {
+    lvalue = left->CastToLiteral();
   }
-  if ( right->NodeType() == AstNode::kValueNode ) {
-    rvalue = right->CastToValue();
+  if ( right->node_type() == AstNode::kLiteral ) {
+    rvalue = right->CastToLiteral();
   }
   if ( lvalue && rvalue ) {
     int ltype = lvalue->ValueType();
     int rtype = rvalue->ValueType();
-    return ( ( ltype == ValueNode::kNumeric ||
-               ltype == ValueNode::kString ) &&
-             ( rtype == ValueNode::kNumeric ||
-               rtype == ValueNode::kString ) &&
+    return ( ( ltype == Literal::kNumeric ||
+               ltype == Literal::kString ) &&
+             ( rtype == Literal::kNumeric ||
+               rtype == Literal::kString ) &&
              ( op == '+' ||
                op == '-' ||
                op == '/' ||
@@ -75,11 +75,11 @@ bool IsFloat( const char* val , int op ) {
 
 
 AstNode* ConstantOptimizer::Optimize( AstNode* left , AstNode* right , int op ) {
-  ValueNode* lvalue = left->CastToValue();
-  ValueNode* rvalue = right->CastToValue();
+  Literal* lvalue = left->CastToLiteral();
+  Literal* rvalue = right->CastToLiteral();
   int ltype = lvalue->ValueType();
   int rtype = rvalue->ValueType();
-  if ( ltype == ValueNode::kNumeric && rtype == ValueNode::kNumeric ) {
+  if ( ltype == Literal::kNumeric && rtype == Literal::kNumeric ) {
     const char* lstr = lvalue->Symbol()->GetToken();
     const char* rstr = rvalue->Symbol()->GetToken();
     bool is_float = ( IsFloat( lstr , op ) || IsFloat( rstr , op ) );
@@ -100,19 +100,19 @@ AstNode* ConstantOptimizer::Optimize( AstNode* left , AstNode* right , int op ) 
     } else {
       sprintf( tmp , "%ld" , static_cast<long>( ret ) );
     }
-    ValueNode* result = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL,
-                                                  left->Line() , ValueNode::kNumeric );
+    Literal* result = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL,
+                                                  left->Line() , Literal::kNumeric );
     return result;
   } else {
     if ( op == '+' ) {
       std::string ret = lvalue->Symbol()->GetToken();
-      if ( ltype == ValueNode::kString && rtype == ValueNode::kString ) {
+      if ( ltype == Literal::kString && rtype == Literal::kString ) {
         ret.erase( ret.size() - 1 , ret.size() );
         ret += &( rvalue->Symbol()->GetToken()[ 1 ] );
         if ( ret[ 0 ] != ret[ ret.size() - 1 ] ) {
           ret[ 0 ] = ret[ ret.size() - 1 ];
         }
-      } else if ( ltype == ValueNode::kString ) {
+      } else if ( ltype == Literal::kString ) {
         ret.erase( ret.size() - 1 , ret.size() );
         ret += rvalue->Symbol()->GetToken();
         ret += ret[ 0 ];
@@ -122,10 +122,10 @@ AstNode* ConstantOptimizer::Optimize( AstNode* left , AstNode* right , int op ) 
         ret += &str[ 1 ];
       }
       return AstUtils::CreateNameNode( ret.c_str() , Token::JS_STRING_LITERAL,
-                                       left->Line() , ValueNode::kString );
+                                       left->Line() , Literal::kString );
     } else {
       return AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNaN ) , Token::JS_NAN,
-                                       left->Line() , ValueNode::kNaN );
+                                       left->Line() , Literal::kNaN );
     }
   }
 }

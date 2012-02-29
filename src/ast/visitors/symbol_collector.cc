@@ -54,7 +54,7 @@ VISITOR_IMPL( PragmaStmt ) {
 
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
@@ -80,10 +80,10 @@ VISITOR_IMPL( ImportStmt ) {
 VISITOR_IMPL( Statement ) {}
 
 VISITOR_IMPL( VersionStmt ) {
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 VISITOR_IMPL( AssertStmt ) {
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 VISITOR_IMPL(StatementList) {
@@ -112,7 +112,7 @@ VISITOR_IMPL(LetStmt) {}
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
@@ -127,10 +127,10 @@ VISITOR_IMPL(IFStmt) {
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
   AstNode* exp = ast_node->Exp();
-  if ( ast_node->NodeType() == AstNode::kWhile || ast_node->NodeType() == AstNode::kDoWhile ) {
+  if ( ast_node->node_type() == AstNode::kWhile || ast_node->node_type() == AstNode::kDoWhile ) {
     ast_node->Exp()->Accept( this );
   } else {
-    AstNode* index_exp = exp->FirstChild();
+    AstNode* index_exp = exp->first_child();
     AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
     AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
     index_exp->Accept( this );
@@ -141,7 +141,7 @@ VISITOR_IMPL(IterationStmt) {
       incr_exp->Accept( this );
     }
   }
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
@@ -157,7 +157,7 @@ VISITOR_IMPL( BreakStmt ) {
 
 VISITOR_IMPL( ReturnStmt ) {
   PRINT_NODE_NAME;
-  AstNode* exp = ast_node->FirstChild();
+  AstNode* exp = ast_node->first_child();
   exp->Accept( this );
 }
 
@@ -165,14 +165,14 @@ VISITOR_IMPL( ReturnStmt ) {
 VISITOR_IMPL( WithStmt ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
+  NodeIterator iterator = ast_node->first_child()->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
@@ -182,13 +182,13 @@ VISITOR_IMPL( SwitchStmt ) {
 VISITOR_IMPL( CaseClause ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
 VISITOR_IMPL( LabelledStmt ) {
   PRINT_NODE_NAME;
-  AstNode* sym = ast_node->FirstChild();
+  AstNode* sym = ast_node->first_child();
   AstNode* stmt = sym->NextSibling();
   stmt->Accept( this );
 }
@@ -204,11 +204,11 @@ VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
   AstNode* catch_block = ast_node->Catch();
   AstNode* finally_block = ast_node->Finally();
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
   if ( !catch_block->IsEmpty() ) {
-    catch_block->FirstChild()->FirstChild()->Accept( this );
+    catch_block->first_child()->first_child()->Accept( this );
   } else if ( !finally_block->IsEmpty() ) {
-    finally_block->FirstChild()->Accept( this );
+    finally_block->first_child()->Accept( this );
   }
 }
 
@@ -268,7 +268,7 @@ VISITOR_IMPL( CallExp ) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
@@ -330,7 +330,7 @@ VISITOR_IMPL(Trait){}
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 VISITOR_IMPL(ClassProperties) {}
@@ -343,7 +343,7 @@ VISITOR_IMPL(ClassMember) {}
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
   AstNode* name = ast_node->Name();
-  ValueNode* name_node = name->CastToValue();
+  Literal* name_node = name->CastToLiteral();
   if ( !name->IsEmpty() ) {
     scope_->Insert( name_node->Symbol() , ast_node );
   }
@@ -356,7 +356,7 @@ VISITOR_IMPL(Function){
   }
   NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
   while ( arg_iterator.HasNext() ) {
-    ValueNode* arg = arg_iterator.Next()->CastToValue();
+    Literal* arg = arg_iterator.Next()->CastToLiteral();
     if ( arg ) {
       scope->Insert( arg->Symbol() , arg );
     }
@@ -369,9 +369,9 @@ VISITOR_IMPL(Function){
 };
 
 
-void SymbolCollector::ArrayProccessor_( ValueNode* ast_node ) {
+void SymbolCollector::ArrayProccessor_( Literal* ast_node ) {
   PRINT_NODE_NAME;
-  AstNode* list_child = ast_node->FirstChild();
+  AstNode* list_child = ast_node->first_child();
   while ( list_child ) {
     if ( !list_child->IsEmpty() ) {
       NodeIterator iter = list_child->ChildNodes();
@@ -393,7 +393,7 @@ void SymbolCollector::ArrayProccessor_( ValueNode* ast_node ) {
 }
 
 
-void SymbolCollector::ObjectProccessor_( ValueNode* ast_node ) {
+void SymbolCollector::ObjectProccessor_( Literal* ast_node ) {
   PRINT_NODE_NAME;
   AstNode* element_list = ast_node->Node();
   if ( !element_list->IsEmpty() ) {
@@ -401,36 +401,36 @@ void SymbolCollector::ObjectProccessor_( ValueNode* ast_node ) {
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
       element->Accept( this );
-      element->FirstChild()->Accept( this );
+      element->first_child()->Accept( this );
     }
   }
 }
 
 
-VISITOR_IMPL( ValueNode ) {
+VISITOR_IMPL( Literal ) {
   switch ( ast_node->ValueType() ) {
-    case ValueNode::kArray :
+    case Literal::kArray :
       ArrayProccessor_( ast_node );
       break;
 
-    case ValueNode::kObject :
+    case Literal::kObject :
       ObjectProccessor_( ast_node );
       break;
 
-    case ValueNode::kVariable :
-      ast_node->FirstChild()->Accept( this );
-      scope_->Insert( ast_node->Symbol() , ast_node->FirstChild() );
+    case Literal::kVariable :
+      ast_node->first_child()->Accept( this );
+      scope_->Insert( ast_node->Symbol() , ast_node->first_child() );
       break;
 
-    case ValueNode::kProperty :
+    case Literal::kProperty :
       break;
       
-    case ValueNode::kIdentifier : {
+    case Literal::kIdentifier : {
       if ( strcmp( ast_node->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kScopeModule ) ) == 0 ) {
         ast_node->Symbol()->SetToken( SymbolList::GetSymbol( SymbolList::kGlobalAlias ) );
       }
       scope_->Ref( ast_node->Symbol() );
-      AstNode* first_child = ast_node->FirstChild();
+      AstNode* first_child = ast_node->first_child();
       if ( first_child ) {
         first_child->Accept( this );
       }

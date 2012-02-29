@@ -84,7 +84,7 @@ const char* Setting::GetRuntimePath() { return implementation_->runtime_path.c_s
 const char* Setting::GetRuntimeFile() { return implementation_->runtime_file.c_str(); }
 const char* Setting::GetLogPath() { return implementation_->log_path.c_str(); }
 const char* Setting::GetTimeStr() { return implementation_->GetTimeStr(); }
-FileRoot* Setting::GetRuntime() { return reinterpret_cast<FileRoot*>( runtime_ast_->GetRoot()->FirstChild()->Clone() ); }
+FileRoot* Setting::GetRuntime() { return reinterpret_cast<FileRoot*>( runtime_ast_->GetRoot()->first_child()->Clone() ); }
 void Setting::Close(){ implementation_->file_handle->Close(); }
 
 void Setting::LogNoDate( const char* format , ... ) {

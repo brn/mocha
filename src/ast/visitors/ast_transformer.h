@@ -51,7 +51,7 @@ class AstTransformer : public IVisitor {
    * @param {const char*} filename -> Main js file name.
    */
   AstTransformer( bool is_runtime,
-                  Scope* scope,
+                  ScopeRegistry* scope_registry,
                   Compiler* compiler,
                   const char* modulename,
                   const char* filename );
@@ -64,6 +64,7 @@ class AstTransformer : public IVisitor {
   
   ScopedPtr<VisitorInfo> visitor_info_;
   ScopedPtr<ProcessorInfo> proc_info_;
+  ScopeRegistry* scope_registry_;
 };
 
 }

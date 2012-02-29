@@ -52,7 +52,6 @@ class AstUtils : private Static {
   static ExpressionStmt* CreateAnonymousFnCall( Function *fn , AstNode* args , int64_t line );
   static ExpressionStmt* CreateExpStmt( AstNode* node , int64_t line );
   static VariableStmt* CreateVarStmt( VariableDeclarationList* list , int64_t line );
-  static VariableStmt* CreateVarStmt( AstNode* mem , int64_t line );
   static Literal* CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs , int64_t line );
   static ReturnStmt* CreateReturnStmt( AstNode* exp , int64_t line );
   static CallExp* CreateRuntimeMod( AstNode* member , int64_t line );
@@ -63,6 +62,7 @@ class AstUtils : private Static {
   static Literal* CreateTmpNode( int index , int64_t line );
   static IFStmt* CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* else_stmt , int64_t line );
   static BlockStmt* CreateBlockStmt( int64_t line , int num , ... );
+  static VariableDeclarationList* CreateVarDeclList( int64_t line , int num , ... );
   static void FindDirectivePrologue( AstNode* node , Function* fn );
   static void FindDirectivePrologue( AstNode* node , FileRoot* fn );
   static bool IsDestructringLeftHandSide( AstNode* node );

@@ -18,105 +18,101 @@ YieldProcessor::YieldProcessor( YieldExp* exp , ProcessorInfo* info ) :
 YieldProcessor::~YieldProcessor(){}
 
 void YieldProcessor::ProcessNode() {
-  AstNode *exp = exp_->ParentNode();
-  exp_->FirstChild()->Accept( info_->GetVisitor() );
+  AstNode *exp = exp_->parent_node();
+  exp_->first_child()->Accept( info_->visitor() );
   bool is_need_mark = true;
-  if ( exp && exp->ParentNode()->NodeType() == AstNode::kExpressionStmt ) {
-    ReturnStmt* ret = AstUtils::CreateReturnStmt( exp_->FirstChild()->Clone() );
-    ret->SetYieldFlag();
-    ret->Line( exp->ParentNode()->Line() );
-    exp->ParentNode()->ParentNode()->ReplaceChild( exp->ParentNode() , ret );
-    exp_ = ret->FirstChild();
+  if ( exp && exp->parent_node()->node_type() == AstNode::kExpressionStmt ) {
+    ReturnStmt* ret = AstUtils::CreateReturnStmt( exp_->first_child()->Clone() , exp->parent_node()->line_number() );
+    ret->ContainYield();
+    exp->parent_node()->parent_node()->ReplaceChild( exp->parent_node() , ret );
+    exp_ = ret->first_child();
   } else {
     ProcessSend_( exp );
     is_need_mark = false;
   }
-  VisitorInfo* visitor_info = info_->GetInfo();
-  AstNode* direct_child = exp_->ParentNode();
-  Function* fn = visitor_info->GetFunction();
+  VisitorInfo* visitor_info = info_->visitor_info();
+  AstNode* direct_child = exp_->parent_node();
+  Function* fn = visitor_info->function();
   while ( 1 ) {
-    if ( direct_child->ParentNode()->NodeType() == AstNode::kFunction ) {
+    if ( direct_child->parent_node()->node_type() == AstNode::kFunction ) {
       break;
     }
-    direct_child = direct_child->ParentNode();
-    if ( direct_child->NodeType() == AstNode::kFor ||
-         direct_child->NodeType() == AstNode::kForWithVar ||
-         direct_child->NodeType() == AstNode::kForIn ||
-         direct_child->NodeType() == AstNode::kForInWithVar ||
-         direct_child->NodeType() == AstNode::kForEachWithVar ||
-         direct_child->NodeType() == AstNode::kForEach ||
-         direct_child->NodeType() == AstNode::kWhile ||
-         direct_child->NodeType() == AstNode::kDoWhile ||
-         direct_child->NodeType() == AstNode::kTryStmt ||
-         direct_child->NodeType() == AstNode::kIFStmt ||
-         direct_child->NodeType() == AstNode::kSwitchStmt ) {
+    direct_child = direct_child->parent_node();
+    if ( direct_child->node_type() == AstNode::kFor ||
+         direct_child->node_type() == AstNode::kForWithVar ||
+         direct_child->node_type() == AstNode::kForIn ||
+         direct_child->node_type() == AstNode::kForInWithVar ||
+         direct_child->node_type() == AstNode::kForEachWithVar ||
+         direct_child->node_type() == AstNode::kForEach ||
+         direct_child->node_type() == AstNode::kWhile ||
+         direct_child->node_type() == AstNode::kDoWhile ||
+         direct_child->node_type() == AstNode::kTryStmt ||
+         direct_child->node_type() == AstNode::kIFStmt ||
+         direct_child->node_type() == AstNode::kSwitchStmt ) {
       Statement* stmt = direct_child->CastToStatement();
-      stmt->SetYieldFlag();
+      stmt->ContainYield();
     }
   }
   
-  if ( !fn->GetYieldFlag() ) {
-    fn->SetYieldFlag();
+  if ( !fn->IsGenerator() ) {
+    fn->MarkAsGenerator();
   }
   if ( is_need_mark ) {
-    direct_child->CastToStatement()->SetYieldFlag();
+    direct_child->CastToStatement()->ContainYield();
   }
 }
 
 void YieldProcessor::ProcessSend_( AstNode* exp ) {
-  ReturnStmt* ret = AstUtils::CreateReturnStmt( exp_->FirstChild()->Clone() );
-  ret->SetYieldFlag();
+  ReturnStmt* ret = AstUtils::CreateReturnStmt( exp_->first_child()->Clone() , exp->parent_node()->line_number() );
+  ret->ContainYield();
   while ( !exp->CastToStatement() ) {
-    exp = exp->ParentNode();
+    exp = exp->parent_node();
   }
-  ret->SetYieldFlag();
-  ret->Line( exp->Line() );
-  exp->ParentNode()->InsertBefore( ret , exp );
-  AstNode* tmp = exp_->FirstChild()->Clone();
-  ValueNode* is_send = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldSendFlag ),
-                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
-  ValueNode* to_array = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kToArray ),
-                                                  Token::JS_PROPERTY , 0 , ValueNode::kProperty );
-  ValueNode* arguments = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kArguments ),
-                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
-  ValueNode* length = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kLength ),
-                                                Token::JS_IDENTIFIER , 0 , ValueNode::kProperty );
-  CallExp* dot = AstUtils::CreateDotAccessor( arguments , length );
-  ValueNode* two = AstUtils::CreateNameNode( "2" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
-  CompareExp* length_comp = ManagedHandle::Retain( new CompareExp( '>' , dot , two ) );
-  CompareExp* comp = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , is_send , length_comp ) );
-  ValueNode* undefined = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                                   Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
+  ret->ContainYield();
+  exp->parent_node()->InsertBefore( ret , exp );
+  AstNode* tmp = exp_->first_child()->Clone();
+  Literal* is_send = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kYieldSendFlag ),
+                                               Token::JS_IDENTIFIER , exp->line_number() , Literal::kIdentifier );
+  Literal* to_array = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kToArray ),
+                                                Token::JS_IDENTIFIER , exp->line_number() , Literal::kProperty );
+  Literal* arguments = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kArguments ),
+                                                 Token::JS_IDENTIFIER , exp->line_number() , Literal::kIdentifier );
+  Literal* length = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kLength ),
+                                              Token::JS_IDENTIFIER , exp->line_number() , Literal::kProperty );
+  CallExp* dot = AstUtils::CreateDotAccessor( arguments , length , exp->line_number() );
+  Literal* two = AstUtils::CreateNameNode( "2" , Token::JS_NUMERIC_LITERAL , exp->line_number() , Literal::kNumeric );
+  CompareExp* length_comp = CompareExp::New( '>' , dot , two , exp->line_number() );
+  CompareExp* comp = CompareExp::New( Token::JS_LOGICAL_AND , is_send , length_comp , exp->line_number() );
+  Literal* undefined = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kUndefined ),
+                                                 Token::JS_IDENTIFIER , exp->line_number() , Literal::kIdentifier );
   AstNode* no_arg;
   if ( !tmp->IsEmpty() ) {
-    no_arg = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp , undefined ) );
+    no_arg = ConditionalExp::New( is_send->Clone() , tmp , undefined , exp->line_number() );
   } else {
     no_arg = undefined;
   }
-  NodeList* args = ManagedHandle::Retain<NodeList>();
+  NodeList* args = NodeList::New();
   args->AddChild( arguments->Clone() );
   args->AddChild( two->Clone() );
-  ValueNode* zero = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , 0 , ValueNode::kNumeric );
-  CallExp* normal = AstUtils::CreateNormalAccessor( to_array , args );
-  CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal );
-  CallExp* array_accessor = AstUtils::CreateArrayAccessor( runtime_call , zero );
-  ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( comp , array_accessor , no_arg ) );
-  ValueNode* tmp_ret = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kYieldResult ),
-                                                 Token::JS_IDENTIFIER , 0 , ValueNode::kIdentifier );
-  UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( '!' ) );
-  unary->Exp( tmp_ret->Clone() );
-  CompareExp* comp2 = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , unary , comp->Clone() ) );
-  AstNode* no_arg2 = ManagedHandle::Retain( new ConditionalExp( is_send->Clone() , tmp_ret->Clone() , undefined ) );
-  ConditionalExp* cond2 = ManagedHandle::Retain( new ConditionalExp( comp2 , array_accessor , no_arg2 ) );
-  AssignmentExp* assign2 = AstUtils::CreateAssignment( '=' , tmp_ret->Clone() , cond2 );
-  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , tmp_ret , cond );
+  Literal* zero = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , exp->line_number() , Literal::kNumeric );
+  CallExp* normal = AstUtils::CreateNormalAccessor( to_array , args , exp->line_number() );
+  CallExp* runtime_call = AstUtils::CreateRuntimeMod( normal , exp->line_number() );
+  CallExp* array_accessor = AstUtils::CreateArrayAccessor( runtime_call , zero , exp->line_number() );
+  ConditionalExp* cond = ConditionalExp::New( comp , array_accessor , no_arg , exp->line_number() );
+  Literal* tmp_ret = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kYieldResult ),
+                                               Token::JS_IDENTIFIER , exp->line_number() , Literal::kIdentifier );
+  UnaryExp* unary = UnaryExp::New( '!' , tmp_ret->Clone() , exp->line_number() );
+  CompareExp* comp2 = CompareExp::New( Token::JS_LOGICAL_AND , unary , comp->Clone() , exp->line_number() );
+  AstNode* no_arg2 = ConditionalExp::New( is_send->Clone() , tmp_ret->Clone() , undefined , exp->line_number() );
+  ConditionalExp* cond2 = ConditionalExp::New( comp2 , array_accessor , no_arg2 , exp->line_number() );
+  AssignmentExp* assign2 = AstUtils::CreateAssignment( '=' , tmp_ret->Clone() , cond2 , exp->line_number() );
+  AssignmentExp* assign = AstUtils::CreateAssignment( '=' , tmp_ret , cond , exp->line_number() );
   
-  ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign );
-  ExpressionStmt* stmt2 = AstUtils::CreateExpStmt( assign2 );
-  //ret->ParentNode()->InsertBefore( stmt , ret );
-  ret->ParentNode()->InsertAfter( stmt , ret );
+  ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign , exp->line_number() );
+  //ret->parent_node()->InsertBefore( stmt , ret );
+  ret->parent_node()->InsertAfter( stmt , ret );
   AstNode* send_val = tmp_ret->Clone();
-  exp_->ParentNode()->ReplaceChild( exp_ , send_val );
+  exp_->parent_node()->ReplaceChild( exp_ , send_val );
   exp_ = send_val;
 }
 

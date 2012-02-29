@@ -6,7 +6,7 @@ ObjectProccessor::ObjectProccessor( ObjectLikeLiteral* literal , ProcessorInfo* 
     literal_( literal ) , info_( info ){}
 
 void ObjectProccessor::ProcessNode() {
-  VisitorInfo* visitor_info = info->GetInfo();
+  VisitorInfo* visitor_info = info->visitor_info();
   visitor_info->EnterObject();
   NodeIterator iterator = element_list->elements()->ChildNodes();
   while ( iterator.HasNext() ) {
@@ -15,16 +15,16 @@ void ObjectProccessor::ProcessNode() {
     element->Accept( this );
   }
   visitor_info->EscapeObject();
-  if ( literal_->record() ) {
+  if ( literal_->IsRecord() ) {
     ProcessRecord();
   } else {
     if ( !visitor_info->IsInObject() ) {
-      if ( visitor_info->GetObjectPrivateList().size() > 0 ) {
+      if ( visitor_info->private_property_list().size() > 0 ) {
         AstNode* parent = ast_node->parent_node();
         while ( !parent->CastToStatement() ) {
           parent = parent->parent_node();
         }
-        Literal* name = AstUtils::CreateTmpNode( visitor_info_->GetTmpIndex() );
+        Literal* name = AstUtils::CreateTmpNode( visitor_info_->tmp_index() );
         Literal* exp = AstUtils::CreateVarInitiliser( name->Symbol() , literal->Clone() );
         VariableStmt* stmt = AstUtils::CreateVarStmt( exp );
         parent->parent_node()->InsertBefore( stmt , parent );
@@ -60,7 +60,7 @@ void CollectParentExpression( LiteralArray* expression_array , AstNode* parent ,
 }
 
 void ObjectProccessor::ProcessPrivateProperty( Literal *name ) {
-  VisitorInfo::PrivateNameList &list = visitor_info->GetObjectPrivateList();
+  VisitorInfo::PrivateNameList &list = visitor_info->private_property_list();
   VisitorInfo::PrivateNameList::reverse_iterator begin = list.rbegin(),end = list.rend();
   while ( begin != end ) {
     LiteralArray expression_array;

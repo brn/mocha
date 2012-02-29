@@ -28,7 +28,7 @@ class Internal {
              bool is_runtime,
              Handle<PathInfo> path_info,
              Compiler *compiler,
-             Scope *scope,
+             ScopeRegistry *scope_registry,
              CodegenVisitor *codegen,
              AstRoot* ast_root );
 
@@ -48,7 +48,7 @@ class Internal {
   bool file_exist_;
   std::string error_;
   Compiler* compiler_;
-  Scope *scope_;
+  Scope *scope_registry_;
   AstRoot *ast_root_;
   CodegenVisitor *codegen_;
   Handle<File> file_;

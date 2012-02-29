@@ -2,10 +2,10 @@
 namespace mocha {
 
 void ArrayProccessor::ProcessNode( ArrayLikeLiteral* literal , ProcessorInfo* info ) {
-  IVisitor* visitor = info->GetVisitor();
-  if ( ast_node->comprehensions() ) {
+  IVisitor* visitor = info->visitor();
+  if ( ast_node->IsComprehensions() ) {
     SyntaxSugarProcessor::ProcessArrayComprehensions( ast_node , proc_info_.Get() );
-  } else if ( ast_node->tuple() ) {
+  } else if ( ast_node->IsTuple() ) {
     ProcessTuple( literal , info );
   } else {
     NodeIterator iterator = ast_node->elements()->ChildNodes();
@@ -17,7 +17,7 @@ void ArrayProccessor::ProcessNode( ArrayLikeLiteral* literal , ProcessorInfo* in
 }
 
 void ArrayProccessor::ProcessTuple( ArrayLikeLiteral* literal , ProcessorInfo* info ) {
-  IVisitor* visitor = info->GetVisitor();
+  IVisitor* visitor = info->visitor();
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( literal->line_number() );
   NodeList* list = NodeList::New();
   NodeIterator iterator = ast_node->elements()->ChildNodes();

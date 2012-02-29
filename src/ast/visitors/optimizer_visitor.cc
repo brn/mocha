@@ -41,8 +41,8 @@ VISITOR_IMPL( FileRoot ) {
   while ( iterator.HasNext() ) {
     AstNode* node = iterator.Next();
     if ( last &&
-         node->NodeType() == AstNode::kVariableStmt &&
-         last->NodeType() == AstNode::kVariableStmt ) {
+         node->node_type() == AstNode::kVariableStmt &&
+         last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
       last->Append( node );
       ast_node->RemoveChild( node );
@@ -60,8 +60,8 @@ VISITOR_IMPL( NodeList ) {
   while ( iterator.HasNext() ) {
     AstNode* node = iterator.Next();
     if ( last &&
-         node->NodeType() == AstNode::kVariableStmt &&
-         last->NodeType() == AstNode::kVariableStmt ) {
+         node->node_type() == AstNode::kVariableStmt &&
+         last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
       last->Append( node );
       ast_node->RemoveChild( node );
@@ -79,7 +79,7 @@ VISITOR_IMPL( PragmaStmt ) {
 
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
@@ -105,7 +105,7 @@ VISITOR_IMPL( ImportStmt ) {
 VISITOR_IMPL( Statement ) {}
 
 VISITOR_IMPL( VersionStmt ) {
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 VISITOR_IMPL( AssertStmt ) {}
@@ -117,8 +117,8 @@ VISITOR_IMPL(StatementList) {
   while ( iterator.HasNext() ) {
     AstNode* node = iterator.Next();
     if ( last &&
-         node->NodeType() == AstNode::kVariableStmt &&
-         last->NodeType() == AstNode::kVariableStmt ) {
+         node->node_type() == AstNode::kVariableStmt &&
+         last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
       last->Append( node );
       ast_node->RemoveChild( node );
@@ -146,9 +146,9 @@ VISITOR_IMPL(LetStmt) {}
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
   //Analyzer analyzer( scope_ );
-  //JSValue* value = ast_node->FirstChild()->CastToExpression()->Analyze( &analyzer );
+  //JSValue* value = ast_node->first_child()->CastToExpression()->Analyze( &analyzer );
   //printf( "@@@@@@@@@@@@@@@@@@@@@@@@ --- %s\n" , value->name() );
 }
 
@@ -163,10 +163,10 @@ VISITOR_IMPL(IFStmt) {
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
   AstNode* exp = ast_node->Exp();
-  if ( ast_node->NodeType() == AstNode::kWhile || ast_node->NodeType() == AstNode::kDoWhile ) {
+  if ( ast_node->node_type() == AstNode::kWhile || ast_node->node_type() == AstNode::kDoWhile ) {
     ast_node->Exp()->Accept( this );
   } else {
-    AstNode* index_exp = exp->FirstChild();
+    AstNode* index_exp = exp->first_child();
     AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
     AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
     index_exp->Accept( this );
@@ -177,10 +177,10 @@ VISITOR_IMPL(IterationStmt) {
       incr_exp->Accept( this );
     }
   }
-  AstNode* body = ast_node->FirstChild();
-  if ( body->NodeType() == AstNode::kBlockStmt ) {
-    if ( body->FirstChild()->ChildLength() == 1 ) {
-      body = body->FirstChild()->FirstChild();
+  AstNode* body = ast_node->first_child();
+  if ( body->node_type() == AstNode::kBlockStmt ) {
+    if ( body->first_child()->child_length() == 1 ) {
+      body = body->first_child()->first_child();
       ast_node->RemoveAllChild();
       ast_node->AddChild( body );
     }
@@ -198,7 +198,7 @@ VISITOR_IMPL( BreakStmt ) {
 
 VISITOR_IMPL( ReturnStmt ) {
   PRINT_NODE_NAME;
-  AstNode* exp = ast_node->FirstChild();
+  AstNode* exp = ast_node->first_child();
   exp->Accept( this );
 }
 
@@ -206,13 +206,13 @@ VISITOR_IMPL( ReturnStmt ) {
 VISITOR_IMPL( WithStmt ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  NodeIterator iterator = ast_node->FirstChild()->ChildNodes();
+  NodeIterator iterator = ast_node->first_child()->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
@@ -221,7 +221,7 @@ VISITOR_IMPL( SwitchStmt ) {
 VISITOR_IMPL( CaseClause ) {
   PRINT_NODE_NAME;
   ast_node->Exp()->Accept( this );
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 
@@ -239,7 +239,7 @@ VISITOR_IMPL( ThrowStmt ) {
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
   ast_node->Catch()->Accept( this );
   ast_node->Finally()->Accept( this );
 }
@@ -252,9 +252,9 @@ void OptimizerVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
   arg->Accept( this );
   callable = exp->Callable();
   arg = exp->Args();
-  if ( arg->NodeType() == AstNode::kValueNode ) {
-    ValueNode* value = arg->CastToValue();
-    if ( value->ValueType() == ValueNode::kString ) {
+  if ( arg->node_type() == AstNode::kLiteral ) {
+    Literal* value = arg->CastToLiteral();
+    if ( value->ValueType() == Literal::kString ) {
       bool is_valid_property_name = true;
       std::string tmp = value->Symbol()->GetToken();
       tmp.erase( tmp.size() - 1 , tmp.size() );
@@ -269,7 +269,7 @@ void OptimizerVisitor::ArrayAccessorProccessor_( CallExp* exp ) {
         }
       }
       if ( is_valid_property_name ) {
-        ValueNode* ident = AstUtils::CreateNameNode( &tmp[ 1 ] , Token::JS_PROPERTY , exp->Line() , ValueNode::kProperty );
+        Literal* ident = AstUtils::CreateNameNode( &tmp[ 1 ] , Token::JS_PROPERTY , exp->Line() , Literal::kProperty );
         CallExp* call_exp = ManagedHandle::Retain( new CallExp( CallExp::kDot ) );
         call_exp->Callable( callable );
         call_exp->Args( ident );
@@ -300,8 +300,8 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
       if ( parent->CastToExpression()->IsLhs() ) {
         is_lhs = true;
       }
-    } else if ( parent->NodeType() == AstNode::kAssignmentExp ||
-                parent->NodeType() == AstNode::kVariableStmt ) {
+    } else if ( parent->node_type() == AstNode::kAssignmentExp ||
+                parent->node_type() == AstNode::kVariableStmt ) {
       in_assignment = true;
       break;
     } else if ( parent->CastToStatement() ) {
@@ -311,20 +311,20 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
   }
   if ( !is_lhs &&
        !is_delete &&
-       callable->NodeType() == AstNode::kValueNode &&
-       args->NodeType() == AstNode::kValueNode &&
-       exp->ParentNode()->NodeType() == AstNode::kCallExp ) {
-    ValueNode* ident = callable->CastToValue();
-    ValueNode* prototype = args->CastToValue();
-    if ( ident->ValueType() == ValueNode::kIdentifier &&
-         prototype->ValueType() == ValueNode::kProperty ) {
+       callable->node_type() == AstNode::kLiteral &&
+       args->node_type() == AstNode::kLiteral &&
+       exp->ParentNode()->node_type() == AstNode::kCallExp ) {
+    Literal* ident = callable->CastToLiteral();
+    Literal* prototype = args->CastToLiteral();
+    if ( ident->ValueType() == Literal::kIdentifier &&
+         prototype->ValueType() == Literal::kProperty ) {
       if ( strcmp( prototype->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kPrototype ) ) == 0 ) {
         if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kArrayConstructor ) ) == 0 ) {
-          ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+          Literal* array = ManagedHandle::Retain( new Literal( Literal::kArray ) );
           exp->ParentNode()->ReplaceChild( exp , array );
           return;
         } else if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kObjectConstructor ) ) == 0 ) {
-          ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+          Literal* object = ManagedHandle::Retain( new Literal( Literal::kObject ) );
           object->Node( ManagedHandle::Retain<Empty>() );
           if ( !in_assignment ) {
             Expression* expression = ManagedHandle::Retain<Expression>();
@@ -336,7 +336,7 @@ void OptimizerVisitor::DotAccessorProccessor_( CallExp* exp ) {
           exp->ParentNode()->ReplaceChild( exp , object );
           return;
         } else if ( strcmp( ident->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kStringConstructor ) ) == 0 ) {
-          ValueNode* str = AstUtils::CreateNameNode( "''" , Token::JS_STRING_LITERAL , exp->Line() , ValueNode::kString );
+          Literal* str = AstUtils::CreateNameNode( "''" , Token::JS_STRING_LITERAL , exp->Line() , Literal::kString );
           exp->ParentNode()->ReplaceChild( exp , str );
           return;
         }
@@ -389,16 +389,16 @@ VISITOR_IMPL( CallExp ) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  AstNode* member = ast_node->FirstChild();
-  if ( member->NodeType() == AstNode::kCallExp || member->NodeType() == AstNode::kValueNode ) {
+  AstNode* member = ast_node->first_child();
+  if ( member->node_type() == AstNode::kCallExp || member->node_type() == AstNode::kLiteral ) {
     AstNode* callable;
     AstNode* args;
-    if ( member->NodeType() == AstNode::kCallExp ) {
+    if ( member->node_type() == AstNode::kCallExp ) {
       CallExp* exp = member->CastToExpression()->CastToCallExp();
       callable = exp->Callable();
       args = exp->Args();
-      if ( args->NodeType() == AstNode::kValueNode &&
-           strcmp( args->CastToValue()->Symbol()->GetToken(),
+      if ( args->node_type() == AstNode::kLiteral &&
+           strcmp( args->CastToLiteral()->Symbol()->GetToken(),
                    SymbolList::GetSymbol( SymbolList::kPrototype ) ) == 0 ) {
         args = 0;
       }
@@ -406,15 +406,15 @@ VISITOR_IMPL(NewExp) {
       callable = member;
       args = 0;
     }
-    if ( callable->NodeType() == AstNode::kValueNode ) {
-      ValueNode* value = callable->CastToValue();
-      if ( value->ValueType() == ValueNode::kIdentifier ) {
+    if ( callable->node_type() == AstNode::kLiteral ) {
+      Literal* value = callable->CastToLiteral();
+      if ( value->ValueType() == Literal::kIdentifier ) {
         const char* ident = value->Symbol()->GetToken();
         if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kFunctionConstructor ) ) == 0 ) {
           ast_node->ParentNode()->ReplaceChild( ast_node , member );
         } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kArrayConstructor ) ) == 0 ) {
           if ( !args || args->IsEmpty() ) {
-            ValueNode* array = ManagedHandle::Retain( new ValueNode( ValueNode::kArray ) );
+            Literal* array = ManagedHandle::Retain( new Literal( Literal::kArray ) );
             ast_node->ParentNode()->ReplaceChild( ast_node , array );
             return;
           } else {
@@ -422,7 +422,7 @@ VISITOR_IMPL(NewExp) {
           }
         } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kObjectConstructor ) ) == 0 ) {
           if ( !args || args->IsEmpty() ) {
-            ValueNode* object = ManagedHandle::Retain( new ValueNode( ValueNode::kObject ) );
+            Literal* object = ManagedHandle::Retain( new Literal( Literal::kObject ) );
             object->Node( ManagedHandle::Retain<Empty>() );
             ast_node->ParentNode()->ReplaceChild( ast_node , object );
             return;
@@ -431,8 +431,8 @@ VISITOR_IMPL(NewExp) {
           }
         } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kStringConstructor ) ) == 0 ) {
           if ( !args || args->IsEmpty() ) {
-            ValueNode* string = AstUtils::CreateNameNode( "''" , Token::JS_STRING_LITERAL , ast_node->Line(),
-                                                          ValueNode::kString );
+            Literal* string = AstUtils::CreateNameNode( "''" , Token::JS_STRING_LITERAL , ast_node->Line(),
+                                                          Literal::kString );
             ast_node->ParentNode()->ReplaceChild( ast_node , string );
             return;
           } else {
@@ -440,8 +440,8 @@ VISITOR_IMPL(NewExp) {
           }
         } else if ( strcmp( ident , SymbolList::GetSymbol( SymbolList::kNumberConstructor ) ) == 0 ) {
           if ( !args || args->IsEmpty() ) {
-            ValueNode* number = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , ast_node->Line(),
-                                                          ValueNode::kNumeric );
+            Literal* number = AstUtils::CreateNameNode( "0" , Token::JS_NUMERIC_LITERAL , ast_node->Line(),
+                                                          Literal::kNumeric );
             ast_node->ParentNode()->ReplaceChild( ast_node , number );
             return;
           } else {
@@ -541,8 +541,8 @@ VISITOR_IMPL(Expression) {
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  if ( ast_node->ChildLength() == 1 && !( ast_node->IsParen() ) ) {
-    ast_node->ParentNode()->ReplaceChild( ast_node , ast_node->FirstChild() );
+  if ( ast_node->child_length() == 1 && !( ast_node->IsParen() ) ) {
+    ast_node->ParentNode()->ReplaceChild( ast_node , ast_node->first_child() );
   }
 }
 
@@ -552,7 +552,7 @@ VISITOR_IMPL(Trait){}
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
-  ast_node->FirstChild()->Accept( this );
+  ast_node->first_child()->Accept( this );
 }
 
 VISITOR_IMPL(ClassProperties) {}
@@ -570,56 +570,56 @@ VISITOR_IMPL(Function){
   AstNode* exp = parent;
   bool is_unary_convertable = true;
   while ( parent ) {
-    if ( parent->NodeType() == AstNode::kAssignmentExp ||
-         parent->NodeType() == AstNode::kValueNode ||
-         ( parent->NodeType() == AstNode::kNodeList &&
-           parent->ParentNode() && parent->ParentNode()->NodeType() == AstNode::kFunction ) ) {
+    if ( parent->node_type() == AstNode::kAssignmentExp ||
+         parent->node_type() == AstNode::kLiteral ||
+         ( parent->node_type() == AstNode::kNodeList &&
+           parent->ParentNode() && parent->ParentNode()->node_type() == AstNode::kFunction ) ) {
       is_unary_convertable = false;
       is_exp = true;
       break;
-    } else if ( parent->NodeType() != AstNode::kExpressionStmt &&
-                parent->NodeType() != AstNode::kExpression &&
-                parent->NodeType() != AstNode::kCallExp ) {
+    } else if ( parent->node_type() != AstNode::kExpressionStmt &&
+                parent->node_type() != AstNode::kExpression &&
+                parent->node_type() != AstNode::kCallExp ) {
       is_unary_convertable = false;
-    } else if ( parent->NodeType() == AstNode::kExpressionStmt &&
+    } else if ( parent->node_type() == AstNode::kExpressionStmt &&
                 is_unary_convertable == true ) {
       break;
     }
     parent = parent->ParentNode();
   }
   
-  if ( is_exp && exp && exp->NodeType() == AstNode::kExpression ) {
+  if ( is_exp && exp && exp->node_type() == AstNode::kExpression ) {
     Expression* expression = exp->CastToExpression();
-    if ( expression && expression->ChildLength() == 1 && expression->IsParen() ) {
+    if ( expression && expression->child_length() == 1 && expression->IsParen() ) {
       exp->CastToExpression()->NoParen();
     }
   } else if ( exp && is_unary_convertable ) {
     Expression* expression = exp->CastToExpression();
-    if ( expression && expression->ChildLength() == 1 && expression->IsParen() ) {
+    if ( expression && expression->child_length() == 1 && expression->IsParen() ) {
       exp->CastToExpression()->NoParen();
       UnaryExp* unary = ManagedHandle::Retain( new UnaryExp( '!' ) );
-      unary->Exp( exp->FirstChild() );
+      unary->Exp( exp->first_child() );
       exp->RemoveAllChild();
       exp->AddChild( unary );
     }
   }
   AstNode* name = ast_node->Name();
-  ValueNode* name_node = name->CastToValue();
+  Literal* name_node = name->CastToLiteral();
   NodeIterator body_iterator = ast_node->ChildNodes();
   AstNode* last = 0;
   NodeList* functions = ManagedHandle::Retain<NodeList>();
   while ( body_iterator.HasNext() ) {
     AstNode* node = body_iterator.Next();
     if ( last &&
-         node->NodeType() == AstNode::kVariableStmt &&
-         last->NodeType() == AstNode::kVariableStmt ) {
+         node->node_type() == AstNode::kVariableStmt &&
+         last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
       last->Append( node );
       ast_node->RemoveChild( node );
     } else {
       node->Accept( this );
     }
-    if ( node->NodeType() == AstNode::kFunction ) {
+    if ( node->node_type() == AstNode::kFunction ) {
       ast_node->RemoveChild( node );
       functions->AddChild( node );
     }
@@ -633,9 +633,9 @@ VISITOR_IMPL(Function){
 };
 
 
-void OptimizerVisitor::ArrayProccessor_( ValueNode* ast_node ) {
+void OptimizerVisitor::ArrayProccessor_( Literal* ast_node ) {
   PRINT_NODE_NAME;
-  AstNode* list_child = ast_node->FirstChild();
+  AstNode* list_child = ast_node->first_child();
   while ( list_child ) {
     if ( !list_child->IsEmpty() ) {
       NodeIterator iter = list_child->ChildNodes();
@@ -657,7 +657,7 @@ void OptimizerVisitor::ArrayProccessor_( ValueNode* ast_node ) {
 }
 
 
-void OptimizerVisitor::ObjectProccessor_( ValueNode* ast_node ) {
+void OptimizerVisitor::ObjectProccessor_( Literal* ast_node ) {
   PRINT_NODE_NAME;
   AstNode* element_list = ast_node->Node();
   if ( !element_list->IsEmpty() ) {
@@ -665,29 +665,29 @@ void OptimizerVisitor::ObjectProccessor_( ValueNode* ast_node ) {
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
       element->Accept( this );
-      element->FirstChild()->Accept( this );
+      element->first_child()->Accept( this );
     }
   }
 }
 
 
-VISITOR_IMPL( ValueNode ) {
+VISITOR_IMPL( Literal ) {
   switch ( ast_node->ValueType() ) {
-    case ValueNode::kArray :
+    case Literal::kArray :
       ArrayProccessor_( ast_node );
       break;
 
-    case ValueNode::kObject :
+    case Literal::kObject :
       ObjectProccessor_( ast_node );
       break;
 
-    case ValueNode::kVariable :
-      ast_node->FirstChild()->Accept( this );
+    case Literal::kVariable :
+      ast_node->first_child()->Accept( this );
       break;
       
-    case ValueNode::kIdentifier : {
-      if ( ast_node->ChildLength() > 0 ) {
-        ast_node->FirstChild()->Accept( this );
+    case Literal::kIdentifier : {
+      if ( ast_node->child_length() > 0 ) {
+        ast_node->first_child()->Accept( this );
       }
     }
       break;

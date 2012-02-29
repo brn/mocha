@@ -9,7 +9,7 @@ class TokenInfo;
 class TokenStream;
 class Scanner : public Managed {
  public :
-  static Scanner* Create( SourceStream* source , ErrorReporter *reporter , const char* filename );
+  static Scanner* New( SourceStream* source , ErrorReporter *reporter , const char* filename );
   ~Scanner();
   TokenInfo* Advance( int index = 1 );
   TokenInfo* Undo( int index = 1 );

@@ -59,6 +59,7 @@ public :
   
   PtrImpl( Compiler* compiler , const char* main_file_path , FinishDelegator* callback ) :
       compiler_( compiler ),
+      ast_root_( AstRoot::New() ),
       main_file_path_( main_file_path ),
       //codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
@@ -108,7 +109,7 @@ public :
   inline Handle<ExternalAst> GetAst( ErrorReporter *handler , Handle<PathInfo> path_info , bool is_runtime ) {
     Handle<ExternalAst> external_ast = ExternalAst::Create();
     Internal internal( main_file_path_.c_str() , is_runtime ,
-                       path_info , compiler_ , &scope_ , codegen_.Get() , external_ast->GetRoot() );
+                       path_info , compiler_ , &scope_registry_ , codegen_.Get() , external_ast->GetRoot() );
     internal.GetAst( Internal::kFatal , handler );
     return external_ast;
   }
@@ -165,7 +166,7 @@ private :
   
   inline void CallInternal_( Handle<PathInfo> path_info , Internal::ErrorLevel error_level , bool is_runtime ) {
     Internal internal( main_file_path_.c_str() , is_runtime ,
-                       path_info , compiler_ , &scope_ , codegen_.Get() , &ast_root_ );
+                       path_info , compiler_ , &scope_registry_ , codegen_.Get() , ast_root_ );
     internal.Parse( error_level );
   }
 
@@ -177,12 +178,13 @@ private :
   
   std::string main_file_path_;
   ErrorMapHandle error_map_;
+  ManagedScope managed_scope_;
   boost::unordered_map<std::string,int> loaded_path_;
   Compiler *compiler_;
-  AstRoot ast_root_;
+  AstRoot *ast_root_;
   Handle<PathInfo> path_info_;
   //Handle<CodegenVisitor> codegen_;
-  Scope scope_;
+  ScopeRegistry scope_registry_;
   FinishDelegator* callback_;
 };
 
@@ -211,7 +213,7 @@ Compiler::Compiler ( const char* filename , FinishDelegator* callback ){
 
 
 void Compiler::Compile () {
-  mocha::ManagedScope managed_scope;
+  ManagedScope managed_scope;
   implementation_->Compile();
 }
 

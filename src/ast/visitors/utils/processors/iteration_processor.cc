@@ -23,7 +23,7 @@ void InsertBlock( IterationStmt* ast_node ) {
 
 void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo* info ) {
   InsertBlock( ast_node );
-  IVisitor *visitor = info->GetVisitor();
+  IVisitor *visitor = info->visitor();
   AstNode* exp = ast_node->expression();
   AstNode* index_exp = exp->first_child();
   AstNode* cond_exp = ( index_exp )? index_exp->next_sibling() : 0;
@@ -36,14 +36,14 @@ void IterationProcessor::ProcessForNode( IterationStmt* ast_node , ProcessorInfo
     incr_exp->Accept( visitor );
   }  
   ast_node->first_child()->Accept( visitor );
-  if ( ast_node->generator() ) {
-    info->GetInfo()->GetFunction()->set_statement_in_generator( ast_node );
+  if ( ast_node->IsContainYield() ) {
+    info->visitor_info()->function()->set_statement_in_generator( ast_node );
   }
 }
 
 void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorInfo* info , bool is_regist ) {
   InsertBlock( ast_node );
-  IVisitor *visitor = info->GetVisitor();
+  IVisitor *visitor = info->visitor();
   bool has_variable = ast_node->node_type() == AstNode::kForInWithVar || ast_node->node_type() == AstNode::kForOfWithVar;
   AstNode* exp = ast_node->expression();
   AstNode* index_exp = exp->first_child();
@@ -62,13 +62,15 @@ void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorIn
     dsta_value->RemoveAllChild();
     dsta_value->AddChild( Empty::New() );
   } else {
-    is_dst = ast_node->dsta_flag();
+    is_dst = ast_node->IsContainDestructuring();
   }
   
   AstNode* dsta_stmt = 0;
   if ( is_dst && has_variable ) {
+    VariableDeclarationList* decl_list = VariableDeclarationList::New( ast_node->line_number() );
     NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt( ast_node , info );
-    dsta_stmt = AstUtils::CreateVarStmt( list , ast_node->line_number() );
+    decl_list->Append( list );
+    dsta_stmt = AstUtils::CreateVarStmt( decl_list , ast_node->line_number() );
   } else if ( is_dst && !has_variable ) {
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , info );
     dsta_stmt = AstUtils::CreateExpStmt( list , ast_node->line_number() );
@@ -81,8 +83,8 @@ void IterationProcessor::ProcessForInNode( IterationStmt* ast_node , ProcessorIn
   if ( is_dst ) {
     body->first_child()->InsertBefore( dsta_stmt );
   }
-  if ( ast_node->generator() && is_regist ) {
-    info->GetInfo()->GetFunction()->set_statement_in_generator( ast_node );
+  if ( ast_node->IsContainYield() && is_regist ) {
+    info->visitor_info()->function()->set_statement_in_generator( ast_node );
   }
 }
 
@@ -102,7 +104,8 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
       maybe_value->set_value_type( Literal::kVariable );
       maybe_value->RemoveAllChild();
       maybe_value->AddChild( Empty::New() );
-      VariableStmt* stmt = AstUtils::CreateVarStmt( index_exp , ast_node->line_number() );
+      VariableDeclarationList* list = AstUtils::CreateVarDeclList( ast_node->line_number() , 1 , index_exp );
+      VariableStmt* stmt = AstUtils::CreateVarStmt( list , ast_node->line_number() );
       ast_node->parent_node()->InsertBefore( stmt , ast_node );
     }
     if ( val->CastToLiteral() ) {
@@ -111,9 +114,10 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
     index_exp = val;
   }
   if ( !maybe_ident ) {
-    Literal* tmp = AstUtils::CreateTmpNode( info->GetInfo()->GetTmpIndex() , ast_node->line_number() );
+    Literal* tmp = AstUtils::CreateTmpNode( info->visitor_info()->tmp_index() , ast_node->line_number() );
     Literal* init = AstUtils::CreateVarInitiliser( tmp->value() , target_exp , ast_node->line_number() );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( init , ast_node->line_number() );
+    VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( ast_node->line_number() , 1 , init );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( decl_list , ast_node->line_number() );
     Literal* target = tmp->Clone()->CastToLiteral();
 
     Literal* has_iterator = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kHasIterator ),
@@ -141,7 +145,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   AssignmentExp* assign = AstUtils::CreateAssignment( '=' , index_exp , dot_call , ast_node->line_number() );
   Expression* expression = Expression::New( ast_node->line_number() );
   expression->AddChild( assign );
-  expression->set_paren();
+  expression->MarkParenthesis();
   while_stmt->set_expression( expression );
 
   while_stmt->AddChild( ast_node->first_child() );
@@ -151,7 +155,7 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   char line_tmp[50];
   sprintf( line_tmp , "%lld" , ast_node->line_number() );
   Literal* line_num = AstUtils::CreateNameNode( line_tmp , Token::JS_NUMERIC_LITERAL , ast_node->line_number() , Literal::kNumeric );
-  Literal* file_name = AstUtils::CreateNameNode( info->GetInfo()->GetRelativePath() , Token::JS_STRING_LITERAL  , ast_node->line_number() , Literal::kString );
+  Literal* file_name = AstUtils::CreateNameNode( info->visitor_info()->relative_path() , Token::JS_STRING_LITERAL  , ast_node->line_number() , Literal::kString );
   Literal* error = AstUtils::CreateNameNode( "'for of statement expect iterator or generator object.'",
                                                Token::JS_STRING_LITERAL , 0 , Literal::kString );
   NodeList* args = AstUtils::CreateNodeList( 3 , line_num , file_name , error );
@@ -162,16 +166,16 @@ void IterationProcessor::ProcessForOfNode( IterationStmt* ast_node , ProcessorIn
   IFStmt* if_stmt = AstUtils::CreateIFStmt( dot_exp , then_block , else_block , ast_node->line_number() );
   ast_node->parent_node()->ReplaceChild( ast_node , if_stmt );
 
-  if ( ast_node->generator() ) {
-    info->GetInfo()->GetFunction()->set_statement_in_generator( while_stmt );
-    info->GetInfo()->GetFunction()->set_statement_in_generator( if_stmt );
+  if ( ast_node->IsContainYield() ) {
+    info->visitor_info()->function()->set_statement_in_generator( while_stmt );
+    info->visitor_info()->function()->set_statement_in_generator( if_stmt );
   }
 }
 
 
 void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , ProcessorInfo *info ) {
   InsertBlock( ast_node );
-  IVisitor* visitor = info->GetVisitor();
+  IVisitor* visitor = info->visitor();
   bool has_variable = ast_node->node_type() == AstNode::kForEachWithVar;
   AstNode* exp = ast_node->expression();
   AstNode* index_exp = exp->first_child();
@@ -190,13 +194,15 @@ void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , Processor
     index_exp->RemoveAllChild();
     index_exp->AddChild( Empty::New() );
   } else {
-    is_dst = ast_node->dsta_flag();
+    is_dst = ast_node->IsContainDestructuring();
   }
   
   AstNode* dsta_stmt = 0;
   if ( is_dst && has_variable ) {
+    VariableDeclarationList* decl_list = VariableDeclarationList::New( ast_node->line_number() );
     NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt( ast_node , info );
-    dsta_stmt = AstUtils::CreateVarStmt( list , ast_node->line_number() );
+    decl_list->Append( list );
+    dsta_stmt = AstUtils::CreateVarStmt( decl_list , ast_node->line_number() );
   } else if ( is_dst && !has_variable ) {
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment( ast_node , info );
     dsta_stmt = AstUtils::CreateExpStmt( list , ast_node->line_number() );
@@ -221,19 +227,19 @@ void IterationProcessor::ProcessForEachNode( IterationStmt *ast_node , Processor
     body->first_child()->InsertBefore( dsta_stmt );
   }
   body->first_child()->InsertBefore( stmt );
-  if ( ast_node->generator() ) {
-    info->GetInfo()->GetFunction()->set_statement_in_generator( ast_node );
+  if ( ast_node->IsContainYield() ) {
+    info->visitor_info()->function()->set_statement_in_generator( ast_node );
   }
 }
 
 void IterationProcessor::ProcessWhileNode( IterationStmt *ast_node , ProcessorInfo *info ) {
   InsertBlock( ast_node );
-  IVisitor* visitor = info->GetVisitor();
+  IVisitor* visitor = info->visitor();
   bool is_dst = false;
   NodeList* dsta_list = 0;
   VariableStmt* var_stmt = 0;
   ast_node->expression()->Accept( visitor );
-  if ( ( is_dst = ast_node->dsta_flag() ) ) {
+  if ( ( is_dst = ast_node->IsContainDestructuring() ) ) {
     if ( ast_node->node_type() == AstNode::kDoWhile ) {
       var_stmt = DstaProcessor::CreateTmpVarDecl( ast_node , info );
     } else {
@@ -246,14 +252,14 @@ void IterationProcessor::ProcessWhileNode( IterationStmt *ast_node , ProcessorIn
   if ( is_dst ) {
     Expression* exp = Expression::New( ast_node->line_number());
     exp->AddChild( dsta_list );
-    exp->set_paren();
+    exp->MarkParenthesis();
     ExpressionStmt* stmt = ExpressionStmt::New( ast_node->line_number() );
     stmt->AddChild( exp );
     body->first_child()->InsertBefore( stmt );
     ast_node->parent_node()->InsertBefore( var_stmt , ast_node );
   }
-  if ( ast_node->generator() ) {
-    info->GetInfo()->GetFunction()->set_statement_in_generator( ast_node );
+  if ( ast_node->IsContainYield() ) {
+    info->visitor_info()->function()->set_statement_in_generator( ast_node );
   }
 }
 

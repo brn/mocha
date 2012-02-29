@@ -5,19 +5,19 @@
 
 namespace mocha {
 class IVisitor;
-class Scope;
+class ScopeRegistry;
 class VisitorInfo;
 
 class ProcessorInfo {
  public :
-  ProcessorInfo( IVisitor* visitor , Scope* scope , VisitorInfo* info ) :
-      visitor_( visitor ), scope_( scope ) , info_( info ){};
-  inline IVisitor* GetVisitor() { return visitor_; }
-  inline Scope* GetScope() { return scope_; }
-  inline VisitorInfo* GetInfo() { return info_; }
+  ProcessorInfo( IVisitor* visitor , ScopeRegistry* scope_registry , VisitorInfo* info ) :
+      visitor_( visitor ), scope_registry_( scope_registry ) , info_( info ){};
+  inline IVisitor* visitor() const { return visitor_; }
+  inline ScopeRegistry* scope_registry() const { return scope_registry_; }
+  inline VisitorInfo* visitor_info() const { return info_; }
  private :
   IVisitor *visitor_;
-  Scope *scope_;
+  ScopeRegistry *scope_registry_;
   VisitorInfo *info_;
 };
 

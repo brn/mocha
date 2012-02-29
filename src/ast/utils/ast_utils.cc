@@ -70,17 +70,6 @@ UnaryExp* AstUtils::CreateUnaryExp( int type , AstNode* exp , int64_t line ) {
   return unary;
 }
 
-NodeList* AstUtils::CreateNodeList( int num , ... ) {
-  va_list list;
-  va_start( list , num );
-  NodeList* node_list = NodeList::New();
-  for ( int i = 0; i < num; i++ ) {
-    AstNode* node = va_arg( list , AstNode* );
-    node_list->AddChild( node );
-  }
-  return node_list;
-}
-
 ObjectLikeLiteral* AstUtils::CreateObjectLiteral( AstNode* body , int64_t line ) {
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( line );
   object->Append( body );
@@ -91,7 +80,7 @@ ExpressionStmt* AstUtils::CreateAnonymousFnCall( Function *fn , AstNode* args , 
   Expression* exp = Expression::New( line );
   CallExp* call = CallExp::New( CallExp::kNormal , line );
   exp->AddChild( fn );
-  exp->paren();
+  exp->IsParenthesis();
   call->set_callable( exp );
   call->set_args( args );
   Expression* ret_exp = Expression::New( line );
@@ -115,11 +104,6 @@ VariableStmt* AstUtils::CreateVarStmt( VariableDeclarationList* list , int64_t l
   return var;
 }
 
-VariableStmt* AstUtils::CreateVarStmt( AstNode* mem , int64_t line ) {
-  VariableDeclarationList* decl_list = VariableDeclarationList::New( line );
-  decl_list->AddChild( mem );
-  return CreateVarStmt( decl_list , line );
-}
 
 Literal* AstUtils::CreateVarInitiliser( TokenInfo* lhs , AstNode* rhs , int64_t line ) {
   Literal* node = Literal::New( Literal::kVariable , line );
@@ -180,7 +164,7 @@ Literal* AstUtils::CreateTmpNode( int index , int64_t line ) {
 
 CallExp* AstUtils::CreateGlobalExportNode( AstNode* ast_node , VisitorInfo* visitor_info,
                                            const char* base , const char* filename , int64_t line ) {
-  Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->GetMainPath() );
+  Handle<PathInfo> base_path_info = FileSystem::GetPathInfo( visitor_info->main_file_path() );
   Handle<PathInfo> target_path_info = FileSystem::GetPathInfo( filename );
   StrHandle handle = FileSystem::GetModuleKey( base_path_info->GetDirPath().Get() , target_path_info->GetDirPath().Get() );
   std::string modkey = "'";
@@ -201,6 +185,17 @@ IFStmt* AstUtils::CreateIFStmt( AstNode* exp , AstNode* then_stmt , AstNode* els
   return if_stmt;
 }
 
+NodeList* AstUtils::CreateNodeList( int num , ... ) {
+  va_list list;
+  va_start( list , num );
+  NodeList* node_list = NodeList::New();
+  for ( int i = 0; i < num; i++ ) {
+    AstNode* node = va_arg( list , AstNode* );
+    node_list->AddChild( node );
+  }
+  return node_list;
+}
+
 BlockStmt* AstUtils::CreateBlockStmt( int64_t line , int num , ... ) {
   va_list list;
   va_start( list ,  num );
@@ -212,6 +207,17 @@ BlockStmt* AstUtils::CreateBlockStmt( int64_t line , int num , ... ) {
   return block;
 }
 
+VariableDeclarationList* AstUtils::CreateVarDeclList( int64_t line , int num , ... ) {
+  va_list list;
+  va_start( list , num );
+  VariableDeclarationList* decl_list = VariableDeclarationList::New( line );
+  for ( int i = 0; i < num; i++ ) {
+    AstNode* node = va_arg( list , AstNode* );
+    decl_list->AddChild( node );
+  }
+  return decl_list;
+}
+
 template<typename T>
 void FindDirectivePrologueCommon( AstNode* node , T* target ) {
   if ( node->first_child() && node->first_child()->node_type() == AstNode::kExpressionStmt ) {
@@ -220,7 +226,7 @@ void FindDirectivePrologueCommon( AstNode* node , T* target ) {
       Literal* directive = node->first_child()->first_child()->first_child()->CastToLiteral();
       if ( strcmp( directive->value()->token() , "'use strict'"  ) == 0 || strcmp( directive->value()->token() , "\"use strict\""  ) == 0 ) {
         node->RemoveChild( node->first_child() );
-        target->set_strict();
+        target->MarkAsStrict();
       }
     }
   }
@@ -237,7 +243,7 @@ void AstUtils::FindDirectivePrologue( AstNode* node , Function* fn ) {
 bool AstUtils::IsDestructringLeftHandSide( AstNode* node ) {
   return ( node->node_type() == AstNode::kArrayLikeLiteral ||
            node->node_type() == AstNode::kObjectLikeLiteral ) &&
-      node->CastToExpression() && node->CastToExpression()->valid_lhs();
+      node->CastToExpression() && node->CastToExpression()->IsValidLhs();
 }
 
 }

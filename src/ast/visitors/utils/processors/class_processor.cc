@@ -130,7 +130,7 @@ class ClassProcessorUtils {
                                                  Token::JS_IDENTIFIER , mixin_list->line_number() , Literal::kProperty );
     NodeIterator iterator = mixin_list->ChildNodes();
     ArrayLikeLiteral* array = ArrayLikeLiteral::New( body->line_number() );
-    long line = 0;
+    int64_t line = 0;
     while ( iterator.HasNext() ) {
       AstNode* item = iterator.Next();
       AstNode* rename = item->first_child();
@@ -144,7 +144,7 @@ class ClassProcessorUtils {
     Literal* private_field = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kPrivateHolder ),
                                                          Token::JS_IDENTIFIER , mixin_list->line_number() , Literal::kIdentifier );
     char tmp[ 50 ];
-    sprintf( tmp , "%d" , line );
+    sprintf( tmp , "%lld" , line );
     Literal* line_num = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL , mixin_list->line_number() , Literal::kNumeric );
     NodeList* args = AstUtils::CreateNodeList( 5 , name_sym , private_field , array , filename_node , line_num );
     CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( check_requirements , body->line_number() );
@@ -159,9 +159,7 @@ class ClassProcessorUtils {
          class_->inner() ) {
       TokenInfo* info = TokenInfo::New( name , Token::JS_IDENTIFIER , class_->line_number() );
       Literal* vars = AstUtils::CreateVarInitiliser( info , closure_->first_child() , class_->line_number() );
-      NodeList* list = NodeList::New();
-      list->AddChild( vars );
-      VariableStmt* stmt = AstUtils::CreateVarStmt( list , class_->line_number() );
+      VariableStmt* stmt = AstUtils::CreateVarStmt( AstUtils::CreateVarDeclList( class_->line_number() , 1 , vars ) , class_->line_number() );
       if ( !class_->inner() ) {
         class_->parent_node()->parent_node()->ReplaceChild( class_->parent_node() , stmt );
       } else {
@@ -175,7 +173,8 @@ class ClassProcessorUtils {
         CallExp* dot_accessor = AstUtils::CreateDotAccessor( local_export , name_node , class_->line_number() );
         AssignmentExp* assign = AstUtils::CreateAssignment( '=' , dot_accessor , closure_->first_child() , class_->line_number() );
         Literal* var_node = AstUtils::CreateVarInitiliser( name_node->Clone()->CastToLiteral()->value() , assign , class_->line_number() );
-        VariableStmt* var_stmt = AstUtils::CreateVarStmt( var_node , class_->line_number() );
+        VariableDeclarationList* list = AstUtils::CreateVarDeclList( class_->line_number() , 1 , var_node );
+        VariableStmt* var_stmt = AstUtils::CreateVarStmt( list , class_->line_number() );
         class_->parent_node()->parent_node()->ReplaceChild( class_->parent_node() , var_stmt );
       } else {
         class_->AddChild( closure_->first_child() );
@@ -189,7 +188,8 @@ class ClassProcessorUtils {
     Literal* private_holder_name = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kPrivateHolder ),
                                                                Token::JS_IDENTIFIER , class_->line_number() , Literal::kIdentifier );
     Literal* value = AstUtils::CreateVarInitiliser( private_holder_name->value() , fn , class_->line_number() );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( value , class_->line_number() );
+    VariableDeclarationList* list = AstUtils::CreateVarDeclList( class_->line_number() , 1 , value );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( list , class_->line_number() );
     return stmt;
   }
 
@@ -420,12 +420,12 @@ void ClassProcessor::ProcessNode() {
 }
 
 inline void ClassProcessor::SetName( AstNode* name_node ) {
-  if ( !name_node->empty() ) {
+  if ( !name_node->IsEmpty() ) {
     TokenInfo *info = name_node->CastToLiteral()->value();
     name_ = info->token();
   } else {
     char buf[500];
-    name_ = AstUtils::CreateTmpRef( buf , info_->GetInfo()->GetTmpIndex() );
+    name_ = AstUtils::CreateTmpRef( buf , info_->visitor_info()->tmp_index() );
   }
 }
 
@@ -435,14 +435,15 @@ inline Function* ClassProcessor::CreateBaseConstructor() {
 }
 
 inline void ClassProcessor::ProcessExtends( AstNode* node ) {
-  if ( !node->empty() ) {
+  if ( !node->IsEmpty() ) {
     ClassExpandar* expandar = reinterpret_cast<ClassExpandar*>( node );
     const char* extend_fn = ( expandar->attribute() == ClassExpandar::kExtends )?
         SymbolList::symbol( SymbolList::kExtendClass ) :
         SymbolList::symbol( SymbolList::kExtendPrototype );
-    Literal* tmp_node = AstUtils::CreateTmpNode( info_->GetInfo()->GetTmpIndex() , expandar->line_number() );
+    Literal* tmp_node = AstUtils::CreateTmpNode( info_->visitor_info()->tmp_index() , expandar->line_number() );
     Literal* tmp_init = AstUtils::CreateVarInitiliser( tmp_node->value() , node->first_child() , expandar->line_number() );
-    VariableStmt* var_stmt = AstUtils::CreateVarStmt( tmp_init , expandar->line_number() );
+    VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( expandar->line_number() , 1 , tmp_init );
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt( decl_list , expandar->line_number() );
     closure_body_->AddChild( var_stmt );
     
     Literal* extend = AstUtils::CreateNameNode( extend_fn, Token::JS_IDENTIFIER,
@@ -464,14 +465,15 @@ inline void ClassProcessor::ProcessExtends( AstNode* node ) {
     CallExp* create_super_call = AstUtils::CreateNormalAccessor( create_super , super_args , expandar->line_number() );
     CallExp* runtime_exp = AstUtils::CreateRuntimeMod( create_super_call , expandar->line_number() );
     Literal* var_init = AstUtils::CreateVarInitiliser( super_obj->value() , runtime_exp , expandar->line_number() );
-    VariableStmt* runtime_super_stmt = AstUtils::CreateVarStmt( var_init , expandar->line_number() );
+    decl_list = AstUtils::CreateVarDeclList( expandar->line_number() , 1 , var_init );
+    VariableStmt* runtime_super_stmt = AstUtils::CreateVarStmt( decl_list , expandar->line_number() );
     closure_body_->AddChild( runtime_super_stmt );
   }
 }
 
 
 inline void ClassProcessor::ProcessBody( AstNode* body ) {
-  if ( !body->empty() ) {
+  if ( !body->IsEmpty() ) {
     ProcessMember( reinterpret_cast<ClassProperties*>( body ) );
   } else {
     CreateEmptyConstructor();
@@ -481,13 +483,13 @@ inline void ClassProcessor::ProcessBody( AstNode* body ) {
 
 
 inline void ClassProcessor::ProcessMember( ClassProperties* body ) {
-  AstNode* public_list = body->public_member();
-  AstNode* private_list = body->private_member();
-  AstNode* prototype_list = body->prototype_member();
-  AstNode* public_static_list = body->public_static_member();
-  AstNode* private_static_list = body->private_static_member();
+  NodeList* public_list = body->public_member();
+  NodeList* private_list = body->private_member();
+  NodeList* prototype_list = body->prototype_member();
+  NodeList* public_static_list = body->public_static_member();
+  NodeList* private_static_list = body->private_static_member();
+  NodeList* mixin = body->mixin_member();
   AstNode* constructor_decl = body->constructor();
-  AstNode* mixin = body->mixin_member();
 
   if ( constructor_decl ) {
     Function* constructor = constructor_decl->first_child()->CastToExpression()->CastToFunction();
@@ -505,14 +507,14 @@ inline void ClassProcessor::ProcessMember( ClassProperties* body ) {
   if ( mixin->child_length() > 0 ) {
     AstNode* mixin_list = TraitProcessor::ProcessMixin( mixin , info_ , mixin->line_number() );
     utils_->CreateMixinStmt( name_.c_str() , mixin_list , closure_body_ );
-    utils_->CreateRequirementsCheck( name_.c_str() , info_->GetInfo()->GetRelativePath() , mixin_list , closure_body_ );
+    utils_->CreateRequirementsCheck( name_.c_str() , info_->visitor_info()->relative_path() , mixin_list , closure_body_ );
   }
 }
 
 
 
 inline void ClassProcessor::ProcessConstructor( Function* constructor ) {
-  IVisitor* visitor = info_->GetVisitor();
+  IVisitor* visitor = info_->visitor();
   closure_body_->AddChild( constructor );
   Function *backup = closure_body_;
   NodeIterator iterator = constructor->ChildNodes();
@@ -562,18 +564,18 @@ void ClassProcessor::ProcessEachMember( AstNode* node , bool is_prototype , bool
       
     case AstNode::kVariableDeclarationList : {
       ProcessVariable( node , is_prototype , is_private , is_instance,
-                       node->CastToExpression()->CastToVariableDeclarationList()->const_declaration() );
+                       node->CastToExpression()->CastToVariableDeclarationList()->IsDeclaredAsConst() );
     }
       break;
 
     case AstNode::kClass : {
       Statement* tmp_stmt = Statement::New();
-      info_->GetInfo()->SetCurrentStmt( tmp_stmt );
+      info_->visitor_info()->set_current_statement( tmp_stmt );
       Class* class_node = reinterpret_cast<Class*>( node );
       class_node->set_inner();
       ClassProcessor *cls = ClassProcessor::New( info_ , class_node , tmp_stmt );
       cls->ProcessNode();
-      ProcessVariable( class_node->first_child() , is_prototype , is_private , is_instance , class_node->const_declaration() );
+      ProcessVariable( class_node->first_child() , is_prototype , is_private , is_instance , class_node->IsDeclaredAsConst() );
     }
   }
 }
@@ -583,11 +585,12 @@ inline void ClassProcessor::ProcessDsta( AstNode *value,
                                          bool is_const,
                                          DstaCallback callback ) {
   Statement* tmp_stmt = Statement::New();
-  info_->GetInfo()->SetCurrentStmt( tmp_stmt );
+  info_->visitor_info()->set_current_statement( tmp_stmt );
   Literal* ret = DstaProcessor::ProcessNode( value , info_ );
-  if ( tmp_stmt->dsta_flag() ) {
+  if ( tmp_stmt->IsContainDestructuring() ) {
     ret->set_value_type( Literal::kVariable );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( ret ,  value->line_number() );
+    VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( value->line_number() , 1 , ret );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( decl_list ,  value->line_number() );
     closure_body_->AddChild( stmt );
     NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt( tmp_stmt , info_ );
     NodeIterator iterator = list->ChildNodes();
@@ -716,7 +719,7 @@ inline void ClassProcessor::ProcessFunction( Function* fn , bool is_prototype , 
   const char* class_name = name_.c_str();
   value->set_value_type( Literal::kProperty );
   if ( !is_instance && !is_prototype ) {
-    fn->Accept( info_->GetVisitor() );
+    fn->Accept( info_->visitor() );
     ExpressionStmt* stmt;
     if ( !is_private ) {
       stmt = utils_->PublicStatic( class_name , value , fn );
@@ -726,25 +729,25 @@ inline void ClassProcessor::ProcessFunction( Function* fn , bool is_prototype , 
     closure_body_->AddChild( stmt );
   } else if ( is_prototype ) {
     if ( is_private ) {
-      info_->GetInfo()->EnterPrivate();
-      fn->Accept( info_->GetVisitor() );
-      info_->GetInfo()->EscapePrivate();
+      info_->visitor_info()->EnterPrivate();
+      fn->Accept( info_->visitor() );
+      info_->visitor_info()->EscapePrivate();
       ExpressionStmt* stmt = utils_->PrototypePrivate( value , fn );
       closure_body_->AddChild( stmt );
     } else {
-      fn->Accept( info_->GetVisitor() );
+      fn->Accept( info_->visitor() );
       ExpressionStmt* stmt = utils_->PrototypePublic( class_name , value , fn );
       closure_body_->AddChild( stmt );
     }
   } else {
     if ( is_private ) {
-      info_->GetInfo()->EnterPrivate();
-      fn->Accept( info_->GetVisitor() );
-      info_->GetInfo()->EscapePrivate();
+      info_->visitor_info()->EnterPrivate();
+      fn->Accept( info_->visitor() );
+      info_->visitor_info()->EscapePrivate();
       ExpressionStmt* stmt = utils_->PrototypePrivate( value , fn );
       closure_body_->AddChild( stmt );
     } else {
-      fn->Accept( info_->GetVisitor() );
+      fn->Accept( info_->visitor() );
       ExpressionStmt* stmt = utils_->PrototypePublic( class_name , value , fn );
       closure_body_->AddChild( stmt );
     }

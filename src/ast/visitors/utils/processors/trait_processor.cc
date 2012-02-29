@@ -13,13 +13,13 @@ TraitProcessor::TraitProcessor( Trait* trait , ProcessorInfo* info ) :
     trait_( trait ) , info_( info ) {}
 
 void TraitProcessor::ProcessNode() {
-  VisitorInfo* visitor_info = info_->GetInfo();
+  VisitorInfo* visitor_info = info_->visitor_info();
   AstNode* name = trait_->name();
-  name_ = ( !name->empty() )? name->CastToLiteral() : AstUtils::CreateTmpNode( visitor_info->GetTmpIndex() , trait_->line_number() );
+  name_ = ( !name->IsEmpty() )? name->CastToLiteral() : AstUtils::CreateTmpNode( visitor_info->tmp_index() , trait_->line_number() );
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( trait_->line_number() );
   NodeList* list = NodeList::New();
   AstNode* parent = trait_->parent_node();
-  if ( trait_->declaration() ) {
+  if ( trait_->IsDeclared() ) {
     body_ = trait_->parent_node();
     Literal* name_value = name_->Clone()->CastToLiteral();
     name_value->set_value_type( Literal::kVariable );
@@ -68,7 +68,7 @@ NodeIterator GetPublicIterator( Trait *trait ) {
 void TraitProcessor::CommonProcessor_( NodeList* list , IteratorGetter getter , const char* type ) {
   Literal* member_field = AstUtils::CreateNameNode( type, Token::JS_PROPERTY , trait_->line_number() , Literal::kProperty );
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( trait_->line_number() );
-  IVisitor* visitor = info_->GetVisitor();
+  IVisitor* visitor = info_->visitor();
   NodeIterator iterator = getter( trait_ );
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
@@ -115,7 +115,7 @@ void TraitProcessor::CreateMixinStmt_( AstNode* mixin_list , AstNode* mark ) {
 }
 
 AstNode* TraitProcessor::ProcessMixin( AstNode* mixin , ProcessorInfo* info , int64_t line ) {
-  VisitorInfo* visitor_info = info->GetInfo();
+  VisitorInfo* visitor_info = info->visitor_info();
   NodeIterator iterator = mixin->ChildNodes();
   NodeList* ret = NodeList::New();
   while ( iterator.HasNext() ) {
@@ -124,9 +124,9 @@ AstNode* TraitProcessor::ProcessMixin( AstNode* mixin , ProcessorInfo* info , in
     AstNode* name_node = member->name();
     AstNode* rename_list = member->rename_list()();
     AstNode* removal_list = member->remove_list();
-    name_node->Accept( info->GetVisitor() );
-    rename_list->Accept( info->GetVisitor() );
-    removal_list->Accept( info->GetVisitor() );
+    name_node->Accept( info->visitor() );
+    rename_list->Accept( info->visitor() );
+    removal_list->Accept( info->visitor() );
     ObjectLikeLiteral* rename_map = 0;
     if ( rename_list->child_length() > 0 ) {
       rename_map = ObjectLikeLiteral::New( mixin->line_number() );

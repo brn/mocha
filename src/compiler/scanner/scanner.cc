@@ -897,7 +897,7 @@ class Scanner::InternalScanner {
   ErrorReporter *reporter_;
 };
 
-Scanner* Scanner::Create( SourceStream* stream , ErrorReporter* reporter , const char* filename ) {
+Scanner* Scanner::New( SourceStream* stream , ErrorReporter* reporter , const char* filename ) {
   Scanner* scanner = ManagedHandle::Retain( new Scanner( stream , reporter , filename ) );
   scanner->CreateTokenStream_();
   scanner->token_stream_ = scanner->scanner_->GetStream();
