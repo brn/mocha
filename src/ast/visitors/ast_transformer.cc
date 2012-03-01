@@ -165,10 +165,10 @@ VISITOR_IMPL(StatementList) {
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  VariableProcessor::ProcessVarList( ast_node , proc_info_.Get() );
+  VariableProcessor::ProcessVarList( ast_node->first_child() , proc_info_.Get() );
   if ( ast_node->IsContainDestructuring() ) {
     NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt( ast_node , proc_info_.Get() );
-    ast_node->Append( list );
+    ast_node->first_child()->Append( list );
   }
 }
 
@@ -664,6 +664,8 @@ VISITOR_IMPL( ObjectLikeLiteral ) {
   ObjectProccessor processor( ast_node , proc_info_.Get() );
   processor.ProcessNode();
 }
+
+VISITOR_IMPL(VariableDeclarationList){}
 
 VISITOR_IMPL( GeneratorExpression ) {
   PRINT_NODE_NAME;

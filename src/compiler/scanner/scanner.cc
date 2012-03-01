@@ -42,7 +42,7 @@ class Scanner::InternalScanner {
         }
         flags_.UnSet( FLAG_LB );
       }
-      char ch = Advance();
+      uint8_t ch = Advance();
       if ( IsIdentStart( ch , true ) ) {
         //identifier
         CaseIdent( ch );
@@ -99,7 +99,7 @@ class Scanner::InternalScanner {
   }
 
 
-  inline char Seek( int len ) {
+  inline uint8_t Seek( int len ) {
     return source_stream_->Seek( len );
   }
 
@@ -107,7 +107,7 @@ class Scanner::InternalScanner {
    * @private
    * Get next char form source.
    */
-  inline char Advance( int len = 1 ) {
+  inline uint8_t Advance( int len = 1 ) {
     if ( IsEof() ) {
       return 0;
     } else {

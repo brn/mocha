@@ -47,18 +47,19 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_mocha_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
-	visitor_info.$(OBJEXT) dsta_processor.$(OBJEXT) \
-	iteration_processor.$(OBJEXT) variable_processor.$(OBJEXT) \
-	class_processor.$(OBJEXT) function_processor.$(OBJEXT) \
-	fileroot_processor.$(OBJEXT) module_processor.$(OBJEXT) \
-	export_processor.$(OBJEXT) import_processor.$(OBJEXT) \
-	call_processor.$(OBJEXT) trait_processor.$(OBJEXT) \
-	yield_processor.$(OBJEXT) constant_optimizer.$(OBJEXT) \
-	ifstatement_optimizer.$(OBJEXT) ast_utils.$(OBJEXT) \
-	format.$(OBJEXT) bootstrap.$(OBJEXT) char_allocator.$(OBJEXT) \
-	codegen_visitor.$(OBJEXT) symbol_collector.$(OBJEXT) \
-	optimizer_visitor.$(OBJEXT) codewriter.$(OBJEXT) \
-	compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
+	visitor_info.$(OBJEXT) array_processor.$(OBJEXT) \
+	object_processor.$(OBJEXT) syntax_sugar_processor.$(OBJEXT) \
+	dsta_processor.$(OBJEXT) iteration_processor.$(OBJEXT) \
+	variable_processor.$(OBJEXT) class_processor.$(OBJEXT) \
+	function_processor.$(OBJEXT) fileroot_processor.$(OBJEXT) \
+	module_processor.$(OBJEXT) export_processor.$(OBJEXT) \
+	import_processor.$(OBJEXT) call_processor.$(OBJEXT) \
+	trait_processor.$(OBJEXT) yield_processor.$(OBJEXT) \
+	constant_optimizer.$(OBJEXT) ifstatement_optimizer.$(OBJEXT) \
+	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
+	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
+	symbol_collector.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
+	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	compile_result.$(OBJEXT) external_resource.$(OBJEXT) \
 	compile_info.$(OBJEXT) consts.$(OBJEXT) parser.$(OBJEXT) \
 	external_ast.$(OBJEXT) compile_runner.$(OBJEXT) \
@@ -206,6 +207,12 @@ ast/visitors/ast_transformer.cc\
 ast/visitors/ast_transformer.h\
 ast/visitors/utils/visitor_info.h\
 ast/visitors/utils/visitor_info.cc\
+ast/visitors/utils/processors/array_processor.h\
+ast/visitors/utils/processors/array_processor.cc\
+ast/visitors/utils/processors/object_processor.h\
+ast/visitors/utils/processors/object_processor.cc\
+ast/visitors/utils/processors/syntax_sugar_processor.h\
+ast/visitors/utils/processors/syntax_sugar_processor.cc\
 ast/visitors/utils/processors/dsta_processor.h\
 ast/visitors/utils/processors/dsta_processor.cc\
 ast/visitors/utils/processors/iteration_processor.h\
@@ -471,6 +478,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/array_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_transformer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_utils.Po@am__quote@
@@ -519,6 +527,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mkdir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mocha.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/module_processor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observer_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/optimizer_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Po@am__quote@
@@ -533,6 +542,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/symbol_collector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/symbol_list.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syntax_sugar_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thread.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinystr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tinyxml.Po@am__quote@
@@ -605,6 +615,48 @@ visitor_info.obj: ast/visitors/utils/visitor_info.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/visitor_info.cc' object='visitor_info.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o visitor_info.obj `if test -f 'ast/visitors/utils/visitor_info.cc'; then $(CYGPATH_W) 'ast/visitors/utils/visitor_info.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/visitor_info.cc'; fi`
+
+array_processor.o: ast/visitors/utils/processors/array_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT array_processor.o -MD -MP -MF $(DEPDIR)/array_processor.Tpo -c -o array_processor.o `test -f 'ast/visitors/utils/processors/array_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/array_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/array_processor.Tpo $(DEPDIR)/array_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/array_processor.cc' object='array_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o array_processor.o `test -f 'ast/visitors/utils/processors/array_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/array_processor.cc
+
+array_processor.obj: ast/visitors/utils/processors/array_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT array_processor.obj -MD -MP -MF $(DEPDIR)/array_processor.Tpo -c -o array_processor.obj `if test -f 'ast/visitors/utils/processors/array_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/array_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/array_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/array_processor.Tpo $(DEPDIR)/array_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/array_processor.cc' object='array_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o array_processor.obj `if test -f 'ast/visitors/utils/processors/array_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/array_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/array_processor.cc'; fi`
+
+object_processor.o: ast/visitors/utils/processors/object_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT object_processor.o -MD -MP -MF $(DEPDIR)/object_processor.Tpo -c -o object_processor.o `test -f 'ast/visitors/utils/processors/object_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/object_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/object_processor.Tpo $(DEPDIR)/object_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/object_processor.cc' object='object_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o object_processor.o `test -f 'ast/visitors/utils/processors/object_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/object_processor.cc
+
+object_processor.obj: ast/visitors/utils/processors/object_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT object_processor.obj -MD -MP -MF $(DEPDIR)/object_processor.Tpo -c -o object_processor.obj `if test -f 'ast/visitors/utils/processors/object_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/object_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/object_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/object_processor.Tpo $(DEPDIR)/object_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/object_processor.cc' object='object_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o object_processor.obj `if test -f 'ast/visitors/utils/processors/object_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/object_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/object_processor.cc'; fi`
+
+syntax_sugar_processor.o: ast/visitors/utils/processors/syntax_sugar_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT syntax_sugar_processor.o -MD -MP -MF $(DEPDIR)/syntax_sugar_processor.Tpo -c -o syntax_sugar_processor.o `test -f 'ast/visitors/utils/processors/syntax_sugar_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/syntax_sugar_processor.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/syntax_sugar_processor.Tpo $(DEPDIR)/syntax_sugar_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/syntax_sugar_processor.cc' object='syntax_sugar_processor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o syntax_sugar_processor.o `test -f 'ast/visitors/utils/processors/syntax_sugar_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/syntax_sugar_processor.cc
+
+syntax_sugar_processor.obj: ast/visitors/utils/processors/syntax_sugar_processor.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT syntax_sugar_processor.obj -MD -MP -MF $(DEPDIR)/syntax_sugar_processor.Tpo -c -o syntax_sugar_processor.obj `if test -f 'ast/visitors/utils/processors/syntax_sugar_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/syntax_sugar_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/syntax_sugar_processor.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/syntax_sugar_processor.Tpo $(DEPDIR)/syntax_sugar_processor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ast/visitors/utils/processors/syntax_sugar_processor.cc' object='syntax_sugar_processor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o syntax_sugar_processor.obj `if test -f 'ast/visitors/utils/processors/syntax_sugar_processor.cc'; then $(CYGPATH_W) 'ast/visitors/utils/processors/syntax_sugar_processor.cc'; else $(CYGPATH_W) '$(srcdir)/ast/visitors/utils/processors/syntax_sugar_processor.cc'; fi`
 
 dsta_processor.o: ast/visitors/utils/processors/dsta_processor.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT dsta_processor.o -MD -MP -MF $(DEPDIR)/dsta_processor.Tpo -c -o dsta_processor.o `test -f 'ast/visitors/utils/processors/dsta_processor.cc' || echo '$(srcdir)/'`ast/visitors/utils/processors/dsta_processor.cc

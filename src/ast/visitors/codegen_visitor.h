@@ -12,7 +12,7 @@
 namespace mocha {
 class CodeWriter;
 class NodeIterator;
-class InnerScope;
+class Scope;
 class CompileInfo;
 class CodegenVisitor : public IVisitor {
  public :
@@ -33,8 +33,8 @@ class CodegenVisitor : public IVisitor {
   void DotAccessorProccessor_( CallExp* exp );
   void NewCallProccessor_( CallExp* exp );
   void NormalFunctionCall_( CallExp* exp );
-  void ArrayProccessor_( Literal* ast_node );
-  void ObjectProccessor_( Literal* ast_node );
+  void ArrayProccessor_( AstNode* ast_node );
+  void ObjectProccessor_( NodeList* ast_node );
   void VarInitialiserProccessor_( Literal* ast_node );
   void PrototypeMemberProccessor( NodeIterator& iterator , AstNode* name_node , bool is_private );
   void StaticMemberProccessor( NodeIterator& iterator , AstNode* node );
@@ -52,7 +52,7 @@ class CodegenVisitor : public IVisitor {
   std::vector<int> state_;
   std::string rest_ref_;
   std::string rest_name_;
-  InnerScope* scope_;
+  Scope* scope_;
   CodeBuffer default_buffer_;
   ScopedPtr<CodeStream> stream_;
   ScopedPtr<CodeWriter> writer_;

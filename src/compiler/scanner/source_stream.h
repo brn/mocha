@@ -12,19 +12,19 @@ class SourceStream : public Managed {
   ~SourceStream();
   StrHandle GetSourceFragment( int begin_col , int end_col , int row );
   int Size() const;
-  char At( int index ) const;
-  char Advance( int index = 1 );
-  char Undo( int index = 0 );
-  char Seek( int index ) const;
-  char Last() const;
-  char First() const;
+  uint8_t At( int index ) const;
+  uint8_t Advance( int index = 1 );
+  uint8_t Undo( int index = 0 );
+  uint8_t Seek( int index ) const;
+  uint8_t Last() const;
+  uint8_t First() const;
  private :
   SourceStream();
   void CreateStream( const char* utf8_str );
   int cursor_;
   int line_;
   int size_;
-  char *stream_;
+  uint8_t *stream_;
 };
 }
 

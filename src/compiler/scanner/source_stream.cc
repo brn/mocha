@@ -39,7 +39,7 @@ SourceStream::~SourceStream() {
 void SourceStream::CreateStream( const char* utf8_str ) {
   int size = strlen( utf8_str );
   int count = 0;
-  stream_ = reinterpret_cast<char*>( malloc( sizeof( char ) * size + sizeof( char ) ) );
+  stream_ = reinterpret_cast<uint8_t*>( malloc( sizeof( uint8_t ) * size + sizeof( uint8_t ) ) );
   for ( int i = 0; i < size; i++ ) {
     if ( utf8_str[ i ] == '\n' ) line_++;
     if ( utf8_str[ i ] != '\r' ) {
@@ -52,12 +52,12 @@ void SourceStream::CreateStream( const char* utf8_str ) {
 }
 
 
-char SourceStream::At( int index ) const {
+uint8_t SourceStream::At( int index ) const {
   return ( index > 0 && index < size_ )? stream_[ index ] : ( index < 0 )? Token::ILLEGAL : Token::END_OF_INPUT;
 }
 
 
-char SourceStream::Advance( int index ) {
+uint8_t SourceStream::Advance( int index ) {
   if ( index < 0 ) return Token::ILLEGAL;
   if ( cursor_ == size_ ) {
     cursor_++;
@@ -70,7 +70,7 @@ char SourceStream::Advance( int index ) {
 }
 
 
-char SourceStream::Undo( int index ) {
+uint8_t SourceStream::Undo( int index ) {
   if ( index < 0 ) return Token::ILLEGAL;
   int i = 0;
   for ( ; i < index; i++ ) {}
@@ -79,7 +79,7 @@ char SourceStream::Undo( int index ) {
 }
 
 
-char SourceStream::Seek( int index ) const {
+uint8_t SourceStream::Seek( int index ) const {
   int i = 0,pos = 0;
   if ( index > 0 ) {
     for ( ; i < index; i++ ) {}
@@ -94,12 +94,12 @@ char SourceStream::Seek( int index ) const {
 }
 
 
-char SourceStream::Last() const {
+uint8_t SourceStream::Last() const {
   return stream_[ size_ - 1 ];
 }
 
 
-char SourceStream::First() const {
+uint8_t SourceStream::First() const {
   return stream_[ 0 ];
 }
 

@@ -13,6 +13,12 @@ ast/visitors/ast_transformer.cc\
 ast/visitors/ast_transformer.h\
 ast/visitors/utils/visitor_info.h\
 ast/visitors/utils/visitor_info.cc\
+ast/visitors/utils/processors/array_processor.h\
+ast/visitors/utils/processors/array_processor.cc\
+ast/visitors/utils/processors/object_processor.h\
+ast/visitors/utils/processors/object_processor.cc\
+ast/visitors/utils/processors/syntax_sugar_processor.h\
+ast/visitors/utils/processors/syntax_sugar_processor.cc\
 ast/visitors/utils/processors/dsta_processor.h\
 ast/visitors/utils/processors/dsta_processor.cc\
 ast/visitors/utils/processors/iteration_processor.h\

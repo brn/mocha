@@ -41,6 +41,9 @@
 #include <utils/xml/xml_reader.h>
 #include <utils/xml/xml_setting_info.h>
 #include <ast/ast.h>
+#include <ast/visitors/codegen_visitor.h>
+#include <ast/visitors/symbol_collector.h>
+#include <ast/visitors/optimizer_visitor.h>
 #include <options/setting.h>
 
 
@@ -59,7 +62,6 @@ public :
   
   PtrImpl( Compiler* compiler , const char* main_file_path , FinishDelegator* callback ) :
       compiler_( compiler ),
-      ast_root_( AstRoot::New() ),
       main_file_path_( main_file_path ),
       codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
@@ -72,18 +74,18 @@ public :
 
   inline void Compile() {
     //LoadRuntime_();
-    ast_root_->AddChild( ExternalResource::SafeGetRuntime() );
+    ast_root_.AddChild( ExternalResource::SafeGetRuntime() );
     CallInternal_( path_info_ , Internal::kFatal , false );
-    //OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
-    //SymbolCollector visitor( &scope_ , ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Debug() );
-    //ast_root_.Accept( &visitor );
-    //ast_root_.Accept( &opt_visitor );
-    //if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
-    //scope_.Rename();
-    //}
-    //ast_root_.Accept( codegen_.Get() );
-    //Write_( codegen_->GetCode() );
-    //callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );
+    OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
+    SymbolCollector visitor( &scope_registry_ , ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Debug() );
+    ast_root_.Accept( &visitor );
+    ast_root_.Accept( &opt_visitor );
+    if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
+      scope_registry_.Rename();
+    }
+    ast_root_.Accept( codegen_.Get() );
+    Write_( codegen_->GetCode() );
+    callback_->Delegate( Handle<CompileResult>( new CompileResult( main_file_path_.c_str() , codegen_ , error_map_ ) ) );
     return;
   }
 
@@ -166,7 +168,7 @@ private :
   
   inline void CallInternal_( Handle<PathInfo> path_info , Internal::ErrorLevel error_level , bool is_runtime ) {
     Internal internal( main_file_path_.c_str() , is_runtime ,
-                       path_info , compiler_ , &scope_registry_ , codegen_.Get() , ast_root_ );
+                       path_info , compiler_ , &scope_registry_ , codegen_.Get() , &ast_root_ );
     internal.Parse( error_level );
   }
 
@@ -181,7 +183,7 @@ private :
   ManagedScope managed_scope_;
   boost::unordered_map<std::string,int> loaded_path_;
   Compiler *compiler_;
-  AstRoot *ast_root_;
+  AstRoot ast_root_;
   Handle<PathInfo> path_info_;
   Handle<CodegenVisitor> codegen_;
   ScopeRegistry scope_registry_;

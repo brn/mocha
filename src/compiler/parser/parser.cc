@@ -32,7 +32,7 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 }
 
 //Debug flag.
-//#define PARSER_DEBUG 1
+#define PARSER_DEBUG 1
 
 //Print parser move to fp.
 #ifdef PARSER_DEBUG
@@ -1228,7 +1228,7 @@ AstNode* Parser::ParseObjectPattern() {
       } else {
         ParseObjectPatternElement( token->type() , token , destructuring );
         CHECK_ERROR( destructuring );
-        AstNode* last = destructuring->last_child();
+        AstNode* last = destructuring->elements()->last_child();
         destructuring->RemoveChild( last );
         node->AddChild( last );
       }

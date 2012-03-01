@@ -405,6 +405,11 @@ AstNode* Expression::Clone() {
   return CopyChildren( exp , this );
 }
 
+AstNode* VariableDeclarationList::Clone() {
+  VariableDeclarationList* decl_list = VariableDeclarationList::New( line_number() );
+  return CopyChildren( decl_list , this );
+}
+
 AstNode* Class::Clone() {
   Class* cls = Class::New( expandar_->Clone() , line_number() );
   if ( name_ ) {

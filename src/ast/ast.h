@@ -28,6 +28,7 @@
 #include <utils/pool/managed.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/class_traits/uncopyable.h>
+#include <utils/class_traits/unallocatable.h>
 #include <compiler/scopes/scope.h>
 #include <compiler/tokens/token_info.h>
 #include <ast/ast_foward_decl.h>
@@ -107,7 +108,7 @@ class ReverseNodeIterator{
  * You must set empty node to 'Empty' class ptr,
  * if you not, you got sigenv where access to empty node.
  */
-class AstNode : public Managed , private Uncopyable {
+class AstNode : public Managed , private Uncopyable , protected UnAllocatableExternal {
   friend class AstNodeList;
  public :
   //Definition of all node type.
@@ -468,6 +469,7 @@ class Empty : public AstNode {
 class AstRoot : public AstNode {
  public :
   FACTORY( AstRoot );
+  AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" , 0 ) {}
   ~AstRoot(){};
   /**
    * @param {InnerScope*}
@@ -481,7 +483,6 @@ class AstRoot : public AstNode {
   Scope* scope() const { return scope_; }
   CLONE( AstRoot );
  private :
-  AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" , 0 ) {}
   Scope* scope_;
   CALL_ACCEPTOR(AstRoot);
 };
@@ -1054,7 +1055,7 @@ class Expression : public AstNode {
   virtual ArrayLikeLiteral* CastToArrayLikeLiteral() { return 0; }
   virtual ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
   virtual VariableDeclarationList* CastToVariableDeclarationList() { return 0; }
-  virtual CLONE( Expression );
+  CLONE( Expression );
  protected :
   Expression( int type , const char* name , int64_t line ) : AstNode( type , name , line ) {
     flags_.Set( kValidLhsFlg );
@@ -1064,22 +1065,24 @@ class Expression : public AstNode {
     flags_.Set( kValidLhsFlg );
   };
   BitVector8 flags_;
-  virtual CALL_ACCEPTOR( Expression );
+  CALL_ACCEPTOR( Expression );
 };
 
 
 class VariableDeclarationList : public Expression {
  public :
   LINED_FACTORY(VariableDeclarationList);
+  ~VariableDeclarationList(){}
   void MarkAsConstDeclaration() { SET(0); }
   void MarkAsLetDeclaration() { SET(1); }
   bool IsDeclaredAsConst() const { return HAS(0); }
   bool IsDeclaredAsLet() const { return HAS(1); }
-  VariableDeclarationList* CastToVariableDeclarationList() { return this; }
+  virtual VariableDeclarationList* CastToVariableDeclarationList() { return this; }
   CLONE(VariableDeclarationList);
  private :
   CALL_ACCEPTOR(VariableDeclarationList);
-  VariableDeclarationList( int64_t line ) : Expression( NAME_PARAMETER(VariableDeclarationList) , line ){}
+  explicit VariableDeclarationList( int64_t line )
+      : Expression( NAME_PARAMETER(VariableDeclarationList) , line ){}
   BitVector8 flags_;
 };
 
@@ -1600,6 +1603,7 @@ class Literal : public Expression {
 class ArrayLikeLiteral : public Expression {
  public :
   LINED_FACTORY( ArrayLikeLiteral );
+  ~ArrayLikeLiteral(){}
   void MarkAsTuple() { SET(0); }
   bool IsTuple() const { return HAS(0); }
   void MarkAsComprehensions() { SET(1); }
@@ -1624,6 +1628,7 @@ class ObjectLikeLiteral : public Expression {
   static ObjectLikeLiteral* New( int64_t line ) {
     return ManagedHandle::Retain( new ObjectLikeLiteral( line ) );
   }
+  ~ObjectLikeLiteral(){}
   void MarkAsRecord() { SET(0); }
   bool IsRecord() const { return HAS(0); }
   NodeList* elements() { return &elements_; }
@@ -1646,6 +1651,7 @@ class GeneratorExpression : public Expression {
   static GeneratorExpression* New( AstNode* expression , int64_t line ) {
     return ManagedHandle::Retain( new GeneratorExpression( expression , line ) );
   }
+  ~GeneratorExpression(){}
   AstNode* expression() const { return expression_; }
   GeneratorExpression* CastToGenerator() { return this; }
   void ReplaceChild( AstNode* old_node , AstNode* new_node );

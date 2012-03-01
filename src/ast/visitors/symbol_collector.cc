@@ -18,16 +18,16 @@ namespace mocha {
 #endif
 
 
-SymbolCollector::SymbolCollector( Scope* scope , bool is_debug_ ) : depth_( 0 ) , is_debug_( is_debug_ ), scope_( scope ){}
+SymbolCollector::SymbolCollector( ScopeRegistry* scope_registry , bool is_debug_ ) : depth_( 0 ) , is_debug_( is_debug_ ), scope_registry_( scope_registry ){}
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
-  ast_node->SetScope( scope_->Enter() );
+  ast_node->set_scope( scope_registry_->Assign() );
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  scope_->Escape();
+  scope_ = scope_registry_->Return();
 }
 
 
@@ -45,10 +45,6 @@ VISITOR_IMPL( NodeList ) {
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-}
-
-
-VISITOR_IMPL( PragmaStmt ) {
 }
 
 
@@ -118,21 +114,21 @@ VISITOR_IMPL(ExpressionStmt) {
 
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
-  ast_node->Then()->Accept( this );
-  ast_node->Else()->Accept( this );
+  ast_node->condition()->Accept( this );
+  ast_node->then_statement()->Accept( this );
+  ast_node->else_statement()->Accept( this );
 }
 
 
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
-  AstNode* exp = ast_node->Exp();
+  AstNode* exp = ast_node->expression();
   if ( ast_node->node_type() == AstNode::kWhile || ast_node->node_type() == AstNode::kDoWhile ) {
-    ast_node->Exp()->Accept( this );
+    ast_node->expression()->Accept( this );
   } else {
     AstNode* index_exp = exp->first_child();
-    AstNode* cond_exp = ( index_exp )? index_exp->NextSibling() : 0;
-    AstNode* incr_exp = ( cond_exp )? cond_exp->NextSibling() : 0;
+    AstNode* cond_exp = ( index_exp )? index_exp->next_sibling() : 0;
+    AstNode* incr_exp = ( cond_exp )? cond_exp->next_sibling() : 0;
     index_exp->Accept( this );
     if ( cond_exp ) {
       cond_exp->Accept( this );
@@ -164,14 +160,14 @@ VISITOR_IMPL( ReturnStmt ) {
 
 VISITOR_IMPL( WithStmt ) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
   ast_node->first_child()->Accept( this );
 }
 
 
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
   NodeIterator iterator = ast_node->first_child()->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
@@ -181,7 +177,7 @@ VISITOR_IMPL( SwitchStmt ) {
 
 VISITOR_IMPL( CaseClause ) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
   ast_node->first_child()->Accept( this );
 }
 
@@ -189,21 +185,21 @@ VISITOR_IMPL( CaseClause ) {
 VISITOR_IMPL( LabelledStmt ) {
   PRINT_NODE_NAME;
   AstNode* sym = ast_node->first_child();
-  AstNode* stmt = sym->NextSibling();
+  AstNode* stmt = sym->next_sibling();
   stmt->Accept( this );
 }
 
 
 VISITOR_IMPL( ThrowStmt ) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
 }
 
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
-  AstNode* catch_block = ast_node->Catch();
-  AstNode* finally_block = ast_node->Finally();
+  AstNode* catch_block = ast_node->catch_block();
+  AstNode* finally_block = ast_node->finally_block();
   ast_node->first_child()->Accept( this );
   if ( !catch_block->IsEmpty() ) {
     catch_block->first_child()->first_child()->Accept( this );
@@ -214,20 +210,20 @@ VISITOR_IMPL(TryStmt) {
 
 
 void SymbolCollector::ArrayAccessorProccessor_( CallExp* exp ) {
-  exp->Callable()->Accept( this );
-  exp->Args()->Accept( this );
+  exp->callable()->Accept( this );
+  exp->args()->Accept( this );
 }
 
 
 void SymbolCollector::DotAccessorProccessor_( CallExp* exp ) {
-  exp->Callable()->Accept( this );
-  exp->Args()->Accept( this );
+  exp->callable()->Accept( this );
+  exp->args()->Accept( this );
 }
 
 
 void SymbolCollector::NewCallProccessor_( CallExp* exp ) {
-  exp->Callable()->Accept( this );
-  NodeIterator iterator = exp->Args()->ChildNodes();
+  exp->callable()->Accept( this );
+  NodeIterator iterator = exp->args()->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
@@ -235,8 +231,8 @@ void SymbolCollector::NewCallProccessor_( CallExp* exp ) {
 
 
 void SymbolCollector::NormalFunctionCall_( CallExp* exp ) {
-  AstNode* args = exp->Args();
-  exp->Callable()->Accept( this );
+  AstNode* args = exp->args();
+  exp->callable()->Accept( this );
   NodeIterator iterator = args->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
@@ -246,7 +242,7 @@ void SymbolCollector::NormalFunctionCall_( CallExp* exp ) {
 
 VISITOR_IMPL( CallExp ) {
   PRINT_NODE_NAME;
-  switch ( ast_node->CallType() ) {
+  switch ( ast_node->call_type() ) {
     case CallExp::kNormal :
       NormalFunctionCall_( ast_node );
       break;
@@ -277,42 +273,42 @@ VISITOR_IMPL(YieldExp){}
 
 VISITOR_IMPL(PostfixExp) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
 }
 
 
 VISITOR_IMPL(UnaryExp) {
   PRINT_NODE_NAME;
-  ast_node->Exp()->Accept( this );
+  ast_node->expression()->Accept( this );
 }
 
 
 VISITOR_IMPL(BinaryExp) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  ast_node->left_value()->Accept( this );
+  ast_node->right_value()->Accept( this );
 }
 
 
 VISITOR_IMPL( CompareExp ) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  ast_node->left_value()->Accept( this );
+  ast_node->right_value()->Accept( this );
 }
 
 
 VISITOR_IMPL(ConditionalExp) {
   PRINT_NODE_NAME;
-  ast_node->Cond()->Accept( this );
-  ast_node->True()->Accept( this );
-  ast_node->False()->Accept( this );
+  ast_node->condition()->Accept( this );
+  ast_node->case_true()->Accept( this );
+  ast_node->case_false()->Accept( this );
 }
 
 
 VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
-  ast_node->Left()->Accept( this );
-  ast_node->Right()->Accept( this );
+  ast_node->left_value()->Accept( this );
+  ast_node->right_value()->Accept( this );
 }
 
 
@@ -342,34 +338,34 @@ VISITOR_IMPL(ClassMember) {}
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  AstNode* name = ast_node->Name();
+  AstNode* name = ast_node->name();
   Literal* name_node = name->CastToLiteral();
   if ( !name->IsEmpty() ) {
-    scope_->Insert( name_node->Symbol() , ast_node );
+    scope_->Insert( name_node->value() , ast_node );
   }
-  InnerScope* scope = scope_->Enter();
-  ast_node->SetScope( scope );
+  scope_ = scope_registry_->Assign();
+  ast_node->set_scope( scope_ );
   if ( is_debug_ ) {
-    TokenInfo* runtime = ManagedHandle::Retain( new TokenInfo( SymbolList::GetSymbol( SymbolList::kRuntime ) ,
-                                                               Token::JS_IDENTIFIER , ast_node->Line() ) );
-    scope->Ref( runtime );
+    TokenInfo* runtime = TokenInfo::New( SymbolList::symbol( SymbolList::kRuntime ) ,
+                                         Token::JS_IDENTIFIER , ast_node->line_number() );
+    scope_->Ref( runtime );
   }
-  NodeIterator arg_iterator = ast_node->Argv()->ChildNodes();
+  NodeIterator arg_iterator = ast_node->argv()->ChildNodes();
   while ( arg_iterator.HasNext() ) {
     Literal* arg = arg_iterator.Next()->CastToLiteral();
     if ( arg ) {
-      scope->Insert( arg->Symbol() , arg );
+      scope_->Insert( arg->value() , arg );
     }
   }
   NodeIterator body_iterator = ast_node->ChildNodes();
   while ( body_iterator.HasNext() ) {
     body_iterator.Next()->Accept( this );
   }
-  scope_->Escape();
+  scope_ = scope_->parent();
 };
 
 
-void SymbolCollector::ArrayProccessor_( Literal* ast_node ) {
+void SymbolCollector::ArrayProccessor_( AstNode* ast_node ) {
   PRINT_NODE_NAME;
   AstNode* list_child = ast_node->first_child();
   while ( list_child ) {
@@ -382,7 +378,7 @@ void SymbolCollector::ArrayProccessor_( Literal* ast_node ) {
         }
       }
       if ( list_child->HasNext() ) {
-        list_child = list_child->NextSibling();
+        list_child = list_child->next_sibling();
       } else {
         break;
       }
@@ -393,11 +389,10 @@ void SymbolCollector::ArrayProccessor_( Literal* ast_node ) {
 }
 
 
-void SymbolCollector::ObjectProccessor_( Literal* ast_node ) {
+void SymbolCollector::ObjectProccessor_( AstNode* ast_node ) {
   PRINT_NODE_NAME;
-  AstNode* element_list = ast_node->Node();
-  if ( !element_list->IsEmpty() ) {
-    NodeIterator iterator = element_list->ChildNodes();
+  if ( ast_node->child_length() > 0 ) {
+    NodeIterator iterator = ast_node->ChildNodes();
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
       element->Accept( this );
@@ -408,28 +403,21 @@ void SymbolCollector::ObjectProccessor_( Literal* ast_node ) {
 
 
 VISITOR_IMPL( Literal ) {
-  switch ( ast_node->ValueType() ) {
-    case Literal::kArray :
-      ArrayProccessor_( ast_node );
-      break;
-
-    case Literal::kObject :
-      ObjectProccessor_( ast_node );
-      break;
+  switch ( ast_node->value_type() ) {
 
     case Literal::kVariable :
       ast_node->first_child()->Accept( this );
-      scope_->Insert( ast_node->Symbol() , ast_node->first_child() );
+      scope_->Insert( ast_node->value() , ast_node->first_child() );
       break;
 
     case Literal::kProperty :
       break;
       
     case Literal::kIdentifier : {
-      if ( strcmp( ast_node->Symbol()->GetToken() , SymbolList::GetSymbol( SymbolList::kScopeModule ) ) == 0 ) {
-        ast_node->Symbol()->SetToken( SymbolList::GetSymbol( SymbolList::kGlobalAlias ) );
+      if ( strcmp( ast_node->value()->token() , SymbolList::symbol( SymbolList::kScopeModule ) ) == 0 ) {
+        ast_node->value()->set_token( SymbolList::symbol( SymbolList::kGlobalAlias ) );
       }
-      scope_->Ref( ast_node->Symbol() );
+      scope_->Ref( ast_node->value() );
       AstNode* first_child = ast_node->first_child();
       if ( first_child ) {
         first_child->Accept( this );
@@ -441,5 +429,25 @@ VISITOR_IMPL( Literal ) {
       return;
   }
 }
+
+VISITOR_IMPL(VariableDeclarationList) {
+  PRINT_NODE_NAME;
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
+}
+
+VISITOR_IMPL(ArrayLikeLiteral) {
+  PRINT_NODE_NAME;
+  ArrayProccessor_( ast_node );
+}
+
+VISITOR_IMPL(ObjectLikeLiteral) {
+  PRINT_NODE_NAME;
+  ObjectProccessor_( ast_node->elements() );
+}
+
+VISITOR_IMPL(GeneratorExpression){}
 
 }

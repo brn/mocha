@@ -108,10 +108,10 @@ inline void Internal::GetAst_ ( ErrorReporter *reporter ) {
   AstTransformer visitor ( is_runtime_ , scope_registry_ , compiler_,
                            main_file_path_ , file_->GetFileName() );
   if ( !reporter->Error() ) {
-    AstRoot *tmp_root = AstRoot::New();
-    tmp_root->AddChild( root );
-    tmp_root->Accept ( &visitor );
-    ast_root_->AddChild( tmp_root->first_child() );
+    AstRoot tmp_root;
+    tmp_root.AddChild( root );
+    tmp_root.Accept ( &visitor );
+    ast_root_->AddChild( tmp_root.first_child() );
   } else {
     std::string error;
     reporter->SetError( &error );
@@ -134,10 +134,10 @@ inline void Internal::ParseStart_ () {
                            main_file_path_ , file_->GetFileName() );
   compiler_->CatchException( file_->GetFileName() , reporter );
   if ( !reporter->Error() ) {
-    AstRoot *tmp_root = AstRoot::New();
-    tmp_root->AddChild( root );
-    tmp_root->Accept ( &visitor );
-    ast_root_->AddChild( tmp_root->first_child() );
+    AstRoot tmp_root;
+    tmp_root.AddChild( root );
+    tmp_root.Accept ( &visitor );
+    ast_root_->AddChild( tmp_root.first_child() );
   } else {
     std::string buf;
     reporter->SetError( &buf );
