@@ -7,7 +7,7 @@
 
 namespace mocha {
 
-class Scope;
+class ScopeRegistry;
 class Codegen;
 class File;
 class ParserTracer;
@@ -48,7 +48,7 @@ class Internal {
   bool file_exist_;
   std::string error_;
   Compiler* compiler_;
-  Scope *scope_registry_;
+  ScopeRegistry *scope_registry_;
   AstRoot *ast_root_;
   CodegenVisitor *codegen_;
   Handle<File> file_;

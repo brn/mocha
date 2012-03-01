@@ -8,7 +8,7 @@ using namespace mocha;
 
 TokenInfo::TokenInfo () : Managed () {};
 TokenInfo::TokenInfo ( const char* token , int type , int line )
-    : Managed (), type_ ( type ), line_ ( line ) , is_const_( false ), is_let_( false ) {
+    : Managed (), type_ ( type ), line_ ( line ) {
   value_.assign( token );
 };
 

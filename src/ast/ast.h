@@ -193,7 +193,7 @@ class AstNode : public Managed , private Uncopyable {
    * Return parent ast node.
    * If a parent node is empty, return 0;
    */
-  AstNode* parent_node() const { return parent_; };
+  AstNode* parent_node() { return parent_; };
 
   /**
    * @param {AstNode*} node
@@ -206,7 +206,7 @@ class AstNode : public Managed , private Uncopyable {
    * Return a first child of this node.
    * If child nodes are empty, return 0;
    */
-  AstNode* first_child() const { return first_child_; };
+  AstNode* first_child() { return first_child_; };
 
   /**
    * @returns {AstNode*}
@@ -215,21 +215,21 @@ class AstNode : public Managed , private Uncopyable {
    * If child nodes length is less than 2,
    * return a first child node.
    */
-  AstNode* last_child() const { return last_child_; };
+  AstNode* last_child() { return last_child_; };
 
   /**
    * @returns {AstNode*}
    * Return next sibling node,
    * If the next sibling is empty, return 0.
    */
-  AstNode* next_sibling() const { return next_sibling_; };
+  AstNode* next_sibling() { return next_sibling_; };
 
   /**
    * @returns {AstNode*}
    * Return prev sibling node,
    * If the prev sibling is empty, return 0.
    */
-  AstNode* previous_sibling() const { return prev_sibling_; };
+  AstNode* previous_sibling() { return prev_sibling_; };
 
   /**
    * @returns {bool}
@@ -557,7 +557,9 @@ class Statement : public AstNode {
   DstaExtractedExpressions* destructuring_node() const { return destructuring_node_; }
   
   void ContainYield() { SET(1); }
-  bool IsContainYield() { return HAS(1); }
+  bool IsContainYield() const { return HAS(1); }
+  void MarkAsSplitableStatement() { SET(2); }
+  bool IsSplitable() const { return HAS(2); }
   
   /**
    * Set 0 to all destructuring assignment block.
@@ -1032,7 +1034,7 @@ class Expression : public AstNode {
   bool IsParenthesis() const { return HAS( kParenFlg ); };
   void UnMarkParenthesis() { flags_.UnSet( kParenFlg ); };
   void MarkAsValidLhs() { SET( kValidLhsFlg ); }
-  void MarkAsInVlidLhs() { flags_.UnSet( kValidLhsFlg ); }
+  void MarkAsInValidLhs() { flags_.UnSet( kValidLhsFlg ); }
   bool IsValidLhs() const { return HAS( kValidLhsFlg ); }
   void MarkAsLhs() { SET( kLhsFlg ); }
   bool IsLhs() const { return HAS( kLhsFlg ); }
@@ -1110,11 +1112,11 @@ class MixinMember : public Expression {
   ~MixinMember(){}
   void set_name( AstNode* name ) { name_ = name;name->set_parent_node( this ); }
   AstNode* name() { return name_; }
-  void AddRename( AstNode* renamable_member ) {
+  void set_rename_list( AstNode* renamable_member ) {
     rename_list_.AddChild( renamable_member );
     renamable_member->set_parent_node( this );
   }
-  void AddRemove( AstNode* removal_member ) {
+  void set_remove_list( AstNode* removal_member ) {
     remove_list_.AddChild( removal_member );
     removal_member->set_parent_node( this );
   }
@@ -1569,6 +1571,7 @@ class Literal : public Expression {
     kRest,
     kProperty,
     kPrivateProperty,
+    kPrivate,
     kSuper,
     kGenerator,
     kNaN
@@ -1607,7 +1610,9 @@ class ArrayLikeLiteral : public Expression {
   CLONE( ArrayLikeLiteral );
  private :
   explicit ArrayLikeLiteral( int64_t line ) :
-      Expression( NAME_PARAMETER( ArrayLikeLiteral ) , line ){}
+      Expression( NAME_PARAMETER( ArrayLikeLiteral ) , line ){
+    elements_.set_parent_node( this );
+  }
   CALL_ACCEPTOR( ArrayLikeLiteral );
   NodeList elements_;
   BitVector8 flags_;
@@ -1622,11 +1627,14 @@ class ObjectLikeLiteral : public Expression {
   void MarkAsRecord() { SET(0); }
   bool IsRecord() const { return HAS(0); }
   NodeList* elements() { return &elements_; }
+  void set_element( AstNode* element ) { elements_.AddChild( element ); }
   ObjectLikeLiteral* CastToObjectLikeLiteral() { return this; }
   CLONE( ObjectLikeLiteral );
  private :
   explicit ObjectLikeLiteral( int64_t line ) :
-      Expression( NAME_PARAMETER( ObjectLikeLiteral ), line ){}
+      Expression( NAME_PARAMETER( ObjectLikeLiteral ), line ){
+    elements_.set_parent_node( this );
+  }
   CALL_ACCEPTOR( ObjectLikeLiteral );
   NodeList elements_;
   BitVector8 flags_;
@@ -1645,7 +1653,7 @@ class GeneratorExpression : public Expression {
  private :
   GeneratorExpression( AstNode* expression , int64_t line ) :
       Expression( NAME_PARAMETER( GeneratorExpression ) , line ) , expression_( expression ){
-    MarkAsInVlidLhs();
+    MarkAsInValidLhs();
   }
   CALL_ACCEPTOR( GeneratorExpression );
   AstNode* expression_;

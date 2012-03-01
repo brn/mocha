@@ -24,24 +24,21 @@ bool IsOptimizableBlock( AstNode* block ) {
 
 AstNode* GetReturnValue( AstNode* node ) {
   if ( node->IsEmpty() ) {
-    return AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kUndefined ),
-                                     Token::JS_IDENTIFIER , node->Line() , Literal::kIdentifier );
+    return AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kUndefined ),
+                                     Token::JS_IDENTIFIER , node->line_number() , Literal::kIdentifier );
   }
   return node;
 }
 
 
 bool CheckAssoc( AstNode* node ) {
-  if ( node->node_type() == AstNode::kLiteral ) {
-    Literal* value = node->CastToLiteral();
-    if ( value->ValueType() == Literal::kObject ) {
-      return true;
-    }
+  if ( node->node_type() == AstNode::kObjectLikeLiteral ) {
+    return true;
   } else if ( node->node_type() == AstNode::kAssignmentExp ) {
     return true;
   } else if ( node->node_type() == AstNode::kCompareExp ) {
     CompareExp* comp = node->CastToExpression()->CastToCompareExp();
-    if ( comp->Op() == Token::JS_LOGICAL_OR ) {
+    if ( comp->operand() == Token::JS_LOGICAL_OR ) {
       return true;
     }
   } else if ( node->node_type() == AstNode::kExpression ) {
@@ -55,12 +52,12 @@ bool CheckAssoc( AstNode* node ) {
 AstNode* ToExpression( AstNode* node ) {
   if ( CheckAssoc( node ) ) {
     if ( node->node_type() == AstNode::kExpression ) {
-      node->CastToExpression()->Paren();
+      node->CastToExpression()->MarkParenthesis();
       return node;
     } else {
-      Expression* exp = ManagedHandle::Retain<Expression>();
+      Expression* exp = Expression::New( node->line_number() );
       exp->AddChild( node );
-      exp->Paren();
+      exp->MarkParenthesis();
       return exp;
     }
   }
@@ -72,22 +69,22 @@ IFStmtOptimizer::IFStmtOptimizer( CompileInfo* info , IFStmt* stmt ) :
 
 
 void IFStmtOptimizer::Optimize( IVisitor* visitor ) {
-  stmt_->Exp()->Accept( visitor );
-  stmt_->Then()->Accept( visitor );
-  stmt_->Else()->Accept( visitor );
-  DetermineOptimizeType_();
+  stmt_->condition()->Accept( visitor );
+  stmt_->then_statement()->Accept( visitor );
+  stmt_->else_statement()->Accept( visitor );
+  DetermineOptimizeType();
 }
 
 
-void IFStmtOptimizer::DetermineOptimizeType_() {
-  AstNode* then_block = stmt_->Then();
-  AstNode* else_block = stmt_->Else();
-  OptimizeBlock_( then_block , kThen );
-  OptimizeBlock_( else_block , kElse );
-  ToIFStmtCompatibleExpression_();
+void IFStmtOptimizer::DetermineOptimizeType() {
+  AstNode* then_block = stmt_->then_statement();
+  AstNode* else_block = stmt_->else_statement();
+  OptimizeBlock( then_block , kThen );
+  OptimizeBlock( else_block , kElse );
+  ToIFStmtCompatibleExpression();
 }
 
-int IFStmtOptimizer::IsConvertableToExpression_( AstNode* then_stmt , AstNode* else_stmt ) {
+int IFStmtOptimizer::IsConvertableToExpression( AstNode* then_stmt , AstNode* else_stmt ) {
   if ( IsOptimizableBlock( then_stmt ) ) {
     return kNone;
   }
@@ -117,72 +114,73 @@ int IFStmtOptimizer::IsConvertableToExpression_( AstNode* then_stmt , AstNode* e
   return kNone;
 }
 
-void IFStmtOptimizer::OptimizeBlock_( AstNode* block , int type ) {
+void IFStmtOptimizer::OptimizeBlock( AstNode* block , int type ) {
   if ( IsOptimizableBlock( block ) ) {
     AstNode* insert = block->first_child()->first_child();
     if ( type == kThen ) {
-      stmt_->Then( insert );
+      stmt_->set_then_statement( insert );
     } else {
-      stmt_->Else( insert );
+      stmt_->set_else_statement( insert );
     }
   }
 }
 
-void IFStmtOptimizer::ToIFStmtCompatibleExpression_() {
-  AstNode* then_block = stmt_->Then();
-  AstNode* else_block = stmt_->Else();
-  int type = IsConvertableToExpression_( then_block , else_block );
+void IFStmtOptimizer::ToIFStmtCompatibleExpression() {
+  AstNode* then_block = stmt_->then_statement();
+  AstNode* else_block = stmt_->else_statement();
+  int type = IsConvertableToExpression( then_block , else_block );
   switch ( type ) {
     case kCondtionalReturn :
-      ToConditionalReturn_( then_block , else_block );
+      ToConditionalReturn( then_block , else_block );
       break;
 
     case kLogical :
-      ToLogical_( then_block );
+      ToLogical( then_block );
       break;
 
     case kNoElse :
-      ToNoElse_( then_block , else_block );
+      ToNoElse( then_block , else_block );
       break;
 
     case kConditional :
-      ToConditional_( then_block , else_block );
+      ToConditional( then_block , else_block );
       break;
   }
 }
 
-void IFStmtOptimizer::ToConditionalReturn_( AstNode* then_stmt , AstNode* else_stmt ) {
+void IFStmtOptimizer::ToConditionalReturn( AstNode* then_stmt , AstNode* else_stmt ) {
   AstNode* then_return = GetReturnValue( then_stmt->first_child() );
   AstNode* else_return = GetReturnValue( else_stmt->first_child() );
-  ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( stmt_->Exp(),
-                                                                    then_return,
-                                                                    else_return ) );
-  ReturnStmt* ret = ManagedHandle::Retain<ReturnStmt>();
+  ConditionalExp* cond = ConditionalExp::New( stmt_->condition(),
+                                              then_return,
+                                              else_return,
+                                              then_stmt->line_number() );
+  ReturnStmt* ret = ReturnStmt::New( then_stmt->line_number() );
   ret->AddChild( cond );
-  stmt_->ParentNode()->ReplaceChild( stmt_ , ret );
+  stmt_->parent_node()->ReplaceChild( stmt_ , ret );
 }
 
 
-void IFStmtOptimizer::ToLogical_( AstNode* then_stmt ) {
-  AstNode* cond = ToExpression( stmt_->Exp() );
+void IFStmtOptimizer::ToLogical( AstNode* then_stmt ) {
+  AstNode* cond = ToExpression( stmt_->condition() );
   AstNode* then_exp = ToExpression( then_stmt->first_child() );
-  CompareExp* logical = ManagedHandle::Retain( new CompareExp( Token::JS_LOGICAL_AND , cond , then_exp ) );
-  ExpressionStmt* stmt = AstUtils::CreateExpStmt( logical );
-  stmt->Line( stmt_->Line() );
-  stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
+  CompareExp* logical = CompareExp::New( Token::JS_LOGICAL_AND , cond , then_exp , then_stmt->line_number() );
+  ExpressionStmt* stmt = AstUtils::CreateExpStmt( logical , then_stmt->line_number() );
+  stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
 }
 
-void IFStmtOptimizer::ToNoElse_( AstNode* then_stmt , AstNode* else_stmt ) {
-  stmt_->Else( ManagedHandle::Retain<Empty>() );
-  stmt_->ParentNode()->InsertAfter( else_stmt , stmt_ );
+void IFStmtOptimizer::ToNoElse( AstNode* then_stmt , AstNode* else_stmt ) {
+  stmt_->set_else_statement( Empty::New() );
+  stmt_->parent_node()->InsertAfter( else_stmt , stmt_ );
 }
 
-void IFStmtOptimizer::ToConditional_( AstNode* then_stmt , AstNode* else_stmt ) {
-  ConditionalExp* cond = ManagedHandle::Retain( new ConditionalExp( stmt_->Exp(),
-                                                                    then_stmt->first_child(),
-                                                                    else_stmt->first_child() ) );
-  ExpressionStmt* stmt = AstUtils::CreateExpStmt( cond );
-  stmt_->ParentNode()->ReplaceChild( stmt_ , stmt );
+void IFStmtOptimizer::ToConditional( AstNode* then_stmt , AstNode* else_stmt ) {
+  ConditionalExp* cond = ConditionalExp::New( stmt_->condition(),
+                                              then_stmt->first_child(),
+                                              else_stmt->first_child(),
+                                              then_stmt->line_number() );
+  ExpressionStmt* stmt = AstUtils::CreateExpStmt( cond , then_stmt->line_number() );
+  stmt_->parent_node()->ReplaceChild( stmt_ , stmt );
 }
 
 }

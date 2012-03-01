@@ -22,14 +22,14 @@ class IFStmtOptimizer {
     kNoElse,
     kConditional
   };
-  void DetermineOptimizeType_();
-  void OptimizeBlock_( AstNode* block , int type );
-  void ToIFStmtCompatibleExpression_();
-  void ToConditionalReturn_( AstNode* then_stmt , AstNode* else_stmt );
-  void ToLogical_( AstNode* then_stmt );
-  void ToNoElse_( AstNode* then_stmt , AstNode* else_stmt );
-  void ToConditional_( AstNode* then_stmt , AstNode* else_stmt );
-  int IsConvertableToExpression_( AstNode* then_stmt , AstNode* else_stmt );
+  void DetermineOptimizeType();
+  void OptimizeBlock( AstNode* block , int type );
+  void ToIFStmtCompatibleExpression();
+  void ToConditionalReturn( AstNode* then_stmt , AstNode* else_stmt );
+  void ToLogical( AstNode* then_stmt );
+  void ToNoElse( AstNode* then_stmt , AstNode* else_stmt );
+  void ToConditional( AstNode* then_stmt , AstNode* else_stmt );
+  int IsConvertableToExpression( AstNode* then_stmt , AstNode* else_stmt );
   CompileInfo* info_;
   IFStmt* stmt_;
 };

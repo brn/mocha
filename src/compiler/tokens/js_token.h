@@ -3,7 +3,7 @@
 #include <utils/class_traits/static.h>
 #include <utils/thread/thread.h>
 namespace mocha{
-
+class TokenInfo;
 //Bison compatible token list.
 class Token : private Static {
  public :
@@ -117,15 +117,27 @@ class Token : private Static {
 
 class JsToken : private Static {
  public:
-  static bool BinaryOperatorNoIn( int token );
-  static bool BinaryOperator( int token );
+  static bool IsBinaryOperatorNoIn( int token );
+  static bool IsBinaryOperator( int token );
   static int GetType( const char* token , bool isOperator = false );
-  static bool Builtin( const char* token );
+  static bool IsBuiltin( const char* token );
   static const char* GetTokenFromNumber( int id );
   static void Initialize();
  private :
   static Mutex mutex_;
 };
+
+
+class TokenConverter {
+ public :
+  TokenConverter( TokenInfo* info );
+  ~TokenConverter(){}
+  const char* cstr();
+ private :
+  std::string buffer_;
+  TokenInfo* info_;
+};
+
 }
 
 #endif

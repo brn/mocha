@@ -3,10 +3,8 @@
 #include <stdio.h>
 #include <string>
 #include <compiler/tokens/js_token.h>
-#include <grammar/grammar.tab.hh>
+#include <compiler/tokens/token_info.h>
 #include <utils/hash/hash_map/hash_map.h>
-
-using namespace yy;
 
 namespace mocha {
 
@@ -509,11 +507,11 @@ void JsToken::Initialize() {
   }
 }
 
-bool JsToken::BinaryOperatorNoIn( int token ) {
+bool JsToken::IsBinaryOperatorNoIn( int token ) {
   return binary_operator[ token ];
 }
 
-bool JsToken::BinaryOperator( int token ) {
+bool JsToken::IsBinaryOperator( int token ) {
   return ( token == Token::JS_IN || token == Token::JS_INSTANCEOF )? true : binary_operator[ token ];
 }
 
@@ -538,7 +536,7 @@ int JsToken::GetType ( const char* token , bool is_operator ) {
   }
 }
 
-bool JsToken::Builtin( const char* token ) {
+bool JsToken::IsBuiltin( const char* token ) {
   MutexLock lock( mutex_ );
   TokenMap::HashEntry find = builtin_map.Find( token );
   if ( !find.IsEmpty() ) {
@@ -556,3 +554,18 @@ const char* JsToken::GetTokenFromNumber( int id ) {
 }
 
 Mutex JsToken::mutex_;
+
+TokenConverter::TokenConverter( TokenInfo* info ) : info_( info ){}
+
+const char* TokenConverter::cstr() {
+  buffer_.clear();
+  if ( info_->type() > 127 ) {
+    return info_->token();
+  } else {
+    buffer_ += info_->type();
+    return buffer_.c_str();
+  }
+}
+
+
+}

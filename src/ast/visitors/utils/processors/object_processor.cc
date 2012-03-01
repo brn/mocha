@@ -1,71 +1,71 @@
 #include <ast/visitors/utils/processors/object_processor.h>
-
+#include <ast/ast.h>
+#include <ast/utils/ast_utils.h>
+#include <ast/visitors/utils/visitor_info.h>
+#include <ast/visitors/utils/processors/processor_info.h>
+#include <ast/visitors/utils/processors/syntax_sugar_processor.h>
+#include <compiler/tokens/token_info.h>
+#include <compiler/tokens/js_token.h>
+#include <compiler/tokens/symbol_list.h>
 namespace mocha {
 
 ObjectProccessor::ObjectProccessor( ObjectLikeLiteral* literal , ProcessorInfo* info ) :
     literal_( literal ) , info_( info ){}
 
 void ObjectProccessor::ProcessNode() {
-  VisitorInfo* visitor_info = info->visitor_info();
+  VisitorInfo* visitor_info = info_->visitor_info();
   visitor_info->EnterObject();
-  NodeIterator iterator = element_list->elements()->ChildNodes();
+  NodeIterator iterator = literal_->elements()->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* element = iterator.Next();
-    element->first_child()->Accept( this );
-    element->Accept( this );
+    element->first_child()->Accept( info_->visitor() );
+    element->Accept( info_->visitor() );
   }
   visitor_info->EscapeObject();
   if ( literal_->IsRecord() ) {
     ProcessRecord();
   } else {
     if ( !visitor_info->IsInObject() ) {
-      if ( visitor_info->private_property_list().size() > 0 ) {
-        AstNode* parent = ast_node->parent_node();
+      if ( visitor_info->private_property_list()->size() > 0 ) {
+        AstNode* parent = literal_->parent_node();
         while ( !parent->CastToStatement() ) {
           parent = parent->parent_node();
         }
-        Literal* name = AstUtils::CreateTmpNode( visitor_info_->tmp_index() );
-        Literal* exp = AstUtils::CreateVarInitiliser( name->Symbol() , literal->Clone() );
-        VariableStmt* stmt = AstUtils::CreateVarStmt( exp );
+        Literal* name = AstUtils::CreateTmpNode( visitor_info->tmp_index() , literal_->line_number() );
+        Literal* exp = AstUtils::CreateVarInitiliser( name->value() , literal_->Clone() , literal_->line_number() );
+        VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( literal_->line_number() , 1 , exp );
+        VariableStmt* stmt = AstUtils::CreateVarStmt( decl_list , literal_->line_number() );
         parent->parent_node()->InsertBefore( stmt , parent );
-        literal_->set_value( name->Symbol() );
-        literal_->set_value_type( Literal::kIdentifier );
-        literal_->RemoveAllChild();
-        literal_->AddChild( name->Clone() );
+        literal_->parent_node()->ReplaceChild( literal_ , name->Clone() );
         ProcessPrivateProperty( name );
       }
     }
   }
 }
 
-bool IsPropertParent( Literal* literal ) {
-  return literal->value_type() == Literal::kPrivateProperty ||
-      literal->value_type() == Literal::kProperty ||
-      literal->value_type() == Literal::kString ||
-      literal->value_type() == Literal::kNumeric ||
-      literal->value_type() == Literal::kObjectLikeLiteral
-}
 
 typedef std::vector<Literal*> LiteralArray;
 
 void CollectParentExpression( LiteralArray* expression_array , AstNode* parent , Literal* maybe_value ) {
-  while ( name_parent && maybe_value && IsPropertParent( maybe_value ) ) {
-    Literal* val = parent->CastToLiteral();
-    if ( val && val->value_type() != Literal::kObjectLikeLiteral ) {
-      expression_array->push_back( val );
+  while ( 1 ) {
+    if ( parent->CastToExpression() && parent->node_type() != AstNode::kObjectLikeLiteral ) {
+      expression_array->push_back( parent->CastToLiteral() );
     }
     parent = parent->parent_node();
-    maybe_value = parent->CastToLiteral();
+    if ( parent->node_type() == AstNode::kObjectLikeLiteral &&
+         parent->parent_node()->parent_node()->node_type() != AstNode::kObjectLikeLiteral ) {
+      break;
+    }
   }
 }
 
 void ObjectProccessor::ProcessPrivateProperty( Literal *name ) {
-  VisitorInfo::PrivateNameList &list = visitor_info->private_property_list();
-  VisitorInfo::PrivateNameList::reverse_iterator begin = list.rbegin(),end = list.rend();
+  VisitorInfo::PrivateNameList *list = info_->visitor_info()->private_property_list();
+  VisitorInfo::PrivateNameList::reverse_iterator begin = list->rbegin(),end = list->rend();
   while ( begin != end ) {
     LiteralArray expression_array;
     AstNode* cur_name = (*begin).first;
-    exp_list.push_back( cur_name->CastToLiteral() );
+    expression_array.push_back( cur_name->CastToLiteral() );
     AstNode* parent = cur_name->parent_node();
     Literal* maybe_value = parent->CastToLiteral();
     CollectParentExpression( &expression_array , parent , maybe_value );
@@ -76,47 +76,47 @@ void ObjectProccessor::ProcessPrivateProperty( Literal *name ) {
       Literal* val = (*expression_begin);
       if ( val->value_type() == Literal::kPrivateProperty ) {
         if ( exp == 0 ) {
-          exp =  AstUtils::CreateArrayAccessor( name->Clone() , val->first_child()->Clone() );
+          exp =  AstUtils::CreateArrayAccessor( name->Clone() , val->first_child()->Clone() , literal_->line_number() );
         } else {
-          exp =  AstUtils::CreateArrayAccessor( exp , val->first_child()->Clone() );
+          exp =  AstUtils::CreateArrayAccessor( exp , val->first_child()->Clone() , literal_->line_number() );
         }
       } else if ( val->value_type() == Literal::kIdentifier ||
                   val->value_type() == Literal::kProperty ) {
         val->set_value_type( Literal::kProperty );
         if ( exp == 0 ) {
-          exp =  AstUtils::CreateDotAccessor( name->Clone() , val->Clone() );
+          exp =  AstUtils::CreateDotAccessor( name->Clone() , val->Clone() , literal_->line_number() );
         } else {
-          exp =  AstUtils::CreateDotAccessor( exp , val->Clone() );
+          exp =  AstUtils::CreateDotAccessor( exp , val->Clone() , literal_->line_number() );
         }
       } else {
         if ( exp == 0 ) {
-          exp =  AstUtils::CreateArrayAccessor( name->Clone() , val->Clone() );
+          exp =  AstUtils::CreateArrayAccessor( name->Clone() , val->Clone() , literal_->line_number() );
         } else {
-          exp =  AstUtils::CreateArrayAccessor( exp , val->Clone() );
+          exp =  AstUtils::CreateArrayAccessor( exp , val->Clone() , literal_->line_number() );
         }
       }
       ++expression_begin;
     }
     Literal* unenum = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kCreateUnenumProp ),
-                                                Token::JS_PROPERTY , 0 , Literal::kProperty );
-    CallExp* runtime_call = AstUtils::CreateRuntimeMod( unenum );
+                                                Token::JS_IDENTIFIER , literal_->line_number() , Literal::kProperty );
+    CallExp* runtime_call = AstUtils::CreateRuntimeMod( unenum , literal_->line_number() );
     NodeList* args = AstUtils::CreateNodeList( 3 , exp->callable() , exp->args() , (*begin).second->Clone() );
-    CallExp* runtime_normal_call = AstUtils::CreateNormalAccessor( runtime_call , args );
-    ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime_normal_call );
+    CallExp* runtime_normal_call = AstUtils::CreateNormalAccessor( runtime_call , args , literal_->line_number() );
+    ExpressionStmt* stmt = AstUtils::CreateExpStmt( runtime_normal_call , literal_->line_number() );
     parent->parent_node()->InsertBefore( stmt , parent );
     ++begin;
   }
-  list.clear();
+  list->clear();
 }
 
 void ObjectProccessor::ProcessRecord() {
-  AstNode* parent = ast_node->parent_node();
-  Literal* create_record = AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kCreateRecord ),
-                                                     Token::JS_PROPERTY , ast_node->Line() , Literal::kProperty );
-  CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( create_record );
+  AstNode* parent = literal_->parent_node();
+  Literal* create_record = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kCreateRecord ),
+                                                     Token::JS_IDENTIFIER , literal_->line_number() , Literal::kProperty );
+  CallExp* runtime_accessor = AstUtils::CreateRuntimeMod( create_record , literal_->line_number() );
   NodeList* args = AstUtils::CreateNodeList( 1 , literal_ );
-  CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args );
-  parent->ReplaceChild( ast_node , runtime_call );
+  CallExp* runtime_call = AstUtils::CreateNormalAccessor( runtime_accessor , args , literal_->line_number() );
+  parent->ReplaceChild( literal_ , runtime_call );
 }
 
 }

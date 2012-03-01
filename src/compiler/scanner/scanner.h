@@ -17,7 +17,7 @@ class Scanner : public Managed {
   static TokenInfo* kEmpty;
  private :
   Scanner( SourceStream* source , ErrorReporter *reporter , const char* filename );
-  void CreateTokenStream_();
+  void CreateTokenStream();
   
   class InternalScanner;
   ScopedPtr<InternalScanner> scanner_;

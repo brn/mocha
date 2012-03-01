@@ -20,7 +20,7 @@ class SourceStream : public Managed {
   char First() const;
  private :
   SourceStream();
-  void CreateStream_( const char* utf8_str );
+  void CreateStream( const char* utf8_str );
   int cursor_;
   int line_;
   int size_;

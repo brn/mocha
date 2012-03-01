@@ -24,14 +24,15 @@ void TraitProcessor::ProcessNode() {
     Literal* name_value = name_->Clone()->CastToLiteral();
     name_value->set_value_type( Literal::kVariable );
     name_value->AddChild( object );
-    VariableStmt* stmt = AstUtils::CreateVarStmt( name_value , trait_->line_number() );
+    VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( trait_->line_number() , 1 , name_value );
+    VariableStmt* stmt = AstUtils::CreateVarStmt( decl_list , trait_->line_number() );
     parent->ReplaceChild( trait_ , stmt );
-    ProcessPrivate_( list );
-    ProcessPublic_( list );
-    ProcessRequires_( list );
-    CreateMixinStmt_( ProcessMixin( trait_->GetMixinList() , info_ ,trait_->line_number() ) , stmt );
+    ProcessPrivate( list );
+    ProcessPublic( list );
+    ProcessRequires( list );
+    CreateMixinStmt( ProcessMixin( trait_->mixin_member() , info_ ,trait_->line_number() ) , stmt );
   } else {
-    Function* fn = AstUtils::CreateFunctionDecl( Empty::New() , Empty::New() , Empty::New() );
+    Function* fn = AstUtils::CreateFunctionDecl( Empty::New() , Empty::New() , Empty::New() , trait_->line_number() );
     fn->RemoveAllChild();
     ExpressionStmt* stmt = AstUtils::CreateAnonymousFnCall( fn , Empty::New() , trait_->line_number() );
     body_ = stmt->first_child()->first_child();
@@ -40,17 +41,18 @@ void TraitProcessor::ProcessNode() {
     Literal* name_value = name_->Clone()->CastToLiteral();
     name_value->set_value_type( Literal::kVariable );
     name_value->AddChild( object );
-    VariableStmt* var_stmt = AstUtils::CreateVarStmt( name_value , trait_->line_number() );
+    VariableDeclarationList* decl_list = AstUtils::CreateVarDeclList( trait_->line_number() , 1 , name_value );
+    VariableStmt* var_stmt = AstUtils::CreateVarStmt( decl_list , trait_->line_number() );
     fn->AddChild( var_stmt );
-    ProcessPrivate_( list );
-    ProcessPublic_( list );
-    ProcessRequires_( list );
-    CreateMixinStmt_( ProcessMixin( trait_->GetMixinList() , info_ , trait_->line_number() ) , var_stmt );
+    ProcessPrivate( list );
+    ProcessPublic( list );
+    ProcessRequires( list );
+    CreateMixinStmt( ProcessMixin( trait_->mixin_member() , info_ , trait_->line_number() ) , var_stmt );
     fn->AddChild( ret );
   }
   object->elements()->Append( list );
   Literal* trait_mark = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kTraitMark ),
-                                                    Token::JS_PROPERTY , trait_->line_number() , Literal::kProperty );
+                                                    Token::JS_IDENTIFIER , trait_->line_number() , Literal::kProperty );
   Literal* true_value = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kTrue ),
                                                     Token::JS_TRUE , trait_->line_number() , Literal::kTrue );
   trait_mark->AddChild( true_value );
@@ -58,15 +60,15 @@ void TraitProcessor::ProcessNode() {
 }
 
 NodeIterator GetPrivateIterator( Trait *trait ) {
-  return trait->GetPrivate()->ChildNodes();
+  return trait->private_member()->ChildNodes();
 }
 
 NodeIterator GetPublicIterator( Trait *trait ) {
-  return trait->GetPublic()->ChildNodes();
+  return trait->public_member()->ChildNodes();
 }
 
-void TraitProcessor::CommonProcessor_( NodeList* list , IteratorGetter getter , const char* type ) {
-  Literal* member_field = AstUtils::CreateNameNode( type, Token::JS_PROPERTY , trait_->line_number() , Literal::kProperty );
+void TraitProcessor::CommonProcessor( NodeList* list , IteratorGetter getter , const char* type ) {
+  Literal* member_field = AstUtils::CreateNameNode( type, Token::JS_IDENTIFIER , trait_->line_number() , Literal::kProperty );
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( trait_->line_number() );
   IVisitor* visitor = info_->visitor();
   NodeIterator iterator = getter( trait_ );
@@ -87,15 +89,15 @@ void TraitProcessor::CommonProcessor_( NodeList* list , IteratorGetter getter , 
 
 
 
-void TraitProcessor::ProcessPrivate_( NodeList* list ) {
-  CommonProcessor_( list , GetPrivateIterator , SymbolList::symbol( SymbolList::kTraitPrivate ) );
+void TraitProcessor::ProcessPrivate( NodeList* list ) {
+  CommonProcessor( list , GetPrivateIterator , SymbolList::symbol( SymbolList::kTraitPrivate ) );
 }
 
-void TraitProcessor::ProcessPublic_( NodeList* list ) {
-  CommonProcessor_( list , GetPublicIterator , SymbolList::symbol( SymbolList::kTraitPublic ) );
+void TraitProcessor::ProcessPublic( NodeList* list ) {
+  CommonProcessor( list , GetPublicIterator , SymbolList::symbol( SymbolList::kTraitPublic ) );
 }
 
-void TraitProcessor::CreateMixinStmt_( AstNode* mixin_list , AstNode* mark ) {
+void TraitProcessor::CreateMixinStmt( AstNode* mixin_list , AstNode* mark ) {
   Literal* mixin = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kMixin ),
                                              Token::JS_IDENTIFIER , mark->line_number() , Literal::kProperty );
   NodeIterator iterator = mixin_list->ChildNodes();
@@ -115,14 +117,13 @@ void TraitProcessor::CreateMixinStmt_( AstNode* mixin_list , AstNode* mark ) {
 }
 
 AstNode* TraitProcessor::ProcessMixin( AstNode* mixin , ProcessorInfo* info , int64_t line ) {
-  VisitorInfo* visitor_info = info->visitor_info();
   NodeIterator iterator = mixin->ChildNodes();
   NodeList* ret = NodeList::New();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
     MixinMember* member = item->CastToExpression()->CastToMixinMember();
     AstNode* name_node = member->name();
-    AstNode* rename_list = member->rename_list()();
+    AstNode* rename_list = member->rename_list();
     AstNode* removal_list = member->remove_list();
     name_node->Accept( info->visitor() );
     rename_list->Accept( info->visitor() );
@@ -166,11 +167,11 @@ AstNode* TraitProcessor::ProcessMixin( AstNode* mixin , ProcessorInfo* info , in
   return ret;
 }
 
-void TraitProcessor::ProcessRequires_( NodeList* list ) {
+void TraitProcessor::ProcessRequires( NodeList* list ) {
   ObjectLikeLiteral* object = ObjectLikeLiteral::New( trait_->line_number() );
   Literal* prop = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kRequires ),
-                                            Token::JS_PROPERTY , trait_->line_number() , Literal::kProperty );
-  NodeList* requires = trait_->require_list();
+                                            Token::JS_IDENTIFIER , trait_->line_number() , Literal::kProperty );
+  NodeList* requires = trait_->require_member();
   NodeIterator iterator = requires->ChildNodes();
   while ( iterator.HasNext() ) {
     AstNode* item = iterator.Next();
@@ -178,7 +179,7 @@ void TraitProcessor::ProcessRequires_( NodeList* list ) {
     Literal* true_val = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kTrue ),
                                                   Token::JS_TRUE , trait_->line_number() , Literal::kTrue );
     name->AddChild( true_val );
-    object->element( name );
+    object->set_element( name );
   }
   prop->AddChild( object );
   list->AddChild( prop );

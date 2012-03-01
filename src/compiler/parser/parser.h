@@ -29,6 +29,7 @@ class Parser{
   }
   void IllegalEnd( const char* expect , long line );
   void ParseTerminator();
+  NodeList* FormalParameterConvertor( AstNode *args );
   AstNode* ParseProgram();
   AstNode* ParseSourceElements();
   AstNode* ParseSourceElement();
@@ -49,7 +50,7 @@ class Parser{
   AstNode* ParseDestructuringLeftHandSide();
   AstNode* ParseArrayPattern();
   AstNode* ParseObjectPattern();
-  AstNode* ParseObjectPatternElement( int type , TokenInfo* token , AstNode* list );
+  AstNode* ParseObjectPatternElement( int type , TokenInfo* token , ObjectLikeLiteral* list );
   AstNode* CheckLabellOrExpressionStatement();
   AstNode* ParseIFStatement( bool is_comprehensions );
   AstNode* ParseWhileStatement();
@@ -95,7 +96,7 @@ class Parser{
   AstNode* ParsePrimaryExpression();
   AstNode* ParseGeneratorExpression( AstNode* exp );
   AstNode* ParseObjectLiteral();
-  AstNode* ParseObjectElement( int type , TokenInfo* token , AstNode* list );
+  AstNode* ParseObjectElement( int type , TokenInfo* token , ObjectLikeLiteral* object );
   AstNode* ParseArrayLiteral();
   AstNode* ParseLiteral();
   AstNode* ParseFunctionDecl( bool is_const );

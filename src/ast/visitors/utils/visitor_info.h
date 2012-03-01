@@ -55,7 +55,7 @@ class VisitorInfo : private Uncopyable{
   inline void set_function( Function* fn ) { current_fn_ = fn; }
   inline Function* function() const { return current_fn_; }
   inline void set_private_property_list( AstPair private_name ) { private_names_.push_back( private_name ); }
-  inline const PrivateNameList& private_property_list() const { return private_names_; }
+  inline PrivateNameList* private_property_list() { return &private_names_; }
   inline void EnterObject() { object_depth_++; }
   inline void EscapeObject() { object_depth_--; }
   inline bool IsInObject() const { return object_depth_ > 0; }

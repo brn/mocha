@@ -3,6 +3,7 @@
 #include <ast/ast_foward_decl.h>
 #include <utils/class_traits/static.h>
 namespace mocha {
+class ProcessorInfo;
 class SyntaxSugarProcessor : private Static {
  public :
   static void ProcessArrayComprehensions( ArrayLikeLiteral* literal, ProcessorInfo* info );

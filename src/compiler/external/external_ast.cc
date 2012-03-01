@@ -6,6 +6,6 @@ Handle<ExternalAst> ExternalAst::Create() {
   return Handle<ExternalAst>( new ExternalAst );
 }
 
-ExternalAst::ExternalAst() : root_( ManagedHandle::Retain<AstRoot>() ){}
+ExternalAst::ExternalAst() : root_( AstRoot::New() ){}
 
 }

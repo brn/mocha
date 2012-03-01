@@ -15,7 +15,7 @@ class TokenContainer {
   }
 
   void Push( const char* token , int type , long line ) {
-    TokenInfo* info = ManagedHandle::Retain( new TokenInfo( token , type , line ) );
+    TokenInfo* info = TokenInfo::New( token , type , line );
     array[ size ] = reinterpret_cast<uintptr_t>( info );
     size++;
   }

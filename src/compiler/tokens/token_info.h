@@ -21,7 +21,7 @@ class TokenInfo : public Managed {
   inline const char* compressed_name() const { return ( compressed_value_.size() > 0 )? compressed_value_.c_str() : value_.c_str(); };
   inline void set_compressed_name( const char* token ) { compressed_value_ = token; }
   inline void set_token( const char* token ) { value_ = token; }
-  inline bool compressed() const { return !compressed_value_.empty(); }
+  inline bool IsCompressed() const { return !compressed_value_.empty(); }
   inline void Rollback() { compressed_value_.clear(); }
   inline int type() const { return type_; };
   inline void set_type( int type ) { type_ = type; };

@@ -1,15 +1,17 @@
 #ifndef mocha_object_processor_h_
 #define mocha_object_processor_h_
+#include <utils/class_traits/uncopyable.h>
 #include <ast/ast_foward_decl.h>
-#include <ast/visitors/utils/processors/processor_info.h>
 namespace mocha {
-
-class ObjectProccessor {
+class ProcessorInfo;
+class ObjectProccessor : private Uncopyable {
  public :
   ObjectProccessor( ObjectLikeLiteral* literal , ProcessorInfo* info );
   ~ObjectProccessor(){}
   void ProcessNode();
  private :
+  void ProcessPrivateProperty( Literal *name );
+  void ProcessRecord();
   ObjectLikeLiteral* literal_;
   ProcessorInfo* info_;
 };

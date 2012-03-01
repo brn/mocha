@@ -10,13 +10,13 @@ class TraitProcessor {
   TraitProcessor( Trait* trait , ProcessorInfo* info );
   ~TraitProcessor(){}
   void ProcessNode();
-  static AstNode* ProcessMixin( AstNode* mixin , ProcessorInfo* info , long line );
+  static AstNode* ProcessMixin( AstNode* mixin , ProcessorInfo* info , int64_t line );
  private :
-  void CommonProcessor_( NodeList* list , IteratorGetter getter , const char* type );
-  void ProcessPrivate_( NodeList* list );
-  void ProcessPublic_( NodeList* list );
-  void ProcessRequires_( NodeList* list );
-  void CreateMixinStmt_( AstNode* mixin_list , AstNode* mark );
+  void CommonProcessor( NodeList* list , IteratorGetter getter , const char* type );
+  void ProcessPrivate( NodeList* list );
+  void ProcessPublic( NodeList* list );
+  void ProcessRequires( NodeList* list );
+  void CreateMixinStmt( AstNode* mixin_list , AstNode* mark );
   Trait* trait_;
   ProcessorInfo* info_;
   Literal* name_;

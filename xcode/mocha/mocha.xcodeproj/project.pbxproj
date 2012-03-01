@@ -12,10 +12,8 @@
 		421DF08114FC711900984294 /* syntax_sugar_processor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421DF07D14FC711900984294 /* syntax_sugar_processor.cc */; };
 		421DF08514FC7DAF00984294 /* codegen_visitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421DF08314FC7DAF00984294 /* codegen_visitor.cc */; };
 		4225925B14D61AAB00601E9A /* parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4225925914D61AAB00601E9A /* parser.cc */; };
-		4240792814F77217005C0A2F /* js_values.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4240792614F77217005C0A2F /* js_values.cc */; };
 		4240792C14F77229005C0A2F /* analyzer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4240792A14F77229005C0A2F /* analyzer.cc */; };
 		4243B78914DF82B0000813B6 /* external_ast.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4243B78714DF82B0000813B6 /* external_ast.cc */; };
-		425E28EE14F469B300B380E4 /* constant_optimizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425E28EC14F469B300B380E4 /* constant_optimizer.cc */; };
 		42DCC54E14DB6C460063C894 /* compiler_facade.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42DCC54C14DB6C460063C894 /* compiler_facade.cc */; };
 		42DCC55114DB6C620063C894 /* compile_result.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42DCC54F14DB6C620063C894 /* compile_result.cc */; };
 		42E9C0F514CD21F30043DAE1 /* scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42E9C0EF14CD21F30043DAE1 /* scanner.cc */; };
@@ -27,7 +25,6 @@
 		42E9C10914CD27E00043DAE1 /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10614CD27E00043DAE1 /* libicui18n.a */; };
 		42E9C10A14CD27E00043DAE1 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10714CD27E00043DAE1 /* libicuuc.a */; };
 		42F5CBD814EB52C500249737 /* trait_processor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42F5CBD614EB52C500249737 /* trait_processor.cc */; };
-		42FAFD2414F5BDC30031DC83 /* ifstatement_optimizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FAFD2214F5BDC30031DC83 /* ifstatement_optimizer.cc */; };
 		42FB786A14DF55A70011C1C4 /* consts.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FB786814DF55A70011C1C4 /* consts.cc */; };
 		42FB786E14DF55B70011C1C4 /* external_resource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FB786C14DF55B70011C1C4 /* external_resource.cc */; };
 		42FB787114DF55C70011C1C4 /* compile_info.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42FB786F14DF55C70011C1C4 /* compile_info.cc */; };
@@ -120,14 +117,10 @@
 		421DF08414FC7DAF00984294 /* codegen_visitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = codegen_visitor.h; sourceTree = "<group>"; };
 		4225925914D61AAB00601E9A /* parser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parser.cc; path = parser/parser.cc; sourceTree = "<group>"; };
 		4225925A14D61AAB00601E9A /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parser.h; path = parser/parser.h; sourceTree = "<group>"; };
-		4240792614F77217005C0A2F /* js_values.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_values.cc; sourceTree = "<group>"; };
-		4240792714F77217005C0A2F /* js_values.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = js_values.h; sourceTree = "<group>"; };
 		4240792A14F77229005C0A2F /* analyzer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = analyzer.cc; path = visitors/analyzer.cc; sourceTree = "<group>"; };
 		4240792B14F77229005C0A2F /* analyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = analyzer.h; path = visitors/analyzer.h; sourceTree = "<group>"; };
 		4243B78714DF82B0000813B6 /* external_ast.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = external_ast.cc; sourceTree = "<group>"; };
 		4243B78814DF82B0000813B6 /* external_ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = external_ast.h; sourceTree = "<group>"; };
-		425E28EC14F469B300B380E4 /* constant_optimizer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = constant_optimizer.cc; sourceTree = "<group>"; };
-		425E28ED14F469B300B380E4 /* constant_optimizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant_optimizer.h; sourceTree = "<group>"; };
 		42DCC54C14DB6C460063C894 /* compiler_facade.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compiler_facade.cc; sourceTree = "<group>"; };
 		42DCC54D14DB6C460063C894 /* compiler_facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compiler_facade.h; sourceTree = "<group>"; };
 		42DCC54F14DB6C620063C894 /* compile_result.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compile_result.cc; sourceTree = "<group>"; };
@@ -147,8 +140,6 @@
 		42E9C10714CD27E00043DAE1 /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = "../../src/third_party/icu/lib-osx/libicuuc.a"; sourceTree = "<group>"; };
 		42F5CBD614EB52C500249737 /* trait_processor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trait_processor.cc; sourceTree = "<group>"; };
 		42F5CBD714EB52C500249737 /* trait_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trait_processor.h; sourceTree = "<group>"; };
-		42FAFD2214F5BDC30031DC83 /* ifstatement_optimizer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ifstatement_optimizer.cc; sourceTree = "<group>"; };
-		42FAFD2314F5BDC30031DC83 /* ifstatement_optimizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ifstatement_optimizer.h; sourceTree = "<group>"; };
 		42FB786814DF55A70011C1C4 /* consts.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = consts.cc; sourceTree = "<group>"; };
 		42FB786914DF55A70011C1C4 /* consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = consts.h; sourceTree = "<group>"; };
 		42FB786C14DF55B70011C1C4 /* external_resource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = external_resource.cc; sourceTree = "<group>"; };
@@ -383,26 +374,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4240792514F77217005C0A2F /* values */ = {
-			isa = PBXGroup;
-			children = (
-				4240792614F77217005C0A2F /* js_values.cc */,
-				4240792714F77217005C0A2F /* js_values.h */,
-			);
-			path = values;
-			sourceTree = "<group>";
-		};
-		425E28EB14F469B300B380E4 /* opt */ = {
-			isa = PBXGroup;
-			children = (
-				42FAFD2214F5BDC30031DC83 /* ifstatement_optimizer.cc */,
-				42FAFD2314F5BDC30031DC83 /* ifstatement_optimizer.h */,
-				425E28EC14F469B300B380E4 /* constant_optimizer.cc */,
-				425E28ED14F469B300B380E4 /* constant_optimizer.h */,
-			);
-			path = opt;
-			sourceTree = "<group>";
-		};
 		42E9C0FB14CD22390043DAE1 /* encoding */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,7 +442,6 @@
 			children = (
 				4240792A14F77229005C0A2F /* analyzer.cc */,
 				4240792B14F77229005C0A2F /* analyzer.h */,
-				4240792514F77217005C0A2F /* values */,
 				F217FC5C14B0D9F700EF26E8 /* ast.cc */,
 				F217FC5D14B0D9F700EF26E8 /* ast.h */,
 				F217FC5E14B0D9F700EF26E8 /* ast_foward_decl.h */,
@@ -507,7 +477,6 @@
 		F217FC6C14B0D9F700EF26E8 /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				425E28EB14F469B300B380E4 /* opt */,
 				F217FC6D14B0D9F700EF26E8 /* codegenerator_utils.h */,
 				F217FC6E14B0D9F700EF26E8 /* codewriter.cc */,
 				F217FC6F14B0D9F700EF26E8 /* codewriter.h */,
@@ -1085,9 +1054,6 @@
 				42FB787814DF57E50011C1C4 /* phantom_runner.cc in Sources */,
 				4243B78914DF82B0000813B6 /* external_ast.cc in Sources */,
 				42F5CBD814EB52C500249737 /* trait_processor.cc in Sources */,
-				425E28EE14F469B300B380E4 /* constant_optimizer.cc in Sources */,
-				42FAFD2414F5BDC30031DC83 /* ifstatement_optimizer.cc in Sources */,
-				4240792814F77217005C0A2F /* js_values.cc in Sources */,
 				4240792C14F77229005C0A2F /* analyzer.cc in Sources */,
 				421DF07F14FC711900984294 /* array_processor.cc in Sources */,
 				421DF08014FC711900984294 /* object_processor.cc in Sources */,

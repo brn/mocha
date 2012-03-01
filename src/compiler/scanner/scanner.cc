@@ -12,7 +12,6 @@
 #include <utils/smart_pointer/scope/scoped_list.h>
 #include <utils/pool/managed_handle.h>
 #include <utils/bits.h>
-#include <grammar/grammar.tab.hh>
 
 namespace mocha {
 
@@ -24,7 +23,7 @@ namespace mocha {
 class Scanner::InternalScanner {
  public :
   InternalScanner( SourceStream* source , ErrorReporter* reporter , const char* filename ) :
-      line_( 1 ) , filename_( filename ) , token_stream_( TokenStream::Create() ) , source_stream_( source ) , reporter_( reporter ){
+      line_( 1 ) , filename_( filename ) , token_stream_( TokenStream::New() ) , source_stream_( source ) , reporter_( reporter ){
     flags_.Set( FLAG_REGEXP );
     flags_.Set( FLAG_NUMERIC );
   }
@@ -39,7 +38,7 @@ class Scanner::InternalScanner {
       if ( flags_.At( FLAG_LB ) ) {
         TokenInfo* info = token_stream_->Last();
         if ( info ) {
-          info->SetLineBreakAfter();
+          info->set_linebreak_after();
         }
         flags_.UnSet( FLAG_LB );
       }
@@ -71,7 +70,7 @@ class Scanner::InternalScanner {
     }
     TokenInfo* last = token_stream_->Last();
     if ( last ) {
-      last->SetLineBreakAfter();
+      last->set_linebreak_after();
     }
     //Sentinel.
     token_stream_->Append( "" , Token::END_TOKEN , 0 );
@@ -141,19 +140,19 @@ class Scanner::InternalScanner {
         line_++;
       }
       isbreak = false;
-      Skip_ ();
+      Skip ();
     } else if ( ch == '/' && next == '*' ) {
       Advance( 2 );
       //Process multiline comment.
-      SkipMultiLineComment_ ();
+      SkipMultiLineComment ();
       //Check is whitespace or singleline comment continue.
-      Skip_ ();
+      Skip();
     } else if ( ch == '/' && next == '/' ) {
       Advance( 2 );
       //Process single line comment.
-      SkipComment_ ();
+      SkipComment();
       //Check is whitespace or multiline comment continue.
-      Skip_ ();
+      Skip();
     }
   }
 
@@ -203,7 +202,7 @@ class Scanner::InternalScanner {
           line_++;
           flags_.Set( FLAG_LB );
         }
-        Undo_ ();
+        Undo();
       }
     }
   }
@@ -212,7 +211,7 @@ class Scanner::InternalScanner {
    * @private
    * Consume token while single line comment is continue.
    */
-  inline void SkipComment_ () {
+  inline void SkipComment() {
     int ch;
     while ( !IsEof() ) {
       ch = Advance();
@@ -290,7 +289,7 @@ class Scanner::InternalScanner {
    * @param {char}
    * Case float.
    */
-  inline void CaseDigitFloat_ ( char ch ) {
+  inline void CaseDigitFloat( char ch ) {
     token_str_ += ch;
     bool hasIndex = false;
     char next;
@@ -313,7 +312,7 @@ class Scanner::InternalScanner {
         last = next;
         hasIndex = false;
       } else {
-        Undo_ ();
+        Undo();
         break;
       }
     }
@@ -780,7 +779,7 @@ class Scanner::InternalScanner {
 
 
   inline void SetNumericAfter() {
-    int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->GetType() : 0;
+    int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->type() : 0;
     if ( JsToken::IsBinaryOperatorNoIn( type ) ||
          type == '[' ||
          type == '{' ||
@@ -809,7 +808,7 @@ class Scanner::InternalScanner {
 
 
   inline void SetRegExpAfter() {
-    int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->GetType() : 0;
+    int type = ( token_stream_->Size() > 0 )? token_stream_->Last()->type() : 0;
     if ( JsToken::IsBinaryOperator( type ) ||
          type == '}' ||
          type == '|' ||
@@ -848,7 +847,7 @@ class Scanner::InternalScanner {
   inline void PushBack( const char* ctoken , int opt_type = 0 ) {
     int type = ( opt_type == 0 )? JsToken::GetType( ctoken ) : opt_type;
     if ( type == Token::JS_EACH ) {
-      if ( token_stream_->Size() > 0 && token_stream_->Last()->GetType() != Token::JS_FOR ) {
+      if ( token_stream_->Size() > 0 && token_stream_->Last()->type() != Token::JS_FOR ) {
         type = Token::JS_IDENTIFIER;
       }
     }
@@ -863,11 +862,11 @@ class Scanner::InternalScanner {
   inline void PushBack( int ch ) {
     if ( ch == '(' && token_stream_->Size() >= 2 ) {
       TokenInfo* info = token_stream_->Seek( 2 );
-      if ( info != Scanner::kEmpty && info->GetType() == Token::JS_IDENTIFIER ) {
-        if ( info && strcmp( info->GetToken() , "get" ) == 0 ) {
-          info->SetType( Token::JS_GET );
-        } else if ( info && strcmp( info->GetToken() , "set" ) == 0 ) {
-          info->SetType( Token::JS_SET );
+      if ( info != Scanner::kEmpty && info->type() == Token::JS_IDENTIFIER ) {
+        if ( info && strcmp( info->token() , "get" ) == 0 ) {
+          info->set_type( Token::JS_GET );
+        } else if ( info && strcmp( info->token() , "set" ) == 0 ) {
+          info->set_type( Token::JS_SET );
         }
       }
     }
@@ -883,8 +882,8 @@ class Scanner::InternalScanner {
   inline void DoPushBack( const char* ctoken , int type ) {
     TokenInfo* info = token_stream_->Last();
     token_stream_->Append( ctoken , type , line_ );
-    if ( info && info->HasLineBreakAfter() ) {
-      token_stream_->Last()->SetLineBreakBefor();
+    if ( info && info->linebreak_after() ) {
+      token_stream_->Last()->set_linebreak_befor();
     }
   }
 
@@ -899,7 +898,7 @@ class Scanner::InternalScanner {
 
 Scanner* Scanner::New( SourceStream* stream , ErrorReporter* reporter , const char* filename ) {
   Scanner* scanner = ManagedHandle::Retain( new Scanner( stream , reporter , filename ) );
-  scanner->CreateTokenStream_();
+  scanner->CreateTokenStream();
   scanner->token_stream_ = scanner->scanner_->GetStream();
   return scanner;
 }
@@ -920,7 +919,7 @@ TokenInfo* Scanner::Seek( int index ) {
   return token_stream_->Seek( index );
 }
 
-void Scanner::CreateTokenStream_() {
+void Scanner::CreateTokenStream() {
   scanner_->CollectToken();
 }
 

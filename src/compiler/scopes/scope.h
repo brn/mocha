@@ -25,7 +25,7 @@ class ScopeRegistry;
 typedef std::pair<TokenInfo* , AstNode*> SymbolEntry;
 class Scope : public Managed {
   friend class ScopeRegistry;
-  typedef std::vector<Scope*> ChildrenScopes;
+  typedef std::vector<Scope*> ChildrenScope;
  public :
   typedef HashMap<const char*,SymbolEntry> SymbolTable;
   typedef HashMap<const char*,TokenInfo*> RefTable;
@@ -33,6 +33,7 @@ class Scope : public Managed {
   ~Scope();
   void Insert ( TokenInfo* info , AstNode* ast_node );
   void InsertAlias( TokenInfo* info , AstNode* ast_node );
+  Scope* parent() { return parent_; }
   SymbolEntry FindAlias( TokenInfo* info );
   SymbolEntry Find ( TokenInfo* info );
   void Ref( TokenInfo* info );
@@ -47,9 +48,9 @@ class Scope : public Managed {
   void FindRenamedReferenceEntry_();
   void RenameReference_( RefTable::HashEntry entry );
   
-  ChildrenScopes children_;
+  ChildrenScope children_;
   Scope* head_;
-  Scope* up_;
+  Scope* parent_;
   ScopedPtr<Renamer> renamer_handle_;
   SymbolTable table_;
   SymbolTable alias_table_;

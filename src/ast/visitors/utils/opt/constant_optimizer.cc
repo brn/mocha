@@ -34,8 +34,8 @@ bool ConstantOptimizer::IsOptimizable( AstNode* left , AstNode* right , int op )
     rvalue = right->CastToLiteral();
   }
   if ( lvalue && rvalue ) {
-    int ltype = lvalue->ValueType();
-    int rtype = rvalue->ValueType();
+    int ltype = lvalue->value_type();
+    int rtype = rvalue->value_type();
     return ( ( ltype == Literal::kNumeric ||
                ltype == Literal::kString ) &&
              ( rtype == Literal::kNumeric ||
@@ -77,11 +77,11 @@ bool IsFloat( const char* val , int op ) {
 AstNode* ConstantOptimizer::Optimize( AstNode* left , AstNode* right , int op ) {
   Literal* lvalue = left->CastToLiteral();
   Literal* rvalue = right->CastToLiteral();
-  int ltype = lvalue->ValueType();
-  int rtype = rvalue->ValueType();
+  int ltype = lvalue->value_type();
+  int rtype = rvalue->value_type();
   if ( ltype == Literal::kNumeric && rtype == Literal::kNumeric ) {
-    const char* lstr = lvalue->Symbol()->GetToken();
-    const char* rstr = rvalue->Symbol()->GetToken();
+    const char* lstr = lvalue->value()->token();
+    const char* rstr = rvalue->value()->token();
     bool is_float = ( IsFloat( lstr , op ) || IsFloat( rstr , op ) );
     double ld = strtod( lstr , NULL );
     double rd = strtod( rstr , NULL );
@@ -101,31 +101,31 @@ AstNode* ConstantOptimizer::Optimize( AstNode* left , AstNode* right , int op ) 
       sprintf( tmp , "%ld" , static_cast<long>( ret ) );
     }
     Literal* result = AstUtils::CreateNameNode( tmp , Token::JS_NUMERIC_LITERAL,
-                                                  left->Line() , Literal::kNumeric );
+                                                  left->line_number() , Literal::kNumeric );
     return result;
   } else {
     if ( op == '+' ) {
-      std::string ret = lvalue->Symbol()->GetToken();
+      std::string ret = lvalue->value()->token();
       if ( ltype == Literal::kString && rtype == Literal::kString ) {
         ret.erase( ret.size() - 1 , ret.size() );
-        ret += &( rvalue->Symbol()->GetToken()[ 1 ] );
+        ret += &( rvalue->value()->token()[ 1 ] );
         if ( ret[ 0 ] != ret[ ret.size() - 1 ] ) {
           ret[ 0 ] = ret[ ret.size() - 1 ];
         }
       } else if ( ltype == Literal::kString ) {
         ret.erase( ret.size() - 1 , ret.size() );
-        ret += rvalue->Symbol()->GetToken();
+        ret += rvalue->value()->token();
         ret += ret[ 0 ];
       } else {
-        const char* str = rvalue->Symbol()->GetToken();
+        const char* str = rvalue->value()->token();
         ret.insert( 0 , 1 , str[ 0 ] );
         ret += &str[ 1 ];
       }
       return AstUtils::CreateNameNode( ret.c_str() , Token::JS_STRING_LITERAL,
-                                       left->Line() , Literal::kString );
+                                       left->line_number() , Literal::kString );
     } else {
-      return AstUtils::CreateNameNode( SymbolList::GetSymbol( SymbolList::kNaN ) , Token::JS_NAN,
-                                       left->Line() , Literal::kNaN );
+      return AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kNaN ) , Token::JS_NAN,
+                                       left->line_number() , Literal::kNaN );
     }
   }
 }

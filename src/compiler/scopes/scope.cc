@@ -109,18 +109,14 @@ char Renamer::table_ [] = {
 
 Scope::Scope() : Managed() , head_( this ) , parent_( 0 ) , renamer_handle_( new Renamer ){}
 Scope::~Scope() {}
-  
-Scope* Scope::Parent() {
-  return parent_;
-}
 
 void Scope::Insert ( TokenInfo* info , AstNode* ast_node ) {
-  const char* ident = info->GetToken();
+  const char* ident = info->token();
   if ( JsToken::IsBuiltin( ident ) ) {
     return;
   }
   SymbolTable::HashEntry entry = table_.Find( ident );
-  printf( "insert %s to %p is empty = %d , %s %s\n" , ident , this , entry.IsEmpty() , ast_node->GetName() , ast_node->ParentNode()->GetName() );
+  //printf( "insert %s to %p is empty = %d , %s %s\n" , ident , this , entry.IsEmpty() , ast_node->GetName() , ast_node->ParentNode()->GetName() );
   if ( entry.IsEmpty() ) {
     SymbolEntry entry( info , ast_node );
     table_.Insert( ident , entry );
@@ -128,12 +124,12 @@ void Scope::Insert ( TokenInfo* info , AstNode* ast_node ) {
 }
 
 void Scope::Ref ( TokenInfo* info ) {
-  const char* ident = info->GetToken();
+  const char* ident = info->token();
   if ( JsToken::IsBuiltin( ident ) ) {
     return;
   }
   RefTable::HashEntry entry = reference_table_.Find( ident );
-  printf( "reference %s to %p is empty = %d\n" , ident , this , entry.IsEmpty() );
+  //printf( "reference %s to %p is empty = %d\n" , ident , this , entry.IsEmpty() );
   if ( entry.IsEmpty() ) {
     reference_table_.Insert( ident , info );
   }
@@ -142,50 +138,50 @@ void Scope::Ref ( TokenInfo* info ) {
 
 SymbolEntry Scope::Find ( TokenInfo* info ) {
   if ( table_.Size() > 0 ) {
-    const char* ident = info->GetToken();
+    const char* ident = info->token();
     SymbolTable::HashEntry entry = table_.Find( ident );
     if ( !entry.IsEmpty() ) {
       return entry.Value();
     } else {
-      if ( up_ ) {
-        return up_->Find( info );
+      if ( parent_ ) {
+        return parent_->Find( info );
       }
       return GetEmpty();
     }
   } else {
-    if ( up_ ) {
-      return up_->Find( info );
+    if ( parent_ ) {
+      return parent_->Find( info );
     } else {
       return GetEmpty();
     }
   }
 }
 
-void Scope::InsertAlias( TokeInfo* info , AstNode* ast_node ) {
-  const char* ident = info->GetToken();
+void Scope::InsertAlias( TokenInfo* info , AstNode* ast_node ) {
+  const char* ident = info->token();
   if ( JsToken::IsBuiltin( ident ) ) {
     return;
   }
   SymbolTable::HashEntry entry = alias_table_.Find( ident );
-  SymbolEntry entry( info , ast_node );
-  alias_table_.Insert( ident , entry );
+  SymbolEntry sym_entry( info , ast_node );
+  alias_table_.Insert( ident , sym_entry );
 }
 
 SymbolEntry Scope::FindAlias( TokenInfo* info ) {
   if ( alias_table_.Size() > 0 ) {
-    const char* ident = info->GetToken();
+    const char* ident = info->token();
     SymbolTable::HashEntry entry = alias_table_.Find( ident );
     if ( !entry.IsEmpty() ) {
       return entry.Value();
     } else {
-      if ( up_ ) {
-        return up_->FindAlias( info );
+      if ( parent_ ) {
+        return parent_->FindAlias( info );
       }
       return GetEmpty();
     }
   } else {
-    if ( up_ ) {
-      return up_->FindAlias( info );
+    if ( parent_ ) {
+      return parent_->FindAlias( info );
     } else {
       return GetEmpty();
     }
@@ -198,11 +194,10 @@ void Scope::Rename() {
 }
 
 void Scope::DoRename_() {
-  printf( "scope renaming %p %d\n" , this , table_.Size() );
   if ( reference_table_.Size() > 0 ) {
     FindRenamedReferenceEntry_();
   }
-  std::list<Scope*>::iterator begin = children_.begin(),end = children_.end();
+  ChildrenScope::iterator begin = children_.begin(),end = children_.end();
   while ( begin != end ) {
     (*begin)->Rename();
     ++begin;
@@ -211,12 +206,12 @@ void Scope::DoRename_() {
 }
 
 void Scope::SetReferece_() {
-  std::list<Scope*>::iterator begin = children_.begin(),end = children_.end();
+  ChildrenScope::iterator begin = children_.begin(),end = children_.end();
   while ( begin != end ) {
     (*begin)->SetReferece_();
     ++begin;
   }
-  Scope* parent = up_;
+  Scope* parent = parent_;
   while ( parent ) {
     RefTable::EntryIterator ref_iterator = reference_table_.Entries();
     while ( ref_iterator.HasNext() ) {
@@ -226,7 +221,7 @@ void Scope::SetReferece_() {
         parent->reference_table_.Insert( entry.Key().c_str() , entry.Value() );
       }
     }
-    parent = parent->up_;
+    parent = parent->parent_;
   }
 }
 
@@ -239,7 +234,7 @@ void Scope::RenameDeclaration_() {
   while ( var_iterator.HasNext() ) {
     SymbolTable::HashEntry entry = var_iterator.Next();
     TokenInfo* info = entry.Value().first;
-    if ( !info->IsRenamed() ) {
+    if ( !info->IsCompressed() ) {
       const char* renamed = renamer_handle_->GetContractionName();
       printf( "base name = %s , contraction = %s %d\n" , entry.Key().c_str() , renamed , this );
       while ( !( used_table_.Find( renamed ).IsEmpty() ) ) {
@@ -248,9 +243,9 @@ void Scope::RenameDeclaration_() {
       }
       used_table_.Insert( renamed , info );
       renamed_table_.Insert( entry.Key().c_str() , info );
-      info->Rename( renamed );
+      info->set_compressed_name( renamed );
     } else {
-      printf( "replaced base name = %s , contraction = %s %d\n" , entry.Key().c_str() , entry.Value().first->GetAnotherName() , this );
+      printf( "replaced base name = %s , contraction = %s %d\n" , entry.Key().c_str() , entry.Value().first->compressed_name() , this );
     }
   }
 }
@@ -271,9 +266,9 @@ void Scope::RenameReference_( RefTable::HashEntry entry ) {
   UsedTable::HashEntry renamed_ent = renamed_table_.Find( ident );
   SymbolEntry symbol_ent = Find( info );
   if ( ( current_ent.IsEmpty() && renamed_ent.IsEmpty() ) ) {
-    Scope* parent = up_;
+    Scope* parent = parent_;
     if ( symbol_ent.first ) {
-      if ( !symbol_ent.first->IsRenamed() ) {
+      if ( !symbol_ent.first->IsCompressed() ) {
         const char* renamed = renamer_handle_->GetContractionName();
         typedef std::vector<UsedTable*> TableArray;
         TableArray table_array;
@@ -298,20 +293,20 @@ void Scope::RenameReference_( RefTable::HashEntry entry ) {
             }
             break;
           }
-          parent = parent->up_;
+          parent = parent->parent_;
         }
         printf( "ref name = %s , contraction = %s\n" , ident , renamed );
         used_table_.Insert( renamed , info );
         renamed_table_.Insert( ident , info );
         Scope* end = parent;
-        parent = up_;
+        parent = parent_;
         while ( parent ) {
           printf( "rename reference %s to %s %p\n" , ident , renamed , parent );
           SymbolTable::HashEntry parent_entry = parent->table_.Find( ident );
           if ( !( parent_entry.IsEmpty() ) ) {
             printf( "end rename reference %s to %s\n" , ident , renamed );
             SymbolTable::HashEntry parent_entry = parent->table_.Find( ident );
-            parent_entry.Value().first->Rename( renamed );
+            parent_entry.Value().first->set_compressed_name( renamed );
             parent->used_table_.Insert( renamed , info );
             parent->renamed_table_.Insert( ident , info );
             break;
@@ -319,10 +314,10 @@ void Scope::RenameReference_( RefTable::HashEntry entry ) {
             parent->used_table_.Insert( renamed , info );
             parent->renamed_table_.Insert( ident , info );
           }
-          parent = parent->up_;
+          parent = parent->parent_;
         }
       } else {
-        const char* renamed = symbol_ent.first->GetAnotherName();
+        const char* renamed = symbol_ent.first->compressed_name();
         used_table_.Insert( renamed , symbol_ent.first );
         renamed_table_.Insert( ident , symbol_ent.first );
         printf( "renamed ref name = %s , contraction = %s\n" , ident , renamed );
@@ -335,7 +330,7 @@ void Scope::RenameReference_( RefTable::HashEntry entry ) {
           } else {
             break;
           }
-          parent = parent->up_;
+          parent = parent->parent_;
         }
       }
     }
@@ -351,25 +346,25 @@ ScopeRegistry::ScopeRegistry () : head_( 0 ) , current_( head_ ) {};
 
 ScopeRegistry::~ScopeRegistry () {}
 
-ScopeRegistry* ScopeRegistry::Assign() {
-  Scope* scope = ManagedHandle::Retain<Scope>();
+Scope* ScopeRegistry::Assign() {
+  Scope* scope = ManagedHandle::Retain( new Scope() );
   if ( head_ == 0 ) {
     head_ = scope;
     current_ = head_;
   } else {
-    current_->children.push_back( scope );
-    scope->head_( head_ );
+    current_->children_.push_back( scope );
+    scope->head_ = head_;
     scope->parent_ = current_;
     current_ = scope;
   }
   return scope;
 }
 
-ScopeRegistry* ScopeRegistry::Return(){
+Scope* ScopeRegistry::Return(){
   return ( current_ = current_->parent_ );
 }
 
-ScopeRegistry* ScopeRegistry::Current() {
+Scope* ScopeRegistry::Current() {
   return current_;
 }
 

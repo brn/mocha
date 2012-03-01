@@ -10,17 +10,16 @@ class FunctionProcessor : private Uncopyable{
   ~FunctionProcessor();
   void ProcessNode();
  private :
-  void ProcessFormalParameter_();
-  void ProcessDefaultParameter_( Literal* value );
-  void ProcessDefaultParameter_( AssignmentExp* exp );
-  void ProcessPropertyParameter_( CallExp* exp );
-  void ProcessBody_();
-  void ProcessYield_();
-  VariableStmt* ProcessRestParameter_();
+  void ProcessFormalParameter();
+  void ProcessDefaultParameter( Literal* value );
+  void ProcessDefaultParameter( AssignmentExp* exp );
+  void ProcessPropertyParameter( CallExp* exp );
+  void ProcessBody();
+  void ProcessYield();
+  VariableStmt* ProcessRestParameter();
   int argc_;
   Function* function_;
   ProcessorInfo* info_;
-  Statement* stmt_;
   AstNode* formal_parameter_;
   AstNode* default_parameter_;
 };

@@ -61,7 +61,7 @@ public :
       compiler_( compiler ),
       ast_root_( AstRoot::New() ),
       main_file_path_( main_file_path ),
-      //codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
+      codegen_( new CodegenVisitor( main_file_path_.c_str() , ExternalResource::SafeGet( main_file_path )->GetCompileInfo() ) ),
       callback_( callback ){
     SetPath_( main_file_path );
     //Change direcotry to main js path.
@@ -72,7 +72,7 @@ public :
 
   inline void Compile() {
     //LoadRuntime_();
-    ast_root_.AddChild( ExternalResource::SafeGetRuntime() );
+    ast_root_->AddChild( ExternalResource::SafeGetRuntime() );
     CallInternal_( path_info_ , Internal::kFatal , false );
     //OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
     //SymbolCollector visitor( &scope_ , ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Debug() );
@@ -183,7 +183,7 @@ private :
   Compiler *compiler_;
   AstRoot *ast_root_;
   Handle<PathInfo> path_info_;
-  //Handle<CodegenVisitor> codegen_;
+  Handle<CodegenVisitor> codegen_;
   ScopeRegistry scope_registry_;
   FinishDelegator* callback_;
 };

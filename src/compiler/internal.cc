@@ -116,7 +116,7 @@ inline void Internal::GetAst_ ( ErrorReporter *reporter ) {
     std::string error;
     reporter->SetError( &error );
     fprintf( stderr , "%s\n" , error.c_str() );
-    ast_root_->AddChild( ManagedHandle::Retain<Empty>() );
+      ast_root_->AddChild( Empty::New() );
   }
 }
 
