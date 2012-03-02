@@ -760,6 +760,7 @@ class ImportStmt : public Statement {
   //Type getter.
   int expression_type() const { return expression_type_; }
   int module_type() const { return module_type_; }
+  void virtual ReplaceChild( AstNode* old_node , AstNode* new_node );
   CLONE(ImportStmt);
  private :
   ImportStmt( int expression_type , int module_type , int64_t line ) :
@@ -1588,16 +1589,18 @@ class Literal : public Expression {
   Literal* CastToLiteral() { return this; }
   void set_value( TokenInfo* value ) { value_ = value; };
   TokenInfo* value() { return value_; };
+  void set_node( AstNode* node ) { node_ = node;node_->set_parent_node( this ); };
+  AstNode* node() { return node_; }
   CLONE( Literal );
  protected :
   Literal( int type , int64_t line ) :
-      Expression( AstNode::kLiteral , "Literal" , line ) , value_type_( type ) , value_( 0 ){};
+      Expression( AstNode::kLiteral , "Literal" , line ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
  private :
   int value_type_;
   TokenInfo* value_;
+  AstNode* node_;
   CALL_ACCEPTOR( Literal );
 };
-
 
 
 class ArrayLikeLiteral : public Expression {

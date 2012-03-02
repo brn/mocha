@@ -14,8 +14,8 @@ typedef std::pair<AstNode*,AstNode*> AstPair;
 
 AstPair FoldStatement( NodeIterator* iterator ) {
   bool is_first = true;
-  AstNode* first;
-  AstNode* current;
+  AstNode* first = 0;
+  AstNode* current = 0;
   while ( iterator->HasNext() ) {
     if ( is_first ) {
       current = first = iterator->Next();
@@ -53,7 +53,7 @@ void SyntaxSugarProcessor::ProcessArrayComprehensions( ArrayLikeLiteral* literal
                                                                     1,
                                                                     AstUtils::CreateVarInitiliser( tmp->value() , array , literal->line_number() ) );
   VariableStmt* var_stmt = AstUtils::CreateVarStmt( decl_list , literal->line_number() );
-  AstNode* expression = literal->first_child();
+  AstNode* expression = literal->elements()->first_child()->first_child();
   NodeIterator iterator = expression->next_sibling()->ChildNodes();
   AstPair result = FoldStatement( &iterator );
   Literal* push = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kPush ),

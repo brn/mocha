@@ -32,7 +32,7 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 }
 
 //Debug flag.
-#define PARSER_DEBUG 1
+//#define PARSER_DEBUG 1
 
 //Print parser move to fp.
 #ifdef PARSER_DEBUG
@@ -40,11 +40,13 @@ static const char literals[] = { "'identifier', 'String', 'Number', 'Boolean', '
 #define ENTER(mode)                             \
   fflush(stdout);\
   indent_+=' ';\
-  fprintf( stdout , "%snext token = %s enter %s\n" , indent_.c_str(),TokenConverter( Seek() ).cstr(),#mode )
+  fprintf( stdout , "%snext token = %s enter %s %d\n" , indent_.c_str(),TokenConverter( Seek() ).cstr(),#mode , depth_ );\
+  depth_++
 
 #define END(mode)                               \
   fflush(stdout);\
-  fprintf( stdout , "%snext token = %s end %s\n" , indent_.c_str(),TokenConverter( Seek() ).cstr(),#mode ); \
+  fprintf( stdout , "%snext token = %s end %s %d\n" , indent_.c_str(),TokenConverter( Seek() ).cstr(),#mode , depth_ ); \
+  depth_--;                                                             \
   indent_.erase(0,1)
 
 #else
@@ -132,6 +134,11 @@ NodeList* Parser::FormalParameterConvertor( AstNode *args ) {
       SYNTAX_ERROR( "malformed formal parameter list\\nin file "
                     << filename_ << " at line " << Seek( -1 )->line_number() );
       return result;
+    } else if ( maybe_dst || maybe_dst_array ) {
+      if ( !item->CastToExpression()->IsValidLhs() ) {
+        SYNTAX_ERROR( "malformed formal parameter list\\nin file "
+                      << filename_ << " at line " << Seek( -1 )->line_number() );
+      }
     } else if ( maybe_ident ) {
       if ( maybe_ident->value_type() == Literal::kSpread ) {
         maybe_ident->set_value_type( Literal::kRest );
@@ -196,7 +203,7 @@ class Parser::StateStack {
 };
 
 Parser::Parser( ParserConnector* connector , ErrorReporter* reporter , const char* filename )
-    : filename_( filename ) , state_stack_( new StateStack ) , connector_( connector ) , reporter_( reporter ) {}
+    : filename_( filename ) , state_stack_( new StateStack ) , depth_( 0 ) , connector_( connector ) , reporter_( reporter ) {}
 Parser::~Parser() {}
 
 
@@ -264,14 +271,12 @@ AstNode* Parser::ParseSourceElements() {
   //Check once flag.
   assert( state_stack_->Has( StateStack::kParseBegin ) == false );
   state_stack_->Push( StateStack::kParseBegin );
-  TokenInfo* type;
+  TokenInfo* token;
   NodeList* list = NodeList::New();
-  while ( ( type = Seek() ) && type != 0 && ( type->type() != Token::END_TOKEN || type->type() != Token::END_OF_INPUT ) ) {
+  while ( ( token = Seek() ) && token != 0 && token->type() != Token::END_TOKEN && token->type() != Token::END_OF_INPUT ) {
     AstNode* statement = ParseSourceElement();
     CHECK_ERROR( statement );
-    if ( !statement->IsEmpty() ) {
-      list->AddChild( statement );
-    }
+    list->AddChild( statement );
   }
   END(SourceElements);
   /**
@@ -798,7 +803,7 @@ AstNode* Parser::ParseVersionStatement() {
         token = Seek();
         if ( token->type() == '{' ) {
           Advance();
-          AstNode* statement = ParseBlockStatement();
+          AstNode* statement = ParseStatementList( BlockBodyMatcher , "}" );
           CHECK_ERROR( stmt );
           stmt->AddChild( statement );
           Advance();
@@ -1121,6 +1126,7 @@ AstNode* Parser::ParseArrayPattern() {
    */
   TokenInfo* token = Seek();
   ArrayLikeLiteral* destructuring = ArrayLikeLiteral::New( token->line_number() );
+  destructuring->MarkAsLhs();
   while ( 1 ) {
     if ( token->type() == '[' || token->type() == '{' ) {
       AstNode* elem = ParseDestructuringLeftHandSide();
@@ -1206,6 +1212,7 @@ AstNode* Parser::ParseObjectPattern() {
   TokenInfo* token = Seek();
   int maybe_colon = Seek( 2 )->type();
   ObjectLikeLiteral* destructuring = ObjectLikeLiteral::New( token->line_number() );
+  destructuring->MarkAsLhs();
   while ( 1 ) {
     if ( maybe_colon == '}' ) {
       ParseObjectPatternElement( token->type() , token , destructuring );
@@ -1411,7 +1418,7 @@ AstNode* Parser::ParseDoWhileStatement( bool is_expression ) {
     Function* fn = Function::New( line );
     fn->set_name( Empty::New() );
     if ( statement->node_type() == AstNode::kBlockStmt ) {
-      fn->Append( statement->first_child() );
+      fn->Append( statement );
     } else {
       fn->AddChild( statement );
     }
@@ -2526,6 +2533,23 @@ AstNode* Parser::ParseAssignmentExpression( bool is_noin ) {
   if ( IsAssignmentOp( token->type() ) ) {
     Advance();
     if ( exp->CastToExpression() && exp->CastToExpression()->IsValidLhs() ) {
+      if ( exp->CastToExpression()->IsParenthesis() && exp->child_length() > 0 ) {
+        AstNode* tmp = exp->last_child();
+        while ( tmp->node_type() == AstNode::kExpression ) {
+          tmp = tmp->first_child();
+          if ( tmp->node_type() == AstNode::kExpression && tmp->child_length() > 1 ) {
+            SYNTAX_ERROR( "invalid left hand side\\nin file "
+                          << filename_ << " at line " << token->line_number() );
+            END( AssignmentExpressionError );
+            return exp;
+          }
+        }
+        if ( tmp->node_type() == AstNode::kArrayLikeLiteral ||
+             tmp->node_type() == AstNode::kObjectLikeLiteral ) {
+          exp = tmp;
+        }
+      }
+      exp->CastToExpression()->MarkAsLhs();
       AstNode* rhs = ParseAssignmentExpression( is_noin );
       CHECK_ERROR( rhs );
       AssignmentExp* assign_exp = AssignmentExp::New( token->type() , exp , rhs , rhs->line_number() );
@@ -3321,7 +3345,9 @@ AstNode* Parser::ParseObjectElement( int type , TokenInfo* token , ObjectLikeLit
     } else {
       Advance();
       Literal* value = Literal::New( Literal::kPrivateProperty , token->line_number() );
-      value->AddChild( node );
+      value->set_node( node );
+      list->set_element( value );
+      list->MarkAsInValidLhs();
       return value;
     }
   } else {

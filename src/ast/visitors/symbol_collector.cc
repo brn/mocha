@@ -22,12 +22,13 @@ SymbolCollector::SymbolCollector( ScopeRegistry* scope_registry , bool is_debug_
 
 VISITOR_IMPL( AstRoot ) {
   PRINT_NODE_NAME;
-  ast_node->set_scope( scope_registry_->Assign() );
+  scope_ = scope_registry_->Assign();
+  ast_node->set_scope( scope_ );
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
-  scope_ = scope_registry_->Return();
+  scope_ = scope_->parent();
 }
 
 
@@ -50,7 +51,10 @@ VISITOR_IMPL( NodeList ) {
 
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
-  ast_node->first_child()->Accept( this );
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 
@@ -202,7 +206,7 @@ VISITOR_IMPL(TryStmt) {
   AstNode* finally_block = ast_node->finally_block();
   ast_node->first_child()->Accept( this );
   if ( !catch_block->IsEmpty() ) {
-    catch_block->first_child()->first_child()->Accept( this );
+    catch_block->first_child()->Accept( this );
   } else if ( !finally_block->IsEmpty() ) {
     finally_block->first_child()->Accept( this );
   }
@@ -396,7 +400,9 @@ void SymbolCollector::ObjectProccessor_( AstNode* ast_node ) {
     while ( iterator.HasNext() ) {
       AstNode* element = iterator.Next();
       element->Accept( this );
-      element->first_child()->Accept( this );
+      if ( element->first_child() ) {
+        element->first_child()->Accept( this );
+      }
     }
   }
 }

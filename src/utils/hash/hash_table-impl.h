@@ -132,6 +132,9 @@ inline Block<Key_t,Value_t>* HashTable<Key_t,Value_t>::GetBlock_( const Key_t& k
         return 0;
       }
     } else {
+      if ( next->entry_ && next->Hash() == hash && next->Key() == key ) {
+        return next;
+      }
       next = next_node + next_hash;
       if ( next->entry_ && next->Hash() == hash && next->Key() == key ) {
         return next;

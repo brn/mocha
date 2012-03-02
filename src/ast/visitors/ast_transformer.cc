@@ -425,7 +425,6 @@ VISITOR_IMPL(TryStmt) {
   ast_node->first_child()->Accept( this );
   if ( !ast_node->catch_block()->IsEmpty() ) {
     ast_node->catch_block()->Accept( this );
-    ast_node->catch_block()->first_child()->Accept( this );
   }
   ast_node->finally_block()->Accept( this );
   if ( ast_node->IsContainYield() ) {
@@ -656,13 +655,21 @@ VISITOR_IMPL( Literal ) {
 
 VISITOR_IMPL( ArrayLikeLiteral ) {
   PRINT_NODE_NAME;
-  ArrayProcessor::ProcessNode( ast_node , proc_info_.Get() );
+  if ( ast_node->IsLhs() ) {
+    DstaProcessor::ProcessNode( ast_node , proc_info_.Get() );
+  } else {
+    ArrayProcessor::ProcessNode( ast_node , proc_info_.Get() );
+  }
 }
 
 VISITOR_IMPL( ObjectLikeLiteral ) {
   PRINT_NODE_NAME;
-  ObjectProccessor processor( ast_node , proc_info_.Get() );
-  processor.ProcessNode();
+  if ( ast_node->IsLhs() ) {
+    DstaProcessor::ProcessNode( ast_node , proc_info_.Get() );
+  } else {
+    ObjectProccessor processor( ast_node , proc_info_.Get() );
+    processor.ProcessNode();
+  }
 }
 
 VISITOR_IMPL(VariableDeclarationList){}

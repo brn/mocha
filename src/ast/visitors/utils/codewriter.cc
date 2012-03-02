@@ -10,14 +10,14 @@ namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
 
-void EraseIndent( std::string& indent , size_t size ) {
+void EraseIndent( std::string& indent , int size ) {
   int length = indent.size();
   if ( indent.size() > 0 && length - size >= 0 ) {
     indent.erase( length - size , length );
   }
 }
 
-void EraseIndent( CodeStream* indent , size_t size ) {
+void EraseIndent( CodeStream* indent , int size ) {
   int length = indent->Size();
   if ( length > 0 && length - size >= 0 ) {
     indent->Erase( length - size , length );

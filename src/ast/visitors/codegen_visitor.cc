@@ -123,9 +123,8 @@ VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
   line_numberBreak( ast_node , stream_.Get() , writer_.Get() );
   writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-  AstNode* node_list = ast_node->first_child();
-  if ( !node_list->IsEmpty() ) {
-    NodeIterator iterator = node_list->ChildNodes();
+  if ( !ast_node->child_length() > 0 ) {
+    NodeIterator iterator = ast_node->ChildNodes();
     while ( iterator.HasNext() ) {
       iterator.Next()->Accept( this );
     }
@@ -226,7 +225,7 @@ VISITOR_IMPL(VariableStmt) {
   line_numberBreak( ast_node , stream_.Get() , writer_.Get() );
   writer_->SetLine( ast_node->line_number() , stream_.Get() , current_root_ );
   writer_->WriteOp( Token::JS_VAR , 0 , stream_.Get() );
-  VarListProcessor_( ast_node );
+  VarListProcessor_( ast_node->first_child() );
 }
 
 
@@ -258,7 +257,10 @@ VISITOR_IMPL(IFStmt) {
   
   if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
     writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-    maybeBlock->first_child()->Accept( this );
+    NodeIterator iterator = maybeBlock->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
     writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
     if ( maybeElse->IsEmpty() ) {
       writer_->WriteOp( ';' , 0 , stream_.Get() );
@@ -281,7 +283,10 @@ VISITOR_IMPL(IFStmt) {
     BeginState_( Token::JS_ELSE );
     if ( maybeElse->node_type() == AstNode::kBlockStmt ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-      maybeElse->first_child()->Accept( this );
+      NodeIterator iterator = maybeElse->ChildNodes();
+      while ( iterator.HasNext() ) {
+        iterator.Next()->Accept( this );
+      }
       writer_->WriteOp( '}' , CodeWriter::kElseBlockEnd , stream_.Get() );
       writer_->WriteOp( ';' , 0 , stream_.Get() );
     } else if ( maybeElse->node_type() == AstNode::kIFStmt ) {
@@ -364,7 +369,10 @@ void CodegenVisitor::ForProccessor_( IterationStmt* ast_node ) {
   AstNode* maybeBlock = ast_node->first_child();
   if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
     writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-    maybeBlock->first_child()->Accept( this );
+    NodeIterator iterator = maybeBlock->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
     writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
     writer_->WriteOp( ';' , 0 , stream_.Get() );
   } else {
@@ -409,7 +417,10 @@ void CodegenVisitor::ForInProccessor_( IterationStmt* ast_node ) {
   AstNode* maybeBlock = ast_node->first_child();
   if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
     writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-    maybeBlock->first_child()->Accept( this );
+    NodeIterator iterator = maybeBlock->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
     writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
     writer_->WriteOp( ';' , 0 , stream_.Get() );
   } else {
@@ -441,7 +452,13 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
   AstNode* maybeBlock = ast_node->first_child();
   
   if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
-    ast_node->first_child()->Accept( this );
+    writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
+    NodeIterator iterator = maybeBlock->ChildNodes();
+    while ( iterator.HasNext() ) {
+      iterator.Next()->Accept( this );
+    }
+    writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
+    writer_->WriteOp( ';' , 0 , stream_.Get() );
   } else {
     if ( is_line_ ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
@@ -468,7 +485,10 @@ void CodegenVisitor::DoWhileProccessor_( IterationStmt* ast_node ) {
   if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
     writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
     if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
-      maybeBlock->first_child()->Accept( this );
+      NodeIterator iterator = maybeBlock->ChildNodes();
+      while ( iterator.HasNext() ) {
+        iterator.Next()->Accept( this );
+      }
     } else {
       ast_node->first_child()->Accept( this );
     }
@@ -607,7 +627,11 @@ VISITOR_IMPL(TryStmt) {
   writer_->WriteOp( Token::JS_TRY , 0 , stream_.Get() );
   AstNode* try_block = ast_node->first_child();
   writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
-  try_block->first_child()->Accept( this );
+  NodeIterator try_iterator = try_block->ChildNodes();
+  while ( try_iterator.HasNext() ) {
+    AstNode* item = try_iterator.Next();
+    item->Accept( this );
+  }
   writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
   
   AstNode* catch_block = ast_node->catch_block();
@@ -618,15 +642,23 @@ VISITOR_IMPL(TryStmt) {
     writer_->WriteOp( '(' , 0 , stream_.Get() );
     writer_->Write( catch_block->CastToLiteral()->value()->token() , stream_.Get() );
     writer_->WriteOp( ')',  0 , stream_.Get() );
-    writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() ); 
-    catch_block->first_child()->first_child()->Accept( this );
+    writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
+    NodeIterator iterator = catch_block->first_child()->ChildNodes();
+    while ( iterator.HasNext() ) {
+      AstNode* item = iterator.Next();
+      item->Accept( this );
+    }
     writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
   }
 
   if ( !finally_block->IsEmpty() ) {
     writer_->WriteOp( Token::JS_FINALLY , 0 , stream_.Get() );
-    writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() ); 
-    finally_block->first_child()->Accept( this );
+    writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
+    NodeIterator iterator = finally_block->ChildNodes();
+    while ( iterator.HasNext() ) {
+      AstNode* item = iterator.Next();
+      item->Accept( this );
+    }
     writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
   }
 

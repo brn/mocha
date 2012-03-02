@@ -32,3 +32,12 @@ test2 = new Array(3);
 test2 = new Function("");
 test2 = new Number;
 test2 = new Number();
+
+Tuple ( ...args )-> {
+  var ret = {}
+  ret.length = 0;
+  Array.prototype.push.apply( ret , args )
+  Runtime.createTuple( ret , arguments.length );
+  return ret;
+}
+Record( member ) -> Runtime.createRecord( member );

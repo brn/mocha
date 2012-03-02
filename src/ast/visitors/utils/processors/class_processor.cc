@@ -621,7 +621,7 @@ inline void ClassProcessor::SimpleVariables( AstNode* node , bool is_const ) {
       }
       closure_body_->AddChild( result );
     } else if ( array || object ) {
-      ProcessDsta( value , is_const , &ClassProcessorUtils::PrototypePrivateDsta );
+      ProcessDsta( item , is_const , &ClassProcessorUtils::PrototypePrivateDsta );
     }
   }
 }
@@ -682,16 +682,16 @@ inline void ClassProcessor::NoSimpleVariables( AstNode* node,
     } else if ( array || object ) {
       if ( !is_instance && !is_prototype ) {
         if ( !is_private ) {
-          ProcessDsta( value , is_const , &ClassProcessorUtils::PublicStaticDsta );
+          ProcessDsta( item , is_const , &ClassProcessorUtils::PublicStaticDsta );
         } else {
-          ProcessDsta( value , is_const , &ClassProcessorUtils::PrivateStaticDsta );
+          ProcessDsta( item , is_const , &ClassProcessorUtils::PrivateStaticDsta );
         }
       } else if ( is_prototype ) {
-        ProcessDsta( value , is_const , &ClassProcessorUtils::PrototypePublicDsta );
+        ProcessDsta( item , is_const , &ClassProcessorUtils::PrototypePublicDsta );
       } else if ( is_private ){
-        ProcessDsta( value , is_const , &ClassProcessorUtils::InstancePrivateDsta );
+        ProcessDsta( item , is_const , &ClassProcessorUtils::InstancePrivateDsta );
       } else {
-        ProcessDsta( value , is_const , &ClassProcessorUtils::InstancePublicDsta );
+        ProcessDsta( item , is_const , &ClassProcessorUtils::InstancePublicDsta );
       }
     }
   }

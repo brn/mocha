@@ -110,6 +110,7 @@ class Parser{
   const char* filename_;
   std::string indent_;
   class StateStack;
+  int depth_;
   ScopedPtr<StateStack> state_stack_;
   BitVector8 bits_;
   ParserConnector* connector_;

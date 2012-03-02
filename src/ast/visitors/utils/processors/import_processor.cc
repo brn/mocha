@@ -20,7 +20,11 @@ ImportProccessor::ImportProccessor( ImportStmt* stmt , ProcessorInfo* info ) :
 
 void ImportProccessor::ProcessNode() {
   IVisitor *visitor = info_->visitor();
-  stmt_->expression()->Accept( visitor );
+  if ( stmt_->expression_type() == ImportStmt::kDst ) {
+    DstaProcessor::ProcessNode( stmt_->expression() , info_ );
+  } else {
+    stmt_->expression()->Accept( visitor );
+  }
   AstNode* exp = 0;//init after;
   if ( stmt_->module_type() == ImportStmt::kFile ) {
     LoadModule_();

@@ -44,7 +44,7 @@ VISITOR_IMPL( FileRoot ) {
          node->node_type() == AstNode::kVariableStmt &&
          last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
-      last->Append( node );
+      last->first_child()->Append( node->first_child() );
       ast_node->RemoveChild( node );
     } else {
       node->Accept( this );
@@ -63,7 +63,7 @@ VISITOR_IMPL( NodeList ) {
          node->node_type() == AstNode::kVariableStmt &&
          last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
-      last->Append( node );
+      last->first_child()->Append( node->first_child() );
       ast_node->RemoveChild( node );
     } else {
       node->Accept( this );
@@ -76,7 +76,10 @@ VISITOR_IMPL( NodeList ) {
 
 VISITOR_IMPL( BlockStmt ) {
   PRINT_NODE_NAME;
-  ast_node->first_child()->Accept( this );
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 
@@ -117,7 +120,7 @@ VISITOR_IMPL(StatementList) {
          node->node_type() == AstNode::kVariableStmt &&
          last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
-      last->Append( node );
+      last->first_child()->Append( node->first_child() );
       ast_node->RemoveChild( node );
     } else {
       node->Accept( this );
@@ -607,16 +610,15 @@ VISITOR_IMPL(Function){
          node->node_type() == AstNode::kVariableStmt &&
          last->node_type() == AstNode::kVariableStmt ) {
       node->Accept( this );
-      last->Append( node );
+      last->first_child()->Append( node->first_child() );
       ast_node->RemoveChild( node );
-    } else {
-      node->Accept( this );
-    }
-    if ( node->node_type() == AstNode::kFunction ) {
+    } else if ( node->node_type() == AstNode::kFunction ) {
       ast_node->RemoveChild( node );
       functions->AddChild( node );
+    } else {
+      node->Accept( this );
+      last = node;
     }
-    last = node;
   }
   NodeIterator function_iterator = functions->ChildNodes();
   while ( function_iterator.HasNext() ) {

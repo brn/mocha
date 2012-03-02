@@ -76,10 +76,10 @@ public :
     //LoadRuntime_();
     ast_root_.AddChild( ExternalResource::SafeGetRuntime() );
     CallInternal_( path_info_ , Internal::kFatal , false );
-    OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
+    //OptimizerVisitor opt_visitor( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo() );
     SymbolCollector visitor( &scope_registry_ , ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Debug() );
     ast_root_.Accept( &visitor );
-    ast_root_.Accept( &opt_visitor );
+    //ast_root_.Accept( &opt_visitor );
     if ( ExternalResource::SafeGet( main_file_path_.c_str() )->GetCompileInfo()->Compress() ) {
       scope_registry_.Rename();
     }

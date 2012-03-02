@@ -267,6 +267,18 @@ AstNode* ModuleStmt::Clone() {
 
 LINED_CLONE(ExportStmt);
 
+void ImportStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  if ( expression_ == old_node ) {
+    old_node->ReplaceWith( new_node );
+    expression_ = new_node;
+  } else if ( from_ == old_node ) {
+    old_node->ReplaceWith( new_node );
+    from_ = new_node;
+  } else {
+    AstNode::ReplaceChild( old_node , new_node );
+  }
+}
+
 AstNode* ImportStmt::Clone() {
   ImportStmt* ret = ImportStmt::New( expression_type_ , module_type_ , line_number() );
   if ( expression_ ) {
@@ -642,7 +654,12 @@ AstNode* AssignmentExp::Clone() {
 
 AstNode* Literal::Clone() {
   Literal* ret = Literal::New( value_type_ , line_number() );
-  ret->set_value( value_ );
+  if ( value_type_ != kPrivateProperty ) {
+    TokenInfo* value = TokenInfo::New( value_->token() , value_->type() , value_->line_number() );
+    ret->set_value( value );
+  } else {
+    ret->set_node( node_ );
+  }
   return CopyChildren( ret , this );
 }
 

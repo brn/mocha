@@ -377,8 +377,9 @@ class YieldHelper : private Uncopyable {
       Function::VariableList::const_iterator begin = list.begin(),end = list.end();
       while ( begin != end ) {
         Literal* value = (*begin);
-        if ( value->parent_node() && value->parent_node()->parent_node() ) {
-          value->parent_node()->parent_node()->RemoveChild( value->parent_node() );
+        if ( value->parent_node() && value->parent_node()->parent_node() &&
+             value->parent_node()->parent_node()->parent_node() ) {
+          value->parent_node()->parent_node()->parent_node()->RemoveChild( value->parent_node()->parent_node() );
         }
         ++begin;
       }
@@ -398,7 +399,7 @@ class YieldHelper : private Uncopyable {
       if ( !value->first_child()->IsEmpty() ) {
         AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->first_child()->Clone() , value->line_number() );
         ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign , value->line_number() );
-        if ( value->parent_node()->CastToStatement()->IsSplitable() ) {
+        if ( value->parent_node()->parent_node()->CastToStatement()->IsSplitable() ) {
           stmt->MarkAsSplitableStatement();
         }
         value->parent_node()->parent_node()->InsertBefore( stmt , value->parent_node() );
@@ -529,7 +530,7 @@ class YieldHelper : private Uncopyable {
     
     AstNode* last;
     if ( then_body->node_type() == AstNode::kBlockStmt ) {
-      NodeIterator iterator = then_body->first_child()->ChildNodes();
+      NodeIterator iterator = then_body->ChildNodes();
       while ( iterator.HasNext() ) {
         AstNode* item = iterator.Next();
         if ( !item->IsEmpty() ) {
@@ -576,7 +577,7 @@ class YieldHelper : private Uncopyable {
 
     if ( !else_body->IsEmpty() ) {
       if ( else_body->node_type() == AstNode::kBlockStmt ) {
-        NodeIterator iterator = else_body->first_child()->ChildNodes();
+        NodeIterator iterator = else_body->ChildNodes();
         while ( iterator.HasNext() ) {
           AstNode* item = iterator.Next();
           if ( !item->IsEmpty() ) {
@@ -608,6 +609,7 @@ class YieldHelper : private Uncopyable {
     }
     
     if ( !last->IsEmpty() ) {
+      printf( "%s\n" , last->name() );
       last->CastToStatement()->MarkAsSplitableStatement();
     }
     

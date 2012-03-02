@@ -525,7 +525,11 @@ Literal* DstaProcessor::ProcessNode( AstNode* ast_node , ProcessorInfo* info ) {
   }
   Literal* var = AstUtils::CreateNameNode( value->value()->token() , Token::JS_IDENTIFIER,
                                            ast_node->line_number() , Literal::kIdentifier );
-  var->AddChild( ast_node->first_child() );
+  if ( ast_node->HasChild() ) {
+    var->AddChild( ast_node->first_child() );
+  } else {
+    var->AddChild( Empty::New() );
+  }
   /**
    * Convert {x,y,z} => _mochaLocalTmp
    */
