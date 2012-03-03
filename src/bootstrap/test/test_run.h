@@ -2,10 +2,10 @@
 #define mocha_test_run_h_
 #include <string.h>
 #include <bootstrap/runners/phantom_runner.h>
-#include <compiler/external/external_resource.h>
-#include <compiler/compiler.h>
-#include <compiler/utils/compiler_facade.h>
-#include <compiler/utils/compile_info.h>
+#include <mocha/roaster/external/external_resource.h>
+#include <mocha/roaster/compiler.h>
+#include <mocha/roaster/utils/compiler_facade.h>
+#include <mocha/roaster/utils/compile_info.h>
 #include <utils/file_system/file_system.h>
 #include <bootstrap/bootstrap.h>
 #include <utils/smart_pointer/ref_count/handle.h>
@@ -24,7 +24,7 @@ std::string GetPath( const char* path ) {
 void* ThreadRunner( void* args ) {
   const char* path = reinterpret_cast<std::string*>( args )->c_str();
   PhantomRunner::Run( path );
-  
+
 }
 
 void RunJS( const char* dir ) {
@@ -38,7 +38,7 @@ void RunJS( const char* dir ) {
       args += fullpath;
       args += " ";
     }
-    
+
   }
   Thread thread;
   thread.Create( ThreadRunner , &args );
@@ -53,7 +53,7 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     int i = 0;
-    if ( strstr( fullpath , "label_test.js" ) != NULL && strstr( fullpath , ".js" ) != NULL ) {
+    if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
       ExternalResource::UnsafeSet( fullpath );
       Resources* res = ExternalResource::UnsafeGet( fullpath );
       res->SetDeploy( dir );
@@ -78,8 +78,8 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
 void RunTest() {
   RunTest( true , true , false , CURRENT_DIR"/test/js/out/devel" );
   fprintf( stderr , "------------------end devel test------------------\n" );
-  //RunTest( false , false , true , CURRENT_DIR"/test/js/out/compressed" );
-  //fprintf( stderr , "------------------end compress test------------------\n" );
+  RunTest( false , false , true , CURRENT_DIR"/test/js/out/compressed" );
+  fprintf( stderr , "------------------end compress test------------------\n" );
 }
 
 }}

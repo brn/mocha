@@ -1,5 +1,11 @@
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
 
+/* Define to 1 if you have the <boost/scoped_ptr.hpp> header file. */
+#undef HAVE_BOOST_SCOPED_PTR_HPP
+
+/* Define to 1 if you have the <boost/shared_ptr.hpp> header file. */
+#undef HAVE_BOOST_SHARED_PTR_HPP
+
 /* Define to 1 if you have the <boost/unordered_map.hpp> header file. */
 #undef HAVE_BOOST_UNORDERED_MAP_HPP
 
@@ -59,6 +65,12 @@
 /* Define to 1 if you have the `realpath' function. */
 #undef HAVE_REALPATH
 
+/* Define to 1 if you have the <scoped_ptr> header file. */
+#undef HAVE_SCOPED_PTR
+
+/* Define to 1 if you have the <shared_ptr> header file. */
+#undef HAVE_SHARED_PTR
+
 /* Define to 1 if you have the `stat' function. */
 #undef HAVE_STAT
 
@@ -103,6 +115,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the <unordered_map> header file. */
+#undef HAVE_UNORDERED_MAP
 
 /* Define to 1 if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H

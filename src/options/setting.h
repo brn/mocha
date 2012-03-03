@@ -4,7 +4,7 @@
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <bootstrap/bootstrap.h>
-#include <ast/ast_foward_decl.h>
+#include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {
 class File;
 class ExternalAst;

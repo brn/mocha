@@ -1,3 +1,4 @@
+var generator;
 var tests = {
       case1->{
         yieldTest2() -> {
@@ -6,7 +7,7 @@ var tests = {
           }
         }
 
-        var generator = yieldTest2();
+        generator = yieldTest2();
 
         @assert( true , generator.next() === 0 );
         @assert( true , generator.next() === 1 );

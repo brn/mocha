@@ -1,6 +1,6 @@
 #include <string.h>
 #include <boost/unordered_map.hpp>
-#include <compiler/utils/compiler_facade.h>
+#include <mocha/roaster/utils/compiler_facade.h>
 #include <utils/thread/thread.h>
 #include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_watcher/observer/file_observer.h>

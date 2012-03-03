@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include <compiler/utils/compile_info.h>
-#include <compiler/external/external_resource.h>
+#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/external/external_resource.h>
 #include <utils/xml/xml_reader.h>
 #include <utils/file_system/file_system.h>
 #include <utils/io/file_io.h>
@@ -208,10 +208,10 @@ void XMLReader::ProcessModuleOption_( const char* filename , const char* module 
     resource->SetModule( module_handle.Get() );
     resource->SetModule( buffer.c_str() );
   }/*
-  StrHandle module_handle = FileSystem::NormalizePath( module );
-  if ( MODULE_LIST.find( filename ) == MODULE_LIST.end() ) {
-    MODULE_LIST[ filename ] = module_handle.Get();
-    }*/
+     StrHandle module_handle = FileSystem::NormalizePath( module );
+     if ( MODULE_LIST.find( filename ) == MODULE_LIST.end() ) {
+     MODULE_LIST[ filename ] = module_handle.Get();
+     }*/
 }
 
 
