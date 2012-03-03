@@ -6,8 +6,7 @@
 namespace mocha {
 namespace utils {
 char* CharAlloc( const char* target , size_t length ) {
-  std::string tmp = target;
-  char *buf = new char[ tmp.size() + 1 ];
+  char *buf = new char[ strlen( target ) + 1 ];
   strcpy( buf  , target );
   return buf;
 }

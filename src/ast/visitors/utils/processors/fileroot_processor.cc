@@ -42,6 +42,7 @@ void FileRootProcessor::ProcessNode( FileRoot* ast_node , ProcessorInfo* info ) 
     fn->InsertBefore( extend_global );
     fn->MarkAsRoot();
     ast_node->parent_node()->ReplaceChild( ast_node , root );
+    fprintf( stderr , "parent = %s\n" , fn->parent_node()->name() );
   }
 }
 

@@ -12,10 +12,10 @@
 #include <compiler/utils/compile_info.h>
 #include <utils/pool/managed_handle.h>
 namespace mocha {
-
+#define PRINTABLE
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type( type* ast_node )
 #ifdef PRINTABLE
-#define PRINT_NODE_NAME printf( "depth = %d name = %s\n" , depth_++ , ast_node->GetName() )
+#define PRINT_NODE_NAME fprintf( stderr , "depth = %d name = %s\n" , depth_++ , ast_node->name() )
 #else
 #define PRINT_NODE_NAME
 #endif
@@ -567,6 +567,7 @@ VISITOR_IMPL(Function){
   AstNode* exp = parent;
   bool is_unary_convertable = true;
   while ( parent ) {
+    fprintf( stderr, "%s\n" , parent->name() );
     if ( parent->node_type() == AstNode::kAssignmentExp ||
          parent->node_type() == AstNode::kLiteral ||
          ( parent->node_type() == AstNode::kNodeList &&
@@ -578,23 +579,23 @@ VISITOR_IMPL(Function){
                 parent->node_type() != AstNode::kExpression &&
                 parent->node_type() != AstNode::kCallExp ) {
       is_unary_convertable = false;
-    } else if ( parent->node_type() == AstNode::kExpressionStmt &&
+    } else if ( parent->node_type() == AstNode::kExpressionStmt ||
                 is_unary_convertable == true ) {
       break;
     }
     parent = parent->parent_node();
   }
-  
+  fprintf( stderr , "\n" );
   if ( is_exp && exp && exp->node_type() == AstNode::kExpression ) {
     Expression* expression = exp->CastToExpression();
     if ( expression && expression->child_length() == 1 && expression->IsParenthesis() ) {
       exp->CastToExpression()->UnMarkParenthesis();
     }
-  } else if ( exp && is_unary_convertable ) {
+  } else if ( ast_node->IsRoot() || ( exp && is_unary_convertable ) ) {
     Expression* expression = exp->CastToExpression();
     if ( expression && expression->child_length() == 1 && expression->IsParenthesis() ) {
       exp->CastToExpression()->UnMarkParenthesis();
-      UnaryExp* unary = UnaryExp::New( '!' , exp->first_child() , ast_node->line_number() );
+      UnaryExp* unary = UnaryExp::New( '!' , ast_node , ast_node->line_number() );
       exp->RemoveAllChild();
       exp->AddChild( unary );
     }

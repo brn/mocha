@@ -10,7 +10,7 @@ inline RefCount<T>::RefCount ( T *target ) :
 template <typename T>
 template <typename Deleter>
 inline RefCount<T>::RefCount ( T *target , Deleter deleter  ) :
-    RefCountBase ( 1 ) , ptr_handle_ ( new PtrHandleDeleter<T,Deleter> ( target , deleter ) ) {};
+    RefCountBase ( 1 ) , ptr_handle_ ( new PtrHandleDeleter<T,Deleter>( target , deleter ) ) {};
 
 template <typename T>
 inline RefCount<T>::RefCount ( PtrHandleBase* base ) : 

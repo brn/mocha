@@ -1236,7 +1236,7 @@ AstNode* Parser::ParseObjectPattern() {
         ParseObjectPatternElement( token->type() , token , destructuring );
         CHECK_ERROR( destructuring );
         AstNode* last = destructuring->elements()->last_child();
-        destructuring->RemoveChild( last );
+        destructuring->elements()->RemoveChild( last );
         node->AddChild( last );
       }
       destructuring->set_element( node );

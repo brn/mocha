@@ -53,7 +53,7 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     int i = 0;
-    if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
+    if ( strstr( fullpath , "label_test.js" ) != NULL && strstr( fullpath , ".js" ) != NULL ) {
       ExternalResource::UnsafeSet( fullpath );
       Resources* res = ExternalResource::UnsafeGet( fullpath );
       res->SetDeploy( dir );
@@ -78,8 +78,8 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
 void RunTest() {
   RunTest( true , true , false , CURRENT_DIR"/test/js/out/devel" );
   fprintf( stderr , "------------------end devel test------------------\n" );
-  RunTest( false , false , true , CURRENT_DIR"/test/js/out/compressed" );
-  fprintf( stderr , "------------------end compress test------------------\n" );
+  //RunTest( false , false , true , CURRENT_DIR"/test/js/out/compressed" );
+  //fprintf( stderr , "------------------end compress test------------------\n" );
 }
 
 }}

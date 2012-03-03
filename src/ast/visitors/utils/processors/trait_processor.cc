@@ -35,7 +35,7 @@ void TraitProcessor::ProcessNode() {
     Function* fn = AstUtils::CreateFunctionDecl( Empty::New() , Empty::New() , Empty::New() , trait_->line_number() );
     fn->RemoveAllChild();
     ExpressionStmt* stmt = AstUtils::CreateAnonymousFnCall( fn , Empty::New() , trait_->line_number() );
-    body_ = stmt->first_child()->first_child();
+    body_ = stmt->first_child()->CastToExpression()->CastToCallExp()->callable()->first_child();
     parent->ReplaceChild( trait_ , stmt->first_child() );
     ReturnStmt* ret = AstUtils::CreateReturnStmt( name_->Clone() , trait_->line_number() );
     Literal* name_value = name_->Clone()->CastToLiteral();

@@ -15,7 +15,7 @@ namespace mocha {
 
 bool IsOptimizableBlock( AstNode* block ) {
   if ( block->node_type() == AstNode::kBlockStmt ) {
-    if ( block->first_child()->child_length() == 1 ) {
+    if ( block->child_length() == 1 ) {
       return true;
     }
   }
@@ -116,7 +116,7 @@ int IFStmtOptimizer::IsConvertableToExpression( AstNode* then_stmt , AstNode* el
 
 void IFStmtOptimizer::OptimizeBlock( AstNode* block , int type ) {
   if ( IsOptimizableBlock( block ) ) {
-    AstNode* insert = block->first_child()->first_child();
+    AstNode* insert = block->first_child();
     if ( type == kThen ) {
       stmt_->set_then_statement( insert );
     } else {

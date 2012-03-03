@@ -526,7 +526,7 @@ Literal* DstaProcessor::ProcessNode( AstNode* ast_node , ProcessorInfo* info ) {
   Literal* var = AstUtils::CreateNameNode( value->value()->token() , Token::JS_IDENTIFIER,
                                            ast_node->line_number() , Literal::kIdentifier );
   if ( ast_node->HasChild() ) {
-    var->AddChild( ast_node->first_child() );
+    var->AddChild( ast_node->first_child()->Clone() );
   } else {
     var->AddChild( Empty::New() );
   }

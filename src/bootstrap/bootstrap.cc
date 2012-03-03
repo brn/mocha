@@ -3,6 +3,7 @@
 #include <useconfig.h>
 #include <bootstrap/bootstrap.h>
 #include <utils/file_system/file_system.h>
+#include <utils/pool/managed_handle.h>
 #include <utils/io/file_io.h>
 #include <compiler/tokens/js_token.h>
 #include <mch/mocha.h>

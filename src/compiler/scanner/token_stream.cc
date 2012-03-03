@@ -37,7 +37,7 @@ TokenStream* TokenStream::New() {
   return ManagedHandle::Retain( new TokenStream );
 }
 
-TokenStream::TokenStream() : cursor_( 0 ) , current_( 0 ) , head_( 0 ) , tail_( 0 ){};
+TokenStream::TokenStream() : Managed() , cursor_( 0 ) , current_( 0 ) , head_( 0 ) , tail_( 0 ){};
 TokenStream::~TokenStream() {
   TokenContainer *next = head_;
   while ( next ) {

@@ -18,15 +18,6 @@ void ModuleProcessor::ProcessNode() {
   AstNode* body = stmt_->first_child();
   AstNode* name = stmt_->name();
   bool is_runtime = visitor_info->runtime();
-  if ( body->node_type() == AstNode::kBlockStmt ) {
-    //Get block inner node.
-    body = body->first_child();
-  } else {
-    //Create node list.
-    NodeList *list = NodeList::New();
-    list->AddChild( body );
-    body = list;
-  }
   Function* fn_node = AstUtils::CreateFunctionDecl( name , Empty::New() , body , stmt_->line_number() );
   fn_node->set_name( Empty::New() );
   AstUtils::FindDirectivePrologue( fn_node , fn_node );

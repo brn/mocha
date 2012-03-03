@@ -7,6 +7,7 @@
 namespace mocha {
   class PtrHandleBase : private Uncopyable {
   public :
+    inline PtrHandleBase(){}
     inline virtual ~PtrHandleBase () {};
     virtual void Dispose () = 0;
   };

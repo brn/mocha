@@ -28,7 +28,7 @@ SourceStream* SourceStream::New( const char* source , const char* path ) {
 }
 
 
-SourceStream::SourceStream() : cursor_( -1 ) , line_( 1 ) , size_( 0 ){};
+SourceStream::SourceStream() : Managed() , cursor_( -1 ) , line_( 1 ) , size_( 0 ){};
 
 
 SourceStream::~SourceStream() {

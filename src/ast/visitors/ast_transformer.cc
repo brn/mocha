@@ -109,7 +109,17 @@ VISITOR_IMPL( VersionStmt ) {
   AstNode* body = ast_node->first_child();
   ast_node->RemoveAllChild();
   Function *fn_node = AstUtils::CreateFunctionDecl( Empty::New(), Empty::New() , body , ast_node->line_number() );
-  ExpressionStmt* an_stmt_node = AstUtils::CreateAnonymousFnCall( fn_node , Empty::New() , ast_node->line_number() );
+  Expression* exp = Expression::New( ast_node->line_number() );
+  exp->AddChild( fn_node );
+  exp->MarkParenthesis();
+  Literal* call = AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kCall ) , Token::JS_IDENTIFIER,
+                                            ast_node->line_number() , Literal::kProperty );
+  CallExp* call_accessor = AstUtils::CreateDotAccessor( exp , call , ast_node->line_number() );
+  NodeList* args = AstUtils::CreateNodeList( 1 , AstUtils::CreateNameNode( SymbolList::symbol( SymbolList::kThis ),
+                                                                           Token::JS_THIS , ast_node->line_number(),
+                                                                           Literal::kThis ) );
+  CallExp* fn_call = AstUtils::CreateNormalAccessor( call_accessor , args , ast_node->line_number() );
+  ExpressionStmt* an_stmt_node = AstUtils::CreateExpStmt( fn_call , ast_node->line_number() );
   ast_node->AddChild( an_stmt_node );
   body->Accept( this );
 }
@@ -332,7 +342,7 @@ VISITOR_IMPL( SwitchStmt ) {
   REGIST(ast_node);
   AstNode* exp = ast_node->expression();
   exp->Accept( this );
-  NodeIterator iterator = ast_node->first_child()->ChildNodes();
+  NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
@@ -347,7 +357,7 @@ VISITOR_IMPL( CaseClause ) {
   Statement* stmt_tmp = Statement::New();
   REGIST(stmt_tmp);
   AstNode *parent = ast_node->parent_node();
-  SwitchStmt *switch_stmt = reinterpret_cast<SwitchStmt* >( parent->parent_node() );
+  SwitchStmt *switch_stmt = reinterpret_cast<SwitchStmt* >( parent );
   ast_node->expression()->Accept( this );
   NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {

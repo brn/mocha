@@ -94,7 +94,7 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
   size_t size = tmp.size();
   size_t index = 0;
   while ( ( index = tmp.find( "\\" , 0 ) ) != std::string::npos ) {
-	  tmp = tmp.replace( index , 1 , "/" );
+    tmp = tmp.replace( index , 1 , "/" );
   }
   while ( 1 ) {
     size_t pos = tmp.find( "../" , 0 );

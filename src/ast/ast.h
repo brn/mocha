@@ -108,7 +108,7 @@ class ReverseNodeIterator{
  * You must set empty node to 'Empty' class ptr,
  * if you not, you got sigenv where access to empty node.
  */
-class AstNode : public Managed , private Uncopyable , protected UnAllocatableExternal {
+class AstNode : public Managed , private Uncopyable {
   friend class AstNodeList;
  public :
   //Definition of all node type.
@@ -180,7 +180,7 @@ class AstNode : public Managed , private Uncopyable , protected UnAllocatableExt
     kDstaExtractedExpressions,
     kUndefined
   };
-  AstNode( int type , const char* name , int64_t line );
+  
   virtual ~AstNode(){};
 
   /**
@@ -407,7 +407,8 @@ class AstNode : public Managed , private Uncopyable , protected UnAllocatableExt
    * Check this node is Empty or not.
    */
   virtual bool IsEmpty() const { return false; }
-
+ protected :
+  AstNode( int type , const char* name , int64_t line );
  private :
   NVI_ACCEPTOR_DECL{};
   int type_;
@@ -1438,7 +1439,7 @@ class UnaryExp : public Expression {
     return ManagedHandle::Retain( new UnaryExp( type , node , line ) );
   }
   ~UnaryExp() {};
-  AstNode* expression() const { return expression_; }
+  AstNode* expression() { return expression_; }
   int operand() const { return operand_; };
   void ReplaceChild( AstNode* old_node , AstNode* new_node );
   UnaryExp* CastToUnaryExp() { return this; }

@@ -82,8 +82,8 @@ AstNode* ExportProcessor::CreateAssignment( AstNode* node ) {
       if ( !item->first_child()->IsEmpty() ) {
         assign = AstUtils::CreateAssignment( '=' , export_prop , item->first_child() , node->line_number() );
         Literal *val = AstUtils::CreateVarInitiliser( name->value() , assign , node->line_number() );
-        VariableStmt* var_stmt = VariableStmt::New( node->line_number() );
-        var_stmt->AddChild( val);
+        VariableDeclarationList* list = AstUtils::CreateVarDeclList( node->line_number() , 1 , val );
+        VariableStmt* var_stmt = AstUtils::CreateVarStmt( list , node->line_number() );
         return var_stmt;
       } else {
         Expression* exp = Expression::New( node->line_number() );

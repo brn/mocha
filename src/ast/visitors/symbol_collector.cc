@@ -172,7 +172,7 @@ VISITOR_IMPL( WithStmt ) {
 VISITOR_IMPL( SwitchStmt ) {
   PRINT_NODE_NAME;
   ast_node->expression()->Accept( this );
-  NodeIterator iterator = ast_node->first_child()->ChildNodes();
+  NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
@@ -182,7 +182,10 @@ VISITOR_IMPL( SwitchStmt ) {
 VISITOR_IMPL( CaseClause ) {
   PRINT_NODE_NAME;
   ast_node->expression()->Accept( this );
-  ast_node->first_child()->Accept( this );
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 

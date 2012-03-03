@@ -223,7 +223,6 @@ class YieldHelper : private Uncopyable {
       state_( 0 ), is_state_injection_( false ), no_state_injection_( false ),
       function_( function ) , info_( info ),
       clause_( CreateCaseClause( state_ ) ),
-      clause_body_( clause_->first_child() ),
       body_( NodeList::New() ){}
 
   void ProcessYield() {
@@ -269,7 +268,7 @@ class YieldHelper : private Uncopyable {
     ReturnStmt* ret = AstUtils::CreateReturnStmt( undefined , function_->line_number() );
     IFStmt* if_stmt = AstUtils::CreateIFStmt( is_safe , ret , stmt , function_->line_number() );
     CreateCaseClause( 0 , true );
-    clause_body_->AddChild( if_stmt );
+    clause_->AddChild( if_stmt );
     body_->AddChild( clause_ );
   }
 
@@ -312,7 +311,7 @@ class YieldHelper : private Uncopyable {
   void CopyTryCatchBody( bool has_finally , TryStmt* stmt , ExpressionStmt* catch_stmt,
                          VariableStmt* clear_catch_stmt , ExpressionStmt* finally_stmt,
                          VariableStmt* clear_finally_stmt ) {
-    NodeIterator iterator = stmt->first_child()->first_child()->ChildNodes();
+    NodeIterator iterator = stmt->first_child()->ChildNodes();
     AstNode* last = 0;
     AstNode* first = 0;
     while ( iterator.HasNext() ) {
@@ -399,10 +398,11 @@ class YieldHelper : private Uncopyable {
       if ( !value->first_child()->IsEmpty() ) {
         AssignmentExp* assign = AstUtils::CreateAssignment( '=' , ident , value->first_child()->Clone() , value->line_number() );
         ExpressionStmt* stmt = AstUtils::CreateExpStmt( assign , value->line_number() );
+        fprintf( stderr , "%s %s\n" , value->value()->token() , info_->visitor_info()->filename() );
         if ( value->parent_node()->parent_node()->CastToStatement()->IsSplitable() ) {
           stmt->MarkAsSplitableStatement();
         }
-        value->parent_node()->parent_node()->InsertBefore( stmt , value->parent_node() );
+        value->parent_node()->parent_node()->parent_node()->InsertBefore( stmt , value->parent_node()->parent_node() );
       }
       Literal* var = Literal::New( Literal::kVariable , value->line_number() );
       var->set_value( value->value() );
@@ -622,14 +622,14 @@ class YieldHelper : private Uncopyable {
     YieldMark* mark = YieldMark::New();
     AstNode* parent = node->parent_node();
     parent->InsertAfter( mark , node );
-    NodeIterator iterator = node->first_child()->ChildNodes();
+    NodeIterator iterator = node->ChildNodes();
     AstNode* last = 0;
     while ( iterator.HasNext() ) {
       AstNode* item = iterator.Next();
       if ( !item->first_child()->IsEmpty() ) {
         bool has_break = false;
         bool has_child = false;
-        NodeIterator inner = item->first_child()->ChildNodes();
+        NodeIterator inner = item->ChildNodes();
         item->RemoveAllChild();
         while ( inner.HasNext() ) {
           AstNode *statement = inner.Next();
@@ -760,7 +760,7 @@ class YieldHelper : private Uncopyable {
     parent->InsertAfter( ex_node , mark );
     parent->InsertBefore( state_mark , mark );
     if ( body->node_type() == AstNode::kBlockStmt ) {
-      NodeIterator iterator = body->first_child()->ChildNodes();
+      NodeIterator iterator = body->ChildNodes();
       while ( iterator.HasNext() ) {
         AstNode* item = iterator.Next();
         if ( !current ) {
@@ -800,7 +800,7 @@ class YieldHelper : private Uncopyable {
     if_stmt->MarkAsSplitableStatement();
     
     if ( body->node_type() == AstNode::kBlockStmt ) {
-      NodeIterator iterator = body->first_child()->ChildNodes();
+      NodeIterator iterator = body->ChildNodes();
       while ( iterator.HasNext() ) {
         AstNode* item = iterator.Next();
         if ( !current ) {
@@ -852,7 +852,7 @@ class YieldHelper : private Uncopyable {
     ExpressionStmt* stmt = AstUtils::CreateExpStmt( counter , node->line_number() );
     parent->InsertAfter( stmt , mark );
     if ( body->node_type() == AstNode::kBlockStmt ) {
-      NodeIterator iterator = body->first_child()->ChildNodes();
+      NodeIterator iterator = body->ChildNodes();
       while ( iterator.HasNext() ) {
         AstNode* item = iterator.Next();
         if ( !current ) {
@@ -947,7 +947,7 @@ class YieldHelper : private Uncopyable {
     AstNode* maybeBlock = node->first_child();
     if ( maybeBlock->node_type() == AstNode::kBlockStmt ) {
       maybeBlock->first_child()->InsertBefore( index_stmt );
-      iter->AddChild( maybeBlock );
+      iter->Append( maybeBlock );
     } else {
       BlockStmt* block = AstUtils::CreateBlockStmt( node->line_number() , 2 , index_stmt , maybeBlock );
       iter->AddChild( block );
@@ -1005,8 +1005,6 @@ class YieldHelper : private Uncopyable {
   
   CaseClause* CreateCaseClause( long line , bool is_error = false ) {
     clause_ = CaseClause::New( line );
-    clause_body_ = StatementList::New();
-    clause_->AddChild( clause_body_ );
     if ( !is_error ) {
       Literal* state = CreateCurrentState( line );
       clause_->set_expression( state );
@@ -1041,9 +1039,9 @@ class YieldHelper : private Uncopyable {
     if ( is_state_injection_ ) {
       if ( !iterator_.HasNext() ) {
         state_ = -2;
-        clause_body_->InsertBefore( CreateNextState( line ) );
+        clause_->InsertBefore( CreateNextState( line ) );
       } else {
-        clause_body_->InsertBefore( CreateNextState( line ) );
+        clause_->InsertBefore( CreateNextState( line ) );
         state_++;
       }
     } else {
@@ -1084,7 +1082,7 @@ class YieldHelper : private Uncopyable {
         esc->value()->set_token( next );
       }
       ex_node->NextPtr()->value()->set_token( next );
-      clause_body_->AddChild( ex_node->IfStmtPtr() );
+      clause_->AddChild( ex_node->IfStmtPtr() );
       is_state_injection_ = false;
       body_->AddChild( clause_ );
       if ( iterator_.HasNext() ) {
@@ -1102,7 +1100,7 @@ class YieldHelper : private Uncopyable {
       }
       mark_list_.clear();
       SetState( yield_stmt->line_number() );
-      clause_body_->AddChild( yield_stmt );
+      clause_->AddChild( yield_stmt );
       is_state_injection_ = false;
       no_state_injection_ = false;
       body_->AddChild( clause_ );
@@ -1110,7 +1108,7 @@ class YieldHelper : private Uncopyable {
         CreateCaseClause( function_->line_number() );
       }
     } else {
-      clause_body_->AddChild( yield_stmt );
+      clause_->AddChild( yield_stmt );
     }
   }
   
@@ -1120,7 +1118,6 @@ class YieldHelper : private Uncopyable {
   Function* function_;
   ProcessorInfo* info_;
   CaseClause* clause_;
-  AstNode* clause_body_;
   NodeList* body_;
   NodeIterator iterator_;
   std::list<YieldMark*> mark_list_;

@@ -83,10 +83,8 @@ ExpressionStmt* AstUtils::CreateAnonymousFnCall( Function *fn , AstNode* args , 
   exp->IsParenthesis();
   call->set_callable( exp );
   call->set_args( args );
-  Expression* ret_exp = Expression::New( line );
-  ret_exp->AddChild( call );
   ExpressionStmt* ret_stmt = ExpressionStmt::New( line );
-  ret_stmt->AddChild( ret_exp );
+  ret_stmt->AddChild( call );
   return ret_stmt;
 }
 

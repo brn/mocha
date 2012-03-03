@@ -20,7 +20,7 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-
+#include <assert.h>
 #include <ast/ast.h>
 #include <utils/pool/managed_handle.h>
 #include <compiler/tokens/token_info.h>
@@ -33,6 +33,7 @@ AstNode::AstNode( int type , const char* name , int64_t line ) :
     next_sibling_( 0 ) , prev_sibling_( 0 ) {}
 
 void AstNode::AddChild( AstNode* node ) {
+  assert( this != node );
   if ( first_child_ == 0 ) {
     first_child_ = node;
     last_child_ = node;
@@ -50,6 +51,7 @@ void AstNode::AddChild( AstNode* node ) {
 }
 
 void AstNode::InsertBefore( AstNode* node ) {
+  assert( this != node );
   if ( first_child_ == 0 ) {
     first_child_ = node;
     last_child_ = node;
@@ -66,6 +68,9 @@ void AstNode::InsertBefore( AstNode* node ) {
 }
 
 void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
+  assert( this != insert );
+  assert( this != target );
+  assert( target != insert );
   bool is_insert = false;
   if ( first_child_ == target ) {
     first_child_ = insert;
@@ -88,6 +93,9 @@ void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
 }
 
 void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
+  assert( this != insert );
+  assert( target != insert );
+  assert( this != target );
   bool is_insert = false;
 
   if ( last_child_ == target  ) {
@@ -111,12 +119,16 @@ void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
 }
 
 void AstNode::Append( AstNode* node ) {
+  assert( this != node );
   if ( node ) {
     typedef std::list<AstNode*> AstArray;
     AstArray ast_array;
     NodeIterator iterator = node->ChildNodes();
     while ( iterator.HasNext() ) {
-      ast_array.push_back( iterator.Next() );
+      AstNode* item = iterator.Next();
+      assert( this != item );
+      assert( node != item );
+      ast_array.push_back( item );
     }
     AstArray::iterator begin = ast_array.begin() , end = ast_array.end();
     while ( begin != end ) {
@@ -153,6 +165,7 @@ AstNode* ReverseNodeIterator::Next() {
 }
 
 void AstNode::RemoveChild( AstNode* node ) {
+  assert( this != node );
   AstNode* match_ptr = 0;
   NodeIterator iterator = ChildNodes();
   while ( iterator.HasNext() ) {
@@ -195,6 +208,7 @@ void AstNode::RemoveChild( AstNode* node ) {
 
 
 void AstNode::ReplaceWith( AstNode* node ) {
+  assert( this != node );
   node->parent_ = parent_;
   node->next_sibling_ = next_sibling_;
   node->prev_sibling_ = prev_sibling_;
@@ -208,6 +222,9 @@ void AstNode::ReplaceWith( AstNode* node ) {
 
 
 void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
+  assert( old_node != new_node );
+  assert( this != old_node );
+  assert( this != new_node );
   if ( first_child_ ) {
     if ( old_node == first_child_ ) {
       first_child_ = new_node;
@@ -222,10 +239,13 @@ void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
 
 template <typename T , typename T2>
 inline T2* CopyChildren( T* dest , T2* source ) {
+  assert( dest != source );
   dest->set_parent_node( source->parent_node() );
   NodeIterator iter = source->ChildNodes();
   while ( iter.HasNext() ) {
-    dest->AddChild( iter.Next()->Clone() );
+    AstNode* item = iter.Next();
+    assert( source != item );
+    dest->AddChild( item->Clone() );
   }
   return dest;
 }
@@ -657,6 +677,7 @@ AstNode* Literal::Clone() {
   if ( value_type_ != kPrivateProperty ) {
     TokenInfo* value = TokenInfo::New( value_->token() , value_->type() , value_->line_number() );
     ret->set_value( value );
+    printf( "%s\n" , value_->token() );
   } else {
     ret->set_node( node_ );
   }

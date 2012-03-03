@@ -903,8 +903,8 @@ Scanner* Scanner::New( SourceStream* stream , ErrorReporter* reporter , const ch
   return scanner;
 }
 
-Scanner::Scanner( SourceStream* source , ErrorReporter* reporter , const char* filename ) :
-    scanner_( new InternalScanner( source , reporter , filename ) ) , reporter_( reporter ){}
+Scanner::Scanner( SourceStream* source , ErrorReporter* reporter , const char* filename )
+    : Managed() , scanner_( new InternalScanner( source , reporter , filename ) ) , reporter_( reporter ){}
 Scanner::~Scanner(){}
 
 TokenInfo* Scanner::Advance( int index ) {

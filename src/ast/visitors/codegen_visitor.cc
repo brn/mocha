@@ -463,7 +463,6 @@ void CodegenVisitor::WhileProccessor_( IterationStmt* ast_node ) {
     if ( is_line_ ) {
       writer_->WriteOp( '{' , CodeWriter::kBlockBeginBrace , stream_.Get() );
     }
-    
     ast_node->first_child()->Accept( this );
     if ( is_line_ ) {
       writer_->WriteOp( '}' , CodeWriter::kBlockEndBrace , stream_.Get() );
@@ -578,7 +577,7 @@ VISITOR_IMPL( SwitchStmt ) {
   ast_node->expression()->Accept( this );
   writer_->WriteOp( ')' , 0 , stream_.Get() );
   writer_->WriteOp( '{' , CodeWriter::kFunctionBeginBrace , stream_.Get() );
-  NodeIterator iterator = ast_node->first_child()->ChildNodes();
+  NodeIterator iterator = ast_node->ChildNodes();
   while ( iterator.HasNext() ) {
     iterator.Next()->Accept( this );
   }
@@ -596,8 +595,10 @@ VISITOR_IMPL( CaseClause ) {
     writer_->WriteOp( Token::JS_DEFAULT , 0 , stream_.Get() );
   }
   writer_->WriteOp( ':' , CodeWriter::kCase , stream_.Get() );
-  AstNode *node = ast_node->first_child();
-  node->Accept( this );
+  NodeIterator iterator = ast_node->ChildNodes();
+  while ( iterator.HasNext() ) {
+    iterator.Next()->Accept( this );
+  }
 }
 
 

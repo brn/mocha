@@ -1,11 +1,11 @@
 #include <utils/pool/managed_handle.h>
-
 namespace mocha {
 int PtrCollector::Assign () {
   return base_id_++;
 }
 
 void PtrCollector::Retain ( Managed* ptr , ReleaseCallback callback ) {
+  ptr->next_ = ptr->prev_ = 0;
   if ( ptr->Retained_() == false ) {
     ptr->Retain_();
     ptr->id_ = ( base_id_ - 1 );
@@ -36,6 +36,9 @@ void PtrCollector::Release_ ( int id ) {
     while ( managed_ptr ) {
       tmp = managed_ptr->prev_;
       if ( managed_ptr->Retained_() &&  managed_ptr->id_ == id ) {
+        if ( tmp ) {
+          tmp->next_ = 0;
+        }
         managed_ptr->Release_();
       } else if ( unfree_list == 0 ) {
         unfree_list = managed_ptr;

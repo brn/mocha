@@ -4,7 +4,8 @@
 namespace mocha {
 
 template <typename T , typename Deleter>
-inline PtrHandleDeleter<T,Deleter>::PtrHandleDeleter ( T* ptr , Deleter deleter ) : ptr_ ( ptr ) , deleter_ ( deleter ) {};
+inline PtrHandleDeleter<T,Deleter>::PtrHandleDeleter ( T* ptr , Deleter deleter )
+    : PtrHandleBase() , ptr_ ( ptr ) , deleter_ ( deleter ) {};
 
 template <typename T , typename Deleter>
 inline T* PtrHandleDeleter<T,Deleter>::Get () {
