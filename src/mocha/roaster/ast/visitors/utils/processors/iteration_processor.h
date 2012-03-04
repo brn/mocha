@@ -1,7 +1,7 @@
 #ifndef mocha_iteration_processor_h_
 #define mocha_iteration_processor_h_
 #include <mocha/roaster/ast/visitors/utils/processors/processor.h>
-#include <utils/class_traits/static.h>
+#include <mocha/misc/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {
 class ProcessorInfo;

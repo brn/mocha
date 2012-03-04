@@ -4,9 +4,9 @@
 #include <string>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/lib/unordered_map.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/class_traits/static.h>
-#include <utils/thread/thread.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/class_traits/static.h>
+#include <mocha/misc/thread/thread.h>
 namespace mocha {
 namespace memory {
 class Pool;

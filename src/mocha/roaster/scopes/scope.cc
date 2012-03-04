@@ -7,7 +7,7 @@
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/js_token.h>
-#include <utils/smart_pointer/scope/scoped_list.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_list.h>
 
 namespace mocha {
 

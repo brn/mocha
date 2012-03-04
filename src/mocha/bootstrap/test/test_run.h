@@ -6,11 +6,11 @@
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/utils/compile_info.h>
-#include <utils/file_system/file_system.h>
+#include <mocha/misc/file_system/file_system.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/file_system/directory.h>
-#include <utils/thread/thread.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/file_system/directory.h>
+#include <mocha/misc/thread/thread.h>
 namespace mocha {namespace compiler_test {
 
 std::string GetPath( const char* path ) {

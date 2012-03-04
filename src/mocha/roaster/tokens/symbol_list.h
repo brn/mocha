@@ -1,6 +1,6 @@
 #ifndef mocha_symbol_list_h_
 #define mocha_symbol_list_h_
-#include <utils/class_traits/static.h>
+#include <mocha/misc/class_traits/static.h>
 namespace mocha {
 
 class SymbolList : private Static {

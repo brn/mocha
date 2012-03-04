@@ -1,7 +1,7 @@
 #ifndef mocha_commands_analyzer_h_
 #define mocha_commands_analyzer_h_
 #include <string>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 
 namespace mocha {
 class ICommandLineRunner;

@@ -2,16 +2,15 @@
 #include <string>
 #include <useconfig.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <utils/file_system/file_system.h>
-#include <utils/io/file_io.h>
+#include <mocha/misc/file_system/file_system.h>
+#include <mocha/misc/io/file_io.h>
 #include <mocha/roaster/tokens/js_token.h>
-#include <mch/mocha.h>
-#include <options/setting.h>
+#include <mocha/options/setting.h>
 #include <mocha/roaster/utils/compiler_facade.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <options/commandline/commandline_options.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/options/commandline/commandline_options.h>
 #include <mocha/bootstrap/interactions/interaction.h>
-#include <utils/bits.h>
+#include <mocha/misc/bits.h>
 #include <mocha/bootstrap/test/test_run.h>
 
 #ifdef HAVE__EXECV

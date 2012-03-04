@@ -1,6 +1,6 @@
 #include <mocha/bootstrap/runners/observer_runner.h>
-#include <utils/file_watcher/observer/xml_observer.h>
-#include <utils/class_traits/static.h>
+#include <mocha/misc/file_watcher/observer/xml_observer.h>
+#include <mocha/misc/class_traits/static.h>
 
 namespace mocha {
 

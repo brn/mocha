@@ -2,9 +2,9 @@
 #include <string.h>
 #include <mocha/roaster/scanner/source_stream.h>
 #include <mocha/roaster/encoding/encoding.h>
-#include <utils/smart_pointer/common/ptr_deleter.h>
-#include <options/setting.h>
-#include <utils/xml/xml_setting_info.h>
+#include <mocha/roaster/smart_pointer/common/ptr_deleter.h>
+#include <mocha/options/setting.h>
+#include <mocha/misc/xml/xml_setting_info.h>
 namespace mocha {
 
 StrSharedPtr Encode(const char* source, const char* path) {

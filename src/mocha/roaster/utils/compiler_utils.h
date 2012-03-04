@@ -1,7 +1,7 @@
 #ifndef mocha_compiler_utils_h_
 #define mocha_compiler_utils_h_
 #include <useconfig.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 
 namespace mocha {
 class PathInfo;

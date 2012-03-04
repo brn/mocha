@@ -2,9 +2,9 @@
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
 #include <mocha/roaster/ast/ast.h>
-#include <utils/xml/xml_setting_info.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/file_system/file_system.h>
+#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/file_system/file_system.h>
 namespace mocha {
 
 void CreateRelativePath(const char* base, const char* target, std::string *buffer) {

@@ -1,8 +1,8 @@
 #ifndef mocha_external_ast_h_
 #define mocha_external_ast_h_
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <utils/class_traits/uncopyable.h>
+#include <mocha/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 

@@ -1,6 +1,6 @@
 #ifndef mocha_scanner_h_
 #define mocha_scanner_h_
-#include <utils/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 class ErrorReporter;

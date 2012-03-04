@@ -25,8 +25,8 @@
 #ifndef mocha_exception_handler_h_
 #define mocha_exception_handler_h_
 #include <list>
-#include <utils/class_traits/uncopyable.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 namespace mocha {
 
 class ExceptionHandler : private Uncopyable {

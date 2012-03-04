@@ -25,10 +25,10 @@
 #define mocha_ast_utils_h_
 #include <assert.h>
 #include <mocha/roaster/compiler.h>
-#include <utils/class_traits/static.h>
-#include <utils/format.h>
+#include <mocha/misc/class_traits/static.h>
+#include <mocha/misc/format.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <utils/thread/thread.h>
+#include <mocha/misc/thread/thread.h>
 
 namespace mocha {
 namespace memory {

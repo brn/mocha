@@ -5,8 +5,8 @@
 #include <vector>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
-#include <utils/smart_pointer/scope/scoped_ptr.h>
-#include <options/options.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/options/options.h>
 #include <mocha/roaster/ast/visitors/utils/codegenerator_utils.h>
 
 namespace mocha {

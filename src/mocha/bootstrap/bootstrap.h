@@ -2,8 +2,8 @@
 #define mocha_bootstrap_h_
 #include <string>
 #include <useconfig.h>
-#include <utils/class_traits/static.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/class_traits/static.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 
 namespace mocha {
 class Bootstrap : private Static {

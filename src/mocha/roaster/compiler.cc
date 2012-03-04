@@ -34,16 +34,16 @@
 #include <mocha/roaster/utils/compile_info.h>
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/external/external_ast.h>
-#include <utils/io/file_io.h>
-#include <utils/file_system/file_system.h>
-#include <utils/file_system/stat.h>
-#include <utils/xml/xml_reader.h>
-#include <utils/xml/xml_setting_info.h>
+#include <mocha/misc/io/file_io.h>
+#include <mocha/misc/file_system/file_system.h>
+#include <mocha/misc/file_system/stat.h>
+#include <mocha/misc/xml/xml_reader.h>
+#include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/symbol_collector.h>
 #include <mocha/roaster/ast/visitors/optimizer_visitor.h>
-#include <options/setting.h>
+#include <mocha/options/setting.h>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 

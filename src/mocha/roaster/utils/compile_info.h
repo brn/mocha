@@ -1,8 +1,8 @@
 #ifndef mocha_compile_info_h_
 #define mocha_compile_info_h_
 #include <string>
-#include <utils/bits.h>
-#include <utils/int_types.h>
+#include <mocha/misc/bits.h>
+#include <mocha/misc/int_types.h>
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
 

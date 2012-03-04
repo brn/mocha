@@ -23,12 +23,12 @@
 #ifndef mocha_compiler_h_
 #define mocha_compiler_h_
 #include <useconfig.h>
-#include <utils/class_traits/uncopyable.h>
+#include <mocha/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/lib/unordered_map.h>
-#include <utils/thread/thread.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/smart_pointer/scope/scoped_ptr.h>
-#include <utils/file_system/file_system.h>
+#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/misc/file_system/file_system.h>
 #include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/utils/error_reporter.h>
 

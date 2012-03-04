@@ -56,7 +56,7 @@ am_mchd_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	import_processor.$(OBJEXT) call_processor.$(OBJEXT) \
 	trait_processor.$(OBJEXT) yield_processor.$(OBJEXT) \
 	constant_optimizer.$(OBJEXT) ifstatement_optimizer.$(OBJEXT) \
-	ast_builder.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
+	ast_builder.$(OBJEXT) bootstrap.$(OBJEXT) \
 	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
 	symbol_collector.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
@@ -71,16 +71,16 @@ am_mchd_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	file_system.$(OBJEXT) file_watcher.$(OBJEXT) pwd.$(OBJEXT) \
 	directory.$(OBJEXT) help_runner.$(OBJEXT) \
 	interaction.$(OBJEXT) commands.$(OBJEXT) \
-	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
+	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) \
 	token_stream.$(OBJEXT) source_stream.$(OBJEXT) \
 	scanner.$(OBJEXT) js_token.$(OBJEXT) main.$(OBJEXT) \
 	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
-	parser_connector.$(OBJEXT) parser_tracer.$(OBJEXT) \
-	scope.$(OBJEXT) setting.$(OBJEXT) stat.$(OBJEXT) \
-	thread.$(OBJEXT) tinyxml.$(OBJEXT) tinystr.$(OBJEXT) \
-	tinyxmlparser.$(OBJEXT) tinyxmlerror.$(OBJEXT) \
-	token_info.$(OBJEXT) virtual_directory.$(OBJEXT) \
-	xml_observer.$(OBJEXT) versions.$(OBJEXT) xml_reader.$(OBJEXT) \
+	parser_connector.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
+	stat.$(OBJEXT) thread.$(OBJEXT) tinyxml.$(OBJEXT) \
+	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
+	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
+	virtual_directory.$(OBJEXT) xml_observer.$(OBJEXT) \
+	versions.$(OBJEXT) xml_reader.$(OBJEXT) \
 	xml_setting_info.$(OBJEXT)
 mchd_OBJECTS = $(am_mchd_OBJECTS)
 mchd_LDADD = $(LDADD)
@@ -243,12 +243,10 @@ mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.h\
 mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.cc\
 mocha/roaster/ast/builder/ast_builder.cc\
 mocha/roaster/ast/builder/ast_builder.h\
-utils/format.h\
-utils/format.cc\
 mocha/bootstrap/bootstrap.h\
 mocha/bootstrap/bootstrap.cc\
-utils/char_allocator.h\
-utils/char_allocator.cc\
+mocha/misc/char_allocator.h\
+mocha/misc/char_allocator.cc\
 mocha/roaster/ast/visitors/codegen_visitor.h\
 mocha/roaster/ast/visitors/codegen_visitor.cc\
 mocha/roaster/ast/visitors/symbol_collector.h\
@@ -291,21 +289,21 @@ mocha/roaster/utils/compiler_utils.h\
 mocha/roaster/utils/compiler_utils.cc\
 mocha/roaster/utils/error_reporter.h\
 mocha/roaster/utils/error_reporter.cc\
-options/commandline/commandline_options.h\
-options/commandline/commandline_options.cc\
-utils/io/file_io.cc\
-utils/io/file_io.h\
-utils/file_watcher/observer/file_observer.h\
-utils/file_watcher/observer/file_observer.cc\
-utils/file_system/file_system.cc\
-utils/file_system/file_system.h\
-utils/file_watcher/file_watcher.h\
-utils/file_watcher/file_watcher.cc\
-utils/file_system/pwd.cc\
-utils/file_system/pwd.h\
-utils/file_system/directory.h\
-utils/file_system/directory.cc\
-utils/smart_pointer/ref_count/handle.h\
+mocha/options/commandline/commandline_options.h\
+mocha/options/commandline/commandline_options.cc\
+mocha/misc/io/file_io.cc\
+mocha/misc/io/file_io.h\
+mocha/misc/file_watcher/observer/file_observer.h\
+mocha/misc/file_watcher/observer/file_observer.cc\
+mocha/misc/file_system/file_system.cc\
+mocha/misc/file_system/file_system.h\
+mocha/misc/file_watcher/file_watcher.h\
+mocha/misc/file_watcher/file_watcher.cc\
+mocha/misc/file_system/pwd.cc\
+mocha/misc/file_system/pwd.h\
+mocha/misc/file_system/directory.h\
+mocha/misc/file_system/directory.cc\
+mocha/misc/smart_pointer/ref_count/handle.h\
 mocha/bootstrap/runners/help_runner.h\
 mocha/bootstrap/runners/help_runner.cc\
 mocha/bootstrap/runners/icommandline_runner.h\
@@ -317,8 +315,6 @@ mocha/bootstrap/interactions/commands_analyzer.h\
 mocha/bootstrap/interactions/commands_analyzer.cc\
 mocha/roaster/internal.cc\
 mocha/roaster/internal.h\
-mch/mocha.cc\
-mch/mocha.h\
 mocha/roaster/scanner/token_stream.h\
 mocha/roaster/scanner/token_stream.cc\
 mocha/roaster/scanner/source_stream.h\
@@ -328,54 +324,52 @@ mocha/roaster/scanner/scanner.cc\
 mocha/roaster/tokens/js_token.cc\
 mocha/roaster/tokens/js_token.h\
 mocha/main.cc\
-utils/file_system/mkdir.h\
-utils/file_system/mkdir.cc\
+mocha/misc/file_system/mkdir.h\
+mocha/misc/file_system/mkdir.cc\
 mocha/bootstrap/runners/observer_runner.h\
 mocha/bootstrap/runners/observer_runner.cc\
 mocha/roaster/binding/parser_connector.cc\
 mocha/roaster/binding/parser_connector.h\
-mocha/roaster/binding/parser_tracer.cc\
-mocha/roaster/binding/parser_tracer.h\
-utils/thread/platform.h\
-utils/smart_pointer/common/ptr_deleter.h\
-utils/smart_pointer/common/ptr_handle.h\
-utils/smart_pointer/common/ptr_handle_base.h\
-utils/smart_pointer/common/ptr_traits.h\
-utils/smart_pointer/ref_count/ref_count.h\
-utils/smart_pointer/ref_count/ref_count_base.h\
+mocha/misc/thread/platform.h\
+mocha/misc/smart_pointer/common/ptr_deleter.h\
+mocha/misc/smart_pointer/common/ptr_handle.h\
+mocha/misc/smart_pointer/common/ptr_handle_base.h\
+mocha/misc/smart_pointer/common/ptr_traits.h\
+mocha/misc/smart_pointer/ref_count/ref_count.h\
+mocha/misc/smart_pointer/ref_count/ref_count_base.h\
 mocha/roaster/scopes/scope.cc\
 mocha/roaster/scopes/scope.h\
-utils/smart_pointer/scope/scoped_ptr.h\
-utils/smart_pointer/scope/scoped_ptr-impl.h\
-utils/smart_pointer/scope/scoped_list.h\
-utils/smart_pointer/scope/scoped_list-impl.h\
-options/setting.h\
-options/setting.cc\
-utils/class_traits/static.h\
-utils/file_system/stat.h\
-utils/file_system/stat.cc\
-utils/thread/thread.h\
-utils/thread/thread.cc\
-tinyxml/tinyxml.h\
-tinyxml/tinystr.h\
-tinyxml/tinyxml.cpp\
-tinyxml/tinystr.cpp\
-tinyxml/tinyxmlparser.cpp\
-tinyxml/tinyxmlerror.cpp\
+mocha/misc/smart_pointer/scope/scoped_ptr.h\
+mocha/misc/smart_pointer/scope/scoped_ptr-impl.h\
+mocha/misc/smart_pointer/scope/scoped_list.h\
+mocha/misc/smart_pointer/scope/scoped_list-impl.h\
+mocha/options/setting.h\
+mocha/options/setting.cc\
+mocha/misc/class_traits/static.h\
+mocha/misc/file_system/stat.h\
+mocha/misc/file_system/stat.cc\
+mocha/misc/thread/thread.h\
+mocha/misc/thread/thread.cc\
+third_party/tinyxml/tinyxml.h\
+third_party/tinyxml/tinystr.h\
+third_party/tinyxml/tinyxml.cpp\
+third_party/tinyxml/tinystr.cpp\
+third_party/tinyxml/tinyxmlparser.cpp\
+third_party/tinyxml/tinyxmlerror.cpp\
 mocha/roaster/tokens/token_info.cc\
 mocha/roaster/tokens/token_info.h\
-utils/class_traits/uncopyable.h\
-utils/file_system/virtual_directory.h\
-utils/file_system/virtual_directory.cc\
-utils/file_watcher/observer/xml_observer.h\
-utils/file_watcher/observer/xml_observer.cc\
-utils/xml/versions.h\
-utils/xml/versions.cc\
-utils/xml/xml_reader.h\
-utils/xml/xml_reader.cc\
-utils/xml/xml_setting_info.h\
-utils/xml/xml_setting_info-inl.h\
-utils/xml/xml_setting_info.cc
+mocha/misc/class_traits/uncopyable.h\
+mocha/misc/file_system/virtual_directory.h\
+mocha/misc/file_system/virtual_directory.cc\
+mocha/misc/file_watcher/observer/xml_observer.h\
+mocha/misc/file_watcher/observer/xml_observer.cc\
+mocha/misc/xml/versions.h\
+mocha/misc/xml/versions.cc\
+mocha/misc/xml/xml_reader.h\
+mocha/misc/xml/xml_reader.cc\
+mocha/misc/xml/xml_setting_info.h\
+mocha/misc/xml/xml_setting_info-inl.h\
+mocha/misc/xml/xml_setting_info.cc
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -510,7 +504,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_system.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_watcher.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileroot_processor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/format.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/function_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/help_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifstatement_optimizer.Po@am__quote@
@@ -522,14 +515,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mkdir.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mocha.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/module_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observer_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/optimizer_visitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_connector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/phantom_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
@@ -866,20 +857,6 @@ ast_builder.obj: mocha/roaster/ast/builder/ast_builder.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_builder.obj `if test -f 'mocha/roaster/ast/builder/ast_builder.cc'; then $(CYGPATH_W) 'mocha/roaster/ast/builder/ast_builder.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/ast/builder/ast_builder.cc'; fi`
 
-format.o: utils/format.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT format.o -MD -MP -MF $(DEPDIR)/format.Tpo -c -o format.o `test -f 'utils/format.cc' || echo '$(srcdir)/'`utils/format.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/format.Tpo $(DEPDIR)/format.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/format.cc' object='format.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o format.o `test -f 'utils/format.cc' || echo '$(srcdir)/'`utils/format.cc
-
-format.obj: utils/format.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT format.obj -MD -MP -MF $(DEPDIR)/format.Tpo -c -o format.obj `if test -f 'utils/format.cc'; then $(CYGPATH_W) 'utils/format.cc'; else $(CYGPATH_W) '$(srcdir)/utils/format.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/format.Tpo $(DEPDIR)/format.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/format.cc' object='format.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o format.obj `if test -f 'utils/format.cc'; then $(CYGPATH_W) 'utils/format.cc'; else $(CYGPATH_W) '$(srcdir)/utils/format.cc'; fi`
-
 bootstrap.o: mocha/bootstrap/bootstrap.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bootstrap.o -MD -MP -MF $(DEPDIR)/bootstrap.Tpo -c -o bootstrap.o `test -f 'mocha/bootstrap/bootstrap.cc' || echo '$(srcdir)/'`mocha/bootstrap/bootstrap.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/bootstrap.Tpo $(DEPDIR)/bootstrap.Po
@@ -894,19 +871,19 @@ bootstrap.obj: mocha/bootstrap/bootstrap.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bootstrap.obj `if test -f 'mocha/bootstrap/bootstrap.cc'; then $(CYGPATH_W) 'mocha/bootstrap/bootstrap.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/bootstrap.cc'; fi`
 
-char_allocator.o: utils/char_allocator.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT char_allocator.o -MD -MP -MF $(DEPDIR)/char_allocator.Tpo -c -o char_allocator.o `test -f 'utils/char_allocator.cc' || echo '$(srcdir)/'`utils/char_allocator.cc
+char_allocator.o: mocha/misc/char_allocator.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT char_allocator.o -MD -MP -MF $(DEPDIR)/char_allocator.Tpo -c -o char_allocator.o `test -f 'mocha/misc/char_allocator.cc' || echo '$(srcdir)/'`mocha/misc/char_allocator.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/char_allocator.Tpo $(DEPDIR)/char_allocator.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/char_allocator.cc' object='char_allocator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/char_allocator.cc' object='char_allocator.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o char_allocator.o `test -f 'utils/char_allocator.cc' || echo '$(srcdir)/'`utils/char_allocator.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o char_allocator.o `test -f 'mocha/misc/char_allocator.cc' || echo '$(srcdir)/'`mocha/misc/char_allocator.cc
 
-char_allocator.obj: utils/char_allocator.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT char_allocator.obj -MD -MP -MF $(DEPDIR)/char_allocator.Tpo -c -o char_allocator.obj `if test -f 'utils/char_allocator.cc'; then $(CYGPATH_W) 'utils/char_allocator.cc'; else $(CYGPATH_W) '$(srcdir)/utils/char_allocator.cc'; fi`
+char_allocator.obj: mocha/misc/char_allocator.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT char_allocator.obj -MD -MP -MF $(DEPDIR)/char_allocator.Tpo -c -o char_allocator.obj `if test -f 'mocha/misc/char_allocator.cc'; then $(CYGPATH_W) 'mocha/misc/char_allocator.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/char_allocator.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/char_allocator.Tpo $(DEPDIR)/char_allocator.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/char_allocator.cc' object='char_allocator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/char_allocator.cc' object='char_allocator.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o char_allocator.obj `if test -f 'utils/char_allocator.cc'; then $(CYGPATH_W) 'utils/char_allocator.cc'; else $(CYGPATH_W) '$(srcdir)/utils/char_allocator.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o char_allocator.obj `if test -f 'mocha/misc/char_allocator.cc'; then $(CYGPATH_W) 'mocha/misc/char_allocator.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/char_allocator.cc'; fi`
 
 codegen_visitor.o: mocha/roaster/ast/visitors/codegen_visitor.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT codegen_visitor.o -MD -MP -MF $(DEPDIR)/codegen_visitor.Tpo -c -o codegen_visitor.o `test -f 'mocha/roaster/ast/visitors/codegen_visitor.cc' || echo '$(srcdir)/'`mocha/roaster/ast/visitors/codegen_visitor.cc
@@ -1202,103 +1179,103 @@ error_reporter.obj: mocha/roaster/utils/error_reporter.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_reporter.obj `if test -f 'mocha/roaster/utils/error_reporter.cc'; then $(CYGPATH_W) 'mocha/roaster/utils/error_reporter.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/utils/error_reporter.cc'; fi`
 
-commandline_options.o: options/commandline/commandline_options.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commandline_options.o -MD -MP -MF $(DEPDIR)/commandline_options.Tpo -c -o commandline_options.o `test -f 'options/commandline/commandline_options.cc' || echo '$(srcdir)/'`options/commandline/commandline_options.cc
+commandline_options.o: mocha/options/commandline/commandline_options.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commandline_options.o -MD -MP -MF $(DEPDIR)/commandline_options.Tpo -c -o commandline_options.o `test -f 'mocha/options/commandline/commandline_options.cc' || echo '$(srcdir)/'`mocha/options/commandline/commandline_options.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/commandline_options.Tpo $(DEPDIR)/commandline_options.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='options/commandline/commandline_options.cc' object='commandline_options.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/options/commandline/commandline_options.cc' object='commandline_options.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commandline_options.o `test -f 'options/commandline/commandline_options.cc' || echo '$(srcdir)/'`options/commandline/commandline_options.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commandline_options.o `test -f 'mocha/options/commandline/commandline_options.cc' || echo '$(srcdir)/'`mocha/options/commandline/commandline_options.cc
 
-commandline_options.obj: options/commandline/commandline_options.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commandline_options.obj -MD -MP -MF $(DEPDIR)/commandline_options.Tpo -c -o commandline_options.obj `if test -f 'options/commandline/commandline_options.cc'; then $(CYGPATH_W) 'options/commandline/commandline_options.cc'; else $(CYGPATH_W) '$(srcdir)/options/commandline/commandline_options.cc'; fi`
+commandline_options.obj: mocha/options/commandline/commandline_options.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commandline_options.obj -MD -MP -MF $(DEPDIR)/commandline_options.Tpo -c -o commandline_options.obj `if test -f 'mocha/options/commandline/commandline_options.cc'; then $(CYGPATH_W) 'mocha/options/commandline/commandline_options.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/options/commandline/commandline_options.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/commandline_options.Tpo $(DEPDIR)/commandline_options.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='options/commandline/commandline_options.cc' object='commandline_options.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/options/commandline/commandline_options.cc' object='commandline_options.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commandline_options.obj `if test -f 'options/commandline/commandline_options.cc'; then $(CYGPATH_W) 'options/commandline/commandline_options.cc'; else $(CYGPATH_W) '$(srcdir)/options/commandline/commandline_options.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commandline_options.obj `if test -f 'mocha/options/commandline/commandline_options.cc'; then $(CYGPATH_W) 'mocha/options/commandline/commandline_options.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/options/commandline/commandline_options.cc'; fi`
 
-file_io.o: utils/io/file_io.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_io.o -MD -MP -MF $(DEPDIR)/file_io.Tpo -c -o file_io.o `test -f 'utils/io/file_io.cc' || echo '$(srcdir)/'`utils/io/file_io.cc
+file_io.o: mocha/misc/io/file_io.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_io.o -MD -MP -MF $(DEPDIR)/file_io.Tpo -c -o file_io.o `test -f 'mocha/misc/io/file_io.cc' || echo '$(srcdir)/'`mocha/misc/io/file_io.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_io.Tpo $(DEPDIR)/file_io.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/io/file_io.cc' object='file_io.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/io/file_io.cc' object='file_io.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_io.o `test -f 'utils/io/file_io.cc' || echo '$(srcdir)/'`utils/io/file_io.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_io.o `test -f 'mocha/misc/io/file_io.cc' || echo '$(srcdir)/'`mocha/misc/io/file_io.cc
 
-file_io.obj: utils/io/file_io.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_io.obj -MD -MP -MF $(DEPDIR)/file_io.Tpo -c -o file_io.obj `if test -f 'utils/io/file_io.cc'; then $(CYGPATH_W) 'utils/io/file_io.cc'; else $(CYGPATH_W) '$(srcdir)/utils/io/file_io.cc'; fi`
+file_io.obj: mocha/misc/io/file_io.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_io.obj -MD -MP -MF $(DEPDIR)/file_io.Tpo -c -o file_io.obj `if test -f 'mocha/misc/io/file_io.cc'; then $(CYGPATH_W) 'mocha/misc/io/file_io.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/io/file_io.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_io.Tpo $(DEPDIR)/file_io.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/io/file_io.cc' object='file_io.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/io/file_io.cc' object='file_io.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_io.obj `if test -f 'utils/io/file_io.cc'; then $(CYGPATH_W) 'utils/io/file_io.cc'; else $(CYGPATH_W) '$(srcdir)/utils/io/file_io.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_io.obj `if test -f 'mocha/misc/io/file_io.cc'; then $(CYGPATH_W) 'mocha/misc/io/file_io.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/io/file_io.cc'; fi`
 
-file_observer.o: utils/file_watcher/observer/file_observer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_observer.o -MD -MP -MF $(DEPDIR)/file_observer.Tpo -c -o file_observer.o `test -f 'utils/file_watcher/observer/file_observer.cc' || echo '$(srcdir)/'`utils/file_watcher/observer/file_observer.cc
+file_observer.o: mocha/misc/file_watcher/observer/file_observer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_observer.o -MD -MP -MF $(DEPDIR)/file_observer.Tpo -c -o file_observer.o `test -f 'mocha/misc/file_watcher/observer/file_observer.cc' || echo '$(srcdir)/'`mocha/misc/file_watcher/observer/file_observer.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_observer.Tpo $(DEPDIR)/file_observer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/observer/file_observer.cc' object='file_observer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_watcher/observer/file_observer.cc' object='file_observer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_observer.o `test -f 'utils/file_watcher/observer/file_observer.cc' || echo '$(srcdir)/'`utils/file_watcher/observer/file_observer.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_observer.o `test -f 'mocha/misc/file_watcher/observer/file_observer.cc' || echo '$(srcdir)/'`mocha/misc/file_watcher/observer/file_observer.cc
 
-file_observer.obj: utils/file_watcher/observer/file_observer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_observer.obj -MD -MP -MF $(DEPDIR)/file_observer.Tpo -c -o file_observer.obj `if test -f 'utils/file_watcher/observer/file_observer.cc'; then $(CYGPATH_W) 'utils/file_watcher/observer/file_observer.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/observer/file_observer.cc'; fi`
+file_observer.obj: mocha/misc/file_watcher/observer/file_observer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_observer.obj -MD -MP -MF $(DEPDIR)/file_observer.Tpo -c -o file_observer.obj `if test -f 'mocha/misc/file_watcher/observer/file_observer.cc'; then $(CYGPATH_W) 'mocha/misc/file_watcher/observer/file_observer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_watcher/observer/file_observer.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_observer.Tpo $(DEPDIR)/file_observer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/observer/file_observer.cc' object='file_observer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_watcher/observer/file_observer.cc' object='file_observer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_observer.obj `if test -f 'utils/file_watcher/observer/file_observer.cc'; then $(CYGPATH_W) 'utils/file_watcher/observer/file_observer.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/observer/file_observer.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_observer.obj `if test -f 'mocha/misc/file_watcher/observer/file_observer.cc'; then $(CYGPATH_W) 'mocha/misc/file_watcher/observer/file_observer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_watcher/observer/file_observer.cc'; fi`
 
-file_system.o: utils/file_system/file_system.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_system.o -MD -MP -MF $(DEPDIR)/file_system.Tpo -c -o file_system.o `test -f 'utils/file_system/file_system.cc' || echo '$(srcdir)/'`utils/file_system/file_system.cc
+file_system.o: mocha/misc/file_system/file_system.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_system.o -MD -MP -MF $(DEPDIR)/file_system.Tpo -c -o file_system.o `test -f 'mocha/misc/file_system/file_system.cc' || echo '$(srcdir)/'`mocha/misc/file_system/file_system.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_system.Tpo $(DEPDIR)/file_system.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/file_system.cc' object='file_system.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/file_system.cc' object='file_system.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_system.o `test -f 'utils/file_system/file_system.cc' || echo '$(srcdir)/'`utils/file_system/file_system.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_system.o `test -f 'mocha/misc/file_system/file_system.cc' || echo '$(srcdir)/'`mocha/misc/file_system/file_system.cc
 
-file_system.obj: utils/file_system/file_system.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_system.obj -MD -MP -MF $(DEPDIR)/file_system.Tpo -c -o file_system.obj `if test -f 'utils/file_system/file_system.cc'; then $(CYGPATH_W) 'utils/file_system/file_system.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/file_system.cc'; fi`
+file_system.obj: mocha/misc/file_system/file_system.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_system.obj -MD -MP -MF $(DEPDIR)/file_system.Tpo -c -o file_system.obj `if test -f 'mocha/misc/file_system/file_system.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/file_system.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/file_system.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_system.Tpo $(DEPDIR)/file_system.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/file_system.cc' object='file_system.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/file_system.cc' object='file_system.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_system.obj `if test -f 'utils/file_system/file_system.cc'; then $(CYGPATH_W) 'utils/file_system/file_system.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/file_system.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_system.obj `if test -f 'mocha/misc/file_system/file_system.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/file_system.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/file_system.cc'; fi`
 
-file_watcher.o: utils/file_watcher/file_watcher.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_watcher.o -MD -MP -MF $(DEPDIR)/file_watcher.Tpo -c -o file_watcher.o `test -f 'utils/file_watcher/file_watcher.cc' || echo '$(srcdir)/'`utils/file_watcher/file_watcher.cc
+file_watcher.o: mocha/misc/file_watcher/file_watcher.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_watcher.o -MD -MP -MF $(DEPDIR)/file_watcher.Tpo -c -o file_watcher.o `test -f 'mocha/misc/file_watcher/file_watcher.cc' || echo '$(srcdir)/'`mocha/misc/file_watcher/file_watcher.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_watcher.Tpo $(DEPDIR)/file_watcher.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/file_watcher.cc' object='file_watcher.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_watcher/file_watcher.cc' object='file_watcher.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_watcher.o `test -f 'utils/file_watcher/file_watcher.cc' || echo '$(srcdir)/'`utils/file_watcher/file_watcher.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_watcher.o `test -f 'mocha/misc/file_watcher/file_watcher.cc' || echo '$(srcdir)/'`mocha/misc/file_watcher/file_watcher.cc
 
-file_watcher.obj: utils/file_watcher/file_watcher.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_watcher.obj -MD -MP -MF $(DEPDIR)/file_watcher.Tpo -c -o file_watcher.obj `if test -f 'utils/file_watcher/file_watcher.cc'; then $(CYGPATH_W) 'utils/file_watcher/file_watcher.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/file_watcher.cc'; fi`
+file_watcher.obj: mocha/misc/file_watcher/file_watcher.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT file_watcher.obj -MD -MP -MF $(DEPDIR)/file_watcher.Tpo -c -o file_watcher.obj `if test -f 'mocha/misc/file_watcher/file_watcher.cc'; then $(CYGPATH_W) 'mocha/misc/file_watcher/file_watcher.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_watcher/file_watcher.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/file_watcher.Tpo $(DEPDIR)/file_watcher.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/file_watcher.cc' object='file_watcher.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_watcher/file_watcher.cc' object='file_watcher.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_watcher.obj `if test -f 'utils/file_watcher/file_watcher.cc'; then $(CYGPATH_W) 'utils/file_watcher/file_watcher.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/file_watcher.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o file_watcher.obj `if test -f 'mocha/misc/file_watcher/file_watcher.cc'; then $(CYGPATH_W) 'mocha/misc/file_watcher/file_watcher.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_watcher/file_watcher.cc'; fi`
 
-pwd.o: utils/file_system/pwd.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT pwd.o -MD -MP -MF $(DEPDIR)/pwd.Tpo -c -o pwd.o `test -f 'utils/file_system/pwd.cc' || echo '$(srcdir)/'`utils/file_system/pwd.cc
+pwd.o: mocha/misc/file_system/pwd.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT pwd.o -MD -MP -MF $(DEPDIR)/pwd.Tpo -c -o pwd.o `test -f 'mocha/misc/file_system/pwd.cc' || echo '$(srcdir)/'`mocha/misc/file_system/pwd.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pwd.Tpo $(DEPDIR)/pwd.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/pwd.cc' object='pwd.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/pwd.cc' object='pwd.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o pwd.o `test -f 'utils/file_system/pwd.cc' || echo '$(srcdir)/'`utils/file_system/pwd.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o pwd.o `test -f 'mocha/misc/file_system/pwd.cc' || echo '$(srcdir)/'`mocha/misc/file_system/pwd.cc
 
-pwd.obj: utils/file_system/pwd.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT pwd.obj -MD -MP -MF $(DEPDIR)/pwd.Tpo -c -o pwd.obj `if test -f 'utils/file_system/pwd.cc'; then $(CYGPATH_W) 'utils/file_system/pwd.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/pwd.cc'; fi`
+pwd.obj: mocha/misc/file_system/pwd.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT pwd.obj -MD -MP -MF $(DEPDIR)/pwd.Tpo -c -o pwd.obj `if test -f 'mocha/misc/file_system/pwd.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/pwd.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/pwd.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pwd.Tpo $(DEPDIR)/pwd.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/pwd.cc' object='pwd.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/pwd.cc' object='pwd.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o pwd.obj `if test -f 'utils/file_system/pwd.cc'; then $(CYGPATH_W) 'utils/file_system/pwd.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/pwd.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o pwd.obj `if test -f 'mocha/misc/file_system/pwd.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/pwd.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/pwd.cc'; fi`
 
-directory.o: utils/file_system/directory.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT directory.o -MD -MP -MF $(DEPDIR)/directory.Tpo -c -o directory.o `test -f 'utils/file_system/directory.cc' || echo '$(srcdir)/'`utils/file_system/directory.cc
+directory.o: mocha/misc/file_system/directory.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT directory.o -MD -MP -MF $(DEPDIR)/directory.Tpo -c -o directory.o `test -f 'mocha/misc/file_system/directory.cc' || echo '$(srcdir)/'`mocha/misc/file_system/directory.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/directory.Tpo $(DEPDIR)/directory.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/directory.cc' object='directory.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/directory.cc' object='directory.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o directory.o `test -f 'utils/file_system/directory.cc' || echo '$(srcdir)/'`utils/file_system/directory.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o directory.o `test -f 'mocha/misc/file_system/directory.cc' || echo '$(srcdir)/'`mocha/misc/file_system/directory.cc
 
-directory.obj: utils/file_system/directory.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT directory.obj -MD -MP -MF $(DEPDIR)/directory.Tpo -c -o directory.obj `if test -f 'utils/file_system/directory.cc'; then $(CYGPATH_W) 'utils/file_system/directory.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/directory.cc'; fi`
+directory.obj: mocha/misc/file_system/directory.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT directory.obj -MD -MP -MF $(DEPDIR)/directory.Tpo -c -o directory.obj `if test -f 'mocha/misc/file_system/directory.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/directory.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/directory.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/directory.Tpo $(DEPDIR)/directory.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/directory.cc' object='directory.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/directory.cc' object='directory.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o directory.obj `if test -f 'utils/file_system/directory.cc'; then $(CYGPATH_W) 'utils/file_system/directory.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/directory.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o directory.obj `if test -f 'mocha/misc/file_system/directory.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/directory.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/directory.cc'; fi`
 
 help_runner.o: mocha/bootstrap/runners/help_runner.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT help_runner.o -MD -MP -MF $(DEPDIR)/help_runner.Tpo -c -o help_runner.o `test -f 'mocha/bootstrap/runners/help_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/help_runner.cc
@@ -1370,20 +1347,6 @@ internal.obj: mocha/roaster/internal.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o internal.obj `if test -f 'mocha/roaster/internal.cc'; then $(CYGPATH_W) 'mocha/roaster/internal.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/internal.cc'; fi`
 
-mocha.o: mch/mocha.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mocha.o -MD -MP -MF $(DEPDIR)/mocha.Tpo -c -o mocha.o `test -f 'mch/mocha.cc' || echo '$(srcdir)/'`mch/mocha.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/mocha.Tpo $(DEPDIR)/mocha.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mch/mocha.cc' object='mocha.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mocha.o `test -f 'mch/mocha.cc' || echo '$(srcdir)/'`mch/mocha.cc
-
-mocha.obj: mch/mocha.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mocha.obj -MD -MP -MF $(DEPDIR)/mocha.Tpo -c -o mocha.obj `if test -f 'mch/mocha.cc'; then $(CYGPATH_W) 'mch/mocha.cc'; else $(CYGPATH_W) '$(srcdir)/mch/mocha.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/mocha.Tpo $(DEPDIR)/mocha.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mch/mocha.cc' object='mocha.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mocha.obj `if test -f 'mch/mocha.cc'; then $(CYGPATH_W) 'mch/mocha.cc'; else $(CYGPATH_W) '$(srcdir)/mch/mocha.cc'; fi`
-
 token_stream.o: mocha/roaster/scanner/token_stream.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT token_stream.o -MD -MP -MF $(DEPDIR)/token_stream.Tpo -c -o token_stream.o `test -f 'mocha/roaster/scanner/token_stream.cc' || echo '$(srcdir)/'`mocha/roaster/scanner/token_stream.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/token_stream.Tpo $(DEPDIR)/token_stream.Po
@@ -1454,19 +1417,19 @@ main.obj: mocha/main.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o main.obj `if test -f 'mocha/main.cc'; then $(CYGPATH_W) 'mocha/main.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/main.cc'; fi`
 
-mkdir.o: utils/file_system/mkdir.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mkdir.o -MD -MP -MF $(DEPDIR)/mkdir.Tpo -c -o mkdir.o `test -f 'utils/file_system/mkdir.cc' || echo '$(srcdir)/'`utils/file_system/mkdir.cc
+mkdir.o: mocha/misc/file_system/mkdir.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mkdir.o -MD -MP -MF $(DEPDIR)/mkdir.Tpo -c -o mkdir.o `test -f 'mocha/misc/file_system/mkdir.cc' || echo '$(srcdir)/'`mocha/misc/file_system/mkdir.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/mkdir.Tpo $(DEPDIR)/mkdir.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/mkdir.cc' object='mkdir.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/mkdir.cc' object='mkdir.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mkdir.o `test -f 'utils/file_system/mkdir.cc' || echo '$(srcdir)/'`utils/file_system/mkdir.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mkdir.o `test -f 'mocha/misc/file_system/mkdir.cc' || echo '$(srcdir)/'`mocha/misc/file_system/mkdir.cc
 
-mkdir.obj: utils/file_system/mkdir.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mkdir.obj -MD -MP -MF $(DEPDIR)/mkdir.Tpo -c -o mkdir.obj `if test -f 'utils/file_system/mkdir.cc'; then $(CYGPATH_W) 'utils/file_system/mkdir.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/mkdir.cc'; fi`
+mkdir.obj: mocha/misc/file_system/mkdir.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mkdir.obj -MD -MP -MF $(DEPDIR)/mkdir.Tpo -c -o mkdir.obj `if test -f 'mocha/misc/file_system/mkdir.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/mkdir.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/mkdir.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/mkdir.Tpo $(DEPDIR)/mkdir.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/mkdir.cc' object='mkdir.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/mkdir.cc' object='mkdir.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mkdir.obj `if test -f 'utils/file_system/mkdir.cc'; then $(CYGPATH_W) 'utils/file_system/mkdir.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/mkdir.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mkdir.obj `if test -f 'mocha/misc/file_system/mkdir.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/mkdir.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/mkdir.cc'; fi`
 
 observer_runner.o: mocha/bootstrap/runners/observer_runner.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT observer_runner.o -MD -MP -MF $(DEPDIR)/observer_runner.Tpo -c -o observer_runner.o `test -f 'mocha/bootstrap/runners/observer_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/observer_runner.cc
@@ -1496,20 +1459,6 @@ parser_connector.obj: mocha/roaster/binding/parser_connector.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser_connector.obj `if test -f 'mocha/roaster/binding/parser_connector.cc'; then $(CYGPATH_W) 'mocha/roaster/binding/parser_connector.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/binding/parser_connector.cc'; fi`
 
-parser_tracer.o: mocha/roaster/binding/parser_tracer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser_tracer.o -MD -MP -MF $(DEPDIR)/parser_tracer.Tpo -c -o parser_tracer.o `test -f 'mocha/roaster/binding/parser_tracer.cc' || echo '$(srcdir)/'`mocha/roaster/binding/parser_tracer.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/parser_tracer.Tpo $(DEPDIR)/parser_tracer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/binding/parser_tracer.cc' object='parser_tracer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser_tracer.o `test -f 'mocha/roaster/binding/parser_tracer.cc' || echo '$(srcdir)/'`mocha/roaster/binding/parser_tracer.cc
-
-parser_tracer.obj: mocha/roaster/binding/parser_tracer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser_tracer.obj -MD -MP -MF $(DEPDIR)/parser_tracer.Tpo -c -o parser_tracer.obj `if test -f 'mocha/roaster/binding/parser_tracer.cc'; then $(CYGPATH_W) 'mocha/roaster/binding/parser_tracer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/binding/parser_tracer.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/parser_tracer.Tpo $(DEPDIR)/parser_tracer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/binding/parser_tracer.cc' object='parser_tracer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser_tracer.obj `if test -f 'mocha/roaster/binding/parser_tracer.cc'; then $(CYGPATH_W) 'mocha/roaster/binding/parser_tracer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/binding/parser_tracer.cc'; fi`
-
 scope.o: mocha/roaster/scopes/scope.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT scope.o -MD -MP -MF $(DEPDIR)/scope.Tpo -c -o scope.o `test -f 'mocha/roaster/scopes/scope.cc' || echo '$(srcdir)/'`mocha/roaster/scopes/scope.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/scope.Tpo $(DEPDIR)/scope.Po
@@ -1524,103 +1473,103 @@ scope.obj: mocha/roaster/scopes/scope.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o scope.obj `if test -f 'mocha/roaster/scopes/scope.cc'; then $(CYGPATH_W) 'mocha/roaster/scopes/scope.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/scopes/scope.cc'; fi`
 
-setting.o: options/setting.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT setting.o -MD -MP -MF $(DEPDIR)/setting.Tpo -c -o setting.o `test -f 'options/setting.cc' || echo '$(srcdir)/'`options/setting.cc
+setting.o: mocha/options/setting.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT setting.o -MD -MP -MF $(DEPDIR)/setting.Tpo -c -o setting.o `test -f 'mocha/options/setting.cc' || echo '$(srcdir)/'`mocha/options/setting.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/setting.Tpo $(DEPDIR)/setting.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='options/setting.cc' object='setting.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/options/setting.cc' object='setting.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o setting.o `test -f 'options/setting.cc' || echo '$(srcdir)/'`options/setting.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o setting.o `test -f 'mocha/options/setting.cc' || echo '$(srcdir)/'`mocha/options/setting.cc
 
-setting.obj: options/setting.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT setting.obj -MD -MP -MF $(DEPDIR)/setting.Tpo -c -o setting.obj `if test -f 'options/setting.cc'; then $(CYGPATH_W) 'options/setting.cc'; else $(CYGPATH_W) '$(srcdir)/options/setting.cc'; fi`
+setting.obj: mocha/options/setting.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT setting.obj -MD -MP -MF $(DEPDIR)/setting.Tpo -c -o setting.obj `if test -f 'mocha/options/setting.cc'; then $(CYGPATH_W) 'mocha/options/setting.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/options/setting.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/setting.Tpo $(DEPDIR)/setting.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='options/setting.cc' object='setting.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/options/setting.cc' object='setting.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o setting.obj `if test -f 'options/setting.cc'; then $(CYGPATH_W) 'options/setting.cc'; else $(CYGPATH_W) '$(srcdir)/options/setting.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o setting.obj `if test -f 'mocha/options/setting.cc'; then $(CYGPATH_W) 'mocha/options/setting.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/options/setting.cc'; fi`
 
-stat.o: utils/file_system/stat.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT stat.o -MD -MP -MF $(DEPDIR)/stat.Tpo -c -o stat.o `test -f 'utils/file_system/stat.cc' || echo '$(srcdir)/'`utils/file_system/stat.cc
+stat.o: mocha/misc/file_system/stat.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT stat.o -MD -MP -MF $(DEPDIR)/stat.Tpo -c -o stat.o `test -f 'mocha/misc/file_system/stat.cc' || echo '$(srcdir)/'`mocha/misc/file_system/stat.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/stat.Tpo $(DEPDIR)/stat.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/stat.cc' object='stat.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/stat.cc' object='stat.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o stat.o `test -f 'utils/file_system/stat.cc' || echo '$(srcdir)/'`utils/file_system/stat.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o stat.o `test -f 'mocha/misc/file_system/stat.cc' || echo '$(srcdir)/'`mocha/misc/file_system/stat.cc
 
-stat.obj: utils/file_system/stat.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT stat.obj -MD -MP -MF $(DEPDIR)/stat.Tpo -c -o stat.obj `if test -f 'utils/file_system/stat.cc'; then $(CYGPATH_W) 'utils/file_system/stat.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/stat.cc'; fi`
+stat.obj: mocha/misc/file_system/stat.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT stat.obj -MD -MP -MF $(DEPDIR)/stat.Tpo -c -o stat.obj `if test -f 'mocha/misc/file_system/stat.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/stat.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/stat.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/stat.Tpo $(DEPDIR)/stat.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/stat.cc' object='stat.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/stat.cc' object='stat.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o stat.obj `if test -f 'utils/file_system/stat.cc'; then $(CYGPATH_W) 'utils/file_system/stat.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/stat.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o stat.obj `if test -f 'mocha/misc/file_system/stat.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/stat.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/stat.cc'; fi`
 
-thread.o: utils/thread/thread.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT thread.o -MD -MP -MF $(DEPDIR)/thread.Tpo -c -o thread.o `test -f 'utils/thread/thread.cc' || echo '$(srcdir)/'`utils/thread/thread.cc
+thread.o: mocha/misc/thread/thread.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT thread.o -MD -MP -MF $(DEPDIR)/thread.Tpo -c -o thread.o `test -f 'mocha/misc/thread/thread.cc' || echo '$(srcdir)/'`mocha/misc/thread/thread.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/thread.Tpo $(DEPDIR)/thread.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/thread/thread.cc' object='thread.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/thread/thread.cc' object='thread.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o thread.o `test -f 'utils/thread/thread.cc' || echo '$(srcdir)/'`utils/thread/thread.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o thread.o `test -f 'mocha/misc/thread/thread.cc' || echo '$(srcdir)/'`mocha/misc/thread/thread.cc
 
-thread.obj: utils/thread/thread.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT thread.obj -MD -MP -MF $(DEPDIR)/thread.Tpo -c -o thread.obj `if test -f 'utils/thread/thread.cc'; then $(CYGPATH_W) 'utils/thread/thread.cc'; else $(CYGPATH_W) '$(srcdir)/utils/thread/thread.cc'; fi`
+thread.obj: mocha/misc/thread/thread.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT thread.obj -MD -MP -MF $(DEPDIR)/thread.Tpo -c -o thread.obj `if test -f 'mocha/misc/thread/thread.cc'; then $(CYGPATH_W) 'mocha/misc/thread/thread.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/thread/thread.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/thread.Tpo $(DEPDIR)/thread.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/thread/thread.cc' object='thread.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/thread/thread.cc' object='thread.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o thread.obj `if test -f 'utils/thread/thread.cc'; then $(CYGPATH_W) 'utils/thread/thread.cc'; else $(CYGPATH_W) '$(srcdir)/utils/thread/thread.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o thread.obj `if test -f 'mocha/misc/thread/thread.cc'; then $(CYGPATH_W) 'mocha/misc/thread/thread.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/thread/thread.cc'; fi`
 
-tinyxml.o: tinyxml/tinyxml.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxml.o -MD -MP -MF $(DEPDIR)/tinyxml.Tpo -c -o tinyxml.o `test -f 'tinyxml/tinyxml.cpp' || echo '$(srcdir)/'`tinyxml/tinyxml.cpp
+tinyxml.o: third_party/tinyxml/tinyxml.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxml.o -MD -MP -MF $(DEPDIR)/tinyxml.Tpo -c -o tinyxml.o `test -f 'third_party/tinyxml/tinyxml.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinyxml.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinyxml.Tpo $(DEPDIR)/tinyxml.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinyxml.cpp' object='tinyxml.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinyxml.cpp' object='tinyxml.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.o `test -f 'tinyxml/tinyxml.cpp' || echo '$(srcdir)/'`tinyxml/tinyxml.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.o `test -f 'third_party/tinyxml/tinyxml.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinyxml.cpp
 
-tinyxml.obj: tinyxml/tinyxml.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxml.obj -MD -MP -MF $(DEPDIR)/tinyxml.Tpo -c -o tinyxml.obj `if test -f 'tinyxml/tinyxml.cpp'; then $(CYGPATH_W) 'tinyxml/tinyxml.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinyxml.cpp'; fi`
+tinyxml.obj: third_party/tinyxml/tinyxml.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxml.obj -MD -MP -MF $(DEPDIR)/tinyxml.Tpo -c -o tinyxml.obj `if test -f 'third_party/tinyxml/tinyxml.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinyxml.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinyxml.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinyxml.Tpo $(DEPDIR)/tinyxml.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinyxml.cpp' object='tinyxml.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinyxml.cpp' object='tinyxml.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.obj `if test -f 'tinyxml/tinyxml.cpp'; then $(CYGPATH_W) 'tinyxml/tinyxml.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinyxml.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.obj `if test -f 'third_party/tinyxml/tinyxml.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinyxml.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinyxml.cpp'; fi`
 
-tinystr.o: tinyxml/tinystr.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinystr.o -MD -MP -MF $(DEPDIR)/tinystr.Tpo -c -o tinystr.o `test -f 'tinyxml/tinystr.cpp' || echo '$(srcdir)/'`tinyxml/tinystr.cpp
+tinystr.o: third_party/tinyxml/tinystr.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinystr.o -MD -MP -MF $(DEPDIR)/tinystr.Tpo -c -o tinystr.o `test -f 'third_party/tinyxml/tinystr.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinystr.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinystr.Tpo $(DEPDIR)/tinystr.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinystr.cpp' object='tinystr.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinystr.cpp' object='tinystr.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinystr.o `test -f 'tinyxml/tinystr.cpp' || echo '$(srcdir)/'`tinyxml/tinystr.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinystr.o `test -f 'third_party/tinyxml/tinystr.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinystr.cpp
 
-tinystr.obj: tinyxml/tinystr.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinystr.obj -MD -MP -MF $(DEPDIR)/tinystr.Tpo -c -o tinystr.obj `if test -f 'tinyxml/tinystr.cpp'; then $(CYGPATH_W) 'tinyxml/tinystr.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinystr.cpp'; fi`
+tinystr.obj: third_party/tinyxml/tinystr.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinystr.obj -MD -MP -MF $(DEPDIR)/tinystr.Tpo -c -o tinystr.obj `if test -f 'third_party/tinyxml/tinystr.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinystr.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinystr.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinystr.Tpo $(DEPDIR)/tinystr.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinystr.cpp' object='tinystr.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinystr.cpp' object='tinystr.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinystr.obj `if test -f 'tinyxml/tinystr.cpp'; then $(CYGPATH_W) 'tinyxml/tinystr.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinystr.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinystr.obj `if test -f 'third_party/tinyxml/tinystr.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinystr.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinystr.cpp'; fi`
 
-tinyxmlparser.o: tinyxml/tinyxmlparser.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlparser.o -MD -MP -MF $(DEPDIR)/tinyxmlparser.Tpo -c -o tinyxmlparser.o `test -f 'tinyxml/tinyxmlparser.cpp' || echo '$(srcdir)/'`tinyxml/tinyxmlparser.cpp
+tinyxmlparser.o: third_party/tinyxml/tinyxmlparser.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlparser.o -MD -MP -MF $(DEPDIR)/tinyxmlparser.Tpo -c -o tinyxmlparser.o `test -f 'third_party/tinyxml/tinyxmlparser.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinyxmlparser.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinyxmlparser.Tpo $(DEPDIR)/tinyxmlparser.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.o `test -f 'tinyxml/tinyxmlparser.cpp' || echo '$(srcdir)/'`tinyxml/tinyxmlparser.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.o `test -f 'third_party/tinyxml/tinyxmlparser.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinyxmlparser.cpp
 
-tinyxmlparser.obj: tinyxml/tinyxmlparser.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlparser.obj -MD -MP -MF $(DEPDIR)/tinyxmlparser.Tpo -c -o tinyxmlparser.obj `if test -f 'tinyxml/tinyxmlparser.cpp'; then $(CYGPATH_W) 'tinyxml/tinyxmlparser.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinyxmlparser.cpp'; fi`
+tinyxmlparser.obj: third_party/tinyxml/tinyxmlparser.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlparser.obj -MD -MP -MF $(DEPDIR)/tinyxmlparser.Tpo -c -o tinyxmlparser.obj `if test -f 'third_party/tinyxml/tinyxmlparser.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinyxmlparser.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinyxmlparser.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinyxmlparser.Tpo $(DEPDIR)/tinyxmlparser.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.obj `if test -f 'tinyxml/tinyxmlparser.cpp'; then $(CYGPATH_W) 'tinyxml/tinyxmlparser.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinyxmlparser.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.obj `if test -f 'third_party/tinyxml/tinyxmlparser.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinyxmlparser.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinyxmlparser.cpp'; fi`
 
-tinyxmlerror.o: tinyxml/tinyxmlerror.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlerror.o -MD -MP -MF $(DEPDIR)/tinyxmlerror.Tpo -c -o tinyxmlerror.o `test -f 'tinyxml/tinyxmlerror.cpp' || echo '$(srcdir)/'`tinyxml/tinyxmlerror.cpp
+tinyxmlerror.o: third_party/tinyxml/tinyxmlerror.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlerror.o -MD -MP -MF $(DEPDIR)/tinyxmlerror.Tpo -c -o tinyxmlerror.o `test -f 'third_party/tinyxml/tinyxmlerror.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinyxmlerror.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinyxmlerror.Tpo $(DEPDIR)/tinyxmlerror.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.o `test -f 'tinyxml/tinyxmlerror.cpp' || echo '$(srcdir)/'`tinyxml/tinyxmlerror.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.o `test -f 'third_party/tinyxml/tinyxmlerror.cpp' || echo '$(srcdir)/'`third_party/tinyxml/tinyxmlerror.cpp
 
-tinyxmlerror.obj: tinyxml/tinyxmlerror.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlerror.obj -MD -MP -MF $(DEPDIR)/tinyxmlerror.Tpo -c -o tinyxmlerror.obj `if test -f 'tinyxml/tinyxmlerror.cpp'; then $(CYGPATH_W) 'tinyxml/tinyxmlerror.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinyxmlerror.cpp'; fi`
+tinyxmlerror.obj: third_party/tinyxml/tinyxmlerror.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tinyxmlerror.obj -MD -MP -MF $(DEPDIR)/tinyxmlerror.Tpo -c -o tinyxmlerror.obj `if test -f 'third_party/tinyxml/tinyxmlerror.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinyxmlerror.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinyxmlerror.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/tinyxmlerror.Tpo $(DEPDIR)/tinyxmlerror.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='third_party/tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.obj `if test -f 'tinyxml/tinyxmlerror.cpp'; then $(CYGPATH_W) 'tinyxml/tinyxmlerror.cpp'; else $(CYGPATH_W) '$(srcdir)/tinyxml/tinyxmlerror.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.obj `if test -f 'third_party/tinyxml/tinyxmlerror.cpp'; then $(CYGPATH_W) 'third_party/tinyxml/tinyxmlerror.cpp'; else $(CYGPATH_W) '$(srcdir)/third_party/tinyxml/tinyxmlerror.cpp'; fi`
 
 token_info.o: mocha/roaster/tokens/token_info.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT token_info.o -MD -MP -MF $(DEPDIR)/token_info.Tpo -c -o token_info.o `test -f 'mocha/roaster/tokens/token_info.cc' || echo '$(srcdir)/'`mocha/roaster/tokens/token_info.cc
@@ -1636,75 +1585,75 @@ token_info.obj: mocha/roaster/tokens/token_info.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o token_info.obj `if test -f 'mocha/roaster/tokens/token_info.cc'; then $(CYGPATH_W) 'mocha/roaster/tokens/token_info.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/tokens/token_info.cc'; fi`
 
-virtual_directory.o: utils/file_system/virtual_directory.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT virtual_directory.o -MD -MP -MF $(DEPDIR)/virtual_directory.Tpo -c -o virtual_directory.o `test -f 'utils/file_system/virtual_directory.cc' || echo '$(srcdir)/'`utils/file_system/virtual_directory.cc
+virtual_directory.o: mocha/misc/file_system/virtual_directory.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT virtual_directory.o -MD -MP -MF $(DEPDIR)/virtual_directory.Tpo -c -o virtual_directory.o `test -f 'mocha/misc/file_system/virtual_directory.cc' || echo '$(srcdir)/'`mocha/misc/file_system/virtual_directory.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/virtual_directory.Tpo $(DEPDIR)/virtual_directory.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/virtual_directory.cc' object='virtual_directory.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/virtual_directory.cc' object='virtual_directory.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o virtual_directory.o `test -f 'utils/file_system/virtual_directory.cc' || echo '$(srcdir)/'`utils/file_system/virtual_directory.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o virtual_directory.o `test -f 'mocha/misc/file_system/virtual_directory.cc' || echo '$(srcdir)/'`mocha/misc/file_system/virtual_directory.cc
 
-virtual_directory.obj: utils/file_system/virtual_directory.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT virtual_directory.obj -MD -MP -MF $(DEPDIR)/virtual_directory.Tpo -c -o virtual_directory.obj `if test -f 'utils/file_system/virtual_directory.cc'; then $(CYGPATH_W) 'utils/file_system/virtual_directory.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/virtual_directory.cc'; fi`
+virtual_directory.obj: mocha/misc/file_system/virtual_directory.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT virtual_directory.obj -MD -MP -MF $(DEPDIR)/virtual_directory.Tpo -c -o virtual_directory.obj `if test -f 'mocha/misc/file_system/virtual_directory.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/virtual_directory.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/virtual_directory.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/virtual_directory.Tpo $(DEPDIR)/virtual_directory.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_system/virtual_directory.cc' object='virtual_directory.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_system/virtual_directory.cc' object='virtual_directory.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o virtual_directory.obj `if test -f 'utils/file_system/virtual_directory.cc'; then $(CYGPATH_W) 'utils/file_system/virtual_directory.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/virtual_directory.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o virtual_directory.obj `if test -f 'mocha/misc/file_system/virtual_directory.cc'; then $(CYGPATH_W) 'mocha/misc/file_system/virtual_directory.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_system/virtual_directory.cc'; fi`
 
-xml_observer.o: utils/file_watcher/observer/xml_observer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_observer.o -MD -MP -MF $(DEPDIR)/xml_observer.Tpo -c -o xml_observer.o `test -f 'utils/file_watcher/observer/xml_observer.cc' || echo '$(srcdir)/'`utils/file_watcher/observer/xml_observer.cc
+xml_observer.o: mocha/misc/file_watcher/observer/xml_observer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_observer.o -MD -MP -MF $(DEPDIR)/xml_observer.Tpo -c -o xml_observer.o `test -f 'mocha/misc/file_watcher/observer/xml_observer.cc' || echo '$(srcdir)/'`mocha/misc/file_watcher/observer/xml_observer.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/xml_observer.Tpo $(DEPDIR)/xml_observer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/observer/xml_observer.cc' object='xml_observer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_watcher/observer/xml_observer.cc' object='xml_observer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_observer.o `test -f 'utils/file_watcher/observer/xml_observer.cc' || echo '$(srcdir)/'`utils/file_watcher/observer/xml_observer.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_observer.o `test -f 'mocha/misc/file_watcher/observer/xml_observer.cc' || echo '$(srcdir)/'`mocha/misc/file_watcher/observer/xml_observer.cc
 
-xml_observer.obj: utils/file_watcher/observer/xml_observer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_observer.obj -MD -MP -MF $(DEPDIR)/xml_observer.Tpo -c -o xml_observer.obj `if test -f 'utils/file_watcher/observer/xml_observer.cc'; then $(CYGPATH_W) 'utils/file_watcher/observer/xml_observer.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/observer/xml_observer.cc'; fi`
+xml_observer.obj: mocha/misc/file_watcher/observer/xml_observer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_observer.obj -MD -MP -MF $(DEPDIR)/xml_observer.Tpo -c -o xml_observer.obj `if test -f 'mocha/misc/file_watcher/observer/xml_observer.cc'; then $(CYGPATH_W) 'mocha/misc/file_watcher/observer/xml_observer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_watcher/observer/xml_observer.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/xml_observer.Tpo $(DEPDIR)/xml_observer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/file_watcher/observer/xml_observer.cc' object='xml_observer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/file_watcher/observer/xml_observer.cc' object='xml_observer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_observer.obj `if test -f 'utils/file_watcher/observer/xml_observer.cc'; then $(CYGPATH_W) 'utils/file_watcher/observer/xml_observer.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_watcher/observer/xml_observer.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_observer.obj `if test -f 'mocha/misc/file_watcher/observer/xml_observer.cc'; then $(CYGPATH_W) 'mocha/misc/file_watcher/observer/xml_observer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/file_watcher/observer/xml_observer.cc'; fi`
 
-versions.o: utils/xml/versions.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT versions.o -MD -MP -MF $(DEPDIR)/versions.Tpo -c -o versions.o `test -f 'utils/xml/versions.cc' || echo '$(srcdir)/'`utils/xml/versions.cc
+versions.o: mocha/misc/xml/versions.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT versions.o -MD -MP -MF $(DEPDIR)/versions.Tpo -c -o versions.o `test -f 'mocha/misc/xml/versions.cc' || echo '$(srcdir)/'`mocha/misc/xml/versions.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/versions.Tpo $(DEPDIR)/versions.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/versions.cc' object='versions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/xml/versions.cc' object='versions.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o versions.o `test -f 'utils/xml/versions.cc' || echo '$(srcdir)/'`utils/xml/versions.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o versions.o `test -f 'mocha/misc/xml/versions.cc' || echo '$(srcdir)/'`mocha/misc/xml/versions.cc
 
-versions.obj: utils/xml/versions.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT versions.obj -MD -MP -MF $(DEPDIR)/versions.Tpo -c -o versions.obj `if test -f 'utils/xml/versions.cc'; then $(CYGPATH_W) 'utils/xml/versions.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/versions.cc'; fi`
+versions.obj: mocha/misc/xml/versions.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT versions.obj -MD -MP -MF $(DEPDIR)/versions.Tpo -c -o versions.obj `if test -f 'mocha/misc/xml/versions.cc'; then $(CYGPATH_W) 'mocha/misc/xml/versions.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/xml/versions.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/versions.Tpo $(DEPDIR)/versions.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/versions.cc' object='versions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/xml/versions.cc' object='versions.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o versions.obj `if test -f 'utils/xml/versions.cc'; then $(CYGPATH_W) 'utils/xml/versions.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/versions.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o versions.obj `if test -f 'mocha/misc/xml/versions.cc'; then $(CYGPATH_W) 'mocha/misc/xml/versions.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/xml/versions.cc'; fi`
 
-xml_reader.o: utils/xml/xml_reader.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_reader.o -MD -MP -MF $(DEPDIR)/xml_reader.Tpo -c -o xml_reader.o `test -f 'utils/xml/xml_reader.cc' || echo '$(srcdir)/'`utils/xml/xml_reader.cc
+xml_reader.o: mocha/misc/xml/xml_reader.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_reader.o -MD -MP -MF $(DEPDIR)/xml_reader.Tpo -c -o xml_reader.o `test -f 'mocha/misc/xml/xml_reader.cc' || echo '$(srcdir)/'`mocha/misc/xml/xml_reader.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/xml_reader.Tpo $(DEPDIR)/xml_reader.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/xml_reader.cc' object='xml_reader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/xml/xml_reader.cc' object='xml_reader.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_reader.o `test -f 'utils/xml/xml_reader.cc' || echo '$(srcdir)/'`utils/xml/xml_reader.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_reader.o `test -f 'mocha/misc/xml/xml_reader.cc' || echo '$(srcdir)/'`mocha/misc/xml/xml_reader.cc
 
-xml_reader.obj: utils/xml/xml_reader.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_reader.obj -MD -MP -MF $(DEPDIR)/xml_reader.Tpo -c -o xml_reader.obj `if test -f 'utils/xml/xml_reader.cc'; then $(CYGPATH_W) 'utils/xml/xml_reader.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/xml_reader.cc'; fi`
+xml_reader.obj: mocha/misc/xml/xml_reader.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_reader.obj -MD -MP -MF $(DEPDIR)/xml_reader.Tpo -c -o xml_reader.obj `if test -f 'mocha/misc/xml/xml_reader.cc'; then $(CYGPATH_W) 'mocha/misc/xml/xml_reader.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/xml/xml_reader.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/xml_reader.Tpo $(DEPDIR)/xml_reader.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/xml_reader.cc' object='xml_reader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/xml/xml_reader.cc' object='xml_reader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_reader.obj `if test -f 'utils/xml/xml_reader.cc'; then $(CYGPATH_W) 'utils/xml/xml_reader.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/xml_reader.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_reader.obj `if test -f 'mocha/misc/xml/xml_reader.cc'; then $(CYGPATH_W) 'mocha/misc/xml/xml_reader.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/xml/xml_reader.cc'; fi`
 
-xml_setting_info.o: utils/xml/xml_setting_info.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_setting_info.o -MD -MP -MF $(DEPDIR)/xml_setting_info.Tpo -c -o xml_setting_info.o `test -f 'utils/xml/xml_setting_info.cc' || echo '$(srcdir)/'`utils/xml/xml_setting_info.cc
+xml_setting_info.o: mocha/misc/xml/xml_setting_info.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_setting_info.o -MD -MP -MF $(DEPDIR)/xml_setting_info.Tpo -c -o xml_setting_info.o `test -f 'mocha/misc/xml/xml_setting_info.cc' || echo '$(srcdir)/'`mocha/misc/xml/xml_setting_info.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/xml_setting_info.Tpo $(DEPDIR)/xml_setting_info.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/xml_setting_info.cc' object='xml_setting_info.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/xml/xml_setting_info.cc' object='xml_setting_info.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_setting_info.o `test -f 'utils/xml/xml_setting_info.cc' || echo '$(srcdir)/'`utils/xml/xml_setting_info.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_setting_info.o `test -f 'mocha/misc/xml/xml_setting_info.cc' || echo '$(srcdir)/'`mocha/misc/xml/xml_setting_info.cc
 
-xml_setting_info.obj: utils/xml/xml_setting_info.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_setting_info.obj -MD -MP -MF $(DEPDIR)/xml_setting_info.Tpo -c -o xml_setting_info.obj `if test -f 'utils/xml/xml_setting_info.cc'; then $(CYGPATH_W) 'utils/xml/xml_setting_info.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/xml_setting_info.cc'; fi`
+xml_setting_info.obj: mocha/misc/xml/xml_setting_info.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT xml_setting_info.obj -MD -MP -MF $(DEPDIR)/xml_setting_info.Tpo -c -o xml_setting_info.obj `if test -f 'mocha/misc/xml/xml_setting_info.cc'; then $(CYGPATH_W) 'mocha/misc/xml/xml_setting_info.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/xml/xml_setting_info.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/xml_setting_info.Tpo $(DEPDIR)/xml_setting_info.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/xml/xml_setting_info.cc' object='xml_setting_info.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/misc/xml/xml_setting_info.cc' object='xml_setting_info.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_setting_info.obj `if test -f 'utils/xml/xml_setting_info.cc'; then $(CYGPATH_W) 'utils/xml/xml_setting_info.cc'; else $(CYGPATH_W) '$(srcdir)/utils/xml/xml_setting_info.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o xml_setting_info.obj `if test -f 'mocha/misc/xml/xml_setting_info.cc'; then $(CYGPATH_W) 'mocha/misc/xml/xml_setting_info.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/misc/xml/xml_setting_info.cc'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

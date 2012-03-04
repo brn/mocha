@@ -2,7 +2,7 @@
 #define mocha_internal_h
 
 #include <string>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <define.h>
 namespace mocha {
 namespace memory {
@@ -11,7 +11,6 @@ class Pool;
 class ScopeRegistry;
 class Codegen;
 class File;
-class ParserTracer;
 class Ast;
 class AstTransformer;
 class Compiler;
@@ -42,7 +41,6 @@ class Internal {
   inline void LoadFile_ ();
   inline void ParseStart_ ();
   inline void OpenError_();
-  inline void SyntaxError_(const ParserTracer&);
   inline void GetAst_(ErrorReporter* reporter);
 
   const char* main_file_path_;

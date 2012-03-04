@@ -1,6 +1,6 @@
 #ifndef mocha_scanner_state_h_
 #define mocha_scanner_state_h_
-#include <utils/class_traits/uncopyable.h>
+#include <mocha/misc/class_traits/uncopyable.h>
 namespace mocha {
 
 class ScannerState : private Uncopyable {

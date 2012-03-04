@@ -26,7 +26,7 @@
 #include <vector>
 #include <utility>
 #include <string>
-#include <utils/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/memory/pool.h>
 

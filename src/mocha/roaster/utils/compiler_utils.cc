@@ -1,8 +1,8 @@
 #include <mocha/roaster/utils/compiler_utils.h>
-#include <utils/io/file_io.h>
-#include <utils/file_system/file_system.h>
-#include <utils/file_system/virtual_directory.h>
-#include <utils/xml/xml_setting_info.h>
+#include <mocha/misc/io/file_io.h>
+#include <mocha/misc/file_system/file_system.h>
+#include <mocha/misc/file_system/virtual_directory.h>
+#include <mocha/misc/xml/xml_setting_info.h>
 
 #define JS_EXTENSION ".js"
 

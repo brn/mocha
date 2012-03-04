@@ -6,7 +6,7 @@
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/symbol_list.h>
-#include <utils/file_system/file_system.h>
+#include <mocha/misc/file_system/file_system.h>
 #include <mocha/roaster/memory/pool.h>
 
 #define TOKEN yy::ParserImplementation::token

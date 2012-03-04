@@ -4,7 +4,7 @@
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <utils/class_traits/uncopyable.h>
+#include <mocha/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/symbol_list.h>
 #include <mocha/roaster/tokens/token_info.h>

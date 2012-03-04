@@ -1,8 +1,8 @@
 #ifndef mocha_memory_pool_h_
 #define mocha_memory_pool_h_
 #include <stdio.h>
-#include <utils/class_traits/uncopyable.h>
-#include <utils/thread/thread.h>
+#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/misc/thread/thread.h>
 namespace mocha {
 namespace memory {
 class Pool;

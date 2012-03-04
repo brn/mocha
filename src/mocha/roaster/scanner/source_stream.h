@@ -1,7 +1,7 @@
 #ifndef mocha_source_stream_h_
 #define mocha_source_stream_h_
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/int_types.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/int_types.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {

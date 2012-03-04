@@ -4,13 +4,13 @@
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/compiler.h>
-#include <utils/thread/thread.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/file_watcher/observer/file_observer.h>
-#include <options/setting.h>
+#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/file_watcher/observer/file_observer.h>
+#include <mocha/options/setting.h>
 #include <mocha/roaster/utils/compile_result.h>
-#include <utils/atomic.h>
-#include <utils/file_system/file_system.h>
+#include <mocha/misc/atomic.h>
+#include <mocha/misc/file_system/file_system.h>
 namespace mocha {
 
 void CompilerFacade::Compile(const char* path, bool is_join) {

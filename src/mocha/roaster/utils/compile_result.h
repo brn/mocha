@@ -1,7 +1,7 @@
 #ifndef mocha_compile_result_h_
 #define mocha_compile_result_h_
 #include <string>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 namespace mocha {

@@ -1,4 +1,4 @@
-#include <utils/int_types.h>
+#include <mocha/misc/int_types.h>
 #include <string.h>
 #include <string>
 #include <sstream>
@@ -7,11 +7,10 @@
 #include <mocha/roaster/scanner/source_stream.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/binding/parser_tracer.h>
 #include <mocha/roaster/utils/error_reporter.h>
-#include <utils/smart_pointer/scope/scoped_list.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_list.h>
 #include <mocha/roaster/memory/pool.h>
-#include <utils/bits.h>
+#include <mocha/misc/bits.h>
 
 namespace mocha {
 

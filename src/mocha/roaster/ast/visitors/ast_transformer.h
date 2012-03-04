@@ -27,7 +27,7 @@
 #include <string>
 #include <useconfig.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
-#include <utils/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 
 namespace mocha{
 namespace memory {

@@ -3,14 +3,14 @@
 #include <string>
 #include <list>
 #include <utility>
-#include <utils/int_types.h>
+#include <mocha/misc/int_types.h>
 #include <mocha/roaster/utils/compile_info.h>
 #include <mocha/roaster/tokens/token_info.h>
-#include <utils/smart_pointer/scope/scoped_ptr.h>
-#include <utils/class_traits/uncopyable.h>
-#include <utils/xml/versions.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/misc/xml/versions.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <utils/bits.h>
+#include <mocha/misc/bits.h>
 
 namespace mocha {
 class ScopeRegistry;

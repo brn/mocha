@@ -1,6 +1,5 @@
 #include <mocha/roaster/internal.h>
 #include <mocha/roaster/scopes/scope.h>
-#include <mocha/roaster/binding/parser_tracer.h>
 #include <mocha/roaster/binding/parser_connector.h>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/parser/parser.h>
@@ -9,15 +8,15 @@
 #include <mocha/roaster/scanner/scanner.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/utils/error_reporter.h>
-#include <utils/xml/xml_setting_info.h>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/io/file_io.h>
-#include <utils/file_system/file_system.h>
-#include <utils/file_system/virtual_directory.h>
+#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/io/file_io.h>
+#include <mocha/misc/file_system/file_system.h>
+#include <mocha/misc/file_system/virtual_directory.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/ast_transformer.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
-#include <options/setting.h>
+#include <mocha/options/setting.h>
 
 namespace mocha {
 
@@ -161,19 +160,5 @@ inline void Internal::OpenError_() {
   printf("%s\n", tmp);
 }
 
-inline void Internal::SyntaxError_(const ParserTracer& tracer) {
-  char tmp[ 10000 ];
-  sprintf(tmp ,
-           "try{\n"
-           "  throw new SyntaxError(\"%s in file %s at : %ld\")\n"
-           "}catch(e){\n"
-           "  throw new Error(e);\n"
-           "}\n;",
-           tracer.GetErrorMessage(),
-           file_->GetFileName(),
-           tracer.GetErrorLine ());
-  codegen_->Write (tmp);
-  printf("%s\n", tmp);
-}
 
 }

@@ -25,8 +25,8 @@
 #define mocha_ast_ast_h_
 #include <stdio.h>
 #include <string>
-#include <utils/class_traits/uncopyable.h>
-#include <utils/class_traits/unallocatable.h>
+#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/misc/class_traits/unallocatable.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>

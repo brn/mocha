@@ -33,7 +33,7 @@
 #include <mocha/roaster/ast/visitors/ast_transformer.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/ast.h>
-#include <utils/file_system/virtual_directory.h>
+#include <mocha/misc/file_system/virtual_directory.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
@@ -53,7 +53,7 @@
 #include <mocha/roaster/ast/visitors/utils/processors/syntax_sugar_processor.h>
 #include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
 #include <mocha/roaster/memory/pool.h>
-#include <utils/xml/xml_setting_info.h>
+#include <mocha/misc/xml/xml_setting_info.h>
 
 namespace mocha {
 

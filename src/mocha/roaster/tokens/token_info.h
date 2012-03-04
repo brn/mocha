@@ -2,8 +2,8 @@
 #ifndef mocha_token_info_h_
 #define mocha_token_info_h_
 #include <string>
-#include <utils/bits.h>
-#include <utils/int_types.h>
+#include <mocha/misc/bits.h>
+#include <mocha/misc/int_types.h>
 #include <mocha/roaster/memory/pool.h>
 #define SET(num) flags_.Set(num);
 #define HAS(num) flags_.At(num);

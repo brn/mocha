@@ -3,7 +3,7 @@
 #include <string.h>
 #include <string>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <utils/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/binding/parser_connector.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/js_token.h>

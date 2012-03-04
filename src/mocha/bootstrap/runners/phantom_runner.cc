@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string>
 #include <mocha/bootstrap/runners/phantom_runner.h>
-#include <options/setting.h>
+#include <mocha/options/setting.h>
 
 namespace mocha {
 #ifdef _WIN32

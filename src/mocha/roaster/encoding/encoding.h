@@ -2,8 +2,8 @@
 #define mocha_encoding_h_
 #include <vector>
 #include <string>
-#include <utils/smart_pointer/ref_count/shared_ptr.h>
-#include <utils/class_traits/static.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/misc/class_traits/static.h>
 namespace mocha {
 
 struct DetectResult {

@@ -2,8 +2,8 @@
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/utils/compile_info.h>
-#include <utils/file_system/file_system.h>
-#include <options/setting.h>
+#include <mocha/misc/file_system/file_system.h>
+#include <mocha/options/setting.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {

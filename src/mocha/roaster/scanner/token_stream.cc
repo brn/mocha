@@ -1,6 +1,6 @@
 #include <mocha/roaster/scanner/token_stream.h>
 #include <mocha/roaster/tokens/token_info.h>
-#include <utils/int_types.h>
+#include <mocha/misc/int_types.h>
 
 namespace mocha {
 

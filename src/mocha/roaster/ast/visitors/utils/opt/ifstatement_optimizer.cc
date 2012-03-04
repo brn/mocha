@@ -1,7 +1,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include <utils/int_types.h>
+#include <mocha/misc/int_types.h>
 #include <mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/ast.h>
