@@ -11,7 +11,7 @@
 using namespace mocha;
 
 #ifdef _WIN32
-StrHandle mocha::ReplaceBackSlash( const char* path ) {
+StrSharedPtr mocha::ReplaceBackSlash( const char* path ) {
   char* ret = utils::CharAlloc( path );
   int len = strlen( path );
   for ( int i = 0; i < len; i++ ) {
@@ -19,11 +19,11 @@ StrHandle mocha::ReplaceBackSlash( const char* path ) {
       ret[ i ] = '/';
     }
   }
-  return StrHandle( ret );
+  return StrSharedPtr( ret );
 }
 #endif
 
-StrHandle mocha::GetCwd () {
+StrSharedPtr mocha::GetCwd () {
 
 #ifdef HAVE_WINDOWS_H
   char tmp[ GW_BUF_SIZE ];
@@ -43,7 +43,7 @@ StrHandle mocha::GetCwd () {
     fprintf( stderr , "GetCwd fail." );
   };
   char* ret = utils::CharAlloc( tmp );
-  return StrHandle( ret ); 
+  return StrSharedPtr( ret ); 
 
 #endif
 

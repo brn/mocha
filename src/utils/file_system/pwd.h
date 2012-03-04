@@ -2,15 +2,15 @@
 #define mocha_pwd_h_
 
 #include <cstddef>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 
 #define GW_BUF_SIZE 1000
 
 namespace mocha {
 #ifdef _WIN32
-StrHandle ReplaceBackSlash( const char* path );
+StrSharedPtr ReplaceBackSlash( const char* path );
 #endif
-StrHandle GetCwd();
+StrSharedPtr GetCwd();
 };
 
 #endif

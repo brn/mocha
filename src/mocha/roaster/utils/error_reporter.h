@@ -10,10 +10,10 @@ class ErrorReporter : private Uncopyable {
  public :
   ErrorReporter();
   ~ErrorReporter();
-  void ReportSyntaxError( const char* error );
-  bool Error() { return error_num_ > 0; };
-  void SetError( std::string *buf );
-  void SetRawError( std::string *buf );
+  void ReportSyntaxError(const char* error);
+  bool Error() const { return error_num_ > 0; };
+  void SetError(std::string *buf) const;
+  void SetRawError(std::string *buf) const;
  private :
   int error_num_;
   ErrorList buffer_;

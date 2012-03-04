@@ -88,8 +88,8 @@ class SymbolList : private Static {
     kNumberConstructor
   } BuiltinSymbol;
   
-  static const char* symbol( RuntimeSymbol runtime_symbol );
-  static const char* symbol( BuiltinSymbol builtin_symbol );
+  static const char* symbol(RuntimeSymbol runtime_symbol);
+  static const char* symbol(BuiltinSymbol builtin_symbol);
 };
 
 }

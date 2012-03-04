@@ -1,22 +1,22 @@
 #ifndef mocha_scanner_h_
 #define mocha_scanner_h_
 #include <utils/smart_pointer/scope/scoped_ptr.h>
-#include <utils/pool/managed.h>
+#include <mocha/roaster/memory/pool.h>
 namespace mocha {
 class ErrorReporter;
 class SourceStream;
 class TokenInfo;
 class TokenStream;
-class Scanner : public Managed {
+class Scanner : public memory::Allocated {
  public :
-  static Scanner* New( SourceStream* source , ErrorReporter *reporter , const char* filename );
+  static Scanner* New(SourceStream* source, ErrorReporter *reporter, const char* filename);
   ~Scanner();
-  TokenInfo* Advance( int index = 1 );
-  TokenInfo* Undo( int index = 1 );
-  TokenInfo* Seek( int index );
+  TokenInfo* Advance(int index = 1);
+  TokenInfo* Undo(int index = 1);
+  TokenInfo* Seek(int index);
   static TokenInfo* kEmpty;
  private :
-  Scanner( SourceStream* source , ErrorReporter *reporter , const char* filename );
+  Scanner(SourceStream* source, ErrorReporter *reporter, const char* filename);
   void CreateTokenStream();
   
   class InternalScanner;

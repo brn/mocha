@@ -4,7 +4,7 @@
 #include <list>
 #include <utils/class_traits/static.h>
 #include <utils/xml/xml_reader.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/xml/versions.h>
 #include <options/options.h>
 
@@ -17,24 +17,24 @@ class XMLSettingInfo : private Static {
  public :
   static void EraseData();
   static const char* GetModuleDirPath( const char* filename );
-  static StrHandle GetDeployPath( const char* filename );
+  static StrSharedPtr GetDeployPath( const char* filename );
   static Options* GetCompileOption( const char* filename );
   static Version* GetVersion( const char* filename );
   static bool HasCharset( const char* filename );
-  static StrHandle GetCharset( const char* filename );
-  static StrHandle GetDeployCharset( const char* filename );
+  static StrSharedPtr GetCharset( const char* filename );
+  static StrSharedPtr GetDeployCharset( const char* filename );
   template<typename T>
   inline static void IterateFileList( CALL_BACK , T* thisObject );
   template<typename T>
   inline static void IterateIncludeList( CALL_BACK , T* thisObject );
  private :
   typedef boost::unordered_map<std::string,std::string> Hash;
-  typedef boost::unordered_map<std::string,Handle<Options> > OptionHash;
-  typedef boost::unordered_map<std::string,Handle<Version> > VersionHash;
+  typedef boost::unordered_map<std::string,SharedPtr<Options> > OptionHash;
+  typedef boost::unordered_map<std::string,SharedPtr<Version> > VersionHash;
   typedef std::list<std::string> List;
   template<typename T>
   inline static void Iterate_( CALL_BACK , T* thisObject , const List& list );
-  static StrHandle GetCmpPath_( const char* filename );
+  static StrSharedPtr GetCmpPath_( const char* filename );
   static List file_list_;
   static List include_list_;
   static Hash module_list_;

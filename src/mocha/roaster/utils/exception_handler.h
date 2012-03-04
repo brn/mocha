@@ -26,17 +26,17 @@
 #define mocha_exception_handler_h_
 #include <list>
 #include <utils/class_traits/uncopyable.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 namespace mocha {
 
 class ExceptionHandler : private Uncopyable {
  public :
-  typedef Handle<ExceptionHandler> ExceptionHandle;
-  static ExceptionHandle CreateException( const char* message );
+  typedef SharedPtr<ExceptionHandler> ExceptionHandle;
+  static ExceptionHandle CreateException(const char* message);
   ~ExceptionHandler();
   inline const char* Message() { return error_.c_str(); };
  private :
-  ExceptionHandler( const char* message );
+  ExceptionHandler(const char* message);
   std::string error_;
 };
 

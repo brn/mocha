@@ -25,36 +25,33 @@
 #define mocha_ast_ast_h_
 #include <stdio.h>
 #include <string>
-#include <utils/pool/managed.h>
-#include <utils/pool/managed_handle.h>
 #include <utils/class_traits/uncopyable.h>
 #include <utils/class_traits/unallocatable.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
+#include <mocha/roaster/memory/pool.h>
 
 namespace mocha {
-#define NVI_ACCEPTOR_DECL virtual void NVIAccept_( IVisitor* visitor )
-#define CALL_ACCEPTOR(name) NVI_ACCEPTOR_DECL{visitor->Visit##name( this );}
-#define SET( num ) flags_.Set( num )
-#define HAS( num ) flags_.At( num )
-#define CLONE( name ) virtual AstNode* Clone();
-#define FACTORY( name ) static name* New() { return ManagedHandle::Retain( new name ); }
-#define LINED_FACTORY( name ) static name* New( int64_t line ) { return ManagedHandle::Retain( new name( line ) ); }
+#define NVI_ACCEPTOR_DECL virtual void NVIAccept_(IVisitor* visitor)
+#define CALL_ACCEPTOR(name) NVI_ACCEPTOR_DECL{visitor->Visit##name(this);}
+#define SET(num) flags_.Set(num)
+#define HAS(num) flags_.At(num)
+#define CLONE virtual AstNode* Clone(memory::Pool* pool);
 /**
  * @class
  * Iterator of node lists.
  */
 class NodeIterator{
  public :
-  NodeIterator() : node_( 0 ){}
-  explicit NodeIterator( AstNode* node ) : node_( node ){}
+  NodeIterator() : node_(0){}
+  explicit NodeIterator(AstNode* node) : node_(node){}
   ~NodeIterator(){}
-  NodeIterator( const NodeIterator& iterator ) {
+  NodeIterator(const NodeIterator& iterator) {
     node_ = iterator.node_;
   }
-  const NodeIterator& operator =( const NodeIterator& iterator ) {
+  const NodeIterator& operator =(const NodeIterator& iterator) {
     node_ = iterator.node_;
     return (*this);
   }
@@ -63,7 +60,7 @@ class NodeIterator{
    * @returns {AstNode*}
    * Check current node is 0 or not.
    */
-  bool HasNext() const { return ( node_ != 0 )? true : false; }
+  bool HasNext() const { return (node_ != 0)? true : false; }
 
   /**
    * @returns {AstNode*}
@@ -89,9 +86,9 @@ class NodeIterator{
  */
 class ReverseNodeIterator{
  public :
-  explicit ReverseNodeIterator( AstNode* node ) : node_( node ){}
+  explicit ReverseNodeIterator(AstNode* node) : node_(node){}
   ~ReverseNodeIterator(){}
-  bool HasNext() const { return ( node_ != 0 )? true : false; }
+  bool HasNext() const { return (node_ != 0)? true : false; }
   AstNode* Next();
   AstNode* Item() const { return node_; };
  private :
@@ -108,7 +105,7 @@ class ReverseNodeIterator{
  * You must set empty node to 'Empty' class ptr,
  * if you not, you got sigenv where access to empty node.
  */
-class AstNode : public Managed , private Uncopyable {
+class AstNode : public memory::Allocated, private Uncopyable {
   friend class AstNodeList;
  public :
   //Definition of all node type.
@@ -200,7 +197,7 @@ class AstNode : public Managed , private Uncopyable {
    * @param {AstNode*} node
    * Set a parent node of this node.
    */
-  void set_parent_node( AstNode* node ) { parent_ = node; }
+  void set_parent_node(AstNode* node) { parent_ = node; }
 
   /**
    * @returns {AstNode*}
@@ -254,13 +251,13 @@ class AstNode : public Managed , private Uncopyable {
    * @param {AstNode*}
    * Insert a node to next sibling of this node.
    */
-  void After( AstNode* node ) { next_sibling_ = node; if ( node ) node->prev_sibling_ = this; };
+  void After(AstNode* node) { next_sibling_ = node; if (node) node->prev_sibling_ = this; };
 
   /**
    * @param {AstNode*}
    * Insert a node to previous sibling of this node.
    */
-  void Before( AstNode* node ) { prev_sibling_ = node; if ( node ) node->next_sibling_ = this; };
+  void Before(AstNode* node) { prev_sibling_ = node; if (node) node->next_sibling_ = this; };
 
   /**
    * @param {AstNode*}
@@ -275,59 +272,59 @@ class AstNode : public Managed , private Uncopyable {
    *             |     |     |     |
    *             child child child child
    */
-  void Append( AstNode* node );
+  void Append(AstNode* node);
 
   /**
    * @returns {NodeIterator}
    * Get a iterator of the child nodes.
    * This function returns is values by value of NodeIterator.
    */
-  NodeIterator ChildNodes() { return NodeIterator( first_child_ ); }
+  NodeIterator ChildNodes() { return NodeIterator(first_child_); }
 
   /**
    * @returns {ReverseNodeIterator}
    * Get a ReverseNodeIterator of the child nodes.
    */
-  ReverseNodeIterator ReverseChildNodes() { return ReverseNodeIterator( last_child_ ); }
+  ReverseNodeIterator ReverseChildNodes() { return ReverseNodeIterator(last_child_); }
 
   /**
    * @param {AstNode*}
    * Add child.
    */
-  void AddChild( AstNode* node );
+  void AddChild(AstNode* node);
 
   /**
    * @params {AstNode*}
    * Insert child to the front of child nodes.
    * The node that passed as arguments is assign to the first child.
    */
-  void InsertBefore( AstNode* node );
+  void InsertBefore(AstNode* node);
 
   /**
    * @param {AstNode*} insert
    * @param {AstNode*} target
    * Insert a new child node before the old node.
    */
-  void InsertBefore( AstNode* insert , AstNode* target );
+  void InsertBefore(AstNode* insert, AstNode* target);
 
   /**
    * @param {AstNode*} insert
    * @param {AstNode*} target
    * Insert a new child node after the old node.
    */
-  void InsertAfter( AstNode* insert , AstNode* target );
+  void InsertAfter(AstNode* insert, AstNode* target);
 
   /**
    * @param {AstNode*}
    * Remove a node that passed as arguments from the child nodes.
    */
-  virtual void RemoveChild( AstNode* node );
+  virtual void RemoveChild(AstNode* node);
 
   /**
    * Remove all child nodes.
    * In fact, this function is not delete child node,
    * but set parent_ property of all child nodes to 0 and,
-   * set self properties ( first_child_ , last_child_ and child_length_ ) to 0.
+   * set self properties (first_child_, last_child_ and child_length_) to 0.
    */
   virtual void RemoveAllChild();
 
@@ -335,13 +332,13 @@ class AstNode : public Managed , private Uncopyable {
    * @param {AstNode*}
    * Replace this node with the node that passed as arguments.
    */
-  void ReplaceWith( AstNode* node );
+  void ReplaceWith(AstNode* node);
 
   /**
    * @param {AstNode*}
    * Replace the old_node with new_node in childnodes.
    */
-  virtual void ReplaceChild( AstNode* old_node , AstNode* new_node );
+  virtual void ReplaceChild(AstNode* old_node, AstNode* new_node);
 
   /**
    * @returns {int}
@@ -360,7 +357,7 @@ class AstNode : public Managed , private Uncopyable {
    * Function that accept visitor.
    * This function call private virtual NVIAcceptor_.
    */
-  void Accept( IVisitor* visitor ) { NVIAccept_( visitor ); };
+  void Accept(IVisitor* visitor) { NVIAccept_(visitor); };
 
   /**
    * @param {Statemet*}
@@ -382,7 +379,7 @@ class AstNode : public Managed , private Uncopyable {
   /**
    * Print the real node name of this node.
    */
-  void PrintNodeName() const { printf( "%s\n" , name_ ); }
+  void PrintNodeName() const { printf("%s\n", name_); }
 
   /**
    * @returns {long}
@@ -400,7 +397,7 @@ class AstNode : public Managed , private Uncopyable {
    * @returns {AstNode*}
    * Clone node.
    */
-  virtual AstNode* Clone() {return 0;};
+  virtual AstNode* Clone(memory::Pool* pool) {return 0;};
 
   /**
    * @returns {bool}
@@ -408,7 +405,7 @@ class AstNode : public Managed , private Uncopyable {
    */
   virtual bool IsEmpty() const { return false; }
  protected :
-  AstNode( int type , const char* name , int64_t line );
+  AstNode(int type, const char* name, int64_t line);
  private :
   NVI_ACCEPTOR_DECL{};
   int type_;
@@ -433,11 +430,10 @@ class AstNode : public Managed , private Uncopyable {
  */
 class NodeList : public AstNode {
  public :
-  FACTORY( NodeList );
-  NodeList() : AstNode( AstNode::kNodeList , "NodeList" , 0 ){}
+  NodeList() : AstNode(AstNode::kNodeList, "NodeList", 0){}
   ~NodeList(){}
   NodeList* CastToNodeList() { return this; }
-  CLONE( NodeList );
+  CLONE;
  private :
   CALL_ACCEPTOR(NodeList);
 };
@@ -450,16 +446,15 @@ class NodeList : public AstNode {
  */
 class Empty : public AstNode {
  public :
-  FACTORY( Empty );
+  Empty() : AstNode(AstNode::kEmpty, "Empty", 0){}
   /**
    * @param {bool}
    * Only this node that IsEmpty method return true.
    */
   virtual bool IsEmpty() const { return true; }
-  CLONE( Empty );
+  CLONE;
  private :
-  Empty() : AstNode( AstNode::kEmpty , "Empty" , 0 ){}
-  void NVIAccept_( IVisitor* visitor ){}
+  void NVIAccept_(IVisitor* visitor){}
 };
 
 /**
@@ -469,20 +464,19 @@ class Empty : public AstNode {
  */
 class AstRoot : public AstNode {
  public :
-  FACTORY( AstRoot );
-  AstRoot() : AstNode( AstNode::kAstRoot , "AstRoot" , 0 ) {}
+  AstRoot() : AstNode(AstNode::kAstRoot, "AstRoot", 0) {}
   ~AstRoot(){};
   /**
    * @param {InnerScope*}
    * Global closure scope.
    */
-  void set_scope( Scope* scope ) { scope_ = scope; }
+  void set_scope(Scope* scope) { scope_ = scope; }
   /**
    * @retunrs {InnerScope*}
    * Return global closure scope.
    */
   Scope* scope() const { return scope_; }
-  CLONE( AstRoot );
+  CLONE;
  private :
   Scope* scope_;
   CALL_ACCEPTOR(AstRoot);
@@ -495,9 +489,8 @@ class AstRoot : public AstNode {
  */
 class FileRoot : public AstNode {
  public :
-  static FileRoot* New( const char* filename ) {
-    return ManagedHandle::Retain( new FileRoot( filename ) );
-  }
+  FileRoot(const char* filename) :
+      AstNode(AstNode::kFileRoot, "FileRoot", 0), filename_(filename) {}
   ~FileRoot(){};
   /**
    * @returns {const char*}
@@ -508,13 +501,11 @@ class FileRoot : public AstNode {
   void set_runtime() { SET(0); }
   bool IsStrict() const { return HAS(1); }
   void MarkAsStrict() { SET(1); }
-  CLONE( FileRoot );
+  CLONE;
  private :
-  FileRoot( const char* filename ) :
-      AstNode( AstNode::kFileRoot , "FileRoot" , 0 ), filename_( filename ) {}
   BitVector8 flags_;
   std::string filename_;
-  CALL_ACCEPTOR( FileRoot );
+  CALL_ACCEPTOR(FileRoot);
 };
 
 
@@ -525,8 +516,8 @@ class FileRoot : public AstNode {
  */
 class Statement : public AstNode {
  public :
+  Statement() : AstNode(AstNode::kStatement, "Statement", 0), destructuring_node_(0){}
   virtual ~Statement() {};
-  FACTORY(Statement);
   /**
    * @returns {Statement*}
    * Cast to statement.
@@ -542,7 +533,7 @@ class Statement : public AstNode {
    * @param {DstaExtractedExpression} tree
    * Set destructuring assignment tree.
    */
-  void set_destructuring( DstaExtractedExpressions* tree ) {
+  void set_destructuring(DstaExtractedExpressions* tree) {
     destructuring_node_ = tree;
     SET(0);
   }
@@ -569,8 +560,7 @@ class Statement : public AstNode {
    */
   void ResetDsta();
  protected :
-  Statement( int type , const char* name , int64_t line ) : AstNode( type , name , line ) , destructuring_node_( 0 ) {};
-  Statement() : AstNode( AstNode::kStatement , "Statement" , 0 ) , destructuring_node_( 0 ){}
+  Statement(int type, const char* name, int64_t line) : AstNode(type, name, line), destructuring_node_(0) {};
 
  private :
   NVI_ACCEPTOR_DECL{};
@@ -586,28 +576,26 @@ class Statement : public AstNode {
  */
 class StatementList : public AstNode {
  public :
-  FACTORY( StatementList );
-  StatementList() : AstNode( AstNode::kStatementList , "StatementList" , 0 ){}
+  StatementList() : AstNode(AstNode::kStatementList, "StatementList", 0){}
   ~StatementList(){}
-  CLONE( StatementList );
+  CLONE;
  private :
   CALL_ACCEPTOR(StatementList);
 };
 
 
-#define NAME_PARAMETER(name) AstNode::k##name , #name
+#define NAME_PARAMETER(name) AstNode::k##name, #name
 
 
 class YieldMark : public Statement {
  public :
-  FACTORY( YieldMark );
-  YieldMark() : Statement( NAME_PARAMETER( YieldMark ) , 0 ) , adjustment_( 0 ) , is_state_injection_( false ), state_( 0 ){}
+  YieldMark() : Statement(NAME_PARAMETER(YieldMark), 0), adjustment_(0), is_state_injection_(false), state_(0){}
   ~YieldMark() {}
-  void ReEntrantNode( Literal* val ){ state_ = val; }
+  void ReEntrantNode(Literal* val){ state_ = val; }
   Literal* ReEntrantNode() const { return state_; }
   YieldMark* CastToYieldMark() { return this; }
-  int Adjust( int val ) { return val + adjustment_; }
-  void SetAdjust( int val ) { adjustment_ = val; }
+  int Adjust(int val) { return val + adjustment_; }
+  void SetAdjust(int val) { adjustment_ = val; }
   void SetNoStateInjection() { is_state_injection_ = true; }
   bool GetNoStateInjection() const { return is_state_injection_; }
  private :
@@ -619,19 +607,18 @@ class YieldMark : public Statement {
 
 class ExYieldStateNode : public Statement {
  public :
-  FACTORY( ExYieldStateNode );
   ExYieldStateNode() :
-      Statement( NAME_PARAMETER( ExYieldStateNode ) , 0 ) , loopback_ptr_( 0 ),
-      next_ptr_( 0 ) , escape_ptr_( 0 ) , if_stmt_ptr_( 0 ) {}
+      Statement(NAME_PARAMETER(ExYieldStateNode), 0), loopback_ptr_(0),
+      next_ptr_(0), escape_ptr_(0), if_stmt_ptr_(0) {}
   ~ExYieldStateNode(){};
   ExYieldStateNode* CastToYieldState() { return this; }
-  void EscapePtr( Literal* ptr ) { escape_ptr_ = ptr; }
+  void EscapePtr(Literal* ptr) { escape_ptr_ = ptr; }
   Literal* EscapePtr() { return escape_ptr_; }
-  void LoopBackPtr( Literal* ptr ) { loopback_ptr_ = ptr; }
+  void LoopBackPtr(Literal* ptr) { loopback_ptr_ = ptr; }
   Literal* LoopBackPtr() { return loopback_ptr_; }
-  void NextPtr( Literal* ptr ) { next_ptr_ = ptr; }
+  void NextPtr(Literal* ptr) { next_ptr_ = ptr; }
   Literal* NextPtr() { return next_ptr_; }
-  void IfStmtPtr( IFStmt* ptr ) { if_stmt_ptr_ = ptr; }
+  void IfStmtPtr(IFStmt* ptr) { if_stmt_ptr_ = ptr; }
   IFStmt* IfStmtPtr() { return if_stmt_ptr_; }
  private :
   Literal* loopback_ptr_;
@@ -646,12 +633,11 @@ class ExYieldStateNode : public Statement {
  */
 class BlockStmt : public Statement {
  public :
-  LINED_FACTORY( BlockStmt );
+  explicit BlockStmt(int64_t line) : Statement(NAME_PARAMETER(BlockStmt), line){};
   ~BlockStmt() {};
-  CLONE( BlockStmt );
+  CLONE;
  private :
-  explicit BlockStmt( int64_t line ) : Statement( NAME_PARAMETER(BlockStmt) , line ){};
-  CALL_ACCEPTOR( BlockStmt );
+  CALL_ACCEPTOR(BlockStmt);
 };
 
 
@@ -661,21 +647,18 @@ class BlockStmt : public Statement {
  */
 class ModuleStmt : public Statement {
  public :
-  static ModuleStmt* New( AstNode* name , int64_t line ) {
-    return ManagedHandle::Retain( new ModuleStmt( name , line ) );
-  }
+  ModuleStmt(AstNode* name, int64_t line) :
+      Statement(NAME_PARAMETER(ModuleStmt), line), name_(name){};
   ~ModuleStmt() {};
   /**
    * @returns {AstNode*}
    * Get module name.
    */
   AstNode* name() const { return name_; }
-  CLONE(ModuleStmt);
+  CLONE;
  private :
-  ModuleStmt( AstNode* name , int64_t line ) :
-      Statement( NAME_PARAMETER(ModuleStmt) , line ) , name_( name ){};
   AstNode* name_;
-  CALL_ACCEPTOR( ModuleStmt );
+  CALL_ACCEPTOR(ModuleStmt);
 };
 
 
@@ -685,12 +668,11 @@ class ModuleStmt : public Statement {
  */
 class ExportStmt : public Statement {
  public :
-  LINED_FACTORY( ExportStmt );
+  explicit ExportStmt(int64_t line) : Statement(NAME_PARAMETER(ExportStmt), line){};
   ~ExportStmt() {};
-  CLONE(ExportStmt);
+  CLONE;
  private :
-  explicit ExportStmt( int64_t line ) : Statement( NAME_PARAMETER(ExportStmt) , line ){};
-  CALL_ACCEPTOR( ExportStmt );
+  CALL_ACCEPTOR(ExportStmt);
 };
 
 
@@ -711,9 +693,9 @@ class ImportStmt : public Statement {
     kDst,
     kAll
   };
-  static ImportStmt* New( int expression_type , int mod_type , int64_t line ) {
-    return ManagedHandle::Retain( new ImportStmt( expression_type , mod_type , line ) );
-  }
+  ImportStmt(int expression_type, int module_type, int64_t line) :
+      Statement(NAME_PARAMETER(ImportStmt), line),
+      expression_type_(expression_type), module_type_(module_type), expression_(0), from_(0), module_key_(0){}
   ~ImportStmt(){};
 
   /**
@@ -723,7 +705,7 @@ class ImportStmt : public Statement {
    *          |
    *         this
    */
-  void set_expression( AstNode* exp ) { expression_ = exp;exp->set_parent_node( this ); }
+  void set_expression(AstNode* exp) { expression_ = exp;exp->set_parent_node(this); }
 
   /**
    * @returns {AstNode*}
@@ -738,7 +720,7 @@ class ImportStmt : public Statement {
    *                     |
    *                    this
    */
-  void set_from( AstNode* from ) { from_ = from;from->set_parent_node( this ); }
+  void set_from(AstNode* from) { from_ = from;from->set_parent_node(this); }
 
   /**
    * @param {AstNode*}
@@ -751,7 +733,7 @@ class ImportStmt : public Statement {
    * Set the module load key,
    * this key used in compiled javascript.
    */
-  void set_module_key( TokenInfo* key ) { module_key_ = key; }
+  void set_module_key(TokenInfo* key) { module_key_ = key; }
 
   /**
    * @returns {TokenInfo*}
@@ -762,19 +744,16 @@ class ImportStmt : public Statement {
   //Type getter.
   int expression_type() const { return expression_type_; }
   int module_type() const { return module_type_; }
-  void virtual ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE(ImportStmt);
+  void virtual ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  ImportStmt( int expression_type , int module_type , int64_t line ) :
-      Statement( NAME_PARAMETER( ImportStmt ) , line ),
-      expression_type_( expression_type ) , module_type_( module_type ) , expression_( 0 ) , from_( 0 ), module_key_( 0 ){}
 
   int expression_type_;
   int module_type_;
   AstNode* expression_;
   AstNode* from_;
   TokenInfo* module_key_;
-  CALL_ACCEPTOR( ImportStmt );
+  CALL_ACCEPTOR(ImportStmt);
 };
 
 /**
@@ -789,12 +768,11 @@ class VariableStmt : public Statement {
     kConst,
     kLet
   };
-  LINED_FACTORY( VariableStmt );
+  VariableStmt(int64_t line) : Statement(NAME_PARAMETER(VariableStmt), line){};
   ~VariableStmt(){};
-  CLONE( VariableStmt );
+  CLONE;
  private :
-  VariableStmt( int64_t line ) : Statement( NAME_PARAMETER(VariableStmt) , line ){};
-  CALL_ACCEPTOR( VariableStmt );
+  CALL_ACCEPTOR(VariableStmt);
 };
 
 
@@ -805,19 +783,16 @@ class VariableStmt : public Statement {
  */
 class LetStmt : public Statement {
  public :
-  static LetStmt* New( AstNode* exp , int64_t line ) {
-    return ManagedHandle::Retain( new LetStmt( exp , line ) );
+  LetStmt(AstNode* exp, int64_t line) :
+      Statement(NAME_PARAMETER(LetStmt), line), expression_(exp) {
+    expression_->set_parent_node(this);
   }
   ~LetStmt(){}
   AstNode* expression() const { return expression_; }
-  CLONE( LetStmt );
+  CLONE;
  private :
-  LetStmt( AstNode* exp , int64_t line ) :
-      Statement( NAME_PARAMETER(LetStmt) , line ) , expression_( exp ) {
-    expression_->set_parent_node( this );
-  }
   AstNode* expression_;
-  CALL_ACCEPTOR( LetStmt );
+  CALL_ACCEPTOR(LetStmt);
 };
 
 
@@ -827,12 +802,11 @@ class LetStmt : public Statement {
  */
 class ExpressionStmt : public Statement {
  public :
-  LINED_FACTORY( ExpressionStmt );
+  ExpressionStmt(int64_t line) : Statement(AstNode::kExpressionStmt, "ExpressionStmt", line) {};
   ~ExpressionStmt(){};
-  CLONE( ExpressionStmt );
+  CLONE;
  private :
-  ExpressionStmt( int64_t line ) : Statement( AstNode::kExpressionStmt , "ExpressionStmt" , line ) {};
-  CALL_ACCEPTOR( ExpressionStmt );
+  CALL_ACCEPTOR(ExpressionStmt);
 };
 
 
@@ -842,184 +816,170 @@ class ExpressionStmt : public Statement {
  */
 class IFStmt : public Statement {
  public :
-  LINED_FACTORY( IFStmt );
+  explicit IFStmt(int64_t line) :
+      Statement(NAME_PARAMETER(IFStmt), line), condition_(0), then_statement_(0), else_statement_(0){};
   ~IFStmt(){};
   IFStmt* CastToIFStmt() { return this; }
   /**
    * @param {AstNode*} exp
    * Set expression node.
-   * if ( <...> ) { ...
+   * if (<...>) { ...
    *        |
    *       this
    */
-  void set_condition( AstNode* exp ) { condition_ = exp;exp->set_parent_node( this ); }
+  void set_condition(AstNode* exp) { condition_ = exp;exp->set_parent_node(this); }
 
   /**
    * @returns {AstNode*}
    * Get expression node.
    */
   AstNode* condition() const { return condition_; }
-  void set_then_statement( AstNode* node ) { then_statement_ = node;node->set_parent_node( this ); }
+  void set_then_statement(AstNode* node) { then_statement_ = node;node->set_parent_node(this); }
   AstNode* then_statement() const { return then_statement_; }
-  void set_else_statement( AstNode* els ) { else_statement_ = els;els->set_parent_node( this ); }
+  void set_else_statement(AstNode* els) { else_statement_ = els;els->set_parent_node(this); }
   AstNode* else_statement() const { return else_statement_; }
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( IFStmt );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  explicit IFStmt( int64_t line ) :
-      Statement( NAME_PARAMETER(IFStmt) , line ), condition_( 0 ) , then_statement_( 0 ), else_statement_( 0 ){};
   AstNode* condition_;
   AstNode* then_statement_;
   AstNode* else_statement_;
-  CALL_ACCEPTOR( IFStmt );
+  CALL_ACCEPTOR(IFStmt);
 };
 
 
 class IterationStmt : public Statement {
  public :
-  static IterationStmt* New( int type , int64_t line ) {
-    return ManagedHandle::Retain( new IterationStmt( type , line ) );
-  }
+  IterationStmt(int type, int64_t line) : Statement(type, "IterationStmt", line), expression_(0){};
   ~IterationStmt(){};
-  void set_expression( AstNode* exp ) { expression_ = exp;exp->set_parent_node( this ); }
+  void set_expression(AstNode* exp) { expression_ = exp;exp->set_parent_node(this); }
   AstNode* expression() { return expression_; }
   IterationStmt* CastToIteration() { return this; }
-  CLONE( IterationStmt );
+  CLONE;
  private:
-  IterationStmt( int type , int64_t line ) : Statement( type , "IterationStmt" , line ) , expression_( 0 ){};
   AstNode* expression_;
-  CALL_ACCEPTOR( IterationStmt );
+  CALL_ACCEPTOR(IterationStmt);
 };
 
 
 class ContinueStmt : public Statement {
  public :
-  LINED_FACTORY( ContinueStmt );
+  explicit ContinueStmt(int64_t line) : Statement(NAME_PARAMETER(ContinueStmt), line){};
   ~ContinueStmt() {};
-  CLONE( ContinueStmt );
+  CLONE;
  private :
-  explicit ContinueStmt( int64_t line ) : Statement( NAME_PARAMETER( ContinueStmt ) , line ){};
-  CALL_ACCEPTOR( ContinueStmt );
+  CALL_ACCEPTOR(ContinueStmt);
 };
 
 
 
 class BreakStmt : public Statement {
  public :
-  LINED_FACTORY( BreakStmt );
+  explicit BreakStmt(int64_t line) : Statement(NAME_PARAMETER(BreakStmt), line) {};
   ~BreakStmt() {};
-  CLONE( BreakStmt );
+  CLONE;
  private :
-  explicit BreakStmt( int64_t line ) : Statement( NAME_PARAMETER(BreakStmt) , line ) {};
-  CALL_ACCEPTOR( BreakStmt );
+  CALL_ACCEPTOR(BreakStmt);
 };
 
 
 
 class ReturnStmt : public Statement {
  public :
-  LINED_FACTORY( ReturnStmt );
+  explicit ReturnStmt(int64_t line) : Statement(NAME_PARAMETER(ReturnStmt), line){};
   ~ReturnStmt() {};
-  CLONE( ReturnStmt );
+  CLONE;
  private :
-  explicit ReturnStmt( int64_t line ) : Statement( NAME_PARAMETER(ReturnStmt) , line ){};
-  CALL_ACCEPTOR( ReturnStmt );
+  CALL_ACCEPTOR(ReturnStmt);
 };
 
 
 class WithStmt : public Statement {
  public :
-  LINED_FACTORY( WithStmt );
+  explicit WithStmt(int64_t line) : Statement(NAME_PARAMETER(WithStmt), line), expression_(0){};
   ~WithStmt(){};
-  void set_expression( AstNode* node ) { expression_ = node;expression_->set_parent_node( this ); }
+  void set_expression(AstNode* node) { expression_ = node;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
-  CLONE( WithStmt );
+  CLONE;
  private :
-  explicit WithStmt( int64_t line ) : Statement( NAME_PARAMETER(WithStmt) , line ) , expression_( 0 ){};
   AstNode* expression_;
-  CALL_ACCEPTOR( WithStmt );
+  CALL_ACCEPTOR(WithStmt);
 };
 
 
 class LabelledStmt : public Statement {
  public :
-  LINED_FACTORY( LabelledStmt );
+  explicit LabelledStmt(int64_t line) : Statement(NAME_PARAMETER(LabelledStmt), line){};
   ~LabelledStmt() {};
-  CLONE( LabelledStmt );
+  CLONE;
  private :
-  explicit LabelledStmt( int64_t line ) : Statement( NAME_PARAMETER(LabelledStmt) , line ){};
-  CALL_ACCEPTOR( LabelledStmt );
+  CALL_ACCEPTOR(LabelledStmt);
 };
 
 
 
 class SwitchStmt : public Statement {
  public :
-  LINED_FACTORY( SwitchStmt );
+  explicit SwitchStmt(int64_t line) : Statement(NAME_PARAMETER(SwitchStmt), line), expression_(0){};
   ~SwitchStmt() {};
-  void set_expression( AstNode* node ) { expression_ = node;expression_->set_parent_node( this ); }
+  void set_expression(AstNode* node) { expression_ = node;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
   SwitchStmt* CastToSwitchStmt() { return this; }
-  CLONE( SwitchStmt );
+  CLONE;
  private :
-  explicit SwitchStmt( int64_t line ) : Statement( NAME_PARAMETER(SwitchStmt) , line ) , expression_( 0 ){};
   AstNode* expression_;
-  CALL_ACCEPTOR( SwitchStmt );
+  CALL_ACCEPTOR(SwitchStmt);
 };
 
 
 
 class ThrowStmt : public Statement {
  public :
-  LINED_FACTORY( ThrowStmt );
+  explicit ThrowStmt(int64_t line) : Statement(NAME_PARAMETER(ThrowStmt), line), expression_(0){};
   ~ThrowStmt(){};
-  void set_expression( AstNode* exp ) { expression_ = exp;expression_->set_parent_node( this ); }
+  void set_expression(AstNode* exp) { expression_ = exp;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
-  CLONE( ThrowStmt );
+  CLONE;
  private :
-  explicit ThrowStmt( int64_t line ) : Statement( NAME_PARAMETER(ThrowStmt) , line ) , expression_( 0 ){};
   AstNode* expression_;
-  CALL_ACCEPTOR( ThrowStmt );
+  CALL_ACCEPTOR(ThrowStmt);
 };
 
 
 class TryStmt : public Statement {
  public :
-  LINED_FACTORY( TryStmt );
+  explicit TryStmt(int64_t line) : Statement(NAME_PARAMETER(TryStmt), line), catch_block_(0), finally_block_(0){};
   ~TryStmt(){};
-  void set_catch_block( AstNode* catch_stmt ) { catch_block_ = catch_stmt;catch_stmt->set_parent_node( this ); }
+  void set_catch_block(AstNode* catch_stmt) { catch_block_ = catch_stmt;catch_stmt->set_parent_node(this); }
   AstNode* catch_block() { return catch_block_; }
-  void set_finally_block( AstNode* finally_stmt ) { finally_block_ = finally_stmt;finally_stmt->set_parent_node( this ); }
+  void set_finally_block(AstNode* finally_stmt) { finally_block_ = finally_stmt;finally_stmt->set_parent_node(this); }
   AstNode* finally_block() { return finally_block_; }
-  CLONE( TryStmt );
+  CLONE;
  private :
-  explicit TryStmt( int64_t line ) : Statement( NAME_PARAMETER(TryStmt) , line ) , catch_block_( 0 ) , finally_block_( 0 ){};
   AstNode* catch_block_;
   AstNode* finally_block_;
-  CALL_ACCEPTOR( TryStmt );
+  CALL_ACCEPTOR(TryStmt);
 };
 
 class AssertStmt : public Statement {
  public :
-  LINED_FACTORY( AssertStmt );
+  explicit AssertStmt(int64_t line) : Statement(NAME_PARAMETER(AssertStmt), line){}
   ~AssertStmt(){}
-  CLONE( AssertStmt );
+  CLONE;
  private :
-  explicit AssertStmt( int64_t line ) : Statement( NAME_PARAMETER(AssertStmt) , line ){}
-  CALL_ACCEPTOR( AssertStmt );
+  CALL_ACCEPTOR(AssertStmt);
 };
 
 class CaseClause : public AstNode {
  public :
-  LINED_FACTORY( CaseClause );
+  explicit CaseClause(int64_t line) : AstNode(AstNode::kCase, "CaseClause", line), expression_(0){}
   ~CaseClause(){}
-  void set_expression( AstNode* node ) { expression_ = node;expression_->set_parent_node( this ); }
+  void set_expression(AstNode* node) { expression_ = node;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
-  CLONE( CaseClause );
+  CLONE;
  private :
-  explicit CaseClause( int64_t line ) : AstNode( AstNode::kCase , "CaseClause" , line ) , expression_( 0 ){}
   AstNode* expression_;
-  CALL_ACCEPTOR( CaseClause );
+  CALL_ACCEPTOR(CaseClause);
 };
 
 
@@ -1032,18 +992,20 @@ class Expression : public AstNode {
     kUnaryExpFlg
   };
  public :
-  LINED_FACTORY( Expression );
+  explicit Expression(int64_t line) : AstNode(AstNode::kExpression, "Expression", line) {
+    flags_.Set(kValidLhsFlg);
+  };
   virtual ~Expression(){};
-  void MarkParenthesis() { SET( kParenFlg ); };
-  bool IsParenthesis() const { return HAS( kParenFlg ); };
-  void UnMarkParenthesis() { flags_.UnSet( kParenFlg ); };
-  void MarkAsValidLhs() { SET( kValidLhsFlg ); }
-  void MarkAsInValidLhs() { flags_.UnSet( kValidLhsFlg ); }
-  bool IsValidLhs() const { return HAS( kValidLhsFlg ); }
-  void MarkAsLhs() { SET( kLhsFlg ); }
-  bool IsLhs() const { return HAS( kLhsFlg ); }
-  void MarkAsUnary() { SET( kUnaryExpFlg ); }
-  bool IsUnary() const { return HAS( kUnaryExpFlg ); }
+  void MarkParenthesis() { SET(kParenFlg); };
+  bool IsParenthesis() const { return HAS(kParenFlg); };
+  void UnMarkParenthesis() { flags_.UnSet(kParenFlg); };
+  void MarkAsValidLhs() { SET(kValidLhsFlg); }
+  void MarkAsInValidLhs() { flags_.UnSet(kValidLhsFlg); }
+  bool IsValidLhs() const { return HAS(kValidLhsFlg); }
+  void MarkAsLhs() { SET(kLhsFlg); }
+  bool IsLhs() const { return HAS(kLhsFlg); }
+  void MarkAsUnary() { SET(kUnaryExpFlg); }
+  bool IsUnary() const { return HAS(kUnaryExpFlg); }
   Expression* CastToExpression() { return this; }
   virtual AssignmentExp* CastToAssigment() { return 0; }
   virtual CallExp* CastToCallExp() { return 0; }
@@ -1058,34 +1020,30 @@ class Expression : public AstNode {
   virtual ArrayLikeLiteral* CastToArrayLikeLiteral() { return 0; }
   virtual ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
   virtual VariableDeclarationList* CastToVariableDeclarationList() { return 0; }
-  CLONE( Expression );
+  CLONE;
  protected :
-  Expression( int type , const char* name , int64_t line ) : AstNode( type , name , line ) {
-    flags_.Set( kValidLhsFlg );
+  Expression(int type, const char* name, int64_t line) : AstNode(type, name, line) {
+    flags_.Set(kValidLhsFlg);
   };
  private :
-  explicit Expression( int64_t line ) : AstNode( AstNode::kExpression , "Expression" , line ) {
-    flags_.Set( kValidLhsFlg );
-  };
   BitVector8 flags_;
-  CALL_ACCEPTOR( Expression );
+  CALL_ACCEPTOR(Expression);
 };
 
 
 class VariableDeclarationList : public Expression {
  public :
-  LINED_FACTORY(VariableDeclarationList);
+  explicit VariableDeclarationList(int64_t line)
+      : Expression(NAME_PARAMETER(VariableDeclarationList), line){}
   ~VariableDeclarationList(){}
   void MarkAsConstDeclaration() { SET(0); }
   void MarkAsLetDeclaration() { SET(1); }
   bool IsDeclaredAsConst() const { return HAS(0); }
   bool IsDeclaredAsLet() const { return HAS(1); }
   virtual VariableDeclarationList* CastToVariableDeclarationList() { return this; }
-  CLONE(VariableDeclarationList);
+  CLONE;
  private :
   CALL_ACCEPTOR(VariableDeclarationList);
-  explicit VariableDeclarationList( int64_t line )
-      : Expression( NAME_PARAMETER(VariableDeclarationList) , line ){}
   BitVector8 flags_;
 };
 
@@ -1096,17 +1054,14 @@ class TraitMember : public Expression {
     kPublic,
     kPrivate
   } TraitAttr;
-  static TraitMember* New( TraitAttr type , AstNode* property , int64_t line ) {
-    return ManagedHandle::Retain( new TraitMember( type , property , line ) );
-  }
+  TraitMember(TraitAttr type, AstNode* property, int64_t line) : Expression(NAME_PARAMETER(TraitMember), line),
+                                                                     attribute_(type), property_(property){}
   ~TraitMember(){}
   AstNode* property() { return property_; };
   TraitAttr attribute() { return attribute_; }
   TraitMember* CastToTraitMember() { return this; }
  private :
-  TraitMember( TraitAttr type , AstNode* property , int64_t line ) : Expression( NAME_PARAMETER( TraitMember ) , line ),
-                                                                     attribute_( type ) , property_( property ){}
-  void NVIAccept_( IVisitor* ){}
+  void NVIAccept_(IVisitor*){}
   TraitAttr attribute_;
   AstNode* property_;
 };
@@ -1114,23 +1069,22 @@ class TraitMember : public Expression {
 
 class MixinMember : public Expression {
  public :
-  LINED_FACTORY( MixinMember );
+  explicit MixinMember(int64_t line) : Expression(NAME_PARAMETER(MixinMember), line), name_(0){}
   ~MixinMember(){}
-  void set_name( AstNode* name ) { name_ = name;name->set_parent_node( this ); }
+  void set_name(AstNode* name) { name_ = name;name->set_parent_node(this); }
   AstNode* name() { return name_; }
-  void set_rename_list( AstNode* renamable_member ) {
-    rename_list_.AddChild( renamable_member );
-    renamable_member->set_parent_node( this );
+  void set_rename_list(AstNode* renamable_member) {
+    rename_list_.AddChild(renamable_member);
+    renamable_member->set_parent_node(this);
   }
-  void set_remove_list( AstNode* removal_member ) {
-    remove_list_.AddChild( removal_member );
-    removal_member->set_parent_node( this );
+  void set_remove_list(AstNode* removal_member) {
+    remove_list_.AddChild(removal_member);
+    removal_member->set_parent_node(this);
   }
   NodeList* rename_list() { return &rename_list_; }
   NodeList* remove_list() { return &remove_list_; }
   MixinMember* CastToMixinMember() { return this; }
  private :
-  explicit MixinMember( int64_t line ) : Expression( NAME_PARAMETER( MixinMember ) , line ) , name_( 0 ){}
   AstNode* name_;
   NodeList remove_list_;
   NodeList rename_list_;
@@ -1138,19 +1092,20 @@ class MixinMember : public Expression {
 
 class Trait : public Expression {
  public :
-  LINED_FACTORY( Trait );
+  explicit Trait(int64_t line) :
+      Expression(NAME_PARAMETER(Trait), line) ,declaration_(false), name_(0){}
   ~Trait(){};
-  void set_member( TraitMember* member ) {
-    if ( member->attribute() == TraitMember::kPublic ) {
-      public_member_.AddChild( member );
+  void set_member(TraitMember* member) {
+    if (member->attribute() == TraitMember::kPublic) {
+      public_member_.AddChild(member);
     } else {
-      private_member_.AddChild( member );
+      private_member_.AddChild(member);
     }
   }
-  void set_name( AstNode* value ) { name_ = value; }
+  void set_name(AstNode* value) { name_ = value; }
   AstNode* name() { return name_; }
-  void set_require( AstNode* require ) { require_member_.AddChild( require ); }
-  void set_mixin( AstNode* mixin ) { mixin_member_.AddChild( mixin ); }
+  void set_require(AstNode* require) { require_member_.AddChild(require); }
+  void set_mixin(AstNode* mixin) { mixin_member_.AddChild(mixin); }
   NodeList* public_member() { return &public_member_; }
   NodeList* private_member() { return &private_member_; }
   NodeList* require_member() { return &require_member_; }
@@ -1159,9 +1114,7 @@ class Trait : public Expression {
   void MarkAsDeclaration() { declaration_ = true; }
   bool IsDeclared() const { return declaration_; }
  private :
-  explicit Trait( int64_t line ) :
-      Expression( NAME_PARAMETER( Trait ) , line ) ,declaration_( false ) , name_( 0 ){}
-  CALL_ACCEPTOR( Trait );
+  CALL_ACCEPTOR(Trait);
   bool declaration_;
   AstNode* name_;
   NodeList private_member_;
@@ -1173,9 +1126,8 @@ class Trait : public Expression {
 
 class Class : public Expression {
  public :
-  static Class* New( AstNode* expandar , int64_t line ) {
-    return ManagedHandle::Retain( new Class( expandar , line ) );
-  }
+  Class(AstNode* expandar, int64_t line) :
+      Expression(NAME_PARAMETER(Class), line), name_(0),body_(0), expandar_(expandar){}
   ~Class(){}
   void MarkAsDeclaration() { SET(0); }
   bool IsDeclared() const { return HAS(0); }
@@ -1183,19 +1135,17 @@ class Class : public Expression {
   bool IsDeclaredAsConst() const { return HAS(1); }
   void set_inner() { SET(2); }
   bool inner() const { return HAS(2); }
-  void set_name( AstNode* name ) { name_ = name;name_->set_parent_node( this ); }
+  void set_name(AstNode* name) { name_ = name;name_->set_parent_node(this); }
   AstNode* name() { return name_; }
   AstNode* expandar() { return expandar_; }
-  void set_body( AstNode* body ) {
-    body->set_parent_node( this );
+  void set_body(AstNode* body) {
+    body->set_parent_node(this);
     body_ = body;
   }
   AstNode* body() { return body_; }
-  CLONE( Class );
+  CLONE;
  private :
-  Class( AstNode* expandar , int64_t line ) :
-      Expression( NAME_PARAMETER( Class ) , line ) , name_( 0 ),body_( 0 ), expandar_( expandar ){}
-  CALL_ACCEPTOR( Class );
+  CALL_ACCEPTOR(Class);
   BitVector8 flags_;
   AstNode* name_;
   AstNode* body_;
@@ -1204,25 +1154,24 @@ class Class : public Expression {
 
 class ClassProperties : public AstNode {
  public :
-  LINED_FACTORY( ClassProperties );
+  explicit ClassProperties(int64_t line) : AstNode(NAME_PARAMETER(ClassProperties), line),constructor_(0){};
   ~ClassProperties(){};
-  void set_public_member( AstNode* pb ) { public_.AddChild( pb ); }
-  void set_private_member( AstNode* pv ) { private_.AddChild( pv ); }
-  void set_public_static_member( AstNode* st ) { public_static_.AddChild( st ); }
-  void set_private_static_member( AstNode* st ) { private_static_.AddChild( st ); }
-  void set_prototype_member( AstNode* pt ) { prototype_.AddChild( pt ); }
-  void set_mixin_member( AstNode* mi ) { mixin_.AddChild( mi ); }
+  void set_public_member(AstNode* pb) { public_.AddChild(pb); }
+  void set_private_member(AstNode* pv) { private_.AddChild(pv); }
+  void set_public_static_member(AstNode* st) { public_static_.AddChild(st); }
+  void set_private_static_member(AstNode* st) { private_static_.AddChild(st); }
+  void set_prototype_member(AstNode* pt) { prototype_.AddChild(pt); }
+  void set_mixin_member(AstNode* mi) { mixin_.AddChild(mi); }
   NodeList* public_member() { return &public_; }
   NodeList* private_member() { return &private_; }
   NodeList* public_static_member() { return &public_static_; }
   NodeList* private_static_member() { return &private_static_; }
   NodeList* prototype_member() { return &prototype_; }
   NodeList* mixin_member() { return &mixin_; }
-  void set_constructor( AstNode* constructor ) { constructor_ = constructor; }
+  void set_constructor(AstNode* constructor) { constructor_ = constructor; }
   AstNode* constructor() { return constructor_; }
-  CLONE( ClassProperties );
+  CLONE;
  private :
-  explicit ClassProperties( int64_t line ) : AstNode( NAME_PARAMETER( ClassProperties ) , line ),constructor_( 0 ){};
   CALL_ACCEPTOR(ClassProperties);
   NodeList public_;
   NodeList private_;
@@ -1239,15 +1188,12 @@ class ClassExpandar : public AstNode {
     kExtends,
     kPrototype
   } ExpandAttr;
-  static ClassExpandar* New( ExpandAttr attr , int64_t line ) {
-    return ManagedHandle::Retain( new ClassExpandar( attr , line ) );
-  }
+  ClassExpandar(ExpandAttr attr, int64_t line) : AstNode(NAME_PARAMETER(ClassExpandar), line), attr_(attr){};
   ~ClassExpandar(){};
   ExpandAttr attribute() const { return attr_; }
-  CLONE( ClassExpandar );
+  CLONE;
  private :
-  ClassExpandar( ExpandAttr attr , int64_t line ) : AstNode( NAME_PARAMETER( ClassExpandar ) , line ) , attr_( attr ){};
-  CALL_ACCEPTOR( ClassExpandar );
+  CALL_ACCEPTOR(ClassExpandar);
   ExpandAttr attr_;
 };
 
@@ -1263,20 +1209,14 @@ class ClassMember : public AstNode {
     kConstructor,
     kMixin
   } MemberAttr;
-  static ClassMember* New( MemberAttr attr , int64_t line ) {
-    return ManagedHandle::Retain( new ClassMember( attr , line ) );
-  }
+  ClassMember(MemberAttr attr, int64_t line) : AstNode(NAME_PARAMETER(ClassMember), line), attr_(attr){}
   ~ClassMember(){}
   MemberAttr attribute() const { return attr_; }
-  CLONE( ClassMember );
+  CLONE;
  private :
-  ClassMember( MemberAttr attr , int64_t line ) : AstNode( NAME_PARAMETER( ClassMember ) , line ) , attr_( attr ){}
-  CALL_ACCEPTOR( ClassMember );
+  CALL_ACCEPTOR(ClassMember);
   MemberAttr attr_;
 };
-
-typedef HashMap<const char*,AstNode*> PropertyMap;
-typedef PropertyMap::HashEntry PropertyEntry;
 
 
 class Function : public Expression {
@@ -1296,51 +1236,50 @@ class Function : public Expression {
     kGlobal,
     kThis
   };
-  LINED_FACTORY( Function );
+  explicit Function(int64_t line) : Expression(NAME_PARAMETER(Function), line),
+                                      fn_type_(kNormal), context_(kGlobal), name_(0),
+                                      argv_(0), replaced_this_(0), statement_list_(0) {};
   ~Function(){};
   Function* CastToFunction() { return this; }
-  void set_name( AstNode* name ){ name_ = name; };
+  void set_name(AstNode* name){ name_ = name; };
   AstNode* name() { return name_; };
   AstNode* argv() { return argv_; };
-  void set_argv( AstNode* argv ) { argv_ = argv;argv_->set_parent_node( this ); };
+  void set_argv(AstNode* argv) { argv_ = argv;argv_->set_parent_node(this); };
   int argc() const { return argv_->child_length(); }
   void MarkAsConstDeclaration() { SET(0);SET(1); }
-  bool IsDeclaredAsConst() const { return HAS( 0 ); }
-  void MarkAsDeclaration() { SET( 1 ); }
-  bool IsDeclared() const { return HAS( 1 ); }
+  bool IsDeclaredAsConst() const { return HAS(0); }
+  void MarkAsDeclaration() { SET(1); }
+  bool IsDeclared() const { return HAS(1); }
   int function_type() const { return fn_type_; }
-  void set_function_type( int type ) { fn_type_ = type; }
+  void set_function_type(int type) { fn_type_ = type; }
   int context_type() const { return context_; }
-  void set_context_type( int type ) { context_ = type; }
-  void set_scope( Scope* scope ){ scope_ = scope; };
+  void set_context_type(int type) { context_ = type; }
+  void set_scope(Scope* scope){ scope_ = scope; };
   Scope* scope() const { return scope_; };
   void MarkAsRoot() { SET(2); }
   bool IsRoot() const { return HAS(2); }
   void MarkAsGenerator() { SET(3); }
   bool IsGenerator() const { return HAS(3); }
-  void set_statement_in_generator( AstNode* node ) { statement_list_.push_back( node ); }
+  void set_statement_in_generator(AstNode* node) { statement_list_.push_back(node); }
   const StmtList& statement_list() const { return statement_list_; }
-  void set_try_catch_list( TryStmt* try_stmt ) { try_catch_list_.push_back( try_stmt ); }
+  void set_try_catch_list(TryStmt* try_stmt) { try_catch_list_.push_back(try_stmt); }
   const TryCatchList& try_catch_list() const { return try_catch_list_; }
-  void set_variable_list( Literal* node ) { variable_list_.push_back( node ); }
+  void set_variable_list(Literal* node) { variable_list_.push_back(node); }
   const VariableList& variable_list() const { return variable_list_; }
-  void set_replaced_this( Literal* val ) { replaced_this_ = val; }
+  void set_replaced_this(Literal* val) { replaced_this_ = val; }
   Literal* replaced_this() { return replaced_this_; }
   void MarkAsStrict() { SET(4);}
   bool IsStrict() const { return HAS(4); }
-  void set_attribute( int type ) {
-    if ( type == kGet ) {
+  void set_attribute(int type) {
+    if (type == kGet) {
       SET(5);
-    } else if ( type == kSet ) {
+    } else if (type == kSet) {
       SET(6);
     }
   }
-  bool attribute( int type ) const { return ( type == kGet )? HAS(5) : ( type == kSet )? HAS(6) : false; }
-  CLONE( Function );
+  bool attribute(int type) const { return (type == kGet)? HAS(5) : (type == kSet)? HAS(6) : false; }
+  CLONE;
  private :
-  explicit Function( int64_t line ) : Expression( NAME_PARAMETER( Function ) , line ),
-                                      fn_type_( kNormal ) , context_( kGlobal ) , name_( 0 ),
-                                      argv_( 0 ) , replaced_this_( 0 ) , statement_list_( 0 ) {};
   int fn_type_;
   int context_;
   int fn_attr_;
@@ -1352,7 +1291,7 @@ class Function : public Expression {
   StmtList statement_list_;
   VariableList variable_list_;
   TryCatchList try_catch_list_;
-  CALL_ACCEPTOR( Function );
+  CALL_ACCEPTOR(Function);
 };
 
 
@@ -1367,196 +1306,174 @@ class CallExp : public Expression {
     kPrivate,
     kExtend
   };
-  static CallExp* New( int type , int64_t line ) { return ManagedHandle::Retain( new CallExp( type , line ) ); }
+  CallExp(int type, int64_t line) :
+      Expression(NAME_PARAMETER(CallExp), line), call_type_(type),
+      rest_(false), callable_(0), args_(0){};
   ~CallExp() {};
-  void set_callable( AstNode* node ){ callable_ = node;node->set_parent_node( this ); };
+  void set_callable(AstNode* node){ callable_ = node;node->set_parent_node(this); };
   AstNode* callable() { return callable_; };
-  void set_args( AstNode* node ) { args_ = node;node->set_parent_node( this ); };
+  void set_args(AstNode* node) { args_ = node;node->set_parent_node(this); };
   AstNode* args() { return args_; };
   int call_type() const { return call_type_; }
-  void set_call_type( int type ) { call_type_ = type; }
+  void set_call_type(int type) { call_type_ = type; }
   void set_rest() { rest_ = true; }
   bool rest() const { return rest_; }
   CallExp* CastToCallExp() { return this; }
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE(CallExp);
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  CallExp( int type , int64_t line ) :
-      Expression( NAME_PARAMETER( CallExp ) , line ) , call_type_( type ),
-      rest_( false ) , callable_( 0 ) , args_( 0 ){};
   int call_type_;
   bool rest_;
   AstNode* callable_;
   AstNode* args_;
-  CALL_ACCEPTOR( CallExp );
+  CALL_ACCEPTOR(CallExp);
 };
 
 
 class NewExp : public Expression {
  public :
-  LINED_FACTORY( NewExp );
+  explicit NewExp(int64_t line) : Expression(NAME_PARAMETER(NewExp), line){};
   ~NewExp(){};
-  CLONE( NewExp );
+  CLONE;
  private :
-  explicit NewExp( int64_t line ) : Expression( NAME_PARAMETER( NewExp ) , line ){};
-  CALL_ACCEPTOR( NewExp );
+  CALL_ACCEPTOR(NewExp);
 };
 
 class YieldExp : public Expression {
  public :
-  LINED_FACTORY( YieldExp );
+  explicit YieldExp(int64_t line) : Expression(NAME_PARAMETER(YieldExp), line){}
   ~YieldExp(){}
-  CLONE( YieldExp );
+  CLONE;
  private :
-  explicit YieldExp( int64_t line ) : Expression( NAME_PARAMETER( YieldExp ) , line ){}
-  CALL_ACCEPTOR( YieldExp );
+  CALL_ACCEPTOR(YieldExp);
 };
 
 
 class PostfixExp : public Expression {
  public :
-  static PostfixExp* New( int type , AstNode* exp , int64_t line ) {
-    return ManagedHandle::Retain( new PostfixExp( type , exp , line ) );
-  }
+  PostfixExp(int type, AstNode* exp, int64_t line) :
+      Expression(NAME_PARAMETER(PostfixExp), line), operand_(type) ,expression_(exp) {
+    expression_->set_parent_node(this);
+  };
   ~PostfixExp(){};
   int operand() const { return operand_; };
   AstNode* expression() { return expression_; }
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( PostfixExp );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  PostfixExp( int type , AstNode* exp , int64_t line ) :
-      Expression( NAME_PARAMETER( PostfixExp ) , line ) , operand_( type ) ,expression_( exp ) {
-    expression_->set_parent_node( this );
-  };
   int operand_;
   AstNode* expression_;
-  CALL_ACCEPTOR( PostfixExp );
+  CALL_ACCEPTOR(PostfixExp);
 };
 
 
 class UnaryExp : public Expression {
  public :
-  static UnaryExp* New( int type , AstNode* node , int64_t line ) {
-    return ManagedHandle::Retain( new UnaryExp( type , node , line ) );
-  }
+  UnaryExp(int op, AstNode* node, int64_t line) :
+      Expression(NAME_PARAMETER(UnaryExp), line), operand_(op), expression_(node){
+    expression_->set_parent_node(this);
+  };
   ~UnaryExp() {};
   AstNode* expression() { return expression_; }
   int operand() const { return operand_; };
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
   UnaryExp* CastToUnaryExp() { return this; }
-  CLONE( UnaryExp );
+  CLONE;
  private :
-  UnaryExp( int op , AstNode* node , int64_t line ) :
-      Expression( NAME_PARAMETER( UnaryExp ) , line ) , operand_( op ) , expression_( node ){
-    expression_->set_parent_node( this );
-  };
   int operand_;
   AstNode* expression_;
-  CALL_ACCEPTOR( UnaryExp );
+  CALL_ACCEPTOR(UnaryExp);
 };
 
 
 class BinaryExp : public Expression {
  public :
-  static BinaryExp* New( int type , AstNode* left , AstNode* right , int64_t line ) {
-    return ManagedHandle::Retain( new BinaryExp( type , left , right , line ) );
-  }
+  BinaryExp(int op, AstNode* left, AstNode* right, int64_t line) :
+      Expression(NAME_PARAMETER(BinaryExp), line), operand_(op),
+      left_value_(left), right_value_(right){
+    left_value_->set_parent_node(this);
+    right_value_->set_parent_node(this);
+  };
   ~BinaryExp() {};
   AstNode* left_value() { return left_value_; };
   AstNode* right_value() { return right_value_; };
   int operand() { return operand_; };
   BinaryExp* CastToBinary() { return this; }
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( BinaryExp );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  BinaryExp( int op , AstNode* left , AstNode* right , int64_t line ) :
-      Expression( NAME_PARAMETER( BinaryExp ) , line ) , operand_( op ),
-      left_value_( left ) , right_value_( right ){
-    left_value_->set_parent_node( this );
-    right_value_->set_parent_node( this );
-  };
-
   int operand_;
   AstNode* left_value_;
   AstNode* right_value_;
-  CALL_ACCEPTOR( BinaryExp );
+  CALL_ACCEPTOR(BinaryExp);
 };
 
 
 class CompareExp : public Expression {
  public :
-  static CompareExp* New( int op , AstNode* left , AstNode* right , int64_t line ) {
-    return ManagedHandle::Retain( new CompareExp( op , left , right , line ) );
-  }
+  CompareExp(int op, AstNode* left, AstNode* right, int64_t line) :
+      Expression(NAME_PARAMETER(CompareExp), line), operand_(op),
+      left_value_(left), right_value_(right){
+    left->set_parent_node(this);
+    right->set_parent_node(this);
+  };
   ~CompareExp(){};
   AstNode* left_value() { return left_value_; };
   AstNode* right_value() { return right_value_; };
   int operand() const { return operand_; };
   CompareExp* CastToCompareExp() { return this; }
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( CompareExp );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  CompareExp( int op , AstNode* left , AstNode* right , int64_t line ) :
-      Expression( NAME_PARAMETER( CompareExp ) , line ) , operand_( op ),
-      left_value_( left ) , right_value_( right ){
-    left->set_parent_node( this );
-    right->set_parent_node( this );
-  };
   int operand_;
   AstNode* left_value_;
   AstNode* right_value_;
-  CALL_ACCEPTOR( CompareExp );
+  CALL_ACCEPTOR(CompareExp);
 };
 
 
 class ConditionalExp : public Expression {
  public :
-  static ConditionalExp* New( AstNode* cond , AstNode* case_true , AstNode* case_false , int64_t line ) {
-    return ManagedHandle::Retain( new ConditionalExp( cond , case_true , case_false , line ) );
-  }
+  ConditionalExp(AstNode* cond, AstNode* case_true, AstNode* case_false, int64_t line) :
+      Expression(NAME_PARAMETER(ConditionalExp), line),
+      condition_(cond), case_true_(case_true), case_false_(case_false){
+    case_true_->set_parent_node(this);
+    case_false_->set_parent_node(this);
+    condition_->set_parent_node(this);
+  };
   ~ConditionalExp(){};
   AstNode* case_true() { return case_true_; };
   AstNode* case_false() { return case_false_; };
   AstNode* condition() { return condition_; };
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( ConditionalExp );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  ConditionalExp( AstNode* cond , AstNode* case_true , AstNode* case_false , int64_t line ) :
-      Expression( NAME_PARAMETER( ConditionalExp ) , line ),
-      condition_( cond ) , case_true_( case_true ) , case_false_( case_false ){
-    case_true_->set_parent_node( this );
-    case_false_->set_parent_node( this );
-    condition_->set_parent_node( this );
-  };
   AstNode* condition_;
   AstNode* case_true_;
   AstNode* case_false_;
-  CALL_ACCEPTOR( ConditionalExp );
+  CALL_ACCEPTOR(ConditionalExp);
 };
 
 
 class AssignmentExp : public Expression {
  public :
-  static AssignmentExp* New( int op , AstNode* left , AstNode* right , int64_t line ) {
-    return ManagedHandle::Retain( new AssignmentExp( op , left , right , line ) );
-  }
+  AssignmentExp(int op, AstNode* left, AstNode* right, int64_t line) :
+      Expression(NAME_PARAMETER(AssignmentExp), line),
+      operand_(op), left_value_(left), right_value_(right){
+    left_value_->set_parent_node(this);
+    right_value_->set_parent_node(this);
+  };
   AssignmentExp* CastToAssigment() { return this; }
   AstNode* left_value() { return left_value_; };
   AstNode* right_value() { return right_value_; };
   int operand() const { return operand_; };
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( AssignmentExp );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  AssignmentExp( int op , AstNode* left , AstNode* right , int64_t line ) :
-      Expression( NAME_PARAMETER( AssignmentExp ) , line ),
-      operand_( op ) , left_value_( left ) , right_value_( right ){
-    left_value_->set_parent_node( this );
-    right_value_->set_parent_node( this );
-  };
   int operand_;
   AstNode* left_value_;
   AstNode* right_value_;
-  CALL_ACCEPTOR( AssignmentExp );
+  CALL_ACCEPTOR(AssignmentExp);
 };
 
 
@@ -1582,47 +1499,42 @@ class Literal : public Expression {
     kGenerator,
     kNaN
   };
-  static Literal* New( int type , int64_t line ) {
-    return ManagedHandle::Retain( new Literal( type , line ) );
-  }
+  Literal(int type, int64_t line) :
+      Expression(AstNode::kLiteral, "Literal", line), value_type_(type), value_(0), node_(0){};
   ~Literal() {};
-  void set_value_type( int value_type ) { value_type_ = value_type; }
+  void set_value_type(int value_type) { value_type_ = value_type; }
   int value_type() const { return value_type_; };
   Literal* CastToLiteral() { return this; }
-  void set_value( TokenInfo* value ) { value_ = value; };
+  void set_value(TokenInfo* value) { value_ = value; };
   TokenInfo* value() { return value_; };
-  void set_node( AstNode* node ) { node_ = node;node_->set_parent_node( this ); };
+  void set_node(AstNode* node) { node_ = node;node_->set_parent_node(this); };
   AstNode* node() { return node_; }
-  CLONE( Literal );
- protected :
-  Literal( int type , int64_t line ) :
-      Expression( AstNode::kLiteral , "Literal" , line ) , value_type_( type ) , value_( 0 ) , node_( 0 ){};
+  CLONE;
  private :
   int value_type_;
   TokenInfo* value_;
   AstNode* node_;
-  CALL_ACCEPTOR( Literal );
+  CALL_ACCEPTOR(Literal);
 };
 
 
 class ArrayLikeLiteral : public Expression {
  public :
-  LINED_FACTORY( ArrayLikeLiteral );
+  explicit ArrayLikeLiteral(int64_t line) :
+      Expression(NAME_PARAMETER(ArrayLikeLiteral), line){
+    elements_.set_parent_node(this);
+  }
   ~ArrayLikeLiteral(){}
   void MarkAsTuple() { SET(0); }
   bool IsTuple() const { return HAS(0); }
   void MarkAsComprehensions() { SET(1); }
   bool IsComprehensions() const { return HAS(1); }
-  void set_element( AstNode* element ) { elements_.AddChild( element ); }
+  void set_element(AstNode* element) { elements_.AddChild(element); }
   NodeList* elements() { return &elements_; }
   ArrayLikeLiteral* CastToArrayLikeLiteral() { return this; }
-  CLONE( ArrayLikeLiteral );
+  CLONE;
  private :
-  explicit ArrayLikeLiteral( int64_t line ) :
-      Expression( NAME_PARAMETER( ArrayLikeLiteral ) , line ){
-    elements_.set_parent_node( this );
-  }
-  CALL_ACCEPTOR( ArrayLikeLiteral );
+  CALL_ACCEPTOR(ArrayLikeLiteral);
   NodeList elements_;
   BitVector8 flags_;
 };
@@ -1630,22 +1542,19 @@ class ArrayLikeLiteral : public Expression {
 
 class ObjectLikeLiteral : public Expression {
  public :
-  static ObjectLikeLiteral* New( int64_t line ) {
-    return ManagedHandle::Retain( new ObjectLikeLiteral( line ) );
+  explicit ObjectLikeLiteral(int64_t line) :
+      Expression(NAME_PARAMETER(ObjectLikeLiteral), line){
+    elements_.set_parent_node(this);
   }
   ~ObjectLikeLiteral(){}
   void MarkAsRecord() { SET(0); }
   bool IsRecord() const { return HAS(0); }
   NodeList* elements() { return &elements_; }
-  void set_element( AstNode* element ) { elements_.AddChild( element ); }
+  void set_element(AstNode* element) { elements_.AddChild(element); }
   ObjectLikeLiteral* CastToObjectLikeLiteral() { return this; }
-  CLONE( ObjectLikeLiteral );
+  CLONE;
  private :
-  explicit ObjectLikeLiteral( int64_t line ) :
-      Expression( NAME_PARAMETER( ObjectLikeLiteral ), line ){
-    elements_.set_parent_node( this );
-  }
-  CALL_ACCEPTOR( ObjectLikeLiteral );
+  CALL_ACCEPTOR(ObjectLikeLiteral);
   NodeList elements_;
   BitVector8 flags_;
 };
@@ -1653,33 +1562,27 @@ class ObjectLikeLiteral : public Expression {
 
 class GeneratorExpression : public Expression {
  public :
-  static GeneratorExpression* New( AstNode* expression , int64_t line ) {
-    return ManagedHandle::Retain( new GeneratorExpression( expression , line ) );
+  GeneratorExpression(AstNode* expression, int64_t line) :
+      Expression(NAME_PARAMETER(GeneratorExpression), line), expression_(expression){
+    MarkAsInValidLhs();
   }
   ~GeneratorExpression(){}
   AstNode* expression() const { return expression_; }
   GeneratorExpression* CastToGenerator() { return this; }
-  void ReplaceChild( AstNode* old_node , AstNode* new_node );
-  CLONE( GeneratorExpression );
+  void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  CLONE;
  private :
-  GeneratorExpression( AstNode* expression , int64_t line ) :
-      Expression( NAME_PARAMETER( GeneratorExpression ) , line ) , expression_( expression ){
-    MarkAsInValidLhs();
-  }
-  CALL_ACCEPTOR( GeneratorExpression );
+  CALL_ACCEPTOR(GeneratorExpression);
   AstNode* expression_;
 };
 
 class VersionStmt : public Statement {
  public :
-  static VersionStmt* New( TokenInfo* info , int64_t line ) {
-    return ManagedHandle::Retain( new VersionStmt( info , line ) );
-  }
+  VersionStmt(TokenInfo* info, int64_t line) : Statement(NAME_PARAMETER(VersionStmt), line), version_(info){};
   ~VersionStmt() {}
   TokenInfo* version() { return version_; }
-  CLONE( VersionStmt );
+  CLONE;
  private :
-  VersionStmt( TokenInfo* info , int64_t line ) : Statement( NAME_PARAMETER( VersionStmt ) , line ) , version_( info ){};
   CALL_ACCEPTOR(VersionStmt);
   TokenInfo *version_;
 };
@@ -1687,33 +1590,31 @@ class VersionStmt : public Statement {
 
 class DstaTree : public AstNode {
  public :
-  FACTORY( DstaTree );
+  DstaTree() : AstNode(NAME_PARAMETER(DstaTree), 0), symbol_(0){};
   ~DstaTree(){};
-  void set_symbol( Literal* name_node ) { symbol_ = name_node; }
+  void set_symbol(Literal* name_node) { symbol_ = name_node; }
   Literal* symbol() { return symbol_; }
   DstaTree* CastToDstaTree() { return this; }
-  CLONE( DstaTree );
+  CLONE;
  private :
-  DstaTree() : AstNode( NAME_PARAMETER( DstaTree ) , 0 ) , symbol_( 0 ){};
   Literal* symbol_;
 };
 
 
 class DstaExtractedExpressions : public AstNode {
  public :
-  FACTORY( DstaExtractedExpressions );
+  DstaExtractedExpressions() : AstNode(NAME_PARAMETER(DstaExtractedExpressions), 0) {};
   ~DstaExtractedExpressions(){}
   NodeList* refs() { return &refs_; }
-  void set_refs( Literal* tmp_name_node ) { refs_.AddChild( tmp_name_node ); }
-  CLONE( DstaExtractedExpressions );
+  void set_refs(Literal* tmp_name_node) { refs_.AddChild(tmp_name_node); }
+  CLONE;
  private :
-  DstaExtractedExpressions() : AstNode( NAME_PARAMETER( DstaExtractedExpressions ) , 0 ) {};
   NodeList refs_;
 };
 
 
 inline void Statement::ResetDsta()  {
-  flags_.UnSet( 0 );
+  flags_.UnSet(0);
   destructuring_node_->RemoveAllChild();
   destructuring_node_->refs()->RemoveAllChild();
 }
@@ -1721,11 +1622,8 @@ inline void Statement::ResetDsta()  {
 
 }//namespace mocha
 
-#undef NVI_ACCEPT_WITH_RETURN_DECL
 #undef NVI_ACCEPTOR_DECL
 #undef CALL_ACCEPTOR
-#undef CALL_ACCEPTOR_WITH_RETURN
 #undef NAME_PARAMETER
-#undef FACTORY
 
 #endif //mocha_ast_h_

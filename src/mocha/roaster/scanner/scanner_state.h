@@ -7,7 +7,7 @@ class ScannerState : private Uncopyable {
  public :
   ScannerState();
   ~ScannerState();
-  void Check( int token );
+  void Check(int token);
   bool IsAllowExpression();
   bool IsRightHandSide();
   class State;

@@ -4,26 +4,26 @@
   
   var _mochaGlobalExport = {};
   
-  !function ( _mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3 ) {
-    function defineBuiltin( obj,name,value ) {
-      return Object.defineProperty( obj,name, {
+  !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
+    function defineBuiltin(obj,name,value) {
+      return Object.defineProperty(obj,name, {
         value : value,
         configurable : true,
         enumerable : false,
         writable : true
       });
     }
-    function callbackCheck( callback,type ) {
+    function callbackCheck(callback,type) {
       
-      Runtime.assert( true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js' );
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js');
       
-      typeof callback !== "function" && builtinTypeError( type+" : first argument is not callable" );
+      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
-    function builtinTypeError( message ) {
+    function builtinTypeError(message) {
       try {
-        throw new TypeError( message );
-      } catch( e ){
-        throw new Error( e );
+        throw new TypeError(message);
+      } catch(e){
+        throw new Error(e);
       };
     }
     var stringProto = _mochaLocalTmp0.prototype,
@@ -31,28 +31,28 @@
         functionProto = _mochaLocalTmp2.prototype,
         dateProto = _mochaLocalTmp3.prototype;
     
-    !Object.keys && ( Object.keys = function ( obj ) {
-      !obj && builtinTypeError( "Object.keys : first arguments is null or not defined." );
+    !Object.keys && (Object.keys = function (obj) {
+      !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
       
       var ret = [],
           iter = -1;
       
-      for ( var i in obj ){
+      for (var i in obj){
         
-        obj.hasOwnProperty( i ) && ( ret[ ++ iter] = obj[i] );
+        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
       };
       return ret;
     });
     
-    !Object.preventExtensions && ( Object.preventExtensions = function ( o ) {
+    !Object.preventExtensions && (Object.preventExtensions = function (o) {
       return o;
     });
     
-    !Object.seal && ( Object.seal = function ( o ) {
+    !Object.seal && (Object.seal = function (o) {
       return o;
     });
     
-    !Object.freeze && ( Object.freeze = function ( o ) {
+    !Object.freeze && (Object.freeze = function (o) {
       return o;
     });
     
@@ -63,7 +63,7 @@
             
             var obj = {};
             
-            Object.defineProperty( obj,"test", {
+            Object.defineProperty(obj,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
@@ -72,61 +72,61 @@
             
             obj.test = 200;
             
-            ret = ( obj.test === 200 )?false : true;
-          } catch( e ){
+            ret = (obj.test === 200)?false : true;
+          } catch(e){
             
             ret = false;
           };
           return ret;
         }();
     
-    !hasRealEcma5 && ( Object.defineProperty = function ( obj,prop,valobj ) {
-      "value" in valobj && ( obj[prop] = valobj.value );
+    !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
+      "value" in valobj && (obj[prop] = valobj.value);
     });
     
-    if ( !stringProto.trim ){
+    if (!stringProto.trim){
       
       stringProto.trim = function () {
-        return this.replace( stringProto.trim.rtrim,"" );
+        return this.replace(stringProto.trim.rtrim,"");
       };
       
       stringProto.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    !stringProto.repeat && defineBuiltin( stringProto,"repeat",
-    function ( num ) {
-      return Array( num+1 ).join( this.toString() );
+    !stringProto.repeat && defineBuiltin(stringProto,"repeat",
+    function (num) {
+      return Array(num+1).join(this.toString());
     });
     
-    !stringProto.startsWith && defineBuiltin( stringProto,"startsWith",
-    function ( str ) {
-      return !this.indexOf( str );
+    !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
+    function (str) {
+      return !this.indexOf(str);
     });
     
-    !stringProto.endsWith && defineBuiltin( stringProto,"endsWith",
-    function ( str ) {
-      var t = String( str ),
-          index = this.lastIndexOf( t );
+    !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
+    function (str) {
+      var t = String(str),
+          index = this.lastIndexOf(t);
       return index >= 0 && index === this.length-t.length;
     });
     
-    !stringProto.contains && defineBuiltin( stringProto,"contains",
-    function ( str ) {
-      return this.indexOf( str ) !== -1;
+    !stringProto.contains && defineBuiltin(stringProto,"contains",
+    function (str) {
+      return this.indexOf(str) !== -1;
     });
     
-    !stringProto.toArray && defineBuiltin( stringProto,"toArray",
-    function ( str ) {
-      return this.split( "" );
+    !stringProto.toArray && defineBuiltin(stringProto,"toArray",
+    function (str) {
+      return this.split("");
     });
     
-    !functionProto.bind && defineBuiltin( functionProto,"bind",
+    !functionProto.bind && defineBuiltin(functionProto,"bind",
     function () {
-      var argArray = arrayProto.slice.call( arguments ),
+      var argArray = arrayProto.slice.call(arguments),
           context = argArray.shift(),
           ret = function () {
-            var args = argArray.concat( arrayProto.slice.call( arguments ) );
-            return this !== null && this !== window && this instanceof ret?ret.context.apply( this,args ) : ret.context.apply( context,args );
+            var args = argArray.concat(arrayProto.slice.call(arguments));
+            return this !== null && this !== window && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
           };
       
       ret.prototype = this.prototype;
@@ -135,44 +135,44 @@
       return ret;
     });
     
-    !arrayProto.forEach && defineBuiltin( arrayProto,"forEach",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.forEach" );
+    !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
+    function (callback,that) {
+      callbackCheck(callback,"Array.forEach");
       
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.forEach : this is null or not defined" );
+      this === null && builtinTypeError("Array.forEach : this is null or not defined");
       
-      if ( that ){
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          callback.call( that,ta,iter,this );
+      if (that){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          callback.call(that,ta,iter,this);
         };
       } else {
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          callback( ta,iter,this );
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          callback(ta,iter,this);
         };
       };
     });
     
-    !arrayProto.every && defineBuiltin( arrayProto,"every",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.every" );
+    !arrayProto.every && defineBuiltin(arrayProto,"every",
+    function (callback,that) {
+      callbackCheck(callback,"Array.every");
       
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.every : this is null or not defined" );
+      this === null && builtinTypeError("Array.every : this is null or not defined");
       
-      if ( that ){
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( !( callback.call( that,ta,iter,this ) ) ){
+      if (that){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (!(callback.call(that,ta,iter,this))){
             return false;
           };
         };
       } else {
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( !( callback( ta,iter,this ) ) ){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (!(callback(ta,iter,this))){
             return false;
           };
         };
@@ -180,24 +180,24 @@
       return true;
     });
     
-    !arrayProto.some && defineBuiltin( arrayProto,"some",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.some" );
+    !arrayProto.some && defineBuiltin(arrayProto,"some",
+    function (callback,that) {
+      callbackCheck(callback,"Array.some");
       
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.some : this is null or not defined" );
+      this === null && builtinTypeError("Array.some : this is null or not defined");
       
-      if ( that ){
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( callback.call( that,ta,iter,this ) ){
+      if (that){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (callback.call(that,ta,iter,this)){
             return true;
           };
         };
       } else {
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( callback( ta,iter,this ) ){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (callback(ta,iter,this)){
             return true;
           };
         };
@@ -205,41 +205,41 @@
       return false;
     });
     
-    !arrayProto.filter && defineBuiltin( arrayProto,"filter",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.filter" );
+    !arrayProto.filter && defineBuiltin(arrayProto,"filter",
+    function (callback,that) {
+      callbackCheck(callback,"Array.filter");
       
       var len = this.length,
           iter = -1,
           ret = [],
           ta;
       
-      this === null && builtinTypeError( "Array.filter : this is null or not defined" );
+      this === null && builtinTypeError("Array.filter : this is null or not defined");
       
-      if ( that ){
-        for ( var i = 0,len = this.length;i<len; ++ i ){
+      if (that){
+        for (var i = 0,len = this.length;i<len; ++ i){
           
-          ( ta = this[i] ) !== null && ta !== undefined && callback.call( that,ta,i,this ) && ( ret[ ++ iter] = ta );
+          (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
         };
       } else {
-        for ( var i = 0,len = this.length;i<len; ++ i ){
+        for (var i = 0,len = this.length;i<len; ++ i){
           
-          ( ta = this[i] ) !== null && ta !== undefined && callback( ta,i,this ) && ( ret[ ++ iter] = ta );
+          (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
         };
       };
       return ret;
     });
     
-    !arrayProto.indexOf && defineBuiltin( arrayProto,"indexOf",
-    function ( subject,fromIndex ) {
-      var iter = ( fromIndex )?fromIndex-1 : -1,
+    !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
+    function (subject,fromIndex) {
+      var iter = (fromIndex)?fromIndex-1 : -1,
           index = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.indexOf : this is null or not defined." );
+      this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
       
-      while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-        if ( ta === subject ){
+      while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        if (ta === subject){
           
           index = iter;
           break;
@@ -248,17 +248,17 @@
       return index;
     });
     
-    !arrayProto.lastIndexOf && defineBuiltin( arrayProto,"lastIndexOf",
-    function ( target,fromIndex ) {
+    !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
+    function (target,fromIndex) {
       var len = this.length,
-          iter = ( fromIndex )?fromIndex+1 : len,
+          iter = (fromIndex)?fromIndex+1 : len,
           index = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+      this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
       
-      while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-        if ( ta === target ){
+      while ((ta = this[ -- iter]) !== null && ta !== undefined){
+        if (ta === target){
           
           index = iter;
           break;
@@ -267,9 +267,9 @@
       return index;
     });
     
-    !arrayProto.map && defineBuiltin( arrayProto,"map",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.map" );
+    !arrayProto.map && defineBuiltin(arrayProto,"map",
+    function (callback,that) {
+      callbackCheck(callback,"Array.map");
       
       var ret = [],
           iter = -1,
@@ -277,55 +277,55 @@
           i = 0,
           ta;
       
-      this === null && builtinTypeError( "Array.map : this is null or not defined." );
+      this === null && builtinTypeError("Array.map : this is null or not defined.");
       
-      if ( that ){
-        for ( i;i<len; ++ i ){
-          ( ta = this[i] ) !== null && ta !== undefined && ( ret[ ++ iter] = callback.call( that,ta,i,this ) );
+      if (that){
+        for (i;i<len; ++ i){
+          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
         };
       } else {
-        for ( i;i<len; ++ i ){
-          ( ta = this[i] ) !== null && ta !== undefined && ( ret[ ++ iter] = callback( ta,i,this ) );
+        for (i;i<len; ++ i){
+          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
         };
       };
       return ret;
     });
     
-    !arrayProto.reduce && defineBuiltin( arrayProto,"reduce",
-    function ( callback,initial ) {
-      callbackCheck( callback,"Array.reduce" );
+    !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduce");
       
       var ret = initial || this[0],
-          i = ( initial )?0 : 1,
+          i = (initial)?0 : 1,
           len = this.length,
           ta;
       
-      ( len === 0 || len === null ) && arguments.length<2 && builtinTypeError( "Array length is 0 and no second argument" );
+      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
       
-      for ( i;i<len; ++ i ){
-        ( ta = this[i] ) !== null && ta !== undefined && ( ret = callback( ret,ta,i,this ) );
+      for (i;i<len; ++ i){
+        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
     
-    !arrayProto.reduceRight && defineBuiltin( arrayProto,"reduceRight",
-    function ( callback,initial ) {
-      callbackCheck( callback,"Array.reduceRight" );
+    !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduceRight");
       
       var len = this.length,
           ret = initial || this[len-1],
-          i = ( initial )?len-1 : len-2,
+          i = (initial)?len-1 : len-2,
           ta;
       
-      ( len === 0 || len === null ) && arguments.length<2 && builtinTypeError( "Array length is 0 and no second argument" );
+      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
       
-      for ( i;i>-1; -- i ){
-        ( ta = this[i] ) !== null && ta !== undefined && ( ret = callback( ret,ta,i,this ) );
+      for (i;i>-1; -- i){
+        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
     
-    !dateProto.toJSON && defineBuiltin( dateProto,"toJSON",
+    !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
     function () {
       var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
           month = _mochaLocalTmp4[0],
@@ -333,73 +333,73 @@
           hour = _mochaLocalTmp4[2],
           minute = _mochaLocalTmp4[3],
           second = _mochaLocalTmp4[4];
-      return '"'+this.getUTCFullYear()+'-'+( month>8?month+1 : "0"+( month+1 ) )+'-'+( date>9?date : "0"+date )+'T'+( hour>9?hour : "0"+hour )+':'+( minute>9?minute : "0"+minute )+':'+( second>9?second : "0"+second )+'.'+this.getUTCMilliseconds()+'Z"';
+      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
     });
     
-    !Date.now && defineBuiltin( Date,"now",
+    !Date.now && defineBuiltin(Date,"now",
     function () {
       return +new Date();
     });
     
-    !Array.isArray && defineBuiltin( Array,"isArray",
-    function ( arr ) {
-      if ( arguments.length === 0 ){
+    !Array.isArray && defineBuiltin(Array,"isArray",
+    function (arr) {
+      if (arguments.length === 0){
         return false;
       };
-      return ( arr )?( {} ).toString.call( arr ) === "[object Array]" : false;
+      return (arr)?({}).toString.call(arr) === "[object Array]" : false;
     });
-  }.call( this,String,Array,Function,Date );
+  }.call(this,String,Array,Function,Date);
   
   var Runtime = function () {
-        function checkRequirements( _mochaLocalTmp9,_mochaLocalTmp10,traits,file,line ) {
+        function checkRequirements(_mochaLocalTmp9,_mochaLocalTmp10,traits,file,line) {
           var proto1 = _mochaLocalTmp9.prototype,
               proto2 = _mochaLocalTmp10.prototype;
           
-          for ( var i = 0,len = traits.length;i<len;i ++  ){
+          for (var i = 0,len = traits.length;i<len;i ++ ){
             
             var _mochaLocalTmp11 = traits[i],
                 _mochaRequires = _mochaLocalTmp11._mochaRequires;
             
-            for ( var prop in _mochaRequires ){
-              !( prop in proto1 ) && !( prop in proto2 ) && Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+            for (var prop in _mochaRequires){
+              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
             };
           };
         }
-        function classMixin( _mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,with_,without ) {
+        function classMixin(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,with_,without) {
           var constructorProto = _mochaLocalTmp6.prototype,
               privateProto = _mochaLocalTmp7.prototype,
               mark = _mochaLocalTmp8._mochaTraitMark,
               traitPublic = _mochaLocalTmp8._mochaTraitPublic,
               traitPrivate = _mochaLocalTmp8._mochaTraitPrivate;
           
-          if ( !mark ){
-            Runtime.throwException( "mixin only used for trait." );
+          if (!mark){
+            Runtime.throwException("mixin only used for trait.");
           } else {
             
             var tmp;
             
-            for ( var i in traitPublic ){
-              if ( !without[i] ){
+            for (var i in traitPublic){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 constructorProto[tmp] = traitPublic[i];
               };
             };
             
-            for ( i in traitPrivate ){
-              if ( !without[i] ){
+            for (i in traitPrivate){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 privateProto[tmp] = traitPrivate[i];
               };
             };
           };
         }
-        function traitMixin( dest,source,with_,without ) {
-          if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-            Runtime.throwException( "mixin only used for trait." );
+        function traitMixin(dest,source,with_,without) {
+          if (!dest._mochaTraitMark || !source._mochaTraitMark){
+            Runtime.throwException("mixin only used for trait.");
           } else {
             
             var destTraitPrivate = dest._mochaTraitPrivate,
@@ -410,34 +410,34 @@
                 destRequires = dest._mochaRequires,
                 tmp;
             
-            for ( var i in sourceTraitPrivate ){
-              if ( !without[i] ){
+            for (var i in sourceTraitPrivate){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 destTraitPrivate[tmp] = sourceTraitPrivate[i];
               };
             };
             
-            for ( i in sourceTraitPublic ){
-              if ( !without[i] ){
+            for (i in sourceTraitPublic){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 destTraitPublic[tmp] = sourceTraitPublic[i];
               };
             };
             
-            for ( i in sourceRequires ){
+            for (i in sourceRequires){
               destRequires[i] = sourceRequires[i];
             };
           };
         }
-        function getSuper( obj ) {
+        function getSuper(obj) {
           var type = typeof obj,
               ret;
           
-          if ( type === "function" ){
+          if (type === "function"){
             
             ret = function (){};
             
@@ -450,31 +450,31 @@
           };
           return ret;
         }
-        function initializeClass( instance,classObject,privateHolder,constructor,args,name,line ) {
-          ( !instance || !( instance instanceof classObject ) ) && throwException( "class "+name+" must be called by new. line : "+line );
+        function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
+          (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
           
-          createPrivateRecord( instance,privateHolder );
+          createPrivateRecord(instance,privateHolder);
           
-          constructor.apply( instance,args );
+          constructor.apply(instance,args);
         }
-        function isStopIteration( obj ) {
-          return obj === StopIteration || rstopIteration.test( obj );
+        function isStopIteration(obj) {
+          return obj === StopIteration || rstopIteration.test(obj);
         }
-        function hasIterator( obj ) {
+        function hasIterator(obj) {
           return __ref_iterator__ in obj;
         }
-        function getIterator( obj ) {
+        function getIterator(obj) {
           var ret = obj[__ref_iterator__](),
               newObj;
           
-          if ( isGenerator( ret ) ){
+          if (isGenerator(ret)){
             return ret;
           };
           
           newObj = {};
           
-          if ( ret.next ){
-            createUnenumProp( newObj,"next",
+          if (ret.next){
+            createUnenumProp(newObj,"next",
             function () {
               var result = ret.next();
               
@@ -485,113 +485,113 @@
             return {};
           };
           
-          !( "__nothrowNext__" in ret ) && createUnenumProp( newObj,"__nothrowNext__",ret.next.bind( ret ) );
+          !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
           
-          for ( var prop in ret ){
+          for (var prop in ret){
             
-            prop !== "next" && prop !== "__nothrowNext__" && ( newObj[prop] = ret[prop] );
+            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
           };
           
-          !( "toString" in ret ) && createUnenumProp( newObj,"toString",
+          !("toString" in ret) && createUnenumProp(newObj,"toString",
           function () {
             return "[object Iterator]";
           });
           return newObj;
         }
-        function isGenerator( obj ) {
+        function isGenerator(obj) {
           return obj instanceof Generator;
         }
         function throwStopIteration() {
           try {
             throw StopIteration;
-          } catch( e ){
-            throw new Error( e.toString() );
+          } catch(e){
+            throw new Error(e.toString());
           };
         }
-        function createRecord( obj ) {
-          obj.toString() === "[object Object]" && createUnenumProp( obj,"toString",
+        function createRecord(obj) {
+          obj.toString() === "[object Object]" && createUnenumProp(obj,"toString",
           function () {
             return "[object Record]";
           });
-          return Object.freeze( obj );
+          return Object.freeze(obj);
         }
-        function createTuple( obj,size ) {
-          createUnenumProp( obj,"length",size );
+        function createTuple(obj,size) {
+          createUnenumProp(obj,"length",size);
           
-          createUnenumProp( obj,"equal",compareTuple );
+          createUnenumProp(obj,"equal",compareTuple);
           
-          createUnenumProp( obj,"toArray",tupleToArray );
+          createUnenumProp(obj,"toArray",tupleToArray);
           
-          createUnenumProp( obj,"toString",
+          createUnenumProp(obj,"toString",
           function () {
             return "[object Tuple]";
           });
-          return Object.freeze( obj );
+          return Object.freeze(obj);
         }
         function tupleToArray() {
-          return [].slice.call( this );
+          return [].slice.call(this);
         }
-        function compareTuple( tuple ) {
-          var maxIndex = max( tuple.length,this.length ),
+        function compareTuple(tuple) {
+          var maxIndex = max(tuple.length,this.length),
               i = -1;
           
-          while (  ++ i<maxIndex && tuple[i] === this[i] ){
+          while ( ++ i<maxIndex && tuple[i] === this[i]){
             
           };
           return maxIndex === i;
         }
-        function extend( dest,source ) {
-          for ( var prop in source ){
+        function extend(dest,source) {
+          for (var prop in source){
             
             dest[prop] = source[prop];
           };
           return dest;
         }
-        function getErrorMessage( e ) {
-          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        function getErrorMessage(e) {
+          return (e.message)?e.message : (e.description)?e.description : e.toString();
         }
-        function createGenerator( generatorFn,closeFn,context ) {
+        function createGenerator(generatorFn,closeFn,context) {
           var ret = new Generator;
           
-          createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
+          createUnenumProp(ret,"next",generatorFn.bind(context,false,false));
           
-          createUnenumProp( ret,"send",generatorFn.bind( context,true,false ) );
+          createUnenumProp(ret,"send",generatorFn.bind(context,true,false));
           
-          createUnenumProp( ret,"close",closeFn.bind( context ) );
+          createUnenumProp(ret,"close",closeFn.bind(context));
           
-          createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
+          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context,false,true));
           
-          createUnenumProp( ret,"toString",
+          createUnenumProp(ret,"toString",
           function () {
             return "[object Generator]";
           });
           
-          Object.freeze( ret );
+          Object.freeze(ret);
           return ret;
         }
-        function Generator(  ){}
-        function toArray( likeArray,index ) {
-          return ( likeArray )?slice.call( likeArray,index ) : [];
+        function Generator(){}
+        function toArray(likeArray,index) {
+          return (likeArray)?slice.call(likeArray,index) : [];
         }
-        function constant( obj,prop,value ) {
-          return Object.defineProperty( obj,prop, {
+        function constant(obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
             configurable : false,
             enumerable : false,
             writable : false,
             value : value
           });
         }
-        function createUnenumProp( obj,prop,value ) {
-          return Object.defineProperty( obj,prop, {
+        function createUnenumProp(obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
             configurable : true,
             enumerable : false,
             writable : true,
             value : value
           });
         }
-        function Exception( line,file,e ) {
+        function Exception(line,file,e) {
           this.toString = function () {
-            return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
+            return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
         var _mochaLocalExport = {};
@@ -600,27 +600,27 @@
             _mochaLocalTmp5 = Array.prototype,
             slice = _mochaLocalTmp5.slice,
             Runtime =  {
-              getErrorMessage : function ( e ) {
-                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+              getErrorMessage : function (e) {
+                return (e.message)?e.message : (e.description)?e.description : e.toString();
               },
-              exceptionHandler : function ( line,file,e ) {
-                if ( isStopIteration( e ) ){
+              exceptionHandler : function (line,file,e) {
+                if (isStopIteration(e)){
                   
-                  this.throwException( e );
+                  this.throwException(e);
                 } else {
                   
-                  this.throwException( new Exception( line,file,e ) );
+                  this.throwException(new Exception(line,file,e));
                 };
               },
-              throwException : function ( exception ) {
+              throwException : function (exception) {
                 try {
                   throw exception;
-                } catch( e ){
+                } catch(e){
                   
-                  if ( isStopIteration( e ) ){
-                    throw new Error( e );
+                  if (isStopIteration(e)){
+                    throw new Error(e);
                   } else {
-                    throw new Error( this.getErrorMessage( e ) );
+                    throw new Error(this.getErrorMessage(e));
                   };
                 };
               },
@@ -635,8 +635,8 @@
         
         _mochaLocalExport.createGenerator = createGenerator;
         
-        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime ),
-            exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind(Runtime),
+            exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind(Runtime);
         
         _mochaLocalExport.extend = extend;
         
@@ -644,35 +644,35 @@
         
         _mochaLocalExport.createRecord = createRecord;
         
-        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
+        var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
             },
-            getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
-              return Object.getPrototypeOf( obj );
-            } : function ( obj ) {
+            getPrototype = ("getPrototypeOf" in Object)?function (obj) {
+              return Object.getPrototypeOf(obj);
+            } : function (obj) {
               var ret = {};
               
-              for ( var i in obj ){
+              for (var i in obj){
                 
-                !obj.hasOwnProperty( i ) && ( ret[i] = obj[i] );
+                !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
               };
               return ret;
             },
-            extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
-              if ( typeof base === 'function' ){
+            extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
+              if (typeof base === 'function'){
                 
                 derived.prototype.__proto__ = base.prototype;
                 
-                for ( var i in base ){
+                for (var i in base){
                   derived[i] = base[i];
                 };
               } else {
                 derived.prototype.__proto__ = base.__proto__;
               };
-            } : function ( derived,base ) {
+            } : function (derived,base) {
               var baseType = typeof base;
               
-              if ( baseType === "function" ){
+              if (baseType === "function"){
                 
                 var inherit = function (){};
                 
@@ -680,13 +680,13 @@
                 
                 derived.prototype = new inherit;
                 
-                for ( var i in base ){
+                for (var i in base){
                   derived[i] = base[i];
                 };
               } else {
                 
                 var inherit = function (){},
-                    proto = getPrototype( base );
+                    proto = getPrototype(base);
                 
                 inherit.prototype = proto;
                 
@@ -711,42 +711,42 @@
             createPrivateRecord,
             getPrivateRecord;
         
-        if ( "WeakMap" in window ){
+        if ("WeakMap" in window){
           
           privateRecord = new WeakMap();
           
-          createPrivateRecord = function ( self,privateHolder ) {
+          createPrivateRecord = function (self,privateHolder) {
             var holder = new privateHolder;
             
-            createUnenumProp( holder.constructor,"__is_private__",1 );
+            createUnenumProp(holder.constructor,"__is_private__",1);
             
-            privateRecord.set( self,holder );
+            privateRecord.set(self,holder);
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( privateRecord.has( self ) ){
-              return privateRecord.get( self );
-            } else if ( self.constructor === "__is_private__" ){
+          getPrivateRecord = function (self) {
+            if (privateRecord.has(self)){
+              return privateRecord.get(self);
+            } else if (self.constructor === "__is_private__"){
               return self;
             };
           };
         } else {
           
-          createPrivateRecord = function ( self,privateHolder ) {
-            if ( !self.__typeid__ ){
+          createPrivateRecord = function (self,privateHolder) {
+            if (!self.__typeid__){
               
               var holder = new privateHolder;
               
-              createUnenumProp( holder.constructor,"__is_private__",1 );
+              createUnenumProp(holder.constructor,"__is_private__",1);
               
-              createUnenumProp( self,"__private__",holder );
+              createUnenumProp(self,"__private__",holder);
             };
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( self.__private__ ){
+          getPrivateRecord = function (self) {
+            if (self.__private__){
               return self.__private__;
-            } else if ( self.constructor === "__is_private__" ){
+            } else if (self.constructor === "__is_private__"){
               return self;
             };
           };
@@ -765,34 +765,34 @@
         _mochaLocalExport.checkRequirements = checkRequirements;
         
         !function () {
-          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
-                console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line )
-              } : function ( expect,exp,str,line,filename ) {
-                expect !== exp && Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
+          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
+                console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line)
+              } : function (expect,exp,str,line,filename) {
+                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               };
-        }.call( this );
+        }.call(this);
         return _mochaLocalExport;
       }();
   
-  !( "StopIteration" in window ) && ( window.StopIteration =  {
+  !("StopIteration" in window) && (window.StopIteration =  {
     toString : function () {
       return "[object StopIteration]";
     }
   });
   
-  function Tuple(  ) {
-    var args = Runtime.toArray( arguments,1 ),
+  function Tuple() {
+    var args = Runtime.toArray(arguments,1),
         ret = {};
     
     ret.length = 0;
     
-    [].push.apply( ret,args );
+    [].push.apply(ret,args);
     
-    Runtime.createTuple( ret,arguments.length );
+    Runtime.createTuple(ret,arguments.length);
     return ret;
   }
-  function Record( member ) {
-    return Runtime.createRecord( member );
+  function Record(member) {
+    return Runtime.createRecord(member);
   }
   __LINE__ = 0;
   !function () {
@@ -806,23 +806,23 @@
       var _mochaGlobalAlias = _mochaGlobalExport['./knockout-2.0.0.debug.js'];
       
       __LINE__ = 5;
-      !function ( window,undefined ) {
+      !function (window,undefined) {
         try {
-          function ensureDropdownSelectionIsConsistentWithModelValue( element,modelValue,preferModelValue ) {
+          function ensureDropdownSelectionIsConsistentWithModelValue(element,modelValue,preferModelValue) {
             try {
               __LINE__ = 2022;
-              preferModelValue && modelValue !== ko.selectExtensions.readValue( element ) && ko.selectExtensions.writeValue( element,modelValue );
+              preferModelValue && modelValue !== ko.selectExtensions.readValue(element) && ko.selectExtensions.writeValue(element,modelValue);
               
               __LINE__ = 2029;
-              modelValue !== ko.selectExtensions.readValue( element ) && ko.utils.triggerEvent( element,"change" );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              modelValue !== ko.selectExtensions.readValue(element) && ko.utils.triggerEvent(element,"change");
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }
-          function prepareOptions( evaluatorFunctionOrOptions,evaluatorFunctionTarget,options ) {
+          function prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
             try {
               __LINE__ = 1043;
-              if ( evaluatorFunctionOrOptions && typeof evaluatorFunctionOrOptions == "object" ){
+              if (evaluatorFunctionOrOptions && typeof evaluatorFunctionOrOptions == "object"){
                 __LINE__ = 1045;
                 options = evaluatorFunctionOrOptions;
               } else {
@@ -835,51 +835,51 @@
               };
               
               __LINE__ = 1053;
-              if ( typeof options["read"] != "function" ){
+              if (typeof options["read"] != "function"){
                 __LINE__ = 1054;
                 throw "Pass a function that returns the value of the dependentObservable";
               };
               __LINE__ = 1056;
               return options;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }
-          function applyExtenders( requestedExtenders ) {
+          function applyExtenders(requestedExtenders) {
             try {
               __LINE__ = 753;
               var target = this;
               
               __LINE__ = 754;
-              if ( requestedExtenders ){
+              if (requestedExtenders){
                 __LINE__ = 755;
-                for ( var key in requestedExtenders ){
+                for (var key in requestedExtenders){
                   
                   __LINE__ = 756;
                   var extenderHandler = ko.extenders[key];
                   
                   __LINE__ = 758;
-                  typeof extenderHandler == 'function' && ( target = extenderHandler( target,requestedExtenders[key] ) );
+                  typeof extenderHandler == 'function' && (target = extenderHandler(target,requestedExtenders[key]));
                 };
               };
               __LINE__ = 762;
               return target;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }
           __LINE__ = 6;
           var ko = window["ko"] = {};
           
           __LINE__ = 8;
-          ko.exportSymbol = function ( publicPath,object ) {
+          ko.exportSymbol = function (publicPath,object) {
             try {
               __LINE__ = 9;
-              var tokens = publicPath.split( "." ),
+              var tokens = publicPath.split("."),
                   target = window;
               
               __LINE__ = 11;
-              for ( var i = 0;i<tokens.length-1;i ++  ){
+              for (var i = 0;i<tokens.length-1;i ++ ){
                 
                 __LINE__ = 12;
                 target = target[tokens[i]];
@@ -887,34 +887,34 @@
               
               __LINE__ = 13;
               target[tokens[tokens.length-1]] = object;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 15;
-          ko.exportProperty = function ( owner,publicName,object ) {
+          ko.exportProperty = function (owner,publicName,object) {
             try {
               __LINE__ = 16;
               owner[publicName] = object;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 18;
           ko.utils = new function () {
             try {
-              function isClickOnCheckableElement( element,eventType ) {
+              function isClickOnCheckableElement(element,eventType) {
                 try {
                   __LINE__ = 49;
-                  if ( ( element.tagName != "INPUT" ) || !element.type ){
+                  if ((element.tagName != "INPUT") || !element.type){
                     __LINE__ = 49;
                     return false;
                   };
                   
                   __LINE__ = 50;
-                  if ( eventType.toLowerCase() != "click" ){
+                  if (eventType.toLowerCase() != "click"){
                     __LINE__ = 50;
                     return false;
                   };
@@ -922,16 +922,16 @@
                   __LINE__ = 51;
                   var inputType = element.type.toLowerCase();
                   __LINE__ = 52;
-                  return ( inputType == "checkbox" ) || ( inputType == "radio" );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return (inputType == "checkbox") || (inputType == "radio");
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 19;
               var stringTrimRegex = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
                   knownEvents = {},
                   knownEventTypesByEventName = {},
-                  keyEventTypeName = /Firefox\/2/i.test( navigator.userAgent )?'KeyboardEvent' : 'UIEvents';
+                  keyEventTypeName = /Firefox\/2/i.test(navigator.userAgent)?'KeyboardEvent' : 'UIEvents';
               
               __LINE__ = 24;
               knownEvents[keyEventTypeName] = ['keyup','keydown','keypress'];
@@ -940,15 +940,15 @@
               knownEvents['MouseEvents'] = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
               
               __LINE__ = 26;
-              for ( var eventType in knownEvents ){
+              for (var eventType in knownEvents){
                 
                 __LINE__ = 27;
                 var knownEventsForType = knownEvents[eventType];
                 
                 __LINE__ = 28;
-                if ( knownEventsForType.length ){
+                if (knownEventsForType.length){
                   __LINE__ = 29;
-                  for ( var i = 0,j = knownEventsForType.length;i<j;i ++  ){
+                  for (var i = 0,j = knownEventsForType.length;i<j;i ++ ){
                     
                     __LINE__ = 30;
                     knownEventTypesByEventName[knownEventsForType[i]] = eventType;
@@ -957,21 +957,21 @@
               };
               
               __LINE__ = 35;
-              var ieVersion = ( function () {
+              var ieVersion = (function () {
                     try {
                       __LINE__ = 36;
                       var version = 3,
-                          div = document.createElement( 'div' ),
-                          iElems = div.getElementsByTagName( 'i' );
+                          div = document.createElement('div'),
+                          iElems = div.getElementsByTagName('i');
                       
                       __LINE__ = 39;
-                      while ( div.innerHTML = '<!--[if gt IE '+(  ++ version )+']><i></i><![endif]-->' , iElems[0] ){
+                      while (div.innerHTML = '<!--[if gt IE '+( ++ version)+']><i></i><![endif]-->', iElems[0]){
                         
                       };
                       __LINE__ = 43;
                       return version>4?version : undefined;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }()),
                   isIe6 = ieVersion === 6,
@@ -979,74 +979,74 @@
               __LINE__ = 55;
               return  {
                 fieldsIncludedWithJsonPost : ['authenticity_token',/^__RequestVerificationToken(_.*)?$/],
-                arrayForEach : function ( array,action ) {
+                arrayForEach : function (array,action) {
                   try {
                     __LINE__ = 59;
-                    for ( var i = 0,j = array.length;i<j;i ++  ){
+                    for (var i = 0,j = array.length;i<j;i ++ ){
                       
                       __LINE__ = 60;
-                      action( array[i] );
+                      action(array[i]);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayIndexOf : function ( array,item ) {
+                arrayIndexOf : function (array,item) {
                   try {
                     __LINE__ = 64;
-                    if ( typeof Array.prototype.indexOf == "function" ){
+                    if (typeof Array.prototype.indexOf == "function"){
                       __LINE__ = 65;
-                      return Array.prototype.indexOf.call( array,item );
+                      return Array.prototype.indexOf.call(array,item);
                     };
                     
                     __LINE__ = 66;
-                    for ( var i = 0,j = array.length;i<j;i ++  ){
+                    for (var i = 0,j = array.length;i<j;i ++ ){
                       
                       __LINE__ = 67;
-                      if ( array[i] === item ){
+                      if (array[i] === item){
                         __LINE__ = 68;
                         return i;
                       };
                     };
                     __LINE__ = 69;
                     return -1;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayFirst : function ( array,predicate,predicateOwner ) {
+                arrayFirst : function (array,predicate,predicateOwner) {
                   try {
                     __LINE__ = 73;
-                    for ( var i = 0,j = array.length;i<j;i ++  ){
+                    for (var i = 0,j = array.length;i<j;i ++ ){
                       
                       __LINE__ = 74;
-                      if ( predicate.call( predicateOwner,array[i] ) ){
+                      if (predicate.call(predicateOwner,array[i])){
                         __LINE__ = 75;
                         return array[i];
                       };
                     };
                     __LINE__ = 76;
                     return null;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayRemoveItem : function ( array,itemToRemove ) {
+                arrayRemoveItem : function (array,itemToRemove) {
                   try {
                     __LINE__ = 80;
-                    var index = ko.utils.arrayIndexOf( array,itemToRemove );
+                    var index = ko.utils.arrayIndexOf(array,itemToRemove);
                     
                     __LINE__ = 81;
-                    if ( index >= 0 ){
+                    if (index >= 0){
                       
                       __LINE__ = 82;
-                      array.splice( index,1 );
+                      array.splice(index,1);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayGetDistinctValues : function ( array ) {
+                arrayGetDistinctValues : function (array) {
                   try {
                     __LINE__ = 86;
                     array = array || [];
@@ -1055,22 +1055,22 @@
                     var result = [];
                     
                     __LINE__ = 88;
-                    for ( var i = 0,j = array.length;i<j;i ++  ){
+                    for (var i = 0,j = array.length;i<j;i ++ ){
                       
                       __LINE__ = 89;
-                      if ( ko.utils.arrayIndexOf( result,array[i] )<0 ){
+                      if (ko.utils.arrayIndexOf(result,array[i])<0){
                         
                         __LINE__ = 90;
-                        result.push( array[i] );
+                        result.push(array[i]);
                       };
                     };
                     __LINE__ = 92;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayMap : function ( array,mapping ) {
+                arrayMap : function (array,mapping) {
                   try {
                     __LINE__ = 96;
                     array = array || [];
@@ -1079,18 +1079,18 @@
                     var result = [];
                     
                     __LINE__ = 98;
-                    for ( var i = 0,j = array.length;i<j;i ++  ){
+                    for (var i = 0,j = array.length;i<j;i ++ ){
                       
                       __LINE__ = 99;
-                      result.push( mapping( array[i] ) );
+                      result.push(mapping(array[i]));
                     };
                     __LINE__ = 100;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayFilter : function ( array,predicate ) {
+                arrayFilter : function (array,predicate) {
                   try {
                     __LINE__ = 104;
                     array = array || [];
@@ -1099,42 +1099,42 @@
                     var result = [];
                     
                     __LINE__ = 106;
-                    for ( var i = 0,j = array.length;i<j;i ++  ){
+                    for (var i = 0,j = array.length;i<j;i ++ ){
                       
                       __LINE__ = 107;
-                      if ( predicate( array[i] ) ){
+                      if (predicate(array[i])){
                         
                         __LINE__ = 108;
-                        result.push( array[i] );
+                        result.push(array[i]);
                       };
                     };
                     __LINE__ = 109;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                arrayPushAll : function ( array,valuesToPush ) {
+                arrayPushAll : function (array,valuesToPush) {
                   try {
                     __LINE__ = 113;
-                    for ( var i = 0,j = valuesToPush.length;i<j;i ++  ){
+                    for (var i = 0,j = valuesToPush.length;i<j;i ++ ){
                       
                       __LINE__ = 114;
-                      array.push( valuesToPush[i] );
+                      array.push(valuesToPush[i]);
                     };
                     __LINE__ = 115;
                     return array;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                extend : function ( target,source ) {
+                extend : function (target,source) {
                   try {
                     __LINE__ = 119;
-                    for ( var prop in source ){
+                    for (var prop in source){
                       
                       __LINE__ = 120;
-                      if ( source.hasOwnProperty( prop ) ){
+                      if (source.hasOwnProperty(prop)){
                         
                         __LINE__ = 121;
                         target[prop] = source[prop];
@@ -1142,52 +1142,52 @@
                     };
                     __LINE__ = 124;
                     return target;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                emptyDomNode : function ( domNode ) {
+                emptyDomNode : function (domNode) {
                   try {
                     __LINE__ = 128;
-                    while ( domNode.firstChild ){
+                    while (domNode.firstChild){
                       
                       __LINE__ = 129;
-                      ko.removeNode( domNode.firstChild );
+                      ko.removeNode(domNode.firstChild);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                setDomNodeChildren : function ( domNode,childNodes ) {
+                setDomNodeChildren : function (domNode,childNodes) {
                   try {
                     __LINE__ = 134;
-                    ko.utils.emptyDomNode( domNode );
+                    ko.utils.emptyDomNode(domNode);
                     
                     __LINE__ = 135;
-                    if ( childNodes ){
+                    if (childNodes){
                       
                       __LINE__ = 136;
-                      ko.utils.arrayForEach( childNodes,
-                      function ( childNode ) {
+                      ko.utils.arrayForEach(childNodes,
+                      function (childNode) {
                         try {
                           __LINE__ = 137;
-                          domNode.appendChild( childNode );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          domNode.appendChild(childNode);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       });
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                replaceDomNodes : function ( nodeToReplaceOrNodeArray,newNodesArray ) {
+                replaceDomNodes : function (nodeToReplaceOrNodeArray,newNodesArray) {
                   try {
                     __LINE__ = 143;
                     var nodesToReplaceArray = nodeToReplaceOrNodeArray.nodeType?[nodeToReplaceOrNodeArray] : nodeToReplaceOrNodeArray;
                     
                     __LINE__ = 144;
-                    if ( nodesToReplaceArray.length>0 ){
+                    if (nodesToReplaceArray.length>0){
                       
                       __LINE__ = 145;
                       var insertionPoint = nodesToReplaceArray[0];
@@ -1196,126 +1196,126 @@
                       var parent = insertionPoint.parentNode;
                       
                       __LINE__ = 147;
-                      for ( var i = 0,j = newNodesArray.length;i<j;i ++  ){
+                      for (var i = 0,j = newNodesArray.length;i<j;i ++ ){
                         
                         __LINE__ = 148;
-                        parent.insertBefore( newNodesArray[i],insertionPoint );
+                        parent.insertBefore(newNodesArray[i],insertionPoint);
                       };
                       
                       __LINE__ = 149;
-                      for ( var i = 0,j = nodesToReplaceArray.length;i<j;i ++  ){
+                      for (var i = 0,j = nodesToReplaceArray.length;i<j;i ++ ){
                         
                         __LINE__ = 150;
-                        ko.removeNode( nodesToReplaceArray[i] );
+                        ko.removeNode(nodesToReplaceArray[i]);
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                setOptionNodeSelectionState : function ( optionNode,isSelected ) {
+                setOptionNodeSelectionState : function (optionNode,isSelected) {
                   try {
                     __LINE__ = 157;
-                    if ( navigator.userAgent.indexOf( "MSIE 6" ) >= 0 ){
+                    if (navigator.userAgent.indexOf("MSIE 6") >= 0){
                       
                       __LINE__ = 158;
-                      optionNode.setAttribute( "selected",isSelected );
+                      optionNode.setAttribute("selected",isSelected);
                     } else {
                       __LINE__ = 160;
                       optionNode.selected = isSelected;
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                stringTrim : function ( string ) {
+                stringTrim : function (string) {
                   try {
                     __LINE__ = 164;
-                    return ( string || "" ).replace( stringTrimRegex,"" );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return (string || "").replace(stringTrimRegex,"");
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                stringTokenize : function ( string,delimiter ) {
+                stringTokenize : function (string,delimiter) {
                   try {
                     __LINE__ = 168;
                     var result = [];
                     
                     __LINE__ = 169;
-                    var tokens = ( string || "" ).split( delimiter );
+                    var tokens = (string || "").split(delimiter);
                     
                     __LINE__ = 170;
-                    for ( var i = 0,j = tokens.length;i<j;i ++  ){
+                    for (var i = 0,j = tokens.length;i<j;i ++ ){
                       
                       __LINE__ = 171;
-                      var trimmed = ko.utils.stringTrim( tokens[i] );
+                      var trimmed = ko.utils.stringTrim(tokens[i]);
                       
                       __LINE__ = 172;
-                      if ( trimmed !== "" ){
+                      if (trimmed !== ""){
                         
                         __LINE__ = 173;
-                        result.push( trimmed );
+                        result.push(trimmed);
                       };
                     };
                     __LINE__ = 175;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                stringStartsWith : function ( string,startsWith ) {
+                stringStartsWith : function (string,startsWith) {
                   try {
                     __LINE__ = 179;
                     string = string || "";
                     
                     __LINE__ = 180;
-                    if ( startsWith.length>string.length ){
+                    if (startsWith.length>string.length){
                       __LINE__ = 181;
                       return false;
                     };
                     __LINE__ = 182;
-                    return string.substring( 0,startsWith.length ) === startsWith;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return string.substring(0,startsWith.length) === startsWith;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                evalWithinScope : function ( expression ) {
+                evalWithinScope : function (expression) {
                   try {
                     __LINE__ = 189;
-                    var scopes = Array.prototype.slice.call( arguments,1 );
+                    var scopes = Array.prototype.slice.call(arguments,1);
                     
                     __LINE__ = 190;
                     var functionBody = "return ("+expression+")";
                     
                     __LINE__ = 191;
-                    for ( var i = 0;i<scopes.length;i ++  ){
+                    for (var i = 0;i<scopes.length;i ++ ){
                       
                       __LINE__ = 192;
-                      if ( scopes[i] && typeof scopes[i] == "object" ){
+                      if (scopes[i] && typeof scopes[i] == "object"){
                         
                         __LINE__ = 193;
                         functionBody = "with(sc["+i+"]) { "+functionBody+" } ";
                       };
                     };
                     __LINE__ = 195;
-                    return ( new Function( "sc",functionBody ) )( scopes );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return (new Function("sc",functionBody))(scopes);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                domNodeIsContainedBy : function ( node,containedByNode ) {
+                domNodeIsContainedBy : function (node,containedByNode) {
                   try {
                     __LINE__ = 199;
-                    if ( containedByNode.compareDocumentPosition ){
+                    if (containedByNode.compareDocumentPosition){
                       __LINE__ = 200;
-                      return ( containedByNode.compareDocumentPosition( node )&16 ) == 16;
+                      return (containedByNode.compareDocumentPosition(node)&16) == 16;
                     };
                     
                     __LINE__ = 201;
-                    while ( node != null ){
+                    while (node != null){
                       
                       __LINE__ = 202;
-                      if ( node == containedByNode ){
+                      if (node == containedByNode){
                         __LINE__ = 203;
                         return true;
                       };
@@ -1325,125 +1325,125 @@
                     };
                     __LINE__ = 206;
                     return false;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                domNodeIsAttachedToDocument : function ( node ) {
+                domNodeIsAttachedToDocument : function (node) {
                   try {
                     __LINE__ = 210;
-                    return ko.utils.domNodeIsContainedBy( node,document );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return ko.utils.domNodeIsContainedBy(node,document);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                registerEventHandler : function ( element,eventType,handler ) {
+                registerEventHandler : function (element,eventType,handler) {
                   try {
                     __LINE__ = 214;
-                    if ( typeof jQuery != "undefined" ){
+                    if (typeof jQuery != "undefined"){
                       
                       __LINE__ = 215;
-                      if ( isClickOnCheckableElement( element,eventType ) ){
+                      if (isClickOnCheckableElement(element,eventType)){
                         
                         __LINE__ = 220;
                         var originalHandler = handler;
                         
                         __LINE__ = 221;
-                        handler = function ( event,eventData ) {
+                        handler = function (event,eventData) {
                           try {
                             __LINE__ = 222;
                             var jQuerySuppliedCheckedState = this.checked;
                             
                             __LINE__ = 223;
-                            if ( eventData ){
+                            if (eventData){
                               
                               __LINE__ = 224;
                               this.checked = eventData.checkedStateBeforeEvent !== true;
                             };
                             
                             __LINE__ = 225;
-                            originalHandler.call( this,event );
+                            originalHandler.call(this,event);
                             
                             __LINE__ = 226;
                             this.checked = jQuerySuppliedCheckedState;
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                       };
                       
                       __LINE__ = 229;
-                      jQuery( element )['bind']( eventType,handler );
-                    } else if ( typeof element.addEventListener == "function" ){
+                      jQuery(element)['bind'](eventType,handler);
+                    } else if (typeof element.addEventListener == "function"){
                       
                       __LINE__ = 231;
-                      element.addEventListener( eventType,handler,false );
-                    } else if ( typeof element.attachEvent != "undefined" ){
+                      element.addEventListener(eventType,handler,false);
+                    } else if (typeof element.attachEvent != "undefined"){
                       
                       __LINE__ = 233;
-                      element.attachEvent( "on"+eventType,
-                      function ( event ) {
+                      element.attachEvent("on"+eventType,
+                      function (event) {
                         try {
                           __LINE__ = 234;
-                          handler.call( element,event );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          handler.call(element,event);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       });
                     } else {
                       __LINE__ = 237;
-                      throw new Error( "Browser doesn't support addEventListener or attachEvent" );
+                      throw new Error("Browser doesn't support addEventListener or attachEvent");
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                triggerEvent : function ( element,eventType ) {
+                triggerEvent : function (element,eventType) {
                   try {
                     __LINE__ = 241;
-                    if ( !( element && element.nodeType ) ){
+                    if (!(element && element.nodeType)){
                       __LINE__ = 242;
-                      throw new Error( "element must be a DOM node when calling triggerEvent" );
+                      throw new Error("element must be a DOM node when calling triggerEvent");
                     };
                     
                     __LINE__ = 244;
-                    if ( typeof jQuery != "undefined" ){
+                    if (typeof jQuery != "undefined"){
                       
                       __LINE__ = 245;
                       var eventData = [];
                       
                       __LINE__ = 246;
-                      if ( isClickOnCheckableElement( element,eventType ) ){
+                      if (isClickOnCheckableElement(element,eventType)){
                         
                         __LINE__ = 248;
-                        eventData.push(  {
+                        eventData.push( {
                           checkedStateBeforeEvent : element.checked
                         });
                       };
                       
                       __LINE__ = 250;
-                      jQuery( element )['trigger']( eventType,eventData );
-                    } else if ( typeof document.createEvent == "function" ){
-                      if ( typeof element.dispatchEvent == "function" ){
+                      jQuery(element)['trigger'](eventType,eventData);
+                    } else if (typeof document.createEvent == "function"){
+                      if (typeof element.dispatchEvent == "function"){
                         
                         __LINE__ = 253;
                         var eventCategory = knownEventTypesByEventName[eventType] || "HTMLEvents";
                         
                         __LINE__ = 254;
-                        var event = document.createEvent( eventCategory );
+                        var event = document.createEvent(eventCategory);
                         
                         __LINE__ = 255;
-                        event.initEvent( eventType,true,true,window,0,0,0,0,0,false,false,false,false,0,element );
+                        event.initEvent(eventType,true,true,window,0,0,0,0,0,false,false,false,false,0,element);
                         
                         __LINE__ = 256;
-                        element.dispatchEvent( event );
+                        element.dispatchEvent(event);
                       } else {
                         __LINE__ = 259;
-                        throw new Error( "The supplied element doesn't support dispatchEvent" );
+                        throw new Error("The supplied element doesn't support dispatchEvent");
                       };
-                    } else if ( typeof element.fireEvent != "undefined" ){
-                      if ( eventType == "click" ){
-                        if ( ( element.tagName == "INPUT" ) && ( ( element.type.toLowerCase() == "checkbox" ) || ( element.type.toLowerCase() == "radio" ) ) ){
+                    } else if (typeof element.fireEvent != "undefined"){
+                      if (eventType == "click"){
+                        if ((element.tagName == "INPUT") && ((element.type.toLowerCase() == "checkbox") || (element.type.toLowerCase() == "radio"))){
                           
                           __LINE__ = 265;
                           element.checked = element.checked !== true;
@@ -1451,54 +1451,54 @@
                       };
                       
                       __LINE__ = 267;
-                      element.fireEvent( "on"+eventType );
+                      element.fireEvent("on"+eventType);
                     } else {
                       __LINE__ = 270;
-                      throw new Error( "Browser doesn't support triggering events" );
+                      throw new Error("Browser doesn't support triggering events");
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                unwrapObservable : function ( value ) {
+                unwrapObservable : function (value) {
                   try {
                     __LINE__ = 274;
-                    return ko.isObservable( value )?value() : value;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return ko.isObservable(value)?value() : value;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                domNodeHasCssClass : function ( node,className ) {
+                domNodeHasCssClass : function (node,className) {
                   try {
                     __LINE__ = 278;
-                    var currentClassNames = ( node.className || "" ).split( /\s+/ );
+                    var currentClassNames = (node.className || "").split(/\s+/);
                     __LINE__ = 279;
-                    return ko.utils.arrayIndexOf( currentClassNames,className ) >= 0;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return ko.utils.arrayIndexOf(currentClassNames,className) >= 0;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                toggleDomNodeCssClass : function ( node,className,shouldHaveClass ) {
+                toggleDomNodeCssClass : function (node,className,shouldHaveClass) {
                   try {
                     __LINE__ = 283;
-                    var hasClass = ko.utils.domNodeHasCssClass( node,className );
+                    var hasClass = ko.utils.domNodeHasCssClass(node,className);
                     
                     __LINE__ = 284;
-                    if ( shouldHaveClass && !hasClass ){
+                    if (shouldHaveClass && !hasClass){
                       
                       __LINE__ = 285;
-                      node.className = ( node.className || "" )+" "+className;
-                    } else if ( hasClass && !shouldHaveClass ){
+                      node.className = (node.className || "")+" "+className;
+                    } else if (hasClass && !shouldHaveClass){
                       
                       __LINE__ = 287;
-                      var currentClassNames = ( node.className || "" ).split( /\s+/ );
+                      var currentClassNames = (node.className || "").split(/\s+/);
                       
                       __LINE__ = 288;
                       var newClassName = "";
                       
                       __LINE__ = 289;
-                      for ( var i = 0;i<currentClassNames.length;i ++  ){
-                        if ( currentClassNames[i] != className ){
+                      for (var i = 0;i<currentClassNames.length;i ++ ){
+                        if (currentClassNames[i] != className){
                           
                           __LINE__ = 291;
                           newClassName += currentClassNames[i]+" ";
@@ -1506,45 +1506,45 @@
                       };
                       
                       __LINE__ = 292;
-                      node.className = ko.utils.stringTrim( newClassName );
+                      node.className = ko.utils.stringTrim(newClassName);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                outerHTML : function ( node ) {
+                outerHTML : function (node) {
                   try {
                     __LINE__ = 299;
-                    if ( ieVersion === undefined ){
+                    if (ieVersion === undefined){
                       
                       __LINE__ = 300;
                       var nativeOuterHtml = node.outerHTML;
                       
                       __LINE__ = 301;
-                      if ( typeof nativeOuterHtml == "string" ){
+                      if (typeof nativeOuterHtml == "string"){
                         __LINE__ = 302;
                         return nativeOuterHtml;
                       };
                     };
                     
                     __LINE__ = 306;
-                    var dummyContainer = window.document.createElement( "div" );
+                    var dummyContainer = window.document.createElement("div");
                     
                     __LINE__ = 307;
-                    dummyContainer.appendChild( node.cloneNode( true ) );
+                    dummyContainer.appendChild(node.cloneNode(true));
                     __LINE__ = 308;
                     return dummyContainer.innerHTML;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                setTextContent : function ( element,textContent ) {
+                setTextContent : function (element,textContent) {
                   try {
                     __LINE__ = 312;
-                    var value = ko.utils.unwrapObservable( textContent );
+                    var value = ko.utils.unwrapObservable(textContent);
                     
                     __LINE__ = 313;
-                    if ( ( value === null ) || ( value === undefined ) ){
+                    if ((value === null) || (value === undefined)){
                       
                       __LINE__ = 314;
                       value = "";
@@ -1554,76 +1554,76 @@
                     'innerText' in element?element.innerText = value : element.textContent = value;
                     
                     __LINE__ = 319;
-                    if ( ieVersion >= 9 ){
+                    if (ieVersion >= 9){
                       
                       __LINE__ = 321;
                       element.innerHTML = element.innerHTML;
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                range : function ( min,max ) {
+                range : function (min,max) {
                   try {
                     __LINE__ = 326;
-                    min = ko.utils.unwrapObservable( min );
+                    min = ko.utils.unwrapObservable(min);
                     
                     __LINE__ = 327;
-                    max = ko.utils.unwrapObservable( max );
+                    max = ko.utils.unwrapObservable(max);
                     
                     __LINE__ = 328;
                     var result = [];
                     
                     __LINE__ = 329;
-                    for ( var i = min;i <= max;i ++  ){
+                    for (var i = min;i <= max;i ++ ){
                       
                       __LINE__ = 330;
-                      result.push( i );
+                      result.push(i);
                     };
                     __LINE__ = 331;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                makeArray : function ( arrayLikeObject ) {
+                makeArray : function (arrayLikeObject) {
                   try {
                     __LINE__ = 335;
                     var result = [];
                     
                     __LINE__ = 336;
-                    for ( var i = 0,j = arrayLikeObject.length;i<j;i ++  ){
+                    for (var i = 0,j = arrayLikeObject.length;i<j;i ++ ){
                       
                       __LINE__ = 337;
-                      result.push( arrayLikeObject[i] );
+                      result.push(arrayLikeObject[i]);
                     };
                     __LINE__ = 339;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 isIe6 : isIe6,
                 isIe7 : isIe7,
-                getFormFields : function ( form,fieldName ) {
+                getFormFields : function (form,fieldName) {
                   try {
                     __LINE__ = 346;
-                    var fields = ko.utils.makeArray( form.getElementsByTagName( "INPUT" ) ).concat( ko.utils.makeArray( form.getElementsByTagName( "TEXTAREA" ) ) );
+                    var fields = ko.utils.makeArray(form.getElementsByTagName("INPUT")).concat(ko.utils.makeArray(form.getElementsByTagName("TEXTAREA")));
                     
                     __LINE__ = 347;
-                    var isMatchingField = ( typeof fieldName == 'string' )?function ( field ) {
+                    var isMatchingField = (typeof fieldName == 'string')?function (field) {
                           try {
                             __LINE__ = 348;
                             return field.name === fieldName;
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
-                        } : function ( field ) {
+                        } : function (field) {
                           try {
                             __LINE__ = 349;
-                            return fieldName.test( field.name );
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                            return fieldName.test(field.name);
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     
@@ -1631,61 +1631,61 @@
                     var matches = [];
                     
                     __LINE__ = 351;
-                    for ( var i = fields.length-1;i >= 0;i --  ){
+                    for (var i = fields.length-1;i >= 0;i -- ){
                       
                       __LINE__ = 352;
-                      if ( isMatchingField( fields[i] ) ){
+                      if (isMatchingField(fields[i])){
                         
                         __LINE__ = 353;
-                        matches.push( fields[i] );
+                        matches.push(fields[i]);
                       };
                     };
                     __LINE__ = 355;
                     return matches;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                parseJson : function ( jsonString ) {
+                parseJson : function (jsonString) {
                   try {
                     __LINE__ = 359;
-                    if ( typeof jsonString == "string" ){
+                    if (typeof jsonString == "string"){
                       
                       __LINE__ = 360;
-                      jsonString = ko.utils.stringTrim( jsonString );
+                      jsonString = ko.utils.stringTrim(jsonString);
                       
                       __LINE__ = 361;
-                      if ( jsonString ){
+                      if (jsonString){
                         
                         __LINE__ = 362;
-                        if ( window.JSON && window.JSON.parse ){
+                        if (window.JSON && window.JSON.parse){
                           __LINE__ = 363;
-                          return window.JSON.parse( jsonString );
+                          return window.JSON.parse(jsonString);
                         };
                         __LINE__ = 364;
-                        return ( new Function( "return "+jsonString ) )();
+                        return (new Function("return "+jsonString))();
                       };
                     };
                     __LINE__ = 367;
                     return null;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                stringifyJson : function ( data ) {
+                stringifyJson : function (data) {
                   try {
                     __LINE__ = 371;
-                    if ( ( typeof JSON == "undefined" ) || ( typeof JSON.stringify == "undefined" ) ){
+                    if ((typeof JSON == "undefined") || (typeof JSON.stringify == "undefined")){
                       __LINE__ = 372;
-                      throw new Error( "Cannot find JSON.stringify(). Some browsers (e.g., IE < 8) don't support it natively, but you can overcome this by adding a script reference to json2.js, downloadable from http://www.json.org/json2.js" );
+                      throw new Error("Cannot find JSON.stringify(). Some browsers (e.g., IE < 8) don't support it natively, but you can overcome this by adding a script reference to json2.js, downloadable from http://www.json.org/json2.js");
                     };
                     __LINE__ = 373;
-                    return JSON.stringify( ko.utils.unwrapObservable( data ) );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return JSON.stringify(ko.utils.unwrapObservable(data));
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                postJson : function ( urlOrForm,data,options ) {
+                postJson : function (urlOrForm,data,options) {
                   try {
                     __LINE__ = 377;
                     options = options || {};
@@ -1700,7 +1700,7 @@
                     var url = urlOrForm;
                     
                     __LINE__ = 383;
-                    if ( ( typeof urlOrForm == 'object' ) && ( urlOrForm.tagName == "FORM" ) ){
+                    if ((typeof urlOrForm == 'object') && (urlOrForm.tagName == "FORM")){
                       
                       __LINE__ = 384;
                       var originalForm = urlOrForm;
@@ -1709,13 +1709,13 @@
                       url = originalForm.action;
                       
                       __LINE__ = 386;
-                      for ( var i = includeFields.length-1;i >= 0;i --  ){
+                      for (var i = includeFields.length-1;i >= 0;i -- ){
                         
                         __LINE__ = 387;
-                        var fields = ko.utils.getFormFields( originalForm,includeFields[i] );
+                        var fields = ko.utils.getFormFields(originalForm,includeFields[i]);
                         
                         __LINE__ = 388;
-                        for ( var j = fields.length-1;j >= 0;j --  ){
+                        for (var j = fields.length-1;j >= 0;j -- ){
                           
                           __LINE__ = 389;
                           params[fields[j].name] = fields[j].value;
@@ -1724,10 +1724,10 @@
                     };
                     
                     __LINE__ = 393;
-                    data = ko.utils.unwrapObservable( data );
+                    data = ko.utils.unwrapObservable(data);
                     
                     __LINE__ = 394;
-                    var form = document.createElement( "FORM" );
+                    var form = document.createElement("FORM");
                     
                     __LINE__ = 395;
                     form.style.display = "none";
@@ -1739,26 +1739,26 @@
                     form.method = "post";
                     
                     __LINE__ = 398;
-                    for ( var key in data ){
+                    for (var key in data){
                       
                       __LINE__ = 399;
-                      var input = document.createElement( "INPUT" );
+                      var input = document.createElement("INPUT");
                       
                       __LINE__ = 400;
                       input.name = key;
                       
                       __LINE__ = 401;
-                      input.value = ko.utils.stringifyJson( ko.utils.unwrapObservable( data[key] ) );
+                      input.value = ko.utils.stringifyJson(ko.utils.unwrapObservable(data[key]));
                       
                       __LINE__ = 402;
-                      form.appendChild( input );
+                      form.appendChild(input);
                     };
                     
                     __LINE__ = 404;
-                    for ( var key in params ){
+                    for (var key in params){
                       
                       __LINE__ = 405;
-                      var input = document.createElement( "INPUT" );
+                      var input = document.createElement("INPUT");
                       
                       __LINE__ = 406;
                       input.name = key;
@@ -1767,66 +1767,66 @@
                       input.value = params[key];
                       
                       __LINE__ = 408;
-                      form.appendChild( input );
+                      form.appendChild(input);
                     };
                     
                     __LINE__ = 410;
-                    document.body.appendChild( form );
+                    document.body.appendChild(form);
                     
                     __LINE__ = 411;
-                    options['submitter']?options['submitter']( form ) : form.submit();
+                    options['submitter']?options['submitter'](form) : form.submit();
                     
                     __LINE__ = 412;
-                    setTimeout( function () {
+                    setTimeout(function () {
                       try {
                         __LINE__ = 412;
-                        form.parentNode.removeChild( form );
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        form.parentNode.removeChild(form);
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     },0);
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 417;
-          ko.exportSymbol( 'ko.utils',ko.utils );
+          ko.exportSymbol('ko.utils',ko.utils);
           
           __LINE__ = 418;
-          ko.utils.arrayForEach( [['arrayForEach',ko.utils.arrayForEach],['arrayFirst',ko.utils.arrayFirst],['arrayFilter',ko.utils.arrayFilter],['arrayGetDistinctValues',ko.utils.arrayGetDistinctValues],['arrayIndexOf',ko.utils.arrayIndexOf],['arrayMap',ko.utils.arrayMap],['arrayPushAll',ko.utils.arrayPushAll],['arrayRemoveItem',ko.utils.arrayRemoveItem],['extend',ko.utils.extend],['fieldsIncludedWithJsonPost',ko.utils.fieldsIncludedWithJsonPost],['getFormFields',ko.utils.getFormFields],['postJson',ko.utils.postJson],['parseJson',ko.utils.parseJson],['registerEventHandler',ko.utils.registerEventHandler],['stringifyJson',ko.utils.stringifyJson],['range',ko.utils.range],['toggleDomNodeCssClass',ko.utils.toggleDomNodeCssClass],['triggerEvent',ko.utils.triggerEvent],['unwrapObservable',ko.utils.unwrapObservable]],
-          function ( item ) {
+          ko.utils.arrayForEach([['arrayForEach',ko.utils.arrayForEach],['arrayFirst',ko.utils.arrayFirst],['arrayFilter',ko.utils.arrayFilter],['arrayGetDistinctValues',ko.utils.arrayGetDistinctValues],['arrayIndexOf',ko.utils.arrayIndexOf],['arrayMap',ko.utils.arrayMap],['arrayPushAll',ko.utils.arrayPushAll],['arrayRemoveItem',ko.utils.arrayRemoveItem],['extend',ko.utils.extend],['fieldsIncludedWithJsonPost',ko.utils.fieldsIncludedWithJsonPost],['getFormFields',ko.utils.getFormFields],['postJson',ko.utils.postJson],['parseJson',ko.utils.parseJson],['registerEventHandler',ko.utils.registerEventHandler],['stringifyJson',ko.utils.stringifyJson],['range',ko.utils.range],['toggleDomNodeCssClass',ko.utils.toggleDomNodeCssClass],['triggerEvent',ko.utils.triggerEvent],['unwrapObservable',ko.utils.unwrapObservable]],
+          function (item) {
             try {
               __LINE__ = 439;
-              ko.exportSymbol( 'ko.utils.'+item[0],item[1] );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              ko.exportSymbol('ko.utils.'+item[0],item[1]);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
           __LINE__ = 445;
-          !Function.prototype['bind'] && ( Function.prototype['bind'] = function ( object ) {
+          !Function.prototype['bind'] && (Function.prototype['bind'] = function (object) {
             try {
               __LINE__ = 446;
               var originalFunction = this,
-                  args = [].slice.call( arguments ),
+                  args = [].slice.call(arguments),
                   object = args.shift();
               __LINE__ = 447;
               return function () {
                 try {
                   __LINE__ = 448;
-                  return originalFunction.apply( object,args.concat( [].slice.call( arguments ) ) );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return originalFunction.apply(object,args.concat([].slice.call(arguments)));
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
@@ -1835,54 +1835,54 @@
             try {
               __LINE__ = 453;
               var uniqueId = 0,
-                  dataStoreKeyExpandoPropertyName = "__ko__"+( new Date ).getTime(),
+                  dataStoreKeyExpandoPropertyName = "__ko__"+(new Date).getTime(),
                   dataStore = {};
               __LINE__ = 456;
               return  {
-                get : function ( node,key ) {
+                get : function (node,key) {
                   try {
                     __LINE__ = 458;
-                    var allDataForNode = ko.utils.domData.getAll( node,false );
+                    var allDataForNode = ko.utils.domData.getAll(node,false);
                     __LINE__ = 459;
                     return allDataForNode === undefined?undefined : allDataForNode[key];
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                set : function ( node,key,value ) {
+                set : function (node,key,value) {
                   try {
                     __LINE__ = 462;
-                    if ( value === undefined ){
+                    if (value === undefined){
                       
                       __LINE__ = 464;
-                      if ( ko.utils.domData.getAll( node,false ) === undefined ){
+                      if (ko.utils.domData.getAll(node,false) === undefined){
                         __LINE__ = 465;
                         return ;
                       };
                     };
                     
                     __LINE__ = 467;
-                    var allDataForNode = ko.utils.domData.getAll( node,true );
+                    var allDataForNode = ko.utils.domData.getAll(node,true);
                     
                     __LINE__ = 468;
                     allDataForNode[key] = value;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                getAll : function ( node,createIfNotFound ) {
+                getAll : function (node,createIfNotFound) {
                   try {
                     __LINE__ = 471;
                     var dataStoreKey = node[dataStoreKeyExpandoPropertyName];
                     
                     __LINE__ = 472;
-                    var hasExistingDataStore = dataStoreKey && ( dataStoreKey !== "null" );
+                    var hasExistingDataStore = dataStoreKey && (dataStoreKey !== "null");
                     
                     __LINE__ = 473;
-                    if ( !hasExistingDataStore ){
+                    if (!hasExistingDataStore){
                       
                       __LINE__ = 474;
-                      if ( !createIfNotFound ){
+                      if (!createIfNotFound){
                         __LINE__ = 475;
                         return undefined;
                       };
@@ -1895,17 +1895,17 @@
                     };
                     __LINE__ = 479;
                     return dataStore[dataStoreKey];
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                clear : function ( node ) {
+                clear : function (node) {
                   try {
                     __LINE__ = 482;
                     var dataStoreKey = node[dataStoreKeyExpandoPropertyName];
                     
                     __LINE__ = 483;
-                    if ( dataStoreKey ){
+                    if (dataStoreKey){
                       
                       __LINE__ = 484;
                       delete dataStore[dataStoreKey];
@@ -1913,165 +1913,165 @@
                       __LINE__ = 485;
                       node[dataStoreKeyExpandoPropertyName] = null;
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 491;
-          ko.exportSymbol( 'ko.utils.domData',ko.utils.domData );
+          ko.exportSymbol('ko.utils.domData',ko.utils.domData);
           
           __LINE__ = 492;
-          ko.exportSymbol( 'ko.utils.domData.clear',ko.utils.domData.clear );
+          ko.exportSymbol('ko.utils.domData.clear',ko.utils.domData.clear);
           
           __LINE__ = 493;
           ko.utils.domNodeDisposal = new function () {
             try {
-              function cleanSingleNode( node ) {
+              function cleanSingleNode(node) {
                 try {
                   __LINE__ = 510;
-                  var callbacks = getDisposeCallbacksCollection( node,false );
+                  var callbacks = getDisposeCallbacksCollection(node,false);
                   
                   __LINE__ = 511;
-                  if ( callbacks ){
+                  if (callbacks){
                     
                     __LINE__ = 512;
-                    callbacks = callbacks.slice( 0 );
+                    callbacks = callbacks.slice(0);
                     
                     __LINE__ = 513;
-                    for ( var i = 0;i<callbacks.length;i ++  ){
+                    for (var i = 0;i<callbacks.length;i ++ ){
                       __LINE__ = 514;
-                      callbacks[i]( node );
+                      callbacks[i](node);
                     };
                   };
                   
                   __LINE__ = 518;
-                  ko.utils.domData.clear( node );
+                  ko.utils.domData.clear(node);
                   
                   __LINE__ = 524;
-                  ( typeof jQuery == "function" ) && ( typeof jQuery['cleanData'] == "function" ) && jQuery['cleanData']( [node] );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  (typeof jQuery == "function") && (typeof jQuery['cleanData'] == "function") && jQuery['cleanData']([node]);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function destroyCallbacksCollection( node ) {
+              function destroyCallbacksCollection(node) {
                 try {
                   __LINE__ = 505;
-                  ko.utils.domData.set( node,domDataKey,undefined );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  ko.utils.domData.set(node,domDataKey,undefined);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function getDisposeCallbacksCollection( node,createIfNotFound ) {
+              function getDisposeCallbacksCollection(node,createIfNotFound) {
                 try {
                   __LINE__ = 497;
-                  var allDisposeCallbacks = ko.utils.domData.get( node,domDataKey );
+                  var allDisposeCallbacks = ko.utils.domData.get(node,domDataKey);
                   
                   __LINE__ = 498;
-                  if ( ( allDisposeCallbacks === undefined ) && createIfNotFound ){
+                  if ((allDisposeCallbacks === undefined) && createIfNotFound){
                     
                     __LINE__ = 499;
                     allDisposeCallbacks = [];
                     
                     __LINE__ = 500;
-                    ko.utils.domData.set( node,domDataKey,allDisposeCallbacks );
+                    ko.utils.domData.set(node,domDataKey,allDisposeCallbacks);
                   };
                   __LINE__ = 502;
                   return allDisposeCallbacks;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 494;
-              var domDataKey = "__ko_domNodeDisposal__"+( new Date ).getTime();
+              var domDataKey = "__ko_domNodeDisposal__"+(new Date).getTime();
               __LINE__ = 527;
               return  {
-                addDisposeCallback : function ( node,callback ) {
+                addDisposeCallback : function (node,callback) {
                   try {
                     __LINE__ = 529;
-                    if ( typeof callback != "function" ){
+                    if (typeof callback != "function"){
                       __LINE__ = 530;
-                      throw new Error( "Callback must be a function" );
+                      throw new Error("Callback must be a function");
                     };
                     
                     __LINE__ = 531;
-                    getDisposeCallbacksCollection( node,true ).push( callback );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    getDisposeCallbacksCollection(node,true).push(callback);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                removeDisposeCallback : function ( node,callback ) {
+                removeDisposeCallback : function (node,callback) {
                   try {
                     __LINE__ = 535;
-                    var callbacksCollection = getDisposeCallbacksCollection( node,false );
+                    var callbacksCollection = getDisposeCallbacksCollection(node,false);
                     
                     __LINE__ = 536;
-                    if ( callbacksCollection ){
+                    if (callbacksCollection){
                       
                       __LINE__ = 537;
-                      ko.utils.arrayRemoveItem( callbacksCollection,callback );
+                      ko.utils.arrayRemoveItem(callbacksCollection,callback);
                       
                       __LINE__ = 538;
-                      if ( callbacksCollection.length == 0 ){
+                      if (callbacksCollection.length == 0){
                         
                         __LINE__ = 539;
-                        destroyCallbacksCollection( node );
+                        destroyCallbacksCollection(node);
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                cleanNode : function ( node ) {
+                cleanNode : function (node) {
                   try {
                     __LINE__ = 544;
-                    if ( ( node.nodeType != 1 ) && ( node.nodeType != 9 ) ){
+                    if ((node.nodeType != 1) && (node.nodeType != 9)){
                       __LINE__ = 545;
                       return ;
                     };
                     
                     __LINE__ = 546;
-                    cleanSingleNode( node );
+                    cleanSingleNode(node);
                     
                     __LINE__ = 549;
                     var descendants = [];
                     
                     __LINE__ = 550;
-                    ko.utils.arrayPushAll( descendants,node.getElementsByTagName( "*" ) );
+                    ko.utils.arrayPushAll(descendants,node.getElementsByTagName("*"));
                     
                     __LINE__ = 551;
-                    for ( var i = 0,j = descendants.length;i<j;i ++  ){
+                    for (var i = 0,j = descendants.length;i<j;i ++ ){
                       
                       __LINE__ = 552;
-                      cleanSingleNode( descendants[i] );
+                      cleanSingleNode(descendants[i]);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                removeNode : function ( node ) {
+                removeNode : function (node) {
                   try {
                     __LINE__ = 556;
-                    ko.cleanNode( node );
+                    ko.cleanNode(node);
                     
                     __LINE__ = 557;
-                    if ( node.parentNode ){
+                    if (node.parentNode){
                       
                       __LINE__ = 558;
-                      node.parentNode.removeChild( node );
+                      node.parentNode.removeChild(node);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -2082,187 +2082,187 @@
           ko.removeNode = ko.utils.domNodeDisposal.removeNode;
           
           __LINE__ = 564;
-          ko.exportSymbol( 'ko.cleanNode',ko.cleanNode );
+          ko.exportSymbol('ko.cleanNode',ko.cleanNode);
           
           __LINE__ = 565;
-          ko.exportSymbol( 'ko.removeNode',ko.removeNode );
+          ko.exportSymbol('ko.removeNode',ko.removeNode);
           
           __LINE__ = 566;
-          ko.exportSymbol( 'ko.utils.domNodeDisposal',ko.utils.domNodeDisposal );
+          ko.exportSymbol('ko.utils.domNodeDisposal',ko.utils.domNodeDisposal);
           
           __LINE__ = 567;
-          ko.exportSymbol( 'ko.utils.domNodeDisposal.addDisposeCallback',ko.utils.domNodeDisposal.addDisposeCallback );
+          ko.exportSymbol('ko.utils.domNodeDisposal.addDisposeCallback',ko.utils.domNodeDisposal.addDisposeCallback);
           
           __LINE__ = 568;
-          ko.exportSymbol( 'ko.utils.domNodeDisposal.removeDisposeCallback',ko.utils.domNodeDisposal.removeDisposeCallback );
+          ko.exportSymbol('ko.utils.domNodeDisposal.removeDisposeCallback',ko.utils.domNodeDisposal.removeDisposeCallback);
           
           __LINE__ = 568;
           !function () {
             try {
-              function jQueryHtmlParse( html ) {
+              function jQueryHtmlParse(html) {
                 try {
                   __LINE__ = 606;
-                  var elems = jQuery['clean']( [html] );
+                  var elems = jQuery['clean']([html]);
                   
                   __LINE__ = 611;
-                  if ( elems && elems[0] ){
+                  if (elems && elems[0]){
                     
                     __LINE__ = 613;
                     var elem = elems[0];
                     
                     __LINE__ = 614;
-                    while ( elem.parentNode && elem.parentNode.nodeType !== 11 ){
+                    while (elem.parentNode && elem.parentNode.nodeType !== 11){
                       __LINE__ = 615;
                       elem = elem.parentNode;
                     };
                     
                     __LINE__ = 618;
-                    elem.parentNode && elem.parentNode.removeChild( elem );
+                    elem.parentNode && elem.parentNode.removeChild(elem);
                   };
                   __LINE__ = 621;
                   return elems;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function simpleHtmlParse( html ) {
+              function simpleHtmlParse(html) {
                 try {
                   __LINE__ = 581;
-                  var tags = ko.utils.stringTrim( html ).toLowerCase(),
-                      div = document.createElement( "div" ),
-                      wrap = tags.match( /^<(thead|tbody|tfoot)/ ) && [1,"<table>","</table>"] || !tags.indexOf( "<tr" ) && [2,"<table><tbody>","</tbody></table>"] || ( !tags.indexOf( "<td" ) || !tags.indexOf( "<th" ) ) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""],
+                  var tags = ko.utils.stringTrim(html).toLowerCase(),
+                      div = document.createElement("div"),
+                      wrap = tags.match(/^<(thead|tbody|tfoot)/) && [1,"<table>","</table>"] || !tags.indexOf("<tr") && [2,"<table><tbody>","</tbody></table>"] || (!tags.indexOf("<td") || !tags.indexOf("<th")) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""],
                       markup = "ignored<div>"+wrap[1]+html+wrap[2]+"</div>";
                   
                   __LINE__ = 593;
-                  typeof window['innerShiv'] == "function"?div.appendChild( window['innerShiv']( markup ) ) : div.innerHTML = markup;
+                  typeof window['innerShiv'] == "function"?div.appendChild(window['innerShiv'](markup)) : div.innerHTML = markup;
                   
                   __LINE__ = 599;
-                  while ( wrap[0] --  ){
+                  while (wrap[0] -- ){
                     __LINE__ = 600;
                     div = div.lastChild;
                   };
                   __LINE__ = 602;
-                  return ko.utils.makeArray( div.lastChild.childNodes );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return ko.utils.makeArray(div.lastChild.childNodes);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 569;
               var leadingCommentRegex = /^(\s*)<!--(.*?)-->/;
               
               __LINE__ = 624;
-              ko.utils.parseHtmlFragment = function ( html ) {
+              ko.utils.parseHtmlFragment = function (html) {
                 try {
                   __LINE__ = 625;
-                  return typeof jQuery != 'undefined'?jQueryHtmlParse( html ) : simpleHtmlParse( html );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return typeof jQuery != 'undefined'?jQueryHtmlParse(html) : simpleHtmlParse(html);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 629;
-              ko.utils.setHtml = function ( node,html ) {
+              ko.utils.setHtml = function (node,html) {
                 try {
                   __LINE__ = 630;
-                  ko.utils.emptyDomNode( node );
+                  ko.utils.emptyDomNode(node);
                   
                   __LINE__ = 632;
-                  if ( ( html !== null ) && ( html !== undefined ) ){
+                  if ((html !== null) && (html !== undefined)){
                     
                     __LINE__ = 634;
-                    typeof html != 'string' && ( html = html.toString() );
+                    typeof html != 'string' && (html = html.toString());
                     
                     __LINE__ = 639;
-                    if ( typeof jQuery != 'undefined' ){
+                    if (typeof jQuery != 'undefined'){
                       __LINE__ = 640;
-                      jQuery( node )['html']( html );
+                      jQuery(node)['html'](html);
                     } else {
                       
                       __LINE__ = 643;
-                      var parsedNodes = ko.utils.parseHtmlFragment( html );
+                      var parsedNodes = ko.utils.parseHtmlFragment(html);
                       
                       __LINE__ = 644;
-                      for ( var i = 0;i<parsedNodes.length;i ++  ){
+                      for (var i = 0;i<parsedNodes.length;i ++ ){
                         __LINE__ = 645;
-                        node.appendChild( parsedNodes[i] );
+                        node.appendChild(parsedNodes[i]);
                       };
                     };
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 651;
-          ko.exportSymbol( 'ko.utils.parseHtmlFragment',ko.utils.parseHtmlFragment );
+          ko.exportSymbol('ko.utils.parseHtmlFragment',ko.utils.parseHtmlFragment);
           
           __LINE__ = 652;
-          ko.exportSymbol( 'ko.utils.setHtml',ko.utils.setHtml );
+          ko.exportSymbol('ko.utils.setHtml',ko.utils.setHtml);
           
           __LINE__ = 653;
           ko.memoization = function () {
             try {
-              function findMemoNodes( rootNode,appendToArray ) {
+              function findMemoNodes(rootNode,appendToArray) {
                 try {
                   __LINE__ = 663;
-                  if ( !rootNode ){
+                  if (!rootNode){
                     __LINE__ = 664;
                     return ;
                   };
                   
                   __LINE__ = 665;
-                  if ( rootNode.nodeType == 8 ){
+                  if (rootNode.nodeType == 8){
                     
                     __LINE__ = 666;
-                    var memoId = ko.memoization.parseMemoText( rootNode.nodeValue );
+                    var memoId = ko.memoization.parseMemoText(rootNode.nodeValue);
                     
                     __LINE__ = 668;
-                    memoId != null && appendToArray.push(  {
+                    memoId != null && appendToArray.push( {
                       domNode : rootNode,
                       memoId : memoId
                     });
-                  } else if ( rootNode.nodeType == 1 ){
+                  } else if (rootNode.nodeType == 1){
                     __LINE__ = 670;
-                    for ( var i = 0,childNodes = rootNode.childNodes,j = childNodes.length;i<j;i ++  ){
+                    for (var i = 0,childNodes = rootNode.childNodes,j = childNodes.length;i<j;i ++ ){
                       
                       __LINE__ = 671;
-                      findMemoNodes( childNodes[i],appendToArray );
+                      findMemoNodes(childNodes[i],appendToArray);
                     };
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               function generateRandomId() {
                 try {
                   __LINE__ = 660;
                   return randomMax8HexChars()+randomMax8HexChars();
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               function randomMax8HexChars() {
                 try {
                   __LINE__ = 657;
-                  return ( ( ( 1+Math.random() )*0x00000000 )|0 ).toString( 16 ).substring( 1 );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return (((1+Math.random())*0x00000000)|0).toString(16).substring(1);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 654;
               var memos = {};
               __LINE__ = 675;
               return  {
-                memoize : function ( callback ) {
+                memoize : function (callback) {
                   try {
                     __LINE__ = 677;
-                    if ( typeof callback != "function" ){
+                    if (typeof callback != "function"){
                       __LINE__ = 678;
-                      throw new Error( "You can only pass a function to ko.memoization.memoize()" );
+                      throw new Error("You can only pass a function to ko.memoization.memoize()");
                     };
                     
                     __LINE__ = 679;
@@ -2272,25 +2272,25 @@
                     memos[memoId] = callback;
                     __LINE__ = 681;
                     return "<!--[ko_memo:"+memoId+"]-->";
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                unmemoize : function ( memoId,callbackParams ) {
+                unmemoize : function (memoId,callbackParams) {
                   try {
                     __LINE__ = 685;
                     var callback = memos[memoId];
                     
                     __LINE__ = 686;
-                    if ( callback === undefined ){
+                    if (callback === undefined){
                       __LINE__ = 687;
-                      throw new Error( "Couldn't find any memo with ID "+memoId+". Perhaps it's already been unmemoized." );
+                      throw new Error("Couldn't find any memo with ID "+memoId+". Perhaps it's already been unmemoized.");
                     };
                     
                     try {
                       
                       __LINE__ = 689;
-                      callback.apply( null,callbackParams || [] );
+                      callback.apply(null,callbackParams || []);
                       __LINE__ = 690;
                       return true;
                     } finally {
@@ -2298,20 +2298,20 @@
                       __LINE__ = 692;
                       delete memos[memoId];
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                unmemoizeDomNodeAndDescendants : function ( domNode,extraCallbackParamsArray ) {
+                unmemoizeDomNodeAndDescendants : function (domNode,extraCallbackParamsArray) {
                   try {
                     __LINE__ = 696;
                     var memos = [];
                     
                     __LINE__ = 697;
-                    findMemoNodes( domNode,memos );
+                    findMemoNodes(domNode,memos);
                     
                     __LINE__ = 698;
-                    for ( var i = 0,j = memos.length;i<j;i ++  ){
+                    for (var i = 0,j = memos.length;i<j;i ++ ){
                       
                       __LINE__ = 699;
                       var node = memos[i].domNode;
@@ -2320,63 +2320,63 @@
                       var combinedParams = [node];
                       
                       __LINE__ = 701;
-                      if ( extraCallbackParamsArray ){
+                      if (extraCallbackParamsArray){
                         
                         __LINE__ = 702;
-                        ko.utils.arrayPushAll( combinedParams,extraCallbackParamsArray );
+                        ko.utils.arrayPushAll(combinedParams,extraCallbackParamsArray);
                       };
                       
                       __LINE__ = 703;
-                      ko.memoization.unmemoize( memos[i].memoId,combinedParams );
+                      ko.memoization.unmemoize(memos[i].memoId,combinedParams);
                       
                       __LINE__ = 704;
                       node.nodeValue = "";
                       
                       __LINE__ = 705;
-                      if ( node.parentNode ){
+                      if (node.parentNode){
                         
                         __LINE__ = 706;
-                        node.parentNode.removeChild( node );
+                        node.parentNode.removeChild(node);
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                parseMemoText : function ( memoText ) {
+                parseMemoText : function (memoText) {
                   try {
                     __LINE__ = 711;
-                    var match = memoText.match( /^\[ko_memo\:(.*?)\]$/ );
+                    var match = memoText.match(/^\[ko_memo\:(.*?)\]$/);
                     __LINE__ = 712;
                     return match?match[1] : null;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 717;
-          ko.exportSymbol( 'ko.memoization',ko.memoization );
+          ko.exportSymbol('ko.memoization',ko.memoization);
           
           __LINE__ = 718;
-          ko.exportSymbol( 'ko.memoization.memoize',ko.memoization.memoize );
+          ko.exportSymbol('ko.memoization.memoize',ko.memoization.memoize);
           
           __LINE__ = 719;
-          ko.exportSymbol( 'ko.memoization.unmemoize',ko.memoization.unmemoize );
+          ko.exportSymbol('ko.memoization.unmemoize',ko.memoization.unmemoize);
           
           __LINE__ = 720;
-          ko.exportSymbol( 'ko.memoization.parseMemoText',ko.memoization.parseMemoText );
+          ko.exportSymbol('ko.memoization.parseMemoText',ko.memoization.parseMemoText);
           
           __LINE__ = 721;
-          ko.exportSymbol( 'ko.memoization.unmemoizeDomNodeAndDescendants',ko.memoization.unmemoizeDomNodeAndDescendants );
+          ko.exportSymbol('ko.memoization.unmemoizeDomNodeAndDescendants',ko.memoization.unmemoizeDomNodeAndDescendants);
           
           __LINE__ = 722;
           ko.extenders =  {
-            'throttle' : function ( target,timeout ) {
+            'throttle' : function (target,timeout) {
               try {
                 __LINE__ = 728;
                 target['throttleEvaluation'] = timeout;
@@ -2384,55 +2384,55 @@
                 __LINE__ = 732;
                 var writeTimeoutInstance = null;
                 __LINE__ = 733;
-                return ko.dependentObservable(  {
+                return ko.dependentObservable( {
                   'read' : target,
-                  'write' : function ( value ) {
+                  'write' : function (value) {
                     try {
                       __LINE__ = 736;
-                      clearTimeout( writeTimeoutInstance );
+                      clearTimeout(writeTimeoutInstance);
                       
                       __LINE__ = 737;
-                      writeTimeoutInstance = setTimeout( function () {
+                      writeTimeoutInstance = setTimeout(function () {
                         try {
                           __LINE__ = 738;
-                          target( value );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          target(value);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },timeout);
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'notify' : function ( target,notifyWhen ) {
+            'notify' : function (target,notifyWhen) {
               try {
                 __LINE__ = 745;
                 target["equalityComparer"] = notifyWhen == "always"?function () {
                   try {
                     __LINE__ = 746;
                     return false;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 } : ko.observable["fn"]["equalityComparer"];
                 __LINE__ = 748;
                 return target;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 765;
-          ko.exportSymbol( 'ko.extenders',ko.extenders );
+          ko.exportSymbol('ko.extenders',ko.extenders);
           
           __LINE__ = 766;
-          ko.subscription = function ( callback,disposeCallback ) {
+          ko.subscription = function (callback,disposeCallback) {
             try {
               __LINE__ = 767;
               this.callback = callback;
@@ -2441,9 +2441,9 @@
               this.disposeCallback = disposeCallback;
               
               __LINE__ = 769;
-              ko.exportProperty( this,'dispose',this.dispose );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              ko.exportProperty(this,'dispose',this.dispose);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2455,8 +2455,8 @@
               
               __LINE__ = 773;
               this.disposeCallback();
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2467,18 +2467,18 @@
               this._subscriptions = {};
               
               __LINE__ = 779;
-              ko.utils.extend( this,ko.subscribable['fn'] );
+              ko.utils.extend(this,ko.subscribable['fn']);
               
               __LINE__ = 780;
-              ko.exportProperty( this,'subscribe',this.subscribe );
+              ko.exportProperty(this,'subscribe',this.subscribe);
               
               __LINE__ = 781;
-              ko.exportProperty( this,'extend',this.extend );
+              ko.exportProperty(this,'extend',this.extend);
               
               __LINE__ = 782;
-              ko.exportProperty( this,'getSubscriptionsCount',this.getSubscriptionsCount );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              ko.exportProperty(this,'getSubscriptionsCount',this.getSubscriptionsCount);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2487,64 +2487,64 @@
           
           __LINE__ = 787;
           ko.subscribable['fn'] =  {
-            subscribe : function ( callback,callbackTarget,event ) {
+            subscribe : function (callback,callbackTarget,event) {
               try {
                 __LINE__ = 789;
                 event = event || defaultEvent;
                 
                 __LINE__ = 790;
-                var boundCallback = callbackTarget?callback.bind( callbackTarget ) : callback;
+                var boundCallback = callbackTarget?callback.bind(callbackTarget) : callback;
                 
                 __LINE__ = 792;
-                var subscription = new ko.subscription( boundCallback,function () {
+                var subscription = new ko.subscription(boundCallback,function () {
                       try {
                         __LINE__ = 793;
-                        ko.utils.arrayRemoveItem( this._subscriptions[event],subscription );
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        ko.utils.arrayRemoveItem(this._subscriptions[event],subscription);
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
-                    }.bind( this ) );
+                    }.bind(this));
                 
                 __LINE__ = 796;
-                if ( !this._subscriptions[event] ){
+                if (!this._subscriptions[event]){
                   
                   __LINE__ = 797;
                   this._subscriptions[event] = [];
                 };
                 
                 __LINE__ = 798;
-                this._subscriptions[event].push( subscription );
+                this._subscriptions[event].push(subscription);
                 __LINE__ = 799;
                 return subscription;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            "notifySubscribers" : function ( valueToNotify,event ) {
+            "notifySubscribers" : function (valueToNotify,event) {
               try {
                 __LINE__ = 803;
                 event = event || defaultEvent;
                 
                 __LINE__ = 804;
-                if ( this._subscriptions[event] ){
+                if (this._subscriptions[event]){
                   
                   __LINE__ = 805;
-                  ko.utils.arrayForEach( this._subscriptions[event].slice( 0 ),
-                  function ( subscription ) {
+                  ko.utils.arrayForEach(this._subscriptions[event].slice(0),
+                  function (subscription) {
                     try {
                       __LINE__ = 808;
-                      if ( subscription && ( subscription.isDisposed !== true ) ){
+                      if (subscription && (subscription.isDisposed !== true)){
                         
                         __LINE__ = 809;
-                        subscription.callback( valueToNotify );
+                        subscription.callback(valueToNotify);
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             getSubscriptionsCount : function () {
@@ -2553,10 +2553,10 @@
                 var total = 0;
                 
                 __LINE__ = 816;
-                for ( var eventName in this._subscriptions ){
+                for (var eventName in this._subscriptions){
                   
                   __LINE__ = 817;
-                  if ( this._subscriptions.hasOwnProperty( eventName ) ){
+                  if (this._subscriptions.hasOwnProperty(eventName)){
                     
                     __LINE__ = 818;
                     total += this._subscriptions[eventName].length;
@@ -2564,28 +2564,28 @@
                 };
                 __LINE__ = 820;
                 return total;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             extend : applyExtenders
           };
           
           __LINE__ = 827;
-          ko.isSubscribable = function ( instance ) {
+          ko.isSubscribable = function (instance) {
             try {
               __LINE__ = 828;
               return typeof instance.subscribe == "function" && typeof instance["notifySubscribers"] == "function";
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 831;
-          ko.exportSymbol( 'ko.subscribable',ko.subscribable );
+          ko.exportSymbol('ko.subscribable',ko.subscribable);
           
           __LINE__ = 832;
-          ko.exportSymbol( 'ko.isSubscribable',ko.isSubscribable );
+          ko.exportSymbol('ko.isSubscribable',ko.isSubscribable);
           
           __LINE__ = 834;
           ko.dependencyDetection = function () {
@@ -2594,58 +2594,58 @@
               var _frames = [];
               __LINE__ = 837;
               return  {
-                begin : function ( callback ) {
+                begin : function (callback) {
                   try {
                     __LINE__ = 839;
-                    _frames.push(  {
+                    _frames.push( {
                       callback : callback,
                       distinctDependencies : []
                     });
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 end : function () {
                   try {
                     __LINE__ = 843;
                     _frames.pop();
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                registerDependency : function ( subscribable ) {
+                registerDependency : function (subscribable) {
                   try {
                     __LINE__ = 847;
-                    if ( !ko.isSubscribable( subscribable ) ){
+                    if (!ko.isSubscribable(subscribable)){
                       __LINE__ = 848;
                       throw "Only subscribable things can act as dependencies";
                     };
                     
                     __LINE__ = 849;
-                    if ( _frames.length>0 ){
+                    if (_frames.length>0){
                       
                       __LINE__ = 850;
                       var topFrame = _frames[_frames.length-1];
                       
                       __LINE__ = 851;
-                      if ( ko.utils.arrayIndexOf( topFrame.distinctDependencies,subscribable ) >= 0 ){
+                      if (ko.utils.arrayIndexOf(topFrame.distinctDependencies,subscribable) >= 0){
                         __LINE__ = 852;
                         return ;
                       };
                       
                       __LINE__ = 853;
-                      topFrame.distinctDependencies.push( subscribable );
+                      topFrame.distinctDependencies.push(subscribable);
                       
                       __LINE__ = 854;
-                      topFrame.callback( subscribable );
+                      topFrame.callback(subscribable);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -2658,15 +2658,15 @@
               };
           
           __LINE__ = 860;
-          ko.observable = function ( initialValue ) {
+          ko.observable = function (initialValue) {
             try {
               function observable() {
                 try {
                   __LINE__ = 864;
-                  if ( arguments.length>0 ){
+                  if (arguments.length>0){
                     
                     __LINE__ = 868;
-                    if ( ( !observable['equalityComparer'] ) || !observable['equalityComparer']( _latestValue,arguments[0] ) ){
+                    if ((!observable['equalityComparer']) || !observable['equalityComparer'](_latestValue,arguments[0])){
                       
                       __LINE__ = 869;
                       observable.valueWillMutate();
@@ -2682,27 +2682,27 @@
                   } else {
                     
                     __LINE__ = 877;
-                    ko.dependencyDetection.registerDependency( observable );
+                    ko.dependencyDetection.registerDependency(observable);
                     __LINE__ = 878;
                     return _latestValue;
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 861;
               var _latestValue = initialValue;
               
               __LINE__ = 881;
-              ko.subscribable.call( observable );
+              ko.subscribable.call(observable);
               
               __LINE__ = 882;
               observable.valueHasMutated = function () {
                 try {
                   __LINE__ = 882;
-                  observable["notifySubscribers"]( _latestValue );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  observable["notifySubscribers"](_latestValue);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -2710,138 +2710,138 @@
               observable.valueWillMutate = function () {
                 try {
                   __LINE__ = 883;
-                  observable["notifySubscribers"]( _latestValue,"beforeChange" );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  observable["notifySubscribers"](_latestValue,"beforeChange");
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 884;
-              ko.utils.extend( observable,ko.observable['fn'] );
+              ko.utils.extend(observable,ko.observable['fn']);
               
               __LINE__ = 886;
-              ko.exportProperty( observable,"valueHasMutated",observable.valueHasMutated );
+              ko.exportProperty(observable,"valueHasMutated",observable.valueHasMutated);
               
               __LINE__ = 887;
-              ko.exportProperty( observable,"valueWillMutate",observable.valueWillMutate );
+              ko.exportProperty(observable,"valueWillMutate",observable.valueWillMutate);
               __LINE__ = 889;
               return observable;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 892;
           ko.observable['fn'] =  {
             __ko_proto__ : ko.observable,
-            "equalityComparer" : function valuesArePrimitiveAndEqual( a,b ) {
+            "equalityComparer" : function valuesArePrimitiveAndEqual(a,b) {
               try {
                 __LINE__ = 896;
-                var oldValueIsPrimitive = ( a === null ) || ( typeof ( a ) in primitiveTypes );
+                var oldValueIsPrimitive = (a === null) || (typeof (a) in primitiveTypes);
                 __LINE__ = 897;
-                return oldValueIsPrimitive?( a === b ) : false;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return oldValueIsPrimitive?(a === b) : false;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 901;
-          ko.isObservable = function ( instance ) {
+          ko.isObservable = function (instance) {
             try {
               __LINE__ = 902;
-              if ( ( instance === null ) || ( instance === undefined ) || ( instance.__ko_proto__ === undefined ) ){
+              if ((instance === null) || (instance === undefined) || (instance.__ko_proto__ === undefined)){
                 __LINE__ = 902;
                 return false;
               };
               
               __LINE__ = 903;
-              if ( instance.__ko_proto__ === ko.observable ){
+              if (instance.__ko_proto__ === ko.observable){
                 __LINE__ = 903;
                 return true;
               };
               __LINE__ = 904;
-              return ko.isObservable( instance.__ko_proto__ );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              return ko.isObservable(instance.__ko_proto__);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 906;
-          ko.isWriteableObservable = function ( instance ) {
+          ko.isWriteableObservable = function (instance) {
             try {
               __LINE__ = 908;
-              if ( ( typeof instance == "function" ) && instance.__ko_proto__ === ko.observable ){
+              if ((typeof instance == "function") && instance.__ko_proto__ === ko.observable){
                 __LINE__ = 909;
                 return true;
               };
               
               __LINE__ = 911;
-              if ( ( typeof instance == "function" ) && ( instance.__ko_proto__ === ko.dependentObservable ) && ( instance.hasWriteFunction ) ){
+              if ((typeof instance == "function") && (instance.__ko_proto__ === ko.dependentObservable) && (instance.hasWriteFunction)){
                 __LINE__ = 912;
                 return true;
               };
               __LINE__ = 914;
               return false;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 918;
-          ko.exportSymbol( 'ko.observable',ko.observable );
+          ko.exportSymbol('ko.observable',ko.observable);
           
           __LINE__ = 919;
-          ko.exportSymbol( 'ko.isObservable',ko.isObservable );
+          ko.exportSymbol('ko.isObservable',ko.isObservable);
           
           __LINE__ = 920;
-          ko.exportSymbol( 'ko.isWriteableObservable',ko.isWriteableObservable );
+          ko.exportSymbol('ko.isWriteableObservable',ko.isWriteableObservable);
           
           __LINE__ = 921;
-          ko.observableArray = function ( initialValues ) {
+          ko.observableArray = function (initialValues) {
             try {
               __LINE__ = 924;
-              arguments.length == 0 && ( initialValues = [] );
+              arguments.length == 0 && (initialValues = []);
               
               __LINE__ = 926;
-              if ( ( initialValues !== null ) && ( initialValues !== undefined ) && !( 'length' in initialValues ) ){
+              if ((initialValues !== null) && (initialValues !== undefined) && !('length' in initialValues)){
                 __LINE__ = 927;
-                throw new Error( "The argument passed when initializing an observable array must be an array, or null, or undefined." );
+                throw new Error("The argument passed when initializing an observable array must be an array, or null, or undefined.");
               };
               
               __LINE__ = 929;
-              var result = new ko.observable( initialValues );
+              var result = new ko.observable(initialValues);
               
               __LINE__ = 930;
-              ko.utils.extend( result,ko.observableArray['fn'] );
+              ko.utils.extend(result,ko.observableArray['fn']);
               
               __LINE__ = 932;
-              ko.exportProperty( result,"remove",result.remove );
+              ko.exportProperty(result,"remove",result.remove);
               
               __LINE__ = 933;
-              ko.exportProperty( result,"removeAll",result.removeAll );
+              ko.exportProperty(result,"removeAll",result.removeAll);
               
               __LINE__ = 934;
-              ko.exportProperty( result,"destroy",result.destroy );
+              ko.exportProperty(result,"destroy",result.destroy);
               
               __LINE__ = 935;
-              ko.exportProperty( result,"destroyAll",result.destroyAll );
+              ko.exportProperty(result,"destroyAll",result.destroyAll);
               
               __LINE__ = 936;
-              ko.exportProperty( result,"indexOf",result.indexOf );
+              ko.exportProperty(result,"indexOf",result.indexOf);
               
               __LINE__ = 937;
-              ko.exportProperty( result,"replace",result.replace );
+              ko.exportProperty(result,"replace",result.replace);
               __LINE__ = 939;
               return result;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 942;
           ko.observableArray['fn'] =  {
-            remove : function ( valueOrPredicate ) {
+            remove : function (valueOrPredicate) {
               try {
                 __LINE__ = 944;
                 var underlyingArray = this();
@@ -2850,36 +2850,36 @@
                 var removedValues = [];
                 
                 __LINE__ = 946;
-                var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function ( value ) {
+                var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
                       try {
                         __LINE__ = 946;
                         return value === valueOrPredicate;
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
                 __LINE__ = 947;
-                for ( var i = 0;i<underlyingArray.length;i ++  ){
+                for (var i = 0;i<underlyingArray.length;i ++ ){
                   
                   __LINE__ = 948;
                   var value = underlyingArray[i];
                   
                   __LINE__ = 949;
-                  if ( predicate( value ) ){
+                  if (predicate(value)){
                     
                     __LINE__ = 950;
-                    if ( removedValues.length === 0 ){
+                    if (removedValues.length === 0){
                       
                       __LINE__ = 951;
                       this.valueWillMutate();
                     };
                     
                     __LINE__ = 953;
-                    removedValues.push( value );
+                    removedValues.push(value);
                     
                     __LINE__ = 954;
-                    underlyingArray.splice( i,1 );
+                    underlyingArray.splice(i,1);
                     
                     __LINE__ = 955;
                     i -- ;
@@ -2887,33 +2887,33 @@
                 };
                 
                 __LINE__ = 958;
-                if ( removedValues.length ){
+                if (removedValues.length){
                   
                   __LINE__ = 959;
                   this.valueHasMutated();
                 };
                 __LINE__ = 961;
                 return removedValues;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            removeAll : function ( arrayOfValues ) {
+            removeAll : function (arrayOfValues) {
               try {
                 __LINE__ = 966;
-                if ( arrayOfValues === undefined ){
+                if (arrayOfValues === undefined){
                   
                   __LINE__ = 967;
                   var underlyingArray = this();
                   
                   __LINE__ = 968;
-                  var allValues = underlyingArray.slice( 0 );
+                  var allValues = underlyingArray.slice(0);
                   
                   __LINE__ = 969;
                   this.valueWillMutate();
                   
                   __LINE__ = 970;
-                  underlyingArray.splice( 0,underlyingArray.length );
+                  underlyingArray.splice(0,underlyingArray.length);
                   
                   __LINE__ = 971;
                   this.valueHasMutated();
@@ -2922,35 +2922,35 @@
                 };
                 
                 __LINE__ = 975;
-                if ( !arrayOfValues ){
+                if (!arrayOfValues){
                   __LINE__ = 976;
                   return [];
                 };
                 __LINE__ = 977;
-                return this.remove( function ( value ) {
+                return this.remove(function (value) {
                   try {
                     __LINE__ = 978;
-                    return ko.utils.arrayIndexOf( arrayOfValues,value ) >= 0;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return ko.utils.arrayIndexOf(arrayOfValues,value) >= 0;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            destroy : function ( valueOrPredicate ) {
+            destroy : function (valueOrPredicate) {
               try {
                 __LINE__ = 983;
                 var underlyingArray = this();
                 
                 __LINE__ = 984;
-                var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function ( value ) {
+                var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
                       try {
                         __LINE__ = 984;
                         return value === valueOrPredicate;
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
@@ -2958,13 +2958,13 @@
                 this.valueWillMutate();
                 
                 __LINE__ = 986;
-                for ( var i = underlyingArray.length-1;i >= 0;i --  ){
+                for (var i = underlyingArray.length-1;i >= 0;i -- ){
                   
                   __LINE__ = 987;
                   var value = underlyingArray[i];
                   
                   __LINE__ = 988;
-                  if ( predicate( value ) ){
+                  if (predicate(value)){
                     
                     __LINE__ = 989;
                     underlyingArray[i]["_destroy"] = true;
@@ -2973,60 +2973,60 @@
                 
                 __LINE__ = 991;
                 this.valueHasMutated();
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            destroyAll : function ( arrayOfValues ) {
+            destroyAll : function (arrayOfValues) {
               try {
                 __LINE__ = 996;
-                if ( arrayOfValues === undefined ){
+                if (arrayOfValues === undefined){
                   __LINE__ = 997;
-                  return this.destroy( function () {
+                  return this.destroy(function () {
                     try {
                       __LINE__ = 997;
                       return true;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 };
                 
                 __LINE__ = 1000;
-                if ( !arrayOfValues ){
+                if (!arrayOfValues){
                   __LINE__ = 1001;
                   return [];
                 };
                 __LINE__ = 1002;
-                return this.destroy( function ( value ) {
+                return this.destroy(function (value) {
                   try {
                     __LINE__ = 1003;
-                    return ko.utils.arrayIndexOf( arrayOfValues,value ) >= 0;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return ko.utils.arrayIndexOf(arrayOfValues,value) >= 0;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            indexOf : function ( item ) {
+            indexOf : function (item) {
               try {
                 __LINE__ = 1008;
                 var underlyingArray = this();
                 __LINE__ = 1009;
-                return ko.utils.arrayIndexOf( underlyingArray,item );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.utils.arrayIndexOf(underlyingArray,item);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            replace : function ( oldItem,newItem ) {
+            replace : function (oldItem,newItem) {
               try {
                 __LINE__ = 1013;
-                var index = this.indexOf( oldItem );
+                var index = this.indexOf(oldItem);
                 
                 __LINE__ = 1014;
-                if ( index >= 0 ){
+                if (index >= 0){
                   
                   __LINE__ = 1015;
                   this.valueWillMutate();
@@ -3037,15 +3037,15 @@
                   __LINE__ = 1017;
                   this.valueHasMutated();
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 1023;
-          ko.utils.arrayForEach( ["pop","push","reverse","shift","sort","splice","unshift"],
-          function ( methodName ) {
+          ko.utils.arrayForEach(["pop","push","reverse","shift","sort","splice","unshift"],
+          function (methodName) {
             try {
               __LINE__ = 1024;
               ko.observableArray['fn'][methodName] = function () {
@@ -3057,24 +3057,24 @@
                   this.valueWillMutate();
                   
                   __LINE__ = 1027;
-                  var methodCallResult = underlyingArray[methodName].apply( underlyingArray,arguments );
+                  var methodCallResult = underlyingArray[methodName].apply(underlyingArray,arguments);
                   
                   __LINE__ = 1028;
                   this.valueHasMutated();
                   __LINE__ = 1029;
                   return methodCallResult;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
           __LINE__ = 1034;
-          ko.utils.arrayForEach( ["slice"],
-          function ( methodName ) {
+          ko.utils.arrayForEach(["slice"],
+          function (methodName) {
             try {
               __LINE__ = 1035;
               ko.observableArray['fn'][methodName] = function () {
@@ -3082,34 +3082,34 @@
                   __LINE__ = 1036;
                   var underlyingArray = this();
                   __LINE__ = 1037;
-                  return underlyingArray[methodName].apply( underlyingArray,arguments );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return underlyingArray[methodName].apply(underlyingArray,arguments);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
           __LINE__ = 1041;
-          ko.exportSymbol( 'ko.observableArray',ko.observableArray );
+          ko.exportSymbol('ko.observableArray',ko.observableArray);
           
           __LINE__ = 1059;
-          ko.dependentObservable = function ( evaluatorFunctionOrOptions,evaluatorFunctionTarget,options ) {
+          ko.dependentObservable = function (evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
             try {
               function dependentObservable() {
                 try {
                   __LINE__ = 1126;
-                  if ( arguments.length>0 ){
+                  if (arguments.length>0){
                     __LINE__ = 1127;
-                    if ( typeof options["write"] === "function" ){
+                    if (typeof options["write"] === "function"){
                       
                       __LINE__ = 1129;
                       var valueForThis = options["owner"] || evaluatorFunctionTarget;
                       
                       __LINE__ = 1130;
-                      options["write"].apply( valueForThis,arguments );
+                      options["write"].apply(valueForThis,arguments);
                     } else {
                       __LINE__ = 1132;
                       throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
@@ -3120,20 +3120,20 @@
                     !_hasBeenEvaluated && evaluateImmediate();
                     
                     __LINE__ = 1138;
-                    ko.dependencyDetection.registerDependency( dependentObservable );
+                    ko.dependencyDetection.registerDependency(dependentObservable);
                     __LINE__ = 1139;
                     return _latestValue;
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               function evaluateImmediate() {
                 try {
                   __LINE__ = 1101;
-                  if ( ( _hasBeenEvaluated ) && typeof options["disposeWhen"] == "function" ){
+                  if ((_hasBeenEvaluated) && typeof options["disposeWhen"] == "function"){
                     __LINE__ = 1102;
-                    if ( options["disposeWhen"]() ){
+                    if (options["disposeWhen"]()){
                       
                       __LINE__ = 1103;
                       dependentObservable.dispose();
@@ -3148,12 +3148,12 @@
                     disposeAllSubscriptionsToDependencies();
                     
                     __LINE__ = 1110;
-                    ko.dependencyDetection.begin( function ( subscribable ) {
+                    ko.dependencyDetection.begin(function (subscribable) {
                       try {
                         __LINE__ = 1111;
-                        _subscriptionsToDependencies.push( subscribable.subscribe( evaluatePossiblyAsync ) );
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        _subscriptionsToDependencies.push(subscribable.subscribe(evaluatePossiblyAsync));
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                     
@@ -3161,10 +3161,10 @@
                     var valueForThis = options["owner"] || evaluatorFunctionTarget;
                     
                     __LINE__ = 1114;
-                    var newValue = options["read"].call( valueForThis );
+                    var newValue = options["read"].call(valueForThis);
                     
                     __LINE__ = 1115;
-                    dependentObservable["notifySubscribers"]( _latestValue,"beforeChange" );
+                    dependentObservable["notifySubscribers"](_latestValue,"beforeChange");
                     
                     __LINE__ = 1116;
                     _latestValue = newValue;
@@ -3175,12 +3175,12 @@
                   };
                   
                   __LINE__ = 1121;
-                  dependentObservable["notifySubscribers"]( _latestValue );
+                  dependentObservable["notifySubscribers"](_latestValue);
                   
                   __LINE__ = 1122;
                   _hasBeenEvaluated = true;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               function evaluatePossiblyAsync() {
@@ -3189,62 +3189,62 @@
                   var throttleEvaluationTimeout = dependentObservable['throttleEvaluation'];
                   
                   __LINE__ = 1090;
-                  if ( throttleEvaluationTimeout && throttleEvaluationTimeout >= 0 ){
+                  if (throttleEvaluationTimeout && throttleEvaluationTimeout >= 0){
                     
                     __LINE__ = 1091;
-                    clearTimeout( evaluationTimeoutInstance );
+                    clearTimeout(evaluationTimeoutInstance);
                     
                     __LINE__ = 1092;
-                    evaluationTimeoutInstance = setTimeout( evaluateImmediate,throttleEvaluationTimeout );
+                    evaluationTimeoutInstance = setTimeout(evaluateImmediate,throttleEvaluationTimeout);
                   } else {
                     __LINE__ = 1094;
                     evaluateImmediate();
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               function disposeAllSubscriptionsToDependencies() {
                 try {
                   __LINE__ = 1081;
-                  ko.utils.arrayForEach( _subscriptionsToDependencies,
-                  function ( subscription ) {
+                  ko.utils.arrayForEach(_subscriptionsToDependencies,
+                  function (subscription) {
                     try {
                       __LINE__ = 1082;
                       subscription.dispose();
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
                   __LINE__ = 1084;
                   _subscriptionsToDependencies = [];
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 1060;
               var _latestValue,
                   _hasBeenEvaluated = false,
-                  options = prepareOptions( evaluatorFunctionOrOptions,evaluatorFunctionTarget,options ),
-                  disposeWhenNodeIsRemoved = ( typeof options["disposeWhenNodeIsRemoved"] == "object" )?options["disposeWhenNodeIsRemoved"] : null,
+                  options = prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options),
+                  disposeWhenNodeIsRemoved = (typeof options["disposeWhenNodeIsRemoved"] == "object")?options["disposeWhenNodeIsRemoved"] : null,
                   disposeWhenNodeIsRemovedCallback = null;
               
               __LINE__ = 1069;
-              if ( disposeWhenNodeIsRemoved ){
+              if (disposeWhenNodeIsRemoved){
                 
                 __LINE__ = 1070;
                 disposeWhenNodeIsRemovedCallback = function () {
                   try {
                     __LINE__ = 1070;
                     dependentObservable.dispose();
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
                 
                 __LINE__ = 1071;
-                ko.utils.domNodeDisposal.addDisposeCallback( disposeWhenNodeIsRemoved,disposeWhenNodeIsRemovedCallback );
+                ko.utils.domNodeDisposal.addDisposeCallback(disposeWhenNodeIsRemoved,disposeWhenNodeIsRemovedCallback);
                 
                 __LINE__ = 1072;
                 var existingDisposeWhenFunction = options["disposeWhen"];
@@ -3253,9 +3253,9 @@
                 options["disposeWhen"] = function () {
                   try {
                     __LINE__ = 1074;
-                    return ( !ko.utils.domNodeIsAttachedToDocument( disposeWhenNodeIsRemoved ) ) || ( ( typeof existingDisposeWhenFunction == "function" ) && existingDisposeWhenFunction() );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return (!ko.utils.domNodeIsAttachedToDocument(disposeWhenNodeIsRemoved)) || ((typeof existingDisposeWhenFunction == "function") && existingDisposeWhenFunction());
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               };
@@ -3271,8 +3271,8 @@
                 try {
                   __LINE__ = 1142;
                   return _subscriptionsToDependencies.length;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -3283,33 +3283,33 @@
               dependentObservable.dispose = function () {
                 try {
                   __LINE__ = 1146;
-                  disposeWhenNodeIsRemoved && ko.utils.domNodeDisposal.removeDisposeCallback( disposeWhenNodeIsRemoved,disposeWhenNodeIsRemovedCallback );
+                  disposeWhenNodeIsRemoved && ko.utils.domNodeDisposal.removeDisposeCallback(disposeWhenNodeIsRemoved,disposeWhenNodeIsRemovedCallback);
                   
                   __LINE__ = 1147;
                   disposeAllSubscriptionsToDependencies();
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1150;
-              ko.subscribable.call( dependentObservable );
+              ko.subscribable.call(dependentObservable);
               
               __LINE__ = 1151;
-              ko.utils.extend( dependentObservable,ko.dependentObservable['fn'] );
+              ko.utils.extend(dependentObservable,ko.dependentObservable['fn']);
               
               __LINE__ = 1154;
               options['deferEvaluation'] !== true && evaluateImmediate();
               
               __LINE__ = 1156;
-              ko.exportProperty( dependentObservable,'dispose',dependentObservable.dispose );
+              ko.exportProperty(dependentObservable,'dispose',dependentObservable.dispose);
               
               __LINE__ = 1157;
-              ko.exportProperty( dependentObservable,'getDependenciesCount',dependentObservable.getDependenciesCount );
+              ko.exportProperty(dependentObservable,'getDependenciesCount',dependentObservable.getDependenciesCount);
               __LINE__ = 1159;
               return dependentObservable;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -3322,10 +3322,10 @@
           ko.dependentObservable.__ko_proto__ = ko.observable;
           
           __LINE__ = 1168;
-          ko.exportSymbol( 'ko.dependentObservable',ko.dependentObservable );
+          ko.exportSymbol('ko.dependentObservable',ko.dependentObservable);
           
           __LINE__ = 1169;
-          ko.exportSymbol( 'ko.computed',ko.dependentObservable );
+          ko.exportSymbol('ko.computed',ko.dependentObservable);
           
           __LINE__ = 1170;
           !function () {
@@ -3337,78 +3337,78 @@
                       values = [];
                   
                   __LINE__ = 1238;
-                  this.save = function ( key,value ) {
+                  this.save = function (key,value) {
                     try {
                       __LINE__ = 1239;
-                      var existingIndex = ko.utils.arrayIndexOf( keys,key );
+                      var existingIndex = ko.utils.arrayIndexOf(keys,key);
                       
                       __LINE__ = 1240;
-                      if ( existingIndex >= 0 ){
+                      if (existingIndex >= 0){
                         __LINE__ = 1241;
                         values[existingIndex] = value;
                       } else {
                         
                         __LINE__ = 1243;
-                        keys.push( key );
+                        keys.push(key);
                         
                         __LINE__ = 1244;
-                        values.push( value );
+                        values.push(value);
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
                   __LINE__ = 1247;
-                  this.get = function ( key ) {
+                  this.get = function (key) {
                     try {
                       __LINE__ = 1248;
-                      var existingIndex = ko.utils.arrayIndexOf( keys,key );
+                      var existingIndex = ko.utils.arrayIndexOf(keys,key);
                       __LINE__ = 1249;
-                      return ( existingIndex >= 0 )?values[existingIndex] : undefined;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      return (existingIndex >= 0)?values[existingIndex] : undefined;
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function visitPropertiesOrArrayEntries( rootObject,visitorCallback ) {
+              function visitPropertiesOrArrayEntries(rootObject,visitorCallback) {
                 try {
                   __LINE__ = 1226;
-                  if ( rootObject instanceof Array ){
+                  if (rootObject instanceof Array){
                     __LINE__ = 1227;
-                    for ( var i = 0;i<rootObject.length;i ++  ){
+                    for (var i = 0;i<rootObject.length;i ++ ){
                       
                       __LINE__ = 1228;
-                      visitorCallback( i );
+                      visitorCallback(i);
                     };
                   } else {
                     __LINE__ = 1230;
-                    for ( var propertyName in rootObject ){
+                    for (var propertyName in rootObject){
                       
                       __LINE__ = 1231;
-                      visitorCallback( propertyName );
+                      visitorCallback(propertyName);
                     };
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function mapJsObjectGraph( rootObject,mapInputCallback,visitedObjects ) {
+              function mapJsObjectGraph(rootObject,mapInputCallback,visitedObjects) {
                 try {
                   __LINE__ = 1192;
                   visitedObjects = visitedObjects || new objectLookup();
                   
                   __LINE__ = 1194;
-                  rootObject = mapInputCallback( rootObject );
+                  rootObject = mapInputCallback(rootObject);
                   
                   __LINE__ = 1195;
-                  var canHaveProperties = ( typeof rootObject == "object" ) && ( rootObject !== null ) && ( rootObject !== undefined ) && ( !( rootObject instanceof Date ) );
+                  var canHaveProperties = (typeof rootObject == "object") && (rootObject !== null) && (rootObject !== undefined) && (!(rootObject instanceof Date));
                   
                   __LINE__ = 1196;
-                  if ( !canHaveProperties ){
+                  if (!canHaveProperties){
                     __LINE__ = 1197;
                     return rootObject;
                   };
@@ -3417,17 +3417,17 @@
                   var outputProperties = rootObject instanceof Array?[] : {};
                   
                   __LINE__ = 1200;
-                  visitedObjects.save( rootObject,outputProperties );
+                  visitedObjects.save(rootObject,outputProperties);
                   
                   __LINE__ = 1202;
-                  visitPropertiesOrArrayEntries( rootObject,
-                  function ( indexer ) {
+                  visitPropertiesOrArrayEntries(rootObject,
+                  function (indexer) {
                     try {
                       __LINE__ = 1203;
-                      var propertyValue = mapInputCallback( rootObject[indexer] );
+                      var propertyValue = mapInputCallback(rootObject[indexer]);
                       
                       __LINE__ = 1205;
-                      switch ( typeof propertyValue ) {
+                      switch (typeof propertyValue) {
                         case "boolean" :
                         case "number" :
                         case "string" :
@@ -3441,77 +3441,77 @@
                         case "undefined" :
                           
                           __LINE__ = 1214;
-                          var previouslyMappedValue = visitedObjects.get( propertyValue );
+                          var previouslyMappedValue = visitedObjects.get(propertyValue);
                           
                           __LINE__ = 1215;
-                          outputProperties[indexer] = ( previouslyMappedValue !== undefined )?previouslyMappedValue : mapJsObjectGraph( propertyValue,mapInputCallback,visitedObjects );
+                          outputProperties[indexer] = (previouslyMappedValue !== undefined)?previouslyMappedValue : mapJsObjectGraph(propertyValue,mapInputCallback,visitedObjects);
                           __LINE__ = 1218;
                           break;
                           
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   __LINE__ = 1222;
                   return outputProperties;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 1171;
               var maxNestedObservableDepth = 10;
               
               __LINE__ = 1173;
-              ko.toJS = function ( rootObject ) {
+              ko.toJS = function (rootObject) {
                 try {
                   __LINE__ = 1174;
-                  if ( arguments.length == 0 ){
+                  if (arguments.length == 0){
                     __LINE__ = 1175;
-                    throw new Error( "When calling ko.toJS, pass the object you want to convert." );
+                    throw new Error("When calling ko.toJS, pass the object you want to convert.");
                   };
                   __LINE__ = 1178;
-                  return mapJsObjectGraph( rootObject,
-                  function ( valueToMap ) {
+                  return mapJsObjectGraph(rootObject,
+                  function (valueToMap) {
                     try {
                       __LINE__ = 1180;
-                      for ( var i = 0;ko.isObservable( valueToMap ) && ( i<maxNestedObservableDepth );i ++  ){
+                      for (var i = 0;ko.isObservable(valueToMap) && (i<maxNestedObservableDepth);i ++ ){
                         
                         __LINE__ = 1181;
                         valueToMap = valueToMap();
                       };
                       __LINE__ = 1182;
                       return valueToMap;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1186;
-              ko.toJSON = function ( rootObject ) {
+              ko.toJSON = function (rootObject) {
                 try {
                   __LINE__ = 1187;
-                  var plainJavaScriptObject = ko.toJS( rootObject );
+                  var plainJavaScriptObject = ko.toJS(rootObject);
                   __LINE__ = 1188;
-                  return ko.utils.stringifyJson( plainJavaScriptObject );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return ko.utils.stringifyJson(plainJavaScriptObject);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 1254;
-          ko.exportSymbol( 'ko.toJS',ko.toJS );
+          ko.exportSymbol('ko.toJS',ko.toJS);
           
           __LINE__ = 1255;
-          ko.exportSymbol( 'ko.toJSON',ko.toJSON );
+          ko.exportSymbol('ko.toJSON',ko.toJSON);
           
           __LINE__ = 1255;
           !function () {
@@ -3521,43 +3521,43 @@
               
               __LINE__ = 1261;
               ko.selectExtensions =  {
-                readValue : function ( element ) {
+                readValue : function (element) {
                   try {
                     __LINE__ = 1263;
-                    if ( element.tagName == 'OPTION' ){
+                    if (element.tagName == 'OPTION'){
                       
                       __LINE__ = 1264;
-                      if ( element[hasDomDataExpandoProperty] === true ){
+                      if (element[hasDomDataExpandoProperty] === true){
                         __LINE__ = 1265;
-                        return ko.utils.domData.get( element,ko.bindingHandlers.options.optionValueDomDataKey );
+                        return ko.utils.domData.get(element,ko.bindingHandlers.options.optionValueDomDataKey);
                       };
                       __LINE__ = 1266;
-                      return element.getAttribute( "value" );
-                    } else if ( element.tagName == 'SELECT' ){
+                      return element.getAttribute("value");
+                    } else if (element.tagName == 'SELECT'){
                       __LINE__ = 1268;
-                      return element.selectedIndex >= 0?ko.selectExtensions.readValue( element.options[element.selectedIndex] ) : undefined;
+                      return element.selectedIndex >= 0?ko.selectExtensions.readValue(element.options[element.selectedIndex]) : undefined;
                     } else {
                       __LINE__ = 1270;
                       return element.value;
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                writeValue : function ( element,value ) {
+                writeValue : function (element,value) {
                   try {
                     __LINE__ = 1274;
-                    if ( element.tagName == 'OPTION' ){
+                    if (element.tagName == 'OPTION'){
                       
                       __LINE__ = 1275;
-                      switch ( typeof value ) {
+                      switch (typeof value) {
                         case "string" :
                           
                           __LINE__ = 1277;
-                          ko.utils.domData.set( element,ko.bindingHandlers.options.optionValueDomDataKey,undefined );
+                          ko.utils.domData.set(element,ko.bindingHandlers.options.optionValueDomDataKey,undefined);
                           
                           __LINE__ = 1278;
-                          if ( hasDomDataExpandoProperty in element ){
+                          if (hasDomDataExpandoProperty in element){
                             
                             __LINE__ = 1279;
                             delete element[hasDomDataExpandoProperty];
@@ -3570,7 +3570,7 @@
                         default :
                           
                           __LINE__ = 1285;
-                          ko.utils.domData.set( element,ko.bindingHandlers.options.optionValueDomDataKey,value );
+                          ko.utils.domData.set(element,ko.bindingHandlers.options.optionValueDomDataKey,value);
                           
                           __LINE__ = 1286;
                           element[hasDomDataExpandoProperty] = true;
@@ -3581,11 +3581,11 @@
                           break;
                           
                       };
-                    } else if ( element.tagName == 'SELECT' ){
+                    } else if (element.tagName == 'SELECT'){
                       
                       __LINE__ = 1293;
-                      for ( var i = element.options.length-1;i >= 0;i --  ){
-                        if ( ko.selectExtensions.readValue( element.options[i] ) == value ){
+                      for (var i = element.options.length-1;i >= 0;i -- ){
+                        if (ko.selectExtensions.readValue(element.options[i]) == value){
                           
                           __LINE__ = 1295;
                           element.selectedIndex = i;
@@ -3594,7 +3594,7 @@
                         };
                       };
                     } else {
-                      if ( ( value === null ) || ( value === undefined ) ){
+                      if ((value === null) || (value === undefined)){
                         
                         __LINE__ = 1301;
                         value = "";
@@ -3603,35 +3603,35 @@
                       __LINE__ = 1302;
                       element.value = value;
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 1308;
-          ko.exportSymbol( 'ko.selectExtensions',ko.selectExtensions );
+          ko.exportSymbol('ko.selectExtensions',ko.selectExtensions);
           
           __LINE__ = 1309;
-          ko.exportSymbol( 'ko.selectExtensions.readValue',ko.selectExtensions.readValue );
+          ko.exportSymbol('ko.selectExtensions.readValue',ko.selectExtensions.readValue);
           
           __LINE__ = 1310;
-          ko.exportSymbol( 'ko.selectExtensions.writeValue',ko.selectExtensions.writeValue );
+          ko.exportSymbol('ko.selectExtensions.writeValue',ko.selectExtensions.writeValue);
           
           __LINE__ = 1312;
           ko.jsonExpressionRewriting = function () {
             try {
-              function ensureQuoted( key ) {
+              function ensureQuoted(key) {
                 try {
                   __LINE__ = 1335;
-                  var trimmedKey = ko.utils.stringTrim( key );
+                  var trimmedKey = ko.utils.stringTrim(key);
                   
                   __LINE__ = 1336;
-                  switch ( trimmedKey.length && trimmedKey.charAt( 0 ) ) {
+                  switch (trimmedKey.length && trimmedKey.charAt(0)) {
                     case "'" :
                     case '"' :
                       __LINE__ = 1339;
@@ -3641,49 +3641,49 @@
                       return "'"+trimmedKey+"'";
                       
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function isWriteableValue( expression ) {
+              function isWriteableValue(expression) {
                 try {
                   __LINE__ = 1329;
-                  if ( ko.utils.arrayIndexOf( javaScriptReservedWords,ko.utils.stringTrim( expression ).toLowerCase() ) >= 0 ){
+                  if (ko.utils.arrayIndexOf(javaScriptReservedWords,ko.utils.stringTrim(expression).toLowerCase()) >= 0){
                     __LINE__ = 1330;
                     return false;
                   };
                   __LINE__ = 1331;
-                  return expression.match( javaScriptAssignmentTarget ) !== null;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return expression.match(javaScriptAssignmentTarget) !== null;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function restoreTokens( string,tokens ) {
+              function restoreTokens(string,tokens) {
                 try {
                   __LINE__ = 1318;
                   var prevValue = null;
                   
                   __LINE__ = 1319;
-                  while ( string != prevValue ){
+                  while (string != prevValue){
                     
                     __LINE__ = 1320;
                     prevValue = string;
                     
                     __LINE__ = 1321;
-                    string = string.replace( restoreCapturedTokensRegex,
-                    function ( match,tokenIndex ) {
+                    string = string.replace(restoreCapturedTokensRegex,
+                    function (match,tokenIndex) {
                       try {
                         __LINE__ = 1322;
                         return tokens[tokenIndex];
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                   };
                   __LINE__ = 1325;
                   return string;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 1313;
@@ -3693,22 +3693,22 @@
               __LINE__ = 1345;
               return  {
                 bindingRewriteValidators : [],
-                parseObjectLiteral : function ( objectLiteralString ) {
+                parseObjectLiteral : function (objectLiteralString) {
                   try {
                     __LINE__ = 1352;
-                    var str = ko.utils.stringTrim( objectLiteralString );
+                    var str = ko.utils.stringTrim(objectLiteralString);
                     
                     __LINE__ = 1353;
-                    if ( str.length<3 ){
+                    if (str.length<3){
                       __LINE__ = 1354;
                       return [];
                     };
                     
                     __LINE__ = 1355;
-                    if ( str.charAt( 0 ) === "{" ){
+                    if (str.charAt(0) === "{"){
                       
                       __LINE__ = 1356;
-                      str = str.substring( 1,str.length-1 );
+                      str = str.substring(1,str.length-1);
                     };
                     
                     __LINE__ = 1359;
@@ -3719,16 +3719,16 @@
                         tokenEndChar;
                     
                     __LINE__ = 1361;
-                    for ( var position = 0;position<str.length;position ++  ){
+                    for (var position = 0;position<str.length;position ++ ){
                       
                       __LINE__ = 1362;
-                      var c = str.charAt( position );
+                      var c = str.charAt(position);
                       
                       __LINE__ = 1363;
-                      if ( tokenStart === null ){
+                      if (tokenStart === null){
                         
                         __LINE__ = 1364;
-                        switch ( c ) {
+                        switch (c) {
                           case '"' :
                           case "'" :
                           case "/" :
@@ -3742,22 +3742,22 @@
                             break;
                             
                         };
-                      } else if ( ( c == tokenEndChar ) && ( str.charAt( position-1 ) !== "\\" ) ){
+                      } else if ((c == tokenEndChar) && (str.charAt(position-1) !== "\\")){
                         
                         __LINE__ = 1373;
-                        var token = str.substring( tokenStart,position+1 );
+                        var token = str.substring(tokenStart,position+1);
                         
                         __LINE__ = 1374;
-                        tokens.push( token );
+                        tokens.push(token);
                         
                         __LINE__ = 1375;
-                        var replacement = "@ko_token_"+( tokens.length-1 )+"@";
+                        var replacement = "@ko_token_"+(tokens.length-1)+"@";
                         
                         __LINE__ = 1376;
-                        str = str.substring( 0,tokenStart )+replacement+str.substring( position+1 );
+                        str = str.substring(0,tokenStart)+replacement+str.substring(position+1);
                         
                         __LINE__ = 1377;
-                        position -= ( token.length-replacement.length );
+                        position -= (token.length-replacement.length);
                         
                         __LINE__ = 1378;
                         tokenStart = null;
@@ -3775,16 +3775,16 @@
                         tokenStartChar = null;
                     
                     __LINE__ = 1386;
-                    for ( var position = 0;position<str.length;position ++  ){
+                    for (var position = 0;position<str.length;position ++ ){
                       
                       __LINE__ = 1387;
-                      var c = str.charAt( position );
+                      var c = str.charAt(position);
                       
                       __LINE__ = 1388;
-                      if ( tokenStart === null ){
+                      if (tokenStart === null){
                         
                         __LINE__ = 1389;
-                        switch ( c ) {
+                        switch (c) {
                           case "{" :
                             
                             __LINE__ = 1390;
@@ -3826,30 +3826,30 @@
                       };
                       
                       __LINE__ = 1402;
-                      if ( c === tokenStartChar ){
+                      if (c === tokenStartChar){
                         
                         __LINE__ = 1403;
                         tokenDepth ++ ;
-                      } else if ( c === tokenEndChar ){
+                      } else if (c === tokenEndChar){
                         
                         __LINE__ = 1405;
                         tokenDepth -- ;
-                        if ( tokenDepth === 0 ){
+                        if (tokenDepth === 0){
                           
                           __LINE__ = 1407;
-                          var token = str.substring( tokenStart,position+1 );
+                          var token = str.substring(tokenStart,position+1);
                           
                           __LINE__ = 1408;
-                          tokens.push( token );
+                          tokens.push(token);
                           
                           __LINE__ = 1409;
-                          var replacement = "@ko_token_"+( tokens.length-1 )+"@";
+                          var replacement = "@ko_token_"+(tokens.length-1)+"@";
                           
                           __LINE__ = 1410;
-                          str = str.substring( 0,tokenStart )+replacement+str.substring( position+1 );
+                          str = str.substring(0,tokenStart)+replacement+str.substring(position+1);
                           
                           __LINE__ = 1411;
-                          position -= ( token.length-replacement.length );
+                          position -= (token.length-replacement.length);
                           
                           __LINE__ = 1412;
                           tokenStart = null;
@@ -3861,49 +3861,49 @@
                     var result = [];
                     
                     __LINE__ = 1419;
-                    var keyValuePairs = str.split( "," );
+                    var keyValuePairs = str.split(",");
                     
                     __LINE__ = 1420;
-                    for ( var i = 0,j = keyValuePairs.length;i<j;i ++  ){
+                    for (var i = 0,j = keyValuePairs.length;i<j;i ++ ){
                       
                       __LINE__ = 1421;
                       var pair = keyValuePairs[i];
                       
                       __LINE__ = 1422;
-                      var colonPos = pair.indexOf( ":" );
+                      var colonPos = pair.indexOf(":");
                       
                       __LINE__ = 1423;
-                      if ( ( colonPos>0 ) && ( colonPos<pair.length-1 ) ){
+                      if ((colonPos>0) && (colonPos<pair.length-1)){
                         
                         __LINE__ = 1424;
-                        var key = pair.substring( 0,colonPos );
+                        var key = pair.substring(0,colonPos);
                         
                         __LINE__ = 1425;
-                        var value = pair.substring( colonPos+1 );
+                        var value = pair.substring(colonPos+1);
                         
                         __LINE__ = 1426;
-                        result.push(  {
-                          'key' : restoreTokens( key,tokens ),
-                          'value' : restoreTokens( value,tokens )
+                        result.push( {
+                          'key' : restoreTokens(key,tokens),
+                          'value' : restoreTokens(value,tokens)
                         });
                       } else {
                         
                         __LINE__ = 1428;
-                        result.push(  {
-                          'unknown' : restoreTokens( pair,tokens )
+                        result.push( {
+                          'unknown' : restoreTokens(pair,tokens)
                         });
                       };
                     };
                     __LINE__ = 1431;
                     return result;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                insertPropertyAccessorsIntoJson : function ( objectLiteralStringOrKeyValueArray ) {
+                insertPropertyAccessorsIntoJson : function (objectLiteralStringOrKeyValueArray) {
                   try {
                     __LINE__ = 1435;
-                    var keyValueArray = typeof objectLiteralStringOrKeyValueArray === "string"?ko.jsonExpressionRewriting.parseObjectLiteral( objectLiteralStringOrKeyValueArray ) : objectLiteralStringOrKeyValueArray;
+                    var keyValueArray = typeof objectLiteralStringOrKeyValueArray === "string"?ko.jsonExpressionRewriting.parseObjectLiteral(objectLiteralStringOrKeyValueArray) : objectLiteralStringOrKeyValueArray;
                     
                     __LINE__ = 1438;
                     var resultStrings = [],
@@ -3913,171 +3913,171 @@
                     var keyValueEntry;
                     
                     __LINE__ = 1441;
-                    for ( var i = 0;keyValueEntry = keyValueArray[i];i ++  ){
+                    for (var i = 0;keyValueEntry = keyValueArray[i];i ++ ){
                       
                       __LINE__ = 1442;
-                      if ( resultStrings.length>0 ){
+                      if (resultStrings.length>0){
                         
                         __LINE__ = 1443;
-                        resultStrings.push( "," );
+                        resultStrings.push(",");
                       };
                       
                       __LINE__ = 1445;
-                      if ( keyValueEntry['key'] ){
+                      if (keyValueEntry['key']){
                         
                         __LINE__ = 1446;
-                        var quotedKey = ensureQuoted( keyValueEntry['key'] ),
+                        var quotedKey = ensureQuoted(keyValueEntry['key']),
                             val = keyValueEntry['value'];
                         
                         __LINE__ = 1447;
-                        resultStrings.push( quotedKey );
+                        resultStrings.push(quotedKey);
                         
                         __LINE__ = 1448;
-                        resultStrings.push( ":" );
+                        resultStrings.push(":");
                         
                         __LINE__ = 1449;
-                        resultStrings.push( val );
+                        resultStrings.push(val);
                         
                         __LINE__ = 1451;
-                        if ( isWriteableValue( ko.utils.stringTrim( val ) ) ){
+                        if (isWriteableValue(ko.utils.stringTrim(val))){
                           
                           __LINE__ = 1452;
-                          if ( propertyAccessorResultStrings.length>0 ){
+                          if (propertyAccessorResultStrings.length>0){
                             
                             __LINE__ = 1453;
-                            propertyAccessorResultStrings.push( ", " );
+                            propertyAccessorResultStrings.push(", ");
                           };
                           
                           __LINE__ = 1454;
-                          propertyAccessorResultStrings.push( quotedKey+" : function(__ko_value) { "+val+" = __ko_value; }" );
+                          propertyAccessorResultStrings.push(quotedKey+" : function(__ko_value) { "+val+" = __ko_value; }");
                         };
-                      } else if ( keyValueEntry['unknown'] ){
+                      } else if (keyValueEntry['unknown']){
                         
                         __LINE__ = 1457;
-                        resultStrings.push( keyValueEntry['unknown'] );
+                        resultStrings.push(keyValueEntry['unknown']);
                       };
                     };
                     
                     __LINE__ = 1461;
-                    var combinedResult = resultStrings.join( "" );
+                    var combinedResult = resultStrings.join("");
                     
                     __LINE__ = 1462;
-                    if ( propertyAccessorResultStrings.length>0 ){
+                    if (propertyAccessorResultStrings.length>0){
                       
                       __LINE__ = 1463;
-                      var allPropertyAccessors = propertyAccessorResultStrings.join( "" );
+                      var allPropertyAccessors = propertyAccessorResultStrings.join("");
                       
                       __LINE__ = 1464;
                       combinedResult = combinedResult+", '_ko_property_writers' : { "+allPropertyAccessors+" } ";
                     };
                     __LINE__ = 1467;
                     return combinedResult;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                keyValueArrayContainsKey : function ( keyValueArray,key ) {
+                keyValueArrayContainsKey : function (keyValueArray,key) {
                   try {
                     __LINE__ = 1471;
-                    for ( var i = 0;i<keyValueArray.length;i ++  ){
+                    for (var i = 0;i<keyValueArray.length;i ++ ){
                       
                       __LINE__ = 1472;
-                      if ( ko.utils.stringTrim( keyValueArray[i]['key'] ) == key ){
+                      if (ko.utils.stringTrim(keyValueArray[i]['key']) == key){
                         __LINE__ = 1473;
                         return true;
                       };
                     };
                     __LINE__ = 1474;
                     return false;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 1479;
-          ko.exportSymbol( 'ko.jsonExpressionRewriting',ko.jsonExpressionRewriting );
+          ko.exportSymbol('ko.jsonExpressionRewriting',ko.jsonExpressionRewriting);
           
           __LINE__ = 1480;
-          ko.exportSymbol( 'ko.jsonExpressionRewriting.bindingRewriteValidators',ko.jsonExpressionRewriting.bindingRewriteValidators );
+          ko.exportSymbol('ko.jsonExpressionRewriting.bindingRewriteValidators',ko.jsonExpressionRewriting.bindingRewriteValidators);
           
           __LINE__ = 1481;
-          ko.exportSymbol( 'ko.jsonExpressionRewriting.parseObjectLiteral',ko.jsonExpressionRewriting.parseObjectLiteral );
+          ko.exportSymbol('ko.jsonExpressionRewriting.parseObjectLiteral',ko.jsonExpressionRewriting.parseObjectLiteral);
           
           __LINE__ = 1482;
-          ko.exportSymbol( 'ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson',ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson );
+          ko.exportSymbol('ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson',ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson);
           
           __LINE__ = 1483;
           !function () {
             try {
-              function getUnbalancedChildTags( node ) {
+              function getUnbalancedChildTags(node) {
                 try {
                   __LINE__ = 1553;
                   var childNode = node.firstChild,
                       captureRemaining = null;
                   
                   __LINE__ = 1554;
-                  if ( childNode ){
+                  if (childNode){
                     
                     __LINE__ = 1555;
                     do {
                       __LINE__ = 1556;
-                      if ( captureRemaining ){
+                      if (captureRemaining){
                         __LINE__ = 1557;
-                        captureRemaining.push( childNode );
-                      } else if ( isStartComment( childNode ) ){
+                        captureRemaining.push(childNode);
+                      } else if (isStartComment(childNode)){
                         
                         __LINE__ = 1559;
-                        var matchingEndComment = getMatchingEndComment( childNode,true );
+                        var matchingEndComment = getMatchingEndComment(childNode,true);
                         
                         __LINE__ = 1561;
                         matchingEndComment?childNode = matchingEndComment : captureRemaining = [childNode];
                       } else {
                         __LINE__ = 1565;
-                        isEndComment( childNode ) && ( captureRemaining = [childNode] );
+                        isEndComment(childNode) && (captureRemaining = [childNode]);
                       };
-                    }while ( childNode = childNode.nextSibling );
+                    }while (childNode = childNode.nextSibling);
                   };
                   __LINE__ = 1569;
                   return captureRemaining;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function nodeArrayToText( nodeArray,cleanNodes ) {
+              function nodeArrayToText(nodeArray,cleanNodes) {
                 try {
                   __LINE__ = 1541;
                   var texts = [];
                   
                   __LINE__ = 1542;
-                  for ( var i = 0,j = nodeArray.length;i<j;i ++  ){
+                  for (var i = 0,j = nodeArray.length;i<j;i ++ ){
                     
                     __LINE__ = 1544;
-                    cleanNodes && ko.utils.domNodeDisposal.cleanNode( nodeArray[i] );
+                    cleanNodes && ko.utils.domNodeDisposal.cleanNode(nodeArray[i]);
                     
                     __LINE__ = 1545;
-                    texts.push( ko.utils.outerHTML( nodeArray[i] ) );
+                    texts.push(ko.utils.outerHTML(nodeArray[i]));
                   };
                   __LINE__ = 1547;
-                  return ''.concat.apply( "",texts );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return ''.concat.apply("",texts);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function getMatchingEndComment( startComment,allowUnbalanced ) {
+              function getMatchingEndComment(startComment,allowUnbalanced) {
                 try {
                   __LINE__ = 1531;
-                  var allVirtualChildren = getVirtualChildren( startComment,allowUnbalanced );
+                  var allVirtualChildren = getVirtualChildren(startComment,allowUnbalanced);
                   
                   __LINE__ = 1532;
-                  if ( allVirtualChildren ){
+                  if (allVirtualChildren){
                     
                     __LINE__ = 1533;
-                    if ( allVirtualChildren.length>0 ){
+                    if (allVirtualChildren.length>0){
                       __LINE__ = 1534;
                       return allVirtualChildren[allVirtualChildren.length-1].nextSibling;
                     };
@@ -4087,11 +4087,11 @@
                     __LINE__ = 1537;
                     return null;
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function getVirtualChildren( startComment,allowUnbalanced ) {
+              function getVirtualChildren(startComment,allowUnbalanced) {
                 try {
                   __LINE__ = 1510;
                   var currentNode = startComment,
@@ -4099,57 +4099,57 @@
                       children = [];
                   
                   __LINE__ = 1513;
-                  while ( currentNode = currentNode.nextSibling ){
+                  while (currentNode = currentNode.nextSibling){
                     
                     __LINE__ = 1514;
-                    if ( isEndComment( currentNode ) ){
+                    if (isEndComment(currentNode)){
                       
                       __LINE__ = 1515;
                       depth -- ;
                       
                       __LINE__ = 1516;
-                      if ( depth === 0 ){
+                      if (depth === 0){
                         __LINE__ = 1517;
                         return children;
                       };
                     };
                     
                     __LINE__ = 1520;
-                    children.push( currentNode );
+                    children.push(currentNode);
                     
                     __LINE__ = 1523;
-                    isStartComment( currentNode ) && depth ++ ;
+                    isStartComment(currentNode) && depth ++ ;
                   };
                   
                   __LINE__ = 1525;
-                  if ( !allowUnbalanced ){
+                  if (!allowUnbalanced){
                     __LINE__ = 1526;
-                    throw new Error( "Cannot find closing comment tag to match: "+startComment.nodeValue );
+                    throw new Error("Cannot find closing comment tag to match: "+startComment.nodeValue);
                   };
                   __LINE__ = 1527;
                   return null;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function isEndComment( node ) {
+              function isEndComment(node) {
                 try {
                   __LINE__ = 1506;
-                  return ( node.nodeType == 8 ) && ( commentNodesHaveTextProperty?node.text : node.nodeValue ).match( endCommentRegex );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(endCommentRegex);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function isStartComment( node ) {
+              function isStartComment(node) {
                 try {
                   __LINE__ = 1502;
-                  return ( node.nodeType == 8 ) && ( commentNodesHaveTextProperty?node.text : node.nodeValue ).match( startCommentRegex );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(startCommentRegex);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 1495;
-              var commentNodesHaveTextProperty = document.createComment( "test" ).text === "<!--test-->",
+              var commentNodesHaveTextProperty = document.createComment("test").text === "<!--test-->",
                   startCommentRegex = commentNodesHaveTextProperty?/^<!--\s*ko\s+(.*\:.*)\s*-->$/ : /^\s*ko\s+(.*\:.*)\s*$/,
                   endCommentRegex = commentNodesHaveTextProperty?/^<!--\s*\/ko\s*-->$/ : /^\s*\/ko\s*$/,
                   htmlTagsWithOptionallyClosingChildren =  {
@@ -4160,116 +4160,116 @@
               __LINE__ = 1572;
               ko.virtualElements =  {
                 allowedBindings : {},
-                childNodes : function ( node ) {
+                childNodes : function (node) {
                   try {
                     __LINE__ = 1576;
-                    return isStartComment( node )?getVirtualChildren( node ) : node.childNodes;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return isStartComment(node)?getVirtualChildren(node) : node.childNodes;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                emptyNode : function ( node ) {
+                emptyNode : function (node) {
                   try {
                     __LINE__ = 1580;
-                    if ( !isStartComment( node ) ){
+                    if (!isStartComment(node)){
                       
                       __LINE__ = 1581;
-                      ko.utils.emptyDomNode( node );
+                      ko.utils.emptyDomNode(node);
                     } else {
                       
                       __LINE__ = 1583;
-                      var virtualChildren = ko.virtualElements.childNodes( node );
+                      var virtualChildren = ko.virtualElements.childNodes(node);
                       
                       __LINE__ = 1584;
-                      for ( var i = 0,j = virtualChildren.length;i<j;i ++  ){
+                      for (var i = 0,j = virtualChildren.length;i<j;i ++ ){
                         
                         __LINE__ = 1585;
-                        ko.removeNode( virtualChildren[i] );
+                        ko.removeNode(virtualChildren[i]);
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                setDomNodeChildren : function ( node,childNodes ) {
+                setDomNodeChildren : function (node,childNodes) {
                   try {
                     __LINE__ = 1590;
-                    if ( !isStartComment( node ) ){
+                    if (!isStartComment(node)){
                       
                       __LINE__ = 1591;
-                      ko.utils.setDomNodeChildren( node,childNodes );
+                      ko.utils.setDomNodeChildren(node,childNodes);
                     } else {
                       
                       __LINE__ = 1593;
-                      ko.virtualElements.emptyNode( node );
+                      ko.virtualElements.emptyNode(node);
                       
                       __LINE__ = 1594;
                       var endCommentNode = node.nextSibling;
                       
                       __LINE__ = 1595;
-                      for ( var i = 0,j = childNodes.length;i<j;i ++  ){
+                      for (var i = 0,j = childNodes.length;i<j;i ++ ){
                         
                         __LINE__ = 1596;
-                        endCommentNode.parentNode.insertBefore( childNodes[i],endCommentNode );
+                        endCommentNode.parentNode.insertBefore(childNodes[i],endCommentNode);
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                prepend : function ( containerNode,nodeToPrepend ) {
+                prepend : function (containerNode,nodeToPrepend) {
                   try {
                     __LINE__ = 1601;
-                    if ( !isStartComment( containerNode ) ){
+                    if (!isStartComment(containerNode)){
                       
                       __LINE__ = 1602;
-                      if ( containerNode.firstChild ){
+                      if (containerNode.firstChild){
                         
                         __LINE__ = 1603;
-                        containerNode.insertBefore( nodeToPrepend,containerNode.firstChild );
+                        containerNode.insertBefore(nodeToPrepend,containerNode.firstChild);
                       } else {
                         __LINE__ = 1605;
-                        containerNode.appendChild( nodeToPrepend );
+                        containerNode.appendChild(nodeToPrepend);
                       };
                     } else {
                       
                       __LINE__ = 1608;
-                      containerNode.parentNode.insertBefore( nodeToPrepend,containerNode.nextSibling );
+                      containerNode.parentNode.insertBefore(nodeToPrepend,containerNode.nextSibling);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                insertAfter : function ( containerNode,nodeToInsert,insertAfterNode ) {
+                insertAfter : function (containerNode,nodeToInsert,insertAfterNode) {
                   try {
                     __LINE__ = 1613;
-                    if ( !isStartComment( containerNode ) ){
+                    if (!isStartComment(containerNode)){
                       
                       __LINE__ = 1615;
-                      if ( insertAfterNode.nextSibling ){
+                      if (insertAfterNode.nextSibling){
                         
                         __LINE__ = 1616;
-                        containerNode.insertBefore( nodeToInsert,insertAfterNode.nextSibling );
+                        containerNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling);
                       } else {
                         __LINE__ = 1618;
-                        containerNode.appendChild( nodeToInsert );
+                        containerNode.appendChild(nodeToInsert);
                       };
                     } else {
                       
                       __LINE__ = 1621;
-                      containerNode.parentNode.insertBefore( nodeToInsert,insertAfterNode.nextSibling );
+                      containerNode.parentNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                nextSibling : function ( node ) {
+                nextSibling : function (node) {
                   try {
                     __LINE__ = 1626;
-                    if ( !isStartComment( node ) ){
+                    if (!isStartComment(node)){
                       
                       __LINE__ = 1627;
-                      if ( node.nextSibling && isEndComment( node.nextSibling ) ){
+                      if (node.nextSibling && isEndComment(node.nextSibling)){
                         __LINE__ = 1628;
                         return undefined;
                       };
@@ -4277,47 +4277,47 @@
                       return node.nextSibling;
                     } else {
                       __LINE__ = 1631;
-                      return getMatchingEndComment( node ).nextSibling;
+                      return getMatchingEndComment(node).nextSibling;
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                virtualNodeBindingValue : function ( node ) {
+                virtualNodeBindingValue : function (node) {
                   try {
                     __LINE__ = 1636;
-                    var regexMatch = isStartComment( node );
+                    var regexMatch = isStartComment(node);
                     __LINE__ = 1637;
                     return regexMatch?regexMatch[1] : null;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                extractAnonymousTemplateIfVirtualElement : function ( node ) {
+                extractAnonymousTemplateIfVirtualElement : function (node) {
                   try {
                     __LINE__ = 1641;
-                    if ( ko.virtualElements.virtualNodeBindingValue( node ) ){
+                    if (ko.virtualElements.virtualNodeBindingValue(node)){
                       
                       __LINE__ = 1643;
-                      var virtualChildren = ko.virtualElements.childNodes( node );
+                      var virtualChildren = ko.virtualElements.childNodes(node);
                       
                       __LINE__ = 1644;
-                      var anonymousTemplateText = nodeArrayToText( virtualChildren,true );
+                      var anonymousTemplateText = nodeArrayToText(virtualChildren,true);
                       
                       __LINE__ = 1645;
-                      ko.virtualElements.emptyNode( node );
+                      ko.virtualElements.emptyNode(node);
                       
                       __LINE__ = 1646;
-                      new ko.templateSources.anonymousTemplate( node ).text( anonymousTemplateText );
+                      new ko.templateSources.anonymousTemplate(node).text(anonymousTemplateText);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                normaliseVirtualElementDomStructure : function ( elementVerified ) {
+                normaliseVirtualElementDomStructure : function (elementVerified) {
                   try {
                     __LINE__ = 1654;
-                    if ( !htmlTagsWithOptionallyClosingChildren[elementVerified.tagName.toLowerCase()] ){
+                    if (!htmlTagsWithOptionallyClosingChildren[elementVerified.tagName.toLowerCase()]){
                       __LINE__ = 1655;
                       return ;
                     };
@@ -4326,47 +4326,47 @@
                     var childNode = elementVerified.firstChild;
                     
                     __LINE__ = 1660;
-                    if ( childNode ){
+                    if (childNode){
                       
                       __LINE__ = 1661;
                       do {
                         
                         __LINE__ = 1662;
-                        if ( childNode.nodeType === 1 ){
+                        if (childNode.nodeType === 1){
                           
                           __LINE__ = 1663;
-                          var unbalancedTags = getUnbalancedChildTags( childNode );
+                          var unbalancedTags = getUnbalancedChildTags(childNode);
                           
                           __LINE__ = 1664;
-                          if ( unbalancedTags ){
+                          if (unbalancedTags){
                             
                             __LINE__ = 1666;
                             var nodeToInsertBefore = childNode.nextSibling;
                             
                             __LINE__ = 1667;
-                            for ( var i = 0;i<unbalancedTags.length;i ++  ){
+                            for (var i = 0;i<unbalancedTags.length;i ++ ){
                               
                               __LINE__ = 1668;
-                              if ( nodeToInsertBefore ){
+                              if (nodeToInsertBefore){
                                 
                                 __LINE__ = 1669;
-                                elementVerified.insertBefore( unbalancedTags[i],nodeToInsertBefore );
+                                elementVerified.insertBefore(unbalancedTags[i],nodeToInsertBefore);
                               } else {
                                 __LINE__ = 1671;
-                                elementVerified.appendChild( unbalancedTags[i] );
+                                elementVerified.appendChild(unbalancedTags[i]);
                               };
                             };
                           };
                         };
-                      }while ( childNode = childNode.nextSibling );
+                      }while (childNode = childNode.nextSibling);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -4380,56 +4380,56 @@
               ko.bindingProvider = function (){};
               
               __LINE__ = 1685;
-              ko.utils.extend( ko.bindingProvider.prototype, {
-                'nodeHasBindings' : function ( node ) {
+              ko.utils.extend(ko.bindingProvider.prototype, {
+                'nodeHasBindings' : function (node) {
                   try {
                     __LINE__ = 1687;
-                    switch ( node.nodeType ) {
+                    switch (node.nodeType) {
                       case 1 :
                         __LINE__ = 1688;
-                        return node.getAttribute( defaultBindingAttributeName ) != null;
+                        return node.getAttribute(defaultBindingAttributeName) != null;
                       case 8 :
                         __LINE__ = 1689;
-                        return ko.virtualElements.virtualNodeBindingValue( node ) != null;
+                        return ko.virtualElements.virtualNodeBindingValue(node) != null;
                       default :
                         __LINE__ = 1690;
                         return false;
                         
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                'getBindings' : function ( node,bindingContext ) {
+                'getBindings' : function (node,bindingContext) {
                   try {
                     __LINE__ = 1695;
-                    var bindingsString = this['getBindingsString']( node,bindingContext );
+                    var bindingsString = this['getBindingsString'](node,bindingContext);
                     __LINE__ = 1696;
-                    return bindingsString?this['parseBindingsString']( bindingsString,bindingContext ) : null;
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return bindingsString?this['parseBindingsString'](bindingsString,bindingContext) : null;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                'getBindingsString' : function ( node,bindingContext ) {
+                'getBindingsString' : function (node,bindingContext) {
                   try {
                     __LINE__ = 1702;
-                    switch ( node.nodeType ) {
+                    switch (node.nodeType) {
                       case 1 :
                         __LINE__ = 1703;
-                        return node.getAttribute( defaultBindingAttributeName );
+                        return node.getAttribute(defaultBindingAttributeName);
                       case 8 :
                         __LINE__ = 1704;
-                        return ko.virtualElements.virtualNodeBindingValue( node );
+                        return ko.virtualElements.virtualNodeBindingValue(node);
                       default :
                         __LINE__ = 1705;
                         return null;
                         
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                'parseBindingsString' : function ( bindingsString,bindingContext ) {
+                'parseBindingsString' : function (bindingsString,bindingContext) {
                   try {
                     try {
                       
@@ -4437,62 +4437,62 @@
                       var viewModel = bindingContext['$data'];
                       
                       __LINE__ = 1714;
-                      var rewrittenBindings = " { "+ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( bindingsString )+" } ";
+                      var rewrittenBindings = " { "+ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(bindingsString)+" } ";
                       __LINE__ = 1715;
-                      return ko.utils.evalWithinScope( rewrittenBindings,viewModel === null?window : viewModel,bindingContext );
-                    } catch( ex ){
+                      return ko.utils.evalWithinScope(rewrittenBindings,viewModel === null?window : viewModel,bindingContext);
+                    } catch(ex){
                       __LINE__ = 1717;
-                      throw new Error( "Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+bindingsString );
+                      throw new Error("Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+bindingsString);
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               });
               
               __LINE__ = 1722;
               ko.bindingProvider['instance'] = new ko.bindingProvider();
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 1725;
-          ko.exportSymbol( 'ko.bindingProvider',ko.bindingProvider );
+          ko.exportSymbol('ko.bindingProvider',ko.bindingProvider);
           
           __LINE__ = 1725;
           !function () {
             try {
-              function applyBindingsToNodeInternal( node,bindings,viewModelOrBindingContext,isRootNodeForBindingContext ) {
+              function applyBindingsToNodeInternal(node,bindings,viewModelOrBindingContext,isRootNodeForBindingContext) {
                 try {
                   function parsedBindingsAccessor() {
                     try {
                       __LINE__ = 1797;
                       return parsedBindings;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }
-                  function makeValueAccessor( bindingKey ) {
+                  function makeValueAccessor(bindingKey) {
                     try {
                       __LINE__ = 1794;
                       return function () {
                         try {
                           __LINE__ = 1794;
                           return parsedBindings[bindingKey];
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }
                   __LINE__ = 1781;
                   var initPhase = 0;
                   
                   __LINE__ = 1784;
-                  ko.virtualElements.extractAnonymousTemplateIfVirtualElement( node );
+                  ko.virtualElements.extractAnonymousTemplateIfVirtualElement(node);
                   
                   __LINE__ = 1792;
                   var parsedBindings;
@@ -4501,55 +4501,55 @@
                   var bindingHandlerThatControlsDescendantBindings;
                   
                   __LINE__ = 1801;
-                  new ko.dependentObservable( function () {
+                  new ko.dependentObservable(function () {
                     try {
                       __LINE__ = 1804;
-                      var bindingContextInstance = viewModelOrBindingContext && ( viewModelOrBindingContext instanceof ko.bindingContext )?viewModelOrBindingContext : new ko.bindingContext( ko.utils.unwrapObservable( viewModelOrBindingContext ) ),
+                      var bindingContextInstance = viewModelOrBindingContext && (viewModelOrBindingContext instanceof ko.bindingContext)?viewModelOrBindingContext : new ko.bindingContext(ko.utils.unwrapObservable(viewModelOrBindingContext)),
                           viewModel = bindingContextInstance['$data'];
                       
                       __LINE__ = 1812;
-                      isRootNodeForBindingContext && ko.storedBindingContextForNode( node,bindingContextInstance );
+                      isRootNodeForBindingContext && ko.storedBindingContextForNode(node,bindingContextInstance);
                       
                       __LINE__ = 1815;
-                      var evaluatedBindings = ( typeof bindings == "function" )?bindings() : bindings;
+                      var evaluatedBindings = (typeof bindings == "function")?bindings() : bindings;
                       
                       __LINE__ = 1816;
-                      parsedBindings = evaluatedBindings || ko.bindingProvider['instance']['getBindings']( node,bindingContextInstance );
+                      parsedBindings = evaluatedBindings || ko.bindingProvider['instance']['getBindings'](node,bindingContextInstance);
                       
                       __LINE__ = 1818;
-                      if ( parsedBindings ){
+                      if (parsedBindings){
                         
                         __LINE__ = 1820;
-                        if ( initPhase === 0 ){
+                        if (initPhase === 0){
                           
                           __LINE__ = 1821;
                           initPhase = 1;
                           
                           __LINE__ = 1822;
-                          for ( var bindingKey in parsedBindings ){
+                          for (var bindingKey in parsedBindings){
                             
                             __LINE__ = 1823;
                             var binding = ko.bindingHandlers[bindingKey];
                             
                             __LINE__ = 1825;
-                            binding && node.nodeType === 8 && validateThatBindingIsAllowedForVirtualElements( bindingKey );
+                            binding && node.nodeType === 8 && validateThatBindingIsAllowedForVirtualElements(bindingKey);
                             
                             __LINE__ = 1827;
-                            if ( binding && typeof binding["init"] == "function" ){
+                            if (binding && typeof binding["init"] == "function"){
                               
                               __LINE__ = 1828;
                               var handlerInitFn = binding["init"];
                               
                               __LINE__ = 1829;
-                              var initResult = handlerInitFn( node,makeValueAccessor( bindingKey ),parsedBindingsAccessor,viewModel,bindingContextInstance );
+                              var initResult = handlerInitFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
                               
                               __LINE__ = 1832;
-                              if ( initResult && initResult['controlsDescendantBindings'] ){
+                              if (initResult && initResult['controlsDescendantBindings']){
                                 
                                 __LINE__ = 1833;
-                                if ( bindingHandlerThatControlsDescendantBindings !== undefined ){
+                                if (bindingHandlerThatControlsDescendantBindings !== undefined){
                                   __LINE__ = 1834;
-                                  throw new Error( "Multiple bindings ("+bindingHandlerThatControlsDescendantBindings+" and "+bindingKey+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element." );
+                                  throw new Error("Multiple bindings ("+bindingHandlerThatControlsDescendantBindings+" and "+bindingKey+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element.");
                                 };
                                 
                                 __LINE__ = 1835;
@@ -4563,27 +4563,27 @@
                         };
                         
                         __LINE__ = 1843;
-                        if ( initPhase === 2 ){
+                        if (initPhase === 2){
                           __LINE__ = 1844;
-                          for ( var bindingKey in parsedBindings ){
+                          for (var bindingKey in parsedBindings){
                             
                             __LINE__ = 1845;
                             var binding = ko.bindingHandlers[bindingKey];
                             
                             __LINE__ = 1846;
-                            if ( binding && typeof binding["update"] == "function" ){
+                            if (binding && typeof binding["update"] == "function"){
                               
                               __LINE__ = 1847;
                               var handlerUpdateFn = binding["update"];
                               
                               __LINE__ = 1848;
-                              handlerUpdateFn( node,makeValueAccessor( bindingKey ),parsedBindingsAccessor,viewModel,bindingContextInstance );
+                              handlerUpdateFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
                             };
                           };
                         };
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   },null, {
                     'disposeWhenNodeIsRemoved' : node
@@ -4592,84 +4592,84 @@
                   return  {
                     shouldBindDescendants : bindingHandlerThatControlsDescendantBindings === undefined
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function applyBindingsToNodeAndDescendantsInternal( viewModel,nodeVerified,isRootNodeForBindingContext ) {
+              function applyBindingsToNodeAndDescendantsInternal(viewModel,nodeVerified,isRootNodeForBindingContext) {
                 try {
                   __LINE__ = 1760;
                   var shouldBindDescendants = true,
-                      isElement = ( nodeVerified.nodeType == 1 );
+                      isElement = (nodeVerified.nodeType == 1);
                   
                   __LINE__ = 1768;
-                  isElement && ko.virtualElements.normaliseVirtualElementDomStructure( nodeVerified );
+                  isElement && ko.virtualElements.normaliseVirtualElementDomStructure(nodeVerified);
                   
                   __LINE__ = 1770;
-                  var shouldApplyBindings = ( isElement && isRootNodeForBindingContext ) || ko.bindingProvider['instance']['nodeHasBindings']( nodeVerified );
+                  var shouldApplyBindings = (isElement && isRootNodeForBindingContext) || ko.bindingProvider['instance']['nodeHasBindings'](nodeVerified);
                   
                   __LINE__ = 1773;
-                  shouldApplyBindings && ( shouldBindDescendants = applyBindingsToNodeInternal( nodeVerified,null,viewModel,isRootNodeForBindingContext ).shouldBindDescendants );
+                  shouldApplyBindings && (shouldBindDescendants = applyBindingsToNodeInternal(nodeVerified,null,viewModel,isRootNodeForBindingContext).shouldBindDescendants);
                   
                   __LINE__ = 1776;
-                  isElement && shouldBindDescendants && applyBindingsToDescendantsInternal( viewModel,nodeVerified );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  isElement && shouldBindDescendants && applyBindingsToDescendantsInternal(viewModel,nodeVerified);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function applyBindingsToDescendantsInternal( viewModel,elementVerified ) {
+              function applyBindingsToDescendantsInternal(viewModel,elementVerified) {
                 try {
                   __LINE__ = 1751;
                   var currentChild,
                       nextInQueue = elementVerified.childNodes[0];
                   
                   __LINE__ = 1752;
-                  while ( currentChild = nextInQueue ){
+                  while (currentChild = nextInQueue){
                     
                     __LINE__ = 1754;
-                    nextInQueue = ko.virtualElements.nextSibling( currentChild );
+                    nextInQueue = ko.virtualElements.nextSibling(currentChild);
                     
                     __LINE__ = 1755;
-                    applyBindingsToNodeAndDescendantsInternal( viewModel,currentChild,false );
+                    applyBindingsToNodeAndDescendantsInternal(viewModel,currentChild,false);
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function validateThatBindingIsAllowedForVirtualElements( bindingName ) {
+              function validateThatBindingIsAllowedForVirtualElements(bindingName) {
                 try {
                   __LINE__ = 1745;
                   var validator = ko.virtualElements.allowedBindings[bindingName];
                   
                   __LINE__ = 1746;
-                  if ( !validator ){
+                  if (!validator){
                     __LINE__ = 1747;
-                    throw new Error( "The binding '"+bindingName+"' cannot be used with virtual elements" );
+                    throw new Error("The binding '"+bindingName+"' cannot be used with virtual elements");
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 1726;
               ko.bindingHandlers = {};
               
               __LINE__ = 1728;
-              ko.bindingContext = function ( dataItem,parentBindingContext ) {
+              ko.bindingContext = function (dataItem,parentBindingContext) {
                 try {
                   __LINE__ = 1729;
                   this['$data'] = dataItem;
                   
                   __LINE__ = 1730;
-                  if ( parentBindingContext ){
+                  if (parentBindingContext){
                     
                     __LINE__ = 1731;
                     this['$parent'] = parentBindingContext['$data'];
                     
                     __LINE__ = 1732;
-                    this['$parents'] = ( parentBindingContext['$parents'] || [] ).slice( 0 );
+                    this['$parents'] = (parentBindingContext['$parents'] || []).slice(0);
                     
                     __LINE__ = 1733;
-                    this['$parents'].unshift( this['$parent'] );
+                    this['$parents'].unshift(this['$parent']);
                     
                     __LINE__ = 1734;
                     this['$root'] = parentBindingContext['$root'];
@@ -4681,18 +4681,18 @@
                     __LINE__ = 1737;
                     this['$root'] = dataItem;
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1740;
-              ko.bindingContext.prototype['createChildContext'] = function ( dataItem ) {
+              ko.bindingContext.prototype['createChildContext'] = function (dataItem) {
                 try {
                   __LINE__ = 1741;
-                  return new ko.bindingContext( dataItem,this );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return new ko.bindingContext(dataItem,this);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4700,83 +4700,83 @@
               var storedBindingContextDomDataKey = "__ko_bindingContext__";
               
               __LINE__ = 1864;
-              ko.storedBindingContextForNode = function ( node,bindingContext ) {
+              ko.storedBindingContextForNode = function (node,bindingContext) {
                 try {
                   __LINE__ = 1865;
-                  if ( arguments.length == 2 ){
+                  if (arguments.length == 2){
                     __LINE__ = 1866;
-                    ko.utils.domData.set( node,storedBindingContextDomDataKey,bindingContext );
+                    ko.utils.domData.set(node,storedBindingContextDomDataKey,bindingContext);
                   } else {
                     __LINE__ = 1868;
-                    return ko.utils.domData.get( node,storedBindingContextDomDataKey );
+                    return ko.utils.domData.get(node,storedBindingContextDomDataKey);
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1871;
-              ko.applyBindingsToNode = function ( node,bindings,viewModel ) {
+              ko.applyBindingsToNode = function (node,bindings,viewModel) {
                 try {
                   __LINE__ = 1873;
-                  node.nodeType === 1 && ko.virtualElements.normaliseVirtualElementDomStructure( node );
+                  node.nodeType === 1 && ko.virtualElements.normaliseVirtualElementDomStructure(node);
                   __LINE__ = 1874;
-                  return applyBindingsToNodeInternal( node,bindings,viewModel,true );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return applyBindingsToNodeInternal(node,bindings,viewModel,true);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1877;
-              ko.applyBindingsToDescendants = function ( viewModel,rootNode ) {
+              ko.applyBindingsToDescendants = function (viewModel,rootNode) {
                 try {
                   __LINE__ = 1879;
-                  rootNode.nodeType === 1 && applyBindingsToDescendantsInternal( viewModel,rootNode );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  rootNode.nodeType === 1 && applyBindingsToDescendantsInternal(viewModel,rootNode);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1882;
-              ko.applyBindings = function ( viewModel,rootNode ) {
+              ko.applyBindings = function (viewModel,rootNode) {
                 try {
                   __LINE__ = 1883;
-                  if ( rootNode && ( rootNode.nodeType !== 1 ) && ( rootNode.nodeType !== 8 ) ){
+                  if (rootNode && (rootNode.nodeType !== 1) && (rootNode.nodeType !== 8)){
                     __LINE__ = 1884;
-                    throw new Error( "ko.applyBindings: first parameter should be your view model; second parameter should be a DOM node" );
+                    throw new Error("ko.applyBindings: first parameter should be your view model; second parameter should be a DOM node");
                   };
                   
                   __LINE__ = 1885;
                   rootNode = rootNode || window.document.body;
                   
                   __LINE__ = 1887;
-                  applyBindingsToNodeAndDescendantsInternal( viewModel,rootNode,true );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  applyBindingsToNodeAndDescendantsInternal(viewModel,rootNode,true);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1891;
-              ko.contextFor = function ( node ) {
+              ko.contextFor = function (node) {
                 try {
                   __LINE__ = 1893;
-                  switch ( node.nodeType ) {
+                  switch (node.nodeType) {
                     case 1 :
                     case 8 :
                       
                       __LINE__ = 1896;
-                      var context = ko.storedBindingContextForNode( node );
+                      var context = ko.storedBindingContextForNode(node);
                       
                       __LINE__ = 1897;
-                      if ( context ){
+                      if (context){
                         __LINE__ = 1897;
                         return context;
                       };
                       
                       __LINE__ = 1898;
-                      if ( node.parentNode ){
+                      if (node.parentNode){
                         __LINE__ = 1898;
-                        return ko.contextFor( node.parentNode );
+                        return ko.contextFor(node.parentNode);
                       };
                       __LINE__ = 1899;
                       break;
@@ -4784,42 +4784,42 @@
                   };
                   __LINE__ = 1901;
                   return undefined;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1903;
-              ko.dataFor = function ( node ) {
+              ko.dataFor = function (node) {
                 try {
                   __LINE__ = 1904;
-                  var context = ko.contextFor( node );
+                  var context = ko.contextFor(node);
                   __LINE__ = 1905;
                   return context?context['$data'] : undefined;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 1908;
-              ko.exportSymbol( 'ko.bindingHandlers',ko.bindingHandlers );
+              ko.exportSymbol('ko.bindingHandlers',ko.bindingHandlers);
               
               __LINE__ = 1909;
-              ko.exportSymbol( 'ko.applyBindings',ko.applyBindings );
+              ko.exportSymbol('ko.applyBindings',ko.applyBindings);
               
               __LINE__ = 1910;
-              ko.exportSymbol( 'ko.applyBindingsToDescendants',ko.applyBindingsToDescendants );
+              ko.exportSymbol('ko.applyBindingsToDescendants',ko.applyBindingsToDescendants);
               
               __LINE__ = 1911;
-              ko.exportSymbol( 'ko.applyBindingsToNode',ko.applyBindingsToNode );
+              ko.exportSymbol('ko.applyBindingsToNode',ko.applyBindingsToNode);
               
               __LINE__ = 1912;
-              ko.exportSymbol( 'ko.contextFor',ko.contextFor );
+              ko.exportSymbol('ko.contextFor',ko.contextFor);
               
               __LINE__ = 1913;
-              ko.exportSymbol( 'ko.dataFor',ko.dataFor );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              ko.exportSymbol('ko.dataFor',ko.dataFor);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -4827,12 +4827,12 @@
           var eventHandlersWithShortcuts = ['click'];
           
           __LINE__ = 1917;
-          ko.utils.arrayForEach( eventHandlersWithShortcuts,
-          function ( eventName ) {
+          ko.utils.arrayForEach(eventHandlersWithShortcuts,
+          function (eventName) {
             try {
               __LINE__ = 1918;
               ko.bindingHandlers[eventName] =  {
-                'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel ) {
+                'init' : function (element,valueAccessor,allBindingsAccessor,viewModel) {
                   try {
                     __LINE__ = 1920;
                     var newValueAccessor = function () {
@@ -4844,44 +4844,44 @@
                             result[eventName] = valueAccessor();
                             __LINE__ = 1923;
                             return result;
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     __LINE__ = 1925;
-                    return ko.bindingHandlers['event']['init'].call( this,element,newValueAccessor,allBindingsAccessor,viewModel );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return ko.bindingHandlers['event']['init'].call(this,element,newValueAccessor,allBindingsAccessor,viewModel);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
           __LINE__ = 1931;
           ko.bindingHandlers['event'] =  {
-            'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor,viewModel) {
               try {
                 __LINE__ = 1933;
                 var eventsToHandle = valueAccessor() || {};
                 
                 __LINE__ = 1934;
-                for ( var eventNameOutsideClosure in eventsToHandle ){
+                for (var eventNameOutsideClosure in eventsToHandle){
                   
                   __LINE__ = 1935;
-                  ( function () {
+                  (function () {
                     try {
                       __LINE__ = 1936;
                       var eventName = eventNameOutsideClosure;
                       
                       __LINE__ = 1937;
-                      if ( typeof eventName == "string" ){
+                      if (typeof eventName == "string"){
                         
                         __LINE__ = 1938;
-                        ko.utils.registerEventHandler( element,eventName,
-                        function ( event ) {
+                        ko.utils.registerEventHandler(element,eventName,
+                        function (event) {
                           try {
                             __LINE__ = 1939;
                             var handlerReturnValue;
@@ -4890,7 +4890,7 @@
                             var handlerFunction = valueAccessor()[eventName];
                             
                             __LINE__ = 1941;
-                            if ( !handlerFunction ){
+                            if (!handlerFunction){
                               __LINE__ = 1942;
                               return ;
                             };
@@ -4901,20 +4901,20 @@
                             try {
                               
                               __LINE__ = 1947;
-                              var argsForHandler = ko.utils.makeArray( arguments );
+                              var argsForHandler = ko.utils.makeArray(arguments);
                               
                               __LINE__ = 1948;
-                              argsForHandler.unshift( viewModel );
+                              argsForHandler.unshift(viewModel);
                               
                               __LINE__ = 1949;
-                              handlerReturnValue = handlerFunction.apply( viewModel,argsForHandler );
+                              handlerReturnValue = handlerFunction.apply(viewModel,argsForHandler);
                             } finally {
                               
                               __LINE__ = 1951;
-                              if ( handlerReturnValue !== true ){
+                              if (handlerReturnValue !== true){
                                 
                                 __LINE__ = 1952;
-                                if ( event.preventDefault ){
+                                if (event.preventDefault){
                                   
                                   __LINE__ = 1953;
                                   event.preventDefault();
@@ -4929,47 +4929,47 @@
                             var bubble = allBindings[eventName+'Bubble'] !== false;
                             
                             __LINE__ = 1960;
-                            if ( !bubble ){
+                            if (!bubble){
                               
                               __LINE__ = 1961;
                               event.cancelBubble = true;
                               
                               __LINE__ = 1962;
-                              if ( event.stopPropagation ){
+                              if (event.stopPropagation){
                                 
                                 __LINE__ = 1963;
                                 event.stopPropagation();
                               };
                             };
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         });
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   })();
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 1972;
           ko.bindingHandlers['submit'] =  {
-            'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor,viewModel) {
               try {
                 __LINE__ = 1974;
-                if ( typeof valueAccessor() != "function" ){
+                if (typeof valueAccessor() != "function"){
                   __LINE__ = 1975;
-                  throw new Error( "The value for a submit binding must be a function" );
+                  throw new Error("The value for a submit binding must be a function");
                 };
                 
                 __LINE__ = 1976;
-                ko.utils.registerEventHandler( element,"submit",
-                function ( event ) {
+                ko.utils.registerEventHandler(element,"submit",
+                function (event) {
                   try {
                     __LINE__ = 1977;
                     var handlerReturnValue;
@@ -4980,14 +4980,14 @@
                     try {
                       
                       __LINE__ = 1979;
-                      handlerReturnValue = value.call( viewModel,element );
+                      handlerReturnValue = value.call(viewModel,element);
                     } finally {
                       
                       __LINE__ = 1981;
-                      if ( handlerReturnValue !== true ){
+                      if (handlerReturnValue !== true){
                         
                         __LINE__ = 1982;
-                        if ( event.preventDefault ){
+                        if (event.preventDefault){
                           
                           __LINE__ = 1983;
                           event.preventDefault();
@@ -4997,88 +4997,88 @@
                         };
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 1992;
           ko.bindingHandlers['visible'] =  {
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 1994;
-                var value = ko.utils.unwrapObservable( valueAccessor() );
+                var value = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 1995;
-                var isCurrentlyVisible = !( element.style.display == "none" );
+                var isCurrentlyVisible = !(element.style.display == "none");
                 
                 __LINE__ = 1996;
-                if ( value && !isCurrentlyVisible ){
+                if (value && !isCurrentlyVisible){
                   
                   __LINE__ = 1997;
                   element.style.display = "";
-                } else if ( ( !value ) && isCurrentlyVisible ){
+                } else if ((!value) && isCurrentlyVisible){
                   
                   __LINE__ = 1999;
                   element.style.display = "none";
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2003;
           ko.bindingHandlers['enable'] =  {
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2005;
-                var value = ko.utils.unwrapObservable( valueAccessor() );
+                var value = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2006;
-                if ( value && element.disabled ){
+                if (value && element.disabled){
                   
                   __LINE__ = 2007;
-                  element.removeAttribute( "disabled" );
-                } else if ( ( !value ) && ( !element.disabled ) ){
+                  element.removeAttribute("disabled");
+                } else if ((!value) && (!element.disabled)){
                   
                   __LINE__ = 2009;
                   element.disabled = true;
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2013;
           ko.bindingHandlers['disable'] =  {
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2015;
-                ko.bindingHandlers['enable']['update']( element,
+                ko.bindingHandlers['enable']['update'](element,
                 function () {
                   try {
                     __LINE__ = 2015;
-                    return !ko.utils.unwrapObservable( valueAccessor() );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    return !ko.utils.unwrapObservable(valueAccessor());
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2032;
           ko.bindingHandlers['value'] =  {
-            'init' : function ( element,valueAccessor,allBindingsAccessor ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2035;
                 var eventsToCatch = ["change"];
@@ -5087,128 +5087,128 @@
                 var requestedEventsToCatch = allBindingsAccessor()["valueUpdate"];
                 
                 __LINE__ = 2037;
-                if ( requestedEventsToCatch ){
+                if (requestedEventsToCatch){
                   
                   __LINE__ = 2038;
-                  if ( typeof requestedEventsToCatch == "string" ){
+                  if (typeof requestedEventsToCatch == "string"){
                     
                     __LINE__ = 2039;
                     requestedEventsToCatch = [requestedEventsToCatch];
                   };
                   
                   __LINE__ = 2040;
-                  ko.utils.arrayPushAll( eventsToCatch,requestedEventsToCatch );
+                  ko.utils.arrayPushAll(eventsToCatch,requestedEventsToCatch);
                   
                   __LINE__ = 2041;
-                  eventsToCatch = ko.utils.arrayGetDistinctValues( eventsToCatch );
+                  eventsToCatch = ko.utils.arrayGetDistinctValues(eventsToCatch);
                 };
                 
                 __LINE__ = 2044;
-                ko.utils.arrayForEach( eventsToCatch,
-                function ( eventName ) {
+                ko.utils.arrayForEach(eventsToCatch,
+                function (eventName) {
                   try {
                     __LINE__ = 2048;
                     var handleEventAsynchronously = false;
                     
                     __LINE__ = 2049;
-                    if ( ko.utils.stringStartsWith( eventName,"after" ) ){
+                    if (ko.utils.stringStartsWith(eventName,"after")){
                       
                       __LINE__ = 2050;
                       handleEventAsynchronously = true;
                       
                       __LINE__ = 2051;
-                      eventName = eventName.substring( "after".length );
+                      eventName = eventName.substring("after".length);
                     };
                     
                     __LINE__ = 2053;
-                    var runEventHandler = handleEventAsynchronously?function ( handler ) {
+                    var runEventHandler = handleEventAsynchronously?function (handler) {
                           try {
                             __LINE__ = 2053;
-                            setTimeout( handler,0 );
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                            setTimeout(handler,0);
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
-                        } : function ( handler ) {
+                        } : function (handler) {
                           try {
                             __LINE__ = 2054;
                             handler();
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     
                     __LINE__ = 2056;
-                    ko.utils.registerEventHandler( element,eventName,
+                    ko.utils.registerEventHandler(element,eventName,
                     function () {
                       try {
                         __LINE__ = 2057;
-                        runEventHandler( function () {
+                        runEventHandler(function () {
                           try {
                             __LINE__ = 2058;
                             var modelValue = valueAccessor();
                             
                             __LINE__ = 2059;
-                            var elementValue = ko.selectExtensions.readValue( element );
+                            var elementValue = ko.selectExtensions.readValue(element);
                             
                             __LINE__ = 2060;
-                            if ( ko.isWriteableObservable( modelValue ) ){
+                            if (ko.isWriteableObservable(modelValue)){
                               
                               __LINE__ = 2061;
-                              modelValue( elementValue );
+                              modelValue(elementValue);
                             } else {
                               
                               __LINE__ = 2063;
                               var allBindings = allBindingsAccessor();
-                              if ( allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value'] ){
+                              if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value']){
                                 
                                 __LINE__ = 2065;
-                                allBindings['_ko_property_writers']['value']( elementValue );
+                                allBindings['_ko_property_writers']['value'](elementValue);
                               };
                             };
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         });
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2072;
-                var newValue = ko.utils.unwrapObservable( valueAccessor() );
+                var newValue = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2073;
-                var elementValue = ko.selectExtensions.readValue( element );
+                var elementValue = ko.selectExtensions.readValue(element);
                 
                 __LINE__ = 2074;
-                var valueHasChanged = ( newValue != elementValue );
+                var valueHasChanged = (newValue != elementValue);
                 
                 __LINE__ = 2078;
-                if ( ( newValue === 0 ) && ( elementValue !== 0 ) && ( elementValue !== "0" ) ){
+                if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")){
                   
                   __LINE__ = 2079;
                   valueHasChanged = true;
                 };
                 
                 __LINE__ = 2081;
-                if ( valueHasChanged ){
+                if (valueHasChanged){
                   
                   __LINE__ = 2082;
                   var applyValueAction = function () {
                         try {
                           __LINE__ = 2082;
-                          ko.selectExtensions.writeValue( element,newValue );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          ko.selectExtensions.writeValue(element,newValue);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       };
                   
@@ -5219,54 +5219,54 @@
                   var alsoApplyAsynchronously = element.tagName == "SELECT";
                   
                   __LINE__ = 2089;
-                  if ( alsoApplyAsynchronously ){
+                  if (alsoApplyAsynchronously){
                     
                     __LINE__ = 2090;
-                    setTimeout( applyValueAction,0 );
+                    setTimeout(applyValueAction,0);
                   };
                 };
                 
                 __LINE__ = 2095;
-                if ( ( element.tagName == "SELECT" ) && ( element.length>0 ) ){
+                if ((element.tagName == "SELECT") && (element.length>0)){
                   
                   __LINE__ = 2096;
-                  ensureDropdownSelectionIsConsistentWithModelValue( element,newValue,false );
+                  ensureDropdownSelectionIsConsistentWithModelValue(element,newValue,false);
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2100;
           ko.bindingHandlers['options'] =  {
-            'update' : function ( element,valueAccessor,allBindingsAccessor ) {
+            'update' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2102;
-                if ( element.tagName != "SELECT" ){
+                if (element.tagName != "SELECT"){
                   __LINE__ = 2103;
-                  throw new Error( "options binding applies only to SELECT elements" );
+                  throw new Error("options binding applies only to SELECT elements");
                 };
                 
                 __LINE__ = 2105;
                 var selectWasPreviouslyEmpty = element.length == 0;
                 
                 __LINE__ = 2106;
-                var previousSelectedValues = ko.utils.arrayMap( ko.utils.arrayFilter( element.childNodes,
-                    function ( node ) {
+                var previousSelectedValues = ko.utils.arrayMap(ko.utils.arrayFilter(element.childNodes,
+                    function (node) {
                       try {
                         __LINE__ = 2107;
                         return node.tagName && node.tagName == "OPTION" && node.selected;
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     }),
-                    function ( node ) {
+                    function (node) {
                       try {
                         __LINE__ = 2109;
-                        return ko.selectExtensions.readValue( node ) || node.innerText || node.textContent;
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        return ko.selectExtensions.readValue(node) || node.innerText || node.textContent;
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                 
@@ -5277,64 +5277,64 @@
                 element.scrollTop = 0;
                 
                 __LINE__ = 2114;
-                var value = ko.utils.unwrapObservable( valueAccessor() );
+                var value = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2115;
                 var selectedValue = element.value;
                 
                 __LINE__ = 2119;
-                while ( element.length>0 ){
+                while (element.length>0){
                   
                   __LINE__ = 2120;
-                  ko.cleanNode( element.options[0] );
+                  ko.cleanNode(element.options[0]);
                   
                   __LINE__ = 2121;
-                  element.remove( 0 );
+                  element.remove(0);
                 };
                 
                 __LINE__ = 2124;
-                if ( value ){
+                if (value){
                   
                   __LINE__ = 2125;
                   var allBindings = allBindingsAccessor();
                   
                   __LINE__ = 2126;
-                  if ( typeof value.length != "number" ){
+                  if (typeof value.length != "number"){
                     
                     __LINE__ = 2127;
                     value = [value];
                   };
                   
                   __LINE__ = 2128;
-                  if ( allBindings['optionsCaption'] ){
+                  if (allBindings['optionsCaption']){
                     
                     __LINE__ = 2129;
-                    var option = document.createElement( "OPTION" );
+                    var option = document.createElement("OPTION");
                     
                     __LINE__ = 2130;
-                    ko.utils.setHtml( option,allBindings['optionsCaption'] );
+                    ko.utils.setHtml(option,allBindings['optionsCaption']);
                     
                     __LINE__ = 2131;
-                    ko.selectExtensions.writeValue( option,undefined );
+                    ko.selectExtensions.writeValue(option,undefined);
                     
                     __LINE__ = 2132;
-                    element.appendChild( option );
+                    element.appendChild(option);
                   };
                   
                   __LINE__ = 2134;
-                  for ( var i = 0,j = value.length;i<j;i ++  ){
+                  for (var i = 0,j = value.length;i<j;i ++ ){
                     
                     __LINE__ = 2135;
-                    var option = document.createElement( "OPTION" );
+                    var option = document.createElement("OPTION");
                     
                     __LINE__ = 2138;
                     var optionValue = typeof allBindings['optionsValue'] == "string"?value[i][allBindings['optionsValue']] : value[i];
                     
                     __LINE__ = 2139;
-                    optionValue = ko.utils.unwrapObservable( optionValue );
+                    optionValue = ko.utils.unwrapObservable(optionValue);
                     
                     __LINE__ = 2140;
-                    ko.selectExtensions.writeValue( option,optionValue );
+                    ko.selectExtensions.writeValue(option,optionValue);
                     
                     __LINE__ = 2143;
                     var optionsTextValue = allBindings['optionsText'];
@@ -5343,11 +5343,11 @@
                     var optionText;
                     
                     __LINE__ = 2145;
-                    if ( typeof optionsTextValue == "function" ){
+                    if (typeof optionsTextValue == "function"){
                       
                       __LINE__ = 2146;
-                      optionText = optionsTextValue( value[i] );
-                    } else if ( typeof optionsTextValue == "string" ){
+                      optionText = optionsTextValue(value[i]);
+                    } else if (typeof optionsTextValue == "string"){
                       
                       __LINE__ = 2148;
                       optionText = value[i][optionsTextValue];
@@ -5357,33 +5357,33 @@
                     };
                     
                     __LINE__ = 2151;
-                    if ( ( optionText === null ) || ( optionText === undefined ) ){
+                    if ((optionText === null) || (optionText === undefined)){
                       
                       __LINE__ = 2152;
                       optionText = "";
                     };
                     
                     __LINE__ = 2154;
-                    ko.utils.setTextContent( option,optionText );
+                    ko.utils.setTextContent(option,optionText);
                     
                     __LINE__ = 2156;
-                    element.appendChild( option );
+                    element.appendChild(option);
                   };
                   
                   __LINE__ = 2161;
-                  var newOptions = element.getElementsByTagName( "OPTION" );
+                  var newOptions = element.getElementsByTagName("OPTION");
                   
                   __LINE__ = 2162;
                   var countSelectionsRetained = 0;
                   
                   __LINE__ = 2163;
-                  for ( var i = 0,j = newOptions.length;i<j;i ++  ){
+                  for (var i = 0,j = newOptions.length;i<j;i ++ ){
                     
                     __LINE__ = 2164;
-                    if ( ko.utils.arrayIndexOf( previousSelectedValues,ko.selectExtensions.readValue( newOptions[i] ) ) >= 0 ){
+                    if (ko.utils.arrayIndexOf(previousSelectedValues,ko.selectExtensions.readValue(newOptions[i])) >= 0){
                       
                       __LINE__ = 2165;
-                      ko.utils.setOptionNodeSelectionState( newOptions[i],true );
+                      ko.utils.setOptionNodeSelectionState(newOptions[i],true);
                       
                       __LINE__ = 2166;
                       countSelectionsRetained ++ ;
@@ -5391,21 +5391,21 @@
                   };
                   
                   __LINE__ = 2170;
-                  if ( previousScrollTop ){
+                  if (previousScrollTop){
                     
                     __LINE__ = 2171;
                     element.scrollTop = previousScrollTop;
                   };
                   
                   __LINE__ = 2173;
-                  if ( selectWasPreviouslyEmpty && ( 'value' in allBindings ) ){
+                  if (selectWasPreviouslyEmpty && ('value' in allBindings)){
                     
                     __LINE__ = 2177;
-                    ensureDropdownSelectionIsConsistentWithModelValue( element,ko.utils.unwrapObservable( allBindings['value'] ),true );
+                    ensureDropdownSelectionIsConsistentWithModelValue(element,ko.utils.unwrapObservable(allBindings['value']),true);
                   };
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5415,7 +5415,7 @@
           
           __LINE__ = 2184;
           ko.bindingHandlers['selectedOptions'] =  {
-            getSelectedValuesFromSelectNode : function ( selectNode ) {
+            getSelectedValuesFromSelectNode : function (selectNode) {
               try {
                 __LINE__ = 2186;
                 var result = [];
@@ -5424,101 +5424,101 @@
                 var nodes = selectNode.childNodes;
                 
                 __LINE__ = 2188;
-                for ( var i = 0,j = nodes.length;i<j;i ++  ){
+                for (var i = 0,j = nodes.length;i<j;i ++ ){
                   
                   __LINE__ = 2189;
                   var node = nodes[i];
                   
                   __LINE__ = 2190;
-                  if ( ( node.tagName == "OPTION" ) && node.selected ){
+                  if ((node.tagName == "OPTION") && node.selected){
                     
                     __LINE__ = 2191;
-                    result.push( ko.selectExtensions.readValue( node ) );
+                    result.push(ko.selectExtensions.readValue(node));
                   };
                 };
                 __LINE__ = 2193;
                 return result;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'init' : function ( element,valueAccessor,allBindingsAccessor ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2196;
-                ko.utils.registerEventHandler( element,"change",
+                ko.utils.registerEventHandler(element,"change",
                 function () {
                   try {
                     __LINE__ = 2197;
                     var value = valueAccessor();
                     
                     __LINE__ = 2198;
-                    if ( ko.isWriteableObservable( value ) ){
+                    if (ko.isWriteableObservable(value)){
                       
                       __LINE__ = 2199;
-                      value( ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
+                      value(ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode(this));
                     } else {
                       
                       __LINE__ = 2201;
                       var allBindings = allBindingsAccessor();
-                      if ( allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value'] ){
+                      if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value']){
                         
                         __LINE__ = 2203;
-                        allBindings['_ko_property_writers']['value']( ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ) );
+                        allBindings['_ko_property_writers']['value'](ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode(this));
                       };
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2208;
-                if ( element.tagName != "SELECT" ){
+                if (element.tagName != "SELECT"){
                   __LINE__ = 2209;
-                  throw new Error( "values binding applies only to SELECT elements" );
+                  throw new Error("values binding applies only to SELECT elements");
                 };
                 
                 __LINE__ = 2211;
-                var newValue = ko.utils.unwrapObservable( valueAccessor() );
+                var newValue = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2212;
-                if ( newValue && typeof newValue.length == "number" ){
+                if (newValue && typeof newValue.length == "number"){
                   
                   __LINE__ = 2213;
                   var nodes = element.childNodes;
                   
                   __LINE__ = 2214;
-                  for ( var i = 0,j = nodes.length;i<j;i ++  ){
+                  for (var i = 0,j = nodes.length;i<j;i ++ ){
                     
                     __LINE__ = 2215;
                     var node = nodes[i];
                     
                     __LINE__ = 2216;
-                    if ( node.tagName == "OPTION" ){
+                    if (node.tagName == "OPTION"){
                       
                       __LINE__ = 2217;
-                      ko.utils.setOptionNodeSelectionState( node,ko.utils.arrayIndexOf( newValue,ko.selectExtensions.readValue( node ) ) >= 0 );
+                      ko.utils.setOptionNodeSelectionState(node,ko.utils.arrayIndexOf(newValue,ko.selectExtensions.readValue(node)) >= 0);
                     };
                   };
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2223;
           ko.bindingHandlers['text'] =  {
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2225;
-                ko.utils.setTextContent( element,valueAccessor() );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                ko.utils.setTextContent(element,valueAccessor());
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5531,94 +5531,94 @@
                 return  {
                   'controlsDescendantBindings' : true
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2235;
-                var value = ko.utils.unwrapObservable( valueAccessor() );
+                var value = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2236;
-                ko.utils.setHtml( element,value );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                ko.utils.setHtml(element,value);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2240;
           ko.bindingHandlers['css'] =  {
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2242;
-                var value = ko.utils.unwrapObservable( valueAccessor() || {} );
+                var value = ko.utils.unwrapObservable(valueAccessor() || {});
                 
                 __LINE__ = 2243;
-                for ( var className in value ){
+                for (var className in value){
                   
                   __LINE__ = 2244;
-                  if ( typeof className == "string" ){
+                  if (typeof className == "string"){
                     
                     __LINE__ = 2245;
-                    var shouldHaveClass = ko.utils.unwrapObservable( value[className] );
+                    var shouldHaveClass = ko.utils.unwrapObservable(value[className]);
                     
                     __LINE__ = 2246;
-                    ko.utils.toggleDomNodeCssClass( element,className,shouldHaveClass );
+                    ko.utils.toggleDomNodeCssClass(element,className,shouldHaveClass);
                   };
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2252;
           ko.bindingHandlers['style'] =  {
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2254;
-                var value = ko.utils.unwrapObservable( valueAccessor() || {} );
+                var value = ko.utils.unwrapObservable(valueAccessor() || {});
                 
                 __LINE__ = 2255;
-                for ( var styleName in value ){
+                for (var styleName in value){
                   
                   __LINE__ = 2256;
-                  if ( typeof styleName == "string" ){
+                  if (typeof styleName == "string"){
                     
                     __LINE__ = 2257;
-                    var styleValue = ko.utils.unwrapObservable( value[styleName] );
+                    var styleValue = ko.utils.unwrapObservable(value[styleName]);
                     
                     __LINE__ = 2258;
                     element.style[styleName] = styleValue || "";
                   };
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2264;
           ko.bindingHandlers['uniqueName'] =  {
-            'init' : function ( element,valueAccessor ) {
+            'init' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2266;
-                if ( valueAccessor() ){
+                if (valueAccessor()){
                   
                   __LINE__ = 2267;
-                  element.name = "ko_unique_"+(  ++ ko.bindingHandlers['uniqueName'].currentIndex );
+                  element.name = "ko_unique_"+( ++ ko.bindingHandlers['uniqueName'].currentIndex);
                   
                   __LINE__ = 2272;
-                  if ( ko.utils.isIe6 || ko.utils.isIe7 ){
+                  if (ko.utils.isIe6 || ko.utils.isIe7){
                     
                     __LINE__ = 2273;
-                    element.mergeAttributes( document.createElement( "<input name='"+element.name+"'/>" ),false );
+                    element.mergeAttributes(document.createElement("<input name='"+element.name+"'/>"),false);
                   };
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5628,7 +5628,7 @@
           
           __LINE__ = 2279;
           ko.bindingHandlers['checked'] =  {
-            'init' : function ( element,valueAccessor,allBindingsAccessor ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2281;
                 var updateHandler = function () {
@@ -5637,11 +5637,11 @@
                         var valueToWrite;
                         
                         __LINE__ = 2283;
-                        if ( element.type == "checkbox" ){
+                        if (element.type == "checkbox"){
                           
                           __LINE__ = 2284;
                           valueToWrite = element.checked;
-                        } else if ( ( element.type == "radio" ) && ( element.checked ) ){
+                        } else if ((element.type == "radio") && (element.checked)){
                           
                           __LINE__ = 2286;
                           valueToWrite = element.value;
@@ -5654,227 +5654,227 @@
                         var modelValue = valueAccessor();
                         
                         __LINE__ = 2292;
-                        if ( ( element.type == "checkbox" ) && ( ko.utils.unwrapObservable( modelValue ) instanceof Array ) ){
+                        if ((element.type == "checkbox") && (ko.utils.unwrapObservable(modelValue) instanceof Array)){
                           
                           __LINE__ = 2295;
-                          var existingEntryIndex = ko.utils.arrayIndexOf( ko.utils.unwrapObservable( modelValue ),element.value );
+                          var existingEntryIndex = ko.utils.arrayIndexOf(ko.utils.unwrapObservable(modelValue),element.value);
                           
                           __LINE__ = 2296;
-                          if ( element.checked && ( existingEntryIndex<0 ) ){
+                          if (element.checked && (existingEntryIndex<0)){
                             
                             __LINE__ = 2297;
-                            modelValue.push( element.value );
-                          } else if ( ( !element.checked ) && ( existingEntryIndex >= 0 ) ){
+                            modelValue.push(element.value);
+                          } else if ((!element.checked) && (existingEntryIndex >= 0)){
                             
                             __LINE__ = 2299;
-                            modelValue.splice( existingEntryIndex,1 );
+                            modelValue.splice(existingEntryIndex,1);
                           };
-                        } else if ( ko.isWriteableObservable( modelValue ) ){
-                          if ( modelValue() !== valueToWrite ){
+                        } else if (ko.isWriteableObservable(modelValue)){
+                          if (modelValue() !== valueToWrite){
                             
                             __LINE__ = 2302;
-                            modelValue( valueToWrite );
+                            modelValue(valueToWrite);
                           };
                         } else {
                           
                           __LINE__ = 2305;
                           var allBindings = allBindingsAccessor();
-                          if ( allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['checked'] ){
+                          if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['checked']){
                             
                             __LINE__ = 2307;
-                            allBindings['_ko_property_writers']['checked']( valueToWrite );
+                            allBindings['_ko_property_writers']['checked'](valueToWrite);
                           };
                         };
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
                 __LINE__ = 2311;
-                ko.utils.registerEventHandler( element,"click",updateHandler );
+                ko.utils.registerEventHandler(element,"click",updateHandler);
                 
                 __LINE__ = 2314;
-                if ( ( element.type == "radio" ) && !element.name ){
+                if ((element.type == "radio") && !element.name){
                   
                   __LINE__ = 2315;
-                  ko.bindingHandlers['uniqueName']['init']( element,
+                  ko.bindingHandlers['uniqueName']['init'](element,
                   function () {
                     try {
                       __LINE__ = 2315;
                       return true;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2318;
-                var value = ko.utils.unwrapObservable( valueAccessor() );
+                var value = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2320;
-                if ( element.type == "checkbox" ){
+                if (element.type == "checkbox"){
                   
                   __LINE__ = 2321;
-                  if ( value instanceof Array ){
+                  if (value instanceof Array){
                     
                     __LINE__ = 2323;
-                    element.checked = ko.utils.arrayIndexOf( value,element.value ) >= 0;
+                    element.checked = ko.utils.arrayIndexOf(value,element.value) >= 0;
                   } else {
                     
                     __LINE__ = 2326;
                     element.checked = value;
                   };
-                } else if ( element.type == "radio" ){
+                } else if (element.type == "radio"){
                   
                   __LINE__ = 2329;
-                  element.checked = ( element.value == value );
+                  element.checked = (element.value == value);
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2334;
           ko.bindingHandlers['attr'] =  {
-            'update' : function ( element,valueAccessor,allBindingsAccessor ) {
+            'update' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2336;
-                var value = ko.utils.unwrapObservable( valueAccessor() ) || {};
+                var value = ko.utils.unwrapObservable(valueAccessor()) || {};
                 
                 __LINE__ = 2337;
-                for ( var attrName in value ){
+                for (var attrName in value){
                   
                   __LINE__ = 2338;
-                  if ( typeof attrName == "string" ){
+                  if (typeof attrName == "string"){
                     
                     __LINE__ = 2339;
-                    var attrValue = ko.utils.unwrapObservable( value[attrName] );
+                    var attrValue = ko.utils.unwrapObservable(value[attrName]);
                     
                     __LINE__ = 2344;
-                    if ( ( attrValue === false ) || ( attrValue === null ) || ( attrValue === undefined ) ){
+                    if ((attrValue === false) || (attrValue === null) || (attrValue === undefined)){
                       
                       __LINE__ = 2345;
-                      element.removeAttribute( attrName );
+                      element.removeAttribute(attrName);
                     } else {
                       __LINE__ = 2347;
-                      element.setAttribute( attrName,attrValue.toString() );
+                      element.setAttribute(attrName,attrValue.toString());
                     };
                   };
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2353;
           ko.bindingHandlers['hasfocus'] =  {
-            'init' : function ( element,valueAccessor,allBindingsAccessor ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2355;
-                var writeValue = function ( valueToWrite ) {
+                var writeValue = function (valueToWrite) {
                       try {
                         __LINE__ = 2356;
                         var modelValue = valueAccessor();
                         
                         __LINE__ = 2357;
-                        if ( valueToWrite == ko.utils.unwrapObservable( modelValue ) ){
+                        if (valueToWrite == ko.utils.unwrapObservable(modelValue)){
                           __LINE__ = 2358;
                           return ;
                         };
                         
                         __LINE__ = 2360;
-                        if ( ko.isWriteableObservable( modelValue ) ){
+                        if (ko.isWriteableObservable(modelValue)){
                           
                           __LINE__ = 2361;
-                          modelValue( valueToWrite );
+                          modelValue(valueToWrite);
                         } else {
                           
                           __LINE__ = 2363;
                           var allBindings = allBindingsAccessor();
-                          if ( allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['hasfocus'] ){
+                          if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['hasfocus']){
                             
                             __LINE__ = 2365;
-                            allBindings['_ko_property_writers']['hasfocus']( valueToWrite );
+                            allBindings['_ko_property_writers']['hasfocus'](valueToWrite);
                           };
                         };
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
                 __LINE__ = 2369;
-                ko.utils.registerEventHandler( element,"focus",
+                ko.utils.registerEventHandler(element,"focus",
                 function () {
                   try {
                     __LINE__ = 2369;
-                    writeValue( true );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    writeValue(true);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
                 __LINE__ = 2370;
-                ko.utils.registerEventHandler( element,"focusin",
+                ko.utils.registerEventHandler(element,"focusin",
                 function () {
                   try {
                     __LINE__ = 2370;
-                    writeValue( true );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    writeValue(true);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
                 __LINE__ = 2371;
-                ko.utils.registerEventHandler( element,"blur",
+                ko.utils.registerEventHandler(element,"blur",
                 function () {
                   try {
                     __LINE__ = 2371;
-                    writeValue( false );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    writeValue(false);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
                 __LINE__ = 2372;
-                ko.utils.registerEventHandler( element,"focusout",
+                ko.utils.registerEventHandler(element,"focusout",
                 function () {
                   try {
                     __LINE__ = 2372;
-                    writeValue( false );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    writeValue(false);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor ) {
+            'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2375;
-                var value = ko.utils.unwrapObservable( valueAccessor() );
+                var value = ko.utils.unwrapObservable(valueAccessor());
                 
                 __LINE__ = 2376;
                 value?element.focus() : element.blur();
                 
                 __LINE__ = 2377;
-                ko.utils.triggerEvent( element,value?"focusin" : "focusout" );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                ko.utils.triggerEvent(element,value?"focusin" : "focusout");
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
           
           __LINE__ = 2382;
           ko.bindingHandlers['with'] =  {
-            makeTemplateValueAccessor : function ( valueAccessor ) {
+            makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2384;
                 return function () {
@@ -5887,28 +5887,28 @@
                       'data' : value,
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2387;
-                return ko.bindingHandlers['template']['init']( element,ko.bindingHandlers['with'].makeTemplateValueAccessor( valueAccessor ) );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor));
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2390;
-                return ko.bindingHandlers['template']['update']( element,ko.bindingHandlers['with'].makeTemplateValueAccessor( valueAccessor ),allBindingsAccessor,viewModel,bindingContext );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5921,7 +5921,7 @@
           
           __LINE__ = 2397;
           ko.bindingHandlers['if'] =  {
-            makeTemplateValueAccessor : function ( valueAccessor ) {
+            makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2399;
                 return function () {
@@ -5931,28 +5931,28 @@
                       'if' : valueAccessor(),
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2402;
-                return ko.bindingHandlers['template']['init']( element,ko.bindingHandlers['if'].makeTemplateValueAccessor( valueAccessor ) );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor));
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2405;
-                return ko.bindingHandlers['template']['update']( element,ko.bindingHandlers['if'].makeTemplateValueAccessor( valueAccessor ),allBindingsAccessor,viewModel,bindingContext );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5965,7 +5965,7 @@
           
           __LINE__ = 2412;
           ko.bindingHandlers['ifnot'] =  {
-            makeTemplateValueAccessor : function ( valueAccessor ) {
+            makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2414;
                 return function () {
@@ -5975,28 +5975,28 @@
                       'ifnot' : valueAccessor(),
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2417;
-                return ko.bindingHandlers['template']['init']( element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor( valueAccessor ) );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor));
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2420;
-                return ko.bindingHandlers['template']['update']( element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor( valueAccessor ),allBindingsAccessor,viewModel,bindingContext );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -6009,16 +6009,16 @@
           
           __LINE__ = 2428;
           ko.bindingHandlers['foreach'] =  {
-            makeTemplateValueAccessor : function ( valueAccessor ) {
+            makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2430;
                 return function () {
                   try {
                     __LINE__ = 2431;
-                    var bindingValue = ko.utils.unwrapObservable( valueAccessor() );
+                    var bindingValue = ko.utils.unwrapObservable(valueAccessor());
                     
                     __LINE__ = 2434;
-                    if ( ( !bindingValue ) || typeof bindingValue.length == "number" ){
+                    if ((!bindingValue) || typeof bindingValue.length == "number"){
                       __LINE__ = 2435;
                       return  {
                         'foreach' : bindingValue,
@@ -6034,28 +6034,28 @@
                       'afterRender' : bindingValue['afterRender'],
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'init' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2449;
-                return ko.bindingHandlers['template']['init']( element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor( valueAccessor ) );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor));
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
-            'update' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+            'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2452;
-                return ko.bindingHandlers['template']['update']( element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor( valueAccessor ),allBindingsAccessor,viewModel,bindingContext );
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -6067,104 +6067,104 @@
           ko.virtualElements.allowedBindings['foreach'] = true;
           
           __LINE__ = 2457;
-          ko.exportSymbol( 'ko.allowedVirtualElementBindings',ko.virtualElements.allowedBindings );
+          ko.exportSymbol('ko.allowedVirtualElementBindings',ko.virtualElements.allowedBindings);
           
           __LINE__ = 2483;
           ko.templateEngine = function (){};
           
           __LINE__ = 2485;
-          ko.templateEngine.prototype['renderTemplateSource'] = function ( templateSource,bindingContext,options ) {
+          ko.templateEngine.prototype['renderTemplateSource'] = function (templateSource,bindingContext,options) {
             try {
               __LINE__ = 2486;
               throw "Override renderTemplateSource";
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2489;
-          ko.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function ( script ) {
+          ko.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function (script) {
             try {
               __LINE__ = 2490;
               throw "Override createJavaScriptEvaluatorBlock";
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2493;
-          ko.templateEngine.prototype['makeTemplateSource'] = function ( template ) {
+          ko.templateEngine.prototype['makeTemplateSource'] = function (template) {
             try {
               __LINE__ = 2495;
-              if ( typeof template == "string" ){
+              if (typeof template == "string"){
                 
                 __LINE__ = 2496;
-                var elem = document.getElementById( template );
+                var elem = document.getElementById(template);
                 
                 __LINE__ = 2497;
-                if ( !elem ){
+                if (!elem){
                   __LINE__ = 2498;
-                  throw new Error( "Cannot find template with ID "+template );
+                  throw new Error("Cannot find template with ID "+template);
                 };
                 __LINE__ = 2499;
-                return new ko.templateSources.domElement( elem );
-              } else if ( ( template.nodeType == 1 ) || ( template.nodeType == 8 ) ){
+                return new ko.templateSources.domElement(elem);
+              } else if ((template.nodeType == 1) || (template.nodeType == 8)){
                 __LINE__ = 2502;
-                return new ko.templateSources.anonymousTemplate( template );
+                return new ko.templateSources.anonymousTemplate(template);
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2507;
-          ko.templateEngine.prototype['renderTemplate'] = function ( template,bindingContext,options ) {
+          ko.templateEngine.prototype['renderTemplate'] = function (template,bindingContext,options) {
             try {
               __LINE__ = 2508;
-              var templateSource = this['makeTemplateSource']( template );
+              var templateSource = this['makeTemplateSource'](template);
               __LINE__ = 2509;
-              return this['renderTemplateSource']( templateSource,bindingContext,options );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              return this['renderTemplateSource'](templateSource,bindingContext,options);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2512;
-          ko.templateEngine.prototype['isTemplateRewritten'] = function ( template ) {
+          ko.templateEngine.prototype['isTemplateRewritten'] = function (template) {
             try {
               __LINE__ = 2514;
-              if ( this['allowTemplateRewriting'] === false ){
+              if (this['allowTemplateRewriting'] === false){
                 __LINE__ = 2515;
                 return true;
               };
               
               __LINE__ = 2518;
-              if ( this.knownRewrittenTemplates && this.knownRewrittenTemplates[template] ){
+              if (this.knownRewrittenTemplates && this.knownRewrittenTemplates[template]){
                 __LINE__ = 2519;
                 return true;
               };
               __LINE__ = 2521;
-              return this['makeTemplateSource']( template )['data']( "isRewritten" );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              return this['makeTemplateSource'](template)['data']("isRewritten");
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2524;
-          ko.templateEngine.prototype['rewriteTemplate'] = function ( template,rewriterCallback ) {
+          ko.templateEngine.prototype['rewriteTemplate'] = function (template,rewriterCallback) {
             try {
               __LINE__ = 2525;
-              var templateSource = this['makeTemplateSource']( template ),
-                  rewritten = rewriterCallback( templateSource['text']() );
+              var templateSource = this['makeTemplateSource'](template),
+                  rewritten = rewriterCallback(templateSource['text']());
               
               __LINE__ = 2527;
-              templateSource['text']( rewritten );
+              templateSource['text'](rewritten);
               
               __LINE__ = 2528;
-              templateSource['data']( "isRewritten",true );
+              templateSource['data']("isRewritten",true);
               
               __LINE__ = 2532;
-              if ( typeof template == "string" ){
+              if (typeof template == "string"){
                 
                 __LINE__ = 2533;
                 this.knownRewrittenTemplates = this.knownRewrittenTemplates || {};
@@ -6172,72 +6172,72 @@
                 __LINE__ = 2534;
                 this.knownRewrittenTemplates[template] = true;
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2538;
-          ko.exportSymbol( 'ko.templateEngine',ko.templateEngine );
+          ko.exportSymbol('ko.templateEngine',ko.templateEngine);
           
           __LINE__ = 2539;
           ko.templateRewriting = function () {
             try {
-              function constructMemoizedTagReplacement( dataBindAttributeValue,tagToRetain,templateEngine ) {
+              function constructMemoizedTagReplacement(dataBindAttributeValue,tagToRetain,templateEngine) {
                 try {
                   __LINE__ = 2562;
-                  var dataBindKeyValueArray = ko.jsonExpressionRewriting.parseObjectLiteral( dataBindAttributeValue );
+                  var dataBindKeyValueArray = ko.jsonExpressionRewriting.parseObjectLiteral(dataBindAttributeValue);
                   
                   __LINE__ = 2563;
-                  validateDataBindValuesForRewriting( dataBindKeyValueArray );
+                  validateDataBindValuesForRewriting(dataBindKeyValueArray);
                   
                   __LINE__ = 2564;
-                  var rewrittenDataBindAttributeValue = ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson( dataBindKeyValueArray ),
+                  var rewrittenDataBindAttributeValue = ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(dataBindKeyValueArray),
                       applyBindingsToNextSiblingScript = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
             return (function() { return { "+rewrittenDataBindAttributeValue+" } })() \
         })";
                   __LINE__ = 2570;
-                  return templateEngine['createJavaScriptEvaluatorBlock']( applyBindingsToNextSiblingScript )+tagToRetain;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return templateEngine['createJavaScriptEvaluatorBlock'](applyBindingsToNextSiblingScript)+tagToRetain;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function validateDataBindValuesForRewriting( keyValueArray ) {
+              function validateDataBindValuesForRewriting(keyValueArray) {
                 try {
                   __LINE__ = 2544;
                   var allValidators = ko.jsonExpressionRewriting.bindingRewriteValidators;
                   
                   __LINE__ = 2545;
-                  for ( var i = 0;i<keyValueArray.length;i ++  ){
+                  for (var i = 0;i<keyValueArray.length;i ++ ){
                     
                     __LINE__ = 2546;
                     var key = keyValueArray[i]['key'];
                     
                     __LINE__ = 2547;
-                    if ( allValidators.hasOwnProperty( key ) ){
+                    if (allValidators.hasOwnProperty(key)){
                       
                       __LINE__ = 2548;
                       var validator = allValidators[key];
                       
                       __LINE__ = 2550;
-                      if ( typeof validator === "function" ){
+                      if (typeof validator === "function"){
                         
                         __LINE__ = 2551;
-                        var possibleErrorMessage = validator( keyValueArray[i]['value'] );
+                        var possibleErrorMessage = validator(keyValueArray[i]['value']);
                         
                         __LINE__ = 2552;
-                        if ( possibleErrorMessage ){
+                        if (possibleErrorMessage){
                           __LINE__ = 2553;
-                          throw new Error( possibleErrorMessage );
+                          throw new Error(possibleErrorMessage);
                         };
-                      } else if ( !validator ){
+                      } else if (!validator){
                         __LINE__ = 2555;
-                        throw new Error( "This template engine does not support the '"+key+"' binding within its templates" );
+                        throw new Error("This template engine does not support the '"+key+"' binding within its templates");
                       };
                     };
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 2540;
@@ -6245,80 +6245,80 @@
                   memoizeVirtualContainerBindingSyntaxRegex = /<!--\s*ko\b\s*([\s\S]*?)\s*-->/g;
               __LINE__ = 2573;
               return  {
-                ensureTemplateIsRewritten : function ( template,templateEngine ) {
+                ensureTemplateIsRewritten : function (template,templateEngine) {
                   try {
                     __LINE__ = 2575;
-                    if ( !templateEngine['isTemplateRewritten']( template ) ){
+                    if (!templateEngine['isTemplateRewritten'](template)){
                       
                       __LINE__ = 2576;
-                      templateEngine['rewriteTemplate']( template,
-                      function ( htmlString ) {
+                      templateEngine['rewriteTemplate'](template,
+                      function (htmlString) {
                         try {
                           __LINE__ = 2577;
-                          return ko.templateRewriting.memoizeBindingAttributeSyntax( htmlString,templateEngine );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          return ko.templateRewriting.memoizeBindingAttributeSyntax(htmlString,templateEngine);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       });
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                memoizeBindingAttributeSyntax : function ( htmlString,templateEngine ) {
+                memoizeBindingAttributeSyntax : function (htmlString,templateEngine) {
                   try {
                     __LINE__ = 2582;
-                    return htmlString.replace( memoizeDataBindingAttributeSyntaxRegex,
+                    return htmlString.replace(memoizeDataBindingAttributeSyntaxRegex,
                     function () {
                       try {
                         __LINE__ = 2583;
-                        return constructMemoizedTagReplacement( arguments[6],arguments[1],templateEngine );
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        return constructMemoizedTagReplacement(arguments[6],arguments[1],templateEngine);
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
-                    }).replace( memoizeVirtualContainerBindingSyntaxRegex,
+                    }).replace(memoizeVirtualContainerBindingSyntaxRegex,
                     function () {
                       try {
                         __LINE__ = 2585;
-                        return constructMemoizedTagReplacement( arguments[1],"<!-- ko -->",templateEngine );
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        return constructMemoizedTagReplacement(arguments[1],"<!-- ko -->",templateEngine);
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                applyMemoizedBindingsToNextSibling : function ( bindings ) {
+                applyMemoizedBindingsToNextSibling : function (bindings) {
                   try {
                     __LINE__ = 2590;
-                    return ko.memoization.memoize( function ( domNode,bindingContext ) {
+                    return ko.memoization.memoize(function (domNode,bindingContext) {
                       try {
                         __LINE__ = 2591;
-                        if ( domNode.nextSibling ){
+                        if (domNode.nextSibling){
                           
                           __LINE__ = 2592;
-                          ko.applyBindingsToNode( domNode.nextSibling,bindings,bindingContext );
+                          ko.applyBindingsToNode(domNode.nextSibling,bindings,bindingContext);
                         };
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 2598;
-          ko.exportSymbol( 'ko.templateRewriting',ko.templateRewriting );
+          ko.exportSymbol('ko.templateRewriting',ko.templateRewriting);
           
           __LINE__ = 2599;
-          ko.exportSymbol( 'ko.templateRewriting.applyMemoizedBindingsToNextSibling',ko.templateRewriting.applyMemoizedBindingsToNextSibling );
+          ko.exportSymbol('ko.templateRewriting.applyMemoizedBindingsToNextSibling',ko.templateRewriting.applyMemoizedBindingsToNextSibling);
           
           __LINE__ = 2600;
           !function () {
@@ -6327,12 +6327,12 @@
               ko.templateSources = {};
               
               __LINE__ = 2623;
-              ko.templateSources.domElement = function ( element ) {
+              ko.templateSources.domElement = function (element) {
                 try {
                   __LINE__ = 2624;
                   this.domElement = element;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6340,7 +6340,7 @@
               ko.templateSources.domElement.prototype['text'] = function () {
                 try {
                   __LINE__ = 2628;
-                  if ( arguments.length == 0 ){
+                  if (arguments.length == 0){
                     __LINE__ = 2629;
                     return this.domElement.tagName.toLowerCase() == "script"?this.domElement.text : this.domElement.innerHTML;
                   };
@@ -6351,26 +6351,26 @@
                     var valueToWrite = arguments[0];
                     
                     __LINE__ = 2633;
-                    this.domElement.tagName.toLowerCase() == "script"?this.domElement.text = valueToWrite : ko.utils.setHtml( this.domElement,valueToWrite );
+                    this.domElement.tagName.toLowerCase() == "script"?this.domElement.text = valueToWrite : ko.utils.setHtml(this.domElement,valueToWrite);
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2639;
-              ko.templateSources.domElement.prototype['data'] = function ( key ) {
+              ko.templateSources.domElement.prototype['data'] = function (key) {
                 try {
                   __LINE__ = 2640;
-                  if ( arguments.length === 1 ){
+                  if (arguments.length === 1){
                     __LINE__ = 2641;
-                    return ko.utils.domData.get( this.domElement,"templateSourceData_"+key );
+                    return ko.utils.domData.get(this.domElement,"templateSourceData_"+key);
                   };
                   
                   __LINE__ = 2643;
-                  ko.utils.domData.set( this.domElement,"templateSourceData_"+key,arguments[1] );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  ko.utils.domData.set(this.domElement,"templateSourceData_"+key,arguments[1]);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6378,12 +6378,12 @@
               var anonymousTemplatesDomDataKey = "__ko_anon_template__";
               
               __LINE__ = 2650;
-              ko.templateSources.anonymousTemplate = function ( element ) {
+              ko.templateSources.anonymousTemplate = function (element) {
                 try {
                   __LINE__ = 2651;
                   this.domElement = element;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6394,9 +6394,9 @@
               ko.templateSources.anonymousTemplate.prototype['text'] = function () {
                 try {
                   __LINE__ = 2655;
-                  if ( arguments.length == 0 ){
+                  if (arguments.length == 0){
                     __LINE__ = 2656;
-                    return ko.utils.domData.get( this.domElement,anonymousTemplatesDomDataKey );
+                    return ko.utils.domData.get(this.domElement,anonymousTemplatesDomDataKey);
                   };
                   
                   {
@@ -6405,59 +6405,59 @@
                     var valueToWrite = arguments[0];
                     
                     __LINE__ = 2659;
-                    ko.utils.domData.set( this.domElement,anonymousTemplatesDomDataKey,valueToWrite );
+                    ko.utils.domData.set(this.domElement,anonymousTemplatesDomDataKey,valueToWrite);
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2663;
-              ko.exportSymbol( 'ko.templateSources',ko.templateSources );
+              ko.exportSymbol('ko.templateSources',ko.templateSources);
               
               __LINE__ = 2664;
-              ko.exportSymbol( 'ko.templateSources.domElement',ko.templateSources.domElement );
+              ko.exportSymbol('ko.templateSources.domElement',ko.templateSources.domElement);
               
               __LINE__ = 2665;
-              ko.exportSymbol( 'ko.templateSources.anonymousTemplate',ko.templateSources.anonymousTemplate );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              ko.exportSymbol('ko.templateSources.anonymousTemplate',ko.templateSources.anonymousTemplate);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 2667;
           !function () {
             try {
-              function disposeOldSubscriptionAndStoreNewOne( element,newSubscription ) {
+              function disposeOldSubscriptionAndStoreNewOne(element,newSubscription) {
                 try {
                   __LINE__ = 2818;
-                  var oldSubscription = ko.utils.domData.get( element,templateSubscriptionDomDataKey );
+                  var oldSubscription = ko.utils.domData.get(element,templateSubscriptionDomDataKey);
                   
                   __LINE__ = 2820;
-                  oldSubscription && ( typeof ( oldSubscription.dispose ) == 'function' ) && oldSubscription.dispose();
+                  oldSubscription && (typeof (oldSubscription.dispose) == 'function') && oldSubscription.dispose();
                   
                   __LINE__ = 2821;
-                  ko.utils.domData.set( element,templateSubscriptionDomDataKey,newSubscription );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  ko.utils.domData.set(element,templateSubscriptionDomDataKey,newSubscription);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function executeTemplate( targetNodeOrNodeArray,renderMode,template,bindingContext,options ) {
+              function executeTemplate(targetNodeOrNodeArray,renderMode,template,bindingContext,options) {
                 try {
                   __LINE__ = 2712;
                   options = options || {};
                   
                   __LINE__ = 2713;
-                  var templateEngineToUse = ( options['templateEngine'] || _templateEngine );
+                  var templateEngineToUse = (options['templateEngine'] || _templateEngine);
                   
                   __LINE__ = 2714;
-                  ko.templateRewriting.ensureTemplateIsRewritten( template,templateEngineToUse );
+                  ko.templateRewriting.ensureTemplateIsRewritten(template,templateEngineToUse);
                   
                   __LINE__ = 2715;
-                  var renderedNodesArray = templateEngineToUse['renderTemplate']( template,bindingContext,options );
+                  var renderedNodesArray = templateEngineToUse['renderTemplate'](template,bindingContext,options);
                   
                   __LINE__ = 2718;
-                  if ( ( typeof renderedNodesArray.length != "number" ) || ( renderedNodesArray.length>0 && typeof renderedNodesArray[0].nodeType != "number" ) ){
+                  if ((typeof renderedNodesArray.length != "number") || (renderedNodesArray.length>0 && typeof renderedNodesArray[0].nodeType != "number")){
                     __LINE__ = 2719;
                     throw "Template engine must return an array of DOM nodes";
                   };
@@ -6466,11 +6466,11 @@
                   var haveAddedNodesToParent = false;
                   
                   __LINE__ = 2722;
-                  switch ( renderMode ) {
+                  switch (renderMode) {
                     case "replaceChildren" :
                       
                       __LINE__ = 2724;
-                      ko.virtualElements.setDomNodeChildren( targetNodeOrNodeArray,renderedNodesArray );
+                      ko.virtualElements.setDomNodeChildren(targetNodeOrNodeArray,renderedNodesArray);
                       
                       __LINE__ = 2725;
                       haveAddedNodesToParent = true;
@@ -6479,7 +6479,7 @@
                     case "replaceNode" :
                       
                       __LINE__ = 2728;
-                      ko.utils.replaceDomNodes( targetNodeOrNodeArray,renderedNodesArray );
+                      ko.utils.replaceDomNodes(targetNodeOrNodeArray,renderedNodesArray);
                       
                       __LINE__ = 2729;
                       haveAddedNodesToParent = true;
@@ -6490,111 +6490,111 @@
                       break;
                     default :
                       __LINE__ = 2733;
-                      throw new Error( "Unknown renderMode: "+renderMode );
+                      throw new Error("Unknown renderMode: "+renderMode);
                       
                   };
                   
                   __LINE__ = 2736;
-                  if ( haveAddedNodesToParent ){
+                  if (haveAddedNodesToParent){
                     
                     __LINE__ = 2737;
-                    ko.activateBindingsOnTemplateRenderedNodes( renderedNodesArray,bindingContext );
+                    ko.activateBindingsOnTemplateRenderedNodes(renderedNodesArray,bindingContext);
                     
                     __LINE__ = 2739;
-                    options['afterRender'] && options['afterRender']( renderedNodesArray,bindingContext['$data'] );
+                    options['afterRender'] && options['afterRender'](renderedNodesArray,bindingContext['$data']);
                   };
                   __LINE__ = 2742;
                   return renderedNodesArray;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function getFirstNodeFromPossibleArray( nodeOrNodeArray ) {
+              function getFirstNodeFromPossibleArray(nodeOrNodeArray) {
                 try {
                   __LINE__ = 2706;
                   return nodeOrNodeArray.nodeType?nodeOrNodeArray : nodeOrNodeArray.length>0?nodeOrNodeArray[0] : null;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function invokeForEachNodeOrCommentInParent( nodeArray,parent,action ) {
+              function invokeForEachNodeOrCommentInParent(nodeArray,parent,action) {
                 try {
                   __LINE__ = 2676;
-                  for ( var i = 0;node = nodeArray[i];i ++  ){
+                  for (var i = 0;node = nodeArray[i];i ++ ){
                     
                     __LINE__ = 2677;
-                    if ( node.parentNode !== parent ){
+                    if (node.parentNode !== parent){
                       __LINE__ = 2678;
                       continue ;
                     };
                     
                     __LINE__ = 2680;
-                    ( ( node.nodeType === 1 ) || ( node.nodeType === 8 ) ) && action( node );
+                    ((node.nodeType === 1) || (node.nodeType === 8)) && action(node);
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 2668;
               var _templateEngine;
               
               __LINE__ = 2669;
-              ko.setTemplateEngine = function ( templateEngine ) {
+              ko.setTemplateEngine = function (templateEngine) {
                 try {
                   __LINE__ = 2670;
-                  if ( ( templateEngine != undefined ) && !( templateEngine instanceof ko.templateEngine ) ){
+                  if ((templateEngine != undefined) && !(templateEngine instanceof ko.templateEngine)){
                     __LINE__ = 2671;
                     throw "templateEngine must inherit from ko.templateEngine";
                   };
                   
                   __LINE__ = 2672;
                   _templateEngine = templateEngine;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2684;
-              ko.activateBindingsOnTemplateRenderedNodes = function ( nodeArray,bindingContext ) {
+              ko.activateBindingsOnTemplateRenderedNodes = function (nodeArray,bindingContext) {
                 try {
                   __LINE__ = 2691;
-                  var nodeArrayClone = ko.utils.arrayPushAll( [],nodeArray ),
-                      commonParentElement = ( nodeArray.length>0 )?nodeArray[0].parentNode : null;
+                  var nodeArrayClone = ko.utils.arrayPushAll([],nodeArray),
+                      commonParentElement = (nodeArray.length>0)?nodeArray[0].parentNode : null;
                   
                   __LINE__ = 2697;
-                  invokeForEachNodeOrCommentInParent( nodeArrayClone,commonParentElement,
-                  function ( node ) {
+                  invokeForEachNodeOrCommentInParent(nodeArrayClone,commonParentElement,
+                  function (node) {
                     try {
                       __LINE__ = 2698;
-                      ko.applyBindings( bindingContext,node );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      ko.applyBindings(bindingContext,node);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
                   __LINE__ = 2700;
-                  invokeForEachNodeOrCommentInParent( nodeArrayClone,commonParentElement,
-                  function ( node ) {
+                  invokeForEachNodeOrCommentInParent(nodeArrayClone,commonParentElement,
+                  function (node) {
                     try {
                       __LINE__ = 2701;
-                      ko.memoization.unmemoizeDomNodeAndDescendants( node,[bindingContext] );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      ko.memoization.unmemoizeDomNodeAndDescendants(node,[bindingContext]);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2745;
-              ko.renderTemplate = function ( template,dataOrBindingContext,options,targetNodeOrNodeArray,renderMode ) {
+              ko.renderTemplate = function (template,dataOrBindingContext,options,targetNodeOrNodeArray,renderMode) {
                 try {
                   __LINE__ = 2746;
                   options = options || {};
                   
                   __LINE__ = 2747;
-                  if ( ( options['templateEngine'] || _templateEngine ) == undefined ){
+                  if ((options['templateEngine'] || _templateEngine) == undefined){
                     __LINE__ = 2748;
                     throw "Set a template engine before calling renderTemplate";
                   };
@@ -6603,42 +6603,42 @@
                   renderMode = renderMode || "replaceChildren";
                   
                   __LINE__ = 2751;
-                  if ( targetNodeOrNodeArray ){
+                  if (targetNodeOrNodeArray){
                     
                     __LINE__ = 2752;
-                    var firstTargetNode = getFirstNodeFromPossibleArray( targetNodeOrNodeArray );
+                    var firstTargetNode = getFirstNodeFromPossibleArray(targetNodeOrNodeArray);
                     
                     __LINE__ = 2754;
                     var whenToDispose = function () {
                           try {
                             __LINE__ = 2754;
-                            return ( !firstTargetNode ) || !ko.utils.domNodeIsAttachedToDocument( firstTargetNode );
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                            return (!firstTargetNode) || !ko.utils.domNodeIsAttachedToDocument(firstTargetNode);
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     
                     __LINE__ = 2755;
-                    var activelyDisposeWhenNodeIsRemoved = ( firstTargetNode && renderMode == "replaceNode" )?firstTargetNode.parentNode : firstTargetNode;
+                    var activelyDisposeWhenNodeIsRemoved = (firstTargetNode && renderMode == "replaceNode")?firstTargetNode.parentNode : firstTargetNode;
                     __LINE__ = 2757;
-                    return new ko.dependentObservable( function () {
+                    return new ko.dependentObservable(function () {
                       try {
                         __LINE__ = 2760;
-                        var bindingContext = ( dataOrBindingContext && ( dataOrBindingContext instanceof ko.bindingContext ) )?dataOrBindingContext : new ko.bindingContext( ko.utils.unwrapObservable( dataOrBindingContext ) ),
-                            templateName = typeof ( template ) == 'function'?template( bindingContext['$data'] ) : template,
-                            renderedNodesArray = executeTemplate( targetNodeOrNodeArray,renderMode,templateName,bindingContext,options );
+                        var bindingContext = (dataOrBindingContext && (dataOrBindingContext instanceof ko.bindingContext))?dataOrBindingContext : new ko.bindingContext(ko.utils.unwrapObservable(dataOrBindingContext)),
+                            templateName = typeof (template) == 'function'?template(bindingContext['$data']) : template,
+                            renderedNodesArray = executeTemplate(targetNodeOrNodeArray,renderMode,templateName,bindingContext,options);
                         
                         __LINE__ = 2768;
-                        if ( renderMode == "replaceNode" ){
+                        if (renderMode == "replaceNode"){
                           
                           __LINE__ = 2769;
                           targetNodeOrNodeArray = renderedNodesArray;
                           
                           __LINE__ = 2770;
-                          firstTargetNode = getFirstNodeFromPossibleArray( targetNodeOrNodeArray );
+                          firstTargetNode = getFirstNodeFromPossibleArray(targetNodeOrNodeArray);
                         };
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     },null, {
                       'disposeWhen' : whenToDispose,
@@ -6646,86 +6646,86 @@
                     });
                   } else {
                     __LINE__ = 2778;
-                    return ko.memoization.memoize( function ( domNode ) {
+                    return ko.memoization.memoize(function (domNode) {
                       try {
                         __LINE__ = 2779;
-                        ko.renderTemplate( template,dataOrBindingContext,options,domNode,"replaceNode" );
-                      } catch( e ){
-                        Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        ko.renderTemplate(template,dataOrBindingContext,options,domNode,"replaceNode");
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2784;
-              ko.renderTemplateForEach = function ( template,arrayOrObservableArray,options,targetNode,parentBindingContext ) {
+              ko.renderTemplateForEach = function (template,arrayOrObservableArray,options,targetNode,parentBindingContext) {
                 try {
                   __LINE__ = 2785;
-                  var createInnerBindingContext = function ( arrayValue ) {
+                  var createInnerBindingContext = function (arrayValue) {
                         try {
                           __LINE__ = 2786;
-                          return parentBindingContext['createChildContext']( ko.utils.unwrapObservable( arrayValue ) );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          return parentBindingContext['createChildContext'](ko.utils.unwrapObservable(arrayValue));
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },
-                      activateBindingsCallback = function ( arrayValue,addedNodesArray ) {
+                      activateBindingsCallback = function (arrayValue,addedNodesArray) {
                         try {
                           __LINE__ = 2791;
-                          var bindingContext = createInnerBindingContext( arrayValue );
+                          var bindingContext = createInnerBindingContext(arrayValue);
                           
                           __LINE__ = 2792;
-                          ko.activateBindingsOnTemplateRenderedNodes( addedNodesArray,bindingContext );
+                          ko.activateBindingsOnTemplateRenderedNodes(addedNodesArray,bindingContext);
                           
                           __LINE__ = 2794;
-                          options['afterRender'] && options['afterRender']( addedNodesArray,bindingContext['$data'] );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          options['afterRender'] && options['afterRender'](addedNodesArray,bindingContext['$data']);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       };
                   __LINE__ = 2797;
-                  return new ko.dependentObservable( function () {
+                  return new ko.dependentObservable(function () {
                     try {
                       __LINE__ = 2798;
-                      var unwrappedArray = ko.utils.unwrapObservable( arrayOrObservableArray ) || [];
+                      var unwrappedArray = ko.utils.unwrapObservable(arrayOrObservableArray) || [];
                       
                       __LINE__ = 2800;
-                      typeof unwrappedArray.length == "undefined" && ( unwrappedArray = [unwrappedArray] );
+                      typeof unwrappedArray.length == "undefined" && (unwrappedArray = [unwrappedArray]);
                       
                       __LINE__ = 2803;
-                      var filteredArray = ko.utils.arrayFilter( unwrappedArray,
-                          function ( item ) {
+                      var filteredArray = ko.utils.arrayFilter(unwrappedArray,
+                          function (item) {
                             try {
                               __LINE__ = 2804;
-                              return options['includeDestroyed'] || item === undefined || item === null || !ko.utils.unwrapObservable( item['_destroy'] );
-                            } catch( e ){
-                              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                              return options['includeDestroyed'] || item === undefined || item === null || !ko.utils.unwrapObservable(item['_destroy']);
+                            } catch(e){
+                              Runtime.exceptionHandler(__LINE__, __FILE__, e);
                             }
                           });
                       
                       __LINE__ = 2807;
-                      ko.utils.setDomNodeChildrenFromArrayMapping( targetNode,filteredArray,
-                      function ( arrayValue ) {
+                      ko.utils.setDomNodeChildrenFromArrayMapping(targetNode,filteredArray,
+                      function (arrayValue) {
                         try {
                           __LINE__ = 2809;
-                          var templateName = typeof ( template ) == 'function'?template( arrayValue ) : template;
+                          var templateName = typeof (template) == 'function'?template(arrayValue) : template;
                           __LINE__ = 2810;
-                          return executeTemplate( null,"ignoreTargetNode",templateName,createInnerBindingContext( arrayValue ),options );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          return executeTemplate(null,"ignoreTargetNode",templateName,createInnerBindingContext(arrayValue),options);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },options,activateBindingsCallback);
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   },null, {
                     'disposeWhenNodeIsRemoved' : targetNode
                   });
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6734,32 +6734,32 @@
               
               __LINE__ = 2824;
               ko.bindingHandlers['template'] =  {
-                'init' : function ( element,valueAccessor ) {
+                'init' : function (element,valueAccessor) {
                   try {
                     __LINE__ = 2827;
-                    var bindingValue = ko.utils.unwrapObservable( valueAccessor() );
+                    var bindingValue = ko.utils.unwrapObservable(valueAccessor());
                     
                     __LINE__ = 2828;
-                    if ( ( typeof bindingValue != "string" ) && ( !bindingValue.name ) && ( element.nodeType == 1 ) ){
+                    if ((typeof bindingValue != "string") && (!bindingValue.name) && (element.nodeType == 1)){
                       
                       __LINE__ = 2830;
-                      new ko.templateSources.anonymousTemplate( element ).text( element.innerHTML );
+                      new ko.templateSources.anonymousTemplate(element).text(element.innerHTML);
                       
                       __LINE__ = 2831;
-                      ko.utils.emptyDomNode( element );
+                      ko.utils.emptyDomNode(element);
                     };
                     __LINE__ = 2833;
                     return  {
                       'controlsDescendantBindings' : true
                     };
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
-                'update' : function ( element,valueAccessor,allBindingsAccessor,viewModel,bindingContext ) {
+                'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
                   try {
                     __LINE__ = 2836;
-                    var bindingValue = ko.utils.unwrapObservable( valueAccessor() );
+                    var bindingValue = ko.utils.unwrapObservable(valueAccessor());
                     
                     __LINE__ = 2837;
                     var templateName;
@@ -6768,7 +6768,7 @@
                     var shouldDisplay = true;
                     
                     __LINE__ = 2840;
-                    if ( typeof bindingValue == "string" ){
+                    if (typeof bindingValue == "string"){
                       
                       __LINE__ = 2841;
                       templateName = bindingValue;
@@ -6776,15 +6776,15 @@
                       
                       __LINE__ = 2843;
                       templateName = bindingValue.name;
-                      if ( 'if' in bindingValue ){
+                      if ('if' in bindingValue){
                         
                         __LINE__ = 2847;
-                        shouldDisplay = shouldDisplay && ko.utils.unwrapObservable( bindingValue['if'] );
+                        shouldDisplay = shouldDisplay && ko.utils.unwrapObservable(bindingValue['if']);
                       };
-                      if ( 'ifnot' in bindingValue ){
+                      if ('ifnot' in bindingValue){
                         
                         __LINE__ = 2849;
-                        shouldDisplay = shouldDisplay && !ko.utils.unwrapObservable( bindingValue['ifnot'] );
+                        shouldDisplay = shouldDisplay && !ko.utils.unwrapObservable(bindingValue['ifnot']);
                       };
                     };
                     
@@ -6792,76 +6792,76 @@
                     var templateSubscription = null;
                     
                     __LINE__ = 2854;
-                    if ( ( typeof bindingValue === 'object' ) && ( 'foreach' in bindingValue ) ){
+                    if ((typeof bindingValue === 'object') && ('foreach' in bindingValue)){
                       
                       __LINE__ = 2856;
-                      var dataArray = ( shouldDisplay && bindingValue['foreach'] ) || [];
+                      var dataArray = (shouldDisplay && bindingValue['foreach']) || [];
                       
                       __LINE__ = 2857;
-                      templateSubscription = ko.renderTemplateForEach( templateName || element,dataArray,bindingValue,element,bindingContext );
+                      templateSubscription = ko.renderTemplateForEach(templateName || element,dataArray,bindingValue,element,bindingContext);
                     } else {
-                      if ( shouldDisplay ){
+                      if (shouldDisplay){
                         
                         __LINE__ = 2861;
-                        var innerBindingContext = ( typeof bindingValue == 'object' ) && ( 'data' in bindingValue )?bindingContext['createChildContext']( ko.utils.unwrapObservable( bindingValue['data'] ) ) : bindingContext;
+                        var innerBindingContext = (typeof bindingValue == 'object') && ('data' in bindingValue)?bindingContext['createChildContext'](ko.utils.unwrapObservable(bindingValue['data'])) : bindingContext;
                         
                         __LINE__ = 2864;
-                        templateSubscription = ko.renderTemplate( templateName || element,innerBindingContext,bindingValue,element );
+                        templateSubscription = ko.renderTemplate(templateName || element,innerBindingContext,bindingValue,element);
                       } else {
                         __LINE__ = 2866;
-                        ko.virtualElements.emptyNode( element );
+                        ko.virtualElements.emptyNode(element);
                       };
                     };
                     
                     __LINE__ = 2870;
-                    disposeOldSubscriptionAndStoreNewOne( element,templateSubscription );
-                  } catch( e ){
-                    Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    disposeOldSubscriptionAndStoreNewOne(element,templateSubscription);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
               
               __LINE__ = 2875;
-              ko.jsonExpressionRewriting.bindingRewriteValidators['template'] = function ( bindingValue ) {
+              ko.jsonExpressionRewriting.bindingRewriteValidators['template'] = function (bindingValue) {
                 try {
                   __LINE__ = 2876;
-                  var parsedBindingValue = ko.jsonExpressionRewriting.parseObjectLiteral( bindingValue );
+                  var parsedBindingValue = ko.jsonExpressionRewriting.parseObjectLiteral(bindingValue);
                   
                   __LINE__ = 2878;
-                  if ( ( parsedBindingValue.length == 1 ) && parsedBindingValue[0]['unknown'] ){
+                  if ((parsedBindingValue.length == 1) && parsedBindingValue[0]['unknown']){
                     __LINE__ = 2879;
                     return null;
                   };
                   
                   __LINE__ = 2881;
-                  if ( ko.jsonExpressionRewriting.keyValueArrayContainsKey( parsedBindingValue,"name" ) ){
+                  if (ko.jsonExpressionRewriting.keyValueArrayContainsKey(parsedBindingValue,"name")){
                     __LINE__ = 2882;
                     return null;
                   };
                   __LINE__ = 2883;
                   return "This template engine does not support anonymous templates nested within its templates";
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2886;
               ko.virtualElements.allowedBindings['template'] = true;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 2889;
-          ko.exportSymbol( 'ko.setTemplateEngine',ko.setTemplateEngine );
+          ko.exportSymbol('ko.setTemplateEngine',ko.setTemplateEngine);
           
           __LINE__ = 2890;
-          ko.exportSymbol( 'ko.renderTemplate',ko.renderTemplate );
+          ko.exportSymbol('ko.renderTemplate',ko.renderTemplate);
           
           __LINE__ = 2891;
           !function () {
             try {
-              function findEditScriptFromEditDistanceMatrix( editDistanceMatrix,oldArray,newArray ) {
+              function findEditScriptFromEditDistanceMatrix(editDistanceMatrix,oldArray,newArray) {
                 try {
                   __LINE__ = 2928;
                   var oldIndex = oldArray.length,
@@ -6870,50 +6870,50 @@
                       maxDistance = editDistanceMatrix[newIndex][oldIndex];
                   
                   __LINE__ = 2932;
-                  if ( maxDistance === undefined ){
+                  if (maxDistance === undefined){
                     __LINE__ = 2933;
                     return null;
                   };
                   
                   __LINE__ = 2934;
-                  while ( ( oldIndex>0 ) || ( newIndex>0 ) ){
+                  while ((oldIndex>0) || (newIndex>0)){
                     
                     __LINE__ = 2935;
                     var me = editDistanceMatrix[newIndex][oldIndex];
                     
                     __LINE__ = 2936;
-                    var distanceViaAdd = ( newIndex>0 )?editDistanceMatrix[newIndex-1][oldIndex] : maxDistance+1;
+                    var distanceViaAdd = (newIndex>0)?editDistanceMatrix[newIndex-1][oldIndex] : maxDistance+1;
                     
                     __LINE__ = 2937;
-                    var distanceViaDelete = ( oldIndex>0 )?editDistanceMatrix[newIndex][oldIndex-1] : maxDistance+1;
+                    var distanceViaDelete = (oldIndex>0)?editDistanceMatrix[newIndex][oldIndex-1] : maxDistance+1;
                     
                     __LINE__ = 2938;
-                    var distanceViaRetain = ( newIndex>0 ) && ( oldIndex>0 )?editDistanceMatrix[newIndex-1][oldIndex-1] : maxDistance+1;
+                    var distanceViaRetain = (newIndex>0) && (oldIndex>0)?editDistanceMatrix[newIndex-1][oldIndex-1] : maxDistance+1;
                     
                     __LINE__ = 2939;
-                    ( ( distanceViaAdd === undefined ) || ( distanceViaAdd<me-1 ) ) && ( distanceViaAdd = maxDistance+1 );
+                    ((distanceViaAdd === undefined) || (distanceViaAdd<me-1)) && (distanceViaAdd = maxDistance+1);
                     
                     __LINE__ = 2940;
-                    ( ( distanceViaDelete === undefined ) || ( distanceViaDelete<me-1 ) ) && ( distanceViaDelete = maxDistance+1 );
+                    ((distanceViaDelete === undefined) || (distanceViaDelete<me-1)) && (distanceViaDelete = maxDistance+1);
                     
                     __LINE__ = 2941;
-                    distanceViaRetain<me-1 && ( distanceViaRetain = maxDistance+1 );
+                    distanceViaRetain<me-1 && (distanceViaRetain = maxDistance+1);
                     
                     __LINE__ = 2943;
-                    if ( ( distanceViaAdd <= distanceViaDelete ) && ( distanceViaAdd<distanceViaRetain ) ){
+                    if ((distanceViaAdd <= distanceViaDelete) && (distanceViaAdd<distanceViaRetain)){
                       
                       __LINE__ = 2944;
-                      editScript.push(  {
+                      editScript.push( {
                         status : "added",
                         value : newArray[newIndex-1]
                       });
                       
                       __LINE__ = 2945;
                       newIndex -- ;
-                    } else if ( ( distanceViaDelete<distanceViaAdd ) && ( distanceViaDelete<distanceViaRetain ) ){
+                    } else if ((distanceViaDelete<distanceViaAdd) && (distanceViaDelete<distanceViaRetain)){
                       
                       __LINE__ = 2947;
-                      editScript.push(  {
+                      editScript.push( {
                         status : "deleted",
                         value : oldArray[oldIndex-1]
                       });
@@ -6923,7 +6923,7 @@
                     } else {
                       
                       __LINE__ = 2950;
-                      editScript.push(  {
+                      editScript.push( {
                         status : "retained",
                         value : oldArray[oldIndex-1]
                       });
@@ -6937,31 +6937,31 @@
                   };
                   __LINE__ = 2955;
                   return editScript.reverse();
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function calculateEditDistanceMatrix( oldArray,newArray,maxAllowedDistance ) {
+              function calculateEditDistanceMatrix(oldArray,newArray,maxAllowedDistance) {
                 try {
                   __LINE__ = 2894;
                   var distances = [];
                   
                   __LINE__ = 2895;
-                  for ( var i = 0;i <= newArray.length;i ++  ){
+                  for (var i = 0;i <= newArray.length;i ++ ){
                     
                     __LINE__ = 2896;
                     distances[i] = [];
                   };
                   
                   __LINE__ = 2899;
-                  for ( var i = 0,j = Math.min( oldArray.length,maxAllowedDistance );i <= j;i ++  ){
+                  for (var i = 0,j = Math.min(oldArray.length,maxAllowedDistance);i <= j;i ++ ){
                     
                     __LINE__ = 2900;
                     distances[0][i] = i;
                   };
                   
                   __LINE__ = 2903;
-                  for ( var i = 1,j = Math.min( newArray.length,maxAllowedDistance );i <= j;i ++  ){
+                  for (var i = 1,j = Math.min(newArray.length,maxAllowedDistance);i <= j;i ++ ){
                     
                     __LINE__ = 2904;
                     distances[i][0] = i;
@@ -6976,18 +6976,18 @@
                       distanceViaDeletion;
                   
                   __LINE__ = 2910;
-                  for ( oldIndex = 1;oldIndex <= oldIndexMax;oldIndex ++  ){
+                  for (oldIndex = 1;oldIndex <= oldIndexMax;oldIndex ++ ){
                     
                     __LINE__ = 2911;
-                    var newIndexMinForRow = Math.max( 1,oldIndex-maxAllowedDistance );
+                    var newIndexMinForRow = Math.max(1,oldIndex-maxAllowedDistance);
                     
                     __LINE__ = 2912;
-                    var newIndexMaxForRow = Math.min( newIndexMax,oldIndex+maxAllowedDistance );
+                    var newIndexMaxForRow = Math.min(newIndexMax,oldIndex+maxAllowedDistance);
                     
                     __LINE__ = 2913;
-                    for ( newIndex = newIndexMinForRow;newIndex <= newIndexMaxForRow;newIndex ++  ){
+                    for (newIndex = newIndexMinForRow;newIndex <= newIndexMaxForRow;newIndex ++ ){
                       __LINE__ = 2914;
-                      if ( oldArray[oldIndex-1] === newArray[newIndex-1] ){
+                      if (oldArray[oldIndex-1] === newArray[newIndex-1]){
                         __LINE__ = 2915;
                         distances[newIndex][oldIndex] = distances[newIndex-1][oldIndex-1];
                       } else {
@@ -6999,23 +6999,23 @@
                         var westDistance = distances[newIndex][oldIndex-1] === undefined?Number.MAX_VALUE : distances[newIndex][oldIndex-1]+1;
                         
                         __LINE__ = 2919;
-                        distances[newIndex][oldIndex] = Math.min( northDistance,westDistance );
+                        distances[newIndex][oldIndex] = Math.min(northDistance,westDistance);
                       };
                     };
                   };
                   __LINE__ = 2924;
                   return distances;
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 2958;
-              ko.utils.compareArrays = function ( oldArray,newArray,maxEditsToConsider ) {
+              ko.utils.compareArrays = function (oldArray,newArray,maxEditsToConsider) {
                 try {
                   __LINE__ = 2959;
-                  if ( maxEditsToConsider === undefined ){
+                  if (maxEditsToConsider === undefined){
                     __LINE__ = 2960;
-                    return ko.utils.compareArrays( oldArray,newArray,1 ) || ko.utils.compareArrays( oldArray,newArray,10 ) || ko.utils.compareArrays( oldArray,newArray,Number.MAX_VALUE );
+                    return ko.utils.compareArrays(oldArray,newArray,1) || ko.utils.compareArrays(oldArray,newArray,10) || ko.utils.compareArrays(oldArray,newArray,Number.MAX_VALUE);
                   };
                   
                   {
@@ -7027,63 +7027,63 @@
                     newArray = newArray || [];
                     
                     __LINE__ = 2966;
-                    var editDistanceMatrix = calculateEditDistanceMatrix( oldArray,newArray,maxEditsToConsider );
+                    var editDistanceMatrix = calculateEditDistanceMatrix(oldArray,newArray,maxEditsToConsider);
                     __LINE__ = 2967;
-                    return findEditScriptFromEditDistanceMatrix( editDistanceMatrix,oldArray,newArray );
+                    return findEditScriptFromEditDistanceMatrix(editDistanceMatrix,oldArray,newArray);
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 2972;
-          ko.exportSymbol( 'ko.utils.compareArrays',ko.utils.compareArrays );
+          ko.exportSymbol('ko.utils.compareArrays',ko.utils.compareArrays);
           
           __LINE__ = 2974;
           !function () {
             try {
-              function mapNodeAndRefreshWhenChanged( containerNode,mapping,valueToMap,callbackAfterAddingNodes ) {
+              function mapNodeAndRefreshWhenChanged(containerNode,mapping,valueToMap,callbackAfterAddingNodes) {
                 try {
                   __LINE__ = 3009;
                   var mappedNodes = [],
-                      dependentObservable = ko.dependentObservable( function () {
+                      dependentObservable = ko.dependentObservable(function () {
                         try {
                           __LINE__ = 3011;
-                          var newMappedNodes = mapping( valueToMap ) || [];
+                          var newMappedNodes = mapping(valueToMap) || [];
                           
                           __LINE__ = 3014;
-                          if ( mappedNodes.length>0 ){
+                          if (mappedNodes.length>0){
                             
                             __LINE__ = 3015;
-                            fixUpVirtualElements( mappedNodes );
+                            fixUpVirtualElements(mappedNodes);
                             
                             __LINE__ = 3016;
-                            ko.utils.replaceDomNodes( mappedNodes,newMappedNodes );
+                            ko.utils.replaceDomNodes(mappedNodes,newMappedNodes);
                             
                             __LINE__ = 3018;
-                            callbackAfterAddingNodes && callbackAfterAddingNodes( valueToMap,newMappedNodes );
+                            callbackAfterAddingNodes && callbackAfterAddingNodes(valueToMap,newMappedNodes);
                           };
                           
                           __LINE__ = 3023;
-                          mappedNodes.splice( 0,mappedNodes.length );
+                          mappedNodes.splice(0,mappedNodes.length);
                           
                           __LINE__ = 3024;
-                          ko.utils.arrayPushAll( mappedNodes,newMappedNodes );
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          ko.utils.arrayPushAll(mappedNodes,newMappedNodes);
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },null, {
                         'disposeWhenNodeIsRemoved' : containerNode,
                         'disposeWhen' : function () {
                           try {
                             __LINE__ = 3025;
-                            return ( mappedNodes.length == 0 ) || !ko.utils.domNodeIsAttachedToDocument( mappedNodes[0] );
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                            return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]);
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         }
                       });
@@ -7092,14 +7092,14 @@
                     mappedNodes : mappedNodes,
                     dependentObservable : dependentObservable
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              function fixUpVirtualElements( contiguousNodeArray ) {
+              function fixUpVirtualElements(contiguousNodeArray) {
                 try {
                   __LINE__ = 2991;
-                  if ( contiguousNodeArray.length>2 ){
+                  if (contiguousNodeArray.length>2){
                     
                     __LINE__ = 2993;
                     var current = contiguousNodeArray[0],
@@ -7107,33 +7107,33 @@
                         newContiguousSet = [current];
                     
                     __LINE__ = 2994;
-                    while ( current !== last ){
+                    while (current !== last){
                       
                       __LINE__ = 2995;
                       current = current.nextSibling;
                       
                       __LINE__ = 2996;
-                      if ( !current ){
+                      if (!current){
                         __LINE__ = 2997;
                         return ;
                       };
                       
                       __LINE__ = 2998;
-                      newContiguousSet.push( current );
+                      newContiguousSet.push(current);
                     };
                     
                     __LINE__ = 3003;
-                    [].splice.apply( contiguousNodeArray,[0,contiguousNodeArray.length].concat( newContiguousSet ) );
+                    [].splice.apply(contiguousNodeArray,[0,contiguousNodeArray.length].concat(newContiguousSet));
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 3029;
               var lastMappingResultDomDataKey = "setDomNodeChildrenFromArrayMapping_lastMappingResult";
               
               __LINE__ = 3031;
-              ko.utils.setDomNodeChildrenFromArrayMapping = function ( domNode,array,mapping,options,callbackAfterAddingNodes ) {
+              ko.utils.setDomNodeChildrenFromArrayMapping = function (domNode,array,mapping,options,callbackAfterAddingNodes) {
                 try {
                   __LINE__ = 3033;
                   array = array || [];
@@ -7142,18 +7142,18 @@
                   options = options || {};
                   
                   __LINE__ = 3035;
-                  var isFirstExecution = ko.utils.domData.get( domNode,lastMappingResultDomDataKey ) === undefined,
-                      lastMappingResult = ko.utils.domData.get( domNode,lastMappingResultDomDataKey ) || [],
-                      lastArray = ko.utils.arrayMap( lastMappingResult,
-                      function ( x ) {
+                  var isFirstExecution = ko.utils.domData.get(domNode,lastMappingResultDomDataKey) === undefined,
+                      lastMappingResult = ko.utils.domData.get(domNode,lastMappingResultDomDataKey) || [],
+                      lastArray = ko.utils.arrayMap(lastMappingResult,
+                      function (x) {
                         try {
                           __LINE__ = 3037;
                           return x.arrayEntry;
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       }),
-                      editScript = ko.utils.compareArrays( lastArray,array ),
+                      editScript = ko.utils.compareArrays(lastArray,array),
                       newMappingResult = [],
                       lastMappingResultIndex = 0,
                       nodesToDelete = [],
@@ -7161,20 +7161,20 @@
                       insertAfterNode = null;
                   
                   __LINE__ = 3046;
-                  for ( var i = 0,j = editScript.length;i<j;i ++  ){
+                  for (var i = 0,j = editScript.length;i<j;i ++ ){
                     
                     __LINE__ = 3047;
-                    switch ( editScript[i].status ) {
+                    switch (editScript[i].status) {
                       case "retained" :
                         
                         __LINE__ = 3050;
                         var dataToRetain = lastMappingResult[lastMappingResultIndex];
                         
                         __LINE__ = 3051;
-                        newMappingResult.push( dataToRetain );
+                        newMappingResult.push(dataToRetain);
                         
                         __LINE__ = 3053;
-                        dataToRetain.domNodes.length>0 && ( insertAfterNode = dataToRetain.domNodes[dataToRetain.domNodes.length-1] );
+                        dataToRetain.domNodes.length>0 && (insertAfterNode = dataToRetain.domNodes[dataToRetain.domNodes.length-1]);
                         
                         __LINE__ = 3054;
                         lastMappingResultIndex ++ ;
@@ -7186,14 +7186,14 @@
                         lastMappingResult[lastMappingResultIndex].dependentObservable.dispose();
                         
                         __LINE__ = 3062;
-                        fixUpVirtualElements( lastMappingResult[lastMappingResultIndex].domNodes );
+                        fixUpVirtualElements(lastMappingResult[lastMappingResultIndex].domNodes);
                         
                         __LINE__ = 3063;
-                        ko.utils.arrayForEach( lastMappingResult[lastMappingResultIndex].domNodes,
-                        function ( node ) {
+                        ko.utils.arrayForEach(lastMappingResult[lastMappingResultIndex].domNodes,
+                        function (node) {
                           try {
                             __LINE__ = 3064;
-                            nodesToDelete.push(  {
+                            nodesToDelete.push( {
                               element : node,
                               index : i,
                               value : editScript[i].value
@@ -7201,8 +7201,8 @@
                             
                             __LINE__ = 3069;
                             insertAfterNode = node;
-                          } catch( e ){
-                            Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                          } catch(e){
+                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         });
                         
@@ -7216,40 +7216,40 @@
                         var valueToMap = editScript[i].value;
                         
                         __LINE__ = 3076;
-                        var mapData = mapNodeAndRefreshWhenChanged( domNode,mapping,valueToMap,callbackAfterAddingNodes );
+                        var mapData = mapNodeAndRefreshWhenChanged(domNode,mapping,valueToMap,callbackAfterAddingNodes);
                         
                         __LINE__ = 3077;
                         var mappedNodes = mapData.mappedNodes;
                         
                         __LINE__ = 3080;
-                        newMappingResult.push(  {
+                        newMappingResult.push( {
                           arrayEntry : editScript[i].value,
                           domNodes : mappedNodes,
                           dependentObservable : mapData.dependentObservable
                         });
                         
                         __LINE__ = 3081;
-                        for ( var nodeIndex = 0,nodeIndexMax = mappedNodes.length;nodeIndex<nodeIndexMax;nodeIndex ++  ){
+                        for (var nodeIndex = 0,nodeIndexMax = mappedNodes.length;nodeIndex<nodeIndexMax;nodeIndex ++ ){
                           
                           __LINE__ = 3082;
                           var node = mappedNodes[nodeIndex];
                           
                           __LINE__ = 3083;
-                          nodesAdded.push(  {
+                          nodesAdded.push( {
                             element : node,
                             index : i,
                             value : editScript[i].value
                           });
                           
                           __LINE__ = 3088;
-                          if ( insertAfterNode == null ){
+                          if (insertAfterNode == null){
                             
                             __LINE__ = 3090;
-                            ko.virtualElements.prepend( domNode,node );
+                            ko.virtualElements.prepend(domNode,node);
                           } else {
                             
                             __LINE__ = 3093;
-                            ko.virtualElements.insertAfter( domNode,node,insertAfterNode );
+                            ko.virtualElements.insertAfter(domNode,node,insertAfterNode);
                           };
                           
                           __LINE__ = 3095;
@@ -7257,10 +7257,10 @@
                         };
                         
                         __LINE__ = 3097;
-                        if ( callbackAfterAddingNodes ){
+                        if (callbackAfterAddingNodes){
                           
                           __LINE__ = 3098;
-                          callbackAfterAddingNodes( valueToMap,mappedNodes );
+                          callbackAfterAddingNodes(valueToMap,mappedNodes);
                         };
                         __LINE__ = 3099;
                         break;
@@ -7269,13 +7269,13 @@
                   };
                   
                   __LINE__ = 3103;
-                  ko.utils.arrayForEach( nodesToDelete,
-                  function ( node ) {
+                  ko.utils.arrayForEach(nodesToDelete,
+                  function (node) {
                     try {
                       __LINE__ = 3103;
-                      ko.cleanNode( node.element );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      ko.cleanNode(node.element);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
@@ -7283,25 +7283,25 @@
                   var invokedBeforeRemoveCallback = false;
                   
                   __LINE__ = 3106;
-                  if ( !isFirstExecution ){
+                  if (!isFirstExecution){
                     
                     __LINE__ = 3107;
-                    if ( options['afterAdd'] ){
+                    if (options['afterAdd']){
                       __LINE__ = 3108;
-                      for ( var i = 0;i<nodesAdded.length;i ++  ){
+                      for (var i = 0;i<nodesAdded.length;i ++ ){
                         
                         __LINE__ = 3109;
-                        options['afterAdd']( nodesAdded[i].element,nodesAdded[i].index,nodesAdded[i].value );
+                        options['afterAdd'](nodesAdded[i].element,nodesAdded[i].index,nodesAdded[i].value);
                       };
                     };
                     
                     __LINE__ = 3111;
-                    if ( options['beforeRemove'] ){
+                    if (options['beforeRemove']){
                       
                       __LINE__ = 3112;
-                      for ( var i = 0;i<nodesToDelete.length;i ++  ){
+                      for (var i = 0;i<nodesToDelete.length;i ++ ){
                         __LINE__ = 3113;
-                        options['beforeRemove']( nodesToDelete[i].element,nodesToDelete[i].index,nodesToDelete[i].value );
+                        options['beforeRemove'](nodesToDelete[i].element,nodesToDelete[i].index,nodesToDelete[i].value);
                       };
                       
                       __LINE__ = 3114;
@@ -7310,37 +7310,37 @@
                   };
                   
                   __LINE__ = 3118;
-                  !invokedBeforeRemoveCallback && ko.utils.arrayForEach( nodesToDelete,
-                  function ( node ) {
+                  !invokedBeforeRemoveCallback && ko.utils.arrayForEach(nodesToDelete,
+                  function (node) {
                     try {
                       __LINE__ = 3119;
-                      ko.removeNode( node.element );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      ko.removeNode(node.element);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
                   __LINE__ = 3123;
-                  ko.utils.domData.set( domNode,lastMappingResultDomDataKey,newMappingResult );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  ko.utils.domData.set(domNode,lastMappingResultDomDataKey,newMappingResult);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 3127;
-          ko.exportSymbol( 'ko.utils.setDomNodeChildrenFromArrayMapping',ko.utils.setDomNodeChildrenFromArrayMapping );
+          ko.exportSymbol('ko.utils.setDomNodeChildrenFromArrayMapping',ko.utils.setDomNodeChildrenFromArrayMapping);
           
           __LINE__ = 3128;
           ko.nativeTemplateEngine = function () {
             try {
               __LINE__ = 3129;
               this['allowTemplateRewriting'] = false;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -7348,14 +7348,14 @@
           ko.nativeTemplateEngine.prototype = new ko.templateEngine();
           
           __LINE__ = 3133;
-          ko.nativeTemplateEngine.prototype['renderTemplateSource'] = function ( templateSource,bindingContext,options ) {
+          ko.nativeTemplateEngine.prototype['renderTemplateSource'] = function (templateSource,bindingContext,options) {
             try {
               __LINE__ = 3134;
               var templateText = templateSource.text();
               __LINE__ = 3135;
-              return ko.utils.parseHtmlFragment( templateText );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              return ko.utils.parseHtmlFragment(templateText);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -7363,10 +7363,10 @@
           ko.nativeTemplateEngine.instance = new ko.nativeTemplateEngine();
           
           __LINE__ = 3139;
-          ko.setTemplateEngine( ko.nativeTemplateEngine.instance );
+          ko.setTemplateEngine(ko.nativeTemplateEngine.instance);
           
           __LINE__ = 3141;
-          ko.exportSymbol( 'ko.nativeTemplateEngine',ko.nativeTemplateEngine );
+          ko.exportSymbol('ko.nativeTemplateEngine',ko.nativeTemplateEngine);
           
           __LINE__ = 3141;
           !function () {
@@ -7374,30 +7374,30 @@
               __LINE__ = 3142;
               ko.jqueryTmplTemplateEngine = function () {
                 try {
-                  function executeTemplate( compiledTemplate,data,jQueryTemplateOptions ) {
+                  function executeTemplate(compiledTemplate,data,jQueryTemplateOptions) {
                     try {
                       __LINE__ = 3167;
-                      return jQuery['tmpl']( compiledTemplate,data,jQueryTemplateOptions );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      return jQuery['tmpl'](compiledTemplate,data,jQueryTemplateOptions);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }
                   function ensureHasReferencedJQueryTemplates() {
                     try {
                       __LINE__ = 3162;
-                      if ( jQueryTmplVersion<2 ){
+                      if (jQueryTmplVersion<2){
                         __LINE__ = 3163;
-                        throw new Error( "Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later." );
+                        throw new Error("Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later.");
                       };
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }
                   __LINE__ = 3147;
                   var jQueryTmplVersion = this.jQueryTmplVersion = function () {
                         try {
                           __LINE__ = 3148;
-                          if ( ( typeof ( jQuery ) == "undefined" ) || !( jQuery['tmpl'] ) ){
+                          if ((typeof (jQuery) == "undefined") || !(jQuery['tmpl'])){
                             __LINE__ = 3149;
                             return 0;
                           };
@@ -7405,22 +7405,22 @@
                           try {
                             
                             __LINE__ = 3152;
-                            if ( jQuery['tmpl']['tag']['tmpl']['open'].toString().indexOf( '__' ) >= 0 ){
+                            if (jQuery['tmpl']['tag']['tmpl']['open'].toString().indexOf('__') >= 0){
                               __LINE__ = 3154;
                               return 2;
                             };
-                          } catch( ex ){
+                          } catch(ex){
                             
                           };
                           __LINE__ = 3158;
                           return 1;
-                        } catch( e ){
-                          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       }();
                   
                   __LINE__ = 3170;
-                  this['renderTemplateSource'] = function ( templateSource,bindingContext,options ) {
+                  this['renderTemplateSource'] = function (templateSource,bindingContext,options) {
                     try {
                       __LINE__ = 3171;
                       options = options || {};
@@ -7429,10 +7429,10 @@
                       ensureHasReferencedJQueryTemplates();
                       
                       __LINE__ = 3175;
-                      var precompiled = templateSource['data']( 'precompiled' );
+                      var precompiled = templateSource['data']('precompiled');
                       
                       __LINE__ = 3176;
-                      if ( !precompiled ){
+                      if (!precompiled){
                         
                         __LINE__ = 3177;
                         var templateText = templateSource.text() || "";
@@ -7441,53 +7441,53 @@
                         templateText = "{{ko_with $item.koBindingContext}}"+templateText+"{{/ko_with}}";
                         
                         __LINE__ = 3181;
-                        precompiled = jQuery['template']( null,templateText );
+                        precompiled = jQuery['template'](null,templateText);
                         
                         __LINE__ = 3182;
-                        templateSource['data']( 'precompiled',precompiled );
+                        templateSource['data']('precompiled',precompiled);
                       };
                       
                       __LINE__ = 3185;
                       var data = [bindingContext['$data']],
-                          jQueryTemplateOptions = jQuery['extend'](  {
+                          jQueryTemplateOptions = jQuery['extend']( {
                             'koBindingContext' : bindingContext
-                          },options['templateOptions'] ),
-                          resultNodes = executeTemplate( precompiled,data,jQueryTemplateOptions );
+                          },options['templateOptions']),
+                          resultNodes = executeTemplate(precompiled,data,jQueryTemplateOptions);
                       
                       __LINE__ = 3189;
-                      resultNodes['appendTo']( document.createElement( "div" ) );
+                      resultNodes['appendTo'](document.createElement("div"));
                       
                       __LINE__ = 3190;
                       jQuery['fragments'] = {};
                       __LINE__ = 3191;
                       return resultNodes;
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
                   __LINE__ = 3194;
-                  this['createJavaScriptEvaluatorBlock'] = function ( script ) {
+                  this['createJavaScriptEvaluatorBlock'] = function (script) {
                     try {
                       __LINE__ = 3195;
                       return "{{ko_code ((function() { return "+script+" })()) }}";
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
                   __LINE__ = 3198;
-                  this['addTemplate'] = function ( templateName,templateMarkup ) {
+                  this['addTemplate'] = function (templateName,templateMarkup) {
                     try {
                       __LINE__ = 3199;
-                      document.write( "<script type='text/html' id='"+templateName+"'>"+templateMarkup+"</script>" );
-                    } catch( e ){
-                      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                      document.write("<script type='text/html' id='"+templateName+"'>"+templateMarkup+"</script>");
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
                   __LINE__ = 3202;
-                  if ( jQueryTmplVersion>0 ){
+                  if (jQueryTmplVersion>0){
                     
                     __LINE__ = 3203;
                     jQuery['tmpl']['tag']['ko_code'] =  {
@@ -7500,8 +7500,8 @@
                       close : "} "
                     };
                   };
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -7512,20 +7512,20 @@
               var jqueryTmplTemplateEngineInstance = new ko.jqueryTmplTemplateEngine();
               
               __LINE__ = 3218;
-              jqueryTmplTemplateEngineInstance.jQueryTmplVersion>0 && ko.setTemplateEngine( jqueryTmplTemplateEngineInstance );
+              jqueryTmplTemplateEngineInstance.jQueryTmplVersion>0 && ko.setTemplateEngine(jqueryTmplTemplateEngineInstance);
               
               __LINE__ = 3220;
-              ko.exportSymbol( 'ko.jqueryTmplTemplateEngine',ko.jqueryTmplTemplateEngine );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              ko.exportSymbol('ko.jqueryTmplTemplateEngine',ko.jqueryTmplTemplateEngine);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
-      }( window );
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+      }(window);
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
   }();
 }();

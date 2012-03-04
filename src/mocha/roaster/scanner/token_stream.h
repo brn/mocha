@@ -1,29 +1,30 @@
-#ifndef mocha_token_stream_h_
-#define mocha_token_stream_h_
-#include <utils/pool/managed.h>
-
+#ifndef mocha_scanner_token_stream_h_
+#define mocha_scanner_token_stream_h_
+#include <mocha/roaster/memory/pool.h>
 namespace mocha {
 class TokenContainer;
 class TokenInfo;
-class TokenStream : public Managed {
+class TokenStream : public memory::Allocated {
  public :
   ~TokenStream();
   static TokenStream* New();
-  TokenInfo* Advance( int index = 1 );
-  TokenInfo* Seek( int index );
-  TokenInfo* Undo( int index = 0 );
-  void Append( const char* token , int type , long line );  
-  int Size() const;
-  TokenInfo* Last() const;
-  TokenInfo* First() const;
+  TokenInfo* Advance(int index = 1);
+  TokenInfo* Seek(int index);
+  TokenInfo* Undo(int index = 0);
+  void Append(const char* token, int type, long line);  
+  int size() const { return size_; }
+  TokenInfo* last() const;
+  TokenInfo* first() const;
   static TokenInfo* kEmpty;
  private :
   TokenStream();
+  memory::Pool* pool() { return pool_; }
   int cursor_;
   int size_;
   TokenContainer* current_;
-  TokenContainer* head_;
-  TokenContainer* tail_;
+  TokenContainer* first_;
+  TokenContainer* last_;
+  memory::Pool* pool_;
 };
 
 }

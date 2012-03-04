@@ -112,10 +112,10 @@ inline const T* ScopedPtr<T>::Get () const {
 
 
 template<typename T>
-inline Handle<T> ScopedPtr<T>::ToHandle () {
+inline SharedPtr<T> ScopedPtr<T>::ToSharedPtr () {
   CheckInit_( "ScopedPtr::ToHandle" );
   is_renounced_ = true;
-  Handle<T> handle( ptr_ , handle_ );
+  SharedPtr<T> handle( ptr_ , handle_ );
   return handle;
 }
 

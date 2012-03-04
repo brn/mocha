@@ -4,7 +4,7 @@
 #include <utility>
 #include <utils/class_traits/uncopyable.h>
 #include <utils/smart_pointer/common/ptr_deleter.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 
 namespace mocha {
 
@@ -27,8 +27,8 @@ class ScopedList : private Uncopyable {
   inline T* Retain();
   
  protected :
-  inline T* RegistToList_( Handle<T> handle , T* ptr );
-  typedef std::list<Handle<T> > List_;
+  inline T* RegistToList_( SharedPtr<T> handle , T* ptr );
+  typedef std::list<SharedPtr<T> > List_;
   List_ list_;
  private :
   inline static void* operator new ( size_t size ){return 0;};

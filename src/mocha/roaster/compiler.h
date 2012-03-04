@@ -22,21 +22,22 @@
 
 #ifndef mocha_compiler_h_
 #define mocha_compiler_h_
-
+#include <useconfig.h>
 #include <utils/class_traits/uncopyable.h>
+#include <mocha/roaster/lib/unordered_map.h>
 #include <utils/thread/thread.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
-#include <utils/smart_pointer/ref_count/handle.h>
 #include <utils/file_system/file_system.h>
 #include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/utils/error_reporter.h>
-#include <utils/hash/hash_map/hash_map.h>
 
 namespace mocha {
 class ExternalAst;
-typedef Handle<ErrorReporter> ErrorHandler;
-typedef HashMap<const char*,ErrorHandler> ErrorMap;
-typedef Handle<ErrorMap> ErrorMapHandle;
+typedef SharedPtr<ErrorReporter> ErrorHandler;
+typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
+typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
+typedef SharedPtr<ErrorMap> ErrorMapHandle;
 
 /**
  * @class
@@ -47,9 +48,19 @@ typedef Handle<ErrorMap> ErrorMapHandle;
  * @see MochaMain::CompileStart_
  */
 class Compiler : private Uncopyable {
-  friend class CompilerFacade;
  public :
 
+  /**
+   * @constructor
+   * @example
+   * Compiler compiler("example.js");
+   * compiler.Compile(); //Created example-cmp.js
+   * @description
+   * Compiler instance could create only Caompiler::CreateInstance.
+   */
+  Compiler (const char* filename,  FinishDelegator* callback);
+  ~Compiler();
+  
   /**
    * @public
    * Start compile.
@@ -60,7 +71,7 @@ class Compiler : private Uncopyable {
    * @public
    * @param {const char*} -> a path of module.
    * @example
-   * var ExampleMod = require( "./ExampleMod" ).ExampleMod;
+   * var ExampleMod = require("./ExampleMod").ExampleMod;
    * @description
    * Load module file that the arguments of require function.
    * A path of module is determine that file is module or normal js file.
@@ -68,43 +79,17 @@ class Compiler : private Uncopyable {
    * if path is only '<filename>', that file is treat as module.
    * This rule borrow from node.js.
    */
-  StrHandle Load ( const char* filename );
+  StrSharedPtr Load (const char* filename);
 
-  void CatchException( const char* filename , ErrorHandler handle );
-  Handle<ExternalAst> GetAst( ErrorReporter* reporter , Handle<PathInfo> info , bool is_runtime );
+  void CatchException(const char* filename, ErrorHandler handle);
+  SharedPtr<ExternalAst> GetAst(ErrorReporter* reporter, SharedPtr<PathInfo> info, bool is_runtime);
   /**
    * @public
-   * @returns {Handle<PathInfo>}
+   * @returns {SharedPtr<PathInfo>}
    * Get PathInfo of main file path.
    */
-  Handle<PathInfo> GetMainPathInfo();
+  SharedPtr<PathInfo> GetMainPathInfo();
  private :
-
-  /**
-   * @public
-   * Create Compiler's singleton instance.
-   * This method callable only class MochaMain.
-   */
-  static Compiler* CreateInstance( const char* filename , FinishDelegator* callback );
-
-  /**
-   * @private
-   * @constructor
-   * @example
-   * Compiler compiler( "example.js" );
-   * compiler.Compile(); //Created example-cmp.js
-   * @description
-   * Compiler instance could create only Caompiler::CreateInstance.
-   */
-  Compiler ( const char* filename ,  FinishDelegator* callback );
-  ~Compiler () {}
-
-  /**
-   * @private
-   * @param {void*} -> compiler instance.
-   * Desctruct signleton instance.
-   */
-  static void Destructor_( void* ptr );
 
   /**
    * @private
@@ -118,14 +103,6 @@ class Compiler : private Uncopyable {
    * Pointer manager of pimpl internal class.
    */
   ScopedPtr<PtrImpl> implementation_;
-
-  /**
-   * @private
-   * Thread local storage key for get one only instance of per thread.
-   */
-  static ThreadLocalStorageKey local_key_;
-
-  static Mutex mutex_;
 
 };
 

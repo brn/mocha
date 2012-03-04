@@ -2,6 +2,6 @@
 
 namespace mocha {
 
-ParserEnv::ParserEnv( Scope* scope ) : has_directive_prologue_( false ) {}
+ParserEnv::ParserEnv(Scope* scope) : has_directive_prologue_(false) {}
 
 }

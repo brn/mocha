@@ -1,27 +1,26 @@
 #include <mocha/roaster/scanner/token_stream.h>
 #include <mocha/roaster/tokens/token_info.h>
-#include <utils/pool/managed_handle.h>
 #include <utils/int_types.h>
 
 namespace mocha {
 
 static const int max_element = 6;
 
-class TokenContainer {
+class TokenContainer : public memory::Allocated {
  public :
-  TokenContainer( const char* token , int type , long line )
-      :  size( 0 ) , next( 0 ) , prev( 0 ) {
-    Push( token , type , line );
+  TokenContainer(const char* token, int type, long line, memory::Pool* pool)
+      :  size(0), next(0), prev(0) {
+    Push(token, type, line, pool);
   }
 
-  void Push( const char* token , int type , long line ) {
-    TokenInfo* info = TokenInfo::New( token , type , line );
-    array[ size ] = reinterpret_cast<uintptr_t>( info );
+  void Push(const char* token, int type, long line, memory::Pool* pool) {
+    TokenInfo* info = new(pool) TokenInfo(token, type, line);
+    array[ size ] = reinterpret_cast<uintptr_t>(info);
     size++;
   }
 
-  TokenInfo* Get( int index ) {
-    return reinterpret_cast<TokenInfo*>( array[ index ] );
+  TokenInfo* Get(int index) {
+    return reinterpret_cast<TokenInfo*>(array[index]);
   }
                                 
   int size;
@@ -29,41 +28,34 @@ class TokenContainer {
   TokenContainer* prev;
 
  private :
-  uintptr_t array[ max_element ];
+  uintptr_t array[max_element];
 };
 
 
 TokenStream* TokenStream::New() {
-  return ManagedHandle::Retain( new TokenStream );
+  return new(memory::Pool::Local()) TokenStream();
 }
 
-TokenStream::TokenStream() : Managed() , cursor_( 0 ) , current_( 0 ) , head_( 0 ) , tail_( 0 ){};
-TokenStream::~TokenStream() {
-  TokenContainer *next = head_;
-  while ( next ) {
-    TokenContainer* tmp = next->next;
-    delete next;
-    next = tmp;
-  }
-};
+TokenStream::TokenStream()
+    : cursor_(0), size_(0), current_(0), first_(0), last_(0), pool_(memory::Pool::Local()){};
+TokenStream::~TokenStream() {};
 
-
-TokenInfo* TokenStream::Advance( int index ) {
-  if ( index < 1 ) return 0;
+TokenInfo* TokenStream::Advance(int index) {
+  if (index < 1) return 0;
   int count = cursor_;
   TokenContainer* tmp = current_;
   TokenInfo* ret;
-  for ( int i = 0; i < index; i++ ) {
-    if ( count == current_->size ) {
+  for (int i = 0; i < index; i++) {
+    if (count == current_->size) {
       current_ = current_->next;
-      if ( current_ == 0 ) {
+      if (current_ == 0) {
         current_ = tmp;
         return kEmpty;
       } else {
         count = 0;
       }
     }
-    ret = current_->Get( count );
+    ret = current_->Get(count);
     count++;
   }
   cursor_ = count;
@@ -72,33 +64,33 @@ TokenInfo* TokenStream::Advance( int index ) {
 
 
 
-void TokenStream::Append( const char* token , int type , long line ) {
-  if ( head_ == 0 ) {
-    head_ = new TokenContainer( token , type , line );
-    current_ = tail_ = head_;
+void TokenStream::Append(const char* token, int type, long line) {
+  if (first_ == 0) {
+    first_ = new(pool()) TokenContainer(token, type, line, pool());
+    current_ = last_ = first_;
   } else {
-    if ( head_->size < max_element ) {
-      tail_->Push( token , type , line );
+    if (first_->size < max_element) {
+      last_->Push(token, type, line, pool());
     } else {
-      TokenContainer* tmp = new TokenContainer( token , type , line );
-      tail_->next = tmp;
-      tmp->prev = tail_;
-      tail_ = tmp;
+      TokenContainer* tmp = new(pool()) TokenContainer(token, type, line, pool());
+      last_->next = tmp;
+      tmp->prev = last_;
+      last_ = tmp;
     }
   }
   size_++;
 }
 
 
-TokenInfo* TokenStream::Undo( int index ) {
-  if ( index < 0 ) return kEmpty;
+TokenInfo* TokenStream::Undo(int index) {
+  if (index < 0) return kEmpty;
   int count = cursor_;
   TokenContainer* tmp = current_;
   TokenInfo* ret;
-  for ( int i = 0; i < index; i++ ) {
-    if ( count < 0 ) {
+  for (int i = 0; i < index; i++) {
+    if (count < 0) {
       current_ = current_->prev;
-      if ( current_ == 0 ) {
+      if (current_ == 0) {
         current_ = tmp;
         return kEmpty;
       } else {
@@ -106,35 +98,32 @@ TokenInfo* TokenStream::Undo( int index ) {
       }
     }
     count--;
-    ret = current_->Get( count );
+    ret = current_->Get(count);
   }
   cursor_ = count;
   return ret;
 }
 
 
-TokenInfo* TokenStream::Seek( int index ) {
+TokenInfo* TokenStream::Seek(int index) {
   int cursor = cursor_;
   TokenContainer* tmp = current_;
-  TokenInfo* info = ( index > 0 )? Advance( index ) : Undo( ( -1 * index ) );
+  TokenInfo* info = (index > 0)? Advance(index) : Undo((-1 * index));
   current_ = tmp;
   cursor_ = cursor;
   return info;
 }
 
-
-int TokenStream::Size() const { return size_; }
-
-TokenInfo* TokenStream::First() const {
-  if ( head_ ) {
-    return head_->Get( 0 );
+TokenInfo* TokenStream::first() const {
+  if (first_) {
+    return first_->Get(0);
   }
   return 0;
 }
 
-TokenInfo* TokenStream::Last() const {
-  if ( tail_ ) {
-    return tail_->Get( tail_->size - 1 );
+TokenInfo* TokenStream::last() const {
+  if (last_) {
+    return last_->Get(last_->size - 1);
   }
   return 0;
 }

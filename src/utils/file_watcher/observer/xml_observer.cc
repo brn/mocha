@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <bootstrap/bootstrap.h>
+#include <mocha/bootstrap/bootstrap.h>
 #include <utils/thread/thread.h>
 #include <utils/file_watcher/observer/xml_observer.h>
 #include <utils/xml/xml_reader.h>

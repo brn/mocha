@@ -22,19 +22,17 @@
  */
 #include <assert.h>
 #include <mocha/roaster/ast/ast.h>
-#include <utils/pool/managed_handle.h>
 #include <mocha/roaster/tokens/token_info.h>
 namespace mocha {
 
-AstNode::AstNode( int type , const char* name , int64_t line ) :
-    Managed(),
-    type_( type ) , child_length_( 0 ) ,line_( line ) , name_( name ),
-    parent_( 0 ), first_child_( 0 ) , last_child_( 0 ),
-    next_sibling_( 0 ) , prev_sibling_( 0 ) {}
+AstNode::AstNode(int type, const char* name, int64_t line) :
+    type_(type), child_length_(0) ,line_(line), name_(name),
+    parent_(0), first_child_(0), last_child_(0),
+    next_sibling_(0), prev_sibling_(0) {}
 
-void AstNode::AddChild( AstNode* node ) {
-  assert( this != node );
-  if ( first_child_ == 0 ) {
+void AstNode::AddChild(AstNode* node) {
+  assert(this != node);
+  if (first_child_ == 0) {
     first_child_ = node;
     last_child_ = node;
     node->parent_ = this;
@@ -50,9 +48,9 @@ void AstNode::AddChild( AstNode* node ) {
   child_length_++;
 }
 
-void AstNode::InsertBefore( AstNode* node ) {
-  assert( this != node );
-  if ( first_child_ == 0 ) {
+void AstNode::InsertBefore(AstNode* node) {
+  assert(this != node);
+  if (first_child_ == 0) {
     first_child_ = node;
     last_child_ = node;
     node->next_sibling_ = 0;
@@ -67,12 +65,12 @@ void AstNode::InsertBefore( AstNode* node ) {
   child_length_++;
 }
 
-void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
-  assert( this != insert );
-  assert( this != target );
-  assert( target != insert );
+void AstNode::InsertBefore(AstNode* insert, AstNode* target) {
+  assert(this != insert);
+  assert(this != target);
+  assert(target != insert);
   bool is_insert = false;
-  if ( first_child_ == target ) {
+  if (first_child_ == target) {
     first_child_ = insert;
     target->prev_sibling_ = insert;
     insert->next_sibling_ = target;
@@ -80,9 +78,9 @@ void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
     is_insert = true;
   }
 
-  if ( !is_insert ) {
+  if (!is_insert) {
     insert->prev_sibling_ = target->prev_sibling_;
-    if ( target->prev_sibling_ ) {
+    if (target->prev_sibling_) {
       target->prev_sibling_->next_sibling_ = insert;
     }
     target->prev_sibling_ = insert;
@@ -92,13 +90,13 @@ void AstNode::InsertBefore( AstNode* insert , AstNode* target ) {
   child_length_++;
 }
 
-void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
-  assert( this != insert );
-  assert( target != insert );
-  assert( this != target );
+void AstNode::InsertAfter(AstNode* insert, AstNode* target) {
+  assert(this != insert);
+  assert(target != insert);
+  assert(this != target);
   bool is_insert = false;
 
-  if ( last_child_ == target    ) {
+  if (last_child_ == target   ) {
     last_child_ = insert;
     insert->prev_sibling_ = target;
     target->next_sibling_ = insert;
@@ -106,9 +104,9 @@ void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
     is_insert = true;
   }
 
-  if ( !is_insert ) {
+  if (!is_insert) {
     insert->next_sibling_ = target->next_sibling_;
-    if ( target->next_sibling_ ) {
+    if (target->next_sibling_) {
       target->next_sibling_->prev_sibling_ = insert;
     }
     target->next_sibling_ = insert;
@@ -118,21 +116,21 @@ void AstNode::InsertAfter( AstNode* insert , AstNode* target ) {
   child_length_++;
 }
 
-void AstNode::Append( AstNode* node ) {
-  assert( this != node );
-  if ( node ) {
-    typedef std::list<AstNode*> AstArray;
+void AstNode::Append(AstNode* node) {
+  assert(this != node);
+  if (node) {
+    typedef std::vector<AstNode*> AstArray;
     AstArray ast_array;
     NodeIterator iterator = node->ChildNodes();
-    while ( iterator.HasNext() ) {
+    while (iterator.HasNext()) {
       AstNode* item = iterator.Next();
-      assert( this != item );
-      assert( node != item );
-      ast_array.push_back( item );
+      assert(this != item);
+      assert(node != item);
+      ast_array.push_back(item);
     }
-    AstArray::iterator begin = ast_array.begin() , end = ast_array.end();
-    while ( begin != end ) {
-      AddChild( (*begin) );
+    AstArray::iterator begin = ast_array.begin(), end = ast_array.end();
+    while (begin != end) {
+      AddChild((*begin));
       ++begin;
     }
   }
@@ -140,9 +138,9 @@ void AstNode::Append( AstNode* node ) {
 
 void AstNode::RemoveAllChild() {
   NodeIterator iterator = ChildNodes();
-  while ( iterator.HasNext() ) {
+  while (iterator.HasNext()) {
     AstNode* item = iterator.Next();
-    if ( item->parent_ == this ) {
+    if (item->parent_ == this) {
       item->parent_ = 0;
     }
   }
@@ -164,39 +162,39 @@ AstNode* ReverseNodeIterator::Next() {
   return ret;
 }
 
-void AstNode::RemoveChild( AstNode* node ) {
-  assert( this != node );
+void AstNode::RemoveChild(AstNode* node) {
+  assert(this != node);
   AstNode* match_ptr = 0;
   NodeIterator iterator = ChildNodes();
-  while ( iterator.HasNext() ) {
+  while (iterator.HasNext()) {
     AstNode* item = iterator.Next();
-    if ( item == node ) {
+    if (item == node) {
       match_ptr = item;
       break;
     }
   }
-  if ( match_ptr ) {
+  if (match_ptr) {
     child_length_--;
-    if ( match_ptr->parent_ == this ) {
+    if (match_ptr->parent_ == this) {
       match_ptr->parent_ = 0;
     }
-    if ( match_ptr->next_sibling_ ) {
+    if (match_ptr->next_sibling_) {
       match_ptr->next_sibling_->prev_sibling_ = match_ptr->prev_sibling_;
     }
-    if ( match_ptr->prev_sibling_ ) {
+    if (match_ptr->prev_sibling_) {
       match_ptr->prev_sibling_->next_sibling_ = match_ptr->next_sibling_;
     }
                 
-    if ( first_child_ == match_ptr ) {
-      if ( match_ptr->next_sibling_ ) {
+    if (first_child_ == match_ptr) {
+      if (match_ptr->next_sibling_) {
         first_child_ = match_ptr->next_sibling_;
       } else {
         first_child_ = 0;
       }
     }
 
-    if ( last_child_ == match_ptr ) {
-      if ( match_ptr->prev_sibling_ ) {
+    if (last_child_ == match_ptr) {
+      if (match_ptr->prev_sibling_) {
         last_child_ = match_ptr->prev_sibling_;
       } else {
         last_child_ = 0;
@@ -207,284 +205,285 @@ void AstNode::RemoveChild( AstNode* node ) {
 }
 
 
-void AstNode::ReplaceWith( AstNode* node ) {
-  assert( this != node );
+void AstNode::ReplaceWith(AstNode* node) {
+  assert(this != node);
   node->parent_ = parent_;
   node->next_sibling_ = next_sibling_;
   node->prev_sibling_ = prev_sibling_;
-  if ( next_sibling_ ) {
+  if (next_sibling_) {
     next_sibling_->prev_sibling_ = node;
   }
-  if ( prev_sibling_ ) {
+  if (prev_sibling_) {
     prev_sibling_->next_sibling_ = node;
   }
 }
 
 
-void AstNode::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  assert( old_node != new_node );
-  assert( this != old_node );
-  assert( this != new_node );
-  if ( first_child_ ) {
-    if ( old_node == first_child_ ) {
+void AstNode::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  assert(old_node != new_node);
+  assert(this != old_node);
+  assert(this != new_node);
+  if (first_child_) {
+    if (old_node == first_child_) {
       first_child_ = new_node;
     }
-    if ( old_node == last_child_ ) {
+    if (old_node == last_child_) {
       last_child_ = new_node;
     }
-    old_node->ReplaceWith( new_node );
+    old_node->ReplaceWith(new_node);
   }
-  new_node->set_parent_node( this );
+  new_node->set_parent_node(this);
 }
 
-template <typename T , typename T2>
-inline T2* CopyChildren( T* dest , T2* source ) {
-  assert( dest != source );
-  dest->set_parent_node( source->parent_node() );
+template <typename T, typename T2>
+inline T2* CopyChildren(T* dest, T2* source, memory::Pool* pool) {
+  assert(dest != source);
+  dest->set_parent_node(source->parent_node());
   NodeIterator iter = source->ChildNodes();
-  while ( iter.HasNext() ) {
+  while (iter.HasNext()) {
     AstNode* item = iter.Next();
-    assert( source != item );
-    dest->AddChild( item->Clone() );
+    assert(source != item);
+    dest->AddChild(item->Clone(pool));
   }
   return dest;
 }
 
-#define NORMAL_CLONE( name )                    \
-  AstNode* name::Clone() {                      \
-    name* ret = name::New();                    \
-    return CopyChildren( ret , this );          \
+#define NORMAL_CLONE(name)                    \
+  AstNode* name::Clone(memory::Pool* pool) {    \
+    name* ret = new(pool) name;                 \
+    return CopyChildren(ret, this, pool);   \
   }
 
-#define LINED_CLONE( name )                     \
-  AstNode* name::Clone() {                      \
-    name* ret = name::New( line_number() );     \
-    return CopyChildren( ret , this );          \
+#define LINED_CLONE(name)                             \
+  AstNode* name::Clone(memory::Pool* pool) {            \
+    name* ret = new(pool) name(line_number());        \
+    return CopyChildren(ret, this, pool);               \
   }
 
 NORMAL_CLONE(NodeList);
 NORMAL_CLONE(Empty);
 NORMAL_CLONE(AstRoot);
-AstNode* FileRoot::Clone() {
-  FileRoot* root = FileRoot::New( filename_.c_str() );
+AstNode* FileRoot::Clone(memory::Pool* pool) {
+  FileRoot* root = new(pool) FileRoot(filename_.c_str());
   root->flags_ = flags_;
-  return CopyChildren( root , this );
+  return CopyChildren(root, this, pool);
 }
 NORMAL_CLONE(StatementList);
 
-AstNode* VersionStmt::Clone() {
-  TokenInfo *info = TokenInfo::New( version_->token() , version_->type() , version_->line_number() );
-  VersionStmt* stmt = VersionStmt::New( info , line_number() );
-  return CopyChildren( stmt , this );
+AstNode* VersionStmt::Clone(memory::Pool* pool) {
+  TokenInfo *info = new(pool) TokenInfo(version_->token(), version_->type(), version_->line_number());
+  VersionStmt* stmt = new(pool) VersionStmt(info, line_number());
+  return CopyChildren(stmt, this, pool);
 }
 
 LINED_CLONE(BlockStmt);
 
-AstNode* ModuleStmt::Clone() {
-  ModuleStmt* stmt = ModuleStmt::New( name_ , line_number() );
-  return CopyChildren( stmt , this );
+AstNode* ModuleStmt::Clone(memory::Pool* pool) {
+  ModuleStmt* stmt = new(pool) ModuleStmt(name_, line_number());
+  return CopyChildren(stmt, this, pool);
 }
 
 LINED_CLONE(ExportStmt);
 
-void ImportStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( expression_ == old_node ) {
-    old_node->ReplaceWith( new_node );
+void ImportStmt::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (expression_ == old_node) {
+    old_node->ReplaceWith(new_node);
     expression_ = new_node;
-  } else if ( from_ == old_node ) {
-    old_node->ReplaceWith( new_node );
+  } else if (from_ == old_node) {
+    old_node->ReplaceWith(new_node);
     from_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
-AstNode* ImportStmt::Clone() {
-  ImportStmt* ret = ImportStmt::New( expression_type_ , module_type_ , line_number() );
-  if ( expression_ ) {
-    ret->expression_ = expression_->Clone();
-    ret->expression_->set_parent_node( ret );
+AstNode* ImportStmt::Clone(memory::Pool* pool) {
+  ImportStmt* ret = new(pool) ImportStmt(expression_type_, module_type_, line_number());
+  if (expression_) {
+    ret->expression_ = expression_->Clone(pool);
+    ret->expression_->set_parent_node(ret);
   }
-  if ( from_ ) {
-    ret->from_ = from_->Clone();
-    ret->from_->set_parent_node( ret );
+  if (from_) {
+    ret->from_ = from_->Clone(pool);
+    ret->from_->set_parent_node(ret);
   }
-  if ( module_key_ ) {
-    ret->module_key_ = TokenInfo::New( module_key_->token() , module_key_->type() , module_key_->line_number() );
+  if (module_key_) {
+    ret->module_key_ =
+        new(pool) TokenInfo(module_key_->token(), module_key_->type(), module_key_->line_number());
   }
-  return CopyChildren( ret , this );
+  return CopyChildren(ret, this, pool);
 }
 
-AstNode* VariableStmt::Clone() {
-  VariableStmt* stmt = VariableStmt::New( line_number() );
-  return CopyChildren( stmt , this );
+AstNode* VariableStmt::Clone(memory::Pool* pool) {
+  VariableStmt* stmt = new(pool) VariableStmt(line_number());
+  return CopyChildren(stmt, this, pool);
 }
 
-AstNode* LetStmt::Clone() {
-  LetStmt* stmt = LetStmt::New( expression_ , line_number() );
-  return CopyChildren( stmt ,this );
+AstNode* LetStmt::Clone(memory::Pool* pool) {
+  LetStmt* stmt = new(pool) LetStmt(expression_, line_number());
+  return CopyChildren(stmt, this, pool);
 }
 
 LINED_CLONE(ExpressionStmt);
 
-void IFStmt::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( condition_ == old_node ) {
+void IFStmt::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (condition_ == old_node) {
     condition_ = new_node;
-    new_node->After( old_node->next_sibling() );
-    new_node->Before( old_node->previous_sibling() );
-    new_node->set_parent_node( this );
-  } else if ( then_statement_ == old_node ) {
+    new_node->After(old_node->next_sibling());
+    new_node->Before(old_node->previous_sibling());
+    new_node->set_parent_node(this);
+  } else if (then_statement_ == old_node) {
     then_statement_ = new_node;
-    new_node->After( old_node->next_sibling() );
-    new_node->Before( old_node->previous_sibling() );
-    new_node->set_parent_node( this );
-  } else if ( else_statement_ == old_node ) {
+    new_node->After(old_node->next_sibling());
+    new_node->Before(old_node->previous_sibling());
+    new_node->set_parent_node(this);
+  } else if (else_statement_ == old_node) {
     else_statement_ = new_node;
-    new_node->After( old_node->next_sibling() );
-    new_node->Before( old_node->previous_sibling() );
-    new_node->set_parent_node( this );
+    new_node->After(old_node->next_sibling());
+    new_node->Before(old_node->previous_sibling());
+    new_node->set_parent_node(this);
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
-AstNode* IFStmt::Clone() {
-  IFStmt* stmt = IFStmt::New( line_number() );
-  if ( condition_ ) {
-    stmt->condition_ = condition_->Clone();
-    stmt->condition_->set_parent_node( stmt );
+AstNode* IFStmt::Clone(memory::Pool* pool) {
+  IFStmt* stmt = new(pool) IFStmt(line_number());
+  if (condition_) {
+    stmt->condition_ = condition_->Clone(pool);
+    stmt->condition_->set_parent_node(stmt);
   }
-  if ( then_statement_ ) {
-    stmt->then_statement_ = then_statement_->Clone();
-    stmt->then_statement_->set_parent_node( stmt );
+  if (then_statement_) {
+    stmt->then_statement_ = then_statement_->Clone(pool);
+    stmt->then_statement_->set_parent_node(stmt);
   }
-  if ( else_statement_ ) {
-    stmt->else_statement_ = else_statement_->Clone();
-    stmt->else_statement_->set_parent_node( stmt );
+  if (else_statement_) {
+    stmt->else_statement_ = else_statement_->Clone(pool);
+    stmt->else_statement_->set_parent_node(stmt);
   }
-  return CopyChildren( stmt ,this );
+  return CopyChildren(stmt, this, pool);
 }
 
-AstNode* IterationStmt::Clone() {
-  IterationStmt* stmt = IterationStmt::New( node_type() , line_number() );
-  if ( expression_ ) {
-    stmt->expression_ = expression_->Clone();
-    stmt->expression_->set_parent_node( stmt );
+AstNode* IterationStmt::Clone(memory::Pool* pool) {
+  IterationStmt* stmt = new(pool) IterationStmt(node_type(), line_number());
+  if (expression_) {
+    stmt->expression_ = expression_->Clone(pool);
+    stmt->expression_->set_parent_node(stmt);
   }
-  return CopyChildren( stmt , this );
+  return CopyChildren(stmt, this, pool);
 }
 
 LINED_CLONE(ContinueStmt);
 LINED_CLONE(BreakStmt);
 LINED_CLONE(ReturnStmt);
 
-AstNode* WithStmt::Clone() {
-  WithStmt* stmt = WithStmt::New( line_number() );
-  if ( expression_ ) {
-    stmt->expression_ = expression_->Clone();
-    stmt->expression_->set_parent_node( stmt );
+AstNode* WithStmt::Clone(memory::Pool* pool) {
+  WithStmt* stmt = new(pool) WithStmt(line_number());
+  if (expression_) {
+    stmt->expression_ = expression_->Clone(pool);
+    stmt->expression_->set_parent_node(stmt);
   }
-  return CopyChildren( stmt , this );
+  return CopyChildren(stmt, this, pool);
 }
 
 LINED_CLONE(LabelledStmt);
 
-AstNode* SwitchStmt::Clone() {
-  SwitchStmt* stmt = SwitchStmt::New( line_number() );
-  if ( expression_ ) {
-    stmt->expression_ = expression_->Clone();
-    stmt->expression_->set_parent_node( stmt );
+AstNode* SwitchStmt::Clone(memory::Pool* pool) {
+  SwitchStmt* stmt = new(pool) SwitchStmt(line_number());
+  if (expression_) {
+    stmt->expression_ = expression_->Clone(pool);
+    stmt->expression_->set_parent_node(stmt);
   }
-  return CopyChildren( stmt ,this );
+  return CopyChildren(stmt ,this, pool);
 }
 
-AstNode* ThrowStmt::Clone() {
-  ThrowStmt* stmt = ThrowStmt::New( line_number() );
-  if ( expression_ ) {
-    stmt->expression_ = expression_->Clone();
-    stmt->expression_->set_parent_node( stmt );
+AstNode* ThrowStmt::Clone(memory::Pool* pool) {
+  ThrowStmt* stmt = new(pool) ThrowStmt(line_number());
+  if (expression_) {
+    stmt->expression_ = expression_->Clone(pool);
+    stmt->expression_->set_parent_node(stmt);
   }
-  return CopyChildren( stmt , this );
+  return CopyChildren(stmt, this, pool);
 }
 
-AstNode* TryStmt::Clone() {
-  TryStmt* stmt = TryStmt::New( line_number() );
-  if ( catch_block_ ) {
-    stmt->catch_block_ = catch_block_->Clone();
-    stmt->catch_block_->set_parent_node( stmt );
+AstNode* TryStmt::Clone(memory::Pool* pool) {
+  TryStmt* stmt = new(pool) TryStmt(line_number());
+  if (catch_block_) {
+    stmt->catch_block_ = catch_block_->Clone(pool);
+    stmt->catch_block_->set_parent_node(stmt);
   }
-  if ( finally_block_ ) {
-    stmt->finally_block_ = finally_block_->Clone();
-    stmt->finally_block_->set_parent_node( stmt );
+  if (finally_block_) {
+    stmt->finally_block_ = finally_block_->Clone(pool);
+    stmt->finally_block_->set_parent_node(stmt);
   }
-  return CopyChildren( stmt , this );
+  return CopyChildren(stmt, this, pool);
 }
 
 LINED_CLONE(AssertStmt);
 
-AstNode* CaseClause::Clone() {
-  CaseClause* clause = CaseClause::New( line_number() );
-  if ( expression_ ) {
-    clause->expression_ = expression_->Clone();
-    clause->expression_->set_parent_node( clause );
+AstNode* CaseClause::Clone(memory::Pool* pool) {
+  CaseClause* clause = new(pool) CaseClause(line_number());
+  if (expression_) {
+    clause->expression_ = expression_->Clone(pool);
+    clause->expression_->set_parent_node(clause);
   }
-  return CopyChildren( clause , this );
+  return CopyChildren(clause, this, pool);
 }
 
-AstNode* Expression::Clone() {
-  Expression* exp = Expression::New( line_number() );
+AstNode* Expression::Clone(memory::Pool* pool) {
+  Expression* exp = new(pool) Expression(line_number());
   exp->flags_ = flags_;
-  return CopyChildren( exp , this );
+  return CopyChildren(exp, this, pool);
 }
 
-AstNode* VariableDeclarationList::Clone() {
-  VariableDeclarationList* decl_list = VariableDeclarationList::New( line_number() );
-  return CopyChildren( decl_list , this );
+AstNode* VariableDeclarationList::Clone(memory::Pool* pool) {
+  VariableDeclarationList* decl_list = new(pool) VariableDeclarationList(line_number());
+  return CopyChildren(decl_list, this, pool);
 }
 
-AstNode* Class::Clone() {
-  Class* cls = Class::New( expandar_->Clone() , line_number() );
-  if ( name_ ) {
-    cls->name_ = name_->Clone();
-    cls->name_->set_parent_node( cls );
+AstNode* Class::Clone(memory::Pool* pool) {
+  Class* cls = new(pool) Class(expandar_->Clone(pool), line_number());
+  if (name_) {
+    cls->name_ = name_->Clone(pool);
+    cls->name_->set_parent_node(cls);
   }
-  if ( body_ ) {
-    cls->body_ = body_->Clone();
-    cls->body_->set_parent_node( cls );
+  if (body_) {
+    cls->body_ = body_->Clone(pool);
+    cls->body_->set_parent_node(cls);
   }
   cls->flags_ = flags_;
-  return CopyChildren( cls , this );
+  return CopyChildren(cls, this, pool);
 }
 
-AstNode* ClassProperties::Clone() {
-  ClassProperties *prop = ClassProperties::New( line_number() );
-  CopyChildren( &( prop->public_ ) , &public_ );
-  CopyChildren( &( prop->private_ ) , &private_ );
-  CopyChildren( &( prop->public_static_ ) , &public_static_ );
-  CopyChildren( &( prop->private_static_ ) , &private_static_ );
-  CopyChildren( &( prop->prototype_ ) , &prototype_ );
-  prop->constructor_ = constructor_->Clone();
-  return CopyChildren( prop , this );
+AstNode* ClassProperties::Clone(memory::Pool* pool) {
+  ClassProperties *prop = new(pool) ClassProperties(line_number());
+  CopyChildren(&(prop->public_), &public_, pool);
+  CopyChildren(&(prop->private_), &private_, pool);
+  CopyChildren(&(prop->public_static_), &public_static_, pool);
+  CopyChildren(&(prop->private_static_), &private_static_, pool);
+  CopyChildren(&(prop->prototype_), &prototype_, pool);
+  prop->constructor_ = constructor_->Clone(pool);
+  return CopyChildren(prop, this, pool);
 }
 
-AstNode* ClassExpandar::Clone() {
-  ClassExpandar* exp = ClassExpandar::New( attr_ , line_number() );
-  return CopyChildren( exp , this );
+AstNode* ClassExpandar::Clone(memory::Pool* pool) {
+  ClassExpandar* exp = new(pool) ClassExpandar(attr_, line_number());
+  return CopyChildren(exp, this, pool);
 }
 
-AstNode* ClassMember::Clone() {
-  ClassMember* member = ClassMember::New( attr_ , line_number() );
-  return CopyChildren( member , this );
+AstNode* ClassMember::Clone(memory::Pool* pool) {
+  ClassMember* member = new(pool) ClassMember(attr_, line_number());
+  return CopyChildren(member, this, pool);
 }
 
-AstNode* Function::Clone() {
-  Function *fn = Function::New( line_number() );
-  if ( name_ ) {
-    fn->set_name( name_->Clone() );
+AstNode* Function::Clone(memory::Pool* pool) {
+  Function *fn = new(pool) Function(line_number());
+  if (name_) {
+    fn->set_name(name_->Clone(pool));
   }
-  if ( argv_ ) {
-    fn->set_argv( argv_->Clone() );
-    fn->argv_->set_parent_node( fn );
+  if (argv_) {
+    fn->set_argv(argv_->Clone(pool));
+    fn->argv_->set_parent_node(fn);
   }
   fn->fn_type_ = fn_type_;
   fn->context_ = context_;
@@ -494,236 +493,238 @@ AstNode* Function::Clone() {
   fn->statement_list_ = statement_list_;
   fn->variable_list_ = variable_list_;
   fn->try_catch_list_ = try_catch_list_;
-  return CopyChildren( fn , this );
+  return CopyChildren(fn, this, pool);
 }
 
-void CallExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == callable_ ) {
-    new_node->Before( 0 );
-    new_node->After( 0 );
-    new_node->set_parent_node( this );
+void CallExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == callable_) {
+    new_node->Before(0);
+    new_node->After(0);
+    new_node->set_parent_node(this);
     callable_ = new_node;
-  } else if ( old_node == args_ ) {
-    new_node->Before( 0 );
-    new_node->After( 0 );
-    new_node->set_parent_node( this );
+  } else if (old_node == args_) {
+    new_node->Before(0);
+    new_node->After(0);
+    new_node->set_parent_node(this);
     args_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
-AstNode* CallExp::Clone() {
-  CallExp *exp = CallExp::New( call_type_ , line_number() );
-  if ( callable_ ) {
-    exp->callable_ = callable_->Clone();
-    exp->callable_->set_parent_node( exp );
+AstNode* CallExp::Clone(memory::Pool* pool) {
+  CallExp *exp = new(pool) CallExp(call_type_, line_number());
+  if (callable_) {
+    exp->callable_ = callable_->Clone(pool);
+    exp->callable_->set_parent_node(exp);
   }
-  if ( args_ ) {
-    exp->args_ = args_->Clone();
-    exp->args_->set_parent_node( exp );
+  if (args_) {
+    exp->args_ = args_->Clone(pool);
+    exp->args_->set_parent_node(exp);
   }
-  return CopyChildren( exp , this );
+  return CopyChildren(exp, this, pool);
 }
 
-AstNode* NewExp::Clone() {
-  NewExp* exp = NewExp::New( line_number() );
-  return CopyChildren( exp , this );
+AstNode* NewExp::Clone(memory::Pool* pool) {
+  NewExp* exp = new(pool) NewExp(line_number());
+  return CopyChildren(exp, this, pool);
 }
 
 LINED_CLONE(YieldExp);
 
 
-void PostfixExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == expression_ ) {
-    new_node->Before( expression_->previous_sibling() );
-    new_node->After( expression_->next_sibling() );
-    new_node->set_parent_node( this );
+void PostfixExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == expression_) {
+    new_node->Before(expression_->previous_sibling());
+    new_node->After(expression_->next_sibling());
+    new_node->set_parent_node(this);
     expression_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
 
-AstNode* PostfixExp::Clone() {
-  PostfixExp* exp = PostfixExp::New( operand_ , expression_ , line_number() );
-  return CopyChildren( exp , this );
+AstNode* PostfixExp::Clone(memory::Pool* pool) {
+  PostfixExp* exp = new(pool) PostfixExp(operand_, expression_->Clone(pool), line_number());
+  return CopyChildren(exp, this, pool);
 }
 
 
-void UnaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == expression_ ) {
-    new_node->Before( expression_->previous_sibling() );
-    new_node->After( expression_->next_sibling() );
-    new_node->set_parent_node( this );
+void UnaryExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == expression_) {
+    new_node->Before(expression_->previous_sibling());
+    new_node->After(expression_->next_sibling());
+    new_node->set_parent_node(this);
     expression_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
 
-AstNode* UnaryExp::Clone() {
-  UnaryExp* exp = UnaryExp::New( operand_ , expression_ , line_number() );
-  return CopyChildren( exp , this );
+AstNode* UnaryExp::Clone(memory::Pool* pool) {
+  UnaryExp* exp = new(pool) UnaryExp(operand_, expression_->Clone(pool), line_number());
+  return CopyChildren(exp, this, pool);
 }
 
-void BinaryExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == left_value_ ) {
-    new_node->Before( left_value_->previous_sibling() );
-    new_node->After( left_value_->next_sibling() );
-    new_node->set_parent_node( this );
+void BinaryExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == left_value_) {
+    new_node->Before(left_value_->previous_sibling());
+    new_node->After(left_value_->next_sibling());
+    new_node->set_parent_node(this);
     left_value_ = new_node;
-  } else if ( old_node == right_value_ ) {
-    new_node->Before( right_value_->previous_sibling() );
-    new_node->After( right_value_->next_sibling() );
-    new_node->set_parent_node( this );
+  } else if (old_node == right_value_) {
+    new_node->Before(right_value_->previous_sibling());
+    new_node->After(right_value_->next_sibling());
+    new_node->set_parent_node(this);
     right_value_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
-AstNode* BinaryExp::Clone() {
-  BinaryExp* exp = BinaryExp::New( operand_ , left_value_->Clone() , right_value_->Clone() , line_number() );
-  exp->left_value()->set_parent_node( exp );
-  exp->right_value()->set_parent_node( exp );
-  return CopyChildren( exp , this );
+AstNode* BinaryExp::Clone(memory::Pool* pool) {
+  BinaryExp* exp = new(pool) BinaryExp(operand_, left_value_->Clone(pool), right_value_->Clone(pool), line_number());
+  exp->left_value()->set_parent_node(exp);
+  exp->right_value()->set_parent_node(exp);
+  return CopyChildren(exp, this, pool);
 }
 
 
-void CompareExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == left_value_ ) {
-    new_node->Before( left_value_->previous_sibling() );
-    new_node->After( left_value_->next_sibling() );
-    new_node->set_parent_node( this );
+void CompareExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == left_value_) {
+    new_node->Before(left_value_->previous_sibling());
+    new_node->After(left_value_->next_sibling());
+    new_node->set_parent_node(this);
     left_value_ = new_node;
-  } else if ( old_node == right_value_ ) {
-    new_node->Before( right_value_->previous_sibling() );
-    new_node->After( right_value_->next_sibling() );
-    new_node->set_parent_node( this );
+  } else if (old_node == right_value_) {
+    new_node->Before(right_value_->previous_sibling());
+    new_node->After(right_value_->next_sibling());
+    new_node->set_parent_node(this);
     right_value_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
 
-AstNode* CompareExp::Clone() {
-  CompareExp* exp = CompareExp::New( operand_ , left_value_->Clone() , right_value_->Clone() , line_number() );
-  exp->left_value()->set_parent_node( exp );
-  exp->right_value()->set_parent_node( exp );
-  return CopyChildren( exp , this );
+AstNode* CompareExp::Clone(memory::Pool* pool) {
+  CompareExp* exp =
+      new(pool) CompareExp(operand_, left_value_->Clone(pool), right_value_->Clone(pool), line_number());
+  exp->left_value()->set_parent_node(exp);
+  exp->right_value()->set_parent_node(exp);
+  return CopyChildren(exp, this, pool);
 }
 
 
-void ConditionalExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == condition_ ) {
-    new_node->Before( condition_->previous_sibling() );
-    new_node->After( condition_->next_sibling() );
-    new_node->set_parent_node( this );
+void ConditionalExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == condition_) {
+    new_node->Before(condition_->previous_sibling());
+    new_node->After(condition_->next_sibling());
+    new_node->set_parent_node(this);
     condition_ = new_node;
-  } else if ( old_node == case_true_ ) {
-    new_node->Before( case_true_->previous_sibling() );
-    new_node->After( case_true_->next_sibling() );
-    new_node->set_parent_node( this );
+  } else if (old_node == case_true_) {
+    new_node->Before(case_true_->previous_sibling());
+    new_node->After(case_true_->next_sibling());
+    new_node->set_parent_node(this);
     case_true_ = new_node;
-  } else if ( old_node == case_false_ ) {
-    new_node->Before( case_false_->previous_sibling() );
-    new_node->After( case_false_->next_sibling() );
-    new_node->set_parent_node( this );
+  } else if (old_node == case_false_) {
+    new_node->Before(case_false_->previous_sibling());
+    new_node->After(case_false_->next_sibling());
+    new_node->set_parent_node(this);
     case_false_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
 
-AstNode* ConditionalExp::Clone() {
-  ConditionalExp* exp = ConditionalExp::New( condition_->Clone(), case_true_->Clone() , case_false_->Clone() , line_number() );
-  exp->condition()->set_parent_node( exp );
-  exp->case_true()->set_parent_node( exp );
-  exp->case_false()->set_parent_node( exp );
-  return CopyChildren( exp , this );
+AstNode* ConditionalExp::Clone(memory::Pool* pool) {
+  ConditionalExp* exp =
+      new(pool) ConditionalExp(condition_->Clone(pool), case_true_->Clone(pool), case_false_->Clone(pool), line_number());
+  exp->condition()->set_parent_node(exp);
+  exp->case_true()->set_parent_node(exp);
+  exp->case_false()->set_parent_node(exp);
+  return CopyChildren(exp, this, pool);
 }
 
 
-void AssignmentExp::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( old_node == left_value_ ) {
-    new_node->Before( left_value_->previous_sibling() );
-    new_node->After( left_value_->next_sibling() );
-    new_node->set_parent_node( this );
+void AssignmentExp::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (old_node == left_value_) {
+    new_node->Before(left_value_->previous_sibling());
+    new_node->After(left_value_->next_sibling());
+    new_node->set_parent_node(this);
     left_value_ = new_node;
-  } else if ( old_node == right_value_ ) {
-    new_node->Before( right_value_->previous_sibling() );
-    new_node->After( right_value_->next_sibling() );
-    new_node->set_parent_node( this );
+  } else if (old_node == right_value_) {
+    new_node->Before(right_value_->previous_sibling());
+    new_node->After(right_value_->next_sibling());
+    new_node->set_parent_node(this);
     right_value_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
-AstNode* AssignmentExp::Clone() {
-  AssignmentExp* exp = AssignmentExp::New( operand_ , left_value_->Clone() , right_value_->Clone() , line_number() );
-  exp->left_value()->set_parent_node( exp );
-  exp->right_value()->set_parent_node( exp );
-  return CopyChildren( exp , this );
+AstNode* AssignmentExp::Clone(memory::Pool* pool) {
+  AssignmentExp* exp =
+      new(pool) AssignmentExp(operand_, left_value_->Clone(pool), right_value_->Clone(pool), line_number());
+  exp->left_value()->set_parent_node(exp);
+  exp->right_value()->set_parent_node(exp);
+  return CopyChildren(exp, this, pool);
 }
 
-AstNode* Literal::Clone() {
-  Literal* ret = Literal::New( value_type_ , line_number() );
-  if ( value_type_ != kPrivateProperty ) {
-    TokenInfo* value = TokenInfo::New( value_->token() , value_->type() , value_->line_number() );
-    ret->set_value( value );
-    printf( "%s\n" , value_->token() );
+AstNode* Literal::Clone(memory::Pool* pool) {
+  Literal* ret = new(pool) Literal(value_type_, line_number());
+  if (value_type_ != kPrivateProperty) {
+    TokenInfo* value = new(pool) TokenInfo(value_->token(), value_->type(), value_->line_number());
+    ret->set_value(value);
   } else {
-    ret->set_node( node_ );
+    ret->set_node(node_);
   }
-  return CopyChildren( ret , this );
+  return CopyChildren(ret, this, pool);
 }
 
-AstNode* ArrayLikeLiteral::Clone() {
-  ArrayLikeLiteral* array = ArrayLikeLiteral::New( line_number() );
+AstNode* ArrayLikeLiteral::Clone(memory::Pool* pool) {
+  ArrayLikeLiteral* array = new(pool) ArrayLikeLiteral(line_number());
   array->flags_ = flags_;
-  CopyChildren( &( array->elements_ ) , &elements_ );
-  return CopyChildren( array , this );
+  CopyChildren(&(array->elements_), &elements_, pool);
+  return CopyChildren(array, this, pool);
 }
 
-AstNode* ObjectLikeLiteral::Clone() {
-  ObjectLikeLiteral* object = ObjectLikeLiteral::New( line_number() );
+AstNode* ObjectLikeLiteral::Clone(memory::Pool* pool) {
+  ObjectLikeLiteral* object = new(pool) ObjectLikeLiteral(line_number());
   object->flags_ = flags_;
-  CopyChildren( &( object->elements_ ) , &elements_ );
-  return CopyChildren( object , this );
+  CopyChildren(&(object->elements_), &elements_, pool);
+  return CopyChildren(object, this, pool);
 }
 
-AstNode* GeneratorExpression::Clone() {
-  GeneratorExpression* generator = GeneratorExpression::New( expression_ , line_number() );
-  return CopyChildren( generator , this );
+AstNode* GeneratorExpression::Clone(memory::Pool* pool) {
+  GeneratorExpression* generator = new(pool) GeneratorExpression(expression_, line_number());
+  return CopyChildren(generator, this, pool);
 }
 
-void GeneratorExpression::ReplaceChild( AstNode* old_node , AstNode* new_node ) {
-  if ( expression_ == old_node ) {
-    old_node->ReplaceWith( new_node );
+void GeneratorExpression::ReplaceChild(AstNode* old_node, AstNode* new_node) {
+  if (expression_ == old_node) {
+    old_node->ReplaceWith(new_node);
     expression_ = new_node;
   } else {
-    AstNode::ReplaceChild( old_node , new_node );
+    AstNode::ReplaceChild(old_node, new_node);
   }
 }
 
-AstNode* DstaTree::Clone() {
-  DstaTree* tree = DstaTree::New();
-  if ( symbol_ ) {
-    tree->symbol_ = symbol_->Clone()->CastToLiteral();
+AstNode* DstaTree::Clone(memory::Pool* pool) {
+  DstaTree* tree = new(pool) DstaTree;
+  if (symbol_) {
+    tree->symbol_ = symbol_->Clone(pool)->CastToLiteral();
   }
-  return CopyChildren( tree , this );
+  return CopyChildren(tree, this, pool);
 }
 
-AstNode* DstaExtractedExpressions::Clone() {
-  DstaExtractedExpressions* exp = DstaExtractedExpressions::New();
-  CopyChildren( &exp->refs_ , &refs_ );
-  return CopyChildren( exp , this );
+AstNode* DstaExtractedExpressions::Clone(memory::Pool* pool) {
+  DstaExtractedExpressions* exp = new(pool) DstaExtractedExpressions;
+  CopyChildren(&exp->refs_, &refs_, pool);
+  return CopyChildren(exp, this, pool);
 }
 
 }

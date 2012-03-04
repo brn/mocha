@@ -2,12 +2,16 @@
 #define mocha_syntax_sugar_processor_h_
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <utils/class_traits/static.h>
+#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
 namespace mocha {
 class ProcessorInfo;
-class SyntaxSugarProcessor : private Static {
+class IVisitor;
+class SyntaxSugarProcessor : public Processor {
  public :
-  static void ProcessArrayComprehensions( ArrayLikeLiteral* literal, ProcessorInfo* info );
-  static void ProcessGeneratorExpression( GeneratorExpression* generator , ProcessorInfo* info );
+  static void ProcessArrayComprehensions(ArrayLikeLiteral* literal, ProcessorInfo* info);
+  static void ProcessGeneratorExpression(GeneratorExpression* generator, ProcessorInfo* info);
+ private :
+  static void CreateClosure(AstNode* ast_node, AstNode* body, IVisitor* visitor, int64_t line);
 };
 }
 

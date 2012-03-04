@@ -6,20 +6,20 @@
 
 using namespace mocha;
 
-TokenInfo::TokenInfo () : Managed () {};
-TokenInfo::TokenInfo ( const char* token , int type , int line )
-		: Managed (), type_ ( type ), line_ ( line ) {
-	value_.assign( token );
+TokenInfo::TokenInfo(){};
+TokenInfo::TokenInfo(const char* token, int type, int line)
+    : type_(type), line_(line) {
+  value_.assign(token);
 };
 
-TokenInfo& TokenInfo::operator =				( const TokenInfo& info ) {
-	type_ = info.type_;
-	line_ = info.line_;
-	value_ = info.value_;
-	compressed_value_ = info.compressed_value_;
-	flags_ = info.flags_;
-	return (*this);
+TokenInfo& TokenInfo::operator = (const TokenInfo& info) {
+  type_ = info.type_;
+  line_ = info.line_;
+  value_ = info.value_;
+  compressed_value_ = info.compressed_value_;
+  flags_ = info.flags_;
+  return (*this);
 }
 
-TokenInfo::~TokenInfo () {}
+TokenInfo::~TokenInfo(){}
 

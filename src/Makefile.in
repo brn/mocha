@@ -56,13 +56,13 @@ am_mchd_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	import_processor.$(OBJEXT) call_processor.$(OBJEXT) \
 	trait_processor.$(OBJEXT) yield_processor.$(OBJEXT) \
 	constant_optimizer.$(OBJEXT) ifstatement_optimizer.$(OBJEXT) \
-	ast_utils.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
+	ast_builder.$(OBJEXT) format.$(OBJEXT) bootstrap.$(OBJEXT) \
 	char_allocator.$(OBJEXT) codegen_visitor.$(OBJEXT) \
 	symbol_collector.$(OBJEXT) optimizer_visitor.$(OBJEXT) \
 	codewriter.$(OBJEXT) compiler.$(OBJEXT) symbol_list.$(OBJEXT) \
 	compile_result.$(OBJEXT) external_resource.$(OBJEXT) \
 	compile_info.$(OBJEXT) consts.$(OBJEXT) parser.$(OBJEXT) \
-	external_ast.$(OBJEXT) compile_runner.$(OBJEXT) \
+	external_ast.$(OBJEXT) pool.$(OBJEXT) compile_runner.$(OBJEXT) \
 	list_runner.$(OBJEXT) error_runner.$(OBJEXT) \
 	phantom_runner.$(OBJEXT) compiler_facade.$(OBJEXT) \
 	encoding.$(OBJEXT) compiler_utils.$(OBJEXT) \
@@ -74,14 +74,13 @@ am_mchd_OBJECTS = ast.$(OBJEXT) ast_transformer.$(OBJEXT) \
 	commands_analyzer.$(OBJEXT) internal.$(OBJEXT) mocha.$(OBJEXT) \
 	token_stream.$(OBJEXT) source_stream.$(OBJEXT) \
 	scanner.$(OBJEXT) js_token.$(OBJEXT) main.$(OBJEXT) \
-	managed_handle.$(OBJEXT) mkdir.$(OBJEXT) \
-	observer_runner.$(OBJEXT) parser_connector.$(OBJEXT) \
-	parser_tracer.$(OBJEXT) scope.$(OBJEXT) setting.$(OBJEXT) \
-	stat.$(OBJEXT) thread.$(OBJEXT) tinyxml.$(OBJEXT) \
-	tinystr.$(OBJEXT) tinyxmlparser.$(OBJEXT) \
-	tinyxmlerror.$(OBJEXT) token_info.$(OBJEXT) \
-	virtual_directory.$(OBJEXT) xml_observer.$(OBJEXT) \
-	versions.$(OBJEXT) xml_reader.$(OBJEXT) \
+	mkdir.$(OBJEXT) observer_runner.$(OBJEXT) \
+	parser_connector.$(OBJEXT) parser_tracer.$(OBJEXT) \
+	scope.$(OBJEXT) setting.$(OBJEXT) stat.$(OBJEXT) \
+	thread.$(OBJEXT) tinyxml.$(OBJEXT) tinystr.$(OBJEXT) \
+	tinyxmlparser.$(OBJEXT) tinyxmlerror.$(OBJEXT) \
+	token_info.$(OBJEXT) virtual_directory.$(OBJEXT) \
+	xml_observer.$(OBJEXT) versions.$(OBJEXT) xml_reader.$(OBJEXT) \
 	xml_setting_info.$(OBJEXT)
 mchd_OBJECTS = $(am_mchd_OBJECTS)
 mchd_LDADD = $(LDADD)
@@ -193,7 +192,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -DCURRENT_DIR=\"`pwd`\" -fno-exceptions -std=c++0x -std=gnu++0x `icu-config --ldflags`
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -DBOOST_NO_TYPEID -DBOOST_NO_EXCEPTIONS -DCURRENT_DIR=\"`pwd`\" -fno-exceptions -std=c++0x -std=gnu++0x `icu-config --ldflags`
 AM_CXXFLAGS = $(AM_CFLAGS)
 mchd_LDFLAGS = $(PTHREAD) -Xlinker -rpath -Xlinker `icu-config --icudata-install-dir` ./third_party/v8/libv8.a
 mchd_SOURCES = \
@@ -242,12 +241,12 @@ mocha/roaster/ast/visitors/utils/opt/constant_optimizer.h\
 mocha/roaster/ast/visitors/utils/opt/constant_optimizer.cc\
 mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.h\
 mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.cc\
-mocha/roaster/ast/utils/ast_utils.h\
-mocha/roaster/ast/utils/ast_utils.cc\
+mocha/roaster/ast/builder/ast_builder.cc\
+mocha/roaster/ast/builder/ast_builder.h\
 utils/format.h\
 utils/format.cc\
-bootstrap/bootstrap.h\
-bootstrap/bootstrap.cc\
+mocha/bootstrap/bootstrap.h\
+mocha/bootstrap/bootstrap.cc\
 utils/char_allocator.h\
 utils/char_allocator.cc\
 mocha/roaster/ast/visitors/codegen_visitor.h\
@@ -274,14 +273,16 @@ mocha/roaster/parser/parser.h\
 mocha/roaster/parser/parser.cc\
 mocha/roaster/external/external_ast.h\
 mocha/roaster/external/external_ast.cc\
-bootstrap/runners/compile_runner.h\
-bootstrap/runners/compile_runner.cc\
-bootstrap/runners/list_runner.h\
-bootstrap/runners/list_runner.cc\
-bootstrap/runners/error_runner.h\
-bootstrap/runners/error_runner.cc\
-bootstrap/runners/phantom_runner.h\
-bootstrap/runners/phantom_runner.cc\
+mocha/roaster/memory/pool.h\
+mocha/roaster/memory/pool.cc\
+mocha/bootstrap/runners/compile_runner.h\
+mocha/bootstrap/runners/compile_runner.cc\
+mocha/bootstrap/runners/list_runner.h\
+mocha/bootstrap/runners/list_runner.cc\
+mocha/bootstrap/runners/error_runner.h\
+mocha/bootstrap/runners/error_runner.cc\
+mocha/bootstrap/runners/phantom_runner.h\
+mocha/bootstrap/runners/phantom_runner.cc\
 mocha/roaster/utils/compiler_facade.h\
 mocha/roaster/utils/compiler_facade.cc\
 mocha/roaster/encoding/encoding.h\
@@ -305,15 +306,15 @@ utils/file_system/pwd.h\
 utils/file_system/directory.h\
 utils/file_system/directory.cc\
 utils/smart_pointer/ref_count/handle.h\
-bootstrap/runners/help_runner.h\
-bootstrap/runners/help_runner.cc\
-bootstrap/runners/icommandline_runner.h\
-bootstrap/interactions/interaction.h\
-bootstrap/interactions/interaction.cc\
-bootstrap/interactions/commands.h\
-bootstrap/interactions/commands.cc\
-bootstrap/interactions/commands_analyzer.h\
-bootstrap/interactions/commands_analyzer.cc\
+mocha/bootstrap/runners/help_runner.h\
+mocha/bootstrap/runners/help_runner.cc\
+mocha/bootstrap/runners/icommandline_runner.h\
+mocha/bootstrap/interactions/interaction.h\
+mocha/bootstrap/interactions/interaction.cc\
+mocha/bootstrap/interactions/commands.h\
+mocha/bootstrap/interactions/commands.cc\
+mocha/bootstrap/interactions/commands_analyzer.h\
+mocha/bootstrap/interactions/commands_analyzer.cc\
 mocha/roaster/internal.cc\
 mocha/roaster/internal.h\
 mch/mocha.cc\
@@ -326,13 +327,11 @@ mocha/roaster/scanner/scanner.h\
 mocha/roaster/scanner/scanner.cc\
 mocha/roaster/tokens/js_token.cc\
 mocha/roaster/tokens/js_token.h\
-mch/main.cc\
-utils/pool/managed_handle.h\
-utils/pool/managed_handle.cc\
+mocha/main.cc\
 utils/file_system/mkdir.h\
 utils/file_system/mkdir.cc\
-bootstrap/runners/observer_runner.h\
-bootstrap/runners/observer_runner.cc\
+mocha/bootstrap/runners/observer_runner.h\
+mocha/bootstrap/runners/observer_runner.cc\
 mocha/roaster/binding/parser_connector.cc\
 mocha/roaster/binding/parser_connector.h\
 mocha/roaster/binding/parser_tracer.cc\
@@ -479,8 +478,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/array_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_transformer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ast_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/call_processor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/char_allocator.Po@am__quote@
@@ -522,7 +521,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/js_token.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_runner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/managed_handle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mkdir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mocha.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/module_processor.Po@am__quote@
@@ -533,6 +531,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_connector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/phantom_runner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pwd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scope.Po@am__quote@
@@ -853,19 +852,19 @@ ifstatement_optimizer.obj: mocha/roaster/ast/visitors/utils/opt/ifstatement_opti
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ifstatement_optimizer.obj `if test -f 'mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.cc'; then $(CYGPATH_W) 'mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.cc'; fi`
 
-ast_utils.o: mocha/roaster/ast/utils/ast_utils.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.o -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.o `test -f 'mocha/roaster/ast/utils/ast_utils.cc' || echo '$(srcdir)/'`mocha/roaster/ast/utils/ast_utils.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_utils.Tpo $(DEPDIR)/ast_utils.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/ast/utils/ast_utils.cc' object='ast_utils.o' libtool=no @AMDEPBACKSLASH@
+ast_builder.o: mocha/roaster/ast/builder/ast_builder.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_builder.o -MD -MP -MF $(DEPDIR)/ast_builder.Tpo -c -o ast_builder.o `test -f 'mocha/roaster/ast/builder/ast_builder.cc' || echo '$(srcdir)/'`mocha/roaster/ast/builder/ast_builder.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_builder.Tpo $(DEPDIR)/ast_builder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/ast/builder/ast_builder.cc' object='ast_builder.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_utils.o `test -f 'mocha/roaster/ast/utils/ast_utils.cc' || echo '$(srcdir)/'`mocha/roaster/ast/utils/ast_utils.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_builder.o `test -f 'mocha/roaster/ast/builder/ast_builder.cc' || echo '$(srcdir)/'`mocha/roaster/ast/builder/ast_builder.cc
 
-ast_utils.obj: mocha/roaster/ast/utils/ast_utils.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_utils.obj -MD -MP -MF $(DEPDIR)/ast_utils.Tpo -c -o ast_utils.obj `if test -f 'mocha/roaster/ast/utils/ast_utils.cc'; then $(CYGPATH_W) 'mocha/roaster/ast/utils/ast_utils.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/ast/utils/ast_utils.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_utils.Tpo $(DEPDIR)/ast_utils.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/ast/utils/ast_utils.cc' object='ast_utils.obj' libtool=no @AMDEPBACKSLASH@
+ast_builder.obj: mocha/roaster/ast/builder/ast_builder.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ast_builder.obj -MD -MP -MF $(DEPDIR)/ast_builder.Tpo -c -o ast_builder.obj `if test -f 'mocha/roaster/ast/builder/ast_builder.cc'; then $(CYGPATH_W) 'mocha/roaster/ast/builder/ast_builder.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/ast/builder/ast_builder.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ast_builder.Tpo $(DEPDIR)/ast_builder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/ast/builder/ast_builder.cc' object='ast_builder.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_utils.obj `if test -f 'mocha/roaster/ast/utils/ast_utils.cc'; then $(CYGPATH_W) 'mocha/roaster/ast/utils/ast_utils.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/ast/utils/ast_utils.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ast_builder.obj `if test -f 'mocha/roaster/ast/builder/ast_builder.cc'; then $(CYGPATH_W) 'mocha/roaster/ast/builder/ast_builder.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/ast/builder/ast_builder.cc'; fi`
 
 format.o: utils/format.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT format.o -MD -MP -MF $(DEPDIR)/format.Tpo -c -o format.o `test -f 'utils/format.cc' || echo '$(srcdir)/'`utils/format.cc
@@ -881,19 +880,19 @@ format.obj: utils/format.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o format.obj `if test -f 'utils/format.cc'; then $(CYGPATH_W) 'utils/format.cc'; else $(CYGPATH_W) '$(srcdir)/utils/format.cc'; fi`
 
-bootstrap.o: bootstrap/bootstrap.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bootstrap.o -MD -MP -MF $(DEPDIR)/bootstrap.Tpo -c -o bootstrap.o `test -f 'bootstrap/bootstrap.cc' || echo '$(srcdir)/'`bootstrap/bootstrap.cc
+bootstrap.o: mocha/bootstrap/bootstrap.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bootstrap.o -MD -MP -MF $(DEPDIR)/bootstrap.Tpo -c -o bootstrap.o `test -f 'mocha/bootstrap/bootstrap.cc' || echo '$(srcdir)/'`mocha/bootstrap/bootstrap.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/bootstrap.Tpo $(DEPDIR)/bootstrap.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/bootstrap.cc' object='bootstrap.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/bootstrap.cc' object='bootstrap.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bootstrap.o `test -f 'bootstrap/bootstrap.cc' || echo '$(srcdir)/'`bootstrap/bootstrap.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bootstrap.o `test -f 'mocha/bootstrap/bootstrap.cc' || echo '$(srcdir)/'`mocha/bootstrap/bootstrap.cc
 
-bootstrap.obj: bootstrap/bootstrap.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bootstrap.obj -MD -MP -MF $(DEPDIR)/bootstrap.Tpo -c -o bootstrap.obj `if test -f 'bootstrap/bootstrap.cc'; then $(CYGPATH_W) 'bootstrap/bootstrap.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/bootstrap.cc'; fi`
+bootstrap.obj: mocha/bootstrap/bootstrap.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bootstrap.obj -MD -MP -MF $(DEPDIR)/bootstrap.Tpo -c -o bootstrap.obj `if test -f 'mocha/bootstrap/bootstrap.cc'; then $(CYGPATH_W) 'mocha/bootstrap/bootstrap.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/bootstrap.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/bootstrap.Tpo $(DEPDIR)/bootstrap.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/bootstrap.cc' object='bootstrap.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/bootstrap.cc' object='bootstrap.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bootstrap.obj `if test -f 'bootstrap/bootstrap.cc'; then $(CYGPATH_W) 'bootstrap/bootstrap.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/bootstrap.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bootstrap.obj `if test -f 'mocha/bootstrap/bootstrap.cc'; then $(CYGPATH_W) 'mocha/bootstrap/bootstrap.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/bootstrap.cc'; fi`
 
 char_allocator.o: utils/char_allocator.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT char_allocator.o -MD -MP -MF $(DEPDIR)/char_allocator.Tpo -c -o char_allocator.o `test -f 'utils/char_allocator.cc' || echo '$(srcdir)/'`utils/char_allocator.cc
@@ -1077,61 +1076,75 @@ external_ast.obj: mocha/roaster/external/external_ast.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o external_ast.obj `if test -f 'mocha/roaster/external/external_ast.cc'; then $(CYGPATH_W) 'mocha/roaster/external/external_ast.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/external/external_ast.cc'; fi`
 
-compile_runner.o: bootstrap/runners/compile_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.o -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.o `test -f 'bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/compile_runner.cc
+pool.o: mocha/roaster/memory/pool.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT pool.o -MD -MP -MF $(DEPDIR)/pool.Tpo -c -o pool.o `test -f 'mocha/roaster/memory/pool.cc' || echo '$(srcdir)/'`mocha/roaster/memory/pool.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pool.Tpo $(DEPDIR)/pool.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/memory/pool.cc' object='pool.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o pool.o `test -f 'mocha/roaster/memory/pool.cc' || echo '$(srcdir)/'`mocha/roaster/memory/pool.cc
+
+pool.obj: mocha/roaster/memory/pool.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT pool.obj -MD -MP -MF $(DEPDIR)/pool.Tpo -c -o pool.obj `if test -f 'mocha/roaster/memory/pool.cc'; then $(CYGPATH_W) 'mocha/roaster/memory/pool.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/memory/pool.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pool.Tpo $(DEPDIR)/pool.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/roaster/memory/pool.cc' object='pool.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o pool.obj `if test -f 'mocha/roaster/memory/pool.cc'; then $(CYGPATH_W) 'mocha/roaster/memory/pool.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/memory/pool.cc'; fi`
+
+compile_runner.o: mocha/bootstrap/runners/compile_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.o -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.o `test -f 'mocha/bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/compile_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/compile_runner.Tpo $(DEPDIR)/compile_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/compile_runner.cc' object='compile_runner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/compile_runner.cc' object='compile_runner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compile_runner.o `test -f 'bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/compile_runner.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compile_runner.o `test -f 'mocha/bootstrap/runners/compile_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/compile_runner.cc
 
-compile_runner.obj: bootstrap/runners/compile_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.obj -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.obj `if test -f 'bootstrap/runners/compile_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/compile_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/compile_runner.cc'; fi`
+compile_runner.obj: mocha/bootstrap/runners/compile_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compile_runner.obj -MD -MP -MF $(DEPDIR)/compile_runner.Tpo -c -o compile_runner.obj `if test -f 'mocha/bootstrap/runners/compile_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/compile_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/compile_runner.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/compile_runner.Tpo $(DEPDIR)/compile_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/compile_runner.cc' object='compile_runner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/compile_runner.cc' object='compile_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compile_runner.obj `if test -f 'bootstrap/runners/compile_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/compile_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/compile_runner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compile_runner.obj `if test -f 'mocha/bootstrap/runners/compile_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/compile_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/compile_runner.cc'; fi`
 
-list_runner.o: bootstrap/runners/list_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT list_runner.o -MD -MP -MF $(DEPDIR)/list_runner.Tpo -c -o list_runner.o `test -f 'bootstrap/runners/list_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/list_runner.cc
+list_runner.o: mocha/bootstrap/runners/list_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT list_runner.o -MD -MP -MF $(DEPDIR)/list_runner.Tpo -c -o list_runner.o `test -f 'mocha/bootstrap/runners/list_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/list_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/list_runner.Tpo $(DEPDIR)/list_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/list_runner.cc' object='list_runner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/list_runner.cc' object='list_runner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o list_runner.o `test -f 'bootstrap/runners/list_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/list_runner.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o list_runner.o `test -f 'mocha/bootstrap/runners/list_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/list_runner.cc
 
-list_runner.obj: bootstrap/runners/list_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT list_runner.obj -MD -MP -MF $(DEPDIR)/list_runner.Tpo -c -o list_runner.obj `if test -f 'bootstrap/runners/list_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/list_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/list_runner.cc'; fi`
+list_runner.obj: mocha/bootstrap/runners/list_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT list_runner.obj -MD -MP -MF $(DEPDIR)/list_runner.Tpo -c -o list_runner.obj `if test -f 'mocha/bootstrap/runners/list_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/list_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/list_runner.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/list_runner.Tpo $(DEPDIR)/list_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/list_runner.cc' object='list_runner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/list_runner.cc' object='list_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o list_runner.obj `if test -f 'bootstrap/runners/list_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/list_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/list_runner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o list_runner.obj `if test -f 'mocha/bootstrap/runners/list_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/list_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/list_runner.cc'; fi`
 
-error_runner.o: bootstrap/runners/error_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT error_runner.o -MD -MP -MF $(DEPDIR)/error_runner.Tpo -c -o error_runner.o `test -f 'bootstrap/runners/error_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/error_runner.cc
+error_runner.o: mocha/bootstrap/runners/error_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT error_runner.o -MD -MP -MF $(DEPDIR)/error_runner.Tpo -c -o error_runner.o `test -f 'mocha/bootstrap/runners/error_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/error_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/error_runner.Tpo $(DEPDIR)/error_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/error_runner.cc' object='error_runner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/error_runner.cc' object='error_runner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_runner.o `test -f 'bootstrap/runners/error_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/error_runner.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_runner.o `test -f 'mocha/bootstrap/runners/error_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/error_runner.cc
 
-error_runner.obj: bootstrap/runners/error_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT error_runner.obj -MD -MP -MF $(DEPDIR)/error_runner.Tpo -c -o error_runner.obj `if test -f 'bootstrap/runners/error_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/error_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/error_runner.cc'; fi`
+error_runner.obj: mocha/bootstrap/runners/error_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT error_runner.obj -MD -MP -MF $(DEPDIR)/error_runner.Tpo -c -o error_runner.obj `if test -f 'mocha/bootstrap/runners/error_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/error_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/error_runner.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/error_runner.Tpo $(DEPDIR)/error_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/error_runner.cc' object='error_runner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/error_runner.cc' object='error_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_runner.obj `if test -f 'bootstrap/runners/error_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/error_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/error_runner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o error_runner.obj `if test -f 'mocha/bootstrap/runners/error_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/error_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/error_runner.cc'; fi`
 
-phantom_runner.o: bootstrap/runners/phantom_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT phantom_runner.o -MD -MP -MF $(DEPDIR)/phantom_runner.Tpo -c -o phantom_runner.o `test -f 'bootstrap/runners/phantom_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/phantom_runner.cc
+phantom_runner.o: mocha/bootstrap/runners/phantom_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT phantom_runner.o -MD -MP -MF $(DEPDIR)/phantom_runner.Tpo -c -o phantom_runner.o `test -f 'mocha/bootstrap/runners/phantom_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/phantom_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/phantom_runner.Tpo $(DEPDIR)/phantom_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/phantom_runner.cc' object='phantom_runner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/phantom_runner.cc' object='phantom_runner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o phantom_runner.o `test -f 'bootstrap/runners/phantom_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/phantom_runner.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o phantom_runner.o `test -f 'mocha/bootstrap/runners/phantom_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/phantom_runner.cc
 
-phantom_runner.obj: bootstrap/runners/phantom_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT phantom_runner.obj -MD -MP -MF $(DEPDIR)/phantom_runner.Tpo -c -o phantom_runner.obj `if test -f 'bootstrap/runners/phantom_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/phantom_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/phantom_runner.cc'; fi`
+phantom_runner.obj: mocha/bootstrap/runners/phantom_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT phantom_runner.obj -MD -MP -MF $(DEPDIR)/phantom_runner.Tpo -c -o phantom_runner.obj `if test -f 'mocha/bootstrap/runners/phantom_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/phantom_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/phantom_runner.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/phantom_runner.Tpo $(DEPDIR)/phantom_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/phantom_runner.cc' object='phantom_runner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/phantom_runner.cc' object='phantom_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o phantom_runner.obj `if test -f 'bootstrap/runners/phantom_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/phantom_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/phantom_runner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o phantom_runner.obj `if test -f 'mocha/bootstrap/runners/phantom_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/phantom_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/phantom_runner.cc'; fi`
 
 compiler_facade.o: mocha/roaster/utils/compiler_facade.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compiler_facade.o -MD -MP -MF $(DEPDIR)/compiler_facade.Tpo -c -o compiler_facade.o `test -f 'mocha/roaster/utils/compiler_facade.cc' || echo '$(srcdir)/'`mocha/roaster/utils/compiler_facade.cc
@@ -1287,61 +1300,61 @@ directory.obj: utils/file_system/directory.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o directory.obj `if test -f 'utils/file_system/directory.cc'; then $(CYGPATH_W) 'utils/file_system/directory.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/directory.cc'; fi`
 
-help_runner.o: bootstrap/runners/help_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT help_runner.o -MD -MP -MF $(DEPDIR)/help_runner.Tpo -c -o help_runner.o `test -f 'bootstrap/runners/help_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/help_runner.cc
+help_runner.o: mocha/bootstrap/runners/help_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT help_runner.o -MD -MP -MF $(DEPDIR)/help_runner.Tpo -c -o help_runner.o `test -f 'mocha/bootstrap/runners/help_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/help_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/help_runner.Tpo $(DEPDIR)/help_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/help_runner.cc' object='help_runner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/help_runner.cc' object='help_runner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o help_runner.o `test -f 'bootstrap/runners/help_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/help_runner.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o help_runner.o `test -f 'mocha/bootstrap/runners/help_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/help_runner.cc
 
-help_runner.obj: bootstrap/runners/help_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT help_runner.obj -MD -MP -MF $(DEPDIR)/help_runner.Tpo -c -o help_runner.obj `if test -f 'bootstrap/runners/help_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/help_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/help_runner.cc'; fi`
+help_runner.obj: mocha/bootstrap/runners/help_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT help_runner.obj -MD -MP -MF $(DEPDIR)/help_runner.Tpo -c -o help_runner.obj `if test -f 'mocha/bootstrap/runners/help_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/help_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/help_runner.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/help_runner.Tpo $(DEPDIR)/help_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/help_runner.cc' object='help_runner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/help_runner.cc' object='help_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o help_runner.obj `if test -f 'bootstrap/runners/help_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/help_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/help_runner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o help_runner.obj `if test -f 'mocha/bootstrap/runners/help_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/help_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/help_runner.cc'; fi`
 
-interaction.o: bootstrap/interactions/interaction.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.o -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.o `test -f 'bootstrap/interactions/interaction.cc' || echo '$(srcdir)/'`bootstrap/interactions/interaction.cc
+interaction.o: mocha/bootstrap/interactions/interaction.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.o -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.o `test -f 'mocha/bootstrap/interactions/interaction.cc' || echo '$(srcdir)/'`mocha/bootstrap/interactions/interaction.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interaction.Tpo $(DEPDIR)/interaction.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/interaction.cc' object='interaction.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/interactions/interaction.cc' object='interaction.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.o `test -f 'bootstrap/interactions/interaction.cc' || echo '$(srcdir)/'`bootstrap/interactions/interaction.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.o `test -f 'mocha/bootstrap/interactions/interaction.cc' || echo '$(srcdir)/'`mocha/bootstrap/interactions/interaction.cc
 
-interaction.obj: bootstrap/interactions/interaction.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.obj -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.obj `if test -f 'bootstrap/interactions/interaction.cc'; then $(CYGPATH_W) 'bootstrap/interactions/interaction.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/interaction.cc'; fi`
+interaction.obj: mocha/bootstrap/interactions/interaction.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.obj -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.obj `if test -f 'mocha/bootstrap/interactions/interaction.cc'; then $(CYGPATH_W) 'mocha/bootstrap/interactions/interaction.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/interactions/interaction.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interaction.Tpo $(DEPDIR)/interaction.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/interaction.cc' object='interaction.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/interactions/interaction.cc' object='interaction.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.obj `if test -f 'bootstrap/interactions/interaction.cc'; then $(CYGPATH_W) 'bootstrap/interactions/interaction.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/interaction.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.obj `if test -f 'mocha/bootstrap/interactions/interaction.cc'; then $(CYGPATH_W) 'mocha/bootstrap/interactions/interaction.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/interactions/interaction.cc'; fi`
 
-commands.o: bootstrap/interactions/commands.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands.o -MD -MP -MF $(DEPDIR)/commands.Tpo -c -o commands.o `test -f 'bootstrap/interactions/commands.cc' || echo '$(srcdir)/'`bootstrap/interactions/commands.cc
+commands.o: mocha/bootstrap/interactions/commands.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands.o -MD -MP -MF $(DEPDIR)/commands.Tpo -c -o commands.o `test -f 'mocha/bootstrap/interactions/commands.cc' || echo '$(srcdir)/'`mocha/bootstrap/interactions/commands.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/commands.Tpo $(DEPDIR)/commands.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/commands.cc' object='commands.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/interactions/commands.cc' object='commands.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands.o `test -f 'bootstrap/interactions/commands.cc' || echo '$(srcdir)/'`bootstrap/interactions/commands.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands.o `test -f 'mocha/bootstrap/interactions/commands.cc' || echo '$(srcdir)/'`mocha/bootstrap/interactions/commands.cc
 
-commands.obj: bootstrap/interactions/commands.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands.obj -MD -MP -MF $(DEPDIR)/commands.Tpo -c -o commands.obj `if test -f 'bootstrap/interactions/commands.cc'; then $(CYGPATH_W) 'bootstrap/interactions/commands.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/commands.cc'; fi`
+commands.obj: mocha/bootstrap/interactions/commands.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands.obj -MD -MP -MF $(DEPDIR)/commands.Tpo -c -o commands.obj `if test -f 'mocha/bootstrap/interactions/commands.cc'; then $(CYGPATH_W) 'mocha/bootstrap/interactions/commands.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/interactions/commands.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/commands.Tpo $(DEPDIR)/commands.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/commands.cc' object='commands.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/interactions/commands.cc' object='commands.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands.obj `if test -f 'bootstrap/interactions/commands.cc'; then $(CYGPATH_W) 'bootstrap/interactions/commands.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/commands.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands.obj `if test -f 'mocha/bootstrap/interactions/commands.cc'; then $(CYGPATH_W) 'mocha/bootstrap/interactions/commands.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/interactions/commands.cc'; fi`
 
-commands_analyzer.o: bootstrap/interactions/commands_analyzer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands_analyzer.o -MD -MP -MF $(DEPDIR)/commands_analyzer.Tpo -c -o commands_analyzer.o `test -f 'bootstrap/interactions/commands_analyzer.cc' || echo '$(srcdir)/'`bootstrap/interactions/commands_analyzer.cc
+commands_analyzer.o: mocha/bootstrap/interactions/commands_analyzer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands_analyzer.o -MD -MP -MF $(DEPDIR)/commands_analyzer.Tpo -c -o commands_analyzer.o `test -f 'mocha/bootstrap/interactions/commands_analyzer.cc' || echo '$(srcdir)/'`mocha/bootstrap/interactions/commands_analyzer.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/commands_analyzer.Tpo $(DEPDIR)/commands_analyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/commands_analyzer.cc' object='commands_analyzer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/interactions/commands_analyzer.cc' object='commands_analyzer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands_analyzer.o `test -f 'bootstrap/interactions/commands_analyzer.cc' || echo '$(srcdir)/'`bootstrap/interactions/commands_analyzer.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands_analyzer.o `test -f 'mocha/bootstrap/interactions/commands_analyzer.cc' || echo '$(srcdir)/'`mocha/bootstrap/interactions/commands_analyzer.cc
 
-commands_analyzer.obj: bootstrap/interactions/commands_analyzer.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands_analyzer.obj -MD -MP -MF $(DEPDIR)/commands_analyzer.Tpo -c -o commands_analyzer.obj `if test -f 'bootstrap/interactions/commands_analyzer.cc'; then $(CYGPATH_W) 'bootstrap/interactions/commands_analyzer.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/commands_analyzer.cc'; fi`
+commands_analyzer.obj: mocha/bootstrap/interactions/commands_analyzer.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT commands_analyzer.obj -MD -MP -MF $(DEPDIR)/commands_analyzer.Tpo -c -o commands_analyzer.obj `if test -f 'mocha/bootstrap/interactions/commands_analyzer.cc'; then $(CYGPATH_W) 'mocha/bootstrap/interactions/commands_analyzer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/interactions/commands_analyzer.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/commands_analyzer.Tpo $(DEPDIR)/commands_analyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/interactions/commands_analyzer.cc' object='commands_analyzer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/interactions/commands_analyzer.cc' object='commands_analyzer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands_analyzer.obj `if test -f 'bootstrap/interactions/commands_analyzer.cc'; then $(CYGPATH_W) 'bootstrap/interactions/commands_analyzer.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/interactions/commands_analyzer.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o commands_analyzer.obj `if test -f 'mocha/bootstrap/interactions/commands_analyzer.cc'; then $(CYGPATH_W) 'mocha/bootstrap/interactions/commands_analyzer.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/interactions/commands_analyzer.cc'; fi`
 
 internal.o: mocha/roaster/internal.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT internal.o -MD -MP -MF $(DEPDIR)/internal.Tpo -c -o internal.o `test -f 'mocha/roaster/internal.cc' || echo '$(srcdir)/'`mocha/roaster/internal.cc
@@ -1427,33 +1440,19 @@ js_token.obj: mocha/roaster/tokens/js_token.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o js_token.obj `if test -f 'mocha/roaster/tokens/js_token.cc'; then $(CYGPATH_W) 'mocha/roaster/tokens/js_token.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/roaster/tokens/js_token.cc'; fi`
 
-main.o: mch/main.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT main.o -MD -MP -MF $(DEPDIR)/main.Tpo -c -o main.o `test -f 'mch/main.cc' || echo '$(srcdir)/'`mch/main.cc
+main.o: mocha/main.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT main.o -MD -MP -MF $(DEPDIR)/main.Tpo -c -o main.o `test -f 'mocha/main.cc' || echo '$(srcdir)/'`mocha/main.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/main.Tpo $(DEPDIR)/main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mch/main.cc' object='main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/main.cc' object='main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o main.o `test -f 'mch/main.cc' || echo '$(srcdir)/'`mch/main.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o main.o `test -f 'mocha/main.cc' || echo '$(srcdir)/'`mocha/main.cc
 
-main.obj: mch/main.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT main.obj -MD -MP -MF $(DEPDIR)/main.Tpo -c -o main.obj `if test -f 'mch/main.cc'; then $(CYGPATH_W) 'mch/main.cc'; else $(CYGPATH_W) '$(srcdir)/mch/main.cc'; fi`
+main.obj: mocha/main.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT main.obj -MD -MP -MF $(DEPDIR)/main.Tpo -c -o main.obj `if test -f 'mocha/main.cc'; then $(CYGPATH_W) 'mocha/main.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/main.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/main.Tpo $(DEPDIR)/main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mch/main.cc' object='main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/main.cc' object='main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o main.obj `if test -f 'mch/main.cc'; then $(CYGPATH_W) 'mch/main.cc'; else $(CYGPATH_W) '$(srcdir)/mch/main.cc'; fi`
-
-managed_handle.o: utils/pool/managed_handle.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT managed_handle.o -MD -MP -MF $(DEPDIR)/managed_handle.Tpo -c -o managed_handle.o `test -f 'utils/pool/managed_handle.cc' || echo '$(srcdir)/'`utils/pool/managed_handle.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/managed_handle.Tpo $(DEPDIR)/managed_handle.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/pool/managed_handle.cc' object='managed_handle.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o managed_handle.o `test -f 'utils/pool/managed_handle.cc' || echo '$(srcdir)/'`utils/pool/managed_handle.cc
-
-managed_handle.obj: utils/pool/managed_handle.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT managed_handle.obj -MD -MP -MF $(DEPDIR)/managed_handle.Tpo -c -o managed_handle.obj `if test -f 'utils/pool/managed_handle.cc'; then $(CYGPATH_W) 'utils/pool/managed_handle.cc'; else $(CYGPATH_W) '$(srcdir)/utils/pool/managed_handle.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/managed_handle.Tpo $(DEPDIR)/managed_handle.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils/pool/managed_handle.cc' object='managed_handle.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o managed_handle.obj `if test -f 'utils/pool/managed_handle.cc'; then $(CYGPATH_W) 'utils/pool/managed_handle.cc'; else $(CYGPATH_W) '$(srcdir)/utils/pool/managed_handle.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o main.obj `if test -f 'mocha/main.cc'; then $(CYGPATH_W) 'mocha/main.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/main.cc'; fi`
 
 mkdir.o: utils/file_system/mkdir.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mkdir.o -MD -MP -MF $(DEPDIR)/mkdir.Tpo -c -o mkdir.o `test -f 'utils/file_system/mkdir.cc' || echo '$(srcdir)/'`utils/file_system/mkdir.cc
@@ -1469,19 +1468,19 @@ mkdir.obj: utils/file_system/mkdir.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mkdir.obj `if test -f 'utils/file_system/mkdir.cc'; then $(CYGPATH_W) 'utils/file_system/mkdir.cc'; else $(CYGPATH_W) '$(srcdir)/utils/file_system/mkdir.cc'; fi`
 
-observer_runner.o: bootstrap/runners/observer_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT observer_runner.o -MD -MP -MF $(DEPDIR)/observer_runner.Tpo -c -o observer_runner.o `test -f 'bootstrap/runners/observer_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/observer_runner.cc
+observer_runner.o: mocha/bootstrap/runners/observer_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT observer_runner.o -MD -MP -MF $(DEPDIR)/observer_runner.Tpo -c -o observer_runner.o `test -f 'mocha/bootstrap/runners/observer_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/observer_runner.cc
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/observer_runner.Tpo $(DEPDIR)/observer_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/observer_runner.cc' object='observer_runner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/observer_runner.cc' object='observer_runner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o observer_runner.o `test -f 'bootstrap/runners/observer_runner.cc' || echo '$(srcdir)/'`bootstrap/runners/observer_runner.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o observer_runner.o `test -f 'mocha/bootstrap/runners/observer_runner.cc' || echo '$(srcdir)/'`mocha/bootstrap/runners/observer_runner.cc
 
-observer_runner.obj: bootstrap/runners/observer_runner.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT observer_runner.obj -MD -MP -MF $(DEPDIR)/observer_runner.Tpo -c -o observer_runner.obj `if test -f 'bootstrap/runners/observer_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/observer_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/observer_runner.cc'; fi`
+observer_runner.obj: mocha/bootstrap/runners/observer_runner.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT observer_runner.obj -MD -MP -MF $(DEPDIR)/observer_runner.Tpo -c -o observer_runner.obj `if test -f 'mocha/bootstrap/runners/observer_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/observer_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/observer_runner.cc'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/observer_runner.Tpo $(DEPDIR)/observer_runner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='bootstrap/runners/observer_runner.cc' object='observer_runner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='mocha/bootstrap/runners/observer_runner.cc' object='observer_runner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o observer_runner.obj `if test -f 'bootstrap/runners/observer_runner.cc'; then $(CYGPATH_W) 'bootstrap/runners/observer_runner.cc'; else $(CYGPATH_W) '$(srcdir)/bootstrap/runners/observer_runner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o observer_runner.obj `if test -f 'mocha/bootstrap/runners/observer_runner.cc'; then $(CYGPATH_W) 'mocha/bootstrap/runners/observer_runner.cc'; else $(CYGPATH_W) '$(srcdir)/mocha/bootstrap/runners/observer_runner.cc'; fi`
 
 parser_connector.o: mocha/roaster/binding/parser_connector.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser_connector.o -MD -MP -MF $(DEPDIR)/parser_connector.Tpo -c -o parser_connector.o `test -f 'mocha/roaster/binding/parser_connector.cc' || echo '$(srcdir)/'`mocha/roaster/binding/parser_connector.cc

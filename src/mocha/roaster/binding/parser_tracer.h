@@ -19,49 +19,49 @@ namespace mocha{
       kNoSemicolon = 16
     } ParserState;
     
-    explicit ParserTracer ( const char* filename_ );
+    explicit ParserTracer (const char* filename_);
     inline ~ParserTracer () {}
 
-    void SetSemicolonFlag ( bool is );
+    void SetSemicolonFlag (bool is);
     
     inline JPM_PURE bool GetSemicolonFlag () const {
-      return ( parser_flags_ & 0x1 ) == 1;
+      return (parser_flags_ & 0x1) == 1;
     }
     
-    void SetRollBackFlag ( bool is );
+    void SetRollBackFlag (bool is);
     
     inline JPM_PURE bool GetRollBackFlag () const{
-      return ( parser_flags_ & 0x2 ) == 2;
+      return (parser_flags_ & 0x2) == 2;
     }
     
-    void SetLineBreakFlag ( bool is );
+    void SetLineBreakFlag (bool is);
     
     inline JPM_PURE bool GetLineBreakFlag () const {
-      return ( parser_flags_ & 0x4 ) == 4;
+      return (parser_flags_ & 0x4) == 4;
     }
     
-    void SetIncludeFlag ( bool is );
+    void SetIncludeFlag (bool is);
     
     inline JPM_PURE bool GetIncludeFlag () const {
-      return ( parser_flags_ & 0x8 ) == 8;
+      return (parser_flags_ & 0x8) == 8;
     }
 
-    inline void SetState ( ParserState state ) { parser_state_ |= state; }
-    inline bool GetState ( ParserState state ) const { return ( parser_state_ & state) == state; }
-    inline void EndState ( ParserState state ) { parser_state_ = ( parser_state_ & ~state ); }
+    inline void SetState (ParserState state) { parser_state_ |= state; }
+    inline bool GetState (ParserState state) const { return (parser_state_ & state) == state; }
+    inline void EndState (ParserState state) { parser_state_ = (parser_state_ & ~state); }
     inline void ExpectLBrace() { l_brace_ = true; }
     inline bool IsExpectLBrace() { return l_brace_; }
     inline void ExpectRBrace() { r_brace_ = true; }
     inline bool IsExpectRBrace() { return r_brace_; }
     inline bool IsAllowExpression() { return in_exp_; }
-    inline void AllowExpression( bool is ) { in_exp_ = is; }
+    inline void AllowExpression(bool is) { in_exp_ = is; }
     
-    void LineNumber ( long int num );
+    void LineNumber (long int num);
     
-    void SyntaxError ( long int line , const char* mes );
+    void SyntaxError (long int line, const char* mes);
     
     inline JPM_PURE bool IsSyntaxError () const {
-      return ( parser_flags_ & 0x10 ) == 16;
+      return (parser_flags_ & 0x10) == 16;
     }
     
     inline JPM_CONST long int GetErrorLine () const {
@@ -76,7 +76,7 @@ namespace mocha{
       return &module_name_[0];
     }
     
-    void SetModuleName ( const char* name ) {
+    void SetModuleName (const char* name) {
       module_name_ = name;
     }
 

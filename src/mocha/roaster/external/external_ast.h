@@ -1,19 +1,20 @@
 #ifndef mocha_external_ast_h_
 #define mocha_external_ast_h_
-#include <utils/pool/managed_handle.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <utils/class_traits/uncopyable.h>
+#include <mocha/roaster/memory/pool.h>
 namespace mocha {
 
 class ExternalAst : private Uncopyable {
  public :
-  static Handle<ExternalAst> Create();
+  static SharedPtr<ExternalAst> Create();
   AstRoot* GetRoot() { return root_; }
+  memory::Pool* pool() { return &pool_; }
   ~ExternalAst(){}
  private :
   ExternalAst();
-  ManagedScope scope_;
+  memory::Pool pool_;
   AstRoot* root_;
 };
 

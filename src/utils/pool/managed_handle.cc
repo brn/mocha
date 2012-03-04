@@ -1,4 +1,4 @@
-#include <utils/pool/managed_handle.h>
+#include <utils/pool/managed_shared_ptr.h>
 namespace mocha {
 int PtrCollector::Assign () {
   return base_id_++;

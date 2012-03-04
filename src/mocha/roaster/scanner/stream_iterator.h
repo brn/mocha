@@ -4,7 +4,7 @@ namespace mocha {
 
 class StreamIteratorBase {
  public :
-  StreamIteratorBase( DataContainer* container );
+  StreamIteratorBase(DataContainer* container);
   ~StreamIteratorBase();
  protected :
   enum {

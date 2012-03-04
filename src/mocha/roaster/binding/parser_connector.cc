@@ -30,26 +30,26 @@
 #include <mocha/roaster/utils/error_reporter.h>
 
 namespace mocha {
-ParserConnector::ParserConnector ( Compiler *compiler,
+ParserConnector::ParserConnector (Compiler *compiler,
                                    AstRoot* ast_root,
                                    Scanner* scanner,
                                    SourceStream* stream,
-                                   ErrorReporter* reporter ) :
-    scanner_( scanner ), stream_( stream ), reporter_( reporter ){}
+                                   ErrorReporter* reporter) :
+    scanner_(scanner), stream_(stream), reporter_(reporter){}
 
 ParserConnector::~ParserConnector () {};
 
 
-TokenInfo* ParserConnector::Advance( int index ) {
-  return scanner_->Advance( index );
+TokenInfo* ParserConnector::Advance(int index) {
+  return scanner_->Advance(index);
 }
 
-TokenInfo* ParserConnector::Undo( int index ) {
-  return scanner_->Undo( index );
+TokenInfo* ParserConnector::Undo(int index) {
+  return scanner_->Undo(index);
 }
 
-TokenInfo* ParserConnector::Seek( int index ) {
-  return scanner_->Seek( index );
+TokenInfo* ParserConnector::Seek(int index) {
+  return scanner_->Seek(index);
 }
 
 ErrorReporter* ParserConnector::GetError() {

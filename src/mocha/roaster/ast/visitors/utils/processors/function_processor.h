@@ -1,19 +1,20 @@
 #ifndef mocha_funtion_processor_h_
 #define mocha_funtion_processor_h_
-#include <utils/class_traits/uncopyable.h>
+#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {
 class ProcessorInfo;
-class FunctionProcessor : private Uncopyable{
+class FunctionProcessor : public Processor {
  public :
-  FunctionProcessor( Function *ast_node , ProcessorInfo* info );
+  FunctionProcessor(Function *ast_node, ProcessorInfo* info);
   ~FunctionProcessor();
   void ProcessNode();
  private :
+  bool IsDestructuring(AstNode* node);
   void ProcessFormalParameter();
-  void ProcessDefaultParameter( Literal* value );
-  void ProcessDefaultParameter( AssignmentExp* exp );
-  void ProcessPropertyParameter( CallExp* exp );
+  void ProcessDefaultParameter(Literal* value);
+  void ProcessDefaultParameter(AssignmentExp* exp);
+  void ProcessPropertyParameter(CallExp* exp);
   void ProcessBody();
   void ProcessYield();
   VariableStmt* ProcessRestParameter();

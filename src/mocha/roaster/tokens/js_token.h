@@ -121,12 +121,12 @@ class JsToken : private Static {
   typedef roastlib::unordered_map<std::string,int> ReservedTokenTable;
   typedef roastlib::unordered_map<std::string,int> BuiltinTokenTable;
  public:
-  static bool IsBinaryOperatorNoIn( int token );
-  static bool IsBinaryOperator( int token );
-  static int GetType( const char* token , bool isOperator = false );
-  static bool IsBuiltin( const char* token );
-  static bool IsReserved( const char* token );
-  static const char* GetTokenFromNumber( int id );
+  static bool IsBinaryOperatorNoIn(int token);
+  static bool IsBinaryOperator(int token);
+  static int GetType(const char* token, bool isOperator = false);
+  static bool IsBuiltin(const char* token);
+  static bool IsReserved(const char* token);
+  static const char* GetTokenFromNumber(int id);
   static void Initialize();
  private :
   static Mutex mutex_;
@@ -137,7 +137,7 @@ class JsToken : private Static {
 
 class TokenConverter {
  public :
-  TokenConverter( TokenInfo* info );
+  TokenConverter(TokenInfo* info);
   ~TokenConverter(){}
   const char* cstr();
  private :

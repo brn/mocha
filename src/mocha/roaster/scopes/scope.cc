@@ -7,27 +7,26 @@
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/js_token.h>
-#include <utils/pool/managed_handle.h>
 #include <utils/smart_pointer/scope/scoped_list.h>
 
 namespace mocha {
 
 static SymbolEntry& GetEmpty() {
-  static SymbolEntry table( static_cast<TokenInfo*>( 0 ) , static_cast<AstNode*>( 0 ) );
+  static SymbolEntry table(static_cast<TokenInfo*>(0), static_cast<AstNode*>(0));
   return table;
 }
 
 class CompressedNameAllocator {
  public :
-  CompressedNameAllocator() : size_ ( 0 ) {
-    for ( int i = 0; i < 15; i++ ) {
+  CompressedNameAllocator() : size_ (0) {
+    for (int i = 0; i < 15; i++) {
       indexes_[ i ] = 0;
     }
   }
   ~CompressedNameAllocator() {}
                                 
   const char* GetContractionName() {
-    if ( size_ == 0 ) {
+    if (size_ == 0) {
       return SingleName();
     } else {
       return MultiName();
@@ -36,23 +35,23 @@ class CompressedNameAllocator {
 
   void ResetWordIndex() {
     size_ = 0;
-    for ( int i = 0,len = size_ + 1; i < len; i++ ) {
+    for (int i = 0,len = size_ + 1; i < len; i++) {
       indexes_[ i ] = 0;
     }
   }
  private :
-  inline const char* CreateChar( const std::string& str ) {
-    char *ret = char_handle_.Retain ( new char [ str.size() + 1 ] );
-    strcpy ( ret, str.c_str() );
+  inline const char* CreateChar(const std::string& str) {
+    char *ret = char_handle_.Retain (new char [ str.size() + 1 ]);
+    strcpy (ret, str.c_str());
     return ret;
   }
 
   const char* SingleName() {
     std::string tmp;
     tmp += table_ [ indexes_[ size_ ] ];
-    const char* ret = CreateChar( tmp );
+    const char* ret = CreateChar(tmp);
     indexes_[ size_ ]++;
-    if ( indexes_[ size_ ] > kMax ) {
+    if (indexes_[ size_ ] > kMax) {
       indexes_[ size_ ] = 1;
       size_++;
       indexes_[ size_ ] = 1;
@@ -62,14 +61,14 @@ class CompressedNameAllocator {
                                 
   const char* MultiName() {
     std::string tmp;
-    SetMultiName( tmp );
-    const char* ret = CreateChar( tmp );
+    SetMultiName(tmp);
+    const char* ret = CreateChar(tmp);
 
-    if ( indexes_[ 1 ] == kMaxAfter ) {
+    if (indexes_[ 1 ] == kMaxAfter) {
       indexes_[ 0 ]++;
 
-      if ( indexes_[ 0 ] > kMax ) {
-        for ( int i = 0,len = size_ + 1; i < len; i++ ) {
+      if (indexes_[ 0 ] > kMax) {
+        for (int i = 0,len = size_ + 1; i < len; i++) {
           indexes_[ i ] = 0;
         }
         size_++;
@@ -78,17 +77,17 @@ class CompressedNameAllocator {
     return ret;
   }
                                 
-  void SetMultiName( std::string& tmp ) {
-    for ( int i = 0,len = size_ + 1; i < len; i++ ) {
+  void SetMultiName(std::string& tmp) {
+    for (int i = 0,len = size_ + 1; i < len; i++) {
       tmp += table_ [ indexes_[ i ] ];
-      if ( i == 0 ) {
-        if ( ( ( i < size_ && indexes_[ i + 1 ] == kMaxAfter ) || i == size_ ) &&
-             indexes_[ i ] < kMax ) {
+      if (i == 0) {
+        if (((i < size_ && indexes_[ i + 1 ] == kMaxAfter) || i == size_) &&
+             indexes_[ i ] < kMax) {
           indexes_[ i ]++;
         }
       } else {
-        if ( ( ( i < size_ && indexes_[ i + 1 ] == kMaxAfter ) || i == size_ ) &&
-             indexes_[ i ] < kMaxAfter ) {
+        if (((i < size_ && indexes_[ i + 1 ] == kMaxAfter) || i == size_) &&
+             indexes_[ i ] < kMaxAfter) {
           indexes_[ i ]++;
         }
       }
@@ -107,64 +106,65 @@ char CompressedNameAllocator::table_ [] = {
 };
 
 
-Scope::Scope() : Managed() , head_( this ) , parent_( 0 ) , name_allocator_handle_( new CompressedNameAllocator ){}
+Scope::Scope()
+    : head_(this), parent_(0) , name_allocator_handle_(new CompressedNameAllocator){}
 Scope::~Scope() {}
 
-void Scope::Insert ( TokenInfo* info , AstNode* ast_node ) {
+void Scope::Insert (TokenInfo* info, AstNode* ast_node) {
   const char* ident = info->token();
-  if ( JsToken::IsBuiltin( ident ) ) {
+  if (JsToken::IsBuiltin(ident)) {
     return;
   }
-  SymbolIterator entry = table_.find( ident );
-  if ( entry != table_.end() ) {
-    SymbolEntry entry( info , ast_node );
-    table_.insert( TableEntry( ident , entry ) );
+  SymbolIterator entry = table_.find(ident);
+  if (entry != table_.end()) {
+    SymbolEntry entry(info, ast_node);
+    table_.insert(TableEntry(ident, entry));
   }
 }
 
-void Scope::Ref ( TokenInfo* info ) {
+void Scope::Ref (TokenInfo* info) {
   const char* ident = info->token();
-  if ( JsToken::IsBuiltin( ident ) ) {
+  if (JsToken::IsBuiltin(ident)) {
     return;
   }
-  RefIterator entry = reference_table_.find( ident );
-  if ( entry != reference_table_.end() ) {
-    reference_table_.insert( RefEntry( ident , info ) );
+  RefIterator entry = reference_table_.find(ident);
+  if (entry != reference_table_.end()) {
+    reference_table_.insert(RefEntry(ident, info));
   }
 }
 
 
-SymbolEntry Scope::Find ( TokenInfo* info ) {
-  if ( table_.size() > 0 ) {
+SymbolEntry Scope::Find (TokenInfo* info) {
+  if (table_.size() > 0) {
     const char* ident = info->token();
-    SymbolIterator entry = table_.find( ident );
-    if ( entry != table_.end() ) {
+    SymbolIterator entry = table_.find(ident);
+    if (entry != table_.end()) {
       return entry->second;
     } else {
-      if ( parent_ ) {
-        return parent_->Find( info );
+      if (parent_) {
+        return parent_->Find(info);
       }
       return GetEmpty();
     }
   } else {
-    if ( parent_ ) {
-      return parent_->Find( info );
+    if (parent_) {
+      return parent_->Find(info);
     } else {
       return GetEmpty();
     }
   }
 }
 
-void Scope::InsertAlias( TokenInfo* info , AstNode* ast_node ) {
+void Scope::InsertAlias(TokenInfo* info, AstNode* ast_node) {
   const char* ident = info->token();
-  if ( JsToken::IsBuiltin( ident ) ) {
+  if (JsToken::IsBuiltin(ident)) {
     return;
   }
-  SymbolEntry sym_entry( info , ast_node );
-  alias_table_.insert( TableEntry( ident , sym_entry ) );
+  SymbolEntry sym_entry(info, ast_node);
+  alias_table_.insert(TableEntry(ident, sym_entry));
 }
 
-SymbolEntry Scope::FindAlias( TokenInfo* info ) {
+SymbolEntry Scope::FindAlias(TokenInfo* info) {
   return GetEmpty();
 }
 
@@ -174,11 +174,11 @@ void Scope::Rename() {
 }
 
 void Scope::DoRename() {
-  if ( reference_table_.size() > 0 ) {
+  if (reference_table_.size() > 0) {
     FindRenamedReferenceEntry();
   }
   ChildrenScope::iterator begin = children_.begin(),end = children_.end();
-  while ( begin != end ) {
+  while (begin != end) {
     (*begin)->Rename();
     ++begin;
   }
@@ -187,19 +187,19 @@ void Scope::DoRename() {
 
 void Scope::SetReferece() {
   ChildrenScope::iterator begin = children_.begin(),end = children_.end();
-  while ( begin != end ) {
+  while (begin != end) {
     (*begin)->SetReferece();
     ++begin;
   }
   Scope* parent = parent_;
-  while ( parent ) {
+  while (parent) {
     RefIterator begin;
     RefIterator end = reference_table_.end();
-    for ( begin = reference_table_.begin(), end != reference_table_.end(); begin != end; ++begin ) {
+    for (begin = reference_table_.begin(), end != reference_table_.end(); begin != end; ++begin) {
       const char* ident = begin->first.c_str();
-      if ( parent->reference_table_.find( ident ) != parent->reference_table_.end() &&
-           table_.find( ident ) != table_.end() ) {
-        parent->reference_table_.insert( RefEntry( begin->first , begin->second ) );
+      if (parent->reference_table_.find(ident) != parent->reference_table_.end() &&
+           table_.find(ident) != table_.end()) {
+        parent->reference_table_.insert(RefEntry(begin->first, begin->second));
       }
     }
     parent = parent->parent_;
@@ -208,55 +208,55 @@ void Scope::SetReferece() {
 
 void Scope::RenameDeclaration() {
   SymbolIterator var_iterator;
-  for ( var_iterator = table_.begin(); var_iterator != table_.end(); ++var_iterator ) {
+  for (var_iterator = table_.begin(); var_iterator != table_.end(); ++var_iterator) {
     TokenInfo* info = var_iterator->second.first;
-    if ( !info->IsCompressed() ) {
+    if (!info->IsCompressed()) {
       const char* renamed = name_allocator_handle_->GetContractionName();
-      while ( used_table_.find( renamed ) != used_table_.end() ) {
+      while (used_table_.find(renamed) != used_table_.end()) {
         renamed = name_allocator_handle_->GetContractionName();
       }
-      used_table_.insert( RefEntry( renamed , info ) );
-      renamed_table_.insert( RefEntry( var_iterator->first , var_iterator->second.first ) );
-      info->set_compressed_name( renamed );
+      used_table_.insert(RefEntry(renamed, info));
+      renamed_table_.insert(RefEntry(var_iterator->first, var_iterator->second.first));
+      info->set_compressed_name(renamed);
     }
   }
 }
 
 void Scope::FindRenamedReferenceEntry() {
   RefIterator ref_iterator;
-  for ( ref_iterator = reference_table_.begin(); ref_iterator != reference_table_.end(); ++ref_iterator ) {
-    RenameReference( ref_iterator );
+  for (ref_iterator = reference_table_.begin(); ref_iterator != reference_table_.end(); ++ref_iterator) {
+    RenameReference(ref_iterator);
   }
 }
 
-void Scope::RenameReference( RefIterator entry ) {
+void Scope::RenameReference(RefIterator entry) {
   const char* ident = entry->first.c_str();
   TokenInfo* info = entry->second;
-  SymbolIterator current_ent = table_.find( ident );
-  UsedIterator renamed_ent = renamed_table_.find( ident );
-  SymbolEntry symbol_ent = Find( info );
-  if ( current_ent == table_.end() && renamed_ent == renamed_table_.end() ) {
+  SymbolIterator current_ent = table_.find(ident);
+  UsedIterator renamed_ent = renamed_table_.find(ident);
+  SymbolEntry symbol_ent = Find(info);
+  if (current_ent == table_.end() && renamed_ent == renamed_table_.end()) {
     Scope* parent = parent_;
-    if ( symbol_ent.first ) {
-      if ( !( symbol_ent.first->IsCompressed() ) ) {
+    if (symbol_ent.first) {
+      if (!(symbol_ent.first->IsCompressed())) {
         const char* renamed = name_allocator_handle_->GetContractionName();
         typedef std::vector<UsedTable*> TableArray;
         TableArray table_array;
-        table_array.push_back( &used_table_ );
-        while ( parent ) {
-          SymbolIterator parent_entry = parent->table_.find( ident );
-          table_array.push_back( &( parent->used_table_ ) );
-          if ( parent_entry != parent->table_.end() ) {
+        table_array.push_back(&used_table_);
+        while (parent) {
+          SymbolIterator parent_entry = parent->table_.find(ident);
+          table_array.push_back(&(parent->used_table_));
+          if (parent_entry != parent->table_.end()) {
             bool is_unique = false;
-            while ( !is_unique ) {
+            while (!is_unique) {
               is_unique = true;
-              for ( int i = 0,len = table_array.size(); i < len; i++ ) {
-                UsedTable* table = table_array.at( i );
-                if ( table->find( renamed ) != table->end() ) {
+              for (int i = 0,len = table_array.size(); i < len; i++) {
+                UsedTable* table = table_array.at(i);
+                if (table->find(renamed) != table->end()) {
                   is_unique = false;
                 }
               }
-              if ( !is_unique ) {
+              if (!is_unique) {
                 renamed = name_allocator_handle_->GetContractionName();
               }
             }
@@ -264,31 +264,31 @@ void Scope::RenameReference( RefIterator entry ) {
           }
           parent = parent->parent_;
         }
-        used_table_.insert( RefEntry( renamed , info ) );
-        renamed_table_.insert( RefEntry( ident , info ) );
+        used_table_.insert(RefEntry(renamed, info));
+        renamed_table_.insert(RefEntry(ident, info));
         parent = parent_;
-        while ( parent ) {
-          SymbolIterator parent_entry = parent->table_.find( ident );
-          if ( parent_entry != parent->table_.end() ) {
-            parent_entry->second.first->set_compressed_name( renamed );
-            parent->used_table_.insert( RefEntry( renamed , info ) );
-            parent->renamed_table_.insert( RefEntry( ident , info ) );
+        while (parent) {
+          SymbolIterator parent_entry = parent->table_.find(ident);
+          if (parent_entry != parent->table_.end()) {
+            parent_entry->second.first->set_compressed_name(renamed);
+            parent->used_table_.insert(RefEntry(renamed, info));
+            parent->renamed_table_.insert(RefEntry(ident, info));
             break;
           } else {
-            parent->used_table_.insert( RefEntry( renamed , info ) );
-            parent->renamed_table_.insert( RefEntry( ident , info ) );
+            parent->used_table_.insert(RefEntry(renamed, info));
+            parent->renamed_table_.insert(RefEntry(ident, info));
           }
           parent = parent->parent_;
         }
       } else {
         const char* renamed = symbol_ent.first->compressed_name();
-        used_table_.insert( RefEntry( renamed , symbol_ent.first ) );
-        renamed_table_.insert( RefEntry( ident , symbol_ent.first ) );
-        while ( parent ) {
-          UsedIterator renamed_entry = parent->renamed_table_.find( ident );
-          if ( renamed_entry == parent->renamed_table_.end() ) {
-            parent->used_table_.insert( RefEntry( renamed , symbol_ent.first ) );
-            parent->renamed_table_.insert( RefEntry( ident , symbol_ent.first ) );
+        used_table_.insert(RefEntry(renamed, symbol_ent.first));
+        renamed_table_.insert(RefEntry(ident, symbol_ent.first));
+        while (parent) {
+          UsedIterator renamed_entry = parent->renamed_table_.find(ident);
+          if (renamed_entry == parent->renamed_table_.end()) {
+            parent->used_table_.insert(RefEntry(renamed, symbol_ent.first));
+            parent->renamed_table_.insert(RefEntry(ident, symbol_ent.first));
           } else {
             break;
           }
@@ -304,17 +304,17 @@ bool Scope::IsGlobal() const {
   return head_ == this;
 }
 
-ScopeRegistry::ScopeRegistry () : head_( 0 ) , current_( head_ ) {};
+ScopeRegistry::ScopeRegistry(memory::Pool* pool) : head_(0), current_(head_), pool_(pool){};
 
 ScopeRegistry::~ScopeRegistry () {}
 
 Scope* ScopeRegistry::Assign() {
-  Scope* scope = ManagedHandle::Retain( new Scope() );
-  if ( head_ == 0 ) {
+  Scope* scope = new(pool()) Scope();
+  if (head_ == 0) {
     head_ = scope;
     current_ = head_;
   } else {
-    current_->children_.push_back( scope );
+    current_->children_.push_back(scope);
     scope->head_ = head_;
     scope->parent_ = current_;
     current_ = scope;
@@ -323,7 +323,7 @@ Scope* ScopeRegistry::Assign() {
 }
 
 Scope* ScopeRegistry::Return(){
-  return ( current_ = current_->parent_ );
+  return (current_ = current_->parent_);
 }
 
 Scope* ScopeRegistry::Current() {

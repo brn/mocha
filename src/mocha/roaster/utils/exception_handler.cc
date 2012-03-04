@@ -2,10 +2,10 @@
 
 namespace mocha {
 
-ExceptionHandle ExceptionHandler::CreateException( const char* message ) {
-  return ExceptionHandle( new ExceptionHandler( message ) );
+ExceptionHandle ExceptionHandler::CreateException(const char* message) {
+  return ExceptionHandle(new ExceptionHandler(message));
 }
-ExceptionHandler::ExceptionHandler( const char* message ) : error_( message ) {}
+ExceptionHandler::ExceptionHandler(const char* message) : error_(message) {}
 ExceptionHandler::~ExceptionHandler() {}
 
 }

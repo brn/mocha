@@ -24,7 +24,7 @@
 #define mocha_parser_connector_h_
 
 #include <string>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 
 namespace mocha {
@@ -52,11 +52,11 @@ class ParserConnector {
    * @param {AstRoot*} ast_root -> AstRoot instance.
    * @param {Scope*} scope -> Scope instance.
    */
-  ParserConnector ( Compiler *compiler,
+  ParserConnector (Compiler *compiler,
                     AstRoot* ast_root,
                     Scanner* scanner,
                     SourceStream* stream,
-                    ErrorReporter* reporter );
+                    ErrorReporter* reporter);
 
   void Initialize();
   
@@ -67,9 +67,9 @@ class ParserConnector {
    * @param {void*} yylval -> Type erasured args. real type is ParserImplementation::semantic_type*
    * Run mocha::Scanner::GetToken().
    */
-  TokenInfo* Advance( int len = 1 );
-  TokenInfo* Undo( int len = 1 );
-  TokenInfo* Seek( int len = 1 );
+  TokenInfo* Advance(int len = 1);
+  TokenInfo* Undo(int len = 1);
+  TokenInfo* Seek(int len = 1);
 
   ErrorReporter* GetError();
   

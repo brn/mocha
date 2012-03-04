@@ -78,18 +78,18 @@ const char* PathInfo::GetFileNameFromPath_( const char* path ) {
   return ret;
 }
 
-StrHandle FileSystem::pwd () {
+StrSharedPtr FileSystem::pwd () {
   return GetCwd ();
 }
 
-Handle<PathInfo> FileSystem::GetPathInfo( const char* path ) {
+SharedPtr<PathInfo> FileSystem::GetPathInfo( const char* path ) {
   char* raw_path = new char[ strlen( path ) + 1 ];
   strcpy( raw_path , path );
-  Handle<PathInfo> handle( new PathInfo( raw_path ) );
+  SharedPtr<PathInfo> handle( new PathInfo( raw_path ) );
   return handle;
 }
 
-StrHandle FileSystem::NormalizePath( const char* path ) {
+StrSharedPtr FileSystem::NormalizePath( const char* path ) {
   std::string tmp = path;
   size_t size = tmp.size();
   size_t index = 0;
@@ -138,12 +138,12 @@ StrHandle FileSystem::NormalizePath( const char* path ) {
   if ( tmp[ tmp.size() - 1 ] == '/' ) {
     tmp.erase( tmp.size() - 1 , tmp.size() );
   }
-  return StrHandle( utils::CharAlloc( tmp.c_str() ) );
+  return StrSharedPtr( utils::CharAlloc( tmp.c_str() ) );
 }
 
 
 
-StrHandle FileSystem::GetUserHomeDir() {
+StrSharedPtr FileSystem::GetUserHomeDir() {
 #ifdef _WIN32
   std::string drive = getenv( "HOMEDRIVE" );
   std::string home = getenv( HOME );
@@ -151,17 +151,17 @@ StrHandle FileSystem::GetUserHomeDir() {
   return GetAbsolutePath( drive.c_str() );
 #else
   char* ret = utils::CharAlloc( getenv( HOME ) );
-  return StrHandle( ret );
+  return StrSharedPtr( ret );
 #endif
 }
 
 
-StrHandle FileSystem::GetAbsolutePath( const char* path ) {
+StrSharedPtr FileSystem::GetAbsolutePath( const char* path ) {
   char *tmp;
   FULL_PATH( path , tmp );
   char* ret = utils::CharAlloc( tmp );
   free( tmp );
-  return StrHandle( ret );
+  return StrSharedPtr( ret );
 }
 
 typedef std::vector<std::string> PathArray;
@@ -191,9 +191,9 @@ void GetPathArray( const char* path , PathArray *array ) {
   }
 }
 
-StrHandle FileSystem::GetModuleKey( const char* base , const char* path ) {
+StrSharedPtr FileSystem::GetModuleKey( const char* base , const char* path ) {
   if ( strcmp( base , path ) == 0 ) {
-    return StrHandle( utils::CharAlloc( "./" ) );
+    return StrSharedPtr( utils::CharAlloc( "./" ) );
   }
   PathArray base_array;
   PathArray target_array;
@@ -213,7 +213,7 @@ StrHandle FileSystem::GetModuleKey( const char* base , const char* path ) {
         i++;
       }
       tmp += result;
-      return StrHandle( utils::CharAlloc( tmp.c_str() ) );
+      return StrSharedPtr( utils::CharAlloc( tmp.c_str() ) );
     } else if ( base_array.at( i ).compare( target_array.at( i ) ) != 0 ) {
       while ( i < base_size ) {
         result += "../";
@@ -225,11 +225,11 @@ StrHandle FileSystem::GetModuleKey( const char* base , const char* path ) {
         result += "/";
         i++;
       }
-      return StrHandle( utils::CharAlloc( result.c_str() ) );
+      return StrSharedPtr( utils::CharAlloc( result.c_str() ) );
     }
     i++;
   }
-  return StrHandle( utils::CharAlloc( result.c_str() ) );
+  return StrSharedPtr( utils::CharAlloc( result.c_str() ) );
 }
 
 void FileSystem::Chdir ( const char* path ) {

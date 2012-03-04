@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string>
 #include <boost/unordered_map.hpp>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/thread/thread.h>
 #include <utils/char_allocator.h>
 
@@ -45,7 +45,7 @@ class File {
 
   void Close ();
 
-  CStrHandle GetFileContents ();
+  CStrSharedPtr GetFileContents ();
   void GetFileContents( std::string& str );
 
   int Write ( const char* buf );
@@ -54,7 +54,7 @@ class File {
 
   bool IsSuccess ();
 
-  StrHandle GetDate ( DateType type = kUpdate );
+  StrSharedPtr GetDate ( DateType type = kUpdate );
 
   long int GetSize ();
 
@@ -98,7 +98,7 @@ class FileIO {
     P_ReadWrite = 2
   };
   
-  static Handle<File> Open ( const char* path , const char* mode , int access = 0 );
+  static SharedPtr<File> Open ( const char* path , const char* mode , int access = 0 );
   
   static bool IsExist ( const char* path );
 

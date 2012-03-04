@@ -24,45 +24,40 @@
 #define mocha_class_processor_h_
 #include <string>
 #include <boost/unordered_map.hpp>
-#include <utils/pool/managed.h>
-#include <utils/pool/managed_handle.h>
-#include <utils/hash/hash_map/hash_map.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
+#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
 
 namespace mocha {
 
 class ProcessorInfo;
 class ClassProcessorUtils;
-typedef void (ClassProcessorUtils::*DstaCallback)( const char* class_name,
+typedef void (ClassProcessorUtils::*DstaCallback)(const char* class_name,
                                                    Function* closure_body,
                                                    Literal* exp,
-                                                   bool is_const );
-class ClassProcessor : public Managed {
+                                                   bool is_const);
+class ClassProcessor : public Processor {
  public :
-  inline static ClassProcessor* New( ProcessorInfo* info , Class* ast_node , Statement* tmp_stmt ) {
-    return ManagedHandle::Retain( new ClassProcessor( info , ast_node , tmp_stmt ) );
-  }
-  ClassProcessor( ProcessorInfo* info , Class* ast_node , Statement* tmp_stmt );
+  ClassProcessor(ProcessorInfo* info, Class* ast_node, Statement* tmp_stmt);
   ~ClassProcessor();
   void ProcessNode();
   const char* GetName() { return name_.c_str(); }
  private :
 
   inline void Initialize();
-  inline void SetName( AstNode* node );
+  inline void SetName(AstNode* node);
   inline Function* CreateBaseConstructor();
-  inline void ProcessExtends( AstNode* node );
-  inline void ProcessBody( AstNode* body );
-  inline void ProcessMember( ClassProperties* body );
-  inline void IterateMember( AstNode* list , bool is_prototype , bool is_private , bool is_instance );
-  inline void ProcessEachMember( AstNode* node , bool is_prototype , bool is_private , bool is_instance );
-  inline void ProcessVariable( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
-  inline void ProcessFunction( Function* function , bool is_prottoype , bool is_private , bool is_instance );
-  inline void ProcessConstructor( Function* constructor );
+  inline void ProcessExtends(AstNode* node);
+  inline void ProcessBody(AstNode* body);
+  inline void ProcessMember(ClassProperties* body);
+  inline void IterateMember(AstNode* list, bool is_prototype, bool is_private, bool is_instance);
+  inline void ProcessEachMember(AstNode* node, bool is_prototype, bool is_private, bool is_instance);
+  inline void ProcessVariable(AstNode* node, bool is_prototype, bool is_private, bool is_instance, bool is_const);
+  inline void ProcessFunction(Function* function, bool is_prottoype, bool is_private, bool is_instance);
+  inline void ProcessConstructor(Function* constructor);
   inline void CreateEmptyConstructor();
-  inline void ProcessDsta( AstNode* value ,bool is_const , DstaCallback callback );
-  inline void SimpleVariables( AstNode* node , bool is_const );
-  inline void NoSimpleVariables( AstNode* node , bool is_prototype , bool is_private , bool is_instance , bool is_const );
+  inline void ProcessDsta(AstNode* value ,bool is_const, DstaCallback callback);
+  inline void SimpleVariables(AstNode* node, bool is_const);
+  inline void NoSimpleVariables(AstNode* node, bool is_prototype, bool is_private, bool is_instance, bool is_const);
 
 
   std::string name_;

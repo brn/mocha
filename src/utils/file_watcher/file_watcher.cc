@@ -6,7 +6,7 @@
 #endif
 
 #include <options/setting.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/file_system/stat.h>
 
 #ifdef INTFY

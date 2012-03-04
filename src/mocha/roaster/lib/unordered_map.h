@@ -1,5 +1,6 @@
 #ifndef mocha_utils_unordered_map_h_
 #define mocha_utils_unordered_map_h_
+#include <useconfig.h>
 #ifdef HAVE_UNORDERED_MAP_H
 #include <unordered_map>
 namespace mocha {

@@ -6,7 +6,7 @@
 #define sleep(time) Sleep(time##000)
 #endif
 #include <stdio.h>
-#include <boost/unordered_map.hpp>
+#include <mocha/roaster/lib/unordered_map.hpp>
 #include <utils/file_system/file_system.h>
 #include <utils/file_watcher/file_watcher.h>
 #include <utils/file_system/stat.h>
@@ -89,7 +89,7 @@ class FileWatcher::PtrImpl {
 
  private :
   typedef std::string FileEntry;
-  typedef boost::unordered_map<FileEntry, WatcherContainer> WatchList;
+  typedef roastlib::unordered_map<FileEntry, WatcherContainer> WatchList;
 
   inline void Regist_( const char* path , IUpdater *updater , int type ) {
     Stat stat( path );

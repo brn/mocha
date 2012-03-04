@@ -5,7 +5,7 @@
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/compiler.h>
 #include <utils/thread/thread.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/file_watcher/observer/file_observer.h>
 #include <options/setting.h>
 #include <mocha/roaster/utils/compile_result.h>
@@ -13,30 +13,30 @@
 #include <utils/file_system/file_system.h>
 namespace mocha {
 
-void CompilerFacade::Compile( const char* path , bool is_join ) {
-  ThreadArgs *args = new ThreadArgs( new Thread , path , &noop_ );
-  Compile_( args        , is_join );
+void CompilerFacade::Compile(const char* path, bool is_join) {
+  ThreadArgs *args = new ThreadArgs(new Thread, path, &noop_);
+  Compile_(args, is_join);
 }
 
-void CompilerFacade::Compile( const char* path , bool is_join , FinishDelegator* callback ) {
-  ThreadArgs *args = new ThreadArgs( new Thread , path , callback );
-  Compile_( args , is_join );
+void CompilerFacade::Compile(const char* path, bool is_join, FinishDelegator* callback) {
+  ThreadArgs *args = new ThreadArgs(new Thread, path, callback);
+  Compile_(args, is_join);
 }
 
 
-Handle<ExternalAst> CompilerFacade::GetAst( const char* path , bool is_runtime ) {
-  Compiler* compiler = Compiler::CreateInstance( path , &noop_ );
-  Handle<PathInfo> info = FileSystem::GetPathInfo( path );
+SharedPtr<ExternalAst> CompilerFacade::GetAst(const char* path, bool is_runtime) {
+  Compiler compiler(path, &noop_);
+  SharedPtr<PathInfo> info = FileSystem::GetPathInfo(path);
   ErrorReporter reporter;
-  return compiler->GetAst( &reporter , info , is_runtime );
+  return compiler.GetAst(&reporter, info, is_runtime);
 }
 
 
-void CompilerFacade::Compile_( ThreadArgs *args , bool is_join ) {
-  if ( !args->thread->Create ( InternalThreadRunner , args ) ) {
-    Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
+void CompilerFacade::Compile_(ThreadArgs *args, bool is_join) {
+  if (!args->thread->Create (InternalThreadRunner, args)) {
+    Setting::GetInstance()->LogFatal("in %s thread create fail.", __func__);
   } else {
-    if ( is_join ) {
+    if (is_join) {
       args->thread->Join();
     } else {
       args->thread->Detach();
@@ -44,47 +44,44 @@ void CompilerFacade::Compile_( ThreadArgs *args , bool is_join ) {
   }
 }
 
-void* CompilerFacade::ExternalThreadRunner( void* args ) {
-  const char *filename = reinterpret_cast<const char*>( args );
-  Compiler* compiler = Compiler::CreateInstance( filename , &noop_ );
-  compiler->Compile();
+void* CompilerFacade::ExternalThreadRunner(void* args) {
+  const char *filename = reinterpret_cast<const char*>(args);
+  Compiler compiler(filename, &noop_);
+  compiler.Compile();
   delete filename;
   return 0;
 }
 
 class ParallelDelegator : public FinishDelegator {
  public :
-  ParallelDelegator( int size ) :
-      size_( size ) , is_end_( false ) , current_( 0 ) {}
+  ParallelDelegator(int size) :
+      size_(size), is_end_(false), current_(0) {}
   ~ParallelDelegator(){}
-  void Delegate( Handle<CompileResult> result ) {
-    MutexLock lock( mutex_ );
-    if ( Atomic::Increment( &current_ ) == size_ ) {
+  void Delegate(SharedPtr<CompileResult> result) {
+    MutexLock lock(mutex_);
+    if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;
     }
     const ErrorMap *map = &(result->GetErrorMap());
-    if ( map->Size() > 0 ) {                    
-      ErrorMap::EntryIterator iterator = map->Entries();
-      while ( iterator.HasNext() ) {
+    if (map->size() > 0) {                    
+      ErrorMap::const_iterator iterator;
+      for (iterator = map->begin(); iterator != map->end(); ++iterator) {
         std::string buf;
-        ErrorMap::HashEntry entry = iterator.Next();
-        if ( !entry.IsEmpty() ) {
-          entry.Value()->SetRawError( &buf );
-          if ( buf.size() > 0 ) {
-            errors_ += "---error---filename => ";
-            errors_ += entry.Key().c_str();
-            errors_ += "---\n";
-            errors_ += buf.c_str();
-            errors_ += "-------------------------------------------------------------------\n\n";
-          }
+        iterator->second->SetRawError(&buf);
+        if (buf.size() > 0) {
+          errors_ += "---error---filename => ";
+          errors_ += iterator->first.c_str();
+          errors_ += "---\n";
+          errors_ += buf.c_str();
+          errors_ += "-------------------------------------------------------------------\n\n";
         }
       }
     }
   }
   bool IsEnd() { return is_end_; }
   void PrintError() {
-    if ( errors_.size() > 0 ) {
-      fprintf( stderr , "%s\n" , errors_.c_str() );
+    if (errors_.size() > 0) {
+      fprintf(stderr, "%s\n", errors_.c_str());
     }
   }
  private :
@@ -100,24 +97,24 @@ Mutex ParallelDelegator::mutex_;
 void CompilerFacade::Compile() {
   int i = file_list_.size();
   FileList::iterator begin = file_list_.begin(),end = file_list_.end();
-  ParallelDelegator delegator( i );
-  while ( begin != end ) {
-    CompilerFacade::Compile( begin->first , begin->second , &delegator );
+  ParallelDelegator delegator(i);
+  while (begin != end) {
+    CompilerFacade::Compile(begin->first, begin->second, &delegator);
     ++begin;
   }
-  while ( !delegator.IsEnd() ){}
+  while (!delegator.IsEnd()){}
   delegator.PrintError();
 }
 
-void CompilerFacade::AddCompileList( const char* filename , bool is_join ) {
-  EachArgs args( filename , is_join );
-  file_list_.push_back( args );
+void CompilerFacade::AddCompileList(const char* filename, bool is_join) {
+  EachArgs args(filename, is_join);
+  file_list_.push_back(args);
 }
 
-void* CompilerFacade::InternalThreadRunner( void* args ) {
-  ThreadArgs *compile_args = static_cast<ThreadArgs*>( args );
-  Compiler* compiler = Compiler::CreateInstance( compile_args->filename , compile_args->callback );
-  compiler->Compile();
+void* CompilerFacade::InternalThreadRunner(void* args) {
+  ThreadArgs *compile_args = static_cast<ThreadArgs*>(args);
+  Compiler compiler(compile_args->filename, compile_args->callback);
+  compiler.Compile();
   delete compile_args;
   return 0;
 }

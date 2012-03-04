@@ -11,7 +11,7 @@ ScopedList<T>::~ScopedList () {}
 template <typename T>
 template <typename Class , typename Deleter>
 inline T* ScopedList<T>::Retain ( Class* ptr, Deleter deleter ) {
-  return RegistToList_( Handle<Class>( ptr , deleter ) , ptr );
+  return RegistToList_( SharedPtr<Class>( ptr , deleter ) , ptr );
 }
 
 template <typename T>
@@ -25,7 +25,7 @@ inline T* ScopedList<T>::Retain ( Deleter deleter ) {
 template <typename T>
 template <typename Class>
 inline T* ScopedList<T>::Retain( Class* ptr ) {
-  return RegistToList_( Handle<Class>( ptr ) , ptr );
+  return RegistToList_( SharedPtr<Class>( ptr ) , ptr );
 }
 
 template <typename T>
@@ -36,7 +36,7 @@ inline T* ScopedList<T>::Retain() {
 }
 
 template <typename T>
-inline T* ScopedList<T>::RegistToList_( Handle<T> handle , T* ptr ) {
+inline T* ScopedList<T>::RegistToList_( SharedPtr<T> handle , T* ptr ) {
     list_.push_back ( handle );
     return ptr;
 }

@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string>
 #include <utils/io/file_io.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/file_system/stat.h>
 #include <utils/char_allocator.h>
 #include <options/setting.h>
@@ -163,7 +163,7 @@ void File::Close () {
   }
 };
 
-CStrHandle File::GetFileContents () {
+CStrSharedPtr File::GetFileContents () {
   ENSURE_STREAM_OPENED;
   char* buffer = Allocate ( sizeof ( char ) * RAW_IO_BUF_SIZE );
   char tmp [ RAW_IO_BUF_SIZE ];
@@ -180,7 +180,7 @@ CStrHandle File::GetFileContents () {
     strcpy ( buffer + currentSize , tmp );
     currentSize += readSize;
   }
-  return CStrHandle( buffer );
+  return CStrSharedPtr( buffer );
 }
 
 void File::GetFileContents( std::string& str ) {
@@ -227,7 +227,7 @@ bool File::IsSuccess () {
   return ( fd == -1 )? false : true;
 }
 
-StrHandle File::GetDate ( DateType type ) {
+StrSharedPtr File::GetDate ( DateType type ) {
   string str;
   if ( type == kUpdate ) {
     str = fstat->MTime();
@@ -235,7 +235,7 @@ StrHandle File::GetDate ( DateType type ) {
     str = fstat->CTime();
   }
   char* ret = utils::CharAlloc( str.c_str() );
-  return StrHandle( ret );
+  return StrSharedPtr( ret );
 }
 
 long int File::GetSize () {
@@ -251,7 +251,7 @@ inline void FileIO::GetPermiss ( unsigned int *permiss , int access ) {
   }
 }
 
-Handle<File> FileIO::Open ( const char* path , const char* mode , int access ) {
+SharedPtr<File> FileIO::Open ( const char* path , const char* mode , int access ) {
   int flag = 0;
   int flagNum = strlen ( mode );
   bool isNeedLock = false;
@@ -306,7 +306,7 @@ Handle<File> FileIO::Open ( const char* path , const char* mode , int access ) {
   GetPermiss ( &permiss , access );
   int fd = OPEN_STREAM ( path , flag , permiss );
   FileIO::fd_list_[fd] = fd;
-  Handle<File> file_ (  new File ( fd , path , readType , fstat_ , isNeedLock ) );
+  SharedPtr<File> file_ (  new File ( fd , path , readType , fstat_ , isNeedLock ) );
   return file_;
 };
 

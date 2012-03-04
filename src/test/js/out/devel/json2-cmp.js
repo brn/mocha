@@ -4,26 +4,26 @@
   
   var _mochaGlobalExport = {};
   
-  !function ( _mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3 ) {
-    function defineBuiltin( obj,name,value ) {
-      return Object.defineProperty( obj,name, {
+  !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
+    function defineBuiltin(obj,name,value) {
+      return Object.defineProperty(obj,name, {
         value : value,
         configurable : true,
         enumerable : false,
         writable : true
       });
     }
-    function callbackCheck( callback,type ) {
+    function callbackCheck(callback,type) {
       
-      Runtime.assert( true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js' );
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js');
       
-      typeof callback !== "function" && builtinTypeError( type+" : first argument is not callable" );
+      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
-    function builtinTypeError( message ) {
+    function builtinTypeError(message) {
       try {
-        throw new TypeError( message );
-      } catch( e ){
-        throw new Error( e );
+        throw new TypeError(message);
+      } catch(e){
+        throw new Error(e);
       };
     }
     var stringProto = _mochaLocalTmp0.prototype,
@@ -31,28 +31,28 @@
         functionProto = _mochaLocalTmp2.prototype,
         dateProto = _mochaLocalTmp3.prototype;
     
-    !Object.keys && ( Object.keys = function ( obj ) {
-      !obj && builtinTypeError( "Object.keys : first arguments is null or not defined." );
+    !Object.keys && (Object.keys = function (obj) {
+      !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
       
       var ret = [],
           iter = -1;
       
-      for ( var i in obj ){
+      for (var i in obj){
         
-        obj.hasOwnProperty( i ) && ( ret[ ++ iter] = obj[i] );
+        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
       };
       return ret;
     });
     
-    !Object.preventExtensions && ( Object.preventExtensions = function ( o ) {
+    !Object.preventExtensions && (Object.preventExtensions = function (o) {
       return o;
     });
     
-    !Object.seal && ( Object.seal = function ( o ) {
+    !Object.seal && (Object.seal = function (o) {
       return o;
     });
     
-    !Object.freeze && ( Object.freeze = function ( o ) {
+    !Object.freeze && (Object.freeze = function (o) {
       return o;
     });
     
@@ -63,7 +63,7 @@
             
             var obj = {};
             
-            Object.defineProperty( obj,"test", {
+            Object.defineProperty(obj,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
@@ -72,61 +72,61 @@
             
             obj.test = 200;
             
-            ret = ( obj.test === 200 )?false : true;
-          } catch( e ){
+            ret = (obj.test === 200)?false : true;
+          } catch(e){
             
             ret = false;
           };
           return ret;
         }();
     
-    !hasRealEcma5 && ( Object.defineProperty = function ( obj,prop,valobj ) {
-      "value" in valobj && ( obj[prop] = valobj.value );
+    !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
+      "value" in valobj && (obj[prop] = valobj.value);
     });
     
-    if ( !stringProto.trim ){
+    if (!stringProto.trim){
       
       stringProto.trim = function () {
-        return this.replace( stringProto.trim.rtrim,"" );
+        return this.replace(stringProto.trim.rtrim,"");
       };
       
       stringProto.trim.rtrim = /^\s*|\s*$/g;
     };
     
-    !stringProto.repeat && defineBuiltin( stringProto,"repeat",
-    function ( num ) {
-      return Array( num+1 ).join( this.toString() );
+    !stringProto.repeat && defineBuiltin(stringProto,"repeat",
+    function (num) {
+      return Array(num+1).join(this.toString());
     });
     
-    !stringProto.startsWith && defineBuiltin( stringProto,"startsWith",
-    function ( str ) {
-      return !this.indexOf( str );
+    !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
+    function (str) {
+      return !this.indexOf(str);
     });
     
-    !stringProto.endsWith && defineBuiltin( stringProto,"endsWith",
-    function ( str ) {
-      var t = String( str ),
-          index = this.lastIndexOf( t );
+    !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
+    function (str) {
+      var t = String(str),
+          index = this.lastIndexOf(t);
       return index >= 0 && index === this.length-t.length;
     });
     
-    !stringProto.contains && defineBuiltin( stringProto,"contains",
-    function ( str ) {
-      return this.indexOf( str ) !== -1;
+    !stringProto.contains && defineBuiltin(stringProto,"contains",
+    function (str) {
+      return this.indexOf(str) !== -1;
     });
     
-    !stringProto.toArray && defineBuiltin( stringProto,"toArray",
-    function ( str ) {
-      return this.split( "" );
+    !stringProto.toArray && defineBuiltin(stringProto,"toArray",
+    function (str) {
+      return this.split("");
     });
     
-    !functionProto.bind && defineBuiltin( functionProto,"bind",
+    !functionProto.bind && defineBuiltin(functionProto,"bind",
     function () {
-      var argArray = arrayProto.slice.call( arguments ),
+      var argArray = arrayProto.slice.call(arguments),
           context = argArray.shift(),
           ret = function () {
-            var args = argArray.concat( arrayProto.slice.call( arguments ) );
-            return this !== null && this !== window && this instanceof ret?ret.context.apply( this,args ) : ret.context.apply( context,args );
+            var args = argArray.concat(arrayProto.slice.call(arguments));
+            return this !== null && this !== window && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
           };
       
       ret.prototype = this.prototype;
@@ -135,44 +135,44 @@
       return ret;
     });
     
-    !arrayProto.forEach && defineBuiltin( arrayProto,"forEach",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.forEach" );
+    !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
+    function (callback,that) {
+      callbackCheck(callback,"Array.forEach");
       
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.forEach : this is null or not defined" );
+      this === null && builtinTypeError("Array.forEach : this is null or not defined");
       
-      if ( that ){
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          callback.call( that,ta,iter,this );
+      if (that){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          callback.call(that,ta,iter,this);
         };
       } else {
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          callback( ta,iter,this );
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          callback(ta,iter,this);
         };
       };
     });
     
-    !arrayProto.every && defineBuiltin( arrayProto,"every",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.every" );
+    !arrayProto.every && defineBuiltin(arrayProto,"every",
+    function (callback,that) {
+      callbackCheck(callback,"Array.every");
       
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.every : this is null or not defined" );
+      this === null && builtinTypeError("Array.every : this is null or not defined");
       
-      if ( that ){
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( !( callback.call( that,ta,iter,this ) ) ){
+      if (that){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (!(callback.call(that,ta,iter,this))){
             return false;
           };
         };
       } else {
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( !( callback( ta,iter,this ) ) ){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (!(callback(ta,iter,this))){
             return false;
           };
         };
@@ -180,24 +180,24 @@
       return true;
     });
     
-    !arrayProto.some && defineBuiltin( arrayProto,"some",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.some" );
+    !arrayProto.some && defineBuiltin(arrayProto,"some",
+    function (callback,that) {
+      callbackCheck(callback,"Array.some");
       
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.some : this is null or not defined" );
+      this === null && builtinTypeError("Array.some : this is null or not defined");
       
-      if ( that ){
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( callback.call( that,ta,iter,this ) ){
+      if (that){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (callback.call(that,ta,iter,this)){
             return true;
           };
         };
       } else {
-        while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-          if ( callback( ta,iter,this ) ){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (callback(ta,iter,this)){
             return true;
           };
         };
@@ -205,41 +205,41 @@
       return false;
     });
     
-    !arrayProto.filter && defineBuiltin( arrayProto,"filter",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.filter" );
+    !arrayProto.filter && defineBuiltin(arrayProto,"filter",
+    function (callback,that) {
+      callbackCheck(callback,"Array.filter");
       
       var len = this.length,
           iter = -1,
           ret = [],
           ta;
       
-      this === null && builtinTypeError( "Array.filter : this is null or not defined" );
+      this === null && builtinTypeError("Array.filter : this is null or not defined");
       
-      if ( that ){
-        for ( var i = 0,len = this.length;i<len; ++ i ){
+      if (that){
+        for (var i = 0,len = this.length;i<len; ++ i){
           
-          ( ta = this[i] ) !== null && ta !== undefined && callback.call( that,ta,i,this ) && ( ret[ ++ iter] = ta );
+          (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
         };
       } else {
-        for ( var i = 0,len = this.length;i<len; ++ i ){
+        for (var i = 0,len = this.length;i<len; ++ i){
           
-          ( ta = this[i] ) !== null && ta !== undefined && callback( ta,i,this ) && ( ret[ ++ iter] = ta );
+          (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
         };
       };
       return ret;
     });
     
-    !arrayProto.indexOf && defineBuiltin( arrayProto,"indexOf",
-    function ( subject,fromIndex ) {
-      var iter = ( fromIndex )?fromIndex-1 : -1,
+    !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
+    function (subject,fromIndex) {
+      var iter = (fromIndex)?fromIndex-1 : -1,
           index = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.indexOf : this is null or not defined." );
+      this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
       
-      while ( ( ta = this[ ++ iter] ) !== null && ta !== undefined ){
-        if ( ta === subject ){
+      while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        if (ta === subject){
           
           index = iter;
           break;
@@ -248,17 +248,17 @@
       return index;
     });
     
-    !arrayProto.lastIndexOf && defineBuiltin( arrayProto,"lastIndexOf",
-    function ( target,fromIndex ) {
+    !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
+    function (target,fromIndex) {
       var len = this.length,
-          iter = ( fromIndex )?fromIndex+1 : len,
+          iter = (fromIndex)?fromIndex+1 : len,
           index = -1,
           ta;
       
-      this === null && builtinTypeError( "Array.lastIndexOf : this is null or not defined." );
+      this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
       
-      while ( ( ta = this[ -- iter] ) !== null && ta !== undefined ){
-        if ( ta === target ){
+      while ((ta = this[ -- iter]) !== null && ta !== undefined){
+        if (ta === target){
           
           index = iter;
           break;
@@ -267,9 +267,9 @@
       return index;
     });
     
-    !arrayProto.map && defineBuiltin( arrayProto,"map",
-    function ( callback,that ) {
-      callbackCheck( callback,"Array.map" );
+    !arrayProto.map && defineBuiltin(arrayProto,"map",
+    function (callback,that) {
+      callbackCheck(callback,"Array.map");
       
       var ret = [],
           iter = -1,
@@ -277,55 +277,55 @@
           i = 0,
           ta;
       
-      this === null && builtinTypeError( "Array.map : this is null or not defined." );
+      this === null && builtinTypeError("Array.map : this is null or not defined.");
       
-      if ( that ){
-        for ( i;i<len; ++ i ){
-          ( ta = this[i] ) !== null && ta !== undefined && ( ret[ ++ iter] = callback.call( that,ta,i,this ) );
+      if (that){
+        for (i;i<len; ++ i){
+          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
         };
       } else {
-        for ( i;i<len; ++ i ){
-          ( ta = this[i] ) !== null && ta !== undefined && ( ret[ ++ iter] = callback( ta,i,this ) );
+        for (i;i<len; ++ i){
+          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
         };
       };
       return ret;
     });
     
-    !arrayProto.reduce && defineBuiltin( arrayProto,"reduce",
-    function ( callback,initial ) {
-      callbackCheck( callback,"Array.reduce" );
+    !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduce");
       
       var ret = initial || this[0],
-          i = ( initial )?0 : 1,
+          i = (initial)?0 : 1,
           len = this.length,
           ta;
       
-      ( len === 0 || len === null ) && arguments.length<2 && builtinTypeError( "Array length is 0 and no second argument" );
+      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
       
-      for ( i;i<len; ++ i ){
-        ( ta = this[i] ) !== null && ta !== undefined && ( ret = callback( ret,ta,i,this ) );
+      for (i;i<len; ++ i){
+        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
     
-    !arrayProto.reduceRight && defineBuiltin( arrayProto,"reduceRight",
-    function ( callback,initial ) {
-      callbackCheck( callback,"Array.reduceRight" );
+    !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduceRight");
       
       var len = this.length,
           ret = initial || this[len-1],
-          i = ( initial )?len-1 : len-2,
+          i = (initial)?len-1 : len-2,
           ta;
       
-      ( len === 0 || len === null ) && arguments.length<2 && builtinTypeError( "Array length is 0 and no second argument" );
+      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
       
-      for ( i;i>-1; -- i ){
-        ( ta = this[i] ) !== null && ta !== undefined && ( ret = callback( ret,ta,i,this ) );
+      for (i;i>-1; -- i){
+        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
     
-    !dateProto.toJSON && defineBuiltin( dateProto,"toJSON",
+    !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
     function () {
       var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
           month = _mochaLocalTmp4[0],
@@ -333,73 +333,73 @@
           hour = _mochaLocalTmp4[2],
           minute = _mochaLocalTmp4[3],
           second = _mochaLocalTmp4[4];
-      return '"'+this.getUTCFullYear()+'-'+( month>8?month+1 : "0"+( month+1 ) )+'-'+( date>9?date : "0"+date )+'T'+( hour>9?hour : "0"+hour )+':'+( minute>9?minute : "0"+minute )+':'+( second>9?second : "0"+second )+'.'+this.getUTCMilliseconds()+'Z"';
+      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
     });
     
-    !Date.now && defineBuiltin( Date,"now",
+    !Date.now && defineBuiltin(Date,"now",
     function () {
       return +new Date();
     });
     
-    !Array.isArray && defineBuiltin( Array,"isArray",
-    function ( arr ) {
-      if ( arguments.length === 0 ){
+    !Array.isArray && defineBuiltin(Array,"isArray",
+    function (arr) {
+      if (arguments.length === 0){
         return false;
       };
-      return ( arr )?( {} ).toString.call( arr ) === "[object Array]" : false;
+      return (arr)?({}).toString.call(arr) === "[object Array]" : false;
     });
-  }.call( this,String,Array,Function,Date );
+  }.call(this,String,Array,Function,Date);
   
   var Runtime = function () {
-        function checkRequirements( _mochaLocalTmp9,_mochaLocalTmp10,traits,file,line ) {
+        function checkRequirements(_mochaLocalTmp9,_mochaLocalTmp10,traits,file,line) {
           var proto1 = _mochaLocalTmp9.prototype,
               proto2 = _mochaLocalTmp10.prototype;
           
-          for ( var i = 0,len = traits.length;i<len;i ++  ){
+          for (var i = 0,len = traits.length;i<len;i ++ ){
             
             var _mochaLocalTmp11 = traits[i],
                 _mochaRequires = _mochaLocalTmp11._mochaRequires;
             
-            for ( var prop in _mochaRequires ){
-              !( prop in proto1 ) && !( prop in proto2 ) && Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line );
+            for (var prop in _mochaRequires){
+              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
             };
           };
         }
-        function classMixin( _mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,with_,without ) {
+        function classMixin(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,with_,without) {
           var constructorProto = _mochaLocalTmp6.prototype,
               privateProto = _mochaLocalTmp7.prototype,
               mark = _mochaLocalTmp8._mochaTraitMark,
               traitPublic = _mochaLocalTmp8._mochaTraitPublic,
               traitPrivate = _mochaLocalTmp8._mochaTraitPrivate;
           
-          if ( !mark ){
-            Runtime.throwException( "mixin only used for trait." );
+          if (!mark){
+            Runtime.throwException("mixin only used for trait.");
           } else {
             
             var tmp;
             
-            for ( var i in traitPublic ){
-              if ( !without[i] ){
+            for (var i in traitPublic){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 constructorProto[tmp] = traitPublic[i];
               };
             };
             
-            for ( i in traitPrivate ){
-              if ( !without[i] ){
+            for (i in traitPrivate){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 privateProto[tmp] = traitPrivate[i];
               };
             };
           };
         }
-        function traitMixin( dest,source,with_,without ) {
-          if ( !dest._mochaTraitMark || !source._mochaTraitMark ){
-            Runtime.throwException( "mixin only used for trait." );
+        function traitMixin(dest,source,with_,without) {
+          if (!dest._mochaTraitMark || !source._mochaTraitMark){
+            Runtime.throwException("mixin only used for trait.");
           } else {
             
             var destTraitPrivate = dest._mochaTraitPrivate,
@@ -410,34 +410,34 @@
                 destRequires = dest._mochaRequires,
                 tmp;
             
-            for ( var i in sourceTraitPrivate ){
-              if ( !without[i] ){
+            for (var i in sourceTraitPrivate){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 destTraitPrivate[tmp] = sourceTraitPrivate[i];
               };
             };
             
-            for ( i in sourceTraitPublic ){
-              if ( !without[i] ){
+            for (i in sourceTraitPublic){
+              if (!without[i]){
                 
-                tmp = ( !with_[i] )?i : with_[i];
+                tmp = (!with_[i])?i : with_[i];
                 
                 destTraitPublic[tmp] = sourceTraitPublic[i];
               };
             };
             
-            for ( i in sourceRequires ){
+            for (i in sourceRequires){
               destRequires[i] = sourceRequires[i];
             };
           };
         }
-        function getSuper( obj ) {
+        function getSuper(obj) {
           var type = typeof obj,
               ret;
           
-          if ( type === "function" ){
+          if (type === "function"){
             
             ret = function (){};
             
@@ -450,31 +450,31 @@
           };
           return ret;
         }
-        function initializeClass( instance,classObject,privateHolder,constructor,args,name,line ) {
-          ( !instance || !( instance instanceof classObject ) ) && throwException( "class "+name+" must be called by new. line : "+line );
+        function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
+          (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
           
-          createPrivateRecord( instance,privateHolder );
+          createPrivateRecord(instance,privateHolder);
           
-          constructor.apply( instance,args );
+          constructor.apply(instance,args);
         }
-        function isStopIteration( obj ) {
-          return obj === StopIteration || rstopIteration.test( obj );
+        function isStopIteration(obj) {
+          return obj === StopIteration || rstopIteration.test(obj);
         }
-        function hasIterator( obj ) {
+        function hasIterator(obj) {
           return __ref_iterator__ in obj;
         }
-        function getIterator( obj ) {
+        function getIterator(obj) {
           var ret = obj[__ref_iterator__](),
               newObj;
           
-          if ( isGenerator( ret ) ){
+          if (isGenerator(ret)){
             return ret;
           };
           
           newObj = {};
           
-          if ( ret.next ){
-            createUnenumProp( newObj,"next",
+          if (ret.next){
+            createUnenumProp(newObj,"next",
             function () {
               var result = ret.next();
               
@@ -485,113 +485,113 @@
             return {};
           };
           
-          !( "__nothrowNext__" in ret ) && createUnenumProp( newObj,"__nothrowNext__",ret.next.bind( ret ) );
+          !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
           
-          for ( var prop in ret ){
+          for (var prop in ret){
             
-            prop !== "next" && prop !== "__nothrowNext__" && ( newObj[prop] = ret[prop] );
+            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
           };
           
-          !( "toString" in ret ) && createUnenumProp( newObj,"toString",
+          !("toString" in ret) && createUnenumProp(newObj,"toString",
           function () {
             return "[object Iterator]";
           });
           return newObj;
         }
-        function isGenerator( obj ) {
+        function isGenerator(obj) {
           return obj instanceof Generator;
         }
         function throwStopIteration() {
           try {
             throw StopIteration;
-          } catch( e ){
-            throw new Error( e.toString() );
+          } catch(e){
+            throw new Error(e.toString());
           };
         }
-        function createRecord( obj ) {
-          obj.toString() === "[object Object]" && createUnenumProp( obj,"toString",
+        function createRecord(obj) {
+          obj.toString() === "[object Object]" && createUnenumProp(obj,"toString",
           function () {
             return "[object Record]";
           });
-          return Object.freeze( obj );
+          return Object.freeze(obj);
         }
-        function createTuple( obj,size ) {
-          createUnenumProp( obj,"length",size );
+        function createTuple(obj,size) {
+          createUnenumProp(obj,"length",size);
           
-          createUnenumProp( obj,"equal",compareTuple );
+          createUnenumProp(obj,"equal",compareTuple);
           
-          createUnenumProp( obj,"toArray",tupleToArray );
+          createUnenumProp(obj,"toArray",tupleToArray);
           
-          createUnenumProp( obj,"toString",
+          createUnenumProp(obj,"toString",
           function () {
             return "[object Tuple]";
           });
-          return Object.freeze( obj );
+          return Object.freeze(obj);
         }
         function tupleToArray() {
-          return [].slice.call( this );
+          return [].slice.call(this);
         }
-        function compareTuple( tuple ) {
-          var maxIndex = max( tuple.length,this.length ),
+        function compareTuple(tuple) {
+          var maxIndex = max(tuple.length,this.length),
               i = -1;
           
-          while (  ++ i<maxIndex && tuple[i] === this[i] ){
+          while ( ++ i<maxIndex && tuple[i] === this[i]){
             
           };
           return maxIndex === i;
         }
-        function extend( dest,source ) {
-          for ( var prop in source ){
+        function extend(dest,source) {
+          for (var prop in source){
             
             dest[prop] = source[prop];
           };
           return dest;
         }
-        function getErrorMessage( e ) {
-          return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+        function getErrorMessage(e) {
+          return (e.message)?e.message : (e.description)?e.description : e.toString();
         }
-        function createGenerator( generatorFn,closeFn,context ) {
+        function createGenerator(generatorFn,closeFn,context) {
           var ret = new Generator;
           
-          createUnenumProp( ret,"next",generatorFn.bind( context,false,false ) );
+          createUnenumProp(ret,"next",generatorFn.bind(context,false,false));
           
-          createUnenumProp( ret,"send",generatorFn.bind( context,true,false ) );
+          createUnenumProp(ret,"send",generatorFn.bind(context,true,false));
           
-          createUnenumProp( ret,"close",closeFn.bind( context ) );
+          createUnenumProp(ret,"close",closeFn.bind(context));
           
-          createUnenumProp( ret,"__nothrowNext__",generatorFn.bind( context,false,true ) );
+          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context,false,true));
           
-          createUnenumProp( ret,"toString",
+          createUnenumProp(ret,"toString",
           function () {
             return "[object Generator]";
           });
           
-          Object.freeze( ret );
+          Object.freeze(ret);
           return ret;
         }
-        function Generator(  ){}
-        function toArray( likeArray,index ) {
-          return ( likeArray )?slice.call( likeArray,index ) : [];
+        function Generator(){}
+        function toArray(likeArray,index) {
+          return (likeArray)?slice.call(likeArray,index) : [];
         }
-        function constant( obj,prop,value ) {
-          return Object.defineProperty( obj,prop, {
+        function constant(obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
             configurable : false,
             enumerable : false,
             writable : false,
             value : value
           });
         }
-        function createUnenumProp( obj,prop,value ) {
-          return Object.defineProperty( obj,prop, {
+        function createUnenumProp(obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
             configurable : true,
             enumerable : false,
             writable : true,
             value : value
           });
         }
-        function Exception( line,file,e ) {
+        function Exception(line,file,e) {
           this.toString = function () {
-            return Runtime.getErrorMessage( e )+" in file "+file+" at : "+line;
+            return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
         var _mochaLocalExport = {};
@@ -600,27 +600,27 @@
             _mochaLocalTmp5 = Array.prototype,
             slice = _mochaLocalTmp5.slice,
             Runtime =  {
-              getErrorMessage : function ( e ) {
-                return ( e.message )?e.message : ( e.description )?e.description : e.toString();
+              getErrorMessage : function (e) {
+                return (e.message)?e.message : (e.description)?e.description : e.toString();
               },
-              exceptionHandler : function ( line,file,e ) {
-                if ( isStopIteration( e ) ){
+              exceptionHandler : function (line,file,e) {
+                if (isStopIteration(e)){
                   
-                  this.throwException( e );
+                  this.throwException(e);
                 } else {
                   
-                  this.throwException( new Exception( line,file,e ) );
+                  this.throwException(new Exception(line,file,e));
                 };
               },
-              throwException : function ( exception ) {
+              throwException : function (exception) {
                 try {
                   throw exception;
-                } catch( e ){
+                } catch(e){
                   
-                  if ( isStopIteration( e ) ){
-                    throw new Error( e );
+                  if (isStopIteration(e)){
+                    throw new Error(e);
                   } else {
-                    throw new Error( this.getErrorMessage( e ) );
+                    throw new Error(this.getErrorMessage(e));
                   };
                 };
               },
@@ -635,8 +635,8 @@
         
         _mochaLocalExport.createGenerator = createGenerator;
         
-        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind( Runtime ),
-            exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind( Runtime );
+        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind(Runtime),
+            exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind(Runtime);
         
         _mochaLocalExport.extend = extend;
         
@@ -644,35 +644,35 @@
         
         _mochaLocalExport.createRecord = createRecord;
         
-        var extendPrototype = _mochaLocalExport.extendPrototype = function ( derived,base ) {
+        var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
             },
-            getPrototype = ( "getPrototypeOf" in Object )?function ( obj ) {
-              return Object.getPrototypeOf( obj );
-            } : function ( obj ) {
+            getPrototype = ("getPrototypeOf" in Object)?function (obj) {
+              return Object.getPrototypeOf(obj);
+            } : function (obj) {
               var ret = {};
               
-              for ( var i in obj ){
+              for (var i in obj){
                 
-                !obj.hasOwnProperty( i ) && ( ret[i] = obj[i] );
+                !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
               };
               return ret;
             },
-            extendClass = _mochaLocalExport.extendClass = ( Runtime.hasProto )?function ( derived,base ) {
-              if ( typeof base === 'function' ){
+            extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
+              if (typeof base === 'function'){
                 
                 derived.prototype.__proto__ = base.prototype;
                 
-                for ( var i in base ){
+                for (var i in base){
                   derived[i] = base[i];
                 };
               } else {
                 derived.prototype.__proto__ = base.__proto__;
               };
-            } : function ( derived,base ) {
+            } : function (derived,base) {
               var baseType = typeof base;
               
-              if ( baseType === "function" ){
+              if (baseType === "function"){
                 
                 var inherit = function (){};
                 
@@ -680,13 +680,13 @@
                 
                 derived.prototype = new inherit;
                 
-                for ( var i in base ){
+                for (var i in base){
                   derived[i] = base[i];
                 };
               } else {
                 
                 var inherit = function (){},
-                    proto = getPrototype( base );
+                    proto = getPrototype(base);
                 
                 inherit.prototype = proto;
                 
@@ -711,42 +711,42 @@
             createPrivateRecord,
             getPrivateRecord;
         
-        if ( "WeakMap" in window ){
+        if ("WeakMap" in window){
           
           privateRecord = new WeakMap();
           
-          createPrivateRecord = function ( self,privateHolder ) {
+          createPrivateRecord = function (self,privateHolder) {
             var holder = new privateHolder;
             
-            createUnenumProp( holder.constructor,"__is_private__",1 );
+            createUnenumProp(holder.constructor,"__is_private__",1);
             
-            privateRecord.set( self,holder );
+            privateRecord.set(self,holder);
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( privateRecord.has( self ) ){
-              return privateRecord.get( self );
-            } else if ( self.constructor === "__is_private__" ){
+          getPrivateRecord = function (self) {
+            if (privateRecord.has(self)){
+              return privateRecord.get(self);
+            } else if (self.constructor === "__is_private__"){
               return self;
             };
           };
         } else {
           
-          createPrivateRecord = function ( self,privateHolder ) {
-            if ( !self.__typeid__ ){
+          createPrivateRecord = function (self,privateHolder) {
+            if (!self.__typeid__){
               
               var holder = new privateHolder;
               
-              createUnenumProp( holder.constructor,"__is_private__",1 );
+              createUnenumProp(holder.constructor,"__is_private__",1);
               
-              createUnenumProp( self,"__private__",holder );
+              createUnenumProp(self,"__private__",holder);
             };
           };
           
-          getPrivateRecord = function ( self ) {
-            if ( self.__private__ ){
+          getPrivateRecord = function (self) {
+            if (self.__private__){
               return self.__private__;
-            } else if ( self.constructor === "__is_private__" ){
+            } else if (self.constructor === "__is_private__"){
               return self;
             };
           };
@@ -765,34 +765,34 @@
         _mochaLocalExport.checkRequirements = checkRequirements;
         
         !function () {
-          var assert = _mochaLocalExport.assert = ( console && console.assert )?function ( expect,exp,str,line,filename ) {
-                console.assert( expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line )
-              } : function ( expect,exp,str,line,filename ) {
-                expect !== exp && Runtime.throwException( "assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line );
+          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
+                console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line)
+              } : function (expect,exp,str,line,filename) {
+                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               };
-        }.call( this );
+        }.call(this);
         return _mochaLocalExport;
       }();
   
-  !( "StopIteration" in window ) && ( window.StopIteration =  {
+  !("StopIteration" in window) && (window.StopIteration =  {
     toString : function () {
       return "[object StopIteration]";
     }
   });
   
-  function Tuple(  ) {
-    var args = Runtime.toArray( arguments,1 ),
+  function Tuple() {
+    var args = Runtime.toArray(arguments,1),
         ret = {};
     
     ret.length = 0;
     
-    [].push.apply( ret,args );
+    [].push.apply(ret,args);
     
-    Runtime.createTuple( ret,arguments.length );
+    Runtime.createTuple(ret,arguments.length);
     return ret;
   }
-  function Record( member ) {
-    return Runtime.createRecord( member );
+  function Record(member) {
+    return Runtime.createRecord(member);
   }
   __LINE__ = 0;
   !function () {
@@ -807,12 +807,12 @@
           JSON;
       
       __LINE__ = 164;
-      !JSON && ( JSON = {} );
+      !JSON && (JSON = {});
       
       __LINE__ = 167;
-      ( function () {
+      (function () {
         try {
-          function str( key,holder ) {
+          function str(key,holder) {
             try {
               __LINE__ = 233;
               var i,
@@ -824,27 +824,27 @@
                   value = holder[key];
               
               __LINE__ = 245;
-              value && typeof value === 'object' && typeof value.toJSON === 'function' && ( value = value.toJSON( key ) );
+              value && typeof value === 'object' && typeof value.toJSON === 'function' && (value = value.toJSON(key));
               
               __LINE__ = 252;
-              typeof rep === 'function' && ( value = rep.call( holder,key,value ) );
+              typeof rep === 'function' && (value = rep.call(holder,key,value));
               
               __LINE__ = 257;
-              switch ( typeof value ) {
+              switch (typeof value) {
                 case 'string' :
                   __LINE__ = 259;
-                  return quote( value );
+                  return quote(value);
                 case 'number' :
                   __LINE__ = 265;
-                  return isFinite( value )?String( value ) : 'null';
+                  return isFinite(value)?String(value) : 'null';
                 case 'boolean' :
                 case 'null' :
                   __LINE__ = 274;
-                  return String( value );
+                  return String(value);
                 case 'object' :
                   
                   __LINE__ = 284;
-                  if ( !value ){
+                  if (!value){
                     __LINE__ = 285;
                     return 'null';
                   };
@@ -856,20 +856,20 @@
                   partial = [];
                   
                   __LINE__ = 295;
-                  if ( Object.prototype.toString.apply( value ) === '[object Array]' ){
+                  if (Object.prototype.toString.apply(value) === '[object Array]'){
                     
                     __LINE__ = 300;
                     length = value.length;
                     
                     __LINE__ = 301;
-                    for ( i = 0;i<length;i += 1 ){
+                    for (i = 0;i<length;i += 1){
                       
                       __LINE__ = 302;
-                      partial[i] = str( i,value ) || 'null';
+                      partial[i] = str(i,value) || 'null';
                     };
                     
                     __LINE__ = 308;
-                    v = partial.length === 0?'[]' : gap?'[\n'+gap+partial.join( ',\n'+gap )+'\n'+mind+']' : '['+partial.join( ',' )+']';
+                    v = partial.length === 0?'[]' : gap?'[\n'+gap+partial.join(',\n'+gap)+'\n'+mind+']' : '['+partial.join(',')+']';
                     
                     __LINE__ = 313;
                     gap = mind;
@@ -878,50 +878,50 @@
                   };
                   
                   __LINE__ = 319;
-                  if ( rep && typeof rep === 'object' ){
+                  if (rep && typeof rep === 'object'){
                     
                     __LINE__ = 320;
                     length = rep.length;
                     
                     __LINE__ = 321;
-                    for ( i = 0;i<length;i += 1 ){
+                    for (i = 0;i<length;i += 1){
                       
                       __LINE__ = 322;
-                      if ( typeof rep[i] === 'string' ){
+                      if (typeof rep[i] === 'string'){
                         
                         __LINE__ = 323;
                         k = rep[i];
                         
                         __LINE__ = 324;
-                        v = str( k,value );
+                        v = str(k,value);
                         
                         __LINE__ = 325;
-                        if ( v ){
+                        if (v){
                           
                           __LINE__ = 326;
-                          partial.push( quote( k )+( gap?': ' : ':' )+v );
+                          partial.push(quote(k)+(gap?': ' : ':')+v);
                         };
                       };
                     };
                   } else {
                     
                     __LINE__ = 334;
-                    for ( k in value ){
-                      if ( Object.prototype.hasOwnProperty.call( value,k ) ){
+                    for (k in value){
+                      if (Object.prototype.hasOwnProperty.call(value,k)){
                         
                         __LINE__ = 336;
-                        v = str( k,value );
-                        if ( v ){
+                        v = str(k,value);
+                        if (v){
                           
                           __LINE__ = 338;
-                          partial.push( quote( k )+( gap?': ' : ':' )+v );
+                          partial.push(quote(k)+(gap?': ' : ':')+v);
                         };
                       };
                     };
                   };
                   
                   __LINE__ = 347;
-                  v = partial.length === 0?'{}' : gap?'{\n'+gap+partial.join( ',\n'+gap )+'\n'+mind+'}' : '{'+partial.join( ',' )+'}';
+                  v = partial.length === 0?'{}' : gap?'{\n'+gap+partial.join(',\n'+gap)+'\n'+mind+'}' : '{'+partial.join(',')+'}';
                   
                   __LINE__ = 352;
                   gap = mind;
@@ -929,58 +929,58 @@
                   return v;
                   
               };
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }
-          function quote( string ) {
+          function quote(string) {
             try {
               __LINE__ = 219;
               escapable.lastIndex = 0;
               __LINE__ = 220;
-              return escapable.test( string )?'"'+string.replace( escapable,
-              function ( a ) {
+              return escapable.test(string)?'"'+string.replace(escapable,
+              function (a) {
                 try {
                   __LINE__ = 221;
                   var c = meta[a];
                   __LINE__ = 222;
-                  return typeof c === 'string'?c : '\\u'+( '0000'+a.charCodeAt( 0 ).toString( 16 ) ).slice( -4 );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return typeof c === 'string'?c : '\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               })+'"' : '"'+string+'"';
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }
-          function f( n ) {
+          function f(n) {
             try {
               __LINE__ = 172;
               return n<10?'0'+n : n;
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }
           __LINE__ = 175;
-          if ( typeof Date.prototype.toJSON !== 'function' ){
+          if (typeof Date.prototype.toJSON !== 'function'){
             
             __LINE__ = 177;
-            Date.prototype.toJSON = function ( key ) {
+            Date.prototype.toJSON = function (key) {
               try {
                 __LINE__ = 179;
-                return isFinite( this.valueOf() )?this.getUTCFullYear()+'-'+f( this.getUTCMonth()+1 )+'-'+f( this.getUTCDate() )+'T'+f( this.getUTCHours() )+':'+f( this.getUTCMinutes() )+':'+f( this.getUTCSeconds() )+'Z' : null;
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                return isFinite(this.valueOf())?this.getUTCFullYear()+'-'+f(this.getUTCMonth()+1)+'-'+f(this.getUTCDate())+'T'+f(this.getUTCHours())+':'+f(this.getUTCMinutes())+':'+f(this.getUTCSeconds())+'Z' : null;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             };
             
             __LINE__ = 189;
-            String.prototype.toJSON = Number.prototype.toJSON = Boolean.prototype.toJSON = function ( key ) {
+            String.prototype.toJSON = Number.prototype.toJSON = Boolean.prototype.toJSON = function (key) {
               try {
                 __LINE__ = 192;
                 return this.valueOf();
-              } catch( e ){
-                Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             };
           };
@@ -1002,7 +1002,7 @@
               rep;
           
           __LINE__ = 360;
-          typeof JSON.stringify !== 'function' && ( JSON.stringify = function ( value,replacer,space ) {
+          typeof JSON.stringify !== 'function' && (JSON.stringify = function (value,replacer,space) {
             try {
               __LINE__ = 368;
               var i;
@@ -1014,38 +1014,38 @@
               indent = '';
               
               __LINE__ = 375;
-              if ( typeof space === 'number' ){
+              if (typeof space === 'number'){
                 __LINE__ = 376;
-                for ( i = 0;i<space;i += 1 ){
+                for (i = 0;i<space;i += 1){
                   __LINE__ = 377;
                   indent += ' ';
                 };
               } else {
                 __LINE__ = 383;
-                typeof space === 'string' && ( indent = space );
+                typeof space === 'string' && (indent = space);
               };
               
               __LINE__ = 389;
               rep = replacer;
               
               __LINE__ = 390;
-              if ( replacer && typeof replacer !== 'function' && ( typeof replacer !== 'object' || typeof replacer.length !== 'number' ) ){
+              if (replacer && typeof replacer !== 'function' && (typeof replacer !== 'object' || typeof replacer.length !== 'number')){
                 __LINE__ = 393;
-                throw new Error( 'JSON.stringify' );
+                throw new Error('JSON.stringify');
               };
               __LINE__ = 399;
-              return str( '', {
+              return str('', {
                 '' : value
               });
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
           __LINE__ = 407;
-          typeof JSON.parse !== 'function' && ( JSON.parse = function ( text,reviver ) {
+          typeof JSON.parse !== 'function' && (JSON.parse = function (text,reviver) {
             try {
-              function walk( holder,key ) {
+              function walk(holder,key) {
                 try {
                   __LINE__ = 419;
                   var k,
@@ -1053,14 +1053,14 @@
                       value = holder[key];
                   
                   __LINE__ = 420;
-                  if ( value && typeof value === 'object' ){
+                  if (value && typeof value === 'object'){
                     __LINE__ = 421;
-                    for ( k in value ){
+                    for (k in value){
                       __LINE__ = 422;
-                      if ( ( {} ).hasOwnProperty.call( value,k ) ){
+                      if (({}).hasOwnProperty.call(value,k)){
                         
                         __LINE__ = 423;
-                        v = walk( value,k );
+                        v = walk(value,k);
                         
                         __LINE__ = 425;
                         v !== undefined?value[k] = v : delete value[k];
@@ -1068,53 +1068,53 @@
                     };
                   };
                   __LINE__ = 432;
-                  return reviver.call( holder,key,value );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return reviver.call(holder,key,value);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               __LINE__ = 412;
               var j;
               
               __LINE__ = 440;
-              text = String( text );
+              text = String(text);
               
               __LINE__ = 441;
               cx.lastIndex = 0;
               
               __LINE__ = 443;
-              cx.test( text ) && ( text = text.replace( cx,
-              function ( a ) {
+              cx.test(text) && (text = text.replace(cx,
+              function (a) {
                 try {
                   __LINE__ = 444;
-                  return '\\u'+( '0000'+a.charCodeAt( 0 ).toString( 16 ) ).slice( -4 );
-                } catch( e ){
-                  Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+                  return '\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
-              }) );
+              }));
               
               __LINE__ = 462;
-              if ( /^[\],:{}\s]*$/.test( text.replace( /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@' ).replace( /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']' ).replace( /(?:^|:|,)(?:\s*\[)+/g,'' ) ) ){
+              if (/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,''))){
                 
                 __LINE__ = 472;
-                j = eval( '('+text+')' );
+                j = eval('('+text+')');
                 __LINE__ = 477;
-                return typeof reviver === 'function'?walk(  {
+                return typeof reviver === 'function'?walk( {
                   '' : j
                 },'') : j;
               };
               __LINE__ = 484;
-              throw new SyntaxError( 'JSON.parse' );
-            } catch( e ){
-              Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+              throw new SyntaxError('JSON.parse');
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
-        } catch( e ){
-          Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }());
-    } catch( e ){
-      Runtime.exceptionHandler( __LINE__ , __FILE__ , e );
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
   }();
 }();

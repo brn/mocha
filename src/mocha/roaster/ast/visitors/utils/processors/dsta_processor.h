@@ -23,24 +23,24 @@
  */
 #ifndef mocha_dsta_processor_h_
 #define mocha_dsta_processor_h_
-
-#include <utils/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-
+#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
 namespace mocha {
-
 class ProcessorInfo;
 /**
  * @class
  * Transform the Destructuring Assignment to
  * the Conditional Expression or simple property accessor.
  */
-class DstaProcessor : private Static {
+class DstaProcessor : public Processor{
  public :
   enum {
     kSuccess,
     kError
   };
+  DstaProcessor(AstNode* ast_node, ProcessorInfo* info)
+      : Processor(), ast_node_(ast_node), info_(info){}
+  ~DstaProcessor(){}
   /**
    * @param {AstNode*} ast_node
    * @param {ProcessorInfo*} info
@@ -48,7 +48,7 @@ class DstaProcessor : private Static {
    * Begin process.
    * NO THROW
    */
-  static Literal* ProcessNode( AstNode* ast_node , ProcessorInfo* info );
+  Literal* ProcessNode();
 
   /**
    * @param {Statement*} stmt
@@ -57,7 +57,7 @@ class DstaProcessor : private Static {
    * Create a variable statement from the parse results of destructuring assignment.
    * NO THROW
    */
-  static NodeList* CreateDstaExtractedVarStmt( Statement* stmt , ProcessorInfo* info );
+  static NodeList* CreateDstaExtractedVarStmt(Statement* stmt, ProcessorInfo* info);
 
   /**
    * @param {Statement*} stmt
@@ -65,7 +65,7 @@ class DstaProcessor : private Static {
    * @returns {NodeList*}
    * Create a Assignment Expression from the parse results of destructuring assignment.
    */
-  static NodeList* CreateDstaExtractedAssignment( Statement* stmt , ProcessorInfo* info );
+  static NodeList* CreateDstaExtractedAssignment(Statement* stmt, ProcessorInfo* info);
 
   /**
    * @param {Statement*} stmt
@@ -73,7 +73,23 @@ class DstaProcessor : private Static {
    * @returns {VariableStmt*}
    * Create tmporary variable declaration list.
    */
-  static VariableStmt* CreateTmpVarDecl( Statement* , ProcessorInfo* info );
+  static VariableStmt* CreateTmpVarDecl(Statement*, ProcessorInfo* info);
+
+ private :
+  void ProcessMember(Literal* ast_node, DstaTree* tree);
+  DstaTree* ProcessPropertyMember(Literal* value, DstaTree* tree, int depth);
+  void ProcessObject(ObjectLikeLiteral* ast_node, DstaTree* tree, int depth);
+  void ArrayHelper(ArrayLikeLiteral* ast_node, DstaTree* tree, int index, Literal* symbol, bool is_rest);
+  DstaTree* ProcessArrayElement(ArrayLikeLiteral* ast_node, AstNode* element, DstaTree* tree, int depth, int index);
+  void ProcessArray(ArrayLikeLiteral* ast_node, DstaTree* tree, int depth);
+  static AstNode* CreateConditional(AstNode* last_exp, AstNode* first, ProcessorInfo *info, bool is_assign);
+  static NodeList* IterateTree(NodeList* result, AstNode* first, ProcessorInfo *info, bool is_assign);
+  static AstNode* CreateSimpleAccessor(AstNode* first, VisitorInfo* info, bool is_assign);
+  static NodeList* CreateDstaExtractedNode(Statement* stmt, ProcessorInfo* info, bool is_assign);
+  AstNode* node() { return ast_node_; }
+  ProcessorInfo* info() { return info_; }
+  AstNode* ast_node_;
+  ProcessorInfo* info_;
 };
 
 }

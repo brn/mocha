@@ -47,7 +47,7 @@ XMLReader::~XMLReader() {
 void XMLReader::Parse( const char* path , bool is_reparse ) {
   BEGIN(Parse);
   std::string fullpath;
-  StrHandle path_handle = FileSystem::NormalizePath( path );
+  StrSharedPtr path_handle = FileSystem::NormalizePath( path );
   //Get absolute path of xml file.
   GetFullPath_( path_handle.Get() , fullpath );
   /*
@@ -91,8 +91,8 @@ void XMLReader::GetPath_( const char* path , std::string& buf ) {
   /*
    *Get full file path.
    */
-  StrHandle fullpath = FileSystem::GetAbsolutePath( path );
-  StrHandle path_handle = FileSystem::NormalizePath( fullpath.Get() );
+  StrSharedPtr fullpath = FileSystem::GetAbsolutePath( path );
+  StrSharedPtr path_handle = FileSystem::NormalizePath( fullpath.Get() );
   buf = path_handle.Get();
   INCLUDE_LIST.push_back( buf );
   END(GetPath_);
@@ -105,7 +105,7 @@ void XMLReader::ParseStart_( const char* path ) {
   TiXmlDocument xml_document;
   xml_document.LoadFile( path );
   TiXmlElement* elem = xml_document.RootElement();
-  Handle<PathInfo> path_info = FileSystem::GetPathInfo( path );
+  SharedPtr<PathInfo> path_info = FileSystem::GetPathInfo( path );
   XMLInfo info( path_info->GetDirPath().Get() );
   SwitchProcessor_( elem , &info );
   END(ParseStart_);
@@ -158,7 +158,7 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
     char module_buf[500];
     sprintf( filename_buf, "%s/%s/%s" , info->GetPath() , dir , filename );
 
-    StrHandle handle = FileSystem::NormalizePath( filename_buf );
+    StrSharedPtr handle = FileSystem::NormalizePath( filename_buf );
     const char* normalized_path = handle.Get();
     ExternalResource::UnsafeSet( normalized_path );
     Resources* resource = ExternalResource::UnsafeGet( normalized_path );
@@ -187,8 +187,8 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
 
 void XMLReader::ProcessFilePath_( const char* filename ) {
   FILE_LIST.push_back( filename );
-  Handle<Version> handle( new Version );
-  VERSIONS.insert( std::pair<const char*,Handle<Version> >( filename , handle ) );
+  SharedPtr<Version> handle( new Version );
+  VERSIONS.insert( std::pair<const char*,SharedPtr<Version> >( filename , handle ) );
 }
 
 
@@ -196,7 +196,7 @@ void XMLReader::ProcessModuleOption_( const char* filename , const char* module 
   std::string buffer;
   for ( int i = 0,len = strlen( module );i < len; i++ ) {
     if ( module[ i ] == ',' ) {
-      StrHandle module_handle = FileSystem::NormalizePath( buffer.c_str() );
+      StrSharedPtr module_handle = FileSystem::NormalizePath( buffer.c_str() );
       resource->SetModule( module_handle.Get() );
       buffer.clear();
     } else if ( isalnum( module[ i ] ) || module[ i ] == '-' || module[ i ] == '_' ) {
@@ -204,11 +204,11 @@ void XMLReader::ProcessModuleOption_( const char* filename , const char* module 
     }
   }
   if ( !buffer.empty() ) {
-    StrHandle module_handle = FileSystem::NormalizePath( buffer.c_str() );
+    StrSharedPtr module_handle = FileSystem::NormalizePath( buffer.c_str() );
     resource->SetModule( module_handle.Get() );
     resource->SetModule( buffer.c_str() );
   }/*
-     StrHandle module_handle = FileSystem::NormalizePath( module );
+     StrSharedPtr module_handle = FileSystem::NormalizePath( module );
      if ( MODULE_LIST.find( filename ) == MODULE_LIST.end() ) {
      MODULE_LIST[ filename ] = module_handle.Get();
      }*/
@@ -220,7 +220,7 @@ void XMLReader::ProcessDeployOption_( TiXmlElement *elem , const char* filename 
   if ( IS_DEF( deploy_path ) ) {
     char buf[ 1000 ];
     sprintf( buf , "%s/%s/%s" , info->GetPath() , dir , deploy_path );
-    StrHandle handle = FileSystem::NormalizePath( buf );
+    StrSharedPtr handle = FileSystem::NormalizePath( buf );
     resource->SetDeploy( handle.Get() );
     DEPLOY_LIST[ filename ] = handle.Get();
   }
@@ -287,7 +287,7 @@ void XMLReader::ProcessCompileOption_( TiXmlElement *elem , const char* filename
       if ( option->IsCompress() ) {
         cmp_option->SetCompress();
       }
-      COMPILE_OPTION[ filename ] = Handle<Options>( option );
+      COMPILE_OPTION[ filename ] = SharedPtr<Options>( option );
     }
   }
 }

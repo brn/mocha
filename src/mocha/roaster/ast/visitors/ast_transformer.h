@@ -30,12 +30,14 @@
 #include <utils/smart_pointer/scope/scoped_ptr.h>
 
 namespace mocha{
-
+namespace memory {
+class Pool;
+}
 class Scope;
 class Compiler;
 class VisitorInfo;
 class ProcessorInfo;
-
+class AstBuilder;
 /**
  * @class
  * Transform harmony's ast to ecmascript3's.
@@ -50,18 +52,21 @@ class AstTransformer : public IVisitor {
    * @param {const char*} modulename -> Current file name.
    * @param {const char*} filename -> Main js file name.
    */
-  AstTransformer( bool is_runtime,
+  AstTransformer(bool is_runtime,
                   ScopeRegistry* scope_registry,
                   Compiler* compiler,
                   const char* modulename,
-                  const char* filename );
+                  const char* filename);
   ~AstTransformer();
 
 #include <mocha/roaster/ast/visitors/visitor_decl.h>
 
  private:
-  void JumpStmt_( AstNode* ast_node , int type );
-
+  void JumpStmt_(AstNode* ast_node, int type);
+  memory::Pool* pool() { return pool_; }
+  AstBuilder* builder() { return builder_; }
+  memory::Pool* pool_;
+  AstBuilder* builder_;
   ScopedPtr<VisitorInfo> visitor_info_;
   ScopedPtr<ProcessorInfo> proc_info_;
   ScopeRegistry* scope_registry_;

@@ -27,7 +27,7 @@
 #include <utils/class_traits/uncopyable.h>
 #include <utils/smart_pointer/common/ptr_deleter.h>
 #include <utils/smart_pointer/common/ptr_handle.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 
 namespace mocha {
 
@@ -139,10 +139,10 @@ class ScopedPtr : private Uncopyable {
 
   /**
    * @public
-   * @returns {Handle<T>}
+   * @returns {SharedPtr<T>}
    * Convert to mocha::Handle.
    */
-  inline Handle<T> ToHandle();
+  inline SharedPtr<T> ToSharedPtr();
  private :
 
   /**

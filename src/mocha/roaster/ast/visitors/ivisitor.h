@@ -4,7 +4,7 @@
 
 namespace mocha {
 //#define PRINTABLE
-#define DECL_VISITOR(type) virtual void Visit##type( type* ast ) = 0
+#define DECL_VISITOR(type) virtual void Visit##type(type* ast) = 0
 
 class IVisitor {
  public :

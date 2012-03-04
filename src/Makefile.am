@@ -1,5 +1,5 @@
 bin_PROGRAMS = mchd
-AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -DCURRENT_DIR=\"`pwd`\" -fno-exceptions -std=c++0x -std=gnu++0x `icu-config --ldflags`
+AM_CFLAGS = -Wall -g -O0 -DHAVE_PTHREAD -DBOOST_NO_TYPEID -DBOOST_NO_EXCEPTIONS -DCURRENT_DIR=\"`pwd`\" -fno-exceptions -std=c++0x -std=gnu++0x `icu-config --ldflags`
 AM_CXXFLAGS = $(AM_CFLAGS)
 mchd_LDFLAGS = $(PTHREAD) -Xlinker -rpath -Xlinker `icu-config --icudata-install-dir` ./third_party/v8/libv8.a
 mchd_SOURCES = \
@@ -48,12 +48,12 @@ mocha/roaster/ast/visitors/utils/opt/constant_optimizer.h\
 mocha/roaster/ast/visitors/utils/opt/constant_optimizer.cc\
 mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.h\
 mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.cc\
-mocha/roaster/ast/utils/ast_utils.h\
-mocha/roaster/ast/utils/ast_utils.cc\
+mocha/roaster/ast/builder/ast_builder.cc\
+mocha/roaster/ast/builder/ast_builder.h\
 utils/format.h\
 utils/format.cc\
-bootstrap/bootstrap.h\
-bootstrap/bootstrap.cc\
+mocha/bootstrap/bootstrap.h\
+mocha/bootstrap/bootstrap.cc\
 utils/char_allocator.h\
 utils/char_allocator.cc\
 mocha/roaster/ast/visitors/codegen_visitor.h\
@@ -80,14 +80,16 @@ mocha/roaster/parser/parser.h\
 mocha/roaster/parser/parser.cc\
 mocha/roaster/external/external_ast.h\
 mocha/roaster/external/external_ast.cc\
-bootstrap/runners/compile_runner.h\
-bootstrap/runners/compile_runner.cc\
-bootstrap/runners/list_runner.h\
-bootstrap/runners/list_runner.cc\
-bootstrap/runners/error_runner.h\
-bootstrap/runners/error_runner.cc\
-bootstrap/runners/phantom_runner.h\
-bootstrap/runners/phantom_runner.cc\
+mocha/roaster/memory/pool.h\
+mocha/roaster/memory/pool.cc\
+mocha/bootstrap/runners/compile_runner.h\
+mocha/bootstrap/runners/compile_runner.cc\
+mocha/bootstrap/runners/list_runner.h\
+mocha/bootstrap/runners/list_runner.cc\
+mocha/bootstrap/runners/error_runner.h\
+mocha/bootstrap/runners/error_runner.cc\
+mocha/bootstrap/runners/phantom_runner.h\
+mocha/bootstrap/runners/phantom_runner.cc\
 mocha/roaster/utils/compiler_facade.h\
 mocha/roaster/utils/compiler_facade.cc\
 mocha/roaster/encoding/encoding.h\
@@ -111,15 +113,15 @@ utils/file_system/pwd.h\
 utils/file_system/directory.h\
 utils/file_system/directory.cc\
 utils/smart_pointer/ref_count/handle.h\
-bootstrap/runners/help_runner.h\
-bootstrap/runners/help_runner.cc\
-bootstrap/runners/icommandline_runner.h\
-bootstrap/interactions/interaction.h\
-bootstrap/interactions/interaction.cc\
-bootstrap/interactions/commands.h\
-bootstrap/interactions/commands.cc\
-bootstrap/interactions/commands_analyzer.h\
-bootstrap/interactions/commands_analyzer.cc\
+mocha/bootstrap/runners/help_runner.h\
+mocha/bootstrap/runners/help_runner.cc\
+mocha/bootstrap/runners/icommandline_runner.h\
+mocha/bootstrap/interactions/interaction.h\
+mocha/bootstrap/interactions/interaction.cc\
+mocha/bootstrap/interactions/commands.h\
+mocha/bootstrap/interactions/commands.cc\
+mocha/bootstrap/interactions/commands_analyzer.h\
+mocha/bootstrap/interactions/commands_analyzer.cc\
 mocha/roaster/internal.cc\
 mocha/roaster/internal.h\
 mch/mocha.cc\
@@ -132,13 +134,11 @@ mocha/roaster/scanner/scanner.h\
 mocha/roaster/scanner/scanner.cc\
 mocha/roaster/tokens/js_token.cc\
 mocha/roaster/tokens/js_token.h\
-mch/main.cc\
-utils/pool/managed_handle.h\
-utils/pool/managed_handle.cc\
+mocha/main.cc\
 utils/file_system/mkdir.h\
 utils/file_system/mkdir.cc\
-bootstrap/runners/observer_runner.h\
-bootstrap/runners/observer_runner.cc\
+mocha/bootstrap/runners/observer_runner.h\
+mocha/bootstrap/runners/observer_runner.cc\
 mocha/roaster/binding/parser_connector.cc\
 mocha/roaster/binding/parser_connector.h\
 mocha/roaster/binding/parser_tracer.cc\

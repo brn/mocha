@@ -36,7 +36,7 @@ bool Mkdir( const char* path , int permiss ) {
       processed_path += '/';
       len += 1;
     }
-    StrHandle handle = FileSystem::pwd();
+    StrSharedPtr handle = FileSystem::pwd();
     char tmp[ 200 ];
     for ( int i = 0,count = 0; i < len; ++i ) {
       if ( processed_path[ i ] == '/' ) {

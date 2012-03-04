@@ -2,7 +2,7 @@
 #define mocha_virtual_directory_h_
 
 #include <string>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/thread/thread.h>
 
 namespace mocha {
@@ -10,8 +10,8 @@ class VirtualDirectory {
  public :
   static VirtualDirectory* GetInstance();
   void Chdir( const char* path );
-  StrHandle GetCurrentDir();
-  StrHandle GetRealPath( const char* path );
+  StrSharedPtr GetCurrentDir();
+  StrSharedPtr GetRealPath( const char* path );
   void SetModuleKey( const char* path );
   const char* GetModuleKey();
  private :

@@ -3,18 +3,18 @@
 #define mocha_yylex_h
 #include <mocha/roaster/binding/parser_connector.h>
 
-extern int yylex( void* yylval,
+extern int yylex(void* yylval,
                   void* yyloc,
                   mocha::ParserConnector* connector,
-                  int yystate )
+                  int yystate)
 {
-  return connector->InvokeScanner ( yylval , yystate );
+  return connector->InvokeScanner (yylval, yystate);
 }
 
-extern int yylex( void* yylval,
+extern int yylex(void* yylval,
                   mocha::ParserConnector* connector,
-                  int yystate )
+                  int yystate)
 {
-  return connector->InvokeScanner (  yylval , yystate );
+  return connector->InvokeScanner ( yylval, yystate);
 }
 #endif

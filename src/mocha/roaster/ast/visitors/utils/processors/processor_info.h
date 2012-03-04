@@ -10,8 +10,8 @@ class VisitorInfo;
 
 class ProcessorInfo {
  public :
-  ProcessorInfo( IVisitor* visitor , ScopeRegistry* scope_registry , VisitorInfo* info ) :
-      visitor_( visitor ), scope_registry_( scope_registry ) , info_( info ){};
+  ProcessorInfo(IVisitor* visitor, ScopeRegistry* scope_registry, VisitorInfo* info) :
+      visitor_(visitor), scope_registry_(scope_registry), info_(info){};
   inline IVisitor* visitor() const { return visitor_; }
   inline ScopeRegistry* scope_registry() const { return scope_registry_; }
   inline VisitorInfo* visitor_info() const { return info_; }

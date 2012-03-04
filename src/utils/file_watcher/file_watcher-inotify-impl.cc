@@ -2,10 +2,9 @@
 #define mocha_file_watcher_inotify_impl_cc_
 #include <sys/inotify.h>
 #include <vector>
-#include <boost/unordered_map.hpp>
 #include <utils/file_watcher/file_watcher.h>
 #include <utils/smart_pointer/common/ptr_handle.h>
-#include <utils/hash/hash_map/hash_map.h>
+#include <mocha/roaster/lib/unordered_map.h>
 
 #define SETTINGS Setting::GetInstance()
 namespace mocha {
@@ -120,19 +119,18 @@ class FileWatcher::PtrImpl {
   }
 
   void UnWatch( const char* path ) {
-    WatchList::EntryIterator iterator = watch_list_.Entries();
-    while ( iterator.HasNext() ) {
-      WatchList::HashEntry entry = iterator.Next();
-      if ( strcmp( entry.Value()->GetFileName() , path ) == 0 ) {
-        inotify_rm_watch( fd_ , entry.Value()->GetWatchDescriptor() );
-        watch_list_.Remove( entry.Value()->GetWatchDescriptor() );
+    WatchList::iterator iterator;
+    for ( iterator = watch_list_.begin(); iterator != watch_list_.end(); ++iterator ) {
+      if ( strcmp( iterator->second->GetFileName() , path ) == 0 ) {
+        inotify_rm_watch(fd_, iterator->second->GetWatchDescriptor());
+        watch_list_.erase(iterator->second->GetWatchDescriptor());
         break;
       }
     }
   }
 
   void UnWatchAll() {
-    watch_list_.RemoveAll();
+    watch_list_.clear();
   }
 
   void Stop() {
@@ -156,17 +154,18 @@ class FileWatcher::PtrImpl {
   }
   
  private :
-  typedef std::vector<Handle<inotify_event> > EventArray;
-  typedef HashMap<int,Handle<WatcherContainer> > WatchList;
+  typedef std::vector<SharedPtr<inotify_event> > EventArray;
+  typedef std::pair<int,SharedPtr<WatcherContainer> > WatchPair;
+  typedef roastlib::unordered_map<int,SharedPtr<WatcherContainer> > WatchList;
   
   void Regist_( const char* path , IUpdater* updater , int type , int wd ) {
-    Handle<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
-    watch_list_.Insert( wd , handle );
+    SharedPtr<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
+    watch_list_.insert(WatchPair(wd, handle));
   }
   
   void ProcessInotifyEvent_() {
     while ( !is_end_ ) {
-      if ( is_watch_ && watch_list_.Size() > 0 ) {
+      if ( is_watch_ && watch_list_.size() > 0 ) {
         if ( CheckEvent_() ) {
           int read_event = ReadInotifyEvents_();
           if ( read_event > 0 ) {
@@ -213,7 +212,7 @@ class FileWatcher::PtrImpl {
       q_event_size = offsetof( inotify_event , name ) + pevent->len;
       inotify_event* ret = new inotify_event;
       memcpy( ret , pevent , event_size );
-      Handle<inotify_event> handle( ret );
+      SharedPtr<inotify_event> handle( ret );
       array_.push_back( handle );
       buffer_i += event_size;
       count++;
@@ -227,9 +226,9 @@ class FileWatcher::PtrImpl {
     ITERATOR_LOOP( begin , end ) {
       inotify_event *cont = (*begin).Get();
       int wd = cont->wd;
-      WatchList::HashEntry find = watch_list_.Find( wd );
-      if ( !find.IsEmpty() && !(GET(begin)->mask & IN_ISDIR) ) {
-        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , find.Value().Get() );
+      WatchList::iterator find = watch_list_.find( wd );
+      if ( find != watch_list_.end() && !(GET(begin)->mask & IN_ISDIR) ) {
+        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , find->second.Get() );
       }
       ++begin;
     }

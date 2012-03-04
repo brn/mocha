@@ -7,45 +7,45 @@ static const int compress = 1;
 static const int pretty_print = 2;
 
 CompileInfo::CompileInfo() {
-  versions_.Insert( Consts::kVersionAll , 1 );
-  versions_.Insert( Consts::kVersionNone , 1 );
+  versions_.insert(VersionPair(Consts::kVersionAll, 1));
+  versions_.insert(VersionPair(Consts::kVersionNone, 1));
 }
 
 bool CompileInfo::Debug() {
-  return flags_.At( debug );
+  return flags_.At(debug);
 }
 
 void CompileInfo::SetDebug() {
-  flags_.Set( debug );
-  versions_.Insert( Consts::kVersionDebug , 1 );
+  flags_.Set(debug);
+  versions_.insert(VersionPair(Consts::kVersionDebug, 1));
 }
 
 bool CompileInfo::Compress() {
-  return flags_.At( compress );
+  return flags_.At(compress);
 }
 
 void CompileInfo::SetCompress() {
-  flags_.Set( compress );
+  flags_.Set(compress);
 }
 
 bool CompileInfo::PrettyPrint() {
-  return flags_.At( pretty_print );
+  return flags_.At(pretty_print);
 }
 
 void CompileInfo::SetPrettyPrint() {
-  flags_.Set( pretty_print );
+  flags_.Set(pretty_print);
 }
 
-void CompileInfo::SetVersion( const char* name ) {
-  Versions::HashEntry entry = versions_.Find( name );
-  if ( entry.IsEmpty() ) {
-    versions_.Insert( name , 1 );
+void CompileInfo::SetVersion(const char* name) {
+  Versions::iterator entry = versions_.find(name);
+  if (entry == versions_.end()) {
+    versions_.insert(VersionPair(name, 1));
   }
 }
 
-bool CompileInfo::HasVersion( const char* name ) {
-  Versions::HashEntry entry = versions_.Find( name );
-  if ( entry.IsEmpty() ) {
+bool CompileInfo::HasVersion(const char* name) {
+  Versions::iterator entry = versions_.find(name);
+  if (entry == versions_.end()) {
     return false;
   } else {
     return true;

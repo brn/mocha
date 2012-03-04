@@ -79,9 +79,9 @@ char reserved_words[][ 20 ] = {
   "@assert",
   "@version",
   "@pragma",
-  "++" , "--" , "==", "<<" , ">>" , "<=" , ">=" , "===" , "!=" ,
-  "!==", ">>>" , "+=" , "-=" , "/=" , "%=" , "*=" , "&&" , "||" , "<<=",
-  ">>=" , ">>>=" , "^=" , "&=" , "|=" , "->" , "=>"
+  "++", "--", "==", "<<", ">>", "<=", ">=", "===", "!=" ,
+  "!==", ">>>", "+=", "-=", "/=", "%=", "*=", "&&", "||", "<<=",
+  ">>=", ">>>=", "^=", "&=", "|=", "->", "=>"
 };
 
 
@@ -489,61 +489,61 @@ static bool binary_operator[] = {
   false//END_TOKEN
 };
 
-int keywords_length = sizeof ( reserved_words ) / sizeof ( reserved_words[ 0 ] );
-int builtin_length = sizeof( builtins ) / sizeof( builtins[ 0 ] );
+int keywords_length = sizeof (reserved_words) / sizeof (reserved_words[ 0 ]);
+int builtin_length = sizeof(builtins) / sizeof(builtins[ 0 ]);
 
 void JsToken::Initialize() {
-  for ( int i = 0; i < keywords_length; i++ ) {
-    int id = i + ( ASCII_MAX_RANGE + 1 );
-    reserved_map_.insert( TokenEntry( reserved_words[ i ] , id ) );
+  for (int i = 0; i < keywords_length; i++) {
+    int id = i + (ASCII_MAX_RANGE + 1);
+    reserved_map_.insert(TokenEntry(reserved_words[ i ], id));
   }
-  for ( int i = 0; i < builtin_length; i++ ) {
-    builtin_map_.insert( TokenEntry( builtins[ i ] , 1 ) );
+  for (int i = 0; i < builtin_length; i++) {
+    builtin_map_.insert(TokenEntry(builtins[ i ], 1));
   }
 }
 
-bool JsToken::IsBinaryOperatorNoIn( int token ) {
+bool JsToken::IsBinaryOperatorNoIn(int token) {
   return binary_operator[ token ];
 }
 
-bool JsToken::IsBinaryOperator( int token ) {
-  return ( token == Token::JS_IN || token == Token::JS_INSTANCEOF )? true : binary_operator[ token ];
+bool JsToken::IsBinaryOperator(int token) {
+  return (token == Token::JS_IN || token == Token::JS_INSTANCEOF)? true : binary_operator[ token ];
 }
 
-int JsToken::GetType ( const char* token , bool is_operator ) {
-  MutexLock lock( mutex_ );
-  if ( is_operator && strlen( token ) == 1 ) {
+int JsToken::GetType (const char* token, bool is_operator) {
+  MutexLock lock(mutex_);
+  if (is_operator && strlen(token) == 1) {
     return token[ 0 ];
   } else {
-    ReservedTokenTable::iterator find = reserved_map_.find( token );
-    if ( find != reserved_map_.end() ) {
+    ReservedTokenTable::iterator find = reserved_map_.find(token);
+    if (find != reserved_map_.end()) {
       return find->second;
     }
-    return ( is_operator )? 0 : Token::JS_IDENTIFIER;
+    return (is_operator)? 0 : Token::JS_IDENTIFIER;
   }
 }
 
-bool JsToken::IsBuiltin( const char* token ) {
-  MutexLock lock( mutex_ );
-  BuiltinTokenTable::iterator find = builtin_map_.find( token );
-  if ( find != builtin_map_.end() ) {
+bool JsToken::IsBuiltin(const char* token) {
+  MutexLock lock(mutex_);
+  BuiltinTokenTable::iterator find = builtin_map_.find(token);
+  if (find != builtin_map_.end()) {
     return true;
   }
   return false;
 }
 
-bool JsToken::IsReserved( const char* token ) {
-  MutexLock lock( mutex_ );
-  ReservedTokenTable::iterator find = reserved_map_.find( token );
-  if ( find != reserved_map_.end() ) {
+bool JsToken::IsReserved(const char* token) {
+  MutexLock lock(mutex_);
+  ReservedTokenTable::iterator find = reserved_map_.find(token);
+  if (find != reserved_map_.end()) {
     return true;
   }
   return false;
 }
 
-const char* JsToken::GetTokenFromNumber( int id ) {
-  int token_id = id - ( ASCII_MAX_RANGE + 1 );
-  if ( token_id < keywords_length ) {
+const char* JsToken::GetTokenFromNumber(int id) {
+  int token_id = id - (ASCII_MAX_RANGE + 1);
+  if (token_id < keywords_length) {
     return reserved_words[ token_id ];
   }
   return 0;
@@ -553,11 +553,11 @@ JsToken::ReservedTokenTable JsToken::reserved_map_;
 JsToken::BuiltinTokenTable JsToken::builtin_map_;
 Mutex JsToken::mutex_;
 
-TokenConverter::TokenConverter( TokenInfo* info ) : info_( info ){}
+TokenConverter::TokenConverter(TokenInfo* info) : info_(info){}
 
 const char* TokenConverter::cstr() {
   buffer_.clear();
-  if ( info_->type() > 127 ) {
+  if (info_->type() > 127) {
     return info_->token();
   } else {
     buffer_ += info_->type();

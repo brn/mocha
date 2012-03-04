@@ -2,7 +2,7 @@
 #include <boost/unordered_map.hpp>
 #include <mocha/roaster/utils/compiler_facade.h>
 #include <utils/thread/thread.h>
-#include <utils/smart_pointer/ref_count/handle.h>
+#include <utils/smart_pointer/ref_count/shared_ptr.h>
 #include <utils/file_watcher/observer/file_observer.h>
 #include <utils/xml/xml_setting_info.h>
 #include <options/setting.h>
@@ -39,7 +39,7 @@ class FileObserver::FileUpdater : public IUpdater {
     }
   }
  private :
-  typedef boost::unordered_map<std::string,Handle<Mutex> > List;
+  typedef boost::unordered_map<std::string,SharedPtr<Mutex> > List;
   List mutex_list_;
 };
 
@@ -70,7 +70,7 @@ void FileObserver::Initialize_() {
 }
 
 void FileObserver::RegistFile_( const char* filename ) {
-  Handle<Mutex> handle( new Mutex() );
+  SharedPtr<Mutex> handle( new Mutex() );
   file_updater_->mutex_list_[filename] = handle;
   file_watcher_.AddWatch( filename , file_updater_.Get() , FileWatcher::kModify );
 }

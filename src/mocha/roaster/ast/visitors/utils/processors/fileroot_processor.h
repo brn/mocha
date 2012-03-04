@@ -1,18 +1,25 @@
 #ifndef mocha_fileroot_processor_h_
 #define mocha_fileroot_processor_h_
-#include <utils/class_traits/static.h>
+#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {
 class ProcessorInfo;
-class FileRootProcessor : public Static {
+class FileRootProcessor : public Processor{
  public :
+  FileRootProcessor(FileRoot* ast_node, ProcessorInfo* info)
+      : Processor(), ast_node_(ast_node), info_(info) {}
   /**
    * @param {FileRoot*} ast_node
    * @param {ProcessorInfo*} info
    * @static
    * Processing FileRoot node.
    */
-  static void ProcessNode( FileRoot* ast_node , ProcessorInfo* info );
+  void ProcessNode();
+ private :
+  FileRoot* node() { return ast_node_; }
+  ProcessorInfo* info() { return info_; }
+  FileRoot* ast_node_;
+  ProcessorInfo* info_;
 };
 
 }
