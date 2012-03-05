@@ -2,7 +2,7 @@
 #define mocha_external_ast_h_
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 

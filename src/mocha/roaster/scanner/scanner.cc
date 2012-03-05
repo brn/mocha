@@ -10,7 +10,7 @@
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_list.h>
 #include <mocha/roaster/memory/pool.h>
-#include <mocha/misc/bits.h>
+#include <mocha/roaster/misc/bits.h>
 
 namespace mocha {
 

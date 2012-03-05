@@ -2,7 +2,7 @@
 #define mocha_array_processor_h_
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/utils/processors/processor.h>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 namespace mocha {
 class ProcessorInfo;
 class ArrayProcessor : public Processor{

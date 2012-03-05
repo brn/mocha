@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/misc/file_watcher/observer/xml_observer.h>
 #include <mocha/misc/xml/xml_reader.h>
 #include <mocha/misc/xml/xml_setting_info.h>

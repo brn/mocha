@@ -2,7 +2,7 @@
 #ifndef RefPtrBase_h
 #define RefPtrBase_h
 
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 
 namespace mocha {
   class PtrHandleBase : private Uncopyable {

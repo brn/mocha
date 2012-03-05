@@ -7,10 +7,10 @@
 #include <mocha/roaster/utils/compile_info.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/misc/xml/versions.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/misc/bits.h>
+#include <mocha/roaster/misc/bits.h>
 
 namespace mocha {
 class ScopeRegistry;

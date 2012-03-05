@@ -2,7 +2,7 @@
 #define mocha_codegenerator_utils_h_
 #include <string>
 #include <list>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 
 

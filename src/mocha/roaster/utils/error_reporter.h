@@ -2,7 +2,7 @@
 #define mocha_js_error_reporter_h_
 #include <string>
 #include <list>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 namespace mocha {
 
 class ErrorReporter : private Uncopyable {

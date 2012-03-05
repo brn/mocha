@@ -6,9 +6,9 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/misc/file_system/file_system.h>
-#include <mocha/misc/io/file_io.h>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/misc/file_system/stat.h>
 
 

@@ -10,7 +10,7 @@
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/misc/io/file_io.h>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/misc/file_system/file_system.h>
 #include <mocha/misc/file_system/virtual_directory.h>
 #include <mocha/roaster/ast/ast.h>

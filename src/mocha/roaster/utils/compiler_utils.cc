@@ -1,5 +1,5 @@
 #include <mocha/roaster/utils/compiler_utils.h>
-#include <mocha/misc/io/file_io.h>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/misc/file_system/file_system.h>
 #include <mocha/misc/file_system/virtual_directory.h>
 #include <mocha/misc/xml/xml_setting_info.h>

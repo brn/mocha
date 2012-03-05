@@ -4,7 +4,7 @@
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/compiler.h>
-#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/misc/file_watcher/observer/file_observer.h>
 #include <mocha/options/setting.h>

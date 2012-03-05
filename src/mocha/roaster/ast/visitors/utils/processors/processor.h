@@ -1,7 +1,7 @@
 #ifndef mocha_ast_visitors_utils_processor_h_
 #define mocha_ast_visitors_utils_processor_h_
 #include <mocha/roaster/memory/pool.h>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 namespace mocha {
 class Processor : private Uncopyable {

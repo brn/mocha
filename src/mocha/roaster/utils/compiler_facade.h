@@ -3,7 +3,7 @@
 #include <vector>
 #include <useconfig.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/misc/thread/thread.h>
 namespace mocha {
 class CompileResult;
 class Thread;

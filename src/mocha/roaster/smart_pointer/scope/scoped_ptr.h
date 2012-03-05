@@ -24,7 +24,7 @@
 #ifndef mocha_scoped_ptr_h_
 #define mocha_scoped_ptr_h_
 #include <useconfig.h>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/smart_pointer/common/ptr_deleter.h>
 #include <mocha/roaster/smart_pointer/common/ptr_handle.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>

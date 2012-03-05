@@ -2,7 +2,7 @@
 #define mocha_scoped_list_h_
 #include <list>
 #include <utility>
-#include <mocha/misc/class_traits/uncopyable.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/smart_pointer/common/ptr_deleter.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 

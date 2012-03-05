@@ -2,7 +2,7 @@
 #define mocha_xml_utils_h_
 
 #include <list>
-#include <mocha/misc/class_traits/static.h>
+#include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/misc/xml/xml_reader.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/misc/xml/versions.h>

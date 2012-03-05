@@ -1,7 +1,7 @@
 #ifndef mocha_js_token_h_
 #define mocha_js_token_h_
-#include <mocha/misc/class_traits/static.h>
-#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/misc/class_traits/static.h>
+#include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha{
 class TokenInfo;

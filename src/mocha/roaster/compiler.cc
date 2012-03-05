@@ -34,7 +34,7 @@
 #include <mocha/roaster/utils/compile_info.h>
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/external/external_ast.h>
-#include <mocha/misc/io/file_io.h>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/misc/file_system/file_system.h>
 #include <mocha/misc/file_system/stat.h>
 #include <mocha/misc/xml/xml_reader.h>

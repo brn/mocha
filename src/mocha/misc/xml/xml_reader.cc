@@ -6,7 +6,7 @@
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/misc/xml/xml_reader.h>
 #include <mocha/misc/file_system/file_system.h>
-#include <mocha/misc/io/file_io.h>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/misc/xml/versions.h>
 #include <mocha/misc/char_allocator.h>

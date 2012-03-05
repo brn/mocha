@@ -17,7 +17,7 @@ typedef _Atomic_word AtomicWord;
 typedef LPLONG AtomicWord;
 #endif
 
-#include <mocha/misc/class_traits/static.h>
+#include <mocha/roaster/misc/class_traits/static.h>
 
 namespace mocha {
 

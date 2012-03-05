@@ -3,14 +3,14 @@
 #include <useconfig.h>
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/misc/file_system/file_system.h>
-#include <mocha/misc/io/file_io.h>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/options/commandline/commandline_options.h>
 #include <mocha/bootstrap/interactions/interaction.h>
-#include <mocha/misc/bits.h>
+#include <mocha/roaster/misc/bits.h>
 #include <mocha/bootstrap/test/test_run.h>
 
 #ifdef HAVE__EXECV

@@ -10,7 +10,7 @@
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/misc/file_system/directory.h>
-#include <mocha/misc/thread/thread.h>
+#include <mocha/roaster/misc/thread/thread.h>
 namespace mocha {namespace compiler_test {
 
 std::string GetPath( const char* path ) {
