@@ -81,17 +81,18 @@ class Compiler : private Uncopyable {
    * if path is only '<filename>', that file is treat as module.
    * This rule borrow from node.js.
    */
-  SharedStr Load (const char* filename);
+  SharedPtr<FileSystem::Path> Load (const char* filename);
 
   void CatchException(const char* filename, ErrorHandler handle);
-  AstReserver GetAst(CompilationInfoHandle);
-  SharedPtr<ExternalAst> GetAst(ErrorReporter* reporter, SharedPtr<PathInfo> info, bool is_runtime);
+  AstReserver GetAst();
   /**
    * @public
    * @returns {SharedPtr<PathInfo>}
    * Get PathInfo of main file path.
    */
-  SharedPtr<PathInfo> GetMainPathInfo();
+  const CompilationInfo* compilation_info() const;
+  const char* mainfile_path() const;
+  const FileSystem::Path* path() const;
  private :
 
   /**

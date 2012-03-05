@@ -66,7 +66,7 @@ AstNode* IFStmtOptimizer::ToExpression(AstNode* node) {
   return node;
 }
 
-IFStmtOptimizer::IFStmtOptimizer(CompileInfo* info, IFStmt* stmt) :
+IFStmtOptimizer::IFStmtOptimizer(CompilationInfo* info, IFStmt* stmt) :
     Processor(), info_(info), stmt_(stmt){}
 
 

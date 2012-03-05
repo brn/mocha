@@ -172,12 +172,12 @@ Literal* AstBuilder::CreateTmpNode(int index, int64_t line) {
 
 CallExp* AstBuilder::CreateGlobalExportNode(AstNode* ast_node, VisitorInfo* visitor_info,
                                            const char* base, const char* filename, int64_t line) {
-  SharedPtr<PathInfo> base_path_info = FileSystem::GetPathInfo(visitor_info->main_file_path());
-  SharedPtr<PathInfo> target_path_info = FileSystem::GetPathInfo(filename);
-  SharedStr handle = FileSystem::GetModuleKey(base_path_info->GetDirPath().Get(), target_path_info->GetDirPath().Get());
+  FileSystem::Path path(filename);
+  SharedStr handle = FileSystem::GetModuleKey(visitor_info->compiler()->path()->directory(),
+                                              path.directory());
   std::string modkey = "'";
   modkey += handle.Get();
-  modkey += target_path_info->GetFileName().Get();
+  modkey += path.filename();
   modkey += "'";
   Literal* value = AstBuilder::CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
                                              Token::JS_IDENTIFIER, line, Literal::kIdentifier);

@@ -16,11 +16,11 @@ class Pool;
 class CodeWriter;
 class NodeIterator;
 class Scope;
-class CompileInfo;
+class CompilationInfo;
 class AstBuilder;
 class CodegenVisitor : public IVisitor {
  public :
-  CodegenVisitor(const char* filename_, CompileInfo* info);
+  CodegenVisitor(const char* filename_, CompilationInfo* info);
   CodegenVisitor(const char* filename_, bool is_pretty_print, bool is_debug);
   ~CodegenVisitor(){};
 #include <mocha/roaster/ast/visitors/visitor_decl.h>

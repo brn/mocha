@@ -102,7 +102,7 @@ const Resources::ModuleList& Resources::GetModuleList() {
 bool Resources::IsFile() const { return is_file_; }
 void Resources::set_file() { is_file_ = true; }
 
-CompileInfo* Resources::compilation_info() {
+CompilationInfo* Resources::compilation_info() {
   return info_;
 }
 

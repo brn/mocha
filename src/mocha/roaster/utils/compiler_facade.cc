@@ -57,7 +57,7 @@ class ParallelDelegator : public FinishDelegator {
   ParallelDelegator(int size) :
       size_(size), is_end_(false), current_(0) {}
   ~ParallelDelegator(){}
-  void Delegate(SharedPtr<CompileResult> result) {
+  void Delegate(SharedPtr<CompilationInfo> result) {
     MutexLock lock(mutex_);
     if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;

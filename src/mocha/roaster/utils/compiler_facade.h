@@ -5,12 +5,12 @@
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/misc/thread/thread.h>
 namespace mocha {
-class CompileResult;
+class CompilationInfo;
 class Thread;
 class ExternalAst;
 class FinishDelegator {
  public :
-  virtual void Delegate(SharedPtr<CompileResult> result){};
+  virtual void Delegate(SharedPtr<CompilationInfo> result){};
 };
 
 struct ThreadArgs {

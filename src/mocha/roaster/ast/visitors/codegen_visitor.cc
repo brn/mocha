@@ -62,7 +62,7 @@ inline void line_numberBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* 
 }
 
 
-CodegenVisitor::CodegenVisitor(const char* filename, CompileInfo* info) :
+CodegenVisitor::CodegenVisitor(const char* filename, CompilationInfo* info) :
     depth_(0),is_line_(info->Debug()),has_rest_(false),
     is_pretty_print_(info->PrettyPrint()),filename_(filename), scope_(0),
     stream_(new CodeStream(&default_buffer_)),
@@ -157,7 +157,7 @@ VISITOR_IMPL(Statement) {}
 VISITOR_IMPL(VersionStmt) {
   const char* ver = ast_node->version()->token();
   Resources *resource = ExternalResource::SafeGet(filename_);
-  if (resource->GetCompileInfo()->HasVersion(ver)) {
+  if (resource->GetCompilationInfo()->HasVersion(ver)) {
     ast_node->first_child()->Accept(this);
   }
 }
@@ -166,7 +166,7 @@ VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
   if (current_root_) {
     Resources *resource = ExternalResource::SafeGet(filename_);
-    if (resource->GetCompileInfo()->HasVersion(Consts::kVersionDebug)) {
+    if (resource->GetCompilationInfo()->HasVersion(Consts::kVersionDebug)) {
       AstNode* first = ast_node->first_child();
       AstNode* second = first->next_sibling();
       first->Accept(this);

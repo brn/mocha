@@ -2,7 +2,7 @@
 #define mocha_roaster_roaster_h_
 #include <vector>
 #include <utility>
-#include <mocha/roaster/smart_pointer/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/lib/function.h>
 namespace mocha {
 class Resource;

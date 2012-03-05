@@ -32,7 +32,7 @@ class Internal {
   void Parse(ErrorLevel level);
   void GetAst(ErrorLevel level, ErrorReporter* reporter);
  private :
-  inline File* file() { return file_; }
+  inline File* file() { return file_.Get(); }
   inline bool exist() const { return file_exist_; }
   inline Compiler* compiler() const { return compiler_; }
   inline void ParseStart(bool is_ast);

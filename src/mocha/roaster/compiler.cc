@@ -36,6 +36,7 @@
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/roaster/file_system/stat.h>
 #include <mocha/misc/xml/xml_reader.h>
 #include <mocha/misc/xml/xml_setting_info.h>
@@ -66,7 +67,7 @@ class Compiler::PtrImpl {
       codegen_(new CodegenVisitor(main_file_path_.c_str(), info_handle.Get())) {
     error_map_(new ErrorMap);
     if (compilation_info_->IsFile()) {
-      path_(new FileSystem::Path(compilation_info->string()));
+      path_(new FileSystem::Path(compilation_info()->string()));
       SetPath(path_->absolute_path());
     }
   }
@@ -75,7 +76,7 @@ class Compiler::PtrImpl {
 
   inline CompilationResultHandle Compile() {
     //Change direcotry to main js path.
-    if (path_->HasAbsolutePath() && compilation_info->IsFile()) {
+    if (path_->HasAbsolutePath() && compilation_info()->IsFile()) {
       VirtualDirectory::GetInstance()->Chdir(path_->absolute_path());
     }
     ast_root_.AddChild(compilation_info_->runtime());
@@ -91,7 +92,7 @@ class Compiler::PtrImpl {
     return CompilationResultHandle(new CompilationResult(path_, codegen_, error_map_));
   }
 
-  inline SharedStr Load(const char* filename) {
+  inline SharedPtr<FileSystem::Path> Load(const char* filename) {
     //Create javascript path from filename.
     //It's like this,
     //"./example" -> "<current absolute path>/example.js" or
@@ -110,7 +111,7 @@ class Compiler::PtrImpl {
 
 
   inline AstReserver GetAst() {
-    ReserveAst(false);
+    return ReserveAst(false);
   }
   
 
@@ -149,8 +150,8 @@ class Compiler::PtrImpl {
     internal.Parse(error_level);
   }
 
-  inline void ReserveAst(bool is_runtime) {
-    SharedPtr<ExternalAst> external_ast = ExternalAst::Create();
+  inline AstReserver ReserveAst(bool is_runtime) {
+    AstReserver external_ast = ExternalAst::Create();
     AstRoot root;
     Internal internal(path(), compiler_, codegen_.Get(), scope_registry_.Get(), false, &ast_root_, pool_.Get());
     internal.GetAst(Internal::kFatal, handler);
@@ -190,16 +191,16 @@ void Compiler::CatchException(const char* filename, ErrorHandler handler) {
   implementation_->error_map_->insert(ErrorHandlerPair(filename, handler));
 }
 
-SharedPtr<PathInfo> Compiler::GetMainPathInfo() {
-  return implementation_->path_info_;
-}
-
 SharedPtr<ExternalAst> Compiler::GetAst() {
   return implementation_->GetAst(is_runtime);
 }
 
-SharedStr Compiler::Load (const char* filename) {
+SharedPtr<FileSystem::Path> Compiler::Load (const char* filename) {
   return implementation_->Load(filename);
 }
+
+const CompilationInfo* Compiler::compilation_info() const { return implementation_->compilation_info(); }
+const char* Compiler::mainfile_path() const { return implementation_->mainfile_path(); }
+const FileSystem::Path* path() const { return implementation_->path(); }
 
 } //namespace mocha

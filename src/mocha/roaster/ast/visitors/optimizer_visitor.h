@@ -7,10 +7,10 @@ namespace memory {
 class Pool;
 }
 class AstBuilder;
-class CompileInfo;
+class CompilationInfo;
 class OptimizerVisitor : public IVisitor {
  public :
-  OptimizerVisitor(CompileInfo* info);
+  OptimizerVisitor(CompilationInfo* info);
   ~OptimizerVisitor(){}
 #include <mocha/roaster/ast/visitors/visitor_decl.h>
  private :
@@ -24,7 +24,7 @@ class OptimizerVisitor : public IVisitor {
   AstBuilder* builder() { return builder_; }
   int depth_;
   bool is_debug_;
-  CompileInfo* info_;
+  CompilationInfo* info_;
   Scope* scope_;
   memory::Pool* pool_;
   AstBuilder* builder_;

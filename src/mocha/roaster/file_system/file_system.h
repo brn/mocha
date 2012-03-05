@@ -13,7 +13,7 @@ class FileSystem {
    public :
     Path(const char* path);
     ~Path(){}
-    const char* raw_path() const { return row_.c_str(); }
+    const char* raw_path() const { return raw_.c_str(); }
     const char* absolute_path() const { return fullpath_.c_str(); }
     const char* filename() const { return filename_.c_str(); }
     const char* directory() const { return directory_.c_str(); }
@@ -24,7 +24,7 @@ class FileSystem {
     std::string raw_;
     std::string fullpath_;
     std::string filename_;
-    std::string dirname_;
+    std::string directory_;
   };
   static const char* current_directory();
   static void chdir ( const char* path );

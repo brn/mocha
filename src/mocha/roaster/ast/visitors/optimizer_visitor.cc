@@ -20,7 +20,7 @@ namespace mocha {
 #endif
 
 
-OptimizerVisitor::OptimizerVisitor(CompileInfo* info) :
+OptimizerVisitor::OptimizerVisitor(CompilationInfo* info) :
     depth_(0), is_debug_(info->Debug()), info_(info),
     pool_(memory::Pool::Local()), builder_(AstBuilder::Local()){}
 

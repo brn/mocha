@@ -223,7 +223,7 @@ void XMLReader::ProcessCharset( TiXmlElement *elem , const char* filename , cons
 void XMLReader::ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo *info ) {
   const char* compile_option = elem->Attribute( options_ );
   if ( IS_DEF( compile_option ) ) {
-    CompileInfo* cmp_option = resource->GetCompileInfo();
+    CompilationInfo* cmp_option = resource->GetCompilationInfo();
     int len = strlen( compile_option );
     std::string buf;
     ScopedStrList scoped_list;
@@ -269,7 +269,7 @@ void XMLReader::ProcessVersion( TiXmlElement *elem , const char* filename , cons
         }
       }
       if ( tmp.size() > 0 ) {
-        resource->GetCompileInfo()->SetVersion( tmp.c_str() );
+        resource->GetCompilationInfo()->SetVersion( tmp.c_str() );
         version->Add( tmp.c_str() );
       }
     }

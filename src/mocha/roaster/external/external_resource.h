@@ -11,7 +11,7 @@ namespace mocha {
 namespace memory {
 class Pool;
 }
-class CompileInfo;
+class CompilationInfo;
 class Resources {
  public :
   typedef std::vector<std::string> ModuleList;
@@ -27,7 +27,7 @@ class Resources {
   SharedStr GetDeployName(const char* name);
   void SetModule(const char* path);
   const ModuleList& GetModuleList();
-  CompileInfo* GetCompileInfo();
+  CompilationInfo* GetCompilationInfo();
   SharedStr GetCmpPath_(const char* path);
   bool IsFile() const;
   void set_file();
@@ -38,7 +38,7 @@ class Resources {
   std::string deploy_;
   std::string deployname_;
   ModuleList modulelist_;
-  CompileInfo* info_;
+  CompilationInfo* info_;
 };
 
 class ExternalResource : private Static {

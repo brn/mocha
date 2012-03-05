@@ -38,7 +38,7 @@ void LoadSetting() {
   if ( !mocha::FileIO::IsExist( path ) ) {
     mocha::SharedPtr<mocha::File> file = mocha::FileIO::Open( path , "rw" , mocha::FileIO::P_ReadWrite );
     if ( file->IsSuccess() ) {
-      mocha::FileSystem::Chmod( path , 0777 );
+      mocha::FileSystem::chmod( path , 0777 );
       file->Write( CreateXML() );
     } else {
       fprintf( stderr , "Error can not find watch.xml. Run install.js first.\n" );
@@ -56,7 +56,7 @@ void LoadLog() {
  CREATE :
     int ret = mocha::FileIO::CreateFile( path , 0777 );
     if ( ret != -1 ) {
-      mocha::FileSystem::Chmod( path , 0777 );
+      mocha::FileSystem::chmod( path , 0777 );
       BeginLog();
     } else {
       fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
@@ -75,7 +75,7 @@ void LoadLog() {
 namespace mocha {
 
 
-AstReserver LoadRuntime() {
+AstReserver Bootstrap::LoadRuntime() {
   const char* path = Setting::GetInstance()->GetRuntimeFile();
   runtime_info_(new CompilationInfo(path));
   Roaster roaster;
@@ -88,7 +88,7 @@ void Bootstrap::Initialize( int argc , char** argv ) {
   LoadLog();
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
-  self_path_ = FileSystem::GetAbsolutePath( argv[ 0 ] ).Get();
+  self_path_ = FileSystem::Path( argv[ 0 ] ).absolute_path();
   Setting::runtime_ast_ = LoadRuntime();
   if ( argc > 1 ) {
     if ( strcmp( argv[ 1 ] , "test" ) == 0 ) {

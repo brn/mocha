@@ -1,6 +1,8 @@
 #ifndef mocha_test_run_h_
 #define mocha_test_run_h_
 #include <string.h>
+#include <mocha/roaster/roaster.h>
+#include <mocha/roaster/utils/compile_result.h>
 #include <mocha/bootstrap/runners/phantom_runner.h>
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/compiler.h>
@@ -22,7 +24,7 @@ class TestCallback {
     if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;
     }
-    const ErrorMap *map = &(result->GetErrorMap());
+    const ErrorMap *map = &(result->error_map());
     if (map->size() > 0) {
       ErrorMap::const_iterator iterator;
       for (iterator = map->begin(); iterator != map->end(); ++iterator) {
@@ -30,7 +32,7 @@ class TestCallback {
         iterator->second->SetRawError(&buf);
         if (buf.size() > 0) {
           errors_ += "---error---filename => ";
-          errors_ += iterator->first->absolute_path();
+          errors_ += iterator->first.c_str();
           errors_ += "---\n";
           errors_ += buf.c_str();
           errors_ += "-------------------------------------------------------------------\n\n";
@@ -53,8 +55,8 @@ class TestCallback {
 };
 
 std::string GetPath( const char* path ) {
-  SharedPtr<PathInfo> path_info = FileSystem::GetPathInfo( Bootstrap::GetSelfPath() );
-  std::string result = path_info->GetDirPath().Get();
+  FileSystem::Path fs_path( Bootstrap::GetSelfPath() );
+  std::string result = fs_path.directory();
   result += '/';
   result += path;
   return result;
@@ -92,7 +94,6 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
   while ( iterator.HasNext() ) {
     const DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
-    int i = 0;
     if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
       CompilationInfoHandle info(new CompilationInfo(fullpath));
       if ( is_debug ) {
@@ -105,10 +106,9 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
         info->SetCompress();
       }
       list.push_back(info);
-      i++;
     }
   }
-  TestCallback callback(i);
+  TestCallback callback(list.size());
   AsyncCallback async_callback = callback;
   roaster.CompileFilesAsync(list, true, async_callback);
   RunJS( dir );

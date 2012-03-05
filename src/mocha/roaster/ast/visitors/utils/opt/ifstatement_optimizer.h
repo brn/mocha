@@ -4,11 +4,11 @@
 #include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {
-class CompileInfo;
+class CompilationInfo;
 class IVisitor;
 class IFStmtOptimizer : public Processor {
  public :
-  IFStmtOptimizer(CompileInfo* info, IFStmt* stmt);
+  IFStmtOptimizer(CompilationInfo* info, IFStmt* stmt);
   ~IFStmtOptimizer(){}
   void Optimize(IVisitor* visitor);
  private :
@@ -35,7 +35,7 @@ class IFStmtOptimizer : public Processor {
   bool IsOptimizableBlock(AstNode* block, int type);
   AstNode* GetReturnValue(AstNode* node);
   bool CheckAssoc(AstNode* node);
-  CompileInfo* info_;
+  CompilationInfo* info_;
   IFStmt* stmt_;
 };
 
