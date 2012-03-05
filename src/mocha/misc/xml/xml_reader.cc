@@ -47,7 +47,7 @@ XMLReader::~XMLReader() {
 void XMLReader::Parse( const char* path , bool is_reparse ) {
   BEGIN(Parse);
   std::string fullpath;
-  StrSharedPtr path_handle = FileSystem::NormalizePath( path );
+  SharedStr path_handle = FileSystem::NormalizePath( path );
   //Get absolute path of xml file.
   GetFullPath_( path_handle.Get() , fullpath );
   /*
@@ -91,8 +91,8 @@ void XMLReader::GetPath_( const char* path , std::string& buf ) {
   /*
    *Get full file path.
    */
-  StrSharedPtr fullpath = FileSystem::GetAbsolutePath( path );
-  StrSharedPtr path_handle = FileSystem::NormalizePath( fullpath.Get() );
+  SharedStr fullpath = FileSystem::GetAbsolutePath( path );
+  SharedStr path_handle = FileSystem::NormalizePath( fullpath.Get() );
   buf = path_handle.Get();
   INCLUDE_LIST.push_back( buf );
   END(GetPath_);
@@ -158,7 +158,7 @@ void XMLReader::ProcessFileNode_( TiXmlElement* elem , const char* dir , const c
     char module_buf[500];
     sprintf( filename_buf, "%s/%s/%s" , info->GetPath() , dir , filename );
 
-    StrSharedPtr handle = FileSystem::NormalizePath( filename_buf );
+    SharedStr handle = FileSystem::NormalizePath( filename_buf );
     const char* normalized_path = handle.Get();
     ExternalResource::UnsafeSet( normalized_path );
     Resources* resource = ExternalResource::UnsafeGet( normalized_path );
@@ -196,7 +196,7 @@ void XMLReader::ProcessModuleOption_( const char* filename , const char* module 
   std::string buffer;
   for ( int i = 0,len = strlen( module );i < len; i++ ) {
     if ( module[ i ] == ',' ) {
-      StrSharedPtr module_handle = FileSystem::NormalizePath( buffer.c_str() );
+      SharedStr module_handle = FileSystem::NormalizePath( buffer.c_str() );
       resource->SetModule( module_handle.Get() );
       buffer.clear();
     } else if ( isalnum( module[ i ] ) || module[ i ] == '-' || module[ i ] == '_' ) {
@@ -204,11 +204,11 @@ void XMLReader::ProcessModuleOption_( const char* filename , const char* module 
     }
   }
   if ( !buffer.empty() ) {
-    StrSharedPtr module_handle = FileSystem::NormalizePath( buffer.c_str() );
+    SharedStr module_handle = FileSystem::NormalizePath( buffer.c_str() );
     resource->SetModule( module_handle.Get() );
     resource->SetModule( buffer.c_str() );
   }/*
-     StrSharedPtr module_handle = FileSystem::NormalizePath( module );
+     SharedStr module_handle = FileSystem::NormalizePath( module );
      if ( MODULE_LIST.find( filename ) == MODULE_LIST.end() ) {
      MODULE_LIST[ filename ] = module_handle.Get();
      }*/
@@ -220,7 +220,7 @@ void XMLReader::ProcessDeployOption_( TiXmlElement *elem , const char* filename 
   if ( IS_DEF( deploy_path ) ) {
     char buf[ 1000 ];
     sprintf( buf , "%s/%s/%s" , info->GetPath() , dir , deploy_path );
-    StrSharedPtr handle = FileSystem::NormalizePath( buf );
+    SharedStr handle = FileSystem::NormalizePath( buf );
     resource->SetDeploy( handle.Get() );
     DEPLOY_LIST[ filename ] = handle.Get();
   }

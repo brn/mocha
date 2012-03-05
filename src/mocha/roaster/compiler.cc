@@ -93,12 +93,12 @@ class Compiler::PtrImpl {
     return;
   }
 
-  inline StrSharedPtr Load(const char* filename) {
+  inline SharedStr Load(const char* filename) {
     //Create javascript path from filename.
     //It's like this,
     //"./example" -> "<current absolute path>/example.js" or
     //"exampleModule" -> "<setted absolute module dir path> or <default absolute module path>/exampleModule.js"
-    StrSharedPtr js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str());
+    SharedStr js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str());
 
     //Check is module already loaded or not.
     if (IsAlreadyLoaded_(js_path.Get())) {
@@ -142,7 +142,7 @@ class Compiler::PtrImpl {
     }
 
     //Get deploy path of -cmp.js file.
-    StrSharedPtr handle = res->GetDeployName(tmp);
+    SharedStr handle = res->GetDeployName(tmp);
                                                                 
     SharedPtr<File> ret = FileIO::Open (handle.Get(),
                                      "rwn",
@@ -216,7 +216,7 @@ SharedPtr<ExternalAst> Compiler::GetAst(ErrorReporter *handler, SharedPtr<PathIn
   return implementation_->GetAst(handler, path_info, is_runtime);
 }
 
-StrSharedPtr Compiler::Load (const char* filename) {
+SharedStr Compiler::Load (const char* filename) {
   return implementation_->Load(filename);
 }
 

@@ -1,6 +1,6 @@
 #ifndef mocha_handle_impl_h_
 #define mocha_handle_impl_h_
-
+#include <assert.h>
 namespace mocha {
 
 template <typename T>
@@ -43,7 +43,7 @@ inline bool SharedPtr<T>::Contain() {
 template <typename T>
 template <typename Class>
 inline void SharedPtr<T>::operator () ( Class *ptr ) {
-  CheckInit_();
+  CheckInit();
   ptr_ = ptr;
   rc_ = new RefCount<Class>( ptr ,  PtrDeleter<Class>::Delete );
 }
@@ -51,7 +51,7 @@ inline void SharedPtr<T>::operator () ( Class *ptr ) {
 template <typename T>
 template <typename Class , typename Deleter>
 inline void SharedPtr<T>::operator () ( Class *ptr , Deleter deleter ) {
-  CheckInit_();
+  CheckInit();
   ptr_ = ptr;
   rc_ = new RefCount <Class> ( ptr ,  deleter );
 }
@@ -73,34 +73,34 @@ inline const SharedPtr<T>& SharedPtr<T>::operator = ( const SharedPtr<T>& ref ) 
 
 template <typename T>
 inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator * () const {
-  CheckInit_( "mocha::SharedPtr::operator *" );
+  CheckInit( "mocha::SharedPtr::operator *" );
   return *ptr_;
 }
 
 
 template <typename T>
 inline const T* SharedPtr<T>::Get() const {
-  CheckInit_( "mocha::SharedPtr::get" );
+  CheckInit( "mocha::SharedPtr::get" );
   return ptr_;
 }
 
 
 template <typename T>
 inline T* SharedPtr<T>::Get() {
-  CheckInit_( "mocha::SharedPtr::get" );
+  CheckInit( "mocha::SharedPtr::get" );
   return ptr_;
 }
 
 
 template <typename T>
 inline const T* SharedPtr<T>::operator -> () const {
-  CheckInit_( "mocha::SharedPtr::operator ->" );
+  CheckInit( "mocha::SharedPtr::operator ->" );
   return ptr_;
 }
 
 template <typename T>
 inline T* SharedPtr<T>::operator -> () {
-  CheckInit_( "mocha::SharedPtr::operator ->" );
+  CheckInit( "mocha::SharedPtr::operator ->" );
   return ptr_;
 }
 
@@ -122,6 +122,11 @@ inline SharedPtr<T>::operator bool() const {
   return ptr_ != 0;
 }
 
+template <typename T>
+inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator [] ( int num ) {
+  assert(false);
+  return *ptr_;
+}
 
 template <typename T>
 template <typename Class>
@@ -130,55 +135,54 @@ inline SharedPtr<Class> SharedPtr<T>::CastTo () {
   return handle;
 }
 
-template <typename T>
-inline T SharedPtr<T>::operator [] ( int num ) {
-  return ptr_[ num ];
-}
-
 
 template <typename T>
-inline void SharedPtr<T>::CheckInit_( const char* message ) const {
+inline void SharedPtr<T>::CheckInit( const char* message ) const {
   if ( rc_ == 0 ) {
     fprintf( stderr , "%s called before initialized." , message );
-    abort();
+    assert(false);
   }
 }
 
 template <typename T>
-inline void SharedPtr<T>::CheckInit_() const {
+inline void SharedPtr<T>::CheckInit() const {
   if ( rc_ != 0 ) {
     fprintf( stderr , "mocha::SharedPtr is already initilized." );
-    abort();
+    assert(false);
   }
 }
 
 template <typename T>
 template <typename Class>
-inline ArraySharedPtr<T>::ArraySharedPtr( Class *ptr ) :
+inline SharedArray<T>::SharedArray( Class *ptr ) :
     SharedPtr<T>( ptr , PtrDeleter<Class>::DeleteArray ){};
 
 
 template <typename T>
-inline ArraySharedPtr<T>::ArraySharedPtr() : SharedPtr<T>() {}
+inline SharedArray<T>::SharedArray() : SharedPtr<T>() {}
 
 template <typename T>
 template <typename Class>
-inline void ArraySharedPtr<T>::operator () ( Class *ptr ) {
+inline void SharedArray<T>::operator() ( Class *ptr ) {
   SharedPtr<T>::operator()( ptr , PtrDeleter<Class>::DeleteArray );
 }
 
+template <typename T>
+inline typename SharedPtr<T>::PtrType SharedArray<T>::operator [] ( int num ) {
+  return SharedPtr<T>::ptr_[ num ];
+}
 
 template <typename T>
 template <typename Class>
-inline AllocatorSharedPtr<T>::AllocatorSharedPtr ( Class *ptr ) :
+inline SharedAllocator<T>::SharedAllocator( Class *ptr ) :
     SharedPtr<T> ( ptr , PtrDeleter<Class>::Free ) {}
 
 template <typename T>
-inline AllocatorSharedPtr<T>::AllocatorSharedPtr () : SharedPtr<T> () {}
+inline SharedAllocator<T>::SharedAllocator() : SharedPtr<T> () {}
 
 template <typename T>
 template <typename Class>
-inline void AllocatorSharedPtr<T>::operator () ( Class *ptr ) {
+inline void SharedAllocator<T>::operator() ( Class *ptr ) {
   SharedPtr<T>::operator()( ptr , PtrDeleter<Class>::Free );
 }
 

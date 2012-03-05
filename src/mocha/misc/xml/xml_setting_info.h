@@ -17,12 +17,12 @@ class XMLSettingInfo : private Static {
  public :
   static void EraseData();
   static const char* GetModuleDirPath( const char* filename );
-  static StrSharedPtr GetDeployPath( const char* filename );
+  static SharedStr GetDeployPath( const char* filename );
   static Options* GetCompileOption( const char* filename );
   static Version* GetVersion( const char* filename );
   static bool HasCharset( const char* filename );
-  static StrSharedPtr GetCharset( const char* filename );
-  static StrSharedPtr GetDeployCharset( const char* filename );
+  static SharedStr GetCharset( const char* filename );
+  static SharedStr GetDeployCharset( const char* filename );
   template<typename T>
   inline static void IterateFileList( CALL_BACK , T* thisObject );
   template<typename T>
@@ -34,7 +34,7 @@ class XMLSettingInfo : private Static {
   typedef std::list<std::string> List;
   template<typename T>
   inline static void Iterate_( CALL_BACK , T* thisObject , const List& list );
-  static StrSharedPtr GetCmpPath_( const char* filename );
+  static SharedStr GetCmpPath_( const char* filename );
   static List file_list_;
   static List include_list_;
   static Hash module_list_;

@@ -163,7 +163,7 @@ void File::Close () {
   }
 };
 
-CStrSharedPtr File::GetFileContents () {
+SharedCStr File::GetFileContents () {
   ENSURE_STREAM_OPENED;
   char* buffer = Allocate ( sizeof ( char ) * RAW_IO_BUF_SIZE );
   char tmp [ RAW_IO_BUF_SIZE ];
@@ -180,7 +180,7 @@ CStrSharedPtr File::GetFileContents () {
     strcpy ( buffer + currentSize , tmp );
     currentSize += readSize;
   }
-  return CStrSharedPtr( buffer );
+  return SharedCStr( buffer );
 }
 
 void File::GetFileContents( std::string& str ) {
@@ -227,7 +227,7 @@ bool File::IsSuccess () {
   return ( fd == -1 )? false : true;
 }
 
-StrSharedPtr File::GetDate ( DateType type ) {
+SharedStr File::GetDate ( DateType type ) {
   string str;
   if ( type == kUpdate ) {
     str = fstat->MTime();
@@ -235,7 +235,7 @@ StrSharedPtr File::GetDate ( DateType type ) {
     str = fstat->CTime();
   }
   char* ret = utils::CharAlloc( str.c_str() );
-  return StrSharedPtr( ret );
+  return SharedStr( ret );
 }
 
 long int File::GetSize () {

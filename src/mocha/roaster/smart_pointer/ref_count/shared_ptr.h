@@ -26,15 +26,12 @@ namespace mocha {
   template <typename T>
   class SharedPtr {
     
-  private :
-    
+  public :
     /**
      *@private
      *Return type.
      */
     typedef typename PtrTraits<T>::types PtrType;
-    
-  public :
     
     /**
      *@constructor
@@ -136,12 +133,12 @@ namespace mocha {
     template <typename Class>
     inline SharedPtr<Class> CastTo();
     
-    inline T operator [] ( int num );
+    inline virtual PtrType operator [] ( int num );
     
-  private:
+  protected:
 
-    inline void CheckInit_( const char* message ) const;
-    inline void CheckInit_() const;
+    inline void CheckInit( const char* message ) const;
+    inline void CheckInit() const;
 
     /**
      *@private
@@ -160,27 +157,28 @@ namespace mocha {
   
 
   template <typename T>
-  class ArraySharedPtr : public SharedPtr<T> {
+  class SharedArray : public SharedPtr<T> {
   public :
 
     template <typename Class>
-    inline explicit ArraySharedPtr ( Class *ptr );
+    inline explicit SharedArray( Class *ptr );
 
-    inline ArraySharedPtr ();
+    inline SharedArray();
 
     template <typename Class>
     inline void operator() ( Class *ptr );
+    inline virtual typename SharedPtr<T>::PtrType operator [] ( int num );
   };
 
 
   template <typename T>
-  class AllocatorSharedPtr : public SharedPtr<T> {
+  class SharedAllocator : public SharedPtr<T> {
   public :
 
     template <typename Class>
-    inline AllocatorSharedPtr ( Class *ptr );
+    inline SharedAllocator( Class *ptr );
 
-    inline AllocatorSharedPtr ();
+    inline SharedAllocator();
 
     template <typename Class>
     inline void operator() ( Class *ptr );
@@ -191,10 +189,10 @@ namespace mocha {
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr-impl.h>
 
 namespace mocha {
-typedef ArraySharedPtr<const char> StrSharedPtr;
-typedef ArraySharedPtr<const wchar_t> WStrSharedPtr;
-typedef AllocatorSharedPtr<const char> CStrSharedPtr;
-typedef AllocatorSharedPtr<const wchar_t> WCStrSharedPtr;
+typedef SharedArray<const char> SharedStr;
+typedef SharedArray<const wchar_t> SharedWStr;
+typedef SharedAllocator<const char> SharedCStr;
+typedef SharedAllocator<const wchar_t> SharedWCStr;
 }
 
 #endif

@@ -23,7 +23,7 @@ SharedPtr<DetectResult> ICUWrapper::GetEncode(const char* source) {
   return result;
 }
 
-StrSharedPtr ICUWrapper::EncodeToUtf8(const char* source, const char* type) {
+SharedStr ICUWrapper::EncodeToUtf8(const char* source, const char* type) {
   icu::UnicodeString src(source, type);
   int length = src.extract(0, src.length(), NULL, "UTF-8");
 
@@ -32,7 +32,7 @@ StrSharedPtr ICUWrapper::EncodeToUtf8(const char* source, const char* type) {
   std::string tmp(result.begin(), result.end() - 1);
   char* ret = new char[ tmp.size() + 1 ];
   strcpy(ret, tmp.c_str());
-  return StrSharedPtr(ret);
+  return SharedStr(ret);
 }
 
 }

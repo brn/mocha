@@ -8,9 +8,9 @@
 
 namespace mocha {
 #ifdef _WIN32
-StrSharedPtr ReplaceBackSlash( const char* path );
+SharedStr ReplaceBackSlash( const char* path );
 #endif
-StrSharedPtr GetCwd();
+SharedStr GetCwd();
 };
 
 #endif

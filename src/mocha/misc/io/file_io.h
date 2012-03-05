@@ -45,7 +45,7 @@ class File {
 
   void Close ();
 
-  CStrSharedPtr GetFileContents ();
+  SharedCStr GetFileContents ();
   void GetFileContents( std::string& str );
 
   int Write ( const char* buf );
@@ -54,7 +54,7 @@ class File {
 
   bool IsSuccess ();
 
-  StrSharedPtr GetDate ( DateType type = kUpdate );
+  SharedStr GetDate ( DateType type = kUpdate );
 
   long int GetSize ();
 

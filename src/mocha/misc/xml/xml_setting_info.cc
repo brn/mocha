@@ -29,7 +29,7 @@ const char* XMLSettingInfo::GetModuleDirPath( const char* filename ) {
   }
 }
 
-StrSharedPtr XMLSettingInfo::GetDeployPath( const char* filename ) {
+SharedStr XMLSettingInfo::GetDeployPath( const char* filename ) {
   if ( deploy_list_.size() == 0 ) {
     return GetCmpPath_( filename );
   } else {
@@ -42,7 +42,7 @@ StrSharedPtr XMLSettingInfo::GetDeployPath( const char* filename ) {
       sprintf( tmp , "%s/%s" , ret , GetCmpPath_( path_info->GetFileName().Get() ).Get() );
       char* result = new char[ strlen( tmp ) + 1 ];
       strcpy( result , tmp );
-      StrSharedPtr handle( result );
+      SharedStr handle( result );
       return handle;
     } else {
       return GetCmpPath_( filename );
@@ -59,19 +59,19 @@ Options* XMLSettingInfo::GetCompileOption( const char* path ) {
   }
 }
 
-StrSharedPtr XMLSettingInfo::GetCmpPath_( const char* path ) {
+SharedStr XMLSettingInfo::GetCmpPath_( const char* path ) {
   std::string tmp = path;
   Hash::iterator find = deploy_name_list_.find( path );
   if ( find != deploy_name_list_.end() ) {
     char *ret = new char[ find->second.size() + 1 ];
     strcpy( ret , find->second.c_str() );
-    return StrSharedPtr( ret );
+    return SharedStr( ret );
   } else {
     int pos = tmp.find_last_of( '.' , tmp.size() - 1 );
     tmp.replace( pos , 1 , "-cmp." );
     char* result = new char[ tmp.size() + 1 ];
     strcpy( result , tmp.c_str() );
-    return StrSharedPtr( result );
+    return SharedStr( result );
   }
 }
 
@@ -89,29 +89,29 @@ bool XMLSettingInfo::HasCharset( const char* filename ) {
   return begin != charset_list_.end();
 }
 
-StrSharedPtr XMLSettingInfo::GetCharset( const char* filename ) {
+SharedStr XMLSettingInfo::GetCharset( const char* filename ) {
   Hash::iterator begin = charset_list_.find( filename );
   if ( begin != charset_list_.end() ) {
     char* ret = new char[ begin->second.size() + 1 ];
     strcpy( ret , begin->second.c_str() );
-    return StrSharedPtr( ret );
+    return SharedStr( ret );
   } else {
     char* ret = new char[ strlen( utf8 ) + 1 ];
     strcpy( ret , utf8 );
-    return StrSharedPtr( ret );
+    return SharedStr( ret );
   }
 }
 
-StrSharedPtr XMLSettingInfo::GetDeployCharset( const char* filename ) {
+SharedStr XMLSettingInfo::GetDeployCharset( const char* filename ) {
   Hash::iterator begin = deploy_charset_list_.find( filename );
   if ( begin != deploy_charset_list_.end() ) {
     char* ret = new char[ begin->second.size() + 1 ];
     strcpy( ret , begin->second.c_str() );
-    return StrSharedPtr( ret );
+    return SharedStr( ret );
   } else {
     char* ret = new char[ strlen( utf8 ) + 1 ];
     strcpy( ret , utf8 );
-    return StrSharedPtr( ret );
+    return SharedStr( ret );
   }
 }
 

@@ -7,20 +7,20 @@
 #include <mocha/misc/xml/xml_setting_info.h>
 namespace mocha {
 
-StrSharedPtr Encode(const char* source, const char* path) {
+SharedStr Encode(const char* source, const char* path) {
   if (!XMLSettingInfo::HasCharset(path)) {
     SharedPtr<DetectResult> detected = ICUWrapper::GetEncode(source);
-    StrSharedPtr data = ICUWrapper::EncodeToUtf8(source, detected->charset);
+    SharedStr data = ICUWrapper::EncodeToUtf8(source, detected->charset);
     return data;
   } else {
-    StrSharedPtr charset = XMLSettingInfo::GetCharset(path);
-    StrSharedPtr data = ICUWrapper::EncodeToUtf8(source, charset.Get());
+    SharedStr charset = XMLSettingInfo::GetCharset(path);
+    SharedStr data = ICUWrapper::EncodeToUtf8(source, charset.Get());
     return data;
   }
 }
 
 SourceStream* SourceStream::New(const char* source, const char* path) {
-  StrSharedPtr str_handle = Encode(source, path);
+  SharedStr str_handle = Encode(source, path);
   SourceStream* stream = new(memory::Pool::Local()) SourceStream();
   stream->CreateStream(str_handle.Get());
   return stream;

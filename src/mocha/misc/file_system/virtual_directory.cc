@@ -14,18 +14,18 @@ VirtualDirectory* VirtualDirectory::GetInstance() {
 }
 
 void VirtualDirectory::Chdir( const char* path ) {
-  StrSharedPtr handle = FileSystem::NormalizePath( path );
+  SharedStr handle = FileSystem::NormalizePath( path );
   current_dir_ = handle.Get();
 }
 
-StrSharedPtr VirtualDirectory::GetCurrentDir() {
+SharedStr VirtualDirectory::GetCurrentDir() {
   char* ret = new char[ ( current_dir_.size() + 1 ) ];
   strcpy( ret , current_dir_.c_str() );
-  StrSharedPtr handle( ret );
+  SharedStr handle( ret );
   return handle;
 }
 
-StrSharedPtr VirtualDirectory::GetRealPath( const char* path ) {
+SharedStr VirtualDirectory::GetRealPath( const char* path ) {
   std::string tmp = current_dir_;
   tmp += '/';
   tmp += path;

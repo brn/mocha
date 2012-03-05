@@ -89,9 +89,9 @@ void ImportProccessor::LoadModule_() {
     //"path to file" -> path to file
     js_path.erase(js_path.size() - 1, js_path.size());
                                                                 
-    StrSharedPtr current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
+    SharedStr current_dir = VirtualDirectory::GetInstance()->GetCurrentDir();
     //Get full path of module.
-    StrSharedPtr real_path = visitor_info->compiler()->Load(js_path.c_str());
+    SharedStr real_path = visitor_info->compiler()->Load(js_path.c_str());
 
     //Set virtual dir to current context dir.
     VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
@@ -99,7 +99,7 @@ void ImportProccessor::LoadModule_() {
     //Get module uuid key.
     SharedPtr<PathInfo> base_path_info = FileSystem::GetPathInfo(visitor_info->main_file_path());
     SharedPtr<PathInfo> target_path_info = FileSystem::GetPathInfo(real_path.Get());
-    StrSharedPtr handle = FileSystem::GetModuleKey(base_path_info->GetDirPath().Get(), target_path_info->GetDirPath().Get());
+    SharedStr handle = FileSystem::GetModuleKey(base_path_info->GetDirPath().Get(), target_path_info->GetDirPath().Get());
     std::string modkey = "'";
     modkey += handle.Get();
     modkey += target_path_info->GetFileName().Get();

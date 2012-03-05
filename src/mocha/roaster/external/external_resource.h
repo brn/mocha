@@ -24,11 +24,11 @@ class Resources {
   void SetDeploy(const char* name);
   const char* GetDeploy();
   void SetDeployName(const char* name);
-  StrSharedPtr GetDeployName(const char* name);
+  SharedStr GetDeployName(const char* name);
   void SetModule(const char* path);
   const ModuleList& GetModuleList();
   CompileInfo* GetCompileInfo();
-  StrSharedPtr GetCmpPath_(const char* path);
+  SharedStr GetCmpPath_(const char* path);
  private :
   std::string input_charset_;
   std::string output_charset_;

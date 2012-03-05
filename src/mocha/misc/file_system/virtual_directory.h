@@ -10,8 +10,8 @@ class VirtualDirectory {
  public :
   static VirtualDirectory* GetInstance();
   void Chdir( const char* path );
-  StrSharedPtr GetCurrentDir();
-  StrSharedPtr GetRealPath( const char* path );
+  SharedStr GetCurrentDir();
+  SharedStr GetRealPath( const char* path );
   void SetModuleKey( const char* path );
   const char* GetModuleKey();
  private :

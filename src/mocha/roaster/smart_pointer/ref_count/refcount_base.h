@@ -2,7 +2,7 @@
 #ifndef mocha_refcount_base_h_
 #define mocha_refcount_base_h_
 #include <mocha/misc/class_traits/uncopyable.h>
-#include <mocha/misc/atomic.h>
+#include <mocha/roaster/misc/atomic.h>
 #include <define.h>
 namespace mocha {
 

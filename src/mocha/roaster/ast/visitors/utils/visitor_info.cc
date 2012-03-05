@@ -10,7 +10,7 @@ namespace mocha {
 void CreateRelativePath(const char* base, const char* target, std::string *buffer) {
   SharedPtr<PathInfo> base_path_info = FileSystem::GetPathInfo(base);
   SharedPtr<PathInfo> target_path_info = FileSystem::GetPathInfo(target);
-  StrSharedPtr handle = FileSystem::GetModuleKey(base_path_info->GetDirPath().Get(), target_path_info->GetDirPath().Get());
+  SharedStr handle = FileSystem::GetModuleKey(base_path_info->GetDirPath().Get(), target_path_info->GetDirPath().Get());
   buffer->assign("'");
   buffer->append(handle.Get());
   buffer->append(target_path_info->GetFileName().Get());

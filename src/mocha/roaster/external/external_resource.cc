@@ -54,22 +54,22 @@ void Resources::SetDeployName(const char* name) {
   deployname_ = name;
 }
 
-StrSharedPtr Resources::GetCmpPath_(const char* path) {
+SharedStr Resources::GetCmpPath_(const char* path) {
   std::string tmp = path;
   if (!deployname_.empty()) {
     char *ret = new char[ deployname_.size() + 1 ];
     strcpy(ret, deployname_.c_str());
-    return StrSharedPtr(ret);
+    return SharedStr(ret);
   } else {
     int pos = tmp.find_last_of('.', tmp.size() - 1);
     tmp.replace(pos, 1, "-cmp.");
     char* result = new char[ tmp.size() + 1 ];
     strcpy(result, tmp.c_str());
-    return StrSharedPtr(result);
+    return SharedStr(result);
   }
 }
 
-StrSharedPtr Resources::GetDeployName(const char* filename) {
+SharedStr Resources::GetDeployName(const char* filename) {
   if (deploy_.empty()) {
     return GetCmpPath_(filename);
   } else {
@@ -81,7 +81,7 @@ StrSharedPtr Resources::GetDeployName(const char* filename) {
       sprintf(tmp, "%s/%s", ret, GetCmpPath_(path_info->GetFileName().Get()).Get());
       char* result = new char[ strlen(tmp) + 1 ];
       strcpy(result, tmp);
-      return StrSharedPtr(result);
+      return SharedStr(result);
     } else {
       return GetCmpPath_(filename);
     }

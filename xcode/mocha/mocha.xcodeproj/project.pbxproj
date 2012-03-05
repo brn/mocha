@@ -131,7 +131,6 @@
 		42337FAD15043BD900CEC14A /* phantom_runner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = phantom_runner.h; sourceTree = "<group>"; };
 		42337FAF15043BD900CEC14A /* test_run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_run.h; sourceTree = "<group>"; };
 		42337FB015043BD900CEC14A /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
-		42337FB215043BD900CEC14A /* atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atomic.h; sourceTree = "<group>"; };
 		42337FB315043BD900CEC14A /* bits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bits.h; sourceTree = "<group>"; };
 		42337FB415043BD900CEC14A /* char_allocator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = char_allocator.cc; sourceTree = "<group>"; };
 		42337FB515043BD900CEC14A /* char_allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = char_allocator.h; sourceTree = "<group>"; };
@@ -310,6 +309,7 @@
 		423381C51504448600CEC14A /* thread-pthread-impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "thread-pthread-impl.h"; sourceTree = "<group>"; };
 		423381C6150444BA00CEC14A /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
 		423381C7150444BA00CEC14A /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		423381CB150457D800CEC14A /* atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atomic.h; sourceTree = "<group>"; };
 		42E9C10514CD27E00043DAE1 /* libicudata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicudata.a; path = "../../src/third_party/icu/lib-osx/libicudata.a"; sourceTree = "<group>"; };
 		42E9C10614CD27E00043DAE1 /* libicui18n.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicui18n.a; path = "../../src/third_party/icu/lib-osx/libicui18n.a"; sourceTree = "<group>"; };
 		42E9C10714CD27E00043DAE1 /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = "../../src/third_party/icu/lib-osx/libicuuc.a"; sourceTree = "<group>"; };
@@ -423,7 +423,6 @@
 		42337FB115043BD900CEC14A /* misc */ = {
 			isa = PBXGroup;
 			children = (
-				42337FB215043BD900CEC14A /* atomic.h */,
 				42337FB315043BD900CEC14A /* bits.h */,
 				42337FB415043BD900CEC14A /* char_allocator.cc */,
 				42337FB515043BD900CEC14A /* char_allocator.h */,
@@ -554,6 +553,7 @@
 		42337FF715043BD900CEC14A /* roaster */ = {
 			isa = PBXGroup;
 			children = (
+				423381CA150457D800CEC14A /* misc */,
 				42337FF815043BD900CEC14A /* ast */,
 				4233803C15043BD900CEC14A /* binding */,
 				4233803F15043BD900CEC14A /* compiler.cc */,
@@ -856,6 +856,14 @@
 			);
 			name = tinyxml;
 			path = ../../src/third_party/tinyxml;
+			sourceTree = "<group>";
+		};
+		423381CA150457D800CEC14A /* misc */ = {
+			isa = PBXGroup;
+			children = (
+				423381CB150457D800CEC14A /* atomic.h */,
+			);
+			path = misc;
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* Documentation */ = {

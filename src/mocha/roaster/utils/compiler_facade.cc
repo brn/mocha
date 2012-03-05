@@ -9,7 +9,7 @@
 #include <mocha/misc/file_watcher/observer/file_observer.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/utils/compile_result.h>
-#include <mocha/misc/atomic.h>
+#include <mocha/roaster/misc/atomic.h>
 #include <mocha/misc/file_system/file_system.h>
 namespace mocha {
 

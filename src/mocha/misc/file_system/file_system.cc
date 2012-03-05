@@ -78,7 +78,7 @@ const char* PathInfo::GetFileNameFromPath_( const char* path ) {
   return ret;
 }
 
-StrSharedPtr FileSystem::pwd () {
+SharedStr FileSystem::pwd () {
   return GetCwd ();
 }
 
@@ -89,7 +89,7 @@ SharedPtr<PathInfo> FileSystem::GetPathInfo( const char* path ) {
   return handle;
 }
 
-StrSharedPtr FileSystem::NormalizePath( const char* path ) {
+SharedStr FileSystem::NormalizePath( const char* path ) {
   std::string tmp = path;
   size_t size = tmp.size();
   size_t index = 0;
@@ -138,12 +138,12 @@ StrSharedPtr FileSystem::NormalizePath( const char* path ) {
   if ( tmp[ tmp.size() - 1 ] == '/' ) {
     tmp.erase( tmp.size() - 1 , tmp.size() );
   }
-  return StrSharedPtr( utils::CharAlloc( tmp.c_str() ) );
+  return SharedStr( utils::CharAlloc( tmp.c_str() ) );
 }
 
 
 
-StrSharedPtr FileSystem::GetUserHomeDir() {
+SharedStr FileSystem::GetUserHomeDir() {
 #ifdef _WIN32
   std::string drive = getenv( "HOMEDRIVE" );
   std::string home = getenv( HOME );
@@ -151,17 +151,17 @@ StrSharedPtr FileSystem::GetUserHomeDir() {
   return GetAbsolutePath( drive.c_str() );
 #else
   char* ret = utils::CharAlloc( getenv( HOME ) );
-  return StrSharedPtr( ret );
+  return SharedStr( ret );
 #endif
 }
 
 
-StrSharedPtr FileSystem::GetAbsolutePath( const char* path ) {
+SharedStr FileSystem::GetAbsolutePath( const char* path ) {
   char *tmp;
   FULL_PATH( path , tmp );
   char* ret = utils::CharAlloc( tmp );
   free( tmp );
-  return StrSharedPtr( ret );
+  return SharedStr( ret );
 }
 
 typedef std::vector<std::string> PathArray;
@@ -191,9 +191,9 @@ void GetPathArray( const char* path , PathArray *array ) {
   }
 }
 
-StrSharedPtr FileSystem::GetModuleKey( const char* base , const char* path ) {
+SharedStr FileSystem::GetModuleKey( const char* base , const char* path ) {
   if ( strcmp( base , path ) == 0 ) {
-    return StrSharedPtr( utils::CharAlloc( "./" ) );
+    return SharedStr( utils::CharAlloc( "./" ) );
   }
   PathArray base_array;
   PathArray target_array;
@@ -213,7 +213,7 @@ StrSharedPtr FileSystem::GetModuleKey( const char* base , const char* path ) {
         i++;
       }
       tmp += result;
-      return StrSharedPtr( utils::CharAlloc( tmp.c_str() ) );
+      return SharedStr( utils::CharAlloc( tmp.c_str() ) );
     } else if ( base_array.at( i ).compare( target_array.at( i ) ) != 0 ) {
       while ( i < base_size ) {
         result += "../";
@@ -225,11 +225,11 @@ StrSharedPtr FileSystem::GetModuleKey( const char* base , const char* path ) {
         result += "/";
         i++;
       }
-      return StrSharedPtr( utils::CharAlloc( result.c_str() ) );
+      return SharedStr( utils::CharAlloc( result.c_str() ) );
     }
     i++;
   }
-  return StrSharedPtr( utils::CharAlloc( result.c_str() ) );
+  return SharedStr( utils::CharAlloc( result.c_str() ) );
 }
 
 void FileSystem::Chdir ( const char* path ) {

@@ -12,7 +12,7 @@ inline bool CheckIsModule(const char* file) {
 
 namespace mocha{
 
-StrSharedPtr CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
+SharedStr CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
   std::string tmp;
   if (!CheckIsModule(filename)) {
     tmp += VirtualDirectory::GetInstance()->GetRealPath(filename).Get();

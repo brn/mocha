@@ -10,29 +10,29 @@ namespace mocha {
 class PathInfo {
  public :
   PathInfo( const char* path );
-  inline StrSharedPtr GetDirPath() { return dir_; }
-  inline StrSharedPtr GetFileName() { return filepath_; }
-  inline StrSharedPtr GetFileIdentifier() { return raw_path_; }
+  inline SharedStr GetDirPath() { return dir_; }
+  inline SharedStr GetFileName() { return filepath_; }
+  inline SharedStr GetFileIdentifier() { return raw_path_; }
  private :
   const char* GetDirectoryFromPath_( const char* path );
   const char* GetFileNameFromPath_( const char* );
-  StrSharedPtr filepath_;
-  StrSharedPtr dir_;
-  StrSharedPtr raw_path_;
+  SharedStr filepath_;
+  SharedStr dir_;
+  SharedStr raw_path_;
 };
 
 class FileSystem {
  public :
-  static StrSharedPtr pwd ();
+  static SharedStr pwd ();
   static SharedPtr<PathInfo> GetPathInfo( const char* path );
-  static StrSharedPtr NormalizePath( const char* path );
+  static SharedStr NormalizePath( const char* path );
   static void Chdir ( const char* path );
   static bool Chmod( const char* pass , int permiss );
-  static StrSharedPtr GetModuleKey( const char* base , const char* );
+  static SharedStr GetModuleKey( const char* base , const char* );
   static void SetModuleDir( const char* path );
   inline static const char* GetModuleDir(){ return module_dir_.c_str(); }
-  static StrSharedPtr GetUserHomeDir();
-  static StrSharedPtr GetAbsolutePath( const char* path );
+  static SharedStr GetUserHomeDir();
+  static SharedStr GetAbsolutePath( const char* path );
   static bool Mkdir( const char* path , int permiss );
  private :
   static std::string module_dir_;
