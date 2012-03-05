@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/destructuring_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/destructuring_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./destructuring_test.js'] = {};
@@ -917,7 +917,7 @@
           var value1 = array[0] && array[0].value1?array[0].value1 : undefined,
               arr_value1 = array[1],
               value2 = array[2] && array[2].value2?array[2].value2 : undefined,
-              value3 = array[3] && array[3]["value3"]?array[3]["value3"] : undefined,
+              value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined,
               arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined,
               arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
           
@@ -949,7 +949,7 @@
           value2 = array[2] && array[2].value2?array[2].value2 : undefined;
           
           __LINE__ = 46;
-          value3 = array[3] && array[3]["value3"]?array[3]["value3"] : undefined;
+          value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined;
           
           __LINE__ = 46;
           arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined;
@@ -986,7 +986,7 @@
           var value1 = array[0] && array[0].value1?array[0].value1 : undefined,
               arr_value1 = array[1],
               value2 = array[2] && array[2].value2?array[2].value2 : undefined,
-              value3 = array[3] && array[3]["value3"]?array[3]["value3"] : undefined,
+              value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined,
               arr_value2 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
           
           __LINE__ = 57;
@@ -1020,7 +1020,7 @@
           value2 = array[2] && array[2].value2?array[2].value2 : undefined;
           
           __LINE__ = 64;
-          value3 = array[3] && array[3]["value3"]?array[3]["value3"] : undefined;
+          value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined;
           
           __LINE__ = 64;
           arr_value4 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
@@ -1091,7 +1091,7 @@
           var value1 = _mochaLocalTmp1[0] && _mochaLocalTmp1[0].value1?_mochaLocalTmp1[0].value1 : undefined,
               arr_value1 = _mochaLocalTmp1[1],
               value2 = _mochaLocalTmp1[2] && _mochaLocalTmp1[2].value2?_mochaLocalTmp1[2].value2 : undefined,
-              value3 = _mochaLocalTmp1[3] && _mochaLocalTmp1[3]["value3"]?_mochaLocalTmp1[3]["value3"] : undefined,
+              value3 = _mochaLocalTmp1[3] && _mochaLocalTmp1[3]["value3"]?_mochaLocalTmp1[3].value3 : undefined,
               arr_value2 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[0]?_mochaLocalTmp1[4].value4.value5[0] : undefined,
               arr_value3 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[1]?_mochaLocalTmp1[4].value4.value5[1] : undefined;
           
@@ -1124,7 +1124,7 @@
           var value1 = _mochaLocalTmp2[0] && _mochaLocalTmp2[0].value1?_mochaLocalTmp2[0].value1 : undefined,
               arr_value1 = _mochaLocalTmp2[1],
               value2 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].value2?_mochaLocalTmp2[2].value2 : undefined,
-              value3 = _mochaLocalTmp2[3] && _mochaLocalTmp2[3]["value3"]?_mochaLocalTmp2[3]["value3"] : undefined,
+              value3 = _mochaLocalTmp2[3] && _mochaLocalTmp2[3]["value3"]?_mochaLocalTmp2[3].value3 : undefined,
               arr_value2 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5?Runtime.toArray(_mochaLocalTmp2[4].value4.value5,0) : undefined;
           
           __LINE__ = 95;

@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/prototype.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/prototype.js",
           __LINE__ = 0;
       function $(element) {
         try {
@@ -3031,7 +3031,7 @@
                     
                     __LINE__ = 1183;
                     array.push(item[j]);
-                  };
+                  }
                 } else {
                   __LINE__ = 1185;
                   array.push(item);
@@ -3354,8 +3354,7 @@
                             
                             __LINE__ = 1302;
                             queryValues.push(toQueryPair(key,value));
-                          };
-                          __LINE__ = 1304;
+                          }__LINE__ = 1304;
                           return results.concat(queryValues);
                         };
                       } else {
@@ -6656,13 +6655,13 @@
       !function (div) {
         try {
           __LINE__ = 2875;
-          if (!Prototype.BrowserFeatures.ElementExtensions && div['__proto__']){
+          if (!Prototype.BrowserFeatures.ElementExtensions && div.__proto__){
             
             __LINE__ = 2876;
             window.HTMLElement = {};
             
             __LINE__ = 2877;
-            window.HTMLElement.prototype = div['__proto__'];
+            window.HTMLElement.prototype = div.__proto__;
             
             __LINE__ = 2878;
             Prototype.BrowserFeatures.ElementExtensions = true;
@@ -6904,7 +6903,7 @@
               
               __LINE__ = 3031;
               var element = document.createElement(tagName),
-                  proto = element['__proto__'] || element.constructor.prototype;
+                  proto = element.__proto__ || element.constructor.prototype;
               
               __LINE__ = 3034;
               element = null;
@@ -7017,7 +7016,7 @@
               
               __LINE__ = 3050;
               copy(T[tag],klass.prototype);
-            };
+            }
           };
           
           __LINE__ = 3054;
@@ -9047,7 +9046,7 @@
                         
                         __LINE__ = 4026;
                         set = posProcess(selector,set);
-                      };
+                      }
                     };
                   } else {
                     if (!seed && parts.length>1 && context.nodeType === 9 && !contextXML && Expr.match.ID.test(parts[0]) && !Expr.match.ID.test(parts[parts.length-1])){
@@ -9115,14 +9114,14 @@
                         
                         __LINE__ = 4082;
                         checkSet[i] && (checkSet[i] === true || checkSet[i].nodeType === 1 && contains(context,checkSet[i])) && results.push(set[i]);
-                      };
+                      }
                     } else {
                       __LINE__ = 4086;
                       for (var i = 0;checkSet[i] != null;i ++ ){
                         
                         __LINE__ = 4088;
                         checkSet[i] && checkSet[i].nodeType === 1 && results.push(set[i]);
-                      };
+                      }
                     };
                   } else {
                     __LINE__ = 4093;
@@ -9164,7 +9163,7 @@
                     
                     __LINE__ = 4112;
                     results[i] === results[i-1] && results.splice(i -- ,1);
-                  };
+                  }
                 };
               };
               __LINE__ = 4118;
@@ -9319,7 +9318,7 @@
                             anyFound = true;
                           };
                         };
-                      };
+                      }
                     };
                     
                     __LINE__ = 4201;
@@ -10175,19 +10174,21 @@
                 if (toString.call(array) === "[object Array]"){
                   __LINE__ = 4650;
                   [].push.apply(ret,array);
-                } else if (typeof array.length === "number"){
-                  __LINE__ = 4653;
-                  for (var i = 0,l = array.length;i<l;i ++ ){
-                    
-                    __LINE__ = 4654;
-                    ret.push(array[i]);
-                  };
                 } else {
-                  __LINE__ = 4657;
-                  for (var i = 0;array[i];i ++ ){
-                    
-                    __LINE__ = 4658;
-                    ret.push(array[i]);
+                  if (typeof array.length === "number"){
+                    __LINE__ = 4653;
+                    for (var i = 0,l = array.length;i<l;i ++ ){
+                      
+                      __LINE__ = 4654;
+                      ret.push(array[i]);
+                    }
+                  } else {
+                    __LINE__ = 4657;
+                    for (var i = 0;array[i];i ++ ){
+                      
+                      __LINE__ = 4658;
+                      ret.push(array[i]);
+                    };
                   };
                 };
                 __LINE__ = 4663;

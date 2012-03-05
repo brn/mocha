@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/knockout-2.0.0.debug.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/knockout-2.0.0.debug.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./knockout-2.0.0.debug.js'] = {};
@@ -831,11 +831,11 @@
                 options = options || {};
                 
                 __LINE__ = 1049;
-                options["read"] = evaluatorFunctionOrOptions || options["read"];
+                options.read = evaluatorFunctionOrOptions || options.read;
               };
               
               __LINE__ = 1053;
-              if (typeof options["read"] != "function"){
+              if (typeof options.read != "function"){
                 __LINE__ = 1054;
                 throw "Pass a function that returns the value of the dependentObservable";
               };
@@ -860,7 +860,7 @@
                   
                   __LINE__ = 758;
                   typeof extenderHandler == 'function' && (target = extenderHandler(target,requestedExtenders[key]));
-                };
+                }
               };
               __LINE__ = 762;
               return target;
@@ -869,7 +869,7 @@
             }
           }
           __LINE__ = 6;
-          var ko = window["ko"] = {};
+          var ko = window.ko = {};
           
           __LINE__ = 8;
           ko.exportSymbol = function (publicPath,object) {
@@ -937,7 +937,7 @@
               knownEvents[keyEventTypeName] = ['keyup','keydown','keypress'];
               
               __LINE__ = 25;
-              knownEvents['MouseEvents'] = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
+              knownEvents.MouseEvents = ['click','dblclick','mousedown','mouseup','mousemove','mouseover','mouseout','mouseenter','mouseleave'];
               
               __LINE__ = 26;
               for (var eventType in knownEvents){
@@ -952,7 +952,7 @@
                     
                     __LINE__ = 30;
                     knownEventTypesByEventName[knownEventsForType[i]] = eventType;
-                  };
+                  }
                 };
               };
               
@@ -1810,7 +1810,7 @@
           });
           
           __LINE__ = 445;
-          !Function.prototype['bind'] && (Function.prototype['bind'] = function (object) {
+          !Function.prototype.bind && (Function.prototype.bind = function (object) {
             try {
               __LINE__ = 446;
               var originalFunction = this,
@@ -1954,7 +1954,7 @@
                   ko.utils.domData.clear(node);
                   
                   __LINE__ = 524;
-                  (typeof jQuery == "function") && (typeof jQuery['cleanData'] == "function") && jQuery['cleanData']([node]);
+                  (typeof jQuery == "function") && (typeof jQuery.cleanData == "function") && jQuery.cleanData([node]);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -2102,7 +2102,7 @@
               function jQueryHtmlParse(html) {
                 try {
                   __LINE__ = 606;
-                  var elems = jQuery['clean']([html]);
+                  var elems = jQuery.clean([html]);
                   
                   __LINE__ = 611;
                   if (elems && elems[0]){
@@ -2134,7 +2134,7 @@
                       markup = "ignored<div>"+wrap[1]+html+wrap[2]+"</div>";
                   
                   __LINE__ = 593;
-                  typeof window['innerShiv'] == "function"?div.appendChild(window['innerShiv'](markup)) : div.innerHTML = markup;
+                  typeof window.innerShiv == "function"?div.appendChild(window.innerShiv(markup)) : div.innerHTML = markup;
                   
                   __LINE__ = 599;
                   while (wrap[0] -- ){
@@ -2175,7 +2175,7 @@
                     __LINE__ = 639;
                     if (typeof jQuery != 'undefined'){
                       __LINE__ = 640;
-                      jQuery(node)['html'](html);
+                      jQuery(node).html(html);
                     } else {
                       
                       __LINE__ = 643;
@@ -2231,7 +2231,7 @@
                       
                       __LINE__ = 671;
                       findMemoNodes(childNodes[i],appendToArray);
-                    };
+                    }
                   };
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -2467,7 +2467,7 @@
               this._subscriptions = {};
               
               __LINE__ = 779;
-              ko.utils.extend(this,ko.subscribable['fn']);
+              ko.utils.extend(this,ko.subscribable.fn);
               
               __LINE__ = 780;
               ko.exportProperty(this,'subscribe',this.subscribe);
@@ -2486,7 +2486,7 @@
           var defaultEvent = "change";
           
           __LINE__ = 787;
-          ko.subscribable['fn'] =  {
+          ko.subscribable.fn =  {
             subscribe : function (callback,callbackTarget,event) {
               try {
                 __LINE__ = 789;
@@ -2575,7 +2575,7 @@
           ko.isSubscribable = function (instance) {
             try {
               __LINE__ = 828;
-              return typeof instance.subscribe == "function" && typeof instance["notifySubscribers"] == "function";
+              return typeof instance.subscribe == "function" && typeof instance.notifySubscribers == "function";
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
@@ -2666,7 +2666,7 @@
                   if (arguments.length>0){
                     
                     __LINE__ = 868;
-                    if ((!observable['equalityComparer']) || !observable['equalityComparer'](_latestValue,arguments[0])){
+                    if ((!observable.equalityComparer) || !observable.equalityComparer(_latestValue,arguments[0])){
                       
                       __LINE__ = 869;
                       observable.valueWillMutate();
@@ -2700,7 +2700,7 @@
               observable.valueHasMutated = function () {
                 try {
                   __LINE__ = 882;
-                  observable["notifySubscribers"](_latestValue);
+                  observable.notifySubscribers(_latestValue);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -2710,14 +2710,14 @@
               observable.valueWillMutate = function () {
                 try {
                   __LINE__ = 883;
-                  observable["notifySubscribers"](_latestValue,"beforeChange");
+                  observable.notifySubscribers(_latestValue,"beforeChange");
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 884;
-              ko.utils.extend(observable,ko.observable['fn']);
+              ko.utils.extend(observable,ko.observable.fn);
               
               __LINE__ = 886;
               ko.exportProperty(observable,"valueHasMutated",observable.valueHasMutated);
@@ -2732,7 +2732,7 @@
           };
           
           __LINE__ = 892;
-          ko.observable['fn'] =  {
+          ko.observable.fn =  {
             __ko_proto__ : ko.observable,
             "equalityComparer" : function valuesArePrimitiveAndEqual(a,b) {
               try {
@@ -2813,7 +2813,7 @@
               var result = new ko.observable(initialValues);
               
               __LINE__ = 930;
-              ko.utils.extend(result,ko.observableArray['fn']);
+              ko.utils.extend(result,ko.observableArray.fn);
               
               __LINE__ = 932;
               ko.exportProperty(result,"remove",result.remove);
@@ -2840,7 +2840,7 @@
           };
           
           __LINE__ = 942;
-          ko.observableArray['fn'] =  {
+          ko.observableArray.fn =  {
             remove : function (valueOrPredicate) {
               try {
                 __LINE__ = 944;
@@ -3048,7 +3048,7 @@
           function (methodName) {
             try {
               __LINE__ = 1024;
-              ko.observableArray['fn'][methodName] = function () {
+              ko.observableArray.fn[methodName] = function () {
                 try {
                   __LINE__ = 1025;
                   var underlyingArray = this();
@@ -3077,7 +3077,7 @@
           function (methodName) {
             try {
               __LINE__ = 1035;
-              ko.observableArray['fn'][methodName] = function () {
+              ko.observableArray.fn[methodName] = function () {
                 try {
                   __LINE__ = 1036;
                   var underlyingArray = this();
@@ -3103,13 +3103,13 @@
                   __LINE__ = 1126;
                   if (arguments.length>0){
                     __LINE__ = 1127;
-                    if (typeof options["write"] === "function"){
+                    if (typeof options.write === "function"){
                       
                       __LINE__ = 1129;
-                      var valueForThis = options["owner"] || evaluatorFunctionTarget;
+                      var valueForThis = options.owner || evaluatorFunctionTarget;
                       
                       __LINE__ = 1130;
-                      options["write"].apply(valueForThis,arguments);
+                      options.write.apply(valueForThis,arguments);
                     } else {
                       __LINE__ = 1132;
                       throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
@@ -3131,9 +3131,9 @@
               function evaluateImmediate() {
                 try {
                   __LINE__ = 1101;
-                  if ((_hasBeenEvaluated) && typeof options["disposeWhen"] == "function"){
+                  if ((_hasBeenEvaluated) && typeof options.disposeWhen == "function"){
                     __LINE__ = 1102;
-                    if (options["disposeWhen"]()){
+                    if (options.disposeWhen()){
                       
                       __LINE__ = 1103;
                       dependentObservable.dispose();
@@ -3158,13 +3158,13 @@
                     });
                     
                     __LINE__ = 1113;
-                    var valueForThis = options["owner"] || evaluatorFunctionTarget;
+                    var valueForThis = options.owner || evaluatorFunctionTarget;
                     
                     __LINE__ = 1114;
-                    var newValue = options["read"].call(valueForThis);
+                    var newValue = options.read.call(valueForThis);
                     
                     __LINE__ = 1115;
-                    dependentObservable["notifySubscribers"](_latestValue,"beforeChange");
+                    dependentObservable.notifySubscribers(_latestValue,"beforeChange");
                     
                     __LINE__ = 1116;
                     _latestValue = newValue;
@@ -3175,7 +3175,7 @@
                   };
                   
                   __LINE__ = 1121;
-                  dependentObservable["notifySubscribers"](_latestValue);
+                  dependentObservable.notifySubscribers(_latestValue);
                   
                   __LINE__ = 1122;
                   _hasBeenEvaluated = true;
@@ -3186,7 +3186,7 @@
               function evaluatePossiblyAsync() {
                 try {
                   __LINE__ = 1089;
-                  var throttleEvaluationTimeout = dependentObservable['throttleEvaluation'];
+                  var throttleEvaluationTimeout = dependentObservable.throttleEvaluation;
                   
                   __LINE__ = 1090;
                   if (throttleEvaluationTimeout && throttleEvaluationTimeout >= 0){
@@ -3227,7 +3227,7 @@
               var _latestValue,
                   _hasBeenEvaluated = false,
                   options = prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options),
-                  disposeWhenNodeIsRemoved = (typeof options["disposeWhenNodeIsRemoved"] == "object")?options["disposeWhenNodeIsRemoved"] : null,
+                  disposeWhenNodeIsRemoved = (typeof options.disposeWhenNodeIsRemoved == "object")?options.disposeWhenNodeIsRemoved : null,
                   disposeWhenNodeIsRemovedCallback = null;
               
               __LINE__ = 1069;
@@ -3247,10 +3247,10 @@
                 ko.utils.domNodeDisposal.addDisposeCallback(disposeWhenNodeIsRemoved,disposeWhenNodeIsRemovedCallback);
                 
                 __LINE__ = 1072;
-                var existingDisposeWhenFunction = options["disposeWhen"];
+                var existingDisposeWhenFunction = options.disposeWhen;
                 
                 __LINE__ = 1073;
-                options["disposeWhen"] = function () {
+                options.disposeWhen = function () {
                   try {
                     __LINE__ = 1074;
                     return (!ko.utils.domNodeIsAttachedToDocument(disposeWhenNodeIsRemoved)) || ((typeof existingDisposeWhenFunction == "function") && existingDisposeWhenFunction());
@@ -3277,7 +3277,7 @@
               };
               
               __LINE__ = 1143;
-              dependentObservable.hasWriteFunction = typeof options["write"] === "function";
+              dependentObservable.hasWriteFunction = typeof options.write === "function";
               
               __LINE__ = 1144;
               dependentObservable.dispose = function () {
@@ -3296,10 +3296,10 @@
               ko.subscribable.call(dependentObservable);
               
               __LINE__ = 1151;
-              ko.utils.extend(dependentObservable,ko.dependentObservable['fn']);
+              ko.utils.extend(dependentObservable,ko.dependentObservable.fn);
               
               __LINE__ = 1154;
-              options['deferEvaluation'] !== true && evaluateImmediate();
+              options.deferEvaluation !== true && evaluateImmediate();
               
               __LINE__ = 1156;
               ko.exportProperty(dependentObservable,'dispose',dependentObservable.dispose);
@@ -3314,7 +3314,7 @@
           };
           
           __LINE__ = 1162;
-          ko.dependentObservable['fn'] =  {
+          ko.dependentObservable.fn =  {
             __ko_proto__ : ko.dependentObservable
           };
           
@@ -3383,7 +3383,7 @@
                       
                       __LINE__ = 1228;
                       visitorCallback(i);
-                    };
+                    }
                   } else {
                     __LINE__ = 1230;
                     for (var propertyName in rootObject){
@@ -4451,7 +4451,7 @@
               });
               
               __LINE__ = 1722;
-              ko.bindingProvider['instance'] = new ko.bindingProvider();
+              ko.bindingProvider.instance = new ko.bindingProvider();
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
@@ -4505,7 +4505,7 @@
                     try {
                       __LINE__ = 1804;
                       var bindingContextInstance = viewModelOrBindingContext && (viewModelOrBindingContext instanceof ko.bindingContext)?viewModelOrBindingContext : new ko.bindingContext(ko.utils.unwrapObservable(viewModelOrBindingContext)),
-                          viewModel = bindingContextInstance['$data'];
+                          viewModel = bindingContextInstance.$data;
                       
                       __LINE__ = 1812;
                       isRootNodeForBindingContext && ko.storedBindingContextForNode(node,bindingContextInstance);
@@ -4514,7 +4514,7 @@
                       var evaluatedBindings = (typeof bindings == "function")?bindings() : bindings;
                       
                       __LINE__ = 1816;
-                      parsedBindings = evaluatedBindings || ko.bindingProvider['instance']['getBindings'](node,bindingContextInstance);
+                      parsedBindings = evaluatedBindings || ko.bindingProvider.instance.getBindings(node,bindingContextInstance);
                       
                       __LINE__ = 1818;
                       if (parsedBindings){
@@ -4535,16 +4535,16 @@
                             binding && node.nodeType === 8 && validateThatBindingIsAllowedForVirtualElements(bindingKey);
                             
                             __LINE__ = 1827;
-                            if (binding && typeof binding["init"] == "function"){
+                            if (binding && typeof binding.init == "function"){
                               
                               __LINE__ = 1828;
-                              var handlerInitFn = binding["init"];
+                              var handlerInitFn = binding.init;
                               
                               __LINE__ = 1829;
                               var initResult = handlerInitFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
                               
                               __LINE__ = 1832;
-                              if (initResult && initResult['controlsDescendantBindings']){
+                              if (initResult && initResult.controlsDescendantBindings){
                                 
                                 __LINE__ = 1833;
                                 if (bindingHandlerThatControlsDescendantBindings !== undefined){
@@ -4571,15 +4571,15 @@
                             var binding = ko.bindingHandlers[bindingKey];
                             
                             __LINE__ = 1846;
-                            if (binding && typeof binding["update"] == "function"){
+                            if (binding && typeof binding.update == "function"){
                               
                               __LINE__ = 1847;
-                              var handlerUpdateFn = binding["update"];
+                              var handlerUpdateFn = binding.update;
                               
                               __LINE__ = 1848;
                               handlerUpdateFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
                             };
-                          };
+                          }
                         };
                       };
                     } catch(e){
@@ -4606,7 +4606,7 @@
                   isElement && ko.virtualElements.normaliseVirtualElementDomStructure(nodeVerified);
                   
                   __LINE__ = 1770;
-                  var shouldApplyBindings = (isElement && isRootNodeForBindingContext) || ko.bindingProvider['instance']['nodeHasBindings'](nodeVerified);
+                  var shouldApplyBindings = (isElement && isRootNodeForBindingContext) || ko.bindingProvider.instance.nodeHasBindings(nodeVerified);
                   
                   __LINE__ = 1773;
                   shouldApplyBindings && (shouldBindDescendants = applyBindingsToNodeInternal(nodeVerified,null,viewModel,isRootNodeForBindingContext).shouldBindDescendants);
@@ -4657,29 +4657,29 @@
               ko.bindingContext = function (dataItem,parentBindingContext) {
                 try {
                   __LINE__ = 1729;
-                  this['$data'] = dataItem;
+                  this.$data = dataItem;
                   
                   __LINE__ = 1730;
                   if (parentBindingContext){
                     
                     __LINE__ = 1731;
-                    this['$parent'] = parentBindingContext['$data'];
+                    this.$parent = parentBindingContext.$data;
                     
                     __LINE__ = 1732;
-                    this['$parents'] = (parentBindingContext['$parents'] || []).slice(0);
+                    this.$parents = (parentBindingContext.$parents || []).slice(0);
                     
                     __LINE__ = 1733;
-                    this['$parents'].unshift(this['$parent']);
+                    this.$parents.unshift(this.$parent);
                     
                     __LINE__ = 1734;
-                    this['$root'] = parentBindingContext['$root'];
+                    this.$root = parentBindingContext.$root;
                   } else {
                     
                     __LINE__ = 1736;
-                    this['$parents'] = [];
+                    this.$parents = [];
                     
                     __LINE__ = 1737;
-                    this['$root'] = dataItem;
+                    this.$root = dataItem;
                   };
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -4687,7 +4687,7 @@
               };
               
               __LINE__ = 1740;
-              ko.bindingContext.prototype['createChildContext'] = function (dataItem) {
+              ko.bindingContext.prototype.createChildContext = function (dataItem) {
                 try {
                   __LINE__ = 1741;
                   return new ko.bindingContext(dataItem,this);
@@ -4795,7 +4795,7 @@
                   __LINE__ = 1904;
                   var context = ko.contextFor(node);
                   __LINE__ = 1905;
-                  return context?context['$data'] : undefined;
+                  return context?context.$data : undefined;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -4861,7 +4861,7 @@
           });
           
           __LINE__ = 1931;
-          ko.bindingHandlers['event'] =  {
+          ko.bindingHandlers.event =  {
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel) {
               try {
                 __LINE__ = 1933;
@@ -4958,7 +4958,7 @@
           };
           
           __LINE__ = 1972;
-          ko.bindingHandlers['submit'] =  {
+          ko.bindingHandlers.submit =  {
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel) {
               try {
                 __LINE__ = 1974;
@@ -5008,7 +5008,7 @@
           };
           
           __LINE__ = 1992;
-          ko.bindingHandlers['visible'] =  {
+          ko.bindingHandlers.visible =  {
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 1994;
@@ -5034,7 +5034,7 @@
           };
           
           __LINE__ = 2003;
-          ko.bindingHandlers['enable'] =  {
+          ko.bindingHandlers.enable =  {
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2005;
@@ -5057,7 +5057,7 @@
           };
           
           __LINE__ = 2013;
-          ko.bindingHandlers['disable'] =  {
+          ko.bindingHandlers.disable =  {
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2015;
@@ -5077,7 +5077,7 @@
           };
           
           __LINE__ = 2032;
-          ko.bindingHandlers['value'] =  {
+          ko.bindingHandlers.value =  {
             'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2035;
@@ -5239,7 +5239,7 @@
           };
           
           __LINE__ = 2100;
-          ko.bindingHandlers['options'] =  {
+          ko.bindingHandlers.options =  {
             'update' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2102;
@@ -5411,10 +5411,10 @@
           };
           
           __LINE__ = 2182;
-          ko.bindingHandlers['options'].optionValueDomDataKey = '__ko.optionValueDomData__';
+          ko.bindingHandlers.options.optionValueDomDataKey = '__ko.optionValueDomData__';
           
           __LINE__ = 2184;
-          ko.bindingHandlers['selectedOptions'] =  {
+          ko.bindingHandlers.selectedOptions =  {
             getSelectedValuesFromSelectNode : function (selectNode) {
               try {
                 __LINE__ = 2186;
@@ -5512,7 +5512,7 @@
           };
           
           __LINE__ = 2223;
-          ko.bindingHandlers['text'] =  {
+          ko.bindingHandlers.text =  {
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2225;
@@ -5524,7 +5524,7 @@
           };
           
           __LINE__ = 2229;
-          ko.bindingHandlers['html'] =  {
+          ko.bindingHandlers.html =  {
             'init' : function () {
               try {
                 __LINE__ = 2232;
@@ -5549,7 +5549,7 @@
           };
           
           __LINE__ = 2240;
-          ko.bindingHandlers['css'] =  {
+          ko.bindingHandlers.css =  {
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2242;
@@ -5575,7 +5575,7 @@
           };
           
           __LINE__ = 2252;
-          ko.bindingHandlers['style'] =  {
+          ko.bindingHandlers.style =  {
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2254;
@@ -5601,7 +5601,7 @@
           };
           
           __LINE__ = 2264;
-          ko.bindingHandlers['uniqueName'] =  {
+          ko.bindingHandlers.uniqueName =  {
             'init' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2266;
@@ -5624,10 +5624,10 @@
           };
           
           __LINE__ = 2277;
-          ko.bindingHandlers['uniqueName'].currentIndex = 0;
+          ko.bindingHandlers.uniqueName.currentIndex = 0;
           
           __LINE__ = 2279;
-          ko.bindingHandlers['checked'] =  {
+          ko.bindingHandlers.checked =  {
             'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2281;
@@ -5741,7 +5741,7 @@
           };
           
           __LINE__ = 2334;
-          ko.bindingHandlers['attr'] =  {
+          ko.bindingHandlers.attr =  {
             'update' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2336;
@@ -5774,7 +5774,7 @@
           };
           
           __LINE__ = 2353;
-          ko.bindingHandlers['hasfocus'] =  {
+          ko.bindingHandlers.hasfocus =  {
             'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2355;
@@ -5873,7 +5873,7 @@
           };
           
           __LINE__ = 2382;
-          ko.bindingHandlers['with'] =  {
+          ko.bindingHandlers.with =  {
             makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2384;
@@ -5914,13 +5914,13 @@
           };
           
           __LINE__ = 2393;
-          ko.jsonExpressionRewriting.bindingRewriteValidators['with'] = false;
+          ko.jsonExpressionRewriting.bindingRewriteValidators.with = false;
           
           __LINE__ = 2394;
-          ko.virtualElements.allowedBindings['with'] = true;
+          ko.virtualElements.allowedBindings.with = true;
           
           __LINE__ = 2397;
-          ko.bindingHandlers['if'] =  {
+          ko.bindingHandlers.if =  {
             makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2399;
@@ -5958,13 +5958,13 @@
           };
           
           __LINE__ = 2408;
-          ko.jsonExpressionRewriting.bindingRewriteValidators['if'] = false;
+          ko.jsonExpressionRewriting.bindingRewriteValidators.if = false;
           
           __LINE__ = 2409;
-          ko.virtualElements.allowedBindings['if'] = true;
+          ko.virtualElements.allowedBindings.if = true;
           
           __LINE__ = 2412;
-          ko.bindingHandlers['ifnot'] =  {
+          ko.bindingHandlers.ifnot =  {
             makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2414;
@@ -6002,13 +6002,13 @@
           };
           
           __LINE__ = 2423;
-          ko.jsonExpressionRewriting.bindingRewriteValidators['ifnot'] = false;
+          ko.jsonExpressionRewriting.bindingRewriteValidators.ifnot = false;
           
           __LINE__ = 2424;
-          ko.virtualElements.allowedBindings['ifnot'] = true;
+          ko.virtualElements.allowedBindings.ifnot = true;
           
           __LINE__ = 2428;
-          ko.bindingHandlers['foreach'] =  {
+          ko.bindingHandlers.foreach =  {
             makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2430;
@@ -6061,10 +6061,10 @@
           };
           
           __LINE__ = 2455;
-          ko.jsonExpressionRewriting.bindingRewriteValidators['foreach'] = false;
+          ko.jsonExpressionRewriting.bindingRewriteValidators.foreach = false;
           
           __LINE__ = 2456;
-          ko.virtualElements.allowedBindings['foreach'] = true;
+          ko.virtualElements.allowedBindings.foreach = true;
           
           __LINE__ = 2457;
           ko.exportSymbol('ko.allowedVirtualElementBindings',ko.virtualElements.allowedBindings);
@@ -6073,7 +6073,7 @@
           ko.templateEngine = function (){};
           
           __LINE__ = 2485;
-          ko.templateEngine.prototype['renderTemplateSource'] = function (templateSource,bindingContext,options) {
+          ko.templateEngine.prototype.renderTemplateSource = function (templateSource,bindingContext,options) {
             try {
               __LINE__ = 2486;
               throw "Override renderTemplateSource";
@@ -6083,7 +6083,7 @@
           };
           
           __LINE__ = 2489;
-          ko.templateEngine.prototype['createJavaScriptEvaluatorBlock'] = function (script) {
+          ko.templateEngine.prototype.createJavaScriptEvaluatorBlock = function (script) {
             try {
               __LINE__ = 2490;
               throw "Override createJavaScriptEvaluatorBlock";
@@ -6093,7 +6093,7 @@
           };
           
           __LINE__ = 2493;
-          ko.templateEngine.prototype['makeTemplateSource'] = function (template) {
+          ko.templateEngine.prototype.makeTemplateSource = function (template) {
             try {
               __LINE__ = 2495;
               if (typeof template == "string"){
@@ -6118,22 +6118,22 @@
           };
           
           __LINE__ = 2507;
-          ko.templateEngine.prototype['renderTemplate'] = function (template,bindingContext,options) {
+          ko.templateEngine.prototype.renderTemplate = function (template,bindingContext,options) {
             try {
               __LINE__ = 2508;
-              var templateSource = this['makeTemplateSource'](template);
+              var templateSource = this.makeTemplateSource(template);
               __LINE__ = 2509;
-              return this['renderTemplateSource'](templateSource,bindingContext,options);
+              return this.renderTemplateSource(templateSource,bindingContext,options);
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2512;
-          ko.templateEngine.prototype['isTemplateRewritten'] = function (template) {
+          ko.templateEngine.prototype.isTemplateRewritten = function (template) {
             try {
               __LINE__ = 2514;
-              if (this['allowTemplateRewriting'] === false){
+              if (this.allowTemplateRewriting === false){
                 __LINE__ = 2515;
                 return true;
               };
@@ -6144,24 +6144,24 @@
                 return true;
               };
               __LINE__ = 2521;
-              return this['makeTemplateSource'](template)['data']("isRewritten");
+              return this.makeTemplateSource(template).data("isRewritten");
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 2524;
-          ko.templateEngine.prototype['rewriteTemplate'] = function (template,rewriterCallback) {
+          ko.templateEngine.prototype.rewriteTemplate = function (template,rewriterCallback) {
             try {
               __LINE__ = 2525;
-              var templateSource = this['makeTemplateSource'](template),
-                  rewritten = rewriterCallback(templateSource['text']());
+              var templateSource = this.makeTemplateSource(template),
+                  rewritten = rewriterCallback(templateSource.text());
               
               __LINE__ = 2527;
-              templateSource['text'](rewritten);
+              templateSource.text(rewritten);
               
               __LINE__ = 2528;
-              templateSource['data']("isRewritten",true);
+              templateSource.data("isRewritten",true);
               
               __LINE__ = 2532;
               if (typeof template == "string"){
@@ -6197,7 +6197,7 @@
             return (function() { return { "+rewrittenDataBindAttributeValue+" } })() \
         })";
                   __LINE__ = 2570;
-                  return templateEngine['createJavaScriptEvaluatorBlock'](applyBindingsToNextSiblingScript)+tagToRetain;
+                  return templateEngine.createJavaScriptEvaluatorBlock(applyBindingsToNextSiblingScript)+tagToRetain;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -6211,7 +6211,7 @@
                   for (var i = 0;i<keyValueArray.length;i ++ ){
                     
                     __LINE__ = 2546;
-                    var key = keyValueArray[i]['key'];
+                    var key = keyValueArray[i].key;
                     
                     __LINE__ = 2547;
                     if (allValidators.hasOwnProperty(key)){
@@ -6223,7 +6223,7 @@
                       if (typeof validator === "function"){
                         
                         __LINE__ = 2551;
-                        var possibleErrorMessage = validator(keyValueArray[i]['value']);
+                        var possibleErrorMessage = validator(keyValueArray[i].value);
                         
                         __LINE__ = 2552;
                         if (possibleErrorMessage){
@@ -6337,7 +6337,7 @@
               };
               
               __LINE__ = 2627;
-              ko.templateSources.domElement.prototype['text'] = function () {
+              ko.templateSources.domElement.prototype.text = function () {
                 try {
                   __LINE__ = 2628;
                   if (arguments.length == 0){
@@ -6359,7 +6359,7 @@
               };
               
               __LINE__ = 2639;
-              ko.templateSources.domElement.prototype['data'] = function (key) {
+              ko.templateSources.domElement.prototype.data = function (key) {
                 try {
                   __LINE__ = 2640;
                   if (arguments.length === 1){
@@ -6391,7 +6391,7 @@
               ko.templateSources.anonymousTemplate.prototype = new ko.templateSources.domElement();
               
               __LINE__ = 2654;
-              ko.templateSources.anonymousTemplate.prototype['text'] = function () {
+              ko.templateSources.anonymousTemplate.prototype.text = function () {
                 try {
                   __LINE__ = 2655;
                   if (arguments.length == 0){
@@ -6448,13 +6448,13 @@
                   options = options || {};
                   
                   __LINE__ = 2713;
-                  var templateEngineToUse = (options['templateEngine'] || _templateEngine);
+                  var templateEngineToUse = (options.templateEngine || _templateEngine);
                   
                   __LINE__ = 2714;
                   ko.templateRewriting.ensureTemplateIsRewritten(template,templateEngineToUse);
                   
                   __LINE__ = 2715;
-                  var renderedNodesArray = templateEngineToUse['renderTemplate'](template,bindingContext,options);
+                  var renderedNodesArray = templateEngineToUse.renderTemplate(template,bindingContext,options);
                   
                   __LINE__ = 2718;
                   if ((typeof renderedNodesArray.length != "number") || (renderedNodesArray.length>0 && typeof renderedNodesArray[0].nodeType != "number")){
@@ -6501,7 +6501,7 @@
                     ko.activateBindingsOnTemplateRenderedNodes(renderedNodesArray,bindingContext);
                     
                     __LINE__ = 2739;
-                    options['afterRender'] && options['afterRender'](renderedNodesArray,bindingContext['$data']);
+                    options.afterRender && options.afterRender(renderedNodesArray,bindingContext.$data);
                   };
                   __LINE__ = 2742;
                   return renderedNodesArray;
@@ -6594,7 +6594,7 @@
                   options = options || {};
                   
                   __LINE__ = 2747;
-                  if ((options['templateEngine'] || _templateEngine) == undefined){
+                  if ((options.templateEngine || _templateEngine) == undefined){
                     __LINE__ = 2748;
                     throw "Set a template engine before calling renderTemplate";
                   };
@@ -6625,7 +6625,7 @@
                       try {
                         __LINE__ = 2760;
                         var bindingContext = (dataOrBindingContext && (dataOrBindingContext instanceof ko.bindingContext))?dataOrBindingContext : new ko.bindingContext(ko.utils.unwrapObservable(dataOrBindingContext)),
-                            templateName = typeof (template) == 'function'?template(bindingContext['$data']) : template,
+                            templateName = typeof (template) == 'function'?template(bindingContext.$data) : template,
                             renderedNodesArray = executeTemplate(targetNodeOrNodeArray,renderMode,templateName,bindingContext,options);
                         
                         __LINE__ = 2768;
@@ -6667,7 +6667,7 @@
                   var createInnerBindingContext = function (arrayValue) {
                         try {
                           __LINE__ = 2786;
-                          return parentBindingContext['createChildContext'](ko.utils.unwrapObservable(arrayValue));
+                          return parentBindingContext.createChildContext(ko.utils.unwrapObservable(arrayValue));
                         } catch(e){
                           Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
@@ -6681,7 +6681,7 @@
                           ko.activateBindingsOnTemplateRenderedNodes(addedNodesArray,bindingContext);
                           
                           __LINE__ = 2794;
-                          options['afterRender'] && options['afterRender'](addedNodesArray,bindingContext['$data']);
+                          options.afterRender && options.afterRender(addedNodesArray,bindingContext.$data);
                         } catch(e){
                           Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
@@ -6700,7 +6700,7 @@
                           function (item) {
                             try {
                               __LINE__ = 2804;
-                              return options['includeDestroyed'] || item === undefined || item === null || !ko.utils.unwrapObservable(item['_destroy']);
+                              return options.includeDestroyed || item === undefined || item === null || !ko.utils.unwrapObservable(item._destroy);
                             } catch(e){
                               Runtime.exceptionHandler(__LINE__, __FILE__, e);
                             }
@@ -6733,7 +6733,7 @@
               var templateSubscriptionDomDataKey = '__ko__templateSubscriptionDomDataKey__';
               
               __LINE__ = 2824;
-              ko.bindingHandlers['template'] =  {
+              ko.bindingHandlers.template =  {
                 'init' : function (element,valueAccessor) {
                   try {
                     __LINE__ = 2827;
@@ -6822,13 +6822,13 @@
               };
               
               __LINE__ = 2875;
-              ko.jsonExpressionRewriting.bindingRewriteValidators['template'] = function (bindingValue) {
+              ko.jsonExpressionRewriting.bindingRewriteValidators.template = function (bindingValue) {
                 try {
                   __LINE__ = 2876;
                   var parsedBindingValue = ko.jsonExpressionRewriting.parseObjectLiteral(bindingValue);
                   
                   __LINE__ = 2878;
-                  if ((parsedBindingValue.length == 1) && parsedBindingValue[0]['unknown']){
+                  if ((parsedBindingValue.length == 1) && parsedBindingValue[0].unknown){
                     __LINE__ = 2879;
                     return null;
                   };
@@ -6846,7 +6846,7 @@
               };
               
               __LINE__ = 2886;
-              ko.virtualElements.allowedBindings['template'] = true;
+              ko.virtualElements.allowedBindings.template = true;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
@@ -7286,22 +7286,22 @@
                   if (!isFirstExecution){
                     
                     __LINE__ = 3107;
-                    if (options['afterAdd']){
+                    if (options.afterAdd){
                       __LINE__ = 3108;
                       for (var i = 0;i<nodesAdded.length;i ++ ){
                         
                         __LINE__ = 3109;
-                        options['afterAdd'](nodesAdded[i].element,nodesAdded[i].index,nodesAdded[i].value);
-                      };
+                        options.afterAdd(nodesAdded[i].element,nodesAdded[i].index,nodesAdded[i].value);
+                      }
                     };
                     
                     __LINE__ = 3111;
-                    if (options['beforeRemove']){
+                    if (options.beforeRemove){
                       
                       __LINE__ = 3112;
                       for (var i = 0;i<nodesToDelete.length;i ++ ){
                         __LINE__ = 3113;
-                        options['beforeRemove'](nodesToDelete[i].element,nodesToDelete[i].index,nodesToDelete[i].value);
+                        options.beforeRemove(nodesToDelete[i].element,nodesToDelete[i].index,nodesToDelete[i].value);
                       };
                       
                       __LINE__ = 3114;
@@ -7338,7 +7338,7 @@
           ko.nativeTemplateEngine = function () {
             try {
               __LINE__ = 3129;
-              this['allowTemplateRewriting'] = false;
+              this.allowTemplateRewriting = false;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
@@ -7348,7 +7348,7 @@
           ko.nativeTemplateEngine.prototype = new ko.templateEngine();
           
           __LINE__ = 3133;
-          ko.nativeTemplateEngine.prototype['renderTemplateSource'] = function (templateSource,bindingContext,options) {
+          ko.nativeTemplateEngine.prototype.renderTemplateSource = function (templateSource,bindingContext,options) {
             try {
               __LINE__ = 3134;
               var templateText = templateSource.text();
@@ -7377,7 +7377,7 @@
                   function executeTemplate(compiledTemplate,data,jQueryTemplateOptions) {
                     try {
                       __LINE__ = 3167;
-                      return jQuery['tmpl'](compiledTemplate,data,jQueryTemplateOptions);
+                      return jQuery.tmpl(compiledTemplate,data,jQueryTemplateOptions);
                     } catch(e){
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
@@ -7397,7 +7397,7 @@
                   var jQueryTmplVersion = this.jQueryTmplVersion = function () {
                         try {
                           __LINE__ = 3148;
-                          if ((typeof (jQuery) == "undefined") || !(jQuery['tmpl'])){
+                          if ((typeof (jQuery) == "undefined") || !(jQuery.tmpl)){
                             __LINE__ = 3149;
                             return 0;
                           };
@@ -7405,7 +7405,7 @@
                           try {
                             
                             __LINE__ = 3152;
-                            if (jQuery['tmpl']['tag']['tmpl']['open'].toString().indexOf('__') >= 0){
+                            if (jQuery.tmpl.tag.tmpl.open.toString().indexOf('__') >= 0){
                               __LINE__ = 3154;
                               return 2;
                             };
@@ -7420,7 +7420,7 @@
                       }();
                   
                   __LINE__ = 3170;
-                  this['renderTemplateSource'] = function (templateSource,bindingContext,options) {
+                  this.renderTemplateSource = function (templateSource,bindingContext,options) {
                     try {
                       __LINE__ = 3171;
                       options = options || {};
@@ -7429,7 +7429,7 @@
                       ensureHasReferencedJQueryTemplates();
                       
                       __LINE__ = 3175;
-                      var precompiled = templateSource['data']('precompiled');
+                      var precompiled = templateSource.data('precompiled');
                       
                       __LINE__ = 3176;
                       if (!precompiled){
@@ -7441,24 +7441,24 @@
                         templateText = "{{ko_with $item.koBindingContext}}"+templateText+"{{/ko_with}}";
                         
                         __LINE__ = 3181;
-                        precompiled = jQuery['template'](null,templateText);
+                        precompiled = jQuery.template(null,templateText);
                         
                         __LINE__ = 3182;
-                        templateSource['data']('precompiled',precompiled);
+                        templateSource.data('precompiled',precompiled);
                       };
                       
                       __LINE__ = 3185;
                       var data = [bindingContext['$data']],
-                          jQueryTemplateOptions = jQuery['extend']( {
+                          jQueryTemplateOptions = jQuery.extend( {
                             'koBindingContext' : bindingContext
-                          },options['templateOptions']),
+                          },options.templateOptions),
                           resultNodes = executeTemplate(precompiled,data,jQueryTemplateOptions);
                       
                       __LINE__ = 3189;
-                      resultNodes['appendTo'](document.createElement("div"));
+                      resultNodes.appendTo(document.createElement("div"));
                       
                       __LINE__ = 3190;
-                      jQuery['fragments'] = {};
+                      jQuery.fragments = {};
                       __LINE__ = 3191;
                       return resultNodes;
                     } catch(e){
@@ -7467,7 +7467,7 @@
                   };
                   
                   __LINE__ = 3194;
-                  this['createJavaScriptEvaluatorBlock'] = function (script) {
+                  this.createJavaScriptEvaluatorBlock = function (script) {
                     try {
                       __LINE__ = 3195;
                       return "{{ko_code ((function() { return "+script+" })()) }}";
@@ -7477,7 +7477,7 @@
                   };
                   
                   __LINE__ = 3198;
-                  this['addTemplate'] = function (templateName,templateMarkup) {
+                  this.addTemplate = function (templateName,templateMarkup) {
                     try {
                       __LINE__ = 3199;
                       document.write("<script type='text/html' id='"+templateName+"'>"+templateMarkup+"</script>");
@@ -7490,12 +7490,12 @@
                   if (jQueryTmplVersion>0){
                     
                     __LINE__ = 3203;
-                    jQuery['tmpl']['tag']['ko_code'] =  {
+                    jQuery.tmpl.tag.ko_code =  {
                       open : "__.push($1 || '');"
                     };
                     
                     __LINE__ = 3206;
-                    jQuery['tmpl']['tag']['ko_with'] =  {
+                    jQuery.tmpl.tag.ko_with =  {
                       open : "with($1) {",
                       close : "} "
                     };

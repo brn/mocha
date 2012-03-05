@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
+      var __FILE__ = "/Users/aono_taketoshi/.mocha/module/iterators.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'];
       
       __LINE__ = 1;
       !function () {
@@ -1636,14 +1636,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_of_test.js'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./for_of_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'],
           iterator = _mochaLocalTmp0.iterator,
           _mochaLocalTmp9 =  {
             arr : [],
@@ -1945,7 +1945,7 @@
         while ((i = _mochaLocalTmp10.__nothrowNext__())){
           __LINE__ = 50;
           ret.push(i);
-        };
+        }
       } else {
         __LINE__ = 49;
         Runtime.exceptionHandler(49,'./for_of_test.js','for of statement expect iterator or generator object.');
@@ -1979,7 +1979,7 @@
         while ((x = _mochaLocalTmp11.__nothrowNext__())){
           __LINE__ = 59;
           ret.push(x);
-        };
+        }
       } else {
         __LINE__ = 58;
         Runtime.exceptionHandler(58,'./for_of_test.js','for of statement expect iterator or generator object.');
@@ -2024,7 +2024,7 @@
         while ((i = _mochaLocalTmp12.__nothrowNext__())){
           __LINE__ = 72;
           ret.push(i);
-        };
+        }
       } else {
         __LINE__ = 71;
         Runtime.exceptionHandler(71,'./for_of_test.js','for of statement expect iterator or generator object.');

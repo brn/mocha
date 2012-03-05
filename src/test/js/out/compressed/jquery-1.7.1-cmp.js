@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/jquery-1.7.1.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/jquery-1.7.1.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./jquery-1.7.1.js'] = {};
@@ -971,7 +971,7 @@
                   for (key in s.converters){
                     __LINE__ = 7777;
                     typeof key === "string" && (converters[key.toLowerCase()] = s.converters[key]);
-                  };
+                  }
                 };
                 
                 __LINE__ = 7783;
@@ -1071,7 +1071,7 @@
                     __LINE__ = 7710;
                     break;
                   };
-                };
+                }
               };
               
               __LINE__ = 7716;
@@ -1130,7 +1130,7 @@
                   
                   __LINE__ = 7653;
                   buildParams(prefix+"["+name+"]",obj[name],traditional,add);
-                };
+                }
               } else {
                 __LINE__ = 7658;
                 add(prefix,obj);
@@ -1281,7 +1281,7 @@
                     
                     __LINE__ = 6782;
                     extra === "margin"?val += parseFloat(jQuery.css(elem,extra+which[i])) || 0 : val -= parseFloat(jQuery.css(elem,"border"+which[i]+"Width")) || 0;
-                  };
+                  }
                 };
                 __LINE__ = 6789;
                 return val+"px";
@@ -1309,7 +1309,7 @@
                   
                   __LINE__ = 6808;
                   extra === "margin" && (val += parseFloat(jQuery.css(elem,extra+which[i])) || 0);
-                };
+                }
               };
               __LINE__ = 6813;
               return val+"px";
@@ -1478,7 +1478,7 @@
                 while (list.length){
                   __LINE__ = 5634;
                   safeFrag.createElement(list.pop());
-                };
+                }
               };
               __LINE__ = 5639;
               return safeFrag;
@@ -2148,7 +2148,7 @@
                               __LINE__ = 378;
                               copy !== undefined && (target[name] = copy);
                             };
-                          };
+                          }
                         };
                       };
                       __LINE__ = 385;
@@ -3746,7 +3746,7 @@
                   
                   __LINE__ = 1508;
                   support[i+"Bubbles"] = isSupported;
-                };
+                }
               };
               
               __LINE__ = 1512;
@@ -5701,7 +5701,7 @@
                   __LINE__ = 2825;
                   var attrs = elem.attributes || {};
                   __LINE__ = 2826;
-                  return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs["class"] || {}).value)));
+                  return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs.class || {}).value)));
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -7570,7 +7570,7 @@
                             
                             __LINE__ = 3933;
                             set = posProcess(selector,set,seed);
-                          };
+                          }
                         };
                       } else {
                         if (!seed && parts.length>1 && context.nodeType === 9 && !contextXML && Expr.match.ID.test(parts[0]) && !Expr.match.ID.test(parts[parts.length-1])){
@@ -7636,13 +7636,13 @@
                           for (i = 0;checkSet[i] != null;i ++ ){
                             __LINE__ = 4002;
                             checkSet[i] && (checkSet[i] === true || checkSet[i].nodeType === 1 && Sizzle.contains(context,checkSet[i])) && results.push(set[i]);
-                          };
+                          }
                         } else {
                           __LINE__ = 4007;
                           for (i = 0;checkSet[i] != null;i ++ ){
                             __LINE__ = 4009;
                             checkSet[i] && checkSet[i].nodeType === 1 && results.push(set[i]);
-                          };
+                          }
                         };
                       } else {
                         __LINE__ = 4015;
@@ -7684,7 +7684,7 @@
                         
                         __LINE__ = 4034;
                         results[i] === results[i-1] && results.splice(i -- ,1);
-                      };
+                      }
                     };
                   };
                   __LINE__ = 4040;
@@ -7868,7 +7868,7 @@
                                 anyFound = true;
                               };
                             };
-                          };
+                          }
                         };
                         
                         __LINE__ = 4146;
@@ -8851,18 +8851,20 @@
                     if (toString.call(array) === "[object Array]"){
                       __LINE__ = 4786;
                       [].push.apply(ret,array);
-                    } else if (typeof array.length === "number"){
-                      __LINE__ = 4790;
-                      for (var l = array.length;i<l;i ++ ){
-                        
-                        __LINE__ = 4791;
-                        ret.push(array[i]);
-                      };
                     } else {
-                      __LINE__ = 4795;
-                      for (;array[i];i ++ ){
-                        __LINE__ = 4796;
-                        ret.push(array[i]);
+                      if (typeof array.length === "number"){
+                        __LINE__ = 4790;
+                        for (var l = array.length;i<l;i ++ ){
+                          
+                          __LINE__ = 4791;
+                          ret.push(array[i]);
+                        }
+                      } else {
+                        __LINE__ = 4795;
+                        for (;array[i];i ++ ){
+                          __LINE__ = 4796;
+                          ret.push(array[i]);
+                        };
                       };
                     };
                     __LINE__ = 4801;

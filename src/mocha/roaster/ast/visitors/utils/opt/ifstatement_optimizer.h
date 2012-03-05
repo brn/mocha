@@ -32,7 +32,7 @@ class IFStmtOptimizer : public Processor {
   void ToConditional(AstNode* then_stmt, AstNode* else_stmt);
   int IsConvertableToExpression(AstNode* then_stmt, AstNode* else_stmt);
   AstNode* ToExpression(AstNode* node);
-  bool IsOptimizableBlock(AstNode* block);
+  bool IsOptimizableBlock(AstNode* block, int type);
   AstNode* GetReturnValue(AstNode* node);
   bool CheckAssoc(AstNode* node);
   CompileInfo* info_;

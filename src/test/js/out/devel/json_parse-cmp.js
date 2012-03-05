@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/json_parse.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json_parse.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./json_parse.js'] = {};
@@ -973,8 +973,7 @@
                                 
                                 __LINE__ = 172;
                                 uffff = uffff*16+hex;
-                              };
-                              
+                              }
                               __LINE__ = 174;
                               string += String.fromCharCode(uffff);
                             } else if (typeof escapee[ch] === 'string'){
@@ -988,7 +987,7 @@
                             __LINE__ = 181;
                             string += ch;
                           };
-                        };
+                        }
                       };
                       
                       __LINE__ = 185;
@@ -1267,7 +1266,7 @@
                             __LINE__ = 336;
                             v !== undefined?value[k] = v : delete value[k];
                           };
-                        };
+                        }
                       };
                       __LINE__ = 343;
                       return reviver.call(holder,key,value);

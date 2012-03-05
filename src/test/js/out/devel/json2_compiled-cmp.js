@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/json2_compiled.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./json2_compiled.js'] = {};
@@ -859,7 +859,7 @@
                     for (c += ".";b(g) && a >= "0" && a <= "9";){
                       __LINE__ = 1;
                       c += a;
-                    };
+                    }
                   };
                   
                   __LINE__ = 1;
@@ -927,8 +927,7 @@
                             
                             __LINE__ = 1;
                             e = e*16+c;
-                          };
-                          
+                          }
                           __LINE__ = 1;
                           d += String.fromCharCode(e);
                         } else if (typeof m[a] === "string"){
@@ -942,7 +941,7 @@
                         __LINE__ = 1;
                         d += a;
                       };
-                    };
+                    }
                   };
                   
                   __LINE__ = 1;
@@ -1012,7 +1011,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 139494104;
+                      __LINE__ = 4324031776;
                       a : 
                       {
                         
@@ -1088,7 +1087,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 139510448;
+                      __LINE__ = 4324058832;
                       a : 
                       {
                         
@@ -1202,7 +1201,7 @@
                         for (c in d){
                           __LINE__ = 1;
                           ({}).hasOwnProperty.call(d,c) && (e = p(d,c), e !== void 0?d[c] = e : delete d[c]);
-                        };
+                        }
                       };
                       __LINE__ = 1;
                       return f.call(a,b,d);

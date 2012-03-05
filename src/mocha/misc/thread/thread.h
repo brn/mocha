@@ -13,15 +13,15 @@ namespace mocha {
 class Thread{
  public :
   typedef void* (*pThreadStartFunc) ( void* param );
-  Thread ();
-  ~Thread ();
+  Thread();
+  ~Thread();
   bool Create ( pThreadStartFunc fn , void* param );
   int Detach();
-  void Cancel ();
-  bool Join ();
-  bool IsJoinable ();
-  static ThreadId GetThreadId ();
-  static void Exit ();
+  void Cancel();
+  bool Join();
+  bool IsJoinable();
+  static ThreadId GetThreadId();
+  static void Exit();
  private :
   PTR_IMPL;
 };

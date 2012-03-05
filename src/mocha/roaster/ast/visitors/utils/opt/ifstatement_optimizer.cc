@@ -12,9 +12,12 @@
 
 namespace mocha {
 
-bool IFStmtOptimizer::IsOptimizableBlock(AstNode* block) {
+bool IFStmtOptimizer::IsOptimizableBlock(AstNode* block, int type) {
   if (block->node_type() == AstNode::kBlockStmt) {
-    if (block->child_length() == 1) {
+    if (block->child_length() == 1 ) {
+      if (type == kElse && block->first_child()->node_type() == AstNode::kIFStmt) {
+        return false;
+      }
       return true;
     }
   }
@@ -84,10 +87,10 @@ void IFStmtOptimizer::DetermineOptimizeType() {
 }
 
 int IFStmtOptimizer::IsConvertableToExpression(AstNode* then_stmt, AstNode* else_stmt) {
-  if (IsOptimizableBlock(then_stmt)) {
+  if (IsOptimizableBlock(then_stmt, kThen)) {
     return kNone;
   }
-  if (IsOptimizableBlock(else_stmt)) {
+  if (IsOptimizableBlock(else_stmt, kElse)) {
     return kNone;
   }
   if (else_stmt->node_type() != AstNode::kIFStmt) {
@@ -114,7 +117,7 @@ int IFStmtOptimizer::IsConvertableToExpression(AstNode* then_stmt, AstNode* else
 }
 
 void IFStmtOptimizer::OptimizeBlock(AstNode* block, int type) {
-  if (IsOptimizableBlock(block)) {
+  if (IsOptimizableBlock(block, type)) {
     AstNode* insert = block->first_child();
     if (type == kThen) {
       stmt_->set_then_statement(insert);

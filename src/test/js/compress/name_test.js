@@ -41,3 +41,16 @@ Tuple ( ...args )-> {
   return ret;
 }
 Record( member ) -> Runtime.createRecord( member );
+var tmp = 200;
+if ( tmp ) {
+  b();
+  b();
+} else {
+  if ( tmp ) {
+    b();
+    b();
+  } else {
+    b();
+    b();
+  }
+}

@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
+      var __FILE__ = "/Users/aono_taketoshi/.mocha/module/iterators.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'];
       
       __LINE__ = 1;
       !function () {
@@ -1636,14 +1636,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/array_comprehensions_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/array_comprehensions_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./array_comprehensions_test.js'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./array_comprehensions_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../.mocha/module/iterators.js'],
           items = _mochaLocalTmp0.items,
           testTarget =  {
             value1 : 100,
@@ -1725,7 +1725,7 @@
             while ((prop = _mochaLocalTmp4.__nothrowNext__())){
               __LINE__ = 19;
               _mochaLocalTmp3.push(prop);
-            };
+            }
           } else {
             __LINE__ = 19;
             Runtime.exceptionHandler(19,'./array_comprehensions_test.js','for of statement expect iterator or generator object.');
@@ -1819,7 +1819,7 @@
             while ((prop = _mochaLocalTmp8.__nothrowNext__())){
               __LINE__ = 34;
               prop[1] === 200 && _mochaLocalTmp7.push(prop);
-            };
+            }
           } else {
             __LINE__ = 34;
             Runtime.exceptionHandler(34,'./array_comprehensions_test.js','for of statement expect iterator or generator object.');
@@ -1949,7 +1949,7 @@
               while ((x = _mochaLocalTmp12.__nothrowNext__())){
                 __LINE__ = 54;
                 _mochaLocalTmp11.push(x);
-              };
+              }
             } else {
               __LINE__ = 54;
               Runtime.exceptionHandler(54,'./array_comprehensions_test.js','for of statement expect iterator or generator object.');

@@ -46,25 +46,19 @@ class CodegenVisitor : public IVisitor {
   void EndLastState_();
   int CurrentState_();
   bool MatchState_(int state);
-  AstBuilder* builder() { return builder_; }
-  memory::Pool* pool() { return pool_; }
-  int tmp_index_;
+  CodeWriter* writer() { return writer_.Get(); }
+  CodeStream* stream() { return stream_.Get(); }
   int depth_;
   bool is_line_;
   bool has_rest_;
   bool is_pretty_print_;
   const char* filename_;
   std::vector<int> state_;
-  std::string rest_ref_;
-  std::string rest_name_;
   Scope* scope_;
   CodeBuffer default_buffer_;
   ScopedPtr<CodeStream> stream_;
   ScopedPtr<CodeWriter> writer_;
   FileRoot* current_root_;
-  Class* current_class_;
-  memory::Pool* pool_;
-  AstBuilder* builder_;
 };
 }
 

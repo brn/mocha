@@ -271,7 +271,7 @@ void OptimizerVisitor::ArrayAccessorProccessor_(CallExp* exp) {
           }
         }
       }
-      if (is_valid_property_name && JsToken::IsReserved(tmp.c_str())) {
+      if (is_valid_property_name && !JsToken::IsReserved(tmp.c_str())) {
         Literal* ident = builder()->CreateNameNode(&tmp[ 1 ], Token::JS_IDENTIFIER, exp->line_number(), Literal::kProperty);
         CallExp* call_exp = new(pool()) CallExp(CallExp::kDot, exp->line_number());
         call_exp->set_callable(callable);

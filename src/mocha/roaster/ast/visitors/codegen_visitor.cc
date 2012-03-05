@@ -13,8 +13,6 @@
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
 #include <mocha/misc/file_system/file_system.h>
-#include <mocha/roaster/memory/pool.h>
-#include <mocha/roaster/ast/builder/ast_builder.h>
 
 namespace mocha {
 
@@ -28,8 +26,8 @@ namespace mocha {
 #define PRINT_NODE_NAME
 #endif
 
-#define ACCEPT(ast)                           \
-  if (ast != 0)                               \
+#define ACCEPT(ast)                             \
+  if (ast != 0)                                 \
     ast->Accept(this)
 
 
@@ -39,18 +37,18 @@ inline void line_numberBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* 
   if (parent) {
     int node_type = parent->node_type();
     if (node_type == AstNode::kIFStmt ||
-         node_type == AstNode::kWhile ||
-         node_type == AstNode::kFor ||
-         node_type == AstNode::kForIn ||
-         node_type == AstNode::kDoWhile ||
-         node_type == AstNode::kWithStmt ||
-         node_type == AstNode::kCallExp ||
-         node_type == AstNode::kFunction ||
-         node_type == AstNode::kExpression ||
-         (ast_node->node_type() == AstNode::kFunction &&
-           node_type != AstNode::kExpression) ||
-         (parent->parent_node() &&
-           parent->parent_node()->node_type() == AstNode::kBlockStmt)) {
+        node_type == AstNode::kWhile ||
+        node_type == AstNode::kFor ||
+        node_type == AstNode::kForIn ||
+        node_type == AstNode::kDoWhile ||
+        node_type == AstNode::kWithStmt ||
+        node_type == AstNode::kCallExp ||
+        node_type == AstNode::kFunction ||
+        node_type == AstNode::kExpression ||
+        (ast_node->node_type() == AstNode::kFunction &&
+         node_type != AstNode::kExpression) ||
+        (parent->parent_node() &&
+         parent->parent_node()->node_type() == AstNode::kBlockStmt)) {
       if (ast_node->previous_sibling() == 0) {
         is_root_stmt = false;
       }
@@ -65,33 +63,33 @@ inline void line_numberBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* 
 
 
 CodegenVisitor::CodegenVisitor(const char* filename, CompileInfo* info) :
-    tmp_index_(0),depth_(0),is_line_(info->Debug()),has_rest_(false),
+    depth_(0),is_line_(info->Debug()),has_rest_(false),
     is_pretty_print_(info->PrettyPrint()),filename_(filename), scope_(0),
     stream_(new CodeStream(&default_buffer_)),
     writer_(new CodeWriter(info->PrettyPrint(), info->Debug())),
-    current_root_(0) ,current_class_ (0), pool_(memory::Pool::Local()), builder_(AstBuilder::Local()){}
+    current_root_(0){}
 
 CodegenVisitor::CodegenVisitor(const char* filename, bool is_pretty_print, bool is_debug) :
-    tmp_index_(0),depth_(0),is_line_(is_debug),has_rest_(false),
+    depth_(0),is_line_(is_debug),has_rest_(false),
     is_pretty_print_(is_pretty_print), filename_(filename), scope_(0),
     stream_(new CodeStream(&default_buffer_)),
     writer_(new CodeWriter(is_pretty_print, is_debug)),
-    current_root_(0) ,current_class_ (0), pool_(memory::Pool::Local()), builder_(AstBuilder::Local()){}
+    current_root_(0){}
 
 
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
   scope_ = ast_node->scope();
-  stream_->Write("!function()");
-  writer_->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream_.Get());
-  writer_->InitializeFileName("Runtime", stream_.Get());
+  stream()->Write("!function()");
+  writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
+  writer()->InitializeFileName("Runtime", stream());
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
   }
-  writer_->WriteOp('}', CodeWriter::kArgs, stream_.Get());
-  stream_->Write("()");
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp('}', CodeWriter::kArgs, stream());
+  stream()->Write("()");
+  writer()->WriteOp(';', 0, stream());
 }
 
 
@@ -99,8 +97,8 @@ VISITOR_IMPL(FileRoot) {
   PRINT_NODE_NAME;
   current_root_ = ast_node;
   if (ast_node->IsStrict() && !is_line_) {
-    stream_->Write("\"use strict\"");
-    writer_->WriteOp(';', 0, stream_.Get());
+    stream()->Write("\"use strict\"");
+    writer()->WriteOp(';', 0, stream());
   }
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
@@ -120,16 +118,18 @@ VISITOR_IMPL(NodeList) {
 
 VISITOR_IMPL(BlockStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
   if (ast_node->child_length() > 0) {
     NodeIterator iterator = ast_node->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
     }
   }
-  writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+  if (!MatchState_(Token::JS_IF)) {
+    writer()->WriteOp(';', 0, stream());
+  }
 }
 
 
@@ -203,13 +203,13 @@ void CodegenVisitor::VarListProcessor_(AstNode* ast_node) {
       item->Accept(this);
       if (iterator.HasNext()) {
         if (CurrentState_() == CodeWriter::kFor) {
-          stream_->Write(',');
+          stream()->Write(',');
         } else {
-          writer_->WriteOp(',', CodeWriter::kVarsComma, stream_.Get());
+          writer()->WriteOp(',', CodeWriter::kVarsComma, stream());
         }
       } else if (CurrentState_() != CodeWriter::kFunctionEndBrace) {
         if (CurrentState_() != CodeWriter::kFor) {
-          writer_->WriteOp(';', CodeWriter::kVarsEnd, stream_.Get());
+          writer()->WriteOp(';', CodeWriter::kVarsEnd, stream());
         }
       }
     }
@@ -220,9 +220,9 @@ void CodegenVisitor::VarListProcessor_(AstNode* ast_node) {
 
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(Token::JS_VAR, 0, stream_.Get());
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(Token::JS_VAR, 0, stream());
   VarListProcessor_(ast_node->first_child());
 }
 
@@ -233,70 +233,72 @@ VISITOR_IMPL(LetStmt) {}
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   ast_node->first_child()->Accept(this);
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp(';', 0, stream());
 }
 
 
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
   if (!MatchState_(Token::JS_ELSE)) {
-    line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-    writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
+    line_numberBreak(ast_node, stream(), writer());
+    writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   }
-  writer_->WriteOp(Token::JS_IF, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  writer()->WriteOp(Token::JS_IF, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   ast_node->condition()->Accept(this);
-  writer_->WriteOp(')', 0, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
   AstNode* maybeBlock = ast_node->then_statement();
   AstNode* maybeElse = ast_node->else_statement();
         
   if (maybeBlock->node_type() == AstNode::kBlockStmt) {
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     NodeIterator iterator = maybeBlock->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
     if (maybeElse->IsEmpty()) {
-      writer_->WriteOp(';', 0, stream_.Get());
+      writer()->WriteOp(';', 0, stream());
     }
   } else {
     if (is_line_ || is_pretty_print_) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     }
+    BeginState_(Token::JS_IF);
     ast_node->then_statement()->Accept(this);
+    EndLastState_();
     if (is_line_ || is_pretty_print_) {
-      writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
       if (maybeElse->IsEmpty()) {
-        writer_->WriteOp(';', 0, stream_.Get());
+        writer()->WriteOp(';', 0, stream());
       }
     }
   }
         
   if (!maybeElse->IsEmpty()) {
-    writer_->WriteOp(Token::JS_ELSE, 0, stream_.Get());
+    writer()->WriteOp(Token::JS_ELSE, 0, stream());
     BeginState_(Token::JS_ELSE);
     if (maybeElse->node_type() == AstNode::kBlockStmt) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
       NodeIterator iterator = maybeElse->ChildNodes();
       while (iterator.HasNext()) {
         iterator.Next()->Accept(this);
       }
-      writer_->WriteOp('}', CodeWriter::kElseBlockEnd, stream_.Get());
-      writer_->WriteOp(';', 0, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+      writer()->WriteOp(';', 0, stream());
     } else if (maybeElse->node_type() == AstNode::kIFStmt) {
       maybeElse->Accept(this);
     } else {
       if (is_line_ || is_pretty_print_) {
-        writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+        writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
       }
       maybeElse->Accept(this);
       if (is_line_ || is_pretty_print_) {
-        writer_->WriteOp('}', CodeWriter::kElseBlockEnd, stream_.Get());
-        writer_->WriteOp(';', 0, stream_.Get());
+        writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+        writer()->WriteOp(';', 0, stream());
       }
     }
     EndLastState_();
@@ -334,14 +336,14 @@ VISITOR_IMPL(IterationStmt) {
 
 void CodegenVisitor::ForProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* exp = ast_node->expression();
-  writer_->WriteOp(Token::JS_FOR, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  writer()->WriteOp(Token::JS_FOR, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   if (ast_node->node_type() == AstNode::kForWithVar) {
     BeginState_(CodeWriter::kFor);
-    writer_->WriteOp(Token::JS_VAR, CodeWriter::kFor, stream_.Get());
+    writer()->WriteOp(Token::JS_VAR, CodeWriter::kFor, stream());
   }
         
   AstNode* index_exp = exp->first_child();
@@ -354,47 +356,51 @@ void CodegenVisitor::ForProccessor_(IterationStmt* ast_node) {
   } else {
     index_exp->Accept(this);
   }
-  stream_->Write(';');
+  stream()->Write(';');
   if (cond_exp) {
     cond_exp->Accept(this);
   }
-  stream_->Write(';');
+  stream()->Write(';');
   if (incr_exp) {
     incr_exp->Accept(this);
   }
-  writer_->WriteOp(')', 0, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
 
   AstNode* maybeBlock = ast_node->first_child();
   if (maybeBlock->node_type() == AstNode::kBlockStmt) {
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     NodeIterator iterator = maybeBlock->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-    writer_->WriteOp(';', 0, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+    if (!MatchState_(Token::JS_IF)) {
+      writer()->WriteOp(';', 0, stream());
+    }
   } else {
     if (is_line_) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     }
     ast_node->first_child()->Accept(this);
     if (is_line_) {
-      writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-      writer_->WriteOp(';', 0, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+      if (!MatchState_(Token::JS_IF)) {
+        writer()->WriteOp(';', 0, stream());
+      }
     }
   }
 }
 
 void CodegenVisitor::ForInProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
+  line_numberBreak(ast_node, stream(), writer());
   int for_in_type = ast_node->node_type();
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* exp = ast_node->expression();
-  writer_->WriteOp(Token::JS_FOR, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  writer()->WriteOp(Token::JS_FOR, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   if (for_in_type == AstNode::kForInWithVar || for_in_type == AstNode::kForEachWithVar) {
-    writer_->WriteOp(Token::JS_VAR, CodeWriter::kFor, stream_.Get());
+    writer()->WriteOp(Token::JS_VAR, CodeWriter::kFor, stream());
   }
   AstNode* index_exp = exp->first_child();
   AstNode* target_exp = index_exp->next_sibling();
@@ -408,27 +414,31 @@ void CodegenVisitor::ForInProccessor_(IterationStmt* ast_node) {
     index_exp->Accept(this);
   }
         
-  writer_->WriteOp(Token::JS_IN, 0, stream_.Get());
+  writer()->WriteOp(Token::JS_IN, 0, stream());
   target_exp->Accept(this);
         
-  writer_->WriteOp(')', 0, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
   AstNode* maybeBlock = ast_node->first_child();
   if (maybeBlock->node_type() == AstNode::kBlockStmt) {
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     NodeIterator iterator = maybeBlock->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-    writer_->WriteOp(';', 0, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+    if (!MatchState_(Token::JS_IF)) {
+      writer()->WriteOp(';', 0, stream());
+    }
   } else {
     if (is_line_) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     }
     ast_node->first_child()->Accept(this);
     if (is_line_) {
-      writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-      writer_->WriteOp(';', 0, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+      if (!MatchState_(Token::JS_IF)) {
+        writer()->WriteOp(';', 0, stream());
+      }
     }
   }
 }
@@ -437,34 +447,38 @@ void CodegenVisitor::ForInProccessor_(IterationStmt* ast_node) {
 
 void CodegenVisitor::WhileProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* exp = ast_node->expression();
-  writer_->WriteOp(Token::JS_WHILE, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  writer()->WriteOp(Token::JS_WHILE, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   BeginState_(CodeWriter::kExpSp);
   exp->Accept(this);
   EndLastState_();
-  writer_->WriteOp(')', 0, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
 
   AstNode* maybeBlock = ast_node->first_child();
         
   if (maybeBlock->node_type() == AstNode::kBlockStmt) {
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     NodeIterator iterator = maybeBlock->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-    writer_->WriteOp(';', 0, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+    if (!MatchState_(Token::JS_IF)) {
+      writer()->WriteOp(';', 0, stream());
+    }
   } else {
     if (is_line_) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     }
     ast_node->first_child()->Accept(this);
     if (is_line_) {
-      writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-      writer_->WriteOp(';', 0, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+      if (!MatchState_(Token::JS_IF)) {
+        writer()->WriteOp(';', 0, stream());
+      }
     }
   }
 }
@@ -472,15 +486,15 @@ void CodegenVisitor::WhileProccessor_(IterationStmt* ast_node) {
 
 void CodegenVisitor::DoWhileProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
+  line_numberBreak(ast_node, stream(), writer());
   AstNode* exp = ast_node->expression()->first_child();
   AstNode* maybeBlock = ast_node->first_child();
 
 
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(Token::JS_DO, 0, stream_.Get());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(Token::JS_DO, 0, stream());
   if (maybeBlock->node_type() == AstNode::kBlockStmt) {
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     if (maybeBlock->node_type() == AstNode::kBlockStmt) {
       NodeIterator iterator = maybeBlock->ChildNodes();
       while (iterator.HasNext()) {
@@ -489,36 +503,36 @@ void CodegenVisitor::DoWhileProccessor_(IterationStmt* ast_node) {
     } else {
       ast_node->first_child()->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
   } else {
     if (is_line_) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     }
     ast_node->first_child()->Accept(this);
     if (is_line_) {
-      writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
     }
   }
 
-  writer_->WriteOp(Token::JS_WHILE, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  writer()->WriteOp(Token::JS_WHILE, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   exp->Accept(this);
-  writer_->WriteOp(')', 0, stream_.Get());
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
+  writer()->WriteOp(';', 0, stream());
 }
 
 
 void CodegenVisitor::JumpStmt_(AstNode* ast_node, int type) {
   PRINT_NODE_NAME;
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(type, 0, stream_.Get());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(type, 0, stream());
   AstNode* identifer = ast_node->first_child();
   if (!identifer->IsEmpty()) {
-    writer_->Write(" ", stream_.Get());
+    writer()->Write(" ", stream());
     Literal* value = identifer->CastToLiteral();
-    writer_->Write(value->value()->token(), stream_.Get());
+    writer()->Write(value->value()->token(), stream());
   }
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp(';', 0, stream());
 }
 
 
@@ -534,65 +548,65 @@ VISITOR_IMPL(BreakStmt) {
 
 VISITOR_IMPL(ReturnStmt) {
   PRINT_NODE_NAME;
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(Token::JS_RETURN, 0, stream_.Get());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(Token::JS_RETURN, 0, stream());
   AstNode* identifer = ast_node->first_child();
   identifer->Accept(this);
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp(';', 0, stream());
 }
 
 
 VISITOR_IMPL(WithStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(Token::JS_WITH, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(Token::JS_WITH, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   ast_node->expression()->Accept(this);
-  writer_->WriteOp(')', 0, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
 
   AstNode* maybeBlock = ast_node->first_child();
   if (maybeBlock->node_type() == AstNode::kBlockStmt) {
     ast_node->first_child()->Accept(this);
   } else {
     if (is_line_) {
-      writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+      writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     }
     ast_node->first_child()->Accept(this);
     if (is_line_) {
-      writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
-      writer_->WriteOp(';', 0, stream_.Get());
+      writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
+      writer()->WriteOp(';', 0, stream());
     }
   }
 }
 
 VISITOR_IMPL(SwitchStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(Token::JS_SWITCH, 0, stream_.Get());
-  writer_->WriteOp('(', 0, stream_.Get());
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(Token::JS_SWITCH, 0, stream());
+  writer()->WriteOp('(', 0, stream());
   ast_node->expression()->Accept(this);
-  writer_->WriteOp(')', 0, stream_.Get());
-  writer_->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream_.Get());
+  writer()->WriteOp(')', 0, stream());
+  writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
   }
-  writer_->WriteOp('}', CodeWriter::kSwitchEndBrace, stream_.Get());
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp('}', CodeWriter::kSwitchEndBrace, stream());
+  writer()->WriteOp(';', 0, stream());
 }
 
 VISITOR_IMPL(CaseClause) {
   PRINT_NODE_NAME;
   AstNode* exp = ast_node->expression();
   if (!exp->IsEmpty()) {
-    writer_->WriteOp(Token::JS_CASE, 0, stream_.Get());
+    writer()->WriteOp(Token::JS_CASE, 0, stream());
     exp->Accept(this);
   } else {
-    writer_->WriteOp(Token::JS_DEFAULT, 0, stream_.Get());
+    writer()->WriteOp(Token::JS_DEFAULT, 0, stream());
   }
-  writer_->WriteOp(':', CodeWriter::kCase, stream_.Get());
+  writer()->WriteOp(':', CodeWriter::kCase, stream());
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
@@ -602,88 +616,88 @@ VISITOR_IMPL(CaseClause) {
 
 VISITOR_IMPL(LabelledStmt) {
   PRINT_NODE_NAME;
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* symbol = ast_node->first_child();
   AstNode* statement = symbol->next_sibling();
-  writer_->Write(symbol->CastToLiteral()->value()->token(), stream_.Get());
-  writer_->WriteOp(':', 0, stream_.Get());
+  writer()->Write(symbol->CastToLiteral()->value()->token(), stream());
+  writer()->WriteOp(':', 0, stream());
   if (is_line_ && statement->node_type() != AstNode::kBlockStmt) {
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
   }
   statement->Accept(this);
   if (is_line_ && statement->node_type() != AstNode::kBlockStmt) {
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
   }
 }
 
 
 VISITOR_IMPL(ThrowStmt) {
   PRINT_NODE_NAME;
-  writer_->SetLine(ast_node->line_number(), stream_.Get(), current_root_);
-  writer_->WriteOp(Token::JS_THROW, 0, stream_.Get());
+  writer()->SetLine(ast_node->line_number(), stream(), current_root_);
+  writer()->WriteOp(Token::JS_THROW, 0, stream());
   ast_node->expression()->Accept(this);
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp(';', 0, stream());
 }
 
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->WriteOp(Token::JS_TRY, 0, stream_.Get());
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->WriteOp(Token::JS_TRY, 0, stream());
   AstNode* try_block = ast_node->first_child();
-  writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+  writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
   NodeIterator try_iterator = try_block->ChildNodes();
   while (try_iterator.HasNext()) {
     AstNode* item = try_iterator.Next();
     item->Accept(this);
   }
-  writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+  writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
         
   AstNode* catch_block = ast_node->catch_block();
   AstNode* finally_block = ast_node->finally_block();
 
   if (!catch_block->IsEmpty()) {
-    writer_->WriteOp(Token::JS_CATCH, 0, stream_.Get());
-    writer_->WriteOp('(', 0, stream_.Get());
-    writer_->Write(catch_block->CastToLiteral()->value()->token(), stream_.Get());
-    writer_->WriteOp(')',      0, stream_.Get());
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp(Token::JS_CATCH, 0, stream());
+    writer()->WriteOp('(', 0, stream());
+    writer()->Write(catch_block->CastToLiteral()->value()->token(), stream());
+    writer()->WriteOp(')',      0, stream());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     NodeIterator iterator = catch_block->first_child()->ChildNodes();
     while (iterator.HasNext()) {
       AstNode* item = iterator.Next();
       item->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
   }
 
   if (!finally_block->IsEmpty()) {
-    writer_->WriteOp(Token::JS_FINALLY, 0, stream_.Get());
-    writer_->WriteOp('{', CodeWriter::kBlockBeginBrace, stream_.Get());
+    writer()->WriteOp(Token::JS_FINALLY, 0, stream());
+    writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
     NodeIterator iterator = finally_block->ChildNodes();
     while (iterator.HasNext()) {
       AstNode* item = iterator.Next();
       item->Accept(this);
     }
-    writer_->WriteOp('}', CodeWriter::kBlockEndBrace, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
   }
 
-  writer_->WriteOp(';', 0, stream_.Get());
+  writer()->WriteOp(';', 0, stream());
 }
 
 
 void CodegenVisitor::ArrayAccessorProccessor_(CallExp* exp) {
   exp->callable()->Accept(this);
-  writer_->WriteOp('[', 0, stream_.Get());
+  writer()->WriteOp('[', 0, stream());
   BeginState_(CodeWriter::kArgs);
   exp->args()->Accept(this);
   EndLastState_();
-  writer_->WriteOp(']', 0, stream_.Get());
+  writer()->WriteOp(']', 0, stream());
 }
 
 
 void CodegenVisitor::DotAccessorProccessor_(CallExp* exp) {
   exp->callable()->Accept(this);
-  writer_->WriteOp('.', 0, stream_.Get());
+  writer()->WriteOp('.', 0, stream());
   exp->args()->Accept(this);
 }
 
@@ -694,19 +708,19 @@ void CodegenVisitor::NormalFunctionCall_(CallExp* exp) {
   AstNode* args = exp->args();
   exp->callable()->Accept(this);
   if (args->IsEmpty()) {
-    writer_->Write("()", stream_.Get());
+    writer()->Write("()", stream());
   } else {
     BeginState_(CodeWriter::kArgs);
-    writer_->WriteOp('(', 0, stream_.Get());
+    writer()->WriteOp('(', 0, stream());
     NodeIterator iterator = args->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
       if (iterator.HasNext()) {
-        stream_->Write(',');
+        stream()->Write(',');
       }
     }
     EndLastState_();
-    writer_->WriteOp(')', 0, stream_.Get());
+    writer()->WriteOp(')', 0, stream());
   }
 }
 
@@ -731,7 +745,7 @@ VISITOR_IMPL(CallExp) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  writer_->WriteOp(Token::JS_NEW, 0, stream_.Get());
+  writer()->WriteOp(Token::JS_NEW, 0, stream());
   ast_node->first_child()->Accept(this);
 }
 
@@ -742,13 +756,13 @@ VISITOR_IMPL(YieldExp) {}
 VISITOR_IMPL(PostfixExp) {
   PRINT_NODE_NAME;
   ast_node->expression()->Accept(this);
-  writer_->WriteOp(ast_node->operand(), 0, stream_.Get());
+  writer()->WriteOp(ast_node->operand(), 0, stream());
 }
 
 
 VISITOR_IMPL(UnaryExp) {
   PRINT_NODE_NAME;
-  writer_->WriteOp(ast_node->operand(), 0, stream_.Get());
+  writer()->WriteOp(ast_node->operand(), 0, stream());
   ast_node->expression()->Accept(this);
 }
 
@@ -756,7 +770,7 @@ VISITOR_IMPL(UnaryExp) {
 VISITOR_IMPL(BinaryExp) {
   PRINT_NODE_NAME;
   ast_node->left_value()->Accept(this);
-  writer_->WriteOp(ast_node->operand(), 0, stream_.Get());
+  writer()->WriteOp(ast_node->operand(), 0, stream());
   ast_node->right_value()->Accept(this);
 }
 
@@ -764,7 +778,7 @@ VISITOR_IMPL(BinaryExp) {
 VISITOR_IMPL(CompareExp) {
   PRINT_NODE_NAME;
   ast_node->left_value()->Accept(this);
-  writer_->WriteOp(ast_node->operand(), 0, stream_.Get());
+  writer()->WriteOp(ast_node->operand(), 0, stream());
   ast_node->right_value()->Accept(this);
 }
 
@@ -772,9 +786,9 @@ VISITOR_IMPL(CompareExp) {
 VISITOR_IMPL(ConditionalExp) {
   PRINT_NODE_NAME;
   ast_node->condition()->Accept(this);
-  writer_->WriteOp('?', 0, stream_.Get());
+  writer()->WriteOp('?', 0, stream());
   ast_node->case_true()->Accept(this);
-  writer_->WriteOp(':', 0, stream_.Get());
+  writer()->WriteOp(':', 0, stream());
   ast_node->case_false()->Accept(this);
 }
 
@@ -782,7 +796,7 @@ VISITOR_IMPL(ConditionalExp) {
 VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
   ast_node->left_value()->Accept(this);
-  writer_->WriteOp(ast_node->operand(), 0, stream_.Get());
+  writer()->WriteOp(ast_node->operand(), 0, stream());
   ast_node->right_value()->Accept(this);
 }
 
@@ -791,17 +805,17 @@ VISITOR_IMPL(Expression) {
   PRINT_NODE_NAME;
   if (ast_node->IsParenthesis()) {
     BeginState_(CodeWriter::kParenExp);
-    writer_->WriteOp('(', 0, stream_.Get());
+    writer()->WriteOp('(', 0, stream());
   }
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
     if (iterator.HasNext()) {
-      writer_->WriteOp(',', 0, stream_.Get());
+      writer()->WriteOp(',', 0, stream());
     }
   }
   if (ast_node->IsParenthesis()) {
-    writer_->WriteOp(')', 0, stream_.Get());
+    writer()->WriteOp(')', 0, stream());
     EndLastState_();
   }
 }
@@ -837,36 +851,36 @@ VISITOR_IMPL(ClassMember) {
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream_.Get(), writer_.Get());
-  writer_->WriteOp(Token::JS_FUNCTION, 0, stream_.Get());
+  line_numberBreak(ast_node, stream(), writer());
+  writer()->WriteOp(Token::JS_FUNCTION, 0, stream());
   ast_node->name()->Accept(this);
   scope_ = ast_node->scope();
   if (ast_node->argv()->IsEmpty()) {
-    stream_->Write("()");
+    stream()->Write("()");
   } else {
-    writer_->WriteOp('(', 0, stream_.Get());
+    writer()->WriteOp('(', 0, stream());
     NodeIterator iterator = ast_node->argv()->ChildNodes();
     while (iterator.HasNext()) {
       iterator.Next()->Accept(this);
       if (iterator.HasNext()) {
-        stream_->Write(',');
+        stream()->Write(',');
       }
     }
-    writer_->WriteOp(')', 0, stream_.Get());
+    writer()->WriteOp(')', 0, stream());
   }
   if (ast_node->child_length() == 0) {
-    stream_->Write("{}");
+    stream()->Write("{}");
   } else {
-    writer_->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
     if (ast_node->IsStrict() && !is_line_) {
-      stream_->Write("\"use strict\"");
-      writer_->WriteOp(';', 0, stream_.Get());
+      stream()->Write("\"use strict\"");
+      writer()->WriteOp(';', 0, stream());
     }
     if (current_root_ && !current_root_->runtime()) {
-      writer_->DebugBlockBegin(stream_.Get());
+      writer()->DebugBlockBegin(stream());
     }
     if (current_root_ && ast_node->IsRoot()) {
-      writer_->InitializeFileName(current_root_->filename(), stream_.Get());
+      writer()->InitializeFileName(current_root_->filename(), stream());
     }
     NodeIterator iterator = ast_node->ChildNodes();
     while (iterator.HasNext()) {
@@ -879,9 +893,9 @@ VISITOR_IMPL(Function){
     state = (state == CodeWriter::kArgs)? state :
         (MatchState_(CodeWriter::kParenExp))? CodeWriter::kArgs : CodeWriter::kFunctionEndBrace;
     if (current_root_ && !current_root_->runtime()) {
-      writer_->DebugBlockEnd(stream_.Get(), scope_);
+      writer()->DebugBlockEnd(stream(), scope_);
     }
-    writer_->WriteOp('}', state, stream_.Get());
+    writer()->WriteOp('}', state, stream());
   }
   if (scope_) {
     scope_ = scope_->parent();
@@ -891,7 +905,7 @@ VISITOR_IMPL(Function){
 
 void CodegenVisitor::ArrayProccessor_(AstNode* ast_node) {
   PRINT_NODE_NAME;
-  writer_->WriteOp('[', 0, stream_.Get());
+  writer()->WriteOp('[', 0, stream());
   NodeIterator iter = ast_node->ChildNodes();
   while (iter.HasNext()) {
     AstNode* element = iter.Next();
@@ -899,33 +913,33 @@ void CodegenVisitor::ArrayProccessor_(AstNode* ast_node) {
       element->Accept(this);
     }
     if (iter.HasNext()) {
-      stream_->Write(',');
+      stream()->Write(',');
     }
   }
-  writer_->WriteOp(']', 0, stream_.Get());
+  writer()->WriteOp(']', 0, stream());
 }
 
 
 void CodegenVisitor::ObjectProccessor_(NodeList* ast_node) {
   PRINT_NODE_NAME;
   if (ast_node->child_length() == 0) {
-    stream_->Write("{}");
+    stream()->Write("{}");
   } else {
-    writer_->WriteOp('{', CodeWriter::kArgs, stream_.Get());
+    writer()->WriteOp('{', CodeWriter::kArgs, stream());
     NodeIterator iterator = ast_node->ChildNodes();
     while (iterator.HasNext()) {
       AstNode* element = iterator.Next();
       Literal* val = element->CastToLiteral();
       if ((val && element->CastToLiteral()->value_type() != Literal::kPrivateProperty) || !val) {
         element->Accept(this);
-        writer_->WriteOp(':', 0, stream_.Get());
+        writer()->WriteOp(':', 0, stream());
         element->first_child()->Accept(this);
         if (iterator.HasNext()) {
-          writer_->WriteOp(',', CodeWriter::kVarsComma, stream_.Get());
+          writer()->WriteOp(',', CodeWriter::kVarsComma, stream());
         }
       }
     }
-    writer_->WriteOp('}', CodeWriter::kArgs, stream_.Get());
+    writer()->WriteOp('}', CodeWriter::kArgs, stream());
   }
 }
 
@@ -938,7 +952,7 @@ void CodegenVisitor::VarInitialiserProccessor_(Literal* ast_node) {
   }
   AstNode* initialiser = ast_node->first_child();
   if (!initialiser->IsEmpty()) {
-    writer_->WriteOp('=', 0, stream_.Get());
+    writer()->WriteOp('=', 0, stream());
     initialiser->Accept(this);
   }
 }
@@ -951,7 +965,7 @@ VISITOR_IMPL(Literal) {
       break;
 
     case Literal::kProperty :
-      stream_->Write(ast_node->value()->token());
+      stream()->Write(ast_node->value()->token());
       break;
                         
     case Literal::kIdentifier : {
@@ -959,27 +973,27 @@ VISITOR_IMPL(Literal) {
       if (symbol[ 0 ] == '@') {
         std::string tmp = symbol;
         if (strlen(symbol) > 1) {
-          stream_->Write("this.");
+          stream()->Write("this.");
           tmp.erase(0, 1);
         } else {
-          stream_->Write("this");
+          stream()->Write("this");
         }
-        stream_->Write(tmp.c_str());
+        stream()->Write(tmp.c_str());
       } else {
         if (scope_) {
           printf("scope = %p, token = %s\n", scope_, symbol);
           SymbolEntry entry = scope_->Find(ast_node->value());
           if (entry.first != 0) {
             TokenInfo *info = entry.first;
-            stream_->Write(info->compressed_name());
-            //stream_->Write("/*");
-            //stream_->Write(symbol);
-            //stream_->Write("*/");
+            stream()->Write(info->compressed_name());
+            //stream()->Write("/*");
+            //stream()->Write(symbol);
+            //stream()->Write("*/");
           } else {
-            stream_->Write(symbol);
+            stream()->Write(symbol);
           }
         } else {
-          stream_->Write(symbol);
+          stream()->Write(symbol);
         }
       }
     }
@@ -991,7 +1005,7 @@ VISITOR_IMPL(Literal) {
       break;
 
     default :
-      stream_->Write(ast_node->value()->token());
+      stream()->Write(ast_node->value()->token());
   }
 }
 

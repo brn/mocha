@@ -147,7 +147,7 @@
       if (that){
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback.call(that,ta,iter,this);
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           callback(ta,iter,this);
@@ -169,7 +169,7 @@
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (!(callback(ta,iter,this))){
@@ -194,7 +194,7 @@
           if (callback.call(that,ta,iter,this)){
             return true;
           };
-        };
+        }
       } else {
         while ((ta = this[ ++ iter]) !== null && ta !== undefined){
           if (callback(ta,iter,this)){
@@ -220,7 +220,7 @@
         for (var i = 0,len = this.length;i<len; ++ i){
           
           (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-        };
+        }
       } else {
         for (var i = 0,len = this.length;i<len; ++ i){
           
@@ -282,7 +282,7 @@
       if (that){
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-        };
+        }
       } else {
         for (i;i<len; ++ i){
           (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/compress/name_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/compress/name_test.js",
           __LINE__ = 0;
       function Record(member) {
         try {
@@ -835,7 +835,7 @@
       var _mochaGlobalAlias = _mochaGlobalExport['./name_test.js'];
       
       __LINE__ = 1;
-      Array["prototype"]["x"] = 0;
+      Array.prototype.x = 0;
       
       __LINE__ = 3;
       !function () {
@@ -917,6 +917,35 @@
       
       __LINE__ = 34;
       test2 = 0;
+      
+      __LINE__ = 44;
+      var tmp = 200;
+      
+      __LINE__ = 45;
+      if (tmp){
+        
+        __LINE__ = 46;
+        b();
+        
+        __LINE__ = 47;
+        b();
+      } else {
+        if (tmp){
+          
+          __LINE__ = 50;
+          b();
+          
+          __LINE__ = 51;
+          b();
+        } else {
+          
+          __LINE__ = 53;
+          b();
+          
+          __LINE__ = 54;
+          b();
+        };
+      };
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
