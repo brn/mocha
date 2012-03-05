@@ -11,13 +11,7 @@ namespace mocha {
 void CallProcessor::ProcessPrivateAccessor() {
   Literal* maybe_ident = ast_node_->callable()->CastToLiteral();
   if (maybe_ident) {
-    Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
-                                                  Token::JS_THIS, maybe_ident->line_number(), Literal::kThis);
-    Literal* private_field = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGetPrivateRecord),
-                                                       Token::JS_IDENTIFIER, maybe_ident->line_number(), Literal::kProperty);
-    NodeList* args = builder()->CreateNodeList(1, this_sym->Clone(pool()));
-    CallExp* normal = builder()->CreateNormalAccessor(private_field, args, ast_node_->line_number());
-    CallExp* runtime_call = builder()->CreateRuntimeMod(normal, ast_node_->line_number());
+    CallExp* runtime_call = builder()->BuildPrivateRecordAccessor(ast_node_->line_number());
     ast_node_->set_callable(runtime_call);
     maybe_ident = ast_node_->args()->CastToLiteral();
     if (maybe_ident && maybe_ident->value_type() == Literal::kProperty) {

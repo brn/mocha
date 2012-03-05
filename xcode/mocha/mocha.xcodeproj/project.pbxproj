@@ -68,7 +68,6 @@
 		423380CB15043BD900CEC14A /* external_ast.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233804815043BD900CEC14A /* external_ast.cc */; };
 		423380CC15043BD900CEC14A /* external_resource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233804A15043BD900CEC14A /* external_resource.cc */; };
 		423380CD15043BD900CEC14A /* internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233804C15043BD900CEC14A /* internal.cc */; };
-		423380CE15043BD900CEC14A /* pool.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233805215043BD900CEC14A /* pool.cc */; };
 		423380CF15043BD900CEC14A /* parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233805515043BD900CEC14A /* parser.cc */; };
 		423380D015043BD900CEC14A /* scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233805815043BD900CEC14A /* scanner.cc */; };
 		423380D115043BD900CEC14A /* source_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4233805B15043BD900CEC14A /* source_stream.cc */; };
@@ -89,6 +88,7 @@
 		423381C9150444BA00CEC14A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 423381C7150444BA00CEC14A /* tinyxmlparser.cpp */; };
 		423381D615045AA100CEC14A /* thread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423381D415045AA100CEC14A /* thread.cc */; };
 		423381DA15045AF300CEC14A /* file_io.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423381D815045AF300CEC14A /* file_io.cc */; };
+		423381E115045F6300CEC14A /* pool.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423381E015045F6300CEC14A /* pool.cc */; };
 		42E9C10814CD27E00043DAE1 /* libicudata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10514CD27E00043DAE1 /* libicudata.a */; };
 		42E9C10914CD27E00043DAE1 /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10614CD27E00043DAE1 /* libicui18n.a */; };
 		42E9C10A14CD27E00043DAE1 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E9C10714CD27E00043DAE1 /* libicuuc.a */; };
@@ -241,7 +241,6 @@
 		4233804D15043BD900CEC14A /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
 		4233804F15043BD900CEC14A /* scoped_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scoped_ptr.h; sourceTree = "<group>"; };
 		4233805015043BD900CEC14A /* unordered_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unordered_map.h; sourceTree = "<group>"; };
-		4233805215043BD900CEC14A /* pool.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pool.cc; sourceTree = "<group>"; };
 		4233805315043BD900CEC14A /* pool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pool.h; sourceTree = "<group>"; };
 		4233805515043BD900CEC14A /* parser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parser.cc; sourceTree = "<group>"; };
 		4233805615043BD900CEC14A /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
@@ -309,6 +308,8 @@
 		423381DC15045BE700CEC14A /* static.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = static.h; sourceTree = "<group>"; };
 		423381DD15045BE700CEC14A /* unallocatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unallocatable.h; sourceTree = "<group>"; };
 		423381DE15045BE700CEC14A /* uncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uncopyable.h; sourceTree = "<group>"; };
+		423381DF15045ED700CEC14A /* pool-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "pool-inl.h"; sourceTree = "<group>"; };
+		423381E015045F6300CEC14A /* pool.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pool.cc; sourceTree = "<group>"; };
 		42E9C10514CD27E00043DAE1 /* libicudata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicudata.a; path = "../../src/third_party/icu/lib-osx/libicudata.a"; sourceTree = "<group>"; };
 		42E9C10614CD27E00043DAE1 /* libicui18n.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicui18n.a; path = "../../src/third_party/icu/lib-osx/libicui18n.a"; sourceTree = "<group>"; };
 		42E9C10714CD27E00043DAE1 /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = "../../src/third_party/icu/lib-osx/libicuuc.a"; sourceTree = "<group>"; };
@@ -690,7 +691,8 @@
 		4233805115043BD900CEC14A /* memory */ = {
 			isa = PBXGroup;
 			children = (
-				4233805215043BD900CEC14A /* pool.cc */,
+				423381E015045F6300CEC14A /* pool.cc */,
+				423381DF15045ED700CEC14A /* pool-inl.h */,
 				4233805315043BD900CEC14A /* pool.h */,
 			);
 			path = memory;
@@ -983,7 +985,6 @@
 				423380CB15043BD900CEC14A /* external_ast.cc in Sources */,
 				423380CC15043BD900CEC14A /* external_resource.cc in Sources */,
 				423380CD15043BD900CEC14A /* internal.cc in Sources */,
-				423380CE15043BD900CEC14A /* pool.cc in Sources */,
 				423380CF15043BD900CEC14A /* parser.cc in Sources */,
 				423380D015043BD900CEC14A /* scanner.cc in Sources */,
 				423380D115043BD900CEC14A /* source_stream.cc in Sources */,
@@ -1004,6 +1005,7 @@
 				423381C9150444BA00CEC14A /* tinyxmlparser.cpp in Sources */,
 				423381D615045AA100CEC14A /* thread.cc in Sources */,
 				423381DA15045AF300CEC14A /* file_io.cc in Sources */,
+				423381E115045F6300CEC14A /* pool.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,6 +1053,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					HAVE_CONFIG_H,
@@ -1063,11 +1066,6 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include/,
 					"../../src/**",
-				);
-				"HEADER_SEARCH_PATHS[arch=*]" = (
-					"../../src/**",
-					"/usr/local/include/**",
-					/opt/local/include/,
 				);
 				"LIBRARY_SEARCH_PATHS[arch=*]" = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -1084,13 +1082,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CONFIGURATION_BUILD_DIR = ../../bin/osx/release/;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					HAVE_CONFIG_H,
+					"CURRENT_DIR=\\\"/Users/aono_taketoshi/github/mocha/src/\\\"",
+					HAVE_PTHREAD,
+				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include/,
+					"../../src/**",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				New_Setting = "";
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 			};

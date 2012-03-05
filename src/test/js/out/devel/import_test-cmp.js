@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/module_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./module_test.js'] = {};
+      _mochaGlobalExport['../../../../test/js/harmony/module_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./module_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['../../../../test/js/harmony/module_test.js'],
           testModule1 = _mochaGlobalAlias.testModule1 = function () {
             try {
               function testExport1() {
@@ -913,14 +913,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src//test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./import_test.js'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./import_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['./module_test.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['../../../../test/js/harmony/module_test.js'],
           testExport1 = _mochaLocalTmp0.testModule1 && _mochaLocalTmp0.testModule1.testExport1?_mochaLocalTmp0.testModule1.testExport1 : undefined,
           testExport2 = _mochaLocalTmp0.testModule2 && _mochaLocalTmp0.testModule2.testInnerModule3 && _mochaLocalTmp0.testModule2.testInnerModule3.testExport2?_mochaLocalTmp0.testModule2.testInnerModule3.testExport2 : undefined,
           testExport3 = _mochaLocalTmp0.testModule2 && _mochaLocalTmp0.testModule2.testInnerModule3 && _mochaLocalTmp0.testModule2.testInnerModule3.testExport3?_mochaLocalTmp0.testModule2.testInnerModule3.testExport3 : undefined,

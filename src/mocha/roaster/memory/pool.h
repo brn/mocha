@@ -12,6 +12,7 @@ class Allocated {
   Allocated(){}
   virtual ~Allocated(){}
   void* operator new(size_t size, Pool* pool);
+ protected :
   void operator delete(void* ptr);
   void operator delete(void* ptr, Pool* pool);
  private :
@@ -20,12 +21,14 @@ class Allocated {
 };
 
 class Pool : private Uncopyable {
+  friend class Allocated;
  public :
   Pool();
   ~Pool();
-  void* Alloc(size_t size);
+  void Free();
   static Pool* Local();
  private :
+  void* AllocLinkedList(size_t size);
   Allocated* current_;
   Allocated* head_;
   static ThreadLocalStorageKey key_;
@@ -34,4 +37,5 @@ class Pool : private Uncopyable {
 }
 }
 
+#include <mocha/roaster/memory/pool-inl.h>
 #endif

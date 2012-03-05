@@ -248,6 +248,16 @@ void AstBuilder::FindDirectivePrologue(AstNode* node, Function* fn) {
   FindDirectivePrologueCommon(node, fn);
 }
 
+CallExp* AstBuilder::BuildPrivateRecordAccessor(int64_t line) {
+  Literal* this_sym = CreateNameNode(SymbolList::symbol(SymbolList::kThis),
+                                     Token::JS_THIS, line, Literal::kThis);
+  Literal* private_field = CreateNameNode(SymbolList::symbol(SymbolList::kGetPrivateRecord),
+                                          Token::JS_IDENTIFIER, line, Literal::kProperty);
+  NodeList* args = CreateNodeList(1, this_sym->Clone(pool()));
+  CallExp* normal = CreateNormalAccessor(private_field, args, line);
+  return CreateRuntimeMod(normal, line);
+}
+
 bool AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
   return (node->node_type() == AstNode::kArrayLikeLiteral ||
            node->node_type() == AstNode::kObjectLikeLiteral) &&

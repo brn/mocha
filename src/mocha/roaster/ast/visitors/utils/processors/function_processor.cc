@@ -398,7 +398,6 @@ class YieldHelper : private Processor {
       if (!value->first_child()->IsEmpty()) {
         AssignmentExp* assign = builder()->CreateAssignment('=', ident, value->first_child()->Clone(pool()), value->line_number());
         ExpressionStmt* stmt = builder()->CreateExpStmt(assign, value->line_number());
-        fprintf(stderr, "%s %s\n", value->value()->token(), info_->visitor_info()->filename());
         if (value->parent_node()->parent_node()->CastToStatement()->IsSplitable()) {
           stmt->MarkAsSplitableStatement();
         }
@@ -608,7 +607,6 @@ class YieldHelper : private Processor {
     }
                                                                 
     if (!last->IsEmpty()) {
-      printf("%s\n", last->node_name());
       last->CastToStatement()->MarkAsSplitableStatement();
     }
                                                                 

@@ -29,7 +29,6 @@ SharedStr VirtualDirectory::GetRealPath( const char* path ) {
   std::string tmp = current_dir_;
   tmp += '/';
   tmp += path;
-  printf( "before process -> %s\n" , tmp.c_str() );
   return FileSystem::NormalizePath( tmp.c_str() );
 }
 

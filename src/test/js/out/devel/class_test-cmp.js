@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src//test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./class_test.js'] = {};

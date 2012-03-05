@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json2_compiled.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src//test/js/262/lib/json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./json2_compiled.js'] = {};
@@ -1011,7 +1011,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 4320743680;
+                      __LINE__ = 4332467696;
                       a : 
                       {
                         
@@ -1087,7 +1087,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 4320770736;
+                      __LINE__ = 4332494752;
                       a : 
                       {
                         

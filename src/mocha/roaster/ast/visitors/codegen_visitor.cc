@@ -19,7 +19,7 @@ namespace mocha {
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void CodegenVisitor::Visit##type(type* ast_node)
 #define ITERATOR(name) begin = name.begin(),end = name.end()
-#define PRINTABLE
+
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME printf("depth = %d name = %s\n", depth_++, ast_node->node_name())
 #else
@@ -981,7 +981,6 @@ VISITOR_IMPL(Literal) {
         stream()->Write(tmp.c_str());
       } else {
         if (scope_) {
-          printf("scope = %p, token = %s\n", scope_, symbol);
           SymbolEntry entry = scope_->Find(ast_node->value());
           if (entry.first != 0) {
             TokenInfo *info = entry.first;

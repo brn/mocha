@@ -662,6 +662,12 @@ VISITOR_IMPL(Literal) {
     }
       break;
 
+    case Literal::kPrivate : {
+      CallExp* runtime_call = builder()->BuildPrivateRecordAccessor(ast_node->line_number());
+      ast_node->parent_node()->ReplaceChild( ast_node , runtime_call );
+    }
+      break;
+
     case Literal::kSuper : {
       TokenInfo* info = new(pool()) TokenInfo(SymbolList::symbol(SymbolList::kSuper),
                                               Token::JS_IDENTIFIER, ast_node->line_number());

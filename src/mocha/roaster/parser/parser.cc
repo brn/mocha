@@ -345,6 +345,7 @@ AstNode* Parser::ParseSourceElement() {
           fn->MarkAsConstDeclaration();
         } else {
           result = ParseVariableStatement();
+          CHECK_ERROR(result);
           result->first_child()->CastToExpression()->CastToVariableDeclarationList()->MarkAsConstDeclaration();
         }
       }
@@ -445,7 +446,6 @@ AstNode* Parser::ParseStatement() {
       result = ParseExportStatement();
       break;
 
-      //The let and const variable statement is not create block scope.
     case Token::JS_VAR :
       result = ParseVariableStatement();
       break;
@@ -2944,23 +2944,20 @@ AstNode* Parser::ParseMemberExpression() {
   CallExp* exp;
   if (token->type() == Token::JS_PRIVATE) {
     TokenInfo* pr_sym = token;
-    token = Seek(2);
     Literal* private_literal = new(pool()) Literal(Literal::kProperty, token->line_number());
     private_literal->set_value(pr_sym);
-    exp = new(pool()) CallExp(CallExp::kPrivate, token->line_number());
-    Advance(2);
-    AstNode *primary = ParsePrimaryExpression();
-    CHECK_ERROR(primary);
-    if (primary->CastToLiteral() && primary->CastToLiteral()->value_type() == Literal::kIdentifier) {
-      primary->CastToLiteral()->set_value_type(Literal::kProperty);
-    }
-    exp->set_callable(private_literal);
-    exp->set_args(primary);
+    private_literal->MarkAsInValidLhs();
+    Advance();
     token = Seek();
     if (token->type() != '.' && token->type() != '[') {
       END(MemberExpression);
-      return exp;
+      private_literal->set_value_type(Literal::kPrivate);
+      return private_literal;
     }
+    exp = new(pool()) CallExp(CallExp::kPrivate, token->line_number());
+    exp->set_callable(private_literal);
+    ParseEachMember(token->type(), true, exp);
+    token = Seek();
   } else {
     AstNode *primary = ParsePrimaryExpression();
     CHECK_ERROR(primary);
@@ -3503,6 +3500,23 @@ AstNode* Parser::ParseLiteral() {
     }
       break;
 
+    case Token::JS_PARAMETER_REST : {
+      token = Seek();
+      if (token->type() == Token::JS_IDENTIFIER) {
+        AstNode* value = ParseLiteral();
+        CHECK_ERROR(value);
+        value->CastToLiteral()->set_value_type(Literal::kRest);
+        return value;
+      } else {
+        SYNTAX_ERROR("parse error got unexpected token "
+                     << TokenConverter(token).cstr()
+                     << " in 'formal parameter rest' expect 'identifier'\\nin file "
+                     << filename_ << " at line " << token->line_number());
+        END(FormalParameterErrror);
+      }
+    }
+      break;
+      
     case Token::JS_TRUE :
       value_type = Literal::kTrue;
       is_invalid_lhs = true;
