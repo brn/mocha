@@ -14,11 +14,11 @@
 #include <vector>
 #include <string>
 
-#include <mocha/misc/file_system/file_system.h>
-#include <mocha/roaster/misc/io/file_io.h>
+#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/misc/io/file_io.h>
 #include <useconfig.h>
-#include <mocha/misc/file_system/stat.h>
-#include <mocha/misc/file_system/mkdir.h>
+#include <mocha/roaster/file_system/stat.h>
+#include <mocha/roaster/file_system/mkdir.h>
 #include <mocha/misc/char_allocator.h>
 
 #ifdef _WIN32
@@ -46,11 +46,8 @@
 
 using namespace mocha;
 
-PathInfo::PathInfo( const char* path ) :
-    filepath_( GetFileNameFromPath_( path ) ) , dir_( GetDirectoryFromPath_( path ) ) , raw_path_( path ){}
-
-const char* PathInfo::GetDirectoryFromPath_( const char* path ) {
-  int index = strlen( path );
+void GetDirectoryFromPath(const char* path, std::string* buffer) {
+  int index = strlen(path);
   std::string tmp = path;
   bool is_slashed = false;
   while ( index-- ) {
@@ -62,50 +59,50 @@ const char* PathInfo::GetDirectoryFromPath_( const char* path ) {
     }
   }
   tmp.erase( index + 1 , tmp.size() );
-  char* ret = new char[ tmp.size() + 1 ];
-  strcpy( ret , tmp.c_str() );
-  return ret;
+  buffer->assign(tmp.c_str());
 }
 
-const char* PathInfo::GetFileNameFromPath_( const char* path ) {
+void GetFileNameFromPath( const char* path, std::string* buffer) {
   std::string tmp;
+  int len = strlen(path);
+  if (path[len - 1] == '/' ) {
+    return;
+  }
   const char* ptr = strrchr( path , '/' );
   if ( ptr ) {
     tmp = ( ptr + 1 );
   }
-  char* ret = new char[ tmp.size() + 1 ];
-  strcpy( ret, tmp.c_str() );
-  return ret;
+  buffer->assign(tmp.c_str());
 }
 
-SharedStr FileSystem::pwd () {
-  return GetCwd ();
-}
-
-SharedPtr<PathInfo> FileSystem::GetPathInfo( const char* path ) {
-  char* raw_path = new char[ strlen( path ) + 1 ];
-  strcpy( raw_path , path );
-  SharedPtr<PathInfo> handle( new PathInfo( raw_path ) );
-  return handle;
-}
-
-SharedStr FileSystem::NormalizePath( const char* path ) {
-  std::string tmp = path;
-  size_t size = tmp.size();
+void ConvertBackSlash(const char* path, std::string& buffer) {
+  buffer->assign(path);
+  size_t size = buffer->size();
   size_t index = 0;
-  while ( ( index = tmp.find( "\\" , 0 ) ) != std::string::npos ) {
-    tmp = tmp.replace( index , 1 , "/" );
+  while ((index = buffer->find( "\\", 0)) != std::string::npos) {
+    buffer->replace(index, 1, "/");
   }
+}
+
+void GetAbsolutePath(const char* path, std::string* buffer) {
+  char *tmp;
+  FULL_PATH(path, tmp);
+  ConvertBackSlash(tmp, &buffer);
+  free(tmp);
+}
+
+void NormalizePath(const char* path, std::string* buffer) {
+  ConvertBackSlash(path, &buffer);
   while ( 1 ) {
-    size_t pos = tmp.find( "../" , 0 );
+    size_t pos = buffer.find( "../" , 0 );
     if ( pos == std::string::npos ) {
-      size_t pos = tmp.find( "./" , 0 );
+      size_t pos = buffer.find( "./" , 0 );
       if ( pos != std::string::npos ) {
-        tmp.erase( pos , 2 );
+        buffer.erase( pos , 2 );
       } else {
-        size_t pos = tmp.find( "//" , 0 );
+        size_t pos = buffer.find( "//" , 0 );
         if ( pos != std::string::npos ) {
-          tmp.erase( pos , 1 );
+          buffer.erase( pos , 1 );
         } else {
           break;
         }
@@ -117,13 +114,13 @@ SharedStr FileSystem::NormalizePath( const char* path ) {
       int ssize = size;
       bool has_ch = false;
       while ( spos < ssize && spos > -1 ) {
-        if ( tmp[ spos ] == '/' ) {
+        if ( buffer[ spos ] == '/' ) {
           if ( matched == 1 && has_ch ) {
             break;
           }
           matched = 1;
         }
-        if ( tmp[ spos ] != '.' && tmp[ spos ] != '/' ) {
+        if ( buffer[ spos ] != '.' && buffer[ spos ] != '/' ) {
           has_ch = true;
         }
         spos--;
@@ -132,37 +129,69 @@ SharedStr FileSystem::NormalizePath( const char* path ) {
       if ( spos < 0 ) {
         spos = 0;
       }
-      tmp.erase( spos , count + 2 );
+      buffer.erase( spos , count + 2 );
     }
   }
-  if ( tmp[ tmp.size() - 1 ] == '/' ) {
-    tmp.erase( tmp.size() - 1 , tmp.size() );
+  if ( buffer[ buffer.size() - 1 ] == '/' ) {
+    buffer.erase( buffer.size() - 1 , buffer.size() );
   }
-  return SharedStr( utils::CharAlloc( tmp.c_str() ) );
+}
+
+class FileSystem::Path {
+ public :
+  Path(const char* path)
+      : raw_(path) {
+    NormalizePath(path, &fullpath_);
+    GetAbsolutePath(absolute_path(), &fullpath_);
+    GetDirectoryFromPath(absolute_path(), &directory_);
+    GetFileNameFromPath(absolute_path(), &filename_);
+  }
+}
+  
+SharedStr FileSystem::current_directory() {
+  MutexLock(mutex_);
+#define GW_BUF_SIZE 1000
+#ifdef HAVE_WINDOWS_H
+    char tmp[GW_BUF_SIZE];
+    DWORD isSuccess = GetCurrentDirectory(sizeof(tmp), tmp);
+    if ( !isSuccess ) {
+      fprintf(stderr , "GetCwd fail.");
+    }
+    ConvertBackSlash(tmp, &current_path_);
+#else
+    char tmp[ GW_BUF_SIZE ];
+    char* dir = getcwd(tmp, sizeof (tmp));
+    if ( !dir ) {
+      fprintf( stderr , "GetCwd fail." );
+    };
+    current_dir_ = dir;
+#endif
+    return current_dir_.c_str();
 }
 
 
-
-SharedStr FileSystem::GetUserHomeDir() {
+const char* FileSystem::home_directory() {
 #ifdef _WIN32
-  std::string drive = getenv( "HOMEDRIVE" );
-  std::string home = getenv( HOME );
-  drive += home;
-  return GetAbsolutePath( drive.c_str() );
+  const char* drive = getenv("HOMEDRIVE");
+  const char* home = getenv(HOME);
+  if (home && drive) {
+    user_home_ = dirve;
+    user_home_ += home;
+    GetAbsolutePath(user_home_.c_str(), user_home_);
+    return user_home_.c_str();
+  }
+  return 0;
 #else
-  char* ret = utils::CharAlloc( getenv( HOME ) );
-  return SharedStr( ret );
+  const char* home = getenv(HOME);
+  if (home) {
+    user_home_ = home;
+    user_home_.c_str();
+    return user_home_.c_str();
+  }
+  return 0;
 #endif
 }
 
-
-SharedStr FileSystem::GetAbsolutePath( const char* path ) {
-  char *tmp;
-  FULL_PATH( path , tmp );
-  char* ret = utils::CharAlloc( tmp );
-  free( tmp );
-  return SharedStr( ret );
-}
 
 typedef std::vector<std::string> PathArray;
 
@@ -232,21 +261,19 @@ SharedStr FileSystem::GetModuleKey( const char* base , const char* path ) {
   return SharedStr( utils::CharAlloc( result.c_str() ) );
 }
 
-void FileSystem::Chdir ( const char* path ) {
-
+void FileSystem::chdir ( const char* path ) {
 #ifdef _WIN32
-  SetCurrentDirectory ( path );
+  SetCurrentDirectory(path);
 #else
-  chdir ( path );
+  chdir(path);
 #endif
-
 }
 
-bool FileSystem::Mkdir( const char* path , int permiss ) {
-  return mocha::Mkdir( path , permiss );
+bool FileSystem::mkdir( const char* path , int permiss ) {
+  return Mkdir(path, permiss);
 }
 
-bool FileSystem::Chmod( const char* path , int permiss ) {
+bool FileSystem::chmod( const char* path , int permiss ) {
   if ( FileIO::IsExist( path ) ) {
     chmod( path , permiss );
     return true;

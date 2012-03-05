@@ -1,7 +1,7 @@
 #include <string>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/misc/file_system/virtual_directory.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/virtual_directory.h>
+#include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/symbol_list.h>

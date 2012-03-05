@@ -1,6 +1,7 @@
 #include <string.h>
-#include <boost/unordered_map.hpp>
-#include <mocha/roaster/utils/compiler_facade.h>
+#include <mocha/roaster/lib/unordered_map.h>
+#include <mocha/roaster/roaster.h>
+#include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/misc/file_watcher/observer/file_observer.h>
@@ -9,6 +10,45 @@
 
 namespace mocha {
 
+class FileWriter {
+ public :
+  FileWriter(Resource* resource)
+      : resource_(resource){}
+  FileWriter(const FileWriter& writer) {
+    resource_ = writer.resource_;
+  }
+  void operator() (CompilationResultHandle result) {
+    //Current directory -> main js file path.
+    //Get file name of main js file.
+    char tmp[ 1000 ];
+    if (resource->GetDeploy()) {
+      const char* dir = resource->GetDeploy();
+      Stat stat(dir);
+      if (!stat.IsExist() || !stat.IsDir()) {
+        FileSystem::mkdir(dir, 0777);
+        FileSystem::chmod(dir, 0777);
+      }
+      FileSystem::Path path(result->filename());
+      sprintf(tmp, "%s/%s", dir, path.filename());
+    } else {
+      tmp = result->filename();
+    }
+
+    //Get deploy path of -cmp.js file.
+    SharedStr handle = CreateDeployName(tmp);
+                                                                
+    SharedPtr<File> ret = FileIO::Open (handle.Get(),
+                                        "rwn",
+                                        FileIO::P_ReadWrite);
+    //Setting::GetInstance()->Log("deploy to %s", handle.Get());
+    //Set permission to rw for all.
+    FileSystem::chmod(handle.Get(), 0777);
+    ret->Write(script);
+  }
+ private :
+  Resource* resource_;
+};
+
 class FileObserver::FileUpdater : public IUpdater {
   friend class FileObserver;
  public :
@@ -16,15 +56,13 @@ class FileObserver::FileUpdater : public IUpdater {
     const char* filename = trait->filename;
     if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
       Mutex* mutex = mutex_list_[ filename ].Get();
-      MutexLock lock( (*mutex) );
-      Thread thread;
-      const char* name = filename;
-      char* hname = new char[ strlen( name ) + 1 ];
-      strcpy( hname , name );
-      if ( !thread.Create ( CompilerFacade::ExternalThreadRunner , hname ) ) {
-        fprintf ( stderr,"thread create fail." );
+      MutexLock lock((*mutex));
+      Resource* resource = ExternalResource::SafeGet(filename);
+      if (resource) {
+        AsyncCallback callback = FileWriter(resource);
+        Roaster roaster;
+        roaster.CompileAsync(resource->compilation_info(), false, callback);
       }
-      thread.Join();
     }
   }
   void Update( watch_traits::DeleteSelf* trait ) {
@@ -39,7 +77,7 @@ class FileObserver::FileUpdater : public IUpdater {
     }
   }
  private :
-  typedef boost::unordered_map<std::string,SharedPtr<Mutex> > List;
+  typedef roastlib::unordered_map<std::string,SharedPtr<Mutex> > List;
   List mutex_list_;
 };
 

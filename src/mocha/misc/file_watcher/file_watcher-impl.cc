@@ -7,9 +7,9 @@
 #endif
 #include <stdio.h>
 #include <mocha/roaster/lib/unordered_map.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 #include <mocha/misc/file_watcher/file_watcher.h>
-#include <mocha/misc/file_system/stat.h>
+#include <mocha/roaster/file_system/stat.h>
 #define SETTINGS Setting::GetInstance()
 #define GET_MASK(mask) ( type & mask ) == mask
 #define ITERATOR(name) begin = name.begin(),end = name.end();

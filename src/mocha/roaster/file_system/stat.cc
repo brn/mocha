@@ -10,7 +10,7 @@
   #include <sys/types.h>
 #endif
 
-#include <mocha/misc/file_system/stat.h>
+#include <mocha/roaster/file_system/stat.h>
 
 #ifdef HAVE_STRUCT_STAT
   #define STAT struct stat

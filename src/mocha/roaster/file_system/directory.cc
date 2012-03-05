@@ -7,8 +7,8 @@
 #include <dirent.h>
 #endif
 
-#include <mocha/misc/file_system/directory.h>
-#include <mocha/misc/file_system/stat.h>
+#include <mocha/roaster/file_system/directory.h>
+#include <mocha/roaster/file_system/stat.h>
 
 namespace mocha {
 

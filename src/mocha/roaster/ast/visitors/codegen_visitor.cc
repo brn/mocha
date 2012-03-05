@@ -12,7 +12,7 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 
 namespace mocha {
 

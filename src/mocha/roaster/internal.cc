@@ -11,8 +11,8 @@
 #include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/misc/io/file_io.h>
-#include <mocha/misc/file_system/file_system.h>
-#include <mocha/misc/file_system/virtual_directory.h>
+#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/ast_transformer.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
@@ -24,138 +24,94 @@ namespace mocha {
 #define FILE_NOT_EXIST file_exist_ = false
                                 
 
-Internal::Internal (const char* main_file_path,
-                     bool is_runtime,
-                     SharedPtr<PathInfo> path_info ,
-                     Compiler* compiler,
-                     ScopeRegistry *scope_registry,
-                     CodegenVisitor *codegen,
-                     AstRoot* ast_root,
-                     memory::Pool* pool) :
+Internal::Internal(FileSystem::Path* path, Compiler* compiler, CodegenVisitor* codegen, ScopeRegistry *scope_registry, bool is_runtime,
+                   AstRoot* ast_root, memory::Pool* pool)
+    : path_(path), is_runtime_(is_runtime), file_exist_ (false), file_path_(file_path), compiler_(compiler),
+      codegen_(codegen), scope_registry_ (scope_registry), ast_root_(ast_root), pool_(pool){}
 
-    main_file_path_(main_file_path),
-    is_runtime_(is_runtime),
-    file_exist_ (false),
-    compiler_ (compiler),
-    scope_registry_ (scope_registry),
-    ast_root_(ast_root),
-    codegen_ (codegen),
-    path_info_(path_info),
-    pool_(pool){}
+void Internal::Parse(ErrorLevel level) {
+  ParseStart(false);
+}
 
-void Internal::Parse (ErrorLevel level) {
-  LoadFile_ ();
-  if (file_exist_ || level == kNofatal) {
-    if (file_exist_) {
-      ParseStart_ ();
-    } else {
-      Setting::GetInstance()->LogError("%s/%s No such file or directory.\n",
-                                        path_info_->GetDirPath().Get(),
-                                        path_info_->GetFileName().Get());
-    }
+void Internal::GetAst(ErrorLevel level) {
+  ParseStart(true);
+}
+
+void Internal::ParseStart(bool is_ast) {
+  if (compiler()->compilation_info()->IsFile()) {
+    RunAction(is_ast);
   } else {
-    Setting::GetInstance()->LogFatal("%s/%s No such file or directory.\n",
-                                      path_info_->GetDirPath().Get(),
-                                      path_info_->GetFileName().Get());
+    DoParse(is_ast);
   }
 }
 
-void Internal::GetAst (ErrorLevel level, ErrorReporter *reporter) {
-  LoadFile_ ();
-  if (file_exist_ || level == kNofatal) {
-    if (file_exist_) {
-      GetAst_(reporter);
-    } else {
-      Setting::GetInstance()->LogError("%s/%s No such file or directory.\n",
-                                        path_info_->GetDirPath().Get(),
-                                        path_info_->GetFileName().Get());
+void Internal::RunAction(bool is_ast) {
+  LoadFile();
+  if (exist() || level == kNofatal) {
+    if (exist()) {
+      return DoParse(is_ast);
     }
-  } else {
-    Setting::GetInstance()->LogFatal("%s/%s No such file or directory.\n",
-                                      path_info_->GetDirPath().Get(),
-                                      path_info_->GetFileName().Get());
   }
+  ast_root_->AddChild(new(pool_) Empty);
+  Setting::GetInstance()->LogError("%s/%s No such file or directory.\n",
+                                   compiler()->compilation_info()->absolute_path());
 }
 
-inline void Internal::LoadFile_ () {
-  char path[ 1000 ];
-  sprintf(path, "%s/%s",
-           path_info_->GetDirPath().Get(),
-           path_info_->GetFileName().Get());
-                                
+inline void Internal::LoadFile() {
   //Check is file exist.
-  if (mocha::FileIO::IsExist (path)) {
-    file_ = mocha::FileIO::Open (path, "rb");
+  if (path_->HasAbsolutePath() && mocha::FileIO::IsExist(path_->absolute_path())) {
+    file_ = mocha::FileIO::Open(path_->absolute_path(), "rb");
     //Set bool to true.
     FILE_EXIST;
   } else {
     //Write error message to result.
-    OpenError_();
+    OpenError(path);
     //Set bool to false.
     FILE_NOT_EXIST;
   }
 }
 
 
-inline void Internal::GetAst_ (ErrorReporter *reporter) {
+inline void Internal::DoParse(bool is_ast) {
   std::string buf;
-  file_->GetFileContents(buf);
-  SourceStream *source_stream = SourceStream::New(buf.c_str(), main_file_path_);
-  Scanner *scanner = Scanner::New(source_stream, reporter, file_->GetFileName());
-  ParserConnector connector(compiler_, ast_root_, scanner, source_stream, reporter);
-  Parser parser(&connector, reporter, file_->GetFileName());
-  FileRoot* root = parser.Parse();
-  AstTransformer visitor (is_runtime_, scope_registry_, compiler_,
-                           main_file_path_, file_->GetFileName());
-  if (!reporter->Error()) {
-    AstRoot tmp_root;
-    tmp_root.AddChild(root);
-    tmp_root.Accept (&visitor);
-    ast_root_->AddChild(tmp_root.first_child());
+  bool is_file = compiler()->compilation_info()->IsFile();
+  if (is_file) {
+    file()->GetFileContents(buf);
   } else {
-    std::string error;
-    reporter->SetError(&error);
-    fprintf(stderr, "%s\n", error.c_str());
-    abort();
+    buf = file_path_;
   }
-}
-
-
-inline void Internal::ParseStart_ () {
-  std::string buf;
-  file_->GetFileContents(buf);
+  const char* filename = (is_file)? file_->GetFileName() : "anonymous";
   ErrorHandler reporter(new ErrorReporter);
   SourceStream *source_stream = SourceStream::New(buf.c_str(), main_file_path_);
-  Scanner *scanner = Scanner::New(source_stream, reporter.Get(), file_->GetFileName());
+  Scanner *scanner = Scanner::New(source_stream, reporter.Get(), filename);
   ParserConnector connector(compiler_, ast_root_, scanner, source_stream, reporter.Get());
-  Parser parser(&connector, reporter.Get(), file_->GetFileName());
+  Parser parser(&connector, reporter.Get(), filename);
   FileRoot* root = parser.Parse();
   AstTransformer visitor (is_runtime_, scope_registry_, compiler_,
-                           main_file_path_, file_->GetFileName());
-  compiler_->CatchException(file_->GetFileName(), reporter);
+                          compiler()->compilation_info()->absolute_path(), filename);
+  if (!is_ast) {
+    compiler()->CatchException(filename, reporter);
+  }
   if (!reporter->Error()) {
     AstRoot tmp_root;
     tmp_root.AddChild(root);
     tmp_root.Accept (&visitor);
     ast_root_->AddChild(tmp_root.first_child());
   } else {
-    std::string buf;
+    buf.clear();
     reporter->SetError(&buf);
-    fprintf(stderr, "%s\n", buf.c_str());
-    Setting::GetInstance()->Log("syntax error found in file %s.",
-                                 file_->GetFileName());
-    codegen_->Write (buf.c_str());
+    if (!is_ast) {
+      codegen_->Write(buf.c_str());
+    }
+    ast_root_->AddChild(new(pool_) Empty);
   }
 }
 
-inline void Internal::OpenError_() {
-  char tmp[ 10000 ];
-  sprintf(tmp ,
-           "try{\n"
-           "  throw new SyntaxError(\"%s No such file or directory\")\n"
-           "}catch(e){\n"
-           "  throw new Error(e);\n"
-           "}\n;", path_info_->GetFileIdentifier().Get());
+inline void Internal::OpenError(const char* filename) {
+  ErrorReporter reporter;
+  std::stringstream st;
+  st << "no such file or directory " << filename;
+  reporter_->ReportSyntaxError(st.str().c_str());
   codegen_->Write (tmp);
   printf("%s\n", tmp);
 }

@@ -4,7 +4,7 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 namespace mocha {
 
 void CreateRelativePath(const char* base, const char* target, std::string *buffer) {

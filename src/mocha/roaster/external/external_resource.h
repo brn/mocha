@@ -29,7 +29,10 @@ class Resources {
   const ModuleList& GetModuleList();
   CompileInfo* GetCompileInfo();
   SharedStr GetCmpPath_(const char* path);
+  bool IsFile() const;
+  void set_file();
  private :
+  bool is_file_;
   std::string input_charset_;
   std::string output_charset_;
   std::string deploy_;

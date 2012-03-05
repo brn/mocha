@@ -28,10 +28,10 @@
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/utils/error_reporter.h>
-
+#include <mocha/roaster/roaster.h>
 namespace mocha {
 class ExternalAst;
 typedef SharedPtr<ErrorReporter> ErrorHandler;
@@ -59,6 +59,8 @@ class Compiler : private Uncopyable {
    * Compiler instance could create only Caompiler::CreateInstance.
    */
   Compiler (const char* filename,  FinishDelegator* callback);
+  Compiler (CompilationInfoHandle);
+  Compiler (CompilationInfoHandle, AsyncCallback);
   ~Compiler();
   
   /**
@@ -82,6 +84,7 @@ class Compiler : private Uncopyable {
   SharedStr Load (const char* filename);
 
   void CatchException(const char* filename, ErrorHandler handle);
+  AstReserver GetAst(CompilationInfoHandle);
   SharedPtr<ExternalAst> GetAst(ErrorReporter* reporter, SharedPtr<PathInfo> info, bool is_runtime);
   /**
    * @public

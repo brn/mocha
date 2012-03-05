@@ -2,11 +2,10 @@
 #include <string>
 #include <useconfig.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/options/setting.h>
-#include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/options/commandline/commandline_options.h>
 #include <mocha/bootstrap/interactions/interaction.h>
@@ -76,10 +75,11 @@ void LoadLog() {
 namespace mocha {
 
 
-SharedPtr<ExternalAst> LoadRuntime() {
+AstReserver LoadRuntime() {
   const char* path = Setting::GetInstance()->GetRuntimeFile();
-  ExternalResource::UnsafeSet( path );
-  return CompilerFacade::GetAst( path , true );
+  runtime_info_(new CompilationInfo(path));
+  Roaster roaster;
+  return roaster.GetAstFromFile(runtime_info_);
 }
 
 void Bootstrap::Initialize( int argc , char** argv ) {

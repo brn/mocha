@@ -32,7 +32,7 @@
 #include <string>
 #include <mocha/roaster/misc/io/file_io.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/misc/file_system/stat.h>
+#include <mocha/roaster/file_system/stat.h>
 #include <mocha/misc/char_allocator.h>
 #include <mocha/options/setting.h>
 

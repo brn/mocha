@@ -2,13 +2,13 @@
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/utils/compile_info.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 
-Resources::Resources() : info_(new CompileInfo){}
+Resources::Resources(const char* filename) : is_file_(true), info_(new CompilationInfo(filename)){}
 
 Resources::~Resources() {
   delete info_;
@@ -99,18 +99,21 @@ const Resources::ModuleList& Resources::GetModuleList() {
 }
 
 
-CompileInfo* Resources::GetCompileInfo() {
+bool Resources::IsFile() const { return is_file_; }
+void Resources::set_file() { is_file_ = true; }
+
+CompileInfo* Resources::compilation_info() {
   return info_;
 }
 
 void ExternalResource::UnsafeSet(const char* filename) {
-  SharedPtr<Resources> handle(new Resources);
+  SharedPtr<Resources> handle(new Resources(filename));
   resources_.insert(ResourcePair(filename, handle));
 }
 
 void ExternalResource::SafeSet(const char* filename) {
   MutexLock lock(mutex_);
-  SharedPtr<Resources> handle(new Resources);
+  SharedPtr<Resources> handle(new Resources(filename));
   resources_.insert(ResourcePair(filename, handle));
 }
 

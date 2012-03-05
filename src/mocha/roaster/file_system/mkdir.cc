@@ -6,9 +6,9 @@
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
-#include <mocha/misc/file_system/mkdir.h>
-#include <mocha/misc/file_system/stat.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/mkdir.h>
+#include <mocha/roaster/file_system/stat.h>
+#include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 

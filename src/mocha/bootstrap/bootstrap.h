@@ -12,6 +12,7 @@ class Bootstrap : private Static {
   static void Reboot();
   static const char* GetSelfPath();
  private :
+  static CompilationInfoHandle runtime_info_;
   static char** argv_;
   static std::string self_path_;
 };

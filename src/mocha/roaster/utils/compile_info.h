@@ -6,21 +6,25 @@
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
 
-class CompileInfo {
+class CompilationInfo {
   typedef std::pair<const char*, uint8_t> VersionPair;
   typedef roastlib::unordered_map<std::string, uint8_t> Versions;
  public :
-  CompileInfo();
-  ~CompileInfo(){};
-  bool Debug();
+  CompilationInfo(const char* str);
+  ~CompilationInfo(){};
+  bool Debug() const;
   void SetDebug();
-  bool Compress();
+  bool Compress() const;
   void SetCompress();
-  bool PrettyPrint();
+  bool PrettyPrint() const;
   void SetPrettyPrint();
-  bool HasVersion(const char*);
+  bool HasVersion(const char*) const;
   void SetVersion(const char*);
+  bool IsFile() const;
+  void MarkAsFile();
+  const char* string() const {return str_.c_str();}
  private :
+  std::string str_;
   BitVector8 flags_;
   Versions versions_;
 };

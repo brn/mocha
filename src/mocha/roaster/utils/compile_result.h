@@ -6,13 +6,13 @@
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 namespace mocha {
 
-class CompileResult {
+class CompilationResult {
  public :
-  CompileResult(const char* filename, SharedPtr<CodegenVisitor> visitor, ErrorMapHandle map);
-  ~CompileResult(){}
-  const char* GetFilename() { return filename_.c_str(); }
-  const char* GetSource() { return visitor_->GetCode(); }
-  const ErrorMap& GetErrorMap() { return *(map_.Get()); }
+  CompilationResult(const char* filename, SharedPtr<CodegenVisitor> visitor, ErrorMapHandle map);
+  ~CompilationResult(){}
+  const char* filename() { return filename_.c_str(); }
+  const char* source() { return visitor_->GetCode(); }
+  const ErrorMap& error_map() { return *(map_.Get()); }
  private :
   std::string filename_;
   SharedPtr<CodegenVisitor> visitor_;

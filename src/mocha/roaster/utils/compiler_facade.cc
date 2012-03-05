@@ -10,7 +10,7 @@
 #include <mocha/options/setting.h>
 #include <mocha/roaster/utils/compile_result.h>
 #include <mocha/roaster/misc/atomic.h>
-#include <mocha/misc/file_system/file_system.h>
+#include <mocha/roaster/file_system/file_system.h>
 namespace mocha {
 
 void CompilerFacade::Compile(const char* path, bool is_join) {

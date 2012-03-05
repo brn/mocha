@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #endif
-#include <mocha/misc/file_system/pwd.h>
+#include <mocha/roaster/file_system/pwd.h>
 #include <mocha/misc/char_allocator.h>
 
 using namespace mocha;
@@ -24,28 +24,21 @@ SharedStr mocha::ReplaceBackSlash( const char* path ) {
 #endif
 
 SharedStr mocha::GetCwd () {
-
 #ifdef HAVE_WINDOWS_H
   char tmp[ GW_BUF_SIZE ];
-  DWORD isSuccess = GetCurrentDirectory ( sizeof ( tmp ) , tmp );
-  
+  DWORD isSuccess = GetCurrentDirectory(sizeof(tmp), tmp);
   if ( !isSuccess ) {
     fprintf( stderr , "GetCwd fail." );
   }
-
   return ReplaceBackSlash( tmp );
-
 #else
-
   char tmp[ GW_BUF_SIZE ];
-  char* dir = getcwd ( tmp , sizeof ( tmp ) );
+  char* dir = getcwd(tmp, sizeof (tmp));
   if ( !dir ) {
     fprintf( stderr , "GetCwd fail." );
   };
-  char* ret = utils::CharAlloc( tmp );
+  char* ret = utils::CharAlloc(tmp);
   return SharedStr( ret ); 
-
 #endif
-
 };
 

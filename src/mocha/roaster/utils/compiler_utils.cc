@@ -1,7 +1,7 @@
 #include <mocha/roaster/utils/compiler_utils.h>
 #include <mocha/roaster/misc/io/file_io.h>
-#include <mocha/misc/file_system/file_system.h>
-#include <mocha/misc/file_system/virtual_directory.h>
+#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/misc/xml/xml_setting_info.h>
 
 #define JS_EXTENSION ".js"
@@ -12,7 +12,7 @@ inline bool CheckIsModule(const char* file) {
 
 namespace mocha{
 
-SharedStr CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
+SharedPtr<FileSystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
   std::string tmp;
   if (!CheckIsModule(filename)) {
     tmp += VirtualDirectory::GetInstance()->GetRealPath(filename).Get();
@@ -35,7 +35,7 @@ SharedStr CompilerUtils::CreateJsPath(const char* filename, const char* module_p
       }
     }
   }
-  return FileSystem::NormalizePath(tmp.c_str());
+  return SharedPtr<FileSystem::Path>(new FileSystem::Path(tmp.c_str()));
 }
 
 SharedPtr<PathInfo> CompilerUtils::ChangeDir(const char* js_path) {

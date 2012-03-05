@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <mocha/bootstrap/runners/compile_runner.h>
-#include <mocha/roaster/utils/compiler_facade.h>
+#include <mocha/roaster/roaster.h>
 
 namespace mocha {
 CompileRunner::CompileRunner( Options *options ) : ICommandLineRunner( options ) {}
 
+void Noop(CompilationResultHandle handle){}
+
 void CompileRunner::Run() {
-	CompilerFacade::Compile( options_->GetPath() , false );
+  Roaster roaster;
+  CompilationInfoHandle handle(new CompilationInfo(options_->GetPath()));
+  AsyncCallback callback = Noop;
+  roaster.CompileAsync(handle, true, callback);
 }
 
 }
