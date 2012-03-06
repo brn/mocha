@@ -2,6 +2,7 @@
 #define mocha_internal_h
 
 #include <string>
+#include <mocha/roaster/roaster.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <define.h>
 namespace mocha {
@@ -25,7 +26,7 @@ class Internal {
     kFatal,
     kNofatal
   } ErrorLevel;
-  Internal (FileSystem::Path* path, Compiler* compiler, CodegenVisitor* codegen,
+  Internal (const char* path, Compiler* compiler, CodegenVisitor* codegen,
             ScopeRegistry *scope_registry, bool is_runtime,
             AstRoot* ast_root, memory::Pool* pool);
   inline ~Internal () {};
@@ -42,7 +43,7 @@ class Internal {
   inline void OpenError();
   bool is_runtime_;
   bool file_exist_;
-  FileSystem::Path* path_;
+  const char* path_;
   std::string error_;
   Compiler* compiler_;
   CodegenVisitor* codegen_;

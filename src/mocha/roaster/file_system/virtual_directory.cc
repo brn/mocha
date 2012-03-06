@@ -3,18 +3,18 @@
 #include <mocha/roaster/file_system/file_system.h>
 
 namespace mocha {
-
-VirtualDirectory* VirtualDirectory::GetInstance() {
-  VirtualDirectory* instance = reinterpret_cast<VirtualDirectory*>( ThreadLocalStorage::Get( &local_key_ ) );
+namespace filesystem {
+VirtualDirectory* filesystem::VirtualDirectory::GetInstance() {
+  filesystem::VirtualDirectory* instance = reinterpret_cast<filesystem::VirtualDirectory*>( ThreadLocalStorage::Get( &local_key_ ) );
   if ( instance == NULL ) {
-    instance = new VirtualDirectory;
+    instance = new filesystem::VirtualDirectory;
     ThreadLocalStorage::Set( &local_key_ , instance );
   }
   return instance;
 }
 
 void VirtualDirectory::Chdir( const char* path ) {
-  SharedStr handle = FileSystem::NormalizePath( path );
+  SharedStr handle = filesystem::NormalizePath( path );
   current_dir_ = handle.Get();
 }
 
@@ -29,7 +29,7 @@ SharedStr VirtualDirectory::GetRealPath( const char* path ) {
   std::string tmp = current_dir_;
   tmp += '/';
   tmp += path;
-  return FileSystem::NormalizePath( tmp.c_str() );
+  return filesystem::NormalizePath( tmp.c_str() );
 }
 
 void VirtualDirectory::SetModuleKey( const char* path ) {
@@ -47,5 +47,5 @@ void VirtualDirectory::Destructor_( void* ptr ) {
 
 ThreadLocalStorageKey VirtualDirectory::local_key_( VirtualDirectory::Destructor_ );
 Mutex VirtualDirectory::mutex_;
-
+}
 }

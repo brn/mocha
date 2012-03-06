@@ -19,7 +19,7 @@
 #endif
 
 namespace mocha {
-
+namespace filesystem {
 class MutexHolder : private Static {
  public :
   static Mutex mutex;
@@ -27,8 +27,8 @@ class MutexHolder : private Static {
 
 Mutex MutexHolder::mutex;
 
-bool Mkdir( const char* path , int permiss ) {
-  MutexLock lock( MutexHolder::mutex );
+bool mkdir( const char* path , int permiss ) {
+  MutexLock lock(MutexHolder::mutex);
   int len = strlen( path );
   if ( len > 0 ) {
     std::string processed_path = path;
@@ -36,12 +36,12 @@ bool Mkdir( const char* path , int permiss ) {
       processed_path += '/';
       len += 1;
     }
-    SharedStr handle = FileSystem::pwd();
+    SharedStr handle = filesystem::pwd();
     char tmp[ 200 ];
     for ( int i = 0,count = 0; i < len; ++i ) {
       if ( processed_path[ i ] == '/' ) {
         if ( i == 0 ) {
-          FileSystem::Chdir( "/" );
+          filesystem::chdir( "/" );
         } else {
           if ( tmp[ count - 1 ] == ':' ) {
             tmp[ count ] = '/';
@@ -51,13 +51,13 @@ bool Mkdir( const char* path , int permiss ) {
           Stat st( tmp );
           if ( !st.IsExist() || !st.IsDir() ) {
             if ( -1 == MKDIR( tmp ) ) {
-              FileSystem::Chdir( handle.Get() );
+              filesystem::chdir( handle.Get() );
               return false;
             }
-            FileSystem::Chmod( tmp , permiss );
-            FileSystem::Chdir( tmp );
+            filesystem::chmod( tmp , permiss );
+            filesystem::chdir( tmp );
           } else if ( st.IsDir() ) {
-            FileSystem::Chdir( tmp );
+            filesystem::chdir( tmp );
           }
           tmp[ 0 ] = '\0';
           count = 0;
@@ -67,10 +67,10 @@ bool Mkdir( const char* path , int permiss ) {
         count++;
       }
     }
-    FileSystem::Chdir( handle.Get() );
+    filesystem::chdir( handle.Get() );
     return true;
   }
   return false;
 }
-
+}
 }

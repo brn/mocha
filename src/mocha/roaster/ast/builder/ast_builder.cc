@@ -172,8 +172,8 @@ Literal* AstBuilder::CreateTmpNode(int index, int64_t line) {
 
 CallExp* AstBuilder::CreateGlobalExportNode(AstNode* ast_node, VisitorInfo* visitor_info,
                                            const char* base, const char* filename, int64_t line) {
-  FileSystem::Path path(filename);
-  SharedStr handle = FileSystem::GetModuleKey(visitor_info->compiler()->path()->directory(),
+  filesystem::Path path(filename);
+  SharedStr handle = filesystem::GetModuleKey(visitor_info->compiler()->path()->directory(),
                                               path.directory());
   std::string modkey = "'";
   modkey += handle.Get();

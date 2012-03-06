@@ -11,7 +11,7 @@
 #include <mocha/roaster/file_system/stat.h>
 
 namespace mocha {
-
+namespace filesystem {
 DirectoryIterator::DirectoryIterator( const DirEntry* entry ) : entry_( entry ){}
 DirectoryIterator::~DirectoryIterator() {}
 
@@ -184,6 +184,6 @@ DirectoryIterator Directory::GetFileList( bool is_recursive , bool show_level ) 
   return DirectoryIterator( finder.GetFirst() );
 }
 
-#endif
-
 }
+}
+#endif

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <list>
+#include <mocha/roaster/roaster.h>
 #include <boost/unordered_map.hpp>
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_list.h>
@@ -10,7 +11,7 @@
 
 namespace mocha {
 class XMLInfo;
-class Resources;
+class Resource;
 class XMLReader {
  public :
   XMLReader (){};
@@ -19,20 +20,20 @@ class XMLReader {
   
  private :
   static bool CheckIgnoreOption( TiXmlElement *elem );
-  void GetFullPath(FileSystem::Path* path);
-  void ParseStart(FileSystem::Path* path);
+  void GetFullPath(filesystem::Path* path);
+  void ParseStart(filesystem::Path* path);
   void SwitchProcessor( TiXmlNode* node , XMLInfo* info );
   void ProcessNode( TiXmlElement *elem , XMLInfo* info );
   void ProcessFileNode( TiXmlElement *elem, const char* path , const char* module , XMLInfo* info );
   void ProcessSettingNode( TiXmlElement *elem , XMLInfo* info );
   void ProcessDirNode( TiXmlElement *elem , XMLInfo* info );
   void ProcessIncludeNode( TiXmlElement *elem , XMLInfo* info );
-  void ProcessDeployOption( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
-  void ProcessDeployName( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
-  void ProcessCharset( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
-  void ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
-  void ProcessVersion( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo* info );
-  void ProcessModuleOption( const char* filename , const char* module , Resources* resource );
+  void ProcessDeployOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
+  void ProcessDeployName( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
+  void ProcessCharset( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
+  void ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
+  void ProcessVersion( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
+  void ProcessModuleOption( const char* filename , const char* module , Resource* resource );
   void ProcessFilePath( const char* filename );
   
   ScopedStrList scoped_char_;

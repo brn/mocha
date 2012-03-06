@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <mocha/roaster/roaster.h>
 #include <mocha/bootstrap/runners/compile_runner.h>
 #include <mocha/roaster/roaster.h>
 

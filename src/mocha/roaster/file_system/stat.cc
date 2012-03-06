@@ -1,4 +1,5 @@
 #include <useconfig.h>
+#include <mocha/roaster/file_system/file_system.h>
 #ifdef HAVE_TIME_H
 #include <time.h>
 #endif
@@ -33,7 +34,7 @@
 #define MODE ( fstat_->st_mode & S_IFMT )
 
 namespace mocha {
-
+namespace filesystem {
 class Stat::PtrImpl {
  public :
   PtrImpl( const char* path , STAT *fstat ) : path_( path ) , fstat_( fstat ) {
@@ -87,4 +88,5 @@ const char* Stat::CTime() { return implementation_->STCTime(); }
 bool Stat::IsDir() { return implementation_->ISDir(); }
 bool Stat::IsReg() { return implementation_->ISReg(); }
 bool Stat::IsChr() { return implementation_->ISChr(); }
+}
 }

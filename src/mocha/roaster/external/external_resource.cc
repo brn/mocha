@@ -8,17 +8,15 @@
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 
-Resources::Resources(const char* filename) : is_file_(true), info_(new CompilationInfo(filename)){}
+Resource::Resource(const char* filename) : is_file_(true), info_(new CompilationInfo(filename)){}
 
-Resources::~Resources() {
-  delete info_;
-}
+Resource::~Resource() {}
 
-void Resources::SetInputCharset(const char* charset) {
+void Resource::SetInputCharset(const char* charset) {
   input_charset_ = charset;
 }
 
-const char* Resources::GetInputCharset() {
+const char* Resource::GetInputCharset() {
   if (input_charset_.empty()) {
     return Consts::kDefaultInputCharset;
   } else {
@@ -26,11 +24,11 @@ const char* Resources::GetInputCharset() {
   }
 }
 
-void Resources::SetOutputCharset(const char* charset) {
+void Resource::SetOutputCharset(const char* charset) {
   output_charset_ = charset;
 }
 
-const char* Resources::GetOutputCharset() {
+const char* Resource::GetOutputCharset() {
   if (output_charset_.empty()) {
     return Consts::kDefaultOutputCharset;
   } else {
@@ -38,11 +36,11 @@ const char* Resources::GetOutputCharset() {
   }
 }
 
-void Resources::SetDeploy(const char* name) {
+void Resource::SetDeploy(const char* name) {
   deploy_ = name;
 }
 
-const char* Resources::GetDeploy() {
+const char* Resource::GetDeploy() {
   if (deploy_.empty()) {
     return 0;
   } else {
@@ -50,11 +48,11 @@ const char* Resources::GetDeploy() {
   }
 }
 
-void Resources::SetDeployName(const char* name) {
+void Resource::SetDeployName(const char* name) {
   deployname_ = name;
 }
 
-SharedStr Resources::GetCmpPath_(const char* path) {
+SharedStr Resource::GetCmpPath_(const char* path) {
   std::string tmp = path;
   if (!deployname_.empty()) {
     char *ret = new char[ deployname_.size() + 1 ];
@@ -69,16 +67,16 @@ SharedStr Resources::GetCmpPath_(const char* path) {
   }
 }
 
-SharedStr Resources::GetDeployName(const char* filename) {
+SharedStr Resource::GetDeployName(const char* filename) {
   if (deploy_.empty()) {
     return GetCmpPath_(filename);
   } else {
     if (!deployname_.empty()) {
       const char* ret = deploy_.c_str();
-      FileSystem::Mkdir(ret, 0777);
-      SharedPtr<PathInfo> path_info = FileSystem::GetPathInfo(filename);
+      filesystem::mkdir(ret, 0777);
+      filesystem::Path path_info(filename);
       char tmp[ 1000 ];
-      sprintf(tmp, "%s/%s", ret, GetCmpPath_(path_info->GetFileName().Get()).Get());
+      sprintf(tmp, "%s/%s", ret, GetCmpPath_(path_info.filename()).Get());
       char* result = new char[ strlen(tmp) + 1 ];
       strcpy(result, tmp);
       return SharedStr(result);
@@ -88,36 +86,36 @@ SharedStr Resources::GetDeployName(const char* filename) {
   }
 }
 
-void Resources::SetModule(const char* path) {
+void Resource::SetModule(const char* path) {
   std::string ret = path;
   modulelist_.push_back(ret);
 }
 
 
-const Resources::ModuleList& Resources::GetModuleList() {
+const Resource::ModuleList& Resource::GetModuleList() {
   return modulelist_;
 }
 
 
-bool Resources::IsFile() const { return is_file_; }
-void Resources::set_file() { is_file_ = true; }
+bool Resource::IsFile() const { return is_file_; }
+void Resource::set_file() { is_file_ = true; }
 
-CompilationInfo* Resources::compilation_info() {
+CompilationInfoHandle Resource::compilation_info() {
   return info_;
 }
 
 void ExternalResource::UnsafeSet(const char* filename) {
-  SharedPtr<Resources> handle(new Resources(filename));
+  SharedPtr<Resource> handle(new Resource(filename));
   resources_.insert(ResourcePair(filename, handle));
 }
 
 void ExternalResource::SafeSet(const char* filename) {
   MutexLock lock(mutex_);
-  SharedPtr<Resources> handle(new Resources(filename));
+  SharedPtr<Resource> handle(new Resource(filename));
   resources_.insert(ResourcePair(filename, handle));
 }
 
-Resources* ExternalResource::UnsafeGet(const char* filename) {
+Resource* ExternalResource::UnsafeGet(const char* filename) {
   ResourceMap::iterator entry = resources_.find(filename);
   if (entry != resources_.end()) {
     return entry->second.Get();
@@ -125,7 +123,7 @@ Resources* ExternalResource::UnsafeGet(const char* filename) {
   return 0;
 }
 
-Resources* ExternalResource::SafeGet(const char* filename) {
+Resource* ExternalResource::SafeGet(const char* filename) {
   MutexLock lock(mutex_);
   ResourceMap::iterator entry = resources_.find(filename);
   if (entry != resources_.end()) {

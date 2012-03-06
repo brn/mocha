@@ -23,22 +23,15 @@
 #ifndef mocha_compiler_h_
 #define mocha_compiler_h_
 #include <useconfig.h>
+#include <mocha/roaster/roaster.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/utils/compiler_facade.h>
 #include <mocha/roaster/utils/error_reporter.h>
-#include <mocha/roaster/roaster.h>
 namespace mocha {
-class ExternalAst;
-typedef SharedPtr<ErrorReporter> ErrorHandler;
-typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
-typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
-typedef SharedPtr<ErrorMap> ErrorMapHandle;
-
 /**
  * @class
  * Compiler of javascript for web front end develop.
@@ -48,6 +41,7 @@ typedef SharedPtr<ErrorMap> ErrorMapHandle;
  * @see MochaMain::CompileStart_
  */
 class Compiler : private Uncopyable {
+  friend class Roaster;
  public :
 
   /**
@@ -58,16 +52,15 @@ class Compiler : private Uncopyable {
    * @description
    * Compiler instance could create only Caompiler::CreateInstance.
    */
-  Compiler (const char* filename,  FinishDelegator* callback);
-  Compiler (CompilationInfoHandle);
-  Compiler (CompilationInfoHandle, AsyncCallback);
+  Compiler(CompilationInfoHandle handle);
+  Compiler(CompilationInfoHandle handle, AsyncCallback callback);
   ~Compiler();
   
   /**
    * @public
    * Start compile.
    */
-  void Compile ();
+  void Compile();
 
   /**
    * @public
@@ -81,7 +74,7 @@ class Compiler : private Uncopyable {
    * if path is only '<filename>', that file is treat as module.
    * This rule borrow from node.js.
    */
-  SharedPtr<FileSystem::Path> Load (const char* filename);
+  SharedPtr<filesystem::Path> Load (const char* filename);
 
   void CatchException(const char* filename, ErrorHandler handle);
   AstReserver GetAst();
@@ -92,9 +85,9 @@ class Compiler : private Uncopyable {
    */
   const CompilationInfo* compilation_info() const;
   const char* mainfile_path() const;
-  const FileSystem::Path* path() const;
+  const filesystem::Path* path() const;
  private :
-
+  static void BuildRuntime();
   /**
    * @private
    * @class
@@ -108,6 +101,8 @@ class Compiler : private Uncopyable {
    */
   ScopedPtr<PtrImpl> implementation_;
 
+  static AstReserver runtime_;
+  static Mutex mutex_;
 };
 
 }

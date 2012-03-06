@@ -29,6 +29,7 @@
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/internal.h>
 #include <mocha/roaster/scopes/scope.h>
+#include <mocha/roaster/runtime/runtime.h>
 #include <mocha/roaster/utils/compiler_utils.h>
 #include <mocha/roaster/utils/compile_result.h>
 #include <mocha/roaster/utils/compile_info.h>
@@ -67,7 +68,7 @@ class Compiler::PtrImpl {
       codegen_(new CodegenVisitor(main_file_path_.c_str(), info_handle.Get())) {
     error_map_(new ErrorMap);
     if (compilation_info_->IsFile()) {
-      path_(new FileSystem::Path(compilation_info()->string()));
+      path_(new filesystem::Path(compilation_info()->string()));
       SetPath(path_->absolute_path());
     }
   }
@@ -77,9 +78,9 @@ class Compiler::PtrImpl {
   inline CompilationResultHandle Compile() {
     //Change direcotry to main js path.
     if (path_->HasAbsolutePath() && compilation_info()->IsFile()) {
-      VirtualDirectory::GetInstance()->Chdir(path_->absolute_path());
+      filesystem::VirtualDirectory::GetInstance()->Chdir(path_->absolute_path());
     }
-    ast_root_.AddChild(compilation_info_->runtime());
+    ast_root_.AddChild(runtime(pool_.Get()));
     CallInternal(main_file_path_.c_str(), Internal::kFatal, false);
     OptimizerVisitor opt_visitor(compilation_info_.Get());
     SymbolCollector visitor(scope_registry_.Get(), compilation_info_.Get());
@@ -89,22 +90,22 @@ class Compiler::PtrImpl {
       scope_registry_->Rename();
     }
     ast_root_.Accept(codegen_.Get());
-    return CompilationResultHandle(new CompilationResult(path_, codegen_, error_map_));
+    return CompilationResultHandle(new CompilationResult(path_->absolute_path(), codegen_, error_map_));
   }
 
-  inline SharedPtr<FileSystem::Path> Load(const char* filename) {
+  inline SharedPtr<filesystem::Path> Load(const char* filename) {
     //Create javascript path from filename.
     //It's like this,
     //"./example" -> "<current absolute path>/example.js" or
     //"exampleModule" -> "<setted absolute module dir path> or <default absolute module path>/exampleModule.js"
-    SharedPtr<FileSystem::Path> js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str());
+    SharedPtr<filesystem::Path> js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str());
     //Check is module already loaded or not.
     if (IsAlreadyLoaded_(js_path->absolute_path())) {
       //Change current directory to loaded js file directory.
       CompilerUtils::ChangeDir(js_path->absolute_path());
       //Set loaded file to hash.
       SetPath(js_path->absolute_path());
-      CallInternal(js_path.Get(), Internal::kNofatal, false);
+      CallInternal(js_path->absolute_path(), Internal::kNofatal, false);
     }
     return js_path;
   }
@@ -127,7 +128,7 @@ class Compiler::PtrImpl {
 
   const CompilationInfo* compilation_info() const { return compilation_info_.Get(); }
   const char* mainfile_path() const { return main_file_path_.c_str(); }
-  const FileSystem::Path* path() const { return path_.Get(); }
+  const filesystem::Path* path() const { return path_.Get(); }
  private :
   /**
    *@private
@@ -145,7 +146,7 @@ class Compiler::PtrImpl {
    */
   inline void SetPath(const char* path) { loaded_path_.insert(std::pair<const char*, int>(path, 1)); }
 
-  inline void CallInternal(FileSystem::Path* path, Internal::ErrorLevel error_level, bool is_runtime) {
+  inline void CallInternal(const char* path, Internal::ErrorLevel error_level, bool is_runtime) {
     Internal internal(path, compiler_, codegen_.Get(), scope_registry_.Get(), is_runtime ,&ast_root_, pool_.Get());
     internal.Parse(error_level);
   }
@@ -153,10 +154,25 @@ class Compiler::PtrImpl {
   inline AstReserver ReserveAst(bool is_runtime) {
     AstReserver external_ast = ExternalAst::Create();
     AstRoot root;
-    Internal internal(path(), compiler_, codegen_.Get(), scope_registry_.Get(), false, &ast_root_, pool_.Get());
-    internal.GetAst(Internal::kFatal, handler);
+    std::string str;
+    if (compilation_info_->IsFile()) {
+      str = path()->absolute_path();
+    } else {
+      str = "anonymous";
+    }
+    Internal internal(str.c_str(), compiler_, codegen_.Get(), scope_registry_.Get(), false, &ast_root_, pool_.Get());
+    internal.GetAst(Internal::kFatal);
     external_ast->GetRoot()->AddChild(root.first_child()->Clone(external_ast->pool()));
     return external_ast;
+  }
+
+  inline void BuildRuntime() {
+    runtime_(ReserveAst(true));
+  }
+
+  inline AstNode* runtime(memory::Pool* pool) {
+    MutexLock lock(mutex_);
+    return runtime_->GetRoot()->first_child()->Clone(pool);
   }
   
   std::string main_file_path_;
@@ -169,7 +185,9 @@ class Compiler::PtrImpl {
   ScopedPtr<AstBuilder> builder_;
   ScopedPtr<ScopeRegistry> scope_registry_;
   SharedPtr<CodegenVisitor> codegen_;
-  ScopedPtr<FileSystem::Path> path_;
+  ScopedPtr<filesystem::Path> path_;
+  static AstReserver runtime_;
+  static Mutex mutex_;
 };
 
 
@@ -195,12 +213,16 @@ SharedPtr<ExternalAst> Compiler::GetAst() {
   return implementation_->GetAst(is_runtime);
 }
 
-SharedPtr<FileSystem::Path> Compiler::Load (const char* filename) {
+SharedPtr<filesystem::Path> Compiler::Load (const char* filename) {
   return implementation_->Load(filename);
 }
 
 const CompilationInfo* Compiler::compilation_info() const { return implementation_->compilation_info(); }
 const char* Compiler::mainfile_path() const { return implementation_->mainfile_path(); }
-const FileSystem::Path* path() const { return implementation_->path(); }
-
+const filesystem::Path* path() const { return implementation_->path(); }
+void Compiler::BuildRuntime() {
+  CompilationInfoHandle handle(new CompilationInfo(runtime::Runtime::source()))
+  Compiler compiler();
+  compiler.GetAst()
+}
 } //namespace mocha

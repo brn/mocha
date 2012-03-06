@@ -20,30 +20,32 @@ class FileWriter {
   void operator() (CompilationResultHandle result) {
     //Current directory -> main js file path.
     //Get file name of main js file.
-    char tmp[ 1000 ];
-    if (resource->GetDeploy()) {
-      const char* dir = resource->GetDeploy();
-      Stat stat(dir);
+    std::string val;
+    if (resource_->GetDeploy()) {
+      const char* dir = resource_->GetDeploy();
+      filesystem::Stat stat(dir);
       if (!stat.IsExist() || !stat.IsDir()) {
-        FileSystem::mkdir(dir, 0777);
-        FileSystem::chmod(dir, 0777);
+        filesystem::mkdir(dir, 0777);
+        filesystem::chmod(dir, 0777);
       }
-      FileSystem::Path path(result->filename());
-      sprintf(tmp, "%s/%s", dir, path.filename());
+      filesystem::Path path(result->filename());
+      val = dir;
+      val += '/';
+      val += path.filename();
     } else {
-      tmp = result->filename();
+      val = result->filename();
     }
 
     //Get deploy path of -cmp.js file.
-    SharedStr handle = CreateDeployName(tmp);
+    SharedStr handle = ExternalResource::SafeGet(result->filename())->GetDeployName(val.c_str());
                                                                 
     SharedPtr<File> ret = FileIO::Open (handle.Get(),
                                         "rwn",
                                         FileIO::P_ReadWrite);
     //Setting::GetInstance()->Log("deploy to %s", handle.Get());
     //Set permission to rw for all.
-    FileSystem::chmod(handle.Get(), 0777);
-    ret->Write(script);
+    filesystem::chmod(handle.Get(), 0777);
+    ret->Write(result->source());
   }
  private :
   Resource* resource_;

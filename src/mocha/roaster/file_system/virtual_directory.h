@@ -6,6 +6,7 @@
 #include <mocha/roaster/misc/thread/thread.h>
 
 namespace mocha {
+namespace filesystem {
 class VirtualDirectory {
  public :
   static VirtualDirectory* GetInstance();
@@ -25,5 +26,5 @@ class VirtualDirectory {
   static Mutex mutex_;
 };
 }
-
+}
 #endif

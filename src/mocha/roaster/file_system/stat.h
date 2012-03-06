@@ -4,6 +4,7 @@
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 
 namespace mocha {
+namespace filesystem {
 class Stat{
  public :
   typedef enum {
@@ -36,5 +37,5 @@ class Stat{
   ScopedPtr<PtrImpl> implementation_;
 };
 }
-
+}
 #endif //mocha_stat_h_

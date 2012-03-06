@@ -104,7 +104,7 @@ using namespace std;
   if ( fd < 0 ) {                               \
     REPORT_ERROR( "Stream is not opened." );    \
   }
-
+namespace filesystem {
 inline char* File::Allocate ( size_t size ) {
   return reinterpret_cast<char*> ( malloc ( size ) );
 }
@@ -351,3 +351,4 @@ int FileIO::Permission[] = {
 Mutex FileIO::mutex_;
 Mutex FileIO::close_mutex_;
 FileIO::FdList FileIO::fd_list_;
+}

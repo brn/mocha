@@ -36,10 +36,10 @@ SharedStr XMLSettingInfo::GetDeployPath( const char* filename ) {
     Hash::iterator find = deploy_list_.find( filename );
     if ( find != deploy_list_.end() ) {
       const char* ret = find->second.c_str();
-      FileSystem::Mkdir( ret , 0777 );
-      SharedPtr<PathInfo> path_info = FileSystem::GetPathInfo( filename );
+      filesystem::mkdir( ret , 0777 );
+      filesystem::Path path_info(filename);
       char tmp[ 1000 ];
-      sprintf( tmp , "%s/%s" , ret , GetCmpPath_( path_info->GetFileName().Get() ).Get() );
+      sprintf( tmp , "%s/%s" , ret , GetCmpPath_( path_info.filename() ).Get() );
       char* result = new char[ strlen( tmp ) + 1 ];
       strcpy( result , tmp );
       SharedStr handle( result );

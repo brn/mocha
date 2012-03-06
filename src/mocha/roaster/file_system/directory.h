@@ -3,6 +3,7 @@
 #include <string>
 #include <mocha/roaster/smart_pointer/scope/scoped_list.h>
 namespace mocha {
+namespace filesystem {
 class DirectoryIterator;
 class DirEntry{
   friend class DirectoryIterator;
@@ -48,7 +49,7 @@ class Directory {
   const char* dirpath_;
   ScopedList<DirEntry> scoped_entry_;
 };
-
+}
 }
 
 #endif

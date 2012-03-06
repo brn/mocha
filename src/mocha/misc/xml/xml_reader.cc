@@ -33,9 +33,9 @@ XMLReader::~XMLReader() {
   END("XMLReader");
 }
 
-void XMLReader::Parse( const char* path , bool is_reparse ) {
+void XMLReader::Parse( const char* pathname , bool is_reparse ) {
   BEGIN(Parse);
-  FileSystem::Path path(path);
+  filesystem::Path path(pathname);
   //Get absolute path of xml file.
   GetFullPath(&path);
   /*
@@ -43,9 +43,9 @@ void XMLReader::Parse( const char* path , bool is_reparse ) {
    *if not exist ignore this file and logging.
    */
   if (FileIO::IsExist(path.absolute_path())) {
-    ParseStart(path.absolute_path());
+    ParseStart(&path);
   } else {
-    SETTINGS->LogError("%s no such file." , path.absolute_path());
+    Setting::GetInstance()->GetInstance()->LogError("%s no such file." , path.absolute_path());
   }
   END(Parse);
 }
@@ -59,22 +59,12 @@ bool XMLReader::CheckIgnoreOption( TiXmlElement *elem ) {
   return false;
 }
 
-void XMLReader::GetFullPath(FileSystem::Path* path) {
-  /*
-   *If path is default setting.xml,push include list to setting.xml path,
-   *and return default path.
-   *If path is not default setting.xml, get absolute path of xml path.
-   */
-  if ( strcmp(path->absolute_path() , SETTINGS->GetXMLPath() ) == 0 ) {
-    buf->assign(SETTINGS->GetXMLPath());
-    INCLUDE_LIST.push_back(std::string(path->absolute_path()));
-  } else {
-    INCLUDE_LIST.push_back(std::string(path->absolute_path()));
-  }
+void XMLReader::GetFullPath(filesystem::Path* path) {
+  XMLSettingInfo::include_list_.push_back(std::string(path->absolute_path()));
 }
 
 
-void XMLReader::ParseStart(FileSystem::Path* path) {
+void XMLReader::ParseStart(filesystem::Path* path) {
   BEGIN(ParseStart);
   TiXmlDocument xml_document;
   xml_document.LoadFile(path->absolute_path());
@@ -131,10 +121,10 @@ void XMLReader::ProcessFileNode( TiXmlElement* elem , const char* dir , const ch
     char module_buf[500];
     sprintf( filename_buf, "%s/%s/%s" , info->GetPath() , dir , filename );
 
-    FileSystem::Path path(filename_buf);
+    filesystem::Path path(filename_buf);
     const char* normalized_path = path.absolute_path();
     ExternalResource::UnsafeSet(normalized_path);
-    Resources* resource = ExternalResource::UnsafeGet(normalized_path);
+    Resource* resource = ExternalResource::UnsafeGet(normalized_path);
     //If file exist.
     if (FileIO::IsExist(normalized_path)) {
       if (IS_DEF(module)) {
@@ -151,7 +141,7 @@ void XMLReader::ProcessFileNode( TiXmlElement* elem , const char* dir , const ch
       ProcessCompileOption( elem , normalized_path , dir , resource , info );
       ProcessVersion( elem , normalized_path , dir , resource , info );
     } else {
-      Setting::GetInstance()->LogError( "%s no such file." , handle.Get() );
+      Setting::GetInstance()->LogError( "%s no such file." , normalized_path );
     }
   }
   END(ProcessFileNode);
@@ -159,17 +149,17 @@ void XMLReader::ProcessFileNode( TiXmlElement* elem , const char* dir , const ch
 
 
 void XMLReader::ProcessFilePath( const char* filename ) {
-  FILE_LIST.push_back( filename );
+  XMLSettingInfo::file_list_.push_back( filename );
   SharedPtr<Version> handle( new Version );
-  VERSIONS.insert( std::pair<const char*,SharedPtr<Version> >( filename , handle ) );
+  XMLSettingInfo::versions_.insert( std::pair<const char*,SharedPtr<Version> >( filename , handle ) );
 }
 
 
-void XMLReader::ProcessModuleOption( const char* filename , const char* module , Resources* resource ) {
+void XMLReader::ProcessModuleOption( const char* filename , const char* module , Resource* resource ) {
   std::string buffer;
   for ( int i = 0,len = strlen( module );i < len; i++ ) {
     if ( module[ i ] == ',' ) {
-      FileSystem::Path path(buffer.c_str());
+      filesystem::Path path(buffer.c_str());
       resource->SetModule(path.absolute_path());
       buffer.clear();
     } else if ( isalnum( module[ i ] ) || module[ i ] == '-' || module[ i ] == '_' ) {
@@ -177,24 +167,24 @@ void XMLReader::ProcessModuleOption( const char* filename , const char* module ,
     }
   }
   if ( !buffer.empty() ) {
-    FileSystem::Path path(buffer.c_str());
+    filesystem::Path path(buffer.c_str());
     resource->SetModule(path.absolute_path());
   }
 }
 
 
-void XMLReader::ProcessDeployOption( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo *info ) {
+void XMLReader::ProcessDeployOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo *info ) {
   const char* deploy_path = elem->Attribute( deploy_ );
   if ( IS_DEF( deploy_path ) ) {
     char buf[ 1000 ];
     sprintf( buf , "%s/%s/%s" , info->GetPath() , dir , deploy_path );
-    FileSystem::Path path(buf);
-    resource->SetDeploy(path->absolute_path());
+    filesystem::Path path(buf);
+    resource->SetDeploy(path.absolute_path());
   }
 }
 
 
-void XMLReader::ProcessDeployName( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo *info ) {
+void XMLReader::ProcessDeployName( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo *info ) {
   const char* deploy_name = elem->Attribute( deployname_ );
   if ( IS_DEF( deploy_name ) ) {
     std::string tmp = deploy_name;
@@ -211,7 +201,7 @@ void XMLReader::ProcessDeployName( TiXmlElement *elem , const char* filename , c
 }
 
 
-void XMLReader::ProcessCharset( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo *info ) {
+void XMLReader::ProcessCharset( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo *info ) {
   const char* charset = elem->Attribute( charset_ );
   if ( IS_DEF( charset ) ) {
     resource->SetInputCharset( charset );
@@ -220,7 +210,7 @@ void XMLReader::ProcessCharset( TiXmlElement *elem , const char* filename , cons
 }
 
 
-void XMLReader::ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo *info ) {
+void XMLReader::ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo *info ) {
   const char* compile_option = elem->Attribute( options_ );
   if ( IS_DEF( compile_option ) ) {
     CompilationInfo* cmp_option = resource->GetCompilationInfo();
@@ -254,7 +244,7 @@ void XMLReader::ProcessCompileOption( TiXmlElement *elem , const char* filename 
   }
 }
 
-void XMLReader::ProcessVersion( TiXmlElement *elem , const char* filename , const char* dir , Resources* resource , XMLInfo *info ) {
+void XMLReader::ProcessVersion( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo *info ) {
   const char* version_attr = elem->Attribute( version_ );
   if ( IS_DEF( version_attr ) ) {
     std::string tmp;

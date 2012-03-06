@@ -2,6 +2,7 @@
 #define mocha_external_resource_h_
 #include <vector>
 #include <string>
+#include <mocha/roaster/roaster.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
@@ -12,11 +13,11 @@ namespace memory {
 class Pool;
 }
 class CompilationInfo;
-class Resources {
+class Resource {
  public :
   typedef std::vector<std::string> ModuleList;
-  Resources();
-  ~Resources();
+  Resource(const char* fileanme);
+  ~Resource();
   void SetInputCharset(const char* charset);
   const char* GetInputCharset();
   void SetOutputCharset(const char* charset);
@@ -31,6 +32,7 @@ class Resources {
   SharedStr GetCmpPath_(const char* path);
   bool IsFile() const;
   void set_file();
+  CompilationInfoHandle compilation_info();
  private :
   bool is_file_;
   std::string input_charset_;
@@ -38,17 +40,17 @@ class Resources {
   std::string deploy_;
   std::string deployname_;
   ModuleList modulelist_;
-  CompilationInfo* info_;
+  CompilationInfoHandle info_;
 };
 
 class ExternalResource : private Static {
-  typedef std::pair<const char*,SharedPtr<Resources> > ResourcePair;
-  typedef roastlib::unordered_map<std::string, SharedPtr<Resources> > ResourceMap;
+  typedef std::pair<const char*,SharedPtr<Resource> > ResourcePair;
+  typedef roastlib::unordered_map<std::string, SharedPtr<Resource> > ResourceMap;
  public :
   static void UnsafeSet(const char* filename);
-  static Resources* UnsafeGet(const char* filename);
+  static Resource* UnsafeGet(const char* filename);
   static void SafeSet(const char* filename);
-  static Resources* SafeGet(const char* filename);
+  static Resource* SafeGet(const char* filename);
   static FileRoot* SafeGetRuntime(memory::Pool* pool);
  private :
   static Mutex mutex_;

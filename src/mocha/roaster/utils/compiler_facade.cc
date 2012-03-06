@@ -26,7 +26,7 @@ void CompilerFacade::Compile(const char* path, bool is_join, FinishDelegator* ca
 
 SharedPtr<ExternalAst> CompilerFacade::GetAst(const char* path, bool is_runtime) {
   Compiler compiler(path, &noop_);
-  SharedPtr<PathInfo> info = FileSystem::GetPathInfo(path);
+  SharedPtr<PathInfo> info = filesystem::GetPathInfo(path);
   ErrorReporter reporter;
   return compiler.GetAst(&reporter, info, is_runtime);
 }

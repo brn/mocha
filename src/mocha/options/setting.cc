@@ -128,7 +128,7 @@ void Setting::LogFatal( const char* format , ... )	{
 
 Setting::Setting() {
   implementation_( new PtrImpl() );
-  implementation_->base_dir = FileSystem::GetUserHomeDir().Get();
+  implementation_->base_dir = filesystem::Path::home_directory();
   implementation_->base_dir += "/.mocha/";
   implementation_->xml_path = implementation_->base_dir;
   implementation_->xml_path += "watch.xml";

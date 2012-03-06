@@ -1,6 +1,7 @@
 #ifndef mocha_file_watcher_win_impl_cc_
 #define mocha_file_watcher_win_impl_cc_
 #include <useconfig.h>
+#include <mocha/roaster/roaster.h>
 #ifdef HAVE_WINDOWS_H
 #include <windows.h>
 #define sleep(time) Sleep(time##000)
@@ -22,7 +23,7 @@ class WatcherContainer {
   WatcherContainer( const char* path , IUpdater* updater , int type ) :
       type_( type ) ,  updater_( updater ) {
     filename_ = path;
-    Stat stat( path );
+    filesystem::Stat stat( path );
     date_ = stat.MTime();
   }
   WatcherContainer(){}
@@ -92,7 +93,7 @@ class FileWatcher::PtrImpl {
   typedef roastlib::unordered_map<FileEntry, WatcherContainer> WatchList;
 
   inline void Regist_( const char* path , IUpdater *updater , int type ) {
-    Stat stat( path );
+    filesystem::Stat stat( path );
     if ( stat.IsExist() ) {
       AddToWatchList_( path , updater , type );
     }
@@ -123,7 +124,7 @@ class FileWatcher::PtrImpl {
       WatcherContainer* container = &((*begin).second);
       const char* filename = container->GetFileName();
       const char* date = container->GetDate();
-      Stat stat( filename );
+      filesystem::Stat stat( filename );
       const char* last_date = stat.MTime();
       if ( stat.IsExist() ) {
         if ( strcmp( date , last_date ) != 0 ) {

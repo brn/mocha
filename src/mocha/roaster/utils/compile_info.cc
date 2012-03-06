@@ -61,8 +61,5 @@ bool CompilationInfo::IsFile() const {
   return flags_.At(file);
 }
 
-const char* CompilationInfo::string() const {
-  return str_.c_str();
-}
 
 }

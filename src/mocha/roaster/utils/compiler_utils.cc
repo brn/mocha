@@ -12,10 +12,10 @@ inline bool CheckIsModule(const char* file) {
 
 namespace mocha{
 
-SharedPtr<FileSystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
+SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
   std::string tmp;
   if (!CheckIsModule(filename)) {
-    tmp += VirtualDirectory::GetInstance()->GetRealPath(filename).Get();
+    tmp += filesystem::VirtualDirectory::GetInstance()->GetRealPath(filename).Get();
     tmp += JS_EXTENSION;
   } else {
     tmp = Setting::GetInstance()->GetModulePath();
@@ -35,18 +35,13 @@ SharedPtr<FileSystem::Path> CompilerUtils::CreateJsPath(const char* filename, co
       }
     }
   }
-  return SharedPtr<FileSystem::Path>(new FileSystem::Path(tmp.c_str()));
+  return SharedPtr<filesystem::Path>(new filesystem::Path(tmp.c_str()));
 }
 
-SharedPtr<PathInfo> CompilerUtils::ChangeDir(const char* js_path) {
-  SharedPtr<PathInfo> path_info = FileSystem::GetPathInfo(js_path);
-  VirtualDirectory::GetInstance()->Chdir(path_info->GetDirPath().Get());
-  return path_info;
-}
-
-SharedPtr<PathInfo> CompilerUtils::GetRuntimePathInfo() {
-  SharedPtr<PathInfo> path_info = FileSystem::GetPathInfo(Setting::GetInstance()->GetRuntimeFile());
-  return path_info;
+SharedPtr<filesystem::Path> CompilerUtils::ChangeDir(const char* js_path) {
+  SharedPtr<filesystem::Path> path(new filesystem::Path(js_path));
+  filesystem::VirtualDirectory::GetInstance()->Chdir(path->directory());
+  return path;
 }
 
 }

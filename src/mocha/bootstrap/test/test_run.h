@@ -55,7 +55,7 @@ class TestCallback {
 };
 
 std::string GetPath( const char* path ) {
-  FileSystem::Path fs_path( Bootstrap::GetSelfPath() );
+  filesystem::Path fs_path( Bootstrap::GetSelfPath() );
   std::string result = fs_path.directory();
   result += '/';
   result += path;
@@ -69,11 +69,11 @@ void* ThreadRunner( void* args ) {
 }
 
 void RunJS( const char* dir ) {
-  Directory directory( dir );
-  DirectoryIterator iterator = directory.GetFileList( true , false );
+  filesystem::Directory directory( dir );
+  filesystem::DirectoryIterator iterator = directory.GetFileList( true , false );
   std::string args;
   while ( iterator.HasNext() ) {
-    const DirEntry* entry = iterator.Next();
+    const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
       args += fullpath;
@@ -87,12 +87,12 @@ void RunJS( const char* dir ) {
 }
 
 void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* dir ) {
-  Directory directory( CURRENT_DIR"/test/js" );
-  DirectoryIterator iterator = directory.GetFileList( true , false );
+  filesystem::Directory directory( CURRENT_DIR"/test/js" );
+  filesystem::DirectoryIterator iterator = directory.GetFileList( true , false );
   Roaster roaster;
   CompilationInfoHandleList list;
   while ( iterator.HasNext() ) {
-    const DirEntry* entry = iterator.Next();
+    const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
       CompilationInfoHandle info(new CompilationInfo(fullpath));

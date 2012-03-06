@@ -1,3 +1,4 @@
+#include <sstream>
 #include <mocha/roaster/internal.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/binding/parser_connector.h>
@@ -24,9 +25,9 @@ namespace mocha {
 #define FILE_NOT_EXIST file_exist_ = false
                                 
 
-Internal::Internal(FileSystem::Path* path, Compiler* compiler, CodegenVisitor* codegen, ScopeRegistry *scope_registry, bool is_runtime,
+Internal::Internal(const char* path, Compiler* compiler, CodegenVisitor* codegen, ScopeRegistry *scope_registry, bool is_runtime,
                    AstRoot* ast_root, memory::Pool* pool)
-    : path_(path), is_runtime_(is_runtime), file_exist_ (false), file_path_(file_path), compiler_(compiler),
+    : is_runtime_(is_runtime), file_exist_ (false), path_(path), compiler_(compiler),
       codegen_(codegen), scope_registry_ (scope_registry), ast_root_(ast_root), pool_(pool){}
 
 void Internal::Parse(ErrorLevel level) {
@@ -60,7 +61,7 @@ void Internal::RunAction(bool is_ast) {
 inline void Internal::LoadFile() {
   //Check is file exist.
   if (path_->HasAbsolutePath() && mocha::FileIO::IsExist(path_->absolute_path())) {
-    file_ = mocha::FileIO::Open(path_->absolute_path(), "rb");
+    file_ = mocha::FileIO::Open(path, "rb");
     //Set bool to true.
     FILE_EXIST;
   } else {

@@ -156,7 +156,7 @@ VISITOR_IMPL(Statement) {}
 
 VISITOR_IMPL(VersionStmt) {
   const char* ver = ast_node->version()->token();
-  Resources *resource = ExternalResource::SafeGet(filename_);
+  Resource *resource = ExternalResource::SafeGet(filename_);
   if (resource->GetCompilationInfo()->HasVersion(ver)) {
     ast_node->first_child()->Accept(this);
   }
@@ -165,7 +165,7 @@ VISITOR_IMPL(VersionStmt) {
 VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
   if (current_root_) {
-    Resources *resource = ExternalResource::SafeGet(filename_);
+    Resource *resource = ExternalResource::SafeGet(filename_);
     if (resource->GetCompilationInfo()->HasVersion(Consts::kVersionDebug)) {
       AstNode* first = ast_node->first_child();
       AstNode* second = first->next_sibling();
