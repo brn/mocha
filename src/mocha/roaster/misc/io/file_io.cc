@@ -89,8 +89,6 @@
 #define O_TEXT 0
 #define O_BINARY 0
 #endif
-
-using namespace mocha;
 using namespace std;
 
 #define REPORT_ERROR( message ) Setting::GetInstance()->LogError( "in %s %s\n",  __func__ , message )
@@ -104,6 +102,7 @@ using namespace std;
   if ( fd < 0 ) {                               \
     REPORT_ERROR( "Stream is not opened." );    \
   }
+namespace mocha {
 namespace filesystem {
 inline char* File::Allocate ( size_t size ) {
   return reinterpret_cast<char*> ( malloc ( size ) );
@@ -351,4 +350,5 @@ int FileIO::Permission[] = {
 Mutex FileIO::mutex_;
 Mutex FileIO::close_mutex_;
 FileIO::FdList FileIO::fd_list_;
+}
 }

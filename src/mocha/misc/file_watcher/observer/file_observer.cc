@@ -7,10 +7,10 @@
 #include <mocha/misc/file_watcher/observer/file_observer.h>
 #include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/options/setting.h>
-
+#include <mocha/misc/file_writer.h>
 namespace mocha {
 
-class FileWriter {
+class FileWriter : public AsyncCallback{
  public :
   FileWriter(Resource* resource)
       : resource_(resource){}
@@ -18,34 +18,7 @@ class FileWriter {
     resource_ = writer.resource_;
   }
   void operator() (CompilationResultHandle result) {
-    //Current directory -> main js file path.
-    //Get file name of main js file.
-    std::string val;
-    if (resource_->GetDeploy()) {
-      const char* dir = resource_->GetDeploy();
-      filesystem::Stat stat(dir);
-      if (!stat.IsExist() || !stat.IsDir()) {
-        filesystem::mkdir(dir, 0777);
-        filesystem::chmod(dir, 0777);
-      }
-      filesystem::Path path(result->filename());
-      val = dir;
-      val += '/';
-      val += path.filename();
-    } else {
-      val = result->filename();
-    }
-
-    //Get deploy path of -cmp.js file.
-    SharedStr handle = ExternalResource::SafeGet(result->filename())->GetDeployName(val.c_str());
-                                                                
-    SharedPtr<File> ret = FileIO::Open (handle.Get(),
-                                        "rwn",
-                                        FileIO::P_ReadWrite);
-    //Setting::GetInstance()->Log("deploy to %s", handle.Get());
-    //Set permission to rw for all.
-    filesystem::chmod(handle.Get(), 0777);
-    ret->Write(result->source());
+    WriteFile(result);
   }
  private :
   Resource* resource_;
@@ -61,9 +34,9 @@ class FileObserver::FileUpdater : public IUpdater {
       MutexLock lock((*mutex));
       Resource* resource = ExternalResource::SafeGet(filename);
       if (resource) {
-        AsyncCallback callback = FileWriter(resource);
+        AsyncCallbackHandle callback(new FileWriter(resource));
         Roaster roaster;
-        roaster.CompileAsync(resource->compilation_info(), false, callback);
+        roaster.CompileFileAsync(resource->compilation_info(), false, callback);
       }
     }
   }

@@ -71,10 +71,11 @@ namespace mocha {
 
 
 AstTransformer::AstTransformer(bool is_runtime, ScopeRegistry* scope_registry, Compiler* compiler,
-                                const char* main_file_path, const char* filename) :
+                               const char* main_file_path, const char* filename) :
     pool_(memory::Pool::Local()), builder_(AstBuilder::Local()),
     visitor_info_(new VisitorInfo(is_runtime, scope_registry, compiler,
-                                    new(pool()) DstaExtractedExpressions, main_file_path, filename)),
+                                  new(pool()) DstaExtractedExpressions, main_file_path, filename)),
+    compiler_(compiler),
     scope_registry_(scope_registry) {
   proc_info_(new ProcessorInfo(this, scope_registry, visitor_info_.Get()));
 }
@@ -455,7 +456,7 @@ VISITOR_IMPL(AssertStmt) {
   REGIST(ast_node);
   AstNode* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kAssert),
                                             Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kProperty);
-  CodegenVisitor visitor(visitor_info_->filename(), true, false);
+  CodegenVisitor visitor(visitor_info_->filename(), true, false, compiler_);
   AstNode* expect = ast_node->first_child();
   AstNode* expression = expect->next_sibling();
   ast_node->RemoveAllChild();

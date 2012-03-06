@@ -271,14 +271,16 @@ void OptimizerVisitor::ArrayAccessorProccessor_(CallExp* exp) {
           }
         }
       }
-      if (is_valid_property_name && !JsToken::IsReserved(tmp.c_str())) {
-        Literal* ident = builder()->CreateNameNode(&tmp[ 1 ], Token::JS_IDENTIFIER, exp->line_number(), Literal::kProperty);
-        CallExp* call_exp = new(pool()) CallExp(CallExp::kDot, exp->line_number());
-        call_exp->set_callable(callable);
-        call_exp->set_args(ident);
-        exp->parent_node()->ReplaceChild(exp, call_exp);
-        arg = ident;
-        ident->Accept(this);
+      if (is_valid_property_name) {
+        if (!JsToken::IsReserved(&tmp[1])) {
+          Literal* ident = builder()->CreateNameNode(&tmp[ 1 ], Token::JS_IDENTIFIER, exp->line_number(), Literal::kProperty);
+          CallExp* call_exp = new(pool()) CallExp(CallExp::kDot, exp->line_number());
+          call_exp->set_callable(callable);
+          call_exp->set_args(ident);
+          exp->parent_node()->ReplaceChild(exp, call_exp);
+          arg = ident;
+          ident->Accept(this);
+        }
       }
     }
   }

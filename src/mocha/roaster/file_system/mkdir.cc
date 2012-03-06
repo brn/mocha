@@ -15,7 +15,7 @@
 #ifdef _WIN32
 #define MKDIR(path) _mkdir(path)
 #else
-#define MKDIR(path) mkdir(path,0777)
+#define MKDIR(path) ::mkdir(path,0777)
 #endif
 
 namespace mocha {
@@ -36,7 +36,7 @@ bool mkdir( const char* path , int permiss ) {
       processed_path += '/';
       len += 1;
     }
-    SharedStr handle = filesystem::pwd();
+    const char* current = filesystem::Path::current_directory();
     char tmp[ 200 ];
     for ( int i = 0,count = 0; i < len; ++i ) {
       if ( processed_path[ i ] == '/' ) {
@@ -48,10 +48,10 @@ bool mkdir( const char* path , int permiss ) {
             count++;
           } 
           tmp[ count ] = '\0';
-          Stat st( tmp );
+          filesystem::Stat st( tmp );
           if ( !st.IsExist() || !st.IsDir() ) {
             if ( -1 == MKDIR( tmp ) ) {
-              filesystem::chdir( handle.Get() );
+              filesystem::chdir( current );
               return false;
             }
             filesystem::chmod( tmp , permiss );
@@ -67,7 +67,7 @@ bool mkdir( const char* path , int permiss ) {
         count++;
       }
     }
-    filesystem::chdir( handle.Get() );
+    filesystem::chdir( current );
     return true;
   }
   return false;

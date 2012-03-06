@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js",
+      var __FILE__ = "/var/samba/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./fmt.js'] = {};
@@ -835,7 +835,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/jspp-lib/jquery-devel.js",
+      var __FILE__ = "/var/samba/mocha/test/jspp-lib/jquery-devel.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['../jspp-lib/jquery-devel.js'] = {};
@@ -5739,7 +5739,7 @@
                   __LINE__ = 2825;
                   var attrs = elem.attributes || {};
                   __LINE__ = 2826;
-                  return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs.class || {}).value)));
+                  return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs["class"] || {}).value)));
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -14340,7 +14340,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/test.js",
+      var __FILE__ = "/var/samba/mocha/test/mains/test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./test.js'] = {};

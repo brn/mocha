@@ -1,4 +1,5 @@
 #include <string.h>
+#include <mocha/misc/char_allocator.h>
 #include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/roaster/file_system/file_system.h>
 
@@ -14,8 +15,8 @@ VirtualDirectory* filesystem::VirtualDirectory::GetInstance() {
 }
 
 void VirtualDirectory::Chdir( const char* path ) {
-  SharedStr handle = filesystem::NormalizePath( path );
-  current_dir_ = handle.Get();
+  filesystem::Path path_info( path );
+  current_dir_ = path_info.absolute_path();
 }
 
 SharedStr VirtualDirectory::GetCurrentDir() {
@@ -29,7 +30,9 @@ SharedStr VirtualDirectory::GetRealPath( const char* path ) {
   std::string tmp = current_dir_;
   tmp += '/';
   tmp += path;
-  return filesystem::NormalizePath( tmp.c_str() );
+  filesystem::Path path_info(tmp.c_str());
+  char* ret = utils::CharAlloc(path_info.absolute_path());
+  return SharedStr(ret);
 }
 
 void VirtualDirectory::SetModuleKey( const char* path ) {

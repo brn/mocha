@@ -7,7 +7,6 @@
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
-class File;
 class ExternalAst;
 class Setting {
   friend class Bootstrap;

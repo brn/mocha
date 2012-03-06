@@ -12,15 +12,17 @@
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/file_system/directory.h>
 #include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/misc/file_writer.h>
 namespace mocha {namespace compiler_test {
 
-class TestCallback {
+class TestCallback : public AsyncCallback{
  public :
   TestCallback(int size) :
       size_(size), is_end_(false), current_(0) {}
   ~TestCallback(){}
   void operator() (CompilationResultHandle result) {
     MutexLock lock(mutex_);
+    WriteFile(result);
     if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;
     }
@@ -53,6 +55,8 @@ class TestCallback {
   std::string errors_;
   AtomicWord current_;
 };
+
+Mutex TestCallback::mutex_;
 
 std::string GetPath( const char* path ) {
   filesystem::Path fs_path( Bootstrap::GetSelfPath() );
@@ -95,7 +99,10 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
     const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
-      CompilationInfoHandle info(new CompilationInfo(fullpath));
+      ExternalResource::UnsafeSet(fullpath);
+      Resource* resource = ExternalResource::UnsafeGet(fullpath);
+      CompilationInfoHandle info = resource->compilation_info();
+      resource->SetDeploy(dir);
       if ( is_debug ) {
         info->SetDebug();
       }
@@ -108,9 +115,8 @@ void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* di
       list.push_back(info);
     }
   }
-  TestCallback callback(list.size());
-  AsyncCallback async_callback = callback;
-  roaster.CompileFilesAsync(list, true, async_callback);
+  AsyncCallbackHandle handle(new TestCallback(list.size()));
+  roaster.CompileFilesAsync(list, true, handle);
   RunJS( dir );
 }
 

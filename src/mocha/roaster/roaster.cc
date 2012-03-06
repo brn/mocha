@@ -1,46 +1,52 @@
 #include <mocha/roaster/roaster.h>
 #include <mocha/roaster/compiler.h>
-#include <mocha/roaster/misc/thread.h>
+#include <mocha/roaster/tokens/js_token.h>
+#include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/external/external_resource.h>
 namespace mocha {
 
 Roaster::Roaster(){}
-Roaster::~Roaster(){}
-
-void Roaster::CompileFile(CompilationInfoHandle info) {
-  info->MarkAsFile();
-  Compiler compiler(info);
-  compiler.Compile();
+void Roaster::Initialize() {
+  JsToken::Initialize();
+  Compiler::BuildRuntime();
 }
-
-void Roaster::Compile(CompilationInfoHandle info) {
+CompilationResultHandle Roaster::CompileFile(CompilationInfoHandle info) {
+  info->MarkAsFile();
   Compiler compiler(info);
   return compiler.Compile();
 }
 
-void Roaster::CompileFiles(CompilationInfoHandleList& info_list) {
+CompilationResultHandle Roaster::Compile(CompilationInfoHandle info) {
+  Compiler compiler(info);
+  return compiler.Compile();
+}
+
+CompilationResultHandleList Roaster::CompileFiles(CompilationInfoHandleList& info_list) {
   typedef CompilationInfoHandleList R;
   typedef R::iterator Ri;
   Ri end = info_list.end();
-  for (Ri iterator = info_list; iterator != end; ++iterator) {
+  CompilationResultHandleList result(new CompilationResultList);
+  for (Ri iterator = info_list.begin(); iterator != end; ++iterator) {
     (*iterator)->MarkAsFile();
     Compiler compiler(*iterator);
-    compiler.Compile();
+    result->push_back(compiler.Compile());
   }
+  return result;
 }
 
-typedef std::pair<CompilationInfoHandle,AsyncCallback> ThreadArgs;
+typedef std::pair<CompilationInfoHandle,AsyncCallbackHandle> ThreadArgs;
 void* AsyncThreadRunner( void* args ) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
   Compiler compiler(thread_args->first);
-  thread_args->second(compiler.Compile());
-  delete args;
+  (*(thread_args->second))(compiler.Compile());
+  delete thread_args;
+  return 0;
 }
 
-void AsyncRunner(CompilationInfoHandle info, bool is_join, AsyncCallback callback) {
+void AsyncRunner(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
   Thread thread;
-  ThreadArgs args = new ThreadArgs(info, callback);
+  ThreadArgs* args = new ThreadArgs(info, callback);
   if (!thread.Create(AsyncThreadRunner, args)) {
     fprintf(stderr, "error at Roaster::CompileAsync");
   } else {
@@ -52,21 +58,21 @@ void AsyncRunner(CompilationInfoHandle info, bool is_join, AsyncCallback callbac
   }
 }
 
-void Roaster::CompileAsync(CompilationInfoHandle info, bool is_join, AsyncCallback callback) {
+void Roaster::CompileAsync(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
   AsyncRunner(info, is_join, callback);
 }
 
-void Roaster::CompileFileAsync(CompilationInfoHandle info, bool is_join, AsyncCallback callback) {
+void Roaster::CompileFileAsync(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
   info->MarkAsFile();
   AsyncRunner(info, is_join, callback);
 }
 
-void Roaster::CompileFilesAsync(CompilationInfoHandleList& info_list, bool is_join, AsyncCallback callback) {
+void Roaster::CompileFilesAsync(CompilationInfoHandleList& info_list, bool is_join, AsyncCallbackHandle callback) {
   typedef CompilationInfoHandleList R;
   typedef R::iterator Ri;
   Ri end = info_list.end();
-  for (Ri iterator = info_list; iterator != end; ++iterator) {
-    iterator->second->set_file();
+  for (Ri iterator = info_list.begin(); iterator != end; ++iterator) {
+    (*iterator)->MarkAsFile();
     AsyncRunner(*iterator, is_join, callback);
   }
 }

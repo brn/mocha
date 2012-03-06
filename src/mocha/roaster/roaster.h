@@ -8,24 +8,32 @@
 #include <mocha/roaster/utils/compile_result.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/lib/function.h>
 namespace mocha {
 typedef SharedPtr<CompilationInfo> CompilationInfoHandle;
 typedef SharedPtr<CompilationResult> CompilationResultHandle;
-typedef roastlib::function<void (CompilationResultHandle)> AsyncCallback;
+typedef std::vector<CompilationResultHandle> CompilationResultList;
+typedef SharedPtr<CompilationResultList> CompilationResultHandleList;
 typedef std::vector<CompilationInfoHandle> CompilationInfoHandleList;
 typedef SharedPtr<ExternalAst> AstReserver;
+class AsyncCallback {
+ public :
+  AsyncCallback(){}
+  virtual ~AsyncCallback(){}
+  AsyncCallback(const AsyncCallback&){}
+  virtual void operator()(CompilationResultHandle handle){}
+};
+typedef SharedPtr<AsyncCallback> AsyncCallbackHandle;
 class Roaster {
  public :
   static void Initialize();
   Roaster();
   ~Roaster(){}
-  void CompileFile(CompilationInfoHandle);
-  const char* Compile(CompilationInfoHandle);
-  void CompileFiles(CompilationInfoHandleList&);
-  void CompileAsync(CompilationInfoHandle, bool, AsyncCallback);
-  void CompileFileAsync(CompilationInfoHandle, bool, AsyncCallback);
-  void CompileFilesAsync(CompilationInfoHandleList&, bool, AsyncCallback);
+  CompilationResultHandle CompileFile(CompilationInfoHandle);
+  CompilationResultHandle Compile(CompilationInfoHandle);
+  CompilationResultHandleList CompileFiles(CompilationInfoHandleList&);
+  void CompileAsync(CompilationInfoHandle, bool, AsyncCallbackHandle);
+  void CompileFileAsync(CompilationInfoHandle, bool, AsyncCallbackHandle);
+  void CompileFilesAsync(CompilationInfoHandleList&, bool, AsyncCallbackHandle);
   AstReserver GetAstFromFile(CompilationInfoHandle);
   AstReserver GetAst(CompilationInfoHandle);
 };

@@ -60,7 +60,7 @@ class Compiler : private Uncopyable {
    * @public
    * Start compile.
    */
-  void Compile();
+  CompilationResultHandle Compile();
 
   /**
    * @public
@@ -86,6 +86,7 @@ class Compiler : private Uncopyable {
   const CompilationInfo* compilation_info() const;
   const char* mainfile_path() const;
   const filesystem::Path* path() const;
+  int LoadedFileCount() const;
  private :
   static void BuildRuntime();
   /**

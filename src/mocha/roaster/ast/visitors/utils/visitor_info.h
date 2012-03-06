@@ -75,7 +75,7 @@ class VisitorInfo : private Uncopyable{
   std::string relative_path_;
   PrivateNameList private_names_;
   BitVector8 bit_vector_;
-  CompilationInfo* compile_info_;
+  const CompilationInfo* compile_info_;
   DstaExtractedExpressions* dsta_exp_;
   TokenInfo* rest_exp_;
   ScopeRegistry *scope_registry_;

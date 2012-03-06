@@ -15,19 +15,20 @@ namespace mocha{
 SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
   std::string tmp;
   if (!CheckIsModule(filename)) {
-    tmp += filesystem::VirtualDirectory::GetInstance()->GetRealPath(filename).Get();
-    tmp += JS_EXTENSION;
+    std::string js_path = filename;
+    js_path += JS_EXTENSION;
+    tmp = filesystem::VirtualDirectory::GetInstance()->GetRealPath(js_path.c_str()).Get();
   } else {
     tmp = Setting::GetInstance()->GetModulePath();
     tmp += '/';
     tmp += filename;
     tmp += JS_EXTENSION;
-    if (!FileIO::IsExist(tmp.c_str())) {
+    if (!filesystem::FileIO::IsExist(tmp.c_str())) {
       tmp = Setting::GetInstance()->GetRuntimePath();
       tmp += '/';
       tmp += filename;
       tmp += JS_EXTENSION;
-      if (!FileIO::IsExist(tmp.c_str())) {
+      if (!filesystem::FileIO::IsExist(tmp.c_str())) {
         tmp = XMLSettingInfo::GetModuleDirPath(module_path_key);
         tmp += '/';
         tmp += filename;

@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src//test/js/262/lib/jquery-1.7.1.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/jquery-1.7.1.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./jquery-1.7.1.js'] = {};
@@ -5701,7 +5701,7 @@
                   __LINE__ = 2825;
                   var attrs = elem.attributes || {};
                   __LINE__ = 2826;
-                  return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs.class || {}).value)));
+                  return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs["class"] || {}).value)));
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }

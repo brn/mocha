@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src//test/js/262/lib/knockout-2.0.0.debug.js",
+      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/knockout-2.0.0.debug.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./knockout-2.0.0.debug.js'] = {};
@@ -5873,7 +5873,7 @@
           };
           
           __LINE__ = 2382;
-          ko.bindingHandlers.with =  {
+          ko.bindingHandlers['with'] =  {
             makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2384;
@@ -5914,13 +5914,13 @@
           };
           
           __LINE__ = 2393;
-          ko.jsonExpressionRewriting.bindingRewriteValidators.with = false;
+          ko.jsonExpressionRewriting.bindingRewriteValidators['with'] = false;
           
           __LINE__ = 2394;
-          ko.virtualElements.allowedBindings.with = true;
+          ko.virtualElements.allowedBindings['with'] = true;
           
           __LINE__ = 2397;
-          ko.bindingHandlers.if =  {
+          ko.bindingHandlers['if'] =  {
             makeTemplateValueAccessor : function (valueAccessor) {
               try {
                 __LINE__ = 2399;
@@ -5958,10 +5958,10 @@
           };
           
           __LINE__ = 2408;
-          ko.jsonExpressionRewriting.bindingRewriteValidators.if = false;
+          ko.jsonExpressionRewriting.bindingRewriteValidators['if'] = false;
           
           __LINE__ = 2409;
-          ko.virtualElements.allowedBindings.if = true;
+          ko.virtualElements.allowedBindings['if'] = true;
           
           __LINE__ = 2412;
           ko.bindingHandlers.ifnot =  {

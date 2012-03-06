@@ -106,7 +106,7 @@ class FileWatcher::PtrImpl {
     array_.clear();
   }
   void AddWatch( const char* path , IUpdater* updater , int type ) {
-    Stat stat( path );
+    filesystem::Stat stat( path );
     if ( stat.IsExist() ) {
       inotify_helper_::InotifyMask mask = inotify_helper_::GetWatchType( type );
       int wd = inotify_add_watch( fd_ , path , mask );

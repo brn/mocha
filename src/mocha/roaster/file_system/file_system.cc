@@ -44,7 +44,7 @@
 #define FULL_PATH( path , tmp ) tmp = _fullpath( NULL , path , 0 )
 #endif
 
-using namespace mocha;
+namespace mocha {
 namespace filesystem {
 void GetDirectoryFromPath(const char* path, std::string* buffer) {
   int index = strlen(path);
@@ -76,17 +76,23 @@ void GetFileNameFromPath( const char* path, std::string* buffer) {
 }
 
 void ConvertBackSlash(const char* path, std::string* buffer) {
-  buffer->assign(path);
+  std::string tmp = path;
+  //buffer->assign(path);
   size_t index = 0;
   while ((index = buffer->find( "\\", 0)) != std::string::npos) {
-    buffer->replace(index, 1, "/");
+    tmp = tmp.replace(index, 1, "/");
   }
+  buffer->assign(tmp.c_str());
 }
 
 void GetAbsolutePath(const char* path, std::string* buffer) {
   char *tmp;
   FULL_PATH(path, tmp);
-  ConvertBackSlash(tmp, buffer);
+  if (tmp != NULL) {
+    ConvertBackSlash(tmp, buffer);
+  } else {
+    buffer->assign(path);
+  }
   free(tmp);
 }
 
@@ -137,19 +143,17 @@ void NormalizePath(const char* path, std::string* buffer) {
   }
 }
 
-class Path {
- public :
-  Path(const char* path) {
-    raw_ = path;
-    NormalizePath(path, &fullpath_);
-    GetAbsolutePath(absolute_path(), &fullpath_);
-    GetDirectoryFromPath(absolute_path(), &directory_);
-    GetFileNameFromPath(absolute_path(), &filename_);
-  }
+Path::Path(const char* path) {
+  raw_ = path;
+  NormalizePath(path, &fullpath_);
+  GetAbsolutePath(absolute_path(), &fullpath_);
+  GetDirectoryFromPath(absolute_path(), &directory_);
+  GetFileNameFromPath(absolute_path(), &filename_);
 }
   
 const char* Path::current_directory() {
   MutexLock lock(mutex_);
+  current_dir_.clear();
 #define GW_BUF_SIZE 1000
 #ifdef HAVE_WINDOWS_H
     char tmp[GW_BUF_SIZE];
@@ -193,7 +197,8 @@ const char* Path::home_directory() {
 #endif
 }
 
-
+std::string Path::current_dir_;
+std::string Path::user_home_;
 typedef std::vector<std::string> PathArray;
 
 void GetPathArray( const char* path , PathArray *array ) {
@@ -266,18 +271,19 @@ void chdir ( const char* path ) {
 #ifdef _WIN32
   SetCurrentDirectory(path);
 #else
-  chdir(path);
+  ::chdir(path);
 #endif
 }
 
 bool chmod( const char* path , int permiss ) {
   if ( FileIO::IsExist( path ) ) {
-    chmod( path , permiss );
+    ::chmod( path , permiss );
     return true;
   }
   return false;
 }
 
 Mutex Path::mutex_;
+}
 }
 #undef HOME

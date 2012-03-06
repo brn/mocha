@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <mocha/roaster/misc/io/file_io.h>
 #include <boost/unordered_map.hpp>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/misc/thread/thread.h>
@@ -13,6 +14,7 @@
 #define RAW_IO_BUF_SIZE 1000
 
 namespace mocha {
+namespace filesystem {
 class Stat;
 class FileIO;
 
@@ -84,11 +86,11 @@ class FileIO {
     New = 7
   };
     
-  inline static void GetPermiss ( unsigned int *permiss , int access );
+  inline static void GetPermiss( unsigned int *permiss , int access );
 
-  FileIO () {};
-  FileIO ( const FileIO& io ) {};
-  ~FileIO () {};
+  FileIO(){};
+  FileIO( const FileIO& io ) {};
+  ~FileIO(){};
   typedef boost::unordered_map<int,int> FdList;
   static FdList fd_list_;  
  public :
@@ -98,15 +100,14 @@ class FileIO {
     P_ReadWrite = 2
   };
   
-  static SharedPtr<File> Open ( const char* path , const char* mode , int access = 0 );
+  static SharedPtr<File> Open( const char* path , const char* mode , int access = 0 );
   
   static bool IsExist ( const char* path );
 
   static int CreateFile ( const char* filename , int access = 0 );
   static void CloseAll();
 };
-
 }
-
+}
 #endif
 

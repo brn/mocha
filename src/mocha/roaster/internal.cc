@@ -28,25 +28,25 @@ namespace mocha {
 Internal::Internal(const char* path, Compiler* compiler, CodegenVisitor* codegen, ScopeRegistry *scope_registry, bool is_runtime,
                    AstRoot* ast_root, memory::Pool* pool)
     : is_runtime_(is_runtime), file_exist_ (false), path_(path), compiler_(compiler),
-      codegen_(codegen), scope_registry_ (scope_registry), ast_root_(ast_root), pool_(pool){}
+      codegen_(codegen), scope_registry_ (scope_registry), ast_root_(ast_root), pool_(pool), reporter_(new ErrorReporter){}
 
 void Internal::Parse(ErrorLevel level) {
-  ParseStart(false);
+  ParseStart(false,level);
 }
 
 void Internal::GetAst(ErrorLevel level) {
-  ParseStart(true);
+  ParseStart(true,level);
 }
 
-void Internal::ParseStart(bool is_ast) {
+void Internal::ParseStart(bool is_ast, ErrorLevel level) {
   if (compiler()->compilation_info()->IsFile()) {
-    RunAction(is_ast);
+    RunAction(is_ast, level);
   } else {
     DoParse(is_ast);
   }
 }
 
-void Internal::RunAction(bool is_ast) {
+void Internal::RunAction(bool is_ast, ErrorLevel level) {
   LoadFile();
   if (exist() || level == kNofatal) {
     if (exist()) {
@@ -54,19 +54,19 @@ void Internal::RunAction(bool is_ast) {
     }
   }
   ast_root_->AddChild(new(pool_) Empty);
-  Setting::GetInstance()->LogError("%s/%s No such file or directory.\n",
-                                   compiler()->compilation_info()->absolute_path());
+  Setting::GetInstance()->LogError("%s/%s No such file or directory.\n", path_);
 }
 
 inline void Internal::LoadFile() {
   //Check is file exist.
-  if (path_->HasAbsolutePath() && mocha::FileIO::IsExist(path_->absolute_path())) {
-    file_ = mocha::FileIO::Open(path, "rb");
+  fprintf(stderr, "%s\n" , path_);
+  if (filesystem::FileIO::IsExist(path_)) {
+    file_ = filesystem::FileIO::Open(path_, "rb");
     //Set bool to true.
     FILE_EXIST;
   } else {
     //Write error message to result.
-    OpenError(path);
+    OpenError(path_);
     //Set bool to false.
     FILE_NOT_EXIST;
   }
@@ -79,28 +79,26 @@ inline void Internal::DoParse(bool is_ast) {
   if (is_file) {
     file()->GetFileContents(buf);
   } else {
-    buf = file_path_;
+    buf = path_;
   }
   const char* filename = (is_file)? file_->GetFileName() : "anonymous";
-  ErrorHandler reporter(new ErrorReporter);
-  SourceStream *source_stream = SourceStream::New(buf.c_str(), main_file_path_);
-  Scanner *scanner = Scanner::New(source_stream, reporter.Get(), filename);
-  ParserConnector connector(compiler_, ast_root_, scanner, source_stream, reporter.Get());
-  Parser parser(&connector, reporter.Get(), filename);
+  SourceStream *source_stream = SourceStream::New(buf.c_str(), path_);
+  Scanner *scanner = Scanner::New(source_stream, reporter_.Get(), filename);
+  ParserConnector connector(compiler_, ast_root_, scanner, source_stream, reporter_.Get());
+  Parser parser(&connector, reporter_.Get(), filename);
   FileRoot* root = parser.Parse();
-  AstTransformer visitor (is_runtime_, scope_registry_, compiler_,
-                          compiler()->compilation_info()->absolute_path(), filename);
+  AstTransformer visitor (is_runtime_, scope_registry_, compiler_, filename, compiler_->mainfile_path());
   if (!is_ast) {
-    compiler()->CatchException(filename, reporter);
+    compiler()->CatchException(filename, reporter_);
   }
-  if (!reporter->Error()) {
+  if (!reporter_->Error()) {
     AstRoot tmp_root;
     tmp_root.AddChild(root);
     tmp_root.Accept (&visitor);
     ast_root_->AddChild(tmp_root.first_child());
   } else {
     buf.clear();
-    reporter->SetError(&buf);
+    reporter_->SetError(&buf);
     if (!is_ast) {
       codegen_->Write(buf.c_str());
     }
@@ -109,10 +107,10 @@ inline void Internal::DoParse(bool is_ast) {
 }
 
 inline void Internal::OpenError(const char* filename) {
-  ErrorReporter reporter;
   std::stringstream st;
   st << "no such file or directory " << filename;
-  reporter_->ReportSyntaxError(st.str().c_str());
+  const char* tmp = st.str().c_str();
+  reporter_->ReportSyntaxError(tmp);
   codegen_->Write (tmp);
   printf("%s\n", tmp);
 }

@@ -64,13 +64,16 @@ class Compiler::PtrImpl {
   PtrImpl(Compiler* compiler, CompilationInfoHandle info_handle) :
       compiler_(compiler),compilation_info_(info_handle),
       pool_(memory::Pool::Local()), builder_(AstBuilder::Local()),
-      scope_registry_(new ScopeRegistry(memory::Pool::Local())),
-      codegen_(new CodegenVisitor(main_file_path_.c_str(), info_handle.Get())) {
+      scope_registry_(new ScopeRegistry(memory::Pool::Local())) {
     error_map_(new ErrorMap);
     if (compilation_info_->IsFile()) {
       path_(new filesystem::Path(compilation_info()->string()));
       SetPath(path_->absolute_path());
+      main_file_path_ = path_->absolute_path();
+    } else {
+      main_file_path_ = "anonymous";
     }
+    codegen_(new CodegenVisitor(main_file_path_.c_str(), info_handle.Get(), compiler));
   }
 
   ~PtrImpl(){}
@@ -78,7 +81,7 @@ class Compiler::PtrImpl {
   inline CompilationResultHandle Compile() {
     //Change direcotry to main js path.
     if (path_->HasAbsolutePath() && compilation_info()->IsFile()) {
-      filesystem::VirtualDirectory::GetInstance()->Chdir(path_->absolute_path());
+      filesystem::VirtualDirectory::GetInstance()->Chdir(path_->directory());
     }
     ast_root_.AddChild(runtime(pool_.Get()));
     CallInternal(main_file_path_.c_str(), Internal::kFatal, false);
@@ -102,10 +105,10 @@ class Compiler::PtrImpl {
     //Check is module already loaded or not.
     if (IsAlreadyLoaded_(js_path->absolute_path())) {
       //Change current directory to loaded js file directory.
-      CompilerUtils::ChangeDir(js_path->absolute_path());
+      SharedPtr<filesystem::Path> path_handle = CompilerUtils::ChangeDir(js_path->absolute_path());
       //Set loaded file to hash.
       SetPath(js_path->absolute_path());
-      CallInternal(js_path->absolute_path(), Internal::kNofatal, false);
+      CallInternal(path_handle->absolute_path(), Internal::kNofatal, false);
     }
     return js_path;
   }
@@ -114,17 +117,6 @@ class Compiler::PtrImpl {
   inline AstReserver GetAst() {
     return ReserveAst(false);
   }
-  
-
-  /*inline SharedPtr<ExternalAst> GetAst(ErrorReporter *handler, SharedPtr<PathInfo> path_info, bool is_runtime) {
-    SharedPtr<ExternalAst> external_ast = ExternalAst::Create();
-    AstRoot root;
-    Internal internal(main_file_path_.c_str(), is_runtime ,
-                      path_info, compiler_, scope_registry_.Get(), codegen_.Get(), &root, pool_.Get());
-    internal.GetAst(Internal::kFatal, handler);
-    external_ast->GetRoot()->AddChild(root.first_child()->Clone(external_ast->pool()));
-    return external_ast;
-    }*/
 
   const CompilationInfo* compilation_info() const { return compilation_info_.Get(); }
   const char* mainfile_path() const { return main_file_path_.c_str(); }
@@ -158,23 +150,27 @@ class Compiler::PtrImpl {
     if (compilation_info_->IsFile()) {
       str = path()->absolute_path();
     } else {
-      str = "anonymous";
+      str = compilation_info_->string();
     }
-    Internal internal(str.c_str(), compiler_, codegen_.Get(), scope_registry_.Get(), false, &ast_root_, pool_.Get());
+    Internal internal(str.c_str(), compiler_, codegen_.Get(), scope_registry_.Get(), is_runtime, &root, pool_.Get());
     internal.GetAst(Internal::kFatal);
     external_ast->GetRoot()->AddChild(root.first_child()->Clone(external_ast->pool()));
     return external_ast;
   }
 
   inline void BuildRuntime() {
-    runtime_(ReserveAst(true));
+    runtime_ = ReserveAst(true);
   }
 
   inline AstNode* runtime(memory::Pool* pool) {
     MutexLock lock(mutex_);
     return runtime_->GetRoot()->first_child()->Clone(pool);
   }
-  
+
+  inline int LoadedFileCount() const {
+    return loaded_path_.size();
+  }
+
   std::string main_file_path_;
   ErrorMapHandle error_map_;
   roastlib::unordered_map<std::string,int> loaded_path_;
@@ -186,10 +182,12 @@ class Compiler::PtrImpl {
   ScopedPtr<ScopeRegistry> scope_registry_;
   SharedPtr<CodegenVisitor> codegen_;
   ScopedPtr<filesystem::Path> path_;
-  static AstReserver runtime_;
   static Mutex mutex_;
+  static AstReserver runtime_;
 };
 
+AstReserver Compiler::PtrImpl::runtime_;
+Mutex Compiler::PtrImpl::mutex_;
 
 
 //////////////////////////////////////////
@@ -209,20 +207,20 @@ void Compiler::CatchException(const char* filename, ErrorHandler handler) {
   implementation_->error_map_->insert(ErrorHandlerPair(filename, handler));
 }
 
-SharedPtr<ExternalAst> Compiler::GetAst() {
-  return implementation_->GetAst(is_runtime);
+AstReserver Compiler::GetAst() {
+  return implementation_->GetAst();
 }
 
 SharedPtr<filesystem::Path> Compiler::Load (const char* filename) {
   return implementation_->Load(filename);
 }
-
+int Compiler::LoadedFileCount() const { return implementation_->LoadedFileCount(); }
 const CompilationInfo* Compiler::compilation_info() const { return implementation_->compilation_info(); }
 const char* Compiler::mainfile_path() const { return implementation_->mainfile_path(); }
-const filesystem::Path* path() const { return implementation_->path(); }
+const filesystem::Path* Compiler::path() const { return implementation_->path(); }
 void Compiler::BuildRuntime() {
-  CompilationInfoHandle handle(new CompilationInfo(runtime::Runtime::source()))
-  Compiler compiler();
-  compiler.GetAst()
+  CompilationInfoHandle handle(new CompilationInfo(runtime::Runtime::source()));
+  Compiler compiler(handle);
+  compiler.implementation_->BuildRuntime();
 }
 } //namespace mocha

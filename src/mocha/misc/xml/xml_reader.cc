@@ -42,7 +42,7 @@ void XMLReader::Parse( const char* pathname , bool is_reparse ) {
    *If xml file is exit, start parse,
    *if not exist ignore this file and logging.
    */
-  if (FileIO::IsExist(path.absolute_path())) {
+  if (filesystem::FileIO::IsExist(path.absolute_path())) {
     ParseStart(&path);
   } else {
     Setting::GetInstance()->GetInstance()->LogError("%s no such file." , path.absolute_path());
@@ -126,7 +126,7 @@ void XMLReader::ProcessFileNode( TiXmlElement* elem , const char* dir , const ch
     ExternalResource::UnsafeSet(normalized_path);
     Resource* resource = ExternalResource::UnsafeGet(normalized_path);
     //If file exist.
-    if (FileIO::IsExist(normalized_path)) {
+    if (filesystem::FileIO::IsExist(normalized_path)) {
       if (IS_DEF(module)) {
         sprintf(module_buf, "%s/%s", info->GetPath() , module);
         //Processing <file module="..." /> attr.
@@ -213,7 +213,7 @@ void XMLReader::ProcessCharset( TiXmlElement *elem , const char* filename , cons
 void XMLReader::ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo *info ) {
   const char* compile_option = elem->Attribute( options_ );
   if ( IS_DEF( compile_option ) ) {
-    CompilationInfo* cmp_option = resource->GetCompilationInfo();
+    CompilationInfoHandle cmp_option = resource->compilation_info();
     int len = strlen( compile_option );
     std::string buf;
     ScopedStrList scoped_list;
@@ -259,7 +259,7 @@ void XMLReader::ProcessVersion( TiXmlElement *elem , const char* filename , cons
         }
       }
       if ( tmp.size() > 0 ) {
-        resource->GetCompilationInfo()->SetVersion( tmp.c_str() );
+        resource->compilation_info()->SetVersion( tmp.c_str() );
         version->Add( tmp.c_str() );
       }
     }

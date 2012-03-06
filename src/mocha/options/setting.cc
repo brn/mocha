@@ -48,7 +48,7 @@ class Setting::PtrImpl {
   std::string runtime_path;
   std::string runtime_file;
   std::string log_path;
-  SharedPtr<File> file_handle;
+  SharedPtr<filesystem::File> file_handle;
 	
   static const char info[];
   static const char error[];
@@ -143,7 +143,7 @@ Setting::Setting() {
 }
 
 void Setting::SetLogFileHandle() {
-  implementation_->file_handle = FileIO::Open( implementation_->log_path.c_str() , "rwa" , FileIO::P_ReadWrite );
+  implementation_->file_handle = filesystem::FileIO::Open( implementation_->log_path.c_str() , "rwa" , filesystem::FileIO::P_ReadWrite );
 }
 
 Setting* Setting::instance_ = 0;

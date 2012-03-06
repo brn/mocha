@@ -67,6 +67,7 @@ class AstTransformer : public IVisitor {
   AstBuilder* builder() { return builder_; }
   memory::Pool* pool_;
   AstBuilder* builder_;
+  Compiler* compiler_;
   ScopedPtr<VisitorInfo> visitor_info_;
   ScopedPtr<ProcessorInfo> proc_info_;
   ScopeRegistry* scope_registry_;

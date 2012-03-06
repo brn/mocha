@@ -1,7 +1,7 @@
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
 
-/* Define to 1 if you have the <boost/function.hpp> header file. */
-#undef HAVE_BOOST_FUNCTION_HPP
+/* Define to 1 if you have the <boost/format.hpp> header file. */
+#undef HAVE_BOOST_FORMAT_HPP
 
 /* Define to 1 if you have the <boost/scoped_ptr.hpp> header file. */
 #undef HAVE_BOOST_SCOPED_PTR_HPP
@@ -32,9 +32,6 @@
 
 /* Define to 1 if you have the `flock' function. */
 #undef HAVE_FLOCK
-
-/* Define to 1 if you have the <function> header file. */
-#undef HAVE_FUNCTION
 
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD

@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <list>
 #include <utility>
+#include <mocha/roaster/compiler.h>
 #include <mocha/roaster/utils/compile_info.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/scopes/scope.h>
@@ -62,16 +63,18 @@ inline void line_numberBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* 
 }
 
 
-CodegenVisitor::CodegenVisitor(const char* filename, CompilationInfo* info) :
+CodegenVisitor::CodegenVisitor(const char* filename, CompilationInfo* info, Compiler* compiler) :
     depth_(0),is_line_(info->Debug()),has_rest_(false),
     is_pretty_print_(info->PrettyPrint()),filename_(filename), scope_(0),
+    compiler_(compiler),
     stream_(new CodeStream(&default_buffer_)),
     writer_(new CodeWriter(info->PrettyPrint(), info->Debug())),
     current_root_(0){}
 
-CodegenVisitor::CodegenVisitor(const char* filename, bool is_pretty_print, bool is_debug) :
+CodegenVisitor::CodegenVisitor(const char* filename, bool is_pretty_print, bool is_debug, Compiler* compiler) :
     depth_(0),is_line_(is_debug),has_rest_(false),
     is_pretty_print_(is_pretty_print), filename_(filename), scope_(0),
+    compiler_(compiler),
     stream_(new CodeStream(&default_buffer_)),
     writer_(new CodeWriter(is_pretty_print, is_debug)),
     current_root_(0){}
@@ -156,8 +159,7 @@ VISITOR_IMPL(Statement) {}
 
 VISITOR_IMPL(VersionStmt) {
   const char* ver = ast_node->version()->token();
-  Resource *resource = ExternalResource::SafeGet(filename_);
-  if (resource->GetCompilationInfo()->HasVersion(ver)) {
+  if (compiler_->compilation_info()->HasVersion(ver)) {
     ast_node->first_child()->Accept(this);
   }
 }
@@ -165,8 +167,7 @@ VISITOR_IMPL(VersionStmt) {
 VISITOR_IMPL(AssertStmt) {
   PRINT_NODE_NAME;
   if (current_root_) {
-    Resource *resource = ExternalResource::SafeGet(filename_);
-    if (resource->GetCompilationInfo()->HasVersion(Consts::kVersionDebug)) {
+    if (compiler_->compilation_info()->HasVersion(Consts::kVersionDebug)) {
       AstNode* first = ast_node->first_child();
       AstNode* second = first->next_sibling();
       first->Accept(this);

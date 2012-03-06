@@ -9,9 +9,11 @@ namespace mocha {
 namespace memory {
 class Pool;
 }
+namespace filesystem {
+class File;
+}
 class ScopeRegistry;
 class Codegen;
-class File;
 class Ast;
 class AstTransformer;
 class Compiler;
@@ -19,8 +21,8 @@ class AstRoot;
 class CodegenVisitor;
 class PathInfo;
 class ErrorReporter;
+typedef SharedPtr<filesystem::File> FileHandle;
 class Internal {
-  typedef SharedPtr<File> FileHandle;
  public:
   typedef enum {
     kFatal,
@@ -31,16 +33,16 @@ class Internal {
             AstRoot* ast_root, memory::Pool* pool);
   inline ~Internal () {};
   void Parse(ErrorLevel level);
-  void GetAst(ErrorLevel level, ErrorReporter* reporter);
+  void GetAst(ErrorLevel level);
  private :
-  inline File* file() { return file_.Get(); }
+  inline filesystem::File* file() { return file_.Get(); }
   inline bool exist() const { return file_exist_; }
   inline Compiler* compiler() const { return compiler_; }
-  inline void ParseStart(bool is_ast);
-  inline void RunAction(bool is_ast);
+  inline void ParseStart(bool is_ast, ErrorLevel level);
+  inline void RunAction(bool is_ast, ErrorLevel level);
   inline void LoadFile();
   inline void DoParse(bool is_ast);
-  inline void OpenError();
+  inline void OpenError(const char* filename);
   bool is_runtime_;
   bool file_exist_;
   const char* path_;
@@ -51,6 +53,7 @@ class Internal {
   AstRoot *ast_root_;
   memory::Pool* pool_;
   FileHandle file_;
+  ErrorHandler reporter_;
 };
   
 }

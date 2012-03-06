@@ -29,6 +29,7 @@ class Path {
   std::string fullpath_;
   std::string filename_;
   std::string directory_;
+  static std::string current_dir_;
   static std::string user_home_;
   static std::string current_path_;
   static std::string module_dir_;

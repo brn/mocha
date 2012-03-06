@@ -16,7 +16,7 @@
 #include <process.h>
 #define execv(path,argv) _execv(path,argv)
 #endif
-
+namespace mocha {
 static char data[] = {32,95,95,32,32,32,32,95,95,32,32,32,32,32,95,95,95,95,95,95,32,32,32,32,32,95,95,95,95,95,95,32,32,32,32,32,95,95,32,32,95,95,32,32,32,32,32,95,95,95,95,95,95,32,32,32,32,10,32,47,92,32,45,46,47,32,32,92,32,32,32,47,92,32,32,95,95,32,92,32,32,32,47,92,32,32,95,95,95,92,32,32,32,47,92,32,92,95,92,32,92,32,32,32,47,92,32,32,95,95,32,92,32,32,32,10,32,92,32,92,32,92,45,46,47,92,32,92,32,32,92,32,92,32,92,47,92,32,92,32,32,92,32,92,32,92,95,95,95,95,32,32,92,32,92,32,32,95,95,32,92,32,32,92,32,92,32,32,95,95,32,92,32,32,10,32,32,92,32,92,95,92,32,92,32,92,95,92,32,32,92,32,92,95,95,95,95,95,92,32,32,92,32,92,95,95,95,95,95,92,32,32,92,32,92,95,92,32,92,95,92,32,32,92,32,92,95,92,32,92,95,92,32,10,32,32,32,92,47,95,47,32,32,92,47,95,47,32,32,32,92,47,95,95,95,95,95,47,32,32,32,92,47,95,95,95,95,95,47,32,32,32,92,47,95,47,92,47,95,47,32,32,32,92,47,95,47,92,47,95,47,32,10,32,32,87,101,108,99,111,109,101,32,116,111,32,109,111,99,104,97,33,32,84,104,105,115,32,102,105,108,101,32,104,97,115,32,97,108,108,32,108,111,103,32,111,102,32,109,111,99,104,97,32,97,99,116,105,118,105,116,121,4};
 
 const char* CreateXML() {
@@ -35,8 +35,8 @@ void BeginLog() {
 
 void LoadSetting() {
   const char* path = mocha::Setting::GetInstance()->GetXMLPath();
-  if ( !mocha::FileIO::IsExist( path ) ) {
-    mocha::SharedPtr<mocha::File> file = mocha::FileIO::Open( path , "rw" , mocha::FileIO::P_ReadWrite );
+  if ( !filesystem::FileIO::IsExist( path ) ) {
+    SharedPtr<mocha::filesystem::File> file = filesystem::FileIO::Open( path , "rw" , filesystem::FileIO::P_ReadWrite );
     if ( file->IsSuccess() ) {
       mocha::filesystem::chmod( path , 0777 );
       file->Write( CreateXML() );
@@ -50,11 +50,11 @@ void LoadSetting() {
 void LoadLog() {
   LoadSetting();
   const char* path = mocha::Setting::GetInstance()->GetLogPath();
-  if ( !mocha::FileIO::IsExist( path ) ) {
+  if ( !filesystem::FileIO::IsExist( path ) ) {
     fprintf( stderr , "Error can not find mocha.log. Run install.js first." );
     exit(1);
  CREATE :
-    int ret = mocha::FileIO::CreateFile( path , 0777 );
+    int ret = filesystem::FileIO::CreateFile( path , 0777 );
     if ( ret != -1 ) {
       mocha::filesystem::chmod( path , 0777 );
       BeginLog();
@@ -62,7 +62,7 @@ void LoadLog() {
       fprintf( stderr , "Can not create setting file %s mocha boot failed." , path );
     }
   } else {
-    if ( mocha::FileIO::Open( path , "r" , mocha::FileIO::P_ReadOnly )->GetSize() > 524288 ) {
+    if ( filesystem::FileIO::Open( path , "r" , filesystem::FileIO::P_ReadOnly )->GetSize() > 524288 ) {
       char tmp[ 1000 ];
       sprintf( tmp , "%s-%s\n" , path , mocha::Setting::GetInstance()->GetTimeStr() );
       rename( path , tmp );
@@ -72,28 +72,27 @@ void LoadLog() {
   }
 }
 
-namespace mocha {
-
 void Bootstrap::Initialize( int argc , char** argv ) {
-  JsToken::Initialize();
   Setting::instance_ = new Setting();
   LoadLog();
   Setting::instance_->Log( "mocha initialize end." );
   argv_ = argv;
   self_path_ = filesystem::Path( argv[ 0 ] ).absolute_path();
+  Roaster::Initialize();
   if ( argc > 1 ) {
     if ( strcmp( argv[ 1 ] , "test" ) == 0 ) {
       compiler_test::RunTest();
     }
+    
   } else {
     Interaction::Begin();
-    delete Setting::instance_;
   }
+  delete Setting::instance_;
 }
 
 void Bootstrap::Reboot() {
   Setting::instance_->Log( "reload mocha." );
-  FileIO::CloseAll();
+  filesystem::FileIO::CloseAll();
   execv( self_path_.c_str() , argv_ );
 }
 
