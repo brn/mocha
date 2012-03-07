@@ -26,9 +26,12 @@
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
-#define chmod(name,permiss) _chmod(name,permiss)
+#define CHMOD(name,permiss) _chmod(name,permiss)
+#define CHDIR(name,permiss) _chdir(name,permiss)
 #else
 #define HOME "HOME"
+#define CHMOD(name,permiss) ::chmod(name,permiss)
+#define CHDIR(name) ::chdir(name)
 #endif
 
 #ifndef MAXPATHLEN
@@ -79,7 +82,7 @@ void ConvertBackSlash(const char* path, std::string* buffer) {
   std::string tmp = path;
   //buffer->assign(path);
   size_t index = 0;
-  while ((index = buffer->find("\\", 0)) != std::string::npos) {
+  while ((index = tmp.find("\\", 0)) != std::string::npos) {
     tmp = tmp.replace(index, 1, "/");
   }
   buffer->assign(tmp.c_str());
@@ -161,7 +164,7 @@ const char* Path::current_directory() {
     if (!isSuccess) {
       fprintf(stderr, "GetCwd fail.");
     }
-    ConvertBackSlash(tmp, &current_path_);
+    ConvertBackSlash(tmp, &current_dir_);
 #else
     char tmp[ GW_BUF_SIZE ];
     char* dir = getcwd(tmp, sizeof (tmp));
@@ -180,9 +183,10 @@ const char* Path::home_directory() {
   const char* drive = getenv("HOMEDRIVE");
   const char* home = getenv(HOME);
   if (home && drive) {
-    user_home_ = dirve;
+    user_home_ = drive;
+    user_home_ += '/';
     user_home_ += home;
-    GetAbsolutePath(user_home_.c_str(), user_home_);
+    GetAbsolutePath(user_home_.c_str(), &user_home_);
     return user_home_.c_str();
   }
   return 0;
@@ -271,13 +275,13 @@ void chdir (const char* path) {
 #ifdef _WIN32
   SetCurrentDirectory(path);
 #else
-  ::chdir(path);
+  CHDIR(path);
 #endif
 }
 
 bool chmod(const char* path, int permiss) {
   if (FileIO::IsExist(path)) {
-    ::chmod(path, permiss);
+    CHMOD(path, permiss);
     return true;
   }
   return false;

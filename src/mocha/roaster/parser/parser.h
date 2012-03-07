@@ -32,7 +32,7 @@ class Parser{
     //printf("seek %s\n", static_cast<const char*>(TokenConverter(info)));
     return info;
   }
-  void IllegalEnd(const char* expect, long line);
+  void IllegalEnd(const char* expect, int64_t line);
   void ParseTerminator();
   NodeList* FormalParameterConvertor(AstNode *args);
   AstNode* ParseProgram();

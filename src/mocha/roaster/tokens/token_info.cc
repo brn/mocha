@@ -7,7 +7,7 @@
 using namespace mocha;
 
 TokenInfo::TokenInfo(){};
-TokenInfo::TokenInfo(const char* token, int type, int line)
+TokenInfo::TokenInfo(const char* token, int type, int64_t line)
     : type_(type), line_(line) {
   value_.assign(token);
 };

@@ -12,11 +12,11 @@
 #define COMPARE_AND_SWAP(val,newval,oldval) __sync_val_compare_and_swap(val,newval,oldval)
 typedef _Atomic_word AtomicWord;
 #elif defined _WIN32 || defined __MINGW32__
-#include <winnt.h>
+#include <windows.h>
 #define EXCHANGE_INC(val, i) ::InterlockedExchangeAdd(val, i)
 #define EXCHANGE_DEC(val, i) ::InterlockedExchangeAdd(val, -i)
-#define COMPARE_AND_SWAP(val,newval,oldval) ::_InterlockedCompareExchange(val,newval,oldval)
-typedef LPLONG AtomicWord;
+#define COMPARE_AND_SWAP(val,newval,oldval) ::InterlockedCompareExchange(val,newval,oldval)
+typedef volatile unsigned int AtomicWord;
 #endif
 
 #include <mocha/roaster/misc/class_traits/static.h>

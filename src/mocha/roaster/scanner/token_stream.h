@@ -1,5 +1,6 @@
 #ifndef mocha_scanner_token_stream_h_
 #define mocha_scanner_token_stream_h_
+#include <mocha/misc/int_types.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 class TokenContainer;
@@ -11,7 +12,7 @@ class TokenStream : public memory::Allocated {
   TokenInfo* Advance(int index = 1);
   TokenInfo* Seek(int index);
   TokenInfo* Undo(int index = 0);
-  void Append(const char* token, int type, long line);  
+  void Append(const char* token, int type, int64_t line);  
   int size() const { return size_; }
   TokenInfo* last() const;
   TokenInfo* first() const;

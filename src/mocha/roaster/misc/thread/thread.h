@@ -21,7 +21,7 @@ class Thread{
   bool Join();
   bool IsJoinable();
   static ThreadId GetThreadId();
-  static void Exit();
+  void Exit();
  private :
   PTR_IMPL;
 };

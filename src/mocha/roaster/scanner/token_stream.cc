@@ -8,12 +8,12 @@ static const int max_element = 6;
 
 class TokenContainer : public memory::Allocated {
  public :
-  TokenContainer(const char* token, int type, long line, memory::Pool* pool)
+  TokenContainer(const char* token, int type, int64_t line, memory::Pool* pool)
       :  size(0), next(0), prev(0) {
     Push(token, type, line, pool);
   }
 
-  void Push(const char* token, int type, long line, memory::Pool* pool) {
+  void Push(const char* token, int type, int64_t line, memory::Pool* pool) {
     TokenInfo* info = new(pool) TokenInfo(token, type, line);
     array[ size ] = reinterpret_cast<uintptr_t>(info);
     size++;
@@ -64,7 +64,7 @@ TokenInfo* TokenStream::Advance(int index) {
 
 
 
-void TokenStream::Append(const char* token, int type, long line) {
+void TokenStream::Append(const char* token, int type, int64_t line) {
   if (first_ == 0) {
     first_ = new(pool()) TokenContainer(token, type, line, pool());
     current_ = last_ = first_;

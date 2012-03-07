@@ -29,9 +29,11 @@ void FileWriter::WriteResult(CompilationResultHandle result){
                                                               "rwn",
                                                               filesystem::FileIO::P_ReadWrite);
   //Setting::GetInstance()->Log("deploy to %s", handle.Get());
-  //Set permission to rw for all.
-  filesystem::chmod(handle.Get(), 0777);
-  ret->Write(result->source());
+  if (ret->IsValidFile()) {
+    //Set permission to rw for all.
+    filesystem::chmod(handle.Get(), 0777);
+    ret->Write(result->source());
+  }
 }
 
 void FileWriter::operator()(CompilationResultHandle handle) {

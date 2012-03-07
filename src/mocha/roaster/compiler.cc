@@ -86,7 +86,7 @@ class Compiler::PtrImpl {
     ast_root_.AddChild(Compiler::runtime("runtime", pool_.Get()));
     CallInternal(main_file_path_.c_str(), Internal::kFatal, false);
     OptimizerVisitor opt_visitor(compilation_info_.Get());
-    SymbolCollector visitor(scope_registry_.Get(), compilation_info_.Get());
+    SymbolCollector visitor(scope_registry_.Get(), compilation_info_.Get()->Debug());
     ast_root_.Accept(&visitor);
     ast_root_.Accept(&opt_visitor);
     if (compilation_info_->Compress()) {
@@ -108,7 +108,7 @@ class Compiler::PtrImpl {
       //Set loaded file to hash.
       SetPath(js_path->absolute_path());
       if(is_runtime) {
-        ast_root_.AddChild(Compiler::runtime(js_path->absolute_path(), pool_.Get()));
+        ast_root_.AddChild(Compiler::runtime(js_path->filename(), pool_.Get()));
         return js_path;
       }
       //Change current directory to loaded js file directory.

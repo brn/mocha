@@ -12,7 +12,7 @@ class CompilerInfo;
 class TokenInfo : public memory::Allocated {
  public:
   TokenInfo();
-  TokenInfo(const char* val, int type, int line);
+  TokenInfo(const char* val, int type, int64_t line);
   TokenInfo& operator = (const TokenInfo& info);
   ~TokenInfo();
   const char* token() const { return value_.c_str(); }

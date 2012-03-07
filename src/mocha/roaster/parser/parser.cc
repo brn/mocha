@@ -223,7 +223,7 @@ FileRoot* Parser::Parse() {
 }
 
 //Report illegal end of input.
-void Parser::IllegalEnd(const char* expect, long line) {
+void Parser::IllegalEnd(const char* expect, int64_t line) {
   SYNTAX_ERROR("parse error got unexpected end of input expect "
                 << expect << "\\nin file " << filename_ << " at line " << line);
 }
@@ -1380,7 +1380,7 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
    * | JS_DO statement
    */
   ENTER(DoWhileStatement);
-  long line = Seek(-1)->line_number();
+  int64_t line = Seek(-1)->line_number();
   AstNode* statement = ParseSourceElement();
   CHECK_ERROR(statement);
   TokenInfo* token = Seek();
@@ -1449,7 +1449,7 @@ AstNode* Parser::ParseWhileStatement() {
    */
   ENTER(WhileStatement);
   TokenInfo* token = Advance();
-  long line = token->line_number();
+  int64_t line = token->line_number();
   if (token->type() == '(') {
     AstNode* node = ParseExpression(false);
     CHECK_ERROR(node);
@@ -1509,7 +1509,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
    */
   ENTER(ForStatement);
   TokenInfo *token = Advance();
-  long line = token->line_number();
+  int64_t line = token->line_number();
   bool is_each = false;
   NodeList *exp_list = new(pool()) NodeList;
   IterationStmt* iter_stmt = 0;
@@ -1651,7 +1651,7 @@ void Parser::ParseForStatementCondition(NodeList* list) {
     list->AddChild(new(pool()) Empty);
   } else {
     AstNode* exp = ParseExpression(false);
-    CHECK_ERROR();
+    CHECK_ERROR(;);
     list->AddChild(exp);
   }
   TokenInfo* token = Advance();
@@ -1660,7 +1660,7 @@ void Parser::ParseForStatementCondition(NodeList* list) {
       list->AddChild(new(pool()) Empty);
     } else {
       AstNode* exp = ParseExpression(false);
-      CHECK_ERROR()
+      CHECK_ERROR(;)
           list->AddChild(exp);
     }
     token = Advance();
@@ -1679,7 +1679,7 @@ void Parser::ParseForStatementCondition(NodeList* list) {
 void Parser::ParseForInStatementCondition(NodeList* list) {
   ENTER(ForInStatementCondition);
   AstNode* target_exp = ParseExpression(false);
-  CHECK_ERROR();
+  CHECK_ERROR(;);
   TokenInfo* token = Advance();
   list->AddChild(target_exp);
   if (token->type() != ')') {
@@ -2108,7 +2108,7 @@ void Parser::ParseTraitBody(Trait* trait) {
         Advance();
         while (1) {
           AstNode* ret = ParseLiteral();
-          CHECK_ERROR();
+          CHECK_ERROR(;);
           Literal* val = ret->CastToLiteral();
           val->set_value_type(Literal::kProperty);
           token = Seek();
@@ -2117,37 +2117,37 @@ void Parser::ParseTraitBody(Trait* trait) {
             Advance();
           } else {
             ParseTerminator();
-            CHECK_ERROR();
+            CHECK_ERROR(;);
             break;
           }
         }
       } else if (strcmp(token->token(), "mixin") == 0) {
         Advance();
         AstNode* mixin = ParseMixin();
-        CHECK_ERROR();
+        CHECK_ERROR(;);
         trait->set_mixin(mixin);
       } else {
         AstNode* ret = ParseFunctionDecl(false);
-        CHECK_ERROR();
+        CHECK_ERROR(;);
         ParseTerminator();
-        CHECK_ERROR();
+        CHECK_ERROR(;);
         TraitMember *member = new(pool()) TraitMember(TraitMember::kPrivate, ret, token->line_number());
         trait->set_member(member);
       }
     } else if (token->type() == Token::JS_PUBLIC) {
       Advance();
       AstNode* ret = ParseFunctionDecl(false);
-      CHECK_ERROR();
+      CHECK_ERROR(;);
       ParseTerminator();
-      CHECK_ERROR();
+      CHECK_ERROR(;);
       TraitMember *member = new(pool()) TraitMember(TraitMember::kPublic, ret, token->line_number());
       trait->set_member(member);
     } else if (token->type() == Token::JS_PRIVATE) {
       Advance();
       AstNode* ret = ParseFunctionDecl(false);
-      CHECK_ERROR();
+      CHECK_ERROR(;);
       ParseTerminator();
-      CHECK_ERROR();
+      CHECK_ERROR(;);
       TraitMember *member = new(pool()) TraitMember(TraitMember::kPrivate, ret, token->line_number());
       trait->set_member(member);
     } else {
@@ -2647,7 +2647,7 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
   CHECK_ERROR(lhs);
   while (1) {
     TokenInfo* token = Seek();
-    AstNode* exp;
+    AstNode* exp = 0;
     switch (token->type()) {
       case Token::JS_LOGICAL_AND :
       case Token::JS_LOGICAL_OR :
@@ -2721,7 +2721,7 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
                                                                                                                                 
       default :
         END(BinaryExpression);
-        return (first == 0)? lhs : exp;
+        return (exp == 0)? lhs : exp;
     }
   }
 }

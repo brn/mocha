@@ -496,7 +496,7 @@ void CodeWriter::SetFileName(CodeStream* stream) {
   }
 }
 
-void CodeWriter::SetLine(long line, CodeStream* stream, FileRoot* root) {
+void CodeWriter::SetLine(int64_t line, CodeStream* stream, FileRoot* root) {
   if (root && is_line_ && !root->runtime()) {
     char tmp[50];
     sprintf(tmp, "%ld", line);

@@ -23,14 +23,14 @@ class ClassProcessorUtils : public Processor{
 
   ~ClassProcessorUtils(){}
                                 
-  inline CallExp* CreateHiddenMember(NodeList* args, long line) {
+  inline CallExp* CreateHiddenMember(NodeList* args, int64_t line) {
     Literal* unenum = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kCreateUnenumProp),
                                                 Token::JS_IDENTIFIER, line, Literal::kProperty);
     CallExp* mod = builder()->CreateRuntimeMod(unenum, line);
     return builder()->CreateNormalAccessor(mod, args, line);
   }
 
-  inline Literal* CreateThisNode(long line) {
+  inline Literal* CreateThisNode(int64_t line) {
     return builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
                                      Token::JS_IDENTIFIER, line, Literal::kIdentifier);
   }
@@ -45,7 +45,7 @@ class ClassProcessorUtils : public Processor{
     return builder()->CreateRuntimeMod(call, name->line_number());
   }
 
-  inline CallExp* CreateInitializer(long line) {
+  inline CallExp* CreateInitializer(int64_t line) {
     Literal* this_sym = CreateThisNode(line);
     Literal* init = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kInitializeClass),
                                               Token::JS_IDENTIFIER, line, Literal::kProperty);
@@ -87,7 +87,7 @@ class ClassProcessorUtils : public Processor{
   }
 
                                 
-  inline AstNode* CreateHiddenConstructor (const char* name, long line) {
+  inline AstNode* CreateHiddenConstructor (const char* name, int64_t line) {
     Literal* name_sym = builder()->CreateNameNode(name, Token::JS_IDENTIFIER, line, Literal::kIdentifier);
     CallExp* prototype = builder()->CreatePrototypeNode(name_sym, line);
     Literal* constructor_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kConstructor),

@@ -511,10 +511,10 @@ bool JsToken::IsBinaryOperator(int token) {
 }
 
 int JsToken::GetType (const char* token, bool is_operator) {
-  MutexLock lock(mutex_);
   if (is_operator && strlen(token) == 1) {
     return token[ 0 ];
   } else {
+	MutexLock lock(mutex_);
     ReservedTokenTable::iterator find = reserved_map_.find(token);
     if (find != reserved_map_.end()) {
       return find->second;

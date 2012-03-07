@@ -117,7 +117,7 @@ File::File()
 
 File::File(int fd, const char *path, unsigned int open_type, Stat *fstat, bool is_needlock)
     : fd_(fd), is_locked_(is_needlock), opened_(true), open_type_(open_type), path_(path), fstat_(fstat) {
-  if (is_needlock == true) {
+  if (is_needlock == true && IsValidFile()) {
     LOCK_FILE (fd, EN_LOCK);
   }
 };
@@ -132,7 +132,7 @@ File::File(const File& file) {
 }
 
 File::~File() {
-  if (opened_) {
+  if (opened_ && IsValidFile()) {
     Close();
     delete fstat_;
   }
@@ -151,7 +151,7 @@ File& File::operator = (const File& file) {
 }
 
 void File::Close() {
-  if (is_locked_ == true) {
+  if (is_locked_ == true && IsValidFile()) {
     LOCK_FILE(fd_, UN_LOCK);
   }
   CLOSE_STREAM(fd_);

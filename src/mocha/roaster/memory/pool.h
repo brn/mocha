@@ -12,7 +12,6 @@ class Allocated {
   Allocated(){}
   virtual ~Allocated(){}
   void* operator new(size_t size, Pool* pool);
- protected :
   void operator delete(void* ptr);
   void operator delete(void* ptr, Pool* pool);
  private :

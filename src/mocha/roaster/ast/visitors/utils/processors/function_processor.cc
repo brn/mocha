@@ -1003,7 +1003,7 @@ class YieldHelper : private Processor {
   }
                                 
                                 
-  CaseClause* CreateCaseClause(long line, bool is_error = false) {
+  CaseClause* CreateCaseClause(int64_t line, bool is_error = false) {
     clause_ = new(pool()) CaseClause(line);
     if (!is_error) {
       Literal* state = CreateCurrentState(line);
@@ -1015,7 +1015,7 @@ class YieldHelper : private Processor {
     return clause_;
   }
 
-  Literal* CreateCurrentState(long line) {
+  Literal* CreateCurrentState(int64_t line) {
     char tmp_state_exp[10];
     sprintf(tmp_state_exp, "%d", state_);
     Literal* state_exp = builder()->CreateNameNode(tmp_state_exp, Token::JS_NUMERIC_LITERAL,
@@ -1245,7 +1245,7 @@ class GeneratorHelper : private Processor {
                                                      Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
     Literal* false_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kFalse),
                                                    Token::JS_IDENTIFIER, function_->line_number(),
-                                                   Literal::kIdentifier, Literal::kIdentifier);
+                                                   Literal::kIdentifier);
     ExpressionStmt* stmt = builder()->CreateExpStmt(builder()->CreateAssignment('=', is_new_born, false_sym, function_->line_number()), function_->line_number());
     UnaryExp* not_is_send = new(pool()) UnaryExp('!', is_send, function_->line_number());
     if_stmt->set_condition(not_is_send);

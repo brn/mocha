@@ -106,8 +106,9 @@ MutexLock::~MutexLock() {
 void MutexLock::Unlock() {
   if (!unlocked_) {
     unlocked_ = true;
-    ReleaseMutex(mutex_->IMPL->mutex_t_);
-    CloseHandle(mutex_->IMPL->mutex_t_);
+    if (ReleaseMutex(mutex_->IMPL->mutex_t_)) {
+	  CloseHandle(mutex_->IMPL->mutex_t_);
+	}
   }
 }
 
@@ -154,4 +155,9 @@ void ThreadLocalStorage::Set(ThreadLocalStorageKey* key, void* val) {
 }
 
 }
+#undef IMPL_DEF
+#undef IMPL
+#undef DETACH
+#undef EXIT
+#undef CANCELED
 #endif
