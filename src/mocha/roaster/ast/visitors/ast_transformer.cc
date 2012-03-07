@@ -642,11 +642,6 @@ VISITOR_IMPL(Literal) {
       VariableProcessor::ProcessVarInitialiser(ast_node, proc_info_.Get());
       break;
 
-      /*case Literal::kDst :
-        case Literal::kDstArray :
-        DstaProcessor::ProcessNode(ast_node, proc_info_.Get());
-        break;*/
-
     case Literal::kRest : {
       visitor_info_->set_rest_injection(true);
       ast_node->set_value_type(Literal::kIdentifier);

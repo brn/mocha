@@ -3274,7 +3274,6 @@ AstNode* Parser::ParseObjectLiteral() {
           }
           CHECK_ERROR(assign);
           node->AddChild(assign);
-          object->set_element(node);
           token = Seek();
         }
       } else if (maybe_colon == '(' || maybe_colon == Token::JS_FUNCTION_GLYPH ||

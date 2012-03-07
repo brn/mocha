@@ -98,7 +98,7 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
   while (iterator.HasNext()) {
     const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
-    if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
+    if (strstr(fullpath, "name_test.js") != NULL && strstr(fullpath, ".js") != NULL) {
       ExternalResource::UnsafeSet(fullpath);
       Resource* resource = ExternalResource::UnsafeGet(fullpath);
       CompilationInfoHandle info = resource->compilation_info();

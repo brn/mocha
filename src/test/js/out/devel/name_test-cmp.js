@@ -946,6 +946,28 @@
           b();
         };
       };
+      
+      __LINE__ = 57;
+      var x = 200,
+          _mochaLocalTmp0 =  {
+            v : 200
+          };
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0,x, {
+        
+      });
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0[x],x, {
+        
+      });
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0[x][x],x,300);
+      
+      __LINE__ = 58;
+      var m = _mochaLocalTmp0;
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

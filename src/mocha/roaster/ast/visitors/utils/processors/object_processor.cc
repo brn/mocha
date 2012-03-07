@@ -12,6 +12,24 @@ namespace mocha {
 ObjectProccessor::ObjectProccessor(ObjectLikeLiteral* literal, ProcessorInfo* info) :
     literal_(literal), info_(info){}
 
+void RemovePrivateProperty(ObjectLikeLiteral* literal) {
+  AstNode* list = literal->elements();
+  NodeIterator iterator = list->ChildNodes();
+  while (iterator.HasNext()) {
+    AstNode* item = iterator.Next();
+    if (item->node_type() == AstNode::kLiteral) {
+      if (item->CastToLiteral()->value_type() == Literal::kPrivateProperty) {
+        list->RemoveChild(item);
+      } else {
+        AstNode* child = item->first_child();
+        if (child && child->node_type() == AstNode::kObjectLikeLiteral) {
+          RemovePrivateProperty(child->CastToExpression()->CastToObjectLikeLiteral());
+        }
+      }
+    }
+  }
+}
+
 void ObjectProccessor::ProcessNode() {
   VisitorInfo* visitor_info = info_->visitor_info();
   visitor_info->EnterObject();
@@ -32,12 +50,14 @@ void ObjectProccessor::ProcessNode() {
           parent = parent->parent_node();
         }
         Literal* name = builder()->CreateTmpNode(visitor_info->tmp_index(), literal_->line_number());
-        Literal* exp = builder()->CreateVarInitiliser(name->value(), literal_->Clone(pool()), literal_->line_number());
+        AstNode* clone = literal_->Clone(pool());
+        Literal* exp = builder()->CreateVarInitiliser(name->value(), clone, literal_->line_number());
         VariableDeclarationList* decl_list = builder()->CreateVarDeclList(literal_->line_number(), 1, exp);
         VariableStmt* stmt = builder()->CreateVarStmt(decl_list, literal_->line_number());
         parent->parent_node()->InsertBefore(stmt, parent);
         literal_->parent_node()->ReplaceChild(literal_, name->Clone(pool()));
         ProcessPrivateProperty(name);
+        RemovePrivateProperty(clone->CastToExpression()->CastToObjectLikeLiteral());
       }
     }
   }
@@ -62,8 +82,8 @@ void CollectParentExpression(LiteralArray* expression_array, AstNode* parent, Li
 void ObjectProccessor::ProcessPrivateProperty(Literal *name) {
   VisitorInfo::PrivateNameList *list = info_->visitor_info()->private_property_list();
   VisitorInfo::PrivateNameList::reverse_iterator begin = list->rbegin(),end = list->rend();
+  LiteralArray expression_array;
   while (begin != end) {
-    LiteralArray expression_array;
     AstNode* cur_name = (*begin).first;
     expression_array.push_back(cur_name->CastToLiteral());
     AstNode* statement = literal_->parent_node();

@@ -931,11 +931,11 @@ void CodegenVisitor::ObjectProccessor_(NodeList* ast_node) {
     while (iterator.HasNext()) {
       AstNode* element = iterator.Next();
       Literal* val = element->CastToLiteral();
-      if ((val && element->CastToLiteral()->value_type() != Literal::kPrivateProperty) || !val) {
+      if ((val && element->CastToLiteral()->value_type() != Literal::kPrivateProperty)) {
         element->Accept(this);
         writer()->WriteOp(':', 0, stream());
         element->first_child()->Accept(this);
-        if (iterator.HasNext()) {
+        if (element->next_sibling()) {
           writer()->WriteOp(',', CodeWriter::kVarsComma, stream());
         }
       }
