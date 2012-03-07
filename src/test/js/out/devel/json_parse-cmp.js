@@ -15,9 +15,9 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type,"typeof type",43,'./anonymous');
       
-      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
+      typeof callback && builtinTypeError(type);
     }
     function builtinTypeError(message) {
       try {
@@ -72,7 +72,7 @@
             
             obj.test = 200;
             
-            ret = (obj.test === 200)?false : true;
+            ret = (obj.test)?false : true;
           } catch(e){
             
             ret = false;
@@ -81,7 +81,7 @@
         }();
     
     !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
-      "value" in valobj && (obj[prop] = valobj.value);
+      "value" && (obj[prop] = valobj.value);
     });
     
     if (!stringProto.trim){
@@ -95,7 +95,7 @@
     
     !stringProto.repeat && defineBuiltin(stringProto,"repeat",
     function (num) {
-      return Array(num+1).join(this.toString());
+      return Array(num).join(this.toString());
     });
     
     !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
@@ -107,12 +107,12 @@
     function (str) {
       var t = String(str),
           index = this.lastIndexOf(t);
-      return index >= 0 && index === this.length-t.length;
+      return index;
     });
     
     !stringProto.contains && defineBuiltin(stringProto,"contains",
     function (str) {
-      return this.indexOf(str) !== -1;
+      return this.indexOf(str);
     });
     
     !stringProto.toArray && defineBuiltin(stringProto,"toArray",
@@ -126,7 +126,7 @@
           context = argArray.shift(),
           ret = function () {
             var args = argArray.concat(arrayProto.slice.call(arguments));
-            return this !== null && this !== window && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+            return this?ret.context.apply(this,args) : ret.context.apply(context,args);
           };
       
       ret.prototype = this.prototype;
@@ -142,14 +142,14 @@
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError("Array.forEach : this is null or not defined");
+      this && builtinTypeError("Array.forEach : this is null or not defined");
       
       if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           callback.call(that,ta,iter,this);
         }
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           callback(ta,iter,this);
         };
       };
@@ -162,16 +162,16 @@
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError("Array.every : this is null or not defined");
+      this && builtinTypeError("Array.every : this is null or not defined");
       
       if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
         }
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (!(callback(ta,iter,this))){
             return false;
           };
@@ -187,16 +187,16 @@
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError("Array.some : this is null or not defined");
+      this && builtinTypeError("Array.some : this is null or not defined");
       
       if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (callback.call(that,ta,iter,this)){
             return true;
           };
         }
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (callback(ta,iter,this)){
             return true;
           };
@@ -214,17 +214,17 @@
           ret = [],
           ta;
       
-      this === null && builtinTypeError("Array.filter : this is null or not defined");
+      this && builtinTypeError("Array.filter : this is null or not defined");
       
       if (that){
-        for (var i = 0,len = this.length;i<len; ++ i){
+        for (var i = 0,len = this.length;i; ++ i){
           
-          (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+          (ta = this[i]) && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
         }
       } else {
-        for (var i = 0,len = this.length;i<len; ++ i){
+        for (var i = 0,len = this.length;i; ++ i){
           
-          (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+          (ta = this[i]) && callback(ta,i,this) && (ret[ ++ iter] = ta);
         };
       };
       return ret;
@@ -232,14 +232,14 @@
     
     !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
     function (subject,fromIndex) {
-      var iter = (fromIndex)?fromIndex-1 : -1,
+      var iter = (fromIndex)?fromIndex : -1,
           index = -1,
           ta;
       
-      this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
+      this && builtinTypeError("Array.indexOf : this is null or not defined.");
       
-      while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-        if (ta === subject){
+      while ((ta = this[ ++ iter])){
+        if (ta){
           
           index = iter;
           break;
@@ -251,14 +251,14 @@
     !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
     function (target,fromIndex) {
       var len = this.length,
-          iter = (fromIndex)?fromIndex+1 : len,
+          iter = (fromIndex)?fromIndex : len,
           index = -1,
           ta;
       
-      this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+      this && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
       
-      while ((ta = this[ -- iter]) !== null && ta !== undefined){
-        if (ta === target){
+      while ((ta = this[ -- iter])){
+        if (ta){
           
           index = iter;
           break;
@@ -277,15 +277,15 @@
           i = 0,
           ta;
       
-      this === null && builtinTypeError("Array.map : this is null or not defined.");
+      this && builtinTypeError("Array.map : this is null or not defined.");
       
       if (that){
-        for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+        for (i;i; ++ i){
+          (ta = this[i]) && (ret[ ++ iter] = callback.call(that,ta,i,this));
         }
       } else {
-        for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+        for (i;i; ++ i){
+          (ta = this[i]) && (ret[ ++ iter] = callback(ta,i,this));
         };
       };
       return ret;
@@ -295,15 +295,15 @@
     function (callback,initial) {
       callbackCheck(callback,"Array.reduce");
       
-      var ret = initial || this[0],
+      var ret = initial,
           i = (initial)?0 : 1,
           len = this.length,
           ta;
       
-      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      (len) && builtinTypeError("Array length is 0 and no second argument");
       
-      for (i;i<len; ++ i){
-        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+      for (i;i; ++ i){
+        (ta = this[i]) && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
@@ -313,14 +313,14 @@
       callbackCheck(callback,"Array.reduceRight");
       
       var len = this.length,
-          ret = initial || this[len-1],
-          i = (initial)?len-1 : len-2,
+          ret = initial,
+          i = (initial)?len : len,
           ta;
       
-      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      (len) && builtinTypeError("Array length is 0 and no second argument");
       
-      for (i;i>-1; -- i){
-        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+      for (i;i; -- i){
+        (ta = this[i]) && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
@@ -333,7 +333,7 @@
           hour = _mochaLocalTmp4[2],
           minute = _mochaLocalTmp4[3],
           second = _mochaLocalTmp4[4];
-      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+      return '"';
     });
     
     !Date.now && defineBuiltin(Date,"now",
@@ -343,10 +343,10 @@
     
     !Array.isArray && defineBuiltin(Array,"isArray",
     function (arr) {
-      if (arguments.length === 0){
+      if (arguments.length){
         return false;
       };
-      return (arr)?({}).toString.call(arr) === "[object Array]" : false;
+      return (arr)?({}).toString.call(arr) : false;
     });
   }.call(this,String,Array,Function,Date);
   
@@ -355,13 +355,13 @@
           var proto1 = _mochaLocalTmp9.prototype,
               proto2 = _mochaLocalTmp10.prototype;
           
-          for (var i = 0,len = traits.length;i<len;i ++ ){
+          for (var i = 0,len = traits.length;i;i ++ ){
             
             var _mochaLocalTmp11 = traits[i],
                 _mochaRequires = _mochaLocalTmp11._mochaRequires;
             
             for (var prop in _mochaRequires){
-              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
+              !(prop) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property ");
             };
           };
         }
@@ -398,7 +398,7 @@
           };
         }
         function traitMixin(dest,source,with_,without) {
-          if (!dest._mochaTraitMark || !source._mochaTraitMark){
+          if (!dest._mochaTraitMark){
             Runtime.throwException("mixin only used for trait.");
           } else {
             
@@ -437,7 +437,7 @@
           var type = typeof obj,
               ret;
           
-          if (type === "function"){
+          if (type){
             
             ret = function (){};
             
@@ -451,17 +451,17 @@
           return ret;
         }
         function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
-          (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
+          !instance && throwException("class ");
           
           createPrivateRecord(instance,privateHolder);
           
           constructor.apply(instance,args);
         }
         function isStopIteration(obj) {
-          return obj === StopIteration || rstopIteration.test(obj);
+          return obj;
         }
         function hasIterator(obj) {
-          return __ref_iterator__ in obj;
+          return __ref_iterator__;
         }
         function getIterator(obj) {
           var ret = obj[__ref_iterator__](),
@@ -478,28 +478,28 @@
             function () {
               var result = ret.next();
               
-              result === undefined && throwStopIteration();
+              result && throwStopIteration();
               return result;
             });
           } else {
             return {};
           };
           
-          !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
+          !("__nothrowNext__") && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
           
           for (var prop in ret){
             
-            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
+            prop && (newObj[prop] = ret[prop]);
           };
           
-          !("toString" in ret) && createUnenumProp(newObj,"toString",
+          !("toString") && createUnenumProp(newObj,"toString",
           function () {
             return "[object Iterator]";
           });
           return newObj;
         }
         function isGenerator(obj) {
-          return obj instanceof Generator;
+          return obj;
         }
         function throwStopIteration() {
           try {
@@ -509,7 +509,7 @@
           };
         }
         function createRecord(obj) {
-          obj.toString() === "[object Object]" && createUnenumProp(obj,"toString",
+          obj.toString() && createUnenumProp(obj,"toString",
           function () {
             return "[object Record]";
           });
@@ -535,10 +535,10 @@
           var maxIndex = max(tuple.length,this.length),
               i = -1;
           
-          while ( ++ i<maxIndex && tuple[i] === this[i]){
+          while ( ++ i){
             
           };
-          return maxIndex === i;
+          return maxIndex;
         }
         function extend(dest,source) {
           for (var prop in source){
@@ -591,7 +591,7 @@
         }
         function Exception(line,file,e) {
           this.toString = function () {
-            return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+            return Runtime.getErrorMessage(e);
           };
         }
         var _mochaLocalExport = {};
@@ -624,7 +624,7 @@
                   };
                 };
               },
-              hasProto : "__proto__" in {}
+              hasProto : "__proto__"
             };
         
         _mochaLocalExport.createUnenumProp = createUnenumProp;
@@ -647,7 +647,7 @@
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
             },
-            getPrototype = ("getPrototypeOf" in Object)?function (obj) {
+            getPrototype = ("getPrototypeOf")?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
               var ret = {};
@@ -659,7 +659,7 @@
               return ret;
             },
             extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
-              if (typeof base === 'function'){
+              if (typeof base){
                 
                 derived.prototype.__proto__ = base.prototype;
                 
@@ -672,7 +672,7 @@
             } : function (derived,base) {
               var baseType = typeof base;
               
-              if (baseType === "function"){
+              if (baseType){
                 
                 var inherit = function (){};
                 
@@ -711,7 +711,7 @@
             createPrivateRecord,
             getPrivateRecord;
         
-        if ("WeakMap" in window){
+        if ("WeakMap"){
           
           privateRecord = new WeakMap();
           
@@ -726,7 +726,7 @@
           getPrivateRecord = function (self) {
             if (privateRecord.has(self)){
               return privateRecord.get(self);
-            } else if (self.constructor === "__is_private__"){
+            } else if (self.constructor){
               return self;
             };
           };
@@ -746,7 +746,7 @@
           getPrivateRecord = function (self) {
             if (self.__private__){
               return self.__private__;
-            } else if (self.constructor === "__is_private__"){
+            } else if (self.constructor){
               return self;
             };
           };
@@ -765,16 +765,16 @@
         _mochaLocalExport.checkRequirements = checkRequirements;
         
         !function () {
-          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
-                console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line)
+          var assert = _mochaLocalExport.assert = (console)?function (expect,exp,str,line,filename) {
+                console.assert(expect,"assertion failed : ")
               } : function (expect,exp,str,line,filename) {
-                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+                expect && Runtime.throwException("assertion failed : ");
               };
         }.call(this);
         return _mochaLocalExport;
       }();
   
-  !("StopIteration" in window) && (window.StopIteration =  {
+  !("StopIteration") && (window.StopIteration =  {
     toString : function () {
       return "[object StopIteration]";
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json_parse.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/lib/json_parse.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./json_parse.js'] = {};
@@ -836,7 +836,7 @@
                   next = function (c) {
                     try {
                       __LINE__ = 95;
-                      c && c !== ch && error("Expected '"+c+"' instead of '"+ch+"'");
+                      c && error("Expected '");
                       
                       __LINE__ = 101;
                       ch = text.charAt(at);
@@ -856,7 +856,7 @@
                           string = '';
                       
                       __LINE__ = 113;
-                      if (ch === '-'){
+                      if (ch){
                         
                         __LINE__ = 114;
                         string = '-';
@@ -866,7 +866,7 @@
                       };
                       
                       __LINE__ = 117;
-                      while (ch >= '0' && ch <= '9'){
+                      while (ch){
                         
                         __LINE__ = 118;
                         string += ch;
@@ -876,20 +876,20 @@
                       };
                       
                       __LINE__ = 121;
-                      if (ch === '.'){
+                      if (ch){
                         
                         __LINE__ = 122;
                         string += '.';
                         
                         __LINE__ = 123;
-                        while (next() && ch >= '0' && ch <= '9'){
+                        while (next()){
                           __LINE__ = 124;
                           string += ch;
                         };
                       };
                       
                       __LINE__ = 127;
-                      if (ch === 'e' || ch === 'E'){
+                      if (ch){
                         
                         __LINE__ = 128;
                         string += ch;
@@ -898,7 +898,7 @@
                         next();
                         
                         __LINE__ = 130;
-                        if (ch === '-' || ch === '+'){
+                        if (ch){
                           
                           __LINE__ = 131;
                           string += ch;
@@ -908,7 +908,7 @@
                         };
                         
                         __LINE__ = 134;
-                        while (ch >= '0' && ch <= '9'){
+                        while (ch){
                           
                           __LINE__ = 135;
                           string += ch;
@@ -942,27 +942,27 @@
                           uffff;
                       
                       __LINE__ = 158;
-                      if (ch === '"'){
+                      if (ch){
                         __LINE__ = 159;
                         while (next()){
                           __LINE__ = 160;
-                          if (ch === '"'){
+                          if (ch){
                             
                             __LINE__ = 161;
                             next();
                             __LINE__ = 162;
                             return string;
-                          } else if (ch === '\\'){
+                          } else if (ch){
                             
                             __LINE__ = 164;
                             next();
-                            if (ch === 'u'){
+                            if (ch){
                               
                               __LINE__ = 166;
                               uffff = 0;
                               
                               __LINE__ = 167;
-                              for (i = 0;i<4;i += 1){
+                              for (i = 0;i;i += 1){
                                 
                                 __LINE__ = 168;
                                 hex = parseInt(next(),16);
@@ -970,13 +970,10 @@
                                   __LINE__ = 170;
                                   break;
                                 };
-                                
-                                __LINE__ = 172;
-                                uffff = uffff*16+hex;
                               }
                               __LINE__ = 174;
                               string += String.fromCharCode(uffff);
-                            } else if (typeof escapee[ch] === 'string'){
+                            } else if (typeof escapee[ch]){
                               __LINE__ = 176;
                               string += escapee[ch];
                             } else {
@@ -999,7 +996,7 @@
                   white = function () {
                     try {
                       __LINE__ = 192;
-                      while (ch && ch <= ' '){
+                      while (ch){
                         __LINE__ = 193;
                         next();
                       };
@@ -1063,7 +1060,7 @@
                       };
                       
                       __LINE__ = 222;
-                      error("Unexpected '"+ch+"'");
+                      error("Unexpected '");
                     } catch(e){
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
@@ -1075,7 +1072,7 @@
                       var array = [];
                       
                       __LINE__ = 233;
-                      if (ch === '['){
+                      if (ch){
                         
                         __LINE__ = 234;
                         next('[');
@@ -1084,7 +1081,7 @@
                         white();
                         
                         __LINE__ = 236;
-                        if (ch === ']'){
+                        if (ch){
                           
                           __LINE__ = 237;
                           next(']');
@@ -1102,7 +1099,7 @@
                           white();
                           
                           __LINE__ = 243;
-                          if (ch === ']'){
+                          if (ch){
                             
                             __LINE__ = 244;
                             next(']');
@@ -1131,7 +1128,7 @@
                           object = {};
                       
                       __LINE__ = 261;
-                      if (ch === '{'){
+                      if (ch){
                         
                         __LINE__ = 262;
                         next('{');
@@ -1140,7 +1137,7 @@
                         white();
                         
                         __LINE__ = 264;
-                        if (ch === '}'){
+                        if (ch){
                           
                           __LINE__ = 265;
                           next('}');
@@ -1161,7 +1158,7 @@
                           next(':');
                           
                           __LINE__ = 273;
-                          Object.hasOwnProperty.call(object,key) && error('Duplicate key "'+key+'"');
+                          Object.hasOwnProperty.call(object,key) && error('Duplicate key "');
                           
                           __LINE__ = 275;
                           object[key] = value();
@@ -1170,7 +1167,7 @@
                           white();
                           
                           __LINE__ = 277;
-                          if (ch === '}'){
+                          if (ch){
                             
                             __LINE__ = 278;
                             next('}');
@@ -1215,7 +1212,7 @@
                       return number();
                     default :
                       __LINE__ = 304;
-                      return ch >= '0' && ch <= '9'?number() : word();
+                      return ch?number() : word();
                       
                   };
                 } catch(e){
@@ -1246,7 +1243,7 @@
                   __LINE__ = 320;
                   ch && error("Syntax error");
                   __LINE__ = 329;
-                  return typeof reviver === 'function'?(function walk(holder,key) {
+                  return typeof reviver?(function walk(holder,key) {
                     try {
                       __LINE__ = 330;
                       var k,
@@ -1254,7 +1251,7 @@
                           value = holder[key];
                       
                       __LINE__ = 331;
-                      if (value && typeof value === 'object'){
+                      if (value){
                         __LINE__ = 332;
                         for (k in value){
                           __LINE__ = 333;
@@ -1264,7 +1261,7 @@
                             v = walk(value,k);
                             
                             __LINE__ = 336;
-                            v !== undefined?value[k] = v : delete value[k];
+                            v?value[k] = v : delete value[k];
                           };
                         }
                       };

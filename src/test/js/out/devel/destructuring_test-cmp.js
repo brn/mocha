@@ -15,9 +15,9 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type,"typeof type",43,'./anonymous');
       
-      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
+      typeof callback && builtinTypeError(type);
     }
     function builtinTypeError(message) {
       try {
@@ -72,7 +72,7 @@
             
             obj.test = 200;
             
-            ret = (obj.test === 200)?false : true;
+            ret = (obj.test)?false : true;
           } catch(e){
             
             ret = false;
@@ -81,7 +81,7 @@
         }();
     
     !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
-      "value" in valobj && (obj[prop] = valobj.value);
+      "value" && (obj[prop] = valobj.value);
     });
     
     if (!stringProto.trim){
@@ -95,7 +95,7 @@
     
     !stringProto.repeat && defineBuiltin(stringProto,"repeat",
     function (num) {
-      return Array(num+1).join(this.toString());
+      return Array(num).join(this.toString());
     });
     
     !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
@@ -107,12 +107,12 @@
     function (str) {
       var t = String(str),
           index = this.lastIndexOf(t);
-      return index >= 0 && index === this.length-t.length;
+      return index;
     });
     
     !stringProto.contains && defineBuiltin(stringProto,"contains",
     function (str) {
-      return this.indexOf(str) !== -1;
+      return this.indexOf(str);
     });
     
     !stringProto.toArray && defineBuiltin(stringProto,"toArray",
@@ -126,7 +126,7 @@
           context = argArray.shift(),
           ret = function () {
             var args = argArray.concat(arrayProto.slice.call(arguments));
-            return this !== null && this !== window && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+            return this?ret.context.apply(this,args) : ret.context.apply(context,args);
           };
       
       ret.prototype = this.prototype;
@@ -142,14 +142,14 @@
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError("Array.forEach : this is null or not defined");
+      this && builtinTypeError("Array.forEach : this is null or not defined");
       
       if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           callback.call(that,ta,iter,this);
         }
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           callback(ta,iter,this);
         };
       };
@@ -162,16 +162,16 @@
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError("Array.every : this is null or not defined");
+      this && builtinTypeError("Array.every : this is null or not defined");
       
       if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (!(callback.call(that,ta,iter,this))){
             return false;
           };
         }
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (!(callback(ta,iter,this))){
             return false;
           };
@@ -187,16 +187,16 @@
       var iter = -1,
           ta;
       
-      this === null && builtinTypeError("Array.some : this is null or not defined");
+      this && builtinTypeError("Array.some : this is null or not defined");
       
       if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (callback.call(that,ta,iter,this)){
             return true;
           };
         }
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta = this[ ++ iter])){
           if (callback(ta,iter,this)){
             return true;
           };
@@ -214,17 +214,17 @@
           ret = [],
           ta;
       
-      this === null && builtinTypeError("Array.filter : this is null or not defined");
+      this && builtinTypeError("Array.filter : this is null or not defined");
       
       if (that){
-        for (var i = 0,len = this.length;i<len; ++ i){
+        for (var i = 0,len = this.length;i; ++ i){
           
-          (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+          (ta = this[i]) && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
         }
       } else {
-        for (var i = 0,len = this.length;i<len; ++ i){
+        for (var i = 0,len = this.length;i; ++ i){
           
-          (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+          (ta = this[i]) && callback(ta,i,this) && (ret[ ++ iter] = ta);
         };
       };
       return ret;
@@ -232,14 +232,14 @@
     
     !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
     function (subject,fromIndex) {
-      var iter = (fromIndex)?fromIndex-1 : -1,
+      var iter = (fromIndex)?fromIndex : -1,
           index = -1,
           ta;
       
-      this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
+      this && builtinTypeError("Array.indexOf : this is null or not defined.");
       
-      while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-        if (ta === subject){
+      while ((ta = this[ ++ iter])){
+        if (ta){
           
           index = iter;
           break;
@@ -251,14 +251,14 @@
     !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
     function (target,fromIndex) {
       var len = this.length,
-          iter = (fromIndex)?fromIndex+1 : len,
+          iter = (fromIndex)?fromIndex : len,
           index = -1,
           ta;
       
-      this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+      this && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
       
-      while ((ta = this[ -- iter]) !== null && ta !== undefined){
-        if (ta === target){
+      while ((ta = this[ -- iter])){
+        if (ta){
           
           index = iter;
           break;
@@ -277,15 +277,15 @@
           i = 0,
           ta;
       
-      this === null && builtinTypeError("Array.map : this is null or not defined.");
+      this && builtinTypeError("Array.map : this is null or not defined.");
       
       if (that){
-        for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+        for (i;i; ++ i){
+          (ta = this[i]) && (ret[ ++ iter] = callback.call(that,ta,i,this));
         }
       } else {
-        for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+        for (i;i; ++ i){
+          (ta = this[i]) && (ret[ ++ iter] = callback(ta,i,this));
         };
       };
       return ret;
@@ -295,15 +295,15 @@
     function (callback,initial) {
       callbackCheck(callback,"Array.reduce");
       
-      var ret = initial || this[0],
+      var ret = initial,
           i = (initial)?0 : 1,
           len = this.length,
           ta;
       
-      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      (len) && builtinTypeError("Array length is 0 and no second argument");
       
-      for (i;i<len; ++ i){
-        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+      for (i;i; ++ i){
+        (ta = this[i]) && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
@@ -313,14 +313,14 @@
       callbackCheck(callback,"Array.reduceRight");
       
       var len = this.length,
-          ret = initial || this[len-1],
-          i = (initial)?len-1 : len-2,
+          ret = initial,
+          i = (initial)?len : len,
           ta;
       
-      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      (len) && builtinTypeError("Array length is 0 and no second argument");
       
-      for (i;i>-1; -- i){
-        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+      for (i;i; -- i){
+        (ta = this[i]) && (ret = callback(ret,ta,i,this));
       };
       return ret;
     });
@@ -333,7 +333,7 @@
           hour = _mochaLocalTmp4[2],
           minute = _mochaLocalTmp4[3],
           second = _mochaLocalTmp4[4];
-      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+      return '"';
     });
     
     !Date.now && defineBuiltin(Date,"now",
@@ -343,10 +343,10 @@
     
     !Array.isArray && defineBuiltin(Array,"isArray",
     function (arr) {
-      if (arguments.length === 0){
+      if (arguments.length){
         return false;
       };
-      return (arr)?({}).toString.call(arr) === "[object Array]" : false;
+      return (arr)?({}).toString.call(arr) : false;
     });
   }.call(this,String,Array,Function,Date);
   
@@ -355,13 +355,13 @@
           var proto1 = _mochaLocalTmp9.prototype,
               proto2 = _mochaLocalTmp10.prototype;
           
-          for (var i = 0,len = traits.length;i<len;i ++ ){
+          for (var i = 0,len = traits.length;i;i ++ ){
             
             var _mochaLocalTmp11 = traits[i],
                 _mochaRequires = _mochaLocalTmp11._mochaRequires;
             
             for (var prop in _mochaRequires){
-              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
+              !(prop) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property ");
             };
           };
         }
@@ -398,7 +398,7 @@
           };
         }
         function traitMixin(dest,source,with_,without) {
-          if (!dest._mochaTraitMark || !source._mochaTraitMark){
+          if (!dest._mochaTraitMark){
             Runtime.throwException("mixin only used for trait.");
           } else {
             
@@ -437,7 +437,7 @@
           var type = typeof obj,
               ret;
           
-          if (type === "function"){
+          if (type){
             
             ret = function (){};
             
@@ -451,17 +451,17 @@
           return ret;
         }
         function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
-          (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
+          !instance && throwException("class ");
           
           createPrivateRecord(instance,privateHolder);
           
           constructor.apply(instance,args);
         }
         function isStopIteration(obj) {
-          return obj === StopIteration || rstopIteration.test(obj);
+          return obj;
         }
         function hasIterator(obj) {
-          return __ref_iterator__ in obj;
+          return __ref_iterator__;
         }
         function getIterator(obj) {
           var ret = obj[__ref_iterator__](),
@@ -478,28 +478,28 @@
             function () {
               var result = ret.next();
               
-              result === undefined && throwStopIteration();
+              result && throwStopIteration();
               return result;
             });
           } else {
             return {};
           };
           
-          !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
+          !("__nothrowNext__") && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
           
           for (var prop in ret){
             
-            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
+            prop && (newObj[prop] = ret[prop]);
           };
           
-          !("toString" in ret) && createUnenumProp(newObj,"toString",
+          !("toString") && createUnenumProp(newObj,"toString",
           function () {
             return "[object Iterator]";
           });
           return newObj;
         }
         function isGenerator(obj) {
-          return obj instanceof Generator;
+          return obj;
         }
         function throwStopIteration() {
           try {
@@ -509,7 +509,7 @@
           };
         }
         function createRecord(obj) {
-          obj.toString() === "[object Object]" && createUnenumProp(obj,"toString",
+          obj.toString() && createUnenumProp(obj,"toString",
           function () {
             return "[object Record]";
           });
@@ -535,10 +535,10 @@
           var maxIndex = max(tuple.length,this.length),
               i = -1;
           
-          while ( ++ i<maxIndex && tuple[i] === this[i]){
+          while ( ++ i){
             
           };
-          return maxIndex === i;
+          return maxIndex;
         }
         function extend(dest,source) {
           for (var prop in source){
@@ -591,7 +591,7 @@
         }
         function Exception(line,file,e) {
           this.toString = function () {
-            return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+            return Runtime.getErrorMessage(e);
           };
         }
         var _mochaLocalExport = {};
@@ -624,7 +624,7 @@
                   };
                 };
               },
-              hasProto : "__proto__" in {}
+              hasProto : "__proto__"
             };
         
         _mochaLocalExport.createUnenumProp = createUnenumProp;
@@ -647,7 +647,7 @@
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
             },
-            getPrototype = ("getPrototypeOf" in Object)?function (obj) {
+            getPrototype = ("getPrototypeOf")?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
               var ret = {};
@@ -659,7 +659,7 @@
               return ret;
             },
             extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
-              if (typeof base === 'function'){
+              if (typeof base){
                 
                 derived.prototype.__proto__ = base.prototype;
                 
@@ -672,7 +672,7 @@
             } : function (derived,base) {
               var baseType = typeof base;
               
-              if (baseType === "function"){
+              if (baseType){
                 
                 var inherit = function (){};
                 
@@ -711,7 +711,7 @@
             createPrivateRecord,
             getPrivateRecord;
         
-        if ("WeakMap" in window){
+        if ("WeakMap"){
           
           privateRecord = new WeakMap();
           
@@ -726,7 +726,7 @@
           getPrivateRecord = function (self) {
             if (privateRecord.has(self)){
               return privateRecord.get(self);
-            } else if (self.constructor === "__is_private__"){
+            } else if (self.constructor){
               return self;
             };
           };
@@ -746,7 +746,7 @@
           getPrivateRecord = function (self) {
             if (self.__private__){
               return self.__private__;
-            } else if (self.constructor === "__is_private__"){
+            } else if (self.constructor){
               return self;
             };
           };
@@ -765,16 +765,16 @@
         _mochaLocalExport.checkRequirements = checkRequirements;
         
         !function () {
-          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
-                console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line)
+          var assert = _mochaLocalExport.assert = (console)?function (expect,exp,str,line,filename) {
+                console.assert(expect,"assertion failed : ")
               } : function (expect,exp,str,line,filename) {
-                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+                expect && Runtime.throwException("assertion failed : ");
               };
         }.call(this);
         return _mochaLocalExport;
       }();
   
-  !("StopIteration" in window) && (window.StopIteration =  {
+  !("StopIteration") && (window.StopIteration =  {
     toString : function () {
       return "[object StopIteration]";
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/destructuring_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/destructuring_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./destructuring_test.js'] = {};
@@ -844,25 +844,25 @@
               strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
           
           __LINE__ = 19;
-          Runtime.assert(true,value1 === 100,"value1 === 100",19,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",19,'./destructuring_test.js');
           
           __LINE__ = 20;
-          Runtime.assert(true,value3 === 100,"value3 === 100",20,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",20,'./destructuring_test.js');
           
           __LINE__ = 21;
-          Runtime.assert(true,value5_ === 100,"value5_ === 100",21,'./destructuring_test.js');
+          Runtime.assert(true,value5_,"value5_",21,'./destructuring_test.js');
           
           __LINE__ = 22;
-          Runtime.assert(true,value6_ === 200,"value6_ === 200",22,'./destructuring_test.js');
+          Runtime.assert(true,value6_,"value6_",22,'./destructuring_test.js');
           
           __LINE__ = 23;
-          Runtime.assert(true,value7_ === 300,"value7_ === 300",23,'./destructuring_test.js');
+          Runtime.assert(true,value7_,"value7_",23,'./destructuring_test.js');
           
           __LINE__ = 24;
-          Runtime.assert(true,value7 === 100,"value7 === 100",24,'./destructuring_test.js');
+          Runtime.assert(true,value7,"value7",24,'./destructuring_test.js');
           
           __LINE__ = 25;
-          Runtime.assert(true,strvalue === 100,"strvalue === 100",25,'./destructuring_test.js');
+          Runtime.assert(true,strvalue,"strvalue",25,'./destructuring_test.js');
           
           __LINE__ = 27;
           value1 = object.value1;
@@ -886,25 +886,25 @@
           strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
           
           __LINE__ = 28;
-          Runtime.assert(true,value1 === 100,"value1 === 100",28,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",28,'./destructuring_test.js');
           
           __LINE__ = 29;
-          Runtime.assert(true,value3 === 100,"value3 === 100",29,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",29,'./destructuring_test.js');
           
           __LINE__ = 30;
-          Runtime.assert(true,value5_ === 100,"value5_ === 100",30,'./destructuring_test.js');
+          Runtime.assert(true,value5_,"value5_",30,'./destructuring_test.js');
           
           __LINE__ = 31;
-          Runtime.assert(true,value6_ === 200,"value6_ === 200",31,'./destructuring_test.js');
+          Runtime.assert(true,value6_,"value6_",31,'./destructuring_test.js');
           
           __LINE__ = 32;
-          Runtime.assert(true,value7_ === 300,"value7_ === 300",32,'./destructuring_test.js');
+          Runtime.assert(true,value7_,"value7_",32,'./destructuring_test.js');
           
           __LINE__ = 33;
-          Runtime.assert(true,value7 === 100,"value7 === 100",33,'./destructuring_test.js');
+          Runtime.assert(true,value7,"value7",33,'./destructuring_test.js');
           
           __LINE__ = 34;
-          Runtime.assert(true,strvalue === 100,"strvalue === 100",34,'./destructuring_test.js');
+          Runtime.assert(true,strvalue,"strvalue",34,'./destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -922,22 +922,22 @@
               arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
           
           __LINE__ = 40;
-          Runtime.assert(true,value1 === 100,"value1 === 100",40,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",40,'./destructuring_test.js');
           
           __LINE__ = 41;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",41,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1,"arr_value1",41,'./destructuring_test.js');
           
           __LINE__ = 42;
-          Runtime.assert(true,value2 === 100,"value2 === 100",42,'./destructuring_test.js');
+          Runtime.assert(true,value2,"value2",42,'./destructuring_test.js');
           
           __LINE__ = 43;
-          Runtime.assert(true,value3 === 100,"value3 === 100",43,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",43,'./destructuring_test.js');
           
           __LINE__ = 44;
-          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",44,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2,"arr_value2",44,'./destructuring_test.js');
           
           __LINE__ = 45;
-          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",45,'./destructuring_test.js');
+          Runtime.assert(true,arr_value3,"arr_value3",45,'./destructuring_test.js');
           
           __LINE__ = 46;
           value1 = array[0] && array[0].value1?array[0].value1 : undefined;
@@ -958,22 +958,22 @@
           arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
           
           __LINE__ = 47;
-          Runtime.assert(true,value1 === 100,"value1 === 100",47,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",47,'./destructuring_test.js');
           
           __LINE__ = 48;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",48,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1,"arr_value1",48,'./destructuring_test.js');
           
           __LINE__ = 49;
-          Runtime.assert(true,value2 === 100,"value2 === 100",49,'./destructuring_test.js');
+          Runtime.assert(true,value2,"value2",49,'./destructuring_test.js');
           
           __LINE__ = 50;
-          Runtime.assert(true,value3 === 100,"value3 === 100",50,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",50,'./destructuring_test.js');
           
           __LINE__ = 51;
-          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",51,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2,"arr_value2",51,'./destructuring_test.js');
           
           __LINE__ = 52;
-          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",52,'./destructuring_test.js');
+          Runtime.assert(true,arr_value3,"arr_value3",52,'./destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -990,22 +990,22 @@
               arr_value2 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
           
           __LINE__ = 57;
-          Runtime.assert(true,value1 === 100,"value1 === 100",57,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",57,'./destructuring_test.js');
           
           __LINE__ = 58;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",58,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1,"arr_value1",58,'./destructuring_test.js');
           
           __LINE__ = 59;
-          Runtime.assert(true,value2 === 100,"value2 === 100",59,'./destructuring_test.js');
+          Runtime.assert(true,value2,"value2",59,'./destructuring_test.js');
           
           __LINE__ = 60;
-          Runtime.assert(true,value3 === 100,"value3 === 100",60,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",60,'./destructuring_test.js');
           
           __LINE__ = 61;
-          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",61,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[0],"arr_value2[0]",61,'./destructuring_test.js');
           
           __LINE__ = 62;
-          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",62,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[1],"arr_value2[1]",62,'./destructuring_test.js');
           
           __LINE__ = 63;
           var arr_value4;
@@ -1026,22 +1026,22 @@
           arr_value4 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
           
           __LINE__ = 65;
-          Runtime.assert(true,value1 === 100,"value1 === 100",65,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",65,'./destructuring_test.js');
           
           __LINE__ = 66;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",66,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1,"arr_value1",66,'./destructuring_test.js');
           
           __LINE__ = 67;
-          Runtime.assert(true,value2 === 100,"value2 === 100",67,'./destructuring_test.js');
+          Runtime.assert(true,value2,"value2",67,'./destructuring_test.js');
           
           __LINE__ = 68;
-          Runtime.assert(true,value3 === 100,"value3 === 100",68,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",68,'./destructuring_test.js');
           
           __LINE__ = 69;
-          Runtime.assert(true,arr_value4[0] === 100,"arr_value4[0] === 100",69,'./destructuring_test.js');
+          Runtime.assert(true,arr_value4[0],"arr_value4[0]",69,'./destructuring_test.js');
           
           __LINE__ = 70;
-          Runtime.assert(true,arr_value4[1] === 200,"arr_value4[1] === 200",70,'./destructuring_test.js');
+          Runtime.assert(true,arr_value4[1],"arr_value4[1]",70,'./destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1060,25 +1060,25 @@
               strvalue = _mochaLocalTmp0["@value"] && _mochaLocalTmp0["@value"].strvalue?_mochaLocalTmp0["@value"].strvalue : undefined;
           
           __LINE__ = 74;
-          Runtime.assert(true,value1 === 100,"value1 === 100",74,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",74,'./destructuring_test.js');
           
           __LINE__ = 75;
-          Runtime.assert(true,value3 === 100,"value3 === 100",75,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",75,'./destructuring_test.js');
           
           __LINE__ = 76;
-          Runtime.assert(true,value5_ === 100,"value5_ === 100",76,'./destructuring_test.js');
+          Runtime.assert(true,value5_,"value5_",76,'./destructuring_test.js');
           
           __LINE__ = 77;
-          Runtime.assert(true,value6_ === 200,"value6_ === 200",77,'./destructuring_test.js');
+          Runtime.assert(true,value6_,"value6_",77,'./destructuring_test.js');
           
           __LINE__ = 78;
-          Runtime.assert(true,value7_ === 300,"value7_ === 300",78,'./destructuring_test.js');
+          Runtime.assert(true,value7_,"value7_",78,'./destructuring_test.js');
           
           __LINE__ = 79;
-          Runtime.assert(true,value7 === 100,"value7 === 100",79,'./destructuring_test.js');
+          Runtime.assert(true,value7,"value7",79,'./destructuring_test.js');
           
           __LINE__ = 80;
-          Runtime.assert(true,strvalue === 100,"strvalue === 100",80,'./destructuring_test.js');
+          Runtime.assert(true,strvalue,"strvalue",80,'./destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1096,22 +1096,22 @@
               arr_value3 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[1]?_mochaLocalTmp1[4].value4.value5[1] : undefined;
           
           __LINE__ = 85;
-          Runtime.assert(true,value1 === 100,"value1 === 100",85,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",85,'./destructuring_test.js');
           
           __LINE__ = 86;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",86,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1,"arr_value1",86,'./destructuring_test.js');
           
           __LINE__ = 87;
-          Runtime.assert(true,value2 === 100,"value2 === 100",87,'./destructuring_test.js');
+          Runtime.assert(true,value2,"value2",87,'./destructuring_test.js');
           
           __LINE__ = 88;
-          Runtime.assert(true,value3 === 100,"value3 === 100",88,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",88,'./destructuring_test.js');
           
           __LINE__ = 89;
-          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",89,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2,"arr_value2",89,'./destructuring_test.js');
           
           __LINE__ = 90;
-          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",90,'./destructuring_test.js');
+          Runtime.assert(true,arr_value3,"arr_value3",90,'./destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1128,22 +1128,22 @@
               arr_value2 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5?Runtime.toArray(_mochaLocalTmp2[4].value4.value5,0) : undefined;
           
           __LINE__ = 95;
-          Runtime.assert(true,value1 === 100,"value1 === 100",95,'./destructuring_test.js');
+          Runtime.assert(true,value1,"value1",95,'./destructuring_test.js');
           
           __LINE__ = 96;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",96,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1,"arr_value1",96,'./destructuring_test.js');
           
           __LINE__ = 97;
-          Runtime.assert(true,value2 === 100,"value2 === 100",97,'./destructuring_test.js');
+          Runtime.assert(true,value2,"value2",97,'./destructuring_test.js');
           
           __LINE__ = 98;
-          Runtime.assert(true,value3 === 100,"value3 === 100",98,'./destructuring_test.js');
+          Runtime.assert(true,value3,"value3",98,'./destructuring_test.js');
           
           __LINE__ = 99;
-          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",99,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[0],"arr_value2[0]",99,'./destructuring_test.js');
           
           __LINE__ = 100;
-          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",100,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[1],"arr_value2[1]",100,'./destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
