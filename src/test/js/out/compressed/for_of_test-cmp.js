@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
+      var __FILE__ = "anonymous",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['./'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./'];
       
       __LINE__ = 1;
       !function () {
@@ -1636,14 +1636,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./for_of_test.js'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./for_of_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../../'],
           iterator = _mochaLocalTmp0.iterator,
           _mochaLocalTmp9 =  {
             arr : [],

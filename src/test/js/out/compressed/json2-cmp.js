@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/262/lib/json2.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json2.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./json2.js'] = {};

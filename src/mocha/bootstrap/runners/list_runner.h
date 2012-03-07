@@ -5,7 +5,7 @@ namespace mocha {
 class Options;
 class ListRunner : public ICommandLineRunner {
  public :
-  ListRunner( Options* option );
+  ListRunner(Options* option);
   virtual ListRunner* CastToList() { return this; }
   virtual void Run();
 };

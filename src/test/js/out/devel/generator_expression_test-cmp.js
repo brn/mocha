@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
+      var __FILE__ = "anonymous",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['./'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./'];
       
       __LINE__ = 1;
       !function () {
@@ -1636,14 +1636,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/generator_expression_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/generator_expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./generator_expression_test.js'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./generator_expression_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../../'],
           keys = _mochaLocalTmp0.keys,
           allItems = _mochaLocalTmp0.allItems,
           testObject =  {
@@ -1653,7 +1653,7 @@
           },
           test = function () {
             try {
-              __LINE__ = 94994088;
+              __LINE__ = 4410319744;
               var _mochaIsNewBorn = true,
                   _yieldResult = undefined,
                   _yieldState = 0,
@@ -1663,13 +1663,13 @@
                   _mochaLocalTmp2 = [],
                   _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                     try {
-                      __LINE__ = 94994088;
+                      __LINE__ = 4410319744;
                       !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && Runtime.exceptionHandler('attempt to send to newborn generator.');
                       
-                      __LINE__ = 94994088;
+                      __LINE__ = 4410319744;
                       while (1){
                         
-                        __LINE__ = 94994088;
+                        __LINE__ = 4410319744;
                         switch (_yieldState) {
                           case 0 :
                             
@@ -1696,7 +1696,7 @@
                             };
                           case 1 :
                             
-                            __LINE__ = 94994088;
+                            __LINE__ = 4410319744;
                             _yieldState = 2;
                             
                             __LINE__ = 8;
@@ -1704,7 +1704,7 @@
                             
                             __LINE__ = 8;
                             x = testObject[x];
-                            __LINE__ = 94994088;
+                            __LINE__ = 4410319744;
                             return x;
                           case 2 :
                             
@@ -1724,13 +1724,13 @@
                             };
                           case -1 :
                             
-                            __LINE__ = 94994088;
+                            __LINE__ = 4410319744;
                             if (_isYieldSafe){
-                              __LINE__ = 94994088;
+                              __LINE__ = 4410319744;
                               return undefined;
                             };
                             
-                            __LINE__ = 94994088;
+                            __LINE__ = 4410319744;
                             Runtime.throwStopIteration();
                             
                         };
@@ -1739,11 +1739,11 @@
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
-              __LINE__ = 94994088;
+              __LINE__ = 4410319744;
               return Runtime.createGenerator(_mochaGenerator,
               function () {
                 try {
-                  __LINE__ = 94994088;
+                  __LINE__ = 4410319744;
                   _yieldState = -1;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -1766,7 +1766,7 @@
       __LINE__ = 14;
       test = function () {
         try {
-          __LINE__ = 95007336;
+          __LINE__ = 4409617248;
           var _mochaIsNewBorn = true,
               _yieldResult = undefined,
               _yieldState = 0,
@@ -1774,13 +1774,13 @@
               _mochaLocalTmp4 = keys(testObject),
               _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                 try {
-                  __LINE__ = 95007336;
+                  __LINE__ = 4409617248;
                   !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && Runtime.exceptionHandler('attempt to send to newborn generator.');
                   
-                  __LINE__ = 95007336;
+                  __LINE__ = 4409617248;
                   while (1){
                     
-                    __LINE__ = 95007336;
+                    __LINE__ = 4409617248;
                     switch (_yieldState) {
                       case 0 :
                         
@@ -1813,9 +1813,9 @@
                         };
                       case 2 :
                         
-                        __LINE__ = 95007336;
+                        __LINE__ = 4409617248;
                         _yieldState = 3;
-                        __LINE__ = 95007336;
+                        __LINE__ = 4409617248;
                         return x;
                       case 3 :
                         
@@ -1843,13 +1843,13 @@
                       case 6 :
                       case -1 :
                         
-                        __LINE__ = 95007336;
+                        __LINE__ = 4409617248;
                         if (_isYieldSafe){
-                          __LINE__ = 95007336;
+                          __LINE__ = 4409617248;
                           return undefined;
                         };
                         
-                        __LINE__ = 95007336;
+                        __LINE__ = 4409617248;
                         Runtime.throwStopIteration();
                         
                     };
@@ -1858,11 +1858,11 @@
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-          __LINE__ = 95007336;
+          __LINE__ = 4409617248;
           return Runtime.createGenerator(_mochaGenerator,
           function () {
             try {
-              __LINE__ = 95007336;
+              __LINE__ = 4409617248;
               _yieldState = -1;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);

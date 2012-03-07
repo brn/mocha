@@ -4,25 +4,25 @@
 namespace mocha {
 
 template <typename T>
-inline SharedPtr<T>::SharedPtr() : ptr_( 0 ) , rc_( 0 ) {};
+inline SharedPtr<T>::SharedPtr() : ptr_(0), rc_(0) {};
 
 template <typename T>
 template <typename Class>
-inline SharedPtr<T>::SharedPtr( Class *ptr ) : ptr_( ptr ) , rc_( new RefCount<Class>( ptr ) ){};
+inline SharedPtr<T>::SharedPtr(Class *ptr) : ptr_(ptr), rc_(new RefCount<Class>(ptr)){};
 
 template <typename T>
 template <typename Class, typename Deleter>
-inline SharedPtr<T>::SharedPtr ( Class *ptr , Deleter deleter ) :
-    ptr_( ptr ), rc_( new RefCount<Class>( ptr , deleter ) ){};
+inline SharedPtr<T>::SharedPtr (Class *ptr, Deleter deleter) :
+    ptr_(ptr), rc_(new RefCount<Class>(ptr, deleter)){};
 
 template <typename T>
 template <typename Class>
-inline SharedPtr<T>::SharedPtr ( Class *ptr , PtrHandleBase* base ) :
-    ptr_( ptr ), rc_( new RefCount<T> ( base ) ){};
+inline SharedPtr<T>::SharedPtr (Class *ptr, PtrHandleBase* base) :
+    ptr_(ptr), rc_(new RefCount<T> (base)){};
 
 template <typename T>
-inline SharedPtr<T>::SharedPtr ( const SharedPtr& ref ) : ptr_( ref.ptr_ ) {
-  if ( ref.rc_ != 0 ) {
+inline SharedPtr<T>::SharedPtr (const SharedPtr& ref) : ptr_(ref.ptr_) {
+  if (ref.rc_ != 0) {
     ref.rc_->Add();
   }
   rc_ = ref.rc_;
@@ -30,7 +30,7 @@ inline SharedPtr<T>::SharedPtr ( const SharedPtr& ref ) : ptr_( ref.ptr_ ) {
 
 template <typename T>
 inline SharedPtr<T>::~SharedPtr () {
-  if ( rc_ != 0 ) {
+  if (rc_ != 0) {
     rc_->Release();
   }
 }
@@ -42,27 +42,27 @@ inline bool SharedPtr<T>::Contain() {
 
 template <typename T>
 template <typename Class>
-inline void SharedPtr<T>::operator () ( Class *ptr ) {
+inline void SharedPtr<T>::operator () (Class *ptr) {
   CheckInit();
   ptr_ = ptr;
-  rc_ = new RefCount<Class>( ptr ,  PtrDeleter<Class>::Delete );
+  rc_ = new RefCount<Class>(ptr,  PtrDeleter<Class>::Delete);
 }
 
 template <typename T>
-template <typename Class , typename Deleter>
-inline void SharedPtr<T>::operator () ( Class *ptr , Deleter deleter ) {
+template <typename Class, typename Deleter>
+inline void SharedPtr<T>::operator () (Class *ptr, Deleter deleter) {
   CheckInit();
   ptr_ = ptr;
-  rc_ = new RefCount <Class> ( ptr ,  deleter );
+  rc_ = new RefCount <Class> (ptr,  deleter);
 }
 
 template <typename T>
-inline const SharedPtr<T>& SharedPtr<T>::operator = ( const SharedPtr<T>& ref ) {
-  if ( rc_ != 0 ) {
+inline const SharedPtr<T>& SharedPtr<T>::operator = (const SharedPtr<T>& ref) {
+  if (rc_ != 0) {
     rc_->Release ();
   };
       
-  if ( ref.rc_ != 0 ) {
+  if (ref.rc_ != 0) {
     ref.rc_->Add ();
   }
       
@@ -73,46 +73,46 @@ inline const SharedPtr<T>& SharedPtr<T>::operator = ( const SharedPtr<T>& ref ) 
 
 template <typename T>
 inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator * () const {
-  CheckInit( "mocha::SharedPtr::operator *" );
+  CheckInit("mocha::SharedPtr::operator *");
   return *ptr_;
 }
 
 
 template <typename T>
 inline const T* SharedPtr<T>::Get() const {
-  CheckInit( "mocha::SharedPtr::get" );
+  CheckInit("mocha::SharedPtr::get");
   return ptr_;
 }
 
 
 template <typename T>
 inline T* SharedPtr<T>::Get() {
-  CheckInit( "mocha::SharedPtr::get" );
+  CheckInit("mocha::SharedPtr::get");
   return ptr_;
 }
 
 
 template <typename T>
 inline const T* SharedPtr<T>::operator -> () const {
-  CheckInit( "mocha::SharedPtr::operator ->" );
+  CheckInit("mocha::SharedPtr::operator ->");
   return ptr_;
 }
 
 template <typename T>
 inline T* SharedPtr<T>::operator -> () {
-  CheckInit( "mocha::SharedPtr::operator ->" );
+  CheckInit("mocha::SharedPtr::operator ->");
   return ptr_;
 }
 
 
 template <typename T>
-inline bool SharedPtr<T>::operator == ( T* target ) const {
+inline bool SharedPtr<T>::operator == (T* target) const {
   return ptr_ == target;
 }
 
 
 template <typename T>
-inline bool SharedPtr<T>::operator != ( T* target ) const {
+inline bool SharedPtr<T>::operator != (T* target) const {
   return ptr_ != target;
 }
 
@@ -123,7 +123,7 @@ inline SharedPtr<T>::operator bool() const {
 }
 
 template <typename T>
-inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator [] ( int num ) {
+inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator [] (int num) {
   assert(false);
   return *ptr_;
 }
@@ -131,31 +131,31 @@ inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator [] ( int num ) {
 template <typename T>
 template <typename Class>
 inline SharedPtr<Class> SharedPtr<T>::CastTo () {
-  SharedPtr<Class> handle( *this );
+  SharedPtr<Class> handle(*this);
   return handle;
 }
 
 
 template <typename T>
-inline void SharedPtr<T>::CheckInit( const char* message ) const {
-  if ( rc_ == 0 ) {
-    fprintf( stderr , "%s called before initialized." , message );
+inline void SharedPtr<T>::CheckInit(const char* message) const {
+  if (rc_ == 0) {
+    fprintf(stderr, "%s called before initialized.", message);
     assert(false);
   }
 }
 
 template <typename T>
 inline void SharedPtr<T>::CheckInit() const {
-  if ( rc_ != 0 ) {
-    fprintf( stderr , "mocha::SharedPtr is already initilized." );
+  if (rc_ != 0) {
+    fprintf(stderr, "mocha::SharedPtr is already initilized.");
     assert(false);
   }
 }
 
 template <typename T>
 template <typename Class>
-inline SharedArray<T>::SharedArray( Class *ptr ) :
-    SharedPtr<T>( ptr , PtrDeleter<Class>::DeleteArray ){};
+inline SharedArray<T>::SharedArray(Class *ptr) :
+    SharedPtr<T>(ptr, PtrDeleter<Class>::DeleteArray){};
 
 
 template <typename T>
@@ -163,27 +163,27 @@ inline SharedArray<T>::SharedArray() : SharedPtr<T>() {}
 
 template <typename T>
 template <typename Class>
-inline void SharedArray<T>::operator() ( Class *ptr ) {
-  SharedPtr<T>::operator()( ptr , PtrDeleter<Class>::DeleteArray );
+inline void SharedArray<T>::operator() (Class *ptr) {
+  SharedPtr<T>::operator()(ptr, PtrDeleter<Class>::DeleteArray);
 }
 
 template <typename T>
-inline typename SharedPtr<T>::PtrType SharedArray<T>::operator [] ( int num ) {
+inline typename SharedPtr<T>::PtrType SharedArray<T>::operator [] (int num) {
   return SharedPtr<T>::ptr_[ num ];
 }
 
 template <typename T>
 template <typename Class>
-inline SharedAllocator<T>::SharedAllocator( Class *ptr ) :
-    SharedPtr<T> ( ptr , PtrDeleter<Class>::Free ) {}
+inline SharedAllocator<T>::SharedAllocator(Class *ptr) :
+    SharedPtr<T> (ptr, PtrDeleter<Class>::Free) {}
 
 template <typename T>
 inline SharedAllocator<T>::SharedAllocator() : SharedPtr<T> () {}
 
 template <typename T>
 template <typename Class>
-inline void SharedAllocator<T>::operator() ( Class *ptr ) {
-  SharedPtr<T>::operator()( ptr , PtrDeleter<Class>::Free );
+inline void SharedAllocator<T>::operator() (Class *ptr) {
+  SharedPtr<T>::operator()(ptr, PtrDeleter<Class>::Free);
 }
 
 }

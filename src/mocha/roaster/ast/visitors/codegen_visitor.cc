@@ -4,7 +4,7 @@
 #include <list>
 #include <utility>
 #include <mocha/roaster/compiler.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/js_token.h>

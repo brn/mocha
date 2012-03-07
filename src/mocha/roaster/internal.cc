@@ -11,7 +11,7 @@
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/misc/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/misc/io/file_io.h>
+#include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/roaster/ast/ast.h>
@@ -54,12 +54,11 @@ void Internal::RunAction(bool is_ast, ErrorLevel level) {
     }
   }
   ast_root_->AddChild(new(pool_) Empty);
-  Setting::GetInstance()->LogError("%s/%s No such file or directory.\n", path_);
 }
 
 inline void Internal::LoadFile() {
   //Check is file exist.
-  fprintf(stderr, "%s\n" , path_);
+  fprintf(stderr, "%s\n", path_);
   if (filesystem::FileIO::IsExist(path_)) {
     file_ = filesystem::FileIO::Open(path_, "rb");
     //Set bool to true.
@@ -77,12 +76,12 @@ inline void Internal::DoParse(bool is_ast) {
   std::string buf;
   bool is_file = compiler()->compilation_info()->IsFile();
   if (is_file) {
-    file()->GetFileContents(buf);
+    file()->GetFileContents(&buf);
   } else {
     buf = path_;
   }
-  const char* filename = (is_file)? file_->GetFileName() : "anonymous";
-  SourceStream *source_stream = SourceStream::New(buf.c_str(), path_);
+  const char* filename = (is_file)? file_->filename() : "anonymous";
+  SourceStream *source_stream = SourceStream::New(buf.c_str(), path_, compiler_->compilation_info());
   Scanner *scanner = Scanner::New(source_stream, reporter_.Get(), filename);
   ParserConnector connector(compiler_, ast_root_, scanner, source_stream, reporter_.Get());
   Parser parser(&connector, reporter_.Get(), filename);

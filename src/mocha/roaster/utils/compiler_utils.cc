@@ -1,5 +1,6 @@
+#include <mocha/roaster/compiler.h>
 #include <mocha/roaster/utils/compiler_utils.h>
-#include <mocha/roaster/misc/io/file_io.h>
+#include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/misc/xml/xml_setting_info.h>
@@ -12,28 +13,32 @@ inline bool CheckIsModule(const char* file) {
 
 namespace mocha{
 
-SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key) {
+SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key, const LibDirectories& dir, bool* is_runtime) {
   std::string tmp;
   if (!CheckIsModule(filename)) {
     std::string js_path = filename;
     js_path += JS_EXTENSION;
     tmp = filesystem::VirtualDirectory::GetInstance()->GetRealPath(js_path.c_str()).Get();
   } else {
-    tmp = Setting::GetInstance()->GetModulePath();
-    tmp += '/';
-    tmp += filename;
-    tmp += JS_EXTENSION;
-    if (!filesystem::FileIO::IsExist(tmp.c_str())) {
-      tmp = Setting::GetInstance()->GetRuntimePath();
+    (*is_runtime) = Compiler::IsRuntime(filename);
+    if ((*is_runtime)) {
+      return SharedPtr<filesystem::Path>(new filesystem::Path(filename));
+    }
+    LibDirectories::const_iterator iterator;
+    for (iterator = dir.begin(); iterator != dir.end(); ++iterator) {
+      tmp = (*iterator);
       tmp += '/';
       tmp += filename;
       tmp += JS_EXTENSION;
-      if (!filesystem::FileIO::IsExist(tmp.c_str())) {
-        tmp = XMLSettingInfo::GetModuleDirPath(module_path_key);
-        tmp += '/';
-        tmp += filename;
-        tmp += JS_EXTENSION;
+      filesystem::Stat stat(tmp.c_str());
+      if (!stat.IsExist()) {
+        tmp.clear();
+      } else {
+        break;
       }
+    }
+    if (tmp.empty()) {
+      tmp = filename;
     }
   }
   return SharedPtr<filesystem::Path>(new filesystem::Path(tmp.c_str()));

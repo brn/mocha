@@ -1,9 +1,9 @@
 #include <mocha/roaster/memory/pool.h>
-
 namespace mocha {
 namespace memory {
 void Pool::Free() {
   if (head_) {
+    ThreadLocalStorage::Set(&key_,NULL);
     Allocated* block = head_;
     Allocated* next = block->next_;
     while (1) {

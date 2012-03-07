@@ -4,7 +4,7 @@
 
 namespace mocha {
 
-#define CONSTRACT(name) name( const char* filename_ ) : filename( filename_ ){}; const char* filename
+#define CONSTRACT(name) name(const char* filename_) : filename(filename_){}; const char* filename
 namespace watch_traits {
 struct Access{ CONSTRACT(Access); };
 struct Modify{ CONSTRACT(Modify); };
@@ -22,22 +22,22 @@ struct Create{ CONSTRACT(Create); };
 class IUpdater {
  public :
   virtual ~IUpdater(){};
-  virtual void Update( watch_traits::Access* access ){};
-  virtual void Update( watch_traits::Modify* access ){};
-  virtual void Update( watch_traits::Attrib* access ){};
-  virtual void Update( watch_traits::Open* access ){};
-  virtual void Update( watch_traits::Close* access ){};
-  virtual void Update( watch_traits::MoveSelf* access ){};
-  virtual void Update( watch_traits::MoveFrom* access ){};
-  virtual void Update( watch_traits::MoveTo* access ){};
-  virtual void Update( watch_traits::DeleteSelf* access ){};
-  virtual void Update( watch_traits::Delete* access ){};
-  virtual void Update( watch_traits::Create* access ){};
+  virtual void Update(watch_traits::Access* access){};
+  virtual void Update(watch_traits::Modify* access){};
+  virtual void Update(watch_traits::Attrib* access){};
+  virtual void Update(watch_traits::Open* access){};
+  virtual void Update(watch_traits::Close* access){};
+  virtual void Update(watch_traits::MoveSelf* access){};
+  virtual void Update(watch_traits::MoveFrom* access){};
+  virtual void Update(watch_traits::MoveTo* access){};
+  virtual void Update(watch_traits::DeleteSelf* access){};
+  virtual void Update(watch_traits::Delete* access){};
+  virtual void Update(watch_traits::Create* access){};
 };
 
 class FileWatcher {
  public :
-  typedef void ( *EndCallBack ) ( void *arg );
+  typedef void (*EndCallBack) (void *arg);
   FileWatcher();
   ~FileWatcher();
   enum {
@@ -54,13 +54,13 @@ class FileWatcher {
     kCreate = 0x00000110,
     kAdd
   };
-  void AddWatch( const char* path , IUpdater* updater , int type );
-  void UnWatch( const char* path );
+  void AddWatch(const char* path, IUpdater* updater, int type);
+  void UnWatch(const char* path);
   void UnWatchAll();
   void Stop();
   void Start();
   void Exit();
-  void Exit( EndCallBack fn , void* arg );
+  void Exit(EndCallBack fn, void* arg);
  private :
   class PtrImpl;
   PtrImpl* implementation_;

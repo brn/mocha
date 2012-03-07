@@ -9,7 +9,7 @@
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_info.h>
 namespace mocha {
 
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type(type* ast_node)

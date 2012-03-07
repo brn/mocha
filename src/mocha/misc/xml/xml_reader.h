@@ -16,25 +16,25 @@ class XMLReader {
  public :
   XMLReader (){};
   ~XMLReader();
-  void Parse( const char* xmlpath , bool is_reparse = false );
+  void Parse(const char* xmlpath, bool is_reparse = false);
   
  private :
-  static bool CheckIgnoreOption( TiXmlElement *elem );
+  static bool CheckIgnoreOption(TiXmlElement *elem);
   void GetFullPath(filesystem::Path* path);
   void ParseStart(filesystem::Path* path);
-  void SwitchProcessor( TiXmlNode* node , XMLInfo* info );
-  void ProcessNode( TiXmlElement *elem , XMLInfo* info );
-  void ProcessFileNode( TiXmlElement *elem, const char* path , const char* module , XMLInfo* info );
-  void ProcessSettingNode( TiXmlElement *elem , XMLInfo* info );
-  void ProcessDirNode( TiXmlElement *elem , XMLInfo* info );
-  void ProcessIncludeNode( TiXmlElement *elem , XMLInfo* info );
-  void ProcessDeployOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
-  void ProcessDeployName( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
-  void ProcessCharset( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
-  void ProcessCompileOption( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
-  void ProcessVersion( TiXmlElement *elem , const char* filename , const char* dir , Resource* resource , XMLInfo* info );
-  void ProcessModuleOption( const char* filename , const char* module , Resource* resource );
-  void ProcessFilePath( const char* filename );
+  void SwitchProcessor(TiXmlNode* node, XMLInfo* info);
+  void ProcessNode(TiXmlElement *elem, XMLInfo* info);
+  void ProcessFileNode(TiXmlElement *elem, const char* path, const char* module, XMLInfo* info);
+  void ProcessSettingNode(TiXmlElement *elem, XMLInfo* info);
+  void ProcessDirNode(TiXmlElement *elem, XMLInfo* info);
+  void ProcessIncludeNode(TiXmlElement *elem, XMLInfo* info);
+  void ProcessDeployOption(TiXmlElement *elem, const char* filename, const char* dir, Resource* resource, XMLInfo* info);
+  void ProcessDeployName(TiXmlElement *elem, const char* filename, const char* dir, Resource* resource, XMLInfo* info);
+  void ProcessCharset(TiXmlElement *elem, const char* filename, const char* dir, Resource* resource, XMLInfo* info);
+  void ProcessCompileOption(TiXmlElement *elem, const char* filename, const char* dir, Resource* resource, XMLInfo* info);
+  void ProcessVersion(TiXmlElement *elem, const char* filename, const char* dir, Resource* resource, XMLInfo* info);
+  void ProcessModuleOption(const char* filename, const char* module, Resource* resource);
+  void ProcessFilePath(const char* filename);
   
   ScopedStrList scoped_char_;
 

@@ -5,10 +5,10 @@
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
-
+class CompilationInfo;
 class SourceStream : public memory::Allocated {
  public :
-  static SourceStream* New(const char* source, const char* path);
+  static SourceStream* New(const char* source, const char* path, const CompilationInfo* info);
   ~SourceStream();
   int Size() const;
   uint8_t At(int index) const;

@@ -4,7 +4,7 @@
 #include <list>
 #include <utility>
 #include <mocha/misc/int_types.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>

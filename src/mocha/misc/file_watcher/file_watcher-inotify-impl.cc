@@ -9,9 +9,9 @@
 #define SETTINGS Setting::GetInstance()
 namespace mocha {
 
-#define GET_MASK(mask) ( type & mask ) == mask
+#define GET_MASK(mask) (type & mask) == mask
 #define ITERATOR(type,name1,name2) name1 = type.begin(),name2 = type.end()
-#define ITERATOR_LOOP(name1,name2) while ( name1 != name2 )
+#define ITERATOR_LOOP(name1,name2) while (name1 != name2)
 #define ITERATOR_NEXT(name) ++name
 #define GET(it) (*it)
 
@@ -28,49 +28,49 @@ typedef unsigned long InotifyMask;
  */
 int OpenInotifyFD_() {
   int fd = inotify_init();
-  if ( fd < 0 ) {
-    fprintf( stderr ,"inotify_init fail.\n"  );
-    //SETTINGS->LogError( "inotify_init fail." );
+  if (fd < 0) {
+    fprintf(stderr ,"inotify_init fail.\n" );
+    //SETTINGS->LogError("inotify_init fail.");
   }
   return fd;
 }
 
-InotifyMask GetWatchType( int type ) {
+InotifyMask GetWatchType(int type) {
   InotifyMask mask = 0;
-  if ( GET_MASK( FileWatcher::kAccess ) ) {
+  if (GET_MASK(FileWatcher::kAccess)) {
     mask |= IN_ACCESS;
   }
-  if ( GET_MASK( FileWatcher::kModify ) ) {
+  if (GET_MASK(FileWatcher::kModify)) {
     mask |= IN_CLOSE_WRITE;
   }
-  if ( GET_MASK( FileWatcher::kAttrib ) ) {
+  if (GET_MASK(FileWatcher::kAttrib)) {
     mask |= IN_ATTRIB;
   }
-  if ( GET_MASK( FileWatcher::kOpen ) ) {
+  if (GET_MASK(FileWatcher::kOpen)) {
     mask |= IN_OPEN;
   }
-  if ( GET_MASK( FileWatcher::kClose ) ) {
+  if (GET_MASK(FileWatcher::kClose)) {
     mask |= IN_CLOSE;
   }
-  if ( GET_MASK( FileWatcher::kMoveSelf ) ) {
+  if (GET_MASK(FileWatcher::kMoveSelf)) {
     mask |= IN_MOVE_SELF;
   }
-  if ( GET_MASK( FileWatcher::kMovedFrom ) ) {
+  if (GET_MASK(FileWatcher::kMovedFrom)) {
     mask |= IN_MOVED_FROM;
   }
-  if ( GET_MASK( FileWatcher::kMovedTo ) ) {
+  if (GET_MASK(FileWatcher::kMovedTo)) {
     mask |= IN_MOVED_TO;
   }
-  if ( GET_MASK( FileWatcher::kDeleteSelf ) ) {
+  if (GET_MASK(FileWatcher::kDeleteSelf)) {
     mask |= IN_DELETE_SELF;
   }
-  if ( GET_MASK( FileWatcher::kDelete ) ) {
+  if (GET_MASK(FileWatcher::kDelete)) {
     mask |= IN_DELETE;
   }
-  if ( GET_MASK( FileWatcher::kCreate ) ) {
+  if (GET_MASK(FileWatcher::kCreate)) {
     mask |= IN_CREATE;
   }
-  if ( GET_MASK( FileWatcher::kAdd ) ) {
+  if (GET_MASK(FileWatcher::kAdd)) {
     mask |= IN_MASK_ADD;
   }
   return mask;
@@ -80,8 +80,8 @@ InotifyMask GetWatchType( int type ) {
 
 class WatcherContainer {
  public :
-  WatcherContainer( const char* path , IUpdater *updater , int type , int wd ) :
-      filename_( path ) , type_( type ) , wd_( wd ) , updater_( updater ){};
+  WatcherContainer(const char* path, IUpdater *updater, int type, int wd) :
+      filename_(path), type_(type), wd_(wd), updater_(updater){};
   inline const char* GetFileName() const { return filename_.c_str(); }
   inline int GetType() const { return type_; }
   inline int GetWatchDescriptor() const { return wd_; }
@@ -97,31 +97,31 @@ class WatcherContainer {
 class FileWatcher::PtrImpl {
  public :
   PtrImpl() :
-      fd_( inotify_helper_::OpenInotifyFD_() ) , is_watch_( true ) , is_end_( false ) , is_call_back_( false ) {}
+      fd_(inotify_helper_::OpenInotifyFD_()), is_watch_(true), is_end_(false), is_call_back_(false) {}
   ~PtrImpl () {
-    if ( is_end_ ) {
+    if (is_end_) {
       is_end_ = true;
     }
     ::close(fd_);
     array_.clear();
   }
-  void AddWatch( const char* path , IUpdater* updater , int type ) {
-    filesystem::Stat stat( path );
-    if ( stat.IsExist() ) {
-      inotify_helper_::InotifyMask mask = inotify_helper_::GetWatchType( type );
-      int wd = inotify_add_watch( fd_ , path , mask );
-      Regist_( path , updater , type , wd );
-      if ( wd < 0 ) {
-        fprintf( stderr , "Can not add watch for %s with event mask %ld." , path , mask );
-        //      SETTINGS->LogFatal( "Can not add watch for %s with event mask %ld." , path , mask );
+  void AddWatch(const char* path, IUpdater* updater, int type) {
+    filesystem::Stat stat(path);
+    if (stat.IsExist()) {
+      inotify_helper_::InotifyMask mask = inotify_helper_::GetWatchType(type);
+      int wd = inotify_add_watch(fd_, path, mask);
+      Regist_(path, updater, type, wd);
+      if (wd < 0) {
+        fprintf(stderr, "Can not add watch for %s with event mask %ld.", path, mask);
+        //      SETTINGS->LogFatal("Can not add watch for %s with event mask %ld.", path, mask);
       }
     }
   }
 
-  void UnWatch( const char* path ) {
+  void UnWatch(const char* path) {
     WatchList::iterator iterator;
-    for ( iterator = watch_list_.begin(); iterator != watch_list_.end(); ++iterator ) {
-      if ( strcmp( iterator->second->GetFileName() , path ) == 0 ) {
+    for (iterator = watch_list_.begin(); iterator != watch_list_.end(); ++iterator) {
+      if (strcmp(iterator->second->GetFileName(), path) == 0) {
         inotify_rm_watch(fd_, iterator->second->GetWatchDescriptor());
         watch_list_.erase(iterator->second->GetWatchDescriptor());
         break;
@@ -142,7 +142,7 @@ class FileWatcher::PtrImpl {
     is_end_ = true;
   }
 
-  void End( FileWatcher::EndCallBack fn , void* arg ) {
+  void End(FileWatcher::EndCallBack fn, void* arg) {
     fn_ = fn;
     is_call_back_ = true;
     arg_ = arg;
@@ -158,17 +158,17 @@ class FileWatcher::PtrImpl {
   typedef std::pair<int,SharedPtr<WatcherContainer> > WatchPair;
   typedef roastlib::unordered_map<int,SharedPtr<WatcherContainer> > WatchList;
   
-  void Regist_( const char* path , IUpdater* updater , int type , int wd ) {
-    SharedPtr<WatcherContainer> handle( new WatcherContainer( path , updater , type , wd ) );
+  void Regist_(const char* path, IUpdater* updater, int type, int wd) {
+    SharedPtr<WatcherContainer> handle(new WatcherContainer(path, updater, type, wd));
     watch_list_.insert(WatchPair(wd, handle));
   }
   
   void ProcessInotifyEvent_() {
-    while ( !is_end_ ) {
-      if ( is_watch_ && watch_list_.size() > 0 ) {
-        if ( CheckEvent_() ) {
+    while (!is_end_) {
+      if (is_watch_ && watch_list_.size() > 0) {
+        if (CheckEvent_()) {
           int read_event = ReadInotifyEvents_();
-          if ( read_event > 0 ) {
+          if (read_event > 0) {
             ProcessEvent_();
           }
         }
@@ -176,8 +176,8 @@ class FileWatcher::PtrImpl {
         sleep(1);
       }
     }
-    if ( is_call_back_ ) {
-      fn_( arg_ );
+    if (is_call_back_) {
+      fn_(arg_);
     }
   }
 
@@ -188,8 +188,8 @@ class FileWatcher::PtrImpl {
     waitval.tv_sec  = 0;
     waitval.tv_usec = 500;
     FD_ZERO(&rfds);
-    FD_SET( fd_ , &rfds );
-    return ::select( FD_SETSIZE , &rfds , NULL , NULL , &waitval );
+    FD_SET(fd_, &rfds);
+    return ::select(FD_SETSIZE, &rfds, NULL, NULL, &waitval);
   }
 
 
@@ -202,18 +202,18 @@ class FileWatcher::PtrImpl {
     size_t event_size;
     size_t q_event_size;
     int count = 0;
-    read_size = ::read( fd_ , buffer , 16384 );
-    if ( read_size <= 0 ) {
+    read_size = ::read(fd_, buffer, 16384);
+    if (read_size <= 0) {
       return 0;
     }
-    while ( buffer_i < read_size ) {
-      pevent = reinterpret_cast<inotify_event*>( &buffer[buffer_i] );
-      event_size = offsetof( inotify_event , name ) + pevent->len;
-      q_event_size = offsetof( inotify_event , name ) + pevent->len;
+    while (buffer_i < read_size) {
+      pevent = reinterpret_cast<inotify_event*>(&buffer[buffer_i]);
+      event_size = offsetof(inotify_event, name) + pevent->len;
+      q_event_size = offsetof(inotify_event, name) + pevent->len;
       inotify_event* ret = new inotify_event;
-      memcpy( ret , pevent , event_size );
-      SharedPtr<inotify_event> handle( ret );
-      array_.push_back( handle );
+      memcpy(ret, pevent, event_size);
+      SharedPtr<inotify_event> handle(ret);
+      array_.push_back(handle);
       buffer_i += event_size;
       count++;
     }
@@ -223,19 +223,19 @@ class FileWatcher::PtrImpl {
   
   void ProcessEvent_() {
     EventArray::iterator ITERATOR(array_,begin,end);
-    ITERATOR_LOOP( begin , end ) {
+    ITERATOR_LOOP(begin, end) {
       inotify_event *cont = (*begin).Get();
       int wd = cont->wd;
-      WatchList::iterator find = watch_list_.find( wd );
-      if ( find != watch_list_.end() && !(GET(begin)->mask & IN_ISDIR) ) {
-        SwitchEvents_( ( GET(begin)->mask & ( IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED ) ) , find->second.Get() );
+      WatchList::iterator find = watch_list_.find(wd);
+      if (find != watch_list_.end() && !(GET(begin)->mask & IN_ISDIR)) {
+        SwitchEvents_((GET(begin)->mask & (IN_ALL_EVENTS | IN_UNMOUNT | IN_Q_OVERFLOW | IN_IGNORED)), find->second.Get());
       }
       ++begin;
     }
   }
 
 #define UPDATE(name) {                                          \
-    watch_traits::name inst_( container->GetFileName() );       \
+    watch_traits::name inst_(container->GetFileName());       \
     container->GetUpdater()->Update(&inst_);                    \
   }                                                             \
     break
@@ -244,8 +244,8 @@ class FileWatcher::PtrImpl {
   UnWatch(container->GetFileName());            \
   break
   
-  void SwitchEvents_( inotify_helper_::InotifyMask mask , WatcherContainer* container ) {
-    switch ( mask ) {
+  void SwitchEvents_(inotify_helper_::InotifyMask mask, WatcherContainer* container) {
+    switch (mask) {
       case IN_ACCESS :
         UPDATE(Access);
       case IN_CLOSE_WRITE :

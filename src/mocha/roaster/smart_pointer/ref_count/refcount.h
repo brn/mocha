@@ -23,21 +23,21 @@ class RefCount : public RefCountBase {
    *@constructor
    *Normal constructor.
    */
-  inline explicit RefCount ( T *target );
+  inline explicit RefCount (T *target);
     
   /*
    *@constructor
    *Has deleter constructor.
    */
   template <typename Deleter>
-  inline RefCount ( T *target , Deleter deleter  );
+  inline RefCount (T *target, Deleter deleter );
 
 
   /*
    *@constructor
    *Covert constructor.
    */
-  inline explicit RefCount ( PtrHandleBase* base );
+  inline explicit RefCount (PtrHandleBase* base);
   
   /*
    *@destructor

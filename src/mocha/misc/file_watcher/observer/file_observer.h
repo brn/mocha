@@ -11,10 +11,10 @@ class FileObserver {
   FileObserver ();
   ~FileObserver() {}
   void Run();
-  void Exit( FileWatcher::EndCallBack fn , void* arg );
+  void Exit(FileWatcher::EndCallBack fn, void* arg);
  private :
-  void RegistFile_( const char* filename );
-  static void* ThreadRunner_( void *arg );
+  void RegistFile_(const char* filename);
+  static void* ThreadRunner_(void *arg);
   void Initialize_();
   class FileUpdater;
   ScopedPtr<FileUpdater> file_updater_;

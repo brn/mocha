@@ -44,25 +44,25 @@ namespace mocha {
      *Normal constructor.
      */
     template <typename Class>
-    inline explicit SharedPtr ( Class *ptr );
+    inline explicit SharedPtr (Class *ptr);
 
     /**
      *@constructor
      *Deleter constructor.
      */
     template <typename Class, typename Deleter>
-    inline SharedPtr ( Class *ptr , Deleter deleter );
+    inline SharedPtr (Class *ptr, Deleter deleter);
 
 
     
     template <typename Class>
-    inline SharedPtr ( Class *ptr , PtrHandleBase* base );
+    inline SharedPtr (Class *ptr, PtrHandleBase* base);
     
     /**
      *@constructor
      *Copy constructor.
      */
-    inline SharedPtr ( const SharedPtr& ref );
+    inline SharedPtr (const SharedPtr& ref);
 
     /**
      *@destructor
@@ -78,21 +78,21 @@ namespace mocha {
      *Delay initialize.
      */
     template <typename Class>
-    inline void operator () ( Class *ptr );
+    inline void operator () (Class *ptr);
     
     /**
      *@public
      *Delay initializer with deleter.
      */
-    template <typename Class , typename Deleter>
-    inline void operator () ( Class *ptr , Deleter deleter );
+    template <typename Class, typename Deleter>
+    inline void operator () (Class *ptr, Deleter deleter);
     
     /**
      *@public
      *Assignment operator.
      *Decrement counter and increment counter of copy. 
      */
-    inline const SharedPtr<T>& operator = ( const SharedPtr<T>& ref );
+    inline const SharedPtr<T>& operator = (const SharedPtr<T>& ref);
 
     /**
      *@public
@@ -124,20 +124,20 @@ namespace mocha {
      */
     inline T* operator -> ();
     
-    inline bool operator == ( T* target ) const;
+    inline bool operator == (T* target) const;
 
-    inline bool operator != ( T* target ) const;
+    inline bool operator != (T* target) const;
 
     inline operator bool() const;
     
     template <typename Class>
     inline SharedPtr<Class> CastTo();
     
-    inline virtual PtrType operator [] ( int num );
+    inline virtual PtrType operator [] (int num);
     
   protected:
 
-    inline void CheckInit( const char* message ) const;
+    inline void CheckInit(const char* message) const;
     inline void CheckInit() const;
 
     /**
@@ -161,13 +161,13 @@ namespace mocha {
   public :
 
     template <typename Class>
-    inline explicit SharedArray( Class *ptr );
+    inline explicit SharedArray(Class *ptr);
 
     inline SharedArray();
 
     template <typename Class>
-    inline void operator() ( Class *ptr );
-    inline virtual typename SharedPtr<T>::PtrType operator [] ( int num );
+    inline void operator() (Class *ptr);
+    inline virtual typename SharedPtr<T>::PtrType operator [] (int num);
   };
 
 
@@ -176,12 +176,12 @@ namespace mocha {
   public :
 
     template <typename Class>
-    inline SharedAllocator( Class *ptr );
+    inline SharedAllocator(Class *ptr);
 
     inline SharedAllocator();
 
     template <typename Class>
-    inline void operator() ( Class *ptr );
+    inline void operator() (Class *ptr);
   };
 
 };

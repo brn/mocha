@@ -96,7 +96,7 @@ void AstNode::InsertAfter(AstNode* insert, AstNode* target) {
   assert(this != target);
   bool is_insert = false;
 
-  if (last_child_ == target   ) {
+  if (last_child_ == target  ) {
     last_child_ = insert;
     insert->prev_sibling_ = target;
     target->next_sibling_ = insert;
@@ -279,7 +279,7 @@ AstNode* VersionStmt::Clone(memory::Pool* pool) {
 LINED_CLONE(BlockStmt);
 
 AstNode* ModuleStmt::Clone(memory::Pool* pool) {
-  ModuleStmt* stmt = new(pool) ModuleStmt(name_, line_number());
+  ModuleStmt* stmt = new(pool) ModuleStmt((name_)?name_->Clone(pool) : name_, line_number());
   return CopyChildren(stmt, this, pool);
 }
 
@@ -320,7 +320,7 @@ AstNode* VariableStmt::Clone(memory::Pool* pool) {
 }
 
 AstNode* LetStmt::Clone(memory::Pool* pool) {
-  LetStmt* stmt = new(pool) LetStmt(expression_, line_number());
+  LetStmt* stmt = new(pool) LetStmt(expression_->Clone(pool), line_number());
   return CopyChildren(stmt, this, pool);
 }
 
@@ -476,6 +476,7 @@ AstNode* ClassMember::Clone(memory::Pool* pool) {
   return CopyChildren(member, this, pool);
 }
 
+
 AstNode* Function::Clone(memory::Pool* pool) {
   Function *fn = new(pool) Function(line_number());
   if (name_) {
@@ -489,10 +490,9 @@ AstNode* Function::Clone(memory::Pool* pool) {
   fn->context_ = context_;
   fn->fn_attr_ = fn_attr_;
   fn->flags_ = flags_;
-  fn->replaced_this_ = replaced_this_;
-  fn->statement_list_ = statement_list_;
-  fn->variable_list_ = variable_list_;
-  fn->try_catch_list_ = try_catch_list_;
+  if (replaced_this_) {
+    fn->replaced_this_ = replaced_this_->Clone(pool)->CastToLiteral();
+  }
   return CopyChildren(fn, this, pool);
 }
 
@@ -680,7 +680,7 @@ AstNode* Literal::Clone(memory::Pool* pool) {
     TokenInfo* value = new(pool) TokenInfo(value_->token(), value_->type(), value_->line_number());
     ret->set_value(value);
   } else {
-    ret->set_node(node_);
+    ret->set_node(node_->Clone(pool));
   }
   return CopyChildren(ret, this, pool);
 }
@@ -700,7 +700,7 @@ AstNode* ObjectLikeLiteral::Clone(memory::Pool* pool) {
 }
 
 AstNode* GeneratorExpression::Clone(memory::Pool* pool) {
-  GeneratorExpression* generator = new(pool) GeneratorExpression(expression_, line_number());
+  GeneratorExpression* generator = new(pool) GeneratorExpression(expression_->Clone(pool), line_number());
   return CopyChildren(generator, this, pool);
 }
 

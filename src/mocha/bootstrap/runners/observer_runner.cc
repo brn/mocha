@@ -9,10 +9,10 @@ XMLObserver* GetObserver() {
   return &observer;
 }
 
-ObserverRunner::ObserverRunner( Options* options ) : ICommandLineRunner( options ) {}
+ObserverRunner::ObserverRunner(Options* options) : ICommandLineRunner(options) {}
 
 void ObserverRunner::Run() {
-  if ( !options_->IsStopObserving() ) {
+  if (!options_->IsStopObserving()) {
     GetObserver()->Run();
   } else {
     Exit();

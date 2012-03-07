@@ -9,7 +9,7 @@ class DirEntry{
   friend class DirectoryIterator;
   friend class Directory;
  public :
-  DirEntry( const char* path , const char* dir ) : name_( path ) , dir_( dir ) , next_( 0 ){
+  DirEntry(const char* path, const char* dir) : name_(path), dir_(dir), next_(0){
     full_path_ = dir;
     full_path_ += "/";
     full_path_ += path;
@@ -18,9 +18,9 @@ class DirEntry{
   const char* GetName() const { return name_.c_str(); };
   const char* GetFullPath() const { return full_path_.c_str(); };
   const char* GetDirName() const { return dir_.c_str(); };
-  void SetNext( DirEntry* ent ) { next_ = ent; };
+  void SetNext(DirEntry* ent) { next_ = ent; };
  private :
-  DirEntry() : next_( 0 ){}
+  DirEntry() : next_(0){}
   std::string name_;
   std::string dir_;
   std::string full_path_;
@@ -29,10 +29,10 @@ class DirEntry{
 
 class DirectoryIterator {
  public :
-  DirectoryIterator( const DirEntry* entry );
+  DirectoryIterator(const DirEntry* entry);
   ~DirectoryIterator();
-  DirectoryIterator( const DirectoryIterator& );
-  const DirectoryIterator& operator = ( const DirectoryIterator& );
+  DirectoryIterator(const DirectoryIterator&);
+  const DirectoryIterator& operator = (const DirectoryIterator&);
   bool HasNext();
   const DirEntry* Next();
  private :
@@ -41,10 +41,10 @@ class DirectoryIterator {
 
 class Directory {
  public :
-  Directory( const char* path );
+  Directory(const char* path);
   ~Directory();
-  DirectoryIterator GetFileList( bool is_recursive , bool show_level );
-  //const DirEntry FindFile( const char* file_name );
+  DirectoryIterator GetFileList(bool is_recursive, bool show_level);
+  //const DirEntry FindFile(const char* file_name);
  private :
   const char* dirpath_;
   ScopedList<DirEntry> scoped_entry_;

@@ -1,7 +1,7 @@
 /**
  *@author Taketoshi Aono
  *@fileOverview
- *Declaration file of class mocha::ScopedPtr , mocha::ScopedArray , mocha::ScopedAllocator.
+ *Declaration file of class mocha::ScopedPtr, mocha::ScopedArray, mocha::ScopedAllocator.
  *Copyright (c) 2011 Taketoshi Aono
  *
  *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -47,8 +47,8 @@ class ScopedPtr : private Uncopyable {
    * param {<Deleter>} deleter -> Pointer destructor function.
    * Constructor with deleter.
    */
-  template <typename Class , typename Deleter>
-  inline ScopedPtr( Class* ptr ,  Deleter deleter );
+  template <typename Class, typename Deleter>
+  inline ScopedPtr(Class* ptr,  Deleter deleter);
 
   /**
    * @constructor
@@ -57,7 +57,7 @@ class ScopedPtr : private Uncopyable {
    * If not select a deleter, the deleter is selected as mocha::PtrDeleter<T>::deleter.
    */
   template <typename Class>
-  inline ScopedPtr( Class* ptr );
+  inline ScopedPtr(Class* ptr);
 
   /**
    * @constructor
@@ -78,8 +78,8 @@ class ScopedPtr : private Uncopyable {
    * param {<Deleter>} deleter -> Pointer destructor function.
    * Lazy initializer with deleter.
    */
-  template <typename Class , typename Deleter>
-  inline void operator () ( Class* ptr , Deleter deleter );
+  template <typename Class, typename Deleter>
+  inline void operator () (Class* ptr, Deleter deleter);
 
   /**
    * @public
@@ -88,7 +88,7 @@ class ScopedPtr : private Uncopyable {
    * Lazy simple initializer.
    */
   template <typename Class>
-  inline void operator () ( Class* ptr );
+  inline void operator () (Class* ptr);
 
   /**
    * @public
@@ -149,7 +149,7 @@ class ScopedPtr : private Uncopyable {
    * @private
    * Called from operator ().
    */
-  inline void LazyInitialize_( PtrHandleBase* base , T* ptr );
+  inline void LazyInitialize_(PtrHandleBase* base, T* ptr);
 
   /**
    * @private
@@ -161,7 +161,7 @@ class ScopedPtr : private Uncopyable {
    * @private
    * Check an initialization.
    */
-  inline void CheckInit_ ( const char* message ) const;
+  inline void CheckInit_ (const char* message) const;
 
   //Is ToHandle called?
   bool is_renounced_;
@@ -182,7 +182,7 @@ class ScopedArray : public ScopedPtr<T> {
    * Deleter is selected as PtrDeleter::deleterArray.
    */
   template <typename Class>
-  inline ScopedArray( Class* ptr );
+  inline ScopedArray(Class* ptr);
 
   /**
    * @constructor
@@ -195,7 +195,7 @@ class ScopedArray : public ScopedPtr<T> {
    * Operator for lazy initialization.
    */
   template <typename Class>
-  inline void operator () ( Class* ptr );
+  inline void operator () (Class* ptr);
 };
 
 
@@ -213,7 +213,7 @@ class ScopedAllocater : public ScopedPtr<T> {
    * Deleter is selected as PtrDeleter::freePtr.
    */
   template <typename Class>
-  inline ScopedAllocater( Class* ptr );
+  inline ScopedAllocater(Class* ptr);
 
   /**
    * @constructor
@@ -227,7 +227,7 @@ class ScopedAllocater : public ScopedPtr<T> {
    * Operator for lazy initialization.
    */
   template <typename Class>
-  inline void operator () ( Class* ptr );
+  inline void operator () (Class* ptr);
 };
 
 }

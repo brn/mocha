@@ -2435,7 +2435,7 @@ AstNode* Parser::ParseExportableDefinition() {
       END(ExportableDefinition);
       return ret;
     }
-  } else if (token->type() == Token::JS_CLASS ) {
+  } else if (token->type() == Token::JS_CLASS) {
     Advance();
     AstNode* class_exp = ParseClassDecl(false);
     CHECK_ERROR(class_exp);
@@ -3102,7 +3102,7 @@ AstNode* Parser::ParsePrimaryExpression() {
     fn->CastToExpression()->MarkAsInValidLhs();
     END(MemberExpression);
     return fn;
-  } else if (token->type() == Token::JS_CLASS ) {
+  } else if (token->type() == Token::JS_CLASS) {
     AstNode* class_exp = ParseClassDecl(false);
     CHECK_ERROR(class_exp);
     class_exp->CastToExpression()->MarkAsInValidLhs();

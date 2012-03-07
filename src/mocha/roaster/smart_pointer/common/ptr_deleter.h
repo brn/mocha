@@ -10,14 +10,14 @@ namespace mocha {
   
   template <typename T>
   struct PtrDeleter : private Static {
-    inline static void Delete ( T* ptr  ) {
+    inline static void Delete (T* ptr ) {
       delete ptr;
     };
-    inline static void DeleteArray ( T* ptr ) {
+    inline static void DeleteArray (T* ptr) {
       delete [] ptr;
     }
-    inline static void Free ( T* ptr ) {
-      free ( ptr );
+    inline static void Free (T* ptr) {
+      free (ptr);
     }
   };
 };

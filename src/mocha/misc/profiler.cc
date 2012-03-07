@@ -17,10 +17,10 @@ void Profiler::Begin() {
 
 
 double Profiler::End() {
-  assert( is_begin_ );
+  assert(is_begin_);
   double end = GetTimeOfDaySec() - begin_;
-  if ( fp_ ) {
-    fprintf( fp_ , "profile %s end. all process time => %f ms.\n" , name_ , end );
+  if (fp_) {
+    fprintf(fp_, "profile %s end. all process time => %f ms.\n", name_, end);
   }
   return end;
 }

@@ -3,7 +3,7 @@
 #include <cstddef>
 namespace mocha {
 namespace utils {
-char* CharAlloc( const char* path , size_t length = 0 );
+char* CharAlloc(const char* path, size_t length = 0);
 }
 }
 

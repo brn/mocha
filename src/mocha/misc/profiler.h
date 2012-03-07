@@ -4,8 +4,8 @@
 namespace mocha {
 class Profiler {
  public :
-  Profiler( FILE* fp , const char* name ) : name_( name ), is_begin_( false ),fp_( fp ){};
-  Profiler() :  name_( 0 ) , is_begin_( false ), fp_( 0 ){};
+  Profiler(FILE* fp, const char* name) : name_(name), is_begin_(false),fp_(fp){};
+  Profiler() :  name_(0), is_begin_(false), fp_(0){};
   ~Profiler(){};
   void Begin();
   double End();

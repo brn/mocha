@@ -15,7 +15,7 @@
 #include <string>
 
 #include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/misc/io/file_io.h>
+#include <mocha/roaster/file_system/file_io.h>
 #include <useconfig.h>
 #include <mocha/roaster/file_system/stat.h>
 #include <mocha/roaster/file_system/mkdir.h>
@@ -39,9 +39,9 @@
 #endif
 
 #ifdef HAVE_REALPATH
-#define FULL_PATH( path , tmp ) tmp = realpath( path , NULL )
+#define FULL_PATH(path, tmp) tmp = realpath(path, NULL)
 #elif HAVE__FULLPATH
-#define FULL_PATH( path , tmp ) tmp = _fullpath( NULL , path , 0 )
+#define FULL_PATH(path, tmp) tmp = _fullpath(NULL, path, 0)
 #endif
 
 namespace mocha {
@@ -50,27 +50,27 @@ void GetDirectoryFromPath(const char* path, std::string* buffer) {
   int index = strlen(path);
   std::string tmp = path;
   bool is_slashed = false;
-  while ( index-- ) {
-    if ( is_slashed ) {
+  while (index--) {
+    if (is_slashed) {
       break;
     }
-    if ( path[ index ] == '/' ) {
+    if (path[ index ] == '/') {
       is_slashed = true;
     }
   }
-  tmp.erase( index + 1 , tmp.size() );
+  tmp.erase(index + 1, tmp.size());
   buffer->assign(tmp.c_str());
 }
 
-void GetFileNameFromPath( const char* path, std::string* buffer) {
+void GetFileNameFromPath(const char* path, std::string* buffer) {
   std::string tmp;
   int len = strlen(path);
-  if (path[len - 1] == '/' ) {
+  if (path[len - 1] == '/') {
     return;
   }
-  const char* ptr = strrchr( path , '/' );
-  if ( ptr ) {
-    tmp = ( ptr + 1 );
+  const char* ptr = strrchr(path, '/');
+  if (ptr) {
+    tmp = (ptr + 1);
   }
   buffer->assign(tmp.c_str());
 }
@@ -79,7 +79,7 @@ void ConvertBackSlash(const char* path, std::string* buffer) {
   std::string tmp = path;
   //buffer->assign(path);
   size_t index = 0;
-  while ((index = buffer->find( "\\", 0)) != std::string::npos) {
+  while ((index = buffer->find("\\", 0)) != std::string::npos) {
     tmp = tmp.replace(index, 1, "/");
   }
   buffer->assign(tmp.c_str());
@@ -99,16 +99,16 @@ void GetAbsolutePath(const char* path, std::string* buffer) {
 void NormalizePath(const char* path, std::string* buffer) {
   int size = strlen(path);
   ConvertBackSlash(path, buffer);
-  while ( 1 ) {
-    size_t pos = buffer->find( "../" , 0 );
-    if ( pos == std::string::npos ) {
-      size_t pos = buffer->find( "./" , 0 );
-      if ( pos != std::string::npos ) {
-        buffer->erase( pos , 2 );
+  while (1) {
+    size_t pos = buffer->find("../", 0);
+    if (pos == std::string::npos) {
+      size_t pos = buffer->find("./", 0);
+      if (pos != std::string::npos) {
+        buffer->erase(pos, 2);
       } else {
-        size_t pos = buffer->find( "//" , 0 );
-        if ( pos != std::string::npos ) {
-          buffer->erase( pos , 1 );
+        size_t pos = buffer->find("//", 0);
+        if (pos != std::string::npos) {
+          buffer->erase(pos, 1);
         } else {
           break;
         }
@@ -119,27 +119,27 @@ void NormalizePath(const char* path, std::string* buffer) {
       int spos = pos;
       int ssize = size;
       bool has_ch = false;
-      while ( spos < ssize && spos > -1 ) {
-        if ( buffer->at(spos) == '/' ) {
-          if ( matched == 1 && has_ch ) {
+      while (spos < ssize && spos > -1) {
+        if (buffer->at(spos) == '/') {
+          if (matched == 1 && has_ch) {
             break;
           }
           matched = 1;
         }
-        if ( buffer->at(spos) != '.' && buffer->at(spos) != '/' ) {
+        if (buffer->at(spos) != '.' && buffer->at(spos) != '/') {
           has_ch = true;
         }
         spos--;
         count++;
       }
-      if ( spos < 0 ) {
+      if (spos < 0) {
         spos = 0;
       }
-      buffer->erase( spos , count + 2 );
+      buffer->erase(spos, count + 2);
     }
   }
-  if ( buffer->at(buffer->size() - 1) == '/' ) {
-    buffer->erase( buffer->size() - 1 , buffer->size() );
+  if (buffer->at(buffer->size() - 1) == '/') {
+    buffer->erase(buffer->size() - 1, buffer->size());
   }
 }
 
@@ -158,15 +158,15 @@ const char* Path::current_directory() {
 #ifdef HAVE_WINDOWS_H
     char tmp[GW_BUF_SIZE];
     DWORD isSuccess = GetCurrentDirectory(sizeof(tmp), tmp);
-    if ( !isSuccess ) {
-      fprintf(stderr , "GetCwd fail.");
+    if (!isSuccess) {
+      fprintf(stderr, "GetCwd fail.");
     }
     ConvertBackSlash(tmp, &current_path_);
 #else
     char tmp[ GW_BUF_SIZE ];
     char* dir = getcwd(tmp, sizeof (tmp));
-    if ( !dir ) {
-      fprintf( stderr , "GetCwd fail." );
+    if (!dir) {
+      fprintf(stderr, "GetCwd fail.");
     };
     current_dir_ = dir;
 #endif
@@ -201,22 +201,22 @@ std::string Path::current_dir_;
 std::string Path::user_home_;
 typedef std::vector<std::string> PathArray;
 
-void GetPathArray( const char* path , PathArray *array ) {
-  int len = strlen( path );
+void GetPathArray(const char* path, PathArray *array) {
+  int len = strlen(path);
   std::string tmp = path;
   std::string slash = "/";
   std::string str;
-  if ( path[ len - 1 ] != '/' ) {
+  if (path[ len - 1 ] != '/') {
     tmp += '/';
   }
   const char* raw = tmp.c_str();
   int i = 0;
-  while ( raw[ i ] ) {
-    if ( raw[ i ] == '/' ) {
-      if ( i == 0 ) {
-        array->push_back( slash );
+  while (raw[ i ]) {
+    if (raw[ i ] == '/') {
+      if (i == 0) {
+        array->push_back(slash);
       } else {
-        array->push_back( str );
+        array->push_back(str);
       }
       str.clear();
     } else {
@@ -226,48 +226,48 @@ void GetPathArray( const char* path , PathArray *array ) {
   }
 }
 
-SharedStr GetModuleKey( const char* base , const char* path ) {
-  if ( strcmp( base , path ) == 0 ) {
-    return SharedStr( utils::CharAlloc( "./" ) );
+SharedStr GetModuleKey(const char* base, const char* path) {
+  if (strcmp(base, path) == 0) {
+    return SharedStr(utils::CharAlloc("./"));
   }
   PathArray base_array;
   PathArray target_array;
-  GetPathArray( base , &base_array );
-  GetPathArray( path , &target_array );
+  GetPathArray(base, &base_array);
+  GetPathArray(path, &target_array);
   std::string result;
   int i = 0;
   int base_size = base_array.size();
   int target_size = target_array.size();
-  while ( ( i < base_size ) || ( i < target_size ) ) {
-    if ( i >= base_size ) {
-      result += target_array.at( i );
-    } else if ( i >= target_size ) {
+  while ((i < base_size) || (i < target_size)) {
+    if (i >= base_size) {
+      result += target_array.at(i);
+    } else if (i >= target_size) {
       std::string tmp;
-      while ( i < base_size ) {
+      while (i < base_size) {
         tmp += "../";
         i++;
       }
       tmp += result;
-      return SharedStr( utils::CharAlloc( tmp.c_str() ) );
-    } else if ( base_array.at( i ).compare( target_array.at( i ) ) != 0 ) {
-      while ( i < base_size ) {
+      return SharedStr(utils::CharAlloc(tmp.c_str()));
+    } else if (base_array.at(i).compare(target_array.at(i)) != 0) {
+      while (i < base_size) {
         result += "../";
         base_array.pop_back();
         base_size = base_array.size();
       }
-      while ( i < target_size ) {
+      while (i < target_size) {
         result += target_array[ i ];
         result += "/";
         i++;
       }
-      return SharedStr( utils::CharAlloc( result.c_str() ) );
+      return SharedStr(utils::CharAlloc(result.c_str()));
     }
     i++;
   }
-  return SharedStr( utils::CharAlloc( result.c_str() ) );
+  return SharedStr(utils::CharAlloc(result.c_str()));
 }
 
-void chdir ( const char* path ) {
+void chdir (const char* path) {
 #ifdef _WIN32
   SetCurrentDirectory(path);
 #else
@@ -275,9 +275,9 @@ void chdir ( const char* path ) {
 #endif
 }
 
-bool chmod( const char* path , int permiss ) {
-  if ( FileIO::IsExist( path ) ) {
-    ::chmod( path , permiss );
+bool chmod(const char* path, int permiss) {
+  if (FileIO::IsExist(path)) {
+    ::chmod(path, permiss);
     return true;
   }
   return false;

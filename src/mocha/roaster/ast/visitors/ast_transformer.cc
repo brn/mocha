@@ -665,7 +665,7 @@ VISITOR_IMPL(Literal) {
 
     case Literal::kPrivate : {
       CallExp* runtime_call = builder()->BuildPrivateRecordAccessor(ast_node->line_number());
-      ast_node->parent_node()->ReplaceChild( ast_node , runtime_call );
+      ast_node->parent_node()->ReplaceChild(ast_node, runtime_call);
     }
       break;
 

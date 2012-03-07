@@ -21,7 +21,9 @@ AstBuilder* AstBuilder::Local() {
   }
   return builder;
 }
-
+AstBuilder::~AstBuilder() {
+  ThreadLocalStorage::Set(&key_,NULL);
+}
 Function* AstBuilder::CreateFunctionDecl(AstNode* name, AstNode* argv, AstNode* body, int64_t line) {
   Function *fn = new(pool()) Function(line);
   fn->set_name(name);
@@ -155,7 +157,7 @@ CallExp* AstBuilder::CreatePrototypeNode(AstNode* lhs, int64_t line) {
 
 CallExp* AstBuilder::CreateRuntimeMod(AstNode* member, int64_t line) {
   Literal* value = CreateNameNode(SymbolList::symbol(SymbolList::kRuntime),
-                                   Token::JS_IDENTIFIER, line, Literal::kIdentifier);
+                                  Token::JS_IDENTIFIER, line, Literal::kIdentifier);
   return CreateDotAccessor(value, member, line);
 }
 

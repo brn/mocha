@@ -3,7 +3,7 @@
 
 namespace mocha {
 namespace filesystem {
-bool mkdir( const char* path , int permiss );
+bool mkdir(const char* path, int permiss);
 }
 }
 

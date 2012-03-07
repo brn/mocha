@@ -5,7 +5,7 @@
 namespace mocha {
 class HelpRunner : public ICommandLineRunner {
  public :
-  HelpRunner( Options* option );
+  HelpRunner(Options* option);
   virtual void Run();
 };
 }

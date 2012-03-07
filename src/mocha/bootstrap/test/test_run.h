@@ -2,11 +2,11 @@
 #define mocha_test_run_h_
 #include <string.h>
 #include <mocha/roaster/roaster.h>
-#include <mocha/roaster/utils/compile_result.h>
+#include <mocha/roaster/utils/compilation_result.h>
 #include <mocha/bootstrap/runners/phantom_runner.h>
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/compiler.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
@@ -15,14 +15,14 @@
 #include <mocha/misc/file_writer.h>
 namespace mocha {namespace compiler_test {
 
-class TestCallback : public AsyncCallback{
+class TestCallback : public FileWriter{
  public :
   TestCallback(int size) :
       size_(size), is_end_(false), current_(0) {}
   ~TestCallback(){}
   void operator() (CompilationResultHandle result) {
     MutexLock lock(mutex_);
-    WriteFile(result);
+    WriteResult(result);
     if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;
     }
@@ -58,73 +58,73 @@ class TestCallback : public AsyncCallback{
 
 Mutex TestCallback::mutex_;
 
-std::string GetPath( const char* path ) {
-  filesystem::Path fs_path( Bootstrap::GetSelfPath() );
+std::string GetPath(const char* path) {
+  filesystem::Path fs_path(Bootstrap::GetSelfPath());
   std::string result = fs_path.directory();
   result += '/';
   result += path;
   return result;
 }
 
-void* ThreadRunner( void* args ) {
-  const char* path = reinterpret_cast<std::string*>( args )->c_str();
-  PhantomRunner::Run( path );
+void* ThreadRunner(void* args) {
+  const char* path = reinterpret_cast<std::string*>(args)->c_str();
+  PhantomRunner::Run(path);
   return 0;
 }
 
-void RunJS( const char* dir ) {
-  filesystem::Directory directory( dir );
-  filesystem::DirectoryIterator iterator = directory.GetFileList( true , false );
+void RunJS(const char* dir) {
+  filesystem::Directory directory(dir);
+  filesystem::DirectoryIterator iterator = directory.GetFileList(true, false);
   std::string args;
-  while ( iterator.HasNext() ) {
+  while (iterator.HasNext()) {
     const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
-    if ( strstr( fullpath , "-cmp.js" ) != NULL ) {
+    if (strstr(fullpath, "-cmp.js") != NULL) {
       args += fullpath;
       args += " ";
     }
 
   }
   Thread thread;
-  thread.Create( ThreadRunner , &args );
+  thread.Create(ThreadRunner, &args);
   thread.Join();
 }
 
-void RunTest( bool is_debug , bool is_pretty , bool is_compress , const char* dir ) {
-  filesystem::Directory directory( CURRENT_DIR"/test/js" );
-  filesystem::DirectoryIterator iterator = directory.GetFileList( true , false );
+void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
+  filesystem::Directory directory(CURRENT_DIR"/test/js");
+  filesystem::DirectoryIterator iterator = directory.GetFileList(true, false);
   Roaster roaster;
   CompilationInfoHandleList list;
-  while ( iterator.HasNext() ) {
+  while (iterator.HasNext()) {
     const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
-    if ( strstr( fullpath , "-cmp.js" ) == NULL && strstr( fullpath , ".js" ) != NULL ) {
+    if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
       ExternalResource::UnsafeSet(fullpath);
       Resource* resource = ExternalResource::UnsafeGet(fullpath);
       CompilationInfoHandle info = resource->compilation_info();
       resource->SetDeploy(dir);
-      if ( is_debug ) {
+      if (is_debug) {
         info->SetDebug();
       }
-      if ( is_pretty ) {
+      if (is_pretty) {
         info->SetPrettyPrint();
       }
-      if ( is_compress ) {
+      if (is_compress) {
         info->SetCompress();
       }
       list.push_back(info);
     }
   }
   AsyncCallbackHandle handle(new TestCallback(list.size()));
-  roaster.CompileFilesAsync(list, true, handle);
-  RunJS( dir );
+  roaster.CompileFilesAsync(list, false, handle);
+  RunJS(dir);
 }
 
 void RunTest() {
-  RunTest( true , true , false , CURRENT_DIR"/test/js/out/devel" );
-  fprintf( stderr , "------------------end devel test------------------\n" );
-  RunTest( false , false , true , CURRENT_DIR"/test/js/out/compressed" );
-  fprintf( stderr , "------------------end compress test------------------\n" );
+  RunTest(true, true, false, CURRENT_DIR"/test/js/out/devel");
+  fprintf(stderr, "------------------end devel test------------------\n");
+  RunTest(false, false, true, CURRENT_DIR"/test/js/out/compressed");
+  fprintf(stderr, "------------------end compress test------------------\n");
 }
 
 }}

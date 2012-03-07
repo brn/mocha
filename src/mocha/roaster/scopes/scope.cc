@@ -107,7 +107,7 @@ char CompressedNameAllocator::table_ [] = {
 
 
 Scope::Scope()
-    : head_(this), parent_(0) , name_allocator_handle_(new CompressedNameAllocator){}
+    : head_(this), parent_(0), name_allocator_handle_(new CompressedNameAllocator){}
 Scope::~Scope() {}
 
 void Scope::Insert (TokenInfo* info, AstNode* ast_node) {

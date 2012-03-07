@@ -31,11 +31,11 @@
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/runtime/runtime.h>
 #include <mocha/roaster/utils/compiler_utils.h>
-#include <mocha/roaster/utils/compile_result.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_result.h>
+#include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/external/external_ast.h>
-#include <mocha/roaster/misc/io/file_io.h>
+#include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/roaster/file_system/stat.h>
@@ -83,7 +83,7 @@ class Compiler::PtrImpl {
     if (path_->HasAbsolutePath() && compilation_info()->IsFile()) {
       filesystem::VirtualDirectory::GetInstance()->Chdir(path_->directory());
     }
-    ast_root_.AddChild(runtime(pool_.Get()));
+    ast_root_.AddChild(Compiler::runtime("runtime", pool_.Get()));
     CallInternal(main_file_path_.c_str(), Internal::kFatal, false);
     OptimizerVisitor opt_visitor(compilation_info_.Get());
     SymbolCollector visitor(scope_registry_.Get(), compilation_info_.Get());
@@ -97,17 +97,22 @@ class Compiler::PtrImpl {
   }
 
   inline SharedPtr<filesystem::Path> Load(const char* filename) {
+    bool is_runtime = false;
     //Create javascript path from filename.
     //It's like this,
     //"./example" -> "<current absolute path>/example.js" or
     //"exampleModule" -> "<setted absolute module dir path> or <default absolute module path>/exampleModule.js"
-    SharedPtr<filesystem::Path> js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str());
+    SharedPtr<filesystem::Path> js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str(), compilation_info()->lib_directories(), &is_runtime);
     //Check is module already loaded or not.
     if (IsAlreadyLoaded_(js_path->absolute_path())) {
-      //Change current directory to loaded js file directory.
-      SharedPtr<filesystem::Path> path_handle = CompilerUtils::ChangeDir(js_path->absolute_path());
       //Set loaded file to hash.
       SetPath(js_path->absolute_path());
+      if(is_runtime) {
+        ast_root_.AddChild(Compiler::runtime(js_path->absolute_path(), pool_.Get()));
+        return js_path;
+      }
+      //Change current directory to loaded js file directory.
+      SharedPtr<filesystem::Path> path_handle = CompilerUtils::ChangeDir(js_path->absolute_path());
       CallInternal(path_handle->absolute_path(), Internal::kNofatal, false);
     }
     return js_path;
@@ -158,13 +163,10 @@ class Compiler::PtrImpl {
     return external_ast;
   }
 
-  inline void BuildRuntime() {
-    runtime_ = ReserveAst(true);
-  }
-
-  inline AstNode* runtime(memory::Pool* pool) {
-    MutexLock lock(mutex_);
-    return runtime_->GetRoot()->first_child()->Clone(pool);
+  inline void BuildRuntime(const char* name, bool is_main_runtime) {
+    typedef std::pair<const char*,AstReserver> RuntimeAstPair;
+    AstReserver reserver = ReserveAst(is_main_runtime);
+    compiler_->runtime_map_.insert(RuntimeAstPair(name, reserver));
   }
 
   inline int LoadedFileCount() const {
@@ -183,10 +185,8 @@ class Compiler::PtrImpl {
   SharedPtr<CodegenVisitor> codegen_;
   ScopedPtr<filesystem::Path> path_;
   static Mutex mutex_;
-  static AstReserver runtime_;
 };
 
-AstReserver Compiler::PtrImpl::runtime_;
 Mutex Compiler::PtrImpl::mutex_;
 
 
@@ -219,8 +219,33 @@ const CompilationInfo* Compiler::compilation_info() const { return implementatio
 const char* Compiler::mainfile_path() const { return implementation_->mainfile_path(); }
 const filesystem::Path* Compiler::path() const { return implementation_->path(); }
 void Compiler::BuildRuntime() {
-  CompilationInfoHandle handle(new CompilationInfo(runtime::Runtime::source()));
-  Compiler compiler(handle);
-  compiler.implementation_->BuildRuntime();
+  MutexLock lock(mutex_);
+  runtime::Runtime::BuildSource();
+  const runtime::Runtime::RuntimeMap& map = runtime::Runtime::runtime_map();
+  runtime::Runtime::RuntimeMap::const_iterator it = map.begin();
+  for (;it != map.end();++it) {
+    CompilationInfoHandle handle(new CompilationInfo(it->second));
+    Compiler compiler(handle);
+    bool is_main = false;
+    if (strcmp(it->first.c_str(), "runtime") == 0) {
+      is_main = true;
+    }
+    compiler.implementation_->BuildRuntime(it->first.c_str(), is_main);
+  }
 }
+
+AstNode* Compiler::runtime(const char* name, memory::Pool* pool) {
+  RuntimeAstMap::iterator it = runtime_map_.find(name);
+  if (it != runtime_map_.end()) {
+    return it->second->GetRoot()->first_child()->Clone(pool);
+  }
+  return 0;
+}
+
+bool Compiler::IsRuntime(const char* name) {
+  MutexLock lock(mutex_);
+  return runtime_map_.find(name) != runtime_map_.end();
+}
+Mutex Compiler::mutex_;
+Compiler::RuntimeAstMap Compiler::runtime_map_;
 } //namespace mocha

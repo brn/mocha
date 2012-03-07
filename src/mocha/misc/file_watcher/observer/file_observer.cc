@@ -10,44 +10,30 @@
 #include <mocha/misc/file_writer.h>
 namespace mocha {
 
-class FileWriter : public AsyncCallback{
- public :
-  FileWriter(Resource* resource)
-      : resource_(resource){}
-  FileWriter(const FileWriter& writer) {
-    resource_ = writer.resource_;
-  }
-  void operator() (CompilationResultHandle result) {
-    WriteFile(result);
-  }
- private :
-  Resource* resource_;
-};
-
 class FileObserver::FileUpdater : public IUpdater {
   friend class FileObserver;
  public :
-  void Update( watch_traits::Modify* trait ) {
+  void Update(watch_traits::Modify* trait) {
     const char* filename = trait->filename;
-    if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
+    if (mutex_list_.find(filename) != mutex_list_.end()) {
       Mutex* mutex = mutex_list_[ filename ].Get();
       MutexLock lock((*mutex));
       Resource* resource = ExternalResource::SafeGet(filename);
       if (resource) {
-        AsyncCallbackHandle callback(new FileWriter(resource));
+        AsyncCallbackHandle callback(new FileWriter);
         Roaster roaster;
         roaster.CompileFileAsync(resource->compilation_info(), false, callback);
       }
     }
   }
-  void Update( watch_traits::DeleteSelf* trait ) {
+  void Update(watch_traits::DeleteSelf* trait) {
     const char* filename = trait->filename;
-    if ( mutex_list_.find( filename ) != mutex_list_.end() ) {
+    if (mutex_list_.find(filename) != mutex_list_.end()) {
       Mutex* mutex = mutex_list_[ filename ].Get();
-      MutexLock lock( (*mutex) );
-      List::iterator ret = mutex_list_.find( filename );
-      if ( mutex_list_.end() != ret ) {
-        mutex_list_.erase( ret );
+      MutexLock lock((*mutex));
+      List::iterator ret = mutex_list_.find(filename);
+      if (mutex_list_.end() != ret) {
+        mutex_list_.erase(ret);
       }
     }
   }
@@ -56,36 +42,36 @@ class FileObserver::FileUpdater : public IUpdater {
   List mutex_list_;
 };
 
-FileObserver::FileObserver() : file_updater_( new FileUpdater ) {}
+FileObserver::FileObserver() : file_updater_(new FileUpdater) {}
 
 void FileObserver::Run() {
   Initialize_();
   Thread thread;
-  if ( !thread.Create( FileObserver::ThreadRunner_ , &file_watcher_ ) ) {
-    Setting::GetInstance()->LogFatal( "in %s thread create fail." , __func__ );
+  if (!thread.Create(FileObserver::ThreadRunner_, &file_watcher_)) {
+    Setting::GetInstance()->LogFatal("in %s thread create fail.", __func__);
   } else {
     thread.Detach();
   }
 }
 
-void FileObserver::Exit( FileWatcher::EndCallBack fn , void* arg ) {
-  file_watcher_.Exit( fn , arg );
+void FileObserver::Exit(FileWatcher::EndCallBack fn, void* arg) {
+  file_watcher_.Exit(fn, arg);
 }
 
-void* FileObserver::ThreadRunner_ ( void* arg ) {
-  FileWatcher* watcher = reinterpret_cast<FileWatcher*>( arg );
+void* FileObserver::ThreadRunner_ (void* arg) {
+  FileWatcher* watcher = reinterpret_cast<FileWatcher*>(arg);
   watcher->Start();
   return 0;
 }
 
 void FileObserver::Initialize_() {
-  XMLSettingInfo::IterateFileList<FileObserver>( &FileObserver::RegistFile_ , this );
+  XMLSettingInfo::IterateFileList<FileObserver>(&FileObserver::RegistFile_, this);
 }
 
-void FileObserver::RegistFile_( const char* filename ) {
-  SharedPtr<Mutex> handle( new Mutex() );
+void FileObserver::RegistFile_(const char* filename) {
+  SharedPtr<Mutex> handle(new Mutex());
   file_updater_->mutex_list_[filename] = handle;
-  file_watcher_.AddWatch( filename , file_updater_.Get() , FileWatcher::kModify );
+  file_watcher_.AddWatch(filename, file_updater_.Get(), FileWatcher::kModify);
 }
 
 }

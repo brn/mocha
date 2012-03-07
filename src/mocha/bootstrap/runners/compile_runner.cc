@@ -5,15 +5,11 @@
 #include <mocha/roaster/roaster.h>
 
 namespace mocha {
-CompileRunner::CompileRunner( Options *options ) : ICommandLineRunner( options ) {}
-class Writer : public AsyncCallback {
- public :
-  void operator()(CompilationResultHandle handle) {WriteFile(handle);}
-};
+CompileRunner::CompileRunner(Options *options) : ICommandLineRunner(options) {}
 void CompileRunner::Run() {
   Roaster roaster;
   CompilationInfoHandle handle(new CompilationInfo(options_->GetPath()));
-  AsyncCallbackHandle callback(new Writer);
+  AsyncCallbackHandle callback(new FileWriter);
   roaster.CompileAsync(handle, true, callback);
 }
 

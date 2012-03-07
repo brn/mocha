@@ -14,25 +14,25 @@ class ScopedList : private Uncopyable {
   inline ScopedList ();
   virtual ~ScopedList ();
   
-  template <typename Class , typename Deleter>
-  inline T* Retain ( Class* ptr, Deleter deleter );
+  template <typename Class, typename Deleter>
+  inline T* Retain (Class* ptr, Deleter deleter);
   
   template <typename Deleter>
-  inline T* Retain ( Deleter deleter );
+  inline T* Retain (Deleter deleter);
   
   template <typename Class>
-  inline T* Retain( Class* ptr );
+  inline T* Retain(Class* ptr);
   
   template <typename Class>
   inline T* Retain();
   
  protected :
-  inline T* RegistToList_( SharedPtr<T> handle , T* ptr );
+  inline T* RegistToList_(SharedPtr<T> handle, T* ptr);
   typedef std::list<SharedPtr<T> > List_;
   List_ list_;
  private :
-  inline static void* operator new ( size_t size ){return 0;};
-  inline static void* operator new [] ( size_t size ){return 0;};
+  inline static void* operator new (size_t size){return 0;};
+  inline static void* operator new [] (size_t size){return 0;};
 };
 
 template <typename T>
@@ -40,7 +40,7 @@ class ScopedArrayList : public ScopedList<T> {
  public :
   inline ScopedArrayList();
   template <typename Class>
-  inline T* Retain( Class* ptr );
+  inline T* Retain(Class* ptr);
 };
 
 template <typename T>
@@ -48,7 +48,7 @@ class ScopedAllocaterList : public ScopedList<T> {
  public :
   inline ScopedAllocaterList();
   template <typename Class>
-  inline T* Retain( Class* ptr );
+  inline T* Retain(Class* ptr);
 };
 
 }

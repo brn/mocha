@@ -8,7 +8,7 @@ namespace mocha {
 class XMLOptions {
  public :
   XMLOptions() :
-      options_ ( new Options ){}
+      options_ (new Options){}
   inline Options* operator -> () { return options_.Get(); }
  private :
   ScopedPtr<Options> options_;

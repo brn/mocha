@@ -5,7 +5,7 @@
 namespace mocha {
 class CompileRunner : public ICommandLineRunner {
  public :
-  CompileRunner( Options* options );
+  CompileRunner(Options* options);
   void Run();
 };
 }

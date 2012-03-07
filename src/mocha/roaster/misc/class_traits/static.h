@@ -8,9 +8,9 @@ namespace mocha {
 
   class Static{
     inline Static (){};
-    inline Static ( const Static& ){};
-    inline void operator = ( const Static& ){};
-    inline void operator delete [] ( void* ) {};
+    inline Static (const Static&){};
+    inline void operator = (const Static&){};
+    inline void operator delete [] (void*) {};
   };
   
 }

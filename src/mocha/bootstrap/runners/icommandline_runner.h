@@ -6,7 +6,7 @@ class ObserverRunner;
 class ListRunner;
 class ICommandLineRunner {
  public :
-  ICommandLineRunner( Options* option ) : options_( option ) {}
+  ICommandLineRunner(Options* option) : options_(option) {}
   virtual ~ICommandLineRunner(){}
   virtual void Run(){};
   virtual ObserverRunner* CastToObserver() { return 0; }

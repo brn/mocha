@@ -32,6 +32,9 @@
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/utils/error_reporter.h>
 namespace mocha {
+namespace memory{
+class Pool;
+}
 /**
  * @class
  * Compiler of javascript for web front end develop.
@@ -87,7 +90,10 @@ class Compiler : private Uncopyable {
   const char* mainfile_path() const;
   const filesystem::Path* path() const;
   int LoadedFileCount() const;
+  static bool IsRuntime(const char* name);
+  static AstNode* runtime(const char* name, memory::Pool* pool);
  private :
+  typedef roastlib::unordered_map<std::string,AstReserver> RuntimeAstMap;
   static void BuildRuntime();
   /**
    * @private
@@ -102,7 +108,7 @@ class Compiler : private Uncopyable {
    */
   ScopedPtr<PtrImpl> implementation_;
 
-  static AstReserver runtime_;
+  static RuntimeAstMap runtime_map_;
   static Mutex mutex_;
 };
 

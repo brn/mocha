@@ -8,8 +8,8 @@ class Version {
  public :
   Version();
   inline ~Version(){};
-  void Add( const char* ver );
-  bool Get( const char* ver );
+  void Add(const char* ver);
+  bool Get(const char* ver);
   void Debug();
  private :
   typedef boost::unordered_map<std::string,int> VersionContainer;

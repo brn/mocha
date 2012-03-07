@@ -44,7 +44,7 @@ class AstBuilder : private Uncopyable {
   static AstBuilder* Local();
   AstBuilder(memory::Pool* pool)
       : pool_(pool){}
-  ~AstBuilder(){}
+  ~AstBuilder();
   Function* CreateFunctionDecl(AstNode* name, AstNode* argv, AstNode* body, int64_t line);
   CallExp* CreateArrayAccessor(AstNode* callable, AstNode* args, int64_t line);
   CallExp* CreateDotAccessor(AstNode* callable, AstNode* args, int64_t line);

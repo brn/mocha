@@ -8,10 +8,10 @@
 
 namespace mocha {
 
-template <typename T , typename Deleter>
+template <typename T, typename Deleter>
 class PtrHandleDeleter : public PtrHandleBase {
  public :
-  inline explicit PtrHandleDeleter( T* ptr , Deleter deleter );
+  inline explicit PtrHandleDeleter(T* ptr, Deleter deleter);
   inline T* Get();
   inline void Dispose();
  private :
@@ -22,7 +22,7 @@ class PtrHandleDeleter : public PtrHandleBase {
 template <typename T>
 class PtrHandle : public PtrHandleBase {
  public :
-  inline explicit PtrHandle( T* ptr );
+  inline explicit PtrHandle(T* ptr);
   inline T* Get();
   inline void Dispose();
  private :

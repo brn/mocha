@@ -12,10 +12,10 @@ namespace mocha {
 
 class Thread{
  public :
-  typedef void* (*pThreadStartFunc) ( void* param );
+  typedef void* (*pThreadStartFunc) (void* param);
   Thread();
   ~Thread();
-  bool Create ( pThreadStartFunc fn , void* param );
+  bool Create (pThreadStartFunc fn, void* param);
   int Detach();
   void Cancel();
   bool Join();
@@ -37,7 +37,7 @@ class Mutex{
 
 class MutexLock {
  public :
-  MutexLock ( Mutex& mutex );
+  MutexLock (Mutex& mutex);
   ~MutexLock();
   void Unlock ();
  private :
@@ -49,15 +49,15 @@ class ThreadLocalStorageKey;
 
 class ThreadLocalStorage : private Static {
  public :
-  static void* Get ( ThreadLocalStorageKey* key );
-  static void Set ( ThreadLocalStorageKey* key , void* );
+  static void* Get (ThreadLocalStorageKey* key);
+  static void Set (ThreadLocalStorageKey* key, void*);
 };
 
 class ThreadLocalStorageKey {
   friend class ThreadLocalStorage;
  public :
-  typedef void (*Destructor) ( void* ptr );
-  explicit ThreadLocalStorageKey ( Destructor destructor );
+  typedef void (*Destructor) (void* ptr);
+  explicit ThreadLocalStorageKey (Destructor destructor);
   ThreadLocalStorageKey ();
   void DeleteKey();
  private :

@@ -1,4 +1,5 @@
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/consts/consts.h>
 namespace mocha {
 
@@ -10,6 +11,10 @@ static const int file = 3;
 CompilationInfo::CompilationInfo(const char* str) : str_(str) {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
   versions_.insert(VersionPair(Consts::kVersionNone, 1));
+  std::string base_dir = filesystem::Path::home_directory();
+  base_dir += "/.mocha/";
+  base_dir += "module/";
+  lib_dir_.push_back(base_dir);
 }
 
 bool CompilationInfo::Debug() const {
@@ -61,5 +66,13 @@ bool CompilationInfo::IsFile() const {
   return flags_.At(file);
 }
 
+void CompilationInfo::SetCharset(const char* charset) {
+  charset_ = charset;
+}
+
+void CompilationInfo::SetLibDirectory(const char* path) {
+  std::string dir = path;
+  lib_dir_.push_back(dir);
+}
 
 }

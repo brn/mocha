@@ -105,7 +105,7 @@ class ReverseNodeIterator{
  * You must set empty node to 'Empty' class ptr,
  * if you not, you got sigenv where access to empty node.
  */
-class AstNode : public memory::Allocated, private Uncopyable {
+class AstNode : public memory::Allocated {
   friend class AstNodeList;
  public :
   //Definition of all node type.
@@ -1501,7 +1501,7 @@ class Literal : public Expression {
   };
   Literal(int type, int64_t line) :
       Expression(AstNode::kLiteral, "Literal", line), value_type_(type), value_(0), node_(0){};
-  ~Literal() {};
+  virtual ~Literal(){};
   void set_value_type(int value_type) { value_type_ = value_type; }
   int value_type() const { return value_type_; };
   Literal* CastToLiteral() { return this; }

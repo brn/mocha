@@ -5,7 +5,7 @@
 namespace mocha {
 class ErrorRunner : public ICommandLineRunner {
  public :
-  ErrorRunner( Options* option );
+  ErrorRunner(Options* option);
   virtual void Run();
 };
 }

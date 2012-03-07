@@ -1,7 +1,7 @@
 #include <string.h>
 #include <mocha/roaster/external/external_resource.h>
 #include <mocha/roaster/consts/consts.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/ast/ast.h>

@@ -18,18 +18,18 @@
 namespace mocha {
 
 FileWatcher::FileWatcher() :
-    implementation_( new PtrImpl() ) {}
+    implementation_(new PtrImpl()) {}
 
 FileWatcher::~FileWatcher() {
   delete implementation_;
 }
 
-void FileWatcher::AddWatch( const char* path , IUpdater* updater , int type ) {
-  implementation_->AddWatch( path , updater , type );
+void FileWatcher::AddWatch(const char* path, IUpdater* updater, int type) {
+  implementation_->AddWatch(path, updater, type);
 }
 
-void FileWatcher::UnWatch( const char* path ) {
-  implementation_->UnWatch( path );
+void FileWatcher::UnWatch(const char* path) {
+  implementation_->UnWatch(path);
 }
 
 void FileWatcher::UnWatchAll() {
@@ -44,8 +44,8 @@ void FileWatcher::Start() {
   implementation_->Start();
 }
 
-void FileWatcher::Exit( EndCallBack fn , void* arg ) {
-  implementation_->End( fn , arg );
+void FileWatcher::Exit(EndCallBack fn, void* arg) {
+  implementation_->End(fn, arg);
   //implementation_->UnWatchAll();
 }
 

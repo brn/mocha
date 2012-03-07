@@ -8,13 +8,13 @@
 #include <mocha/roaster/ast/visitors/optimizer_visitor.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/utils/compile_info.h>
+#include <mocha/roaster/utils/compilation_info.h>
 
 namespace mocha {
 
 bool IFStmtOptimizer::IsOptimizableBlock(AstNode* block, int type) {
   if (block->node_type() == AstNode::kBlockStmt) {
-    if (block->child_length() == 1 ) {
+    if (block->child_length() == 1) {
       if (type == kElse && block->first_child()->node_type() == AstNode::kIFStmt) {
         return false;
       }

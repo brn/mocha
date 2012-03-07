@@ -2,10 +2,11 @@
 #define mocha_roaster_roaster_h_
 #include <vector>
 #include <utility>
-#include <mocha/roaster/misc/io/file_io.h>
+#include <mocha/roaster/misc/atomic.h>
+#include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/utils/compile_info.h>
-#include <mocha/roaster/utils/compile_result.h>
+#include <mocha/roaster/utils/compilation_info.h>
+#include <mocha/roaster/utils/compilation_result.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 namespace mocha {
@@ -25,7 +26,6 @@ class AsyncCallback {
 typedef SharedPtr<AsyncCallback> AsyncCallbackHandle;
 class Roaster {
  public :
-  static void Initialize();
   Roaster();
   ~Roaster(){}
   CompilationResultHandle CompileFile(CompilationInfoHandle);
@@ -36,6 +36,9 @@ class Roaster {
   void CompileFilesAsync(CompilationInfoHandleList&, bool, AsyncCallbackHandle);
   AstReserver GetAstFromFile(CompilationInfoHandle);
   AstReserver GetAst(CompilationInfoHandle);
+ private :
+  static void Initialize();
+  static AtomicWord entered_;
 };
 }
 

@@ -2,7 +2,7 @@
 #include <mocha/roaster/external/external_resource.h>
 namespace mocha {
 
-void WriteFile(CompilationResultHandle result){
+void FileWriter::WriteResult(CompilationResultHandle result){
   //Current directory -> main js file path.
   //Get file name of main js file.
   std::string val;
@@ -32,6 +32,10 @@ void WriteFile(CompilationResultHandle result){
   //Set permission to rw for all.
   filesystem::chmod(handle.Get(), 0777);
   ret->Write(result->source());
+}
+
+void FileWriter::operator()(CompilationResultHandle handle) {
+  WriteResult(handle);
 }
 
 }

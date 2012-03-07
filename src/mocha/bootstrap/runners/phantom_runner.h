@@ -5,7 +5,7 @@ namespace mocha {
 
 class PhantomRunner : private Static {
  public :
-  static void Run( const char* args );
+  static void Run(const char* args);
 };
 
 }

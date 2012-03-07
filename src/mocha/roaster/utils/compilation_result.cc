@@ -1,4 +1,4 @@
-#include <mocha/roaster/utils/compile_result.h>
+#include <mocha/roaster/utils/compilation_result.h>
 
 namespace mocha {
 

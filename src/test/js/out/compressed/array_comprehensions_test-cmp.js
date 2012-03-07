@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/home/brn/.mocha/module/iterators.js",
+      var __FILE__ = "anonymous",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'] = {};
+      _mochaGlobalExport['./'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['./'];
       
       __LINE__ = 1;
       !function () {
@@ -1636,14 +1636,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/src/test/js/harmony/array_comprehensions_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/array_comprehensions_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['./array_comprehensions_test.js'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['./array_comprehensions_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../home/brn/.mocha/module/iterators.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../../'],
           items = _mochaLocalTmp0.items,
           testTarget =  {
             value1 : 100,

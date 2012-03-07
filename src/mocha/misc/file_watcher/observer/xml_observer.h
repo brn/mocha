@@ -18,9 +18,9 @@ class XMLObserver {
   void Die();
   bool IsEnd();
  private :
-  static void* ThreadRunner_( void* arg );
-  inline void Initialize_( const char* path );
-  inline void RegistFile_( const char* file );
+  static void* ThreadRunner_(void* arg);
+  inline void Initialize_(const char* path);
+  inline void RegistFile_(const char* file);
   inline void Erase_();
 
   bool is_end_;

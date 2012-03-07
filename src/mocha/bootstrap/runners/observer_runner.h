@@ -5,7 +5,7 @@
 namespace mocha {
 class ObserverRunner : public ICommandLineRunner {
  public :
-  ObserverRunner( Options* options );
+  ObserverRunner(Options* options);
   ~ObserverRunner() {};
   void Run();
   void Exit();

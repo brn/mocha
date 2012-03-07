@@ -1,4 +1,5 @@
 import {fmt} from "./fmt";
+import {iterator} from 'iterators'
 @version( all ) {
   let m = ( x , y , ...x ) ->{
           for ( var i = 0; i < 20; i++ ) {

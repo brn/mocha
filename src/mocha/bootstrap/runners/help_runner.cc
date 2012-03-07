@@ -3,10 +3,10 @@
 
 namespace mocha {
 
-HelpRunner::HelpRunner( Options* option ) : ICommandLineRunner( option ) {}
+HelpRunner::HelpRunner(Options* option) : ICommandLineRunner(option) {}
 
 void HelpRunner::Run() {
-  fprintf( stderr , "Usage: mocha [-c[--compile] source] [-w[--watch] source] [-X[--XML]]\n"
+  fprintf(stderr, "Usage: mocha [-c[--compile] source] [-w[--watch] source] [-X[--XML]]\n"
                     "           [-P[--PrettyPrint]] [-L[--Line]] [--help]\n"
            "Options:\n"
            "-c/--compile      Compile only one file in command line.\n"

@@ -9,8 +9,7 @@
 namespace mocha {
 class Bootstrap : private Static {
  public :
-  static void Initialize( int argc, char** argv );
-  static void Reboot();
+  static void Initialize(int argc, char** argv);
   static const char* GetSelfPath();
  private :
   static char** argv_;

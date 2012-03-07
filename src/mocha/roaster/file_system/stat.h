@@ -16,7 +16,7 @@ class Stat{
     kLnk,
     kSock
   } FileType;
-  Stat( const char* path );
+  Stat(const char* path);
   ~Stat(){};
   bool IsExist();
   int Dev();

@@ -35,10 +35,10 @@ class Path {
   static std::string module_dir_;
   static Mutex mutex_;
 };
-void chdir ( const char* path );
-bool chmod( const char* pass , int permiss );
-SharedStr GetModuleKey( const char* base , const char* );
-void SetModuleDir( const char* path );
+void chdir (const char* path);
+bool chmod(const char* pass, int permiss);
+SharedStr GetModuleKey(const char* base, const char*);
+void SetModuleDir(const char* path);
 }
 }
 

@@ -1030,7 +1030,7 @@ class YieldHelper : private Processor {
     sprintf(tmp_state_str, "%d", state_ + 1);
     Literal* state = builder()->CreateNameNode(tmp_state_str, Token::JS_NUMERIC_LITERAL,
                                                line, Literal::kNumeric);
-    AssignmentExp* exp = builder()->CreateAssignment('=', yield_state->Clone(pool()), state, line);
+    AssignmentExp* exp = builder()->CreateAssignment('=', yield_state, state, line);
     ExpressionStmt* stmt = builder()->CreateExpStmt(exp, line);
     return stmt;
   }
@@ -1348,7 +1348,7 @@ class GeneratorHelper : private Processor {
     function_->AddChild(var_stmt);
     Literal* create_generator = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kCreateGenerator),
                                                           Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
-    NodeList* args = builder()->CreateNodeList(3, generator->Clone(pool()), CloseInitialiser(), this_sym);
+    NodeList* args = builder()->CreateNodeList(3, generator, CloseInitialiser(), this_sym);
     CallExp* create_generator_call = builder()->CreateNormalAccessor(create_generator, args, function_->line_number());
     CallExp* runtime = builder()->CreateRuntimeMod(create_generator_call, function_->line_number());
     ReturnStmt* ret = builder()->CreateReturnStmt(runtime, function_->line_number());

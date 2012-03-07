@@ -8,9 +8,9 @@ class ICommandLineRunner;
 class Options;
 class CommandsAnalyzer {
  public :
-  CommandsAnalyzer() : state_( 0 ) {}
+  CommandsAnalyzer() : state_(0) {}
   ~CommandsAnalyzer(){}
-  SharedPtr<ICommandLineRunner> Analyze( const char* buf );
+  SharedPtr<ICommandLineRunner> Analyze(const char* buf);
  private :
   enum {
     kS_Begin = 0,
@@ -21,7 +21,7 @@ class CommandsAnalyzer {
     kS_Help,
     kS_List
   };
-  void AnalyzeEachToken_( Options* option );
+  void AnalyzeEachToken_(Options* option);
   
   int state_;
   std::string buf_;

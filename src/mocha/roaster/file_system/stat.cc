@@ -20,9 +20,9 @@
 #endif
 
 #ifdef HAVE_STAT
-#define STAT_FN( filename , statObj ) ::stat ( filename , statObj )
+#define STAT_FN(filename, statObj) ::stat (filename, statObj)
 #elif HAVE__STAT
-#define STAT_FN( filename , statObj ) ::_stat ( filename , statObj )
+#define STAT_FN(filename, statObj) ::_stat (filename, statObj)
 #endif
 
 #ifdef HAVE__CTIME64
@@ -31,14 +31,14 @@
 #define CTIME(str,buf) ::ctime_r(str,buf)
 #endif
 
-#define MODE ( fstat_->st_mode & S_IFMT )
+#define MODE (fstat_->st_mode & S_IFMT)
 
 namespace mocha {
 namespace filesystem {
 class Stat::PtrImpl {
  public :
-  PtrImpl( const char* path , STAT *fstat ) : path_( path ) , fstat_( fstat ) {
-    is_exist_ = ( STAT_FN( path , fstat_ ) != -1 );
+  PtrImpl(const char* path, STAT *fstat) : path_(path), fstat_(fstat) {
+    is_exist_ = (STAT_FN(path, fstat_) != -1);
   }
   ~PtrImpl() { delete fstat_; }
   inline bool IsExist() { return is_exist_; }
@@ -73,7 +73,7 @@ class Stat::PtrImpl {
   STAT *fstat_;
 };
 
-Stat::Stat( const char* path ) : implementation_( new PtrImpl( path , new STAT ) ) {}
+Stat::Stat(const char* path) : implementation_(new PtrImpl(path, new STAT)) {}
 bool Stat::IsExist() { return implementation_->IsExist(); }
 int Stat::Dev() { return implementation_->STDev(); }
 int Stat::Ino() { return implementation_->STIno(); }

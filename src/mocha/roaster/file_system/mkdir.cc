@@ -27,37 +27,37 @@ class MutexHolder : private Static {
 
 Mutex MutexHolder::mutex;
 
-bool mkdir( const char* path , int permiss ) {
+bool mkdir(const char* path, int permiss) {
   MutexLock lock(MutexHolder::mutex);
-  int len = strlen( path );
-  if ( len > 0 ) {
+  int len = strlen(path);
+  if (len > 0) {
     std::string processed_path = path;
-    if ( path[ len - 1 ] != '/' ) {
+    if (path[ len - 1 ] != '/') {
       processed_path += '/';
       len += 1;
     }
     const char* current = filesystem::Path::current_directory();
     char tmp[ 200 ];
-    for ( int i = 0,count = 0; i < len; ++i ) {
-      if ( processed_path[ i ] == '/' ) {
-        if ( i == 0 ) {
-          filesystem::chdir( "/" );
+    for (int i = 0,count = 0; i < len; ++i) {
+      if (processed_path[ i ] == '/') {
+        if (i == 0) {
+          filesystem::chdir("/");
         } else {
-          if ( tmp[ count - 1 ] == ':' ) {
+          if (tmp[ count - 1 ] == ':') {
             tmp[ count ] = '/';
             count++;
           } 
           tmp[ count ] = '\0';
-          filesystem::Stat st( tmp );
-          if ( !st.IsExist() || !st.IsDir() ) {
-            if ( -1 == MKDIR( tmp ) ) {
-              filesystem::chdir( current );
+          filesystem::Stat st(tmp);
+          if (!st.IsExist() || !st.IsDir()) {
+            if (-1 == MKDIR(tmp)) {
+              filesystem::chdir(current);
               return false;
             }
-            filesystem::chmod( tmp , permiss );
-            filesystem::chdir( tmp );
-          } else if ( st.IsDir() ) {
-            filesystem::chdir( tmp );
+            filesystem::chmod(tmp, permiss);
+            filesystem::chdir(tmp);
+          } else if (st.IsDir()) {
+            filesystem::chdir(tmp);
           }
           tmp[ 0 ] = '\0';
           count = 0;
@@ -67,7 +67,7 @@ bool mkdir( const char* path , int permiss ) {
         count++;
       }
     }
-    filesystem::chdir( current );
+    filesystem::chdir(current);
     return true;
   }
   return false;

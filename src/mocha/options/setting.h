@@ -21,10 +21,10 @@ class Setting {
   const char* GetTimeStr();
   FileRoot* GetRuntime(memory::Pool* pool);
   void Close();
-  void LogNoDate( const char* str , ... );
-  void Log( const char* str , ... );
-  void LogError( const char* str , ... );
-  void LogFatal( const char* str , ... );
+  void LogNoDate(const char* str, ...);
+  void Log(const char* str, ...);
+  void LogError(const char* str, ...);
+  void LogFatal(const char* str, ...);
   void SetLogFileHandle();
  private :
   Setting();

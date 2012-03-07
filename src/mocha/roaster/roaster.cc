@@ -5,12 +5,16 @@
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/external/external_resource.h>
 namespace mocha {
-
-Roaster::Roaster(){}
+Roaster::Roaster(){Initialize();}
 void Roaster::Initialize() {
+  AtomicWord ret = Atomic::CompareAndSwap(&entered_, 0, 1);
+  if ( ret == 1) {
+    return;
+  }
   JsToken::Initialize();
   Compiler::BuildRuntime();
 }
+AtomicWord Roaster::entered_ = 0;
 CompilationResultHandle Roaster::CompileFile(CompilationInfoHandle info) {
   info->MarkAsFile();
   Compiler compiler(info);
@@ -36,7 +40,7 @@ CompilationResultHandleList Roaster::CompileFiles(CompilationInfoHandleList& inf
 }
 
 typedef std::pair<CompilationInfoHandle,AsyncCallbackHandle> ThreadArgs;
-void* AsyncThreadRunner( void* args ) {
+void* AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
   Compiler compiler(thread_args->first);
   (*(thread_args->second))(compiler.Compile());

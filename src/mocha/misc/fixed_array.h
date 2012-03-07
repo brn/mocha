@@ -6,9 +6,9 @@ namespace mocha {
 template <typename T>
 class FixedArray {
  public :
-  FixedArray( size_t size ){}
+  FixedArray(size_t size){}
   ~FixedArray(){}
-  T At( index );
+  T At(index);
  private :
   T* array_;
 };

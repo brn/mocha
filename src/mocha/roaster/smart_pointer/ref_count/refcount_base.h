@@ -8,11 +8,11 @@ namespace mocha {
 
   class RefCountBase : private Uncopyable {
   public :
-    RefCountBase ( int num = 0 ) : count_( num ) {};
+    RefCountBase (int num = 0) : count_(num) {};
     virtual ~RefCountBase (){};
-    inline void Add() { Atomic::Increment( &count_ ); };
+    inline void Add() { Atomic::Increment(&count_); };
     inline void Release() {
-      if ( Atomic::Decrement( &count_ ) == 0 ) {
+      if (Atomic::Decrement(&count_) == 0) {
         delete this;
       }
     };

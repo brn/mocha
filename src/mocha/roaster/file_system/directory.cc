@@ -12,14 +12,14 @@
 
 namespace mocha {
 namespace filesystem {
-DirectoryIterator::DirectoryIterator( const DirEntry* entry ) : entry_( entry ){}
+DirectoryIterator::DirectoryIterator(const DirEntry* entry) : entry_(entry){}
 DirectoryIterator::~DirectoryIterator() {}
 
-DirectoryIterator::DirectoryIterator( const DirectoryIterator& iterator ) {
+DirectoryIterator::DirectoryIterator(const DirectoryIterator& iterator) {
   entry_ = iterator.entry_;
 }
 
-const DirectoryIterator& DirectoryIterator::operator = ( const DirectoryIterator& iterator ) {
+const DirectoryIterator& DirectoryIterator::operator = (const DirectoryIterator& iterator) {
   entry_ = iterator.entry_;
   return (*this);
 }
@@ -34,47 +34,47 @@ const DirEntry* DirectoryIterator::Next() {
   return entry;
 }
 
-Directory::Directory( const char* path ) : dirpath_( path ){};
+Directory::Directory(const char* path) : dirpath_(path){};
 Directory::~Directory(){}
 
 #ifdef _WIN32
 
-DirEntry* Find( WIN32_FIND_DATA* ffdata,
+DirEntry* Find(WIN32_FIND_DATA* ffdata,
                 HANDLE *h_find, DirEntry* entry,
                 const char* current,
                 bool is_recursive,
                 bool is_level,
-                ScopedList<DirEntry> *scoped_list ) {
+                ScopedList<DirEntry> *scoped_list) {
   typedef std::vector<std::string> SubDirList;
   SubDirList sub;
-  while ( FindNextFile( h_find, &ffdata ) ) {
-    if ( h_find == INVALID_HANDLE_VALUE ) {
+  while (FindNextFile(h_find, &ffdata)) {
+    if (h_find == INVALID_HANDLE_VALUE) {
       break;
     }
-    if ( !is_level && ( strcmp( ffdata.cFileName , "." ) == 0 || strcmp( ffdata.cFileName , ".." ) == 0 ) ) {
+    if (!is_level && (strcmp(ffdata.cFileName, ".") == 0 || strcmp(ffdata.cFileName, "..") == 0)) {
       continue;
     }
-    if ( ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) {
-      if ( is_recurusive ) {
+    if (ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+      if (is_recurusive) {
         std::string dir = ffdata.cFileName;
-        sub.push_back( dir );
+        sub.push_back(dir);
       }
     } else {
-      DirEntry* next = scoped_list->Retain( new DirEntry( ffdata->cFileName , current ) );
-      entry->SetNext( next );
+      DirEntry* next = scoped_list->Retain(new DirEntry(ffdata->cFileName, current));
+      entry->SetNext(next);
       entry = next;
     }
   }
-  FindClose( h_find );
+  FindClose(h_find);
   SubDirList::iterator begin = sub.begin(),end = sub.end();
-  while ( begin != end ) {
+  while (begin != end) {
     WIN32_FIND_DATA ffdata;
     HANDLE h_find;
-    if ( h_find != INVALID_HANDLE_VALUE ) {
-      h_find = FindFirstFile( (*begin).c_str(), &ffdata );
-      DirEntry* next = scoped_list->Retain( new DirEntry( ffdata.cFileName , current ) );
-      entry->SetNext( next );
-      entry = Find( ffdata , h_find , next , current , is_recursive , is_level );
+    if (h_find != INVALID_HANDLE_VALUE) {
+      h_find = FindFirstFile((*begin).c_str(), &ffdata);
+      DirEntry* next = scoped_list->Retain(new DirEntry(ffdata.cFileName, current));
+      entry->SetNext(next);
+      entry = Find(ffdata, h_find, next, current, is_recursive, is_level);
     }
     ++begin;
   }
@@ -82,17 +82,17 @@ DirEntry* Find( WIN32_FIND_DATA* ffdata,
 }
 
 
-DirectoryIterator GetFileList( bool is_recursive , bool show_level ) {
+DirectoryIterator GetFileList(bool is_recursive, bool show_level) {
   WIN32_FIND_DATA ffdata;
   HANDLE h_find;
-  h_find = FindFirstFile( dirpath_, &ffdata );
-  if ( h_find == INVALID_HANDLE_VALUE ) {
-    return DirectoryIterator( 0 );
+  h_find = FindFirstFile(dirpath_, &ffdata);
+  if (h_find == INVALID_HANDLE_VALUE) {
+    return DirectoryIterator(0);
   } else {
     DirEntry* entry;
-    entry = scoped_list_.Retain( new DirEntry( ffdata.cFileName , dirpath_ ) );
-    Find( &ffdata , &h_find , entry , dirpath_ , is_recursive , show_level );
-    return DirectoryIterator( entry );
+    entry = scoped_list_.Retain(new DirEntry(ffdata.cFileName, dirpath_));
+    Find(&ffdata, &h_find, entry, dirpath_, is_recursive, show_level);
+    return DirectoryIterator(entry);
   }
 }
 
@@ -101,60 +101,60 @@ DirectoryIterator GetFileList( bool is_recursive , bool show_level ) {
 class DirFinder {
   typedef std::vector<std::string> SubDirList;
  public :
-  DirFinder( const char* path , bool is_recursive , bool show_level , DIR* dir , ScopedList<DirEntry> *scoped_list ) :
-      path_( path ) , is_recursive_( is_recursive ), show_level_( show_level ),
-      dir_( dir ) , first_( 0 ) , current_( 0 ) , scoped_list_( scoped_list ){};
+  DirFinder(const char* path, bool is_recursive, bool show_level, DIR* dir, ScopedList<DirEntry> *scoped_list) :
+      path_(path), is_recursive_(is_recursive), show_level_(show_level),
+      dir_(dir), first_(0), current_(0), scoped_list_(scoped_list){};
   inline DirEntry* GetFirst() { return first_; }
   inline DirEntry* Find() {
     SubDirList sub;
-    while ( 1 ) {
-      int ret = readdir_r( dir_ , &entry_ , &result_ );
-      if ( ret != 0 ) {
+    while (1) {
+      int ret = readdir_r(dir_, &entry_, &result_);
+      if (ret != 0) {
         break;
       }
-      if ( result_ == NULL ) {
+      if (result_ == NULL) {
         break;
       }
-      if ( !show_level_ && ( result_->d_name[0] == '.' || strcmp( result_->d_name , ".." ) == 0 ) ) {
+      if (!show_level_ && (result_->d_name[0] == '.' || strcmp(result_->d_name, "..") == 0)) {
         continue;
       }
       std::string fullpath = path_;
       fullpath += "/";
       fullpath += result_->d_name;
-      Stat stat( fullpath.c_str() );
-      if ( stat.IsDir() ) {
-        if ( is_recursive_ ) {
-          sub.push_back( fullpath );
+      Stat stat(fullpath.c_str());
+      if (stat.IsDir()) {
+        if (is_recursive_) {
+          sub.push_back(fullpath);
         }
       } else {
-        DirEntry* entry = scoped_list_->Retain( new DirEntry( result_->d_name , path_ ) );
-        if ( first_ == 0 ) {
+        DirEntry* entry = scoped_list_->Retain(new DirEntry(result_->d_name, path_));
+        if (first_ == 0) {
           first_ = entry;
         } else {
-          current_->SetNext( entry );
+          current_->SetNext(entry);
         }
         current_ = entry;
       }
     }
-    closedir( dir_ );
-    FindSubDir_( sub );
+    closedir(dir_);
+    FindSubDir_(sub);
     return current_;
   }
   
  private :
-  void FindSubDir_( const SubDirList& sub ) {
+  void FindSubDir_(const SubDirList& sub) {
     SubDirList::const_iterator begin = sub.begin(),end = sub.end();
-    while ( begin != end ) {
+    while (begin != end) {
       const char* path = (*begin).c_str();
-      DIR* dir = opendir( path );
-      if ( dir == NULL ) {
+      DIR* dir = opendir(path);
+      if (dir == NULL) {
         continue;
       } else {
-        DirFinder finder( path , is_recursive_ , show_level_ , dir , scoped_list_ );
+        DirFinder finder(path, is_recursive_, show_level_, dir, scoped_list_);
         DirEntry* last = finder.Find();
-        if ( first_ ) {
-          current_->SetNext( finder.GetFirst() );
-          current_ = ( last )? last : current_;
+        if (first_) {
+          current_->SetNext(finder.GetFirst());
+          current_ = (last)? last : current_;
         } else {
           first_ = finder.GetFirst();
           current_ = last;
@@ -174,14 +174,14 @@ class DirFinder {
   ScopedList<DirEntry> *scoped_list_;
 };
 
-DirectoryIterator Directory::GetFileList( bool is_recursive , bool show_level ) {
-  DIR* dir = opendir( dirpath_ );
-  if ( dir == NULL ) {
-    return DirectoryIterator( 0 );
+DirectoryIterator Directory::GetFileList(bool is_recursive, bool show_level) {
+  DIR* dir = opendir(dirpath_);
+  if (dir == NULL) {
+    return DirectoryIterator(0);
   }
-  DirFinder finder( dirpath_ , is_recursive , show_level , dir , &scoped_entry_ );
+  DirFinder finder(dirpath_, is_recursive, show_level, dir, &scoped_entry_);
   finder.Find();
-  return DirectoryIterator( finder.GetFirst() );
+  return DirectoryIterator(finder.GetFirst());
 }
 
 }

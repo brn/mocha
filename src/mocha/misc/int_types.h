@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#if defined(_MSC_VER) && ( _MSC_VER < 1600 ) && !defined(__MINGW32__)
+#if defined(_MSC_VER) && (_MSC_VER < 1600) && !defined(__MINGW32__)
 
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
