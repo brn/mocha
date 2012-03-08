@@ -29,29 +29,44 @@ void BeginLog() {
   mocha::Setting::GetInstance()->LogNoDate(data);
 }
 
-void LoadSetting() {
-  const char* path = mocha::Setting::GetInstance()->GetXMLPath();
+void CreateMochaDir() {
+  const char* path = Setting::GetInstance()->GetBasePath();
+  if (!mocha::filesystem::mkdir(path, 0777)) {
+    fprintf(stderr, "Can not create directory %s mocha boot failed.", path);
+    exit(2);
+  }
+}
+
+void CreateDir() {
+  CreateMochaDir();
+  const char* path = Setting::GetInstance()->GetModulePath();
+  if (!filesystem::mkdir(path, 0777)) {
+    fprintf(stderr, "Can not create directory %s mocha boot failed.", path);
+    exit(2);
+  }
+}
+
+void CreateSetting() {
+  CreateDir();
+  const char* path = Setting::GetInstance()->GetXMLPath();
   if (!filesystem::FileIO::IsExist(path)) {
-    SharedPtr<mocha::filesystem::File> file = filesystem::FileIO::Open(path, "rw", filesystem::FileIO::P_ReadWrite);
+    SharedPtr<filesystem::File> file = filesystem::FileIO::Open(path, "rwn", filesystem::FileIO::P_ReadWrite);
     if (file->IsValidFile()) {
       mocha::filesystem::chmod(path, 0777);
       file->Write(CreateXML());
     } else {
-      fprintf(stderr, "Error can not find watch.xml. Run install.js first.\n");
-      exit(1);
+      fprintf(stderr, "Can not create setting file %s mocha boot failed." , path);
     }
   }
 }
 
 void LoadLog() {
-  LoadSetting();
+  CreateSetting();
   const char* path = mocha::Setting::GetInstance()->GetLogPath();
   if (!filesystem::FileIO::IsExist(path)) {
-    fprintf(stderr, "Error can not find mocha.log. Run install.js first.");
-    exit(1);
  CREATE :
-    int ret = filesystem::FileIO::CreateFile(path, 0777);
-    if (ret != -1) {
+    SharedPtr<filesystem::File> file = filesystem::FileIO::Open(path, "rwn", filesystem::FileIO::P_ReadWrite);
+	if (file->IsValidFile()) {
       mocha::filesystem::chmod(path, 0777);
       BeginLog();
     } else {

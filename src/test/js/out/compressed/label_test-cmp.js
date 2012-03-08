@@ -820,7 +820,7 @@
       
       __LINE__ = 7;
       Runtime.assert(true,ret === 100,"ret === 100",7,'./label_test.js');
-      __LINE__ = 719044320849203056;
+      __LINE__ = 657596704767361320;
       TEST_LABEL2 : {
         
         __LINE__ = 9;

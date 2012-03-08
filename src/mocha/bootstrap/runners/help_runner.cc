@@ -6,15 +6,12 @@ namespace mocha {
 HelpRunner::HelpRunner(Options* option) : ICommandLineRunner(option) {}
 
 void HelpRunner::Run() {
-  fprintf(stderr, "Usage: mocha [-c[--compile] source] [-w[--watch] source] [-X[--XML]]\n"
-                    "           [-P[--PrettyPrint]] [-L[--Line]] [--help]\n"
-           "Options:\n"
-           "-c/--compile      Compile only one file in command line.\n"
-           "-w/--watch        Observe file and detect changes. When file is changed run compile.\n"
-           "-X/--XML          Observe xml setting file.\n"
-           "-P/--PrettyPrint  Compile file as aligned format.\n"
-           "-L/--Line         Embed _LINE_ property in compiled file.\n"
-           "--help            Show help.\n");
+  fprintf(stderr, "Usage: mocha [watch] [unwatch] [exit] [help]\n"
+          "Options:\n"
+          " watch : Watch the files that is descripted in watch.xml.\n"
+          " unwatch : Unwatch the files, if watch command is running.\n"
+          " list : Show watching xml and javascript file list."
+          " help : Show help.\n");
 }
 
 }

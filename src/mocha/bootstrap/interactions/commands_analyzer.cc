@@ -11,8 +11,8 @@
 #define COMPILE "compile"
 #define HELP "help"
 #define EXIT "exit"
-#define OBSERVE "observe"
-#define UNOBSERVE "unobserve"
+#define OBSERVE "watch"
+#define UNOBSERVE "unwatch"
 #define LIST "list"
 
 namespace mocha {
