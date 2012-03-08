@@ -4,7 +4,7 @@
 #include <mocha/roaster/roaster.h>
 #include <mocha/roaster/utils/compilation_result.h>
 #include <mocha/bootstrap/runners/phantom_runner.h>
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/file_system/file_system.h>
@@ -100,8 +100,8 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
     const char* fullpath = entry->GetFullPath();
     if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
 	  printf("@@@@@@@@@@@@@@        @@@@@@@@ %s\n",fullpath);
-      ExternalResource::UnsafeSet(fullpath);
-      Resource* resource = ExternalResource::UnsafeGet(fullpath);
+      FileInfoMap::UnsafeSet(fullpath);
+      FileInfo* resource = FileInfoMap::UnsafeGet(fullpath);
       CompilationInfoHandle info = resource->compilation_info();
       resource->SetDeploy(dir);
       if (is_debug) {

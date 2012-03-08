@@ -499,7 +499,7 @@ void CodeWriter::SetFileName(CodeStream* stream) {
 void CodeWriter::SetLine(int64_t line, CodeStream* stream, FileRoot* root) {
   if (root && is_line_ && !root->runtime()) {
     char tmp[50];
-    sprintf(tmp, "%ld", line);
+    sprintf(tmp, "%lld", line);
     stream->Write("__LINE__");
     base_->WriteOp('=', 0, stream);
     stream->Write(tmp);

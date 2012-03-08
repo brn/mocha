@@ -1,8 +1,8 @@
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/file_system/file_system.h>
 

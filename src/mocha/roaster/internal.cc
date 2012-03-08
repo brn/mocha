@@ -9,7 +9,7 @@
 #include <mocha/roaster/scanner/scanner.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/utils/error_reporter.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
@@ -80,13 +80,14 @@ inline void Internal::DoParse(bool is_ast) {
   } else {
     buf = path_;
   }
-  const char* filename = (is_file)? file_->filename() : "anonymous";
+  const char* filename = (is_file)? file_->filename()
+      : (compiler_->compilation_info()->HasOptionalIdentifier())? compiler_->compilation_info()->optional_identifier() : "anonymous";
   SourceStream *source_stream = SourceStream::New(buf.c_str(), path_, compiler_->compilation_info());
   Scanner *scanner = Scanner::New(source_stream, reporter_.Get(), filename);
   ParserConnector connector(compiler_, ast_root_, scanner, source_stream, reporter_.Get());
   Parser parser(&connector, reporter_.Get(), filename);
   FileRoot* root = parser.Parse();
-  AstTransformer visitor (is_runtime_, scope_registry_, compiler_, filename, compiler_->mainfile_path());
+  AstTransformer visitor (is_runtime_, scope_registry_, compiler_, compiler_->mainfile_path(), filename);
   if (!is_ast) {
     compiler()->CatchException(filename, reporter_);
   }

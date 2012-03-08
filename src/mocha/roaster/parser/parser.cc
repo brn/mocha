@@ -2644,10 +2644,10 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
   AstNode* last = 0;
   AstNode* first = 0;
   AstNode* lhs = ParseUnaryExpression();
+  AstNode* exp = 0;
   CHECK_ERROR(lhs);
   while (1) {
     TokenInfo* token = Seek();
-    AstNode* exp = 0;
     switch (token->type()) {
       case Token::JS_LOGICAL_AND :
       case Token::JS_LOGICAL_OR :

@@ -1,16 +1,10 @@
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
 
-/* Define to 1 if you have the <boost/format.hpp> header file. */
-#undef HAVE_BOOST_FORMAT_HPP
-
-/* Define to 1 if you have the <boost/scoped_ptr.hpp> header file. */
-#undef HAVE_BOOST_SCOPED_PTR_HPP
-
-/* Define to 1 if you have the <boost/shared_ptr.hpp> header file. */
-#undef HAVE_BOOST_SHARED_PTR_HPP
-
 /* Define to 1 if you have the <boost/unordered_map.hpp> header file. */
 #undef HAVE_BOOST_UNORDERED_MAP_HPP
+
+/* Define to 1 if you have the <boost/uuid/uuid.hpp> header file. */
+#undef HAVE_BOOST_UUID_UUID_HPP
 
 /* Define to 1 if you have the `close' function. */
 #undef HAVE_CLOSE
@@ -67,12 +61,6 @@
 
 /* Define to 1 if you have the `realpath' function. */
 #undef HAVE_REALPATH
-
-/* Define to 1 if you have the <scoped_ptr> header file. */
-#undef HAVE_SCOPED_PTR
-
-/* Define to 1 if you have the <shared_ptr> header file. */
-#undef HAVE_SHARED_PTR
 
 /* Define to 1 if you have the `stat' function. */
 #undef HAVE_STAT

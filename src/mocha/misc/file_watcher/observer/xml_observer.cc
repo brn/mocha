@@ -2,8 +2,8 @@
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/misc/file_watcher/observer/xml_observer.h>
-#include <mocha/misc/xml/xml_reader.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_reader.h>
+#include <mocha/xml/xml_setting_info.h>
 #include <mocha/options/setting.h>
 
 #ifdef _WIN32

@@ -1,12 +1,12 @@
 #include <mocha/misc/file_writer.h>
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 namespace mocha {
 
 void FileWriter::WriteResult(CompilationResultHandle result){
   //Current directory -> main js file path.
   //Get file name of main js file.
   std::string val;
-  Resource* resource = ExternalResource::SafeGet(result->filename());
+  FileInfo* resource = FileInfoMap::SafeGet(result->filename());
   if (resource->GetDeploy()) {
     const char* dir = resource->GetDeploy();
     fprintf(stderr,"%s\n",dir);

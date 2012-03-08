@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json_parse.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./json_parse.js'] = {};
+      _mochaGlobalExport['json_parse.js;1'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./json_parse.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['json_parse.js;1'],
           json_parse = (function () {
             try {
               __LINE__ = 64;

@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -866,10 +866,10 @@
         }
       }
       __LINE__ = 2;
-      _mochaGlobalExport['./switch_test.js'] = {};
+      _mochaGlobalExport['switch_test.js;1'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./switch_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['switch_test.js;1'];
       
       __LINE__ = 35;
       Runtime.assert(true,switchTest(1) === 1,"switchTest(1) === 1",35,'./switch_test.js');

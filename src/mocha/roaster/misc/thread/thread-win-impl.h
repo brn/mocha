@@ -87,28 +87,27 @@ bool Thread::IsJoinable() {
 
 IMPL_DEF(Mutex) {
 public :
-  Mutex_t mutex_t_;
+  CRITICAL_SECTION critical_section;
 };
 
 Mutex::Mutex() : IMPL(new PtrImpl) {
-  IMPL->mutex_t_ = OpenMutex(MUTEX_ALL_ACCESS, FALSE, "");
+  InitializeCriticalSection(&(IMPL->critical_section));
 }
 
 
 MutexLock::MutexLock(Mutex& mutex) : mutex_(&mutex), unlocked_(false) {
-  WaitForSingleObject(mutex_->IMPL->mutex_t_, INFINITE);
+  EnterCriticalSection(&(mutex_->IMPL->critical_section));
 }
 
 MutexLock::~MutexLock() {
   Unlock();
+  DeleteCriticalSection(&(mutex_->IMPL->critical_section));
 }
 
 void MutexLock::Unlock() {
   if (!unlocked_) {
     unlocked_ = true;
-    if (ReleaseMutex(mutex_->IMPL->mutex_t_)) {
-	  CloseHandle(mutex_->IMPL->mutex_t_);
-	}
+    LeaveCriticalSection(&(mutex_->IMPL->critical_section));
   }
 }
 

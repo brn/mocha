@@ -28,20 +28,20 @@ namespace mocha {
 template<typename T>
 template<typename Class, typename Deleter>
 inline ScopedPtr<T>::ScopedPtr (Class* ptr,  Deleter deleter)
-    : is_renounced_ (false), ptr_ (ptr), handle_(new PtrHandleDeleter<Class,Deleter>(ptr, deleter)) {};
+    : is_renounced_(false), ptr_(ptr), handle_(new PtrHandleDeleter<Class,Deleter>(ptr, deleter)){};
 
 
 
 template<typename T>
 template<typename Class>
 inline ScopedPtr<T>::ScopedPtr (Class* ptr)
-    : is_renounced_ (false), ptr_ (ptr), handle_(new PtrHandle<Class>(ptr)) {};
+    : is_renounced_(false), ptr_ (ptr), handle_(new PtrHandle<Class>(ptr)){};
 
 
 
 template<typename T>
 inline ScopedPtr<T>::ScopedPtr ()
-    : is_renounced_ (false), ptr_ (0), handle_(0) {}
+    : is_renounced_(false), ptr_(0), handle_(0){}
 
 
 
@@ -57,7 +57,7 @@ inline ScopedPtr<T>::~ScopedPtr () {
 template<typename T>
 template<typename Class>
 inline void ScopedPtr<T>::operator () (Class* ptr) {
-  LazyInitialize_(new PtrHandle<Class>(ptr), ptr);
+  LazyInitialize(new PtrHandle<Class>(ptr), ptr);
 }
 
 
@@ -65,55 +65,65 @@ inline void ScopedPtr<T>::operator () (Class* ptr) {
 template<typename T>
 template<typename Class, typename Deleter>
 inline void ScopedPtr<T>::operator () (Class* ptr, Deleter deleter) {
-  LazyInitialize_(new PtrHandleDeleter<Class,Deleter>(ptr, deleter), ptr);
+  LazyInitialize(new PtrHandleDeleter<Class,Deleter>(ptr, deleter), ptr);
 }
 
 
 
 template<typename T>
 inline T* ScopedPtr<T>::operator -> () {
-  CheckInit_ ("ScopedPtr<T>::operator->");
+#ifdef DEBUG
+  CheckInit("ScopedPtr<T>::operator->");
+#endif
   return Get ();
 }
 
 
 template<typename T>
 inline const T* ScopedPtr<T>::operator -> () const {
-  CheckInit_ ("ScopedPtr<T>::operator->");
+#ifdef DEBUG
+  CheckInit("ScopedPtr<T>::operator->");
+#endif
   return Get ();
 }
 
 
 template<typename T>
 inline const T& ScopedPtr<T>::operator * () const {
-  return GetReference_ ();
+  return GetReference();
 }
 
 
 
 template<typename T>
 inline T& ScopedPtr<T>::operator * () {
-  return GetReference_ ();
+  return GetReference();
 }
 
 
 template<typename T>
 inline T* ScopedPtr<T>::Get () {
-  CheckInit_ ("ScopedPtr<T>::Get");
+#ifdef DEBUG
+  CheckInit("ScopedPtr<T>::Get");
+#endif
   return ptr_;
 }
 
 
 template<typename T>
 inline const T* ScopedPtr<T>::Get () const {
-  CheckInit_ ("ScopedPtr<T>::Get");
+#ifdef DEBUG
+  CheckInit("ScopedPtr<T>::Get");
+#endif
   return ptr_;
 }
 
 
 template<typename T>
 inline SharedPtr<T> ScopedPtr<T>::ToSharedPtr () {
-  CheckInit_("ScopedPtr::ToHandle");
+#ifdef DEBUG
+  CheckInit("ScopedPtr::ToHandle");
+#endif
   is_renounced_ = true;
   SharedPtr<T> handle(ptr_, handle_);
   return handle;
@@ -121,18 +131,18 @@ inline SharedPtr<T> ScopedPtr<T>::ToSharedPtr () {
 
 
 template <typename T>
-inline void ScopedPtr<T>::LazyInitialize_(PtrHandleBase* base, T* ptr) {
+inline void ScopedPtr<T>::LazyInitialize(PtrHandleBase* base, T* ptr) {
   if (ptr_ == 0) {
     ptr_ = ptr;
     handle_ = base;
   } else {
-    CheckInit_("ScopedPtr<T>::operator()");
+    CheckInit("ScopedPtr<T>::operator()");
   }
 }
 
 
 template <typename T>
-inline void ScopedPtr<T>::CheckInit_(const char* message) const {
+inline void ScopedPtr<T>::CheckInit(const char* message) const {
   if (ptr_ == 0) {
     fprintf(stderr, "%s called before initialized.", message);
     abort();
@@ -141,11 +151,18 @@ inline void ScopedPtr<T>::CheckInit_(const char* message) const {
 
 
 template<typename T>
-inline T& ScopedPtr<T>::GetReference_ () {
-  CheckInit_ ("ScopedPtr reference type getter");
+inline T& ScopedPtr<T>::GetReference() const {
+#ifdef DEBUG
+  CheckInit("ScopedPtr reference type getter");
+#endif
   return (*ptr_);
 }
 
+
+template<typename T>
+inline bool ScopedPtr<T>::IsContainValidPtr() const {
+  return ptr_ != 0;
+}
 
 template <typename T>
 template <typename Class>

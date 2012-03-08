@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "anonymous",
+      var __FILE__ = "iterators",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./'] = {};
+      _mochaGlobalExport.iterators = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./'];
+      var _mochaGlobalAlias = _mochaGlobalExport.iterators;
       
       __LINE__ = 1;
       !function () {
@@ -811,9 +811,7 @@
           function allItems(obj) {
             try {
               __LINE__ = 54;
-              var _mochaLocalTmp23 =  {
-                    
-                  };
+              var _mochaLocalTmp23 = {};
               
               __LINE__ = 54;
               Runtime.createUnenumProp(_mochaLocalTmp23,iterator,
@@ -932,9 +930,7 @@
           function allValues(obj) {
             try {
               __LINE__ = 46;
-              var _mochaLocalTmp19 =  {
-                    
-                  };
+              var _mochaLocalTmp19 = {};
               
               __LINE__ = 46;
               Runtime.createUnenumProp(_mochaLocalTmp19,iterator,
@@ -1053,9 +1049,7 @@
           function allKeys(obj) {
             try {
               __LINE__ = 38;
-              var _mochaLocalTmp15 =  {
-                    
-                  };
+              var _mochaLocalTmp15 = {};
               
               __LINE__ = 38;
               Runtime.createUnenumProp(_mochaLocalTmp15,iterator,
@@ -1174,9 +1168,7 @@
           function items(obj) {
             try {
               __LINE__ = 28;
-              var _mochaLocalTmp11 =  {
-                    
-                  };
+              var _mochaLocalTmp11 = {};
               
               __LINE__ = 28;
               Runtime.createUnenumProp(_mochaLocalTmp11,iterator,
@@ -1317,9 +1309,7 @@
           function values(obj) {
             try {
               __LINE__ = 17;
-              var _mochaLocalTmp7 =  {
-                    
-                  };
+              var _mochaLocalTmp7 = {};
               
               __LINE__ = 17;
               Runtime.createUnenumProp(_mochaLocalTmp7,iterator,
@@ -1460,9 +1450,7 @@
           function keys(obj) {
             try {
               __LINE__ = 6;
-              var _mochaLocalTmp3 =  {
-                    
-                  };
+              var _mochaLocalTmp3 = {};
               
               __LINE__ = 6;
               Runtime.createUnenumProp(_mochaLocalTmp3,iterator,
@@ -1639,11 +1627,11 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./for_of_test.js'] = {};
+      _mochaGlobalExport['for_of_test.js;2'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./for_of_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../../'],
+      var _mochaGlobalAlias = _mochaGlobalExport['for_of_test.js;2'],
+          _mochaLocalTmp0 = _mochaGlobalExport.iterators,
           iterator = _mochaLocalTmp0.iterator,
           _mochaLocalTmp9 =  {
             arr : [],
@@ -1654,8 +1642,7 @@
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-            },
-            
+            }
           };
       
       __LINE__ = 21;
@@ -1697,9 +1684,7 @@
       var item = function (obj) {
             try {
               __LINE__ = 4;
-              var _mochaLocalTmp4 =  {
-                    
-                  };
+              var _mochaLocalTmp4 = {};
               
               __LINE__ = 4;
               Runtime.createUnenumProp(_mochaLocalTmp4,iterator,
@@ -1814,9 +1799,7 @@
           key = function (obj) {
             try {
               __LINE__ = 13;
-              var _mochaLocalTmp8 =  {
-                    
-                  };
+              var _mochaLocalTmp8 = {};
               
               __LINE__ = 13;
               Runtime.createUnenumProp(_mochaLocalTmp8,iterator,

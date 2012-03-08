@@ -3,7 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <string>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 #include <mocha/bootstrap/runners/list_runner.h>
 
 namespace mocha {

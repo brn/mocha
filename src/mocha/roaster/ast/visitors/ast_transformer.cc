@@ -53,7 +53,7 @@
 #include <mocha/roaster/ast/visitors/utils/processors/syntax_sugar_processor.h>
 #include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
 #include <mocha/roaster/memory/pool.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 
 namespace mocha {
 

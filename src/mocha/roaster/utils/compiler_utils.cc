@@ -3,7 +3,7 @@
 #include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/file_system/virtual_directory.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 
 #define JS_EXTENSION ".js"
 

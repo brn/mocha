@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./json2_compiled.js'] = {};
+      _mochaGlobalExport['json2_compiled.js;1'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./json2_compiled.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['json2_compiled.js;1'],
           g = null,
           json_parse = function () {
             try {
@@ -1011,7 +1011,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 4412813440;
+                      __LINE__ = 4408902368;
                       a : 
                       {
                         
@@ -1087,7 +1087,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 4413058128;
+                      __LINE__ = 4413467520;
                       a : 
                       {
                         

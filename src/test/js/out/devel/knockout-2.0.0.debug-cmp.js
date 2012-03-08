@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/knockout-2.0.0.debug.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./knockout-2.0.0.debug.js'] = {};
+      _mochaGlobalExport['knockout-2.0.0.debug.js;1'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./knockout-2.0.0.debug.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['knockout-2.0.0.debug.js;1'];
       
       __LINE__ = 5;
       !function (window,undefined) {

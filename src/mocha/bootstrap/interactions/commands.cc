@@ -6,7 +6,7 @@ namespace mocha {
 void Commands::Exec(const char* buf) {
   CommandsAnalyzer analyzer;
   SharedPtr<ICommandLineRunner> runner = analyzer.Analyze(buf);
-  if (runner.Contain()) {
+  if (runner.IsContainValidPtr()) {
     if (runner->CastToObserver() != 0) {
       if (!is_observe_running_ && !CommandLineOptions::GetInstance()->IsStopObserving()) {
         is_observe_running_ = true;

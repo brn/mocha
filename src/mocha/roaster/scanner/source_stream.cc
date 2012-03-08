@@ -4,7 +4,7 @@
 #include <mocha/roaster/encoding/encoding.h>
 #include <mocha/roaster/smart_pointer/common/ptr_deleter.h>
 #include <mocha/options/setting.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 namespace mocha {
 
 SharedStr Encode(const char* source, const char* path, const CompilationInfo* info) {

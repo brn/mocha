@@ -3,7 +3,7 @@
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 namespace mocha {
 Roaster::Roaster(){Initialize();}
 void Roaster::Initialize() {

@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,13 +797,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "anonymous",
+      var __FILE__ = "iterators",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./'] = {};
+      _mochaGlobalExport.iterators = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./'];
+      var _mochaGlobalAlias = _mochaGlobalExport.iterators;
       
       __LINE__ = 1;
       !function () {
@@ -811,9 +811,7 @@
           function allItems(obj) {
             try {
               __LINE__ = 54;
-              var _mochaLocalTmp23 =  {
-                    
-                  };
+              var _mochaLocalTmp23 = {};
               
               __LINE__ = 54;
               Runtime.createUnenumProp(_mochaLocalTmp23,iterator,
@@ -932,9 +930,7 @@
           function allValues(obj) {
             try {
               __LINE__ = 46;
-              var _mochaLocalTmp19 =  {
-                    
-                  };
+              var _mochaLocalTmp19 = {};
               
               __LINE__ = 46;
               Runtime.createUnenumProp(_mochaLocalTmp19,iterator,
@@ -1053,9 +1049,7 @@
           function allKeys(obj) {
             try {
               __LINE__ = 38;
-              var _mochaLocalTmp15 =  {
-                    
-                  };
+              var _mochaLocalTmp15 = {};
               
               __LINE__ = 38;
               Runtime.createUnenumProp(_mochaLocalTmp15,iterator,
@@ -1174,9 +1168,7 @@
           function items(obj) {
             try {
               __LINE__ = 28;
-              var _mochaLocalTmp11 =  {
-                    
-                  };
+              var _mochaLocalTmp11 = {};
               
               __LINE__ = 28;
               Runtime.createUnenumProp(_mochaLocalTmp11,iterator,
@@ -1317,9 +1309,7 @@
           function values(obj) {
             try {
               __LINE__ = 17;
-              var _mochaLocalTmp7 =  {
-                    
-                  };
+              var _mochaLocalTmp7 = {};
               
               __LINE__ = 17;
               Runtime.createUnenumProp(_mochaLocalTmp7,iterator,
@@ -1460,9 +1450,7 @@
           function keys(obj) {
             try {
               __LINE__ = 6;
-              var _mochaLocalTmp3 =  {
-                    
-                  };
+              var _mochaLocalTmp3 = {};
               
               __LINE__ = 6;
               Runtime.createUnenumProp(_mochaLocalTmp3,iterator,
@@ -1639,11 +1627,11 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/generator_expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./generator_expression_test.js'] = {};
+      _mochaGlobalExport['generator_expression_test.js;2'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./generator_expression_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['../../../../../../../../'],
+      var _mochaGlobalAlias = _mochaGlobalExport['generator_expression_test.js;2'],
+          _mochaLocalTmp0 = _mochaGlobalExport.iterators,
           keys = _mochaLocalTmp0.keys,
           allItems = _mochaLocalTmp0.allItems,
           testObject =  {
@@ -1653,7 +1641,7 @@
           },
           test = function () {
             try {
-              __LINE__ = 4399923824;
+              __LINE__ = 4405537152;
               var _mochaIsNewBorn = true,
                   _yieldResult = undefined,
                   _yieldState = 0,
@@ -1663,13 +1651,13 @@
                   _mochaLocalTmp2 = [],
                   _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                     try {
-                      __LINE__ = 4399923824;
+                      __LINE__ = 4405537152;
                       !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && Runtime.exceptionHandler('attempt to send to newborn generator.');
                       
-                      __LINE__ = 4399923824;
+                      __LINE__ = 4405537152;
                       while (1){
                         
-                        __LINE__ = 4399923824;
+                        __LINE__ = 4405537152;
                         switch (_yieldState) {
                           case 0 :
                             
@@ -1696,7 +1684,7 @@
                             };
                           case 1 :
                             
-                            __LINE__ = 4399923824;
+                            __LINE__ = 4405537152;
                             _yieldState = 2;
                             
                             __LINE__ = 8;
@@ -1704,7 +1692,7 @@
                             
                             __LINE__ = 8;
                             x = testObject[x];
-                            __LINE__ = 4399923824;
+                            __LINE__ = 4405537152;
                             return x;
                           case 2 :
                             
@@ -1724,13 +1712,13 @@
                             };
                           case -1 :
                             
-                            __LINE__ = 4399923824;
+                            __LINE__ = 4405537152;
                             if (_isYieldSafe){
-                              __LINE__ = 4399923824;
+                              __LINE__ = 4405537152;
                               return undefined;
                             };
                             
-                            __LINE__ = 4399923824;
+                            __LINE__ = 4405537152;
                             Runtime.throwStopIteration();
                             
                         };
@@ -1739,11 +1727,11 @@
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
-              __LINE__ = 4399923824;
+              __LINE__ = 4405537152;
               return Runtime.createGenerator(_mochaGenerator,
               function () {
                 try {
-                  __LINE__ = 4399923824;
+                  __LINE__ = 4405537152;
                   _yieldState = -1;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -1766,7 +1754,7 @@
       __LINE__ = 14;
       test = function () {
         try {
-          __LINE__ = 4400886912;
+          __LINE__ = 4404571536;
           var _mochaIsNewBorn = true,
               _yieldResult = undefined,
               _yieldState = 0,
@@ -1774,13 +1762,13 @@
               _mochaLocalTmp4 = keys(testObject),
               _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                 try {
-                  __LINE__ = 4400886912;
+                  __LINE__ = 4404571536;
                   !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && Runtime.exceptionHandler('attempt to send to newborn generator.');
                   
-                  __LINE__ = 4400886912;
+                  __LINE__ = 4404571536;
                   while (1){
                     
-                    __LINE__ = 4400886912;
+                    __LINE__ = 4404571536;
                     switch (_yieldState) {
                       case 0 :
                         
@@ -1813,9 +1801,9 @@
                         };
                       case 2 :
                         
-                        __LINE__ = 4400886912;
+                        __LINE__ = 4404571536;
                         _yieldState = 3;
-                        __LINE__ = 4400886912;
+                        __LINE__ = 4404571536;
                         return x;
                       case 3 :
                         
@@ -1843,13 +1831,13 @@
                       case 6 :
                       case -1 :
                         
-                        __LINE__ = 4400886912;
+                        __LINE__ = 4404571536;
                         if (_isYieldSafe){
-                          __LINE__ = 4400886912;
+                          __LINE__ = 4404571536;
                           return undefined;
                         };
                         
-                        __LINE__ = 4400886912;
+                        __LINE__ = 4404571536;
                         Runtime.throwStopIteration();
                         
                     };
@@ -1858,11 +1846,11 @@
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-          __LINE__ = 4400886912;
+          __LINE__ = 4404571536;
           return Runtime.createGenerator(_mochaGenerator,
           function () {
             try {
-              __LINE__ = 4400886912;
+              __LINE__ = 4404571536;
               _yieldState = -1;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);

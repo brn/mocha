@@ -1,11 +1,11 @@
 #include <string.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/roaster.h>
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/misc/file_watcher/observer/file_observer.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_setting_info.h>
 #include <mocha/options/setting.h>
 #include <mocha/misc/file_writer.h>
 namespace mocha {
@@ -18,7 +18,7 @@ class FileObserver::FileUpdater : public IUpdater {
     if (mutex_list_.find(filename) != mutex_list_.end()) {
       Mutex* mutex = mutex_list_[ filename ].Get();
       MutexLock lock((*mutex));
-      Resource* resource = ExternalResource::SafeGet(filename);
+      FileInfo* resource = FileInfoMap::SafeGet(filename);
       if (resource) {
         AsyncCallbackHandle callback(new FileWriter);
         Roaster roaster;

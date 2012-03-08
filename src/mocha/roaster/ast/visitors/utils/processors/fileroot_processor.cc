@@ -22,7 +22,11 @@ void FileRootProcessor::ProcessNode() {
     Literal* global_export = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
                                                        Token::JS_IDENTIFIER, node()->line_number(), Literal::kIdentifier);
     ObjectLikeLiteral* object_literal = new(pool()) ObjectLikeLiteral(node()->line_number());
-    Literal* key = builder()->CreateNameNode(visitor_info->relative_path(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
+    visitor_info->compiler()->SetModuleKey(visitor_info->filename());
+    std::string key_str = "'";
+    key_str += visitor_info->compiler()->ModuleKey(visitor_info->filename());
+    key_str += "'";
+    Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
                                                                 
     CallExp* global_export_accessor = builder()->CreateArrayAccessor(global_export, key, node()->line_number());
     AssignmentExp* exp = builder()->CreateAssignment('=', global_export_accessor, object_literal, node()->line_number());

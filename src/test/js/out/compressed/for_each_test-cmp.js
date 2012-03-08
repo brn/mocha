@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_each_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./for_each_test.js'] = {};
+      _mochaGlobalExport['for_each_test.js;1'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./for_each_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['for_each_test.js;1'],
           targetObject =  {
             value1 : 100,
             value2 : 200,

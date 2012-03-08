@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./fmt.js'] = {};
+      _mochaGlobalExport['fmt.js;2'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./fmt.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['fmt.js;2'];
       
       __LINE__ = 2;
       !function () {
@@ -835,13 +835,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "anonymous",
+      var __FILE__ = "iterators",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./'] = {};
+      _mochaGlobalExport.iterators = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./'];
+      var _mochaGlobalAlias = _mochaGlobalExport.iterators;
       
       __LINE__ = 1;
       !function () {
@@ -849,9 +849,7 @@
           function allItems(obj) {
             try {
               __LINE__ = 54;
-              var _mochaLocalTmp23 =  {
-                    
-                  };
+              var _mochaLocalTmp23 = {};
               
               __LINE__ = 54;
               Runtime.createUnenumProp(_mochaLocalTmp23,iterator,
@@ -970,9 +968,7 @@
           function allValues(obj) {
             try {
               __LINE__ = 46;
-              var _mochaLocalTmp19 =  {
-                    
-                  };
+              var _mochaLocalTmp19 = {};
               
               __LINE__ = 46;
               Runtime.createUnenumProp(_mochaLocalTmp19,iterator,
@@ -1091,9 +1087,7 @@
           function allKeys(obj) {
             try {
               __LINE__ = 38;
-              var _mochaLocalTmp15 =  {
-                    
-                  };
+              var _mochaLocalTmp15 = {};
               
               __LINE__ = 38;
               Runtime.createUnenumProp(_mochaLocalTmp15,iterator,
@@ -1212,9 +1206,7 @@
           function items(obj) {
             try {
               __LINE__ = 28;
-              var _mochaLocalTmp11 =  {
-                    
-                  };
+              var _mochaLocalTmp11 = {};
               
               __LINE__ = 28;
               Runtime.createUnenumProp(_mochaLocalTmp11,iterator,
@@ -1355,9 +1347,7 @@
           function values(obj) {
             try {
               __LINE__ = 17;
-              var _mochaLocalTmp7 =  {
-                    
-                  };
+              var _mochaLocalTmp7 = {};
               
               __LINE__ = 17;
               Runtime.createUnenumProp(_mochaLocalTmp7,iterator,
@@ -1498,9 +1488,7 @@
           function keys(obj) {
             try {
               __LINE__ = 6;
-              var _mochaLocalTmp3 =  {
-                    
-                  };
+              var _mochaLocalTmp3 = {};
               
               __LINE__ = 6;
               Runtime.createUnenumProp(_mochaLocalTmp3,iterator,
@@ -1677,10 +1665,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/jspp-lib/jquery-devel.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['../jspp-lib/jquery-devel.js'] = {};
+      _mochaGlobalExport['jquery-devel.js;4'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['../jspp-lib/jquery-devel.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['jquery-devel.js;4'];
       
       __LINE__ = 16;
       !function (window,undefined) {
@@ -15182,13 +15170,13 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./test.js'] = {};
+      _mochaGlobalExport['test.js;4'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['./fmt.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['test.js;4'],
+          _mochaLocalTmp0 = _mochaGlobalExport['fmt.js;2'],
           fmt = _mochaLocalTmp0.fmt,
-          _mochaLocalTmp1 = _mochaGlobalExport['../../../../../../'],
+          _mochaLocalTmp1 = _mochaGlobalExport.iterators,
           iterator = _mochaLocalTmp1.iterator;
       
       __LINE__ = 3;
@@ -15345,7 +15333,7 @@
             x : 200,
             y : 300
           },
-          _mochaLocalTmp3 = _mochaGlobalExport['../jspp-lib/jquery-devel.js'],
+          _mochaLocalTmp3 = _mochaGlobalExport['jquery-devel.js;4'],
           jQuery = _mochaLocalTmp3.jQuery;
       
       __LINE__ = 18;

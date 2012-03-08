@@ -28,10 +28,14 @@ class CompilationInfo {
   const char* charset() const {return charset_.c_str();};
   const char* string() const {return str_.c_str();}
   void SetLibDirectory(const char* dir);
+  void set_optional_identifier(const char* ident) {optional_identifier_ = ident;};
+  bool HasOptionalIdentifier() const { return !optional_identifier_.empty(); }
+  const char* optional_identifier() const { return optional_identifier_.c_str(); }
   const LibDirectories& lib_directories() const { return lib_dir_; };
  private :
   std::string str_;
   std::string charset_;
+  std::string optional_identifier_;
   LibDirectories lib_dir_;
   BitVector8 flags_;
   Versions versions_;

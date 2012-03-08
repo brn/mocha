@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/module_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./module_test.js'] = {};
+      _mochaGlobalExport['module_test.js;2'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./module_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['module_test.js;2'],
           testModule1 = _mochaGlobalAlias.testModule1 = function () {
             try {
               function testExport1() {
@@ -916,11 +916,11 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./import_test.js'] = {};
+      _mochaGlobalExport['import_test.js;2'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./import_test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['./module_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['import_test.js;2'],
+          _mochaLocalTmp0 = _mochaGlobalExport['module_test.js;2'],
           testExport1 = _mochaLocalTmp0.testModule1 && _mochaLocalTmp0.testModule1.testExport1?_mochaLocalTmp0.testModule1.testExport1 : undefined,
           testExport2 = _mochaLocalTmp0.testModule2 && _mochaLocalTmp0.testModule2.testInnerModule3 && _mochaLocalTmp0.testModule2.testInnerModule3.testExport2?_mochaLocalTmp0.testModule2.testInnerModule3.testExport2 : undefined,
           testExport3 = _mochaLocalTmp0.testModule2 && _mochaLocalTmp0.testModule2.testInnerModule3 && _mochaLocalTmp0.testModule2.testInnerModule3.testExport3?_mochaLocalTmp0.testModule2.testInnerModule3.testExport3 : undefined,

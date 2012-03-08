@@ -87,11 +87,19 @@ class Compiler : private Uncopyable {
    * Get PathInfo of main file path.
    */
   const CompilationInfo* compilation_info() const;
+  
   const char* mainfile_path() const;
+  
   const filesystem::Path* path() const;
-  int LoadedFileCount() const;
+  
+  const char* ModuleKey(const char*) const;
+  
+  void SetModuleKey(const char* name);
+  
   static bool IsRuntime(const char* name);
+  
   static AstNode* runtime(const char* name, memory::Pool* pool);
+  
  private :
   typedef roastlib::unordered_map<std::string,AstReserver> RuntimeAstMap;
   static void BuildRuntime();

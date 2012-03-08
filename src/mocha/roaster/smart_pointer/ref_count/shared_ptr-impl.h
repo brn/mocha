@@ -2,7 +2,6 @@
 #define mocha_handle_impl_h_
 #include <assert.h>
 namespace mocha {
-
 template <typename T>
 inline SharedPtr<T>::SharedPtr() : ptr_(0), rc_(0) {};
 
@@ -36,14 +35,16 @@ inline SharedPtr<T>::~SharedPtr () {
 }
 
 template <typename T>
-inline bool SharedPtr<T>::Contain() {
+inline bool SharedPtr<T>::IsContainValidPtr() const {
   return ptr_ != 0;
 }
 
 template <typename T>
 template <typename Class>
 inline void SharedPtr<T>::operator () (Class *ptr) {
+#ifdef DEBUG
   CheckInit();
+#endif
   ptr_ = ptr;
   rc_ = new RefCount<Class>(ptr,  PtrDeleter<Class>::Delete);
 }
@@ -51,7 +52,9 @@ inline void SharedPtr<T>::operator () (Class *ptr) {
 template <typename T>
 template <typename Class, typename Deleter>
 inline void SharedPtr<T>::operator () (Class *ptr, Deleter deleter) {
+#ifdef DEBUG
   CheckInit();
+#endif
   ptr_ = ptr;
   rc_ = new RefCount <Class> (ptr,  deleter);
 }
@@ -73,34 +76,44 @@ inline const SharedPtr<T>& SharedPtr<T>::operator = (const SharedPtr<T>& ref) {
 
 template <typename T>
 inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator * () const {
+#ifdef DEBUG
   CheckInit("mocha::SharedPtr::operator *");
+#endif
   return *ptr_;
 }
 
 
 template <typename T>
 inline const T* SharedPtr<T>::Get() const {
+#ifdef DEBUG
   CheckInit("mocha::SharedPtr::get");
+#endif
   return ptr_;
 }
 
 
 template <typename T>
 inline T* SharedPtr<T>::Get() {
+#ifdef DEBUG
   CheckInit("mocha::SharedPtr::get");
+#endif
   return ptr_;
 }
 
 
 template <typename T>
 inline const T* SharedPtr<T>::operator -> () const {
+#ifdef DEBUG
   CheckInit("mocha::SharedPtr::operator ->");
+#endif
   return ptr_;
 }
 
 template <typename T>
 inline T* SharedPtr<T>::operator -> () {
+#ifdef DEBUG
   CheckInit("mocha::SharedPtr::operator ->");
+#endif
   return ptr_;
 }
 

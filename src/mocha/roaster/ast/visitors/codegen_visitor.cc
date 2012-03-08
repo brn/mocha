@@ -9,7 +9,7 @@
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>

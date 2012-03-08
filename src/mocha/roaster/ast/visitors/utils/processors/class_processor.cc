@@ -61,7 +61,7 @@ class ClassProcessorUtils : public Processor{
     tmp += processor_->GetName();
     tmp += "'";
     char line_str[100];
-    sprintf(line_str, "'%ld'", line);
+    sprintf(line_str, "'%lld'", line);
     Literal* name_string = builder()->CreateNameNode(tmp.c_str(),
                                                      Token::JS_STRING_LITERAL, line, Literal::kString);
     Literal* line_string = builder()->CreateNameNode(line_str,

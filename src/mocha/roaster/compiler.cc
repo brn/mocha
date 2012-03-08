@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <string>
-#include <boost/unordered_map.hpp>
+#include <sstream>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/internal.h>
 #include <mocha/roaster/scopes/scope.h>
@@ -33,14 +33,14 @@
 #include <mocha/roaster/utils/compiler_utils.h>
 #include <mocha/roaster/utils/compilation_result.h>
 #include <mocha/roaster/utils/compilation_info.h>
-#include <mocha/roaster/external/external_resource.h>
+#include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/file_system/virtual_directory.h>
 #include <mocha/roaster/file_system/stat.h>
-#include <mocha/misc/xml/xml_reader.h>
-#include <mocha/misc/xml/xml_setting_info.h>
+#include <mocha/xml/xml_reader.h>
+#include <mocha/xml/xml_setting_info.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/symbol_collector.h>
@@ -53,19 +53,27 @@
 // class Compiler::PtrImpl implementation begin. //
 ///////////////////////////////////////////////////
 namespace mocha {
+typedef roastlib::unordered_map<std::string,std::string> ModuleMap;
+typedef std::pair<const char*,const char*> ModuleKV;
 
 /**
  *@class
  *Implementation of pimpl idiom.
  */
 class Compiler::PtrImpl {
-  friend class Compiler;
  public :
-  PtrImpl(Compiler* compiler, CompilationInfoHandle info_handle) :
-      compiler_(compiler),compilation_info_(info_handle),
-      pool_(memory::Pool::Local()), builder_(AstBuilder::Local()),
-      scope_registry_(new ScopeRegistry(memory::Pool::Local())) {
-    error_map_(new ErrorMap);
+
+  PtrImpl(CompilationInfoHandle info_handle)
+      : compilation_info_(info_handle),
+        pool_(memory::Pool::Local()),
+        builder_(AstBuilder::Local()),
+        scope_registry_(new ScopeRegistry(memory::Pool::Local())),
+        error_map_(new ErrorMap){}
+
+  ~PtrImpl(){}
+
+  inline void Initialize(Compiler* compiler) {
+    compiler_ = compiler;
     if (compilation_info_->IsFile()) {
       path_(new filesystem::Path(compilation_info()->string()));
       SetPath(path_->absolute_path());
@@ -73,10 +81,8 @@ class Compiler::PtrImpl {
     } else {
       main_file_path_ = "anonymous";
     }
-    codegen_(new CodegenVisitor(main_file_path_.c_str(), info_handle.Get(), compiler));
+    codegen_(new CodegenVisitor(main_file_path_.c_str(), compilation_info_.Get(), compiler));
   }
-
-  ~PtrImpl(){}
 
   inline CompilationResultHandle Compile() {
     //Change direcotry to main js path.
@@ -108,7 +114,7 @@ class Compiler::PtrImpl {
       //Set loaded file to hash.
       SetPath(js_path->absolute_path());
       if(is_runtime) {
-        ast_root_.AddChild(Compiler::runtime(js_path->filename(), pool_.Get()));
+        ast_root_.AddChild(Compiler::runtime(filename, pool_.Get()));
         return js_path;
       }
       //Change current directory to loaded js file directory.
@@ -123,9 +129,58 @@ class Compiler::PtrImpl {
     return ReserveAst(false);
   }
 
-  const CompilationInfo* compilation_info() const { return compilation_info_.Get(); }
-  const char* mainfile_path() const { return main_file_path_.c_str(); }
-  const filesystem::Path* path() const { return path_.Get(); }
+  const CompilationInfo* compilation_info() const {
+    return compilation_info_.Get();
+  }
+
+  const char* mainfile_path() const {
+    return main_file_path_.c_str();
+  }
+
+  const filesystem::Path* path() const {
+    return path_.Get();
+  }
+  
+  inline void BuildRuntime(const char* name, bool is_main_runtime) {
+    typedef std::pair<const char*,AstReserver> RuntimeAstPair;
+    AstReserver reserver = ReserveAst(is_main_runtime);
+    compiler_->runtime_map_.insert(RuntimeAstPair(name, reserver));
+  }
+
+  const ErrorMap* error_map() const {
+    return error_map_.Get();
+  }
+
+  void set_error(const char* filename, ErrorHandler handler) {
+    error_map_->insert(ErrorHandlerPair(filename, handler));
+  }
+
+  inline const char* ModuleKey(const char* path) const {
+    ModuleMap::const_iterator it = module_key_.find(path);
+    if (it == module_key_.end()) {
+      if (Compiler::IsRuntime(path)) {
+        return path;
+      }
+      return "'anonymous'";
+    } else {
+      return it->second.c_str();
+    }
+  }
+
+  inline void SetModuleKey(const char* name) {
+    const char* key;
+    std::stringstream st;
+    if (!Compiler::IsRuntime(name)) {
+      filesystem::Path path(name);
+      st << path.filename();
+    } else {
+      st << name;
+    }
+    st << ';' << loaded_path_.size();
+    key = st.str().c_str();
+    module_key_.insert(ModuleKV(name, key));
+  }
+  
  private :
   /**
    *@private
@@ -163,19 +218,10 @@ class Compiler::PtrImpl {
     return external_ast;
   }
 
-  inline void BuildRuntime(const char* name, bool is_main_runtime) {
-    typedef std::pair<const char*,AstReserver> RuntimeAstPair;
-    AstReserver reserver = ReserveAst(is_main_runtime);
-    compiler_->runtime_map_.insert(RuntimeAstPair(name, reserver));
-  }
-
-  inline int LoadedFileCount() const {
-    return loaded_path_.size();
-  }
-
   std::string main_file_path_;
   ErrorMapHandle error_map_;
   roastlib::unordered_map<std::string,int> loaded_path_;
+  ModuleMap module_key_;
   Compiler *compiler_;
   AstRoot ast_root_;
   CompilationInfoHandle compilation_info_;
@@ -184,18 +230,15 @@ class Compiler::PtrImpl {
   ScopedPtr<ScopeRegistry> scope_registry_;
   SharedPtr<CodegenVisitor> codegen_;
   ScopedPtr<filesystem::Path> path_;
-  static Mutex mutex_;
 };
-
-Mutex Compiler::PtrImpl::mutex_;
 
 
 //////////////////////////////////////////
 // class Compiler implementation begin. //
 //////////////////////////////////////////
 
-Compiler::Compiler (CompilationInfoHandle info_handle)
-    : implementation_ (new PtrImpl(this, info_handle)) {
+Compiler::Compiler(CompilationInfoHandle info_handle) : implementation_(new PtrImpl(info_handle)) {
+  implementation_->Initialize(this);
 }
 
 Compiler::~Compiler(){}
@@ -204,7 +247,7 @@ CompilationResultHandle Compiler::Compile () {
 }
 
 void Compiler::CatchException(const char* filename, ErrorHandler handler) {
-  implementation_->error_map_->insert(ErrorHandlerPair(filename, handler));
+  implementation_->set_error(filename, handler);
 }
 
 AstReserver Compiler::GetAst() {
@@ -214,24 +257,43 @@ AstReserver Compiler::GetAst() {
 SharedPtr<filesystem::Path> Compiler::Load (const char* filename) {
   return implementation_->Load(filename);
 }
-int Compiler::LoadedFileCount() const { return implementation_->LoadedFileCount(); }
-const CompilationInfo* Compiler::compilation_info() const { return implementation_->compilation_info(); }
-const char* Compiler::mainfile_path() const { return implementation_->mainfile_path(); }
-const filesystem::Path* Compiler::path() const { return implementation_->path(); }
+
+const char* Compiler::ModuleKey(const char* path) const {
+  return implementation_->ModuleKey(path);
+}
+
+const CompilationInfo* Compiler::compilation_info() const {
+  return implementation_->compilation_info();
+}
+
+const char* Compiler::mainfile_path() const {
+  return implementation_->mainfile_path();
+}
+
+const filesystem::Path* Compiler::path() const {
+  return implementation_->path();
+}
+
 void Compiler::BuildRuntime() {
   MutexLock lock(mutex_);
   runtime::Runtime::BuildSource();
   const runtime::Runtime::RuntimeMap& map = runtime::Runtime::runtime_map();
   runtime::Runtime::RuntimeMap::const_iterator it = map.begin();
   for (;it != map.end();++it) {
+    const char* name = it->first.c_str();
     CompilationInfoHandle handle(new CompilationInfo(it->second));
+    handle->set_optional_identifier(name);
     Compiler compiler(handle);
     bool is_main = false;
-    if (strcmp(it->first.c_str(), "runtime") == 0) {
+    if (strcmp(name, "runtime") == 0) {
       is_main = true;
     }
-    compiler.implementation_->BuildRuntime(it->first.c_str(), is_main);
+    compiler.implementation_->BuildRuntime(name, is_main);
   }
+}
+
+void Compiler::SetModuleKey(const char* name) {
+  implementation_->SetModuleKey(name);
 }
 
 AstNode* Compiler::runtime(const char* name, memory::Pool* pool) {
@@ -242,8 +304,7 @@ AstNode* Compiler::runtime(const char* name, memory::Pool* pool) {
   return 0;
 }
 
-bool Compiler::IsRuntime(const char* name) {
-  MutexLock lock(mutex_);
+bool Compiler::IsRuntime (const char* name) {
   return runtime_map_.find(name) != runtime_map_.end();
 }
 Mutex Compiler::mutex_;

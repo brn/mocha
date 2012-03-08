@@ -248,16 +248,16 @@ inline T2* CopyChildren(T* dest, T2* source, memory::Pool* pool) {
   return dest;
 }
 
-#define NORMAL_CLONE(name)                    \
+#define NORMAL_CLONE(name)                      \
   AstNode* name::Clone(memory::Pool* pool) {    \
     name* ret = new(pool) name;                 \
-    return CopyChildren(ret, this, pool);   \
+    return CopyChildren(ret, this, pool);       \
   }
 
-#define LINED_CLONE(name)                             \
-  AstNode* name::Clone(memory::Pool* pool) {            \
-    name* ret = new(pool) name(line_number());        \
-    return CopyChildren(ret, this, pool);               \
+#define LINED_CLONE(name)                       \
+  AstNode* name::Clone(memory::Pool* pool) {    \
+    name* ret = new(pool) name(line_number());  \
+    return CopyChildren(ret, this, pool);       \
   }
 
 NORMAL_CLONE(NodeList);

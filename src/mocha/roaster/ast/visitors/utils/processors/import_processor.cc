@@ -98,10 +98,9 @@ void ImportProccessor::LoadModule_() {
 
     //Get module uuid key.
     filesystem::Path path(visitor_info->main_file_path());
-    SharedStr handle = filesystem::GetModuleKey(path.directory(), real_path->directory());
+    const char* mod_name = visitor_info->compiler()->ModuleKey(real_path->absolute_path());
     std::string modkey = "'";
-    modkey += handle.Get();
-    modkey += real_path->filename();
+    modkey += mod_name;
     modkey += "'";
     TokenInfo* key = new(pool()) TokenInfo(modkey.c_str(), Token::JS_IDENTIFIER, stmt_->line_number());
 

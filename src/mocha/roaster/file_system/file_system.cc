@@ -74,6 +74,8 @@ void GetFileNameFromPath(const char* path, std::string* buffer) {
   const char* ptr = strrchr(path, '/');
   if (ptr) {
     tmp = (ptr + 1);
+  } else {
+    tmp = path;
   }
   buffer->assign(tmp.c_str());
 }

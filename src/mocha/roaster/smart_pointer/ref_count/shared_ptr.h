@@ -37,55 +37,60 @@ namespace mocha {
      *@constructor
      *No arguments constructor.
      */
-    inline SharedPtr ();
+    inline SharedPtr();
     
     /**
      *@constructor
      *Normal constructor.
      */
     template <typename Class>
-    inline explicit SharedPtr (Class *ptr);
+    inline explicit SharedPtr(Class *ptr);
 
     /**
      *@constructor
      *Deleter constructor.
      */
     template <typename Class, typename Deleter>
-    inline SharedPtr (Class *ptr, Deleter deleter);
+    inline SharedPtr(Class *ptr, Deleter deleter);
 
 
     
     template <typename Class>
-    inline SharedPtr (Class *ptr, PtrHandleBase* base);
+    inline SharedPtr(Class *ptr, PtrHandleBase* base);
     
     /**
      *@constructor
      *Copy constructor.
      */
-    inline SharedPtr (const SharedPtr& ref);
+    inline SharedPtr(const SharedPtr& ref);
 
     /**
      *@destructor
      *@description
      *decrement counter.
      */
-    inline ~SharedPtr ();
+    inline ~SharedPtr();
 
-    inline bool Contain();
+    /**
+     * @public
+     * @returns {bool}
+     * Check SharedPtr is contain valid pointer or not.
+     */
+    inline bool IsContainValidPtr() const;
     
     /**
      *@public
      *Delay initialize.
      */
     template <typename Class>
-    inline void operator () (Class *ptr);
+    inline void operator() (Class *ptr);
     
     /**
      *@public
      *Delay initializer with deleter.
      */
     template <typename Class, typename Deleter>
-    inline void operator () (Class *ptr, Deleter deleter);
+    inline void operator() (Class *ptr, Deleter deleter);
     
     /**
      *@public
@@ -116,7 +121,7 @@ namespace mocha {
      *@public
      *Memeber operator.
      */
-    inline const T* operator -> () const;
+    inline const T* operator ->() const;
 
     /**
      *@public
@@ -176,7 +181,7 @@ namespace mocha {
   public :
 
     template <typename Class>
-    inline SharedAllocator(Class *ptr);
+    inline explicit SharedAllocator(Class *ptr);
 
     inline SharedAllocator();
 

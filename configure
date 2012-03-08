@@ -3900,7 +3900,7 @@ fi
 done
 
 
-for ac_header in fcntl.h libintl.h stdlib.h string.h sys/file.h unistd.h shared_ptr scoped_ptr boost/format.hpp boost/shared_ptr.hpp boost/scoped_ptr.hpp unordered_map boost/unordered_map.hpp windows.h io.h time.h sys/locking.h direct.h sys/inotify.h
+for ac_header in fcntl.h libintl.h stdlib.h string.h sys/file.h unistd.h boost/uuid/uuid.hpp unordered_map boost/unordered_map.hpp windows.h io.h time.h sys/locking.h direct.h sys/inotify.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_cxx_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"

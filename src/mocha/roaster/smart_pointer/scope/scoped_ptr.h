@@ -57,7 +57,7 @@ class ScopedPtr : private Uncopyable {
    * If not select a deleter, the deleter is selected as mocha::PtrDeleter<T>::deleter.
    */
   template <typename Class>
-  inline ScopedPtr(Class* ptr);
+  inline explicit ScopedPtr(Class* ptr);
 
   /**
    * @constructor
@@ -143,25 +143,32 @@ class ScopedPtr : private Uncopyable {
    * Convert to mocha::Handle.
    */
   inline SharedPtr<T> ToSharedPtr();
+
+  /**
+   * @public
+   * @returns {bool}
+   * Return ScopedPtr is contain non null pointer or not.
+   */
+  inline bool IsContainValidPtr() const;
  private :
 
   /**
    * @private
    * Called from operator ().
    */
-  inline void LazyInitialize_(PtrHandleBase* base, T* ptr);
+  inline void LazyInitialize(PtrHandleBase* base, T* ptr);
 
   /**
    * @private
    * Refference getter.
    */
-  inline T& GetReference_();
+  inline T& GetReference() const;
 
   /**
    * @private
    * Check an initialization.
    */
-  inline void CheckInit_ (const char* message) const;
+  inline void CheckInit(const char* message) const;
 
   //Is ToHandle called?
   bool is_renounced_;
