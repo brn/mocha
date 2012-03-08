@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/continue_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/continue_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['continue_test.js;1'] = {};
@@ -819,7 +819,7 @@
       
       __LINE__ = 6;
       for (i = 0;i<10;i ++ ){
-        __LINE__ = 4321985728;
+        __LINE__ = 731654276113718304;
         END : {
           
           __LINE__ = 8;

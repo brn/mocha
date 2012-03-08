@@ -90,12 +90,15 @@ void ConvertBackSlash(const char* path, std::string* buffer) {
   buffer->assign(tmp.c_str());
 }
 
-void GetAbsolutePath(const char* path, std::string* buffer) {
+void GetAbsolutePath(const char* path, std::string* buffer, bool* is_success = 0) {
   char *tmp;
   FULL_PATH(path, tmp);
   if (tmp != NULL) {
     ConvertBackSlash(tmp, buffer);
   } else {
+    if (is_success) {
+      (*is_success) = false;
+    }
     buffer->assign(path);
   }
   free(tmp);
@@ -150,10 +153,16 @@ void NormalizePath(const char* path, std::string* buffer) {
 
 Path::Path(const char* path) {
   raw_ = path;
+  bool success = true;
   NormalizePath(path, &fullpath_);
-  GetAbsolutePath(absolute_path(), &fullpath_);
-  GetDirectoryFromPath(absolute_path(), &directory_);
-  GetFileNameFromPath(absolute_path(), &filename_);
+  GetAbsolutePath(absolute_path(), &fullpath_, &success);
+  if (success) {
+    GetDirectoryFromPath(absolute_path(), &directory_);
+    GetFileNameFromPath(absolute_path(), &filename_);
+  } else {
+    directory_ = path;
+    filename_ = path;
+  }
 }
   
 const char* Path::current_directory() {

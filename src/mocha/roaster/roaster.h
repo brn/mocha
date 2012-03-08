@@ -3,6 +3,7 @@
 #include <vector>
 #include <utility>
 #include <mocha/roaster/misc/atomic.h>
+#include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/file_system/file_io.h>
 #include <mocha/roaster/file_system/file_system.h>
 #include <mocha/roaster/utils/compilation_info.h>

@@ -8,6 +8,7 @@ class Pool;
 }
 class AstBuilder;
 class CompilationInfo;
+class JsToken;
 class OptimizerVisitor : public IVisitor {
  public :
   OptimizerVisitor(CompilationInfo* info);
@@ -28,6 +29,7 @@ class OptimizerVisitor : public IVisitor {
   Scope* scope_;
   memory::Pool* pool_;
   AstBuilder* builder_;
+  JsToken* js_token_;
 };
 }
 

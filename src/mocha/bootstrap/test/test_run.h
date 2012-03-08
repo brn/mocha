@@ -15,6 +15,7 @@
 #include <mocha/misc/file_writer.h>
 namespace mocha {namespace compiler_test {
 
+void RunJS(const char* dir);
 class TestCallback : public FileWriter{
  public :
   TestCallback(int size) :
@@ -95,11 +96,11 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
   filesystem::DirectoryIterator iterator = directory.GetFileList(true, false);
   Roaster roaster;
   CompilationInfoHandleList list;
+  int count = 0;
   while (iterator.HasNext()) {
     const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
     if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
-	  printf("@@@@@@@@@@@@@@        @@@@@@@@ %s\n",fullpath);
       FileInfoMap::UnsafeSet(fullpath);
       FileInfo* resource = FileInfoMap::UnsafeGet(fullpath);
       CompilationInfoHandle info = resource->compilation_info();
@@ -116,9 +117,10 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
       list.push_back(info);
     }
   }
-  AsyncCallbackHandle handle(new TestCallback(list.size()));
+  TestCallback* callback = new TestCallback(list.size());
+  AsyncCallbackHandle handle(callback);
   roaster.CompileFilesAsync(list, false, handle);
-  RunJS(dir);
+  //RunJS(dir);
 }
 
 void RunTest() {

@@ -25,10 +25,18 @@ namespace mocha {
 #define FILE_NOT_EXIST file_exist_ = false
                                 
 
-Internal::Internal(const char* path, Compiler* compiler, CodegenVisitor* codegen, ScopeRegistry *scope_registry, bool is_runtime,
+Internal::Internal(const char* path, Compiler* compiler, CodegenVisitor* codegen,
+                   ScopeRegistry *scope_registry, bool is_runtime,
                    AstRoot* ast_root, memory::Pool* pool)
-    : is_runtime_(is_runtime), file_exist_ (false), path_(path), compiler_(compiler),
-      codegen_(codegen), scope_registry_ (scope_registry), ast_root_(ast_root), pool_(pool), reporter_(new ErrorReporter){}
+    : is_runtime_(is_runtime),
+      file_exist_ (false),
+      path_(path),
+      compiler_(compiler),
+      codegen_(codegen),
+      scope_registry_(scope_registry),
+      ast_root_(ast_root),
+      pool_(pool),
+      reporter_(new ErrorReporter){}
 
 void Internal::Parse(ErrorLevel level) {
   ParseStart(false,level);
@@ -58,7 +66,6 @@ void Internal::RunAction(bool is_ast, ErrorLevel level) {
 
 inline void Internal::LoadFile() {
   //Check is file exist.
-  fprintf(stderr, "%s\n", path_);
   if (filesystem::FileIO::IsExist(path_)) {
     file_ = filesystem::FileIO::Open(path_, "rb");
     //Set bool to true.
@@ -109,10 +116,11 @@ inline void Internal::DoParse(bool is_ast) {
 inline void Internal::OpenError(const char* filename) {
   std::stringstream st;
   st << "no such file or directory " << filename;
-  const char* tmp = st.str().c_str();
-  reporter_->ReportSyntaxError(tmp);
-  codegen_->Write (tmp);
-  printf("%s\n", tmp);
+  std::string tmp = st.str();
+  reporter_->ReportSyntaxError(tmp.c_str());
+  tmp.clear();
+  reporter_->SetError(&tmp);
+  codegen_->Write(tmp.c_str());
 }
 
 

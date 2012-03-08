@@ -22,7 +22,11 @@ namespace mocha {
 class Scanner::InternalScanner {
  public :
   InternalScanner(SourceStream* source, ErrorReporter* reporter, const char* filename) :
-      line_(1), filename_(filename), token_stream_(TokenStream::New()), source_stream_(source), reporter_(reporter){
+      line_(1),
+      filename_(filename),
+      token_stream_(TokenStream::New()),
+      source_stream_(source),
+      reporter_(reporter) {
     flags_.Set(FLAG_REGEXP);
     flags_.Set(FLAG_NUMERIC);
   }

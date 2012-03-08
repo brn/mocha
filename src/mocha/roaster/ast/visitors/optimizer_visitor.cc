@@ -21,8 +21,11 @@ namespace mocha {
 
 
 OptimizerVisitor::OptimizerVisitor(CompilationInfo* info) :
-    depth_(0), is_debug_(info->Debug()), info_(info),
-    pool_(memory::Pool::Local()), builder_(AstBuilder::Local()){}
+    depth_(0),
+    is_debug_(info->Debug()),
+    info_(info),
+    pool_(memory::Pool::Local()),
+    builder_(AstBuilder::Local()){}
 
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
@@ -260,6 +263,10 @@ void OptimizerVisitor::ArrayAccessorProccessor_(CallExp* exp) {
     if (value->value_type() == Literal::kString) {
       bool is_valid_property_name = true;
       std::string tmp = value->value()->token();
+	  if (tmp.size() < 3 ) {
+		  return;
+	  }
+	  CompilationInfo* info = info_;
       tmp.erase(tmp.size() - 1, tmp.size());
       if (!isalpha(tmp[ 1 ]) && tmp[ 1 ] != '_' && tmp[ 1 ] != '$') {
         is_valid_property_name = false;

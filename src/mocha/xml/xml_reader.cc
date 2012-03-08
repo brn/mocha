@@ -96,7 +96,7 @@ void XMLReader::SwitchProcessor(TiXmlNode* node, XMLInfo* info) {
 
 void XMLReader::ProcessNode(TiXmlElement *elem, XMLInfo* info) {
   BEGIN(ProcessNode_);
-  if (strcmp(elem->Value(), consts::xml_attributes::kSetting) == 0) {
+  if (strcmp(elem->Value(), consts::xml_attributes::kSettings) == 0) {
     ProcessSettingNode(elem, info);
   } else if (strcmp(elem->Value(), consts::xml_attributes::kDir) == 0) {
     ProcessDirNode(elem, info);

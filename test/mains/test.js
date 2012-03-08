@@ -14,7 +14,7 @@ import {iterator} from 'iterators'
       v = 200;
 }
 var x = {x:200,y:300};
-import {jQuery} from "../jspp-lib/jquery-devel"
+//import {jQuery} from "../jspp-lib/jquery-devel"
 module {
   export const x = 0;
   export class Monster extends test["200"]{

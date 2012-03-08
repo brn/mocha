@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/if_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/if_test.js",
           __LINE__ = 0;
       function ifTest(flg) {
         try {

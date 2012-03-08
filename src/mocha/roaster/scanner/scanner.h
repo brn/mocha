@@ -7,6 +7,7 @@ class ErrorReporter;
 class SourceStream;
 class TokenInfo;
 class TokenStream;
+class JsToken;
 class Scanner : public memory::Allocated {
  public :
   static Scanner* New(SourceStream* source, ErrorReporter *reporter, const char* filename);

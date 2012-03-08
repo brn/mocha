@@ -16,6 +16,7 @@ namespace mocha {
 struct ParamsForWinThread {
   void* arg;
   Thread::pThreadStartFunc fn;
+  Thread_t thread_handle;
 };
 
 #define DETACH 0x00000001
@@ -30,6 +31,7 @@ public :
   static unsigned __stdcall ThreadStartFuncWin (void* param) {
     ParamsForWinThread* params = reinterpret_cast<ParamsForWinThread*>(param);
     params->fn(params->arg);
+    CloseHandle(params->thread_handle);
     delete params;
     return 0;
   }
@@ -45,7 +47,7 @@ bool Thread::Create(pThreadStartFunc fn, void* param) {
   ParamsForWinThread *params_for_win = new ParamsForWinThread;
   params_for_win->arg = param;
   params_for_win->fn = fn;
-  IMPL->thread_t_ = reinterpret_cast<HANDLE>(
+  params_for_win->thread_handle = IMPL->thread_t_ = reinterpret_cast<HANDLE>(
       _beginthreadex(NULL, 0, PtrImpl::ThreadStartFuncWin, params_for_win, 0, &(IMPL->thread_id_)));
   return true;
 }
@@ -87,13 +89,12 @@ bool Thread::IsJoinable() {
 
 IMPL_DEF(Mutex) {
 public :
+  PtrImpl() {InitializeCriticalSection(&critical_section);}
   CRITICAL_SECTION critical_section;
 };
 
-Mutex::Mutex() : IMPL(new PtrImpl) {
-  InitializeCriticalSection(&(IMPL->critical_section));
-}
-
+Mutex::Mutex() : IMPL(new PtrImpl) {}
+Mutex::~Mutex() { DeleteCriticalSection(&(IMPL->critical_section)); }
 
 MutexLock::MutexLock(Mutex& mutex) : mutex_(&mutex), unlocked_(false) {
   EnterCriticalSection(&(mutex_->IMPL->critical_section));
@@ -101,7 +102,6 @@ MutexLock::MutexLock(Mutex& mutex) : mutex_(&mutex), unlocked_(false) {
 
 MutexLock::~MutexLock() {
   Unlock();
-  DeleteCriticalSection(&(mutex_->IMPL->critical_section));
 }
 
 void MutexLock::Unlock() {
@@ -140,6 +140,10 @@ ThreadLocalStorageKey::ThreadLocalStorageKey(ThreadLocalStorageKey::Destructor d
 
 
 ThreadLocalStorageKey::ThreadLocalStorageKey() : IMPL(new PtrImpl) {}
+
+ThreadLocalStorageKey::~ThreadLocalStorageKey() {
+  IMPL->Free();
+}
 
 void ThreadLocalStorageKey::DeleteKey() {
   IMPL->Free();

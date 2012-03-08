@@ -4,13 +4,24 @@
 #include <mocha/roaster/misc/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/fileinfo/fileinfo.h>
+
 namespace mocha {
+#ifdef _WIN32
+static void YieldSleep(int num) {
+	Sleep(num / 1000);
+}
+#else
+static void YieldSleep(int num) {
+	sleep(num);
+}
+#endif
 Roaster::Roaster(){Initialize();}
 void Roaster::Initialize() {
   AtomicWord ret = Atomic::CompareAndSwap(&entered_, 0, 1);
   if ( ret == 1) {
     return;
   }
+  entered_ = 1;
   JsToken::Initialize();
   Compiler::BuildRuntime();
 }
@@ -38,19 +49,34 @@ CompilationResultHandleList Roaster::CompileFiles(CompilationInfoHandleList& inf
   }
   return result;
 }
-
-typedef std::pair<CompilationInfoHandle,AsyncCallbackHandle> ThreadArgs;
+struct BoolContainer {
+	bool end;
+};
+class ThreadArgs {
+ public :
+  ThreadArgs(CompilationInfoHandle hd, AsyncCallbackHandle cb, int count, AtomicWord* current_val, BoolContainer* is_end)
+      : handle(hd), callback(cb), max(count), current(current_val), end(is_end){}
+  CompilationInfoHandle handle;
+  AsyncCallbackHandle callback;
+  int max;
+  AtomicWord* current;
+  BoolContainer* end;
+};
 void* AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
-  Compiler compiler(thread_args->first);
-  (*(thread_args->second))(compiler.Compile());
+  Compiler compiler(thread_args->handle);
+  (*(thread_args->callback))(compiler.Compile());
+  if (thread_args->current != 0) {
+  if (Atomic::Increment(thread_args->current) == thread_args->max) {
+    thread_args->end->end = true;
+  }
+  }
   delete thread_args;
   return 0;
 }
 
-void AsyncRunner(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
+void AsyncRunner(ThreadArgs* args, bool is_join) {
   Thread thread;
-  ThreadArgs* args = new ThreadArgs(info, callback);
   if (!thread.Create(AsyncThreadRunner, args)) {
     fprintf(stderr, "error at Roaster::CompileAsync");
   } else {
@@ -63,22 +89,30 @@ void AsyncRunner(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle c
 }
 
 void Roaster::CompileAsync(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
-  AsyncRunner(info, is_join, callback);
+  ThreadArgs* args = new ThreadArgs(info, callback, 1, 0, 0);
+  AsyncRunner(args, is_join);
 }
 
 void Roaster::CompileFileAsync(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
   info->MarkAsFile();
-  AsyncRunner(info, is_join, callback);
+  ThreadArgs* args = new ThreadArgs(info, callback, 1, 0, 0);
+  AsyncRunner(args, is_join);
 }
 
 void Roaster::CompileFilesAsync(CompilationInfoHandleList& info_list, bool is_join, AsyncCallbackHandle callback) {
   typedef CompilationInfoHandleList R;
   typedef R::iterator Ri;
   Ri end = info_list.end();
+  int size = info_list.size();
+  AtomicWord count = 0;
+  BoolContainer flg;
+  flg.end = false;
   for (Ri iterator = info_list.begin(); iterator != end; ++iterator) {
     (*iterator)->MarkAsFile();
-    AsyncRunner(*iterator, is_join, callback);
+    ThreadArgs* args = new ThreadArgs(*iterator, callback, size, &count, &flg);
+    AsyncRunner(args, is_join);
   }
+  while (!(flg.end)) {YieldSleep(1000);}
 }
 
 AstReserver Roaster::GetAstFromFile(CompilationInfoHandle info) {

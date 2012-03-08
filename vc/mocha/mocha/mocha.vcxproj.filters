@@ -154,9 +154,6 @@
     <ClCompile Include="..\..\..\src\mocha\roaster\file_system\stat.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\external\external_resource.cc">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\external\external_ast.cc">
       <Filter>src</Filter>
     </ClCompile>
@@ -188,15 +185,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\misc\file_writer.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\xml\versions.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\xml\xml_setting_info.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\xml\xml_reader.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\misc\profiler.cc">
@@ -260,6 +248,15 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxmlparser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\fileinfo\fileinfo.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\xml\xml_setting_info.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\xml\xml_reader.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -462,9 +459,6 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\external\external_ast.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\external\external_resource.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\internal.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -546,18 +540,6 @@
     <ClInclude Include="..\..\..\src\mocha\misc\char_allocator.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\xml\versions.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\xml\xml_reader.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\xml\xml_setting_info-inl.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\xml\xml_setting_info.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\misc\file_writer.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -631,6 +613,18 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\third_party\tinyxml\tinyxml.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\fileinfo\fileinfo.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\xml\xml_reader.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\xml\xml_setting_info-inl.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\xml\xml_setting_info.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

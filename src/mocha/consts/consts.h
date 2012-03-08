@@ -4,7 +4,7 @@
 namespace mocha {namespace consts {
 
 namespace xml_attributes{
-const char kSetting[] = {"setting"};
+const char kSettings[] = {"settings"};
 const char kFile[] = {"file"};
 const char kInclude[] = {"include"};
 const char kDir[] = {"dir"};

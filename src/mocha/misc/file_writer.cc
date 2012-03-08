@@ -9,7 +9,6 @@ void FileWriter::WriteResult(CompilationResultHandle result){
   FileInfo* resource = FileInfoMap::SafeGet(result->filename());
   if (resource->GetDeploy()) {
     const char* dir = resource->GetDeploy();
-    fprintf(stderr,"%s\n",dir);
     filesystem::Stat stat(dir);
     if (!stat.IsExist() || !stat.IsDir()) {
       filesystem::mkdir(dir, 0777);
@@ -24,7 +23,6 @@ void FileWriter::WriteResult(CompilationResultHandle result){
   }
   //Get deploy path of -cmp.js file.
   SharedStr handle = resource->GetDeployName(val.c_str());
-  fprintf(stderr,"%s\n",handle.Get());
   SharedPtr<filesystem::File> ret = filesystem::FileIO::Open (handle.Get(),
                                                               "rwn",
                                                               filesystem::FileIO::P_ReadWrite);

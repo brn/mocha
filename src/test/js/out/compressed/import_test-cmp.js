@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/module_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/module_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['module_test.js;2'] = {};
@@ -913,7 +913,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['import_test.js;2'] = {};

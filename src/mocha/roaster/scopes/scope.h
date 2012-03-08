@@ -36,7 +36,7 @@ class CompressedNameAllocator;
 class AstNode;
 class TokenInfo;
 class ScopeRegistry;
-
+class JsToken;
 typedef std::pair<TokenInfo*, AstNode*> SymbolEntry;
 class Scope : public memory::Allocated {
   friend class ScopeRegistry;

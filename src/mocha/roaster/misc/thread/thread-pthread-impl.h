@@ -66,7 +66,7 @@ Mutex::Mutex () : IMPL(new PtrImpl) {
   //  mutex_t_ = PTHREAD_MUTEX_INITIALIZER;
   pthread_mutex_init (&(IMPL->mutex_t_), NULL);
 }
-
+Mutex::~Mutex(){}
 MutexLock::MutexLock (Mutex& mutex) : mutex_ (&mutex), unlocked_ (false) {
   pthread_mutex_lock (&(mutex_->IMPL->mutex_t_));
 }
@@ -106,6 +106,8 @@ ThreadLocalStorageKey::ThreadLocalStorageKey() : IMPL(new PtrImpl) {
     pthread_key_create (&IMPL->local_key_t_, 0);
   }
 }
+
+ThreadLocalStorageKey::~ThreadLocalStorageKey(){}
 
 void ThreadLocalStorageKey::DeleteKey () {
   pthread_key_delete (IMPL->local_key_t_);

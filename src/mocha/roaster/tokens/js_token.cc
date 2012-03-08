@@ -514,17 +514,15 @@ int JsToken::GetType (const char* token, bool is_operator) {
   if (is_operator && strlen(token) == 1) {
     return token[ 0 ];
   } else {
-	MutexLock lock(mutex_);
-    ReservedTokenTable::iterator find = reserved_map_.find(token);
-    if (find != reserved_map_.end()) {
-      return find->second;
+    ReservedTokenTable::iterator finded = reserved_map_.find(token);
+    if (finded != reserved_map_.end()) {
+      return finded->second;
     }
     return (is_operator)? 0 : Token::JS_IDENTIFIER;
   }
 }
 
 bool JsToken::IsBuiltin(const char* token) {
-  MutexLock lock(mutex_);
   BuiltinTokenTable::iterator find = builtin_map_.find(token);
   if (find != builtin_map_.end()) {
     return true;
@@ -533,7 +531,6 @@ bool JsToken::IsBuiltin(const char* token) {
 }
 
 bool JsToken::IsReserved(const char* token) {
-  MutexLock lock(mutex_);
   ReservedTokenTable::iterator find = reserved_map_.find(token);
   if (find != reserved_map_.end()) {
     return true;

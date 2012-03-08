@@ -64,7 +64,8 @@ class Compiler::PtrImpl {
  public :
 
   PtrImpl(CompilationInfoHandle info_handle)
-      : compilation_info_(info_handle),
+      : module_key_(new ModuleMap),
+        compilation_info_(info_handle),
         pool_(memory::Pool::Local()),
         builder_(AstBuilder::Local()),
         scope_registry_(new ScopeRegistry(memory::Pool::Local())),
@@ -102,7 +103,7 @@ class Compiler::PtrImpl {
     return CompilationResultHandle(new CompilationResult(path_->absolute_path(), codegen_, error_map_));
   }
 
-  inline SharedPtr<filesystem::Path> Load(const char* filename) {
+  inline SharedPtr<filesystem::Path> Load(const char* filename, bool* is_runtime_module) {
     bool is_runtime = false;
     //Create javascript path from filename.
     //It's like this,
@@ -115,6 +116,7 @@ class Compiler::PtrImpl {
       SetPath(js_path->absolute_path());
       if(is_runtime) {
         ast_root_.AddChild(Compiler::runtime(filename, pool_.Get()));
+        (*is_runtime_module) = true;
         return js_path;
       }
       //Change current directory to loaded js file directory.
@@ -155,30 +157,31 @@ class Compiler::PtrImpl {
     error_map_->insert(ErrorHandlerPair(filename, handler));
   }
 
-  inline const char* ModuleKey(const char* path) const {
-    ModuleMap::const_iterator it = module_key_.find(path);
-    if (it == module_key_.end()) {
+  inline std::string ModuleKey(const char* path) const {
+    ModuleMap::const_iterator it = module_key_->find(path);
+    if (it == module_key_->end()) {
       if (Compiler::IsRuntime(path)) {
-        return path;
+        std::string ret(path);
+		ret += ";0";
+		return ret;
       }
-      return "'anonymous'";
+      return std::string("anonymous");
     } else {
-      return it->second.c_str();
+      return it->second;
     }
   }
 
   inline void SetModuleKey(const char* name) {
-    const char* key;
     std::stringstream st;
-    if (!Compiler::IsRuntime(name)) {
+    if (!(Compiler::IsRuntime(name))) {
       filesystem::Path path(name);
       st << path.filename();
     } else {
       st << name;
     }
     st << ';' << loaded_path_.size();
-    key = st.str().c_str();
-    module_key_.insert(ModuleKV(name, key));
+    std::string value = st.str();
+    module_key_->insert(ModuleKV(name, value.c_str()));
   }
   
  private :
@@ -221,7 +224,7 @@ class Compiler::PtrImpl {
   std::string main_file_path_;
   ErrorMapHandle error_map_;
   roastlib::unordered_map<std::string,int> loaded_path_;
-  ModuleMap module_key_;
+  ScopedPtr<ModuleMap> module_key_;
   Compiler *compiler_;
   AstRoot ast_root_;
   CompilationInfoHandle compilation_info_;
@@ -254,11 +257,11 @@ AstReserver Compiler::GetAst() {
   return implementation_->GetAst();
 }
 
-SharedPtr<filesystem::Path> Compiler::Load (const char* filename) {
-  return implementation_->Load(filename);
+SharedPtr<filesystem::Path> Compiler::Load (const char* filename, bool* is_runtime_module) {
+  return implementation_->Load(filename, is_runtime_module);
 }
 
-const char* Compiler::ModuleKey(const char* path) const {
+std::string Compiler::ModuleKey(const char* path) const {
   return implementation_->ModuleKey(path);
 }
 
@@ -299,13 +302,15 @@ void Compiler::SetModuleKey(const char* name) {
 AstNode* Compiler::runtime(const char* name, memory::Pool* pool) {
   RuntimeAstMap::iterator it = runtime_map_.find(name);
   if (it != runtime_map_.end()) {
-    return it->second->GetRoot()->first_child()->Clone(pool);
+    AstReserver reserver = it->second;
+    return reserver->GetRoot()->first_child()->Clone(pool);
   }
   return 0;
 }
 
 bool Compiler::IsRuntime (const char* name) {
-  return runtime_map_.find(name) != runtime_map_.end();
+  RuntimeAstMap::iterator it = runtime_map_.find(name);
+  return it != runtime_map_.end();
 }
 Mutex Compiler::mutex_;
 Compiler::RuntimeAstMap Compiler::runtime_map_;

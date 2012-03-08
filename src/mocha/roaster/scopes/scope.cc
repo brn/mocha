@@ -304,7 +304,8 @@ bool Scope::IsGlobal() const {
   return head_ == this;
 }
 
-ScopeRegistry::ScopeRegistry(memory::Pool* pool) : head_(0), current_(head_), pool_(pool){};
+ScopeRegistry::ScopeRegistry(memory::Pool* pool)
+    : head_(0), current_(head_), pool_(pool){};
 
 ScopeRegistry::~ScopeRegistry () {}
 

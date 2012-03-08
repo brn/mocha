@@ -30,7 +30,8 @@ class MutexLock;
 class Mutex{
   friend class MutexLock;
  public :
-  Mutex ();
+  Mutex();
+  ~Mutex();
  private :
   PTR_IMPL;
 };
@@ -57,8 +58,9 @@ class ThreadLocalStorageKey {
   friend class ThreadLocalStorage;
  public :
   typedef void (*Destructor) (void* ptr);
-  explicit ThreadLocalStorageKey (Destructor destructor);
-  ThreadLocalStorageKey ();
+  explicit ThreadLocalStorageKey(Destructor destructor);
+  ThreadLocalStorageKey();
+  ~ThreadLocalStorageKey();
   void DeleteKey();
  private :
   PTR_IMPL;

@@ -800,10 +800,10 @@
       var __FILE__ = "iterators",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport.iterators = {};
+      _mochaGlobalExport['iterators;0'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport.iterators;
+      var _mochaGlobalAlias = _mochaGlobalExport['iterators;0'];
       
       __LINE__ = 1;
       !function () {
@@ -1624,14 +1624,14 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/array_comprehensions_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/array_comprehensions_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['array_comprehensions_test.js;2'] = {};
       
       __LINE__ = 3;
       var _mochaGlobalAlias = _mochaGlobalExport['array_comprehensions_test.js;2'],
-          _mochaLocalTmp0 = _mochaGlobalExport.iterators,
+          _mochaLocalTmp0 = _mochaGlobalExport['iterators;0'],
           items = _mochaLocalTmp0.items,
           testTarget =  {
             value1 : 100,

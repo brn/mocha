@@ -202,8 +202,13 @@ class Parser::StateStack {
 };
 
 Parser::Parser(ParserConnector* connector, ErrorReporter* reporter, const char* filename)
-    : filename_(filename), depth_(0), pool_(memory::Pool::Local()), builder_(AstBuilder::Local()),
-      connector_(connector), reporter_(reporter), state_stack_(new StateStack) {}
+    : filename_(filename),
+      depth_(0),
+      pool_(memory::Pool::Local()),
+      builder_(AstBuilder::Local()),
+      connector_(connector),
+      reporter_(reporter),
+      state_stack_(new StateStack){}
 Parser::~Parser(){}
 
 
