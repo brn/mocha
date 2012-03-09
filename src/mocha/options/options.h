@@ -26,113 +26,53 @@
 #include <mocha/misc/int_types.h>
 #include <string>
 #include <vector>
+#include <mocha/roaster/misc/bits.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/options/setting.h>
 
 namespace mocha {
 class Options {
  public :
-  Options() : options_(0){}
+    Options() : is_observe_(false){}
   ~Options(){}
-  inline void AnalyzeOption (const char* argv) {
-    AnalyzeOption_(argv);
-  }
-  inline const char* GetPath () {
-    return path_.c_str();
-  }
-  inline bool IsCommandLineCompile() { return (options_ & 1)  == 1; }
-  inline bool IsPrettyPrint() { return (options_ & 2) == 2; }
-  inline bool IsDebug() { return (options_ & 4) == 4; }
-  inline bool IsPath() { return (options_ & 8) == 8; }
-  inline bool IsCompress() { return (options_ & 16) == 16; }
-  inline bool IsUnmatch() { return (options_ & 32) == 32; }
-  inline void ShowError() {
-    fprintf(stderr, "%s\n", error_.c_str());
-  }
-  inline void StopObserve() {
-    options_ |= 32;
-  }
-  inline bool IsStopObserving() {
-    return (options_ & 32) == 32;
-  }
-  inline void Reset() {
-    options_ = 0;
+  void AnalyzeOption (const char* argv) { DoAnalyzeOption(argv);}
+  const char* GetPath () const { return path_.c_str();}
+  bool IsCommandLineCompile() { return flags_.At(0); }
+  bool IsPrettyPrint() { return flags_.At(1); }
+  bool IsDebug() { return flags_.At(2); }
+  bool IsPath() { return flags_.At(3); }
+  bool IsCompress() { return flags_.At(4); }
+  bool IsUnmatch() { return flags_.At(5); }
+  void ShowError() {fprintf(stderr, "%s\n", error_.c_str());}
+  void StopObserve() {flags_.Set(6);}
+  bool IsStopObserving() {return flags_.At(6);}
+  bool IsFile() { return flags_.At(7); }
+  void Reset() {
     error_.clear();
     path_.clear();
+    BitVector16 flag;
+    flags_ = flag;
   }
  private :
-
-  void AnalyzeOption_(const char* argv) {
-    if (argv[ 0 ] == '-') {
-      if (strlen(argv) == 2) {
-        MatchOptions_(argv[ 1 ]);
-      } else {
-        if (argv[ 1 ] == '-') {
-          if (strcmp(argv, "--compile") == 0) {
-            CommandLineCompile_();
-          } else if (strcmp(argv, "--pretty-print") == 0) {
-            PrettyPrint_();
-          } else if (strcmp(argv, "--debug") == 0) {
-            Debug_();
-          } else if (strcmp(argv, "--compress") == 0) {
-            Compress_();
-          } else {
-            if (!IsUnmatch()) {
-              Unmatch_(argv);
-            }
-          }
-        }
-      }
-    } else {
-      path_ = argv;
-      HasPath_();
-      if (!IsCommandLineCompile()) {
-        if (!IsUnmatch()) {
-          Unmatch_(path_.c_str());
-        }
-      }
-    }
-  }
+  void CommandLineCompile() { flags_.Set(0); }
+  void DoAnalyzeOption(const char* argv);
   
-  void MatchOptions_ (char arg) {
-    switch(arg) {
-      case 'c' :
-        CommandLineCompile_();
-        break;
-      case 'P' :
-        PrettyPrint_();
-        break;
-      case 'D' :
-        Debug_();
-        break;
-      case 'C' :
-        Compress_();
-        break;
-      default :
-        if (!IsUnmatch()) {
-          std::string arg_str;
-          arg_str += arg;
-          Unmatch_(arg_str.c_str());
-        }
-    }
-  }
+  void MatchOptions(char arg);
 
-  void UnrecognizedOption_(const char* opt) {
-    char tmp[1000];
-    sprintf(tmp, "%s is unrecognized option. See help.\n", opt);
-    error_ = tmp;
-  }
+  void UnrecognizedOption(const char* opt);
   
-  void OptionNotEnough_(const char* opt) {
-    fprintf(stderr, "%s require parameter\nSee mocha --help.\n", opt);
+  void OptionNotEnough(const char* opt);
+  void PrettyPrint() { flags_.Set(1); }
+  void Debug() { flags_.Set(2); }
+  void HasPath() { flags_.Set(3); }
+  void Compress() { flags_.Set(4); }
+  void SetFile() {flags_.Set(7);}
+  void Unmatch(const char* op) {
+    flags_.Set(5);
+    UnrecognizedOption(op);
   }
-  void CommandLineCompile_() { options_ |= 1; }
-  void PrettyPrint_() { options_ |= 2; }
-  void Debug_() { options_ |= 4; }
-  void HasPath_() { options_ |= 8; }
-  void Compress_() { options_ |= 16; }
-  void Unmatch_(const char* op) { options_ |= 32;UnrecognizedOption_(op); }
-  int32_t options_;
+    bool is_observe_;
+  BitVector16 flags_;
   std::string error_;
   std::string path_;
 };

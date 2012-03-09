@@ -8,7 +8,7 @@
 namespace mocha {
 #ifdef _WIN32
 static void YieldSleep(int num) {
-	Sleep(num / 1000);
+	Sleep(num * 1000);
 }
 #else
 static void YieldSleep(int num) {
@@ -65,11 +65,12 @@ class ThreadArgs {
 void* AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
   Compiler compiler(thread_args->handle);
-  (*(thread_args->callback))(compiler.Compile());
+  CompilationResultHandle result = compiler.Compile();
+  thread_args->callback->operator()(result);
   if (thread_args->current != 0) {
-  if (Atomic::Increment(thread_args->current) == thread_args->max) {
-    thread_args->end->end = true;
-  }
+    if (Atomic::Increment(thread_args->current) == thread_args->max) {
+      thread_args->end->end = true;
+    }
   }
   delete thread_args;
   return 0;
@@ -108,11 +109,12 @@ void Roaster::CompileFilesAsync(CompilationInfoHandleList& info_list, bool is_jo
   BoolContainer flg;
   flg.end = false;
   for (Ri iterator = info_list.begin(); iterator != end; ++iterator) {
-    (*iterator)->MarkAsFile();
-    ThreadArgs* args = new ThreadArgs(*iterator, callback, size, &count, &flg);
+    CompilationInfoHandle handle = (*iterator);
+    handle->MarkAsFile();
+    ThreadArgs* args = new ThreadArgs(handle, callback, size, &count, &flg);
     AsyncRunner(args, is_join);
   }
-  while (!(flg.end)) {YieldSleep(1000);}
+  while (!(flg.end)) {YieldSleep(1);}
 }
 
 AstReserver Roaster::GetAstFromFile(CompilationInfoHandle info) {

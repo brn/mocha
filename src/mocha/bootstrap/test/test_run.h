@@ -96,7 +96,6 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
   filesystem::DirectoryIterator iterator = directory.GetFileList(true, false);
   Roaster roaster;
   CompilationInfoHandleList list;
-  int count = 0;
   while (iterator.HasNext()) {
     const filesystem::DirEntry* entry = iterator.Next();
     const char* fullpath = entry->GetFullPath();
@@ -120,7 +119,7 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
   TestCallback* callback = new TestCallback(list.size());
   AsyncCallbackHandle handle(callback);
   roaster.CompileFilesAsync(list, false, handle);
-  //RunJS(dir);
+  RunJS(dir);
 }
 
 void RunTest() {

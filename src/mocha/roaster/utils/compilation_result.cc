@@ -2,10 +2,8 @@
 
 namespace mocha {
 
-CompilationResult::CompilationResult(const char* filename, SharedPtr<CodegenVisitor> visitor, ErrorMapHandle map) :
-    visitor_(visitor), map_(map) {
-  filename_ = filename;
-}
+CompilationResult::CompilationResult(const char* filename, SharedPtr<CodegenVisitor> visitor, ErrorMapHandle map)
+    : filename_(filename), visitor_(visitor), map_(map) {}
 
 
 }

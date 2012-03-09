@@ -7,15 +7,18 @@ function testDeclNonForamlWithContext=>console.log(1);
 const testConstFunctionHasBlockHasFormal() {
         console.log(1);
       }
-  
+
   var contextTest = =>console.log(this);
-  
+
 const testConstFunctionHasForaml()->console.log(1);
 const testConstFunctionNonFormal->console.log(1);
 
 const testConstFunctionHasFormalWithContext()=>console.log(1);
 const testConstFunctionWithContext=>console.log(1);
-
+  var x = (a,b,c) -> {
+        a + b
+      };
+  var x = function(a,b,c) { return a + b; }
 testHasFormalHasBlock()->{
   console.log(1);
 }
@@ -30,7 +33,7 @@ testWithContext=>console.log(1);
 })();
 
 (function () {
-  
+
   function testDeclHasFormal( args , args2 , args3 )->console.log(1);
   function testDeclHasFormalDsta( {args}, {tmp:{"args2":args2}} , [args3 , args4 , {args5,args6:{args7}}] , ...args8 )->console.log(1);
   function testDeclHasFormalWithContext( args , args2 , args3 )=>console.log(1);
@@ -46,7 +49,7 @@ testWithContext=>console.log(1);
   const testConstFunctionHasForamlDsta( {args}, {tmp:{"args2":args2}} , [args3 , args4 , {args5,args6:{args7}}] , ...args8 )->console.log(1);
   const testConstFunctionHasFormalWithContext( args , args2 , args3 )=>console.log(1);
   const testConstFunctionHasFormalDstaWithContext( {args}, {tmp:{"args2":args2}} , [args3 , args4 , {args5,args6:{args7}}] , ...args8 )=>console.log(1);
-  
+
   testHasFormalHasBlock( args , args2 , args3 )->{
     console.log(1);
   }

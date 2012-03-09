@@ -9,3 +9,4 @@ testObject.{
   z3 : 1200
 }
 
+var m = {a:0}

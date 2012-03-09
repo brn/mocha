@@ -30,7 +30,7 @@ SharedPtr<ICommandLineRunner> CommandsAnalyzer::Analyze(const char* buf) {
     buf_ += buf[ i ];
     i++;
   }
-  if (state_ == kS_Begin) {
+  if ((state_ == kS_Begin || state_ == kS_Compile) && !buf_.empty()) {
     AnalyzeEachToken_(options);
   }
   if (state_ == kS_Exit) {
@@ -79,6 +79,7 @@ void CommandsAnalyzer::AnalyzeEachToken_(Options* option) {
   if (state_ == kS_Begin && strlen(token) > 0) {
     if (strcmp(token, COMPILE) == 0) {
       state_ = kS_Compile;
+      option->AnalyzeOption(token);
     } else if (strcmp(token, EXIT) == 0) {
       Interaction::End();
       state_ = kS_Exit;

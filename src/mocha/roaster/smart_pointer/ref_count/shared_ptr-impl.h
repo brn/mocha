@@ -21,10 +21,10 @@ inline SharedPtr<T>::SharedPtr (Class *ptr, PtrHandleBase* base) :
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr (const SharedPtr& ref) : ptr_(ref.ptr_) {
-  if (ref.rc_ != 0) {
-    ref.rc_->Add();
-  }
   rc_ = ref.rc_;
+  if (ref.rc_ != 0) {
+    rc_->Add();
+  }
 };
 
 template <typename T>

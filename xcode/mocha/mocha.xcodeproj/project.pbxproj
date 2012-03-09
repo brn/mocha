@@ -79,6 +79,7 @@
 		423381C9150444BA00CEC14A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 423381C7150444BA00CEC14A /* tinyxmlparser.cpp */; };
 		423381D615045AA100CEC14A /* thread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423381D415045AA100CEC14A /* thread.cc */; };
 		423381E115045F6300CEC14A /* pool.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423381E015045F6300CEC14A /* pool.cc */; };
+		429892B01509C6EF0036F9F0 /* options.cc in Sources */ = {isa = PBXBuildFile; fileRef = 429892AF1509C6EF0036F9F0 /* options.cc */; };
 		42D06A221506DF9D00B94591 /* file_writer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42D06A201506DF9D00B94591 /* file_writer.cc */; };
 		42D06A281506ED3F00B94591 /* compilation_info.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42D06A241506ED3E00B94591 /* compilation_info.cc */; };
 		42D06A291506ED3F00B94591 /* compilation_result.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42D06A261506ED3F00B94591 /* compilation_result.cc */; };
@@ -292,6 +293,7 @@
 		423381DE15045BE700CEC14A /* uncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uncopyable.h; sourceTree = "<group>"; };
 		423381DF15045ED700CEC14A /* pool-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "pool-inl.h"; sourceTree = "<group>"; };
 		423381E015045F6300CEC14A /* pool.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pool.cc; sourceTree = "<group>"; };
+		429892AF1509C6EF0036F9F0 /* options.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = options.cc; sourceTree = "<group>"; };
 		42D06A201506DF9D00B94591 /* file_writer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file_writer.cc; sourceTree = "<group>"; };
 		42D06A211506DF9D00B94591 /* file_writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_writer.h; sourceTree = "<group>"; };
 		42D06A241506ED3E00B94591 /* compilation_info.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compilation_info.cc; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 		42337FEF15043BD900CEC14A /* options */ = {
 			isa = PBXGroup;
 			children = (
+				429892AF1509C6EF0036F9F0 /* options.cc */,
 				42337FF015043BD900CEC14A /* commandline */,
 				42337FF315043BD900CEC14A /* options.h */,
 				42337FF415043BD900CEC14A /* setting.cc */,
@@ -1044,6 +1047,7 @@
 				4210345B1508BB1900B9B776 /* versions.cc in Sources */,
 				4210345C1508BB1900B9B776 /* xml_reader.cc in Sources */,
 				4210345D1508BB1900B9B776 /* xml_setting_info.cc in Sources */,
+				429892B01509C6EF0036F9F0 /* options.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1125,10 +1129,10 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					HAVE_CONFIG_H,
-					"CURRENT_DIR=\\\"/Users/aono_taketoshi/github/mocha/src/\\\"",
+					"CURRENT_DIR=\\\"/Users/aono_taketoshi/github/mocha/src\\\"",
 					HAVE_PTHREAD,
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

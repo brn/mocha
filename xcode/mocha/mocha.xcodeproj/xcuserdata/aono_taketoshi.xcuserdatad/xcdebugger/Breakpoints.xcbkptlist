@@ -172,7 +172,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "0"
@@ -380,7 +380,7 @@
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "0"
@@ -562,7 +562,7 @@
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "0"
@@ -574,6 +574,338 @@
          endingLineNumber = "180"
          landmarkName = "ModuleKey(const char* path)"
          landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352945403.566165"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "113"
+         endingLineNumber = "113"
+         landmarkName = "Roaster::CompileFilesAsync(CompilationInfoHandleList&amp; info_list, bool is_join, AsyncCallbackHandle callback)"
+         landmarkType = "5">
+         <Locations>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "mocha::Roaster::CompileFilesAsync(std::vector&lt;mocha::SharedPtr&lt;mocha::CompilationInfo&gt;, std::allocator&lt;mocha::SharedPtr&lt;mocha::CompilationInfo&gt; &gt; &gt;&amp;, bool, mocha::SharedPtr&lt;mocha::AsyncCallback&gt;)"
+               urlString = "file://localhost/Users/aono_taketoshi/github/mocha/xcode/mocha/../../src/mocha/roaster/roaster.cc"
+               timestampString = "352945409.249625"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "113"
+               endingLineNumber = "113">
+            </Location>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "std::vector&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt;, std::allocator&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt; &gt; &gt;::_M_insert_aux(__gnu_cxx::__normal_iterator&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt;*, std::vector&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt;, std::allocator&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt; &gt; &gt; &gt;, mocha::SharedPtr&lt;mocha::CompilationResult&gt; const&amp;)"
+               urlString = "file://localhost/Users/aono_taketoshi/github/mocha/xcode/mocha/../../src/mocha/roaster/roaster.cc"
+               timestampString = "352945409.250127"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "113"
+               endingLineNumber = "113">
+            </Location>
+         </Locations>
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352945433.159338"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "115"
+         endingLineNumber = "115"
+         landmarkName = "Roaster::CompileFilesAsync(CompilationInfoHandleList&amp; info_list, bool is_join, AsyncCallbackHandle callback)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352945496.876113"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "46"
+         endingLineNumber = "46"
+         landmarkName = "Roaster::CompileFiles(CompilationInfoHandleList&amp; info_list)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352945516.616751"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "43"
+         endingLineNumber = "43"
+         landmarkName = "Roaster::CompileFiles(CompilationInfoHandleList&amp; info_list)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/bootstrap/test/test_run.h"
+         timestampString = "352945583.812581"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
+         landmarkName = "RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir)"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352945796.224105"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "68"
+         endingLineNumber = "68"
+         landmarkName = "AsyncThreadRunner(void* args)"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352946311.944071"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
+         landmarkName = "Roaster::CompileFilesAsync(CompilationInfoHandleList&amp; info_list, bool is_join, AsyncCallbackHandle callback)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/roaster.cc"
+         timestampString = "352947023.689114"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "69"
+         endingLineNumber = "69"
+         landmarkName = "AsyncThreadRunner(void* args)"
+         landmarkType = "7">
+         <Locations>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "mocha::AsyncThreadRunner(void*)"
+               urlString = "file://localhost/Users/aono_taketoshi/github/mocha/xcode/mocha/../../src/mocha/roaster/roaster.cc"
+               timestampString = "352947293.585402"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "69"
+               endingLineNumber = "69">
+            </Location>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "std::vector&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt;, std::allocator&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt; &gt; &gt;::_M_insert_aux(__gnu_cxx::__normal_iterator&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt;*, std::vector&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt;, std::allocator&lt;mocha::SharedPtr&lt;mocha::CompilationResult&gt; &gt; &gt; &gt;, mocha::SharedPtr&lt;mocha::CompilationResult&gt; const&amp;)"
+               urlString = "file://localhost/Users/aono_taketoshi/github/mocha/xcode/mocha/../../src/mocha/roaster/roaster.cc"
+               timestampString = "352947293.598095"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "69"
+               endingLineNumber = "69">
+            </Location>
+         </Locations>
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/compiler.cc"
+         timestampString = "352948423.868302"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
+         landmarkName = "Compile()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/compiler.cc"
+         timestampString = "352948424.644719"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "103"
+         endingLineNumber = "103"
+         landmarkName = "Compile()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/roaster/compiler.cc"
+         timestampString = "352948566.105422"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "90"
+         endingLineNumber = "90"
+         landmarkName = "Compile()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/misc/file_writer.cc"
+         timestampString = "352951375.971743"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "9"
+         endingLineNumber = "9"
+         landmarkName = "FileWriter::WriteResult(CompilationResultHandle result)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/misc/file_writer.cc"
+         timestampString = "352951375.971743"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "10"
+         endingLineNumber = "10"
+         landmarkName = "FileWriter::WriteResult(CompilationResultHandle result)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/fileinfo/fileinfo.cc"
+         timestampString = "352951629.812934"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
+         landmarkName = "FileInfoMap::SafeSet(const char* filename)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/fileinfo/fileinfo.cc"
+         timestampString = "352951484.999437"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
+         landmarkName = "FileInfoMap::UnsafeSet(const char* filename)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/fileinfo/fileinfo.cc"
+         timestampString = "352951657.140147"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
+         landmarkName = "FileInfoMap::SafeGet(const char* filename)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/bootstrap/interactions/commands_analyzer.cc"
+         timestampString = "352960674.056208"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "79"
+         endingLineNumber = "79"
+         landmarkName = "CommandsAnalyzer::AnalyzeEachToken_(Options* option)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/bootstrap/interactions/commands_analyzer.cc"
+         timestampString = "352960718.477415"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "78"
+         endingLineNumber = "78"
+         landmarkName = "CommandsAnalyzer::AnalyzeEachToken_(Options* option)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/bootstrap/interactions/commands_analyzer.cc"
+         timestampString = "352960962.942725"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
+         landmarkName = "CommandsAnalyzer::Analyze(const char* buf)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/aono_taketoshi/github/mocha/src/mocha/bootstrap/interactions/commands_analyzer.cc"
+         timestampString = "352961016.045171"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "24"
+         endingLineNumber = "24"
+         landmarkName = "CommandsAnalyzer::Analyze(const char* buf)"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

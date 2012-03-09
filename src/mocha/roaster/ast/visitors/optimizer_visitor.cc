@@ -266,7 +266,6 @@ void OptimizerVisitor::ArrayAccessorProccessor_(CallExp* exp) {
 	  if (tmp.size() < 3 ) {
 		  return;
 	  }
-	  CompilationInfo* info = info_;
       tmp.erase(tmp.size() - 1, tmp.size());
       if (!isalpha(tmp[ 1 ]) && tmp[ 1 ] != '_' && tmp[ 1 ] != '$') {
         is_valid_property_name = false;

@@ -6,8 +6,9 @@ void FileWriter::WriteResult(CompilationResultHandle result){
   //Current directory -> main js file path.
   //Get file name of main js file.
   std::string val;
+    printf("%s\n" , result->filename());
   FileInfo* resource = FileInfoMap::SafeGet(result->filename());
-  if (resource->GetDeploy()) {
+  if (resource && resource->GetDeploy()) {
     const char* dir = resource->GetDeploy();
     filesystem::Stat stat(dir);
     if (!stat.IsExist() || !stat.IsDir()) {
@@ -18,6 +19,8 @@ void FileWriter::WriteResult(CompilationResultHandle result){
     val = dir;
     val += '/';
     val += path.filename();
+  } else if (!resource) {
+    return;
   } else {
     val = result->filename();
   }

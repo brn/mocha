@@ -126,7 +126,7 @@ FileInfo* FileInfoMap::UnsafeGet(const char* filename) {
 
 FileInfo* FileInfoMap::SafeGet(const char* filename) {
   MutexLock lock(mutex_);
-  FileInfoHandleMap::iterator entry = resources_.find(filename);
+  FileInfoHandleMap::iterator entry = resources_.find(std::string(filename));
   if (entry != resources_.end()) {
     return entry->second.Get();
   }
