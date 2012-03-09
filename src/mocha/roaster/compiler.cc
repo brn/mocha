@@ -35,10 +35,10 @@
 #include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/external/external_ast.h>
-#include <mocha/roaster/file_system/file_io.h>
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/file_system/virtual_directory.h>
-#include <mocha/roaster/file_system/stat.h>
+#include <mocha/roaster/platform/fs/fio.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/virtual_directory.h>
+#include <mocha/roaster/platform/fs/stat.h>
 #include <mocha/xml/xml_reader.h>
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/roaster/ast/ast.h>
@@ -76,7 +76,7 @@ class Compiler::PtrImpl {
   inline void Initialize(Compiler* compiler) {
     compiler_ = compiler;
     if (compilation_info_->IsFile()) {
-      path_(new filesystem::Path(compilation_info()->string()));
+      path_(new platform::fs::Path(compilation_info()->string()));
       SetPath(path_->absolute_path());
       main_file_path_ = path_->absolute_path();
     } else {
@@ -88,7 +88,7 @@ class Compiler::PtrImpl {
   inline CompilationResultHandle Compile() {
     //Change direcotry to main js path.
     if (path_->HasAbsolutePath() && compilation_info()->IsFile()) {
-      filesystem::VirtualDirectory::GetInstance()->Chdir(path_->directory());
+      platform::fs::VirtualDirectory::GetInstance()->Chdir(path_->directory());
     }
     ast_root_.AddChild(Compiler::runtime("runtime", pool_.Get()));
     CallInternal(main_file_path_.c_str(), Internal::kFatal, false);
@@ -103,13 +103,13 @@ class Compiler::PtrImpl {
     return CompilationResultHandle(new CompilationResult(path_->absolute_path(), codegen_, error_map_));
   }
 
-  inline SharedPtr<filesystem::Path> Load(const char* filename, bool* is_runtime_module) {
+  inline SharedPtr<platform::fs::Path> Load(const char* filename, bool* is_runtime_module) {
     bool is_runtime = false;
     //Create javascript path from filename.
     //It's like this,
     //"./example" -> "<current absolute path>/example.js" or
     //"exampleModule" -> "<setted absolute module dir path> or <default absolute module path>/exampleModule.js"
-    SharedPtr<filesystem::Path> js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str(), compilation_info()->lib_directories(), &is_runtime);
+    SharedPtr<platform::fs::Path> js_path = CompilerUtils::CreateJsPath(filename, main_file_path_.c_str(), compilation_info()->lib_directories(), &is_runtime);
     //Check is module already loaded or not.
     if (IsAlreadyLoaded_(js_path->absolute_path())) {
       //Set loaded file to hash.
@@ -120,7 +120,7 @@ class Compiler::PtrImpl {
         return js_path;
       }
       //Change current directory to loaded js file directory.
-      SharedPtr<filesystem::Path> path_handle = CompilerUtils::ChangeDir(js_path->absolute_path());
+      SharedPtr<platform::fs::Path> path_handle = CompilerUtils::ChangeDir(js_path->absolute_path());
       CallInternal(path_handle->absolute_path(), Internal::kNofatal, false);
     }
     return js_path;
@@ -139,7 +139,7 @@ class Compiler::PtrImpl {
     return main_file_path_.c_str();
   }
 
-  const filesystem::Path* path() const {
+  const platform::fs::Path* path() const {
     return path_.Get();
   }
   
@@ -174,7 +174,7 @@ class Compiler::PtrImpl {
   inline void SetModuleKey(const char* name) {
     std::stringstream st;
     if (!(Compiler::IsRuntime(name))) {
-      filesystem::Path path(name);
+      platform::fs::Path path(name);
       st << path.filename();
     } else {
       st << name;
@@ -232,7 +232,7 @@ class Compiler::PtrImpl {
   ScopedPtr<AstBuilder> builder_;
   ScopedPtr<ScopeRegistry> scope_registry_;
   SharedPtr<CodegenVisitor> codegen_;
-  ScopedPtr<filesystem::Path> path_;
+  ScopedPtr<platform::fs::Path> path_;
 };
 
 
@@ -257,7 +257,7 @@ AstReserver Compiler::GetAst() {
   return implementation_->GetAst();
 }
 
-SharedPtr<filesystem::Path> Compiler::Load (const char* filename, bool* is_runtime_module) {
+SharedPtr<platform::fs::Path> Compiler::Load (const char* filename, bool* is_runtime_module) {
   return implementation_->Load(filename, is_runtime_module);
 }
 
@@ -273,12 +273,12 @@ const char* Compiler::mainfile_path() const {
   return implementation_->mainfile_path();
 }
 
-const filesystem::Path* Compiler::path() const {
+const platform::fs::Path* Compiler::path() const {
   return implementation_->path();
 }
 
 void Compiler::BuildRuntime() {
-  MutexLock lock(mutex_);
+  platform::ScopedLock lock(mutex_);
   runtime::Runtime::BuildSource();
   const runtime::Runtime::RuntimeMap& map = runtime::Runtime::runtime_map();
   runtime::Runtime::RuntimeMap::const_iterator it = map.begin();
@@ -312,6 +312,6 @@ bool Compiler::IsRuntime (const char* name) {
   RuntimeAstMap::iterator it = runtime_map_.find(name);
   return it != runtime_map_.end();
 }
-Mutex Compiler::mutex_;
+platform::Mutex Compiler::mutex_;
 Compiler::RuntimeAstMap Compiler::runtime_map_;
 } //namespace mocha

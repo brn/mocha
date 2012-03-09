@@ -1,16 +1,14 @@
-#ifndef mocha_file_watcher_win_impl_cc_
-#define mocha_file_watcher_win_impl_cc_
-#include <useconfig.h>
+#include <stdio.h>
+#include <string.h>
 #include <mocha/roaster/roaster.h>
-#ifdef HAVE_WINDOWS_H
+#ifdef PLATFORM_WIN32
 #include <windows.h>
 #define sleep(time) Sleep(time##000)
 #endif
-#include <stdio.h>
 #include <mocha/roaster/lib/unordered_map.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/misc/file_watcher/file_watcher.h>
-#include <mocha/roaster/file_system/stat.h>
+#include <mocha/roaster/platform/fs/stat.h>
 #define SETTINGS Setting::GetInstance()
 #define GET_MASK(mask) (type & mask) == mask
 #define ITERATOR(name) begin = name.begin(),end = name.end();
@@ -23,7 +21,7 @@ class WatcherContainer {
   WatcherContainer(const char* path, IUpdater* updater, int type) :
       type_(type),  updater_(updater) {
     filename_ = path;
-    filesystem::Stat stat(path);
+    platform::fs::Stat stat(path);
     date_ = stat.MTime();
   }
   WatcherContainer(){}
@@ -93,7 +91,7 @@ class FileWatcher::PtrImpl {
   typedef roastlib::unordered_map<FileEntry, WatcherContainer> WatchList;
 
   inline void Regist_(const char* path, IUpdater *updater, int type) {
-    filesystem::Stat stat(path);
+    platform::fs::Stat stat(path);
     if (stat.IsExist()) {
       AddToWatchList_(path, updater, type);
     }
@@ -124,7 +122,7 @@ class FileWatcher::PtrImpl {
       WatcherContainer* container = &((*begin).second);
       const char* filename = container->GetFileName();
       const char* date = container->GetDate();
-      filesystem::Stat stat(filename);
+      platform::fs::Stat stat(filename);
       const char* last_date = stat.MTime();
       if (stat.IsExist()) {
         if (strcmp(date, last_date) != 0) {
@@ -152,5 +150,3 @@ class FileWatcher::PtrImpl {
 };
 
 }
-
-#endif

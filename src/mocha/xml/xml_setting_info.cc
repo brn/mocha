@@ -1,6 +1,6 @@
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/options/setting.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 
 #define SETTINGS Setting::GetInstance()
 

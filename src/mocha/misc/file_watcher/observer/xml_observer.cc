@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/misc/file_watcher/observer/xml_observer.h>
 #include <mocha/xml/xml_reader.h>
 #include <mocha/xml/xml_setting_info.h>
@@ -66,7 +66,7 @@ void XMLObserver::Run() {
   xml_updater_ = new XMLUpdater(this);
   Initialize_(Setting::GetInstance()->GetXMLPath());
   Setting::GetInstance()->Log("new thread start.");
-  Thread thread;
+  platform::Thread thread;
   if (!thread.Create(XMLObserver::ThreadRunner_, xml_updater_->GetWatcher())) {
     Setting::GetInstance()->LogFatal("in XMLObserver::XMLObserver thread create fail.");
   } else {

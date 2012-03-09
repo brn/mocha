@@ -1,8 +1,6 @@
 #ifndef mocha_commandline_options_h_
 #define mocha_commandline_options_h_
-#include <useconfig.h>
 #include <mocha/options/options.h>
-
 namespace mocha {
 
 class CommandLineOptions {

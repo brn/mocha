@@ -1,7 +1,7 @@
 #include <mocha/roaster/roaster.h>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/fileinfo/fileinfo.h>
 
@@ -77,7 +77,7 @@ void* AsyncThreadRunner(void* args) {
 }
 
 void AsyncRunner(ThreadArgs* args, bool is_join) {
-  Thread thread;
+  platform::Thread thread;
   if (!thread.Create(AsyncThreadRunner, args)) {
     fprintf(stderr, "error at Roaster::CompileAsync");
   } else {

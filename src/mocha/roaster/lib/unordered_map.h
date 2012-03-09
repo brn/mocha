@@ -1,6 +1,5 @@
 #ifndef mocha_utils_unordered_map_h_
 #define mocha_utils_unordered_map_h_
-#include <useconfig.h>
 #ifdef HAVE_UNORDERED_MAP_H
 #include <unordered_map>
 namespace mocha {
@@ -8,7 +7,7 @@ namespace roastlib {
 using std::unordered_map;
 }
 }
-#elif defined HAVE_BOOST_UNORDERED_MAP_HPP
+#else
 #include <boost/unordered_map.hpp>
 namespace mocha {
 namespace roastlib {

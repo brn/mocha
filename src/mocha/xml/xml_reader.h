@@ -20,8 +20,8 @@ class XMLReader {
   
  private :
   static bool CheckIgnoreOption(TiXmlElement *elem);
-  void GetFullPath(filesystem::Path* path);
-  void ParseStart(filesystem::Path* path);
+  void GetFullPath(platform::fs::Path* path);
+  void ParseStart(platform::fs::Path* path);
   void SwitchProcessor(TiXmlNode* node, XMLInfo* info);
   void ProcessNode(TiXmlElement *elem, XMLInfo* info);
   void ProcessFileNode(TiXmlElement *elem, const char* path, const char* module, XMLInfo* info);

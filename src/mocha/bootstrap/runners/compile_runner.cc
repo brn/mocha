@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <sstream>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/misc/file_writer.h>
 #include <mocha/roaster/roaster.h>
 #include <mocha/bootstrap/runners/compile_runner.h>
@@ -11,7 +11,7 @@ CompileRunner::CompileRunner(Options *options) : ICommandLineRunner(options) {}
 void CompileRunner::Run() {
   Roaster roaster;
   std::stringstream st;
-  st << filesystem::Path::current_directory();
+  st << platform::fs::Path::current_directory();
   st << '/' << options_->GetPath();
   std::string path = st.str();
   CompilationInfoHandle handle(new CompilationInfo(path.c_str()));

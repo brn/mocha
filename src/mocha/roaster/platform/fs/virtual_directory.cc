@@ -1,21 +1,21 @@
 #include <string.h>
 #include <mocha/misc/char_allocator.h>
-#include <mocha/roaster/file_system/virtual_directory.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/virtual_directory.h>
+#include <mocha/roaster/platform/fs/fs.h>
 
-namespace mocha {
-namespace filesystem {
-VirtualDirectory* filesystem::VirtualDirectory::GetInstance() {
-  filesystem::VirtualDirectory* instance = reinterpret_cast<filesystem::VirtualDirectory*>(ThreadLocalStorage::Get(&local_key_));
+namespace mocha {namespace platform {
+namespace fs {
+VirtualDirectory* platform::fs::VirtualDirectory::GetInstance() {
+  platform::fs::VirtualDirectory* instance = reinterpret_cast<platform::fs::VirtualDirectory*>(platform::ThreadLocalStorage::Get(&local_key_));
   if (instance == NULL) {
-    instance = new filesystem::VirtualDirectory;
-    ThreadLocalStorage::Set(&local_key_, instance);
+    instance = new platform::fs::VirtualDirectory;
+    platform::ThreadLocalStorage::Set(&local_key_, instance);
   }
   return instance;
 }
 
 void VirtualDirectory::Chdir(const char* path) {
-  filesystem::Path path_info(path);
+  platform::fs::Path path_info(path);
   current_dir_ = path_info.absolute_path();
 }
 
@@ -30,7 +30,7 @@ SharedStr VirtualDirectory::GetRealPath(const char* path) {
   std::string tmp = current_dir_;
   tmp += '/';
   tmp += path;
-  filesystem::Path path_info(tmp.c_str());
+  platform::fs::Path path_info(tmp.c_str());
   char* ret = utils::CharAlloc(path_info.absolute_path());
   return SharedStr(ret);
 }
@@ -48,7 +48,7 @@ void VirtualDirectory::Destructor_(void* ptr) {
   delete instance;
 }
 
-ThreadLocalStorageKey VirtualDirectory::local_key_(VirtualDirectory::Destructor_);
-Mutex VirtualDirectory::mutex_;
+platform::ThreadLocalStorageKey VirtualDirectory::local_key_(VirtualDirectory::Destructor_);
+platform::Mutex VirtualDirectory::mutex_;
 }
-}
+}}

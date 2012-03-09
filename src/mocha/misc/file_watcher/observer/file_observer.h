@@ -1,7 +1,6 @@
 #ifndef mocha_file_observer_h_
 #define mocha_file_observer_h_
 
-#include <useconfig.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/misc/file_watcher/file_watcher.h>
 

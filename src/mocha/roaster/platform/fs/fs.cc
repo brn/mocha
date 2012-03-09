@@ -1,6 +1,11 @@
-#ifdef _WIN32
+#include <string.h>
+#include <stdlib.h>
+#include <vector>
+#include <string>
+#include <sstream>
+#ifdef PLATFORM_WIN32
 #include <windows.h>
-#else
+#elif defined PLATFORM_POSIX
 #include <unistd.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -8,27 +13,17 @@
 #include <sys/types.h>
 #include <dirent.h>
 #endif
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/fio.h>
+#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/mkdir.h>
 
-#include <string.h>
-#include <stdlib.h>
-#include <vector>
-#include <string>
-
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/file_system/file_io.h>
-#include <useconfig.h>
-#include <mocha/roaster/file_system/stat.h>
-#include <mocha/roaster/file_system/mkdir.h>
-#include <mocha/misc/char_allocator.h>
-
-#ifdef _WIN32
+#ifdef PLATFORM_WIN32
 #define HOME "HOMEPATH"
-#ifdef HAVE_IO_H
 #include <io.h>
-#endif
 #define CHMOD(name,permiss) _chmod(name,permiss)
 #define CHDIR(name,permiss) _chdir(name,permiss)
-#else
+#elif defined PLATFORM_POSIX
 #define HOME "HOME"
 #define CHMOD(name,permiss) ::chmod(name,permiss)
 #define CHDIR(name) ::chdir(name)
@@ -41,18 +36,19 @@
 #define MAXPATHLEN 10000
 #endif
 
-#ifdef HAVE_REALPATH
+#ifdef PLATFORM_POSIX
 #define FULL_PATH(path, tmp) tmp = realpath(path, NULL)
-#elif HAVE__FULLPATH
+#elif defined PLATFORM_WIN32
 #define FULL_PATH(path, tmp) tmp = _fullpath(NULL, path, 0)
 #endif
 
 namespace mocha {
-namespace filesystem {
+namespace platform {
+namespace fs {
 void GetDirectoryFromPath(const char* path, std::string* buffer) {
   int index = strlen(path);
-  std::string tmp = path;
   bool is_slashed = false;
+  buffer->assign(path);
   while (index--) {
     if (is_slashed) {
       break;
@@ -61,33 +57,28 @@ void GetDirectoryFromPath(const char* path, std::string* buffer) {
       is_slashed = true;
     }
   }
-  tmp.erase(index + 1, tmp.size());
-  buffer->assign(tmp.c_str());
+  buffer->erase(index + 1, buffer->size());
 }
 
 void GetFileNameFromPath(const char* path, std::string* buffer) {
-  std::string tmp;
   int len = strlen(path);
   if (path[len - 1] == '/') {
     return;
   }
   const char* ptr = strrchr(path, '/');
   if (ptr) {
-    tmp = (ptr + 1);
+    buffer->assign((ptr + 1));
   } else {
-    tmp = path;
+    buffer->assign(path);
   }
-  buffer->assign(tmp.c_str());
 }
 
 void ConvertBackSlash(const char* path, std::string* buffer) {
-  std::string tmp = path;
-  //buffer->assign(path);
+  buffer->assign(path);
   size_t index = 0;
-  while ((index = tmp.find("\\", 0)) != std::string::npos) {
-    tmp = tmp.replace(index, 1, "/");
+  while ((index = buffer->find("\\", 0)) != std::string::npos) {
+    buffer->assign(buffer->replace(index, 1, "/"));
   }
-  buffer->assign(tmp.c_str());
 }
 
 void GetAbsolutePath(const char* path, std::string* buffer, bool* is_success = 0) {
@@ -166,18 +157,18 @@ Path::Path(const char* path) {
 }
   
 const char* Path::current_directory() {
-  MutexLock lock(mutex_);
+  platform::ScopedLock lock(mutex_);
   current_dir_.clear();
 #define GW_BUF_SIZE 1000
-#ifdef HAVE_WINDOWS_H
+#ifdef PLATFORM_WIN32
     char tmp[GW_BUF_SIZE];
     DWORD isSuccess = GetCurrentDirectory(sizeof(tmp), tmp);
     if (!isSuccess) {
       fprintf(stderr, "GetCwd fail.");
     }
     ConvertBackSlash(tmp, &current_dir_);
-#else
-    char tmp[ GW_BUF_SIZE ];
+#elif defined PLATFORM_POSIX
+    char tmp[GW_BUF_SIZE];
     char* dir = getcwd(tmp, sizeof (tmp));
     if (!dir) {
       fprintf(stderr, "GetCwd fail.");
@@ -189,8 +180,8 @@ const char* Path::current_directory() {
 
 
 const char* Path::home_directory() {
-  MutexLock lock(mutex_);
-#ifdef _WIN32
+  platform::ScopedLock lock(mutex_);
+#ifdef PLATFORM_WIN32
   const char* drive = getenv("HOMEDRIVE");
   const char* home = getenv(HOME);
   if (home && drive) {
@@ -201,7 +192,7 @@ const char* Path::home_directory() {
     return user_home_.c_str();
   }
   return 0;
-#else
+#elif defined PLATFORM_POSIX
   const char* home = getenv(HOME);
   if (home) {
     user_home_ = home;
@@ -241,51 +232,52 @@ void GetPathArray(const char* path, PathArray *array) {
   }
 }
 
-SharedStr GetModuleKey(const char* base, const char* path) {
+const char* fs::Path::relative_path(const char* base, const char* path, std::string* buf) {
   if (strcmp(base, path) == 0) {
-    return SharedStr(utils::CharAlloc("./"));
+    return base;
   }
   PathArray base_array;
   PathArray target_array;
   GetPathArray(base, &base_array);
   GetPathArray(path, &target_array);
-  std::string result;
   int i = 0;
   int base_size = base_array.size();
   int target_size = target_array.size();
   while ((i < base_size) || (i < target_size)) {
     if (i >= base_size) {
-      result += target_array.at(i);
+      buf->append(target_array.at(i));
     } else if (i >= target_size) {
-      std::string tmp;
+      std::stringstream st;
       while (i < base_size) {
-        tmp += "../";
+        st << "../";
         i++;
       }
-      tmp += result;
-      return SharedStr(utils::CharAlloc(tmp.c_str()));
+      std::string ret = st.str();
+      buf->append(ret);
     } else if (base_array.at(i).compare(target_array.at(i)) != 0) {
+      std::stringstream st;
       while (i < base_size) {
-        result += "../";
+        st << "../";
         base_array.pop_back();
         base_size = base_array.size();
       }
       while (i < target_size) {
-        result += target_array[ i ];
-        result += "/";
+        st << target_array[ i ];
+        st << "/";
         i++;
       }
-      return SharedStr(utils::CharAlloc(result.c_str()));
+      std::string ret = st.str();
+      buf->append(ret);
     }
     i++;
   }
-  return SharedStr(utils::CharAlloc(result.c_str()));
+  buf->c_str();
 }
 
 void chdir (const char* path) {
-#ifdef _WIN32
+#ifdef PLATFORM_WIN32
   SetCurrentDirectory(path);
-#else
+#elif defined PLATFORM_POSIX
   CHDIR(path);
 #endif
 }
@@ -298,7 +290,7 @@ bool chmod(const char* path, int permiss) {
   return false;
 }
 
-Mutex Path::mutex_;
+platform::Mutex Path::mutex_;
 }
-}
+}}
 #undef HOME

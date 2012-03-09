@@ -3,7 +3,7 @@ namespace mocha {
 namespace memory {
 void Pool::Free() {
   if (head_) {
-    ThreadLocalStorage::Set(&key_,NULL);
+    platform::ThreadLocalStorage::Set(&key_,NULL);
     Allocated* block = head_;
     Allocated* next = block->next_;
     while (1) {
@@ -20,6 +20,6 @@ void Pool::Free() {
     head_ = current_ = 0;
   }
 }
-ThreadLocalStorageKey Pool::key_;
+platform::ThreadLocalStorageKey Pool::key_;
 }
 }

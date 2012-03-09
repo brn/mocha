@@ -1,7 +1,7 @@
 #ifndef mocha_js_token_h_
 #define mocha_js_token_h_
 #include <mocha/roaster/misc/class_traits/static.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha{
 class TokenInfo;
@@ -129,7 +129,7 @@ class JsToken : private Static {
   static const char* GetTokenFromNumber(int id);
   static void Initialize();
  private :
-  static Mutex mutex_;
+  static platform::Mutex mutex_;
   static ReservedTokenTable reserved_map_;
   static BuiltinTokenTable builtin_map_;
 };

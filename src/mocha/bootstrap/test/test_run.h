@@ -7,11 +7,11 @@
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/utils/compilation_info.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/file_system/directory.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/fs/directory.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/misc/file_writer.h>
 namespace mocha {namespace compiler_test {
 
@@ -22,7 +22,7 @@ class TestCallback : public FileWriter{
       size_(size), is_end_(false), current_(0) {}
   ~TestCallback(){}
   void operator() (CompilationResultHandle result) {
-    MutexLock lock(mutex_);
+    platform::ScopedLock lock(mutex_);
     WriteResult(result);
     if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;
@@ -50,17 +50,17 @@ class TestCallback : public FileWriter{
     }
   }
  private :
-  static Mutex mutex_;
+  static platform::Mutex mutex_;
   int size_;
   bool is_end_;
   std::string errors_;
   AtomicWord current_;
 };
 
-Mutex TestCallback::mutex_;
+platform::Mutex TestCallback::mutex_;
 
 std::string GetPath(const char* path) {
-  filesystem::Path fs_path(Bootstrap::GetSelfPath());
+  platform::fs::Path fs_path(Bootstrap::GetSelfPath());
   std::string result = fs_path.directory();
   result += '/';
   result += path;
@@ -74,30 +74,30 @@ void* ThreadRunner(void* args) {
 }
 
 void RunJS(const char* dir) {
-  filesystem::Directory directory(dir);
-  filesystem::DirectoryIterator iterator = directory.GetFileList(true, false);
+  platform::fs::Directory directory(dir);
+  platform::fs::Directory::const_iterator iterator = directory.Entries(true);
   std::string args;
-  while (iterator.HasNext()) {
-    const filesystem::DirEntry* entry = iterator.Next();
+  while (iterator != directory.end()) {
+    const platform::fs::DirEntry* entry = *iterator;
     const char* fullpath = entry->GetFullPath();
     if (strstr(fullpath, "-cmp.js") != NULL) {
       args += fullpath;
       args += " ";
     }
-
+    ++iterator;
   }
-  Thread thread;
+  platform::Thread thread;
   thread.Create(ThreadRunner, &args);
   thread.Join();
 }
 
 void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
-  filesystem::Directory directory(CURRENT_DIR"/test/js");
-  filesystem::DirectoryIterator iterator = directory.GetFileList(true, false);
+  platform::fs::Directory directory(CURRENT_DIR"/test/js");
+  platform::fs::Directory::const_iterator iterator = directory.Entries(true);
   Roaster roaster;
   CompilationInfoHandleList list;
-  while (iterator.HasNext()) {
-    const filesystem::DirEntry* entry = iterator.Next();
+  while (iterator != directory.end()) {
+    const platform::fs::DirEntry* entry = *iterator;
     const char* fullpath = entry->GetFullPath();
     if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
       FileInfoMap::UnsafeSet(fullpath);
@@ -115,6 +115,7 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
       }
       list.push_back(info);
     }
+    ++iterator;
   }
   TestCallback* callback = new TestCallback(list.size());
   AsyncCallbackHandle handle(callback);

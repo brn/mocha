@@ -22,14 +22,13 @@
 
 #ifndef mocha_compiler_h_
 #define mocha_compiler_h_
-#include <useconfig.h>
 #include <mocha/roaster/roaster.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/lib/unordered_map.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/utils/error_reporter.h>
 namespace mocha {
 namespace memory{
@@ -77,7 +76,7 @@ class Compiler : private Uncopyable {
    * if path is only '<filename>', that file is treat as module.
    * This rule borrow from node.js.
    */
-  SharedPtr<filesystem::Path> Load (const char* filename, bool* is_runtime_module);
+  SharedPtr<platform::fs::Path> Load (const char* filename, bool* is_runtime_module);
 
   void CatchException(const char* filename, ErrorHandler handle);
   AstReserver GetAst();
@@ -90,7 +89,7 @@ class Compiler : private Uncopyable {
   
   const char* mainfile_path() const;
   
-  const filesystem::Path* path() const;
+  const platform::fs::Path* path() const;
   
   std::string ModuleKey(const char*) const;
   
@@ -117,7 +116,7 @@ class Compiler : private Uncopyable {
   ScopedPtr<PtrImpl> implementation_;
 
   static RuntimeAstMap runtime_map_;
-  static Mutex mutex_;
+  static platform::Mutex mutex_;
 };
 
 }

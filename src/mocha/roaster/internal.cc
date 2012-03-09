@@ -11,9 +11,9 @@
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/file_system/file_io.h>
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/file_system/virtual_directory.h>
+#include <mocha/roaster/platform/fs/fio.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/virtual_directory.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/ast_transformer.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
@@ -66,8 +66,8 @@ void Internal::RunAction(bool is_ast, ErrorLevel level) {
 
 inline void Internal::LoadFile() {
   //Check is file exist.
-  if (filesystem::FileIO::IsExist(path_)) {
-    file_ = filesystem::FileIO::Open(path_, "rb");
+  if (platform::fs::FileIO::IsExist(path_)) {
+    file_ = platform::fs::FileIO::Open(path_, "rb");
     //Set bool to true.
     FILE_EXIST;
   } else {

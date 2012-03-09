@@ -1,38 +1,23 @@
-#include <useconfig.h>
-#ifdef HAVE_FCNTL_H
+#ifdef PLATFORM_POSIX
 #include <fcntl.h>
-#endif
-
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-
-#ifdef HAVE_WINDOWS_H
-#include <windows.h>
-#endif
-
-#ifdef HAVE_SYS_LOCKING_H
-#include <sys/locking.h>
-#endif
-
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-#ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
 
-#ifdef HAVE_TIME_H
+#ifdef PLATFORM_WIN32
+#include <io.h>
+#include <windows.h>
+#include <sys/locking.h>
 #include <time.h>
 #endif
 
 #include <string.h>
 #include <stdlib.h>
 #include <string>
-#include <mocha/roaster/file_system/file_io.h>
+#include <mocha/roaster/platform/fs/fio.h>
+#include <mocha/roaster/platform/fs/stat.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/file_system/stat.h>
+#include <mocha/roaster/platform/fs/stat.h>
 #include <mocha/misc/char_allocator.h>
 #include <mocha/options/setting.h>
 
@@ -43,47 +28,47 @@
   flag = (((flag) | FileIO::permission_[ (num) ]));     \
 
 
-#ifdef HAVE_WRITE
+#ifdef PLATFORM_POSIX
 #define WRITE_STREAM(fd, str, count) ::write (fd, buf, count)  
-#elif HAVE__WRITE
+#elif PLATFORM_WIN32
 #define WRITE_STREAM(fd, str, count) ::_write (fd, buf, count)
 #endif
 
-#ifdef HAVE_OPEN
+#ifdef PLATFORM_POSIX
 #define OPEN_STREAM(fd, mode, access) ::open (fd, mode ,access)
-#elif HAVE__OPEN
+#elif PLATFORM_WIN32
 #define OPEN_STREAM(fd, mode, access) ::_open (fd, mode, access)
 #endif
 
-#ifdef HAVE_READ
+#ifdef PLATFORM_POSIX
 #define READ_STREAM(fd, buf, size) ::read (fd, buf, size)
-#elif HAVE__READ
+#elif PLATFORM_WIN32
 #define READ_STREAM(fd, buf, size) ::_read (fd, buf, size)
 #endif
 
-#ifdef HAVE_CLOSE
+#ifdef PLATFORM_POSIX
 #define CLOSE_STREAM(fd) ::close (fd)
-#elif HAVE__CLOSE
+#elif PLATFORM_WIN32
 #define CLOSE_STREAM(fd) ::_close (fd)  
 #endif
 
-#ifdef HAVE_CREAT
+#ifdef PLATFORM_POSIX
 #define CREATE_FILE(path, permiss) ::creat (path, permiss)
-#elif HAVE__CREAT
+#elif PLATFORM_WIN32
 #define CREATE_FILE(path, permiss) ::_creat (path, permiss)
 #endif
 
 
-#ifdef HAVE_FLOCK
+#ifdef PLATFORM_POSIX
 #define LOCK_FILE(fd, type) ::flock (fd, type)  
-#elif HAVE__LOCKING
+#elif PLATFORM_WIN32
 #define LOCK_FILE(fd, type) ::_locking (fd, type, 1)
 #endif
 
-#ifdef _WIN32
+#ifdef PLATFORM_WIN32
 #define EN_LOCK _LK_LOCK
 #define UN_LOCK _LK_UNLCK
-#else
+#elif defined PLATFORM_POSIX
 #define EN_LOCK LOCK_EX
 #define UN_LOCK LOCK_UN
 #define O_TEXT 0
@@ -92,7 +77,6 @@
 using namespace std;
 
 #define REPORT_ERROR(message)
-
 #define ENSURE_WRITABLE                                 \
   if (open_type_ == FileIO::ReadOnly) {                 \
     REPORT_ERROR("Can not write to read only stream."); \
@@ -103,7 +87,7 @@ using namespace std;
     REPORT_ERROR("Stream is not opened.");      \
   }
 namespace mocha {
-namespace filesystem {
+namespace platform {namespace fs {
 inline char* File::Allocate (size_t size) {
   return reinterpret_cast<char*> (malloc (size));
 }
@@ -158,26 +142,6 @@ void File::Close() {
 };
 
 long int File::size() const { return fstat_->Size(); }
-
-SharedCStr File::GetFileContents() {
-  ENSURE_STREAM_OPENED;
-  char* buffer = Allocate(sizeof (char) * RAW_IO_BUF_SIZE);
-  char tmp[ RAW_IO_BUF_SIZE ];
-  int char_size = sizeof (char);
-  int size = char_size * RAW_IO_BUF_SIZE;
-  int read_size = 0;
-  int current_size = 0;
-
-  while ((read_size = READ_STREAM(fd_, tmp, size - char_size)) > 0) {
-    if (current_size > 0) {
-      buffer = Reallocate (buffer, (current_size + read_size + char_size));
-    }
-    tmp[read_size] = '\0';
-    strcpy(buffer + current_size, tmp);
-    current_size += read_size;
-  }
-  return SharedCStr(buffer);
-}
 
 void File::GetFileContents(std::string* str) {
   ENSURE_STREAM_OPENED;
@@ -312,7 +276,9 @@ int FileIO::permission_[] = {
   S_IWRITE
 };
 
-Mutex FileIO::mutex_;
-Mutex FileIO::close_mutex_;
+platform::Mutex FileIO::mutex_;
+platform::Mutex FileIO::close_mutex_;
 }
-}
+}}
+
+

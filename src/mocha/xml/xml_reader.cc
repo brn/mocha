@@ -6,8 +6,8 @@
 #include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/xml/xml_reader.h>
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/file_system/file_io.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/fio.h>
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/xml/versions.h>
 #include <mocha/misc/char_allocator.h>
@@ -35,14 +35,14 @@ XMLReader::~XMLReader() {
 
 void XMLReader::Parse(const char* pathname, bool is_reparse) {
   BEGIN(Parse);
-  filesystem::Path path(pathname);
+  platform::fs::Path path(pathname);
   //Get absolute path of xml file.
   GetFullPath(&path);
   /*
    *If xml file is exit, start parse,
    *if not exist ignore this file and logging.
    */
-  if (filesystem::FileIO::IsExist(path.absolute_path())) {
+  if (platform::fs::FileIO::IsExist(path.absolute_path())) {
     ParseStart(&path);
   } else {
     Setting::GetInstance()->GetInstance()->LogError("%s no such file.", path.absolute_path());
@@ -59,12 +59,12 @@ bool XMLReader::CheckIgnoreOption(TiXmlElement *elem) {
   return false;
 }
 
-void XMLReader::GetFullPath(filesystem::Path* path) {
+void XMLReader::GetFullPath(platform::fs::Path* path) {
   XMLSettingInfo::set_include_list(std::string(path->absolute_path()));
 }
 
 
-void XMLReader::ParseStart(filesystem::Path* path) {
+void XMLReader::ParseStart(platform::fs::Path* path) {
   BEGIN(ParseStart);
   TiXmlDocument xml_document;
   xml_document.LoadFile(path->absolute_path());
@@ -120,12 +120,12 @@ void XMLReader::ProcessFileNode(TiXmlElement* elem, const char* dir, const char*
     std::stringstream st;
     st << info->GetPath() << '/' << dir << '/' << filename;
     std::string combined_path = st.str();
-    filesystem::Path path(combined_path.c_str());
+    platform::fs::Path path(combined_path.c_str());
     const char* normalized_path = path.absolute_path();
     FileInfoMap::UnsafeSet(normalized_path);
     FileInfo* resource = FileInfoMap::UnsafeGet(normalized_path);
     //If file exist.
-    if (filesystem::FileIO::IsExist(normalized_path)) {
+    if (platform::fs::FileIO::IsExist(normalized_path)) {
       if (IS_DEF(module)) {
         std::stringstream st;
         st << info->GetPath() << '/' << module;
@@ -158,7 +158,7 @@ void XMLReader::ProcessModuleOption(const char* filename, const char* module, Fi
   std::string buffer;
   for (int i = 0,len = strlen(module);i < len; i++) {
     if (module[ i ] == ',') {
-      filesystem::Path path(buffer.c_str());
+      platform::fs::Path path(buffer.c_str());
       resource->compilation_info()->SetLibDirectory(path.absolute_path());
       buffer.clear();
     } else if (isalnum(module[ i ]) || module[ i ] == '-' || module[ i ] == '_') {
@@ -166,7 +166,7 @@ void XMLReader::ProcessModuleOption(const char* filename, const char* module, Fi
     }
   }
   if (!buffer.empty()) {
-    filesystem::Path path(buffer.c_str());
+    platform::fs::Path path(buffer.c_str());
     resource->compilation_info()->SetLibDirectory(path.absolute_path());
   }
 }
@@ -177,7 +177,7 @@ void XMLReader::ProcessDeployOption(TiXmlElement *elem, const char* filename, co
   if (IS_DEF(deploy_path)) {
     std::stringstream st;
     st << info->GetPath() << '/' << dir << '/' << deploy_path;
-    filesystem::Path path(st.str().c_str());
+    platform::fs::Path path(st.str().c_str());
     resource->SetDeploy(path.absolute_path());
   }
 }

@@ -2,7 +2,7 @@
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/roaster.h>
 #include <mocha/fileinfo/fileinfo.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/misc/file_watcher/observer/file_observer.h>
 #include <mocha/xml/xml_setting_info.h>
@@ -16,8 +16,8 @@ class FileObserver::FileUpdater : public IUpdater {
   void Update(watch_traits::Modify* trait) {
     const char* filename = trait->filename;
     if (mutex_list_.find(filename) != mutex_list_.end()) {
-      Mutex* mutex = mutex_list_[ filename ].Get();
-      MutexLock lock((*mutex));
+      platform::Mutex* mutex = mutex_list_[ filename ].Get();
+      platform::ScopedLock lock((*mutex));
       FileInfo* resource = FileInfoMap::SafeGet(filename);
       if (resource) {
         AsyncCallbackHandle callback(new FileWriter);
@@ -29,8 +29,8 @@ class FileObserver::FileUpdater : public IUpdater {
   void Update(watch_traits::DeleteSelf* trait) {
     const char* filename = trait->filename;
     if (mutex_list_.find(filename) != mutex_list_.end()) {
-      Mutex* mutex = mutex_list_[ filename ].Get();
-      MutexLock lock((*mutex));
+      platform::Mutex* mutex = mutex_list_[ filename ].Get();
+      platform::ScopedLock lock((*mutex));
       List::iterator ret = mutex_list_.find(filename);
       if (mutex_list_.end() != ret) {
         mutex_list_.erase(ret);
@@ -38,7 +38,7 @@ class FileObserver::FileUpdater : public IUpdater {
     }
   }
  private :
-  typedef roastlib::unordered_map<std::string,SharedPtr<Mutex> > List;
+  typedef roastlib::unordered_map<std::string,SharedPtr<platform::Mutex> > List;
   List mutex_list_;
 };
 
@@ -46,7 +46,7 @@ FileObserver::FileObserver() : file_updater_(new FileUpdater) {}
 
 void FileObserver::Run() {
   Initialize_();
-  Thread thread;
+  platform::Thread thread;
   if (!thread.Create(FileObserver::ThreadRunner_, &file_watcher_)) {
     Setting::GetInstance()->LogFatal("in %s thread create fail.", __func__);
   } else {
@@ -69,7 +69,7 @@ void FileObserver::Initialize_() {
 }
 
 void FileObserver::RegistFile_(const char* filename) {
-  SharedPtr<Mutex> handle(new Mutex());
+  SharedPtr<platform::Mutex> handle(new platform::Mutex());
   file_updater_->mutex_list_[filename] = handle;
   file_watcher_.AddWatch(filename, file_updater_.Get(), FileWatcher::kModify);
 }

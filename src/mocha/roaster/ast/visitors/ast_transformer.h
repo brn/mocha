@@ -25,7 +25,6 @@
 #define mocha_ast_transformer_h_
 
 #include <string>
-#include <useconfig.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 

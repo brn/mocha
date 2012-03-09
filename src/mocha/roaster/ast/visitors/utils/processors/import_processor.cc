@@ -1,7 +1,7 @@
 #include <string>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/file_system/virtual_directory.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/virtual_directory.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/symbol_list.h>
@@ -89,16 +89,16 @@ void ImportProccessor::LoadModule_() {
     //"path to file" -> path to file
     js_path.erase(js_path.size() - 1, js_path.size());
                                                                 
-    SharedStr current_dir = filesystem::VirtualDirectory::GetInstance()->GetCurrentDir();
+    SharedStr current_dir = platform::fs::VirtualDirectory::GetInstance()->GetCurrentDir();
     bool is_runtime_module = false;
     //Get full path of module.
-    SharedPtr<filesystem::Path> real_path = visitor_info->compiler()->Load(js_path.c_str(), &is_runtime_module);
+    SharedPtr<platform::fs::Path> real_path = visitor_info->compiler()->Load(js_path.c_str(), &is_runtime_module);
 
     //Set virtual dir to current context dir.
-    filesystem::VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
+    platform::fs::VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
 
     //Get module uuid key.
-    filesystem::Path path(visitor_info->main_file_path());
+    platform::fs::Path path(visitor_info->main_file_path());
     std::string mod_name = 
         visitor_info->compiler()->ModuleKey(((!is_runtime_module)?real_path->absolute_path() : real_path->raw_path()));
     std::string modkey = "'";

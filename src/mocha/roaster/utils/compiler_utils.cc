@@ -1,8 +1,8 @@
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/utils/compiler_utils.h>
-#include <mocha/roaster/file_system/file_io.h>
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/file_system/virtual_directory.h>
+#include <mocha/roaster/platform/fs/fio.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/virtual_directory.h>
 #include <mocha/xml/xml_setting_info.h>
 
 #define JS_EXTENSION ".js"
@@ -13,16 +13,16 @@ inline bool CheckIsModule(const char* file) {
 
 namespace mocha{
 
-SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key, const LibDirectories& dir, bool* is_runtime) {
+SharedPtr<platform::fs::Path> CompilerUtils::CreateJsPath(const char* filename, const char* module_path_key, const LibDirectories& dir, bool* is_runtime) {
   std::string tmp;
   if (!CheckIsModule(filename)) {
     std::string js_path = filename;
     js_path += JS_EXTENSION;
-    tmp = filesystem::VirtualDirectory::GetInstance()->GetRealPath(js_path.c_str()).Get();
+    tmp = platform::fs::VirtualDirectory::GetInstance()->GetRealPath(js_path.c_str()).Get();
   } else {
     (*is_runtime) = Compiler::IsRuntime(filename);
     if ((*is_runtime)) {
-      return SharedPtr<filesystem::Path>(new filesystem::Path(filename));
+      return SharedPtr<platform::fs::Path>(new platform::fs::Path(filename));
     }
     LibDirectories::const_iterator iterator;
     for (iterator = dir.begin(); iterator != dir.end(); ++iterator) {
@@ -30,7 +30,7 @@ SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, co
       tmp += '/';
       tmp += filename;
       tmp += JS_EXTENSION;
-      filesystem::Stat stat(tmp.c_str());
+      platform::fs::Stat stat(tmp.c_str());
       if (!stat.IsExist()) {
         tmp.clear();
       } else {
@@ -41,12 +41,12 @@ SharedPtr<filesystem::Path> CompilerUtils::CreateJsPath(const char* filename, co
       tmp = filename;
     }
   }
-  return SharedPtr<filesystem::Path>(new filesystem::Path(tmp.c_str()));
+  return SharedPtr<platform::fs::Path>(new platform::fs::Path(tmp.c_str()));
 }
 
-SharedPtr<filesystem::Path> CompilerUtils::ChangeDir(const char* js_path) {
-  SharedPtr<filesystem::Path> path(new filesystem::Path(js_path));
-  filesystem::VirtualDirectory::GetInstance()->Chdir(path->directory());
+SharedPtr<platform::fs::Path> CompilerUtils::ChangeDir(const char* js_path) {
+  SharedPtr<platform::fs::Path> path(new platform::fs::Path(js_path));
+  platform::fs::VirtualDirectory::GetInstance()->Chdir(path->directory());
   return path;
 }
 

@@ -6,7 +6,7 @@
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/memory/pool.h>
 
 #define TOKEN yy::ParserImplementation::token
@@ -14,15 +14,15 @@
 namespace mocha{
 
 AstBuilder* AstBuilder::Local() {
-  AstBuilder* builder = static_cast<AstBuilder*>(ThreadLocalStorage::Get(&key_));
+  AstBuilder* builder = static_cast<AstBuilder*>(platform::ThreadLocalStorage::Get(&key_));
   if (builder == NULL) {
     builder = new AstBuilder(memory::Pool::Local());
-    ThreadLocalStorage::Set(&key_, builder);
+    platform::ThreadLocalStorage::Set(&key_, builder);
   }
   return builder;
 }
 AstBuilder::~AstBuilder() {
-  ThreadLocalStorage::Set(&key_,NULL);
+  platform::ThreadLocalStorage::Set(&key_,NULL);
 }
 Function* AstBuilder::CreateFunctionDecl(AstNode* name, AstNode* argv, AstNode* body, int64_t line) {
   Function *fn = new(pool()) Function(line);
@@ -172,21 +172,6 @@ Literal* AstBuilder::CreateTmpNode(int index, int64_t line) {
   return AstBuilder::CreateNameNode(tmp, Token::JS_IDENTIFIER, line, Literal::kIdentifier);
 }
 
-CallExp* AstBuilder::CreateGlobalExportNode(AstNode* ast_node, VisitorInfo* visitor_info,
-                                           const char* base, const char* filename, int64_t line) {
-  filesystem::Path path(filename);
-  SharedStr handle = filesystem::GetModuleKey(visitor_info->compiler()->path()->directory(),
-                                              path.directory());
-  std::string modkey = "'";
-  modkey += handle.Get();
-  modkey += path.filename();
-  modkey += "'";
-  Literal* value = AstBuilder::CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
-                                             Token::JS_IDENTIFIER, line, Literal::kIdentifier);
-  Literal* name = AstBuilder::CreateNameNode(modkey.c_str(), Token::JS_IDENTIFIER, line, Literal::kString);
-  return AstBuilder::CreateArrayAccessor(value, name, line);
-}
-
 IFStmt* AstBuilder::CreateIFStmt(AstNode* exp, AstNode* then_stmt, AstNode* else_stmt, int64_t line) {
   IFStmt* if_stmt = new(pool()) IFStmt(line);
   if_stmt->set_condition(exp);
@@ -266,5 +251,5 @@ bool AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
       node->CastToExpression() && node->CastToExpression()->IsValidLhs();
 }
 
-ThreadLocalStorageKey AstBuilder::key_;
+platform::ThreadLocalStorageKey AstBuilder::key_;
 }

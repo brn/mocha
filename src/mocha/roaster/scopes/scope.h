@@ -22,7 +22,6 @@
  */
 #ifndef mocha_roaster_scopes_scope_h_
 #define mocha_roaster_scopes_scope_h_
-#include <useconfig.h>
 #include <vector>
 #include <utility>
 #include <string>

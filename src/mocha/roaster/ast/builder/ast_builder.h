@@ -27,7 +27,7 @@
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 
 namespace mocha {
 namespace memory {
@@ -63,7 +63,6 @@ class AstBuilder : private Uncopyable {
   CallExp* CreateRuntimeMod(AstNode* member, int64_t line);
   CallExp* CreateConstantProp(AstNode* lhs, AstNode* prop, AstNode* value, int64_t line);
   CallExp* CreatePrototypeNode(AstNode* lhs, int64_t line);
-  CallExp* CreateGlobalExportNode(AstNode* ast_node, VisitorInfo* visitor_info, const char* base,  const char* filename, int64_t line);
   const char* CreateTmpRef(char* buf, int index);
   Literal* CreateTmpNode(int index, int64_t line);
   IFStmt* CreateIFStmt(AstNode* exp, AstNode* then_stmt, AstNode* else_stmt, int64_t line);
@@ -76,7 +75,7 @@ class AstBuilder : private Uncopyable {
  private :
   memory::Pool* pool() { return pool_; }
   memory::Pool* pool_;
-  static ThreadLocalStorageKey key_;
+  static platform::ThreadLocalStorageKey key_;
 };
 
 }

@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <string>
-#include <useconfig.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/file_system/file_io.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/fio.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
@@ -31,7 +30,7 @@ void BeginLog() {
 
 void CreateMochaDir() {
   const char* path = Setting::GetInstance()->GetBasePath();
-  if (!mocha::filesystem::mkdir(path, 0777)) {
+  if (!mocha::platform::fs::mkdir(path, 0777)) {
     fprintf(stderr, "Can not create directory %s mocha boot failed.", path);
     exit(2);
   }
@@ -40,7 +39,7 @@ void CreateMochaDir() {
 void CreateDir() {
   CreateMochaDir();
   const char* path = Setting::GetInstance()->GetModulePath();
-  if (!filesystem::mkdir(path, 0777)) {
+  if (!platform::fs::mkdir(path, 0777)) {
     fprintf(stderr, "Can not create directory %s mocha boot failed.", path);
     exit(2);
   }
@@ -49,10 +48,10 @@ void CreateDir() {
 void CreateSetting() {
   CreateDir();
   const char* path = Setting::GetInstance()->GetXMLPath();
-  if (!filesystem::FileIO::IsExist(path)) {
-    SharedPtr<filesystem::File> file = filesystem::FileIO::Open(path, "rwn", filesystem::FileIO::P_ReadWrite);
+  if (!platform::fs::FileIO::IsExist(path)) {
+    SharedPtr<platform::fs::File> file = platform::fs::FileIO::Open(path, "rwn", platform::fs::FileIO::P_ReadWrite);
     if (file->IsValidFile()) {
-      mocha::filesystem::chmod(path, 0777);
+      mocha::platform::fs::chmod(path, 0777);
       file->Write(CreateXML());
     } else {
       fprintf(stderr, "Can not create setting file %s mocha boot failed." , path);
@@ -63,17 +62,17 @@ void CreateSetting() {
 void LoadLog() {
   CreateSetting();
   const char* path = mocha::Setting::GetInstance()->GetLogPath();
-  if (!filesystem::FileIO::IsExist(path)) {
+  if (!platform::fs::FileIO::IsExist(path)) {
  CREATE :
-    SharedPtr<filesystem::File> file = filesystem::FileIO::Open(path, "rwn", filesystem::FileIO::P_ReadWrite);
+    SharedPtr<platform::fs::File> file = platform::fs::FileIO::Open(path, "rwn", platform::fs::FileIO::P_ReadWrite);
 	if (file->IsValidFile()) {
-      mocha::filesystem::chmod(path, 0777);
+      mocha::platform::fs::chmod(path, 0777);
       BeginLog();
     } else {
       fprintf(stderr, "Can not create setting file %s mocha boot failed.", path);
     }
   } else {
-    if (filesystem::FileIO::Open(path, "r", filesystem::FileIO::P_ReadOnly)->size() > 524288) {
+    if (platform::fs::FileIO::Open(path, "r", platform::fs::FileIO::P_ReadOnly)->size() > 524288) {
       char tmp[ 1000 ];
       sprintf(tmp, "%s-%s\n", path, mocha::Setting::GetInstance()->GetTimeStr());
       rename(path, tmp);
@@ -88,7 +87,7 @@ void Bootstrap::Initialize(int argc, char** argv) {
   LoadLog();
   Setting::instance_->Log("mocha initialize end.");
   argv_ = argv;
-  self_path_ = filesystem::Path(argv[ 0 ]).absolute_path();
+  self_path_ = platform::fs::Path(argv[ 0 ]).absolute_path();
   if (argc > 1) {
     if (strcmp(argv[ 1 ], "test") == 0) {
       compiler_test::RunTest();

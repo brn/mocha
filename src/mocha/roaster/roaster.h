@@ -3,9 +3,9 @@
 #include <vector>
 #include <utility>
 #include <mocha/roaster/misc/atomic.h>
-#include <mocha/roaster/misc/thread/thread.h>
-#include <mocha/roaster/file_system/file_io.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/thread/thread.h>
+#include <mocha/roaster/platform/fs/fio.h>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/utils/compilation_info.h>
 #include <mocha/roaster/utils/compilation_result.h>
 #include <mocha/roaster/external/external_ast.h>

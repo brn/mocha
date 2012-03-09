@@ -1,34 +1,33 @@
-#include "useconfig.h"
-#ifdef HAVE_DIRECT_H
+#ifdef PLATFORM_WIN32
 #include <direct.h>
 #endif
 #include <string.h>
-#ifdef HAVE_SYS_STAT_H
+#ifdef PLATFORM_POSIX
 #include <sys/stat.h>
 #endif
-#include <mocha/roaster/file_system/mkdir.h>
-#include <mocha/roaster/file_system/stat.h>
-#include <mocha/roaster/file_system/file_system.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/fs/mkdir.h>
+#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 
-#ifdef _WIN32
+#ifdef PLATFORM_WIN32
 #define MKDIR(path) _mkdir(path)
-#else
+#elif defined PLATFORM_POSIX
 #define MKDIR(path) ::mkdir(path,0777)
 #endif
 
-namespace mocha {
-namespace filesystem {
+namespace mocha {namespace platform {
+namespace fs {
 class MutexHolder : private Static {
  public :
-  static Mutex mutex;
+  static platform::Mutex mutex;
 };
 
-Mutex MutexHolder::mutex;
+platform::Mutex MutexHolder::mutex;
 
 bool mkdir(const char* path, int permiss) {
-  MutexLock lock(MutexHolder::mutex);
+  platform::ScopedLock lock(MutexHolder::mutex);
   int len = strlen(path);
   if (len > 0) {
     std::string processed_path = path;
@@ -36,28 +35,28 @@ bool mkdir(const char* path, int permiss) {
       processed_path += '/';
       len += 1;
     }
-    const char* current = filesystem::Path::current_directory();
+    const char* current = platform::fs::Path::current_directory();
     char tmp[ 200 ];
     for (int i = 0,count = 0; i < len; ++i) {
       if (processed_path[ i ] == '/') {
         if (i == 0) {
-          filesystem::chdir("/");
+          platform::fs::chdir("/");
         } else {
           if (tmp[ count - 1 ] == ':') {
             tmp[ count ] = '/';
             count++;
           } 
           tmp[ count ] = '\0';
-          filesystem::Stat st(tmp);
+          platform::fs::Stat st(tmp);
           if (!st.IsExist() || !st.IsDir()) {
             if (-1 == MKDIR(tmp)) {
-              filesystem::chdir(current);
+              platform::fs::chdir(current);
               return false;
             }
-            filesystem::chmod(tmp, permiss);
-            filesystem::chdir(tmp);
+            platform::fs::chmod(tmp, permiss);
+            platform::fs::chdir(tmp);
           } else if (st.IsDir()) {
-            filesystem::chdir(tmp);
+            platform::fs::chdir(tmp);
           }
           tmp[ 0 ] = '\0';
           count = 0;
@@ -67,10 +66,10 @@ bool mkdir(const char* path, int permiss) {
         count++;
       }
     }
-    filesystem::chdir(current);
+    platform::fs::chdir(current);
     return true;
   }
   return false;
 }
 }
-}
+}}

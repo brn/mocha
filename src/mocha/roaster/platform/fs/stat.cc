@@ -1,40 +1,36 @@
-#include <useconfig.h>
-#include <mocha/roaster/file_system/file_system.h>
-#ifdef HAVE_TIME_H
+#include <mocha/roaster/platform/fs/fs.h>
+#ifdef PLATFORM_WIN32
 #include <time.h>
 #endif
-#ifdef HAVE_SYS_STAT_H
-  #include <sys/stat.h>
+#ifdef PLATFORM_POSIX
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
-#ifdef HAVE_SYS_TYPES_H
-  #include <sys/types.h>
+#include <mocha/roaster/platform/fs/stat.h>
+
+#ifdef PLATFORM_POSIX
+#define STAT struct stat
+#elif PLATFORM_WIN32
+#define STAT struct _stat
 #endif
 
-#include <mocha/roaster/file_system/stat.h>
-
-#ifdef HAVE_STRUCT_STAT
-  #define STAT struct stat
-#elif HAVE_STRUCT__STAT
-  #define STAT struct _stat
-#endif
-
-#ifdef HAVE_STAT
+#ifdef PLATFORM_POSIX
 #define STAT_FN(filename, statObj) ::stat (filename, statObj)
-#elif HAVE__STAT
+#elif PLATFORM_WIN32
 #define STAT_FN(filename, statObj) ::_stat (filename, statObj)
 #endif
 
-#ifdef HAVE__CTIME64
+#ifdef PLATFORM_WIN32
 #define CTIME(str,buf) ::_ctime64_s(buf,200,str)
-#elif HAVE_CTIME
+#elif PLATFORM_POSIX
 #define CTIME(str,buf) ::ctime_r(str,buf)
 #endif
 
 #define MODE (fstat_->st_mode & S_IFMT)
 
-namespace mocha {
-namespace filesystem {
+namespace mocha {namespace platform {
+namespace fs {
 class Stat::PtrImpl {
  public :
   PtrImpl(const char* path, STAT *fstat) : path_(path), fstat_(fstat) {
@@ -89,4 +85,4 @@ bool Stat::IsDir() { return implementation_->ISDir(); }
 bool Stat::IsReg() { return implementation_->ISReg(); }
 bool Stat::IsChr() { return implementation_->ISChr(); }
 }
-}
+}}

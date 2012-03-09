@@ -33,7 +33,7 @@
 #include <mocha/roaster/ast/visitors/ast_transformer.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/file_system/virtual_directory.h>
+#include <mocha/roaster/platform/fs/virtual_directory.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>

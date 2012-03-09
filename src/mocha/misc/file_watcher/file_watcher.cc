@@ -1,19 +1,9 @@
-#include <useconfig.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_SYS_INOTIFY_H
-#define INTFY 1
-#endif
-
 #include <mocha/options/setting.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/file_system/stat.h>
-
-#ifdef INTFY
-#include <mocha/misc/file_watcher/file_watcher-inotify-impl.cc>
-#else
+#include <mocha/roaster/platform/fs/stat.h>
 #include <mocha/misc/file_watcher/file_watcher-impl.cc>
-#endif
 
 namespace mocha {
 

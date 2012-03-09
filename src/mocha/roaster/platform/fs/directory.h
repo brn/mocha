@@ -1,11 +1,13 @@
 #ifndef mocha_directory_h
 #define mocha_directory_h
 #include <string>
+#include <sstream>
 #include <mocha/roaster/smart_pointer/scope/scoped_list.h>
+#include <mocha/roaster/memory/pool.h>
 namespace mocha {
-namespace filesystem {
-class DirectoryIterator;
-class DirEntry{
+namespace platform {
+namespace fs {
+class DirEntry : public memory::Allocated {
   friend class DirectoryIterator;
   friend class Directory;
  public :
@@ -27,29 +29,28 @@ class DirEntry{
   const DirEntry* next_;
 };
 
-class DirectoryIterator {
- public :
-  DirectoryIterator(const DirEntry* entry);
-  ~DirectoryIterator();
-  DirectoryIterator(const DirectoryIterator&);
-  const DirectoryIterator& operator = (const DirectoryIterator&);
-  bool HasNext();
-  const DirEntry* Next();
- private :
-  const DirEntry* entry_;
-};
-
 class Directory {
  public :
+  class const_iterator : public std::iterator<std::forward_iterator_tag, const DirEntry*> {
+   public :
+    explicit const_iterator(const DirEntry*);
+    const_iterator(const const_iterator&);
+    ~const_iterator();
+    const const_iterator& operator = (const const_iterator&);
+    const DirEntry* operator*() const;
+    const_iterator& operator ++();
+    bool operator !=(const const_iterator&) const;
+   private :
+    const DirEntry* entry_;
+  };
   Directory(const char* path);
   ~Directory();
-  DirectoryIterator GetFileList(bool is_recursive, bool show_level);
-  //const DirEntry FindFile(const char* file_name);
+  const_iterator Entries(bool recursive);
+  const_iterator end() const { return const_iterator(0);};
  private :
   const char* dirpath_;
-  ScopedList<DirEntry> scoped_entry_;
+  memory::Pool pool_;
 };
 }
-}
-
+}}
 #endif

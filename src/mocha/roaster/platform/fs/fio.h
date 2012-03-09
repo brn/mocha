@@ -1,20 +1,17 @@
-
-#ifndef mocha_file_io_h_
-#define mocha_file_io_h_
-#include <useconfig.h>
-
+#ifndef mocha_platform_fs_fio_h_
+#define mocha_platform_fs_fio_h_
 #include <stdio.h>
 #include <string>
-#include <mocha/roaster/file_system/file_io.h>
+#include <mocha/roaster/platform/fs/fio.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/misc/char_allocator.h>
 
 #define RAW_IO_BUF_SIZE 1000
 
 namespace mocha {
-namespace filesystem {
+namespace platform {namespace fs {
 class Stat;
 class FileIO;
 class File {
@@ -30,7 +27,6 @@ class File {
   File& operator = (const File& file);
   int descriptor() const {return fd_;}
   void Close();
-  SharedCStr GetFileContents();
   void GetFileContents(std::string* str);
   int Write(const char* buf);
   bool IsValidFile() const;
@@ -63,8 +59,8 @@ class FileIO {
   FileIO(){};
   FileIO(const FileIO& io) {};
   ~FileIO(){};
-  static Mutex mutex_;
-  static Mutex close_mutex_;
+  static platform::Mutex mutex_;
+  static platform::Mutex close_mutex_;
   static int flags_[];
   static int permission_[];
   enum OpenType {
@@ -79,6 +75,6 @@ class FileIO {
   };
 };
 }
-}
+}}
 #endif
 

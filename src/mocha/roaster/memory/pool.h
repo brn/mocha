@@ -2,7 +2,7 @@
 #define mocha_memory_pool_h_
 #include <stdio.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
-#include <mocha/roaster/misc/thread/thread.h>
+#include <mocha/roaster/platform/thread/thread.h>
 namespace mocha {
 namespace memory {
 class Pool;
@@ -30,7 +30,7 @@ class Pool : private Uncopyable {
   void* AllocLinkedList(size_t size);
   Allocated* current_;
   Allocated* head_;
-  static ThreadLocalStorageKey key_;
+  static platform::ThreadLocalStorageKey key_;
 };
 
 }

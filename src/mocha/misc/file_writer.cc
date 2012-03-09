@@ -10,12 +10,12 @@ void FileWriter::WriteResult(CompilationResultHandle result){
   FileInfo* resource = FileInfoMap::SafeGet(result->filename());
   if (resource && resource->GetDeploy()) {
     const char* dir = resource->GetDeploy();
-    filesystem::Stat stat(dir);
+    platform::fs::Stat stat(dir);
     if (!stat.IsExist() || !stat.IsDir()) {
-      filesystem::mkdir(dir, 0777);
-      filesystem::chmod(dir, 0777);
+      platform::fs::mkdir(dir, 0777);
+      platform::fs::chmod(dir, 0777);
     }
-    filesystem::Path path(result->filename());
+    platform::fs::Path path(result->filename());
     val = dir;
     val += '/';
     val += path.filename();
@@ -26,13 +26,13 @@ void FileWriter::WriteResult(CompilationResultHandle result){
   }
   //Get deploy path of -cmp.js file.
   SharedStr handle = resource->GetDeployName(val.c_str());
-  SharedPtr<filesystem::File> ret = filesystem::FileIO::Open (handle.Get(),
+  SharedPtr<platform::fs::File> ret = platform::fs::FileIO::Open (handle.Get(),
                                                               "rwn",
-                                                              filesystem::FileIO::P_ReadWrite);
+                                                              platform::fs::FileIO::P_ReadWrite);
   //Setting::GetInstance()->Log("deploy to %s", handle.Get());
   if (ret->IsValidFile()) {
     //Set permission to rw for all.
-    filesystem::chmod(handle.Get(), 0777);
+    platform::fs::chmod(handle.Get(), 0777);
     ret->Write(result->source());
   }
 }

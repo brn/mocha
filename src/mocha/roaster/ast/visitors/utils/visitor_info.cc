@@ -1,19 +1,21 @@
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/file_system/file_system.h>
+#include <mocha/roaster/platform/fs/fs.h>
 
 namespace mocha {
 
 void CreateRelativePath(const char* base, const char* target, std::string *buffer) {
-  filesystem::Path base_path_info(base);
-  filesystem::Path target_path_info(target);
-  SharedStr handle = filesystem::GetModuleKey(base_path_info.directory(), target_path_info.directory());
+  platform::fs::Path base_path_info(base);
+  platform::fs::Path target_path_info(target);
+  std::string relative_path;
+  platform::fs::Path::relative_path(base_path_info.directory(), target_path_info.directory(), &relative_path);
   buffer->assign("'");
-  buffer->append(handle.Get());
+  buffer->append(relative_path.c_str());
   buffer->append(target_path_info.filename());
   buffer->append("'");
 }
