@@ -25,6 +25,7 @@
 #include <assert.h>
 #include <list>
 #include <utility>
+#include <sstream>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/tokens/js_token.h>
 #include <mocha/roaster/tokens/token_info.h>
@@ -463,30 +464,32 @@ VISITOR_IMPL(AssertStmt) {
   expect->Accept(this);
   expression->Accept(this);
   expression->Accept(&visitor);
-  std::string str = "\"";
+  std::stringstream st;
+  st << '"';
   std::string result = visitor.GetCode();
   bool is_escaped = false;
   for (int i = 0,len = result.size(); i < len; i++) {
     if (result.at(i) == '\n') {
-      str += "\\n";
+      st << "\\n";
     } else if (result.at(i) == '\\' && !is_escaped) {
-      str += '\\';
+      st << '\\';
       is_escaped = true;
     } else if (result.at(i) == '"' && !is_escaped) {
-      str += '\\';
-      str += '"';
+      st << '\\';
+      st << '"';
     } else if (is_escaped) {
-      str += result.at(i);
+      st << result.at(i);
       is_escaped = false;
     } else {
-      str += result.at(i);
+      st << result.at(i);
     }
   }
-  str += "\"";
-  char tmp[100];
-  sprintf(tmp, "%lld", ast_node->line_number());
-  Literal* line = builder()->CreateNameNode(tmp, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
-  Literal* string_expression = builder()->CreateNameNode(str.c_str(), Token::JS_STRING_LITERAL,
+  st << '"';
+  std::stringstream line_st;
+  line_st << ast_node->line_number();
+  Literal* line = builder()->CreateNameNode(line_st,
+                                            Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
+  Literal* string_expression = builder()->CreateNameNode(st, Token::JS_STRING_LITERAL,
                                                          ast_node->line_number(), Literal::kString);
   Literal* filename = builder()->CreateNameNode(visitor_info_->relative_path(), Token::JS_STRING_LITERAL,
                                                 ast_node->line_number(), Literal::kString);

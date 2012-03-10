@@ -48,7 +48,7 @@ void FileObserver::Run() {
   Initialize_();
   platform::Thread thread;
   if (!thread.Create(FileObserver::ThreadRunner_, &file_watcher_)) {
-    Setting::GetInstance()->LogFatal("in %s thread create fail.", __func__);
+    Setting::GetInstance()->LogFatal("in FileObserver::Run thread create fail.");
   } else {
     thread.Detach();
   }

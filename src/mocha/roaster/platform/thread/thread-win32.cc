@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <mocha/misc/int_types.h>
-#include <process.h>
 #include <mocha/roaster/platform/thread/thread.h>
-#include <mocha/options/setting.h>
 
 namespace mocha {
 namespace platform {
@@ -17,7 +14,7 @@ struct ParamsForWinThread {
 
 const int kDetach = 0;
 const int kExit = 1;
-const int kCanceled = 2
+const int kCanceled = 2;
 #define DETACH 0x00000001
 #define EXIT 0x00000002
 #define CANCELED 0x00000004
@@ -36,7 +33,7 @@ bool Thread::Create(pThreadStartFunc fn, void* param) {
   params_for_win->arg = param;
   params_for_win->fn = fn;
   params_for_win->thread_handle = thread_t_ = reinterpret_cast<HANDLE>(
-      _beginthreadex(NULL, 0, PtrImpl::ThreadStartFuncWin, params_for_win, 0, &thread_id_));
+      _beginthreadex(NULL, 0, ThreadStartFuncWin, params_for_win, 0, &thread_id_));
   return true;
 }
 
@@ -72,8 +69,8 @@ bool Thread::IsJoinable() {
 }
 
 
-Mutex::Mutex(){}
-Mutex::~Mutex() { DeleteCriticalSection(&critical_section); }
+Mutex::Mutex(){InitializeCriticalSection(&critical_section_);}
+Mutex::~Mutex() { DeleteCriticalSection(&critical_section_); }
 
 ScopedLock::ScopedLock(Mutex& mutex) : mutex_(&mutex), unlocked_(false) {
   EnterCriticalSection(&(mutex_->critical_section_));
@@ -90,6 +87,13 @@ void ScopedLock::Unlock() {
   }
 }
 
+ThreadLocalStorageKey::ThreadLocalStorageKey(ThreadLocalStorageKey::Destructor destructor)
+    : destructor_(destructor), has_fn_(true), is_free_(false), key_(TlsAlloc()){}
+
+
+ThreadLocalStorageKey::ThreadLocalStorageKey()
+    : has_fn_(false), is_free_(false), key_(TlsAlloc()){}
+
 ThreadLocalStorageKey::~ThreadLocalStorageKey() {Free();}
 void ThreadLocalStorageKey::Free() {
   ScopedLock lock(mutex_);
@@ -99,17 +103,6 @@ void ThreadLocalStorageKey::Free() {
     }
     TlsFree(key_);
   }
-}
-
-ThreadLocalStorageKey::ThreadLocalStorageKey(ThreadLocalStorageKey::Destructor destructor)
-    : destructor_(destructor), has_fn_(true), is_free_(false), key_(TlsAlloc()){}
-
-
-ThreadLocalStorageKey::ThreadLocalStorageKey()
-    : has_fn_(true), is_free_(false), key_(TlsAlloc()){}
-
-ThreadLocalStorageKey::~ThreadLocalStorageKey() {
-  Free();
 }
 
 void ThreadLocalStorageKey::DeleteKey() {

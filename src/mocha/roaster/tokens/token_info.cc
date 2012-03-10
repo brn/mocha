@@ -8,9 +8,19 @@ using namespace mocha;
 
 TokenInfo::TokenInfo(){};
 TokenInfo::TokenInfo(const char* token, int type, int64_t line)
-    : type_(type), line_(line) {
-  value_.assign(token);
-};
+    : type_(type),
+      line_(line),
+      value_(token){};
+
+TokenInfo::TokenInfo(const std::string& token, int type, int64_t line)
+    : type_(type),
+      line_(line),
+      value_(token){};
+
+TokenInfo::TokenInfo(const std::stringstream& token, int type, int64_t line)
+    : type_(type),
+      line_(line),
+      value_(token.str()){};
 
 TokenInfo& TokenInfo::operator = (const TokenInfo& info) {
   type_ = info.type_;

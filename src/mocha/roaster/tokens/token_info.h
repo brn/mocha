@@ -2,6 +2,7 @@
 #ifndef mocha_token_info_h_
 #define mocha_token_info_h_
 #include <string>
+#include <sstream>
 #include <mocha/roaster/misc/bits.h>
 #include <mocha/misc/int_types.h>
 #include <mocha/roaster/memory/pool.h>
@@ -13,12 +14,16 @@ class TokenInfo : public memory::Allocated {
  public:
   TokenInfo();
   TokenInfo(const char* val, int type, int64_t line);
+  TokenInfo(const std::string& val, int type, int64_t line);
+  TokenInfo(const std::stringstream& val, int type, int64_t line);
   TokenInfo& operator = (const TokenInfo& info);
   ~TokenInfo();
   const char* token() const { return value_.c_str(); }
   inline const char* compressed_name() const { return (compressed_value_.size() > 0)? compressed_value_.c_str() : value_.c_str(); };
   inline void set_compressed_name(const char* token) { compressed_value_ = token; }
   inline void set_token(const char* token) { value_ = token; }
+  inline void set_token(const std::string& value) { value_ = value; }
+  inline void set_token(const std::stringstream& value) { value_ = value.str(); }
   inline bool IsCompressed() const { return !compressed_value_.empty(); }
   inline void Rollback() { compressed_value_.clear(); }
   inline int type() const { return type_; };

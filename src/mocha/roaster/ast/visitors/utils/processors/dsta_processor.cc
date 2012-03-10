@@ -191,15 +191,15 @@ void DstaProcessor::ArrayHelper(ArrayLikeLiteral* ast_node,
                                  Literal* symbol,
                                  bool is_rest) {
   VisitorInfo* visitor_info = info()->visitor_info();
-  char tmp_index[ 10 ];
-  sprintf(tmp_index, "%d", index);
-  TokenInfo* info = new(pool()) TokenInfo(tmp_index, Token::JS_NUMERIC_LITERAL, ast_node->line_number());
+  std::stringstream st;
+  st << index;
+  TokenInfo* info = new(pool()) TokenInfo(st, Token::JS_NUMERIC_LITERAL, ast_node->line_number());
   CallExp* exp;
   if (is_rest) {
     NodeList* list = new(pool()) NodeList;
-    char num[50];
-    sprintf(num, "%d", index);
-    Literal* arg = builder()->CreateNameNode(num, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
+    std::stringstream st;
+    st << index;
+    Literal* arg = builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
     Literal* to_array = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kToArray),
                                                   Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kProperty);
     if (tree->child_length() > 0) {

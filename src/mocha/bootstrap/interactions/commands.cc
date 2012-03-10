@@ -1,3 +1,4 @@
+#include <mocha/shell/shell.h>
 #include <mocha/bootstrap/interactions/commands.h>
 #include <mocha/bootstrap/interactions/commands_analyzer.h>
 #include <mocha/bootstrap/runners/icommandline_runner.h>
@@ -16,14 +17,26 @@ void Commands::Exec(const char* buf) {
           runner->CastToObserver()->Exit();
           is_observe_running_ = false;
         } else {
-          fprintf(stderr, "observer is not running.\n");
+          Shell::GetInstance()->Break(false);
+          Shell::GetInstance()->Print("watch sever is not running.\n"
+                                      "If you want to run watch server, try 'watch' or "
+                                      "'help'.");
+          Shell::GetInstance()->Break();
         }
+      } else {
+        Shell::GetInstance()->Break(false);
+        Shell::GetInstance()->Print("watch sever is already running.\n"
+                                    "If you want to run watch server again, try 'unwatch' or "
+                                    "'help'.");
+        Shell::GetInstance()->Break();
       }
     } else if (runner->CastToList() != 0) {
       if (is_observe_running_) {
         runner->Run();
       } else {
-        fprintf(stderr, "observer is not running.\n");
+        Shell::GetInstance()->Break(false);
+        Shell::GetInstance()->Print("observer is not running");
+        Shell::GetInstance()->Break();
       }
     } else {
       runner->Run();

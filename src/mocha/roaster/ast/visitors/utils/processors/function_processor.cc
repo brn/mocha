@@ -201,9 +201,10 @@ VariableStmt* FunctionProcessor::ProcessRestParameter() {
   Literal* rhs = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kArguments),
                                            Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
   NodeList* list = new(pool()) NodeList;
-  char num[50];
-  sprintf(num, "%d", argc_ - 1);
-  Literal* arg = builder()->CreateNameNode(num, Token::JS_NUMERIC_LITERAL, function_->line_number(), Literal::kNumeric);
+  std::stringstream st;
+  st << (argc_ - 1);
+  Literal* arg =
+      builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL,function_->line_number(), Literal::kNumeric);
   Literal* to_array = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kToArray),
                                                 Token::JS_IDENTIFIER, function_->line_number(), Literal::kProperty);
   list->AddChild(rhs);
@@ -241,8 +242,9 @@ class YieldHelper : private Processor {
       YieldMark* mark = (*begin);
       char state[10];
       int state_num = mark->Adjust(state_);
-      sprintf(state, "%d", state_num);
-      mark->ReEntrantNode()->value()->set_token(state);
+      std::stringstream st;
+      st << state_num;
+      mark->ReEntrantNode()->value()->set_token(st);
       ++begin;
     }
     body_->AddChild(clause_);
@@ -1016,9 +1018,9 @@ class YieldHelper : private Processor {
   }
 
   Literal* CreateCurrentState(int64_t line) {
-    char tmp_state_exp[10];
-    sprintf(tmp_state_exp, "%d", state_);
-    Literal* state_exp = builder()->CreateNameNode(tmp_state_exp, Token::JS_NUMERIC_LITERAL,
+    std::stringstream st;
+    st << state_;
+    Literal* state_exp = builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL,
                                                    line, Literal::kNumeric);
     return state_exp;
   }
@@ -1026,9 +1028,9 @@ class YieldHelper : private Processor {
   ExpressionStmt* CreateNextState(int64_t line) {
     Literal* yield_state = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kYieldState),
                                                      Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
-    char tmp_state_str[10];
-    sprintf(tmp_state_str, "%d", state_ + 1);
-    Literal* state = builder()->CreateNameNode(tmp_state_str, Token::JS_NUMERIC_LITERAL,
+    std::stringstream st;
+    st << (state_ + 1);
+    Literal* state = builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL,
                                                line, Literal::kNumeric);
     AssignmentExp* exp = builder()->CreateAssignment('=', yield_state, state, line);
     ExpressionStmt* stmt = builder()->CreateExpStmt(exp, line);
@@ -1064,23 +1066,21 @@ class YieldHelper : private Processor {
         no_state_injection_ = true;
         is_state_injection_ = false;
       }
-      char state[10];
       int state_num = (iterator_.HasNext())? yield_mark->Adjust(state_) : -1;
-      sprintf(state, "%d", state_num);
-      yield_mark->ReEntrantNode()->value()->set_token(state);
+      std::stringstream st;
+      st << state_num;
+      yield_mark->ReEntrantNode()->value()->set_token(st);
       //mark_list_.push_back(yield_stmt->CastToStatement()->CastToYieldMark());
     } else if (yield_stmt->node_type() == AstNode::kExYieldStateNode) {
       ExYieldStateNode* ex_node = yield_stmt->CastToStatement()->CastToYieldState();
-      char back[10];
-      sprintf(back ,"%d", (state_ - 1));
-      char next[10];
+      std::stringstream st;
       Literal* esc = ex_node->EscapePtr();
       SetState(yield_stmt->line_number());
-      sprintf(next ,"%d", ((state_ < 0)? -1 : state_));
+      st << ((state_ < 0)? -1 : state_);
       if (esc) {
-        esc->value()->set_token(next);
+        esc->value()->set_token(st.str());
       }
-      ex_node->NextPtr()->value()->set_token(next);
+      ex_node->NextPtr()->value()->set_token(st);
       clause_->AddChild(ex_node->IfStmtPtr());
       is_state_injection_ = false;
       body_->AddChild(clause_);
@@ -1091,10 +1091,10 @@ class YieldHelper : private Processor {
       std::list<YieldMark*>::iterator begin = mark_list_.begin(),end = mark_list_.end();
       while (begin != end) {
         YieldMark* mark = (*begin);
-        char state[10];
         int state_num = (iterator_.HasNext())? mark->Adjust(state_) : -1;
-        sprintf(state, "%d", state_num);
-        mark->ReEntrantNode()->value()->set_token(state);
+        std::stringstream st;
+        st << state_num;
+        mark->ReEntrantNode()->value()->set_token(st);
         ++begin;
       }
       mark_list_.clear();

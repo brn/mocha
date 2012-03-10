@@ -55,10 +55,10 @@ struct BoolContainer {
 class ThreadArgs {
  public :
   ThreadArgs(CompilationInfoHandle hd, AsyncCallbackHandle cb, int count, AtomicWord* current_val, BoolContainer* is_end)
-      : handle(hd), callback(cb), max(count), current(current_val), end(is_end){}
+      : handle(hd), callback(cb), all_file_count(count), current(current_val), end(is_end){}
   CompilationInfoHandle handle;
   AsyncCallbackHandle callback;
-  int max;
+  int all_file_count;
   AtomicWord* current;
   BoolContainer* end;
 };
@@ -68,7 +68,7 @@ void* AsyncThreadRunner(void* args) {
   CompilationResultHandle result = compiler.Compile();
   thread_args->callback->operator()(result);
   if (thread_args->current != 0) {
-    if (Atomic::Increment(thread_args->current) == thread_args->max) {
+    if (Atomic::Increment(thread_args->current) == thread_args->all_file_count) {
       thread_args->end->end = true;
     }
   }

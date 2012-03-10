@@ -5,6 +5,9 @@
 #endif
 
 #ifdef PLATFORM_WIN32
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <io.h>
 #include <windows.h>
 #include <sys/locking.h>

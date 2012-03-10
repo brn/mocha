@@ -5,7 +5,7 @@
 #include <mocha/xml/xml_reader.h>
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/options/setting.h>
-
+#include <mocha/shell/shell.h>
 #ifdef _WIN32
 #define sleep(time) Sleep(time##000)
 #endif
@@ -34,7 +34,7 @@ class XMLObserver::XMLUpdater : public IUpdater {
   }
 
   static void DieXMLWatcher_(void* arg) {
-    fprintf(stderr, ".");
+    Shell::GetInstance()->Print('.');
     XMLObserver::XMLUpdater* updater = reinterpret_cast<XMLObserver::XMLUpdater*>(arg);
     updater->file_observer_.Exit(DieFileWatcher_, arg);
   }
@@ -47,7 +47,7 @@ class XMLObserver::XMLUpdater : public IUpdater {
   }
   
   static void DieFileWatcher_(void* arg) {
-    fprintf(stderr, ".");
+    Shell::GetInstance()->Print('.');
     XMLObserver::XMLUpdater* updater = reinterpret_cast<XMLObserver::XMLUpdater*>(arg);
     updater->file_watcher_.UnWatchAll();
     XMLSettingInfo::EraseData();
@@ -82,7 +82,8 @@ void XMLObserver::Restart() {
 
 void XMLObserver::Die() {
   delete xml_updater_;
-  fprintf(stderr, ".\n");
+  Shell::GetInstance()->Print('.');
+  Shell::GetInstance()->Break();
   is_end_ = true;
 }
 
@@ -95,7 +96,8 @@ void* XMLObserver::ThreadRunner_(void* arg) {
 }
 
 void XMLObserver::Exit() {
-  fprintf(stderr, "stopping watch sever");
+  Shell::GetInstance()->SafeBreak(false);
+  Shell::GetInstance()->Print("stopping watch server");
   xml_updater_->Die();
   while (!is_end_) {
     sleep(1);
@@ -108,17 +110,19 @@ void XMLObserver::RegistFile_(const char* filename) {
 }
 
 void XMLObserver::Initialize_(const char* path) {
-  fprintf(stderr, "starting watch sever");
+  Shell::GetInstance()->SafeBreak(false);
+  Shell::GetInstance()->Print("starting watch server");
   Setting::GetInstance()->Log("xml parse begin.");
   XMLReader reader;
   reader.Parse(path);
-  fprintf(stderr, ".");
+  Shell::GetInstance()->Print('.');
   Setting::GetInstance()->Log("xml parse end.");
   Setting::GetInstance()->Log("start file observing.");
   XMLSettingInfo::IterateIncludeList<XMLObserver>(&XMLObserver::RegistFile_, this);
-  fprintf(stderr, ".");
+  Shell::GetInstance()->Print('.');
   xml_updater_->GetObserver()->Run();
-  fprintf(stderr, ".\n");
+  Shell::GetInstance()->Print('.');
+  Shell::GetInstance()->Break();
 }
 
 }

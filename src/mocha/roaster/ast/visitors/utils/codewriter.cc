@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
 #include <mocha/roaster/tokens/js_token.h>
@@ -48,19 +49,19 @@ class PrettyPrinter : public CodeWriter::WriterBase {
       case CodeWriter::kSwitchEndBrace :
         {
           EraseIndent(indent_, 4);
-          char tmp[500];
-          sprintf(tmp, "\n%s}", indent_.c_str());
-          stream->Write(tmp);
+          std::stringstream st;
+          st << '\n' << indent_.c_str() << '}';
+          stream->Write(st);
         }
         break;
                                 
       case CodeWriter::kBlockEndBrace : //Fall Through
       case CodeWriter::kFunctionEndBrace :
         EraseIndent(indent_, 2);
-        char tmp[500];
         if (last_op_ != ';') {
-          sprintf(tmp, "\n%s}", indent_.c_str());
-          stream->Write(tmp);
+          std::stringstream st;
+          st << '\n' << indent_.c_str() << '}';
+          stream->Write(st);
         } else {
           EraseIndent(stream, 2);
           stream->Write('}');
@@ -80,10 +81,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
           stream->Write(indent_.c_str());
         } else if ('}') {
           EraseIndent(indent_, 2);
-          char tmp[500];
           if (last_op_ != ';') {
-            sprintf(tmp, "\n%s}", indent_.c_str());
-            stream->Write(tmp);
+            std::stringstream st;
+            st << '\n' << indent_.c_str() << '}';
+            stream->Write(st);
           } else {
             EraseIndent(stream, 2);
             stream->Write('}');
@@ -285,18 +286,17 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         break;
                                 
       default :
+        std::stringstream st;
         if (op > 127) {
-          char tmp[500];
-          sprintf(tmp, " %s ", JsToken::GetTokenFromNumber(op));
-          stream->Write(tmp);
+          st << ' ' << JsToken::GetTokenFromNumber(op) << ' ';
+          stream->Write(st);
         } else {
-          char tmp[500];
           if (op == '=') {
-            sprintf(tmp, " %c ", op);
+            st << ' ' << static_cast<char>(op) << ' ';
           } else {
-            sprintf(tmp, "%c", op);
+            st << static_cast<char>(op);
           }
-          stream->Write(tmp);
+          stream->Write(st);
         }
     }
   }
@@ -498,11 +498,11 @@ void CodeWriter::SetFileName(CodeStream* stream) {
 
 void CodeWriter::SetLine(int64_t line, CodeStream* stream, FileRoot* root) {
   if (root && is_line_ && !root->runtime()) {
-    char tmp[50];
-    sprintf(tmp, "%lld", line);
+    std::stringstream st;
+    st << line;
     stream->Write("__LINE__");
     base_->WriteOp('=', 0, stream);
-    stream->Write(tmp);
+    stream->Write(st);
     base_->WriteOp(';', 0, stream);
   }
 }
@@ -514,30 +514,6 @@ void CodeWriter::Write(const char* code, CodeStream* stream) {
 void CodeWriter::WriteOp(int op, int state, CodeStream* stream) {
   base_->WriteOp(op, state, stream);
 }
-
-void CodeWriter::ModuleBeginProccessor(const char* key, const char* name, CodeStream* stream) {
-  if (is_pretty_print_) {
-    char tmp_buf[ 500 ];
-    char key_buf[ 500 ];
-    sprintf(key_buf, "__global_export__[%s] = {}", key);
-    stream->Write(key_buf);
-    base_->WriteOp(';', 0, stream);
-    sprintf(tmp_buf, "__global_export__[%s]['%s'] = (function ()", key, name);
-    stream->Write(tmp_buf);
-    base_->WriteOp('{', kFunctionBeginBrace, stream);
-    stream->Write("var __export__ = {}");
-    base_->WriteOp(';', 0, stream);
-  } else {
-    char tmp_buf[ 500 ];
-    char key_buf[ 500 ];
-    sprintf(key_buf, "__global_export__[%s]={};", key);
-    stream->Write(key_buf);
-    sprintf(tmp_buf, "__global_export__[%s]['%s']=(function(){", key, name);
-    stream->Write(tmp_buf);
-    stream->Write("var __export__={};");
-  }
-}
-
 
 void CodeWriter::DebugBlockBegin(CodeStream* stream) {
   if (is_line_) {
@@ -584,53 +560,6 @@ void CodeWriter::DebugBlockEnd(CodeStream* stream, Scope* scope) {
       }
       stream->Write(".catchHandler(__LINE__,__FILE__,e);}");
     }
-  }
-}
-
-void CodeWriter::AnonymousModuleBeginProccessor(const char* key, CodeStream* stream) {
-  if (is_pretty_print_) {
-    char key_buf[ 500 ];
-    sprintf(key_buf, "__global_export__[%s] = {}", key);
-    stream->Write(key_buf);
-    base_->WriteOp(';', 0, stream);
-    stream->Write("(function ()");
-    base_->WriteOp('{', kFunctionBeginBrace, stream);
-    stream->Write("var __export__ = __global_export__[");
-    stream->Write(key);
-    stream->Write(']');
-    base_->WriteOp(';', 0, stream);
-  } else {
-    char key_buf[ 500 ];
-    sprintf(key_buf, "__global_export__[%s]={};", key);
-    stream->Write(key_buf);
-    stream->Write("(function(){");
-    stream->Write("var __export__=__global_export__[");
-    stream->Write(key);
-    stream->Write("];");
-  }
-}
-
-
-void CodeWriter::ModuleEndProccessor(CodeStream* stream) {
-  if (is_pretty_print_) {
-    stream->Write("return __export__");
-    base_->WriteOp(';', 0, stream);
-    base_->WriteOp('}', kArgs, stream);
-    stream->Write(")()");
-    base_->WriteOp(';', 0, stream);
-  } else {
-    stream->Write("return __export__;");
-    stream->Write("})();");
-  }
-}
-
-void CodeWriter::AnonymousModuleEndProccessor(CodeStream* stream) {
-  if (is_pretty_print_) {
-    base_->WriteOp('}', kArgs, stream);
-    stream->Write(")()");
-    base_->WriteOp(';', 0, stream);
-  } else {
-    stream->Write("})();");
   }
 }
 

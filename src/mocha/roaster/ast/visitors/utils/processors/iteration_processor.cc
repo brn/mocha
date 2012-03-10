@@ -152,9 +152,9 @@ void IterationProcessor::ProcessForOfNode(IterationStmt* ast_node, ProcessorInfo
   Literal* handler = LocalBuilder()->CreateNameNode(SymbolList::symbol(SymbolList::kExceptionHandler),
                                                Token::JS_IDENTIFIER, 0, Literal::kProperty);
   CallExp* runtime_call = LocalBuilder()->CreateRuntimeMod(handler, ast_node->line_number());
-  char line_tmp[50];
-  sprintf(line_tmp, "%lld", ast_node->line_number());
-  Literal* line_num = LocalBuilder()->CreateNameNode(line_tmp, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
+  std::stringstream st;
+  st << ast_node->line_number();
+  Literal* line_num = LocalBuilder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
   Literal* file_name = LocalBuilder()->CreateNameNode(info->visitor_info()->relative_path(), Token::JS_STRING_LITERAL, ast_node->line_number(), Literal::kString);
   Literal* error = LocalBuilder()->CreateNameNode("'for of statement expect iterator or generator object.'",
                                              Token::JS_STRING_LITERAL, 0, Literal::kString);

@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/if_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/if_test.js",
           __LINE__ = 0;
       function ifTest(flg) {
         try {
@@ -814,13 +814,13 @@
       var _mochaGlobalAlias = _mochaGlobalExport['if_test.js;1'];
       
       __LINE__ = 11;
-      Runtime.assert(true,ifTest(1) === 1,"ifTest(1) === 1",11,'./if_test.js');
+      Runtime.assert(true,ifTest(1) === 1,"ifTest(1) === 1",11,'if_test.js');
       
       __LINE__ = 12;
-      Runtime.assert(true,ifTest(2) === 2,"ifTest(2) === 2",12,'./if_test.js');
+      Runtime.assert(true,ifTest(2) === 2,"ifTest(2) === 2",12,'if_test.js');
       
       __LINE__ = 13;
-      Runtime.assert(true,ifTest(3) === 3,"ifTest(3) === 3",13,'./if_test.js');
+      Runtime.assert(true,ifTest(3) === 3,"ifTest(3) === 3",13,'if_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdarg.h>
+#include <sstream>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/utils/visitor_info.h>
@@ -72,6 +73,16 @@ Literal* AstBuilder::CreateNameNode(const char* name, int type, int64_t line, in
   return value;
 }
 
+Literal* AstBuilder::CreateNameNode(const std::stringstream& val, int type, int64_t line, int value_type, bool is_empty) {
+  TokenInfo* info = new(pool()) TokenInfo(val, type, line);
+  Literal* value = new(pool()) Literal(value_type, line);
+  if (is_empty) {
+    value->AddChild(new(pool()) Empty);
+  }
+  value->set_value(info);
+  return value;
+}
+
 AssignmentExp* AstBuilder::CreateAssignment(int type, AstNode* lhs, AstNode* rhs, int64_t line) {
   AssignmentExp* assign = new(pool()) AssignmentExp(type, lhs, rhs, line);
   return assign;
@@ -135,9 +146,10 @@ CallExp* AstBuilder::CreateConstantProp(AstNode* lhs, AstNode* prop, AstNode* va
   Literal* prop_str = prop->CastToLiteral();
   AstNode* property = prop;
   if (prop_str && (prop_str->value_type() == Literal::kIdentifier || prop_str->value_type() == Literal::kProperty)) {
-    char tmp[50];
-    sprintf(tmp, "'%s'", prop_str->value()->token());
-    property = AstBuilder::CreateNameNode(tmp, Token::JS_STRING_LITERAL, line, Literal::kString);
+    std::stringstream st;
+    st << '\'' << prop_str->value()->token() << '\'';
+    std::string value = st.str();
+    property = AstBuilder::CreateNameNode(value.c_str(), Token::JS_STRING_LITERAL, line, Literal::kString);
   }
   NodeList* args = new(pool()) NodeList;
   args->AddChild(lhs);
@@ -161,15 +173,15 @@ CallExp* AstBuilder::CreateRuntimeMod(AstNode* member, int64_t line) {
   return CreateDotAccessor(value, member, line);
 }
 
-const char* AstBuilder::CreateTmpRef(char* buf, int index) {
-  sprintf(buf, "%s%d", SymbolList::symbol(SymbolList::kLocalTmp), index);
-  return buf;
+std::string AstBuilder::CreateTmpRef(int index) {
+  std::stringstream st;
+  st << SymbolList::symbol(SymbolList::kLocalTmp) << index;
+  return st.str();
 }
 
 Literal* AstBuilder::CreateTmpNode(int index, int64_t line) {
-  char buf[ 100 ];
-  const char* tmp = AstBuilder::CreateTmpRef(buf, index);
-  return AstBuilder::CreateNameNode(tmp, Token::JS_IDENTIFIER, line, Literal::kIdentifier);
+  std::string value = AstBuilder::CreateTmpRef(index);
+  return AstBuilder::CreateNameNode(value.c_str(), Token::JS_IDENTIFIER, line, Literal::kIdentifier);
 }
 
 IFStmt* AstBuilder::CreateIFStmt(AstNode* exp, AstNode* then_stmt, AstNode* else_stmt, int64_t line) {

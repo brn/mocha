@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -1624,7 +1624,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/array_comprehensions_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/array_comprehensions_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['array_comprehensions_test.js;2'] = {};
@@ -1660,13 +1660,13 @@
           }.call(this);
       
       __LINE__ = 10;
-      Runtime.assert(true,cmpTest[0] === 100,"cmpTest[0] === 100",10,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0] === 100,"cmpTest[0] === 100",10,'array_comprehensions_test.js');
       
       __LINE__ = 11;
-      Runtime.assert(true,cmpTest[1] === 200,"cmpTest[1] === 200",11,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1] === 200,"cmpTest[1] === 200",11,'array_comprehensions_test.js');
       
       __LINE__ = 12;
-      Runtime.assert(true,cmpTest[2] === 300,"cmpTest[2] === 300",12,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2] === 300,"cmpTest[2] === 300",12,'array_comprehensions_test.js');
       
       __LINE__ = 14;
       cmpTest = function () {
@@ -1688,13 +1688,13 @@
       }.call(this);
       
       __LINE__ = 15;
-      Runtime.assert(true,cmpTest[0] === "value1","cmpTest[0] === \"value1\"",15,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0] === "value1","cmpTest[0] === \"value1\"",15,'array_comprehensions_test.js');
       
       __LINE__ = 16;
-      Runtime.assert(true,cmpTest[1] === "value2","cmpTest[1] === \"value2\"",16,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1] === "value2","cmpTest[1] === \"value2\"",16,'array_comprehensions_test.js');
       
       __LINE__ = 17;
-      Runtime.assert(true,cmpTest[2] === "value3","cmpTest[2] === \"value3\"",17,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2] === "value3","cmpTest[2] === \"value3\"",17,'array_comprehensions_test.js');
       
       __LINE__ = 19;
       cmpTest = function () {
@@ -1716,7 +1716,7 @@
             }
           } else {
             __LINE__ = 19;
-            Runtime.exceptionHandler(19,'./array_comprehensions_test.js','for of statement expect iterator or generator object.');
+            Runtime.exceptionHandler(19,'array_comprehensions_test.js','for of statement expect iterator or generator object.');
           };
           __LINE__ = 19;
           return _mochaLocalTmp3;
@@ -1726,22 +1726,22 @@
       }.call(this);
       
       __LINE__ = 20;
-      Runtime.assert(true,cmpTest[0][0] === "value1","cmpTest[0][0] === \"value1\"",20,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0][0] === "value1","cmpTest[0][0] === \"value1\"",20,'array_comprehensions_test.js');
       
       __LINE__ = 21;
-      Runtime.assert(true,cmpTest[0][1] === 100,"cmpTest[0][1] === 100",21,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0][1] === 100,"cmpTest[0][1] === 100",21,'array_comprehensions_test.js');
       
       __LINE__ = 22;
-      Runtime.assert(true,cmpTest[1][0] === "value2","cmpTest[1][0] === \"value2\"",22,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1][0] === "value2","cmpTest[1][0] === \"value2\"",22,'array_comprehensions_test.js');
       
       __LINE__ = 23;
-      Runtime.assert(true,cmpTest[1][1] === 200,"cmpTest[1][1] === 200",23,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1][1] === 200,"cmpTest[1][1] === 200",23,'array_comprehensions_test.js');
       
       __LINE__ = 24;
-      Runtime.assert(true,cmpTest[2][0] === "value3","cmpTest[2][0] === \"value3\"",24,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2][0] === "value3","cmpTest[2][0] === \"value3\"",24,'array_comprehensions_test.js');
       
       __LINE__ = 25;
-      Runtime.assert(true,cmpTest[2][1] === 300,"cmpTest[2][1] === 300",25,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2][1] === 300,"cmpTest[2][1] === 300",25,'array_comprehensions_test.js');
       
       __LINE__ = 28;
       var cmpTest = function () {
@@ -1766,7 +1766,7 @@
           }.call(this);
       
       __LINE__ = 29;
-      Runtime.assert(true,cmpTest[0] === 200,"cmpTest[0] === 200",29,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0] === 200,"cmpTest[0] === 200",29,'array_comprehensions_test.js');
       
       __LINE__ = 31;
       cmpTest = function () {
@@ -1788,7 +1788,7 @@
       }.call(this);
       
       __LINE__ = 32;
-      Runtime.assert(true,cmpTest[0] === "value2","cmpTest[0] === \"value2\"",32,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0] === "value2","cmpTest[0] === \"value2\"",32,'array_comprehensions_test.js');
       
       __LINE__ = 34;
       cmpTest = function () {
@@ -1810,7 +1810,7 @@
             }
           } else {
             __LINE__ = 34;
-            Runtime.exceptionHandler(34,'./array_comprehensions_test.js','for of statement expect iterator or generator object.');
+            Runtime.exceptionHandler(34,'array_comprehensions_test.js','for of statement expect iterator or generator object.');
           };
           __LINE__ = 34;
           return _mochaLocalTmp7;
@@ -1820,10 +1820,10 @@
       }.call(this);
       
       __LINE__ = 35;
-      Runtime.assert(true,cmpTest[0][0] === "value2","cmpTest[0][0] === \"value2\"",35,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0][0] === "value2","cmpTest[0][0] === \"value2\"",35,'array_comprehensions_test.js');
       
       __LINE__ = 36;
-      Runtime.assert(true,cmpTest[0][1] === 200,"cmpTest[0][1] === 200",36,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0][1] === 200,"cmpTest[0][1] === 200",36,'array_comprehensions_test.js');
       
       __LINE__ = 38;
       testTarget =  {
@@ -1868,13 +1868,13 @@
       }.call(this);
       
       __LINE__ = 45;
-      Runtime.assert(true,cmpTest[0] === 100,"cmpTest[0] === 100",45,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0] === 100,"cmpTest[0] === 100",45,'array_comprehensions_test.js');
       
       __LINE__ = 46;
-      Runtime.assert(true,cmpTest[1] === 200,"cmpTest[1] === 200",46,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1] === 200,"cmpTest[1] === 200",46,'array_comprehensions_test.js');
       
       __LINE__ = 47;
-      Runtime.assert(true,cmpTest[2] === 300,"cmpTest[2] === 300",47,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2] === 300,"cmpTest[2] === 300",47,'array_comprehensions_test.js');
       
       __LINE__ = 49;
       cmpTest = function () {
@@ -1902,13 +1902,13 @@
       }.call(this);
       
       __LINE__ = 50;
-      Runtime.assert(true,cmpTest[0] === "value1","cmpTest[0] === \"value1\"",50,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0] === "value1","cmpTest[0] === \"value1\"",50,'array_comprehensions_test.js');
       
       __LINE__ = 51;
-      Runtime.assert(true,cmpTest[1] === "value2","cmpTest[1] === \"value2\"",51,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1] === "value2","cmpTest[1] === \"value2\"",51,'array_comprehensions_test.js');
       
       __LINE__ = 52;
-      Runtime.assert(true,cmpTest[2] === "value3","cmpTest[2] === \"value3\"",52,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2] === "value3","cmpTest[2] === \"value3\"",52,'array_comprehensions_test.js');
       
       __LINE__ = 54;
       cmpTest = function () {
@@ -1940,7 +1940,7 @@
               }
             } else {
               __LINE__ = 54;
-              Runtime.exceptionHandler(54,'./array_comprehensions_test.js','for of statement expect iterator or generator object.');
+              Runtime.exceptionHandler(54,'array_comprehensions_test.js','for of statement expect iterator or generator object.');
             };
           };
           __LINE__ = 54;
@@ -1951,22 +1951,22 @@
       }.call(this);
       
       __LINE__ = 55;
-      Runtime.assert(true,cmpTest[0][0] === "value1","cmpTest[0][0] === \"value1\"",55,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0][0] === "value1","cmpTest[0][0] === \"value1\"",55,'array_comprehensions_test.js');
       
       __LINE__ = 56;
-      Runtime.assert(true,cmpTest[0][1] === 100,"cmpTest[0][1] === 100",56,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[0][1] === 100,"cmpTest[0][1] === 100",56,'array_comprehensions_test.js');
       
       __LINE__ = 57;
-      Runtime.assert(true,cmpTest[1][0] === "value2","cmpTest[1][0] === \"value2\"",57,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1][0] === "value2","cmpTest[1][0] === \"value2\"",57,'array_comprehensions_test.js');
       
       __LINE__ = 58;
-      Runtime.assert(true,cmpTest[1][1] === 200,"cmpTest[1][1] === 200",58,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[1][1] === 200,"cmpTest[1][1] === 200",58,'array_comprehensions_test.js');
       
       __LINE__ = 59;
-      Runtime.assert(true,cmpTest[2][0] === "value3","cmpTest[2][0] === \"value3\"",59,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2][0] === "value3","cmpTest[2][0] === \"value3\"",59,'array_comprehensions_test.js');
       
       __LINE__ = 60;
-      Runtime.assert(true,cmpTest[2][1] === 300,"cmpTest[2][1] === 300",60,'./array_comprehensions_test.js');
+      Runtime.assert(true,cmpTest[2][1] === 300,"cmpTest[2][1] === 300",60,'array_comprehensions_test.js');
       
       __LINE__ = 63;
       var m = function (_mochaLocalTmp13) {

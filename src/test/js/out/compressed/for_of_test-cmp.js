@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -1624,7 +1624,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_of_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['for_of_test.js;2'] = {};
@@ -1931,20 +1931,20 @@
         }
       } else {
         __LINE__ = 49;
-        Runtime.exceptionHandler(49,'./for_of_test.js','for of statement expect iterator or generator object.');
+        Runtime.exceptionHandler(49,'for_of_test.js','for of statement expect iterator or generator object.');
       };
       
       __LINE__ = 52;
-      Runtime.assert(true,ret[0] === 100,"ret[0] === 100",52,'./for_of_test.js');
+      Runtime.assert(true,ret[0] === 100,"ret[0] === 100",52,'for_of_test.js');
       
       __LINE__ = 53;
-      Runtime.assert(true,ret[1] === 200,"ret[1] === 200",53,'./for_of_test.js');
+      Runtime.assert(true,ret[1] === 200,"ret[1] === 200",53,'for_of_test.js');
       
       __LINE__ = 54;
-      Runtime.assert(true,ret[2] === 300,"ret[2] === 300",54,'./for_of_test.js');
+      Runtime.assert(true,ret[2] === 300,"ret[2] === 300",54,'for_of_test.js');
       
       __LINE__ = 55;
-      Runtime.assert(true,ret[3] === 400,"ret[3] === 400",55,'./for_of_test.js');
+      Runtime.assert(true,ret[3] === 400,"ret[3] === 400",55,'for_of_test.js');
       
       __LINE__ = 57;
       ret = [];
@@ -1965,20 +1965,20 @@
         }
       } else {
         __LINE__ = 58;
-        Runtime.exceptionHandler(58,'./for_of_test.js','for of statement expect iterator or generator object.');
+        Runtime.exceptionHandler(58,'for_of_test.js','for of statement expect iterator or generator object.');
       };
       
       __LINE__ = 61;
-      Runtime.assert(true,ret[0] === "value1","ret[0] === \"value1\"",61,'./for_of_test.js');
+      Runtime.assert(true,ret[0] === "value1","ret[0] === \"value1\"",61,'for_of_test.js');
       
       __LINE__ = 62;
-      Runtime.assert(true,ret[1] === "value2","ret[1] === \"value2\"",62,'./for_of_test.js');
+      Runtime.assert(true,ret[1] === "value2","ret[1] === \"value2\"",62,'for_of_test.js');
       
       __LINE__ = 63;
-      Runtime.assert(true,ret[2] === "value3","ret[2] === \"value3\"",63,'./for_of_test.js');
+      Runtime.assert(true,ret[2] === "value3","ret[2] === \"value3\"",63,'for_of_test.js');
       
       __LINE__ = 64;
-      Runtime.assert(true,ret[3] === "value4","ret[3] === \"value4\"",64,'./for_of_test.js');
+      Runtime.assert(true,ret[3] === "value4","ret[3] === \"value4\"",64,'for_of_test.js');
       
       __LINE__ = 66;
       ret = [];
@@ -2010,20 +2010,20 @@
         }
       } else {
         __LINE__ = 71;
-        Runtime.exceptionHandler(71,'./for_of_test.js','for of statement expect iterator or generator object.');
+        Runtime.exceptionHandler(71,'for_of_test.js','for of statement expect iterator or generator object.');
       };
       
       __LINE__ = 74;
-      Runtime.assert(true,ret[0] === 100,"ret[0] === 100",74,'./for_of_test.js');
+      Runtime.assert(true,ret[0] === 100,"ret[0] === 100",74,'for_of_test.js');
       
       __LINE__ = 75;
-      Runtime.assert(true,ret[1] === 200,"ret[1] === 200",75,'./for_of_test.js');
+      Runtime.assert(true,ret[1] === 200,"ret[1] === 200",75,'for_of_test.js');
       
       __LINE__ = 76;
-      Runtime.assert(true,ret[2] === 300,"ret[2] === 300",76,'./for_of_test.js');
+      Runtime.assert(true,ret[2] === 300,"ret[2] === 300",76,'for_of_test.js');
       
       __LINE__ = 77;
-      Runtime.assert(true,ret[3] === 400,"ret[3] === 400",77,'./for_of_test.js');
+      Runtime.assert(true,ret[3] === 400,"ret[3] === 400",77,'for_of_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

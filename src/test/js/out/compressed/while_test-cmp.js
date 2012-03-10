@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/while_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/while_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['while_test.js;1'] = {};
@@ -815,34 +815,34 @@
       };
       
       __LINE__ = 7;
-      Runtime.assert(true,ret[0] === 'a',"ret[0] === 'a'",7,'./while_test.js');
+      Runtime.assert(true,ret[0] === 'a',"ret[0] === 'a'",7,'while_test.js');
       
       __LINE__ = 8;
-      Runtime.assert(true,ret[1] === 'b',"ret[1] === 'b'",8,'./while_test.js');
+      Runtime.assert(true,ret[1] === 'b',"ret[1] === 'b'",8,'while_test.js');
       
       __LINE__ = 9;
-      Runtime.assert(true,ret[2] === 'c',"ret[2] === 'c'",9,'./while_test.js');
+      Runtime.assert(true,ret[2] === 'c',"ret[2] === 'c'",9,'while_test.js');
       
       __LINE__ = 10;
-      Runtime.assert(true,ret[3] === 'd',"ret[3] === 'd'",10,'./while_test.js');
+      Runtime.assert(true,ret[3] === 'd',"ret[3] === 'd'",10,'while_test.js');
       
       __LINE__ = 11;
-      Runtime.assert(true,ret[4] === 'e',"ret[4] === 'e'",11,'./while_test.js');
+      Runtime.assert(true,ret[4] === 'e',"ret[4] === 'e'",11,'while_test.js');
       
       __LINE__ = 12;
-      Runtime.assert(true,ret[5] === 'f',"ret[5] === 'f'",12,'./while_test.js');
+      Runtime.assert(true,ret[5] === 'f',"ret[5] === 'f'",12,'while_test.js');
       
       __LINE__ = 13;
-      Runtime.assert(true,ret[6] === 'g',"ret[6] === 'g'",13,'./while_test.js');
+      Runtime.assert(true,ret[6] === 'g',"ret[6] === 'g'",13,'while_test.js');
       
       __LINE__ = 14;
-      Runtime.assert(true,ret[7] === 'h',"ret[7] === 'h'",14,'./while_test.js');
+      Runtime.assert(true,ret[7] === 'h',"ret[7] === 'h'",14,'while_test.js');
       
       __LINE__ = 15;
-      Runtime.assert(true,ret[8] === 'i',"ret[8] === 'i'",15,'./while_test.js');
+      Runtime.assert(true,ret[8] === 'i',"ret[8] === 'i'",15,'while_test.js');
       
       __LINE__ = 16;
-      Runtime.assert(true,ret[9] === 'j',"ret[9] === 'j'",16,'./while_test.js');
+      Runtime.assert(true,ret[9] === 'j',"ret[9] === 'j'",16,'while_test.js');
       
       __LINE__ = 18;
       testvalue = 0;
@@ -857,34 +857,34 @@
       };
       
       __LINE__ = 23;
-      Runtime.assert(true,ret[0] === 'a',"ret[0] === 'a'",23,'./while_test.js');
+      Runtime.assert(true,ret[0] === 'a',"ret[0] === 'a'",23,'while_test.js');
       
       __LINE__ = 24;
-      Runtime.assert(true,ret[1] === 'b',"ret[1] === 'b'",24,'./while_test.js');
+      Runtime.assert(true,ret[1] === 'b',"ret[1] === 'b'",24,'while_test.js');
       
       __LINE__ = 25;
-      Runtime.assert(true,ret[2] === 'c',"ret[2] === 'c'",25,'./while_test.js');
+      Runtime.assert(true,ret[2] === 'c',"ret[2] === 'c'",25,'while_test.js');
       
       __LINE__ = 26;
-      Runtime.assert(true,ret[3] === 'd',"ret[3] === 'd'",26,'./while_test.js');
+      Runtime.assert(true,ret[3] === 'd',"ret[3] === 'd'",26,'while_test.js');
       
       __LINE__ = 27;
-      Runtime.assert(true,ret[4] === 'e',"ret[4] === 'e'",27,'./while_test.js');
+      Runtime.assert(true,ret[4] === 'e',"ret[4] === 'e'",27,'while_test.js');
       
       __LINE__ = 28;
-      Runtime.assert(true,ret[5] === 'f',"ret[5] === 'f'",28,'./while_test.js');
+      Runtime.assert(true,ret[5] === 'f',"ret[5] === 'f'",28,'while_test.js');
       
       __LINE__ = 29;
-      Runtime.assert(true,ret[6] === 'g',"ret[6] === 'g'",29,'./while_test.js');
+      Runtime.assert(true,ret[6] === 'g',"ret[6] === 'g'",29,'while_test.js');
       
       __LINE__ = 30;
-      Runtime.assert(true,ret[7] === 'h',"ret[7] === 'h'",30,'./while_test.js');
+      Runtime.assert(true,ret[7] === 'h',"ret[7] === 'h'",30,'while_test.js');
       
       __LINE__ = 31;
-      Runtime.assert(true,ret[8] === 'i',"ret[8] === 'i'",31,'./while_test.js');
+      Runtime.assert(true,ret[8] === 'i',"ret[8] === 'i'",31,'while_test.js');
       
       __LINE__ = 32;
-      Runtime.assert(true,ret[9] === 'j',"ret[9] === 'j'",32,'./while_test.js');
+      Runtime.assert(true,ret[9] === 'j',"ret[9] === 'j'",32,'while_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

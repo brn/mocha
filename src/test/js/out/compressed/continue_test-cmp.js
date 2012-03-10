@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/continue_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/continue_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['continue_test.js;1'] = {};
@@ -812,14 +812,14 @@
       };
       
       __LINE__ = 4;
-      Runtime.assert(true,i === 10,"i === 10",4,'./continue_test.js');
+      Runtime.assert(true,i === 10,"i === 10",4,'continue_test.js');
       
       __LINE__ = 5;
-      Runtime.assert(true,i === 10,"i === 10",5,'./continue_test.js');
+      Runtime.assert(true,i === 10,"i === 10",5,'continue_test.js');
       
       __LINE__ = 6;
       for (i = 0;i<10;i ++ ){
-        __LINE__ = 4330201376;
+        __LINE__ = 713944579759959888;
         END : {
           
           __LINE__ = 8;
@@ -828,17 +828,17 @@
             break END;
           };
         }__LINE__ = 11;
-        Runtime.assert(true,j === 0,"j === 0",11,'./continue_test.js');
+        Runtime.assert(true,j === 0,"j === 0",11,'continue_test.js');
       };
       
       __LINE__ = 13;
-      Runtime.assert(true,i === 10,"i === 10",13,'./continue_test.js');
+      Runtime.assert(true,i === 10,"i === 10",13,'continue_test.js');
       
       __LINE__ = 14;
-      Runtime.assert(true,i === 10,"i === 10",14,'./continue_test.js');
+      Runtime.assert(true,i === 10,"i === 10",14,'continue_test.js');
       
       __LINE__ = 15;
-      Runtime.assert(true,i === 10,"i === 10",15,'./continue_test.js');
+      Runtime.assert(true,i === 10,"i === 10",15,'continue_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

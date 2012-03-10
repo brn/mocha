@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/destructuring_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/destructuring_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['destructuring_test.js;1'] = {};
@@ -844,25 +844,25 @@
               strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
           
           __LINE__ = 19;
-          Runtime.assert(true,value1 === 100,"value1 === 100",19,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",19,'destructuring_test.js');
           
           __LINE__ = 20;
-          Runtime.assert(true,value3 === 100,"value3 === 100",20,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",20,'destructuring_test.js');
           
           __LINE__ = 21;
-          Runtime.assert(true,value5_ === 100,"value5_ === 100",21,'./destructuring_test.js');
+          Runtime.assert(true,value5_ === 100,"value5_ === 100",21,'destructuring_test.js');
           
           __LINE__ = 22;
-          Runtime.assert(true,value6_ === 200,"value6_ === 200",22,'./destructuring_test.js');
+          Runtime.assert(true,value6_ === 200,"value6_ === 200",22,'destructuring_test.js');
           
           __LINE__ = 23;
-          Runtime.assert(true,value7_ === 300,"value7_ === 300",23,'./destructuring_test.js');
+          Runtime.assert(true,value7_ === 300,"value7_ === 300",23,'destructuring_test.js');
           
           __LINE__ = 24;
-          Runtime.assert(true,value7 === 100,"value7 === 100",24,'./destructuring_test.js');
+          Runtime.assert(true,value7 === 100,"value7 === 100",24,'destructuring_test.js');
           
           __LINE__ = 25;
-          Runtime.assert(true,strvalue === 100,"strvalue === 100",25,'./destructuring_test.js');
+          Runtime.assert(true,strvalue === 100,"strvalue === 100",25,'destructuring_test.js');
           
           __LINE__ = 27;
           value1 = object.value1;
@@ -886,25 +886,25 @@
           strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
           
           __LINE__ = 28;
-          Runtime.assert(true,value1 === 100,"value1 === 100",28,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",28,'destructuring_test.js');
           
           __LINE__ = 29;
-          Runtime.assert(true,value3 === 100,"value3 === 100",29,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",29,'destructuring_test.js');
           
           __LINE__ = 30;
-          Runtime.assert(true,value5_ === 100,"value5_ === 100",30,'./destructuring_test.js');
+          Runtime.assert(true,value5_ === 100,"value5_ === 100",30,'destructuring_test.js');
           
           __LINE__ = 31;
-          Runtime.assert(true,value6_ === 200,"value6_ === 200",31,'./destructuring_test.js');
+          Runtime.assert(true,value6_ === 200,"value6_ === 200",31,'destructuring_test.js');
           
           __LINE__ = 32;
-          Runtime.assert(true,value7_ === 300,"value7_ === 300",32,'./destructuring_test.js');
+          Runtime.assert(true,value7_ === 300,"value7_ === 300",32,'destructuring_test.js');
           
           __LINE__ = 33;
-          Runtime.assert(true,value7 === 100,"value7 === 100",33,'./destructuring_test.js');
+          Runtime.assert(true,value7 === 100,"value7 === 100",33,'destructuring_test.js');
           
           __LINE__ = 34;
-          Runtime.assert(true,strvalue === 100,"strvalue === 100",34,'./destructuring_test.js');
+          Runtime.assert(true,strvalue === 100,"strvalue === 100",34,'destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -922,22 +922,22 @@
               arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
           
           __LINE__ = 40;
-          Runtime.assert(true,value1 === 100,"value1 === 100",40,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",40,'destructuring_test.js');
           
           __LINE__ = 41;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",41,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",41,'destructuring_test.js');
           
           __LINE__ = 42;
-          Runtime.assert(true,value2 === 100,"value2 === 100",42,'./destructuring_test.js');
+          Runtime.assert(true,value2 === 100,"value2 === 100",42,'destructuring_test.js');
           
           __LINE__ = 43;
-          Runtime.assert(true,value3 === 100,"value3 === 100",43,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",43,'destructuring_test.js');
           
           __LINE__ = 44;
-          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",44,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",44,'destructuring_test.js');
           
           __LINE__ = 45;
-          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",45,'./destructuring_test.js');
+          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",45,'destructuring_test.js');
           
           __LINE__ = 46;
           value1 = array[0] && array[0].value1?array[0].value1 : undefined;
@@ -958,22 +958,22 @@
           arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
           
           __LINE__ = 47;
-          Runtime.assert(true,value1 === 100,"value1 === 100",47,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",47,'destructuring_test.js');
           
           __LINE__ = 48;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",48,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",48,'destructuring_test.js');
           
           __LINE__ = 49;
-          Runtime.assert(true,value2 === 100,"value2 === 100",49,'./destructuring_test.js');
+          Runtime.assert(true,value2 === 100,"value2 === 100",49,'destructuring_test.js');
           
           __LINE__ = 50;
-          Runtime.assert(true,value3 === 100,"value3 === 100",50,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",50,'destructuring_test.js');
           
           __LINE__ = 51;
-          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",51,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",51,'destructuring_test.js');
           
           __LINE__ = 52;
-          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",52,'./destructuring_test.js');
+          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",52,'destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -990,22 +990,22 @@
               arr_value2 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
           
           __LINE__ = 57;
-          Runtime.assert(true,value1 === 100,"value1 === 100",57,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",57,'destructuring_test.js');
           
           __LINE__ = 58;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",58,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",58,'destructuring_test.js');
           
           __LINE__ = 59;
-          Runtime.assert(true,value2 === 100,"value2 === 100",59,'./destructuring_test.js');
+          Runtime.assert(true,value2 === 100,"value2 === 100",59,'destructuring_test.js');
           
           __LINE__ = 60;
-          Runtime.assert(true,value3 === 100,"value3 === 100",60,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",60,'destructuring_test.js');
           
           __LINE__ = 61;
-          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",61,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",61,'destructuring_test.js');
           
           __LINE__ = 62;
-          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",62,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",62,'destructuring_test.js');
           
           __LINE__ = 63;
           var arr_value4;
@@ -1026,22 +1026,22 @@
           arr_value4 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
           
           __LINE__ = 65;
-          Runtime.assert(true,value1 === 100,"value1 === 100",65,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",65,'destructuring_test.js');
           
           __LINE__ = 66;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",66,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",66,'destructuring_test.js');
           
           __LINE__ = 67;
-          Runtime.assert(true,value2 === 100,"value2 === 100",67,'./destructuring_test.js');
+          Runtime.assert(true,value2 === 100,"value2 === 100",67,'destructuring_test.js');
           
           __LINE__ = 68;
-          Runtime.assert(true,value3 === 100,"value3 === 100",68,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",68,'destructuring_test.js');
           
           __LINE__ = 69;
-          Runtime.assert(true,arr_value4[0] === 100,"arr_value4[0] === 100",69,'./destructuring_test.js');
+          Runtime.assert(true,arr_value4[0] === 100,"arr_value4[0] === 100",69,'destructuring_test.js');
           
           __LINE__ = 70;
-          Runtime.assert(true,arr_value4[1] === 200,"arr_value4[1] === 200",70,'./destructuring_test.js');
+          Runtime.assert(true,arr_value4[1] === 200,"arr_value4[1] === 200",70,'destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1060,25 +1060,25 @@
               strvalue = _mochaLocalTmp0["@value"] && _mochaLocalTmp0["@value"].strvalue?_mochaLocalTmp0["@value"].strvalue : undefined;
           
           __LINE__ = 74;
-          Runtime.assert(true,value1 === 100,"value1 === 100",74,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",74,'destructuring_test.js');
           
           __LINE__ = 75;
-          Runtime.assert(true,value3 === 100,"value3 === 100",75,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",75,'destructuring_test.js');
           
           __LINE__ = 76;
-          Runtime.assert(true,value5_ === 100,"value5_ === 100",76,'./destructuring_test.js');
+          Runtime.assert(true,value5_ === 100,"value5_ === 100",76,'destructuring_test.js');
           
           __LINE__ = 77;
-          Runtime.assert(true,value6_ === 200,"value6_ === 200",77,'./destructuring_test.js');
+          Runtime.assert(true,value6_ === 200,"value6_ === 200",77,'destructuring_test.js');
           
           __LINE__ = 78;
-          Runtime.assert(true,value7_ === 300,"value7_ === 300",78,'./destructuring_test.js');
+          Runtime.assert(true,value7_ === 300,"value7_ === 300",78,'destructuring_test.js');
           
           __LINE__ = 79;
-          Runtime.assert(true,value7 === 100,"value7 === 100",79,'./destructuring_test.js');
+          Runtime.assert(true,value7 === 100,"value7 === 100",79,'destructuring_test.js');
           
           __LINE__ = 80;
-          Runtime.assert(true,strvalue === 100,"strvalue === 100",80,'./destructuring_test.js');
+          Runtime.assert(true,strvalue === 100,"strvalue === 100",80,'destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1096,22 +1096,22 @@
               arr_value3 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[1]?_mochaLocalTmp1[4].value4.value5[1] : undefined;
           
           __LINE__ = 85;
-          Runtime.assert(true,value1 === 100,"value1 === 100",85,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",85,'destructuring_test.js');
           
           __LINE__ = 86;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",86,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",86,'destructuring_test.js');
           
           __LINE__ = 87;
-          Runtime.assert(true,value2 === 100,"value2 === 100",87,'./destructuring_test.js');
+          Runtime.assert(true,value2 === 100,"value2 === 100",87,'destructuring_test.js');
           
           __LINE__ = 88;
-          Runtime.assert(true,value3 === 100,"value3 === 100",88,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",88,'destructuring_test.js');
           
           __LINE__ = 89;
-          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",89,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",89,'destructuring_test.js');
           
           __LINE__ = 90;
-          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",90,'./destructuring_test.js');
+          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",90,'destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1128,22 +1128,22 @@
               arr_value2 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5?Runtime.toArray(_mochaLocalTmp2[4].value4.value5,0) : undefined;
           
           __LINE__ = 95;
-          Runtime.assert(true,value1 === 100,"value1 === 100",95,'./destructuring_test.js');
+          Runtime.assert(true,value1 === 100,"value1 === 100",95,'destructuring_test.js');
           
           __LINE__ = 96;
-          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",96,'./destructuring_test.js');
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",96,'destructuring_test.js');
           
           __LINE__ = 97;
-          Runtime.assert(true,value2 === 100,"value2 === 100",97,'./destructuring_test.js');
+          Runtime.assert(true,value2 === 100,"value2 === 100",97,'destructuring_test.js');
           
           __LINE__ = 98;
-          Runtime.assert(true,value3 === 100,"value3 === 100",98,'./destructuring_test.js');
+          Runtime.assert(true,value3 === 100,"value3 === 100",98,'destructuring_test.js');
           
           __LINE__ = 99;
-          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",99,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",99,'destructuring_test.js');
           
           __LINE__ = 100;
-          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",100,'./destructuring_test.js');
+          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",100,'destructuring_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }

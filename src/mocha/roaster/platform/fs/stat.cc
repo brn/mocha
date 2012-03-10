@@ -1,6 +1,8 @@
 #include <mocha/roaster/platform/fs/fs.h>
 #ifdef PLATFORM_WIN32
 #include <time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 #ifdef PLATFORM_POSIX
 #include <sys/stat.h>

@@ -57,14 +57,13 @@ class ClassProcessorUtils : public Processor{
                                                    Token::JS_IDENTIFIER, line, Literal::kIdentifier);
     Literal* name = builder()->CreateNameNode(processor_->GetName(),
                                               Token::JS_IDENTIFIER, line, Literal::kIdentifier);
-    std::string tmp = "'";
-    tmp += processor_->GetName();
-    tmp += "'";
-    char line_str[100];
-    sprintf(line_str, "'%lld'", line);
-    Literal* name_string = builder()->CreateNameNode(tmp.c_str(),
+    std::stringstream st;
+    st << '\'' << processor_->GetName() << '\'';
+    std::stringstream line_st;
+    line_st << line;
+    Literal* name_string = builder()->CreateNameNode(st,
                                                      Token::JS_STRING_LITERAL, line, Literal::kString);
-    Literal* line_string = builder()->CreateNameNode(line_str,
+    Literal* line_string = builder()->CreateNameNode(line_st,
                                                      Token::JS_STRING_LITERAL, line, Literal::kString);
     NodeList* args = builder()->CreateNodeList(7, this_sym, name, private_holder, constructor, arguments, name_string, line_string);
     CallExp* runtime_call = builder()->CreateRuntimeMod(init, line);
@@ -142,9 +141,9 @@ class ClassProcessorUtils : public Processor{
     Literal* filename_node = builder()->CreateNameNode(filename, Token::JS_STRING_LITERAL, mixin_list->line_number(), Literal::kString);
     Literal* private_field = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kPrivateHolder),
                                                        Token::JS_IDENTIFIER, mixin_list->line_number(), Literal::kIdentifier);
-    char tmp[ 50 ];
-    sprintf(tmp, "%lld", line);
-    Literal* line_num = builder()->CreateNameNode(tmp, Token::JS_NUMERIC_LITERAL, mixin_list->line_number(), Literal::kNumeric);
+    std::stringstream st;
+    st << line;
+    Literal* line_num = builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, mixin_list->line_number(), Literal::kNumeric);
     NodeList* args = builder()->CreateNodeList(5, name_sym, private_field, array, filename_node, line_num);
     CallExp* runtime_accessor = builder()->CreateRuntimeMod(check_requirements, body->line_number());
     CallExp* runtime_call = builder()->CreateNormalAccessor(runtime_accessor, args, body->line_number());
@@ -426,8 +425,7 @@ inline void ClassProcessor::SetName(AstNode* name_node) {
     TokenInfo *info = name_node->CastToLiteral()->value();
     name_ = info->token();
   } else {
-    char buf[500];
-    name_ = builder()->CreateTmpRef(buf, info_->visitor_info()->tmp_index());
+    name_ = builder()->CreateTmpRef(info_->visitor_info()->tmp_index());
   }
 }
 

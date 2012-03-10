@@ -26,6 +26,7 @@
 #include <mocha/misc/int_types.h>
 #include <string>
 #include <vector>
+#include <mocha/shell/shell.h>
 #include <mocha/roaster/misc/bits.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/options/setting.h>
@@ -43,7 +44,11 @@ class Options {
   bool IsPath() { return flags_.At(3); }
   bool IsCompress() { return flags_.At(4); }
   bool IsUnmatch() { return flags_.At(5); }
-  void ShowError() {fprintf(stderr, "%s\n", error_.c_str());}
+  void ShowError() {
+    Shell::GetInstance()->Break(false);
+    Shell::GetInstance()->Print(error_.c_str());
+    Shell::GetInstance()->Break();
+  }
   void StopObserve() {flags_.Set(6);}
   bool IsStopObserving() {return flags_.At(6);}
   bool IsFile() { return flags_.At(7); }

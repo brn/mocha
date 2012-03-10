@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/expression_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/expression_test.js",
           __LINE__ = 0;
       function primaryTest() {
         try {
@@ -805,7 +805,7 @@
           var array = [,,,];
           
           __LINE__ = 343;
-          Runtime.assert(true,array.length === 3,"array.length === 3",343,'./expression_test.js');
+          Runtime.assert(true,array.length === 3,"array.length === 3",343,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -823,7 +823,7 @@
               }();
           
           __LINE__ = 314;
-          Runtime.assert(true,exp === 1,"exp === 1",314,'./expression_test.js');
+          Runtime.assert(true,exp === 1,"exp === 1",314,'expression_test.js');
           
           __LINE__ = 316;
           var a,
@@ -834,16 +834,16 @@
           exp = (a = 0, b = 1, c = 2);
           
           __LINE__ = 318;
-          Runtime.assert(true,a === 0,"a === 0",318,'./expression_test.js');
+          Runtime.assert(true,a === 0,"a === 0",318,'expression_test.js');
           
           __LINE__ = 319;
-          Runtime.assert(true,b === 1,"b === 1",319,'./expression_test.js');
+          Runtime.assert(true,b === 1,"b === 1",319,'expression_test.js');
           
           __LINE__ = 320;
-          Runtime.assert(true,c === 2,"c === 2",320,'./expression_test.js');
+          Runtime.assert(true,c === 2,"c === 2",320,'expression_test.js');
           
           __LINE__ = 321;
-          Runtime.assert(true,exp === 2,"exp === 2",321,'./expression_test.js');
+          Runtime.assert(true,exp === 2,"exp === 2",321,'expression_test.js');
           
           __LINE__ = 323;
           !function () {
@@ -856,7 +856,7 @@
           }();
           
           __LINE__ = 327;
-          Runtime.assert(true,exp === 10,"exp === 10",327,'./expression_test.js');
+          Runtime.assert(true,exp === 10,"exp === 10",327,'expression_test.js');
           
           __LINE__ = 329;
           !function (a,b) {
@@ -883,7 +883,7 @@
           }());
           
           __LINE__ = 333;
-          Runtime.assert(true,exp === 300,"exp === 300",333,'./expression_test.js');
+          Runtime.assert(true,exp === 300,"exp === 300",333,'expression_test.js');
           
           __LINE__ = 335;
           !function () {
@@ -896,7 +896,7 @@
           }();
           
           __LINE__ = 338;
-          Runtime.assert(true,exp === 1,"exp === 1",338,'./expression_test.js');
+          Runtime.assert(true,exp === 1,"exp === 1",338,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -929,10 +929,10 @@
               };
           
           __LINE__ = 306;
-          Runtime.assert(true,test["test2"]["@test"]["0"]["1"]()() === 1,"test[\"test2\"][\"@test\"][\"0\"][\"1\"]()() === 1",306,'./expression_test.js');
+          Runtime.assert(true,test["test2"]["@test"]["0"]["1"]()() === 1,"test[\"test2\"][\"@test\"][\"0\"][\"1\"]()() === 1",306,'expression_test.js');
           
           __LINE__ = 307;
-          Runtime.assert(true,test.test2["@test"][0]["1"]()() === 1,"test.test2[\"@test\"][0][\"1\"]()() === 1",307,'./expression_test.js');
+          Runtime.assert(true,test.test2["@test"][0]["1"]()() === 1,"test.test2[\"@test\"][0][\"1\"]()() === 1",307,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -944,13 +944,13 @@
               ret = +strNum;
           
           __LINE__ = 277;
-          Runtime.assert(true,ret === 1,"ret === 1",277,'./expression_test.js');
+          Runtime.assert(true,ret === 1,"ret === 1",277,'expression_test.js');
           
           __LINE__ = 279;
           ret = -strNum;
           
           __LINE__ = 280;
-          Runtime.assert(true,ret === -1,"ret === -1",280,'./expression_test.js');
+          Runtime.assert(true,ret === -1,"ret === -1",280,'expression_test.js');
           
           __LINE__ = 282;
           var num = -5;
@@ -959,7 +959,7 @@
           ret = ~num;
           
           __LINE__ = 284;
-          Runtime.assert(true,ret === 4,"ret === 4",284,'./expression_test.js');
+          Runtime.assert(true,ret === 4,"ret === 4",284,'expression_test.js');
           
           __LINE__ = 286;
           var flg = true;
@@ -968,13 +968,13 @@
           ret = !flg;
           
           __LINE__ = 288;
-          Runtime.assert(true,ret === false,"ret === false",288,'./expression_test.js');
+          Runtime.assert(true,ret === false,"ret === false",288,'expression_test.js');
           
           __LINE__ = 290;
           ret = !!flg;
           
           __LINE__ = 291;
-          Runtime.assert(true,ret === true,"ret === true",291,'./expression_test.js');
+          Runtime.assert(true,ret === true,"ret === true",291,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -988,7 +988,7 @@
           add ++ ;
           
           __LINE__ = 251;
-          Runtime.assert(true,add === 1,"add === 1",251,'./expression_test.js');
+          Runtime.assert(true,add === 1,"add === 1",251,'expression_test.js');
           
           __LINE__ = 253;
           var sub = 1;
@@ -997,7 +997,7 @@
           sub -- ;
           
           __LINE__ = 255;
-          Runtime.assert(true,sub === 0,"sub === 0",255,'./expression_test.js');
+          Runtime.assert(true,sub === 0,"sub === 0",255,'expression_test.js');
           
           __LINE__ = 257;
           add = 0;
@@ -1009,7 +1009,7 @@
            ++ sub;
           
           __LINE__ = 260;
-          Runtime.assert(true,sub === 1,"sub === 1",260,'./expression_test.js');
+          Runtime.assert(true,sub === 1,"sub === 1",260,'expression_test.js');
           
           __LINE__ = 262;
           add = 1;
@@ -1021,7 +1021,7 @@
            -- sub;
           
           __LINE__ = 265;
-          Runtime.assert(true,sub === 0,"sub === 0",265,'./expression_test.js');
+          Runtime.assert(true,sub === 0,"sub === 0",265,'expression_test.js');
           
           __LINE__ = 267;
           sub = 1;
@@ -1033,7 +1033,7 @@
           add = sub;
           
           __LINE__ = 270;
-          Runtime.assert(true,add === 0,"add === 0",270,'./expression_test.js');
+          Runtime.assert(true,add === 0,"add === 0",270,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1050,19 +1050,19 @@
           item && trueValue && !falseValue && (val = 1);
           
           __LINE__ = 90;
-          Runtime.assert(true,val === 1,"val === 1",90,'./expression_test.js');
+          Runtime.assert(true,val === 1,"val === 1",90,'expression_test.js');
           
           __LINE__ = 92;
           ((item && trueValue) || falseValue) && (val = 2);
           
           __LINE__ = 94;
-          Runtime.assert(true,val === 2,"val === 2",94,'./expression_test.js');
+          Runtime.assert(true,val === 2,"val === 2",94,'expression_test.js');
           
           __LINE__ = 96;
           ((item && falseValue) || !trueValue) && (val = 3);
           
           __LINE__ = 98;
-          Runtime.assert(false,val === 3,"val === 3",98,'./expression_test.js');
+          Runtime.assert(false,val === 3,"val === 3",98,'expression_test.js');
           
           __LINE__ = 100;
           var changeVal = function (value) {
@@ -1078,7 +1078,7 @@
           (item) && (trueValue) && (!falseValue) && (changeVal(4));
           
           __LINE__ = 105;
-          Runtime.assert(true,val === 4,"val === 4",105,'./expression_test.js');
+          Runtime.assert(true,val === 4,"val === 4",105,'expression_test.js');
           
           __LINE__ = 107;
           var eq = 0,
@@ -1088,13 +1088,13 @@
           eq == 0 && (eqVal = 1);
           
           __LINE__ = 112;
-          Runtime.assert(true,eqVal === 1,"eqVal === 1",112,'./expression_test.js');
+          Runtime.assert(true,eqVal === 1,"eqVal === 1",112,'expression_test.js');
           
           __LINE__ = 115;
           eq === 0 && (eqVal = 2);
           
           __LINE__ = 117;
-          Runtime.assert(true,eqVal === 2,"eqVal === 2",117,'./expression_test.js');
+          Runtime.assert(true,eqVal === 2,"eqVal === 2",117,'expression_test.js');
           
           __LINE__ = 119;
           var bit = 1,
@@ -1104,19 +1104,19 @@
           ret = bit << 1;
           
           __LINE__ = 122;
-          Runtime.assert(true,ret === 2,"ret === 2",122,'./expression_test.js');
+          Runtime.assert(true,ret === 2,"ret === 2",122,'expression_test.js');
           
           __LINE__ = 123;
           ret = bit >> 1;
           
           __LINE__ = 124;
-          Runtime.assert(true,ret === 0,"ret === 0",124,'./expression_test.js');
+          Runtime.assert(true,ret === 0,"ret === 0",124,'expression_test.js');
           
           __LINE__ = 125;
           ret = bit|2;
           
           __LINE__ = 126;
-          Runtime.assert(true,ret === 3,"ret === 3",126,'./expression_test.js');
+          Runtime.assert(true,ret === 3,"ret === 3",126,'expression_test.js');
           
           __LINE__ = 128;
           bit = 1;
@@ -1125,7 +1125,7 @@
           bit <<= 1;
           
           __LINE__ = 130;
-          Runtime.assert(true,bit === 2,"bit === 2",130,'./expression_test.js');
+          Runtime.assert(true,bit === 2,"bit === 2",130,'expression_test.js');
           
           __LINE__ = 131;
           bit = 1;
@@ -1134,7 +1134,7 @@
           bit >>= 1;
           
           __LINE__ = 133;
-          Runtime.assert(true,bit === 0,"bit === 0",133,'./expression_test.js');
+          Runtime.assert(true,bit === 0,"bit === 0",133,'expression_test.js');
           
           __LINE__ = 134;
           bit = 1;
@@ -1143,7 +1143,7 @@
           bit |= 2;
           
           __LINE__ = 136;
-          Runtime.assert(true,bit === 3,"bit === 3",136,'./expression_test.js');
+          Runtime.assert(true,bit === 3,"bit === 3",136,'expression_test.js');
           
           __LINE__ = 138;
           bit = 10;
@@ -1152,7 +1152,7 @@
           ret = bit >>> 2;
           
           __LINE__ = 140;
-          Runtime.assert(true,ret === 2,"ret === 2",140,'./expression_test.js');
+          Runtime.assert(true,ret === 2,"ret === 2",140,'expression_test.js');
           
           __LINE__ = 141;
           bit = 10;
@@ -1161,7 +1161,7 @@
           bit >>>= 2;
           
           __LINE__ = 143;
-          Runtime.assert(true,bit === 2,"bit === 2",143,'./expression_test.js');
+          Runtime.assert(true,bit === 2,"bit === 2",143,'expression_test.js');
           
           __LINE__ = 145;
           bit = 3;
@@ -1170,13 +1170,13 @@
           ret = bit&1;
           
           __LINE__ = 147;
-          Runtime.assert(true,ret === 1,"ret === 1",147,'./expression_test.js');
+          Runtime.assert(true,ret === 1,"ret === 1",147,'expression_test.js');
           
           __LINE__ = 148;
           bit &= 1;
           
           __LINE__ = 149;
-          Runtime.assert(true,bit === 1,"bit === 1",149,'./expression_test.js');
+          Runtime.assert(true,bit === 1,"bit === 1",149,'expression_test.js');
           
           __LINE__ = 151;
           bit = 2;
@@ -1185,7 +1185,7 @@
           ret = bit^1;
           
           __LINE__ = 153;
-          Runtime.assert(true,ret === 3,"ret === 3",153,'./expression_test.js');
+          Runtime.assert(true,ret === 3,"ret === 3",153,'expression_test.js');
           
           __LINE__ = 154;
           bit = 2;
@@ -1194,7 +1194,7 @@
           bit ^= 1;
           
           __LINE__ = 156;
-          Runtime.assert(true,bit === 3,"bit === 3",156,'./expression_test.js');
+          Runtime.assert(true,bit === 3,"bit === 3",156,'expression_test.js');
           
           __LINE__ = 158;
           var lt = 0,
@@ -1205,7 +1205,7 @@
           lt>gt && (cmpVal = 1);
           
           __LINE__ = 165;
-          Runtime.assert(true,cmpVal === 0,"cmpVal === 0",165,'./expression_test.js');
+          Runtime.assert(true,cmpVal === 0,"cmpVal === 0",165,'expression_test.js');
           
           __LINE__ = 167;
           cmpVal = 0;
@@ -1214,7 +1214,7 @@
           lt<gt && (cmpVal = 1);
           
           __LINE__ = 171;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",171,'./expression_test.js');
+          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",171,'expression_test.js');
           
           __LINE__ = 173;
           cmpVal = 0;
@@ -1223,7 +1223,7 @@
           lt <= gt && (cmpVal = 1);
           
           __LINE__ = 177;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",177,'./expression_test.js');
+          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",177,'expression_test.js');
           
           __LINE__ = 179;
           cmpVal = 0;
@@ -1232,7 +1232,7 @@
           lt >= gt && (cmpVal = 1);
           
           __LINE__ = 183;
-          Runtime.assert(false,cmpVal === 1,"cmpVal === 1",183,'./expression_test.js');
+          Runtime.assert(false,cmpVal === 1,"cmpVal === 1",183,'expression_test.js');
           
           __LINE__ = 185;
           cmpVal = 0;
@@ -1244,7 +1244,7 @@
           lt <= gt && (cmpVal = 1);
           
           __LINE__ = 190;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",190,'./expression_test.js');
+          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",190,'expression_test.js');
           
           __LINE__ = 192;
           cmpVal = 1;
@@ -1253,7 +1253,7 @@
           lt >= gt && (cmpVal = 1);
           
           __LINE__ = 196;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",196,'./expression_test.js');
+          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",196,'expression_test.js');
           
           __LINE__ = 198;
           var pl = 0;
@@ -1262,7 +1262,7 @@
           ret = pl+1;
           
           __LINE__ = 200;
-          Runtime.assert(true,ret === 1,"ret === 1",200,'./expression_test.js');
+          Runtime.assert(true,ret === 1,"ret === 1",200,'expression_test.js');
           
           __LINE__ = 202;
           var mi = 1;
@@ -1271,7 +1271,7 @@
           ret = mi-1;
           
           __LINE__ = 204;
-          Runtime.assert(true,ret === 0,"ret === 0",204,'./expression_test.js');
+          Runtime.assert(true,ret === 0,"ret === 0",204,'expression_test.js');
           
           __LINE__ = 206;
           var mul = 1;
@@ -1280,7 +1280,7 @@
           ret = mul*2;
           
           __LINE__ = 208;
-          Runtime.assert(true,ret === 2,"ret === 2",208,'./expression_test.js');
+          Runtime.assert(true,ret === 2,"ret === 2",208,'expression_test.js');
           
           __LINE__ = 210;
           var div = 2;
@@ -1289,7 +1289,7 @@
           ret = div/2;
           
           __LINE__ = 212;
-          Runtime.assert(true,ret === 1,"ret === 1",212,'./expression_test.js');
+          Runtime.assert(true,ret === 1,"ret === 1",212,'expression_test.js');
           
           __LINE__ = 214;
           var mod = 3;
@@ -1298,7 +1298,7 @@
           ret = mod%2;
           
           __LINE__ = 216;
-          Runtime.assert(true,ret === 1,"ret === 1",216,'./expression_test.js');
+          Runtime.assert(true,ret === 1,"ret === 1",216,'expression_test.js');
           
           __LINE__ = 218;
           pl = 0;
@@ -1307,7 +1307,7 @@
           pl += 1;
           
           __LINE__ = 220;
-          Runtime.assert(true,pl === 1,"pl === 1",220,'./expression_test.js');
+          Runtime.assert(true,pl === 1,"pl === 1",220,'expression_test.js');
           
           __LINE__ = 222;
           mi = 1;
@@ -1316,7 +1316,7 @@
           mi -= 1;
           
           __LINE__ = 224;
-          Runtime.assert(true,mi === 0,"mi === 0",224,'./expression_test.js');
+          Runtime.assert(true,mi === 0,"mi === 0",224,'expression_test.js');
           
           __LINE__ = 226;
           mul = 1;
@@ -1325,7 +1325,7 @@
           mul *= 2;
           
           __LINE__ = 228;
-          Runtime.assert(true,mul === 2,"mul === 2",228,'./expression_test.js');
+          Runtime.assert(true,mul === 2,"mul === 2",228,'expression_test.js');
           
           __LINE__ = 230;
           div = 2;
@@ -1334,7 +1334,7 @@
           div /= 2;
           
           __LINE__ = 232;
-          Runtime.assert(true,div === 1,"div === 1",232,'./expression_test.js');
+          Runtime.assert(true,div === 1,"div === 1",232,'expression_test.js');
           
           __LINE__ = 234;
           mod = 3;
@@ -1343,7 +1343,7 @@
           mod %= 2;
           
           __LINE__ = 236;
-          Runtime.assert(true,mod === 1,"mod === 1",236,'./expression_test.js');
+          Runtime.assert(true,mod === 1,"mod === 1",236,'expression_test.js');
           
           __LINE__ = 238;
           var obj =  {
@@ -1353,7 +1353,7 @@
               testInAnd = 'onmouseenter' in obj && 'onmouseleave' in obj;
           
           __LINE__ = 245;
-          Runtime.assert(true,testInAnd === true,"testInAnd === true",245,'./expression_test.js');
+          Runtime.assert(true,testInAnd === true,"testInAnd === true",245,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1385,7 +1385,7 @@
               };
           
           __LINE__ = 70;
-          Runtime.assert(true,highFn()()() === true,"highFn()()() === true",70,'./expression_test.js');
+          Runtime.assert(true,highFn()()() === true,"highFn()()() === true",70,'expression_test.js');
           
           __LINE__ = 71;
           highFn = function () {
@@ -1411,7 +1411,7 @@
               instance = new ((flg)?highFn : inner1);
           
           __LINE__ = 76;
-          Runtime.assert(true,instance === inner1,"instance === inner1",76,'./expression_test.js');
+          Runtime.assert(true,instance === inner1,"instance === inner1",76,'expression_test.js');
           
           __LINE__ = 77;
           var flg2 = 0;
@@ -1420,7 +1420,7 @@
           instance = new ((flg2)?highFn : inner1);
           
           __LINE__ = 79;
-          Runtime.assert(true,instance === inner2,"instance === inner2",79,'./expression_test.js');
+          Runtime.assert(true,instance === inner2,"instance === inner2",79,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1470,13 +1470,13 @@
           };
           
           __LINE__ = 27;
-          Runtime.assert(true,testObject.testFn() === true,"testObject.testFn() === true",27,'./expression_test.js');
+          Runtime.assert(true,testObject.testFn() === true,"testObject.testFn() === true",27,'expression_test.js');
           
           __LINE__ = 28;
-          Runtime.assert(true,testObject.testProp.testFn() === false,"testObject.testProp.testFn() === false",28,'./expression_test.js');
+          Runtime.assert(true,testObject.testProp.testFn() === false,"testObject.testProp.testFn() === false",28,'expression_test.js');
           
           __LINE__ = 29;
-          Runtime.assert(true,testObject.testProp.testProp.testFn() === 2,"testObject.testProp.testProp.testFn() === 2",29,'./expression_test.js');
+          Runtime.assert(true,testObject.testProp.testProp.testFn() === 2,"testObject.testProp.testProp.testFn() === 2",29,'expression_test.js');
           
           __LINE__ = 31;
           var highFn = function () {
@@ -1501,13 +1501,13 @@
               instance3 = new new new highFn();
           
           __LINE__ = 37;
-          Runtime.assert(true,instance === inner1,"instance === inner1",37,'./expression_test.js');
+          Runtime.assert(true,instance === inner1,"instance === inner1",37,'expression_test.js');
           
           __LINE__ = 38;
-          Runtime.assert(true,instance2 === inner2,"instance2 === inner2",38,'./expression_test.js');
+          Runtime.assert(true,instance2 === inner2,"instance2 === inner2",38,'expression_test.js');
           
           __LINE__ = 39;
-          Runtime.assert(true,instance3 instanceof inner2,"instance3 instanceof inner2",39,'./expression_test.js');
+          Runtime.assert(true,instance3 instanceof inner2,"instance3 instanceof inner2",39,'expression_test.js');
           
           __LINE__ = 41;
           var fnObj =  {
@@ -1521,13 +1521,13 @@
               instance6 = new new new fnObj.highFn();
           
           __LINE__ = 51;
-          Runtime.assert(true,instance4 === inner1,"instance4 === inner1",51,'./expression_test.js');
+          Runtime.assert(true,instance4 === inner1,"instance4 === inner1",51,'expression_test.js');
           
           __LINE__ = 52;
-          Runtime.assert(true,instance5 === inner2,"instance5 === inner2",52,'./expression_test.js');
+          Runtime.assert(true,instance5 === inner2,"instance5 === inner2",52,'expression_test.js');
           
           __LINE__ = 53;
-          Runtime.assert(true,instance6 instanceof inner2,"instance6 instanceof inner2",53,'./expression_test.js');
+          Runtime.assert(true,instance6 instanceof inner2,"instance6 instanceof inner2",53,'expression_test.js');
           
           __LINE__ = 54;
           var instance7 = new fnObj.highFnInner.highFn(),
@@ -1535,13 +1535,13 @@
               instance9 = new new new fnObj.highFnInner.highFn();
           
           __LINE__ = 57;
-          Runtime.assert(true,instance7 === inner1,"instance7 === inner1",57,'./expression_test.js');
+          Runtime.assert(true,instance7 === inner1,"instance7 === inner1",57,'expression_test.js');
           
           __LINE__ = 58;
-          Runtime.assert(true,instance8 === inner2,"instance8 === inner2",58,'./expression_test.js');
+          Runtime.assert(true,instance8 === inner2,"instance8 === inner2",58,'expression_test.js');
           
           __LINE__ = 59;
-          Runtime.assert(true,instance9 instanceof inner2,"instance9 instanceof inner2",59,'./expression_test.js');
+          Runtime.assert(true,instance9 instanceof inner2,"instance9 instanceof inner2",59,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
@@ -1552,7 +1552,7 @@
           var x = 2.000000;
           
           __LINE__ = 4;
-          Runtime.assert(true,x === 2,"x === 2",4,'./expression_test.js');
+          Runtime.assert(true,x === 2,"x === 2",4,'expression_test.js');
           
           __LINE__ = 6;
           x = function () {
@@ -1565,7 +1565,7 @@
           };
           
           __LINE__ = 9;
-          Runtime.assert(true,x() === 2,"x() === 2",9,'./expression_test.js');
+          Runtime.assert(true,x() === 2,"x() === 2",9,'expression_test.js');
           
           __LINE__ = 11;
           x = function () {
@@ -1578,13 +1578,13 @@
           };
           
           __LINE__ = 14;
-          Runtime.assert(true,Object.prototype.toString.call(x()) === "[object RegExp]","Object.prototype.toString.call(x()) === \"[object RegExp]\"",14,'./expression_test.js');
+          Runtime.assert(true,Object.prototype.toString.call(x()) === "[object RegExp]","Object.prototype.toString.call(x()) === \"[object RegExp]\"",14,'expression_test.js');
           
           __LINE__ = 15;
-          Runtime.assert(true,/aaa/.test("aaa") === true,"/aaa/.test(\"aaa\") === true",15,'./expression_test.js');
+          Runtime.assert(true,/aaa/.test("aaa") === true,"/aaa/.test(\"aaa\") === true",15,'expression_test.js');
           
           __LINE__ = 16;
-          Runtime.assert(true,.200*10 === 2,".200*10 === 2",16,'./expression_test.js');
+          Runtime.assert(true,.200*10 === 2,".200*10 === 2",16,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }

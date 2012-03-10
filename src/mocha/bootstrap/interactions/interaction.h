@@ -8,7 +8,7 @@ class Interaction {
   inline static void End() { is_end_ = true; }
  private :
   static bool is_end_;
-  static Commands commands_;
+  class RunCommand;
 };
 }
 

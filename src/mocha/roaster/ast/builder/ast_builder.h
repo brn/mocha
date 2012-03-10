@@ -24,6 +24,7 @@
 #ifndef mocha_ast_utils_h_
 #define mocha_ast_utils_h_
 #include <assert.h>
+#include <sstream>
 #include <mocha/roaster/compiler.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
@@ -51,6 +52,7 @@ class AstBuilder : private Uncopyable {
   CallExp* CreatePrototypeAccessor(AstNode* callable, AstNode* args, int64_t line);
   CallExp* CreateNormalAccessor(AstNode* callable, AstNode* args, int64_t line);
   Literal* CreateNameNode(const char* name, int type, int64_t line, int value_type, bool is_empty = false);
+  Literal* CreateNameNode(const std::stringstream&, int type, int64_t line, int value_type, bool is_empty = false);
   AssignmentExp* CreateAssignment(int type, AstNode* lhs, AstNode* rhs, int64_t line);
   UnaryExp* CreateUnaryExp(int type, AstNode* exp, int64_t line);
   NodeList* CreateNodeList(int num, ...);
@@ -63,7 +65,7 @@ class AstBuilder : private Uncopyable {
   CallExp* CreateRuntimeMod(AstNode* member, int64_t line);
   CallExp* CreateConstantProp(AstNode* lhs, AstNode* prop, AstNode* value, int64_t line);
   CallExp* CreatePrototypeNode(AstNode* lhs, int64_t line);
-  const char* CreateTmpRef(char* buf, int index);
+  std::string CreateTmpRef(int index);
   Literal* CreateTmpNode(int index, int64_t line);
   IFStmt* CreateIFStmt(AstNode* exp, AstNode* then_stmt, AstNode* else_stmt, int64_t line);
   BlockStmt* CreateBlockStmt(int64_t line, int num, ...);

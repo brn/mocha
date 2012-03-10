@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/for_each_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/for_each_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['for_each_test.js;1'] = {};
@@ -822,13 +822,13 @@
       };
       
       __LINE__ = 10;
-      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",10,'./for_each_test.js');
+      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",10,'for_each_test.js');
       
       __LINE__ = 11;
-      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",11,'./for_each_test.js');
+      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",11,'for_each_test.js');
       
       __LINE__ = 12;
-      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",12,'./for_each_test.js');
+      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",12,'for_each_test.js');
       
       __LINE__ = 14;
       arr = [];
@@ -844,13 +844,13 @@
       };
       
       __LINE__ = 18;
-      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",18,'./for_each_test.js');
+      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",18,'for_each_test.js');
       
       __LINE__ = 19;
-      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",19,'./for_each_test.js');
+      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",19,'for_each_test.js');
       
       __LINE__ = 20;
-      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",20,'./for_each_test.js');
+      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",20,'for_each_test.js');
       
       __LINE__ = 22;
       arr = [];
@@ -866,13 +866,13 @@
       };
       
       __LINE__ = 26;
-      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",26,'./for_each_test.js');
+      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",26,'for_each_test.js');
       
       __LINE__ = 27;
-      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",27,'./for_each_test.js');
+      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",27,'for_each_test.js');
       
       __LINE__ = 28;
-      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",28,'./for_each_test.js');
+      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",28,'for_each_test.js');
       
       __LINE__ = 30;
       arr = [];
@@ -888,13 +888,13 @@
       };
       
       __LINE__ = 34;
-      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",34,'./for_each_test.js');
+      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",34,'for_each_test.js');
       
       __LINE__ = 35;
-      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",35,'./for_each_test.js');
+      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",35,'for_each_test.js');
       
       __LINE__ = 36;
-      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",36,'./for_each_test.js');
+      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",36,'for_each_test.js');
       
       __LINE__ = 38;
       var prop =  {
@@ -915,13 +915,13 @@
       };
       
       __LINE__ = 46;
-      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",46,'./for_each_test.js');
+      Runtime.assert(true,arr[0] === 100,"arr[0] === 100",46,'for_each_test.js');
       
       __LINE__ = 47;
-      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",47,'./for_each_test.js');
+      Runtime.assert(true,arr[1] === 200,"arr[1] === 200",47,'for_each_test.js');
       
       __LINE__ = 48;
-      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",48,'./for_each_test.js');
+      Runtime.assert(true,arr[2] === 300,"arr[2] === 300",48,'for_each_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

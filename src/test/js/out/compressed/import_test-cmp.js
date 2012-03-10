@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/module_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/module_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['module_test.js;2'] = {};
@@ -913,7 +913,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/import_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/import_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['import_test.js;2'] = {};
@@ -928,19 +928,19 @@
           testExport5 = _mochaLocalTmp0.testExport5;
       
       __LINE__ = 18;
-      Runtime.assert(true,testExport1() === 1,"testExport1() === 1",18,'./import_test.js');
+      Runtime.assert(true,testExport1() === 1,"testExport1() === 1",18,'import_test.js');
       
       __LINE__ = 19;
-      Runtime.assert(true,testExport2() === 2,"testExport2() === 2",19,'./import_test.js');
+      Runtime.assert(true,testExport2() === 2,"testExport2() === 2",19,'import_test.js');
       
       __LINE__ = 20;
-      Runtime.assert(true,testExport3.test === 200,"testExport3.test === 200",20,'./import_test.js');
+      Runtime.assert(true,testExport3.test === 200,"testExport3.test === 200",20,'import_test.js');
       
       __LINE__ = 21;
-      Runtime.assert(true,testExport4() === 3,"testExport4() === 3",21,'./import_test.js');
+      Runtime.assert(true,testExport4() === 3,"testExport4() === 3",21,'import_test.js');
       
       __LINE__ = 22;
-      Runtime.assert(true,testExport5() === 4,"testExport5() === 4",22,'./import_test.js');
+      Runtime.assert(true,testExport5() === 4,"testExport5() === 4",22,'import_test.js');
       
       __LINE__ = 24;
       var testModule = _mochaGlobalAlias.testModule = function () {
@@ -968,7 +968,7 @@
           foo = _mochaLocalTmp1.foo;
       
       __LINE__ = 29;
-      Runtime.assert(true,foo() === "ok","foo() === \"ok\"",29,'./import_test.js');
+      Runtime.assert(true,foo() === "ok","foo() === \"ok\"",29,'import_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

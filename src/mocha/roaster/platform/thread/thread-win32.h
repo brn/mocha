@@ -1,9 +1,8 @@
 #ifndef mocha_thread_win32_h_
 #define mocha_thread_win32_h_
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <windows.h>
+#include <process.h>
+#include <mocha/roaster/misc/bits.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 
 namespace mocha {
@@ -47,14 +46,7 @@ class ScopedLock {
   bool unlocked_;
 };
 
-class ThreadLocalStorageKey;
-
-class ThreadLocalStorage : private Static {
- public :
-  static void* Get (ThreadLocalStorageKey* key) { return return TlsGetValue(key->key); }
-  static void Set (ThreadLocalStorageKey* key, void*) { TlsSetValue(key->key, val); }
-};
-
+class ThreadLocalStorage;
 class ThreadLocalStorageKey {
   friend class ThreadLocalStorage;
  public :
@@ -65,12 +57,19 @@ class ThreadLocalStorageKey {
   void DeleteKey();
  private :
   void Free();
-  bool has_fn;
-  bool is_free;
+  bool has_fn_;
+  bool is_free_;
   Mutex mutex_;
-  ThreadLocalStorageKey_t key_;
-  ThreadLocalStorageKey::Destructor destructor;
+  DWORD key_;
+  ThreadLocalStorageKey::Destructor destructor_;
 };
+
+class ThreadLocalStorage : private Static {
+ public :
+  static void* Get (ThreadLocalStorageKey* key) { return TlsGetValue(key->key_); }
+  static void Set (ThreadLocalStorageKey* key, void* val) { TlsSetValue(key->key_, val); }
+};
+
 }
 }
 #undef PTR_IMPL

@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/yield_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/yield_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['yield_test.js;1'] = {};
@@ -911,34 +911,34 @@
                 generator = yieldTest2();
                 
                 __LINE__ = 12;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",12,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",12,'yield_test.js');
                 
                 __LINE__ = 13;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",13,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",13,'yield_test.js');
                 
                 __LINE__ = 14;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",14,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",14,'yield_test.js');
                 
                 __LINE__ = 15;
-                Runtime.assert(true,generator.next() === 3,"generator.next() === 3",15,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 3,"generator.next() === 3",15,'yield_test.js');
                 
                 __LINE__ = 16;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",16,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",16,'yield_test.js');
                 
                 __LINE__ = 17;
-                Runtime.assert(true,generator.next() === 5,"generator.next() === 5",17,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 5,"generator.next() === 5",17,'yield_test.js');
                 
                 __LINE__ = 18;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",18,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",18,'yield_test.js');
                 
                 __LINE__ = 19;
-                Runtime.assert(true,generator.next() === 7,"generator.next() === 7",19,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 7,"generator.next() === 7",19,'yield_test.js');
                 
                 __LINE__ = 20;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",20,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",20,'yield_test.js');
                 
                 __LINE__ = 21;
-                Runtime.assert(true,generator.next() === 9,"generator.next() === 9",21,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 9,"generator.next() === 9",21,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1070,19 +1070,19 @@
                 generator = yieldTest3();
                 
                 __LINE__ = 33;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",33,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",33,'yield_test.js');
                 
                 __LINE__ = 34;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",34,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",34,'yield_test.js');
                 
                 __LINE__ = 35;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",35,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",35,'yield_test.js');
                 
                 __LINE__ = 36;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",36,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",36,'yield_test.js');
                 
                 __LINE__ = 37;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",37,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",37,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1247,154 +1247,154 @@
                 generator = yieldTest4();
                 
                 __LINE__ = 50;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",50,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",50,'yield_test.js');
                 
                 __LINE__ = 51;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",51,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",51,'yield_test.js');
                 
                 __LINE__ = 52;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",52,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",52,'yield_test.js');
                 
                 __LINE__ = 53;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",53,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",53,'yield_test.js');
                 
                 __LINE__ = 54;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",54,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",54,'yield_test.js');
                 
                 __LINE__ = 56;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",56,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",56,'yield_test.js');
                 
                 __LINE__ = 57;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",57,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",57,'yield_test.js');
                 
                 __LINE__ = 58;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",58,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",58,'yield_test.js');
                 
                 __LINE__ = 59;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",59,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",59,'yield_test.js');
                 
                 __LINE__ = 60;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",60,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",60,'yield_test.js');
                 
                 __LINE__ = 62;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",62,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",62,'yield_test.js');
                 
                 __LINE__ = 63;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",63,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",63,'yield_test.js');
                 
                 __LINE__ = 64;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",64,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",64,'yield_test.js');
                 
                 __LINE__ = 65;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",65,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",65,'yield_test.js');
                 
                 __LINE__ = 66;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",66,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",66,'yield_test.js');
                 
                 __LINE__ = 68;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",68,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",68,'yield_test.js');
                 
                 __LINE__ = 69;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",69,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",69,'yield_test.js');
                 
                 __LINE__ = 70;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",70,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",70,'yield_test.js');
                 
                 __LINE__ = 71;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",71,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",71,'yield_test.js');
                 
                 __LINE__ = 72;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",72,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",72,'yield_test.js');
                 
                 __LINE__ = 74;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",74,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",74,'yield_test.js');
                 
                 __LINE__ = 75;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",75,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",75,'yield_test.js');
                 
                 __LINE__ = 76;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",76,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",76,'yield_test.js');
                 
                 __LINE__ = 77;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",77,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",77,'yield_test.js');
                 
                 __LINE__ = 78;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",78,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",78,'yield_test.js');
                 
                 __LINE__ = 80;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",80,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",80,'yield_test.js');
                 
                 __LINE__ = 81;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",81,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",81,'yield_test.js');
                 
                 __LINE__ = 82;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",82,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",82,'yield_test.js');
                 
                 __LINE__ = 83;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",83,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",83,'yield_test.js');
                 
                 __LINE__ = 84;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",84,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",84,'yield_test.js');
                 
                 __LINE__ = 86;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",86,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",86,'yield_test.js');
                 
                 __LINE__ = 87;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",87,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",87,'yield_test.js');
                 
                 __LINE__ = 88;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",88,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",88,'yield_test.js');
                 
                 __LINE__ = 89;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",89,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",89,'yield_test.js');
                 
                 __LINE__ = 90;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",90,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",90,'yield_test.js');
                 
                 __LINE__ = 92;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",92,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",92,'yield_test.js');
                 
                 __LINE__ = 93;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",93,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",93,'yield_test.js');
                 
                 __LINE__ = 94;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",94,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",94,'yield_test.js');
                 
                 __LINE__ = 95;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",95,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",95,'yield_test.js');
                 
                 __LINE__ = 96;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",96,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",96,'yield_test.js');
                 
                 __LINE__ = 98;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",98,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",98,'yield_test.js');
                 
                 __LINE__ = 99;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",99,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",99,'yield_test.js');
                 
                 __LINE__ = 100;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",100,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",100,'yield_test.js');
                 
                 __LINE__ = 101;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",101,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",101,'yield_test.js');
                 
                 __LINE__ = 102;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",102,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",102,'yield_test.js');
                 
                 __LINE__ = 104;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",104,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",104,'yield_test.js');
                 
                 __LINE__ = 105;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",105,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",105,'yield_test.js');
                 
                 __LINE__ = 106;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",106,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",106,'yield_test.js');
                 
                 __LINE__ = 107;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",107,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",107,'yield_test.js');
                 
                 __LINE__ = 108;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",108,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",108,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1501,31 +1501,31 @@
                 generator = yieldTest5();
                 
                 __LINE__ = 119;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",119,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",119,'yield_test.js');
                 
                 __LINE__ = 120;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",120,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",120,'yield_test.js');
                 
                 __LINE__ = 121;
-                Runtime.assert(true,generator.next() === 3,"generator.next() === 3",121,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 3,"generator.next() === 3",121,'yield_test.js');
                 
                 __LINE__ = 122;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",122,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",122,'yield_test.js');
                 
                 __LINE__ = 123;
-                Runtime.assert(true,generator.next() === 5,"generator.next() === 5",123,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 5,"generator.next() === 5",123,'yield_test.js');
                 
                 __LINE__ = 124;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",124,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",124,'yield_test.js');
                 
                 __LINE__ = 125;
-                Runtime.assert(true,generator.next() === 7,"generator.next() === 7",125,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 7,"generator.next() === 7",125,'yield_test.js');
                 
                 __LINE__ = 126;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",126,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",126,'yield_test.js');
                 
                 __LINE__ = 127;
-                Runtime.assert(true,generator.next() === 9,"generator.next() === 9",127,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 9,"generator.next() === 9",127,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1624,34 +1624,34 @@
                 generator = yieldTest6();
                 
                 __LINE__ = 138;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",138,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",138,'yield_test.js');
                 
                 __LINE__ = 139;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",139,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",139,'yield_test.js');
                 
                 __LINE__ = 140;
-                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",140,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 2,"generator.next() === 2",140,'yield_test.js');
                 
                 __LINE__ = 141;
-                Runtime.assert(true,generator.next() === 3,"generator.next() === 3",141,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 3,"generator.next() === 3",141,'yield_test.js');
                 
                 __LINE__ = 142;
-                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",142,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 4,"generator.next() === 4",142,'yield_test.js');
                 
                 __LINE__ = 143;
-                Runtime.assert(true,generator.next() === 5,"generator.next() === 5",143,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 5,"generator.next() === 5",143,'yield_test.js');
                 
                 __LINE__ = 144;
-                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",144,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 6,"generator.next() === 6",144,'yield_test.js');
                 
                 __LINE__ = 145;
-                Runtime.assert(true,generator.next() === 7,"generator.next() === 7",145,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 7,"generator.next() === 7",145,'yield_test.js');
                 
                 __LINE__ = 146;
-                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",146,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 8,"generator.next() === 8",146,'yield_test.js');
                 
                 __LINE__ = 147;
-                Runtime.assert(true,generator.next() === 9,"generator.next() === 9",147,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 9,"generator.next() === 9",147,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1832,34 +1832,34 @@
                 generator = yieldTest7();
                 
                 __LINE__ = 164;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",164,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",164,'yield_test.js');
                 
                 __LINE__ = 165;
-                Runtime.assert(true,generator.send(true) === 1,"generator.send(true) === 1",165,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 1,"generator.send(true) === 1",165,'yield_test.js');
                 
                 __LINE__ = 166;
-                Runtime.assert(true,generator.send(false) === 1,"generator.send(false) === 1",166,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 1,"generator.send(false) === 1",166,'yield_test.js');
                 
                 __LINE__ = 167;
-                Runtime.assert(true,generator.send(true) === 2,"generator.send(true) === 2",167,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 2,"generator.send(true) === 2",167,'yield_test.js');
                 
                 __LINE__ = 168;
-                Runtime.assert(true,generator.send(false) === 2,"generator.send(false) === 2",168,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 2,"generator.send(false) === 2",168,'yield_test.js');
                 
                 __LINE__ = 169;
-                Runtime.assert(true,generator.send(true) === 3,"generator.send(true) === 3",169,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 3,"generator.send(true) === 3",169,'yield_test.js');
                 
                 __LINE__ = 170;
-                Runtime.assert(true,generator.send(true) === 3,"generator.send(true) === 3",170,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 3,"generator.send(true) === 3",170,'yield_test.js');
                 
                 __LINE__ = 171;
-                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",171,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",171,'yield_test.js');
                 
                 __LINE__ = 172;
-                Runtime.assert(true,generator.send(false) === 4,"generator.send(false) === 4",172,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 4,"generator.send(false) === 4",172,'yield_test.js');
                 
                 __LINE__ = 173;
-                Runtime.assert(true,generator.send(true) === 5,"generator.send(true) === 5",173,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 5,"generator.send(true) === 5",173,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -2073,61 +2073,61 @@
                 generator = yieldTest8();
                 
                 __LINE__ = 193;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",193,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",193,'yield_test.js');
                 
                 __LINE__ = 194;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",194,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",194,'yield_test.js');
                 
                 __LINE__ = 195;
-                Runtime.assert(true,generator.send(false) === 2,"generator.send(false) === 2",195,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 2,"generator.send(false) === 2",195,'yield_test.js');
                 
                 __LINE__ = 196;
-                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",196,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",196,'yield_test.js');
                 
                 __LINE__ = 197;
-                Runtime.assert(true,generator.send(false) === 6,"generator.send(false) === 6",197,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 6,"generator.send(false) === 6",197,'yield_test.js');
                 
                 __LINE__ = 198;
-                Runtime.assert(true,generator.send(true) === 8,"generator.send(true) === 8",198,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 8,"generator.send(true) === 8",198,'yield_test.js');
                 
                 __LINE__ = 199;
-                Runtime.assert(true,generator.send(true) === 10,"generator.send(true) === 10",199,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 10,"generator.send(true) === 10",199,'yield_test.js');
                 
                 __LINE__ = 200;
-                Runtime.assert(true,generator.send(true) === 12,"generator.send(true) === 12",200,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 12,"generator.send(true) === 12",200,'yield_test.js');
                 
                 __LINE__ = 201;
-                Runtime.assert(true,generator.send(false) === 14,"generator.send(false) === 14",201,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 14,"generator.send(false) === 14",201,'yield_test.js');
                 
                 __LINE__ = 202;
-                Runtime.assert(true,generator.send(true) === 16,"generator.send(true) === 16",202,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 16,"generator.send(true) === 16",202,'yield_test.js');
                 
                 __LINE__ = 203;
-                Runtime.assert(true,generator.send(true) === 18,"generator.send(true) === 18",203,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 18,"generator.send(true) === 18",203,'yield_test.js');
                 
                 __LINE__ = 204;
-                Runtime.assert(true,generator.send(false) === 1,"generator.send(false) === 1",204,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 1,"generator.send(false) === 1",204,'yield_test.js');
                 
                 __LINE__ = 205;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",205,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",205,'yield_test.js');
                 
                 __LINE__ = 206;
-                Runtime.assert(true,generator.send(false) === 2,"generator.send(false) === 2",206,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 2,"generator.send(false) === 2",206,'yield_test.js');
                 
                 __LINE__ = 207;
-                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",207,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",207,'yield_test.js');
                 
                 __LINE__ = 208;
-                Runtime.assert(true,generator.send(true) === 6,"generator.send(true) === 6",208,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 6,"generator.send(true) === 6",208,'yield_test.js');
                 
                 __LINE__ = 209;
-                Runtime.assert(true,generator.send(true) === 8,"generator.send(true) === 8",209,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 8,"generator.send(true) === 8",209,'yield_test.js');
                 
                 __LINE__ = 210;
-                Runtime.assert(true,generator.send(false) === 10,"generator.send(false) === 10",210,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 10,"generator.send(false) === 10",210,'yield_test.js');
                 
                 __LINE__ = 211;
-                Runtime.assert(true,generator.send(true) === 12,"generator.send(true) === 12",211,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 12,"generator.send(true) === 12",211,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -2341,61 +2341,61 @@
                 generator = yieldTest9();
                 
                 __LINE__ = 232;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",232,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",232,'yield_test.js');
                 
                 __LINE__ = 233;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",233,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",233,'yield_test.js');
                 
                 __LINE__ = 234;
-                Runtime.assert(true,generator.send(false) === 0,"generator.send(false) === 0",234,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 0,"generator.send(false) === 0",234,'yield_test.js');
                 
                 __LINE__ = 235;
-                Runtime.assert(true,generator.send(true) === 2,"generator.send(true) === 2",235,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 2,"generator.send(true) === 2",235,'yield_test.js');
                 
                 __LINE__ = 236;
-                Runtime.assert(true,generator.send(false) === 0,"generator.send(false) === 0",236,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 0,"generator.send(false) === 0",236,'yield_test.js');
                 
                 __LINE__ = 237;
-                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",237,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 4,"generator.send(true) === 4",237,'yield_test.js');
                 
                 __LINE__ = 238;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",238,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",238,'yield_test.js');
                 
                 __LINE__ = 239;
-                Runtime.assert(true,generator.send(true) === 6,"generator.send(true) === 6",239,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 6,"generator.send(true) === 6",239,'yield_test.js');
                 
                 __LINE__ = 240;
-                Runtime.assert(true,generator.send(false) === 0,"generator.send(false) === 0",240,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 0,"generator.send(false) === 0",240,'yield_test.js');
                 
                 __LINE__ = 241;
-                Runtime.assert(true,generator.send(true) === 8,"generator.send(true) === 8",241,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 8,"generator.send(true) === 8",241,'yield_test.js');
                 
                 __LINE__ = 242;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",242,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",242,'yield_test.js');
                 
                 __LINE__ = 243;
-                Runtime.assert(true,generator.send(false) === 2.5,"generator.send(false) === 2.5",243,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 2.5,"generator.send(false) === 2.5",243,'yield_test.js');
                 
                 __LINE__ = 244;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",244,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",244,'yield_test.js');
                 
                 __LINE__ = 245;
-                Runtime.assert(true,generator.send(false) === 3,"generator.send(false) === 3",245,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 3,"generator.send(false) === 3",245,'yield_test.js');
                 
                 __LINE__ = 246;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",246,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",246,'yield_test.js');
                 
                 __LINE__ = 247;
-                Runtime.assert(true,generator.send(true) === 14,"generator.send(true) === 14",247,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 14,"generator.send(true) === 14",247,'yield_test.js');
                 
                 __LINE__ = 248;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",248,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",248,'yield_test.js');
                 
                 __LINE__ = 249;
-                Runtime.assert(true,generator.send(false) === 4,"generator.send(false) === 4",249,'./yield_test.js');
+                Runtime.assert(true,generator.send(false) === 4,"generator.send(false) === 4",249,'yield_test.js');
                 
                 __LINE__ = 250;
-                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",250,'./yield_test.js');
+                Runtime.assert(true,generator.send(true) === 0,"generator.send(true) === 0",250,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -2589,19 +2589,19 @@
                 generator = yieldTest10();
                 
                 __LINE__ = 268;
-                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",268,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 0,"generator.next() === 0",268,'yield_test.js');
                 
                 __LINE__ = 269;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",269,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",269,'yield_test.js');
                 
                 __LINE__ = 270;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",270,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",270,'yield_test.js');
                 
                 __LINE__ = 271;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",271,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",271,'yield_test.js');
                 
                 __LINE__ = 272;
-                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",272,'./yield_test.js');
+                Runtime.assert(true,generator.next() === 1,"generator.next() === 1",272,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -2779,25 +2779,25 @@
                 generator.next();
                 
                 __LINE__ = 292;
-                Runtime.assert(true,generator.send(0) === 200,"generator.send(0) === 200",292,'./yield_test.js');
+                Runtime.assert(true,generator.send(0) === 200,"generator.send(0) === 200",292,'yield_test.js');
                 
                 __LINE__ = 293;
                 generator.next();
                 
                 __LINE__ = 294;
-                Runtime.assert(true,generator.send(2) === 400,"generator.send(2) === 400",294,'./yield_test.js');
+                Runtime.assert(true,generator.send(2) === 400,"generator.send(2) === 400",294,'yield_test.js');
                 
                 __LINE__ = 295;
                 generator.next();
                 
                 __LINE__ = 296;
-                Runtime.assert(true,generator.send(3) === 600,"generator.send(3) === 600",296,'./yield_test.js');
+                Runtime.assert(true,generator.send(3) === 600,"generator.send(3) === 600",296,'yield_test.js');
                 
                 __LINE__ = 297;
                 generator.next();
                 
                 __LINE__ = 298;
-                Runtime.assert(true,generator.send(null) === 700,"generator.send(null) === 700",298,'./yield_test.js');
+                Runtime.assert(true,generator.send(null) === 700,"generator.send(null) === 700",298,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -2989,34 +2989,34 @@
                 generator.next();
                 
                 __LINE__ = 323;
-                Runtime.assert(true,generator.send(0) === 200,"generator.send(0) === 200",323,'./yield_test.js');
+                Runtime.assert(true,generator.send(0) === 200,"generator.send(0) === 200",323,'yield_test.js');
                 
                 __LINE__ = 324;
                 generator.next();
                 
                 __LINE__ = 325;
-                Runtime.assert(true,generator.send(4) === 200,"generator.send(4) === 200",325,'./yield_test.js');
+                Runtime.assert(true,generator.send(4) === 200,"generator.send(4) === 200",325,'yield_test.js');
                 
                 __LINE__ = 326;
                 generator.next();
                 
                 __LINE__ = 327;
-                Runtime.assert(true,generator.send(2) === 400,"generator.send(2) === 400",327,'./yield_test.js');
+                Runtime.assert(true,generator.send(2) === 400,"generator.send(2) === 400",327,'yield_test.js');
                 
                 __LINE__ = 328;
                 generator.next();
                 
                 __LINE__ = 329;
-                Runtime.assert(true,generator.send(5) === undefined,"generator.send(5) === undefined",329,'./yield_test.js');
+                Runtime.assert(true,generator.send(5) === undefined,"generator.send(5) === undefined",329,'yield_test.js');
                 
                 __LINE__ = 330;
-                Runtime.assert(true,generator.send(3) === 600,"generator.send(3) === 600",330,'./yield_test.js');
+                Runtime.assert(true,generator.send(3) === 600,"generator.send(3) === 600",330,'yield_test.js');
                 
                 __LINE__ = 331;
                 generator.next();
                 
                 __LINE__ = 332;
-                Runtime.assert(true,generator.send(null) === 700,"generator.send(null) === 700",332,'./yield_test.js');
+                Runtime.assert(true,generator.send(null) === 700,"generator.send(null) === 700",332,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -3161,28 +3161,28 @@
                 var ret = generator.next();
                 
                 __LINE__ = 345;
-                Runtime.assert(true,ret[0] === "x","ret[0] === \"x\"",345,'./yield_test.js');
+                Runtime.assert(true,ret[0] === "x","ret[0] === \"x\"",345,'yield_test.js');
                 
                 __LINE__ = 346;
-                Runtime.assert(true,ret[1] === 200,"ret[1] === 200",346,'./yield_test.js');
+                Runtime.assert(true,ret[1] === 200,"ret[1] === 200",346,'yield_test.js');
                 
                 __LINE__ = 347;
                 ret = generator.next();
                 
                 __LINE__ = 348;
-                Runtime.assert(true,ret[0] === "y","ret[0] === \"y\"",348,'./yield_test.js');
+                Runtime.assert(true,ret[0] === "y","ret[0] === \"y\"",348,'yield_test.js');
                 
                 __LINE__ = 349;
-                Runtime.assert(true,ret[1] === 300,"ret[1] === 300",349,'./yield_test.js');
+                Runtime.assert(true,ret[1] === 300,"ret[1] === 300",349,'yield_test.js');
                 
                 __LINE__ = 350;
                 ret = generator.next();
                 
                 __LINE__ = 351;
-                Runtime.assert(true,ret[0] === "z","ret[0] === \"z\"",351,'./yield_test.js');
+                Runtime.assert(true,ret[0] === "z","ret[0] === \"z\"",351,'yield_test.js');
                 
                 __LINE__ = 352;
-                Runtime.assert(true,ret[1] === 400,"ret[1] === 400",352,'./yield_test.js');
+                Runtime.assert(true,ret[1] === 400,"ret[1] === 400",352,'yield_test.js');
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -3345,13 +3345,13 @@
                   __LINE__ = 370;
                   var itemGen = keys(testObject);
                   __LINE__ = 371;
-                  Runtime.assert(true,itemGen.next() == "value1","itemGen.next() == \"value1\"",371,'./yield_test.js');
+                  Runtime.assert(true,itemGen.next() == "value1","itemGen.next() == \"value1\"",371,'yield_test.js');
                   __LINE__ = 372;
-                  Runtime.assert(true,itemGen.next() == "value2","itemGen.next() == \"value2\"",372,'./yield_test.js');
+                  Runtime.assert(true,itemGen.next() == "value2","itemGen.next() == \"value2\"",372,'yield_test.js');
                   __LINE__ = 373;
-                  Runtime.assert(true,itemGen.next() == "value3","itemGen.next() == \"value3\"",373,'./yield_test.js');
+                  Runtime.assert(true,itemGen.next() == "value3","itemGen.next() == \"value3\"",373,'yield_test.js');
                   __LINE__ = 374;
-                  Runtime.assert(true,itemGen.next() == "value4","itemGen.next() == \"value4\"",374,'./yield_test.js');
+                  Runtime.assert(true,itemGen.next() == "value4","itemGen.next() == \"value4\"",374,'yield_test.js');
                 } catch(e){
                   
                 };

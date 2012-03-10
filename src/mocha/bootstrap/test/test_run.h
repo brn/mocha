@@ -92,6 +92,7 @@ void RunJS(const char* dir) {
 }
 
 void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
+  printf("%s\n" , dir);
   platform::fs::Directory directory(CURRENT_DIR"/test/js");
   platform::fs::Directory::const_iterator iterator = directory.Entries(true);
   Roaster roaster;

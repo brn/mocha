@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/with_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/with_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['with_test.js;1'] = {};
@@ -811,7 +811,7 @@
       __LINE__ = 2;
       with (testvalue){
         __LINE__ = 3;
-        Runtime.assert(true,prop === 200,"prop === 200",3,'./with_test.js');
+        Runtime.assert(true,prop === 200,"prop === 200",3,'with_test.js');
       };
       
       __LINE__ = 6;
@@ -838,34 +838,34 @@
       };
       
       __LINE__ = 13;
-      Runtime.assert(true,ret[0]() === 0,"ret[0]() === 0",13,'./with_test.js');
+      Runtime.assert(true,ret[0]() === 0,"ret[0]() === 0",13,'with_test.js');
       
       __LINE__ = 14;
-      Runtime.assert(true,ret[1]() === 1,"ret[1]() === 1",14,'./with_test.js');
+      Runtime.assert(true,ret[1]() === 1,"ret[1]() === 1",14,'with_test.js');
       
       __LINE__ = 15;
-      Runtime.assert(true,ret[2]() === 2,"ret[2]() === 2",15,'./with_test.js');
+      Runtime.assert(true,ret[2]() === 2,"ret[2]() === 2",15,'with_test.js');
       
       __LINE__ = 16;
-      Runtime.assert(true,ret[3]() === 3,"ret[3]() === 3",16,'./with_test.js');
+      Runtime.assert(true,ret[3]() === 3,"ret[3]() === 3",16,'with_test.js');
       
       __LINE__ = 17;
-      Runtime.assert(true,ret[4]() === 4,"ret[4]() === 4",17,'./with_test.js');
+      Runtime.assert(true,ret[4]() === 4,"ret[4]() === 4",17,'with_test.js');
       
       __LINE__ = 18;
-      Runtime.assert(true,ret[5]() === 5,"ret[5]() === 5",18,'./with_test.js');
+      Runtime.assert(true,ret[5]() === 5,"ret[5]() === 5",18,'with_test.js');
       
       __LINE__ = 19;
-      Runtime.assert(true,ret[6]() === 6,"ret[6]() === 6",19,'./with_test.js');
+      Runtime.assert(true,ret[6]() === 6,"ret[6]() === 6",19,'with_test.js');
       
       __LINE__ = 20;
-      Runtime.assert(true,ret[7]() === 7,"ret[7]() === 7",20,'./with_test.js');
+      Runtime.assert(true,ret[7]() === 7,"ret[7]() === 7",20,'with_test.js');
       
       __LINE__ = 21;
-      Runtime.assert(true,ret[8]() === 8,"ret[8]() === 8",21,'./with_test.js');
+      Runtime.assert(true,ret[8]() === 8,"ret[8]() === 8",21,'with_test.js');
       
       __LINE__ = 22;
-      Runtime.assert(true,ret[9]() === 9,"ret[9]() === 9",22,'./with_test.js');
+      Runtime.assert(true,ret[9]() === 9,"ret[9]() === 9",22,'with_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

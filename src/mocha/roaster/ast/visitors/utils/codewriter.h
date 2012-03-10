@@ -40,10 +40,6 @@ class CodeWriter {
   void DebugBlockEnd(CodeStream* stream, Scope* scope);
   void SetFileName(CodeStream* stream_);
   void SetLine(int64_t line, CodeStream* stream_, FileRoot* root);
-  void ModuleBeginProccessor(const char* key, const char* name, CodeStream* stream_);
-  void AnonymousModuleBeginProccessor(const char* key, CodeStream* stream_);
-  void ModuleEndProccessor(CodeStream* stream_);
-  void AnonymousModuleEndProccessor(CodeStream* stream_);
   class WriterBase;
  private :
   bool is_pretty_print_;

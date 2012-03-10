@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/lib/json2_compiled.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/lib/json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['json2_compiled.js;1'] = {};
@@ -1011,7 +1011,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 4351241568;
+                      __LINE__ = 581409379397506432;
                       a : 
                       {
                         
@@ -1087,7 +1087,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 4351268624;
+                      __LINE__ = 581467516074838624;
                       a : 
                       {
                         
@@ -1228,16 +1228,16 @@
               json = json_parse(json_str);
           
           __LINE__ = 6;
-          Runtime.assert(true,json["test"] === 1,"json[\"test\"] === 1",6,'./json2_compiled.js');
+          Runtime.assert(true,json["test"] === 1,"json[\"test\"] === 1",6,'json2_compiled.js');
           
           __LINE__ = 7;
-          Runtime.assert(true,json["test2"] === "test2","json[\"test2\"] === \"test2\"",7,'./json2_compiled.js');
+          Runtime.assert(true,json["test2"] === "test2","json[\"test2\"] === \"test2\"",7,'json2_compiled.js');
           
           __LINE__ = 8;
-          Runtime.assert(true,json["test3"] === null,"json[\"test3\"] === null",8,'./json2_compiled.js');
+          Runtime.assert(true,json["test3"] === null,"json[\"test3\"] === null",8,'json2_compiled.js');
           
           __LINE__ = 9;
-          Runtime.assert(true,json["test4"]["test5"] === 5,"json[\"test4\"][\"test5\"] === 5",9,'./json2_compiled.js');
+          Runtime.assert(true,json["test4"]["test5"] === 5,"json[\"test4\"][\"test5\"] === 5",9,'json2_compiled.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }

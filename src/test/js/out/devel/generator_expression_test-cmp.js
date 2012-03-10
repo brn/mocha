@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -1624,7 +1624,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/generator_expression_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/generator_expression_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['generator_expression_test.js;2'] = {};
@@ -1641,7 +1641,7 @@
           },
           test = function () {
             try {
-              __LINE__ = 4319253376;
+              __LINE__ = 672914069976952136;
               var _mochaIsNewBorn = true,
                   _yieldResult = undefined,
                   _yieldState = 0,
@@ -1651,13 +1651,13 @@
                   _mochaLocalTmp2 = [],
                   _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                     try {
-                      __LINE__ = 4319253376;
+                      __LINE__ = 672914069976952136;
                       !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && Runtime.exceptionHandler('attempt to send to newborn generator.');
                       
-                      __LINE__ = 4319253376;
+                      __LINE__ = 672914069976952136;
                       while (1){
                         
-                        __LINE__ = 4319253376;
+                        __LINE__ = 672914069976952136;
                         switch (_yieldState) {
                           case 0 :
                             
@@ -1684,7 +1684,7 @@
                             };
                           case 1 :
                             
-                            __LINE__ = 4319253376;
+                            __LINE__ = 672914069976952136;
                             _yieldState = 2;
                             
                             __LINE__ = 8;
@@ -1692,7 +1692,7 @@
                             
                             __LINE__ = 8;
                             x = testObject[x];
-                            __LINE__ = 4319253376;
+                            __LINE__ = 672914069976952136;
                             return x;
                           case 2 :
                             
@@ -1712,13 +1712,13 @@
                             };
                           case -1 :
                             
-                            __LINE__ = 4319253376;
+                            __LINE__ = 672914069976952136;
                             if (_isYieldSafe){
-                              __LINE__ = 4319253376;
+                              __LINE__ = 672914069976952136;
                               return undefined;
                             };
                             
-                            __LINE__ = 4319253376;
+                            __LINE__ = 672914069976952136;
                             Runtime.throwStopIteration();
                             
                         };
@@ -1727,11 +1727,11 @@
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
-              __LINE__ = 4319253376;
+              __LINE__ = 672914069976952136;
               return Runtime.createGenerator(_mochaGenerator,
               function () {
                 try {
-                  __LINE__ = 4319253376;
+                  __LINE__ = 672914069976952136;
                   _yieldState = -1;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -1743,18 +1743,18 @@
           }.call(this);
       
       __LINE__ = 10;
-      Runtime.assert(true,test.next() === 100,"test.next() === 100",10,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === 100,"test.next() === 100",10,'generator_expression_test.js');
       
       __LINE__ = 11;
-      Runtime.assert(true,test.next() === 200,"test.next() === 200",11,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === 200,"test.next() === 200",11,'generator_expression_test.js');
       
       __LINE__ = 12;
-      Runtime.assert(true,test.next() === 300,"test.next() === 300",12,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === 300,"test.next() === 300",12,'generator_expression_test.js');
       
       __LINE__ = 14;
       test = function () {
         try {
-          __LINE__ = 4319263728;
+          __LINE__ = 672958600197887432;
           var _mochaIsNewBorn = true,
               _yieldResult = undefined,
               _yieldState = 0,
@@ -1762,13 +1762,13 @@
               _mochaLocalTmp4 = keys(testObject),
               _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                 try {
-                  __LINE__ = 4319263728;
+                  __LINE__ = 672958600197887432;
                   !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && Runtime.exceptionHandler('attempt to send to newborn generator.');
                   
-                  __LINE__ = 4319263728;
+                  __LINE__ = 672958600197887432;
                   while (1){
                     
-                    __LINE__ = 4319263728;
+                    __LINE__ = 672958600197887432;
                     switch (_yieldState) {
                       case 0 :
                         
@@ -1801,9 +1801,9 @@
                         };
                       case 2 :
                         
-                        __LINE__ = 4319263728;
+                        __LINE__ = 672958600197887432;
                         _yieldState = 3;
-                        __LINE__ = 4319263728;
+                        __LINE__ = 672958600197887432;
                         return x;
                       case 3 :
                         
@@ -1827,17 +1827,17 @@
                       case 5 :
                         
                         __LINE__ = 14;
-                        Runtime.exceptionHandler(14,'./generator_expression_test.js','for of statement expect iterator or generator object.');
+                        Runtime.exceptionHandler(14,'generator_expression_test.js','for of statement expect iterator or generator object.');
                       case 6 :
                       case -1 :
                         
-                        __LINE__ = 4319263728;
+                        __LINE__ = 672958600197887432;
                         if (_isYieldSafe){
-                          __LINE__ = 4319263728;
+                          __LINE__ = 672958600197887432;
                           return undefined;
                         };
                         
-                        __LINE__ = 4319263728;
+                        __LINE__ = 672958600197887432;
                         Runtime.throwStopIteration();
                         
                     };
@@ -1846,11 +1846,11 @@
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
-          __LINE__ = 4319263728;
+          __LINE__ = 672958600197887432;
           return Runtime.createGenerator(_mochaGenerator,
           function () {
             try {
-              __LINE__ = 4319263728;
+              __LINE__ = 672958600197887432;
               _yieldState = -1;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -1862,13 +1862,13 @@
       }.call(this);
       
       __LINE__ = 16;
-      Runtime.assert(true,test.next() === "value1","test.next() === \"value1\"",16,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === "value1","test.next() === \"value1\"",16,'generator_expression_test.js');
       
       __LINE__ = 17;
-      Runtime.assert(true,test.next() === "value2","test.next() === \"value2\"",17,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === "value2","test.next() === \"value2\"",17,'generator_expression_test.js');
       
       __LINE__ = 18;
-      Runtime.assert(true,test.next() === "value3","test.next() === \"value3\"",18,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === "value3","test.next() === \"value3\"",18,'generator_expression_test.js');
       
       __LINE__ = 20;
       test = function () {
@@ -1997,7 +1997,7 @@
       }.call(this);
       
       __LINE__ = 21;
-      Runtime.assert(true,test.next() === 200,"test.next() === 200",21,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === 200,"test.next() === 200",21,'generator_expression_test.js');
       
       __LINE__ = 23;
       test = function () {
@@ -2097,7 +2097,7 @@
                       case 7 :
                         
                         __LINE__ = 23;
-                        Runtime.exceptionHandler(23,'./generator_expression_test.js','for of statement expect iterator or generator object.');
+                        Runtime.exceptionHandler(23,'generator_expression_test.js','for of statement expect iterator or generator object.');
                       case 8 :
                       case -1 :
                         
@@ -2132,7 +2132,7 @@
       }.call(this);
       
       __LINE__ = 24;
-      Runtime.assert(true,test.next() === "value2","test.next() === \"value2\"",24,'./generator_expression_test.js');
+      Runtime.assert(true,test.next() === "value2","test.next() === \"value2\"",24,'generator_expression_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

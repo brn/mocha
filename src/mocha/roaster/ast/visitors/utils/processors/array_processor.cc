@@ -1,3 +1,4 @@
+#include <sstream>
 #include <mocha/roaster/ast/visitors/utils/processors/array_processor.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
@@ -34,18 +35,19 @@ void ArrayProcessor::ProcessTuple() {
   NodeIterator iterator = node()->elements()->ChildNodes();
   int count = 0;
   while (iterator.HasNext()) {
-    char tmp[500];
-    sprintf(tmp, "%d", count);
-    Literal* num = builder()->CreateNameNode(tmp, Token::JS_NUMERIC_LITERAL, node()->line_number(), Literal::kNumeric);
+    std::stringstream st;
+    st << count;
+    std::string cnt = st.str();
+    Literal* num = builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, node()->line_number(), Literal::kNumeric);
     AstNode* item = iterator.Next();
     item->Accept(visitor);
     num->AddChild(item);
     list->AddChild(num);
     count++;
   }
-  char tmp[500];
-  sprintf(tmp, "%d", count);
-  Literal* num = builder()->CreateNameNode(tmp, Token::JS_NUMERIC_LITERAL, node()->line_number(), Literal::kNumeric);
+  std::stringstream st;
+  st << count;
+  Literal* num = builder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, node()->line_number(), Literal::kNumeric);
   object->Append(list);
   Literal* create_tuple = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kCreateTuple),
                                                      Token::JS_IDENTIFIER, node()->line_number(), Literal::kProperty);

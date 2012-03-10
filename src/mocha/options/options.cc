@@ -64,7 +64,7 @@ void Options::MatchOptions(char arg) {
 
 void Options::UnrecognizedOption(const char* opt) {
   std::stringstream st;
-  st << opt << " is unrecognized option. See help.\n";
+  st << opt << " is unrecognized option. See 'help'.";
   error_ = st.str();
 }
 

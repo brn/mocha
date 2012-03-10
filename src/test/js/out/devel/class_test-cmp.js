@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/harmony/class_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/harmony/class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['class_test.js;1'] = {};
@@ -821,7 +821,7 @@
               function Monster() {
                 try {
                   __LINE__ = 1;
-                  Runtime.initializeClass(this,Monster,_mochaPrivateHolder,constructor,arguments,'Monster','1');
+                  Runtime.initializeClass(this,Monster,_mochaPrivateHolder,constructor,arguments,'Monster',1);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -888,16 +888,16 @@
           monster = new Monster("slime",100);
       
       __LINE__ = 48;
-      Runtime.assert(true,monster.isAlive(),"monster.isAlive()",48,'./class_test.js');
+      Runtime.assert(true,monster.isAlive(),"monster.isAlive()",48,'class_test.js');
       
       __LINE__ = 49;
-      Runtime.assert(0,monster.numAttacks,"monster.numAttacks",49,'./class_test.js');
+      Runtime.assert(0,monster.numAttacks,"monster.numAttacks",49,'class_test.js');
       
       __LINE__ = 50;
-      Runtime.assert(100,Monster.DEFAULT_LIFE,"Monster.DEFAULT_LIFE",50,'./class_test.js');
+      Runtime.assert(100,Monster.DEFAULT_LIFE,"Monster.DEFAULT_LIFE",50,'class_test.js');
       
       __LINE__ = 51;
-      Runtime.assert(undefined,Monster.health,"Monster.health",51,'./class_test.js');
+      Runtime.assert(undefined,Monster.health,"Monster.health",51,'class_test.js');
       
       __LINE__ = 52;
       var BaseTest = function () {
@@ -919,7 +919,7 @@
               function BaseTest() {
                 try {
                   __LINE__ = 52;
-                  Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest','52');
+                  Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest',52);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -971,7 +971,7 @@
               function DeriveTest() {
                 try {
                   __LINE__ = 60;
-                  Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest','60');
+                  Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest',60);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1022,7 +1022,7 @@
               function Derive2() {
                 try {
                   __LINE__ = 70;
-                  Runtime.initializeClass(this,Derive2,_mochaPrivateHolder,constructor,arguments,'Derive2','70');
+                  Runtime.initializeClass(this,Derive2,_mochaPrivateHolder,constructor,arguments,'Derive2',70);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1076,7 +1076,7 @@
               function _mochaLocalTmp5() {
                 try {
                   __LINE__ = 76;
-                  Runtime.initializeClass(this,_mochaLocalTmp5,_mochaPrivateHolder,constructor,arguments,'_mochaLocalTmp5','76');
+                  Runtime.initializeClass(this,_mochaLocalTmp5,_mochaPrivateHolder,constructor,arguments,'_mochaLocalTmp5',76);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1117,22 +1117,22 @@
           }();
       
       __LINE__ = 85;
-      Runtime.assert(true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",85,'./class_test.js');
+      Runtime.assert(true,new DeriveTest().getName() === "hogehoge","new DeriveTest().getName() === \"hogehoge\"",85,'class_test.js');
       
       __LINE__ = 86;
-      Runtime.assert(true,DeriveTest.getName() === "static hogehoge","DeriveTest.getName() === \"static hogehoge\"",86,'./class_test.js');
+      Runtime.assert(true,DeriveTest.getName() === "static hogehoge","DeriveTest.getName() === \"static hogehoge\"",86,'class_test.js');
       
       __LINE__ = 87;
-      Runtime.assert(true,new Derive2().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",87,'./class_test.js');
+      Runtime.assert(true,new Derive2().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",87,'class_test.js');
       
       __LINE__ = 88;
       var instance = new TestClass();
       
       __LINE__ = 89;
-      Runtime.assert(true,instance.getName() === "test","instance.getName() === \"test\"",89,'./class_test.js');
+      Runtime.assert(true,instance.getName() === "test","instance.getName() === \"test\"",89,'class_test.js');
       
       __LINE__ = 90;
-      Runtime.assert(true,instance.getAge() === 20,"instance.getAge() === 20",90,'./class_test.js');
+      Runtime.assert(true,instance.getAge() === 20,"instance.getAge() === 20",90,'class_test.js');
       
       __LINE__ = 92;
       var TestTrait =  {
@@ -1187,7 +1187,7 @@
               function MixinTest() {
                 try {
                   __LINE__ = 103;
-                  Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest','103');
+                  Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest',103);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1230,7 +1230,7 @@
               });
               
               __LINE__ = 103;
-              Runtime.checkRequirements(MixinTest,_mochaPrivateHolder,[TestTrait,TestTrait2],'./class_test.js',107);
+              Runtime.checkRequirements(MixinTest,_mochaPrivateHolder,[TestTrait,TestTrait2],'class_test.js',107);
               
               __LINE__ = 103;
               Runtime.createUnenumProp(MixinTest.prototype,"constructor",constructor);
@@ -1243,10 +1243,10 @@
           instance2 = new MixinTest();
       
       __LINE__ = 110;
-      Runtime.assert(true,instance2.m1("foo") === "foo","instance2.m1(\"foo\") === \"foo\"",110,'./class_test.js');
+      Runtime.assert(true,instance2.m1("foo") === "foo","instance2.m1(\"foo\") === \"foo\"",110,'class_test.js');
       
       __LINE__ = 111;
-      Runtime.assert(true,instance2.m2 === undefined,"instance2.m2 === undefined",111,'./class_test.js');
+      Runtime.assert(true,instance2.m2 === undefined,"instance2.m2 === undefined",111,'class_test.js');
       
       __LINE__ = 114;
       var Box = function () {
@@ -1265,7 +1265,7 @@
               function Box() {
                 try {
                   __LINE__ = 114;
-                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box','114');
+                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',114);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }

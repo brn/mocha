@@ -26,7 +26,7 @@ Directory::const_iterator& Directory::const_iterator::operator++() {
 }
 
 bool Directory::const_iterator::operator != (const Directory::const_iterator& iter) const {
-  return entry_ == iter.entry_;
+  return entry_ != iter.entry_;
 }
 }
 }}

@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/switch_test.js",
+      var __FILE__ = "Y:/mocha/src/test/js/262/switch_test.js",
           __LINE__ = 0;
       function switchTest(type) {
         try {
@@ -872,28 +872,28 @@
       var _mochaGlobalAlias = _mochaGlobalExport['switch_test.js;1'];
       
       __LINE__ = 35;
-      Runtime.assert(true,switchTest(1) === 1,"switchTest(1) === 1",35,'./switch_test.js');
+      Runtime.assert(true,switchTest(1) === 1,"switchTest(1) === 1",35,'switch_test.js');
       
       __LINE__ = 36;
-      Runtime.assert(true,switchTest(2) === 100,"switchTest(2) === 100",36,'./switch_test.js');
+      Runtime.assert(true,switchTest(2) === 100,"switchTest(2) === 100",36,'switch_test.js');
       
       __LINE__ = 37;
-      Runtime.assert(true,switchTest(3) === 1,"switchTest(3) === 1",37,'./switch_test.js');
+      Runtime.assert(true,switchTest(3) === 1,"switchTest(3) === 1",37,'switch_test.js');
       
       __LINE__ = 38;
-      Runtime.assert(true,switchTest(4) === 1,"switchTest(4) === 1",38,'./switch_test.js');
+      Runtime.assert(true,switchTest(4) === 1,"switchTest(4) === 1",38,'switch_test.js');
       
       __LINE__ = 39;
-      Runtime.assert(true,switchTest(5) === 1,"switchTest(5) === 1",39,'./switch_test.js');
+      Runtime.assert(true,switchTest(5) === 1,"switchTest(5) === 1",39,'switch_test.js');
       
       __LINE__ = 40;
-      Runtime.assert(true,switchTest(6) === 10,"switchTest(6) === 10",40,'./switch_test.js');
+      Runtime.assert(true,switchTest(6) === 10,"switchTest(6) === 10",40,'switch_test.js');
       
       __LINE__ = 41;
-      Runtime.assert(true,switchTest(7) === 10,"switchTest(7) === 10",41,'./switch_test.js');
+      Runtime.assert(true,switchTest(7) === 10,"switchTest(7) === 10",41,'switch_test.js');
       
       __LINE__ = 42;
-      Runtime.assert(true,switchTest(8) === 100,"switchTest(8) === 100",42,'./switch_test.js');
+      Runtime.assert(true,switchTest(8) === 100,"switchTest(8) === 100",42,'switch_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

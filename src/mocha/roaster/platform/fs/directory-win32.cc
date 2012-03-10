@@ -50,7 +50,7 @@ DirEntry* Find(WIN32_FIND_DATA* ffdata_,
     if (h_find != INVALID_HANDLE_VALUE) {
       DirEntry* next = new(pool) DirEntry(ffdata.cFileName, current);
       entry->SetNext(next);
-      entry = Find(&ffdata, &h_find, next, next_dir.c_str(), is_recursive, is_level, pool);
+      entry = Find(&ffdata, &h_find, next, next_dir.c_str(), recursive, pool);
     }
     ++begin;
   }
@@ -70,7 +70,7 @@ Directory::const_iterator Directory::Entries(bool recursive) {
     return const_iterator(0);
   } else {
     DirEntry* entry;
-    entry = new(pool_) DirEntry(ffdata.cFileName, dirpath_);
+    entry = new(&pool_) DirEntry(ffdata.cFileName, dirpath_);
     Find(&ffdata, &h_find, entry, dirpath_, recursive, &pool_);
     return const_iterator(entry);
   }
