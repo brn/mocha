@@ -31,7 +31,7 @@
 # This script returns the options to add to `gnatmake' for using AdaCurses.
 
 DESTDIR=
-prefix=/usr
+prefix=/usr/local
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 

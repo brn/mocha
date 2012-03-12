@@ -30,11 +30,11 @@
 #
 # Author: Thomas E. Dickey, 2006-on
 
-prefix="/usr"
+prefix="/usr/local"
 exec_prefix="${prefix}"
 
 bindir="${exec_prefix}/bin"
-includedir="${prefix}/include"
+includedir="${prefix}/include/ncursesw"
 libdir="${exec_prefix}/lib"
 datadir="${prefix}/share"
 mandir="${prefix}/man"
@@ -50,7 +50,7 @@ LC_CTYPE=C;	export LC_CTYPE
 # with --disable-overwrite, we installed into a subdirectory, but transformed
 # the headers to include like this:
 #	<ncursesw/curses.h>
-if test xyes = xno ; then
+if test xno = xno ; then
 	case $includedir in
 	$prefix/include/ncursesw)
 		includedir=`echo "$includedir" | sed -e 's,/[^/]*$,,'`
@@ -72,7 +72,7 @@ while test $# -gt 0; do
 	# compile/link
 	--cflags)
 		INCS=
-		if test "xyes" = xno ; then
+		if test "xno" = xno ; then
 			INCS="$INCS -I${includedir}/${THIS}"
 		fi
 		if test "${includedir}" != /usr/include ; then
@@ -120,10 +120,10 @@ ENDECHO
 		echo "${mandir}"
 		;;
 	--terminfo)
-		echo "/usr/share/terminfo"
+		echo "/usr/local/share/terminfo"
 		;;
 	--terminfo-dirs)
-		echo "/usr/share/terminfo"
+		echo "/usr/local/share/terminfo"
 		;;
 	--termpath)
 		echo ""

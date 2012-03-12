@@ -46,16 +46,15 @@
 #ifndef NC_CONFIG_H
 #define NC_CONFIG_H
 
-#define SYSTEM_NAME "linux-gnu"
+#define SYSTEM_NAME "darwin10.7.4"
 #define CC_HAS_PROTOS 1
 #if 0
 #include <stdlib.h>
 #endif
 #define HAVE_LONG_FILE_NAMES 1
-#define MIXEDCASE_FILENAMES 1
 #define USE_DATABASE 1
-#define TERMINFO_DIRS "/usr/share/terminfo"
-#define TERMINFO "/usr/share/terminfo"
+#define TERMINFO_DIRS "/usr/local/share/terminfo"
+#define TERMINFO "/usr/local/share/terminfo"
 #define HAVE_BIG_CORE 1
 #define PURE_TERMINFO 1
 #define USE_HOME_TERMINFO 1
@@ -80,7 +79,6 @@
 #define HAVE_WCSTOMBS 1
 #define HAVE_MBSTOWCS 1
 #define NEED_WCHAR_H 1
-#define _FILE_OFFSET_BITS 64
 #define HAVE_FSEEKO 1
 #define HAVE_CURSES_VERSION 1
 #define HAVE_HAS_KEY 1
@@ -136,11 +134,13 @@
 #define HAVE_WCTYPE_H 1
 #define HAVE_SYS_TIME_SELECT 1
 #define SIG_ATOMIC_T volatile sig_atomic_t
-#define TYPEOF_CHTYPE long
+#define TYPEOF_CHTYPE int
+#define HAVE_ERRNO 1
 #define HAVE_GETCWD 1
 #define HAVE_GETEGID 1
 #define HAVE_GETEUID 1
 #define HAVE_GETTTYNAM 1
+#define HAVE_ISSETUGID 1
 #define HAVE_POLL 1
 #define HAVE_REMOVE 1
 #define HAVE_SELECT 1
@@ -156,7 +156,6 @@
 #define HAVE_VSNPRINTF 1
 #define HAVE_ISASCII 1
 #define HAVE_NANOSLEEP 1
-#define HAVE_TERMIO_H 1
 #define HAVE_TERMIOS_H 1
 #define HAVE_UNISTD_H 1
 #define HAVE_TCGETATTR 1
@@ -172,7 +171,7 @@
 #define HAVE_VFORK 1
 #define HAVE_WORKING_VFORK 1
 #define HAVE_WORKING_FORK 1
-#define USE_OPENPTY_HEADER <pty.h>
+#define USE_OPENPTY_HEADER <util.h>
 #define USE_XTERM_PTY 1
 #define HAVE_IOSTREAM 1
 #define HAVE_TYPEINFO 1

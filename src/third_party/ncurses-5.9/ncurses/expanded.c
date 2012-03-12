@@ -10,13 +10,13 @@
  void
 _nc_toggle_attr_on (attr_t *S, attr_t at)
 {
- { if (((int)((((unsigned long)(at) & ((((1UL) << 8) - 1UL) << ((0) + 8))) >> 8))) > 0) { (*S) = ((*S) & ALL_BUT_COLOR) | (attr_t) (at); } else { (*S) |= (attr_t) (at); } ;};
+ { if (((int)((((unsigned long)(at) & ((((1U) << 8) - 1U) << ((0) + 8))) >> 8))) > 0) { (*S) = ((*S) & ALL_BUT_COLOR) | (attr_t) (at); } else { (*S) |= (attr_t) (at); } ;};
 }
 
  void
 _nc_toggle_attr_off (attr_t *S, attr_t at)
 {
- { if (((int)((((unsigned long)(at) & ((((1UL) << 8) - 1UL) << ((0) + 8))) >> 8))) > 0) { (*S) &= ~(at|((((1UL) << 8) - 1UL) << ((0) + 8))); } else { (*S) &= ~(at); } ;};
+ { if (((int)((((unsigned long)(at) & ((((1U) << 8) - 1U) << ((0) + 8))) >> 8))) > 0) { (*S) &= ~(at|((((1U) << 8) - 1U) << ((0) + 8))); } else { (*S) &= ~(at); } ;};
 }
 
  int
@@ -32,9 +32,9 @@ _nc_InsCharCost ( int count)
 }
 
  void
-_nc_UpdateAttrs ( chtype c)
+_nc_UpdateAttrs ( const cchar_t * c)
 {
- if (!((((*((SP)->_current_attr))) & (chtype)((~(1UL - 1UL)) << ((0) + 8))) == ((c) & (chtype)((~(1UL - 1UL)) << ((0) + 8))))) { vidattr(((c) & (chtype)((~(1UL - 1UL)) << ((0) + 8)))); };
+ if (!((((*((SP)->_current_attr))).attr) == (((*c)).attr))) { vidattr((((*c)).attr)); };
 }
 
 #if NCURSES_SP_FUNCS
@@ -51,7 +51,7 @@ _nc_InsCharCost (int count)
 }
 
  void
-_nc_UpdateAttrs (chtype c)
+_nc_UpdateAttrs (const cchar_t * c)
 {
  _nc_UpdateAttrs(SP,c);
 }

@@ -1,9 +1,10 @@
 #include <string.h>
-#include <ncurses.h>
+#include <unistd.h>
 #include <mocha/shell/shell.h>
+#include <sys/ioctl.h>
 namespace mocha {
 
-const int kEnter = 10;
+const int kEnter = 13;
 const int kEsc = 27;
 const int kBackSpace = 127;
 const int kEmacsRight = 6;
@@ -13,39 +14,125 @@ const int kEmacsDown = 14;
 const int kEmacsDl = 4;
 const int kEndOfBuffer = 5;
 const int kBeginingOfBuffer = 1;
+const int kKeyUp = 65;
+const int kKeyDown = 66;
+const int kKeyLeft = 67;
+const int kKeyRight = 68;
 const char kInput[] = {">>> "};
 const int kMin = strlen(kInput);
-void Init(bool norefresh = false) {
-  addstr(kInput);
-  if (!norefresh) {
-    refresh();
-  }
+
+void getyx(int *y, int *x) {
+  printf("\x1B[6n");
+  scanf("\x1B[%d;%dR", y, x);
 }
 
-void Move(int move_y, int move_x, int max, bool clear = false) {
+void move(int y, int x) {
+  printf("\033[%d;%dH" , y, x);
+  fflush(stdin);
+}
+
+void getsize(winsize* win) {
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, win);
+}
+
+void Init(bool norefresh = false) {
+  printf("%s", kInput);
+}
+
+void Shell::Move(int move_y, int move_x, int max, bool clear) {
   int y;
   int x;
-  getyx(stdscr, y, x);
+  int back = 0;
+  getyx(&y, &x);
+  winsize win;
+  getsize(&win);
+  if (win.ws_col < max) {
+    int size = max;
+    while(size > win.ws_col) {
+      size -= win.ws_col;
+      ++back;
+    }
+  }
   max = max + kMin;
+  ResetShell();
+  printf("\r");
+  InitShell();
+  int start_x;
+  int start_y;
+  getyx(&start_y, &start_x);
+  int current = y - start_y;
+  move(y, x);
   if (clear) {
-    move(y, 0);
+    move(y - back, 0);
   } else {
     x = x + move_x;
-    x = (x > -1)? x : 0;
-    x = (x > max)? max : x;
-    y += move_y;
-    move(y, x);
+    if (x < (kMin + 1) && back > 0) {
+      if (x == 0) {
+        move(y - back, win.ws_col);
+      } else {
+        move(y, x);
+      }
+    } else if (x == win.ws_col + 1 && back > 0) {
+      if (current == y) {
+        move(y + back, 0);
+      } else {
+        if (current == back) {
+          move(y, win.ws_col);
+        } else {
+          move(y + back, 0);
+        }
+      }
+    } else {
+      x = (x > kMin + 1)? x : kMin + 1;
+      x = (x > max)? (max + 1) : x;
+      if (current > 0 && back > 0) {
+        if (current == back) {
+          int limit = (current > 1)? max - (current - 1) * win.ws_col : max - win.ws_col;
+          if (x > limit) {
+            move(y, limit);
+          }
+        }
+        move(y, x);
+      } else {
+        move(y, x);
+      }
+    }
   }
 }
 
-void ResetCursor() {
+void Shell::ResetCursor() {
   Move(0, 0, 0, true);
 }
 
-void Deleteln() {
-  ResetCursor();
-  clrtoeol();
+void Shell::Deleteln(std::string* buffer) {
+  winsize win;
+  getsize(&win);
+  int x,y;
+  getyx(&y, &x);
+  int size = buffer->size();
+  if (win.ws_col < size) {
+    int i = 0;
+    while(size > win.ws_col) {
+      size -= win.ws_col;
+      i++;
+    }
+    move(y - i, 0);
+  } else {
+    ResetCursor();
+  }
+  printf("\033[0K");
 }
+
+void Shell::delch(std::string* buf) {
+  int x,y;
+  getyx(&y, &x);
+  buf->erase((x - kMin - 1), 1);
+  Deleteln(buf);
+  Init();
+  printf("%s", buf->c_str());
+  move(y, x);
+}
+
 
 Shell* Shell::Initialize(Action& action) {
   if (Atomic::CompareAndSwap(&init_, 0, 1) == 0) {
@@ -64,18 +151,56 @@ Shell::Shell(Action& action)
     : history_cursor_(0),
       action_(action){
   setlocale(LC_ALL,"");
-  initscr();
-  cbreak();
-  keypad(stdscr, TRUE);
-  noecho();
-  nl();
-  idlok(stdscr, true);
-  scrollok(stdscr, true);
-  Print("mocha 0.7 (r"MOCHA_REV")");
+  printf("mocha 0.7 (r"MOCHA_REV")");
+  printf("\nusage -> run 'help'");
+  InitShell();
   Break();
 }
+
 Shell::~Shell() {
-  endwin();
+  ResetShell();
+  printf("\n");
+}
+
+void Shell::InitShell() {
+  tcgetattr(STDIN_FILENO, &cooked_term_ios_);
+  raw_term_ios_ = cooked_term_ios_;
+  cfmakeraw(&raw_term_ios_);
+  raw_term_ios_.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+  raw_term_ios_.c_oflag |= (ONLCR);
+  raw_term_ios_.c_cflag |= (CS8);
+  raw_term_ios_.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+  raw_term_ios_.c_cc[VMIN] = 1;
+  raw_term_ios_.c_cc[VTIME] = 0;
+  tcsetattr(STDIN_FILENO, TCSADRAIN, &raw_term_ios_);
+}
+
+void Shell::ResetShell() {
+  tcsetattr(STDIN_FILENO, 0, &cooked_term_ios_);
+}
+
+int getch() {
+  int ch;
+  do{
+    ch = getchar();
+  }while(ch == '\n');
+  if (ch == 27) {
+    ch = getchar();
+    if (ch == 91) {
+      ch = getchar();
+      switch(ch) {
+        case 65 :
+          return kKeyUp;
+        case 66 :
+          return kKeyDown;
+        case 67 :
+          return kKeyRight;
+        case 68 :
+          return kKeyLeft;
+      }
+    }
+  }
+  return ch;
 }
 
 void Shell::Read() {
@@ -92,21 +217,34 @@ void Shell::Read() {
 }
 
 void Shell::Print(const char* str) {
-  addstr(str);
+  ResetCursor();
+  int i = 0;
+  while (str[i]) {
+    if (str[i] == '\n') {
+      Break(false);
+    } else {
+      putc(str[i], stdout);
+    }
+    i++;
+  }
 }
 
 void Shell::SafePrint(const char* str) {
   platform::ScopedLock lock(mutex_);
-  addstr(str);
+  Print(str);
 }
 
 void Shell::Print(char ch) {
-  echochar(ch);
+  if (ch == '\n') {
+    Break(false);
+  } else {
+    putc(ch, stdout);
+  }
 }
 
 void Shell::SafePrint(char ch) {
   platform::ScopedLock lock(mutex_);
-  echochar(ch);
+  Print(ch);
 }
 
 
@@ -122,18 +260,9 @@ bool Shell::CallAction() {
 }
 
 void Shell::Break(bool initial) {
-  int y;
-  int x;
-  getyx(stdscr, y, x);
-  Move(1, 0, input_buffer_.size());
-  if (y == (LINES - 1)) {
-    wscrl(stdscr, 1);
-  }
-  ResetCursor();
+  printf("\n\r");
   if (initial) {
     Init();
-  } else {
-    refresh();
   }
 }
 
@@ -160,27 +289,26 @@ bool Shell::CheckInput(int ch) {
 void Shell::SwitchShellAction(int ch) {
   switch (ch) {
     case kEmacsUp :
-    case KEY_UP :
+    case kKeyUp :
       PrevHistory();
       break;
 
     case kEmacsDown :
-    case KEY_DOWN :
+    case kKeyDown :
       NextHistory();
       break;
 
     case kEmacsLeft :
-    case KEY_LEFT :
+    case kKeyLeft :
       MoveLeft();
       break;
 
     case kEmacsRight :
-    case KEY_RIGHT :
+    case kKeyRight :
       MoveRight();
       break;
 
     case kBackSpace :
-    case KEY_BACKSPACE :
       BackSpace();
       break;
 
@@ -196,43 +324,45 @@ void Shell::SwitchShellAction(int ch) {
       BeginingOfBuffer();
       break;
       
-    default :
-      input_buffer_ += ch;
+    default : {
+      ResetShell();
       if (isprint(ch)) {
-        insch(ch);
-        MoveRight();
-        refresh();
-      } else {
-        char tmp[2];
-        tmp[0] = ch;
-        tmp[1] = 0;
-        printw("%d",ch);
-        refresh();
+        input_buffer_ += ch;
       }
+      putc(ch, stdout);
+      InitShell();
+    }
   }
 }
 
 void Shell::History() {
   if (!input_history_.empty() && history_cursor_ < static_cast<int>(input_history_.size()) && history_cursor_ > -1) {
-    Deleteln();
+    Deleteln(&input_buffer_);
+    ResetShell();
     Init(true);
-    insstr(input_history_.at(history_cursor_).c_str());
-    refresh();
+    input_buffer_ = input_history_.at(history_cursor_).c_str();
+    int size = input_buffer_.size();
+    for(int i = 0;i < size; i++) {
+      if (input_buffer_.at(i) != '\n') {
+        putc(input_buffer_.at(i), stdout);
+      }
+    }
+    InitShell();
   }
 }
 
 void Shell::PrevHistory() {
   if (history_cursor_ > 0) {
     history_cursor_--;
+    History();
   }
-  History();
 }
 
 void Shell::NextHistory() {
   if (history_cursor_ < static_cast<int>(input_history_.size() - 1)) {
     history_cursor_++;
+    History();
   }
-  History();
 }
 
 void Shell::MoveLeft() {
@@ -245,25 +375,25 @@ void Shell::MoveRight() {
 
 void Shell::BackSpace() {
   int y,x;
-  getyx(stdscr, y, x);
-  if (x == 0) {
+  getyx(&y, &x);
+  if (x == kMin) {
     return;
   }
   MoveLeft();
-  getyx(stdscr, y, x);
+  getyx(&y, &x);
   if (x < kMin) {
     MoveRight();
     return;
   }
-  delch();
-  input_buffer_.erase((x - kMin));
+  delch(&input_buffer_);
+  //input_buffer_.erase((x - kMin));
 }
 
 void Shell::Delete() {
   int y,x;
-  getyx(stdscr, y, x);
-  delch();
-  input_buffer_.erase((x - kMin), 1);
+  getyx(&y, &x);
+  delch(&input_buffer_);
+  //input_buffer_.erase((x - kMin), 1);
 }
 
 void Shell::EndOfBuffer() {

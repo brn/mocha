@@ -2,21 +2,22 @@ import os, sys
 from stat import *
 import shutil
 import commands
+import platform
 TARGET_NAME = 'mchd'
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 REV = '\\"' + commands.getoutput("git show --format='%h' -s") + '\\"';
 PLATFORM_FLAGS = {
 "posix" : {
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNCURSES_STATIC -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNCURSES_STATIC -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread -Lsrc/third_party/ncurses-5.9/lib-posix",
-        "LIBS" : ':ncursesw.a'
+        "LIBS" : 'ncursesw.a'
         },
 'mac' : {
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "LD_FLAGS" : "-lpthread -Lsrc/third_party/ncurses-5.9/lib-posix -lncursesw -Xlinker -rpath -Xlinker `icu-config --icudata-install-dir -lpthread",
-        "LIBS" : ':ncursesw.a'
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "LD_FLAGS" : "-lpthread -Lsrc/third_party/icu/lib-osx -lpthread",
+        "LIBS" : ['icui18n.a', 'icuio.a', 'iculx.a', 'icudata.a', 'icuuc.a', 'icule.a']
         },
 "win32" : {
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
@@ -24,6 +25,13 @@ PLATFORM_FLAGS = {
         "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU
         }
 }
+PLATFORM = platform.system()
+if PLATFORM == 'Linux':
+    PLATFORM = 'posix'
+elif PLATFORM == 'Darwin':
+    PLATFORM = 'mac'
+elif PLATFORM == 'Windows' or PLATFORM == 'Microsoft':
+    PLATFORM = 'win32'
 
 def MoveBinary(path) :
     target_path = "bin/" + path
@@ -43,6 +51,7 @@ def MoveBinary(path) :
                 target_dll = target_path + '/' + dll.rsplit('/', 1)[1].replace('.lib', '48.dll')
                 if (not os.path.isfile(target_dll)) :
                     shutil.copyfile(dll, target_dll)
+
 
 def GetFlags(platform, mode = 'DEBUG') :
     return (PLATFORM_FLAGS[platform][mode],
@@ -86,9 +95,10 @@ class MochaBuilder :
     
     @staticmethod
     def CheckArgs():
-        platforms = ARGUMENTS.get('platform')
+        platforms = PLATFORM
         opt = ARGUMENTS.get('mode');
         if not platforms or (platforms != 'win32' and platforms != 'mac' and platforms != 'posix') :
+            platform = ARGUMENTS.get('platform')
             print """
 error you must select specific build platform as arguments.
 selectable platforms :
@@ -122,5 +132,4 @@ args = MochaBuilder.CheckArgs()
 builder = MochaBuilder(TARGET_NAME, args[0], args[1])
 builder.Build()
 MoveBinary(args[0])
-
 

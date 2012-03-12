@@ -74,7 +74,7 @@ int call_attrset (int z)
 extern int call_attr_get (attr_t * a1, short * a2, void * z);
 int call_attr_get (attr_t * a1, short * a2, void * z)
 {
-	T((T_CALLED("attr_get(%p,%p,%p)"), (const void *)a1, (const void *)a2, (const void *)z)); returnCode(((void)((a1) != (void *)0 && (*(a1) = (stdscr)->_attrs)), (void)((a2) != (void *)0 && (*(a2) = (short)((int)((((unsigned long)((stdscr)->_attrs) & ((((1UL) << 8) - 1UL) << ((0) + 8))) >> 8))))), (0)));
+	T((T_CALLED("attr_get(%p,%p,%p)"), (const void *)a1, (const void *)a2, (const void *)z)); returnCode(((void)((a1) != (void *)0 && (*(a1) = (stdscr)->_attrs)), (void)((a2) != (void *)0 && (*(a2) = (short)((int)((((unsigned long)((stdscr)->_attrs) & ((((1U) << 8) - 1U) << ((0) + 8))) >> 8))))), (0)));
 }
 
 
@@ -95,7 +95,7 @@ int call_attr_on (attr_t a1, void * z)
 extern int call_attr_set (attr_t a1, short a2, void * z);
 int call_attr_set (attr_t a1, short a2, void * z)
 {
-	T((T_CALLED("attr_set(%s,%d,%p)"), _traceattr2(0,a1), a2, (const void *)z)); returnCode(((stdscr)->_attrs = (((a1) & ~((((1UL) << 8) - 1UL) << ((0) + 8))) | (attr_t)((a2) << ((0) + 8))), (0)));
+	T((T_CALLED("attr_set(%s,%d,%p)"), _traceattr2(0,a1), a2, (const void *)z)); returnCode(((stdscr)->_attrs = (((a1) & ~((((1U) << 8) - 1U) << ((0) + 8))) | (attr_t)((a2) << ((0) + 8))), (0)));
 }
 
 
@@ -1025,7 +1025,7 @@ int call_pair_content (short a1, short * a2, short * z)
 extern int call_PAIR_NUMBER (int z);
 int call_PAIR_NUMBER (int z)
 {
-	T((T_CALLED("PAIR_NUMBER(%d)"), z)); returnCode(((int)((((unsigned long)(z) & ((((1UL) << 8) - 1UL) << ((0) + 8))) >> 8))));
+	T((T_CALLED("PAIR_NUMBER(%d)"), z)); returnCode(((int)((((unsigned long)(z) & ((((1U) << 8) - 1U) << ((0) + 8))) >> 8))));
 }
 
 
@@ -1303,14 +1303,14 @@ int call_slk_touch (void)
 extern int call_standout (void);
 int call_standout (void)
 {
-	T((T_CALLED("standout()"))); returnIntAttr((attr_t)(((stdscr) ? ((stdscr)->_attrs = (attr_t)(((1UL) << ((8) + 8))), (0)) : (-1))));
+	T((T_CALLED("standout()"))); returnIntAttr((attr_t)(((stdscr) ? ((stdscr)->_attrs = (attr_t)(((1U) << ((8) + 8))), (0)) : (-1))));
 }
 
 
 extern int call_standend (void);
 int call_standend (void)
 {
-	T((T_CALLED("standend()"))); returnIntAttr((attr_t)(((stdscr) ? ((stdscr)->_attrs = (attr_t)((1UL - 1UL)), (0)) : (-1))));
+	T((T_CALLED("standend()"))); returnIntAttr((attr_t)(((stdscr) ? ((stdscr)->_attrs = (attr_t)((1U - 1U)), (0)) : (-1))));
 }
 
 
@@ -1515,7 +1515,7 @@ int call_wattrset (WINDOW * a1, int z)
 extern int call_wattr_get (WINDOW * a1, attr_t * a2, short * a3, void * z);
 int call_wattr_get (WINDOW * a1, attr_t * a2, short * a3, void * z)
 {
-	T((T_CALLED("wattr_get(%p,%p,%p,%p)"), (const void *)a1, (const void *)a2, (const void *)a3, (const void *)z)); returnCode(((void)((a2) != (void *)0 && (*(a2) = (a1)->_attrs)), (void)((a3) != (void *)0 && (*(a3) = (short)((int)((((unsigned long)((a1)->_attrs) & ((((1UL) << 8) - 1UL) << ((0) + 8))) >> 8))))), (0)));
+	T((T_CALLED("wattr_get(%p,%p,%p,%p)"), (const void *)a1, (const void *)a2, (const void *)a3, (const void *)z)); returnCode(((void)((a2) != (void *)0 && (*(a2) = (a1)->_attrs)), (void)((a3) != (void *)0 && (*(a3) = (short)((int)((((unsigned long)((a1)->_attrs) & ((((1U) << 8) - 1U) << ((0) + 8))) >> 8))))), (0)));
 }
 
 
@@ -1536,7 +1536,7 @@ int call_wattr_off (WINDOW * a1, attr_t a2, void * z)
 extern int call_wattr_set (WINDOW * a1, attr_t a2, short a3, void * z);
 int call_wattr_set (WINDOW * a1, attr_t a2, short a3, void * z)
 {
-	T((T_CALLED("wattr_set(%p,%s,%d,%p)"), (const void *)a1, _traceattr2(1,a2), a3, (const void *)z)); returnCode(((a1)->_attrs = (((a2) & ~((((1UL) << 8) - 1UL) << ((0) + 8))) | (attr_t)((a3) << ((0) + 8))), (0)));
+	T((T_CALLED("wattr_set(%p,%s,%d,%p)"), (const void *)a1, _traceattr2(1,a2), a3, (const void *)z)); returnCode(((a1)->_attrs = (((a2) & ~((((1U) << 8) - 1U) << ((0) + 8))) | (attr_t)((a3) << ((0) + 8))), (0)));
 }
 
 
@@ -1776,14 +1776,14 @@ int call_wsetscrreg (WINDOW * a1, int a2, int z)
 extern int call_wstandout (WINDOW * z);
 int call_wstandout (WINDOW * z)
 {
-	T((T_CALLED("wstandout(%p)"), (const void *)z)); returnIntAttr((attr_t)(((z) ? ((z)->_attrs = (attr_t)(((1UL) << ((8) + 8))), (0)) : (-1))));
+	T((T_CALLED("wstandout(%p)"), (const void *)z)); returnIntAttr((attr_t)(((z) ? ((z)->_attrs = (attr_t)(((1U) << ((8) + 8))), (0)) : (-1))));
 }
 
 
 extern int call_wstandend (WINDOW * z);
 int call_wstandend (WINDOW * z)
 {
-	T((T_CALLED("wstandend(%p)"), (const void *)z)); returnIntAttr((attr_t)(((z) ? ((z)->_attrs = (attr_t)((1UL - 1UL)), (0)) : (-1))));
+	T((T_CALLED("wstandend(%p)"), (const void *)z)); returnIntAttr((attr_t)(((z) ? ((z)->_attrs = (attr_t)((1U - 1U)), (0)) : (-1))));
 }
 
 
@@ -1856,7 +1856,7 @@ int call_putp (const char * z)
 extern int call_getattrs (const WINDOW * z);
 int call_getattrs (const WINDOW * z)
 {
-	T((T_CALLED("getattrs(%p)"), (const void *)z)); returnCode((int)((z) ? (z)->_attrs : (1UL - 1UL)));
+	T((T_CALLED("getattrs(%p)"), (const void *)z)); returnCode((int)((z) ? (z)->_attrs : (1U - 1U)));
 }
 
 

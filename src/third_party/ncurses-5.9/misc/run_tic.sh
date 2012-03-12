@@ -43,14 +43,14 @@ echo '** Building terminfo database, please wait...'
 
 : ${suffix:=}
 : ${DESTDIR:=}
-: ${prefix:=/usr}
+: ${prefix:=/usr/local}
 : ${exec_prefix:=${prefix}}
 : ${bindir:=${exec_prefix}/bin}
 : ${top_srcdir:=..}
 : ${srcdir:=.}
 : ${datadir:=${prefix}/share}
-: ${TIC_PATH:=/usr/bin/tic}
-: ${ticdir:=/usr/share/terminfo}
+: ${TIC_PATH:=/opt/local/bin/tic}
+: ${ticdir:=/usr/local/share/terminfo}
 : ${source:=${top_srcdir}/misc/terminfo.src}
 : ${LN_S:="ln -s -f"}
 : ${cross_compiling:=no}
@@ -100,7 +100,7 @@ SHLIB_PATH=$PATH
 export SHLIB_PATH
 
 # set a variable to simplify environment update in shlib
-SHLIB_HOST=linux-gnu
+SHLIB_HOST=darwin10.7.4
 export SHLIB_HOST
 
 # don't use user's TERMINFO variable

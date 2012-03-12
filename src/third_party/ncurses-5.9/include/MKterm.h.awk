@@ -85,7 +85,7 @@ BEGIN		{
 		    print  "#else /* !HAVE_TERMIOS_H */"
 		    print  ""
 		    print  "/* #if HAVE_TERMIO_H */"
-		    print  "#if 1"
+		    print  "#if 0"
 		    print  ""
 		    print  "#undef  TERMIOS"
 		    print  "#define TERMIOS 1"
