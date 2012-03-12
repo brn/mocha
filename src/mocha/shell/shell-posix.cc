@@ -21,14 +21,14 @@ const int kKeyRight = 68;
 const char kInput[] = {">>> "};
 const int kMin = strlen(kInput);
 
-void getyx(int *y, int *x) {
-  printf("\x1B[6n");
-  scanf("\x1B[%d;%dR", y, x);
-}
-
 void move(int y, int x) {
   printf("\033[%d;%dH" , y, x);
   fflush(stdin);
+}
+
+void getyx(int *y, int *x) {
+  printf("\x1B[6n");
+  scanf("\x1B[%d;%dR", y, x);
 }
 
 void getsize(winsize* win) {
@@ -126,10 +126,13 @@ void Shell::Deleteln(std::string* buffer) {
 void Shell::delch(std::string* buf) {
   int x,y;
   getyx(&y, &x);
-  buf->erase((x - kMin - 1), 1);
+  int pos = x - kMin - 1;
   Deleteln(buf);
   Init();
-  printf("%s", buf->c_str());
+  if (!buf->empty() && buf->size() > pos) {
+    buf->assign(buf->erase(pos, 1));
+    printf("%s", buf->c_str());
+  }
   move(y, x);
 }
 
@@ -167,7 +170,7 @@ void Shell::InitShell() {
   raw_term_ios_ = cooked_term_ios_;
   cfmakeraw(&raw_term_ios_);
   raw_term_ios_.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-  raw_term_ios_.c_oflag |= (ONLCR);
+  raw_term_ios_.c_oflag |= (ONLCR | OPOST);
   raw_term_ios_.c_cflag |= (CS8);
   raw_term_ios_.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
   raw_term_ios_.c_cc[VMIN] = 1;
@@ -206,6 +209,7 @@ int getch() {
 void Shell::Read() {
   int ch;
   while((ch = getch())) {
+    usleep(700);
     bool execute = CheckInput(ch);
     if (execute) {
       AddHistory();
@@ -386,7 +390,7 @@ void Shell::BackSpace() {
     return;
   }
   delch(&input_buffer_);
-  //input_buffer_.erase((x - kMin));
+  //input_buffer_.erase((x - kMin), 1);
 }
 
 void Shell::Delete() {
