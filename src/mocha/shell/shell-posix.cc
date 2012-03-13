@@ -53,7 +53,6 @@ Shell::~Shell() {
 void Shell::Read() {
   int ch;
   while((ch = Getch())) {
-    usleep(700);
     bool execute = CheckInput(ch);
     if (execute) {
       stream_->AddHistory();

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 #include <mocha/shell/stream-posix.h>
 
 namespace mocha {
@@ -159,12 +160,13 @@ void Stream::ClearLine(int direction) {
   
 void Stream::UpdateCursorPos(int x, int y) {
   winsize *pos = Winsize();
+  int buffer_size = buffer_.size();
   if (x != 0) {
     cursor_ += x;
     if (logical_linefeed_ > 0) {
       if (current_line_ > 0) {
         if (current_line_ < logical_linefeed_) {
-          if (cursor_ < pos->ws_col * current_line_) {
+          if ((cursor_ + prompt_size_) < pos->ws_col * current_line_) {
             current_line_--;
             WriteAbX(pos->ws_col);
             WriteNegativeYSeqence(1);
@@ -174,12 +176,14 @@ void Stream::UpdateCursorPos(int x, int y) {
             WritePositiveYSeqence(1);
           }
         } else {
-          if (cursor_ < pos->ws_col * current_line_) {
+          printf("%d %d\n" , (cursor_ + prompt_size_) , (pos->ws_col * current_line_));
+          if (x < 0 && (cursor_ + prompt_size_) < (pos->ws_col * current_line_)) {
             current_line_--;
             WriteAbX(pos->ws_col);
             WriteNegativeYSeqence(1);
-          } else if ((cursor_ + prompt_size_) < buffer_.size()) {
-
+          } else if (x > 0 && (cursor_ + prompt_size_) > (buffer_.size() + 1)) {
+            cursor_ = buffer_.size() % pos->ws_col;
+            WriteAbX(cursor_);
           }
         }
       } else {
@@ -189,12 +193,12 @@ void Stream::UpdateCursorPos(int x, int y) {
           WritePositiveYSeqence(1);
         }
       }
-    } else {
-      if ((cursor_ + prompt_size_) < (pos->ws_col * current_line_) && logical_linefeed_ > 0 && current_line_ > 0) {
-        current_line_--;
-      } else if (cursor_ > pos->ws_col) {
-        current_line_++;
-      }
+    } else if (buffer_size > 0 && cursor_ > 0 && cursor_ > buffer_size) {
+      cursor_ = buffer_size;
+      WriteAbX(cursor_ + prompt_size_ + 1);
+    } else if (cursor_ < 0) {
+      WriteAbX(prompt_size_ + 1);
+      cursor_ = 0;
     }
   }
   
@@ -248,6 +252,7 @@ void Stream::CheckLogicalLine() {
   int size = buffer_.size();
   if (size > col) {
     logical_linefeed_ = floor(size / col);
+    current_line_ = floor((cursor_ + prompt_size_) / col);
   } else {
     logical_linefeed_ = 0;
     current_line_ = 0;
