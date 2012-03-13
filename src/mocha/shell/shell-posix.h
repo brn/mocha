@@ -1,14 +1,11 @@
 #ifndef mocha_shell_h_
 #define mocha_shell_h_
-#include <string>
 #include <termios.h>
-#include <deque>
+#include <mocha/shell/stream-posix.h>
 #include <mocha/roaster/misc/atomic.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 namespace mocha {
-typedef std::string ConsoleInput;
-typedef std::deque<std::string> ConsoleHistory;
 
 class Action {
  public :
@@ -31,30 +28,14 @@ class Shell {
   Shell(Action& action);
   void InitShell();
   void ResetShell();
-  void AddHistory();
+  int Getch();
   bool CallAction();
   bool CheckInput(int ch);
   void SwitchShellAction(int ch);
-  void History();
-  void PrevHistory();
-  void NextHistory();
-  void MoveLeft();
-  void MoveRight();
-  void BackSpace();
-  void Delete();
-  void EndOfBuffer();
-  void BeginingOfBuffer();
-  void Getyx(int *y, int *x);
-  void Deleteln(std::string*);
-  void delch(std::string*);
-  void ResetCursor();
-  void Move(int move_y, int move_x, int max, bool clear = false);
-  int history_cursor_;
   Action& action_;
-  ConsoleInput input_buffer_;
-  ConsoleHistory input_history_;
   termios cooked_term_ios_;
   termios raw_term_ios_;
+  ScopedPtr<Stream> stream_;
   static platform::Mutex mutex_;
   static ScopedPtr<Shell> shell_;
   static AtomicWord init_;
