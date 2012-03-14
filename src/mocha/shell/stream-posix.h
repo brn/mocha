@@ -41,7 +41,7 @@ class Stream : private Uncopyable{
   void WritePositiveXSeqence(int x) const { printf("\x1b[%dC", x); }
   void WritePositiveYSeqence(int y) const { printf("\x1b[%dB", y); }
   void WriteNegativeYSeqence(int y) const { printf("\x1b[%dA", y); }
-  void WriteAbXY(int x, int y) const { printf("\x1b%d;%dR" , x, y); }
+  void WriteAbXY(int x, int y) const { printf("\x1b[%d;%dH", y, x); }
   void WriteClearLineLeft() const { printf("\x1b[1K"); }
   void WriteClearLineRight() const { printf("\x1b[0K"); }
   void WriteClearLine() const { printf("\x1b[2K"); }

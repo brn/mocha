@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -797,7 +797,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "Y:/mocha/src/test/js/262/do_while_test.js",
+      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/do_while_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
       _mochaGlobalExport['do_while_test.js;1'] = {};

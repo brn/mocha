@@ -6,18 +6,18 @@ import platform
 TARGET_NAME = 'mchd'
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 REV = '\\"' + commands.getoutput("git show --format='%h' -s") + '\\"';
+OSX_LIB_PREFIX = "src/third_party/icu/lib-osx"
+OSX_STATIC_LIBS = ['/libicui18n.a', '/libicuio.a', '/libiculx.a', '/libicudata.a', '/libicuuc.a', '/libicule.a']
 PLATFORM_FLAGS = {
 "posix" : {
         "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
         "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread -Lsrc/third_party/ncurses-5.9/lib-posix",
-        "LIBS" : 'ncursesw.a'
+        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread -Lsrc/third_party/ncurses-5.9/lib-posix"
         },
 'mac' : {
         "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "LD_FLAGS" : "-lpthread -Lsrc/third_party/icu/lib-osx -lpthread",
-        "LIBS" : ['icui18n.a', 'icuio.a', 'iculx.a', 'icudata.a', 'icuuc.a', 'icule.a']
+        "LD_FLAGS" : "-lpthread -lpthread"
         },
 "win32" : {
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
@@ -55,7 +55,6 @@ def MoveBinary(path) :
 
 def GetFlags(platform, mode = 'DEBUG') :
     return (PLATFORM_FLAGS[platform][mode],
-            PLATFORM_FLAGS[platform]["LIBS"],
             PLATFORM_FLAGS[platform]["LD_FLAGS"])
 
 class MochaBuilder :
@@ -64,8 +63,7 @@ class MochaBuilder :
         self.__target = target
         flags = GetFlags(platform, mode)
         self.__env = Environment(CCFLAGS=flags[0],
-                                 LIBS=flags[1],
-                                 LINKFLAGS=flags[2])
+                                 LINKFLAGS=flags[1])
         self.__root = 'src'
         self.__targets = []
         self.__third_party = {
@@ -114,6 +112,13 @@ selectable platforms :
 
     def __CollectSources(self) : 
         self.__IterateDir(self.__root);
+        self.__ExtendStaticLibs();
+        self.__targets.extend([]);
+
+    def __ExtendStaticLibs(self) :
+        if self.__platform == 'mac' :
+            for tags in OSX_STATIC_LIBS :
+                self.__targets.append(OSX_LIB_PREFIX + '/' + tags)
 
     def __IterateDir(self, dirname) :
         for file_or_dir in os.listdir(dirname) :
@@ -124,7 +129,7 @@ selectable platforms :
             elif os.path.isfile(name) :
                 if (not self.__CheckMismatch(file_or_dir)) and file_or_dir.endswith('.cc'):
                     self.__targets.append(name)
-    
+                    
     def __CheckMismatch(self, name) :
         return self.__platform_mismatches[self.__platform].has_key(name)
 

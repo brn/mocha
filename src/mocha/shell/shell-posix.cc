@@ -106,15 +106,7 @@ int Shell::Getch() {
 }
 
 void Shell::Print(const char* str) {
-  int i = 0;
-  while (str[i]) {
-    if (str[i] == '\n') {
-      stream_->Break(false);
-    } else {
-      stream_->Write(str[i]);
-    }
-    i++;
-  }
+  printf("%s", str);
 }
 
 void Shell::SafePrint(const char* str) {
@@ -123,11 +115,7 @@ void Shell::SafePrint(const char* str) {
 }
 
 void Shell::Print(char ch) {
-  if (ch == '\n') {
-    stream_->Break(false);
-  } else {
-    stream_->Write(ch);
-  }
+  printf("%c", ch);
 }
 
 void Shell::SafePrint(char ch) {
@@ -146,7 +134,7 @@ bool Shell::CallAction() {
 }
 
 void Shell::Break(bool initial) {
-  stream_->Break();
+  stream_->Break(initial);
 }
 
 void Shell::SafeBreak(bool initial) {
@@ -208,7 +196,9 @@ void Shell::SwitchShellAction(int ch) {
       break;
       
     default : {
-      stream_->Write(ch);
+      if (isprint(ch)) {
+        stream_->Write(ch);
+      }
     }
   }
 }
