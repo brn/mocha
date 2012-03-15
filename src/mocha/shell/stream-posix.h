@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <deque>
+#include <vector>
 #include <string>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 namespace mocha {
 typedef std::string ConsoleInput;
+typedef std::vector<ConsoleInput> LineBuffer;
 typedef std::deque<std::string> ConsoleHistory;
 class Stream : private Uncopyable{
  public :
@@ -14,8 +16,8 @@ class Stream : private Uncopyable{
   ~Stream(){}
   void Write(const char*);
   void Write(char);
-  const char* Data() const { return buffer_.c_str(); }
-  const ConsoleInput buffer() const { return buffer_; }
+  const char* Data();
+  const ConsoleInput buffer();
   void Clear();
   void AddHistory();
   void PrevHistory();
@@ -28,15 +30,15 @@ class Stream : private Uncopyable{
   void ReadPos();
  private :
   class Pos;
+  void Fold();
   void Initialize();
   void InitLine();
   winsize* Winsize();
   void MoveRelative(int x, int y);
   void ClearLine(int direction);
-  void UpdateCursorPos(int x, int y);
+  void UpdateCursorPos(int x);
   void History();
   Pos Getxy() const;
-  void ResetCursor();
   void WriteNegativeXSeqence(int x) const { printf("\x1b[%dD", x); }
   void WritePositiveXSeqence(int x) const { printf("\x1b[%dC", x); }
   void WritePositiveYSeqence(int y) const { printf("\x1b[%dB", y); }
@@ -47,6 +49,11 @@ class Stream : private Uncopyable{
   void WriteClearLine() const { printf("\x1b[2K"); }
   void WriteAbX(int x) const { printf("\x1b[%dG", x); }
   void CheckLogicalLine();
+  void Insert(char val);
+  int GetRealCursorPosition();
+  void AddBuffer();
+  const char* buffer_string() const;
+  void RemoveBuffer(int num);
   int cursor_;
   int line_;
   int prompt_size_;
@@ -54,8 +61,9 @@ class Stream : private Uncopyable{
   int logical_linefeed_;
   int current_line_;
   const char* prompt_;
-  ConsoleInput buffer_;
+  LineBuffer buffer_;
   ConsoleHistory history_;
+  ConsoleInput return_buffer_;
   winsize winsize_;
 };
 

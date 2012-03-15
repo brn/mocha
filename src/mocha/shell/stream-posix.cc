@@ -30,44 +30,81 @@ Stream::Stream(const char* prompt)
         prompt_(prompt){ Initialize(); }
 
 void Stream::Write(const char* buf) {
-  int len = strlen(buf);
+  /*int len = strlen(buf);
   buffer_.append(buf);
   printf("%s", buf);
-  UpdateCursorPos(len, 0);
-  CheckLogicalLine();
+  UpdateCursorPos(len);
+  CheckLogicalLine();*/
+}
+
+
+void Stream::Fold() {
+  return_buffer_.clear();
+  LineBuffer::iterator it;
+  for (it = buffer_.begin(); it < buffer_.end(); ++it) {
+    return_buffer_ += (*it);
+  }
+}
+
+
+const ConsoleInput Stream::buffer() {
+  Fold();
+  return return_buffer_;
+}
+
+const char* Stream::Data() {
+  Fold();
+  return return_buffer_.c_str();
+}
+
+int Stream::GetRealCursorPosition() {
+  if (logical_linefeed_ > 0) {
+    return Winsize()->ws_col * logical_linefeed_ + cursor_;
+  } else {
+    return cursor_;
+  }
+}
+
+void Stream::AddBuffer() {
+  buffer_.push_back(std::string(""));
+}
+
+void Stream::RemoveBuffer(int num) {
+  buffer_.erase(buffer_.begin() + num);
+}
+
+const char* Stream::buffer_string() const {
+  return buffer_.at(current_line_).c_str();
+}
+
+void Stream::Insert(char val) {
+  char tmp[2];
+  tmp[0] = val;
+  tmp[1] = 0;
+  buffer_.at(current_line_).insert(GetRealCursorPosition(), tmp);
 }
 
 void Stream::Write(char ch) {
-  char tmp[2];
-  tmp[0] = ch;
-  tmp[1] = 0;
-  buffer_.insert(cursor_, tmp);
+  Insert(ch);
   ClearLine(0);
-  ResetCursor();
-  int pos = (cursor_ + prompt_size_ + 2);
-  int real_size = cursor_ + prompt_size_;
-  if ((cursor_ + 1) >= buffer_.size() && real_size > Winsize()->ws_col && real_size % Winsize()->ws_col == 0) {
-    WritePositiveYSeqence(1);
-    current_line_++;
-    logical_linefeed_++;
-  }
-  if (logical_linefeed_ > 0) {
-    int target = pos - Winsize()->ws_col * current_line_;
-    printf("%s%s", prompt_, buffer_.c_str());
-    if (current_line_ < logical_linefeed_) {
-      WriteNegativeYSeqence(logical_linefeed_ - current_line_);
-    }
-    WriteAbX(target);
+  WriteAbX(0);
+  UpdateCursorPos(1);
+  if (current_line_ == 0) {
+    printf("%s%s", prompt_, buffer_string());
   } else {
-    printf("%s%s", prompt_, buffer_.c_str());
-    if (real_size == Winsize()->ws_col) {
-      WriteAbX(1);
+    printf("%s", buffer_string());
+  }
+  if (cursor_ + prompt_size_ > Winsize()->ws_col) {
+    cursor_ = 0;
+    WriteAbX(0);
+    AddBuffer();
+  } else {
+    if (current_line_ == 0) {
+      WriteAbX(cursor_ + 1 + prompt_size_);
     } else {
-      WriteAbX(pos);
+      WriteAbX(cursor_ + 1);
     }
   }
-  UpdateCursorPos(1, 0);
-  CheckLogicalLine();
 }
   
 void Stream::Clear() {
@@ -75,57 +112,22 @@ void Stream::Clear() {
   cursor_ = 0;
   logical_linefeed_ = 0;
   current_line_ = 0;
+  AddBuffer();
 }
 
 void Stream::AddHistory() {
-  if (!buffer_.empty()) {
-    history_.push_back(buffer_);
-    history_cursor_ = history_.size();
-  }
 }
 
 void Stream::PrevHistory() {
-  if (history_cursor_ > 0) {
-    history_cursor_--;
-    History();
-  }
 }
 
 void Stream::NextHistory() {
-  if (history_cursor_ < static_cast<int>(history_.size() - 1)) {
-    history_cursor_++;
-    History();
-  }
 }
 
 void Stream::Bs() {
-  if (cursor_ > 0) {
-    buffer_.erase((cursor_ - 1), 1);
-    ClearLine(0);
-    ResetCursor();
-    UpdateCursorPos(-1, 0);
-    int pos = (cursor_ + prompt_size_);
-    int target = pos - Winsize()->ws_col * current_line_;
-    int real_size = cursor_ + prompt_size_;
-    printf("%s%s", prompt_, buffer_.c_str());
-    if (cursor_ >= buffer_.size() && real_size % Winsize()->ws_col == 0) {
-      WritePositiveYSeqence(1);
-    }
-    if (cursor_ >= buffer_.size() && real_size % Winsize()->ws_col == 0) {
-      WriteAbX(0);
-    } else if ((real_size + 1) % Winsize()->ws_col == 0) {
-      WriteAbX(Winsize()->ws_col);
-    } else {
-      WriteAbX(target + 1);
-    }
-  }
 }
 
 void Stream::Delete() {
-  if ((cursor_ + 1) <= buffer_.size()) {
-    MoveRelative(1, 0);
-    Bs();
-  }
 }
 
 void Stream::MoveLeft() {
@@ -141,6 +143,8 @@ void Stream::MoveRight() {
 void Stream::Break(bool show_prompt) {
   printf("\n\r");
   cursor_ = 0;
+  buffer_.clear();
+  AddBuffer();
   if (Winsize()->ws_row > line_) {
     line_++;
   }
@@ -159,6 +163,7 @@ void Stream::ReadPos() {
 void Stream::Initialize() {
   InitLine();
   prompt_size_ = strlen(prompt_);
+  AddBuffer();
 }
 
 void Stream::InitLine() {
@@ -182,7 +187,7 @@ void Stream::MoveRelative(int x, int y) {
   } else if (y > 0){
     WritePositiveYSeqence(y);
   }
-  UpdateCursorPos(x, y);
+  UpdateCursorPos(x);
 }
   
 void Stream::ClearLine(int direction) {
@@ -191,101 +196,37 @@ void Stream::ClearLine(int direction) {
   } else if (direction > 0) {
     WriteClearLineRight();
   } else {
-    if (logical_linefeed_ > 0) {
-      int tmp = logical_linefeed_;
-      if (logical_linefeed_ - current_line_ > 0) {
-        WritePositiveYSeqence(logical_linefeed_ - current_line_);
-      }
-      while (tmp > 0) {
-        tmp--;
-        WriteClearLine();
-        WriteNegativeYSeqence(1);
-      }
-      if (current_line_ > 0) {
-        WritePositiveYSeqence(current_line_);
-      }
-    } else {
-      WriteClearLine();
-    }
+    WriteClearLine();
   }
 }
   
-void Stream::UpdateCursorPos(int x, int y) {
-  winsize *pos = Winsize();
-  int buffer_size = buffer_.size();
+void Stream::UpdateCursorPos(int x) {
   if (x != 0) {
+    int buffer_size = buffer_.size();
+    int real_pos = GetRealCursorPosition();
+    int last_cursor = cursor_;
     cursor_ += x;
-    if (logical_linefeed_ > 0) {
-      if (current_line_ > 0) {
-        if (current_line_ < logical_linefeed_) {
-          if (x < 0 && (cursor_ + prompt_size_) < pos->ws_col * current_line_) {
-            current_line_--;
-            WriteAbX(pos->ws_col);
-            WriteNegativeYSeqence(1);
-          } else if (x > 0 && (cursor_ + prompt_size_ + 1) > (pos->ws_col * (current_line_ + 1))) {
-            current_line_++;
-            WriteAbX(0);
-            WritePositiveYSeqence(1);
-          }
-        } else {
-          if (x < 0 && (cursor_ + prompt_size_) < (pos->ws_col * current_line_)) {
-            current_line_--;
-            WriteAbX(pos->ws_col);
-            WriteNegativeYSeqence(1);
-          } else if (x > 0 && cursor_ > buffer_size) {
-            cursor_ -= x;
-            WriteAbX((buffer_size + prompt_size_) % pos->ws_col + 1);
-          }
+    //Move right;
+    if (x > 0) {
+      if (current_line_ == 0) {
+        if (last_cursor + prompt_size_ - 1 == Winsize()->ws_col) {
+          current_line_++;
         }
       } else {
-        if (x > 0 && (cursor_ + prompt_size_ + 1) > pos->ws_col) {
+        if (last_cursor == Winsize()->ws_col) {
           current_line_++;
-          WriteAbX(0);
-          WritePositiveYSeqence(1);
-        } else if (cursor_ < 0) {
-          cursor_ = 0;
-          WriteAbX(prompt_size_ + 1);
         }
       }
-    } else if (buffer_size > 0 && cursor_ > 0 && cursor_ > buffer_size) {
-      cursor_ = buffer_size;
-      WriteAbX(cursor_ + prompt_size_ + 1);
-    } else if (cursor_ < 0) {
-      cursor_ = 0;
-      WriteAbX(prompt_size_ + 1);
-    }
-  }
-  
-  if (y != 0) {
-    line_ += y;
-    if (line_ < 0) {
-      line_ = 0;
-    } else if(line_ > pos->ws_row) {
-      line_ = pos->ws_row;
+    } else {
+      if (last_cursor == 0) {
+        current_line_--;
+      }
     }
   }
 }
 
       
 void Stream::History() {
-  if (!history_.empty() && history_cursor_ < static_cast<int>(history_.size()) && history_cursor_ > -1) {
-    ClearLine(0);
-    ResetCursor();
-    ClearLine(1);
-    Clear();
-    buffer_ = history_.at(history_cursor_).c_str();
-    int size = buffer_.size();
-    int real_size = prompt_size_ + size;
-    if (real_size > Winsize()->ws_col) {
-      logical_linefeed_ = floor(real_size / Winsize()->ws_col);
-      current_line_ = logical_linefeed_;
-      cursor_ = size;
-    } else {
-      cursor_ = 0;
-    }
-    printf("%s%s", prompt_, buffer_.c_str());
-    UpdateCursorPos(size, 0);
-  }
 }
 
 Stream::Pos Stream::Getxy() const {
@@ -293,17 +234,6 @@ Stream::Pos Stream::Getxy() const {
   printf("\x1B[6n");
   scanf("\x1B[%d;%dR", &y, &x);
   return Pos(x,y);
-}
-
-void Stream::ResetCursor() {
-  if (logical_linefeed_ == 0) {
-    WriteAbX(0);
-  } else {
-    if (current_line_ > 0) {
-      WriteNegativeYSeqence(current_line_);
-    }
-    WriteAbX(0);
-  }
 }
 
 void Stream::CheckLogicalLine() {

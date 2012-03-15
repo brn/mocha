@@ -15,8 +15,8 @@ PLATFORM_FLAGS = {
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread -Lsrc/third_party/ncurses-5.9/lib-posix"
         },
 'mac' : {
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "LD_FLAGS" : "-lpthread -lpthread"
         },
 "win32" : {
@@ -124,7 +124,6 @@ selectable platforms :
         for file_or_dir in os.listdir(dirname) :
             name = dirname + '/' + file_or_dir
             if os.path.isdir(name) and not self.__third_party.has_key(file_or_dir) and not file_or_dir == '.deps' :
-                print name
                 self.__IterateDir(name)
             elif os.path.isfile(name) :
                 if (not self.__CheckMismatch(file_or_dir)) and file_or_dir.endswith('.cc'):
