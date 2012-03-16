@@ -17,7 +17,7 @@ PLATFORM_FLAGS = {
 'mac' : {
         "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "LD_FLAGS" : "-lpthread -lpthread"
+        "LD_FLAGS" : "-lpthread -ledit -lcurses"
         },
 "win32" : {
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',

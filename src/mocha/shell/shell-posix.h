@@ -1,17 +1,17 @@
 #ifndef mocha_shell_h_
 #define mocha_shell_h_
 #include <termios.h>
-#include <mocha/shell/stream-posix.h>
+#include <histedit.h>
+#include <string>
 #include <mocha/roaster/misc/atomic.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 namespace mocha {
-
+typedef std::string ConsoleInput;
 class Action {
  public :
   virtual bool operator()(ConsoleInput input){return true;}
 };
-
 class Shell {
  public :
   ~Shell();
@@ -28,14 +28,12 @@ class Shell {
   Shell(Action& action);
   void InitShell();
   void ResetShell();
-  int Getch();
   bool CallAction();
-  bool CheckInput(int ch);
-  void SwitchShellAction(int ch);
   Action& action_;
-  termios cooked_term_ios_;
-  termios raw_term_ios_;
-  ScopedPtr<Stream> stream_;
+  ConsoleInput input_;
+  EditLine* line_;
+  History* history_;
+  HistEvent event_;
   static platform::Mutex mutex_;
   static ScopedPtr<Shell> shell_;
   static AtomicWord init_;

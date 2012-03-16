@@ -1,7 +1,7 @@
 #include <string.h>
 #include <unistd.h>
-#include <mocha/shell/shell.h>
 #include <sys/ioctl.h>
+#include <mocha/shell/shell.h>
 namespace mocha {
 
 const int kEnter = 13;
@@ -38,71 +38,47 @@ Shell::Shell(Action& action)
     : action_(action){
   setlocale(LC_ALL,"");
   printf("mocha 0.7 (r"MOCHA_REV")");
-  printf("\nusage -> run 'help'");
+  printf("\nusage -> run 'help'\n");
   InitShell();
-  stream_(new Stream(kPrompt));
-  stream_->Break();
+  history_ = history_init();
+  history(history_, &event_,  H_SETSIZE, 50);
 }
 
 Shell::~Shell() {
   ResetShell();
-  printf("\n");
+  history_end(history_);
 }
 
 
 void Shell::Read() {
-  int ch;
-  while((ch = Getch())) {
-    bool execute = CheckInput(ch);
-    if (execute) {
-      stream_->AddHistory();
-      if(CallAction()) {
-        break;
-      }
-      stream_->Clear();
+  char *buf;
+  int read;
+  while(1) {
+    input_ = el_gets(line_, &read);
+    if (read == -1) {
+      break;
     }
+    input_.erase(input_.size() - 1, 1);
+    history(history_, &event_, H_ENTER, input_.c_str());
+    if(CallAction()) {
+      break;
+    }
+    input_.clear();
   }
+}
+
+char* prompt(EditLine* line) {
+  return ">> ";
 }
 
 void Shell::InitShell() {
-  tcgetattr(STDIN_FILENO, &cooked_term_ios_);
-  raw_term_ios_ = cooked_term_ios_;
-  cfmakeraw(&raw_term_ios_);
-  raw_term_ios_.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-  raw_term_ios_.c_oflag |= (ONLCR | OPOST);
-  raw_term_ios_.c_cflag |= (CS8);
-  raw_term_ios_.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-  raw_term_ios_.c_cc[VMIN] = 1;
-  raw_term_ios_.c_cc[VTIME] = 0;
-  tcsetattr(STDIN_FILENO, TCSADRAIN, &raw_term_ios_);
+  line_ = el_init("mocha", stdin, stdout, stderr);
+  el_set(line_, EL_PROMPT, prompt);
+  el_set(line_, EL_EDITOR, "emacs");
 }
 
 void Shell::ResetShell() {
-  tcsetattr(STDIN_FILENO, 0, &cooked_term_ios_);
-}
-
-int Shell::Getch() {
-  int ch;
-  do{
-    ch = getchar();
-  }while(ch == '\n');
-  if (ch == 27) {
-    ch = getchar();
-    if (ch == 91) {
-      ch = getchar();
-      switch(ch) {
-        case 65 :
-          return kKeyUp;
-        case 66 :
-          return kKeyDown;
-        case 67 :
-          return kKeyRight;
-        case 68 :
-          return kKeyLeft;
-      }
-    }
-  }
-  return ch;
+  el_end(line_);
 }
 
 void Shell::Print(const char* str) {
@@ -126,81 +102,18 @@ void Shell::SafePrint(char ch) {
 
 bool Shell::CallAction() {
   ResetShell();
-  int ret = action_(stream_->buffer());
+  int ret = action_(input_);
   InitShell();
-  stream_->ReadPos();
-  stream_->Clear();
   return ret;
 }
 
 void Shell::Break(bool initial) {
-  stream_->Break(initial);
+  printf("\n");
 }
 
 void Shell::SafeBreak(bool initial) {
   platform::ScopedLock lock(mutex_);
   Break(initial);
-}
-
-bool Shell::CheckInput(int ch) {
-  if (ch == kEnter) {
-    if ( stream_->buffer().size() == 0) {
-      stream_->Break();
-      return false;
-    } else {
-      //Break();
-      return true;
-    }
-  } else {
-    SwitchShellAction(ch);
-  }
-  return false;
-}
-
-void Shell::SwitchShellAction(int ch) {
-  switch (ch) {
-    case kEmacsUp :
-    case kKeyUp :
-      stream_->PrevHistory();
-      break;
-
-    case kEmacsDown :
-    case kKeyDown :
-      stream_->NextHistory();
-      break;
-
-    case kEmacsLeft :
-    case kKeyLeft :
-      stream_->MoveLeft();
-      break;
-
-    case kEmacsRight :
-    case kKeyRight :
-      stream_->MoveRight();
-      break;
-
-    case kBackSpace :
-      stream_->Bs();
-      break;
-
-    case kEmacsDl :
-      stream_->Delete();
-      break;
-
-    case kEndOfBuffer :
-      //stream_->EndOfBuffer();
-      break;
-
-    case kBeginingOfBuffer :
-      //stream_->BeginingOfBuffer();
-      break;
-      
-    default : {
-      if (isprint(ch)) {
-        stream_->Write(ch);
-      }
-    }
-  }
 }
 
 platform::Mutex Shell::mutex_;
