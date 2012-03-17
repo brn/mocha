@@ -3,26 +3,30 @@ from stat import *
 import shutil
 import commands
 import platform
+import locale
+LOCALE = locale.getpreferredencoding()
 TARGET_NAME = 'mchd'
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
-REV = '\\"' + commands.getoutput("git show --format='%h' -s") + '\\"';
 OSX_LIB_PREFIX = "src/third_party/icu/lib-osx"
 OSX_STATIC_LIBS = ['/libicui18n.a', '/libicuio.a', '/libiculx.a', '/libicudata.a', '/libicuuc.a', '/libicule.a']
 PLATFORM_FLAGS = {
 "posix" : {
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread -Lsrc/third_party/ncurses-5.9/lib-posix"
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX  -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread",
+        "LIBS" : ["edit" ,"curses"]
         },
 'mac' : {
-        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DMOCHA_REV=' + REV + ' -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "LD_FLAGS" : "-lpthread -ledit -lcurses"
+        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "LD_FLAGS" : "",
+        "LIBS" : ["pthread", "edit" ,"curses"]
         },
 "win32" : {
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
         "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
-        "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU
+        "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU,
+        "LIBS" : []
         }
 }
 PLATFORM = platform.system()
@@ -55,6 +59,7 @@ def MoveBinary(path) :
 
 def GetFlags(platform, mode = 'DEBUG') :
     return (PLATFORM_FLAGS[platform][mode],
+            PLATFORM_FLAGS[platform]["LIBS"],
             PLATFORM_FLAGS[platform]["LD_FLAGS"])
 
 class MochaBuilder :
@@ -63,7 +68,8 @@ class MochaBuilder :
         self.__target = target
         flags = GetFlags(platform, mode)
         self.__env = Environment(CCFLAGS=flags[0],
-                                 LINKFLAGS=flags[1])
+                                 LIBS=flags[1],
+                                 LINKFLAGS=flags[2])
         self.__root = 'src'
         self.__targets = []
         self.__third_party = {
@@ -76,12 +82,14 @@ class MochaBuilder :
             "win32" : { 
                 "thread-posix.cc" : 1,
                 "directory-posix.cc" : 1,
-                "file_watcher-inotify-impl.cc" : 1
+                "file_watcher-inotify-impl.cc" : 1,
+                "shell-posix.cc" : 1
                 },
             "mac" : {
                 "thread-win32.cc" : 1,
                 "directory-win32.cc" : 1,
-                "file_watcher-inotify-impl.cc" : 1
+                "file_watcher-inotify-impl.cc" : 1,
+                "shell-win32.cc" : 1
                 },
             "posix" : {
                 "thread-win32.cc" : 1,

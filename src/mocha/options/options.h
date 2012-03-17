@@ -45,9 +45,7 @@ class Options {
   bool IsCompress() { return flags_.At(4); }
   bool IsUnmatch() { return flags_.At(5); }
   void ShowError() {
-    Shell::GetInstance()->Break(false);
-    Shell::GetInstance()->Print(error_.c_str());
-    Shell::GetInstance()->Break();
+    printf("%s\n", error_.c_str());
   }
   void StopObserve() {flags_.Set(6);}
   bool IsStopObserving() {return flags_.At(6);}

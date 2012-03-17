@@ -24,8 +24,10 @@ void DoRun(const char* command) {
   if (env == NULL) {
     return;
   }
+  printf("%d", env);
   std::string arg = "";
   arg += env;
+  arg += '/';
   arg += "phantomjs ";
   arg += Setting::GetInstance()->GetBasePath();
   arg += "run-phantom.js ";

@@ -1,7 +1,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <iostream>
+#include <locale>
 #include <mocha/shell/shell.h>
+#include <mocha/roaster/encoding/encoding.h>
 namespace mocha {
 
 const int kEnter = 13;
@@ -36,8 +39,8 @@ Shell* Shell::GetInstance() {
 
 Shell::Shell(Action& action)
     : action_(action){
-  setlocale(LC_ALL,"");
-  printf("mocha 0.7 (r"MOCHA_REV")");
+  setlocale(LC_ALL, "");
+  printf("mocha es-next-compiler");
   printf("\nusage -> run 'help'\n");
   InitShell();
   history_ = history_init();
@@ -51,19 +54,30 @@ Shell::~Shell() {
 
 
 void Shell::Read() {
-  char *buf;
+  wchar_t *buf;
   int read;
   while(1) {
-    input_ = el_gets(line_, &read);
+    std::wstring input = el_wgets(line_, &read);
     if (read == -1) {
       break;
     }
-    input_.erase(input_.size() - 1, 1);
-    history(history_, &event_, H_ENTER, input_.c_str());
-    if(CallAction()) {
-      break;
+    if (input.size() > 0) {
+      input.erase(input.size() - 1, 1);
+      int size = input.size() * 2 + 1;
+      char* mbs = new char[size];
+      wcstombs(mbs, input.c_str(), size/sizeof(mbs[0]));
+      if (input.size() > 0) {
+        input_ = mbs;
+        history(history_, &event_, H_ENTER, input_.c_str());
+        if (input_.size() > 0) {
+          if(CallAction()) {
+            break;
+          }
+        }
+        input_.clear();
+      }
+      delete mbs;
     }
-    input_.clear();
   }
 }
 
@@ -75,6 +89,7 @@ void Shell::InitShell() {
   line_ = el_init("mocha", stdin, stdout, stderr);
   el_set(line_, EL_PROMPT, prompt);
   el_set(line_, EL_EDITOR, "emacs");
+  el_set(line_, EL_HIST, history, history_);
 }
 
 void Shell::ResetShell() {

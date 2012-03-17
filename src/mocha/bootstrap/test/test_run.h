@@ -92,7 +92,6 @@ void RunJS(const char* dir) {
 }
 
 void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
-  printf("%s\n" , dir);
   platform::fs::Directory directory(CURRENT_DIR"/test/js");
   platform::fs::Directory::const_iterator iterator = directory.Entries(true);
   Roaster roaster;
@@ -121,7 +120,6 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
   TestCallback* callback = new TestCallback(list.size());
   AsyncCallbackHandle handle(callback);
   roaster.CompileFilesAsync(list, false, handle);
-  RunJS(dir);
 }
 
 void RunTest() {
@@ -129,6 +127,14 @@ void RunTest() {
   fprintf(stderr, "------------------end devel test------------------\n");
   RunTest(false, false, true, CURRENT_DIR"/test/js/out/compressed");
   fprintf(stderr, "------------------end compress test------------------\n");
+  char *ret = getenv("PHANTOM_INSTALL_DIR");
+  if (!ret) {
+    printf("%s\n", ret);
+    free(ret);
+  } else {
+    printf("phantomjs not installed\n");
+  }
+  RunJS(CURRENT_DIR"/test/js/out");
 }
 
 }}
