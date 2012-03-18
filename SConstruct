@@ -30,13 +30,12 @@ def MoveBinary(path) :
                 if (not os.path.isfile(target_dll)) :
                     shutil.copyfile(dll, target_dll)
 
-
-TARGET_NAME = 'mchd'
 ROOT = 'src'
 LIB_PREFIX = "src/third_party/icu/lib-osx"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 PLATFORM_CONFIG = {
     "linux" : {
+        "TARGET" : 'bin/linux/mchd',
         "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX  -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
         "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
@@ -44,6 +43,7 @@ PLATFORM_CONFIG = {
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc"]
         },
     'macos' : {
+        "TARGET" : 'bin/macos/mchd',
         "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "LD_FLAGS" : "",
@@ -52,6 +52,7 @@ PLATFORM_CONFIG = {
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc"]
         },
     "win32" : {
+        "TARGET" : 'bin/win32/mchd.exe',
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
         "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
         "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU,
@@ -69,7 +70,7 @@ HEADER_LIST = [
 
 class MochaBuilder :
     def __init__(self, mode) :
-        self.__config = Config(ROOT, TARGET_NAME, PLATFORM_CONFIG)
+        self.__config = Config(ROOT, PLATFORM_CONFIG)
         self.__config.AddExcludeDir(["v8","icu","phantomjs","ncurses-5.9"])
         self.__sources = Sources(self.__config)
         flags = self.__sources.GetFlags(mode)
@@ -78,7 +79,7 @@ class MochaBuilder :
                                  LINKFLAGS=flags[2])
 
     def Build(self) :
-        self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/config.h', 'C++', True, HEADER_LIST))
+        self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/mocha/config.h', 'C++', True, HEADER_LIST))
         targets = self.__sources.CreateSourceList()
         self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
 
