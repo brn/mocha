@@ -1,7 +1,10 @@
 #ifndef mocha_file_watcher_inotify_impl_cc_
 #define mocha_file_watcher_inotify_impl_cc_
 #include <sys/inotify.h>
+#include <string.h>
 #include <vector>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/stat.h>
 #include <mocha/misc/file_watcher/file_watcher.h>
 #include <mocha/roaster/smart_pointer/common/ptr_handle.h>
 #include <mocha/roaster/lib/unordered_map.h>

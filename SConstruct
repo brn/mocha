@@ -4,38 +4,12 @@ import shutil
 import commands
 import platform
 import locale
-LOCALE = locale.getpreferredencoding()
-TARGET_NAME = 'mchd'
-WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
-OSX_LIB_PREFIX = "src/third_party/icu/lib-osx"
-OSX_STATIC_LIBS = ['/libicui18n.a', '/libicuio.a', '/libiculx.a', '/libicudata.a', '/libicuuc.a', '/libicule.a']
-PLATFORM_FLAGS = {
-"posix" : {
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX  -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lpthread",
-        "LIBS" : ["edit" ,"curses"]
-        },
-'mac' : {
-        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "LD_FLAGS" : "",
-        "LIBS" : ["pthread", "edit" ,"curses"]
-        },
-"win32" : {
-        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
-        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
-        "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU,
-        "LIBS" : []
-        }
-}
-PLATFORM = platform.system()
-if PLATFORM == 'Linux':
-    PLATFORM = 'posix'
-elif PLATFORM == 'Darwin':
-    PLATFORM = 'mac'
-elif PLATFORM == 'Windows' or PLATFORM == 'Microsoft':
-    PLATFORM = 'win32'
+import SCons.Conftest
+root_dir = os.path.dirname(File('SConstruct').rfile().abspath)
+sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
+import deps
+from platform_utils import Config
+from sources import Sources
 
 def MoveBinary(path) :
     target_path = "bin/" + path
@@ -57,91 +31,63 @@ def MoveBinary(path) :
                     shutil.copyfile(dll, target_dll)
 
 
-def GetFlags(platform, mode = 'DEBUG') :
-    return (PLATFORM_FLAGS[platform][mode],
-            PLATFORM_FLAGS[platform]["LIBS"],
-            PLATFORM_FLAGS[platform]["LD_FLAGS"])
+TARGET_NAME = 'mchd'
+ROOT = 'src'
+LIB_PREFIX = "src/third_party/icu/lib-osx"
+WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
+PLATFORM_CONFIG = {
+    "linux" : {
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX  -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
+        "LIBS" : ["pthread", "edit" ,"curses"],
+        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc"]
+        },
+    'macos' : {
+        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "LD_FLAGS" : "",
+        "LIBS" : ["pthread", "edit" ,"curses"],
+        "STATIC_LIBS" : [LIB_PREFIX + '/libicui18n.a', LIB_PREFIX + '/libicuio.a', LIB_PREFIX + '/libiculx.a', LIB_PREFIX + '/libicudata.a', LIB_PREFIX + '/libicuuc.a', LIB_PREFIX + '/libicule.a'],
+        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc"]
+        },
+    "win32" : {
+        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
+        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
+        "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU,
+        "LIBS" : [],
+        "EXCLUDE_FILES" : ["thread-posix.cc", "directory-posix.cc", "file_watcher-inotify-impl.cc", "shell-posix.cc"]
+        }
+    }
+HEADER_LIST = [
+    'unordered_map',
+    'boost/unordered_map.hpp',
+    'windows.h',
+    'unistd.h',
+    'sys/stat.h',
+    'sys/inotify.h']
 
 class MochaBuilder :
-    def __init__(self, target, platform, mode) :
-        self.__platform = platform
-        self.__target = target
-        flags = GetFlags(platform, mode)
+    def __init__(self, mode) :
+        self.__config = Config(ROOT, TARGET_NAME, PLATFORM_CONFIG)
+        self.__config.AddExcludeDir(["v8","icu","phantomjs","ncurses-5.9"])
+        self.__sources = Sources(self.__config)
+        flags = self.__sources.GetFlags(mode)
         self.__env = Environment(CCFLAGS=flags[0],
                                  LIBS=flags[1],
                                  LINKFLAGS=flags[2])
-        self.__root = 'src'
-        self.__targets = []
-        self.__third_party = {
-            "v8" : 1,
-            "icu" : 1,
-            "phantomjs" : 1,
-            "ncurses-5.9" : 1
-            }
-        self.__platform_mismatches = {
-            "win32" : { 
-                "thread-posix.cc" : 1,
-                "directory-posix.cc" : 1,
-                "file_watcher-inotify-impl.cc" : 1,
-                "shell-posix.cc" : 1
-                },
-            "mac" : {
-                "thread-win32.cc" : 1,
-                "directory-win32.cc" : 1,
-                "file_watcher-inotify-impl.cc" : 1,
-                "shell-win32.cc" : 1
-                },
-            "posix" : {
-                "thread-win32.cc" : 1,
-                "directory-win32.cc" : 1,
-                "file_watcher-inotify-impl.cc" : 1,
-                "shell-win32.cc" : 1
-                }
-            }
-    
-    @staticmethod
-    def CheckArgs():
-        platforms = PLATFORM
-        opt = ARGUMENTS.get('mode');
-        if not platforms or (platforms != 'win32' and platforms != 'mac' and platforms != 'posix') :
-            platform = ARGUMENTS.get('platform')
-            print """
-error you must select specific build platform as arguments.
-selectable platforms :
-  [win32 mac posix]
-"""
-            exit()
-        else :
-            return (platforms, opt);
 
     def Build(self) :
-        self.__CollectSources()
-        self.__env.Program(self.__target, self.__targets, CPPPATH=[self.__root])
+        self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/config.h', 'C++', True, HEADER_LIST))
+        targets = self.__sources.CreateSourceList()
+        self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
 
-    def __CollectSources(self) : 
-        self.__IterateDir(self.__root);
-        self.__ExtendStaticLibs();
-        self.__targets.extend([]);
+    def __SetExtraHeaders(self, has) :
+        if has.has_key("HAVE_SYS_INOTIFY_H") :
+            self.__config.RemoveExcludeFile("file_watcher-inotify-impl.cc")
+            self.__config.AddExcludeFile(["file_watcher-impl.cc"])
 
-    def __ExtendStaticLibs(self) :
-        if self.__platform == 'mac' :
-            for tags in OSX_STATIC_LIBS :
-                self.__targets.append(OSX_LIB_PREFIX + '/' + tags)
-
-    def __IterateDir(self, dirname) :
-        for file_or_dir in os.listdir(dirname) :
-            name = dirname + '/' + file_or_dir
-            if os.path.isdir(name) and not self.__third_party.has_key(file_or_dir) and not file_or_dir == '.deps' :
-                self.__IterateDir(name)
-            elif os.path.isfile(name) :
-                if (not self.__CheckMismatch(file_or_dir)) and file_or_dir.endswith('.cc'):
-                    self.__targets.append(name)
-                    
-    def __CheckMismatch(self, name) :
-        return self.__platform_mismatches[self.__platform].has_key(name)
-
-args = MochaBuilder.CheckArgs()
-builder = MochaBuilder(TARGET_NAME, args[0], args[1])
+builder = MochaBuilder(ARGUMENTS.get('mode'))
 builder.Build()
-MoveBinary(args[0])
+#MoveBinary(args[0])
 
