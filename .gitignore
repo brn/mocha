@@ -13,6 +13,7 @@
 *.lastbuildstate
 *.manifest
 .sconsign.dblite
+.sconf_temp
 src/.deps/
 src/vs/mocha/mocha/Debug/
 src/vs/mocha/mocha/Release/
