@@ -66,6 +66,12 @@ class Compiler : private Uncopyable {
 
   /**
    * @public
+   * Start compile.
+   */
+  CompilationResultHandle CompileFromFile();
+
+  /**
+   * @public
    * @param {const char*} -> a path of module.
    * @example
    * var ExampleMod = require("./ExampleMod").ExampleMod;

@@ -31,7 +31,7 @@ def MoveBinary(path) :
                     shutil.copyfile(dll, target_dll)
 
 ROOT = 'src'
-LIB_PREFIX = "src/third_party/icu/lib-osx"
+LIB_PREFIX = "src/third_party/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 PLATFORM_CONFIG = {
     "linux" : {
@@ -48,15 +48,15 @@ PLATFORM_CONFIG = {
         "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "edit" ,"curses"],
-        "STATIC_LIBS" : [LIB_PREFIX + '/libicui18n.a', LIB_PREFIX + '/libicuio.a', LIB_PREFIX + '/libiculx.a', LIB_PREFIX + '/libicudata.a', LIB_PREFIX + '/libicuuc.a', LIB_PREFIX + '/libicule.a'],
+        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a'],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc"]
         },
     "win32" : {
         "TARGET" : 'bin/win32/mchd.exe',
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
         "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
-        "LD_FLAGS" : "/NOLOGO /MACHINE:X86 " + WIN32_ICU,
-        "LIBS" : [],
+        "LD_FLAGS" : "/NOLOGO /MACHINE:X86",
+        "LIBS" : [LIB_PREFIX + '/lib-win32/icuin.lib', LIB_PREFIX + '/lib-win32/icudt.lib', LIB_PREFIX + '/lib-win32/icuuc.lib'],
         "EXCLUDE_FILES" : ["thread-posix.cc", "directory-posix.cc", "file_watcher-inotify-impl.cc", "shell-posix.cc"]
         }
     }
@@ -84,7 +84,7 @@ class MochaBuilder :
         self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
 
     def __SetExtraHeaders(self, has) :
-        if has.has_key("HAVE_SYS_INOTIFY_H") :
+        if has.has_key("HAVE_SYS_INOTIFY_H") and has["HAVE_SYS_INOTIFY_H"] is True :
             self.__config.RemoveExcludeFile("file_watcher-inotify-impl.cc")
             self.__config.AddExcludeFile(["file_watcher-impl.cc"])
 
