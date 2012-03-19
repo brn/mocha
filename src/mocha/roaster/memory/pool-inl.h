@@ -8,8 +8,8 @@ namespace memory {
 inline void* Allocated::operator new(size_t size, Pool* pool) {
   return pool->AllocLinkedList(size);
 }
-inline void Allocated::operator delete(void* ptr) {}
-inline void Allocated::operator delete(void* ptr, Pool* pool){ operator delete(ptr); }
+inline void Allocated::operator delete(void*) {}
+inline void Allocated::operator delete(void* ptr, Pool*){ operator delete(ptr); }
 
 inline Pool::Pool() : current_(0), head_(0) {}
 inline Pool::~Pool() {

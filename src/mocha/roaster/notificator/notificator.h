@@ -22,24 +22,79 @@
  */
 #ifndef roaster_notificator_h_
 #define roaster_notificator_h_
+#include <mocha/roaster/notificator/listener_adapter.h>
 #include <mocha/roaster/lib/unordered_map.h>
-namespace roaster {
-template<typename Listener, typename Event>
+#include <mocha/roaster/memory/pool.h>
+namespace mocha {
+
+/**
+ * @class
+ * The event observer implementation.
+ */
+template<typename Event>
 class Notificator {
-  typedef std::pair<std::string, Listener> ListenerSet;
-  typedef roastlib::unordered_map<std::string, Listener> Listeners;
-  typedef std::pair<Listeners::iterator, Listeners::iterator> ListenersRange;
+
+  //The unordered_multimap entry type.
+  typedef std::pair<const char*, ListenerAdapterBase<Event>*> ListenerSet;
+  typedef roastlib::unordered_multimap<std::string, ListenerAdapterBase<Event>*> Listeners;
+  typedef typename Listeners::iterator ListenersIterator;
+  //The unordered_multimap equal_range type.
+  typedef std::pair<ListenersIterator, ListenersIterator> ListenersRange;
+
  public :
+  
+  template <typename Fn, typename Class>
+  class MemBind {
+   public :
+    MemBind(Fn fn, Class cl);
+    MemBind(const MemBind&);
+    void operator()(Event e);
+   private :
+    Class cls_;
+    Fn fn_;
+  };
+
   Notificator();
-  ~Notificator();
-  void AddListener(Listener listener);
+  ~Notificator(){};
+
+  /**
+   * @public
+   * @param {const char*} key
+   * @param {Listener} listener
+   * Add listener to the observer.
+   * The added listener is identified by the string key.
+   */
+  template <typename Listener>
+  void AddListener(const char* key, Listener listener);
+
+  /**
+   * @public
+   * @param {Event} e
+   * Notify event to the all listeners.
+   */
   void NotifyAll(Event e);
+
+  /**
+   * @public
+   * @param {const char*} key
+   * @param {Event} e
+   * Notify event to the observer that is identified by key.
+   */
   void NotifyForKey(const char* key, Event e);
+
+  /**
+   * @public
+   * @returns {int}
+   * Return registered listener number.
+   */
+  int size() const {return listeners_.size();}
+  template <typename Fn, typename Class>
+  static MemBind<Fn, Class> Bind(Fn fn, Class cls);
  private :
-  Listener listeners_;
+  memory::Pool pool_;
+  Listeners listeners_;
 };
 }
-
-#include <notificator-impl.h>
+#include <mocha/roaster/notificator/notificator-impl.h>
 
 #endif

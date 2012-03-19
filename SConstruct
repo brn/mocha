@@ -36,16 +36,16 @@ WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX  -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
         "LIBS" : ["pthread", "edit" ,"curses"],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc"]
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\"',
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "edit" ,"curses"],
         "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a'],
@@ -88,7 +88,14 @@ class MochaBuilder :
             self.__config.RemoveExcludeFile("file_watcher-inotify-impl.cc")
             self.__config.AddExcludeFile(["file_watcher-impl.cc"])
 
-builder = MochaBuilder(ARGUMENTS.get('mode'))
-builder.Build()
+ut = ARGUMENTS.get('ut')
+CURRENT = os.getcwd();
+if ut :
+    tests = ut.split(':')
+    for test in tests :
+        SConscript(test + '/SConscript', 'CURRENT')
+else :
+    builder = MochaBuilder(ARGUMENTS.get('mode'))
+    builder.Build()
 #MoveBinary(args[0])
 

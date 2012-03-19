@@ -1,5 +1,5 @@
-#ifndef roaster_notificator_h_
-#define roaster_notificator_h_
+#ifndef roaster_notificator_impl_h_
+#define roaster_notificator_impl_h_
 /**
  *@author Taketoshi Aono
  *@fileOverview
@@ -23,54 +23,66 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-template <typename T>
-class Dereferrence {
-  inline static T& Get(T& t) {
-    return t;
-  }
-};
+namespace mocha {
 
-template <typename T>
-class Dereferrence<T*> {
-  inline static T& Get(T* t) {
-    return *t;
-  }
-};
-
-template <typename T>
-class Dereferrence<T&> {
-  inline static T& Get(T& t) {
-    return t;
-  }
-};
-
-#define TEMPLATE template<typename Listener, typename Event>
+#define TEMPLATE template<typename Event>
 
 TEMPLATE
-inline Notificator::Notificator(){}
+template <typename Fn, typename Class>
+inline Notificator<Event>::MemBind<Fn, Class>::MemBind(Fn fn, Class cls)
+    : cls_(cls),
+      fn_(fn){}
 
 TEMPLATE
-inline Notificator::~Notificator(){}
-
-TEMPLATE
-inline void Notificator::AddListener(Listener listener) {
-  listener_.insert(ListenerSet(Dereferrence::Get(listener).key(), listener));
+template <typename Fn, typename Class>
+inline Notificator<Event>::MemBind<Fn, Class>::MemBind(const MemBind& membind) {
+  cls_ = membind.cls_;
+  fn_ = membind.fn_;
 }
 
 TEMPLATE
-inline void Notificator::NotifyAll(Event e) {
-  for (Listeners::iterator it = listeners_.begin(); it != listeners_.end(); ++it) {
-    Dereferrence::Get((*it)).Recieve(e);
+template <typename Fn, typename Class>
+inline void Notificator<Event>::MemBind<Fn, Class>::operator()(Event e) {
+  (Dereferrence<Class>::Get(cls_).*fn_)(e);
+}
+
+TEMPLATE
+inline Notificator<Event>::Notificator(){}
+
+TEMPLATE
+template <typename Listener>
+inline void Notificator<Event>::AddListener(const char* key, Listener listener) {
+  //Listener adapter is allocated as the heap object,
+  //because this object treat as the base class type ListenerAdapterBase.
+  //Object lifetime is controlled by Notificator::pool_
+  ListenerAdapter<Listener,Event>* adapter = new(&pool_) ListenerAdapter<Listener,Event>(listener);
+  listeners_.insert(ListenerSet(key, adapter));
+}
+
+
+TEMPLATE
+inline void Notificator<Event>::NotifyAll(Event e) {
+  for (ListenersIterator it = listeners_.begin(); it != listeners_.end(); ++it) {
+    (*it).second->Invoke(e);
   }
 }
 
 TEMPLATE
-inline void Notificator::NotifyForKey(const char* key, Event e) {
+inline void Notificator<Event>::NotifyForKey(const char* key, Event e) {
   ListenersRange range = listeners_.equal_range(key);
-  for (Listeners::iterator it = range.first; it != range.second; ++it) {
-    Dereferrence::Get((*it)).Recieve(e);
+  //Call all liteners that identified by same key.
+  for (ListenersIterator it = range.first; it != range.second; ++it) {
+    (*it).second->Invoke(e);
   }
 }
+
+
+TEMPLATE
+template <typename Fn, typename Class>
+inline typename Notificator<Event>::template MemBind<Fn, Class> Notificator<Event>::Bind(Fn fn, Class cls) {
+  return MemBind<Fn, Class>(fn, cls);
+}
+
 
 #undef TEMPLATE
 
