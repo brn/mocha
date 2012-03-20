@@ -23,13 +23,20 @@
 #ifndef mocha_roaster_compiler_compiler_h_
 #define mocha_roaster_compiler_compiler_h_
 namespace roaster {
-class Compiler : public IEventListener{
+class CompilationEvent;
+class CompilationInfo;
+class Compiler : public Notificator<CompilationEvent*>{
  public :
-  Compiler();
+  Compiler(CompilationInfo* info);
   ~Compiler(){};
-  void CompileFile();
-  void Compile();
+  void CompileFile(const char* filename);
+  void Compile(const char* source);
  private :
+  void Initialize();
+  void ImportFile(const char* filename);
+  static const char kParse[];
+  static const char kFatal[];
+  static const char kImport[];
 };
 }
 #endif

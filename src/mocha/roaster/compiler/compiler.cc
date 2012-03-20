@@ -22,11 +22,59 @@
  */
 #include <assert.h>
 #include <mocha/roaster/compiler/compiler.h>
+#include <mocha/roaster/compiler/loader/loader.h>
 namespace roaster {
 
-Compiler::Compiler() {}
+class LoadCompleteListener {
+ public :
+  LoadCompleteListener(Compiler* compiler)
+      : compiler_(compiler){}
+  ~LoadCompleteListener(){}
+  LoadCompleteListener(const LoadCompleteListener& listener) {
+    compiler_ = listener.compiler_;
+  }
+  void operator()(IOEvent* e) {
+    
+  }
+ private :
+  Compiler* compiler_;
+};
 
-void Compiler::CompileFile() {
-  
+class LoadErrorListener {
+ public :
+  LoadCompleteListener(bool fatal)
+      : fatal_(fatal),
+        compiler_(compiler){}
+  ~LoadCompleteListener(){}
+  LoadCompleteListener(const LoadErrorListener& listener) {
+    fatal_ = listener.fatal_;
+    compiler_ = listener.compiler_;
+  }
+  void operator()(IOEvent* e) {
+    
+  }
+ private :
+  bool fatal_
+  Compiler* compiler_;
 }
+
+Compiler::Compiler() {
+  Initialize();
+}
+
+void Compiler::CompileFile(const char* filename) {
+  Loader loader;
+  loader.AddListener(Loader::kComplete, LoadCompleteListener(this));
+  loader.AddListener(Loader::kError, LoadErrorListener(true, this));
+}
+
+void Compiler::Compile(const char* source) {}
+
+void Compiler::Initialize() {
+  AddListener()
+}
+
+const char Compiler::kParse[] = {"Compiler<Parse>"};
+const char Compiler::kFatal[] = {"Compiler<Fatal>"};
+const char Compiler::kImport[] = {"Compiler<Import>"};
 }
