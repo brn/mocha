@@ -20,18 +20,16 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#include <mocha/roaster/compiler/ievent_listener.h>
+#ifndef mocha_roaster_compiler_compiler_h_
+#define mocha_roaster_compiler_compiler_h_
 namespace roaster {
-class CompilationEvent;
 class Compiler : public IEventListener{
  public :
-  Compiler(CompilationInfoHandle handle, Notificator<IEventListener,CompilationEventHandle>* notificator);
+  Compiler();
   ~Compiler(){};
-  CompilationResultHandle Compile();
-  CompilationResultHandle CompileFile();
-  void Recieve(CompilationEvent event);
-  virtual void Recieve(CompilationEvent* event);
-  virtual const char* key() const { return "Compiler";}
+  void CompileFile();
+  void Compile();
  private :
 };
 }
+#endif

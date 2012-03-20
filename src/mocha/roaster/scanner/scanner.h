@@ -11,6 +11,10 @@ class JsToken;
 class Scanner : public memory::Allocated {
  public :
   static Scanner* New(SourceStream* source, ErrorReporter *reporter, const char* filename);
+  class ScannerEventListener {
+   public :
+    voie operator()(CompilationEvent* event);
+  };
   ~Scanner();
   TokenInfo* Advance(int index = 1);
   TokenInfo* Undo(int index = 1);

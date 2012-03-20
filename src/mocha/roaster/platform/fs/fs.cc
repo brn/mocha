@@ -15,7 +15,7 @@
 #endif
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/platform/fs/fio.h>
-#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/mkdir.h>
 
 #ifdef PLATFORM_WIN32
@@ -273,6 +273,7 @@ const char* fs::Path::relative_path(const char* base, const char* path, std::str
   }
   buf->c_str();
 }
+
 
 void chdir (const char* path) {
 #ifdef PLATFORM_WIN32

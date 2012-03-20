@@ -35,7 +35,7 @@ void chdir (const char* path);
 bool chmod(const char* pass, int permiss);
 }
 }}
-#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/virtual_directory.h>
 #include <mocha/roaster/platform/fs/directory.h>
 #include <mocha/roaster/platform/fs/mkdir.h>

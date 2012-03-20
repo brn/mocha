@@ -106,6 +106,15 @@ bool IsValidProperty(int type) {
 }
 
 
+Parser::ParseEventListener::operator()(CompilationEvent* event) {
+  ParserConnector* connector = event->parser_connector();
+  ErrorReporter* reporter = event->error_reporter();
+  const char* filename = event->filename();
+  Parser parser(connector, reporter, filename);
+  event->set_ast(parser.Parse());
+  event->notificator()->NotifyForKey(CompilationEvent::EventKey::kTransform, event);
+}
+
 
 /**
  * @param {AstNode} args

@@ -54,7 +54,9 @@ template <typename Listener>
 inline void Notificator<Event>::AddListener(const char* key, Listener listener) {
   //Listener adapter is allocated as the heap object,
   //because this object treat as the base class type ListenerAdapterBase.
-  //Object lifetime is controlled by Notificator::pool_
+  //Object lifetime is controlled by Notificator::pool_,
+  //so the notificator instance that create ListenerAdapter is destroyed,
+  //ListenerAdapter is destroyed too.
   ListenerAdapter<Listener,Event>* adapter = new(&pool_) ListenerAdapter<Listener,Event>(listener);
   listeners_.insert(ListenerSet(key, adapter));
 }
@@ -74,13 +76,6 @@ inline void Notificator<Event>::NotifyForKey(const char* key, Event e) {
   for (ListenersIterator it = range.first; it != range.second; ++it) {
     (*it).second->Invoke(e);
   }
-}
-
-
-TEMPLATE
-template <typename Fn, typename Class>
-inline typename Notificator<Event>::template MemBind<Fn, Class> Notificator<Event>::Bind(Fn fn, Class cls) {
-  return MemBind<Fn, Class>(fn, cls);
 }
 
 

@@ -158,6 +158,18 @@ void File::GetFileContents(std::string* str) {
   }
 }
 
+void File::GetFileContents(std::stringstream* stream) {
+  ENSURE_STREAM_OPENED;
+  char tmp [ RAW_IO_BUF_SIZE ];
+  int char_size = sizeof (char);
+  int size = char_size * RAW_IO_BUF_SIZE;
+  int read_size = 0;
+  while ((read_size = READ_STREAM(fd_, tmp, size - char_size)) > 0) {
+    tmp[read_size] = '\0';
+    (*str) << tmp;
+  }
+}
+
 int File::Write (const char* buf) {
   ENSURE_STREAM_OPENED;
   ENSURE_WRITABLE;

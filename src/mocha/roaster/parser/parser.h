@@ -17,6 +17,10 @@ class Parser{
   Parser(ParserConnector* connector_, ErrorReporter* reporter, const char* filename);
   ~Parser();
   FileRoot* Parse();
+  class ParseEventListener {
+   public :
+    void operator()(CompilationEvent* event);
+  };
  private :
   typedef bool (*StatementListMatcher)(int type);
   memory::Pool* pool() { return pool_; }

@@ -2,6 +2,7 @@
 #define mocha_platform_fs_fio_h_
 #include <stdio.h>
 #include <string>
+#include <sstream>
 #include <mocha/roaster/platform/fs/fio.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
@@ -28,6 +29,7 @@ class File {
   int descriptor() const {return fd_;}
   void Close();
   void GetFileContents(std::string* str);
+  void GetFileContents(std::stringstream* stream);
   int Write(const char* buf);
   bool IsValidFile() const;
   SharedStr GetDate(DateType type = kUpdate);
@@ -74,6 +76,7 @@ class FileIO {
     New = 7
   };
 };
+typedef SharedPtr<File> FileHandle;
 }
 }}
 #endif

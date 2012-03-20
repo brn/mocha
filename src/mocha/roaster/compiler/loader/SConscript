@@ -1,0 +1,80 @@
+import os, sys
+from stat import *
+import shutil
+import commands
+import platform
+import locale
+import SCons.Conftest
+root_dir = os.path.dirname(File('SConscript').rfile().abspath + '/../../../../')
+sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
+import deps
+from platform_utils import Config
+from sources import Sources
+Import('CURRENT')
+Import('ENV')
+Import('CONFIG')
+ROOT = os.getcwd().replace('\\', '/')
+TEST_CONFIG = CONFIG.Copy()
+TEST_CONFIG.Extend({
+        "linux" : {
+            "LD_FLAGS" : "",
+            "LIBS" : ['pthread'],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : [CURRENT + "/src/mocha/roaster/platform/utils/utils-posix.cc",
+                         CURRENT + "/src/mocha/roaster/platform/thread/thread-posix.cc"]
+            },
+        'macos' : {
+            "LD_FLAGS" : "",
+            "LIBS" : [],
+            "STATIC_LIBS" : [],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : [CURRENT + "/src/mocha/roaster/platform/utils/utils-posix.cc",
+                         CURRENT + "/src/mocha/roaster/platform/thread/thread-posix.cc"]
+            },
+        "win32" : {
+            "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",
+            "LIBS" : [],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : [CURRENT + "/src/mocha/roaster/platform/utils/utils-win32.cc",
+                         CURRENT + "/src/mocha/roaster/platform/thread/thread-win32.cc"]
+            }
+        })
+TEST_CONFIG.set_base(ROOT)
+
+def CheckTest(env, source, target) :
+    os.system(os.getcwd() + '/' + str(target[0]))
+    os.remove(os.getcwd() + '/' + str(target[0]))
+    for m in Glob(ROOT + '/*.o') :
+        os.remove(str(m))
+    for m in Glob(ROOT + '/*.obj') :
+        os.remove(str(m))
+
+class TestBuilder :
+    def __init__(self, mode) :
+        self.__config = TEST_CONFIG
+        self.__sources = Sources(self.__config)
+        flags = self.__sources.GetFlags(mode)
+        self.__env = ENV
+        self.__env.Replace(CCFLAGS=flags[0],
+                           LIBS=flags[1],
+                           LINKFLAGS=flags[2])
+
+    def Build(self) :
+        targets = ['ut.cc',
+                   'loader.cc',
+                   CURRENT + "/src/mocha/roaster/platform/fs/stat/stat.cc",
+                   CURRENT + '/src/mocha/roaster/compiler/events/io_event/io_event.cc',
+                   CURRENT + '/src/mocha/roaster/memory/pool.cc']
+        targets.extend(self.__config["DEPENDS"])
+        objs = []
+        for target in targets :
+            objs.append(self.__env.Object(target))
+        test = self.__env.Program(self.__config.target(), objs, CPPPATH=[CURRENT + '/src'])
+        self.__env.AddPostAction(test, CheckTest)
+        self.__env.AlwaysBuild(test)
+        #self.__env.CheckTest(self.__config.target(), targets, CPPPATH=['../../../../src'])
+
+
+builder = TestBuilder(ARGUMENTS.get('mode'))
+builder.Build()
+

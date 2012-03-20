@@ -11,62 +11,58 @@ import deps
 from platform_utils import Config
 from sources import Sources
 Import('CURRENT')
-ROOT = os.getcwd()
-GTEST_DIR = CURRENT + '/src/third_party/gtest-1.6.0'
-LIB_PREFIX = "src/third_party/icu"
-WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
-PLATFORM_CONFIG = {
-    "linux" : {
-        "TARGET" : 'notificator_test',
-        "RELEASE" : '-Wall -O3 -fno-exceptions -DPLATFORM_POSIX  -DPLATFORM_LINUX -DNDEBUG -I' + GTEST_DIR + '/include -I' + GTEST_DIR,
-        "DEBUG" : '-Wall -O0 -g -fno-exceptions -DPLATFORM_POSIX -I' + GTEST_DIR + '/include -I' + GTEST_DIR,
-        "LD_FLAGS" : "",
-        "LIBS" : [],
-        "EXCLUDE_FILES" : [],
-        "DEPENDS" : ["../platform/thread/thread-posix.cc"]
-        },
-    'macos' : {
-        "TARGET" : 'notificator_test',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + '/include -I' + GTEST_DIR,
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -DPLATFORM_POSIX -I' + GTEST_DIR + '/include -I' + GTEST_DIR,
-        "LD_FLAGS" : "",
-        "LIBS" : [],
-        "STATIC_LIBS" : [],
-        "EXCLUDE_FILES" : [],
-        "DEPENDS" : ["../platform/thread/thread-posix.cc"]
-        },
-    "win32" : {
-        "TARGET" : 'notificator_test.exe',
-        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I ' + GTEST_DIR + '/include /I ' + GTEST_DIR,
-        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
-        "LD_FLAGS" : "/NOLOGO /MACHINE:X86",
-        "LIBS" : [],
-        "EXCLUDE_FILES" : [],
-        "DEPENDS" : ["../platform/thread/thread-win32.cc"]
-        }
-    }
+Import('ENV')
+Import('CONFIG')
+ROOT = os.getcwd().replace('\\', '/')
+TEST_CONFIG = CONFIG.Copy()
+TEST_CONFIG.Extend({
+        "linux" : {
+            "LD_FLAGS" : "",
+            "LIBS" : ['pthread'],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : ["../platform/thread/thread-posix.cc"]
+            },
+        'macos' : {
+            "LD_FLAGS" : "",
+            "LIBS" : [],
+            "STATIC_LIBS" : [],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : ["../platform/thread/thread-posix.cc"]
+            },
+        "win32" : {
+            "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",
+            "LIBS" : [],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : ["../platform/thread/thread-win32.cc"]
+            }
+        })
+TEST_CONFIG.set_base(ROOT)
 
 def CheckTest(env, source, target) :
     os.system(os.getcwd() + '/' + str(target[0]))
-    """os.remove(os.getcwd() + '/' + str(target[0]))
+    os.remove(os.getcwd() + '/' + str(target[0]))
     for m in Glob(ROOT + '/*.o') :
         os.remove(str(m))
     for m in Glob(ROOT + '/*.obj') :
-        os.remove(str(m))"""
+        os.remove(str(m))
 
 class TestBuilder :
     def __init__(self, mode) :
-        self.__config = Config(ROOT, PLATFORM_CONFIG)
+        self.__config = TEST_CONFIG
         self.__sources = Sources(self.__config)
         flags = self.__sources.GetFlags(mode)
-        self.__env = Environment(CCFLAGS=flags[0],
-                                 LIBS=flags[1],
-                                 LINKFLAGS=flags[2])
+        self.__env = ENV
+        self.__env.Replace(CCFLAGS=flags[0],
+                           LIBS=flags[1],
+                           LINKFLAGS=flags[2])
 
     def Build(self) :
-        targets = ['test.cc', '../memory/pool.cc', GTEST_DIR + '/src/gtest-all.cc', GTEST_DIR + '/src/gtest_main.cc']
+        targets = ['test.cc', '../memory/pool.cc']
         targets.extend(self.__config["DEPENDS"])
-        test = self.__env.Program(self.__config.target(), targets, CPPPATH=['../../../../src'])
+        objs = []
+        for target in targets :
+            objs.append(self.__env.Object(target))
+        test = self.__env.Program(self.__config.target(), objs, CPPPATH=[CURRENT + '/src'])
         self.__env.AddPostAction(test, CheckTest)
         self.__env.AlwaysBuild(test)
         #self.__env.CheckTest(self.__config.target(), targets, CPPPATH=['../../../../src'])

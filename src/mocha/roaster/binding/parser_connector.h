@@ -24,6 +24,7 @@
 #define mocha_parser_connector_h_
 
 #include <string>
+#include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 
@@ -40,23 +41,16 @@ class ErrorReporter;
  * @class
  * Connector of mocha and bison generated parser.
  */
-class ParserConnector {
+class ParserConnector : memory::Allocated {
   
  public:
 
   /**
    * @construcor
-   * @param {Compiler*} compiler -> Compiler instance.
    * @param {Scanner*} scanner -> Scanner instance.
-   * @param {ParserTracer*} tracer -> ParserTracer instance.
-   * @param {AstRoot*} ast_root -> AstRoot instance.
-   * @param {Scope*} scope -> Scope instance.
+   * @param {ErrorReporter*} reporter -> ErrorReporter instance.
    */
-  ParserConnector (Compiler *compiler,
-                    AstRoot* ast_root,
-                    Scanner* scanner,
-                    SourceStream* stream,
-                    ErrorReporter* reporter);
+  ParserConnector(Scanner* scanner, ErrorReporter* reporter);
 
   void Initialize();
   
@@ -74,12 +68,8 @@ class ParserConnector {
   ErrorReporter* GetError();
   
  private :
-  Compiler* compiler_;
-  AstRoot* ast_root_;
   Scanner* scanner_;
-  SourceStream* stream_;
   ErrorReporter* reporter_;
-  //pimpl idiom.
 };
 
 }

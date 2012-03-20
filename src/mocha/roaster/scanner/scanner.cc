@@ -19,6 +19,23 @@ namespace mocha {
 #define FLAG_NUMERIC 2
 #define FLAG_REGEXP 3
 
+class Scanner::ScannerEventListener {
+ public :
+  void operator()(CompilationEvent* e) {
+    CompilationInfo* info = e->compilation_info();
+    const char* source = e->source();
+    const char* path = e->path();
+    memory::Pool* pool = e->pool();
+    SourceStream* stream = SourceStream::New(source, path, info);
+    ErrorReporter* repoter = e->error_reporter();
+    const char* filename = e->filename();
+    Scanner* scanner = Scanner::New(source_stream, reporter, filename);
+    ParserConnector* connector = new(pool) ParserConnector(scanner, reporter);
+    e->set_parser_connector(connector);
+    e->notificator()->NotifyForKey(CompilationEvent::EventKey::kParse, e);
+  }
+};
+
 class Scanner::InternalScanner {
  public :
   InternalScanner(SourceStream* source, ErrorReporter* reporter, const char* filename) :

@@ -55,7 +55,7 @@ class Notificator {
   };
 
   Notificator();
-  ~Notificator(){};
+  virtual ~Notificator(){};
 
   /**
    * @public
@@ -89,7 +89,12 @@ class Notificator {
    */
   int size() const {return listeners_.size();}
   template <typename Fn, typename Class>
-  static MemBind<Fn, Class> Bind(Fn fn, Class cls);
+
+  //VC bug. The complex template type cannot write the out of
+  //class definition.
+  static MemBind<Fn, Class> Bind(Fn fn, Class cls) {
+    return MemBind<Fn, Class>(fn, cls);
+  }
  private :
   memory::Pool pool_;
   Listeners listeners_;
