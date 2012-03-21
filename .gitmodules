@@ -1,0 +1,3 @@
+[submodule "tools/scons_helper"]
+	path = tools/scons_helper
+	url = git@github.com:brn/scons_helper
