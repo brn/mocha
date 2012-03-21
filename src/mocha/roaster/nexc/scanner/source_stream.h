@@ -20,33 +20,33 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_roaster_utils_error_reporter_h_
-#define mocha_roaster_utils_error_reporter_h_
-#include <string>
-#include <list>
-#include <mocha/roaster/misc/class_traits/uncopyable.h>
+#ifndef mocha_roaster_nexc_scanner_source_stream_h_
+#define mocha_roaster_nexc_scanner_source_stream_h_
+#include <mocha/roaster/misc/int_types.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
-class ErrorReporter : private Uncopyable {
-  typedef std::list<std::string> ErrorList;
+class CompilationInfo;
+class SourceStream : public memory::Allocated {
  public :
-  ErrorReporter();
-  ~ErrorReporter();
-  void ReportSyntaxError(const char* error);
-  void ReportSysError(const char* error);
-  bool Error() const { return error_num_ > 0; };
-  void SetError(std::string *buf) const;
-  void SetRawError(std::string *buf) const;
+  static SourceStream* New(const char* source, const char* path, const char* charset, memory::Pool* pool);
+  ~SourceStream();
+  int Size() const;
+  uint8_t At(int index) const;
+  uint8_t Advance(int index = 1);
+  uint8_t Undo(int index = 0);
+  uint8_t Seek(int index) const;
+  uint8_t Last() const;
+  uint8_t First() const;
  private :
-  int error_num_;
-  ErrorList buffer_;
-  ErrorList raw_list_;
+  SourceStream();
+  void CreateStream(const char* utf8_str);
+  int cursor_;
+  int line_;
+  int size_;
+  uint8_t *stream_;
 };
-typedef SharedPtr<ErrorReporter> ErrorHandler;
-typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
-typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
-typedef SharedPtr<ErrorMap> ErrorMapHandle;
 }
 
 #endif

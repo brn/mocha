@@ -20,33 +20,34 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_roaster_utils_error_reporter_h_
-#define mocha_roaster_utils_error_reporter_h_
-#include <string>
-#include <list>
-#include <mocha/roaster/misc/class_traits/uncopyable.h>
+#ifndef mocha_roaster_compiler_compiler_h_
+#define mocha_roaster_compiler_compiler_h_
+#include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/lib/unordered_map.h>
+#include <mocha/roaster/notificator/notificator.h>
 namespace mocha {
-class ErrorReporter : private Uncopyable {
-  typedef std::list<std::string> ErrorList;
+class IOEvent;
+class CompilationEvent;
+class ErrorReporter;
+class Nexc : public Notificator<CompilationEvent*>{
  public :
-  ErrorReporter();
-  ~ErrorReporter();
-  void ReportSyntaxError(const char* error);
-  void ReportSysError(const char* error);
-  bool Error() const { return error_num_ > 0; };
-  void SetError(std::string *buf) const;
-  void SetRawError(std::string *buf) const;
+  Nexc();
+  ~Nexc(){};
+  void CompileFile(const char* filename, const char* charset = NULL);
+  void Compile(const char* source, const char* charset = NULL);
+  CompilationEvent* event() {return event_;}
+  static const char kParse[];
+  static const char kTransformAst[];
+  static const char kFatal[];
+  static const char kFail[];
+  static const char kImport[];
  private :
-  int error_num_;
-  ErrorList buffer_;
-  ErrorList raw_list_;
+  void Initialize();
+  void ImportFile(const char* filename);
+  void Abort(IOEvent* e);
+  CompilationEvent* event_;
+  SharedPtr<ErrorReporter> reporter_;
+  SharedPtr<memory::Pool> pool_;
 };
-typedef SharedPtr<ErrorReporter> ErrorHandler;
-typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
-typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
-typedef SharedPtr<ErrorMap> ErrorMapHandle;
 }
-
 #endif

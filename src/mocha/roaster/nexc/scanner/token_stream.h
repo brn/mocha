@@ -20,33 +20,36 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_roaster_utils_error_reporter_h_
-#define mocha_roaster_utils_error_reporter_h_
-#include <string>
-#include <list>
-#include <mocha/roaster/misc/class_traits/uncopyable.h>
-#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/lib/unordered_map.h>
+#ifndef mocha_scanner_token_stream_h_
+#define mocha_scanner_token_stream_h_
+#include <mocha/roaster/misc/int_types.h>
+#include <mocha/roaster/memory/pool.h>
 namespace mocha {
-class ErrorReporter : private Uncopyable {
-  typedef std::list<std::string> ErrorList;
+class TokenContainer;
+class TokenInfo;
+class TokenStream : public memory::Allocated {
  public :
-  ErrorReporter();
-  ~ErrorReporter();
-  void ReportSyntaxError(const char* error);
-  void ReportSysError(const char* error);
-  bool Error() const { return error_num_ > 0; };
-  void SetError(std::string *buf) const;
-  void SetRawError(std::string *buf) const;
+  ~TokenStream();
+  static TokenStream* New(memory::Pool* pool);
+  TokenInfo* Advance(int index = 1);
+  TokenInfo* Seek(int index);
+  TokenInfo* Undo(int index = 0);
+  void Append(const char* token, int type, int64_t line);  
+  int size() const { return size_; }
+  TokenInfo* last() const;
+  TokenInfo* first() const;
+  static TokenInfo* kEmpty;
  private :
-  int error_num_;
-  ErrorList buffer_;
-  ErrorList raw_list_;
+  TokenStream();
+  memory::Pool* pool() { return pool_; }
+  int cursor_;
+  int size_;
+  TokenContainer* current_;
+  TokenContainer* first_;
+  TokenContainer* last_;
+  memory::Pool* pool_;
 };
-typedef SharedPtr<ErrorReporter> ErrorHandler;
-typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
-typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
-typedef SharedPtr<ErrorMap> ErrorMapHandle;
+
 }
 
 #endif

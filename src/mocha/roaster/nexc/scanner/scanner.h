@@ -20,33 +20,38 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_roaster_utils_error_reporter_h_
-#define mocha_roaster_utils_error_reporter_h_
-#include <string>
-#include <list>
-#include <mocha/roaster/misc/class_traits/uncopyable.h>
-#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/lib/unordered_map.h>
+#ifndef mocha_roaster_nexc_scanner_scanner_h_
+#define mocha_roaster_nexc_scanner_scanner_h_
+#include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 namespace mocha {
-class ErrorReporter : private Uncopyable {
-  typedef std::list<std::string> ErrorList;
+class ErrorReporter;
+class SourceStream;
+class TokenInfo;
+class TokenStream;
+class JsToken;
+class CompilationEvent;
+class Scanner : public memory::Allocated {
  public :
-  ErrorReporter();
-  ~ErrorReporter();
-  void ReportSyntaxError(const char* error);
-  void ReportSysError(const char* error);
-  bool Error() const { return error_num_ > 0; };
-  void SetError(std::string *buf) const;
-  void SetRawError(std::string *buf) const;
+  static Scanner* New(SourceStream* source, ErrorReporter *reporter, const char* filename);
+  class ScannerEventListener {
+   public :
+    void operator()(CompilationEvent* event);
+  };
+  ~Scanner();
+  TokenInfo* Advance(int index = 1);
+  TokenInfo* Undo(int index = 1);
+  TokenInfo* Seek(int index);
+  static TokenInfo* kEmpty;
  private :
-  int error_num_;
-  ErrorList buffer_;
-  ErrorList raw_list_;
+  Scanner(SourceStream* source, ErrorReporter *reporter, const char* filename);
+  void CreateTokenStream();
+  
+  class InternalScanner;
+  ScopedPtr<InternalScanner> scanner_;
+  TokenStream* token_stream_;
+  ErrorReporter* reporter_;
 };
-typedef SharedPtr<ErrorReporter> ErrorHandler;
-typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
-typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
-typedef SharedPtr<ErrorMap> ErrorMapHandle;
 }
 
 #endif

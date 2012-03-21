@@ -1,40 +1,40 @@
 #ifndef mocha_utils_h_
 #define mocha_utils_h_
-#include <mocha/misc/int_types.h>
+#include <mocha/roaster/misc/int_types.h>
 #include <mocha/roaster/misc/static_assert.h>
-#include <assert.h>
+#include <mocha/roaster/assert/assert_def.h>
 
 namespace mocha {
 template <typename T,int bit_bands>
 class BitVector {
  public :
-  inline BitVector() : set_(0){}
-  inline ~BitVector(){}
-  inline BitVector(const BitVector& vec) {
+  BitVector() : set_(0){}
+  ~BitVector(){}
+  BitVector(const BitVector& vec) {
     set_ = vec.set_;
   }
-  inline const BitVector<T,bit_bands>& operator = (const BitVector<T,bit_bands>& vec) {
+  const BitVector<T,bit_bands>& operator = (const BitVector<T,bit_bands>& vec) {
     set_ = vec.set_;
     return (*this);
   }
-  inline void Set(int val) {
-    assert(bit_bands >= val && val > -1);
+  void Set(int val) {
+    ASSERT(true, (bit_bands >= val && val > -1));
     set_ |= (1 << val);
   }
-  inline void UnSet(int val) {
-    assert(bit_bands >= val && val > -1);
+  void UnSet(int val) {
+    ASSERT(true, (bit_bands >= val && val > -1));
     set_ &= (~(1 << val));
   }
-  inline void Reverse(int val) {
-    assert(bit_bands >= val && val > -1);
+  void Reverse(int val) {
+    ASSERT(true, (bit_bands >= val && val > -1));
     set_ ^= (1 << val);
   }
-  inline bool At(int val) const {
-    assert(bit_bands >= val);
+  bool At(int val) const {
+    ASSERT(true, (bit_bands >= val));
     T tmp = (1 << val);
     return (set_ & tmp) == tmp;
   }
-  inline bool operator[] (int val) const {
+  bool operator[] (int val) const {
     return At(val);
   }
  private :

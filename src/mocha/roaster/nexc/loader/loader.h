@@ -3,7 +3,6 @@
  *@fileOverview
  *@license
  *Copyright (c) 2011 Taketoshi Aono
- *Licensed under the BSD.
  *
  *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  *associated doc umentation files (the "Software"), to deal in the Software without restriction,
@@ -20,33 +19,30 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_roaster_utils_error_reporter_h_
-#define mocha_roaster_utils_error_reporter_h_
+#ifndef mocha_compiler_loader_loader_h_
+#define mocha_compiler_loader_loader_h_
+#include <stdio.h>
 #include <string>
-#include <list>
-#include <mocha/roaster/misc/class_traits/uncopyable.h>
-#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/lib/unordered_map.h>
+#include <sstream>
+#include <mocha/roaster/notificator/notificator.h>
+#include <mocha/roaster/nexc/events/io_event/io_event.h>
 namespace mocha {
-class ErrorReporter : private Uncopyable {
-  typedef std::list<std::string> ErrorList;
+class Loader : public Notificator<IOEvent*> {
  public :
-  ErrorReporter();
-  ~ErrorReporter();
-  void ReportSyntaxError(const char* error);
-  void ReportSysError(const char* error);
-  bool Error() const { return error_num_ > 0; };
-  void SetError(std::string *buf) const;
-  void SetRawError(std::string *buf) const;
+  Loader();
+  ~Loader();
+  void LoadFile(const char* path);
+  static const char kComplete[];
+  static const char kError[];
  private :
-  int error_num_;
-  ErrorList buffer_;
-  ErrorList raw_list_;
+  enum {
+    kFOpenError,
+    kNotAFile,
+    kNotFound
+  };
+  void ReadNormalFile(FILE* fp, std::stringstream *st);
+  void HandleError(const char* path, int type);
+  memory::Pool pool_;
 };
-typedef SharedPtr<ErrorReporter> ErrorHandler;
-typedef std::pair<const char*,ErrorHandler> ErrorHandlerPair;
-typedef roastlib::unordered_map<std::string,ErrorHandler> ErrorMap;
-typedef SharedPtr<ErrorMap> ErrorMapHandle;
 }
-
 #endif

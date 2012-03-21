@@ -16,6 +16,7 @@
 .sconf_temp
 *.idb
 *.pdb
+.DS_Store
 src/.deps/
 src/vs/mocha/mocha/Debug/
 src/vs/mocha/mocha/Release/

@@ -17,6 +17,13 @@ void ErrorReporter::ReportSyntaxError(const char* error) {
   error_num_++;
 }
 
+void ErrorReporter::ReportSysError(const char* error) {
+  raw_list_.push_back(error);
+  std::string ret = error;
+  buffer_.push_back(ret);
+  error_num_++;
+}
+
 void ErrorReporter::SetError(std::string *buf) const {
   if (error_num_ > 0) {
     ErrorList::const_iterator begin = buffer_.begin(),end = buffer_.end();

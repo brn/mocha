@@ -10,9 +10,9 @@ sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
 import deps
 from platform_utils import Config, platform
 from sources import Sources
-
+CURRENT = os.getcwd().replace('\\', '/')
 ROOT = 'src'
-LIB_PREFIX = "src/third_party/icu"
+LIB_PREFIX = CURRENT + "/src/third_party/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 PLATFORM_CONFIG = {
     "linux" : {
@@ -70,7 +70,6 @@ class MochaBuilder :
             self.__config.AddExcludeFile(["file_watcher-impl.cc"])
 
 ut = ARGUMENTS.get('ut')
-CURRENT = os.getcwd().replace('\\', '/')
 GTEST_DIR = CURRENT + '/src/third_party'
 PLATFORM = platform
 UNIT_TEST_CONFIG = {
@@ -86,7 +85,8 @@ UNIT_TEST_CONFIG = {
         "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DGOOGLE_TEST -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DGOOGLE_TEST -DPLATFORM_POSIX -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-macos/src/gtest-all.cc',
-                   GTEST_DIR + '/gtest-1.6.0-macos/src/gtest_main.cc']
+                   GTEST_DIR + '/gtest-1.6.0-macos/src/gtest_main.cc'],
+        "STATIC_LIBS" : []
         },
     "win32" : {
         "TARGET" : 'ut.exe',
@@ -99,10 +99,12 @@ UNIT_TEST_CONFIG = {
     }
 TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'platform_utils' : 'src/mocha/roaster/platform/utils',
-         'compiler_loader' : 'src/mocha/roaster/compiler/loader',
+         'nexc-loader' : 'src/mocha/roaster/compiler/loader',
          'platform_stat' : 'src/mocha/roaster/platform/fs/stat',
          'platform_directory' : 'src/mocha/roaster/platform/fs/directory',
-         'platform_path' : 'src/mocha/roaster/platform/fs/path/'
+         'platform_path' : 'src/mocha/roaster/platform/fs/path',
+         'nexc' : 'src/mocha/roaster/nexc',
+         'nexc-scanner' : 'src/mocha/roaster/nexc/scanner'
          }
 
 
@@ -112,11 +114,11 @@ if ut :
     CONFIG = Config(CURRENT, UNIT_TEST_CONFIG)
     if ut == 'all' :
         for test in TESTS.values() :
-            SConscript(test + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG'])
+            SConscript(test + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
     else :
         tests = ut.split(':')
         for test in tests :
-            SConscript(TESTS[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG'])
+            SConscript(TESTS[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
 else :
     builder = MochaBuilder(ARGUMENTS.get('mode'))
     builder.Build()
