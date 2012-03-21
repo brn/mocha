@@ -20,9 +20,9 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#include <assert.h>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 namespace mocha {
 
 AstNode::AstNode(int type, const char* name, int64_t line) :
@@ -31,7 +31,7 @@ AstNode::AstNode(int type, const char* name, int64_t line) :
     next_sibling_(0), prev_sibling_(0) {}
 
 void AstNode::AddChild(AstNode* node) {
-  assert(this != node);
+  ASSERT(true, this != node);
   if (first_child_ == 0) {
     first_child_ = node;
     last_child_ = node;
@@ -49,7 +49,7 @@ void AstNode::AddChild(AstNode* node) {
 }
 
 void AstNode::InsertBefore(AstNode* node) {
-  assert(this != node);
+  ASSERT(true, this != node);
   if (first_child_ == 0) {
     first_child_ = node;
     last_child_ = node;
@@ -66,9 +66,9 @@ void AstNode::InsertBefore(AstNode* node) {
 }
 
 void AstNode::InsertBefore(AstNode* insert, AstNode* target) {
-  assert(this != insert);
-  assert(this != target);
-  assert(target != insert);
+  ASSERT(true, this != insert);
+  ASSERT(true, this != target);
+  ASSERT(true, target != insert);
   bool is_insert = false;
   if (first_child_ == target) {
     first_child_ = insert;
@@ -91,9 +91,9 @@ void AstNode::InsertBefore(AstNode* insert, AstNode* target) {
 }
 
 void AstNode::InsertAfter(AstNode* insert, AstNode* target) {
-  assert(this != insert);
-  assert(target != insert);
-  assert(this != target);
+  ASSERT(true, this != insert);
+  ASSERT(true, target != insert);
+  ASSERT(true, this != target);
   bool is_insert = false;
 
   if (last_child_ == target  ) {
@@ -117,15 +117,15 @@ void AstNode::InsertAfter(AstNode* insert, AstNode* target) {
 }
 
 void AstNode::Append(AstNode* node) {
-  assert(this != node);
+  ASSERT(true, this != node);
   if (node) {
     typedef std::vector<AstNode*> AstArray;
     AstArray ast_array;
     NodeIterator iterator = node->ChildNodes();
     while (iterator.HasNext()) {
       AstNode* item = iterator.Next();
-      assert(this != item);
-      assert(node != item);
+      ASSERT(true, this != item);
+      ASSERT(true, node != item);
       ast_array.push_back(item);
     }
     AstArray::iterator begin = ast_array.begin(), end = ast_array.end();
@@ -163,7 +163,7 @@ AstNode* ReverseNodeIterator::Next() {
 }
 
 void AstNode::RemoveChild(AstNode* node) {
-  assert(this != node);
+  ASSERT(true, this != node);
   AstNode* match_ptr = 0;
   NodeIterator iterator = ChildNodes();
   while (iterator.HasNext()) {
@@ -206,7 +206,7 @@ void AstNode::RemoveChild(AstNode* node) {
 
 
 void AstNode::ReplaceWith(AstNode* node) {
-  assert(this != node);
+  ASSERT(true, this != node);
   node->parent_ = parent_;
   node->next_sibling_ = next_sibling_;
   node->prev_sibling_ = prev_sibling_;
@@ -220,9 +220,9 @@ void AstNode::ReplaceWith(AstNode* node) {
 
 
 void AstNode::ReplaceChild(AstNode* old_node, AstNode* new_node) {
-  assert(old_node != new_node);
-  assert(this != old_node);
-  assert(this != new_node);
+  ASSERT(true, old_node != new_node);
+  ASSERT(true, this != old_node);
+  ASSERT(true, this != new_node);
   if (first_child_) {
     if (old_node == first_child_) {
       first_child_ = new_node;
@@ -237,12 +237,12 @@ void AstNode::ReplaceChild(AstNode* old_node, AstNode* new_node) {
 
 template <typename T, typename T2>
 inline T2* CopyChildren(T* dest, T2* source, memory::Pool* pool) {
-  assert(dest != source);
+  ASSERT(true, dest != source);
   dest->set_parent_node(source->parent_node());
   NodeIterator iter = source->ChildNodes();
   while (iter.HasNext()) {
     AstNode* item = iter.Next();
-    assert(source != item);
+    ASSERT(true, source != item);
     dest->AddChild(item->Clone(pool));
   }
   return dest;

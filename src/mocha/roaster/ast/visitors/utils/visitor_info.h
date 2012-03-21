@@ -3,9 +3,8 @@
 #include <string>
 #include <list>
 #include <utility>
-#include <mocha/misc/int_types.h>
-#include <mocha/roaster/utils/compilation_info.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/misc/int_types.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/xml/versions.h>
@@ -13,8 +12,7 @@
 #include <mocha/roaster/misc/bits.h>
 
 namespace mocha {
-class ScopeRegistry;
-class Scope;
+class CompilationEvent;
 class Compiler;
 class ClassProcessor;
 class AstBuilder;
@@ -23,15 +21,14 @@ class VisitorInfo : private Uncopyable{
  public :
   typedef std::pair<AstNode*, AstNode*> AstPair;
   typedef std::list<AstPair> PrivateNameList;
-  VisitorInfo(bool is_runtime, ScopeRegistry* scope_registry, Compiler *compiler ,
-               DstaExtractedExpressions* dsta_exp, const char* main_file_path, const char* file_name);
+  VisitorInfo(bool is_runtime, CompilationEvent* e,
+              DstaExtractedExpressions* dsta_exp, const char* main_file_path, const char* file_name);
   ~VisitorInfo(){};
   int tmp_index() { int ret = tmp_index_;tmp_index_++;return ret; };
   const char* main_file_path() const { return main_file_path_; };
   const char* filename() const { return file_name_; };
   const char* relative_path() const { return relative_path_.c_str(); }
-  ScopeRegistry* scope_registry() const { return scope_registry_; };
-  Compiler* compiler() const { return compiler_; };
+  CompilationEvent* compilation_event() const { return event_; };
   void set_rest_expression(TokenInfo* info) { rest_exp_ = info; }
   TokenInfo* rest_expression() const { return rest_exp_; }
   void set_current_statement(Statement* stmt) { current_stmt_ = stmt; }
@@ -43,7 +40,6 @@ class VisitorInfo : private Uncopyable{
   bool rest_injection() { return bit_vector_[ 1 ]; }
 
   bool runtime() const { return bit_vector_.At(2); }
-  bool HasVersion(const char* ver) { return compile_info_->HasVersion(ver); }
   bool IsInModules() const { return is_in_module_ > 0; }
   void EscapeModuel() { is_in_module_--;}
   void EnterModuel() { is_in_module_++ ;}
@@ -75,11 +71,9 @@ class VisitorInfo : private Uncopyable{
   std::string relative_path_;
   PrivateNameList private_names_;
   BitVector8 bit_vector_;
-  const CompilationInfo* compile_info_;
   DstaExtractedExpressions* dsta_exp_;
   TokenInfo* rest_exp_;
-  ScopeRegistry *scope_registry_;
-  Compiler *compiler_;
+  CompilationEvent* event_;
   Statement* current_stmt_;
   Function* current_fn_;
   ClassProcessor* current_class_;

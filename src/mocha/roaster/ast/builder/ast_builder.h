@@ -25,7 +25,6 @@
 #define mocha_ast_utils_h_
 #include <assert.h>
 #include <sstream>
-#include <mocha/roaster/compiler.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/platform/thread/thread.h>
@@ -34,10 +33,7 @@ namespace mocha {
 namespace memory {
 class Pool;
 }
-#define AST_ERROR(info, message)                                     \
-  char buf[ 1000 ];                                                     \
-  sprintf(buf, "%s at %d\n", message, __LINE__);                    \
-  info->GetCompiler()->CatchException(ExceptionHandler::CreateException(buf))
+#define AST_ERROR(info, message)
 class VisitorInfo;
 class TokenInfo;
 class AstBuilder : private Uncopyable {

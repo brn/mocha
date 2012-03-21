@@ -1,4 +1,4 @@
-import os
+import os, sys
 root_dir = os.path.dirname(File('SConscript').rfile().abspath + '/../../../../')
 sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
 from platform_utils import Config

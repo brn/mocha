@@ -27,11 +27,11 @@
 #include <string>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/misc/class_traits/unallocatable.h>
+#include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/scopes/scope.h>
-#include <mocha/roaster/tokens/token_info.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
-#include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 
 namespace mocha {
 #define NVI_ACCEPTOR_DECL virtual void NVIAccept_(IVisitor* visitor)

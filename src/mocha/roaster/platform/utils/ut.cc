@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <mocha/roaster/platform/utils/utils.h>
-#include <mocha/roaster/compiler/events/io_event/io_event.h>
 TEST(PlatformUtilsTest, PrintfTest) {
   const char* tmp = "ok!";
   mocha::os::Printf("test print %s\n", tmp);

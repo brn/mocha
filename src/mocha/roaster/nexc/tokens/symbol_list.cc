@@ -1,4 +1,4 @@
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 namespace mocha {
 

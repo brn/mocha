@@ -4,10 +4,12 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/utils/error_reporter.h>
-#include <mocha/roaster/parser/parser.h>
-#include <mocha/roaster/scanner/token_stream.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/nexc.h>
+#include <mocha/roaster/nexc/parser/parser.h>
+#include <mocha/roaster/nexc/scanner/token_stream.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/events/compilation_event/compilation_event.h>
 
 namespace mocha {
 
@@ -106,13 +108,13 @@ bool IsValidProperty(int type) {
 }
 
 
-Parser::ParseEventListener::operator()(CompilationEvent* event) {
+void Parser::ParseEventListener::operator()(CompilationEvent* event) {
   ParserConnector* connector = event->parser_connector();
   ErrorReporter* reporter = event->error_reporter();
   const char* filename = event->filename();
   Parser parser(connector, reporter, filename);
   event->set_ast(parser.Parse());
-  event->notificator()->NotifyForKey(CompilationEvent::EventKey::kTransform, event);
+  event->NotifyForKey(Nexc::kTransformAst);
 }
 
 

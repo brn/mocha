@@ -104,7 +104,8 @@ TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'platform_directory' : 'src/mocha/roaster/platform/fs/directory',
          'platform_path' : 'src/mocha/roaster/platform/fs/path',
          'nexc' : 'src/mocha/roaster/nexc',
-         'nexc-scanner' : 'src/mocha/roaster/nexc/scanner'
+         'nexc-scanner' : 'src/mocha/roaster/nexc/scanner',
+         'nexc-parser' : 'src/mocha/roaster/nexc/parser'
          }
 
 
