@@ -109,7 +109,7 @@ class FileWatcher::PtrImpl {
     array_.clear();
   }
   void AddWatch(const char* path, IUpdater* updater, int type) {
-    platform::fs::Stat stat(path);
+    os::fs::Stat stat(path);
     if (stat.IsExist()) {
       inotify_helper_::InotifyMask mask = inotify_helper_::GetWatchType(type);
       int wd = inotify_add_watch(fd_, path, mask);

@@ -77,7 +77,7 @@ void* AsyncThreadRunner(void* args) {
 }
 
 void AsyncRunner(ThreadArgs* args, bool is_join) {
-  platform::Thread thread;
+  os::Thread thread;
   if (!thread.Create(AsyncThreadRunner, args)) {
     fprintf(stderr, "error at Roaster::CompileAsync");
   } else {

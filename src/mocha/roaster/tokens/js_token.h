@@ -129,7 +129,7 @@ class JsToken : private Static {
   static const char* GetTokenFromNumber(int id);
   static void Initialize();
  private :
-  static platform::Mutex mutex_;
+  static os::Mutex mutex_;
   static ReservedTokenTable reserved_map_;
   static BuiltinTokenTable builtin_map_;
 };

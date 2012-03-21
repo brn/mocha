@@ -21,7 +21,7 @@ class WatcherContainer {
   WatcherContainer(const char* path, IUpdater* updater, int type) :
       type_(type),  updater_(updater) {
     filename_ = path;
-    platform::fs::Stat stat(path);
+    os::fs::Stat stat(path);
     date_ = stat.MTime();
   }
   WatcherContainer(){}
@@ -91,7 +91,7 @@ class FileWatcher::PtrImpl {
   typedef roastlib::unordered_map<FileEntry, WatcherContainer> WatchList;
 
   inline void Regist_(const char* path, IUpdater *updater, int type) {
-    platform::fs::Stat stat(path);
+    os::fs::Stat stat(path);
     if (stat.IsExist()) {
       AddToWatchList_(path, updater, type);
     }
@@ -122,7 +122,7 @@ class FileWatcher::PtrImpl {
       WatcherContainer* container = &((*begin).second);
       const char* filename = container->GetFileName();
       const char* date = container->GetDate();
-      platform::fs::Stat stat(filename);
+      os::fs::Stat stat(filename);
       const char* last_date = stat.MTime();
       if (stat.IsExist()) {
         if (strcmp(date, last_date) != 0) {

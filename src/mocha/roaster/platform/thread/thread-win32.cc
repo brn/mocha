@@ -4,7 +4,7 @@
 #include <mocha/roaster/platform/thread/thread.h>
 
 namespace mocha {
-namespace platform {
+namespace os {
 
 struct ParamsForWinThread {
   void* arg;

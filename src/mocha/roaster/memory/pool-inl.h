@@ -31,10 +31,10 @@ inline void* Pool::AllocLinkedList(size_t size) {
 }
 
 inline Pool* Pool::Local() {
-  Pool* pool = reinterpret_cast<Pool*>(platform::ThreadLocalStorage::Get(&key_));
+  Pool* pool = reinterpret_cast<Pool*>(os::ThreadLocalStorage::Get(&key_));
   if (pool == NULL) {
     pool = new Pool;
-    platform::ThreadLocalStorage::Set(&key_, pool);
+    os::ThreadLocalStorage::Set(&key_, pool);
   }
   return pool;
 }

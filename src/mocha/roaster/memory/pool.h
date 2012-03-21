@@ -78,7 +78,7 @@ class Pool : private Uncopyable {
   void* AllocLinkedList(size_t size);
   Allocated* current_;
   Allocated* head_;
-  static platform::ThreadLocalStorageKey key_;
+  static os::ThreadLocalStorageKey key_;
 };
 
 }

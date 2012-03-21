@@ -22,7 +22,7 @@ class TestCallback : public FileWriter{
       size_(size), is_end_(false), current_(0) {}
   ~TestCallback(){}
   void operator() (CompilationResultHandle result) {
-    platform::ScopedLock lock(mutex_);
+    os::ScopedLock lock(mutex_);
     WriteResult(result);
     if (Atomic::Increment(&current_) == size_) {
       is_end_ = true;
@@ -50,17 +50,17 @@ class TestCallback : public FileWriter{
     }
   }
  private :
-  static platform::Mutex mutex_;
+  static os::Mutex mutex_;
   int size_;
   bool is_end_;
   std::string errors_;
   AtomicWord current_;
 };
 
-platform::Mutex TestCallback::mutex_;
+os::Mutex TestCallback::mutex_;
 
 std::string GetPath(const char* path) {
-  platform::fs::Path fs_path(Bootstrap::GetSelfPath());
+  os::fs::Path fs_path(Bootstrap::GetSelfPath());
   std::string result = fs_path.directory();
   result += '/';
   result += path;
@@ -74,11 +74,11 @@ void* ThreadRunner(void* args) {
 }
 
 void RunJS(const char* dir) {
-  platform::fs::Directory directory(dir);
-  platform::fs::Directory::const_iterator iterator = directory.Entries(true);
+  os::fs::Directory directory(dir);
+  os::fs::Directory::const_iterator iterator = directory.Entries(true);
   std::string args;
   while (iterator != directory.end()) {
-    const platform::fs::DirEntry* entry = *iterator;
+    const os::fs::DirEntry* entry = *iterator;
     const char* fullpath = entry->GetFullPath();
     if (strstr(fullpath, "-cmp.js") != NULL) {
       args += fullpath;
@@ -86,18 +86,18 @@ void RunJS(const char* dir) {
     }
     ++iterator;
   }
-  platform::Thread thread;
+  os::Thread thread;
   thread.Create(ThreadRunner, &args);
   thread.Join();
 }
 
 void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
-  platform::fs::Directory directory(CURRENT_DIR"/test/js");
-  platform::fs::Directory::const_iterator iterator = directory.Entries(true);
+  os::fs::Directory directory(CURRENT_DIR"/test/js");
+  os::fs::Directory::const_iterator iterator = directory.Entries(true);
   Roaster roaster;
   CompilationInfoHandleList list;
   while (iterator != directory.end()) {
-    const platform::fs::DirEntry* entry = *iterator;
+    const os::fs::DirEntry* entry = *iterator;
     const char* fullpath = entry->GetFullPath();
     if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
       FileInfoMap::UnsafeSet(fullpath);

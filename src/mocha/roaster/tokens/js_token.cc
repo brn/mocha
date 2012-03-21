@@ -548,7 +548,7 @@ const char* JsToken::GetTokenFromNumber(int id) {
 
 JsToken::ReservedTokenTable JsToken::reserved_map_;
 JsToken::BuiltinTokenTable JsToken::builtin_map_;
-platform::Mutex JsToken::mutex_;
+os::Mutex JsToken::mutex_;
 
 TokenConverter::TokenConverter(TokenInfo* info) : info_(info){}
 

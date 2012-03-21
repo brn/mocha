@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <mocha/roaster/platform/utils/utils.h>
-namespace mocha {namespace platform {
+namespace mocha {namespace os {
 
 int VSNPrintf(char* buffer, int size, const char* format, va_list args) {
   return vsnprintf(buffer, size, format, args);

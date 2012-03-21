@@ -11,7 +11,7 @@ static const int file = 3;
 CompilationInfo::CompilationInfo(const char* str) : str_(str) {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
   versions_.insert(VersionPair(Consts::kVersionNone, 1));
-  std::string base_dir = platform::fs::Path::home_directory();
+  std::string base_dir = os::fs::Path::home_directory();
   base_dir += "/.mocha/";
   base_dir += "module/";
   lib_dir_.push_back(base_dir);

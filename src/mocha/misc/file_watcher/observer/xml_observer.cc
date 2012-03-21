@@ -66,7 +66,7 @@ void XMLObserver::Run() {
   xml_updater_ = new XMLUpdater(this);
   Initialize_(Setting::GetInstance()->GetXMLPath());
   Setting::GetInstance()->Log("new thread start.");
-  platform::Thread thread;
+  os::Thread thread;
   if (!thread.Create(XMLObserver::ThreadRunner_, xml_updater_->GetWatcher())) {
     Setting::GetInstance()->LogFatal("in XMLObserver::XMLObserver thread create fail.");
   } else {

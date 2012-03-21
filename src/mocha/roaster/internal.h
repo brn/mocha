@@ -9,7 +9,7 @@ namespace mocha {
 namespace memory {
 class Pool;
 }
-namespace platform {
+namespace os {
 namespace fs {
 class File;
 }
@@ -23,7 +23,7 @@ class AstRoot;
 class CodegenVisitor;
 class PathInfo;
 class ErrorReporter;
-typedef SharedPtr<platform::fs::File> FileHandle;
+typedef SharedPtr<os::fs::File> FileHandle;
 class Internal {
  public:
   typedef enum {
@@ -37,7 +37,7 @@ class Internal {
   void Parse(ErrorLevel level);
   void GetAst(ErrorLevel level);
  private :
-  inline platform::fs::File* file() { return file_.Get(); }
+  inline os::fs::File* file() { return file_.Get(); }
   inline bool exist() const { return file_exist_; }
   inline Compiler* compiler() const { return compiler_; }
   inline void ParseStart(bool is_ast, ErrorLevel level);

@@ -49,7 +49,7 @@ void Shell::Print(const char* str) {
 }
 
 void Shell::SafePrint(const char* str) {
-  platform::ScopedLock lock(mutex_);
+  os::ScopedLock lock(mutex_);
   Print(str);
 }
 
@@ -58,7 +58,7 @@ void Shell::Print(char ch) {
 }
 
 void Shell::SafePrint(char ch) {
-  platform::ScopedLock lock(mutex_);
+  os::ScopedLock lock(mutex_);
   Print(ch);
 }
 
@@ -67,11 +67,11 @@ void Shell::Break(bool initial) {
 }
 
 void Shell::SafeBreak(bool initial) {
-  platform::ScopedLock lock(mutex_);
+  os::ScopedLock lock(mutex_);
   Break(initial);
 }
 
-platform::Mutex Shell::mutex_;
+os::Mutex Shell::mutex_;
 ScopedPtr<Shell> Shell::shell_;
 AtomicWord Shell::init_;
 

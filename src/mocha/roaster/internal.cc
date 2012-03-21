@@ -66,8 +66,8 @@ void Internal::RunAction(bool is_ast, ErrorLevel level) {
 
 inline void Internal::LoadFile() {
   //Check is file exist.
-  if (platform::fs::FileIO::IsExist(path_)) {
-    file_ = platform::fs::FileIO::Open(path_, "rb");
+  if (os::fs::FileIO::IsExist(path_)) {
+    file_ = os::fs::FileIO::Open(path_, "rb");
     //Set bool to true.
     FILE_EXIST;
   } else {

@@ -26,7 +26,7 @@ class Shell {
  private :
   Shell(Action& action);
   Action& action_;
-  static platform::Mutex mutex_;
+  static os::Mutex mutex_;
   static ScopedPtr<Shell> shell_;
   static AtomicWord init_;
 };

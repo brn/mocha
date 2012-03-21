@@ -77,7 +77,7 @@ class AstBuilder : private Uncopyable {
  private :
   memory::Pool* pool() { return pool_; }
   memory::Pool* pool_;
-  static platform::ThreadLocalStorageKey key_;
+  static os::ThreadLocalStorageKey key_;
 };
 
 }

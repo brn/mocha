@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <windows.h>
 #include <mocha/roaster/platform/utils/utils.h>
-namespace mocha {namespace platform {
+namespace mocha {namespace os {
 int VAArgs(const char* format, va_list args) {
   return _vscprintf(format, args) + 1;
 }

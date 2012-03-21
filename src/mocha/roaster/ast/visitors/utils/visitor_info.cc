@@ -10,10 +10,10 @@
 namespace mocha {
 
 void CreateRelativePath(const char* base, const char* target, std::string *buffer) {
-  platform::fs::Path base_path_info(base);
-  platform::fs::Path target_path_info(target);
+  os::fs::Path base_path_info(base);
+  os::fs::Path target_path_info(target);
   std::string relative_path;
-  platform::fs::Path::relative_path(base_path_info.directory(), target_path_info.directory(), &relative_path);
+  os::fs::Path::relative_path(base_path_info.directory(), target_path_info.directory(), &relative_path);
   buffer->assign("'");
   buffer->append(relative_path.c_str());
   buffer->append(target_path_info.filename());

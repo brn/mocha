@@ -15,15 +15,15 @@
 namespace mocha{
 
 AstBuilder* AstBuilder::Local() {
-  AstBuilder* builder = static_cast<AstBuilder*>(platform::ThreadLocalStorage::Get(&key_));
+  AstBuilder* builder = static_cast<AstBuilder*>(os::ThreadLocalStorage::Get(&key_));
   if (builder == NULL) {
     builder = new AstBuilder(memory::Pool::Local());
-    platform::ThreadLocalStorage::Set(&key_, builder);
+    os::ThreadLocalStorage::Set(&key_, builder);
   }
   return builder;
 }
 AstBuilder::~AstBuilder() {
-  platform::ThreadLocalStorage::Set(&key_,NULL);
+  os::ThreadLocalStorage::Set(&key_,NULL);
 }
 Function* AstBuilder::CreateFunctionDecl(AstNode* name, AstNode* argv, AstNode* body, int64_t line) {
   Function *fn = new(pool()) Function(line);
@@ -263,5 +263,5 @@ bool AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
       node->CastToExpression() && node->CastToExpression()->IsValidLhs();
 }
 
-platform::ThreadLocalStorageKey AstBuilder::key_;
+os::ThreadLocalStorageKey AstBuilder::key_;
 }

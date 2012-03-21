@@ -1,7 +1,4 @@
-#ifdef PLATFORM_WIN32
 #include <time.h>
-#endif
-#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/platform/fs/stat/stat.h>
 
 #ifdef PLATFORM_POSIX
@@ -18,7 +15,7 @@
 
 #define MODE (fstat_.st_mode & S_IFMT)
 
-namespace mocha {namespace platform {
+namespace mocha {namespace os {
 namespace fs {
 Stat::Stat(const char* path)
     : path_(path){

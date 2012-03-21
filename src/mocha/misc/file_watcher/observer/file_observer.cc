@@ -16,8 +16,8 @@ class FileObserver::FileUpdater : public IUpdater {
   void Update(watch_traits::Modify* trait) {
     const char* filename = trait->filename;
     if (mutex_list_.find(filename) != mutex_list_.end()) {
-      platform::Mutex* mutex = mutex_list_[ filename ].Get();
-      platform::ScopedLock lock((*mutex));
+      os::Mutex* mutex = mutex_list_[ filename ].Get();
+      os::ScopedLock lock((*mutex));
       FileInfo* resource = FileInfoMap::SafeGet(filename);
       if (resource) {
         AsyncCallbackHandle callback(new FileWriter);
@@ -29,8 +29,8 @@ class FileObserver::FileUpdater : public IUpdater {
   void Update(watch_traits::DeleteSelf* trait) {
     const char* filename = trait->filename;
     if (mutex_list_.find(filename) != mutex_list_.end()) {
-      platform::Mutex* mutex = mutex_list_[ filename ].Get();
-      platform::ScopedLock lock((*mutex));
+      os::Mutex* mutex = mutex_list_[ filename ].Get();
+      os::ScopedLock lock((*mutex));
       List::iterator ret = mutex_list_.find(filename);
       if (mutex_list_.end() != ret) {
         mutex_list_.erase(ret);
@@ -38,7 +38,7 @@ class FileObserver::FileUpdater : public IUpdater {
     }
   }
  private :
-  typedef roastlib::unordered_map<std::string,SharedPtr<platform::Mutex> > List;
+  typedef roastlib::unordered_map<std::string,SharedPtr<os::Mutex> > List;
   List mutex_list_;
 };
 
@@ -46,7 +46,7 @@ FileObserver::FileObserver() : file_updater_(new FileUpdater) {}
 
 void FileObserver::Run() {
   Initialize_();
-  platform::Thread thread;
+  os::Thread thread;
   if (!thread.Create(FileObserver::ThreadRunner_, &file_watcher_)) {
     Setting::GetInstance()->LogFatal("in FileObserver::Run thread create fail.");
   } else {
@@ -69,7 +69,7 @@ void FileObserver::Initialize_() {
 }
 
 void FileObserver::RegistFile_(const char* filename) {
-  SharedPtr<platform::Mutex> handle(new platform::Mutex());
+  SharedPtr<os::Mutex> handle(new os::Mutex());
   file_updater_->mutex_list_[filename] = handle;
   file_watcher_.AddWatch(filename, file_updater_.Get(), FileWatcher::kModify);
 }

@@ -7,8 +7,8 @@ namespace mocha {
 class PathInfo;
 class CompilerUtils {
  public :
-  static SharedPtr<platform::fs::Path> CreateJsPath(const char* filename, const char* module_path_key, const LibDirectories& dir, bool* is_runtime);
-  static SharedPtr<platform::fs::Path> ChangeDir(const char* js_path);
+  static SharedPtr<os::fs::Path> CreateJsPath(const char* filename, const char* module_path_key, const LibDirectories& dir, bool* is_runtime);
+  static SharedPtr<os::fs::Path> ChangeDir(const char* js_path);
 };
 }
 

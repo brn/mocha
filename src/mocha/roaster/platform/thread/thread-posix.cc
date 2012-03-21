@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <mocha/roaster/platform/thread/thread-posix.h>
 namespace mocha {
-namespace platform {
+namespace os {
 Thread::Thread() {
   pthread_attr_init(&thread_attr_t_);
 }
@@ -62,7 +62,7 @@ void ScopedLock::Unlock () {
 
 ThreadLocalStorageKey::ThreadLocalStorageKey (Destructor destructor) {
   if (!is_init_) {
-    platform::ScopedLock lock(mutex_);
+    os::ScopedLock lock(mutex_);
     if (!is_init_) {
       is_init_ = true;
       pthread_key_create(&local_key_t_, destructor);
@@ -72,7 +72,7 @@ ThreadLocalStorageKey::ThreadLocalStorageKey (Destructor destructor) {
 
 ThreadLocalStorageKey::ThreadLocalStorageKey() {
   if (!is_init_) {
-    platform::ScopedLock lock(mutex_);
+    os::ScopedLock lock(mutex_);
     if (!is_init_) {
       is_init_ = true;
       pthread_key_create(&local_key_t_, 0);

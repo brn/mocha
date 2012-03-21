@@ -74,8 +74,8 @@ SharedStr FileInfo::GetDeployName(const char* filename) {
   } else {
     if (!deployname_.empty()) {
       const char* ret = deploy_.c_str();
-      platform::fs::mkdir(ret, 0777);
-      platform::fs::Path path_info(filename);
+      os::fs::mkdir(ret, 0777);
+      os::fs::Path path_info(filename);
       char tmp[ 1000 ];
       sprintf(tmp, "%s/%s", ret, GetCmpPath_(path_info.filename()).Get());
       char* result = new char[ strlen(tmp) + 1 ];
@@ -111,7 +111,7 @@ void FileInfoMap::UnsafeSet(const char* filename) {
 }
 
 void FileInfoMap::SafeSet(const char* filename) {
-  platform::ScopedLock lock(mutex_);
+  os::ScopedLock lock(mutex_);
   SharedPtr<FileInfo> handle(new FileInfo(filename));
   resources_.insert(FileInfoPair(filename, handle));
 }
@@ -125,7 +125,7 @@ FileInfo* FileInfoMap::UnsafeGet(const char* filename) {
 }
 
 FileInfo* FileInfoMap::SafeGet(const char* filename) {
-  platform::ScopedLock lock(mutex_);
+  os::ScopedLock lock(mutex_);
   FileInfoHandleMap::iterator entry = resources_.find(std::string(filename));
   if (entry != resources_.end()) {
     return entry->second.Get();
@@ -134,11 +134,11 @@ FileInfo* FileInfoMap::SafeGet(const char* filename) {
 }
 
 FileRoot* FileInfoMap::SafeGetRuntime(memory::Pool* pool) {
-  platform::ScopedLock lock(mutex_);
+  os::ScopedLock lock(mutex_);
   return Setting::GetInstance()->GetRuntime(pool);
 }
 
-platform::Mutex FileInfoMap::mutex_;
+os::Mutex FileInfoMap::mutex_;
 FileInfoMap::FileInfoHandleMap FileInfoMap::resources_;
 
 }

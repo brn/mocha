@@ -6,7 +6,7 @@
 #include <mocha/roaster/misc/class_traits/static.h>
 
 namespace mocha {
-namespace platform {
+namespace os {
 typedef HANDLE ThreadId;
 class Thread {
  public :

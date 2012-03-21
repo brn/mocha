@@ -82,7 +82,7 @@ class Compiler : private Uncopyable {
    * if path is only '<filename>', that file is treat as module.
    * This rule borrow from node.js.
    */
-  SharedPtr<platform::fs::Path> Load (const char* filename, bool* is_runtime_module);
+  SharedPtr<os::fs::Path> Load (const char* filename, bool* is_runtime_module);
 
   void CatchException(const char* filename, ErrorHandler handle);
   AstReserver GetAst();
@@ -95,7 +95,7 @@ class Compiler : private Uncopyable {
   
   const char* mainfile_path() const;
   
-  const platform::fs::Path* path() const;
+  const os::fs::Path* path() const;
   
   std::string ModuleKey(const char*) const;
   
@@ -122,7 +122,7 @@ class Compiler : private Uncopyable {
   ScopedPtr<PtrImpl> implementation_;
 
   static RuntimeAstMap runtime_map_;
-  static platform::Mutex mutex_;
+  static os::Mutex mutex_;
 };
 
 }

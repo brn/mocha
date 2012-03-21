@@ -53,7 +53,7 @@ class FileInfoMap : private Static {
   static FileInfo* SafeGet(const char* filename);
   static FileRoot* SafeGetRuntime(memory::Pool* pool);
  private :
-  static platform::Mutex mutex_;
+  static os::Mutex mutex_;
   static FileInfoHandleMap resources_;
 };
 

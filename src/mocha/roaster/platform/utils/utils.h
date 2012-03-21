@@ -30,7 +30,7 @@
 #elif defined PLATFORM_WIN32
 #define K_ERRNO _doserrno
 #endif
-namespace mocha {namespace platform {
+namespace mocha {namespace os {
 void Strerror(std::string* buf, int err);
 void Printf(const char* format, ...);
 void SPrintf(std::string*, const char* format, ...);

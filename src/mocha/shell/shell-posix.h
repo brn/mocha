@@ -34,7 +34,7 @@ class Shell {
   EditLine* line_;
   History* history_;
   HistEvent event_;
-  static platform::Mutex mutex_;
+  static os::Mutex mutex_;
   static ScopedPtr<Shell> shell_;
   static AtomicWord init_;
 };

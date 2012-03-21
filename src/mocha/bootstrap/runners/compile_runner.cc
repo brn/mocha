@@ -11,7 +11,7 @@ CompileRunner::CompileRunner(Options *options) : ICommandLineRunner(options) {}
 void CompileRunner::Run() {
   Roaster roaster;
   std::stringstream st;
-  st << platform::fs::Path::current_directory();
+  st << os::fs::Path::current_directory();
   st << '/' << options_->GetPath();
   std::string path = st.str();
   CompilationInfoHandle handle(new CompilationInfo(path.c_str()));

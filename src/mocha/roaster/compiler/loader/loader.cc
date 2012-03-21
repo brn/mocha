@@ -31,9 +31,9 @@ Loader::Loader(){}
 Loader::~Loader(){}
 void Loader::LoadFile(const char* path) {
   ASSERT(true, strlen(path) > 0);
-  platform::fs::Stat stat(path);
+  os::fs::Stat stat(path);
   if (stat.IsExist() && !stat.IsDir()) {
-    FILE* fp = platform::FOpen(path, "rb");
+    FILE* fp = os::FOpen(path, "rb");
     //Check is file exist.
     if (fp != NULL) {
       std::stringstream st;
@@ -56,13 +56,13 @@ void Loader::HandleError(const char* path, int type) {
   ASSERT(true, (type == kFOpenError || type == kNotAFile || type == kNotFound));
   if (type == kFOpenError) {
     error_type = IOEvent::kError;
-    platform::Strerror(&buf, K_ERRNO);
+    os::Strerror(&buf, K_ERRNO);
   } else if (type == kNotAFile) {
     error_type = IOEvent::kNotAFile;
-    platform::SPrintf(&buf, "%s is a directory.", path);
+    os::SPrintf(&buf, "%s is a directory.", path);
   } else if (type == kNotFound) {
     error_type = IOEvent::kNotFound;
-    platform::SPrintf(&buf, "%s No such file.", path);
+    os::SPrintf(&buf, "%s No such file.", path);
   }
   IOEvent *e = new(&pool_) IOEvent(path, buf.c_str(), error_type);
   NotifyForKey(kError, e);

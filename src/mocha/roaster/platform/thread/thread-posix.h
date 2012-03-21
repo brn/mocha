@@ -7,7 +7,7 @@
 #include <mocha/roaster/misc/class_traits/static.h>
 
 namespace mocha {
-namespace platform {
+namespace os {
 typedef pthread_t ThreadId;
 class Thread {
  public :
@@ -28,7 +28,7 @@ class Thread {
 
 class ScopedLock;
 class Mutex{
-  friend class platform::ScopedLock;
+  friend class os::ScopedLock;
  public :
   Mutex();
   ~Mutex();

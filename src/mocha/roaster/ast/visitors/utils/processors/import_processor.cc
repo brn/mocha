@@ -89,16 +89,16 @@ void ImportProccessor::LoadModule_() {
     //"path to file" -> path to file
     js_path.erase(js_path.size() - 1, js_path.size());
                                                                 
-    SharedStr current_dir = platform::fs::VirtualDirectory::GetInstance()->GetCurrentDir();
+    SharedStr current_dir = os::fs::VirtualDirectory::GetInstance()->GetCurrentDir();
     bool is_runtime_module = false;
     //Get full path of module.
-    SharedPtr<platform::fs::Path> real_path = visitor_info->compiler()->Load(js_path.c_str(), &is_runtime_module);
+    SharedPtr<os::fs::Path> real_path = visitor_info->compiler()->Load(js_path.c_str(), &is_runtime_module);
 
     //Set virtual dir to current context dir.
-    platform::fs::VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
+    os::fs::VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
 
     //Get module uuid key.
-    platform::fs::Path path(visitor_info->main_file_path());
+    os::fs::Path path(visitor_info->main_file_path());
     std::string mod_name = 
         visitor_info->compiler()->ModuleKey(((!is_runtime_module)?real_path->absolute_path() : real_path->raw_path()));
     std::string modkey = "'";

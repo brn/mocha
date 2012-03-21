@@ -11,25 +11,6 @@ import deps
 from platform_utils import Config, platform
 from sources import Sources
 
-def MoveBinary(path) :
-    target_path = "bin/" + path
-    try :
-        if (not os.path.isdir(target_path) and not os.path.isfile(target_path)) :
-            os.makedirs(target_path)
-    except WindowsError :
-        "nothing"
-    suffix = '.exe' if path == 'win32' else ''
-    binary = TARGET_NAME + suffix
-    if (os.path.isfile(binary)) :
-        target_file = target_path + '/' + binary
-        shutil.copyfile(binary, target_file)
-        if (path == 'win32') :
-            dll_list = WIN32_ICU.split(' ')
-            for dll in dll_list :
-                target_dll = target_path + '/' + dll.rsplit('/', 1)[1].replace('.lib', '48.dll')
-                if (not os.path.isfile(target_dll)) :
-                    shutil.copyfile(dll, target_dll)
-
 ROOT = 'src'
 LIB_PREFIX = "src/third_party/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
@@ -102,10 +83,10 @@ UNIT_TEST_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'ut',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DGOOGLE_TEST -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + 'gtest-1.6.0-macos/include -I' + GTEST_DIR + ' -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
-        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DGOOGLE_TEST -DPLATFORM_POSIX -I' + GTEST_DIR + 'gtest-1.6.0-macos/include -I' + GTEST_DIR + ' -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
-        "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-osx/src/gtest-all.cc',
-                   GTEST_DIR + '/gtest-1.6.0-osx/src/gtest_main.cc']
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DGOOGLE_TEST -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DGOOGLE_TEST -DPLATFORM_POSIX -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-macos/src/gtest-all.cc',
+                   GTEST_DIR + '/gtest-1.6.0-macos/src/gtest_main.cc']
         },
     "win32" : {
         "TARGET" : 'ut.exe',
@@ -118,12 +99,19 @@ UNIT_TEST_CONFIG = {
     }
 TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'platform_utils' : 'src/mocha/roaster/platform/utils',
-         'compiler_loader' : 'src/mocha/roaster/compiler/loader'}
+         'compiler_loader' : 'src/mocha/roaster/compiler/loader',
+         'platform_stat' : 'src/mocha/roaster/platform/fs/stat',
+         'platform_directory' : 'src/mocha/roaster/platform/fs/directory',
+         'platform_path' : 'src/mocha/roaster/platform/fs/path/'
+         }
+
+
+
 if ut :
     ENV = Environment()
     CONFIG = Config(CURRENT, UNIT_TEST_CONFIG)
     if ut == 'all' :
-        for test in TESTS :
+        for test in TESTS.values() :
             SConscript(test + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG'])
     else :
         tests = ut.split(':')
@@ -132,5 +120,4 @@ if ut :
 else :
     builder = MochaBuilder(ARGUMENTS.get('mode'))
     builder.Build()
-#MoveBinary(args[0])
 

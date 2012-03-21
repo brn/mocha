@@ -17,7 +17,7 @@ namespace mocha {
 class Setting::PtrImpl {
  public :
   void Log(const char* str, const char* type, bool is_date) {
-    platform::ScopedLock lock(mutex);
+    os::ScopedLock lock(mutex);
     std::string tmp;
     SetTime_();
     if (is_date) {
@@ -48,12 +48,12 @@ class Setting::PtrImpl {
   std::string runtime_path;
   std::string runtime_file;
   std::string log_path;
-  SharedPtr<platform::fs::File> file_handle;
+  SharedPtr<os::fs::File> file_handle;
 	
   static const char info[];
   static const char error[];
   static const char fatal[];
-  static platform::Mutex mutex;
+  static os::Mutex mutex;
 
  private :
   void SetTime_() {
@@ -66,7 +66,7 @@ class Setting::PtrImpl {
 const char Setting::PtrImpl::info[] = { "info" };
 const char Setting::PtrImpl::error[] = { "error" };
 const char Setting::PtrImpl::fatal[] = { "fatal" };
-platform::Mutex Setting::PtrImpl::mutex;
+os::Mutex Setting::PtrImpl::mutex;
 
 Setting* Setting::GetInstance() {
   if (instance_ == 0) {
@@ -128,7 +128,7 @@ void Setting::LogFatal(const char* format, ...)	{
 
 Setting::Setting() {
   implementation_(new PtrImpl());
-  implementation_->base_dir = platform::fs::Path::home_directory();
+  implementation_->base_dir = os::fs::Path::home_directory();
   implementation_->base_dir += "/.mocha/";
   implementation_->xml_path = implementation_->base_dir;
   implementation_->xml_path += "watch.xml";
@@ -143,7 +143,7 @@ Setting::Setting() {
 }
 
 void Setting::SetLogFileHandle() {
-  implementation_->file_handle = platform::fs::FileIO::Open(implementation_->log_path.c_str(), "rwa", platform::fs::FileIO::P_ReadWrite);
+  implementation_->file_handle = os::fs::FileIO::Open(implementation_->log_path.c_str(), "rwa", os::fs::FileIO::P_ReadWrite);
 }
 
 Setting* Setting::instance_ = 0;
