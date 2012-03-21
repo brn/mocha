@@ -1,0 +1,44 @@
+import os, sys
+root_dir = os.path.dirname(File('SConscript').rfile().abspath + '/../../../../')
+sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
+from platform_utils import Config
+from test import TestBuilder
+Import('CURRENT')
+Import('ENV')
+Import('CONFIG')
+ROOT = os.getcwd().replace('\\', '/')
+TEST_CONFIG = CONFIG.Copy()
+TEST_CONFIG.Extend({
+        "linux" : {
+            "LD_FLAGS" : "",
+            "LIBS" : ['pthread'],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : ['../platform/thread/thread-posix.cc',
+                         '../platform/utils/utils-posix.cc',]
+            },
+        'macos' : {
+            "LD_FLAGS" : "",
+            "LIBS" : [],
+            "STATIC_LIBS" : [],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : ['../platform/thread/thread-posix.cc',
+                         '../platform/utils/utils-posix.cc',]
+            },
+        "win32" : {
+            "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",
+            "LIBS" : [],
+            "EXCLUDE_FILES" : [],
+            "DEPENDS" : ['../platform/thread/thread-win32.cc',
+                         '../platform/utils/utils-win32.cc',]
+            }
+        })
+TEST_CONFIG.set_base(ROOT)
+builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc',
+                                              'nexc.cc',
+                                              'loader/loader.cc',
+                                              '../memory/pool.cc',
+                                              '../platform/fs/stat/stat.cc',
+                                              '../utils/error_reporter.cc',
+                                              'events/io_event/io_event.cc'], ENV, TEST_CONFIG)
+builder.Build(CURRENT + '/src', ROOT)
+
