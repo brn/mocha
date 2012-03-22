@@ -20,42 +20,39 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_roaster_compiler_compiler_h_
-#define mocha_roaster_compiler_compiler_h_
-#include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/ast/ast.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/notificator/notificator.h>
+#include <mocha/roaster/platform/fs/fs.h>
 
 namespace mocha {
-namespace os {namespace fs{
-class Path;
-class VirtualDirectory;
-}}
-class IOEvent;
-class CompilationEvent;
-class CompilationInfo;
-class ErrorReporter;
-class Nexc : public Notificator<CompilationEvent*>{
- public :
-  Nexc(CompilationInfo* info);
-  ~Nexc(){};
-  void CompileFile(const char* filename, const char* charset = NULL);
-  void Compile(const char* source, const char* charset = NULL);
-  void ImportFile(CompilationEvent* e);
-  static const char kScan[];
-  static const char kParse[];
-  static const char kTransformAst[];
-  static const char kFatal[];
-  static const char kFail[];
-  static const char kImport[];
- private :
-  void Initialize();
-  void Abort(IOEvent* e);
-  CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
-  CompilationInfo* compilation_info_;
-  os::fs::VirtualDirectory* virtual_directory_;
-  SharedPtr<ErrorReporter> reporter_;
-  SharedPtr<memory::Pool> pool_;
-};
+
+void CreateRelativePath(const char* base, const char* target, std::string *buffer) {
+  os::fs::Path base_path_info(base);
+  os::fs::Path target_path_info(target);
+  std::string relative_path;
+  os::fs::Path::relative_path(base_path_info.directory(), target_path_info.directory(), &relative_path);
+  buffer->assign("'");
+  buffer->append(relative_path.c_str());
+  buffer->append(target_path_info.filename());
+  buffer->append("'");
 }
-#endif
+
+TranslatorData::TranslatorData(bool is_runtime, CompilationEvent *event, DstaExtractedExpressions* dsta_exp) :
+    tmp_index_(0),
+    object_depth_(0),
+    is_in_class_(0)
+    is_in_module_(0),
+    dsta_exp_(dsta_exp),
+    compilation_event_(event),
+    current_stmt_(0),
+    current_fn_(0),
+    builder_(AstBuilder::Local()){
+  if (is_runtime){
+    bit_vector_.Set(2);
+  }
+  CreateRelativePath(e->filename(), e->mainfile_path(), &relative_path_);
+};
+
+}

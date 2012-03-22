@@ -23,15 +23,10 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <windows.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
 int VAArgs(const char* format, va_list args) {
   return _vscprintf(format, args) + 1;
-}
-
-int WVAArgs(const wchar_t* format, va_list args) {
-  return _vscwprintf(format, args) + 1;
 }
 
 void Strerror(std::string* buf, int err) {
@@ -46,24 +41,7 @@ void Strerror(std::string* buf, int err) {
 void Printf(const char* format, ...) {
   va_list args;
   va_start(args, format);
-  int len = VAArgs(format, args);
-  char* buffer = static_cast<char*>(malloc(len * sizeof(char)));
-  assert(buffer != NULL);
-  vsprintf_s(buffer, len, format, args);
-  fprintf_s(stdout, "%s", buffer);
-  free(buffer);
-  va_end(args);
-}
-
-void WPrintf(const wchar_t* format, ...) {
-  va_list args;
-  va_start(args, format);
-  int len = WVAArgs(format, args);
-  wchar_t* buffer = static_cast<wchar_t*>(malloc(len * sizeof(wchar_t)));
-  assert(buffer != NULL);
-  vswprintf_s(buffer, len, format, args);
-  fwprintf_s(stdout, buffer);
-  free(buffer);
+  vprintf_s(format, args);
   va_end(args);
 }
 
@@ -79,21 +57,47 @@ void SPrintf(std::string* buf, const char* format, ...) {
   va_end(args);
 }
 
-CRITICAL_SECTION crit;
+void VSPrintf(std::string* buf, const char* format, va_list arg) {
+  int len = VAArgs(format, args);
+  char* buffer = static_cast<char*>(malloc(len * sizeof(char)));
+  assert(buffer != NULL);
+  vsprintf_s(buffer, len, format, args);
+  buf->assign(buffer);
+  free(buffer);
+}
+
+
+void VFPrintf(FILE* fp, const char* format, va_list arg) {
+  vfprintf_s(fp, format, args);
+}
+
+void FPrintf(FILE* fp, const char* format, ...) {
+  va_list args;
+  va_start(args, format);
+  vfprintf_s(fp, format, args);
+  va_end(args);
+}
 
 FILE* FOpen(const char* filename, const char* mode) {
-  InitializeCriticalSection(&crit);
-  EnterCriticalSection(&crit);
   FILE* fp;
   K_ERRNO = fopen_s(&fp, filename, mode);
   if (K_ERRNO != 0) {
     fp = NULL;
   }
-  LeaveCriticalSection(&crit);
   return fp;
 }
 
 void FClose(FILE* fp) {
   fclose(fp);
+}
+
+void GetEnv(std::string* buf, const char* env) {
+  int size = 0;
+  char buffer[1];
+  getenv_s(&size, buffer, 1, env);
+  char* tmp = new char[size + 1];
+  getenv_s(&size, tmp, size, env);
+  buf->assign(tmp);
+  delete[] tmp;
 }
 }}

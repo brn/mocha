@@ -22,6 +22,7 @@
  */
 #ifndef mocha_platfrom_utils_utils_h_
 #define mocha_platfrom_utils_utils_h_
+#include <stdarg.h>
 #include <stdio.h>
 #include <string>
 #include <errno.h>
@@ -34,9 +35,12 @@ namespace mocha {namespace os {
 void Strerror(std::string* buf, int err);
 void Printf(const char* format, ...);
 void SPrintf(std::string*, const char* format, ...);
-void WPrintf(const wchar_t* format, ...);
+void VSPrintf(std::string* buf, const char* format, va_list args);
+void VFPrintf(FILE* fp, const char* format, ...);
+void FPrintf(FILE* fp, const char* format, ...);
 FILE* FOpen(const char* filename, const char* mode);
 void FClose(FILE* fp);
+void GetEnv(std::string *buf, const char* env);
 }}
 
 #endif

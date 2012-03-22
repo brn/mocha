@@ -5,7 +5,7 @@
 namespace mocha {
 class IVisitor;
 class Scope;
-class VisitorInfo;
+class TranslatorData;
 class ProcessorInfo;
 class VariableProcessor : public Processor {
  public :

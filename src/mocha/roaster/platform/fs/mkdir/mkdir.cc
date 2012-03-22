@@ -5,8 +5,8 @@
 #ifdef PLATFORM_POSIX
 #include <sys/stat.h>
 #endif
-#include <mocha/roaster/platform/fs/mkdir.h>
-#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/mkdir/mkdir.h>
+#include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/misc/class_traits/static.h>
@@ -40,23 +40,23 @@ bool mkdir(const char* path, int permiss) {
     for (int i = 0,count = 0; i < len; ++i) {
       if (processed_path[ i ] == '/') {
         if (i == 0) {
-          os::fs::chdir("/");
+          Directory::chdir("/");
         } else {
           if (tmp[ count - 1 ] == ':') {
             tmp[ count ] = '/';
             count++;
           } 
           tmp[ count ] = '\0';
-          os::fs::Stat st(tmp);
+          Stat st(tmp);
           if (!st.IsExist() || !st.IsDir()) {
             if (-1 == MKDIR(tmp)) {
-              os::fs::chdir(current);
+              Directory::chdir(current);
               return false;
             }
-            os::fs::chmod(tmp, permiss);
-            os::fs::chdir(tmp);
+            Directory::chmod(tmp, permiss);
+            Directory::chdir(tmp);
           } else if (st.IsDir()) {
-            os::fs::chdir(tmp);
+            Directory::chdir(tmp);
           }
           tmp[ 0 ] = '\0';
           count = 0;
@@ -66,7 +66,7 @@ bool mkdir(const char* path, int permiss) {
         count++;
       }
     }
-    os::fs::chdir(current);
+    Directory::chdir(current);
     return true;
   }
   return false;

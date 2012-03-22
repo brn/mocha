@@ -21,6 +21,7 @@
  */
 #include <stdio.h>
 #include <mocha/roaster/platform/fs/rm/rm.h>
+#include <mocha/roaster/platform/fs/directory/directory.h>
 #include <mocha/roaster/platform/fs/stat/stat.h>
 namespace mocha { namespace os{ namespace fs {
 
@@ -39,7 +40,7 @@ bool RemoveDir(const char* path) {
 bool rm(const char* path) {
   Stat stat(path);
   if (stat.IsExist()) {
-    if (stat.IsDir) {
+    if (stat.IsDir()) {
       return RemoveDir(path);
     }
     return (::remove(path) != -1);

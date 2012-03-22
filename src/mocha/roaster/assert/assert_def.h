@@ -39,4 +39,6 @@
 #define ASSERT(expect, result)
 #endif
 
+#define FATAL(msg) fprintf(stderr, "%s\n", msg);abort();
+
 #endif

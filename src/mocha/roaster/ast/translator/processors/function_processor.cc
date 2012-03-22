@@ -20,7 +20,7 @@ FunctionProcessor::FunctionProcessor(Function* function, ProcessorInfo* info) :
 FunctionProcessor::~FunctionProcessor(){}
 
 void FunctionProcessor::ProcessNode() {
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   Statement* tmp_statement = new(pool()) Statement;
   visitor_info->set_current_statement(tmp_statement);
   visitor_info->set_function(function_);
@@ -877,7 +877,7 @@ class YieldHelper : private Processor {
 
   void ProcessForIn(IterationStmt* node, int size, int count) {
     AstNode* exp = node->expression();
-    VisitorInfo* visitor_info = info_->visitor_info();
+    TranslatorData* translator_data = info_->translator_data();
     Literal* tmp_node = builder()->CreateTmpNode(visitor_info->tmp_index(), node->line_number());
     tmp_node->set_value_type(Literal::kVariable);
     tmp_node->AddChild(new(pool()) Empty);
@@ -910,7 +910,7 @@ class YieldHelper : private Processor {
 
 
   void TransformForIn(IterationStmt* node, Literal* array, int size, int count) {
-    VisitorInfo* visitor_info = info_->visitor_info();
+    TranslatorData* translator_data = info_->translator_data();
     AstNode* exp = node->expression();
     AstNode* index_exp = exp->first_child();
     Literal* tmp_node = builder()->CreateTmpNode(visitor_info->tmp_index(), node->line_number());

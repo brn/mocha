@@ -21,26 +21,24 @@
  */
 
 #include <mocha/roaster/ast/node_manip/node_manip.h>
-
 namespace mocha {
 void TransformEventLitener::operator()(CompilationEvent* e) {
   ErrorReporter* reporter = e->error_reporter();
   bool runtime = e->runtime();
-  ScopeRegistry* registry = e->scope_registry();
   const char* mainfile_path = e->mainfile_path();
   const char* target_filename = e->filename();
   if (!reporter->Error()) {
-    AstTransformer visitor (runtime, registry, compiler_, mainfile_path, target_filename);
+    AstTransformer visitor(runtime, mainfile_path, target_filename, e);
     AstRoot tmp_root;
     tmp_root.AddChild(root);
     tmp_root.Accept (&visitor);
     e->set_ast(tmp_root.first_child());
-    e->notificator()->NotifyForKey(CompilationEvent::EventKey::kCompileSuccess, e);
+    e->NotifyForKey(Nexc::kCompilationSucessed, e);
   } else {
     std::string buf;
     reporter->SetError(&buf);
     e->ast(new(e->pool()) Empty);
-    e->notificator()->NotifyForKey(CompilationEvent::EventKey::kParseError, e);
+    e->NotifyForKey(Nexc::kCompilationFailed, e);
   }
 }
 }

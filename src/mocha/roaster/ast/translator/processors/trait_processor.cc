@@ -12,7 +12,7 @@ TraitProcessor::TraitProcessor(Trait* trait, ProcessorInfo* info)
     : Processor(), trait_(trait), info_(info) {}
 
 void TraitProcessor::ProcessNode() {
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   AstNode* name = trait_->name();
   name_ = (!name->IsEmpty())? name->CastToLiteral() : builder()->CreateTmpNode(visitor_info->tmp_index(), trait_->line_number());
   ObjectLikeLiteral* object = new(pool()) ObjectLikeLiteral(trait_->line_number());

@@ -14,7 +14,8 @@ TEST_CONFIG.Extend({
             "LIBS" : ['pthread'],
             "EXCLUDE_FILES" : [],
             "DEPENDS" : ['../platform/thread/thread-posix.cc',
-                         '../platform/utils/utils-posix.cc',]
+                         '../platform/utils/utils-posix.cc',
+                         '../platform/fs/directory/directory-posix.cc']
             },
         'macos' : {
             "LD_FLAGS" : "",
@@ -22,23 +23,31 @@ TEST_CONFIG.Extend({
             "STATIC_LIBS" : [],
             "EXCLUDE_FILES" : [],
             "DEPENDS" : ['../platform/thread/thread-posix.cc',
-                         '../platform/utils/utils-posix.cc',]
+                         '../platform/utils/utils-posix.cc',
+                         '../platform/fs/directory/directory-posix.cc']
             },
         "win32" : {
             "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",
             "LIBS" : [],
             "EXCLUDE_FILES" : [],
             "DEPENDS" : ['../platform/thread/thread-win32.cc',
-                         '../platform/utils/utils-win32.cc',]
+                         '../platform/utils/utils-win32.cc',
+                         '../platform/fs/directory/directory-win32.cc']
             }
         })
 TEST_CONFIG.set_base(ROOT)
 builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc',
                                               'nexc.cc',
                                               'loader/loader.cc',
+                                              'compilation_info/compilation_info.cc',
                                               '../memory/pool.cc',
                                               '../platform/fs/stat/stat.cc',
                                               '../utils/error_reporter.cc',
+                                              '../platform/fs/mkdir/mkdir.cc',
+                                              '../platform/fs/rm/rm.cc',
+                                              '../platform/fs/mv/mv.cc',
+                                              '../platform/fs/path/path.cc',
+                                              '../consts/consts.cc',
                                               'events/io_event/io_event.cc'], ENV, TEST_CONFIG)
 builder.Build(CURRENT + '/src', ROOT)
 

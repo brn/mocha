@@ -21,8 +21,8 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_ast_transformer_h_
-#define mocha_ast_transformer_h_
+#ifndef mocha_ast_translator_translator_h_
+#define mocha_ast_translator_translator_h_
 
 #include <string>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
@@ -34,14 +34,14 @@ class Pool;
 }
 class Scope;
 class Compiler;
-class VisitorInfo;
+class TranslatorData;
 class ProcessorInfo;
 class AstBuilder;
 /**
  * @class
  * Transform harmony's ast to ecmascript3's.
  */
-class AstTransformer : public IVisitor {
+class Translator : public IVisitor {
  public :
   /**
    * @constructor
@@ -51,12 +51,8 @@ class AstTransformer : public IVisitor {
    * @param {const char*} modulename -> Current file name.
    * @param {const char*} filename -> Main js file name.
    */
-  AstTransformer(bool is_runtime,
-                  ScopeRegistry* scope_registry,
-                  Compiler* compiler,
-                  const char* modulename,
-                  const char* filename);
-  ~AstTransformer();
+  Translator(bool is_runtime, CompilationEvent* e);
+  ~Translator();
 
 #include <mocha/roaster/ast/visitors/visitor_decl.h>
 
@@ -64,12 +60,13 @@ class AstTransformer : public IVisitor {
   void JumpStmt_(AstNode* ast_node, int type);
   memory::Pool* pool() { return pool_; }
   AstBuilder* builder() { return builder_; }
+  CompilationEvent* evnet() {return event_;}
+
   memory::Pool* pool_;
   AstBuilder* builder_;
-  Compiler* compiler_;
-  ScopedPtr<VisitorInfo> visitor_info_;
+  ScopedPtr<TranslatorData> data_;
   ScopedPtr<ProcessorInfo> proc_info_;
-  ScopeRegistry* scope_registry_;
+  CompilationEvent* event_;
 };
 
 }

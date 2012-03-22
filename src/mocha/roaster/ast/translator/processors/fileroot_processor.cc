@@ -8,7 +8,7 @@
 namespace mocha {
 
 void FileRootProcessor::ProcessNode() {
-  VisitorInfo *visitor_info = info()->visitor_info();
+  TranslatorData *translator_data = info()->translator_data();
   IVisitor* visitor = info()->visitor();
   NodeIterator iterator = node()->ChildNodes();
   bool is_runtime = visitor_info->runtime();

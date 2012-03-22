@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <vector>
 #include <sstream>
+#include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/utils/error_reporter.h>
@@ -109,11 +110,13 @@ bool IsValidProperty(int type) {
 
 
 void Parser::ParseEventListener::operator()(CompilationEvent* event) {
+  DEBUG_LOG(Log, "Nexc enter parse phase");
   ParserConnector* connector = event->parser_connector();
   ErrorReporter* reporter = event->error_reporter();
-  const char* filename = event->filename();
-  Parser parser(connector, reporter, filename);
+  const char* pathname = event->path();
+  Parser parser(connector, reporter, pathname);
   event->set_ast(parser.Parse());
+  DEBUG_LOG(Log, "Nexc end parse phase");
   event->NotifyForKey(Nexc::kTransformAst);
 }
 

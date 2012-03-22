@@ -3,6 +3,7 @@
  *@fileOverview
  *@license
  *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
  *
  *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  *associated doc umentation files (the "Software"), to deal in the Software without restriction,
@@ -19,37 +20,42 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#ifndef mocha_platform_fs_path_path_h_
-#define mocha_platform_fs_path_path_h_
-#include <string>
+#ifndef mocha_roaster_log_logging_h_
+#define mocha_roaster_log_logging_h_
+#include <stdio.h>
+#include <stdarg.h>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/platform/thread/thread.h>
-namespace mocha {namespace os {
-namespace fs {
-class Path {
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
+namespace mocha {
+class Logging {
  public :
-  Path(const char* path);
-  ~Path(){}
-  const char* raw_path() const { return raw_.c_str(); }
-  const char* absolute_path() const { return fullpath_.c_str(); }
-  const char* filename() const { return filename_.c_str(); }
-  const char* directory() const { return directory_.c_str(); }
-  bool HasFilename() const { return !filename_.empty(); }
-  bool HasDirectory() const { return !directory_.empty(); }
-  bool HasAbsolutePath() const { return !fullpath_.empty(); }
-  static const char* current_directory();
-  static const char* home_directory();
-  static const char* relative_path(const char* base, const char* dest, std::string* buf);
+  static void Initialize(const char* filename, const char* mode="a+");
+  static void Initialize(FILE* fp);
+  static Logging* GetInstance();
+  ~Logging();
+  void Log(const char* format, ...);
+  void Fatal(const char* format, ...);
+  void Warn(const char* format, ...);
+  void Info(const char* format, ...);
+  static bool IsInitialized() {return initialized_;}
  private :
-  std::string raw_;
-  std::string fullpath_;
-  std::string filename_;
-  std::string directory_;
-  static std::string current_dir_;
-  static std::string user_home_;
-  static std::string current_path_;
-  static Mutex mutex_;
+  Logging(const char* filename, const char* mode);
+  Logging(FILE* fp);
+  bool is_own_;
+  FILE* fp_;
+  static bool initialized_;
+  static os::Mutex mutex_;
+  static ScopedPtr<Logging> logging_;
 };
 }
-}}
-#endif
 
+#ifdef DEBUG
+#define DEBUG_LOG(type, ...)                    \
+  ASSERT(true, Logging::IsInitialized());       \
+  Logging::GetInstance()->type(__VA_ARGS__)
+#else
+#define DEBUG_LOG(type,...)
+#endif
+  
+#endif

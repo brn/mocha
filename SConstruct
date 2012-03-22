@@ -70,6 +70,7 @@ class MochaBuilder :
             self.__config.AddExcludeFile(["file_watcher-impl.cc"])
 
 ut = ARGUMENTS.get('ut')
+ct = ARGUMENTS.get('ct')
 GTEST_DIR = CURRENT + '/src/third_party'
 PLATFORM = platform
 UNIT_TEST_CONFIG = {
@@ -78,14 +79,16 @@ UNIT_TEST_CONFIG = {
         "RELEASE" : '-Wall -O3 -fno-exceptions -DPLATFORM_POSIX -DGOOGLE_TEST -DPLATFORM_LINUX -DNDEBUG -I' + GTEST_DIR + '/gtest-1.6.0-linux/include -I' + GTEST_DIR + '/gtest-1.6.0-linux -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEBUG" : '-Wall -O0 -g -fno-exceptions -DDEBUG -DPLATFORM_POSIX  -DGOOGLE_TEST -I' + GTEST_DIR + '/gtest-1.6.0-linux/include -I' + GTEST_DIR + '/gtest-1.6.0-linux -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-linux/src/gtest-all.cc',
-                   GTEST_DIR + '/gtest-1.6.0-linux/src/gtest_main.cc']
+                     GTEST_DIR + '/gtest-1.6.0-linux/src/gtest_main.cc',
+                     CURRENT + '/src/mocha/roaster/log/logging.cc']
         },
     'macos' : {
         "TARGET" : 'ut',
         "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DGOOGLE_TEST -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DGOOGLE_TEST -DPLATFORM_POSIX -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-macos/src/gtest-all.cc',
-                   GTEST_DIR + '/gtest-1.6.0-macos/src/gtest_main.cc'],
+                     GTEST_DIR + '/gtest-1.6.0-macos/src/gtest_main.cc',
+                     CURRENT + '/src/mocha/roaster/log/logging.cc'],
         "STATIC_LIBS" : []
         },
     "win32" : {
@@ -93,7 +96,8 @@ UNIT_TEST_CONFIG = {
         "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "GOOGLE_TEST" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I ' + GTEST_DIR + '/gtest-1.6.0-win/include /I ' + GTEST_DIR + '/gtest-1.6.0-win /D CURRENT_DIR=\\"' + CURRENT + '\\" /I' + CURRENT + '/src',
         "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "DEBUG" /D "_CRT_SECURE_NO_WARNINGS"  /D "GOOGLE_TEST" /D "NOMINMAX" /D "_MBCS" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I "' + GTEST_DIR + '/gtest-1.6.0-win/include" /I "' + GTEST_DIR + '/gtest-1.6.0-win" /D CURRENT_DIR=\\"' + CURRENT + '\\" /I' + CURRENT + '/src',
         "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-win/src/gtest-all.cc',
-                   GTEST_DIR + '/gtest-1.6.0-win/src/gtest_main.cc'],
+                     GTEST_DIR + '/gtest-1.6.0-win/src/gtest_main.cc',
+                     CURRENT + '/src/mocha/roaster/log/logging.cc'],
         "STATIC_LIBS" : [GTEST_DIR + '/gtest-1.6.0-win/msvc/gtest/Debug/gtestd.lib',]
         }
     }
@@ -107,7 +111,9 @@ TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'nexc-scanner' : 'src/mocha/roaster/nexc/scanner',
          'nexc-parser' : 'src/mocha/roaster/nexc/parser'
          }
-
+CT = {
+   'nexc' : 'src/mocha/roaster/nexc/ct'
+}
 
 
 if ut :
@@ -120,6 +126,18 @@ if ut :
         tests = ut.split(':')
         for test in tests :
             SConscript(TESTS[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+
+elif ct :
+    ENV = Environment()
+    CONFIG = Config(CURRENT, UNIT_TEST_CONFIG)
+    if ct == 'all' :
+        for test in CT.values() :
+            SConscript(test + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+    else :
+        tests = ct.split(':')
+        for test in tests :
+            SConscript(CT[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+
 else :
     builder = MochaBuilder(ARGUMENTS.get('mode'))
     builder.Build()

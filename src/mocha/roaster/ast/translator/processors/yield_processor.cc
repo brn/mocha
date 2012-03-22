@@ -30,7 +30,7 @@ void YieldProcessor::ProcessNode() {
     ProcessSend_(exp);
     is_need_mark = false;
   }
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   AstNode* direct_child = exp_->parent_node();
   Function* fn = visitor_info->function();
   while (1) {

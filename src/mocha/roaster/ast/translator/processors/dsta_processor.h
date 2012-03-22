@@ -84,7 +84,7 @@ class DstaProcessor : public Processor{
   void ProcessArray(ArrayLikeLiteral* ast_node, DstaTree* tree, int depth);
   static AstNode* CreateConditional(AstNode* last_exp, AstNode* first, ProcessorInfo *info, bool is_assign);
   static NodeList* IterateTree(NodeList* result, AstNode* first, ProcessorInfo *info, bool is_assign);
-  static AstNode* CreateSimpleAccessor(AstNode* first, VisitorInfo* info, bool is_assign);
+  static AstNode* CreateSimpleAccessor(AstNode* first, TranslatorData* info, bool is_assign);
   static NodeList* CreateDstaExtractedNode(Statement* stmt, ProcessorInfo* info, bool is_assign);
   AstNode* node() { return ast_node_; }
   ProcessorInfo* info() { return info_; }

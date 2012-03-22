@@ -78,7 +78,7 @@ void ProcessArray(ArrayLikeLiteral* ast_node, DstaTree* tree, int depth, Process
  * Create an accessor for conditional_expression, like _mochaLocalTmp.x[0].y
  */
 void DstaProcessor::ProcessMember(Literal* ast_node, DstaTree* tree) {
-  VisitorInfo *visitor_info = info()->visitor_info();
+  TranslatorData *translator_data = info()->translator_data();
   TokenInfo* info = ast_node->value();
   switch(info->type()) {
     //In case of { Identifier : ... } or { Identifier }
@@ -124,7 +124,7 @@ void DstaProcessor::ProcessMember(Literal* ast_node, DstaTree* tree) {
  * Process { x : <...> } or { <...> }
  */
 DstaTree* DstaProcessor::ProcessPropertyMember(Literal* value, DstaTree* tree, int depth) {
-  VisitorInfo* visitor_info = info()->visitor_info();
+  TranslatorData* translator_data = info()->translator_data();
   if (value->child_length() > 0) {
     ProcessMember(value, tree);
     AstNode* child_node = value->first_child();
@@ -190,7 +190,7 @@ void DstaProcessor::ArrayHelper(ArrayLikeLiteral* ast_node,
                                  int index,
                                  Literal* symbol,
                                  bool is_rest) {
-  VisitorInfo* visitor_info = info()->visitor_info();
+  TranslatorData* translator_data = info()->translator_data();
   std::stringstream st;
   st << index;
   TokenInfo* info = new(pool()) TokenInfo(st, Token::JS_NUMERIC_LITERAL, ast_node->line_number());
@@ -238,7 +238,7 @@ DstaTree* DstaProcessor::ProcessArrayElement(ArrayLikeLiteral* ast_node,
                                               DstaTree* tree,
                                               int depth,
                                               int index) {
-  VisitorInfo* visitor_info = info()->visitor_info();
+  TranslatorData* translator_data = info()->translator_data();
   if (!element->IsEmpty()) {
     Literal* elem = element->CastToLiteral();
     ObjectLikeLiteral* object = element->CastToExpression()->CastToObjectLikeLiteral();
@@ -394,7 +394,7 @@ NodeList* DstaProcessor::IterateTree(NodeList* result, AstNode* first, Processor
  * <lhs is javascript object except null or undefined> -> no throw
  * <lhs is null or undefined> -> throw TypeError <... is has no property.>
  */
-AstNode* DstaProcessor::CreateSimpleAccessor(AstNode* first, VisitorInfo* info, bool is_assign) {
+AstNode* DstaProcessor::CreateSimpleAccessor(AstNode* first, TranslatorData* info, bool is_assign) {
   if (!is_assign) {
     Literal* var = new(LocalPool()) Literal(Literal::kVariable, first->line_number());
     DstaTree* tree = first->CastToDstaTree();
@@ -482,7 +482,7 @@ NodeList* DstaProcessor::CreateDstaExtractedAssignment(Statement* stmt, Processo
 
 
 Literal* DstaProcessor::ProcessNode() {
-  VisitorInfo* visitor_info = info()->visitor_info();
+  TranslatorData* translator_data = info()->translator_data();
   /**
    * Create a variable has the temporary referrence to assignment right hand side.
    * That like this -> _mochaLocalTmp<current number of tmporary variable> = <LHS>

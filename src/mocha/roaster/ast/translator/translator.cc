@@ -26,35 +26,32 @@
 #include <list>
 #include <utility>
 #include <sstream>
-#include <mocha/roaster/compiler.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/scopes/scope.h>
-#include <mocha/roaster/ast/visitors/ast_transformer.h>
-#include <mocha/roaster/ast/visitors/codegen_visitor.h>
-#include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/platform/fs/virtual_directory.h>
-#include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/iteration_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/variable_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/class_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/trait_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/function_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/fileroot_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/module_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/export_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/import_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/call_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/yield_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/array_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/object_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/syntax_sugar_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
 #include <mocha/roaster/memory/pool.h>
-#include <mocha/xml/xml_setting_info.h>
+#include <mocha/roaster/scopes/scope.h>
+#include <mocha/roaster/ast/ast.h>
+#include <mocha/roaster/ast/builder/ast_builder.h>
+#include <mocha/roaster/ast/visitors/codegen_visitor.h>
+#include <mocha/roaster/ast/translator/translator.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
+#include <mocha/roaster/ast/translator/processors/iteration_processor.h>
+#include <mocha/roaster/ast/translator/processors/variable_processor.h>
+#include <mocha/roaster/ast/translator/processors/class_processor.h>
+#include <mocha/roaster/ast/translator/processors/trait_processor.h>
+#include <mocha/roaster/ast/translator/processors/function_processor.h>
+#include <mocha/roaster/ast/translator/processors/fileroot_processor.h>
+#include <mocha/roaster/ast/translator/processors/module_processor.h>
+#include <mocha/roaster/ast/translator/processors/export_processor.h>
+#include <mocha/roaster/ast/translator/processors/import_processor.h>
+#include <mocha/roaster/ast/translator/processors/call_processor.h>
+#include <mocha/roaster/ast/translator/processors/yield_processor.h>
+#include <mocha/roaster/ast/translator/processors/array_processor.h>
+#include <mocha/roaster/ast/translator/processors/object_processor.h>
+#include <mocha/roaster/ast/translator/processors/syntax_sugar_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 namespace mocha {
 
@@ -71,17 +68,15 @@ namespace mocha {
 #define REGIST(node) visitor_info_->set_current_statement(node)
 
 
-AstTransformer::AstTransformer(bool is_runtime, ScopeRegistry* scope_registry, Compiler* compiler,
-                               const char* main_file_path, const char* filename) :
-    pool_(memory::Pool::Local()), builder_(AstBuilder::Local()),
-    visitor_info_(new VisitorInfo(is_runtime, scope_registry, compiler,
-                                  new(pool()) DstaExtractedExpressions, main_file_path, filename)),
-    compiler_(compiler),
-    scope_registry_(scope_registry) {
-  proc_info_(new ProcessorInfo(this, scope_registry, visitor_info_.Get()));
+Translator::Translator(bool is_runtime, CompilationEvent* e)
+    : pool_(memory::Pool::Local()),
+      builder_(AstBuilder::Local()),
+      visitor_info_(new TranslatorData(is_runtime, e, new(pool()) DstaExtractedExpressions)),
+      event_(e) {
+  proc_info_(new ProcessorInfo(this, visitor_info_.Get()));
 }
 
-AstTransformer::~AstTransformer () {}
+Translator::~Translator(){}
 
 
 VISITOR_IMPL(AstRoot) {
@@ -128,6 +123,7 @@ VISITOR_IMPL(VersionStmt) {
   ast_node->AddChild(an_stmt_node);
   body->Accept(this);
 }
+
 
 
 VISITOR_IMPL(BlockStmt) {
@@ -186,6 +182,7 @@ VISITOR_IMPL(VariableStmt) {
     ast_node->first_child()->Append(list);
   }
 }
+
 
 VISITOR_IMPL(LetStmt) {
   PRINT_NODE_NAME;
@@ -457,7 +454,7 @@ VISITOR_IMPL(AssertStmt) {
   REGIST(ast_node);
   AstNode* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kAssert),
                                             Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kProperty);
-  CodegenVisitor visitor(visitor_info_->filename(), true, false, compiler_);
+  CodegenVisitor visitor(visitor_info_->filename(), true, false);
   AstNode* expect = ast_node->first_child();
   AstNode* expression = expect->next_sibling();
   ast_node->RemoveAllChild();
@@ -637,7 +634,7 @@ VISITOR_IMPL(Literal) {
   PRINT_NODE_NAME;
   switch (ast_node->value_type()) {
     case Literal::kPrivateProperty : {
-      visitor_info_->set_private_property_list(VisitorInfo::AstPair(ast_node, ast_node->first_child()));
+      translator_data_->set_private_property_list(TranslatorData::AstPair(ast_node, ast_node->first_child()));
     }
       break;
                         

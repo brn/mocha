@@ -1,44 +1,62 @@
-#ifndef mocha_visitor_info_h_
-#define mocha_visitor_info_h_
+/**
+ *@author Taketoshi Aono
+ *@fileOverview
+ *@license
+ *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ *associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ *subject to the following conditions:
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions ofthe Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *DEALINGS IN THE SOFTWARE.
+ */
+#ifndef mocha_ast_visitors_visitor_info_h_
+#define mocha_ast_visitors_visitor_info_h_
 #include <string>
-#include <list>
-#include <utility>
-#include <mocha/roaster/misc/int_types.h>
-#include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
-#include <mocha/roaster/misc/class_traits/uncopyable.h>
-#include <mocha/xml/versions.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
+#include <mocha/roaster/misc/int_types.h>
+#include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/misc/bits.h>
-
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/events/compilation_event/compilation_event.h>
 namespace mocha {
 class CompilationEvent;
 class Compiler;
 class ClassProcessor;
 class AstBuilder;
+class CompilationInfo;
 typedef std::list<ClassProcessor*> ClassList;
-class VisitorInfo : private Uncopyable{
+class TranslatorData : private Uncopyable {
  public :
   typedef std::pair<AstNode*, AstNode*> AstPair;
   typedef std::list<AstPair> PrivateNameList;
-  VisitorInfo(bool is_runtime, CompilationEvent* e,
-              DstaExtractedExpressions* dsta_exp, const char* main_file_path, const char* file_name);
-  ~VisitorInfo(){};
+  TranslatorData(bool is_runtime, CompilationEvent* e, DstaExtractedExpressions* dsta_exp);
+  ~TranslatorData(){};
   int tmp_index() { int ret = tmp_index_;tmp_index_++;return ret; };
-  const char* main_file_path() const { return main_file_path_; };
-  const char* filename() const { return file_name_; };
+  const char* main_file_path() const { return event_->mainfile_path(); };
+  const char* filename() const { return event_->filename(); };
   const char* relative_path() const { return relative_path_.c_str(); }
   CompilationEvent* compilation_event() const { return event_; };
   void set_rest_expression(TokenInfo* info) { rest_exp_ = info; }
   TokenInfo* rest_expression() const { return rest_exp_; }
   void set_current_statement(Statement* stmt) { current_stmt_ = stmt; }
   Statement* current_statement() const { return current_stmt_; }
-
+  CompilationInfo* compilation_info() {return event_->compilation_info();}
   void set_dsta_injection(bool is) { (is)? bit_vector_.Set(0) : bit_vector_.UnSet(0); }
   bool dsta_injection() { return bit_vector_[ 0 ]; }
   void set_rest_injection(bool is) { (is)? bit_vector_.Set(1) : bit_vector_.UnSet(1); }
   bool rest_injection() { return bit_vector_[ 1 ]; }
-
   bool runtime() const { return bit_vector_.At(2); }
   bool IsInModules() const { return is_in_module_ > 0; }
   void EscapeModuel() { is_in_module_--;}
@@ -62,12 +80,11 @@ class VisitorInfo : private Uncopyable{
   ClassProcessor* GetClass() const { return current_class_; }
   AstBuilder* builder(){ return builder_; }
  private :
+  
   int tmp_index_;
   int object_depth_;
   int16_t is_in_class_;
   int16_t is_in_module_;
-  const char* main_file_path_;
-  const char* file_name_;
   std::string relative_path_;
   PrivateNameList private_names_;
   BitVector8 bit_vector_;

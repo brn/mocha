@@ -20,8 +20,8 @@ class CompilationInfo;
 class AstBuilder;
 class CodegenVisitor : public IVisitor {
  public :
-  CodegenVisitor(const char* filename_, CompilationInfo* info, Compiler* compiler);
-  CodegenVisitor(const char* filename_, bool is_pretty_print, bool is_debug, Compiler* compiler);
+  CodegenVisitor(const char* filename_, CompilationInfo* info);
+  CodegenVisitor(const char* filename_, bool is_pretty_print, bool is_debug);
   ~CodegenVisitor(){};
 #include <mocha/roaster/ast/visitors/visitor_decl.h>
   inline void Write(const char* code) { stream_->Write(code); }
@@ -55,7 +55,7 @@ class CodegenVisitor : public IVisitor {
   const char* filename_;
   std::vector<int> state_;
   Scope* scope_;
-  Compiler* compiler_;
+  CompilationInfo* info_;
   CodeBuffer default_buffer_;
   ScopedPtr<CodeStream> stream_;
   ScopedPtr<CodeWriter> writer_;

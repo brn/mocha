@@ -76,7 +76,7 @@ void ImportProccessor::ProcessNode() {
 
 
 void ImportProccessor::LoadModule_() {
-  VisitorInfo* visitor_info = info()->visitor_info();
+  TranslatorData* translator_data = info()->translator_data();
   AstNode* from = stmt_->from();
   AstNode* file = from->first_child();
   Literal* value = file->CastToLiteral();

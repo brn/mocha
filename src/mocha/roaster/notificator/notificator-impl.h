@@ -22,7 +22,7 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-
+#include <mocha/roaster/log/logging.h>
 namespace mocha {
 
 #define TEMPLATE template<typename Event>
@@ -71,6 +71,7 @@ inline void Notificator<Event>::NotifyAll(Event e) {
 
 TEMPLATE
 inline void Notificator<Event>::NotifyForKey(const char* key, Event e) {
+  DEBUG_LOG(Info, "Notificator::NotifyForKey[%s]", key);
   ListenersRange range = listeners_.equal_range(key);
   //Call all liteners that identified by same key.
   for (ListenersIterator it = range.first; it != range.second; ++it) {

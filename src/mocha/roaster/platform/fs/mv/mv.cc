@@ -19,10 +19,11 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
+#include <stdio.h>
 #include <mocha/roaster/platform/fs/mv/mv.h>
 namespace mocha { namespace os { namespace fs {
 bool mv(const char* old_path, const char* new_path) {
-  return ::rename(path);
+  return ::rename(old_path, new_path);
 }
 }}}
-#endif
+

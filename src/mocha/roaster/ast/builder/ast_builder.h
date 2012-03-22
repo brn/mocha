@@ -34,7 +34,7 @@ namespace memory {
 class Pool;
 }
 #define AST_ERROR(info, message)
-class VisitorInfo;
+class TranslatorData;
 class TokenInfo;
 class AstBuilder : private Uncopyable {
  public :

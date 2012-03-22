@@ -31,7 +31,7 @@ void RemovePrivateProperty(ObjectLikeLiteral* literal) {
 }
 
 void ObjectProccessor::ProcessNode() {
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   visitor_info->EnterObject();
   NodeIterator iterator = literal_->elements()->ChildNodes();
   while (iterator.HasNext()) {
@@ -80,8 +80,8 @@ void CollectParentExpression(LiteralArray* expression_array, AstNode* parent, Li
 }
 
 void ObjectProccessor::ProcessPrivateProperty(Literal *name) {
-  VisitorInfo::PrivateNameList *list = info_->visitor_info()->private_property_list();
-  VisitorInfo::PrivateNameList::reverse_iterator begin = list->rbegin(),end = list->rend();
+  TranslatorData::PrivateNameList *list = info_->translator_data()->private_property_list();
+  TranslatorData::PrivateNameList::reverse_iterator begin = list->rbegin(),end = list->rend();
   LiteralArray expression_array;
   while (begin != end) {
     AstNode* cur_name = (*begin).first;

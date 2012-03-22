@@ -1,7 +1,7 @@
 #include <string.h>
 #include <mocha/misc/char_allocator.h>
-#include <mocha/roaster/platform/fs/virtual_directory.h>
-#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/platform/fs/path/path.h>
+#include <mocha/roaster/platform/fs/virtual_directory/virtual_directory.h>
 
 namespace mocha {namespace os {
 namespace fs {
@@ -14,13 +14,12 @@ VirtualDirectory* os::fs::VirtualDirectory::GetInstance() {
   return instance;
 }
 
-void VirtualDirectory::Chdir(const char* path) {
-  Path path_info(path);
-  current_dir_ = path_info.absolute_path();
+void VirtualDirectory::set_current_directory(const char* path) {
+  current_dir_ = path;
 }
 
-SharedStr VirtualDirectory::GetCurrentDir() {
-  return current_dir_.c_str());
+const char* VirtualDirectory::current_directory() const {
+  return current_dir_.c_str();
 }
 
 void VirtualDirectory::Destructor(void* ptr) {

@@ -13,7 +13,7 @@ ModuleProcessor::ModuleProcessor(ModuleStmt* stmt, ProcessorInfo* info)
     : Processor(), stmt_(stmt), info_(info){};
 
 void ModuleProcessor::ProcessNode() {
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   AstNode* body = stmt_->first_child();
   AstNode* name = stmt_->name();
   bool is_runtime = visitor_info->runtime();
@@ -40,7 +40,7 @@ void ModuleProcessor::ProcessNode() {
  * Like this -> __MC_global_alias__.<name> = ...;
  */
 void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstNode* name, bool is_runtime) {
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   if (!is_runtime) {
     Literal* alias = 0;
     if (visitor_info->IsInModules()) {
@@ -72,7 +72,7 @@ void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstN
  * to create module scopes.
  */
 ExpressionStmt* ModuleProcessor::ProcessBody_(AstNode* body, Function* fn_node, AstNode* name) {
-  VisitorInfo* visitor_info = info_->visitor_info();
+  TranslatorData* translator_data = info_->translator_data();
   IVisitor* visitor = info_->visitor();
   ExpressionStmt* an_stmt_node = builder()->CreateAnonymousFnCall(fn_node, new(pool()) Empty, stmt_->line_number());
   visitor_info->EnterModuel();

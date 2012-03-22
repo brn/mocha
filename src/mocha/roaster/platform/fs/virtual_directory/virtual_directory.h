@@ -10,12 +10,12 @@ namespace fs {
 class VirtualDirectory {
  public :
   static VirtualDirectory* GetInstance();
-  void Chdir(const char* path);
-  const char* GetCurrentDir();
+  void set_current_directory(const char* path);
+  const char* current_directory() const;
  private :
   inline VirtualDirectory(){};
   inline ~VirtualDirectory(){};
-  static void Destructor_(void* ptr);  
+  static void Destructor(void* ptr);  
   std::string current_dir_;
   static ThreadLocalStorageKey local_key_;
   static Mutex mutex_;
