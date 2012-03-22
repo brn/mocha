@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <mocha/misc/int_types.h>
+#include <mocha/roaster/misc/int_types.h>
 #include <mocha/roaster/platform/thread/thread.h>
 
 namespace mocha {

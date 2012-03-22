@@ -26,10 +26,12 @@ TEST_CONFIG.Extend({
             "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",
             "LIBS" : [],
             "EXCLUDE_FILES" : [],
-            "DEPENDS" : ["../platform/thread/thread-win32.cc"]
+            "DEPENDS" : ["../platform/thread/thread-win32.cc",
+                         "../platform/utils/utils-win32.cc",
+                         "../platform/fs/stat/stat.cc"]
             }
         })
 TEST_CONFIG.set_base(ROOT)
 builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc', '../memory/pool.cc'], ENV, TEST_CONFIG)
-builder.Build(CURRENT + '/src', ROOT)
+builder.Build(CURRENT + '/src', ROOT, CURRENT)
 

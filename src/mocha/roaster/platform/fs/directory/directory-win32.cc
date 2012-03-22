@@ -101,7 +101,7 @@ void Directory::chdir(const char* path) {
 }
 
 void Directory::chmod(const char* path, int permiss) {
-  _chmod(path,permiss)
+  _chmod(path,permiss);
 }
 
 }}}

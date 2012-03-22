@@ -12,7 +12,7 @@ TEST_CONFIG = CONFIG.Copy()
 TEST_CONFIG.Extend({
         "linux" : {
             "TARGET" : "ct",
-            "LD_FLAGS" : "",
+            "LD_FLAGS" : "`icu-config --ldflags`",
             "LIBS" : ['pthread'],
             "EXCLUDE_FILES" : [],
             "DEPENDS" : ['../../platform/thread/thread-posix.cc',
@@ -30,9 +30,9 @@ TEST_CONFIG.Extend({
                          '../../platform/fs/directory/directory-posix.cc']
             },
         "win32" : {
-            "TARGET" : "ct.exe",
-            "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",
-            "LIBS" : [LIB_PREFIX + '/lib-win32/icuin.lib', LIB_PREFIX + '/lib-win32/icudt.lib', LIB_PREFIX + '/lib-win32/icuuc.lib'],
+            "LD_FLAGS" : "/NOLOGO /MACHINE:X86",
+            "LIBS" : ['advapi32.lib'],
+            "STATIC_LIBS" : [LIB_PREFIX + '/lib-win32/debug/icuin.lib', LIB_PREFIX + '/lib-win32/debug/icudt.lib', LIB_PREFIX + '/lib-win32/debug/icuuc.lib'],
             "EXCLUDE_FILES" : [],
             "DEPENDS" : ['../../platform/thread/thread-win32.cc',
                          '../../platform/utils/utils-win32.cc',

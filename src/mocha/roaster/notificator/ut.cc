@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <gtest/gtest.h>
+#include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/notificator/notificator.h>
 class Event {
  public :
@@ -59,6 +60,7 @@ void Testfn2(Event e) {
 
 
 TEST(NotificatorTest, FunctorTest) {
+  mocha::Logging::Initialize(stdout);
   mocha::Notificator<Event> notificator;
   TestListener1 t;
   notificator.AddListener("TestListener", &t);

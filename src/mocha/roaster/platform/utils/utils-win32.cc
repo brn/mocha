@@ -57,7 +57,7 @@ void SPrintf(std::string* buf, const char* format, ...) {
   va_end(args);
 }
 
-void VSPrintf(std::string* buf, const char* format, va_list arg) {
+void VSPrintf(std::string* buf, const char* format, va_list args) {
   int len = VAArgs(format, args);
   char* buffer = static_cast<char*>(malloc(len * sizeof(char)));
   assert(buffer != NULL);
@@ -68,7 +68,7 @@ void VSPrintf(std::string* buf, const char* format, va_list arg) {
 
 
 void VFPrintf(FILE* fp, const char* format, va_list arg) {
-  vfprintf_s(fp, format, args);
+  vfprintf_s(fp, format, arg);
 }
 
 void FPrintf(FILE* fp, const char* format, ...) {
@@ -92,7 +92,7 @@ void FClose(FILE* fp) {
 }
 
 void GetEnv(std::string* buf, const char* env) {
-  int size = 0;
+  size_t size = 0;
   char buffer[1];
   getenv_s(&size, buffer, 1, env);
   char* tmp = new char[size + 1];

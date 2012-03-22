@@ -3,9 +3,8 @@
 #include <sstream>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/memory/pool.h>
-#include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
+#include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
