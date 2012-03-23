@@ -1,7 +1,7 @@
 #ifndef mocha_variable_processor_h_
 #define mocha_variable_processor_h_
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 namespace mocha {
 class IVisitor;
 class Scope;

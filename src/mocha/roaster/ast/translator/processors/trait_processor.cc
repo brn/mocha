@@ -1,11 +1,11 @@
 #include <sstream>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/trait_processor.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/tokens/js_token.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/trait_processor.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
 namespace mocha {
 
 TraitProcessor::TraitProcessor(Trait* trait, ProcessorInfo* info)
@@ -14,7 +14,7 @@ TraitProcessor::TraitProcessor(Trait* trait, ProcessorInfo* info)
 void TraitProcessor::ProcessNode() {
   TranslatorData* translator_data = info_->translator_data();
   AstNode* name = trait_->name();
-  name_ = (!name->IsEmpty())? name->CastToLiteral() : builder()->CreateTmpNode(visitor_info->tmp_index(), trait_->line_number());
+  name_ = (!name->IsEmpty())? name->CastToLiteral() : builder()->CreateTmpNode(translator_data->tmp_index(), trait_->line_number());
   ObjectLikeLiteral* object = new(pool()) ObjectLikeLiteral(trait_->line_number());
   NodeList* list = new(pool()) NodeList;
   AstNode* parent = trait_->parent_node();

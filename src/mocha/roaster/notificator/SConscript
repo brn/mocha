@@ -13,14 +13,18 @@ TEST_CONFIG.Extend({
             "LD_FLAGS" : "",
             "LIBS" : ['pthread'],
             "EXCLUDE_FILES" : [],
-            "DEPENDS" : ["../platform/thread/thread-posix.cc"]
+            "DEPENDS" : ["../platform/thread/thread-posix.cc",
+                         "../platform/utils/utils-posix.cc",
+                         "../platform/fs/stat/stat.cc"]
             },
         'macos' : {
             "LD_FLAGS" : "",
             "LIBS" : [],
             "STATIC_LIBS" : [],
             "EXCLUDE_FILES" : [],
-            "DEPENDS" : ["../platform/thread/thread-posix.cc"]
+            "DEPENDS" : ["../platform/thread/thread-posix.cc",
+                         "../platform/utils/utils-posix.cc",
+                         "../platform/fs/stat/stat.cc"]
             },
         "win32" : {
             "LD_FLAGS" : "/NOLOGO /MACHINE:X86 /LTCG",

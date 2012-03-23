@@ -22,9 +22,6 @@
  */
 #include <string.h>
 #include <stdio.h>
-#include <assert.h>
-#include <list>
-#include <utility>
 #include <sstream>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/scopes/scope.h>
@@ -56,8 +53,7 @@
 namespace mocha {
 
 
-#define VISITOR_IMPL(type) void AstTransformer::Visit##type(type* ast_node)
-#define TOKEN yy::ParserImplementation::token
+#define VISITOR_IMPL(type) void Translator::Visit##type(type* ast_node)
 
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
@@ -65,15 +61,15 @@ namespace mocha {
 #define PRINT_NODE_NAME
 #endif
 
-#define REGIST(node) visitor_info_->set_current_statement(node)
+#define REGIST(node) translator_data_->set_current_statement(node)
 
 
 Translator::Translator(bool is_runtime, CompilationEvent* e)
     : pool_(memory::Pool::Local()),
       builder_(AstBuilder::Local()),
-      visitor_info_(new TranslatorData(is_runtime, e, new(pool()) DstaExtractedExpressions)),
-      event_(e) {
-  proc_info_(new ProcessorInfo(this, visitor_info_.Get()));
+      event_(e),
+      translator_data_(new TranslatorData(is_runtime, e, new(pool()) DstaExtractedExpressions)) {
+  proc_info_(new ProcessorInfo(this, translator_data_.Get()));
 }
 
 Translator::~Translator(){}
@@ -263,7 +259,7 @@ VISITOR_IMPL(IFStmt) {
   }
   maybe_else_statement->Accept(this);
   if (ast_node->IsContainYield()) {
-    visitor_info_->function()->set_statement_in_generator(ast_node);
+    translator_data_->function()->set_statement_in_generator(ast_node);
   }
 }
 
@@ -353,7 +349,7 @@ VISITOR_IMPL(SwitchStmt) {
     iterator.Next()->Accept(this);
   }
   if (ast_node->IsContainYield()) {
-    visitor_info_->function()->set_statement_in_generator(ast_node);
+    translator_data_->function()->set_statement_in_generator(ast_node);
   }
 }
 
@@ -415,10 +411,10 @@ VISITOR_IMPL(ThrowStmt) {
   REGIST(ast_node);
   AstNode* val = ast_node->expression();
   Expression* exp = val->CastToExpression();
-  if (exp && !visitor_info_->runtime()) {
+  if (exp && !translator_data_->runtime()) {
     if (exp->child_length() == 1) {
       Literal* name = exp->first_child()->CastToLiteral();
-      if (name && name->value_type() == Literal::kIdentifier && strcmp(name->value()->token(), "StopIteration") == 0) {
+      if (name && name->value_type() == Literal::kIdentifier && strcmp(name->value()->token(), SymbolList::symbol(SymbolList::kStopIteration)) == 0) {
         Literal* undefined = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kUndefined),
                                                        Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kIdentifier);
         ReturnStmt* stmt = builder()->CreateReturnStmt(undefined, ast_node->line_number());
@@ -444,7 +440,7 @@ VISITOR_IMPL(TryStmt) {
   }
   ast_node->finally_block()->Accept(this);
   if (ast_node->IsContainYield()) {
-    visitor_info_->function()->set_try_catch_list(ast_node);
+    translator_data_->function()->set_try_catch_list(ast_node);
   }
 }
 
@@ -454,7 +450,7 @@ VISITOR_IMPL(AssertStmt) {
   REGIST(ast_node);
   AstNode* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kAssert),
                                             Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kProperty);
-  CodegenVisitor visitor(visitor_info_->filename(), true, false);
+  CodegenVisitor visitor(translator_data_->filename(), true, false);
   AstNode* expect = ast_node->first_child();
   AstNode* expression = expect->next_sibling();
   ast_node->RemoveAllChild();
@@ -488,7 +484,7 @@ VISITOR_IMPL(AssertStmt) {
                                             Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
   Literal* string_expression = builder()->CreateNameNode(st, Token::JS_STRING_LITERAL,
                                                          ast_node->line_number(), Literal::kString);
-  Literal* filename = builder()->CreateNameNode(visitor_info_->relative_path(), Token::JS_STRING_LITERAL,
+  Literal* filename = builder()->CreateNameNode(translator_data_->relative_path(), Token::JS_STRING_LITERAL,
                                                 ast_node->line_number(), Literal::kString);
   AstNode* arg = builder()->CreateNodeList(5, expect, expression, string_expression, line, filename);
   CallExp* exp = builder()->CreateRuntimeMod(name, ast_node->line_number());
@@ -643,15 +639,15 @@ VISITOR_IMPL(Literal) {
       break;
 
     case Literal::kRest : {
-      visitor_info_->set_rest_injection(true);
+      translator_data_->set_rest_injection(true);
       ast_node->set_value_type(Literal::kIdentifier);
       ast_node->parent_node()->RemoveChild(ast_node);
-      visitor_info_->set_rest_expression(ast_node->value());
+      translator_data_->set_rest_expression(ast_node->value());
     }
       break;
 
     case Literal::kThis : {
-      Function* fn = visitor_info_->function();
+      Function* fn = translator_data_->function();
       if (fn && fn->replaced_this()) {
         ast_node->set_value(fn->replaced_this()->value());
       }

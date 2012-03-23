@@ -1,14 +1,14 @@
 #include <sstream>
-#include <mocha/roaster/ast/visitors/utils/processors/class_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/trait_processor.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
+#include <mocha/roaster/ast/translator/processors/class_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
+#include <mocha/roaster/ast/translator/processors/trait_processor.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 #define TOKEN yy::ParserImplementation::token
 
@@ -425,7 +425,7 @@ inline void ClassProcessor::SetName(AstNode* name_node) {
     TokenInfo *info = name_node->CastToLiteral()->value();
     name_ = info->token();
   } else {
-    name_ = builder()->CreateTmpRef(info_->visitor_info()->tmp_index());
+    name_ = builder()->CreateTmpRef(info_->translator_data()->tmp_index());
   }
 }
 
@@ -440,7 +440,7 @@ inline void ClassProcessor::ProcessExtends(AstNode* node) {
     const char* extend_fn = (expandar->attribute() == ClassExpandar::kExtends)?
         SymbolList::symbol(SymbolList::kExtendClass) :
         SymbolList::symbol(SymbolList::kExtendPrototype);
-    Literal* tmp_node = builder()->CreateTmpNode(info_->visitor_info()->tmp_index(), expandar->line_number());
+    Literal* tmp_node = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), expandar->line_number());
     Literal* tmp_init = builder()->CreateVarInitiliser(tmp_node->value(), node->first_child(), expandar->line_number());
     VariableDeclarationList* decl_list = builder()->CreateVarDeclList(expandar->line_number(), 1, tmp_init);
     VariableStmt* var_stmt = builder()->CreateVarStmt(decl_list, expandar->line_number());
@@ -507,7 +507,7 @@ inline void ClassProcessor::ProcessMember(ClassProperties* body) {
   if (mixin->child_length() > 0) {
     AstNode* mixin_list = TraitProcessor::ProcessMixin(mixin, info_, mixin->line_number());
     utils_->CreateMixinStmt(name_.c_str(), mixin_list, closure_body_);
-    utils_->CreateRequirementsCheck(name_.c_str(), info_->visitor_info()->relative_path(), mixin_list, closure_body_);
+    utils_->CreateRequirementsCheck(name_.c_str(), info_->translator_data()->relative_path(), mixin_list, closure_body_);
   }
 }
 
@@ -572,7 +572,7 @@ void ClassProcessor::ProcessEachMember(AstNode* node, bool is_prototype, bool is
 
     case AstNode::kClass : {
       Statement* tmp_stmt = new(pool()) Statement;
-      info_->visitor_info()->set_current_statement(tmp_stmt);
+      info_->translator_data()->set_current_statement(tmp_stmt);
       Class* class_node = reinterpret_cast<Class*>(node);
       class_node->set_inner();
       ClassProcessor cls(info_, class_node, tmp_stmt);
@@ -587,7 +587,7 @@ inline void ClassProcessor::ProcessDsta(AstNode *value,
                                          bool is_const,
                                          DstaCallback callback) {
   Statement* tmp_stmt = new(pool()) Statement;
-  info_->visitor_info()->set_current_statement(tmp_stmt);
+  info_->translator_data()->set_current_statement(tmp_stmt);
   DstaProcessor processor(value, info_);
   Literal* ret = processor.ProcessNode();
   if (tmp_stmt->IsContainDestructuring()) {
@@ -732,9 +732,9 @@ inline void ClassProcessor::ProcessFunction(Function* fn, bool is_prototype, boo
     closure_body_->AddChild(stmt);
   } else if (is_prototype) {
     if (is_private) {
-      info_->visitor_info()->EnterPrivate();
+      info_->translator_data()->EnterPrivate();
       fn->Accept(info_->visitor());
-      info_->visitor_info()->EscapePrivate();
+      info_->translator_data()->EscapePrivate();
       ExpressionStmt* stmt = utils_->PrototypePrivate(value, fn);
       closure_body_->AddChild(stmt);
     } else {
@@ -744,9 +744,9 @@ inline void ClassProcessor::ProcessFunction(Function* fn, bool is_prototype, boo
     }
   } else {
     if (is_private) {
-      info_->visitor_info()->EnterPrivate();
+      info_->translator_data()->EnterPrivate();
       fn->Accept(info_->visitor());
-      info_->visitor_info()->EscapePrivate();
+      info_->translator_data()->EscapePrivate();
       ExpressionStmt* stmt = utils_->PrototypePrivate(value, fn);
       closure_body_->AddChild(stmt);
     } else {

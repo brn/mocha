@@ -1,11 +1,11 @@
-#include <mocha/roaster/ast/visitors/utils/processors/variable_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
+#include <mocha/roaster/ast/translator/processors/variable_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 namespace mocha {
 
 void VariableProcessor::ProcessVarList(AstNode* ast_node, ProcessorInfo* info) {
@@ -22,7 +22,7 @@ void VariableProcessor::ProcessVarList(AstNode* ast_node, ProcessorInfo* info) {
         if (!initialiser->IsEmpty()) {
           initialiser->Accept(visitor);
         }
-        Function* fn = info->visitor_info()->function();
+        Function* fn = info->translator_data()->function();
         if (fn) {
           fn->set_variable_list(value);
         }
@@ -37,7 +37,7 @@ void VariableProcessor::ProcessVarList(AstNode* ast_node, ProcessorInfo* info) {
 
 
 void VariableProcessor::ProcessVarInitialiser(Literal* ast_node, ProcessorInfo* info) {
-  Function* fn = info->visitor_info()->function();
+  Function* fn = info->translator_data()->function();
   if (fn) {
     fn->set_variable_list(ast_node);
   }

@@ -1,11 +1,11 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/call_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/class_processor.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/tokens/js_token.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/call_processor.h>
+#include <mocha/roaster/ast/translator/processors/class_processor.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
 namespace mocha {
 
 void CallProcessor::ProcessPrivateAccessor() {

@@ -2,7 +2,7 @@
 #define mocha_syntax_sugar_processor_h_
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/misc/class_traits/static.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 namespace mocha {
 class ProcessorInfo;
 class IVisitor;

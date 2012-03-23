@@ -109,7 +109,8 @@ TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'platform_path' : 'src/mocha/roaster/platform/fs/path',
          'nexc' : 'src/mocha/roaster/nexc',
          'nexc-scanner' : 'src/mocha/roaster/nexc/scanner',
-         'nexc-parser' : 'src/mocha/roaster/nexc/parser'
+         'nexc-parser' : 'src/mocha/roaster/nexc/parser',
+         'nexc-translator' : 'src/mocha/roaster/ast/translator'
          }
 CT = {
    'nexc' : 'src/mocha/roaster/nexc/ct'

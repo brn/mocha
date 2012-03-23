@@ -24,21 +24,22 @@
 #define mocha_roaster_assert_assert_h_
 #include <stdio.h>
 #include <stdlib.h>
+#include <mocha/roaster/platform/utils/utils.h>
 #if defined DEBUG
 #ifdef __GNUC__
 #define ASSERT(expect, result)                  \
-  if ((expect) != (result)) {fprintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n in function %s\n", #result, #expect, __FILE__, __LINE__, __PRETTY_FUNCTION__);abort();}
+  if ((expect) != (result)) {os::FPrintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n in function %s\n", #result, #expect, __FILE__, __LINE__, __PRETTY_FUNCTION__);abort();}
 #elif defined __func__
-#define ASSERT(expect, result) if ((expect) != (result)){fprintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n in function %s\n", #result, #expect, __FILE__, __LINE__, __func__);abort();}
+#define ASSERT(expect, result) if ((expect) != (result)){os::FPrintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n in function %s\n", #result, #expect, __FILE__, __LINE__, __func__);abort();}
 #elif defined __FUNC__
-#define ASSERT(expect, result) if ((expect) != (result)){fprintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n in function \n", #result, #expect, __FILE__, __LINE__, __FUNC__);abort();}
+#define ASSERT(expect, result) if ((expect) != (result)){os::FPrintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n in function \n", #result, #expect, __FILE__, __LINE__, __FUNC__);abort();}
 #else
-#define ASSERT(expect, result) if ((expect) != (result)){fprintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n", #result, #expect, __FILE__, __LINE__);abort();}
+#define ASSERT(expect, result) if ((expect) != (result)){os::FPrintf(stderr, "assertion failed -> %s == %s\n in file %s at line %d\n", #result, #expect, __FILE__, __LINE__);abort();}
 #endif
 #elif defined NDEBUG
 #define ASSERT(expect, result)
 #endif
 
-#define FATAL(msg) fprintf(stderr, "%s\n", msg);abort();
+#define FATAL(msg) os::FPrintf(stderr, "Fatal error occured, so process no longer exist.\nin file %s at line %d\n in function %s\n%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__, msg);abort();
 
 #endif

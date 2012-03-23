@@ -1,12 +1,12 @@
-#include <mocha/roaster/ast/visitors/utils/processors/syntax_sugar_processor.h>
+#include <mocha/roaster/ast/translator/processors/syntax_sugar_processor.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/syntax_sugar_processor.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/syntax_sugar_processor.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 namespace mocha {
 
@@ -47,7 +47,7 @@ void SyntaxSugarProcessor::CreateClosure(AstNode* ast_node, AstNode* body, IVisi
 
 void SyntaxSugarProcessor::ProcessArrayComprehensions(ArrayLikeLiteral* literal, ProcessorInfo* info) {
   IVisitor* visitor = info->visitor();
-  Literal* tmp = LocalBuilder()->CreateTmpNode(info->visitor_info()->tmp_index(), literal->line_number());
+  Literal* tmp = LocalBuilder()->CreateTmpNode(info->translator_data()->tmp_index(), literal->line_number());
   ArrayLikeLiteral* array = new(LocalPool()) ArrayLikeLiteral(literal->line_number());
   VariableDeclarationList* decl_list = LocalBuilder()->CreateVarDeclList(literal->line_number(),
                                                                     1,

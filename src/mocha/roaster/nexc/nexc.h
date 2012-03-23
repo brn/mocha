@@ -25,7 +25,7 @@
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/notificator/notificator.h>
-
+#include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
 namespace os {namespace fs{
 class Path;
@@ -36,12 +36,13 @@ class CompilationEvent;
 class CompilationInfo;
 class ErrorReporter;
 class Nexc : public Notificator<CompilationEvent*>{
+  typedef std::pair<std::string, bool> GuardPair;
+  typedef roastlib::unordered_map<std::string, bool> ImportGuard;
  public :
   Nexc(CompilationInfo* info);
   ~Nexc(){};
   void CompileFile(const char* filename, const char* charset = NULL);
   void Compile(const char* source, const char* charset = NULL);
-  void ImportFile(CompilationEvent* e);
   static const char kScan[];
   static const char kParse[];
   static const char kTransformAst[];
@@ -49,11 +50,14 @@ class Nexc : public Notificator<CompilationEvent*>{
   static const char kFail[];
   static const char kImport[];
  private :
+  void ImportFile(CompilationEvent* e);
   void Initialize();
   void Abort(IOEvent* e);
+  bool CheckGuard(const char* path);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
   CompilationInfo* compilation_info_;
   os::fs::VirtualDirectory* virtual_directory_;
+  ImportGurad guard_;
   SharedPtr<ErrorReporter> reporter_;
   SharedPtr<memory::Pool> pool_;
 };

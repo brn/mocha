@@ -2,7 +2,7 @@
 #define mocha_object_processor_h_
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 namespace mocha {
 class ProcessorInfo;
 class ObjectProccessor : public Processor {

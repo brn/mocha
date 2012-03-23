@@ -75,7 +75,6 @@ class LoadErrorListener {
   CompilationEvent* event_;
 };
 
-
 Nexc::Nexc(CompilationInfo* info)
     : compilation_info_(info),
       virtual_directory_(os::fs::VirtualDirectory::GetInstance()),
@@ -110,17 +109,29 @@ void Nexc::Compile(const char* source, const char* charset) {
 
 
 void Nexc::ImportFile(CompilationEvent* e) {
-  virtual_directory_->set_current_directory(e->path());
-  Loader loader;
-  loader.AddListener(Loader::kComplete, LoadCompleteListener(this, e));
-  loader.AddListener(Loader::kError, LoadErrorListener(this, e, true));
-  loader.LoadFile(e->fullpath());
+  if (CheckGuard(e->absolute_path())) {
+    guard_.insert(GuardPair(ab, true));
+    virtual_directory_->set_current_directory(e->path());
+    Loader loader;
+    loader.AddListener(Loader::kComplete, LoadCompleteListener(this, e));
+    loader.AddListener(Loader::kError, LoadErrorListener(this, e, true));
+    loader.LoadFile(e->fullpath());
+  }
+}
+
+bool Nexc::CheckGuard(const char* path) {
+  if (guard_.find(ab) == guard_.end()) {
+    guard_.insert(GuardPair(path, 1));
+    return true;
+  }
+  return false;
 }
 
 void Nexc::Initialize() {
   AddListener(kScan, Scanner::ScannerEventListener());
   AddListener(kParse, Parser::ParseEventListener());
-//AddListener(kTransformAst, TransformEventLitener());
+  AddListener(kImport, Bind(&ImportFile, this));
+  //AddListener(kTransformAst, TransformEventLitener());
 }
 
 void Nexc::Abort(IOEvent* e) {

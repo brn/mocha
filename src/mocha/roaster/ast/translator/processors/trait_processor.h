@@ -1,7 +1,7 @@
 #ifndef mocha_trait_processor_h_
 #define mocha_trait_processor_h_
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 namespace mocha {
 class ProcessorInfo;
 class TraitProcessor : public Processor {

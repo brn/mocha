@@ -1,7 +1,7 @@
 #ifndef mocha_array_processor_h_
 #define mocha_array_processor_h_
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 namespace mocha {
 class ProcessorInfo;

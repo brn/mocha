@@ -21,20 +21,15 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-#include <assert.h>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/compiler.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/utils/exception_handler.h>
-
-#define ERROR(info,func)                                                \
-  //AST_ERROR((info->visitor_info()), "mocha bugs in DstaProcessor::"#func".")
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 namespace mocha {
 /**
@@ -95,7 +90,7 @@ void DstaProcessor::ProcessMember(Literal* ast_node, DstaTree* tree) {
          * If the Tree hasn't children,
          * add first identifier accessor to tree.
          */
-        AstNode* node = visitor_info->current_statement()->destructuring_node()->refs()->last_child()->Clone(pool());
+        AstNode* node = translator_data->current_statement()->destructuring_node()->refs()->last_child()->Clone(pool());
         CallExp* dot_accessor = builder()->CreateDotAccessor(node, ast_node, ast_node->line_number());
         tree->AddChild(dot_accessor);
       }
@@ -110,7 +105,7 @@ void DstaProcessor::ProcessMember(Literal* ast_node, DstaTree* tree) {
         tree->AddChild(arr_accessor);
       } else {
         //Same as above.
-        AstNode* node = visitor_info->current_statement()->destructuring_node()->refs()->last_child();
+        AstNode* node = translator_data->current_statement()->destructuring_node()->refs()->last_child();
         CallExp* arr_accessor = builder()->CreateArrayAccessor(node, ast_node, ast_node->line_number());
         tree->AddChild(arr_accessor);
       }
@@ -141,7 +136,7 @@ DstaTree* DstaProcessor::ProcessPropertyMember(Literal* value, DstaTree* tree, i
       } else {
         prop->set_value_type(Literal::kProperty);
         tree->set_symbol(prop);
-        visitor_info->current_statement()->destructuring_node()->last_child()->AddChild(tree);
+        translator_data->current_statement()->destructuring_node()->last_child()->AddChild(tree);
         UPDATE_TREE;
       }
     }
@@ -149,7 +144,7 @@ DstaTree* DstaProcessor::ProcessPropertyMember(Literal* value, DstaTree* tree, i
     value->set_value_type(Literal::kProperty);
     tree->set_symbol(value);
     ProcessMember(value, tree);
-    visitor_info->current_statement()->destructuring_node()->last_child()->AddChild(tree);
+    translator_data->current_statement()->destructuring_node()->last_child()->AddChild(tree);
     UPDATE_TREE;
   }
   return tree;
@@ -177,7 +172,7 @@ void DstaProcessor::ProcessObject(ObjectLikeLiteral* ast_node, DstaTree* tree, i
         }
           break;
         default :
-          ERROR(info(), "ProcessObject");
+          FATAL("unknown type");
       }
     }
   }
@@ -205,7 +200,7 @@ void DstaProcessor::ArrayHelper(ArrayLikeLiteral* ast_node,
     if (tree->child_length() > 0) {
       list->AddChild(tree->last_child()->Clone(pool()));
     } else {
-      list->AddChild(visitor_info->current_statement()->destructuring_node()->refs()->last_child()->Clone(pool()));
+      list->AddChild(translator_data->current_statement()->destructuring_node()->refs()->last_child()->Clone(pool()));
     }
     list->AddChild(arg);
     CallExp* nrm = builder()->CreateNormalAccessor(to_array, list, ast_node->line_number());
@@ -218,7 +213,7 @@ void DstaProcessor::ArrayHelper(ArrayLikeLiteral* ast_node,
     if (tree->child_length() > 0) {
       exp = builder()->CreateArrayAccessor(tree->last_child(), accessor_index, ast_node->line_number());
     } else {
-      exp = builder()->CreateArrayAccessor(visitor_info->current_statement()->destructuring_node()->refs()->last_child(),
+      exp = builder()->CreateArrayAccessor(translator_data->current_statement()->destructuring_node()->refs()->last_child(),
                                            accessor_index, ast_node->line_number());
     }
   }
@@ -249,14 +244,14 @@ DstaTree* DstaProcessor::ProcessArrayElement(ArrayLikeLiteral* ast_node,
         case Literal::kIdentifier : //fall through
         case Literal::kProperty : {
           ArrayHelper(ast_node, tree, index, elem, false);
-          visitor_info->current_statement()->destructuring_node()->last_child()->AddChild(tree);
+          translator_data->current_statement()->destructuring_node()->last_child()->AddChild(tree);
           UPDATE_TREE;
         }
           break;
           //In case of [ x ,y ,...rest ]
         case Literal::kRest : {
           ArrayHelper(ast_node, tree, index, elem, true);
-          visitor_info->current_statement()->destructuring_node()->last_child()->AddChild(tree);
+          translator_data->current_statement()->destructuring_node()->last_child()->AddChild(tree);
           UPDATE_TREE;
         }
           break;
@@ -307,17 +302,13 @@ inline AstNode* DstaProcessor::CreateConditional(AstNode* last_exp, AstNode* fir
                                                  Token::JS_IDENTIFIER, last_exp->line_number(), Literal::kIdentifier);
   ConditionalExp* cond = new(LocalPool()) ConditionalExp(last_exp, first->last_child(), undefined, last_exp->line_number());
   DstaTree* tree = 0;//init after.
-  if (first->node_type() == AstNode::kDstaTree) {
-    tree = first->CastToDstaTree();
-  } else {
-    ERROR(info, CreateConditional);
-    return 0;
-  }
+  ASSERT(true, first->node_type() == AstNode::kDstaTree);
+  tree = first->CastToDstaTree();
   if (!is_assign) {
     Literal* var = new(LocalPool()) Literal(Literal::kVariable, last_exp->line_number());
     var->set_value(tree->symbol()->value());
     var->AddChild(cond);
-    Function* fn = info->visitor_info()->function();
+    Function* fn = info->translator_data()->function();
     if (fn) {
       fn->set_variable_list(var);
     }
@@ -344,22 +335,14 @@ NodeList* DstaProcessor::IterateTree(NodeList* result, AstNode* first, Processor
   while (exps.HasNext()) {
     maybe_callexp = exps.Next();
     CallExp* item = 0;//init after.
-    if (maybe_callexp->node_type() == AstNode::kCallExp) {
-      item = maybe_callexp->CastToExpression()->CastToCallExp();
-    } else {
-      ERROR(info, "CreateDstaExtractedVarStmt");
-      return 0;
-    }
+    ASSERT(true, maybe_callexp->node_type() == AstNode::kCallExp);
+    item = maybe_callexp->CastToExpression()->CastToCallExp();
     //Only first time.
     if (!last_exp) {
       maybe_callexp = exps.Next();
       CallExp* next = 0;//init after.
-      if (maybe_callexp->node_type() == AstNode::kCallExp) {
-        next = maybe_callexp->CastToExpression()->CastToCallExp();
-      } else {
-        ERROR(info, "CreateDstaExtractedVarStmt");
-        return 0;
-      }
+      ASSERT(AstNode::kCallExp, maybe_callexp->node_type());
+      next = maybe_callexp->CastToExpression()->CastToCallExp();
       if (!next->rest()) {
         //Create and exparession. like -> a && b
         last_exp = new(LocalPool()) CompareExp(Token::JS_LOGICAL_AND, item, next, first->line_number());
@@ -422,10 +405,7 @@ AstNode* DstaProcessor::CreateSimpleAccessor(AstNode* first, TranslatorData* inf
 NodeList* DstaProcessor::CreateDstaExtractedNode(Statement* stmt, ProcessorInfo* info, bool is_assign) {
   NodeList* result = new(LocalPool()) NodeList;
   DstaExtractedExpressions* extr = stmt->destructuring_node();
-  if (extr == 0) {
-    ERROR(info, "CreateDstaExtractedVarStmt");
-    return 0;
-  }
+  ASSERT(true, extr != 0);
   AstNode* node_list = extr->first_child();
   NodeIterator list = node_list->ChildNodes();
   /**
@@ -440,19 +420,15 @@ NodeList* DstaProcessor::CreateDstaExtractedNode(Statement* stmt, ProcessorInfo*
     AstNode *first = list.Next();
     AstNode* maybe_callexp = first->first_child();
     CallExp* exp = 0;//init after.
-    if (maybe_callexp != 0 && maybe_callexp->node_type() == AstNode::kCallExp) {
-      exp = maybe_callexp->CastToExpression()->CastToCallExp();
-    } else {
-      ERROR(info, "CreateDstaExtractedVarStmt");
-      return 0;
-    }
+    ASSERT(true, maybe_callexp != 0 && maybe_callexp->node_type() == AstNode::kCallExp);
+    exp = maybe_callexp->CastToExpression()->CastToCallExp();
     if (first->child_length() > 1 && !exp->rest()) {
       AstNode* ret = IterateTree(result, first, info, is_assign);
       if (ret == 0) {
         return 0;
       }
     } else {
-      AstNode* ret = CreateSimpleAccessor(first, info->visitor_info(), is_assign);
+      AstNode* ret = CreateSimpleAccessor(first, info->translator_data(), is_assign);
       result->AddChild(ret);
     }
   }
@@ -515,7 +491,7 @@ Literal* DstaProcessor::ProcessNode() {
     }
   }
   if (need_tmp) {
-    value = builder()->CreateTmpNode(info()->visitor_info()->tmp_index(), node()->line_number());
+    value = builder()->CreateTmpNode(info()->translator_data()->tmp_index(), node()->line_number());
   }
   /**
    * Create a tree node that is stored the result of processing.
@@ -525,21 +501,19 @@ Literal* DstaProcessor::ProcessNode() {
    * If we have not dsta yet,
    * add DstaExtractedAssignment to current active statement.
    */
-  Statement* stmt = visitor_info->current_statement();
+  Statement* stmt = translator_data->current_statement();
+  ASSERT(true, stmt != 0);
   if (stmt && !stmt->IsContainDestructuring()) {
-    visitor_info->current_statement()->set_destructuring(new(pool()) DstaExtractedExpressions);
-    visitor_info->current_statement()->destructuring_node()->AddChild(new(pool()) NodeList);
+    translator_data->current_statement()->set_destructuring(new(pool()) DstaExtractedExpressions);
+    translator_data->current_statement()->destructuring_node()->AddChild(new(pool()) NodeList);
     if (need_tmp) {
       stmt->NeedTmpRef();
     }
-  } else if (!stmt) {
-    ERROR(info(), "ProcessNode");
-    return 0;
   }
   /**
    * Now add a temporary referrence variable to Refs node.
    */
-  visitor_info->current_statement()->destructuring_node()->set_refs(value);
+  translator_data->current_statement()->destructuring_node()->set_refs(value);
   if (node()->node_type() == AstNode::kArrayLikeLiteral) {
     ProcessArray(node()->CastToExpression()->CastToArrayLikeLiteral(), tree, 0);
   } else {
@@ -565,10 +539,7 @@ Literal* DstaProcessor::ProcessNode() {
  */
 VariableStmt* DstaProcessor::CreateTmpVarDecl(Statement* stmt, ProcessorInfo* info) {
   DstaExtractedExpressions* dsta_extr = stmt->destructuring_node();
-  if (dsta_extr == 0) {
-    ERROR(info, "CreateTmpVarDecl");
-    return 0;
-  }
+  ASSERT(true, dsta_extr != 0);
   NodeList* list = dsta_extr->refs();
   NodeIterator iterator = list->ChildNodes();
   VariableDeclarationList* var_list = new(LocalPool()) VariableDeclarationList(stmt->line_number());
@@ -577,10 +548,7 @@ VariableStmt* DstaProcessor::CreateTmpVarDecl(Statement* stmt, ProcessorInfo* in
    */
   while (iterator.HasNext()) {
     Literal* value = iterator.Next()->Clone(LocalPool())->CastToLiteral();
-    if (value == 0) {
-      ERROR(info, "CreateTmpVarDecl");
-      return 0;
-    }
+    ASSERT(true, value != 0);
     if (value->child_length() == 0 || value->first_child()->node_type() == AstNode::kEmpty) {
       if (value->child_length() > 0) {
         value->RemoveAllChild();

@@ -10,15 +10,14 @@ class TranslatorData;
 
 class ProcessorInfo {
  public :
-  ProcessorInfo(IVisitor* visitor, ScopeRegistry* scope_registry, TranslatorData* info) :
-      visitor_(visitor), scope_registry_(scope_registry), info_(info){};
+  ProcessorInfo(IVisitor* visitor, TranslatorData* data)
+      : visitor_(visitor),
+        data_(data){};
   inline IVisitor* visitor() const { return visitor_; }
-  inline ScopeRegistry* scope_registry() const { return scope_registry_; }
-  inline TranslatorData* translator_data() const { return info_; }
+  inline TranslatorData* translator_data() const { return data_; }
  private :
   IVisitor *visitor_;
-  ScopeRegistry *scope_registry_;
-  TranslatorData *info_;
+  TranslatorData *data_;
 };
 
 }

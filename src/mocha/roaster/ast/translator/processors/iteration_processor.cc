@@ -1,13 +1,13 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/iteration_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/variable_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/iteration_processor.h>
+#include <mocha/roaster/ast/translator/processors/variable_processor.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
 #include <mocha/roaster/scopes/scope.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
 
 namespace mocha {
 
@@ -36,7 +36,7 @@ void IterationProcessor::ProcessForNode(IterationStmt* ast_node, ProcessorInfo* 
   }  
   ast_node->first_child()->Accept(visitor);
   if (ast_node->IsContainYield()) {
-    info->visitor_info()->function()->set_statement_in_generator(ast_node);
+    info->translator_data()->function()->set_statement_in_generator(ast_node);
   }
 }
 
@@ -84,7 +84,7 @@ void IterationProcessor::ProcessForInNode(IterationStmt* ast_node, ProcessorInfo
     body->first_child()->InsertBefore(dsta_stmt);
   }
   if (ast_node->IsContainYield() && is_regist) {
-    info->visitor_info()->function()->set_statement_in_generator(ast_node);
+    info->translator_data()->function()->set_statement_in_generator(ast_node);
   }
 }
 
@@ -114,7 +114,7 @@ void IterationProcessor::ProcessForOfNode(IterationStmt* ast_node, ProcessorInfo
     index_exp = val;
   }
   if (!maybe_ident) {
-    Literal* tmp = LocalBuilder()->CreateTmpNode(info->visitor_info()->tmp_index(), ast_node->line_number());
+    Literal* tmp = LocalBuilder()->CreateTmpNode(info->translator_data()->tmp_index(), ast_node->line_number());
     Literal* init = LocalBuilder()->CreateVarInitiliser(tmp->value(), target_exp, ast_node->line_number());
     VariableDeclarationList* decl_list = LocalBuilder()->CreateVarDeclList(ast_node->line_number(), 1, init);
     VariableStmt* stmt = LocalBuilder()->CreateVarStmt(decl_list, ast_node->line_number());
@@ -155,7 +155,7 @@ void IterationProcessor::ProcessForOfNode(IterationStmt* ast_node, ProcessorInfo
   std::stringstream st;
   st << ast_node->line_number();
   Literal* line_num = LocalBuilder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
-  Literal* file_name = LocalBuilder()->CreateNameNode(info->visitor_info()->relative_path(), Token::JS_STRING_LITERAL, ast_node->line_number(), Literal::kString);
+  Literal* file_name = LocalBuilder()->CreateNameNode(info->translator_data()->relative_path(), Token::JS_STRING_LITERAL, ast_node->line_number(), Literal::kString);
   Literal* error = LocalBuilder()->CreateNameNode("'for of statement expect iterator or generator object.'",
                                              Token::JS_STRING_LITERAL, 0, Literal::kString);
   NodeList* args = LocalBuilder()->CreateNodeList(3, line_num, file_name, error);
@@ -167,8 +167,8 @@ void IterationProcessor::ProcessForOfNode(IterationStmt* ast_node, ProcessorInfo
   ast_node->parent_node()->ReplaceChild(ast_node, if_stmt);
 
   if (ast_node->IsContainYield()) {
-    info->visitor_info()->function()->set_statement_in_generator(while_stmt);
-    info->visitor_info()->function()->set_statement_in_generator(if_stmt);
+    info->translator_data()->function()->set_statement_in_generator(while_stmt);
+    info->translator_data()->function()->set_statement_in_generator(if_stmt);
   }
 }
 
@@ -229,7 +229,7 @@ void IterationProcessor::ProcessForEachNode(IterationStmt *ast_node, ProcessorIn
   }
   body->InsertBefore(stmt);
   if (ast_node->IsContainYield()) {
-    info->visitor_info()->function()->set_statement_in_generator(ast_node);
+    info->translator_data()->function()->set_statement_in_generator(ast_node);
   }
 }
 
@@ -260,7 +260,7 @@ void IterationProcessor::ProcessWhileNode(IterationStmt *ast_node, ProcessorInfo
     ast_node->parent_node()->InsertBefore(var_stmt, ast_node);
   }
   if (ast_node->IsContainYield()) {
-    info->visitor_info()->function()->set_statement_in_generator(ast_node);
+    info->translator_data()->function()->set_statement_in_generator(ast_node);
   }
 }
 

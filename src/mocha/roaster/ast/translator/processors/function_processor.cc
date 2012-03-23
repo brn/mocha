@@ -1,13 +1,13 @@
-#include <mocha/roaster/ast/visitors/utils/processors/function_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
+#include <mocha/roaster/ast/translator/processors/function_processor.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 
 namespace mocha {
 
@@ -22,11 +22,11 @@ FunctionProcessor::~FunctionProcessor(){}
 void FunctionProcessor::ProcessNode() {
   TranslatorData* translator_data = info_->translator_data();
   Statement* tmp_statement = new(pool()) Statement;
-  visitor_info->set_current_statement(tmp_statement);
-  visitor_info->set_function(function_);
+  translator_data->set_current_statement(tmp_statement);
+  translator_data->set_function(function_);
   ProcessFormalParameter();
-  bool is_rest = visitor_info->rest_injection();
-  visitor_info->set_rest_injection(false);
+  bool is_rest = translator_data->rest_injection();
+  translator_data->set_rest_injection(false);
   VariableStmt* dsta_stmt = 0;
   VariableStmt* rest_stmt = 0;
   if (tmp_statement->IsContainDestructuring()) {
@@ -116,7 +116,7 @@ void FunctionProcessor::ProcessDefaultParameter(Literal *value) {
 
 
 void FunctionProcessor::ProcessDefaultParameter(AssignmentExp *exp) {
-  Literal* arg = builder()->CreateTmpNode(info_->visitor_info()->tmp_index(), function_->line_number());
+  Literal* arg = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), function_->line_number());
   exp->parent_node()->ReplaceChild(exp, arg);
   CompareExp* logical_or =
       new(pool()) CompareExp(Token::JS_LOGICAL_OR, arg->Clone(pool()), exp->right_value(), function_->line_number());
@@ -127,7 +127,7 @@ void FunctionProcessor::ProcessDefaultParameter(AssignmentExp *exp) {
 
 
 void FunctionProcessor::ProcessPropertyParameter(CallExp *exp) {
-  Literal* arg = builder()->CreateTmpNode(info_->visitor_info()->tmp_index(), function_->line_number());
+  Literal* arg = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), function_->line_number());
   exp->parent_node()->ReplaceChild(exp, arg);
   AssignmentExp* ret = builder()->CreateAssignment('=', exp, arg->Clone(pool()), function_->line_number());
   default_parameter_->InsertBefore(ret);
@@ -144,7 +144,7 @@ void FunctionProcessor::ProcessBody() {
       is_assignment = true;
     }
     if (!is_assignment) {
-      Literal* tmp_name = builder()->CreateTmpNode(info_->visitor_info()->tmp_index(), function_->line_number());
+      Literal* tmp_name = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), function_->line_number());
       Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
                                                     Token::JS_THIS, function_->line_number(), Literal::kThis);
       Literal* initialiser = builder()->CreateVarInitiliser(tmp_name->value(), this_sym, function_->line_number());
@@ -177,7 +177,7 @@ void FunctionProcessor::ProcessBody() {
   }
   if (function_->function_type() == Function::kShorten) {
     Statement* stmt_tmp = new(pool()) Statement;
-    info_->visitor_info()->set_current_statement(stmt_tmp);
+    info_->translator_data()->set_current_statement(stmt_tmp);
     function_->first_child()->Accept(visitor);
     ReturnStmt* ret_stmt = builder()->CreateReturnStmt(function_->first_child()->Clone(pool()), function_->line_number());
     function_->RemoveAllChild();
@@ -211,7 +211,7 @@ VariableStmt* FunctionProcessor::ProcessRestParameter() {
   list->AddChild(arg);
   CallExp* nrm = builder()->CreateNormalAccessor(to_array, list, function_->line_number());
   CallExp* std_to_array = builder()->CreateRuntimeMod(nrm, function_->line_number());
-  Literal* var_node = builder()->CreateVarInitiliser(info_->visitor_info()->rest_expression(), std_to_array, function_->line_number());
+  Literal* var_node = builder()->CreateVarInitiliser(info_->translator_data()->rest_expression(), std_to_array, function_->line_number());
   VariableDeclarationList* decl_list = new(pool()) VariableDeclarationList(function_->line_number());
   decl_list->AddChild(var_node);
   return builder()->CreateVarStmt(decl_list, function_->line_number());
@@ -878,7 +878,7 @@ class YieldHelper : private Processor {
   void ProcessForIn(IterationStmt* node, int size, int count) {
     AstNode* exp = node->expression();
     TranslatorData* translator_data = info_->translator_data();
-    Literal* tmp_node = builder()->CreateTmpNode(visitor_info->tmp_index(), node->line_number());
+    Literal* tmp_node = builder()->CreateTmpNode(translator_data->tmp_index(), node->line_number());
     tmp_node->set_value_type(Literal::kVariable);
     tmp_node->AddChild(new(pool()) Empty);
     AstNode* index_exp = exp->first_child();
@@ -888,7 +888,7 @@ class YieldHelper : private Processor {
     list->AddChild(tmp_node);
     list->AddChild(target_exp);
     iter->set_expression(list);
-    Literal* array_lhs = builder()->CreateTmpNode(visitor_info->tmp_index(), node->line_number());
+    Literal* array_lhs = builder()->CreateTmpNode(translator_data->tmp_index(), node->line_number());
     ArrayLikeLiteral* array = new(pool()) ArrayLikeLiteral(node->line_number());
     Literal* tmp_array = builder()->CreateVarInitiliser(array_lhs->value(), array, node->line_number());
     VariableDeclarationList* decl_list = builder()->CreateVarDeclList(node->line_number(), 1, tmp_array);
@@ -913,7 +913,7 @@ class YieldHelper : private Processor {
     TranslatorData* translator_data = info_->translator_data();
     AstNode* exp = node->expression();
     AstNode* index_exp = exp->first_child();
-    Literal* tmp_node = builder()->CreateTmpNode(visitor_info->tmp_index(), node->line_number());
+    Literal* tmp_node = builder()->CreateTmpNode(translator_data->tmp_index(), node->line_number());
     Literal* zero = builder()->CreateNameNode("0", Token::JS_NUMERIC_LITERAL, node->line_number(), Literal::kNumeric);
     Literal* index = builder()->CreateVarInitiliser(tmp_node->value(), zero, node->line_number());
     Literal* length = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kLength),
@@ -1175,7 +1175,7 @@ class GeneratorHelper : private Processor {
 
 
   BlockStmt* CreateExceptionReturnValueCheckStmt(CallExp* call_handler) {
-    Literal* cache = builder()->CreateTmpNode(info_->visitor_info()->tmp_index(), call_handler->line_number());
+    Literal* cache = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), call_handler->line_number());
     AstNode* return_value = cache->Clone(pool());
     cache->set_value_type(Literal::kVariable);
     cache->AddChild(call_handler);

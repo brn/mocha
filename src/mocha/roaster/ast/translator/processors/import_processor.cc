@@ -2,15 +2,15 @@
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/platform/fs/virtual_directory.h>
 #include <mocha/roaster/platform/fs/fs.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/dsta_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/import_processor.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/dsta_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/import_processor.h>
 
 namespace mocha {
 
@@ -92,15 +92,15 @@ void ImportProccessor::LoadModule_() {
     SharedStr current_dir = os::fs::VirtualDirectory::GetInstance()->GetCurrentDir();
     bool is_runtime_module = false;
     //Get full path of module.
-    SharedPtr<os::fs::Path> real_path = visitor_info->compiler()->Load(js_path.c_str(), &is_runtime_module);
+    SharedPtr<os::fs::Path> real_path = translator_data->compiler()->Load(js_path.c_str(), &is_runtime_module);
 
     //Set virtual dir to current context dir.
     os::fs::VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
 
     //Get module uuid key.
-    os::fs::Path path(visitor_info->main_file_path());
+    os::fs::Path path(translator_data->main_file_path());
     std::string mod_name = 
-        visitor_info->compiler()->ModuleKey(((!is_runtime_module)?real_path->absolute_path() : real_path->raw_path()));
+        translator_data->compiler()->ModuleKey(((!is_runtime_module)?real_path->absolute_path() : real_path->raw_path()));
     std::string modkey = "'";
     modkey += mod_name;
     modkey += "'";

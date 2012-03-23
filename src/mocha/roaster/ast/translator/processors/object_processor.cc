@@ -1,12 +1,12 @@
-#include <mocha/roaster/ast/visitors/utils/processors/object_processor.h>
+#include <mocha/roaster/ast/translator/processors/object_processor.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/syntax_sugar_processor.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/syntax_sugar_processor.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 namespace mocha {
 
 ObjectProccessor::ObjectProccessor(ObjectLikeLiteral* literal, ProcessorInfo* info) :
@@ -32,24 +32,24 @@ void RemovePrivateProperty(ObjectLikeLiteral* literal) {
 
 void ObjectProccessor::ProcessNode() {
   TranslatorData* translator_data = info_->translator_data();
-  visitor_info->EnterObject();
+  translator_data->EnterObject();
   NodeIterator iterator = literal_->elements()->ChildNodes();
   while (iterator.HasNext()) {
     AstNode* element = iterator.Next();
     element->first_child()->Accept(info_->visitor());
     element->Accept(info_->visitor());
   }
-  visitor_info->EscapeObject();
+  translator_data->EscapeObject();
   if (literal_->IsRecord()) {
     ProcessRecord();
   } else {
-    if (!visitor_info->IsInObject()) {
-      if (visitor_info->private_property_list()->size() > 0) {
+    if (!translator_data->IsInObject()) {
+      if (translator_data->private_property_list()->size() > 0) {
         AstNode* parent = literal_->parent_node();
         while (!parent->CastToStatement()) {
           parent = parent->parent_node();
         }
-        Literal* name = builder()->CreateTmpNode(visitor_info->tmp_index(), literal_->line_number());
+        Literal* name = builder()->CreateTmpNode(translator_data->tmp_index(), literal_->line_number());
         AstNode* clone = literal_->Clone(pool());
         Literal* exp = builder()->CreateVarInitiliser(name->value(), clone, literal_->line_number());
         VariableDeclarationList* decl_list = builder()->CreateVarDeclList(literal_->line_number(), 1, exp);

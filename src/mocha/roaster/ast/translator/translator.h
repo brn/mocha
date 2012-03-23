@@ -37,6 +37,7 @@ class Compiler;
 class TranslatorData;
 class ProcessorInfo;
 class AstBuilder;
+class CompilationEvent;
 /**
  * @class
  * Transform harmony's ast to ecmascript3's.
@@ -60,13 +61,14 @@ class Translator : public IVisitor {
   void JumpStmt_(AstNode* ast_node, int type);
   memory::Pool* pool() { return pool_; }
   AstBuilder* builder() { return builder_; }
-  CompilationEvent* evnet() {return event_;}
+  CompilationEvent* event() {return event_;}
 
   memory::Pool* pool_;
   AstBuilder* builder_;
+  CompilationEvent* event_;
+  ScopedPtr<TranslatorData> translator_data_;
   ScopedPtr<TranslatorData> data_;
   ScopedPtr<ProcessorInfo> proc_info_;
-  CompilationEvent* event_;
 };
 
 }

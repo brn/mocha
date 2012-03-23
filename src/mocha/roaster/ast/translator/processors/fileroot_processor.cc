@@ -1,17 +1,17 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/fileroot_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/fileroot_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 namespace mocha {
 
 void FileRootProcessor::ProcessNode() {
   TranslatorData *translator_data = info()->translator_data();
   IVisitor* visitor = info()->visitor();
   NodeIterator iterator = node()->ChildNodes();
-  bool is_runtime = visitor_info->runtime();
+  bool is_runtime = translator_data->runtime();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(visitor);
   }
@@ -22,9 +22,9 @@ void FileRootProcessor::ProcessNode() {
     Literal* global_export = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
                                                        Token::JS_IDENTIFIER, node()->line_number(), Literal::kIdentifier);
     ObjectLikeLiteral* object_literal = new(pool()) ObjectLikeLiteral(node()->line_number());
-    visitor_info->compiler()->SetModuleKey(visitor_info->filename());
+    translator_data->compiler()->SetModuleKey(translator_data->filename());
     std::string key_str = "'";
-    key_str += visitor_info->compiler()->ModuleKey(visitor_info->filename());
+    key_str += translator_data->compiler()->ModuleKey(translator_data->filename());
     key_str += "'";
     Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
                                                                 

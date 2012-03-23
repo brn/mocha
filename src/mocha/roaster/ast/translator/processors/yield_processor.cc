@@ -2,12 +2,12 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/yield_processor.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/yield_processor.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 namespace mocha {
 
@@ -32,7 +32,7 @@ void YieldProcessor::ProcessNode() {
   }
   TranslatorData* translator_data = info_->translator_data();
   AstNode* direct_child = exp_->parent_node();
-  Function* fn = visitor_info->function();
+  Function* fn = translator_data->function();
   while (1) {
     if (direct_child->parent_node()->node_type() == AstNode::kFunction) {
       break;

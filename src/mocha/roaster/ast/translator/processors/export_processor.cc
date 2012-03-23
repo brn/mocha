@@ -1,11 +1,11 @@
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/ast/visitors/utils/processors/export_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
+#include <mocha/roaster/ast/translator/processors/export_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 
 namespace mocha {
 
@@ -26,7 +26,7 @@ void ExportProcessor::ProcessNode() {
 
 void ExportProcessor::ProcessFunction(AstNode* node) {
   Function* fn = node->CastToExpression()->CastToFunction();
-  info_->visitor_info()->set_function(fn);
+  info_->translator_data()->set_function(fn);
   Literal* name = fn->name()->CastToLiteral();
   Literal* local = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kLocalExport),
                                              Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);

@@ -25,7 +25,7 @@
 #include <string>
 #include <boost/unordered_map.hpp>
 #include <mocha/roaster/ast/ast_foward_decl.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 
 namespace mocha {
 

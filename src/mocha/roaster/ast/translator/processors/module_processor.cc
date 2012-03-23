@@ -1,11 +1,11 @@
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
-#include <mocha/roaster/ast/visitors/utils/visitor_info.h>
-#include <mocha/roaster/ast/visitors/utils/processors/module_processor.h>
-#include <mocha/roaster/ast/visitors/utils/processors/processor_info.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/ast/translator/translator_data/translator_data.h>
+#include <mocha/roaster/ast/translator/processors/module_processor.h>
+#include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/ast/ast.h>
 namespace mocha {
 
@@ -16,7 +16,7 @@ void ModuleProcessor::ProcessNode() {
   TranslatorData* translator_data = info_->translator_data();
   AstNode* body = stmt_->first_child();
   AstNode* name = stmt_->name();
-  bool is_runtime = visitor_info->runtime();
+  bool is_runtime = translator_data->runtime();
   Function* fn_node = builder()->CreateFunctionDecl(name, new(pool()) Empty, body, stmt_->line_number());
   fn_node->set_name(new(pool()) Empty);
   builder()->FindDirectivePrologue(fn_node, fn_node);
@@ -43,7 +43,7 @@ void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstN
   TranslatorData* translator_data = info_->translator_data();
   if (!is_runtime) {
     Literal* alias = 0;
-    if (visitor_info->IsInModules()) {
+    if (translator_data->IsInModules()) {
       alias = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kLocalExport),
                                          Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
     } else {
@@ -75,9 +75,9 @@ ExpressionStmt* ModuleProcessor::ProcessBody_(AstNode* body, Function* fn_node, 
   TranslatorData* translator_data = info_->translator_data();
   IVisitor* visitor = info_->visitor();
   ExpressionStmt* an_stmt_node = builder()->CreateAnonymousFnCall(fn_node, new(pool()) Empty, stmt_->line_number());
-  visitor_info->EnterModuel();
+  translator_data->EnterModuel();
   body->Accept(visitor);
-  visitor_info->EscapeModuel();
+  translator_data->EscapeModuel();
   return an_stmt_node;
 }
 
