@@ -23,8 +23,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <sstream>
+#include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/scopes/scope.h>
+#include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
@@ -46,6 +48,7 @@
 #include <mocha/roaster/ast/translator/processors/object_processor.h>
 #include <mocha/roaster/ast/translator/processors/syntax_sugar_processor.h>
 #include <mocha/roaster/ast/translator/processors/processor_info.h>
+#include <mocha/roaster/nexc/nexc.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
@@ -63,6 +66,28 @@ namespace mocha {
 
 #define REGIST(node) translator_data_->set_current_statement(node)
 
+
+void Translator::TransformEventLitener::operator()(CompilationEvent* e) {
+  ErrorReporter* reporter = e->error_reporter();
+  bool runtime = e->runtime();
+  if (!reporter->Error()) {
+    FileRoot* root = e->ast();
+    Translator translator(runtime, e);
+    AstRoot tmp_root;
+    tmp_root.AddChild(root);
+    tmp_root.Accept (&translator);
+    e->set_ast(static_cast<FileRoot*>(tmp_root.first_child()));
+    e->NotifyForKey(Nexc::kCompilationSucessed);
+  } else {
+    std::string buf;
+    reporter->SetError(&buf);
+    std::string debug;
+    reporter->SetRawError(&debug);
+    DEBUG_LOG(Info, "parse error detected\nwith error\n[\n%s]", debug.c_str());
+    e->set_ast(new(e->pool()) FileRoot(e->fullpath()));
+    e->NotifyForKey(Nexc::kCompilationFailed);
+  }
+}
 
 Translator::Translator(bool is_runtime, CompilationEvent* e)
     : pool_(memory::Pool::Local()),
@@ -450,7 +475,7 @@ VISITOR_IMPL(AssertStmt) {
   REGIST(ast_node);
   AstNode* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kAssert),
                                             Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kProperty);
-  CodegenVisitor visitor(translator_data_->filename(), true, false);
+  CodegenVisitor visitor(translator_data_->filename(), true, false, translator_data_->compilation_info());
   AstNode* expect = ast_node->first_child();
   AstNode* expression = expect->next_sibling();
   ast_node->RemoveAllChild();

@@ -10,7 +10,7 @@ class ImportProccessor : public Processor{
   ~ImportProccessor(){};
   void ProcessNode();
  private :
-  void LoadModule_();
+  void LoadModule();
   ImportStmt* node() { return stmt_; }
   ProcessorInfo* info() { return info_; }
   ImportStmt* stmt_;

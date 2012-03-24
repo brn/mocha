@@ -113,7 +113,7 @@ void Parser::ParseEventListener::operator()(CompilationEvent* event) {
   DEBUG_LOG(Log, "Nexc enter parse phase");
   ParserConnector* connector = event->parser_connector();
   ErrorReporter* reporter = event->error_reporter();
-  const char* pathname = event->path();
+  const char* pathname = event->fullpath();
   Parser parser(connector, reporter, pathname);
   event->set_ast(parser.Parse());
   DEBUG_LOG(Log, "Nexc end parse phase");

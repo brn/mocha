@@ -1,7 +1,8 @@
 #include <string>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/platform/fs/virtual_directory.h>
+#include <mocha/roaster/platform/fs/virtual_directory/virtual_directory.h>
 #include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/nexc/nexc.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
@@ -27,7 +28,7 @@ void ImportProccessor::ProcessNode() {
   }
   AstNode* exp = 0;//init after;
   if (stmt_->module_type() == ImportStmt::kFile) {
-    LoadModule_();
+    LoadModule();
     AstNode *name = builder()->CreateNameNode(stmt_->module_key()->token(),
                                               Token::JS_STRING_LITERAL, stmt_->line_number(), Literal::kString);
     Literal *global = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
@@ -75,7 +76,7 @@ void ImportProccessor::ProcessNode() {
 }
 
 
-void ImportProccessor::LoadModule_() {
+void ImportProccessor::LoadModule() {
   TranslatorData* translator_data = info()->translator_data();
   AstNode* from = stmt_->from();
   AstNode* file = from->first_child();
@@ -85,27 +86,15 @@ void ImportProccessor::LoadModule_() {
     //Create path from js string literal.
     TokenInfo* info = value->value();
     std::string js_path = info->token();
-    js_path.erase(0, 1);
     //"path to file" -> path to file
+    js_path.erase(0, 1);
     js_path.erase(js_path.size() - 1, js_path.size());
-                                                                
-    SharedStr current_dir = os::fs::VirtualDirectory::GetInstance()->GetCurrentDir();
     bool is_runtime_module = false;
+    std::string modkey;
     //Get full path of module.
-    SharedPtr<os::fs::Path> real_path = translator_data->compiler()->Load(js_path.c_str(), &is_runtime_module);
-
-    //Set virtual dir to current context dir.
-    os::fs::VirtualDirectory::GetInstance()->Chdir(current_dir.Get());
-
-    //Get module uuid key.
-    os::fs::Path path(translator_data->main_file_path());
-    std::string mod_name = 
-        translator_data->compiler()->ModuleKey(((!is_runtime_module)?real_path->absolute_path() : real_path->raw_path()));
-    std::string modkey = "'";
-    modkey += mod_name;
-    modkey += "'";
+    translator_data->compilation_event()->nexc()->ImportFile(&modkey, js_path.c_str(), translator_data->compilation_event());
+    translator_data->compilation_event()->nexc()->set_current_directory(translator_data->compilation_event()->path());
     TokenInfo* key = new(pool()) TokenInfo(modkey.c_str(), Token::JS_IDENTIFIER, stmt_->line_number());
-
     //Reserve module key string for later code generation.
     stmt_->set_module_key(key);
   }

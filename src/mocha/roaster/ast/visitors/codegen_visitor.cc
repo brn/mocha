@@ -3,11 +3,12 @@
 #include <assert.h>
 #include <list>
 #include <utility>
+#include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
-#include <mocha/roaster/utils/compilation_info.h>
+#include <mocha/roaster/nexc/compilation_info/compilation_info.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
@@ -19,7 +20,7 @@ namespace mocha {
 #define ITERATOR(name) begin = name.begin(),end = name.end()
 
 #ifdef PRINTABLE
-#define PRINT_NODE_NAME printf("depth = %d name = %s\n", depth_++, ast_node->node_name())
+#define PRINT_NODE_NAME DEBUG_LOG(Info, "now packing node : %s", ast_node->node_name())
 #else
 #define PRINT_NODE_NAME
 #endif
@@ -858,7 +859,9 @@ VISITOR_IMPL(Function){
   line_numberBreak(ast_node, stream(), writer());
   writer()->WriteOp(Token::JS_FUNCTION, 0, stream());
   ast_node->name()->Accept(this);
+  printf("%p\n", scope_);
   scope_ = ast_node->scope();
+  printf("%p\n", scope_);
   if (ast_node->argv()->IsEmpty()) {
     stream()->Write("()");
   } else {
@@ -937,7 +940,9 @@ void CodegenVisitor::ObjectProccessor_(NodeList* ast_node) {
       if ((val && element->CastToLiteral()->value_type() != Literal::kPrivateProperty)) {
         element->Accept(this);
         writer()->WriteOp(':', 0, stream());
-        element->first_child()->Accept(this);
+        if (element->first_child()) {
+          element->first_child()->Accept(this);
+        }
         if (element->next_sibling()) {
           writer()->WriteOp(',', CodeWriter::kVarsComma, stream());
         }
@@ -969,6 +974,7 @@ VISITOR_IMPL(Literal) {
       break;
 
     case Literal::kProperty :
+      printf("symbol is %s\n", ast_node->value()->token());
       stream()->Write(ast_node->value()->token());
       break;
                         
@@ -984,6 +990,7 @@ VISITOR_IMPL(Literal) {
         }
         stream()->Write(tmp.c_str());
       } else {
+        printf("symbol is %s\n", symbol);
         if (scope_) {
           SymbolEntry entry = scope_->Find(ast_node->value());
           if (entry.first != 0) {

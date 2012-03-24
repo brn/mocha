@@ -5,6 +5,7 @@
 #include <mocha/roaster/ast/translator/processors/processor_info.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/utils/utils.h>
 namespace mocha {
 
 void FileRootProcessor::ProcessNode() {
@@ -22,10 +23,8 @@ void FileRootProcessor::ProcessNode() {
     Literal* global_export = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
                                                        Token::JS_IDENTIFIER, node()->line_number(), Literal::kIdentifier);
     ObjectLikeLiteral* object_literal = new(pool()) ObjectLikeLiteral(node()->line_number());
-    translator_data->compiler()->SetModuleKey(translator_data->filename());
-    std::string key_str = "'";
-    key_str += translator_data->compiler()->ModuleKey(translator_data->filename());
-    key_str += "'";
+    std::string key_str;
+    nexc_utils::ManglingName(&key_str, translator_data->filename(), translator_data->compilation_event()->path());
     Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
                                                                 
     CallExp* global_export_accessor = builder()->CreateArrayAccessor(global_export, key, node()->line_number());

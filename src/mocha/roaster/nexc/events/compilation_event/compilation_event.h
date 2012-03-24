@@ -48,6 +48,7 @@ class CompilationEvent : public memory::Allocated {
   ErrorReporter* error_reporter() {return error_reporter_;}
   ParserConnector* parser_connector() {return parser_connector_;}
   FileRoot* ast() {return ast_;}
+  Nexc* nexc() {return nexc_;}
   void set_runtime() {runtime_ = true;}
   void set_source(const char* source) {source_ = source;}
   void set_path(const char* path) {path_ = path;}

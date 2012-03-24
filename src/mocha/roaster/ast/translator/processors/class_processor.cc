@@ -528,6 +528,7 @@ inline void ClassProcessor::ProcessConstructor(Function* constructor) {
       } else {
         ProcessEachMember(member->first_child(), false, false, true);
       }
+      constructor->RemoveChild(item);
     }
   }
   constructor->Accept(visitor);

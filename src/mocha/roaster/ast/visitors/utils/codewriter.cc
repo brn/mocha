@@ -2,8 +2,8 @@
 #include <sstream>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/memory/pool.h>
 

@@ -375,6 +375,7 @@ class AstNode : public memory::Allocated {
   virtual Literal* CastToLiteral() { return 0; };
   virtual DstaTree* CastToDstaTree() { return 0; }
   virtual NodeList* CastToNodeList() { return 0; }
+  virtual CaseClause* CastToCaseClause() {return 0;}
 
   /**
    * Print the real node name of this node.
@@ -464,7 +465,7 @@ class Empty : public AstNode {
  */
 class AstRoot : public AstNode {
  public :
-  AstRoot() : AstNode(AstNode::kAstRoot, "AstRoot", 0) {}
+  AstRoot() : AstNode(AstNode::kAstRoot, "AstRoot", 0) ,scope_(0){}
   ~AstRoot(){};
   /**
    * @param {InnerScope*}
@@ -529,6 +530,10 @@ class Statement : public AstNode {
   virtual YieldMark* CastToYieldMark() { return 0; }
   virtual IFStmt* CastToIFStmt() { return 0; }
   virtual SwitchStmt* CastToSwitchStmt() { return 0; }
+  virtual WithStmt* CastToWithStmt() {return 0;}
+  virtual LabelledStmt* CastToLabelledStmt() {return 0;}
+  virtual ThrowStmt* CastToThrowStmt() {return 0;}
+  virtual TryStmt* CastToTryStmt() {return 0;}
   /**
    * @param {DstaExtractedExpression} tree
    * Set destructuring assignment tree.
@@ -900,6 +905,7 @@ class WithStmt : public Statement {
   ~WithStmt(){};
   void set_expression(AstNode* node) { expression_ = node;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
+  virtual WithStmt* CastToWithStmt() {return this;}
   CLONE;
  private :
   AstNode* expression_;
@@ -911,6 +917,7 @@ class LabelledStmt : public Statement {
  public :
   explicit LabelledStmt(int64_t line) : Statement(NAME_PARAMETER(LabelledStmt), line){};
   ~LabelledStmt() {};
+  virtual LabelledStmt* CastToLabelledStmt() {return this;}
   CLONE;
  private :
   CALL_ACCEPTOR(LabelledStmt);
@@ -939,6 +946,7 @@ class ThrowStmt : public Statement {
   ~ThrowStmt(){};
   void set_expression(AstNode* exp) { expression_ = exp;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
+  virtual ThrowStmt* CastToThrowStmt() {return this;}
   CLONE;
  private :
   AstNode* expression_;
@@ -954,6 +962,7 @@ class TryStmt : public Statement {
   AstNode* catch_block() { return catch_block_; }
   void set_finally_block(AstNode* finally_stmt) { finally_block_ = finally_stmt;finally_stmt->set_parent_node(this); }
   AstNode* finally_block() { return finally_block_; }
+  virtual TryStmt* CastToTryStmt() {return this;}
   CLONE;
  private :
   AstNode* catch_block_;
@@ -976,6 +985,7 @@ class CaseClause : public AstNode {
   ~CaseClause(){}
   void set_expression(AstNode* node) { expression_ = node;expression_->set_parent_node(this); }
   AstNode* expression() { return expression_; }
+  virtual CaseClause* CastToCaseClause() {return this;}
   CLONE;
  private :
   AstNode* expression_;
@@ -1020,6 +1030,7 @@ class Expression : public AstNode {
   virtual ArrayLikeLiteral* CastToArrayLikeLiteral() { return 0; }
   virtual ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
   virtual VariableDeclarationList* CastToVariableDeclarationList() { return 0; }
+  virtual PostfixExp* CastToPostfixExp() {return 0;}
   CLONE;
  protected :
   Expression(int type, const char* name, int64_t line) : AstNode(type, name, line) {
@@ -1126,8 +1137,17 @@ class Trait : public Expression {
 
 class Class : public Expression {
  public :
-  Class(AstNode* expandar, int64_t line) :
-      Expression(NAME_PARAMETER(Class), line), name_(0),body_(0), expandar_(expandar){}
+  Class(AstNode* expandar, int64_t line)
+      : Expression(NAME_PARAMETER(Class), line),
+        name_(0),
+        body_(0),
+        expandar_(expandar){}
+  
+  Class(int64_t line)
+      : Expression(NAME_PARAMETER(Class), line),
+        name_(0),
+        body_(0),
+        expandar_(0){}
   ~Class(){}
   void MarkAsDeclaration() { SET(0); }
   bool IsDeclared() const { return HAS(0); }
@@ -1236,9 +1256,15 @@ class Function : public Expression {
     kGlobal,
     kThis
   };
-  explicit Function(int64_t line) : Expression(NAME_PARAMETER(Function), line),
-                                      fn_type_(kNormal), context_(kGlobal), name_(0),
-                                      argv_(0), replaced_this_(0), statement_list_(0) {};
+  explicit Function(int64_t line)
+      : Expression(NAME_PARAMETER(Function), line),
+        fn_type_(kNormal),
+        context_(kGlobal),
+        name_(0),
+        argv_(0),
+        replaced_this_(0),
+        scope_(0),
+        statement_list_(0) {};
   ~Function(){};
   Function* CastToFunction() { return this; }
   void set_name(AstNode* name){ name_ = name; };
@@ -1359,6 +1385,7 @@ class PostfixExp : public Expression {
   int operand() const { return operand_; };
   AstNode* expression() { return expression_; }
   void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  virtual PostfixExp* CastToPostfixExp() {return this;}
   CLONE;
  private :
   int operand_;

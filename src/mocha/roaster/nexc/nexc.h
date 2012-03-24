@@ -43,21 +43,25 @@ class Nexc : public Notificator<CompilationEvent*>{
   ~Nexc(){};
   void CompileFile(const char* filename, const char* charset = NULL);
   void Compile(const char* source, const char* charset = NULL);
+  void ImportFile(std::string* buf, const char* path, CompilationEvent* e);
+  void set_current_directory(const char* path);
   static const char kScan[];
   static const char kParse[];
   static const char kTransformAst[];
+  static const char kCompilationSucessed[];
+  static const char kCompilationFailed[];
   static const char kFatal[];
   static const char kFail[];
-  static const char kImport[];
  private :
-  void ImportFile(CompilationEvent* e);
   void Initialize();
   void Abort(IOEvent* e);
   bool CheckGuard(const char* path);
+  void Success(CompilationEvent* e);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
+  AtomicWord token_initialized_;
   CompilationInfo* compilation_info_;
   os::fs::VirtualDirectory* virtual_directory_;
-  ImportGurad guard_;
+  ImportGuard guard_;
   SharedPtr<ErrorReporter> reporter_;
   SharedPtr<memory::Pool> pool_;
 };

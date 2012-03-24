@@ -5,8 +5,8 @@
 #include <vector>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/scopes/scope.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_list.h>
 
 namespace mocha {
@@ -107,7 +107,9 @@ char CompressedNameAllocator::table_ [] = {
 
 
 Scope::Scope()
-    : head_(this), parent_(0), name_allocator_handle_(new CompressedNameAllocator){}
+    : head_(this),
+      parent_(0),
+      name_allocator_handle_(new CompressedNameAllocator){}
 Scope::~Scope() {}
 
 void Scope::Insert (TokenInfo* info, AstNode* ast_node) {

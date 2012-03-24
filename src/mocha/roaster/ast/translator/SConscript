@@ -66,6 +66,13 @@ builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc',
                                               '../../platform/fs/path/path.cc',
                                               '../../consts/consts.cc',
                                               '../../platform/fs/virtual_directory/virtual_directory.cc',
+                                              '../../nexc/utils/utils.cc',
+                                              'translator_data/translator_data.cc',
+                                              '../seriarization/packer.cc',
+                                              '../seriarization/unpacker.cc',
+                                              '../visitors/codegen_visitor.cc',
+                                              '../visitors/utils/codewriter.cc',
+                                              '../../scopes/scope.cc',
                                               'processors/array_processor.cc',
                                               'processors/dsta_processor.cc',
                                               'processors/function_processor.cc',
@@ -82,5 +89,5 @@ builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc',
                                               'processors/syntax_sugar_processor.cc',
                                               'processors/yield_processor.cc',
                                               '../../nexc/events/io_event/io_event.cc'], ENV, TEST_CONFIG)
-builder.Build(CURRENT + '/src', ROOT, CURRENT)
+builder.Build(CURRENT + '/src', ROOT, CURRENT, True)
 

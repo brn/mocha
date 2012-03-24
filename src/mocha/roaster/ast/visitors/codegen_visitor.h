@@ -20,8 +20,8 @@ class CompilationInfo;
 class AstBuilder;
 class CodegenVisitor : public IVisitor {
  public :
-  CodegenVisitor(const char* filename_, CompilationInfo* info);
-  CodegenVisitor(const char* filename_, bool is_pretty_print, bool is_debug);
+  CodegenVisitor(const char* filename, CompilationInfo* info);
+  CodegenVisitor(const char* filename, bool is_pretty_print, bool is_debug, CompilationInfo* info);
   ~CodegenVisitor(){};
 #include <mocha/roaster/ast/visitors/visitor_decl.h>
   inline void Write(const char* code) { stream_->Write(code); }

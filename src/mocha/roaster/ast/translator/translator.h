@@ -44,6 +44,10 @@ class CompilationEvent;
  */
 class Translator : public IVisitor {
  public :
+  class TransformEventLitener {
+   public :
+    void operator()(CompilationEvent* e);
+  };
   /**
    * @constructor
    * @param {bool} is_runtime -> Compile module or not.

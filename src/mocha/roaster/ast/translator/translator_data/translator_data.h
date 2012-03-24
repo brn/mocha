@@ -23,6 +23,7 @@
 #ifndef mocha_ast_visitors_visitor_info_h_
 #define mocha_ast_visitors_visitor_info_h_
 #include <string>
+#include <list>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/misc/int_types.h>

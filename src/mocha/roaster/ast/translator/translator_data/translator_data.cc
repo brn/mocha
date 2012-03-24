@@ -42,17 +42,17 @@ void CreateRelativePath(const char* base, const char* target, std::string *buffe
 TranslatorData::TranslatorData(bool is_runtime, CompilationEvent *event, DstaExtractedExpressions* dsta_exp) :
     tmp_index_(0),
     object_depth_(0),
-    is_in_class_(0)
+    is_in_class_(0),
     is_in_module_(0),
     dsta_exp_(dsta_exp),
-    compilation_event_(event),
+    event_(event),
     current_stmt_(0),
     current_fn_(0),
     builder_(AstBuilder::Local()){
   if (is_runtime){
     bit_vector_.Set(2);
   }
-  CreateRelativePath(e->filename(), e->mainfile_path(), &relative_path_);
+  CreateRelativePath(event->filename(), event->mainfile_path(), &relative_path_);
 };
 
 }
