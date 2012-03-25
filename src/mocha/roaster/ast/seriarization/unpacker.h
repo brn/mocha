@@ -28,6 +28,9 @@ class UnPacker {
     return ret;
   };
   int Current() {
+    if (current_ == packed_->size()) {
+      return -1;
+    }
     return packed_->at(current_);
   }
   template <typename AstType, bool>

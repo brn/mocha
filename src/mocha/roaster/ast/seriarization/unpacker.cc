@@ -244,7 +244,6 @@ struct Instaniater<CompareExp, true> {
 template <>
 struct Instaniater<ConditionalExp, true> {
   static ConditionalExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
-    int type = unpacker->Advance();
     return new(pool) ConditionalExp(unpacker->UnpackEachNode(), unpacker->UnpackEachNode(),
                                     unpacker->UnpackEachNode(), line);
   }
@@ -263,6 +262,7 @@ struct Instaniater<Literal, true> {
       ast->set_node(unpacker->UnpackEachNode());
     }
     if (unpacker->Advance() == 1) {
+      DEBUG_LOG(Log, "now unpacking literal child");
       ast->AddChild(unpacker->UnpackEachNode());
     }
     return ast;
@@ -314,11 +314,7 @@ struct Instaniater<IFStmt, true> {
     IFStmt *stmt = new(pool) IFStmt(line);
     stmt->set_condition(unpacker->UnpackEachNode());
     stmt->set_then_statement(unpacker->UnpackEachNode());
-    if (unpacker->Advance() == 0) {
-      stmt->set_else_statement(new(pool) Empty());
-    } else {
-      stmt->set_else_statement(unpacker->UnpackEachNode());
-    }
+    stmt->set_else_statement(unpacker->UnpackEachNode());
     return stmt;
   }
 };
@@ -362,16 +358,8 @@ template <>
 struct Instaniater<TryStmt, true> {
   static TryStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     TryStmt* stmt = new(pool) TryStmt(line);
-    if (unpacker->Advance() == 0) {
-      stmt->set_catch_block(new(pool) Empty());
-    } else {
-      stmt->set_catch_block(unpacker->UnpackEachNode());
-    }
-    if (unpacker->Advance() == 0) {
-      stmt->set_finally_block(new(pool) Empty());
-    } else {
-      stmt->set_finally_block(unpacker->UnpackEachNode());
-    }
+    stmt->set_catch_block(unpacker->UnpackEachNode());
+    stmt->set_finally_block(unpacker->UnpackEachNode());
     return stmt;
   }
 };
@@ -398,6 +386,7 @@ struct Instaniater<MaterializedLiteralTag, true> {
   static T* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     T* literal = new(pool) T(line);
     int size = unpacker->Advance();
+    DEBUG_LOG(Info, "materiarized literal size %d", size);
     for (int i = 0; i < size; i++) {
       literal->set_element(unpacker->UnpackEachNode());
     }
@@ -427,7 +416,8 @@ AstNode* UnPacker::MakeBaseAst() {
   AstType* ast = Instaniater<AstType,line>::Make(this, pool_, (line1 + line2));
   DEBUG_LOG(Log, "%s child length %d", ast->node_name(), child_length);
   if (child_length > 0) {
-    for (int i = 0; i < child_length; i++) { 
+    for (int i = 0; i < child_length; i++) {
+      DEBUG_LOG(Log, "now unpacking children");
       AstNode* node = UnpackEachNode();
       ast->AddChild(node);
     }

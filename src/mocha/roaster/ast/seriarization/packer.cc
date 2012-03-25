@@ -290,7 +290,7 @@ void Packer::DotAccessorProccessor_(CallExp* exp) {
 
 void Packer::NewCallProccessor_(CallExp* exp) {
   exp->callable()->Accept(this);
-  if (exp->args()->node_type() == AstNode::kEmpty) {
+  if (exp->args()->IsEmpty()) {
     packed_->push_back(AstNode::kEmpty);
   } else {
     exp->args()->Accept(this);
@@ -300,7 +300,7 @@ void Packer::NewCallProccessor_(CallExp* exp) {
 
 void Packer::NormalFunctionCall_(CallExp* exp) {
   exp->callable()->Accept(this);
-  if (exp->args()->node_type() == AstNode::kEmpty) {
+  if (exp->args()->IsEmpty()) {
     packed_->push_back(AstNode::kEmpty);
   } else {
     exp->args()->Accept(this);
@@ -433,10 +433,14 @@ VISITOR_IMPL(Function){
   packed_->push_back((ast_node->IsDeclared()? 1 : 0));
   packed_->push_back((ast_node->IsRoot()? 1 : 0));
   packed_->push_back((ast_node->IsStrict()? 1 : 0));
+  DEBUG_LOG(Log, "argc = %d", ast_node->argc());
   packed_->push_back(ast_node->argc());
   NodeIterator arg_iterator = ast_node->argv()->ChildNodes();
   while (arg_iterator.HasNext()) {
-    arg_iterator.Next()->Accept(this);
+    AstNode* node = arg_iterator.Next();
+    if (!node->IsEmpty()) {
+      node->Accept(this);
+    }
   }
   if (name->IsEmpty()) {
     packed_->push_back(AstNode::kEmpty);
@@ -457,24 +461,17 @@ VISITOR_IMPL(Function){
 void Packer::ArrayProccessor_(AstNode* ast_node) {
   PRINT_NODE_NAME;
   AstNode* list_child = ast_node->first_child();
-  while (list_child) {
-    if (!list_child->IsEmpty()) {
-      NodeIterator iter = list_child->ChildNodes();
-      while (iter.HasNext()) {
-        AstNode* element = iter.Next();
-        if (!element->IsEmpty()) {
-          element->Accept(this);
-        } else {
-          packed_->push_back(AstNode::kEmpty);
-        }
-      }
-      if (list_child->HasNext()) {
-        list_child = list_child->next_sibling();
+  if (!list_child || list_child->IsEmpty()) {
+    packed_->push_back(AstNode::kEmpty);
+  } else {
+    NodeIterator iterator = ast_node->ChildNodes();
+    while (iterator.HasNext()) {
+      AstNode* node = iterator.Next();
+      if (node->IsEmpty()) {
+        packed_->push_back(AstNode::kEmpty);
       } else {
-        break;
+        node->Accept(this);
       }
-    } else {
-      break;
     }
   }
 }
@@ -515,26 +512,19 @@ VISITOR_IMPL(Literal) {
   } else {
     packed_->push_back(0);
   }
-  if (ast_node->value_type() == Literal::kVariable) {
-    if (ast_node->first_child()) {
+  if (ast_node->value_type() == Literal::kVariable || ast_node->value_type() == Literal::kIdentifier) {
+    if (ast_node->first_child() && ast_node->first_child()->node_type() != AstNode::kEmpty) {
       packed_->push_back(1);
       ast_node->first_child()->Accept(this);
+      return;
+    } else if (ast_node->first_child() && ast_node->first_child()->node_type() == AstNode::kEmpty){
+      packed_->push_back(1);
+      packed_->push_back(AstNode::kEmpty);
       return;
     }
   }
   if (ast_node->value_type() == Literal::kProperty) {
-    AstNode* parent = ast_node->parent_node();
-    while (parent) {
-      if (parent->node_type() == AstNode::kObjectLikeLiteral) {
-        break;
-      }
-      parent = parent->parent_node();
-    }
-    if (!parent) {
-      packed_->push_back(0);
-      return;
-    }
-    if (ast_node->first_child()) {
+    if (ast_node->first_child() && ast_node->first_child()->node_type() != AstNode::kEmpty) {
       packed_->push_back(1);
       return;
     }
@@ -555,7 +545,7 @@ VISITOR_IMPL(VariableDeclarationList) {
   }
 }
 
-int GetCount(AstNode* ast_node) {
+int GetObjectCount(AstNode* ast_node) {
   int count = 0;
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
@@ -570,15 +560,18 @@ int GetCount(AstNode* ast_node) {
 
 VISITOR_IMPL(ArrayLikeLiteral) {
   PRINT_NODE_NAME;
+  ast_node->RemoveAllChild();
   BasePacker(ast_node, packed_);
+  printf("!!!!!!!!!!!!!!!!!!!!!!%d\n", ast_node->elements()->child_length());
   packed_->push_back(ast_node->elements()->child_length());
-  ArrayProccessor_(ast_node);
+  ArrayProccessor_(ast_node->elements());
 }
 
 VISITOR_IMPL(ObjectLikeLiteral) {
   PRINT_NODE_NAME;
+  ast_node->RemoveAllChild();
   BasePacker(ast_node, packed_);
-  packed_->push_back(GetCount(ast_node->elements()));
+  packed_->push_back(GetObjectCount(ast_node->elements()));
   ObjectProccessor_(ast_node->elements());
 }
 

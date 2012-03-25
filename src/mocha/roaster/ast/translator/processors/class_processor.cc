@@ -197,7 +197,7 @@ class ClassProcessorUtils : public Processor{
   inline AstNode* GetSafeValue(Literal* value) {
     AstNode* lhs = value->first_child();
     return (lhs)? lhs : builder()->CreateNameNode(SymbolList::symbol(SymbolList::kUndefined),
-                                                    Token::JS_IDENTIFIER, value->line_number(), Literal::kIdentifier);
+                                                  Token::JS_IDENTIFIER, value->line_number(), Literal::kIdentifier);
   }
 
 
@@ -205,8 +205,11 @@ class ClassProcessorUtils : public Processor{
   inline ExpressionStmt* InstancePrivate(Literal* value) {
     CallExp* private_accessor = CreatePrivateFieldAccessor(value);
     CallExp* dot_accessor = builder()->CreateDotAccessor(private_accessor, value, value->line_number());
-    return builder()->CreateExpStmt(builder()->CreateAssignment('=', dot_accessor, GetSafeValue(value), value->line_number()),
-                                    value->line_number());
+    ExpressionStmt* stmt =
+        builder()->CreateExpStmt(builder()->CreateAssignment('=', dot_accessor, GetSafeValue(value),
+                                                             value->line_number()),value->line_number());
+    value->RemoveAllChild();
+    return stmt;
   }
 
 
@@ -214,8 +217,11 @@ class ClassProcessorUtils : public Processor{
   inline ExpressionStmt* InstancePublic(Literal* value) {
     Literal* this_node = CreateThisNode(value->line_number());
     CallExp* dot_accessor = builder()->CreateDotAccessor(this_node, value, value->line_number());
-    return builder()->CreateExpStmt(builder()->CreateAssignment('=', dot_accessor, GetSafeValue(value), value->line_number()),
-                                    value->line_number());
+    ExpressionStmt* stmt =
+        builder()->CreateExpStmt(builder()->CreateAssignment('=', dot_accessor, GetSafeValue(value),
+                                                             value->line_number()),value->line_number());
+    value->RemoveAllChild();
+    return stmt;
   }
 
 
@@ -223,6 +229,7 @@ class ClassProcessorUtils : public Processor{
   inline ExpressionStmt* ConstantInstancePrivate(Literal* value) {
     CallExp* constant_accessor = builder()->CreateConstantProp(CreatePrivateFieldAccessor(value),
                                                                value, GetSafeValue(value), value->line_number());
+    value->RemoveAllChild();
     return builder()->CreateExpStmt(constant_accessor, value->line_number());
   }
 
@@ -233,6 +240,7 @@ class ClassProcessorUtils : public Processor{
     CallExp* dot_accessor = builder()->CreateDotAccessor(this_node, value, value->line_number());
     CallExp* constant_accessor = builder()->CreateConstantProp(dot_accessor,
                                                                value, GetSafeValue(value), value->line_number());
+    value->RemoveAllChild();
     return builder()->CreateExpStmt(constant_accessor, value->line_number());
   }
 
@@ -243,6 +251,7 @@ class ClassProcessorUtils : public Processor{
                                               Token::JS_IDENTIFIER, val->line_number(), Literal::kIdentifier);
     CallExp* prototype_accessor = builder()->CreatePrototypeNode(name, val->line_number());
     CallExp* name_accessor = builder()->CreateDotAccessor(prototype_accessor, name_node, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(builder()->CreateAssignment('=', name_accessor, val, val->line_number()),
                                     val->line_number());
   }
@@ -254,6 +263,7 @@ class ClassProcessorUtils : public Processor{
                                               Token::JS_IDENTIFIER, val->line_number(), Literal::kIdentifier);
     CallExp* prototype_accessor = builder()->CreatePrototypeNode(name, val->line_number());
     CallExp* name_accessor = builder()->CreateDotAccessor(prototype_accessor, name_node, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(builder()->CreateAssignment('=', name_accessor, val, val->line_number()),
                                     val->line_number());
   }
@@ -266,6 +276,7 @@ class ClassProcessorUtils : public Processor{
     CallExp* prototype_accessor = builder()->CreatePrototypeNode(name, val->line_number());
     CallExp* constant_accessor = builder()->CreateConstantProp(prototype_accessor,
                                                                name_node, val, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(constant_accessor, val->line_number());
   }
 
@@ -277,6 +288,7 @@ class ClassProcessorUtils : public Processor{
     CallExp* prototype_accessor = builder()->CreatePrototypeNode(name, val->line_number());
     CallExp* constant_accessor = builder()->CreateConstantProp(prototype_accessor,
                                                                name_node, val, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(constant_accessor, val->line_number());
   }
 
@@ -286,6 +298,7 @@ class ClassProcessorUtils : public Processor{
     Literal* name = builder()->CreateNameNode(class_name,
                                               Token::JS_IDENTIFIER, val->line_number(), Literal::kIdentifier);
     CallExp* dot_accessor = builder()->CreateDotAccessor(name, name_node, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(builder()->CreateAssignment('=', dot_accessor, val, val->line_number()),
                                     val->line_number());
   }
@@ -296,6 +309,7 @@ class ClassProcessorUtils : public Processor{
     Literal* name = builder()->CreateNameNode(class_name,
                                               Token::JS_IDENTIFIER, val->line_number(), Literal::kIdentifier);
     CallExp* constant_accessor = builder()->CreateConstantProp(name, name_node, val, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(constant_accessor, val->line_number());
   }
 
@@ -304,6 +318,7 @@ class ClassProcessorUtils : public Processor{
     Literal* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kPrivateHolder),
                                               Token::JS_IDENTIFIER, val->line_number(), Literal::kIdentifier);
     CallExp* dot_accessor = builder()->CreateDotAccessor(name, name_node, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(builder()->CreateAssignment('=', dot_accessor, val, val->line_number()),
                                     val->line_number());
   }
@@ -312,6 +327,7 @@ class ClassProcessorUtils : public Processor{
     Literal* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kPrivateHolder),
                                               Token::JS_IDENTIFIER, val->line_number(), Literal::kIdentifier);
     CallExp* constant_accessor = builder()->CreateConstantProp(name, name_node, val, val->line_number());
+    name_node->RemoveAllChild();
     return builder()->CreateExpStmt(constant_accessor, val->line_number());
   }
 
@@ -386,7 +402,11 @@ class ClassProcessorUtils : public Processor{
 
 
 ClassProcessor::ClassProcessor(ProcessorInfo* info, Class* ast_node, Statement* tmp_stmt)
-    : Processor(), info_(info), class_(ast_node), utils_(new ClassProcessorUtils(this)), tmp_stmt_(tmp_stmt){
+    : Processor(),
+      info_(info),
+      class_(ast_node),
+      utils_(new ClassProcessorUtils(this)),
+      tmp_stmt_(tmp_stmt){
   Initialize();
 }
 

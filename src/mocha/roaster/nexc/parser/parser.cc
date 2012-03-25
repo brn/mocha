@@ -151,6 +151,7 @@ NodeList* Parser::FormalParameterConvertor(AstNode *args) {
       if (!item->CastToExpression()->IsValidLhs()) {
         SYNTAX_ERROR("malformed formal parameter list\\nin file "
                       << filename_ << " at line " << Seek(-1)->line_number());
+        return result;
       }
     } else if (maybe_ident) {
       if (maybe_ident->value_type() == Literal::kSpread) {
@@ -182,7 +183,6 @@ NodeList* Parser::FormalParameterConvertor(AstNode *args) {
         return result;
       }
     }
-    result->AddChild(item);
   }
   return result;
 }
@@ -1038,8 +1038,10 @@ AstNode* Parser::ParseLetExpressionOrLetStatement() {
     fn->set_name(new(pool()) Empty);
     AstNode* list = exp_list->first_child();
     AstNode* args = list->next_sibling();
+    printf("!=========================%d\n", list->child_length());
     NodeList* valid_formal = FormalParameterConvertor(list);
     CHECK_ERROR(valid_formal);
+    printf("!=========================%d\n", valid_formal->child_length());
     fn->set_argv(valid_formal);
     if (token->type() == '{') {
       Advance();

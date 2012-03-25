@@ -17,6 +17,6 @@ TEST(TranslatorTest, Test1) {
   mocha::CompilationInfo info;
   mocha::Nexc nexc(&info);
   nexc.AddListener(mocha::Nexc::kTransformAst, TestFunc());
-  nexc.CompileFile(CURRENT_DIR"/src/test/js/harmony/class_test.js");
+  nexc.CompileFile(CURRENT_DIR"/mocha/module/runtime/mocha_runtime.js");
 }
 
