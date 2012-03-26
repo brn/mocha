@@ -53,6 +53,7 @@ class Directory {
   class const_iterator : public std::iterator<std::forward_iterator_tag, const DirEntry*> {
    public :
     explicit const_iterator(const DirEntry*);
+    const_iterator();
     const_iterator(const const_iterator&);
     ~const_iterator();
     const const_iterator& operator = (const const_iterator&);

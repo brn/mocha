@@ -2,6 +2,8 @@
 #define mocha_ast_seriarization_unpacker_h_
 #include <vector>
 #include <string>
+#include <mocha/roaster/ast/seriarization/byte.h>
+#include <mocha/roaster/misc/int_types.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {
 class TokenInfo;
@@ -9,29 +11,30 @@ namespace memory {
 class Pool;
 }
 template <typename AstType, bool>
-struct Instaniater;
-typedef std::vector<int> Packed;
+class Instaniater;
+typedef std::vector<int32_t> Packed;
 class UnPacker {
   template<typename AstType, bool>
   friend class Instaniater;
  public :
-  UnPacker(Packed* packed, memory::Pool* pool);
+  UnPacker(Packed* packed, ByteOrder* b_order, memory::Pool* pool);
+  UnPacker(int32_t* packed, ByteOrder* b_order, memory::Pool* pool);
   ~UnPacker(){}
   AstNode* Unpack();
  private :
-  int Advance(int index = 1) {
-    if (current_ == packed_->size()) {
+  int32_t Advance(int index = 1) {
+    if (current_ == max_) {
       return -1;
     }
-    int ret = packed_->at(current_);
+    int32_t ret = b_order_->ToHostByteOrder(packed_[current_]);
     current_ += index;
     return ret;
   };
-  int Current() {
-    if (current_ == packed_->size()) {
+  int32_t Current() {
+    if (current_ == max_) {
       return -1;
     }
-    return packed_->at(current_);
+    return b_order_->ToHostByteOrder(packed_[current_]);
   }
   template <typename AstType, bool>
   AstNode* MakeBaseAst();
@@ -82,7 +85,9 @@ class UnPacker {
   AstNode* CaseObject();
   int current_type_;
   int current_;
-  Packed* packed_;
+  int max_;
+  int32_t* packed_;
+  ByteOrder* b_order_;
   memory::Pool* pool_;
 };
 }

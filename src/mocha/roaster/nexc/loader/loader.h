@@ -27,11 +27,17 @@
 #include <mocha/roaster/notificator/notificator.h>
 #include <mocha/roaster/nexc/events/io_event/io_event.h>
 namespace mocha {
+class AstNode;
+namespace memory {
+class Pool;
+}
 class Loader : public Notificator<IOEvent*> {
  public :
   Loader();
   ~Loader();
   void LoadFile(const char* path);
+  static AstNode* MainRuntime(memory::Pool* pool);
+  static void Initialize();
   static const char kComplete[];
   static const char kError[];
  private :

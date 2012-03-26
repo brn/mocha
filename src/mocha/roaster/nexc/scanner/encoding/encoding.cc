@@ -1,9 +1,11 @@
 #include <string.h>
 #include <iostream>
+#include <third_party/icu/include/unicode/uclean.h>
 #include <mocha/roaster/nexc/scanner/encoding/encoding.h>
 namespace mocha {
 SharedPtr<DetectResult> ICUWrapper::GetEncode(const char* source) {
   UErrorCode error = U_ZERO_ERROR;
+  u_init(&error);
   UCharsetDetector* detector = ucsdet_open(&error);
   ucsdet_setText(detector, source, strlen(source), &error);
   const UCharsetMatch* match = ucsdet_detect(detector, &error);
@@ -18,6 +20,7 @@ SharedPtr<DetectResult> ICUWrapper::GetEncode(const char* source) {
     result->error = false;
   }
   ucsdet_close(detector);
+  u_cleanup();
   return result;
 }
 

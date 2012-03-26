@@ -71,6 +71,7 @@ class MochaBuilder :
 
 ut = ARGUMENTS.get('ut')
 ct = ARGUMENTS.get('ct')
+pack = ARGUMENTS.get('pack')
 GTEST_DIR = CURRENT + '/src/third_party'
 PLATFORM = platform
 UNIT_TEST_CONFIG = {
@@ -138,7 +139,9 @@ elif ct :
         tests = ct.split(':')
         for test in tests :
             SConscript(CT[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
-
+elif pack :
+    ENV = Environment()
+    SConscript('src/mocha/roaster/nexc/runtime/SConscript', exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
 else :
     builder = MochaBuilder(ARGUMENTS.get('mode'))
     builder.Build()

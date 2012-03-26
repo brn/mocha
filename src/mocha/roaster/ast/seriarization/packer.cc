@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <mocha/roaster/ast/seriarization/byte.h>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/seriarization/packer.h>
@@ -19,161 +21,145 @@ namespace mocha {
 #define PRINT_NODE_NAME
 #endif
 
-
-Packer::Packer(Packed* packed)
-    : packed_(packed){}
-
-void CharPacker(const char* str, int size, Packed* packed) {
-  packed->push_back(size);
-  for (int i = 0; i < size; i++) {
-    packed->push_back(str[i]);
+void Packer::IterateChildren(AstNode* ast_node) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  while (iterator.HasNext()) {
+    AstNode* node = iterator.Next();
+    if (node->IsEmpty()) {
+      PushBack(AstNode::kEmpty);
+    } else {
+      node->Accept(this);
+    }
   }
 }
 
-void BasePacker(AstNode* node, Packed* packed) {
+void Packer::PushBack(int32_t val) {
+  packed_->push_back(b_order_->ToNetwordByteOrder(val));
+}
+
+Packer::Packer(Packed* packed, ByteOrder* b_order)
+    : packed_(packed),
+      b_order_(b_order){}
+
+void Packer::CharPacker(const char* str, int size) {
+  PushBack(size);
+  for (int i = 0; i < size; i++) {
+    PushBack(str[i]);
+  }
+}
+
+void Packer::BasePacker(AstNode* node) {
   int type = node->node_type();
   int64_t line = node->line_number();
-  packed->push_back(type);
+  PushBack(type);
   if (line == 0) {
-    packed->push_back(1);
-    packed->push_back(1);
+    PushBack(1);
+    PushBack(1);
   } else {
-    packed->push_back(ceil(line / 2));
-    packed->push_back(floor(line / 2));
+    PushBack(static_cast<int32_t>(ceil(static_cast<float>(line / 2))));
+    PushBack(static_cast<int32_t>(floor(static_cast<float>(line / 2))));
   }
   if (node->node_type() != AstNode::kLiteral) {
-    packed->push_back(node->child_length());
+    PushBack(node->child_length());
   } else {
-    packed->push_back(0);
+    PushBack(0);
   }
 }
 
-void TokenPacker(TokenInfo* info, Packed* packed) {
+void Packer::TokenPacker(TokenInfo* info) {
   int type = info->type();
   bool const_decl = info->const_declaration();
   const char* token = info->token();
   int64_t line = info->line_number();
-  packed->push_back(type);
-  packed->push_back(((const_decl)? 1 : 0));
-  CharPacker(token, strlen(token), packed);
-  packed->push_back(ceil(line / 2));
-  packed->push_back(floor(line / 2));
+  PushBack(type);
+  PushBack(((const_decl)? 1 : 0));
+  CharPacker(token, strlen(token));
+  PushBack(static_cast<int32_t>(ceil(static_cast<float>(line / 2))));
+  PushBack(static_cast<int32_t>(floor(static_cast<float>(line / 2))));
 }
 
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
-  }
+  BasePacker(ast_node);
+  IterateChildren(ast_node);
 }
 
 
 VISITOR_IMPL(FileRoot) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  CharPacker(ast_node->filename(), strlen(ast_node->filename()), packed_);
+  BasePacker(ast_node);
+  CharPacker(ast_node->filename(), strlen(ast_node->filename()));
   bool runtime = ast_node->runtime();
   bool strict = ast_node->IsStrict();
-  packed_->push_back((runtime? 1 : 0));
-  packed_->push_back((strict? 1 : 0));
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
-  }
+  PushBack((runtime? 1 : 0));
+  PushBack((strict? 1 : 0));
+  IterateChildren(ast_node);
 }
 
 
 VISITOR_IMPL(NodeList) {
-  BasePacker(ast_node, packed_);
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
-  }
+  BasePacker(ast_node);
+  IterateChildren(ast_node);
 }
 
 
 VISITOR_IMPL(BlockStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
-  }
+  BasePacker(ast_node);
+  IterateChildren(ast_node);
 }
 
-
-
-VISITOR_IMPL(ModuleStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(ExportStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(ImportStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(Statement) {}
+VISITOR_IMPL(ModuleStmt) {FATAL("UNREACHABLE");}
+VISITOR_IMPL(ExportStmt) {FATAL("UNREACHABLE");}
+VISITOR_IMPL(ImportStmt) {FATAL("UNREACHABLE");}
+VISITOR_IMPL(Statement) {FATAL("UNREACHABLE");}
 
 VISITOR_IMPL(VersionStmt) {
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   TokenInfo* version = ast_node->version();
-  TokenPacker(version, packed_);
+  TokenPacker(version);
   ast_node->first_child()->Accept(this);
 }
 
 VISITOR_IMPL(AssertStmt) {
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->first_child()->Accept(this);
 }
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    AstNode* statement = iterator.Next();
-    statement->Accept(this);
-  }
+  BasePacker(ast_node);
+  IterateChildren(ast_node);
 }
 
 
 
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->first_child()->Accept(this);
 }
 
 
-VISITOR_IMPL(LetStmt) {}
+VISITOR_IMPL(LetStmt) {FATAL("UNREACHABLE");}
 
 
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->first_child()->Accept(this);
 }
 
 
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  ast_node->RemoveAllChild();
+  BasePacker(ast_node);
   ast_node->condition()->Accept(this);
   ast_node->then_statement()->Accept(this);
-  if (ast_node->else_statement()->node_type() == AstNode::kEmpty) {
-    packed_->push_back(AstNode::kEmpty);
+  if (ast_node->else_statement()->IsEmpty()) {
+    PushBack(AstNode::kEmpty);
   } else {
     ast_node->else_statement()->Accept(this);
   }
@@ -182,7 +168,7 @@ VISITOR_IMPL(IFStmt) {
 
 VISITOR_IMPL(IterationStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->expression()->Accept(this);
   ast_node->first_child()->Accept(this);
 }
@@ -190,29 +176,40 @@ VISITOR_IMPL(IterationStmt) {
 
 VISITOR_IMPL(ContinueStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  ast_node->first_child()->Accept(this);
+  BasePacker(ast_node);
+  if (ast_node->first_child()->IsEmpty()) {
+    PushBack(AstNode::kEmpty);
+  } else {
+    ast_node->first_child()->Accept(this);
+  }
 }
 
 
 VISITOR_IMPL(BreakStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  ast_node->first_child()->Accept(this);
+  BasePacker(ast_node);
+  if (ast_node->first_child()->IsEmpty()) {
+    PushBack(AstNode::kEmpty);
+  } else {
+    ast_node->first_child()->Accept(this);
+  }
 }
 
 
 VISITOR_IMPL(ReturnStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  AstNode* exp = ast_node->first_child();
-  exp->Accept(this);
+  BasePacker(ast_node);
+  if (ast_node->first_child()->IsEmpty()) {
+    PushBack(AstNode::kEmpty);
+  } else {
+    ast_node->first_child()->Accept(this);
+  }
 }
 
 
 VISITOR_IMPL(WithStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->expression()->Accept(this);
   ast_node->first_child()->Accept(this);
 }
@@ -220,29 +217,27 @@ VISITOR_IMPL(WithStmt) {
 
 VISITOR_IMPL(SwitchStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->expression()->Accept(this);
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
-  }
+  IterateChildren(ast_node);
 }
 
 
 VISITOR_IMPL(CaseClause) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  ast_node->expression()->Accept(this);
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
+  BasePacker(ast_node);
+  if (ast_node->expression()->IsEmpty()) {
+    PushBack(AstNode::kEmpty);
+  } else {
+    ast_node->expression()->Accept(this);
   }
+  IterateChildren(ast_node);
 }
 
 
 VISITOR_IMPL(LabelledStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   AstNode* symbol = ast_node->first_child();
   AstNode* statement = symbol->next_sibling();
   symbol->Accept(this);
@@ -252,27 +247,28 @@ VISITOR_IMPL(LabelledStmt) {
 
 VISITOR_IMPL(ThrowStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->expression()->Accept(this);
 }
 
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   AstNode* catch_block = ast_node->catch_block();
   AstNode* finally_block = ast_node->finally_block();
   if (!catch_block->IsEmpty()) {
     catch_block->Accept(this);
   } else {
-    packed_->push_back(AstNode::kEmpty);
+    PushBack(AstNode::kEmpty);
   }
 
   if (!finally_block->IsEmpty()) {
     finally_block->Accept(this);
   } else {
-    packed_->push_back(AstNode::kEmpty);
+    PushBack(AstNode::kEmpty);
   }
+  ast_node->first_child()->Accept(this);
 }
 
 
@@ -291,7 +287,7 @@ void Packer::DotAccessorProccessor_(CallExp* exp) {
 void Packer::NewCallProccessor_(CallExp* exp) {
   exp->callable()->Accept(this);
   if (exp->args()->IsEmpty()) {
-    packed_->push_back(AstNode::kEmpty);
+    PushBack(AstNode::kEmpty);
   } else {
     exp->args()->Accept(this);
   }
@@ -301,7 +297,7 @@ void Packer::NewCallProccessor_(CallExp* exp) {
 void Packer::NormalFunctionCall_(CallExp* exp) {
   exp->callable()->Accept(this);
   if (exp->args()->IsEmpty()) {
-    packed_->push_back(AstNode::kEmpty);
+    PushBack(AstNode::kEmpty);
   } else {
     exp->args()->Accept(this);
   }
@@ -310,9 +306,9 @@ void Packer::NormalFunctionCall_(CallExp* exp) {
 
 VISITOR_IMPL(CallExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->call_type());
-  packed_->push_back((ast_node->rest()? 1 : 0));
+  BasePacker(ast_node);
+  PushBack(ast_node->call_type());
+  PushBack((ast_node->rest()? 1 : 0));
   switch (ast_node->call_type()) {
     case CallExp::kNormal :
       NormalFunctionCall_(ast_node);
@@ -335,34 +331,34 @@ VISITOR_IMPL(CallExp) {
 
 VISITOR_IMPL(NewExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->first_child()->Accept(this);
 }
 
 
-VISITOR_IMPL(YieldExp){}
+VISITOR_IMPL(YieldExp){FATAL("UNREACHABLE");}
 
 
 VISITOR_IMPL(PostfixExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->operand());
+  BasePacker(ast_node);
+  PushBack(ast_node->operand());
   ast_node->expression()->Accept(this);
 }
 
 
 VISITOR_IMPL(UnaryExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->operand());
+  BasePacker(ast_node);
+  PushBack(ast_node->operand());
   ast_node->expression()->Accept(this);
 }
 
 
 VISITOR_IMPL(BinaryExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->operand());
+  BasePacker(ast_node);
+  PushBack(ast_node->operand());
   ast_node->left_value()->Accept(this);
   ast_node->right_value()->Accept(this);
 }
@@ -370,8 +366,8 @@ VISITOR_IMPL(BinaryExp) {
 
 VISITOR_IMPL(CompareExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->operand());
+  BasePacker(ast_node);
+  PushBack(ast_node->operand());
   ast_node->left_value()->Accept(this);
   ast_node->right_value()->Accept(this);
 }
@@ -379,7 +375,7 @@ VISITOR_IMPL(CompareExp) {
 
 VISITOR_IMPL(ConditionalExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->condition()->Accept(this);
   ast_node->case_true()->Accept(this);
   ast_node->case_false()->Accept(this);
@@ -388,8 +384,8 @@ VISITOR_IMPL(ConditionalExp) {
 
 VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->operand());
+  BasePacker(ast_node);
+  PushBack(ast_node->operand());
   ast_node->left_value()->Accept(this);
   ast_node->right_value()->Accept(this);
 }
@@ -397,29 +393,26 @@ VISITOR_IMPL(AssignmentExp) {
 
 VISITOR_IMPL(Expression) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
-  packed_->push_back((ast_node->IsParenthesis()? 1 : 0));
-  NodeIterator iter = ast_node->ChildNodes();
-  while (iter.HasNext()) {
-    iter.Next()->Accept(this);
-  }
+  BasePacker(ast_node);
+  PushBack((ast_node->IsParenthesis()? 1 : 0));
+  IterateChildren(ast_node);
 }
 
 
-VISITOR_IMPL(Trait){}
+VISITOR_IMPL(Trait){FATAL("UNREACHABLE");}
 
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   ast_node->first_child()->Accept(this);
 }
 
-VISITOR_IMPL(ClassProperties) {}
+VISITOR_IMPL(ClassProperties) {FATAL("UNREACHABLE");}
 
-VISITOR_IMPL(ClassExpandar) {}
+VISITOR_IMPL(ClassExpandar) {FATAL("UNREACHABLE");}
 
-VISITOR_IMPL(ClassMember) {}
+VISITOR_IMPL(ClassMember) {FATAL("UNREACHABLE");}
 
 
 VISITOR_IMPL(Function){
@@ -427,52 +420,32 @@ VISITOR_IMPL(Function){
   if (ast_node->parent_node()) {
     DEBUG_LOG(Log, "child length = %d, parent name = %s", ast_node->child_length(), ast_node->parent_node()->node_name());
   }
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   AstNode* name = ast_node->name();
-  packed_->push_back((ast_node->IsDeclaredAsConst()? 1 : 0));
-  packed_->push_back((ast_node->IsDeclared()? 1 : 0));
-  packed_->push_back((ast_node->IsRoot()? 1 : 0));
-  packed_->push_back((ast_node->IsStrict()? 1 : 0));
+  PushBack((ast_node->IsDeclaredAsConst()? 1 : 0));
+  PushBack((ast_node->IsDeclared()? 1 : 0));
+  PushBack((ast_node->IsRoot()? 1 : 0));
+  PushBack((ast_node->IsStrict()? 1 : 0));
   DEBUG_LOG(Log, "argc = %d", ast_node->argc());
-  packed_->push_back(ast_node->argc());
-  NodeIterator arg_iterator = ast_node->argv()->ChildNodes();
-  while (arg_iterator.HasNext()) {
-    AstNode* node = arg_iterator.Next();
-    if (!node->IsEmpty()) {
-      node->Accept(this);
-    }
-  }
+  PushBack(ast_node->argc());
+  IterateChildren(ast_node->argv());
   if (name->IsEmpty()) {
-    packed_->push_back(AstNode::kEmpty);
+    PushBack(AstNode::kEmpty);
   } else {
     name->Accept(this);
   }
-  NodeIterator body_iterator = ast_node->ChildNodes();
-  while (body_iterator.HasNext()) {
-    AstNode* node = body_iterator.Next();
-    if (!node->IsEmpty()) {
-      node->Accept(this);
-      DEBUG_LOG(Log, "child!");
-    }
-  }
+  DEBUG_LOG(Log, "child length = %d", ast_node->child_length());
+  IterateChildren(ast_node);
 };
 
 
 void Packer::ArrayProccessor_(AstNode* ast_node) {
   PRINT_NODE_NAME;
   AstNode* list_child = ast_node->first_child();
-  if (!list_child || list_child->IsEmpty()) {
-    packed_->push_back(AstNode::kEmpty);
+  if (list_child && list_child->IsEmpty()) {
+    PushBack(AstNode::kEmpty);
   } else {
-    NodeIterator iterator = ast_node->ChildNodes();
-    while (iterator.HasNext()) {
-      AstNode* node = iterator.Next();
-      if (node->IsEmpty()) {
-        packed_->push_back(AstNode::kEmpty);
-      } else {
-        node->Accept(this);
-      }
-    }
+    IterateChildren(ast_node);
   }
 }
 
@@ -486,9 +459,6 @@ void Packer::ObjectProccessor_(AstNode* ast_node) {
       Literal* val = element->CastToLiteral();
       if ((val && element->CastToLiteral()->value_type() != Literal::kPrivateProperty)) {
         element->Accept(this);
-        if (element->first_child()) {
-          element->first_child()->Accept(this);
-        }
       }
     }
   }
@@ -496,53 +466,51 @@ void Packer::ObjectProccessor_(AstNode* ast_node) {
 
 
 VISITOR_IMPL(Literal) {
-  BasePacker(ast_node, packed_);
-  packed_->push_back(ast_node->value_type());
+  BasePacker(ast_node);
+  PushBack(ast_node->value_type());
   TokenInfo* info = ast_node->value();
   AstNode* node = ast_node->node();
   if (info) {
-    packed_->push_back(1);
-    TokenPacker(info, packed_);
+    PushBack(1);
+    TokenPacker(info);
   } else {
-    packed_->push_back(0);
+    PushBack(0);
   }
   if (node) {
-    packed_->push_back(1);
+    PushBack(1);
     node->Accept(this);
   } else {
-    packed_->push_back(0);
+    PushBack(0);
   }
   if (ast_node->value_type() == Literal::kVariable || ast_node->value_type() == Literal::kIdentifier) {
     if (ast_node->first_child() && ast_node->first_child()->node_type() != AstNode::kEmpty) {
-      packed_->push_back(1);
+      PushBack(1);
       ast_node->first_child()->Accept(this);
       return;
     } else if (ast_node->first_child() && ast_node->first_child()->node_type() == AstNode::kEmpty){
-      packed_->push_back(1);
-      packed_->push_back(AstNode::kEmpty);
+      PushBack(1);
+      PushBack(AstNode::kEmpty);
       return;
     }
   }
   if (ast_node->value_type() == Literal::kProperty) {
     if (ast_node->first_child() && ast_node->first_child()->node_type() != AstNode::kEmpty) {
-      packed_->push_back(1);
+      PushBack(1);
+      ast_node->first_child()->Accept(this);
       return;
     }
   }
-  packed_->push_back(0);
+  PushBack(0);
 }
 
 VISITOR_IMPL(VariableDeclarationList) {
   PRINT_NODE_NAME;
-  BasePacker(ast_node, packed_);
+  BasePacker(ast_node);
   bool is_const = ast_node->IsDeclaredAsConst();
   bool is_let = ast_node->IsDeclaredAsLet();
-  packed_->push_back((is_const? 1 : 0));
-  packed_->push_back((is_let? 1 : 0));
-  NodeIterator iterator = ast_node->ChildNodes();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
-  }
+  PushBack((is_const? 1 : 0));
+  PushBack((is_let? 1 : 0));
+  IterateChildren(ast_node);
 }
 
 int GetObjectCount(AstNode* ast_node) {
@@ -561,20 +529,19 @@ int GetObjectCount(AstNode* ast_node) {
 VISITOR_IMPL(ArrayLikeLiteral) {
   PRINT_NODE_NAME;
   ast_node->RemoveAllChild();
-  BasePacker(ast_node, packed_);
-  printf("!!!!!!!!!!!!!!!!!!!!!!%d\n", ast_node->elements()->child_length());
-  packed_->push_back(ast_node->elements()->child_length());
+  BasePacker(ast_node);
+  PushBack(ast_node->elements()->child_length());
   ArrayProccessor_(ast_node->elements());
 }
 
 VISITOR_IMPL(ObjectLikeLiteral) {
   PRINT_NODE_NAME;
   ast_node->RemoveAllChild();
-  BasePacker(ast_node, packed_);
-  packed_->push_back(GetObjectCount(ast_node->elements()));
+  BasePacker(ast_node);
+  PushBack(GetObjectCount(ast_node->elements()));
   ObjectProccessor_(ast_node->elements());
 }
 
-VISITOR_IMPL(GeneratorExpression){}
+VISITOR_IMPL(GeneratorExpression){FATAL("UNREACHABLE");}
 
 }

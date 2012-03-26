@@ -23,6 +23,7 @@
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/misc/atomic.h>
 #include <mocha/roaster/ast/ast.h>
+#include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/translator/translator.h>
 #include <mocha/roaster/ast/seriarization/packer.h>
@@ -36,6 +37,8 @@
 #include <mocha/roaster/nexc/parser/parser.h>
 #include <mocha/roaster/nexc/scanner/scanner.h>
 #include <mocha/roaster/nexc/utils/utils.h>
+#ifndef PACKING_RUNTIME
+#endif
 namespace mocha {
 class LoadCompleteListener {
  public :
@@ -84,10 +87,12 @@ class LoadErrorListener {
 };
 
 Nexc::Nexc(CompilationInfo* info)
-    : compilation_info_(info),
-      virtual_directory_(os::fs::VirtualDirectory::GetInstance()),
+    : token_initialized_(0),
+      compilation_info_(info),
       reporter_(new ErrorReporter),
-      pool_(memory::Pool::Local()) {
+      pool_(memory::Pool::Local()),
+      virtual_directory_(os::fs::VirtualDirectory::Local()),
+      builder_(AstBuilder::Local()) {
   Initialize();
 }
 
@@ -104,6 +109,84 @@ void Nexc::CompileFile(const char* filename, const char* charset) {
   loader.LoadFile(filename);
 }
 
+#ifdef PACKING_RUNTIME
+struct NodeHolder {
+  static AstRoot* root;
+};
+AstRoot* NodeHolder::root;
+void Nexc::PackFile(const Results& results) {
+  ByteOrder order;
+  FILE* fp = os::FOpen(CURRENT_DIR"/src/mocha/roaster/nexc/runtime/runtime.h", "w+");
+  std::stringstream st;
+  st << "#ifndef mocha_roaster_nexc_runtime_runtime_h_"
+     << "\n#include <mocha/roaster/lib/unordered_map.h>\n"
+     << "\n#include <mocha/roaster/misc/int_types.h>\n"
+     << "namespace mocha {\n";
+  typedef std::vector<std::string> Vars;
+  Vars vars;
+  for (Results::const_iterator it = results.begin(); it != results.end(); ++it) {
+    Packed packed;
+    Packer packer(&packed, &order);
+    (*it).second->Accept(&packer);
+    std::string path = (*it).first;
+    path.erase(path.size() - 3, 3);
+    st << "static int32_t " << path << "[] = {\n";
+    for (Packed::iterator it = packed.begin(); it != packed.end();) {
+      st << (*it);
+      ++it;
+      if (it != packed.end()) {
+        st << ',';
+      }
+    }
+    st << "};\n";
+    vars.push_back(path);
+  }
+  st << "class JSRuntime {\n"
+     << "private :\n"
+     << "typedef roastlib::unordered_map<std::string, int*> RuntimeMap;\n"
+     << "static RuntimeMap map_;\n"
+     << "public :\nstatic void Initialize() {\n";
+  for (Vars::iterator it = vars.begin(); it != vars.end(); ++it) {
+    st << "map_.insert(std::pair<const char*,int32_t*>(\"" << (*it) << "\", " << (*it) << "));\n";
+  }
+  st << "}\nstatic bool Has(const char* filename) {return map_.find(filename) != map_.end();}\n"
+     << "static int32_t* Get(const char* filename) {return map_.find(filename)->second;}\n"
+     << "};JSRuntime::RuntimeMap JSRuntime::map_;\n}\n#endif";
+  std::string ret = st.str();
+  if (fp != NULL) {
+    fputs(ret.c_str(), fp);
+    fclose(fp);
+  }
+}
+
+void Nexc::SetResult(CompilationEvent* e) {
+  NodeHolder::root->AddChild(e->ast());
+}
+
+AstRoot* Nexc::GetResult() {
+  AstNode *tmp = NodeHolder::root->Clone(pool_.Get());
+  return reinterpret_cast<AstRoot*>(tmp);
+}
+
+void Nexc::Pack(const char* filename) {
+  NodeHolder::root = new(pool_.Get()) AstRoot;
+  RemoveListener(kCompilationSucessed);
+  AddListener(kCompilationSucessed, Bind(&Nexc::SetResult, this));
+  os::fs::Path path_info(filename);
+  CheckGuard(path_info.absolute_path());
+  CompilationEvent* event = CreateEvent(path_info, "UTF-8");
+  event->set_mainfile_path(path_info.absolute_path());
+  DEBUG_LOG(Info, "Nexc::CompileFile\nwith file\n[\n'%s'\n]", path_info.absolute_path());
+  Loader loader;
+  loader.AddListener(Loader::kComplete, LoadCompleteListener(this, event));
+  loader.AddListener(Loader::kError, LoadErrorListener(this, event, true));
+  loader.LoadFile(filename);
+}
+#else
+AstRoot* Nexc::GetResult() {
+  return root_;
+}
+#endif
 
 void Nexc::Compile(const char* source, const char* charset) {
   std::string cwd = os::fs::Path::current_directory();
@@ -120,7 +203,7 @@ void Nexc::Compile(const char* source, const char* charset) {
 void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
   const char* current = virtual_directory_->current_directory();
   std::string module_path;
-  os::SPrintf(&module_path, "%s/%s", current, path);
+  os::SPrintf(&module_path, "%s/%s.js", current, path);
   os::fs::Path path_info(module_path.c_str());
   nexc_utils::ManglingName(buf, path_info.filename(), path_info.directory());
   if (CheckGuard(path_info.absolute_path())) {
@@ -154,7 +237,13 @@ void Nexc::Initialize() {
   } else {
     token_initialized_ = 1;
     JsToken::Initialize();
+    Loader::Initialize();
   }
+  root_ = new(pool_.Get()) AstRoot;
+#ifndef PACKING_RUNTIME
+  AstNode* root = Loader::MainRuntime(pool_.Get());
+  root_->AddChild(root);
+#endif
   AddListener(kScan, Scanner::ScannerEventListener());
   AddListener(kParse, Parser::ParseEventListener());
   AddListener(kTransformAst, Translator::TransformEventLitener());
@@ -165,29 +254,9 @@ void Nexc::Abort(IOEvent* e) {
 }
 
 void Nexc::Success(CompilationEvent* e) {
-  CodegenVisitor visitor(e->filename(), true, false, compilation_info_);
-  Packed packed;
-  Packer packer(&packed);
-  e->ast()->Accept(&packer);
-  FILE* fp = os::FOpen("test.dat", "w+b");
-  fwrite(&(packed.at(0)), sizeof(int) * packed.size(), 1, fp);
-  fclose(fp);
-  fp = os::FOpen("test.dat", "r");
-  int read = 0;
-  int tmp = 0;
-  Packed packed_;
-  while ((read = fread(&tmp, sizeof(int), 1, fp))) {
-    if (read == 0) {
-      break;
-    }
-    packed_.push_back(tmp);
-  }
-  UnPacker unpacker(&packed_, pool_.Get());
-  AstNode* node = unpacker.Unpack();
-  node->Accept(&visitor);
-  DEBUG_LOG(Info, "result\nwith source\n[\n%s\n]", visitor.GetCode());
-  fclose(fp);
+  root_->AddChild(e->ast());
 }
+
 
 CompilationEvent* Nexc::CreateEvent(const os::fs::Path& path_info, const char* charset) {
   CompilationEvent* event = new(pool_.Get()) CompilationEvent(this, reporter_.Get(), pool_.Get());

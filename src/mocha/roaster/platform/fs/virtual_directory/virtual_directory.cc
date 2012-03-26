@@ -5,7 +5,7 @@
 
 namespace mocha {namespace os {
 namespace fs {
-VirtualDirectory* os::fs::VirtualDirectory::GetInstance() {
+VirtualDirectory* os::fs::VirtualDirectory::Local() {
   VirtualDirectory* instance = reinterpret_cast<VirtualDirectory*>(ThreadLocalStorage::Get(&local_key_));
   if (instance == NULL) {
     instance = new VirtualDirectory;
@@ -15,19 +15,15 @@ VirtualDirectory* os::fs::VirtualDirectory::GetInstance() {
 }
 
 void VirtualDirectory::set_current_directory(const char* path) {
-  current_dir_ = path;
+  current_dir_.clear();
+  current_dir_.assign(path);
 }
 
 const char* VirtualDirectory::current_directory() const {
   return current_dir_.c_str();
 }
 
-void VirtualDirectory::Destructor(void* ptr) {
-  VirtualDirectory* instance = reinterpret_cast<VirtualDirectory*>(ptr);
-  delete instance;
-}
-
-ThreadLocalStorageKey VirtualDirectory::local_key_(VirtualDirectory::Destructor);
+ThreadLocalStorageKey VirtualDirectory::local_key_;
 Mutex VirtualDirectory::mutex_;
 }
 }}

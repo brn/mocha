@@ -1,0 +1,103 @@
+import os, sys
+root_dir = os.path.dirname(File('SConscript').rfile().abspath + '/../../../../')
+sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
+from platform_utils import Config
+from test import TestBuilder
+Import('CURRENT')
+Import('ENV')
+Import('LIB_PREFIX')
+ROOT = os.getcwd().replace('\\', '/')
+PACKER_CONFIG = {
+    "linux" : {
+        "TARGET" : 'pack',
+        "RELEASE" : '-Wall -O3 -fno-exceptions -DPLATFORM_POSIX -DPACKING_RUNTIME -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-Wall -O0 -g -fno-exceptions -DDEBUG -DPLATFORM_POSIX -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "LD_FLAGS" : "`icu-config --ldflags`",
+        "LIBS" : ['pthread'],
+        "EXCLUDE_FILES" : [],
+        "DEPENDS" : [CURRENT + '/src/mocha/roaster/log/logging.cc',
+                     '../../platform/thread/thread-posix.cc',
+                     '../../platform/utils/utils-posix.cc',
+                     '../../platform/fs/directory/directory-posix.cc']
+        },
+    'macos' : {
+        "TARGET" : 'pack',
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DPACKING_RUNTIME -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "STATIC_LIBS" : [],
+        "LD_FLAGS" : "",
+        "LIBS" : ['pthread'],
+        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a'],
+        "EXCLUDE_FILES" : [],
+        "DEPENDS" : [CURRENT + '/src/mocha/roaster/log/logging.cc',
+                     '../../platform/thread/thread-posix.cc',
+                     '../../platform/utils/utils-posix.cc',
+                     '../../platform/fs/directory/directory-posix.cc']
+        },
+    "win32" : {
+        "TARGET" : 'pack.exe',
+        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "GOOGLE_TEST" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /D "PACKING_RUNTIME" /D CURRENT_DIR=\\"' + CURRENT + '\\" /I' + CURRENT + '/src',
+        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "DEBUG" /D "U_STATIC_IMPLEMENTATION" /D "_CRT_SECURE_NO_WARNINGS"  /D "GOOGLE_TEST" /D "NOMINMAX" /D "_MBCS" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /D "PACKING_RUNTIME" /D CURRENT_DIR=\\"' + CURRENT + '\\" /I' + CURRENT + '/src /I src/third_party/icu/include/',
+        "LD_FLAGS" : "/NOLOGO /MACHINE:X86",
+        "LIBS" : ['advapi32.lib'],
+        "STATIC_LIBS" : [LIB_PREFIX + '/lib-win32/debug/icuin.lib', LIB_PREFIX + '/lib-win32/debug/icudt.lib', LIB_PREFIX + '/lib-win32/debug/icuuc.lib'],
+        "EXCLUDE_FILES" : [],
+        "DEPENDS" : [CURRENT + '/src/mocha/roaster/log/logging.cc',
+                     '../../platform/thread/thread-win32.cc',
+                     '../../platform/utils/utils-win32.cc',
+                     '../../platform/fs/directory/directory-win32.cc']
+        }
+    }
+config = Config(ROOT, PACKER_CONFIG)
+builder = TestBuilder('debug', ['pack.cc',
+                                  '../../ast/translator/translator.cc',
+                                  '../nexc.cc',
+                                  '../parser/parser.cc',
+                                  '../tokens/symbol_list.cc',
+                                  '../../ast/builder/ast_builder.cc',
+                                  '../binding/parser_connector.cc',
+                                  '../../ast/ast.cc',
+                                  '../tokens/js_token.cc',
+                                  '../tokens/token_info.cc',
+                                  '../loader/loader.cc',
+                                  '../scanner/encoding/encoding.cc',
+                                  '../scanner/scanner.cc',
+                                  '../scanner/source_stream.cc',
+                                  '../scanner/token_stream.cc',
+                                  '../compilation_info/compilation_info.cc',
+                                  '../events/compilation_event/compilation_event.cc',
+                                  '../../memory/pool.cc',
+                                  '../../platform/fs/stat/stat.cc',
+                                  '../../utils/error_reporter.cc',
+                                  '../../platform/fs/mkdir/mkdir.cc',
+                                  '../../platform/fs/rm/rm.cc',
+                                  '../../platform/fs/mv/mv.cc',
+                                  '../../platform/fs/path/path.cc',
+                                  '../../consts/consts.cc',
+                                  '../../platform/fs/virtual_directory/virtual_directory.cc',
+                                  '../utils/utils.cc',
+                                  '../../ast/translator/translator_data/translator_data.cc',
+                                  '../../ast/seriarization/byte.cc',
+                                  '../../ast/seriarization/packer.cc',
+                                  '../../ast/seriarization/unpacker.cc',
+                                  '../../ast/visitors/codegen_visitor.cc',
+                                  '../../ast/visitors/utils/codewriter.cc',
+                                  '../../scopes/scope.cc',
+                                  '../../ast/translator/processors/array_processor.cc',
+                                  '../../ast/translator/processors/dsta_processor.cc',
+                                  '../../ast/translator/processors/function_processor.cc',
+                                  '../../ast/translator/processors/object_processor.cc',
+                                  '../../ast/translator/processors/trait_processor.cc',
+                                  '../../ast/translator/processors/export_processor.cc',
+                                  '../../ast/translator/processors/import_processor.cc',
+                                  '../../ast/translator/processors/variable_processor.cc',
+                                  '../../ast/translator/processors/call_processor.cc',
+                                  '../../ast/translator/processors/iteration_processor.cc',
+                                  '../../ast/translator/processors/class_processor.cc',
+                                  '../../ast/translator/processors/fileroot_processor.cc',
+                                  '../../ast/translator/processors/module_processor.cc',
+                                  '../../ast/translator/processors/syntax_sugar_processor.cc',
+                                  '../../ast/translator/processors/yield_processor.cc',
+                                  '../events/io_event/io_event.cc'], ENV, config)
+builder.Build(CURRENT + '/src', ROOT, CURRENT, True)
+

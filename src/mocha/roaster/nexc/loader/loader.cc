@@ -20,6 +20,11 @@
  *DEALINGS IN THE SOFTWARE.
  */
 #include <string.h>
+#include <mocha/roaster/ast/seriarization/unpacker.h>
+#include <mocha/roaster/ast/seriarization/byte.h>
+#ifndef PACKING_RUNTIME
+#include <mocha/roaster/nexc/runtime/runtime.h>
+#endif
 #include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/nexc/loader/loader.h>
 #include <mocha/roaster/platform/utils/utils.h>
@@ -38,9 +43,11 @@ void Loader::LoadFile(const char* path) {
     if (fp != NULL) {
       std::stringstream st;
       ReadNormalFile(fp, &st);
+      os::FClose(fp);
       IOEvent *e = new(&pool_) IOEvent(path, &st);
       NotifyForKey(kComplete, e);
     } else {
+      os::FClose(fp);
       HandleError(path, kFOpenError);
     }
   } else if (stat.IsDir()){
@@ -79,6 +86,23 @@ void Loader::ReadNormalFile(FILE* fp, std::stringstream* st) {
     }
     tmp[0] = '\0';
   }
+}
+
+void Loader::Initialize() {
+#ifndef PACKING_RUNTIME
+  JSRuntime::Initialize();
+#endif
+}
+
+AstNode* Loader::MainRuntime(memory::Pool* pool) {
+#ifndef PACKING_RUNTIME
+  int32_t* packed = JSRuntime::Get("runtime");
+  ByteOrder b_order;
+  UnPacker unpacker(packed, &b_order, pool);
+  return unpacker.Unpack();
+#else
+  return 0;
+#endif
 }
 
 const char Loader::kComplete[] = {"Loader<Complete>"};

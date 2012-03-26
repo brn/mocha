@@ -22,8 +22,10 @@
  */
 #ifndef mocha_roaster_compiler_compiler_h_
 #define mocha_roaster_compiler_compiler_h_
+#include <vector>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/notificator/notificator.h>
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
@@ -35,6 +37,8 @@ class IOEvent;
 class CompilationEvent;
 class CompilationInfo;
 class ErrorReporter;
+class AstBuilder;
+class AstRoot;
 class Nexc : public Notificator<CompilationEvent*>{
   typedef std::pair<std::string, bool> GuardPair;
   typedef roastlib::unordered_map<std::string, bool> ImportGuard;
@@ -43,6 +47,13 @@ class Nexc : public Notificator<CompilationEvent*>{
   ~Nexc(){};
   void CompileFile(const char* filename, const char* charset = NULL);
   void Compile(const char* source, const char* charset = NULL);
+#ifdef PACKING_RUNTIME
+  typedef std::vector<std::pair<const char*, AstRoot*> > Results;
+  void SetResult(CompilationEvent* e);
+  static void PackFile(const Results& results);
+  void Pack(const char* filename);
+#endif
+  AstRoot* GetResult();
   void ImportFile(std::string* buf, const char* path, CompilationEvent* e);
   void set_current_directory(const char* path);
   static const char kScan[];
@@ -58,12 +69,14 @@ class Nexc : public Notificator<CompilationEvent*>{
   bool CheckGuard(const char* path);
   void Success(CompilationEvent* e);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
+  AstRoot* root_;
   AtomicWord token_initialized_;
   CompilationInfo* compilation_info_;
-  os::fs::VirtualDirectory* virtual_directory_;
   ImportGuard guard_;
   SharedPtr<ErrorReporter> reporter_;
   SharedPtr<memory::Pool> pool_;
+  ScopedPtr<os::fs::VirtualDirectory> virtual_directory_;
+  ScopedPtr<AstBuilder> builder_;
 };
 }
 #endif

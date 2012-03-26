@@ -5,6 +5,7 @@ namespace mocha {
 namespace os {
 namespace fs {
 Directory::const_iterator::const_iterator(const DirEntry* entry) : entry_(entry){}
+Directory::const_iterator::const_iterator() : entry_(0){}
 Directory::const_iterator::~const_iterator() {}
 
 Directory::const_iterator::const_iterator(const Directory::const_iterator& iterator) {

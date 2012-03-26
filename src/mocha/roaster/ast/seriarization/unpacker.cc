@@ -13,10 +13,20 @@ namespace mocha {
 
 #define PRINT(name) DEBUG_LOG(Info, "Enter "#name)
 
-UnPacker::UnPacker(Packed* packed, memory::Pool* pool)
+UnPacker::UnPacker(Packed* packed, ByteOrder* b_order, memory::Pool* pool)
     : current_type_(0),
       current_(0),
+      max_(static_cast<int>(packed->size())),
+      packed_(&((*packed)[0])),
+      b_order_(b_order),
+      pool_(pool){}
+
+UnPacker::UnPacker(int32_t* packed, ByteOrder* b_order, memory::Pool* pool)
+    : current_type_(0),
+      current_(0),
+      max_(sizeof(packed) / sizeof(packed[0])),
       packed_(packed),
+      b_order_(b_order),
       pool_(pool){}
 
 AstNode* UnPacker::Unpack() {
@@ -113,26 +123,30 @@ AstNode* UnPacker::UnpackEachNode() {
 }
 
 template <typename AstType, bool>
-struct Instaniater{
+class Instaniater{
+ public :
   static AstType* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {}
 };
 
 template <typename AstType>
-struct Instaniater<AstType, true>{
+class Instaniater<AstType, true>{
+ public :
   static AstType* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return new(pool) AstType(line);
   }
 };
 
 template <typename AstType>
-struct Instaniater<AstType, false>{
+class Instaniater<AstType, false>{
+ public :
   static AstType* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return new(pool) AstType;
   }
 };
 
 template <>
-struct Instaniater<FileRoot, true>{
+class Instaniater<FileRoot, true>{
+ public :
   static FileRoot* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     std::string filename;
     unpacker->UnpackChar(&filename);
@@ -151,7 +165,8 @@ struct Instaniater<FileRoot, true>{
 };
 
 template <>
-struct Instaniater<VersionStmt, true>{
+class Instaniater<VersionStmt, true>{
+ public :
   static VersionStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     TokenInfo* info = unpacker->UnpackToken();
     return new(pool) VersionStmt(info, line);
@@ -159,16 +174,19 @@ struct Instaniater<VersionStmt, true>{
 };
 
 template <>
-struct Instaniater<IterationStmt, true> {
+class Instaniater<IterationStmt, true> {
+ public :
   static IterationStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     IterationStmt* ast = new(pool) IterationStmt(unpacker->current_type_, line);
-    ast->set_expression(unpacker->UnpackEachNode());
+    AstNode* expression = unpacker->UnpackEachNode();
+    ast->set_expression(expression);
     return ast;
   }
 };
 
 template <>
-struct Instaniater<Expression, true> {
+class Instaniater<Expression, true> {
+ public :
   static Expression* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     Expression* exp = new(pool) Expression(line);
     bool parenthesis = unpacker->Advance() == 1? true : false;
@@ -180,13 +198,16 @@ struct Instaniater<Expression, true> {
 };
 
 template <>
-struct Instaniater<CallExp, true> {
+class Instaniater<CallExp, true> {
+ public :
   static CallExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     int type = unpacker->Advance();
     bool rest = unpacker->Advance() == 1? true : false;
     CallExp* ast = new(pool) CallExp(type, line);
-    ast->set_callable(unpacker->UnpackEachNode());
-    ast->set_args(unpacker->UnpackEachNode());
+    AstNode* callable = unpacker->UnpackEachNode();
+    ast->set_callable(callable);
+    AstNode* args = unpacker->UnpackEachNode();
+    ast->set_args(args);
     if (rest) {
       ast->set_rest();
     }
@@ -197,80 +218,93 @@ struct Instaniater<CallExp, true> {
 template <typename T>
 T* UnPacker::MakeUnary(int64_t line) {
   int type = Advance();
-  return new(pool_) T(type, UnpackEachNode(), line);
+  AstNode* exp = UnpackEachNode();
+  return new(pool_) T(type, exp, line);
 }
 
 template <typename T>
 T* UnPacker::MakeBinary(int64_t line) {
   int type = Advance();
-  return new(pool_) T(type, UnpackEachNode(), UnpackEachNode(), line);
+  AstNode* left = UnpackEachNode();
+  AstNode* right = UnpackEachNode();
+  return new(pool_) T(type, left, right, line);
 }
 
 template <>
-struct Instaniater<PostfixExp, true> {
+class Instaniater<PostfixExp, true> {
+ public :
   static PostfixExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return unpacker->MakeUnary<PostfixExp>(line);
   }
 };
 
 template <>
-struct Instaniater<UnaryExp, true> {
+class Instaniater<UnaryExp, true> {
+ public :
   static UnaryExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return unpacker->MakeUnary<UnaryExp>(line);
   }
 };
 
 template <>
-struct Instaniater<BinaryExp, true> {
+class Instaniater<BinaryExp, true> {
+ public :
   static BinaryExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return unpacker->MakeBinary<BinaryExp>(line);
   }
 };
 
 template <>
-struct Instaniater<AssignmentExp, true> {
+class Instaniater<AssignmentExp, true> {
+ public :
   static AssignmentExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return unpacker->MakeBinary<AssignmentExp>(line);
   }
 };
 
 template <>
-struct Instaniater<CompareExp, true> {
+class Instaniater<CompareExp, true> {
+ public :
   static CompareExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return unpacker->MakeBinary<CompareExp>(line);
   }
 };
 
 template <>
-struct Instaniater<ConditionalExp, true> {
+class Instaniater<ConditionalExp, true> {
+ public :
   static ConditionalExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
-    return new(pool) ConditionalExp(unpacker->UnpackEachNode(), unpacker->UnpackEachNode(),
-                                    unpacker->UnpackEachNode(), line);
+    AstNode* cond = unpacker->UnpackEachNode();
+    AstNode* true_case = unpacker->UnpackEachNode();
+    AstNode* false_case = unpacker->UnpackEachNode();
+    return new(pool) ConditionalExp(cond, true_case, false_case, line);
   }
 };
 
 template <>
-struct Instaniater<Literal, true> {
+class Instaniater<Literal, true> {
+ public :
   static Literal* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     int type = unpacker->Advance();
     Literal* ast = new(pool) Literal(type, line);
     if (unpacker->Advance() == 1) {
       ast->set_value(unpacker->UnpackToken());
-      DEBUG_LOG(Info, "now unpacing token %s", ast->value()->token());
     }
     if (unpacker->Advance() == 1) {
-      ast->set_node(unpacker->UnpackEachNode());
+      AstNode* node = unpacker->UnpackEachNode();
+      ast->set_node(node);
     }
     if (unpacker->Advance() == 1) {
-      DEBUG_LOG(Log, "now unpacking literal child");
-      ast->AddChild(unpacker->UnpackEachNode());
+      AstNode* node = unpacker->UnpackEachNode();
+      ast->AddChild(node);
     }
     return ast;
   }
 };
 
 template <>
-struct Instaniater<Function, true> {
+class Instaniater<Function, true> {
+ public :
   static Function* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     Function *fn = new(pool) Function(line);
     if (unpacker->Advance() == 1) {
@@ -297,8 +331,8 @@ struct Instaniater<Function, true> {
       fn->set_argv(new(pool) Empty());
     }
     if (unpacker->Current() != AstNode::kEmpty) {
-      DEBUG_LOG(Log, "has name");
-      fn->set_name(unpacker->UnpackEachNode());
+      AstNode* name = unpacker->UnpackEachNode();
+      fn->set_name(name);
     } else {
       fn->set_name(new(pool) Empty);
       unpacker->Advance();
@@ -309,12 +343,16 @@ struct Instaniater<Function, true> {
 
 
 template <>
-struct Instaniater<IFStmt, true> {
+class Instaniater<IFStmt, true> {
+ public :
   static IFStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     IFStmt *stmt = new(pool) IFStmt(line);
-    stmt->set_condition(unpacker->UnpackEachNode());
-    stmt->set_then_statement(unpacker->UnpackEachNode());
-    stmt->set_else_statement(unpacker->UnpackEachNode());
+    AstNode* cond = unpacker->UnpackEachNode();
+    stmt->set_condition(cond);
+    AstNode* then_stmt = unpacker->UnpackEachNode();
+    stmt->set_then_statement(then_stmt);
+    AstNode* else_stmt = unpacker->UnpackEachNode();
+    stmt->set_else_statement(else_stmt);
     return stmt;
   }
 };
@@ -327,45 +365,57 @@ T* MakeExpressionOnlyAst(memory::Pool* pool, AstNode* node, int64_t line) {
 }
 
 template <>
-struct Instaniater<WithStmt, true> {
+class Instaniater<WithStmt, true> {
+ public :
   static WithStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
-    return MakeExpressionOnlyAst<WithStmt>(pool, unpacker->UnpackEachNode(), line);
+    AstNode* expression = unpacker->UnpackEachNode();
+    return MakeExpressionOnlyAst<WithStmt>(pool, expression, line);
   }
 };
 
 template <>
-struct Instaniater<SwitchStmt, true> {
+class Instaniater<SwitchStmt, true> {
+ public :
   static SwitchStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
-    return MakeExpressionOnlyAst<SwitchStmt>(pool, unpacker->UnpackEachNode(), line);
+    AstNode* expression = unpacker->UnpackEachNode();
+    return MakeExpressionOnlyAst<SwitchStmt>(pool, expression, line);
   }
 };
 
 template <>
-struct Instaniater<CaseClause, true> {
+class Instaniater<CaseClause, true> {
+ public :
   static CaseClause* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
-    return MakeExpressionOnlyAst<CaseClause>(pool, unpacker->UnpackEachNode(), line);
+    AstNode* expression = unpacker->UnpackEachNode();
+    return MakeExpressionOnlyAst<CaseClause>(pool, expression, line);
   }
 };
 
 template <>
-struct Instaniater<ThrowStmt, true> {
+class Instaniater<ThrowStmt, true> {
+ public :
   static ThrowStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
-    return MakeExpressionOnlyAst<ThrowStmt>(pool, unpacker->UnpackEachNode(), line);
+    AstNode* expression = unpacker->UnpackEachNode();
+    return MakeExpressionOnlyAst<ThrowStmt>(pool, expression, line);
   }
 };
 
 template <>
-struct Instaniater<TryStmt, true> {
+class Instaniater<TryStmt, true> {
+ public :
   static TryStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     TryStmt* stmt = new(pool) TryStmt(line);
-    stmt->set_catch_block(unpacker->UnpackEachNode());
-    stmt->set_finally_block(unpacker->UnpackEachNode());
+    AstNode* catch_block = unpacker->UnpackEachNode();
+    AstNode* finally_block = unpacker->UnpackEachNode();
+    stmt->set_catch_block(catch_block);
+    stmt->set_finally_block(finally_block);
     return stmt;
   }
 };
 
 template <>
-struct Instaniater<VariableDeclarationList, true> {
+class Instaniater<VariableDeclarationList, true> {
+ public :
   static VariableDeclarationList* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     VariableDeclarationList* list = new(pool) VariableDeclarationList(line);
     if (unpacker->Advance() == 1) {
@@ -378,31 +428,35 @@ struct Instaniater<VariableDeclarationList, true> {
   }
 };
 
-struct MaterializedLiteralTag{};
+class MaterializedLiteralTag{};
 
 template <>
-struct Instaniater<MaterializedLiteralTag, true> {
+class Instaniater<MaterializedLiteralTag, true> {
+ public :
   template <typename T>
   static T* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     T* literal = new(pool) T(line);
     int size = unpacker->Advance();
     DEBUG_LOG(Info, "materiarized literal size %d", size);
     for (int i = 0; i < size; i++) {
-      literal->set_element(unpacker->UnpackEachNode());
+      AstNode* element = unpacker->UnpackEachNode();
+      literal->set_element(element);
     }
     return literal;
   }
 };
 
 template <>
-struct Instaniater<ArrayLikeLiteral, true> {
+class Instaniater<ArrayLikeLiteral, true> {
+ public :
   static ArrayLikeLiteral* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return Instaniater<MaterializedLiteralTag, true>::Make<ArrayLikeLiteral>(unpacker, pool, line);
   }
 };
 
 template <>
-struct Instaniater<ObjectLikeLiteral, true> {
+class Instaniater<ObjectLikeLiteral, true> {
+ public :
   static ObjectLikeLiteral* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     return Instaniater<MaterializedLiteralTag, true>::Make<ObjectLikeLiteral>(unpacker, pool, line);
   }

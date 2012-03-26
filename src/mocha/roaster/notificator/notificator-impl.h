@@ -61,6 +61,13 @@ inline void Notificator<Event>::AddListener(const char* key, Listener listener) 
   listeners_.insert(ListenerSet(key, adapter));
 }
 
+TEMPLATE
+inline void Notificator<Event>::RemoveListener(const char* key) {
+  if (listeners_.find(key) != listeners_.end()) {
+    listeners_.erase(key);
+  }
+}
+
 
 TEMPLATE
 inline void Notificator<Event>::NotifyAll(Event e) {

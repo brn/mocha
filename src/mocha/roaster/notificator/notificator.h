@@ -67,6 +67,8 @@ class Notificator {
   template <typename Listener>
   void AddListener(const char* key, Listener listener);
 
+  void RemoveListener(const char* key);
+  
   /**
    * @public
    * @param {Event} e

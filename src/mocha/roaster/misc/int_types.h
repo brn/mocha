@@ -31,7 +31,6 @@ typedef unsigned __int64 uint64_t;
 #include <crtdefs.h>
 #else
 
-
 #include <stdint.h>
 
 #endif
