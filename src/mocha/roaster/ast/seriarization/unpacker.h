@@ -18,7 +18,7 @@ class UnPacker {
   friend class Instaniater;
  public :
   UnPacker(Packed* packed, ByteOrder* b_order, memory::Pool* pool);
-  UnPacker(int32_t* packed, ByteOrder* b_order, memory::Pool* pool);
+  UnPacker(int32_t* packed, int size, ByteOrder* b_order, memory::Pool* pool);
   ~UnPacker(){}
   AstNode* Unpack();
  private :

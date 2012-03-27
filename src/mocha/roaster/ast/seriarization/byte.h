@@ -6,6 +6,7 @@ class ByteOrder {
   typedef int32_t (*ByteOrderConverter)(int32_t);
  public :
   ByteOrder();
+  ByteOrder(bool);
   ~ByteOrder(){}
   int32_t ToNetwordByteOrder(int32_t);
   int32_t ToHostByteOrder(int32_t);

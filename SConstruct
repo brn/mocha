@@ -123,11 +123,11 @@ if ut :
     CONFIG = Config(CURRENT, UNIT_TEST_CONFIG)
     if ut == 'all' :
         for test in TESTS.values() :
-            SConscript(test + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+            SConscript(test + '/SConscript', variant_dir=('.ut_temp_' + test), src_dir='./src', duplicate=0, exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
     else :
         tests = ut.split(':')
         for test in tests :
-            SConscript(TESTS[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+            SConscript(TESTS[test] + '/SConscript',  variant_dir=('.ut_temp_' + test), src_dir='./src', duplicate=0, exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
 
 elif ct :
     ENV = Environment()
@@ -141,7 +141,7 @@ elif ct :
             SConscript(CT[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
 elif pack :
     ENV = Environment()
-    SConscript('src/mocha/roaster/nexc/runtime/SConscript', exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
+    SConscript('src/mocha/roaster/nexc/runtime/SConscript', variant_dir='.packed_temp', src_dir='./src' ,exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
 else :
     builder = MochaBuilder(ARGUMENTS.get('mode'))
     builder.Build()
