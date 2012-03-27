@@ -114,7 +114,8 @@ TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'nexc-translator' : 'src/mocha/roaster/ast/translator'
          }
 CT = {
-   'nexc' : 'src/mocha/roaster/nexc/ct'
+   'nexc' : 'src/mocha/roaster/nexc/ct',
+   'roaster' : 'src/mocha/roaster'
 }
 
 
@@ -134,11 +135,11 @@ elif ct :
     CONFIG = Config(CURRENT, UNIT_TEST_CONFIG)
     if ct == 'all' :
         for test in CT.values() :
-            SConscript(test + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+            SConscript(test + '/SConscript', variant_dir=('.ct_temp_' + test), src_dir='./src', duplicate=0, exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
     else :
         tests = ct.split(':')
         for test in tests :
-            SConscript(CT[test] + '/SConscript', exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
+            SConscript(CT[test] + '/SConscript', variant_dir=('.ct_temp_' + test), src_dir='./src', duplicate=0, exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
 elif pack :
     ENV = Environment()
     SConscript('src/mocha/roaster/nexc/runtime/SConscript', variant_dir='.packed_temp', src_dir='./src' ,exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])

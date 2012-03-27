@@ -475,7 +475,7 @@ VISITOR_IMPL(AssertStmt) {
   REGIST(ast_node);
   AstNode* name = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kAssert),
                                             Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kProperty);
-  CodegenVisitor visitor(translator_data_->filename(), true, false, translator_data_->compilation_info());
+  CodegenVisitor visitor(true, false, translator_data_->compilation_info());
   AstNode* expect = ast_node->first_child();
   AstNode* expression = expect->next_sibling();
   ast_node->RemoveAllChild();

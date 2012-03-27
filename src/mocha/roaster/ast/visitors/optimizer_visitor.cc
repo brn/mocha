@@ -5,11 +5,11 @@
 #include <mocha/roaster/ast/visitors/optimizer_visitor.h>
 #include <mocha/roaster/ast/visitors/utils/opt/constant_optimizer.h>
 #include <mocha/roaster/ast/visitors/utils/opt/ifstatement_optimizer.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 #include <mocha/roaster/scopes/scope.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/token_info.h>
-#include <mocha/roaster/utils/compilation_info.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/compilation_info/compilation_info.h>
 namespace mocha {
 
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type(type* ast_node)

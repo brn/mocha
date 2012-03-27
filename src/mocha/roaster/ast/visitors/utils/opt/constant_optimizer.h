@@ -1,6 +1,6 @@
 #ifndef mocha_constant_optimizer_h_
 #define mocha_constant_optimizer_h_
-#include <mocha/roaster/ast/visitors/utils/processors/processor.h>
+#include <mocha/roaster/ast/translator/processors/processor.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 namespace mocha {

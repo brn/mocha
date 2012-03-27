@@ -60,22 +60,22 @@ inline void line_numberBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* 
 }
 
 
-CodegenVisitor::CodegenVisitor(const char* filename, CompilationInfo* info)
+CodegenVisitor::CodegenVisitor(CompilationInfo* info)
     : depth_(0),
       is_line_(info->Debug()),
       has_rest_(false),
-      is_pretty_print_(info->PrettyPrint()),filename_(filename),
+      is_pretty_print_(info->PrettyPrint()),
       scope_(0),
       info_(info),
       stream_(new CodeStream(&default_buffer_)),
       writer_(new CodeWriter(info->PrettyPrint(), info->Debug())),
       current_root_(0){}
 
-CodegenVisitor::CodegenVisitor(const char* filename, bool is_pretty_print, bool is_debug, CompilationInfo* info)
+CodegenVisitor::CodegenVisitor(bool is_pretty_print, bool is_debug, CompilationInfo* info)
     : depth_(0),
       is_line_(is_debug),
       has_rest_(false),
-      is_pretty_print_(is_pretty_print), filename_(filename),
+      is_pretty_print_(is_pretty_print),
       scope_(0),
       info_(info),
       stream_(new CodeStream(&default_buffer_)),

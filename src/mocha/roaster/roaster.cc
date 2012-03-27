@@ -1,85 +1,66 @@
+/**
+ *@author Taketoshi Aono
+ *@fileOverview
+ *@license
+ *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ *associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ *subject to the following conditions:
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions ofthe Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *DEALINGS IN THE SOFTWARE.
+ */
 #include <mocha/roaster/roaster.h>
-#include <mocha/roaster/compiler.h>
-#include <mocha/roaster/tokens/js_token.h>
+#include <mocha/roaster/nexc/nexc.h>
+#include <mocha/roaster/nexl/nexl.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
-#include <mocha/fileinfo/fileinfo.h>
 
 namespace mocha {
-#ifdef _WIN32
-static void YieldSleep(int num) {
-	Sleep(num * 1000);
-}
-#else
-static void YieldSleep(int num) {
-	sleep(num);
-}
-#endif
-Roaster::Roaster(){Initialize();}
-void Roaster::Initialize() {
-  AtomicWord ret = Atomic::CompareAndSwap(&entered_, 0, 1);
-  if ( ret == 1) {
-    return;
-  }
-  entered_ = 1;
-  JsToken::Initialize();
-  Compiler::BuildRuntime();
-}
-AtomicWord Roaster::entered_ = 0;
-CompilationResultHandle Roaster::CompileFile(CompilationInfoHandle info) {
-  info->MarkAsFile();
-  Compiler compiler(info);
-  return compiler.Compile();
+Roaster::Roaster(){}
+CompilationResultHandle Roaster::CompileFile(const char* filename, const char* charset, CompilationInfo* info) {
+  Nexc nexc(info);
+  Nexl nexl(filename, info, memory::Pool::Local());
+  nexc.CompileFile(filename, charset);
+  return nexl.Link(nexc.GetResult(), nexc.Errors());
 }
 
-CompilationResultHandle Roaster::Compile(CompilationInfoHandle info) {
-  Compiler compiler(info);
-  return compiler.Compile();
+CompilationResultHandle Roaster::Compile(const char* source, const char* charset, CompilationInfo* info) {
+  Nexc nexc(info);
+  Nexl nexl("anonymouse", info, memory::Pool::Local());
+  nexc.Compile(source, charset);
+  return nexl.Link(nexc.GetResult(), nexc.Errors());
 }
-
-CompilationResultHandleList Roaster::CompileFiles(CompilationInfoHandleList& info_list) {
-  typedef CompilationInfoHandleList R;
-  typedef R::iterator Ri;
-  Ri end = info_list.end();
-  CompilationResultHandleList result(new CompilationResultList);
-  for (Ri iterator = info_list.begin(); iterator != end; ++iterator) {
-    (*iterator)->MarkAsFile();
-    Compiler compiler(*iterator);
-    result->push_back(compiler.Compile());
-  }
-  return result;
-}
-struct BoolContainer {
-	bool end;
-};
-class ThreadArgs {
- public :
-  ThreadArgs(CompilationInfoHandle hd, AsyncCallbackHandle cb, int count, AtomicWord* current_val, BoolContainer* is_end)
-      : handle(hd), callback(cb), all_file_count(count), current(current_val), end(is_end){}
-  CompilationInfoHandle handle;
-  AsyncCallbackHandle callback;
-  int all_file_count;
-  AtomicWord* current;
-  BoolContainer* end;
-};
-void* AsyncThreadRunner(void* args) {
+void* Roaster::AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
-  Compiler compiler(thread_args->handle);
-  CompilationResultHandle result = compiler.Compile();
-  thread_args->callback->operator()(result);
-  if (thread_args->current != 0) {
-    if (Atomic::Increment(thread_args->current) == thread_args->all_file_count) {
-      thread_args->end->end = true;
-    }
+  Nexc nexc(thread_args->info);
+  Nexl nexl(thread_args->source_or_filename.c_str(), thread_args->info, memory::Pool::Local());
+  if (thread_args->is_file) {
+    nexc.CompileFile(thread_args->source_or_filename.c_str(), thread_args->charset.c_str());
+  } else {
+    nexc.Compile(thread_args->source_or_filename.c_str(), thread_args->charset.c_str());
   }
+  CompilationResultHandle ret = nexl.Link(nexc.GetResult(), nexc.Errors());
+  thread_args->NotifyForKey(ThreadArgs::kComplete, ret.Get());
   delete thread_args;
   return 0;
 }
 
-void AsyncRunner(ThreadArgs* args, bool is_join) {
+void Roaster::AsyncRunner(ThreadArgs* args, bool is_join) {
   os::Thread thread;
   if (!thread.Create(AsyncThreadRunner, args)) {
-    fprintf(stderr, "error at Roaster::CompileAsync");
+    FATAL("error at Roaster::CompileAsync");
   } else {
     if (is_join) {
       thread.Join();
@@ -88,43 +69,5 @@ void AsyncRunner(ThreadArgs* args, bool is_join) {
     }
   }
 }
-
-void Roaster::CompileAsync(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
-  ThreadArgs* args = new ThreadArgs(info, callback, 1, 0, 0);
-  AsyncRunner(args, is_join);
-}
-
-void Roaster::CompileFileAsync(CompilationInfoHandle info, bool is_join, AsyncCallbackHandle callback) {
-  info->MarkAsFile();
-  ThreadArgs* args = new ThreadArgs(info, callback, 1, 0, 0);
-  AsyncRunner(args, is_join);
-}
-
-void Roaster::CompileFilesAsync(CompilationInfoHandleList& info_list, bool is_join, AsyncCallbackHandle callback) {
-  typedef CompilationInfoHandleList R;
-  typedef R::iterator Ri;
-  Ri end = info_list.end();
-  int size = info_list.size();
-  AtomicWord count = 0;
-  BoolContainer flg;
-  flg.end = false;
-  for (Ri iterator = info_list.begin(); iterator != end; ++iterator) {
-    CompilationInfoHandle handle = (*iterator);
-    handle->MarkAsFile();
-    ThreadArgs* args = new ThreadArgs(handle, callback, size, &count, &flg);
-    AsyncRunner(args, is_join);
-  }
-  while (!(flg.end)) {YieldSleep(1);}
-}
-
-AstReserver Roaster::GetAstFromFile(CompilationInfoHandle info) {
-  info->MarkAsFile();
-  Compiler compiler(info);
-  return compiler.GetAst();
-}
-
-AstReserver Roaster::GetAst(CompilationInfoHandle info) {
-  Compiler compiler(info);
-  return compiler.GetAst();
-}
+const char Roaster::ThreadArgs::kComplete[] = {"Roaster<Complete>"};
 }

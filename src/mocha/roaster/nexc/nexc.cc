@@ -187,6 +187,7 @@ void Nexc::Pack(const char* filename) {
   loader.AddListener(Loader::kError, LoadErrorListener(this, event, true));
   loader.LoadFile(filename);
 }
+
 #else
 AstRoot* Nexc::GetResult() {
   return root_;
@@ -206,20 +207,25 @@ void Nexc::Compile(const char* source, const char* charset) {
 
 
 void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
-  const char* current = virtual_directory_->current_directory();
-  std::string module_path;
-  os::SPrintf(&module_path, "%s/%s.js", current, path);
-  os::fs::Path path_info(module_path.c_str());
-  nexc_utils::ManglingName(buf, path_info.filename(), path_info.directory());
-  if (CheckGuard(path_info.absolute_path())) {
-    DEBUG_LOG(Info, "Nexc::ImportFile\nwith file\n[\n'%s'\n]", path_info.absolute_path());
-    CompilationEvent* event = CreateEvent(path_info, e->charset());
-    event->set_mainfile_path(e->mainfile_path());
-    guard_.insert(GuardPair(path_info.absolute_path(), true));
-    Loader loader;
-    loader.AddListener(Loader::kComplete, LoadCompleteListener(this, event));
-    loader.AddListener(Loader::kError, LoadErrorListener(this, event, false));
-    loader.LoadFile(event->fullpath());
+  if (Loader::IsRuntime(path)) {
+    AstNode* root = Loader::GetRuntime(path, pool_.Get());
+    root_->Append(root);
+  } else {
+    const char* current = virtual_directory_->current_directory();
+    std::string module_path;
+    os::SPrintf(&module_path, "%s/%s.js", current, path);
+    os::fs::Path path_info(module_path.c_str());
+    nexc_utils::ManglingName(buf, path_info.filename(), path_info.directory());
+    if (CheckGuard(path_info.absolute_path())) {
+      DEBUG_LOG(Info, "Nexc::ImportFile\nwith file\n[\n'%s'\n]", path_info.absolute_path());
+      CompilationEvent* event = CreateEvent(path_info, e->charset());
+      event->set_mainfile_path(e->mainfile_path());
+      guard_.insert(GuardPair(path_info.absolute_path(), true));
+      Loader loader;
+      loader.AddListener(Loader::kComplete, LoadCompleteListener(this, event));
+      loader.AddListener(Loader::kError, LoadErrorListener(this, event, false));
+      loader.LoadFile(event->fullpath());
+    }
   }
 }
 
@@ -246,8 +252,8 @@ void Nexc::Initialize() {
   }
   root_ = new(pool_.Get()) AstRoot;
 #ifndef PACKING_RUNTIME
-  AstNode* root = Loader::MainRuntime(pool_.Get());
-  root_->AddChild(root);
+  AstNode* root = Loader::GetRuntime("runtime", pool_.Get());
+  root_->AddChild(root->first_child());
 #endif
   AddListener(kScan, Scanner::ScannerEventListener());
   AddListener(kParse, Parser::ParseEventListener());
@@ -260,9 +266,6 @@ void Nexc::Abort(IOEvent* e) {
 
 void Nexc::Success(CompilationEvent* e) {
   root_->AddChild(e->ast());
-  CodegenVisitor visitor(e->filename(), true, false, compilation_info_);
-  root_->Accept(&visitor);
-  DEBUG_LOG(Info, "Compiled code\n[\n%s\n]", visitor.GetCode());
 }
 
 

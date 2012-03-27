@@ -36,7 +36,8 @@ class Loader : public Notificator<IOEvent*> {
   Loader();
   ~Loader();
   void LoadFile(const char* path);
-  static AstNode* MainRuntime(memory::Pool* pool);
+  static bool IsRuntime(const char* path);
+  static AstNode* GetRuntime(const char* name, memory::Pool* pool);
   static void Initialize();
   static const char kComplete[];
   static const char kError[];

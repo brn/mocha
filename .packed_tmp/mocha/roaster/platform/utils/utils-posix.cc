@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <time.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
 
@@ -81,5 +82,14 @@ void GetEnv(std::string* buf, const char* env) {
     buf->assign(ret);
     free(ret);
   }
+}
+
+bool Sleep(int nano_time) {
+  struct timespec req;
+  struct timespec rem;
+  req.tv_sec = 0;
+  req.tv_nsec = nano_time;
+  int ret = nanosleep(&req, &rem);
+  return ret == 0 || ret == EINTR;
 }
 }}

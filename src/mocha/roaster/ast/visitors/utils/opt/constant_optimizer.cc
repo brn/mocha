@@ -1,12 +1,12 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include <mocha/misc/int_types.h>
+#include <mocha/roaster/misc/int_types.h>
 #include <mocha/roaster/ast/visitors/utils/opt/constant_optimizer.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/ast.h>
-#include <mocha/roaster/tokens/js_token.h>
-#include <mocha/roaster/tokens/symbol_list.h>
+#include <mocha/roaster/nexc/tokens/js_token.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 
 namespace mocha {
 

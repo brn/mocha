@@ -54,6 +54,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   void Pack(const char* filename);
 #endif
   AstRoot* GetResult();
+  SharedPtr<ErrorReporter> Errors() {return reporter_;}
   void ImportFile(std::string* buf, const char* path, CompilationEvent* e);
   void set_current_directory(const char* path);
   static const char kScan[];

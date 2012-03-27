@@ -100,4 +100,9 @@ void GetEnv(std::string* buf, const char* env) {
   buf->assign(tmp);
   delete[] tmp;
 }
+
+bool Sleep(int nano_time) {
+  int ret = ::SleepEx(nano_time, TRUE);
+  return ret == 0 || ret == WAIT_IO_COMPLETION;
+}
 }}

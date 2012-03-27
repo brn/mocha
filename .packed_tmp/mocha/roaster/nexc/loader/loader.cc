@@ -57,6 +57,10 @@ void Loader::LoadFile(const char* path) {
   }
 }
 
+bool Loader::IsRuntime(const char* path) {
+  return (strcmp(path, "runtime") == 0)? false : JSRuntime::Has(path);
+}
+
 void Loader::HandleError(const char* path, int type) {
   std::string buf;
   int error_type = 0;
@@ -94,9 +98,9 @@ void Loader::Initialize() {
 #endif
 }
 
-AstNode* Loader::MainRuntime(memory::Pool* pool) {
+AstNode* Loader::GetRuntime(const char* name, memory::Pool* pool) {
 #ifndef PACKING_RUNTIME
-  std::pair<int32_t*, int> packed = JSRuntime::Get("runtime");
+  std::pair<int32_t*, int> packed = JSRuntime::Get(name);
   ByteOrder b_order(true);
   UnPacker unpacker(packed.first, packed.second, &b_order, pool);
   return unpacker.Unpack();
