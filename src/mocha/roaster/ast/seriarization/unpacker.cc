@@ -11,7 +11,11 @@
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 
+#ifdef PRINTABLE
 #define PRINT(name) DEBUG_LOG(Info, "Enter "#name)
+#else
+#define PRINT(name)
+#endif
 
 UnPacker::UnPacker(Packed* packed, ByteOrder* b_order, memory::Pool* pool)
     : current_type_(0),
@@ -36,7 +40,6 @@ AstNode* UnPacker::Unpack() {
 AstNode* UnPacker::UnpackEachNode() {
   int type = Advance();
   current_type_ = type;
-  DEBUG_LOG(Info,"next type = %d", type);
   switch (type) {
     case -1 :
     case AstNode::kEmpty :
@@ -152,7 +155,6 @@ class Instaniater<FileRoot, true>{
     unpacker->UnpackChar(&filename);
     bool runtime = (unpacker->Advance() == 1)? true : false;
     bool strict = (unpacker->Advance() == 1)? true : false;
-    DEBUG_LOG(Log, "file %s", filename.c_str());
     FileRoot* ast = new(pool) FileRoot(filename.c_str());
     if (runtime) {
       ast->set_runtime();
@@ -437,7 +439,6 @@ class Instaniater<MaterializedLiteralTag, true> {
   static T* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     T* literal = new(pool) T(line);
     int size = unpacker->Advance();
-    DEBUG_LOG(Info, "materiarized literal size %d", size);
     for (int i = 0; i < size; i++) {
       AstNode* element = unpacker->UnpackEachNode();
       literal->set_element(element);
@@ -468,21 +469,17 @@ AstNode* UnPacker::MakeBaseAst() {
   int line2 = Advance();
   int child_length = Advance();
   AstType* ast = Instaniater<AstType,line>::Make(this, pool_, (line1 + line2));
-  DEBUG_LOG(Log, "%s child length %d", ast->node_name(), child_length);
   if (child_length > 0) {
     for (int i = 0; i < child_length; i++) {
-      DEBUG_LOG(Log, "now unpacking children");
       AstNode* node = UnpackEachNode();
       ast->AddChild(node);
     }
   }
-  DEBUG_LOG(Log ,"End %s", ast->node_name());
   return ast;
 }
 
 void UnPacker::UnpackChar(std::string* buf) {
   int size = Advance();
-  DEBUG_LOG(Log, "size = %d", size);
   std::stringstream st;
   while (size) {
     st << static_cast<char>(Advance());

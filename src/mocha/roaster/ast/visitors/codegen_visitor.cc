@@ -18,11 +18,11 @@ namespace mocha {
 
 #define VISITOR_IMPL(type) void CodegenVisitor::Visit##type(type* ast_node)
 #define ITERATOR(name) begin = name.begin(),end = name.end()
-//#ifdef PRINTABLE
+#ifdef PRINTABLE
 #define PRINT_NODE_NAME DEBUG_LOG(Info, "visit : %s", ast_node->node_name())
-//#else
-//#define PRINT_NODE_NAME
-//#endif
+#else
+#define PRINT_NODE_NAME
+#endif
 
 #define ACCEPT(ast)                             \
   if (ast != 0)                                 \
