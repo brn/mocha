@@ -4,7 +4,6 @@
 #include <iostream>
 #include <locale>
 #include <mocha/shell/shell.h>
-#include <mocha/roaster/encoding/encoding.h>
 namespace mocha {
 
 const int kEnter = 13;

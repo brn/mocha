@@ -1,7 +1,7 @@
 #include <string.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/roaster/consts/consts.h>
-#include <mocha/roaster/utils/compilation_info.h>
+#include <mocha/roaster/nexc/compilation_info/compilation_info.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/ast/ast.h>
@@ -9,7 +9,7 @@
 namespace mocha {
 
 FileInfo::FileInfo(const char* filename)
-    : is_file_(true), info_(new CompilationInfo(filename)){}
+    : is_file_(true), info_(new CompilationInfo){}
 
 FileInfo::~FileInfo() {}
 
@@ -131,11 +131,6 @@ FileInfo* FileInfoMap::SafeGet(const char* filename) {
     return entry->second.Get();
   }
   return 0;
-}
-
-FileRoot* FileInfoMap::SafeGetRuntime(memory::Pool* pool) {
-  os::ScopedLock lock(mutex_);
-  return Setting::GetInstance()->GetRuntime(pool);
 }
 
 os::Mutex FileInfoMap::mutex_;

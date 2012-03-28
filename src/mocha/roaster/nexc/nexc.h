@@ -43,6 +43,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   typedef std::pair<std::string, bool> GuardPair;
   typedef roastlib::unordered_map<std::string, bool> ImportGuard;
  public :
+  typedef std::vector<std::string> Dependencies;
   Nexc(CompilationInfo* info);
   ~Nexc(){};
   void CompileFile(const char* filename, const char* charset = NULL);
@@ -54,6 +55,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   void Pack(const char* filename);
 #endif
   AstRoot* GetResult();
+  const Dependencies& GetDepends() const;
   SharedPtr<ErrorReporter> Errors() {return reporter_;}
   void ImportFile(std::string* buf, const char* path, CompilationEvent* e);
   void set_current_directory(const char* path);
@@ -74,6 +76,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   AtomicWord token_initialized_;
   CompilationInfo* compilation_info_;
   ImportGuard guard_;
+  Dependencies dependencies_;
   SharedPtr<ErrorReporter> reporter_;
   SharedPtr<memory::Pool> pool_;
   ScopedPtr<os::fs::VirtualDirectory> virtual_directory_;

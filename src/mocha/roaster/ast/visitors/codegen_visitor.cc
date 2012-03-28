@@ -858,9 +858,7 @@ VISITOR_IMPL(Function){
   line_numberBreak(ast_node, stream(), writer());
   writer()->WriteOp(Token::JS_FUNCTION, 0, stream());
   ast_node->name()->Accept(this);
-  printf("%p\n", scope_);
   scope_ = ast_node->scope();
-  printf("%p\n", scope_);
   if (ast_node->argv()->IsEmpty()) {
     stream()->Write("()");
   } else {
@@ -973,7 +971,6 @@ VISITOR_IMPL(Literal) {
       break;
 
     case Literal::kProperty :
-      printf("symbol is %s\n", ast_node->value()->token());
       stream()->Write(ast_node->value()->token());
       break;
                         
@@ -989,7 +986,6 @@ VISITOR_IMPL(Literal) {
         }
         stream()->Write(tmp.c_str());
       } else {
-        printf("symbol is %s\n", symbol);
         if (scope_) {
           SymbolEntry entry = scope_->Find(ast_node->value());
           if (entry.first != 0) {

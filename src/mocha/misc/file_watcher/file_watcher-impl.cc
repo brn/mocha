@@ -8,7 +8,7 @@
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/misc/file_watcher/file_watcher.h>
-#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/stat/stat.h>
 #define SETTINGS Setting::GetInstance()
 #define GET_MASK(mask) (type & mask) == mask
 #define ITERATOR(name) begin = name.begin(),end = name.end();

@@ -7,7 +7,6 @@
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
-class ExternalAst;
 class Setting {
   friend class Bootstrap;
  public :
@@ -19,19 +18,11 @@ class Setting {
   const char* GetRuntimeFile();
   const char* GetLogPath();
   const char* GetTimeStr();
-  FileRoot* GetRuntime(memory::Pool* pool);
-  void Close();
-  void LogNoDate(const char* str, ...);
-  void Log(const char* str, ...);
-  void LogError(const char* str, ...);
-  void LogFatal(const char* str, ...);
-  void SetLogFileHandle();
  private :
   Setting();
   ~Setting(){};
   class PtrImpl;
   ScopedPtr<PtrImpl> implementation_;
-  static SharedPtr<ExternalAst> runtime_ast_;
   static Setting* instance_;
 };
 }

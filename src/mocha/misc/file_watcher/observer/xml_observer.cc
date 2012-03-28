@@ -65,10 +65,8 @@ void XMLObserver::Run() {
   is_end_ = false;
   xml_updater_ = new XMLUpdater(this);
   Initialize_(Setting::GetInstance()->GetXMLPath());
-  Setting::GetInstance()->Log("new thread start.");
   os::Thread thread;
   if (!thread.Create(XMLObserver::ThreadRunner_, xml_updater_->GetWatcher())) {
-    Setting::GetInstance()->LogFatal("in XMLObserver::XMLObserver thread create fail.");
   } else {
     //thread.Exit();
     thread.Detach();
@@ -112,12 +110,9 @@ void XMLObserver::RegistFile_(const char* filename) {
 void XMLObserver::Initialize_(const char* path) {
   Shell::GetInstance()->SafeBreak(false);
   Shell::GetInstance()->Print("starting watch server");
-  Setting::GetInstance()->Log("xml parse begin.");
   XMLReader reader;
   reader.Parse(path);
   Shell::GetInstance()->Print('.');
-  Setting::GetInstance()->Log("xml parse end.");
-  Setting::GetInstance()->Log("start file observing.");
   XMLSettingInfo::IterateIncludeList<XMLObserver>(&XMLObserver::RegistFile_, this);
   Shell::GetInstance()->Print('.');
   xml_updater_->GetObserver()->Run();

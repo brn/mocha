@@ -11,25 +11,27 @@ CompileRunner::CompileRunner(Options *options) : ICommandLineRunner(options) {}
 void CompileRunner::Run() {
   Roaster roaster;
   std::stringstream st;
-  st << os::fs::Path::current_directory();
-  st << '/' << options_->GetPath();
+  st << os::fs::Path::current_directory()
+     << '/' << options_->GetPath();
   std::string path = st.str();
-  CompilationInfoHandle handle(new CompilationInfo(path.c_str()));
+  CompilationInfo compilation_info;
   if (options_->IsPrettyPrint()) {
-    handle->SetPrettyPrint();
+    compilation_info.SetPrettyPrint();
   }
   if (options_->IsDebug()) {
-    handle->SetDebug();
+    compilation_info.SetDebug();
   }
   if (options_->IsCompress()) {
-    handle->SetCompress();
+    compilation_info.SetCompress();
   }
   if (options_->IsFile()) {
-    CompilationResultHandle result = roaster.CompileFile(handle);
-    if (result->error_map().size() > 0) {
-      printf("error!\n");
+    CompilationResultHandle result = roaster.CompileFile(path.c_str(), NULL, &compilation_info);
+    if (result->error()->Error()) {
+      std::string buf;
+      result->error()->SetRawError(&buf);
+      Logging::GetInstance()->Info("ERROR OCCURED\n[\n%s\n]", buf.c_str());
     } else {
-      printf("%s\n", result->source());
+      Logging::GetInstance()->Info("COMPILE SUCCESS\n[\n%s\n]", result->source());
     }
   }
 }

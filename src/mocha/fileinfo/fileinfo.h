@@ -12,6 +12,7 @@ namespace mocha {
 namespace memory {
 class Pool;
 }
+typedef SharedPtr<CompilationInfo> CompilationInfoHandle;
 class CompilationInfo;
 class FileInfo {
  public :
@@ -32,7 +33,7 @@ class FileInfo {
   SharedStr GetCmpPath_(const char* path);
   bool IsFile() const;
   void set_file();
-  CompilationInfoHandle compilation_info();
+  SharedPtr<CompilationInfo> compilation_info();
  private :
   bool is_file_;
   std::string input_charset_;
@@ -40,7 +41,7 @@ class FileInfo {
   std::string deploy_;
   std::string deployname_;
   ModuleList modulelist_;
-  CompilationInfoHandle info_;
+  SharedPtr<CompilationInfo> info_;
 };
 
 class FileInfoMap : private Static {
@@ -51,7 +52,6 @@ class FileInfoMap : private Static {
   static FileInfo* UnsafeGet(const char* filename);
   static void SafeSet(const char* filename);
   static FileInfo* SafeGet(const char* filename);
-  static FileRoot* SafeGetRuntime(memory::Pool* pool);
  private :
   static os::Mutex mutex_;
   static FileInfoHandleMap resources_;

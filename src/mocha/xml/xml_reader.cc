@@ -3,11 +3,10 @@
 #include <string>
 #include <sstream>
 #include <mocha/consts/consts.h>
-#include <mocha/roaster/utils/compilation_info.h>
+#include <mocha/roaster/nexc/compilation_info/compilation_info.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/xml/xml_reader.h>
 #include <mocha/roaster/platform/fs/fs.h>
-#include <mocha/roaster/platform/fs/fio.h>
 #include <mocha/xml/xml_setting_info.h>
 #include <mocha/xml/versions.h>
 #include <mocha/misc/char_allocator.h>
@@ -42,10 +41,10 @@ void XMLReader::Parse(const char* pathname, bool is_reparse) {
    *If xml file is exit, start parse,
    *if not exist ignore this file and logging.
    */
-  if (os::fs::FileIO::IsExist(path.absolute_path())) {
+  os::fs::Stat stat(path.absolute_path());
+  if (stat.IsExist()) {
     ParseStart(&path);
   } else {
-    Setting::GetInstance()->GetInstance()->LogError("%s no such file.", path.absolute_path());
   }
   END(Parse);
 }
@@ -53,7 +52,6 @@ void XMLReader::Parse(const char* pathname, bool is_reparse) {
 bool XMLReader::CheckIgnoreOption(TiXmlElement *elem) {
   const char* ignore_attr = elem->Attribute(consts::xml_attributes::kIgnore);
   if (ignore_attr && strlen(ignore_attr) > 0 && strcmp(ignore_attr, "true") == 0) {
-    Setting::GetInstance()->Log("ignore tag.");
     return true;
   }
   return false;
@@ -125,7 +123,8 @@ void XMLReader::ProcessFileNode(TiXmlElement* elem, const char* dir, const char*
     FileInfoMap::UnsafeSet(normalized_path);
     FileInfo* resource = FileInfoMap::UnsafeGet(normalized_path);
     //If file exist.
-    if (os::fs::FileIO::IsExist(normalized_path)) {
+    os::fs::Stat stat(normalized_path);
+    if (stat.IsExist()) {
       if (IS_DEF(module)) {
         std::stringstream st;
         st << info->GetPath() << '/' << module;
@@ -142,7 +141,6 @@ void XMLReader::ProcessFileNode(TiXmlElement* elem, const char* dir, const char*
       ProcessCompileOption(elem, normalized_path, dir, resource, info);
       ProcessVersion(elem, normalized_path, dir, resource, info);
     } else {
-      Setting::GetInstance()->LogError("%s no such file.", normalized_path);
     }
   }
   END(ProcessFileNode);

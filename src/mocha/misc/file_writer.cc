@@ -1,19 +1,19 @@
 #include <mocha/misc/file_writer.h>
 #include <mocha/fileinfo/fileinfo.h>
+#include <mocha/roaster/nexl/compilation_result/compilation_result.h>
 namespace mocha {
 
-void FileWriter::WriteResult(CompilationResultHandle result){
+void FileWriter::WriteResult(CompilationResult* result){
   //Current directory -> main js file path.
   //Get file name of main js file.
   std::string val;
-    printf("%s\n" , result->filename());
   FileInfo* resource = FileInfoMap::SafeGet(result->filename());
   if (resource && resource->GetDeploy()) {
     const char* dir = resource->GetDeploy();
     os::fs::Stat stat(dir);
     if (!stat.IsExist() || !stat.IsDir()) {
       os::fs::mkdir(dir, 0777);
-      os::fs::chmod(dir, 0777);
+      os::fs::Directory::chmod(dir, 0777);
     }
     os::fs::Path path(result->filename());
     val = dir;
@@ -26,19 +26,16 @@ void FileWriter::WriteResult(CompilationResultHandle result){
   }
   //Get deploy path of -cmp.js file.
   SharedStr handle = resource->GetDeployName(val.c_str());
-  SharedPtr<os::fs::File> ret = os::fs::FileIO::Open (handle.Get(),
-                                                              "rwn",
-                                                              os::fs::FileIO::P_ReadWrite);
-  //Setting::GetInstance()->Log("deploy to %s", handle.Get());
-  if (ret->IsValidFile()) {
-    //Set permission to rw for all.
-    os::fs::chmod(handle.Get(), 0777);
-    ret->Write(result->source());
+  FILE* fp = os::FOpen(handle.Get(), "w+b");
+  if (fp != NULL) {
+    os::fs::Directory::chmod(handle.Get(), 0777);
+    const char* source = result->source();
+    fwrite(source, sizeof(char), strlen(source) ,fp);
   }
 }
 
-void FileWriter::operator()(CompilationResultHandle handle) {
-  WriteResult(handle);
+void FileWriter::operator()(CompilationResult* result) {
+  WriteResult(result);
 }
 
 }

@@ -26,9 +26,29 @@
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
+#include <mocha/roaster/platform/fs/fs.h>
 
 namespace mocha {
-Roaster::Roaster(){}
+Roaster::Roaster() {
+  int ret = Atomic::CompareAndSwap(&atomic_val_, 0, 1);
+  if (ret == 0) {
+    atomic_val_ = 1;
+    std::string path = os::fs::Path::home_directory();
+    path += '/';
+    path += ".roaster";
+    os::fs::Stat stat(path.c_str());
+    if (!stat.IsExist()) {
+      os::fs::mkdir(path.c_str(), 0777);
+      os::fs::Directory::chmod(path.c_str(), 0777);
+    }
+    path += "/roaster.log";
+    //Logging::Initialize(path.c_str(), "a+b");
+    Logging::Initialize(stdout);
+  }
+}
+
+//Run compiler.
+//Compile javascript from source file.
 CompilationResultHandle Roaster::CompileFile(const char* filename, const char* charset, CompilationInfo* info) {
   Nexc nexc(info);
   Nexl nexl(filename, info, memory::Pool::Local());
@@ -36,12 +56,16 @@ CompilationResultHandle Roaster::CompileFile(const char* filename, const char* c
   return nexl.Link(nexc.GetResult(), nexc.Errors());
 }
 
+//Run compiler
+//Directly compile javascript from source.
 CompilationResultHandle Roaster::Compile(const char* source, const char* charset, CompilationInfo* info) {
   Nexc nexc(info);
   Nexl nexl("anonymouse", info, memory::Pool::Local());
   nexc.Compile(source, charset);
   return nexl.Link(nexc.GetResult(), nexc.Errors());
 }
+
+//Run the thread.
 void* Roaster::AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
   Nexc nexc(thread_args->info);
@@ -57,6 +81,7 @@ void* Roaster::AsyncThreadRunner(void* args) {
   return 0;
 }
 
+//Create thread.
 void Roaster::AsyncRunner(ThreadArgs* args, bool is_join) {
   os::Thread thread;
   if (!thread.Create(AsyncThreadRunner, args)) {
@@ -70,4 +95,5 @@ void Roaster::AsyncRunner(ThreadArgs* args, bool is_join) {
   }
 }
 const char Roaster::ThreadArgs::kComplete[] = {"Roaster<Complete>"};
+AtomicWord Roaster::atomic_val_ = 0;
 }

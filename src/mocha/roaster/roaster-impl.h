@@ -21,14 +21,14 @@ class Roaster::ThreadArgs : public Notificator<CompilationResult*> {
 template <typename T>
 void Roaster::CompileAsync(const char* source, const char* charset, CompilationInfo* info, T callback, bool is_join) {
   ThreadArgs* args = new ThreadArgs(source, charset, info, false);
-  args->AddListener(callback);
+  args->AddListener(ThreadArgs::kComplete, callback);
   AsyncRunner(args, is_join);
 }
 
 template <typename T>
 void Roaster::CompileFileAsync(const char* source, const char* charset, CompilationInfo* info, T callback, bool is_join) {
   ThreadArgs* args = new ThreadArgs(source, charset, info, true);
-  args->AddListener(callback);
+  args->AddListener(ThreadArgs::kComplete, callback);
   AsyncRunner(args, is_join);
 }
 }

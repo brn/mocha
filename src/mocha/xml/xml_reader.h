@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <list>
 #include <mocha/roaster/roaster.h>
-#include <boost/unordered_map.hpp>
+#include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_list.h>
 #include <third_party/tinyxml/tinyxml.h>

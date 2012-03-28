@@ -23,7 +23,7 @@
 #define mocha_options_h_
 
 #include <string.h>
-#include <mocha/misc/int_types.h>
+#include <mocha/roaster/misc/int_types.h>
 #include <string>
 #include <vector>
 #include <mocha/shell/shell.h>

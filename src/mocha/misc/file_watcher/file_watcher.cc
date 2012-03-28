@@ -2,7 +2,7 @@
 #include <string.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/roaster/platform/fs/stat.h>
+#include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/misc/file_watcher/file_watcher-impl.cc>
 
 namespace mocha {

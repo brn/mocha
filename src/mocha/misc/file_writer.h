@@ -2,11 +2,11 @@
 #define mocha_file_writer_h_
 #include <mocha/roaster/roaster.h>
 namespace mocha {
-class FileWriter : public AsyncCallback {
+class FileWriter {
  public :
-  void operator()(CompilationResultHandle handle);
+  void operator()(CompilationResult* handle);
  protected :
-  void WriteResult(CompilationResultHandle handle);
+  void WriteResult(CompilationResult* handle);
 };
 }
 

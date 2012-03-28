@@ -11,6 +11,8 @@ class FileObserver {
   ~FileObserver() {}
   void Run();
   void Exit(FileWatcher::EndCallBack fn, void* arg);
+  typedef roastlib::unordered_multimap<std::string, std::string> DependsMap;
+  static const DependsMap& depends_map() {return map_;};
  private :
   void RegistFile_(const char* filename);
   static void* ThreadRunner_(void *arg);
@@ -18,6 +20,7 @@ class FileObserver {
   class FileUpdater;
   ScopedPtr<FileUpdater> file_updater_;
   FileWatcher file_watcher_;
+  static DependsMap map_;
 };
 }
 

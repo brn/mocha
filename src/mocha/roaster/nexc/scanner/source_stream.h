@@ -33,19 +33,19 @@ class SourceStream : public memory::Allocated {
   static SourceStream* New(const char* source, const char* path, const char* charset, memory::Pool* pool);
   ~SourceStream();
   int Size() const;
-  uint8_t At(int index) const;
-  uint8_t Advance(int index = 1);
-  uint8_t Undo(int index = 0);
-  uint8_t Seek(int index) const;
-  uint8_t Last() const;
-  uint8_t First() const;
+  int At(int index) const;
+  int Advance(int index = 1);
+  int Undo(int index = 0);
+  int Seek(int index) const;
+  int Last() const;
+  int First() const;
  private :
   SourceStream();
   void CreateStream(const char* utf8_str);
   int cursor_;
   int line_;
   int size_;
-  uint8_t *stream_;
+  int *stream_;
 };
 }
 

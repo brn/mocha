@@ -16,9 +16,7 @@ TEST(TranslatorTest, Test1) {
   mocha::TestFunc fn;
   mocha::CompilationInfo info;
   info.SetPrettyPrint();
-  mocha::CompilationResultHandle handle =
-      roaster.CompileFile(CURRENT_DIR"/src/test/js/harmony/for_of_test.js", "UTF-8", &info);
-  fn(handle.Get());
+  roaster.CompileFileAsync(CURRENT_DIR"/src/test/js/harmony/for_of_test.js", "UTF-8", &info, fn);
 }
 
 

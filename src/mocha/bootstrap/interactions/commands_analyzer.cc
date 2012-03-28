@@ -26,8 +26,9 @@ SharedPtr<ICommandLineRunner> CommandsAnalyzer::Analyze(const char* buf) {
       if (state_ == kS_Error) {
         break;
       }
+    } else {
+      buf_ += buf[ i ];
     }
-    buf_ += buf[ i ];
     i++;
   }
   if ((state_ == kS_Begin || state_ == kS_Compile) && !buf_.empty()) {

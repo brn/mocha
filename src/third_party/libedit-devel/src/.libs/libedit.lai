@@ -5,16 +5,16 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='libedit.so.0'
+dlname='libedit.0.dylib'
 
 # Names of this library.
-library_names='libedit.so.0.0.39 libedit.so.0 libedit.so'
+library_names='libedit.0.dylib libedit.dylib'
 
 # The name of the static archive.
 old_library='libedit.a'
 
 # Linker flags that can not go in dependency_libs.
-inherited_linker_flags=''
+inherited_linker_flags=' '
 
 # Libraries that this one depends upon.
 dependency_libs=' -ltermcap'

@@ -3,7 +3,6 @@
 #define mocha_refcount_base_h_
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/misc/atomic.h>
-#include <define.h>
 namespace mocha {
 
   class RefCountBase : private Uncopyable {
