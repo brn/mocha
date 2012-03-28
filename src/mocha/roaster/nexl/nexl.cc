@@ -26,12 +26,11 @@
 #include <mocha/roaster/ast/visitors/optimizer_visitor.h>
 #include <mocha/roaster/ast/visitors/symbol_collector.h>
 namespace mocha {
-Nexl::Nexl(const char* filename, CompilationInfo* info, memory::Pool* pool)
-    : info_(info),
-      pool_(pool) {
-  os::fs::Path path(filename);
-  filename_ = path.filename();
-}
+Nexl::Nexl(const char* filename, CompilationInfo* info, DepsListHandle handle, memory::Pool* pool)
+    : path_(new os::fs::Path(filename)),
+      deps_(handle),
+      info_(info),
+      pool_(pool) {}
 
 CompilationResultHandle Nexl::Link(AstRoot* root, SharedPtr<ErrorReporter> reporter) {
   ScopeRegistry scope_registry(pool_);
@@ -44,6 +43,6 @@ CompilationResultHandle Nexl::Link(AstRoot* root, SharedPtr<ErrorReporter> repor
   root->Accept(&optimizer);
   CodeHandle visitor(new CodegenVisitor(info_));
   root->Accept(visitor.Get());
-  return CompilationResultHandle(new CompilationResult(filename_.c_str(), visitor, reporter));
+  return CompilationResultHandle(new CompilationResult(path_, visitor, reporter, deps_));
 }
 }

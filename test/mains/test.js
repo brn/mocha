@@ -1,5 +1,5 @@
 
-import fmt from "./fmt.js"
+import {fmt} from "./fmt"
 
 class Box {
   constructor(){
@@ -7,3 +7,4 @@ class Box {
   }
   public width -> private._width
 }
+var m = 0;

@@ -32,6 +32,8 @@
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 namespace mocha {
+typedef std::vector<std::string> DepsList;
+typedef SharedPtr<std::vector<std::string> > DepsListHandle;
 class Roaster {
  public :
   Roaster();
@@ -42,6 +44,7 @@ class Roaster {
   void CompileAsync(const char* source, const char* charset, CompilationInfo*, Listener, bool is_join = false);
   template <typename Listener>
   void CompileFileAsync(const char* name, const char* charset, CompilationInfo*, Listener, bool is_join = false);
+  static const DepsListHandle CheckDepends(const char* name);
  private :
   class ThreadArgs;
   void AsyncRunner(ThreadArgs* args, bool is_join);

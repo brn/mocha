@@ -89,6 +89,7 @@ class LoadErrorListener {
 Nexc::Nexc(CompilationInfo* info)
     : token_initialized_(0),
       compilation_info_(info),
+      deps_(new Dependencies),
       reporter_(new ErrorReporter),
       pool_(memory::Pool::Local()),
       virtual_directory_(os::fs::VirtualDirectory::Local()),
@@ -217,7 +218,7 @@ void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
     os::fs::Path path_info(module_path.c_str());
     nexc_utils::ManglingName(buf, path_info.filename(), path_info.directory());
     if (CheckGuard(path_info.absolute_path())) {
-      dependencies_.push_back(path_info.absolute_path());
+      deps_->push_back(path_info.absolute_path());
       DEBUG_LOG(Info, "Nexc::ImportFile\nwith file\n[\n'%s'\n]", path_info.absolute_path());
       CompilationEvent* event = CreateEvent(path_info, e->charset());
       event->set_mainfile_path(e->mainfile_path());
@@ -234,7 +235,9 @@ void Nexc::set_current_directory(const char* path) {
   virtual_directory_->set_current_directory(path);
 }
 
-const Nexc::Dependencies& Nexc::GetDepends() const {return dependencies_;}
+const Nexc::DepsHandle Nexc::GetDepends() const {
+  return deps_;
+}
 
 bool Nexc::CheckGuard(const char* path) {
   if (guard_.find(path) == guard_.end()) {

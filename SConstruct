@@ -8,7 +8,7 @@ import SCons.Conftest
 root_dir = os.path.dirname(File('SConstruct').rfile().abspath)
 sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
 import deps
-from platform_utils import Config, platform
+from platform_utils import Config, platform, platform
 from sources import Sources
 CURRENT = os.getcwd().replace('\\', '/')
 ROOT = 'src'
@@ -21,6 +21,7 @@ PLATFORM_CONFIG = {
         "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags`',
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
         "LIBS" : ["pthread", "edit" ,"curses"],
+        "STATIC_LIBS" : [],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
         },
     'macos' : {
@@ -63,7 +64,7 @@ class MochaBuilder :
     def Build(self) :
         self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/mocha/config.h', 'C++', True, HEADER_LIST))
         targets = self.__sources.CreateSourceList()
-        VariantDir('.mocha_temp', 'src');
+        self.__env.VariantDir('.mocha_temp', 'src');
         self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
 
     def __SetExtraHeaders(self, has) :

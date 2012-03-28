@@ -2,8 +2,11 @@
 
 namespace mocha {
 
-CompilationResult::CompilationResult(const char* filename,  CodeHandle visitor, ErrorHandle reporter)
-    : filename_(filename), codegen_(visitor), reporter_(reporter) {}
+CompilationResult::CompilationResult(SharedPtr<os::fs::Path> path,  CodeHandle visitor, ErrorHandle reporter, DepsListHandle handle)
+    : path_(path),
+      codegen_(visitor),
+      reporter_(reporter),
+      deps_(handle){}
 
 
 }

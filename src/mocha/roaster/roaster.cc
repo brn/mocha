@@ -51,8 +51,8 @@ Roaster::Roaster() {
 //Compile javascript from source file.
 CompilationResultHandle Roaster::CompileFile(const char* filename, const char* charset, CompilationInfo* info) {
   Nexc nexc(info);
-  Nexl nexl(filename, info, memory::Pool::Local());
   nexc.CompileFile(filename, charset);
+  Nexl nexl(filename, info, nexc.GetDepends(), memory::Pool::Local());
   return nexl.Link(nexc.GetResult(), nexc.Errors());
 }
 
@@ -60,8 +60,8 @@ CompilationResultHandle Roaster::CompileFile(const char* filename, const char* c
 //Directly compile javascript from source.
 CompilationResultHandle Roaster::Compile(const char* source, const char* charset, CompilationInfo* info) {
   Nexc nexc(info);
-  Nexl nexl("anonymouse", info, memory::Pool::Local());
   nexc.Compile(source, charset);
+  Nexl nexl("anonymouse", info, nexc.GetDepends(), memory::Pool::Local());
   return nexl.Link(nexc.GetResult(), nexc.Errors());
 }
 
@@ -69,12 +69,12 @@ CompilationResultHandle Roaster::Compile(const char* source, const char* charset
 void* Roaster::AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
   Nexc nexc(thread_args->info);
-  Nexl nexl(thread_args->source_or_filename.c_str(), thread_args->info, memory::Pool::Local());
   if (thread_args->is_file) {
     nexc.CompileFile(thread_args->source_or_filename.c_str(), thread_args->charset.c_str());
   } else {
     nexc.Compile(thread_args->source_or_filename.c_str(), thread_args->charset.c_str());
   }
+  Nexl nexl(thread_args->source_or_filename.c_str(), thread_args->info, nexc.GetDepends(), memory::Pool::Local());
   CompilationResultHandle ret = nexl.Link(nexc.GetResult(), nexc.Errors());
   thread_args->NotifyForKey(ThreadArgs::kComplete, ret.Get());
   delete thread_args;
@@ -94,6 +94,14 @@ void Roaster::AsyncRunner(ThreadArgs* args, bool is_join) {
     }
   }
 }
+
+const DepsListHandle Roaster::CheckDepends(const char* name) {
+  CompilationInfo info;
+  Nexc nexc(&info);
+  nexc.CompileFile(name);
+  return nexc.GetDepends();
+}
+
 const char Roaster::ThreadArgs::kComplete[] = {"Roaster<Complete>"};
 AtomicWord Roaster::atomic_val_ = 0;
 }

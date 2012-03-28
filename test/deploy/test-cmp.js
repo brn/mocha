@@ -1,9 +1,4 @@
-try{
-  throw new SyntaxError("no such file or directory /Users/aono_taketoshi/github/mocha/test/mains/fmt.js.js")
-}catch(e){
-  throw new Error(e);
-}
-;!function() {
+!function() {
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
@@ -20,7 +15,7 @@ try{
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'..///Users/aono_taketoshi/github/mocha/mocha/module/runtime/runtime.js');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -786,7 +781,7 @@ try{
   });
   
   function Tuple() {
-    var args = Runtime.toArray(arguments,1),
+    var args = Runtime.toArray(arguments,0),
         ret = {};
     
     ret.length = 0;
@@ -802,19 +797,57 @@ try{
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/test.js",
+      var __FILE__ = "/var/samba/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['test.js;2'] = {};
+      _mochaGlobalExport['677331290-fmt.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['test.js;2'],
-          fmt = _mochaGlobalExport.anonymous,
+      var _mochaGlobalAlias = _mochaGlobalExport['677331290-fmt.js'];
+      
+      __LINE__ = 2;
+      !function () {
+        try {
+          function fmt() {
+            try {
+              __LINE__ = 4;
+              console.log("ok");
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }
+          __LINE__ = 2;
+          var _mochaLocalExport = _mochaGlobalAlias;
+          
+          __LINE__ = 3;
+          _mochaLocalExport.fmt = fmt;
+          __LINE__ = 2;
+          return _mochaLocalExport;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    }
+  }();
+  
+  __LINE__ = 0;
+  !function () {
+    try {
+      var __FILE__ = "/var/samba/mocha/test/mains/test.js",
+          __LINE__ = 0;
+      __LINE__ = 2;
+      _mochaGlobalExport['677331290-test.js'] = {};
+      
+      __LINE__ = 3;
+      var _mochaGlobalAlias = _mochaGlobalExport['677331290-test.js'],
+          _mochaLocalTmp0 = _mochaGlobalExport['677331290-fmt.js'],
+          fmt = _mochaLocalTmp0.fmt,
           Box = function () {
             try {
               function constructor() {
                 try {
-                  
                   __LINE__ = 6;
                   Runtime.getPrivateRecord(this)._width = 0;
                 } catch(e){
@@ -824,7 +857,7 @@ try{
               function Box() {
                 try {
                   __LINE__ = 4;
-                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box','4');
+                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',4);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -852,7 +885,8 @@ try{
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
-          }();
+          }(),
+          m = 0;
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

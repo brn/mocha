@@ -22,6 +22,7 @@
  */
 #ifndef mocha_compile_result_h_
 #define mocha_compile_result_h_
+#include <mocha/roaster/platform/fs/path/path.h>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/utils/error_reporter.h>
@@ -31,16 +32,21 @@ namespace mocha {
 typedef SharedPtr<CodegenVisitor> CodeHandle;
 typedef SharedPtr<ErrorReporter> ErrorHandle;
 class CompilationResult {
+  typedef SharedPtr<std::vector<std::string> > DepsListHandle;
  public :
-  CompilationResult(const char* filename,  CodeHandle visitor, ErrorHandle reporter);
+  CompilationResult(SharedPtr<os::fs::Path> path,  CodeHandle visitor, ErrorHandle reporter, DepsListHandle handle);
   ~CompilationResult(){}
-  const char* filename() { return filename_.c_str(); }
+  const char* filename() { return path_->filename(); }
+  const char* fullpath() {return path_->absolute_path();}
+  const char* dir() {return path_->directory();}
   const char* source() { return codegen_->GetCode(); }
   const ErrorReporter* error() { return reporter_.Get(); }
+  const DepsListHandle deps() const {return deps_;}
  private :
-  std::string filename_;
+  SharedPtr<os::fs::Path> path_;
   CodeHandle codegen_;
   ErrorHandle reporter_;
+  DepsListHandle deps_;
 };
 typedef SharedPtr<CompilationResult> CompilationResultHandle;
 }

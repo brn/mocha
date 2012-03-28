@@ -33,12 +33,14 @@ namespace memory {
 class Pool;
 }
 class Nexl {
+  typedef SharedPtr<std::vector<std::string> > DepsListHandle;
  public :
-  Nexl(const char* filename, CompilationInfo* info, memory::Pool* pool);
+  Nexl(const char* filename, CompilationInfo* info, DepsListHandle handle, memory::Pool* pool);
   ~Nexl(){}
   CompilationResultHandle Link(AstRoot* root, SharedPtr<ErrorReporter> reporter);
  private :
-  std::string filename_;
+  SharedPtr<os::fs::Path> path_;
+  DepsListHandle deps_;
   CompilationInfo* info_;
   memory::Pool* pool_;
 };
