@@ -2,776 +2,822 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {};
+  var _mochaGlobalExport/*_mochaGlobalExport*/ = {};
   
-  !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
-    function defineBuiltin(obj,name,value) {
-      return Object.defineProperty(obj,name, {
-        value : value,
+  !function (_mochaLocalTmp0/*_mochaLocalTmp0*/,_mochaLocalTmp1/*_mochaLocalTmp1*/,_mochaLocalTmp2/*_mochaLocalTmp2*/,_mochaLocalTmp3/*_mochaLocalTmp3*/) {
+    function defineBuiltin/*defineBuiltin*/(obj/*obj*/,name/*name*/,value/*value*/) {
+      return Object.defineProperty(obj/*obj*/,name/*name*/, {
+        value : value/*value*/,
         configurable : true,
         enumerable : false,
         writable : true
       });
     }
-    function callbackCheck(callback,type) {
+    function callbackCheck/*callbackCheck*/(callback/*callback*/,type/*type*/) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'../anonymous/anonymous');
+      Runtime/*Runtime*/.assert(true,typeof type/*type*/ === "string","typeof type === \"string\"",43,'runtime.js');
       
-      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
+      typeof callback/*callback*/ !== "function" && builtinTypeError/*builtinTypeError*/(type/*type*/+" : first argument is not callable");
     }
-    function builtinTypeError(message) {
+    function builtinTypeError/*builtinTypeError*/(message/*message*/) {
       try {
-        throw new TypeError(message);
-      } catch(e){
-        throw new Error(e);
-      };
-    }
-    var stringProto = _mochaLocalTmp0.prototype,
-        arrayProto = _mochaLocalTmp1.prototype,
-        functionProto = _mochaLocalTmp2.prototype,
-        dateProto = _mochaLocalTmp3.prototype;
-    
-    !Object.keys && (Object.keys = function (obj) {
-      !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
-      
-      var ret = [],
-          iter = -1;
-      
-      for (var i in obj){
+        throw new TypeError(message/*message*/)
         
-        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
-      };
-      return ret;
+      } catch(e){
+        throw new Error(e)
+        
+      }
+      
+    }
+    var stringProto/*stringProto*/ = _mochaLocalTmp0/*_mochaLocalTmp0*/.prototype,
+        arrayProto/*arrayProto*/ = _mochaLocalTmp1/*_mochaLocalTmp1*/.prototype,
+        functionProto/*functionProto*/ = _mochaLocalTmp2/*_mochaLocalTmp2*/.prototype,
+        dateProto/*dateProto*/ = _mochaLocalTmp3/*_mochaLocalTmp3*/.prototype;
+    
+    !Object.keys && (Object.keys = function (obj/*obj*/) {
+      !obj/*obj*/ && builtinTypeError/*builtinTypeError*/("Object.keys : first arguments is null or not defined.");
+      
+      var ret/*ret*/ = [],
+          iter/*iter*/ = -1;
+      
+      for (var i/*i*/ in obj/*obj*/){
+        
+        obj/*obj*/.hasOwnProperty(i/*i*/) && (ret/*ret*/[ ++ iter/*iter*/] = obj/*obj*/[i/*i*/]);
+      }
+      return ret/*ret*/;
     });
     
-    !Object.preventExtensions && (Object.preventExtensions = function (o) {
-      return o;
+    !Object.preventExtensions && (Object.preventExtensions = function (o/*o*/) {
+      return o/*o*/;
     });
     
-    !Object.seal && (Object.seal = function (o) {
-      return o;
+    !Object.seal && (Object.seal = function (o/*o*/) {
+      return o/*o*/;
     });
     
-    !Object.freeze && (Object.freeze = function (o) {
-      return o;
+    !Object.freeze && (Object.freeze = function (o/*o*/) {
+      return o/*o*/;
     });
     
-    var hasRealEcma5 = function () {
-          var ret;
+    var hasRealEcma5/*hasRealEcma5*/ = function () {
+          var ret/*ret*/;
           
           try {
             
-            var obj = {};
+            var obj/*obj*/ = {};
             
-            Object.defineProperty(obj,"test", {
+            Object.defineProperty(obj/*obj*/,"test", {
               configurable : false,
               writable : false,
               enumerable : false,
               value : 0
             });
             
-            obj.test = 200;
+            obj/*obj*/.test = 200;
             
-            ret = (obj.test === 200)?false : true;
+            ret/*ret*/ = (obj/*obj*/.test === 200)?false : true;
           } catch(e){
             
-            ret = false;
-          };
-          return ret;
+            ret/*ret*/ = false;
+          }
+          return ret/*ret*/;
         }();
     
-    !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
-      "value" in valobj && (obj[prop] = valobj.value);
+    !hasRealEcma5/*hasRealEcma5*/ && (Object.defineProperty = function (obj/*obj*/,prop/*prop*/,valobj/*valobj*/) {
+      "value" in valobj/*valobj*/ && (obj/*obj*/[prop/*prop*/] = valobj/*valobj*/.value);
     });
     
-    if (!stringProto.trim){
+    if (!stringProto/*stringProto*/.trim){
       
-      stringProto.trim = function () {
-        return this.replace(stringProto.trim.rtrim,"");
+      stringProto/*stringProto*/.trim = function () {
+        return this.replace(stringProto/*stringProto*/.trim.rtrim,"");
       };
       
-      stringProto.trim.rtrim = /^\s*|\s*$/g;
-    };
+      stringProto/*stringProto*/.trim.rtrim = /^\s*|\s*$/g;
+    }
     
-    !stringProto.repeat && defineBuiltin(stringProto,"repeat",
-    function (num) {
-      return Array(num+1).join(this.toString());
+    !stringProto/*stringProto*/.repeat && defineBuiltin/*defineBuiltin*/(stringProto/*stringProto*/,"repeat",
+    function (num/*num*/) {
+      return Array(num/*num*/+1).join(this.toString());
     });
     
-    !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
-    function (str) {
-      return !this.indexOf(str);
+    !stringProto/*stringProto*/.startsWith && defineBuiltin/*defineBuiltin*/(stringProto/*stringProto*/,"startsWith",
+    function (str/*str*/) {
+      return !this.indexOf(str/*str*/);
     });
     
-    !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
-    function (str) {
-      var t = String(str),
-          index = this.lastIndexOf(t);
-      return index >= 0 && index === this.length-t.length;
+    !stringProto/*stringProto*/.endsWith && defineBuiltin/*defineBuiltin*/(stringProto/*stringProto*/,"endsWith",
+    function (str/*str*/) {
+      var t/*t*/ = String(str/*str*/),
+          index/*index*/ = this.lastIndexOf(t/*t*/);
+      return index/*index*/ >= 0 && index/*index*/ === this.length-t/*t*/.length;
     });
     
-    !stringProto.contains && defineBuiltin(stringProto,"contains",
-    function (str) {
-      return this.indexOf(str) !== -1;
+    !stringProto/*stringProto*/.contains && defineBuiltin/*defineBuiltin*/(stringProto/*stringProto*/,"contains",
+    function (str/*str*/) {
+      return this.indexOf(str/*str*/) !== -1;
     });
     
-    !stringProto.toArray && defineBuiltin(stringProto,"toArray",
-    function (str) {
+    !stringProto/*stringProto*/.toArray && defineBuiltin/*defineBuiltin*/(stringProto/*stringProto*/,"toArray",
+    function (str/*str*/) {
       return this.split("");
     });
     
-    !functionProto.bind && defineBuiltin(functionProto,"bind",
+    !functionProto/*functionProto*/.bind && defineBuiltin/*defineBuiltin*/(functionProto/*functionProto*/,"bind",
     function () {
-      var argArray = arrayProto.slice.call(arguments),
-          context = argArray.shift(),
-          ret = function () {
-            var args = argArray.concat(arrayProto.slice.call(arguments));
-            return this !== null && this !== window && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+      var argArray/*argArray*/ = arrayProto/*arrayProto*/.slice.call(arguments),
+          context/*context*/ = argArray/*argArray*/.shift(),
+          ret/*ret*/ = function () {
+            var args/*args*/ = argArray/*argArray*/.concat(arrayProto/*arrayProto*/.slice.call(arguments));
+            return this !== null && this !== window && this instanceof ret/*ret*/?ret/*ret*/.context.apply(this,args/*args*/) : ret/*ret*/.context.apply(context/*context*/,args/*args*/);
           };
       
-      ret.prototype = this.prototype;
+      ret/*ret*/.prototype = this.prototype;
       
-      ret.context = this;
-      return ret;
+      ret/*ret*/.context = this;
+      return ret/*ret*/;
     });
     
-    !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
-    function (callback,that) {
-      callbackCheck(callback,"Array.forEach");
+    !arrayProto/*arrayProto*/.forEach && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"forEach",
+    function (callback/*callback*/,that/*that*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.forEach");
       
-      var iter = -1,
-          ta;
+      var iter/*iter*/ = -1,
+          ta/*ta*/;
       
-      this === null && builtinTypeError("Array.forEach : this is null or not defined");
+      this === null && builtinTypeError/*builtinTypeError*/("Array.forEach : this is null or not defined");
       
-      if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-          callback.call(that,ta,iter,this);
+      if (that/*that*/){
+        while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+          callback/*callback*/.call(that/*that*/,ta/*ta*/,iter/*iter*/,this);
         }
+        
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-          callback(ta,iter,this);
-        };
-      };
+        while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+          callback/*callback*/(ta/*ta*/,iter/*iter*/,this);
+        }
+        
+      }
+      
     });
     
-    !arrayProto.every && defineBuiltin(arrayProto,"every",
-    function (callback,that) {
-      callbackCheck(callback,"Array.every");
+    !arrayProto/*arrayProto*/.every && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"every",
+    function (callback/*callback*/,that/*that*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.every");
       
-      var iter = -1,
-          ta;
+      var iter/*iter*/ = -1,
+          ta/*ta*/;
       
-      this === null && builtinTypeError("Array.every : this is null or not defined");
+      this === null && builtinTypeError/*builtinTypeError*/("Array.every : this is null or not defined");
       
-      if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-          if (!(callback.call(that,ta,iter,this))){
+      if (that/*that*/){
+        while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+          if (!(callback/*callback*/.call(that/*that*/,ta/*ta*/,iter/*iter*/,this))){
             return false;
-          };
+          }
+          
         }
+        
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-          if (!(callback(ta,iter,this))){
+        while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+          if (!(callback/*callback*/(ta/*ta*/,iter/*iter*/,this))){
             return false;
-          };
-        };
-      };
+          }
+          
+        }
+        
+      }
       return true;
     });
     
-    !arrayProto.some && defineBuiltin(arrayProto,"some",
-    function (callback,that) {
-      callbackCheck(callback,"Array.some");
+    !arrayProto/*arrayProto*/.some && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"some",
+    function (callback/*callback*/,that/*that*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.some");
       
-      var iter = -1,
-          ta;
+      var iter/*iter*/ = -1,
+          ta/*ta*/;
       
-      this === null && builtinTypeError("Array.some : this is null or not defined");
+      this === null && builtinTypeError/*builtinTypeError*/("Array.some : this is null or not defined");
       
-      if (that){
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-          if (callback.call(that,ta,iter,this)){
+      if (that/*that*/){
+        while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+          if (callback/*callback*/.call(that/*that*/,ta/*ta*/,iter/*iter*/,this)){
             return true;
-          };
+          }
+          
         }
+        
       } else {
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-          if (callback(ta,iter,this)){
+        while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+          if (callback/*callback*/(ta/*ta*/,iter/*iter*/,this)){
             return true;
-          };
-        };
-      };
+          }
+          
+        }
+        
+      }
       return false;
     });
     
-    !arrayProto.filter && defineBuiltin(arrayProto,"filter",
-    function (callback,that) {
-      callbackCheck(callback,"Array.filter");
+    !arrayProto/*arrayProto*/.filter && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"filter",
+    function (callback/*callback*/,that/*that*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.filter");
       
-      var len = this.length,
-          iter = -1,
-          ret = [],
-          ta;
+      var len/*len*/ = this.length,
+          iter/*iter*/ = -1,
+          ret/*ret*/ = [],
+          ta/*ta*/;
       
-      this === null && builtinTypeError("Array.filter : this is null or not defined");
+      this === null && builtinTypeError/*builtinTypeError*/("Array.filter : this is null or not defined");
       
-      if (that){
-        for (var i = 0,len = this.length;i<len; ++ i){
+      if (that/*that*/){
+        for (var i/*i*/ = 0,len/*len*/ = this.length;i/*i*/<len/*len*/; ++ i/*i*/){
           
-          (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+          (ta/*ta*/ = this[i/*i*/]) !== null && ta/*ta*/ !== undefined && callback/*callback*/.call(that/*that*/,ta/*ta*/,i/*i*/,this) && (ret/*ret*/[ ++ iter/*iter*/] = ta/*ta*/);
         }
+        
       } else {
-        for (var i = 0,len = this.length;i<len; ++ i){
+        for (var i/*i*/ = 0,len/*len*/ = this.length;i/*i*/<len/*len*/; ++ i/*i*/){
           
-          (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
-        };
-      };
-      return ret;
-    });
-    
-    !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
-    function (subject,fromIndex) {
-      var iter = (fromIndex)?fromIndex-1 : -1,
-          index = -1,
-          ta;
-      
-      this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
-      
-      while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-        if (ta === subject){
-          
-          index = iter;
-          break;
-        };
-      };
-      return index;
-    });
-    
-    !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
-    function (target,fromIndex) {
-      var len = this.length,
-          iter = (fromIndex)?fromIndex+1 : len,
-          index = -1,
-          ta;
-      
-      this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
-      
-      while ((ta = this[ -- iter]) !== null && ta !== undefined){
-        if (ta === target){
-          
-          index = iter;
-          break;
-        };
-      };
-      return index;
-    });
-    
-    !arrayProto.map && defineBuiltin(arrayProto,"map",
-    function (callback,that) {
-      callbackCheck(callback,"Array.map");
-      
-      var ret = [],
-          iter = -1,
-          len = this.length,
-          i = 0,
-          ta;
-      
-      this === null && builtinTypeError("Array.map : this is null or not defined.");
-      
-      if (that){
-        for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+          (ta/*ta*/ = this[i/*i*/]) !== null && ta/*ta*/ !== undefined && callback/*callback*/(ta/*ta*/,i/*i*/,this) && (ret/*ret*/[ ++ iter/*iter*/] = ta/*ta*/);
         }
+        
+      }
+      return ret/*ret*/;
+    });
+    
+    !arrayProto/*arrayProto*/.indexOf && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"indexOf",
+    function (subject/*subject*/,fromIndex/*fromIndex*/) {
+      var iter/*iter*/ = (fromIndex/*fromIndex*/)?fromIndex/*fromIndex*/-1 : -1,
+          index/*index*/ = -1,
+          ta/*ta*/;
+      
+      this === null && builtinTypeError/*builtinTypeError*/("Array.indexOf : this is null or not defined.");
+      
+      while ((ta/*ta*/ = this[ ++ iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+        if (ta/*ta*/ === subject/*subject*/){
+          
+          index/*index*/ = iter/*iter*/;
+          break;
+        }
+        
+      }
+      return index/*index*/;
+    });
+    
+    !arrayProto/*arrayProto*/.lastIndexOf && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"lastIndexOf",
+    function (target/*target*/,fromIndex/*fromIndex*/) {
+      var len/*len*/ = this.length,
+          iter/*iter*/ = (fromIndex/*fromIndex*/)?fromIndex/*fromIndex*/+1 : len/*len*/,
+          index/*index*/ = -1,
+          ta/*ta*/;
+      
+      this === null && builtinTypeError/*builtinTypeError*/("Array.lastIndexOf : this is null or not defined.");
+      
+      while ((ta/*ta*/ = this[ -- iter/*iter*/]) !== null && ta/*ta*/ !== undefined){
+        if (ta/*ta*/ === target/*target*/){
+          
+          index/*index*/ = iter/*iter*/;
+          break;
+        }
+        
+      }
+      return index/*index*/;
+    });
+    
+    !arrayProto/*arrayProto*/.map && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"map",
+    function (callback/*callback*/,that/*that*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.map");
+      
+      var ret/*ret*/ = [],
+          iter/*iter*/ = -1,
+          len/*len*/ = this.length,
+          i/*i*/ = 0,
+          ta/*ta*/;
+      
+      this === null && builtinTypeError/*builtinTypeError*/("Array.map : this is null or not defined.");
+      
+      if (that/*that*/){
+        for (i/*i*/;i/*i*/<len/*len*/; ++ i/*i*/){
+          (ta/*ta*/ = this[i/*i*/]) !== null && ta/*ta*/ !== undefined && (ret/*ret*/[ ++ iter/*iter*/] = callback/*callback*/.call(that/*that*/,ta/*ta*/,i/*i*/,this));
+        }
+        
       } else {
-        for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
-        };
-      };
-      return ret;
+        for (i/*i*/;i/*i*/<len/*len*/; ++ i/*i*/){
+          (ta/*ta*/ = this[i/*i*/]) !== null && ta/*ta*/ !== undefined && (ret/*ret*/[ ++ iter/*iter*/] = callback/*callback*/(ta/*ta*/,i/*i*/,this));
+        }
+        
+      }
+      return ret/*ret*/;
     });
     
-    !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
-    function (callback,initial) {
-      callbackCheck(callback,"Array.reduce");
+    !arrayProto/*arrayProto*/.reduce && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"reduce",
+    function (callback/*callback*/,initial/*initial*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.reduce");
       
-      var ret = initial || this[0],
-          i = (initial)?0 : 1,
-          len = this.length,
-          ta;
+      var ret/*ret*/ = initial/*initial*/ || this[0],
+          i/*i*/ = (initial/*initial*/)?0 : 1,
+          len/*len*/ = this.length,
+          ta/*ta*/;
       
-      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      (len/*len*/ === 0 || len/*len*/ === null) && arguments.length<2 && builtinTypeError/*builtinTypeError*/("Array length is 0 and no second argument");
       
-      for (i;i<len; ++ i){
-        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
-      };
-      return ret;
+      for (i/*i*/;i/*i*/<len/*len*/; ++ i/*i*/){
+        (ta/*ta*/ = this[i/*i*/]) !== null && ta/*ta*/ !== undefined && (ret/*ret*/ = callback/*callback*/(ret/*ret*/,ta/*ta*/,i/*i*/,this));
+      }
+      return ret/*ret*/;
     });
     
-    !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
-    function (callback,initial) {
-      callbackCheck(callback,"Array.reduceRight");
+    !arrayProto/*arrayProto*/.reduceRight && defineBuiltin/*defineBuiltin*/(arrayProto/*arrayProto*/,"reduceRight",
+    function (callback/*callback*/,initial/*initial*/) {
+      callbackCheck/*callbackCheck*/(callback/*callback*/,"Array.reduceRight");
       
-      var len = this.length,
-          ret = initial || this[len-1],
-          i = (initial)?len-1 : len-2,
-          ta;
+      var len/*len*/ = this.length,
+          ret/*ret*/ = initial/*initial*/ || this[len/*len*/-1],
+          i/*i*/ = (initial/*initial*/)?len/*len*/-1 : len/*len*/-2,
+          ta/*ta*/;
       
-      (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      (len/*len*/ === 0 || len/*len*/ === null) && arguments.length<2 && builtinTypeError/*builtinTypeError*/("Array length is 0 and no second argument");
       
-      for (i;i>-1; -- i){
-        (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
-      };
-      return ret;
+      for (i/*i*/;i/*i*/>-1; -- i/*i*/){
+        (ta/*ta*/ = this[i/*i*/]) !== null && ta/*ta*/ !== undefined && (ret/*ret*/ = callback/*callback*/(ret/*ret*/,ta/*ta*/,i/*i*/,this));
+      }
+      return ret/*ret*/;
     });
     
-    !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
+    !dateProto/*dateProto*/.toJSON && defineBuiltin/*defineBuiltin*/(dateProto/*dateProto*/,"toJSON",
     function () {
-      var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-          month = _mochaLocalTmp4[0],
-          date = _mochaLocalTmp4[1],
-          hour = _mochaLocalTmp4[2],
-          minute = _mochaLocalTmp4[3],
-          second = _mochaLocalTmp4[4];
-      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+      var _mochaLocalTmp4/*_mochaLocalTmp4*/ = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+          month/*month*/ = _mochaLocalTmp4/*_mochaLocalTmp4*/[0],
+          date/*date*/ = _mochaLocalTmp4/*_mochaLocalTmp4*/[1],
+          hour/*hour*/ = _mochaLocalTmp4/*_mochaLocalTmp4*/[2],
+          minute/*minute*/ = _mochaLocalTmp4/*_mochaLocalTmp4*/[3],
+          second/*second*/ = _mochaLocalTmp4/*_mochaLocalTmp4*/[4];
+      return '"'+this.getUTCFullYear()+'-'+(month/*month*/>8?month/*month*/+1 : "0"+(month/*month*/+1))+'-'+(date/*date*/>9?date/*date*/ : "0"+date/*date*/)+'T'+(hour/*hour*/>9?hour/*hour*/ : "0"+hour/*hour*/)+':'+(minute/*minute*/>9?minute/*minute*/ : "0"+minute/*minute*/)+':'+(second/*second*/>9?second/*second*/ : "0"+second/*second*/)+'.'+this.getUTCMilliseconds()+'Z"';
     });
     
-    !Date.now && defineBuiltin(Date,"now",
+    !Date.now && defineBuiltin/*defineBuiltin*/(Date,"now",
     function () {
       return +new Date();
     });
     
-    !Array.isArray && defineBuiltin(Array,"isArray",
-    function (arr) {
+    !Array.isArray && defineBuiltin/*defineBuiltin*/(Array,"isArray",
+    function (arr/*arr*/) {
       if (arguments.length === 0){
         return false;
-      };
-      return (arr)?({}).toString.call(arr) === "[object Array]" : false;
+      }
+      return (arr/*arr*/)?({}).toString.call(arr/*arr*/) === "[object Array]" : false;
     });
   }.call(this,String,Array,Function,Date);
   
-  var Runtime = function () {
-        function checkRequirements(_mochaLocalTmp9,_mochaLocalTmp10,traits,file,line) {
-          var proto1 = _mochaLocalTmp9.prototype,
-              proto2 = _mochaLocalTmp10.prototype;
+  var Runtime/*Runtime*/ = function () {
+        function checkRequirements/*checkRequirements*/(_mochaLocalTmp9/*_mochaLocalTmp9*/,_mochaLocalTmp10/*_mochaLocalTmp10*/,traits/*traits*/,file/*file*/,line/*line*/) {
+          var proto1/*proto1*/ = _mochaLocalTmp9/*_mochaLocalTmp9*/.prototype,
+              proto2/*proto2*/ = _mochaLocalTmp10/*_mochaLocalTmp10*/.prototype;
           
-          for (var i = 0,len = traits.length;i<len;i ++ ){
+          for (var i/*i*/ = 0,len/*len*/ = traits/*traits*/.length;i/*i*/<len/*len*/;i/*i*/ ++ ){
             
-            var _mochaLocalTmp11 = traits[i],
-                _mochaRequires = _mochaLocalTmp11._mochaRequires;
+            var _mochaLocalTmp11/*_mochaLocalTmp11*/ = traits/*traits*/[i/*i*/],
+                _mochaRequires/*_mochaRequires*/ = _mochaLocalTmp11/*_mochaLocalTmp11*/._mochaRequires;
             
-            for (var prop in _mochaRequires){
-              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
-            };
-          };
+            for (var prop/*prop*/ in _mochaRequires/*_mochaRequires*/){
+              !(prop/*prop*/ in proto1/*proto1*/) && !(prop/*prop*/ in proto2/*proto2*/) && Runtime/*Runtime*/.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop/*prop*/+"\nin file "+file/*file*/+" at line "+line/*line*/);
+            }
+            
+          }
+          
         }
-        function classMixin(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,with_,without) {
-          var constructorProto = _mochaLocalTmp6.prototype,
-              privateProto = _mochaLocalTmp7.prototype,
-              mark = _mochaLocalTmp8._mochaTraitMark,
-              traitPublic = _mochaLocalTmp8._mochaTraitPublic,
-              traitPrivate = _mochaLocalTmp8._mochaTraitPrivate;
+        function classMixin/*classMixin*/(_mochaLocalTmp6/*_mochaLocalTmp6*/,_mochaLocalTmp7/*_mochaLocalTmp7*/,_mochaLocalTmp8/*_mochaLocalTmp8*/,with_/*with_*/,without/*without*/) {
+          var constructorProto/*constructorProto*/ = _mochaLocalTmp6/*_mochaLocalTmp6*/.prototype,
+              privateProto/*privateProto*/ = _mochaLocalTmp7/*_mochaLocalTmp7*/.prototype,
+              mark/*mark*/ = _mochaLocalTmp8/*_mochaLocalTmp8*/._mochaTraitMark,
+              traitPublic/*traitPublic*/ = _mochaLocalTmp8/*_mochaLocalTmp8*/._mochaTraitPublic,
+              traitPrivate/*traitPrivate*/ = _mochaLocalTmp8/*_mochaLocalTmp8*/._mochaTraitPrivate;
           
-          if (!mark){
-            Runtime.throwException("mixin only used for trait.");
+          if (!mark/*mark*/){
+            Runtime/*Runtime*/.throwException("mixin only used for trait.");
           } else {
             
-            var tmp;
+            var tmp/*tmp*/;
             
-            for (var i in traitPublic){
-              if (!without[i]){
+            for (var i/*i*/ in traitPublic/*traitPublic*/){
+              if (!without/*without*/[i/*i*/]){
                 
-                tmp = (!with_[i])?i : with_[i];
+                tmp/*tmp*/ = (!with_/*with_*/[i/*i*/])?i/*i*/ : with_/*with_*/[i/*i*/];
                 
-                constructorProto[tmp] = traitPublic[i];
-              };
-            };
-            
-            for (i in traitPrivate){
-              if (!without[i]){
-                
-                tmp = (!with_[i])?i : with_[i];
-                
-                privateProto[tmp] = traitPrivate[i];
-              };
-            };
-          };
-        }
-        function traitMixin(dest,source,with_,without) {
-          if (!dest._mochaTraitMark || !source._mochaTraitMark){
-            Runtime.throwException("mixin only used for trait.");
-          } else {
-            
-            var destTraitPrivate = dest._mochaTraitPrivate,
-                sourceTraitPrivate = source._mochaTraitPrivate,
-                destTraitPublic = dest._mochaTraitPublic,
-                sourceTraitPublic = source._mochaTraitPublic,
-                sourceRequires = source._mochaRequires,
-                destRequires = dest._mochaRequires,
-                tmp;
-            
-            for (var i in sourceTraitPrivate){
-              if (!without[i]){
-                
-                tmp = (!with_[i])?i : with_[i];
-                
-                destTraitPrivate[tmp] = sourceTraitPrivate[i];
-              };
-            };
-            
-            for (i in sourceTraitPublic){
-              if (!without[i]){
-                
-                tmp = (!with_[i])?i : with_[i];
-                
-                destTraitPublic[tmp] = sourceTraitPublic[i];
-              };
-            };
-            
-            for (i in sourceRequires){
-              destRequires[i] = sourceRequires[i];
-            };
-          };
-        }
-        function getSuper(obj) {
-          var type = typeof obj,
-              ret;
-          
-          if (type === "function"){
-            
-            ret = function (){};
-            
-            ret.prototype = obj.prototype;
-            
-            ret = new ret();
-            
-            obj.__harmony_class__?ret.constructor = obj.constructor : ret.constructor = obj;
-            return ret;
-          };
-          return ret;
-        }
-        function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
-          (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
-          
-          createPrivateRecord(instance,privateHolder);
-          
-          constructor.apply(instance,args);
-        }
-        function isStopIteration(obj) {
-          return obj === StopIteration || rstopIteration.test(obj);
-        }
-        function hasIterator(obj) {
-          return __ref_iterator__ in obj;
-        }
-        function getIterator(obj) {
-          var ret = obj[__ref_iterator__](),
-              newObj;
-          
-          if (isGenerator(ret)){
-            return ret;
-          };
-          
-          newObj = {};
-          
-          if (ret.next){
-            createUnenumProp(newObj,"next",
-            function () {
-              var result = ret.next();
+                constructorProto/*constructorProto*/[tmp/*tmp*/] = traitPublic/*traitPublic*/[i/*i*/];
+              }
               
-              result === undefined && throwStopIteration();
-              return result;
+            }
+            
+            for (i/*i*/ in traitPrivate/*traitPrivate*/){
+              if (!without/*without*/[i/*i*/]){
+                
+                tmp/*tmp*/ = (!with_/*with_*/[i/*i*/])?i/*i*/ : with_/*with_*/[i/*i*/];
+                
+                privateProto/*privateProto*/[tmp/*tmp*/] = traitPrivate/*traitPrivate*/[i/*i*/];
+              }
+              
+            }
+            
+          }
+          
+        }
+        function traitMixin/*traitMixin*/(dest/*dest*/,source/*source*/,with_/*with_*/,without/*without*/) {
+          if (!dest/*dest*/._mochaTraitMark || !source/*source*/._mochaTraitMark){
+            Runtime/*Runtime*/.throwException("mixin only used for trait.");
+          } else {
+            
+            var destTraitPrivate/*destTraitPrivate*/ = dest/*dest*/._mochaTraitPrivate,
+                sourceTraitPrivate/*sourceTraitPrivate*/ = source/*source*/._mochaTraitPrivate,
+                destTraitPublic/*destTraitPublic*/ = dest/*dest*/._mochaTraitPublic,
+                sourceTraitPublic/*sourceTraitPublic*/ = source/*source*/._mochaTraitPublic,
+                sourceRequires/*sourceRequires*/ = source/*source*/._mochaRequires,
+                destRequires/*destRequires*/ = dest/*dest*/._mochaRequires,
+                tmp/*tmp*/;
+            
+            for (var i/*i*/ in sourceTraitPrivate/*sourceTraitPrivate*/){
+              if (!without/*without*/[i/*i*/]){
+                
+                tmp/*tmp*/ = (!with_/*with_*/[i/*i*/])?i/*i*/ : with_/*with_*/[i/*i*/];
+                
+                destTraitPrivate/*destTraitPrivate*/[tmp/*tmp*/] = sourceTraitPrivate/*sourceTraitPrivate*/[i/*i*/];
+              }
+              
+            }
+            
+            for (i/*i*/ in sourceTraitPublic/*sourceTraitPublic*/){
+              if (!without/*without*/[i/*i*/]){
+                
+                tmp/*tmp*/ = (!with_/*with_*/[i/*i*/])?i/*i*/ : with_/*with_*/[i/*i*/];
+                
+                destTraitPublic/*destTraitPublic*/[tmp/*tmp*/] = sourceTraitPublic/*sourceTraitPublic*/[i/*i*/];
+              }
+              
+            }
+            
+            for (i/*i*/ in sourceRequires/*sourceRequires*/){
+              destRequires/*destRequires*/[i/*i*/] = sourceRequires/*sourceRequires*/[i/*i*/];
+            }
+            
+          }
+          
+        }
+        function getSuper/*getSuper*/(obj/*obj*/) {
+          var type/*type*/ = typeof obj/*obj*/,
+              ret/*ret*/;
+          
+          if (type/*type*/ === "function"){
+            
+            ret/*ret*/ = function (){};
+            
+            ret/*ret*/.prototype = obj/*obj*/.prototype;
+            
+            ret/*ret*/ = new ret/*ret*/();
+            
+            obj/*obj*/.__harmony_class__?ret/*ret*/.constructor = obj/*obj*/.constructor : ret/*ret*/.constructor = obj/*obj*/;
+            return ret/*ret*/;
+          }
+          return ret/*ret*/;
+        }
+        function initializeClass/*initializeClass*/(instance/*instance*/,classObject/*classObject*/,privateHolder/*privateHolder*/,constructor/*constructor*/,args/*args*/,name/*name*/,line/*line*/) {
+          (!instance/*instance*/ || !(instance/*instance*/ instanceof classObject/*classObject*/)) && throwException/*throwException*/("class "+name/*name*/+" must be called by new. line : "+line/*line*/);
+          
+          createPrivateRecord/*createPrivateRecord*/(instance/*instance*/,privateHolder/*privateHolder*/);
+          
+          constructor/*constructor*/.apply(instance/*instance*/,args/*args*/);
+        }
+        function isStopIteration/*isStopIteration*/(obj/*obj*/) {
+          return obj/*obj*/ === StopIteration || rstopIteration/*rstopIteration*/.test(obj/*obj*/);
+        }
+        function hasIterator/*hasIterator*/(obj/*obj*/) {
+          return __ref_iterator__/*__ref_iterator__*/ in obj/*obj*/;
+        }
+        function getIterator/*getIterator*/(obj/*obj*/) {
+          var ret/*ret*/ = obj/*obj*/[__ref_iterator__/*__ref_iterator__*/](),
+              newObj/*newObj*/;
+          
+          if (isGenerator/*isGenerator*/(ret/*ret*/)){
+            return ret/*ret*/;
+          }
+          
+          newObj/*newObj*/ = {};
+          
+          if (ret/*ret*/.next){
+            createUnenumProp/*createUnenumProp*/(newObj/*newObj*/,"next",
+            function () {
+              var result/*result*/ = ret/*ret*/.next();
+              
+              result/*result*/ === undefined && throwStopIteration/*throwStopIteration*/();
+              return result/*result*/;
             });
           } else {
             return {};
-          };
+          }
           
-          !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
+          !("__nothrowNext__" in ret/*ret*/) && createUnenumProp/*createUnenumProp*/(newObj/*newObj*/,"__nothrowNext__",ret/*ret*/.next.bind(ret/*ret*/));
           
-          for (var prop in ret){
+          for (var prop/*prop*/ in ret/*ret*/){
             
-            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
-          };
+            prop/*prop*/ !== "next" && prop/*prop*/ !== "__nothrowNext__" && (newObj/*newObj*/[prop/*prop*/] = ret/*ret*/[prop/*prop*/]);
+          }
           
-          !("toString" in ret) && createUnenumProp(newObj,"toString",
+          !("toString" in ret/*ret*/) && createUnenumProp/*createUnenumProp*/(newObj/*newObj*/,"toString",
           function () {
             return "[object Iterator]";
           });
-          return newObj;
+          return newObj/*newObj*/;
         }
-        function isGenerator(obj) {
-          return obj instanceof Generator;
+        function isGenerator/*isGenerator*/(obj/*obj*/) {
+          return obj/*obj*/ instanceof Generator/*Generator*/;
         }
-        function throwStopIteration() {
+        function throwStopIteration/*throwStopIteration*/() {
           try {
-            throw StopIteration;
+            throw StopIteration
+            
           } catch(e){
-            throw new Error(e.toString());
-          };
+            throw new Error(e.toString())
+            
+          }
+          
         }
-        function createRecord(obj) {
-          obj.toString() === "[object Object]" && createUnenumProp(obj,"toString",
+        function createRecord/*createRecord*/(obj/*obj*/) {
+          obj/*obj*/.toString() === "[object Object]" && createUnenumProp/*createUnenumProp*/(obj/*obj*/,"toString",
           function () {
             return "[object Record]";
           });
-          return Object.freeze(obj);
+          return Object.freeze(obj/*obj*/);
         }
-        function createTuple(obj,size) {
-          createUnenumProp(obj,"length",size);
+        function createTuple/*createTuple*/(obj/*obj*/,size/*size*/) {
+          createUnenumProp/*createUnenumProp*/(obj/*obj*/,"length",size/*size*/);
           
-          createUnenumProp(obj,"equal",compareTuple);
+          createUnenumProp/*createUnenumProp*/(obj/*obj*/,"equal",compareTuple/*compareTuple*/);
           
-          createUnenumProp(obj,"toArray",tupleToArray);
+          createUnenumProp/*createUnenumProp*/(obj/*obj*/,"toArray",tupleToArray/*tupleToArray*/);
           
-          createUnenumProp(obj,"toString",
+          createUnenumProp/*createUnenumProp*/(obj/*obj*/,"toString",
           function () {
             return "[object Tuple]";
           });
-          return Object.freeze(obj);
+          return Object.freeze(obj/*obj*/);
         }
-        function tupleToArray() {
+        function tupleToArray/*tupleToArray*/() {
           return [].slice.call(this);
         }
-        function compareTuple(tuple) {
-          var maxIndex = max(tuple.length,this.length),
-              i = -1;
+        function compareTuple/*compareTuple*/(tuple/*tuple*/) {
+          var maxIndex/*maxIndex*/ = max/*max*/(tuple/*tuple*/.length,this.length),
+              i/*i*/ = -1;
           
-          while ( ++ i<maxIndex && tuple[i] === this[i]){
+          while ( ++ i/*i*/<maxIndex/*maxIndex*/ && tuple/*tuple*/[i/*i*/] === this[i/*i*/]){
             
-          };
-          return maxIndex === i;
+          }
+          return maxIndex/*maxIndex*/ === i/*i*/;
         }
-        function extend(dest,source) {
-          for (var prop in source){
+        function extend/*extend*/(dest/*dest*/,source/*source*/) {
+          for (var prop/*prop*/ in source/*source*/){
             
-            dest[prop] = source[prop];
-          };
-          return dest;
+            dest/*dest*/[prop/*prop*/] = source/*source*/[prop/*prop*/];
+          }
+          return dest/*dest*/;
         }
-        function getErrorMessage(e) {
-          return (e.message)?e.message : (e.description)?e.description : e.toString();
+        function getErrorMessage/*getErrorMessage*/(e/*e*/) {
+          return (e/*e*/.message)?e/*e*/.message : (e/*e*/.description)?e/*e*/.description : e/*e*/.toString();
         }
-        function createGenerator(generatorFn,closeFn,context) {
-          var ret = new Generator;
+        function createGenerator/*createGenerator*/(generatorFn/*generatorFn*/,closeFn/*closeFn*/,context/*context*/) {
+          var ret/*ret*/ = new Generator/*Generator*/;
           
-          createUnenumProp(ret,"next",generatorFn.bind(context,false,false));
+          createUnenumProp/*createUnenumProp*/(ret/*ret*/,"next",generatorFn/*generatorFn*/.bind(context/*context*/,false,false));
           
-          createUnenumProp(ret,"send",generatorFn.bind(context,true,false));
+          createUnenumProp/*createUnenumProp*/(ret/*ret*/,"send",generatorFn/*generatorFn*/.bind(context/*context*/,true,false));
           
-          createUnenumProp(ret,"close",closeFn.bind(context));
+          createUnenumProp/*createUnenumProp*/(ret/*ret*/,"close",closeFn/*closeFn*/.bind(context/*context*/));
           
-          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context,false,true));
+          createUnenumProp/*createUnenumProp*/(ret/*ret*/,"__nothrowNext__",generatorFn/*generatorFn*/.bind(context/*context*/,false,true));
           
-          createUnenumProp(ret,"toString",
+          createUnenumProp/*createUnenumProp*/(ret/*ret*/,"toString",
           function () {
             return "[object Generator]";
           });
           
-          Object.freeze(ret);
-          return ret;
+          Object.freeze(ret/*ret*/);
+          return ret/*ret*/;
         }
-        function Generator(){}
-        function toArray(likeArray,index) {
-          return (likeArray)?slice.call(likeArray,index) : [];
+        function Generator/*Generator*/(){}
+        function toArray/*toArray*/(likeArray/*likeArray*/,index/*index*/) {
+          return (likeArray/*likeArray*/)?slice/*slice*/.call(likeArray/*likeArray*/,index/*index*/) : [];
         }
-        function constant(obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
+        function constant/*constant*/(obj/*obj*/,prop/*prop*/,value/*value*/) {
+          return Object.defineProperty(obj/*obj*/,prop/*prop*/, {
             configurable : false,
             enumerable : false,
             writable : false,
-            value : value
+            value : value/*value*/
           });
         }
-        function createUnenumProp(obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
+        function createUnenumProp/*createUnenumProp*/(obj/*obj*/,prop/*prop*/,value/*value*/) {
+          return Object.defineProperty(obj/*obj*/,prop/*prop*/, {
             configurable : true,
             enumerable : false,
             writable : true,
-            value : value
+            value : value/*value*/
           });
         }
-        function Exception(line,file,e) {
+        function Exception/*Exception*/(line/*line*/,file/*file*/,e/*e*/) {
           this.toString = function () {
-            return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+            return Runtime/*Runtime*/.getErrorMessage(e/*e*/)+" in file "+file/*file*/+" at : "+line/*line*/;
           };
         }
-        var _mochaLocalExport = {};
+        var _mochaLocalExport/*_mochaLocalExport*/ = {};
         
-        var max = Math.max,
-            _mochaLocalTmp5 = Array.prototype,
-            slice = _mochaLocalTmp5.slice,
-            Runtime =  {
-              getErrorMessage : function (e) {
-                return (e.message)?e.message : (e.description)?e.description : e.toString();
+        var max/*max*/ = Math.max,
+            _mochaLocalTmp5/*_mochaLocalTmp5*/ = Array.prototype,
+            slice/*slice*/ = _mochaLocalTmp5/*_mochaLocalTmp5*/.slice,
+            Runtime/*Runtime*/ =  {
+              getErrorMessage : function (e/*e*/) {
+                return (e/*e*/.message)?e/*e*/.message : (e/*e*/.description)?e/*e*/.description : e/*e*/.toString();
               },
-              exceptionHandler : function (line,file,e) {
-                if (isStopIteration(e)){
+              exceptionHandler : function (line/*line*/,file/*file*/,e/*e*/) {
+                if (isStopIteration/*isStopIteration*/(e/*e*/)){
                   
-                  this.throwException(e);
+                  this.throwException(e/*e*/);
                 } else {
                   
-                  this.throwException(new Exception(line,file,e));
-                };
+                  this.throwException(new Exception/*Exception*/(line/*line*/,file/*file*/,e/*e*/));
+                }
+                
               },
-              throwException : function (exception) {
+              throwException : function (exception/*exception*/) {
                 try {
-                  throw exception;
+                  throw exception/*exception*/
+                  
                 } catch(e){
                   
-                  if (isStopIteration(e)){
-                    throw new Error(e);
+                  if (isStopIteration/*isStopIteration*/(e)){
+                    throw new Error(e)
+                    
                   } else {
-                    throw new Error(this.getErrorMessage(e));
-                  };
-                };
+                    throw new Error(this.getErrorMessage(e))
+                    
+                  }
+                  
+                }
+                
               },
               hasProto : "__proto__" in {}
             };
         
-        _mochaLocalExport.createUnenumProp = createUnenumProp;
+        _mochaLocalExport/*_mochaLocalExport*/.createUnenumProp = createUnenumProp/*createUnenumProp*/;
         
-        _mochaLocalExport.constant = constant;
+        _mochaLocalExport/*_mochaLocalExport*/.constant = constant/*constant*/;
         
-        _mochaLocalExport.toArray = toArray;
+        _mochaLocalExport/*_mochaLocalExport*/.toArray = toArray/*toArray*/;
         
-        _mochaLocalExport.createGenerator = createGenerator;
+        _mochaLocalExport/*_mochaLocalExport*/.createGenerator = createGenerator/*createGenerator*/;
         
-        var throwException = _mochaLocalExport.throwException = Runtime.throwException.bind(Runtime),
-            exceptionHandler = _mochaLocalExport.exceptionHandler = Runtime.exceptionHandler.bind(Runtime);
+        var throwException/*throwException*/ = _mochaLocalExport/*_mochaLocalExport*/.throwException = Runtime/*Runtime*/.throwException.bind(Runtime/*Runtime*/),
+            exceptionHandler/*exceptionHandler*/ = _mochaLocalExport/*_mochaLocalExport*/.exceptionHandler = Runtime/*Runtime*/.exceptionHandler.bind(Runtime/*Runtime*/);
         
-        _mochaLocalExport.extend = extend;
+        _mochaLocalExport/*_mochaLocalExport*/.extend = extend/*extend*/;
         
-        _mochaLocalExport.createTuple = createTuple;
+        _mochaLocalExport/*_mochaLocalExport*/.createTuple = createTuple/*createTuple*/;
         
-        _mochaLocalExport.createRecord = createRecord;
+        _mochaLocalExport/*_mochaLocalExport*/.createRecord = createRecord/*createRecord*/;
         
-        var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
-              derived.prototype = base;
+        var extendPrototype/*extendPrototype*/ = _mochaLocalExport/*_mochaLocalExport*/.extendPrototype = function (derived/*derived*/,base/*base*/) {
+              derived/*derived*/.prototype = base/*base*/;
             },
-            getPrototype = ("getPrototypeOf" in Object)?function (obj) {
-              return Object.getPrototypeOf(obj);
-            } : function (obj) {
-              var ret = {};
+            getPrototype/*getPrototype*/ = ("getPrototypeOf" in Object)?function (obj/*obj*/) {
+              return Object.getPrototypeOf(obj/*obj*/);
+            } : function (obj/*obj*/) {
+              var ret/*ret*/ = {};
               
-              for (var i in obj){
+              for (var i/*i*/ in obj/*obj*/){
                 
-                !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
-              };
-              return ret;
+                !obj/*obj*/.hasOwnProperty(i/*i*/) && (ret/*ret*/[i/*i*/] = obj/*obj*/[i/*i*/]);
+              }
+              return ret/*ret*/;
             },
-            extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
-              if (typeof base === 'function'){
+            extendClass/*extendClass*/ = _mochaLocalExport/*_mochaLocalExport*/.extendClass = (Runtime/*Runtime*/.hasProto)?function (derived/*derived*/,base/*base*/) {
+              if (typeof base/*base*/ === 'function'){
                 
-                derived.prototype.__proto__ = base.prototype;
+                derived/*derived*/.prototype.__proto__ = base/*base*/.prototype;
                 
-                for (var i in base){
-                  derived[i] = base[i];
-                };
+                for (var i/*i*/ in base/*base*/){
+                  derived/*derived*/[i/*i*/] = base/*base*/[i/*i*/];
+                }
+                
               } else {
-                derived.prototype.__proto__ = base.__proto__;
-              };
-            } : function (derived,base) {
-              var baseType = typeof base;
+                derived/*derived*/.prototype.__proto__ = base/*base*/.__proto__;
+              }
               
-              if (baseType === "function"){
+            } : function (derived/*derived*/,base/*base*/) {
+              var baseType/*baseType*/ = typeof base/*base*/;
+              
+              if (baseType/*baseType*/ === "function"){
                 
-                var inherit = function (){};
+                var inherit/*inherit*/ = function (){};
                 
-                inherit.prototype = base.prototype;
+                inherit/*inherit*/.prototype = base/*base*/.prototype;
                 
-                derived.prototype = new inherit;
+                derived/*derived*/.prototype = new inherit/*inherit*/;
                 
-                for (var i in base){
-                  derived[i] = base[i];
-                };
+                for (var i/*i*/ in base/*base*/){
+                  derived/*derived*/[i/*i*/] = base/*base*/[i/*i*/];
+                }
+                
               } else {
                 
-                var inherit = function (){},
-                    proto = getPrototype(base);
+                var inherit/*inherit*/ = function (){},
+                    proto/*proto*/ = getPrototype/*getPrototype*/(base/*base*/);
                 
-                inherit.prototype = proto;
+                inherit/*inherit*/.prototype = proto/*proto*/;
                 
-                derived.prototype = new inherit;
-              };
+                derived/*derived*/.prototype = new inherit/*inherit*/;
+              }
+              
             },
-            __ref_iterator__ = _mochaLocalExport.__ref_iterator__ = "__mocha_iterator_special_key__";
+            __ref_iterator__/*__ref_iterator__*/ = _mochaLocalExport/*_mochaLocalExport*/.__ref_iterator__ = "__mocha_iterator_special_key__";
         
-        _mochaLocalExport.throwStopIteration = throwStopIteration;
+        _mochaLocalExport/*_mochaLocalExport*/.throwStopIteration = throwStopIteration/*throwStopIteration*/;
         
-        _mochaLocalExport.isGenerator = isGenerator;
+        _mochaLocalExport/*_mochaLocalExport*/.isGenerator = isGenerator/*isGenerator*/;
         
-        _mochaLocalExport.getIterator = getIterator;
+        _mochaLocalExport/*_mochaLocalExport*/.getIterator = getIterator/*getIterator*/;
         
-        _mochaLocalExport.hasIterator = hasIterator;
+        _mochaLocalExport/*_mochaLocalExport*/.hasIterator = hasIterator/*hasIterator*/;
         
-        var rstopIteration = /StopIteration/;
+        var rstopIteration/*rstopIteration*/ = /StopIteration/;
         
-        _mochaLocalExport.isStopIteration = isStopIteration;
+        _mochaLocalExport/*_mochaLocalExport*/.isStopIteration = isStopIteration/*isStopIteration*/;
         
-        var privateRecord,
-            createPrivateRecord,
-            getPrivateRecord;
+        var privateRecord/*privateRecord*/,
+            createPrivateRecord/*createPrivateRecord*/,
+            getPrivateRecord/*getPrivateRecord*/;
         
         if ("WeakMap" in window){
           
-          privateRecord = new WeakMap();
+          privateRecord/*privateRecord*/ = new WeakMap();
           
-          createPrivateRecord = function (self,privateHolder) {
-            var holder = new privateHolder;
+          createPrivateRecord/*createPrivateRecord*/ = function (self,privateHolder/*privateHolder*/) {
+            var holder/*holder*/ = new privateHolder/*privateHolder*/;
             
-            createUnenumProp(holder.constructor,"__is_private__",1);
+            createUnenumProp/*createUnenumProp*/(holder/*holder*/.constructor,"__is_private__",1);
             
-            privateRecord.set(self,holder);
+            privateRecord/*privateRecord*/.set(self,holder/*holder*/);
           };
           
-          getPrivateRecord = function (self) {
-            if (privateRecord.has(self)){
-              return privateRecord.get(self);
+          getPrivateRecord/*getPrivateRecord*/ = function (self) {
+            if (privateRecord/*privateRecord*/.has(self)){
+              return privateRecord/*privateRecord*/.get(self);
             } else if (self.constructor === "__is_private__"){
               return self;
-            };
+            }
+            
           };
         } else {
           
-          createPrivateRecord = function (self,privateHolder) {
+          createPrivateRecord/*createPrivateRecord*/ = function (self,privateHolder/*privateHolder*/) {
             if (!self.__typeid__){
               
-              var holder = new privateHolder;
+              var holder/*holder*/ = new privateHolder/*privateHolder*/;
               
-              createUnenumProp(holder.constructor,"__is_private__",1);
+              createUnenumProp/*createUnenumProp*/(holder/*holder*/.constructor,"__is_private__",1);
               
-              createUnenumProp(self,"__private__",holder);
-            };
+              createUnenumProp/*createUnenumProp*/(self,"__private__",holder/*holder*/);
+            }
+            
           };
           
-          getPrivateRecord = function (self) {
+          getPrivateRecord/*getPrivateRecord*/ = function (self) {
             if (self.__private__){
               return self.__private__;
             } else if (self.constructor === "__is_private__"){
               return self;
-            };
+            }
+            
           };
-        };
+        }
         
-        _mochaLocalExport.getPrivateRecord = getPrivateRecord;
+        _mochaLocalExport/*_mochaLocalExport*/.getPrivateRecord = getPrivateRecord/*getPrivateRecord*/;
         
-        _mochaLocalExport.initializeClass = initializeClass;
+        _mochaLocalExport/*_mochaLocalExport*/.initializeClass = initializeClass/*initializeClass*/;
         
-        _mochaLocalExport.getSuper = getSuper;
+        _mochaLocalExport/*_mochaLocalExport*/.getSuper = getSuper/*getSuper*/;
         
-        _mochaLocalExport.traitMixin = traitMixin;
+        _mochaLocalExport/*_mochaLocalExport*/.traitMixin = traitMixin/*traitMixin*/;
         
-        _mochaLocalExport.classMixin = classMixin;
+        _mochaLocalExport/*_mochaLocalExport*/.classMixin = classMixin/*classMixin*/;
         
-        _mochaLocalExport.checkRequirements = checkRequirements;
+        _mochaLocalExport/*_mochaLocalExport*/.checkRequirements = checkRequirements/*checkRequirements*/;
         
         !function () {
-          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
-                console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line)
-              } : function (expect,exp,str,line,filename) {
-                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+          var assert/*assert*/ = _mochaLocalExport/*_mochaLocalExport*/.assert = (console && console.assert)?function (expect/*expect*/,exp/*exp*/,str/*str*/,line/*line*/,filename/*filename*/) {
+                return console.assert(expect/*expect*/ === exp/*exp*/,"assertion failed : "+str/*str*/+"\nexpect "+expect/*expect*/+" but got "+exp/*exp*/+"\nin file "+filename/*filename*/+" at : "+line/*line*/);
+              } : function (expect/*expect*/,exp/*exp*/,str/*str*/,line/*line*/,filename/*filename*/) {
+                expect/*expect*/ !== exp/*exp*/ && Runtime/*Runtime*/.throwException("assertion failed : "+str/*str*/+"\nexpect "+expect/*expect*/+" but got "+exp/*exp*/+"\nin file "+filename/*filename*/+" at : "+line/*line*/);
               };
         }.call(this);
-        return _mochaLocalExport;
+        return _mochaLocalExport/*_mochaLocalExport*/;
       }();
   
   !("StopIteration" in window) && (window.StopIteration =  {
@@ -780,40 +826,40 @@
     }
   });
   
-  function Tuple() {
-    var args = Runtime.toArray(arguments,1),
-        ret = {};
+  function Tuple/*Tuple*/() {
+    var args/*args*/ = Runtime/*Runtime*/.toArray(arguments,0),
+        ret/*ret*/ = {};
     
-    ret.length = 0;
+    ret/*ret*/.length = 0;
     
-    [].push.apply(ret,args);
+    [].push.apply(ret/*ret*/,args/*args*/);
     
-    Runtime.createTuple(ret,arguments.length);
-    return ret;
+    Runtime/*Runtime*/.createTuple(ret/*ret*/,arguments.length);
+    return ret/*ret*/;
   }
-  function Record(member) {
-    return Runtime.createRecord(member);
+  function Record/*Record*/(member/*member*/) {
+    return Runtime/*Runtime*/.createRecord(member/*member*/);
   }
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/Users/aono_taketoshi/github/mocha/src/test/js/262/expression_test.js",
+      var __FILE__ = "1653259312-expression_test.js",
           __LINE__ = 0;
-      function primaryTest() {
+      function primaryTest/*primaryTest*/() {
         try {
           __LINE__ = 342;
-          var array = [,,,];
+          var array/*array*/ = [,,,];
           
           __LINE__ = 343;
-          Runtime.assert(true,array.length === 3,"array.length === 3",343,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,array/*array*/.length === 3,"array.length === 3",343,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function expressionTest() {
+      function expressionTest/*expressionTest*/() {
         try {
           __LINE__ = 311;
-          var exp = function () {
+          var exp/*exp*/ = function () {
                 try {
                   __LINE__ = 312;
                   return 1;
@@ -823,46 +869,46 @@
               }();
           
           __LINE__ = 314;
-          Runtime.assert(true,exp === 1,"exp === 1",314,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,exp/*exp*/ === 1,"exp === 1",314,'expression_test.js');
           
           __LINE__ = 316;
-          var a,
-              b,
-              c;
+          var a/*a*/,
+              b/*b*/,
+              c/*c*/;
           
           __LINE__ = 317;
-          exp = (a = 0, b = 1, c = 2);
+          exp/*exp*/ = (a/*a*/ = 0, b/*b*/ = 1, c/*c*/ = 2);
           
           __LINE__ = 318;
-          Runtime.assert(true,a === 0,"a === 0",318,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,a/*a*/ === 0,"a === 0",318,'expression_test.js');
           
           __LINE__ = 319;
-          Runtime.assert(true,b === 1,"b === 1",319,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,b/*b*/ === 1,"b === 1",319,'expression_test.js');
           
           __LINE__ = 320;
-          Runtime.assert(true,c === 2,"c === 2",320,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,c/*c*/ === 2,"c === 2",320,'expression_test.js');
           
           __LINE__ = 321;
-          Runtime.assert(true,exp === 2,"exp === 2",321,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,exp/*exp*/ === 2,"exp === 2",321,'expression_test.js');
           
           __LINE__ = 323;
           !function () {
             try {
               __LINE__ = 324;
-              exp = 10;
+              exp/*exp*/ = 10;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 327;
-          Runtime.assert(true,exp === 10,"exp === 10",327,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,exp/*exp*/ === 10,"exp === 10",327,'expression_test.js');
           
           __LINE__ = 329;
-          !function (a,b) {
+          !function (a/*a*/,b/*b*/) {
             try {
               __LINE__ = 330;
-              exp = a+b;
+              exp/*exp*/ = a/*a*/+b/*b*/;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
@@ -883,28 +929,28 @@
           }());
           
           __LINE__ = 333;
-          Runtime.assert(true,exp === 300,"exp === 300",333,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,exp/*exp*/ === 300,"exp === 300",333,'expression_test.js');
           
           __LINE__ = 335;
           !function () {
             try {
               __LINE__ = 336;
-              exp = 1;
+              exp/*exp*/ = 1;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
           __LINE__ = 338;
-          Runtime.assert(true,exp === 1,"exp === 1",338,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,exp/*exp*/ === 1,"exp === 1",338,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function memberExpressionTest() {
+      function memberExpressionTest/*memberExpressionTest*/() {
         try {
           __LINE__ = 295;
-          var test =  {
+          var test/*test*/ =  {
                 test2 :  {
                   "@test" :  {
                     0 :  {
@@ -929,439 +975,439 @@
               };
           
           __LINE__ = 306;
-          Runtime.assert(true,test["test2"]["@test"]["0"]["1"]()() === 1,"test[\"test2\"][\"@test\"][\"0\"][\"1\"]()() === 1",306,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,test/*test*/["test2"]["@test"]["0"]["1"]()() === 1,"test[\"test2\"][\"@test\"][\"0\"][\"1\"]()() === 1",306,'expression_test.js');
           
           __LINE__ = 307;
-          Runtime.assert(true,test.test2["@test"][0]["1"]()() === 1,"test.test2[\"@test\"][0][\"1\"]()() === 1",307,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,test/*test*/.test2["@test"][0]["1"]()() === 1,"test.test2[\"@test\"][0][\"1\"]()() === 1",307,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function unaryExpressionTest() {
+      function unaryExpressionTest/*unaryExpressionTest*/() {
         try {
           __LINE__ = 275;
-          var strNum = "1",
-              ret = +strNum;
+          var strNum/*strNum*/ = "1",
+              ret/*ret*/ = +strNum/*strNum*/;
           
           __LINE__ = 277;
-          Runtime.assert(true,ret === 1,"ret === 1",277,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 1,"ret === 1",277,'expression_test.js');
           
           __LINE__ = 279;
-          ret = -strNum;
+          ret/*ret*/ = -strNum/*strNum*/;
           
           __LINE__ = 280;
-          Runtime.assert(true,ret === -1,"ret === -1",280,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === -1,"ret === -1",280,'expression_test.js');
           
           __LINE__ = 282;
-          var num = -5;
+          var num/*num*/ = -5;
           
           __LINE__ = 283;
-          ret = ~num;
+          ret/*ret*/ = ~num/*num*/;
           
           __LINE__ = 284;
-          Runtime.assert(true,ret === 4,"ret === 4",284,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 4,"ret === 4",284,'expression_test.js');
           
           __LINE__ = 286;
-          var flg = true;
+          var flg/*flg*/ = true;
           
           __LINE__ = 287;
-          ret = !flg;
+          ret/*ret*/ = !flg/*flg*/;
           
           __LINE__ = 288;
-          Runtime.assert(true,ret === false,"ret === false",288,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === false,"ret === false",288,'expression_test.js');
           
           __LINE__ = 290;
-          ret = !!flg;
+          ret/*ret*/ = !!flg/*flg*/;
           
           __LINE__ = 291;
-          Runtime.assert(true,ret === true,"ret === true",291,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === true,"ret === true",291,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function postfixExpressionTest() {
+      function postfixExpressionTest/*postfixExpressionTest*/() {
         try {
           __LINE__ = 249;
-          var add = 0;
+          var add/*add*/ = 0;
           
           __LINE__ = 250;
-          add ++ ;
+          add/*add*/ ++ ;
           
           __LINE__ = 251;
-          Runtime.assert(true,add === 1,"add === 1",251,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,add/*add*/ === 1,"add === 1",251,'expression_test.js');
           
           __LINE__ = 253;
-          var sub = 1;
+          var sub/*sub*/ = 1;
           
           __LINE__ = 254;
-          sub -- ;
+          sub/*sub*/ -- ;
           
           __LINE__ = 255;
-          Runtime.assert(true,sub === 0,"sub === 0",255,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,sub/*sub*/ === 0,"sub === 0",255,'expression_test.js');
           
           __LINE__ = 257;
-          add = 0;
+          add/*add*/ = 0;
           
           __LINE__ = 258;
-          sub = add;
+          sub/*sub*/ = add/*add*/;
           
           __LINE__ = 259;
-           ++ sub;
+           ++ sub/*sub*/;
           
           __LINE__ = 260;
-          Runtime.assert(true,sub === 1,"sub === 1",260,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,sub/*sub*/ === 1,"sub === 1",260,'expression_test.js');
           
           __LINE__ = 262;
-          add = 1;
+          add/*add*/ = 1;
           
           __LINE__ = 263;
-          sub = add;
+          sub/*sub*/ = add/*add*/;
           
           __LINE__ = 264;
-           -- sub;
+           -- sub/*sub*/;
           
           __LINE__ = 265;
-          Runtime.assert(true,sub === 0,"sub === 0",265,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,sub/*sub*/ === 0,"sub === 0",265,'expression_test.js');
           
           __LINE__ = 267;
-          sub = 1;
+          sub/*sub*/ = 1;
           
           __LINE__ = 268;
-          sub -- ;
+          sub/*sub*/ -- ;
           
           __LINE__ = 269;
-          add = sub;
+          add/*add*/ = sub/*sub*/;
           
           __LINE__ = 270;
-          Runtime.assert(true,add === 0,"add === 0",270,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,add/*add*/ === 0,"add === 0",270,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function binaryExpressionTest() {
+      function binaryExpressionTest/*binaryExpressionTest*/() {
         try {
           __LINE__ = 83;
-          var item = 100,
-              trueValue = true,
-              falseValue = false,
-              val = 0;
+          var item/*item*/ = 100,
+              trueValue/*trueValue*/ = true,
+              falseValue/*falseValue*/ = false,
+              val/*val*/ = 0;
           
           __LINE__ = 88;
-          item && trueValue && !falseValue && (val = 1);
+          item/*item*/ && trueValue/*trueValue*/ && !falseValue/*falseValue*/ && (val/*val*/ = 1);
           
           __LINE__ = 90;
-          Runtime.assert(true,val === 1,"val === 1",90,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,val/*val*/ === 1,"val === 1",90,'expression_test.js');
           
           __LINE__ = 92;
-          ((item && trueValue) || falseValue) && (val = 2);
+          ((item/*item*/ && trueValue/*trueValue*/) || falseValue/*falseValue*/) && (val/*val*/ = 2);
           
           __LINE__ = 94;
-          Runtime.assert(true,val === 2,"val === 2",94,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,val/*val*/ === 2,"val === 2",94,'expression_test.js');
           
           __LINE__ = 96;
-          ((item && falseValue) || !trueValue) && (val = 3);
+          ((item/*item*/ && falseValue/*falseValue*/) || !trueValue/*trueValue*/) && (val/*val*/ = 3);
           
           __LINE__ = 98;
-          Runtime.assert(false,val === 3,"val === 3",98,'expression_test.js');
+          Runtime/*Runtime*/.assert(false,val/*val*/ === 3,"val === 3",98,'expression_test.js');
           
           __LINE__ = 100;
-          var changeVal = function (value) {
+          var changeVal/*changeVal*/ = function (value/*value*/) {
                 try {
                   __LINE__ = 101;
-                  val = value;
+                  val/*val*/ = value/*value*/;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
           
           __LINE__ = 104;
-          (item) && (trueValue) && (!falseValue) && (changeVal(4));
+          (item/*item*/) && (trueValue/*trueValue*/) && (!falseValue/*falseValue*/) && (changeVal/*changeVal*/(4));
           
           __LINE__ = 105;
-          Runtime.assert(true,val === 4,"val === 4",105,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,val/*val*/ === 4,"val === 4",105,'expression_test.js');
           
           __LINE__ = 107;
-          var eq = 0,
-              eqVal = 0;
+          var eq/*eq*/ = 0,
+              eqVal/*eqVal*/ = 0;
           
           __LINE__ = 110;
-          eq == 0 && (eqVal = 1);
+          eq/*eq*/ == 0 && (eqVal/*eqVal*/ = 1);
           
           __LINE__ = 112;
-          Runtime.assert(true,eqVal === 1,"eqVal === 1",112,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,eqVal/*eqVal*/ === 1,"eqVal === 1",112,'expression_test.js');
           
           __LINE__ = 115;
-          eq === 0 && (eqVal = 2);
+          eq/*eq*/ === 0 && (eqVal/*eqVal*/ = 2);
           
           __LINE__ = 117;
-          Runtime.assert(true,eqVal === 2,"eqVal === 2",117,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,eqVal/*eqVal*/ === 2,"eqVal === 2",117,'expression_test.js');
           
           __LINE__ = 119;
-          var bit = 1,
-              ret = 0;
+          var bit/*bit*/ = 1,
+              ret/*ret*/ = 0;
           
           __LINE__ = 121;
-          ret = bit << 1;
+          ret/*ret*/ = bit/*bit*/ << 1;
           
           __LINE__ = 122;
-          Runtime.assert(true,ret === 2,"ret === 2",122,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 2,"ret === 2",122,'expression_test.js');
           
           __LINE__ = 123;
-          ret = bit >> 1;
+          ret/*ret*/ = bit/*bit*/ >> 1;
           
           __LINE__ = 124;
-          Runtime.assert(true,ret === 0,"ret === 0",124,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 0,"ret === 0",124,'expression_test.js');
           
           __LINE__ = 125;
-          ret = bit|2;
+          ret/*ret*/ = bit/*bit*/|2;
           
           __LINE__ = 126;
-          Runtime.assert(true,ret === 3,"ret === 3",126,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 3,"ret === 3",126,'expression_test.js');
           
           __LINE__ = 128;
-          bit = 1;
+          bit/*bit*/ = 1;
           
           __LINE__ = 129;
-          bit <<= 1;
+          bit/*bit*/ <<= 1;
           
           __LINE__ = 130;
-          Runtime.assert(true,bit === 2,"bit === 2",130,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,bit/*bit*/ === 2,"bit === 2",130,'expression_test.js');
           
           __LINE__ = 131;
-          bit = 1;
+          bit/*bit*/ = 1;
           
           __LINE__ = 132;
-          bit >>= 1;
+          bit/*bit*/ >>= 1;
           
           __LINE__ = 133;
-          Runtime.assert(true,bit === 0,"bit === 0",133,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,bit/*bit*/ === 0,"bit === 0",133,'expression_test.js');
           
           __LINE__ = 134;
-          bit = 1;
+          bit/*bit*/ = 1;
           
           __LINE__ = 135;
-          bit |= 2;
+          bit/*bit*/ |= 2;
           
           __LINE__ = 136;
-          Runtime.assert(true,bit === 3,"bit === 3",136,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,bit/*bit*/ === 3,"bit === 3",136,'expression_test.js');
           
           __LINE__ = 138;
-          bit = 10;
+          bit/*bit*/ = 10;
           
           __LINE__ = 139;
-          ret = bit >>> 2;
+          ret/*ret*/ = bit/*bit*/ >>> 2;
           
           __LINE__ = 140;
-          Runtime.assert(true,ret === 2,"ret === 2",140,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 2,"ret === 2",140,'expression_test.js');
           
           __LINE__ = 141;
-          bit = 10;
+          bit/*bit*/ = 10;
           
           __LINE__ = 142;
-          bit >>>= 2;
+          bit/*bit*/ >>>= 2;
           
           __LINE__ = 143;
-          Runtime.assert(true,bit === 2,"bit === 2",143,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,bit/*bit*/ === 2,"bit === 2",143,'expression_test.js');
           
           __LINE__ = 145;
-          bit = 3;
+          bit/*bit*/ = 3;
           
           __LINE__ = 146;
-          ret = bit&1;
+          ret/*ret*/ = bit/*bit*/&1;
           
           __LINE__ = 147;
-          Runtime.assert(true,ret === 1,"ret === 1",147,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 1,"ret === 1",147,'expression_test.js');
           
           __LINE__ = 148;
-          bit &= 1;
+          bit/*bit*/ &= 1;
           
           __LINE__ = 149;
-          Runtime.assert(true,bit === 1,"bit === 1",149,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,bit/*bit*/ === 1,"bit === 1",149,'expression_test.js');
           
           __LINE__ = 151;
-          bit = 2;
+          bit/*bit*/ = 2;
           
           __LINE__ = 152;
-          ret = bit^1;
+          ret/*ret*/ = bit/*bit*/^1;
           
           __LINE__ = 153;
-          Runtime.assert(true,ret === 3,"ret === 3",153,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 3,"ret === 3",153,'expression_test.js');
           
           __LINE__ = 154;
-          bit = 2;
+          bit/*bit*/ = 2;
           
           __LINE__ = 155;
-          bit ^= 1;
+          bit/*bit*/ ^= 1;
           
           __LINE__ = 156;
-          Runtime.assert(true,bit === 3,"bit === 3",156,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,bit/*bit*/ === 3,"bit === 3",156,'expression_test.js');
           
           __LINE__ = 158;
-          var lt = 0,
-              gt = 1,
-              cmpVal = 0;
+          var lt/*lt*/ = 0,
+              gt/*gt*/ = 1,
+              cmpVal/*cmpVal*/ = 0;
           
           __LINE__ = 163;
-          lt>gt && (cmpVal = 1);
+          lt/*lt*/>gt/*gt*/ && (cmpVal/*cmpVal*/ = 1);
           
           __LINE__ = 165;
-          Runtime.assert(true,cmpVal === 0,"cmpVal === 0",165,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,cmpVal/*cmpVal*/ === 0,"cmpVal === 0",165,'expression_test.js');
           
           __LINE__ = 167;
-          cmpVal = 0;
+          cmpVal/*cmpVal*/ = 0;
           
           __LINE__ = 169;
-          lt<gt && (cmpVal = 1);
+          lt/*lt*/<gt/*gt*/ && (cmpVal/*cmpVal*/ = 1);
           
           __LINE__ = 171;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",171,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,cmpVal/*cmpVal*/ === 1,"cmpVal === 1",171,'expression_test.js');
           
           __LINE__ = 173;
-          cmpVal = 0;
+          cmpVal/*cmpVal*/ = 0;
           
           __LINE__ = 175;
-          lt <= gt && (cmpVal = 1);
+          lt/*lt*/ <= gt/*gt*/ && (cmpVal/*cmpVal*/ = 1);
           
           __LINE__ = 177;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",177,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,cmpVal/*cmpVal*/ === 1,"cmpVal === 1",177,'expression_test.js');
           
           __LINE__ = 179;
-          cmpVal = 0;
+          cmpVal/*cmpVal*/ = 0;
           
           __LINE__ = 181;
-          lt >= gt && (cmpVal = 1);
+          lt/*lt*/ >= gt/*gt*/ && (cmpVal/*cmpVal*/ = 1);
           
           __LINE__ = 183;
-          Runtime.assert(false,cmpVal === 1,"cmpVal === 1",183,'expression_test.js');
+          Runtime/*Runtime*/.assert(false,cmpVal/*cmpVal*/ === 1,"cmpVal === 1",183,'expression_test.js');
           
           __LINE__ = 185;
-          cmpVal = 0;
+          cmpVal/*cmpVal*/ = 0;
           
           __LINE__ = 186;
-          lt = 1;
+          lt/*lt*/ = 1;
           
           __LINE__ = 188;
-          lt <= gt && (cmpVal = 1);
+          lt/*lt*/ <= gt/*gt*/ && (cmpVal/*cmpVal*/ = 1);
           
           __LINE__ = 190;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",190,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,cmpVal/*cmpVal*/ === 1,"cmpVal === 1",190,'expression_test.js');
           
           __LINE__ = 192;
-          cmpVal = 1;
+          cmpVal/*cmpVal*/ = 1;
           
           __LINE__ = 194;
-          lt >= gt && (cmpVal = 1);
+          lt/*lt*/ >= gt/*gt*/ && (cmpVal/*cmpVal*/ = 1);
           
           __LINE__ = 196;
-          Runtime.assert(true,cmpVal === 1,"cmpVal === 1",196,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,cmpVal/*cmpVal*/ === 1,"cmpVal === 1",196,'expression_test.js');
           
           __LINE__ = 198;
-          var pl = 0;
+          var pl/*pl*/ = 0;
           
           __LINE__ = 199;
-          ret = pl+1;
+          ret/*ret*/ = pl/*pl*/+1;
           
           __LINE__ = 200;
-          Runtime.assert(true,ret === 1,"ret === 1",200,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 1,"ret === 1",200,'expression_test.js');
           
           __LINE__ = 202;
-          var mi = 1;
+          var mi/*mi*/ = 1;
           
           __LINE__ = 203;
-          ret = mi-1;
+          ret/*ret*/ = mi/*mi*/-1;
           
           __LINE__ = 204;
-          Runtime.assert(true,ret === 0,"ret === 0",204,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 0,"ret === 0",204,'expression_test.js');
           
           __LINE__ = 206;
-          var mul = 1;
+          var mul/*mul*/ = 1;
           
           __LINE__ = 207;
-          ret = mul*2;
+          ret/*ret*/ = mul/*mul*/*2;
           
           __LINE__ = 208;
-          Runtime.assert(true,ret === 2,"ret === 2",208,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 2,"ret === 2",208,'expression_test.js');
           
           __LINE__ = 210;
-          var div = 2;
+          var div/*div*/ = 2;
           
           __LINE__ = 211;
-          ret = div/2;
+          ret/*ret*/ = div/*div*//2;
           
           __LINE__ = 212;
-          Runtime.assert(true,ret === 1,"ret === 1",212,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 1,"ret === 1",212,'expression_test.js');
           
           __LINE__ = 214;
-          var mod = 3;
+          var mod/*mod*/ = 3;
           
           __LINE__ = 215;
-          ret = mod%2;
+          ret/*ret*/ = mod/*mod*/%2;
           
           __LINE__ = 216;
-          Runtime.assert(true,ret === 1,"ret === 1",216,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,ret/*ret*/ === 1,"ret === 1",216,'expression_test.js');
           
           __LINE__ = 218;
-          pl = 0;
+          pl/*pl*/ = 0;
           
           __LINE__ = 219;
-          pl += 1;
+          pl/*pl*/ += 1;
           
           __LINE__ = 220;
-          Runtime.assert(true,pl === 1,"pl === 1",220,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,pl/*pl*/ === 1,"pl === 1",220,'expression_test.js');
           
           __LINE__ = 222;
-          mi = 1;
+          mi/*mi*/ = 1;
           
           __LINE__ = 223;
-          mi -= 1;
+          mi/*mi*/ -= 1;
           
           __LINE__ = 224;
-          Runtime.assert(true,mi === 0,"mi === 0",224,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,mi/*mi*/ === 0,"mi === 0",224,'expression_test.js');
           
           __LINE__ = 226;
-          mul = 1;
+          mul/*mul*/ = 1;
           
           __LINE__ = 227;
-          mul *= 2;
+          mul/*mul*/ *= 2;
           
           __LINE__ = 228;
-          Runtime.assert(true,mul === 2,"mul === 2",228,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,mul/*mul*/ === 2,"mul === 2",228,'expression_test.js');
           
           __LINE__ = 230;
-          div = 2;
+          div/*div*/ = 2;
           
           __LINE__ = 231;
-          div /= 2;
+          div/*div*/ /= 2;
           
           __LINE__ = 232;
-          Runtime.assert(true,div === 1,"div === 1",232,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,div/*div*/ === 1,"div === 1",232,'expression_test.js');
           
           __LINE__ = 234;
-          mod = 3;
+          mod/*mod*/ = 3;
           
           __LINE__ = 235;
-          mod %= 2;
+          mod/*mod*/ %= 2;
           
           __LINE__ = 236;
-          Runtime.assert(true,mod === 1,"mod === 1",236,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,mod/*mod*/ === 1,"mod === 1",236,'expression_test.js');
           
           __LINE__ = 238;
-          var obj =  {
+          var obj/*obj*/ =  {
                 'onmouseenter' : 1,
                 'onmouseleave' : 1
               },
-              testInAnd = 'onmouseenter' in obj && 'onmouseleave' in obj;
+              testInAnd/*testInAnd*/ = 'onmouseenter' in obj/*obj*/ && 'onmouseleave' in obj/*obj*/;
           
           __LINE__ = 245;
-          Runtime.assert(true,testInAnd === true,"testInAnd === true",245,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,testInAnd/*testInAnd*/ === true,"testInAnd === true",245,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function callExpressionTest() {
+      function callExpressionTest/*callExpressionTest*/() {
         try {
           __LINE__ = 63;
-          var highFn = function () {
+          var highFn/*highFn*/ = function () {
                 try {
                   __LINE__ = 64;
                   return function () {
@@ -1385,62 +1431,62 @@
               };
           
           __LINE__ = 70;
-          Runtime.assert(true,highFn()()() === true,"highFn()()() === true",70,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,highFn/*highFn*/()()() === true,"highFn()()() === true",70,'expression_test.js');
           
           __LINE__ = 71;
-          highFn = function () {
+          highFn/*highFn*/ = function () {
             try {
               __LINE__ = 71;
-              return inner1;
+              return inner1/*inner1*/;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
           __LINE__ = 72;
-          var inner1 = function () {
+          var inner1/*inner1*/ = function () {
                 try {
                   __LINE__ = 72;
-                  return inner2;
+                  return inner2/*inner2*/;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               },
-              inner2 = function (){},
-              flg = 1,
-              instance = new ((flg)?highFn : inner1);
+              inner2/*inner2*/ = function (){},
+              flg/*flg*/ = 1,
+              instance/*instance*/ = new ((flg/*flg*/)?highFn/*highFn*/ : inner1/*inner1*/);
           
           __LINE__ = 76;
-          Runtime.assert(true,instance === inner1,"instance === inner1",76,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance/*instance*/ === inner1/*inner1*/,"instance === inner1",76,'expression_test.js');
           
           __LINE__ = 77;
-          var flg2 = 0;
+          var flg2/*flg2*/ = 0;
           
           __LINE__ = 78;
-          instance = new ((flg2)?highFn : inner1);
+          instance/*instance*/ = new ((flg2/*flg2*/)?highFn/*highFn*/ : inner1/*inner1*/);
           
           __LINE__ = 79;
-          Runtime.assert(true,instance === inner2,"instance === inner2",79,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance/*instance*/ === inner2/*inner2*/,"instance === inner2",79,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function objectAndNewTest() {
+      function objectAndNewTest/*objectAndNewTest*/() {
         try {
           __LINE__ = 19;
-          var testObject = {};
+          var testObject/*testObject*/ = {};
           
           __LINE__ = 20;
-          testObject.testProp = {};
+          testObject/*testObject*/.testProp = {};
           
           __LINE__ = 21;
-          testObject.testProp.testProp = {};
+          testObject/*testObject*/.testProp.testProp = {};
           
           __LINE__ = 22;
-          testObject.testProp.testProp.testProp = {};
+          testObject/*testObject*/.testProp.testProp.testProp = {};
           
           __LINE__ = 23;
-          testObject.testFn = function () {
+          testObject/*testObject*/.testFn = function () {
             try {
               __LINE__ = 23;
               return true;
@@ -1450,7 +1496,7 @@
           };
           
           __LINE__ = 24;
-          testObject.testProp.testFn = function () {
+          testObject/*testObject*/.testProp.testFn = function () {
             try {
               __LINE__ = 24;
               return false;
@@ -1460,7 +1506,7 @@
           };
           
           __LINE__ = 25;
-          testObject.testProp.testProp.testFn = function () {
+          testObject/*testObject*/.testProp.testProp.testFn = function () {
             try {
               __LINE__ = 25;
               return 2;
@@ -1470,92 +1516,92 @@
           };
           
           __LINE__ = 27;
-          Runtime.assert(true,testObject.testFn() === true,"testObject.testFn() === true",27,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,testObject/*testObject*/.testFn() === true,"testObject.testFn() === true",27,'expression_test.js');
           
           __LINE__ = 28;
-          Runtime.assert(true,testObject.testProp.testFn() === false,"testObject.testProp.testFn() === false",28,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,testObject/*testObject*/.testProp.testFn() === false,"testObject.testProp.testFn() === false",28,'expression_test.js');
           
           __LINE__ = 29;
-          Runtime.assert(true,testObject.testProp.testProp.testFn() === 2,"testObject.testProp.testProp.testFn() === 2",29,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,testObject/*testObject*/.testProp.testProp.testFn() === 2,"testObject.testProp.testProp.testFn() === 2",29,'expression_test.js');
           
           __LINE__ = 31;
-          var highFn = function () {
+          var highFn/*highFn*/ = function () {
                 try {
                   __LINE__ = 31;
-                  return inner1;
+                  return inner1/*inner1*/;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               },
-              inner1 = function () {
+              inner1/*inner1*/ = function () {
                 try {
                   __LINE__ = 32;
-                  return inner2;
+                  return inner2/*inner2*/;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               },
-              inner2 = function (){},
-              instance = new highFn(),
-              instance2 = new new highFn(),
-              instance3 = new new new highFn();
+              inner2/*inner2*/ = function (){},
+              instance/*instance*/ = new highFn/*highFn*/(),
+              instance2/*instance2*/ = new new highFn/*highFn*/(),
+              instance3/*instance3*/ = new new new highFn/*highFn*/();
           
           __LINE__ = 37;
-          Runtime.assert(true,instance === inner1,"instance === inner1",37,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance/*instance*/ === inner1/*inner1*/,"instance === inner1",37,'expression_test.js');
           
           __LINE__ = 38;
-          Runtime.assert(true,instance2 === inner2,"instance2 === inner2",38,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance2/*instance2*/ === inner2/*inner2*/,"instance2 === inner2",38,'expression_test.js');
           
           __LINE__ = 39;
-          Runtime.assert(true,instance3 instanceof inner2,"instance3 instanceof inner2",39,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance3/*instance3*/ instanceof inner2/*inner2*/,"instance3 instanceof inner2",39,'expression_test.js');
           
           __LINE__ = 41;
-          var fnObj =  {
-                highFn : highFn,
+          var fnObj/*fnObj*/ =  {
+                highFn : highFn/*highFn*/,
                 highFnInner :  {
-                  highFn : highFn
+                  highFn : highFn/*highFn*/
                 }
               },
-              instance4 = new fnObj.highFn(),
-              instance5 = new new fnObj.highFn(),
-              instance6 = new new new fnObj.highFn();
+              instance4/*instance4*/ = new fnObj/*fnObj*/.highFn(),
+              instance5/*instance5*/ = new new fnObj/*fnObj*/.highFn(),
+              instance6/*instance6*/ = new new new fnObj/*fnObj*/.highFn();
           
           __LINE__ = 51;
-          Runtime.assert(true,instance4 === inner1,"instance4 === inner1",51,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance4/*instance4*/ === inner1/*inner1*/,"instance4 === inner1",51,'expression_test.js');
           
           __LINE__ = 52;
-          Runtime.assert(true,instance5 === inner2,"instance5 === inner2",52,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance5/*instance5*/ === inner2/*inner2*/,"instance5 === inner2",52,'expression_test.js');
           
           __LINE__ = 53;
-          Runtime.assert(true,instance6 instanceof inner2,"instance6 instanceof inner2",53,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance6/*instance6*/ instanceof inner2/*inner2*/,"instance6 instanceof inner2",53,'expression_test.js');
           
           __LINE__ = 54;
-          var instance7 = new fnObj.highFnInner.highFn(),
-              instance8 = new new fnObj.highFnInner.highFn(),
-              instance9 = new new new fnObj.highFnInner.highFn();
+          var instance7/*instance7*/ = new fnObj/*fnObj*/.highFnInner.highFn(),
+              instance8/*instance8*/ = new new fnObj/*fnObj*/.highFnInner.highFn(),
+              instance9/*instance9*/ = new new new fnObj/*fnObj*/.highFnInner.highFn();
           
           __LINE__ = 57;
-          Runtime.assert(true,instance7 === inner1,"instance7 === inner1",57,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance7/*instance7*/ === inner1/*inner1*/,"instance7 === inner1",57,'expression_test.js');
           
           __LINE__ = 58;
-          Runtime.assert(true,instance8 === inner2,"instance8 === inner2",58,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance8/*instance8*/ === inner2/*inner2*/,"instance8 === inner2",58,'expression_test.js');
           
           __LINE__ = 59;
-          Runtime.assert(true,instance9 instanceof inner2,"instance9 instanceof inner2",59,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,instance9/*instance9*/ instanceof inner2/*inner2*/,"instance9 instanceof inner2",59,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
-      function parseTest() {
+      function parseTest/*parseTest*/() {
         try {
           __LINE__ = 3;
-          var x = 2.000000;
+          var x/*x*/ = 2.000000;
           
           __LINE__ = 4;
-          Runtime.assert(true,x === 2,"x === 2",4,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,x/*x*/ === 2,"x === 2",4,'expression_test.js');
           
           __LINE__ = 6;
-          x = function () {
+          x/*x*/ = function () {
             try {
               __LINE__ = 7;
               return 2.000000;
@@ -1565,10 +1611,10 @@
           };
           
           __LINE__ = 9;
-          Runtime.assert(true,x() === 2,"x() === 2",9,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,x/*x*/() === 2,"x() === 2",9,'expression_test.js');
           
           __LINE__ = 11;
-          x = function () {
+          x/*x*/ = function () {
             try {
               __LINE__ = 12;
               return /aaa/;
@@ -1578,52 +1624,52 @@
           };
           
           __LINE__ = 14;
-          Runtime.assert(true,Object.prototype.toString.call(x()) === "[object RegExp]","Object.prototype.toString.call(x()) === \"[object RegExp]\"",14,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,Object.prototype.toString.call(x/*x*/()) === "[object RegExp]","Object.prototype.toString.call(x()) === \"[object RegExp]\"",14,'expression_test.js');
           
           __LINE__ = 15;
-          Runtime.assert(true,/aaa/.test("aaa") === true,"/aaa/.test(\"aaa\") === true",15,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,/aaa/.test("aaa") === true,"/aaa/.test(\"aaa\") === true",15,'expression_test.js');
           
           __LINE__ = 16;
-          Runtime.assert(true,.200*10 === 2,".200*10 === 2",16,'expression_test.js');
+          Runtime/*Runtime*/.assert(true,.200*10 === 2,".200*10 === 2",16,'expression_test.js');
         } catch(e){
           Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }
       __LINE__ = 2;
-      _mochaGlobalExport['expression_test.js;1'] = {};
+      _mochaGlobalExport/*_mochaGlobalExport*/['1653259312-expression_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['expression_test.js;1'];
+      var _mochaGlobalAlias/*_mochaGlobalAlias*/ = _mochaGlobalExport/*_mochaGlobalExport*/['1653259312-expression_test.js'];
       
       __LINE__ = 1;
       /aaaa/.test("aaaa");
       
       __LINE__ = 346;
-      parseTest();
+      parseTest/*parseTest*/();
       
       __LINE__ = 347;
-      objectAndNewTest();
+      objectAndNewTest/*objectAndNewTest*/();
       
       __LINE__ = 348;
-      callExpressionTest();
+      callExpressionTest/*callExpressionTest*/();
       
       __LINE__ = 349;
-      binaryExpressionTest();
+      binaryExpressionTest/*binaryExpressionTest*/();
       
       __LINE__ = 350;
-      postfixExpressionTest();
+      postfixExpressionTest/*postfixExpressionTest*/();
       
       __LINE__ = 351;
-      unaryExpressionTest();
+      unaryExpressionTest/*unaryExpressionTest*/();
       
       __LINE__ = 352;
-      memberExpressionTest();
+      memberExpressionTest/*memberExpressionTest*/();
       
       __LINE__ = 353;
-      expressionTest();
+      expressionTest/*expressionTest*/();
       
       __LINE__ = 354;
-      primaryTest();
+      primaryTest/*primaryTest*/();
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

@@ -30,7 +30,11 @@ namespace fs {
 class DirEntry : public memory::Allocated {
   friend class Directory;
  public :
-  DirEntry(const char* path, const char* dir) : name_(path), dir_(dir), next_(0){
+  DirEntry(const char* path, const char* dir, bool is_dir)
+      : is_dir_(is_dir),
+        name_(path),
+        dir_(dir),
+        next_(0){
     full_path_ = dir;
     full_path_ += "/";
     full_path_ += path;
@@ -39,9 +43,12 @@ class DirEntry : public memory::Allocated {
   const char* GetName() const { return name_.c_str(); };
   const char* GetFullPath() const { return full_path_.c_str(); };
   const char* GetDirName() const { return dir_.c_str(); };
+  bool IsDir() const {return is_dir_;}
+  bool IsFile() const {return !is_dir_;}
   void SetNext(DirEntry* ent) { next_ = ent; };
  private :
   DirEntry() : next_(0){}
+  bool is_dir_;
   std::string name_;
   std::string dir_;
   std::string full_path_;
@@ -57,7 +64,8 @@ class Directory {
     const_iterator(const const_iterator&);
     ~const_iterator();
     const const_iterator& operator = (const const_iterator&);
-    const DirEntry* operator*() const;
+    const DirEntry& operator*() const;
+    const DirEntry* operator->() const;
     const_iterator& operator ++();
     bool operator !=(const const_iterator&) const;
    private :

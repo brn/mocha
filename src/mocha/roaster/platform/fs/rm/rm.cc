@@ -29,7 +29,7 @@ bool RemoveDir(const char* path) {
   Directory dir(path);
   Directory::const_iterator it = dir.Entries(true);
   while (it != dir.end()) {
-    bool ret = (::remove((*it)->GetFullPath()) != -1);
+    bool ret = (::remove(it->GetFullPath()) != -1);
     if (!ret) {
       return ret;
     }

@@ -17,7 +17,11 @@ const Directory::const_iterator& Directory::const_iterator::operator = (const Di
   return (*this);
 }
 
-const DirEntry* Directory::const_iterator::operator*() const {
+const DirEntry& Directory::const_iterator::operator*() const {
+  return (*entry_);
+}
+
+const DirEntry* Directory::const_iterator::operator->() const {
   return entry_;
 }
 

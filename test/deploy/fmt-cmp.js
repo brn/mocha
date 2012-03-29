@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'./mocha_runtime.js');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'..///Users/aono_taketoshi/github/mocha/mocha/module/runtime/runtime.js');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -781,7 +781,7 @@
   });
   
   function Tuple() {
-    var args = Runtime.toArray(arguments,1),
+    var args = Runtime.toArray(arguments,0),
         ret = {};
     
     ret.length = 0;
@@ -800,10 +800,10 @@
       var __FILE__ = "/Users/aono_taketoshi/github/mocha/test/mains/fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['./fmt.js'] = {};
+      _mochaGlobalExport['855143943-fmt.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['./fmt.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['855143943-fmt.js'];
       
       __LINE__ = 2;
       !function () {

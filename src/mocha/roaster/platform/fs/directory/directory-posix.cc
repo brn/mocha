@@ -60,19 +60,20 @@ class DirFinder {
          << result_->d_name;
       std::string fullpath = st.str();
       Stat stat(fullpath.c_str());
+      bool is_dir = false;
       if (stat.IsDir()) {
         if (recursive_) {
           sub.push_back(fullpath);
         }
-      } else {
-        DirEntry* entry = new(pool_) DirEntry(result_->d_name, path_);
-        if (first_ == 0) {
-          first_ = entry;
-        } else {
-          current_->SetNext(entry);
-        }
-        current_ = entry;
+        is_dir = true;
       }
+      DirEntry* entry = new(pool_) DirEntry(result_->d_name, path_, is_dir);
+      if (first_ == 0) {
+        first_ = entry;
+      } else {
+        current_->SetNext(entry);
+      }
+      current_ = entry;
     }
     closedir(dir_);
     FindSubDir(sub);

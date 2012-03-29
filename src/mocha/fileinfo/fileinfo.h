@@ -52,6 +52,7 @@ class FileInfoMap : private Static {
   static FileInfo* UnsafeGet(const char* filename);
   static void SafeSet(const char* filename);
   static FileInfo* SafeGet(const char* filename);
+  static void Reset();
  private :
   static os::Mutex mutex_;
   static FileInfoHandleMap resources_;

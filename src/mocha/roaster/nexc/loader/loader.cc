@@ -58,7 +58,11 @@ void Loader::LoadFile(const char* path) {
 }
 
 bool Loader::IsRuntime(const char* path) {
+#ifndef PACKING_RUNTIME
   return (strcmp(path, "runtime") == 0)? false : JSRuntime::Has(path);
+#else
+  return strcmp(path, "runtime") == 0;
+#endif
 }
 
 void Loader::HandleError(const char* path, int type) {

@@ -509,7 +509,9 @@ VISITOR_IMPL(AssertStmt) {
                                             Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
   Literal* string_expression = builder()->CreateNameNode(st, Token::JS_STRING_LITERAL,
                                                          ast_node->line_number(), Literal::kString);
-  Literal* filename = builder()->CreateNameNode(translator_data_->relative_path(), Token::JS_STRING_LITERAL,
+  std::string buf;
+  os::SPrintf(&buf, "'%s'", translator_data_->filename());
+  Literal* filename = builder()->CreateNameNode(buf.c_str(), Token::JS_STRING_LITERAL,
                                                 ast_node->line_number(), Literal::kString);
   AstNode* arg = builder()->CreateNodeList(5, expect, expression, string_expression, line, filename);
   CallExp* exp = builder()->CreateRuntimeMod(name, ast_node->line_number());

@@ -10,6 +10,7 @@ class Bootstrap : private Static {
  public :
   static void Initialize(int argc, char** argv);
   static const char* GetSelfPath();
+  static char* GetArgv(int num) { return argv_[num]; }
  private :
   static char** argv_;
   static std::string self_path_;

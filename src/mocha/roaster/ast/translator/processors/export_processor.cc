@@ -45,6 +45,7 @@ void ExportProcessor::ProcessFunction(AstNode* node) {
 
 void ExportProcessor::ProcessNodeList(AstNode* node) {
   AstNode* stmt = CreateAssignment(node);
+  stmt->Accept(info_->visitor());
   stmt_->parent_node()->ReplaceChild(stmt_, stmt);
 }
 

@@ -133,6 +133,10 @@ FileInfo* FileInfoMap::SafeGet(const char* filename) {
   return 0;
 }
 
+void FileInfoMap::Reset() {
+  resources_.clear();
+}
+
 os::Mutex FileInfoMap::mutex_;
 FileInfoMap::FileInfoHandleMap FileInfoMap::resources_;
 

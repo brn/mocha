@@ -15,7 +15,7 @@
     }
     function callbackCheck(callback,type) {
       
-      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'..///Users/aono_taketoshi/github/mocha/mocha/module/runtime/runtime.js');
+      Runtime.assert(true,typeof type === "string","typeof type === \"string\"",43,'runtime.js');
       
       typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
     }
@@ -766,7 +766,7 @@
         
         !function () {
           var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
-                console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line)
+                return console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               } : function (expect,exp,str,line,filename) {
                 expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               };
@@ -794,16 +794,153 @@
   function Record(member) {
     return Runtime.createRecord(member);
   }
+  __LINE__ = 2;
+  !function () {
+    try {
+      var __FILE__ = "functions",
+          __LINE__ = 0;
+      __LINE__ = 2;
+      _mochaGlobalExport.functions = {};
+      
+      __LINE__ = 2;
+      var _mochaGlobalAlias = _mochaGlobalExport.functions;
+      
+      __LINE__ = 0;
+      !function () {
+        try {
+          function compose() {
+            try {
+              __LINE__ = 12;
+              var fns = Runtime.toArray(arguments,0);
+              
+              __LINE__ = 14;
+              for (var i = 0,ret,len = fns.length;i<len;i ++ ){
+                
+                __LINE__ = 14;
+                ret = fns[i](ret);
+              };
+              __LINE__ = 16;
+              return ret;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }
+          function memoize(fn) {
+            try {
+              __LINE__ = 8;
+              var memo = undefined;
+              __LINE__ = 10;
+              return function () {
+                try {
+                  __LINE__ = 10;
+                  return (memo === undefined)?memo = fn.apply(this,arguments) : memo;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }.bind(this);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }
+          function once(fn) {
+            try {
+              __LINE__ = 4;
+              var isRun = false;
+              __LINE__ = 4;
+              return function () {
+                try {
+                  __LINE__ = 4;
+                  return (isRun)?fn.apply(this,arguments) : undefined;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }.bind(this);
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }
+          __LINE__ = 0;
+          var _mochaLocalExport = _mochaGlobalAlias;
+          
+          __LINE__ = 2;
+          _mochaLocalExport.once = once;
+          
+          __LINE__ = 8;
+          _mochaLocalExport.memoize = memoize;
+          
+          __LINE__ = 12;
+          _mochaLocalExport.compose = compose;
+          
+          __LINE__ = 20;
+          var equalTo = _mochaLocalExport.equalTo = function (arg1,arg2) {
+                try {
+                  __LINE__ = 20;
+                  return arg1 === arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              greater = _mochaLocalExport.greater = function (arg1,arg2) {
+                try {
+                  __LINE__ = 22;
+                  return arg1>arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              greaterEq = _mochaLocalExport.greaterEq = function (arg1,arg2) {
+                try {
+                  __LINE__ = 24;
+                  return arg1 >= arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              less = _mochaLocalExport.less = function (arg1,arg2) {
+                try {
+                  __LINE__ = 26;
+                  return arg1<arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              lessEq = _mochaLocalExport.lessEq = function (arg1,arg2) {
+                try {
+                  __LINE__ = 28;
+                  return arg1 <= arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              notEqual = _mochaLocalExport.notEqual = function (arg1,arg2) {
+                try {
+                  __LINE__ = 30;
+                  return arg1 !== arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+          __LINE__ = 0;
+          return _mochaLocalExport;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    }
+  }();
+  
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/test/mains/fmt.js",
+      var __FILE__ = "855143943-fmt.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['677331290-fmt.js'] = {};
+      _mochaGlobalExport['855143943-fmt.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['677331290-fmt.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['855143943-fmt.js'];
       
       __LINE__ = 2;
       !function () {
@@ -835,20 +972,43 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "/var/samba/mocha/test/mains/test.js",
+      var __FILE__ = "855143943-test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['677331290-test.js'] = {};
+      _mochaGlobalExport['855143943-test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['677331290-test.js'],
-          _mochaLocalTmp0 = _mochaGlobalExport['677331290-fmt.js'],
-          fmt = _mochaLocalTmp0.fmt,
-          Box = function () {
+      var _mochaGlobalAlias = _mochaGlobalExport['855143943-test.js'],
+          functions = _mochaGlobalExport.functions,
+          _mochaLocalTmp0 = _mochaGlobalExport['855143943-fmt.js'],
+          fmt = _mochaLocalTmp0.fmt;
+      
+      __LINE__ = 3;
+      !function () {
+        try {
+          __LINE__ = 3;
+          var _mochaLocalExport = _mochaGlobalAlias,
+              equalTo = _mochaLocalExport.equalTo = function (arg1,arg2) {
+                try {
+                  __LINE__ = 4;
+                  return arg1 === arg2;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+          __LINE__ = 3;
+          return _mochaLocalExport;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+      
+      __LINE__ = 6;
+      var Box = function () {
             try {
               function constructor() {
                 try {
-                  __LINE__ = 6;
+                  __LINE__ = 8;
                   Runtime.getPrivateRecord(this)._width = 0;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -856,31 +1016,31 @@
               }
               function Box() {
                 try {
-                  __LINE__ = 4;
-                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',4);
+                  __LINE__ = 6;
+                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',6);
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
-              __LINE__ = 4;
+              __LINE__ = 6;
               var _mochaPrivateHolder = function (){};
               
-              __LINE__ = 5;
+              __LINE__ = 7;
               Runtime.createUnenumProp(constructor,"__harmony_class__",1);
               
-              __LINE__ = 8;
+              __LINE__ = 10;
               Box.prototype.width = function () {
                 try {
-                  __LINE__ = 8;
+                  __LINE__ = 10;
                   return Runtime.getPrivateRecord(this)._width;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
-              __LINE__ = 4;
+              __LINE__ = 6;
               Runtime.createUnenumProp(Box.prototype,"constructor",constructor);
-              __LINE__ = 4;
+              __LINE__ = 6;
               return Box;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);

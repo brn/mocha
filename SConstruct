@@ -26,11 +26,11 @@ PLATFORM_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party',
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party/libedit',
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party -Isrc/third_party/v8/include',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party/libedit -Isrc/third_party/v8/include',
         "LD_FLAGS" : "",
-        "LIBS" : ["pthread", "edit" ,"curses"],
-        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a', '/opt/local/lib/libedit.a'],
+        "LIBS" : ["pthread", "curses"],
+        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a', '/opt/local/lib/libedit.a', 'src/third_party/v8/osx/libv8.a'],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
         },
     "win32" : {
@@ -64,7 +64,6 @@ class MochaBuilder :
     def Build(self) :
         self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/mocha/config.h', 'C++', True, HEADER_LIST))
         targets = self.__sources.CreateSourceList()
-        self.__env.VariantDir('.mocha_temp', 'src');
         self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
 
     def __SetExtraHeaders(self, has) :

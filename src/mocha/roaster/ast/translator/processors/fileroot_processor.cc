@@ -24,7 +24,12 @@ void FileRootProcessor::ProcessNode() {
                                                        Token::JS_IDENTIFIER, node()->line_number(), Literal::kIdentifier);
     ObjectLikeLiteral* object_literal = new(pool()) ObjectLikeLiteral(node()->line_number());
     std::string key_str;
+#ifndef PACKING_RUNTIME
     nexc_utils::ManglingName(&key_str, translator_data->filename(), translator_data->compilation_event()->path());
+#else
+    os::SPrintf(&key_str, "'%s'", translator_data->filename());
+    key_str.erase(key_str.size() - 4, 3);
+#endif
     Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
                                                                 
     CallExp* global_export_accessor = builder()->CreateArrayAccessor(global_export, key, node()->line_number());
@@ -36,7 +41,9 @@ void FileRootProcessor::ProcessNode() {
     VariableDeclarationList* decl_list = builder()->CreateVarDeclList(node()->line_number(), 1, init);
     VariableStmt* var_stmt = builder()->CreateVarStmt(decl_list, 3);
     ExpressionStmt* extend_global = builder()->CreateExpStmt(exp, 2);
-    FileRoot* root = new(pool()) FileRoot(node()->filename());
+    key_str.erase(0, 1);
+    key_str.erase(key_str.size() - 1, 1);
+    FileRoot* root = new(pool()) FileRoot(key_str.c_str());
     root->AddChild(stmt);
     fn->InsertBefore(var_stmt);
     fn->InsertBefore(extend_global);

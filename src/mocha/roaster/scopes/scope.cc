@@ -118,7 +118,7 @@ void Scope::Insert (TokenInfo* info, AstNode* ast_node) {
     return;
   }
   SymbolIterator entry = table_.find(ident);
-  if (entry != table_.end()) {
+  if (entry == table_.end()) {
     SymbolEntry entry(info, ast_node);
     table_.insert(TableEntry(ident, entry));
   }
@@ -130,7 +130,7 @@ void Scope::Ref (TokenInfo* info) {
     return;
   }
   RefIterator entry = reference_table_.find(ident);
-  if (entry != reference_table_.end()) {
+  if (entry == reference_table_.end()) {
     reference_table_.insert(RefEntry(ident, info));
   }
 }
@@ -199,10 +199,10 @@ void Scope::SetReferece() {
     RefIterator end = reference_table_.end();
     for (begin = reference_table_.begin(), end != reference_table_.end(); begin != end; ++begin) {
       const char* ident = begin->first.c_str();
-      if (parent->reference_table_.find(ident) != parent->reference_table_.end() &&
-           table_.find(ident) != table_.end()) {
+      /*      if (parent->reference_table_.find(ident) != parent->reference_table_.end() &&
+              table_.find(ident) != table_.end()) {*/
         parent->reference_table_.insert(RefEntry(begin->first, begin->second));
-      }
+        //      }
     }
     parent = parent->parent_;
   }

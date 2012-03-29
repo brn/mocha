@@ -1,6 +1,7 @@
 #ifndef mocha_test_run_h_
 #define mocha_test_run_h_
 #include <string.h>
+#include <mocha/v8wrap/init.h>
 #include <mocha/roaster/roaster.h>
 #include <mocha/roaster/nexl/compilation_result/compilation_result.h>
 #include <mocha/bootstrap/runners/phantom_runner.h>
@@ -36,9 +37,8 @@ void RunJS(const char* dir) {
   os::fs::Directory::const_iterator iterator = directory.Entries(true);
   std::string args;
   while (iterator != directory.end()) {
-    const os::fs::DirEntry* entry = *iterator;
-    const char* fullpath = entry->GetFullPath();
-    if (strstr(fullpath, "-cmp.js") != NULL) {
+    const char* fullpath = iterator->GetFullPath();
+    if (iterator->IsFile() && strstr(fullpath, "-cmp.js") != NULL) {
       args += fullpath;
       args += " ";
     }
@@ -82,10 +82,10 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
   os::fs::Directory directory(CURRENT_DIR"/test/js");
   os::fs::Directory::const_iterator iterator = directory.Entries(true);
   Callback callback;
+  Roaster roaster;
   while (iterator != directory.end()) {
-    const os::fs::DirEntry* entry = *iterator;
-    const char* fullpath = entry->GetFullPath();
-    if (strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
+    const char* fullpath = iterator->GetFullPath();
+    if (iterator->IsFile() && strstr(fullpath, "-cmp.js") == NULL && strstr(fullpath, ".js") != NULL) {
       FileInfoMap::UnsafeSet(fullpath);
       FileInfo* resource = FileInfoMap::UnsafeGet(fullpath);
       CompilationInfoHandle info = resource->compilation_info();
@@ -99,28 +99,26 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
       if (is_compress) {
         info->SetCompress();
       }
-      Roaster roaster;
-      roaster.CompileFileAsync(fullpath, "UTF-8", info.Get(), callback);
+      CompilationResultHandle handle = roaster.CompileFile(fullpath, "UTF-8", info.Get());
+      FileWriter()(handle.Get());
       Callback::max++;
     }
     ++iterator;
   }
-  while (!Callback::is_end) {}
+  FileInfoMap::Reset();
+  //while (!Callback::is_end) {}
 }
 
 void RunTest() {
+  Roaster r;
+  V8Init init;
+  init.Run(Bootstrap::GetArgv(2));
+  /*
   RunTest(true, true, false, CURRENT_DIR"/test/js/out/devel");
   fprintf(stderr, "------------------end devel test------------------\n");
-  RunTest(false, false, true, CURRENT_DIR"/test/js/out/compressed");
+  RunTest(false, true, true, CURRENT_DIR"/test/js/out/compressed");
   fprintf(stderr, "------------------end compress test------------------\n");
-  char *ret = getenv("PHANTOM_INSTALL_DIR");
-  if (!ret) {
-    printf("%s\n", ret);
-    free(ret);
-  } else {
-    printf("phantomjs not installed\n");
-  }
-  RunJS(CURRENT_DIR"/test/js/out");
+  RunJS(CURRENT_DIR"/test/js/out");*/
 }
 
 }}
