@@ -124,7 +124,7 @@ void NormalizePath(const char* path, std::string* buffer) {
           break;
         }
       }
-    } else {
+    } else if (pos){
       int count = 0;
       int matched = 0;
       int spos = pos;
@@ -157,7 +157,7 @@ void NormalizePath(const char* path, std::string* buffer) {
 Path::Path(const char* path) {
   raw_ = path;
   bool success = true;
-  NormalizePath(path, &fullpath_);
+  fullpath_ = path;
   GetAbsolutePath(absolute_path(), &fullpath_, &success);
   if (success) {
     GetDirectoryFromPath(absolute_path(), &directory_);

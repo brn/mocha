@@ -1,9 +1,10 @@
+#include <stdio.h>
 #include <mocha/v8wrap/init.h>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/platform/fs/fs.h>
-namespace mocha {
+#include <mocha/v8wrap/fs/v8_fs.h>
 using namespace v8;
-
+namespace mocha {
 Handle<Value> LoadFile(const v8::Arguments& args) {
   HandleScope scope;
   TryCatch try_catch;
@@ -17,12 +18,16 @@ Handle<Value> LoadFile(const v8::Arguments& args) {
       if (!stat.IsDir() && stat.IsExist()) {
         FILE* fp = os::FOpen(path_info.absolute_path(), "rb");
         if (fp != NULL) {
-          fpos_t fsize = 0;
-          fpos_t fsizeb =  fseek(fp,0,SEEK_END);
-          fgetpos(fp,&fsize);
-          fseek(fp,fsizeb,SEEK_SET);
-          char* script = new char[fsize + 1];
-          fread(script, sizeof(char), fsize, fp);
+          fseek(fp, 0, SEEK_END);
+          int size = ftell(fp);
+          rewind(fp);
+          char* script = new char[size + 1];
+          script[size] = '\0';
+          for (int i = 0; i < size;) {
+            int read = fread(&script[i], 1, size - i, fp);
+            i += read;
+          }
+          fclose(fp);
           Handle<Value> ret = String::New(script);
           delete[] script;
           return ret;
@@ -44,6 +49,18 @@ Handle<Value> LoadFile(const v8::Arguments& args) {
   }
 }
 
+V8Init* V8Init::GetInstance() {
+  int ret = Atomic::CompareAndSwap(&atomic_, 0 , 1);
+  if (ret == 0) {
+    atomic_ = 1;
+    instance_(new V8Init);
+  }
+  return instance_.Get();
+}
+
+AtomicWord V8Init::atomic_ = 0;
+ScopedPtr<V8Init> V8Init::instance_;
+
 void V8Init::SetHelper(Handle<Object> object) {
   Local<FunctionTemplate> load_file = FunctionTemplate::New(LoadFile);
   load_file->SetClassName(String::New("loadFile"));
@@ -56,6 +73,16 @@ void V8Init::SetHelper(Handle<Object> object) {
 V8Init::V8Init()
 : global_(ObjectTemplate::New()) {
   Initialize();
+}
+
+void V8Init::Print(Handle<Value> value) {
+  Context::Scope context_scope(context_);
+  if (!value.IsEmpty() && !value->IsUndefined()) {
+    String::Utf8Value str(value);
+    os::Printf("%s\n", *str);
+  } else if (value->IsUndefined()) {
+    os::Printf("undefined\n");
+  }
 }
 
 Handle<Value> V8Init::Run(const char* source) {
@@ -88,11 +115,47 @@ const char* ToCString(const String::Utf8Value& value) {
   return *value;
 }
 
+
+void V8Init::HandleException(TryCatch* try_catch) {
+  Handle<Message> message = try_catch->Message();
+  String::Utf8Value exception(try_catch->Exception());
+  const char* exception_string = ToCString(exception);
+  if (message.IsEmpty()) {
+    os::Printf("%s\n", exception_string);
+  } else {
+    String::Utf8Value filename(message->GetScriptResourceName());
+    const char* filename_string = ToCString(filename);
+    int linenum = message->GetLineNumber();
+    os::Printf("%s:%i: %s\n", filename_string, linenum, exception_string);
+    // Print line of source code.
+    String::Utf8Value sourceline(message->GetSourceLine());
+    const char* sourceline_string = ToCString(sourceline);
+    os::Printf("%s\n", sourceline_string);
+    // Print wavy underline (GetUnderline is deprecated).
+    int start = message->GetStartColumn();
+    for (int i = 0; i < start; i++) {
+      os::Printf(" ");
+    }
+    int end = message->GetEndColumn();
+    for (int i = start; i < end; i++) {
+      os::Printf("^");
+    }
+    os::Printf("\n");
+    String::Utf8Value stack_trace(try_catch->StackTrace());
+    if (stack_trace.length() > 0) {
+      const char* stack_trace_string = ToCString(stack_trace);
+      os::Printf("%s\n", stack_trace_string);
+    }
+  }
+}
+
+
 Handle<Value> V8Init::DoRun(const char* src, const char* name) {
   Handle<String> source = String::New(src);
   Handle<Value> exception;
   Handle<Value> val;
   v8::TryCatch try_catch;
+  std::string begin = os::fs::Path::current_directory();
   {
     Handle<Script> script = (name == NULL)? Script::Compile(source) : Script::Compile(source, String::New(name));
     if (script.IsEmpty()) {
@@ -104,37 +167,9 @@ Handle<Value> V8Init::DoRun(const char* src, const char* name) {
       }
     }
   }
+  os::fs::Directory::chdir(begin.c_str());
   if (!exception.IsEmpty()) {
-    Handle<Message> message = try_catch.Message();
-    v8::String::Utf8Value exception(try_catch.Exception());
-    const char* exception_string = ToCString(exception);
-    if (message.IsEmpty()) {
-      os::Printf("%s\n", exception_string);
-    } else {
-      String::Utf8Value filename(message->GetScriptResourceName());
-      const char* filename_string = ToCString(filename);
-      int linenum = message->GetLineNumber();
-      os::Printf("%s:%i: %s\n", filename_string, linenum, exception_string);
-      // Print line of source code.
-      String::Utf8Value sourceline(message->GetSourceLine());
-      const char* sourceline_string = ToCString(sourceline);
-      os::Printf("%s\n", sourceline_string);
-      // Print wavy underline (GetUnderline is deprecated).
-      int start = message->GetStartColumn();
-      for (int i = 0; i < start; i++) {
-        os::Printf(" ");
-      }
-      int end = message->GetEndColumn();
-      for (int i = start; i < end; i++) {
-        os::Printf("^");
-      }
-      os::Printf("\n");
-      String::Utf8Value stack_trace(try_catch.StackTrace());
-      if (stack_trace.length() > 0) {
-        const char* stack_trace_string = ToCString(stack_trace);
-        os::Printf("%s\n", stack_trace_string);
-      }
-    }
+    HandleException(&try_catch);
     return Undefined();
   } else {
     return val;
@@ -152,39 +187,48 @@ Handle<Value> Print(const v8::Arguments& args) {
 }
 
 void V8Init::Initialize() {
-  Local<FunctionTemplate> fn_tmpl = FunctionTemplate::New(Print);
+  Local<FunctionTemplate> fn_tmpl = FunctionTemplate::New(mocha::Print);
   fn_tmpl->SetClassName(String::New("print"));
   global_->Set(String::New("print"), fn_tmpl);
   context_ = Context::New(NULL, global_);
   Context::Scope context_scope(context_);
   std::string wrap = "(function(env, cwd){"
       "var loadFile = env.loadFile;"
-      "var guard = {};"
-      "var current_dir = cwd;"
-      "var getcwd = function () {return current_dir};"
       "var include = function (path) {"
-      "if (!(path in guard)) {"
-      "env.exports[path] = {};"
-      "var source = loadFile(path);"
-      "source = '(function(include, loadFile, exports) {' + source + '})';"
-      "env.compile(source, path)(include, loadFile, env.exports[path]);"
-      "guard[path] = env.exports[path];"
-      "return env.exports[path];"
+      "if (path[0] !== '.') {return env.guard[path];}"
+      "var pathInfo = new env.guard.fs.Path(path);"
+      "var stat = new env.guard.fs.Stat(pathInfo.fullpath());"
+      "if (stat.isExist() && stat.isReg() && !(path in env.guard)) {"
+      "env.exports[pathInfo.fullpath()] = {};"
+      "mocha.__file__ = pathInfo.fullpath();"
+      "var source = loadFile(pathInfo.fullpath());"
+      "source = '(function(mocha) {' + source + '})';"
+      "env.guard.fs.Dir.chdir(pathInfo.directory());"
+      "env.compile(source, pathInfo.fullpath())(mocha);"
+      "env.guard[pathInfo.fullpath()] = env.exports[pathInfo.fullpath()];"
+      "return env.exports[pathInfo.fullpath()];"
       "};"
-      "return guard[path];"
+      "return env.guard[pathInfo.fullpath()];"
       "};"
+      "var mocha = {export : function(name, val) {"
+      "env.exports[this.__file__][name] = val;"
+      "}, import : include, loadFile : loadFile, __file__ : ''};"
       "return function (source) {"
-      "source = '(function(include, loadFile, exports) {' + source + '})';"
-      "return env.compile(source)(include, loadFile, env.exports);"
+      "source = '(function(mocha) {' + source + '})';"
+      "mocha.__file__ = 'main';"
+      "return env.compile(source)(mocha);"
       "};"
       "});";
   Handle<Value> fn = DoRun(wrap.c_str());
   Handle<Function> callable = Handle<Function>::Cast(fn);
   Handle<Object> object = Object::New();
   exports_ = Object::New();
+  guard_ = Object::New();
   object->Set(String::New("exports"), exports_);
+  object->Set(String::New("guard"), guard_);
+  Extension<V8FS>();
   SetHelper(object);
-  Handle<Value> args[] = {object, exports_, String::New(os::fs::Path::current_directory())};
+  Handle<Value> args[] = {object, String::New(os::fs::Path::current_directory())};
   Handle<Value> ret = callable->Call(callable, 2, args);
   function_ = Handle<Function>::Cast(ret);
 }

@@ -1,7 +1,7 @@
 
 
-exports.test = function () {
+mocha.export("test", function () {
   return 200;
-}
+});
 
 

@@ -90,8 +90,8 @@ Directory::const_iterator Directory::Entries(bool recursive) {
     return const_iterator(0);
   } else {
     DirEntry* entry;
-    entry = new(&pool_) DirEntry(ffdata.cFileName, dirpath_);
-    Find(&ffdata, &h_find, entry, dirpath_, recursive, &pool_);
+    entry = new(&pool_) DirEntry(ffdata.cFileName, dirpath_.c_str());
+    Find(&ffdata, &h_find, entry, dirpath_.c_str(), recursive, &pool_);
     return const_iterator(entry);
   }
 }

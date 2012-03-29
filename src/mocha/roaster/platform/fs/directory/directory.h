@@ -78,7 +78,7 @@ class Directory {
   static void chdir(const char* path);
   static void chmod(const char* path, int permiss);
  private :
-  const char* dirpath_;
+  std::string dirpath_;
   memory::Pool pool_;
 };
 }

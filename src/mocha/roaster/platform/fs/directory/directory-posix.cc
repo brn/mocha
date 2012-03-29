@@ -113,11 +113,11 @@ class DirFinder {
 };
 
 Directory::const_iterator Directory::Entries(bool recursive) {
-  DIR* dir = opendir(dirpath_);
+  DIR* dir = opendir(dirpath_.c_str());
   if (dir == NULL) {
     return const_iterator(0);
   }
-  DirFinder finder(dirpath_, recursive, dir, &pool_);
+  DirFinder finder(dirpath_.c_str(), recursive, dir, &pool_);
   finder.Find();
   return const_iterator(finder.GetFirst());
 }
