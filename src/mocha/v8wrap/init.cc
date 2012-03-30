@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <mocha/v8wrap/init.h>
+#include <mocha/v8wrap/initjs.h>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/v8wrap/fs/v8_fs.h>
@@ -76,7 +77,6 @@ V8Init::V8Init()
 }
 
 void V8Init::Print(Handle<Value> value) {
-  Context::Scope context_scope(context_);
   if (!value.IsEmpty() && !value->IsUndefined()) {
     String::Utf8Value str(value);
     os::Printf("%s\n", *str);
@@ -151,12 +151,13 @@ void V8Init::HandleException(TryCatch* try_catch) {
 
 
 Handle<Value> V8Init::DoRun(const char* src, const char* name) {
+  os::ScopedLock lock(mutex_);
   Handle<String> source = String::New(src);
   Handle<Value> exception;
   Handle<Value> val;
-  v8::TryCatch try_catch;
   std::string begin = os::fs::Path::current_directory();
   {
+    v8::TryCatch try_catch;
     Handle<Script> script = (name == NULL)? Script::Compile(source) : Script::Compile(source, String::New(name));
     if (script.IsEmpty()) {
       exception = Local<Value>::New(try_catch.Exception());
@@ -166,11 +167,13 @@ Handle<Value> V8Init::DoRun(const char* src, const char* name) {
         exception = Local<Value>::New(try_catch.Exception());
       }
     }
+    if (!exception.IsEmpty()) {
+      HandleException(&try_catch);
+    }
   }
   os::fs::Directory::chdir(begin.c_str());
   if (!exception.IsEmpty()) {
-    HandleException(&try_catch);
-    return Undefined();
+    return ThrowException(exception);
   } else {
     return val;
   }
@@ -192,34 +195,7 @@ void V8Init::Initialize() {
   global_->Set(String::New("print"), fn_tmpl);
   context_ = Context::New(NULL, global_);
   Context::Scope context_scope(context_);
-  std::string wrap = "(function(env, cwd){"
-      "var loadFile = env.loadFile;"
-      "var include = function (path) {"
-      "if (path[0] !== '.') {return env.guard[path];}"
-      "var pathInfo = new env.guard.fs.Path(path);"
-      "var stat = new env.guard.fs.Stat(pathInfo.fullpath());"
-      "if (stat.isExist() && stat.isReg() && !(path in env.guard)) {"
-      "env.exports[pathInfo.fullpath()] = {};"
-      "mocha.__file__ = pathInfo.fullpath();"
-      "var source = loadFile(pathInfo.fullpath());"
-      "source = '(function(mocha) {' + source + '})';"
-      "env.guard.fs.Dir.chdir(pathInfo.directory());"
-      "env.compile(source, pathInfo.fullpath())(mocha);"
-      "env.guard[pathInfo.fullpath()] = env.exports[pathInfo.fullpath()];"
-      "return env.exports[pathInfo.fullpath()];"
-      "};"
-      "return env.guard[pathInfo.fullpath()];"
-      "};"
-      "var mocha = {export : function(name, val) {"
-      "env.exports[this.__file__][name] = val;"
-      "}, import : include, loadFile : loadFile, __file__ : ''};"
-      "return function (source) {"
-      "source = '(function(mocha) {' + source + '})';"
-      "mocha.__file__ = 'main';"
-      "return env.compile(source)(mocha);"
-      "};"
-      "});";
-  Handle<Value> fn = DoRun(wrap.c_str());
+  Handle<Value> fn = DoRun(init_js::initjs);
   Handle<Function> callable = Handle<Function>::Cast(fn);
   Handle<Object> object = Object::New();
   exports_ = Object::New();
@@ -232,5 +208,7 @@ void V8Init::Initialize() {
   Handle<Value> ret = callable->Call(callable, 2, args);
   function_ = Handle<Function>::Cast(ret);
 }
+
+os::Mutex V8Init::mutex_;
 
 }

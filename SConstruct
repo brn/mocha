@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
 import deps
 from platform_utils import Config, platform, platform
 from sources import Sources
+os.system('python tools/runtime.py')
 CURRENT = os.getcwd().replace('\\', '/')
 ROOT = 'src'
 LIB_PREFIX = CURRENT + "/src/third_party/icu"

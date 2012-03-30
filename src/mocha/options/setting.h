@@ -4,7 +4,6 @@
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 class Setting {
@@ -13,6 +12,7 @@ class Setting {
   static Setting* GetInstance();
   const char* GetBasePath();
   const char* GetXMLPath();
+  const char* GetConfigPath();
   const char* GetModulePath();
   const char* GetRuntimePath();
   const char* GetRuntimeFile();

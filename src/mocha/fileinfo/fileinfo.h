@@ -2,8 +2,6 @@
 #define mocha_external_resource_h_
 #include <vector>
 #include <string>
-#include <mocha/roaster/roaster.h>
-#include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/misc/class_traits/static.h>
@@ -12,30 +10,25 @@ namespace mocha {
 namespace memory {
 class Pool;
 }
-typedef SharedPtr<CompilationInfo> CompilationInfoHandle;
 class CompilationInfo;
+typedef SharedPtr<CompilationInfo> CompilationInfoHandle;
 class FileInfo {
  public :
   typedef std::vector<std::string> ModuleList;
   FileInfo(const char* fileanme);
   ~FileInfo();
   void SetInputCharset(const char* charset);
-  const char* GetInputCharset();
+  const char* GetInputCharset() const;
   void SetOutputCharset(const char* charset);
-  const char* GetOutputCharset();
+  const char* GetOutputCharset() const;
   void SetDeploy(const char* name);
-  const char* GetDeploy();
+  const char* GetDeploy() const;
   void SetDeployName(const char* name);
-  SharedStr GetDeployName(const char* name);
+  const char* GetDeployName() const;
   void SetModule(const char* path);
-  const ModuleList& GetModuleList();
-  CompilationInfo* GetCompilationInfo();
-  SharedStr GetCmpPath_(const char* path);
-  bool IsFile() const;
-  void set_file();
+  const ModuleList& GetModuleList() const;
   SharedPtr<CompilationInfo> compilation_info();
  private :
-  bool is_file_;
   std::string input_charset_;
   std::string output_charset_;
   std::string deploy_;
@@ -52,6 +45,8 @@ class FileInfoMap : private Static {
   static FileInfo* UnsafeGet(const char* filename);
   static void SafeSet(const char* filename);
   static FileInfo* SafeGet(const char* filename);
+  static void UnsafeRemove(const char* filename);
+  static void SafeRemove(const char* filename);
   static void Reset();
  private :
   static os::Mutex mutex_;

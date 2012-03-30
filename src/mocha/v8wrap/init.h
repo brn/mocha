@@ -1,6 +1,7 @@
 #ifndef mocha_v8wrap_init_h_
 #define mocha_v8wrap_init_h_
 #include <v8.h>
+#include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/misc/atomic.h>
 namespace mocha {
@@ -13,6 +14,7 @@ class V8Init {
   void Print(v8::Handle<v8::Value> value);
   template <typename T>
   void Extension();
+  v8::Persistent<v8::Context> context() {return context_;}
   template <typename T>
   static T* GetInternal(const v8::Handle<v8::Object> handle);
   static void HandleException(v8::TryCatch *try_catch);
@@ -28,9 +30,9 @@ class V8Init {
   v8::Handle<v8::Function> function_;
   v8::Handle<v8::Object> exports_;
   v8::Handle<v8::Object> guard_;
-  v8::Persistent<v8::Context::Scope> context_scope_;
   static AtomicWord atomic_;
   static ScopedPtr<V8Init> instance_;
+  static os::Mutex mutex_;
 };
 }
 #include <mocha/v8wrap/init-inl.h>

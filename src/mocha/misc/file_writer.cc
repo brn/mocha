@@ -9,30 +9,35 @@ void FileWriter::WriteResult(CompilationResult* result){
   //Get file name of main js file.
   std::string val;
   FileInfo* resource = FileInfoMap::SafeGet(result->fullpath());
-  if (resource && resource->GetDeploy()) {
-    const char* dir = resource->GetDeploy();
+  if (resource) {
+    const char* deploydir = resource->GetDeploy();
+    const char* deployname = resource->GetDeployName();
+    if (!deploydir && !deployname) {
+      std::string name = result->filename();
+      name.erase(name.find('.'), name.size());
+      os::SPrintf(&val, "%s/%s-cmp.js", result->dir(), name.c_str());
+    } else if (deploydir) {
+      std::string name = result->filename();
+      name.erase(name.find('.'), name.size());
+      os::SPrintf(&val, "%s/%s-cmp.js", deploydir, name.c_str());
+    } else if (deployname) {
+      os::SPrintf(&val, "%s/%s", result->dir(), deployname);
+    }
+
+    const char* dir = ((deploydir)?deploydir : result->dir());
     os::fs::Stat stat(dir);
-    if (!stat.IsExist() || !stat.IsDir()) {
+    if (!stat.IsExist()) {
       os::fs::mkdir(dir, 0777);
       os::fs::Directory::chmod(dir, 0777);
     }
-    val = dir;
-    val += '/';
-    val += result->filename();
-  } else if (!resource) {
-    return;
-  } else {
-    val = result->fullpath();
-  }
-  //Get deploy path of -cmp.js file.
-  SharedStr handle = resource->GetDeployName(val.c_str());
-  DEBUG_LOG(Info, "write file to\n[\n%s\n]", handle.Get());
-  FILE* fp = os::FOpen(handle.Get(), "w+b");
-  if (fp != NULL) {
-    os::fs::Directory::chmod(handle.Get(), 0777);
-    const char* source = result->source();
-    fwrite(source, sizeof(char), strlen(source) ,fp);
-    os::FClose(fp);
+    DEBUG_LOG(Info, "write file to\n[\n%s\n]", val.c_str());
+    FILE* fp = os::FOpen(val.c_str(), "w+b");
+    if (fp != NULL) {
+      os::fs::Directory::chmod(val.c_str(), 0777);
+      const char* source = result->source();
+      fwrite(source, sizeof(char), strlen(source) ,fp);
+      os::FClose(fp);
+    }
   }
 }
 

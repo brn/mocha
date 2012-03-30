@@ -19,11 +19,11 @@ class XMLSettingInfo : private Static {
   inline static void IterateFileList(FILE_LIST_CALLBACK, T* thisObject);
   template<typename T>
   inline static void IterateIncludeList(FILE_LIST_CALLBACK, T* thisObject);
+  static void set_file_list(std::string path) { file_list_.push_back(path); };
+  static void set_include_list(std::string path) {include_list_.push_back(path);};
  private :
   typedef boost::unordered_map<std::string,std::string> Hash;
   typedef std::list<std::string> List;
-  static void set_file_list(std::string path) { file_list_.push_back(path); };
-  static void set_include_list(std::string path) {include_list_.push_back(path);};
   template<typename T>
   inline static void Iterate_(FILE_LIST_CALLBACK, T* thisObject, const List& list);
   static List file_list_;

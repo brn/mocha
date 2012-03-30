@@ -1,6 +1,6 @@
 
 module {
   export fmt() {
-    console.log("ok");
+     console.log("ok");
   }
 }

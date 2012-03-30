@@ -1,6 +1,10 @@
 #include <string.h>
 #include <mocha/v8wrap/init.h>
 #include <mocha/v8wrap/fs/v8_fs.h>
+#include <mocha/fileinfo/fileinfo.h>
+#include <mocha/options/setting.h>
+#include <mocha/xml/xml_setting_info.h>
+#include <mocha/misc/file_watcher/observer/xml_observer.h>
 #include <mocha/roaster/platform/fs/fs.h>
 using namespace v8;
 namespace mocha {
@@ -21,20 +25,22 @@ void V8FS::Init(Handle<Object> object) {
   V8FS::Path::Init(ns_fs);
   V8FS::Stat::Init(ns_fs);
   V8FS::IO::Init(ns_fs);
+  V8FS::Setting::Init(ns_fs);
+  V8FS::Watcher::Init(ns_fs);
   object->Set(String::New("fs"), ns_fs);
 }
 
 Handle<Object> V8FS::Directory::Entry::Init(const os::fs::DirEntry* ent) {
-  Handle<FunctionTemplate> fn = FunctionTemplate::New();
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
   fn->SetClassName(String::New("Entry"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(1);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("name"), FunctionTemplate::New(Name));
-  proto->Set(String::New("fullpath"), FunctionTemplate::New(FullPath));
-  proto->Set(String::New("path"), FunctionTemplate::New(Path));
-  proto->Set(String::New("isDir"), FunctionTemplate::New(IsDir));
-  proto->Set(String::New("isFile"), FunctionTemplate::New(IsFile));
+  proto->Set(String::New("name"), v8::FunctionTemplate::New(Name));
+  proto->Set(String::New("fullpath"), v8::FunctionTemplate::New(FullPath));
+  proto->Set(String::New("path"), v8::FunctionTemplate::New(Path));
+  proto->Set(String::New("isDir"), v8::FunctionTemplate::New(IsDir));
+  proto->Set(String::New("isFile"), v8::FunctionTemplate::New(IsFile));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetInternalField(0, External::New(const_cast<os::fs::DirEntry*>(ent)));
   Persistent<Object> holder = Persistent<Object>::New(instance);
@@ -71,50 +77,54 @@ DISPOSE_IMPL(V8FS::Directory::Entry, os::fs::DirEntry);
 
 
 void V8FS::Directory::Init(Handle<Object> object) {
-  Handle<FunctionTemplate> fn = FunctionTemplate::New(V8FS::Directory::Dir);
+  HandleScope handle_scope;
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(V8FS::Directory::Dir);
   fn->SetClassName(String::New("Dir"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(1);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("entries"), FunctionTemplate::New(V8FS::Directory::Entries));
-  Handle<Function> function = fn->GetFunction();
-  Handle<FunctionTemplate> mkdir_tmp = FunctionTemplate::New(V8FS::Directory::Mkdir);
-  Handle<FunctionTemplate> rm_tmp = FunctionTemplate::New(V8FS::Directory::Rm);
-  Handle<FunctionTemplate> chdir_tmp = FunctionTemplate::New(V8FS::Directory::Chdir);
+  proto->Set(String::New("entries"), v8::FunctionTemplate::New(V8FS::Directory::Entries));
+  Handle<v8::FunctionTemplate> mkdir_tmp = v8::FunctionTemplate::New(V8FS::Directory::Mkdir);
+  Handle<v8::FunctionTemplate> rm_tmp = v8::FunctionTemplate::New(V8FS::Directory::Rm);
+  Handle<v8::FunctionTemplate> chdir_tmp = v8::FunctionTemplate::New(V8FS::Directory::Chdir);
+  Handle<v8::Function> function = fn->GetFunction();
   function->Set(String::New("mkdir"), mkdir_tmp->GetFunction());
   function->Set(String::New("rm"), rm_tmp->GetFunction());
   function->Set(String::New("chdir"), chdir_tmp->GetFunction());
-  object->Set(String::New("Dir"), function);
+  object->Set(String::New("Dir"), handle_scope.Close(function));
 }
 
+
 METHOD_IMPL(V8FS::Directory::Dir) {
-  if (args.Length() > 0) {
-    if (args[0]->IsString()) {
-      String::Utf8Value path(args[0]);
-      os::fs::Path path_info(*path);
-      os::fs::Stat stat(path_info.absolute_path());
-      if (stat.IsExist() && stat.IsDir()) {
-        printf("%s\n", path_info.absolute_path());
-        os::fs::Directory* dir = new os::fs::Directory(path_info.absolute_path());
-        Local<Object> thisObject = args.This();
-        thisObject->SetInternalField(0, External::New(dir));
-        Persistent<Object> holder = Persistent<Object>::New(thisObject);
-        holder.MakeWeak(dir, V8FS::Directory::Dispose);
-        return thisObject;
-      } else if (!stat.IsExist()){
-        std::string buf;
-        os::SPrintf(&buf, "%s No such directory.");
-        return ThrowException(Exception::Error(String::New(buf.c_str())));
-      } else if (!stat.IsDir()) {
-        std::string buf;
-        os::SPrintf(&buf, "%s Not a directory.");
-        return ThrowException(Exception::Error(String::New(buf.c_str())));
+  if (args.IsConstructCall()) {
+    if (args.Length() > 0) {
+      if (args[0]->IsString()) {
+        String::Utf8Value path(args[0]);
+        os::fs::Path path_info(*path);
+        os::fs::Stat stat(path_info.absolute_path());
+        if (stat.IsExist() && stat.IsDir()) {
+          os::fs::Directory* dir = new os::fs::Directory(path_info.absolute_path());
+          Local<Object> thisObject = args.This();
+          thisObject->SetInternalField(0, External::New(dir));
+          Persistent<Object> holder = Persistent<Object>::New(thisObject);
+          holder.MakeWeak(dir, V8FS::Directory::Dispose);
+          return thisObject;
+        } else if (!stat.IsExist()){
+          std::string buf;
+          os::SPrintf(&buf, "%s No such directory.");
+          return ThrowException(Exception::Error(String::New(buf.c_str())));
+        } else if (!stat.IsDir()) {
+          std::string buf;
+          os::SPrintf(&buf, "%s Not a directory.");
+          return ThrowException(Exception::Error(String::New(buf.c_str())));
+        }
+      } else {
+        return ThrowException(Exception::Error(String::New("The arguments of dir must be a string.")));
       }
-    } else {
-      return ThrowException(Exception::Error(String::New("The arguments of dir must be a string.")));
     }
+    return ThrowException(Exception::Error(String::New("The function dir need at least one arguments.")));
   }
-  return ThrowException(Exception::Error(String::New("The function dir need at least one arguments.")));
+  return ThrowException(Exception::Error(String::New("To call the function Dir, use new operator.")));
 }
 
 
@@ -181,17 +191,17 @@ METHOD_IMPL(V8FS::Directory::Rm) {
 
 
 void V8FS::Path::Init(Handle<Object> object) {
-  Handle<FunctionTemplate> fn = FunctionTemplate::New(V8FS::Path::New);
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(V8FS::Path::New);
   fn->SetClassName(String::New("Path"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(1);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("filename"), FunctionTemplate::New(V8FS::Path::Filename));
-  proto->Set(String::New("fullpath"), FunctionTemplate::New(V8FS::Path::AbsolutePath));
-  proto->Set(String::New("directory"), FunctionTemplate::New(V8FS::Path::Directory));
-  Handle<Function> function = fn->GetFunction();
-  Handle<FunctionTemplate> getcwd_tmp = FunctionTemplate::New(V8FS::Path::Getcwd);
-  Handle<FunctionTemplate> home_tmp = FunctionTemplate::New(V8FS::Path::Home);
+  proto->Set(String::New("filename"), v8::FunctionTemplate::New(V8FS::Path::Filename));
+  proto->Set(String::New("fullpath"), v8::FunctionTemplate::New(V8FS::Path::AbsolutePath));
+  proto->Set(String::New("directory"), v8::FunctionTemplate::New(V8FS::Path::Directory));
+  Handle<v8::Function> function = fn->GetFunction();
+  Handle<v8::FunctionTemplate> getcwd_tmp = v8::FunctionTemplate::New(V8FS::Path::Getcwd);
+  Handle<v8::FunctionTemplate> home_tmp = v8::FunctionTemplate::New(V8FS::Path::Home);
   function->Set(String::New("getcwd"), getcwd_tmp->GetFunction());
   function->Set(String::New("homeDir"), home_tmp->GetFunction());
   object->Set(String::New("Path"), function);
@@ -241,26 +251,29 @@ METHOD_IMPL(V8FS::Path::Home) {
 DISPOSE_IMPL(V8FS::Path, os::fs::Path);
 
 void V8FS::Stat::Init(Handle<Object> object) {
-  Handle<FunctionTemplate> fn = FunctionTemplate::New(V8FS::Stat::New);
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(V8FS::Stat::New);
   fn->SetClassName(String::New("Stat"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(1);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("isDir"), FunctionTemplate::New(V8FS::Stat::IsDir));
-  proto->Set(String::New("isReg"), FunctionTemplate::New(V8FS::Stat::IsReg));
-  proto->Set(String::New("isChr"), FunctionTemplate::New(V8FS::Stat::IsChr));
-  proto->Set(String::New("isExist"), FunctionTemplate::New(V8FS::Stat::IsExist));
-  proto->Set(String::New("dev"), FunctionTemplate::New(V8FS::Stat::Dev));
-  proto->Set(String::New("ino"), FunctionTemplate::New(V8FS::Stat::Ino));
-  proto->Set(String::New("nlink"), FunctionTemplate::New(V8FS::Stat::NLink));
-  proto->Set(String::New("uid"), FunctionTemplate::New(V8FS::Stat::UId));
-  proto->Set(String::New("gid"), FunctionTemplate::New(V8FS::Stat::GId));
-  proto->Set(String::New("rdev"), FunctionTemplate::New(V8FS::Stat::RDev));
-  proto->Set(String::New("size"), FunctionTemplate::New(V8FS::Stat::Size));
-  proto->Set(String::New("atime"), FunctionTemplate::New(V8FS::Stat::ATime));
-  proto->Set(String::New("mtime"), FunctionTemplate::New(V8FS::Stat::MTime));
-  proto->Set(String::New("ctime"), FunctionTemplate::New(V8FS::Stat::CTime));
-  object->Set(String::New("Stat"), fn->GetFunction());
+  proto->Set(String::New("isDir"), v8::FunctionTemplate::New(V8FS::Stat::IsDir));
+  proto->Set(String::New("isReg"), v8::FunctionTemplate::New(V8FS::Stat::IsReg));
+  proto->Set(String::New("isChr"), v8::FunctionTemplate::New(V8FS::Stat::IsChr));
+  proto->Set(String::New("isExist"), v8::FunctionTemplate::New(V8FS::Stat::IsExist));
+  proto->Set(String::New("dev"), v8::FunctionTemplate::New(V8FS::Stat::Dev));
+  proto->Set(String::New("ino"), v8::FunctionTemplate::New(V8FS::Stat::Ino));
+  proto->Set(String::New("nlink"), v8::FunctionTemplate::New(V8FS::Stat::NLink));
+  proto->Set(String::New("uid"), v8::FunctionTemplate::New(V8FS::Stat::UId));
+  proto->Set(String::New("gid"), v8::FunctionTemplate::New(V8FS::Stat::GId));
+  proto->Set(String::New("rdev"), v8::FunctionTemplate::New(V8FS::Stat::RDev));
+  proto->Set(String::New("size"), v8::FunctionTemplate::New(V8FS::Stat::Size));
+  proto->Set(String::New("atime"), v8::FunctionTemplate::New(V8FS::Stat::ATime));
+  proto->Set(String::New("mtime"), v8::FunctionTemplate::New(V8FS::Stat::MTime));
+  proto->Set(String::New("ctime"), v8::FunctionTemplate::New(V8FS::Stat::CTime));
+  Handle<v8::Function> function = fn->GetFunction();
+  function->Set(String::New("isDir"), v8::FunctionTemplate::New(V8FS::Stat::StaticIsDir)->GetFunction());
+  function->Set(String::New("isReg"), v8::FunctionTemplate::New(V8FS::Stat::StaticIsReg)->GetFunction());
+  object->Set(String::New("Stat"), function);
 }
 
 METHOD_IMPL(V8FS::Stat::New) {
@@ -350,24 +363,46 @@ METHOD_IMPL(V8FS::Stat::IsReg) {
   return Boolean::New(stat->IsReg());
 }
 
+METHOD_IMPL(V8FS::Stat::StaticIsReg) {
+  if (args.Length() > 0) {
+    if (args[0]->IsString()) {
+      String::Utf8Value str(args[0]);
+      os::fs::Stat stat(*str);
+      return Boolean::New(stat.IsReg());
+    }
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(V8FS::Stat::StaticIsDir) {
+  if (args.Length() > 0) {
+    if (args[0]->IsString()) {
+      String::Utf8Value str(args[0]);
+      os::fs::Stat stat(*str);
+      return Boolean::New(stat.IsDir());
+    }
+  }
+  return Undefined();
+}
+
 DISPOSE_IMPL(V8FS::Stat, os::fs::Stat);
 
 
 void V8FS::IO::Init(Handle<Object> object) {
-  Handle<FunctionTemplate> fn = FunctionTemplate::New(V8FS::IO::FOpen);
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(V8FS::IO::FOpen);
   fn->SetClassName(String::New("fopen"));
   object->Set(String::New("fopen"), fn->GetFunction());
 }
 
 
 Handle<Object> V8FS::File::Init(FILE* fp) {
-  Handle<FunctionTemplate> fn = FunctionTemplate::New();
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(2);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("write"), FunctionTemplate::New(FWrite));
-  proto->Set(String::New("read"), FunctionTemplate::New(FRead));
-  proto->Set(String::New("close"), FunctionTemplate::New(FClose));
+  proto->Set(String::New("write"), v8::FunctionTemplate::New(FWrite));
+  proto->Set(String::New("read"), v8::FunctionTemplate::New(FRead));
+  proto->Set(String::New("close"), v8::FunctionTemplate::New(FClose));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetInternalField(0, External::New(fp));
   instance->SetInternalField(1, Boolean::New(true));
@@ -433,6 +468,119 @@ METHOD_IMPL(V8FS::IO::FOpen) {
     }
   }
   return ThrowException(Exception::Error(String::New("The function fopen need at least one arguments.")));  
+}
+
+void V8FS::Setting::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
+  Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
+  proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(V8FS::Setting::AddSetting));
+  proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(V8FS::Setting::RemoveSetting));
+  object->Set(String::New("__settings"), handle_scope.Close(fn->GetFunction()->NewInstance()));
+}
+
+
+METHOD_IMPL(V8FS::Setting::AddSetting) {
+  if (args.Length() == 2) {
+    if (args[0]->IsString() && args[1]->IsObject()) {
+      String::Utf8Value str(args[0]);
+      Handle<Object> obj = Handle<Object>::Cast(args[1]);
+      const char* name = *str;
+      os::fs::Stat stat(name);
+      if (stat.IsExist() && stat.IsReg()) {
+        FileInfoMap::UnsafeSet(name);
+        FileInfo* resource = FileInfoMap::UnsafeGet(name);
+        String::Utf8Value icharset(obj->Get(String::New("inputCharset")));
+        String::Utf8Value ocharset(obj->Get(String::New("outputCharset")));
+        String::Utf8Value dep_dir(obj->Get(String::New("deployDir")));
+        String::Utf8Value dep_name(obj->Get(String::New("deployName")));
+        Handle<Array> mod_list = Handle<Array>::Cast(obj->Get(String::New("moduleDir")));
+        Handle<Object> options = Handle<Object>::Cast(obj->Get(String::New("options")));
+        resource->SetInputCharset(*icharset);
+        resource->SetOutputCharset(*ocharset);
+        resource->SetDeploy(*dep_dir);
+        resource->SetDeployName(*dep_name);
+        for (int i = 0,len = mod_list->Length(); i < len; i++) {
+          String::Utf8Value dir(mod_list->Get(Integer::New(i)));
+          resource->SetModule(*dir);
+        }
+        CompilationInfo* info = resource->compilation_info().Get();
+        if (options->Get(String::New("compress"))->IsTrue()) {
+          info->SetCompress();
+        }
+        if (options->Get(String::New("debug"))->IsTrue()) {
+          info->SetDebug();
+        }
+        if (options->Get(String::New("prettyPrint"))->IsTrue()) {
+          info->SetPrettyPrint();
+        }
+        Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
+        for (int i = 0,len = versions->Length();i < len;i++) {
+          String::Utf8Value ver(versions->Get(Integer::New(i)));
+          info->SetVersion(*ver);
+        }
+        XMLSettingInfo::set_file_list(name);
+      }
+    }
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(V8FS::Setting::RemoveSetting) {
+  if (args.Length() == 1) {
+    if (args[0]->IsString()) {
+      String::Utf8Value str(args[0]);
+      FileInfoMap::UnsafeRemove(*str);
+    }
+  }
+}
+
+void V8FS::Watcher::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  static XMLObserver ob;
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
+  Handle<ObjectTemplate> inst = fn->InstanceTemplate();
+  inst->SetInternalFieldCount(1);
+  Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
+  proto->Set(String::New("run"), v8::FunctionTemplate::New(V8FS::Watcher::Run));
+  proto->Set(String::New("addConfig"), v8::FunctionTemplate::New(V8FS::Watcher::AddConfig));
+  proto->Set(String::New("exit"), v8::FunctionTemplate::New(V8FS::Watcher::Exit));
+  proto->Set(String::New("isEnd"), v8::FunctionTemplate::New(V8FS::Watcher::IsEnd));
+  Handle<Object> instance = fn->GetFunction()->NewInstance();
+  instance->SetInternalField(0, External::New(&ob));
+  //Persistent<Object> holder = Persistent<Object>::New(instance);*/
+  //holder.MakeWeak(ob, V8FS::Watcher::Dispose);
+  object->Set(String::New("watcher"), handle_scope.Close(instance));
+  
+}
+
+DISPOSE_IMPL(V8FS::Watcher, XMLObserver);
+
+METHOD_IMPL(V8FS::Watcher::Run) {
+  XMLObserver* observer = V8Init::GetInternal<XMLObserver>(args.This());
+  observer->Run();
+  return Undefined();
+}
+
+METHOD_IMPL(V8FS::Watcher::AddConfig) {
+  if (args.Length() == 1) {
+    if (args[0]->IsString()) {
+      String::Utf8Value str(args[0]);
+      XMLSettingInfo::set_include_list(*str);
+    }
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(V8FS::Watcher::Exit) {
+  XMLObserver* observer = V8Init::GetInternal<XMLObserver>(args.This());
+  observer->Exit();
+  return Integer::New(1);
+}
+
+METHOD_IMPL(V8FS::Watcher::IsEnd) {
+  XMLObserver* observer = V8Init::GetInternal<XMLObserver>(args.This());
+  return Boolean::New(observer->IsEnd());
 }
 
 }

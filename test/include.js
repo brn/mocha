@@ -1,11 +1,8 @@
-fs = mocha.import("fs");
-print(fs.Path.getcwd());
-print(new fs.Path("../src").fullpath());
-var dir = new fs.Dir("./../src/test/js/out/");
+var fs = mocha.import("fs");
+print(fs);
+var dir = new fs.Dir("./mains/");
 print(dir.entries(true).forEach(function (item) {
-  print(item.fullpath())
+  mocha.setting.addSetting(item.fullpath());
 }));
-test = mocha.import("./include2.js").test;
-print(test());
 
 

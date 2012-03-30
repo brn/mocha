@@ -64,6 +64,8 @@ class V8FS : private Static {
     DECL_METHOD(ATime);
     DECL_METHOD(MTime);
     DECL_METHOD(CTime);
+    DECL_METHOD(StaticIsDir);
+    DECL_METHOD(StaticIsReg);
   };
 
   class File : private Static {
@@ -79,8 +81,28 @@ class V8FS : private Static {
     INIT_DECL;
     DECL_METHOD(FOpen);
   };
+
+  class Setting : private Static {
+   public :
+    INIT_DECL;
+    DECL_DIPOSER;
+    DECL_METHOD(AddSetting);
+    DECL_METHOD(RemoveSetting);
+  };
+
+  class Watcher : private Static {
+   public :
+    INIT_DECL;
+    DECL_DIPOSER;
+    DECL_METHOD(Run);
+    DECL_METHOD(Exit);
+    DECL_METHOD(IsEnd);
+    DECL_METHOD(AddConfig);
+  };
 };
 #undef DECL_METHOD
+#undef DECL_DIPOSER
+#undef INIT_DECL
 }
 
 #endif

@@ -4,12 +4,11 @@
 #include <mocha/roaster/nexc/compilation_info/compilation_info.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/options/setting.h>
-#include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 
 FileInfo::FileInfo(const char* filename)
-    : is_file_(true), info_(new CompilationInfo){}
+    : info_(new CompilationInfo){}
 
 FileInfo::~FileInfo() {}
 
@@ -17,7 +16,7 @@ void FileInfo::SetInputCharset(const char* charset) {
   input_charset_ = charset;
 }
 
-const char* FileInfo::GetInputCharset() {
+const char* FileInfo::GetInputCharset() const {
   if (input_charset_.empty()) {
     return Consts::kDefaultInputCharset;
   } else {
@@ -29,7 +28,7 @@ void FileInfo::SetOutputCharset(const char* charset) {
   output_charset_ = charset;
 }
 
-const char* FileInfo::GetOutputCharset() {
+const char* FileInfo::GetOutputCharset() const {
   if (output_charset_.empty()) {
     return Consts::kDefaultOutputCharset;
   } else {
@@ -41,7 +40,7 @@ void FileInfo::SetDeploy(const char* name) {
   deploy_ = name;
 }
 
-const char* FileInfo::GetDeploy() {
+const char* FileInfo::GetDeploy() const {
   if (deploy_.empty()) {
     return 0;
   } else {
@@ -53,38 +52,8 @@ void FileInfo::SetDeployName(const char* name) {
   deployname_ = name;
 }
 
-SharedStr FileInfo::GetCmpPath_(const char* path) {
-  std::string tmp = path;
-  if (!deployname_.empty()) {
-    char *ret = new char[ deployname_.size() + 1 ];
-    strcpy(ret, deployname_.c_str());
-    return SharedStr(ret);
-  } else {
-    int pos = tmp.find_last_of('.', tmp.size() - 1);
-    tmp.replace(pos, 1, "-cmp.");
-    char* result = new char[ tmp.size() + 1 ];
-    strcpy(result, tmp.c_str());
-    return SharedStr(result);
-  }
-}
-
-SharedStr FileInfo::GetDeployName(const char* filename) {
-  if (deploy_.empty()) {
-    return GetCmpPath_(filename);
-  } else {
-    if (!deployname_.empty()) {
-      const char* ret = deploy_.c_str();
-      os::fs::mkdir(ret, 0777);
-      os::fs::Path path_info(filename);
-      char tmp[ 1000 ];
-      sprintf(tmp, "%s/%s", ret, GetCmpPath_(path_info.filename()).Get());
-      char* result = new char[ strlen(tmp) + 1 ];
-      strcpy(result, tmp);
-      return SharedStr(result);
-    } else {
-      return GetCmpPath_(filename);
-    }
-  }
+const char* FileInfo::GetDeployName() const {
+  return (deployname_.empty())? 0 : deployname_.c_str();
 }
 
 void FileInfo::SetModule(const char* path) {
@@ -93,13 +62,9 @@ void FileInfo::SetModule(const char* path) {
 }
 
 
-const FileInfo::ModuleList& FileInfo::GetModuleList() {
+const FileInfo::ModuleList& FileInfo::GetModuleList() const {
   return modulelist_;
 }
-
-
-bool FileInfo::IsFile() const { return is_file_; }
-void FileInfo::set_file() { is_file_ = true; }
 
 CompilationInfoHandle FileInfo::compilation_info() {
   return info_;
@@ -131,6 +96,18 @@ FileInfo* FileInfoMap::SafeGet(const char* filename) {
     return entry->second.Get();
   }
   return 0;
+}
+
+void FileInfoMap::UnsafeRemove(const char* filename) {
+  FileInfoHandleMap::iterator entry = resources_.find(std::string(filename));
+  if (entry != resources_.end()) {
+    resources_.erase(entry);
+  }
+}
+
+void FileInfoMap::SafeRemove(const char* filename) {
+  os::ScopedLock lock(mutex_);
+  UnsafeRemove(filename);
 }
 
 void FileInfoMap::Reset() {

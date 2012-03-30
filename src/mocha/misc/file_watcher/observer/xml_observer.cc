@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <mocha/v8wrap/init.h>
 #include <mocha/bootstrap/bootstrap.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/misc/file_watcher/observer/xml_observer.h>
@@ -59,16 +60,15 @@ class XMLObserver::XMLUpdater : public IUpdater {
   XMLObserver* observer_;
 };
 
-XMLObserver::XMLObserver() : is_end_(false) {}
+XMLObserver::XMLObserver() : is_end_(true) {}
 XMLObserver::~XMLObserver() {}
 void XMLObserver::Run() {
   is_end_ = false;
   xml_updater_ = new XMLUpdater(this);
-  Initialize_(Setting::GetInstance()->GetXMLPath());
+  Initialize_(Setting::GetInstance()->GetConfigPath());
   os::Thread thread;
   if (!thread.Create(XMLObserver::ThreadRunner_, xml_updater_->GetWatcher())) {
   } else {
-    //thread.Exit();
     thread.Detach();
   }
 }
@@ -110,9 +110,10 @@ void XMLObserver::RegistFile_(const char* filename) {
 void XMLObserver::Initialize_(const char* path) {
   Shell::GetInstance()->SafeBreak(false);
   Shell::GetInstance()->Print("starting watch server");
-  XMLReader reader;
-  reader.Parse(path);
   Shell::GetInstance()->Print('.');
+  std::string buf;
+  os::SPrintf(&buf, "mocha.import('%s');", path);
+  V8Init::GetInstance()->Run(buf.c_str());
   XMLSettingInfo::IterateIncludeList<XMLObserver>(&XMLObserver::RegistFile_, this);
   Shell::GetInstance()->Print('.');
   xml_updater_->GetObserver()->Run();

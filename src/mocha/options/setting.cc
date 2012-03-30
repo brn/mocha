@@ -3,7 +3,6 @@
 #include <time.h>
 #include <string>
 #include <mocha/options/setting.h>
-#include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/platform/thread/thread.h>
@@ -42,6 +41,7 @@ class Setting::PtrImpl {
   tm* date;
   std::string base_dir;
   std::string xml_path;
+  std::string config_path;
   std::string module_path;
   std::string runtime_path;
   std::string runtime_file;
@@ -76,6 +76,7 @@ Setting* Setting::GetInstance() {
 
 const char* Setting::GetBasePath() { return implementation_->base_dir.c_str(); }
 const char* Setting::GetXMLPath() { return implementation_->xml_path.c_str(); }
+const char* Setting::GetConfigPath() { return implementation_->config_path.c_str(); }
 const char* Setting::GetModulePath() { return implementation_->module_path.c_str(); }
 const char* Setting::GetRuntimePath() { return implementation_->runtime_path.c_str(); }
 const char* Setting::GetRuntimeFile() { return implementation_->runtime_file.c_str(); }
@@ -87,6 +88,8 @@ Setting::Setting() {
   implementation_->base_dir += "/.mocha/";
   implementation_->xml_path = implementation_->base_dir;
   implementation_->xml_path += "watch.xml";
+  implementation_->config_path = implementation_->base_dir;
+  implementation_->config_path += "config.js";
   implementation_->module_path = implementation_->base_dir;
   implementation_->module_path += "module/";
 }

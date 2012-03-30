@@ -82,7 +82,7 @@ class FileWatcher::PtrImpl {
   inline void End(FileWatcher::EndCallBack fn, void* arg) {
     is_call_back_ = true;
     arg_ = arg;
-	fn_ = fn;
+    fn_ = fn;
     End();
   }
 

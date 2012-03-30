@@ -1,5 +1,4 @@
-runtimejs = open('mocha/module/runtime/mocha_runtime.js', "rb").read()
-iteratorjs = open('mocha/module/iterators.js', "rb").read()
+initjs = open('src/mocha/v8wrap/init.js', "rb").read()
 def runtimeModuel(name,string):
     return 'const char ' + name + "[] = {" + string + "};\n"
 
@@ -11,19 +10,9 @@ def getascii(name,source):
     list = runtimeModuel(name,list + "0")
     return list
 
-def buildRuntimelist(runtimeList):
-    result = ""
-    for val in runtimeList:
-        result += '  map_.insert(RuntimePair(' + '"' + val + '",' + val + "));\n"
-    return "void Runtime::BuildSource() {\n" + result + "}\n"
-
-result = getascii('runtime',runtimejs)
-result += getascii('iterators',iteratorjs)
-result = "#include<mocha/roaster/runtime/runtime.h>\nnamespace mocha{\nnamespace runtime{\n" + result
-result += buildRuntimelist(["runtime","iterators"])
-result += "Runtime::RuntimeMap Runtime::map_;"
-result += "}}"
-
-fw = open('src/mocha/roaster/runtime/runtime.cc' , "w+b")
+result = getascii('initjs',initjs)
+result = "#ifndef mocha_v8wrap_init_js_\n#include<mocha/roaster/runtime/runtime.h>\nnamespace mocha{namespace init_js {\n" + result
+result += "}}\n#endif"
+fw = open('src/mocha/v8wrap/initjs.h' , "w+b")
 fw.write(result)
 fw.close()
