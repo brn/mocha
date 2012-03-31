@@ -19,7 +19,7 @@ class XMLObserver {
   bool IsEnd();
  private :
   static void* ThreadRunner_(void* arg);
-  inline void Initialize_(const char* path);
+  inline bool Initialize_(const char* path);
   inline void RegistFile_(const char* file);
   inline void Erase_();
 

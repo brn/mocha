@@ -10,38 +10,27 @@ namespace mocha {
 class Interaction::RunCommand : public Action {
  public :
   bool operator()(ConsoleInput input) {
-    //commands_.Exec(input.c_str());
-    if (strcmp(input.c_str(), "exit") == 0) {
-      /*while (1) {
-        if (is_end_) {
-          if (commands_.IsObserving()) {
-            commands_.Exec("unwatch");
-          }
-          break;
-        }
-        }*/
-      return true;
-    } else {
-      if (input.size() > 0) {
-        if (input.at(0) == '.') {
-          std::string tmp = input;
-          input = "return mocha._commands";
-          input += tmp;
-        }
-        HandleScope scope;
-        TryCatch try_catch;
-        V8Init* v8_runner = V8Init::GetInstance();
-        Handle<Value> value = v8_runner->Run(input.c_str());
-        if (try_catch.Exception().IsEmpty() && value->IsInt32() && !value->IsUndefined()) {
-          return value->Int32Value() == 1;
-        }else if (try_catch.Exception().IsEmpty()) {
-          v8_runner->Print(value);
-        } else {
-          V8Init::HandleException(&try_catch);
-        }
+    if (input.size() > 2) {
+      if (input.at(0) == '-' && input.at(1) == '-') {
+        std::string tmp = input;
+        input = "mocha.callCommand('";
+        input += tmp;
+        input += "');";
       }
-      return false;
+      V8Init* v8_runner = V8Init::GetInstance();
+      HandleScope handle_scope;
+      TryCatch try_catch;
+      Handle<Value> value = v8_runner->RunInGlobalContext(input.c_str());
+      if (v8_runner->IsExitStatus(value)) {
+        return true;
+      } else if (try_catch.Exception().IsEmpty()) {
+        v8_runner->Print(value);
+      } else {
+        V8Init::HandleException(&try_catch);
+        try_catch.Reset();
+      }
     }
+    return false;
   }
  private :
   static Commands commands_;
@@ -49,7 +38,8 @@ class Interaction::RunCommand : public Action {
 
 void Interaction::Begin() {
   RunCommand command;
-  Context::Scope context_scope(V8Init::GetInstance()->context());
+  V8Init* init = V8Init::GetInstance();
+  Context::Scope context_scope(init->context());
   Shell* shell = Shell::Initialize(command);
   shell->Read();
 }

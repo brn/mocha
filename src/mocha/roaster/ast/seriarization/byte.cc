@@ -16,8 +16,10 @@ void ByteOrder::CheckEndian() {
   int x=1;
   if (*(reinterpret_cast<char*>(&x))) {
     converter_ = &ByteOrder::Reverse;
+    little_endian_ = true;
   }else{
     converter_ = &ByteOrder::Noop;
+    little_endian_ = false;
   }
 #else
   converter_ = &ByteOrder::Noop;

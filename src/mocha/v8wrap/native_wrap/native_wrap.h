@@ -10,7 +10,7 @@ class DirEntry;
 #define DECL_METHOD(name) static v8::Handle<v8::Value> name(const v8::Arguments& args)
 #define DECL_DIPOSER static void Dispose(v8::Persistent<v8::Value> handle, void* ptr);
 #define INIT_DECL static void Init(v8::Handle<v8::Object> object)
-class V8FS : private Static {
+class NativeWrap : private Static {
  public :
   INIT_DECL;
   class Directory : private Static {
@@ -71,6 +71,8 @@ class V8FS : private Static {
   class File : private Static {
    public :
     static v8::Handle<v8::Object> Init(FILE* fp);
+    DECL_METHOD(GetTextContent);
+    DECL_METHOD(WriteTextContent);
     DECL_METHOD(FWrite);
     DECL_METHOD(FRead);
     DECL_METHOD(FClose);
@@ -80,6 +82,12 @@ class V8FS : private Static {
    public :
     INIT_DECL;
     DECL_METHOD(FOpen);
+    class NativeConsole : private Static {
+     public :
+      INIT_DECL;
+      DECL_METHOD(Stdout);
+      DECL_METHOD(StdError);
+    };
   };
 
   class Setting : private Static {
@@ -89,7 +97,7 @@ class V8FS : private Static {
     DECL_METHOD(AddSetting);
     DECL_METHOD(RemoveSetting);
   };
-
+  
   class Watcher : private Static {
    public :
     INIT_DECL;

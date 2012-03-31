@@ -111,7 +111,7 @@ void RunTest(bool is_debug, bool is_pretty, bool is_compress, const char* dir) {
 
 void RunTest() {
   Roaster r;
-  V8Init::GetInstance()->Run(Bootstrap::GetArgv(2));
+  V8Init::GetInstance()->RunInConfigContext(Bootstrap::GetArgv(2));
   /*
   RunTest(true, true, false, CURRENT_DIR"/test/js/out/devel");
   fprintf(stderr, "------------------end devel test------------------\n");

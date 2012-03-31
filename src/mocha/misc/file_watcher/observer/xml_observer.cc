@@ -10,7 +10,7 @@
 #ifdef _WIN32
 #define sleep(time) Sleep(time##000)
 #endif
-
+using namespace v8;
 namespace mocha {
 
 class XMLObserver::XMLUpdater : public IUpdater {
@@ -65,11 +65,12 @@ XMLObserver::~XMLObserver() {}
 void XMLObserver::Run() {
   is_end_ = false;
   xml_updater_ = new XMLUpdater(this);
-  Initialize_(Setting::GetInstance()->GetConfigPath());
-  os::Thread thread;
-  if (!thread.Create(XMLObserver::ThreadRunner_, xml_updater_->GetWatcher())) {
-  } else {
-    thread.Detach();
+  if (Initialize_(Setting::GetInstance()->GetConfigPath())) {
+    os::Thread thread;
+    if (!thread.Create(XMLObserver::ThreadRunner_, xml_updater_->GetWatcher())) {
+    } else {
+      thread.Detach();
+    }
   }
 }
 
@@ -107,18 +108,26 @@ void XMLObserver::RegistFile_(const char* filename) {
   xml_updater_->GetWatcher()->AddWatch(filename, xml_updater_, FileWatcher::kModify);
 }
 
-void XMLObserver::Initialize_(const char* path) {
-  Shell::GetInstance()->SafeBreak(false);
-  Shell::GetInstance()->Print("starting watch server");
-  Shell::GetInstance()->Print('.');
+bool XMLObserver::Initialize_(const char* path) {
   std::string buf;
   os::SPrintf(&buf, "mocha.import('%s');", path);
-  V8Init::GetInstance()->Run(buf.c_str());
-  XMLSettingInfo::IterateIncludeList<XMLObserver>(&XMLObserver::RegistFile_, this);
-  Shell::GetInstance()->Print('.');
-  xml_updater_->GetObserver()->Run();
-  Shell::GetInstance()->Print('.');
-  Shell::GetInstance()->Break();
+  V8Init* v8_runner = V8Init::GetInstance();
+  Handle<Value> value = v8_runner->RunInConfigContext(buf.c_str());
+  if (!v8_runner->IsInvalidValue(value)) {
+    os::Printf("\n");
+    Shell::GetInstance()->Print("starting watch server");
+    Shell::GetInstance()->Print('.');
+    XMLSettingInfo::IterateIncludeList<XMLObserver>(&XMLObserver::RegistFile_, this);
+    Shell::GetInstance()->Print('.');
+    xml_updater_->GetObserver()->Run();
+    Shell::GetInstance()->Print('.');
+    Shell::GetInstance()->Break();
+    return true;
+  } else {
+    is_end_ = true;
+    delete xml_updater_;
+    return false;
+  }
 }
 
 }

@@ -3,8 +3,7 @@
 namespace mocha {
 template<typename T>
 void V8Init::Extension() {
-  v8::Context::Scope context_scope(context_);
-  T::Init(guard_);
+  T::Init(native_);
 }
 
 template <typename T>

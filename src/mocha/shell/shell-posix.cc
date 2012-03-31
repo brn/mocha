@@ -70,12 +70,13 @@ void Shell::Read() {
         history(history_, &event_, H_ENTER, input_.c_str());
         if (input_.size() > 0) {
           if(CallAction()) {
+            delete []mbs;
             break;
           }
         }
         input_.clear();
       }
-      delete mbs;
+      delete []mbs;
     }
   }
 }

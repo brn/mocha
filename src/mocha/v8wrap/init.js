@@ -1,31 +1,6 @@
-(function(env, cwd){
+(function(env, natives, compile, cwd){
   "use strict";
-  var loadFile = env.loadFile,
-      include = function (path) {
-        if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~') {
-          if (path in env.guard) {
-            return env.guard[path];
-          } else {
-            throw new Error(path + ' No such module.');
-          }
-        } else {
-          var pathInfo = new env.guard.fs.Path(path),
-              stat = new env.guard.fs.Stat(pathInfo.fullpath()),
-              fullpath = pathInfo.fullpath();
-          if (stat.isExist() && stat.isReg() && !(path in env.guard)) {
-            var source = loadFile(fullpath);
-            env.exports[fullpath] = {};
-            mocha.__file__ = fullpath;
-            source = '(function(mocha) {"use strict";' + source + '})';
-            env.guard.fs.Dir.chdir(pathInfo.directory());
-            env.compile(source, fullpath)(mocha);
-            env.guard[fullpath] = env.exports[fullpath];
-            return env.exports[fullpath];
-          };
-          return env.guard[fullpath];
-        }
-      },
-      defProp = function (obj, prop, val, type) {
+  var defProp = function (obj, prop, val, type) {
         type = type || '';
         var desc = [],
             configurable = false,
@@ -45,19 +20,103 @@
           enumerable : enumerable
         });
       },
-      mocha = {};
-
-  defProp(mocha, 'export', function(name, val) {
-    env.exports[this.__file__][name] = val;
+      globalExports = {},
+      loadFile = function (path) {
+        var file = natives.fs.io.fopen(path, 'w+b'),
+            result = file.getTextContent();
+        file.close();
+        return result;
+      }
+  
+  //Define mocha object
+  defProp(env, 'mocha', {});
+  var mocha = env.mocha;
+  defProp(env, 'console', {
+    _print : function (method, args) {
+      for (var i = 0,len = args.length; i < len; i++) {
+        natives.io.nativeConsole[method](Object(args[i]).toString());
+        if ((i + 1) != len) {
+          natives.io.nativeConsole.printStdout(',');
+        }
+      }
+      if (args.length > 0) {
+        natives.io.nativeConsole.printStdout('\n');
+      }
+    },
+    log : function () {
+      this._print('printStdout', arguments);
+    },
+    error : function () {
+      natives.io.nativeConsole.printStderr('[Error]');
+      this._print('printStderr', arguments);
+    },
+    info : function () {
+      natives.io.nativeConsole.printStderr('[Info]');
+      this._print('printStdout', arguments);
+    },
+    warn : function () {
+      natives.io.nativeConsole.printStderr('[Warn]');
+      this._print('printStdout', arguments);
+    }
   });
-  defProp(mocha, 'import', include);
-  defProp(mocha, 'loadFile', loadFile);
+  defProp(mocha, 'utils', {});
+  defProp(mocha, 'import', function (path) {
+    if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~') {
+      if (path in natives) {
+        return natives[path];
+      } else {
+        throw new Error(path + ' No such module.');
+      }
+    } else {
+      var pathInfo = new natives.fs.Path(path),
+          stat = new natives.fs.Stat(pathInfo.fullpath()),
+          fullpath = pathInfo.fullpath();
+      if (stat.isExist() && stat.isReg() && !(path in globalExports)) {
+        var source = loadFile(fullpath);
+        globalExports[fullpath] = {};
+        mocha.__file__ = fullpath;
+        source = '(function(mocha) {"use strict";mocha.export = {};\n' + source + '\nreturn mocha.export})';
+        natives.fs.Dir.chdir(pathInfo.directory());
+        var results = compile(source, fullpath)(mocha);
+        for (var result in results) {
+          globalExports[fullpath][result] = results[result];
+        }
+      } else {
+        if (path === natives.fs.Path.homeDir() + '/.mocha/config.js') {
+          env.console.log('first you need to create config.js in ' + natives.fs.Path.homeDir() + '/.mocha');
+          return natives.invalidValue;
+        } else {
+          throw new Error(path + ' No such module.');
+        }
+      }
+      return globalExports[fullpath];
+    }
+  });
+  defProp(mocha.utils, 'loadFile', loadFile);
   defProp(mocha, 'addCommand', function (name , val, help) {
     defProp(this._commands, name, val, '-e -c -w');
     defProp(this._commandsHelp, name, help || '', '-e -c -w');
   });
   defProp(mocha, 'getCommand', function (name) {
     return this._commands[name];
+  });
+  defProp(mocha, 'callCommand', function (args) {
+    if (typeof args === 'string') {
+      var str = args.replace(/\s+/g, ' ');
+      str = str.trim();
+      var command = str.split(' ');
+      if (command.length > 0 && command[0].length > 0) {
+        var name = command.shift();
+        name = name.replace('--', '');
+        if (name in this._commands) {
+          return this._commands[name].apply(null, command);
+        } else {
+          env.console.log(name + ' is unrecognized command\nsee --help.');
+        }
+      }
+    } else {
+      throw new Error('The arguments of callCommand is must be string.');
+    }
   });
   defProp(mocha, '_commands', {});
   defProp(mocha, '_commandsHelp', {});
@@ -70,52 +129,39 @@
   defProp(mocha, '__file__', '', '-c -w');
 
   mocha.addCommand("watch", function () {
-    if (env.guard.fs.watcher.isEnd()) {
-      env.guard.fs.watcher.run();
+    if (natives.scriptUtils.watcher.isEnd()) {
+      natives.scriptUtils.watcher.run();
     } else {
-      print("watch server is now working.");
+      env.console.log("watch server is now working.");
     }
-    return 0;
   }, "Begin watching the file, and compile immediately if modified.");
 
   mocha.addCommand("unwatch", function (type) {
-    if (!env.guard.fs.watcher.isEnd()) {
-      env.guard.fs.watcher.exit();
+    if (!natives.scriptUtils.watcher.isEnd()) {
+      natives.scriptUtils.watcher.exit();
     } else {
-      print("watch sever is now stopping.");
+      env.console.log("watch sever is now stopping.");
     }
-    return 0;
   }, "Stop watching the file, if watch server is working.");
 
   mocha.addCommand("exit", function () {
-    if (!env.guard.fs.watcher.isEnd()) {
-      env.guard.fs.watcher.exit();
-      while (!env.guard.fs.watcher.isEnd()) {}
+    if (!natives.scriptUtils.watcher.isEnd()) {
+      natives.scriptUtils.watcher.exit();
+      while (!natives.scriptUtils.watcher.isEnd()) {}
     }
-    return 1;
+    return natives.exitStatus;
   }, "Exit mocha.");
 
-  mocha.addCommand("help", function () {
-    print("Usage: [command]\n"
-          + "options:\n"
-          + " watch : Watch the files that is descripted in watch.xml.\n"
-          + " unwatch : Unwatch the files, if watch command is running.\n"
-          + " list : Show watching xml and javascript file list."
-          + " help : Show help.\n"
-          + " exit : exit mocha.");
-    return 0;
-  }, "Show help.");
-
-  mocha.addCommand('commandList', function () {
+  mocha.addCommand('help', function () {
     for (var command in mocha._commands) {
-      print("  " + command + '  :  ' + mocha._commandsHelp[command]);
+      env.console.log("  " + command + '  :  ' + mocha._commandsHelp[command]);
     }
-  })
+  }, 'show all command and help list.');
 
   mocha.setting = {
     addSetting : function (name, obj) {
-      var path_info = new env.guard.fs.Path(name);
-      if (env.guard.fs.Stat.isReg(path_info.fullpath())) {
+      var path_info = new natives.fs.Path(name);
+      if (natives.fs.Stat.isReg(path_info.fullpath())) {
         obj = obj || {};
         if (!('inputCharset' in obj)) {
           obj.inputCharset = 'utf-8';
@@ -155,19 +201,17 @@
             }
           }
         }
-        return env.guard.fs.__settings.addSetting(name,obj);
+        return natives.scriptUtils.__settings.addSetting(name,obj);
       }
     },
     removeSetting : function (name) {
-      return env.guard.fs.__settings.removeSetting(name);
+      return natives.scriptUtils.__settings.removeSetting(name);
     }
   }
-
   return function (source) {
     source = '(function(mocha) {"use strict";\n' + source + '\n})';
     mocha.__file__ = 'main';
-    var ret = env.compile(source)(mocha);
+    var ret = compile(source)(mocha);
     return ret;
   };
-
 });
