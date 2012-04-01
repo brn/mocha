@@ -29,13 +29,14 @@ class Shell {
   void InitShell();
   void ResetShell();
   bool CallAction();
+  static void Destruct();
   Action& action_;
   ConsoleInput input_;
   EditLine* line_;
   History* history_;
   HistEvent event_;
   static os::Mutex mutex_;
-  static ScopedPtr<Shell> shell_;
+  static Shell* shell_;
   static AtomicWord init_;
 };
 }

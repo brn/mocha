@@ -22,12 +22,13 @@
       },
       globalExports = {},
       loadFile = function (path) {
-        var file = natives.fs.io.fopen(path, 'w+b'),
+        var file = natives.io.fopen(path, 'rb'),
             result = file.getTextContent();
         file.close();
         return result;
-      }
-  
+      },
+      current = 'main';
+      
   //Define mocha object
   defProp(env, 'mocha', {});
   var mocha = env.mocha;
@@ -60,7 +61,7 @@
     }
   });
   defProp(mocha, 'utils', {});
-  defProp(mocha, 'import', function (path) {
+  defProp(mocha, 'import', function (path, force) {
     if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~') {
       if (path in natives) {
         return natives[path];
@@ -71,26 +72,25 @@
       var pathInfo = new natives.fs.Path(path),
           stat = new natives.fs.Stat(pathInfo.fullpath()),
           fullpath = pathInfo.fullpath();
-      if (stat.isExist() && stat.isReg() && !(path in globalExports)) {
-        var source = loadFile(fullpath);
-        globalExports[fullpath] = {};
-        mocha.__file__ = fullpath;
-        source = '(function(mocha) {"use strict";mocha.export = {};\n' + source + '\nreturn mocha.export})';
-        natives.fs.Dir.chdir(pathInfo.directory());
-        var results = compile(source, fullpath)(mocha);
-        for (var result in results) {
-          globalExports[fullpath][result] = results[result];
+      if (stat.isExist() && stat.isReg()) {
+        if (!(path in globalExports) || force) {
+          var source = loadFile(fullpath);
+          globalExports[fullpath] = {};
+          var file = current;
+          current = fullpath;
+          source = '(function(mocha) {"use strict";\n' + source + '\n})';
+          natives.fs.Dir.chdir(pathInfo.directory());
+          compile(source, fullpath)(mocha);
+          current = file;
         }
       } else {
-        if (path === natives.fs.Path.homeDir() + '/.mocha/config.js') {
-          env.console.log('first you need to create config.js in ' + natives.fs.Path.homeDir() + '/.mocha');
-          return natives.invalidValue;
-        } else {
-          throw new Error(path + ' No such module.');
-        }
+        throw new Error(path + ' No such module.');
       }
       return globalExports[fullpath];
     }
+  });
+  defProp(mocha, 'export', function (name, val) {
+    globalExports[current][name] = val;
   });
   defProp(mocha.utils, 'loadFile', loadFile);
   defProp(mocha, 'addCommand', function (name , val, help) {
@@ -102,52 +102,51 @@
   });
   defProp(mocha, 'callCommand', function (args) {
     if (typeof args === 'string') {
-      var str = args.replace(/\s+/g, ' ');
-      str = str.trim();
-      var command = str.split(' ');
-      if (command.length > 0 && command[0].length > 0) {
-        var name = command.shift();
-        name = name.replace('--', '');
-        if (name in this._commands) {
-          return this._commands[name].apply(null, command);
-        } else {
-          env.console.log(name + ' is unrecognized command\nsee --help.');
-        }
-      }
+      var source = args.replace('@', '');
+      return compile('mocha._commands.' + source);
     } else {
       throw new Error('The arguments of callCommand is must be string.');
     }
+    return null;
   });
   defProp(mocha, '_commands', {});
   defProp(mocha, '_commandsHelp', {});
-  defProp(mocha, 'addSetting', function (setting) {
-    for (var i in setting) {
-      this._settings[i] = setting[i];
-    }
-  });
-  defProp(mocha, '_setting', {});
-  defProp(mocha, '__file__', '', '-c -w');
-
   mocha.addCommand("watch", function () {
-    if (natives.scriptUtils.watcher.isEnd()) {
-      natives.scriptUtils.watcher.run();
+    if (!natives.script.watcher.isRunning()) {
+      natives.script.watcher.run();
     } else {
       env.console.log("watch server is now working.");
     }
   }, "Begin watching the file, and compile immediately if modified.");
 
   mocha.addCommand("unwatch", function (type) {
-    if (!natives.scriptUtils.watcher.isEnd()) {
-      natives.scriptUtils.watcher.exit();
+    if (natives.script.watcher.isRunning()) {
+      natives.script.watcher.exit();
+    } else {
+      env.console.log("watch sever is now stopping.");
+    }
+  }, "Exit watching the file, if watch server is working.");
+  
+  mocha.addCommand("stop", function (type) {
+    if (natives.script.watcher.isRunning()) {
+      natives.script.watcher.stop();
     } else {
       env.console.log("watch sever is now stopping.");
     }
   }, "Stop watching the file, if watch server is working.");
+  
+  mocha.addCommand("resume", function (type) {
+    if (!natives.script.watcher.isRunning()) {
+      natives.script.watcher.resume();
+    } else {
+      env.console.log("watch sever is now stopping.");
+    }
+  }, "Resume watching the file, if watch server is stopped.");
 
   mocha.addCommand("exit", function () {
-    if (!natives.scriptUtils.watcher.isEnd()) {
-      natives.scriptUtils.watcher.exit();
-      while (!natives.scriptUtils.watcher.isEnd()) {}
+    if (natives.script.watcher.isRunning()) {
+      natives.script.watcher.exit();
+      while (natives.script.watcher.isRunning()) {}
     }
     return natives.exitStatus;
   }, "Exit mocha.");
@@ -157,60 +156,8 @@
       env.console.log("  " + command + '  :  ' + mocha._commandsHelp[command]);
     }
   }, 'show all command and help list.');
-
-  mocha.setting = {
-    addSetting : function (name, obj) {
-      var path_info = new natives.fs.Path(name);
-      if (natives.fs.Stat.isReg(path_info.fullpath())) {
-        obj = obj || {};
-        if (!('inputCharset' in obj)) {
-          obj.inputCharset = 'utf-8';
-        }
-        if (!('outputCharset' in obj)) {
-          obj.outputCharset = 'utf-8';
-        }
-        if (!('moduleDir' in obj)) {
-          obj.moduleDir = [];
-        }
-        if (!('deployDir' in obj)) {
-          obj.deployDir = path_info.directory();
-        }
-        if (!('deployName' in obj)) {
-          obj.deployName = (path_info.filename().split('.')[0] + '-cmp.js');
-        }
-        if (!('options' in obj)) {
-          obj.options = {
-            compress : false,
-            debug : false,
-            prettyPrint : true,
-            versions : []
-          }
-        } else {
-          if (obj.options instanceof Object) {
-            if (!('compress'in obj.options)) {
-              obj.options.compress = false;
-            }
-            if (!('debug'in obj.options)) {
-              obj.options.debug = false;
-            }
-            if (!('prettyPrint'in obj.options)) {
-              obj.options.prettyPrint = true;
-            }
-            if (!('versions'in obj.options)) {
-              obj.options.versions = [];
-            }
-          }
-        }
-        return natives.scriptUtils.__settings.addSetting(name,obj);
-      }
-    },
-    removeSetting : function (name) {
-      return natives.scriptUtils.__settings.removeSetting(name);
-    }
-  }
   return function (source) {
     source = '(function(mocha) {"use strict";\n' + source + '\n})';
-    mocha.__file__ = 'main';
     var ret = compile(source)(mocha);
     return ret;
   };

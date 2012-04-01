@@ -26,14 +26,13 @@ const char kPrompt[] = {">>> "};
 Shell* Shell::Initialize(Action& action) {
   if (Atomic::CompareAndSwap(&init_, 0, 1) == 0) {
     init_ = 1;
-    shell_(new Shell(action));
-    return shell_.Get();
+    shell_ = new Shell(action);
   }
-  return 0;
+  return shell_;
 }
 
 Shell* Shell::GetInstance() {
-  return shell_.Get();
+  return shell_;
 }
 
 Shell::Shell(Action& action)
@@ -44,6 +43,7 @@ Shell::Shell(Action& action)
   InitShell();
   history_ = history_init();
   history(history_, &event_,  H_SETSIZE, 50);
+  atexit(Destruct);
 }
 
 Shell::~Shell() {
@@ -51,6 +51,9 @@ Shell::~Shell() {
   history_end(history_);
 }
 
+void Shell::Destruct() {
+  delete shell_;
+}
 
 void Shell::Read() {
   wchar_t *buf;
@@ -132,7 +135,7 @@ void Shell::SafeBreak(bool initial) {
 }
 
 os::Mutex Shell::mutex_;
-ScopedPtr<Shell> Shell::shell_;
+Shell* Shell::shell_;
 AtomicWord Shell::init_;
 
 }

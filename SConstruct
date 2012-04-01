@@ -36,8 +36,9 @@ PLATFORM_CONFIG = {
         },
     "win32" : {
         "TARGET" : 'bin/win32/mchd.exe',
-        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
-        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "DEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue',
+        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I src/third_party/v8/include',
+        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "DEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I src/third_party/v8/include',
+        "STATIC_LIBS" : ['src/third_party/v8/win32/v8.lib'],
         "LD_FLAGS" : "/NOLOGO /MACHINE:X86",
         "LIBS" : [LIB_PREFIX + '/lib-win32/icuin.lib', LIB_PREFIX + '/lib-win32/icudt.lib', LIB_PREFIX + '/lib-win32/icuuc.lib'],
         "EXCLUDE_FILES" : ["thread-posix.cc", "directory-posix.cc", "file_watcher-inotify-impl.cc", "shell-posix.cc", 'utils-posix.cc']
@@ -63,14 +64,14 @@ class MochaBuilder :
                                  LINKFLAGS=flags[2])
 
     def Build(self) :
-        self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/mocha/config.h', 'C++', True, HEADER_LIST))
+        #self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/mocha/config.h', 'C++', True, HEADER_LIST))
         targets = self.__sources.CreateSourceList()
         self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
 
     def __SetExtraHeaders(self, has) :
         if has.has_key("HAVE_SYS_INOTIFY_H") and has["HAVE_SYS_INOTIFY_H"] is True :
             self.__config.RemoveExcludeFile("file_watcher-inotify-impl.cc")
-            self.__config.AddExcludeFile(["file_watcher-impl.cc"])
+            self.__config.AddExcludeFile(["file_watcher-normal-impl.cc"])
 
 ut = ARGUMENTS.get('ut')
 ct = ARGUMENTS.get('ct')

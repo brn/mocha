@@ -2,7 +2,7 @@
 #include <conio.h>
 #include <ctype.h>
 #include <mocha/shell/shell-win32.h>
-#include <mocha/roaster/encoding/encoding.h>
+#include <mocha/roaster/nexc/scanner/encoding/encoding.h>
 namespace mocha {
 const char kPrompt[] = {">> "};
 

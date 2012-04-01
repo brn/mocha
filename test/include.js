@@ -1,8 +1,9 @@
-var fs = mocha.import("fs");
-print(fs);
+var fs = mocha.import("fs"),
+    watcher = mocha.import("script").watcher;
 var dir = new fs.Dir("./mains/");
-print(dir.entries(true).forEach(function (item) {
-  mocha.setting.addSetting(item.fullpath());
-}));
+dir.entries(true).forEach(function (item) {
+  console.log(item.fullpath);
+  watcher.addSetting(item.fullpath);
+});
 
 

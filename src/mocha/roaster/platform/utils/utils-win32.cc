@@ -23,6 +23,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <windows.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
 int VAArgs(const char* format, va_list args) {
@@ -102,7 +103,7 @@ void GetEnv(std::string* buf, const char* env) {
 }
 
 bool Sleep(int nano_time) {
-  int ret = ::SleepEx(nano_time, TRUE);
-  return ret == 0 || ret == WAIT_IO_COMPLETION;
+  ::Sleep(nano_time);
+  return true;
 }
 }}

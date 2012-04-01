@@ -11,25 +11,24 @@ V8Init* V8Init::GetInstance() {
   int ret = Atomic::CompareAndSwap(&atomic_, 0 , 1);
   if (ret == 0) {
     atomic_ = 1;
-    instance_(new V8Init);
+    instance_ = new V8Init;
   }
-  return instance_.Get();
+  return instance_;
 }
 
-AtomicWord V8Init::atomic_ = 0;
-ScopedPtr<V8Init> V8Init::instance_;
-
 V8Init::V8Init() {
+  atexit(Destruct);
   Initialize();
 }
 
-V8Init::~V8Init() {
-  config_global_template_.Dispose();
-  config_global_.Dispose();
-  context_.Dispose();
-  function_.Dispose();
-  compile_.Dispose();
-  native_.Dispose();
+V8Init::~V8Init() {}
+
+void V8Init::Destruct() {
+  delete instance_;
+}
+
+void V8Init::IdleNotification() {
+  while (!V8::IdleNotification());
 }
 
 void V8Init::Print(Handle<Value> value) {
@@ -60,11 +59,19 @@ Handle<Value> V8Init::RunInGlobalContext(const char* source) {
 }
 
 bool V8Init::IsInvalidValue(Handle<Value> value) {
-  return value->StrictEquals(native_->Get(String::New("invalidValue")));
+  if (value.IsEmpty() || !value->IsObject()) {
+    return false;
+  } else {
+    return value->StrictEquals(native_->Get(String::New("invalidValue")));
+  }
 }
 
 bool V8Init::IsExitStatus(Handle<Value> value) {
-  return value->StrictEquals(native_->Get(String::New("exitStatus")));
+    if (value.IsEmpty()) {
+      return false;
+    } else {
+      return value->StrictEquals(native_->Get(String::New("exitStatus")));
+    }
 }
 
 Handle<Value> V8Init::Compile(const Arguments& args) {
@@ -176,10 +183,17 @@ void V8Init::Initialize() {
   Handle<Function> config_context = Handle<Function>::Cast(ret);
   function_ = Persistent<Function>::New(config_context);
   context_->Exit();
+  Regist<ObjectTemplate>(config_global_template_);
+  Regist<Object>(config_global_);
+  Regist<Context>(context_);
+  Regist<Function>(function_);
+  Regist<Function>(compile_);
+  Regist<Object>(native_);
 }
 
 
-
+V8Init* V8Init::instance_;
+AtomicWord V8Init::atomic_ = 0;
 os::Mutex V8Init::mutex_;
-
+memory::Pool V8Init::pool_;
 }

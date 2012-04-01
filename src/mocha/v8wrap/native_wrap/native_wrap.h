@@ -25,8 +25,9 @@ class NativeWrap : private Static {
     DECL_METHOD(Chdir);
     class Entry : private Static {
      public :
-      static v8::Handle<v8::Object> Init(const os::fs::DirEntry* ent);
+      static v8::Handle<v8::Function> Init();
       DECL_DIPOSER;
+      static v8::Handle<v8::Object> New(const os::fs::DirEntry* ent, v8::Handle<v8::Function> fn);
       DECL_METHOD(Name);
       DECL_METHOD(Path);
       DECL_METHOD(FullPath);
@@ -89,14 +90,6 @@ class NativeWrap : private Static {
       DECL_METHOD(StdError);
     };
   };
-
-  class Setting : private Static {
-   public :
-    INIT_DECL;
-    DECL_DIPOSER;
-    DECL_METHOD(AddSetting);
-    DECL_METHOD(RemoveSetting);
-  };
   
   class Watcher : private Static {
    public :
@@ -104,8 +97,11 @@ class NativeWrap : private Static {
     DECL_DIPOSER;
     DECL_METHOD(Run);
     DECL_METHOD(Exit);
-    DECL_METHOD(IsEnd);
-    DECL_METHOD(AddConfig);
+    DECL_METHOD(IsRunning);
+    DECL_METHOD(Stop);
+    DECL_METHOD(Resume);
+    DECL_METHOD(AddSetting);
+    DECL_METHOD(RemoveSetting);
   };
 };
 #undef DECL_METHOD

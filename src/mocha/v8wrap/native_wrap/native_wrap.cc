@@ -4,8 +4,7 @@
 #include <mocha/roaster/ast/seriarization/byte.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/options/setting.h>
-#include <mocha/xml/xml_setting_info.h>
-#include <mocha/misc/file_watcher/observer/xml_observer.h>
+#include <mocha/misc/file_watcher/observer/javascript_observer.h>
 #include <mocha/roaster/platform/fs/fs.h>
 using namespace v8;
 namespace mocha {
@@ -13,71 +12,80 @@ namespace mocha {
 
 #define DISPOSE_IMPL(name,type)                                 \
   void name::Dispose(Persistent<Value> handle, void* ptr) {     \
-    type* entity = static_cast<type*>(ptr);                     \
-    delete entity;                                              \
+    DoDispose<type>(ptr);                                       \
+    handle.ClearWeak();                                         \
     handle.Dispose();                                           \
+    handle.Clear();                                             \
   }
 
+template <typename T>
+void DoDispose(void* ptr) {
+  T* entity = static_cast<T*>(ptr);
+  delete entity;
+}
+
 void NativeWrap::Init(Handle<Object> object) {
-  Handle<Object> ns_fs = Object::New();
-  Handle<Object> ns_io = Object::New();
-  Handle<Object> ns_console = Object::New();
-  Handle<Object> ns_setting = Object::New();
+  HandleScope handle_scope;
+  Persistent<Object> ns_fs = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> ns_io = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> ns_console = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> ns_setting = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> invalid = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> exit_status = V8Init::Regist<Object>(Object::New());
   NativeWrap::Directory::Init(ns_fs);
   NativeWrap::Path::Init(ns_fs);
   NativeWrap::Stat::Init(ns_fs);
   NativeWrap::IO::Init(ns_io);
   NativeWrap::IO::NativeConsole::Init(ns_console);
-  ns_io->Set(String::New("nativeConsole"), ns_console);
-  NativeWrap::Setting::Init(ns_setting);
   NativeWrap::Watcher::Init(ns_setting);
+  ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
-  object->Set(String::New("scriptUtils"), ns_setting);
+  object->Set(String::New("script"), ns_setting);
   object->Set(String::New("io"), ns_io);
-  object->Set(String::New("invalid"), Object::New());
-  object->Set(String::New("exitStatus"), Object::New());
+  object->Set(String::New("invalid"), invalid);
+  object->Set(String::New("exitStatus"), exit_status);
 }
 
-Handle<Object> NativeWrap::Directory::Entry::Init(const os::fs::DirEntry* ent) {
+
+Handle<v8::Function> NativeWrap::Directory::Entry::Init() {
+  HandleScope handle_scope;
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
   fn->SetClassName(String::New("Entry"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
-  inst->SetInternalFieldCount(1);
-  Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("name"), v8::FunctionTemplate::New(Name));
-  proto->Set(String::New("fullpath"), v8::FunctionTemplate::New(FullPath));
-  proto->Set(String::New("path"), v8::FunctionTemplate::New(Path));
-  proto->Set(String::New("isDir"), v8::FunctionTemplate::New(IsDir));
-  proto->Set(String::New("isFile"), v8::FunctionTemplate::New(IsFile));
-  Handle<Object> instance = fn->GetFunction()->NewInstance();
-  instance->SetInternalField(0, External::New(const_cast<os::fs::DirEntry*>(ent)));
-  Persistent<Object> holder = Persistent<Object>::New(instance);
-  holder.MakeWeak(const_cast<os::fs::DirEntry*>(ent), NativeWrap::Directory::Entry::Dispose);
-  return instance;
+  return handle_scope.Close(fn->GetFunction());
+}
+
+Handle<Object> NativeWrap::Directory::Entry::New(const os::fs::DirEntry* ent, Handle<v8::Function> fn) {
+  HandleScope handle_scope;
+  Handle<Object> instance = fn->NewInstance();
+  instance->Set(String::New("fullpath"), String::New(ent->GetFullPath()));
+  instance->Set(String::New("filename"), String::New(ent->GetName()));
+  instance->Set(String::New("dir"), String::New(ent->GetDirName()));
+  return handle_scope.Close(instance);
 }
 
 METHOD_IMPL(NativeWrap::Directory::Entry::Name) {
-  os::fs::DirEntry* dir = V8Init::GetInternal<os::fs::DirEntry>(args.This());
+  os::fs::DirEntry* dir = V8Init::GetInternalPtr<os::fs::DirEntry, 0>(args.This());
   return String::New(dir->GetName());
 }
 
 METHOD_IMPL(NativeWrap::Directory::Entry::FullPath) {
-  os::fs::DirEntry* dir = V8Init::GetInternal<os::fs::DirEntry>(args.This());
+  os::fs::DirEntry* dir = V8Init::GetInternalPtr<os::fs::DirEntry, 0>(args.This());
   return String::New(dir->GetFullPath());
 }
 
 METHOD_IMPL(NativeWrap::Directory::Entry::Path) {
-  os::fs::DirEntry* dir = V8Init::GetInternal<os::fs::DirEntry>(args.This());
+  os::fs::DirEntry* dir = V8Init::GetInternalPtr<os::fs::DirEntry, 0>(args.This());
   return String::New(dir->GetDirName());
 }
 
 METHOD_IMPL(NativeWrap::Directory::Entry::IsDir) {
-  os::fs::DirEntry* dir = V8Init::GetInternal<os::fs::DirEntry>(args.This());
+  os::fs::DirEntry* dir = V8Init::GetInternalPtr<os::fs::DirEntry, 0>(args.This());
   return Boolean::New(dir->IsDir());
 }
 
 METHOD_IMPL(NativeWrap::Directory::Entry::IsFile) {
-  os::fs::DirEntry* dir = V8Init::GetInternal<os::fs::DirEntry>(args.This());
+  os::fs::DirEntry* dir = V8Init::GetInternalPtr<os::fs::DirEntry, 0>(args.This());
   return Boolean::New(dir->IsFile());
 }
 
@@ -89,7 +97,7 @@ void NativeWrap::Directory::Init(Handle<Object> object) {
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(NativeWrap::Directory::Dir);
   fn->SetClassName(String::New("Dir"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
-  inst->SetInternalFieldCount(1);
+  inst->SetInternalFieldCount(2);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
   proto->Set(String::New("entries"), v8::FunctionTemplate::New(NativeWrap::Directory::Entries));
   Handle<v8::FunctionTemplate> mkdir_tmp = v8::FunctionTemplate::New(NativeWrap::Directory::Mkdir);
@@ -104,6 +112,7 @@ void NativeWrap::Directory::Init(Handle<Object> object) {
 
 
 METHOD_IMPL(NativeWrap::Directory::Dir) {
+  HandleScope handle_scope;
   if (args.IsConstructCall()) {
     if (args.Length() > 0) {
       if (args[0]->IsString()) {
@@ -112,11 +121,14 @@ METHOD_IMPL(NativeWrap::Directory::Dir) {
         os::fs::Stat stat(path_info.absolute_path());
         if (stat.IsExist() && stat.IsDir()) {
           os::fs::Directory* dir = new os::fs::Directory(path_info.absolute_path());
-          Local<Object> thisObject = args.This();
-          thisObject->SetInternalField(0, External::New(dir));
-          Persistent<Object> holder = Persistent<Object>::New(thisObject);
+          V8::AdjustAmountOfExternalAllocatedMemory(sizeof(os::fs::Directory));
+          Handle<Object> this_object = args.This();
+          this_object->SetPointerInInternalField(0, dir);
+          this_object->SetInternalField(1, NativeWrap::Directory::Entry::Init());
+          Persistent<Object> holder = Persistent<Object>::New(this_object);
           holder.MakeWeak(dir, NativeWrap::Directory::Dispose);
-          return thisObject;
+          holder.MarkIndependent();
+          return handle_scope.Close(this_object);
         } else if (!stat.IsExist()){
           std::string buf;
           os::SPrintf(&buf, "%s No such directory.");
@@ -143,12 +155,13 @@ METHOD_IMPL(NativeWrap::Directory::Entries) {
   if (args.Length() > 0) {
     if (args[0]->IsBoolean()) {
       bool recursive = args[0]->IsTrue();
-      os::fs::Directory* dir = V8Init::GetInternal<os::fs::Directory>(args.This());
+      os::fs::Directory* dir = V8Init::GetInternalPtr<os::fs::Directory, 0>(args.This());
       os::fs::Directory::const_iterator it = dir->Entries(recursive);
       Handle<Array> entries = Array::New();
       int count = 0;
       for (; it != dir->end(); ++it) {
-        Handle<Object> obj = NativeWrap::Directory::Entry::Init(&(*it));
+        Handle<v8::Function> entry = Handle<v8::Function>::Cast(args.This()->GetInternalField(1));
+        Handle<Object> obj = NativeWrap::Directory::Entry::New(&(*it), entry);
         entries->Set(Integer::New(count), obj);
         count++;
       }
@@ -199,6 +212,7 @@ METHOD_IMPL(NativeWrap::Directory::Rm) {
 
 
 void NativeWrap::Path::Init(Handle<Object> object) {
+  HandleScope handle_scope;
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(NativeWrap::Path::New);
   fn->SetClassName(String::New("Path"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
@@ -212,20 +226,23 @@ void NativeWrap::Path::Init(Handle<Object> object) {
   Handle<v8::FunctionTemplate> home_tmp = v8::FunctionTemplate::New(NativeWrap::Path::Home);
   function->Set(String::New("getcwd"), getcwd_tmp->GetFunction());
   function->Set(String::New("homeDir"), home_tmp->GetFunction());
-  object->Set(String::New("Path"), function);
+  object->Set(String::New("Path"), handle_scope.Close(function));
 }
 
 
 METHOD_IMPL(NativeWrap::Path::New) {
   if (args.Length() > 0) {
     if (args[0]->IsString()) {
+      HandleScope handle_scope;
       String::Utf8Value path(args[0]);
       os::fs::Path* path_info = new os::fs::Path(*path);
-      Local<Object> thisObject = args.This();
-      thisObject->SetInternalField(0, External::New(path_info));
-      Persistent<Object> holder = Persistent<Object>::New(thisObject);
+      V8::AdjustAmountOfExternalAllocatedMemory(sizeof(os::fs::Path));
+      Handle<Object> this_object = args.This();
+      this_object->SetPointerInInternalField(0, path_info);
+      Persistent<Object> holder = Persistent<Object>::New(this_object);
       holder.MakeWeak(path_info, NativeWrap::Path::Dispose);
-      return thisObject;
+      holder.MarkIndependent();
+      return handle_scope.Close(this_object);
     } else {
       return ThrowException(Exception::Error(String::New("The arguments of path must be a string.")));
     }
@@ -234,17 +251,17 @@ METHOD_IMPL(NativeWrap::Path::New) {
 }
 
 METHOD_IMPL(NativeWrap::Path::Filename) {
-  os::fs::Path* path_info = V8Init::GetInternal<os::fs::Path>(args.This());
+  os::fs::Path* path_info = V8Init::GetInternalPtr<os::fs::Path, 0>(args.This());
   return String::New(path_info->filename());
 }
 
 METHOD_IMPL(NativeWrap::Path::AbsolutePath) {
-  os::fs::Path* path_info = V8Init::GetInternal<os::fs::Path>(args.This());
+  os::fs::Path* path_info = V8Init::GetInternalPtr<os::fs::Path, 0>(args.This());
   return String::New(path_info->absolute_path());
 }
 
 METHOD_IMPL(NativeWrap::Path::Directory) {
-  os::fs::Path* path_info = V8Init::GetInternal<os::fs::Path>(args.This());
+  os::fs::Path* path_info = V8Init::GetInternalPtr<os::fs::Path, 0>(args.This());
   return String::New(path_info->directory());
 }
 
@@ -259,6 +276,7 @@ METHOD_IMPL(NativeWrap::Path::Home) {
 DISPOSE_IMPL(NativeWrap::Path, os::fs::Path);
 
 void NativeWrap::Stat::Init(Handle<Object> object) {
+  HandleScope handle_scope;
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(NativeWrap::Stat::New);
   fn->SetClassName(String::New("Stat"));
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
@@ -281,19 +299,22 @@ void NativeWrap::Stat::Init(Handle<Object> object) {
   Handle<v8::Function> function = fn->GetFunction();
   function->Set(String::New("isDir"), v8::FunctionTemplate::New(NativeWrap::Stat::StaticIsDir)->GetFunction());
   function->Set(String::New("isReg"), v8::FunctionTemplate::New(NativeWrap::Stat::StaticIsReg)->GetFunction());
-  object->Set(String::New("Stat"), function);
+  object->Set(String::New("Stat"), handle_scope.Close(function));
 }
 
 METHOD_IMPL(NativeWrap::Stat::New) {
   if (args.Length() > 0) {
     if (args[0]->IsString()) {
+      HandleScope handle_scope;
       String::Utf8Value path(args[0]);
       os::fs::Stat* stat = new os::fs::Stat(*path);
-      Local<Object> thisObject = args.This();
-      thisObject->SetInternalField(0, External::New(stat));
-      Persistent<Object> holder = Persistent<Object>::New(thisObject);
+      V8::AdjustAmountOfExternalAllocatedMemory(sizeof(os::fs::Stat));
+      Local<Object> this_object = args.This();
+      this_object->SetPointerInInternalField(0, stat);
+      Persistent<Object> holder = Persistent<Object>::New(this_object);
       holder.MakeWeak(stat, NativeWrap::Stat::Dispose);
-      return thisObject;
+      holder.MarkIndependent();
+      return handle_scope.Close(this_object);
     } else {
       return ThrowException(Exception::Error(String::New("The arguments of stat must be a string.")));
     }
@@ -302,72 +323,72 @@ METHOD_IMPL(NativeWrap::Stat::New) {
 }
 
 METHOD_IMPL(NativeWrap::Stat::IsDir) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Boolean::New(stat->IsDir());
 }
 
 METHOD_IMPL(NativeWrap::Stat::IsChr) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Boolean::New(stat->IsChr());
 }
 
 METHOD_IMPL(NativeWrap::Stat::IsExist) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Boolean::New(stat->IsExist());
 }
 
 METHOD_IMPL(NativeWrap::Stat::Dev) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->Dev());
 }
 
 METHOD_IMPL(NativeWrap::Stat::Ino) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->Ino());
 }
 
 METHOD_IMPL(NativeWrap::Stat::NLink) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->NLink());
 }
 
 METHOD_IMPL(NativeWrap::Stat::UId) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->UId());
 }
 
 METHOD_IMPL(NativeWrap::Stat::GId) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->GId());
 }
 
 METHOD_IMPL(NativeWrap::Stat::RDev) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->RDev());
 }
 
 METHOD_IMPL(NativeWrap::Stat::Size) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Integer::New(stat->Size());
 }
 
 METHOD_IMPL(NativeWrap::Stat::ATime) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return String::New(stat->ATime());
 }
 
 METHOD_IMPL(NativeWrap::Stat::MTime) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return String::New(stat->MTime());
 }
 
 METHOD_IMPL(NativeWrap::Stat::CTime) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return String::New(stat->CTime());
 }
 
 METHOD_IMPL(NativeWrap::Stat::IsReg) {
-  os::fs::Stat* stat = V8Init::GetInternal<os::fs::Stat>(args.This());
+  os::fs::Stat* stat = V8Init::GetInternalPtr<os::fs::Stat, 0>(args.This());
   return Boolean::New(stat->IsReg());
 }
 
@@ -397,13 +418,15 @@ DISPOSE_IMPL(NativeWrap::Stat, os::fs::Stat);
 
 
 void NativeWrap::IO::Init(Handle<Object> object) {
+  HandleScope handle_scope;
   Handle<FunctionTemplate> fn = FunctionTemplate::New(NativeWrap::IO::FOpen);
   fn->SetClassName(String::New("fopen"));
-  object->Set(String::New("fopen"), fn->GetFunction());
+  object->Set(String::New("fopen"), handle_scope.Close(fn->GetFunction()));
 }
 
 
 Handle<Object> NativeWrap::File::Init(FILE* fp) {
+  HandleScope handle_scope;
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(2);
@@ -414,9 +437,9 @@ Handle<Object> NativeWrap::File::Init(FILE* fp) {
   proto->Set(String::New("getTextContent"), v8::FunctionTemplate::New(GetTextContent));
   proto->Set(String::New("close"), v8::FunctionTemplate::New(FClose));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
-  instance->SetInternalField(0, External::New(fp));
+  instance->SetPointerInInternalField(0, fp);
   instance->SetInternalField(1, Boolean::New(true));
-  return instance;
+  return handle_scope.Close(instance);
 }
 
 METHOD_IMPL(NativeWrap::File::WriteTextContent) {
@@ -426,7 +449,7 @@ METHOD_IMPL(NativeWrap::File::WriteTextContent) {
       if (is_opened) {
         String::Utf8Value str(args[0]);
         const char* content = *str;
-        FILE* fp = V8Init::GetInternal<FILE>(args.This());
+        FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
         if (fp != NULL) {
           fwrite(content, sizeof(char), strlen(content), fp);
         } else {
@@ -475,7 +498,7 @@ METHOD_IMPL(NativeWrap::File::FWrite) {
         if (args[1]->IsNumber() && args[1]->IsNumberObject()) {
           bool is_opened = args.This()->GetInternalField(1)->IsTrue();
           if (is_opened) {
-            FILE* fp = V8Init::GetInternal<FILE>(args.This());
+            FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
             if (fp != NULL) {
               if (has_endian_flag) {
                 int size = GetWriteSizeFromBinaryFlag(ctype[1]);
@@ -509,7 +532,7 @@ METHOD_IMPL(NativeWrap::File::FWrite) {
 }
 
 METHOD_IMPL(NativeWrap::File::GetTextContent) {
-  FILE* fp = V8Init::GetInternal<FILE>(args.This());
+  FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
   if (fp != NULL) {
     bool is_opened = args.This()->GetInternalField(1)->IsTrue();
     if (is_opened) {
@@ -537,7 +560,7 @@ METHOD_IMPL(NativeWrap::File::GetTextContent) {
 
 METHOD_IMPL(NativeWrap::File::FRead) {
   if (args.Length() > 0) {
-    FILE* fp = V8Init::GetInternal<FILE>(args.This());
+    FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
     if (fp != NULL) {
       bool is_opened = args.This()->GetInternalField(1)->IsTrue();
       if (args[0]->IsInt32()) {
@@ -568,7 +591,7 @@ METHOD_IMPL(NativeWrap::File::FRead) {
 }
 
 METHOD_IMPL(NativeWrap::File::FClose) {
-  FILE* fp = V8Init::GetInternal<FILE>(args.This());
+  FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
   if (fp != NULL) {
     bool is_opened = args.This()->GetInternalField(1)->IsTrue();
     if (is_opened) {
@@ -616,15 +639,15 @@ METHOD_IMPL(NativeWrap::IO::FOpen) {
           }
         } else if (!stat.IsExist()){
           std::string buf;
-          os::SPrintf(&buf, "%s No such file.");
+          os::SPrintf(&buf, "%s No such file.", path_info.absolute_path());
           return ThrowException(Exception::Error(String::New(buf.c_str())));
         } else if (stat.IsDir()) {
           std::string buf;
-          os::SPrintf(&buf, "%s is a directory.");
+          os::SPrintf(&buf, "%s is a directory.", path_info.absolute_path());
           return ThrowException(Exception::Error(String::New(buf.c_str())));
         } else if (!stat.IsReg()) {
           std::string buf;
-          os::SPrintf(&buf, "%s is not a valid file.");
+          os::SPrintf(&buf, "%s is not a valid file.", path_info.absolute_path());
           return ThrowException(Exception::Error(String::New(buf.c_str())));
         }
       } else {
@@ -664,67 +687,75 @@ METHOD_IMPL(NativeWrap::IO::NativeConsole::StdError) {
   return Undefined();
 }
 
-void NativeWrap::Setting::Init(Handle<Object> object) {
-  HandleScope handle_scope;
-  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
-  Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Setting::AddSetting));
-  proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Setting::RemoveSetting));
-  object->Set(String::New("__settings"), handle_scope.Close(fn->GetFunction()->NewInstance()));
-}
 
-
-METHOD_IMPL(NativeWrap::Setting::AddSetting) {
-  if (args.Length() == 2) {
-    if (args[0]->IsString() && args[1]->IsObject()) {
+METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
+  if (args.Length() > 0) {
+    if (args[0]->IsString()) {
       String::Utf8Value str(args[0]);
-      Handle<Object> obj = Handle<Object>::Cast(args[1]);
+      Handle<Object> obj = (args.Length() == 2 && args[1]->IsObject())? Handle<Object>::Cast(args[1]) : Object::New();
       const char* name = *str;
       os::fs::Stat stat(name);
       if (stat.IsExist() && stat.IsReg()) {
+        JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
         FileInfoMap::UnsafeSet(name);
-        FileInfo* resource = FileInfoMap::UnsafeGet(name);
-        String::Utf8Value icharset(obj->Get(String::New("inputCharset")));
-        String::Utf8Value ocharset(obj->Get(String::New("outputCharset")));
-        String::Utf8Value dep_dir(obj->Get(String::New("deployDir")));
-        String::Utf8Value dep_name(obj->Get(String::New("deployName")));
-        Handle<Array> mod_list = Handle<Array>::Cast(obj->Get(String::New("moduleDir")));
-        Handle<Object> options = Handle<Object>::Cast(obj->Get(String::New("options")));
-        resource->SetInputCharset(*icharset);
-        resource->SetOutputCharset(*ocharset);
-        resource->SetDeploy(*dep_dir);
-        resource->SetDeployName(*dep_name);
-        for (int i = 0,len = mod_list->Length(); i < len; i++) {
-          String::Utf8Value dir(mod_list->Get(Integer::New(i)));
-          resource->SetModule(*dir);
+        FileInfo* resource = FileInfoMap::UnsafeGet(name);        
+        if (obj->Has(String::New("inputCharset"))) {
+          String::Utf8Value icharset(obj->Get(String::New("inputCharset")));
+          resource->SetInputCharset(*icharset);
         }
-        CompilationInfo* info = resource->compilation_info().Get();
-        if (options->Get(String::New("compress"))->IsTrue()) {
-          info->SetCompress();
+        if (obj->Has(String::New("outputCharset"))) {
+          String::Utf8Value ocharset(obj->Get(String::New("outputCharset")));
+          resource->SetOutputCharset(*ocharset);
         }
-        if (options->Get(String::New("debug"))->IsTrue()) {
-          info->SetDebug();
+        if (obj->Has(String::New("deployDir"))) {
+          String::Utf8Value dep_dir(obj->Get(String::New("deployDir")));
+          resource->SetDeploy(*dep_dir);
         }
-        if (options->Get(String::New("prettyPrint"))->IsTrue()) {
-          info->SetPrettyPrint();
+        if (obj->Has(String::New("deployName"))) {
+          String::Utf8Value dep_name(obj->Get(String::New("deployName")));
+          resource->SetDeployName(*dep_name);
         }
-        Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
-        for (int i = 0,len = versions->Length();i < len;i++) {
-          String::Utf8Value ver(versions->Get(Integer::New(i)));
-          info->SetVersion(*ver);
+        if (obj->Has(String::New("moduleDir"))) {
+          Handle<Array> mod_list = Handle<Array>::Cast(obj->Get(String::New("moduleDir")));
+          for (int i = 0,len = mod_list->Length(); i < len; i++) {
+            String::Utf8Value dir(mod_list->Get(Integer::New(i)));
+            resource->SetModule(*dir);
+          }
         }
-        XMLSettingInfo::set_file_list(name);
+        if (obj->Has(String::New("options"))) {
+          Handle<Object> options = Handle<Object>::Cast(obj->Get(String::New("options")));
+          CompilationInfo* info = resource->compilation_info().Get();
+          if (options->Get(String::New("compress"))->IsTrue()) {
+            info->SetCompress();
+          }
+          if (options->Get(String::New("debug"))->IsTrue()) {
+            info->SetDebug();
+          }
+          if (options->Get(String::New("prettyPrint"))->IsTrue()) {
+            info->SetPrettyPrint();
+          }
+          if (options->Has(String::New("versions"))) {
+            Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
+            for (int i = 0,len = versions->Length();i < len;i++) {
+              String::Utf8Value ver(versions->Get(Integer::New(i)));
+              info->SetVersion(*ver);
+            }
+          }
+        }
+        observer->AddFile(name);
       }
     }
   }
   return Undefined();
 }
 
-METHOD_IMPL(NativeWrap::Setting::RemoveSetting) {
+METHOD_IMPL(NativeWrap::Watcher::RemoveSetting) {
   if (args.Length() == 1) {
     if (args[0]->IsString()) {
+      JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
       String::Utf8Value str(args[0]);
       FileInfoMap::UnsafeRemove(*str);
+      observer->RemoveFile(*str);
     }
   }
   return Undefined();
@@ -732,48 +763,59 @@ METHOD_IMPL(NativeWrap::Setting::RemoveSetting) {
 
 void NativeWrap::Watcher::Init(Handle<Object> object) {
   HandleScope handle_scope;
-  static XMLObserver ob;
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
   inst->SetInternalFieldCount(1);
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
   proto->Set(String::New("run"), v8::FunctionTemplate::New(NativeWrap::Watcher::Run));
-  proto->Set(String::New("addConfig"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddConfig));
   proto->Set(String::New("exit"), v8::FunctionTemplate::New(NativeWrap::Watcher::Exit));
-  proto->Set(String::New("isEnd"), v8::FunctionTemplate::New(NativeWrap::Watcher::IsEnd));
+  proto->Set(String::New("stop"), v8::FunctionTemplate::New(NativeWrap::Watcher::Stop));
+  proto->Set(String::New("resume"), v8::FunctionTemplate::New(NativeWrap::Watcher::Resume));
+  proto->Set(String::New("isRunning"), v8::FunctionTemplate::New(NativeWrap::Watcher::IsRunning));
+  proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
+  proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::RemoveSetting));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
-  instance->SetInternalField(0, External::New(&ob));
+  JavascriptObserver *ob = new JavascriptObserver;
+  instance->SetPointerInInternalField(0, ob);
+  Persistent<Object> holder = Persistent<Object>::New(instance);
+  holder.MakeWeak(ob, NativeWrap::Watcher::Dispose);
+  holder.MarkIndependent();
   object->Set(String::New("watcher"), handle_scope.Close(instance));
-  
 }
 
-DISPOSE_IMPL(NativeWrap::Watcher, XMLObserver);
+DISPOSE_IMPL(NativeWrap::Watcher, JavascriptObserver);
 
 METHOD_IMPL(NativeWrap::Watcher::Run) {
-  XMLObserver* observer = V8Init::GetInternal<XMLObserver>(args.This());
+  const char* path = mocha::Setting::GetInstance()->GetConfigPath();
+  std::string source;
+  os::SPrintf(&source, "mocha.import('%s');", path);
+  V8Init::GetInstance()->RunInConfigContext(source.c_str());
+  JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
   observer->Run();
   return Undefined();
 }
 
-METHOD_IMPL(NativeWrap::Watcher::AddConfig) {
-  if (args.Length() == 1) {
-    if (args[0]->IsString()) {
-      String::Utf8Value str(args[0]);
-      XMLSettingInfo::set_include_list(*str);
-    }
-  }
+METHOD_IMPL(NativeWrap::Watcher::Exit) {
+  JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
+  observer->Exit();
   return Undefined();
 }
 
-METHOD_IMPL(NativeWrap::Watcher::Exit) {
-  XMLObserver* observer = V8Init::GetInternal<XMLObserver>(args.This());
-  observer->Exit();
-  return Integer::New(1);
+METHOD_IMPL(NativeWrap::Watcher::Stop) {
+  JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
+  observer->Stop();
+  return Undefined();
 }
 
-METHOD_IMPL(NativeWrap::Watcher::IsEnd) {
-  XMLObserver* observer = V8Init::GetInternal<XMLObserver>(args.This());
-  return Boolean::New(observer->IsEnd());
+METHOD_IMPL(NativeWrap::Watcher::Resume) {
+  JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
+  observer->Resume();
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Watcher::IsRunning) {
+  JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
+  return Boolean::New(observer->IsRunning());
 }
 
 }

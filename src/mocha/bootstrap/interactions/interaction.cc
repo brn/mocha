@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <mocha/shell/shell.h>
 #include <mocha/bootstrap/interactions/interaction.h>
-#include <mocha/bootstrap/runners/observer_runner.h>
 #include <mocha/v8wrap/init.h>
 using namespace v8;
 namespace mocha {
@@ -10,8 +9,8 @@ namespace mocha {
 class Interaction::RunCommand : public Action {
  public :
   bool operator()(ConsoleInput input) {
-    if (input.size() > 2) {
-      if (input.at(0) == '-' && input.at(1) == '-') {
+    if (input.size() > 1) {
+      if (input.at(0) == '@') {
         std::string tmp = input;
         input = "mocha.callCommand('";
         input += tmp;
@@ -29,11 +28,10 @@ class Interaction::RunCommand : public Action {
         V8Init::HandleException(&try_catch);
         try_catch.Reset();
       }
+      v8_runner->IdleNotification();
     }
     return false;
   }
- private :
-  static Commands commands_;
 };
 
 void Interaction::Begin() {
@@ -43,7 +41,4 @@ void Interaction::Begin() {
   Shell* shell = Shell::Initialize(command);
   shell->Read();
 }
-
-bool Interaction::is_end_ = false;
-Commands Interaction::RunCommand::commands_;
 }

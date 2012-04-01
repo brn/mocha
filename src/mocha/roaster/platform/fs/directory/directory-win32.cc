@@ -23,55 +23,66 @@
 #include <vector>
 #include <windows.h>
 #include <io.h>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/directory/directory-inl.h>
 namespace mocha {namespace os {namespace fs {
 Directory::Directory(const char* path) : dirpath_(path){};
 Directory::~Directory(){}
+typedef std::vector<std::string> SubDirList;
+DirEntry* Get(WIN32_FIND_DATA* ffdata, SubDirList *sub, const char* current, memory::Pool* pool, bool recursive) {
+  bool is_dir = false;
+  if (ffdata->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+    if (recursive) {
+      std::string dir = ffdata->cFileName;
+      sub->push_back(dir);
+    }
+    is_dir = true;
+  }
+  return new(pool) DirEntry(ffdata->cFileName, current, is_dir);
+}
 
-DirEntry* Find(WIN32_FIND_DATA* ffdata_,
-               HANDLE *h_find, DirEntry* entry,
+DirEntry* Find(DirEntry* entry,
                const char* current,
                bool recursive,
                memory::Pool *pool) {
-  typedef std::vector<std::string> SubDirList;
+  
   SubDirList sub;
   WIN32_FIND_DATA ffdata;
-  while (FindNextFile(*h_find, &ffdata)) {
+  HANDLE h_find;
+  std::string buf;
+  os::SPrintf(&buf, "%s/*", current);
+  h_find = FindFirstFile(buf.c_str(), &ffdata);
+  if (h_find == INVALID_HANDLE_VALUE) {
+    FATAL("fail FindFirstFile.");
+  }
+  if (strcmp(ffdata.cFileName, ".") == 0 || strcmp(ffdata.cFileName, "..") == 0) {
+    DirEntry* ent = Get(&ffdata, &sub, current, pool, recursive);
+    if (entry != 0) {
+      entry->SetNext(ent);
+    }
+    entry = ent;
+  }
+  while (FindNextFile(h_find, &ffdata)) {
     if (h_find == INVALID_HANDLE_VALUE) {
       break;
     }
     if (strcmp(ffdata.cFileName, ".") == 0 || strcmp(ffdata.cFileName, "..") == 0) {
       continue;
     }
-    if (ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-      if (recursive) {
-        std::string dir = ffdata.cFileName;
-        sub.push_back(dir);
-      }
-    } else {
-      DirEntry* next = new(pool) DirEntry(ffdata.cFileName, current);
-      entry->SetNext(next);
-      entry = next;
+    DirEntry* ent = Get(&ffdata, &sub, current, pool, recursive);
+    if (entry != 0) {
+      entry->SetNext(ent);
     }
+    entry = ent;
   }
-  FindClose(*h_find);
+  FindClose(h_find);
   SubDirList::iterator begin = sub.begin(),end = sub.end();
+  DirEntry* next = entry;
   while (begin != end) {
-    WIN32_FIND_DATA ffdata;
-    HANDLE h_find;
-    std::stringstream st;
-    st << current << '/'
-       << (*begin).c_str();
-    std::string next_dir = st.str();
-    st << "/*";
-    std::string tmp = st.str();
-    h_find = FindFirstFile(tmp.c_str(), &ffdata);
-    if (h_find != INVALID_HANDLE_VALUE) {
-      DirEntry* next = new(pool) DirEntry(ffdata.cFileName, current);
-      entry->SetNext(next);
-      entry = Find(&ffdata, &h_find, next, next_dir.c_str(), recursive, pool);
-    }
+    std::string next_dir;
+    os::SPrintf(&next_dir, "%s/%s", current, begin->c_str());
+    next = Find(next, next_dir.c_str(), recursive, pool);
     ++begin;
   }
   return entry;
@@ -79,21 +90,8 @@ DirEntry* Find(WIN32_FIND_DATA* ffdata_,
 
 
 Directory::const_iterator Directory::Entries(bool recursive) {
-  WIN32_FIND_DATA ffdata;
-  HANDLE h_find;
-  std::stringstream st;
-  st << dirpath_;
-  st << "/*";
-  std::string tmp = st.str();
-  h_find = FindFirstFile(tmp.c_str(), &ffdata);
-  if (h_find == INVALID_HANDLE_VALUE) {
-    return const_iterator(0);
-  } else {
-    DirEntry* entry;
-    entry = new(&pool_) DirEntry(ffdata.cFileName, dirpath_.c_str());
-    Find(&ffdata, &h_find, entry, dirpath_.c_str(), recursive, &pool_);
-    return const_iterator(entry);
-  }
+  DirEntry* entry = Find(0, dirpath_.c_str(), recursive, &pool_);
+  return const_iterator(entry);
 }
 
 void Directory::chdir(const char* path) {
