@@ -4,6 +4,7 @@
 #include <iostream>
 #include <locale>
 #include <mocha/shell/shell.h>
+#include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {
 
 const int kEnter = 13;
@@ -81,6 +82,7 @@ void Shell::Read() {
       }
       delete []mbs;
     }
+    os::Sleep(1000);
   }
 }
 

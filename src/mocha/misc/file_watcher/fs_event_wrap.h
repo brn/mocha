@@ -1,8 +1,23 @@
 #ifndef mocha_fs_event_wrap_h_
 #define mocha_fs_event_wrap_h_
+#include <time.h>
+#include <uv.h>
+#include <string.h>
+#include <string>
+#include <mocha/roaster/notificator/notificator.h>
+#include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/lib/unordered_map.h>
+#include <mocha/roaster/platform/thread/thread.h>
+namespace mocha {
 
-namespace mohca {
-
+typedef uv_fs_event_t UvEvent;
+typedef uv_idle_t UvIdle;
+typedef uv_idle_cb UvIdleCb;
+typedef uv_fs_cb UvFSCb;
+class WatcherContainer;
+class FsMediator;
+class FileWatcher;
 class FileEvent {
  public :
   FileEvent(const char* filename)
@@ -29,27 +44,8 @@ class WatcherEvent {
   int type_;
 };
 
-class WatcherContainer {
- public :
-  WatcherContainer(const char* path)
-      : filename_(path) {
-    os::fs::Stat stat(path);
-    date_ = stat.MTime();
-  }
-  WatcherContainer(){}
-  WatcherContainer(const WatcherContainer& container) {
-    filename_ = container.filename_;
-    date_ = container.date_;
-  }
-  inline const char* GetDate() { return date_.c_str(); }
-  inline void SetDate(const char* date) { date_ = date; }
-  inline const char* GetFileName() { return filename_.c_str(); }
- private :
-  std::string filename_;
-  std::string date_;
-};
-
 class FileWatcher {
+  friend class FsMediator;
  public :
   FileWatcher();
   ~FileWatcher();
@@ -69,17 +65,27 @@ class FileWatcher {
   void Exit();
  private :
   typedef std::string FileEntry;
-  typedef roastlib::unordered_map<FileEntry, WatcherContainer> WatchList;
+  typedef std::pair<FileEntry, WatcherContainer*> WatchPair;
+  typedef roastlib::unordered_map<FileEntry, WatcherContainer*> WatchList;
+  void Initialize();
   void Regist(const char* path);
   void ProcessNotification();
+  void AddToWatchList(const char* path);
+  void BeginIdle();
   void WatchFile();
   void UnWatchEach(WatchList::iterator& it);
-
+  void CheckPool();
+  int stop_flag_;
   uv_fs_t fs_req;
+  uv_fs_event_t event_;
   uv_loop_t* loop_;
+  UvIdle uv_idle_;
+  memory::Pool* pool_;
   WatchList watch_list_;
   Notificator<FileEvent> file_notificator_;
   Notificator<WatcherEvent> watcher_notificator_;
+  FsMediator* mediator_;
+  static os::Mutex mutex_;
 };
 
 

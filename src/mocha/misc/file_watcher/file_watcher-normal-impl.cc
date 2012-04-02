@@ -15,9 +15,7 @@ namespace mocha {
 
 FileWatcher::FileWatcher()
     : is_stop_(false),
-      is_end_(false) {
-  loop_ = uv_default_loop();
-}
+      is_end_(false){}
 
 FileWatcher::~FileWatcher() {
   is_stop_ = true;
@@ -57,14 +55,22 @@ void FileWatcher::Exit() {
 void FileWatcher::Regist(const char* path) {
   os::fs::Stat stat(path);
   if (stat.IsExist()) {
-    os::fs::Path path_info(path);
-    uv_fs_event_init(loop, &fs_event, path_info.absolute_path(), fs_event_cb, 0);
+    AddToWatchList(path);
   }
 }
 
+void FileWatcher::AddToWatchList(const char* path) {
+  WatcherContainer watcherContainer(path);
+  watch_list_[path] = watcherContainer;
+}
+
 void FileWatcher::ProcessNotification() {
-  uv_fs_t fs_req
-  uv_run(loop_);
+  while (!is_end_) {
+    if (!is_stop_ && watch_list_.size() > 0) {
+      WatchFile();
+    }
+    os::Sleep(500);
+  }
   watcher_notificator_.NotifyForKey(WatcherEvent::kEndWatch, WatcherEvent(WatcherEvent::kEnd));
 }
 
@@ -72,6 +78,7 @@ void FileWatcher::ProcessNotification() {
 void FileWatcher::WatchFile() {
   WatchList::iterator begin = watch_list_.begin(),end = watch_list_.end();
   while (begin != end) {
+    os::Sleep(500);
     WatcherContainer* container = &((*begin).second);
     const char* filename = container->GetFileName();
     const char* date = container->GetDate();

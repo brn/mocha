@@ -1,6 +1,6 @@
 #ifndef mocha_misc_file_watcher_watcher_server_h_
 #define mocha_misc_file_watcher_watcher_server_h_
-#include <mocha/misc/file_watcher/file_watcher.h>
+#include <mocha/misc/file_watcher/fs_event_wrap.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/memory/pool.h>

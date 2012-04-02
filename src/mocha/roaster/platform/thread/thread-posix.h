@@ -1,6 +1,7 @@
 #ifndef mocha_thread_posix_h_
 #define mocha_thread_posix_h_
 #include <pthread.h>
+#include <semaphore.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -51,11 +52,11 @@ class Semaphore {
  public :
   explicit Semaphore(int count);
   ~Semaphore();
-  void Wait();
-  void Wait(int timeout);
+  bool Wait();
+  bool Wait(int timeout);
   void Post();
  private :
-  setm_t semaphore_;
+  sem_t semaphore_;
 };
 
 class ThreadLocalStorage;

@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string>
+#include <sys/time.h>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/platform/thread/thread-posix.h>
 namespace mocha {
 namespace os {
@@ -72,21 +76,22 @@ void Semaphore::Post() {
   sem_post(&semaphore_);
 }
 
-void Semaphore::Wait() {
+bool Semaphore::Wait() {
   while (true) {
     int result = sem_wait(&semaphore_);
     if (result == 0) {
-      return;
+      return true;
     } else if (result == -1 && errno == EINTR) {
       std::string buf;
-      os::Strerror(&buf);
+      os::Strerror(&buf, K_ERRNO);
       FATAL(buf.c_str());
+      return false;
     }
   }
 }
 
 
-void Semaphore::Wait(int timeout) {
+bool Semaphore::Wait(int timeout) {
   const long kOneSecondMicros = 1000000;
   struct timeval delta;
   delta.tv_usec = timeout % kOneSecondMicros;
@@ -113,12 +118,11 @@ void Semaphore::Wait(int timeout) {
       return false;
     } else if (result == -1 && errno == EINTR) {
       std::string buf;
-      os::Strerror(&buf);
+      os::Strerror(&buf, K_ERRNO);
       FATAL(buf.c_str());
     }
   }
 }
-
 
 ThreadLocalStorageKey::ThreadLocalStorageKey(Destructor destructor) {
   if (!is_init_) {
