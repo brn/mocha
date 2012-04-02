@@ -18,17 +18,12 @@ WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
-        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags` -lrt",
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include',
+        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
         "LIBS" : ["pthread", "edit" ,"curses"],
-        "STATIC_LIBS" : ['src/third_party/v8/linux/libv8.a', 'src/third_party/libuv/uv.a'],
-        "EXCLUDE_FILES" : ["thread-win32.cc",
-                           "directory-win32.cc",
-                           "file_watcher-inotify-impl.cc",
-                           "file_watcher-normal-impl.cc",
-                           "shell-win32.cc",
-                           'utils-win32.cc']
+        "STATIC_LIBS" : ['src/third_party/v8/linux/libv8.a'],
+        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
