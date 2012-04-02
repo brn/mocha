@@ -60,7 +60,67 @@ void ScopedLock::Unlock () {
   }
 }
 
-ThreadLocalStorageKey::ThreadLocalStorageKey (Destructor destructor) {
+Semaphore::Semaphore(int count) {
+  sem_init(&semaphore_, 0, count);
+}
+
+Semaphore::~Semaphore() {
+  sem_destroy(&semaphore_);
+}
+
+void Semaphore::Post() {
+  sem_post(&semaphore_);
+}
+
+void Semaphore::Wait() {
+  while (true) {
+    int result = sem_wait(&semaphore_);
+    if (result == 0) {
+      return;
+    } else if (result == -1 && errno == EINTR) {
+      std::string buf;
+      os::Strerror(&buf);
+      FATAL(buf.c_str());
+    }
+  }
+}
+
+
+void Semaphore::Wait(int timeout) {
+  const long kOneSecondMicros = 1000000;
+  struct timeval delta;
+  delta.tv_usec = timeout % kOneSecondMicros;
+  delta.tv_sec = timeout / kOneSecondMicros;
+  struct timeval current_time;
+  if (gettimeofday(&current_time, NULL) == -1) {
+    return false;
+  }
+  struct timeval end_time;
+  timeradd(&current_time, &delta, &end_time);
+  struct timespec ts;
+  (&ts)->tv_sec = (&end_time)->tv_sec;
+  (&ts)->tv_nsec = (&end_time)->tv_usec * 1000;
+  while (true) {
+    int result = sem_timedwait(&semaphore_, &ts);
+    if (result == 0) {
+      return true;
+    }
+    if (result > 0) {
+      errno = result;
+      result = -1;
+    }
+    if (result == -1 && errno == ETIMEDOUT) {
+      return false;
+    } else if (result == -1 && errno == EINTR) {
+      std::string buf;
+      os::Strerror(&buf);
+      FATAL(buf.c_str());
+    }
+  }
+}
+
+
+ThreadLocalStorageKey::ThreadLocalStorageKey(Destructor destructor) {
   if (!is_init_) {
     os::ScopedLock lock(mutex_);
     if (!is_init_) {

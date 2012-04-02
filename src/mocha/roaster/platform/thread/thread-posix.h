@@ -39,12 +39,23 @@ class Mutex{
 
 class ScopedLock {
  public :
-  ScopedLock (Mutex& mutex);
+  ScopedLock(Mutex& mutex);
   ~ScopedLock();
-  void Unlock ();
+  void Unlock();
  private :
   Mutex* mutex_;
   bool unlocked_;
+};
+
+class Semaphore {
+ public :
+  explicit Semaphore(int count);
+  ~Semaphore();
+  void Wait();
+  void Wait(int timeout);
+  void Post();
+ private :
+  setm_t semaphore_;
 };
 
 class ThreadLocalStorage;
