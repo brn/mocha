@@ -69,7 +69,8 @@ extern "C" {
         uv_close(reinterpret_cast<uv_handle_t*>(handle), CloseCb);
       }
     } else {
-      uv_close(reinterpret_cast<uv_handle_t*>(handle), CloseCb);
+		uv_unref(handle->loop);
+      //uv_close(reinterpret_cast<uv_handle_t*>(handle), CloseCb);
     }
   }
 }
@@ -117,7 +118,8 @@ void FileWatcher::Exit() {
     if (strcmp(filename, tmp) != 0) {
       os::fs::Stat stat(filename);
       if (stat.IsExist()) {
-        uv_close(reinterpret_cast<uv_handle_t*>(it->second), CloseCb);
+        //uv_close(reinterpret_cast<uv_handle_t*>(it->second), CloseCb);
+		  uv_unref(loop_);
       }
     }
   }

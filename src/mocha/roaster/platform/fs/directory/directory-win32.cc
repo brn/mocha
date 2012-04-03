@@ -46,7 +46,7 @@ DirEntry* Find(DirEntry* entry,
                const char* current,
                bool recursive,
                memory::Pool *pool) {
-  
+  DirEntry* first = entry;
   SubDirList sub;
   WIN32_FIND_DATA ffdata;
   HANDLE h_find;
@@ -56,7 +56,7 @@ DirEntry* Find(DirEntry* entry,
   if (h_find == INVALID_HANDLE_VALUE) {
     FATAL("fail FindFirstFile.");
   }
-  if (strcmp(ffdata.cFileName, ".") == 0 || strcmp(ffdata.cFileName, "..") == 0) {
+  if (strcmp(ffdata.cFileName, ".") != 0 && strcmp(ffdata.cFileName, "..") != 0) {
     DirEntry* ent = Get(&ffdata, &sub, current, pool, recursive);
     if (entry != 0) {
       entry->SetNext(ent);
@@ -73,7 +73,9 @@ DirEntry* Find(DirEntry* entry,
     DirEntry* ent = Get(&ffdata, &sub, current, pool, recursive);
     if (entry != 0) {
       entry->SetNext(ent);
-    }
+    } else {
+	  first = ent;
+	}
     entry = ent;
   }
   FindClose(h_find);
@@ -83,9 +85,12 @@ DirEntry* Find(DirEntry* entry,
     std::string next_dir;
     os::SPrintf(&next_dir, "%s/%s", current, begin->c_str());
     next = Find(next, next_dir.c_str(), recursive, pool);
+	if (next != entry && next != 0) {
+	  entry->SetNext(next);
+	}
     ++begin;
   }
-  return entry;
+  return first;
 }
 
 

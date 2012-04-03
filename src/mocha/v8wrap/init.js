@@ -62,7 +62,8 @@
   });
   defProp(mocha, 'utils', {});
   defProp(mocha, 'import', function (path, force) {
-    if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~') {
+    console.log(path);
+    if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~' && path[1] != ':') {
       if (path in natives) {
         return natives[path];
       } else {

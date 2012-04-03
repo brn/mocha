@@ -6,20 +6,59 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="src">
-      <UniqueIdentifier>{bc840548-17b9-4f18-8331-40c4eac1b390}</UniqueIdentifier>
+      <UniqueIdentifier>{33aa8aa8-471e-4487-a60c-4eb1c5759aeb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\mocha\roaster\internal.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\encoding\encoding.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\scanner\scanner.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\scanner.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\scanner\source_stream.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\source_stream.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\scanner\token_stream.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\token_stream.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\nexc.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\binding\parser_connector.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\tokens\js_token.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\tokens\token_info.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\tokens\symbol_list.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\events\io_event\io_event.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\events\compilation_event\compilation_event.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\utils\utils.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\parser\parser.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\loader\loader.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\compilation_info\compilation_info.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexl\compilation_result\compilation_result.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexl\nexl.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\scopes\scope.cc">
@@ -28,40 +67,34 @@
     <ClCompile Include="..\..\..\src\mocha\roaster\platform\thread\thread-win32.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\fio.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\utils\utils-win32.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\mkdir.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\directory\directory-win32.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\fs.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\path\path.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\rm\rm.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\directory-win32.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\stat\stat.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\stat.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\mv\mv.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\binding\parser_connector.cc">
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory\virtual_directory.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\mkdir\mkdir.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\log\logging.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\memory\pool.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\encoding\encoding.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\tokens\js_token.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\tokens\token_info.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\tokens\symbol_list.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\consts\consts.cc">
@@ -73,13 +106,61 @@
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\builder\ast_builder.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\fileroot_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\import_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\iteration_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\array_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\function_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\syntax_sugar_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\call_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\yield_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\module_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\trait_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\object_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\dsta_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\variable_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\class_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\export_processor.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\translator.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\translator_data\translator_data.cc">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\ast.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\symbol_collector.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\ast_transformer.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\codegen_visitor.cc">
@@ -88,58 +169,7 @@
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\optimizer_visitor.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\fileroot_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\import_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\iteration_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\array_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\function_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\syntax_sugar_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\call_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\yield_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\module_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\trait_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\object_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\dsta_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\variable_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\class_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\export_processor.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\processor_info.cc">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\codewriter.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\visitor_info.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\opt\constant_optimizer.cc">
@@ -148,31 +178,25 @@
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\opt\ifstatement_optimizer.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\packer.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\unpacker.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\byte.cc">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\runtime\runtime.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\external\external_ast.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\compiler.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\utils\compiler_utils.cc">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\utils\error_reporter.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\roaster\utils\exception_handler.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\utils\compilation_info.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\utils\compilation_result.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\roaster\parser\parser.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\main.cc">
@@ -187,25 +211,16 @@
     <ClCompile Include="..\..\..\src\mocha\misc\profiler.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\file_watcher-impl.cc">
+    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\fs_event_wrap.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\file_watcher.cc">
+    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\observer\javascript_observer.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\observer\xml_observer.cc">
+    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\server\watcher_server.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\observer\file_observer.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\xml\versions.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\xml\xml_setting_info.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\xml\xml_reader.cc">
+    <ClCompile Include="..\..\..\src\mocha\shell\shell-win32.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\options\commandline\commandline_options.cc">
@@ -220,50 +235,74 @@
     <ClCompile Include="..\..\..\src\mocha\bootstrap\bootstrap.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\list_runner.cc">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\phantom_runner.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\compile_runner.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\help_runner.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\error_runner.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\observer_runner.cc">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\bootstrap\interactions\interaction.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\interactions\commands_analyzer.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\interactions\commands.cc">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\fileinfo\fileinfo.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxml.cc">
+    <ClCompile Include="..\..\..\src\mocha\v8wrap\native_wrap\native_wrap.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxmlerror.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxmlparser.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinystr.cc">
+    <ClCompile Include="..\..\..\src\mocha\v8wrap\init.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\source_stream.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\token_stream.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\encoding\encoding.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\scanner.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\binding\parser_connector.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\tokens\js_token.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\tokens\symbol_list.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\tokens\token_info.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\runtime\runtime.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\events\io_event\io_event.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\events\compilation_event\compilation_event.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\utils\utils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\nexc.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\parser\parser.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\loader\loader.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\compilation_info\compilation_info.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\misc\int_types.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\static_assert.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -282,16 +321,13 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\bits.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\source_stream.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\misc\singleton_pool.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\token_stream.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexl\compilation_result\compilation_result.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\scanner_state.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\scanner.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexl\nexl.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\scopes\scope.h">
@@ -303,28 +339,37 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\platform\thread\thread-win32.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\utils\utils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory\directory.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory\directory-inl.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\path\path.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\fs.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\rm\rm.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\stat\stat.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\mkdir.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\mv\mv.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\stat.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory\virtual_directory.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory-inl.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\mkdir\mkdir.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\fio.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\binding\parser_connector.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\log\logging.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\roaster.h">
@@ -336,19 +381,19 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\memory\pool.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\compiler.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\assert\assert_def.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\encoding\encoding.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\listener_adapter-impl.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\tokens\js_token.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\notificator.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\tokens\symbol_list.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\notificator-impl.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\tokens\token_info.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\listener_adapter.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\consts\consts.h">
@@ -357,13 +402,67 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\builder\ast_builder.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\function_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\yield_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\object_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\fileroot_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\export_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\variable_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\array_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\iteration_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\module_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\syntax_sugar_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\trait_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\call_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\class_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\processor_info.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\import_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\dsta_processor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\translator_data\translator_data.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\translator.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\codegen_visitor.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\ivisitor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\ast_transformer.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\symbol_collector.h">
@@ -373,60 +472,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\visitor_decl.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\function_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\yield_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\object_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\fileroot_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\export_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\variable_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\array_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\iteration_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\module_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\syntax_sugar_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\trait_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\call_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\class_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\processor_info.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\import_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\dsta_processor.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\visitor_info.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\codewriter.h">
@@ -444,6 +489,15 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\ast_foward_decl.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\seriarization\packer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\seriarization\byte.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\seriarization\unpacker.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\ast.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -453,22 +507,13 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\external\external_ast.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\internal.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\utils\compiler_utils.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\utils\compilation_info.h">
+    <ClInclude Include="..\..\..\src\mocha\roaster\roaster-impl.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\utils\exception_handler.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\utils\error_reporter.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\utils\compilation_result.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\common\ptr_deleter.h">
@@ -513,13 +558,7 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\scope\scoped_ptr-impl.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\roaster\parser\parser.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\roaster\lib\unordered_map.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\int_types.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\misc\profiler.h">
@@ -531,34 +570,28 @@
     <ClInclude Include="..\..\..\src\mocha\misc\file_writer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\observer\file_observer.h">
+    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\fs_event_wrap.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\observer\xml_observer.h">
+    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\observer\javascript_observer.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\file_watcher.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\misc\fixed_array.h">
+    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\server\watcher_server.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\xml\versions.h">
+    <ClInclude Include="..\..\..\src\mocha\shell\shell-win32.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\xml\xml_reader.h">
+    <ClInclude Include="..\..\..\src\mocha\shell\shell.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\xml\xml_setting_info-inl.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\xml\xml_setting_info.h">
+    <ClInclude Include="..\..\..\src\mocha\config.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\options\options.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\options\xml_options.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\options\setting.h">
@@ -570,31 +603,7 @@
     <ClInclude Include="..\..\..\src\mocha\bootstrap\test\test_run.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\error_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\compile_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\observer_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\phantom_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\list_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\icommandline_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\help_runner.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\interactions\commands_analyzer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\interactions\commands.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\bootstrap\interactions\interaction.h">
@@ -609,10 +618,19 @@
     <ClInclude Include="..\..\..\src\mocha\consts\consts.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\third_party\tinyxml\tinystr.h">
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\native_wrap\v8_roaster.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\third_party\tinyxml\tinyxml.h">
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\native_wrap\native_wrap.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\init.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\init-inl.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\initjs.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,11 +18,11 @@ WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include',
+        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
+        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
-        "LIBS" : ["pthread", "edit" ,"curses"],
-        "STATIC_LIBS" : ['src/third_party/v8/linux/libv8.a'],
+        "LIBS" : ["pthread", "edit" ,"curses", "rt"],
+        "STATIC_LIBS" : ['src/third_party/v8/linux/libv8.a' , 'src/third_party/libuv/uv.a'],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
         },
     'macos' : {
@@ -36,11 +36,11 @@ PLATFORM_CONFIG = {
         },
     "win32" : {
         "TARGET" : 'bin/win32/mchd.exe',
-        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I src/third_party/v8/include',
-        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "DEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I src/third_party/v8/include',
-        "STATIC_LIBS" : ['src/third_party/v8/win32/v8.lib'],
+        "RELEASE" : '/Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D "NDEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I src/third_party/v8/include -/src/third_party/libuv/include',
+        "DEBUG" : '/ZI /nologo /W3 /WX- /Od /Oy- /D "DEBUG" /D "_CRT_SECURE_NO_WARNINGS" /D "NOMINMAX" /D "_MBCS" /D "CURRENT_DIR=\\"' + os.getcwd().replace('\\', '/') + '/src\\"" /D "PLATFORM_WIN32" /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /analyze- /errorReport:queue /I src/third_party/v8/include /I src/third_party/libuv/include /FI WinSock2.h',
+        "STATIC_LIBS" : ['src/third_party/v8/win32/v8_g.lib', 'src/third_party/libuv/Debug/lib/uv.lib'],
         "LD_FLAGS" : "/NOLOGO /MACHINE:X86",
-        "LIBS" : [LIB_PREFIX + '/lib-win32/icuin.lib', LIB_PREFIX + '/lib-win32/icudt.lib', LIB_PREFIX + '/lib-win32/icuuc.lib'],
+        "LIBS" : [LIB_PREFIX + '/lib-win32/icuin.lib', LIB_PREFIX + '/lib-win32/icudt.lib', LIB_PREFIX + '/lib-win32/icuuc.lib', 'ws2_32', 'winmm', 'psapi', 'Advapi32', 'Iphlpapi'],
         "EXCLUDE_FILES" : ["thread-posix.cc", "directory-posix.cc", "file_watcher-inotify-impl.cc", "shell-posix.cc", 'utils-posix.cc']
         }
     }
@@ -56,7 +56,7 @@ class MochaBuilder :
     def __init__(self, mode) :
         self.__config = Config(ROOT, PLATFORM_CONFIG)
         self.__config.AddExcludeFile(['ut.cc', 'ct.cc', 'notificator_test.cc', 'pack.cc', 'file_watcher-normal-impl.cc'])
-        self.__config.AddExcludeDir(["v8","icu","phantomjs","ncurses-5.9", "gtest-1.6.0-win", "gtest-1.6.0-linux", "gtest-1.6.0-macos",])
+        self.__config.AddExcludeDir(["v8","icu","phantomjs","ncurses-5.9", "gtest-1.6.0-win", "gtest-1.6.0-linux", "gtest-1.6.0-macos",'libuv'])
         self.__sources = Sources(self.__config)
         flags = self.__sources.GetFlags(mode)
         self.__env = Environment(CCFLAGS=flags[0],

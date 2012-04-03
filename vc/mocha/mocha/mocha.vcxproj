@@ -12,22 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\mocha\bootstrap\bootstrap.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\interactions\commands.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\interactions\commands_analyzer.cc" />
     <ClCompile Include="..\..\..\src\mocha\bootstrap\interactions\interaction.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\compile_runner.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\error_runner.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\help_runner.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\list_runner.cc" />
-    <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\observer_runner.cc" />
     <ClCompile Include="..\..\..\src\mocha\bootstrap\runners\phantom_runner.cc" />
     <ClCompile Include="..\..\..\src\mocha\fileinfo\fileinfo.cc" />
     <ClCompile Include="..\..\..\src\mocha\main.cc" />
     <ClCompile Include="..\..\..\src\mocha\misc\char_allocator.cc" />
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\file_watcher-impl.cc" />
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\file_watcher.cc" />
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\observer\file_observer.cc" />
-    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\observer\xml_observer.cc" />
+    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\fs_event_wrap.cc" />
+    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\observer\javascript_observer.cc" />
+    <ClCompile Include="..\..\..\src\mocha\misc\file_watcher\server\watcher_server.cc" />
     <ClCompile Include="..\..\..\src\mocha\misc\file_writer.cc" />
     <ClCompile Include="..\..\..\src\mocha\misc\profiler.cc" />
     <ClCompile Include="..\..\..\src\mocha\options\commandline\commandline_options.cc" />
@@ -35,98 +27,115 @@
     <ClCompile Include="..\..\..\src\mocha\options\setting.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\ast.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\builder\ast_builder.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\ast_transformer.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\byte.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\packer.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\unpacker.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\array_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\call_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\class_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\dsta_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\export_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\fileroot_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\function_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\import_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\iteration_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\module_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\object_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\syntax_sugar_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\trait_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\variable_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\processors\yield_processor.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\translator.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\ast\translator\translator_data\translator_data.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\codegen_visitor.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\optimizer_visitor.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\symbol_collector.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\codewriter.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\opt\constant_optimizer.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\opt\ifstatement_optimizer.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\array_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\call_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\class_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\dsta_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\export_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\fileroot_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\function_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\import_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\iteration_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\module_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\object_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\processor_info.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\syntax_sugar_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\trait_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\variable_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\yield_processor.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\ast\visitors\utils\visitor_info.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\binding\parser_connector.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\compiler.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\consts\consts.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\encoding\encoding.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\external\external_ast.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\internal.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\log\logging.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\memory\pool.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\parser\parser.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\directory-win32.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\fio.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\fs.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\mkdir.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\stat.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\binding\parser_connector.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\compilation_info\compilation_info.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\events\compilation_event\compilation_event.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\events\io_event\io_event.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\loader\loader.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\nexc.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\parser\parser.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\encoding\encoding.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\scanner.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\source_stream.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\scanner\token_stream.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\tokens\js_token.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\tokens\symbol_list.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\tokens\token_info.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexc\utils\utils.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexl\compilation_result\compilation_result.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\nexl\nexl.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\directory\directory-win32.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\mkdir\mkdir.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\mv\mv.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\path\path.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\rm\rm.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\stat\stat.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory\virtual_directory.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\platform\thread\thread-win32.cc" />
+    <ClCompile Include="..\..\..\src\mocha\roaster\platform\utils\utils-win32.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\roaster.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\runtime\runtime.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\scanner\scanner.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\scanner\source_stream.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\scanner\token_stream.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\scopes\scope.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\tokens\js_token.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\tokens\symbol_list.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\tokens\token_info.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\utils\compilation_info.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\utils\compilation_result.cc" />
-    <ClCompile Include="..\..\..\src\mocha\roaster\utils\compiler_utils.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\utils\error_reporter.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\utils\exception_handler.cc" />
-    <ClCompile Include="..\..\..\src\mocha\xml\versions.cc" />
-    <ClCompile Include="..\..\..\src\mocha\xml\xml_reader.cc" />
-    <ClCompile Include="..\..\..\src\mocha\xml\xml_setting_info.cc" />
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinystr.cc" />
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxml.cc" />
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxmlerror.cc" />
-    <ClCompile Include="..\..\..\src\third_party\tinyxml\tinyxmlparser.cc" />
+    <ClCompile Include="..\..\..\src\mocha\shell\shell-win32.cc" />
+    <ClCompile Include="..\..\..\src\mocha\v8wrap\init.cc" />
+    <ClCompile Include="..\..\..\src\mocha\v8wrap\native_wrap\native_wrap.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\mocha\bootstrap\bootstrap.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\interactions\commands.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\interactions\commands_analyzer.h" />
     <ClInclude Include="..\..\..\src\mocha\bootstrap\interactions\interaction.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\compile_runner.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\error_runner.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\help_runner.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\icommandline_runner.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\list_runner.h" />
-    <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\observer_runner.h" />
     <ClInclude Include="..\..\..\src\mocha\bootstrap\runners\phantom_runner.h" />
     <ClInclude Include="..\..\..\src\mocha\bootstrap\test\test_run.h" />
+    <ClInclude Include="..\..\..\src\mocha\config.h" />
     <ClInclude Include="..\..\..\src\mocha\consts\consts.h" />
     <ClInclude Include="..\..\..\src\mocha\fileinfo\fileinfo.h" />
     <ClInclude Include="..\..\..\src\mocha\misc\char_allocator.h" />
     <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\file_watcher.h" />
-    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\observer\file_observer.h" />
-    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\observer\xml_observer.h" />
+    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\fs_event_wrap.h" />
+    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\observer\javascript_observer.h" />
+    <ClInclude Include="..\..\..\src\mocha\misc\file_watcher\server\watcher_server.h" />
     <ClInclude Include="..\..\..\src\mocha\misc\file_writer.h" />
-    <ClInclude Include="..\..\..\src\mocha\misc\fixed_array.h" />
-    <ClInclude Include="..\..\..\src\mocha\misc\int_types.h" />
     <ClInclude Include="..\..\..\src\mocha\misc\profiler.h" />
     <ClInclude Include="..\..\..\src\mocha\options\commandline\commandline_options.h" />
     <ClInclude Include="..\..\..\src\mocha\options\options.h" />
     <ClInclude Include="..\..\..\src\mocha\options\setting.h" />
-    <ClInclude Include="..\..\..\src\mocha\options\xml_options.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\assert\assert_def.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\ast.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\ast_foward_decl.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\builder\ast_builder.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\ast_transformer.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\seriarization\byte.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\seriarization\packer.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\seriarization\unpacker.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\array_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\call_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\class_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\dsta_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\export_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\fileroot_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\function_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\import_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\iteration_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\module_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\object_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\processor_info.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\syntax_sugar_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\trait_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\variable_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\processors\yield_processor.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\translator.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\ast\translator\translator_data\translator_data.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\codegen_visitor.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\ivisitor.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\optimizer_visitor.h" />
@@ -135,32 +144,11 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\codewriter.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\opt\constant_optimizer.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\opt\ifstatement_optimizer.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\array_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\call_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\class_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\dsta_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\export_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\fileroot_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\function_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\import_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\iteration_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\module_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\object_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\processor_info.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\syntax_sugar_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\trait_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\variable_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\processors\yield_processor.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\utils\visitor_info.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\visitors\visitor_decl.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\binding\parser_connector.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\compiler.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\consts\consts.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\encoding\encoding.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\external\external_ast.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\internal.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\lib\unordered_map.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\log\logging.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\memory\pool-inl.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\memory\pool.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\atomic.h" />
@@ -168,23 +156,46 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\class_traits\static.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\class_traits\unallocatable.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\class_traits\uncopyable.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\misc\int_types.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\misc\singleton_pool.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\misc\static_assert.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\parser\parser.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory-inl.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\fio.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\binding\parser_connector.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\compilation_info\compilation_info.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\events\compilation_event\compilation_event.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\events\io_event\io_event.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\loader\loader.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\nexc.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\parser\parser.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\runtime\runtime.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\encoding\encoding.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\scanner.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\source_stream.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\token_stream.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\tokens\js_token.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\tokens\symbol_list.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\tokens\token_info.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexc\utils\utils.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexl\compilation_result\compilation_result.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\nexl\nexl.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\listener_adapter-impl.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\listener_adapter.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\notificator-impl.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\notificator\notificator.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory\directory-inl.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\directory\directory.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\fs.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\mkdir.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\stat.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\mkdir\mkdir.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\mv\mv.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\path\path.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\rm\rm.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\stat\stat.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\fs\virtual_directory\virtual_directory.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\platform\thread\thread-win32.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\platform\thread\thread.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\platform\utils\utils.h" />
+    <ClInclude Include="..\..\..\src\mocha\roaster\roaster-impl.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\roaster.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\runtime\runtime.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\scanner.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\scanner_state.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\source_stream.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\scanner\token_stream.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\scopes\scope.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\common\ptr_deleter.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\common\ptr_handle-impl.h" />
@@ -200,20 +211,15 @@
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\scope\scoped_list.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\scope\scoped_ptr-impl.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\smart_pointer\scope\scoped_ptr.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\tokens\js_token.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\tokens\symbol_list.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\tokens\token_info.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\utils\compilation_info.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\utils\compilation_result.h" />
-    <ClInclude Include="..\..\..\src\mocha\roaster\utils\compiler_utils.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\utils\error_reporter.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\utils\exception_handler.h" />
-    <ClInclude Include="..\..\..\src\mocha\xml\versions.h" />
-    <ClInclude Include="..\..\..\src\mocha\xml\xml_reader.h" />
-    <ClInclude Include="..\..\..\src\mocha\xml\xml_setting_info-inl.h" />
-    <ClInclude Include="..\..\..\src\mocha\xml\xml_setting_info.h" />
-    <ClInclude Include="..\..\..\src\third_party\tinyxml\tinystr.h" />
-    <ClInclude Include="..\..\..\src\third_party\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\..\..\src\mocha\shell\shell-win32.h" />
+    <ClInclude Include="..\..\..\src\mocha\shell\shell.h" />
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\init-inl.h" />
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\init.h" />
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\initjs.h" />
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\native_wrap\native_wrap.h" />
+    <ClInclude Include="..\..\..\src\mocha\v8wrap\native_wrap\v8_roaster.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{89F46501-FE00-4D01-AE21-DBAB35F6939E}</ProjectGuid>
@@ -242,8 +248,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\bin\win32\debug\</OutDir>
-    <IncludePath>Y:\mocha\src;$(IncludePath)</IncludePath>
+    <OutDir>..\..\..\bin\win32\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\bin\win32\release\</OutDir>
@@ -254,11 +259,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;DEBUG;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../src/third_party/v8/include;../../../src;../../../src/third_party/libuv/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/FI WinSock2.h %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>icudt.lib;icuin.lib;icuio.lib;icule.lib;iculx.lib;icutu.lib;icuuc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../../../src/third_party/icu/lib-win32/debug/icuin.lib;../../../src/third_party/icu/lib-win32/debug/icudt.lib;../../../src/third_party/icu/lib-win32/debug/icuuc.lib;../../../src/third_party/v8/win32/v8_g.lib;../../../src/third_party/libuv/Debug/lib/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -268,13 +277,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;NDEBUG;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../src/third_party/v8/include;../../../src;../../../src/third_party/libuv/include</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>WinSock2.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>icudt.lib;icuin.lib;icuio.lib;icule.lib;iculx.lib;icutu.lib;icuuc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../../../src/third_party/icu/lib-win32/release/icuin.lib;../../../src/third_party/icu/lib-win32/release/icudt.lib;../../../src/third_party/icu/lib-win32/release/icuuc.lib;../../../src/third_party/v8/win32/v8.lib;../../../src/third_party/libuv/Release/lib/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -131,11 +131,11 @@ METHOD_IMPL(NativeWrap::Directory::Dir) {
           return handle_scope.Close(this_object);
         } else if (!stat.IsExist()){
           std::string buf;
-          os::SPrintf(&buf, "%s No such directory.");
+		  os::SPrintf(&buf, "%s No such directory.", path_info.absolute_path());
           return ThrowException(Exception::Error(String::New(buf.c_str())));
         } else if (!stat.IsDir()) {
           std::string buf;
-          os::SPrintf(&buf, "%s Not a directory.");
+		  os::SPrintf(&buf, "%s Not a directory.", path_info.absolute_path());
           return ThrowException(Exception::Error(String::New(buf.c_str())));
         }
       } else {
@@ -762,6 +762,7 @@ METHOD_IMPL(NativeWrap::Watcher::RemoveSetting) {
 }
 
 void NativeWrap::Watcher::Init(Handle<Object> object) {
+  static JavascriptObserver ob;
   HandleScope handle_scope;
   Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New();
   Handle<ObjectTemplate> inst = fn->InstanceTemplate();
@@ -775,11 +776,7 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
   proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
   proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::RemoveSetting));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
-  JavascriptObserver *ob = new JavascriptObserver;
-  instance->SetPointerInInternalField(0, ob);
-  Persistent<Object> holder = Persistent<Object>::New(instance);
-  holder.MakeWeak(ob, NativeWrap::Watcher::Dispose);
-  holder.MarkIndependent();
+  instance->SetPointerInInternalField(0, &ob);
   object->Set(String::New("watcher"), handle_scope.Close(instance));
 }
 
