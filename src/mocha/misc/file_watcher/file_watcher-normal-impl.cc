@@ -78,7 +78,7 @@ void FileWatcher::ProcessNotification() {
 void FileWatcher::WatchFile() {
   WatchList::iterator begin = watch_list_.begin(),end = watch_list_.end();
   while (begin != end) {
-    os::Sleep(500);
+    os::Sleep(1000);
     WatcherContainer* container = &((*begin).second);
     const char* filename = container->GetFileName();
     const char* date = container->GetDate();

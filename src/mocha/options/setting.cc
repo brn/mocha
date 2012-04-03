@@ -46,6 +46,7 @@ class Setting::PtrImpl {
   std::string runtime_path;
   std::string runtime_file;
   std::string log_path;
+  std::string tmp_file;
 	
   static const char info[];
   static const char error[];
@@ -73,6 +74,9 @@ Setting* Setting::GetInstance() {
   return instance_;
 }
 
+Setting::~Setting() {
+  os::fs::rm(implementation_->tmp_file.c_str());
+}
 
 const char* Setting::GetBasePath() { return implementation_->base_dir.c_str(); }
 const char* Setting::GetXMLPath() { return implementation_->xml_path.c_str(); }
@@ -81,7 +85,7 @@ const char* Setting::GetModulePath() { return implementation_->module_path.c_str
 const char* Setting::GetRuntimePath() { return implementation_->runtime_path.c_str(); }
 const char* Setting::GetRuntimeFile() { return implementation_->runtime_file.c_str(); }
 const char* Setting::GetLogPath() { return implementation_->log_path.c_str(); }
-
+const char* Setting::GetTmpFile() {return implementation_->tmp_file.c_str();}
 Setting::Setting() {
   implementation_(new PtrImpl());
   implementation_->base_dir = os::fs::Path::home_directory();
@@ -92,6 +96,12 @@ Setting::Setting() {
   implementation_->config_path += "config.js";
   implementation_->module_path = implementation_->base_dir;
   implementation_->module_path += "module/";
+  implementation_->tmp_file = os::fs::Path::home_directory();
+  implementation_->tmp_file += "/.mocha/tmp";
+  FILE* fp = os::FOpen(implementation_->tmp_file.c_str(), "w+b");
+  if (fp != NULL) {
+    os::FClose(fp);
+  }
 }
 
 Setting* Setting::instance_ = 0;

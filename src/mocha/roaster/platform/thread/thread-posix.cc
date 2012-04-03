@@ -64,6 +64,24 @@ void ScopedLock::Unlock () {
   }
 }
 
+#ifdef PLATFORM_MACOS
+
+Semaphore::Semaphore(int count) {
+  semaphore_create(mach_task_self(), &semaphore_, SYNC_POLICY_FIFO, count);
+}
+
+bool Semaphore::Wait() { semaphore_wait(semaphore_);return true; }
+
+bool Semaphore::Wait(int timeout) {
+  mach_timespec_t ts;
+  ts.tv_sec = timeout / 1000000;
+  ts.tv_nsec = (timeout % 1000000) * 1000;
+  return semaphore_timedwait(semaphore_, ts) != KERN_OPERATION_TIMED_OUT;
+}
+
+void Semaphore::Post() { semaphore_signal(semaphore_); }
+
+#else
 Semaphore::Semaphore(int count) {
   sem_init(&semaphore_, 0, count);
 }
@@ -123,7 +141,7 @@ bool Semaphore::Wait(int timeout) {
     }
   }
 }
-
+#endif
 ThreadLocalStorageKey::ThreadLocalStorageKey(Destructor destructor) {
   if (!is_init_) {
     os::ScopedLock lock(mutex_);

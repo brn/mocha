@@ -42,6 +42,7 @@ FILE* FOpen(const char* filename, const char* mode);
 void FClose(FILE* fp);
 void GetEnv(std::string *buf, const char* env);
 bool Sleep(int nano_time);
+int Utime(const char* path);
 }}
 
 #endif

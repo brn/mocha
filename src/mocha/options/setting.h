@@ -18,9 +18,10 @@ class Setting {
   const char* GetRuntimeFile();
   const char* GetLogPath();
   const char* GetTimeStr();
+  const char* GetTmpFile();
  private :
   Setting();
-  ~Setting(){};
+  ~Setting();
   class PtrImpl;
   ScopedPtr<PtrImpl> implementation_;
   static Setting* instance_;

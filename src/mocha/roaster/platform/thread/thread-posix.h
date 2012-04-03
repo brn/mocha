@@ -1,7 +1,16 @@
 #ifndef mocha_thread_posix_h_
 #define mocha_thread_posix_h_
 #include <pthread.h>
+#ifdef PLATFORM_MACOS
+#include <mach/semaphore.h>
+#include <mach/task.h>
+#include <mach/mach_init.h>
+#include<mach/mach_traps.h>
+#include <mach-o/dyld.h>
+#include <mach-o/getsect.h>
+#else
 #include <semaphore.h>
+#endif
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -56,7 +65,11 @@ class Semaphore {
   bool Wait(int timeout);
   void Post();
  private :
+#ifdef PLATFORM_MACOS
+  semaphore_t semaphore_;
+#else
   sem_t semaphore_;
+#endif
 };
 
 class ThreadLocalStorage;

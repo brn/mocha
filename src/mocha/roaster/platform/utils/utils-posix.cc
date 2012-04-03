@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
+#include <utime.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
 
@@ -91,5 +92,10 @@ bool Sleep(int nano_time) {
   req.tv_nsec = nano_time;
   int ret = nanosleep(&req, &rem);
   return ret == 0 || ret == EINTR;
+}
+
+int Utime(const char* path) {
+  K_ERRNO = utime(path, NULL);
+  return K_ERRNO;
 }
 }}

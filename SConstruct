@@ -27,11 +27,11 @@ PLATFORM_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party -Isrc/third_party/v8/include',
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party/libedit -Isrc/third_party/v8/include',
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party/libedit -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses"],
-        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a', '/opt/local/lib/libedit.a', 'src/third_party/v8/osx/libv8.a'],
+        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a', '/opt/local/lib/libedit.a', 'src/third_party/v8/osx/libv8.a' , 'src/third_party/libuv/libuv-osx.a'],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
         },
     "win32" : {
@@ -55,7 +55,7 @@ HEADER_LIST = [
 class MochaBuilder :
     def __init__(self, mode) :
         self.__config = Config(ROOT, PLATFORM_CONFIG)
-        self.__config.AddExcludeFile(['ut.cc', 'ct.cc', 'notificator_test.cc', 'pack.cc'])
+        self.__config.AddExcludeFile(['ut.cc', 'ct.cc', 'notificator_test.cc', 'pack.cc', 'file_watcher-normal-impl.cc'])
         self.__config.AddExcludeDir(["v8","icu","phantomjs","ncurses-5.9", "gtest-1.6.0-win", "gtest-1.6.0-linux", "gtest-1.6.0-macos",])
         self.__sources = Sources(self.__config)
         flags = self.__sources.GetFlags(mode)

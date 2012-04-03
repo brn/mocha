@@ -23,6 +23,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <sys/utime.h>
 #include <windows.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
@@ -105,5 +106,10 @@ void GetEnv(std::string* buf, const char* env) {
 bool Sleep(int nano_time) {
   ::Sleep(nano_time);
   return true;
+}
+
+int Utime(const char* path) {
+  K_ERRNO = _utime(path, NULL);
+  return K_ERRNO;
 }
 }}

@@ -172,7 +172,7 @@ void JavascriptObserver::Exit() {
   WatcherProxy* proxy = server->GetWatcherProxy(server_name_);
   if (proxy != NULL) {
     proxy->watcher()->Exit();
-    while (running_){}
+    while (running_){os::Sleep(1000);}
     WatcherServer* server = WatcherServer::GetInstance();
     server->RemoveWatcher(server_name_);
   }
@@ -184,7 +184,7 @@ void JavascriptObserver::Stop() {
     WatcherProxy* proxy = server->GetWatcherProxy(server_name_);
     if (proxy != NULL) {
       proxy->watcher()->Stop();
-      while (running_){}
+      while (running_){os::Sleep(1000);}
     }
 }
 

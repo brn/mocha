@@ -28,7 +28,7 @@
         return result;
       },
       current = 'main';
-      
+
   //Define mocha object
   defProp(env, 'mocha', {});
   var mocha = env.mocha;
@@ -109,6 +109,7 @@
     }
     return null;
   });
+
   defProp(mocha, '_commands', {});
   defProp(mocha, '_commandsHelp', {});
   mocha.addCommand("watch", function () {
@@ -117,31 +118,27 @@
     } else {
       env.console.log("watch server is now working.");
     }
-  }, "Begin watching the file, and compile immediately if modified.");
+  }, "Begin watch server, and compile immediately if modified.");
 
   mocha.addCommand("unwatch", function (type) {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();
+      while (natives.script.watcher.isRunning()) {}
+      globalExports = {};
     } else {
       env.console.log("watch sever is now stopping.");
     }
-  }, "Exit watching the file, if watch server is working.");
-  
-  mocha.addCommand("stop", function (type) {
+  }, "Exit watc server, if watch server is working.");
+
+  mocha.addCommand("restart", function (type) {
     if (natives.script.watcher.isRunning()) {
-      natives.script.watcher.stop();
+      natives.script.watcher.exit();
+      while (natives.script.watcher.isRunning()) {}
+      natives.script.watcher.run();
     } else {
       env.console.log("watch sever is now stopping.");
     }
-  }, "Stop watching the file, if watch server is working.");
-  
-  mocha.addCommand("resume", function (type) {
-    if (!natives.script.watcher.isRunning()) {
-      natives.script.watcher.resume();
-    } else {
-      env.console.log("watch sever is now stopping.");
-    }
-  }, "Resume watching the file, if watch server is stopped.");
+  }, "Restart watch server, if watch server is working.");
 
   mocha.addCommand("exit", function () {
     if (natives.script.watcher.isRunning()) {

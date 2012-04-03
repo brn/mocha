@@ -2,6 +2,7 @@
 #include <mocha/misc/file_watcher/server/watcher_server.h>
 
 namespace mocha {
+
 template <const char* name>
 class WatchEndCallBack {
  public :
@@ -23,17 +24,17 @@ WatcherServer::WatcherServer(){}
 void WatcherServer::AddWatcher(const char* watcher_name) {
   if (watchers_.find(watcher_name) == watchers_.end()) {
     os::ScopedLock lock(mutex_);
-    WatcherProxy* wrap = new(&pool_) WatcherProxy(watcher_name);
-    wrap->watcher()->AddWatcherEventListener(WatcherEvent::kEndWatch, WatchEndCallBack<kEnd>(this, wrap));
-    wrap->watcher()->AddWatcherEventListener(WatcherEvent::kStopWatch, WatchEndCallBack<kStop>(this, wrap));
-    watchers_.insert(std::pair<const char*, WatcherProxy*>(watcher_name, wrap));
+    ProxyHandle handle(new WatcherProxy(watcher_name));
+    handle->watcher()->AddWatcherEventListener(WatcherEvent::kEndWatch, WatchEndCallBack<kEnd>(this, handle.Get()));
+    handle->watcher()->AddWatcherEventListener(WatcherEvent::kStopWatch, WatchEndCallBack<kStop>(this, handle.Get()));
+    watchers_.insert(std::pair<const char*, ProxyHandle>(watcher_name, handle));
   }
 }
 
 void WatcherServer::RemoveWatcher(const char* watcher_name) {
+  os::ScopedLock lock(mutex_);
   Watchers::iterator it = watchers_.find(watcher_name);
   if (it != watchers_.end()) {
-    os::ScopedLock lock(mutex_);
     watchers_.erase(it);
   }
 }
@@ -41,7 +42,7 @@ void WatcherServer::RemoveWatcher(const char* watcher_name) {
 WatcherProxy* WatcherServer::GetWatcherProxy(const char* name) {
   Watchers::iterator it = watchers_.find(name);
   if (it != watchers_.end()) {
-    return it->second;
+    return it->second.Get();
   }
   return NULL;
 }

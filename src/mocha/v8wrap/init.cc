@@ -43,18 +43,14 @@ void V8Init::Print(Handle<Value> value) {
 
 Handle<Value> V8Init::RunInConfigContext(const char* source) {
   HandleScope scope;
-  context_->Enter();
   Context::Scope context_scope(context_);
   Handle<Value> args[] = {String::New(source)};
   Handle<Value> ret = function_->Call(function_, 1, args);
-  context_->Exit();
   return ret;
 }
 
 Handle<Value> V8Init::RunInGlobalContext(const char* source) {
-  context_->Enter();
   Handle<Value> ret = DoRun(source);
-  context_->Exit();
   return ret;
 }
 
@@ -169,7 +165,6 @@ void V8Init::Initialize() {
   HandleScope handle_scope;
   config_global_template_ = Persistent<ObjectTemplate>::New(ObjectTemplate::New());
   context_ = Context::New(NULL, config_global_template_);
-  context_->Enter();
   Context::Scope context_scope(context_);
   native_ = Persistent<Object>::New(Object::New());
   Handle<Value> fn = DoRun(init_js::initjs);
@@ -182,7 +177,6 @@ void V8Init::Initialize() {
   Handle<Value> ret = callable->Call(callable, 4, args);
   Handle<Function> config_context = Handle<Function>::Cast(ret);
   function_ = Persistent<Function>::New(config_context);
-  context_->Exit();
   Regist<ObjectTemplate>(config_global_template_);
   Regist<Object>(config_global_);
   Regist<Context>(context_);

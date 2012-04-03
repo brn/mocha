@@ -16,7 +16,6 @@ typedef uv_idle_t UvIdle;
 typedef uv_idle_cb UvIdleCb;
 typedef uv_fs_cb UvFSCb;
 class WatcherContainer;
-class FsMediator;
 class FileWatcher;
 class FileEvent {
  public :
@@ -43,9 +42,8 @@ class WatcherEvent {
  private :
   int type_;
 };
-
+struct Info;
 class FileWatcher {
-  friend class FsMediator;
  public :
   FileWatcher();
   ~FileWatcher();
@@ -65,8 +63,8 @@ class FileWatcher {
   void Exit();
  private :
   typedef std::string FileEntry;
-  typedef std::pair<FileEntry, WatcherContainer*> WatchPair;
-  typedef roastlib::unordered_map<FileEntry, WatcherContainer*> WatchList;
+  typedef std::pair<FileEntry, uv_fs_event_t*> WatchPair;
+  typedef roastlib::unordered_map<FileEntry, uv_fs_event_t*> WatchList;
   void Initialize();
   void Regist(const char* path);
   void ProcessNotification();
@@ -76,15 +74,12 @@ class FileWatcher {
   void UnWatchEach(WatchList::iterator& it);
   void CheckPool();
   int stop_flag_;
-  uv_fs_t fs_req;
   uv_fs_event_t event_;
   uv_loop_t* loop_;
-  UvIdle uv_idle_;
   memory::Pool* pool_;
   WatchList watch_list_;
   Notificator<FileEvent> file_notificator_;
   Notificator<WatcherEvent> watcher_notificator_;
-  FsMediator* mediator_;
   static os::Mutex mutex_;
 };
 

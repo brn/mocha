@@ -4,6 +4,7 @@
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
 #include <mocha/roaster/notificator/notificator.h>
 namespace mocha {
 class WatcherServerEvent {
@@ -15,7 +16,7 @@ class WatcherServerEvent {
   const char* name_;
 };
 
-class WatcherProxy : public memory::Allocated {
+class WatcherProxy {
  public :
   WatcherProxy(const char* name)
       : name_(name){}
@@ -32,7 +33,8 @@ class WatcherProxy : public memory::Allocated {
 };
 
 class WatcherServer : public Notificator<WatcherServerEvent>{
-  typedef roastlib::unordered_map<std::string, WatcherProxy*> Watchers;
+  typedef SharedPtr<WatcherProxy> ProxyHandle;
+  typedef roastlib::unordered_map<std::string, ProxyHandle> Watchers;
  public :
   static WatcherServer* GetInstance() {return &instance_;}
   ~WatcherServer(){}
