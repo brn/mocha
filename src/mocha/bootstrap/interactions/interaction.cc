@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mocha/shell/shell.h>
+#include <mocha/options/setting.h>
+#include <mocha/roaster/log/logging.h>
 #include <mocha/bootstrap/interactions/interaction.h>
 #include <mocha/v8wrap/init.h>
 using namespace v8;
@@ -37,6 +39,12 @@ class Interaction::RunCommand : public Action {
 void Interaction::Begin() {
   RunCommand command;
   V8Init* init = V8Init::GetInstance();
+  const char* logpath = Setting::Get(Setting::kLogPath);
+  if (logpath != NULL) {
+    Logging::Initialize(logpath, "a+");
+  } else {
+    Logging::Initialize(stdout);
+  }
   Context::Scope context_scope(init->context());
   Shell* shell = Shell::Initialize(command);
   shell->Read();

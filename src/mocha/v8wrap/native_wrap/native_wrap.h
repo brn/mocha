@@ -103,6 +103,14 @@ class NativeWrap : private Static {
     DECL_METHOD(AddSetting);
     DECL_METHOD(RemoveSetting);
   };
+
+  class Config : private Static {
+   public :
+    INIT_DECL;
+    DECL_METHOD(Set);
+    DECL_METHOD(Get);
+    DECL_METHOD(Has);
+  };
 };
 #undef DECL_METHOD
 #undef DECL_DIPOSER

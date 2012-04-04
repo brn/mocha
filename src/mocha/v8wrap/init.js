@@ -32,6 +32,16 @@
   //Define mocha object
   defProp(env, 'mocha', {});
   var mocha = env.mocha;
+  mocha.config = {
+    set : function (name, val) {
+      var stat = new natives.fs.Stat(val);
+      if (stat.isExist()) {
+        var path_info = new natives.fs.Path(val);
+        natives.config.set(name, path_info.fullpath());
+      }
+    },
+    get : function (key) {return natives.config.get(key);}
+  };
   defProp(env, 'console', {
     _print : function (method, args) {
       for (var i = 0,len = args.length; i < len; i++) {
@@ -62,7 +72,6 @@
   });
   defProp(mocha, 'utils', {});
   defProp(mocha, 'import', function (path, force) {
-    console.log(path);
     if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~' && path[1] != ':') {
       if (path in natives) {
         return natives[path];
@@ -94,6 +103,7 @@
     globalExports[current][name] = val;
   });
   defProp(mocha.utils, 'loadFile', loadFile);
+  
   defProp(mocha, 'addCommand', function (name , val, help) {
     defProp(this._commands, name, val, '-e -c -w');
     defProp(this._commandsHelp, name, help || '', '-e -c -w');
@@ -154,6 +164,27 @@
       env.console.log("  " + command + '  :  ' + mocha._commandsHelp[command]);
     }
   }, 'show all command and help list.');
+  
+  (function () {
+    var path = natives.config._configPath;
+    var configStat = new natives.fs.Stat(path);
+    if (!configStat.isExist()) {
+      var file = natives.io.fopen(path, 'w+b'),
+          source = natives.config._watchFileTemplate;
+      file.writeTextContent(source);
+      file.close();
+    }
+    var source = loadFile(path),
+        current = natives.fs.Path.getcwd();
+    try {
+      natives.fs.Dir.chdir(natives.fs.Path.homeDir() + '/.mocha');
+      compile('(function(mocha, config) {\n' + source + '\n})')(mocha, mocha.config);
+    } catch(e) {
+      console.log(e);
+    }
+    natives.fs.Dir.chdir(current);
+  })();
+  
   return function (source) {
     source = '(function(mocha) {"use strict";\n' + source + '\n})';
     var ret = compile(source)(mocha);

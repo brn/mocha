@@ -1,30 +1,30 @@
 #ifndef mocha_setting_h_
 #define mocha_setting_h_
-
-#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
-#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
+#include <mocha/roaster/lib/unordered_map.h>
+#include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/bootstrap/bootstrap.h>
-#include <mocha/roaster/memory/pool.h>
 namespace mocha {
-class Setting {
-  friend class Bootstrap;
+class Setting : private Static{
+  typedef std::pair<const char*, const char*> SettingPair;
+  typedef roastlib::unordered_map<std::string, std::string> SettingMap;
  public :
-  static Setting* GetInstance();
-  const char* GetBasePath();
-  const char* GetXMLPath();
-  const char* GetConfigPath();
-  const char* GetModulePath();
-  const char* GetRuntimePath();
-  const char* GetRuntimeFile();
-  const char* GetLogPath();
-  const char* GetTimeStr();
-  const char* GetTmpFile();
+  static void Initialize();
+  static void Destruct();
+  static const char* config_path();
+  static const char* tmp_path();
+  static const char* base();
+  static const char* Get(const char* key);
+  static void Set(const char* key, const char* val);
+  static bool Has(const char* key);
+  static const char kWatchFilePath[];
+  static const char kPhantomPath[];
+  static const char kLogPath[];
+  static const char* WatchFileTemplate();
  private :
-  Setting();
-  ~Setting();
-  class PtrImpl;
-  ScopedPtr<PtrImpl> implementation_;
-  static Setting* instance_;
+  static SettingMap setting_map_;
+  static std::string base_;
+  static std::string tmp_file_;
+  static std::string config_path_;
 };
 }
 

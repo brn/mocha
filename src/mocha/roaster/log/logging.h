@@ -44,6 +44,10 @@ class Logging {
   Logging(FILE* fp);
   bool is_own_;
   FILE* fp_;
+  static const char kLog[];
+  static const char kInfo[];
+  static const char kFatal[];
+  static const char kWarn[];
   static bool initialized_;
   static os::Mutex mutex_;
   static ScopedPtr<Logging> logging_;

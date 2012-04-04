@@ -49,8 +49,8 @@
 #ifndef CYGWINMSVC
 
 /** Define the platform we're on. */
-#ifndef U_DARWIN
-#define U_DARWIN
+#ifndef U_LINUX
+#define U_LINUX
 #endif
 
 /**
@@ -282,7 +282,7 @@
 #define U_TZSET         tzset
 #endif
 #if 1
-#define U_TIMEZONE      timezone
+#define U_TIMEZONE      __timezone
 #endif
 #if 1
 #define U_TZNAME        tzname
@@ -363,7 +363,7 @@
  * What program to execute to run 'make'
  */
 #ifndef U_MAKE
-#define U_MAKE  "/usr/bin/gnumake"
+#define U_MAKE  "make"
 #endif
 
 /** @} */

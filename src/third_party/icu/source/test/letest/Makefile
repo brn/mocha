@@ -11,7 +11,7 @@ top_builddir = ../..
 include $(top_builddir)/icudefs.mk
 
 ## Platform-specific setup
-include $(top_srcdir)/config/mh-darwin
+include $(top_srcdir)/config/mh-linux
 
 ## Build directory information
 subdir = test/letest
@@ -37,7 +37,7 @@ endif
 
 CPPFLAGS += -I$(top_builddir)/common -I$(top_srcdir)/common -I$(top_srcdir)/i18n -I$(top_srcdir)/tools/ctestfw -I$(top_srcdir)/tools/toolutil -I$(top_srcdir)/layout -I$(top_srcdir)/layoutex -I$(top_srcdir)
 DEFS += -D'U_TOPSRCDIR="$(top_srcdir)/"' -D'U_TOPBUILDDIR="$(BUILDDIR)"'
-LIBS = $(LIBICULX) $(LIBICULE) $(LIBICUUC) $(LIBICUI18N) $(LIBCTESTFW) $(LIBICUTOOLUTIL) -lpthread -lm  
+LIBS = $(LIBICULX) $(LIBICULE) $(LIBICUUC) $(LIBICUI18N) $(LIBCTESTFW) $(LIBICUTOOLUTIL) -lpthread -ldl -lm  
 
 COMMONOBJECTS = letsutil.o cmaps.o FontTableCache.o SimpleFontInstance.o PortableFontInstance.o
 TESTOBJECTS   = letest.o

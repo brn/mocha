@@ -29,7 +29,7 @@ void DoRun(const char* command) {
   arg += env;
   arg += '/';
   arg += "phantomjs ";
-  arg += Setting::GetInstance()->GetBasePath();
+  arg += Setting::base();
   arg += "run-phantom.js ";
   arg += command;
   arg += "";

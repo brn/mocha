@@ -14,7 +14,7 @@ include $(top_builddir)/icudefs.mk
 subdir = samples
 
 ## Platform-specific setup
-include $(top_srcdir)/config/mh-darwin
+include $(top_srcdir)/config/mh-linux
 
 ## Files to remove for 'make clean'
 CLEANFILES = *~

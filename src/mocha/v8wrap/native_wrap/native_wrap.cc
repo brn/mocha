@@ -38,6 +38,7 @@ void NativeWrap::Init(Handle<Object> object) {
   NativeWrap::IO::Init(ns_io);
   NativeWrap::IO::NativeConsole::Init(ns_console);
   NativeWrap::Watcher::Init(ns_setting);
+  NativeWrap::Config::Init(object);
   ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
   object->Set(String::New("script"), ns_setting);
@@ -443,7 +444,7 @@ Handle<Object> NativeWrap::File::Init(FILE* fp) {
 }
 
 METHOD_IMPL(NativeWrap::File::WriteTextContent) {
-  if (args.Length() > 0) {
+  if (args.Length() == 1) {
     if (args[0]->IsString()) {
       bool is_opened = args.This()->GetInternalField(1)->IsTrue();
       if (is_opened) {
@@ -461,8 +462,9 @@ METHOD_IMPL(NativeWrap::File::WriteTextContent) {
     } else {
       return ThrowException(Exception::Error(String::New("The arguments of stat must be a string.")));
     }
+  } else {
+    return ThrowException(Exception::Error(String::New("The function writeTextContent need at least one arguments.")));
   }
-  return ThrowException(Exception::Error(String::New("The function stat need at least one arguments.")));
 }
 
 bool BinaryFlagIsValid(char val) {
@@ -612,43 +614,29 @@ METHOD_IMPL(NativeWrap::IO::FOpen) {
       if (path.length() > 0) {
         os::fs::Path path_info(*path);
         os::fs::Stat stat(path_info.absolute_path());
-        if (stat.IsExist() && stat.IsReg()) {
-          if (mode.length() > 0) {
-            const char* mode_cstr = *mode;
-            for (int i = 0, len = mode.length(); i < len; i++) {
-              if (mode_cstr[i] != 'r' &&
-                  mode_cstr[i] != '+' &&
-                  mode_cstr[i] != 'w' &&
-                  mode_cstr[i] != 'b' &&
-                  mode_cstr[i] != 'a') {
-                std::string buf;
-                os::SPrintf(&buf, "%s is not a valid open mode.", mode_cstr);
-                return ThrowException(Exception::Error(String::New(buf.c_str())));
-              }
-            }
-            FILE *fp = os::FOpen(*path, mode_cstr);
-            if (fp != NULL) {
-              return File::Init(fp);
-            } else {
+        if (mode.length() > 0) {
+          const char* mode_cstr = *mode;
+          for (int i = 0, len = mode.length(); i < len; i++) {
+            if (mode_cstr[i] != 'r' &&
+                mode_cstr[i] != '+' &&
+                mode_cstr[i] != 'w' &&
+                mode_cstr[i] != 'b' &&
+                mode_cstr[i] != 'a') {
               std::string buf;
-              os::Strerror(&buf, K_ERRNO);
+              os::SPrintf(&buf, "%s is not a valid open mode.", mode_cstr);
               return ThrowException(Exception::Error(String::New(buf.c_str())));
             }
-          } else {
-            return ThrowException(Exception::Error(String::New("The second arguments of fopen must be a string.")));
           }
-        } else if (!stat.IsExist()){
-          std::string buf;
-          os::SPrintf(&buf, "%s No such file.", path_info.absolute_path());
-          return ThrowException(Exception::Error(String::New(buf.c_str())));
-        } else if (stat.IsDir()) {
-          std::string buf;
-          os::SPrintf(&buf, "%s is a directory.", path_info.absolute_path());
-          return ThrowException(Exception::Error(String::New(buf.c_str())));
-        } else if (!stat.IsReg()) {
-          std::string buf;
-          os::SPrintf(&buf, "%s is not a valid file.", path_info.absolute_path());
-          return ThrowException(Exception::Error(String::New(buf.c_str())));
+          FILE *fp = os::FOpen(*path, mode_cstr);
+          if (fp != NULL) {
+            return File::Init(fp);
+          } else {
+            std::string buf;
+            os::Strerror(&buf, K_ERRNO);
+            return ThrowException(Exception::Error(String::New(buf.c_str())));
+          }
+        } else {
+          return ThrowException(Exception::Error(String::New("The second arguments of fopen must be a string.")));
         }
       } else {
         return ThrowException(Exception::Error(String::New("The arguments of fopen must be a string.")));
@@ -783,12 +771,16 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
 DISPOSE_IMPL(NativeWrap::Watcher, JavascriptObserver);
 
 METHOD_IMPL(NativeWrap::Watcher::Run) {
-  const char* path = mocha::Setting::GetInstance()->GetConfigPath();
-  std::string source;
-  os::SPrintf(&source, "mocha.import('%s');", path);
-  V8Init::GetInstance()->RunInConfigContext(source.c_str());
-  JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
-  observer->Run();
+  const char* path = Setting::Get(Setting::kWatchFilePath);
+  if (path != NULL) {
+    std::string source;
+    os::SPrintf(&source, "mocha.import('%s');", path);
+    V8Init::GetInstance()->RunInConfigContext(source.c_str());
+    JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
+    observer->Run();
+  } else {
+    os::Printf("plese set watch file path.\n");
+  }
   return Undefined();
 }
 
@@ -813,6 +805,52 @@ METHOD_IMPL(NativeWrap::Watcher::Resume) {
 METHOD_IMPL(NativeWrap::Watcher::IsRunning) {
   JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
   return Boolean::New(observer->IsRunning());
+}
+
+void NativeWrap::Config::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  Handle<Object> setting = Object::New();
+  Handle<FunctionTemplate> set = FunctionTemplate::New(NativeWrap::Config::Set);
+  Handle<FunctionTemplate> get = FunctionTemplate::New(NativeWrap::Config::Get);
+  Handle<FunctionTemplate> has = FunctionTemplate::New(NativeWrap::Config::Has);
+  setting->Set(String::New("set"), set->GetFunction());
+  setting->Set(String::New("get"), get->GetFunction());
+  setting->Set(String::New("has"), has->GetFunction());
+  setting->Set(String::New("_watchFileTemplate"), String::New(Setting::WatchFileTemplate()));
+  setting->Set(String::New("_configPath"), String::New(Setting::config_path()));
+  object->Set(String::New("config"), setting);
+}
+
+METHOD_IMPL(NativeWrap::Config::Set) {
+  if (args.Length() == 2) {
+    if (args[0]->IsString() && args[1]->IsString()) {
+      String::Utf8Value key(args[0]);
+      String::Utf8Value val(args[1]);
+      Setting::Set(*key, *val);
+    }
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Config::Get) {
+  if (args.Length() == 1) {
+    if (args[0]->IsString()) {
+      String::Utf8Value key(args[0]);
+      const char* val = Setting::Get(*key);
+      return val != NULL? String::New(val) : String::New("");
+    }
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Config::Has) {
+  if (args.Length() == 1) {
+    if (args[0]->IsString()) {
+      String::Utf8Value key(args[0]);
+      return Boolean::New(Setting::Has(*key));
+    }
+  }
+  return Boolean::New(false);
 }
 
 }

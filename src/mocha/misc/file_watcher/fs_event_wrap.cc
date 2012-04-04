@@ -29,10 +29,11 @@ class WatcherContainer : private Uncopyable {
 
 class EventInfo : public memory::Allocated {
  public :
-  EventInfo(const char* filename, Notificator<FileEvent>* e)
+  EventInfo(const char* filename, Notificator<FileEvent>* e, WatchList* list)
       : close_(1),
         filename_(filename),
         notificator_(e),
+        watch_list_(list),
         container_(filename) {}
   const char* filename() const {return filename_.c_str();}
   WatcherContainer* container() {return &container_;}
@@ -40,10 +41,12 @@ class EventInfo : public memory::Allocated {
   uv_fs_event_t* event() {return &event_;}
   void set_close() {close_ = 0;}
   int close() {return close_;}
+  WatchList* watch_list() {return watch_list_;}
  private :
   int close_;
   std::string filename_;
   Notificator<FileEvent> *notificator_;
+  WatchList* watch_list_;
   WatcherContainer container_;
   uv_fs_event_t event_;
 };
@@ -65,6 +68,10 @@ extern "C" {
           info->notificator()->NotifyForKey(FileEvent::kModify, FileEvent(filename));
         }
       } else {
+        WatchList::iterator it = info->watch_list()->find(filename);
+        if (it != info->watch_list()->end()) {
+          info->watch_list()->erase(it);
+        }
         info->notificator()->NotifyForKey(FileEvent::kDelete, FileEvent(filename));
         uv_close(reinterpret_cast<uv_handle_t*>(handle), CloseCb);
       }
@@ -109,7 +116,7 @@ void FileWatcher::Start() {
 
 void FileWatcher::Exit() {
   WatchList::iterator it = watch_list_.begin();
-  const char* tmp = Setting::GetInstance()->GetTmpFile();
+  const char* tmp = Setting::tmp_path();
   for (; it != watch_list_.end(); ++it) {
     EventInfo* info = static_cast<EventInfo*>((it->second->data));
     info->set_close();
@@ -118,8 +125,7 @@ void FileWatcher::Exit() {
     if (strcmp(filename, tmp) != 0) {
       os::fs::Stat stat(filename);
       if (stat.IsExist()) {
-        //uv_close(reinterpret_cast<uv_handle_t*>(it->second), CloseCb);
-		  uv_unref(loop_);
+        uv_unref(loop_);
       }
     }
   }
@@ -149,7 +155,7 @@ void FileWatcher::AddToWatchList(const char* path) {
     os::fs::Path path_info(path);
     const char* fullpath = path_info.absolute_path();
     if (watch_list_.find(fullpath) == watch_list_.end()) {
-      EventInfo* info = new(pool_) EventInfo(fullpath, &file_notificator_);
+      EventInfo* info = new(pool_) EventInfo(fullpath, &file_notificator_, &watch_list_);
       uv_fs_event_t* event = info->event();
       event->data = static_cast<void*>(info);
       watch_list_.insert(WatchPair(fullpath, event));
@@ -161,7 +167,7 @@ void FileWatcher::AddToWatchList(const char* path) {
 }
 
 void FileWatcher::ProcessNotification() {
-  AddToWatchList(Setting::GetInstance()->GetTmpFile());
+  AddToWatchList(Setting::tmp_path());
   uv_run(loop_);
   const char* name = (stop_flag_ == 1)? WatcherEvent::kStopWatch : WatcherEvent::kEndWatch;
   int type = (stop_flag_ == 1)? WatcherEvent::kStop : WatcherEvent::kEnd;
