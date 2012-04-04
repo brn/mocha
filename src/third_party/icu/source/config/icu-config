@@ -203,7 +203,7 @@ CPP="gcc -E"
 CPPFLAGS="${THREADSCPPFLAGS} ${LIBCPPFLAGS} -I${prefix}/include"
 CXX="g++"
 CXXFLAGS="-O2 -W -Wall -ansi -pedantic -Wpointer-arith -Wwrite-strings -Wno-long-long ${THREADSCXXFLAGS} "
-DEFAULT_MODE="dll"
+DEFAULT_MODE="static"
 DEFS="-DHAVE_CONFIG_H "
 FFLAGS="@FFLAGS@"
 # use a consistent INSTALL 
@@ -248,7 +248,7 @@ ICUDATA_NAME="icudt48l"
 # is being used
 if [ "x$PKGDATA_MODE" = "x" ];
 then
-PKGDATA_MODE="dll"
+PKGDATA_MODE="static"
 fi
 
 case "$PKGDATA_MODE" in
@@ -749,4 +749,4 @@ sanity
 
 exit 0
 
-# Rebuilt on Mon Jan 23 13:28:40 JST 2012
+# Rebuilt on Wed Apr 4 14:40:54 JST 2012

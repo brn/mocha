@@ -36,7 +36,7 @@ DEPS = $(OBJECTS:.o=.d)
 
 ICUINFO_OPTS=-i ../../data/out/build/$(ICUDATA_PLATFORM_NAME)
 
-CPPFLAGS+=  "-DU_PLATFORM=\"U_LINUX\""  "-DU_BUILD=\"i686-pc-linux-gnu\"" "-DU_HOST=\"i686-pc-linux-gnu\"" "-DU_CC=\"gcc\"" "-DU_CXX=\"g++\""
+CPPFLAGS+=  "-DU_PLATFORM=\"U_DARWIN\""  "-DU_BUILD=\"i386-apple-darwin10.7.4\"" "-DU_HOST=\"i386-apple-darwin10.7.4\"" "-DU_CC=\"gcc\"" "-DU_CXX=\"g++\""
 
 ## List of phony targets
 .PHONY : all all-local install install-local clean clean-local		\

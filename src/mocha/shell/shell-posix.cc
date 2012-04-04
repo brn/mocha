@@ -59,6 +59,8 @@ void Shell::Destruct() {
 void Shell::Read() {
   wchar_t *buf;
   int read;
+  const char dummy[] = {""};
+  history(history_, &event_, H_ENTER, dummy);
   while(1) {
     std::wstring input = el_wgets(line_, &read);
     if (read == -1) {

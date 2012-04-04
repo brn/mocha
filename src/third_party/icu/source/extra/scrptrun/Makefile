@@ -11,7 +11,7 @@ top_builddir = ../..
 include $(top_builddir)/icudefs.mk
 
 ## Platform-specific setup
-include $(top_srcdir)/config/mh-linux
+include $(top_srcdir)/config/mh-darwin
 
 ## Build directory information
 subdir = extra/scrptrun
@@ -31,7 +31,7 @@ ifeq ($(ENABLE_RPATH),YES)
 RPATHLDFLAGS = $(LD_RPATH)$(LD_RPATH_PRE)$(libdir)
 endif
 LDFLAGS =  $(RPATHLDFLAGS)
-LIBS = $(LIBICUUC) -lpthread -ldl -lm  
+LIBS = $(LIBICUUC) -lpthread -lm  
 
 OBJECTS = scrptrun.o srtest.o
 

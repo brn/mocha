@@ -23,15 +23,18 @@ PLATFORM_CONFIG = {
         "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
         "LIBS" : ["pthread", "edit" ,"curses", "rt"],
         "STATIC_LIBS" : ['src/third_party/v8/linux/libv8.a' , 'src/third_party/libuv/uv.a'],
-        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
+        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc'],
+        "PRE_COMMAND" : ['cd src/third_party/libedit-devel && ./configure --enable-widec --enable-static && make && cd ../../',
+                         'cd src/third_party/icu/source && ./configure --enable--static && make && cd ../../',
+                         'cd src/third_party/v8 && scons arch=x64 && cd ../../']
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
-        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party/libedit -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
+        "RELEASE" : '-Wall -O3 -fno-exceptions -fno-rtti -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party -Isrc/deps/macos/v8/include -Isrc/deps/macos/libuv/include',
+        "DEBUG" : '-Wall -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/deps/macos/libedit/include -Isrc/deps/macos/v8/include -Isrc/deps/macos/libuv/include',
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses"],
-        "STATIC_LIBS" : [LIB_PREFIX + '/lib-osx/libicui18n.a', LIB_PREFIX + '/lib-osx/libicuio.a', LIB_PREFIX + '/lib-osx/libiculx.a', LIB_PREFIX + '/lib-osx/libicudata.a', LIB_PREFIX + '/lib-osx/libicuuc.a', LIB_PREFIX + '/lib-osx/libicule.a', '/opt/local/lib/libedit.a', 'src/third_party/v8/osx/libv8.a' , 'src/third_party/libuv/libuv-osx.a'],
+        "STATIC_LIBS" : ['src/deps/macos/icu/libicui18n.a', 'src/deps/macos/icu/libicudata.a', 'src/deps/macos/icu/libicuuc.a', 'src/deps/macos/libedit/libedit.a', 'src/deps/macos/v8/libv8.a' , 'src/deps/macos/libuv/libuv-osx.a'],
         "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
         },
     "win32" : {

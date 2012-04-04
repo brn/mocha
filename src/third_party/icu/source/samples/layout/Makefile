@@ -11,7 +11,7 @@ top_builddir = ../..
 include $(top_builddir)/icudefs.mk
 
 ## Platform-specific setup
-include $(top_srcdir)/config/mh-linux
+include $(top_srcdir)/config/mh-darwin
 
 ## Build directory information
 subdir = samples/layout
@@ -25,7 +25,7 @@ CTARGET = cgnomelayout
 
 CPPFLAGS += -DLE_USE_CMEMORY `pkg-config --cflags libgnomeui-2.0 freetype2 cairo` -I$(top_builddir)/common -I$(top_srcdir)/common -I$(top_srcdir)/i18n -I$(top_srcdir)/layoutex -I$(top_srcdir)/layout -I$(top_srcdir) -g
 
-LIBS = $(LIBICULX) $(LIBICULE) $(LIBICUUC) $(LIBICUI18N) -lpthread -ldl -lm   `pkg-config --libs libgnomeui-2.0 freetype2 cairo`
+LIBS = $(LIBICULX) $(LIBICULE) $(LIBICUUC) $(LIBICUI18N) -lpthread -lm   `pkg-config --libs libgnomeui-2.0 freetype2 cairo`
 
 COMMON=cmaps.o UnicodeReader.o GnomeGUISupport.o FontMap.o GnomeFontMap.o ScriptCompositeFontInstance.o GnomeFontInstance.o FontTableCache.o  paragraph.o
 

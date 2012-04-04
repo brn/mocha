@@ -34,8 +34,8 @@ include $(shell icu-config --incfile)
 DIRS=$(prefix)/include/unicode
 LDIRS=$(prefix)/include/layout
 ECHO_T=
-ECHO_C=
-ECHO_N=-n
+ECHO_C=\c
+ECHO_N=
 
 all: 
 	@echo Please read this Makefile for more information.

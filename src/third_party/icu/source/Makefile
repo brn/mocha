@@ -36,7 +36,7 @@ EXTRA = extra
 TEST = test
 SAMPLE = samples
 
-DOXYGEN = /usr/bin/doxygen
+DOXYGEN = 
 DOCZIP = icu-docs.zip
 
 ## Files to remove for 'make clean'
@@ -46,7 +46,7 @@ ALL_PKGCONFIG_SUFFIX=uc i18n io le lx
 ALL_PKGCONFIG_FILES=$(ALL_PKGCONFIG_SUFFIX:%=$(top_builddir)/config/icu-%.pc)
 
 ## Files built (autoconfed) and installed
-INSTALLED_BUILT_FILES = $(top_builddir)/config/Makefile.inc $(top_builddir)/config/pkgdata.inc $(top_builddir)/config/icu-config $(top_srcdir)/config/mh-linux $(EXTRA_DATA:%=$(DESTDIR)$(pkglibdir)/%) $(ALL_PKGCONFIG_FILES)
+INSTALLED_BUILT_FILES = $(top_builddir)/config/Makefile.inc $(top_builddir)/config/pkgdata.inc $(top_builddir)/config/icu-config $(top_srcdir)/config/mh-darwin $(EXTRA_DATA:%=$(DESTDIR)$(pkglibdir)/%) $(ALL_PKGCONFIG_FILES)
 
 ## Files built (autoconfed) but not installed
 LOCAL_BUILT_FILES = icudefs.mk config/icucross.mk
@@ -144,7 +144,7 @@ install-icu: $(INSTALLED_BUILT_FILES)
 	@$(MKINSTALLDIRS) $(DESTDIR)$(pkglibdir)
 	@$(MKINSTALLDIRS) $(DESTDIR)$(bindir)
 	@$(MKINSTALLDIRS) $(DESTDIR)$(sbindir)
-	$(INSTALL_DATA) $(top_srcdir)/config/mh-linux $(DESTDIR)$(pkgdatadir)/config/mh-linux
+	$(INSTALL_DATA) $(top_srcdir)/config/mh-darwin $(DESTDIR)$(pkgdatadir)/config/mh-darwin
 	$(INSTALL_SCRIPT) $(top_srcdir)/mkinstalldirs $(DESTDIR)$(pkgdatadir)/mkinstalldirs
 	$(INSTALL_SCRIPT) $(top_srcdir)/install-sh $(DESTDIR)$(pkgdatadir)/install-sh
 	@$(MKINSTALLDIRS) $(DESTDIR)$(libdir)/pkgconfig
@@ -278,13 +278,13 @@ $(top_builddir)/config/pkgdataMakefile:
 	cd $(top_builddir) \
 		&& CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-$(top_builddir)/config/icu-config: $(top_builddir)/Makefile $(top_srcdir)/config/icu-config-top $(top_srcdir)/config/icu-config-bottom $(top_builddir)/config/Makefile.inc $(top_srcdir)/config/mh-linux $(top_srcdir)/config/make2sh.sed
+$(top_builddir)/config/icu-config: $(top_builddir)/Makefile $(top_srcdir)/config/icu-config-top $(top_srcdir)/config/icu-config-bottom $(top_builddir)/config/Makefile.inc $(top_srcdir)/config/mh-darwin $(top_srcdir)/config/make2sh.sed
 	-$(RMV) $@
 	$(INSTALL_SCRIPT) $(top_srcdir)/config/icu-config-top $@
 	chmod u+w $@
-	@echo "# Following from $(top_srcdir)/config/mh-linux" >> $@
+	@echo "# Following from $(top_srcdir)/config/mh-darwin" >> $@
 	LC_ALL=C sed -f $(top_srcdir)/config/make2sh.sed < $(top_builddir)/config/Makefile.inc | grep -v '#M#' | uniq >> $@
-	LC_ALL=C sed -f $(top_srcdir)/config/make2sh.sed < $(top_srcdir)/config/mh-linux | grep -v '#M#' | uniq >> $@
+	LC_ALL=C sed -f $(top_srcdir)/config/make2sh.sed < $(top_srcdir)/config/mh-darwin | grep -v '#M#' | uniq >> $@
 	cat $(top_srcdir)/config/icu-config-bottom >> $@
 	echo "# Rebuilt on "`date` >> $@
 	chmod u-w $@
