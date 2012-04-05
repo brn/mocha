@@ -4,6 +4,8 @@
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/v8wrap/native_wrap/native_wrap.h>
+#include <mocha/roaster/consts/consts.h>
+#include <mocha/roaster/roaster.h>
 using namespace v8;
 namespace mocha {
 
@@ -169,19 +171,19 @@ void V8Init::Initialize() {
   native_ = Persistent<Object>::New(Object::New());
   Handle<Value> fn = DoRun(init_js::initjs);
   Handle<FunctionTemplate> compile_tmp = FunctionTemplate::New(Compile);
-  Handle<Function> callable = Handle<Function>::Cast(fn);
-  compile_ = Persistent<Function>::New(compile_tmp->GetFunction());
+  Handle<v8::Function> callable = Handle<v8::Function>::Cast(fn);
+  compile_ = Persistent<v8::Function>::New(compile_tmp->GetFunction());
   Extension<NativeWrap>();
   config_global_ = Persistent<Object>::New(context_->Global());
   Handle<Value> args[] = {config_global_, native_, compile_, String::New(os::fs::Path::current_directory())};
   Handle<Value> ret = callable->Call(callable, 4, args);
-  Handle<Function> config_context = Handle<Function>::Cast(ret);
-  function_ = Persistent<Function>::New(config_context);
+  Handle<v8::Function> config_context = Handle<v8::Function>::Cast(ret);
+  function_ = Persistent<v8::Function>::New(config_context);
   Regist<ObjectTemplate>(config_global_template_);
   Regist<Object>(config_global_);
   Regist<Context>(context_);
-  Regist<Function>(function_);
-  Regist<Function>(compile_);
+  Regist<v8::Function>(function_);
+  Regist<v8::Function>(compile_);
   Regist<Object>(native_);
 }
 

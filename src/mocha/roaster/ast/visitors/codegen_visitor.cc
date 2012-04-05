@@ -996,9 +996,11 @@ VISITOR_IMPL(Literal) {
           if (entry.first != 0) {
             TokenInfo *info = entry.first;
             stream()->Write(info->compressed_name());
-            stream()->Write("/*");
-            stream()->Write(symbol);
-            stream()->Write("*/");
+            if (info_->ShowOrgName()) {
+              stream()->Write("/*");
+              stream()->Write(symbol);
+              stream()->Write("*/");
+            }
           } else {
             stream()->Write(symbol);
           }

@@ -56,9 +56,8 @@ const char* FileInfo::GetDeployName() const {
   return (deployname_.empty())? 0 : deployname_.c_str();
 }
 
-void FileInfo::SetModule(const char* path) {
-  std::string ret = path;
-  modulelist_.push_back(ret);
+void FileInfo::SetModule(const char* name) {
+  modulelist_.push_back(name);
 }
 
 

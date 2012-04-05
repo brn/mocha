@@ -14,9 +14,11 @@ void CompileRuntime() {
   CompilationInfo info;
   Nexc nexc(&info);
   for (it = dir.Entries(true); it != dir.end(); ++it) {
-    printf("%s\n", (*it)->GetFullPath());
-    nexc.Pack((*it)->GetFullPath());
-    results.push_back(std::pair<const char*, AstRoot*>((*it)->GetName(), nexc.GetResult()));
+    if (!it->IsDir()) {
+      printf("%s\n", it->GetFullPath());
+      nexc.Pack(it->GetFullPath());
+      results.push_back(std::pair<const char*, AstRoot*>(it->GetName(), nexc.GetResult()));
+    }
   }
   Nexc::PackFile(results);
 }

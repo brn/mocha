@@ -69,7 +69,8 @@ class Nexc : public Notificator<CompilationEvent*>{
   static const char kFail[];
  private :
   void Initialize();
-  void Abort(IOEvent* e);
+  void AbortHandler(CompilationEvent* e);
+  void FailHandler(CompilationEvent* e);
   bool CheckGuard(const char* path);
   void Success(CompilationEvent* e);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);

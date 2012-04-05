@@ -7,10 +7,12 @@ static const int debug = 0;
 static const int compress = 1;
 static const int pretty_print = 2;
 static const int file = 3;
+static const int org_name = 3;
 
 CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
   versions_.insert(VersionPair(Consts::kVersionNone, 1));
+  versions_.insert(VersionPair(Consts::kVersionCompat, 1));
   std::string base_dir = os::fs::Path::home_directory();
   base_dir += "/.mocha/";
   base_dir += "module/";
@@ -49,6 +51,13 @@ void CompilationInfo::SetVersion(const char* name) {
   }
 }
 
+void CompilationInfo::UnsetVersion(const char* name) {
+  Versions::iterator entry = versions_.find(name);
+  if (entry != versions_.end()) {
+    versions_.erase(entry);
+  }
+}
+
 bool CompilationInfo::HasVersion(const char* name) const {
   Versions::const_iterator entry = versions_.find(name);
   if (entry == versions_.end()) {
@@ -56,6 +65,14 @@ bool CompilationInfo::HasVersion(const char* name) const {
   } else {
     return true;
   }
+}
+
+bool CompilationInfo::ShowOrgName() const {
+  return flags_.At(org_name);
+}
+
+void CompilationInfo::SetOrgName() {
+  flags_.Set(org_name);
 }
 
 void CompilationInfo::SetCharset(const char* charset) {

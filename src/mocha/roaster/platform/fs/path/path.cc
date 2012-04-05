@@ -159,12 +159,19 @@ Path::Path(const char* path) {
   bool success = true;
   fullpath_ = path;
   GetAbsolutePath(absolute_path(), &fullpath_, &success);
+  bool is_dir = false;
   if (fullpath_.size() > 0 && fullpath_.at(fullpath_.size() - 1) == '/') {
     fullpath_.erase(fullpath_.size() - 1, 1);
   }
   if (success) {
-    GetDirectoryFromPath(absolute_path(), &directory_);
-    GetFileNameFromPath(absolute_path(), &filename_);
+    Stat stat(fullpath_.c_str());
+    if (!stat.IsDir()) {
+      GetDirectoryFromPath(absolute_path(), &directory_);
+      GetFileNameFromPath(absolute_path(), &filename_);
+    } else {
+      directory_ = fullpath_;
+      filename_ = "";
+    }
   } else {
     directory_ = path;
     filename_ = path;

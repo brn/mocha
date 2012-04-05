@@ -128,7 +128,7 @@ class Parser{
   AstNode* ParseObjectLiteral();
   AstNode* ParseObjectElement(int type, TokenInfo* token, ObjectLikeLiteral* object);
   AstNode* ParseArrayLiteral();
-  AstNode* ParseLiteral();
+  AstNode* ParseLiteral(bool);
   AstNode* ParseFunctionDecl(bool is_const);
   AstNode* ParseFormalParameter();
   AstNode* ParseArrowFunctionExpression(AstNode* exp, int type);

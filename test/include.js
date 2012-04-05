@@ -3,8 +3,15 @@ var fs = mocha.import("fs"),
 var dir = new fs.Dir("./mains/");
 var dir2 = new fs.Dir("../src/test/js/harmony/");
 dir.entries(false).forEach(function (item) {
-  console.log(item.fullpath);
-  watcher.addSetting(item.fullpath);
+  if (item.fullpath.indexOf('.js') > -1) {
+    watcher.addSetting(item.fullpath, {
+      deployDir : './deploy',
+      deployName : item.filename.replace('.js', '-cmp.js'),
+      options : {
+        prettyPrint : true
+      }
+    });
+  }
 });
 
 

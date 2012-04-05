@@ -111,6 +111,16 @@ class NativeWrap : private Static {
     DECL_METHOD(Get);
     DECL_METHOD(Has);
   };
+
+  class Compiler : private Static {
+   public :
+    INIT_DECL;
+    DECL_DIPOSER;
+    DECL_METHOD(New);
+    DECL_METHOD(Compile);
+    DECL_METHOD(CheckDepends);
+    DECL_METHOD(CompileFile);
+  };
 };
 #undef DECL_METHOD
 #undef DECL_DIPOSER

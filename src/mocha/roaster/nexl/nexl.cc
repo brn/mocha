@@ -34,19 +34,25 @@ Nexl::Nexl(const char* filename, CompilationInfo* info, DepsListHandle handle, m
       pool_(pool) {}
 
 CompilationResultHandle Nexl::Link(AstRoot* root, SharedPtr<ErrorReporter> reporter) {
-  ScopeRegistry scope_registry(pool_);
-  SymbolCollector collector(&scope_registry, info_->Debug());
-  root->Accept(&collector);
-  DEBUG_LOG(Info, "compress mode = %s", (info_->Compress()? "yes" : "no"));
-  DEBUG_LOG(Info, "pretty print mode = %s", (info_->PrettyPrint()? "yes" : "no"));
-  DEBUG_LOG(Info, "debug mode = %s", (info_->Debug()? "yes" : "no"));
-  OptimizerVisitor optimizer(info_);
-  root->Accept(&optimizer);
-  if (info_->Compress()) {
-    scope_registry.Rename();
-  }
   CodeHandle visitor(new CodegenVisitor(info_));
-  root->Accept(visitor.Get());
+  if (reporter->Error()) {
+    std::string error;
+    reporter->SetError(&error);
+    visitor->Write(error.c_str());
+  } else {
+    ScopeRegistry scope_registry(pool_);
+    SymbolCollector collector(&scope_registry, info_->Debug());
+    root->Accept(&collector);
+    DEBUG_LOG(Info, "compress mode = %s", (info_->Compress()? "yes" : "no"));
+    DEBUG_LOG(Info, "pretty print mode = %s", (info_->PrettyPrint()? "yes" : "no"));
+    DEBUG_LOG(Info, "debug mode = %s", (info_->Debug()? "yes" : "no"));
+    OptimizerVisitor optimizer(info_);
+    root->Accept(&optimizer);
+    if (info_->Compress()) {
+      scope_registry.Rename();
+    }
+    root->Accept(visitor.Get());
+  }
   return CompilationResultHandle(new CompilationResult(path_, visitor, reporter, deps_));
 }
 }

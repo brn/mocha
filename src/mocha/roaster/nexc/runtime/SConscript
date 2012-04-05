@@ -23,7 +23,7 @@ PACKER_CONFIG = {
     'macos' : {
         "TARGET" : 'pack',
         "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
-        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DPACKING_RUNTIME -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions -DPLATFORM_MACOS  -DPACKING_RUNTIME -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "STATIC_LIBS" : [],
         "LD_FLAGS" : "",
         "LIBS" : ['pthread'],

@@ -40,6 +40,11 @@
 #ifndef PACKING_RUNTIME
 #endif
 namespace mocha {
+
+/**
+ * @class
+ * The file load complete event listener functor.
+ */
 class LoadCompleteListener {
  public :
   LoadCompleteListener(Nexc* nexc, CompilationEvent* e)
@@ -264,11 +269,22 @@ void Nexc::Initialize() {
 #endif
   AddListener(kScan, Scanner::ScannerEventListener());
   AddListener(kParse, Parser::ParseEventListener());
+  AddListener(kFail, Bind(&Nexc::FailHandler, this));
+  AddListener(kFatal, Bind(&Nexc::AbortHandler, this));
   AddListener(kTransformAst, Translator::TransformEventLitener());
   AddListener(kCompilationSucessed, Bind(&Nexc::Success, this));
 }
 
-void Nexc::Abort(IOEvent* e) {
+void Nexc::AbortHandler(CompilationEvent* e) {
+  std::string error;
+  e->error_reporter()->SetRawError(&error);
+  DEBUG_LOG(Fatal, "%s", error.c_str());
+}
+
+void Nexc::FailHandler(CompilationEvent* e) {
+  std::string error;
+  e->error_reporter()->SetRawError(&error);
+  DEBUG_LOG(Warn, "%s", error.c_str());
 }
 
 void Nexc::Success(CompilationEvent* e) {

@@ -6,6 +6,7 @@
 #include <mocha/options/setting.h>
 #include <mocha/misc/file_watcher/observer/javascript_observer.h>
 #include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/roaster.h>
 using namespace v8;
 namespace mocha {
 #define METHOD_IMPL(name) Handle<Value> name(const Arguments& args)
@@ -39,6 +40,7 @@ void NativeWrap::Init(Handle<Object> object) {
   NativeWrap::IO::NativeConsole::Init(ns_console);
   NativeWrap::Watcher::Init(ns_setting);
   NativeWrap::Config::Init(object);
+  NativeWrap::Compiler::Init(ns_setting);
   ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
   object->Set(String::New("script"), ns_setting);
@@ -676,6 +678,33 @@ METHOD_IMPL(NativeWrap::IO::NativeConsole::StdError) {
 }
 
 
+void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
+  if (options->Get(String::New("compress"))->IsTrue()) {
+    info->SetCompress();
+  }
+  if (options->Get(String::New("debug"))->IsTrue()) {
+    info->SetDebug();
+  }
+  if (options->Get(String::New("prettyPrint"))->IsTrue()) {
+    info->SetPrettyPrint();
+  }
+  if (options->Has(String::New("versions"))) {
+    Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
+    for (int i = 0,len = versions->Length();i < len;i++) {
+      String::Utf8Value ver(versions->Get(Integer::New(i)));
+      info->SetVersion(*ver);
+    }
+  }
+  if (options->Has(String::New("disabledVersions"))) {
+    Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
+    for (int i = 0,len = versions->Length();i < len;i++) {
+      String::Utf8Value ver(versions->Get(Integer::New(i)));
+      info->UnsetVersion(*ver);
+    }
+  }
+}
+
+
 METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
   if (args.Length() > 0) {
     if (args[0]->IsString()) {
@@ -684,6 +713,9 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
       const char* name = *str;
       os::fs::Stat stat(name);
       if (stat.IsExist() && stat.IsReg()) {
+        Handle<Value> val = args.This()->Get(String::New("_settingList"));
+        Handle<Object> js_val = Handle<Object>::Cast(val);
+        js_val->Set(String::New(name), obj);
         JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
         FileInfoMap::UnsafeSet(name);
         FileInfo* resource = FileInfoMap::UnsafeGet(name);        
@@ -697,7 +729,9 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
         }
         if (obj->Has(String::New("deployDir"))) {
           String::Utf8Value dep_dir(obj->Get(String::New("deployDir")));
-          resource->SetDeploy(*dep_dir);
+          os::fs::Path path_info(*dep_dir);
+          resource->SetDeploy(path_info.directory());
+          obj->Set(String::New("deployDir"), String::New(path_info.directory()));
         }
         if (obj->Has(String::New("deployName"))) {
           String::Utf8Value dep_name(obj->Get(String::New("deployName")));
@@ -707,28 +741,14 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
           Handle<Array> mod_list = Handle<Array>::Cast(obj->Get(String::New("moduleDir")));
           for (int i = 0,len = mod_list->Length(); i < len; i++) {
             String::Utf8Value dir(mod_list->Get(Integer::New(i)));
-            resource->SetModule(*dir);
+            os::fs::Path path_info(*dir);
+            resource->SetModule(path_info.directory());
           }
         }
         if (obj->Has(String::New("options"))) {
           Handle<Object> options = Handle<Object>::Cast(obj->Get(String::New("options")));
           CompilationInfo* info = resource->compilation_info().Get();
-          if (options->Get(String::New("compress"))->IsTrue()) {
-            info->SetCompress();
-          }
-          if (options->Get(String::New("debug"))->IsTrue()) {
-            info->SetDebug();
-          }
-          if (options->Get(String::New("prettyPrint"))->IsTrue()) {
-            info->SetPrettyPrint();
-          }
-          if (options->Has(String::New("versions"))) {
-            Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
-            for (int i = 0,len = versions->Length();i < len;i++) {
-              String::Utf8Value ver(versions->Get(Integer::New(i)));
-              info->SetVersion(*ver);
-            }
-          }
+          SetCompilationOption(options, info);
         }
         observer->AddFile(name);
       }
@@ -763,6 +783,7 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
   proto->Set(String::New("isRunning"), v8::FunctionTemplate::New(NativeWrap::Watcher::IsRunning));
   proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
   proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::RemoveSetting));
+  proto->Set(String::New("_settingList"), Object::New());
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetPointerInInternalField(0, &ob);
   object->Set(String::New("watcher"), handle_scope.Close(instance));
@@ -852,5 +873,88 @@ METHOD_IMPL(NativeWrap::Config::Has) {
   }
   return Boolean::New(false);
 }
+
+void NativeWrap::Compiler::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(NativeWrap::Compiler::New);
+  fn->SetClassName(String::New("Roaster"));
+  Handle<ObjectTemplate> inst = fn->InstanceTemplate();
+  inst->SetInternalFieldCount(1);
+  Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
+  proto->Set(String::New("compile"), v8::FunctionTemplate::New(NativeWrap::Compiler::Compile));
+  proto->Set(String::New("compileFile"), v8::FunctionTemplate::New(NativeWrap::Compiler::CompileFile));
+  proto->Set(String::New("checkDepends"), v8::FunctionTemplate::New(NativeWrap::Compiler::CheckDepends));
+  Handle<v8::Function> function = fn->GetFunction();
+  object->Set(String::New("Roaster"), handle_scope.Close(function));
+}
+
+METHOD_IMPL(NativeWrap::Compiler::New) {
+  HandleScope handle_scope;
+  if (args.IsConstructCall()) {
+    Roaster *ro = new Roaster;
+    Handle<Object> this_object = args.This();
+    this_object->SetPointerInInternalField(0, ro);
+    Persistent<Object> holder = Persistent<Object>::New(this_object);
+    holder.MakeWeak(ro, NativeWrap::Compiler::Dispose);
+    holder.MarkIndependent();
+    return handle_scope.Close(this_object);
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Compiler::Compile) {
+  HandleScope handle_scope;
+  if (args.Length() == 3) {
+    CompilationInfo info;
+    Handle<String> source = args[0]->ToString();
+    Handle<String> charset = args[1]->ToString();
+    Handle<Object> options = Handle<Object>::Cast(args[2]);
+    String::Utf8Value source_str(source);
+    String::Utf8Value charset_str(charset);
+    SetCompilationOption(options, &info);
+    Roaster* ro = V8Init::GetInternalPtr<Roaster, 0>(args.This());
+    CompilationResultHandle handle = ro->Compile(*source_str, *charset_str, &info);
+    return handle_scope.Close(String::New(handle->source()));
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Compiler::CompileFile) {
+  HandleScope handle_scope;
+  if (args.Length() == 3) {
+    CompilationInfo info;
+    Handle<String> src = args[0]->ToString();
+    Handle<String> charset = args[1]->ToString();
+    Handle<Object> options = Handle<Object>::Cast(args[2]);
+    String::Utf8Value src_str(src);
+    String::Utf8Value charset_str(charset);
+    SetCompilationOption(options, &info);
+    Roaster* ro = V8Init::GetInternalPtr<Roaster, 0>(args.This());
+    CompilationResultHandle handle = ro->Compile(*src_str, *charset_str, &info);
+    return handle_scope.Close(String::New(handle->source()));
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Compiler::CheckDepends) {
+  HandleScope handle_scope;
+  if (args.Length() == 1) {
+    CompilationInfo info;
+    Handle<String> src = args[0]->ToString();
+    String::Utf8Value src_str(src);
+    DepsListHandle handle = Roaster::CheckDepends(*src_str);
+    DepsList::iterator it = handle->begin();
+    Handle<Array> arr = Array::New();
+    int i = 0;
+    for (; it != handle->end(); ++it) {
+      arr->Set(Integer::New(i), String::New(it->c_str()));
+      i++;
+    }
+    return handle_scope.Close(arr);
+  }
+  return Undefined();
+}
+
+DISPOSE_IMPL(NativeWrap::Compiler, Roaster);
 
 }

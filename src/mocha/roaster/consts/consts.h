@@ -10,6 +10,7 @@ class Consts {
   static const char kVersionAll[];
   static const char kVersionNone[];
   static const char kVersionDebug[];
+  static const char kVersionCompat[];
 };
 
 }

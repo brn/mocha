@@ -7,4 +7,6 @@ const char Consts::kDefaultOutputCharset[] = {"UTF-8"};
 const char Consts::kVersionAll[] = {"all"};
 const char Consts::kVersionNone[] = {"none"};
 const char Consts::kVersionDebug[] = {"debug"};
+const char Consts::kVersionCompat[] = {"backCompat"};
+
 }

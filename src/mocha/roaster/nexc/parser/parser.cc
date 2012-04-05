@@ -90,10 +90,11 @@ bool CaseBodyMatcher(int type) {
  * @returns bool
  * Check the type is a valid object literal property name.
  */
-bool IsValidPropertyName(int type) {
+bool IsValidPropertyName(int type, TokenInfo* info) {
   return type == Token::JS_IDENTIFIER ||
       type == Token::JS_STRING_LITERAL ||
-      type == Token::JS_NUMERIC_LITERAL;
+      type == Token::JS_NUMERIC_LITERAL ||
+      JsToken::IsReserved(info->token());
 }
 
 /**
@@ -650,7 +651,7 @@ AstNode* Parser::ParseModuleStatement() {
   TokenInfo* token = Seek();
   AstNode* name = 0;//init after.
   if (token->type() == Token::JS_IDENTIFIER) {
-    name = ParseLiteral();
+    name = ParseLiteral(false);
     CHECK_ERROR(new(pool()) Empty);
   } else {
     name = new(pool()) Empty;
@@ -705,7 +706,7 @@ AstNode* Parser::ParseImportStatement() {
   int expression_type;
   AstNode* exp;
   if (token->type() == Token::JS_IDENTIFIER) {
-    exp = ParseLiteral();
+    exp = ParseLiteral(true);
     CHECK_ERROR(exp);
     expression_type = ImportStmt::kVar;
   } else if (token->type() == '{' || token->type() == '[') {
@@ -767,19 +768,19 @@ AstNode* Parser::ParseImportExpression() {
   NodeList* list = new(pool()) NodeList();
   //In case of filename.
   if (token->type() == Token::JS_STRING_LITERAL) {
-    AstNode* literal = ParseLiteral();
+    AstNode* literal = ParseLiteral(false);
     CHECK_ERROR(literal);
     list->AddChild(literal);
   } else if (token->type() == Token::JS_IDENTIFIER) {
     //In case of module name.
-    AstNode* literal = ParseLiteral();
+    AstNode* literal = ParseLiteral(true);
     CHECK_ERROR(literal);
     list->AddChild(literal);
   }
   token = Seek();
   while (1) {
     if (token->type() == '.' || token->type() == '[') {
-      AstNode* literal = ParseLiteral();
+      AstNode* literal = ParseLiteral(true);
       CHECK_ERROR(literal);
       list->AddChild(literal);
       token = Seek();
@@ -980,7 +981,7 @@ AstNode* Parser::ParseVariableDecl(bool is_noin) {
       maybe_assign_op = Seek();
     } else if (next->type() == Token::JS_IDENTIFIER) {
       //Normal idneifier.
-      var_left_hand = ParseLiteral();
+      var_left_hand = ParseLiteral(false);
       CHECK_ERROR(var_left_hand);
       var_left_hand->CastToLiteral()->set_value_type(Literal::kVariable);
       CHECK_ERROR(list);
@@ -1171,7 +1172,7 @@ AstNode* Parser::ParseArrayPattern() {
           break;
         }
       } else if (token->type() == Token::JS_IDENTIFIER) {
-        AstNode* value = ParseLiteral();
+        AstNode* value = ParseLiteral(false);
         CHECK_ERROR(destructuring);
         destructuring->set_element(value);
         token = Seek();
@@ -1245,7 +1246,7 @@ AstNode* Parser::ParseObjectPattern() {
       CHECK_ERROR(destructuring);
       Advance();
     } else if (maybe_colon == ':') {
-      AstNode* node = ParseLiteral();
+      AstNode* node = ParseLiteral(true);
       CHECK_ERROR(destructuring);
       Advance();
       token = Seek();
@@ -1283,7 +1284,7 @@ AstNode* Parser::ParseObjectPattern() {
 AstNode* Parser::ParseObjectPatternElement(int type, TokenInfo* token, ObjectLikeLiteral* object) {
   ENTER(ObjectPatternElement);
   if (type == Token::JS_IDENTIFIER) {
-    AstNode* node = ParseLiteral();
+    AstNode* node = ParseLiteral(true);
     CHECK_ERROR(node);
     object->set_element(node);
     END(ObjectPatternElement);
@@ -1724,7 +1725,7 @@ AstNode* Parser::ParseContinueStatement() {
   TokenInfo *token = Seek();
   ContinueStmt* stmt = new(pool()) ContinueStmt(Seek(-1)->line_number());
   if (token->type() == Token::JS_IDENTIFIER) {
-    AstNode* identifier = ParseLiteral();
+    AstNode* identifier = ParseLiteral(false);
     CHECK_ERROR(stmt);
     stmt->AddChild(identifier);
   }
@@ -1747,7 +1748,7 @@ AstNode* Parser::ParseBreakStatement() {
   TokenInfo *token = Seek();
   BreakStmt* stmt = new(pool()) BreakStmt(Seek(-1)->line_number());
   if (token->type() == Token::JS_IDENTIFIER) {
-    AstNode* identifier = ParseLiteral();
+    AstNode* identifier = ParseLiteral(false);
     CHECK_ERROR(stmt);
     stmt->AddChild(identifier);
   }
@@ -1951,7 +1952,7 @@ AstNode* Parser::ParseLabelledStatement() {
    */
   ENTER(LabelledStatement);
   TokenInfo* token = Seek(-1);
-  AstNode* ident = ParseLiteral();
+  AstNode* ident = ParseLiteral(false);
   CHECK_ERROR(ident)
       Advance();
   AstNode* statement = ParseStatement();
@@ -2036,7 +2037,7 @@ AstNode* Parser::ParseCatchBlock() {
   ENTER(CatchBlock);
   TokenInfo *token = Advance(2);
   if (token->type() == '(') {
-    AstNode* ident = ParseLiteral();
+    AstNode* ident = ParseLiteral(false);
     CHECK_ERROR(ident);
     token = Advance();
     if (token->type() == ')') {
@@ -2096,7 +2097,7 @@ AstNode* Parser::ParseTrait() {
   TokenInfo* token = Seek();
   Trait* trait = new(pool()) Trait(token->line_number());
   if (token->type() == Token::JS_IDENTIFIER) {
-    AstNode* literal = ParseLiteral();
+    AstNode* literal = ParseLiteral(false);
     CHECK_ERROR(literal);
     trait->set_name(literal);
     token = Seek();
@@ -2128,7 +2129,7 @@ void Parser::ParseTraitBody(Trait* trait) {
       if (strcmp(token->token(), "requires") == 0) {
         Advance();
         while (1) {
-          AstNode* ret = ParseLiteral();
+          AstNode* ret = ParseLiteral(false);
           CHECK_ERROR(;);
           Literal* val = ret->CastToLiteral();
           val->set_value_type(Literal::kProperty);
@@ -2188,7 +2189,7 @@ void Parser::ParseTraitBody(Trait* trait) {
 
 
 AstNode* Parser::ParseMixin() {
-  AstNode* literal = ParseLiteral();
+  AstNode* literal = ParseLiteral(false);
   CHECK_ERROR(literal);
   MixinMember* mixin = new(pool()) MixinMember(Seek(-1)->line_number());
   mixin->set_name(literal);
@@ -2196,7 +2197,7 @@ AstNode* Parser::ParseMixin() {
   while (1) {
     if (token->type() == Token::JS_WITH) {
       Advance();
-      AstNode* before = ParseLiteral();
+      AstNode* before = ParseLiteral(false);
       CHECK_ERROR(before);
       Literal* val = before->CastToLiteral();
       val->set_value_type(Literal::kProperty);
@@ -2204,7 +2205,7 @@ AstNode* Parser::ParseMixin() {
       if (token->type() == Token::JS_IDENTIFIER &&
            strcmp(token->token(), "as") == 0) {
         Advance();
-        AstNode* after = ParseLiteral();
+        AstNode* after = ParseLiteral(false);
         CHECK_ERROR(after);
         Literal* after_val = after->CastToLiteral();
         after_val->set_value_type(Literal::kProperty);
@@ -2232,7 +2233,7 @@ AstNode* Parser::ParseMixin() {
     } else if (token->type() == Token::JS_IDENTIFIER &&
                 strcmp(token->token(), "without") == 0) {
       Advance();
-      AstNode* remove = ParseLiteral();
+      AstNode* remove = ParseLiteral(false);
       CHECK_ERROR(remove);
       remove->CastToLiteral()->set_value_type(Literal::kProperty);
       mixin->set_remove_list(remove);
@@ -2260,7 +2261,7 @@ AstNode* Parser::ParseClassDecl(bool is_const) {
   AstNode* inherit;
   state_stack_->Push(StateStack::kClassDecl);
   if (token->type() == Token::JS_IDENTIFIER) {
-    name = ParseLiteral();
+    name = ParseLiteral(false);
     CHECK_ERROR(name);
   } else {
     name = new(pool()) Empty;
@@ -2927,7 +2928,7 @@ AstNode* Parser::ParseArguments() {
         Advance();
         token = Seek();
         if (token->type() == Token::JS_IDENTIFIER) {
-          AstNode* value = ParseLiteral();
+          AstNode* value = ParseLiteral(false);
           CHECK_ERROR(list);
           value->CastToLiteral()->set_value_type(Literal::kSpread);
           list->AddChild(value);
@@ -3039,7 +3040,7 @@ AstNode* Parser::ParseDotMember(bool *is_extend) {
     return node;
   } else {
     Advance();
-    AstNode* node = ParseLiteral();
+    AstNode* node = ParseLiteral(true);
     CHECK_ERROR(node);
     Literal* maybe_ident = node->CastToLiteral();
     if (!maybe_ident || maybe_ident->value_type() != Literal::kIdentifier) {
@@ -3222,7 +3223,7 @@ AstNode* Parser::ParsePrimaryExpression() {
   } else {
     Undo();
     END(PrimaryExpression);
-    return ParseLiteral();
+    return ParseLiteral(false);
   }
 }
 
@@ -3254,7 +3255,7 @@ AstNode* Parser::ParseObjectLiteral() {
         node->AddChild(node->Clone(pool()));
         token = Seek();
       } else if (maybe_colon == ':') {
-        AstNode* node = ParseLiteral();
+        AstNode* node = ParseLiteral(true);
         CHECK_ERROR(node);
         Literal* prop = node->CastToLiteral();
         if (prop->value_type() == Literal::kIdentifier) {
@@ -3337,8 +3338,8 @@ AstNode* Parser::ParseObjectLiteral() {
 
 AstNode* Parser::ParseObjectElement(int type, TokenInfo* token, ObjectLikeLiteral* list) {
   ENTER(ObjectElement);
-  if (IsValidPropertyName(type)) {
-    AstNode* node = ParseLiteral();
+  if (IsValidPropertyName(type, token)) {
+    AstNode* node = ParseLiteral(true);
     CHECK_ERROR(node);
     Advance();
     list->set_element(node);
@@ -3469,7 +3470,7 @@ AstNode* Parser::ParseArrayLiteral() {
 }
 
 
-AstNode* Parser::ParseLiteral() {
+AstNode* Parser::ParseLiteral(bool reserved_usablity) {
   ENTER(Literal);
   TokenInfo* token = Advance();
   int value_type = 0;
@@ -3523,7 +3524,7 @@ AstNode* Parser::ParseLiteral() {
     case Token::JS_PARAMETER_REST : {
       token = Seek();
       if (token->type() == Token::JS_IDENTIFIER) {
-        AstNode* value = ParseLiteral();
+        AstNode* value = ParseLiteral(false);
         CHECK_ERROR(value);
         value->CastToLiteral()->set_value_type(Literal::kRest);
         return value;
@@ -3568,12 +3569,17 @@ AstNode* Parser::ParseLiteral() {
       break;
 
     default : {
-      SYNTAX_ERROR("parse error got unexpected token '"
-                    << TokenConverter(token).cstr()
-                    << "' expect " << literals << "\\nin file "
-                    << filename_ << " at line " << token->line_number());
-      END(LiteralError);
-      return new(pool()) Empty;
+      if (reserved_usablity && JsToken::IsReserved(token->token())) {
+        value_type = Literal::kIdentifier;
+        is_invalid_lhs = true;
+      } else {
+        SYNTAX_ERROR("parse error got unexpected token '"
+                     << TokenConverter(token).cstr()
+                     << "' expect " << literals << "\\nin file "
+                     << filename_ << " at line " << token->line_number());
+        END(LiteralError);
+        return new(pool()) Empty;
+      }
     }
   }
   Literal* value = new(pool()) Literal(value_type, token->line_number());
@@ -3596,7 +3602,7 @@ AstNode* Parser::ParseFunctionDecl(bool is_const) {
   TokenInfo* token = Seek();
   Function* fn = new(pool()) Function(token->line_number());
   if (token->type() == Token::JS_IDENTIFIER) {
-    AstNode* name = ParseLiteral();
+    AstNode* name = ParseLiteral(false);
     CHECK_ERROR(name);
     fn->set_name(name);
     token = Seek();
@@ -3746,7 +3752,7 @@ AstNode* Parser::ParseFormalParameter() {
       Advance();
       token = Seek();
       if (token->type() == Token::JS_IDENTIFIER) {
-        AstNode* value = ParseLiteral();
+        AstNode* value = ParseLiteral(false);
         CHECK_ERROR(value);
         value->CastToLiteral()->set_value_type(Literal::kRest);
         token = Seek();
