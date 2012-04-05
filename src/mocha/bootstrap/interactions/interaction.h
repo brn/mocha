@@ -4,7 +4,10 @@ namespace mocha {
 class Interaction {
  public :
   static void Begin();
+  static void Exit();
+  static bool IsExit();
  private :
+  static bool is_exit_;
   class RunCommand;
 };
 }

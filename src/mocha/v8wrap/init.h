@@ -1,6 +1,7 @@
 #ifndef mocha_v8wrap_init_h_
 #define mocha_v8wrap_init_h_
 #include <v8.h>
+#include <mocha/roaster/platform/utils/utils.h>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
@@ -29,10 +30,10 @@ class V8Init {
   template <typename T, int index>
   static T* GetInternalPtr(const v8::Handle<v8::Object> handle);
   static void HandleException(v8::TryCatch *try_catch);
+  static void Destruct();
  private :
   V8Init();
   void Initialize();
-  static void Destruct();
   static v8::Handle<v8::Value> DoRun(const char* source, const char* name = NULL);
   static v8::Handle<v8::Value> Compile(const v8::Arguments& args);
   template <typename T>

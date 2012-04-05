@@ -19,7 +19,6 @@ V8Init* V8Init::GetInstance() {
 }
 
 V8Init::V8Init() {
-  atexit(Destruct);
   Initialize();
 }
 

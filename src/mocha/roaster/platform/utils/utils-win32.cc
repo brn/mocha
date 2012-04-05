@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <sys/utime.h>
+#include <time.h>
 #include <windows.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
@@ -111,5 +112,24 @@ bool Sleep(int nano_time) {
 int Utime(const char* path) {
   K_ERRNO = _utime(path, NULL);
   return K_ERRNO;
+}
+
+time_t Time(time_t* time) {
+  return ::time(time);
+}
+
+int Asctime(std::string* buf, tm* tm) {
+  char buffer[27];
+  int ret = asctime_s(buffer, tm);
+  buf->assign(buffer);
+  return ret;
+}
+
+int LocalTime(tm* t, time_t* time) {
+  return localtime_s(t, time);
+}
+
+void OnExit(ExitCallback callback) {
+  _onexit(callback);
 }
 }}

@@ -57,9 +57,11 @@ FILE* FileOpen(const char* path, const char* mode) {
 template <const char* info_type>
 void FPrintWithTime(FILE* fp, const std::string& str) {
   time_t time;
-  ::time(&time);
-  tm* date = ::localtime(&time);
-  std::string tmp = ::asctime(date);
+  tm date;
+  std::string tmp;
+  os::Time(&time);
+  os::LocalTime(&date, &time);
+  os::Asctime(&tmp, &date);
   tmp.erase(tmp.size() - 1, tmp.size());
   os::FPrintf(fp , "%s: %s %s\n", tmp.c_str(), info_type, str.c_str());
 }
@@ -69,9 +71,10 @@ FILE* Rotate(const char* path, const char* mode, FILE* fp) {
   if (stat.Size() > 524288) {
     std::string buf;
     time_t time;
-    ::time(&time);
-    tm* date = ::localtime(&time);
-    os::SPrintf(&buf, "%s-%d%d%d%d", path, date->tm_year + 1900, date->tm_mon, date->tm_mday, date->tm_hour);
+    tm date;
+    os::Time(&time);
+    os::LocalTime(&date, &time);
+    os::SPrintf(&buf, "%s-%d%d%d%d", path, date.tm_year + 1900, date.tm_mon, date.tm_mday, date.tm_hour);
     os::fs::mv(path, buf.c_str());
     os::FClose(fp);
     return FileOpen(path, mode);

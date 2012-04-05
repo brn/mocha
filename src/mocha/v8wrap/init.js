@@ -27,8 +27,15 @@
         file.close();
         return result;
       },
-      current = 'main';
-
+      current = 'main',
+      settingList = {};
+  
+  natives.script.watcher._settingList = settingList;
+  natives.script.watcher.addSetting = function (name, obj) {
+    settingList[name] = (obj || {});
+    natives.script.watcher._addSetting(name, settingList[name]);
+  }
+  
   //Define mocha object
   defProp(env, 'mocha', {});
   var mocha = env.mocha;
@@ -137,7 +144,7 @@
     pred = pred || function (){ return true; };
     var ret = [],
         dir = "";
-    for (var i in natives.script.watcher._settingList) {
+    for (var i in settingList) {
       var path_info = new natives.fs.Path(i),
           setting = natives.script.watcher._settingList[i],
           inputCharset = setting.inputCharset || 'utf-8',
@@ -191,6 +198,7 @@
     } else {
       env.console.log("watch sever is now stopping.");
     }
+    natives.script.watcher._settingList = {};
   }, "Exit watc server, if watch server is working.");
 
   mocha.addCommand("restart", function (type) {
@@ -201,6 +209,7 @@
     } else {
       env.console.log("watch sever is now stopping.");
     }
+    natives.script.watcher._settingList = {};
   }, "Restart watch server, if watch server is working.");
 
   mocha.addCommand("exit", function () {
@@ -208,7 +217,7 @@
       natives.script.watcher.exit();
       while (natives.script.watcher.isRunning()) {}
     }
-    return natives.exitStatus;
+    natives.repl.exit();
   }, "Exit mocha.");
 
   mocha.addCommand('help', function () {

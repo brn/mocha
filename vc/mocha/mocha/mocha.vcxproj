@@ -89,7 +89,9 @@
     <ClCompile Include="..\..\..\src\mocha\roaster\utils\error_reporter.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\utils\exception_handler.cc" />
     <ClCompile Include="..\..\..\src\mocha\shell\shell-win32.cc" />
-    <ClCompile Include="..\..\..\src\mocha\v8wrap\init.cc" />
+    <ClCompile Include="..\..\..\src\mocha\v8wrap\init.cc">
+      <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</MultiProcessorCompilation>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\mocha\v8wrap\native_wrap\native_wrap.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -248,10 +250,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\bin\win32\</OutDir>
+    <OutDir>..\..\..\bin\win32\debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\bin\win32\release\</OutDir>
+    <OutDir>..\..\..\bin\win32\</OutDir>
     <IncludePath>Y:\mocha\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -259,16 +261,20 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;DEBUG;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;DEBUG;_CRTDBG_MAP_ALLOC;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../src/third_party/v8/include;../../../src;../../../src/third_party/libuv/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/FI WinSock2.h %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild>false</MinimalRebuild>
+      <ForcedIncludeFiles>stdlib.h;crtdbg.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>../../../src/third_party/icu/lib-win32/debug/icuin.lib;../../../src/third_party/icu/lib-win32/debug/icudt.lib;../../../src/third_party/icu/lib-win32/debug/icuuc.lib;../../../src/third_party/v8/win32/v8_g.lib;../../../src/third_party/libuv/Debug/lib/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ../../../ &amp;&amp; python tools/runtime.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -280,6 +286,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;NDEBUG;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../src/third_party/v8/include;../../../src;../../../src/third_party/libuv/include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>WinSock2.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -287,6 +294,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>../../../src/third_party/icu/lib-win32/release/icuin.lib;../../../src/third_party/icu/lib-win32/release/icudt.lib;../../../src/third_party/icu/lib-win32/release/icuuc.lib;../../../src/third_party/v8/win32/v8.lib;../../../src/third_party/libuv/Release/lib/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ../../../ &amp;&amp; python tools/runtime.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

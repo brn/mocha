@@ -101,6 +101,7 @@ class NativeWrap : private Static {
     DECL_METHOD(Stop);
     DECL_METHOD(Resume);
     DECL_METHOD(AddSetting);
+    DECL_METHOD(GetSettingList);
     DECL_METHOD(RemoveSetting);
   };
 
@@ -120,6 +121,12 @@ class NativeWrap : private Static {
     DECL_METHOD(Compile);
     DECL_METHOD(CheckDepends);
     DECL_METHOD(CompileFile);
+  };
+
+  class Repl {
+   public :
+    INIT_DECL;
+    DECL_METHOD(Exit);
   };
 };
 #undef DECL_METHOD

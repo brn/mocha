@@ -98,4 +98,24 @@ int Utime(const char* path) {
   K_ERRNO = utime(path, NULL);
   return K_ERRNO;
 }
+
+time_t Time(time_t* time) {
+  return ::time(time);
+}
+
+int Asctime(std::string* buf, tm* tm) {
+  char buffer[27];
+  asctime_r(buffer, tm);
+  buf->assign(buffer);
+  return 0;
+}
+
+int LocalTime(tm* t, time_t* time) {
+  localtime_r(time, t);
+  return 0;
+}
+
+void OnExit(int(*callback)()) {
+  atexit(callback);
+}
 }}

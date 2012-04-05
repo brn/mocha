@@ -32,7 +32,7 @@ class Interaction::RunCommand : public Action {
       }
       v8_runner->IdleNotification();
     }
-    return false;
+    return Interaction::IsExit();
   }
 };
 
@@ -48,5 +48,16 @@ void Interaction::Begin() {
   Context::Scope context_scope(init->context());
   Shell* shell = Shell::Initialize(command);
   shell->Read();
+  V8Init::Destruct();
 }
+
+void Interaction::Exit() {
+  is_exit_ = true;
+}
+
+bool Interaction::IsExit() {
+  return is_exit_;
+}
+
+bool Interaction::is_exit_ = false;
 }

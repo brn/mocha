@@ -7,6 +7,7 @@
 #include <mocha/misc/file_watcher/observer/javascript_observer.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/roaster.h>
+#include <mocha/bootstrap/interactions/interaction.h>
 using namespace v8;
 namespace mocha {
 #define METHOD_IMPL(name) Handle<Value> name(const Arguments& args)
@@ -32,7 +33,7 @@ void NativeWrap::Init(Handle<Object> object) {
   Persistent<Object> ns_console = V8Init::Regist<Object>(Object::New());
   Persistent<Object> ns_setting = V8Init::Regist<Object>(Object::New());
   Persistent<Object> invalid = V8Init::Regist<Object>(Object::New());
-  Persistent<Object> exit_status = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> repl_ns = V8Init::Regist<Object>(Object::New());
   NativeWrap::Directory::Init(ns_fs);
   NativeWrap::Path::Init(ns_fs);
   NativeWrap::Stat::Init(ns_fs);
@@ -41,12 +42,13 @@ void NativeWrap::Init(Handle<Object> object) {
   NativeWrap::Watcher::Init(ns_setting);
   NativeWrap::Config::Init(object);
   NativeWrap::Compiler::Init(ns_setting);
+  NativeWrap::Repl::Init(repl_ns);
   ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
   object->Set(String::New("script"), ns_setting);
   object->Set(String::New("io"), ns_io);
   object->Set(String::New("invalid"), invalid);
-  object->Set(String::New("exitStatus"), exit_status);
+  object->Set(String::New("repl"), repl_ns);
 }
 
 
@@ -467,6 +469,7 @@ METHOD_IMPL(NativeWrap::File::WriteTextContent) {
   } else {
     return ThrowException(Exception::Error(String::New("The function writeTextContent need at least one arguments.")));
   }
+  return Undefined();
 }
 
 bool BinaryFlagIsValid(char val) {
@@ -706,6 +709,7 @@ void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
 
 
 METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
+  HandleScope handle_scope;
   if (args.Length() > 0) {
     if (args[0]->IsString()) {
       String::Utf8Value str(args[0]);
@@ -713,9 +717,6 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
       const char* name = *str;
       os::fs::Stat stat(name);
       if (stat.IsExist() && stat.IsReg()) {
-        Handle<Value> val = args.This()->Get(String::New("_settingList"));
-        Handle<Object> js_val = Handle<Object>::Cast(val);
-        js_val->Set(String::New(name), obj);
         JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
         FileInfoMap::UnsafeSet(name);
         FileInfo* resource = FileInfoMap::UnsafeGet(name);        
@@ -781,9 +782,8 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
   proto->Set(String::New("stop"), v8::FunctionTemplate::New(NativeWrap::Watcher::Stop));
   proto->Set(String::New("resume"), v8::FunctionTemplate::New(NativeWrap::Watcher::Resume));
   proto->Set(String::New("isRunning"), v8::FunctionTemplate::New(NativeWrap::Watcher::IsRunning));
-  proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
+  proto->Set(String::New("_addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
   proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::RemoveSetting));
-  proto->Set(String::New("_settingList"), Object::New());
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetPointerInInternalField(0, &ob);
   object->Set(String::New("watcher"), handle_scope.Close(instance));
@@ -956,5 +956,16 @@ METHOD_IMPL(NativeWrap::Compiler::CheckDepends) {
 }
 
 DISPOSE_IMPL(NativeWrap::Compiler, Roaster);
+
+void NativeWrap::Repl::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  Handle<FunctionTemplate> fn = FunctionTemplate::New(NativeWrap::Repl::Exit);
+  object->Set(String::New("exit"), handle_scope.Close(fn->GetFunction()));
+}
+
+METHOD_IMPL(NativeWrap::Repl::Exit) {
+  Interaction::Exit();
+  return Undefined();
+}
 
 }
