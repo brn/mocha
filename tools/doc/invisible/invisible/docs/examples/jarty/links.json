@@ -1,0 +1,8 @@
+{
+  "title": "Jarty links",
+  "links": {
+    "GitHub": "http://github.com/kotas/Jarty/tree/master",
+    "Tests": "http://jarty.kotas.jp/tests/jarty.html",
+    "Benchmark": "http://jarty.kotas.jp/tests/benchmark.html"
+  }
+}

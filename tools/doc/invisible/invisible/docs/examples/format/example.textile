@@ -1,0 +1,103 @@
+h1. Header 1
+
+h2)>. Right-aligned padded Header 2
+
+h3()=[no]{color:red}. Red centred Header 3
+
+A single paragraph.
+
+Followed by another.
+
+<p>Some inline <b>bold</b> HTML, inside paragraph tags.</p>
+
+<pre>
+  A <i>pre</i> Section.
+</pre>
+
+"A quoted passage with -- assorted - replaced entities... , including 2 x 2 , (TM), (R) and (C). "
+
+bq. A block quotation.
+
+Finished with a new paragraph.
+
+bq.. a multi-line block quotation.
+
+With a second line
+
+p(biggreen). Finished with a paragraph with a class of 'biggreen'
+
+p(#italic). This has an id of 'italic'
+
+p(biggreen#italic). This is both class 'biggreen' and id 'italic'
+	
+p{color:blue;margin:30px}. Some inline styling, using CSS(Cascading Style Sheets).
+
+p[fr]. rouge
+
+This is covered elsewhere[1].
+
+fn1. Down here, in fact.
+
+I _believe_ every word. And then? She *fell*! I __know__. I **really** __know__. ??Cat's Cradle?? by Vonnegut. Convert with @r.to_html@ I'm -sure- not sure. You are a +pleasant+ child. a ^2^ + b ^2^ = c ^2^ log ~2~ x
+
+I'm %unaware% of most soft drinks. I'm %{color:red}unaware% of most soft drinks. I seriously *{color:red}blushed* when I _(big)sprouted_ that corn stalk from my %[es]cabeza%. 
+
+p<. align left
+
+p>. align right
+
+p=. centered
+
+p<>. justified
+
+p(. left indent 1em
+
+p((. left indent 2em
+
+p))). right indent 3em
+	
+# A first item
+# A second item
+# A third
+
+# Fuel could be:
+## Coal
+## Gasoline
+## Electricity
+# Humans need only:
+## Water
+## Protein
+
+* A first item
+* A second item
+* A third
+
+* Fuel could be:
+** Coal
+** Gasoline
+** Electricity
+* Humans need only:
+** Water
+** Protein
+
+[google]http://google.com
+
+I searched "Google":google
+
+!>http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png(Wikipedia)!:http://en.wikipedia.org/wiki/Main_Page
+
+This Snoopy is right-aligned, and a link to boot.
+
+|_. name |_. age |_. Hair colour |
+| joan | 24 |{background:#ddd}. Grey |
+| archie | 29 |{color:#f00}. Red |
+{background:#ff0}. | bella | 45 | Black |
+
+table{border:1px solid black;margin-top:20px}.
+|_.\2. attribute list, spanning 2 cols |
+|<. align left |>. align right|
+|=. center |<>. justify |
+|^. valign top |~. bottom |
+|/3. spans 3 rows | a |
+| b |
+| c |

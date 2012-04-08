@@ -170,6 +170,7 @@ elif pack :
     ENV = Environment()
     SConscript('src/mocha/roaster/nexc/runtime/SConscript', variant_dir='.packed_temp', src_dir='./src' ,exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
 else :
-    builder = MochaBuilder(ARGUMENTS.get('mode'))
+    mode = ARGUMENTS.get('mode', 'release')
+    builder = MochaBuilder(mode)
     builder.Build()
 

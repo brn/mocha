@@ -1,2 +1,23 @@
-* *TODO*
-** create parser with caper or bison.
+h1. mocha ecmascript es next translator.
+
+h2. Overview
+
+*mocha* is the translator for es next and javascript build platform. 
+
+* translate es next to javascript
+* compress translated javascript.
+* insert debug exception handler.
+* watch modification of files.
+* have the test system that use the phantomjs.
+
+h2. Instlation
+
+* windows
+** Use bin/win32/mchd, or open vs/mocha.sln
+* osx
+** Use bin/macos/mchd run
+** <pre>scons</pre>
+* linux 
+** run
+** <pre>scons</pre>
+

@@ -1,0 +1,225 @@
+## Documentation
+
+### About Invisible.js
+
+Invisible.js is javascript documentation framework.
+
+### Features
+
+- document auto loading (url anchor or html attribute)
+- switching parser (Markdown, Textile, Wiki, Json, Html)
+- dynamically switching between documents (browser back support)
+- attach jarty template engine (Smarty like language)
+
+### Required Plugins
+
+- [jquery](http://jquery.com/)
+- [jquery.history](http://tkyk.github.com/jquery-history-plugin/)
+
+### Usage
+
+- Invisible.js reads default.txt.
+- default.txt is written in Markdown syntax.
+- Convert to HTML and insert content.
+- Content, id="content" loads.
+- HTML title change.
+
+#### index.html
+
+    <html>
+      <head>
+        <title></title>
+        <script type="text/javascript" src="./lib/jquery-1.5.2.min.js"></script>
+        <script type="text/javascript" src="./lib/jquery.history.js"></script>
+        <script type="text/javascript" src="./lib/invisible.js"></script>
+      </head>
+      <body>
+        <div id="content"></div>
+      </body>
+    </html>
+
+#### default.txt
+
+    # Hello world!
+    
+    - nice to meet you
+    - thank you
+
+#### Output html
+
+    <html>
+      <head>
+        <title>Hello world!</title>
+      </head>
+      <body>
+        <div id="content">
+          <h1>Hello world!</h1>
+          <ul>
+            <li>nice to meet you</li>
+            <li>thank you</li>
+          </ul>
+        </div>
+      </body>
+    </html>
+
+### Optional Parameters
+
+You can specify a document file name and document format.
+
+    <div data-file="header.txt" data-format="wiki"></div>
+
+Using the ID and class.
+
+    <div id="header" class="importdoc"></div>
+
+You can specify a document file name and document format.
+
+    <div data-file="header.txt" data-format="wiki"></div>
+
+Using the ID and class.
+
+    <div id="header" class="importdoc"></div>
+
+pre tag is text style output.
+
+    <pre data-file="codesample"></pre>
+
+### Data format type
+
+-  auto
+  -  file extension auto format
+- markdown
+  - file extsntion: txt, md
+- textile
+  - file extention: tt
+- wiki
+  - file extension: wiki
+- json
+  - file extension: json
+- html
+  - file extension: html, htm
+
+Default file extension is 'txt'.
+
+### URL Anchor
+
+URL Anchor is document file name.
+
+#### default.txt file load
+
+    index.html#default
+
+#### folder/default.txt file load
+
+    index.html#folder/default
+
+#### document format textile and default.txt file load
+
+    index.html#default|textile
+
+### Supported document format
+
+- [markdown](http://daringfireball.net/projects/markdown/)
+- [textile](http://redcloth.org/textile)
+- [wiki](http://en.wikipedia.org/wiki/Wikipedia:Cheatsheet)
+- [json](http://www.rfc-editor.org/rfc/rfc4627.txt)
+
+### Original converter
+
+Add original converter
+
+#### (example) plain format converter
+
+    <script>
+    var PlainConverter = function(){
+        this.makeHtml = function(txt){
+            return txt.replace(/(\r\n|\n)/gi,'<br />\n');
+        };
+    };
+    var invisible_format = {
+        'plain': {
+            'extension': ['txt'],
+            'converter': new PlainConverter()
+        }
+    };
+    </script>
+
+
+### Using Jarty template engine
+
+[jarty](http://jarty.kotas.jp/)
+
+#### script include
+
+    <script type="text/javascript" src="./lib/jarty.js"></script>
+    <script type="text/javascript" src="./lib/jarty.date.js"></script>
+
+#### div attribute
+
+    <div id="content" data-json="links.json"></div>
+
+#### default.txt
+
+    # {$title}
+    
+    {foreach from=$links key=k item=v}
+    - [{$k}]({$v}){/foreach}
+
+#### links.json
+
+    {
+      "title": "Jarty links",
+      "links": {
+        "GitHub": "http://github.com/kotas/Jarty/tree/master",
+        "Tests": "http://jarty.kotas.jp/tests/jarty.html",
+        "Benchmark": "http://jarty.kotas.jp/tests/benchmark.html"
+      }
+    }
+
+#### Output html
+
+    <html>
+      <head>
+        <title>Jarty links</title>
+      </head>
+      <body>
+        <div id="content">
+          <h1>Jarty links</h1>
+          <ul>
+            <li><a href="http://github.com/kotas/Jarty/tree/master">GitHub</a></li>
+            <li><a href="http://jarty.kotas.jp/tests/jarty.html">Tests</a></li>
+            <li><a href="http://jarty.kotas.jp/tests/benchmark.html">Benchmark</a></li>
+          </ul>
+        </div>
+      </body>
+    </html>
+
+## Examples
+
+- [Examples](./examples/index.html)
+
+
+## Special thanks
+
+including javascript code.
+
+- [jquery.markdown.js](http://plugins.jquery.com/project/markdown)
+- [Showdown](http://www.attacklab.net/)
+- [Textile in JavaScript](http://www.ben-daglish.net/textile.shtml)
+- [wiki2html](http://remysharp.com/2008/04/01/wiki-to-html-using-javascript/)
+- [JKL.Dumper](http://www.kawa.net/works/js/jkl/dumper.html)
+- [parseUri](http://blog.stevenlevithan.com/archives/parseuri)
+
+## License
+
+- [MIT License](#license)
+
+## Download
+
+- [Invisible.js Google code](https://code.google.com/p/invisible-js/)
+
+## Support Site
+
+- [Chrome Life](http://www.chrome-life.com/javascript/554/)
+  (Japanese only)
+

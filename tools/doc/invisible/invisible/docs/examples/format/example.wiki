@@ -1,0 +1,43 @@
+== Section headings ==
+
+== Level 2 ==
+
+=== Level 3 ===
+
+==== Level 4 ====
+
+===== Level 5 =====
+
+====== Level 6 ======
+
+
+== Bulleted list ==
+
+* One
+* Two
+** Two point one
+* Three
+
+== Numbered list ==
+
+# One
+# Two
+## Two point one
+# Three
+
+== Indenting text ==
+
+no indent (normal)
+:first indent
+::second indent
+:::third indent
+
+
+''italic''
+
+'''bold'''
+
+'''''bold & italic'''''
+
+[[Name of page]]
+[[#Name of page|Text to display]]
