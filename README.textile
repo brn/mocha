@@ -36,7 +36,7 @@ config.set("logFilePath", "./mocha.log");</code></pre>
 
 In config.js, you need to set the mocha settings to a global config object.
 
-h2. config object api
+h2. The config api
 
 h2. config.set(configName, value)
 
