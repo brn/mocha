@@ -250,6 +250,9 @@
     <ClCompile Include="..\..\..\src\mocha\v8wrap\init.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\mocha\process\process.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\mocha\roaster\nexc\scanner\source_stream.h">
@@ -631,6 +634,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\mocha\v8wrap\initjs.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\mocha\process\process.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

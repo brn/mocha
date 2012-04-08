@@ -186,7 +186,7 @@ CPP = gcc -E
 CPPFLAGS =  $(THREADSCPPFLAGS) $(LIBCPPFLAGS) -I$(prefix)/include
 CXX = g++
 CXXFLAGS =  -O2 -W -Wall -ansi -pedantic -Wpointer-arith -Wwrite-strings -Wno-long-long $(THREADSCXXFLAGS) 
-DEFAULT_MODE = dll
+DEFAULT_MODE = static
 DEFS = -DHAVE_CONFIG_H 
 FFLAGS = @FFLAGS@
 # use a consistent INSTALL 
@@ -237,7 +237,7 @@ ICUDATA_NAME = icudt48l
 ifeq ($(strip $(PKGDATA_MODE)),)
 #SH# if [ "x$PKGDATA_MODE" = "x" ];
 #SH# then
-PKGDATA_MODE=dll
+PKGDATA_MODE=static
 #SH# fi
 endif
 

@@ -214,9 +214,12 @@ void Nexc::Compile(const char* source, const char* charset) {
 
 void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
   if (Loader::IsRuntime(path)) {
-    AstNode* root = Loader::GetRuntime(path, pool_.Get());
-    root_->Append(root);
-    os::SPrintf(buf, "'%s'", path);
+    if (CheckGuard(path)) {
+      guard_.insert(GuardPair(path, true));
+      AstNode* root = Loader::GetRuntime(path, pool_.Get());
+      root_->Append(root);
+      os::SPrintf(buf, "'%s'", path);
+    }
   } else {
     const char* current = virtual_directory_->current_directory();
     std::string module_path;

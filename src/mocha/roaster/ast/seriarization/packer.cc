@@ -14,6 +14,7 @@
 namespace mocha {
 
 #define VISITOR_IMPL(type) void Packer::Visit##type(type* ast_node)
+#define UNREACHABLE_IMPL(type) void Packer::Visit##type(type*){FATAL("UNREACHABLE");}
 
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME DEBUG_LOG(Info, "now packing node : %s", ast_node->node_name())
@@ -109,10 +110,10 @@ VISITOR_IMPL(BlockStmt) {
   IterateChildren(ast_node);
 }
 
-VISITOR_IMPL(ModuleStmt) {FATAL("UNREACHABLE");}
-VISITOR_IMPL(ExportStmt) {FATAL("UNREACHABLE");}
-VISITOR_IMPL(ImportStmt) {FATAL("UNREACHABLE");}
-VISITOR_IMPL(Statement) {FATAL("UNREACHABLE");}
+UNREACHABLE_IMPL(ModuleStmt);
+UNREACHABLE_IMPL(ExportStmt);
+UNREACHABLE_IMPL(ImportStmt);
+UNREACHABLE_IMPL(Statement);
 
 VISITOR_IMPL(VersionStmt) {
   BasePacker(ast_node);
@@ -140,9 +141,7 @@ VISITOR_IMPL(VariableStmt) {
   ast_node->first_child()->Accept(this);
 }
 
-
-VISITOR_IMPL(LetStmt) {FATAL("UNREACHABLE");}
-
+UNREACHABLE_IMPL(LetStmt);
 
 
 VISITOR_IMPL(ExpressionStmt) {
@@ -336,7 +335,7 @@ VISITOR_IMPL(NewExp) {
 }
 
 
-VISITOR_IMPL(YieldExp){FATAL("UNREACHABLE");}
+UNREACHABLE_IMPL(YieldExp);
 
 
 VISITOR_IMPL(PostfixExp) {
@@ -399,7 +398,7 @@ VISITOR_IMPL(Expression) {
 }
 
 
-VISITOR_IMPL(Trait){FATAL("UNREACHABLE");}
+UNREACHABLE_IMPL(Trait);
 
 
 VISITOR_IMPL(Class) {
@@ -408,11 +407,9 @@ VISITOR_IMPL(Class) {
   ast_node->first_child()->Accept(this);
 }
 
-VISITOR_IMPL(ClassProperties) {FATAL("UNREACHABLE");}
-
-VISITOR_IMPL(ClassExpandar) {FATAL("UNREACHABLE");}
-
-VISITOR_IMPL(ClassMember) {FATAL("UNREACHABLE");}
+UNREACHABLE_IMPL(ClassProperties);
+UNREACHABLE_IMPL(ClassExpandar);
+UNREACHABLE_IMPL(ClassMember);
 
 
 VISITOR_IMPL(Function){
@@ -542,6 +539,7 @@ VISITOR_IMPL(ObjectLikeLiteral) {
   ObjectProccessor_(ast_node->elements());
 }
 
-VISITOR_IMPL(GeneratorExpression){FATAL("UNREACHABLE");}
+UNREACHABLE_IMPL(GeneratorExpression);
+
 
 }

@@ -1,150 +1,171 @@
 (function(env, natives, compile, cwd){
   "use strict";
-  var defProp = function (obj, prop, val, type) {
-        type = type || '';
-        var desc = [],
-            configurable = false,
-            writable = false,
-            enumerable = false;
-        type.split(' ').forEach(function (item) {
-          if (item !== ' ') {
-            if (item === '-c') configurable = true;
-            else if (item === '-w') writable = true;
-            else if (item === '-e') enumerable = true;
+  /**
+   * @namespace
+   * utility functions and values.
+   */
+  var utils = {
+        defProp : function (obj, prop, val, type) {
+          type = type || '';
+          var desc = [],
+              configurable = false,
+              writable = false,
+              enumerable = false;
+          type.split(' ').forEach(function (item) {
+            if (item !== ' ') {
+              if (item === '-c') configurable = true;
+              else if (item === '-w') writable = true;
+              else if (item === '-e') enumerable = true;
+            }
+          });
+          Object.defineProperty(obj, prop, {
+            value : val,
+            configurable : configurable,
+            writable : writable,
+            enumerable : enumerable
+          });
+          return obj[prop];
+        },
+        loadFile : function (path) {
+          var file = natives.io.fopen(path, 'rb'),
+              result = file.getTextContent();
+          file.close();
+          return result;
+        },
+        deleteList : function () {
+          for (var i in natives.script.watcher._settingList) {
+            delete natives.script.watcher._settingList[i];
+          }
+        },
+        globalExports : {},
+        defaultExports : {},
+        current : 'main'
+      }
+  
+  /**
+   * @namespace
+   * The global core functions definitions.
+   */
+  var mocha = function () {  
+        //Define global mocha object.
+        var mocha = utils.defProp(env, 'mocha', {});
+        
+        //Define file config utils.
+        utils.defProp(mocha, 'config', {
+          set : function (name, val) {
+            var stat = new natives.fs.Stat(val);
+            if (stat.isExist()) {
+              var path_info = new natives.fs.Path(val);
+              natives.config.set(name, path_info.fullpath());
+            }
+          },
+          get : function (key) {return natives.config.get(key);}
+        });
+        
+        //Define global console api.
+        utils.defProp(env, 'console', {
+          _print : function (method, args) {
+            for (var i = 0,len = args.length; i < len; i++) {
+              natives.io.nativeConsole[method](Object(args[i]).toString());
+              if ((i + 1) != len) {
+                natives.io.nativeConsole.printStdout(',');
+              }
+            }
+            if (args.length > 0) {
+              natives.io.nativeConsole.printStdout('\n');
+            }
+          },
+          log : function () {
+            this._print('printStdout', arguments);
+          },
+          error : function () {
+            natives.io.nativeConsole.printStderr('[Error]');
+            this._print('printStderr', arguments);
+          },
+          info : function () {
+            natives.io.nativeConsole.printStderr('[Info]');
+            this._print('printStdout', arguments);
+          },
+          warn : function () {
+            natives.io.nativeConsole.printStderr('[Warn]');
+            this._print('printStdout', arguments);
           }
         });
-        Object.defineProperty(obj, prop, {
-          value : val,
-          configurable : configurable,
-          writable : writable,
-          enumerable : enumerable
+        
+        //Define mocha module system.
+        utils.defProp(mocha, 'import', function (path, force) {
+          if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~' && path[1] != ':') {
+            if (path in natives) {
+              return natives[path];
+            } else {
+              throw new Error(path + ' No such module.');
+            }
+          } else {
+            var pathInfo = new natives.fs.Path(path),
+                stat = new natives.fs.Stat(pathInfo.fullpath()),
+                fullpath = pathInfo.fullpath();
+            if (stat.isExist() && stat.isReg()) {
+              if (!(path in utils.globalExports) || force) {
+                var source = utils.loadFile(fullpath);
+                utils.globalExports[fullpath] = {};
+                var file = utils.current;
+                utils.current = fullpath;
+                source = '(function(mocha) {"use strict";\n' + source + '\n})';
+                natives.fs.Dir.chdir(pathInfo.directory());
+                compile(source, fullpath)(mocha);
+                utils.current = file;
+              }
+            } else {
+              throw new Error(path + ' No such module.');
+            }
+            return utils.globalExports[fullpath];
+          }
         });
-      },
-      globalExports = {},
-      loadFile = function (path) {
-        var file = natives.io.fopen(path, 'rb'),
-            result = file.getTextContent();
-        file.close();
-        return result;
-      },
-      current = 'main',
-      settingList = {};
+        
+        //Define export function
+        utils.defProp(mocha, 'export', function (name, val) {
+          utils.globalExports[utils.current][name] = val;
+        });
+        
+        //export loadFile function.
+        utils.defProp(mocha, 'loadFile', utils.loadFile);
+        
+        //Define command utilities.
+        utils.defProp(mocha, 'addCommand', function (name , val, help) {
+          utils.defProp(this._commands, name, val, '-e -c -w');
+          utils.defProp(this._commandsHelp, name, help || '', '-e -c -w');
+        });
+        utils.defProp(mocha, 'getCommand', function (name) {
+          return this._commands[name];
+        });
+        utils.defProp(mocha, 'callCommand', function (args) {
+          if (typeof args === 'string') {
+            var source = args.replace('@', ''),
+                compiled = natives.script.Roaster.compile('mocha._commands.' + source + ';', 'utf-8', {prettyPrint : true, unversions : 'backCompat'});
+            return compile(compiled);
+          } else {
+            throw new Error('The arguments of callCommand is must be string.');
+          }
+          return null;
+        });
+        utils.defProp(mocha, '_commands', {});
+        utils.defProp(mocha, '_commandsHelp', {});
+        mocha.addCommand("watch", function () {
+          if (!natives.script.watcher.isRunning()) {
+            natives.script.watcher.run();
+          } else {
+            env.console.log("watch server is now working.");
+          }
+        }, "Begin watch server, and compile immediately if modified.");
+        return mocha;
+      }();
   
-  natives.script.watcher._settingList = settingList;
-  natives.script.watcher.addSetting = function (name, obj) {
-    settingList[name] = (obj || {});
-    natives.script.watcher._addSetting(name, settingList[name]);
-  }
-  
-  //Define mocha object
-  defProp(env, 'mocha', {});
-  var mocha = env.mocha;
-  mocha.config = {
-    set : function (name, val) {
-      var stat = new natives.fs.Stat(val);
-      if (stat.isExist()) {
-        var path_info = new natives.fs.Path(val);
-        natives.config.set(name, path_info.fullpath());
-      }
-    },
-    get : function (key) {return natives.config.get(key);}
-  };
-  defProp(env, 'console', {
-    _print : function (method, args) {
-      for (var i = 0,len = args.length; i < len; i++) {
-        natives.io.nativeConsole[method](Object(args[i]).toString());
-        if ((i + 1) != len) {
-          natives.io.nativeConsole.printStdout(',');
-        }
-      }
-      if (args.length > 0) {
-        natives.io.nativeConsole.printStdout('\n');
-      }
-    },
-    log : function () {
-      this._print('printStdout', arguments);
-    },
-    error : function () {
-      natives.io.nativeConsole.printStderr('[Error]');
-      this._print('printStderr', arguments);
-    },
-    info : function () {
-      natives.io.nativeConsole.printStderr('[Info]');
-      this._print('printStdout', arguments);
-    },
-    warn : function () {
-      natives.io.nativeConsole.printStderr('[Warn]');
-      this._print('printStdout', arguments);
-    }
-  });
-  defProp(mocha, 'utils', {});
-  defProp(mocha, 'import', function (path, force) {
-    if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~' && path[1] != ':') {
-      if (path in natives) {
-        return natives[path];
-      } else {
-        throw new Error(path + ' No such module.');
-      }
-    } else {
-      var pathInfo = new natives.fs.Path(path),
-          stat = new natives.fs.Stat(pathInfo.fullpath()),
-          fullpath = pathInfo.fullpath();
-      if (stat.isExist() && stat.isReg()) {
-        if (!(path in globalExports) || force) {
-          var source = loadFile(fullpath);
-          globalExports[fullpath] = {};
-          var file = current;
-          current = fullpath;
-          source = '(function(mocha) {"use strict";\n' + source + '\n})';
-          natives.fs.Dir.chdir(pathInfo.directory());
-          compile(source, fullpath)(mocha);
-          current = file;
-        }
-      } else {
-        throw new Error(path + ' No such module.');
-      }
-      return globalExports[fullpath];
-    }
-  });
-  defProp(mocha, 'export', function (name, val) {
-    globalExports[current][name] = val;
-  });
-  defProp(mocha.utils, 'loadFile', loadFile);
-
-  defProp(mocha, 'addCommand', function (name , val, help) {
-    defProp(this._commands, name, val, '-e -c -w');
-    defProp(this._commandsHelp, name, help || '', '-e -c -w');
-  });
-  defProp(mocha, 'getCommand', function (name) {
-    return this._commands[name];
-  });
-  defProp(mocha, 'callCommand', function (args) {
-    if (typeof args === 'string') {
-      var source = args.replace('@', ''),
-          ro = new natives.script.Roaster(),
-          compiled = ro.compile('mocha._commands.' + source + ';', 'utf-8', {prettyPrint : true, unversions : 'backCompat'});
-      return compile(compiled);
-    } else {
-      throw new Error('The arguments of callCommand is must be string.');
-    }
-    return null;
-  });
-
-  defProp(mocha, '_commands', {});
-  defProp(mocha, '_commandsHelp', {});
-  mocha.addCommand("watch", function () {
-    if (!natives.script.watcher.isRunning()) {
-      natives.script.watcher.run();
-    } else {
-      env.console.log("watch server is now working.");
-    }
-  }, "Begin watch server, and compile immediately if modified.");
-
+  //Builtin command definitions.
   mocha.addCommand("watchList", function (showDeploy, showOpt, pred) {
     pred = pred || function (){ return true; };
     var ret = [],
         dir = "";
-    for (var i in settingList) {
+    for (var i in natives.script.watcher._settingList) {
       var path_info = new natives.fs.Path(i),
           setting = natives.script.watcher._settingList[i],
           inputCharset = setting.inputCharset || 'utf-8',
@@ -188,44 +209,58 @@
     } else {
       mocha.printAsciiBox(ret, ['name'], 2);
     }
-  }, "Begin watch server, and compile immediately if modified.");
-
+  }, "watchList([deployInfo], [optionInfo], [predicate]) : Begin watch server, and compile immediately if modified.");
+  
   mocha.addCommand("unwatch", function (type) {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();
       while (natives.script.watcher.isRunning()) {}
-      globalExports = {};
+      utils.deleteList();
+      utils.globalExports = {};
     } else {
       env.console.log("watch sever is now stopping.");
     }
     natives.script.watcher._settingList = {};
-  }, "Exit watc server, if watch server is working.");
+  }, "unwatch() : Exit watc server, if watch server is working.");
 
   mocha.addCommand("restart", function (type) {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();
       while (natives.script.watcher.isRunning()) {}
+      utils.deleteList();
+      utils.globalExports = {};
       natives.script.watcher.run();
     } else {
       env.console.log("watch sever is now stopping.");
     }
-    natives.script.watcher._settingList = {};
-  }, "Restart watch server, if watch server is working.");
-
+  }, "restart() : Restart watch server, if watch server is working.");
+  
+  mocha.addCommand("deploy", function (pred, opt) {
+    if (pred && typeof pred === 'function') {
+      for (var i in natives.script.watcher._settingList) {
+        if (pred(i, natives.script.watcher._settingList[i])) {
+          opt = opt || natives.script.watcher._settingList[i];
+          natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
+        }
+      }
+    }
+  }, "compile(predicate, [option]) : Compile file that is selected by predicate function.");
+  
   mocha.addCommand("exit", function () {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();
       while (natives.script.watcher.isRunning()) {}
+      utils.deleteList();
     }
     natives.repl.exit();
-  }, "Exit mocha.");
+  }, "exit() : Exit mocha.");
 
   mocha.addCommand('help', function () {
     for (var command in mocha._commands) {
       env.console.log("  " + command + '  :  ' + mocha._commandsHelp[command]);
     }
-  }, 'show all command and help list.');
-
+  }, 'help() : show all command and help list.');
+  
   mocha.printAsciiBox = function (array, title, additionalPadding) {
     additionalPadding = additionalPadding || 0
     var max = Math.max,
@@ -296,20 +331,19 @@
       file.writeTextContent(source);
       file.close();
     }
-    var source = loadFile(path),
+    var source = utils.loadFile(path),
         current = natives.fs.Path.getcwd();
     try {
       natives.fs.Dir.chdir(natives.fs.Path.homeDir() + '/.mocha');
       compile('(function(mocha, config) {\n' + source + '\n})')(mocha, mocha.config);
     } catch(e) {
-      console.log(e);
+      env.console.log(e);
     }
     natives.fs.Dir.chdir(current);
   })();
-
+  
   return function (source) {
-    var cmp = new natives.script.Roaster(),
-        compiled = cmp.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
+    var compiled = natives.script.Roaster.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
     source = '(function(mocha) {\n' + compiled + '\n})';
     var ret = compile(source)(mocha);
     return ret;

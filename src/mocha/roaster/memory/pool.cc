@@ -3,12 +3,10 @@ namespace mocha {
 namespace memory {
 void Pool::Free() {
   if (head_) {
-    os::ThreadLocalStorage::Set(&key_,NULL);
     Allocated* block = head_;
     Allocated* next = block->next_;
     while (1) {
       block->~Allocated();
-      free(block);
       if (next) {
         block = next;
         next->prev_ = 0;
@@ -18,6 +16,16 @@ void Pool::Free() {
       }
     }
     head_ = current_ = 0;
+  }
+  if (head_chunk_) {
+    while (1) {
+      Chunk<kDefaultSize>* next = head_chunk_->next();
+      delete head_chunk_;
+      head_chunk_ = next;
+      if (!head_chunk_) {
+        break;
+      }
+    }
   }
 }
 os::ThreadLocalStorageKey Pool::key_;

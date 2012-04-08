@@ -21,7 +21,7 @@ const int kKeyUp = 65;
 const int kKeyDown = 66;
 const int kKeyLeft = 67;
 const int kKeyRight = 68;
-const char kPrompt[] = {">>> "};
+static char kPrompt[] = {'>', '>', '0'};
 
 
 Shell* Shell::Initialize(Action& action) {
@@ -41,9 +41,9 @@ Shell::Shell(Action& action)
   setlocale(LC_ALL, "");
   printf("mocha es-next-compiler");
   printf("\nusage -> run 'help'\n");
-  InitShell();
   history_ = history_init();
   history(history_, &event_,  H_SETSIZE, 50);
+  InitShell();
   atexit(Destruct);
 }
 
@@ -57,7 +57,6 @@ void Shell::Destruct() {
 }
 
 void Shell::Read() {
-  wchar_t *buf;
   int read;
   const char dummy[] = {""};
   history(history_, &event_, H_ENTER, dummy);
@@ -68,9 +67,9 @@ void Shell::Read() {
     }
     if (input.size() > 0) {
       input.erase(input.size() - 1, 1);
-      int size = input.size() * 2 + 1;
+      int size = input.size() * sizeof(wchar_t) + 1;
       char* mbs = new char[size];
-      wcstombs(mbs, input.c_str(), size/sizeof(mbs[0]));
+      wcstombs(mbs, input.c_str(), size);
       if (input.size() > 0) {
         input_ = mbs;
         history(history_, &event_, H_ENTER, input_.c_str());
@@ -88,8 +87,8 @@ void Shell::Read() {
   }
 }
 
-char* prompt(EditLine* line) {
-  return ">> ";
+char* prompt(EditLine*) {
+  return kPrompt;
 }
 
 void Shell::InitShell() {
@@ -129,13 +128,13 @@ bool Shell::CallAction() {
   return ret;
 }
 
-void Shell::Break(bool initial) {
+void Shell::Break(bool) {
   printf("\n");
 }
 
-void Shell::SafeBreak(bool initial) {
+void Shell::SafeBreak(bool) {
   os::ScopedLock lock(mutex_);
-  Break(initial);
+  Break(false);
 }
 
 os::Mutex Shell::mutex_;

@@ -66,7 +66,7 @@ void ObjectProccessor::ProcessNode() {
 
 typedef std::vector<Literal*> LiteralArray;
 
-void CollectParentExpression(LiteralArray* expression_array, AstNode* parent, Literal* maybe_value) {
+void CollectParentExpression(LiteralArray* expression_array, AstNode* parent, Literal*) {
   while (1) {
     if (parent->CastToExpression() && parent->node_type() != AstNode::kObjectLikeLiteral) {
       expression_array->push_back(parent->CastToLiteral());

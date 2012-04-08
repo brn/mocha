@@ -136,7 +136,7 @@ inline SharedPtr<T>::operator bool() const {
 }
 
 template <typename T>
-inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator [] (int num) {
+inline typename SharedPtr<T>::PtrType SharedPtr<T>::operator [] (int) {
   assert(false);
   return *ptr_;
 }

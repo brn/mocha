@@ -10,22 +10,22 @@ using namespace v8;
 namespace mocha {
 
 V8Init* V8Init::GetInstance() {
-  int ret = Atomic::CompareAndSwap(&atomic_, 0 , 1);
-  if (ret == 0) {
-    atomic_ = 1;
-    instance_ = new V8Init;
+  V8Init* instance = static_cast<V8Init*>(os::ThreadLocalStorage::Get(&key_));
+  if (instance == NULL) {
+    instance = new V8Init;
+    os::ThreadLocalStorage::Set(&key_, instance);
+    instance->Initialize();
   }
-  return instance_;
+  return instance;
 }
 
-V8Init::V8Init() {
-  Initialize();
-}
+V8Init::V8Init() {}
 
 V8Init::~V8Init() {}
 
 void V8Init::Destruct() {
-  delete instance_;
+  V8Init* instance = GetInstance();
+  delete instance;
 }
 
 void V8Init::IdleNotification() {
@@ -51,7 +51,11 @@ Handle<Value> V8Init::RunInConfigContext(const char* source) {
 }
 
 Handle<Value> V8Init::RunInGlobalContext(const char* source) {
-  Handle<Value> ret = DoRun(source);
+  CompilationInfo info;
+  info.SetPrettyPrint();
+  Roaster ro;
+  CompilationResultHandle result = ro.Compile(source, "UTF-8", &info);
+  Handle<Value> ret = DoRun(result->source());
   return ret;
 }
 
@@ -164,31 +168,21 @@ Handle<Value> V8Init::DoRun(const char* src, const char* name) {
 
 void V8Init::Initialize() {
   HandleScope handle_scope;
-  config_global_template_ = Persistent<ObjectTemplate>::New(ObjectTemplate::New());
-  context_ = Context::New(NULL, config_global_template_);
+  Handle<ObjectTemplate> config_global_template = ObjectTemplate::New();
+  context_ = REGIST_PERSISTENT(Context::New(NULL, config_global_template), "GlobalContext");
   Context::Scope context_scope(context_);
-  native_ = Persistent<Object>::New(Object::New());
+  native_ = REGIST_PERSISTENT(Object::New(), "Natives");
   Handle<Value> fn = DoRun(init_js::initjs);
   Handle<FunctionTemplate> compile_tmp = FunctionTemplate::New(Compile);
   Handle<v8::Function> callable = Handle<v8::Function>::Cast(fn);
-  compile_ = Persistent<v8::Function>::New(compile_tmp->GetFunction());
+  compile_ = REGIST_PERSISTENT(compile_tmp->GetFunction(), "CompileFunction");
   Extension<NativeWrap>();
-  config_global_ = Persistent<Object>::New(context_->Global());
+  config_global_ = REGIST_PERSISTENT(context_->Global(), "Global");
   Handle<Value> args[] = {config_global_, native_, compile_, String::New(os::fs::Path::current_directory())};
   Handle<Value> ret = callable->Call(callable, 4, args);
   Handle<v8::Function> config_context = Handle<v8::Function>::Cast(ret);
-  function_ = Persistent<v8::Function>::New(config_context);
-  Regist<ObjectTemplate>(config_global_template_);
-  Regist<Object>(config_global_);
-  Regist<Context>(context_);
-  Regist<v8::Function>(function_);
-  Regist<v8::Function>(compile_);
-  Regist<Object>(native_);
+  function_ = REGIST_PERSISTENT(config_context, "ResultFunction");
 }
 
-
-V8Init* V8Init::instance_;
-AtomicWord V8Init::atomic_ = 0;
-os::Mutex V8Init::mutex_;
-memory::Pool V8Init::pool_;
+os::ThreadLocalStorageKey V8Init::key_;
 }

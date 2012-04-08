@@ -537,7 +537,7 @@ Literal* DstaProcessor::ProcessNode() {
 /**
  * Create temporary referrence variable.
  */
-VariableStmt* DstaProcessor::CreateTmpVarDecl(Statement* stmt, ProcessorInfo* info) {
+VariableStmt* DstaProcessor::CreateTmpVarDecl(Statement* stmt, ProcessorInfo*) {
   DstaExtractedExpressions* dsta_extr = stmt->destructuring_node();
   ASSERT(true, dsta_extr != 0);
   NodeList* list = dsta_extr->refs();

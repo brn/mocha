@@ -18,11 +18,20 @@ class V8Init {
   bool IsInvalidValue(v8::Handle<v8::Value> value);
   bool IsExitStatus(v8::Handle<v8::Value> value);
   void Print(v8::Handle<v8::Value> value);
-  void IdleNotification();
+  static void IdleNotification();
+#ifdef NDEBUG
+#define REGIST_PERSISTENT(holder,id) Regist(holder)
   template <typename T>
-  static v8::Persistent<T> Regist(v8::Persistent<T> holder);
+  v8::Persistent<T> Regist(v8::Persistent<T> holder);
   template <typename T>
-  static v8::Persistent<T> Regist(v8::Handle<T> obj);
+  v8::Persistent<T> Regist(v8::Handle<T> obj);
+#else
+#define REGIST_PERSISTENT(holder,id) Regist(holder, id)
+  template <typename T>
+  v8::Persistent<T> Regist(v8::Persistent<T> holder, const char* id);
+  template <typename T>
+  v8::Persistent<T> Regist(v8::Handle<T> obj, const char* id);
+#endif
   template <typename T>
   void Extension();
   template <typename T>
@@ -39,16 +48,13 @@ class V8Init {
   template <typename T>
   class PersistentDisposer;
   void SetHelper(v8::Handle<v8::Object> object);
-  v8::Persistent<v8::ObjectTemplate> config_global_template_;
   v8::Persistent<v8::Object> config_global_;
   v8::Persistent<v8::Context> context_;
   v8::Persistent<v8::Function> function_;
   v8::Persistent<v8::Function> compile_;
   v8::Persistent<v8::Object> native_;
-  static AtomicWord atomic_;
-  static V8Init* instance_;
-  static os::Mutex mutex_;
-  static memory::Pool pool_;
+  memory::Pool pool_;
+  static os::ThreadLocalStorageKey key_;
 };
 }
 #include <mocha/v8wrap/init-inl.h>

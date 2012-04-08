@@ -116,17 +116,22 @@ class NativeWrap : private Static {
   class Compiler : private Static {
    public :
     INIT_DECL;
-    DECL_DIPOSER;
-    DECL_METHOD(New);
     DECL_METHOD(Compile);
     DECL_METHOD(CheckDepends);
     DECL_METHOD(CompileFile);
+    DECL_METHOD(Deploy);
   };
 
   class Repl {
    public :
     INIT_DECL;
     DECL_METHOD(Exit);
+  };
+
+  class ProcessSpawner {
+   public :
+    INIT_DECL;
+    DECL_METHOD(Spawn);
   };
 };
 #undef DECL_METHOD

@@ -10,9 +10,10 @@
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/platform/thread/thread.h>
 namespace mocha {
+class EventInfo;
 typedef std::string FileEntry;
-typedef std::pair<FileEntry, uv_fs_event_t*> WatchPair;
-typedef roastlib::unordered_map<FileEntry, uv_fs_event_t*> WatchList;
+typedef std::pair<FileEntry, EventInfo*> WatchPair;
+typedef roastlib::unordered_map<FileEntry, EventInfo*> WatchList;
 typedef uv_fs_event_t UvEvent;
 typedef uv_idle_t UvIdle;
 typedef uv_idle_cb UvIdleCb;
@@ -71,11 +72,10 @@ class FileWatcher {
   void BeginIdle();
   void WatchFile();
   void UnWatchEach(WatchList::iterator& it);
-  void CheckPool();
   int stop_flag_;
   uv_fs_event_t event_;
   uv_loop_t* loop_;
-  memory::Pool* pool_;
+  memory::Pool pool_;
   WatchList watch_list_;
   Notificator<FileEvent> file_notificator_;
   Notificator<WatcherEvent> watcher_notificator_;

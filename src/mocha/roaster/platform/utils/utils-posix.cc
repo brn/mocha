@@ -105,7 +105,7 @@ time_t Time(time_t* time) {
 
 int Asctime(std::string* buf, tm* tm) {
   char buffer[27];
-  asctime_r(buffer, tm);
+  asctime_r(tm, buffer);
   buf->assign(buffer);
   return 0;
 }
@@ -115,7 +115,19 @@ int LocalTime(tm* t, time_t* time) {
   return 0;
 }
 
-void OnExit(int(*callback)()) {
+void AtExit(void(*callback)()) {
   atexit(callback);
+}
+
+void GetLastError(std::string* buf) {
+  Strerror(buf, K_ERRNO);
+}
+
+FILE* POpen(const char* name, const char* mode) {
+  return popen(name, mode);
+}
+
+void PClose(FILE* fp) {
+  pclose(fp);
 }
 }}

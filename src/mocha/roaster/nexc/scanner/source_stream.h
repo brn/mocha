@@ -30,7 +30,7 @@ namespace mocha {
 class CompilationInfo;
 class SourceStream : public memory::Allocated {
  public :
-  static SourceStream* New(const char* source, const char* path, const char* charset, memory::Pool* pool);
+  static SourceStream* New(const char* source, const char* charset, memory::Pool* pool);
   ~SourceStream();
   int Size() const;
   int At(int index) const;

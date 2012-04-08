@@ -52,9 +52,8 @@ class EventInfo : public memory::Allocated {
 };
 
 extern "C" {
-  static void CloseCb(uv_handle_t* handle){};
-  static void FileModifiedCallback(uv_fs_event_t* handle, const char* fname,
-                                   int events, int status) {
+  static void CloseCb(uv_handle_t*){};
+  static void FileModifiedCallback(uv_fs_event_t* handle, const char*, int, int) {
     //uv_unref(handle->loop);
     EventInfo* info = static_cast<EventInfo*>(handle->data);
     if (info->close() == 1) {
@@ -76,15 +75,18 @@ extern "C" {
         uv_close(reinterpret_cast<uv_handle_t*>(handle), CloseCb);
       }
     } else {
-		uv_unref(handle->loop);
-      //uv_close(reinterpret_cast<uv_handle_t*>(handle), CloseCb);
+      WatchList* watch_list = info->watch_list();
+      WatchList::iterator it = watch_list->begin();
+      for (; it != watch_list->end(); ++it) {
+        EventInfo* info = it->second;
+        uv_close(reinterpret_cast<uv_handle_t*>(info->event()), CloseCb);
+      }
     }
   }
 }
 
 FileWatcher::FileWatcher()
-    : stop_flag_(0),
-      pool_(NULL){ Initialize();}
+    : stop_flag_(0) { Initialize();}
 
 FileWatcher::~FileWatcher() {
   stop_flag_ = 2;
@@ -115,21 +117,8 @@ void FileWatcher::Start() {
 }
 
 void FileWatcher::Exit() {
-  WatchList::iterator it = watch_list_.begin();
   const char* tmp = Setting::tmp_path();
-  for (; it != watch_list_.end(); ++it) {
-    EventInfo* info = static_cast<EventInfo*>((it->second->data));
-    info->set_close();
-    const char* filename = info->filename();
-    printf("%s\n", filename);
-    if (strcmp(filename, tmp) != 0) {
-      os::fs::Stat stat(filename);
-      if (stat.IsExist()) {
-        uv_unref(loop_);
-      }
-    }
-  }
-  EventInfo* info = static_cast<EventInfo*>(watch_list_.find(tmp)->second->data);
+  EventInfo* info = watch_list_.find(tmp)->second;
   info->set_close();
   const char* filename = info->filename();
   os::Utime(filename);
@@ -137,7 +126,6 @@ void FileWatcher::Exit() {
 }
 
 void FileWatcher::Initialize() {
-  CheckPool();
   loop_ = uv_default_loop();
 }
 
@@ -150,18 +138,16 @@ void FileWatcher::Regist(const char* path) {
 
 void FileWatcher::AddToWatchList(const char* path) {
   os::fs::Stat stat(path);
-  CheckPool();
   if (stat.IsExist() && stat.IsReg()) {
     os::fs::Path path_info(path);
     const char* fullpath = path_info.absolute_path();
     if (watch_list_.find(fullpath) == watch_list_.end()) {
-      EventInfo* info = new(pool_) EventInfo(fullpath, &file_notificator_, &watch_list_);
+      EventInfo* info = new(&pool_) EventInfo(fullpath, &file_notificator_, &watch_list_);
       uv_fs_event_t* event = info->event();
       event->data = static_cast<void*>(info);
-      watch_list_.insert(WatchPair(fullpath, event));
-      int result =
-          uv_fs_event_init(loop_, event,
-                           fullpath, FileModifiedCallback, 0);
+      watch_list_.insert(WatchPair(fullpath, info));
+      uv_fs_event_init(loop_, event,
+                       fullpath, FileModifiedCallback, 0);
     }
   }
 }
@@ -174,16 +160,6 @@ void FileWatcher::ProcessNotification() {
   watcher_notificator_.NotifyForKey(name, WatcherEvent(type));
 }
 
-
-void FileWatcher::CheckPool() {
-  if (pool_ == NULL) {
-    os::ScopedLock lock(mutex_);
-    if (pool_ == NULL) {
-      pool_ = new memory::Pool;
-    }
-    lock.Unlock();
-  }
-}
 
 void FileWatcher::UnWatchEach(WatchList::iterator& it) { watch_list_.erase(it); }
 const char FileEvent::kModify[] = {"FileEvent<Modify>"};

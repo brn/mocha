@@ -10,7 +10,7 @@ class WatchEndCallBack {
       : server_(server),
         watcher_(watcher){}
   ~WatchEndCallBack(){}
-  void operator()(WatcherEvent event) {
+  void operator()(WatcherEvent) {
     watcher_->Escape();
     WatcherServerEvent e(watcher_->name());
     server_->NotifyForKey(name, e);

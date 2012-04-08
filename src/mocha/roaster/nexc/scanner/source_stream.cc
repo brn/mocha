@@ -38,7 +38,7 @@ SharedStr Encode(const char* source, const char* charset) {
   }
 }
 
-SourceStream* SourceStream::New(const char* source, const char* path, const char* charset, memory::Pool* pool) {
+SourceStream* SourceStream::New(const char* source, const char* charset, memory::Pool* pool) {
   SharedStr str_handle = Encode(source, charset);
   SourceStream* stream = new(pool) SourceStream();
   stream->CreateStream(str_handle.Get());

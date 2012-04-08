@@ -134,7 +134,7 @@ class Instaniater{
 template <typename AstType>
 class Instaniater<AstType, true>{
  public :
-  static AstType* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static AstType* Make(UnPacker*, memory::Pool* pool, int64_t line) {
     return new(pool) AstType(line);
   }
 };
@@ -142,7 +142,7 @@ class Instaniater<AstType, true>{
 template <typename AstType>
 class Instaniater<AstType, false>{
  public :
-  static AstType* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static AstType* Make(UnPacker*, memory::Pool* pool, int64_t) {
     return new(pool) AstType;
   }
 };
@@ -150,7 +150,7 @@ class Instaniater<AstType, false>{
 template <>
 class Instaniater<FileRoot, true>{
  public :
-  static FileRoot* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static FileRoot* Make(UnPacker* unpacker, memory::Pool* pool, int64_t) {
     std::string filename;
     unpacker->UnpackChar(&filename);
     bool runtime = (unpacker->Advance() == 1)? true : false;
@@ -235,7 +235,7 @@ T* UnPacker::MakeBinary(int64_t line) {
 template <>
 class Instaniater<PostfixExp, true> {
  public :
-  static PostfixExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static PostfixExp* Make(UnPacker* unpacker, memory::Pool*, int64_t line) {
     return unpacker->MakeUnary<PostfixExp>(line);
   }
 };
@@ -243,7 +243,7 @@ class Instaniater<PostfixExp, true> {
 template <>
 class Instaniater<UnaryExp, true> {
  public :
-  static UnaryExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static UnaryExp* Make(UnPacker* unpacker, memory::Pool*, int64_t line) {
     return unpacker->MakeUnary<UnaryExp>(line);
   }
 };
@@ -251,7 +251,7 @@ class Instaniater<UnaryExp, true> {
 template <>
 class Instaniater<BinaryExp, true> {
  public :
-  static BinaryExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static BinaryExp* Make(UnPacker* unpacker, memory::Pool*, int64_t line) {
     return unpacker->MakeBinary<BinaryExp>(line);
   }
 };
@@ -259,7 +259,7 @@ class Instaniater<BinaryExp, true> {
 template <>
 class Instaniater<AssignmentExp, true> {
  public :
-  static AssignmentExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static AssignmentExp* Make(UnPacker* unpacker, memory::Pool*, int64_t line) {
     return unpacker->MakeBinary<AssignmentExp>(line);
   }
 };
@@ -267,7 +267,7 @@ class Instaniater<AssignmentExp, true> {
 template <>
 class Instaniater<CompareExp, true> {
  public :
-  static CompareExp* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+  static CompareExp* Make(UnPacker* unpacker, memory::Pool*, int64_t line) {
     return unpacker->MakeBinary<CompareExp>(line);
   }
 };

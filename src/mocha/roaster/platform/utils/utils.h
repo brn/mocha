@@ -32,15 +32,6 @@
 #define K_ERRNO _doserrno
 #endif
 namespace mocha {namespace os {
-#ifdef PLATFORM_WIN32
-#define EXIT_CALLBACK(name) int name()
-#define EXIT_RETURN return 0
-typedef int (*ExitCallback)();
-#else
-#define EXIT_CALLBACK(name) void name()
-#define EXIT_RETURN
-typedef void (*ExitCallback)();
-#endif
 void Strerror(std::string* buf, int err);
 void Printf(const char* format, ...);
 void SPrintf(std::string*, const char* format, ...);
@@ -55,7 +46,10 @@ int Utime(const char* path);
 time_t Time(time_t* time);
 int Asctime(std::string* buf, tm* tm);
 int LocalTime(tm* t, time_t* time);
-void OnExit(ExitCallback);
+void OnExit(void(*callback)());
+void GetLastError(std::string* buf);
+FILE* POpen(const char* name, const char* mode);
+void PClose(FILE* fp);
 }}
 
 #endif

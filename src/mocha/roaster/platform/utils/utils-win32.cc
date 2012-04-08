@@ -129,7 +129,28 @@ int LocalTime(tm* t, time_t* time) {
   return localtime_s(t, time);
 }
 
-void OnExit(ExitCallback callback) {
-  _onexit(callback);
+void AtExit(void(*callback)()) {
+  atexit(callback);
+}
+
+void GetLastError(std::string* buf) {
+  LPVOID msg_buffer;
+  FormatMessage(
+      FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+      FORMAT_MESSAGE_FROM_SYSTEM | 
+      FORMAT_MESSAGE_IGNORE_INSERTS,
+      NULL, ::GetLastError(),
+      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
+      (LPTSTR)&msg_buffer, 0, NULL);
+  buf->assign(reinterpret_cast<const char*>(msg_buffer));
+  LocalFree(msg_buffer);
+}
+
+FILE* POpen(const char* name, const char* mode) {
+  return ::_popen(name, mode);
+}
+
+void PClose(FILE* fp) {
+  ::_pclose(fp);
 }
 }}

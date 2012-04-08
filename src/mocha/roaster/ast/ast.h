@@ -34,8 +34,8 @@
 #include <mocha/roaster/nexc/tokens/token_info.h>
 
 namespace mocha {
-#define NVI_ACCEPTOR_DECL virtual void NVIAccept_(IVisitor* visitor)
-#define CALL_ACCEPTOR(name) NVI_ACCEPTOR_DECL{visitor->Visit##name(this);}
+#define NVI_ACCEPTOR_DECL virtual void NVIAccept_(IVisitor*)
+#define CALL_ACCEPTOR(name) void NVIAccept_(IVisitor* visitor){visitor->Visit##name(this);}
 #define SET(num) flags_.Set(num)
 #define HAS(num) flags_.At(num)
 #define CLONE virtual AstNode* Clone(memory::Pool* pool);
@@ -398,7 +398,7 @@ class AstNode : public memory::Allocated {
    * @returns {AstNode*}
    * Clone node.
    */
-  virtual AstNode* Clone(memory::Pool* pool) {return 0;};
+  virtual AstNode* Clone(memory::Pool*) {return 0;};
 
   /**
    * @returns {bool}
@@ -455,7 +455,7 @@ class Empty : public AstNode {
   virtual bool IsEmpty() const { return true; }
   CLONE;
  private :
-  void NVIAccept_(IVisitor* visitor){}
+  void NVIAccept_(IVisitor*){}
 };
 
 /**

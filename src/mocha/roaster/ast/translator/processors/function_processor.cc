@@ -240,7 +240,6 @@ class YieldHelper : private Processor {
     std::list<YieldMark*>::iterator begin = mark_list_.begin(),end = mark_list_.end();
     while (begin != end) {
       YieldMark* mark = (*begin);
-      char state[10];
       int state_num = mark->Adjust(state_);
       std::stringstream st;
       st << state_num;
@@ -483,7 +482,7 @@ class YieldHelper : private Processor {
   }
 
 
-  YieldMark* ProcessIFStmt(IFStmt* node, YieldMark* escape_mark, int size, int count) {
+  YieldMark* ProcessIFStmt(IFStmt* node, YieldMark* escape_mark, int, int) {
     AstNode* parent = node->parent_node();
     YieldMark* mark = new(pool()) YieldMark;
     mark->SetAdjust(1);
@@ -617,7 +616,7 @@ class YieldHelper : private Processor {
   }
 
 
-  void ProcessSwitchStmt(SwitchStmt* node, int size, int count) {
+  void ProcessSwitchStmt(SwitchStmt* node, int, int) {
     YieldMark* mark = new(pool()) YieldMark;
     AstNode* parent = node->parent_node();
     parent->InsertAfter(mark, node);
@@ -741,7 +740,7 @@ class YieldHelper : private Processor {
     }
   }
                                 
-  void ProcessDoWhile(IterationStmt* node, int size, int count) {
+  void ProcessDoWhile(IterationStmt* node, int, int) {
     if (node->previous_sibling()) {
       node->previous_sibling()->CastToStatement()->MarkAsSplitableStatement();
     }
@@ -778,7 +777,7 @@ class YieldHelper : private Processor {
   }
 
                                 
-  void ProcessWhile(IterationStmt* node, int size, int count) {
+  void ProcessWhile(IterationStmt* node, int, int) {
     AstNode* parent = node->parent_node();
     YieldMark* mark = new(pool()) YieldMark;
     mark->SetAdjust(1);
@@ -818,7 +817,7 @@ class YieldHelper : private Processor {
   }
 
                                 
-  void ProcessFor(IterationStmt* node, int size, int count) {
+  void ProcessFor(IterationStmt* node, int, int) {
     AstNode* parent = node->parent_node();
     YieldMark* mark = new(pool()) YieldMark;
     mark->SetAdjust(1);

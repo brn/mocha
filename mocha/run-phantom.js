@@ -2,6 +2,7 @@ var fs = require( "fs" );
 if ( phantom.args.length > 0 ) {
   for ( var i = 0,len = phantom.args.length; i < len; i++ ) {
     var filename = phantom.args[i];
+    console.log(filename);
     if ( fs.isFile( filename ) ) {
       console.log( "run " + filename );
       //phantom.injectJs( filename );

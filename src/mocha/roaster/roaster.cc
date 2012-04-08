@@ -27,6 +27,7 @@
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/external/external_ast.h>
 #include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/environment/environment.h>
 
 namespace mocha {
 Roaster::Roaster() {
@@ -47,22 +48,80 @@ Roaster::Roaster() {
   }
 }
 
+template <bool is_file>
+class CompileTypeOf{};
+
+template <>
+class CompileTypeOf<true> {
+ public :
+  static void Run(Nexc* nexc, const char* str, const char* charset) {
+    nexc->CompileFile(str, charset);
+  }
+};
+
+template <>
+class CompileTypeOf<false> {
+ public :
+  static void Run(Nexc* nexc, const char* str, const char* charset) {
+    nexc->Compile(str, charset);
+  }
+};
+
+template <bool is_file>
+class CompileRunner {
+ public :
+  CompileRunner(const char* str, const char* charset, CompilationInfo* info)
+      : str_(str),
+        charset_(charset),
+        info_(info){}
+  void operator()() {
+    Nexc nexc(info_);
+    CompileTypeOf<is_file>::Run(&nexc, str_, charset_);
+    Nexl nexl(str_, info_, nexc.GetDepends(), memory::Pool::Local());
+    result_ = nexl.Link(nexc.GetResult(), nexc.Errors());
+  }
+  CompilationResultHandle result() const {return result_;}
+ private :
+  const char* str_;
+  const char* charset_;
+  CompilationInfo* info_;
+  CompilationResultHandle result_;
+};
+
+class DepsRunner {
+ public :
+  DepsRunner(const char* name)
+      : name_(name){}
+  ~DepsRunner(){}
+  void operator()() {
+    CompilationInfo info;
+    Nexc nexc(&info);
+    nexc.CompileFile(name_);
+    result_ = nexc.GetDepends();
+  }
+  DepsListHandle result() const {return result_;}
+ private :
+  DepsListHandle result_;
+  const char* name_;
+};
+
+template <bool is_file>
+CompilationResultHandle DoCompile(const char* filename, const char* charset, CompilationInfo* info) {
+  CompileRunner<is_file> runner(filename, charset, info);
+  Environment::Create(&runner);
+  return runner.result();
+}
+
 //Run compiler.
 //Compile javascript from source file.
 CompilationResultHandle Roaster::CompileFile(const char* filename, const char* charset, CompilationInfo* info) {
-  Nexc nexc(info);
-  nexc.CompileFile(filename, charset);
-  Nexl nexl(filename, info, nexc.GetDepends(), memory::Pool::Local());
-  return nexl.Link(nexc.GetResult(), nexc.Errors());
+  return DoCompile<true>(filename, charset, info);
 }
 
 //Run compiler
 //Directly compile javascript from source.
 CompilationResultHandle Roaster::Compile(const char* source, const char* charset, CompilationInfo* info) {
-  Nexc nexc(info);
-  nexc.Compile(source, charset);
-  Nexl nexl("anonymouse", info, nexc.GetDepends(), memory::Pool::Local());
-  return nexl.Link(nexc.GetResult(), nexc.Errors());
+  return DoCompile<false>(source, charset, info);
 }
 
 //Run the thread.
@@ -96,10 +155,9 @@ void Roaster::AsyncRunner(ThreadArgs* args, bool is_join) {
 }
 
 const DepsListHandle Roaster::CheckDepends(const char* name) {
-  CompilationInfo info;
-  Nexc nexc(&info);
-  nexc.CompileFile(name);
-  return nexc.GetDepends();
+  DepsRunner runner(name);
+  Environment::Create(&runner);
+  return runner.result();
 }
 
 const char Roaster::ThreadArgs::kComplete[] = {"Roaster<Complete>"};

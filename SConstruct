@@ -15,18 +15,29 @@ CURRENT = os.getcwd().replace('\\', '/')
 ROOT = 'src'
 LIB_PREFIX = CURRENT + "/src/third_party/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
+LINUX_INCLUDE = '-Isrc/deps/linux/v8/include -Isrc/deps/linux/libuv/include -Isrc/deps/linux/icu/include -Isrc/deps/linux/libedit/include'
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
-        "RELEASE" : '-Wall -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
-        "DEBUG" : '-Wall -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" `icu-config --ldflags` -Isrc/third_party/v8/include -Isrc/third_party/libuv/include',
-        "LD_FLAGS" : "-Xlinker -rpath -Xlinker `icu-config --icudata-install-dir --ldflags`",
-        "LIBS" : ["pthread", "edit" ,"curses", "rt"],
-        "STATIC_LIBS" : ['src/third_party/v8/linux/libv8.a' , 'src/third_party/libuv/uv.a'],
-        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc'],
-        "PRE_COMMAND" : ['cd src/third_party/libedit-devel && ./configure --enable-widec --enable-static && make && cd ../../',
-                         'cd src/third_party/icu/source && ./configure --enable--static && make && cd ../../',
-                         'cd src/third_party/v8 && scons arch=x64 && cd ../../']
+        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
+        "DEBUG" : '-Wall -Wextra -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
+        "LD_FLAGS" : "",
+        "LIBS" : ["pthread", "curses", "rt", "dl", "curses"],
+        "STATIC_LIBS" : ['src/deps/linux/v8/libv8.a' , 'src/deps/linux/libuv/uv.a', 'src/deps/linux/icu/libicui18n.a', 'src/deps/linux/icu/libicuuc.a', 'src/deps/linux/icu/libicudata.a', 'src/deps/linux/libedit/libedit.a'],
+        "EXCLUDE_FILES" : ["thread-win32.cc",
+                           "process-win32.cc",
+                           "directory-win32.cc",
+                           "file_watcher-inotify-impl.cc",
+                           "shell-win32.cc",
+                           'utils-win32.cc'],
+        "PRE_COMMAND" : [ 'mkdir -p src/deps/linux/icu/include/',
+                          'mkdir -p src/deps/linux/v8/',
+                          'mkdir -p src/deps/linux/libuv/',
+                          'mkdir -p src/deps/linux/libedit/include',
+                          'cd src/third_party/libedit-devel/ && ./configure --enable-widec --enable-static && make && cd src && cp histedit.h ../../../deps/linux/libedit/include && cp .libs/libedit.a ../../../deps/linux/libedit/ && cd ../../../../',
+                          'cd src/third_party/icu/source && ./configure --enable-static --disable-shared && make && cp -r common/unicode ../../../deps/linux/icu/include/ && cp lib/*.a ../../../deps/linux/icu/ && cd ../../../../',
+                          'cd src/third_party/v8 && scons && cp libv8.a ../../deps/linux/v8/ && cp -r include/ ../../deps/linux/v8/ && cd ../../../',
+                          'cd src/third_party/libuv/ && ./gyp_uv -f make && make && cp uv.a ../../deps/linux/libuv/ && cp -r include ../../deps/linux/libuv/include && cd ../../../']
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
@@ -35,7 +46,15 @@ PLATFORM_CONFIG = {
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses"],
         "STATIC_LIBS" : ['src/deps/macos/icu/libicui18n.a', 'src/deps/macos/icu/libicudata.a', 'src/deps/macos/icu/libicuuc.a', 'src/deps/macos/libedit/libedit.a', 'src/deps/macos/v8/libv8.a' , 'src/deps/macos/libuv/libuv-osx.a'],
-        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc']
+        "EXCLUDE_FILES" : ["thread-win32.cc", "directory-win32.cc", "file_watcher-inotify-impl.cc", "shell-win32.cc", 'utils-win32.cc'],
+        "PRE_COMMAND" : [ 'mkdir -p src/deps/macos/icu/include/',
+                          'mkdir -p src/deps/macos/v8/',
+                          'mkdir -p src/deps/macos/libuv/',
+                          'mkdir -p src/deps/macos/libedit/include',
+                          'cd src/third_party/libedit-devel/ && ./configure --enable-widec --enable-static && make && cd src && cp histedit.h ../../../deps/macos/libedit/include && cp .libs/libedit.a ../../../deps/macos/libedit/ && cd ../../../../',
+                          'cd src/third_party/icu/source && ./configure --enable-static --disable-shared && make && cp -r common/unicode ../../../deps/macos/icu/include/ && cp lib/*.a ../../../deps/macos/icu/ && cd ../../../../',
+                          'cd src/third_party/v8 && scons && cp libv8.a ../../deps/macos/v8/ && cp -r include/ ../../deps/macos/v8/ && cd ../../../',
+                          'cd src/third_party/libuv/ && ./gyp_uv -f make && make && cp uv.a ../../deps/macos/libuv/ && cp -r include ../../deps/macos/libuv/include && cd ../../../']
         },
     "win32" : {
         "TARGET" : 'bin/win32/mchd.exe',

@@ -4,13 +4,14 @@
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/misc/file_watcher/observer/javascript_observer.h>
 #include <mocha/misc/file_watcher/server/watcher_server.h>
+#define UNOPTIMIZED_WAIT while (!running_) {volatile int8_t x = 0;}
 namespace mocha {
 
 class JavascriptObserver::WatcherCallBack {
  public :
   WatcherCallBack(JavascriptObserver* observer)
       : observer_(observer){}
-  void operator()(WatcherEvent e) {
+  void operator()(WatcherEvent) {
     observer_->running_ = false;
   }
  private :
@@ -172,9 +173,10 @@ void JavascriptObserver::Exit() {
   WatcherProxy* proxy = server->GetWatcherProxy(server_name_);
   if (proxy != NULL) {
     proxy->watcher()->Exit();
-    while (running_){os::Sleep(1000);}
+    while (running_) {os::Sleep(500);}
     WatcherServer* server = WatcherServer::GetInstance();
     server->RemoveWatcher(server_name_);
+    FileInfoMap::Reset();
   }
 }
 

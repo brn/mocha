@@ -73,6 +73,7 @@ const char* Setting::WatchFileTemplate() {
 const char Setting::kWatchFilePath[] = {"watchFilePath"};
 const char Setting::kPhantomPath[] = {"phantomInstallDir"};
 const char Setting::kLogPath[] = {"logFilePath"};
+const char Setting::kTestRunner[] = {"testRunner"};
 Setting::SettingMap Setting::setting_map_;
 std::string Setting::base_;
 std::string Setting::tmp_file_;

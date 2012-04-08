@@ -152,7 +152,7 @@ class ClassProcessorUtils : public Processor{
   }
 
 
-  inline void Finish(const char* name, Class* class_, AstNode* closure_, ProcessorInfo* info) {
+  inline void Finish(const char* name, Class* class_, AstNode* closure_, ProcessorInfo*) {
     if (class_->parent_node()->node_type() == AstNode::kExpressionStmt ||
          class_->inner()) {
       TokenInfo* info = new(pool()) TokenInfo(name, Token::JS_IDENTIFIER, class_->line_number());
@@ -181,7 +181,7 @@ class ClassProcessorUtils : public Processor{
   }
 
 
-  inline VariableStmt* CreatePrivateHolder(Class* class_, ProcessorInfo* info) {
+  inline VariableStmt* CreatePrivateHolder(Class* class_, ProcessorInfo*) {
     Function* fn =
         builder()->CreateFunctionDecl(new(pool()) Empty(), new(pool()) Empty,
                                       new(pool()) Empty, class_->line_number());
@@ -334,16 +334,16 @@ class ClassProcessorUtils : public Processor{
 
 
 #define INSTANCE_DSTA(accessor)                                 \
-  inline void Instance##accessor##Dsta(const char* class_name, \
-                                        Function* closure_body, \
-                                        Literal* val,           \
-                                        bool is_const) {       \
-    if (is_const) {                                           \
-      ExpressionStmt* stmt = ConstantInstance##accessor(val); \
-      closure_body->AddChild(stmt);                           \
+  inline void Instance##accessor##Dsta(const char*,             \
+                                       Function* closure_body,  \
+                                       Literal* val,            \
+                                       bool is_const) {         \
+    if (is_const) {                                             \
+      ExpressionStmt* stmt = ConstantInstance##accessor(val);   \
+      closure_body->AddChild(stmt);                             \
     } else {                                                    \
-      ExpressionStmt* stmt = Instance##accessor(val);         \
-      closure_body->AddChild(stmt);                           \
+      ExpressionStmt* stmt = Instance##accessor(val);           \
+      closure_body->AddChild(stmt);                             \
     }                                                           \
   }
   INSTANCE_DSTA(Public);
@@ -352,48 +352,46 @@ class ClassProcessorUtils : public Processor{
 
 #undef INSTANCE_DSTA
 
-#define PROTOTYPE_DSTA(accessor,args)                                   \
-  inline void Prototype##accessor##Dsta(const char* class_name,        \
-                                         Function* closure_body,        \
-                                         Literal* val,                  \
-                                         bool is_const) {              \
-    if (is_const) {                                                   \
-      ExpressionStmt* stmt = ConstantPrototype##accessor(args);       \
-      closure_body->AddChild(stmt);                                   \
-    } else {                                                            \
-      ExpressionStmt* stmt = Prototype##accessor(args);               \
-      closure_body->AddChild(stmt);                                   \
-    }                                                                   \
+#define PROTOTYPE_DSTA(accessor, arg_list, args)                 \
+  inline void Prototype##accessor##Dsta(arg_list) {              \
+    if (is_const) {                                              \
+      ExpressionStmt* stmt = ConstantPrototype##accessor(args);  \
+      closure_body->AddChild(stmt);                              \
+    } else {                                                     \
+      ExpressionStmt* stmt = Prototype##accessor(args);          \
+      closure_body->AddChild(stmt);                              \
+    }                                                            \
   }
+#define PUBLIC_ARG_LIST const char* class_name, Function* closure_body, Literal* val, bool is_const
 #define PUBLIC_ARGS class_name, val, val->first_child()
+#define PRIVATE_ARG_LIST const char*, Function* closure_body, Literal* val, bool is_const
 #define PRIVATE_ARGS val, val->first_child()
-  PROTOTYPE_DSTA(Public,PUBLIC_ARGS);
-  PROTOTYPE_DSTA(Private,PRIVATE_ARGS);
+  PROTOTYPE_DSTA(Public, PUBLIC_ARG_LIST, PUBLIC_ARGS);
+  PROTOTYPE_DSTA(Private, PRIVATE_ARG_LIST, PRIVATE_ARGS);
 #undef PROTOTYPE_DSTA
 #undef PUBLIC_ARGS
 #undef PRIVATE_ARGS
 
 
-#define STATIC(accessor,args)                                   \
-  inline void accessor##StaticDsta(const char* class_name,     \
-                                    Function* closure_body,     \
-                                    Literal* exp,               \
-                                    bool is_const) {           \
-    if (is_const) {                                           \
-      ExpressionStmt* stmt = accessor##ConstantStatic(args);  \
-      closure_body->AddChild(stmt);                           \
+#define STATIC(accessor,arg_list, args)                          \
+  inline void accessor##StaticDsta(arg_list) {                   \
+    if (is_const) {                                             \
+      ExpressionStmt* stmt = accessor##ConstantStatic(args);    \
+      closure_body->AddChild(stmt);                             \
     } else {                                                    \
-      ExpressionStmt* stmt = accessor##Static(args);          \
-      closure_body->AddChild(stmt);                           \
+      ExpressionStmt* stmt = accessor##Static(args);            \
+      closure_body->AddChild(stmt);                             \
     }                                                           \
   }
                                 
-#define PUBLIC_ARGS class_name, exp, exp->first_child()
-#define PRIVATE_ARGS exp, exp->first_child()
-  STATIC(Private, PRIVATE_ARGS);
-  STATIC(Public, PUBLIC_ARGS);
+#define PUBLIC_ARGS class_name, val, val->first_child()
+#define PRIVATE_ARGS val, val->first_child()
+  STATIC(Private, PRIVATE_ARG_LIST, PRIVATE_ARGS);
+  STATIC(Public, PUBLIC_ARG_LIST, PUBLIC_ARGS);
+#undef PUBLIC_ARG_LIST
 #undef PUBLIC_ARGS
 #undef PRIVATE_ARGS
+#undef PRIVATE_ARG_LIST
 #undef STATIC
                                 
  private :

@@ -17,6 +17,8 @@
 namespace mocha {
 
 #define VISITOR_IMPL(type) void CodegenVisitor::Visit##type(type* ast_node)
+#define UNREACHABLE_IMPL(type) void CodegenVisitor::Visit##type(type*){FATAL("UNREACHABLE");}
+
 #define ITERATOR(name) begin = name.begin(),end = name.end()
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME DEBUG_LOG(Info, "visit : %s", ast_node->node_name())
@@ -139,26 +141,10 @@ VISITOR_IMPL(BlockStmt) {
 }
 
 
-
-VISITOR_IMPL(ModuleStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(ExportStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(ImportStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(Statement) {}
+UNREACHABLE_IMPL(ModuleStmt);
+UNREACHABLE_IMPL(ExportStmt);
+UNREACHABLE_IMPL(ImportStmt);
+UNREACHABLE_IMPL(Statement);
 
 VISITOR_IMPL(VersionStmt) {
   const char* ver = ast_node->version()->token();
@@ -231,8 +217,7 @@ VISITOR_IMPL(VariableStmt) {
 }
 
 
-VISITOR_IMPL(LetStmt) {}
-
+UNREACHABLE_IMPL(LetStmt);
 
 
 VISITOR_IMPL(ExpressionStmt) {
@@ -710,8 +695,6 @@ void CodegenVisitor::DotAccessorProccessor_(CallExp* exp) {
   exp->args()->Accept(this);
 }
 
-void CodegenVisitor::NewCallProccessor_(CallExp* exp) {
-}
 
 void CodegenVisitor::NormalFunctionCall_(CallExp* exp) {
   AstNode* args = exp->args();
@@ -758,8 +741,7 @@ VISITOR_IMPL(NewExp) {
   ast_node->first_child()->Accept(this);
 }
 
-
-VISITOR_IMPL(YieldExp) {}
+UNREACHABLE_IMPL(YieldExp);
 
 
 VISITOR_IMPL(PostfixExp) {
@@ -830,32 +812,16 @@ VISITOR_IMPL(Expression) {
 }
 
 
-void CodegenVisitor::PrototypeMemberProccessor(NodeIterator& iterator, AstNode* name, bool is_private) {
-}
-
-
-void CodegenVisitor::StaticMemberProccessor(NodeIterator& iterator, AstNode* name) {
-}
-
-VISITOR_IMPL(Trait) {
-}
+UNREACHABLE_IMPL(Trait);
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
   ast_node->first_child()->Accept(this);
 }
 
-VISITOR_IMPL(ClassProperties) {
-        
-}
-
-VISITOR_IMPL(ClassExpandar) {
-  PRINT_NODE_NAME;
-}
-
-VISITOR_IMPL(ClassMember) {
-  PRINT_NODE_NAME;
-}
+UNREACHABLE_IMPL(ClassProperties);
+UNREACHABLE_IMPL(ClassExpandar);
+UNREACHABLE_IMPL(ClassMember);
 
 
 VISITOR_IMPL(Function){
@@ -1035,10 +1001,7 @@ VISITOR_IMPL(VariableDeclarationList) {
   VarListProcessor_(ast_node);
 }
 
-VISITOR_IMPL(GeneratorExpression) {
-  PRINT_NODE_NAME;
-}
-
+UNREACHABLE_IMPL(GeneratorExpression);
 
 void CodegenVisitor::BeginState_(int state) {
   state_.push_back(state);

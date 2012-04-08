@@ -89,7 +89,6 @@ void ImportProccessor::LoadModule() {
     //"path to file" -> path to file
     js_path.erase(0, 1);
     js_path.erase(js_path.size() - 1, js_path.size());
-    bool is_runtime_module = false;
     std::string modkey;
     //Get full path of module.
     translator_data->compilation_event()->nexc()->ImportFile(&modkey, js_path.c_str(), translator_data->compilation_event());

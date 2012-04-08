@@ -20,7 +20,7 @@ prefix=
 loaddefs()
 {
 
-# Following from ./config/mh-darwin
+# Following from ./config/mh-linux
 ## -*-makefile-*-
 #******************************************************************************
 #   Copyright (C) 1999-2010, International Business Machines
@@ -142,8 +142,8 @@ ICULIBS_COMMON_LIB_NAME_A="${LIBICU}${COMMON_STUBNAME}${ICULIBSUFFIX}.${A}"
 ICULIBS="${ICULIBS_BASE} ${ICULIBS_I18N} ${ICULIBS_COMMON} ${ICULIBS_DATA} "
 
 # Proper echo newline handling is needed in icu-config
-ECHO_N=""
-ECHO_C="\c"
+ECHO_N="-n"
+ECHO_C=""
 # Not currently being used but good to have for proper tab handling
 ECHO_T=""
 
@@ -180,14 +180,14 @@ pkglibdir="${libdir}/${PACKAGE}${ICULIBSUFFIX}/${VERSION}"
 ##################################################################
 
 # Information about the host that 'configure' was run on.
-host="i386-apple-darwin10.7.4"
+host="i686-pc-linux-gnu"
 host_alias=""
-host_cpu="i386"
-host_vendor="apple"
-host_os="darwin10.7.4"
+host_cpu="i686"
+host_vendor="pc"
+host_os="linux-gnu"
 # Our platform canonical name (as determined by configure)
 # this is a #define value (i.e. U_XXXX or XXXX)
-platform="U_DARWIN"
+platform="U_LINUX"
 
 ##################################################################
 #
@@ -212,14 +212,14 @@ INSTALL_DATA="${INSTALL} -m 644"
 INSTALL_PROGRAM="${INSTALL}"
 INSTALL_SCRIPT="${INSTALL}"
 LDFLAGS="${RPATHLDFLAGS}"
-LIBS="-lpthread -lm  "
+LIBS="-lpthread -ldl -lm  "
 LIB_M=""
 LIB_VERSION="48.1.1"
 LIB_VERSION_MAJOR="48"
 MKINSTALLDIRS="${SHELL} ${pkgdatadir}/mkinstalldirs"
 RANLIB="ranlib"
 RMV="rm -rf"
-SHELL="/bin/sh"
+SHELL="/bin/bash"
 SHLIB_c="${CC} ${DEFS} ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} -shared"
 SHLIB_cc="${CXX} ${DEFS} ${CPPFLAGS} ${CXXFLAGS} ${LDFLAGS} -shared"
 U_IS_BIG_ENDIAN="0"
@@ -267,7 +267,7 @@ ICUPKGDATA_DIR="${ICUDATA_DIR}"
 
 esac
 
-GENCCODE_ASSEMBLY=""
+GENCCODE_ASSEMBLY="-a gcc"
 
 ##################################################################
 #
@@ -281,52 +281,42 @@ GENCCODE_ASSEMBLY=""
 # parseable. The mh fragment is only included if this does not occur.
 
 ## -*-makefile-*-
-## Darwin-specific setup (Darwin is the Mac OS X developer preview, successor
-## to Rhapsody, aka Mac OS X Server)
-## Copyright (c) 1999-2011 International Business Machines Corporation and
+## Linux-specific setup
+## Copyright (c) 1999-2010, International Business Machines Corporation and
 ## others. All Rights Reserved.
 
-## Flags for position independent code
-SHAREDLIBCFLAGS="-dynamic"
-SHAREDLIBCXXFLAGS="-dynamic"
-SHAREDLIBCPPFLAGS=""
-
-# Pad out the paths to the maximum possible length
-LD_FLAGS="${LD_FLAGS}  -headerpad_max_install_names"
-
 ## Commands to generate dependency files
-GEN_DEPS_c="${CC} -E -MMD  ${DEFS} ${CPPFLAGS}"
-GEN_DEPS_cc="${CXX} -E -MMD  ${DEFS} ${CPPFLAGS}"
+GEN_DEPS_c="${CC} -E -MM ${DEFS} ${CPPFLAGS}"
+GEN_DEPS_cc="${CXX} -E -MM ${DEFS} ${CPPFLAGS}"
 
-## Commands to compile
-COMPILE_c="${CC} ${DEFS} ${CPPFLAGS} ${CFLAGS} -fno-common -c"
-COMPILE_cc="${CXX} ${DEFS} ${CPPFLAGS} ${CXXFLAGS} -fno-common -c"
+## Flags for position independent code
+SHAREDLIBCFLAGS="-fPIC"
+SHAREDLIBCXXFLAGS="-fPIC"
+SHAREDLIBCPPFLAGS="-DPIC"
 
-## Commands to make a shared library
-SHLIB_c="${CC} -dynamiclib -dynamic ${CFLAGS} ${LDFLAGS} ${LD_SOOPTIONS}"
-SHLIB_cc="${CXX} -dynamiclib -dynamic ${CXXFLAGS} ${LDFLAGS} ${LD_SOOPTIONS}"
-
-## Compiler switches to embed a library name and version information
-## LD_SONAME = -Wl,-compatibility_version -Wl,${SO_TARGET_VERSION_MAJOR} -Wl,-current_version -Wl,${SO_TARGET_VERSION} -install_name ${libdir}/${notdir $(MIDDLE_SO_TARGET})
-## LD_SONAME = -Wl,-compatibility_version -Wl,${SO_TARGET_VERSION_MAJOR} -Wl,-current_version -Wl,${SO_TARGET_VERSION} -install_name ${notdir $(MIDDLE_SO_TARGET})
+## Additional flags when building libraries and with threads
+THREADSCPPFLAGS="-D_REENTRANT"
+LIBCPPFLAGS=""
 
 ## Compiler switch to embed a runtime search path
-LD_RPATH=""
+LD_RPATH="-Wl,-zorigin,-rpath,'$$'ORIGIN "
 LD_RPATH_PRE="-Wl,-rpath,"
 
-## Environment variable to set a runtime search path
-LDLIBRARYPATH_ENVVAR="DYLD_LIBRARY_PATH"
+## These are the library specific LDFLAGS
+LDFLAGSICUDT="-nodefaultlibs -nostdlib"
 
-GENCCODE_ASSEMBLY="-a gcc-darwin"
+## Compiler switch to embed a library name
+# The initial tab in the next line is to prevent icu-config from reading it.
+# We can't depend on MIDDLE_SO_TARGET being set.
+LD_SONAME=
+
+## Shared library options
+LD_SOOPTIONS="-Wl,-Bsymbolic"
 
 ## Shared object suffix
-SO="dylib"
+SO="so"
 ## Non-shared intermediate object suffix
 STATIC_O="ao"
-
-## Override Versioned target for a shared library.
-## FINAL_SO_TARGET=  ${basename $(SO_TARGET}).${SO_TARGET_VERSION}.${SO}
-## MIDDLE_SO_TARGET= ${basename $(SO_TARGET}).${SO_TARGET_VERSION_MAJOR}.${SO}
 
 ## Compilation rules
 
@@ -334,17 +324,20 @@ STATIC_O="ao"
 
 ## Versioned libraries rules
 
-# tzcode option
-TZORIG_EXTRA_CFLAGS="-DSTD_INSPIRED"
+##  Bind internal references
 
-# genren opts
-GENREN_PL_OPTS="-x Mach-O -n '-g' -p '| c++filt'"
+# LDflags that pkgdata will use
+BIR_LDFLAGS="-Wl,-Bsymbolic"
+
+# Dependencies [i.e. map files] for the final library
+BIR_DEPS=""
 
 ## Remove shared library 's'
 STATIC_PREFIX_WHEN_USED=""
 STATIC_PREFIX=""
 
-## End Darwin-specific setup
+## End Linux-specific setup
+
 ## -*-sh-*-
 ## BEGIN of icu-config-bottom.
 ## Copyright (c) 2002-2010, International Business Machines Corporation and
@@ -749,4 +742,4 @@ sanity
 
 exit 0
 
-# Rebuilt on Wed Apr 4 14:40:54 JST 2012
+# Rebuilt on 2012年 4月 8日 日曜日 20:15:11 JST

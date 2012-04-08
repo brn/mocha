@@ -79,12 +79,9 @@ class ThreadLocalStorageKey {
   typedef void (*Destructor) (void* ptr);
   explicit ThreadLocalStorageKey(Destructor destructor);
   ThreadLocalStorageKey();
-  ~ThreadLocalStorageKey(){};
-  void DeleteKey();
+  ~ThreadLocalStorageKey();
  private :
-  bool is_init_;
   pthread_key_t local_key_t_;
-  Mutex mutex_;
 };
 
 class ThreadLocalStorage : private Static {

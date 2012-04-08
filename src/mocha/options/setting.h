@@ -19,6 +19,7 @@ class Setting : private Static{
   static const char kWatchFilePath[];
   static const char kPhantomPath[];
   static const char kLogPath[];
+  static const char kTestRunner[];
   static const char* WatchFileTemplate();
  private :
   static SettingMap setting_map_;

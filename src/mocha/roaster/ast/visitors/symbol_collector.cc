@@ -11,6 +11,7 @@ namespace mocha {
 
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void SymbolCollector::Visit##type(type* ast_node)
+#define UNREACHABLE_IMPL(type) void SymbolCollector::Visit##type(type*){FATAL("UNREACHABLE");}
 
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME printf("depth = %d name = %s\n", depth_++, ast_node->GetName())
@@ -59,26 +60,10 @@ VISITOR_IMPL(BlockStmt) {
 }
 
 
-
-VISITOR_IMPL(ModuleStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(ExportStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(ImportStmt) {
-  PRINT_NODE_NAME;
-}
-
-
-
-VISITOR_IMPL(Statement) {}
+UNREACHABLE_IMPL(ModuleStmt);
+UNREACHABLE_IMPL(ExportStmt);
+UNREACHABLE_IMPL(ImportStmt);
+UNREACHABLE_IMPL(Statement);
 
 VISITOR_IMPL(VersionStmt) {
   ast_node->first_child()->Accept(this);
@@ -106,9 +91,7 @@ VISITOR_IMPL(VariableStmt) {
   }
 }
 
-
-VISITOR_IMPL(LetStmt) {}
-
+UNREACHABLE_IMPL(LetStmt);
 
 
 VISITOR_IMPL(ExpressionStmt) {
@@ -276,7 +259,7 @@ VISITOR_IMPL(NewExp) {
 }
 
 
-VISITOR_IMPL(YieldExp){}
+UNREACHABLE_IMPL(YieldExp);
 
 
 VISITOR_IMPL(PostfixExp) {
@@ -329,19 +312,16 @@ VISITOR_IMPL(Expression) {
 }
 
 
-VISITOR_IMPL(Trait){}
-
+UNREACHABLE_IMPL(Trait);
 
 VISITOR_IMPL(Class) {
   PRINT_NODE_NAME;
   ast_node->first_child()->Accept(this);
 }
 
-VISITOR_IMPL(ClassProperties) {}
-
-VISITOR_IMPL(ClassExpandar) {}
-
-VISITOR_IMPL(ClassMember) {}
+UNREACHABLE_IMPL(ClassProperties);
+UNREACHABLE_IMPL(ClassExpandar);
+UNREACHABLE_IMPL(ClassMember);
 
 
 VISITOR_IMPL(Function){
@@ -458,6 +438,6 @@ VISITOR_IMPL(ObjectLikeLiteral) {
   ObjectProccessor_(ast_node->elements());
 }
 
-VISITOR_IMPL(GeneratorExpression){}
+UNREACHABLE_IMPL(GeneratorExpression);
 
 }

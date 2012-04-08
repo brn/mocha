@@ -159,7 +159,6 @@ Path::Path(const char* path) {
   bool success = true;
   fullpath_ = path;
   GetAbsolutePath(absolute_path(), &fullpath_, &success);
-  bool is_dir = false;
   if (fullpath_.size() > 0 && fullpath_.at(fullpath_.size() - 1) == '/') {
     fullpath_.erase(fullpath_.size() - 1, 1);
   }
@@ -293,7 +292,7 @@ const char* fs::Path::relative_path(const char* base, const char* path, std::str
     }
     i++;
   }
-  buf->c_str();
+  return buf->c_str();
 }
 
 os::Mutex Path::mutex_;

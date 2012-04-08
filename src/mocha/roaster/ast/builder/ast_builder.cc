@@ -21,9 +21,7 @@ AstBuilder* AstBuilder::Local() {
   }
   return builder;
 }
-AstBuilder::~AstBuilder() {
-  os::ThreadLocalStorage::Set(&key_,NULL);
-}
+AstBuilder::~AstBuilder() {}
 Function* AstBuilder::CreateFunctionDecl(AstNode* name, AstNode* argv, AstNode* body, int64_t line) {
   Function *fn = new(pool()) Function(line);
   fn->set_name(name);

@@ -25,6 +25,7 @@
     <ClCompile Include="..\..\..\src\mocha\options\commandline\commandline_options.cc" />
     <ClCompile Include="..\..\..\src\mocha\options\options.cc" />
     <ClCompile Include="..\..\..\src\mocha\options\setting.cc" />
+    <ClCompile Include="..\..\..\src\mocha\process\process.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\ast.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\builder\ast_builder.cc" />
     <ClCompile Include="..\..\..\src\mocha\roaster\ast\seriarization\byte.cc" />
@@ -112,6 +113,7 @@
     <ClInclude Include="..\..\..\src\mocha\options\commandline\commandline_options.h" />
     <ClInclude Include="..\..\..\src\mocha\options\options.h" />
     <ClInclude Include="..\..\..\src\mocha\options\setting.h" />
+    <ClInclude Include="..\..\..\src\mocha\process\process.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\assert\assert_def.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\ast.h" />
     <ClInclude Include="..\..\..\src\mocha\roaster\ast\ast_foward_decl.h" />
@@ -251,10 +253,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\bin\win32\debug\</OutDir>
+    <TargetName>mchd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\bin\win32\</OutDir>
-    <IncludePath>Y:\mocha\src;$(IncludePath)</IncludePath>
+    <IncludePath>../../../src;$(IncludePath)</IncludePath>
+    <TargetName>mchd</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -270,7 +274,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../../../src/third_party/icu/lib-win32/debug/icuin.lib;../../../src/third_party/icu/lib-win32/debug/icudt.lib;../../../src/third_party/icu/lib-win32/debug/icuuc.lib;../../../src/third_party/v8/win32/v8_g.lib;../../../src/third_party/libuv/Debug/lib/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../../../src/third_party/icu/lib-win32/debug/icuin.lib;../../../src/third_party/icu/lib-win32/debug/icudt.lib;../../../src/third_party/icu/lib-win32/debug/icuuc.lib;../../../src/third_party/v8/win32/v8_g.lib;../../../src/deps/win/libuv/debug/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>cd ../../../ &amp;&amp; python tools/runtime.py</Command>
@@ -278,24 +282,31 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;NDEBUG;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../src/third_party/v8/include;../../../src;../../../src/third_party/libuv/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src/deps/win/v8/include;../../../src;../../../src/deps/win/libuv/include;../../../src/deps/win/icu/include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>WinSock2.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <StringPooling>true</StringPooling>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>../../../src/third_party/icu/lib-win32/release/icuin.lib;../../../src/third_party/icu/lib-win32/release/icudt.lib;../../../src/third_party/icu/lib-win32/release/icuuc.lib;../../../src/third_party/v8/win32/v8.lib;../../../src/third_party/libuv/Release/lib/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../../../src/deps/win/icu/release/icuin.lib;../../../src/deps/win/icu/release/icudt.lib;../../../src/deps/win/icu/release/icuuc.lib;../../../src/deps/win/v8/release/v8.lib;../../../src/deps/win/libuv/release/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>cd ../../../ &amp;&amp; python tools/runtime.py</Command>
+      <Command>cd ../../../ &amp;&amp; python tools/runtime.py &amp;&amp; scons pack=1</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

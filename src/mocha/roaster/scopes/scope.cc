@@ -166,7 +166,7 @@ void Scope::InsertAlias(TokenInfo* info, AstNode* ast_node) {
   alias_table_.insert(TableEntry(ident, sym_entry));
 }
 
-SymbolEntry Scope::FindAlias(TokenInfo* info) {
+SymbolEntry Scope::FindAlias(TokenInfo*) {
   return GetEmpty();
 }
 
@@ -198,11 +198,7 @@ void Scope::SetReferece() {
     RefIterator begin;
     RefIterator end = reference_table_.end();
     for (begin = reference_table_.begin(), end != reference_table_.end(); begin != end; ++begin) {
-      const char* ident = begin->first.c_str();
-      /*      if (parent->reference_table_.find(ident) != parent->reference_table_.end() &&
-              table_.find(ident) != table_.end()) {*/
-        parent->reference_table_.insert(RefEntry(begin->first, begin->second));
-        //      }
+      parent->reference_table_.insert(RefEntry(begin->first, begin->second));
     }
     parent = parent->parent_;
   }

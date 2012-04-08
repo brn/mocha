@@ -171,7 +171,7 @@ void IFStmtOptimizer::ToLogical(AstNode* then_stmt) {
   stmt_->parent_node()->ReplaceChild(stmt_, stmt);
 }
 
-void IFStmtOptimizer::ToNoElse(AstNode* then_stmt, AstNode* else_stmt) {
+void IFStmtOptimizer::ToNoElse(AstNode*, AstNode* else_stmt) {
   stmt_->set_else_statement(new(pool()) Empty);
   stmt_->parent_node()->InsertAfter(else_stmt, stmt_);
 }

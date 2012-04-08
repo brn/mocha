@@ -42,11 +42,12 @@ namespace mocha {
 #define FLAG_NUMERIC 2
 #define FLAG_REGEXP 3
 
+static const int kByteOrderMark[2] = {0xFFFE, 0xFEFF};
+
 void Scanner::ScannerEventListener::operator()(CompilationEvent* e) {
   const char* source = e->source();
-  const char* path = e->path();
   memory::Pool* pool = e->pool();
-  SourceStream* stream = SourceStream::New(source, path, e->charset(), pool);
+  SourceStream* stream = SourceStream::New(source, e->charset(), pool);
   ErrorReporter* reporter = e->error_reporter();
   const char* filename = e->filename();
   Scanner* scanner = Scanner::New(stream, reporter, filename);
@@ -126,7 +127,7 @@ class Scanner::InternalScanner {
    * Check char is unicode's byte order mark or not.
    */
   bool IsByteOrderMark(char data) {
-    return (data == 0xFEFF || data == 0xFFFE);
+    return (data == kByteOrderMark[0] || data == kByteOrderMark[1]);
   }
                                 
   /**
@@ -134,7 +135,7 @@ class Scanner::InternalScanner {
    * Check source end or not.
    */
   inline bool IsEof() {
-    return source_stream_->Seek(1) == Token::END_OF_INPUT;
+    return source_stream_->Seek(1) == Token::END_OF_INPUT || source_stream_->Seek(1) == 0;
   }
 
 
@@ -291,12 +292,12 @@ class Scanner::InternalScanner {
    */
   inline void CaseIdent(char ch) {
     token_str_ = ch;
-    char next = Advance();
+    char next = Seek(1);
     while (IsIdentStart(next, false) || isdigit(next)) {
+      Advance();
       token_str_ += next;
-      next = Advance();
+      next = Seek(1);
     }
-    Undo();
     PushBack(token_str_.c_str());
   }
 
@@ -308,16 +309,16 @@ class Scanner::InternalScanner {
    */
   inline void CaseDigit(char ch) {
     token_str_ = ch;
-    char next = tolower(Advance());
-                                                                                                
+    char next = tolower(Seek(1));
     if (next == '.') {
+      Advance();
       CaseDigitFloat(next);
     } else if (next == 'x' && ch == '0') {
+      Advance();
       CaseDigitHex(next);
     } else if (isdigit (next) || next == 'e') {
+      Advance();
       CaseDigitNumber(next);
-    } else {
-      Undo();
     }
     PushBack(token_str_.c_str(), Token::JS_NUMERIC_LITERAL);
   }
@@ -334,24 +335,26 @@ class Scanner::InternalScanner {
     char next;
     char last;
                                                                 
-    while ((next = Advance())) {
-      next = tolower (next);
-                                                                
+    while ((next = Seek(1))) {
+      next = tolower(next);
+      
       if (isdigit (next)) {
+        Advance();
         token_str_ += next;
         last = next;
         hasIndex = false;
       } else if ((next == 'e' && !hasIndex) &&
                  last != 'e') {
+        Advance();
         token_str_ += next;
         last = next;
         hasIndex = true;
       } else if ((next == '+' || next == '-') && last == 'e') {
+        Advance();
         token_str_ += next;
         last = next;
         hasIndex = false;
       } else {
-        Undo();
         break;
       }
     }
@@ -377,15 +380,15 @@ class Scanner::InternalScanner {
     char next;
     token_str_ += ch;
     Advance();
-    while ((next = Advance())) {
+    while ((next = Seek(1))) {
       next = tolower (next);
-                                                                
       if (IsHex(next)) {
+        Advance();
         token_str_ += next;
       } else if (isdigit(next)) {
+        Advance();
         token_str_ += next;
       } else {
-        Undo();
         break;
       }
     }
@@ -397,27 +400,29 @@ class Scanner::InternalScanner {
     bool hasIndex = (ch == 'e')? true : false;
     char last = ch;
     char next;
-                                                                                                                                
-    while ((next = Advance())) {
+    while ((next = Seek(1))) {
       next = tolower (next);
                                                                 
       if (isdigit (next)) {
+        Advance();
         token_str_ += next;
         last = next;
       } else if (next == '.') {
+        Advance();
         token_str_ += next;
         return CaseDigitFloat(Advance());
       } else if (next == 'e' &&
                  !hasIndex &&
                  last != 'e') {
+        Advance();
         token_str_ += next;
         last = next;
       } else if ((next == '+' || next == '-') &&
                  last == 'e') {
+        Advance();
         token_str_ += next;
         last = next;
       } else {
-        Undo();
         break;
       }
     }
@@ -431,29 +436,36 @@ class Scanner::InternalScanner {
     char next;
     int index = 0;
                                 
-    while ((next = Advance())) {
+    while ((next = Seek(1))) {
       if (isdigit (next)) {
+        Advance();
         token_str_ += next;
         last = next;
       } else if (next == '.' && index == 0) {
-        if (Advance() == '.') {
+        if (Seek(2) == '.') {
+          Advance(2);
           token_str_ += "..";
           PushBack(token_str_.c_str(), Token::JS_PARAMETER_REST);
           return;
         } else {
-          Undo(1);
+          Advance();
+          std::string buf;
+          os::SPrintf(&buf, "Illegal token %c in %s at : %ll", Seek(1), filename_, line_);
+          reporter_->ReportSyntaxError(buf.c_str());
+          break;
         }
       } else if (next == 'e' &&
                  !hasIndex &&
                  last != 'e') {
+        Advance();
         token_str_ += next;
         last = next;
       } else if ((next == '+' || next == '-') &&
                  last == 'e') {
+        Advance();
         token_str_ += next;
         last = next;
       } else {
-        Undo();
         break;
       }
       index++;
@@ -589,7 +601,7 @@ class Scanner::InternalScanner {
           line_++;
         } else if (next != '\r') {
           token_str_ += next;
-        }                                                                                                                        
+        }
         char next_after = Advance();
         char next_after_after = Advance();
         if (next == ch && next_after == ch && next_after_after == ch) {
@@ -609,14 +621,11 @@ class Scanner::InternalScanner {
           } else {
             escaped = false;
           }
-                                                                                                
           token_str_ += next;
           next = Seek(1);
-                                                                                                                                
           if (!escaped && next == '\n') {
             break;
           }
-
           if (!escaped && next == ch) {
             token_str_ += next;
             Advance();
@@ -630,34 +639,32 @@ class Scanner::InternalScanner {
 
 
   inline void CaseEqualitiesORFunGlyph() {
-    char next = Advance();
+    char next = Seek(1);
     if (next == '=') {
+      Advance();
       token_str_ += next;
-      next = Advance();
+      next = Seek(1);
       if (next == '=') {
+        Advance();
         token_str_ += next;
-      } else {
-        Undo();
       }
     } else if (next == '>') {
+      Advance();
       token_str_ += next;
-    } else {
-      Undo();
     }
-
     PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str (), true));
   }
 
 
                                 
   inline void CaseAddAndSubORFunGlyph(char ch) {
-    char next = Advance();
+    char next = Seek(1);
     if (next == ch || next == '=') {
+      Advance();
       token_str_ += next;
     } else if (ch == '-' && next == '>') {
+      Advance();
       token_str_ += next;
-    } else {
-      Undo();
     }
     PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str (), true));
   }
@@ -752,20 +759,19 @@ class Scanner::InternalScanner {
 
                                 
   inline void CaseUnary() {
-    char next = Advance();
+    char next = Seek(1);
     if (next == '=') {
+      Advance();
       token_str_ += next;
-    } else {
-      Undo();
     }
     PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str (), true));
   }
 
 
   inline void CaseLogical(char ch) {
-    char next = Advance();
-                                
+    char next = Seek(1);                                
     if (next == ch) {
+      Advance();
       token_str_ += next;
       if (ch == '<' && next == '<') {
         next = Seek(1);
@@ -779,20 +785,21 @@ class Scanner::InternalScanner {
                 ch == '<' ||
                 ch == '&') &&
                next == '=') {
+      Advance();
       token_str_ += next;
-    } else {
-      Undo();
     }
     PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str(), true));
   }
 
 
   inline void CaseShiftRight() {
-    char next = Advance();
+    char next = Seek(1);
     if (next == '>') {
+      Advance();
       token_str_ += next;
-      next = Advance();
+      next = Seek(1);
       if (next == '>') {
+        Advance();
         token_str_ += next;
         next = Seek(1);
         if (next == '=') {
@@ -800,14 +807,12 @@ class Scanner::InternalScanner {
           Advance();
         }
       } else if (next == '=') {
+        Advance();
         token_str_ += next;
-      } else {
-        Undo();
       }
     } else if (next == '=') {
+      Advance();
       token_str_ += next;
-    } else {
-      Undo();
     }
     PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str(), true));
   }
@@ -834,7 +839,9 @@ class Scanner::InternalScanner {
         type == '>' ||
         type == '<' ||
         type == '!' ||
-        type == Token::JS_RETURN) {
+        type == Token::JS_RETURN ||
+        type == Token::JS_FUNCTION_GLYPH ||
+        type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
       flags_.Set(FLAG_NUMERIC);
     } else {
       flags_.UnSet(FLAG_NUMERIC);
@@ -866,7 +873,9 @@ class Scanner::InternalScanner {
         type == '~' ||
         type == '>' ||
         type == '<' ||
-        type == Token::JS_RETURN) {
+        type == Token::JS_RETURN ||
+        type == Token::JS_FUNCTION_GLYPH ||
+        type == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
       flags_.Set(FLAG_REGEXP);
     } else {
       flags_.UnSet(FLAG_REGEXP);

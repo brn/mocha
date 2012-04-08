@@ -336,7 +336,7 @@ class CompressWriter : public CodeWriter::WriterBase {
   }
  private :
 
-  void CommonOperandWriter_(int op, int state, CodeStream* stream) {
+  void CommonOperandWriter_(int op, int, CodeStream* stream) {
     switch (op) {
       case Token::JS_NEW :
         stream->Write("new ");

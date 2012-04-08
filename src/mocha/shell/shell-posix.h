@@ -10,7 +10,7 @@ namespace mocha {
 typedef std::string ConsoleInput;
 class Action {
  public :
-  virtual bool operator()(ConsoleInput input){return true;}
+  virtual bool operator()(ConsoleInput){return true;}
 };
 class Shell {
  public :

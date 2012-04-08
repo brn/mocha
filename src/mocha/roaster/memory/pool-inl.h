@@ -5,19 +5,52 @@
 namespace mocha {
 namespace memory {
 
+template <size_t size>
+class Chunk {
+ public :
+  Chunk()
+      : used_(0),
+        next_(0){}
+  ~Chunk(){}
+  Chunk<size>* next() {return next_;}
+  void set_next(Chunk<size>* chunk) {next_ = chunk;}
+  bool HasEnoughSize(size_t need) {
+    return (size - used_) >= need;
+  }
+  void* GetBlock(size_t reserve) {
+    char* ret = (block + used_);
+    used_ += reserve;
+    return ret;
+  }
+ private :
+  char block[size];
+  int used_;
+  Chunk<size>* next_;
+};
+
 inline void* Allocated::operator new(size_t size, Pool* pool) {
   return pool->AllocLinkedList(size);
 }
 inline void Allocated::operator delete(void*) {}
 inline void Allocated::operator delete(void* ptr, Pool*){ operator delete(ptr); }
 
-inline Pool::Pool() : current_(0), head_(0) {}
+inline Pool::Pool()
+  : current_(0),
+    head_(0) {
+  head_chunk_ = new Chunk<kDefaultSize>;
+  current_chunk_ = head_chunk_;
+}
 inline Pool::~Pool() {
   Free();
 }
 
 inline void* Pool::AllocLinkedList(size_t size) {
-  Allocated* block = reinterpret_cast<Allocated*>(malloc(size));
+  if (!current_chunk_->HasEnoughSize(size)) {
+    current_chunk_->set_next(new Chunk<kDefaultSize>);
+    current_chunk_ = current_chunk_->next();
+  }
+  Allocated* block = reinterpret_cast<Allocated*>(current_chunk_->GetBlock(size));
+  //Allocated* block = reinterpret_cast<Allocated*>(malloc(size));
   block->next_ = block->prev_ = 0;
   if (head_ == 0) {
     current_ = head_ = block;

@@ -57,6 +57,7 @@ namespace mocha {
 
 
 #define VISITOR_IMPL(type) void Translator::Visit##type(type* ast_node)
+#define UNREACHABLE_IMPL(type) void Translator::Visit##type(type*){FATAL("UNREACHABLE");}
 
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
@@ -638,11 +639,9 @@ VISITOR_IMPL(Trait) {
   processor.ProcessNode();
 }
 
-VISITOR_IMPL(ClassProperties) {}
-
-VISITOR_IMPL(ClassExpandar) {}
-
-VISITOR_IMPL(ClassMember) {}
+UNREACHABLE_IMPL(ClassProperties);
+UNREACHABLE_IMPL(ClassExpandar);
+UNREACHABLE_IMPL(ClassMember);
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
@@ -720,7 +719,12 @@ VISITOR_IMPL(ObjectLikeLiteral) {
   }
 }
 
-VISITOR_IMPL(VariableDeclarationList){}
+VISITOR_IMPL(VariableDeclarationList) {
+  NodeIterator iterator = ast_node->ChildNodes();
+  while (iterator.HasNext()) {
+    iterator.Next()->Accept(this);
+  }
+}
 
 VISITOR_IMPL(GeneratorExpression) {
   PRINT_NODE_NAME;

@@ -25,6 +25,7 @@ class Shell {
   void SafeBreak(bool initial = true);
  private :
   Shell(Action& action);
+  const Shell& operator=(const Shell&);
   Action& action_;
   static os::Mutex mutex_;
   static ScopedPtr<Shell> shell_;

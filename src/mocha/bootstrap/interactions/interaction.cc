@@ -22,16 +22,15 @@ class Interaction::RunCommand : public Action {
       HandleScope handle_scope;
       TryCatch try_catch;
       Handle<Value> value = v8_runner->RunInGlobalContext(input.c_str());
-      if (v8_runner->IsExitStatus(value)) {
-        return true;
-      } else if (try_catch.Exception().IsEmpty()) {
+      if (try_catch.Exception().IsEmpty()) {
         v8_runner->Print(value);
       } else {
         V8Init::HandleException(&try_catch);
         try_catch.Reset();
       }
-      v8_runner->IdleNotification();
+      V8Init::IdleNotification();
     }
+    printf("%d\n", Interaction::IsExit());
     return Interaction::IsExit();
   }
 };
@@ -49,6 +48,7 @@ void Interaction::Begin() {
   Shell* shell = Shell::Initialize(command);
   shell->Read();
   V8Init::Destruct();
+  V8Init::IdleNotification();
 }
 
 void Interaction::Exit() {

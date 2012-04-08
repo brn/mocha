@@ -1,6 +1,6 @@
 #include <string.h>
 #include <iostream>
-#include <third_party/icu/include/unicode/uclean.h>
+#include <unicode/uclean.h>
 #include <mocha/roaster/nexc/scanner/encoding/encoding.h>
 namespace mocha {
 SharedPtr<DetectResult> ICUWrapper::GetEncode(const char* source) {

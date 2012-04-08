@@ -7,7 +7,9 @@
 #include <mocha/misc/file_watcher/observer/javascript_observer.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/roaster.h>
+#include <mocha/misc/file_writer.h>
 #include <mocha/bootstrap/interactions/interaction.h>
+#include <mocha/process/process.h>
 using namespace v8;
 namespace mocha {
 #define METHOD_IMPL(name) Handle<Value> name(const Arguments& args)
@@ -28,12 +30,13 @@ void DoDispose(void* ptr) {
 
 void NativeWrap::Init(Handle<Object> object) {
   HandleScope handle_scope;
-  Persistent<Object> ns_fs = V8Init::Regist<Object>(Object::New());
-  Persistent<Object> ns_io = V8Init::Regist<Object>(Object::New());
-  Persistent<Object> ns_console = V8Init::Regist<Object>(Object::New());
-  Persistent<Object> ns_setting = V8Init::Regist<Object>(Object::New());
-  Persistent<Object> invalid = V8Init::Regist<Object>(Object::New());
-  Persistent<Object> repl_ns = V8Init::Regist<Object>(Object::New());
+  Persistent<Object> ns_fs = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<FS>");
+  Persistent<Object> ns_io = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<IO>");
+  Persistent<Object> ns_console = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Config>");
+  Persistent<Object> ns_setting = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Setting>");
+  Persistent<Object> invalid = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "InvalidObject");
+  Persistent<Object> repl_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Repl>");
+  Persistent<Object> os_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<OS>");
   NativeWrap::Directory::Init(ns_fs);
   NativeWrap::Path::Init(ns_fs);
   NativeWrap::Stat::Init(ns_fs);
@@ -43,12 +46,14 @@ void NativeWrap::Init(Handle<Object> object) {
   NativeWrap::Config::Init(object);
   NativeWrap::Compiler::Init(ns_setting);
   NativeWrap::Repl::Init(repl_ns);
+  NativeWrap::ProcessSpawner::Init(os_ns);
   ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
   object->Set(String::New("script"), ns_setting);
   object->Set(String::New("io"), ns_io);
   object->Set(String::New("invalid"), invalid);
   object->Set(String::New("repl"), repl_ns);
+  object->Set(String::New("os"), os_ns);
 }
 
 
@@ -270,11 +275,11 @@ METHOD_IMPL(NativeWrap::Path::Directory) {
   return String::New(path_info->directory());
 }
 
-METHOD_IMPL(NativeWrap::Path::Getcwd) {
+Handle<Value> NativeWrap::Path::Getcwd(const Arguments&) {
   return String::New(os::fs::Path::current_directory());
 }
 
-METHOD_IMPL(NativeWrap::Path::Home) {
+Handle<Value> NativeWrap::Path::Home(const Arguments&) {
   return String::New(os::fs::Path::home_directory());
 }
 
@@ -717,6 +722,9 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
       const char* name = *str;
       os::fs::Stat stat(name);
       if (stat.IsExist() && stat.IsReg()) {
+        Handle<Value> val = args.This()->Get(String::New("_settingList"));
+        Handle<Object> setting_lsit = Handle<Object>::Cast(val);
+        setting_lsit->Set(String::New(name), obj);
         JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
         FileInfoMap::UnsafeSet(name);
         FileInfo* resource = FileInfoMap::UnsafeGet(name);        
@@ -782,7 +790,8 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
   proto->Set(String::New("stop"), v8::FunctionTemplate::New(NativeWrap::Watcher::Stop));
   proto->Set(String::New("resume"), v8::FunctionTemplate::New(NativeWrap::Watcher::Resume));
   proto->Set(String::New("isRunning"), v8::FunctionTemplate::New(NativeWrap::Watcher::IsRunning));
-  proto->Set(String::New("_addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
+  proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
+  proto->Set(String::New("_settingList"), V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "SettingList"));
   proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::RemoveSetting));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetPointerInInternalField(0, &ob);
@@ -854,17 +863,19 @@ METHOD_IMPL(NativeWrap::Config::Set) {
 }
 
 METHOD_IMPL(NativeWrap::Config::Get) {
+  HandleScope handle_scope;
   if (args.Length() == 1) {
     if (args[0]->IsString()) {
       String::Utf8Value key(args[0]);
       const char* val = Setting::Get(*key);
-      return val != NULL? String::New(val) : String::New("");
+      return val != NULL? String::New(val) : Undefined();
     }
   }
   return Undefined();
 }
 
 METHOD_IMPL(NativeWrap::Config::Has) {
+  HandleScope handle_scope;
   if (args.Length() == 1) {
     if (args[0]->IsString()) {
       String::Utf8Value key(args[0]);
@@ -876,30 +887,16 @@ METHOD_IMPL(NativeWrap::Config::Has) {
 
 void NativeWrap::Compiler::Init(Handle<Object> object) {
   HandleScope handle_scope;
-  Handle<v8::FunctionTemplate> fn = v8::FunctionTemplate::New(NativeWrap::Compiler::New);
-  fn->SetClassName(String::New("Roaster"));
-  Handle<ObjectTemplate> inst = fn->InstanceTemplate();
-  inst->SetInternalFieldCount(1);
-  Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
-  proto->Set(String::New("compile"), v8::FunctionTemplate::New(NativeWrap::Compiler::Compile));
-  proto->Set(String::New("compileFile"), v8::FunctionTemplate::New(NativeWrap::Compiler::CompileFile));
-  proto->Set(String::New("checkDepends"), v8::FunctionTemplate::New(NativeWrap::Compiler::CheckDepends));
-  Handle<v8::Function> function = fn->GetFunction();
-  object->Set(String::New("Roaster"), handle_scope.Close(function));
-}
-
-METHOD_IMPL(NativeWrap::Compiler::New) {
-  HandleScope handle_scope;
-  if (args.IsConstructCall()) {
-    Roaster *ro = new Roaster;
-    Handle<Object> this_object = args.This();
-    this_object->SetPointerInInternalField(0, ro);
-    Persistent<Object> holder = Persistent<Object>::New(this_object);
-    holder.MakeWeak(ro, NativeWrap::Compiler::Dispose);
-    holder.MarkIndependent();
-    return handle_scope.Close(this_object);
-  }
-  return Undefined();
+  Handle<v8::FunctionTemplate> compile_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::Compile);
+  Handle<v8::FunctionTemplate> compile_file_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::CompileFile);
+  Handle<v8::FunctionTemplate> deploy_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::Deploy);
+  Handle<v8::FunctionTemplate> deps_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::CheckDepends);
+  Persistent<Object> obj = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Roaster");
+  obj->Set(String::New("compile"), compile_tmp->GetFunction());
+  obj->Set(String::New("compileFile"), compile_file_tmp->GetFunction());
+  obj->Set(String::New("deploy"), deploy_tmp->GetFunction());
+  obj->Set(String::New("checkDepends"), deps_tmp->GetFunction());
+  object->Set(String::New("Roaster"), obj);
 }
 
 METHOD_IMPL(NativeWrap::Compiler::Compile) {
@@ -911,9 +908,11 @@ METHOD_IMPL(NativeWrap::Compiler::Compile) {
     Handle<Object> options = Handle<Object>::Cast(args[2]);
     String::Utf8Value source_str(source);
     String::Utf8Value charset_str(charset);
+    const char* charset_cstr = (charset->IsUndefined() || charset->IsNull() || charset_str.length() == 0)?
+        NULL : *charset_str;
     SetCompilationOption(options, &info);
-    Roaster* ro = V8Init::GetInternalPtr<Roaster, 0>(args.This());
-    CompilationResultHandle handle = ro->Compile(*source_str, *charset_str, &info);
+    Roaster ro;
+    CompilationResultHandle handle = ro.Compile(*source_str, charset_cstr, &info);
     return handle_scope.Close(String::New(handle->source()));
   }
   return Undefined();
@@ -928,9 +927,32 @@ METHOD_IMPL(NativeWrap::Compiler::CompileFile) {
     Handle<Object> options = Handle<Object>::Cast(args[2]);
     String::Utf8Value src_str(src);
     String::Utf8Value charset_str(charset);
+    const char* charset_cstr = (charset->IsUndefined() || charset->IsNull() || charset_str.length() == 0)?
+        NULL : *charset_str;
     SetCompilationOption(options, &info);
-    Roaster* ro = V8Init::GetInternalPtr<Roaster, 0>(args.This());
-    CompilationResultHandle handle = ro->Compile(*src_str, *charset_str, &info);
+    Roaster ro;
+    CompilationResultHandle handle = ro.Compile(*src_str, charset_cstr, &info);
+    return handle_scope.Close(String::New(handle->source()));
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::Compiler::Deploy) {
+  HandleScope handle_scope;
+  if (args.Length() == 3) {
+    CompilationInfo info;
+    Handle<String> src = args[0]->ToString();
+    Handle<String> charset = args[1]->ToString();
+    Handle<Object> options = Handle<Object>::Cast(args[2]);
+    String::Utf8Value src_str(src);
+    String::Utf8Value charset_str(charset);
+    const char* charset_cstr = (charset->IsUndefined() || charset->IsNull() || charset_str.length() == 0)?
+        NULL : *charset_str;
+    SetCompilationOption(options, &info);
+    Roaster ro;
+    CompilationResultHandle handle = ro.CompileFile(*src_str, charset_cstr, &info);
+    FileWriter writer;
+    writer(handle.Get());
     return handle_scope.Close(String::New(handle->source()));
   }
   return Undefined();
@@ -955,8 +977,6 @@ METHOD_IMPL(NativeWrap::Compiler::CheckDepends) {
   return Undefined();
 }
 
-DISPOSE_IMPL(NativeWrap::Compiler, Roaster);
-
 void NativeWrap::Repl::Init(Handle<Object> object) {
   HandleScope handle_scope;
   Handle<FunctionTemplate> fn = FunctionTemplate::New(NativeWrap::Repl::Exit);
@@ -965,6 +985,30 @@ void NativeWrap::Repl::Init(Handle<Object> object) {
 
 METHOD_IMPL(NativeWrap::Repl::Exit) {
   Interaction::Exit();
+  return Undefined();
+}
+
+void NativeWrap::ProcessSpawner::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  Persistent<Object> process = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Process");
+  Handle<FunctionTemplate> spawn_tmp = FunctionTemplate::New(NativeWrap::ProcessSpawner::Spawn);
+  process->Set(String::New("spawn"), spawn_tmp->GetFunction());
+  object->Set(String::New("process"), handle_scope.Close(process));
+}
+
+METHOD_IMPL(NativeWrap::ProcessSpawner::Spawn) {
+  HandleScope handle_scope;
+  if (args.Length() == 2) {
+    String::Utf8Value name(args[0]->ToString());
+    String::Utf8Value proc_args(args[1]->ToString());
+    if (name.length() > 0) {
+      const char* proc_args_str = (proc_args.length() > 0)? *proc_args : "";
+      os::Process process;
+      if (process.Spawn(*name, proc_args_str)) {
+        return process.HasResult()? handle_scope.Close(String::New(process.result())) : handle_scope.Close(String::New(""));
+      }
+    }
+  }
   return Undefined();
 }
 

@@ -35,13 +35,10 @@ class CodegenVisitor : public IVisitor {
   void JumpStmt_(AstNode* ast_node, int type);
   void ArrayAccessorProccessor_(CallExp* exp);
   void DotAccessorProccessor_(CallExp* exp);
-  void NewCallProccessor_(CallExp* exp);
   void NormalFunctionCall_(CallExp* exp);
   void ArrayProccessor_(AstNode* ast_node);
   void ObjectProccessor_(NodeList* ast_node);
   void VarInitialiserProccessor_(Literal* ast_node);
-  void PrototypeMemberProccessor(NodeIterator& iterator, AstNode* name_node, bool is_private);
-  void StaticMemberProccessor(NodeIterator& iterator, AstNode* node);
   void BeginState_(int state);
   void EndLastState_();
   int CurrentState_();

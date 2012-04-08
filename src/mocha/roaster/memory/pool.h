@@ -49,6 +49,8 @@ class Allocated {
   Allocated* next_;
 };
 
+template <size_t>
+class Chunk;
 /**
  * @class
  * The pointer lifetime managable allocator.
@@ -69,6 +71,7 @@ class Pool : private Uncopyable {
    */
   static Pool* Local();
  private :
+  static const size_t kDefaultSize = 3072;
   /**
    * @private
    * Allocate memory and add used block list,
@@ -78,6 +81,8 @@ class Pool : private Uncopyable {
   void* AllocLinkedList(size_t size);
   Allocated* current_;
   Allocated* head_;
+  Chunk<kDefaultSize>* head_chunk_;
+  Chunk<kDefaultSize>* current_chunk_;
   static os::ThreadLocalStorageKey key_;
 };
 

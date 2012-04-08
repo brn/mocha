@@ -5,10 +5,10 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname=''
+dlname='libedit.so.0'
 
 # Names of this library.
-library_names=''
+library_names='libedit.so.0.0.39 libedit.so.0 libedit.so'
 
 # The name of the static archive.
 old_library='libedit.a'

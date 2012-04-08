@@ -71,7 +71,7 @@ void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstN
  * Create anonymous function call like (function(){ ... })()
  * to create module scopes.
  */
-ExpressionStmt* ModuleProcessor::ProcessBody_(AstNode* body, Function* fn_node, AstNode* name) {
+ExpressionStmt* ModuleProcessor::ProcessBody_(AstNode* body, Function* fn_node, AstNode*) {
   TranslatorData* translator_data = info_->translator_data();
   IVisitor* visitor = info_->visitor();
   ExpressionStmt* an_stmt_node = builder()->CreateAnonymousFnCall(fn_node, new(pool()) Empty, stmt_->line_number());

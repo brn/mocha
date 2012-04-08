@@ -143,29 +143,17 @@ bool Semaphore::Wait(int timeout) {
 }
 #endif
 ThreadLocalStorageKey::ThreadLocalStorageKey(Destructor destructor) {
-  if (!is_init_) {
-    os::ScopedLock lock(mutex_);
-    if (!is_init_) {
-      is_init_ = true;
-      pthread_key_create(&local_key_t_, destructor);
-    }
-  }
+  pthread_key_create(&local_key_t_, destructor);
 }
 
 ThreadLocalStorageKey::ThreadLocalStorageKey() {
-  if (!is_init_) {
-    os::ScopedLock lock(mutex_);
-    if (!is_init_) {
-      is_init_ = true;
-      pthread_key_create(&local_key_t_, 0);
-    }
-  }
+  pthread_key_create(&local_key_t_, 0);
 }
 
-void ThreadLocalStorageKey::DeleteKey() {
+ThreadLocalStorageKey::~ThreadLocalStorageKey() {
   pthread_key_delete(local_key_t_);
 }
 
-pthread_once_t once_control = PTHREAD_ONCE_INIT;
+
 }
 }
