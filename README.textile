@@ -19,7 +19,7 @@ h2. Instlation
 * linux 
 ** run <pre>scons</pre> the binary file is builed in bin/linux/
 
-h2 Referrence
+h2. Guide
 
 The first time you run mocha, dir .mocha is created in user home folder,
 ex. 
