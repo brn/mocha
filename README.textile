@@ -36,9 +36,9 @@ config.set("logFilePath", "./mocha.log");</code></pre>
 
 In config.js, you need to set the mocha settings to a global config object.
 
-h3. config object api
+h2. config object api
 
-h4. config.set(configName, value)
+h2. config.set(configName, value)
 
 Set new config.
 
@@ -50,6 +50,6 @@ config name list
 * phantomInstallDir
 ** The location of phantomjs installed directory.
 
-h4. config.get(configName)
+h2. config.get(configName)
 
 * Get the specified config value.
