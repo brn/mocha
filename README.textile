@@ -30,3 +30,10 @@ ex.
 
 and mocha create config.js in .mocha, this file is evaled by v8 javascript engine at start up.
 
+auto generated config.js
+<pre>
+config.set('watchFilePath', './watch.js');
+config.set('logFilePath', './mocha.log');
+</pre>
+
+In config.js, you need to set the mocha setting to global config object.
