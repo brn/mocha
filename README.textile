@@ -15,9 +15,7 @@ h2. Instlation
 * windows
 ** Use bin/win32/mchd, or open vs/mocha.sln
 * osx
-** Use bin/macos/mchd run
-** <pre>scons</pre>
+** Use bin/macos/mchd, or run <pre>scons</pre>
 * linux 
-** run
-** <pre>scons</pre>
+** run <pre>scons</pre>
 
