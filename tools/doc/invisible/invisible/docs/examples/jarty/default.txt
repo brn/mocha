@@ -1,4 +1,0 @@
-# {$title}
-
-{foreach from=$links key=k item=v}
-- [{$k}]({$v}){/foreach}

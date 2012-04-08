@@ -1,3 +1,0 @@
-This is a nested.txt
-
-<div data-file="inner"></div>

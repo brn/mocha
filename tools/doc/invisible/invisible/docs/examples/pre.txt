@@ -1,7 +1,0 @@
-This is a pre.txt
-
-### list
-
-- aaa
-- bbb
-- ccc
