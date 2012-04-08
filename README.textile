@@ -12,6 +12,11 @@ h2. Overview
 
 h2. Instlation
 
+*requirements
+** python
+** scons
+** curses (osx, linux)
+
 * windows
 ** Use bin/win32/mchd, or open vs/mocha.sln
 * osx
