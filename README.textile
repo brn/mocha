@@ -1,4 +1,4 @@
-h1. mocha ecmascript es next translator.
+h1. mocha es next translator.
 
 h2. Overview
 
