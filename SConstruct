@@ -6,8 +6,9 @@ import platform
 import locale
 import SCons.Conftest
 root_dir = os.path.dirname(File('SConstruct').rfile().abspath)
+sys.path.insert(0, os.path.join(root_dir, 'tools'))
 sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
-import deps
+import deps, makedeps
 from platform_utils import Config, platform, platform
 from sources import Sources
 os.system('python tools/runtime.py')
@@ -16,7 +17,6 @@ ROOT = 'src'
 LIB_PREFIX = CURRENT + "/src/third_party/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 LINUX_INCLUDE = '-Isrc/deps/linux/v8/include -Isrc/deps/linux/libuv/include -Isrc/deps/linux/icu/include -Isrc/deps/linux/libedit/include'
-MV_LIB = 'cd src/lib && mkdir ../.libtmp && cp -r icu ../.libtmp && cp -r libedit ../.libtmp && cp -r v8 ../.libtmp && cp -r libuv ../.libtmp && cd ../../'
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
@@ -30,16 +30,7 @@ PLATFORM_CONFIG = {
                            "directory-win32.cc",
                            "file_watcher-inotify-impl.cc",
                            "shell-win32.cc",
-                           'utils-win32.cc'],
-        "PRE_COMMAND" : [ MV_LIB,
-                          'mkdir -p src/.deps/linux/icu/include/',
-                          'mkdir -p src/.deps/linux/v8/',
-                          'mkdir -p src/.deps/linux/libuv/',
-                          'mkdir -p src/.deps/linux/libedit/include',
-                          'cd src/.libtmp/libedit-devel/ && ./configure --enable-widec --enable-static && make && cd src && cp histedit.h ../../../.deps/linux/libedit/include && cp .libs/libedit.a ../../../.deps/linux/libedit/ && cd ../ && make clean && cd ../../../',
-                          'cd src/.libtmp/icu/source && sh ./runConfigure Linux && ./configure --enable-static --disable-shared && make && cp -r common/unicode ../../../.deps/linux/icu/include/ && cp lib/*.a ../../../.deps/linux/icu/ && make clean && cd ../../../../',
-                          'cd src/.libtmp/v8 && scons && cp libv8.a ../../.deps/linux/v8/ && cp -r include/ ../../.deps/linux/v8/ && scons --clean && cd ../../../',
-                          'cd src/.libtmp/libuv/ && ./gyp_uv -f make && make && cp uv.a ../../.deps/linux/libuv/ && cp -r include ../../.deps/linux/libuv/include && make clean && cd ../../../']
+                           'utils-win32.cc']
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
@@ -53,16 +44,7 @@ PLATFORM_CONFIG = {
                            "file_watcher-inotify-impl.cc",
                            "shell-win32.cc",
                            'utils-win32.cc',
-                           'process-win32.cc'],
-        "PRE_COMMAND" : [ MV_LIB,
-                          'mkdir -p src/.deps/macos/icu/include/',
-                          'mkdir -p src/.deps/macos/v8/',
-                          'mkdir -p src/.deps/macos/libuv/',
-                          'mkdir -p src/.deps/macos/libedit/include',
-                          'cd src/.libtmp/libedit/ && ./configure --enable-widec --enable-static && make && cd src && cp histedit.h ../../../.deps/macos/libedit/include && cp .libs/libedit.a ../../../.deps/macos/libedit/ && cd ../ && make clean && cd ../../../',
-                          'cd src/.libtmp/icu/source && ./runConfigureICU MacOSX --enable-static --disable-shared && ./configure --enable-static --disable-shared && make && cp -r common/unicode ../../../.deps/macos/icu/include/ && cp lib/*.a ../../../.deps/macos/icu/ && make clean &&cd ../../../../',
-                          'cd src/.libtmp/v8 && scons arch=x64 && cp libv8.a ../../.deps/macos/v8/ && cp -r include ../../.deps/macos/v8/ && scons --clean && cd ../../../',
-                          'cd src/.libtmp/libuv/ && ./gyp_uv -f xcode && xcodebuild -arch x86_64 -project uv.xcodeproj -configuration Release -target All && cp build/Release/libuv.a ../../.deps/macos/libuv/ && cp -r include ../../.deps/macos/libuv/include && xcodebuild clean && cd ../../../']
+                           'process-win32.cc']
         },
     "win32" : {
         "TARGET" : 'bin/win32/mchd.exe',
@@ -178,6 +160,7 @@ elif pack :
     ENV = Environment()
     SConscript('src/mocha/roaster/nexc/runtime/SConscript', variant_dir='.packed_temp', src_dir='./src' ,exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
 else :
+    makedeps.MakeDeps()
     mode = ARGUMENTS.get('mode', 'release')
     builder = MochaBuilder(mode)
     builder.Build()
