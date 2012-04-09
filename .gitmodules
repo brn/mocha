@@ -1,3 +1,6 @@
 [submodule "tools/scons_helper"]
 	path = tools/scons_helper
 	url = git@github.com:brn/scons_helper
+[submodule "src/lib/libuv"]
+	path = src/lib/libuv
+	url = git@github.com:joyent/libuv

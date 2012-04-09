@@ -2,6 +2,8 @@
 *.gch
 *.log
 *.dep
+*.deps
+*.libtmp
 *.status
 *.deps
 *.obj
