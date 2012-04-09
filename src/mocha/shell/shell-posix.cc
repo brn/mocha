@@ -39,7 +39,7 @@ Shell* Shell::GetInstance() {
 Shell::Shell(Action& action)
     : action_(action){
   setlocale(LC_ALL, "");
-  printf("mocha es-next-compiler");
+  printf("mocha es-next-compiler(stand-alone)");
   printf("\nusage -> run 'help'\n");
   history_ = history_init();
   history(history_, &event_,  H_SETSIZE, 50);

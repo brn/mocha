@@ -30,7 +30,6 @@ class Interaction::RunCommand : public Action {
       }
       V8Init::IdleNotification();
     }
-    printf("%d\n", Interaction::IsExit());
     return Interaction::IsExit();
   }
 };

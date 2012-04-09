@@ -246,6 +246,21 @@
     }
   }, "compile(predicate, [option]) : Compile file that is selected by predicate function.");
   
+  mocha.addCommand("test", function (pred, opt) {
+    if (pred && typeof pred === 'function') {
+      for (var i in natives.script.watcher._settingList) {
+        if (pred(i, natives.script.watcher._settingList[i])) {
+          opt = opt || natives.script.watcher._settingList[i];
+          var phantom = natives.config.get('phantomInstallDir');
+          if (phantom) {
+            natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
+            natives.os.process.spawn(phantom, "")
+          }
+        }
+      }
+    }
+  }, "test(predicate, [option]) : Start test with the file that selected by predicate function.");
+  
   mocha.addCommand("exit", function () {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();

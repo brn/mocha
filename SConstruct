@@ -14,7 +14,7 @@ from sources import Sources
 os.system('python tools/runtime.py')
 CURRENT = os.getcwd().replace('\\', '/')
 ROOT = 'src'
-LIB_PREFIX = CURRENT + "/src/third_party/icu"
+LIB_PREFIX = CURRENT + "/src/lib/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 LINUX_INCLUDE = '-Isrc/deps/linux/v8/include -Isrc/deps/linux/libuv/include -Isrc/deps/linux/icu/include -Isrc/deps/linux/libedit/include'
 PLATFORM_CONFIG = {
@@ -158,7 +158,7 @@ elif ct :
             SConscript(CT[test] + '/SConscript', variant_dir=('.ct_temp_' + test), src_dir='./src', duplicate=0, exports = ['CURRENT', 'ENV', 'CONFIG', 'LIB_PREFIX'])
 elif pack :
     ENV = Environment()
-    SConscript('src/mocha/roaster/nexc/runtime/SConscript', variant_dir='.packed_temp', src_dir='./src' ,exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
+    SConscript('src/mocha/roaster/nexc/runtime/SConscript', variant_dir='.packed_temp', src_dir='./src', duplicate=0, exports = ['CURRENT', 'ENV', 'LIB_PREFIX'])
 else :
     makedeps.MakeDeps()
     mode = ARGUMENTS.get('mode', 'release')

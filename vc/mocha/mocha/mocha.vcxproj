@@ -288,7 +288,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;NDEBUG;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../src/deps/win/v8/include;../../../src;../../../src/deps/win/libuv/include;../../../src/deps/win/icu/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src/lib/win/v8/include;../../../src;../../../src/lib/win/libuv/include;../../../src/lib/win/icu/include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>WinSock2.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
@@ -303,7 +303,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>../../../src/deps/win/icu/release/icuin.lib;../../../src/deps/win/icu/release/icudt.lib;../../../src/deps/win/icu/release/icuuc.lib;../../../src/deps/win/v8/release/v8.lib;../../../src/deps/win/libuv/release/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../../../src/lib/win/icu/release/icuin.lib;../../../src/lib/win/icu/release/icudt.lib;../../../src/lib/win/icu/release/icuuc.lib;../../../src/lib/win/v8/release/v8.lib;../../../src/lib/win/libuv/release/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>cd ../../../ &amp;&amp; python tools/runtime.py &amp;&amp; scons pack=1</Command>
