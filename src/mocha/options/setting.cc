@@ -10,7 +10,7 @@
 #include <mocha/roaster/platform/fs/stat/stat.h>
 
 const char watch_file_template[] = {
-  "config.set('watchFilePath', './watch.js');\n"
+  "config.set('compileSettingPath', './compile_setting.js');\n"
   "config.set('logFilePath', './mocha.log');\n"
 };
 
@@ -76,7 +76,7 @@ const char* Setting::WatchFileTemplate() {
   return watch_file_template;
 }
 
-const char Setting::kWatchFilePath[] = {"watchFilePath"};
+const char Setting::kCompileSettingPath[] = {"compileSettingPath"};
 const char Setting::kPhantomPath[] = {"phantomInstallDir"};
 const char Setting::kLogPath[] = {"logFilePath"};
 const char Setting::kTestRunner[] = {"testRunner"};

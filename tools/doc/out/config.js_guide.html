@@ -336,9 +336,12 @@ html,body {
 margin : 0,
 padding : 0,
 font-size : 12px;
-font-family:times new roman,'ヒラギノ明朝 Pro W3','Hiragino Mincho Pro W3','ＭＳ 明朝',sans-serif;
+font-family:'Times New Roman','Times','ヒラギノ明朝 Pro W3','Hiragino Mincho Pro W3','ＭＳ 明朝',serif;
 background : #F8F8F8;
 height : 100%;
+}
+a {
+text-decoration : none;
 }
 h1,h2,h3,p {
 border : 0;
@@ -354,11 +357,19 @@ margin-bottom : 15px;
 border-bottom : 1px solid #CCCCCC;
 }
 
+h1 a{
+color : #000000;
+}
+
 h2 {
 font-size : 22px;
 font-weight : bold;
 margin : 10px 0;
 border-bottom : 1px solid #DFDFDF;
+}
+
+h3 {
+margin : 10px 0;
 }
 
 p {
@@ -381,6 +392,29 @@ font-family:Courier,monospace;
 
 strong {
 display : inline-block;
+}
+
+table {
+margin : 5px 0 5px 0;
+padding : 0;
+border-collapse : collapse;
+border : 1px solid #CCCCCC;
+}
+
+table td {
+padding : 5px;
+border : 1px solid #CCCCCC;
+}
+
+
+table tr:first-child{
+background : #EEEEEE;
+}
+
+table th {
+color : #0066AA;
+border : 1px solid #CCCCCC;
+text-align : center;
 }
 
 #wrapper {
@@ -481,19 +515,47 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 //<![CDATA[
 SyntaxHighlighter.all();//]]>
 </script></head>
-<body><div id="wrapper"><h1>mocha ES Next Translator</h1>	<h2>config.js</h2>
+<body><div id="wrapper"><h1><a href="index.html">mocha ES Next Translator</a></h1>	<h2>config.js</h2>
+
+	<h3><a href="index.html">index</a> > config.js</h3>
 
 	<p>mochaは初回起動時に&lt;user_home&gt;/.mocha/config.jsというファイルを生成します。このファイルの解説です。
 &lt;user_home&gt;は
 	<ul>
-		<li><strong>windows xp</strong> C:\Document and Setting\<ユーザー名>\</li>
-		<li><strong>windows vista or later</strong> C:\Users\<ユーザー名>\</li>
-		<li><strong>linux or osx</strong> ~/</li>
+		<li><strong>windows xp</strong> <pre>C:\Document and Setting\&#60;ユーザー名&#62;\</pre></li>
+		<li><strong>windows vista or later</strong> <pre>C:\Users\&#60;ユーザー名&#62;\</pre></li>
+		<li><strong>osx</strong> <pre>/Users/&#60;ユーザー名&#62;</pre></li>
+		<li><strong>linux</strong> <pre>/home/&#60;ユーザー名&#62;</pre></li>
 	</ul>
 になります。 </p>
 
+	<p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。
+このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
+
 	<p>以下にmochaの生成するデフォルトのconfig.jsを提示します。
 <pre class="brush: js">
-config.set('watchFilePath&#8217;, './watch.js&#8217;);
+config.set('compileSettingPath&#8217;, './compile_setting.js&#8217;);
 config.set('logFilePath&#8217;, './mocha.log&#8217;);
-</pre></p></div></body></html>
+</pre></p>
+
+	<p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。
+以下がconfigオブジェクトに設定可能な値です。</p>
+
+	<table>
+		<tr>
+			<th>name</th>
+			<th>value</th>
+		</tr>
+		<tr>
+			<td>compileSettingPath</td>
+			<td>jsファイルのコンパイル設定が記述されたファイルの場所です。</td>
+		</tr>
+		<tr>
+			<td>logFilePath</td>
+			<td>ログファイルが格納される場所です。</td>
+		</tr>
+		<tr>
+			<td>phantomInstallDir</td>
+			<td>phantomjsがインストールされている場所です。</td>
+		</tr>
+	</table></div></body></html>

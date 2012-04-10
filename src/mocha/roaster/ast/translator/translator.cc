@@ -26,6 +26,7 @@
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/scopes/scope.h>
+#include <mocha/roaster/misc/string_utils.h>
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
@@ -487,23 +488,7 @@ VISITOR_IMPL(AssertStmt) {
   std::stringstream st;
   st << '"';
   std::string result = visitor.GetCode();
-  bool is_escaped = false;
-  for (int i = 0,len = result.size(); i < len; i++) {
-    if (result.at(i) == '\n') {
-      st << "\\n";
-    } else if (result.at(i) == '\\' && !is_escaped) {
-      st << '\\';
-      is_escaped = true;
-    } else if (result.at(i) == '"' && !is_escaped) {
-      st << '\\';
-      st << '"';
-    } else if (is_escaped) {
-      st << result.at(i);
-      is_escaped = false;
-    } else {
-      st << result.at(i);
-    }
-  }
+  StringUtils::Escape(&st, result, '"');
   st << '"';
   std::stringstream line_st;
   line_st << ast_node->line_number();

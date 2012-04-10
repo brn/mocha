@@ -38,6 +38,7 @@ void NativeWrap::Init(Handle<Object> object) {
   Persistent<Object> invalid = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "InvalidObject");
   Persistent<Object> repl_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Repl>");
   Persistent<Object> os_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<OS>");
+  Persistent<Object> logger_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<InternalLogger>");
   NativeWrap::Directory::Init(ns_fs);
   NativeWrap::Path::Init(ns_fs);
   NativeWrap::Stat::Init(ns_fs);
@@ -48,6 +49,7 @@ void NativeWrap::Init(Handle<Object> object) {
   NativeWrap::Compiler::Init(ns_setting);
   NativeWrap::Repl::Init(repl_ns);
   NativeWrap::ProcessSpawner::Init(os_ns);
+  NativeWrap::InternalLogger::Init(logger_ns);
   ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
   object->Set(String::New("script"), ns_setting);
@@ -55,6 +57,7 @@ void NativeWrap::Init(Handle<Object> object) {
   object->Set(String::New("invalid"), invalid);
   object->Set(String::New("repl"), repl_ns);
   object->Set(String::New("os"), os_ns);
+  object->Set(String::New("internalLogger"), logger_ns);
 }
 
 
@@ -802,7 +805,7 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
 DISPOSE_IMPL(NativeWrap::Watcher, JavascriptObserver);
 
 METHOD_IMPL(NativeWrap::Watcher::Run) {
-  const char* path = Setting::Get(Setting::kWatchFilePath);
+  const char* path = Setting::Get(Setting::kCompileSettingPath);
   if (path != NULL) {
     std::string source;
     os::SPrintf(&source, "mocha.import('%s');", path);
@@ -1011,6 +1014,25 @@ METHOD_IMPL(NativeWrap::ProcessSpawner::Spawn) {
       }
     }
   }
+  return Undefined();
+}
+
+void NativeWrap::InternalLogger::Init(Handle<Object> object) {
+  HandleScope handle_scope;
+  Handle<FunctionTemplate> tmp = FunctionTemplate::New(NativeWrap::InternalLogger::Initialize);
+  object->Set(String::New("initialize"), handle_scope.Close(tmp->GetFunction()));
+}
+
+METHOD_IMPL(NativeWrap::InternalLogger::Initialize) {
+  const char* logpath = Setting::Get(Setting::kLogPath);
+  if (logpath != NULL) {
+    os::fs::Stat stat(logpath);
+    if (stat.IsExist() && stat.IsReg()) {
+      Logging::Initialize(logpath, "a+");
+      return Undefined();
+    }
+  }
+  Logging::Initialize(stdout);
   return Undefined();
 }
 

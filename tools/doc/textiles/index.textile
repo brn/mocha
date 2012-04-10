@@ -51,13 +51,13 @@ h2. インストール
 * python
 * scons
 * boost (unordered_map.hpp)
-* libedit (osx, linux) -> おそらくデフォルトで入ってる。
+* cursesかncurses (osx, linux) -> おそらく最初から入ってる。
 
 h2. ガイド
 
 * 設定ファイルを作る
 ** "config.js":config.js_guide.html
-** "監視設定ファイル":watch_guide.html
+** "コンパイル設定ファイル":compile_setting_guide.html
 ** "コマンドの設定":command_guide.html
 * コンパイル
 ** "オプション":option_guide.html

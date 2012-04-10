@@ -1,0 +1,55 @@
+h2. コンパイル設定ファイル
+
+h3. "index":index.html > コンパイル設定ファイル
+
+コンパイルの設定を記述するファイルです。
+configオブジェクトのcompileSettingPathによって場所が設定されます。
+
+h2. サンプル
+
+*基本的な例*
+
+<pre class="brush: js">
+//scriptモジュールをインポート
+var watcher = mocha.import('script').watcher;
+//設定の追加
+//対象のファイルネーム
+watcher.addSetting("src/test.js", {
+  //deployするディレクトリ
+  deployDir : 'src/deploy',
+  //deployする際のファイルネーム
+  deployName : 'test-deploy.js',
+  //ファイルのエンコーディング
+  inputCharset : 'utf-8',
+  //出力されるファイルのエンコーディング
+  outputCharset : 'utf-8',
+  //コンパイルオプション
+  options : {
+    //人間の読みやすい形にする
+    prettyPrint : true,
+    //圧縮しない
+    compress : false,
+    //デバッグモードでコンパイル
+    debug : true
+  }
+})
+</pre>
+
+*応用*
+
+<pre class="brush: js">
+var fs = mocha.import("fs"),
+    watcher = mocha.import("script").watcher;
+var dir = new fs.Dir("../src/test/js/");
+dir.entries(true).forEach(function (item) {
+  if (item.fullpath.indexOf('.js') > -1 && item.fullpath.indexOf("-cmp.js") === -1) {
+    watcher.addSetting(item.fullpath, {
+      deployDir : '../src/test/js/out/devel',
+      deployName : item.filename.replace('.js', '-cmp.js'),
+      options : {
+        prettyPrint : true
+      }
+    });
+  }
+});
+</pre>

@@ -133,6 +133,12 @@ class NativeWrap : private Static {
     INIT_DECL;
     DECL_METHOD(Spawn);
   };
+
+  class InternalLogger {
+   public :
+    INIT_DECL;
+    DECL_METHOD(Initialize);
+  };
 };
 #undef DECL_METHOD
 #undef DECL_DIPOSER

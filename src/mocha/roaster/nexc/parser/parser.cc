@@ -1074,10 +1074,8 @@ AstNode* Parser::ParseLetExpressionOrLetStatement() {
     fn->set_name(new(pool()) Empty);
     AstNode* list = exp_list->first_child();
     AstNode* args = list->next_sibling();
-    printf("!=========================%d\n", list->child_length());
     NodeList* valid_formal = FormalParameterConvertor(list);
     CHECK_ERROR(valid_formal);
-    printf("!=========================%d\n", valid_formal->child_length());
     fn->set_argv(valid_formal);
     if (token->type() == '{') {
       Advance();

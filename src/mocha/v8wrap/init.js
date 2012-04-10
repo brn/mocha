@@ -138,13 +138,13 @@
         utils.defProp(mocha, 'getCommand', function (name) {
           return this._commands[name];
         });
-        utils.defProp(mocha, 'callCommand', function (args) {
-          if (typeof args === 'string') {
-            var source = args.replace('@', ''),
-                compiled = natives.script.Roaster.compile('mocha._commands.' + source + ';', 'utf-8', {prettyPrint : true, unversions : 'backCompat'});
+        utils.defProp(mocha, 'callCommand', function (source) {
+          var isString = typeof source === 'string';
+          if (isString && source[0] == '.') {
+            var compiled = natives.script.Roaster.compile('mocha._commands' + source + ';', 'utf-8', {prettyPrint : true, unversions : 'backCompat'});
             return compile(compiled);
-          } else {
-            throw new Error('The arguments of callCommand is must be string.');
+          } else if (isString) {
+            return mocha._commands[Array.prototype.shift.call(arguments)].apply(null, arguments);
           }
           return null;
         });
@@ -161,7 +161,7 @@
       }();
 
   //Builtin command definitions.
-  mocha.addCommand("watchList", function (showDeploy, showOpt, pred) {
+  mocha.addCommand("settingList", function (showDeploy, showOpt, pred) {
     pred = pred || function (){ return true; };
     var ret = [],
         dir = "";
@@ -245,34 +245,40 @@
       }
     }
   }, "compile(predicate, [option]) : Compile file that is selected by predicate function.");
-
+  
+  function makePredicate(type) {
+    return typeof type === 'string'?
+      function (setting) {return type === setting.name;} :
+    type instanceof RegExp? function (setting) {return type.test(setting.name);} :
+    typeof type === 'function'? type : function () {return true;};
+  }
+  
   mocha.addCommand("test", function (pred, opt) {
-    if (pred && typeof pred === 'function') {
-      var phantom = natives.config.get('phantomInstallDir'),
-          argList = [],
-          dir,
-          pathInfo,
-          name;
-      if (phantom) {
-        for (var i in natives.script.watcher._settingList) {
-          if (pred(i, natives.script.watcher._settingList[i])) {
-            opt = opt || natives.script.watcher._settingList[i];
-            natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
-            dir = natives.script.watcher._settingList[i].deployDir;
-            pathInfo = new natives.fs.Path(i);
-            if (!dir) {
-              dir = pathInfo.directory();
-            }
-            name = natives.script.watcher._settingList[i].deployName;
-            if (!name) {
-              name = pathInfo.filename().replace('.js', '-cmp.js');
-            }
-            argList.push(dir + '/' + name);
+    pred = makePredicate(pred);
+    var phantom = natives.config.get('phantomInstallDir'),
+        argList = [],
+        dir,
+        pathInfo,
+        name;
+    if (phantom) {
+      for (var i in natives.script.watcher._settingList) {
+        if (pred(natives.script.watcher._settingList[i])) {
+          opt = opt || natives.script.watcher._settingList[i];
+          natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
+          dir = natives.script.watcher._settingList[i].deployDir;
+          pathInfo = new natives.fs.Path(i);
+          if (!dir) {
+            dir = pathInfo.directory();
           }
+          name = natives.script.watcher._settingList[i].deployName;
+          if (!name) {
+            name = pathInfo.filename().replace('.js', '-cmp.js');
+          }
+          argList.push(dir + '/' + name);
         }
-        if (natives.config.has('testDriver')) {
-          console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
-        }
+      }
+      if (natives.config.has('testDriver')) {
+        console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
       }
     }
   }, "test(predicate, [option]) : Start test with the file that selected by predicate function.");
@@ -383,7 +389,8 @@
       file.close();
     }
   })();
-
+  
+  natives.internalLogger.initialize();
   return function (source) {
     var compiled = natives.script.Roaster.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
     source = '(function(mocha) {\n' + compiled + '\n})';

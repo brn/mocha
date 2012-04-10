@@ -17,7 +17,7 @@ class Setting : private Static{
   static void Set(const char* key, const char* val);
   static bool Has(const char* key);
   static const char* moduledir();
-  static const char kWatchFilePath[];
+  static const char kCompileSettingPath[];
   static const char kPhantomPath[];
   static const char kLogPath[];
   static const char kTestRunner[];

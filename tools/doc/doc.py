@@ -29,7 +29,7 @@ def BuildTextile(path) :
     html += InsertScript('SyntaxHighlighter.all();', True)
     html += "</head>\n"
     html += '<body><div id="wrapper">'
-    html += '<h1>' + title + '</h1>'
+    html += '<h1><a href="index.html">' + title + '</a></h1>'
     html += textile(open('textiles/' + path).read()).replace('<br />', '\n')
     html += '</div>'
     html += "</body>"

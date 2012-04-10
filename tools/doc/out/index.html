@@ -336,9 +336,12 @@ html,body {
 margin : 0,
 padding : 0,
 font-size : 12px;
-font-family:times new roman,'ヒラギノ明朝 Pro W3','Hiragino Mincho Pro W3','ＭＳ 明朝',sans-serif;
+font-family:'Times New Roman','Times','ヒラギノ明朝 Pro W3','Hiragino Mincho Pro W3','ＭＳ 明朝',serif;
 background : #F8F8F8;
 height : 100%;
+}
+a {
+text-decoration : none;
 }
 h1,h2,h3,p {
 border : 0;
@@ -354,11 +357,19 @@ margin-bottom : 15px;
 border-bottom : 1px solid #CCCCCC;
 }
 
+h1 a{
+color : #000000;
+}
+
 h2 {
 font-size : 22px;
 font-weight : bold;
 margin : 10px 0;
 border-bottom : 1px solid #DFDFDF;
+}
+
+h3 {
+margin : 10px 0;
 }
 
 p {
@@ -381,6 +392,29 @@ font-family:Courier,monospace;
 
 strong {
 display : inline-block;
+}
+
+table {
+margin : 5px 0 5px 0;
+padding : 0;
+border-collapse : collapse;
+border : 1px solid #CCCCCC;
+}
+
+table td {
+padding : 5px;
+border : 1px solid #CCCCCC;
+}
+
+
+table tr:first-child{
+background : #EEEEEE;
+}
+
+table th {
+color : #0066AA;
+border : 1px solid #CCCCCC;
+text-align : center;
 }
 
 #wrapper {
@@ -481,7 +515,7 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 //<![CDATA[
 SyntaxHighlighter.all();//]]>
 </script></head>
-<body><div id="wrapper"><h1>mocha ES Next Translator</h1>	<h2>概要</h2>
+<body><div id="wrapper"><h1><a href="index.html">mocha ES Next Translator</a></h1>	<h2>概要</h2>
 
 	<p>mochaはEcmascript262 5th edition 及び、現在策定中のEcmascript harmonyの文法とちょっとした拡張をブラウザで利用可能なjavascriptに変換するコンパイラです。</p>
 
@@ -535,7 +569,7 @@ SyntaxHighlighter.all();//]]>
 		<li>python</li>
 		<li>scons</li>
 		<li>boost (unordered_map.hpp)</li>
-		<li>libedit (osx, linux) -> おそらくデフォルトで入ってる。</li>
+		<li>cursesかncurses (osx, linux) -> おそらく最初から入ってる。</li>
 	</ul>
 
 	<h2>ガイド</h2>
@@ -544,7 +578,7 @@ SyntaxHighlighter.all();//]]>
 		<li>設定ファイルを作る
 	<ul>
 		<li><a href="config.js_guide.html">config.js</a></li>
-		<li><a href="watch_guide.html">監視設定ファイル</a></li>
+		<li><a href="compile_setting_guide.html">コンパイル設定ファイル</a></li>
 		<li><a href="command_guide.html">コマンドの設定</a></li>
 	</ul></li>
 		<li>コンパイル
