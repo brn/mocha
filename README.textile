@@ -4,16 +4,17 @@ h2. Overview
 
 *mocha* is the translator for es next and javascript build platform. 
 
-* translate es next to javascript
-* compress translated javascript.
-* insert debug exception handler.
-* watch modification of files.
-* have the test system that use the phantomjs.
+* Translate es next to javascript
+* Compress translated javascript.
+* Insert debug exception handler.
+* Watch the modification of the files and immediately compile.
+* Has test runner that is use the phantomjs.
 
 h2. Instlation
 
 <strong>Requirements<strong>
 
+** boost (unordered_map.hpp)
 ** python
 ** scons
 ** curses (osx, linux)

@@ -16,11 +16,12 @@ CURRENT = os.getcwd().replace('\\', '/')
 ROOT = 'src'
 LIB_PREFIX = CURRENT + "/src/lib/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
-LINUX_INCLUDE = '-Isrc/deps/linux/v8/include -Isrc/deps/linux/libuv/include -Isrc/deps/linux/icu/include -Isrc/deps/linux/libedit/include'
+LINUX_INCLUDE = '-Isrc/.deps/linux/v8/include -Isrc/.deps/linux/libuv/include -Isrc/.deps/linux/icu/include -Isrc/.deps/linux/libedit/include'
+MACOS_INCLUDE = '-Isrc/.deps/macos/v8/include -Isrc/.deps/macos/libuv/include -Isrc/.deps/macos/icu/include -Isrc/.deps/macos/libedit/include'
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
+        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
         "DEBUG" : '-Wall -Wextra -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses", "rt", "dl", "curses"],
@@ -34,8 +35,8 @@ PLATFORM_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/third_party -Isrc/.deps/macos/v8/include -Isrc/.deps/macos/libuv/include -Isrc/.deps/macos/libedit/include',
-        "DEBUG" : '-Wall -Wextra -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" -Isrc/.deps/macos/libedit/include -Isrc/.deps/macos/v8/include -Isrc/.deps/macos/libuv/include',
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + MACOS_INCLUDE,
+        "DEBUG" : '-Wall -Wextra -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + MACOS_INCLUDE,
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses"],
         "STATIC_LIBS" : ['src/.deps/macos/icu/libicui18n.a', 'src/.deps/macos/icu/libicudata.a', 'src/.deps/macos/icu/libicuuc.a', 'src/.deps/macos/libedit/libedit.a', 'src/.deps/macos/v8/libv8.a' , 'src/.deps/macos/libuv/libuv.a'],

@@ -1,0 +1,18 @@
+h2. config.js
+
+mochaは初回起動時に&lt;user_home&gt;/.mocha/config.jsというファイルを生成します。このファイルの解説です。
+&lt;user_home&gt;は
+* *windows xp* C:\Document and Setting\<ユーザー名>\
+* *windows vista or later* C:\Users\<ユーザー名>\
+* *linux or osx* ~/
+になります。 
+
+以下にmochaの生成するデフォルトのconfig.jsを提示します。
+<pre class="brush: js">
+config.set('watchFilePath', './watch.js');
+config.set('logFilePath', './mocha.log');
+</pre>
+
+mochaはwatchFilePathとlogFilePathプロパティを設定するファイルを生成します。
+
+
