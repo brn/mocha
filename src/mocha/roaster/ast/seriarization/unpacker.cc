@@ -88,6 +88,8 @@ AstNode* UnPacker::UnpackEachNode() {
       return CaseTryStmt();
     case AstNode::kAssertStmt :
       return CaseAssertStmt();
+    case AstNode::kIncludeStmt :
+      return CaseIncludeStmt();
     case AstNode::kCase :
       return CaseCaseClause();
     case AstNode::kExpression :
@@ -121,6 +123,7 @@ AstNode* UnPacker::UnpackEachNode() {
     case AstNode::kObjectLikeLiteral :
       return CaseObject();
     default :
+      os::FPrintf(stderr, "%d\n", type);
       FATAL("unexpected type.");
   }
 }
@@ -416,6 +419,17 @@ class Instaniater<TryStmt, true> {
 };
 
 template <>
+class Instaniater<IncludeStmt, true> {
+ public :
+  static IncludeStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+    std::string buf;
+    unpacker->UnpackChar(&buf);
+    IncludeStmt* stmt = new(pool) IncludeStmt(buf.c_str(), line);
+    return stmt;
+  }
+};
+
+template <>
 class Instaniater<VariableDeclarationList, true> {
  public :
   static VariableDeclarationList* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
@@ -532,6 +546,11 @@ AstNode* UnPacker::CaseVersionStmt() {
 AstNode* UnPacker::CaseAssertStmt() {
   PRINT(AssertStmt);
   return MakeBaseAst<AssertStmt, true>();
+}
+
+AstNode* UnPacker::CaseIncludeStmt() {
+  PRINT(IncludeStmt);
+  return MakeBaseAst<IncludeStmt, true>();
 }
 
 

@@ -14,6 +14,7 @@ namespace mocha {
 
 #define VISITOR_IMPL(type) void OptimizerVisitor::Visit##type(type* ast_node)
 #define UNREACHABLE_IMPL(type) void OptimizerVisitor::Visit##type(type*){FATAL("UNREACHABLE");}
+#define EMPTY_IMPL(type) void OptimizerVisitor::Visit##type(type*){}
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME fprintf(stderr, "depth = %d name = %s\n", depth_++, ast_node->node_name())
 #else
@@ -101,6 +102,8 @@ VISITOR_IMPL(AssertStmt) {
     ast_node->first_child()->Accept(this);
   }
 }
+
+EMPTY_IMPL(IncludeStmt);
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;

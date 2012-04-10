@@ -67,6 +67,7 @@ class UnPacker {
   AstNode* CaseThrowStmt();
   AstNode* CaseTryStmt();
   AstNode* CaseAssertStmt();
+  AstNode* CaseIncludeStmt();
   AstNode* CaseCaseClause();
   AstNode* CaseExpression();
   AstNode* CaseVarDeclList();

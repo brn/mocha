@@ -57,6 +57,30 @@ void Loader::LoadFile(const char* path) {
   }
 }
 
+bool Loader::LoadFile(const char* path, std::string* buf) {
+  ASSERT(true, strlen(path) > 0);
+  os::fs::Stat stat(path);
+  if (stat.IsExist() && !stat.IsDir()) {
+    FILE* fp = os::FOpen(path, "rb");
+    //Check is file exist.
+    if (fp != NULL) {
+      std::stringstream st;
+      ReadNormalFile(fp, &st);
+      os::FClose(fp);
+      buf->assign(st.str());
+      return true;
+    } else {
+      os::FClose(fp);
+      GetError(kFOpenError, path, buf);
+    }
+  } else if (stat.IsDir()){
+    GetError(kNotAFile, path, buf);
+  } else {
+    GetError(kNotFound, path, buf);
+  }
+  return false;
+}
+
 bool Loader::IsRuntime(const char* path) {
 #ifndef PACKING_RUNTIME
   return (strcmp(path, "runtime") == 0)? false : JSRuntime::Has(path);
@@ -65,20 +89,25 @@ bool Loader::IsRuntime(const char* path) {
 #endif
 }
 
-void Loader::HandleError(const char* path, int type) {
-  std::string buf;
+int Loader::GetError(int type, const char* path, std::string* buf) {
   int error_type = 0;
   ASSERT(true, (type == kFOpenError || type == kNotAFile || type == kNotFound));
   if (type == kFOpenError) {
     error_type = IOEvent::kError;
-    os::Strerror(&buf, K_ERRNO);
+    os::Strerror(buf, K_ERRNO);
   } else if (type == kNotAFile) {
     error_type = IOEvent::kNotAFile;
-    os::SPrintf(&buf, "%s is a directory.", path);
+    os::SPrintf(buf, "%s is a directory.", path);
   } else if (type == kNotFound) {
     error_type = IOEvent::kNotFound;
-    os::SPrintf(&buf, "%s No such file.", path);
+    os::SPrintf(buf, "%s No such file.", path);
   }
+  return error_type;
+}
+
+void Loader::HandleError(const char* path, int type) {
+  std::string buf;
+  int error_type = GetError(type, path, &buf);
   IOEvent *e = new(&pool_) IOEvent(path, buf.c_str(), error_type);
   NotifyForKey(kError, e);
 }

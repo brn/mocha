@@ -59,6 +59,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   const DepsHandle GetDepends() const;
   SharedPtr<ErrorReporter> Errors() {return reporter_;}
   void ImportFile(std::string* buf, const char* path, CompilationEvent* e);
+  void IncludeFile(std::string* buf, const char* path);
   void set_current_directory(const char* path);
   static const char kScan[];
   static const char kParse[];
@@ -73,6 +74,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   void FailHandler(CompilationEvent* e);
   bool CheckGuard(const char* path);
   void Success(CompilationEvent* e);
+  void SearchModule(const char* path, std::string* buf);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
   AstRoot* root_;
   AtomicWord token_initialized_;

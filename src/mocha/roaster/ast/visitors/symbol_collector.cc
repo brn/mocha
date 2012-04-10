@@ -12,6 +12,7 @@ namespace mocha {
 #define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void SymbolCollector::Visit##type(type* ast_node)
 #define UNREACHABLE_IMPL(type) void SymbolCollector::Visit##type(type*){FATAL("UNREACHABLE");}
+#define EMPTY_IMPL(type) void SymbolCollector::Visit##type(type*){}
 
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME printf("depth = %d name = %s\n", depth_++, ast_node->GetName())
@@ -71,6 +72,8 @@ VISITOR_IMPL(VersionStmt) {
 VISITOR_IMPL(AssertStmt) {
   ast_node->first_child()->Accept(this);
 }
+
+EMPTY_IMPL(IncludeStmt);
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;

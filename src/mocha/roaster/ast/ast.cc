@@ -421,6 +421,11 @@ AstNode* TryStmt::Clone(memory::Pool* pool) {
 
 LINED_CLONE(AssertStmt);
 
+AstNode* IncludeStmt::Clone(memory::Pool* pool) {
+  IncludeStmt* inc = new(pool) IncludeStmt(name_.c_str(), line_number());
+  return inc;
+}
+
 AstNode* CaseClause::Clone(memory::Pool* pool) {
   CaseClause* clause = new(pool) CaseClause(line_number());
   if (expression_) {

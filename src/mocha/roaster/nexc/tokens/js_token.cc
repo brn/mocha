@@ -77,6 +77,7 @@ char reserved_words[][ 20 ] = {
   "each",
   "yield",
   "@assert",
+  "@include",
   "@version",
   "@pragma",
   "++", "--", "==", "<<", ">>", "<=", ">=", "===", "!=" ,

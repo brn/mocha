@@ -211,6 +211,24 @@ void Nexc::Compile(const char* source, const char* charset) {
   NotifyForKey(kScan, event);
 }
 
+void Nexc::IncludeFile(std::string* buf, const char* path) {
+  SearchModule(path, buf);
+  os::fs::Path path_info(buf->c_str());
+  os::fs::Stat stat(path_info.absolute_path());
+  if (CheckGuard(path_info.absolute_path())) {
+    std::string buf;
+    Loader loader;
+    if (!loader.LoadFile(path, &buf)) {
+      ErrorReporter reporter;
+      reporter.ReportSyntaxError(buf.c_str());
+      buf.clear();
+      reporter.SetError(&buf);
+    } else {
+      guard_.insert(GuardPair(path_info.absolute_path(), true));
+      deps_->push_back(path_info.absolute_path());
+    }
+  }
+}
 
 void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
   if (Loader::IsRuntime(path)) {
@@ -221,9 +239,8 @@ void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
       os::SPrintf(buf, "'%s'", path);
     }
   } else {
-    const char* current = virtual_directory_->current_directory();
     std::string module_path;
-    os::SPrintf(&module_path, "%s/%s.js", current, path);
+    SearchModule(path, &module_path);
     os::fs::Path path_info(module_path.c_str());
     nexc_utils::ManglingName(buf, path_info.filename(), path_info.directory());
     if (CheckGuard(path_info.absolute_path())) {
@@ -237,6 +254,27 @@ void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
       loader.AddListener(Loader::kError, LoadErrorListener(this, event, false));
       loader.LoadFile(event->fullpath());
     }
+  }
+}
+
+void Nexc::SearchModule(const char* path, std::string* buf) {
+  int len = strlen(path);
+  const char* current = virtual_directory_->current_directory();
+  if (len > 0) {
+    if (path[0] == '.') {
+      os::SPrintf(buf, "%s/%s.js", current, path);
+    } else {
+      const LibDirectories& dir = compilation_info_->lib_directories();
+      LibDirectories::const_iterator it = dir.begin();
+      for (; it != dir.end(); ++it) {
+        os::SPrintf(buf, "%s/%s.js", it->c_str(), path);
+        os::fs::Stat stat(buf->c_str());
+        if (stat.IsExist() && stat.IsReg()) {
+          return;
+        }
+      }
+    }
+    os::SPrintf(buf, "%s/%s.js", current, path);
   }
 }
 

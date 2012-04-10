@@ -41,15 +41,15 @@
         defaultExports : {},
         current : 'main'
       }
-  
+
   /**
    * @namespace
    * The global core functions definitions.
    */
-  var mocha = function () {  
+  var mocha = function () {
         //Define global mocha object.
         var mocha = utils.defProp(env, 'mocha', {});
-        
+
         //Define file config utils.
         utils.defProp(mocha, 'config', {
           set : function (name, val) {
@@ -61,7 +61,7 @@
           },
           get : function (key) {return natives.config.get(key);}
         });
-        
+
         //Define global console api.
         utils.defProp(env, 'console', {
           _print : function (method, args) {
@@ -91,7 +91,7 @@
             this._print('printStdout', arguments);
           }
         });
-        
+
         //Define mocha module system.
         utils.defProp(mocha, 'import', function (path, force) {
           if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~' && path[1] != ':') {
@@ -121,15 +121,15 @@
             return utils.globalExports[fullpath];
           }
         });
-        
+
         //Define export function
         utils.defProp(mocha, 'export', function (name, val) {
           utils.globalExports[utils.current][name] = val;
         });
-        
+
         //export loadFile function.
         utils.defProp(mocha, 'loadFile', utils.loadFile);
-        
+
         //Define command utilities.
         utils.defProp(mocha, 'addCommand', function (name , val, help) {
           utils.defProp(this._commands, name, val, '-e -c -w');
@@ -159,7 +159,7 @@
         }, "Begin watch server, and compile immediately if modified.");
         return mocha;
       }();
-  
+
   //Builtin command definitions.
   mocha.addCommand("watchList", function (showDeploy, showOpt, pred) {
     pred = pred || function (){ return true; };
@@ -210,7 +210,7 @@
       mocha.printAsciiBox(ret, ['name'], 2);
     }
   }, "watchList([deployInfo], [optionInfo], [predicate]) : Begin watch server, and compile immediately if modified.");
-  
+
   mocha.addCommand("unwatch", function (type) {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();
@@ -234,7 +234,7 @@
       env.console.log("watch sever is now stopping.");
     }
   }, "restart() : Restart watch server, if watch server is working.");
-  
+
   mocha.addCommand("deploy", function (pred, opt) {
     if (pred && typeof pred === 'function') {
       for (var i in natives.script.watcher._settingList) {
@@ -245,22 +245,38 @@
       }
     }
   }, "compile(predicate, [option]) : Compile file that is selected by predicate function.");
-  
+
   mocha.addCommand("test", function (pred, opt) {
     if (pred && typeof pred === 'function') {
-      for (var i in natives.script.watcher._settingList) {
-        if (pred(i, natives.script.watcher._settingList[i])) {
-          opt = opt || natives.script.watcher._settingList[i];
-          var phantom = natives.config.get('phantomInstallDir');
-          if (phantom) {
+      var phantom = natives.config.get('phantomInstallDir'),
+          argList = [],
+          dir,
+          pathInfo,
+          name;
+      if (phantom) {
+        for (var i in natives.script.watcher._settingList) {
+          if (pred(i, natives.script.watcher._settingList[i])) {
+            opt = opt || natives.script.watcher._settingList[i];
             natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
-            natives.os.process.spawn(phantom, "")
+            dir = natives.script.watcher._settingList[i].deployDir;
+            pathInfo = new natives.fs.Path(i);
+            if (!dir) {
+              dir = pathInfo.directory();
+            }
+            name = natives.script.watcher._settingList[i].deployName;
+            if (!name) {
+              name = pathInfo.filename().replace('.js', '-cmp.js');
+            }
+            argList.push(dir + '/' + name);
           }
+        }
+        if (natives.config.has('testDriver')) {
+          console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
         }
       }
     }
   }, "test(predicate, [option]) : Start test with the file that selected by predicate function.");
-  
+
   mocha.addCommand("exit", function () {
     if (natives.script.watcher.isRunning()) {
       natives.script.watcher.exit();
@@ -275,7 +291,7 @@
       env.console.log("  " + command + '  :  ' + mocha._commandsHelp[command]);
     }
   }, 'help() : show all command and help list.');
-  
+
   mocha.printAsciiBox = function (array, title, additionalPadding) {
     additionalPadding = additionalPadding || 0
     var max = Math.max,
@@ -356,7 +372,18 @@
     }
     natives.fs.Dir.chdir(current);
   })();
-  
+
+  (function () {
+    var path = natives.config.get('testDriver'),
+        driverStat = new natives.fs.Stat(path);
+    if (!driverStat.isExist()) {
+      var file = natives.io.fopen(path, 'w+b'),
+          source = natives.config._testDriverTemplate;
+      file.writeTextContent(source);
+      file.close();
+    }
+  })();
+
   return function (source) {
     var compiled = natives.script.Roaster.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
     source = '(function(mocha) {\n' + compiled + '\n})';

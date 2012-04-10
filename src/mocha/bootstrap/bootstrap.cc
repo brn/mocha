@@ -18,6 +18,10 @@ void CreateMochaDir() {
     fprintf(stderr, "Can not create directory %s mocha boot failed.", path);
     exit(2);
   }
+  if (!mocha::os::fs::mkdir(Setting::moduledir(), 0777)) {
+    fprintf(stderr, "Can not create directory %s mocha boot failed.", Setting::moduledir());
+    exit(2);
+  }
 }
 
 void Bootstrap::Initialize(int argc, char** argv) {

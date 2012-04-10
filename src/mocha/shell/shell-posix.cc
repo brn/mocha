@@ -21,7 +21,7 @@ const int kKeyUp = 65;
 const int kKeyDown = 66;
 const int kKeyLeft = 67;
 const int kKeyRight = 68;
-static char kPrompt[] = {'>', '>', '0'};
+static char kPrompt[] = {'>', '>'};
 
 
 Shell* Shell::Initialize(Action& action) {
@@ -58,8 +58,6 @@ void Shell::Destruct() {
 
 void Shell::Read() {
   int read;
-  const char dummy[] = {""};
-  history(history_, &event_, H_ENTER, dummy);
   while(1) {
     std::wstring input = el_wgets(line_, &read);
     if (read == -1) {
@@ -83,7 +81,6 @@ void Shell::Read() {
       }
       delete []mbs;
     }
-    os::Sleep(1000);
   }
 }
 

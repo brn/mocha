@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
@@ -19,6 +20,8 @@ class Scope;
 class CompilationInfo;
 class AstBuilder;
 class CodegenVisitor : public IVisitor {
+  typedef std::pair<const char*, bool> IncludePair;
+  typedef roastlib::unordered_map<std::string, bool> IncludeGuard;
  public :
   CodegenVisitor(CompilationInfo* info);
   CodegenVisitor(bool is_pretty_print, bool is_debug, CompilationInfo* info);
@@ -57,6 +60,7 @@ class CodegenVisitor : public IVisitor {
   ScopedPtr<CodeStream> stream_;
   ScopedPtr<CodeWriter> writer_;
   FileRoot* current_root_;
+  IncludeGuard include_guard_;
 };
 }
 

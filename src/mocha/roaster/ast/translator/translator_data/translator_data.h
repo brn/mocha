@@ -33,7 +33,6 @@
 #include <mocha/roaster/nexc/events/compilation_event/compilation_event.h>
 namespace mocha {
 class CompilationEvent;
-class Compiler;
 class ClassProcessor;
 class AstBuilder;
 class CompilationInfo;

@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <vector>
 #include <sstream>
+#include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
@@ -527,6 +528,10 @@ AstNode* Parser::ParseStatement() {
       result = ParseAssertStatement();
       break;
 
+    case Token::MOCHA_INCLUDE :
+      result = ParseIncludeStatement();
+      break;
+
       //a mocha special keyword not harmony.
     case Token::MOCHA_VERSIONOF :
       result = ParseVersionStatement();
@@ -916,6 +921,36 @@ AstNode* Parser::ParseAssertStatement() {
                   << " 'in assert statement' expect '('\\nin file "
                   << filename_ << " at line " << token->line_number());
     END(AssertStatementError);
+    return new(pool()) Empty;
+  }
+}
+
+//Parse assert statement
+AstNode* Parser::ParseIncludeStatement() {
+  /**
+   * [bison/yacc compat syntax]
+   * mocha_assert_statement
+   * : MOCHA_INCLUDE '(' JS_STRING_LITERAL ')'
+   */
+  ENTER(AssertStatement);
+  TokenInfo *token = Seek();
+  int64_t line = token->line_number();
+  if (token->type() == Token::JS_STRING_LITERAL) {
+    AstNode* expect = ParseLiteral(false);
+    CHECK_ERROR(expect);
+    ParseTerminator();
+    std::string path = expect->CastToLiteral()->value()->token();
+    if (path.size() > 1) {
+      path.erase(0, 1);
+      path.erase(path.size() - 1, 1);
+    }
+    return new (pool()) IncludeStmt(path.c_str(), line);
+  } else {
+    SYNTAX_ERROR("parse error got unexpected token "
+                  << TokenConverter(token).cstr()
+                  << " 'in include directive' expect 'string literal'\\nin file "
+                  << filename_ << " at line " << token->line_number());
+    END(IncludeStatementError);
     return new(pool()) Empty;
   }
 }

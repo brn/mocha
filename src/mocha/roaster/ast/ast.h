@@ -118,6 +118,7 @@ class AstNode : public memory::Allocated {
     kStatementList,
     kVersionStmt,
     kAssertStmt,
+    kIncludeStmt,
     kExpression,
     kVariableDeclarationList,
     kLiteral,
@@ -977,6 +978,23 @@ class AssertStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(AssertStmt);
+};
+
+class IncludeStmt : public Statement {
+ public :
+  explicit IncludeStmt(const char* name, int64_t line)
+      : Statement(NAME_PARAMETER(IncludeStmt), line),
+        name_(name){}
+  ~IncludeStmt(){}
+  const char* filecontents() const {return contents_.c_str();}
+  const char* path() const {return name_.c_str();}
+  void set_contents(const char* str) {contents_ = str;}
+  std::string* data_container() {return &contents_;}
+  CLONE;
+ private :
+  CALL_ACCEPTOR(IncludeStmt);
+  std::string name_;
+  std::string contents_;
 };
 
 class CaseClause : public AstNode {

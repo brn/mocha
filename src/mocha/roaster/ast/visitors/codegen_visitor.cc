@@ -5,10 +5,12 @@
 #include <utility>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/platform/fs/fs.h>
+#include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
 #include <mocha/roaster/nexc/compilation_info/compilation_info.h>
+#include <mocha/roaster/nexc/loader/loader.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
@@ -18,7 +20,6 @@ namespace mocha {
 
 #define VISITOR_IMPL(type) void CodegenVisitor::Visit##type(type* ast_node)
 #define UNREACHABLE_IMPL(type) void CodegenVisitor::Visit##type(type*){FATAL("UNREACHABLE");}
-
 #define ITERATOR(name) begin = name.begin(),end = name.end()
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME DEBUG_LOG(Info, "visit : %s", ast_node->node_name())
@@ -31,7 +32,7 @@ namespace mocha {
     ast->Accept(this)
 
 
-inline void line_numberBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* writer) {
+inline void LineBreak(AstNode* ast_node, CodeStream* stream, CodeWriter* writer) {
   AstNode* parent = ast_node->parent_node();
   bool is_root_stmt = true;
   if (parent) {
@@ -126,7 +127,7 @@ VISITOR_IMPL(NodeList) {
 
 VISITOR_IMPL(BlockStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
   if (ast_node->child_length() > 0) {
     NodeIterator iterator = ast_node->ChildNodes();
@@ -174,6 +175,11 @@ VISITOR_IMPL(AssertStmt) {
   }
 }
 
+VISITOR_IMPL(IncludeStmt) {
+  const char* filecontents = ast_node->filecontents();
+  stream()->Write(filecontents);
+}
+
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
@@ -210,7 +216,7 @@ void CodegenVisitor::VarListProcessor_(AstNode* ast_node) {
 
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   writer()->WriteOp(Token::JS_VAR, 0, stream());
   VarListProcessor_(ast_node->first_child());
@@ -222,7 +228,7 @@ UNREACHABLE_IMPL(LetStmt);
 
 VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   ast_node->first_child()->Accept(this);
   writer()->WriteOp(';', 0, stream());
@@ -232,7 +238,7 @@ VISITOR_IMPL(ExpressionStmt) {
 VISITOR_IMPL(IFStmt) {
   PRINT_NODE_NAME;
   if (!MatchState_(Token::JS_ELSE)) {
-    line_numberBreak(ast_node, stream(), writer());
+    LineBreak(ast_node, stream(), writer());
     writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   }
   writer()->WriteOp(Token::JS_IF, 0, stream());
@@ -327,7 +333,7 @@ VISITOR_IMPL(IterationStmt) {
 
 void CodegenVisitor::ForProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* exp = ast_node->expression();
   writer()->WriteOp(Token::JS_FOR, 0, stream());
@@ -384,7 +390,7 @@ void CodegenVisitor::ForProccessor_(IterationStmt* ast_node) {
 
 void CodegenVisitor::ForInProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   int for_in_type = ast_node->node_type();
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* exp = ast_node->expression();
@@ -438,7 +444,7 @@ void CodegenVisitor::ForInProccessor_(IterationStmt* ast_node) {
 
 void CodegenVisitor::WhileProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   AstNode* exp = ast_node->expression();
   writer()->WriteOp(Token::JS_WHILE, 0, stream());
@@ -477,7 +483,7 @@ void CodegenVisitor::WhileProccessor_(IterationStmt* ast_node) {
 
 void CodegenVisitor::DoWhileProccessor_(IterationStmt* ast_node) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   AstNode* exp = ast_node->expression()->first_child();
   AstNode* maybeBlock = ast_node->first_child();
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
@@ -547,7 +553,7 @@ VISITOR_IMPL(ReturnStmt) {
 
 VISITOR_IMPL(WithStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   writer()->WriteOp(Token::JS_WITH, 0, stream());
   writer()->WriteOp('(', 0, stream());
@@ -573,7 +579,7 @@ VISITOR_IMPL(WithStmt) {
 
 VISITOR_IMPL(SwitchStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   writer()->WriteOp(Token::JS_SWITCH, 0, stream());
   writer()->WriteOp('(', 0, stream());
@@ -635,7 +641,7 @@ VISITOR_IMPL(ThrowStmt) {
 
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->WriteOp(Token::JS_TRY, 0, stream());
   AstNode* try_block = ast_node->first_child();
   writer()->WriteOp('{', CodeWriter::kBlockBeginBrace, stream());
@@ -826,7 +832,7 @@ UNREACHABLE_IMPL(ClassMember);
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  line_numberBreak(ast_node, stream(), writer());
+  LineBreak(ast_node, stream(), writer());
   writer()->WriteOp(Token::JS_FUNCTION, 0, stream());
   ast_node->name()->Accept(this);
   scope_ = ast_node->scope();

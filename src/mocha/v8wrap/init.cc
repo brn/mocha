@@ -29,7 +29,7 @@ void V8Init::Destruct() {
 }
 
 void V8Init::IdleNotification() {
-  while (!V8::IdleNotification());
+  while (!V8::IdleNotification()){}
 }
 
 void V8Init::Print(Handle<Value> value) {
@@ -40,7 +40,6 @@ void V8Init::Print(Handle<Value> value) {
     os::Printf("undefined\n");
   }
 }
-
 
 Handle<Value> V8Init::RunInConfigContext(const char* source) {
   HandleScope scope;
@@ -172,7 +171,7 @@ void V8Init::Initialize() {
   context_ = REGIST_PERSISTENT(Context::New(NULL, config_global_template), "GlobalContext");
   Context::Scope context_scope(context_);
   native_ = REGIST_PERSISTENT(Object::New(), "Natives");
-  Handle<Value> fn = DoRun(init_js::initjs);
+  Handle<Value> fn = DoRun(packed_script::initjs);
   Handle<FunctionTemplate> compile_tmp = FunctionTemplate::New(Compile);
   Handle<v8::Function> callable = Handle<v8::Function>::Cast(fn);
   compile_ = REGIST_PERSISTENT(compile_tmp->GetFunction(), "CompileFunction");

@@ -36,6 +36,7 @@ class Loader : public Notificator<IOEvent*> {
   Loader();
   ~Loader();
   void LoadFile(const char* path);
+  bool LoadFile(const char* path, std::string* buf);
   static bool IsRuntime(const char* path);
   static AstNode* GetRuntime(const char* name, memory::Pool* pool);
   static void Initialize();
@@ -49,6 +50,7 @@ class Loader : public Notificator<IOEvent*> {
   };
   void ReadNormalFile(FILE* fp, std::stringstream *st);
   void HandleError(const char* path, int type);
+  int GetError(int type, const char* path, std::string* buf);
   memory::Pool pool_;
 };
 }

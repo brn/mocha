@@ -13,10 +13,6 @@ CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
   versions_.insert(VersionPair(Consts::kVersionNone, 1));
   versions_.insert(VersionPair(Consts::kVersionCompat, 1));
-  std::string base_dir = os::fs::Path::home_directory();
-  base_dir += "/.mocha/";
-  base_dir += "module/";
-  lib_dir_.push_back(base_dir);
 }
 
 bool CompilationInfo::Debug() const {

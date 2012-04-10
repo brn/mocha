@@ -72,12 +72,12 @@ CompilationInfoHandle FileInfo::compilation_info() {
 void FileInfoMap::UnsafeSet(const char* filename) {
   SharedPtr<FileInfo> handle(new FileInfo(filename));
   resources_.insert(FileInfoPair(filename, handle));
+  handle->compilation_info()->SetLibDirectory(Setting::moduledir());
 }
 
 void FileInfoMap::SafeSet(const char* filename) {
   os::ScopedLock lock(mutex_);
-  SharedPtr<FileInfo> handle(new FileInfo(filename));
-  resources_.insert(FileInfoPair(filename, handle));
+  UnsafeSet(filename);
 }
 
 FileInfo* FileInfoMap::UnsafeGet(const char* filename) {

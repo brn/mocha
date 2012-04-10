@@ -58,6 +58,7 @@ namespace mocha {
 
 #define VISITOR_IMPL(type) void Translator::Visit##type(type* ast_node)
 #define UNREACHABLE_IMPL(type) void Translator::Visit##type(type*){FATAL("UNREACHABLE");}
+#define EMPTY_IMPL(type) void Translator::Visit##type(type*){}
 
 #ifdef PRINTABLE
 #define PRINT_NODE_NAME ast_node->PrintNodeName();
@@ -526,6 +527,9 @@ VISITOR_IMPL(AssertStmt) {
   }
 }
 
+VISITOR_IMPL(IncludeStmt) {
+  event_->nexc()->IncludeFile(ast_node->data_container(), ast_node->path());
+}
 
 VISITOR_IMPL(CallExp) {
   PRINT_NODE_NAME;

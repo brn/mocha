@@ -20,6 +20,8 @@ void Setting::Initialize() {
   base << os::fs::Path::home_directory() << "/.mocha/";
   tmp_file_ = base.str();
   tmp_file_ += "watch.tmp";
+  moduledir_ = base.str();
+  moduledir_ += "module";
   FILE* fp = os::FOpen(tmp_file_.c_str(), "w+b");
   if (fp != NULL) {
     os::FClose(fp);
@@ -30,6 +32,9 @@ void Setting::Initialize() {
   config_path_ = base.str();
   config_path_ += "config.js";
   base_ = base.str();
+  std::string test_dirver = base.str();
+  test_dirver += "/test_driver.js";
+  Set("testDriver", test_dirver.c_str());
 }
 
 void Setting::Destruct() {
@@ -39,6 +44,7 @@ void Setting::Destruct() {
 const char* Setting::base() { return base_.c_str();};
 const char* Setting::tmp_path() { return tmp_file_.c_str();};
 const char* Setting::config_path() {return config_path_.c_str();}
+const char* Setting::moduledir() {return moduledir_.c_str();}
 
 const char* Setting::Get(const char* key) {
   if (strlen(key) > 0) {
@@ -78,4 +84,5 @@ Setting::SettingMap Setting::setting_map_;
 std::string Setting::base_;
 std::string Setting::tmp_file_;
 std::string Setting::config_path_;
+std::string Setting::moduledir_;
 }

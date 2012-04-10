@@ -27,37 +27,5 @@ h2. Instlation
 * linux 
 ** run <pre>scons</pre> the binary file is builed in bin/linux/
 
-h2. Guide
 
-The first time you run mocha, dir .mocha is created in user home folder,
-ex. 
 
-* linux and osx ~/.mocha
-* win xp C:\Document and Setting\<user_name>\.mocha
-* win vista or later C:\Users\<user_name>\.mocha
-
-and mocha create config.js in .mocha, this file is evaled by v8 javascript engine at start up.
-
-Example of auto generated config.js.
-<pre><code class="javascript">config.set("watchFilePath", "./watch.js");
-config.set("logFilePath", "./mocha.log");</code></pre>
-
-In config.js, you need to set the mocha settings to a global config object.
-
-h2. The config api
-
-h2. config.set(configName, value)
-
-Set new config.
-
-config name list
-* watchFilePath
-** Set the location of the file watcher setting file.
-* logFilePath
-** Set the log file path. If this value is not enabled, log is showed in stdout.
-* phantomInstallDir
-** The location of phantomjs installed directory.
-
-h2. config.get(configName)
-
-* Get the specified config value.

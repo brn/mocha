@@ -16,6 +16,7 @@ class Setting : private Static{
   static const char* Get(const char* key);
   static void Set(const char* key, const char* val);
   static bool Has(const char* key);
+  static const char* moduledir();
   static const char kWatchFilePath[];
   static const char kPhantomPath[];
   static const char kLogPath[];
@@ -26,6 +27,7 @@ class Setting : private Static{
   static std::string base_;
   static std::string tmp_file_;
   static std::string config_path_;
+  static std::string moduledir_;
 };
 }
 

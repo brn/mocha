@@ -24,24 +24,29 @@
 #include <string.h>
 #include <mocha/roaster/smart_pointer/common/ptr_deleter.h>
 #include <mocha/roaster/nexc/scanner/source_stream.h>
+#ifndef PACKING_RUNTIME
 #include <mocha/roaster/nexc/scanner/encoding/encoding.h>
-namespace mocha {
-
-SharedStr Encode(const char* source, const char* charset) {
+mocha::SharedStr Encode(const char* source, const char* charset) {
   if (charset == NULL) {
-    SharedPtr<DetectResult> detected = ICUWrapper::GetEncode(source);
-    SharedStr data = ICUWrapper::EncodeToUtf8(source, detected->charset);
+    mocha::SharedPtr<mocha::DetectResult> detected = mocha::ICUWrapper::GetEncode(source);
+    mocha::SharedStr data = mocha::ICUWrapper::EncodeToUtf8(source, detected->charset);
     return data;
   } else {
-    SharedStr data = ICUWrapper::EncodeToUtf8(source, charset);
+    mocha::SharedStr data = mocha::ICUWrapper::EncodeToUtf8(source, charset);
     return data;
   }
 }
-
+#endif
+namespace mocha {
 SourceStream* SourceStream::New(const char* source, const char* charset, memory::Pool* pool) {
+#ifndef PACKING_RUNTIME
   SharedStr str_handle = Encode(source, charset);
+  const char* ret = str_handle.Get();
+#else
+  const char* ret = source;
+#endif
   SourceStream* stream = new(pool) SourceStream();
-  stream->CreateStream(str_handle.Get());
+  stream->CreateStream(ret);
   return stream;
 }
 

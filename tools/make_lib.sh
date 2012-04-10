@@ -5,6 +5,7 @@ readonly DEPS_DIR=${CURRENT}/src/.deps/${1}
 readonly PLATFORM=$1
 readonly V8_LIB=$2
 readonly UV_LIB=$3
+readonly UV_LOC=$4
 
 #Make tarball and move to src/.libtmp
 PackAndStaging()
@@ -108,7 +109,7 @@ BuildV8()
 
 CopyLibUV()
 {
-    cp ${UV_LIB} ${DEPS_DIR}/libuv/
+    cp ${UV_LOC} ${DEPS_DIR}/libuv/
     cp -r include ${DEPS_DIR}/libuv/include
 }
 

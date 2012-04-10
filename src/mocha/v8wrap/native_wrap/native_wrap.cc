@@ -1,5 +1,6 @@
 #include <string.h>
 #include <mocha/v8wrap/init.h>
+#include <mocha/v8wrap/initjs.h>
 #include <mocha/v8wrap/native_wrap/native_wrap.h>
 #include <mocha/roaster/ast/seriarization/byte.h>
 #include <mocha/fileinfo/fileinfo.h>
@@ -847,6 +848,7 @@ void NativeWrap::Config::Init(Handle<Object> object) {
   setting->Set(String::New("get"), get->GetFunction());
   setting->Set(String::New("has"), has->GetFunction());
   setting->Set(String::New("_watchFileTemplate"), String::New(Setting::WatchFileTemplate()));
+  setting->Set(String::New("_testDriverTemplate"), String::New(packed_script::test_driver));
   setting->Set(String::New("_configPath"), String::New(Setting::config_path()));
   object->Set(String::New("config"), setting);
 }
