@@ -529,18 +529,18 @@ configオブジェクトのcompileSettingPathによって場所が設定され�
 
 <pre class="brush: js">
 //scriptモジュールをインポート
-var watcher = mocha.import('script&#8217;).watcher;
+var watcher = mocha.import('script').watcher;
 //設定の追加
 //対象のファイルネーム
 watcher.addSetting(&#8220;src/test.js&#8221;, {
   //deployするディレクトリ
-  deployDir : 'src/deploy&#8217;,
+  deployDir : 'src/deploy',
   //deployする際のファイルネーム
-  deployName : 'test-deploy.js&#8217;,
+  deployName : 'test-deploy.js',
   //ファイルのエンコーディング
-  inputCharset : 'utf-8&#8217;,
+  inputCharset : 'utf-8',
   //出力されるファイルのエンコーディング
-  outputCharset : 'utf-8&#8217;,
+  outputCharset : 'utf-8',
   //コンパイルオプション
   options : {
     //人間の読みやすい形にする
@@ -635,10 +635,10 @@ var fs = mocha.import(&#8220;fs&#8221;),
     watcher = mocha.import(&#8220;script&#8221;).watcher;
 var dir = new fs.Dir(&#8220;src/js/&#8221;);
 dir.entries(true).forEach(function (item) {
-  if (item.fullpath.indexOf(&#8217;.js&#8217;) > -1) {
+  if (item.fullpath.indexOf('.js') > -1) {
     watcher.addSetting(item.fullpath, {
-      deployDir : 'src/deploy&#8217;,
-      deployName : item.filename.replace(&#8217;.js&#8217;, '-cmp.js&#8217;),
+      deployDir : 'src/deploy',
+      deployName : item.filename.replace('.js', '-cmp.js'),
       options : {
         prettyPrint : true
       }
@@ -654,10 +654,10 @@ var fs = mocha.import(&#8220;fs&#8221;),
     watcher = mocha.import(&#8220;script&#8221;).watcher;
 var options = (filename) -> ({
       deployDir : &#8220;src/deploy&#8221;,
-      deployName : filename.replace(&#8217;.js&#8217;, '-deploy.js&#8217;),
+      deployName : filename.replace('.js', '-deploy.js'),
       options : {
         prettyPrint : true,
-        versions : ['ex&#8217;]
+        versions : ['ex']
       }
     });
 class FileSeaker {
@@ -671,8 +671,8 @@ class FileSeaker {
     }
   }
 }
-fileSeaker = new FileSeaker('src/js/&#8217;);
-fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf(&#8217;.js&#8217;) > -1);
+fileSeaker = new FileSeaker('src/js/');
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf(&#8221;-deploy.js&#8221;) === -1)
 fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));
 </pre></div></body></html>

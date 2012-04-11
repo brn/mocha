@@ -60,7 +60,7 @@ h2. ガイド
 ** "コンパイル設定ファイル":compile_setting_guide.html
 ** "コマンドの設定":command_guide.html
 * コンパイル
-** "オプション":option_guide.html
+** "コンパイルの実行":option_guide.html
 ** "デプロイ設定":deploy_guide.html
 ** "コンパイラ拡張":compiler_directive.html
 * テスト

@@ -515,47 +515,83 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 //<![CDATA[
 SyntaxHighlighter.all();//]]>
 </script></head>
-<body><div id="wrapper"><h1><a href="index.html">mocha ES Next Translator</a></h1>	<h2>config.js</h2>
+<body><div id="wrapper"><h1><a href="index.html">mocha ES Next Translator</a></h1>	<h2>コンパイルの実行</h2>
 
-	<h3><a href="index.html">index</a> > config.js</h3>
+	<h3><a href="index.html">index</a> > コンパイルの実行</h3>
 
-	<p>mochaは初回起動時に&lt;user_home&gt;/.mocha/config.jsというファイルを生成します。このファイルの解説です。
-&lt;user_home&gt;は
-	<ul>
-		<li><strong>windows xp</strong> <pre>C:\Document and Setting\&#60;ユーザー名&#62;\</pre></li>
-		<li><strong>windows vista or later</strong> <pre>C:\Users\&#60;ユーザー名&#62;\</pre></li>
-		<li><strong>osx</strong> <pre>/Users/&#60;ユーザー名&#62;</pre></li>
-		<li><strong>linux</strong> <pre>/home/&#60;ユーザー名&#62;</pre></li>
-	</ul>
-になります。 </p>
+	<p>mochaはコンパイラをjsにエクスポートしているので、jsからもコンパイル可能です。</p>
 
-	<p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。
-このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
+	<p><strong>ソースからコンパイルする。</strong></p>
 
-	<p>以下にmochaの生成するデフォルトのconfig.jsを提示します。
 <pre class="brush: js">
-config.set('compileSettingPath', './compile_setting.js');
-config.set('logFilePath', './mocha.log');
-</pre></p>
+var roaster = mocha.import('script').Roaster,
+    result = roaster.compile('(x,y,z)->x + y + z;', 'utf-8', {
+               prettyPrint : true, 
+               debug : false,
+               compress : false
+             });
+console.log(result);
+</pre>
 
-	<p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。
-以下がconfigオブジェクトに設定可能な値です。</p>
+	<p><strong>ファイルをコンパイルする</strong></p>
+
+<pre class="brush: js">
+var roaster = mocha.import('script').Roaster,
+    result = roaster.compile('src/test.js', 'utf-8', {
+               prettyPrint : true,
+               debug : false,
+               compress : false
+             });
+console.log(result);
+</pre>
+
+	<p><strong>ファイルをデプロイする</strong></p>
+
+<pre class="brush: js">
+var roaster = mocha.import('script').Roaster,
+roaster.deploy('src/test.js', 'utf-8', {
+  prettyPrint : true,
+  debug : false,
+  compress : false
+});
+</pre>
+
+	<p><strong>依存関係を取得する</strong></p>
+
+<pre class="brush: js">
+var roaster = mocha.import('script').Roaster,
+    result = roaster.checkDependencies('src/test.js');
+result.forEach(function (filename) {
+  console.log(filename);
+});
+</pre>
+
+	<h2>Roaster <span class="caps">API</span></h2>
 
 	<table>
 		<tr>
-			<th>name</th>
-			<th>value</th>
+			<th>名前</th>
+			<th>インターフェース</th>
+			<th>説明</th>
 		</tr>
 		<tr>
-			<td>compileSettingPath</td>
-			<td>jsファイルのコンパイル設定が記述されたファイルの場所です。</td>
+			<td>compile</td>
+			<td>Roaster::compile(filename, charset, options)</td>
+			<td>ソース文字列からコンパイルします。コンパイル結果のソース文字列を返却します。</td>
 		</tr>
 		<tr>
-			<td>logFilePath</td>
-			<td>ログファイルが格納される場所です。</td>
+			<td>compileFile</td>
+			<td>Roaster::compileFile(filename, charset, options)</td>
+			<td>ファイルをコンパイルします。コンパイル結果のソース文字列を返却します。</td>
 		</tr>
 		<tr>
-			<td>phantomInstallDir</td>
-			<td>phantomjsがインストールされている場所です。</td>
+			<td>checkDependencies</td>
+			<td>Roaster::checkDependencies(filename)</td>
+			<td>依存関係をチェックします。依存関係のあるファイルの配列を返します。</td>
+		</tr>
+		<tr>
+			<td>deploy</td>
+			<td>Roaster::deploy(filename, charset, options)</td>
+			<td>ファイルからコンパイルし、引数に与えられたオプションを元に、ファイルに書き出します。</td>
 		</tr>
 	</table></div></body></html>
