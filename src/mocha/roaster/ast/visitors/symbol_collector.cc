@@ -15,7 +15,7 @@ namespace mocha {
 #define EMPTY_IMPL(type) void SymbolCollector::Visit##type(type*){}
 
 #ifdef PRINTABLE
-#define PRINT_NODE_NAME printf("depth = %d name = %s\n", depth_++, ast_node->GetName())
+#define PRINT_NODE_NAME printf("depth = %d name = %s\n", depth_++, ast_node->node_name())
 #else
 #define PRINT_NODE_NAME
 #endif

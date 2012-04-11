@@ -20,9 +20,9 @@ class Interaction::RunCommand : public Action {
         std::stringstream st;
         mocha::StringUtils::Escape(&st, input, '\'');
         input = st.str();
-        os::SPrintf(&buf, "console.log(mocha.callCommand('%s'))", input.c_str());
+        os::SPrintf(&buf, "console.dir(mocha.callCommand('%s'))", input.c_str());
       } else {
-        os::SPrintf(&buf, "console.log(do{%s})", input.c_str());
+        os::SPrintf(&buf, "console.dir(do{%s})", input.c_str());
       }
       V8Init* v8_runner = V8Init::GetInstance();
       HandleScope handle_scope;

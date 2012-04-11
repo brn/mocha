@@ -40,7 +40,86 @@
         globalExports : {},
         defaultExports : {},
         current : 'main'
+      };
+
+  (function(global){
+
+    if (typeof(global['uneval']) !== 'function') {
+      var stringOf = function (obj) {return obj.toString();},
+          name2uneval = {
+            '[object Boolean]':stringOf,
+            '[object Number]': stringOf,
+            '[object String]': function(o){
+              return '"' + o + '"';
+            },
+            'undefined': function(o){ return 'undefined' },
+            '[object Function]':function (m, depth) { return (depth !== 0)? '[object Function]' : m.toString();},
+            '[object Array]' : function (arr) {
+              var str = ((arr.length > 0)? arr : ['']).reduce(function (item, item2) {
+                    return this.inspect(item) + ', ' + this.inspect(item2);
+                  }.bind(this));
+              return '[' + (str? str : '') + ']';
+            },
+            '[object Arguments]' : function (arr) {
+              return name2uneval['[object Array]'].call(this, Array.prototype.slice.call(arr));
+            },
+            '[object RegExp]' : stringOf,
+            '[object Date]' : function (d) {return d.toJSON();},
+            '[object Undefined]' : function () {return 'undefined';}
+          };
+
+      var Inspector = function () {
+            this._indent = '';
+            this._depth = 0;
+          }
+      Inspector.prototype.inspect = function (obj) {
+        if (obj === null) {
+          return 'null';
+        }
+        var str = Object.prototype.toString.call(obj);
+        if (str in name2uneval) {
+          return name2uneval[str].call(this, obj, this._depth);
+        } else if (str === '[object Object]') {
+          return this._inspectObject(obj);
+        } else {
+          return str;
+        }
       }
+
+      Inspector.prototype._addIndent = function () {
+        this._indent += '  ';
+        this._depth++;
+      }
+
+      Inspector.prototype._outdent = function () {
+        this._indent = this._indent.slice(0, this._indent.length - 2);
+        this._depth--;
+      }
+
+      Inspector.prototype._inspectObject = function(o){
+        this._addIndent();
+        var src = [],
+            props = Object.getOwnPropertyNames(o);
+        for (var i = 0,len = props.length; i < len; i++){
+          src[src.length] = props[i]  + ':' + this.inspect(o[props[i]], 1);
+        };
+        var ret;
+        if (src.length > 0) {
+          ret = '{' + '\n' + this._indent + src.join('\n' + this._indent) + '\n';
+          this._outdent();
+          ret += this._indent + '}';
+        } else {
+          ret = '{}';
+        }
+        return ret;
+      };
+
+      global.uneval = function(o){
+        var inspector = new Inspector();
+        return inspector.inspect(o);
+      }
+    }
+  })(env);
 
   /**
    * @namespace
@@ -64,9 +143,13 @@
 
         //Define global console api.
         utils.defProp(env, 'console', {
-          _print : function (method, args) {
+          _print : function (method, args, isInspect) {
             for (var i = 0,len = args.length; i < len; i++) {
-              natives.io.nativeConsole[method](Object(args[i]).toString());
+              if (!isInspect) {
+                natives.io.nativeConsole[method](Object(args[i]).toString());
+              } else {
+                natives.io.nativeConsole[method](env.uneval(args[i]));
+              }
               if ((i + 1) != len) {
                 natives.io.nativeConsole.printStdout(',');
               }
@@ -77,6 +160,9 @@
           },
           log : function () {
             this._print('printStdout', arguments);
+          },
+          dir : function () {
+            this._print('printStdout', arguments, true);
           },
           error : function () {
             natives.io.nativeConsole.printStderr('[Error]');
@@ -110,9 +196,10 @@
                 utils.globalExports[fullpath] = {};
                 var file = utils.current;
                 utils.current = fullpath;
-                source = '(function(mocha) {"use strict";\n' + source + '\n})';
+                //source = '(function(mocha) {"use strict";\n' + source + '\n})';
                 natives.fs.Dir.chdir(pathInfo.directory());
-                compile(source, fullpath)(mocha);
+                //compile(source, fullpath)(mocha);
+                runInConfigContext(source, fullpath);
                 utils.current = file;
               }
             } else {
@@ -146,7 +233,6 @@
           } else if (isString) {
             return mocha._commands[Array.prototype.shift.call(arguments)].apply(null, arguments);
           }
-          return null;
         });
         utils.defProp(mocha, '_commands', {});
         utils.defProp(mocha, '_commandsHelp', {});
@@ -160,50 +246,57 @@
         return mocha;
       }();
 
+  var makeOptionList = function (i, isString, setting) {
+        setting = setting || natives.script.watcher._settingList[i];
+        var path_info = new natives.fs.Path(i),
+            inputCharset = setting.inputCharset || 'utf-8',
+            outputCharset = setting.outputCharset || 'utf-8',
+            deployDir = setting.deployDir || path_info.directory(),
+            deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
+            moduleDir = (isString)? '(' + (setting.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : setting.moduleDir || [],
+            options = setting.options,
+            compress = (!isString)? options.compress || false : options.compress? 'yes' : 'no',
+            debug = (!isString)? options.debug || false : options.debug? 'yes' : 'no',
+            prettyPrint = (!isString)? options.prettyPrint || false : options.prettyPrint? 'yes' : 'no',
+            versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [];
+        return {
+          name : i,
+          inputCharset : inputCharset,
+          outputCharset : outputCharset,
+          deployDir : deployDir,
+          deployName : deployName,
+          moduleDir : (!isString)? Array.prototype.slice.call(moduleDir) : moduleDir,
+          compress : compress,
+          debug : debug,
+          prettyPrint : prettyPrint,
+          versions : (!isString)? Array.prototype.slice.call(versions) : versions
+        }
+      }
+
   //Builtin command definitions.
   mocha.addCommand("settingList", function (showDeploy, showOpt, pred) {
-    pred = pred || function (){ return true; };
+    pred = makePredicate(pred);
     var ret = [],
         dir = "";
     for (var i in natives.script.watcher._settingList) {
-      var path_info = new natives.fs.Path(i),
-          setting = natives.script.watcher._settingList[i],
-          inputCharset = setting.inputCharset || 'utf-8',
-          outputCharset = setting.outputCharset || 'utf-8',
-          deployDir = setting.deployDir || path_info.directory(),
-          deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
-          moduleDir = (setting.moduleDir || ['']).reduce(function (item) { dir += item; dir += ' '; }),
-          options = setting.options,
-          compress = options.compress? 'yes' : 'no',
-          debug = options.debug? 'yes' : 'no',
-          prettyPrint = options.prettyPrint? 'yes' : 'no';
-      var is_match = pred({
-            name : i,
-            inputCharset : inputCharset,
-            outputCharset : outputCharset,
-            deployDir : deployDir,
-            deployName : deployName,
-            moduleDir : moduleDir,
-            compress : compress,
-            debug : debug,
-            prettyPrint : prettyPrint
-          });
+      var option = makeOptionList(i, true);
+      var is_match = pred(option);
       if (is_match) {
         if (showDeploy && showOpt) {
-          ret.push([i, inputCharset, outputCharset, deployDir, deployName, moduleDir, compress, debug, prettyPrint]);
+          ret.push([i, option.inputCharset, option.outputCharset, option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.versions]);
         } else if (showOpt) {
-          ret.push([i, compress, debug, prettyPrint]);
+          ret.push([i, option.compress, option.debug, option.prettyPrint, option.versions]);
         } else if (showDeploy) {
-          ret.push([i, inputCharset, outputCharset, deployDir, deployName, moduleDir]);
+          ret.push([i, option.inputCharset, option.outputCharset, option.deployDir, option.deployName, option.moduleDir]);
         } else {
           ret.push([i]);
         }
       }
     }
     if (showDeploy && showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint'], 2);
+      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'versions'], 2);
     } else if (showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint'], 2);
+      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'versions'], 2);
     } else if (showDeploy) {
       mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir'], 2);
     } else {
@@ -236,23 +329,22 @@
   }, "restart() : Restart watch server, if watch server is working.");
 
   mocha.addCommand("deploy", function (pred, opt) {
-    if (pred && typeof pred === 'function') {
-      for (var i in natives.script.watcher._settingList) {
-        if (pred(i, natives.script.watcher._settingList[i])) {
-          opt = opt || natives.script.watcher._settingList[i];
-          natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
-        }
+    pred = makePredicate(pred);
+    for (var i in natives.script.watcher._settingList) {
+      var option = makeOptionList(i, false, opt);
+      if (pred(option)) {
+        natives.script.Roaster.deploy(i, option.inputCharset, option);
       }
     }
-  }, "compile(predicate, [option]) : Compile file that is selected by predicate function.");
-  
+  }, "deploy(predicate, [option]) : Compile file that is selected by predicate function.");
+
   function makePredicate(type) {
     return typeof type === 'string'?
       function (setting) {return type === setting.name;} :
     type instanceof RegExp? function (setting) {return type.test(setting.name);} :
     typeof type === 'function'? type : function () {return true;};
   }
-  
+
   mocha.addCommand("test", function (pred, opt) {
     pred = makePredicate(pred);
     var phantom = natives.config.get('phantomInstallDir'),
@@ -262,9 +354,10 @@
         name;
     if (phantom) {
       for (var i in natives.script.watcher._settingList) {
-        if (pred(natives.script.watcher._settingList[i])) {
-          opt = opt || natives.script.watcher._settingList[i];
-          natives.script.Roaster.deploy(i, natives.script.watcher._settingList[i].inputCharset, opt);
+        var option = makeOptionList(i, false, opt);
+        option.versions.push("test");
+        if (pred(option)) {
+          natives.script.Roaster.deploy(i, option.inputCharset, option);
           dir = natives.script.watcher._settingList[i].deployDir;
           pathInfo = new natives.fs.Path(i);
           if (!dir) {
@@ -277,7 +370,7 @@
           argList.push(dir + '/' + name);
         }
       }
-      if (natives.config.has('testDriver')) {
+      if (natives.config.has('testDriver') && argList.length > 0) {
         console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
       }
     }
@@ -389,12 +482,13 @@
       file.close();
     }
   })();
-  
+
   natives.internalLogger.initialize();
-  return function (source) {
+  function runInConfigContext (source, path) {
+    path = path || 'anonymous';
     var compiled = natives.script.Roaster.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
     source = '(function(mocha) {\n' + compiled + '\n})';
-    var ret = compile(source)(mocha);
-    return ret;
+    compile(source, path)(mocha);
   };
+  return runInConfigContext;
 });

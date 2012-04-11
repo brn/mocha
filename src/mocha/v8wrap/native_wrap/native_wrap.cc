@@ -762,6 +762,23 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
           Handle<Object> options = Handle<Object>::Cast(obj->Get(String::New("options")));
           CompilationInfo* info = resource->compilation_info().Get();
           SetCompilationOption(options, info);
+          Handle<Array> versions;
+          if (options->Has(String::New("versions"))) {
+            Handle<Value> tmp = options->Get(String::New("versions"));
+            versions = Handle<Array>::Cast(tmp);
+          } else {
+            versions = Array::New();
+            options->Set(String::New("versions"), versions);
+          }
+          versions->Set(Integer::New(versions->Length()), String::New("all"));
+          versions->Set(Integer::New(versions->Length()), String::New("none"));
+        } else {
+          Handle<Object> options = Object::New();
+          Handle<Array> versions = Array::New();
+          versions->Set(Integer::New(0), String::New("all"));
+          versions->Set(Integer::New(1), String::New("none"));
+          options->Set(String::New("versions"), versions);
+          obj->Set(String::New("options"), options);
         }
         observer->AddFile(name);
       }

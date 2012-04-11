@@ -3,7 +3,9 @@
 #include <mocha/roaster/ast/ast_foward_decl.h>
 
 namespace mocha {
+#ifdef DEBUG
 //#define PRINTABLE
+#endif
 #define DECL_VISITOR(type) virtual void Visit##type(type* ast) = 0
 
 class IVisitor {

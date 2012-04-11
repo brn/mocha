@@ -795,13 +795,13 @@ module Runtime {
     privateRecord = new WeakMap();
     createPrivateRecord = ( self , privateHolder ) -> {
       var holder = new privateHolder;
-      createUnenumProp( holder.constructor , "__is_private__" , 1 );
-      privateRecord.set( self , holder );
+      createUnenumProp(holder, "__is_private__", 1);
+      privateRecord.set(self, holder );
     }
     getPrivateRecord = ( self ) -> {
       if ( privateRecord.has( self ) ) {
         return privateRecord.get( self );
-      } else if ( self.constructor === "__is_private__" ) {
+      } else if (self.__is_private__ === 1) {
         return self;
       }
     }
@@ -809,14 +809,14 @@ module Runtime {
     createPrivateRecord = ( self , privateHolder ) -> {
       if ( !self.__typeid__ ) {
         var holder = new privateHolder;
-        createUnenumProp( holder.constructor , "__is_private__" , 1 );
-        createUnenumProp( self , "__private__", holder );
+        createUnenumProp(holder, "__is_private__", 1);
+        createUnenumProp(self, "__private__", holder);
       }
     }
     getPrivateRecord = ( self ) -> {
       if ( self.__private__ ) {
         return self.__private__;
-      } else if ( self.constructor === "__is_private__" ) {
+      } else if (self.__is_private__ === 1) {
         return self;
       }
     }

@@ -59,27 +59,32 @@ void Shell::Destruct() {
 void Shell::Read() {
   int read;
   while(1) {
-    std::wstring input = el_wgets(line_, &read);
-    if (read == -1) {
-      break;
-    }
-    if (input.size() > 0) {
-      input.erase(input.size() - 1, 1);
-      int size = input.size() * sizeof(wchar_t) + 1;
-      char* mbs = new char[size];
-      wcstombs(mbs, input.c_str(), size);
-      if (input.size() > 0) {
-        input_ = mbs;
-        history(history_, &event_, H_ENTER, input_.c_str());
-        if (input_.size() > 0) {
-          if(CallAction()) {
-            delete []mbs;
-            break;
-          }
-        }
-        input_.clear();
+    const wchar_t* val = el_wgets(line_, &read);
+    if (val != NULL) {
+      std::wstring input = val;
+      if (read == -1) {
+        break;
       }
-      delete []mbs;
+      if (input.size() > 0) {
+        input.erase(input.size() - 1, 1);
+        if (input.size() > 0) {
+          int size = input.size() * sizeof(wchar_t) + 1;
+          char* mbs = new char[size];
+          wcstombs(mbs, input.c_str(), size);
+          if (input.size() > 0) {
+            input_ = mbs;
+            history(history_, &event_, H_ENTER, input_.c_str());
+            if (input_.size() > 0) {
+              if(CallAction()) {
+                delete []mbs;
+                break;
+              }
+            }
+          }
+          delete []mbs;
+        }
+      }
+      input_.clear();
     }
   }
 }

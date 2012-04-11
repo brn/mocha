@@ -1,0 +1,36 @@
+h2. コマンドの設定
+
+h3. "index":index.html > コマンドの設定
+
+mochaは設定ファイルの追加の際にコマンド設定の追加も可能です。
+コマンドは以下の方法で追加できます。
+
+<pre class="brush: js">
+mocha.addCommand('foo', function () {
+  console.log('test');
+}, 'test command!!');
+</pre>
+
+mocha.addCommandは第一引数にコマンド名、第二引数にコールバック関数、第三引数に説明を記述します。
+追加したコマンドは端末上から呼び出す事が可能になります。
+
+先ほどのfooコマンドを呼び出すには以下のようにします。
+
+<code>
+>> .foo()
+</code>
+
+h2. 組み込みコマンド
+
+mochaは以下のコマンドをデフォルトで持っています。
+
+|_. 名前|インターフェース|_. 機能|
+|watch|watch()|監視を再開します。|
+|unwatch|unwatch()|監視を停止します。|
+|restart|restart()|再度設定ファイルを読み込みます。|
+|deploy|deploy([predicate], [option])|指定したファイルをコンパイルします。predicateには関数か、文字列、正規表現を指定します。|
+|test|test([predicate], [option])|指定したファイルをテストします。predicateには関数か、文字列、正規表現を指定します。|
+|settingList|settingList([showDeploy], [showOpt], [predicate])|mochaの監視下にあるファイルの一覧を表示します。showDeployが指定されるとdeploy情報を、showOptが指定されるとコンパイルオプションをそれぞれ追加で表示します。predicateには関数か、文字列、正規表現を指定します。|
+|help|help()|コマンド一覧を表示します。|
+|exit|exit()|mochaを終了します。|
+

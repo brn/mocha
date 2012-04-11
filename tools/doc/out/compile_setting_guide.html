@@ -520,7 +520,8 @@ SyntaxHighlighter.all();//]]>
 	<h3><a href="index.html">index</a> > コンパイル設定ファイル</h3>
 
 	<p>コンパイルの設定を記述するファイルです。
-configオブジェクトのcompileSettingPathによって場所が設定されます。</p>
+configオブジェクトのcompileSettingPathによって場所が設定されます。
+このファイルは起動時に指定された場所から自動で読み込まれます。</p>
 
 	<h2>サンプル</h2>
 
@@ -552,16 +553,91 @@ watcher.addSetting(&#8220;src/test.js&#8221;, {
 })
 </pre>
 
+	<p>基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。
+以下が設定のフォーマットです。</p>
+
+	<table>
+		<tr>
+			<th>プロパティ名</th>
+			<th>データタイプ</th>
+			<th>説明</th>
+		</tr>
+		<tr>
+			<td>&#8220;deployDir&#8221;</td>
+			<td>String</td>
+			<td>コンパイル結果を出力する場所です。</td>
+		</tr>
+		<tr>
+			<td>&#8220;deployName&#8221;</td>
+			<td>String</td>
+			<td>コンパイル結果のファイル名です。</td>
+		</tr>
+		<tr>
+			<td>&#8220;inputCharset&#8221;</td>
+			<td>String</td>
+			<td>元ファイルのエンコーディングです。</td>
+		</tr>
+		<tr>
+			<td>&#8220;outputCharset&#8221;</td>
+			<td>String</td>
+			<td>出力ファイルのエンコーディングです。</td>
+		</tr>
+		<tr>
+			<td>&#8220;options&#8221;</td>
+			<td>Object</td>
+			<td>コンパイルのオプションを指定します。</td>
+		</tr>
+	</table>
+
+	<p>optionsの中身です。</p>
+
+	<table>
+		<tr>
+			<th>プロパティ名</th>
+			<th>データタイプ</th>
+			<th>説明</th>
+		</tr>
+		<tr>
+			<td>&#8220;prettyPrint&#8221;</td>
+			<td>Boolean</td>
+			<td>出力をフォーマットします。</td>
+		</tr>
+		<tr>
+			<td>&#8220;compress&#8221;</td>
+			<td>Boolean</td>
+			<td>出力を圧縮します。</td>
+		</tr>
+		<tr>
+			<td>&#8220;debug&#8221;</td>
+			<td>Boolean</td>
+			<td>デバッグモードで実行します。</td>
+		</tr>
+		<tr>
+			<td>&#8220;moduleDir&#8221;</td>
+			<td>Array</td>
+			<td>モジュールをロードするディレクトリを設定します。</td>
+		</tr>
+		<tr>
+			<td>&#8220;versions&#8221;</td>
+			<td>Array</td>
+			<td>バージョンを指定します。</td>
+		</tr>
+	</table>
+
+	<p></pre></p>
+
 	<p><strong>応用</strong></p>
+
+	<p>fsモジュールを使用して、ファイル一覧を取得し、コンパイル設定に追加します。</p>
 
 <pre class="brush: js">
 var fs = mocha.import(&#8220;fs&#8221;),
     watcher = mocha.import(&#8220;script&#8221;).watcher;
-var dir = new fs.Dir(&#8221;../src/test/js/&#8221;);
+var dir = new fs.Dir(&#8220;src/js/&#8221;);
 dir.entries(true).forEach(function (item) {
-  if (item.fullpath.indexOf(&#8217;.js&#8217;) > -1 && item.fullpath.indexOf(&#8221;-cmp.js&#8221;) === -1) {
+  if (item.fullpath.indexOf(&#8217;.js&#8217;) > -1) {
     watcher.addSetting(item.fullpath, {
-      deployDir : '../src/test/js/out/devel&#8217;,
+      deployDir : 'src/deploy&#8217;,
       deployName : item.filename.replace(&#8217;.js&#8217;, '-cmp.js&#8217;),
       options : {
         prettyPrint : true
@@ -569,4 +645,34 @@ dir.entries(true).forEach(function (item) {
     });
   }
 });
+</pre>
+
+	<p>またこれらの設定ファイルはnextの拡張を使用する事も可能です。</p>
+
+<pre class="brush: js">
+var fs = mocha.import(&#8220;fs&#8221;),
+    watcher = mocha.import(&#8220;script&#8221;).watcher;
+var options = (filename) -> ({
+      deployDir : &#8220;src/deploy&#8221;,
+      deployName : filename.replace(&#8217;.js&#8217;, '-deploy.js&#8217;),
+      options : {
+        prettyPrint : true,
+        versions : ['ex&#8217;]
+      }
+    });
+class FileSeaker {
+  constructor(_@dir, _@fn = []) {}
+  public addSetting(recursive, optionCallback) ->
+    new fs.Dir(_@dir).entries(recursive).forEach((item) => _@setCompileSetting(item, optionCallback));
+  public addFilter(fn) -> _@fn.push(fn);
+  private setCompileSetting(file, optionCallbacks) {
+    if (_@fn.every((item) => item(file))) {
+      optionCallbacks(file);
+    }
+  }
+}
+fileSeaker = new FileSeaker('src/js/&#8217;);
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf(&#8217;.js&#8217;) > -1);
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf(&#8221;-deploy.js&#8221;) === -1)
+fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));
 </pre></div></body></html>

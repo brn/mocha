@@ -1,16 +1,33 @@
 var fs = mocha.import("fs"),
     watcher = mocha.import("script").watcher;
-var dir = new fs.Dir("../src/test/js/");
-dir.entries(true).forEach(function (item) {
-  if (item.fullpath.indexOf('.js') > -1 && item.fullpath.indexOf("-cmp.js") === -1) {
-    watcher.addSetting(item.fullpath, {
+
+var options = (filename) -> ({
       deployDir : '../src/test/js/out/devel',
-      deployName : item.filename.replace('.js', '-cmp.js'),
+      deployName : filename.replace('.js', '-cmp.js'),
       options : {
-        prettyPrint : true
+        prettyPrint : true,
+        versions : ['ex']
       }
     });
+
+class FileSeaker {
+  constructor(_@dir, _@fn = []) {}
+
+  public addSetting(recursive, optionCallback) ->
+    new fs.Dir(_@dir).entries(recursive).forEach((item) => _@setCompileSetting(item, optionCallback));
+
+  public addFilter(fn) -> _@fn.push(fn);
+
+  private setCompileSetting(file, optionCallbacks) {
+    if (_@fn.every((item) => item(file))) {
+      optionCallbacks(file);
+    }
   }
-});
+}
+
+fileSeaker = new FileSeaker('../src/test/js/');
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf("-cmp.js") === -1)
+fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));
 
 

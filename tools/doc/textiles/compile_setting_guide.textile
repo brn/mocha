@@ -4,6 +4,7 @@ h3. "index":index.html > コンパイル設定ファイル
 
 コンパイルの設定を記述するファイルです。
 configオブジェクトのcompileSettingPathによって場所が設定されます。
+このファイルは起動時に指定された場所から自動で読み込まれます。
 
 h2. サンプル
 
@@ -35,16 +36,40 @@ watcher.addSetting("src/test.js", {
 })
 </pre>
 
+基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。
+以下が設定のフォーマットです。
+
+|_. プロパティ名|_. データタイプ|_. 説明|
+|"deployDir"|String|コンパイル結果を出力する場所です。|
+|"deployName"|String|コンパイル結果のファイル名です。|
+|"inputCharset"|String|元ファイルのエンコーディングです。|
+|"outputCharset"|String|出力ファイルのエンコーディングです。|
+|"options"|Object|コンパイルのオプションを指定します。|
+
+optionsの中身です。
+
+|_. プロパティ名|_. データタイプ|_. 説明|
+|"prettyPrint"|Boolean|出力をフォーマットします。|
+|"compress"|Boolean|出力を圧縮します。|
+|"debug"|Boolean|デバッグモードで実行します。|
+|"moduleDir"|Array|モジュールをロードするディレクトリを設定します。|
+|"versions"|Array|バージョンを指定します。|
+
+</pre>
+
+
 *応用*
+
+fsモジュールを使用して、ファイル一覧を取得し、コンパイル設定に追加します。
 
 <pre class="brush: js">
 var fs = mocha.import("fs"),
     watcher = mocha.import("script").watcher;
-var dir = new fs.Dir("../src/test/js/");
+var dir = new fs.Dir("src/js/");
 dir.entries(true).forEach(function (item) {
-  if (item.fullpath.indexOf('.js') > -1 && item.fullpath.indexOf("-cmp.js") === -1) {
+  if (item.fullpath.indexOf('.js') > -1) {
     watcher.addSetting(item.fullpath, {
-      deployDir : '../src/test/js/out/devel',
+      deployDir : 'src/deploy',
       deployName : item.filename.replace('.js', '-cmp.js'),
       options : {
         prettyPrint : true
@@ -53,3 +78,35 @@ dir.entries(true).forEach(function (item) {
   }
 });
 </pre>
+
+またこれらの設定ファイルはnextの拡張を使用する事も可能です。
+
+<pre class="brush: js">
+var fs = mocha.import("fs"),
+    watcher = mocha.import("script").watcher;
+var options = (filename) -> ({
+      deployDir : "src/deploy",
+      deployName : filename.replace('.js', '-deploy.js'),
+      options : {
+        prettyPrint : true,
+        versions : ['ex']
+      }
+    });
+class FileSeaker {
+  constructor(_@dir, _@fn = []) {}
+  public addSetting(recursive, optionCallback) ->
+    new fs.Dir(_@dir).entries(recursive).forEach((item) => _@setCompileSetting(item, optionCallback));
+  public addFilter(fn) -> _@fn.push(fn);
+  private setCompileSetting(file, optionCallbacks) {
+    if (_@fn.every((item) => item(file))) {
+      optionCallbacks(file);
+    }
+  }
+}
+fileSeaker = new FileSeaker('src/js/');
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf("-deploy.js") === -1)
+fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));
+</pre>
+
+

@@ -75,4 +75,3 @@ for ( i of iter ) {
 @assert( true , ret[ 1 ] === 200 );
 @assert( true , ret[ 2 ] === 300 );
 @assert( true , ret[ 3 ] === 400 );
-
