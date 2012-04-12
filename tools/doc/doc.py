@@ -16,7 +16,7 @@ def InsertScript(path, *issource) :
 
 def BuildTextile(path) :
     textile_file = open('textiles/' + path, 'rb')
-    body = textile(textile_file.read()).replace('<br />', '\n').replace('&#8217;', '\'')
+    body = textile(textile_file.read())
     textile_file.close()
     html = '<?xml version="1.0" encoding="UTF-8"?>\n'
     html += '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-strict.dtd">\n'

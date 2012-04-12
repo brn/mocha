@@ -103,7 +103,7 @@ class FileSeaker {
     }
   }
 }
-fileSeaker = new FileSeaker('src/js/');
+var fileSeaker = new FileSeaker('src/js/');
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf("-deploy.js") === -1)
 fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));

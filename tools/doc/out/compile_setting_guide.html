@@ -519,9 +519,7 @@ SyntaxHighlighter.all();//]]>
 
 	<h3><a href="index.html">index</a> > コンパイル設定ファイル</h3>
 
-	<p>コンパイルの設定を記述するファイルです。
-configオブジェクトのcompileSettingPathによって場所が設定されます。
-このファイルは起動時に指定された場所から自動で読み込まれます。</p>
+	<p>コンパイルの設定を記述するファイルです。<br />configオブジェクトのcompileSettingPathによって場所が設定されます。<br />このファイルは起動時に指定された場所から自動で読み込まれます。</p>
 
 	<h2>サンプル</h2>
 
@@ -529,18 +527,18 @@ configオブジェクトのcompileSettingPathによって場所が設定され�
 
 <pre class="brush: js">
 //scriptモジュールをインポート
-var watcher = mocha.import('script').watcher;
+var watcher = mocha.import('script&#8217;).watcher;
 //設定の追加
 //対象のファイルネーム
 watcher.addSetting(&#8220;src/test.js&#8221;, {
   //deployするディレクトリ
-  deployDir : 'src/deploy',
+  deployDir : 'src/deploy&#8217;,
   //deployする際のファイルネーム
-  deployName : 'test-deploy.js',
+  deployName : 'test-deploy.js&#8217;,
   //ファイルのエンコーディング
-  inputCharset : 'utf-8',
+  inputCharset : 'utf-8&#8217;,
   //出力されるファイルのエンコーディング
-  outputCharset : 'utf-8',
+  outputCharset : 'utf-8&#8217;,
   //コンパイルオプション
   options : {
     //人間の読みやすい形にする
@@ -553,8 +551,7 @@ watcher.addSetting(&#8220;src/test.js&#8221;, {
 })
 </pre>
 
-	<p>基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。
-以下が設定のフォーマットです。</p>
+	<p>基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。<br />以下が設定のフォーマットです。</p>
 
 	<table>
 		<tr>
@@ -635,10 +632,10 @@ var fs = mocha.import(&#8220;fs&#8221;),
     watcher = mocha.import(&#8220;script&#8221;).watcher;
 var dir = new fs.Dir(&#8220;src/js/&#8221;);
 dir.entries(true).forEach(function (item) {
-  if (item.fullpath.indexOf('.js') > -1) {
+  if (item.fullpath.indexOf(&#8217;.js&#8217;) > -1) {
     watcher.addSetting(item.fullpath, {
-      deployDir : 'src/deploy',
-      deployName : item.filename.replace('.js', '-cmp.js'),
+      deployDir : 'src/deploy&#8217;,
+      deployName : item.filename.replace(&#8217;.js&#8217;, '-cmp.js&#8217;),
       options : {
         prettyPrint : true
       }
@@ -654,10 +651,10 @@ var fs = mocha.import(&#8220;fs&#8221;),
     watcher = mocha.import(&#8220;script&#8221;).watcher;
 var options = (filename) -> ({
       deployDir : &#8220;src/deploy&#8221;,
-      deployName : filename.replace('.js', '-deploy.js'),
+      deployName : filename.replace(&#8217;.js&#8217;, '-deploy.js&#8217;),
       options : {
         prettyPrint : true,
-        versions : ['ex']
+        versions : ['ex&#8217;]
       }
     });
 class FileSeaker {
@@ -671,8 +668,8 @@ class FileSeaker {
     }
   }
 }
-fileSeaker = new FileSeaker('src/js/');
-fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
+var fileSeaker = new FileSeaker('src/js/&#8217;);
+fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf(&#8217;.js&#8217;) > -1);
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf(&#8221;-deploy.js&#8221;) === -1)
 fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));
 </pre></div></body></html>

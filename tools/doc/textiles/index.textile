@@ -59,10 +59,12 @@ h2. ガイド
 ** "config.js":config.js_guide.html
 ** "コンパイル設定ファイル":compile_setting_guide.html
 ** "コマンドの設定":command_guide.html
+* 設定用jsファイル
+** "環境":env_guide.html
+** "v8javascript engine":v8_guide.html
 * コンパイル
 ** "コンパイルの実行":option_guide.html
-** "デプロイ設定":deploy_guide.html
-** "コンパイラ拡張":compiler_directive.html
+** "コンパイラ拡張":compiler_directive_guide.html
 * テスト
 ** "phantomjsを使う":phantomjs_guide.html
 

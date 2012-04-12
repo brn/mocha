@@ -2,7 +2,7 @@
 module testModule1 {
 
   export testExport1()->1;
-  
+
 }
 
 module testModule2 {
@@ -18,5 +18,3 @@ module {
   }
   export testExport5()->4;
 }
-
-

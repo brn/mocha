@@ -519,27 +519,19 @@ SyntaxHighlighter.all();//]]>
 
 	<h3><a href="index.html">index</a> > config.js</h3>
 
-	<p>mochaは初回起動時に&lt;user_home&gt;/.mocha/config.jsというファイルを生成します。このファイルの解説です。
-&lt;user_home&gt;は
+	<p>mochaは初回起動時に&lt;user_home&gt;/.mocha/config.jsというファイルを生成します。このファイルの解説です。<br />&lt;user_home&gt;は
 	<ul>
 		<li><strong>windows xp</strong> <pre>C:\Document and Setting\&#60;ユーザー名&#62;\</pre></li>
 		<li><strong>windows vista or later</strong> <pre>C:\Users\&#60;ユーザー名&#62;\</pre></li>
 		<li><strong>osx</strong> <pre>/Users/&#60;ユーザー名&#62;</pre></li>
 		<li><strong>linux</strong> <pre>/home/&#60;ユーザー名&#62;</pre></li>
-	</ul>
-になります。 </p>
+	</ul><br />になります。 </p>
 
-	<p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。
-このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
+	<p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。<br />このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
 
-	<p>以下にmochaの生成するデフォルトのconfig.jsを提示します。
-<pre class="brush: js">
-config.set('compileSettingPath', './compile_setting.js');
-config.set('logFilePath', './mocha.log');
-</pre></p>
+	<p>以下にmochaの生成するデフォルトのconfig.jsを提示します。<br /><pre class="brush: js"><br />config.set('compileSettingPath&#8217;, './compile_setting.js&#8217;);<br />config.set('logFilePath&#8217;, './mocha.log&#8217;);<br /></pre></p>
 
-	<p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。
-以下がconfigオブジェクトに設定可能な値です。</p>
+	<p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。<br />以下がconfigオブジェクトに設定可能な値です。</p>
 
 	<table>
 		<tr>

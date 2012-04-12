@@ -1,0 +1,40 @@
+h2. import
+
+h3. "index":index.html > "ES Next":es_next_detail.html > import
+
+モジュールのインポート機能です。
+
+*実装済み処理系* : 無し
+
+<notextile>
+<pre class="brush: js">
+import Test from './test';
+import {Test2} from './test2';
+import [test3, test4] from './test3';
+import Test5 from './test4'.Test;
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var Test = _mochaGlobalExport['349045-test.js'],
+    _mochaLocalTmp0 = _mochaGlobalExport['564059-test2.js'],
+    Test2 = _mochaLocalTmp0.Test2,
+    _mochaLocalTmp1 = _mochaGlobalExport['564059-test2.js'],
+    test3 = _mochaLocalTmp1[0],
+    test4 = _mochaLocalTmp1[1],
+    Test5 = _mochaGlobalExport['945095-test4.js'].Test;
+</pre>
+</notextile>
+
+*importのルール*
+
+ファイルのインポートは以下のルールに沿って行われます。
+
+|_. 記述|_. 説明|
+|'./filename'|現在のファイルがあるディレクトリから探します。|
+|'filename'|ランタイムモジュール、あるいはoptionのmoduleDirプロパティから探します。|
+
+

@@ -30,7 +30,6 @@ class JavascriptObserver::Updater {
     typedef JavascriptObserver::DependsMap DM;
     DM::iterator it = observer_->depends_.begin();
     for (; it != observer_->depends_.end();) {
-      Logging::GetInstance()->Log("%s %s\n", it->second.c_str(),result->fullpath());
       if (strcmp(it->second.c_str(),result->fullpath()) == 0) {
         observer_->depends_.erase(it++);
       } else {

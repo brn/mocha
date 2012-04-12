@@ -144,23 +144,22 @@ void FunctionProcessor::ProcessBody() {
       is_assignment = true;
     }
     if (!is_assignment) {
-      Literal* tmp_name = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), function_->line_number());
+      AstNode* name = function_->name();
+      if (!name) {
+        return;
+      }
+      Literal* fn_name = name->CastToLiteral();
+      Literal* bind_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kBind),
+                                                    Token::JS_IDENTIFIER, function_->line_number(), Literal::kProperty);
       Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
                                                     Token::JS_THIS, function_->line_number(), Literal::kThis);
-      Literal* initialiser = builder()->CreateVarInitiliser(tmp_name->value(), this_sym, function_->line_number());
+      NodeList* arg = builder()->CreateNodeList(1, this_sym);
+      CallExp* bind_call = builder()->CreateNormalAccessor(bind_sym, arg, function_->line_number());
+      CallExp* new_context = builder()->CreateDotAccessor(fn_name->Clone(pool()), bind_call, function_->line_number());
+      AssignmentExp* initialiser = builder()->CreateAssignment('=', fn_name->Clone(pool()), new_context, function_->line_number());
       AstNode* statement = function_->parent_node();
-      while (!statement->CastToStatement() &&
-              (statement->node_type() != AstNode::kFileRoot ||
-               statement->node_type() != AstNode::kCase)) {
-        if (statement->HasParent()) {
-          statement = statement->parent_node();
-        } else {
-          break;
-        }
-      }
-      VariableStmt* var_stmt = builder()->CreateVarStmt(builder()->CreateVarDeclList(function_->line_number(), 1, initialiser), function_->line_number());
-      statement->InsertBefore(var_stmt, function_);
-      function_->set_replaced_this(tmp_name);
+      ExpressionStmt* assignment_stmt = builder()->CreateExpStmt(initialiser, function_->line_number());
+      statement->InsertBefore(assignment_stmt, statement->first_child());
     } else {
       Statement* mark = new(pool()) Statement;
       Literal* bind_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kBind),

@@ -1,0 +1,31 @@
+h2. for each
+
+h3. "index":index.html > "ES Next":es_next_detail.html > for each
+
+for each構文です。
+
+*実装済み処理系* : mozilla 1.6以降
+
+*例*
+
+<notextile>
+<pre class="brush: js">
+var obj = {a:1,b:2}
+for each(var i in obj) {
+  console.log(i);
+}
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var obj = {a:1,b:2}
+for(var i in obj) {
+  i = obj[i];
+  console.log(i);
+}
+</pre>
+</notextile>
+

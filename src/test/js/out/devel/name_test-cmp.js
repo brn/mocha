@@ -1,4 +1,6 @@
 !function() {
+  var __FILE__ = "Runtime",
+      __LINE__ = 0;
   
   var _mochaGlobalExport = {},
       global = (this !== null)?this : typeof window === 'object'?window : {};
@@ -15,15 +17,15 @@
       }
       function callbackCheck(callback,type) {
         
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
       function builtinTypeError(message) {
         try {
-          throw new TypeError(message)
-          
+          throw new TypeError(message);
         } catch(e){
-          throw new Error(e)
-          
+          throw new Error(e);
         }
         
       }
@@ -38,8 +40,10 @@
         var ret = [],
             iter = -1;
         
-        for (var i in obj)
-        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
+        for (var i in obj){
+          
+          obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
+        }
         return ret;
       });
       
@@ -143,8 +147,18 @@
         
         this === null && builtinTypeError("Array.forEach : this is null or not defined");
         
-        if (that)while ((ta = this[ ++ iter]) !== null && ta !== undefined)callback.call(that,ta,iter,this);
-         else while ((ta = this[ ++ iter]) !== null && ta !== undefined)callback(ta,iter,this);
+        if (that){
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            callback.call(that,ta,iter,this);
+          }
+          
+        } else {
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            callback(ta,iter,this);
+          }
+          
+        }
+        
       });
       
       !arrayProto.every && defineBuiltin(arrayProto,"every",
@@ -156,8 +170,23 @@
         
         this === null && builtinTypeError("Array.every : this is null or not defined");
         
-        if (that)while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (!(callback.call(that,ta,iter,this)))return false;
-         else while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (!(callback(ta,iter,this)))return false;
+        if (that){
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (!(callback.call(that,ta,iter,this))){
+              return false;
+            }
+            
+          }
+          
+        } else {
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (!(callback(ta,iter,this))){
+              return false;
+            }
+            
+          }
+          
+        }
         return true;
       });
       
@@ -170,8 +199,23 @@
         
         this === null && builtinTypeError("Array.some : this is null or not defined");
         
-        if (that)while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (callback.call(that,ta,iter,this))return true;
-         else while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (callback(ta,iter,this))return true;
+        if (that){
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (callback.call(that,ta,iter,this)){
+              return true;
+            }
+            
+          }
+          
+        } else {
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (callback(ta,iter,this)){
+              return true;
+            }
+            
+          }
+          
+        }
         return false;
       });
       
@@ -186,10 +230,19 @@
         
         this === null && builtinTypeError("Array.filter : this is null or not defined");
         
-        if (that)for (var i = 0,len = this.length;i<len; ++ i)
-        (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-         else for (var i = 0,len = this.length;i<len; ++ i)
-        (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+        if (that){
+          for (var i = 0,len = this.length;i<len; ++ i){
+            
+            (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+          }
+          
+        } else {
+          for (var i = 0,len = this.length;i<len; ++ i){
+            
+            (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+          }
+          
+        }
         return ret;
       });
       
@@ -201,10 +254,13 @@
         
         this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (ta === subject){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (ta === subject){
+            
+            index = iter;
+            break;
+          }
           
-          index = iter;
-          break;
         }
         return index;
       });
@@ -218,10 +274,13 @@
         
         this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta = this[ -- iter]) !== null && ta !== undefined)if (ta === target){
+        while ((ta = this[ -- iter]) !== null && ta !== undefined){
+          if (ta === target){
+            
+            index = iter;
+            break;
+          }
           
-          index = iter;
-          break;
         }
         return index;
       });
@@ -238,8 +297,17 @@
         
         this === null && builtinTypeError("Array.map : this is null or not defined.");
         
-        if (that)for (i;i<len; ++ i)(ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-         else for (i;i<len; ++ i)(ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+        if (that){
+          for (i;i<len; ++ i){
+            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+          }
+          
+        } else {
+          for (i;i<len; ++ i){
+            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+          }
+          
+        }
         return ret;
       });
       
@@ -254,7 +322,9 @@
         
         (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
-        for (i;i<len; ++ i)(ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        for (i;i<len; ++ i){
+          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        }
         return ret;
       });
       
@@ -269,7 +339,9 @@
         
         (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
-        for (i;i>-1; -- i)(ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        for (i;i>-1; -- i){
+          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        }
         return ret;
       });
       
@@ -291,14 +363,15 @@
       
       !Array.isArray && defineBuiltin(Array,"isArray",
       function (arr) {
-        if (arguments.length === 0)return false;
+        if (arguments.length === 0){
+          return false;
+        }
         return (arr)?({}).toString.call(arr) === "[object Array]" : false;
       });
     }.call(this,String,Array,Function,Date);
   }.call(this);
   
   var Runtime = function () {
-        "use strict";
         function checkRequirements(_mochaLocalTmp9,_mochaLocalTmp10,traits,file,line) {
           var proto1 = _mochaLocalTmp9.prototype,
               proto2 = _mochaLocalTmp10.prototype;
@@ -308,7 +381,10 @@
             var _mochaLocalTmp11 = traits[i],
                 _mochaRequires = _mochaLocalTmp11._mochaRequires;
             
-            for (var prop in _mochaRequires)!(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
+            for (var prop in _mochaRequires){
+              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
+            }
+            
           }
           
         }
@@ -319,31 +395,39 @@
               traitPublic = _mochaLocalTmp8._mochaTraitPublic,
               traitPrivate = _mochaLocalTmp8._mochaTraitPrivate;
           
-          if (!mark)Runtime.throwException("mixin only used for trait.");
-           else {
+          if (!mark){
+            Runtime.throwException("mixin only used for trait.");
+          } else {
             
             var tmp;
             
-            for (var i in traitPublic)if (!without[i]){
+            for (var i in traitPublic){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                constructorProto[tmp] = traitPublic[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              constructorProto[tmp] = traitPublic[i];
             }
             
-            for (i in traitPrivate)if (!without[i]){
+            for (i in traitPrivate){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                privateProto[tmp] = traitPrivate[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              privateProto[tmp] = traitPrivate[i];
             }
             
           }
           
         }
         function traitMixin(dest,source,with_,without) {
-          if (!dest._mochaTraitMark || !source._mochaTraitMark)Runtime.throwException("mixin only used for trait.");
-           else {
+          if (!dest._mochaTraitMark || !source._mochaTraitMark){
+            Runtime.throwException("mixin only used for trait.");
+          } else {
             
             var destTraitPrivate = dest._mochaTraitPrivate,
                 sourceTraitPrivate = source._mochaTraitPrivate,
@@ -353,21 +437,30 @@
                 destRequires = dest._mochaRequires,
                 tmp;
             
-            for (var i in sourceTraitPrivate)if (!without[i]){
+            for (var i in sourceTraitPrivate){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                destTraitPrivate[tmp] = sourceTraitPrivate[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              destTraitPrivate[tmp] = sourceTraitPrivate[i];
             }
             
-            for (i in sourceTraitPublic)if (!without[i]){
+            for (i in sourceTraitPublic){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                destTraitPublic[tmp] = sourceTraitPublic[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              destTraitPublic[tmp] = sourceTraitPublic[i];
             }
             
-            for (i in sourceRequires)destRequires[i] = sourceRequires[i];
+            for (i in sourceRequires){
+              destRequires[i] = sourceRequires[i];
+            }
+            
           }
           
         }
@@ -405,23 +498,30 @@
           var ret = obj[__ref_iterator__](),
               newObj;
           
-          if (isGenerator(ret))return ret;
+          if (isGenerator(ret)){
+            return ret;
+          }
           
           newObj = {};
           
-          if (ret.next)createUnenumProp(newObj,"next",
-          function () {
-            var result = ret.next();
-            
-            result === undefined && throwStopIteration();
-            return result;
-          });
-           else return {};
+          if (ret.next){
+            createUnenumProp(newObj,"next",
+            function () {
+              var result = ret.next();
+              
+              result === undefined && throwStopIteration();
+              return result;
+            });
+          } else {
+            return {};
+          }
           
           !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
           
-          for (var prop in ret)
-          prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
+          for (var prop in ret){
+            
+            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
+          }
           
           !("toString" in ret) && createUnenumProp(newObj,"toString",
           function () {
@@ -434,11 +534,9 @@
         }
         function throwStopIteration() {
           try {
-            throw StopIteration
-            
+            throw StopIteration;
           } catch(e){
-            throw new Error(e.toString())
-            
+            throw new Error(e.toString());
           }
           
         }
@@ -475,8 +573,10 @@
           return maxIndex === i;
         }
         function extend(dest,source) {
-          for (var prop in source)
-          dest[prop] = source[prop];
+          for (var prop in source){
+            
+            dest[prop] = source[prop];
+          }
           return dest;
         }
         function getErrorMessage(e) {
@@ -547,16 +647,13 @@
               },
               throwException : function (exception) {
                 try {
-                  throw exception
-                  
+                  throw exception;
                 } catch(e){
                   
                   if (isStopIteration(e)){
-                    throw new Error(e)
-                    
+                    throw new Error(e);
                   } else {
-                    throw new Error(this.getErrorMessage(e))
-                    
+                    throw new Error(this.getErrorMessage(e));
                   }
                   
                 }
@@ -590,8 +687,10 @@
             } : function (obj) {
               var ret = {};
               
-              for (var i in obj)
-              !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
+              for (var i in obj){
+                
+                !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
+              }
               return ret;
             },
             extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
@@ -599,8 +698,14 @@
                 
                 derived.prototype.__proto__ = base.prototype;
                 
-                for (var i in base)derived[i] = base[i];
-              } else derived.prototype.__proto__ = base.__proto__;
+                for (var i in base){
+                  derived[i] = base[i];
+                }
+                
+              } else {
+                derived.prototype.__proto__ = base.__proto__;
+              }
+              
             } : function (derived,base) {
               var baseType = typeof base;
               
@@ -612,7 +717,10 @@
                 
                 derived.prototype = new inherit;
                 
-                for (var i in base)derived[i] = base[i];
+                for (var i in base){
+                  derived[i] = base[i];
+                }
+                
               } else {
                 
                 var inherit = function (){},
@@ -649,14 +757,18 @@
           createPrivateRecord = function (self,privateHolder) {
             var holder = new privateHolder;
             
-            createUnenumProp(holder.constructor,"__is_private__",1);
+            createUnenumProp(holder,"__is_private__",1);
             
             privateRecord.set(self,holder);
           };
           
           getPrivateRecord = function (self) {
-            if (privateRecord.has(self))return privateRecord.get(self);
-             else if (self.constructor === "__is_private__")return self;
+            if (privateRecord.has(self)){
+              return privateRecord.get(self);
+            } else if (self.__is_private__ === 1){
+              return self;
+            }
+            
           };
         } else {
           
@@ -665,7 +777,7 @@
               
               var holder = new privateHolder;
               
-              createUnenumProp(holder.constructor,"__is_private__",1);
+              createUnenumProp(holder,"__is_private__",1);
               
               createUnenumProp(self,"__private__",holder);
             }
@@ -673,8 +785,12 @@
           };
           
           getPrivateRecord = function (self) {
-            if (self.__private__)return self.__private__;
-             else if (self.constructor === "__is_private__")return self;
+            if (self.__private__){
+              return self.__private__;
+            } else if (self.__is_private__ === 1){
+              return self;
+            }
+            
           };
         }
         
@@ -689,6 +805,14 @@
         _mochaLocalExport.classMixin = classMixin;
         
         _mochaLocalExport.checkRequirements = checkRequirements;
+        
+        !function () {
+          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
+                return console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+              } : function (expect,exp,str,line,filename) {
+                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+              };
+        }.call(this);
         return _mochaLocalExport;
       }();
   
@@ -712,114 +836,183 @@
   function Record(member) {
     return Runtime.createRecord(member);
   }
+  __LINE__ = 0;
   !function () {
-    function Record(member) {
-      return Runtime.createRecord(member);
-    }
-    function Tuple() {
-      var args = Runtime.toArray(arguments,0),
-          ret = {};
+    try {
+      var __FILE__ = "-310326848-name_test.js",
+          __LINE__ = 0;
+      function Record(member) {
+        try {
+          __LINE__ = 43;
+          return Runtime.createRecord(member);
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }
+      function Tuple() {
+        try {
+          __LINE__ = 36;
+          var args = Runtime.toArray(arguments,0),
+              ret = {};
+          
+          __LINE__ = 38;
+          ret.length = 0;
+          
+          __LINE__ = 39;
+          [].push.apply(ret,args);
+          
+          __LINE__ = 40;
+          Runtime.createTuple(ret,arguments.length);
+          __LINE__ = 41;
+          return ret;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }
+      function b(){}
+      __LINE__ = 2;
+      _mochaGlobalExport['-310326848-name_test.js'] = {};
       
-      ret.length = 0;
+      __LINE__ = 3;
+      var _mochaGlobalAlias = _mochaGlobalExport['-310326848-name_test.js'];
       
-      [].push.apply(ret,args);
+      __LINE__ = 1;
+      Array.prototype.x = 0;
       
-      Runtime.createTuple(ret,arguments.length);
-      return ret;
-    }
-    function b(){}
-    _mochaGlobalExport['-310326848-name_test.js'] = {};
-    
-    var _mochaGlobalAlias = _mochaGlobalExport['-310326848-name_test.js'];
-    
-    Array.prototype.x = 0;
-    
-    !function () {
-      var c = 0,
-          test1 = function () {
-            b();
-          },
-          test2 = function () {
-            var c,
-                l;
-            
-            l = b();
-          };
-    }();
-    
-    var x = 700,
-        m = 210.640300,
-        m2 = 2340.879050;
-    
-    m = 249000.132134;
-    
-    var ss = 100+200*m,
-        sssss = (100)*2,
-        sss = NaN,
-        ssssss = "aaaaaaa222",
-        test2 = {};
-    
-    (x === 1 || m === 2) && b();
-    
-    Array.prototype.x = 200;
-    
-    delete Array.prototype.x;
-    
-    test2 = {};
-    
-    test2 = '';
-    
-    test2 = '';
-    
-    test2 = [];
-    
-    test2 = [];
-    
-    test2 = Array(3);
-    
-    test2 = Function("");
-    
-    test2 = 0;
-    
-    test2 = 0;
-    
-    var tmp = 200;
-    
-    if (tmp){
+      __LINE__ = 3;
+      !function () {
+        try {
+          __LINE__ = 4;
+          var c = 0,
+              test1 = function () {
+                try {
+                  __LINE__ = 6;
+                  b();
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              test2 = function () {
+                try {
+                  __LINE__ = 9;
+                  var c,
+                      l;
+                  
+                  __LINE__ = 10;
+                  l = b();
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
       
-      b();
+      __LINE__ = 14;
+      var x = 700,
+          m = 210.640300,
+          m2 = 2340.879050;
       
-      b();
-    } else {
+      __LINE__ = 17;
+      m = 249000.132134;
+      
+      __LINE__ = 18;
+      var ss = 100+200*m,
+          sssss = (100)*2,
+          sss = NaN,
+          ssssss = "aaaaaaa222",
+          test2 = {};
+      
+      __LINE__ = 23;
+      (x === 1 || m === 2) && b();
+      
+      __LINE__ = 24;
+      Array.prototype.x = 200;
+      
+      __LINE__ = 25;
+      delete Array.prototype.x;
+      
+      __LINE__ = 26;
+      test2 = {};
+      
+      __LINE__ = 27;
+      test2 = '';
+      
+      __LINE__ = 28;
+      test2 = '';
+      
+      __LINE__ = 29;
+      test2 = [];
+      
+      __LINE__ = 30;
+      test2 = [];
+      
+      __LINE__ = 31;
+      test2 = Array(3);
+      
+      __LINE__ = 32;
+      test2 = Function("");
+      
+      __LINE__ = 33;
+      test2 = 0;
+      
+      __LINE__ = 34;
+      test2 = 0;
+      
+      __LINE__ = 44;
+      var tmp = 200;
+      
+      __LINE__ = 45;
       if (tmp){
         
+        __LINE__ = 46;
         b();
         
+        __LINE__ = 47;
         b();
       } else {
+        if (tmp){
+          
+          __LINE__ = 50;
+          b();
+          
+          __LINE__ = 51;
+          b();
+        } else {
+          
+          __LINE__ = 53;
+          b();
+          
+          __LINE__ = 54;
+          b();
+        }
         
-        b();
-        
-        b();
       }
       
+      __LINE__ = 57;
+      var x = 200,
+          _mochaLocalTmp0 =  {
+            v : 200
+          };
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0,x, {
+        
+      });
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0[x],x, {
+        
+      });
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0[x][x],x,300);
+      
+      __LINE__ = 58;
+      var m = _mochaLocalTmp0;
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
-    
-    var x = 200,
-        _mochaLocalTmp0 =  {
-          v : 200
-        };
-    
-    Runtime.createUnenumProp(_mochaLocalTmp0,x, {
-      
-    });
-    
-    Runtime.createUnenumProp(_mochaLocalTmp0[x],x, {
-      
-    });
-    
-    Runtime.createUnenumProp(_mochaLocalTmp0[x][x],x,300);
-    
-    var m = _mochaLocalTmp0;
   }();
 }();

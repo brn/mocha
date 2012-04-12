@@ -45,7 +45,6 @@ void ExportProcessor::ProcessFunction(AstNode* node) {
 
 void ExportProcessor::ProcessNodeList(AstNode* node) {
   AstNode* stmt = CreateAssignment(node);
-  stmt->Accept(info_->visitor());
   stmt_->parent_node()->ReplaceChild(stmt_, stmt);
 }
 
@@ -79,6 +78,8 @@ AstNode* ExportProcessor::CreateAssignment(AstNode* node) {
       AssignmentExp* assign;
       if (!item->first_child()->IsEmpty()) {
         assign = builder()->CreateAssignment('=', export_prop, item->first_child(), node->line_number());
+        item->RemoveAllChild();
+        item->AddChild(new (pool()) Empty());
         Literal *val = builder()->CreateVarInitiliser(name->value(), assign, node->line_number());
         VariableDeclarationList* list = builder()->CreateVarDeclList(node->line_number(), 1, val);
         VariableStmt* var_stmt = builder()->CreateVarStmt(list, node->line_number());

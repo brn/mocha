@@ -1,4 +1,6 @@
 !function() {
+  var __FILE__ = "Runtime",
+      __LINE__ = 0;
   
   var _mochaGlobalExport = {},
       global = (this !== null)?this : typeof window === 'object'?window : {};
@@ -15,15 +17,15 @@
       }
       function callbackCheck(callback,type) {
         
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
       function builtinTypeError(message) {
         try {
-          throw new TypeError(message)
-          
+          throw new TypeError(message);
         } catch(e){
-          throw new Error(e)
-          
+          throw new Error(e);
         }
         
       }
@@ -38,8 +40,10 @@
         var ret = [],
             iter = -1;
         
-        for (var i in obj)
-        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
+        for (var i in obj){
+          
+          obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
+        }
         return ret;
       });
       
@@ -143,8 +147,18 @@
         
         this === null && builtinTypeError("Array.forEach : this is null or not defined");
         
-        if (that)while ((ta = this[ ++ iter]) !== null && ta !== undefined)callback.call(that,ta,iter,this);
-         else while ((ta = this[ ++ iter]) !== null && ta !== undefined)callback(ta,iter,this);
+        if (that){
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            callback.call(that,ta,iter,this);
+          }
+          
+        } else {
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            callback(ta,iter,this);
+          }
+          
+        }
+        
       });
       
       !arrayProto.every && defineBuiltin(arrayProto,"every",
@@ -156,8 +170,23 @@
         
         this === null && builtinTypeError("Array.every : this is null or not defined");
         
-        if (that)while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (!(callback.call(that,ta,iter,this)))return false;
-         else while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (!(callback(ta,iter,this)))return false;
+        if (that){
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (!(callback.call(that,ta,iter,this))){
+              return false;
+            }
+            
+          }
+          
+        } else {
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (!(callback(ta,iter,this))){
+              return false;
+            }
+            
+          }
+          
+        }
         return true;
       });
       
@@ -170,8 +199,23 @@
         
         this === null && builtinTypeError("Array.some : this is null or not defined");
         
-        if (that)while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (callback.call(that,ta,iter,this))return true;
-         else while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (callback(ta,iter,this))return true;
+        if (that){
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (callback.call(that,ta,iter,this)){
+              return true;
+            }
+            
+          }
+          
+        } else {
+          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+            if (callback(ta,iter,this)){
+              return true;
+            }
+            
+          }
+          
+        }
         return false;
       });
       
@@ -186,10 +230,19 @@
         
         this === null && builtinTypeError("Array.filter : this is null or not defined");
         
-        if (that)for (var i = 0,len = this.length;i<len; ++ i)
-        (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-         else for (var i = 0,len = this.length;i<len; ++ i)
-        (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+        if (that){
+          for (var i = 0,len = this.length;i<len; ++ i){
+            
+            (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+          }
+          
+        } else {
+          for (var i = 0,len = this.length;i<len; ++ i){
+            
+            (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+          }
+          
+        }
         return ret;
       });
       
@@ -201,10 +254,13 @@
         
         this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined)if (ta === subject){
+        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+          if (ta === subject){
+            
+            index = iter;
+            break;
+          }
           
-          index = iter;
-          break;
         }
         return index;
       });
@@ -218,10 +274,13 @@
         
         this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta = this[ -- iter]) !== null && ta !== undefined)if (ta === target){
+        while ((ta = this[ -- iter]) !== null && ta !== undefined){
+          if (ta === target){
+            
+            index = iter;
+            break;
+          }
           
-          index = iter;
-          break;
         }
         return index;
       });
@@ -238,8 +297,17 @@
         
         this === null && builtinTypeError("Array.map : this is null or not defined.");
         
-        if (that)for (i;i<len; ++ i)(ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-         else for (i;i<len; ++ i)(ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+        if (that){
+          for (i;i<len; ++ i){
+            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+          }
+          
+        } else {
+          for (i;i<len; ++ i){
+            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+          }
+          
+        }
         return ret;
       });
       
@@ -254,7 +322,9 @@
         
         (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
-        for (i;i<len; ++ i)(ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        for (i;i<len; ++ i){
+          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        }
         return ret;
       });
       
@@ -269,7 +339,9 @@
         
         (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
-        for (i;i>-1; -- i)(ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        for (i;i>-1; -- i){
+          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+        }
         return ret;
       });
       
@@ -291,14 +363,15 @@
       
       !Array.isArray && defineBuiltin(Array,"isArray",
       function (arr) {
-        if (arguments.length === 0)return false;
+        if (arguments.length === 0){
+          return false;
+        }
         return (arr)?({}).toString.call(arr) === "[object Array]" : false;
       });
     }.call(this,String,Array,Function,Date);
   }.call(this);
   
   var Runtime = function () {
-        "use strict";
         function checkRequirements(_mochaLocalTmp9,_mochaLocalTmp10,traits,file,line) {
           var proto1 = _mochaLocalTmp9.prototype,
               proto2 = _mochaLocalTmp10.prototype;
@@ -308,7 +381,10 @@
             var _mochaLocalTmp11 = traits[i],
                 _mochaRequires = _mochaLocalTmp11._mochaRequires;
             
-            for (var prop in _mochaRequires)!(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
+            for (var prop in _mochaRequires){
+              !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
+            }
+            
           }
           
         }
@@ -319,31 +395,39 @@
               traitPublic = _mochaLocalTmp8._mochaTraitPublic,
               traitPrivate = _mochaLocalTmp8._mochaTraitPrivate;
           
-          if (!mark)Runtime.throwException("mixin only used for trait.");
-           else {
+          if (!mark){
+            Runtime.throwException("mixin only used for trait.");
+          } else {
             
             var tmp;
             
-            for (var i in traitPublic)if (!without[i]){
+            for (var i in traitPublic){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                constructorProto[tmp] = traitPublic[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              constructorProto[tmp] = traitPublic[i];
             }
             
-            for (i in traitPrivate)if (!without[i]){
+            for (i in traitPrivate){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                privateProto[tmp] = traitPrivate[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              privateProto[tmp] = traitPrivate[i];
             }
             
           }
           
         }
         function traitMixin(dest,source,with_,without) {
-          if (!dest._mochaTraitMark || !source._mochaTraitMark)Runtime.throwException("mixin only used for trait.");
-           else {
+          if (!dest._mochaTraitMark || !source._mochaTraitMark){
+            Runtime.throwException("mixin only used for trait.");
+          } else {
             
             var destTraitPrivate = dest._mochaTraitPrivate,
                 sourceTraitPrivate = source._mochaTraitPrivate,
@@ -353,21 +437,30 @@
                 destRequires = dest._mochaRequires,
                 tmp;
             
-            for (var i in sourceTraitPrivate)if (!without[i]){
+            for (var i in sourceTraitPrivate){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                destTraitPrivate[tmp] = sourceTraitPrivate[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              destTraitPrivate[tmp] = sourceTraitPrivate[i];
             }
             
-            for (i in sourceTraitPublic)if (!without[i]){
+            for (i in sourceTraitPublic){
+              if (!without[i]){
+                
+                tmp = (!with_[i])?i : with_[i];
+                
+                destTraitPublic[tmp] = sourceTraitPublic[i];
+              }
               
-              tmp = (!with_[i])?i : with_[i];
-              
-              destTraitPublic[tmp] = sourceTraitPublic[i];
             }
             
-            for (i in sourceRequires)destRequires[i] = sourceRequires[i];
+            for (i in sourceRequires){
+              destRequires[i] = sourceRequires[i];
+            }
+            
           }
           
         }
@@ -405,23 +498,30 @@
           var ret = obj[__ref_iterator__](),
               newObj;
           
-          if (isGenerator(ret))return ret;
+          if (isGenerator(ret)){
+            return ret;
+          }
           
           newObj = {};
           
-          if (ret.next)createUnenumProp(newObj,"next",
-          function () {
-            var result = ret.next();
-            
-            result === undefined && throwStopIteration();
-            return result;
-          });
-           else return {};
+          if (ret.next){
+            createUnenumProp(newObj,"next",
+            function () {
+              var result = ret.next();
+              
+              result === undefined && throwStopIteration();
+              return result;
+            });
+          } else {
+            return {};
+          }
           
           !("__nothrowNext__" in ret) && createUnenumProp(newObj,"__nothrowNext__",ret.next.bind(ret));
           
-          for (var prop in ret)
-          prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
+          for (var prop in ret){
+            
+            prop !== "next" && prop !== "__nothrowNext__" && (newObj[prop] = ret[prop]);
+          }
           
           !("toString" in ret) && createUnenumProp(newObj,"toString",
           function () {
@@ -434,11 +534,9 @@
         }
         function throwStopIteration() {
           try {
-            throw StopIteration
-            
+            throw StopIteration;
           } catch(e){
-            throw new Error(e.toString())
-            
+            throw new Error(e.toString());
           }
           
         }
@@ -475,8 +573,10 @@
           return maxIndex === i;
         }
         function extend(dest,source) {
-          for (var prop in source)
-          dest[prop] = source[prop];
+          for (var prop in source){
+            
+            dest[prop] = source[prop];
+          }
           return dest;
         }
         function getErrorMessage(e) {
@@ -547,16 +647,13 @@
               },
               throwException : function (exception) {
                 try {
-                  throw exception
-                  
+                  throw exception;
                 } catch(e){
                   
                   if (isStopIteration(e)){
-                    throw new Error(e)
-                    
+                    throw new Error(e);
                   } else {
-                    throw new Error(this.getErrorMessage(e))
-                    
+                    throw new Error(this.getErrorMessage(e));
                   }
                   
                 }
@@ -590,8 +687,10 @@
             } : function (obj) {
               var ret = {};
               
-              for (var i in obj)
-              !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
+              for (var i in obj){
+                
+                !obj.hasOwnProperty(i) && (ret[i] = obj[i]);
+              }
               return ret;
             },
             extendClass = _mochaLocalExport.extendClass = (Runtime.hasProto)?function (derived,base) {
@@ -599,8 +698,14 @@
                 
                 derived.prototype.__proto__ = base.prototype;
                 
-                for (var i in base)derived[i] = base[i];
-              } else derived.prototype.__proto__ = base.__proto__;
+                for (var i in base){
+                  derived[i] = base[i];
+                }
+                
+              } else {
+                derived.prototype.__proto__ = base.__proto__;
+              }
+              
             } : function (derived,base) {
               var baseType = typeof base;
               
@@ -612,7 +717,10 @@
                 
                 derived.prototype = new inherit;
                 
-                for (var i in base)derived[i] = base[i];
+                for (var i in base){
+                  derived[i] = base[i];
+                }
+                
               } else {
                 
                 var inherit = function (){},
@@ -649,14 +757,18 @@
           createPrivateRecord = function (self,privateHolder) {
             var holder = new privateHolder;
             
-            createUnenumProp(holder.constructor,"__is_private__",1);
+            createUnenumProp(holder,"__is_private__",1);
             
             privateRecord.set(self,holder);
           };
           
           getPrivateRecord = function (self) {
-            if (privateRecord.has(self))return privateRecord.get(self);
-             else if (self.constructor === "__is_private__")return self;
+            if (privateRecord.has(self)){
+              return privateRecord.get(self);
+            } else if (self.__is_private__ === 1){
+              return self;
+            }
+            
           };
         } else {
           
@@ -665,7 +777,7 @@
               
               var holder = new privateHolder;
               
-              createUnenumProp(holder.constructor,"__is_private__",1);
+              createUnenumProp(holder,"__is_private__",1);
               
               createUnenumProp(self,"__private__",holder);
             }
@@ -673,8 +785,12 @@
           };
           
           getPrivateRecord = function (self) {
-            if (self.__private__)return self.__private__;
-             else if (self.constructor === "__is_private__")return self;
+            if (self.__private__){
+              return self.__private__;
+            } else if (self.__is_private__ === 1){
+              return self;
+            }
+            
           };
         }
         
@@ -689,6 +805,14 @@
         _mochaLocalExport.classMixin = classMixin;
         
         _mochaLocalExport.checkRequirements = checkRequirements;
+        
+        !function () {
+          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
+                return console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+              } : function (expect,exp,str,line,filename) {
+                expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+              };
+        }.call(this);
         return _mochaLocalExport;
       }();
   
@@ -712,134 +836,375 @@
   function Record(member) {
     return Runtime.createRecord(member);
   }
+  __LINE__ = 0;
   !function () {
-    _mochaGlobalExport['-759650552-destructuring_test.js'] = {};
-    
-    var _mochaGlobalAlias = _mochaGlobalExport['-759650552-destructuring_test.js'],
-        object =  {
-          value1 : 100,
-          value2 :  {
-            value3 : 100
+    try {
+      var __FILE__ = "-759650552-destructuring_test.js",
+          __LINE__ = 0;
+      __LINE__ = 2;
+      _mochaGlobalExport['-759650552-destructuring_test.js'] = {};
+      
+      __LINE__ = 3;
+      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-destructuring_test.js'],
+          object =  {
+            value1 : 100,
+            value2 :  {
+              value3 : 100
+            },
+            value4 : [100,200,300],
+            value5 :  {
+              value6 : [ {
+                value7 : 100
+              }]
+            },
+            "@value" :  {
+              strvalue : 100
+            }
           },
-          value4 : [100,200,300],
-          value5 :  {
-            value6 : [ {
-              value7 : 100
-            }]
-          },
-          "@value" :  {
-            strvalue : 100
-          }
-        },
-        array = [ {
-          value1 : 100
-        },200, {
-          value2 : 100
-        }, {
-          "value3" : 100
-        }, {
-          value4 :  {
-            value5 : [100,200]
-          }
-        }];
-    
-    !function () {
-      var value1 = object.value1,
-          value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined,
-          value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined,
-          value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined,
-          value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined,
-          value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined,
+          array = [ {
+            value1 : 100
+          },200, {
+            value2 : 100
+          }, {
+            "value3" : 100
+          }, {
+            value4 :  {
+              value5 : [100,200]
+            }
+          }];
+      
+      __LINE__ = 17;
+      !function () {
+        try {
+          __LINE__ = 18;
+          var value1 = object.value1,
+              value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined,
+              value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined,
+              value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined,
+              value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined,
+              value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined,
+              strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
+          
+          __LINE__ = 19;
+          Runtime.assert(true,value1 === 100,"value1 === 100",19,'destructuring_test.js');
+          
+          __LINE__ = 20;
+          Runtime.assert(true,value3 === 100,"value3 === 100",20,'destructuring_test.js');
+          
+          __LINE__ = 21;
+          Runtime.assert(true,value5_ === 100,"value5_ === 100",21,'destructuring_test.js');
+          
+          __LINE__ = 22;
+          Runtime.assert(true,value6_ === 200,"value6_ === 200",22,'destructuring_test.js');
+          
+          __LINE__ = 23;
+          Runtime.assert(true,value7_ === 300,"value7_ === 300",23,'destructuring_test.js');
+          
+          __LINE__ = 24;
+          Runtime.assert(true,value7 === 100,"value7 === 100",24,'destructuring_test.js');
+          
+          __LINE__ = 25;
+          Runtime.assert(true,strvalue === 100,"strvalue === 100",25,'destructuring_test.js');
+          
+          __LINE__ = 27;
+          value1 = object.value1;
+          
+          __LINE__ = 27;
+          value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined;
+          
+          __LINE__ = 27;
+          value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined;
+          
+          __LINE__ = 27;
+          value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined;
+          
+          __LINE__ = 27;
+          value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined;
+          
+          __LINE__ = 27;
+          value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined;
+          
+          __LINE__ = 27;
           strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
+          
+          __LINE__ = 28;
+          Runtime.assert(true,value1 === 100,"value1 === 100",28,'destructuring_test.js');
+          
+          __LINE__ = 29;
+          Runtime.assert(true,value3 === 100,"value3 === 100",29,'destructuring_test.js');
+          
+          __LINE__ = 30;
+          Runtime.assert(true,value5_ === 100,"value5_ === 100",30,'destructuring_test.js');
+          
+          __LINE__ = 31;
+          Runtime.assert(true,value6_ === 200,"value6_ === 200",31,'destructuring_test.js');
+          
+          __LINE__ = 32;
+          Runtime.assert(true,value7_ === 300,"value7_ === 300",32,'destructuring_test.js');
+          
+          __LINE__ = 33;
+          Runtime.assert(true,value7 === 100,"value7 === 100",33,'destructuring_test.js');
+          
+          __LINE__ = 34;
+          Runtime.assert(true,strvalue === 100,"strvalue === 100",34,'destructuring_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
       
-      value1 = object.value1;
-      
-      value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined;
-      
-      value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined;
-      
-      value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined;
-      
-      value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined;
-      
-      value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined;
-      
-      strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
-    }();
-    
-    !function () {
-      var value1 = array[0] && array[0].value1?array[0].value1 : undefined,
-          arr_value1 = array[1],
-          value2 = array[2] && array[2].value2?array[2].value2 : undefined,
-          value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined,
-          arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined,
+      __LINE__ = 38;
+      !function () {
+        try {
+          __LINE__ = 39;
+          var value1 = array[0] && array[0].value1?array[0].value1 : undefined,
+              arr_value1 = array[1],
+              value2 = array[2] && array[2].value2?array[2].value2 : undefined,
+              value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined,
+              arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined,
+              arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
+          
+          __LINE__ = 40;
+          Runtime.assert(true,value1 === 100,"value1 === 100",40,'destructuring_test.js');
+          
+          __LINE__ = 41;
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",41,'destructuring_test.js');
+          
+          __LINE__ = 42;
+          Runtime.assert(true,value2 === 100,"value2 === 100",42,'destructuring_test.js');
+          
+          __LINE__ = 43;
+          Runtime.assert(true,value3 === 100,"value3 === 100",43,'destructuring_test.js');
+          
+          __LINE__ = 44;
+          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",44,'destructuring_test.js');
+          
+          __LINE__ = 45;
+          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",45,'destructuring_test.js');
+          
+          __LINE__ = 46;
+          value1 = array[0] && array[0].value1?array[0].value1 : undefined;
+          
+          __LINE__ = 46;
+          arr_value1 = array[1];
+          
+          __LINE__ = 46;
+          value2 = array[2] && array[2].value2?array[2].value2 : undefined;
+          
+          __LINE__ = 46;
+          value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined;
+          
+          __LINE__ = 46;
+          arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined;
+          
+          __LINE__ = 46;
           arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
+          
+          __LINE__ = 47;
+          Runtime.assert(true,value1 === 100,"value1 === 100",47,'destructuring_test.js');
+          
+          __LINE__ = 48;
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",48,'destructuring_test.js');
+          
+          __LINE__ = 49;
+          Runtime.assert(true,value2 === 100,"value2 === 100",49,'destructuring_test.js');
+          
+          __LINE__ = 50;
+          Runtime.assert(true,value3 === 100,"value3 === 100",50,'destructuring_test.js');
+          
+          __LINE__ = 51;
+          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",51,'destructuring_test.js');
+          
+          __LINE__ = 52;
+          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",52,'destructuring_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
       
-      value1 = array[0] && array[0].value1?array[0].value1 : undefined;
+      __LINE__ = 55;
+      !function () {
+        try {
+          __LINE__ = 56;
+          var value1 = array[0] && array[0].value1?array[0].value1 : undefined,
+              arr_value1 = array[1],
+              value2 = array[2] && array[2].value2?array[2].value2 : undefined,
+              value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined,
+              arr_value2 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
+          
+          __LINE__ = 57;
+          Runtime.assert(true,value1 === 100,"value1 === 100",57,'destructuring_test.js');
+          
+          __LINE__ = 58;
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",58,'destructuring_test.js');
+          
+          __LINE__ = 59;
+          Runtime.assert(true,value2 === 100,"value2 === 100",59,'destructuring_test.js');
+          
+          __LINE__ = 60;
+          Runtime.assert(true,value3 === 100,"value3 === 100",60,'destructuring_test.js');
+          
+          __LINE__ = 61;
+          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",61,'destructuring_test.js');
+          
+          __LINE__ = 62;
+          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",62,'destructuring_test.js');
+          
+          __LINE__ = 63;
+          var arr_value4;
+          
+          __LINE__ = 64;
+          value1 = array[0] && array[0].value1?array[0].value1 : undefined;
+          
+          __LINE__ = 64;
+          arr_value1 = array[1];
+          
+          __LINE__ = 64;
+          value2 = array[2] && array[2].value2?array[2].value2 : undefined;
+          
+          __LINE__ = 64;
+          value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined;
+          
+          __LINE__ = 64;
+          arr_value4 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
+          
+          __LINE__ = 65;
+          Runtime.assert(true,value1 === 100,"value1 === 100",65,'destructuring_test.js');
+          
+          __LINE__ = 66;
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",66,'destructuring_test.js');
+          
+          __LINE__ = 67;
+          Runtime.assert(true,value2 === 100,"value2 === 100",67,'destructuring_test.js');
+          
+          __LINE__ = 68;
+          Runtime.assert(true,value3 === 100,"value3 === 100",68,'destructuring_test.js');
+          
+          __LINE__ = 69;
+          Runtime.assert(true,arr_value4[0] === 100,"arr_value4[0] === 100",69,'destructuring_test.js');
+          
+          __LINE__ = 70;
+          Runtime.assert(true,arr_value4[1] === 200,"arr_value4[1] === 200",70,'destructuring_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
       
-      arr_value1 = array[1];
+      __LINE__ = 73;
+      !function (_mochaLocalTmp0) {
+        try {
+          __LINE__ = 73;
+          var value1 = _mochaLocalTmp0.value1,
+              value3 = _mochaLocalTmp0.value2 && _mochaLocalTmp0.value2.value3?_mochaLocalTmp0.value2.value3 : undefined,
+              value5_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[0]?_mochaLocalTmp0.value4[0] : undefined,
+              value6_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[1]?_mochaLocalTmp0.value4[1] : undefined,
+              value7_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[2]?_mochaLocalTmp0.value4[2] : undefined,
+              value7 = _mochaLocalTmp0.value5 && _mochaLocalTmp0.value5.value6 && _mochaLocalTmp0.value5.value6[0] && _mochaLocalTmp0.value5.value6[0].value7?_mochaLocalTmp0.value5.value6[0].value7 : undefined,
+              strvalue = _mochaLocalTmp0["@value"] && _mochaLocalTmp0["@value"].strvalue?_mochaLocalTmp0["@value"].strvalue : undefined;
+          
+          __LINE__ = 74;
+          Runtime.assert(true,value1 === 100,"value1 === 100",74,'destructuring_test.js');
+          
+          __LINE__ = 75;
+          Runtime.assert(true,value3 === 100,"value3 === 100",75,'destructuring_test.js');
+          
+          __LINE__ = 76;
+          Runtime.assert(true,value5_ === 100,"value5_ === 100",76,'destructuring_test.js');
+          
+          __LINE__ = 77;
+          Runtime.assert(true,value6_ === 200,"value6_ === 200",77,'destructuring_test.js');
+          
+          __LINE__ = 78;
+          Runtime.assert(true,value7_ === 300,"value7_ === 300",78,'destructuring_test.js');
+          
+          __LINE__ = 79;
+          Runtime.assert(true,value7 === 100,"value7 === 100",79,'destructuring_test.js');
+          
+          __LINE__ = 80;
+          Runtime.assert(true,strvalue === 100,"strvalue === 100",80,'destructuring_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }(object);
       
-      value2 = array[2] && array[2].value2?array[2].value2 : undefined;
+      __LINE__ = 84;
+      !function (_mochaLocalTmp1) {
+        try {
+          __LINE__ = 84;
+          var value1 = _mochaLocalTmp1[0] && _mochaLocalTmp1[0].value1?_mochaLocalTmp1[0].value1 : undefined,
+              arr_value1 = _mochaLocalTmp1[1],
+              value2 = _mochaLocalTmp1[2] && _mochaLocalTmp1[2].value2?_mochaLocalTmp1[2].value2 : undefined,
+              value3 = _mochaLocalTmp1[3] && _mochaLocalTmp1[3]["value3"]?_mochaLocalTmp1[3].value3 : undefined,
+              arr_value2 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[0]?_mochaLocalTmp1[4].value4.value5[0] : undefined,
+              arr_value3 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[1]?_mochaLocalTmp1[4].value4.value5[1] : undefined;
+          
+          __LINE__ = 85;
+          Runtime.assert(true,value1 === 100,"value1 === 100",85,'destructuring_test.js');
+          
+          __LINE__ = 86;
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",86,'destructuring_test.js');
+          
+          __LINE__ = 87;
+          Runtime.assert(true,value2 === 100,"value2 === 100",87,'destructuring_test.js');
+          
+          __LINE__ = 88;
+          Runtime.assert(true,value3 === 100,"value3 === 100",88,'destructuring_test.js');
+          
+          __LINE__ = 89;
+          Runtime.assert(true,arr_value2 === 100,"arr_value2 === 100",89,'destructuring_test.js');
+          
+          __LINE__ = 90;
+          Runtime.assert(true,arr_value3 === 200,"arr_value3 === 200",90,'destructuring_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }(array);
       
-      value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined;
+      __LINE__ = 94;
+      !function (_mochaLocalTmp2) {
+        try {
+          __LINE__ = 94;
+          var value1 = _mochaLocalTmp2[0] && _mochaLocalTmp2[0].value1?_mochaLocalTmp2[0].value1 : undefined,
+              arr_value1 = _mochaLocalTmp2[1],
+              value2 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].value2?_mochaLocalTmp2[2].value2 : undefined,
+              value3 = _mochaLocalTmp2[3] && _mochaLocalTmp2[3]["value3"]?_mochaLocalTmp2[3].value3 : undefined,
+              arr_value2 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5?Runtime.toArray(_mochaLocalTmp2[4].value4.value5,0) : undefined;
+          
+          __LINE__ = 95;
+          Runtime.assert(true,value1 === 100,"value1 === 100",95,'destructuring_test.js');
+          
+          __LINE__ = 96;
+          Runtime.assert(true,arr_value1 === 200,"arr_value1 === 200",96,'destructuring_test.js');
+          
+          __LINE__ = 97;
+          Runtime.assert(true,value2 === 100,"value2 === 100",97,'destructuring_test.js');
+          
+          __LINE__ = 98;
+          Runtime.assert(true,value3 === 100,"value3 === 100",98,'destructuring_test.js');
+          
+          __LINE__ = 99;
+          Runtime.assert(true,arr_value2[0] === 100,"arr_value2[0] === 100",99,'destructuring_test.js');
+          
+          __LINE__ = 100;
+          Runtime.assert(true,arr_value2[1] === 200,"arr_value2[1] === 200",100,'destructuring_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }(array);
       
-      arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined;
-      
-      arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
-    }();
-    
-    !function () {
-      var value1 = array[0] && array[0].value1?array[0].value1 : undefined,
-          arr_value1 = array[1],
-          value2 = array[2] && array[2].value2?array[2].value2 : undefined,
-          value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined,
-          arr_value2 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
-      
-      var arr_value4;
-      
-      value1 = array[0] && array[0].value1?array[0].value1 : undefined;
-      
-      arr_value1 = array[1];
-      
-      value2 = array[2] && array[2].value2?array[2].value2 : undefined;
-      
-      value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined;
-      
-      arr_value4 = array[4] && array[4].value4 && array[4].value4.value5?Runtime.toArray(array[4].value4.value5,0) : undefined;
-    }();
-    
-    !function (_mochaLocalTmp0) {
-      var value1 = _mochaLocalTmp0.value1,
-          value3 = _mochaLocalTmp0.value2 && _mochaLocalTmp0.value2.value3?_mochaLocalTmp0.value2.value3 : undefined,
-          value5_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[0]?_mochaLocalTmp0.value4[0] : undefined,
-          value6_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[1]?_mochaLocalTmp0.value4[1] : undefined,
-          value7_ = _mochaLocalTmp0.value4 && _mochaLocalTmp0.value4[2]?_mochaLocalTmp0.value4[2] : undefined,
-          value7 = _mochaLocalTmp0.value5 && _mochaLocalTmp0.value5.value6 && _mochaLocalTmp0.value5.value6[0] && _mochaLocalTmp0.value5.value6[0].value7?_mochaLocalTmp0.value5.value6[0].value7 : undefined,
-          strvalue = _mochaLocalTmp0["@value"] && _mochaLocalTmp0["@value"].strvalue?_mochaLocalTmp0["@value"].strvalue : undefined;
-    }(object);
-    
-    !function (_mochaLocalTmp1) {
-      var value1 = _mochaLocalTmp1[0] && _mochaLocalTmp1[0].value1?_mochaLocalTmp1[0].value1 : undefined,
-          arr_value1 = _mochaLocalTmp1[1],
-          value2 = _mochaLocalTmp1[2] && _mochaLocalTmp1[2].value2?_mochaLocalTmp1[2].value2 : undefined,
-          value3 = _mochaLocalTmp1[3] && _mochaLocalTmp1[3]["value3"]?_mochaLocalTmp1[3].value3 : undefined,
-          arr_value2 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[0]?_mochaLocalTmp1[4].value4.value5[0] : undefined,
-          arr_value3 = _mochaLocalTmp1[4] && _mochaLocalTmp1[4].value4 && _mochaLocalTmp1[4].value4.value5 && _mochaLocalTmp1[4].value4.value5[1]?_mochaLocalTmp1[4].value4.value5[1] : undefined;
-    }(array);
-    
-    !function (_mochaLocalTmp2) {
-      var value1 = _mochaLocalTmp2[0] && _mochaLocalTmp2[0].value1?_mochaLocalTmp2[0].value1 : undefined,
-          arr_value1 = _mochaLocalTmp2[1],
-          value2 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].value2?_mochaLocalTmp2[2].value2 : undefined,
-          value3 = _mochaLocalTmp2[3] && _mochaLocalTmp2[3]["value3"]?_mochaLocalTmp2[3].value3 : undefined,
-          arr_value2 = _mochaLocalTmp2[4] && _mochaLocalTmp2[4].value4 && _mochaLocalTmp2[4].value4.value5?Runtime.toArray(_mochaLocalTmp2[4].value4.value5,0) : undefined;
-    }(array);
-    
-    var fn = function () {
-          return [0,1,2];
-        },
-        _mochaLocalTmp3 = fn(),
-        ret1 = _mochaLocalTmp3[0],
-        re2 = _mochaLocalTmp3[1];
+      __LINE__ = 104;
+      var fn = function () {
+            try {
+              __LINE__ = 104;
+              return [0,1,2];
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          },
+          _mochaLocalTmp3 = fn(),
+          ret1 = _mochaLocalTmp3[0],
+          re2 = _mochaLocalTmp3[1];
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    }
   }();
 }();

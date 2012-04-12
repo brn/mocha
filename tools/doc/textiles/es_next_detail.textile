@@ -1,0 +1,19 @@
+h2. class
+
+h3. "index":index.html > ES Next
+
+mochaが現在対応しているES Nextの機能です。
+
+"class":class_detail.html
+
+"destructuring assignment":destructuring_detail.html
+
+"for each":for_each.html
+
+"do expressions":do_expression.html
+
+"functions":function_detail.html
+
+"import":import_detail.html
+
+"module":module_detail.html

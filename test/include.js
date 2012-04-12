@@ -6,6 +6,7 @@ var options = (filename) -> ({
       deployName : filename.replace('.js', '-cmp.js'),
       options : {
         prettyPrint : true,
+        debug : true,
         versions : ['ex']
       }
     });

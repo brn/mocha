@@ -267,7 +267,7 @@ VISITOR_IMPL(IFStmt) {
     EndLastState_();
     if (is_line_) {
       writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
-      if (maybeElse->IsEmpty()) {
+      if (is_pretty_print_ && maybeElse->IsEmpty()) {
         writer()->WriteOp('\n', 0, stream());
       }
     }
@@ -295,7 +295,9 @@ VISITOR_IMPL(IFStmt) {
       maybeElse->Accept(this);
       if (is_line_) {
         writer()->WriteOp('}', CodeWriter::kBlockEndBrace, stream());
-        writer()->WriteOp('\n', 0, stream());
+        if (is_pretty_print_) {
+          writer()->WriteOp('\n', 0, stream());
+        }
       }
     }
     EndLastState_();
@@ -635,7 +637,7 @@ VISITOR_IMPL(ThrowStmt) {
   writer()->SetLine(ast_node->line_number(), stream(), current_root_);
   writer()->WriteOp(Token::JS_THROW, 0, stream());
   ast_node->expression()->Accept(this);
-  writer()->WriteOp('\n', 0, stream());
+  writer()->WriteOp(';', 0, stream());
 }
 
 

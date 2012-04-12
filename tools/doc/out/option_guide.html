@@ -524,8 +524,8 @@ SyntaxHighlighter.all();//]]>
 	<p><strong>ソースからコンパイルする。</strong></p>
 
 <pre class="brush: js">
-var roaster = mocha.import('script').Roaster,
-    result = roaster.compile('(x,y,z)->x + y + z;', 'utf-8', {
+var roaster = mocha.import('script&#8217;).Roaster,
+    result = roaster.compile(&#8217;(x,y,z)->x + y + z;&#8217;, 'utf-8&#8217;, {
                prettyPrint : true, 
                debug : false,
                compress : false
@@ -536,8 +536,8 @@ console.log(result);
 	<p><strong>ファイルをコンパイルする</strong></p>
 
 <pre class="brush: js">
-var roaster = mocha.import('script').Roaster,
-    result = roaster.compile('src/test.js', 'utf-8', {
+var roaster = mocha.import('script&#8217;).Roaster,
+    result = roaster.compile('src/test.js&#8217;, 'utf-8&#8217;, {
                prettyPrint : true,
                debug : false,
                compress : false
@@ -548,8 +548,8 @@ console.log(result);
 	<p><strong>ファイルをデプロイする</strong></p>
 
 <pre class="brush: js">
-var roaster = mocha.import('script').Roaster,
-roaster.deploy('src/test.js', 'utf-8', {
+var roaster = mocha.import('script&#8217;).Roaster,
+roaster.deploy('src/test.js&#8217;, 'utf-8&#8217;, {
   prettyPrint : true,
   debug : false,
   compress : false
@@ -559,8 +559,8 @@ roaster.deploy('src/test.js', 'utf-8', {
 	<p><strong>依存関係を取得する</strong></p>
 
 <pre class="brush: js">
-var roaster = mocha.import('script').Roaster,
-    result = roaster.checkDependencies('src/test.js');
+var roaster = mocha.import('script&#8217;).Roaster,
+    result = roaster.checkDependencies('src/test.js&#8217;);
 result.forEach(function (filename) {
   console.log(filename);
 });

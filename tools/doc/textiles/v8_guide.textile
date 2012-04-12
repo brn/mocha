@@ -1,0 +1,43 @@
+h2. 概要
+
+mochaにはjavascriptの実行エンジンとしてv8 javascript engineが組み込まれています。
+v8は純粋なjavascriptエンジンのみの機能をもちdomを持ちません。
+
+以下がデフォルトで定義されているグローバル変数です。
+
+* Math,
+* eval,
+* undefined
+* Date
+* unescape
+* escape
+* decodeURI
+* Function
+* String
+* Object
+* parseInt
+* Error
+* encodeURI
+* isNaN
+* TypeError
+* ReferenceError
+* JSON
+* RegExp
+* decodeURIComponent
+* EvalError
+* isFinite
+* NaN
+* Boolean
+* URIError
+* Number
+* RangeError
+* Array
+* mocha
+* parseFloat
+* SyntaxError
+* encodeURIComponent
+* console
+* Infinity
+
+これら以外のdomやブラウザの拡張は使用できません。
+

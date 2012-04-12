@@ -23,17 +23,22 @@ void CallProcessor::ProcessPrivateAccessor() {
 }
 
 
-void CallProcessor::CallSuper (CallExp* ast_node_) {
+void CallProcessor::CallSuper (CallExp* ast_node_, bool direct_call) {
   AstNode* args = ast_node_->args();
   Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
                                                 Token::JS_THIS, ast_node_->line_number(), Literal::kThis);
   Literal* call = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kCall),
                                             Token::JS_IDENTIFIER, ast_node_->line_number(), Literal::kProperty);
-  Literal* constructor = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kConstructor),
-                                                   Token::JS_IDENTIFIER, ast_node_->line_number(), Literal::kProperty);
-  CallExp* constructor_accessor = builder()->CreateDotAccessor(ast_node_->callable(), constructor, ast_node_->line_number());
-  CallExp* normal = builder()->CreateDotAccessor(constructor_accessor, call, ast_node_->line_number());
-  ast_node_->set_callable(normal);
+  if (direct_call) {
+    Literal* constructor = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kConstructor),
+                                                     Token::JS_IDENTIFIER, ast_node_->line_number(), Literal::kProperty);
+    CallExp* constructor_accessor = builder()->CreateDotAccessor(ast_node_->callable(), constructor, ast_node_->line_number());
+    CallExp* normal = builder()->CreateDotAccessor(constructor_accessor, call, ast_node_->line_number());
+    ast_node_->set_callable(normal);
+  } else {
+    CallExp* normal = builder()->CreateDotAccessor(ast_node_->callable(), call, ast_node_->line_number());
+    ast_node_->set_callable(normal);
+  }
   if (!args->IsEmpty()) {
     ast_node_->args()->InsertBefore(this_sym);
   } else {
@@ -50,7 +55,7 @@ void CallProcessor::ProcessFnCall() {
   if (callable->node_type() == AstNode::kLiteral &&
        callable->CastToLiteral()->value_type() == Literal::kSuper) {
     ast_node_->callable()->Accept(visitor);
-    CallSuper(ast_node_);
+    CallSuper(ast_node_, true);
   } else {
     AstNode* tmp = ast_node_->callable();
     while (tmp->node_type() != AstNode::kLiteral) {
@@ -63,7 +68,7 @@ void CallProcessor::ProcessFnCall() {
     if (tmp->node_type() == AstNode::kLiteral) {
       Literal* val = tmp->CastToLiteral();
       if (val->value_type() == Literal::kSuper) {
-        CallSuper(ast_node_);
+        CallSuper(ast_node_, false);
       }
     }
     ast_node_->callable()->Accept(visitor);

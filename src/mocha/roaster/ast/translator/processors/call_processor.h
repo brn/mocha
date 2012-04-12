@@ -13,7 +13,7 @@ class CallProcessor : public Processor{
   void ProcessFnCall();
   void ProcessExtendAccessor();
  private :
-  void CallSuper (CallExp* ast_node_);
+  void CallSuper (CallExp* ast_node_, bool direct_call);
   CallExp* ast_node_;
   ProcessorInfo* info_;
 };

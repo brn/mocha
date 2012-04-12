@@ -50,20 +50,13 @@ var monster = new Monster( "slime" , 100 );
 @assert( 100 , Monster.DEFAULT_LIFE );
 @assert( undefined , Monster.health );
 class BaseTest {
-  constructor( this.name = 200 , private.addr = "tokyo" , private.age ) {}
-  public getName() {
-    return "hogehoge";
-  }
-  static getName -> "static hogehoge";
+  constructor( _@name = "foo" , _@addr = "tokyo" , _@age ) {}
+  public getName() -> _@name;
 }
 
 class DeriveTest extends BaseTest {
-  constructor() {
-    super();
-  }
-  getName() {
-    return super.getName();
-  }
+  constructor() -> super();
+  public getName() -> super.getName();
 }
 
 
@@ -72,6 +65,12 @@ class Derive2 extends DeriveTest {
   public getAddr -> private.addr;
 }
 
+
+class Drive3 prototype BaseTest {
+  constructor() {
+    super(200, 'tokyo', 20);
+  }
+}
 
 var TestClass = class {
       constructor( private._name = "test" , private._age = 20 ){}
@@ -82,8 +81,7 @@ var TestClass = class {
       }
     }
 
-@assert( true , new DeriveTest().getName() === "hogehoge" );
-@assert( true , DeriveTest.getName() === "static hogehoge" );
+@assert( true , new DeriveTest().getName() === "foo" );
 @assert( true , new Derive2().getAddr() === "tokyo" );
 var instance = new TestClass();
 @assert( true , instance.getName() === "test" );
@@ -121,3 +119,5 @@ class Box {
 var inst = new Box();
 console.log( inst.height() );
 console.log( inst.width() );
+
+console.log([,,,,]);

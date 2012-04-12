@@ -916,8 +916,8 @@ module Runtime {
 
   @version( debug ) {
     export assert = ( console && console.assert )?
-      ( expect , exp , str , line , filename )->console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
-      ( expect , exp , str , line , filename )->{
+      ( expect , exp , str , line , filename ) -> console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
+      ( expect , exp , str , line , filename ) -> {
         if ( expect !== exp ) {
           Runtime.throwException( "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line );
         }

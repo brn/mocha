@@ -1,0 +1,150 @@
+h2. class
+
+h3. "index":index.html > "ES Next":es_next_detail.html > class
+
+class定義です。
+
+現在策定されているプロポーサルではclassが組み込まれる予定です。
+class機能自体はfunctionの糖衣構文になります。
+
+*実装済み処理系* : 無し
+
+*基本*
+
+<notextile>
+<pre class="brush: js">
+class Monster {
+  //コンストラクタは以下のように定義します。
+  //クラスのメンバはコンストラクタ内で指定します。
+  constructor(name, health) {
+    public name = name;
+    private health = health;
+  }
+  //クラスのメソッドはpublicかprivateのアクセス修飾が可能です。
+  //指定しない場合はprivateになります。
+  public attack(target) {
+    log('The monster attacks ' + target);
+  }
+  //省略関数も利用可能です。
+  //private修飾は本来の提案だとprivate(this).value
+  //という形なのですが、無駄が多いので、一旦この形になっています。
+  public isAlive -> private.health > 0;
+  public health(value) {
+    if (value < 0) {
+      throw new Error('Health must be non-negative.')
+    }
+    private.health = value
+  }
+  //publicな関数以外のメンバはprototypenに設定され、
+  //全てのインスタンスで共通の値が使用されます。
+  public numAttacks = 0;
+  //constなメンバはコンストラクタか、定義時に初期化しなければ
+  //値の追加はできません。
+  public const attackMessage = 'The monster hits you!';
+  //static修飾が宣言されると変数はstaticな変数になります。
+  //static修飾にはprivate,publicは設定できません。
+  static const DEFAULT_LIFE = 100;
+}
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var Monster = function () {
+      function constructor(name,health) {
+        this.name = name;
+        Runtime.getPrivateRecord(this).health = health;
+      }
+      function Monster() {
+        Runtime.initializeClass(this, Monster, _mochaPrivateHolder, constructor, arguments, "Monster", 1);
+      }
+      var _mochaPrivateHolder = function (){};
+      
+      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+      
+      Monster.prototype.attack = function (target) {
+        log('The monster attacks '+target);
+      };
+      
+      Monster.prototype.isAlive = function () {
+        return Runtime.getPrivateRecord(this).health>0;
+      };
+      
+      Monster.prototype.health = function (value) {
+        if (value<0)throw new Error('Health must be non-negative.')
+        
+        Runtime.getPrivateRecord(this).health = value;
+      };
+      
+      Monster.prototype.numAttacks = 0;
+      
+      Runtime.constant(Monster.prototype,'attackMessage','The monster hits you!');
+      
+      Runtime.constant(Monster,'DEFAULT_LIFE',100);
+      
+      Runtime.createUnenumProp(Monster.prototype,"constructor",constructor);
+      return Monster;
+    }()
+</pre>
+</notextile>
+
+*継承*
+
+<notextile>
+<pre class="brush: js">
+class BaseTest {
+  constructor( private.name = 'foo' , private.addr = 'tokyo' , private.age = 20 ) {}
+  public getName() -> private.name;
+}
+//継承する場合はextendsキーワードを使用します。
+class DeriveTest extends BaseTest {
+  //superキーワードで親クラスのメンバにアクセスできます。
+  constructor() -> super();
+  public getName() -> super.getName();
+}
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var BaseTest = function () {
+      function constructor(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2) {
+        Runtime.getPrivateRecord(this).name = _mochaLocalTmp0 || 'foo';
+        Runtime.getPrivateRecord(this).addr = _mochaLocalTmp1 || "tokyo";
+        Runtime.getPrivateRecord(this).age = _mochaLocalTmp2 || 20;
+      }
+      function BaseTest() {
+        Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest',52);
+      }
+      var _mochaPrivateHolder = function (){};
+      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+      BaseTest.prototype.getName = function () {
+        return Runtime.getPrivateRecord(this).name;
+      };
+      Runtime.createUnenumProp(BaseTest.prototype,"constructor",constructor);
+      return BaseTest;
+    }(),
+    DeriveTest = function () {
+      function constructor() {
+        _mochaSuper.constructor.call(this);
+      }
+      function DeriveTest() {
+        Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest',60);
+      }
+      var _mochaPrivateHolder = function (){};
+      var _mochaLocalTmp3 = BaseTest;
+      Runtime.extendClass(DeriveTest,_mochaLocalTmp3);
+      var _mochaSuper = Runtime.getSuper(_mochaLocalTmp3);
+      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+      DeriveTest.prototype.getName = function () {
+        return _mochaSuper.getName.constructor.call(this);
+      };
+      Runtime.createUnenumProp(DeriveTest.prototype,"constructor",constructor);
+      return DeriveTest;
+    }()
+</pre>
+</notextile>

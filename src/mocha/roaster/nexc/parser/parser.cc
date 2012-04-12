@@ -1478,14 +1478,16 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
       fn->AddChild(statement);
     }
     AstNode* node = fn->last_child();
-    if (node->CastToExpression() || node->node_type() == AstNode::kExpressionStmt) {
-      ReturnStmt* stmt = 0;//init after
-      if (node->node_type() == AstNode::kExpressionStmt) {
-        stmt = builder()->CreateReturnStmt(node->first_child(), node->line_number());
-      } else {
-        stmt = builder()->CreateReturnStmt(node, node->line_number());
+    if (node) {
+      if (node->CastToExpression() || node->node_type() == AstNode::kExpressionStmt) {
+        ReturnStmt* stmt = 0;//init after
+        if (node->node_type() == AstNode::kExpressionStmt) {
+          stmt = builder()->CreateReturnStmt(node->first_child(), node->line_number());
+        } else {
+          stmt = builder()->CreateReturnStmt(node, node->line_number());
+        }
+        fn->ReplaceChild(node, stmt);
       }
-      fn->ReplaceChild(node, stmt);
     }
     fn->set_argv(new(pool()) Empty);
     ExpressionStmt* ret_stmt = builder()->CreateAnonymousFnCall(fn, new(pool()) Empty, fn->line_number());
@@ -3427,7 +3429,6 @@ AstNode* Parser::ParseArrayLiteral() {
         int last_type = Seek(-1)->type();
         token = Advance();
         if (token->type() == ']') {
-          Advance();
           if (last_type == '[') {
             array->set_element(new(pool()) Empty);
           }
