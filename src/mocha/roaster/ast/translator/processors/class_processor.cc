@@ -138,7 +138,9 @@ class ClassProcessorUtils : public Processor{
       array->set_element(name_node);
     }
     Literal* name_sym = builder()->CreateNameNode(name, Token::JS_IDENTIFIER, mixin_list->line_number(), Literal::kIdentifier);
-    Literal* filename_node = builder()->CreateNameNode(filename, Token::JS_STRING_LITERAL, mixin_list->line_number(), Literal::kString);
+    std::string str;
+    os::SPrintf(&str, "'%s'", filename);
+    Literal* filename_node = builder()->CreateNameNode(str.c_str(), Token::JS_STRING_LITERAL, mixin_list->line_number(), Literal::kString);
     Literal* private_field = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kPrivateHolder),
                                                        Token::JS_IDENTIFIER, mixin_list->line_number(), Literal::kIdentifier);
     std::stringstream st;
@@ -525,7 +527,7 @@ inline void ClassProcessor::ProcessMember(ClassProperties* body) {
   if (mixin->child_length() > 0) {
     AstNode* mixin_list = TraitProcessor::ProcessMixin(mixin, info_, mixin->line_number());
     utils_->CreateMixinStmt(name_.c_str(), mixin_list, closure_body_);
-    utils_->CreateRequirementsCheck(name_.c_str(), info_->translator_data()->relative_path(), mixin_list, closure_body_);
+    utils_->CreateRequirementsCheck(name_.c_str(), info_->translator_data()->filename(), mixin_list, closure_body_);
   }
 }
 

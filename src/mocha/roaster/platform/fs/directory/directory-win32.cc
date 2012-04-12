@@ -46,6 +46,7 @@ DirEntry* Find(DirEntry* entry,
                const char* current,
                bool recursive,
                memory::Pool *pool) {
+  bool initial = entry == 0;
   DirEntry* first = entry;
   SubDirList sub;
   WIN32_FIND_DATA ffdata;
@@ -74,23 +75,22 @@ DirEntry* Find(DirEntry* entry,
     if (entry != 0) {
       entry->SetNext(ent);
     } else {
-	  first = ent;
-	}
+      first = ent;
+    }
     entry = ent;
   }
   FindClose(h_find);
   SubDirList::iterator begin = sub.begin(),end = sub.end();
-  DirEntry* next = entry;
   while (begin != end) {
     std::string next_dir;
     os::SPrintf(&next_dir, "%s/%s", current, begin->c_str());
-    next = Find(next, next_dir.c_str(), recursive, pool);
-	if (next != entry && next != 0) {
-	  entry->SetNext(next);
+    DirEntry* tmp = Find(entry, next_dir.c_str(), recursive, pool);
+	if (tmp != 0 && tmp != entry) {
+       entry = tmp;
 	}
     ++begin;
   }
-  return first;
+  return (initial)? first : entry;
 }
 
 

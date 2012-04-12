@@ -254,11 +254,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\bin\win32\debug\</OutDir>
     <TargetName>mchd</TargetName>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\bin\win32\</OutDir>
     <IncludePath>../../../src;$(IncludePath)</IncludePath>
     <TargetName>mchd</TargetName>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -266,7 +268,7 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_MBCS;CURRENT_DIR="Y:/mocha/src";U_STATIC_IMPLEMENTATION;DEBUG;_CRTDBG_MAP_ALLOC;PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../src/third_party/v8/include;../../../src;../../../src/third_party/libuv/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src/lib/win/v8/include;../../../src;../../../src/lib/win/libuv/include;../../../src/lib/win/icu/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/FI WinSock2.h %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild>false</MinimalRebuild>
@@ -274,7 +276,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../../../src/third_party/icu/lib-win32/debug/icuin.lib;../../../src/third_party/icu/lib-win32/debug/icudt.lib;../../../src/third_party/icu/lib-win32/debug/icuuc.lib;../../../src/third_party/v8/win32/v8_g.lib;../../../src/deps/win/libuv/debug/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../../../src/lib/win/icu/debug/icuin.lib;../../../src/lib/win/icu/debug/icudt.lib;../../../src/lib/win/icu/debug/icuuc.lib;../../../src/lib/win/v8/debug/v8_g.lib;../../../src/lib/win/libuv/debug/uv.lib;ws2_32.lib;winmm.lib;psapi.lib;Advapi32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>cd ../../../ &amp;&amp; python tools/runtime.py</Command>
@@ -291,7 +293,7 @@
       <AdditionalIncludeDirectories>../../../src/lib/win/v8/include;../../../src;../../../src/lib/win/libuv/include;../../../src/lib/win/icu/include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>WinSock2.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>

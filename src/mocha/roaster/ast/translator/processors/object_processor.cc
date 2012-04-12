@@ -135,12 +135,13 @@ void ObjectProccessor::ProcessPrivateProperty(Literal *name) {
 
 void ObjectProccessor::ProcessRecord() {
   AstNode* parent = literal_->parent_node();
-  Literal* create_record = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kCreateRecord),
-                                                     Token::JS_IDENTIFIER, literal_->line_number(), Literal::kProperty);
-  CallExp* runtime_accessor = builder()->CreateRuntimeMod(create_record, literal_->line_number());
+  Literal* record = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kRecord),
+                                              Token::JS_IDENTIFIER, literal_->line_number(), Literal::kIdentifier);
   NodeList* args = builder()->CreateNodeList(1, literal_);
-  CallExp* runtime_call = builder()->CreateNormalAccessor(runtime_accessor, args, literal_->line_number());
-  parent->ReplaceChild(literal_, runtime_call);
+  CallExp* call = builder()->CreateNormalAccessor(record, args, literal_->line_number());
+  NewExp* new_exp = new (pool()) NewExp(literal_->line_number());
+  new_exp->AddChild(call);
+  parent->ReplaceChild(literal_, new_exp);
 }
 
 }

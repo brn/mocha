@@ -372,14 +372,14 @@
   }.call(this);
   
   var Runtime = function () {
-        function checkRequirements(_mochaLocalTmp9,_mochaLocalTmp10,traits,file,line) {
-          var proto1 = _mochaLocalTmp9.prototype,
-              proto2 = _mochaLocalTmp10.prototype;
+        function checkRequirements(_mochaLocalTmp8,_mochaLocalTmp9,traits,file,line) {
+          var proto1 = _mochaLocalTmp8.prototype,
+              proto2 = _mochaLocalTmp9.prototype;
           
           for (var i = 0,len = traits.length;i<len;i ++ ){
             
-            var _mochaLocalTmp11 = traits[i],
-                _mochaRequires = _mochaLocalTmp11._mochaRequires;
+            var _mochaLocalTmp10 = traits[i],
+                _mochaRequires = _mochaLocalTmp10._mochaRequires;
             
             for (var prop in _mochaRequires){
               !(prop in proto1) && !(prop in proto2) && Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+prop+"\nin file "+file+" at line "+line);
@@ -388,12 +388,12 @@
           }
           
         }
-        function classMixin(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,with_,without) {
-          var constructorProto = _mochaLocalTmp6.prototype,
-              privateProto = _mochaLocalTmp7.prototype,
-              mark = _mochaLocalTmp8._mochaTraitMark,
-              traitPublic = _mochaLocalTmp8._mochaTraitPublic,
-              traitPrivate = _mochaLocalTmp8._mochaTraitPrivate;
+        function classMixin(_mochaLocalTmp5,_mochaLocalTmp6,_mochaLocalTmp7,with_,without) {
+          var constructorProto = _mochaLocalTmp5.prototype,
+              privateProto = _mochaLocalTmp6.prototype,
+              mark = _mochaLocalTmp7._mochaTraitMark,
+              traitPublic = _mochaLocalTmp7._mochaTraitPublic,
+              traitPrivate = _mochaLocalTmp7._mochaTraitPrivate;
           
           if (!mark){
             Runtime.throwException("mixin only used for trait.");
@@ -540,37 +540,18 @@
           }
           
         }
-        function createRecord(obj) {
-          obj.toString() === "[object Object]" && createUnenumProp(obj,"toString",
-          function () {
-            return "[object Record]";
-          });
-          return Object.freeze(obj);
-        }
-        function createTuple(obj,size) {
-          createUnenumProp(obj,"length",size);
-          
-          createUnenumProp(obj,"equal",compareTuple);
-          
-          createUnenumProp(obj,"toArray",tupleToArray);
-          
-          createUnenumProp(obj,"toString",
-          function () {
-            return "[object Tuple]";
-          });
-          return Object.freeze(obj);
-        }
-        function tupleToArray() {
-          return [].slice.call(this);
-        }
-        function compareTuple(tuple) {
-          var maxIndex = max(tuple.length,this.length),
-              i = -1;
-          
-          while ( ++ i<maxIndex && tuple[i] === this[i]){
+        function RecordConstructor(obj) {
+          for (var i in obj){
             
+            this[i] = obj[i];
           }
-          return maxIndex === i;
+          
+          Object.freeze(this);
+        }
+        function TupleConstructor(args) {
+          push.apply(this,args);
+          
+          Object.freeze(this);
         }
         function extend(dest,source) {
           for (var prop in source){
@@ -629,8 +610,9 @@
         var _mochaLocalExport = {};
         
         var max = Math.max,
-            _mochaLocalTmp5 = Array.prototype,
-            slice = _mochaLocalTmp5.slice,
+            arrayProto = Array.prototype,
+            slice = arrayProto.slice,
+            push = arrayProto.push,
             Runtime =  {
               getErrorMessage : function (e) {
                 return (e.message)?e.message : (e.description)?e.description : e.toString();
@@ -675,9 +657,33 @@
         
         _mochaLocalExport.extend = extend;
         
-        _mochaLocalExport.createTuple = createTuple;
+        _mochaLocalExport.TupleConstructor = TupleConstructor;
         
-        _mochaLocalExport.createRecord = createRecord;
+        TupleConstructor.prototype =  {
+          compareTuple : function (tuple) {
+            var maxIndex = max(tuple.length,this.length),
+                i = -1;
+            
+            while ( ++ i<maxIndex && tuple[i] === this[i]){
+              
+            }
+            return maxIndex === i;
+          },
+          tupleToArray : function () {
+            return slice.call(this);
+          },
+          toString : function () {
+            return "[object Tuple]";
+          }
+        };
+        
+        _mochaLocalExport.RecordConstructor = RecordConstructor;
+        
+        RecordConstructor.prototpye =  {
+          toString : function () {
+            return "[object Record]";
+          }
+        };
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
@@ -807,8 +813,8 @@
         _mochaLocalExport.checkRequirements = checkRequirements;
         
         !function () {
-          var assert = _mochaLocalExport.assert = (console && console.assert)?function (expect,exp,str,line,filename) {
-                return console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+          var assert = _mochaLocalExport.assert = (global.console && global.console.assert)?function (expect,exp,str,line,filename) {
+                return global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               } : function (expect,exp,str,line,filename) {
                 expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               };
@@ -823,23 +829,20 @@
   });
   
   function Tuple() {
-    var args = Runtime.toArray(arguments,0),
-        ret = {};
-    
-    ret.length = 0;
-    
-    [].push.apply(ret,args);
-    
-    Runtime.createTuple(ret,arguments.length);
-    return ret;
+    var args = Runtime.toArray(arguments,0);
+    return new Runtime.TupleConstructor(args);
   }
+  Tuple.prototype = Runtime.TupleConstructor.prototype;
+  
   function Record(member) {
-    return Runtime.createRecord(member);
+    return new Runtime.RecordConstructor(member);
   }
+  Record.prototype = Runtime.RecordConstructor.prototype;
+  
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1653259312-switch_test.js",
+      var __FILE__ = "1166143511-switch_test.js",
           __LINE__ = 0;
       function switchTest(type) {
         try {
@@ -908,10 +911,10 @@
         }
       }
       __LINE__ = 2;
-      _mochaGlobalExport['1653259312-switch_test.js'] = {};
+      _mochaGlobalExport['1166143511-switch_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-switch_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-switch_test.js'];
       
       __LINE__ = 35;
       Runtime.assert(true,switchTest(1) === 1,"switchTest(1) === 1",35,'switch_test.js');

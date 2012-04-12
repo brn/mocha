@@ -342,6 +342,11 @@ AstNode* Parser::ParseSourceElement() {
       result = ParseFunctionDecl(false);
       CHECK_ERROR(result);
       Function* fn = result->CastToExpression()->CastToFunction();
+      if (fn->name() == 0 || fn->name()->IsEmpty()) {
+        SYNTAX_ERROR("Invalid function declaration in file "
+                     << filename_ << " at line " << fn->line_number());
+        return fn;
+      }
       fn->MarkAsDeclaration();
     }
       break;
@@ -541,6 +546,11 @@ AstNode* Parser::ParseStatement() {
       result = ParseFunctionDecl(false);
       CHECK_ERROR(result);
       Function* fn = result->CastToExpression()->CastToFunction();
+      if (fn->name() == 0 || fn->name()->IsEmpty()) {
+        SYNTAX_ERROR("Invalid function declaration in file "
+                     << filename_ << " at line " << fn->line_number());
+        return fn;
+      }
       fn->MarkAsDeclaration();
     }
       break;
@@ -573,7 +583,13 @@ AstNode* Parser::ParseStatement() {
         if (strcmp(ident->token(), SymbolList::symbol(SymbolList::kTrait)) == 0 && token->type() == '{') {
           result = ParseTrait();
           CHECK_ERROR(result);
-          result->CastToExpression()->CastToTrait()->MarkAsDeclaration();
+          Trait* trait = result->CastToExpression()->CastToTrait();
+          if (trait->name() == 0 || trait->name()->IsEmpty()) {
+            SYNTAX_ERROR("Invalid trait declaration in file "
+                         << filename_ << " at line " << trait->line_number());
+            return result;
+          }
+          trait->MarkAsDeclaration();
           break;
         }
       }
@@ -586,7 +602,13 @@ AstNode* Parser::ParseStatement() {
         if (!exp->IsParenthesis() && exp->child_length() == 1) {
           AstNode* item = exp->first_child();
           if (item->node_type() == AstNode::kFunction) {
-            item->CastToExpression()->CastToFunction()->MarkAsDeclaration();
+            Function* fn = item->CastToExpression()->CastToFunction();
+            if (fn->name() == 0 || fn->name()->IsEmpty()) {
+              SYNTAX_ERROR("Invalid function declaration in file "
+                           << filename_ << " at line " << fn->line_number());
+              return fn;
+            }
+            fn->MarkAsDeclaration();
             result = item;
           }
         } else if (!exp->IsParenthesis() && exp->child_length() > 1) {
@@ -2435,7 +2457,13 @@ ClassMember* Parser::ParseClassMember() {
     CHECK_ERROR(new(pool()) ClassMember(ClassMember::kConstructor, token->line_number()));
     ParseTerminator();
     CHECK_ERROR(new(pool()) ClassMember(ClassMember::kConstructor, token->line_number()));
-    exp->CastToExpression()->CastToFunction()->MarkAsDeclaration();
+    Function* fn = exp->CastToExpression()->CastToFunction();
+    if (fn->name() == 0 || fn->name()->IsEmpty()) {
+      SYNTAX_ERROR("Invalid member declaration in file "
+                   << filename_ << " at line " << fn->line_number());
+      return new(pool()) ClassMember(ClassMember::kConstructor, token->line_number());
+    }
+    fn->MarkAsDeclaration();
     member_type = ClassMember::kConstructor;
   } else if (token->type() == Token::JS_STATIC) {
     Advance();

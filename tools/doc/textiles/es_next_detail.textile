@@ -6,6 +6,8 @@ mochaが現在対応しているES Nextの機能です。
 
 "class":class_detail.html
 
+"trait":trait_detail.html
+
 "destructuring assignment":destructuring_detail.html
 
 "for each":for_each.html
@@ -17,3 +19,13 @@ mochaが現在対応しているES Nextの機能です。
 "import":import_detail.html
 
 "module":module_detail.html
+
+"let expression":let_expression_detail.html
+
+"object literal extras":object_literal_extras_detail.html
+
+"data structur extras":data_structure_extras_detail.html
+
+"generator/iterator":generator_detail.html
+
+"for of":for_of_detail.html

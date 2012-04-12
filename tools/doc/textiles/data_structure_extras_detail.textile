@@ -1,0 +1,68 @@
+h2. Data structure extras
+
+h3. "index":index.html > "ES Next":es_next_detail.html > Data structure extras
+
+データ構造の追加構文です。
+
+*実装済み処理系* : 無し
+
+*tuple*
+
+<notextile>
+<pre class="brush: js">
+var tuple = #[0,1,2,3];
+var tuple2 = new Tuple(0,1,2,3);
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var tuple = new Tuple(0,1,2,3),
+    tuple2 = new Tuple(0,1,2,3);
+</pre>
+</notextile>
+
+tupleを生成します。
+tupleは配列に似た値の集合ですが、mutableな値であり、変更不可能です。
+
+tupleのメソッド一覧です。
+|_. 名前|_. インターフェース|_. 説明|
+|equal|equal(tuple)|２つのtupleを比較します。|
+|toArray|toArray()|配列に変換します。|
+
+tupleのプロパティです。
+|_. 名前|_. 型|_. 説明|
+|length|Number|tupleの長さを返します。|
+
+*Record*
+
+<notextile>
+<pre class="brush: js">
+var foo = #{"foo":0,"bar":1,"baz":2}
+var bar = new Record({"foo":0,"bar":1,"baz":2});
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var foo = new Record({
+      "foo" : 0,
+      "bar" : 1,
+      "baz" : 2
+    }),
+    bar = new Record({
+      "foo" : 0,
+      "bar" : 1,
+      "baz" : 2
+    })
+</pre>
+</notextile>
+
+オブジェクトに似た連想配列を生成しますが、mutableであり、変更できません。
+
+Recordには特定のメソッドはありません。
+

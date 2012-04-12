@@ -27,7 +27,7 @@ var a = function (x,y,z) { return x + y + z;},
 <notextile>
 <pre class="brush: js">
 foo(x,y,z) -> x + y + z;
-bar(x,y,z) { return x + y + z; }
+bar(x,y,z) -> { return x + y + z; }
 </pre>
 </notextile>
 

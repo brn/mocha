@@ -917,7 +917,7 @@ void NativeWrap::Compiler::Init(Handle<Object> object) {
   obj->Set(String::New("compile"), compile_tmp->GetFunction());
   obj->Set(String::New("compileFile"), compile_file_tmp->GetFunction());
   obj->Set(String::New("deploy"), deploy_tmp->GetFunction());
-  obj->Set(String::New("checkDepends"), deps_tmp->GetFunction());
+  obj->Set(String::New("checkDependencies"), deps_tmp->GetFunction());
   object->Set(String::New("Roaster"), obj);
 }
 

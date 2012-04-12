@@ -117,7 +117,6 @@ class Box {
 }
 
 var inst = new Box();
-console.log( inst.height() );
-console.log( inst.width() );
+@assert(true, inst.height() === 100);
+@assert(true, inst.width() === 100);
 
-console.log([,,,,]);

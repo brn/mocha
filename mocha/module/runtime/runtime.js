@@ -598,7 +598,9 @@ module Runtime {
           this.toString = -> Runtime.getErrorMessage( e ) + " in file " + file + " at : " + line;
         }
   const {max} = Math;
-  const {slice} = Array.prototype;
+  const {prototype : arrayProto} = Array;
+  const {slice} = arrayProto;
+  const {push} = arrayProto;
 
   //Minimal runtime.
   const Runtime = {
@@ -664,30 +666,33 @@ module Runtime {
     }
     return dest;
   }
-
-  compareTuple( tuple ) -> {
-    var maxIndex = max( tuple.length , this.length ),
-        i = -1;
-    while ( ++i < maxIndex && tuple[ i ] === this[ i ] ){}
-    return maxIndex === i;
+  
+  export TupleConstructor(args) -> {
+    push.apply(this, args);
+    Object.freeze(this);
   }
-
-  tupleToArray -> Array.prototype.slice.call( this );
-
-  export createTuple( obj , size ) {
-    createUnenumProp( obj , "length" , size );
-    createUnenumProp( obj , "equal" , compareTuple );
-    createUnenumProp( obj , "toArray" , tupleToArray );
-    createUnenumProp( obj , "toString" , -> "[object Tuple]" );
-    return Object.freeze( obj );
+  
+  TupleConstructor.prototype = {
+    compareTuple( tuple ) -> {
+      var maxIndex = max( tuple.length , this.length ),
+          i = -1;
+      while ( ++i < maxIndex && tuple[ i ] === this[ i ] ){}
+      return maxIndex === i;
+    },
+    tupleToArray -> slice.call( this ),
+    toString -> "[object Tuple]"
   }
-
-  export createRecord( obj ) {
-    if ( obj.toString() === "[object Object]" ) {
-      createUnenumProp( obj , "toString" , -> "[object Record]" );
+  
+  export RecordConstructor(obj) -> {
+    for (var i in obj) {
+      this[i] = obj[i];
     }
-    return Object.freeze( obj );
+    Object.freeze(this);
   }
+  
+  RecordConstructor.prototpye = {
+    toString -> "[object Record]"
+  };
 
   export extendPrototype = ( derived , base ) -> {
     derived.prototype = base;
@@ -913,10 +918,10 @@ module Runtime {
       }
     }
   }
-
+  
   @version( debug ) {
-    export assert = ( console && console.assert )?
-      ( expect , exp , str , line , filename ) -> console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
+    export assert = ( global.console && global.console.assert )?
+      ( expect , exp , str , line , filename ) -> global.console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :
       ( expect , exp , str , line , filename ) -> {
         if ( expect !== exp ) {
           Runtime.throwException( "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line );
@@ -931,11 +936,14 @@ if ( !( "StopIteration" in global ) ) {
   }
 }
 
-Tuple ( ...args )-> {
-  var ret = {}
-  ret.length = 0;
-  Array.prototype.push.apply( ret , args )
-  Runtime.createTuple( ret , arguments.length );
-  return ret;
+Tuple(...args) -> {
+  return new Runtime.TupleConstructor(args);
 }
-Record( member ) -> Runtime.createRecord( member );
+Tuple.prototype = Runtime.TupleConstructor.prototype;
+
+Record(member) -> {
+  return new Runtime.RecordConstructor(member);
+}
+
+Record.prototype = Runtime.RecordConstructor.prototype;
+

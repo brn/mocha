@@ -59,9 +59,9 @@ class SymbolList : private Static {
     kRequires,
     kClassMixin,
     kCheckRequirements,
-    kCreateTuple,
-    kCreateRecord,
-    kInitializeClass
+    kRecord,
+    kInitializeClass,
+    kTuple
   } RuntimeSymbol;
 
   typedef enum {
