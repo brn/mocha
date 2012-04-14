@@ -278,8 +278,12 @@ AstNode* VersionStmt::Clone(memory::Pool* pool) {
 
 LINED_CLONE(BlockStmt);
 
+void ModuleStmt::SetExports(Literal* lit) {
+  exports_.insert(Pair(lit->value()->token(), lit));
+}
+
 AstNode* ModuleStmt::Clone(memory::Pool* pool) {
-  ModuleStmt* stmt = new(pool) ModuleStmt((name_)?name_->Clone(pool) : name_, line_number());
+  ModuleStmt* stmt = new(pool) ModuleStmt((name_)?name_->Clone(pool) : name_, type_, line_number());
   return CopyChildren(stmt, this, pool);
 }
 
@@ -310,6 +314,10 @@ AstNode* ImportStmt::Clone(memory::Pool* pool) {
   if (module_key_) {
     ret->module_key_ =
         new(pool) TokenInfo(module_key_->token(), module_key_->type(), module_key_->line_number());
+  }
+  if (filename_) {
+    ret->filename_ =
+        new(pool) TokenInfo(filename_->token(), filename_->type(), filename_->line_number());
   }
   return CopyChildren(ret, this, pool);
 }

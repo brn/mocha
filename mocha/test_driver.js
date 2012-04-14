@@ -10,7 +10,7 @@ if (phantom.args.length > 0) {
         ifr.contentDocument.open();
         ifr.contentDocument.write("<!doctype html><html><head><title>mocha test</title>");
         ifr.contentDocument.write("<script type=\"text/javascript\">var begin = new Date();</script>");
-        ifr.contentDocument.write('<script type="text/javascript">' + fs.read(filename) + '</script>');
+        ifr.contentDocument.write('<script type="text/javascript">\n//<[CDATA[\n' + fs.read(filename) + '\n//]]></script>');
         ifr.contentDocument.write('<script type="text/javascript">console.log( "elapsed : " + ( new Date() - begin ) / 1000 );</script>');
         ifr.contentDocument.write("</head><body></body></html>");
       } catch(e) {
@@ -22,5 +22,5 @@ if (phantom.args.length > 0) {
       }
     }
   }
-  phantom.exit();
 }
+phantom.exit();

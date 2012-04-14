@@ -24,6 +24,7 @@
 #define mocha_ast_visitors_visitor_info_h_
 #include <string>
 #include <list>
+#include <vector>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/misc/int_types.h>
@@ -37,6 +38,7 @@ class ClassProcessor;
 class AstBuilder;
 class CompilationInfo;
 typedef std::list<ClassProcessor*> ClassList;
+typedef std::vector<ModuleStmt*> ModuleList;
 class TranslatorData : private Uncopyable {
  public :
   typedef std::pair<AstNode*, AstNode*> AstPair;
@@ -58,9 +60,14 @@ class TranslatorData : private Uncopyable {
   void set_rest_injection(bool is) { (is)? bit_vector_.Set(1) : bit_vector_.UnSet(1); }
   bool rest_injection() { return bit_vector_[ 1 ]; }
   bool runtime() const { return bit_vector_.At(2); }
-  bool IsInModules() const { return is_in_module_ > 0; }
-  void EscapeModuel() { is_in_module_--;}
-  void EnterModuel() { is_in_module_++ ;}
+  bool IsInModules() const { return modules_.size() > 0; }
+  void EscapeModule() {
+    modules_.pop_back();
+  }
+  void EnterModule(ModuleStmt* stmt) {
+    modules_.push_back(stmt);
+  }
+  ModuleList* modules() {return &modules_;}
   void EnterClass() { is_in_class_++; }
   void EscapeClass() { is_in_class_--; }
   bool IsInClass() const { return is_in_class_ > 0; }
@@ -79,6 +86,8 @@ class TranslatorData : private Uncopyable {
   void SetClass(ClassProcessor* proc) { current_class_ = proc; }
   ClassProcessor* GetClass() const { return current_class_; }
   AstBuilder* builder(){ return builder_; }
+  FileRoot* file_root() {return file_root_;}
+  void set_root(FileRoot* root) {file_root_ = root;}
  private :
   
   int tmp_index_;
@@ -86,6 +95,7 @@ class TranslatorData : private Uncopyable {
   int16_t is_in_class_;
   int16_t is_in_module_;
   std::string relative_path_;
+  ModuleList modules_;
   PrivateNameList private_names_;
   BitVector8 bit_vector_;
   DstaExtractedExpressions* dsta_exp_;
@@ -93,6 +103,7 @@ class TranslatorData : private Uncopyable {
   CompilationEvent* event_;
   Statement* current_stmt_;
   Function* current_fn_;
+  FileRoot* file_root_;
   ClassProcessor* current_class_;
   ClassList class_list_;
   AstBuilder* builder_;

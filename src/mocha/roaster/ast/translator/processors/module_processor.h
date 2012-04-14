@@ -10,9 +10,10 @@ class ModuleProcessor : public Processor {
   ~ModuleProcessor() {}
   void ProcessNode();
  private :
-  void ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstNode* name, bool is_runtime);
-  ExpressionStmt* ProcessBody_(AstNode* body, Function* fn_node, AstNode* name);
-  void Finish_(AstNode* name, Function* fn_node);
+  void ProcessModule(AstNode* node, AstNode* name, bool is_runtime);
+  AstNode* ProcessBody(AstNode* body, Function* fn_node, AstNode* name);
+  AstNode* ProcessAssignment(AstNode* body, AstNode* name);
+  void Finish(AstNode* name, AstNode* node);
   ModuleStmt* stmt_;
   ProcessorInfo* info_;
 };

@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -842,7 +842,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-function_test.js",
+      var __FILE__ = "-836421475-function_test.js",
           __LINE__ = 0;
       function testFormal(arg,arg2,arg3) {
         try {
@@ -861,10 +861,10 @@
         }
       }
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-function_test.js'] = {};
+      _mochaGlobalExport['-836421475-function_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-function_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-836421475-function_test.js'];
       
       __LINE__ = 5;
       Runtime.assert(true,1 === test(),"1 === test()",5,'function_test.js');

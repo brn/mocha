@@ -33,7 +33,7 @@ void Setting::Initialize() {
   config_path_ += "config.js";
   base_ = base.str();
   std::string test_dirver = base.str();
-  test_dirver += "/test_driver.js";
+  test_dirver += "test_driver.js";
   Set("testDriver", test_dirver.c_str());
 }
 

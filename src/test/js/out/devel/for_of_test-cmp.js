@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -1681,13 +1681,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-for_of_test.js",
+      var __FILE__ = "-839149963-for_of_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-for_of_test.js'] = {};
+      _mochaGlobalExport['-839149963-for_of_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-for_of_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-839149963-for_of_test.js'],
           _mochaLocalTmp0 = _mochaGlobalExport.iterators,
           iterator = _mochaLocalTmp0.iterator,
           _mochaLocalTmp9 =  {
@@ -1994,7 +1994,7 @@
         
       } else {
         __LINE__ = 49;
-        Runtime.exceptionHandler(49,for_of_test.js,'for of statement expect iterator or generator object.');
+        Runtime.exceptionHandler(49,'for_of_test.js','for of statement expect iterator or generator object.');
       }
       
       __LINE__ = 52;
@@ -2029,7 +2029,7 @@
         
       } else {
         __LINE__ = 58;
-        Runtime.exceptionHandler(58,for_of_test.js,'for of statement expect iterator or generator object.');
+        Runtime.exceptionHandler(58,'for_of_test.js','for of statement expect iterator or generator object.');
       }
       
       __LINE__ = 61;
@@ -2075,7 +2075,7 @@
         
       } else {
         __LINE__ = 71;
-        Runtime.exceptionHandler(71,for_of_test.js,'for of statement expect iterator or generator object.');
+        Runtime.exceptionHandler(71,'for_of_test.js','for of statement expect iterator or generator object.');
       }
       
       __LINE__ = 74;

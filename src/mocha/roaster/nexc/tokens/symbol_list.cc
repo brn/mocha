@@ -76,6 +76,7 @@ static const char builtin[][50] = {
   "push",
   "trait",
   "from",
+  "as",
   "of",
   "NaN",
   "Function",

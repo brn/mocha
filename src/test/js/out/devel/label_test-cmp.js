@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -842,13 +842,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-label_test.js",
+      var __FILE__ = "-836421475-label_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-label_test.js'] = {};
+      _mochaGlobalExport['-836421475-label_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-label_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-836421475-label_test.js'],
           ret = 0;
       __LINE__ = 1;
       TEST_LABEL : 
@@ -865,7 +865,7 @@
       
       __LINE__ = 7;
       Runtime.assert(true,ret === 100,"ret === 100",7,'label_test.js');
-      __LINE__ = 376005763874150480;
+      __LINE__ = 797137409108082928;
       TEST_LABEL2 : {
         
         __LINE__ = 9;

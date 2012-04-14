@@ -1,4 +1,4 @@
-
+import "*" from './for_of_test'
 module testModule1 {
 
   export testExport1()->1;
@@ -12,9 +12,9 @@ module testModule2 {
   }
 }
 
-module {
-  module testInnerModule4 {
-    export testExport4()->3;
-  }
-  export testExport5()->4;
+module testModule4 {
+  export testExport4()->3;
 }
+module testExport5 = ->4;
+
+

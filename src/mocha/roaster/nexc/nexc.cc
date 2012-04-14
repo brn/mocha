@@ -214,15 +214,14 @@ void Nexc::Compile(const char* source, const char* charset) {
 void Nexc::IncludeFile(std::string* buf, const char* path) {
   SearchModule(path, buf);
   os::fs::Path path_info(buf->c_str());
-  os::fs::Stat stat(path_info.absolute_path());
+  buf->clear();
   if (CheckGuard(path_info.absolute_path())) {
-    std::string buf;
     Loader loader;
-    if (!loader.LoadFile(path, &buf)) {
+    if (!loader.LoadFile(path_info.absolute_path(), buf)) {
       ErrorReporter reporter;
-      reporter.ReportSyntaxError(buf.c_str());
-      buf.clear();
-      reporter.SetError(&buf);
+      reporter.ReportSyntaxError(buf->c_str());
+      buf->clear();
+      reporter.SetError(buf);
     } else {
       guard_.insert(GuardPair(path_info.absolute_path(), true));
       deps_->push_back(path_info.absolute_path());
@@ -230,7 +229,7 @@ void Nexc::IncludeFile(std::string* buf, const char* path) {
   }
 }
 
-void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
+void Nexc::ImportFile(std::string* buf, std::string* filename_buf, const char* path, CompilationEvent* e) {
   if (Loader::IsRuntime(path)) {
     if (CheckGuard(path)) {
       guard_.insert(GuardPair(path, true));
@@ -242,6 +241,7 @@ void Nexc::ImportFile(std::string* buf, const char* path, CompilationEvent* e) {
     std::string module_path;
     SearchModule(path, &module_path);
     os::fs::Path path_info(module_path.c_str());
+    filename_buf->assign(path_info.absolute_path());
     nexc_utils::ManglingName(buf, path_info.filename(), path_info.directory());
     if (CheckGuard(path_info.absolute_path())) {
       deps_->push_back(path_info.absolute_path());
@@ -330,6 +330,16 @@ void Nexc::FailHandler(CompilationEvent* e) {
 
 void Nexc::Success(CompilationEvent* e) {
   root_->AddChild(e->ast());
+  printf("%s\n", e->fullpath());
+  ast_list_.insert(AstPair(e->fullpath(), e->ast()));
+}
+
+FileRoot* Nexc::ast(const char* filename) {
+  AstList::iterator it = ast_list_.find(filename);
+  if (it != ast_list_.end()) {
+    return it->second;
+  }
+  return NULL;
 }
 
 

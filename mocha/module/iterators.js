@@ -1,4 +1,4 @@
-module {
+module iterators {
   const hasOwn = Object.prototype.hasOwnProperty;
   export iterator = "__mocha_iterator_special_key__";
   export keys(obj) {

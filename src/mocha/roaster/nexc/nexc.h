@@ -39,9 +39,12 @@ class CompilationInfo;
 class ErrorReporter;
 class AstBuilder;
 class AstRoot;
+class FileRoot;
 class Nexc : public Notificator<CompilationEvent*>{
   typedef std::pair<std::string, bool> GuardPair;
   typedef roastlib::unordered_map<std::string, bool> ImportGuard;
+  typedef std::pair<std::string, FileRoot*> AstPair;
+  typedef roastlib::unordered_map<std::string, FileRoot*> AstList;
  public :
   typedef std::vector<std::string> Dependencies;
   typedef SharedPtr<Dependencies> DepsHandle;
@@ -58,9 +61,10 @@ class Nexc : public Notificator<CompilationEvent*>{
   AstRoot* GetResult();
   const DepsHandle GetDepends() const;
   SharedPtr<ErrorReporter> Errors() {return reporter_;}
-  void ImportFile(std::string* buf, const char* path, CompilationEvent* e);
+  void ImportFile(std::string* buf, std::string* filename_buf, const char* path, CompilationEvent* e);
   void IncludeFile(std::string* buf, const char* path);
   void set_current_directory(const char* path);
+  FileRoot* ast(const char* name);
   static const char kScan[];
   static const char kParse[];
   static const char kTransformAst[];
@@ -80,6 +84,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   AtomicWord token_initialized_;
   CompilationInfo* compilation_info_;
   ImportGuard guard_;
+  AstList ast_list_;
   DepsHandle deps_;
   SharedPtr<ErrorReporter> reporter_;
   SharedPtr<memory::Pool> pool_;

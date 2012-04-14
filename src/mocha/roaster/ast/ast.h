@@ -28,6 +28,7 @@
 #include <mocha/roaster/misc/class_traits/uncopyable.h>
 #include <mocha/roaster/misc/class_traits/unallocatable.h>
 #include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
@@ -377,6 +378,7 @@ class AstNode : public memory::Allocated {
   virtual DstaTree* CastToDstaTree() { return 0; }
   virtual NodeList* CastToNodeList() { return 0; }
   virtual CaseClause* CastToCaseClause() {return 0;}
+  virtual FileRoot* CastToFileRoot() {return 0;}
 
   /**
    * Print the real node name of this node.
@@ -490,7 +492,9 @@ class AstRoot : public AstNode {
  * Root block of file.
  */
 class FileRoot : public AstNode {
+  typedef std::pair<const char*, ModuleStmt*> ModulePair;
  public :
+  typedef roastlib::unordered_map<std::string, ModuleStmt*> Modules;
   FileRoot(const char* filename) :
       AstNode(AstNode::kFileRoot, "FileRoot", 0), filename_(filename) {}
   ~FileRoot(){};
@@ -503,10 +507,24 @@ class FileRoot : public AstNode {
   void set_runtime() { SET(0); }
   bool IsStrict() const { return HAS(1); }
   void MarkAsStrict() { SET(1); }
+  void SetModule(const char* name, ModuleStmt* node) {
+    modules_.insert(ModulePair(name, node));
+  }
+  ModuleStmt* FindModule(const char* name) {
+    Modules::iterator it = modules_.find(name);
+    if (it != modules_.end()) {
+      return it->second;
+    }
+    return NULL;
+  }
+  const Modules& modules() {return modules_;}
+  int module_size() {return modules_.size();}
+  virtual FileRoot* CastToFileRoot() {return this;}
   CLONE;
  private :
   BitVector8 flags_;
   std::string filename_;
+  Modules modules_;
   CALL_ACCEPTOR(FileRoot);
 };
 
@@ -652,18 +670,56 @@ class BlockStmt : public Statement {
  * Module statement node.
  */
 class ModuleStmt : public Statement {
+  typedef std::pair<const char*, Literal*> Pair;
+  typedef std::pair<const char*, ModuleStmt*> ModulePair;
  public :
-  ModuleStmt(AstNode* name, int64_t line) :
-      Statement(NAME_PARAMETER(ModuleStmt), line), name_(name){};
+  typedef roastlib::unordered_map<std::string, Literal*> Exports;
+  typedef roastlib::unordered_map<std::string, ModuleStmt*> Modules;
+  enum {
+    kBlock,
+    kAssign
+  };
+  ModuleStmt(AstNode* name, int module_type, int64_t line) :
+      Statement(NAME_PARAMETER(ModuleStmt), line),
+      type_(module_type),
+      root_(false),
+      name_(name){};
   ~ModuleStmt() {};
+  int module_type() const {return type_;}
   /**
    * @returns {AstNode*}
    * Get module name.
    */
   AstNode* name() const { return name_; }
+  void MarkAsRoot() {root_ = true;}
+  bool IsRoot() {return root_;}
+  void SetModule(const char* name, ModuleStmt* stmt) {
+    modules_.insert(ModulePair(name, stmt));
+  }
+  void SetExports(Literal* lit);
+  ModuleStmt* FindModule(const char* name) {
+    Modules::iterator it = modules_.find(name);
+    if (it != modules_.end()) {
+      return it->second;
+    }
+    return NULL;
+  }
+  Literal* FindExports(const char* name) {
+    Exports::iterator it = exports_.find(name);
+    if (it != exports_.end()) {
+      return it->second;
+    }
+    return NULL;
+  }
+  const Modules& modules() {return modules_;}
+  const Exports& exports() {return exports_;}
   CLONE;
  private :
+  int type_;
+  bool root_;
   AstNode* name_;
+  Modules modules_;
+  Exports exports_;
   CALL_ACCEPTOR(ModuleStmt);
 };
 
@@ -693,15 +749,22 @@ class ImportStmt : public Statement {
     kFile,
     kModule
   };
+  
   //Left hand side type.
   enum {
     kVar,
     kDst,
-    kAll
+    kAll,
+    kAs
   };
   ImportStmt(int expression_type, int module_type, int64_t line) :
       Statement(NAME_PARAMETER(ImportStmt), line),
-      expression_type_(expression_type), module_type_(module_type), expression_(0), from_(0), module_key_(0){}
+      expression_type_(expression_type),
+      module_type_(module_type),
+      expression_(0),
+      from_(0),
+      module_key_(0),
+      filename_(0){}
   ~ImportStmt(){};
 
   /**
@@ -747,6 +810,9 @@ class ImportStmt : public Statement {
    */
   TokenInfo* module_key() const { return module_key_; }
 
+  void set_filename(TokenInfo* name) {filename_ = name;}
+  TokenInfo* filename() {return filename_;}
+  
   //Type getter.
   int expression_type() const { return expression_type_; }
   int module_type() const { return module_type_; }
@@ -759,6 +825,7 @@ class ImportStmt : public Statement {
   AstNode* expression_;
   AstNode* from_;
   TokenInfo* module_key_;
+  TokenInfo* filename_;
   CALL_ACCEPTOR(ImportStmt);
 };
 

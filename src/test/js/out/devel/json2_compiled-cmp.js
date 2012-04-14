@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -842,13 +842,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1742311219-json2_compiled.js",
+      var __FILE__ = "-1506053293-json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1742311219-json2_compiled.js'] = {};
+      _mochaGlobalExport['-1506053293-json2_compiled.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1742311219-json2_compiled.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-1506053293-json2_compiled.js'],
           g = null,
           json_parse = function () {
             try {
@@ -1063,7 +1063,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 375792389898835520;
+                      __LINE__ = 797937269457737832;
                       a : 
                       {
                         
@@ -1140,7 +1140,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 375886226344340592;
+                      __LINE__ = 797991454765156784;
                       a : 
                       {
                         

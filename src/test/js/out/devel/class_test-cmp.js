@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -842,13 +842,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-class_test.js",
+      var __FILE__ = "-839149963-class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-class_test.js'] = {};
+      _mochaGlobalExport['-839149963-class_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-class_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-839149963-class_test.js'],
           Monster = function () {
             try {
               function constructor(name,health) {

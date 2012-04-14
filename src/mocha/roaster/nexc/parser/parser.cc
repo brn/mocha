@@ -681,11 +681,27 @@ AstNode* Parser::ParseModuleStatement() {
     name = ParseLiteral(false);
     CHECK_ERROR(new(pool()) Empty);
   } else {
-    name = new(pool()) Empty;
+    SYNTAX_ERROR("Illegal module in file " << filename_ << " at line : " << Seek(-1)->line_number());
+    return new(pool()) Empty();
   }
-  ModuleStmt* module_stmt = new(pool()) ModuleStmt(name, token->line_number());
-  AstNode* statement = ParseSourceElement();
-  module_stmt->AddChild(statement);
+  token = Seek();
+  AstNode* module_body;
+  int module_type = 0;
+  if (token->type() == '{') {
+    Advance();
+    module_body = ParseBlockStatement();
+    CHECK_ERROR(module_body);
+    module_type = ModuleStmt::kBlock;
+  } else if (token->type() == '=') {
+    Advance();
+    module_body = ParseAssignmentExpression(true);
+    module_type = ModuleStmt::kAssign;
+  } else {
+    SYNTAX_ERROR("Illegal module unexpected '" << TokenConverter(token).cstr()
+                 << "' in file " << filename_ << " at line : " << token->line_number());
+  }
+  ModuleStmt* module_stmt = new(pool()) ModuleStmt(name, module_type, token->line_number());
+  module_stmt->AddChild(module_body);
   END(ModuleStatement);
   /**
    * The finally data structure image.
@@ -710,6 +726,15 @@ AstNode* Parser::ParseExportStatement() {
   ExportStmt* export_stmt = new(pool()) ExportStmt(token->line_number());
   AstNode* exportable = ParseExportableDefinition();
   CHECK_ERROR(export_stmt);
+  if (exportable->node_type() == AstNode::kFunction) {
+    Function* fn = exportable->CastToExpression()->CastToFunction();
+    fn->MarkAsDeclaration();
+    if (!fn->name() || fn->name()->IsEmpty()) {
+      SYNTAX_ERROR("Invalid function declaration in file "
+                   << filename_ << " at line " << fn->line_number());
+      return export_stmt;
+    }
+  }
   export_stmt->AddChild(exportable);
   END(ExportStatement);
   /**
@@ -731,7 +756,7 @@ AstNode* Parser::ParseImportStatement() {
    */
   TokenInfo* token = Seek();
   int expression_type;
-  AstNode* exp;
+  AstNode* exp = NULL;
   if (token->type() == Token::JS_IDENTIFIER) {
     exp = ParseLiteral(true);
     CHECK_ERROR(exp);
@@ -741,17 +766,33 @@ AstNode* Parser::ParseImportStatement() {
     exp = ParseDestructuringLeftHandSide();
     CHECK_ERROR(exp);
     expression_type = ImportStmt::kDst;
+  } else if (token->type() == Token::JS_STRING_LITERAL && strlen(token->token()) == 3 && token->token()[1] == '*') {
+    expression_type = ImportStmt::kAll;
+    exp = ParseLiteral(true);
+    CHECK_ERROR(exp);
+  } else if (token->type() == Token::JS_STRING_LITERAL) {
+    expression_type = ImportStmt::kAs;
+    exp = ParseImportExpression();
+    CHECK_ERROR(exp);
+  } else {
+    SYNTAX_ERROR("Illegal expression " << TokenConverter(token).cstr() << " in 'import statement'\nin file "
+                 << filename_ << " at line : " << token->line_number());
+    return exp;
   }
   TokenInfo* from = Advance();
   const char* ident = from->token();
   //from keyword is not treated as the reserved word,
   //so we check that an identifier is the valid from keyword or not.
   if (from->type() == Token::JS_IDENTIFIER &&
-       strlen(ident) > 0 &&
-       strcmp(ident, SymbolList::symbol(SymbolList::kFrom)) == 0) {
-    AstNode* from_exp = ParseImportExpression();
-    CHECK_ERROR(from_exp);
-    Literal* maybe_file = from_exp->first_child()->CastToLiteral();
+      strlen(ident) > 0 &&
+      (((expression_type == ImportStmt::kAll ||
+         expression_type == ImportStmt::kDst) && strcmp(ident, SymbolList::symbol(SymbolList::kFrom)) == 0) ||
+       (expression_type == ImportStmt::kAs && strcmp(ident, SymbolList::symbol(SymbolList::kAs)) == 0))) {
+    AstNode* expression = (expression_type == ImportStmt::kAs)? ParseLiteral(false) : ParseImportExpression();
+    CHECK_ERROR(expression);
+    Literal* maybe_file = (expression_type == ImportStmt::kAs)?
+        exp->first_child()->CastToLiteral() :
+        expression->first_child()->CastToLiteral();
     int from_type;
     //The import statement could accept the filename or the module name.
     if (maybe_file && maybe_file->value_type() == Literal::kString) {
@@ -761,21 +802,16 @@ AstNode* Parser::ParseImportStatement() {
     }
     ImportStmt* stmt = new(pool()) ImportStmt(expression_type, from_type, token->line_number());
     CHECK_ERROR(stmt);
-    stmt->set_expression(exp);
-    stmt->set_from(from_exp);
+    if (expression_type == ImportStmt::kAs) {
+      stmt->set_expression(expression);
+      stmt->set_from(exp);
+    } else {
+      stmt->set_expression(exp);
+      stmt->set_from(expression);
+    }
     ParseTerminator();
     CHECK_ERROR(stmt);
     END(ImportStatement);
-    /**
-     * The finally data structure image.
-     * ImportStmt---------expression
-     *                                                                                                                                   |                                                                                                                                                                                      |
-     *                                                                                                                                   | identifier or destructuring
-     *                                                                                                                                   |
-     *                                                                                                                                   |-----------from
-     *                                                                                                                                                                                                                                                                                                                                                                  |
-     *                                                                                                                                                                  string literal or call exp
-     */
     return stmt;
   } else {
     SYNTAX_ERROR("parse error got unexpected token "
@@ -807,6 +843,7 @@ AstNode* Parser::ParseImportExpression() {
   token = Seek();
   while (1) {
     if (token->type() == '.' || token->type() == '[') {
+      Advance();
       AstNode* literal = ParseLiteral(true);
       CHECK_ERROR(literal);
       list->AddChild(literal);
@@ -1401,47 +1438,41 @@ AstNode* Parser::ParseIFStatement(bool is_comprehensions) {
    */
   TokenInfo *token = Advance();
   IFStmt* if_stmt = new(pool()) IFStmt(token->line_number());
-  if (token->type() == '(') {
-    AstNode* exp = ParseExpression(false);
-    CHECK_ERROR(if_stmt);
-    if_stmt->set_condition(exp);
-    token = Advance();
-    if (token->type() == ')') {
-      if (!is_comprehensions) {
+  bool has_paren = token->type() == '(';
+  AstNode* exp = ParseExpression(false);
+  CHECK_ERROR(if_stmt);
+  if_stmt->set_condition(exp);
+  token = Seek();
+  if (!has_paren || (has_paren && token->type() == ')')) {
+    if (has_paren) {
+      Advance();
+    }
+    if (!is_comprehensions) {
+      AstNode* stmt = ParseSourceElement();
+      CHECK_ERROR(stmt);
+      if_stmt->set_then_statement(stmt);
+      token = Seek();
+      if (token->type() == Token::JS_ELSE) {
+        Advance();
         AstNode* stmt = ParseSourceElement();
-        CHECK_ERROR(stmt);
-        if_stmt->set_then_statement(stmt);
-        token = Seek();
-        if (token->type() == Token::JS_ELSE) {
-          Advance();
-          AstNode* stmt = ParseSourceElement();
-          CHECK_ERROR(stmt)
-              if_stmt->set_else_statement(stmt);
-        } else {
-          if_stmt->set_else_statement(new(pool()) Empty);
-        }
+        CHECK_ERROR(stmt)
+            if_stmt->set_else_statement(stmt);
       } else {
-        if_stmt->set_then_statement(new(pool()) Empty);
         if_stmt->set_else_statement(new(pool()) Empty);
       }
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
-                    << TokenConverter(token).cstr()
-                    << " in 'if statement conditional expression end' expect ')' \\nin file "
-                    << filename_ << " at line " << token->line_number());
-      END(IFStatementError);
-      return if_stmt;
+      if_stmt->set_then_statement(new(pool()) Empty);
+      if_stmt->set_else_statement(new(pool()) Empty);
     }
   } else {
     SYNTAX_ERROR("parse error got unexpected token "
-                  << TokenConverter(token).cstr()
-                  << " in 'if statement conditional expression' expect '(' \\nin file "
-                  << filename_ << " at line " << token->line_number());
+                 << TokenConverter(token).cstr()
+                 << " in 'if statement conditional expression end' expect ')' \\nin file "
+                 << filename_ << " at line " << token->line_number());
     END(IFStatementError);
     return if_stmt;
   }
   END(IFStatement);
-                                
   return if_stmt;
 }
 
@@ -1462,30 +1493,29 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
   CHECK_ERROR(statement);
   TokenInfo* token = Seek();
   if (token->type() == Token::JS_WHILE && !is_expression) {
-    token = Advance(2);
-    if (token->type() == '(') {
-      AstNode* node = ParseExpression(false);
-      CHECK_ERROR(statement);
-      token = Advance();
-      if (token->type() == ')') {
-        IterationStmt* iter = new(pool()) IterationStmt(IterationStmt::kDoWhile, line);
-        iter->set_expression(node);
-        iter->AddChild(statement);
-        END(DoWhileStatement);
-        return iter;
-      } else {
-        SYNTAX_ERROR("parse error got unexpected token "
-                      << TokenConverter(token).cstr()
-                      << " in 'while statement conditional expression' expect ')' \\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(DoWhileStatementError);
-        return new(pool()) IterationStmt(IterationStmt::kWhile, line);
+    token = Advance();
+    token = Seek();
+    bool has_paren = token->type() == '(';
+    if (has_paren) {
+      Advance();
+    }
+    AstNode* node = ParseExpression(false);
+    CHECK_ERROR(statement);
+    token = Seek();
+    if ((has_paren && token->type() == ')') || (!has_paren && token->type() != '{')) {
+      if (has_paren) {
+        Advance();
       }
+      IterationStmt* iter = new(pool()) IterationStmt(IterationStmt::kDoWhile, line);
+      iter->set_expression(node);
+      iter->AddChild(statement);
+      END(DoWhileStatement);
+      return iter;
     } else {
       SYNTAX_ERROR("parse error got unexpected token "
-                    << TokenConverter(token).cstr()
-                    << " in 'do while statement conditional expression' expect '(' \\nin file "
-                    << filename_ << " at line " << token->line_number());
+                   << TokenConverter(token).cstr()
+                   << " in 'while statement conditional expression'\\nin file "
+                   << filename_ << " at line " << token->line_number());
       END(DoWhileStatementError);
       return new(pool()) IterationStmt(IterationStmt::kWhile, line);
     }
@@ -1527,33 +1557,31 @@ AstNode* Parser::ParseWhileStatement() {
    * ;
    */
   ENTER(WhileStatement);
-  TokenInfo* token = Advance();
+  TokenInfo* token = Seek();
   int64_t line = token->line_number();
-  if (token->type() == '(') {
-    AstNode* node = ParseExpression(false);
-    CHECK_ERROR(node);
+  bool has_paren = token->type() == '(';
+  if (has_paren) {
     token = Advance();
-    if (token->type() == ')') {
-      IterationStmt* iter = new(pool()) IterationStmt(IterationStmt::kWhile, line);
-      iter->set_expression(node);
-      AstNode* statement = ParseSourceElement();
-      CHECK_ERROR(iter);
-      iter->AddChild(statement);
-      END(WhileStatement);
-      return iter;
-    } else {
-      SYNTAX_ERROR("parse error got unexpected token "
-                    << TokenConverter(token).cstr()
-                    << " in 'while statement conditional expression' expect ')' \\nin file "
-                    << filename_ << " at line " << token->line_number());
-      END(WhileStatementError);
-      return new(pool()) IterationStmt(IterationStmt::kWhile, line);
+  }
+  AstNode* node = ParseExpression(false);
+  CHECK_ERROR(node);
+  token = Seek();
+  if ((has_paren && token->type() == ')') || (!has_paren && token->type() == '{')) {
+    if (has_paren) {
+      token = Advance();
     }
+    IterationStmt* iter = new(pool()) IterationStmt(IterationStmt::kWhile, line);
+    iter->set_expression(node);
+    AstNode* statement = ParseSourceElement();
+    CHECK_ERROR(iter);
+    iter->AddChild(statement);
+    END(WhileStatement);
+    return iter;
   } else {
     SYNTAX_ERROR("parse error got unexpected token "
-                  << TokenConverter(token).cstr()
-                  << " in 'while statement conditional expression' expect '(' \\nin file "
-                  << filename_ << " at line " << token->line_number());
+                 << TokenConverter(token).cstr()
+                 << " in 'while statement conditional expression'\\nin file "
+                 << filename_ << " at line " << token->line_number());
     END(WhileStatementError);
     return new(pool()) IterationStmt(IterationStmt::kWhile, line);
   }
@@ -1587,128 +1615,124 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
    * ;
    */
   ENTER(ForStatement);
-  TokenInfo *token = Advance();
+  TokenInfo *token = Seek();
   int64_t line = token->line_number();
   bool is_each = false;
   NodeList *exp_list = new(pool()) NodeList;
   IterationStmt* iter_stmt = 0;
   if (token->type() == Token::JS_EACH) {
     is_each = true;
-    token = Advance();
+    Advance();
+    token = Seek();
   }
-  if (token->type() == '(') {
-    int next_type = Seek()->type();
-    bool is_var_decl = false;
-    int var_decl_len = 0;
-    if (next_type == Token::JS_VAR) {
-      is_var_decl = true;
-      //The array comprehension for expression could not have variable declaration.
-      if (is_comprehensions) {
-        SYNTAX_ERROR("parse error in 'array comprehensions for expression' could not has variable declaration"
-                      "\\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(ForStatementError);
-        return new(pool()) IterationStmt(IterationStmt::kFor, line);
-      } else {
-        Advance();
-        AstNode* var_decl = ParseVariableDecl(true);
-        CHECK_ERROR(var_decl);
-        exp_list->AddChild(var_decl);
-        var_decl_len = var_decl->child_length();
-      }
-    } else if (next_type != ';') {
-      AstNode* exp = ParseExpression(true);
-      CHECK_ERROR(exp);
-      if (exp->first_child()->node_type() == AstNode::kLiteral && is_comprehensions) {
-        AstNode* first = exp->first_child();
-        if (first->child_length() == 0) {
-          first->AddChild(new(pool()) Empty);
-        }
-        first->CastToLiteral()->set_value_type(Literal::kVariable);
-        exp_list->AddChild(first);
-      } else {
-        //Empty first for statement condition expression.
-        exp_list->AddChild(exp);
-      }
+  bool has_paren = token->type() == '(';
+  if (has_paren) {
+    Advance();
+  }
+  int next_type = Seek()->type();
+  bool is_var_decl = false;
+  int var_decl_len = 0;
+  if (next_type == Token::JS_VAR) {
+    is_var_decl = true;
+    //The array comprehension for expression could not have variable declaration.
+    if (is_comprehensions) {
+      SYNTAX_ERROR("parse error in 'array comprehensions for expression' could not has variable declaration"
+                   "\\nin file "
+                   << filename_ << " at line " << token->line_number());
+      END(ForStatementError);
+      return new(pool()) IterationStmt(IterationStmt::kFor, line);
     } else {
-      exp_list->AddChild(new(pool()) Empty);
+      Advance();
+      AstNode* var_decl = ParseVariableDecl(true);
+      CHECK_ERROR(var_decl);
+      exp_list->AddChild(var_decl);
+      var_decl_len = var_decl->child_length();
     }
-    token = Advance();
-    if (next_type == ';' || (token->type() == ';' && is_each == false)) {
-      //In case of normal for statement.
-      if (is_comprehensions) {
-        SYNTAX_ERROR("parse error in 'array comprehensions' allowed 'for in statement' or 'for of statement'"
-                      "\\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(ForStatementError);
-        return new(pool()) IterationStmt(IterationStmt::kFor, line);
+  } else if (next_type != ';') {
+    AstNode* exp = ParseExpression(true);
+    CHECK_ERROR(exp);
+    if (exp->first_child()->node_type() == AstNode::kLiteral && is_comprehensions) {
+      AstNode* first = exp->first_child();
+      if (first->child_length() == 0) {
+        first->AddChild(new(pool()) Empty);
       }
-      int iter_type = (is_var_decl)? IterationStmt::kForWithVar : IterationStmt::kFor;
-      iter_stmt = new(pool()) IterationStmt(iter_type, line);
-      ParseForStatementCondition(exp_list);
-      CHECK_ERROR(iter_stmt);
-    } else if (token->type() == Token::JS_IN) {
-      //In case of for in statement.
-      if (var_decl_len > 1) {
-        SYNTAX_ERROR("parse error 'for in statement' could has only one variable declaration."
-                      "\\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(ForStatementError);
-        return new(pool()) IterationStmt(IterationStmt::kFor, line);
-      }
-      if (is_var_decl) {
-        AstNode* initialiser = exp_list->first_child()->first_child();
-        exp_list->ReplaceChild(exp_list->first_child(), initialiser);
-      }
-      if (is_each == false) {
-        int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForInWithVar : IterationStmt::kForIn;
-        iter_stmt = new(pool()) IterationStmt(iter_type, line);
-      } else {
-        int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForEachWithVar : IterationStmt::kForEach;
-        iter_stmt = new(pool()) IterationStmt(iter_type, line);
-      }
-      ParseForInStatementCondition(exp_list);
-      CHECK_ERROR(iter_stmt);
-    } else if (token->type() == Token::JS_IDENTIFIER &&
-                strcmp(TokenConverter(token).cstr(), SymbolList::symbol(SymbolList::kOf)) == 0) {
-      //For of statement's 'of' keyword is treated as identifier not reserved word,
-      //so we check token is valid 'of' identifier or not.
-      if (var_decl_len > 1) {
-        SYNTAX_ERROR("parse error 'for of statement' could has only one variable declaration."
-                      "\\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(ForStatementError);
-        return new(pool()) IterationStmt(IterationStmt::kFor, line);
-      }
-      if (is_var_decl) {
-        AstNode* initialiser = exp_list->first_child()->first_child();
-        exp_list->ReplaceChild(exp_list->first_child(), initialiser);
-      }
-      if (is_each == false) {
-        int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
-        iter_stmt = new(pool()) IterationStmt(iter_type, line);
-      } else {
-        SYNTAX_ERROR("parse error 'for of statement' can not has 'each'."
-                      "\\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(ForStatementError);
-        return new(pool()) IterationStmt(IterationStmt::kFor, line);
-      }
-      ParseForInStatementCondition(exp_list);
-      CHECK_ERROR(iter_stmt);
+      first->CastToLiteral()->set_value_type(Literal::kVariable);
+      exp_list->AddChild(first);
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
-                    << TokenConverter(token).cstr()
-                    << " in 'for statement conditional expression' expect 'in', 'of' or ';' \\nin file "
-                    << filename_ << " at line " << token->line_number());
+      //Empty first for statement condition expression.
+      exp_list->AddChild(exp);
+    }
+  } else {
+    exp_list->AddChild(new(pool()) Empty);
+  }
+  token = Advance();
+  if (next_type == ';' || (token->type() == ';' && is_each == false)) {
+    //In case of normal for statement.
+    if (is_comprehensions) {
+      SYNTAX_ERROR("parse error in 'array comprehensions' allowed 'for in statement' or 'for of statement'"
+                   "\\nin file "
+                   << filename_ << " at line " << token->line_number());
       END(ForStatementError);
       return new(pool()) IterationStmt(IterationStmt::kFor, line);
     }
+    int iter_type = (is_var_decl)? IterationStmt::kForWithVar : IterationStmt::kFor;
+    iter_stmt = new(pool()) IterationStmt(iter_type, line);
+    ParseForStatementCondition(exp_list, has_paren);
+    CHECK_ERROR(iter_stmt);
+  } else if (token->type() == Token::JS_IN) {
+    //In case of for in statement.
+    if (var_decl_len > 1) {
+      SYNTAX_ERROR("parse error 'for in statement' could has only one variable declaration."
+                   "\\nin file "
+                   << filename_ << " at line " << token->line_number());
+      END(ForStatementError);
+      return new(pool()) IterationStmt(IterationStmt::kFor, line);
+    }
+    if (is_var_decl) {
+      AstNode* initialiser = exp_list->first_child()->first_child();
+      exp_list->ReplaceChild(exp_list->first_child(), initialiser);
+    }
+    if (is_each == false) {
+      int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForInWithVar : IterationStmt::kForIn;
+      iter_stmt = new(pool()) IterationStmt(iter_type, line);
+    } else {
+      int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForEachWithVar : IterationStmt::kForEach;
+      iter_stmt = new(pool()) IterationStmt(iter_type, line);
+    }
+    ParseForInStatementCondition(exp_list, has_paren);
+    CHECK_ERROR(iter_stmt);
+  } else if (token->type() == Token::JS_IDENTIFIER &&
+             strcmp(TokenConverter(token).cstr(), SymbolList::symbol(SymbolList::kOf)) == 0) {
+    //For of statement's 'of' keyword is treated as identifier not reserved word,
+    //so we check token is valid 'of' identifier or not.
+    if (var_decl_len > 1) {
+      SYNTAX_ERROR("parse error 'for of statement' could has only one variable declaration."
+                   "\\nin file "
+                   << filename_ << " at line " << token->line_number());
+      END(ForStatementError);
+      return new(pool()) IterationStmt(IterationStmt::kFor, line);
+    }
+    if (is_var_decl) {
+      AstNode* initialiser = exp_list->first_child()->first_child();
+      exp_list->ReplaceChild(exp_list->first_child(), initialiser);
+    }
+    if (is_each == false) {
+      int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
+      iter_stmt = new(pool()) IterationStmt(iter_type, line);
+    } else {
+      SYNTAX_ERROR("parse error 'for of statement' can not has 'each'."
+                   "\\nin file "
+                   << filename_ << " at line " << token->line_number());
+      END(ForStatementError);
+      return new(pool()) IterationStmt(IterationStmt::kFor, line);
+    }
+    ParseForInStatementCondition(exp_list, has_paren);
+    CHECK_ERROR(iter_stmt);
   } else {
     SYNTAX_ERROR("parse error got unexpected token "
-                  << TokenConverter(token).cstr()
-                  << " in 'for statement conditional expression' expect '(' \\nin file "
-                  << filename_ << " at line " << token->line_number());
+                 << TokenConverter(token).cstr()
+                 << " in 'for statement conditional expression' expect 'in', 'of' or ';' \\nin file "
+                 << filename_ << " at line " << token->line_number());
     END(ForStatementError);
     return new(pool()) IterationStmt(IterationStmt::kFor, line);
   }
@@ -1724,7 +1748,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
 
 
 //Parse for statement condition expression.
-void Parser::ParseForStatementCondition(NodeList* list) {
+void Parser::ParseForStatementCondition(NodeList* list, bool has_paren) {
   ENTER(ForStatementCondition);
   if (Seek()->type() == ';') {
     list->AddChild(new(pool()) Empty);
@@ -1735,19 +1759,21 @@ void Parser::ParseForStatementCondition(NodeList* list) {
   }
   TokenInfo* token = Advance();
   if (token->type() == ';') {
-    if (Seek()->type() == ')') {
+    if ((has_paren && Seek()->type() == ')') || Seek()->type() == '{') {
       list->AddChild(new(pool()) Empty);
     } else {
       AstNode* exp = ParseExpression(false);
       CHECK_ERROR(;)
           list->AddChild(exp);
     }
-    token = Advance();
-    if (token->type() != ')') {
+    token = Seek();
+    if ((has_paren && token->type() != ')') || (!has_paren && token->type() != '{')) {
       SYNTAX_ERROR("parse error got unexpected token "
                     << TokenConverter(token).cstr()
-                    << " in 'for statement condition end' expect ')' \\nin file "
+                    << " in 'for statement condition end' in file "
                     << filename_ << " at line " << token->line_number());
+    } else if (token->type() == ')') {
+      Advance();
     }
   }
   END(ForStatementCondition);
@@ -1755,17 +1781,19 @@ void Parser::ParseForStatementCondition(NodeList* list) {
 
 
 //Parse for in statement condition expression.
-void Parser::ParseForInStatementCondition(NodeList* list) {
+void Parser::ParseForInStatementCondition(NodeList* list, bool has_paren) {
   ENTER(ForInStatementCondition);
   AstNode* target_exp = ParseExpression(false);
   CHECK_ERROR(;);
-  TokenInfo* token = Advance();
+  TokenInfo* token = Seek();
   list->AddChild(target_exp);
-  if (token->type() != ')') {
+  if ((has_paren && token->type() != ')') || (!has_paren && token->type() != '{')) {
     SYNTAX_ERROR("parse error got unexpected token "
                   << TokenConverter(token).cstr()
-                  << " in 'for in statement condition end' expect ')' \\nin file "
+                  << " in 'for in statement condition end'\\nin file "
                   << filename_ << " at line " << token->line_number());
+  } else if (token->type() == ')') {
+    Advance();
   }
   END(ForInStatementCondition);
 }
@@ -1892,28 +1920,28 @@ AstNode* Parser::ParseSwitchStatement() {
    * ;
    */
   ENTER(SwitchStatement);
-  TokenInfo *token = Advance();
+  TokenInfo *token = Seek();
   SwitchStmt* stmt = new(pool()) SwitchStmt(token->line_number());
-  if (token->type() == '(') {
-    AstNode* exp = ParseExpression(false);
-    CHECK_ERROR(stmt);
-    stmt->set_expression(exp);
-    token = Advance();
-    if (token->type() == ')') {
-      AstNode* case_block = ParseCaseClauses();
-      CHECK_ERROR(stmt);
-      stmt->Append(case_block);
-    } else {
-      SYNTAX_ERROR("parse error got unexpected token "
-                    << TokenConverter(token).cstr()
-                    << " in 'switch statement expression' expect ')'\\nin file"
-                    << filename_ << " at line " << token->line_number());
+  bool has_paren = token->type() == '(';
+  if (has_paren) {
+    Advance();
+  }
+  AstNode* exp = ParseExpression(false);
+  CHECK_ERROR(stmt);
+  stmt->set_expression(exp);
+  token = Seek();
+  if ((has_paren && token->type() == ')') || (!has_paren && token->type() == '{')) {
+    if (has_paren) {
+      Advance();
     }
+    AstNode* case_block = ParseCaseClauses();
+    CHECK_ERROR(stmt);
+    stmt->Append(case_block);
   } else {
     SYNTAX_ERROR("parse error got unexpected token "
-                  << TokenConverter(token).cstr()
-                  << " in 'switch statement expression' expect '('\\nin file"
-                  << filename_ << " at line " << token->line_number());
+                 << TokenConverter(token).cstr()
+                 << " in 'switch statement expression' expect ')'\\nin file"
+                 << filename_ << " at line " << token->line_number());
   }
   END(SwitchStatement);
   return stmt;
@@ -2736,6 +2764,9 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
     switch (token->type()) {
       case Token::JS_LOGICAL_AND :
       case Token::JS_LOGICAL_OR :
+      case Token::JS_OR :
+      case Token::JS_AND :
+      case Token::JS_IS :
       case Token::JS_EQUAL :
       case Token::JS_NOT_EQUAL :
       case Token::JS_EQ :
@@ -2748,11 +2779,21 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
         Advance();
         AstNode* rhs = ParseUnaryExpression();
         CHECK_ERROR(rhs);
+        int type = 0;
+        if (token->type() == Token::JS_OR) {
+          type = Token::JS_LOGICAL_OR;
+        } else if (token->type() == Token::JS_AND) {
+          type = Token::JS_LOGICAL_AND;
+        } else if (token->type() == Token::JS_IS) {
+          type = Token::JS_EQ;
+        } else {
+          type = token->type();
+        }
         if (last == 0) {
-          exp = new(pool()) CompareExp(token->type(), lhs, rhs, token->line_number());
+          exp = new(pool()) CompareExp(type, lhs, rhs, token->line_number());
           first = exp;
         } else {
-          exp = new(pool()) CompareExp(token->type(), last, rhs, token->line_number());
+          exp = new(pool()) CompareExp(type, last, rhs, token->line_number());
         }
         exp->CastToExpression()->MarkAsInValidLhs();
         last = exp;
@@ -2778,7 +2819,7 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
         }
       }
         break;
-                                                                                                                                
+        
       case '|' :
       case '^' :
       case '&' :
@@ -2817,7 +2858,7 @@ bool IsUnaryOp(int type) {
   return type == Token::JS_DELETE || type == Token::JS_VOID ||
       type == Token::JS_TYPEOF || type == Token::JS_INCREMENT ||
       type == Token::JS_DECREMENT || type == '+' ||
-      type == '-' || type == '~' || type == '!';
+      type == '-' || type == '~' || type == '!' || type == Token::JS_NOT;
 }
 
 
@@ -2825,11 +2866,12 @@ AstNode* Parser::ParseUnaryExpression() {
   ENTER(UnaryExpression);
   TokenInfo* token = Seek();
   if (IsUnaryOp(token->type())) {
+    int type = (token->type() == Token::JS_NOT)? '!' : token->type();
     Advance();
     AstNode* post_exp = ParseUnaryExpression();
     CHECK_ERROR(post_exp);
     post_exp->CastToExpression()->MarkAsInValidLhs();
-    UnaryExp* unary = new(pool()) UnaryExp(token->type(), post_exp, token->line_number());
+    UnaryExp* unary = new(pool()) UnaryExp(type, post_exp, token->line_number());
     post_exp->CastToExpression()->MarkAsUnary();
     END(UnaryExpression);
     return unary;

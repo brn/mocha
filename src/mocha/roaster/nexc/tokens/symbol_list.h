@@ -79,6 +79,7 @@ class SymbolList : private Static {
     kPush,
     kTrait,
     kFrom,
+    kAs,
     kOf,
     kNaN,
     kFunctionConstructor,

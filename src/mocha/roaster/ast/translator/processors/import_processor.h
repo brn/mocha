@@ -13,6 +13,8 @@ class ImportProccessor : public Processor{
   void LoadModule();
   ImportStmt* node() { return stmt_; }
   ProcessorInfo* info() { return info_; }
+  template <typename T>
+  void MakeVariables(const T& list, AstNode* tmp_node, VariableDeclarationList* vars);
   ImportStmt* stmt_;
   ProcessorInfo* info_;
 };

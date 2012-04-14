@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -842,7 +842,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "951391897-name_test.js",
+      var __FILE__ = "-1301891693-name_test.js",
           __LINE__ = 0;
       function Record(member) {
         try {
@@ -874,10 +874,10 @@
       }
       function b(){}
       __LINE__ = 2;
-      _mochaGlobalExport['951391897-name_test.js'] = {};
+      _mochaGlobalExport['-1301891693-name_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['951391897-name_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-1301891693-name_test.js'];
       
       __LINE__ = 1;
       Array.prototype.x = 0;

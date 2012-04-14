@@ -11,11 +11,7 @@ namespace mocha {
 void FileRootProcessor::ProcessNode() {
   TranslatorData *translator_data = info()->translator_data();
   IVisitor* visitor = info()->visitor();
-  NodeIterator iterator = node()->ChildNodes();
   bool is_runtime = translator_data->runtime();
-  while (iterator.HasNext()) {
-    iterator.Next()->Accept(visitor);
-  }
   if (!is_runtime) {
     Function *fn = builder()->CreateFunctionDecl(new(pool()) Empty,
                                                   new(pool()) Empty, node(), 1);
@@ -49,8 +45,15 @@ void FileRootProcessor::ProcessNode() {
     fn->InsertBefore(extend_global);
     fn->MarkAsRoot();
     node()->parent_node()->ReplaceChild(node(), root);
+    info_->translator_data()->set_root(root);
+    fn->Accept(visitor);
   } else {
     node()->set_runtime();
+    info_->translator_data()->set_root(node());
+    NodeIterator iterator = node()->ChildNodes();
+    while (iterator.HasNext()) {
+      iterator.Next()->Accept(visitor);
+    }
   }
 }
 

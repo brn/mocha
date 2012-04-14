@@ -48,6 +48,7 @@ TranslatorData::TranslatorData(bool is_runtime, CompilationEvent *event, DstaExt
     event_(event),
     current_stmt_(0),
     current_fn_(0),
+    file_root_(0),
     builder_(AstBuilder::Local()){
   if (is_runtime){
     bit_vector_.Set(2);

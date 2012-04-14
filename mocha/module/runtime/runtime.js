@@ -715,7 +715,11 @@ module Runtime {
       if ( typeof base === 'function' ) {
         derived.prototype.__proto__ = base.prototype;
         for ( var i in base ) {
-          derived[ i ] = base[ i ];
+          //for webkit.
+          //in webkit, for in loop is enumerate prototype, if __proto__ property is manipurated.
+          if (i !== 'prototype') {
+            derived[ i ] = base[ i ];
+          }
         }
       } else {
         derived.prototype.__proto__ = base.__proto__;

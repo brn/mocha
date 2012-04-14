@@ -87,8 +87,8 @@ class Parser{
   AstNode* ParseWhileStatement();
   AstNode* ParseDoWhileStatement(bool is_exp);
   AstNode* ParseForStatement(bool is_comprehensions);
-  void ParseForStatementCondition(NodeList* list);
-  void ParseForInStatementCondition(NodeList* list);
+  void ParseForStatementCondition(NodeList* list, bool has_paren);
+  void ParseForInStatementCondition(NodeList* list, bool has_paren);
   AstNode* ParseContinueStatement();
   AstNode* ParseBreakStatement();
   AstNode* ParseReturnStatement();

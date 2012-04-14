@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -1681,13 +1681,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-array_comprehensions_test.js",
+      var __FILE__ = "-839149963-array_comprehensions_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-array_comprehensions_test.js'] = {};
+      _mochaGlobalExport['-839149963-array_comprehensions_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-array_comprehensions_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-839149963-array_comprehensions_test.js'],
           _mochaLocalTmp0 = _mochaGlobalExport.iterators,
           items = _mochaLocalTmp0.items,
           testTarget =  {
@@ -1774,7 +1774,7 @@
             
           } else {
             __LINE__ = 19;
-            Runtime.exceptionHandler(19,array_comprehensions_test.js,'for of statement expect iterator or generator object.');
+            Runtime.exceptionHandler(19,'array_comprehensions_test.js','for of statement expect iterator or generator object.');
           }
           __LINE__ = 19;
           return _mochaLocalTmp3;
@@ -1869,7 +1869,7 @@
             
           } else {
             __LINE__ = 34;
-            Runtime.exceptionHandler(34,array_comprehensions_test.js,'for of statement expect iterator or generator object.');
+            Runtime.exceptionHandler(34,'array_comprehensions_test.js','for of statement expect iterator or generator object.');
           }
           __LINE__ = 34;
           return _mochaLocalTmp7;
@@ -2002,7 +2002,7 @@
               
             } else {
               __LINE__ = 54;
-              Runtime.exceptionHandler(54,array_comprehensions_test.js,'for of statement expect iterator or generator object.');
+              Runtime.exceptionHandler(54,'array_comprehensions_test.js','for of statement expect iterator or generator object.');
             }
             
           }

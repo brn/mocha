@@ -50,6 +50,7 @@
 #include <mocha/roaster/ast/translator/processors/syntax_sugar_processor.h>
 #include <mocha/roaster/ast/translator/processors/processor_info.h>
 #include <mocha/roaster/nexc/nexc.h>
+#include <mocha/roaster/nexc/compilation_info/compilation_info.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
@@ -145,7 +146,10 @@ VISITOR_IMPL(VersionStmt) {
   CallExp* fn_call = builder()->CreateNormalAccessor(call_accessor, args, ast_node->line_number());
   ExpressionStmt* an_stmt_node = builder()->CreateExpStmt(fn_call, ast_node->line_number());
   ast_node->AddChild(an_stmt_node);
-  body->Accept(this);
+  const char* ver = ast_node->version()->token();
+  if (translator_data_->runtime() || (ver && event_->compilation_info()->HasVersion(ver))) {
+    body->Accept(this);
+  }
 }
 
 

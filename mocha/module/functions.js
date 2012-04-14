@@ -1,4 +1,4 @@
-module {
+module Functions {
 
   export once( fn ) {
     var isRun = false;

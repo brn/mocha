@@ -25,6 +25,7 @@ void ExportProcessor::ProcessNode() {
 
 
 void ExportProcessor::ProcessFunction(AstNode* node) {
+  TranslatorData* translator_data = info_->translator_data();
   Function* fn = node->CastToExpression()->CastToFunction();
   info_->translator_data()->set_function(fn);
   Literal* name = fn->name()->CastToLiteral();
@@ -32,6 +33,7 @@ void ExportProcessor::ProcessFunction(AstNode* node) {
                                              Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
   Literal* property_name = name->Clone(pool())->CastToLiteral();
   property_name->set_value_type(Literal::kProperty);
+  translator_data->modules()->back()->SetExports(name);
   CallExp *export_prop = builder()->CreateDotAccessor(local, property_name, node->line_number());
   AssignmentExp* assign = builder()->CreateAssignment('=', export_prop, name->Clone(pool()), node->line_number());
   fn->MarkAsDeclaration();
@@ -50,9 +52,11 @@ void ExportProcessor::ProcessNodeList(AstNode* node) {
 
 
 AstNode* ExportProcessor::CreateAssignment(AstNode* node) {
+  TranslatorData* translator_data = info_->translator_data();
   NodeIterator iterator = node->ChildNodes();
   VariableDeclarationList* list = node->CastToExpression()->CastToVariableDeclarationList();
   bool is_const = list->IsDeclaredAsConst();
+  ModuleList* module_list = translator_data->modules();
   while (iterator.HasNext()) {
     AstNode *item = iterator.Next();
     TokenInfo *name_info = item->CastToLiteral()->value();
@@ -61,6 +65,7 @@ AstNode* ExportProcessor::CreateAssignment(AstNode* node) {
     Literal *local = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kLocalExport),
                                                Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
     CallExp *export_prop = builder()->CreateDotAccessor(local, name, node->line_number());
+    module_list->back()->SetExports(name);
     if (is_const) {
       if (!item->first_child()->IsEmpty()) {
         CallExp* constant_prop = builder()->CreateConstantProp(local, name, item->first_child(), node->line_number());

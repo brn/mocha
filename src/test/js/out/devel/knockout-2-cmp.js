@@ -705,7 +705,7 @@
                 derived.prototype.__proto__ = base.prototype;
                 
                 for (var i in base){
-                  derived[i] = base[i];
+                  i !== 'prototype' && (derived[i] = base[i]);
                 }
                 
               } else {
@@ -842,13 +842,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1742311219-knockout-2.0.0.debug.js",
+      var __FILE__ = "-1506053293-knockout-2.0.0.debug.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1742311219-knockout-2.0.0.debug.js'] = {};
+      _mochaGlobalExport['-1506053293-knockout-2.0.0.debug.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1742311219-knockout-2.0.0.debug.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-1506053293-knockout-2.0.0.debug.js'];
       
       __LINE__ = 5;
       !function (window,undefined) {

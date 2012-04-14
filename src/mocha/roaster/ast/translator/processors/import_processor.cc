@@ -44,16 +44,21 @@ void ImportProccessor::ProcessNode() {
       exp = stmt_->from();
     }
   }
-  if (stmt_->from()->child_length() > 1 && stmt_->module_type() == ImportStmt::kFile) {
+  typedef std::vector<TokenInfo*> PropertyArray;
+  PropertyArray property_array;
+  AstNode* expression = (stmt_->module_type() == ImportStmt::kAs)? stmt_->expression() : stmt_->from();
+  if (expression->child_length() > 1 && stmt_->module_type() == ImportStmt::kFile) {
     NodeIterator iter = stmt_->from()->ChildNodes();
     iter.Next();
     while (iter.HasNext()) {
       Literal* item = iter.Next()->CastToLiteral();
       if (!item->IsEmpty()) {
         if (item->value_type() == Literal::kString) {
+          property_array.push_back(item->CastToLiteral()->value());
           exp = builder()->CreateArrayAccessor(exp, item, stmt_->line_number());
         } else {
           item->set_value_type(Literal::kProperty);
+          property_array.push_back(item->CastToLiteral()->value());
           exp = builder()->CreateDotAccessor(exp, item, stmt_->line_number());
         }
       }
@@ -68,13 +73,75 @@ void ImportProccessor::ProcessNode() {
     VariableStmt* stmt = builder()->CreateVarStmt(list, stmt_->line_number());
     stmt_->parent_node()->ReplaceChild(stmt_, stmt);
   } else {
-    Literal* value = builder()->CreateVarInitiliser(stmt_->expression()->CastToLiteral()->value(), exp, stmt_->line_number());
-    list->AddChild(value);
-    VariableStmt* stmt = builder()->CreateVarStmt(list, stmt_->line_number());
-    stmt_->parent_node()->ReplaceChild(stmt_, stmt);
+    TokenInfo* expression =
+        (stmt_->module_type() == ImportStmt::kAs)? stmt_->from()->CastToLiteral()->value() :
+        stmt_->expression()->CastToLiteral()->value();
+    TranslatorData* translator_data = info_->translator_data();
+    if (stmt_->expression_type() == ImportStmt::kAll) {
+      FileRoot* root = translator_data->compilation_event()->nexc()->ast(stmt_->filename()->token());
+      if (root && root->modules().size() > 0) {
+        Literal* tmp_node = builder()->CreateTmpNode(translator_data->tmp_index(), stmt_->line_number());
+        Literal* tmp_value = builder()->CreateVarInitiliser(tmp_node->value(), exp, stmt_->line_number());
+        list->AddChild(tmp_value);
+        ModuleStmt* searched = NULL;
+        if (property_array.size() > 0) {
+          PropertyArray::iterator it = property_array.begin();
+          searched = root->FindModule((*it)->token());
+          if (searched != NULL) {
+            ++it;
+            if (it != property_array.end()) {
+              for (; it != property_array.end(); ++it) {
+                searched = searched->FindModule((*it)->token());
+                if (searched == NULL) {
+                  break;
+                }
+              }
+            }
+          } else {
+            stmt_->parent_node()->RemoveChild(stmt_);
+          }
+          if (searched != NULL) {
+            MakeVariables(searched->exports(), tmp_node, list);
+            MakeVariables(searched->modules(), tmp_node, list);
+            VariableStmt* stmt = builder()->CreateVarStmt(list, stmt_->line_number());
+            stmt_->parent_node()->ReplaceChild(stmt_, stmt);
+          } else {
+            stmt_->parent_node()->RemoveChild(stmt_);
+          }
+        } else {
+          MakeVariables(root->modules(), tmp_node, list);
+          VariableStmt* stmt = builder()->CreateVarStmt(list, stmt_->line_number());
+          stmt_->parent_node()->ReplaceChild(stmt_, stmt);
+        }
+      } else {
+        Literal* tmp_node = builder()->CreateTmpNode(translator_data->tmp_index(), stmt_->line_number());
+        Literal* tmp_value = builder()->CreateVarInitiliser(tmp_node->value(), exp, stmt_->line_number());
+        list->AddChild(tmp_value);
+        stmt_->parent_node()->RemoveChild(stmt_);
+      }
+    } else {
+      Literal* value = builder()->CreateVarInitiliser(expression, exp, stmt_->line_number());
+      list->AddChild(value);
+      VariableStmt* stmt = builder()->CreateVarStmt(list, stmt_->line_number());
+      stmt_->parent_node()->ReplaceChild(stmt_, stmt);
+    }
   }
 }
 
+Literal* GetName(const ModuleStmt* stmt) {return stmt->name()->CastToLiteral();}
+Literal* GetName(Literal* lit) {return lit;}
+
+template <typename T>
+void ImportProccessor::MakeVariables(const T& list, AstNode* tmp_node, VariableDeclarationList* vars) {
+  typename T::const_iterator it = list.begin();
+  for (; it != list.end(); ++it) {
+    Literal* name = GetName(it->second);
+    CallExp* dot = builder()->CreateDotAccessor(tmp_node->Clone(pool()),
+                                                name->Clone(pool()), stmt_->line_number());
+    Literal* value = builder()->CreateVarInitiliser(name->value(), dot, stmt_->line_number());
+    vars->AddChild(value);
+  }
+}
 
 void ImportProccessor::LoadModule() {
   TranslatorData* translator_data = info()->translator_data();
@@ -90,12 +157,15 @@ void ImportProccessor::LoadModule() {
     js_path.erase(0, 1);
     js_path.erase(js_path.size() - 1, js_path.size());
     std::string modkey;
+    std::string filename_buf;
     //Get full path of module.
-    translator_data->compilation_event()->nexc()->ImportFile(&modkey, js_path.c_str(), translator_data->compilation_event());
+    translator_data->compilation_event()->nexc()->ImportFile(&modkey, &filename_buf, js_path.c_str(), translator_data->compilation_event());
     translator_data->compilation_event()->nexc()->set_current_directory(translator_data->compilation_event()->path());
     TokenInfo* key = new(pool()) TokenInfo(modkey.c_str(), Token::JS_IDENTIFIER, stmt_->line_number());
+    TokenInfo* filename = new(pool()) TokenInfo(filename_buf.c_str(), Token::JS_IDENTIFIER, stmt_->line_number());
     //Reserve module key string for later code generation.
     stmt_->set_module_key(key);
+    stmt_->set_filename(filename);
   }
 }
 

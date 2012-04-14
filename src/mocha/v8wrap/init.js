@@ -371,6 +371,7 @@
         }
       }
       if (natives.config.has('testDriver') && argList.length > 0) {
+        console.log(natives.config.get('testDriver') + " " + argList.join(' '));
         console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
       }
     }

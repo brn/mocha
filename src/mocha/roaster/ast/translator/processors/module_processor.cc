@@ -12,26 +12,34 @@ namespace mocha {
 ModuleProcessor::ModuleProcessor(ModuleStmt* stmt, ProcessorInfo* info)
     : Processor(), stmt_(stmt), info_(info){};
 
+
 void ModuleProcessor::ProcessNode() {
   TranslatorData* translator_data = info_->translator_data();
   AstNode* body = stmt_->first_child();
-  AstNode* name = stmt_->name();
+  Literal* name = stmt_->name()->CastToLiteral();
   bool is_runtime = translator_data->runtime();
-  Function* fn_node = builder()->CreateFunctionDecl(name, new(pool()) Empty, body, stmt_->line_number());
-  fn_node->set_name(new(pool()) Empty);
-  builder()->FindDirectivePrologue(fn_node, fn_node);
-  ExpressionStmt* an_stmt_node = ProcessBody_(body, fn_node, name);
-  //For anonymous module.
-  if (!name->IsEmpty()) {
-    Literal* maybe_value = name->CastToLiteral();
-    if (maybe_value) {
-      maybe_value->set_value_type(Literal::kProperty);
-    }
-    ProcessAnonymousModule_(an_stmt_node, name, is_runtime);
+  if (translator_data->IsInModules()) {
+    translator_data->modules()->back()->SetModule(name->value()->token(), stmt_);
   } else {
-    stmt_->parent_node()->ReplaceChild(stmt_, an_stmt_node);
+    stmt_->MarkAsRoot();
+    translator_data->file_root()->SetModule(name->value()->token(), stmt_);
   }
-  Finish_(name, fn_node);
+  translator_data->EnterModule(stmt_);
+  AstNode* result;
+  if (stmt_->module_type() == ModuleStmt::kBlock) {
+    Function* fn_node = builder()->CreateFunctionDecl(name, new(pool()) Empty, body, stmt_->line_number());
+    fn_node->set_name(new(pool()) Empty);
+    builder()->FindDirectivePrologue(fn_node, fn_node);
+    result = ProcessBody(body, fn_node, name);
+    result = result->first_child();
+    name->CastToLiteral()->set_value_type(Literal::kProperty);
+    ProcessModule(result, name, is_runtime);
+    Finish(name, fn_node);
+  } else {
+    result = ProcessAssignment(body, name);
+    name->CastToLiteral()->set_value_type(Literal::kProperty);
+    ProcessModule(result, name, is_runtime);
+  }
 }
 
 /*
@@ -39,7 +47,7 @@ void ModuleProcessor::ProcessNode() {
  * all export properties are directly add to global export symbol.
  * Like this -> __MC_global_alias__.<name> = ...;
  */
-void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstNode* name, bool is_runtime) {
+void ModuleProcessor::ProcessModule(AstNode* node, AstNode* name, bool is_runtime) {
   TranslatorData* translator_data = info_->translator_data();
   if (!is_runtime) {
     Literal* alias = 0;
@@ -51,17 +59,13 @@ void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstN
                                          Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
     }
     CallExp* dot_accessor = builder()->CreateDotAccessor(alias, name, stmt_->line_number());
-    AssignmentExp* exp = builder()->CreateAssignment('=', dot_accessor, an_stmt_node->first_child(), stmt_->line_number());
-    AstNode* stmt = 0;//init after.
-    if (!name->IsEmpty()) {
-      Literal* var_node = builder()->CreateVarInitiliser(name->CastToLiteral()->value(), exp, stmt_->line_number());
-      stmt = builder()->CreateVarStmt(builder()->CreateVarDeclList(stmt_->line_number(), 1, var_node), stmt_->line_number());
-    } else {
-      stmt = builder()->CreateExpStmt(exp, stmt_->line_number());
-    }
+    AssignmentExp* exp = builder()->CreateAssignment('=', dot_accessor, node, stmt_->line_number());
+    Literal* var_node = builder()->CreateVarInitiliser(name->CastToLiteral()->value(), exp, stmt_->line_number());
+    AstNode* stmt = builder()->CreateVarStmt(builder()->CreateVarDeclList(stmt_->line_number(), 1, var_node), stmt_->line_number());
     stmt_->parent_node()->ReplaceChild(stmt_, stmt);
   } else {
-    Literal *var_node = builder()->CreateVarInitiliser(name->CastToLiteral()->value(), an_stmt_node->first_child(), stmt_->line_number());
+    Literal *var_node =
+        builder()->CreateVarInitiliser(name->CastToLiteral()->value(), node, stmt_->line_number());
     VariableStmt *var_stmt = builder()->CreateVarStmt(builder()->CreateVarDeclList(stmt_->line_number(), 1, var_node), stmt_->line_number());
     stmt_->parent_node()->ReplaceChild(stmt_, var_stmt);
   }
@@ -71,36 +75,38 @@ void ModuleProcessor::ProcessAnonymousModule_(ExpressionStmt* an_stmt_node, AstN
  * Create anonymous function call like (function(){ ... })()
  * to create module scopes.
  */
-ExpressionStmt* ModuleProcessor::ProcessBody_(AstNode* body, Function* fn_node, AstNode*) {
+AstNode* ModuleProcessor::ProcessBody(AstNode* body, Function* fn_node, AstNode*) {
   TranslatorData* translator_data = info_->translator_data();
   IVisitor* visitor = info_->visitor();
   ExpressionStmt* an_stmt_node = builder()->CreateAnonymousFnCall(fn_node, new(pool()) Empty, stmt_->line_number());
-  translator_data->EnterModuel();
   body->Accept(visitor);
-  translator_data->EscapeModuel();
+  translator_data->EscapeModule();
   return an_stmt_node;
 }
 
 
-void ModuleProcessor::Finish_(AstNode* name, Function* fn_node) {
+AstNode* ModuleProcessor::ProcessAssignment(AstNode* body, AstNode*) {
+  TranslatorData* translator_data = info_->translator_data();
+  IVisitor* visitor = info_->visitor();
+  body->Accept(visitor);
+  translator_data->EscapeModule();
+  return body;
+}
+
+
+void ModuleProcessor::Finish(AstNode* name, AstNode* node) {
   TokenInfo* local = new(pool()) TokenInfo(SymbolList::symbol(SymbolList::kLocalExport),
                                             Token::JS_IDENTIFIER, stmt_->line_number());
   Literal* ret_local = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kLocalExport),
                                                   Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
-  Literal* init = 0;//init after.
-  if (!name->IsEmpty()) {
-    init = builder()->CreateVarInitiliser(local,
-                                           builder()->CreateObjectLiteral(new(pool()) Empty, stmt_->line_number()), stmt_->line_number());
-  } else {
-    Literal* alias = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalAlias),
-                                                Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
-    init = builder()->CreateVarInitiliser(local, alias, stmt_->line_number());
-  }
+  ObjectLikeLiteral* object =
+      builder()->CreateObjectLiteral(new(pool()) Empty, stmt_->line_number());
+  Literal* init = builder()->CreateVarInitiliser(local, object, stmt_->line_number());
   VariableDeclarationList* list = new(pool()) VariableDeclarationList(stmt_->line_number());
   ReturnStmt* ret = builder()->CreateReturnStmt(ret_local, stmt_->line_number());
   list->AddChild(init);
   VariableStmt* var_stmt = builder()->CreateVarStmt(list, stmt_->line_number());
-  fn_node->InsertBefore(var_stmt);
-  fn_node->AddChild(ret);
+  node->InsertBefore(var_stmt);
+  node->AddChild(ret);
 }
 }
