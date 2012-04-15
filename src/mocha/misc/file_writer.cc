@@ -1,6 +1,7 @@
 #include <string.h>
 #include <mocha/misc/file_writer.h>
 #include <mocha/fileinfo/fileinfo.h>
+#include <mocha/roaster/nexc/scanner/encoding/encoding.h>
 #include <mocha/roaster/nexl/compilation_result/compilation_result.h>
 namespace mocha {
 
@@ -12,13 +13,14 @@ void FileWriter::WriteResult(CompilationResult* result){
   if (resource) {
     const char* deploydir = resource->GetDeploy();
     const char* deployname = resource->GetDeployName();
+    const char* ocharset = resource->GetOutputCharset();
     if (!deploydir && !deployname) {
       std::string name = result->filename();
-      name.erase(name.find('.'), name.size());
+      name.erase(name.rfind('.'), name.size());
       os::SPrintf(&val, "%s/%s-cmp.js", result->dir(), name.c_str());
     } else if (deploydir) {
       std::string name = result->filename();
-      name.erase(name.find('.'), name.size());
+      name.erase(name.rfind('.'), name.size());
       os::SPrintf(&val, "%s/%s-cmp.js", deploydir, name.c_str());
     } else if (deployname) {
       os::SPrintf(&val, "%s/%s", result->dir(), deployname);
@@ -35,7 +37,8 @@ void FileWriter::WriteResult(CompilationResult* result){
     if (fp != NULL) {
       os::fs::Directory::chmod(val.c_str(), 0777);
       const char* source = result->source();
-      fwrite(source, sizeof(char), strlen(source) ,fp);
+      mocha::SharedStr data = mocha::ICUWrapper::EncodeTo(source, ocharset);
+      fwrite(data.Get(), sizeof(char), strlen(data.Get()) ,fp);
       os::FClose(fp);
     }
   }

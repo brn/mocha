@@ -372,6 +372,27 @@
   }.call(this);
   
   var Runtime = function () {
+        function spreadCall(context,fn,args,isNew) {
+          var newArgs = [];
+          
+          for (var i = 0,len = args.length;i<len;i += 2){
+            
+            args[i] === true?push.apply(newArgs,args[i+1]) : newArgs.push(args[i+1]);
+          }
+          
+          if (isNew){
+            
+            var tmp = function (){};
+            
+            tmp.prototype = fn.prototype;
+            
+            tmp = new tmp;
+            return fn.apply(tmp,newArgs);
+          } else {
+            return fn.apply(context,newArgs);
+          }
+          
+        }
         function checkRequirements(_mochaLocalTmp8,_mochaLocalTmp9,traits,file,line) {
           var proto1 = _mochaLocalTmp8.prototype,
               proto2 = _mochaLocalTmp9.prototype;
@@ -484,7 +505,7 @@
         function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
           (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
           
-          createPrivateRecord(instance,privateHolder);
+          createPrivateRecord(instance,privateHolder,constructor);
           
           constructor.apply(instance,args);
         }
@@ -754,18 +775,23 @@
         
         var privateRecord,
             createPrivateRecord,
-            getPrivateRecord;
+            getPrivateRecord,
+            getInstanceBody;
         
         if ("WeakMap" in global){
           
           privateRecord = new WeakMap();
           
-          createPrivateRecord = function (self,privateHolder) {
+          createPrivateRecord = function (self,privateHolder,constructor) {
             var holder = new privateHolder;
             
             createUnenumProp(holder,"__is_private__",1);
             
+            createUnenumProp(self,"constructor",constructor);
+            
             privateRecord.set(self,holder);
+            
+            privateRecord.set(holder,self);
           };
           
           getPrivateRecord = function (self) {
@@ -776,31 +802,54 @@
             }
             
           };
+          
+          getInstanceBody = function (privateHolder) {
+            return privateRecord.get(privateHolder);
+          };
         } else {
           
-          createPrivateRecord = function (self,privateHolder) {
+          createPrivateRecord = function (self,privateHolder,constructor) {
             if (!self.__typeid__){
               
-              var holder = new privateHolder;
+              var holder = new privateHolder,
+                  privateSlot = {};
               
-              createUnenumProp(holder,"__is_private__",1);
+              Object.defineProperty(privateSlot,"__is_private__", {
+                value : 1
+              });
               
-              createUnenumProp(self,"__private__",holder);
+              Object.defineProperty(privateSlot,"__parent__", {
+                value : self
+              });
+              
+              Object.defineProperty(holder,"constructor", {
+                value : privateSlot
+              });
+              
+              createUnenumProp(constructor,"__private__",holder);
+              
+              createUnenumProp(self,"constructor",constructor);
             }
             
           };
           
           getPrivateRecord = function (self) {
-            if (self.__private__){
-              return self.__private__;
-            } else if (self.__is_private__ === 1){
+            if (self.constructor.__private__){
+              return self.constructor.__private__;
+            } else if (self.constructor.__is_private__ === 1){
               return self;
             }
             
           };
+          
+          getInstanceBody = function (privateHolder) {
+            return privateHolder.constructor.__parent__;
+          };
         }
         
         _mochaLocalExport.getPrivateRecord = getPrivateRecord;
+        
+        _mochaLocalExport.getInstanceBody = getInstanceBody;
         
         _mochaLocalExport.initializeClass = initializeClass;
         
@@ -811,6 +860,8 @@
         _mochaLocalExport.classMixin = classMixin;
         
         _mochaLocalExport.checkRequirements = checkRequirements;
+        
+        _mochaLocalExport.spreadCall = spreadCall;
         
         !function () {
           var assert = _mochaLocalExport.assert = (global.console && global.console.assert)?function (expect,exp,str,line,filename) {
@@ -842,506 +893,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1506053293-json_parse.js",
+      var __FILE__ = "-1742311219-json_parse.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1506053293-json_parse.js'] = {};
+      _mochaGlobalExport['-1742311219-json_parse.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1506053293-json_parse.js'],
-          json_parse = (function () {
-            try {
-              __LINE__ = 64;
-              var at,
-                  ch,
-                  escapee =  {
-                    '"' : '"',
-                    '\\' : '\\',
-                    '/' : '/',
-                    b : '\b',
-                    f : '\f',
-                    n : '\n',
-                    r : '\r',
-                    t : '\t'
-                  },
-                  text,
-                  error = function (m) {
-                    try {
-                      __LINE__ = 82;
-                      throw  {
-                        name : 'SyntaxError',
-                        message : m,
-                        at : at,
-                        text : text
-                      };
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  next = function (c) {
-                    try {
-                      __LINE__ = 95;
-                      c && c !== ch && error("Expected '"+c+"' instead of '"+ch+"'");
-                      
-                      __LINE__ = 101;
-                      ch = text.charAt(at);
-                      
-                      __LINE__ = 102;
-                      at += 1;
-                      __LINE__ = 103;
-                      return ch;
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  number = function () {
-                    try {
-                      __LINE__ = 110;
-                      var number,
-                          string = '';
-                      
-                      __LINE__ = 113;
-                      if (ch === '-'){
-                        
-                        __LINE__ = 114;
-                        string = '-';
-                        
-                        __LINE__ = 115;
-                        next('-');
-                      }
-                      
-                      __LINE__ = 117;
-                      while (ch >= '0' && ch <= '9'){
-                        
-                        __LINE__ = 118;
-                        string += ch;
-                        
-                        __LINE__ = 119;
-                        next();
-                      }
-                      
-                      __LINE__ = 121;
-                      if (ch === '.'){
-                        
-                        __LINE__ = 122;
-                        string += '.';
-                        
-                        __LINE__ = 123;
-                        while (next() && ch >= '0' && ch <= '9'){
-                          __LINE__ = 124;
-                          string += ch;
-                        }
-                        
-                      }
-                      
-                      __LINE__ = 127;
-                      if (ch === 'e' || ch === 'E'){
-                        
-                        __LINE__ = 128;
-                        string += ch;
-                        
-                        __LINE__ = 129;
-                        next();
-                        
-                        __LINE__ = 130;
-                        if (ch === '-' || ch === '+'){
-                          
-                          __LINE__ = 131;
-                          string += ch;
-                          
-                          __LINE__ = 132;
-                          next();
-                        }
-                        
-                        __LINE__ = 134;
-                        while (ch >= '0' && ch <= '9'){
-                          
-                          __LINE__ = 135;
-                          string += ch;
-                          
-                          __LINE__ = 136;
-                          next();
-                        }
-                        
-                      }
-                      
-                      __LINE__ = 139;
-                      number = +string;
-                      
-                      __LINE__ = 140;
-                      if (!isFinite(number)){
-                        __LINE__ = 141;
-                        error("Bad number");
-                      } else {
-                        __LINE__ = 143;
-                        return number;
-                      }
-                      
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  string = function () {
-                    try {
-                      __LINE__ = 151;
-                      var hex,
-                          i,
-                          string = '',
-                          uffff;
-                      
-                      __LINE__ = 158;
-                      if (ch === '"'){
-                        __LINE__ = 159;
-                        while (next()){
-                          __LINE__ = 160;
-                          if (ch === '"'){
-                            
-                            __LINE__ = 161;
-                            next();
-                            __LINE__ = 162;
-                            return string;
-                          } else if (ch === '\\'){
-                            
-                            __LINE__ = 164;
-                            next();
-                            if (ch === 'u'){
-                              
-                              __LINE__ = 166;
-                              uffff = 0;
-                              
-                              __LINE__ = 167;
-                              for (i = 0;i<4;i += 1){
-                                
-                                __LINE__ = 168;
-                                hex = parseInt(next(),16);
-                                if (!isFinite(hex)){
-                                  __LINE__ = 170;
-                                  break;
-                                }
-                                
-                                __LINE__ = 172;
-                                uffff = uffff*16+hex;
-                              }
-                              
-                              __LINE__ = 174;
-                              string += String.fromCharCode(uffff);
-                            } else if (typeof escapee[ch] === 'string'){
-                              __LINE__ = 176;
-                              string += escapee[ch];
-                            } else {
-                              __LINE__ = 178;
-                              break;
-                            }
-                            
-                          } else {
-                            __LINE__ = 181;
-                            string += ch;
-                          }
-                          
-                        }
-                        
-                      }
-                      
-                      __LINE__ = 185;
-                      error("Bad string");
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  white = function () {
-                    try {
-                      __LINE__ = 192;
-                      while (ch && ch <= ' '){
-                        __LINE__ = 193;
-                        next();
-                      }
-                      
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  word = function () {
-                    try {
-                      __LINE__ = 201;
-                      switch (ch) {
-                        case 't' :
-                          
-                          __LINE__ = 203;
-                          next('t');
-                          
-                          __LINE__ = 204;
-                          next('r');
-                          
-                          __LINE__ = 205;
-                          next('u');
-                          
-                          __LINE__ = 206;
-                          next('e');
-                          __LINE__ = 207;
-                          return true;
-                        case 'f' :
-                          
-                          __LINE__ = 209;
-                          next('f');
-                          
-                          __LINE__ = 210;
-                          next('a');
-                          
-                          __LINE__ = 211;
-                          next('l');
-                          
-                          __LINE__ = 212;
-                          next('s');
-                          
-                          __LINE__ = 213;
-                          next('e');
-                          __LINE__ = 214;
-                          return false;
-                        case 'n' :
-                          
-                          __LINE__ = 216;
-                          next('n');
-                          
-                          __LINE__ = 217;
-                          next('u');
-                          
-                          __LINE__ = 218;
-                          next('l');
-                          
-                          __LINE__ = 219;
-                          next('l');
-                          __LINE__ = 220;
-                          return null;
-                          
-                      }
-                      
-                      __LINE__ = 222;
-                      error("Unexpected '"+ch+"'");
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  value,
-                  array = function () {
-                    try {
-                      __LINE__ = 231;
-                      var array = [];
-                      
-                      __LINE__ = 233;
-                      if (ch === '['){
-                        
-                        __LINE__ = 234;
-                        next('[');
-                        
-                        __LINE__ = 235;
-                        white();
-                        
-                        __LINE__ = 236;
-                        if (ch === ']'){
-                          
-                          __LINE__ = 237;
-                          next(']');
-                          __LINE__ = 238;
-                          return array;
-                        }
-                        
-                        __LINE__ = 240;
-                        while (ch){
-                          
-                          __LINE__ = 241;
-                          array.push(value());
-                          
-                          __LINE__ = 242;
-                          white();
-                          
-                          __LINE__ = 243;
-                          if (ch === ']'){
-                            
-                            __LINE__ = 244;
-                            next(']');
-                            __LINE__ = 245;
-                            return array;
-                          }
-                          
-                          __LINE__ = 247;
-                          next(',');
-                          
-                          __LINE__ = 248;
-                          white();
-                        }
-                        
-                      }
-                      
-                      __LINE__ = 251;
-                      error("Bad array");
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  },
-                  object = function () {
-                    try {
-                      __LINE__ = 258;
-                      var key,
-                          object = {};
-                      
-                      __LINE__ = 261;
-                      if (ch === '{'){
-                        
-                        __LINE__ = 262;
-                        next('{');
-                        
-                        __LINE__ = 263;
-                        white();
-                        
-                        __LINE__ = 264;
-                        if (ch === '}'){
-                          
-                          __LINE__ = 265;
-                          next('}');
-                          __LINE__ = 266;
-                          return object;
-                        }
-                        
-                        __LINE__ = 268;
-                        while (ch){
-                          
-                          __LINE__ = 269;
-                          key = string();
-                          
-                          __LINE__ = 270;
-                          white();
-                          
-                          __LINE__ = 271;
-                          next(':');
-                          
-                          __LINE__ = 273;
-                          Object.hasOwnProperty.call(object,key) && error('Duplicate key "'+key+'"');
-                          
-                          __LINE__ = 275;
-                          object[key] = value();
-                          
-                          __LINE__ = 276;
-                          white();
-                          
-                          __LINE__ = 277;
-                          if (ch === '}'){
-                            
-                            __LINE__ = 278;
-                            next('}');
-                            __LINE__ = 279;
-                            return object;
-                          }
-                          
-                          __LINE__ = 281;
-                          next(',');
-                          
-                          __LINE__ = 282;
-                          white();
-                        }
-                        
-                      }
-                      
-                      __LINE__ = 285;
-                      error("Bad object");
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  };
-              
-              __LINE__ = 288;
-              value = function () {
-                try {
-                  __LINE__ = 293;
-                  white();
-                  
-                  __LINE__ = 294;
-                  switch (ch) {
-                    case '{' :
-                      __LINE__ = 296;
-                      return object();
-                    case '[' :
-                      __LINE__ = 298;
-                      return array();
-                    case '"' :
-                      __LINE__ = 300;
-                      return string();
-                    case '-' :
-                      __LINE__ = 302;
-                      return number();
-                    default :
-                      __LINE__ = 304;
-                      return ch >= '0' && ch <= '9'?number() : word();
-                      
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              };
-              __LINE__ = 311;
-              return function (source,reviver) {
-                try {
-                  __LINE__ = 312;
-                  var result;
-                  
-                  __LINE__ = 314;
-                  text = source;
-                  
-                  __LINE__ = 315;
-                  at = 0;
-                  
-                  __LINE__ = 316;
-                  ch = ' ';
-                  
-                  __LINE__ = 317;
-                  result = value();
-                  
-                  __LINE__ = 318;
-                  white();
-                  
-                  __LINE__ = 320;
-                  ch && error("Syntax error");
-                  __LINE__ = 329;
-                  return typeof reviver === 'function'?(function walk(holder,key) {
-                    try {
-                      __LINE__ = 330;
-                      var k,
-                          v,
-                          value = holder[key];
-                      
-                      __LINE__ = 331;
-                      if (value && typeof value === 'object'){
-                        __LINE__ = 332;
-                        for (k in value){
-                          __LINE__ = 333;
-                          if (({}).hasOwnProperty.call(value,k)){
-                            
-                            __LINE__ = 334;
-                            v = walk(value,k);
-                            
-                            __LINE__ = 336;
-                            v !== undefined?value[k] = v : delete value[k];
-                          }
-                          
-                        }
-                        
-                      }
-                      __LINE__ = 343;
-                      return reviver.call(holder,key,value);
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  }( {
-                    '' : result
-                  },'')) : result;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              };
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }());
+      var _mochaGlobalAlias = _mochaGlobalExport['-1742311219-json_parse.js'];
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

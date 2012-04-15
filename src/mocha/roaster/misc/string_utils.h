@@ -12,7 +12,14 @@ class StringUtils : private Static {
       if (str.at(i) == '\n') {
         (*st) << "\\n";
       } else if (str.at(i) == '\\' && !is_escaped) {
-        (*st) << '\\';
+        if (i + 1 < len) {
+          if (quote == '"' && (str.at(i + 1) == 'u' || str.at(i + 1) == 'x')) {
+            (*st) << "\\";
+            is_escaped = true;
+            continue;
+          }
+        }
+        (*st) << "\\\\";
         is_escaped = true;
       } else if (str.at(i) == quote && !is_escaped) {
         (*st) << '\\';

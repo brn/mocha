@@ -73,12 +73,16 @@ class Drive3 prototype BaseTest {
 }
 
 var TestClass = class {
-      constructor( private._name = "test" , private._age = 20 ){}
+      constructor( private._name = "test" , private._age = 20 ){
+        this.testProp = 1;
+      }
       public getName -> private._name;
       public getAge -> private._age;
+      public ptest -> private.test();
       private class Inner {
         constructor->{}
       }
+      private test -> @testProp;
     }
 
 @assert( true , new DeriveTest().getName() === "foo" );
@@ -86,6 +90,7 @@ var TestClass = class {
 var instance = new TestClass();
 @assert( true , instance.getName() === "test" );
 @assert( true , instance.getAge() === 20 );
+@assert( true , instance.ptest() === 1 );
 
 trait TestTrait {
   requires doTestm1;

@@ -119,7 +119,7 @@ class Parser{
   AstNode* ParseLeftHandSideExpression();
   NewExp* ParseNewExpression();
   AstNode* ParseCallExpression();
-  AstNode* ParseArguments();
+  AstNode* ParseArguments(bool* has_spread);
   AstNode* ParseMemberExpression();
   AstNode* ParseBracketMember();
   AstNode* ParseDotMember(bool *is_bool);

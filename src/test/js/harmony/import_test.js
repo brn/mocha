@@ -8,7 +8,7 @@ import {
       testExport3
     }
   },
-  testInnerModule4:{
+  testModule4:{
     testExport4
   },
   testExport5

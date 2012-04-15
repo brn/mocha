@@ -18,9 +18,10 @@ class ICUWrapper : private Static{
  public :
   static SharedPtr<DetectResult> GetEncode(const char* source);
   static SharedStr EncodeToUtf8(const char* source, const char* type);
+  static SharedStr EncodeTo(const char* source, const char* type);
   static SharedStr EncodeToUtf8(const wchar_t* source);
  private :
-  static SharedStr Convert(icu::UnicodeString *str);
+  static SharedStr Convert(icu::UnicodeString *str, const char* to);
 };
 
 }

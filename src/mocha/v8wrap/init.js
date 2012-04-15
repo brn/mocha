@@ -249,15 +249,15 @@
   var makeOptionList = function (i, isString, setting) {
         setting = setting || natives.script.watcher._settingList[i];
         var path_info = new natives.fs.Path(i),
-            inputCharset = setting.inputCharset || 'utf-8',
-            outputCharset = setting.outputCharset || 'utf-8',
+            inputCharset = setting.inputCharset || undefined,
+            outputCharset = setting.outputCharset || undefined,
             deployDir = setting.deployDir || path_info.directory(),
             deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
             moduleDir = (isString)? '(' + (setting.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : setting.moduleDir || [],
-            options = setting.options,
+            options = setting.options || {},
             compress = (!isString)? options.compress || false : options.compress? 'yes' : 'no',
             debug = (!isString)? options.debug || false : options.debug? 'yes' : 'no',
-            prettyPrint = (!isString)? options.prettyPrint || false : options.prettyPrint? 'yes' : 'no',
+            prettyPrint = (!isString)? options.prettyPrint || true : options.prettyPrint? 'yes' : 'no',
             versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [];
         return {
           name : i,
@@ -283,11 +283,11 @@
       var is_match = pred(option);
       if (is_match) {
         if (showDeploy && showOpt) {
-          ret.push([i, option.inputCharset, option.outputCharset, option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.versions]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.versions]);
         } else if (showOpt) {
           ret.push([i, option.compress, option.debug, option.prettyPrint, option.versions]);
         } else if (showDeploy) {
-          ret.push([i, option.inputCharset, option.outputCharset, option.deployDir, option.deployName, option.moduleDir]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir]);
         } else {
           ret.push([i]);
         }
@@ -371,7 +371,6 @@
         }
       }
       if (natives.config.has('testDriver') && argList.length > 0) {
-        console.log(natives.config.get('testDriver') + " " + argList.join(' '));
         console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
       }
     }

@@ -26,7 +26,7 @@ class CompilationInfo {
   void UnsetVersion(const char*);
   void SetCharset(const char* charset);
   bool HasCharset() const { return !charset_.empty();}
-  const char* charset() const {return charset_.c_str();};
+  const char* charset() const {return (HasCharset())? charset_.c_str() : NULL;};
   void SetLibDirectory(const char* dir);
   const LibDirectories& lib_directories() const { return lib_dir_; };
  private :

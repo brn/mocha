@@ -372,6 +372,27 @@
   }.call(this);
   
   var Runtime = function () {
+        function spreadCall(context,fn,args,isNew) {
+          var newArgs = [];
+          
+          for (var i = 0,len = args.length;i<len;i += 2){
+            
+            args[i] === true?push.apply(newArgs,args[i+1]) : newArgs.push(args[i+1]);
+          }
+          
+          if (isNew){
+            
+            var tmp = function (){};
+            
+            tmp.prototype = fn.prototype;
+            
+            tmp = new tmp;
+            return fn.apply(tmp,newArgs);
+          } else {
+            return fn.apply(context,newArgs);
+          }
+          
+        }
         function checkRequirements(_mochaLocalTmp8,_mochaLocalTmp9,traits,file,line) {
           var proto1 = _mochaLocalTmp8.prototype,
               proto2 = _mochaLocalTmp9.prototype;
@@ -484,7 +505,7 @@
         function initializeClass(instance,classObject,privateHolder,constructor,args,name,line) {
           (!instance || !(instance instanceof classObject)) && throwException("class "+name+" must be called by new. line : "+line);
           
-          createPrivateRecord(instance,privateHolder);
+          createPrivateRecord(instance,privateHolder,constructor);
           
           constructor.apply(instance,args);
         }
@@ -754,18 +775,23 @@
         
         var privateRecord,
             createPrivateRecord,
-            getPrivateRecord;
+            getPrivateRecord,
+            getInstanceBody;
         
         if ("WeakMap" in global){
           
           privateRecord = new WeakMap();
           
-          createPrivateRecord = function (self,privateHolder) {
+          createPrivateRecord = function (self,privateHolder,constructor) {
             var holder = new privateHolder;
             
             createUnenumProp(holder,"__is_private__",1);
             
+            createUnenumProp(self,"constructor",constructor);
+            
             privateRecord.set(self,holder);
+            
+            privateRecord.set(holder,self);
           };
           
           getPrivateRecord = function (self) {
@@ -776,31 +802,54 @@
             }
             
           };
+          
+          getInstanceBody = function (privateHolder) {
+            return privateRecord.get(privateHolder);
+          };
         } else {
           
-          createPrivateRecord = function (self,privateHolder) {
+          createPrivateRecord = function (self,privateHolder,constructor) {
             if (!self.__typeid__){
               
-              var holder = new privateHolder;
+              var holder = new privateHolder,
+                  privateSlot = {};
               
-              createUnenumProp(holder,"__is_private__",1);
+              Object.defineProperty(privateSlot,"__is_private__", {
+                value : 1
+              });
               
-              createUnenumProp(self,"__private__",holder);
+              Object.defineProperty(privateSlot,"__parent__", {
+                value : self
+              });
+              
+              Object.defineProperty(holder,"constructor", {
+                value : privateSlot
+              });
+              
+              createUnenumProp(constructor,"__private__",holder);
+              
+              createUnenumProp(self,"constructor",constructor);
             }
             
           };
           
           getPrivateRecord = function (self) {
-            if (self.__private__){
-              return self.__private__;
-            } else if (self.__is_private__ === 1){
+            if (self.constructor.__private__){
+              return self.constructor.__private__;
+            } else if (self.constructor.__is_private__ === 1){
               return self;
             }
             
           };
+          
+          getInstanceBody = function (privateHolder) {
+            return privateHolder.constructor.__parent__;
+          };
         }
         
         _mochaLocalExport.getPrivateRecord = getPrivateRecord;
+        
+        _mochaLocalExport.getInstanceBody = getInstanceBody;
         
         _mochaLocalExport.initializeClass = initializeClass;
         
@@ -811,6 +860,8 @@
         _mochaLocalExport.classMixin = classMixin;
         
         _mochaLocalExport.checkRequirements = checkRequirements;
+        
+        _mochaLocalExport.spreadCall = spreadCall;
         
         !function () {
           var assert = _mochaLocalExport.assert = (global.console && global.console.assert)?function (expect,exp,str,line,filename) {
@@ -842,29 +893,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-839149963-tuple_test.js",
+      var __FILE__ = "-1075407889-tuple_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-839149963-tuple_test.js'] = {};
+      _mochaGlobalExport['-1075407889-tuple_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-839149963-tuple_test.js'],
-          test = new Tuple(0,1,2,3),
-          test2 = new Record( {
-            "name" : "foo",
-            age : "20",
-            addr : "tokyo"
-          }),
-          test3 = new Tuple(0,1,3,4,5,6,7,7);
-      
-      __LINE__ = 6;
-      console.log(test);
-      
-      __LINE__ = 7;
-      console.log(test2);
-      
-      __LINE__ = 8;
-      console.log(test3);
+      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-tuple_test.js'];
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

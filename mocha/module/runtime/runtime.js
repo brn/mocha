@@ -799,46 +799,60 @@ module Runtime {
 
   var privateRecord,
       createPrivateRecord,
-      getPrivateRecord;
+      getPrivateRecord,
+      getInstanceBody;
   if ( "WeakMap" in global ) {
     privateRecord = new WeakMap();
-    createPrivateRecord = ( self , privateHolder ) -> {
+    createPrivateRecord = (self, privateHolder, constructor) -> {
       var holder = new privateHolder;
       createUnenumProp(holder, "__is_private__", 1);
-      privateRecord.set(self, holder );
+      createUnenumProp(self, "constructor", constructor);
+      privateRecord.set(self, holder);
+      privateRecord.set(holder, self);
     }
     getPrivateRecord = ( self ) -> {
-      if ( privateRecord.has( self ) ) {
-        return privateRecord.get( self );
+      if (privateRecord.has(self)) {
+        return privateRecord.get(self);
       } else if (self.__is_private__ === 1) {
         return self;
       }
+    }
+    getInstanceBody = (privateHolder) -> {
+      return privateRecord.get(privateHolder);
     }
   } else {
-    createPrivateRecord = ( self , privateHolder ) -> {
+    createPrivateRecord = (self, privateHolder, constructor) -> {
       if ( !self.__typeid__ ) {
-        var holder = new privateHolder;
-        createUnenumProp(holder, "__is_private__", 1);
-        createUnenumProp(self, "__private__", holder);
+        var holder = new privateHolder,
+            privateSlot = {};
+        Object.defineProperty(privateSlot, "__is_private__", {value : 1});
+        Object.defineProperty(privateSlot, "__parent__", {value : self});
+        Object.defineProperty(holder, "constructor", {value : privateSlot});
+        createUnenumProp(constructor, "__private__", holder);
+        createUnenumProp(self, "constructor", constructor);
       }
     }
     getPrivateRecord = ( self ) -> {
-      if ( self.__private__ ) {
-        return self.__private__;
-      } else if (self.__is_private__ === 1) {
+      if ( self.constructor.__private__ ) {
+        return self.constructor.__private__;
+      } else if (self.constructor.__is_private__ === 1) {
         return self;
       }
+    }
+    getInstanceBody = (privateHolder) -> {
+      return privateHolder.constructor.__parent__;
     }
   }
 
   export getPrivateRecord;
+  export getInstanceBody;
 
-  export initializeClass( instance , classObject , privateHolder , constructor , args , name , line ) {
+  export initializeClass(instance, classObject, privateHolder, constructor, args, name, line ) {
     if ( !instance || !( instance instanceof classObject ) ) {
       throwException( "class " + name + " must be called by new. line : " + line );
     }
-    createPrivateRecord( instance , privateHolder );
-    constructor.apply( instance , args );
+    createPrivateRecord(instance, privateHolder, constructor);
+    constructor.apply(instance, args);
   }
 
   export getSuper( obj ) {
@@ -920,6 +934,25 @@ module Runtime {
                                   + prop + "\nin file " + file + " at line " + line );
         }
       }
+    }
+  }
+  
+  export spreadCall(context, fn, args, isNew) {
+    var newArgs = [];
+    for var i = 0,len = args.length; i < len; i += 2 {
+      if args[i] === true {
+        push.apply(newArgs, args[i + 1]);
+      } else {
+        newArgs.push(args[i + 1]);
+      }
+    }
+    if (isNew) {
+      var tmp = ->{};
+      tmp.prototype = fn.prototype;
+      tmp = new tmp;
+      return fn.apply(tmp, newArgs);
+    } else {
+      return fn.apply(context, newArgs);
     }
   }
   

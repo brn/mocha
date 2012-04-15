@@ -1419,7 +1419,7 @@ class CallExp : public Expression {
   };
   CallExp(int type, int64_t line) :
       Expression(NAME_PARAMETER(CallExp), line), call_type_(type),
-      rest_(false), callable_(0), args_(0){};
+      rest_(false), spread_(false), callable_(0), args_(0){};
   ~CallExp() {};
   void set_callable(AstNode* node){ callable_ = node;node->set_parent_node(this); };
   AstNode* callable() { return callable_; };
@@ -1431,10 +1431,13 @@ class CallExp : public Expression {
   bool rest() const { return rest_; }
   CallExp* CastToCallExp() { return this; }
   void ReplaceChild(AstNode* old_node, AstNode* new_node);
+  void set_spread() {spread_ = true;}
+  bool spread() const {return spread_;}
   CLONE;
  private :
   int call_type_;
   bool rest_;
+  bool spread_;
   AstNode* callable_;
   AstNode* args_;
   CALL_ACCEPTOR(CallExp);

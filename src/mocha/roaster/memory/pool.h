@@ -70,6 +70,7 @@ class Pool : private Uncopyable {
    * allocate to tls space.
    */
   static Pool* Local();
+  static size_t Align(size_t offset, size_t alignment);
  private :
   static const size_t kDefaultSize = 3072;
   /**

@@ -1,4 +1,4 @@
-import {iterator} from "iterators";
+import {iterator} from "iterators".iterators;
 var item = function ( obj ) {
       return {
         [iterator] : function () {

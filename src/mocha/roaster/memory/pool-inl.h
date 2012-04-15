@@ -4,7 +4,6 @@
 #include <stdlib.h>
 namespace mocha {
 namespace memory {
-
 template <size_t size>
 class Chunk {
  public :
@@ -20,11 +19,12 @@ class Chunk {
   void* GetBlock(size_t reserve) {
     char* ret = (block + used_);
     used_ += reserve;
+    used_ = Pool::Align(used_, 8);
     return ret;
   }
  private :
   char block[size];
-  int used_;
+  size_t used_;
   Chunk<size>* next_;
 };
 
@@ -50,7 +50,6 @@ inline void* Pool::AllocLinkedList(size_t size) {
     current_chunk_ = current_chunk_->next();
   }
   Allocated* block = reinterpret_cast<Allocated*>(current_chunk_->GetBlock(size));
-  //Allocated* block = reinterpret_cast<Allocated*>(malloc(size));
   block->next_ = block->prev_ = 0;
   if (head_ == 0) {
     current_ = head_ = block;

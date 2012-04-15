@@ -1,4 +1,3 @@
-import "*" from './for_of_test'
 module testModule1 {
 
   export testExport1()->1;

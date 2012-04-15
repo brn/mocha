@@ -786,7 +786,8 @@ AstNode* Parser::ParseImportStatement() {
   if (from->type() == Token::JS_IDENTIFIER &&
       strlen(ident) > 0 &&
       (((expression_type == ImportStmt::kAll ||
-         expression_type == ImportStmt::kDst) && strcmp(ident, SymbolList::symbol(SymbolList::kFrom)) == 0) ||
+         expression_type == ImportStmt::kDst ||
+         expression_type == ImportStmt::kVar) && strcmp(ident, SymbolList::symbol(SymbolList::kFrom)) == 0) ||
        (expression_type == ImportStmt::kAs && strcmp(ident, SymbolList::symbol(SymbolList::kAs)) == 0))) {
     AstNode* expression = (expression_type == ImportStmt::kAs)? ParseLiteral(false) : ParseImportExpression();
     CHECK_ERROR(expression);
@@ -1436,9 +1437,12 @@ AstNode* Parser::ParseIFStatement(bool is_comprehensions) {
    * | JS_IF_OPT expression statement
    * ;
    */
-  TokenInfo *token = Advance();
+  TokenInfo *token = Seek();
   IFStmt* if_stmt = new(pool()) IFStmt(token->line_number());
   bool has_paren = token->type() == '(';
+  if (has_paren) {
+    Advance();
+  }
   AstNode* exp = ParseExpression(false);
   CHECK_ERROR(if_stmt);
   if_stmt->set_condition(exp);
@@ -1546,7 +1550,6 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
     return (is_expression)? ret_stmt->first_child() : ret_stmt;
   }
 }
-
 
 //Parse while statement
 AstNode* Parser::ParseWhileStatement() {
@@ -2764,9 +2767,6 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
     switch (token->type()) {
       case Token::JS_LOGICAL_AND :
       case Token::JS_LOGICAL_OR :
-      case Token::JS_OR :
-      case Token::JS_AND :
-      case Token::JS_IS :
       case Token::JS_EQUAL :
       case Token::JS_NOT_EQUAL :
       case Token::JS_EQ :
@@ -2779,21 +2779,11 @@ AstNode* Parser::ParseBinaryExpression(bool is_noin) {
         Advance();
         AstNode* rhs = ParseUnaryExpression();
         CHECK_ERROR(rhs);
-        int type = 0;
-        if (token->type() == Token::JS_OR) {
-          type = Token::JS_LOGICAL_OR;
-        } else if (token->type() == Token::JS_AND) {
-          type = Token::JS_LOGICAL_AND;
-        } else if (token->type() == Token::JS_IS) {
-          type = Token::JS_EQ;
-        } else {
-          type = token->type();
-        }
         if (last == 0) {
-          exp = new(pool()) CompareExp(type, lhs, rhs, token->line_number());
+          exp = new(pool()) CompareExp(token->type(), lhs, rhs, token->line_number());
           first = exp;
         } else {
-          exp = new(pool()) CompareExp(type, last, rhs, token->line_number());
+          exp = new(pool()) CompareExp(token->type(), last, rhs, token->line_number());
         }
         exp->CastToExpression()->MarkAsInValidLhs();
         last = exp;
@@ -2858,7 +2848,7 @@ bool IsUnaryOp(int type) {
   return type == Token::JS_DELETE || type == Token::JS_VOID ||
       type == Token::JS_TYPEOF || type == Token::JS_INCREMENT ||
       type == Token::JS_DECREMENT || type == '+' ||
-      type == '-' || type == '~' || type == '!' || type == Token::JS_NOT;
+      type == '-' || type == '~' || type == '!';
 }
 
 
@@ -2866,12 +2856,11 @@ AstNode* Parser::ParseUnaryExpression() {
   ENTER(UnaryExpression);
   TokenInfo* token = Seek();
   if (IsUnaryOp(token->type())) {
-    int type = (token->type() == Token::JS_NOT)? '!' : token->type();
     Advance();
     AstNode* post_exp = ParseUnaryExpression();
     CHECK_ERROR(post_exp);
     post_exp->CastToExpression()->MarkAsInValidLhs();
-    UnaryExp* unary = new(pool()) UnaryExp(type, post_exp, token->line_number());
+    UnaryExp* unary = new(pool()) UnaryExp(token->type(), post_exp, token->line_number());
     post_exp->CastToExpression()->MarkAsUnary();
     END(UnaryExpression);
     return unary;
@@ -2940,7 +2929,8 @@ AstNode* Parser::ParseCallExpression() {
   TokenInfo* token = Seek();
   if (token->type() == '(') {
     Advance();
-    AstNode* arguments = ParseArguments();
+    bool has_spread = false;
+    AstNode* arguments = ParseArguments(&has_spread);
     CHECK_ERROR(arguments);
     token = Advance();
     if (token->type() != ')') {
@@ -2963,6 +2953,9 @@ AstNode* Parser::ParseCallExpression() {
                     << filename_ << " at line " << token->line_number());
     }
     CallExp* exp = new(pool()) CallExp(CallExp::kNormal, token->line_number());
+    if (has_spread) {
+      exp->set_spread();
+    }
     exp->set_callable(member);
     exp->set_args(arguments);
     token = Seek();
@@ -2977,7 +2970,8 @@ AstNode* Parser::ParseCallExpression() {
           ret = ParseEachMember(token->type(), false, exp);
         } else if (token->type() == '(') {
           Advance();
-          AstNode* arguments = ParseArguments();
+          bool has_spread = false;
+          AstNode* arguments = ParseArguments(&has_spread);
           CHECK_ERROR(arguments);
           token = Advance();
           if (token->type() != ')') {
@@ -2989,6 +2983,9 @@ AstNode* Parser::ParseCallExpression() {
             return exp;
           }
           ret = new(pool()) CallExp(CallExp::kNormal, token->line_number());
+          if (has_spread) {
+            ret->set_spread();
+          }
           ret->set_callable(exp);
           ret->MarkAsInValidLhs();
           if (arguments->child_length() == 0) {
@@ -3023,7 +3020,7 @@ AstNode* Parser::ParseCallExpression() {
 }
 
 
-AstNode* Parser::ParseArguments() {
+AstNode* Parser::ParseArguments(bool* has_spread) {
   ENTER(Arguments);
   TokenInfo* token = Seek();
   NodeList* list = new(pool()) NodeList;
@@ -3033,6 +3030,7 @@ AstNode* Parser::ParseArguments() {
         Advance();
         token = Seek();
         if (token->type() == Token::JS_IDENTIFIER) {
+          (*has_spread) = true;
           AstNode* value = ParseLiteral(false);
           CHECK_ERROR(list);
           value->CastToLiteral()->set_value_type(Literal::kSpread);

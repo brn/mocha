@@ -24,10 +24,10 @@ SharedPtr<DetectResult> ICUWrapper::GetEncode(const char* source) {
   return result;
 }
 
-SharedStr ICUWrapper::Convert(icu::UnicodeString* src) {
-  int length = src->extract(0, src->length(), NULL, "UTF-8");
+SharedStr ICUWrapper::Convert(icu::UnicodeString* src, const char* to) {
+  int length = src->extract(0, src->length(), NULL, to);
   std::vector<char> result(length + 1);
-  src->extract(0, src->length(), &result[0], "UTF-8");
+  src->extract(0, src->length(), &result[0], to);
   std::string tmp(result.begin(), result.end() - 1);
   char* ret = new char[ tmp.size() + 1 ];
   strcpy(ret, tmp.c_str());
@@ -36,13 +36,18 @@ SharedStr ICUWrapper::Convert(icu::UnicodeString* src) {
 
 SharedStr ICUWrapper::EncodeToUtf8(const char* source, const char* type) {
   icu::UnicodeString src(source, type);
-  return Convert(&src);
+  return Convert(&src, "utf8");
+}
+
+SharedStr ICUWrapper::EncodeTo(const char* source, const char* type) {
+  icu::UnicodeString src(source, "utf8");
+  return Convert(&src, type);
 }
 
 SharedStr ICUWrapper::EncodeToUtf8(const wchar_t* source) {
   wprintf(L"%s\n", source);
   icu::UnicodeString src(reinterpret_cast<const UChar*>(source));
-  return Convert(&src);
+  return Convert(&src, "utf8");
 }
 
 }

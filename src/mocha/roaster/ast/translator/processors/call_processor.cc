@@ -73,10 +73,59 @@ void CallProcessor::ProcessFnCall() {
     }
     ast_node_->callable()->Accept(visitor);
   }
+  
   if (!args->IsEmpty()) {
-    NodeIterator iterator = ast_node_->args()->ChildNodes();
-    while (iterator.HasNext()) {
-      iterator.Next()->Accept(visitor);
+    if (ast_node_->spread()) {
+      AstNode* tmp = ast_node_->callable();
+      if (tmp->node_type() == AstNode::kCallExp) {
+        tmp = tmp->CastToExpression()->CastToCallExp()->callable();
+      } else {
+        tmp = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kUndefined),
+                                        Token::JS_IDENTIFIER, ast_node_->line_number(),
+                                        Literal::kUndefined);
+      }
+      if (tmp) {
+        NodeIterator iterator = ast_node_->args()->ChildNodes();
+        ArrayLikeLiteral* array = new(pool()) ArrayLikeLiteral(ast_node_->line_number());
+        bool is_new = ast_node_->parent_node()->node_type() == AstNode::kNewExp;
+        while (iterator.HasNext()) {
+          AstNode* item = iterator.Next();
+          Literal* lit = item->CastToLiteral();
+          if (lit && lit->value_type() == Literal::kSpread) {
+            Literal* bool_value = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kTrue),
+                                                            Token::JS_TRUE, ast_node_->line_number(),
+                                                            Literal::kTrue);
+            array->set_element(bool_value);
+            array->set_element(item->Clone(pool()));
+          } else {
+            item->Accept(visitor);
+            Literal* bool_value = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kFalse),
+                                                            Token::JS_FALSE, ast_node_->line_number(),
+                                                            Literal::kFalse);
+            array->set_element(bool_value);
+            array->set_element(item->Clone(pool()));
+          }
+        }
+        Literal* make_spread = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kSpreadCall),
+                                                         Token::JS_IDENTIFIER, ast_node_->line_number(), Literal::kProperty);
+        Literal* bool_value = builder()->CreateNameNode(SymbolList::symbol((is_new)? SymbolList::kTrue : SymbolList::kFalse),
+                                                        (is_new)?Token::JS_TRUE : Token::JS_FALSE,
+                                                        ast_node_->line_number(), (is_new)? Literal::kTrue : Literal::kFalse);
+        NodeList* args = builder()->CreateNodeList(4, tmp->Clone(pool()), ast_node_->callable()->Clone(pool()),
+                                                   array, bool_value);
+        CallExp* call = builder()->CreateNormalAccessor(make_spread, args, tmp->line_number());
+        CallExp* runtime_call = builder()->CreateRuntimeMod(call, tmp->line_number());
+        if (is_new) {
+          ast_node_->parent_node()->parent_node()->ReplaceChild(ast_node_->parent_node(), runtime_call);
+        } else {
+          ast_node_->parent_node()->ReplaceChild(ast_node_, runtime_call);
+        }
+      }
+    } else {
+      NodeIterator iterator = ast_node_->args()->ChildNodes();
+      while (iterator.HasNext()) {
+        iterator.Next()->Accept(visitor);
+      }
     }
   }
 }

@@ -1,5 +1,17 @@
-import '../harmony/module_test' as x;
-
+//import x from '../harmony/module_test'.x;
+var m = """テストでーたを返す
+ああああああああああああああああああああああああああああああああああああああああああああ
+あああああああああああああああああああああああ\n
+テストでーたを返す
+ああああああああああああああああああああああああああああああああああああああああああああ
+あああああああああああああああああああああああ"""
+var test = function () {
+      return 'データ';
+    }
+var m = [0,1,2,3,4];
+var reg = /テスト正規表現/;
+@assert(true, reg.test("テスト正規表現"));
+/*
 var x = 0;
 if not x is 100 and typeof x is 'number' {
   console.log(100);
@@ -28,4 +40,4 @@ var m = {
       toString: function() {
         return $A(this).join(' ');
       }
-    };
+    };*/

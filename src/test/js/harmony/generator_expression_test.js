@@ -1,4 +1,4 @@
-import {keys,allItems} from "iterators";
+import {keys,allItems} from "iterators".iterators;
 
 var testObject = {
       value1 : 100,

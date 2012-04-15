@@ -18,7 +18,7 @@ void FileInfo::SetInputCharset(const char* charset) {
 
 const char* FileInfo::GetInputCharset() const {
   if (input_charset_.empty()) {
-    return Consts::kDefaultInputCharset;
+    return NULL;
   } else {
     return input_charset_.c_str();
   }

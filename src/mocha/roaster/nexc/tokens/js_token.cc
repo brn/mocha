@@ -76,10 +76,6 @@ char reserved_words[][ 20 ] = {
   "with",
   "each",
   "yield",
-  "is",
-  "not",
-  "and",
-  "or",
   "@assert",
   "@include",
   "@version",
@@ -323,7 +319,7 @@ static bool binary_operator[] = {
   false,//NOT_USE:56
   false,//NOT_USE:57
   false,//':':58
-  false,//':':59
+  false,//';':59
   false,//'<':60
   false,//'=':61
   false,//'>':62
@@ -454,8 +450,11 @@ static bool binary_operator[] = {
   false,//JS_WHILE
   false,//JS_WITH
   false,//JS_EACH
-  false,//JS_FROM
-  false,//MOCHA_VERSIONOF
+  false,//JS_YIELD
+  false,//JS_ASSERT,
+  false,//MOCHA_INCLUDE,
+  false,//MOCHA_VERSION,
+  false,//MOCHA_PRAGMA
   false,//JS_INCREMENT,
   false,//JS_DECREMENT,
   true,//JS_EQUAL,

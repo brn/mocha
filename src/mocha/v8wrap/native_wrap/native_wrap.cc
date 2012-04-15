@@ -732,11 +732,11 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
         JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
         FileInfoMap::UnsafeSet(name);
         FileInfo* resource = FileInfoMap::UnsafeGet(name);        
-        if (obj->Has(String::New("inputCharset"))) {
+        if (obj->Has(String::New("inputCharset")) && !obj->Get(String::New("inputCharset"))->IsUndefined()) {
           String::Utf8Value icharset(obj->Get(String::New("inputCharset")));
           resource->SetInputCharset(*icharset);
         }
-        if (obj->Has(String::New("outputCharset"))) {
+        if (obj->Has(String::New("outputCharset")) && !obj->Get(String::New("outputCharset"))->IsUndefined()) {
           String::Utf8Value ocharset(obj->Get(String::New("outputCharset")));
           resource->SetOutputCharset(*ocharset);
         }

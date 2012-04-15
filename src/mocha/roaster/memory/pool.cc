@@ -1,6 +1,11 @@
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 namespace memory {
+size_t Pool::Align(size_t siz, size_t alignment) {
+  return (siz + (alignment - 1)) & ~(alignment - 1);
+}
+
+
 void Pool::Free() {
   if (head_) {
     Allocated* block = head_;

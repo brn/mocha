@@ -534,7 +534,22 @@ VISITOR_IMPL(CallExp) {
       if (args->CastToExpression()->CastToObjectLikeLiteral()) {
         processor.ProcessExtendAccessor();
       } else {
-        ast_node->callable()->Accept(this);
+        if (translator_data_->IsInPrivate()) {
+          AstNode* node = ast_node->callable();
+          Literal* literal = node->CastToLiteral();
+          if (literal && literal->value_type() == Literal::kThis) {
+            Literal* get_instance = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGetInstanceBody),
+                                                              Token::JS_IDENTIFIER, node->line_number(), Literal::kProperty);
+            NodeList* args = builder()->CreateNodeList(1, literal);
+            CallExp* call = builder()->CreateNormalAccessor(get_instance, args, literal->line_number());
+            CallExp* runtime_call = builder()->CreateRuntimeMod(call, node->line_number());
+            ast_node->set_callable(runtime_call);
+          } else {
+            ast_node->callable()->Accept(this);
+          }
+        } else {
+          ast_node->callable()->Accept(this);
+        }
         ast_node->args()->Accept(this);
       }
     }

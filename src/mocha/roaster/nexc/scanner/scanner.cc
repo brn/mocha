@@ -23,6 +23,7 @@
 #include <string.h>
 #include <string>
 #include <sstream>
+#include <unicode/ucnv.h>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/misc/bits.h>
 #include <mocha/roaster/misc/int_types.h>
@@ -42,7 +43,25 @@ namespace mocha {
 #define FLAG_NUMERIC 2
 #define FLAG_REGEXP 3
 
+static const char* kUnicodeMap[] = {"", "\\x0", "\\x", "\\u0", "\\u"};
 static const int kByteOrderMark[2] = {0xFFFE, 0xFEFF};
+
+void EscapeUnicode(const icu::UnicodeString& ustr, std::string* buffer) {
+  std::string buf;
+  for (int i = 0,len = ustr.length(); i < len; i++) {
+    int32_t val = ustr.char32At(i);
+    if (val > 127 || val < 0) {
+      std::string result;
+      os::SPrintf(&buf, "%x", val);
+      os::SPrintf(&result, "%s%s", kUnicodeMap[buf.size()], buf.c_str());
+      buffer->append(result);
+    } else {
+      os::SPrintf(&buf, "%c", val);
+      buffer->append(buf);
+    }
+    buf.clear();
+  }
+}
 
 void Scanner::ScannerEventListener::operator()(CompilationEvent* e) {
   const char* source = e->source();
@@ -333,7 +352,7 @@ class Scanner::InternalScanner {
     token_str_ += ch;
     bool hasIndex = false;
     char next;
-    char last;
+    char last = 0;
                                                                 
     while ((next = Seek(1))) {
       next = tolower(next);
@@ -634,6 +653,9 @@ class Scanner::InternalScanner {
         }
       }
     }
+    const icu::UnicodeString ustr(token_str_.c_str(), token_str_.size(), "utf8");
+    token_str_.clear();
+    EscapeUnicode(ustr, &token_str_);
     PushBack(token_str_.c_str(), Token::JS_STRING_LITERAL);
   }
 
@@ -713,7 +735,6 @@ class Scanner::InternalScanner {
           flag == 'm') {
         if (!CheckRegExpFlags(&flags, flag, &flag_list)) {
           has_error = true;
-        } else {
         }
       } else {
         has_error = true;
@@ -728,6 +749,9 @@ class Scanner::InternalScanner {
          << flag_list << "' in " << filename_ << " at : " << line_;
       reporter_->ReportSyntaxError(st.str().c_str());
     } else {
+      icu::UnicodeString ustr(token_str_.c_str(), token_str_.size(), "utf8");
+      token_str_.clear();
+      EscapeUnicode(ustr, &token_str_);
       PushBack(token_str_.c_str(), Token::JS_REGEXP_LITERAL);
     }
   }

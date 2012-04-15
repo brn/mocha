@@ -330,7 +330,6 @@ void Nexc::FailHandler(CompilationEvent* e) {
 
 void Nexc::Success(CompilationEvent* e) {
   root_->AddChild(e->ast());
-  printf("%s\n", e->fullpath());
   ast_list_.insert(AstPair(e->fullpath(), e->ast()));
 }
 

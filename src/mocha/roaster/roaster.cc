@@ -129,9 +129,9 @@ void* Roaster::AsyncThreadRunner(void* args) {
   ThreadArgs* thread_args = static_cast<ThreadArgs*>(args);
   Nexc nexc(thread_args->info);
   if (thread_args->is_file) {
-    nexc.CompileFile(thread_args->source_or_filename.c_str(), thread_args->charset.c_str());
+    nexc.CompileFile(thread_args->source_or_filename.c_str(), thread_args->charset);
   } else {
-    nexc.Compile(thread_args->source_or_filename.c_str(), thread_args->charset.c_str());
+    nexc.Compile(thread_args->source_or_filename.c_str(), thread_args->charset);
   }
   Nexl nexl(thread_args->source_or_filename.c_str(), thread_args->info, nexc.GetDepends(), memory::Pool::Local());
   CompilationResultHandle ret = nexl.Link(nexc.GetResult(), nexc.Errors());

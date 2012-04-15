@@ -58,7 +58,9 @@ static const char runtime[][50] = {
   "checkRequirements",
   "Record",
   "initializeClass",
-  "Tuple"
+  "Tuple",
+  "spreadCall",
+  "getInstanceBody"
 };
 
 static const char builtin[][50] = {

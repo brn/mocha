@@ -1,4 +1,4 @@
-import {items} from "iterators";
+import {items} from "iterators".iterators;
 
 var testTarget = {
       value1 : 100,
