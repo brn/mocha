@@ -893,13 +893,30 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-if_test.js",
+      var __FILE__ = "1653259312-if_test.js",
           __LINE__ = 0;
+      function ifTest(flg) {
+        try {
+          __LINE__ = 3;
+          return flg === 1?1 : flg === 2?2 : 3;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-if_test.js'] = {};
+      _mochaGlobalExport['1653259312-if_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-if_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-if_test.js'];
+      
+      __LINE__ = 11;
+      Runtime.assert(true,ifTest(1) === 1,"ifTest(1) === 1",11,'if_test.js');
+      
+      __LINE__ = 12;
+      Runtime.assert(true,ifTest(2) === 2,"ifTest(2) === 2",12,'if_test.js');
+      
+      __LINE__ = 13;
+      Runtime.assert(true,ifTest(3) === 3,"ifTest(3) === 3",13,'if_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

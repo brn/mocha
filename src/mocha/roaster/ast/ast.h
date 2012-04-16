@@ -1116,6 +1116,7 @@ class Expression : public AstNode {
   virtual ObjectLikeLiteral* CastToObjectLikeLiteral() { return 0; }
   virtual VariableDeclarationList* CastToVariableDeclarationList() { return 0; }
   virtual PostfixExp* CastToPostfixExp() {return 0;}
+  virtual Class* CastToClass() {return 0;}
   CLONE;
  protected :
   Expression(int type, const char* name, int64_t line) : AstNode(type, name, line) {
@@ -1248,6 +1249,7 @@ class Class : public Expression {
     body_ = body;
   }
   AstNode* body() { return body_; }
+  Class* CastToClass() {return this;}
   CLONE;
  private :
   CALL_ACCEPTOR(Class);

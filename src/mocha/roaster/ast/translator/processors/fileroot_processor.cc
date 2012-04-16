@@ -46,7 +46,10 @@ void FileRootProcessor::ProcessNode() {
     fn->MarkAsRoot();
     node()->parent_node()->ReplaceChild(node(), root);
     info_->translator_data()->set_root(root);
-    fn->Accept(visitor);
+    NodeIterator iterator = fn->ChildNodes();
+    while (iterator.HasNext()) {
+      iterator.Next()->Accept(visitor);
+    }
   } else {
     node()->set_runtime();
     info_->translator_data()->set_root(node());

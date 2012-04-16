@@ -1,6 +1,7 @@
 #include <string.h>
 #include <mocha/misc/file_writer.h>
 #include <mocha/fileinfo/fileinfo.h>
+#include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/nexc/scanner/encoding/encoding.h>
 #include <mocha/roaster/nexl/compilation_result/compilation_result.h>
 namespace mocha {
@@ -37,6 +38,7 @@ void FileWriter::WriteResult(CompilationResult* result){
     if (fp != NULL) {
       os::fs::Directory::chmod(val.c_str(), 0777);
       const char* source = result->source();
+      DEBUG_LOG(Info, "output charset is %s", ocharset);
       mocha::SharedStr data = mocha::ICUWrapper::EncodeTo(source, ocharset);
       fwrite(data.Get(), sizeof(char), strlen(data.Get()) ,fp);
       os::FClose(fp);

@@ -893,13 +893,26 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-do_test.js",
+      var __FILE__ = "-759650552-do_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-do_test.js'] = {};
+      _mochaGlobalExport['-759650552-do_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-do_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-do_test.js'],
+          testvalue = function () {
+            try {
+              __LINE__ = 2;
+              var x = 0;
+              __LINE__ = 3;
+              return x;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }();
+      
+      __LINE__ = 6;
+      Runtime.assert(true,testvalue === 0,"testvalue === 0",6,'do_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

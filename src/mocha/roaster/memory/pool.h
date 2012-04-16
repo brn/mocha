@@ -31,8 +31,8 @@ namespace memory {
 class Pool;
 /**
  * @class
- * Base class of lifetime managed class.
- * To allocate from Pool,
+ * The base of the lifetime managed pointer.
+ * To allocate from the pool,
  * must inherit this class as public.
  */
 class Allocated {
@@ -54,6 +54,9 @@ class Chunk;
 /**
  * @class
  * The pointer lifetime managable allocator.
+ * This memory space is allocation only,
+ * it can not free an each space, to free memory block,
+ * destroy Pool class.
  */
 class Pool : private Uncopyable {
   friend class Allocated;
@@ -72,12 +75,14 @@ class Pool : private Uncopyable {
   static Pool* Local();
   static size_t Align(size_t offset, size_t alignment);
  private :
+  ///Default memory block size.
   static const size_t kDefaultSize = 3072;
   /**
    * @private
-   * Allocate memory and add used block list,
-   * if Pool class is destroied,
-   * all allocated memory is destoryed to.
+   * Allocate the memory and add used block list,
+   * if the Pool class is destroyed,
+   * all allocated memory is destoryed too.
+   * Allocatable size is kDefaultSize.
    */
   void* AllocLinkedList(size_t size);
   Allocated* current_;

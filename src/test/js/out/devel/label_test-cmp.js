@@ -893,13 +893,37 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-label_test.js",
+      var __FILE__ = "1653259312-label_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-label_test.js'] = {};
+      _mochaGlobalExport['1653259312-label_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-label_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-label_test.js'],
+          ret = 0;
+      __LINE__ = 1;
+      TEST_LABEL : 
+      {
+        
+        __LINE__ = 3;
+        ret = 100;
+        __LINE__ = 4;
+        break TEST_LABEL;
+        
+        __LINE__ = 5;
+        ret = 200;
+      }
+      
+      __LINE__ = 7;
+      Runtime.assert(true,ret === 100,"ret === 100",7,'label_test.js');
+      __LINE__ = 4337754992;
+      TEST_LABEL2 : {
+        
+        __LINE__ = 9;
+        ret = 200;
+      }
+      __LINE__ = 10;
+      Runtime.assert(true,ret === 200,"ret === 200",10,'label_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

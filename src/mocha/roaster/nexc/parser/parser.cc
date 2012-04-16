@@ -1,6 +1,28 @@
-#include <assert.h>
+/**
+ *@author Taketoshi Aono
+ *@fileOverview
+ *@license
+ *Copyright (c) 2011 Taketoshi Aono
+ *Licensed under the BSD.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ *associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ *subject to the following conditions:
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions ofthe Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *DEALINGS IN THE SOFTWARE.
+ */
 #include <vector>
 #include <sstream>
+#include <mocha/roaster/assert/assert_def.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/ast/ast.h>
@@ -142,12 +164,12 @@ NodeList* Parser::FormalParameterConvertor(AstNode *args) {
     ArrayLikeLiteral* maybe_dst_array = item->CastToExpression()->CastToArrayLikeLiteral();
     //process ...rest parameter
     if (!maybe_ident &&
-         !maybe_dst &&
-         !maybe_dst_array &&
-         !maybe_member &&
-         item->node_type() != Literal::kAssignmentExp) {
+        !maybe_dst &&
+        !maybe_dst_array &&
+        !maybe_member &&
+        item->node_type() != Literal::kAssignmentExp) {
       SYNTAX_ERROR("malformed formal parameter list\\nin file "
-                    << filename_ << " at line " << Seek(-1)->line_number());
+                   << filename_ << " at line " << Seek(-1)->line_number());
       return result;
     } else if (maybe_dst || maybe_dst_array) {
       if (!item->CastToExpression()->IsValidLhs()) {
@@ -187,6 +209,16 @@ NodeList* Parser::FormalParameterConvertor(AstNode *args) {
     }
   }
   return result;
+}
+
+template <typename T>
+bool Parser::IsValidNamedDeclaration(T* node) {
+  if (node->name() == 0 || node->name()->IsEmpty()) {
+    SYNTAX_ERROR("Invalid " << node->node_name() << " declaration in file "
+                 << filename_ << " at line " << node->line_number());
+    return false;
+  }
+  return true;
 }
 
 
@@ -236,8 +268,8 @@ FileRoot* Parser::Parse() {
   builder()->FindDirectivePrologue(root, root);
   /**
    * The finally data structure image.
-   * ---------------FileRoot------------
-   * |                                                                                                                                                                   |                                                                                                                      |                                                                                                                        |
+   *     -----------FileRoot-----------
+   *     |         |        |         |
    * statement statement statement statement
    */
   return root;
@@ -245,7 +277,7 @@ FileRoot* Parser::Parse() {
 
 //Report illegal end of input.
 void Parser::IllegalEnd(const char* expect, int64_t line) {
-  SYNTAX_ERROR("parse error got unexpected end of input expect "
+  SYNTAX_ERROR("unexpected end of input expect "
                 << expect << "\\nin file " << filename_ << " at line " << line);
 }
 
@@ -258,7 +290,7 @@ void Parser::ParseTerminator() {
       Advance();
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " expect ';' or 'line break'\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -290,7 +322,7 @@ AstNode* Parser::ParseSourceElements() {
    *| source_elements source_element
    */
   //Check once flag.
-  assert(state_stack_->Has(StateStack::kParseBegin) == false);
+  ASSERT(true, state_stack_->Has(StateStack::kParseBegin) == false);
   state_stack_->Push(StateStack::kParseBegin);
   TokenInfo* token;
   NodeList* list = new(pool()) NodeList;
@@ -302,8 +334,8 @@ AstNode* Parser::ParseSourceElements() {
   END(SourceElements);
   /**
    * The finally data structure image.
-   * ---------------NodeList------------
-   * |                                                                                                                                                                   |                                                                                                                      |                                                                                                                        |
+   *    ------------NodeList-----------
+   *    |         |         |         |
    * statement statement statement statement
    */
   return list;
@@ -339,12 +371,10 @@ AstNode* Parser::ParseSourceElement() {
       break;
                                                                                                 
     case Token::JS_FUNCTION : {
-      result = ParseFunctionDecl(false);
+      result = ParseFunctionDecl();
       CHECK_ERROR(result);
       Function* fn = result->CastToExpression()->CastToFunction();
-      if (fn->name() == 0 || fn->name()->IsEmpty()) {
-        SYNTAX_ERROR("Invalid function declaration in file "
-                     << filename_ << " at line " << fn->line_number());
+      if (!IsValidNamedDeclaration(fn)) {
         return fn;
       }
       fn->MarkAsDeclaration();
@@ -359,15 +389,23 @@ AstNode* Parser::ParseSourceElement() {
       if (info->type() == Token::JS_CLASS) {
         Advance();
         result = ParseClassDecl(true);
+        Class* cls = result->CastToExpression()->CastToClass();
         CHECK_ERROR(result);
+        if (!IsValidNamedDeclaration(cls)) {
+          return result;
+        }
+        cls->MarkAsDeclaration();
       } else {
         TokenInfo* function_signature = Seek(2);
         //check syntax for const function.
         if (function_signature->type() == '(' || function_signature->type() == Token::JS_FUNCTION_GLYPH ||
              function_signature->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
-          result = ParseFunctionDecl(true);
+          result = ParseFunctionDecl();
           CHECK_ERROR(result);
           Function* fn = result->CastToExpression()->CastToFunction();
+          if (!IsValidNamedDeclaration(fn)) {
+            return fn;
+          }
           fn->MarkAsConstDeclaration();
         } else {
           result = ParseVariableStatement();
@@ -412,7 +450,7 @@ AstNode* Parser::ParseStatementList(StatementListMatcher matcher, const char* ex
     list->AddChild(statement);
     token = Seek();
     if (IsEnd(token->type())) {
-      SYNTAX_ERROR("parse error unexpected end of input expect "
+      SYNTAX_ERROR("unexpected end of input expect "
                     << expect
                     << " in file " << filename_ << " at line " << token->line_number());
       return list;
@@ -421,9 +459,9 @@ AstNode* Parser::ParseStatementList(StatementListMatcher matcher, const char* ex
   END(StatementList);
   /**
    * The finally data structure image.
-   * ---------------StatementList--------------
-   * |                                                                                                                                                                   |                                                                                                                                                                                      |                                                                                                                                                                                       |
-   * statement statement                                                                statement statement
+   *     ---------StatementList---------
+   *     |         |         |         |
+   * statement statement statement statement
    */
   return list;
 }
@@ -543,12 +581,10 @@ AstNode* Parser::ParseStatement() {
       break;
                                                                                                 
     case Token::JS_FUNCTION : {
-      result = ParseFunctionDecl(false);
+      result = ParseFunctionDecl();
       CHECK_ERROR(result);
       Function* fn = result->CastToExpression()->CastToFunction();
-      if (fn->name() == 0 || fn->name()->IsEmpty()) {
-        SYNTAX_ERROR("Invalid function declaration in file "
-                     << filename_ << " at line " << fn->line_number());
+      if (!IsValidNamedDeclaration(fn)) {
         return fn;
       }
       fn->MarkAsDeclaration();
@@ -584,9 +620,7 @@ AstNode* Parser::ParseStatement() {
           result = ParseTrait();
           CHECK_ERROR(result);
           Trait* trait = result->CastToExpression()->CastToTrait();
-          if (trait->name() == 0 || trait->name()->IsEmpty()) {
-            SYNTAX_ERROR("Invalid trait declaration in file "
-                         << filename_ << " at line " << trait->line_number());
+          if (!IsValidNamedDeclaration(trait)) {
             return result;
           }
           trait->MarkAsDeclaration();
@@ -603,9 +637,7 @@ AstNode* Parser::ParseStatement() {
           AstNode* item = exp->first_child();
           if (item->node_type() == AstNode::kFunction) {
             Function* fn = item->CastToExpression()->CastToFunction();
-            if (fn->name() == 0 || fn->name()->IsEmpty()) {
-              SYNTAX_ERROR("Invalid function declaration in file "
-                           << filename_ << " at line " << fn->line_number());
+            if (!IsValidNamedDeclaration(fn)) {
               return fn;
             }
             fn->MarkAsDeclaration();
@@ -658,8 +690,8 @@ AstNode* Parser::ParseBlockStatement() {
   END(BlockStatement);
   /**
    * The finally data structure image.
-   * --------------BlockStmt------------
-   * |                                                                                                                                                                   |                                                                                                                      |                                                                                                                        |
+   *     -----------BlockStmt-----------
+   *     |         |         |         |
    * statement statement statement statement
    */
   return block;
@@ -689,7 +721,9 @@ AstNode* Parser::ParseModuleStatement() {
   int module_type = 0;
   if (token->type() == '{') {
     Advance();
+    state_stack_->Push(StateStack::kModule);
     module_body = ParseBlockStatement();
+    state_stack_->Pop();
     CHECK_ERROR(module_body);
     module_type = ModuleStmt::kBlock;
   } else if (token->type() == '=') {
@@ -699,6 +733,7 @@ AstNode* Parser::ParseModuleStatement() {
   } else {
     SYNTAX_ERROR("Illegal module unexpected '" << TokenConverter(token).cstr()
                  << "' in file " << filename_ << " at line : " << token->line_number());
+    return new(pool()) Empty();
   }
   ModuleStmt* module_stmt = new(pool()) ModuleStmt(name, module_type, token->line_number());
   module_stmt->AddChild(module_body);
@@ -706,8 +741,8 @@ AstNode* Parser::ParseModuleStatement() {
   /**
    * The finally data structure image.
    * ModuleStmt--name
-   * |                                                                                                                                                                   |
-   * |                                   Literal or Empty
+   * |             |
+   * |      Literal or Empty
    * |
    * statement
    */
@@ -722,18 +757,21 @@ AstNode* Parser::ParseExportStatement() {
    * export_statement
    * : JS_EXPORT exportable_definition
    */
+  if (!state_stack_->Has(StateStack::kModule)) {
+    SYNTAX_ERROR("Export statement only allowed in module block. in file "
+                 << filename_ << " at line " << Seek(-1)->line_number());
+    return new(pool()) Empty();
+  }
   TokenInfo* token = Seek(-1);
   ExportStmt* export_stmt = new(pool()) ExportStmt(token->line_number());
   AstNode* exportable = ParseExportableDefinition();
   CHECK_ERROR(export_stmt);
   if (exportable->node_type() == AstNode::kFunction) {
     Function* fn = exportable->CastToExpression()->CastToFunction();
-    fn->MarkAsDeclaration();
-    if (!fn->name() || fn->name()->IsEmpty()) {
-      SYNTAX_ERROR("Invalid function declaration in file "
-                   << filename_ << " at line " << fn->line_number());
+    if (!IsValidNamedDeclaration(fn)) {
       return export_stmt;
     }
+    fn->MarkAsDeclaration();
   }
   export_stmt->AddChild(exportable);
   END(ExportStatement);
@@ -815,7 +853,7 @@ AstNode* Parser::ParseImportStatement() {
     END(ImportStatement);
     return stmt;
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(from).cstr()
                   << " after 'import' expect 'from'\\nin file "
                   << filename_ << " at line " << from->line_number());
@@ -897,8 +935,8 @@ AstNode* Parser::ParseVersionStatement() {
           /**
            * The finally data structure image.
            * VersionStmt
-           *                                             |
-           *            statement
+           * |
+           * statement
            */
           return stmt;
         } else {
@@ -910,7 +948,7 @@ AstNode* Parser::ParseVersionStatement() {
         }
       }
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'version statement' expect 'identifier' \\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -918,7 +956,7 @@ AstNode* Parser::ParseVersionStatement() {
       return new(pool()) Empty;
     }
   }
-  SYNTAX_ERROR("parse error got unexpected token "
+  SYNTAX_ERROR("unexpected token "
                 << TokenConverter(token).cstr()
                 << " in 'version statement' expect ')' \\nin file "
                 << filename_ << " at line " << token->line_number());
@@ -952,15 +990,15 @@ AstNode* Parser::ParseAssertStatement() {
         stmt->AddChild(exp);
         /**
          * The finally data structure image.
-         *                                                       AssertStmt
-         *                                                                                                                       |
+         * AssertStmt
+         * |
          * assignment expression
-         *                                                                                                                       |
+         * |
          * assignment expression
          */
         return stmt;
       } else {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                       << TokenConverter(token).cstr()
                       << " 'in assert statement' expect ')'\\nin file "
                       << filename_ << " at line " << token->line_number());
@@ -968,7 +1006,7 @@ AstNode* Parser::ParseAssertStatement() {
         return expect;
       }
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " 'in assert statement', second arguments must be a 'expression'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -976,7 +1014,7 @@ AstNode* Parser::ParseAssertStatement() {
       return expect;
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " 'in assert statement' expect '('\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -1006,7 +1044,7 @@ AstNode* Parser::ParseIncludeStatement() {
     }
     return new (pool()) IncludeStmt(path.c_str(), line);
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " 'in include directive' expect 'string literal'\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -1038,9 +1076,9 @@ AstNode* Parser::ParseVariableStatement() {
   END(VariableStatement);
   /**
    * The finally data structure image.
-   *                                            - VariableStmt-
-   *                                            |                                                        |                                                                                      |
-   * literal literal literal
+   * VariableStmt
+   * |
+   * VariableDeclarationList
    */
   return stmt;
 }
@@ -1081,7 +1119,7 @@ AstNode* Parser::ParseVariableDecl(bool is_noin) {
       var_left_hand->CastToLiteral()->set_value_type(Literal::kVariable);
       CHECK_ERROR(list);
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(next).cstr()
                     << " in 'variable statement' expect 'variable name' or 'destructuring assignment'\\nin file "
                     << filename_ << " at line " << next->line_number());
@@ -1279,7 +1317,7 @@ AstNode* Parser::ParseArrayPattern() {
           rest->set_value(token);
           destructuring->set_element(rest);
         } else {
-          SYNTAX_ERROR("parse error got undexpected token "
+          SYNTAX_ERROR("undexpected token "
                         << TokenConverter(token).cstr()
                         << ". In 'destructuring assignment parameter rest expect 'identifier'\\nin file "
                         << filename_ << " at line "
@@ -1289,7 +1327,7 @@ AstNode* Parser::ParseArrayPattern() {
       } else {
         //In destructuring assignemtn, if array pattern used,
         //it's element is only allowed JS_IDENTIFIER or JS_REST.
-        SYNTAX_ERROR("parse error got undexpected token "
+        SYNTAX_ERROR("undexpected token "
                       << TokenConverter(token).cstr()
                       << ". In 'destructuring assignment array pattern' "
                       "element is only allowed 'identifier' or 'parameter rest'.\\nin file '"
@@ -1303,9 +1341,9 @@ AstNode* Parser::ParseArrayPattern() {
   END(ArrayPattern);
   /**
    * The finally data structure image.
-   *                                            ArrayLikeLiteral
-   *                                                                                                                                            |
-   *            literal or destructuring 
+   * ArrayLikeLiteral
+   * |
+   * literal or destructuring 
    */
   return destructuring;
 }
@@ -1360,7 +1398,7 @@ AstNode* Parser::ParseObjectPattern() {
         break;
       }
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << ". In 'destructuring assignment object pattern'"
                     " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\\nin file "
@@ -1383,7 +1421,7 @@ AstNode* Parser::ParseObjectPatternElement(int type, TokenInfo* token, ObjectLik
     END(ObjectPatternElement);
     return node;
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << ". In 'destructuring assignment object pattern'"
                   " member only allowed normal '{ property_name : idenfier }' or '{ identifier }'\\nin file "
@@ -1469,7 +1507,7 @@ AstNode* Parser::ParseIFStatement(bool is_comprehensions) {
       if_stmt->set_else_statement(new(pool()) Empty);
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                  << TokenConverter(token).cstr()
                  << " in 'if statement conditional expression end' expect ')' \\nin file "
                  << filename_ << " at line " << token->line_number());
@@ -1516,7 +1554,7 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
       END(DoWhileStatement);
       return iter;
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                    << TokenConverter(token).cstr()
                    << " in 'while statement conditional expression'\\nin file "
                    << filename_ << " at line " << token->line_number());
@@ -1581,7 +1619,7 @@ AstNode* Parser::ParseWhileStatement() {
     END(WhileStatement);
     return iter;
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                  << TokenConverter(token).cstr()
                  << " in 'while statement conditional expression'\\nin file "
                  << filename_ << " at line " << token->line_number());
@@ -1639,7 +1677,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
     is_var_decl = true;
     //The array comprehension for expression could not have variable declaration.
     if (is_comprehensions) {
-      SYNTAX_ERROR("parse error in 'array comprehensions for expression' could not has variable declaration"
+      SYNTAX_ERROR("in 'array comprehensions for expression' could not has variable declaration"
                    "\\nin file "
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
@@ -1672,7 +1710,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
   if (next_type == ';' || (token->type() == ';' && is_each == false)) {
     //In case of normal for statement.
     if (is_comprehensions) {
-      SYNTAX_ERROR("parse error in 'array comprehensions' allowed 'for in statement' or 'for of statement'"
+      SYNTAX_ERROR("in 'array comprehensions' allowed 'for in statement' or 'for of statement'"
                    "\\nin file "
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
@@ -1685,7 +1723,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
   } else if (token->type() == Token::JS_IN) {
     //In case of for in statement.
     if (var_decl_len > 1) {
-      SYNTAX_ERROR("parse error 'for in statement' could has only one variable declaration."
+      SYNTAX_ERROR("in 'for in statement' could has only one variable declaration."
                    "\\nin file "
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
@@ -1709,7 +1747,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
     //For of statement's 'of' keyword is treated as identifier not reserved word,
     //so we check token is valid 'of' identifier or not.
     if (var_decl_len > 1) {
-      SYNTAX_ERROR("parse error 'for of statement' could has only one variable declaration."
+      SYNTAX_ERROR("in 'for of statement' could has only one variable declaration."
                    "\\nin file "
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
@@ -1723,7 +1761,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
       int iter_type = (is_var_decl || is_comprehensions)? IterationStmt::kForOfWithVar : IterationStmt::kForOf;
       iter_stmt = new(pool()) IterationStmt(iter_type, line);
     } else {
-      SYNTAX_ERROR("parse error 'for of statement' can not has 'each'."
+      SYNTAX_ERROR("in 'for of statement' can not has 'each'."
                    "\\nin file "
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
@@ -1732,7 +1770,7 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
     ParseForInStatementCondition(exp_list, has_paren);
     CHECK_ERROR(iter_stmt);
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                  << TokenConverter(token).cstr()
                  << " in 'for statement conditional expression' expect 'in', 'of' or ';' \\nin file "
                  << filename_ << " at line " << token->line_number());
@@ -1771,7 +1809,7 @@ void Parser::ParseForStatementCondition(NodeList* list, bool has_paren) {
     }
     token = Seek();
     if ((has_paren && token->type() != ')') || (!has_paren && token->type() != '{')) {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'for statement condition end' in file "
                     << filename_ << " at line " << token->line_number());
@@ -1791,7 +1829,7 @@ void Parser::ParseForInStatementCondition(NodeList* list, bool has_paren) {
   TokenInfo* token = Seek();
   list->AddChild(target_exp);
   if ((has_paren && token->type() != ')') || (!has_paren && token->type() != '{')) {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'for in statement condition end'\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -1899,12 +1937,12 @@ AstNode* Parser::ParseWithStatement() {
       CHECK_ERROR(stmt);
       stmt->AddChild(statement);
     } else {
-      SYNTAX_ERROR("parse error unmatched paren"
+      SYNTAX_ERROR("unmatched paren"
                     " in 'with statement expression'\\nin file"
                     << filename_ << " at line " << token->line_number());
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'with statement expression' expect '('\\nin file"
                   << filename_ << " at line " << token->line_number());
@@ -1941,7 +1979,7 @@ AstNode* Parser::ParseSwitchStatement() {
     CHECK_ERROR(stmt);
     stmt->Append(case_block);
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                  << TokenConverter(token).cstr()
                  << " in 'switch statement expression' expect ')'\\nin file"
                  << filename_ << " at line " << token->line_number());
@@ -1999,7 +2037,7 @@ AstNode* Parser::ParseCaseClauses() {
             list->AddChild(clause);
           }
         } else {
-          SYNTAX_ERROR("parse error got unexpected token "
+          SYNTAX_ERROR("unexpected token "
                         << TokenConverter(token).cstr()
                         << " in 'switch statement case expression' expect ':'\\nin file"
                         << filename_ << " at line " << token->line_number());
@@ -2007,7 +2045,7 @@ AstNode* Parser::ParseCaseClauses() {
           return list;
         }
       } else {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                       << TokenConverter(token).cstr()
                       << " in 'switch statement case block' expect 'case'\\nin file"
                       << filename_ << " at line " << token->line_number());
@@ -2017,7 +2055,7 @@ AstNode* Parser::ParseCaseClauses() {
       token = Seek();
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'switch statement case block' expect '{'\\nin file"
                   << filename_ << " at line " << token->line_number());
@@ -2111,7 +2149,7 @@ AstNode* Parser::ParseTryStatement() {
       stmt->set_finally_block(new(pool()) Empty);
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'try statement' expect '{'\\nin file"
                   << filename_ << " at line " << token->line_number());
@@ -2131,7 +2169,7 @@ AstNode* Parser::ParseCatchBlock() {
     if (token->type() == ')') {
       token = Seek();
       if (token->type() != '{') {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                       << TokenConverter(token).cstr()
                       << " in 'catch block' expect '{'\\nin file"
                       << filename_ << " at line " << token->line_number());
@@ -2144,13 +2182,13 @@ AstNode* Parser::ParseCatchBlock() {
         return ident;
       }
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'catch block' expect ')'\\nin file"
                     << filename_ << " at line " << token->line_number());
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'catch block' expect '('\\nin file"
                   << filename_ << " at line " << token->line_number());
@@ -2170,7 +2208,7 @@ AstNode* Parser::ParseFinallyBlock() {
     END(FinallyBlock);
     return block;
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'finally block' expect '{'\\nin file"
                   << filename_ << " at line " << token->line_number());
@@ -2237,7 +2275,7 @@ void Parser::ParseTraitBody(Trait* trait) {
         CHECK_ERROR(;);
         trait->set_mixin(mixin);
       } else {
-        AstNode* ret = ParseFunctionDecl(false);
+        AstNode* ret = ParseFunctionDecl();
         CHECK_ERROR(;);
         ParseTerminator();
         CHECK_ERROR(;);
@@ -2246,7 +2284,7 @@ void Parser::ParseTraitBody(Trait* trait) {
       }
     } else if (token->type() == Token::JS_PUBLIC) {
       Advance();
-      AstNode* ret = ParseFunctionDecl(false);
+      AstNode* ret = ParseFunctionDecl();
       CHECK_ERROR(;);
       ParseTerminator();
       CHECK_ERROR(;);
@@ -2254,7 +2292,7 @@ void Parser::ParseTraitBody(Trait* trait) {
       trait->set_member(member);
     } else if (token->type() == Token::JS_PRIVATE) {
       Advance();
-      AstNode* ret = ParseFunctionDecl(false);
+      AstNode* ret = ParseFunctionDecl();
       CHECK_ERROR(;);
       ParseTerminator();
       CHECK_ERROR(;);
@@ -2356,8 +2394,8 @@ AstNode* Parser::ParseClassDecl(bool is_const) {
   }
   token = Seek();
   if (token->type() == Token::JS_EXTENDS ||
-       (token->type() == Token::JS_IDENTIFIER ||
-         strcmp(token->token(), "prototype") == 0)) {
+      (token->type() == Token::JS_IDENTIFIER ||
+       strcmp(token->token(), "prototype") == 0)) {
     inherit = ParseInheritDecl();
     CHECK_ERROR(inherit);
   } else {
@@ -2374,7 +2412,7 @@ AstNode* Parser::ParseClassDecl(bool is_const) {
     CHECK_ERROR(cls);
     cls->set_body(body);
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'class declaration' expect '{'\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -2462,6 +2500,8 @@ AstNode* Parser::ParseClassMemberStatement() {
       member_type = ClassMember::kPublic;
     } else if (token->type() == Token::JS_PRIVATE) {
       member_type = ClassMember::kPrivate;
+    } else {
+      member_type = ClassMember::kPrivate;
     }
     AstNode* node = ParseExportableDefinition();
     CHECK_ERROR(node);
@@ -2469,7 +2509,7 @@ AstNode* Parser::ParseClassMemberStatement() {
     member->AddChild(node);
     return member;
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'member expression' expect '.' or '['\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -2484,14 +2524,12 @@ ClassMember* Parser::ParseClassMember() {
   ClassMember::MemberAttr member_type;
   AstNode* exp;
   if (token->type() == Token::JS_IDENTIFIER && strcmp(token->token(), "constructor") == 0) {
-    exp = ParseFunctionDecl(false);
+    exp = ParseFunctionDecl();
     CHECK_ERROR(new(pool()) ClassMember(ClassMember::kConstructor, token->line_number()));
     ParseTerminator();
     CHECK_ERROR(new(pool()) ClassMember(ClassMember::kConstructor, token->line_number()));
     Function* fn = exp->CastToExpression()->CastToFunction();
-    if (fn->name() == 0 || fn->name()->IsEmpty()) {
-      SYNTAX_ERROR("Invalid member declaration in file "
-                   << filename_ << " at line " << fn->line_number());
+    if (!IsValidNamedDeclaration(fn)) {
       return new(pool()) ClassMember(ClassMember::kConstructor, token->line_number());
     }
     fn->MarkAsDeclaration();
@@ -2538,7 +2576,7 @@ AstNode* Parser::ParseExportableDefinition() {
     if (token->type() == '(' || token->type() == Token::JS_FUNCTION_GLYPH ||
          token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
       END(ExportableDefinition);
-      AstNode* ret = ParseFunctionDecl(false);
+      AstNode* ret = ParseFunctionDecl();
       CHECK_ERROR(ret);
       ParseTerminator();
       CHECK_ERROR(ret);
@@ -2564,10 +2602,10 @@ AstNode* Parser::ParseExportableDefinition() {
         END(ExportableDefinition);
         return ParseClassDecl(true);
       } else if (token->type() == '(' || token->type() == Token::JS_FUNCTION_GLYPH ||
-                  token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
+                 token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
         Advance();
         END(ExportableDefinition);
-        AstNode* ret = ParseFunctionDecl(true);
+        AstNode* ret = ParseFunctionDecl();
         CHECK_ERROR(ret);
         ParseTerminator();
         CHECK_ERROR(ret);
@@ -2584,19 +2622,19 @@ AstNode* Parser::ParseExportableDefinition() {
         return ret;
       }
     } else if (token->type() == Token::JS_GET) {
-      AstNode* fn = ParseFunctionDecl(false);
+      AstNode* fn = ParseFunctionDecl();
       CHECK_ERROR(fn);
       fn->CastToExpression()->CastToFunction()->set_attribute(Function::kGet);
       END(ExportableDefinition);
       return fn;
     } else if (token->type() == Token::JS_SET) {
-      AstNode* fn = ParseFunctionDecl(false);
+      AstNode* fn = ParseFunctionDecl();
       CHECK_ERROR(fn);
       fn->CastToExpression()->CastToFunction()->set_attribute(Function::kSet);
       END(ExportableDefinition);
       return fn;
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'exportable definition' expect 'identifier','const','get' or 'set'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -2671,7 +2709,7 @@ AstNode* Parser::ParseAssignmentExpression(bool is_noin) {
       AssignmentExp* assign_exp = new(pool()) AssignmentExp(token->type(), exp, rhs, rhs->line_number());
       return assign_exp;
     } else {
-      SYNTAX_ERROR("parse error invalid left hand side expression in 'assignment expression'\\nin file "
+      SYNTAX_ERROR("invalid left hand side expression in 'assignment expression'\\nin file "
                     << filename_ << " at line " << token->line_number());
       END(AssignmentExpressionError);
       return new(pool()) Empty;
@@ -2741,7 +2779,7 @@ AstNode* Parser::ParseConditional(bool is_noin) {
       cond->MarkAsInValidLhs();
       return cond;
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'conditional expression' expect ':'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -2934,7 +2972,7 @@ AstNode* Parser::ParseCallExpression() {
     CHECK_ERROR(arguments);
     token = Advance();
     if (token->type() != ')') {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'call expression' expect ')'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -2949,7 +2987,7 @@ AstNode* Parser::ParseCallExpression() {
       END(ParseCallExpression_);
       return fn;
     } else if (is_function_decl) {
-      SYNTAX_ERROR("parse error arrow function expression name must be 'identifier'\\nin file "
+      SYNTAX_ERROR("arrow function expression name must be 'identifier'\\nin file "
                     << filename_ << " at line " << token->line_number());
     }
     CallExp* exp = new(pool()) CallExp(CallExp::kNormal, token->line_number());
@@ -2975,7 +3013,7 @@ AstNode* Parser::ParseCallExpression() {
           CHECK_ERROR(arguments);
           token = Advance();
           if (token->type() != ')') {
-            SYNTAX_ERROR("parse error got unexpected token "
+            SYNTAX_ERROR("unexpected token "
                           << TokenConverter(token).cstr()
                           << " in 'call expression' expect ')'\\nin file "
                           << filename_ << " at line " << token->line_number());
@@ -3036,7 +3074,7 @@ AstNode* Parser::ParseArguments(bool* has_spread) {
           value->CastToLiteral()->set_value_type(Literal::kSpread);
           list->AddChild(value);
         } else {
-          SYNTAX_ERROR("parse error got unexpected token "
+          SYNTAX_ERROR("unexpected token "
                         << TokenConverter(token).cstr()
                         << " in 'formal parameter rest or arguments spread' expect 'identifier'\\nin file "
                         << filename_ << " at line " << token->line_number());
@@ -3119,7 +3157,7 @@ AstNode* Parser::ParseBracketMember() {
   CHECK_ERROR(node);
   TokenInfo* token = Advance();
   if (token->type() != ']') {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'member expression' expect ']'\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -3147,7 +3185,7 @@ AstNode* Parser::ParseDotMember(bool *is_extend) {
     CHECK_ERROR(node);
     Literal* maybe_ident = node->CastToLiteral();
     if (!maybe_ident || maybe_ident->value_type() != Literal::kIdentifier) {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'member expression' expect 'identifier'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -3222,7 +3260,7 @@ AstNode* Parser::ParsePrimaryExpression() {
   TokenInfo* token = Advance();
   TokenInfo* function_signature = Seek();
   if (token->type() == Token::JS_FUNCTION) {
-    AstNode* fn = ParseFunctionDecl(false);
+    AstNode* fn = ParseFunctionDecl();
     CHECK_ERROR(fn);
     fn->CastToExpression()->MarkAsInValidLhs();
     END(MemberExpression);
@@ -3247,7 +3285,7 @@ AstNode* Parser::ParsePrimaryExpression() {
                                                          function_signature->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT)) {
     Undo();
     END(MemberExpression);
-    return ParseFunctionDecl(false);
+    return ParseFunctionDecl();
   } else if (token->type() == '{') {
     END(PrimaryExpression);
     return ParseObjectLiteral();
@@ -3277,7 +3315,7 @@ AstNode* Parser::ParsePrimaryExpression() {
       }
       return generator;
     } else {
-      SYNTAX_ERROR("parse error unmatched parensis\\nin file "
+      SYNTAX_ERROR("unmatched parensis\\nin file "
                     << filename_ << " at line " << token->line_number());
       return exp;
     }
@@ -3403,7 +3441,7 @@ AstNode* Parser::ParseObjectLiteral() {
         }
       } else if (maybe_colon == '(' || maybe_colon == Token::JS_FUNCTION_GLYPH ||
                   maybe_colon == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
-        AstNode* fn = ParseFunctionDecl(false);
+        AstNode* fn = ParseFunctionDecl();
         CHECK_ERROR(fn);
         Literal* val = fn->CastToExpression()->CastToFunction()->name()->Clone(pool())->CastToLiteral();
         val->set_value_type(Literal::kProperty);
@@ -3414,7 +3452,7 @@ AstNode* Parser::ParseObjectLiteral() {
         token = Seek();
         object->MarkAsInValidLhs();
       } else {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                       << TokenConverter(token).cstr()
                       << ". In 'object literal'\\n"
                       << filename_ << " at line " << token->line_number());
@@ -3470,7 +3508,7 @@ AstNode* Parser::ParseObjectElement(int type, TokenInfo* token, ObjectLikeLitera
       return value;
     }
   } else {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << ". In 'object literal'"
                   " member only allowed 'string literal','number' or 'identifier'\\nin file "
@@ -3528,7 +3566,7 @@ AstNode* Parser::ParseArrayLiteral() {
         token = Seek();
         if (token->type() == Token::JS_FOR) {
           if (count > 0) {
-            SYNTAX_ERROR("parse error got unexpected token "
+            SYNTAX_ERROR("unexpected token "
                           << TokenConverter(token).cstr()
                           << " in 'array comprehensions expect' 'assignment expression'\\nin file "
                           << filename_ << " at line " << token->line_number());
@@ -3545,7 +3583,7 @@ AstNode* Parser::ParseArrayLiteral() {
           array->MarkAsComprehensions();
           token = Seek();
           if (token->type() != ']') {
-            SYNTAX_ERROR("parse error got unexpected token "
+            SYNTAX_ERROR("unexpected token "
                           << TokenConverter(token).cstr()
                           << " in 'array comprehensions expect' ']'\\nin file "
                           << filename_ << " at line " << token->line_number());
@@ -3631,7 +3669,7 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
         value->CastToLiteral()->set_value_type(Literal::kRest);
         return value;
       } else {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                      << TokenConverter(token).cstr()
                      << " in 'formal parameter rest' expect 'identifier'\\nin file "
                      << filename_ << " at line " << token->line_number());
@@ -3675,7 +3713,7 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
         value_type = Literal::kIdentifier;
         is_invalid_lhs = true;
       } else {
-        SYNTAX_ERROR("parse error got unexpected token '"
+        SYNTAX_ERROR("unexpected token '"
                      << TokenConverter(token).cstr()
                      << "' expect " << literals << "\\nin file "
                      << filename_ << " at line " << token->line_number());
@@ -3699,7 +3737,7 @@ bool IsValidFormalParameter(int type) {
 }
 
 
-AstNode* Parser::ParseFunctionDecl(bool is_const) {
+AstNode* Parser::ParseFunctionDecl() {
   ENTER(FunctionDecl);
   TokenInfo* token = Seek();
   Function* fn = new(pool()) Function(token->line_number());
@@ -3802,7 +3840,7 @@ AstNode* Parser::ParseFunctionDecl(bool is_const) {
       END(FunctionDecl);
       return fn;
     } else {
-      SYNTAX_ERROR("parse error got unexpected token "
+      SYNTAX_ERROR("unexpected token "
                     << TokenConverter(token).cstr()
                     << " in 'function declaration' expect '{'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -3838,7 +3876,7 @@ AstNode* Parser::ParseFormalParameter() {
       list->AddChild(node);
       token = Seek();
       if (token->type() != ')' && token->type() != ',') {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                       << TokenConverter(token).cstr()
                       << " in 'formal parameter' expect ')' or ','\\nin file "
                       << filename_ << " at line " << token->line_number());
@@ -3860,7 +3898,7 @@ AstNode* Parser::ParseFormalParameter() {
         token = Seek();
         list->AddChild(value);
         if (token->type() != ')' && token->type() != ',') {
-          SYNTAX_ERROR("parse error got unexpected token "
+          SYNTAX_ERROR("unexpected token "
                         << TokenConverter(token).cstr()
                         << " in 'formal parameter rest' can not continue after any 'formal parameter'\\nin file "
                         << filename_ << " at line " << token->line_number());
@@ -3871,7 +3909,7 @@ AstNode* Parser::ParseFormalParameter() {
         }
         token = Advance();
       } else {
-        SYNTAX_ERROR("parse error got unexpected token "
+        SYNTAX_ERROR("unexpected token "
                       << TokenConverter(token).cstr()
                       << " in 'formal parameter rest' expect 'identifier'\\nin file "
                       << filename_ << " at line " << token->line_number());
@@ -3881,7 +3919,7 @@ AstNode* Parser::ParseFormalParameter() {
     }
   }
   if (IsEnd(token->type())) {
-    SYNTAX_ERROR("parse error got unexpected token "
+    SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
                   << " in 'formal parameter' expect ')'\\nin file "
                   << filename_ << " at line " << token->line_number());
@@ -3914,7 +3952,7 @@ AstNode* Parser::ParseArrowFunctionExpression(AstNode* member, AstNode* args, in
   }
   Literal* maybe_ident = member->CastToLiteral();
   if (!maybe_ident || maybe_ident->value_type() != Literal::kIdentifier) {
-    SYNTAX_ERROR("parse error illegal function name "
+    SYNTAX_ERROR("illegal function name "
                   "in 'arrow function expression' expect 'identifier'\\nin file"
                   << filename_ << " at line " << member->line_number());
     END(ArrowFunctionExpression);

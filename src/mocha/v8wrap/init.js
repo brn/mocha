@@ -249,8 +249,8 @@
   var makeOptionList = function (i, isString, setting) {
         setting = setting || natives.script.watcher._settingList[i];
         var path_info = new natives.fs.Path(i),
-            inputCharset = setting.inputCharset || undefined,
-            outputCharset = setting.outputCharset || undefined,
+            inputCharset = setting.inputCharset || 'utf8',
+            outputCharset = setting.outputCharset || 'utf8',
             deployDir = setting.deployDir || path_info.directory(),
             deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
             moduleDir = (isString)? '(' + (setting.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : setting.moduleDir || [],

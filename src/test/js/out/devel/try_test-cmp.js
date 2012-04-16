@@ -893,13 +893,29 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-try_test.js",
+      var __FILE__ = "1653259312-try_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-try_test.js'] = {};
+      _mochaGlobalExport['1653259312-try_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-try_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-try_test.js'],
+          value = 0;
+      
+      try {
+        
+        __LINE__ = 3;
+        value = 100;
+        __LINE__ = 4;
+        throw new Error("message");
+      } catch(e){
+        __LINE__ = 6;
+        Runtime.assert(true,e instanceof Error,"e instanceof Error",6,'try_test.js');
+      } finally {
+        __LINE__ = 8;
+        Runtime.assert(true,value === 100,"value === 100",8,'try_test.js');
+      }
+      
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

@@ -893,13 +893,76 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-with_test.js",
+      var __FILE__ = "1653259312-with_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-with_test.js'] = {};
+      _mochaGlobalExport['1653259312-with_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-with_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-with_test.js'],
+          testvalue =  {
+            prop : 200
+          };
+      
+      __LINE__ = 2;
+      with (testvalue){
+        __LINE__ = 3;
+        Runtime.assert(true,prop === 200,"prop === 200",3,'with_test.js');
+      }
+      
+      __LINE__ = 6;
+      var ret = [];
+      
+      __LINE__ = 7;
+      for (var i = 0;i<10;i ++ ){
+        
+        __LINE__ = 8;
+        with ( {
+          i : i
+        }){
+          
+          __LINE__ = 9;
+          ret.push(function () {
+            try {
+              __LINE__ = 9;
+              return i;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          });
+        }
+        
+      }
+      
+      __LINE__ = 13;
+      Runtime.assert(true,ret[0]() === 0,"ret[0]() === 0",13,'with_test.js');
+      
+      __LINE__ = 14;
+      Runtime.assert(true,ret[1]() === 1,"ret[1]() === 1",14,'with_test.js');
+      
+      __LINE__ = 15;
+      Runtime.assert(true,ret[2]() === 2,"ret[2]() === 2",15,'with_test.js');
+      
+      __LINE__ = 16;
+      Runtime.assert(true,ret[3]() === 3,"ret[3]() === 3",16,'with_test.js');
+      
+      __LINE__ = 17;
+      Runtime.assert(true,ret[4]() === 4,"ret[4]() === 4",17,'with_test.js');
+      
+      __LINE__ = 18;
+      Runtime.assert(true,ret[5]() === 5,"ret[5]() === 5",18,'with_test.js');
+      
+      __LINE__ = 19;
+      Runtime.assert(true,ret[6]() === 6,"ret[6]() === 6",19,'with_test.js');
+      
+      __LINE__ = 20;
+      Runtime.assert(true,ret[7]() === 7,"ret[7]() === 7",20,'with_test.js');
+      
+      __LINE__ = 21;
+      Runtime.assert(true,ret[8]() === 8,"ret[8]() === 8",21,'with_test.js');
+      
+      __LINE__ = 22;
+      Runtime.assert(true,ret[9]() === 9,"ret[9]() === 9",22,'with_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

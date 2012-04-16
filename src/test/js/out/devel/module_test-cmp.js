@@ -893,13 +893,99 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-module_test.js",
+      var __FILE__ = "-759650552-module_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-module_test.js'] = {};
+      _mochaGlobalExport['-759650552-module_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-module_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-module_test.js'],
+          testModule1 = _mochaGlobalAlias.testModule1 = function () {
+            try {
+              function testExport1() {
+                try {
+                  __LINE__ = 3;
+                  return 1;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              __LINE__ = 1;
+              var _mochaLocalExport = {};
+              
+              __LINE__ = 3;
+              _mochaLocalExport.testExport1 = testExport1;
+              __LINE__ = 1;
+              return _mochaLocalExport;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }(),
+          testModule2 = _mochaGlobalAlias.testModule2 = function () {
+            try {
+              __LINE__ = 7;
+              var _mochaLocalExport = {},
+                  testInnerModule3 = _mochaLocalExport.testInnerModule3 = function () {
+                    try {
+                      function testExport2() {
+                        try {
+                          __LINE__ = 9;
+                          return 2;
+                        } catch(e){
+                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        }
+                      }
+                      __LINE__ = 8;
+                      var _mochaLocalExport = {};
+                      
+                      __LINE__ = 9;
+                      _mochaLocalExport.testExport2 = testExport2;
+                      
+                      __LINE__ = 10;
+                      var testExport3 = _mochaLocalExport.testExport3 =  {
+                            test : 200
+                          };
+                      __LINE__ = 8;
+                      return _mochaLocalExport;
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    }
+                  }();
+              __LINE__ = 7;
+              return _mochaLocalExport;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }(),
+          testModule4 = _mochaGlobalAlias.testModule4 = function () {
+            try {
+              function testExport4() {
+                try {
+                  __LINE__ = 15;
+                  return 3;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              __LINE__ = 14;
+              var _mochaLocalExport = {};
+              
+              __LINE__ = 15;
+              _mochaLocalExport.testExport4 = testExport4;
+              __LINE__ = 14;
+              return _mochaLocalExport;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }(),
+          testExport5 = _mochaGlobalAlias.testExport5 = function () {
+            try {
+              __LINE__ = 17;
+              return 4;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          };
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

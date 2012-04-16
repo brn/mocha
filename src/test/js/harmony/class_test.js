@@ -125,3 +125,7 @@ var inst = new Box();
 @assert(true, inst.height() === 100);
 @assert(true, inst.width() === 100);
 
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+}
+

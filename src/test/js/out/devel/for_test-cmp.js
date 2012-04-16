@@ -893,13 +893,184 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-for_test.js",
+      var __FILE__ = "1653259312-for_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-for_test.js'] = {};
+      _mochaGlobalExport['1653259312-for_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-for_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-for_test.js'],
+          target = ['a','b','c','d','e','f','g','h','i','j'],
+          arr = [];
+      
+      __LINE__ = 3;
+      for (var i = 0;i<10;i ++ ){
+        
+        __LINE__ = 4;
+        arr.push(target[i]);
+      }
+      
+      __LINE__ = 6;
+      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",6,'for_test.js');
+      
+      __LINE__ = 7;
+      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",7,'for_test.js');
+      
+      __LINE__ = 8;
+      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",8,'for_test.js');
+      
+      __LINE__ = 9;
+      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",9,'for_test.js');
+      
+      __LINE__ = 10;
+      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",10,'for_test.js');
+      
+      __LINE__ = 11;
+      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",11,'for_test.js');
+      
+      __LINE__ = 12;
+      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",12,'for_test.js');
+      
+      __LINE__ = 13;
+      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",13,'for_test.js');
+      
+      __LINE__ = 14;
+      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",14,'for_test.js');
+      
+      __LINE__ = 15;
+      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",15,'for_test.js');
+      
+      __LINE__ = 17;
+      arr = [];
+      
+      __LINE__ = 18;
+      for (i = 0;i<10;i ++ ){
+        __LINE__ = 19;
+        arr.push(target[i]);
+      }
+      
+      __LINE__ = 21;
+      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",21,'for_test.js');
+      
+      __LINE__ = 22;
+      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",22,'for_test.js');
+      
+      __LINE__ = 23;
+      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",23,'for_test.js');
+      
+      __LINE__ = 24;
+      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",24,'for_test.js');
+      
+      __LINE__ = 25;
+      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",25,'for_test.js');
+      
+      __LINE__ = 26;
+      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",26,'for_test.js');
+      
+      __LINE__ = 27;
+      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",27,'for_test.js');
+      
+      __LINE__ = 28;
+      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",28,'for_test.js');
+      
+      __LINE__ = 29;
+      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",29,'for_test.js');
+      
+      __LINE__ = 30;
+      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",30,'for_test.js');
+      
+      __LINE__ = 32;
+      i = 0;
+      
+      __LINE__ = 33;
+      for (;;){
+        
+        __LINE__ = 34;
+        arr.push(target[i]);
+        
+        __LINE__ = 35;
+        i ++ ;
+        
+        __LINE__ = 36;
+        if (i === 10){
+          __LINE__ = 36;
+          break;
+        }
+        
+      }
+      
+      __LINE__ = 38;
+      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",38,'for_test.js');
+      
+      __LINE__ = 39;
+      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",39,'for_test.js');
+      
+      __LINE__ = 40;
+      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",40,'for_test.js');
+      
+      __LINE__ = 41;
+      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",41,'for_test.js');
+      
+      __LINE__ = 42;
+      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",42,'for_test.js');
+      
+      __LINE__ = 43;
+      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",43,'for_test.js');
+      
+      __LINE__ = 44;
+      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",44,'for_test.js');
+      
+      __LINE__ = 45;
+      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",45,'for_test.js');
+      
+      __LINE__ = 46;
+      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",46,'for_test.js');
+      
+      __LINE__ = 47;
+      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",47,'for_test.js');
+      
+      __LINE__ = 49;
+      i = 9;
+      
+      __LINE__ = 50;
+      for (i;i;){
+        
+        __LINE__ = 51;
+        arr.push(target[i]);
+        
+        __LINE__ = 52;
+        i -- ;
+      }
+      
+      __LINE__ = 54;
+      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",54,'for_test.js');
+      
+      __LINE__ = 55;
+      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",55,'for_test.js');
+      
+      __LINE__ = 56;
+      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",56,'for_test.js');
+      
+      __LINE__ = 57;
+      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",57,'for_test.js');
+      
+      __LINE__ = 58;
+      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",58,'for_test.js');
+      
+      __LINE__ = 59;
+      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",59,'for_test.js');
+      
+      __LINE__ = 60;
+      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",60,'for_test.js');
+      
+      __LINE__ = 61;
+      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",61,'for_test.js');
+      
+      __LINE__ = 62;
+      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",62,'for_test.js');
+      
+      __LINE__ = 63;
+      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",63,'for_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

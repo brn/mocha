@@ -893,13 +893,47 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-let_test.js",
+      var __FILE__ = "-759650552-let_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-let_test.js'] = {};
+      _mochaGlobalExport['-759650552-let_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-let_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-let_test.js'],
+          x = 0,
+          ret = [];
+      
+      __LINE__ = 4;
+      for (var i = 0;i<10;i ++ ){
+        
+        __LINE__ = 5;
+        !function (i) {
+          try {
+            __LINE__ = 6;
+            ret.push(function () {
+              try {
+                __LINE__ = 6;
+                return i;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            });
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }.call(this,i);
+      }
+      
+      __LINE__ = 10;
+      ret.forEach(function (item,index) {
+        try {
+          
+          __LINE__ = 11;
+          Runtime.assert(true,item() === index,"item() === index",11,'let_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      });
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

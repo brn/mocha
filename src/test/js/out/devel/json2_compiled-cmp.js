@@ -893,13 +893,462 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1742311219-json2_compiled.js",
+      var __FILE__ = "-1426553882-json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1742311219-json2_compiled.js'] = {};
+      _mochaGlobalExport['-1426553882-json2_compiled.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1742311219-json2_compiled.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-1426553882-json2_compiled.js'],
+          g = null,
+          json_parse = function () {
+            try {
+              function h(a) {
+                try {
+                  __LINE__ = 1;
+                  throw  {
+                    name : "SyntaxError",
+                    message : a,
+                    a : i,
+                    text : k
+                  };
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              function b(b) {
+                try {
+                  __LINE__ = 1;
+                  b && b !== a && h("Expected '"+b+"' instead of '"+a+"'");
+                  
+                  __LINE__ = 1;
+                  a = k.charAt(i);
+                  
+                  __LINE__ = 1;
+                  i += 1;
+                  __LINE__ = 1;
+                  return a;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              function n() {
+                try {
+                  __LINE__ = 1;
+                  var c;
+                  
+                  __LINE__ = 1;
+                  c = "";
+                  
+                  __LINE__ = 1;
+                  a === "-" && (c = "-", b("-"));
+                  
+                  __LINE__ = 1;
+                  for (;a >= "0" && a <= "9";){
+                    __LINE__ = 1;
+                    c += a, b(g);
+                  }
+                  
+                  __LINE__ = 1;
+                  if (a === "."){
+                    __LINE__ = 1;
+                    for (c += ".";b(g) && a >= "0" && a <= "9";){
+                      __LINE__ = 1;
+                      c += a;
+                    }
+                    
+                  }
+                  
+                  __LINE__ = 1;
+                  if (a === "e" || a === "E"){
+                    
+                    __LINE__ = 1;
+                    c += a;
+                    
+                    __LINE__ = 1;
+                    b(g);
+                    
+                    __LINE__ = 1;
+                    a === "-" || a === "+" && (c += a, b(g));
+                    
+                    __LINE__ = 1;
+                    for (;a >= "0" && a <= "9";){
+                      __LINE__ = 1;
+                      c += a, b(g);
+                    }
+                    
+                  }
+                  
+                  __LINE__ = 1;
+                  c = +c;
+                  
+                  __LINE__ = 1;
+                  if (isFinite(c)){
+                    __LINE__ = 1;
+                    return c;
+                  }
+                  
+                  __LINE__ = 1;
+                  h("Bad number");
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              function l() {
+                try {
+                  __LINE__ = 1;
+                  var c,
+                      f,
+                      d = "",
+                      e;
+                  
+                  __LINE__ = 1;
+                  if (a === '"'){
+                    __LINE__ = 1;
+                    for (;b(g);){
+                      __LINE__ = 1;
+                      if (a === '"'){
+                        __LINE__ = 1;
+                        return b(g), d;
+                      } else if (a === "\\"){
+                        if (b(g), a === "u"){
+                          
+                          __LINE__ = 1;
+                          for (f = e = 0;f<4;f += 1){
+                            
+                            __LINE__ = 1;
+                            c = parseInt(b(g),16);
+                            if (!isFinite(c)){
+                              __LINE__ = 1;
+                              break;
+                            }
+                            
+                            __LINE__ = 1;
+                            e = e*16+c;
+                          }
+                          
+                          __LINE__ = 1;
+                          d += String.fromCharCode(e);
+                        } else if (typeof m[a] === "string"){
+                          __LINE__ = 1;
+                          d += m[a];
+                        } else {
+                          __LINE__ = 1;
+                          break;
+                        }
+                        
+                      } else {
+                        __LINE__ = 1;
+                        d += a;
+                      }
+                      
+                    }
+                    
+                  }
+                  
+                  __LINE__ = 1;
+                  h("Bad string");
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              function e() {
+                try {
+                  __LINE__ = 1;
+                  for (;a && a <= " ";){
+                    __LINE__ = 1;
+                    b(g);
+                  }
+                  
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              function o() {
+                try {
+                  __LINE__ = 1;
+                  switch (a) {
+                    case "t" :
+                      __LINE__ = 1;
+                      return b("t"), b("r"), b("u"), b("e"), !0;
+                    case "f" :
+                      __LINE__ = 1;
+                      return b("f"), b("a"), b("l"), b("s"), b("e"), !1;
+                    case "n" :
+                      __LINE__ = 1;
+                      return b("n"), b("u"), b("l"), b("l"), g;
+                      
+                  }
+                  
+                  __LINE__ = 1;
+                  h("Unexpected '"+a+"'");
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              __LINE__ = 1;
+              var i,
+                  a,
+                  m =  {
+                    '"' : '"',
+                    "\\" : "\\",
+                    "/" : "/",
+                    b : "\u0008",
+                    f : "\u000c",
+                    n : "\n",
+                    r : "\r",
+                    t : "\t"
+                  },
+                  k,
+                  ja;
+              
+              __LINE__ = 1;
+              ja = function () {
+                try {
+                  __LINE__ = 1;
+                  e();
+                  
+                  __LINE__ = 1;
+                  switch (a) {
+                    case "{" :
+                      
+                      __LINE__ = 1;
+                      var cv;
+                      __LINE__ = 4362919304;
+                      a : 
+                      {
+                        
+                        __LINE__ = 1;
+                        var f,
+                            d = {};
+                        
+                        __LINE__ = 1;
+                        if (a === "{"){
+                          
+                          __LINE__ = 1;
+                          b("{");
+                          
+                          __LINE__ = 1;
+                          e();
+                          
+                          __LINE__ = 1;
+                          if (a === "}"){
+                            
+                            __LINE__ = 1;
+                            b("}");
+                            
+                            __LINE__ = 1;
+                            cv = d;
+                            __LINE__ = 1;
+                            break a;
+                          }
+                          
+                          __LINE__ = 1;
+                          for (;a;){
+                            
+                            __LINE__ = 1;
+                            f = l();
+                            
+                            __LINE__ = 1;
+                            e();
+                            
+                            __LINE__ = 1;
+                            b(":");
+                            
+                            __LINE__ = 1;
+                            Object.hasOwnProperty.call(d,f) && h('Duplicate key "'+f+'"');
+                            
+                            __LINE__ = 1;
+                            d[f] = ja();
+                            
+                            __LINE__ = 1;
+                            e();
+                            
+                            __LINE__ = 1;
+                            if (a === "}"){
+                              
+                              __LINE__ = 1;
+                              b("}");
+                              
+                              __LINE__ = 1;
+                              cv = d;
+                              __LINE__ = 1;
+                              break a;
+                            }
+                            
+                            __LINE__ = 1;
+                            b(",");
+                            
+                            __LINE__ = 1;
+                            e();
+                          }
+                          
+                        }
+                        
+                        __LINE__ = 1;
+                        h("Bad object");
+                      }
+                      __LINE__ = 1;
+                      return cv;
+                    case "[" :
+                      __LINE__ = 4362947472;
+                      a : 
+                      {
+                        
+                        __LINE__ = 1;
+                        cv = [];
+                        
+                        __LINE__ = 1;
+                        if (a === "["){
+                          
+                          __LINE__ = 1;
+                          b("[");
+                          
+                          __LINE__ = 1;
+                          e();
+                          
+                          __LINE__ = 1;
+                          if (a === "]"){
+                            
+                            __LINE__ = 1;
+                            b("]");
+                            
+                            __LINE__ = 1;
+                            f = cv;
+                            __LINE__ = 1;
+                            break a;
+                          }
+                          
+                          __LINE__ = 1;
+                          for (;a;){
+                            
+                            __LINE__ = 1;
+                            cv.push(ja());
+                            
+                            __LINE__ = 1;
+                            e();
+                            
+                            __LINE__ = 1;
+                            if (a === "]"){
+                              
+                              __LINE__ = 1;
+                              b("]");
+                              
+                              __LINE__ = 1;
+                              f = cv;
+                              __LINE__ = 1;
+                              break a;
+                            }
+                            
+                            __LINE__ = 1;
+                            b(",");
+                            
+                            __LINE__ = 1;
+                            e();
+                          }
+                          
+                        }
+                        
+                        __LINE__ = 1;
+                        h("Bad array");
+                      }
+                      __LINE__ = 1;
+                      return f;
+                    case '"' :
+                      __LINE__ = 1;
+                      return l();
+                    case "-" :
+                      __LINE__ = 1;
+                      return n();
+                    default :
+                      __LINE__ = 1;
+                      return a >= "0" && a <= "9"?n() : o();
+                      
+                  }
+                  
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+              __LINE__ = 1;
+              return function (b,f) {
+                try {
+                  __LINE__ = 1;
+                  var d;
+                  
+                  __LINE__ = 1;
+                  k = b;
+                  
+                  __LINE__ = 1;
+                  i = 0;
+                  
+                  __LINE__ = 1;
+                  a = " ";
+                  
+                  __LINE__ = 1;
+                  d = ja();
+                  
+                  __LINE__ = 1;
+                  e();
+                  
+                  __LINE__ = 1;
+                  a && h("Syntax error");
+                  __LINE__ = 1;
+                  return typeof f === "function"?function p(a,b) {
+                    try {
+                      __LINE__ = 1;
+                      var c,
+                          e,
+                          d = a[b];
+                      
+                      __LINE__ = 1;
+                      if (d && typeof d === "object"){
+                        __LINE__ = 1;
+                        for (c in d){
+                          __LINE__ = 1;
+                          ({}).hasOwnProperty.call(d,c) && (e = p(d,c), e !== void 0?d[c] = e : delete d[c]);
+                        }
+                        
+                      }
+                      __LINE__ = 1;
+                      return f.call(a,b,d);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    }
+                  }( {
+                    "" : d
+                  },"") : d;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }();
+      
+      __LINE__ = 3;
+      !function () {
+        try {
+          __LINE__ = 4;
+          var json_str = '{"test" : 1,"test2":"test2","test3":null,"test4":{"test5":5}}',
+              json = json_parse(json_str);
+          
+          __LINE__ = 6;
+          Runtime.assert(true,json.test === 1,"json[\"test\"] === 1",6,'json2_compiled.js');
+          
+          __LINE__ = 7;
+          Runtime.assert(true,json.test2 === "test2","json[\"test2\"] === \"test2\"",7,'json2_compiled.js');
+          
+          __LINE__ = 8;
+          Runtime.assert(true,json.test3 === null,"json[\"test3\"] === null",8,'json2_compiled.js');
+          
+          __LINE__ = 9;
+          Runtime.assert(true,json.test4.test5 === 5,"json[\"test4\"][\"test5\"] === 5",9,'json2_compiled.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

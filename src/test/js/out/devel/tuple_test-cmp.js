@@ -893,13 +893,29 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-tuple_test.js",
+      var __FILE__ = "-759650552-tuple_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-tuple_test.js'] = {};
+      _mochaGlobalExport['-759650552-tuple_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-tuple_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-tuple_test.js'],
+          test = new Tuple(0,1,2,3),
+          test2 = new Record( {
+            "name" : "foo",
+            age : "20",
+            addr : "tokyo"
+          }),
+          test3 = new Tuple(0,1,3,4,5,6,7,7);
+      
+      __LINE__ = 6;
+      console.log(test);
+      
+      __LINE__ = 7;
+      console.log(test2);
+      
+      __LINE__ = 8;
+      console.log(test3);
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

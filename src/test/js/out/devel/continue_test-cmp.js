@@ -893,13 +893,49 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-continue_test.js",
+      var __FILE__ = "1653259312-continue_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-continue_test.js'] = {};
+      _mochaGlobalExport['1653259312-continue_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-continue_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-continue_test.js'];
+      
+      __LINE__ = 1;
+      for (var i = 0;i<10;i ++ ){
+        __LINE__ = 2;
+        continue ;
+      }
+      
+      __LINE__ = 4;
+      Runtime.assert(true,i === 10,"i === 10",4,'continue_test.js');
+      
+      __LINE__ = 5;
+      Runtime.assert(true,i === 10,"i === 10",5,'continue_test.js');
+      
+      __LINE__ = 6;
+      for (i = 0;i<10;i ++ ){
+        __LINE__ = 4362639600;
+        END : {
+          
+          __LINE__ = 8;
+          for (var j = 0;j<5;j ++ ){
+            __LINE__ = 9;
+            break END;
+          }
+          
+        }__LINE__ = 11;
+        Runtime.assert(true,j === 0,"j === 0",11,'continue_test.js');
+      }
+      
+      __LINE__ = 13;
+      Runtime.assert(true,i === 10,"i === 10",13,'continue_test.js');
+      
+      __LINE__ = 14;
+      Runtime.assert(true,i === 10,"i === 10",14,'continue_test.js');
+      
+      __LINE__ = 15;
+      Runtime.assert(true,i === 10,"i === 10",15,'continue_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

@@ -893,13 +893,103 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1166143511-switch_test.js",
+      var __FILE__ = "1653259312-switch_test.js",
           __LINE__ = 0;
+      function switchTest(type) {
+        try {
+          __LINE__ = 3;
+          var ret = 0;
+          
+          __LINE__ = 4;
+          switch (type) {
+            case 1 :
+              
+              __LINE__ = 6;
+              ret = 0;
+              
+              __LINE__ = 7;
+              ret += 1;
+              __LINE__ = 8;
+              return ret;
+            case 2 :
+              
+              __LINE__ = 10;
+              ret = 100;
+              __LINE__ = 11;
+              break;
+            case 3 :
+            case 4 :
+              
+              __LINE__ = 15;
+              ret = 0;
+              
+              __LINE__ = 16;
+              ret ++ ;
+              __LINE__ = 17;
+              break;
+            case 5 :
+              
+              {
+                
+                __LINE__ = 20;
+                ret = 0;
+                
+                __LINE__ = 21;
+                ret = 1;
+              }
+              __LINE__ = 23;
+              break;
+            case 6 :
+            case 7 :
+              
+              {
+                
+                __LINE__ = 26;
+                ret = 10;
+              }
+              __LINE__ = 28;
+              break;
+            default :
+              
+              __LINE__ = 30;
+              ret = 100;
+              
+          }
+          __LINE__ = 32;
+          return ret;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }
       __LINE__ = 2;
-      _mochaGlobalExport['1166143511-switch_test.js'] = {};
+      _mochaGlobalExport['1653259312-switch_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-switch_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-switch_test.js'];
+      
+      __LINE__ = 35;
+      Runtime.assert(true,switchTest(1) === 1,"switchTest(1) === 1",35,'switch_test.js');
+      
+      __LINE__ = 36;
+      Runtime.assert(true,switchTest(2) === 100,"switchTest(2) === 100",36,'switch_test.js');
+      
+      __LINE__ = 37;
+      Runtime.assert(true,switchTest(3) === 1,"switchTest(3) === 1",37,'switch_test.js');
+      
+      __LINE__ = 38;
+      Runtime.assert(true,switchTest(4) === 1,"switchTest(4) === 1",38,'switch_test.js');
+      
+      __LINE__ = 39;
+      Runtime.assert(true,switchTest(5) === 1,"switchTest(5) === 1",39,'switch_test.js');
+      
+      __LINE__ = 40;
+      Runtime.assert(true,switchTest(6) === 10,"switchTest(6) === 10",40,'switch_test.js');
+      
+      __LINE__ = 41;
+      Runtime.assert(true,switchTest(7) === 10,"switchTest(7) === 10",41,'switch_test.js');
+      
+      __LINE__ = 42;
+      Runtime.assert(true,switchTest(8) === 100,"switchTest(8) === 100",42,'switch_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

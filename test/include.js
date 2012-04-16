@@ -4,7 +4,7 @@ var fs = mocha.import("fs"),
 var options = (filename) -> ({
       deployDir : '../src/test/js/out/devel',
       deployName : filename.replace('.js', '-cmp.js'),
-      outputCharset : 'shift_jis',
+      outputCharset : 'euc_jp',
       options : {
         prettyPrint : true,
         debug : true,

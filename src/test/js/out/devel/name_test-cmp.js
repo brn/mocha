@@ -893,13 +893,178 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "951391897-name_test.js",
+      var __FILE__ = "-310326848-name_test.js",
           __LINE__ = 0;
+      function Record(member) {
+        try {
+          __LINE__ = 43;
+          return Runtime.createRecord(member);
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }
+      function Tuple() {
+        try {
+          __LINE__ = 36;
+          var args = Runtime.toArray(arguments,0),
+              ret = {};
+          
+          __LINE__ = 38;
+          ret.length = 0;
+          
+          __LINE__ = 39;
+          [].push.apply(ret,args);
+          
+          __LINE__ = 40;
+          Runtime.createTuple(ret,arguments.length);
+          __LINE__ = 41;
+          return ret;
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }
+      function b(){}
       __LINE__ = 2;
-      _mochaGlobalExport['951391897-name_test.js'] = {};
+      _mochaGlobalExport['-310326848-name_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['951391897-name_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-310326848-name_test.js'];
+      
+      __LINE__ = 1;
+      Array.prototype.x = 0;
+      
+      __LINE__ = 3;
+      !function () {
+        try {
+          __LINE__ = 4;
+          var c = 0,
+              test1 = function () {
+                try {
+                  __LINE__ = 6;
+                  b();
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              test2 = function () {
+                try {
+                  __LINE__ = 9;
+                  var c,
+                      l;
+                  
+                  __LINE__ = 10;
+                  l = b();
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+      
+      __LINE__ = 14;
+      var x = 700,
+          m = 210.640300,
+          m2 = 2340.879050;
+      
+      __LINE__ = 17;
+      m = 249000.132134;
+      
+      __LINE__ = 18;
+      var ss = 100+200*m,
+          sssss = (100)*2,
+          sss = NaN,
+          ssssss = "aaaaaaa222",
+          test2 = {};
+      
+      __LINE__ = 23;
+      (x === 1 || m === 2) && b();
+      
+      __LINE__ = 24;
+      Array.prototype.x = 200;
+      
+      __LINE__ = 25;
+      delete Array.prototype.x;
+      
+      __LINE__ = 26;
+      test2 = {};
+      
+      __LINE__ = 27;
+      test2 = '';
+      
+      __LINE__ = 28;
+      test2 = '';
+      
+      __LINE__ = 29;
+      test2 = [];
+      
+      __LINE__ = 30;
+      test2 = [];
+      
+      __LINE__ = 31;
+      test2 = Array(3);
+      
+      __LINE__ = 32;
+      test2 = Function("");
+      
+      __LINE__ = 33;
+      test2 = 0;
+      
+      __LINE__ = 34;
+      test2 = 0;
+      
+      __LINE__ = 44;
+      var tmp = 200;
+      
+      __LINE__ = 45;
+      if (tmp){
+        
+        __LINE__ = 46;
+        b();
+        
+        __LINE__ = 47;
+        b();
+      } else {
+        if (tmp){
+          
+          __LINE__ = 50;
+          b();
+          
+          __LINE__ = 51;
+          b();
+        } else {
+          
+          __LINE__ = 53;
+          b();
+          
+          __LINE__ = 54;
+          b();
+        }
+        
+      }
+      
+      __LINE__ = 57;
+      var x = 200,
+          _mochaLocalTmp0 =  {
+            v : 200
+          };
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0,x, {
+        
+      });
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0[x],x, {
+        
+      });
+      
+      __LINE__ = 59;
+      Runtime.createUnenumProp(_mochaLocalTmp0[x][x],x,300);
+      
+      __LINE__ = 58;
+      var m = _mochaLocalTmp0;
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

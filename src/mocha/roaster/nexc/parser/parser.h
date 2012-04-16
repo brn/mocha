@@ -58,6 +58,8 @@ class Parser{
     return info;
   }
   void IllegalEnd(const char* expect, int64_t line);
+  template <typename T>
+  bool IsValidNamedDeclaration(T* fn);
   void ParseTerminator();
   NodeList* FormalParameterConvertor(AstNode *args);
   AstNode* ParseProgram();
@@ -130,7 +132,7 @@ class Parser{
   AstNode* ParseObjectElement(int type, TokenInfo* token, ObjectLikeLiteral* object);
   AstNode* ParseArrayLiteral();
   AstNode* ParseLiteral(bool);
-  AstNode* ParseFunctionDecl(bool is_const);
+  AstNode* ParseFunctionDecl();
   AstNode* ParseFormalParameter();
   AstNode* ParseArrowFunctionExpression(AstNode* exp, int type);
   AstNode* ParseArrowFunctionExpression(AstNode* member, AstNode* args, int type);

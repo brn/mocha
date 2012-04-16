@@ -893,13 +893,31 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1075407889-object_literal_test.js",
+      var __FILE__ = "-759650552-object_literal_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1075407889-object_literal_test.js'] = {};
+      _mochaGlobalExport['-759650552-object_literal_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-object_literal_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-object_literal_test.js'],
+          testObject =  {
+            x : 200,
+            y : 300
+          };
+      
+      __LINE__ = 4;
+      Runtime.extend(Runtime.extend(Runtime.extend(testObject, {
+        z : 400
+      }), {
+        z2 : 800
+      }), {
+        z3 : 1200
+      });
+      
+      __LINE__ = 12;
+      var m =  {
+            a : 0
+          };
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

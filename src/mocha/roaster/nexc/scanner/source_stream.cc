@@ -67,14 +67,14 @@ void SourceStream::CreateStream(const char* utf8_str) {
   int count = 0;
   stream_ = reinterpret_cast<int*>(malloc(sizeof(int) * size + sizeof(int)));
   for (int i = 0; i < size; i++) {
-    if (utf8_str[ i ] == '\n') line_++;
-    if (utf8_str[ i ] != '\r') {
-      stream_[ count ] = utf8_str[ i ];
+    if (utf8_str[i] == '\n') line_++;
+    if (utf8_str[i] != '\r') {
+      stream_[count] = utf8_str[i];
       count++;
     }
   }
   size_ = count;
-  stream_[ count ] = '\0';
+  stream_[count] = '\0';
 }
 
 

@@ -893,13 +893,27 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "951391897-test.js",
+      var __FILE__ = "-310326848-test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['951391897-test.js'] = {};
+      _mochaGlobalExport['-310326848-test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['951391897-test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['-310326848-test.js'],
+          m = "\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\n\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042",
+          test = function () {
+            try {
+              __LINE__ = 9;
+              return '\u30c7\u30fc\u30bf';
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          },
+          m = [0,1,2,3,4],
+          reg = /\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe/;
+      
+      __LINE__ = 13;
+      Runtime.assert(true,reg.test("\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe"),"reg.test(\"\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe\")",13,'test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
