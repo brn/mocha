@@ -587,7 +587,7 @@ void ClassProcessor::ProcessEachMember(AstNode* node, bool is_prototype, bool is
                                                                                                 
     case AstNode::kVariableDeclarationList : {
       ProcessVariable(node, is_prototype, is_private, is_instance,
-                       node->CastToExpression()->CastToVariableDeclarationList()->IsDeclaredAsConst());
+                      node->CastToExpression()->CastToVariableDeclarationList()->IsDeclaredAsConst());
     }
       break;
 
@@ -598,7 +598,8 @@ void ClassProcessor::ProcessEachMember(AstNode* node, bool is_prototype, bool is
       class_node->set_inner();
       ClassProcessor cls(info_, class_node, tmp_stmt);
       cls.ProcessNode();
-      ProcessVariable(class_node->first_child(), is_prototype, is_private, is_instance, class_node->IsDeclaredAsConst());
+      ProcessVariable(class_node->first_child()->first_child(),
+                      is_prototype, is_private, is_instance, class_node->IsDeclaredAsConst());
     }
   }
 }

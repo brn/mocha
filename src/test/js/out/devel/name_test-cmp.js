@@ -893,7 +893,7 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-310326848-name_test.js",
+      var __FILE__ = "951391897-name_test.js",
           __LINE__ = 0;
       function Record(member) {
         try {
@@ -925,10 +925,10 @@
       }
       function b(){}
       __LINE__ = 2;
-      _mochaGlobalExport['-310326848-name_test.js'] = {};
+      _mochaGlobalExport['951391897-name_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-310326848-name_test.js'];
+      var _mochaGlobalAlias = _mochaGlobalExport['951391897-name_test.js'];
       
       __LINE__ = 1;
       Array.prototype.x = 0;

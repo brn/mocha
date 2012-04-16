@@ -893,13 +893,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-trait_test.js",
+      var __FILE__ = "-1075407889-trait_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-759650552-trait_test.js'] = {};
+      _mochaGlobalExport['-1075407889-trait_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-trait_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-trait_test.js'],
           TestTraitP =  {
             _mochaTraitPrivate :  {
               _greaterThant : function _greaterThant(x,y) {

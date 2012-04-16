@@ -893,13 +893,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1653259312-label_test.js",
+      var __FILE__ = "1166143511-label_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1653259312-label_test.js'] = {};
+      _mochaGlobalExport['1166143511-label_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-label_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['1166143511-label_test.js'],
           ret = 0;
       __LINE__ = 1;
       TEST_LABEL : 
@@ -916,7 +916,7 @@
       
       __LINE__ = 7;
       Runtime.assert(true,ret === 100,"ret === 100",7,'label_test.js');
-      __LINE__ = 4337754992;
+      __LINE__ = 393236244956778328;
       TEST_LABEL2 : {
         
         __LINE__ = 9;

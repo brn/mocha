@@ -893,17 +893,79 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-310326848-test.js",
+      var __FILE__ = "951391897-test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-310326848-test.js'] = {};
+      _mochaGlobalExport['951391897-test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-310326848-test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['951391897-test.js'],
+          x = function () {
+            try {
+              function constructor(){}
+              function x() {
+                try {
+                  __LINE__ = 2;
+                  Runtime.initializeClass(this,x,_mochaPrivateHolder,constructor,arguments,'x',2);
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              __LINE__ = 2;
+              var _mochaPrivateHolder = function (){};
+              
+              __LINE__ = 2;
+              Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+              
+              __LINE__ = 3;
+              _mochaPrivateHolder.prototype.y = function () {
+                try {
+                  function constructor(){}
+                  function y() {
+                    try {
+                      __LINE__ = 3;
+                      Runtime.initializeClass(this,y,_mochaPrivateHolder,constructor,arguments,'y',3);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    }
+                  }
+                  __LINE__ = 3;
+                  var _mochaPrivateHolder = function (){};
+                  
+                  __LINE__ = 3;
+                  Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+                  
+                  __LINE__ = 3;
+                  Runtime.createUnenumProp(y.prototype,"constructor",constructor);
+                  __LINE__ = 3;
+                  return y;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }();
+              
+              __LINE__ = 6;
+              _mochaPrivateHolder.prototype.m = function () {
+                try {
+                  __LINE__ = 6;
+                  return Runtime.getInstanceBody(this).y;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+              
+              __LINE__ = 2;
+              Runtime.createUnenumProp(x.prototype,"constructor",constructor);
+              __LINE__ = 2;
+              return x;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }(),
           m = "\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\n\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042",
           test = function () {
             try {
-              __LINE__ = 9;
+              __LINE__ = 15;
               return '\u30c7\u30fc\u30bf';
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -912,8 +974,8 @@
           m = [0,1,2,3,4],
           reg = /\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe/;
       
-      __LINE__ = 13;
-      Runtime.assert(true,reg.test("\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe"),"reg.test(\"\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe\")",13,'test.js');
+      __LINE__ = 19;
+      Runtime.assert(true,reg.test("\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe"),"reg.test(\"\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe\")",19,'test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

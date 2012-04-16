@@ -1,4 +1,10 @@
 //import x from '../harmony/module_test'.x;
+class x {
+  private class y {
+    
+  }
+  private m() {return this.y;}
+}
 var m = """テストでーたを返す
 ああああああああああああああああああああああああああああああああああああああああああああ
 あああああああああああああああああああああああ\n

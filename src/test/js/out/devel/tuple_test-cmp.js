@@ -893,13 +893,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-tuple_test.js",
+      var __FILE__ = "-1075407889-tuple_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-759650552-tuple_test.js'] = {};
+      _mochaGlobalExport['-1075407889-tuple_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-tuple_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-tuple_test.js'],
           test = new Tuple(0,1,2,3),
           test2 = new Record( {
             "name" : "foo",

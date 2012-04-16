@@ -893,13 +893,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-class_test.js",
+      var __FILE__ = "-1075407889-class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-759650552-class_test.js'] = {};
+      _mochaGlobalExport['-1075407889-class_test.js'] = {};
       
       __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-class_test.js'],
+      var _mochaGlobalAlias = _mochaGlobalExport['-1075407889-class_test.js'],
           Monster = function () {
             try {
               function constructor(name,health) {
@@ -1245,6 +1245,33 @@
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
+              
+              __LINE__ = 82;
+              _mochaPrivateHolder.prototype.Inner = function () {
+                try {
+                  function constructor(){}
+                  function Inner() {
+                    try {
+                      __LINE__ = 82;
+                      Runtime.initializeClass(this,Inner,_mochaPrivateHolder,constructor,arguments,'Inner',82);
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    }
+                  }
+                  __LINE__ = 82;
+                  var _mochaPrivateHolder = function (){};
+                  
+                  __LINE__ = 83;
+                  Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+                  
+                  __LINE__ = 82;
+                  Runtime.createUnenumProp(Inner.prototype,"constructor",constructor);
+                  __LINE__ = 82;
+                  return Inner;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }();
               
               __LINE__ = 85;
               _mochaPrivateHolder.prototype.test = function () {
