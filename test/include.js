@@ -6,8 +6,9 @@ var options = (filename) -> ({
       deployName : filename.replace('.js', '-cmp.js'),
       outputCharset : 'euc_jp',
       options : {
-        prettyPrint : true,
-        debug : false,
+        compress : true,
+        prettyPrint : false,
+        debug : true,
         versions : ['ex']
       }
     });

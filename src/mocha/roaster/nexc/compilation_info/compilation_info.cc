@@ -24,6 +24,11 @@ void CompilationInfo::SetDebug() {
   versions_.insert(VersionPair(Consts::kVersionDebug, 1));
 }
 
+void CompilationInfo::UnsetDebug() {
+  flags_.UnSet(debug);
+  versions_.erase(Consts::kVersionDebug);
+}
+
 bool CompilationInfo::Compress() const {
   return flags_.At(compress);
 }
@@ -32,12 +37,20 @@ void CompilationInfo::SetCompress() {
   flags_.Set(compress);
 }
 
+void CompilationInfo::UnsetCompress() {
+  flags_.UnSet(compress);
+}
+
 bool CompilationInfo::PrettyPrint() const {
   return flags_.At(pretty_print);
 }
 
 void CompilationInfo::SetPrettyPrint() {
   flags_.Set(pretty_print);
+}
+
+void CompilationInfo::UnsetPrettyPrint() {
+  flags_.UnSet(pretty_print);
 }
 
 void CompilationInfo::SetVersion(const char* name) {

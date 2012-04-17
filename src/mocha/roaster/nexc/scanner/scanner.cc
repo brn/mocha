@@ -23,7 +23,9 @@
 #include <string.h>
 #include <string>
 #include <sstream>
+#ifndef PACKING_RUNTIME
 #include <unicode/ucnv.h>
+#endif
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/misc/bits.h>
 #include <mocha/roaster/misc/int_types.h>
@@ -45,7 +47,7 @@ namespace mocha {
 
 static const char* kUnicodeMap[] = {"", "\\x0", "\\x", "\\u0", "\\u"};
 static const int kByteOrderMark[2] = {0xFFFE, 0xFEFF};
-
+#ifndef PACKING_RUNTIME
 void EscapeUnicode(const icu::UnicodeString& ustr, std::string* buffer) {
   std::string buf;
   for (int i = 0,len = ustr.length(); i < len; i++) {
@@ -62,7 +64,7 @@ void EscapeUnicode(const icu::UnicodeString& ustr, std::string* buffer) {
     buf.clear();
   }
 }
-
+#endif
 void Scanner::ScannerEventListener::operator()(CompilationEvent* e) {
   const char* source = e->source();
   memory::Pool* pool = e->pool();
@@ -653,9 +655,11 @@ class Scanner::InternalScanner {
         }
       }
     }
+#ifndef PACKING_RUNTIME
     const icu::UnicodeString ustr(token_str_.c_str(), token_str_.size(), "utf8");
     token_str_.clear();
     EscapeUnicode(ustr, &token_str_);
+#endif
     PushBack(token_str_.c_str(), Token::JS_STRING_LITERAL);
   }
 
@@ -749,9 +753,11 @@ class Scanner::InternalScanner {
          << flag_list << "' in " << filename_ << " at : " << line_;
       reporter_->ReportSyntaxError(st.str().c_str());
     } else {
+#ifndef PACKING_RUNTIME
       icu::UnicodeString ustr(token_str_.c_str(), token_str_.size(), "utf8");
       token_str_.clear();
       EscapeUnicode(ustr, &token_str_);
+#endif
       PushBack(token_str_.c_str(), Token::JS_REGEXP_LITERAL);
     }
   }

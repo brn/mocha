@@ -666,12 +666,12 @@ module Runtime {
     }
     return dest;
   }
-  
+
   export TupleConstructor(args) -> {
     push.apply(this, args);
     Object.freeze(this);
   }
-  
+
   TupleConstructor.prototype = {
     compareTuple( tuple ) -> {
       var maxIndex = max( tuple.length , this.length ),
@@ -682,14 +682,14 @@ module Runtime {
     tupleToArray -> slice.call( this ),
     toString -> "[object Tuple]"
   }
-  
+
   export RecordConstructor(obj) -> {
     for (var i in obj) {
       this[i] = obj[i];
     }
     Object.freeze(this);
   }
-  
+
   RecordConstructor.prototpye = {
     toString -> "[object Record]"
   };
@@ -936,7 +936,7 @@ module Runtime {
       }
     }
   }
-  
+
   export spreadCall(context, fn, args, isNew) {
     var newArgs = [];
     for var i = 0,len = args.length; i < len; i += 2 {
@@ -950,12 +950,13 @@ module Runtime {
       var tmp = ->{};
       tmp.prototype = fn.prototype;
       tmp = new tmp;
-      return fn.apply(tmp, newArgs);
+      fn.apply(tmp, newArgs);
+      return tmp;
     } else {
       return fn.apply(context, newArgs);
     }
   }
-  
+
   @version( debug ) {
     export assert = ( global.console && global.console.assert )?
       ( expect , exp , str , line , filename ) -> global.console.assert( expect === exp , "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line ) :

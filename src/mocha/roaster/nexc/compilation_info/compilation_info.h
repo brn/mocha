@@ -15,10 +15,13 @@ class CompilationInfo {
   ~CompilationInfo(){};
   bool Debug() const;
   void SetDebug();
+  void UnsetDebug();
   bool Compress() const;
   void SetCompress();
+  void UnsetCompress();
   bool PrettyPrint() const;
   void SetPrettyPrint();
+  void UnsetPrettyPrint();
   bool ShowOrgName() const;
   void SetOrgName();
   bool HasVersion(const char*) const;

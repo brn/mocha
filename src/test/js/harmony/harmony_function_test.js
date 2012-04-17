@@ -71,7 +71,6 @@ testWithContext=>console.log(1);
 (function () {
   var args = [1,2,3,4];
   function normalSpread(a,b,c,d) {
-    console.log(a===1,a,b,c,d);
     @assert(true, a === 1);
     @assert(true, b === 2);
     @assert(true, c === 3);
@@ -101,7 +100,10 @@ testWithContext=>console.log(1);
   propertySpread.invoke(...args);
   new newSpread(...args);
 
-  var tinyArgs = [100,200];
+  var tinyArgs = [100,200],
+      argtest = {
+        args : [1,2,3,4]
+      }
 
   function normalSpreadWithArgs($1,a,b,c,d,$2,e,f) {
     @assert(true, $1 === 0);
@@ -140,8 +142,9 @@ testWithContext=>console.log(1);
     @assert(true, this.valid);
   }
   newSpreadWithArgs.prototype.valid = true;
-
+  normalSpread(...argtest.args);
   normalSpreadWithArgs(0,...args,0,...tinyArgs);
   propertySpreadWithArgs.invoke(0,...args,0,...tinyArgs);
-  new newSpreadWithArgs(0,...args,0,...tinyArgs);
+  var inst = new newSpreadWithArgs(0,...args,0,...tinyArgs);
+  @assert(true, inst instanceof newSpreadWithArgs);
 })();

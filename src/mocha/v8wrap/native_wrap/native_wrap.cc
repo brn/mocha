@@ -693,12 +693,18 @@ METHOD_IMPL(NativeWrap::IO::NativeConsole::StdError) {
 void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
   if (options->Get(String::New("compress"))->IsTrue()) {
     info->SetCompress();
+  } else {
+    info->UnsetCompress();
   }
   if (options->Get(String::New("debug"))->IsTrue()) {
     info->SetDebug();
+  } else {
+    info->UnsetDebug();
   }
   if (options->Get(String::New("prettyPrint"))->IsTrue()) {
     info->SetPrettyPrint();
+  } else {
+    info->UnsetPrettyPrint();
   }
   if (options->Has(String::New("versions"))) {
     Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));
@@ -966,11 +972,17 @@ METHOD_IMPL(NativeWrap::Compiler::Deploy) {
     Handle<String> src = args[0]->ToString();
     Handle<String> charset = args[1]->ToString();
     Handle<Object> options = Handle<Object>::Cast(args[2]);
+    Handle<Object> compilation_option;
+    if (options->Has(String::New("options"))) {
+      compilation_option = Handle<Object>::Cast(options->Get(String::New("options")));
+    } else {
+      compilation_option = Object::New();
+    }
     String::Utf8Value src_str(src);
     String::Utf8Value charset_str(charset);
     const char* charset_cstr = (charset->IsUndefined() || charset->IsNull() || charset_str.length() == 0)?
         NULL : *charset_str;
-    SetCompilationOption(options, &info);
+    SetCompilationOption(compilation_option, &info);
     Roaster ro;
     CompilationResultHandle handle = ro.CompileFile(*src_str, charset_cstr, &info);
     FileWriter writer;
