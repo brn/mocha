@@ -22,6 +22,16 @@ namespace mocha {
 #endif
 
 
+void CleanChild(AstNode* node) {
+  NodeIterator iterator = node->ChildNodes();
+  while (iterator.HasNext()) {
+    AstNode* item = iterator.Next();
+    if (item->IsEmpty()) {
+      node->RemoveChild(item);
+    }
+  }
+}
+
 OptimizerVisitor::OptimizerVisitor(CompilationInfo* info) :
     depth_(0),
     is_debug_(info->Debug()),
@@ -171,6 +181,9 @@ VISITOR_IMPL(IterationStmt) {
     }
   }
   AstNode* body = ast_node->first_child();
+  body->Accept(this);
+  CleanChild(ast_node->first_child());
+  body = ast_node->first_child();
   if (body->node_type() == AstNode::kBlockStmt) {
     if (body->child_length() == 1) {
       body = body->first_child();
@@ -178,7 +191,6 @@ VISITOR_IMPL(IterationStmt) {
       ast_node->AddChild(body);
     }
   }
-  body->Accept(this);
 }
 
 VISITOR_IMPL(ContinueStmt) {

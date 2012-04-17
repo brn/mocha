@@ -25,7 +25,6 @@ void FunctionProcessor::ProcessNode() {
   translator_data->set_current_statement(tmp_statement);
   translator_data->set_function(function_);
   ProcessFormalParameter();
-  bool is_rest = translator_data->rest_injection();
   translator_data->set_rest_injection(false);
   VariableStmt* dsta_stmt = 0;
   VariableStmt* rest_stmt = 0;
@@ -34,9 +33,6 @@ void FunctionProcessor::ProcessNode() {
     VariableDeclarationList* decl_list = new(pool()) VariableDeclarationList(function_->line_number());
     decl_list->Append(list);
     dsta_stmt = builder()->CreateVarStmt(decl_list, function_->line_number());
-  }
-  if (is_rest) {
-    rest_stmt = ProcessRestParameter();
   }
   ProcessBody();
   if (function_->IsGenerator()) {
@@ -94,6 +90,9 @@ void FunctionProcessor::ProcessFormalParameter() {
         ProcessDefaultParameter(node->CastToExpression()->CastToAssigment());
       } else if (node->node_type() == AstNode::kCallExp) {
         ProcessPropertyParameter(node->CastToExpression()->CastToCallExp());
+      } else if (node->node_type() == AstNode::kLiteral &&
+                 node->CastToLiteral()->value_type() == Literal::kRest) {
+        ProcessRestParameter(node);
       } else {
         node->Accept(visitor);
       }
@@ -196,7 +195,9 @@ void FunctionProcessor::ProcessBody() {
 }
 
 
-VariableStmt* FunctionProcessor::ProcessRestParameter() {
+void FunctionProcessor::ProcessRestParameter(AstNode* rest_expression) {
+  AstNode* dummy_literal = rest_expression;
+  rest_expression = rest_expression->first_child();
   Literal* rhs = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kArguments),
                                            Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
   NodeList* list = new(pool()) NodeList;
@@ -210,10 +211,15 @@ VariableStmt* FunctionProcessor::ProcessRestParameter() {
   list->AddChild(arg);
   CallExp* nrm = builder()->CreateNormalAccessor(to_array, list, function_->line_number());
   CallExp* std_to_array = builder()->CreateRuntimeMod(nrm, function_->line_number());
-  Literal* var_node = builder()->CreateVarInitiliser(info_->translator_data()->rest_expression(), std_to_array, function_->line_number());
-  VariableDeclarationList* decl_list = new(pool()) VariableDeclarationList(function_->line_number());
-  decl_list->AddChild(var_node);
-  return builder()->CreateVarStmt(decl_list, function_->line_number());
+  AstNode* node = rest_expression->Clone(pool());
+  AssignmentExp* assign = new(pool()) AssignmentExp('=', rest_expression, std_to_array, function_->line_number());
+  default_parameter_->AddChild(assign);
+  if (node->CastToLiteral()) {
+    dummy_literal->parent_node()->ReplaceChild(dummy_literal, rest_expression);
+  } else {
+    Literal* tmp_node = builder()->CreateTmpNode(info_->translator_data()->tmp_index(), function_->line_number());
+    dummy_literal->parent_node()->ReplaceChild(dummy_literal, tmp_node);
+  }
 }
 
 

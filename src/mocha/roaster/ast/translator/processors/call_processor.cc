@@ -96,7 +96,7 @@ void CallProcessor::ProcessFnCall() {
                                                             Token::JS_TRUE, ast_node_->line_number(),
                                                             Literal::kTrue);
             array->set_element(bool_value);
-            array->set_element(item->Clone(pool()));
+            array->set_element(item->first_child()->Clone(pool()));
           } else {
             item->Accept(visitor);
             Literal* bool_value = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kFalse),
@@ -113,12 +113,12 @@ void CallProcessor::ProcessFnCall() {
                                                         ast_node_->line_number(), (is_new)? Literal::kTrue : Literal::kFalse);
         NodeList* args = builder()->CreateNodeList(4, tmp->Clone(pool()), ast_node_->callable()->Clone(pool()),
                                                    array, bool_value);
-        CallExp* call = builder()->CreateNormalAccessor(make_spread, args, tmp->line_number());
-        CallExp* runtime_call = builder()->CreateRuntimeMod(call, tmp->line_number());
+        CallExp* runtime_call = builder()->CreateRuntimeMod(make_spread, tmp->line_number());
+        CallExp* call = builder()->CreateNormalAccessor(runtime_call, args, tmp->line_number());
         if (is_new) {
-          ast_node_->parent_node()->parent_node()->ReplaceChild(ast_node_->parent_node(), runtime_call);
+          ast_node_->parent_node()->parent_node()->ReplaceChild(ast_node_->parent_node(), call);
         } else {
-          ast_node_->parent_node()->ReplaceChild(ast_node_, runtime_call);
+          ast_node_->parent_node()->ReplaceChild(ast_node_, call);
         }
       }
     } else {

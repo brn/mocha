@@ -7,7 +7,7 @@ var options = (filename) -> ({
       outputCharset : 'euc_jp',
       options : {
         prettyPrint : true,
-        debug : true,
+        debug : false,
         versions : ['ex']
       }
     });

@@ -17,7 +17,7 @@ class FunctionProcessor : public Processor {
   void ProcessPropertyParameter(CallExp* exp);
   void ProcessBody();
   void ProcessYield();
-  VariableStmt* ProcessRestParameter();
+  void ProcessRestParameter(AstNode* node);
   int argc_;
   Function* function_;
   ProcessorInfo* info_;

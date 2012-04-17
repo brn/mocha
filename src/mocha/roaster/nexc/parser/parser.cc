@@ -3066,21 +3066,12 @@ AstNode* Parser::ParseArguments(bool* has_spread) {
     while (token->type() != ')') {
       if (token->type() == Token::JS_PARAMETER_REST) {
         Advance();
-        token = Seek();
-        if (token->type() == Token::JS_IDENTIFIER) {
-          (*has_spread) = true;
-          AstNode* value = ParseLiteral(false);
-          CHECK_ERROR(list);
-          value->CastToLiteral()->set_value_type(Literal::kSpread);
-          list->AddChild(value);
-        } else {
-          SYNTAX_ERROR("unexpected token "
-                        << TokenConverter(token).cstr()
-                        << " in 'formal parameter rest or arguments spread' expect 'identifier'\\nin file "
-                        << filename_ << " at line " << token->line_number());
-          END(FormalParameterErrror);
-          return list;
-        }
+        AstNode* value = ParseAssignmentExpression(false);
+        CHECK_ERROR(value);
+        Literal* spread = new(pool()) Literal(Literal::kSpread, value->line_number());
+        spread->AddChild(value);
+        list->AddChild(spread);
+        (*has_spread) = true;
       } else {
         AstNode* exp = ParseAssignmentExpression(false);
         CHECK_ERROR(list);
@@ -3890,32 +3881,23 @@ AstNode* Parser::ParseFormalParameter() {
       token = Seek();
     } else if (token->type() == Token::JS_PARAMETER_REST) {
       Advance();
+      AstNode* value = ParseAssignmentExpression(false);
+      CHECK_ERROR(value);
+      Literal* lit = new(pool()) Literal(Literal::kRest, value->line_number());
+      lit->AddChild(value);
       token = Seek();
-      if (token->type() == Token::JS_IDENTIFIER) {
-        AstNode* value = ParseLiteral(false);
-        CHECK_ERROR(value);
-        value->CastToLiteral()->set_value_type(Literal::kRest);
-        token = Seek();
-        list->AddChild(value);
-        if (token->type() != ')' && token->type() != ',') {
-          SYNTAX_ERROR("unexpected token "
-                        << TokenConverter(token).cstr()
-                        << " in 'formal parameter rest' can not continue after any 'formal parameter'\\nin file "
-                        << filename_ << " at line " << token->line_number());
-          END(FormalParameterError);
-          return list;
-        } else if (token->type() == ')') {
-          break;
-        }
-        token = Advance();
-      } else {
+      list->AddChild(lit);
+      if (token->type() != ')' && token->type() != ',') {
         SYNTAX_ERROR("unexpected token "
-                      << TokenConverter(token).cstr()
-                      << " in 'formal parameter rest' expect 'identifier'\\nin file "
-                      << filename_ << " at line " << token->line_number());
-        END(FormalParameterErrror);
+                     << TokenConverter(token).cstr()
+                     << " in 'formal parameter rest' can not continue after any 'formal parameter'\\nin file "
+                     << filename_ << " at line " << token->line_number());
+        END(FormalParameterError);
         return list;
+      } else if (token->type() == ')') {
+        break;
       }
+      token = Advance();
     }
   }
   if (IsEnd(token->type())) {

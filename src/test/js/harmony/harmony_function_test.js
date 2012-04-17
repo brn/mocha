@@ -77,7 +77,7 @@ testWithContext=>console.log(1);
     @assert(true, c === 3);
     @assert(true, d === 4);
   }
-  
+
   var propertySpread = {
         invoke : function (a,b,c,d) {
           @assert(true, a === 1);
@@ -87,7 +87,7 @@ testWithContext=>console.log(1);
           @assert(true, this === propertySpread);
         }
       }
-  
+
   function newSpread(a,b,c,d) {
     @assert(true, a === 1);
     @assert(true, b === 2);
@@ -96,13 +96,13 @@ testWithContext=>console.log(1);
     @assert(true, this.valid);
   }
   newSpread.prototype.valid = true;
-  
+
   normalSpread(...args);
   propertySpread.invoke(...args);
   new newSpread(...args);
-  
+
   var tinyArgs = [100,200];
-  
+
   function normalSpreadWithArgs($1,a,b,c,d,$2,e,f) {
     @assert(true, $1 === 0);
     @assert(true, a === 1);
@@ -113,7 +113,7 @@ testWithContext=>console.log(1);
     @assert(true, e === 100);
     @assert(true, f === 200);
   }
-  
+
   var propertySpreadWithArgs = {
         invoke : function ($1,a,b,c,d,$2,e,f) {
           @assert(true, $1 === 0);
@@ -127,7 +127,7 @@ testWithContext=>console.log(1);
           @assert(true, this === propertySpreadWithArgs);
         }
       }
-  
+
   function newSpreadWithArgs($1,a,b,c,d,$2,e,f) {
     @assert(true, $1 === 0);
     @assert(true, a === 1);
@@ -140,7 +140,7 @@ testWithContext=>console.log(1);
     @assert(true, this.valid);
   }
   newSpreadWithArgs.prototype.valid = true;
-  
+
   normalSpreadWithArgs(0,...args,0,...tinyArgs);
   propertySpreadWithArgs.invoke(0,...args,0,...tinyArgs);
   new newSpreadWithArgs(0,...args,0,...tinyArgs);

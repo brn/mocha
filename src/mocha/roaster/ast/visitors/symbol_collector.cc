@@ -358,24 +358,10 @@ VISITOR_IMPL(Function){
 
 void SymbolCollector::ArrayProccessor_(AstNode* ast_node) {
   PRINT_NODE_NAME;
-  AstNode* list_child = ast_node->first_child();
-  while (list_child) {
-    if (!list_child->IsEmpty()) {
-      NodeIterator iter = list_child->ChildNodes();
-      while (iter.HasNext()) {
-        AstNode* element = iter.Next();
-        if (!element->IsEmpty()) {
-          element->Accept(this);
-        }
-      }
-      if (list_child->HasNext()) {
-        list_child = list_child->next_sibling();
-      } else {
-        break;
-      }
-    } else {
-      break;
-    }
+  NodeIterator iterator = ast_node->ChildNodes();
+  while (iterator.HasNext()) {
+    AstNode* item = iterator.Next();
+    item->Accept(this);
   }
 }
 
@@ -405,7 +391,7 @@ VISITOR_IMPL(Literal) {
 
     case Literal::kProperty :
       break;
-                        
+
     case Literal::kIdentifier : {
       if (strcmp(ast_node->value()->token(), SymbolList::symbol(SymbolList::kScopeModule)) == 0) {
         ast_node->value()->set_token(SymbolList::symbol(SymbolList::kGlobalAlias));
@@ -433,7 +419,7 @@ VISITOR_IMPL(VariableDeclarationList) {
 
 VISITOR_IMPL(ArrayLikeLiteral) {
   PRINT_NODE_NAME;
-  ArrayProccessor_(ast_node);
+  ArrayProccessor_(ast_node->elements());
 }
 
 VISITOR_IMPL(ObjectLikeLiteral) {
