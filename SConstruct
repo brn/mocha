@@ -102,8 +102,8 @@ UNIT_TEST_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'ut',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DGOOGLE_TEST -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
-        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DGOOGLE_TEST -DPLATFORM_POSIX -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DPLATFORM_MACOS -DGOOGLE_TEST -DPLATFORM_MACOS -DNDEBUG -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions  -DGOOGLE_TEST -DPLATFORM_POSIX -DPLATFORM_MACOS -I' + GTEST_DIR + '/gtest-1.6.0-macos/include -I' + GTEST_DIR + '/gtest-1.6.0-macos -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "DEPENDS" : [GTEST_DIR + '/gtest-1.6.0-macos/src/gtest-all.cc',
                      GTEST_DIR + '/gtest-1.6.0-macos/src/gtest_main.cc',
                      CURRENT + '/src/mocha/roaster/log/logging.cc'],
@@ -128,7 +128,8 @@ TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'nexc' : 'src/mocha/roaster/nexc',
          'nexc-scanner' : 'src/mocha/roaster/nexc/scanner',
          'nexc-parser' : 'src/mocha/roaster/nexc/parser',
-         'nexc-translator' : 'src/mocha/roaster/ast/translator'
+         'nexc-translator' : 'src/mocha/roaster/ast/translator',
+         'nexc-pool' : 'src/mocha/roaster/memory'
          }
 CT = {
    'nexc' : 'src/mocha/roaster/nexc/ct',

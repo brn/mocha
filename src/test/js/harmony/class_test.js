@@ -20,7 +20,7 @@ class Monster {
   // a curly body defines a getter in the same way that "get"
   // defines one in an object literal.
   public isAlive() {
-    return private.health > 0;
+    return private(this).health > 0;
   }
 
   // Likewise, "set" can be used to define setters.
@@ -28,8 +28,8 @@ class Monster {
     if (value < 0) {
       throw new Error('Health must be non-negative.')
     }
-    private.health = value
-  }
+    private(this).health = value
+  };
 
   // After a "public" modifier,
   // an identifier optionally followed by "=" and an expression
@@ -50,8 +50,8 @@ var monster = new Monster( "slime" , 100 );
 @assert( 100 , Monster.DEFAULT_LIFE );
 @assert( undefined , Monster.health );
 class BaseTest {
-  constructor( _@name = "foo" , _@addr = "tokyo" , _@age ) {}
-  public getName() -> _@name;
+  constructor( @name = "foo" , @addr = "tokyo" , @age ) {}
+  public getName() -> @name;
 }
 
 class DeriveTest extends BaseTest {
@@ -62,7 +62,7 @@ class DeriveTest extends BaseTest {
 
 class Derive2 extends DeriveTest {
   constructor -> super();
-  public getAddr -> private.addr;
+  public getAddr -> private(this).addr;
 }
 
 
@@ -73,16 +73,16 @@ class Drive3 prototype BaseTest {
 }
 
 var TestClass = class {
-      constructor( private._name = "test" , private._age = 20 ){
+      constructor( private(this)._name = "test" , private(this)._age = 20 ){
         this.testProp = 1;
       }
-      public getName -> private._name;
-      public getAge -> private._age;
-      public ptest -> private.test();
+      public getName -> private(this)._name;
+      public getAge -> private(this)._age;
+      public ptest -> private(this).test();
       private class Inner {
         constructor->{}
       }
-      private test -> @testProp;
+      private test -> this.testProp;
     }
 
 @assert( true , new DeriveTest().getName() === "foo" );
@@ -115,17 +115,12 @@ var instance2 = new MixinTest();
 
 
 class Box {
-  constructor( _@width = 100 , _@height = 100 ) {}
-  public height -> _@height;
-  public width -> _@width;
+  constructor( @width = 100 , @height = 100 ) {}
+  public height -> @height;
+  public width -> @width;
   private {_type,_max} = {type:200,_max:400};
 }
 
 var inst = new Box();
 @assert(true, inst.height() === 100);
 @assert(true, inst.width() === 100);
-
-for (var i = 0; i < 10; i++) {
-  console.log(i);
-}
-

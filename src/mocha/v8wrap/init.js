@@ -79,10 +79,8 @@
         var str = Object.prototype.toString.call(obj);
         if (str in name2uneval) {
           return name2uneval[str].call(this, obj, this._depth);
-        } else if (str === '[object Object]') {
-          return this._inspectObject(obj);
         } else {
-          return str;
+          return this._inspectObject(obj);
         }
       }
 
@@ -332,6 +330,13 @@
     pred = makePredicate(pred);
     for (var i in natives.script.watcher._settingList) {
       var option = makeOptionList(i, false, opt);
+      option.options = {
+        compress : option.compress,
+        prettyPrint : option.prettyPrint,
+        debug : option.debug,
+        versions : option.versions,
+        moduleDir : option.moduleDir
+      }
       if (pred(option)) {
         natives.script.Roaster.deploy(i, option.inputCharset, option);
       }
@@ -356,6 +361,13 @@
       for (var i in natives.script.watcher._settingList) {
         var option = makeOptionList(i, false, opt);
         option.versions.push("test");
+        option.options = {
+          compress : option.compress,
+          prettyPrint : option.prettyPrint,
+          debug : option.debug,
+          versions : option.versions,
+          moduleDir : option.moduleDir
+        }
         if (pred(option)) {
           natives.script.Roaster.deploy(i, option.inputCharset, option);
           dir = natives.script.watcher._settingList[i].deployDir;
@@ -410,6 +422,7 @@
         return;
       }
     });
+    
     nconsole.printStdout('+');
     colInfo.forEach(function (item, index) {
       for (var i = 0; i < item; i++) {

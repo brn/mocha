@@ -364,6 +364,10 @@ AstNode* Parser::ParseSourceElement() {
   switch (info->type()) {
     case Token::JS_CLASS :{
       result = ParseClassDecl(false);
+      Class* cls = result->CastToExpression()->CastToClass();
+      if (!IsValidNamedDeclaration(cls)) {
+        return cls;
+      }
       ExpressionStmt* stmt = new(pool()) ExpressionStmt(info->line_number());
       stmt->AddChild(result);
       result = stmt;
@@ -601,7 +605,7 @@ AstNode* Parser::ParseStatement() {
     case Token::JS_PUBLIC :
     case Token::JS_STATIC : {
       TokenInfo *token = Seek();
-      if (token->type() == '.' || token->type() == '[') {
+      if (token->type() == '(') {
         //private accessor.
         result = CheckLabellOrExpressionStatement();
       } else {
@@ -2453,6 +2457,10 @@ AstNode* Parser::ParseClassBody() {
   } else {
     ClassProperties* list = new(pool()) ClassProperties(token->line_number());
     while (token->type() != '}') {
+      if (token->type() == ';') {
+        token = Advance();
+        continue;
+      }
       ClassMember* mem = ParseClassMember();
       CHECK_ERROR(mem);
       switch (mem->attribute()) {
@@ -2511,7 +2519,7 @@ AstNode* Parser::ParseClassMemberStatement() {
   } else {
     SYNTAX_ERROR("unexpected token "
                   << TokenConverter(token).cstr()
-                  << " in 'member expression' expect '.' or '['\\nin file "
+                  << " in 'class member expression' expect '.' or '['\\nin file "
                   << filename_ << " at line " << token->line_number());
     END(MemberExpressionError);
     return new(pool()) Empty;
@@ -3098,20 +3106,17 @@ AstNode* Parser::ParseMemberExpression() {
   CallExp* exp;
   if (token->type() == Token::JS_PRIVATE) {
     TokenInfo* pr_sym = token;
-    Literal* private_literal = new(pool()) Literal(Literal::kProperty, token->line_number());
+    Literal* private_literal = new(pool()) Literal(Literal::kPrivate, token->line_number());
     private_literal->set_value(pr_sym);
     private_literal->MarkAsInValidLhs();
     Advance();
     token = Seek();
-    if (token->type() != '.' && token->type() != '[') {
-      END(MemberExpression);
-      private_literal->set_value_type(Literal::kPrivate);
+    if (token->type() == '(') {
+      return private_literal;
+    } else {
+      SYNTAX_ERROR("Invalid private accessor in file " << filename_ << " at line " << token->line_number());
       return private_literal;
     }
-    exp = new(pool()) CallExp(CallExp::kPrivate, token->line_number());
-    exp->set_callable(private_literal);
-    ParseEachMember(token->type(), true, exp);
-    token = Seek();
   } else {
     AstNode *primary = ParsePrimaryExpression();
     CHECK_ERROR(primary);
@@ -3626,28 +3631,21 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
       value_type = Literal::kIdentifier;
       const char* ident = token->token();
       int len = strlen(ident);
-      if (ident[ 0 ] == '@') {
-        Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
-                                                      Token::JS_THIS, token->line_number(), Literal::kThis);
-        if (len > 1) {
-          Literal* value = builder()->CreateNameNode(&ident[ 1 ], Token::JS_IDENTIFIER, token->line_number(), Literal::kProperty);
-          CallExp* this_accessor = builder()->CreateDotAccessor(this_sym, value, this_sym->line_number());
-          return this_accessor;
-        } else {
-          return this_sym;
-        }
-      } else if (len > 1 && ident[ 0 ] == '_' && ident[ 1 ] == '@') {
+      if (len > 1 && ident[ 0 ] == '@') {
         Literal* private_sym = builder()->CreateNameNode(JsToken::GetTokenFromNumber(Token::JS_PRIVATE),
                                                          Token::JS_PRIVATE, token->line_number(), Literal::kPrivate);
-        if (len > 2) {
-          Literal* value = builder()->CreateNameNode(&ident[ 2 ], Token::JS_IDENTIFIER, token->line_number(), Literal::kProperty);
-          CallExp* private_accessor = new(pool()) CallExp(CallExp::kPrivate, token->line_number());
-          private_accessor->set_callable(private_sym);
-          private_accessor->set_args(value);
-          return private_accessor;
-        } else {
-          return private_sym;
-        }
+        Literal* this_sym = builder()->CreateNameNode(JsToken::GetTokenFromNumber(Token::JS_THIS),
+                                                      Token::JS_THIS, token->line_number(), Literal::kThis);
+        Literal* value = builder()->CreateNameNode(&ident[1], Token::JS_IDENTIFIER, token->line_number(), Literal::kIdentifier);
+        CallExp* private_accessor = new(pool()) CallExp(CallExp::kNormal, token->line_number());
+        private_accessor->set_callable(private_sym);
+        NodeList* args = new(pool()) NodeList;
+        args->AddChild(this_sym);
+        private_accessor->set_args(args);
+        CallExp* accessor = new(pool()) CallExp(CallExp::kDot, token->line_number());
+        accessor->set_callable(private_accessor);
+        accessor->set_args(value);
+        return accessor;
       }
     }
       break;

@@ -525,7 +525,12 @@ VISITOR_IMPL(CallExp) {
   CallProcessor processor(ast_node, proc_info_.Get());
   switch (ast_node->call_type()) {
     case CallExp::kNormal :
-      processor.ProcessFnCall();
+      if (ast_node->callable()->CastToLiteral() &&
+          ast_node->callable()->CastToLiteral()->value_type() == Literal::kPrivate) {
+        processor.ProcessPrivateAccessor();
+      } else {
+        processor.ProcessFnCall();
+      }
       break;
 
     case CallExp::kDot :
@@ -553,10 +558,6 @@ VISITOR_IMPL(CallExp) {
         ast_node->args()->Accept(this);
       }
     }
-      break;
-
-    case CallExp::kPrivate :
-      processor.ProcessPrivateAccessor();
       break;
 
     case CallExp::kExtend :

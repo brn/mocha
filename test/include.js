@@ -4,25 +4,25 @@ var fs = mocha.import("fs"),
 var options = (filename) -> ({
       deployDir : '../src/test/js/out/devel',
       deployName : filename.replace('.js', '-cmp.js'),
-      outputCharset : 'euc_jp',
+      outputCharset : 'utf8',
       options : {
-        compress : true,
-        prettyPrint : false,
+        compress : false,
+        prettyPrint : true,
         debug : true,
         versions : ['ex']
       }
     });
 
 class FileSeaker {
-  constructor(_@dir, _@fn = []) {}
+  constructor(@dir, @fn = []) {}
 
   public addSetting(recursive, optionCallback) ->
-    new fs.Dir(_@dir).entries(recursive).forEach((item) => _@setCompileSetting(item, optionCallback));
+    new fs.Dir(@dir).entries(recursive).forEach((item) => @setCompileSetting(item, optionCallback));
 
-  public addFilter(fn) -> _@fn.push(fn);
+  public addFilter(fn) -> @fn.push(fn);
 
   private setCompileSetting(file, optionCallbacks) {
-    if (_@fn.every((item) => item(file))) {
+    if (@fn.every((item) => item(file))) {
       optionCallbacks(file);
     }
   }

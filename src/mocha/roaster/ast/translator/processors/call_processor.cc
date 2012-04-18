@@ -11,14 +11,12 @@ namespace mocha {
 void CallProcessor::ProcessPrivateAccessor() {
   Literal* maybe_ident = ast_node_->callable()->CastToLiteral();
   if (maybe_ident) {
-    CallExp* runtime_call = builder()->BuildPrivateRecordAccessor(ast_node_->line_number());
+    Literal* private_field = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGetPrivateRecord),
+                                            Token::JS_IDENTIFIER, ast_node_->line_number(), Literal::kProperty);
+    CallExp* runtime_call = builder()->CreateRuntimeMod(private_field, ast_node_->line_number());
     ast_node_->set_callable(runtime_call);
-    maybe_ident = ast_node_->args()->CastToLiteral();
-    if (maybe_ident && maybe_ident->value_type() == Literal::kProperty) {
-      ast_node_->set_call_type(CallExp::kDot);
-    } else {
-      ast_node_->set_call_type(CallExp::kBracket);
-    }
+    ast_node_->set_call_type(CallExp::kNormal);
+    ast_node_->Accept(info_->visitor());
   }
 }
 

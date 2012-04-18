@@ -28,6 +28,7 @@ size_t Pool::Align(size_t siz, size_t alignment) {
   return (siz + (alignment - 1)) & ~(alignment - 1);
 }
 
+
 //Free all allocated block.
 void Pool::Free() {
   //Call Allocated destructor.
